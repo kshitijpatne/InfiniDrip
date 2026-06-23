@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>22/22</span>
+                <span class='fraction'>26/26</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>22/22</span>
+                <span class='fraction'>26/26</span>
             </div>
         
             
@@ -97,7 +97,14 @@
 <a name='L32'></a><a href='#L32'>32</a>
 <a name='L33'></a><a href='#L33'>33</a>
 <a name='L34'></a><a href='#L34'>34</a>
-<a name='L35'></a><a href='#L35'>35</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L35'></a><a href='#L35'>35</a>
+<a name='L36'></a><a href='#L36'>36</a>
+<a name='L37'></a><a href='#L37'>37</a>
+<a name='L38'></a><a href='#L38'>38</a>
+<a name='L39'></a><a href='#L39'>39</a>
+<a name='L40'></a><a href='#L40'>40</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -112,6 +119,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
@@ -120,46 +133,48 @@
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">21x</span>
 <span class="cline-any cline-yes">21x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">21x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">21x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">21x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">21x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// The thin DOM glue: mount the shell, draw the canvas, and redraw it whenever a
-// measurement changes. All the real logic lives in pure modules (controls, view,
-// drafting, render); this only wires events to them.
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// The thin DOM glue: mount the shell, then on every measurement change re-draft,
+// re-render the canvas, and refresh the guidance and style panels. All real logic
+// lives in the pure modules (controls, view, drafting, render, guidance, style).
 &nbsp;
 import { Measurements, STANDARD_M, draftTshirt } from "../drafting";
 import { renderBlueprint } from "../render";
+import { guide } from "../guidance";
+import { styleSuggestions } from "../style";
 import { FIELDS, applyChange } from "./controls";
-import { appShellMarkup } from "./view";
+import { appShellMarkup, guidanceMarkup, styleMarkup } from "./view";
 &nbsp;
 export function mountApp(root: HTMLElement): void {
   let measurements: Measurements = STANDARD_M;
   root.innerHTML = appShellMarkup(measurements);
 &nbsp;
-  const host = root.querySelector&lt;HTMLDivElement&gt;("#canvas-host")!;
+  const canvasHost = root.querySelector&lt;HTMLDivElement&gt;("#canvas-host")!;
+  const guidanceHost = root.querySelector&lt;HTMLDivElement&gt;("#guidance-host")!;
+  const styleHost = root.querySelector&lt;HTMLDivElement&gt;("#style-host")!;
+&nbsp;
   const draw = (): void =&gt; {
     const block = draftTshirt(measurements);
-    host.innerHTML = renderBlueprint([block.front, block.back, block.sleeve], { active: "front" });
+    canvasHost.innerHTML = renderBlueprint(
+      [block.front, block.back, block.sleeve], { active: "front" });
+    guidanceHost.innerHTML = guidanceMarkup(guide(measurements));
+    styleHost.innerHTML = styleMarkup(styleSuggestions(measurements));
   };
   draw();
 &nbsp;
   root.querySelectorAll&lt;HTMLInputElement&gt;("input[data-field]").forEach((input) =&gt; {
-    const fieldId = input.dataset.field;
-    const field = FIELDS.find((f) =&gt; f.id === fieldId)!;
-    // live redraw as the value changes
+    const field = FIELDS.find((f) =&gt; f.id === input.dataset.field)!;
     input.addEventListener("input", () =&gt; {
       measurements = applyChange(measurements, field, input.value);
       draw();
     });
-    // when the person leaves the field, snap it to the clamped, valid value
     input.addEventListener("change", () =&gt; {
       input.value = String(measurements[field.id]);
     });
@@ -172,7 +187,7 @@ export function mountApp(root: HTMLElement): void {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-22T20:44:13.067Z
+                at 2026-06-23T06:27:53.028Z
             </div>
         <script src="../prettify.js"></script>
         <script>

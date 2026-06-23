@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { distance } from "../geometry";
 import { STANDARD_M } from "./measurements";
 import { edgeStart, edgeEnd, edgeLength, pieceEdge } from "./piece";
-import { draftFront, draftBack, draftSleeve, draftTshirt } from "./tshirt";
+import { draftFront, draftBack, draftSleeve, draftTshirt, armholeLength } from "./tshirt";
 
 describe("draftFront", () => {
   const front = draftFront(STANDARD_M);
@@ -43,6 +43,17 @@ describe("draftSleeve", () => {
   });
   it("has a hem narrower than the bicep line", () => {
     expect(edgeLength(pieceEdge(sleeve, "hem"))).toBeCloseTo(37); // 43 - 2*3 taper
+  });
+});
+
+describe("sleeve cap fitting", () => {
+  it("fits the cap length to the armhole plus a small ease", () => {
+    const block = draftTshirt(STANDARD_M);
+    const cap = edgeLength(pieceEdge(block.sleeve, "capLeft")) +
+                edgeLength(pieceEdge(block.sleeve, "capRight"));
+    const diff = cap - armholeLength(STANDARD_M);
+    expect(diff).toBeGreaterThan(0); // cap eased slightly longer
+    expect(diff).toBeLessThan(3);    // but not by much
   });
 });
 

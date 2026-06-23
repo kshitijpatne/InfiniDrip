@@ -1,0 +1,83 @@
+import { describe, it, expect } from "vitest";
+import { point } from "../geometry";
+import { Piece, TshirtBlock, STANDARD_M } from "../drafting";
+import { armholeMatch, easeRange, armholeDepthCheck, shoulderCheck, guide } from "./guidance";
+
+// Build a tiny fake block whose armhole and cap edges have chosen lengths,
+// so we can drive armholeMatch into each outcome deterministically.
+function blockWith(armholeHalf: number, capHalf: number): TshirtBlock {
+  const armPiece = (name: string, len: number): Piece => ({
+    name, onFold: true,
+    edges: [{ kind: "line", name: "armhole", start: point(0, 0), end: point(0, len) }],
+  });
+  const sleeve: Piece = {
+    name: "sleeve", onFold: false,
+    edges: [
+      { kind: "line", name: "capLeft", start: point(0, 0), end: point(0, capHalf) },
+      { kind: "line", name: "capRight", start: point(0, 0), end: point(0, capHalf) },
+    ],
+  };
+  return { front: armPiece("front", armholeHalf), back: armPiece("back", armholeHalf), sleeve };
+}
+
+describe("armholeMatch", () => {
+  it("reports OK when the cap matches within easing", () => {
+    const note = armholeMatch(blockWith(20, 21)); // armhole 40, cap 42, diff +2
+    expect(note.level).toBe("ok");
+    expect(note.text).toContain("matches");
+  });
+  it("warns when the cap is too long (bicep too wide)", () => {
+    const note = armholeMatch(blockWith(20, 26)); // diff +12
+    expect(note.level).toBe("warn");
+    expect(note.text).toContain("longer");
+  });
+  it("warns when the cap is too short", () => {
+    const note = armholeMatch(blockWith(20, 15)); // diff -10
+    expect(note.level).toBe("warn");
+    expect(note.text).toContain("shorter");
+  });
+});
+
+describe("easeRange", () => {
+  it("warns on tight ease", () => {
+    expect(easeRange({ ...STANDARD_M, ease: 2 })?.level).toBe("warn");
+  });
+  it("informs on high ease", () => {
+    expect(easeRange({ ...STANDARD_M, ease: 20 })?.level).toBe("info");
+  });
+  it("says nothing for normal ease", () => {
+    expect(easeRange(STANDARD_M)).toBeNull();
+  });
+});
+
+describe("armholeDepthCheck", () => {
+  it("warns when the armhole is too shallow", () => {
+    expect(armholeDepthCheck({ ...STANDARD_M, armholeDepth: 10 })?.level).toBe("warn");
+  });
+  it("says nothing at a healthy depth", () => {
+    expect(armholeDepthCheck(STANDARD_M)).toBeNull();
+  });
+});
+
+describe("shoulderCheck", () => {
+  it("warns when the shoulder runs past the side seam", () => {
+    expect(shoulderCheck({ ...STANDARD_M, shoulderWidth: 70, chest: 80, ease: 0 })?.level).toBe("warn");
+  });
+  it("says nothing for a normal shoulder", () => {
+    expect(shoulderCheck(STANDARD_M)).toBeNull();
+  });
+});
+
+describe("guide", () => {
+  it("gives the standard block a clean bill (cap matches, no warnings)", () => {
+    const notes = guide(STANDARD_M);
+    expect(notes).toHaveLength(1);          // only the OK match note
+    expect(notes[0].level).toBe("ok");
+  });
+  it("collects multiple notes when several things are off", () => {
+    const notes = guide({ ...STANDARD_M, ease: 2, armholeDepth: 10 });
+    const levels = notes.map((n) => n.level);
+    expect(levels).toContain("warn");
+    expect(notes.length).toBeGreaterThan(1);
+  });
+});
