@@ -1,7 +1,8 @@
 import { describe, it, expect } from "vitest";
 import { STANDARD_M } from "../drafting";
+import { DEFAULT_FABRIC } from "../render";
 import { styleSuggestions } from "../style";
-import { controlsMarkup, appShellMarkup, guidanceMarkup, styleMarkup } from "./view";
+import { controlsMarkup, appShellMarkup, guidanceMarkup, styleMarkup, fabricSwatchesMarkup } from "./view";
 
 describe("controlsMarkup", () => {
   it("renders an input for every measurement, showing its value", () => {
@@ -12,10 +13,19 @@ describe("controlsMarkup", () => {
   });
 });
 
+describe("fabricSwatchesMarkup", () => {
+  it("renders a clickable swatch per fabric and highlights the current one", () => {
+    const html = fabricSwatchesMarkup(DEFAULT_FABRIC);
+    expect(html).toContain(`data-fabric="${DEFAULT_FABRIC}"`);
+    expect(html).toContain("outline:2px solid"); // the current swatch is ringed
+  });
+});
+
 describe("appShellMarkup", () => {
-  it("includes the controls, canvas host, guidance host, and style host", () => {
-    const html = appShellMarkup(STANDARD_M);
+  it("includes the controls, canvas, garment, guidance, and style hosts", () => {
+    const html = appShellMarkup(STANDARD_M, DEFAULT_FABRIC);
     expect(html).toContain('id="canvas-host"');
+    expect(html).toContain('id="garment-host"');
     expect(html).toContain('id="guidance-host"');
     expect(html).toContain('id="style-host"');
   });
@@ -36,12 +46,13 @@ describe("guidanceMarkup", () => {
 describe("styleMarkup", () => {
   it("shows the current style and a nearby style with its change", () => {
     const html = styleMarkup(styleSuggestions(STANDARD_M));
-    expect(html).toContain("Classic tee");   // current
-    expect(html).toContain("Relaxed tee");   // nearby
-    expect(html).toContain("Ease +3 cm");    // the change to reach it
+    expect(html).toContain("Classic tee");
+    expect(html).toContain("Relaxed tee");
+    expect(html).toContain("Ease +3 cm");
   });
   it("says 'Between styles' when nothing matches", () => {
     const html = styleMarkup({ current: [], nearby: [] });
     expect(html).toContain("Between styles");
   });
 });
+

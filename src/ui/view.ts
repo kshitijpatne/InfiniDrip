@@ -3,7 +3,7 @@
 // can be checked in tests without a browser.
 
 import { Measurements } from "../drafting";
-import { BLUEPRINT as T } from "../render";
+import { BLUEPRINT as T, FABRICS } from "../render";
 import { Note } from "../guidance";
 import { StyleSuggestions, Delta } from "../style";
 import { FIELDS } from "./controls";
@@ -51,6 +51,19 @@ export function guidanceMarkup(notes: readonly Note[]): string {
   return panel("Guidance", rows);
 }
 
+/** A row of fabric colour swatches; the current colour gets a highlight ring. */
+export function fabricSwatchesMarkup(current: string): string {
+  const sw = FABRICS.map((f) =>
+    `<button data-fabric="${f.color}" title="${f.name}" ` +
+    `style="width:22px;height:22px;border-radius:6px;cursor:pointer;background:${f.color};` +
+    `border:1px solid ${BORDER};outline:${f.color === current ? `2px solid ${T.lineActive}` : "none"};` +
+    `outline-offset:1px"></button>`
+  ).join("");
+  return `<div style="display:flex;gap:8px;align-items:center;margin:4px 0">` +
+    `<span style="font-size:11px;color:${T.label};text-transform:uppercase;letter-spacing:0.04em;` +
+    `margin-right:4px">Fabric</span>${sw}</div>`;
+}
+
 // "Length +8 cm" — a single change, using the measurement's friendly label.
 function deltaText(d: Delta): string {
   const label = FIELDS.find((f) => f.id === d.id)!.label;
@@ -72,10 +85,11 @@ export function styleMarkup(s: StyleSuggestions): string {
 }
 
 /** The whole app shell: controls, canvas host, and a stacked guidance + style column. */
-export function appShellMarkup(m: Measurements): string {
+export function appShellMarkup(m: Measurements, fabric: string): string {
   return `<div style="display:flex;gap:16px;align-items:flex-start;font-family:system-ui,sans-serif">` +
     `${controlsMarkup(m)}` +
-    `<div id="canvas-host" style="flex:1;min-width:300px"></div>` +
+    `<div style="flex:1;min-width:300px;display:flex;flex-direction:column;gap:6px">` +
+    `<div id="canvas-host"></div>${fabricSwatchesMarkup(fabric)}<div id="garment-host"></div></div>` +
     `<div style="display:flex;flex-direction:column;gap:16px">` +
     `<div id="guidance-host"></div><div id="style-host"></div></div></div>`;
 }

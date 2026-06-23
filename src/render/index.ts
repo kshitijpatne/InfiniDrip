@@ -2,3 +2,4 @@
 export * from "./theme";
 export * from "./shape";
 export * from "./canvas";
+export * from "./garment";
