@@ -43,3 +43,10 @@ describe("renderBlueprint", () => {
     expect((svg.match(/<g transform/g) || []).length).toBe(0);
   });
 });
+
+describe("seam allowance", () => {
+  it("draws a dashed cutting line for each piece", () => {
+    const svg = renderBlueprint(pieces);
+    expect((svg.match(/stroke-dasharray="2 2"/g) || []).length).toBe(3);
+  });
+});

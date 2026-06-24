@@ -4,6 +4,7 @@
 
 import { Piece } from "../drafting";
 import { pieceToPath, pieceBounds } from "./shape";
+import { seamAllowancePath } from "./allowance";
 import { BLUEPRINT as T } from "./theme";
 
 const round = (n: number): number => Math.round(n * 1000) / 1000;
@@ -25,6 +26,7 @@ function svgText(x: number, y: number, content: string, fill: string, size: numb
 const MARGIN_X = 6;
 const MARGIN_TOP = 10;
 const GAP = 8;
+const SEAM_ALLOWANCE = 1;
 
 interface Placed {
   readonly piece: Piece;
@@ -72,7 +74,10 @@ function renderPiece(p: Placed, isActive: boolean): string {
   const fill = isActive ? T.fillActive : T.fill;
   const path = `<path d="${pieceToPath(p.piece)}" fill="${fill}" stroke="${stroke}" ` +
     `stroke-width="${isActive ? 2 : 1.4}" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>`;
-  const group = `<g transform="translate(${round(p.tx)} ${round(p.ty)})">${path}</g>`;
+  const cut = `<path d="${seamAllowancePath(p.piece, SEAM_ALLOWANCE)}" fill="none" ` +
+    `stroke="${T.marker}" stroke-width="1" stroke-dasharray="2 2" opacity="0.55" ` +
+    `vector-effect="non-scaling-stroke"/>`;
+  const group = `<g transform="translate(${round(p.tx)} ${round(p.ty)})">${cut}${path}</g>`;
   const label = svgText(p.vx + p.w / 2, p.vy - 2.5, p.piece.name.toUpperCase(), T.label, 2.6);
   const grain = grainline(p.vx + p.w / 2, p.vy + 2, p.vy + p.h - 2);
   const fold = p.piece.onFold ? foldMark(p.vx, p.vy, p.h) : "";

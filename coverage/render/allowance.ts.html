@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for render/shape.ts</title>
+    <title>Code coverage report for render/allowance.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../prettify.css" />
     <link rel="stylesheet" href="../base.css" />
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../index.html">All files</a> / <a href="index.html">render</a> shape.ts</h1>
+        <h1><a href="../index.html">All files</a> / <a href="index.html">render</a> allowance.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>36/36</span>
+                <span class='fraction'>45/45</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>9/9</span>
+                <span class='fraction'>18/18</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/3</span>
+                <span class='fraction'>7/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>36/36</span>
+                <span class='fraction'>45/45</span>
             </div>
         
             
@@ -115,38 +115,15 @@
 <a name='L50'></a><a href='#L50'>50</a>
 <a name='L51'></a><a href='#L51'>51</a>
 <a name='L52'></a><a href='#L52'>52</a>
-<a name='L53'></a><a href='#L53'>53</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">248x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">248x</span>
-<span class="cline-any cline-yes">162x</span>
-<span class="cline-any cline-yes">248x</span>
-<span class="cline-any cline-yes">86x</span>
-<span class="cline-any cline-yes">86x</span>
-<span class="cline-any cline-yes">86x</span>
-<span class="cline-any cline-yes">86x</span>
-<span class="cline-any cline-yes">86x</span>
-<span class="cline-any cline-yes">86x</span>
-<span class="cline-any cline-yes">86x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a>
+<a name='L55'></a><a href='#L55'>55</a>
+<a name='L56'></a><a href='#L56'>56</a>
+<a name='L57'></a><a href='#L57'>57</a>
+<a name='L58'></a><a href='#L58'>58</a>
+<a name='L59'></a><a href='#L59'>59</a>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -155,69 +132,116 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">248x</span>
-<span class="cline-any cline-yes">496x</span>
-<span class="cline-any cline-yes">496x</span>
-<span class="cline-any cline-yes">496x</span>
-<span class="cline-any cline-yes">248x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-yes">44x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// Turning a Piece (named edges in cm) into render-ready data:
-//  - pieceToPath:  the SVG path "d" string that draws the outline
-//  - pieceBounds:  the box the piece occupies, used to lay pieces out
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">46x</span>
+<span class="cline-any cline-yes">46x</span>
+<span class="cline-any cline-yes">46x</span>
+<span class="cline-any cline-yes">256x</span>
+<span class="cline-any cline-yes">86x</span>
+<span class="cline-any cline-yes">256x</span>
+<span class="cline-any cline-yes">46x</span>
+<span class="cline-any cline-yes">46x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">92x</span>
+<span class="cline-any cline-yes">92x</span>
+<span class="cline-any cline-yes">92x</span>
+<span class="cline-any cline-yes">2748x</span>
+<span class="cline-any cline-yes">2748x</span>
+<span class="cline-any cline-yes">2748x</span>
+<span class="cline-any cline-yes">92x</span>
+<span class="cline-any cline-yes">92x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5496x</span>
+<span class="cline-any cline-yes">5496x</span>
+<span class="cline-any cline-yes">5496x</span>
+<span class="cline-any cline-yes">5496x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">92x</span>
+<span class="cline-any cline-yes">92x</span>
+<span class="cline-any cline-yes">92x</span>
+<span class="cline-any cline-yes">2748x</span>
+<span class="cline-any cline-yes">2748x</span>
+<span class="cline-any cline-yes">2748x</span>
+<span class="cline-any cline-yes">2748x</span>
+<span class="cline-any cline-yes">2748x</span>
+<span class="cline-any cline-yes">2748x</span>
+<span class="cline-any cline-yes">92x</span>
+<span class="cline-any cline-yes">92x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">46x</span>
+<span class="cline-any cline-yes">46x</span>
+<span class="cline-any cline-yes">46x</span>
+<span class="cline-any cline-yes">46x</span>
+<span class="cline-any cline-yes">46x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">43x</span>
+<span class="cline-any cline-yes">43x</span>
+<span class="cline-any cline-yes">43x</span>
+<span class="cline-any cline-yes">43x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// Seam allowance: the "cutting line" that sits a fixed distance outside the
+// sewing outline. You sew on the inner line and cut on this outer one.
+// We sample the outline into points, then push every point outward along the
+// outline's normal — a simple, general offset that works for any piece shape.
 &nbsp;
-import { Piece, edgeStart, edgeEnd } from "../drafting";
+import { Point, cubicPoint } from "../geometry";
+import { Piece } from "../drafting";
 &nbsp;
+const SAMPLES = 14;
 const round = (n: number): number =&gt; Math.round(n * 1000) / 1000;
 &nbsp;
-/** The SVG path "d" string for a piece outline, in centimetre coordinates. */
-export function pieceToPath(piece: Piece): string {
-  const parts: string[] = [];
-  piece.edges.forEach((edge, i) =&gt; {
-    if (i === 0) {
-      const s = edgeStart(edge);
-      parts.push(`M ${round(s.x)} ${round(s.y)}`);
-    }
-    if (edge.kind === "line") {
-      parts.push(`L ${round(edge.end.x)} ${round(edge.end.y)}`);
-    } else {
-      const c = edge.curve;
-      parts.push(
-        `C ${round(c.control1.x)} ${round(c.control1.y)} ` +
-        `${round(c.control2.x)} ${round(c.control2.y)} ` +
-        `${round(c.end.x)} ${round(c.end.y)}`
-      );
-    }
-  });
-  parts.push("Z");
-  return parts.join(" ");
-}
-&nbsp;
-export interface Bounds {
-  readonly minX: number;
-  readonly minY: number;
-  readonly width: number;
-  readonly height: number;
-}
-&nbsp;
-/** The bounding box of a piece, from its edge endpoints. */
-export function pieceBounds(piece: Piece): Bounds {
-  const xs: number[] = [];
-  const ys: number[] = [];
+function outlinePoints(piece: Piece): Point[] {
+  const pts: Point[] = [];
   for (const e of piece.edges) {
-    for (const p of [edgeStart(e), edgeEnd(e)]) {
-      xs.push(p.x);
-      ys.push(p.y);
-    }
+    if (e.kind === "line") pts.push(e.start);
+    else for (let i = 0; i &lt; SAMPLES; i++) pts.push(cubicPoint(e.curve, i / SAMPLES));
   }
-  const minX = Math.min(...xs);
-  const minY = Math.min(...ys);
-  return { minX, minY, width: Math.max(...xs) - minX, height: Math.max(...ys) - minY };
+  return pts;
+}
+&nbsp;
+function area(pts: Point[]): number {
+  let a = 0;
+  for (let i = 0; i &lt; pts.length; i++) {
+    const p = pts[i], q = pts[(i + 1) % pts.length];
+    a += p.x * q.y - q.x * p.y;
+  }
+  return Math.abs(a) / 2;
+}
+&nbsp;
+function normal(dx: number, dy: number): Point {
+  const l = Math.hypot(dx, dy);
+  return { x: dy / l, y: -dx / l };
+}
+&nbsp;
+function offsetBy(pts: Point[], d: number): Point[] {
+  const n = pts.length;
+  return pts.map((p, i) =&gt; {
+    const prev = pts[(i - 1 + n) % n], next = pts[(i + 1) % n];
+    const a = normal(p.x - prev.x, p.y - prev.y);
+    const b = normal(next.x - p.x, next.y - p.y);
+    const mx = a.x + b.x, my = a.y + b.y;
+    const l = Math.hypot(mx, my);
+    return { x: p.x + (mx / l) * d, y: p.y + (my / l) * d };
+  });
+}
+&nbsp;
+/** The cutting line: the sewing outline pushed outward by `allowance` cm. */
+export function seamAllowance(piece: Piece, allowance: number): Point[] {
+  const pts = outlinePoints(piece);
+  const out = offsetBy(pts, allowance);
+  const inn = offsetBy(pts, -allowance);
+  return area(out) &gt; area(inn) ? out : inn; // the outward loop is the larger one
+}
+&nbsp;
+/** That cutting line as an SVG path "d" string. */
+export function seamAllowancePath(piece: Piece, allowance: number): string {
+  return seamAllowance(piece, allowance)
+    .map((p, i) =&gt; `${i ? "L" : "M"} ${round(p.x)} ${round(p.y)}`)
+    .join(" ") + " Z";
 }
 &nbsp;</pre></td></tr></table></pre>
 

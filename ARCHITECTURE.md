@@ -65,9 +65,26 @@ about pieces or SVG — they only know how to change a number.
 
 ## Where things live
 
+  render/     pieces -> SVG string; seam allowance; garment view; Blueprint theme
+
 ## A change, start to finish
 
 You type Length = 80 → `applyChange` makes a new measurements object → `draw()`
 re-drafts the pieces → the canvas redraws longer, guidance re-checks, and the
 style panel now reads "Longline tee." One input, one rebuild, everything stays
 consistent.
+
+## Engine vs. recipe (how new garments get added)
+
+Two kinds of code live here. The **engine** doesn't care what garment it is —
+geometry, the Piece/Edge model, the renderer, seam allowance, export, the editor.
+`pieceToPath` doesn't know a t-shirt from a trouser leg; it just draws edges. The
+**recipe** is the garment-specific part — the drafting math, the guidance rules,
+and the style table for that garment.
+
+Adding a new garment = writing a new recipe that plugs into the same engine, not
+building a new app. We finish the t-shirt end-to-end first on purpose: doing one
+garment fully is what forces the engine and the recipe to separate cleanly. A
+very different garment (a structured jacket, trousers) may stretch the engine and
+reveal a spot or two that was secretly tee-shaped — that's expected, and it's a
+small generalisation, not a rewrite.
