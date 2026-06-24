@@ -2,7 +2,8 @@
 // change re-draft, re-render the canvas, garment, guidance, and style. All real
 // logic lives in the pure modules.
 
-import { Measurements, STANDARD_M, draftTshirt } from "../drafting";
+import { Measurements, STANDARD_M, draftTshirt, Piece } from "../drafting";
+import { exportSvg, exportDxf } from "../export";
 import { renderBlueprint, renderGarment, DEFAULT_FABRIC } from "../render";
 import { BLUEPRINT } from "../render";
 import { guide } from "../guidance";
@@ -50,5 +51,25 @@ export function mountApp(root: HTMLElement): void {
       });
       draw();
     });
+  });
+
+  const EXPORT_ALLOWANCE = 1; // cm, matching the on-screen cutting line
+  const exportPieces = (): Piece[] => {
+    const block = draftTshirt(measurements);
+    return [block.front, block.back, block.sleeve];
+  };
+  const download = (filename: string, text: string, mime: string): void => {
+    const url = URL.createObjectURL(new Blob([text], { type: mime }));
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+  root.querySelector<HTMLButtonElement>("#export-svg")!.addEventListener("click", () => {
+    download("tshirt.svg", exportSvg(exportPieces(), EXPORT_ALLOWANCE), "image/svg+xml");
+  });
+  root.querySelector<HTMLButtonElement>("#export-dxf")!.addEventListener("click", () => {
+    download("tshirt.dxf", exportDxf(exportPieces(), EXPORT_ALLOWANCE), "image/vnd.dxf");
   });
 }

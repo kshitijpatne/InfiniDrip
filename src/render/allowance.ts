@@ -9,7 +9,7 @@ import { Piece } from "../drafting";
 const SAMPLES = 14;
 const round = (n: number): number => Math.round(n * 1000) / 1000;
 
-function outlinePoints(piece: Piece): Point[] {
+export function outlinePoints(piece: Piece): Point[] {
   const pts: Point[] = [];
   for (const e of piece.edges) {
     if (e.kind === "line") pts.push(e.start);

@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { mountApp } from "./app";
 
 function mount(): HTMLDivElement {
@@ -42,5 +42,19 @@ describe("mountApp", () => {
     target.dispatchEvent(new Event("click"));
     const garment = root.querySelector("#garment-host svg")!.innerHTML;
     expect(garment).toContain(`fill="${target.dataset.fabric}"`);
+  });
+
+  it("downloads a file when an export button is clicked", () => {
+    const created: string[] = [];
+    URL.createObjectURL = vi.fn(() => "blob:test");
+    URL.revokeObjectURL = vi.fn();
+    HTMLAnchorElement.prototype.click = vi.fn(function (this: HTMLAnchorElement) {
+      created.push(this.download);
+    });
+    const root = mount();
+    root.querySelector<HTMLButtonElement>("#export-svg")!.dispatchEvent(new Event("click"));
+    root.querySelector<HTMLButtonElement>("#export-dxf")!.dispatchEvent(new Event("click"));
+    expect(created).toEqual(["tshirt.svg", "tshirt.dxf"]);
+    expect(URL.createObjectURL).toHaveBeenCalledTimes(2);
   });
 });

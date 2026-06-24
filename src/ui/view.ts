@@ -84,12 +84,24 @@ export function styleMarkup(s: StyleSuggestions): string {
   return panel("Style", head + rows);
 }
 
+/** Download buttons for the export files (the click logic lives in app.ts). */
+export function exportButtonsMarkup(): string {
+  const btn = (id: string, label: string): string =>
+    `<button id="${id}" style="padding:5px 10px;font-size:12px;cursor:pointer;` +
+    `background:${T.background};color:${T.line};border:1px solid ${BORDER};border-radius:5px">` +
+    `${label}</button>`;
+  return `<div style="display:flex;gap:8px;align-items:center;margin:4px 0">` +
+    `<span style="font-size:11px;color:${T.label};text-transform:uppercase;letter-spacing:0.04em;` +
+    `margin-right:4px">Export</span>${btn("export-svg", "SVG")}${btn("export-dxf", "DXF")}</div>`;
+}
+
 /** The whole app shell: controls, canvas host, and a stacked guidance + style column. */
 export function appShellMarkup(m: Measurements, fabric: string): string {
   return `<div style="display:flex;gap:16px;align-items:flex-start;font-family:system-ui,sans-serif">` +
     `${controlsMarkup(m)}` +
     `<div style="flex:1;min-width:300px;display:flex;flex-direction:column;gap:6px">` +
-    `<div id="canvas-host"></div>${fabricSwatchesMarkup(fabric)}<div id="garment-host"></div></div>` +
+    `<div id="canvas-host"></div>${fabricSwatchesMarkup(fabric)}${exportButtonsMarkup()}` +
+    `<div id="garment-host"></div></div>` +
     `<div style="display:flex;flex-direction:column;gap:16px">` +
     `<div id="guidance-host"></div><div id="style-host"></div></div></div>`;
 }
