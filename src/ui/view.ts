@@ -92,7 +92,7 @@ export function exportButtonsMarkup(): string {
     `${label}</button>`;
   return `<div style="display:flex;gap:8px;align-items:center;margin:4px 0">` +
     `<span style="font-size:11px;color:${T.label};text-transform:uppercase;letter-spacing:0.04em;` +
-    `margin-right:4px">Export</span>${btn("export-svg", "SVG")}${btn("export-dxf", "DXF")}</div>`;
+    `margin-right:4px">Export</span>${btn("export-svg", "SVG")}${btn("export-dxf", "DXF")}${btn("export-pdf", "PDF")}</div>`;
 }
 
 /** The whole app shell: controls, canvas host, and a stacked guidance + style column. */

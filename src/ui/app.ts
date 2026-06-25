@@ -3,7 +3,7 @@
 // logic lives in the pure modules.
 
 import { Measurements, STANDARD_M, draftTshirt, Piece } from "../drafting";
-import { exportSvg, exportDxf } from "../export";
+import { exportSvg, exportDxf, exportPdf } from "../export";
 import { renderBlueprint, renderGarment, DEFAULT_FABRIC } from "../render";
 import { BLUEPRINT } from "../render";
 import { guide } from "../guidance";
@@ -71,5 +71,8 @@ export function mountApp(root: HTMLElement): void {
   });
   root.querySelector<HTMLButtonElement>("#export-dxf")!.addEventListener("click", () => {
     download("tshirt.dxf", exportDxf(exportPieces(), EXPORT_ALLOWANCE), "image/vnd.dxf");
+  });
+  root.querySelector<HTMLButtonElement>("#export-pdf")!.addEventListener("click", () => {
+    download("tshirt.pdf", exportPdf(exportPieces(), EXPORT_ALLOWANCE), "application/pdf");
   });
 }

@@ -54,7 +54,8 @@ describe("mountApp", () => {
     const root = mount();
     root.querySelector<HTMLButtonElement>("#export-svg")!.dispatchEvent(new Event("click"));
     root.querySelector<HTMLButtonElement>("#export-dxf")!.dispatchEvent(new Event("click"));
-    expect(created).toEqual(["tshirt.svg", "tshirt.dxf"]);
-    expect(URL.createObjectURL).toHaveBeenCalledTimes(2);
+    root.querySelector<HTMLButtonElement>("#export-pdf")!.dispatchEvent(new Event("click"));
+    expect(created).toEqual(["tshirt.svg", "tshirt.dxf", "tshirt.pdf"]);
+    expect(URL.createObjectURL).toHaveBeenCalledTimes(3);
   });
 });
