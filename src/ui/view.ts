@@ -84,15 +84,18 @@ export function styleMarkup(s: StyleSuggestions): string {
   return panel("Style", head + rows);
 }
 
-/** Download buttons for the export files (the click logic lives in app.ts). */
+/** Download buttons for the export files, plus Save/Load pattern state. */
 export function exportButtonsMarkup(): string {
   const btn = (id: string, label: string): string =>
     `<button id="${id}" style="padding:5px 10px;font-size:12px;cursor:pointer;` +
     `background:${T.background};color:${T.line};border:1px solid ${BORDER};border-radius:5px">` +
     `${label}</button>`;
-  return `<div style="display:flex;gap:8px;align-items:center;margin:4px 0">` +
+  return `<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:4px 0">` +
     `<span style="font-size:11px;color:${T.label};text-transform:uppercase;letter-spacing:0.04em;` +
-    `margin-right:4px">Export</span>${btn("export-svg", "SVG")}${btn("export-dxf", "DXF")}${btn("export-pdf", "PDF")}</div>`;
+    `margin-right:4px">Export</span>${btn("export-svg", "SVG")}${btn("export-dxf", "DXF")}${btn("export-pdf", "PDF")}` +
+    `<span style="font-size:11px;color:${T.label};text-transform:uppercase;letter-spacing:0.04em;` +
+    `margin-left:8px;margin-right:4px">Pattern</span>${btn("save-pattern", "Save")}${btn("load-pattern", "Load")}` +
+    `<span id="persist-status" style="font-size:11px;color:${T.label};min-width:80px"></span></div>`;
 }
 
 /** The whole app shell: controls, canvas host, and a stacked guidance + style column. */

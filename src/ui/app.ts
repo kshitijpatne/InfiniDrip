@@ -10,10 +10,12 @@ import { guide } from "../guidance";
 import { styleSuggestions } from "../style";
 import { FIELDS, applyChange } from "./controls";
 import { appShellMarkup, guidanceMarkup, styleMarkup } from "./view";
+import { saveToStorage, loadFromStorage } from "./persist";
 
 export function mountApp(root: HTMLElement): void {
-  let measurements: Measurements = STANDARD_M;
-  let fabric = DEFAULT_FABRIC;
+  const saved = loadFromStorage();
+  let measurements: Measurements = saved ? saved.measurements : STANDARD_M;
+  let fabric = saved ? saved.fabric : DEFAULT_FABRIC;
   root.innerHTML = appShellMarkup(measurements, fabric);
 
   const canvasHost = root.querySelector<HTMLDivElement>("#canvas-host")!;
@@ -74,5 +76,32 @@ export function mountApp(root: HTMLElement): void {
   });
   root.querySelector<HTMLButtonElement>("#export-pdf")!.addEventListener("click", () => {
     download("tshirt.pdf", exportPdf(exportPieces(), EXPORT_ALLOWANCE), "application/pdf");
+  });
+
+  const statusEl = root.querySelector<HTMLSpanElement>("#persist-status")!;
+  let statusTimer = 0;
+  const flash = (msg: string, color: string): void => {
+    statusEl.textContent = msg;
+    statusEl.style.color = color;
+    clearTimeout(statusTimer);
+    statusTimer = window.setTimeout(() => { statusEl.textContent = ""; }, 2000);
+  };
+
+  root.querySelector<HTMLButtonElement>("#save-pattern")!.addEventListener("click", () => {
+    saveToStorage(measurements, fabric)
+      ? flash("Saved ✓", "#2E9B63")
+      : flash("Save failed", BLUEPRINT.lineActive);
+  });
+
+  root.querySelector<HTMLButtonElement>("#load-pattern")!.addEventListener("click", () => {
+    const loaded = loadFromStorage();
+    if (!loaded) { flash("Nothing saved", BLUEPRINT.label); return; }
+    measurements = loaded.measurements;
+    fabric = loaded.fabric;
+    root.querySelectorAll<HTMLInputElement>("input[data-field]").forEach((input) => {
+      input.value = String(measurements[input.dataset.field as keyof Measurements]);
+    });
+    draw();
+    flash("Loaded ✓", "#2E9B63");
   });
 }

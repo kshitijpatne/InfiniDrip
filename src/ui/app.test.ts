@@ -58,4 +58,60 @@ describe("mountApp", () => {
     expect(created).toEqual(["tshirt.svg", "tshirt.dxf", "tshirt.pdf"]);
     expect(URL.createObjectURL).toHaveBeenCalledTimes(3);
   });
+
+  it("Save writes to localStorage and Load restores the canvas", () => {
+    localStorage.clear();
+    const root = mount();
+    // Change a measurement then save
+    const chest = root.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+    chest.value = "120";
+    chest.dispatchEvent(new Event("input"));
+    const savedCanvas = root.querySelector("#canvas-host svg")!.getAttribute("viewBox");
+    root.querySelector<HTMLButtonElement>("#save-pattern")!.dispatchEvent(new Event("click"));
+
+    // Reset to default and verify it's different
+    chest.value = "100";
+    chest.dispatchEvent(new Event("input"));
+    const resetCanvas = root.querySelector("#canvas-host svg")!.getAttribute("viewBox");
+    expect(resetCanvas).not.toBe(savedCanvas);
+
+    // Load restores the saved state
+    root.querySelector<HTMLButtonElement>("#load-pattern")!.dispatchEvent(new Event("click"));
+    expect(root.querySelector("#canvas-host svg")!.getAttribute("viewBox")).toBe(savedCanvas);
+    expect(chest.value).toBe("120");
+  });
+
+  it("Save shows a failure message when localStorage throws", () => {
+    vi.spyOn(Storage.prototype, "setItem").mockImplementationOnce(() => {
+      throw new Error("quota");
+    });
+    const root = mount();
+    root.querySelector<HTMLButtonElement>("#save-pattern")!.dispatchEvent(new Event("click"));
+    expect(root.querySelector<HTMLSpanElement>("#persist-status")!.textContent).toContain("failed");
+    vi.restoreAllMocks();
+  });
+
+  it("Load is a no-op when nothing has been saved", () => {
+    localStorage.clear();
+    const root = mount();
+    const before = root.querySelector("#canvas-host svg")!.getAttribute("viewBox");
+    root.querySelector<HTMLButtonElement>("#load-pattern")!.dispatchEvent(new Event("click"));
+    expect(root.querySelector("#canvas-host svg")!.getAttribute("viewBox")).toBe(before);
+    expect(root.querySelector<HTMLSpanElement>("#persist-status")!.textContent).toContain("Nothing");
+  });
+
+  it("restores a previous save automatically on mount", () => {
+    localStorage.clear();
+    // Save a non-default state
+    const root1 = mount();
+    const chest = root1.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+    chest.value = "130";
+    chest.dispatchEvent(new Event("input"));
+    root1.querySelector<HTMLButtonElement>("#save-pattern")!.dispatchEvent(new Event("click"));
+    const savedView = root1.querySelector("#canvas-host svg")!.getAttribute("viewBox");
+
+    // A fresh mount should open that save automatically
+    const root2 = mount();
+    expect(root2.querySelector("#canvas-host svg")!.getAttribute("viewBox")).toBe(savedView);
+  });
 });
