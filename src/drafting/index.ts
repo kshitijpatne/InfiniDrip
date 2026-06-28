@@ -2,3 +2,4 @@
 export * from "./measurements";
 export * from "./piece";
 export * from "./tshirt";
+export * from "./tshirt-notches";

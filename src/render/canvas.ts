@@ -6,6 +6,8 @@ import { Piece } from "../drafting";
 import { pieceToPath, pieceBounds } from "./shape";
 import { seamAllowancePath } from "./allowance";
 import { BLUEPRINT as T } from "./theme";
+import { resolveNotch, resolveGrainline, notchSvg, grainlineSvg } from "./notch";
+import { TSHIRT_NOTCHES } from "../drafting/tshirt-notches";
 
 const round = (n: number): number => Math.round(n * 1000) / 1000;
 
@@ -55,15 +57,6 @@ function place(pieces: readonly Piece[]): { placed: Placed[]; width: number; hei
 }
 
 // --- per-piece decorations --------------------------------------------------
-function grainline(cx: number, top: number, bottom: number): string {
-  const c = 1.2; // chevron size
-  const chevron = (y: number, dir: number) =>
-    `<path d="M ${round(cx - c)} ${round(y + c * dir)} L ${round(cx)} ${round(y)} ` +
-    `L ${round(cx + c)} ${round(y + c * dir)}" fill="none" stroke="${T.marker}" ` +
-    `stroke-width="1" vector-effect="non-scaling-stroke"/>`;
-  return svgLine(cx, top, cx, bottom, T.marker, 1) + chevron(top, 1) + chevron(bottom, -1);
-}
-
 function foldMark(x: number, top: number, height: number): string {
   return svgLine(x, top, x, top + height, T.gridStrong, 1.4, "1.4 1.2") +
          svgText(x + 1.6, top + height / 2, "FOLD", T.marker, 2.2);
@@ -77,11 +70,22 @@ function renderPiece(p: Placed, isActive: boolean): string {
   const cut = `<path d="${seamAllowancePath(p.piece, SEAM_ALLOWANCE)}" fill="none" ` +
     `stroke="${T.marker}" stroke-width="1" stroke-dasharray="2 2" opacity="0.55" ` +
     `vector-effect="non-scaling-stroke"/>`;
-  const group = `<g transform="translate(${round(p.tx)} ${round(p.ty)})">${cut}${path}</g>`;
+
+  const recipe = TSHIRT_NOTCHES.find((r) => r.pieceName === p.piece.name);
+  const notches = recipe
+    ? recipe.notches.map((rule) => {
+        const n = resolveNotch(p.piece, rule);
+        return notchSvg(n, 1.5, T.marker, 1.2);
+      }).join("")
+    : "";
+  const grain = recipe
+    ? grainlineSvg(resolveGrainline(p.piece, recipe.grainline), T.marker, 1, 1.2)
+    : "";
+
+  const group = `<g transform="translate(${round(p.tx)} ${round(p.ty)})">${cut}${path}${notches}${grain}</g>`;
   const label = svgText(p.vx + p.w / 2, p.vy - 2.5, p.piece.name.toUpperCase(), T.label, 2.6);
-  const grain = grainline(p.vx + p.w / 2, p.vy + 2, p.vy + p.h - 2);
   const fold = p.piece.onFold ? foldMark(p.vx, p.vy, p.h) : "";
-  return group + grain + fold + label;
+  return group + fold + label;
 }
 
 function buildGrid(width: number, height: number): string {

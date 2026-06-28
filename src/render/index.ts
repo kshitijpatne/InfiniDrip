@@ -4,3 +4,4 @@ export * from "./shape";
 export * from "./canvas";
 export * from "./allowance";
 export * from "./garment";
+export * from "./notch";

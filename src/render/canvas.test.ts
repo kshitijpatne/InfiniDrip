@@ -50,3 +50,11 @@ describe("seam allowance", () => {
     expect((svg.match(/stroke-dasharray="2 2"/g) || []).length).toBe(3);
   });
 });
+
+describe("renderBlueprint with non-tshirt pieces", () => {
+  it("renders a piece with no notch recipe without crashing or drawing notches", () => {
+    const unknown = { ...block.front, name: "unknown-piece" };
+    const svg = renderBlueprint([unknown]);
+    expect(svg.startsWith("<svg")).toBe(true);
+  });
+});

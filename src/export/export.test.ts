@@ -81,6 +81,15 @@ describe("exportSvg", () => {
   });
 });
 
+describe("exportSvg with non-tshirt pieces", () => {
+  it("exports a piece with no notch recipe without crashing", () => {
+    const unknown = { ...block.front, name: "unknown-piece" };
+    const svg = exportSvg([unknown], 1);
+    expect(svg).toContain("UNKNOWN-PIECE");
+    expect(svg).toContain("viewBox");
+  });
+});
+
 describe("exportDxf", () => {
   const dxf = exportDxf(pieces, 1);
 
