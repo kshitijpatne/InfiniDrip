@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { STANDARD_M } from "../drafting";
 import { DEFAULT_FABRIC } from "../render";
-import { styleSuggestions } from "../style";
+import { matchStyle, styleNames } from "../style";
 import { controlsMarkup, appShellMarkup, guidanceMarkup, styleMarkup, fabricSwatchesMarkup } from "./view";
 
 describe("controlsMarkup", () => {
@@ -44,15 +44,27 @@ describe("guidanceMarkup", () => {
 });
 
 describe("styleMarkup", () => {
-  it("shows the current style and a nearby style with its change", () => {
-    const html = styleMarkup(styleSuggestions(STANDARD_M));
-    expect(html).toContain("Classic tee");
-    expect(html).toContain("Relaxed tee");
-    expect(html).toContain("Ease +3 cm");
+  it("renders the target selector with all styles and the chosen one selected", () => {
+    const html = styleMarkup("Classic tee", matchStyle(STANDARD_M, "Classic tee"), styleNames());
+    expect(html).toContain('id="style-target"');
+    expect(html).toContain("Oversized tee"); // an option
+    expect(html).toContain("Target fit");
   });
-  it("says 'Between styles' when nothing matches", () => {
-    const html = styleMarkup({ current: [], nearby: [] });
-    expect(html).toContain("Between styles");
+
+  it("confirms when you already match the chosen target", () => {
+    const html = styleMarkup("Classic tee", matchStyle(STANDARD_M, "Classic tee"), styleNames());
+    expect(html).toContain("You're making a Classic tee");
+  });
+
+  it("shows the gap to a target you are not yet in", () => {
+    const html = styleMarkup("Oversized tee", matchStyle(STANDARD_M, "Oversized tee"), styleNames());
+    expect(html).toContain("To reach Oversized tee");
+    expect(html).toContain("Ease +9 cm");
+  });
+
+  it("shows a negative delta without a plus sign", () => {
+    const html = styleMarkup("Crop tee", matchStyle(STANDARD_M, "Crop tee"), styleNames());
+    expect(html).toContain("Length -13 cm");
   });
 });
 

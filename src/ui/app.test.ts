@@ -100,6 +100,27 @@ describe("mountApp", () => {
     expect(root.querySelector<HTMLSpanElement>("#persist-status")!.textContent).toContain("Nothing");
   });
 
+  it("changing the target style updates the style panel gap, not the measurements", () => {
+    localStorage.clear();
+    const root = mount();
+    const before = viewBox(root);
+    const target = root.querySelector<HTMLSelectElement>("#style-target")!;
+    target.value = "Oversized tee";
+    target.dispatchEvent(new Event("change", { bubbles: true }));
+    expect(viewBox(root)).toBe(before);
+    expect(root.querySelector("#style-host")!.innerHTML).toContain("To reach Oversized tee");
+  });
+
+  it("shows a fabric-stretch ease note and updates it when fabric changes", () => {
+    localStorage.clear();
+    const root = mount();
+    expect(root.querySelector("#guidance-host")!.innerHTML).toContain("no stretch");
+    const stretch = root.querySelector<HTMLSelectElement>("#stretch-select")!;
+    stretch.value = "Spandex blend";
+    stretch.dispatchEvent(new Event("change"));
+    expect(root.querySelector("#guidance-host")!.innerHTML).toContain("negative ease");
+  });
+
   it("restores a previous save automatically on mount", () => {
     localStorage.clear();
     // Save a non-default state

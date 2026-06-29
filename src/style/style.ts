@@ -62,6 +62,23 @@ export function currentStyles(m: Measurements): string[] {
   return STYLES.filter((s) => measureAgainst(m, s).distance === 0).map((s) => s.name);
 }
 
+/** All style names, in table order — the selectable list of target fits. */
+export function styleNames(): string[] {
+  return STYLES.map((s) => s.name);
+}
+
+/**
+ * Measure the current measurements against ONE chosen style (the user's
+ * declared target). Returns the signed deltas to reach it and whether you're
+ * already there. This is the prescriptive counterpart to nearbyStyles: the user
+ * picks the destination, this reports the gap. Unknown names throw.
+ */
+export function matchStyle(m: Measurements, styleName: string): StyleMatch {
+  const def = STYLES.find((s) => s.name === styleName);
+  if (!def) throw new Error(`Unknown style: "${styleName}"`);
+  return measureAgainst(m, def);
+}
+
 /** The closest styles you are not yet in, nearest first. */
 export function nearbyStyles(m: Measurements, limit = 3): StyleMatch[] {
   return STYLES.map((s) => measureAgainst(m, s))

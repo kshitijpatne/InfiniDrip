@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { STANDARD_M } from "../drafting";
-import { currentStyles, nearbyStyles, styleSuggestions } from "./style";
+import { currentStyles, nearbyStyles, styleSuggestions, styleNames, matchStyle } from "./style";
 
 describe("currentStyles", () => {
   it("classifies the standard block as a Classic tee", () => {
@@ -38,5 +38,37 @@ describe("styleSuggestions", () => {
     const s = styleSuggestions(STANDARD_M);
     expect(s.current).toEqual(["Classic tee"]);
     expect(s.nearby.length).toBeGreaterThan(0);
+  });
+});
+
+describe("styleNames", () => {
+  it("lists every style as a selectable target", () => {
+    const names = styleNames();
+    expect(names).toContain("Classic tee");
+    expect(names).toContain("Oversized tee");
+    expect(names.length).toBeGreaterThan(5);
+  });
+});
+
+describe("matchStyle", () => {
+  it("reports zero deltas when you already match the chosen style", () => {
+    const match = matchStyle(STANDARD_M, "Classic tee");
+    expect(match.deltas).toEqual([]);
+    expect(match.distance).toBe(0);
+  });
+
+  it("reports the signed gap to a chosen target you are not in", () => {
+    const match = matchStyle(STANDARD_M, "Oversized tee");
+    expect(match.distance).toBeGreaterThan(0);
+    expect(match.deltas).toContainEqual({ id: "ease", change: 9 });
+  });
+
+  it("reports a length gap for a length-defined target", () => {
+    const match = matchStyle(STANDARD_M, "Crop tee");
+    expect(match.deltas).toContainEqual({ id: "length", change: -13 });
+  });
+
+  it("throws on an unknown style name", () => {
+    expect(() => matchStyle(STANDARD_M, "Nonexistent tee")).toThrow();
   });
 });

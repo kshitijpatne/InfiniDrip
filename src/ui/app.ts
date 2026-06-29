@@ -2,12 +2,12 @@
 // change re-draft, re-render the canvas, garment, guidance, and style. All real
 // logic lives in the pure modules.
 
-import { Measurements, STANDARD_M, draftTshirt, Piece } from "../drafting";
+import { Measurements, STANDARD_M, draftTshirt, Piece, STRETCH_FABRICS, fabricEaseNote } from "../drafting";
 import { exportSvg, exportDxf, exportPdf } from "../export";
 import { renderBlueprint, renderGarment, DEFAULT_FABRIC } from "../render";
 import { BLUEPRINT } from "../render";
-import { guide } from "../guidance";
-import { styleSuggestions } from "../style";
+import { guide, Note } from "../guidance";
+import { matchStyle, styleNames } from "../style";
 import { FIELDS, applyChange } from "./controls";
 import { appShellMarkup, guidanceMarkup, styleMarkup } from "./view";
 import { saveToStorage, loadFromStorage } from "./persist";
@@ -23,13 +23,19 @@ export function mountApp(root: HTMLElement): void {
   const guidanceHost = root.querySelector<HTMLDivElement>("#guidance-host")!;
   const styleHost = root.querySelector<HTMLDivElement>("#style-host")!;
 
+  let targetStyle = "Classic tee"; // the declared fit target (sets nothing)
+  let stretchFabric = STRETCH_FABRICS[0]; // drives the ease guidance note
+
   const draw = (): void => {
     const block = draftTshirt(measurements);
     canvasHost.innerHTML = renderBlueprint(
       [block.front, block.back, block.sleeve], { active: "front" });
     garmentHost.innerHTML = renderGarment(measurements, fabric);
-    guidanceHost.innerHTML = guidanceMarkup(guide(measurements));
-    styleHost.innerHTML = styleMarkup(styleSuggestions(measurements));
+    // Guidance = the geometry checks, plus a fabric-stretch ease note (advice only).
+    const fabricNote: Note = { level: "info", text: fabricEaseNote(stretchFabric, measurements.chest) };
+    guidanceHost.innerHTML = guidanceMarkup([...guide(measurements), fabricNote]);
+    // Style = prescriptive: the gap from current measurements to the chosen target.
+    styleHost.innerHTML = styleMarkup(targetStyle, matchStyle(measurements, targetStyle), styleNames());
   };
   draw();
 
@@ -53,6 +59,22 @@ export function mountApp(root: HTMLElement): void {
       });
       draw();
     });
+  });
+
+  // Style target lives inside styleHost, which is rebuilt every draw — so we
+  // delegate the change event from the stable host element.
+  styleHost.addEventListener("change", (e) => {
+    const sel = e.target as HTMLSelectElement;
+    if (sel.id === "style-target") {
+      targetStyle = sel.value;
+      draw();
+    }
+  });
+
+  const stretchSelect = root.querySelector<HTMLSelectElement>("#stretch-select")!;
+  stretchSelect.addEventListener("change", () => {
+    stretchFabric = STRETCH_FABRICS.find((f) => f.name === stretchSelect.value)!;
+    draw();
   });
 
   const EXPORT_ALLOWANCE = 1; // cm, matching the on-screen cutting line

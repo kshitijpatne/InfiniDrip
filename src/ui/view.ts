@@ -2,10 +2,10 @@
 // panel, a canvas host, a guidance panel, and a style panel. Pure, so the markup
 // can be checked in tests without a browser.
 
-import { Measurements } from "../drafting";
+import { Measurements, STRETCH_FABRICS } from "../drafting";
 import { BLUEPRINT as T, FABRICS } from "../render";
 import { Note } from "../guidance";
-import { StyleSuggestions, Delta } from "../style";
+import { StyleMatch, Delta } from "../style";
 import { FIELDS } from "./controls";
 
 const PANEL = "#13233A";
@@ -70,18 +70,40 @@ function deltaText(d: Delta): string {
   return `${label} ${d.change > 0 ? "+" : ""}${d.change} cm`;
 }
 
-/** The style panel: the current style, then nearby styles with how to reach them. */
-export function styleMarkup(s: StyleSuggestions): string {
-  const current = s.current.length > 0 ? s.current.join(", ") : "Between styles";
-  const head = `<div style="font-size:13px;color:${T.line};margin-bottom:12px">` +
-    `<span style="color:${T.label}">Current: </span>${current}</div>`;
-  const rows = s.nearby.map((n) =>
-    `<div style="margin-bottom:10px">` +
-    `<div style="font-size:13px;color:${T.line}">${n.name}</div>` +
-    `<div style="font-size:11.5px;color:${T.lineActive};font-family:ui-monospace,monospace">` +
-    `${n.deltas.map(deltaText).join(", ")}</div></div>`
-  ).join("");
-  return panel("Style", head + rows);
+/**
+ * The style panel, prescriptive: the user picks a TARGET fit, and the panel
+ * shows the gap to it on every axis. Selecting a target writes no measurement —
+ * the user closes each gap themselves with the sliders.
+ */
+export function styleMarkup(
+  targetName: string,
+  match: StyleMatch,
+  allNames: readonly string[]
+): string {
+  const options = allNames
+    .map((n) => `<option ${n === targetName ? "selected" : ""}>${n}</option>`)
+    .join("");
+  const select = `<select id="style-target" style="width:100%;padding:5px 8px;font-size:13px;` +
+    `background:${T.background};color:${T.line};border:1px solid ${BORDER};border-radius:5px;` +
+    `margin-bottom:12px">${options}</select>`;
+
+  const label = `<div style="font-size:11px;color:${T.label};text-transform:uppercase;` +
+    `letter-spacing:0.04em;margin-bottom:6px">Target fit</div>`;
+
+  let body: string;
+  if (match.deltas.length === 0) {
+    body = `<div style="font-size:13px;color:${OK}">✓ You're making a ${targetName}.</div>`;
+  } else {
+    const rows = match.deltas.map((d) =>
+      `<div style="font-size:12.5px;color:${T.lineActive};font-family:ui-monospace,monospace;` +
+      `margin-bottom:4px">${deltaText(d)}</div>`
+    ).join("");
+    body = `<div style="font-size:12.5px;color:${T.line};margin-bottom:8px">` +
+      `To reach ${targetName}:</div>${rows}` +
+      `<div style="font-size:11.5px;color:${T.label};margin-top:8px">` +
+      `Adjust the sliders — nothing changes on its own.</div>`;
+  }
+  return panel("Style", label + select + body);
 }
 
 /** Download buttons for the export files, plus Save/Load pattern state. */
@@ -98,11 +120,24 @@ export function exportButtonsMarkup(): string {
     `<span id="persist-status" style="font-size:11px;color:${T.label};min-width:80px"></span></div>`;
 }
 
+/** Fabric (stretch) dropdown — drives the ease guidance note only, sets nothing. */
+export function fabricStretchMarkup(current: string): string {
+  const options = STRETCH_FABRICS
+    .map((f) => `<option ${f.name === current ? "selected" : ""}>${f.name}</option>`)
+    .join("");
+  return `<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:4px 0">` +
+    `<span style="font-size:11px;color:${T.label};text-transform:uppercase;letter-spacing:0.04em;` +
+    `margin-right:4px">Fabric</span>` +
+    `<select id="stretch-select" style="padding:4px 8px;font-size:12px;background:${T.background};` +
+    `color:${T.line};border:1px solid ${BORDER};border-radius:5px">${options}</select></div>`;
+}
+
 /** The whole app shell: controls, canvas host, and a stacked guidance + style column. */
 export function appShellMarkup(m: Measurements, fabric: string): string {
   return `<div style="display:flex;gap:16px;align-items:flex-start;font-family:system-ui,sans-serif">` +
     `${controlsMarkup(m)}` +
     `<div style="flex:1;min-width:300px;display:flex;flex-direction:column;gap:6px">` +
+    `${fabricStretchMarkup(STRETCH_FABRICS[0].name)}` +
     `<div id="canvas-host"></div>${fabricSwatchesMarkup(fabric)}${exportButtonsMarkup()}` +
     `<div id="garment-host"></div></div>` +
     `<div style="display:flex;flex-direction:column;gap:16px">` +
