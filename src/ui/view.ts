@@ -132,12 +132,25 @@ export function fabricStretchMarkup(current: string): string {
     `color:${T.line};border:1px solid ${BORDER};border-radius:5px">${options}</select></div>`;
 }
 
+/** Pattern vs. graded size-run toggle for the main canvas. */
+export function viewToggleMarkup(active: string): string {
+  const btn = (id: string, label: string, on: boolean): string =>
+    `<button id="${id}" style="padding:5px 12px;font-size:12px;cursor:pointer;` +
+    `background:${on ? T.lineActive : T.background};color:${on ? T.background : T.line};` +
+    `border:1px solid ${BORDER};border-radius:5px">${label}</button>`;
+  return `<div style="display:flex;gap:6px;align-items:center;margin:4px 0">` +
+    `<span style="font-size:11px;color:${T.label};text-transform:uppercase;letter-spacing:0.04em;` +
+    `margin-right:4px">View</span>` +
+    `${btn("view-pattern", "Pattern", active === "pattern")}` +
+    `${btn("view-nest", "Size run", active === "nest")}</div>`;
+}
+
 /** The whole app shell: controls, canvas host, and a stacked guidance + style column. */
 export function appShellMarkup(m: Measurements, fabric: string): string {
   return `<div style="display:flex;gap:16px;align-items:flex-start;font-family:system-ui,sans-serif">` +
     `${controlsMarkup(m)}` +
     `<div style="flex:1;min-width:300px;display:flex;flex-direction:column;gap:6px">` +
-    `${fabricStretchMarkup(STRETCH_FABRICS[0].name)}` +
+    `${viewToggleMarkup("pattern")}${fabricStretchMarkup(STRETCH_FABRICS[0].name)}` +
     `<div id="canvas-host"></div>${fabricSwatchesMarkup(fabric)}${exportButtonsMarkup()}` +
     `<div id="garment-host"></div></div>` +
     `<div style="display:flex;flex-direction:column;gap:16px">` +

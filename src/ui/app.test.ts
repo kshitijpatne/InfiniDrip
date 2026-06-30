@@ -121,6 +121,20 @@ describe("mountApp", () => {
     expect(root.querySelector("#guidance-host")!.innerHTML).toContain("negative ease");
   });
 
+  it("toggles the canvas between the pattern and the graded size run", () => {
+    localStorage.clear();
+    const root = mount();
+    // Pattern view: a single highlighted piece, no size legend.
+    expect(root.querySelector("#canvas-host")!.innerHTML).not.toContain("(base)");
+    root.querySelector<HTMLButtonElement>("#view-nest")!.dispatchEvent(new Event("click"));
+    // Size-run view: the nest legend marks the base size.
+    expect(root.querySelector("#canvas-host")!.innerHTML).toContain("(base)");
+    expect(root.querySelector("#canvas-host")!.innerHTML).toContain(">XL<");
+    // Back to pattern.
+    root.querySelector<HTMLButtonElement>("#view-pattern")!.dispatchEvent(new Event("click"));
+    expect(root.querySelector("#canvas-host")!.innerHTML).not.toContain("(base)");
+  });
+
   it("restores a previous save automatically on mount", () => {
     localStorage.clear();
     // Save a non-default state

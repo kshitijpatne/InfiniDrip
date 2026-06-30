@@ -3,8 +3,9 @@
 // logic lives in the pure modules.
 
 import { Measurements, STANDARD_M, draftTshirt, Piece, STRETCH_FABRICS, fabricEaseNote } from "../drafting";
+import { gradeRun, TSHIRT_GRADE, TSHIRT_SIZES } from "../drafting";
 import { exportSvg, exportDxf, exportPdf } from "../export";
-import { renderBlueprint, renderGarment, DEFAULT_FABRIC } from "../render";
+import { renderBlueprint, renderGarment, renderNest, DEFAULT_FABRIC } from "../render";
 import { BLUEPRINT } from "../render";
 import { guide, Note } from "../guidance";
 import { matchStyle, styleNames } from "../style";
@@ -25,11 +26,16 @@ export function mountApp(root: HTMLElement): void {
 
   let targetStyle = "Classic tee"; // the declared fit target (sets nothing)
   let stretchFabric = STRETCH_FABRICS[0]; // drives the ease guidance note
+  let view: "pattern" | "nest" = "pattern";
 
   const draw = (): void => {
-    const block = draftTshirt(measurements);
-    canvasHost.innerHTML = renderBlueprint(
-      [block.front, block.back, block.sleeve], { active: "front" });
+    if (view === "nest") {
+      canvasHost.innerHTML = renderNest(gradeRun(measurements, TSHIRT_GRADE, TSHIRT_SIZES));
+    } else {
+      const block = draftTshirt(measurements);
+      canvasHost.innerHTML = renderBlueprint(
+        [block.front, block.back, block.sleeve], { active: "front" });
+    }
     garmentHost.innerHTML = renderGarment(measurements, fabric);
     // Guidance = the geometry checks, plus a fabric-stretch ease note (advice only).
     const fabricNote: Note = { level: "info", text: fabricEaseNote(stretchFabric, measurements.chest) };
@@ -38,6 +44,22 @@ export function mountApp(root: HTMLElement): void {
     styleHost.innerHTML = styleMarkup(targetStyle, matchStyle(measurements, targetStyle), styleNames());
   };
   draw();
+
+  const viewBtns = {
+    pattern: root.querySelector<HTMLButtonElement>("#view-pattern")!,
+    nest: root.querySelector<HTMLButtonElement>("#view-nest")!,
+  };
+  const setView = (v: "pattern" | "nest"): void => {
+    view = v;
+    (["pattern", "nest"] as const).forEach((k) => {
+      const on = k === v;
+      viewBtns[k].style.background = on ? BLUEPRINT.lineActive : BLUEPRINT.background;
+      viewBtns[k].style.color = on ? BLUEPRINT.background : BLUEPRINT.line;
+    });
+    draw();
+  };
+  viewBtns.pattern.addEventListener("click", () => setView("pattern"));
+  viewBtns.nest.addEventListener("click", () => setView("nest"));
 
   root.querySelectorAll<HTMLInputElement>("input[data-field]").forEach((input) => {
     const field = FIELDS.find((f) => f.id === input.dataset.field)!;
