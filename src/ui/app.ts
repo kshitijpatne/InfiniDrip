@@ -3,14 +3,14 @@
 // logic lives in the pure modules.
 
 import { Measurements, STANDARD_M, draftTshirt, Piece, STRETCH_FABRICS, fabricEaseNote } from "../drafting";
-import { gradeRun, TSHIRT_GRADE, TSHIRT_SIZES } from "../drafting";
+import { gradeRun, TSHIRT_GRADE, TSHIRT_SIZES, specSheet, TSHIRT_POMS } from "../drafting";
 import { exportSvg, exportDxf, exportPdf } from "../export";
 import { renderBlueprint, renderGarment, renderNest, DEFAULT_FABRIC } from "../render";
 import { BLUEPRINT } from "../render";
 import { guide, Note } from "../guidance";
 import { matchStyle, styleNames } from "../style";
 import { FIELDS, applyChange } from "./controls";
-import { appShellMarkup, guidanceMarkup, styleMarkup } from "./view";
+import { appShellMarkup, guidanceMarkup, styleMarkup, specTableMarkup } from "./view";
 import { saveToStorage, loadFromStorage } from "./persist";
 
 export function mountApp(root: HTMLElement): void {
@@ -26,11 +26,16 @@ export function mountApp(root: HTMLElement): void {
 
   let targetStyle = "Classic tee"; // the declared fit target (sets nothing)
   let stretchFabric = STRETCH_FABRICS[0]; // drives the ease guidance note
-  let view: "pattern" | "nest" = "pattern";
+  let view: "pattern" | "nest" | "spec" = "pattern";
 
   const draw = (): void => {
     if (view === "nest") {
       canvasHost.innerHTML = renderNest(gradeRun(measurements, TSHIRT_GRADE, TSHIRT_SIZES));
+    } else if (view === "spec") {
+      const graded = gradeRun(measurements, TSHIRT_GRADE, TSHIRT_SIZES);
+      const baseIndex = graded.findIndex((g) => g.step === 0);
+      canvasHost.innerHTML = specTableMarkup(
+        specSheet(graded, TSHIRT_POMS), graded.map((g) => g.label), baseIndex);
     } else {
       const block = draftTshirt(measurements);
       canvasHost.innerHTML = renderBlueprint(
@@ -48,10 +53,11 @@ export function mountApp(root: HTMLElement): void {
   const viewBtns = {
     pattern: root.querySelector<HTMLButtonElement>("#view-pattern")!,
     nest: root.querySelector<HTMLButtonElement>("#view-nest")!,
+    spec: root.querySelector<HTMLButtonElement>("#view-spec")!,
   };
-  const setView = (v: "pattern" | "nest"): void => {
+  const setView = (v: "pattern" | "nest" | "spec"): void => {
     view = v;
-    (["pattern", "nest"] as const).forEach((k) => {
+    (["pattern", "nest", "spec"] as const).forEach((k) => {
       const on = k === v;
       viewBtns[k].style.background = on ? BLUEPRINT.lineActive : BLUEPRINT.background;
       viewBtns[k].style.color = on ? BLUEPRINT.background : BLUEPRINT.line;
@@ -60,6 +66,7 @@ export function mountApp(root: HTMLElement): void {
   };
   viewBtns.pattern.addEventListener("click", () => setView("pattern"));
   viewBtns.nest.addEventListener("click", () => setView("nest"));
+  viewBtns.spec.addEventListener("click", () => setView("spec"));
 
   root.querySelectorAll<HTMLInputElement>("input[data-field]").forEach((input) => {
     const field = FIELDS.find((f) => f.id === input.dataset.field)!;

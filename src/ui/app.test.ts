@@ -121,6 +121,19 @@ describe("mountApp", () => {
     expect(root.querySelector("#guidance-host")!.innerHTML).toContain("negative ease");
   });
 
+  it("shows the auto-measured spec sheet in the Spec view", () => {
+    localStorage.clear();
+    const root = mount();
+    root.querySelector<HTMLButtonElement>("#view-spec")!.dispatchEvent(new Event("click"));
+    const html = root.querySelector("#canvas-host")!.innerHTML;
+    expect(html).toContain("<table");
+    expect(html).toContain("Body chest (finished)");
+    expect(html).toContain("Measurement (cm)");
+    // back to pattern clears the table
+    root.querySelector<HTMLButtonElement>("#view-pattern")!.dispatchEvent(new Event("click"));
+    expect(root.querySelector("#canvas-host")!.innerHTML).not.toContain("<table");
+  });
+
   it("toggles the canvas between the pattern and the graded size run", () => {
     localStorage.clear();
     const root = mount();

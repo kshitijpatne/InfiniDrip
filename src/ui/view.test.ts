@@ -1,8 +1,8 @@
 import { describe, it, expect } from "vitest";
 import { STANDARD_M } from "../drafting";
-import { DEFAULT_FABRIC } from "../render";
+import { DEFAULT_FABRIC, BLUEPRINT } from "../render";
 import { matchStyle, styleNames } from "../style";
-import { controlsMarkup, appShellMarkup, guidanceMarkup, styleMarkup, fabricSwatchesMarkup } from "./view";
+import { controlsMarkup, appShellMarkup, guidanceMarkup, styleMarkup, fabricSwatchesMarkup, specTableMarkup } from "./view";
 
 describe("controlsMarkup", () => {
   it("renders an input for every measurement, showing its value", () => {
@@ -40,6 +40,32 @@ describe("guidanceMarkup", () => {
     expect(html).toContain("All good");
     expect(html).toContain("Fix this");
     expect(html).toContain("Guidance");
+  });
+});
+
+describe("specTableMarkup", () => {
+  const rows = [
+    { label: "Body chest (finished)", values: [90, 95, 100, 105, 110] },
+    { label: "Body length (HPS–hem)", values: [66, 68, 70, 72, 74] },
+  ];
+  const html = specTableMarkup(rows, ["XS", "S", "M", "L", "XL"], 2);
+
+  it("renders a table with a header row of size labels", () => {
+    expect(html).toContain("<table");
+    expect(html).toContain(">XS<");
+    expect(html).toContain(">XL<");
+    expect(html).toContain("Measurement (cm)");
+  });
+
+  it("renders every POM row with one value per size, fixed to 0.1", () => {
+    expect(html).toContain("Body chest (finished)");
+    expect(html).toContain(">100.0<"); // base M chest
+    expect(html).toContain(">74.0<"); // XL length
+  });
+
+  it("highlights the base column", () => {
+    // base index 2 → cells get the gridStrong background
+    expect(html).toContain(BLUEPRINT.gridStrong);
   });
 });
 

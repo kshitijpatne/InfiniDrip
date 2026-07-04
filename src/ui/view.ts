@@ -2,7 +2,7 @@
 // panel, a canvas host, a guidance panel, and a style panel. Pure, so the markup
 // can be checked in tests without a browser.
 
-import { Measurements, STRETCH_FABRICS } from "../drafting";
+import { Measurements, STRETCH_FABRICS, SpecRow } from "../drafting";
 import { BLUEPRINT as T, FABRICS } from "../render";
 import { Note } from "../guidance";
 import { StyleMatch, Delta } from "../style";
@@ -142,7 +142,38 @@ export function viewToggleMarkup(active: string): string {
     `<span style="font-size:11px;color:${T.label};text-transform:uppercase;letter-spacing:0.04em;` +
     `margin-right:4px">View</span>` +
     `${btn("view-pattern", "Pattern", active === "pattern")}` +
-    `${btn("view-nest", "Size run", active === "nest")}</div>`;
+    `${btn("view-nest", "Size run", active === "nest")}` +
+    `${btn("view-spec", "Spec", active === "spec")}</div>`;
+}
+
+/** The auto-measured spec sheet: POM rows × size columns, base column highlighted. */
+export function specTableMarkup(
+  rows: readonly SpecRow[],
+  sizeLabels: readonly string[],
+  baseIndex: number
+): string {
+  const cell = (content: string, isBase: boolean, header: boolean): string => {
+    const bg = isBase ? T.gridStrong : "transparent";
+    const weight = header ? "600" : "400";
+    const align = header ? "center" : "right";
+    return `<td style="padding:5px 9px;text-align:${align};background:${bg};` +
+      `color:${T.line};font-weight:${weight};font-variant-numeric:tabular-nums;` +
+      `white-space:nowrap">${content}</td>`;
+  };
+  const labelCell = (content: string, header: boolean): string =>
+    `<td style="padding:5px 9px;text-align:left;color:${header ? T.label : T.line};` +
+    `font-weight:${header ? "600" : "400"};white-space:nowrap">${content}</td>`;
+
+  const head = `<tr>${labelCell("Measurement (cm)", true)}` +
+    sizeLabels.map((l, i) => cell(l, i === baseIndex, true)).join("") + `</tr>`;
+  const body = rows.map((r) =>
+    `<tr>${labelCell(r.label, false)}` +
+    r.values.map((v, i) => cell(v.toFixed(1), i === baseIndex, false)).join("") + `</tr>`
+  ).join("");
+
+  return `<div style="background:${T.background};border-radius:8px;padding:14px;overflow-x:auto">` +
+    `<table style="border-collapse:collapse;font-size:12.5px;font-family:system-ui,sans-serif;` +
+    `width:100%">${head}${body}</table></div>`;
 }
 
 /** The whole app shell: controls, canvas host, and a stacked guidance + style column. */

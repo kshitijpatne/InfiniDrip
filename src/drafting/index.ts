@@ -6,3 +6,5 @@ export * from "./tshirt-notches";
 export * from "./ease";
 export * from "./grading";
 export * from "./tshirt-grade";
+export * from "./pom";
+export * from "./tshirt-pom";
