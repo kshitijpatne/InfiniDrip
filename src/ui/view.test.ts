@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { STANDARD_M } from "../drafting";
 import { DEFAULT_FABRIC, BLUEPRINT } from "../render";
 import { matchStyle, styleNames } from "../style";
-import { controlsMarkup, appShellMarkup, guidanceMarkup, styleMarkup, fabricSwatchesMarkup, specTableMarkup } from "./view";
+import { controlsMarkup, appShellMarkup, guidanceMarkup, styleMarkup, fabricSwatchesMarkup, specTableMarkup, viewToggleMarkup, fabricWidthMarkup } from "./view";
 
 describe("controlsMarkup", () => {
   it("renders an input for every measurement, showing its value", () => {
@@ -28,6 +28,24 @@ describe("appShellMarkup", () => {
     expect(html).toContain('id="garment-host"');
     expect(html).toContain('id="guidance-host"');
     expect(html).toContain('id="style-host"');
+    expect(html).toContain('id="fabric-width"');
+  });
+});
+
+describe("viewToggleMarkup", () => {
+  it("offers a Nesting view and highlights the active one", () => {
+    const html = viewToggleMarkup("fabric");
+    expect(html).toContain('id="view-fabric"');
+    expect(html).toContain(">Nesting<");
+  });
+});
+
+describe("fabricWidthMarkup", () => {
+  it("renders a labelled width input with the given value", () => {
+    const html = fabricWidthMarkup(150);
+    expect(html).toContain('id="fabric-width"');
+    expect(html).toContain('value="150"');
+    expect(html).toContain("Fabric width");
   });
 });
 

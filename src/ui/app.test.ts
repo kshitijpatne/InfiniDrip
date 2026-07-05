@@ -134,6 +134,35 @@ describe("mountApp", () => {
     expect(root.querySelector("#canvas-host")!.innerHTML).not.toContain("<table");
   });
 
+  it("shows the fabric nesting estimate in the Nesting view", () => {
+    localStorage.clear();
+    const root = mount();
+    root.querySelector<HTMLButtonElement>("#view-fabric")!.dispatchEvent(new Event("click"));
+    const html = root.querySelector("#canvas-host")!.innerHTML;
+    expect(html).toContain("cm wide");
+    expect(html).toContain("% used");
+    // back to pattern clears the estimate
+    root.querySelector<HTMLButtonElement>("#view-pattern")!.dispatchEvent(new Event("click"));
+    expect(root.querySelector("#canvas-host")!.innerHTML).not.toContain("% used");
+  });
+
+  it("re-nests when the fabric width changes, and ignores an invalid width", () => {
+    localStorage.clear();
+    const root = mount();
+    root.querySelector<HTMLButtonElement>("#view-fabric")!.dispatchEvent(new Event("click"));
+    const before = viewBox(root);
+    const width = root.querySelector<HTMLInputElement>("#fabric-width")!;
+    // A narrower bolt forces more shelves → a taller sheet → a new viewBox.
+    width.value = "60";
+    width.dispatchEvent(new Event("input"));
+    const after = viewBox(root);
+    expect(after).not.toBe(before);
+    // An unparseable width is ignored (no throw, canvas unchanged).
+    width.value = "abc";
+    width.dispatchEvent(new Event("input"));
+    expect(viewBox(root)).toBe(after);
+  });
+
   it("toggles the canvas between the pattern and the graded size run", () => {
     localStorage.clear();
     const root = mount();

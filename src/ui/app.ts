@@ -4,8 +4,8 @@
 
 import { Measurements, STANDARD_M, draftTshirt, Piece, STRETCH_FABRICS, fabricEaseNote } from "../drafting";
 import { gradeRun, TSHIRT_GRADE, TSHIRT_SIZES, specSheet, TSHIRT_POMS } from "../drafting";
-import { exportSvg, exportDxf, exportPdf } from "../export";
-import { renderBlueprint, renderGarment, renderNest, DEFAULT_FABRIC } from "../render";
+import { exportSvg, exportDxf, exportPdf, flattenPiece, nestPieces } from "../export";
+import { renderBlueprint, renderGarment, renderNest, renderFabricNest, DEFAULT_FABRIC } from "../render";
 import { BLUEPRINT } from "../render";
 import { guide, Note } from "../guidance";
 import { matchStyle, styleNames } from "../style";
@@ -26,11 +26,19 @@ export function mountApp(root: HTMLElement): void {
 
   let targetStyle = "Classic tee"; // the declared fit target (sets nothing)
   let stretchFabric = STRETCH_FABRICS[0]; // drives the ease guidance note
-  let view: "pattern" | "nest" | "spec" = "pattern";
+  let view: "pattern" | "nest" | "spec" | "fabric" = "pattern";
+  let fabricWidth = 150; // cm — the bolt width for the nesting estimator
+  const ALLOWANCE = 1; // cm seam allowance, shared by nesting and the exports
 
   const draw = (): void => {
     if (view === "nest") {
       canvasHost.innerHTML = renderNest(gradeRun(measurements, TSHIRT_GRADE, TSHIRT_SIZES));
+    } else if (view === "fabric") {
+      const block = draftTshirt(measurements);
+      const flats = [block.front, block.back, block.sleeve].map((p) => flattenPiece(p, ALLOWANCE));
+      const nest = nestPieces(flats, fabricWidth);
+      canvasHost.innerHTML = renderFabricNest(
+        nest.placed, nest.fabricWidth, nest.fabricLength, nest.utilization, nest.fits);
     } else if (view === "spec") {
       const graded = gradeRun(measurements, TSHIRT_GRADE, TSHIRT_SIZES);
       const baseIndex = graded.findIndex((g) => g.step === 0);
@@ -54,10 +62,11 @@ export function mountApp(root: HTMLElement): void {
     pattern: root.querySelector<HTMLButtonElement>("#view-pattern")!,
     nest: root.querySelector<HTMLButtonElement>("#view-nest")!,
     spec: root.querySelector<HTMLButtonElement>("#view-spec")!,
+    fabric: root.querySelector<HTMLButtonElement>("#view-fabric")!,
   };
-  const setView = (v: "pattern" | "nest" | "spec"): void => {
+  const setView = (v: "pattern" | "nest" | "spec" | "fabric"): void => {
     view = v;
-    (["pattern", "nest", "spec"] as const).forEach((k) => {
+    (["pattern", "nest", "spec", "fabric"] as const).forEach((k) => {
       const on = k === v;
       viewBtns[k].style.background = on ? BLUEPRINT.lineActive : BLUEPRINT.background;
       viewBtns[k].style.color = on ? BLUEPRINT.background : BLUEPRINT.line;
@@ -67,6 +76,16 @@ export function mountApp(root: HTMLElement): void {
   viewBtns.pattern.addEventListener("click", () => setView("pattern"));
   viewBtns.nest.addEventListener("click", () => setView("nest"));
   viewBtns.spec.addEventListener("click", () => setView("spec"));
+  viewBtns.fabric.addEventListener("click", () => setView("fabric"));
+
+  const widthInput = root.querySelector<HTMLInputElement>("#fabric-width")!;
+  widthInput.addEventListener("input", () => {
+    const v = Number(widthInput.value);
+    if (Number.isFinite(v) && v > 0) {
+      fabricWidth = v;
+      draw();
+    }
+  });
 
   root.querySelectorAll<HTMLInputElement>("input[data-field]").forEach((input) => {
     const field = FIELDS.find((f) => f.id === input.dataset.field)!;
@@ -106,7 +125,6 @@ export function mountApp(root: HTMLElement): void {
     draw();
   });
 
-  const EXPORT_ALLOWANCE = 1; // cm, matching the on-screen cutting line
   const exportPieces = (): Piece[] => {
     const block = draftTshirt(measurements);
     return [block.front, block.back, block.sleeve];
@@ -120,13 +138,13 @@ export function mountApp(root: HTMLElement): void {
     URL.revokeObjectURL(url);
   };
   root.querySelector<HTMLButtonElement>("#export-svg")!.addEventListener("click", () => {
-    download("tshirt.svg", exportSvg(exportPieces(), EXPORT_ALLOWANCE), "image/svg+xml");
+    download("tshirt.svg", exportSvg(exportPieces(), ALLOWANCE), "image/svg+xml");
   });
   root.querySelector<HTMLButtonElement>("#export-dxf")!.addEventListener("click", () => {
-    download("tshirt.dxf", exportDxf(exportPieces(), EXPORT_ALLOWANCE), "image/vnd.dxf");
+    download("tshirt.dxf", exportDxf(exportPieces(), ALLOWANCE), "image/vnd.dxf");
   });
   root.querySelector<HTMLButtonElement>("#export-pdf")!.addEventListener("click", () => {
-    download("tshirt.pdf", exportPdf(exportPieces(), EXPORT_ALLOWANCE), "application/pdf");
+    download("tshirt.pdf", exportPdf(exportPieces(), ALLOWANCE), "application/pdf");
   });
 
   const statusEl = root.querySelector<HTMLSpanElement>("#persist-status")!;

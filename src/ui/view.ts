@@ -143,7 +143,19 @@ export function viewToggleMarkup(active: string): string {
     `margin-right:4px">View</span>` +
     `${btn("view-pattern", "Pattern", active === "pattern")}` +
     `${btn("view-nest", "Size run", active === "nest")}` +
-    `${btn("view-spec", "Spec", active === "spec")}</div>`;
+    `${btn("view-spec", "Spec", active === "spec")}` +
+    `${btn("view-fabric", "Nesting", active === "fabric")}</div>`;
+}
+
+/** Fabric-width input for the nesting estimator (a cutting setting, not a body number). */
+export function fabricWidthMarkup(width: number): string {
+  return `<div style="display:flex;gap:8px;align-items:center;margin:4px 0">` +
+    `<span style="font-size:11px;color:${T.label};text-transform:uppercase;letter-spacing:0.04em;` +
+    `margin-right:4px">Fabric width</span>` +
+    `<input id="fabric-width" type="number" value="${width}" min="30" max="300" step="1" ` +
+    `style="width:64px;padding:4px 6px;text-align:right;background:${T.background};color:${T.line};` +
+    `border:1px solid ${BORDER};border-radius:5px;font-family:ui-monospace,monospace"/>` +
+    `<span style="font-size:12px;color:${T.label}">cm</span></div>`;
 }
 
 /** The auto-measured spec sheet: POM rows × size columns, base column highlighted. */
@@ -182,6 +194,7 @@ export function appShellMarkup(m: Measurements, fabric: string): string {
     `${controlsMarkup(m)}` +
     `<div style="flex:1;min-width:300px;display:flex;flex-direction:column;gap:6px">` +
     `${viewToggleMarkup("pattern")}${fabricStretchMarkup(STRETCH_FABRICS[0].name)}` +
+    `${fabricWidthMarkup(150)}` +
     `<div id="canvas-host"></div>${fabricSwatchesMarkup(fabric)}${exportButtonsMarkup()}` +
     `<div id="garment-host"></div></div>` +
     `<div style="display:flex;flex-direction:column;gap:16px">` +
