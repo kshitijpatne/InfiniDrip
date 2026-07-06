@@ -8,9 +8,10 @@ import { exportSvg, exportDxf, exportPdf, flattenPiece, nestPieces } from "../ex
 import { renderBlueprint, renderGarment, renderNest, renderFabricNest, DEFAULT_FABRIC } from "../render";
 import { BLUEPRINT } from "../render";
 import { guide, Note } from "../guidance";
+import { tshirtReport } from "../guidance";
 import { matchStyle, styleNames } from "../style";
 import { FIELDS, applyChange } from "./controls";
-import { appShellMarkup, guidanceMarkup, styleMarkup, specTableMarkup } from "./view";
+import { appShellMarkup, guidanceMarkup, styleMarkup, specTableMarkup, checkMarkup } from "./view";
 import { saveToStorage, loadFromStorage } from "./persist";
 
 export function mountApp(root: HTMLElement): void {
@@ -26,7 +27,7 @@ export function mountApp(root: HTMLElement): void {
 
   let targetStyle = "Classic tee"; // the declared fit target (sets nothing)
   let stretchFabric = STRETCH_FABRICS[0]; // drives the ease guidance note
-  let view: "pattern" | "nest" | "spec" | "fabric" = "pattern";
+  let view: "pattern" | "nest" | "spec" | "fabric" | "check" = "pattern";
   let fabricWidth = 150; // cm — the bolt width for the nesting estimator
   const ALLOWANCE = 1; // cm seam allowance, shared by nesting and the exports
 
@@ -39,6 +40,8 @@ export function mountApp(root: HTMLElement): void {
       const nest = nestPieces(flats, fabricWidth);
       canvasHost.innerHTML = renderFabricNest(
         nest.placed, nest.fabricWidth, nest.fabricLength, nest.utilization, nest.fits);
+    } else if (view === "check") {
+      canvasHost.innerHTML = checkMarkup(tshirtReport(measurements));
     } else if (view === "spec") {
       const graded = gradeRun(measurements, TSHIRT_GRADE, TSHIRT_SIZES);
       const baseIndex = graded.findIndex((g) => g.step === 0);
@@ -63,10 +66,11 @@ export function mountApp(root: HTMLElement): void {
     nest: root.querySelector<HTMLButtonElement>("#view-nest")!,
     spec: root.querySelector<HTMLButtonElement>("#view-spec")!,
     fabric: root.querySelector<HTMLButtonElement>("#view-fabric")!,
+    check: root.querySelector<HTMLButtonElement>("#view-check")!,
   };
-  const setView = (v: "pattern" | "nest" | "spec" | "fabric"): void => {
+  const setView = (v: "pattern" | "nest" | "spec" | "fabric" | "check"): void => {
     view = v;
-    (["pattern", "nest", "spec", "fabric"] as const).forEach((k) => {
+    (["pattern", "nest", "spec", "fabric", "check"] as const).forEach((k) => {
       const on = k === v;
       viewBtns[k].style.background = on ? BLUEPRINT.lineActive : BLUEPRINT.background;
       viewBtns[k].style.color = on ? BLUEPRINT.background : BLUEPRINT.line;
@@ -77,6 +81,7 @@ export function mountApp(root: HTMLElement): void {
   viewBtns.nest.addEventListener("click", () => setView("nest"));
   viewBtns.spec.addEventListener("click", () => setView("spec"));
   viewBtns.fabric.addEventListener("click", () => setView("fabric"));
+  viewBtns.check.addEventListener("click", () => setView("check"));
 
   const widthInput = root.querySelector<HTMLInputElement>("#fabric-width")!;
   widthInput.addEventListener("input", () => {

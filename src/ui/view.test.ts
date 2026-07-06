@@ -2,7 +2,8 @@ import { describe, it, expect } from "vitest";
 import { STANDARD_M } from "../drafting";
 import { DEFAULT_FABRIC, BLUEPRINT } from "../render";
 import { matchStyle, styleNames } from "../style";
-import { controlsMarkup, appShellMarkup, guidanceMarkup, styleMarkup, fabricSwatchesMarkup, specTableMarkup, viewToggleMarkup, fabricWidthMarkup } from "./view";
+import { controlsMarkup, appShellMarkup, guidanceMarkup, styleMarkup, fabricSwatchesMarkup, specTableMarkup, viewToggleMarkup, fabricWidthMarkup, checkMarkup } from "./view";
+import { buildReport, present } from "../guidance";
 
 describe("controlsMarkup", () => {
   it("renders an input for every measurement, showing its value", () => {
@@ -37,6 +38,29 @@ describe("viewToggleMarkup", () => {
     const html = viewToggleMarkup("fabric");
     expect(html).toContain('id="view-fabric"');
     expect(html).toContain(">Nesting<");
+  });
+
+  it("offers a Check view", () => {
+    const html = viewToggleMarkup("check");
+    expect(html).toContain('id="view-check"');
+    expect(html).toContain(">Check<");
+  });
+});
+
+describe("checkMarkup", () => {
+  it("shows a ready banner and a tick when every check passes", () => {
+    const html = checkMarkup(buildReport([present("Seam", true, "agree")]));
+    expect(html).toContain("Ready to cut");
+    expect(html).toContain("✓");
+    expect(html).toContain("Seam");
+    expect(html).toContain("agree");
+  });
+
+  it("shows a not-ready banner and a cross when a check fails", () => {
+    const html = checkMarkup(buildReport([present("Seam", false, "off by 3 cm")]));
+    expect(html).toContain("Not ready");
+    expect(html).toContain("✗");
+    expect(html).toContain("off by 3 cm");
   });
 });
 

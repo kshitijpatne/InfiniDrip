@@ -163,6 +163,17 @@ describe("mountApp", () => {
     expect(viewBox(root)).toBe(after);
   });
 
+  it("shows the production-readiness verdict in the Check view", () => {
+    localStorage.clear();
+    const root = mount();
+    root.querySelector<HTMLButtonElement>("#view-check")!.dispatchEvent(new Event("click"));
+    const html = root.querySelector("#canvas-host")!.innerHTML;
+    expect(html).toContain("Ready to cut");
+    expect(html).toContain("Shoulder seam");
+    root.querySelector<HTMLButtonElement>("#view-pattern")!.dispatchEvent(new Event("click"));
+    expect(root.querySelector("#canvas-host")!.innerHTML).not.toContain("Ready to cut");
+  });
+
   it("toggles the canvas between the pattern and the graded size run", () => {
     localStorage.clear();
     const root = mount();

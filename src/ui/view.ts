@@ -5,6 +5,7 @@
 import { Measurements, STRETCH_FABRICS, SpecRow } from "../drafting";
 import { BLUEPRINT as T, FABRICS } from "../render";
 import { Note } from "../guidance";
+import { Report } from "../guidance";
 import { StyleMatch, Delta } from "../style";
 import { FIELDS } from "./controls";
 
@@ -144,7 +145,8 @@ export function viewToggleMarkup(active: string): string {
     `${btn("view-pattern", "Pattern", active === "pattern")}` +
     `${btn("view-nest", "Size run", active === "nest")}` +
     `${btn("view-spec", "Spec", active === "spec")}` +
-    `${btn("view-fabric", "Nesting", active === "fabric")}</div>`;
+    `${btn("view-fabric", "Nesting", active === "fabric")}` +
+    `${btn("view-check", "Check", active === "check")}</div>`;
 }
 
 /** Fabric-width input for the nesting estimator (a cutting setting, not a body number). */
@@ -186,6 +188,25 @@ export function specTableMarkup(
   return `<div style="background:${T.background};border-radius:8px;padding:14px;overflow-x:auto">` +
     `<table style="border-collapse:collapse;font-size:12.5px;font-family:system-ui,sans-serif;` +
     `width:100%">${head}${body}</table></div>`;
+}
+
+/** The production-readiness report: a pass/fail verdict banner over the check list. */
+export function checkMarkup(report: Report): string {
+  const bannerBg = report.ok ? OK : T.lineActive;
+  const bannerText = report.ok ? "✓ Ready to cut" : "✗ Not ready — fix the flagged checks";
+  const banner = `<div style="padding:10px 14px;border-radius:8px;font-weight:600;font-size:14px;` +
+    `color:${T.background};background:${bannerBg};margin-bottom:12px">${bannerText}</div>`;
+
+  const rows = report.checks.map((c) => {
+    const color = c.ok ? OK : T.lineActive;
+    const mark = c.ok ? "✓" : "✗";
+    return `<div style="display:flex;gap:10px;align-items:baseline;margin-bottom:9px;font-size:13px">` +
+      `<span style="flex:0 0 14px;color:${color};font-weight:700">${mark}</span>` +
+      `<span style="flex:1;color:${T.line}">${c.name}` +
+      `<span style="color:${T.label};font-size:12px"> — ${c.detail}</span></span></div>`;
+  }).join("");
+
+  return `<div style="background:${T.background};border-radius:8px;padding:14px">${banner}${rows}</div>`;
 }
 
 /** The whole app shell: controls, canvas host, and a stacked guidance + style column. */
