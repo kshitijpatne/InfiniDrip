@@ -2,8 +2,9 @@
 
 A lightweight, local **2D sewing-pattern designer**. Type body measurements and
 it drafts a correct t-shirt pattern, draws it on a technical "blueprint" canvas,
-catches mistakes as you edit, and suggests nearby garment styles — all running in
-the browser with no heavy 3D engine.
+catches mistakes as you edit, grades it across a size run, estimates fabric usage,
+checks it's ready to cut, and lets you freeform-edit a piece — all running in the
+browser with no heavy 3D engine.
 
 Built from scratch in TypeScript, in small tested slices.
 
@@ -16,8 +17,18 @@ Built from scratch in TypeScript, in small tested slices.
   measurement, on a centimetre grid with fold lines and grainlines.
 - **Guidance** — plain-English checks catch problems a beginner would miss
   ("sleeve cap is too long for this armhole", "armhole too shallow").
-- **Style suggester** — names the style you're making and shows the exact change
-  to reach nearby ones ("Longline tee — Length +8 cm").
+- **Target-fit styles** — declare the fit you want and see the exact cm change on
+  every axis to reach it.
+- **Grading** — re-draft the block across a whole size run, shown as tree-ring
+  nested outlines, with an auto-measured spec (POM) sheet.
+- **Fabric estimate** — a width-aware nesting layout that reports fabric length and
+  utilization on your chosen bolt width.
+- **Production-readiness check** — one plain-English pass/fail verdict that the
+  pattern is sewable (matched seams, cap ease, square hem, notches/grain, sane grade).
+- **Freeform edit** — drag a piece's points and curve handles to reshape it by hand
+  (a manual override; Reset re-drafts from your measurements).
+- **Export** — true-scale SVG and DXF cutting files, plus a tiled print-at-home PDF.
+- **Save / load** — your measurements and fabric persist locally.
 
 ## Run it
 
@@ -45,6 +56,8 @@ TypeScript · SVG · Vite · Vitest
 ## Status
 
 In active development, built feature by feature. Current: measurement-driven
-drafting, live render, guidance, and style suggestions for a t-shirt. Planned:
-assembled garment preview, printable/DXF export, and freeform editing.
-EOF
+drafting, live render, guidance, target-fit styles, assembled garment view, seam
+allowances, notches + grainlines, save/load, parametric grading + spec sheet,
+true-scale SVG/DXF/PDF export, a fabric-nesting estimator, a production-readiness
+checker, and freeform piece editing. Planned: a fitted/darted garment and dart
+manipulation.

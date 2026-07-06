@@ -5,13 +5,14 @@
 import { Measurements, STANDARD_M, draftTshirt, Piece, STRETCH_FABRICS, fabricEaseNote } from "../drafting";
 import { gradeRun, TSHIRT_GRADE, TSHIRT_SIZES, specSheet, TSHIRT_POMS } from "../drafting";
 import { exportSvg, exportDxf, exportPdf, flattenPiece, nestPieces } from "../export";
-import { renderBlueprint, renderGarment, renderNest, renderFabricNest, DEFAULT_FABRIC } from "../render";
+import { renderBlueprint, renderGarment, renderNest, renderFabricNest, renderEditor, DEFAULT_FABRIC } from "../render";
+import { pieceHandles, moveHandle, nearestHandle, editorViewBox, viewboxPointToCm, Handle } from "../edit";
 import { BLUEPRINT } from "../render";
 import { guide, Note } from "../guidance";
 import { tshirtReport } from "../guidance";
 import { matchStyle, styleNames } from "../style";
 import { FIELDS, applyChange } from "./controls";
-import { appShellMarkup, guidanceMarkup, styleMarkup, specTableMarkup, checkMarkup } from "./view";
+import { appShellMarkup, guidanceMarkup, styleMarkup, specTableMarkup, checkMarkup, editorHintMarkup } from "./view";
 import { saveToStorage, loadFromStorage } from "./persist";
 
 export function mountApp(root: HTMLElement): void {
@@ -27,7 +28,10 @@ export function mountApp(root: HTMLElement): void {
 
   let targetStyle = "Classic tee"; // the declared fit target (sets nothing)
   let stretchFabric = STRETCH_FABRICS[0]; // drives the ease guidance note
-  let view: "pattern" | "nest" | "spec" | "fabric" | "check" = "pattern";
+  let view: "pattern" | "nest" | "spec" | "fabric" | "check" | "edit" = "pattern";
+  let editedFront: Piece | null = null; // freeform snapshot of the front (override, not parametric)
+  let dragId: string | null = null; // handle being dragged
+  let selectedId: string | null = null; // handle highlighted in the editor
   let fabricWidth = 150; // cm — the bolt width for the nesting estimator
   const ALLOWANCE = 1; // cm seam allowance, shared by nesting and the exports
 
@@ -42,6 +46,11 @@ export function mountApp(root: HTMLElement): void {
         nest.placed, nest.fabricWidth, nest.fabricLength, nest.utilization, nest.fits);
     } else if (view === "check") {
       canvasHost.innerHTML = checkMarkup(tshirtReport(measurements));
+    } else if (view === "edit") {
+      const piece = editedFront!;
+      const vb = editorViewBox(piece);
+      canvasHost.innerHTML =
+        renderEditor(piece, pieceHandles(piece), vb, selectedId) + editorHintMarkup();
     } else if (view === "spec") {
       const graded = gradeRun(measurements, TSHIRT_GRADE, TSHIRT_SIZES);
       const baseIndex = graded.findIndex((g) => g.step === 0);
@@ -67,10 +76,12 @@ export function mountApp(root: HTMLElement): void {
     spec: root.querySelector<HTMLButtonElement>("#view-spec")!,
     fabric: root.querySelector<HTMLButtonElement>("#view-fabric")!,
     check: root.querySelector<HTMLButtonElement>("#view-check")!,
+    edit: root.querySelector<HTMLButtonElement>("#view-edit")!,
   };
-  const setView = (v: "pattern" | "nest" | "spec" | "fabric" | "check"): void => {
+  const setView = (v: "pattern" | "nest" | "spec" | "fabric" | "check" | "edit"): void => {
+    if (v === "edit" && editedFront === null) editedFront = draftTshirt(measurements).front;
     view = v;
-    (["pattern", "nest", "spec", "fabric", "check"] as const).forEach((k) => {
+    (["pattern", "nest", "spec", "fabric", "check", "edit"] as const).forEach((k) => {
       const on = k === v;
       viewBtns[k].style.background = on ? BLUEPRINT.lineActive : BLUEPRINT.background;
       viewBtns[k].style.color = on ? BLUEPRINT.background : BLUEPRINT.line;
@@ -82,6 +93,41 @@ export function mountApp(root: HTMLElement): void {
   viewBtns.spec.addEventListener("click", () => setView("spec"));
   viewBtns.fabric.addEventListener("click", () => setView("fabric"));
   viewBtns.check.addEventListener("click", () => setView("check"));
+  viewBtns.edit.addEventListener("click", () => setView("edit"));
+
+  // Freeform drag: pointer -> nearest handle -> moveHandle -> redraw. All the
+  // maths is pure (edit engine); these three handlers are the only impure glue.
+  const handleAt = (e: MouseEvent): { handle: Handle | null; at: ReturnType<typeof viewboxPointToCm> } => {
+    const svg = canvasHost.querySelector("svg")!;
+    const piece = editedFront!;
+    const vb = editorViewBox(piece);
+    const at = viewboxPointToCm(e.clientX, e.clientY, svg.getBoundingClientRect(), vb);
+    return { handle: nearestHandle(pieceHandles(piece), at, 2), at };
+  };
+  canvasHost.addEventListener("mousedown", (e) => {
+    if (view !== "edit") return;
+    const hit = handleAt(e);
+    if (hit.handle) {
+      dragId = hit.handle.id;
+      selectedId = hit.handle.id;
+      draw();
+    }
+  });
+  window.addEventListener("mousemove", (e) => {
+    if (!dragId) return;
+    const piece = editedFront!;
+    const handle = pieceHandles(piece).find((h) => h.id === dragId)!;
+    editedFront = moveHandle(piece, handle, handleAt(e).at);
+    draw();
+  });
+  window.addEventListener("mouseup", () => { dragId = null; });
+  canvasHost.addEventListener("click", (e) => {
+    if ((e.target as HTMLElement).id === "editor-reset") {
+      editedFront = draftTshirt(measurements).front;
+      selectedId = null;
+      draw();
+    }
+  });
 
   const widthInput = root.querySelector<HTMLInputElement>("#fabric-width")!;
   widthInput.addEventListener("input", () => {

@@ -1,6 +1,8 @@
 // @vitest-environment jsdom
 import { describe, it, expect, vi } from "vitest";
 import { mountApp } from "./app";
+import { draftTshirt, STANDARD_M } from "../drafting";
+import { pieceHandles, editorViewBox } from "../edit";
 
 function mount(): HTMLDivElement {
   const root = document.createElement("div");
@@ -161,6 +163,59 @@ describe("mountApp", () => {
     width.value = "abc";
     width.dispatchEvent(new Event("input"));
     expect(viewBox(root)).toBe(after);
+  });
+
+  it("renders the freeform editor with handles and a reset in the Edit view", () => {
+    localStorage.clear();
+    const root = mount();
+    root.querySelector<HTMLButtonElement>("#view-edit")!.dispatchEvent(new Event("click"));
+    const host = root.querySelector("#canvas-host")!;
+    expect(host.querySelector("svg")).not.toBeNull();
+    expect(host.innerHTML).toContain('id="editor-reset"');
+    // leaving Edit clears the editor
+    root.querySelector<HTMLButtonElement>("#view-pattern")!.dispatchEvent(new Event("click"));
+    expect(root.querySelector("#canvas-host")!.innerHTML).not.toContain("editor-reset");
+  });
+
+  it("drags a handle to reshape the front, ignores stray input, and resets", () => {
+    localStorage.clear();
+    // 1 cm == 1 px, origin aligned, so screen coords map straight to cm - vb.min
+    const vb = editorViewBox(draftTshirt(STANDARD_M).front);
+    const rect = { left: 0, top: 0, width: vb.w, height: vb.h, right: vb.w, bottom: vb.h, x: 0, y: 0, toJSON() {} };
+    const orig = Element.prototype.getBoundingClientRect;
+    Element.prototype.getBoundingClientRect = () => rect as DOMRect;
+    try {
+      const root = mount();
+      const host = root.querySelector<HTMLDivElement>("#canvas-host")!;
+      // A mousedown outside Edit view does nothing.
+      host.dispatchEvent(new MouseEvent("mousedown", { clientX: 5, clientY: 5, bubbles: true }));
+      // A stray mousemove with no active drag does nothing (no throw).
+      window.dispatchEvent(new MouseEvent("mousemove", { clientX: 5, clientY: 5 }));
+
+      root.querySelector<HTMLButtonElement>("#view-edit")!.dispatchEvent(new Event("click"));
+      const vertex = pieceHandles(draftTshirt(STANDARD_M).front).find((h) => h.kind === "vertex")!;
+      const sx = vertex.pos.x - vb.minX;
+      const sy = vertex.pos.y - vb.minY;
+
+      // Miss: click empty margin (>2 cm from any handle) selects nothing.
+      host.dispatchEvent(new MouseEvent("mousedown", { clientX: 0.5, clientY: 0.5, bubbles: true }));
+      expect(host.innerHTML).not.toContain('stroke="#FFFFFF"');
+
+      const before = host.innerHTML;
+      // Hit: grab the vertex, drag it +6 cm, release.
+      host.dispatchEvent(new MouseEvent("mousedown", { clientX: sx, clientY: sy, bubbles: true }));
+      expect(host.innerHTML).toContain('stroke="#FFFFFF"'); // selection ring shows
+      window.dispatchEvent(new MouseEvent("mousemove", { clientX: sx + 6, clientY: sy + 6 }));
+      const dragged = host.innerHTML;
+      expect(dragged).not.toBe(before); // the outline changed
+      window.dispatchEvent(new MouseEvent("mouseup", {}));
+
+      // Reset re-drafts from measurements, undoing the drag.
+      host.querySelector<HTMLButtonElement>("#editor-reset")!.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+      expect(host.innerHTML).not.toBe(dragged);
+    } finally {
+      Element.prototype.getBoundingClientRect = orig;
+    }
   });
 
   it("shows the production-readiness verdict in the Check view", () => {

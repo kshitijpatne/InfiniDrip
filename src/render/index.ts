@@ -7,3 +7,4 @@ export * from "./garment";
 export * from "./notch";
 export * from "./nest";
 export * from "./fabric";
+export * from "./editor";

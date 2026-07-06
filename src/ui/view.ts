@@ -146,7 +146,19 @@ export function viewToggleMarkup(active: string): string {
     `${btn("view-nest", "Size run", active === "nest")}` +
     `${btn("view-spec", "Spec", active === "spec")}` +
     `${btn("view-fabric", "Nesting", active === "fabric")}` +
-    `${btn("view-check", "Check", active === "check")}</div>`;
+    `${btn("view-check", "Check", active === "check")}` +
+    `${btn("view-edit", "Edit", active === "edit")}</div>`;
+}
+
+/** The Edit-view hint + Reset (freeform edits are a manual override, not parametric). */
+export function editorHintMarkup(): string {
+  return `<div style="display:flex;gap:10px;align-items:center;margin-top:6px;font-size:12px;` +
+    `color:${T.label}">` +
+    `<span style="flex:1">Drag the dots to reshape the front. Edits are a manual override — ` +
+    `they don't change your measurements.</span>` +
+    `<button id="editor-reset" style="padding:5px 10px;font-size:12px;cursor:pointer;` +
+    `background:${T.background};color:${T.line};border:1px solid ${BORDER};border-radius:5px">` +
+    `Reset to draft</button></div>`;
 }
 
 /** Fabric-width input for the nesting estimator (a cutting setting, not a body number). */

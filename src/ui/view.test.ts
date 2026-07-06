@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { STANDARD_M } from "../drafting";
 import { DEFAULT_FABRIC, BLUEPRINT } from "../render";
 import { matchStyle, styleNames } from "../style";
-import { controlsMarkup, appShellMarkup, guidanceMarkup, styleMarkup, fabricSwatchesMarkup, specTableMarkup, viewToggleMarkup, fabricWidthMarkup, checkMarkup } from "./view";
+import { controlsMarkup, appShellMarkup, guidanceMarkup, styleMarkup, fabricSwatchesMarkup, specTableMarkup, viewToggleMarkup, fabricWidthMarkup, checkMarkup, editorHintMarkup } from "./view";
 import { buildReport, present } from "../guidance";
 
 describe("controlsMarkup", () => {
@@ -44,6 +44,20 @@ describe("viewToggleMarkup", () => {
     const html = viewToggleMarkup("check");
     expect(html).toContain('id="view-check"');
     expect(html).toContain(">Check<");
+  });
+
+  it("offers an Edit view", () => {
+    const html = viewToggleMarkup("edit");
+    expect(html).toContain('id="view-edit"');
+    expect(html).toContain(">Edit<");
+  });
+});
+
+describe("editorHintMarkup", () => {
+  it("explains the override and offers a Reset button", () => {
+    const html = editorHintMarkup();
+    expect(html).toContain('id="editor-reset"');
+    expect(html).toContain("manual override");
   });
 });
 
