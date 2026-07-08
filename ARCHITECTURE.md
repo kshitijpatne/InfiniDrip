@@ -110,7 +110,8 @@ the parametric core stays consistent everywhere else.
 
   geometry/   points, distance, Bézier + curve length
   drafting/   measurements -> pieces; t-shirt recipe; notch rules; fabric/ease
-              guidance; grading engine + grade table; POM measuring + POM list
+              guidance; grading engine + grade table; POM measuring + POM list;
+              dart engine (dart.ts) + fitted/darted recipe (fitted.ts)
   render/     pieces -> SVG string; seam allowance; notches + grainlines; graded
               nest; fabric nest; freeform editor; garment view; theme
   export/     pieces -> true-scale cutting files (SVG, DXF, tiled PDF); shared
@@ -118,7 +119,8 @@ the parametric core stays consistent everywhere else.
   guidance/   tape-measure checks; production-readiness checker (engine + recipe)
   style/      style table; target-fit gap (prescriptive)
   edit/       freeform edit engine: handles, moveHandle, hit-test, viewbox/pointer
-  ui/         the impure shell; sliders, fabric + style selectors, the view toggle
+  ui/         the impure shell; sliders, fabric + style selectors, a Tee/Fitted
+              garment toggle, the view toggle
               (Pattern/Size run/Spec/Nesting/Check/Edit), freeform drag handlers,
               save/load persistence
 
@@ -137,11 +139,13 @@ Two kinds of code live here. The **engine** doesn't care what garment it is —
 geometry, the Piece/Edge model, the renderer, seam allowance, the notch engine
 (`notch.ts`), the grading loop (`grading.ts`), the POM query helpers (`pom.ts`),
 the nest renderers (`nest.ts`, `fabric.ts`), export + the nesting estimator, the
-checker primitives (`check.ts`), and the freeform edit engine (`edit/`). The
+checker primitives (`check.ts`), the freeform edit engine (`edit/`), and the dart
+engine (`dart.ts`). The
 **recipe** is the garment-specific part — the drafting math, the guidance rules,
 the style table, the notch rules (`tshirt-notches.ts`), the fabric/ease guidance
 (`ease.ts`), the grade increments (`tshirt-grade.ts`), the POM list
-(`tshirt-pom.ts`), and the checker's edge-pairs + thresholds (`tshirt-check.ts`).
+(`tshirt-pom.ts`), the checker's edge-pairs + thresholds (`tshirt-check.ts`), and
+the fitted/darted front (`fitted.ts`).
 
 Adding a new garment = writing a new recipe that plugs into the same engine, not
 building a new app. (One known engine spot still tee-shaped: the POM query type
@@ -153,8 +157,10 @@ small change, not a rewrite.)
 **Already built:** notches & grainlines; fabric/ease guidance; grading (tree-ring
 nest); the POM spec sheet; the **nesting estimator** (`export/nesting.ts` +
 `render/fabric.ts`); the **production-readiness checker** (`guidance/check.ts` +
-`guidance/tshirt-check.ts`); and the **freeform editor** (`edit/` engine +
-`render/editor.ts` + an Edit view in `ui`).
+`guidance/tshirt-check.ts`); the **freeform editor** (`edit/` engine +
+`render/editor.ts` + an Edit view in `ui`); and the **fitted/darted recipe**
+(`drafting/dart.ts` engine + `drafting/fitted.ts`), shown via a Tee/Fitted toggle in
+the Pattern view.
 
   *Note on the editor's shape:* an earlier version of this map predicted the editor
   would be "a new impure surface, a sibling of `ui`." It landed lighter than that:
@@ -165,8 +171,10 @@ nest); the POM spec sheet; the **nesting estimator** (`export/nesting.ts` +
 - **Tech-pack document (15b).** The measured spec sheet is done; what's left is
   packaging: a flat sketch with callout leaders, a PDF doc writer on the export
   spine, and editable BOM/construction stubs. New writer on the export spine.
-- **Fitted/darted recipe (19).** First non-tee garment; introduces a real bust dart
-  for the editor to operate on. Pure recipe + a small engine generalisation.
+- **Fitted/darted recipe (19) — built.** The dart is baked into the outline as two
+  named leg edges meeting at the apex, so the apex is a real vertex Slice 20 can
+  rotate. Wired to the Pattern view only; grading/spec/nest/check/edit/export and the
+  `Pom` `TshirtBlock` type stay tee-shaped until a later slice generalises them.
 - **Dart manipulation (20).** Rotating a wedge around the apex — a pure engine
   *primitive* built on `moveHandle`, with "fit is conserved" as a free invariant —
   driven by the editor, operating on the darted recipe. That triple dependency

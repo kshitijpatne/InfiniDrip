@@ -150,6 +150,17 @@ export function viewToggleMarkup(active: string): string {
     `${btn("view-edit", "Edit", active === "edit")}</div>`;
 }
 
+export function garmentToggleMarkup(active: string): string {
+  const btn = (id: string, label: string, on: boolean): string =>
+    `<button id="${id}" style="padding:6px 12px;font-size:13px;cursor:pointer;` +
+    `background:${on ? T.lineActive : T.background};color:${on ? T.background : T.line};` +
+    `border:1px solid ${BORDER};border-radius:5px">${label}</button>`;
+  return `<div style="display:flex;gap:6px;align-items:center;margin-left:8px">` +
+    `<span style="font-size:12px;color:${T.label}">Garment</span>` +
+    `${btn("garment-tee", "Tee", active === "tee")}` +
+    `${btn("garment-fitted", "Fitted", active === "fitted")}</div>`;
+}
+
 /** The Edit-view hint + Reset (freeform edits are a manual override, not parametric). */
 export function editorHintMarkup(): string {
   return `<div style="display:flex;gap:10px;align-items:center;margin-top:6px;font-size:12px;` +
@@ -226,7 +237,7 @@ export function appShellMarkup(m: Measurements, fabric: string): string {
   return `<div style="display:flex;gap:16px;align-items:flex-start;font-family:system-ui,sans-serif">` +
     `${controlsMarkup(m)}` +
     `<div style="flex:1;min-width:300px;display:flex;flex-direction:column;gap:6px">` +
-    `${viewToggleMarkup("pattern")}${fabricStretchMarkup(STRETCH_FABRICS[0].name)}` +
+    `${viewToggleMarkup("pattern")}${garmentToggleMarkup("tee")}${fabricStretchMarkup(STRETCH_FABRICS[0].name)}` +
     `${fabricWidthMarkup(150)}` +
     `<div id="canvas-host"></div>${fabricSwatchesMarkup(fabric)}${exportButtonsMarkup()}` +
     `<div id="garment-host"></div></div>` +

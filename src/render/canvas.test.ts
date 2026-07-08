@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { STANDARD_M, draftTshirt } from "../drafting";
+import { STANDARD_M, draftTshirt, draftFittedFront, dartOf } from "../drafting";
 import { renderBlueprint } from "./canvas";
 import { BLUEPRINT } from "./theme";
 
@@ -56,5 +56,14 @@ describe("renderBlueprint with non-tshirt pieces", () => {
     const unknown = { ...block.front, name: "unknown-piece" };
     const svg = renderBlueprint([unknown]);
     expect(svg.startsWith("<svg")).toBe(true);
+  });
+
+  it("marks the apex of a darted piece", () => {
+    const f = draftFittedFront(STANDARD_M);
+    const apex = dartOf(f)!.apex;
+    const svg = renderBlueprint([f]);
+    // an apex ring is drawn near the dart apex (x rounded to 3 dp in the path)
+    expect(svg).toContain(`cx="${Math.round(apex.x * 1000) / 1000}"`);
+    expect(svg).toContain('r="0.9"');
   });
 });

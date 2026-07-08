@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 18. Update this after every slice (and commit it WITH the code)._
+_Last updated: after Slice 19. Update this after every slice (and commit it WITH the code)._
 
 ## What it is
 A lightweight, local 2D sewing-pattern designer in TypeScript. Type body
@@ -54,6 +54,9 @@ SLICES-BRIEF.md) are committed in the same commit as the code they describe.**
 18. freeform edit mode — drag a piece's vertices and curve controls to reshape it;
     edits are a manual override, Reset re-drafts from measurements; in an Edit view
     (257)
+19. fitted/darted recipe — first non-tee garment: a bust-darted front (dart baked
+    into the outline, apex marked), with the tee's back + sleeve reused; a
+    Tee/Fitted toggle swaps the Pattern view (268)
 
 **Slice 13 note (design changed mid-build):** ease did NOT become an auto-applied
 pre-draft transform. Instead: (a) **fabric/ease is guidance only** — the app
@@ -98,6 +101,14 @@ back into measurements, and **Reset** re-drafts from the current measurements. T
 reusable payload is a pure `moveHandle(piece, handle, to)` primitive — the exact
 machinery dart manipulation (Slice 20) will rotate around an apex.
 
+**Slice 19 note (first non-tee garment; dart representation):** the fitted recipe
+reuses the tee's back and sleeve untouched and swaps in a darted front — proof that
+a new garment is a new *recipe*, not a new app. The bust dart is modelled as two
+named leg edges in the outline meeting at the apex (the correct *open* flat pattern
+drawing), so it renders for free and the apex is a real vertex `moveHandle` can grab
+in Slice 20. Scoped to the Pattern view via a Tee/Fitted toggle; the other views and
+the `Pom` `TshirtBlock` type stay tee-shaped until a later slice generalises them.
+
 ## Roadmap (what's left)
 Ordering principle: **ride the export spine + pure engine first; defer the heavy
 freeform editor until darts need it.** Dependency spine (✓ = done):
@@ -110,8 +121,7 @@ nesting ✓ → checker ✓ → editor ✓ → fitted recipe → darts.
 - ✓ 16. Nesting / fabric estimator (done — width-aware shelf pack; a helper, not a marker)
 - ✓ 17. Production-readiness checker (done — guidance rolled into one pass/fail verdict)
 - ✓ 18. Freeform edit mode (done — drag vertices + curve controls; override, not parametric)
-19. **Fitted/darted garment recipe** — first non-tee garment; introduces a real
-    bust dart for the editor to operate on.
+- ✓ 19. Fitted/darted recipe (done — bust-darted front; tee back+sleeve reused; Pattern view)
 20. **Dart manipulation** — rotate/slash around the apex (conservation law:
     relocating a dart doesn't change fit). Needs the editor (18) + a darted recipe
     (19); the rotation **primitive** (pure, testable) can be built opportunistically
@@ -154,6 +164,14 @@ Per feature (so we don't overclaim):
   fit. Knows intentional ease ≠ error (per the Slice 5 cap logic). Currently five
   checks (seven rows); dart-leg and smooth-transition checks land with a darted
   garment. Runs on the tee block; the checker *engine* is garment-agnostic.
+- **Fitted / dart**: the first non-tee recipe reuses the tee's back and sleeve and
+  swaps in a darted front. The bust dart is baked into the outline as two named leg
+  edges meeting at the apex (so it renders truthfully and the apex is a real vertex
+  for Slice 20). It's the *open* flat representation — dart **truing** (re-closing
+  the side seam so allowances match) is deferred. The Fitted garment currently
+  drives the **Pattern view only**; grading, spec, nest, check, edit, and export
+  stay tee-based until a later slice generalises them (the POM `TshirtBlock` type
+  widens then). Fitted-front notches/grainline aren't defined yet.
 - **Editor**: freeform drag of one piece (the **front**) — a manual override, not a
   parametric change. Edits don't write back to measurements and don't survive a
   Reset (which re-drafts). It ignores the fold constraint on purpose (freeform means
@@ -173,4 +191,4 @@ thread.
 
 ## Test counts (proof a slice landed)
 s4=58, s5=72, s6=82, s7=89, s8=94, s9=103, s10=119, s11=139, s12=155, s13=171,
-s14=187, s15=202, s16=219, s17=239, s18=257
+s14=187, s15=202, s16=219, s17=239, s18=257, s19=268

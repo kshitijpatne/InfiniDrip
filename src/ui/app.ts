@@ -2,7 +2,7 @@
 // change re-draft, re-render the canvas, garment, guidance, and style. All real
 // logic lives in the pure modules.
 
-import { Measurements, STANDARD_M, draftTshirt, Piece, STRETCH_FABRICS, fabricEaseNote } from "../drafting";
+import { Measurements, STANDARD_M, draftTshirt, draftFitted, Piece, STRETCH_FABRICS, fabricEaseNote } from "../drafting";
 import { gradeRun, TSHIRT_GRADE, TSHIRT_SIZES, specSheet, TSHIRT_POMS } from "../drafting";
 import { exportSvg, exportDxf, exportPdf, flattenPiece, nestPieces } from "../export";
 import { renderBlueprint, renderGarment, renderNest, renderFabricNest, renderEditor, DEFAULT_FABRIC } from "../render";
@@ -29,6 +29,7 @@ export function mountApp(root: HTMLElement): void {
   let targetStyle = "Classic tee"; // the declared fit target (sets nothing)
   let stretchFabric = STRETCH_FABRICS[0]; // drives the ease guidance note
   let view: "pattern" | "nest" | "spec" | "fabric" | "check" | "edit" = "pattern";
+  let garment: "tee" | "fitted" = "tee"; // which recipe the Pattern view drafts
   let editedFront: Piece | null = null; // freeform snapshot of the front (override, not parametric)
   let dragId: string | null = null; // handle being dragged
   let selectedId: string | null = null; // handle highlighted in the editor
@@ -57,9 +58,9 @@ export function mountApp(root: HTMLElement): void {
       canvasHost.innerHTML = specTableMarkup(
         specSheet(graded, TSHIRT_POMS), graded.map((g) => g.label), baseIndex);
     } else {
-      const block = draftTshirt(measurements);
+      const block = garment === "fitted" ? draftFitted(measurements) : draftTshirt(measurements);
       canvasHost.innerHTML = renderBlueprint(
-        [block.front, block.back, block.sleeve], { active: "front" });
+        [block.front, block.back, block.sleeve], { active: block.front.name });
     }
     garmentHost.innerHTML = renderGarment(measurements, fabric);
     // Guidance = the geometry checks, plus a fabric-stretch ease note (advice only).
@@ -128,6 +129,22 @@ export function mountApp(root: HTMLElement): void {
       draw();
     }
   });
+
+  const garmentBtns = {
+    tee: root.querySelector<HTMLButtonElement>("#garment-tee")!,
+    fitted: root.querySelector<HTMLButtonElement>("#garment-fitted")!,
+  };
+  const setGarment = (g: "tee" | "fitted"): void => {
+    garment = g;
+    (["tee", "fitted"] as const).forEach((k) => {
+      const on = k === g;
+      garmentBtns[k].style.background = on ? BLUEPRINT.lineActive : BLUEPRINT.background;
+      garmentBtns[k].style.color = on ? BLUEPRINT.background : BLUEPRINT.line;
+    });
+    if (view === "pattern") draw();
+  };
+  garmentBtns.tee.addEventListener("click", () => setGarment("tee"));
+  garmentBtns.fitted.addEventListener("click", () => setGarment("fitted"));
 
   const widthInput = root.querySelector<HTMLInputElement>("#fabric-width")!;
   widthInput.addEventListener("input", () => {

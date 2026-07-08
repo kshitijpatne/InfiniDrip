@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { STANDARD_M } from "../drafting";
+import { garmentToggleMarkup } from "./view";
 import { DEFAULT_FABRIC, BLUEPRINT } from "../render";
 import { matchStyle, styleNames } from "../style";
 import { controlsMarkup, appShellMarkup, guidanceMarkup, styleMarkup, fabricSwatchesMarkup, specTableMarkup, viewToggleMarkup, fabricWidthMarkup, checkMarkup, editorHintMarkup } from "./view";
@@ -147,6 +148,16 @@ describe("styleMarkup", () => {
   it("shows a negative delta without a plus sign", () => {
     const html = styleMarkup("Crop tee", matchStyle(STANDARD_M, "Crop tee"), styleNames());
     expect(html).toContain("Length -13 cm");
+  });
+});
+
+describe("garmentToggleMarkup", () => {
+  it("offers Tee and Fitted, highlighting the active one", () => {
+    const html = garmentToggleMarkup("fitted");
+    expect(html).toContain('id="garment-tee"');
+    expect(html).toContain('id="garment-fitted"');
+    expect(html).toContain(">Tee<");
+    expect(html).toContain(">Fitted<");
   });
 });
 

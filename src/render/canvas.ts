@@ -8,6 +8,7 @@ import { seamAllowancePath } from "./allowance";
 import { BLUEPRINT as T } from "./theme";
 import { resolveNotch, resolveGrainline, notchSvg, grainlineSvg } from "./notch";
 import { TSHIRT_NOTCHES } from "../drafting/tshirt-notches";
+import { dartOf } from "../drafting";
 
 const round = (n: number): number => Math.round(n * 1000) / 1000;
 
@@ -82,7 +83,13 @@ function renderPiece(p: Placed, isActive: boolean): string {
     ? grainlineSvg(resolveGrainline(p.piece, recipe.grainline), T.marker, 1, 1.2)
     : "";
 
-  const group = `<g transform="translate(${round(p.tx)} ${round(p.ty)})">${cut}${path}${notches}${grain}</g>`;
+  // A dart's legs already draw as part of the outline; mark its apex so it reads.
+  const dart = dartOf(p.piece);
+  const dartMark = dart
+    ? `<circle cx="${round(dart.apex.x)}" cy="${round(dart.apex.y)}" r="0.9" fill="none" ` +
+      `stroke="${T.marker}" stroke-width="1" vector-effect="non-scaling-stroke"/>`
+    : "";
+  const group = `<g transform="translate(${round(p.tx)} ${round(p.ty)})">${cut}${path}${notches}${grain}${dartMark}</g>`;
   const label = svgText(p.vx + p.w / 2, p.vy - 2.5, p.piece.name.toUpperCase(), T.label, 2.6);
   const fold = p.piece.onFold ? foldMark(p.vx, p.vy, p.h) : "";
   return group + fold + label;

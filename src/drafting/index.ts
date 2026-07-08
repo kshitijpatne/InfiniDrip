@@ -8,3 +8,5 @@ export * from "./grading";
 export * from "./tshirt-grade";
 export * from "./pom";
 export * from "./tshirt-pom";
+export * from "./dart";
+export * from "./fitted";

@@ -258,3 +258,26 @@ describe("mountApp", () => {
     expect(root2.querySelector("#canvas-host svg")!.getAttribute("viewBox")).toBe(savedView);
   });
 });
+
+describe("garment toggle", () => {
+  it("swaps the Pattern view to the darted fitted front and back to the tee", () => {
+    localStorage.clear();
+    const root = mount();
+    const host = (): string => root.querySelector("#canvas-host")!.innerHTML;
+    expect(host()).not.toContain('r="0.9"'); // tee front: no dart apex mark
+    root.querySelector<HTMLButtonElement>("#garment-fitted")!.dispatchEvent(new Event("click"));
+    expect(host()).toContain('r="0.9"'); // fitted front: apex marked
+    expect(host()).toContain("FITTED FRONT");
+    root.querySelector<HTMLButtonElement>("#garment-tee")!.dispatchEvent(new Event("click"));
+    expect(host()).not.toContain('r="0.9"'); // back to the tee
+  });
+
+  it("leaves other views on the tee even when Fitted is selected", () => {
+    localStorage.clear();
+    const root = mount();
+    root.querySelector<HTMLButtonElement>("#garment-fitted")!.dispatchEvent(new Event("click"));
+    // switching to a non-pattern view is unaffected by the garment choice
+    root.querySelector<HTMLButtonElement>("#view-spec")!.dispatchEvent(new Event("click"));
+    expect(root.querySelector("#canvas-host")!.innerHTML).not.toContain("FITTED FRONT");
+  });
+});
