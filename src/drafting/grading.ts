@@ -12,7 +12,7 @@
 // the user's ease carries through untouched — ease is never in the grade table.
 
 import { Measurements } from "./measurements";
-import { TshirtBlock, draftTshirt } from "./tshirt";
+import { Block } from "./block";
 
 /** One size's position in the run: 0 = base, -1 a size down, +1 a size up. */
 export interface SizeStep {
@@ -27,7 +27,7 @@ export interface GradedSize {
   readonly label: string;
   readonly step: number;
   readonly measurements: Measurements;
-  readonly block: TshirtBlock;
+  readonly block: Block;
 }
 
 /** Apply a grade rule to the base at a given step (step 0 returns the base as-is). */
@@ -50,10 +50,11 @@ export function gradeMeasurements(
 export function gradeRun(
   base: Measurements,
   rule: GradeRule,
-  sizes: readonly SizeStep[]
+  sizes: readonly SizeStep[],
+  draft: (m: Measurements) => Block
 ): GradedSize[] {
   return sizes.map((s) => {
     const measurements = gradeMeasurements(base, rule, s.step);
-    return { label: s.label, step: s.step, measurements, block: draftTshirt(measurements) };
+    return { label: s.label, step: s.step, measurements, block: draft(measurements) };
   });
 }

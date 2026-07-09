@@ -12,7 +12,8 @@
 import { point } from "../geometry";
 import { Measurements, derive } from "./measurements";
 import { Edge, Piece } from "./piece";
-import { draftBack, draftSleeve, TshirtBlock } from "./tshirt";
+import { draftBack, draftSleeve } from "./tshirt";
+import { Block } from "./block";
 
 const DART_INTAKE = 4; // cm taken up across the dart mouth on the side seam
 
@@ -22,7 +23,12 @@ export function draftFittedFront(m: Measurements): Piece {
   const hps = point(d.neckWidthHalf, 0);
   const shoulder = point(d.shoulderHalf, d.shoulderSlope);
   const underarm = point(d.chestWidthHalf, m.armholeDepth);
-  const sideHem = point(d.chestWidthHalf, m.length);
+  // The dart's mouth opens ON the side seam, so closing the dart SHORTENS that
+  // seam by the intake. The side must therefore run DART_INTAKE cm longer than
+  // the back's, so the two match once the dart is sewn shut. The open front hem
+  // consequently slants down at the side — that's a correct untrued flat pattern;
+  // truing (levelling the hem after closing) comes with dart manipulation.
+  const sideHem = point(d.chestWidthHalf, m.length + DART_INTAKE);
   const cfHem = point(0, m.length);
 
   // Bust point (dart apex): interior, below the underarm line, ~halfway in.
@@ -60,6 +66,6 @@ export function draftFittedFront(m: Measurements): Piece {
 }
 
 /** A fitted block: a darted front, with the tee's back and sleeve reused as-is. */
-export function draftFitted(m: Measurements): TshirtBlock {
+export function draftFitted(m: Measurements): Block {
   return { front: draftFittedFront(m), back: draftBack(m), sleeve: draftSleeve(m) };
 }

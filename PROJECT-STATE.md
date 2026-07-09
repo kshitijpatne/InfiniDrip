@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 19. Update this after every slice (and commit it WITH the code)._
+_Last updated: after Slice 20. Update this after every slice (and commit it WITH the code)._
 
 ## What it is
 A lightweight, local 2D sewing-pattern designer in TypeScript. Type body
@@ -57,6 +57,10 @@ SLICES-BRIEF.md) are committed in the same commit as the code they describe.**
 19. fitted/darted recipe — first non-tee garment: a bust-darted front (dart baked
     into the outline, apex marked), with the tee's back + sleeve reused; a
     Tee/Fitted toggle swaps the Pattern view (268)
+20. garment generalization — a `GarmentRecipe` registry drives EVERY view (pattern,
+    grade, spec, nest, check, edit, export); the engine no longer names a t-shirt.
+    Fixes the Slice 19 side-seam bug; adds the dart-leg check; hides the bolt-width
+    box outside the Nesting view (285)
 
 **Slice 13 note (design changed mid-build):** ease did NOT become an auto-applied
 pre-draft transform. Instead: (a) **fabric/ease is guidance only** — the app
@@ -109,6 +113,17 @@ drawing), so it renders for free and the apex is a real vertex `moveHandle` can 
 in Slice 20. Scoped to the Pattern view via a Tee/Fitted toggle; the other views and
 the `Pom` `TshirtBlock` type stay tee-shaped until a later slice generalises them.
 
+**Slice 20 note (generalization, and a Slice 19 correction):** shipping the fitted
+front exposed a real bug — its side seam was one dart intake (4 cm) SHORTER than the
+back's, because the dart's mouth opens on that seam and closing the dart shortens it.
+The draft now runs the side seam longer by the intake, so front and back match once
+the dart is sewn (verified: 46.00 vs 46.00 cm). The consequence is an untrued,
+side-slanted front hem — correct for an open flat pattern. The generalization made
+this visible: `GarmentRecipe` lets the checker run on ANY garment, and the first
+thing it did on the fitted block was demand the seams match. `render/canvas.ts` and
+`export/svg.ts` no longer import the tee's notch table (a layering violation, now
+fixed — they take notches as a parameter).
+
 ## Roadmap (what's left)
 Ordering principle: **ride the export spine + pure engine first; defer the heavy
 freeform editor until darts need it.** Dependency spine (✓ = done):
@@ -122,10 +137,12 @@ nesting ✓ → checker ✓ → editor ✓ → fitted recipe → darts.
 - ✓ 17. Production-readiness checker (done — guidance rolled into one pass/fail verdict)
 - ✓ 18. Freeform edit mode (done — drag vertices + curve controls; override, not parametric)
 - ✓ 19. Fitted/darted recipe (done — bust-darted front; tee back+sleeve reused; Pattern view)
-20. **Dart manipulation** — rotate/slash around the apex (conservation law:
+- ✓ 20. Garment generalization (done — recipe registry; every view garment-aware)
+21. **Dart manipulation** — rotate/slash around the apex (conservation law:
     relocating a dart doesn't change fit). Needs the editor (18) + a darted recipe
-    (19); the rotation **primitive** (pure, testable) can be built opportunistically
-    earlier, on top of `moveHandle`.
+    (19) + the recipe registry (20); the rotation **primitive** (pure, testable)
+    builds on `moveHandle`. Dart **truing** (levelling the front hem after the dart
+    closes) belongs here too.
 
 Later: 2D body view → photo→pattern (Feature A) → upcycle planner (Feature B).
 
@@ -162,16 +179,23 @@ Per feature (so we don't overclaim):
   production marker. Don't quote efficiency vs commercial CAD.
 - **Checker**: verifies **sewability (geometry)**, not fit — a muslin still decides
   fit. Knows intentional ease ≠ error (per the Slice 5 cap logic). Currently five
-  checks (seven rows); dart-leg and smooth-transition checks land with a darted
-  garment. Runs on the tee block; the checker *engine* is garment-agnostic.
+  checks; a **dart-leg** check runs on any darted garment (it arrived with the
+  fitted block). Smooth-transition remains out (a fuzzy fit call). The checker is
+  fully garment-driven: it reads the recipe's check spec, notches, and size run.
 - **Fitted / dart**: the first non-tee recipe reuses the tee's back and sleeve and
   swaps in a darted front. The bust dart is baked into the outline as two named leg
   edges meeting at the apex (so it renders truthfully and the apex is a real vertex
-  for Slice 20). It's the *open* flat representation — dart **truing** (re-closing
-  the side seam so allowances match) is deferred. The Fitted garment currently
-  drives the **Pattern view only**; grading, spec, nest, check, edit, and export
-  stay tee-based until a later slice generalises them (the POM `TshirtBlock` type
-  widens then). Fitted-front notches/grainline aren't defined yet.
+  for dart manipulation). Its side seam runs one dart-intake longer than the back's,
+  so the two match once the dart is sewn shut — which means the **open front hem
+  slants down at the side**. That is a correct *untrued* flat pattern; **truing**
+  (levelling the hem after the dart closes) lands with dart manipulation, and until
+  then the fitted front declares `hemSquareToFold: false` so the checker doesn't
+  flag intended geometry.
+- **Garments**: a `GarmentRecipe` (drafting/recipe.ts) carries everything
+  garment-specific — draft fn, notch table, POM list, grade rule, size run, and the
+  check spec. Every view is driven by it. The engine (grading, POM, render, export,
+  checker) no longer imports a t-shirt table. Adding a garment = adding a recipe.
+  Both garments share one body grade rule; a garment-specific grade is a later edit.
 - **Editor**: freeform drag of one piece (the **front**) — a manual override, not a
   parametric change. Edits don't write back to measurements and don't survive a
   Reset (which re-drafts). It ignores the fold constraint on purpose (freeform means
@@ -191,4 +215,4 @@ thread.
 
 ## Test counts (proof a slice landed)
 s4=58, s5=72, s6=82, s7=89, s8=94, s9=103, s10=119, s11=139, s12=155, s13=171,
-s14=187, s15=202, s16=219, s17=239, s18=257, s19=268
+s14=187, s15=202, s16=219, s17=239, s18=257, s19=268, s20=285

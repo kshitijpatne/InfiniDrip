@@ -11,7 +11,7 @@
 // is recipe (tshirt-pom.ts).
 
 import { Piece, edgeLength, pieceEdge, edgeStart, edgeEnd } from "./piece";
-import { TshirtBlock } from "./tshirt";
+import { Block } from "./block";
 import { GradedSize } from "./grading";
 
 /** Length of a named seam (a straight line or a curve). */
@@ -43,7 +43,7 @@ export function spanY(piece: Piece, a: PointRef, b: PointRef): number {
 /** A point of measure: a label and how to read it off a drafted block, in cm. */
 export interface Pom {
   readonly label: string;
-  readonly measure: (block: TshirtBlock) => number;
+  readonly measure: (block: Block) => number;
 }
 
 export interface SpecRow {

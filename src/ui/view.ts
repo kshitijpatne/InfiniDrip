@@ -2,7 +2,7 @@
 // panel, a canvas host, a guidance panel, and a style panel. Pure, so the markup
 // can be checked in tests without a browser.
 
-import { Measurements, STRETCH_FABRICS, SpecRow } from "../drafting";
+import { Measurements, STRETCH_FABRICS, SpecRow, GARMENTS } from "../drafting";
 import { BLUEPRINT as T, FABRICS } from "../render";
 import { Note } from "../guidance";
 import { Report } from "../guidance";
@@ -151,14 +151,14 @@ export function viewToggleMarkup(active: string): string {
 }
 
 export function garmentToggleMarkup(active: string): string {
-  const btn = (id: string, label: string, on: boolean): string =>
-    `<button id="${id}" style="padding:6px 12px;font-size:13px;cursor:pointer;` +
-    `background:${on ? T.lineActive : T.background};color:${on ? T.background : T.line};` +
-    `border:1px solid ${BORDER};border-radius:5px">${label}</button>`;
+  const btn = (g: { name: string; label: string }): string =>
+    `<button id="garment-${g.name}" style="padding:6px 12px;font-size:13px;cursor:pointer;` +
+    `background:${g.name === active ? T.lineActive : T.background};` +
+    `color:${g.name === active ? T.background : T.line};` +
+    `border:1px solid ${BORDER};border-radius:5px">${g.label}</button>`;
   return `<div style="display:flex;gap:6px;align-items:center;margin-left:8px">` +
     `<span style="font-size:12px;color:${T.label}">Garment</span>` +
-    `${btn("garment-tee", "Tee", active === "tee")}` +
-    `${btn("garment-fitted", "Fitted", active === "fitted")}</div>`;
+    `${GARMENTS.map(btn).join("")}</div>`;
 }
 
 /** The Edit-view hint + Reset (freeform edits are a manual override, not parametric). */
@@ -172,9 +172,10 @@ export function editorHintMarkup(): string {
     `Reset to draft</button></div>`;
 }
 
-/** Fabric-width input for the nesting estimator (a cutting setting, not a body number). */
+/** Fabric-width input for the nesting estimator (a cutting setting, not a body number).
+ *  Wrapped in an id'd host so the app can hide it in views where it does nothing. */
 export function fabricWidthMarkup(width: number): string {
-  return `<div style="display:flex;gap:8px;align-items:center;margin:4px 0">` +
+  return `<div id="fabric-width-host" style="display:none;gap:8px;align-items:center;margin:4px 0">` +
     `<span style="font-size:11px;color:${T.label};text-transform:uppercase;letter-spacing:0.04em;` +
     `margin-right:4px">Fabric width</span>` +
     `<input id="fabric-width" type="number" value="${width}" min="30" max="300" step="1" ` +

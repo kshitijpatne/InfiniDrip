@@ -2,7 +2,7 @@
 // returns plain-English notes about whether the pattern is sound. Every check
 // is a small, enforceable fact about a valid t-shirt — no guessing.
 
-import { Measurements, TshirtBlock, draftTshirt, edgeLength, pieceEdge } from "../drafting";
+import { Measurements, Block, edgeLength, pieceEdge } from "../drafting";
 
 export type Level = "ok" | "info" | "warn";
 
@@ -12,7 +12,7 @@ export interface Note {
 }
 
 /** The headline check: does the sleeve cap match the armhole it sews into? */
-export function armholeMatch(block: TshirtBlock): Note {
+export function armholeMatch(block: Block): Note {
   const armhole =
     edgeLength(pieceEdge(block.front, "armhole")) +
     edgeLength(pieceEdge(block.back, "armhole"));
@@ -74,9 +74,8 @@ export function shoulderCheck(m: Measurements): Note | null {
   return null;
 }
 
-/** Run every check against a set of measurements and collect what matters. */
-export function guide(m: Measurements): Note[] {
-  const block: TshirtBlock = draftTshirt(m);
+/** Run every check against a drafted block and its measurements. */
+export function guide(m: Measurements, block: Block): Note[] {
   const notes: (Note | null)[] = [
     armholeMatch(block),
     easeRange(m),

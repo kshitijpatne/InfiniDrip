@@ -7,7 +7,7 @@ import { pieceToPath, pieceBounds } from "./shape";
 import { seamAllowancePath } from "./allowance";
 import { BLUEPRINT as T } from "./theme";
 import { resolveNotch, resolveGrainline, notchSvg, grainlineSvg } from "./notch";
-import { TSHIRT_NOTCHES } from "../drafting/tshirt-notches";
+import { PieceNotches } from "../drafting/tshirt-notches";
 import { dartOf } from "../drafting";
 
 const round = (n: number): number => Math.round(n * 1000) / 1000;
@@ -63,7 +63,7 @@ function foldMark(x: number, top: number, height: number): string {
          svgText(x + 1.6, top + height / 2, "FOLD", T.marker, 2.2);
 }
 
-function renderPiece(p: Placed, isActive: boolean): string {
+function renderPiece(p: Placed, isActive: boolean, notchTable: readonly PieceNotches[]): string {
   const stroke = isActive ? T.lineActive : T.line;
   const fill = isActive ? T.fillActive : T.fill;
   const path = `<path d="${pieceToPath(p.piece)}" fill="${fill}" stroke="${stroke}" ` +
@@ -72,7 +72,7 @@ function renderPiece(p: Placed, isActive: boolean): string {
     `stroke="${T.marker}" stroke-width="1" stroke-dasharray="2 2" opacity="0.55" ` +
     `vector-effect="non-scaling-stroke"/>`;
 
-  const recipe = TSHIRT_NOTCHES.find((r) => r.pieceName === p.piece.name);
+  const recipe = notchTable.find((r) => r.pieceName === p.piece.name);
   const notches = recipe
     ? recipe.notches.map((rule) => {
         const n = resolveNotch(p.piece, rule);
@@ -111,13 +111,15 @@ function buildGrid(width: number, height: number): string {
 
 export interface RenderOptions {
   readonly active?: string; // name of the piece to highlight
+  readonly notches?: readonly PieceNotches[]; // the garment's notch/grain rules
 }
 
 /** Render a set of pieces as one Blueprint-themed SVG string. */
 export function renderBlueprint(pieces: readonly Piece[], options: RenderOptions = {}): string {
   const active = options.active ?? (pieces.length > 0 ? pieces[0].name : "");
+  const notchTable = options.notches ?? [];
   const { placed, width, height } = place(pieces);
-  const body = placed.map((p) => renderPiece(p, p.piece.name === active)).join("");
+  const body = placed.map((p) => renderPiece(p, p.piece.name === active, notchTable)).join("");
   return `<svg viewBox="0 0 ${round(width)} ${round(height)}" width="100%" ` +
     `xmlns="http://www.w3.org/2000/svg" style="background:${T.background};border-radius:8px">` +
     `<rect x="0" y="0" width="${round(width)}" height="${round(height)}" fill="${T.background}"/>` +

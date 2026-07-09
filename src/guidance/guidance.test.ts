@@ -1,11 +1,13 @@
 import { describe, it, expect } from "vitest";
 import { point } from "../geometry";
-import { Piece, TshirtBlock, STANDARD_M } from "../drafting";
+import { Piece, Block, STANDARD_M, draftTshirt } from "../drafting";
+
+const BAD_M = { ...STANDARD_M, ease: 2, armholeDepth: 10 };
 import { armholeMatch, easeRange, armholeDepthCheck, shoulderCheck, guide } from "./guidance";
 
 // Build a tiny fake block whose armhole and cap edges have chosen lengths,
 // so we can drive armholeMatch into each outcome deterministically.
-function blockWith(armholeHalf: number, capHalf: number): TshirtBlock {
+function blockWith(armholeHalf: number, capHalf: number): Block {
   const armPiece = (name: string, len: number): Piece => ({
     name, onFold: true,
     edges: [{ kind: "line", name: "armhole", start: point(0, 0), end: point(0, len) }],
@@ -70,12 +72,12 @@ describe("shoulderCheck", () => {
 
 describe("guide", () => {
   it("gives the standard block a clean bill (cap matches, no warnings)", () => {
-    const notes = guide(STANDARD_M);
+    const notes = guide(STANDARD_M, draftTshirt(STANDARD_M));
     expect(notes).toHaveLength(1);          // only the OK match note
     expect(notes[0].level).toBe("ok");
   });
   it("collects multiple notes when several things are off", () => {
-    const notes = guide({ ...STANDARD_M, ease: 2, armholeDepth: 10 });
+    const notes = guide(BAD_M, draftTshirt(BAD_M));
     const levels = notes.map((n) => n.level);
     expect(levels).toContain("warn");
     expect(notes.length).toBeGreaterThan(1);

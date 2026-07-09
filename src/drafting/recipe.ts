@@ -1,0 +1,71 @@
+// A garment recipe: everything that is specific to ONE garment, in one object.
+//
+// This is the seam between engine and recipe made explicit. The engine (grading,
+// POM, checker, render, export, UI) takes a GarmentRecipe and works — it never
+// mentions "t-shirt" again. Adding a garment means adding a recipe here, not
+// touching any engine file.
+
+import { Measurements } from "./measurements";
+import { Block } from "./block";
+import { Pom } from "./pom";
+import { GradeRule, SizeStep } from "./grading";
+import { PieceNotches } from "./tshirt-notches";
+import { draftTshirt } from "./tshirt";
+import { draftFitted } from "./fitted";
+import { TSHIRT_NOTCHES } from "./tshirt-notches";
+import { TSHIRT_POMS } from "./tshirt-pom";
+import { TSHIRT_GRADE, TSHIRT_SIZES } from "./tshirt-grade";
+import { FITTED_NOTCHES, FITTED_POMS } from "./fitted-tables";
+
+/**
+ * The garment facts the production-readiness checker needs, which it cannot
+ * infer from geometry alone.
+ *  - frontSideEdges: the front edge(s) that together make the side seam. A darted
+ *    front splits its side around the dart mouth, so it names two.
+ *  - hemSquareToFold: only a *trued* hem meets the fold at a right angle. An
+ *    untrued darted front slants at the side by design, so it opts out.
+ */
+export interface CheckSpec {
+  readonly frontSideEdges: readonly string[];
+  readonly hemSquareToFold: boolean;
+}
+
+export interface GarmentRecipe {
+  readonly name: string;  // stable id, e.g. "tee"
+  readonly label: string; // what the UI shows, e.g. "Tee"
+  readonly draft: (m: Measurements) => Block;
+  readonly notches: readonly PieceNotches[];
+  readonly poms: readonly Pom[];
+  readonly grade: GradeRule;
+  readonly sizes: readonly SizeStep[];
+  readonly checks: CheckSpec;
+}
+
+export const TEE: GarmentRecipe = {
+  name: "tee",
+  label: "Tee",
+  draft: draftTshirt,
+  notches: TSHIRT_NOTCHES,
+  poms: TSHIRT_POMS,
+  grade: TSHIRT_GRADE,
+  sizes: TSHIRT_SIZES,
+  checks: { frontSideEdges: ["side"], hemSquareToFold: true },
+};
+
+export const FITTED: GarmentRecipe = {
+  name: "fitted",
+  label: "Fitted",
+  draft: draftFitted,
+  notches: FITTED_NOTCHES,
+  poms: FITTED_POMS,
+  grade: TSHIRT_GRADE, // the same body grade drives both garments
+  sizes: TSHIRT_SIZES,
+  checks: { frontSideEdges: ["sideUpper", "sideLower"], hemSquareToFold: false },
+};
+
+export const GARMENTS: readonly GarmentRecipe[] = [TEE, FITTED];
+
+/** Look a recipe up by its stable id; falls back to the tee. */
+export function garmentByName(name: string): GarmentRecipe {
+  return GARMENTS.find((g) => g.name === name) ?? TEE;
+}

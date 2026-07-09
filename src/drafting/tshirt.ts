@@ -14,6 +14,7 @@
 import { point, CubicBezier, cubicLength } from "../geometry";
 import { Measurements, derive } from "./measurements";
 import { Edge, Piece, edgeLength, pieceEdge } from "./piece";
+import { Block } from "./block";
 
 export function draftFront(m: Measurements): Piece {
   const d = derive(m);
@@ -138,13 +139,7 @@ export function draftSleeve(m: Measurements): Piece {
   return { name: "sleeve", onFold: false, edges };
 }
 
-export interface TshirtBlock {
-  readonly front: Piece;
-  readonly back: Piece;
-  readonly sleeve: Piece;
-}
-
 /** Draft a complete t-shirt block from one set of measurements. */
-export function draftTshirt(m: Measurements): TshirtBlock {
+export function draftTshirt(m: Measurements): Block {
   return { front: draftFront(m), back: draftBack(m), sleeve: draftSleeve(m) };
 }

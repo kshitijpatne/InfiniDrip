@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { STANDARD_M } from "./measurements";
 import { draftFront, draftBack, draftSleeve } from "./tshirt";
 import { draftFittedFront, draftFitted } from "./fitted";
-import { pieceEdge, edgeStart, edgeEnd } from "./piece";
+import { pieceEdge, edgeStart, edgeEnd, edgeLength } from "./piece";
 
 describe("draftFittedFront", () => {
   const f = draftFittedFront(STANDARD_M);
@@ -22,11 +22,23 @@ describe("draftFittedFront", () => {
     expect(edgeEnd(upper).x).toBeLessThan(edgeStart(upper).x);
   });
 
-  it("reuses the tee front's neckline, shoulder, armhole, hem and centre edges", () => {
+  it("reuses the tee front's neckline, shoulder and armhole verbatim", () => {
     const tee = draftFront(STANDARD_M);
-    for (const name of ["neckline", "shoulder", "armhole", "hem", "centerFront"]) {
+    for (const name of ["neckline", "shoulder", "armhole"]) {
       expect(pieceEdge(f, name)).toEqual(pieceEdge(tee, name));
     }
+  });
+
+  it("lengthens the side seam by the dart intake so it matches the back once sewn", () => {
+    const back = draftBack(STANDARD_M);
+    const frontSide =
+      edgeLength(pieceEdge(f, "sideUpper")) + edgeLength(pieceEdge(f, "sideLower"));
+    expect(frontSide).toBeCloseTo(edgeLength(pieceEdge(back, "side")), 6);
+  });
+
+  it("gives the dart two equal legs, so it closes cleanly", () => {
+    expect(edgeLength(pieceEdge(f, "bustDartUpper")))
+      .toBeCloseTo(edgeLength(pieceEdge(f, "bustDartLower")), 6);
   });
 });
 

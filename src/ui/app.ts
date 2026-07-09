@@ -2,14 +2,14 @@
 // change re-draft, re-render the canvas, garment, guidance, and style. All real
 // logic lives in the pure modules.
 
-import { Measurements, STANDARD_M, draftTshirt, draftFitted, Piece, STRETCH_FABRICS, fabricEaseNote } from "../drafting";
-import { gradeRun, TSHIRT_GRADE, TSHIRT_SIZES, specSheet, TSHIRT_POMS } from "../drafting";
+import { Measurements, STANDARD_M, Piece, STRETCH_FABRICS, fabricEaseNote } from "../drafting";
+import { gradeRun, specSheet, GARMENTS, GarmentRecipe, garmentByName } from "../drafting";
 import { exportSvg, exportDxf, exportPdf, flattenPiece, nestPieces } from "../export";
 import { renderBlueprint, renderGarment, renderNest, renderFabricNest, renderEditor, DEFAULT_FABRIC } from "../render";
 import { pieceHandles, moveHandle, nearestHandle, editorViewBox, viewboxPointToCm, Handle } from "../edit";
 import { BLUEPRINT } from "../render";
 import { guide, Note } from "../guidance";
-import { tshirtReport } from "../guidance";
+import { garmentReport } from "../guidance";
 import { matchStyle, styleNames } from "../style";
 import { FIELDS, applyChange } from "./controls";
 import { appShellMarkup, guidanceMarkup, styleMarkup, specTableMarkup, checkMarkup, editorHintMarkup } from "./view";
@@ -25,11 +25,12 @@ export function mountApp(root: HTMLElement): void {
   const garmentHost = root.querySelector<HTMLDivElement>("#garment-host")!;
   const guidanceHost = root.querySelector<HTMLDivElement>("#guidance-host")!;
   const styleHost = root.querySelector<HTMLDivElement>("#style-host")!;
+  const fabricWidthHost = root.querySelector<HTMLDivElement>("#fabric-width-host")!;
 
   let targetStyle = "Classic tee"; // the declared fit target (sets nothing)
   let stretchFabric = STRETCH_FABRICS[0]; // drives the ease guidance note
   let view: "pattern" | "nest" | "spec" | "fabric" | "check" | "edit" = "pattern";
-  let garment: "tee" | "fitted" = "tee"; // which recipe the Pattern view drafts
+  let recipe: GarmentRecipe = GARMENTS[0]; // the garment every view is built from
   let editedFront: Piece | null = null; // freeform snapshot of the front (override, not parametric)
   let dragId: string | null = null; // handle being dragged
   let selectedId: string | null = null; // handle highlighted in the editor
@@ -37,35 +38,38 @@ export function mountApp(root: HTMLElement): void {
   const ALLOWANCE = 1; // cm seam allowance, shared by nesting and the exports
 
   const draw = (): void => {
+    fabricWidthHost.style.display = view === "fabric" ? "flex" : "none";
     if (view === "nest") {
-      canvasHost.innerHTML = renderNest(gradeRun(measurements, TSHIRT_GRADE, TSHIRT_SIZES));
+      canvasHost.innerHTML = renderNest(
+        gradeRun(measurements, recipe.grade, recipe.sizes, recipe.draft));
     } else if (view === "fabric") {
-      const block = draftTshirt(measurements);
+      const block = recipe.draft(measurements);
       const flats = [block.front, block.back, block.sleeve].map((p) => flattenPiece(p, ALLOWANCE));
       const nest = nestPieces(flats, fabricWidth);
       canvasHost.innerHTML = renderFabricNest(
         nest.placed, nest.fabricWidth, nest.fabricLength, nest.utilization, nest.fits);
     } else if (view === "check") {
-      canvasHost.innerHTML = checkMarkup(tshirtReport(measurements));
+      canvasHost.innerHTML = checkMarkup(garmentReport(recipe, measurements));
     } else if (view === "edit") {
       const piece = editedFront!;
       const vb = editorViewBox(piece);
       canvasHost.innerHTML =
         renderEditor(piece, pieceHandles(piece), vb, selectedId) + editorHintMarkup();
     } else if (view === "spec") {
-      const graded = gradeRun(measurements, TSHIRT_GRADE, TSHIRT_SIZES);
+      const graded = gradeRun(measurements, recipe.grade, recipe.sizes, recipe.draft);
       const baseIndex = graded.findIndex((g) => g.step === 0);
       canvasHost.innerHTML = specTableMarkup(
-        specSheet(graded, TSHIRT_POMS), graded.map((g) => g.label), baseIndex);
+        specSheet(graded, recipe.poms), graded.map((g) => g.label), baseIndex);
     } else {
-      const block = garment === "fitted" ? draftFitted(measurements) : draftTshirt(measurements);
+      const block = recipe.draft(measurements);
       canvasHost.innerHTML = renderBlueprint(
-        [block.front, block.back, block.sleeve], { active: block.front.name });
+        [block.front, block.back, block.sleeve],
+        { active: block.front.name, notches: recipe.notches });
     }
     garmentHost.innerHTML = renderGarment(measurements, fabric);
     // Guidance = the geometry checks, plus a fabric-stretch ease note (advice only).
     const fabricNote: Note = { level: "info", text: fabricEaseNote(stretchFabric, measurements.chest) };
-    guidanceHost.innerHTML = guidanceMarkup([...guide(measurements), fabricNote]);
+    guidanceHost.innerHTML = guidanceMarkup([...guide(measurements, recipe.draft(measurements)), fabricNote]);
     // Style = prescriptive: the gap from current measurements to the chosen target.
     styleHost.innerHTML = styleMarkup(targetStyle, matchStyle(measurements, targetStyle), styleNames());
   };
@@ -80,7 +84,7 @@ export function mountApp(root: HTMLElement): void {
     edit: root.querySelector<HTMLButtonElement>("#view-edit")!,
   };
   const setView = (v: "pattern" | "nest" | "spec" | "fabric" | "check" | "edit"): void => {
-    if (v === "edit" && editedFront === null) editedFront = draftTshirt(measurements).front;
+    if (v === "edit" && editedFront === null) editedFront = recipe.draft(measurements).front;
     view = v;
     (["pattern", "nest", "spec", "fabric", "check", "edit"] as const).forEach((k) => {
       const on = k === v;
@@ -124,27 +128,29 @@ export function mountApp(root: HTMLElement): void {
   window.addEventListener("mouseup", () => { dragId = null; });
   canvasHost.addEventListener("click", (e) => {
     if ((e.target as HTMLElement).id === "editor-reset") {
-      editedFront = draftTshirt(measurements).front;
+      editedFront = recipe.draft(measurements).front;
       selectedId = null;
       draw();
     }
   });
 
-  const garmentBtns = {
-    tee: root.querySelector<HTMLButtonElement>("#garment-tee")!,
-    fitted: root.querySelector<HTMLButtonElement>("#garment-fitted")!,
-  };
-  const setGarment = (g: "tee" | "fitted"): void => {
-    garment = g;
-    (["tee", "fitted"] as const).forEach((k) => {
-      const on = k === g;
-      garmentBtns[k].style.background = on ? BLUEPRINT.lineActive : BLUEPRINT.background;
-      garmentBtns[k].style.color = on ? BLUEPRINT.background : BLUEPRINT.line;
+  const setGarment = (name: string): void => {
+    recipe = garmentByName(name);
+    GARMENTS.forEach((g) => {
+      const btn = root.querySelector<HTMLButtonElement>(`#garment-${g.name}`)!;
+      const on = g.name === recipe.name;
+      btn.style.background = on ? BLUEPRINT.lineActive : BLUEPRINT.background;
+      btn.style.color = on ? BLUEPRINT.background : BLUEPRINT.line;
     });
-    if (view === "pattern") draw();
+    editedFront = null; // a new garment invalidates the freeform snapshot
+    selectedId = null;
+    if (view === "edit") editedFront = recipe.draft(measurements).front;
+    draw();
   };
-  garmentBtns.tee.addEventListener("click", () => setGarment("tee"));
-  garmentBtns.fitted.addEventListener("click", () => setGarment("fitted"));
+  GARMENTS.forEach((g) => {
+    root.querySelector<HTMLButtonElement>(`#garment-${g.name}`)!
+      .addEventListener("click", () => setGarment(g.name));
+  });
 
   const widthInput = root.querySelector<HTMLInputElement>("#fabric-width")!;
   widthInput.addEventListener("input", () => {
@@ -194,7 +200,7 @@ export function mountApp(root: HTMLElement): void {
   });
 
   const exportPieces = (): Piece[] => {
-    const block = draftTshirt(measurements);
+    const block = recipe.draft(measurements);
     return [block.front, block.back, block.sleeve];
   };
   const download = (filename: string, text: string, mime: string): void => {
@@ -206,13 +212,13 @@ export function mountApp(root: HTMLElement): void {
     URL.revokeObjectURL(url);
   };
   root.querySelector<HTMLButtonElement>("#export-svg")!.addEventListener("click", () => {
-    download("tshirt.svg", exportSvg(exportPieces(), ALLOWANCE), "image/svg+xml");
+    download(`${recipe.name}.svg`, exportSvg(exportPieces(), ALLOWANCE, recipe.notches), "image/svg+xml");
   });
   root.querySelector<HTMLButtonElement>("#export-dxf")!.addEventListener("click", () => {
-    download("tshirt.dxf", exportDxf(exportPieces(), ALLOWANCE), "image/vnd.dxf");
+    download(`${recipe.name}.dxf`, exportDxf(exportPieces(), ALLOWANCE), "image/vnd.dxf");
   });
   root.querySelector<HTMLButtonElement>("#export-pdf")!.addEventListener("click", () => {
-    download("tshirt.pdf", exportPdf(exportPieces(), ALLOWANCE), "application/pdf");
+    download(`${recipe.name}.pdf`, exportPdf(exportPieces(), ALLOWANCE), "application/pdf");
   });
 
   const statusEl = root.querySelector<HTMLSpanElement>("#persist-status")!;

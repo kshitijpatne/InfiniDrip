@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+import { draftTshirt } from "./tshirt";
 import { STANDARD_M } from "./measurements";
 import { gradeMeasurements, gradeRun, GradeRule, SizeStep } from "./grading";
 import { TSHIRT_GRADE, TSHIRT_SIZES } from "./tshirt-grade";
@@ -42,7 +43,7 @@ describe("gradeMeasurements", () => {
 
 describe("gradeRun", () => {
   it("produces one drafted block per size, in order", () => {
-    const run = gradeRun(STANDARD_M, rule, sizes);
+    const run = gradeRun(STANDARD_M, rule, sizes, draftTshirt);
     expect(run.map((g) => g.label)).toEqual(["S", "M", "L"]);
     for (const g of run) {
       expect(g.block.front.edges.length).toBeGreaterThan(0);
@@ -51,14 +52,14 @@ describe("gradeRun", () => {
   });
 
   it("grows monotonically with size (chest width increases each step up)", () => {
-    const run = gradeRun(STANDARD_M, rule, sizes);
+    const run = gradeRun(STANDARD_M, rule, sizes, draftTshirt);
     const chests = run.map((g) => g.measurements.chest);
     expect(chests[0]).toBeLessThan(chests[1]);
     expect(chests[1]).toBeLessThan(chests[2]);
   });
 
   it("uses the real tee recipe to make a five-size run with M as base", () => {
-    const run = gradeRun(STANDARD_M, TSHIRT_GRADE, TSHIRT_SIZES);
+    const run = gradeRun(STANDARD_M, TSHIRT_GRADE, TSHIRT_SIZES, draftTshirt);
     expect(run.map((g) => g.label)).toEqual(["XS", "S", "M", "L", "XL"]);
     const base = run.find((g) => g.step === 0)!;
     expect(base.measurements).toEqual(STANDARD_M);
@@ -67,7 +68,7 @@ describe("gradeRun", () => {
 
 describe("notches carry free across the grade", () => {
   it("regrades a notch automatically: same rule, position scales with the size", () => {
-    const run = gradeRun(STANDARD_M, TSHIRT_GRADE, TSHIRT_SIZES);
+    const run = gradeRun(STANDARD_M, TSHIRT_GRADE, TSHIRT_SIZES, draftTshirt);
     const small = run[0].block.front; // XS
     const large = run[run.length - 1].block.front; // XL
     const ruleNotch = { edgeName: "shoulder", t: 0.5 };

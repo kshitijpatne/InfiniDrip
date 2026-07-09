@@ -57,7 +57,7 @@ describe("mountApp", () => {
     root.querySelector<HTMLButtonElement>("#export-svg")!.dispatchEvent(new Event("click"));
     root.querySelector<HTMLButtonElement>("#export-dxf")!.dispatchEvent(new Event("click"));
     root.querySelector<HTMLButtonElement>("#export-pdf")!.dispatchEvent(new Event("click"));
-    expect(created).toEqual(["tshirt.svg", "tshirt.dxf", "tshirt.pdf"]);
+    expect(created).toEqual(["tee.svg", "tee.dxf", "tee.pdf"]);
     expect(URL.createObjectURL).toHaveBeenCalledTimes(3);
   });
 
@@ -260,24 +260,61 @@ describe("mountApp", () => {
 });
 
 describe("garment toggle", () => {
+  const host = (root: HTMLElement): string => root.querySelector("#canvas-host")!.innerHTML;
+  const pick = (root: HTMLElement, id: string): void => {
+    root.querySelector<HTMLButtonElement>(id)!.dispatchEvent(new Event("click"));
+  };
+
   it("swaps the Pattern view to the darted fitted front and back to the tee", () => {
     localStorage.clear();
     const root = mount();
-    const host = (): string => root.querySelector("#canvas-host")!.innerHTML;
-    expect(host()).not.toContain('r="0.9"'); // tee front: no dart apex mark
-    root.querySelector<HTMLButtonElement>("#garment-fitted")!.dispatchEvent(new Event("click"));
-    expect(host()).toContain('r="0.9"'); // fitted front: apex marked
-    expect(host()).toContain("FITTED FRONT");
-    root.querySelector<HTMLButtonElement>("#garment-tee")!.dispatchEvent(new Event("click"));
-    expect(host()).not.toContain('r="0.9"'); // back to the tee
+    expect(host(root)).not.toContain('r="0.9"'); // tee front: no dart apex mark
+    pick(root, "#garment-fitted");
+    expect(host(root)).toContain('r="0.9"'); // fitted front: apex marked
+    expect(host(root)).toContain("FITTED FRONT");
+    pick(root, "#garment-tee");
+    expect(host(root)).not.toContain('r="0.9"');
   });
 
-  it("leaves other views on the tee even when Fitted is selected", () => {
+  it("carries the garment through the Spec view (the fitted sheet reports its dart)", () => {
     localStorage.clear();
     const root = mount();
-    root.querySelector<HTMLButtonElement>("#garment-fitted")!.dispatchEvent(new Event("click"));
-    // switching to a non-pattern view is unaffected by the garment choice
+    pick(root, "#view-spec");
+    expect(host(root)).not.toContain("Bust dart intake");
+    pick(root, "#garment-fitted");
+    expect(host(root)).toContain("Bust dart intake");
+  });
+
+  it("carries the garment through the Check view (the fitted report checks its dart)", () => {
+    localStorage.clear();
+    const root = mount();
+    pick(root, "#view-check");
+    expect(host(root)).not.toContain("Dart legs equal");
+    pick(root, "#garment-fitted");
+    expect(host(root)).toContain("Dart legs equal");
+    expect(host(root)).toContain("Ready to cut"); // the fitted block is sewable
+  });
+
+  it("re-snapshots the freeform editor when the garment changes", () => {
+    localStorage.clear();
+    const root = mount();
+    pick(root, "#view-edit");
+    const teeEditor = host(root);
+    pick(root, "#garment-fitted");
+    expect(host(root)).not.toBe(teeEditor); // now editing the fitted front
+    expect(host(root)).toContain("editor-reset");
+  });
+});
+
+describe("fabric width visibility", () => {
+  it("shows the bolt-width box only in the Nesting view, where it does something", () => {
+    localStorage.clear();
+    const root = mount();
+    const box = root.querySelector<HTMLDivElement>("#fabric-width-host")!;
+    expect(box.style.display).toBe("none"); // Pattern view
+    root.querySelector<HTMLButtonElement>("#view-fabric")!.dispatchEvent(new Event("click"));
+    expect(box.style.display).toBe("flex");
     root.querySelector<HTMLButtonElement>("#view-spec")!.dispatchEvent(new Event("click"));
-    expect(root.querySelector("#canvas-host")!.innerHTML).not.toContain("FITTED FRONT");
+    expect(box.style.display).toBe("none");
   });
 });

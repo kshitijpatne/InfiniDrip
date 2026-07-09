@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { STANDARD_M } from "../drafting";
+import { STANDARD_M, GARMENTS } from "../drafting";
 import { garmentToggleMarkup } from "./view";
 import { DEFAULT_FABRIC, BLUEPRINT } from "../render";
 import { matchStyle, styleNames } from "../style";
@@ -152,12 +152,18 @@ describe("styleMarkup", () => {
 });
 
 describe("garmentToggleMarkup", () => {
-  it("offers Tee and Fitted, highlighting the active one", () => {
+  it("renders a button for every registered garment, highlighting the active one", () => {
     const html = garmentToggleMarkup("fitted");
-    expect(html).toContain('id="garment-tee"');
-    expect(html).toContain('id="garment-fitted"');
-    expect(html).toContain(">Tee<");
-    expect(html).toContain(">Fitted<");
+    for (const g of GARMENTS) {
+      expect(html).toContain(`id="garment-${g.name}"`);
+      expect(html).toContain(`>${g.label}<`);
+    }
+  });
+});
+
+describe("fabricWidthMarkup", () => {
+  it("wraps the box in a host the app can hide", () => {
+    expect(fabricWidthMarkup(150)).toContain('id="fabric-width-host"');
   });
 });
 

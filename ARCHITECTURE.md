@@ -111,12 +111,14 @@ the parametric core stays consistent everywhere else.
   geometry/   points, distance, Bézier + curve length
   drafting/   measurements -> pieces; t-shirt recipe; notch rules; fabric/ease
               guidance; grading engine + grade table; POM measuring + POM list;
-              dart engine (dart.ts) + fitted/darted recipe (fitted.ts)
+              dart engine (dart.ts) + fitted/darted recipe (fitted.ts);
+              the garment registry (recipe.ts) + the shared Block type (block.ts)
   render/     pieces -> SVG string; seam allowance; notches + grainlines; graded
               nest; fabric nest; freeform editor; garment view; theme
   export/     pieces -> true-scale cutting files (SVG, DXF, tiled PDF); shared
               layout spine; nesting estimator (shelf pack + utilization)
-  guidance/   tape-measure checks; production-readiness checker (engine + recipe)
+  guidance/   tape-measure checks; production-readiness checker, recipe-driven
+              (check.ts primitives + garment-check.ts)
   style/      style table; target-fit gap (prescriptive)
   edit/       freeform edit engine: handles, moveHandle, hit-test, viewbox/pointer
   ui/         the impure shell; sliders, fabric + style selectors, a Tee/Fitted
@@ -139,13 +141,14 @@ Two kinds of code live here. The **engine** doesn't care what garment it is —
 geometry, the Piece/Edge model, the renderer, seam allowance, the notch engine
 (`notch.ts`), the grading loop (`grading.ts`), the POM query helpers (`pom.ts`),
 the nest renderers (`nest.ts`, `fabric.ts`), export + the nesting estimator, the
-checker primitives (`check.ts`), the freeform edit engine (`edit/`), and the dart
-engine (`dart.ts`). The
+checker primitives (`check.ts`), the recipe-driven report (`garment-check.ts`), the
+freeform edit engine (`edit/`), and the dart engine (`dart.ts`). The
 **recipe** is the garment-specific part — the drafting math, the guidance rules,
 the style table, the notch rules (`tshirt-notches.ts`), the fabric/ease guidance
 (`ease.ts`), the grade increments (`tshirt-grade.ts`), the POM list
-(`tshirt-pom.ts`), the checker's edge-pairs + thresholds (`tshirt-check.ts`), and
-the fitted/darted front (`fitted.ts`).
+(`tshirt-pom.ts`), the fitted/darted front (`fitted.ts` + `fitted-tables.ts`), and
+the per-garment check spec. All of it is bundled into one `GarmentRecipe`
+(`recipe.ts`), which is the only thing the engine is handed.
 
 Adding a new garment = writing a new recipe that plugs into the same engine, not
 building a new app. (One known engine spot still tee-shaped: the POM query type
@@ -172,10 +175,14 @@ the Pattern view.
   packaging: a flat sketch with callout leaders, a PDF doc writer on the export
   spine, and editable BOM/construction stubs. New writer on the export spine.
 - **Fitted/darted recipe (19) — built.** The dart is baked into the outline as two
-  named leg edges meeting at the apex, so the apex is a real vertex Slice 20 can
-  rotate. Wired to the Pattern view only; grading/spec/nest/check/edit/export and the
-  `Pom` `TshirtBlock` type stay tee-shaped until a later slice generalises them.
-- **Dart manipulation (20).** Rotating a wedge around the apex — a pure engine
+  named leg edges meeting at the apex, so the apex is a real vertex dart manipulation
+  can rotate.
+- **Garment generalization (20) — built.** A `GarmentRecipe` (`drafting/recipe.ts`)
+  bundles the draft fn, notch table, POM list, grade rule, size run, and check spec.
+  Every view reads it; `gradeRun` takes the draft fn; `Pom.measure` takes the shared
+  `Block`; `renderBlueprint` and `exportSvg` take notches as a parameter instead of
+  importing the tee's table. Adding a garment touches no engine file.
+- **Dart manipulation (21).** Rotating a wedge around the apex — a pure engine
   *primitive* built on `moveHandle`, with "fit is conserved" as a free invariant —
-  driven by the editor, operating on the darted recipe. That triple dependency
-  (primitive + editor + darted garment) is why it comes last.
+  driven by the editor, operating on the darted recipe. Dart **truing** (levelling
+  the untrued front hem once the dart closes) belongs here.

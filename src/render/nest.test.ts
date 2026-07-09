@@ -1,9 +1,9 @@
 import { describe, it, expect } from "vitest";
 import { STANDARD_M } from "../drafting";
-import { gradeRun, TSHIRT_GRADE, TSHIRT_SIZES } from "../drafting";
+import { gradeRun, TSHIRT_GRADE, TSHIRT_SIZES, draftTshirt } from "../drafting";
 import { renderNest } from "./nest";
 
-const run = gradeRun(STANDARD_M, TSHIRT_GRADE, TSHIRT_SIZES);
+const run = gradeRun(STANDARD_M, TSHIRT_GRADE, TSHIRT_SIZES, draftTshirt);
 
 describe("renderNest", () => {
   const svg = renderNest(run);
@@ -35,7 +35,7 @@ describe("renderNest", () => {
   });
 
   it("handles a single-size run without dividing by zero in the colour ramp", () => {
-    const one = gradeRun(STANDARD_M, TSHIRT_GRADE, [{ label: "M", step: 0 }]);
+    const one = gradeRun(STANDARD_M, TSHIRT_GRADE, [{ label: "M", step: 0 }], draftTshirt);
     const single = renderNest(one);
     expect(single.startsWith("<svg")).toBe(true);
     expect((single.match(/<path /g) || []).length).toBe(3); // 1 size × 3 pieces

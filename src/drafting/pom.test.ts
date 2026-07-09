@@ -50,7 +50,7 @@ describe("TSHIRT_POMS", () => {
 });
 
 describe("specSheet", () => {
-  const graded = gradeRun(STANDARD_M, TSHIRT_GRADE, TSHIRT_SIZES);
+  const graded = gradeRun(STANDARD_M, TSHIRT_GRADE, TSHIRT_SIZES, draftTshirt);
   const rows = specSheet(graded, TSHIRT_POMS);
 
   it("has one row per POM and one value per size", () => {
