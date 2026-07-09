@@ -108,7 +108,7 @@ the parametric core stays consistent everywhere else.
 
 ## Where things live
 
-  geometry/   points, distance, Bézier + curve length
+  geometry/   points, distance, Bézier + curve length; rotation about a pivot
   drafting/   measurements -> pieces; t-shirt recipe; notch rules; fabric/ease
               guidance; grading engine + grade table; POM measuring + POM list;
               dart engine (dart.ts) + fitted/darted recipe (fitted.ts);
@@ -182,7 +182,12 @@ the Pattern view.
   Every view reads it; `gradeRun` takes the draft fn; `Pom.measure` takes the shared
   `Block`; `renderBlueprint` and `exportSvg` take notches as a parameter instead of
   importing the tee's table. Adding a garment touches no engine file.
-- **Dart manipulation (21).** Rotating a wedge around the apex — a pure engine
-  *primitive* built on `moveHandle`, with "fit is conserved" as a free invariant —
-  driven by the editor, operating on the darted recipe. Dart **truing** (levelling
-  the untrued front hem once the dart closes) belongs here.
+- **Dart manipulation + truing (21) — built.** `transferDart` pivots the wedge about
+  the apex onto another straight seam, anchoring the fold so it never moves; every
+  seam length survives (the conservation law, tested). `trueSeam` blends the corner
+  the old dart leaves behind. Both are pure engine in `drafting/dart.ts`, on top of
+  `geometry/rotate.ts`; the Edit view drives them.
+
+**What's left:** the deferred **tech-pack document (15b)** — a flat sketch with
+callout leaders, a PDF doc writer on the export spine, and editable BOM/construction
+stubs. Then the later features: 2D body view → photo→pattern → upcycle planner.

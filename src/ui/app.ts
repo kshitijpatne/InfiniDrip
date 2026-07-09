@@ -7,12 +7,13 @@ import { gradeRun, specSheet, GARMENTS, GarmentRecipe, garmentByName } from "../
 import { exportSvg, exportDxf, exportPdf, flattenPiece, nestPieces } from "../export";
 import { renderBlueprint, renderGarment, renderNest, renderFabricNest, renderEditor, DEFAULT_FABRIC } from "../render";
 import { pieceHandles, moveHandle, nearestHandle, editorViewBox, viewboxPointToCm, Handle } from "../edit";
+import { dartOf, transferDart, trueSeam, edgesMeet } from "../drafting";
 import { BLUEPRINT } from "../render";
 import { guide, Note } from "../guidance";
 import { garmentReport } from "../guidance";
 import { matchStyle, styleNames } from "../style";
 import { FIELDS, applyChange } from "./controls";
-import { appShellMarkup, guidanceMarkup, styleMarkup, specTableMarkup, checkMarkup, editorHintMarkup } from "./view";
+import { appShellMarkup, guidanceMarkup, styleMarkup, specTableMarkup, checkMarkup, editorHintMarkup, dartControlsMarkup } from "./view";
 import { saveToStorage, loadFromStorage } from "./persist";
 
 export function mountApp(root: HTMLElement): void {
@@ -53,8 +54,16 @@ export function mountApp(root: HTMLElement): void {
     } else if (view === "edit") {
       const piece = editedFront!;
       const vb = editorViewBox(piece);
+      const hasDart = dartOf(piece) !== null;
+      // Truing consumes `sideLower`, so only offer it while both halves still exist
+      // AND the dart has moved off the side (leaving the two halves touching).
+      const sideSplit = ["sideUpper", "sideLower"].every((n) =>
+        piece.edges.some((e) => e.name === n));
+      const canTrue = hasDart && sideSplit && edgesMeet(piece, "sideUpper", "sideLower");
       canvasHost.innerHTML =
-        renderEditor(piece, pieceHandles(piece), vb, selectedId) + editorHintMarkup();
+        renderEditor(piece, pieceHandles(piece), vb, selectedId) +
+        editorHintMarkup() +
+        dartControlsMarkup(hasDart, canTrue);
     } else if (view === "spec") {
       const graded = gradeRun(measurements, recipe.grade, recipe.sizes, recipe.draft);
       const baseIndex = graded.findIndex((g) => g.step === 0);
@@ -126,9 +135,21 @@ export function mountApp(root: HTMLElement): void {
     draw();
   });
   window.addEventListener("mouseup", () => { dragId = null; });
+  // The dart tools pivot the snapshot about the apex. Like every edit-view change,
+  // they are a manual override: they never touch `measurements` or the recipe.
+  const DART_TOOLS: Record<string, (p: Piece) => Piece> = {
+    "dart-shoulder": (p) => transferDart(p, "shoulder", 0.5, "centerFront"),
+    "dart-hem": (p) => transferDart(p, "hem", 0.5, "centerFront"),
+    "dart-true": (p) => trueSeam(p, "sideUpper", "sideLower"),
+  };
   canvasHost.addEventListener("click", (e) => {
-    if ((e.target as HTMLElement).id === "editor-reset") {
+    const id = (e.target as HTMLElement).id;
+    if (id === "editor-reset") {
       editedFront = recipe.draft(measurements).front;
+      selectedId = null;
+      draw();
+    } else if (DART_TOOLS[id] && editedFront) {
+      editedFront = DART_TOOLS[id](editedFront);
       selectedId = null;
       draw();
     }

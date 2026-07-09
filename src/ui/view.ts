@@ -161,6 +161,22 @@ export function garmentToggleMarkup(active: string): string {
     `${GARMENTS.map(btn).join("")}</div>`;
 }
 
+/** Dart tools, shown only when the piece being edited actually has a dart.
+ *  Moving a dart is a pure pivot about the apex: same wedge, new seam, same fit.
+ *  Truing blends the corner the old dart leaves behind. */
+export function dartControlsMarkup(hasDart: boolean, canTrue: boolean): string {
+  if (!hasDart) return "";
+  const btn = (id: string, label: string): string =>
+    `<button id="${id}" style="padding:5px 10px;font-size:12px;cursor:pointer;` +
+    `background:${T.background};color:${T.line};border:1px solid ${BORDER};` +
+    `border-radius:5px">${label}</button>`;
+  const trueBtn = canTrue ? btn("dart-true", "True side seam") : "";
+  return `<div style="display:flex;gap:8px;align-items:center;margin-top:6px;font-size:12px;` +
+    `color:${T.label}">` +
+    `<span style="flex:1">Move the dart — same wedge, same fit, different seam.</span>` +
+    `${btn("dart-shoulder", "→ Shoulder")}${btn("dart-hem", "→ Hem")}${trueBtn}</div>`;
+}
+
 /** The Edit-view hint + Reset (freeform edits are a manual override, not parametric). */
 export function editorHintMarkup(): string {
   return `<div style="display:flex;gap:10px;align-items:center;margin-top:6px;font-size:12px;` +

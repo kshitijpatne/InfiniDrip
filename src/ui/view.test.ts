@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { STANDARD_M, GARMENTS } from "../drafting";
-import { garmentToggleMarkup } from "./view";
+import { garmentToggleMarkup, dartControlsMarkup } from "./view";
 import { DEFAULT_FABRIC, BLUEPRINT } from "../render";
 import { matchStyle, styleNames } from "../style";
 import { controlsMarkup, appShellMarkup, guidanceMarkup, styleMarkup, fabricSwatchesMarkup, specTableMarkup, viewToggleMarkup, fabricWidthMarkup, checkMarkup, editorHintMarkup } from "./view";
@@ -164,6 +164,23 @@ describe("garmentToggleMarkup", () => {
 describe("fabricWidthMarkup", () => {
   it("wraps the box in a host the app can hide", () => {
     expect(fabricWidthMarkup(150)).toContain('id="fabric-width-host"');
+  });
+});
+
+describe("dartControlsMarkup", () => {
+  it("shows nothing for a piece with no dart", () => {
+    expect(dartControlsMarkup(false, false)).toBe("");
+  });
+
+  it("offers the transfer targets for a darted piece", () => {
+    const html = dartControlsMarkup(true, false);
+    expect(html).toContain('id="dart-shoulder"');
+    expect(html).toContain('id="dart-hem"');
+    expect(html).not.toContain('id="dart-true"'); // side still split by the dart
+  });
+
+  it("offers truing once the side seam is continuous again", () => {
+    expect(dartControlsMarkup(true, true)).toContain('id="dart-true"');
   });
 });
 

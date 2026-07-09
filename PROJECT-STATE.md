@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 20. Update this after every slice (and commit it WITH the code)._
+_Last updated: after Slice 21. Update this after every slice (and commit it WITH the code)._
 
 ## What it is
 A lightweight, local 2D sewing-pattern designer in TypeScript. Type body
@@ -61,6 +61,9 @@ SLICES-BRIEF.md) are committed in the same commit as the code they describe.**
     grade, spec, nest, check, edit, export); the engine no longer names a t-shirt.
     Fixes the Slice 19 side-seam bug; adds the dart-leg check; hides the bolt-width
     box outside the Nesting view (285)
+21. dart manipulation + truing — pivot a dart about its apex onto another seam
+    (same wedge, same fit, different seam), then blend the corner it leaves behind;
+    driven from the Edit view (321)
 
 **Slice 13 note (design changed mid-build):** ease did NOT become an auto-applied
 pre-draft transform. Instead: (a) **fabric/ease is guidance only** — the app
@@ -124,6 +127,16 @@ thing it did on the fitted block was demand the seams match. `render/canvas.ts` 
 `export/svg.ts` no longer import the tee's notch table (a layering violation, now
 fixed — they take notches as a parameter).
 
+**Slice 21 note (what "truing" actually turned out to mean):** earlier notes said
+truing would *level the front hem*. Working the geometry showed that was imprecise.
+The dart's mouth sits on the side seam, so pivoting the dart away heals that seam —
+but leaves a **kink there of exactly the dart angle** (18.361° on the standard
+block). Truing is blending that kink straight, which costs ~4 mm of seam length.
+Dart tools live in the **Edit view** (the quarantined override sandbox, per the
+roadmap), not in the recipe: a transferred dart changes the piece's orientation
+relative to the fold, which would silently invalidate the flat-span POMs in the Spec
+sheet. Keeping it in the editor avoids claiming a spec we haven't earned.
+
 ## Roadmap (what's left)
 Ordering principle: **ride the export spine + pure engine first; defer the heavy
 freeform editor until darts need it.** Dependency spine (✓ = done):
@@ -138,11 +151,11 @@ nesting ✓ → checker ✓ → editor ✓ → fitted recipe → darts.
 - ✓ 18. Freeform edit mode (done — drag vertices + curve controls; override, not parametric)
 - ✓ 19. Fitted/darted recipe (done — bust-darted front; tee back+sleeve reused; Pattern view)
 - ✓ 20. Garment generalization (done — recipe registry; every view garment-aware)
-21. **Dart manipulation** — rotate/slash around the apex (conservation law:
-    relocating a dart doesn't change fit). Needs the editor (18) + a darted recipe
-    (19) + the recipe registry (20); the rotation **primitive** (pure, testable)
-    builds on `moveHandle`. Dart **truing** (levelling the front hem after the dart
-    closes) belongs here too.
+- ✓ 21. Dart manipulation + truing (done — pivot about the apex; blend the kink)
+
+The t-shirt is finished end-to-end, and the engine now carries a second garment
+with a real dart. Next up is the deferred **15b tech-pack document**, then the
+later features (2D body view → photo→pattern → upcycle planner).
 
 Later: 2D body view → photo→pattern (Feature A) → upcycle planner (Feature B).
 
@@ -196,6 +209,17 @@ Per feature (so we don't overclaim):
   check spec. Every view is driven by it. The engine (grading, POM, render, export,
   checker) no longer imports a t-shirt table. Adding a garment = adding a recipe.
   Both garments share one body grade rule; a garment-specific grade is a later edit.
+- **Dart manipulation**: `transferDart` pivots the wedge about the apex onto another
+  **straight** seam (curved targets like the neckline/armhole would need Bézier
+  splitting — not built). The fold is always the anchor and never moves. The
+  conservation law is real and tested: every seam length survives the pivot, the
+  apex and wedge angle are unchanged, and the legs stay equal. The mouth *widens*
+  the farther the dart sits from the apex — same angle, longer legs. That's correct.
+- **Truing**: moving a dart off a seam leaves a corner in it, exactly the size of
+  the dart angle. `trueSeam` blends two straight edges into one. Honest cost: a
+  straight line is shorter than the bent path, so that seam loses a little length
+  (~4 mm on the standard block) and must be re-checked against its partner. Truing
+  only handles straight seams, and only the Edit view offers it.
 - **Editor**: freeform drag of one piece (the **front**) — a manual override, not a
   parametric change. Edits don't write back to measurements and don't survive a
   Reset (which re-drafts). It ignores the fold constraint on purpose (freeform means
@@ -215,4 +239,4 @@ thread.
 
 ## Test counts (proof a slice landed)
 s4=58, s5=72, s6=82, s7=89, s8=94, s9=103, s10=119, s11=139, s12=155, s13=171,
-s14=187, s15=202, s16=219, s17=239, s18=257, s19=268, s20=285
+s14=187, s15=202, s16=219, s17=239, s18=257, s19=268, s20=285, s21=321

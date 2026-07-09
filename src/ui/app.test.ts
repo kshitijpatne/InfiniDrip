@@ -318,3 +318,57 @@ describe("fabric width visibility", () => {
     expect(box.style.display).toBe("none");
   });
 });
+
+describe("dart tools in the Edit view", () => {
+  const pick = (root: HTMLElement, id: string): void => {
+    root.querySelector<HTMLButtonElement>(id)!.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+  };
+  const enterFittedEditor = (): HTMLElement => {
+    localStorage.clear();
+    const root = mount();
+    root.querySelector<HTMLButtonElement>("#garment-fitted")!.dispatchEvent(new Event("click"));
+    root.querySelector<HTMLButtonElement>("#view-edit")!.dispatchEvent(new Event("click"));
+    return root;
+  };
+
+  it("hides the dart tools for the undarted tee", () => {
+    localStorage.clear();
+    const root = mount();
+    root.querySelector<HTMLButtonElement>("#view-edit")!.dispatchEvent(new Event("click"));
+    expect(root.querySelector("#dart-shoulder")).toBeNull();
+  });
+
+  it("offers transfer targets on the darted front, but truing only after a move", () => {
+    const root = enterFittedEditor();
+    expect(root.querySelector("#dart-shoulder")).not.toBeNull();
+    expect(root.querySelector("#dart-true")).toBeNull(); // dart still splits the side
+    pick(root, "#dart-shoulder");
+    expect(root.querySelector("#dart-true")).not.toBeNull(); // side seam healed
+  });
+
+  it("moves the dart to the hem and reshapes the piece", () => {
+    const root = enterFittedEditor();
+    const before = root.querySelector("#canvas-host")!.innerHTML;
+    pick(root, "#dart-hem");
+    expect(root.querySelector("#canvas-host")!.innerHTML).not.toBe(before);
+    expect(root.querySelector("#dart-true")).not.toBeNull();
+  });
+
+  it("trues the healed side seam, then Reset restores the drafted front", () => {
+    const root = enterFittedEditor();
+    pick(root, "#dart-shoulder");
+    const moved = root.querySelector("#canvas-host")!.innerHTML;
+    pick(root, "#dart-true");
+    expect(root.querySelector("#canvas-host")!.innerHTML).not.toBe(moved);
+    pick(root, "#editor-reset");
+    // back to the drafted dart: side seam split again, so truing is unavailable
+    expect(root.querySelector("#dart-true")).toBeNull();
+  });
+
+  it("ignores clicks that are not a dart tool", () => {
+    const root = enterFittedEditor();
+    const before = root.querySelector("#canvas-host")!.innerHTML;
+    root.querySelector("#canvas-host")!.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    expect(root.querySelector("#canvas-host")!.innerHTML).toBe(before);
+  });
+});
