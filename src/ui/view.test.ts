@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { STANDARD_M, GARMENTS } from "../drafting";
-import { garmentToggleMarkup, dartControlsMarkup } from "./view";
+import { STANDARD_M, GARMENTS, TSHIRT_SIZES } from "../drafting";
+import { garmentToggleMarkup, dartControlsMarkup, exportButtonsMarkup } from "./view";
 import { DEFAULT_FABRIC, BLUEPRINT } from "../render";
 import { matchStyle, styleNames } from "../style";
 import { controlsMarkup, appShellMarkup, guidanceMarkup, styleMarkup, fabricSwatchesMarkup, specTableMarkup, viewToggleMarkup, fabricWidthMarkup, checkMarkup, editorHintMarkup } from "./view";
@@ -25,8 +25,9 @@ describe("fabricSwatchesMarkup", () => {
 
 describe("appShellMarkup", () => {
   it("includes the controls, canvas, garment, guidance, and style hosts", () => {
-    const html = appShellMarkup(STANDARD_M, DEFAULT_FABRIC);
+    const html = appShellMarkup(STANDARD_M, DEFAULT_FABRIC, TSHIRT_SIZES);
     expect(html).toContain('id="canvas-host"');
+    expect(html).toContain('id="export-size"');
     expect(html).toContain('id="garment-host"');
     expect(html).toContain('id="guidance-host"');
     expect(html).toContain('id="style-host"');
@@ -181,6 +182,16 @@ describe("dartControlsMarkup", () => {
 
   it("offers truing once the side seam is continuous again", () => {
     expect(dartControlsMarkup(true, true)).toContain('id="dart-true"');
+  });
+});
+
+describe("exportButtonsMarkup", () => {
+  it("renders a size option per step, base selected, plus the format buttons", () => {
+    const html = exportButtonsMarkup(TSHIRT_SIZES);
+    expect(html).toContain('id="export-svg"');
+    expect(html).toContain('id="export-size"');
+    for (const s of TSHIRT_SIZES) expect(html).toContain(`>${s.label}</option>`);
+    expect(html).toContain('value="0" selected'); // base size is the default
   });
 });
 

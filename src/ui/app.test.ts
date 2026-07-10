@@ -57,8 +57,52 @@ describe("mountApp", () => {
     root.querySelector<HTMLButtonElement>("#export-svg")!.dispatchEvent(new Event("click"));
     root.querySelector<HTMLButtonElement>("#export-dxf")!.dispatchEvent(new Event("click"));
     root.querySelector<HTMLButtonElement>("#export-pdf")!.dispatchEvent(new Event("click"));
-    expect(created).toEqual(["tee.svg", "tee.dxf", "tee.pdf"]);
+    expect(created).toEqual(["tee-M.svg", "tee-M.dxf", "tee-M.pdf"]);
     expect(URL.createObjectURL).toHaveBeenCalledTimes(3);
+  });
+
+  it("exports the chosen size: the picker drives the filename and the geometry", () => {
+    const created: string[] = [];
+    const blobs: string[] = [];
+    URL.createObjectURL = vi.fn((b: Blob) => { void b; return "blob:test"; }) as unknown as typeof URL.createObjectURL;
+    URL.revokeObjectURL = vi.fn();
+    const captured: string[] = [];
+    // capture the SVG text handed to the blob so we can prove size L != size M
+    const RealBlob = globalThis.Blob;
+    globalThis.Blob = class extends RealBlob {
+      constructor(parts: BlobPart[], opts?: BlobPropertyBag) {
+        super(parts, opts);
+        captured.push(String(parts[0]));
+      }
+    } as unknown as typeof Blob;
+    HTMLAnchorElement.prototype.click = vi.fn(function (this: HTMLAnchorElement) {
+      created.push(this.download);
+    });
+    try {
+      const root = mount();
+      const size = root.querySelector<HTMLSelectElement>("#export-size")!;
+      // default is base M
+      root.querySelector<HTMLButtonElement>("#export-svg")!.dispatchEvent(new Event("click"));
+      const mSvg = captured.pop()!;
+      // switch to L and export again
+      size.value = "1";
+      size.dispatchEvent(new Event("change"));
+      root.querySelector<HTMLButtonElement>("#export-svg")!.dispatchEvent(new Event("click"));
+      const lSvg = captured.pop()!;
+      blobs.push(mSvg, lSvg);
+      expect(created).toEqual(["tee-M.svg", "tee-L.svg"]);
+      expect(lSvg).not.toBe(mSvg); // a larger size is genuinely different geometry
+    } finally {
+      globalThis.Blob = RealBlob;
+    }
+    expect(blobs).toHaveLength(2);
+  });
+
+  it("offers one export size per graded step, defaulting to the base", () => {
+    const root = mount();
+    const opts = [...root.querySelectorAll<HTMLOptionElement>("#export-size option")];
+    expect(opts.map((o) => o.textContent)).toEqual(["XS", "S", "M", "L", "XL"]);
+    expect(opts.find((o) => o.selected)!.textContent).toBe("M");
   });
 
   it("Save writes to localStorage and Load restores the canvas", () => {

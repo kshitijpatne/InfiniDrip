@@ -44,6 +44,21 @@ export function gradeMeasurements(
 }
 
 /**
+ * Draft one garment at one size step — the base measurements nudged by the grade,
+ * then re-drafted. This is the single size that per-size export downloads, and it
+ * is exactly what `gradeRun` produces for that step, so every view agrees on what
+ * a size is.
+ */
+export function draftAtSize(
+  base: Measurements,
+  rule: GradeRule,
+  step: number,
+  draft: (m: Measurements) => Block
+): Block {
+  return draft(gradeMeasurements(base, rule, step));
+}
+
+/**
  * Re-draft the engine across a whole size run, anchored on `base`.
  * Returns one entry per size, in the order the steps are given.
  */
@@ -55,6 +70,6 @@ export function gradeRun(
 ): GradedSize[] {
   return sizes.map((s) => {
     const measurements = gradeMeasurements(base, rule, s.step);
-    return { label: s.label, step: s.step, measurements, block: draft(measurements) };
+    return { label: s.label, step: s.step, measurements, block: draftAtSize(base, rule, s.step, draft) };
   });
 }

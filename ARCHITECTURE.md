@@ -188,6 +188,12 @@ the Pattern view.
   the old dart leaves behind. Both are pure engine in `drafting/dart.ts`, on top of
   `geometry/rotate.ts`; the Edit view drives them.
 
-**What's left:** the deferred **tech-pack document (15b)** — a flat sketch with
-callout leaders, a PDF doc writer on the export spine, and editable BOM/construction
-stubs. Then the later features: 2D body view → photo→pattern → upcycle planner.
+- **Per-size export (22) — built.** `drafting/grading.ts` exposes `draftAtSize` —
+  one garment drafted at one grade step — which `gradeRun` now uses internally, so
+  the size picker, the Spec sheet, and the Size-run nest all agree on what a size is.
+  The export buttons draft the picked size and name the file `<garment>-<SIZE>`.
+
+**What's left:** the **tech-pack document (Slice 23)** — a flat sketch with callout
+leaders, a PDF doc writer on the export spine, and editable BOM/construction stubs,
+built across the graded run on the per-size plumbing above. Then the later features:
+2D body view → photo→pattern → upcycle planner.

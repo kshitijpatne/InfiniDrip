@@ -3,7 +3,7 @@
 // logic lives in the pure modules.
 
 import { Measurements, STANDARD_M, Piece, STRETCH_FABRICS, fabricEaseNote } from "../drafting";
-import { gradeRun, specSheet, GARMENTS, GarmentRecipe, garmentByName } from "../drafting";
+import { gradeRun, draftAtSize, specSheet, GARMENTS, GarmentRecipe, garmentByName } from "../drafting";
 import { exportSvg, exportDxf, exportPdf, flattenPiece, nestPieces } from "../export";
 import { renderBlueprint, renderGarment, renderNest, renderFabricNest, renderEditor, DEFAULT_FABRIC } from "../render";
 import { pieceHandles, moveHandle, nearestHandle, editorViewBox, viewboxPointToCm, Handle } from "../edit";
@@ -20,7 +20,7 @@ export function mountApp(root: HTMLElement): void {
   const saved = loadFromStorage();
   let measurements: Measurements = saved ? saved.measurements : STANDARD_M;
   let fabric = saved ? saved.fabric : DEFAULT_FABRIC;
-  root.innerHTML = appShellMarkup(measurements, fabric);
+  root.innerHTML = appShellMarkup(measurements, fabric, GARMENTS[0].sizes);
 
   const canvasHost = root.querySelector<HTMLDivElement>("#canvas-host")!;
   const garmentHost = root.querySelector<HTMLDivElement>("#garment-host")!;
@@ -220,8 +220,19 @@ export function mountApp(root: HTMLElement): void {
     draw();
   });
 
+  // Export-local state: which size the download buttons emit. Defaults to base (M);
+  // it scopes ONLY the exports, never the other views.
+  let exportStep = 0;
+  const exportSizeEl = root.querySelector<HTMLSelectElement>("#export-size")!;
+  exportSizeEl.addEventListener("change", () => {
+    exportStep = Number(exportSizeEl.value);
+  });
+  // exportStep always comes from the picker, which is populated from recipe.sizes,
+  // so the step is guaranteed to resolve to a real size.
+  const exportSizeLabel = (): string =>
+    recipe.sizes.find((s) => s.step === exportStep)!.label;
   const exportPieces = (): Piece[] => {
-    const block = recipe.draft(measurements);
+    const block = draftAtSize(measurements, recipe.grade, exportStep, recipe.draft);
     return [block.front, block.back, block.sleeve];
   };
   const download = (filename: string, text: string, mime: string): void => {
@@ -233,13 +244,13 @@ export function mountApp(root: HTMLElement): void {
     URL.revokeObjectURL(url);
   };
   root.querySelector<HTMLButtonElement>("#export-svg")!.addEventListener("click", () => {
-    download(`${recipe.name}.svg`, exportSvg(exportPieces(), ALLOWANCE, recipe.notches), "image/svg+xml");
+    download(`${recipe.name}-${exportSizeLabel()}.svg`, exportSvg(exportPieces(), ALLOWANCE, recipe.notches), "image/svg+xml");
   });
   root.querySelector<HTMLButtonElement>("#export-dxf")!.addEventListener("click", () => {
-    download(`${recipe.name}.dxf`, exportDxf(exportPieces(), ALLOWANCE), "image/vnd.dxf");
+    download(`${recipe.name}-${exportSizeLabel()}.dxf`, exportDxf(exportPieces(), ALLOWANCE), "image/vnd.dxf");
   });
   root.querySelector<HTMLButtonElement>("#export-pdf")!.addEventListener("click", () => {
-    download(`${recipe.name}.pdf`, exportPdf(exportPieces(), ALLOWANCE), "application/pdf");
+    download(`${recipe.name}-${exportSizeLabel()}.pdf`, exportPdf(exportPieces(), ALLOWANCE), "application/pdf");
   });
 
   const statusEl = root.querySelector<HTMLSpanElement>("#persist-status")!;

@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 21. Update this after every slice (and commit it WITH the code)._
+_Last updated: after Slice 22. Update this after every slice (and commit it WITH the code)._
 
 ## What it is
 A lightweight, local 2D sewing-pattern designer in TypeScript. Type body
@@ -64,6 +64,9 @@ SLICES-BRIEF.md) are committed in the same commit as the code they describe.**
 21. dart manipulation + truing — pivot a dart about its apex onto another seam
     (same wedge, same fit, different seam), then blend the corner it leaves behind;
     driven from the Edit view (321)
+22. per-size export — a size picker in the export area drafts the chosen graded
+    size (via `draftAtSize`) and emits `<garment>-<SIZE>.<ext>`; scopes only the
+    exports, every other view keeps its job (327)
 
 **Slice 13 note (design changed mid-build):** ease did NOT become an auto-applied
 pre-draft transform. Instead: (a) **fabric/ease is guidance only** — the app
@@ -152,10 +155,12 @@ nesting ✓ → checker ✓ → editor ✓ → fitted recipe → darts.
 - ✓ 19. Fitted/darted recipe (done — bust-darted front; tee back+sleeve reused; Pattern view)
 - ✓ 20. Garment generalization (done — recipe registry; every view garment-aware)
 - ✓ 21. Dart manipulation + truing (done — pivot about the apex; blend the kink)
+- ✓ 22. Per-size export (done — export any graded size's cutting files)
 
-The t-shirt is finished end-to-end, and the engine now carries a second garment
-with a real dart. Next up is the deferred **15b tech-pack document**, then the
-later features (2D body view → photo→pattern → upcycle planner).
+The t-shirt is finished end-to-end, the engine carries a second darted garment,
+and you can export any size. Next is the **tech-pack document (Slice 23)** — a flat
+sketch + POM table + BOM/construction stubs, built on the per-size export plumbing
+this slice added. Then the later features (2D body view → photo→pattern → upcycle).
 
 Later: 2D body view → photo→pattern (Feature A) → upcycle planner (Feature B).
 
@@ -179,9 +184,14 @@ Per feature (so we don't overclaim):
   bounds-validated); clears/migrates safely on a bad or wrong-version save.
 - **Grading**: proportional re-draft around the user's measurements as base size,
   not editable grade-rule node-shifting; quality depends on the grade increments
-  (the nest's tree-rings make a bad grade visible at a glance). Per-size *export*
-  (downloading each size's cutting file) isn't built yet — a small follow-on on the
-  existing export spine.
+  (the nest's tree-rings make a bad grade visible at a glance). Per-size **export**
+  is built: a size picker drafts the chosen step through `draftAtSize` (the exact
+  path the Spec/Nest views use, so all three agree) and emits `<garment>-<SIZE>`
+  files. Boundary: it exports ONE size's pieces per download, not a graded *marker*
+  (all sizes nested on one bolt) — that's separate marker-making. The size picker is
+  export-local; and because both current garments share one size run, it's built at
+  mount from the base garment — a future garment with its own sizes would want the
+  picker rebuilt on garment switch (noted, not needed yet).
 - **Tech pack**: the spec sheet auto-reads finished-garment measurements off the
   drafted geometry (front/back symmetric, so front stands in for the body); it's a
   credible measured spec, not a manufacturability guarantee. Tolerances, BOM, and
@@ -239,4 +249,4 @@ thread.
 
 ## Test counts (proof a slice landed)
 s4=58, s5=72, s6=82, s7=89, s8=94, s9=103, s10=119, s11=139, s12=155, s13=171,
-s14=187, s15=202, s16=219, s17=239, s18=257, s19=268, s20=285, s21=321
+s14=187, s15=202, s16=219, s17=239, s18=257, s19=268, s20=285, s21=321, s22=327

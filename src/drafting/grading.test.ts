@@ -84,3 +84,32 @@ describe("notches carry free across the grade", () => {
     expect(nLarge.point.x).toBeGreaterThan(nSmall.point.x);
   });
 });
+
+import { draftAtSize } from "./grading";
+import { FITTED } from "./recipe";
+import { edgeLength, pieceEdge } from "./piece";
+
+describe("draftAtSize", () => {
+  it("at step 0 reproduces the base draft exactly", () => {
+    expect(draftAtSize(STANDARD_M, TSHIRT_GRADE, 0, draftTshirt))
+      .toEqual(draftTshirt(STANDARD_M));
+  });
+
+  it("matches the block gradeRun produces for the same step", () => {
+    const run = gradeRun(STANDARD_M, TSHIRT_GRADE, TSHIRT_SIZES, draftTshirt);
+    for (const g of run) {
+      expect(draftAtSize(STANDARD_M, TSHIRT_GRADE, g.step, draftTshirt)).toEqual(g.block);
+    }
+  });
+
+  it("grows a size-sensitive measure with the step, for either garment", () => {
+    const hem = (step: number, r = TSHIRT_GRADE, d = draftTshirt): number =>
+      edgeLength(pieceEdge(draftAtSize(STANDARD_M, r, step, d).front, "hem"));
+    expect(hem(1)).toBeGreaterThan(hem(0));
+    expect(hem(0)).toBeGreaterThan(hem(-1));
+    // the fitted garment grades on the same rule
+    const fhem = (step: number): number =>
+      edgeLength(pieceEdge(draftAtSize(STANDARD_M, FITTED.grade, step, FITTED.draft).front, "hem"));
+    expect(fhem(2)).toBeGreaterThan(fhem(-2));
+  });
+});

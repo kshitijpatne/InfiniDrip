@@ -2,7 +2,7 @@
 // panel, a canvas host, a guidance panel, and a style panel. Pure, so the markup
 // can be checked in tests without a browser.
 
-import { Measurements, STRETCH_FABRICS, SpecRow, GARMENTS } from "../drafting";
+import { Measurements, STRETCH_FABRICS, SpecRow, GARMENTS, SizeStep } from "../drafting";
 import { BLUEPRINT as T, FABRICS } from "../render";
 import { Note } from "../guidance";
 import { Report } from "../guidance";
@@ -107,15 +107,26 @@ export function styleMarkup(
   return panel("Style", label + select + body);
 }
 
-/** Download buttons for the export files, plus Save/Load pattern state. */
-export function exportButtonsMarkup(): string {
+/** Download buttons for the export files, a size picker, plus Save/Load pattern state.
+ *  The size picker scopes ONLY what the export buttons emit — every other view keeps
+ *  its own job (Pattern = base draft, Nest/Spec = the whole run). */
+export function exportButtonsMarkup(sizes: readonly SizeStep[]): string {
   const btn = (id: string, label: string): string =>
     `<button id="${id}" style="padding:5px 10px;font-size:12px;cursor:pointer;` +
     `background:${T.background};color:${T.line};border:1px solid ${BORDER};border-radius:5px">` +
     `${label}</button>`;
+  const options = sizes
+    .map((s) => `<option value="${s.step}" ${s.step === 0 ? "selected" : ""}>${s.label}</option>`)
+    .join("");
+  const sizePicker =
+    `<span style="font-size:11px;color:${T.label};text-transform:uppercase;letter-spacing:0.04em;` +
+    `margin-left:8px;margin-right:4px">Size</span>` +
+    `<select id="export-size" style="padding:4px 8px;font-size:12px;background:${T.background};` +
+    `color:${T.line};border:1px solid ${BORDER};border-radius:5px">${options}</select>`;
   return `<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:4px 0">` +
     `<span style="font-size:11px;color:${T.label};text-transform:uppercase;letter-spacing:0.04em;` +
     `margin-right:4px">Export</span>${btn("export-svg", "SVG")}${btn("export-dxf", "DXF")}${btn("export-pdf", "PDF")}` +
+    `${sizePicker}` +
     `<span style="font-size:11px;color:${T.label};text-transform:uppercase;letter-spacing:0.04em;` +
     `margin-left:8px;margin-right:4px">Pattern</span>${btn("save-pattern", "Save")}${btn("load-pattern", "Load")}` +
     `<span id="persist-status" style="font-size:11px;color:${T.label};min-width:80px"></span></div>`;
@@ -250,13 +261,13 @@ export function checkMarkup(report: Report): string {
 }
 
 /** The whole app shell: controls, canvas host, and a stacked guidance + style column. */
-export function appShellMarkup(m: Measurements, fabric: string): string {
+export function appShellMarkup(m: Measurements, fabric: string, sizes: readonly SizeStep[]): string {
   return `<div style="display:flex;gap:16px;align-items:flex-start;font-family:system-ui,sans-serif">` +
     `${controlsMarkup(m)}` +
     `<div style="flex:1;min-width:300px;display:flex;flex-direction:column;gap:6px">` +
     `${viewToggleMarkup("pattern")}${garmentToggleMarkup("tee")}${fabricStretchMarkup(STRETCH_FABRICS[0].name)}` +
     `${fabricWidthMarkup(150)}` +
-    `<div id="canvas-host"></div>${fabricSwatchesMarkup(fabric)}${exportButtonsMarkup()}` +
+    `<div id="canvas-host"></div>${fabricSwatchesMarkup(fabric)}${exportButtonsMarkup(sizes)}` +
     `<div id="garment-host"></div></div>` +
     `<div style="display:flex;flex-direction:column;gap:16px">` +
     `<div id="guidance-host"></div><div id="style-host"></div></div></div>`;
