@@ -25,14 +25,14 @@ function pieceSvg(
   dy: number,
   notchTable: readonly PieceNotches[]
 ): string {
-  const cut = `&lt;polygon points="${pointList(p.cut)}" fill="none" stroke="${CUT}" ` +
-    `stroke-width="${STROKE}"/&gt;`;
-  const sew = `&lt;polygon points="${pointList(p.sew)}" fill="none" stroke="${SEW}" ` +
-    `stroke-width="${STROKE}" stroke-dasharray="0.3 0.2"/&gt;`;
+  const cut = `<polygon points="${pointList(p.cut)}" fill="none" stroke="${CUT}" ` +
+    `stroke-width="${STROKE}"/>`;
+  const sew = `<polygon points="${pointList(p.sew)}" fill="none" stroke="${SEW}" ` +
+    `stroke-width="${STROKE}" stroke-dasharray="0.3 0.2"/>`;
   const b = polylineBounds(p.cut);
-  const label = `&lt;text x="${round(b.minX + b.width / 2)}" y="${round(b.minY + b.height / 2)}" ` +
-    `fill="${CUT}" font-size="1" font-family="sans-serif" text-anchor="middle"&gt;` +
-    `${p.name.toUpperCase()}&lt;/text&gt;`;
+  const label = `<text x="${round(b.minX + b.width / 2)}" y="${round(b.minY + b.height / 2)}" ` +
+    `fill="${CUT}" font-size="1" font-family="sans-serif" text-anchor="middle">` +
+    `${p.name.toUpperCase()}</text>`;
 
   const recipe = notchTable.find((r) => r.pieceName === originalPiece.name);
   const notches = recipe
@@ -71,8 +71,8 @@ export function exportSvg(
     const placedB = polylineBounds(placed.cut);
     return pieceSvg(placed, pieces[i], placedB.minX - origB.minX, placedB.minY - origB.minY, notches);
   }).join("");
-  return `&lt;svg xmlns="http://www.w3.org/2000/svg" width="${w}cm" height="${h}cm" ` +
-    `viewBox="0 0 ${w} ${h}"&gt;` +
-    `&lt;rect x="0" y="0" width="${w}" height="${h}" fill="#ffffff"/&gt;` +
-    body + `&lt;/svg&gt;`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}cm" height="${h}cm" ` +
+    `viewBox="0 0 ${w} ${h}">` +
+    `<rect x="0" y="0" width="${w}" height="${h}" fill="#ffffff"/>` +
+    body + `</svg>`;
 }

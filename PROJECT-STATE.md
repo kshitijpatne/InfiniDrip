@@ -37,6 +37,11 @@ SLICES-BRIEF.md) are committed in the same commit as the code they describe.**
 7. assembled garment view + fabric swatches (89)
 8. seam allowance (cutting line) (94)
 9. export layer — true-scale SVG + DXF cutting files, with Download buttons (103)
+   [bugfix, post-s22: SVG tags were authored as HTML entities (&lt;/&gt;) from this
+   slice on, so exported .svg wouldn't open in a browser ("Start tag expected");
+   DXF/PDF unaffected. It went undetected because assertions matched the escaped
+   output. Now emits real markup, guarded by a DOMParser parse test (no parsererror,
+   <svg> root, 6 polygons + 3 labels). 327 → 328 tests.]
 10. tiled PDF export — page-split + overlap + registration marks (119)
 11. save/load — versioned JSON in localStorage, validated, with status feedback (139)
 12. notches & grainlines — derived as rules on live pieces, grade for free (155)
@@ -250,3 +255,4 @@ thread.
 ## Test counts (proof a slice landed)
 s4=58, s5=72, s6=82, s7=89, s8=94, s9=103, s10=119, s11=139, s12=155, s13=171,
 s14=187, s15=202, s16=219, s17=239, s18=257, s19=268, s20=285, s21=321, s22=327
+(+1 post-s22 SVG-export bugfix = 328)

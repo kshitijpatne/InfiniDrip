@@ -1,3 +1,7 @@
+// @vitest-environment jsdom
+// jsdom gives us a real DOMParser so we can prove the exported SVG is valid,
+// browser-openable XML — not just a string that looks right. The rest of this
+// file is plain string/number checks that don't care about the environment.
 import { describe, it, expect } from "vitest";
 import { point } from "../geometry";
 import { Piece, draftTshirt, STANDARD_M } from "../drafting";
@@ -66,7 +70,7 @@ describe("exportSvg", () => {
   const svg = exportSvg(pieces, 1);
 
   it("is a true-scale SVG sized in centimetres", () => {
-    expect(svg.startsWith("&lt;svg")).toBe(true);
+    expect(svg.startsWith("<svg")).toBe(true);
     expect(svg).toContain('width="');
     expect(svg).toContain('cm"');
     expect(svg).toContain('viewBox="0 0 ');
@@ -74,10 +78,26 @@ describe("exportSvg", () => {
 
   it("draws a white sheet, cut and sew lines, and a label per piece", () => {
     expect(svg).toContain('fill="#ffffff"'); // the sheet
-    expect(svg).toContain("&lt;polygon"); // outlines
+    expect(svg).toContain("<polygon"); // outlines
     expect(svg).toContain("stroke-dasharray"); // the sew line
-    expect(svg).toContain("&gt;FRONT&lt;");
-    expect(svg).toContain("&gt;SLEEVE&lt;");
+    expect(svg).toContain(">FRONT<");
+    expect(svg).toContain(">SLEEVE<");
+  });
+
+  it("is real, browser-openable SVG markup — not entity-escaped", () => {
+    // The regression this guards: tags were once authored as &lt;/&gt;, so the
+    // file opened as plain text ("Start tag expected") instead of a drawing.
+    expect(svg.endsWith("</svg>")).toBe(true);
+    expect(svg).not.toContain("&lt;");
+    expect(svg).not.toContain("&gt;");
+
+    // The real proof: parse it as XML the way a browser would.
+    const doc = new DOMParser().parseFromString(svg, "image/svg+xml");
+    expect(doc.querySelector("parsererror")).toBeNull();
+    expect(doc.documentElement.tagName).toBe("svg");
+    // three pieces → three cut + three sew polygons, one label each
+    expect(doc.querySelectorAll("polygon").length).toBe(6);
+    expect(doc.querySelectorAll("text").length).toBe(3);
   });
 });
 
