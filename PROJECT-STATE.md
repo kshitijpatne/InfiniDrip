@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 23-a. Update this after every slice (and commit it WITH the code)._
+_Last updated: after Slice 23-b. Update this after every slice (and commit it WITH the code)._
 
 ## What it is
 A lightweight, local 2D sewing-pattern designer in TypeScript. Type body
@@ -72,6 +72,9 @@ SLICES-BRIEF.md) are committed in the same commit as the code they describe.**
 22. per-size export — a size picker in the export area drafts the chosen graded
     size (via `draftAtSize`) and emits `<garment>-<SIZE>.<ext>`; scopes only the
     exports, every other view keeps its job (327)
+23b. tech-pack callouts — a `Pom.anchor?` (a point on the front piece) drives
+    callout leaders from a left gutter to the anchored POMs on the sketch (tee 5,
+    fitted 3); table-only POMs get no leader (348)
 23a. tech-pack document (part a) — a 3-page PDF on the export spine: real-piece
     flat sketch (sample size) + graded POM table + recipe BOM/construction stubs;
     a Tech Pack export button. NOT tied to the per-size picker. Callout leaders
@@ -259,4 +262,4 @@ thread.
 ## Test counts (proof a slice landed)
 s4=58, s5=72, s6=82, s7=89, s8=94, s9=103, s10=119, s11=139, s12=155, s13=171,
 s14=187, s15=202, s16=219, s17=239, s18=257, s19=268, s20=285, s21=321, s22=327
-(+1 post-s22 SVG-export bugfix = 328), s23a=343
+(+1 post-s22 SVG-export bugfix = 328), s23a=343, s23b=348

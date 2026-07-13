@@ -7,6 +7,7 @@
 // here, so front-piece queries stand in for the body.
 
 import { Pom, seam, spanX, spanY, PointRef } from "./pom";
+import { pieceEdge, edgeStart, edgeEnd } from "./piece";
 
 // The fold reference: any centre-front point (x = 0).
 const FOLD: PointRef = { edge: "centerFront", at: "start" };
@@ -15,14 +16,17 @@ export const TSHIRT_POMS: readonly Pom[] = [
   {
     label: "Body chest (finished)",
     measure: (b) => 4 * spanX(b.front, { edge: "side", at: "start" }, FOLD),
+    anchor: (b) => edgeStart(pieceEdge(b.front, "side")), // the underarm point
   },
   {
     label: "Body length (HPS–hem)",
     measure: (b) => spanY(b.front, { edge: "shoulder", at: "start" }, { edge: "hem", at: "start" }),
+    anchor: (b) => edgeStart(pieceEdge(b.front, "hem")), // hem at the fold
   },
   {
     label: "Across shoulder",
     measure: (b) => 2 * spanX(b.front, { edge: "shoulder", at: "end" }, FOLD),
+    anchor: (b) => edgeEnd(pieceEdge(b.front, "shoulder")), // the shoulder tip
   },
   {
     label: "Shoulder seam",
@@ -35,10 +39,12 @@ export const TSHIRT_POMS: readonly Pom[] = [
   {
     label: "Neck width",
     measure: (b) => 2 * spanX(b.front, { edge: "shoulder", at: "start" }, FOLD),
+    anchor: (b) => edgeStart(pieceEdge(b.front, "shoulder")), // the neck point
   },
   {
     label: "Front neck drop",
     measure: (b) => spanY(b.front, { edge: "neckline", at: "start" }, { edge: "shoulder", at: "start" }),
+    anchor: (b) => edgeStart(pieceEdge(b.front, "neckline")), // centre-front neck
   },
   {
     label: "Sleeve length (cap–hem)",

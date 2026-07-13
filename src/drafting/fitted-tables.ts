@@ -6,6 +6,7 @@
 
 import { PieceNotches, TSHIRT_NOTCHES } from "./tshirt-notches";
 import { Pom, seam, spanX, spanY, PointRef } from "./pom";
+import { pieceEdge, edgeStart, edgeEnd } from "./piece";
 import { dartIntake } from "./dart";
 
 const FOLD: PointRef = { edge: "centerFront", at: "start" };
@@ -29,6 +30,7 @@ export const FITTED_POMS: readonly Pom[] = [
   {
     label: "Body chest (finished)",
     measure: (b) => 4 * spanX(b.front, { edge: "sideUpper", at: "start" }, FOLD),
+    anchor: (b) => edgeStart(pieceEdge(b.front, "sideUpper")), // the underarm point
   },
   {
     // Measured at centre front: the side is longer by the dart intake until trued.
@@ -38,6 +40,7 @@ export const FITTED_POMS: readonly Pom[] = [
   {
     label: "Across shoulder",
     measure: (b) => 2 * spanX(b.front, { edge: "shoulder", at: "end" }, FOLD),
+    anchor: (b) => edgeEnd(pieceEdge(b.front, "shoulder")), // the shoulder tip
   },
   { label: "Shoulder seam", measure: (b) => seam(b.front, "shoulder") },
   {
@@ -56,6 +59,7 @@ export const FITTED_POMS: readonly Pom[] = [
   {
     label: "Front neck drop",
     measure: (b) => spanY(b.front, { edge: "neckline", at: "start" }, { edge: "shoulder", at: "start" }),
+    anchor: (b) => edgeStart(pieceEdge(b.front, "neckline")), // centre-front neck
   },
   {
     label: "Sleeve length (cap–hem)",

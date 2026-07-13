@@ -21,6 +21,7 @@ import {
   GarmentRecipe,
   Measurements,
   Block,
+  Pom,
   SpecRow,
   gradeRun,
   specSheet,
@@ -64,15 +65,16 @@ function rule(yTopCm: number, page: PageSize): string {
 
 // ── Page 1: the flat sketch ───────────────────────────────────────────────────
 
-function sketchStream(block: Block, label: string, page: PageSize): string {
+function sketchStream(block: Block, poms: readonly Pom[], label: string, page: PageSize): string {
   const flats = [block.front, block.back, block.sleeve].map((p) => flattenPiece(p, 0));
   const layout = layoutPieces(flats);
 
   const titleH = 2.2;
-  const printW = page.width - 2 * M;
+  const gutter = 5.5; // left column reserved for callout labels
+  const printW = page.width - 2 * M - gutter;
   const printH = page.height - 2 * M - titleH;
   const s = Math.min(printW / layout.width, printH / layout.height); // fit, keep aspect
-  const leftCm = M + (printW - layout.width * s) / 2; // centre horizontally
+  const leftCm = M + gutter + (printW - layout.width * s) / 2; // centre in the sketch area
   const topCm = M + titleH;
   const mx = (x: number): number => pt(leftCm + x * s);
   const my = (y: number): number => pt(page.height - (topCm + y * s));
@@ -86,6 +88,22 @@ function sketchStream(block: Block, label: string, page: PageSize): string {
     const b = polylineBounds(piece.sew);
     lines.push(text(leftCm + b.minX * s, topCm + (b.minY + b.height) * s + 0.6, 8, piece.name.toUpperCase(), page));
   }
+
+  // Callout leaders: the front is drawn as pieces[0], translated by the layout;
+  // recover that translation, then point each anchored POM's label at its point.
+  const dx = layout.pieces[0].sew[0].x - flats[0].sew[0].x;
+  const dy = layout.pieces[0].sew[0].y - flats[0].sew[0].y;
+  const anchored = poms.filter((p) => p.anchor);
+  const step = printH / (anchored.length + 1);
+  anchored.forEach((pom, i) => {
+    const a = pom.anchor!(block); // front-piece coords
+    const ax = mx(a.x + dx);
+    const ay = my(a.y + dy);
+    const labelY = topCm + step * (i + 1);
+    lines.push(`0.4 0.4 0.4 RG 0.4 w ${pt(M + gutter - 0.3)} ${pt(page.height - labelY)} m ${ax} ${ay} l S`);
+    lines.push(`0 0 0 rg ${ax} ${ay} ${pt(0.2)} ${pt(0.2)} re f`); // a dot at the point
+    lines.push(text(M, labelY - 0.15, 7, pom.label, page));
+  });
   return lines.join("\n");
 }
 
@@ -153,7 +171,7 @@ export function exportTechPack(
   const sizes = graded.map((g) => g.label);
   return assemblePdf(
     [
-      sketchStream(recipe.draft(m), recipe.label, page),
+      sketchStream(recipe.draft(m), recipe.poms, recipe.label, page),
       tableStream(sizes, rows, page),
       bomStream(recipe.techPack, page),
     ],

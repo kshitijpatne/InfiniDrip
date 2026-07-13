@@ -117,7 +117,8 @@ the parametric core stays consistent everywhere else.
               nest; fabric nest; freeform editor; garment view; theme
   export/     pieces -> true-scale cutting files (SVG, DXF, tiled PDF); shared
               layout spine; nesting estimator (shelf pack + utilization);
-              tech-pack document (techpack.ts — 3-page sketch + POM table + BOM)
+              tech-pack document (techpack.ts — 3-page sketch + POM table + BOM;
+              callout leaders driven by an optional Pom.anchor on the front)
   guidance/   tape-measure checks; production-readiness checker, recipe-driven
               (check.ts primitives + garment-check.ts)
   style/      style table; target-fit gap (prescriptive)

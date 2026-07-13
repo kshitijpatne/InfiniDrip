@@ -92,3 +92,42 @@ describe("exportTechPack", () => {
     expect(letter).toContain("%%EOF");
   });
 });
+
+// ── callout leaders (23-b) ────────────────────────────────────────────────────
+
+const count = (haystack: string, needle: string): number => haystack.split(needle).length - 1;
+
+describe("tech-pack callout leaders", () => {
+  const pdf = exportTechPack(TEE, STANDARD_M);
+
+  it("draws an anchored POM label twice (a sketch callout plus the table row)", () => {
+    // "Body chest (finished)" is anchored → appears as a callout AND in the table.
+    expect(count(pdf, `(${pdfString("Body chest (finished)")})`)).toBe(2);
+  });
+
+  it("draws an un-anchored POM label only once (table only, no callout)", () => {
+    // "Sleeve hem" has no anchor → it appears only in the spec table.
+    expect(count(pdf, "(Sleeve hem)")).toBe(1);
+  });
+
+  it("marks each callout with a dot at its anchor point", () => {
+    expect(pdf).toContain(" re f"); // filled dot rectangles
+  });
+
+  it("the tee anchors five front-body POMs, each returning a finite front point", () => {
+    const anchored = TEE.poms.filter((p) => p.anchor);
+    expect(anchored.length).toBe(5);
+    const block = TEE.draft(STANDARD_M);
+    for (const p of anchored) {
+      const pt2 = p.anchor!(block);
+      expect(Number.isFinite(pt2.x) && Number.isFinite(pt2.y)).toBe(true);
+    }
+  });
+
+  it("gives the fitted garment a lighter callout set than the tee", () => {
+    const tee = TEE.poms.filter((p) => p.anchor).length;
+    const fitted = FITTED.poms.filter((p) => p.anchor).length;
+    expect(fitted).toBeGreaterThan(0);
+    expect(fitted).toBeLessThan(tee);
+  });
+});
