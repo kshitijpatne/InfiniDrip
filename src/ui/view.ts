@@ -126,6 +126,7 @@ export function exportButtonsMarkup(sizes: readonly SizeStep[]): string {
   return `<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:4px 0">` +
     `<span style="font-size:11px;color:${T.label};text-transform:uppercase;letter-spacing:0.04em;` +
     `margin-right:4px">Export</span>${btn("export-svg", "SVG")}${btn("export-dxf", "DXF")}${btn("export-pdf", "PDF")}` +
+    `${btn("export-techpack", "Tech Pack")}` +
     `${sizePicker}` +
     `<span style="font-size:11px;color:${T.label};text-transform:uppercase;letter-spacing:0.04em;` +
     `margin-left:8px;margin-right:4px">Pattern</span>${btn("save-pattern", "Save")}${btn("load-pattern", "Load")}` +

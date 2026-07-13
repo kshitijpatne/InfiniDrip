@@ -22,7 +22,8 @@ import { flattenPiece, layoutPieces, Polyline } from "./layout";
 // ── Unit conversion ───────────────────────────────────────────────────────────
 
 const CM_TO_PT = 72 / 2.54; // 1 cm = 28.3465 pt
-const pt = (cm: number): number => Math.round(cm * CM_TO_PT * 1000) / 1000;
+/** cm → PDF points, rounded to 3 dp. Shared with the tech-pack doc writer. */
+export const pt = (cm: number): number => Math.round(cm * CM_TO_PT * 1000) / 1000;
 
 // ── Page sizes (cm) ───────────────────────────────────────────────────────────
 
@@ -164,7 +165,7 @@ function tileStream(
  * Assemble a valid minimal PDF-1.4 document from an array of content streams,
  * one per page.  Uses only the standard Helvetica font (no embedding needed).
  */
-function assemblePdf(streams: string[], page: PageSize): string {
+export function assemblePdf(streams: string[], page: PageSize): string {
   const W = Math.round(pt(page.width));
   const H = Math.round(pt(page.height));
 

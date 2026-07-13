@@ -33,6 +33,14 @@ describe("recipes are self-describing", () => {
     }
   });
 
+  it("carries tech-pack scaffolding — a BOM and construction steps — for every garment", () => {
+    for (const g of GARMENTS) {
+      expect(g.techPack.bom.length).toBeGreaterThan(0);
+      expect(g.techPack.construction.length).toBeGreaterThan(0);
+      expect(g.techPack.bom.every((r) => r.material && r.placement && r.qty)).toBe(true);
+    }
+  });
+
   it("declares the tee undarted with a trued hem, and the fitted darted and untrued", () => {
     expect(dartOf(TEE.draft(STANDARD_M).front)).toBeNull();
     expect(TEE.checks).toEqual({ frontSideEdges: ["side"], hemSquareToFold: true });

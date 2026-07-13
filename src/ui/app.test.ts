@@ -61,6 +61,22 @@ describe("mountApp", () => {
     expect(URL.createObjectURL).toHaveBeenCalledTimes(3);
   });
 
+  it("downloads a whole-style tech pack, ignoring the per-size picker", () => {
+    const created: string[] = [];
+    URL.createObjectURL = vi.fn(() => "blob:test");
+    URL.revokeObjectURL = vi.fn();
+    HTMLAnchorElement.prototype.click = vi.fn(function (this: HTMLAnchorElement) {
+      created.push(this.download);
+    });
+    const root = mount();
+    const size = root.querySelector<HTMLSelectElement>("#export-size")!;
+    const opts = [...root.querySelectorAll<HTMLOptionElement>("#export-size option")];
+    size.value = opts[opts.length - 1].value;
+    size.dispatchEvent(new Event("change"));
+    root.querySelector<HTMLButtonElement>("#export-techpack")!.dispatchEvent(new Event("click"));
+    expect(created).toEqual(["tee-techpack.pdf"]); // size picker does not rename it
+  });
+
   it("exports the chosen size: the picker drives the filename and the geometry", () => {
     const created: string[] = [];
     const blobs: string[] = [];

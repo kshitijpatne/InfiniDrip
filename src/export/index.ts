@@ -4,3 +4,4 @@ export * from "./svg";
 export * from "./dxf";
 export * from "./pdf";
 export * from "./nesting";
+export * from "./techpack";

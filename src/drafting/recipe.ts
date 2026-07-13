@@ -30,6 +30,24 @@ export interface CheckSpec {
   readonly hemSquareToFold: boolean;
 }
 
+/**
+ * Tech-pack scaffolding: the bill of materials and construction notes a maker
+ * needs but the geometry can't produce. This is deliberately *user-owned* data,
+ * not a derived value — the app carries a sensible default per garment and the
+ * tech-pack document renders whatever the recipe holds. (In-app editing of these
+ * is a later slice; here they're edit-as-data on the recipe.)
+ */
+export interface BomRow {
+  readonly material: string;
+  readonly placement: string;
+  readonly qty: string;
+}
+
+export interface TechPack {
+  readonly bom: readonly BomRow[];
+  readonly construction: readonly string[]; // ordered sew steps
+}
+
 export interface GarmentRecipe {
   readonly name: string;  // stable id, e.g. "tee"
   readonly label: string; // what the UI shows, e.g. "Tee"
@@ -39,7 +57,17 @@ export interface GarmentRecipe {
   readonly grade: GradeRule;
   readonly sizes: readonly SizeStep[];
   readonly checks: CheckSpec;
+  readonly techPack: TechPack;
 }
+
+/** The knit-tee scaffolding, shared by both tee and fitted (same materials). */
+const KNIT_BOM: readonly BomRow[] = [
+  { material: "Cotton jersey, main", placement: "Body & sleeves", qty: "1.2 m" },
+  { material: "Rib knit", placement: "Neckband", qty: "0.1 m" },
+  { material: "Woven brand label", placement: "Centre back neck", qty: "1" },
+  { material: "Care/content label", placement: "Left side seam", qty: "1" },
+  { material: "Overlock thread", placement: "All seams", qty: "1 cone" },
+];
 
 export const TEE: GarmentRecipe = {
   name: "tee",
@@ -50,6 +78,17 @@ export const TEE: GarmentRecipe = {
   grade: TSHIRT_GRADE,
   sizes: TSHIRT_SIZES,
   checks: { frontSideEdges: ["side"], hemSquareToFold: true },
+  techPack: {
+    bom: KNIT_BOM,
+    construction: [
+      "Staystitch the front and back necklines.",
+      "Join the shoulder seams, front to back.",
+      "Attach the neckband, matching centre-front and shoulder notches.",
+      "Set in the sleeves flat, easing the cap to the armhole.",
+      "Close the side and underarm seams in one pass.",
+      "Hem the sleeves and the body.",
+    ],
+  },
 };
 
 export const FITTED: GarmentRecipe = {
@@ -61,6 +100,18 @@ export const FITTED: GarmentRecipe = {
   grade: TSHIRT_GRADE, // the same body grade drives both garments
   sizes: TSHIRT_SIZES,
   checks: { frontSideEdges: ["sideUpper", "sideLower"], hemSquareToFold: false },
+  techPack: {
+    bom: KNIT_BOM,
+    construction: [
+      "Staystitch the front and back necklines.",
+      "Sew the bust darts; press them toward the hem.",
+      "Join the shoulder seams, front to back.",
+      "Attach the neckband, matching centre-front and shoulder notches.",
+      "Set in the sleeves flat, easing the cap to the armhole.",
+      "Close the side and underarm seams in one pass.",
+      "Hem the sleeves and the body.",
+    ],
+  },
 };
 
 export const GARMENTS: readonly GarmentRecipe[] = [TEE, FITTED];
