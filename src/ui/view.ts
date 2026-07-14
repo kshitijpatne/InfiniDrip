@@ -155,6 +155,7 @@ export function viewToggleMarkup(active: string): string {
     `<span style="font-size:11px;color:${T.label};text-transform:uppercase;letter-spacing:0.04em;` +
     `margin-right:4px">View</span>` +
     `${btn("view-pattern", "Pattern", active === "pattern")}` +
+    `${btn("view-body", "Body", active === "body")}` +
     `${btn("view-nest", "Size run", active === "nest")}` +
     `${btn("view-spec", "Spec", active === "spec")}` +
     `${btn("view-fabric", "Nesting", active === "fabric")}` +

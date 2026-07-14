@@ -114,7 +114,8 @@ the parametric core stays consistent everywhere else.
               dart engine (dart.ts) + fitted/darted recipe (fitted.ts);
               the garment registry (recipe.ts) + the shared Block type (block.ts)
   render/     pieces -> SVG string; seam allowance; notches + grainlines; graded
-              nest; fabric nest; freeform editor; garment view; theme
+              nest; fabric nest; freeform editor; garment view; body view; theme
+              (body view = measurements -> annotated figure, engine-independent)
   export/     pieces -> true-scale cutting files (SVG, DXF, tiled PDF); shared
               layout spine; nesting estimator (shelf pack + utilization);
               tech-pack document (techpack.ts — 3-page sketch + POM table + BOM;

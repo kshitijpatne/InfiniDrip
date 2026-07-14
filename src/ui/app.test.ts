@@ -46,6 +46,14 @@ describe("mountApp", () => {
     expect(garment).toContain(`fill="${target.dataset.fabric}"`);
   });
 
+  it("switches the canvas to the body view when Body is clicked", () => {
+    const root = mount();
+    root.querySelector<HTMLButtonElement>("#view-body")!.dispatchEvent(new Event("click"));
+    const canvas = root.querySelector("#canvas-host svg")!.innerHTML;
+    expect(canvas).toContain("Armhole depth"); // a body-view dimension label
+    expect(canvas).toContain("(circ)"); // girth labels are marked
+  });
+
   it("downloads a file when an export button is clicked", () => {
     const created: string[] = [];
     URL.createObjectURL = vi.fn(() => "blob:test");

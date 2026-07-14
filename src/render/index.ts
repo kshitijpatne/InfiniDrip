@@ -8,3 +8,4 @@ export * from "./notch";
 export * from "./nest";
 export * from "./fabric";
 export * from "./editor";
+export * from "./body";

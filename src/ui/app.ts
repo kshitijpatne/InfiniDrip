@@ -5,7 +5,7 @@
 import { Measurements, STANDARD_M, Piece, STRETCH_FABRICS, fabricEaseNote } from "../drafting";
 import { gradeRun, draftAtSize, specSheet, GARMENTS, GarmentRecipe, garmentByName } from "../drafting";
 import { exportSvg, exportDxf, exportPdf, exportTechPack, flattenPiece, nestPieces } from "../export";
-import { renderBlueprint, renderGarment, renderNest, renderFabricNest, renderEditor, DEFAULT_FABRIC } from "../render";
+import { renderBlueprint, renderGarment, renderNest, renderFabricNest, renderEditor, renderBody, DEFAULT_FABRIC } from "../render";
 import { pieceHandles, moveHandle, nearestHandle, editorViewBox, viewboxPointToCm, Handle } from "../edit";
 import { dartOf, transferDart, trueSeam, edgesMeet } from "../drafting";
 import { BLUEPRINT } from "../render";
@@ -30,7 +30,7 @@ export function mountApp(root: HTMLElement): void {
 
   let targetStyle = "Classic tee"; // the declared fit target (sets nothing)
   let stretchFabric = STRETCH_FABRICS[0]; // drives the ease guidance note
-  let view: "pattern" | "nest" | "spec" | "fabric" | "check" | "edit" = "pattern";
+  let view: "pattern" | "body" | "nest" | "spec" | "fabric" | "check" | "edit" = "pattern";
   let recipe: GarmentRecipe = GARMENTS[0]; // the garment every view is built from
   let editedFront: Piece | null = null; // freeform snapshot of the front (override, not parametric)
   let dragId: string | null = null; // handle being dragged
@@ -69,6 +69,8 @@ export function mountApp(root: HTMLElement): void {
       const baseIndex = graded.findIndex((g) => g.step === 0);
       canvasHost.innerHTML = specTableMarkup(
         specSheet(graded, recipe.poms), graded.map((g) => g.label), baseIndex);
+    } else if (view === "body") {
+      canvasHost.innerHTML = renderBody(measurements);
     } else {
       const block = recipe.draft(measurements);
       canvasHost.innerHTML = renderBlueprint(
@@ -86,16 +88,17 @@ export function mountApp(root: HTMLElement): void {
 
   const viewBtns = {
     pattern: root.querySelector<HTMLButtonElement>("#view-pattern")!,
+    body: root.querySelector<HTMLButtonElement>("#view-body")!,
     nest: root.querySelector<HTMLButtonElement>("#view-nest")!,
     spec: root.querySelector<HTMLButtonElement>("#view-spec")!,
     fabric: root.querySelector<HTMLButtonElement>("#view-fabric")!,
     check: root.querySelector<HTMLButtonElement>("#view-check")!,
     edit: root.querySelector<HTMLButtonElement>("#view-edit")!,
   };
-  const setView = (v: "pattern" | "nest" | "spec" | "fabric" | "check" | "edit"): void => {
+  const setView = (v: "pattern" | "body" | "nest" | "spec" | "fabric" | "check" | "edit"): void => {
     if (v === "edit" && editedFront === null) editedFront = recipe.draft(measurements).front;
     view = v;
-    (["pattern", "nest", "spec", "fabric", "check", "edit"] as const).forEach((k) => {
+    (["pattern", "body", "nest", "spec", "fabric", "check", "edit"] as const).forEach((k) => {
       const on = k === v;
       viewBtns[k].style.background = on ? BLUEPRINT.lineActive : BLUEPRINT.background;
       viewBtns[k].style.color = on ? BLUEPRINT.background : BLUEPRINT.line;
@@ -103,6 +106,7 @@ export function mountApp(root: HTMLElement): void {
     draw();
   };
   viewBtns.pattern.addEventListener("click", () => setView("pattern"));
+  viewBtns.body.addEventListener("click", () => setView("body"));
   viewBtns.nest.addEventListener("click", () => setView("nest"));
   viewBtns.spec.addEventListener("click", () => setView("spec"));
   viewBtns.fabric.addEventListener("click", () => setView("fabric"));
