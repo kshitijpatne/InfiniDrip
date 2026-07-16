@@ -3,6 +3,7 @@ import { distance } from "../geometry";
 import { STANDARD_M } from "./measurements";
 import { edgeStart, edgeEnd, edgeLength, pieceEdge } from "./piece";
 import { draftFront, draftBack, draftSleeve, draftTshirt, armholeLength } from "./tshirt";
+import { rolePiece } from "./block";
 
 describe("draftFront", () => {
   const front = draftFront(STANDARD_M);
@@ -49,8 +50,8 @@ describe("draftSleeve", () => {
 describe("sleeve cap fitting", () => {
   it("fits the cap length to the armhole plus a small ease", () => {
     const block = draftTshirt(STANDARD_M);
-    const cap = edgeLength(pieceEdge(block.sleeve, "capLeft")) +
-                edgeLength(pieceEdge(block.sleeve, "capRight"));
+    const cap = edgeLength(pieceEdge(rolePiece(block, "sleeve"), "capLeft")) +
+                edgeLength(pieceEdge(rolePiece(block, "sleeve"), "capRight"));
     const diff = cap - armholeLength(STANDARD_M);
     expect(diff).toBeGreaterThan(0); // cap eased slightly longer
     expect(diff).toBeLessThan(3);    // but not by much
@@ -60,7 +61,7 @@ describe("sleeve cap fitting", () => {
 describe("draftTshirt", () => {
   it("returns front, back, and sleeve", () => {
     const block = draftTshirt(STANDARD_M);
-    expect([block.front.name, block.back.name, block.sleeve.name])
+    expect([rolePiece(block, "front").name, rolePiece(block, "back").name, rolePiece(block, "sleeve").name])
       .toEqual(["front", "back", "sleeve"]);
   });
 });

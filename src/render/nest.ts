@@ -7,7 +7,7 @@
 //
 // Pure string in / string out, like the rest of render — no browser needed.
 
-import { GradedSize } from "../drafting";
+import { GradedSize, rolePiece } from "../drafting";
 import { pieceToPath, pieceBounds } from "./shape";
 import { BLUEPRINT as T } from "./theme";
 
@@ -18,7 +18,6 @@ const GAP = 8;
 const TOP = 12;
 const LEGEND_H = 8;
 
-const PIECE_TYPES = ["front", "back", "sleeve"] as const;
 
 /** A cool→warm ramp across the size index, so size reads as colour. */
 function sizeColor(i: number, n: number): string {
@@ -33,8 +32,10 @@ export function renderNest(graded: readonly GradedSize[]): string {
   let cursor = MARGIN;
   let maxH = 0;
 
-  const columns = PIECE_TYPES.map((type) => {
-    const pieces = graded.map((g) => g.block[type]);
+  // Columns are whatever roles the garment actually drafted — no fixed triple.
+  const roles = [...new Set(graded.flatMap((g) => Object.keys(g.block.roles)))];
+  const columns = roles.map((type) => {
+    const pieces = graded.map((g) => rolePiece(g.block, type));
     // Column box = the largest extent any size reaches from the (0,0) corner.
     const box = pieces.reduce(
       (acc, p) => {
@@ -53,7 +54,7 @@ export function renderNest(graded: readonly GradedSize[]): string {
       .reverse()
       .map(({ g, i }) => {
         const base = g.step === 0;
-        return `<path d="${pieceToPath(g.block[type])}" fill="none" ` +
+        return `<path d="${pieceToPath(rolePiece(g.block, type))}" fill="none" ` +
           `stroke="${sizeColor(i, graded.length)}" stroke-width="${base ? 2.2 : 1.2}" ` +
           `stroke-linejoin="round" vector-effect="non-scaling-stroke"` +
           `${base ? "" : ` opacity="0.8"`}/>`;

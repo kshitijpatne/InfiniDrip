@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { point } from "../geometry";
-import { Piece, draftTshirt, STANDARD_M } from "../drafting";
+import { Piece, STANDARD_M, draftTshirt, rolePiece } from "../drafting";
 import {
   Handle,
   pieceHandles,
@@ -20,7 +20,7 @@ const square: Piece = {
     { kind: "line", name: "left", start: point(0, 10), end: point(0, 0) },
   ],
 };
-const front = draftTshirt(STANDARD_M).front;
+const front = rolePiece(draftTshirt(STANDARD_M), "front");
 
 describe("pieceHandles", () => {
   it("gives one vertex per corner and no controls for an all-line piece", () => {

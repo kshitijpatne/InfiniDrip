@@ -1,9 +1,9 @@
 import { describe, it, expect } from "vitest";
-import { draftTshirt, STANDARD_M } from "../drafting";
+import { STANDARD_M, draftTshirt, rolePiece } from "../drafting";
 import { pieceHandles, editorViewBox } from "../edit";
 import { renderEditor } from "./editor";
 
-const front = draftTshirt(STANDARD_M).front;
+const front = rolePiece(draftTshirt(STANDARD_M), "front");
 const handles = pieceHandles(front);
 const vb = editorViewBox(front);
 

@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { point } from "../geometry";
-import { Piece, Block, STANDARD_M, draftTshirt } from "../drafting";
+import { Block, Piece, STANDARD_M, block, draftTshirt } from "../drafting";
 
 const BAD_M = { ...STANDARD_M, ease: 2, armholeDepth: 10 };
 import { armholeMatch, easeRange, armholeDepthCheck, shoulderCheck, guide } from "./guidance";
@@ -19,7 +19,7 @@ function blockWith(armholeHalf: number, capHalf: number): Block {
       { kind: "line", name: "capRight", start: point(0, 0), end: point(0, capHalf) },
     ],
   };
-  return { front: armPiece("front", armholeHalf), back: armPiece("back", armholeHalf), sleeve };
+  return block({ front: armPiece("front", armholeHalf), back: armPiece("back", armholeHalf), sleeve });
 }
 
 describe("armholeMatch", () => {

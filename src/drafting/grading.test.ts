@@ -46,8 +46,8 @@ describe("gradeRun", () => {
     const run = gradeRun(STANDARD_M, rule, sizes, draftTshirt);
     expect(run.map((g) => g.label)).toEqual(["S", "M", "L"]);
     for (const g of run) {
-      expect(g.block.front.edges.length).toBeGreaterThan(0);
-      expect(g.block.sleeve.edges.length).toBeGreaterThan(0);
+      expect(rolePiece(g.block, "front").edges.length).toBeGreaterThan(0);
+      expect(rolePiece(g.block, "sleeve").edges.length).toBeGreaterThan(0);
     }
   });
 
@@ -69,8 +69,8 @@ describe("gradeRun", () => {
 describe("notches carry free across the grade", () => {
   it("regrades a notch automatically: same rule, position scales with the size", () => {
     const run = gradeRun(STANDARD_M, TSHIRT_GRADE, TSHIRT_SIZES, draftTshirt);
-    const small = run[0].block.front; // XS
-    const large = run[run.length - 1].block.front; // XL
+    const small = rolePiece(run[0].block, "front"); // XS
+    const large = rolePiece(run[run.length - 1].block, "front"); // XL
     const ruleNotch = { edgeName: "shoulder", t: 0.5 };
 
     const nSmall = resolveNotch(small, ruleNotch);
@@ -88,6 +88,7 @@ describe("notches carry free across the grade", () => {
 import { draftAtSize } from "./grading";
 import { FITTED } from "./recipe";
 import { edgeLength, pieceEdge } from "./piece";
+import { rolePiece } from "./block";
 
 describe("draftAtSize", () => {
   it("at step 0 reproduces the base draft exactly", () => {
@@ -104,12 +105,12 @@ describe("draftAtSize", () => {
 
   it("grows a size-sensitive measure with the step, for either garment", () => {
     const hem = (step: number, r = TSHIRT_GRADE, d = draftTshirt): number =>
-      edgeLength(pieceEdge(draftAtSize(STANDARD_M, r, step, d).front, "hem"));
+      edgeLength(pieceEdge(rolePiece(draftAtSize(STANDARD_M, r, step, d), "front"), "hem"));
     expect(hem(1)).toBeGreaterThan(hem(0));
     expect(hem(0)).toBeGreaterThan(hem(-1));
     // the fitted garment grades on the same rule
     const fhem = (step: number): number =>
-      edgeLength(pieceEdge(draftAtSize(STANDARD_M, FITTED.grade, step, FITTED.draft).front, "hem"));
+      edgeLength(pieceEdge(rolePiece(draftAtSize(STANDARD_M, FITTED.grade, step, FITTED.draft), "front"), "hem"));
     expect(fhem(2)).toBeGreaterThan(fhem(-2));
   });
 });

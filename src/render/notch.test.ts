@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { point } from "../geometry";
-import { draftTshirt, STANDARD_M, TSHIRT_NOTCHES } from "../drafting";
+import { STANDARD_M, TSHIRT_NOTCHES, draftTshirt, rolePiece } from "../drafting";
 import {
   pointOnEdge,
   normalOnEdge,
@@ -32,7 +32,7 @@ describe("pointOnEdge", () => {
   });
 
   it("samples a curve edge without throwing", () => {
-    const armhole = block.front.edges.find((e) => e.name === "armhole")!;
+    const armhole = rolePiece(block, "front").edges.find((e) => e.name === "armhole")!;
     const mid = pointOnEdge(armhole, 0.5);
     expect(typeof mid.x).toBe("number");
     expect(typeof mid.y).toBe("number");
@@ -58,20 +58,20 @@ describe("normalOnEdge", () => {
 
 describe("resolveNotch", () => {
   it("resolves a shoulder notch on the front piece", () => {
-    const notch = resolveNotch(block.front, { edgeName: "shoulder", t: 0.5 });
+    const notch = resolveNotch(rolePiece(block, "front"), { edgeName: "shoulder", t: 0.5 });
     expect(typeof notch.point.x).toBe("number");
     expect(Math.hypot(notch.normal.x, notch.normal.y)).toBeCloseTo(1, 3);
   });
 
   it("throws if the edge name does not exist", () => {
-    expect(() => resolveNotch(block.front, { edgeName: "nonexistent", t: 0.5 })).toThrow();
+    expect(() => resolveNotch(rolePiece(block, "front"), { edgeName: "nonexistent", t: 0.5 })).toThrow();
   });
 });
 
 describe("resolveGrainline", () => {
   it("resolves a grainline for the front piece", () => {
     const recipe = TSHIRT_NOTCHES.find((r) => r.pieceName === "front")!;
-    const gl = resolveGrainline(block.front, recipe.grainline);
+    const gl = resolveGrainline(rolePiece(block, "front"), recipe.grainline);
     expect(typeof gl.top.x).toBe("number");
     expect(typeof gl.bottom.y).toBe("number");
     expect(gl.top.y).toBeLessThan(gl.bottom.y);
@@ -80,7 +80,7 @@ describe("resolveGrainline", () => {
 
 describe("notchSvg", () => {
   it("produces an SVG line element", () => {
-    const notch = resolveNotch(block.front, { edgeName: "shoulder", t: 0.5 });
+    const notch = resolveNotch(rolePiece(block, "front"), { edgeName: "shoulder", t: 0.5 });
     const svg = notchSvg(notch, 1.5, "#000", 1);
     expect(svg.startsWith("<line")).toBe(true);
     expect(svg).toContain("x1=");
@@ -91,7 +91,7 @@ describe("notchSvg", () => {
 describe("grainlineSvg", () => {
   it("produces a line + two chevron paths", () => {
     const recipe = TSHIRT_NOTCHES.find((r) => r.pieceName === "front")!;
-    const gl = resolveGrainline(block.front, recipe.grainline);
+    const gl = resolveGrainline(rolePiece(block, "front"), recipe.grainline);
     const svg = grainlineSvg(gl, "#888", 1, 1.2);
     expect(svg).toContain("<line");
     expect(svg).toContain("<path");
@@ -107,7 +107,7 @@ describe("TSHIRT_NOTCHES", () => {
   });
 
   it("all notch rules resolve without error on STANDARD_M", () => {
-    const pieces = { front: block.front, back: block.back, sleeve: block.sleeve };
+    const pieces = { front: rolePiece(block, "front"), back: rolePiece(block, "back"), sleeve: rolePiece(block, "sleeve") };
     for (const recipe of TSHIRT_NOTCHES) {
       const piece = pieces[recipe.pieceName as keyof typeof pieces];
       for (const rule of recipe.notches) {

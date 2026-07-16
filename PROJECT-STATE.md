@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 24. Update this after every slice (and commit it WITH the code)._
+_Last updated: after Slice 25. Update this after every slice (and commit it WITH the code)._
 
 ## What it is
 A lightweight, local 2D sewing-pattern designer in TypeScript. Type body
@@ -72,6 +72,12 @@ SLICES-BRIEF.md) are committed in the same commit as the code they describe.**
 22. per-size export — a size picker in the export area drafts the chosen graded
     size (via `draftAtSize`) and emits `<garment>-<SIZE>.<ext>`; scopes only the
     exports, every other view keeps its job (327)
+25. Block generalization — `Block` is now `{ roles: Record<string, Piece> }` with
+    `block()`, `blockPieces()` (engine: iterate) and `rolePiece()` (recipe: ask by
+    role; throws if absent). Role ≠ piece name (the fitted "front" role holds a
+    piece named "fitted front"). Size-run columns now derive from the block's
+    roles instead of a hardcoded triple. Pure refactor: all 18 export/render
+    outputs verified byte-identical to s24. Step 1 of 5 toward a skirt (360)
 24. body view — an annotated upper-body figure (render/body.ts) drawn from the
     measurements; each raw input is a dimension line on the body, girths marked
     "(circ)", straight torso (no waist is measured). New "Body" view toggle.
@@ -266,4 +272,4 @@ thread.
 ## Test counts (proof a slice landed)
 s4=58, s5=72, s6=82, s7=89, s8=94, s9=103, s10=119, s11=139, s12=155, s13=171,
 s14=187, s15=202, s16=219, s17=239, s18=257, s19=268, s20=285, s21=321, s22=327
-(+1 post-s22 SVG-export bugfix = 328), s23a=343, s23b=348, s24=355
+(+1 post-s22 SVG-export bugfix = 328), s23a=343, s23b=348, s24=355, s25=360

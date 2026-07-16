@@ -4,6 +4,7 @@
 
 import { Measurements, STANDARD_M, Piece, STRETCH_FABRICS, fabricEaseNote } from "../drafting";
 import { gradeRun, draftAtSize, specSheet, GARMENTS, GarmentRecipe, garmentByName } from "../drafting";
+import { blockPieces, rolePiece } from "../drafting";
 import { exportSvg, exportDxf, exportPdf, exportTechPack, flattenPiece, nestPieces } from "../export";
 import { renderBlueprint, renderGarment, renderNest, renderFabricNest, renderEditor, renderBody, DEFAULT_FABRIC } from "../render";
 import { pieceHandles, moveHandle, nearestHandle, editorViewBox, viewboxPointToCm, Handle } from "../edit";
@@ -45,7 +46,7 @@ export function mountApp(root: HTMLElement): void {
         gradeRun(measurements, recipe.grade, recipe.sizes, recipe.draft));
     } else if (view === "fabric") {
       const block = recipe.draft(measurements);
-      const flats = [block.front, block.back, block.sleeve].map((p) => flattenPiece(p, ALLOWANCE));
+      const flats = blockPieces(block).map((p) => flattenPiece(p, ALLOWANCE));
       const nest = nestPieces(flats, fabricWidth);
       canvasHost.innerHTML = renderFabricNest(
         nest.placed, nest.fabricWidth, nest.fabricLength, nest.utilization, nest.fits);
@@ -73,9 +74,10 @@ export function mountApp(root: HTMLElement): void {
       canvasHost.innerHTML = renderBody(measurements);
     } else {
       const block = recipe.draft(measurements);
+      const pieces = blockPieces(block);
       canvasHost.innerHTML = renderBlueprint(
-        [block.front, block.back, block.sleeve],
-        { active: block.front.name, notches: recipe.notches });
+        pieces,
+        { active: pieces[0].name, notches: recipe.notches });
     }
     garmentHost.innerHTML = renderGarment(measurements, fabric);
     // Guidance = the geometry checks, plus a fabric-stretch ease note (advice only).
@@ -96,7 +98,7 @@ export function mountApp(root: HTMLElement): void {
     edit: root.querySelector<HTMLButtonElement>("#view-edit")!,
   };
   const setView = (v: "pattern" | "body" | "nest" | "spec" | "fabric" | "check" | "edit"): void => {
-    if (v === "edit" && editedFront === null) editedFront = recipe.draft(measurements).front;
+    if (v === "edit" && editedFront === null) editedFront = rolePiece(recipe.draft(measurements), "front");
     view = v;
     (["pattern", "body", "nest", "spec", "fabric", "check", "edit"] as const).forEach((k) => {
       const on = k === v;
@@ -149,7 +151,7 @@ export function mountApp(root: HTMLElement): void {
   canvasHost.addEventListener("click", (e) => {
     const id = (e.target as HTMLElement).id;
     if (id === "editor-reset") {
-      editedFront = recipe.draft(measurements).front;
+      editedFront = rolePiece(recipe.draft(measurements), "front");
       selectedId = null;
       draw();
     } else if (DART_TOOLS[id] && editedFront) {
@@ -169,7 +171,7 @@ export function mountApp(root: HTMLElement): void {
     });
     editedFront = null; // a new garment invalidates the freeform snapshot
     selectedId = null;
-    if (view === "edit") editedFront = recipe.draft(measurements).front;
+    if (view === "edit") editedFront = rolePiece(recipe.draft(measurements), "front");
     draw();
   };
   GARMENTS.forEach((g) => {
@@ -237,7 +239,7 @@ export function mountApp(root: HTMLElement): void {
     recipe.sizes.find((s) => s.step === exportStep)!.label;
   const exportPieces = (): Piece[] => {
     const block = draftAtSize(measurements, recipe.grade, exportStep, recipe.draft);
-    return [block.front, block.back, block.sleeve];
+    return [...blockPieces(block)];
   };
   const download = (filename: string, text: string, mime: string): void => {
     const url = URL.createObjectURL(new Blob([text], { type: mime }));

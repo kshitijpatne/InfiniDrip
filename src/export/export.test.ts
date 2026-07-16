@@ -4,7 +4,7 @@
 // file is plain string/number checks that don't care about the environment.
 import { describe, it, expect } from "vitest";
 import { point } from "../geometry";
-import { Piece, draftTshirt, STANDARD_M } from "../drafting";
+import { Piece, STANDARD_M, draftTshirt, rolePiece } from "../drafting";
 import {
   flattenPiece,
   polylineBounds,
@@ -26,7 +26,7 @@ const square: Piece = {
 };
 
 const block = draftTshirt(STANDARD_M);
-const pieces = [block.front, block.back, block.sleeve];
+const pieces = [rolePiece(block, "front"), rolePiece(block, "back"), rolePiece(block, "sleeve")];
 
 describe("flattenPiece", () => {
   it("returns a sew outline and a larger cut outline", () => {
@@ -103,7 +103,7 @@ describe("exportSvg", () => {
 
 describe("exportSvg with non-tshirt pieces", () => {
   it("exports a piece with no notch recipe without crashing", () => {
-    const unknown = { ...block.front, name: "unknown-piece" };
+    const unknown = { ...rolePiece(block, "front"), name: "unknown-piece" };
     const svg = exportSvg([unknown], 1);
     expect(svg).toContain("UNKNOWN-PIECE");
     expect(svg).toContain("viewBox");

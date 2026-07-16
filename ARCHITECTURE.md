@@ -112,7 +112,8 @@ the parametric core stays consistent everywhere else.
   drafting/   measurements -> pieces; t-shirt recipe; notch rules; fabric/ease
               guidance; grading engine + grade table; POM measuring + POM list;
               dart engine (dart.ts) + fitted/darted recipe (fitted.ts);
-              the garment registry (recipe.ts) + the shared Block type (block.ts)
+              the garment registry (recipe.ts) + the shared Block type (block.ts:
+              role-keyed piece collection; blockPieces = engine, rolePiece = recipe)
   render/     pieces -> SVG string; seam allowance; notches + grainlines; graded
               nest; fabric nest; freeform editor; garment view; body view; theme
               (body view = measurements -> annotated figure, engine-independent)
@@ -153,10 +154,21 @@ the style table, the notch rules (`tshirt-notches.ts`), the fabric/ease guidance
 the per-garment check spec. All of it is bundled into one `GarmentRecipe`
 (`recipe.ts`), which is the only thing the engine is handed.
 
-Adding a new garment = writing a new recipe that plugs into the same engine, not
-building a new app. (One known engine spot still tee-shaped: the POM query type
-`Pom.measure` takes a `TshirtBlock`; when garment #2 lands it becomes generic — a
-small change, not a rewrite.)
+Adding a new garment in the SAME family (a top) = writing a new recipe. A
+structurally different garment (a bottom) does NOT yet plug in — be honest about
+where the split is real:
+
+  REAL (garment-agnostic today): grading, POM engine, layout, SVG/DXF/PDF export,
+  nesting, renderBlueprint, the edit engine, and Block itself (s25).
+
+  STILL TEE-SHAPED: (1) `Measurements` has no waist/hip — it is an upper-body set,
+  and controls/persist/style/body-view all key off it; (2) garment-check.ts
+  hard-codes shoulder/sleeve/cap seam pairs; (3) guidance.ts always runs
+  armholeMatch; (4) the style table is nine tees; (5) garment + body views draw a
+  top.
+
+  A skirt needs ~5 slices: Block (done, s25) → recipe-owned checks → recipe-owned
+  guidance → per-garment Measurements → the skirt recipe itself.
 
 ## Where the roadmap plugs in (what's left, slices 19–20)
 

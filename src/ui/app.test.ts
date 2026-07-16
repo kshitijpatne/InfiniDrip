@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import { describe, it, expect, vi } from "vitest";
 import { mountApp } from "./app";
-import { draftTshirt, STANDARD_M } from "../drafting";
+import { STANDARD_M, draftTshirt, rolePiece } from "../drafting";
 import { pieceHandles, editorViewBox } from "../edit";
 
 function mount(): HTMLDivElement {
@@ -248,7 +248,7 @@ describe("mountApp", () => {
   it("drags a handle to reshape the front, ignores stray input, and resets", () => {
     localStorage.clear();
     // 1 cm == 1 px, origin aligned, so screen coords map straight to cm - vb.min
-    const vb = editorViewBox(draftTshirt(STANDARD_M).front);
+    const vb = editorViewBox(rolePiece(draftTshirt(STANDARD_M), "front"));
     const rect = { left: 0, top: 0, width: vb.w, height: vb.h, right: vb.w, bottom: vb.h, x: 0, y: 0, toJSON() {} };
     const orig = Element.prototype.getBoundingClientRect;
     Element.prototype.getBoundingClientRect = () => rect as DOMRect;
@@ -261,7 +261,7 @@ describe("mountApp", () => {
       window.dispatchEvent(new MouseEvent("mousemove", { clientX: 5, clientY: 5 }));
 
       root.querySelector<HTMLButtonElement>("#view-edit")!.dispatchEvent(new Event("click"));
-      const vertex = pieceHandles(draftTshirt(STANDARD_M).front).find((h) => h.kind === "vertex")!;
+      const vertex = pieceHandles(rolePiece(draftTshirt(STANDARD_M), "front")).find((h) => h.kind === "vertex")!;
       const sx = vertex.pos.x - vb.minX;
       const sy = vertex.pos.y - vb.minY;
 

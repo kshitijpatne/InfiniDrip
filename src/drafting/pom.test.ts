@@ -5,28 +5,29 @@ import { TSHIRT_GRADE, TSHIRT_SIZES } from "./tshirt-grade";
 import { draftTshirt } from "./tshirt";
 import { seam, spanX, spanY, specSheet, Pom } from "./pom";
 import { TSHIRT_POMS } from "./tshirt-pom";
+import { rolePiece } from "./block";
 
 const block = draftTshirt(STANDARD_M);
 
 describe("query helpers", () => {
   it("seam returns a named edge's length", () => {
-    expect(seam(block.front, "shoulder")).toBeGreaterThan(0);
+    expect(seam(rolePiece(block, "front"), "shoulder")).toBeGreaterThan(0);
   });
 
   it("seam throws for an unknown edge", () => {
-    expect(() => seam(block.front, "nope")).toThrow();
+    expect(() => seam(rolePiece(block, "front"), "nope")).toThrow();
   });
 
   it("spanX measures horizontal distance between two named points", () => {
     // hps (neckWidthHalf, 0) to the fold (x=0) = the half neck width
-    const half = spanX(block.front, { edge: "shoulder", at: "start" }, { edge: "centerFront", at: "start" });
+    const half = spanX(rolePiece(block, "front"), { edge: "shoulder", at: "start" }, { edge: "centerFront", at: "start" });
     expect(half).toBeGreaterThan(0);
     expect(half).toBeCloseTo(STANDARD_M.chest / 20 + 2, 6); // neckWidthHalf
   });
 
   it("spanY measures vertical distance between two named points", () => {
     // HPS (y=0) to hem (y=length) = body length
-    const len = spanY(block.front, { edge: "shoulder", at: "start" }, { edge: "hem", at: "start" });
+    const len = spanY(rolePiece(block, "front"), { edge: "shoulder", at: "start" }, { edge: "hem", at: "start" });
     expect(len).toBeCloseTo(STANDARD_M.length, 6);
   });
 });
@@ -73,9 +74,9 @@ describe("specSheet", () => {
 
   it("the base (M) column matches measuring the base block directly", () => {
     const baseIdx = graded.findIndex((g) => g.step === 0);
-    const custom: Pom = { label: "chest half", measure: (b) => spanX(b.front, { edge: "side", at: "start" }, { edge: "centerFront", at: "start" }) };
+    const custom: Pom = { label: "chest half", measure: (b) => spanX(rolePiece(b, "front"), { edge: "side", at: "start" }, { edge: "centerFront", at: "start" }) };
     const sheet = specSheet(graded, [custom]);
-    const direct = spanX(block.front, { edge: "side", at: "start" }, { edge: "centerFront", at: "start" });
+    const direct = spanX(rolePiece(block, "front"), { edge: "side", at: "start" }, { edge: "centerFront", at: "start" });
     expect(sheet[0].values[baseIdx]).toBeCloseTo(Math.round(direct * 10) / 10, 9);
   });
 });

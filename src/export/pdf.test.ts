@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { draftTshirt, STANDARD_M } from "../drafting";
+import { STANDARD_M, draftTshirt, rolePiece } from "../drafting";
 import {
   tilePlan,
   exportPdf,
@@ -10,7 +10,7 @@ import {
 } from "./pdf";
 
 const block = draftTshirt(STANDARD_M);
-const pieces = [block.front, block.back, block.sleeve];
+const pieces = [rolePiece(block, "front"), rolePiece(block, "back"), rolePiece(block, "sleeve")];
 
 // ── polylinePath ──────────────────────────────────────────────────────────────
 

@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { STANDARD_M, TEE, FITTED } from "../drafting";
+import { FITTED, STANDARD_M, TEE, rolePiece } from "../drafting";
 import { PAGE_LETTER } from "./pdf";
 import { exportTechPack, pdfString } from "./techpack";
 
@@ -51,7 +51,7 @@ describe("exportTechPack", () => {
 
   it("labels every drafted piece on the sketch", () => {
     const block = TEE.draft(STANDARD_M);
-    for (const name of [block.front.name, block.back.name, block.sleeve.name]) {
+    for (const name of [rolePiece(block, "front").name, rolePiece(block, "back").name, rolePiece(block, "sleeve").name]) {
       expect(pdf).toContain(`(${name.toUpperCase()})`);
     }
   });

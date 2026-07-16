@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import { STANDARD_M } from "./measurements";
 import { TEE, FITTED, GARMENTS, garmentByName } from "./recipe";
 import { dartOf } from "./dart";
+import { rolePiece } from "./block";
 
 describe("the garment registry", () => {
   it("lists every garment with a stable id and a display label", () => {
@@ -20,14 +21,14 @@ describe("recipes are self-describing", () => {
   it("each drafts a complete three-piece block", () => {
     for (const g of GARMENTS) {
       const b = g.draft(STANDARD_M);
-      expect([b.front.name, b.back.name, b.sleeve.name].every(Boolean)).toBe(true);
+      expect([rolePiece(b, "front").name, rolePiece(b, "back").name, rolePiece(b, "sleeve").name].every(Boolean)).toBe(true);
     }
   });
 
   it("each declares notches for every piece it drafts", () => {
     for (const g of GARMENTS) {
       const b = g.draft(STANDARD_M);
-      for (const name of [b.front.name, b.back.name, b.sleeve.name]) {
+      for (const name of [rolePiece(b, "front").name, rolePiece(b, "back").name, rolePiece(b, "sleeve").name]) {
         expect(g.notches.find((n) => n.pieceName === name)).toBeDefined();
       }
     }
@@ -42,10 +43,10 @@ describe("recipes are self-describing", () => {
   });
 
   it("declares the tee undarted with a trued hem, and the fitted darted and untrued", () => {
-    expect(dartOf(TEE.draft(STANDARD_M).front)).toBeNull();
+    expect(dartOf(rolePiece(TEE.draft(STANDARD_M), "front"))).toBeNull();
     expect(TEE.checks).toEqual({ frontSideEdges: ["side"], hemSquareToFold: true });
 
-    expect(dartOf(FITTED.draft(STANDARD_M).front)).not.toBeNull();
+    expect(dartOf(rolePiece(FITTED.draft(STANDARD_M), "front"))).not.toBeNull();
     expect(FITTED.checks).toEqual({
       frontSideEdges: ["sideUpper", "sideLower"],
       hemSquareToFold: false,

@@ -2,7 +2,7 @@
 // returns plain-English notes about whether the pattern is sound. Every check
 // is a small, enforceable fact about a valid t-shirt — no guessing.
 
-import { Measurements, Block, edgeLength, pieceEdge } from "../drafting";
+import { Measurements, Block, edgeLength, pieceEdge, rolePiece } from "../drafting";
 
 export type Level = "ok" | "info" | "warn";
 
@@ -14,11 +14,11 @@ export interface Note {
 /** The headline check: does the sleeve cap match the armhole it sews into? */
 export function armholeMatch(block: Block): Note {
   const armhole =
-    edgeLength(pieceEdge(block.front, "armhole")) +
-    edgeLength(pieceEdge(block.back, "armhole"));
+    edgeLength(pieceEdge(rolePiece(block, "front"), "armhole")) +
+    edgeLength(pieceEdge(rolePiece(block, "back"), "armhole"));
   const cap =
-    edgeLength(pieceEdge(block.sleeve, "capLeft")) +
-    edgeLength(pieceEdge(block.sleeve, "capRight"));
+    edgeLength(pieceEdge(rolePiece(block, "sleeve"), "capLeft")) +
+    edgeLength(pieceEdge(rolePiece(block, "sleeve"), "capRight"));
   const diff = cap - armhole; // positive = cap longer (normal easing)
 
   if (diff >= -1 && diff <= 4) {

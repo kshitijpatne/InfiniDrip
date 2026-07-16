@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { STANDARD_M, TEE, FITTED, PieceNotches, draftFitted, draftTshirt } from "../drafting";
+import { FITTED, PieceNotches, STANDARD_M, TEE, draftFitted, draftTshirt, rolePiece } from "../drafting";
 import { garmentReport, notchGrainCheck, dartLegCheck } from "./garment-check";
 
 describe("garmentReport — the tee", () => {
@@ -47,9 +47,9 @@ describe("dartLegCheck", () => {
 
   it("fails when one leg is longer than the other", () => {
     const b = draftFitted(STANDARD_M);
-    const edges = b.front.edges.map((e) =>
+    const edges = rolePiece(b, "front").edges.map((e) =>
       e.kind === "line" && e.name === "bustDartLower" ? { ...e, end: { x: 99, y: 99 } } : e);
-    const skewed = { ...b, front: { ...b.front, edges } };
+    const skewed = { ...b, roles: { ...b.roles, front: { ...rolePiece(b, "front"), edges } } };
     expect(dartLegCheck(skewed)!.ok).toBe(false);
   });
 });

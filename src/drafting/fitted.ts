@@ -13,7 +13,7 @@ import { point } from "../geometry";
 import { Measurements, derive } from "./measurements";
 import { Edge, Piece } from "./piece";
 import { draftBack, draftSleeve } from "./tshirt";
-import { Block } from "./block";
+import { Block, block } from "./block";
 
 const DART_INTAKE = 4; // cm taken up across the dart mouth on the side seam
 
@@ -67,5 +67,5 @@ export function draftFittedFront(m: Measurements): Piece {
 
 /** A fitted block: a darted front, with the tee's back and sleeve reused as-is. */
 export function draftFitted(m: Measurements): Block {
-  return { front: draftFittedFront(m), back: draftBack(m), sleeve: draftSleeve(m) };
+  return block({ front: draftFittedFront(m), back: draftBack(m), sleeve: draftSleeve(m) });
 }

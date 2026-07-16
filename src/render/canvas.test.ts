@@ -1,10 +1,10 @@
 import { describe, it, expect } from "vitest";
-import { STANDARD_M, draftTshirt, draftFittedFront, dartOf } from "../drafting";
+import { STANDARD_M, dartOf, draftFittedFront, draftTshirt, rolePiece } from "../drafting";
 import { renderBlueprint } from "./canvas";
 import { BLUEPRINT } from "./theme";
 
 const block = draftTshirt(STANDARD_M);
-const pieces = [block.front, block.back, block.sleeve];
+const pieces = [rolePiece(block, "front"), rolePiece(block, "back"), rolePiece(block, "sleeve")];
 
 describe("renderBlueprint", () => {
   it("produces one svg with a viewBox and dark background", () => {
@@ -53,7 +53,7 @@ describe("seam allowance", () => {
 
 describe("renderBlueprint with non-tshirt pieces", () => {
   it("renders a piece with no notch recipe without crashing or drawing notches", () => {
-    const unknown = { ...block.front, name: "unknown-piece" };
+    const unknown = { ...rolePiece(block, "front"), name: "unknown-piece" };
     const svg = renderBlueprint([unknown]);
     expect(svg.startsWith("<svg")).toBe(true);
   });

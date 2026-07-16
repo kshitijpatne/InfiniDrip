@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { point } from "../geometry";
-import { draftTshirt, STANDARD_M } from "../drafting";
+import { STANDARD_M, draftTshirt, rolePiece } from "../drafting";
 import { flattenPiece, polylineBounds } from "./layout";
 import { polygonArea, nestPieces } from "./nesting";
 
@@ -71,7 +71,7 @@ describe("nestPieces", () => {
 
   it("nests the real t-shirt block within a standard bolt", () => {
     const block = draftTshirt(STANDARD_M);
-    const flats = [block.front, block.back, block.sleeve].map((p) => flattenPiece(p, 1));
+    const flats = [rolePiece(block, "front"), rolePiece(block, "back"), rolePiece(block, "sleeve")].map((p) => flattenPiece(p, 1));
     const r = nestPieces(flats, 150);
     expect(r.placed).toHaveLength(3);
     expect(r.fits).toBe(true);

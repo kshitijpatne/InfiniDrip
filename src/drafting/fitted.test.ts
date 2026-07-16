@@ -3,6 +3,7 @@ import { STANDARD_M } from "./measurements";
 import { draftFront, draftBack, draftSleeve } from "./tshirt";
 import { draftFittedFront, draftFitted } from "./fitted";
 import { pieceEdge, edgeStart, edgeEnd, edgeLength } from "./piece";
+import { rolePiece } from "./block";
 
 describe("draftFittedFront", () => {
   const f = draftFittedFront(STANDARD_M);
@@ -46,9 +47,9 @@ describe("draftFitted", () => {
   it("swaps in the darted front but reuses the tee's back and sleeve verbatim", () => {
     const m = STANDARD_M;
     const block = draftFitted(m);
-    expect(block.front.name).toBe("fitted front");
-    expect(block.front.dart).toBeDefined();
-    expect(block.back).toEqual(draftBack(m));
-    expect(block.sleeve).toEqual(draftSleeve(m));
+    expect(rolePiece(block, "front").name).toBe("fitted front");
+    expect(rolePiece(block, "front").dart).toBeDefined();
+    expect(rolePiece(block, "back")).toEqual(draftBack(m));
+    expect(rolePiece(block, "sleeve")).toEqual(draftSleeve(m));
   });
 });
