@@ -37,7 +37,6 @@ export function mountApp(root: HTMLElement): void {
   let dragId: string | null = null; // handle being dragged
   let selectedId: string | null = null; // handle highlighted in the editor
   let fabricWidth = 150; // cm — the bolt width for the nesting estimator
-  const ALLOWANCE = 1; // cm seam allowance, shared by nesting and the exports
 
   const draw = (): void => {
     fabricWidthHost.style.display = view === "fabric" ? "flex" : "none";
@@ -46,7 +45,7 @@ export function mountApp(root: HTMLElement): void {
         gradeRun(measurements, recipe.grade, recipe.sizes, recipe.draft));
     } else if (view === "fabric") {
       const block = recipe.draft(measurements);
-      const flats = blockPieces(block).map((p) => flattenPiece(p, ALLOWANCE));
+      const flats = blockPieces(block).map((p) => flattenPiece(p, recipe.allowances));
       const nest = nestPieces(flats, fabricWidth);
       canvasHost.innerHTML = renderFabricNest(
         nest.placed, nest.fabricWidth, nest.fabricLength, nest.utilization, nest.fits);
@@ -77,7 +76,7 @@ export function mountApp(root: HTMLElement): void {
       const pieces = blockPieces(block);
       canvasHost.innerHTML = renderBlueprint(
         pieces,
-        { active: pieces[0].name, notches: recipe.notches });
+        { active: pieces[0].name, notches: recipe.notches, allowances: recipe.allowances });
     }
     garmentHost.innerHTML = renderGarment(measurements, fabric);
     // Guidance = the geometry checks, plus a fabric-stretch ease note (advice only).
@@ -250,13 +249,13 @@ export function mountApp(root: HTMLElement): void {
     URL.revokeObjectURL(url);
   };
   root.querySelector<HTMLButtonElement>("#export-svg")!.addEventListener("click", () => {
-    download(`${recipe.name}-${exportSizeLabel()}.svg`, exportSvg(exportPieces(), ALLOWANCE, recipe.notches), "image/svg+xml");
+    download(`${recipe.name}-${exportSizeLabel()}.svg`, exportSvg(exportPieces(), recipe.allowances, recipe.notches), "image/svg+xml");
   });
   root.querySelector<HTMLButtonElement>("#export-dxf")!.addEventListener("click", () => {
-    download(`${recipe.name}-${exportSizeLabel()}.dxf`, exportDxf(exportPieces(), ALLOWANCE), "image/vnd.dxf");
+    download(`${recipe.name}-${exportSizeLabel()}.dxf`, exportDxf(exportPieces(), recipe.allowances), "image/vnd.dxf");
   });
   root.querySelector<HTMLButtonElement>("#export-pdf")!.addEventListener("click", () => {
-    download(`${recipe.name}-${exportSizeLabel()}.pdf`, exportPdf(exportPieces(), ALLOWANCE), "application/pdf");
+    download(`${recipe.name}-${exportSizeLabel()}.pdf`, exportPdf(exportPieces(), recipe.allowances), "application/pdf");
   });
   // The tech pack is a whole-style document (sample-size sketch + graded table),
   // so it uses the live measurements directly and ignores the per-size picker.

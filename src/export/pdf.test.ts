@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { STANDARD_M, draftTshirt, rolePiece } from "../drafting";
+import { STANDARD_M, draftTshirt, rolePiece, AllowanceSpec } from "../drafting";
 import {
   tilePlan,
   exportPdf,
@@ -8,6 +8,8 @@ import {
   PageSize,
   polylinePath,
 } from "./pdf";
+
+const UNIFORM: AllowanceSpec = { default: 1 };
 
 const block = draftTshirt(STANDARD_M);
 const pieces = [rolePiece(block, "front"), rolePiece(block, "back"), rolePiece(block, "sleeve")];
@@ -62,7 +64,7 @@ describe("tilePlan", () => {
 // ── exportPdf ─────────────────────────────────────────────────────────────────
 
 describe("exportPdf", () => {
-  const pdf = exportPdf(pieces, 1);
+  const pdf = exportPdf(pieces, UNIFORM);
 
   it("starts and ends with valid PDF markers", () => {
     expect(pdf.startsWith("%PDF-1.4")).toBe(true);
@@ -101,19 +103,19 @@ describe("exportPdf", () => {
   });
 
   it("works with PAGE_LETTER too", () => {
-    const letter = exportPdf(pieces, 1, PAGE_LETTER);
+    const letter = exportPdf(pieces, UNIFORM, PAGE_LETTER);
     expect(letter.startsWith("%PDF-1.4")).toBe(true);
     expect(letter).toContain("%%EOF");
   });
 
   it("works with a custom overlap value", () => {
-    const tight = exportPdf(pieces, 1, PAGE_A4, 0.5);
+    const tight = exportPdf(pieces, UNIFORM, PAGE_A4, 0.5);
     expect(tight).toContain("%PDF-1.4");
   });
 
   it("handles a single-tile sheet without gaps in the xref table", () => {
     const bigPage: PageSize = { width: 200, height: 200 };
-    const single = exportPdf(pieces, 1, bigPage, 1);
+    const single = exportPdf(pieces, UNIFORM, bigPage, 1);
     expect(single.startsWith("%PDF-1.4")).toBe(true);
     expect(single).toContain("%%EOF");
   });

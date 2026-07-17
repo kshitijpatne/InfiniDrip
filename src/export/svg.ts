@@ -2,7 +2,7 @@
 // to the window), this is a *cutting file*: white sheet, black cut lines, faint
 // dashed sew lines, sized in real centimetres so it prints and opens at 1:1.
 
-import { Piece } from "../drafting";
+import { Piece, AllowanceSpec } from "../drafting";
 import { flattenPiece, layoutPieces, polylineBounds, Polyline, PlacedPiece } from "./layout";
 import { resolveNotch, resolveGrainline, notchSvg, grainlineSvg } from "../render/notch";
 import { PieceNotches } from "../drafting/tshirt-notches";
@@ -59,7 +59,7 @@ function pieceSvg(
 /** A printable, true-scale SVG of the pieces. Sew on the dashed line, cut on the solid. */
 export function exportSvg(
   pieces: readonly Piece[],
-  allowance: number,
+  allowance: AllowanceSpec,
   notches: readonly PieceNotches[] = []
 ): string {
   const flats = pieces.map((p) => flattenPiece(p, allowance));

@@ -4,7 +4,7 @@
 // file is plain string/number checks that don't care about the environment.
 import { describe, it, expect } from "vitest";
 import { point } from "../geometry";
-import { Piece, STANDARD_M, draftTshirt, rolePiece } from "../drafting";
+import { Piece, STANDARD_M, draftTshirt, rolePiece, AllowanceSpec } from "../drafting";
 import {
   flattenPiece,
   polylineBounds,
@@ -12,6 +12,8 @@ import {
   exportSvg,
   exportDxf,
 } from "./index";
+
+const UNIFORM: AllowanceSpec = { default: 1 };
 
 // A tiny square piece (10 x 10) made of four named line edges, cut on no fold.
 const square: Piece = {
@@ -30,7 +32,7 @@ const pieces = [rolePiece(block, "front"), rolePiece(block, "back"), rolePiece(b
 
 describe("flattenPiece", () => {
   it("returns a sew outline and a larger cut outline", () => {
-    const flat = flattenPiece(square, 1);
+    const flat = flattenPiece(square, UNIFORM);
     expect(flat.name).toBe("square");
     expect(flat.sew.length).toBeGreaterThan(0);
     // the cut line sits outside the sew line, so it spans wider than 10 cm
@@ -48,7 +50,7 @@ describe("polylineBounds", () => {
 
 describe("layoutPieces", () => {
   it("packs pieces left to right without overlap", () => {
-    const flats = pieces.map((p) => flattenPiece(p, 1));
+    const flats = pieces.map((p) => flattenPiece(p, UNIFORM));
     const layout = layoutPieces(flats);
     expect(layout.pieces.length).toBe(3);
     // each piece's left edge starts further right than the previous one's
@@ -67,7 +69,7 @@ describe("layoutPieces", () => {
 });
 
 describe("exportSvg", () => {
-  const svg = exportSvg(pieces, 1);
+  const svg = exportSvg(pieces, UNIFORM);
 
   it("is a true-scale SVG sized in centimetres", () => {
     expect(svg.startsWith("<svg")).toBe(true);
@@ -104,14 +106,14 @@ describe("exportSvg", () => {
 describe("exportSvg with non-tshirt pieces", () => {
   it("exports a piece with no notch recipe without crashing", () => {
     const unknown = { ...rolePiece(block, "front"), name: "unknown-piece" };
-    const svg = exportSvg([unknown], 1);
+    const svg = exportSvg([unknown], UNIFORM);
     expect(svg).toContain("UNKNOWN-PIECE");
     expect(svg).toContain("viewBox");
   });
 });
 
 describe("exportDxf", () => {
-  const dxf = exportDxf(pieces, 1);
+  const dxf = exportDxf(pieces, UNIFORM);
 
   it("is a well-formed minimal DXF", () => {
     expect(dxf.startsWith("0\nSECTION")).toBe(true);

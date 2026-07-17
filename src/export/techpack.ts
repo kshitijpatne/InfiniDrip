@@ -26,6 +26,7 @@ import {
   gradeRun,
   specSheet,
   blockPieces,
+  NO_ALLOWANCE,
 } from "../drafting";
 import { flattenPiece, layoutPieces, polylineBounds } from "./layout";
 import { assemblePdf, pt, PAGE_A4, PageSize } from "./pdf";
@@ -67,7 +68,7 @@ function rule(yTopCm: number, page: PageSize): string {
 // ── Page 1: the flat sketch ───────────────────────────────────────────────────
 
 function sketchStream(block: Block, poms: readonly Pom[], label: string, page: PageSize): string {
-  const flats = blockPieces(block).map((p) => flattenPiece(p, 0));
+  const flats = blockPieces(block).map((p) => flattenPiece(p, NO_ALLOWANCE));
   const layout = layoutPieces(flats);
 
   const titleH = 2.2;

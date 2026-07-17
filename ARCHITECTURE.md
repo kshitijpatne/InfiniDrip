@@ -113,7 +113,8 @@ the parametric core stays consistent everywhere else.
               guidance; grading engine + grade table; POM measuring + POM list;
               dart engine (dart.ts) + fitted/darted recipe (fitted.ts);
               the garment registry (recipe.ts) + the shared Block type (block.ts:
-              role-keyed piece collection; blockPieces = engine, rolePiece = recipe)
+              role-keyed piece collection; blockPieces = engine, rolePiece = recipe);
+              AllowanceSpec (allowance.ts) — per-edge seam allowance, recipe-owned
   render/     pieces -> SVG string; seam allowance; notches + grainlines; graded
               nest; fabric nest; freeform editor; garment view; body view; theme
               (body view = measurements -> annotated figure, engine-independent)

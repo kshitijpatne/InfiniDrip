@@ -16,7 +16,7 @@
 //                      intersect, then overlay the registration marks + tile label
 //   4. exportPdf     → assemble pages into a valid PDF with an xref table
 
-import { Piece } from "../drafting";
+import { Piece, AllowanceSpec } from "../drafting";
 import { flattenPiece, layoutPieces, Polyline } from "./layout";
 
 // ── Unit conversion ───────────────────────────────────────────────────────────
@@ -238,7 +238,7 @@ export function assemblePdf(streams: string[], page: PageSize): string {
  */
 export function exportPdf(
   pieces: readonly Piece[],
-  allowance: number,
+  allowance: AllowanceSpec,
   page: PageSize = PAGE_A4,
   overlap = 1.0
 ): string {

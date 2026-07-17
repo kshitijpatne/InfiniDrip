@@ -11,5 +11,6 @@ export * from "./tshirt-pom";
 export * from "./dart";
 export * from "./fitted";
 export * from "./block";
+export * from "./allowance";
 export * from "./fitted-tables";
 export * from "./recipe";

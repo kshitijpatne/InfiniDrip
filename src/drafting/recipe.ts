@@ -7,6 +7,7 @@
 
 import { Measurements } from "./measurements";
 import { Block } from "./block";
+import { AllowanceSpec } from "./allowance";
 import { Pom } from "./pom";
 import { GradeRule, SizeStep } from "./grading";
 import { PieceNotches } from "./tshirt-notches";
@@ -58,7 +59,24 @@ export interface GarmentRecipe {
   readonly sizes: readonly SizeStep[];
   readonly checks: CheckSpec;
   readonly techPack: TechPack;
+  readonly allowances: AllowanceSpec;
 }
+
+/**
+ * The knit-tee cutting allowances, shared by tee and fitted.
+ * A fold gets NOTHING — the pattern edge lies on the fabric fold, so any
+ * allowance there would make the finished garment wider than the spec sheet says.
+ * Hems turn up deep; a knit neckline takes a narrow band.
+ */
+const KNIT_ALLOWANCES: AllowanceSpec = {
+  default: 1,
+  byEdge: {
+    centerFront: 0, // fold
+    centerBack: 0,  // fold
+    hem: 2,         // body + sleeve turn-up
+    neckline: 0.6,  // narrow, for the rib band
+  },
+};
 
 /** The knit-tee scaffolding, shared by both tee and fitted (same materials). */
 const KNIT_BOM: readonly BomRow[] = [
@@ -78,6 +96,7 @@ export const TEE: GarmentRecipe = {
   grade: TSHIRT_GRADE,
   sizes: TSHIRT_SIZES,
   checks: { frontSideEdges: ["side"], hemSquareToFold: true },
+  allowances: KNIT_ALLOWANCES,
   techPack: {
     bom: KNIT_BOM,
     construction: [
@@ -100,6 +119,7 @@ export const FITTED: GarmentRecipe = {
   grade: TSHIRT_GRADE, // the same body grade drives both garments
   sizes: TSHIRT_SIZES,
   checks: { frontSideEdges: ["sideUpper", "sideLower"], hemSquareToFold: false },
+  allowances: KNIT_ALLOWANCES,
   techPack: {
     bom: KNIT_BOM,
     construction: [

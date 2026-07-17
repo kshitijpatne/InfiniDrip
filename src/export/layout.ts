@@ -9,7 +9,7 @@
 // "polyline" (a list of points) is all a plotter or cutter ever needs.
 
 import { Point } from "../geometry";
-import { Piece } from "../drafting";
+import { Piece, AllowanceSpec } from "../drafting";
 import { outlinePoints, seamAllowance } from "../render";
 
 /** A flattened outline: a closed loop of points, in centimetres. */
@@ -22,7 +22,7 @@ export interface FlatPiece {
 }
 
 /** Flatten one piece into true-scale sew and cut polylines. */
-export function flattenPiece(piece: Piece, allowance: number): FlatPiece {
+export function flattenPiece(piece: Piece, allowance: AllowanceSpec): FlatPiece {
   return {
     name: piece.name,
     sew: outlinePoints(piece),
