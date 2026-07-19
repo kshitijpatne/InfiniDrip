@@ -80,3 +80,21 @@ describe("specSheet", () => {
     expect(sheet[0].values[baseIdx]).toBeCloseTo(Math.round(direct * 10) / 10, 9);
   });
 });
+
+describe("specSheet — tolerances", () => {
+  const graded = gradeRun(STANDARD_M, TSHIRT_GRADE, TSHIRT_SIZES, draftTshirt);
+
+  it("carries a POM's tolerance onto its spec row, unchanged across sizes", () => {
+    const rows = specSheet(graded, [
+      { label: "Chest", tolerance: 1.3, measure: (b) => seam(rolePiece(b, "front"), "hem") },
+    ]);
+    expect(rows[0].tolerance).toBe(1.3); // one value, not one per size
+  });
+
+  it("leaves the tolerance undefined when the POM declares none", () => {
+    const rows = specSheet(graded, [
+      { label: "No tol", measure: (b) => seam(rolePiece(b, "front"), "hem") },
+    ]);
+    expect(rows[0].tolerance).toBeUndefined();
+  });
+});

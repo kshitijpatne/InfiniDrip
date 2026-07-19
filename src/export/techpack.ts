@@ -113,17 +113,21 @@ function sketchStream(block: Block, poms: readonly Pom[], label: string, page: P
 
 function tableStream(sizes: readonly string[], rows: readonly SpecRow[], page: PageSize): string {
   const labelW = 7.5; // cm reserved for the POM label column
-  const colW = (page.width - 2 * M - labelW) / sizes.length;
-  const colX = (i: number): number => M + labelW + i * colW;
+  const tolW = 2.0; // cm reserved for the tolerance column
+  const colW = (page.width - 2 * M - labelW - tolW) / sizes.length;
+  const tolX = M + labelW;
+  const colX = (i: number): number => M + labelW + tolW + i * colW;
 
   const lines: string[] = [text(M, M + 1, 13, "Measurement Spec (cm)", page)];
   let y = M + 2.4;
+  lines.push(text(tolX, y, 9, "Tol +/-", page));
   sizes.forEach((sz, i) => lines.push(text(colX(i), y, 9, sz, page)));
   y += 0.5;
   lines.push(rule(y, page));
   y += 0.6;
   for (const row of rows) {
     lines.push(text(M, y, 9, row.label, page));
+    lines.push(text(tolX, y, 9, row.tolerance === undefined ? "-" : row.tolerance.toFixed(1), page));
     row.values.forEach((v, i) => lines.push(text(colX(i), y, 9, v.toFixed(1), page)));
     y += 0.62;
   }

@@ -30,41 +30,49 @@ export const FITTED_NOTCHES: readonly PieceNotches[] = [
 export const FITTED_POMS: readonly Pom[] = [
   {
     label: "Body chest (finished)",
+    tolerance: 1.3,
     measure: (b) => 4 * spanX(rolePiece(b, "front"), { edge: "sideUpper", at: "start" }, FOLD),
     anchor: (b) => edgeStart(pieceEdge(rolePiece(b, "front"), "sideUpper")), // the underarm point
   },
   {
     // Measured at centre front: the side is longer by the dart intake until trued.
     label: "Body length (HPS–hem)",
+    tolerance: 1.3,
     measure: (b) => spanY(rolePiece(b, "front"), { edge: "shoulder", at: "start" }, { edge: "hem", at: "end" }),
   },
   {
     label: "Across shoulder",
+    tolerance: 0.6,
     measure: (b) => 2 * spanX(rolePiece(b, "front"), { edge: "shoulder", at: "end" }, FOLD),
     anchor: (b) => edgeEnd(pieceEdge(rolePiece(b, "front"), "shoulder")), // the shoulder tip
   },
-  { label: "Shoulder seam", measure: (b) => seam(rolePiece(b, "front"), "shoulder") },
+  { label: "Shoulder seam", tolerance: 0.3, measure: (b) => seam(rolePiece(b, "front"), "shoulder") },
   {
     label: "Armhole (front + back)",
+    tolerance: 0.6,
     measure: (b) => seam(rolePiece(b, "front"), "armhole") + seam(rolePiece(b, "back"), "armhole"),
   },
   {
     label: "Side seam (dart closed)",
+    tolerance: 1.0,
     measure: (b) => seam(rolePiece(b, "front"), "sideUpper") + seam(rolePiece(b, "front"), "sideLower"),
   },
-  { label: "Bust dart intake", measure: (b) => dartIntake(rolePiece(b, "front")) },
+  { label: "Bust dart intake", tolerance: 0.5, measure: (b) => dartIntake(rolePiece(b, "front")) },
   {
     label: "Neck width",
+    tolerance: 0.6,
     measure: (b) => 2 * spanX(rolePiece(b, "front"), { edge: "shoulder", at: "start" }, FOLD),
   },
   {
     label: "Front neck drop",
+    tolerance: 0.3,
     measure: (b) => spanY(rolePiece(b, "front"), { edge: "neckline", at: "start" }, { edge: "shoulder", at: "start" }),
     anchor: (b) => edgeStart(pieceEdge(rolePiece(b, "front"), "neckline")), // centre-front neck
   },
   {
     label: "Sleeve length (cap–hem)",
+    tolerance: 1.0,
     measure: (b) => spanY(rolePiece(b, "sleeve"), { edge: "capLeft", at: "end" }, { edge: "hem", at: "start" }),
   },
-  { label: "Sleeve hem", measure: (b) => seam(rolePiece(b, "sleeve"), "hem") },
+  { label: "Sleeve hem", tolerance: 0.3, measure: (b) => seam(rolePiece(b, "sleeve"), "hem") },
 ];

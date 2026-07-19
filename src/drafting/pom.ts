@@ -51,11 +51,20 @@ export interface Pom {
    * POMs without an anchor are table-only (no leader). Front-only in this pass.
    */
   readonly anchor?: (block: Block) => Point;
+  /**
+   * Optional production tolerance in cm — how far a finished garment may drift
+   * from the spec on this measure before it's a reject. A property of the POINT
+   * OF MEASURE, not the size: a chest tolerance is the same ±1 cm at XS and XL.
+   * POMs without one show a blank tolerance cell (the spec doesn't invent a
+   * number it wasn't given).
+   */
+  readonly tolerance?: number;
 }
 
 export interface SpecRow {
   readonly label: string;
   readonly values: readonly number[]; // one per graded size, cm, rounded to 0.1
+  readonly tolerance?: number; // cm, ± ; same across all sizes (a POM property)
 }
 
 const round1 = (n: number): number => Math.round(n * 10) / 10;
@@ -68,5 +77,6 @@ export function specSheet(
   return poms.map((pom) => ({
     label: pom.label,
     values: graded.map((g) => round1(pom.measure(g.block))),
+    tolerance: pom.tolerance,
   }));
 }

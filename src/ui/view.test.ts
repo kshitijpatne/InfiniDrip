@@ -195,3 +195,20 @@ describe("exportButtonsMarkup", () => {
   });
 });
 
+describe("specTableMarkup — tolerance column", () => {
+  const rows = [
+    { label: "Chest", values: [96, 100, 104], tolerance: 1.3 },
+    { label: "Neck drop", values: [8, 8, 8] }, // no tolerance declared
+  ];
+  const html = specTableMarkup(rows, ["S", "M", "L"], 1);
+
+  it("shows a Tol ± header and each POM's tolerance", () => {
+    expect(html).toContain("Tol ±");
+    expect(html).toContain(">1.3<");
+  });
+
+  it("shows an em dash when a POM has no tolerance", () => {
+    expect(html).toContain(">—<");
+  });
+});
+

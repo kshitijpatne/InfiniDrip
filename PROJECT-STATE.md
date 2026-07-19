@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 26. Update this after every slice (and commit it WITH the code)._
+_Last updated: after Slice 27. Update this after every slice (and commit it WITH the code)._
 
 ## What it is
 A lightweight, local 2D sewing-pattern designer in TypeScript. Type body
@@ -72,6 +72,12 @@ SLICES-BRIEF.md) are committed in the same commit as the code they describe.**
 22. per-size export — a size picker in the export area drafts the chosen graded
     size (via `draftAtSize`) and emits `<garment>-<SIZE>.<ext>`; scopes only the
     exports, every other view keeps its job (327)
+27. POM tolerances — each POM carries an optional `tolerance?` (cm, ±); it's a
+    property of the point of measure, not the size, so it shows as one "Tol ±"
+    column in the Spec view and a "Tol +/-" column in the tech-pack PDF (ASCII in
+    the PDF, since pdfString maps ± to '?'). POMs without one show a dash. Tee +
+    fitted authored: girths ±1.3, widths/armholes ±0.6, lengths ±1.0-1.3, small
+    details ±0.3, dart intake ±0.5 (374)
 26. Seam allowance done right — TWO REAL BUGS FIXED. (1) The corner offset slid
     along the bisector by `d`, so a 1 cm allowance was 0.707 cm at a right angle;
     it is now an exact 2x2 solve (`w·nIn = dIn`, `w·nOut = dOut`). (2) The cutting
@@ -281,4 +287,4 @@ thread.
 ## Test counts (proof a slice landed)
 s4=58, s5=72, s6=82, s7=89, s8=94, s9=103, s10=119, s11=139, s12=155, s13=171,
 s14=187, s15=202, s16=219, s17=239, s18=257, s19=268, s20=285, s21=321, s22=327
-(+1 post-s22 SVG-export bugfix = 328), s23a=343, s23b=348, s24=355, s25=360, s26=368
+(+1 post-s22 SVG-export bugfix = 328), s23a=343, s23b=348, s24=355, s25=360, s26=368, s27=374

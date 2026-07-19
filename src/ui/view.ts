@@ -232,9 +232,11 @@ export function specTableMarkup(
     `font-weight:${header ? "600" : "400"};white-space:nowrap">${content}</td>`;
 
   const head = `<tr>${labelCell("Measurement (cm)", true)}` +
+    cell("Tol ±", false, true) +
     sizeLabels.map((l, i) => cell(l, i === baseIndex, true)).join("") + `</tr>`;
   const body = rows.map((r) =>
     `<tr>${labelCell(r.label, false)}` +
+    cell(r.tolerance === undefined ? "—" : r.tolerance.toFixed(1), false, false) +
     r.values.map((v, i) => cell(v.toFixed(1), i === baseIndex, false)).join("") + `</tr>`
   ).join("");
 

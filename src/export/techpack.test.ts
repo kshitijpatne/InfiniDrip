@@ -131,3 +131,19 @@ describe("tech-pack callout leaders", () => {
     expect(fitted).toBeLessThan(tee);
   });
 });
+
+describe("tech-pack spec table — tolerances", () => {
+  it("prints a Tol column with each POM's value, and a dash where none is set", () => {
+    const pdf = exportTechPack(TEE, STANDARD_M);
+    expect(pdf).toContain("(Tol +/-)");
+    expect(pdf).toContain("(1.3)"); // chest tolerance
+  });
+
+  it("prints a dash for a POM with no tolerance", () => {
+    // a one-POM recipe whose single measure has no tolerance -> the '-' branch
+    const bare = { ...TEE, poms: [{ label: "Bare", measure: TEE.poms[0].measure }] };
+    const pdf = exportTechPack(bare, STANDARD_M);
+    expect(pdf).toContain("(Bare)");
+    expect(pdf).toContain("(-)");
+  });
+});
