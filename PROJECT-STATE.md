@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 27. Update this after every slice (and commit it WITH the code)._
+_Last updated: after Slice 28. Update this after every slice (and commit it WITH the code)._
 
 ## What it is
 A lightweight, local 2D sewing-pattern designer in TypeScript. Type body
@@ -72,6 +72,12 @@ SLICES-BRIEF.md) are committed in the same commit as the code they describe.**
 22. per-size export — a size picker in the export area drafts the chosen graded
     size (via `draftAtSize`) and emits `<garment>-<SIZE>.<ext>`; scopes only the
     exports, every other view keeps its job (327)
+28. Graded marker — `gradedMarker(recipe, m, width)` nests the WHOLE size run on
+    one bolt (via `markerPieces`, which size-labels each flat piece "<SIZE> <piece>"
+    so 15 shapes aren't all "FRONT"). Same `nestPieces` estimator, bigger pile. The
+    Nesting view gains a Single/Marker toggle. Tee marker: 15 pieces, 285 cm, 58%
+    used vs the single 3 pieces / 76 cm / 44% — the run packs tighter. Still an
+    estimator, not a production marker (381)
 27. POM tolerances — each POM carries an optional `tolerance?` (cm, ±); it's a
     property of the point of measure, not the size, so it shows as one "Tol ±"
     column in the Spec view and a "Tol +/-" column in the tech-pack PDF (ASCII in
@@ -287,4 +293,4 @@ thread.
 ## Test counts (proof a slice landed)
 s4=58, s5=72, s6=82, s7=89, s8=94, s9=103, s10=119, s11=139, s12=155, s13=171,
 s14=187, s15=202, s16=219, s17=239, s18=257, s19=268, s20=285, s21=321, s22=327
-(+1 post-s22 SVG-export bugfix = 328), s23a=343, s23b=348, s24=355, s25=360, s26=368, s27=374
+(+1 post-s22 SVG-export bugfix = 328), s23a=343, s23b=348, s24=355, s25=360, s26=368, s27=374, s28=381

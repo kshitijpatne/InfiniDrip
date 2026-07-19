@@ -5,3 +5,4 @@ export * from "./dxf";
 export * from "./pdf";
 export * from "./nesting";
 export * from "./techpack";
+export * from "./marker";

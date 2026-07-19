@@ -5,7 +5,7 @@
 import { Measurements, STANDARD_M, Piece, STRETCH_FABRICS, fabricEaseNote } from "../drafting";
 import { gradeRun, draftAtSize, specSheet, GARMENTS, GarmentRecipe, garmentByName } from "../drafting";
 import { blockPieces, rolePiece } from "../drafting";
-import { exportSvg, exportDxf, exportPdf, exportTechPack, flattenPiece, nestPieces } from "../export";
+import { exportSvg, exportDxf, exportPdf, exportTechPack, flattenPiece, nestPieces, gradedMarker } from "../export";
 import { renderBlueprint, renderGarment, renderNest, renderFabricNest, renderEditor, renderBody, DEFAULT_FABRIC } from "../render";
 import { pieceHandles, moveHandle, nearestHandle, editorViewBox, viewboxPointToCm, Handle } from "../edit";
 import { dartOf, transferDart, trueSeam, edgesMeet } from "../drafting";
@@ -37,6 +37,7 @@ export function mountApp(root: HTMLElement): void {
   let dragId: string | null = null; // handle being dragged
   let selectedId: string | null = null; // handle highlighted in the editor
   let fabricWidth = 150; // cm — the bolt width for the nesting estimator
+  let nestScope: "single" | "marker" = "single"; // one garment, or the whole size run
 
   const draw = (): void => {
     fabricWidthHost.style.display = view === "fabric" ? "flex" : "none";
@@ -44,9 +45,9 @@ export function mountApp(root: HTMLElement): void {
       canvasHost.innerHTML = renderNest(
         gradeRun(measurements, recipe.grade, recipe.sizes, recipe.draft));
     } else if (view === "fabric") {
-      const block = recipe.draft(measurements);
-      const flats = blockPieces(block).map((p) => flattenPiece(p, recipe.allowances));
-      const nest = nestPieces(flats, fabricWidth);
+      const nest = nestScope === "marker"
+        ? gradedMarker(recipe, measurements, fabricWidth)
+        : nestPieces(blockPieces(recipe.draft(measurements)).map((p) => flattenPiece(p, recipe.allowances)), fabricWidth);
       canvasHost.innerHTML = renderFabricNest(
         nest.placed, nest.fabricWidth, nest.fabricLength, nest.utilization, nest.fits);
     } else if (view === "check") {
@@ -186,6 +187,19 @@ export function mountApp(root: HTMLElement): void {
       draw();
     }
   });
+
+  const single = root.querySelector<HTMLButtonElement>("#nest-single")!;
+  const marker = root.querySelector<HTMLButtonElement>("#nest-marker")!;
+  const setScope = (s: "single" | "marker"): void => {
+    nestScope = s;
+    single.style.background = s === "single" ? BLUEPRINT.lineActive : "transparent";
+    single.style.color = s === "single" ? BLUEPRINT.background : BLUEPRINT.label;
+    marker.style.background = s === "marker" ? BLUEPRINT.lineActive : "transparent";
+    marker.style.color = s === "marker" ? BLUEPRINT.background : BLUEPRINT.label;
+    draw();
+  };
+  single.addEventListener("click", () => setScope("single"));
+  marker.addEventListener("click", () => setScope("marker"));
 
   root.querySelectorAll<HTMLInputElement>("input[data-field]").forEach((input) => {
     const field = FIELDS.find((f) => f.id === input.dataset.field)!;

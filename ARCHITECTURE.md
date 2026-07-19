@@ -53,7 +53,8 @@ one shared spine. `flattenPiece` turns each piece into two true-scale point loop
 the **sew line** and the **cut line** — and `layoutPieces` packs them side by side.
 Thin format writers ride on top: `exportSvg`, `exportDxf` (CUT/SEW layers), and
 `exportPdf` (tiled, print-at-home). The **nesting estimator** (`nesting.ts`) is a
-sibling helper on this spine: a width-aware **shelf pack** onto a bolt with a true
+sibling helper on this spine, and the **graded marker** (`marker.ts`) feeds it the
+whole size run at once (size-labelled) instead of one garment. A width-aware **shelf pack** onto a bolt with a true
 (polygon-area, shoelace) utilization read-out. It leaves the cutting-file exports
 untouched (rotating pieces there would misplace the SVG notches/grainlines, which
 are re-derived from the original piece), and it carries no rotation — under a

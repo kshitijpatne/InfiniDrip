@@ -440,3 +440,19 @@ describe("dart tools in the Edit view", () => {
     expect(root.querySelector("#canvas-host")!.innerHTML).toBe(before);
   });
 });
+
+describe("nesting scope toggle", () => {
+  it("switches the fabric view to a graded marker when Marker is clicked", () => {
+    const root = mount();
+    root.querySelector<HTMLButtonElement>("#view-fabric")!.dispatchEvent(new Event("click"));
+    const single = root.querySelector("#canvas-host svg")!.innerHTML;
+    root.querySelector<HTMLButtonElement>("#nest-marker")!.dispatchEvent(new Event("click"));
+    const marker = root.querySelector("#canvas-host svg")!.innerHTML;
+    // the marker carries size-labelled pieces the single nest never shows
+    expect(single).not.toContain("XL FRONT");
+    expect(marker).toContain("XL FRONT");
+    // toggling back to Single drops the size labels again
+    root.querySelector<HTMLButtonElement>("#nest-single")!.dispatchEvent(new Event("click"));
+    expect(root.querySelector("#canvas-host svg")!.innerHTML).not.toContain("XL FRONT");
+  });
+});

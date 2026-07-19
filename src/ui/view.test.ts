@@ -212,3 +212,13 @@ describe("specTableMarkup — tolerance column", () => {
   });
 });
 
+describe("fabricWidthMarkup — nest scope toggle", () => {
+  const html = fabricWidthMarkup(150);
+  it("offers a Single and a Marker button", () => {
+    expect(html).toContain('id="nest-single"');
+    expect(html).toContain('id="nest-marker"');
+    expect(html).toContain(">Single<");
+    expect(html).toContain(">Marker<");
+  });
+});
+
