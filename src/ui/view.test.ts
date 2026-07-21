@@ -222,3 +222,11 @@ describe("fabricWidthMarkup — nest scope toggle", () => {
   });
 });
 
+describe("controlsMarkup — body-link tags", () => {
+  const html = controlsMarkup(STANDARD_M);
+  it("tags each measurement row with its field for the body-view link", () => {
+    expect(html).toContain('data-dim-row="chest"');
+    expect(html).toContain('data-dim-row="length"');
+  });
+});
+

@@ -110,15 +110,21 @@ export function renderBody(m: Measurements): string {
   const bOut = { x: lerp(a1.x, a2.x, 0.3), y: lerp(a1.y, a2.y, 0.3) };
   const bIn = { x: lerp(a4.x, a3.x, 0.3), y: lerp(a4.y, a3.y, 0.3) };
 
+  // Each dimension is wrapped in a group tagged with the measurement FIELD it
+  // reads, so the UI can highlight "the chest line" when the chest slider is
+  // focused. `ease` has no body dimension — it isn't a body measurement.
+  const dim = (field: string, body: string): string => `<g data-dim="${field}">${body}</g>`;
   const dims =
-    dimH(-shoulderHalf, shoulderHalf, headTop - 3, `Shoulder ${m.shoulderWidth}`) +
-    dimH(-bodyHalf, bodyHalf, ad + (len - ad) * 0.22, `Chest ${m.chest} (circ)`) +
-    dimV(rightDimX, 0, len, `Length ${m.length}`, "right") +
-    dimV(leftDimX, 0, ad, `Armhole depth ${m.armholeDepth}`, "left") +
-    line(a1.x, a1.y, (a2.x + a3.x) / 2, (a2.y + a3.y) / 2, T.marker) +
-    txt((a2.x + a3.x) / 2 + 2, (a2.y + a3.y) / 2, `Sleeve ${m.sleeveLength}`, "start") +
-    line(bIn.x, bIn.y, bOut.x, bOut.y, T.marker) +
-    txt(bOut.x + 2, bOut.y - 1, `Bicep ${m.bicep} (circ)`, "start");
+    dim("shoulderWidth", dimH(-shoulderHalf, shoulderHalf, headTop - 3, `Shoulder ${m.shoulderWidth}`)) +
+    dim("chest", dimH(-bodyHalf, bodyHalf, ad + (len - ad) * 0.22, `Chest ${m.chest} (circ)`)) +
+    dim("length", dimV(rightDimX, 0, len, `Length ${m.length}`, "right")) +
+    dim("armholeDepth", dimV(leftDimX, 0, ad, `Armhole depth ${m.armholeDepth}`, "left")) +
+    dim("sleeveLength",
+      line(a1.x, a1.y, (a2.x + a3.x) / 2, (a2.y + a3.y) / 2, T.marker) +
+      txt((a2.x + a3.x) / 2 + 2, (a2.y + a3.y) / 2, `Sleeve ${m.sleeveLength}`, "start")) +
+    dim("bicep",
+      line(bIn.x, bIn.y, bOut.x, bOut.y, T.marker) +
+      txt(bOut.x + 2, bOut.y - 1, `Bicep ${m.bicep} (circ)`, "start"));
 
   const minX = leftDimX - 22;
   const maxX = rightDimX + 26;

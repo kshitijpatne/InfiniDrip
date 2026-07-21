@@ -46,3 +46,16 @@ describe("renderBody", () => {
     expect(long[3]).toBeGreaterThan(short[3]); // viewBox height
   });
 });
+
+describe("renderBody — measurement linking", () => {
+  it("wraps each dimension in a group tagged with its measurement field", () => {
+    for (const field of ["chest", "shoulderWidth", "length", "armholeDepth", "sleeveLength", "bicep"]) {
+      expect(svg).toContain(`data-dim="${field}"`);
+    }
+  });
+
+  it("has one tagged group per raw input (six), and none for ease", () => {
+    expect(svg.match(/data-dim="/g)!.length).toBe(6);
+    expect(svg).not.toContain('data-dim="ease"');
+  });
+});

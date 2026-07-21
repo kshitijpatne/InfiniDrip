@@ -15,7 +15,7 @@ const OK = "#2E9B63";
 
 function field(id: string, label: string,
                value: number, min: number, max: number, step: number): string {
-  return `<label style="display:flex;justify-content:space-between;align-items:center;` +
+  return `<label data-dim-row="${id}" style="display:flex;justify-content:space-between;align-items:center;` +
     `gap:8px;margin-bottom:8px;font-size:13px">` +
     `<span style="color:${T.label}">${label}</span>` +
     `<input data-field="${id}" type="number" value="${value}" min="${min}" max="${max}" step="${step}" ` +

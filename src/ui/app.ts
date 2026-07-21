@@ -38,6 +38,7 @@ export function mountApp(root: HTMLElement): void {
   let selectedId: string | null = null; // handle highlighted in the editor
   let fabricWidth = 150; // cm — the bolt width for the nesting estimator
   let nestScope: "single" | "marker" = "single"; // one garment, or the whole size run
+  let activeDim: string | null = null; // the measurement field spotlighted on the body view
 
   const draw = (): void => {
     fabricWidthHost.style.display = view === "fabric" ? "flex" : "none";
@@ -85,6 +86,12 @@ export function mountApp(root: HTMLElement): void {
     guidanceHost.innerHTML = guidanceMarkup([...guide(measurements, recipe.draft(measurements)), fabricNote]);
     // Style = prescriptive: the gap from current measurements to the chosen target.
     styleHost.innerHTML = styleMarkup(targetStyle, matchStyle(measurements, targetStyle), styleNames());
+    // The body SVG was just re-rendered; restore any active dimension spotlight.
+    if (activeDim !== null) {
+      root.querySelectorAll<SVGGElement>("#canvas-host [data-dim]").forEach((g) => {
+        g.style.opacity = g.dataset.dim === activeDim ? "1" : "0.15";
+      });
+    }
   };
   draw();
 
@@ -210,6 +217,23 @@ export function mountApp(root: HTMLElement): void {
     input.addEventListener("change", () => {
       input.value = String(measurements[field.id]);
     });
+  });
+
+  // Body-view linking: focusing or hovering a measurement row spotlights that
+  // dimension on the body figure (and fades the rest). Re-applied after every
+  // draw() via `activeDim`, since the body SVG is re-rendered on each change.
+  const highlightDim = (field: string | null): void => {
+    activeDim = field;
+    root.querySelectorAll<SVGGElement>("#canvas-host [data-dim]").forEach((g) => {
+      g.style.opacity = field === null || g.dataset.dim === field ? "1" : "0.15";
+    });
+  };
+  root.querySelectorAll<HTMLElement>("[data-dim-row]").forEach((row) => {
+    const field = row.dataset.dimRow!;
+    row.addEventListener("mouseenter", () => highlightDim(field));
+    row.addEventListener("mouseleave", () => highlightDim(null));
+    row.addEventListener("focusin", () => highlightDim(field));
+    row.addEventListener("focusout", () => highlightDim(null));
   });
 
   const swatches = root.querySelectorAll<HTMLButtonElement>("button[data-fabric]");

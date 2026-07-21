@@ -456,3 +456,33 @@ describe("nesting scope toggle", () => {
     expect(root.querySelector("#canvas-host svg")!.innerHTML).not.toContain("XL FRONT");
   });
 });
+
+describe("body-view measurement linking", () => {
+  it("spotlights the hovered measurement's dimension and fades the rest", () => {
+    const root = mount();
+    root.querySelector<HTMLButtonElement>("#view-body")!.dispatchEvent(new Event("click"));
+    const chestRow = root.querySelector<HTMLElement>('[data-dim-row="chest"]')!;
+    chestRow.dispatchEvent(new Event("mouseenter"));
+    const groups = [...root.querySelectorAll<SVGGElement>("#canvas-host [data-dim]")];
+    const chest = groups.find((g) => g.dataset.dim === "chest")!;
+    const other = groups.find((g) => g.dataset.dim === "length")!;
+    expect(chest.style.opacity).toBe("1");
+    expect(other.style.opacity).toBe("0.15");
+    // leaving restores everything
+    chestRow.dispatchEvent(new Event("mouseleave"));
+    expect(groups.every((g) => g.style.opacity === "1")).toBe(true);
+  });
+
+  it("keeps the spotlight after a slider change redraws the body", () => {
+    const root = mount();
+    root.querySelector<HTMLButtonElement>("#view-body")!.dispatchEvent(new Event("click"));
+    root.querySelector<HTMLElement>('[data-dim-row="chest"]')!.dispatchEvent(new Event("mouseenter"));
+    // change chest -> draw() re-renders the body SVG; the spotlight must survive
+    const input = root.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+    input.value = "104";
+    input.dispatchEvent(new Event("input"));
+    const groups = [...root.querySelectorAll<SVGGElement>("#canvas-host [data-dim]")];
+    expect(groups.find((g) => g.dataset.dim === "chest")!.style.opacity).toBe("1");
+    expect(groups.find((g) => g.dataset.dim === "length")!.style.opacity).toBe("0.15");
+  });
+});
