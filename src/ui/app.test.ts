@@ -485,4 +485,51 @@ describe("body-view measurement linking", () => {
     expect(groups.find((g) => g.dataset.dim === "chest")!.style.opacity).toBe("1");
     expect(groups.find((g) => g.dataset.dim === "length")!.style.opacity).toBe("0.15");
   });
+
+  it("lifts the outline edges the measurement shapes, and dims the silhouette", () => {
+    const root = mount();
+    root.querySelector<HTMLButtonElement>("#view-body")!.dispatchEvent(new Event("click"));
+    const chestRow = root.querySelector<HTMLElement>('[data-dim-row="chest"]')!;
+    chestRow.dispatchEvent(new Event("mouseenter"));
+    const edgeOf = (name: string): SVGGElement =>
+      root.querySelector<SVGGElement>(`#canvas-host [data-edge="${name}"]`)!;
+    expect(edgeOf("chest").style.opacity).toBe("1");   // the edges chest moves
+    expect(edgeOf("length").style.opacity).toBe("0.15"); // edges it doesn't
+    expect(edgeOf("figure").style.opacity).toBe("0.15"); // the body behind them
+    // and the dimension line still lifts alongside its edges
+    expect(root.querySelector<SVGGElement>('#canvas-host [data-dim="chest"]')!.style.opacity).toBe("1");
+  });
+
+  it("restores the silhouette and every edge on mouse leave", () => {
+    const root = mount();
+    root.querySelector<HTMLButtonElement>("#view-body")!.dispatchEvent(new Event("click"));
+    const row = root.querySelector<HTMLElement>('[data-dim-row="length"]')!;
+    row.dispatchEvent(new Event("mouseenter"));
+    row.dispatchEvent(new Event("mouseleave"));
+    const all = [...root.querySelectorAll<SVGGElement>("#canvas-host [data-edge]")];
+    expect(all.length).toBeGreaterThan(0);
+    expect(all.every((g) => g.style.opacity === "1")).toBe(true);
+  });
+
+  it("spotlights the outline from keyboard focus, not just hover", () => {
+    const root = mount();
+    root.querySelector<HTMLButtonElement>("#view-body")!.dispatchEvent(new Event("click"));
+    const row = root.querySelector<HTMLElement>('[data-dim-row="bicep"]')!;
+    row.dispatchEvent(new Event("focusin"));
+    expect(root.querySelector<SVGGElement>('#canvas-host [data-edge="bicep"]')!.style.opacity).toBe("1");
+    expect(root.querySelector<SVGGElement>('#canvas-host [data-edge="figure"]')!.style.opacity).toBe("0.15");
+    row.dispatchEvent(new Event("focusout"));
+    expect(root.querySelector<SVGGElement>('#canvas-host [data-edge="figure"]')!.style.opacity).toBe("1");
+  });
+
+  it("keeps the outline spotlight after a slider change redraws the body", () => {
+    const root = mount();
+    root.querySelector<HTMLButtonElement>("#view-body")!.dispatchEvent(new Event("click"));
+    root.querySelector<HTMLElement>('[data-dim-row="chest"]')!.dispatchEvent(new Event("mouseenter"));
+    const input = root.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+    input.value = "104";
+    input.dispatchEvent(new Event("input"));
+    expect(root.querySelector<SVGGElement>('#canvas-host [data-edge="chest"]')!.style.opacity).toBe("1");
+    expect(root.querySelector<SVGGElement>('#canvas-host [data-edge="figure"]')!.style.opacity).toBe("0.15");
+  });
 });

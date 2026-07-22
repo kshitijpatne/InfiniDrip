@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 29. Update this after every slice (and commit it WITH the code)._
+_Last updated: after Slice 30. Update this after every slice (and commit it WITH the code)._
 
 ## What it is
 A lightweight, local 2D sewing-pattern designer in TypeScript. Type body
@@ -72,6 +72,17 @@ SLICES-BRIEF.md) are committed in the same commit as the code they describe.**
 22. per-size export — a size picker in the export area drafts the chosen graded
     size (via `draftAtSize`) and emits `<garment>-<SIZE>.<ext>`; scopes only the
     exports, every other view keeps its job (327)
+30. Hover highlights the outline too — the measurement→EDGES map, sibling of
+    Slice 29's measurement→dimension map. `renderBody` now emits `<g data-edge=
+    "<field>">` overlay segments tracing the outline each number shapes
+    (shoulderWidth→shoulder slopes, armholeDepth→underarm diagonals, chest→side
+    seams, length→hem, sleeveLength→arm outer edges, bicep→cuffs), drawn on top of
+    the silhouette in its own colour/weight so they're invisible at rest. The
+    silhouette is grouped as `data-edge="figure"` — never a field name, so it
+    always dims and needs no UI special case. One `spotlight()` helper replaced the
+    two duplicated highlight blocks in app.ts. Verified by external parse: every
+    overlay endpoint lands on a real silhouette vertex, and no segment is owned by
+    two measurements (396)
 29. Slider ↔ body-view linking — each body dimension is wrapped in `<g data-dim=
     "<field>">` and each measurement row carries `data-dim-row="<field>"`; hovering
     or focusing a row spotlights that dimension and fades the rest (survives the
@@ -190,25 +201,51 @@ sheet. Keeping it in the editor avoids claiming a spec we haven't earned.
 
 ## Roadmap (what's left)
 Ordering principle: **ride the export spine + pure engine first; defer the heavy
-freeform editor until darts need it.** Dependency spine (✓ = done):
-notches ✓ → ease ✓ → grading ✓ → tech pack ✓ (spec sheet; doc pass pending) →
-nesting ✓ → checker ✓ → editor ✓ → fitted recipe → darts.
+freeform editor until darts need it.** Dependency spine (all ✓):
+notches ✓ → ease ✓ → grading ✓ → tech pack ✓ (spec sheet + document) →
+nesting ✓ → checker ✓ → editor ✓ → fitted recipe ✓ → darts ✓.
 
-- **15b. Tech-pack document** (deferred second pass) — flat sketch with callout
-  leaders + a PDF doc writer on the export spine + editable BOM/construction stubs.
-  The measured spec sheet (Slice 15) feeds it directly.
-- ✓ 16. Nesting / fabric estimator (done — width-aware shelf pack; a helper, not a marker)
-- ✓ 17. Production-readiness checker (done — guidance rolled into one pass/fail verdict)
-- ✓ 18. Freeform edit mode (done — drag vertices + curve controls; override, not parametric)
-- ✓ 19. Fitted/darted recipe (done — bust-darted front; tee back+sleeve reused; Pattern view)
-- ✓ 20. Garment generalization (done — recipe registry; every view garment-aware)
-- ✓ 21. Dart manipulation + truing (done — pivot about the apex; blend the kink)
-- ✓ 22. Per-size export (done — export any graded size's cutting files)
+The t-shirt is finished end-to-end, the engine carries a second darted garment, the
+tech-pack document ships (23a/b), and you can export any size or a full graded
+marker. The build now has two fronts: a short **UX pressure-test** pass, then the
+**skirt**.
 
-The t-shirt is finished end-to-end, the engine carries a second darted garment,
-and you can export any size. Next is the **tech-pack document (Slice 23)** — a flat
-sketch + POM table + BOM/construction stubs, built on the per-size export plumbing
-this slice added. Then the later features (2D body view → photo→pattern → upcycle).
+**Next — UX pressure-test fixes (Slices 30–34).** Real-world use surfaced the gap:
+the app validates *geometric* correctness but not whether the numbers are *sane* — a
+chest of 160 cm drafts a ridiculous tee while the panel still reads "production-ready
+✓", and the style panel still says "You're making a Classic tee ✓". These small,
+independently-shippable slices close that trust gap before the skirt. Confirmed order
+**D → A → C → B → E**. **Slice 30 (D) is done; Slice 31 (A) is next** — it is the
+foundational one, and 32 (C) depends on it:
+
+- ✓ **30 (D). Hover highlights the outline too** (done) — a measurement→edges map
+  alongside the dimension-line map; hovering/focusing a row lifts the outline
+  segments that measurement shapes to opacity 1 and fades the rest to 0.15. Pure
+  UI, no engine touched.
+- **31 (A). Plausibility & proportional-coherence checks** — the foundational fix.
+  Two new pure-function guidance families that **warn, never clamp**: (1) absolute
+  bounds per measurement, read off the **size-chart ceiling/floor grading already
+  uses** (chest 160 is off the chart); (2) proportional coherence — ratios between
+  measurements (chest↔shoulder, chest↔length, bicep↔chest) so an internally
+  mismatched set is caught even when each number passes its own bound. Thresholds
+  pinned against real size-chart data during the slice.
+- **32 (C). Verdict & honest surfacing** (needs 31) — the UI half. A top-line
+  guidance status folding in plausibility ("⚠ 2 to review" / "✓ looks
+  production-ready"); implausible inputs flag at the field (amber outline); and the
+  reassuring green signals (style "Classic tee ✓", any "validated" impression) stop
+  reading green while measurements are implausible. This is what actually kills the
+  "falsely validated" screenshot.
+- **33 (B). Guidance message-quality pass** — every message becomes **stateful**
+  (references the current value) and ends in one clear verdict, plainly worded.
+  Rewrites the ambiguous ease note ("add positive ease ~10 cm" → "your 10 cm is in
+  the typical range ✓" vs "10 cm is typical; you have 2"). Adds icon+text severity
+  (⚠ / ℹ / ✓) so severity isn't colour-only (colour-blind safe).
+- **34 (E). Body vs finished label** — now that ease exists, label displayed
+  measurements as **body** or **finished** (body + ease) so "Chest 100 (circ)" is
+  unambiguous. Small clarity fix.
+
+Then: the **skirt** — a structurally new garment that drives the remaining
+block-generalization work (Slice 25 was step 1 of 5).
 
 Later: 2D body view → photo→pattern (Feature A) → upcycle planner (Feature B).
 
@@ -298,4 +335,4 @@ thread.
 ## Test counts (proof a slice landed)
 s4=58, s5=72, s6=82, s7=89, s8=94, s9=103, s10=119, s11=139, s12=155, s13=171,
 s14=187, s15=202, s16=219, s17=239, s18=257, s19=268, s20=285, s21=321, s22=327
-(+1 post-s22 SVG-export bugfix = 328), s23a=343, s23b=348, s24=355, s25=360, s26=368, s27=374, s28=381, s29=386
+(+1 post-s22 SVG-export bugfix = 328), s23a=343, s23b=348, s24=355, s25=360, s26=368, s27=374, s28=381, s29=386, s30=396

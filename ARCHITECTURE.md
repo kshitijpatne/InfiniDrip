@@ -71,6 +71,37 @@ the fold, notches/grain declared, the size run grows monotonically). The engine
 primitives are garment-agnostic; which edges pair up and what the thresholds are is
 recipe.
 
+**Body view ↔ controls linking (Slices 29–30).** The body figure is the one place
+a measurement becomes visible as a body, so it carries the teaching load. It emits
+two parallel maps, both keyed by the measurement FIELD name:
+- `data-dim="<field>"` — the dimension line (what the number *is*), Slice 29.
+- `data-edge="<field>"` — the outline segments the number *shapes*, Slice 30.
+
+The UI owns no geometry: one `spotlight(field)` in app.ts lifts groups whose field
+matches to opacity 1 and drops the rest to 0.15. The silhouette is grouped as
+`data-edge="figure"` — deliberately never a field name, so it always falls to the
+dimmed state and the UI needs no special case for it. Ownership is
+non-overlapping (each segment belongs to exactly one measurement), so a hover has
+one unambiguous answer. Because the body SVG is re-rendered on every change, the
+spotlight is re-applied after each draw via `activeDim`.
+
+**Three tiers of validation (Slices 30–34 extend this).** The checks above answer
+one question — *does the pattern sew together?* (geometric self-consistency). Real
+use showed that's necessary but not sufficient: a chest of 160 cm sews together
+fine, so the app declared it production-ready. Guidance is therefore growing two
+more tiers, both **warnings, never clamps** (the app cautions; the user decides):
+- **Anthropometric plausibility** — is each number sane for a real adult garment?
+  Bounds are read off the **size-chart ceiling/floor grading already uses**, so we
+  read thresholds off data we own instead of inventing them.
+- **Proportional coherence** — are the numbers sane *relative to each other*? Chest
+  160 with shoulder 45 and length 59 is the real tell; a ratio check (chest↔shoulder,
+  chest↔length, bicep↔chest) catches an internally mismatched set even when each
+  value passes its own bound.
+All three tiers stay tape-measure facts, and the checker's single verdict folds in
+the new tiers so an implausible garment can never *read* validated (the honest-
+surfacing half). Same engine-primitive / recipe-threshold split as the geometric
+checks.
+
 **style — declare a target, see the gap (prescriptive).**
 A style is a **box of ranges** per measurement. You **pick a target fit** and the
 panel reports the signed distance to it on every axis (e.g. "Ease +9 cm", "Length
@@ -118,7 +149,9 @@ the parametric core stays consistent everywhere else.
               AllowanceSpec (allowance.ts) — per-edge seam allowance, recipe-owned
   render/     pieces -> SVG string; seam allowance; notches + grainlines; graded
               nest; fabric nest; freeform editor; garment view; body view; theme
-              (body view = measurements -> annotated figure, engine-independent)
+              (body view = measurements -> annotated figure, engine-independent;
+              it emits TWO tagged maps the UI drives — `data-dim` per dimension
+              line, `data-edge` per outline segment a measurement shapes)
   export/     pieces -> true-scale cutting files (SVG, DXF, tiled PDF); shared
               layout spine; nesting estimator (shelf pack + utilization);
               tech-pack document (techpack.ts — 3-page sketch + POM table + BOM;
@@ -210,7 +243,30 @@ the Pattern view.
   the size picker, the Spec sheet, and the Size-run nest all agree on what a size is.
   The export buttons draft the picked size and name the file `<garment>-<SIZE>`.
 
-**What's left:** the **tech-pack document (Slice 23)** — a flat sketch with callout
-leaders, a PDF doc writer on the export spine, and editable BOM/construction stubs,
-built across the graded run on the per-size plumbing above. Then the later features:
-2D body view → photo→pattern → upcycle planner.
+- **Tech-pack document (23) — built.** `export/techpack.ts` composes a 3-page PDF on
+  the tiled-PDF spine: real-piece flat sketch (base size) + graded POM table +
+  recipe BOM/construction. Callout leaders are opt-in per POM via `Pom.anchor?`.
+
+- **Body view (24) — built.** `render/body.ts`: measurements → an annotated
+  upper-body figure, engine-independent (no waist/hip in the measurement set).
+
+- **Block generalization (25) — built.** `Block` is a role-keyed piece collection;
+  the engine walks `blockPieces`, only a recipe names a role via `rolePiece`.
+
+- **Seam allowance (26) — built, two bugs fixed.** Per-edge `AllowanceSpec` on the
+  recipe; the corner offset is now exact (2×2 solve, was 0.707 cm at a right angle)
+  and fold edges take zero (was +4 cm of chest). The two hardcoded constants are gone.
+
+- **POM tolerances (27) — built.** Each POM carries an optional ±; a Tol column in
+  the Spec view and the tech-pack PDF.
+
+- **Graded marker (28) — built.** `gradedMarker` nests the whole size run on one
+  bolt (size-labelled), as a Single/Marker toggle on the Nesting view.
+
+- **Slider ↔ body-view linking (29) — built.** Body dimensions are tagged
+  `data-dim`; hovering a measurement row spotlights its dimension. Pure UI.
+
+**What's left:** a structurally different garment (a bottom) still does not plug in —
+see the real-vs-tee-shaped inventory above. The path is recipe-owned checks →
+recipe-owned guidance → per-garment `Measurements` → the skirt recipe, but it is NOT
+started and NOT confirmed. Then the later features: photo→pattern → upcycle planner.

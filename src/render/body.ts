@@ -48,6 +48,14 @@ function dimV(x: number, ya: number, yb: number, label: string, side: "left" | "
     txt(lx, (ya + yb) / 2, label, anchor);
 }
 
+// One outline segment, drawn in the silhouette's own colour and weight so the
+// overlay sits invisibly on top of the figure until the UI lifts or fades it.
+function seg(x1: number, y1: number, x2: number, y2: number, width: number): string {
+  return `<line x1="${round(x1)}" y1="${round(y1)}" x2="${round(x2)}" y2="${round(y2)}" ` +
+    `stroke="${T.line}" stroke-width="${width}" stroke-linecap="round" ` +
+    `vector-effect="non-scaling-stroke"/>`;
+}
+
 const lerp = (a: number, b: number, t: number): number => a + (b - a) * t;
 
 /** The body view: an annotated upper-body figure, measurement-honest. */
@@ -126,6 +134,25 @@ export function renderBody(m: Measurements): string {
       line(bIn.x, bIn.y, bOut.x, bOut.y, T.marker) +
       txt(bOut.x + 2, bOut.y - 1, `Bicep ${m.bicep} (circ)`, "start"));
 
+  // The measurement→EDGES map, the sibling of the measurement→dimension-line map
+  // above: the dimension line says what a number IS, these say what it SHAPES.
+  // Each measurement owns exactly the outline segments it positions, so the sets
+  // don't overlap and a hover has one unambiguous answer:
+  //   shoulderWidth → the shoulder slopes      armholeDepth → the underarm diagonals
+  //   chest         → the side seams (±width)  length       → the hem
+  //   sleeveLength  → the arm outer edges      bicep        → the cuff edges
+  // Drawn on top of the silhouette, so lifting one to full opacity while the
+  // figure fades reads as "this edge is what that number moves".
+  const edge = (field: string, body: string): string => `<g data-edge="${field}">${body}</g>`;
+  const bothArms = (fn: (sx: number) => string): string => fn(1) + fn(-1);
+  const edges =
+    edge("shoulderWidth", bothArms((sx) => seg(sx * neckHalf, 0, sx * shoulderHalf, slope, 1.4))) +
+    edge("armholeDepth", bothArms((sx) => seg(sx * shoulderHalf, slope, sx * bodyHalf, ad, 1.4))) +
+    edge("chest", bothArms((sx) => seg(sx * bodyHalf, ad, sx * bodyHalf, len, 1.4))) +
+    edge("length", seg(-bodyHalf, len, bodyHalf, len, 1.4)) +
+    edge("sleeveLength", bothArms((sx) => seg(sx * a1.x, a1.y, sx * a2.x, a2.y, 1.2))) +
+    edge("bicep", bothArms((sx) => seg(sx * a2.x, a2.y, sx * a3.x, a3.y, 1.2)));
+
   const minX = leftDimX - 22;
   const maxX = rightDimX + 26;
   const minY = headTop - 8;
@@ -138,6 +165,10 @@ export function renderBody(m: Measurements): string {
     `style="background:${T.background};border-radius:8px">` +
     `<rect x="${round(minX)}" y="${round(minY)}" width="${round(width)}" height="${round(height)}" ` +
     `fill="${T.background}"/>` +
-    head + armPath(1) + armPath(-1) + torsoPath + dims +
+    // The silhouette is tagged "figure" — never a measurement name, so it always
+    // falls to the dimmed state whenever a row is active, letting the tagged edge
+    // on top read as the highlight. No special case needed in the UI.
+    `<g data-edge="figure">${head + armPath(1) + armPath(-1) + torsoPath}</g>` +
+    edges + dims +
     `</svg>`;
 }

@@ -40,6 +40,19 @@ export function mountApp(root: HTMLElement): void {
   let nestScope: "single" | "marker" = "single"; // one garment, or the whole size run
   let activeDim: string | null = null; // the measurement field spotlighted on the body view
 
+  // Spotlight one measurement on the body view: its dimension line AND the outline
+  // edges it shapes stay at full opacity, everything else drops back. A group
+  // carries its field in `data-dim` (the dimension line) or `data-edge` (the
+  // outline segments, plus the silhouette itself tagged "figure" — never a field
+  // name, so it always dims). `null` restores the whole figure.
+  const spotlight = (field: string | null): void => {
+    root.querySelectorAll<SVGGElement>("#canvas-host [data-dim], #canvas-host [data-edge]")
+      .forEach((g) => {
+        const owns = g.dataset.dim ?? g.dataset.edge;
+        g.style.opacity = field === null || owns === field ? "1" : "0.15";
+      });
+  };
+
   const draw = (): void => {
     fabricWidthHost.style.display = view === "fabric" ? "flex" : "none";
     if (view === "nest") {
@@ -87,11 +100,7 @@ export function mountApp(root: HTMLElement): void {
     // Style = prescriptive: the gap from current measurements to the chosen target.
     styleHost.innerHTML = styleMarkup(targetStyle, matchStyle(measurements, targetStyle), styleNames());
     // The body SVG was just re-rendered; restore any active dimension spotlight.
-    if (activeDim !== null) {
-      root.querySelectorAll<SVGGElement>("#canvas-host [data-dim]").forEach((g) => {
-        g.style.opacity = g.dataset.dim === activeDim ? "1" : "0.15";
-      });
-    }
+    if (activeDim !== null) spotlight(activeDim);
   };
   draw();
 
@@ -220,13 +229,12 @@ export function mountApp(root: HTMLElement): void {
   });
 
   // Body-view linking: focusing or hovering a measurement row spotlights that
-  // dimension on the body figure (and fades the rest). Re-applied after every
-  // draw() via `activeDim`, since the body SVG is re-rendered on each change.
+  // dimension on the body figure AND the outline edges it shapes (fading the
+  // rest). Re-applied after every draw() via `activeDim`, since the body SVG is
+  // re-rendered on each change.
   const highlightDim = (field: string | null): void => {
     activeDim = field;
-    root.querySelectorAll<SVGGElement>("#canvas-host [data-dim]").forEach((g) => {
-      g.style.opacity = field === null || g.dataset.dim === field ? "1" : "0.15";
-    });
+    spotlight(field);
   };
   root.querySelectorAll<HTMLElement>("[data-dim-row]").forEach((row) => {
     const field = row.dataset.dimRow!;
