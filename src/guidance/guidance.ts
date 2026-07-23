@@ -3,6 +3,7 @@
 // is a small, enforceable fact about a valid t-shirt — no guessing.
 
 import { Measurements, Block, edgeLength, pieceEdge, rolePiece } from "../drafting";
+import { plausibilityChecks, coherenceChecks } from "./plausibility";
 
 export type Level = "ok" | "info" | "warn";
 
@@ -76,11 +77,17 @@ export function shoulderCheck(m: Measurements): Note | null {
 
 /** Run every check against a drafted block and its measurements. */
 export function guide(m: Measurements, block: Block): Note[] {
-  const notes: (Note | null)[] = [
+  const geometric: (Note | null)[] = [
     armholeMatch(block),
     easeRange(m),
     armholeDepthCheck(m),
     shoulderCheck(m),
   ];
-  return notes.filter((n): n is Note => n !== null);
+  // Geometry first (does it sew?), then the number-sanity tiers (are the inputs
+  // real?). Both new families warn only — they never change a measurement.
+  return [
+    ...geometric.filter((n): n is Note => n !== null),
+    ...plausibilityChecks(m),
+    ...coherenceChecks(m),
+  ];
 }

@@ -82,4 +82,18 @@ describe("guide", () => {
     expect(levels).toContain("warn");
     expect(notes.length).toBeGreaterThan(1);
   });
+
+  it("now warns on an implausible chest that used to draft silently", () => {
+    // The whole point of Slice 31: chest 160 sews together fine, so the geometric
+    // checks stay quiet — but guide() must now surface a plausibility warning.
+    const wild = { ...STANDARD_M, chest: 160 };
+    const notes = guide(wild, draftTshirt(wild));
+    expect(notes.some((n) => n.level === "warn" && n.text.includes("Chest (160 cm)"))).toBe(true);
+  });
+
+  it("surfaces a coherence warning for a proportionally impossible set", () => {
+    const m = { ...STANDARD_M, chest: 130, shoulderWidth: 40 };
+    const notes = guide(m, draftTshirt(m));
+    expect(notes.some((n) => n.text.includes("proportion"))).toBe(true);
+  });
 });
