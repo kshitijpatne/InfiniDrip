@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 30. Update this after every slice (and commit it WITH the code)._
+_Last updated: after Slice 31. Update this after every slice (and commit it WITH the code)._
 
 ## What it is
 A lightweight, local 2D sewing-pattern designer in TypeScript. Type body
@@ -72,6 +72,17 @@ SLICES-BRIEF.md) are committed in the same commit as the code they describe.**
 22. per-size export — a size picker in the export area drafts the chosen graded
     size (via `draftAtSize`) and emits `<garment>-<SIZE>.<ext>`; scopes only the
     exports, every other view keeps its job (327)
+31. Plausibility & proportional-coherence checks — two new pure-function guidance
+    families in `guidance/plausibility.ts`, both WARN, never clamp. (1) Absolute
+    per-measurement bounds (`MEASUREMENT_BOUNDS`) for a real adult garment; (2)
+    proportional coherence (`RATIO_BOUNDS`: shoulder↔chest, length↔chest,
+    bicep↔chest) that catches an internally mismatched set even when each value
+    passes its own bound. `guide()` folds both in after the geometric checks, so a
+    chest of 160 — which sews together fine and used to draft silently — now raises
+    four warnings. Bounds are DECLARED here, seeded from published adult ranges and
+    centred on STANDARD_M: grading is relative (deltas around the user's base), so
+    there was no size chart to read a ceiling/floor from — the roadmap's assumed
+    source didn't exist. `ease` stays with easeRange (no double-warn) (412)
 30. Hover highlights the outline too — the measurement→EDGES map, sibling of
     Slice 29's measurement→dimension map. `renderBody` now emits `<g data-edge=
     "<field>">` overlay segments tracing the outline each number shapes
@@ -215,20 +226,23 @@ the app validates *geometric* correctness but not whether the numbers are *sane*
 chest of 160 cm drafts a ridiculous tee while the panel still reads "production-ready
 ✓", and the style panel still says "You're making a Classic tee ✓". These small,
 independently-shippable slices close that trust gap before the skirt. Confirmed order
-**D → A → C → B → E**. **Slice 30 (D) is done; Slice 31 (A) is next** — it is the
-foundational one, and 32 (C) depends on it:
+**D → A → C → B → E**. **Slices 30 (D) and 31 (A) are done; Slice 32 (C) is next** — the UI half that
+folds plausibility into the top-line verdict and stops the green "production-ready
+✓" while inputs are implausible (it depends on 31):
 
 - ✓ **30 (D). Hover highlights the outline too** (done) — a measurement→edges map
   alongside the dimension-line map; hovering/focusing a row lifts the outline
   segments that measurement shapes to opacity 1 and fades the rest to 0.15. Pure
   UI, no engine touched.
-- **31 (A). Plausibility & proportional-coherence checks** — the foundational fix.
-  Two new pure-function guidance families that **warn, never clamp**: (1) absolute
-  bounds per measurement, read off the **size-chart ceiling/floor grading already
-  uses** (chest 160 is off the chart); (2) proportional coherence — ratios between
-  measurements (chest↔shoulder, chest↔length, bicep↔chest) so an internally
-  mismatched set is caught even when each number passes its own bound. Thresholds
-  pinned against real size-chart data during the slice.
+- ✓ **31 (A). Plausibility & proportional-coherence checks** (done) — two pure
+  guidance families in `plausibility.ts`, both **warn, never clamp**: (1) absolute
+  per-measurement bounds (`MEASUREMENT_BOUNDS`); (2) proportional coherence
+  (`RATIO_BOUNDS`: chest↔shoulder, chest↔length, bicep↔chest) catching a mismatched
+  set even when each value passes its own bound. Correction found while building:
+  grading is RELATIVE (deltas around the user's base), so the "size chart grading
+  already uses" the plan named does not exist — bounds are instead DECLARED, seeded
+  from published adult ranges and centred on STANDARD_M. `guide()` now warns on
+  chest 160 (four notes) where it used to draft silently.
 - **32 (C). Verdict & honest surfacing** (needs 31) — the UI half. A top-line
   guidance status folding in plausibility ("⚠ 2 to review" / "✓ looks
   production-ready"); implausible inputs flag at the field (amber outline); and the
@@ -335,4 +349,4 @@ thread.
 ## Test counts (proof a slice landed)
 s4=58, s5=72, s6=82, s7=89, s8=94, s9=103, s10=119, s11=139, s12=155, s13=171,
 s14=187, s15=202, s16=219, s17=239, s18=257, s19=268, s20=285, s21=321, s22=327
-(+1 post-s22 SVG-export bugfix = 328), s23a=343, s23b=348, s24=355, s25=360, s26=368, s27=374, s28=381, s29=386, s30=396
+(+1 post-s22 SVG-export bugfix = 328), s23a=343, s23b=348, s24=355, s25=360, s26=368, s27=374, s28=381, s29=386, s30=396, s31=412

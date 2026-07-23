@@ -85,22 +85,30 @@ non-overlapping (each segment belongs to exactly one measurement), so a hover ha
 one unambiguous answer. Because the body SVG is re-rendered on every change, the
 spotlight is re-applied after each draw via `activeDim`.
 
-**Three tiers of validation (Slices 30–34 extend this).** The checks above answer
-one question — *does the pattern sew together?* (geometric self-consistency). Real
-use showed that's necessary but not sufficient: a chest of 160 cm sews together
-fine, so the app declared it production-ready. Guidance is therefore growing two
-more tiers, both **warnings, never clamps** (the app cautions; the user decides):
-- **Anthropometric plausibility** — is each number sane for a real adult garment?
-  Bounds are read off the **size-chart ceiling/floor grading already uses**, so we
-  read thresholds off data we own instead of inventing them.
-- **Proportional coherence** — are the numbers sane *relative to each other*? Chest
-  160 with shoulder 45 and length 59 is the real tell; a ratio check (chest↔shoulder,
-  chest↔length, bicep↔chest) catches an internally mismatched set even when each
-  value passes its own bound.
-All three tiers stay tape-measure facts, and the checker's single verdict folds in
-the new tiers so an implausible garment can never *read* validated (the honest-
-surfacing half). Same engine-primitive / recipe-threshold split as the geometric
-checks.
+**Three tiers of validation (Slice 31 built tiers 2–3; 32–34 surface them).** The
+geometric checks answer one question — *does the pattern sew together?* Real use
+showed that's necessary but not sufficient: a chest of 160 cm sews together fine,
+so the app declared it production-ready. `guidance/plausibility.ts` adds two tiers,
+both **warnings, never clamps** (the app cautions; the user decides):
+- **Anthropometric plausibility** (`plausibilityChecks` + `MEASUREMENT_BOUNDS`) —
+  is each number sane for a real adult garment?
+- **Proportional coherence** (`coherenceChecks` + `RATIO_BOUNDS`: chest↔shoulder,
+  chest↔length, bicep↔chest) — are the numbers sane *relative to each other*? This
+  catches an internally mismatched set even when each value passes its own bound.
+`guide()` folds both in after the geometric notes, so all three tiers show in one
+list today; Slice 32 (C) is the honest-surfacing half — a single verdict that folds
+them in so an implausible garment can never *read* "production-ready ✓".
+
+WHERE THE BOUNDS COME FROM (a plan correction worth recording). The roadmap assumed
+bounds could be read off "the size chart grading already uses". There is no such
+chart: grading is RELATIVE — per-step deltas (`TSHIRT_GRADE`) around the user's own
+base, so a chest of 160 just shifts the whole run up, it never falls "off" anything.
+The only absolute human-scale number in the engine is `STANDARD_M`. So the bounds
+are DECLARED in `plausibility.ts`, seeded from published adult apparel ranges and
+centred on `STANDARD_M` (each ~50% of its range), deliberately loose — they catch
+the absurd, not the merely unusual. A future per-garment `Measurements` (the skirt
+bridge) is where these would become recipe-owned; today one shared table serves both
+tee and fitted.
 
 **style — declare a target, see the gap (prescriptive).**
 A style is a **box of ranges** per measurement. You **pick a target fit** and the
