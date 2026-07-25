@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 33. Update this after every slice (and commit it WITH the code)._
+_Last updated: after Slice 34. Update this after every slice (and commit it WITH the code)._
 
 ## What it is
 A lightweight, local 2D sewing-pattern designer in TypeScript. Type body
@@ -72,6 +72,16 @@ SLICES-BRIEF.md) are committed in the same commit as the code they describe.**
 22. per-size export — a size picker in the export area drafts the chosen graded
     size (via `draftAtSize`) and emits `<garment>-<SIZE>.<ext>`; scopes only the
     exports, every other view keeps its job (327)
+34. Body-vs-finished measurement facets (last of Opus Phase A) — a displayed number
+    is no longer ambiguous. New `drafting/facets.ts` classifies each raw field as a
+    BODY measurement (taken off a person; garment may add ease) or a FINISHED garment
+    dimension, and — where ease applies — exposes the finished value: chest gains full
+    ease (`+ease`, mirrors the draft's `(chest+ease)/4`), the sleeve gains half
+    (`bicep + ease*0.5`). Classifications trace to how the draft USES each number, not
+    to assumption; verified against real geometry (facet finished-chest == 4×
+    chestWidthHalf at every ease). `measurementFacet` / `MEASURE_ROLE` / `roleTag` are
+    exposed data for Fable's F2; the control rows now carry a static "body · circ" /
+    "finished" tag. (445)
 33. Guidance message-quality pass (colour-blind safe, Fable-facing) — every guidance
     message is now stateful (names the current value) and ends in a plain verdict, and
     severity is shown as an ICON, not colour alone. `easeRange` no longer goes silent
@@ -244,9 +254,11 @@ the app validates *geometric* correctness but not whether the numbers are *sane*
 chest of 160 cm drafts a ridiculous tee while the panel still reads "production-ready
 ✓", and the style panel still says "You're making a Classic tee ✓". These small,
 independently-shippable slices close that trust gap before the skirt. Confirmed order
-**D → A → C → B → E**. **Slices 30 (D), 31 (A), 32 (C), 33 (B) are done; Slice 34 (E)
-is next** — the body-vs-finished measurement label (small clarity fix, and the last
-of Opus Phase A that Fable's F2 journey UI waits on):
+**D → A → C → B → E**. **The UX pressure-test pass is COMPLETE — 30 (D), 31 (A),
+32 (C), 33 (B), 34 (E) all done.** With 34, **Opus Phase A is finished**: verdict fn,
+plausibility flags, severity data, and body-vs-finished data are all exposed as pure
+functions — so **Fable's F2 journey UI is fully unblocked** (Fable's F1 export track
+never depended on it). Next Opus epic is the **skirt bridge**:
 
 - ✓ **30 (D). Hover highlights the outline too** (done) — a measurement→edges map
   alongside the dimension-line map; hovering/focusing a row lifts the outline
@@ -271,9 +283,11 @@ of Opus Phase A that Fable's F2 journey UI waits on):
   positive in-range note instead of silence. Severity is an icon (`SEVERITY_ICON`
   = ⚠ / ℹ / ✓), rendered alongside colour so it survives colour-blindness/greyscale.
   `SEVERITY_ICON` is exposed data — Fable's F2 renders it, never redefines it.
-- **34 (E). Body vs finished label** — now that ease exists, label displayed
-  measurements as **body** or **finished** (body + ease) so "Chest 100 (circ)" is
-  unambiguous. Small clarity fix.
+- ✓ **34 (E). Body-vs-finished facets** (done) — `drafting/facets.ts` classifies
+  each field body/finished and exposes the finished value where ease applies (chest
+  +ease, sleeve +ease*0.5), traced to real draft usage. Control rows carry a static
+  "body · circ" / "finished" tag; `measurementFacet` is the exposed datum Fable's F2
+  renders. Completes Opus Phase A.
 
 Then: the **skirt** — a structurally new garment that drives the remaining
 block-generalization work (Slice 25 was step 1 of 5).
@@ -366,4 +380,4 @@ thread.
 ## Test counts (proof a slice landed)
 s4=58, s5=72, s6=82, s7=89, s8=94, s9=103, s10=119, s11=139, s12=155, s13=171,
 s14=187, s15=202, s16=219, s17=239, s18=257, s19=268, s20=285, s21=321, s22=327
-(+1 post-s22 SVG-export bugfix = 328), s23a=343, s23b=348, s24=355, s25=360, s26=368, s27=374, s28=381, s29=386, s30=396, s31=412, s32=429, s33=431
+(+1 post-s22 SVG-export bugfix = 328), s23a=343, s23b=348, s24=355, s25=360, s26=368, s27=374, s28=381, s29=386, s30=396, s31=412, s32=429, s33=431, s34=445

@@ -13,6 +13,22 @@ describe("controlsMarkup", () => {
     expect(html).toContain('value="100"'); // STANDARD_M.chest
     expect(html).toContain('data-field="ease"');
   });
+
+  it("tags each measurement as body or finished (chest as a circumference)", () => {
+    const html = controlsMarkup(STANDARD_M);
+    expect(html).toContain("body · circ"); // chest / bicep
+    expect(html).toContain("finished");    // length / armhole / sleeve
+  });
+
+  it("does not tag the ease parameter as a measurement", () => {
+    // ease's label span carries no role tag; the only "body/finished" text belongs
+    // to real measurements. Check the ease row specifically has no tag markup.
+    const html = controlsMarkup(STANDARD_M);
+    const easeRow = html.slice(html.indexOf('data-dim-row="ease"'));
+    const easeLabelEnd = easeRow.indexOf("</label>");
+    expect(easeRow.slice(0, easeLabelEnd)).not.toContain("body");
+    expect(easeRow.slice(0, easeLabelEnd)).not.toContain("finished");
+  });
 });
 
 describe("fabricSwatchesMarkup", () => {

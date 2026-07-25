@@ -2,7 +2,7 @@
 // panel, a canvas host, a guidance panel, and a style panel. Pure, so the markup
 // can be checked in tests without a browser.
 
-import { Measurements, STRETCH_FABRICS, SpecRow, GARMENTS, SizeStep } from "../drafting";
+import { Measurements, STRETCH_FABRICS, SpecRow, GARMENTS, SizeStep, roleTag } from "../drafting";
 import { BLUEPRINT as T, FABRICS } from "../render";
 import { Note, SEVERITY_ICON } from "../guidance";
 import { Report } from "../guidance";
@@ -15,9 +15,12 @@ const OK = "#2E9B63";
 
 function field(id: string, label: string,
                value: number, min: number, max: number, step: number): string {
+  const tag = roleTag(id); // "body · circ" / "finished", or null for ease
+  const tagSpan = tag === null ? "" :
+    `<span style="opacity:0.55;font-size:11px;margin-left:6px">${tag}</span>`;
   return `<label data-dim-row="${id}" style="display:flex;justify-content:space-between;align-items:center;` +
     `gap:8px;margin-bottom:8px;font-size:13px">` +
-    `<span style="color:${T.label}">${label}</span>` +
+    `<span style="color:${T.label}">${label}${tagSpan}</span>` +
     `<input data-field="${id}" type="number" value="${value}" min="${min}" max="${max}" step="${step}" ` +
     `style="width:64px;padding:4px 6px;text-align:right;background:${T.background};color:${T.line};` +
     `border:1px solid ${BORDER};border-radius:5px;font-family:ui-monospace,monospace"/></label>`;

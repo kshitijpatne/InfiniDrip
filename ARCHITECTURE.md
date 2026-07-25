@@ -99,7 +99,17 @@ both **warnings, never clamps** (the app cautions; the user decides):
 panel with a verdict ("⚠ N to review" / "✓ Looks production-ready"). Every note is
 stateful (names its current value) and leads with a severity ICON from the exposed
 `SEVERITY_ICON` map (⚠ / ℹ / ✓) so severity is never colour-only — Fable's journey UI
-reads the same map rather than inventing glyphs. The honest-
+reads the same map rather than inventing glyphs.
+
+**Body vs finished (`drafting/facets.ts`, Slice 34).** A raw number is ambiguous on
+its own — "Chest 100" could be the wearer or the shirt. Each field is classified as
+a BODY measurement (taken off a person; the garment may add ease) or a FINISHED
+dimension (a garment size chosen directly), and where ease applies the finished value
+is exposed: chest gains full ease (mirrors the draft's `(chest+ease)/4`), the sleeve
+gains half (`bicep + ease*0.5`). Every classification traces to how the draft USES
+the number, so it can't drift from the geometry. `measurementFacet` / `MEASURE_ROLE`
+/ `roleTag` are the exposed data — the last of the Phase-A contract Fable's F2 renders
+(it labels; it never recomputes ease). The honest-
 surfacing half (Slice 32) makes green *conditional*: `measurementsPlausible(m)` — no
 out-of-range field, no bad ratio — is the single gate the UI reads. While it is
 false, the check view's "Ready to cut" banner and the style panel's "you're making a
