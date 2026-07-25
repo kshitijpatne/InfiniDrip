@@ -5,6 +5,8 @@ import {
   RATIO_BOUNDS,
   plausibilityChecks,
   coherenceChecks,
+  implausibleFields,
+  measurementsPlausible,
 } from "./plausibility";
 
 describe("MEASUREMENT_BOUNDS — the table itself is sane", () => {
@@ -100,5 +102,37 @@ describe("coherenceChecks", () => {
     const snapshot = { ...m };
     coherenceChecks(m);
     expect(m).toEqual(snapshot);
+  });
+});
+
+describe("implausibleFields", () => {
+  it("is empty for the standard sample", () => {
+    expect(implausibleFields(STANDARD_M)).toHaveLength(0);
+  });
+
+  it("returns exactly the fields outside their own bound", () => {
+    const fields = implausibleFields({ ...STANDARD_M, chest: 160, length: 200 });
+    expect([...fields].sort()).toEqual(["chest", "length"]);
+  });
+
+  it("agrees with plausibilityChecks: one field flagged ⇔ one note", () => {
+    const m = { ...STANDARD_M, bicep: 5 };
+    expect(implausibleFields(m)).toHaveLength(plausibilityChecks(m).length);
+  });
+});
+
+describe("measurementsPlausible", () => {
+  it("is true for the standard sample", () => {
+    expect(measurementsPlausible(STANDARD_M)).toBe(true);
+  });
+
+  it("is false when a field is out of range", () => {
+    expect(measurementsPlausible({ ...STANDARD_M, chest: 160 })).toBe(false);
+  });
+
+  it("is false on a coherence failure even when every field is individually in range", () => {
+    const m = { ...STANDARD_M, chest: 130, shoulderWidth: 40 };
+    expect(implausibleFields(m)).toHaveLength(0); // each field fine
+    expect(measurementsPlausible(m)).toBe(false); // but the ratio is not
   });
 });

@@ -95,9 +95,15 @@ both **warnings, never clamps** (the app cautions; the user decides):
 - **Proportional coherence** (`coherenceChecks` + `RATIO_BOUNDS`: chest↔shoulder,
   chest↔length, bicep↔chest) — are the numbers sane *relative to each other*? This
   catches an internally mismatched set even when each value passes its own bound.
-`guide()` folds both in after the geometric notes, so all three tiers show in one
-list today; Slice 32 (C) is the honest-surfacing half — a single verdict that folds
-them in so an implausible garment can never *read* "production-ready ✓".
+`guide()` folds all three tiers into one note list, and `guidanceMarkup` heads the
+panel with a verdict ("⚠ N to review" / "✓ Looks production-ready"). The honest-
+surfacing half (Slice 32) makes green *conditional*: `measurementsPlausible(m)` — no
+out-of-range field, no bad ratio — is the single gate the UI reads. While it is
+false, the check view's "Ready to cut" banner and the style panel's "you're making a
+X ✓" both withhold green, and every out-of-range field gets an amber outline (driven
+by `implausibleFields`, the same list `plausibilityChecks` now builds on). So a set
+that sews together (`report.ok` true) but is an impossible body can never *read*
+validated.
 
 WHERE THE BOUNDS COME FROM (a plan correction worth recording). The roadmap assumed
 bounds could be read off "the size chart grading already uses". There is no such

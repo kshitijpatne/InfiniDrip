@@ -65,7 +65,7 @@ describe("editorHintMarkup", () => {
 
 describe("checkMarkup", () => {
   it("shows a ready banner and a tick when every check passes", () => {
-    const html = checkMarkup(buildReport([present("Seam", true, "agree")]));
+    const html = checkMarkup(buildReport([present("Seam", true, "agree")]), true);
     expect(html).toContain("Ready to cut");
     expect(html).toContain("✓");
     expect(html).toContain("Seam");
@@ -73,7 +73,7 @@ describe("checkMarkup", () => {
   });
 
   it("shows a not-ready banner and a cross when a check fails", () => {
-    const html = checkMarkup(buildReport([present("Seam", false, "off by 3 cm")]));
+    const html = checkMarkup(buildReport([present("Seam", false, "off by 3 cm")]), true);
     expect(html).toContain("Not ready");
     expect(html).toContain("✗");
     expect(html).toContain("off by 3 cm");
@@ -98,6 +98,39 @@ describe("guidanceMarkup", () => {
     expect(html).toContain("All good");
     expect(html).toContain("Fix this");
     expect(html).toContain("Guidance");
+  });
+
+  it("heads a clean panel with a production-ready verdict", () => {
+    const html = guidanceMarkup([{ level: "ok", text: "All good" }]);
+    expect(html).toContain("✓ Looks production-ready");
+  });
+
+  it("heads a panel with warnings with a count to review", () => {
+    const html = guidanceMarkup([
+      { level: "warn", text: "a" },
+      { level: "info", text: "b" },
+      { level: "warn", text: "c" },
+    ]);
+    expect(html).toContain("⚠ 2 to review"); // info does not count
+    expect(html).not.toContain("production-ready");
+  });
+});
+
+describe("checkMarkup — plausibility gates the green", () => {
+  it("reads green only when the pattern is sound AND plausible", () => {
+    const html = checkMarkup(buildReport([present("Seam", true, "agree")]), true);
+    expect(html).toContain("✓ Ready to cut");
+  });
+
+  it("withholds green when geometry passes but a measurement is implausible", () => {
+    const html = checkMarkup(buildReport([present("Seam", true, "agree")]), false);
+    expect(html).not.toContain("✓ Ready to cut");
+    expect(html).toContain("Sews together, but check the flagged measurements");
+  });
+
+  it("still shows the not-ready banner when a check fails, regardless of plausibility", () => {
+    const html = checkMarkup(buildReport([present("Seam", false, "off by 3 cm")]), true);
+    expect(html).toContain("Not ready");
   });
 });
 
@@ -129,26 +162,32 @@ describe("specTableMarkup", () => {
 
 describe("styleMarkup", () => {
   it("renders the target selector with all styles and the chosen one selected", () => {
-    const html = styleMarkup("Classic tee", matchStyle(STANDARD_M, "Classic tee"), styleNames());
+    const html = styleMarkup("Classic tee", matchStyle(STANDARD_M, "Classic tee"), styleNames(), true);
     expect(html).toContain('id="style-target"');
     expect(html).toContain("Oversized tee"); // an option
     expect(html).toContain("Target fit");
   });
 
   it("confirms when you already match the chosen target", () => {
-    const html = styleMarkup("Classic tee", matchStyle(STANDARD_M, "Classic tee"), styleNames());
+    const html = styleMarkup("Classic tee", matchStyle(STANDARD_M, "Classic tee"), styleNames(), true);
     expect(html).toContain("You're making a Classic tee");
   });
 
   it("shows the gap to a target you are not yet in", () => {
-    const html = styleMarkup("Oversized tee", matchStyle(STANDARD_M, "Oversized tee"), styleNames());
+    const html = styleMarkup("Oversized tee", matchStyle(STANDARD_M, "Oversized tee"), styleNames(), true);
     expect(html).toContain("To reach Oversized tee");
     expect(html).toContain("Ease +9 cm");
   });
 
   it("shows a negative delta without a plus sign", () => {
-    const html = styleMarkup("Crop tee", matchStyle(STANDARD_M, "Crop tee"), styleNames());
+    const html = styleMarkup("Crop tee", matchStyle(STANDARD_M, "Crop tee"), styleNames(), true);
     expect(html).toContain("Length -13 cm");
+  });
+
+  it("withholds the green ✓ when the target is matched but measurements are implausible", () => {
+    const html = styleMarkup("Classic tee", matchStyle(STANDARD_M, "Classic tee"), styleNames(), false);
+    expect(html).not.toContain("✓ You're making a Classic tee");
+    expect(html).toContain("matches Classic tee on paper");
   });
 });
 

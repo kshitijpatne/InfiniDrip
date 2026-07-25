@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 31. Update this after every slice (and commit it WITH the code)._
+_Last updated: after Slice 32. Update this after every slice (and commit it WITH the code)._
 
 ## What it is
 A lightweight, local 2D sewing-pattern designer in TypeScript. Type body
@@ -72,6 +72,17 @@ SLICES-BRIEF.md) are committed in the same commit as the code they describe.**
 22. per-size export — a size picker in the export area drafts the chosen graded
     size (via `draftAtSize`) and emits `<garment>-<SIZE>.<ext>`; scopes only the
     exports, every other view keeps its job (327)
+32. Verdict & honest surfacing (the UI half of the sanity tiers) — geometry passing
+    can no longer masquerade as validated. A top-line guidance verdict ("⚠ N to
+    review" / "✓ Looks production-ready") heads the panel; implausible inputs get an
+    amber outline at the field; and the two green signals — the check view's "Ready
+    to cut" banner and the style panel's "You're making a X ✓" — withhold green
+    while `measurementsPlausible` is false. New pure helpers `implausibleFields`
+    (which fields to flag) and `measurementsPlausible` (the one gate the UI reads);
+    `plausibilityChecks` now builds on `implausibleFields` (one source of truth).
+    chest 160 sews together (`report.ok` true) yet the banner now reads "⚠ Sews
+    together, but check the flagged measurements" — the falsely-validated screenshot
+    is dead (429)
 31. Plausibility & proportional-coherence checks — two new pure-function guidance
     families in `guidance/plausibility.ts`, both WARN, never clamp. (1) Absolute
     per-measurement bounds (`MEASUREMENT_BOUNDS`) for a real adult garment; (2)
@@ -226,9 +237,9 @@ the app validates *geometric* correctness but not whether the numbers are *sane*
 chest of 160 cm drafts a ridiculous tee while the panel still reads "production-ready
 ✓", and the style panel still says "You're making a Classic tee ✓". These small,
 independently-shippable slices close that trust gap before the skirt. Confirmed order
-**D → A → C → B → E**. **Slices 30 (D) and 31 (A) are done; Slice 32 (C) is next** — the UI half that
-folds plausibility into the top-line verdict and stops the green "production-ready
-✓" while inputs are implausible (it depends on 31):
+**D → A → C → B → E**. **Slices 30 (D), 31 (A), 32 (C) are done; Slice 33 (B) is next** —
+the guidance message-quality pass (stateful messages + icon/text severity, colour-
+blind safe):
 
 - ✓ **30 (D). Hover highlights the outline too** (done) — a measurement→edges map
   alongside the dimension-line map; hovering/focusing a row lifts the outline
@@ -243,12 +254,11 @@ folds plausibility into the top-line verdict and stops the green "production-rea
   already uses" the plan named does not exist — bounds are instead DECLARED, seeded
   from published adult ranges and centred on STANDARD_M. `guide()` now warns on
   chest 160 (four notes) where it used to draft silently.
-- **32 (C). Verdict & honest surfacing** (needs 31) — the UI half. A top-line
-  guidance status folding in plausibility ("⚠ 2 to review" / "✓ looks
-  production-ready"); implausible inputs flag at the field (amber outline); and the
-  reassuring green signals (style "Classic tee ✓", any "validated" impression) stop
-  reading green while measurements are implausible. This is what actually kills the
-  "falsely validated" screenshot.
+- ✓ **32 (C). Verdict & honest surfacing** (done) — a top-line guidance verdict
+  ("⚠ N to review" / "✓ Looks production-ready"); implausible inputs get an amber
+  outline at the field; the check banner and the style ✓ withhold green while
+  `measurementsPlausible` is false. chest 160 sews yet reads "⚠ Sews together, but
+  check the flagged measurements" — the falsely-validated screenshot is dead.
 - **33 (B). Guidance message-quality pass** — every message becomes **stateful**
   (references the current value) and ends in one clear verdict, plainly worded.
   Rewrites the ambiguous ease note ("add positive ease ~10 cm" → "your 10 cm is in
@@ -349,4 +359,4 @@ thread.
 ## Test counts (proof a slice landed)
 s4=58, s5=72, s6=82, s7=89, s8=94, s9=103, s10=119, s11=139, s12=155, s13=171,
 s14=187, s15=202, s16=219, s17=239, s18=257, s19=268, s20=285, s21=321, s22=327
-(+1 post-s22 SVG-export bugfix = 328), s23a=343, s23b=348, s24=355, s25=360, s26=368, s27=374, s28=381, s29=386, s30=396, s31=412
+(+1 post-s22 SVG-export bugfix = 328), s23a=343, s23b=348, s24=355, s25=360, s26=368, s27=374, s28=381, s29=386, s30=396, s31=412, s32=429

@@ -533,3 +533,53 @@ describe("body-view measurement linking", () => {
     expect(root.querySelector<SVGGElement>('#canvas-host [data-edge="figure"]')!.style.opacity).toBe("0.15");
   });
 });
+
+describe("measurement-plausibility surfacing (Slice 32)", () => {
+  const setChest = (root: HTMLElement, v: string): void => {
+    const chest = root.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+    chest.value = v;
+    chest.dispatchEvent(new Event("input"));
+  };
+
+  it("leaves fields un-outlined and the verdict clean for a sane body", () => {
+    const root = mount();
+    const chest = root.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+    expect(chest.style.outline === "" || chest.style.outline === "none").toBe(true);
+    expect(root.querySelector("#guidance-host")!.innerHTML).toContain("Looks production-ready");
+  });
+
+  it("amber-outlines an implausible field and clears it when fixed", () => {
+    const root = mount();
+    setChest(root, "150"); // > 140 ceiling, but under the input's 160 max (no clamp)
+    const chest = root.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+    expect(chest.style.outline).toContain("solid");
+    // a field that is still fine does not get outlined
+    const length = root.querySelector<HTMLInputElement>('input[data-field="length"]')!;
+    expect(length.style.outline === "" || length.style.outline === "none").toBe(true);
+    // fix it → outline clears
+    setChest(root, "100");
+    expect(chest.style.outline === "" || chest.style.outline === "none").toBe(true);
+  });
+
+  it("switches the guidance verdict to a review count on an implausible value", () => {
+    const root = mount();
+    setChest(root, "150");
+    expect(root.querySelector("#guidance-host")!.innerHTML).toContain("to review");
+    expect(root.querySelector("#guidance-host")!.innerHTML).not.toContain("Looks production-ready");
+  });
+
+  it("withholds the green Ready banner in the check view while implausible", () => {
+    const root = mount();
+    setChest(root, "150");
+    root.querySelector<HTMLButtonElement>("#view-check")!.dispatchEvent(new Event("click"));
+    const html = root.querySelector("#canvas-host")!.innerHTML;
+    expect(html).not.toContain("✓ Ready to cut");
+    expect(html).toContain("check the flagged measurements");
+  });
+
+  it("stops the style panel reading green while implausible", () => {
+    const root = mount();
+    setChest(root, "150");
+    expect(root.querySelector("#style-host")!.innerHTML).not.toContain("✓ You're making");
+  });
+});

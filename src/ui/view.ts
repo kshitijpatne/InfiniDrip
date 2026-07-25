@@ -42,14 +42,23 @@ export function controlsMarkup(m: Measurements): string {
 
 const DOT: Record<Note["level"], string> = { ok: OK, info: T.label, warn: T.lineActive };
 
-/** The guidance panel: one line per note, colour-coded by level. */
+/** The guidance panel: a top-line verdict, then one line per note. The verdict
+ *  folds every warning in the panel into a single read — so an implausible set can
+ *  never leave the panel looking clean. */
 export function guidanceMarkup(notes: readonly Note[]): string {
+  const warnCount = notes.filter((n) => n.level === "warn").length;
+  const clean = warnCount === 0;
+  const verdictText = clean
+    ? "✓ Looks production-ready"
+    : `⚠ ${warnCount} to review`;
+  const verdict = `<div style="font-size:13px;font-weight:600;margin-bottom:12px;` +
+    `color:${clean ? OK : T.lineActive}">${verdictText}</div>`;
   const rows = notes.map((n) =>
     `<div style="display:flex;gap:8px;margin-bottom:10px;font-size:12.5px;line-height:1.4">` +
     `<span style="flex:0 0 8px;width:8px;height:8px;border-radius:50%;margin-top:4px;` +
     `background:${DOT[n.level]}"></span><span style="color:${T.line}">${n.text}</span></div>`
   ).join("");
-  return panel("Guidance", rows);
+  return panel("Guidance", verdict + rows);
 }
 
 /** A row of fabric colour swatches; the current colour gets a highlight ring. */
@@ -79,7 +88,8 @@ function deltaText(d: Delta): string {
 export function styleMarkup(
   targetName: string,
   match: StyleMatch,
-  allNames: readonly string[]
+  allNames: readonly string[],
+  plausible: boolean
 ): string {
   const options = allNames
     .map((n) => `<option ${n === targetName ? "selected" : ""}>${n}</option>`)
@@ -92,7 +102,12 @@ export function styleMarkup(
     `letter-spacing:0.04em;margin-bottom:6px">Target fit</div>`;
 
   let body: string;
-  if (match.deltas.length === 0) {
+  if (match.deltas.length === 0 && !plausible) {
+    // The measurements hit the target on every axis, but at least one is implausible
+    // — so "you're making a X" would be a green lie. Withhold it until they're sane.
+    body = `<div style="font-size:12.5px;color:${T.lineActive}">` +
+      `⚠ This matches ${targetName} on paper, but some measurements need review first.</div>`;
+  } else if (match.deltas.length === 0) {
     body = `<div style="font-size:13px;color:${OK}">✓ You're making a ${targetName}.</div>`;
   } else {
     const rows = match.deltas.map((d) =>
@@ -251,10 +266,17 @@ export function specTableMarkup(
     `width:100%">${head}${body}</table></div>`;
 }
 
-/** The production-readiness report: a pass/fail verdict banner over the check list. */
-export function checkMarkup(report: Report): string {
-  const bannerBg = report.ok ? OK : T.lineActive;
-  const bannerText = report.ok ? "✓ Ready to cut" : "✗ Not ready — fix the flagged checks";
+/** The production-readiness report: a pass/fail verdict banner over the check list.
+ *  `plausible` gates the GREEN state: geometry can pass (it sews) while the numbers
+ *  are still an impossible body — that must not read as a green "ready". */
+export function checkMarkup(report: Report, plausible: boolean): string {
+  const green = report.ok && plausible;
+  const bannerBg = green ? OK : T.lineActive;
+  const bannerText = green
+    ? "✓ Ready to cut"
+    : report.ok
+      ? "⚠ Sews together, but check the flagged measurements"
+      : "✗ Not ready — fix the flagged checks";
   const banner = `<div style="padding:10px 14px;border-radius:8px;font-weight:600;font-size:14px;` +
     `color:${T.background};background:${bannerBg};margin-bottom:12px">${bannerText}</div>`;
 

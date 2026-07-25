@@ -34,19 +34,25 @@ export const MEASUREMENT_BOUNDS: Partial<Record<keyof Measurements, Bound>> = {
   sleeveLength: { min: 5, max: 70, label: "Sleeve length" },
 };
 
+/** The raw fields whose OWN value is outside its plausible bound. The single
+ *  source of truth for "which inputs to flag" — used for the note text below and
+ *  for the amber field outline in the UI. */
+export function implausibleFields(m: Measurements): (keyof Measurements)[] {
+  return (Object.keys(MEASUREMENT_BOUNDS) as (keyof Measurements)[]).filter((key) => {
+    const b = MEASUREMENT_BOUNDS[key]!;
+    return m[key] < b.min || m[key] > b.max;
+  });
+}
+
 /** Warn for any raw measurement outside its plausible adult range. */
 export function plausibilityChecks(m: Measurements): Note[] {
-  return (Object.keys(MEASUREMENT_BOUNDS) as (keyof Measurements)[]).flatMap((key) => {
+  return implausibleFields(m).map((key) => {
     const b = MEASUREMENT_BOUNDS[key]!;
-    const v = m[key];
-    if (v < b.min || v > b.max) {
-      return [{
-        level: "warn" as const,
-        text: `${b.label} (${v} cm) is outside the usual range for an adult garment ` +
-              `(${b.min}–${b.max} cm). Double-check the measurement.`,
-      }];
-    }
-    return [];
+    return {
+      level: "warn" as const,
+      text: `${b.label} (${m[key]} cm) is outside the usual range for an adult garment ` +
+            `(${b.min}–${b.max} cm). Double-check the measurement.`,
+    };
   });
 }
 
@@ -83,4 +89,12 @@ export function coherenceChecks(m: Measurements): Note[] {
     }
     return [];
   });
+}
+
+/** True when every sanity check passes — no out-of-range field and no bad ratio.
+ *  The one gate the UI reads to decide whether a green "validated" signal has
+ *  earned the right to show. Geometric soundness is necessary but NOT sufficient:
+ *  a set can sew together (garment-check ok) yet still be an impossible body. */
+export function measurementsPlausible(m: Measurements): boolean {
+  return implausibleFields(m).length === 0 && coherenceChecks(m).length === 0;
 }

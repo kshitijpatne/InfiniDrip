@@ -11,7 +11,7 @@ import { pieceHandles, moveHandle, nearestHandle, editorViewBox, viewboxPointToC
 import { dartOf, transferDart, trueSeam, edgesMeet } from "../drafting";
 import { BLUEPRINT } from "../render";
 import { guide, Note } from "../guidance";
-import { garmentReport } from "../guidance";
+import { garmentReport, implausibleFields, measurementsPlausible } from "../guidance";
 import { matchStyle, styleNames } from "../style";
 import { FIELDS, applyChange } from "./controls";
 import { appShellMarkup, guidanceMarkup, styleMarkup, specTableMarkup, checkMarkup, editorHintMarkup, dartControlsMarkup } from "./view";
@@ -65,7 +65,7 @@ export function mountApp(root: HTMLElement): void {
       canvasHost.innerHTML = renderFabricNest(
         nest.placed, nest.fabricWidth, nest.fabricLength, nest.utilization, nest.fits);
     } else if (view === "check") {
-      canvasHost.innerHTML = checkMarkup(garmentReport(recipe, measurements));
+      canvasHost.innerHTML = checkMarkup(garmentReport(recipe, measurements), measurementsPlausible(measurements));
     } else if (view === "edit") {
       const piece = editedFront!;
       const vb = editorViewBox(piece);
@@ -94,11 +94,22 @@ export function mountApp(root: HTMLElement): void {
         { active: pieces[0].name, notches: recipe.notches, allowances: recipe.allowances });
     }
     garmentHost.innerHTML = renderGarment(measurements, fabric);
+    // One sanity read for the whole frame: are the numbers a real body? It gates
+    // every green "validated" signal — the check banner, the style ✓ — and flags
+    // the offending fields, so geometry passing can never masquerade as "ready".
+    const plausible = measurementsPlausible(measurements);
     // Guidance = the geometry checks, plus a fabric-stretch ease note (advice only).
     const fabricNote: Note = { level: "info", text: fabricEaseNote(stretchFabric, measurements.chest) };
     guidanceHost.innerHTML = guidanceMarkup([...guide(measurements, recipe.draft(measurements)), fabricNote]);
     // Style = prescriptive: the gap from current measurements to the chosen target.
-    styleHost.innerHTML = styleMarkup(targetStyle, matchStyle(measurements, targetStyle), styleNames());
+    styleHost.innerHTML = styleMarkup(targetStyle, matchStyle(measurements, targetStyle), styleNames(), plausible);
+    // Amber-outline any measurement input whose value is out of plausible range
+    // (same outline convention as the fabric swatches). Controls aren't re-rendered
+    // per draw, so this is applied imperatively.
+    const flagged = new Set<string>(implausibleFields(measurements));
+    root.querySelectorAll<HTMLInputElement>("[data-field]").forEach((inp) => {
+      inp.style.outline = flagged.has(inp.dataset.field!) ? `2px solid ${BLUEPRINT.lineActive}` : "";
+    });
     // The body SVG was just re-rendered; restore any active dimension spotlight.
     if (activeDim !== null) spotlight(activeDim);
   };
