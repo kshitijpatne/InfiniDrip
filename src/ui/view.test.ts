@@ -100,6 +100,17 @@ describe("guidanceMarkup", () => {
     expect(html).toContain("Guidance");
   });
 
+  it("leads each note with its severity icon, not colour alone", () => {
+    const html = guidanceMarkup([
+      { level: "warn", text: "too tight" },
+      { level: "ok", text: "looks good" },
+      { level: "info", text: "fyi" },
+    ]);
+    expect(html).toContain("⚠"); // warn glyph
+    expect(html).toContain("ℹ"); // info glyph
+    expect(html).toContain("✓"); // ok glyph
+  });
+
   it("heads a clean panel with a production-ready verdict", () => {
     const html = guidanceMarkup([{ level: "ok", text: "All good" }]);
     expect(html).toContain("✓ Looks production-ready");

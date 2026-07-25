@@ -12,6 +12,11 @@ export interface Note {
   readonly text: string;
 }
 
+/** Severity as an ICON, not colour alone — so the signal survives colour-blindness
+ *  and greyscale. Defined once here; every renderer (this app's guidance panel, and
+ *  Fable's journey UI) reads it rather than inventing its own glyph. */
+export const SEVERITY_ICON: Record<Level, string> = { ok: "✓", info: "ℹ", warn: "⚠" };
+
 /** The headline check: does the sleeve cap match the armhole it sews into? */
 export function armholeMatch(block: Block): Note {
   const armhole =
@@ -39,15 +44,17 @@ export function armholeMatch(block: Block): Note {
   };
 }
 
-/** Ease that is too tight to put on, or so loose it changes the whole style. */
-export function easeRange(m: Measurements): Note | null {
+/** Ease, always surfaced: too tight to wear, roomy/oversized, or comfortable.
+ *  Never silent — a positive "you're in range" is guidance too, and stops the reader
+ *  wondering whether the check even ran. */
+export function easeRange(m: Measurements): Note {
   if (m.ease < 5) {
-    return { level: "warn", text: `Ease is tight (${m.ease} cm). Most tees use 8–12 cm.` };
+    return { level: "warn", text: `Ease is ${m.ease} cm — tight to pull on. Most tees use 8–12 cm.` };
   }
   if (m.ease > 16) {
-    return { level: "info", text: `Ease is high (${m.ease} cm) — expect an oversized fit.` };
+    return { level: "info", text: `Ease is ${m.ease} cm — roomy; expect an oversized fit.` };
   }
-  return null;
+  return { level: "ok", text: `Ease is ${m.ease} cm — a comfortable amount for a tee.` };
 }
 
 /** An armhole too shallow for the chest binds the arm. */
@@ -69,7 +76,8 @@ export function shoulderCheck(m: Measurements): Note | null {
   if (m.shoulderWidth / 2 > panel) {
     return {
       level: "warn",
-      text: `Shoulder point sits past the side seam — reduce shoulder width or add chest/ease.`,
+      text: `Shoulder width (${m.shoulderWidth} cm) is wider than the body panel allows here — ` +
+            `the shoulder point sits past the side seam. Reduce shoulder width or add chest/ease.`,
     };
   }
   return null;

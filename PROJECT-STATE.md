@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 32. Update this after every slice (and commit it WITH the code)._
+_Last updated: after Slice 33. Update this after every slice (and commit it WITH the code)._
 
 ## What it is
 A lightweight, local 2D sewing-pattern designer in TypeScript. Type body
@@ -72,6 +72,13 @@ SLICES-BRIEF.md) are committed in the same commit as the code they describe.**
 22. per-size export — a size picker in the export area drafts the chosen graded
     size (via `draftAtSize`) and emits `<garment>-<SIZE>.<ext>`; scopes only the
     exports, every other view keeps its job (327)
+33. Guidance message-quality pass (colour-blind safe, Fable-facing) — every guidance
+    message is now stateful (names the current value) and ends in a plain verdict, and
+    severity is shown as an ICON, not colour alone. `easeRange` no longer goes silent
+    in range — it returns a positive "Ease is 10 cm — a comfortable amount" note;
+    `shoulderCheck` names the offending width. New exported datum `SEVERITY_ICON`
+    (`{ok:"✓", info:"ℹ", warn:"⚠"}`) is the single source of glyphs the panel renders
+    and Fable's F2 will reuse — Phase-A data, not baked-in markup. (431)
 32. Verdict & honest surfacing (the UI half of the sanity tiers) — geometry passing
     can no longer masquerade as validated. A top-line guidance verdict ("⚠ N to
     review" / "✓ Looks production-ready") heads the panel; implausible inputs get an
@@ -237,9 +244,9 @@ the app validates *geometric* correctness but not whether the numbers are *sane*
 chest of 160 cm drafts a ridiculous tee while the panel still reads "production-ready
 ✓", and the style panel still says "You're making a Classic tee ✓". These small,
 independently-shippable slices close that trust gap before the skirt. Confirmed order
-**D → A → C → B → E**. **Slices 30 (D), 31 (A), 32 (C) are done; Slice 33 (B) is next** —
-the guidance message-quality pass (stateful messages + icon/text severity, colour-
-blind safe):
+**D → A → C → B → E**. **Slices 30 (D), 31 (A), 32 (C), 33 (B) are done; Slice 34 (E)
+is next** — the body-vs-finished measurement label (small clarity fix, and the last
+of Opus Phase A that Fable's F2 journey UI waits on):
 
 - ✓ **30 (D). Hover highlights the outline too** (done) — a measurement→edges map
   alongside the dimension-line map; hovering/focusing a row lifts the outline
@@ -259,11 +266,11 @@ blind safe):
   outline at the field; the check banner and the style ✓ withhold green while
   `measurementsPlausible` is false. chest 160 sews yet reads "⚠ Sews together, but
   check the flagged measurements" — the falsely-validated screenshot is dead.
-- **33 (B). Guidance message-quality pass** — every message becomes **stateful**
-  (references the current value) and ends in one clear verdict, plainly worded.
-  Rewrites the ambiguous ease note ("add positive ease ~10 cm" → "your 10 cm is in
-  the typical range ✓" vs "10 cm is typical; you have 2"). Adds icon+text severity
-  (⚠ / ℹ / ✓) so severity isn't colour-only (colour-blind safe).
+- ✓ **33 (B). Guidance message-quality pass** (done) — every message is stateful
+  (names the current value) and ends in a plain verdict; `easeRange` now gives a
+  positive in-range note instead of silence. Severity is an icon (`SEVERITY_ICON`
+  = ⚠ / ℹ / ✓), rendered alongside colour so it survives colour-blindness/greyscale.
+  `SEVERITY_ICON` is exposed data — Fable's F2 renders it, never redefines it.
 - **34 (E). Body vs finished label** — now that ease exists, label displayed
   measurements as **body** or **finished** (body + ease) so "Chest 100 (circ)" is
   unambiguous. Small clarity fix.
@@ -359,4 +366,4 @@ thread.
 ## Test counts (proof a slice landed)
 s4=58, s5=72, s6=82, s7=89, s8=94, s9=103, s10=119, s11=139, s12=155, s13=171,
 s14=187, s15=202, s16=219, s17=239, s18=257, s19=268, s20=285, s21=321, s22=327
-(+1 post-s22 SVG-export bugfix = 328), s23a=343, s23b=348, s24=355, s25=360, s26=368, s27=374, s28=381, s29=386, s30=396, s31=412, s32=429
+(+1 post-s22 SVG-export bugfix = 328), s23a=343, s23b=348, s24=355, s25=360, s26=368, s27=374, s28=381, s29=386, s30=396, s31=412, s32=429, s33=431

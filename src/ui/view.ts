@@ -4,7 +4,7 @@
 
 import { Measurements, STRETCH_FABRICS, SpecRow, GARMENTS, SizeStep } from "../drafting";
 import { BLUEPRINT as T, FABRICS } from "../render";
-import { Note } from "../guidance";
+import { Note, SEVERITY_ICON } from "../guidance";
 import { Report } from "../guidance";
 import { StyleMatch, Delta } from "../style";
 import { FIELDS } from "./controls";
@@ -42,21 +42,21 @@ export function controlsMarkup(m: Measurements): string {
 
 const DOT: Record<Note["level"], string> = { ok: OK, info: T.label, warn: T.lineActive };
 
-/** The guidance panel: a top-line verdict, then one line per note. The verdict
- *  folds every warning in the panel into a single read — so an implausible set can
- *  never leave the panel looking clean. */
+/** The guidance panel: a top-line verdict, then one line per note. Each line leads
+ *  with a severity ICON (not colour alone) so the signal survives colour-blindness
+ *  and greyscale; the verdict folds every warning into a single read. */
 export function guidanceMarkup(notes: readonly Note[]): string {
   const warnCount = notes.filter((n) => n.level === "warn").length;
   const clean = warnCount === 0;
   const verdictText = clean
-    ? "✓ Looks production-ready"
-    : `⚠ ${warnCount} to review`;
+    ? `${SEVERITY_ICON.ok} Looks production-ready`
+    : `${SEVERITY_ICON.warn} ${warnCount} to review`;
   const verdict = `<div style="font-size:13px;font-weight:600;margin-bottom:12px;` +
     `color:${clean ? OK : T.lineActive}">${verdictText}</div>`;
   const rows = notes.map((n) =>
     `<div style="display:flex;gap:8px;margin-bottom:10px;font-size:12.5px;line-height:1.4">` +
-    `<span style="flex:0 0 8px;width:8px;height:8px;border-radius:50%;margin-top:4px;` +
-    `background:${DOT[n.level]}"></span><span style="color:${T.line}">${n.text}</span></div>`
+    `<span style="flex:0 0 14px;color:${DOT[n.level]};font-weight:700" aria-hidden="true">` +
+    `${SEVERITY_ICON[n.level]}</span><span style="color:${T.line}">${n.text}</span></div>`
   ).join("");
   return panel("Guidance", verdict + rows);
 }

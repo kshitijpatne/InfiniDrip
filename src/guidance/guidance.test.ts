@@ -3,7 +3,7 @@ import { point } from "../geometry";
 import { Block, Piece, STANDARD_M, block, draftTshirt } from "../drafting";
 
 const BAD_M = { ...STANDARD_M, ease: 2, armholeDepth: 10 };
-import { armholeMatch, easeRange, armholeDepthCheck, shoulderCheck, guide } from "./guidance";
+import { armholeMatch, easeRange, armholeDepthCheck, shoulderCheck, guide, SEVERITY_ICON, Level } from "./guidance";
 
 // Build a tiny fake block whose armhole and cap edges have chosen lengths,
 // so we can drive armholeMatch into each outcome deterministically.
@@ -42,13 +42,17 @@ describe("armholeMatch", () => {
 
 describe("easeRange", () => {
   it("warns on tight ease", () => {
-    expect(easeRange({ ...STANDARD_M, ease: 2 })?.level).toBe("warn");
+    const note = easeRange({ ...STANDARD_M, ease: 2 });
+    expect(note.level).toBe("warn");
+    expect(note.text).toContain("2 cm"); // stateful: names the value
   });
   it("informs on high ease", () => {
     expect(easeRange({ ...STANDARD_M, ease: 20 })?.level).toBe("info");
   });
-  it("says nothing for normal ease", () => {
-    expect(easeRange(STANDARD_M)).toBeNull();
+  it("gives a positive, stateful note for normal ease", () => {
+    const note = easeRange(STANDARD_M);
+    expect(note.level).toBe("ok");
+    expect(note.text).toContain("10 cm"); // references the current value
   });
 });
 
@@ -63,7 +67,9 @@ describe("armholeDepthCheck", () => {
 
 describe("shoulderCheck", () => {
   it("warns when the shoulder runs past the side seam", () => {
-    expect(shoulderCheck({ ...STANDARD_M, shoulderWidth: 70, chest: 80, ease: 0 })?.level).toBe("warn");
+    const note = shoulderCheck({ ...STANDARD_M, shoulderWidth: 70, chest: 80, ease: 0 });
+    expect(note?.level).toBe("warn");
+    expect(note?.text).toContain("70 cm"); // stateful: names the offending width
   });
   it("says nothing for a normal shoulder", () => {
     expect(shoulderCheck(STANDARD_M)).toBeNull();
@@ -71,10 +77,10 @@ describe("shoulderCheck", () => {
 });
 
 describe("guide", () => {
-  it("gives the standard block a clean bill (cap matches, no warnings)", () => {
+  it("gives the standard block a clean bill (cap matches, ease comfortable)", () => {
     const notes = guide(STANDARD_M, draftTshirt(STANDARD_M));
-    expect(notes).toHaveLength(1);          // only the OK match note
-    expect(notes[0].level).toBe("ok");
+    expect(notes).toHaveLength(2); // OK cap-match note + OK ease note
+    expect(notes.every((n) => n.level === "ok")).toBe(true);
   });
   it("collects multiple notes when several things are off", () => {
     const notes = guide(BAD_M, draftTshirt(BAD_M));
@@ -95,5 +101,14 @@ describe("guide", () => {
     const m = { ...STANDARD_M, chest: 130, shoulderWidth: 40 };
     const notes = guide(m, draftTshirt(m));
     expect(notes.some((n) => n.text.includes("proportion"))).toBe(true);
+  });
+});
+
+describe("SEVERITY_ICON", () => {
+  it("gives a distinct glyph for every level (severity is not colour-only)", () => {
+    const icons = (["ok", "info", "warn"] as Level[]).map((l) => SEVERITY_ICON[l]);
+    expect(new Set(icons).size).toBe(3); // all distinct
+    expect(SEVERITY_ICON.warn).toBe("⚠");
+    expect(SEVERITY_ICON.ok).toBe("✓");
   });
 });

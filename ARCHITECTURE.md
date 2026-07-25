@@ -96,7 +96,10 @@ both **warnings, never clamps** (the app cautions; the user decides):
   chest↔length, bicep↔chest) — are the numbers sane *relative to each other*? This
   catches an internally mismatched set even when each value passes its own bound.
 `guide()` folds all three tiers into one note list, and `guidanceMarkup` heads the
-panel with a verdict ("⚠ N to review" / "✓ Looks production-ready"). The honest-
+panel with a verdict ("⚠ N to review" / "✓ Looks production-ready"). Every note is
+stateful (names its current value) and leads with a severity ICON from the exposed
+`SEVERITY_ICON` map (⚠ / ℹ / ✓) so severity is never colour-only — Fable's journey UI
+reads the same map rather than inventing glyphs. The honest-
 surfacing half (Slice 32) makes green *conditional*: `measurementsPlausible(m)` — no
 out-of-range field, no bad ratio — is the single gate the UI reads. While it is
 false, the check view's "Ready to cut" banner and the style panel's "you're making a
