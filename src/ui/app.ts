@@ -16,6 +16,11 @@ import { matchStyle, styleNames } from "../style";
 import { FIELDS, applyChange } from "./controls";
 import { appShellMarkup, guidanceMarkup, styleMarkup, specTableMarkup, checkMarkup, editorHintMarkup, dartControlsMarkup } from "./view";
 import { saveToStorage, loadFromStorage } from "./persist";
+import {
+  JourneyStep, ViewName, COACHED_STEPS, disclosureFor, stepView, journeyChecklist,
+  journeyBarMarkup, checklistMarkup, welcomeMarkup, celebrationMarkup,
+  loadJourney, saveJourney,
+} from "./journey";
 
 export function mountApp(root: HTMLElement): void {
   const saved = loadFromStorage();
@@ -28,6 +33,12 @@ export function mountApp(root: HTMLElement): void {
   const guidanceHost = root.querySelector<HTMLDivElement>("#guidance-host")!;
   const styleHost = root.querySelector<HTMLDivElement>("#style-host")!;
   const fabricWidthHost = root.querySelector<HTMLDivElement>("#fabric-width-host")!;
+  const journeyHost = root.querySelector<HTMLDivElement>("#journey-host")!;
+
+  // The guided journey (F2): a coached Start→Output path over the existing views.
+  // Its state is presentation-only and persisted separately from the pattern.
+  let journey = loadJourney();
+  let celebrating = false; // the light, dismissible export confirmation
 
   let targetStyle = "Classic tee"; // the declared fit target (sets nothing)
   let stretchFabric = STRETCH_FABRICS[0]; // drives the ease guidance note
@@ -51,6 +62,23 @@ export function mountApp(root: HTMLElement): void {
         const owns = g.dataset.dim ?? g.dataset.edge;
         g.style.opacity = field === null || owns === field ? "1" : "0.15";
       });
+  };
+
+  // The journey bar + checklist render Opus's guidance DATA (plausibility gate,
+  // fit gaps, the report verdict) — nothing here recomputes a check.
+  const renderJourney = (): void => {
+    const plausible = measurementsPlausible(measurements);
+    const gaps = matchStyle(measurements, targetStyle).deltas.length;
+    const report = garmentReport(recipe, measurements);
+    const parts: string[] = [];
+    if (journey.step === "start") parts.push(welcomeMarkup());
+    parts.push(journeyBarMarkup(journey.step));
+    if (celebrating) parts.push(celebrationMarkup(plausible));
+    if (journey.step !== "start") {
+      parts.push(checklistMarkup(
+        journeyChecklist(plausible, gaps, report.ok, journey.exported)));
+    }
+    journeyHost.innerHTML = parts.join("");
   };
 
   const draw = (): void => {
@@ -112,6 +140,7 @@ export function mountApp(root: HTMLElement): void {
     });
     // The body SVG was just re-rendered; restore any active dimension spotlight.
     if (activeDim !== null) spotlight(activeDim);
+    renderJourney();
   };
   draw();
 
@@ -141,6 +170,52 @@ export function mountApp(root: HTMLElement): void {
   viewBtns.fabric.addEventListener("click", () => setView("fabric"));
   viewBtns.check.addEventListener("click", () => setView("check"));
   viewBtns.edit.addEventListener("click", () => setView("edit"));
+
+  // Progressive disclosure: each journey step reveals only what it needs; the
+  // advanced views stay one click away once unlocked, never front-loaded.
+  const applyDisclosure = (): void => {
+    const d = disclosureFor(journey.step);
+    root.querySelector<HTMLElement>("#controls-panel")!.style.display = d.controls ? "" : "none";
+    root.querySelector<HTMLElement>("#stretch-host")!.style.display = d.stretch ? "flex" : "none";
+    root.querySelector<HTMLElement>("#swatch-host")!.style.display = d.swatches ? "flex" : "none";
+    root.querySelector<HTMLElement>("#export-host")!.style.display = d.exports ? "flex" : "none";
+    styleHost.style.display = d.style ? "" : "none";
+    guidanceHost.style.display = d.guidance ? "" : "none";
+    root.querySelector<HTMLElement>("#view-toggle-host")!.style.display =
+      d.views.length > 0 ? "flex" : "none";
+    (Object.keys(viewBtns) as ViewName[]).forEach((k) => {
+      viewBtns[k].style.display = d.views.includes(k) ? "" : "none";
+    });
+  };
+
+  const setStep = (s: JourneyStep): void => {
+    journey = { ...journey, step: s };
+    saveJourney(journey);
+    celebrating = false;
+    applyDisclosure();
+    const v = stepView(s);
+    if (v !== null && view !== v) setView(v); // setView redraws (and the journey with it)
+    else draw();
+  };
+
+  // The journey host is rebuilt every draw, so its clicks are delegated.
+  journeyHost.addEventListener("click", (e) => {
+    const id = (e.target as HTMLElement).id;
+    const idx = COACHED_STEPS.findIndex((st) => st.id === journey.step);
+    if (id === "welcome-start" || id === "journey-next") {
+      setStep(COACHED_STEPS[Math.min(idx + 1, COACHED_STEPS.length - 1)].id);
+    } else if (id === "journey-back") {
+      setStep(COACHED_STEPS[Math.max(idx - 1, 0)].id);
+    } else if (id === "welcome-skip" || id === "journey-skip") {
+      setStep("done");
+    } else if (id === "celebrate-dismiss") {
+      celebrating = false;
+      renderJourney();
+    } else if (id.startsWith("journey-step-")) {
+      setStep(id.slice("journey-step-".length) as JourneyStep);
+    }
+  });
+  applyDisclosure();
 
   // Freeform drag: pointer -> nearest handle -> moveHandle -> redraw. All the
   // maths is pure (edit engine); these three handlers are the only impure glue.
@@ -304,6 +379,12 @@ export function mountApp(root: HTMLElement): void {
     a.download = filename;
     a.click();
     URL.revokeObjectURL(url);
+    // Reaching a real export completes the journey's checklist; while the tour
+    // is still on, confirm it lightly (and honestly — see celebrationMarkup).
+    journey = { ...journey, exported: true };
+    saveJourney(journey);
+    if (journey.step !== "done") celebrating = true;
+    renderJourney();
   };
   root.querySelector<HTMLButtonElement>("#export-svg")!.addEventListener("click", () => {
     download(`${recipe.name}-${exportSizeLabel()}.svg`, exportSvg(exportPieces(), recipe.allowances, recipe.notches), "image/svg+xml");

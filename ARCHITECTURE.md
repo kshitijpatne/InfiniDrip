@@ -201,7 +201,11 @@ the parametric core stays consistent everywhere else.
   ui/         the impure shell; sliders, fabric + style selectors, a Tee/Fitted
               garment toggle, the view toggle
               (Pattern/Size run/Spec/Nesting/Check/Edit), freeform drag handlers,
-              save/load persistence
+              save/load persistence; the guided journey (journey.ts — pure step/
+              disclosure/checklist maps + markup; app.ts applies them: a coached
+              Start→Measure→Fit→Refine→Output path that progressively reveals
+              the views, persists to localStorage, and celebrates an export
+              honestly — no green while measurements are implausible)
 
 ## A change, start to finish
 
