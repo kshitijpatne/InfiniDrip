@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import { mountApp } from "./app";
 import { STANDARD_M, draftTshirt, rolePiece } from "../drafting";
 import { pieceHandles, editorViewBox } from "../edit";
@@ -83,6 +83,37 @@ describe("mountApp", () => {
     size.dispatchEvent(new Event("change"));
     root.querySelector<HTMLButtonElement>("#export-techpack")!.dispatchEvent(new Event("click"));
     expect(created).toEqual(["tee-techpack.pdf"]); // size picker does not rename it
+  });
+
+  it("downloads a whole-run projector file, ignoring the per-size picker", () => {
+    const created: string[] = [];
+    URL.createObjectURL = vi.fn(() => "blob:test");
+    URL.revokeObjectURL = vi.fn();
+    HTMLAnchorElement.prototype.click = vi.fn(function (this: HTMLAnchorElement) {
+      created.push(this.download);
+    });
+    const root = mount();
+    const size = root.querySelector<HTMLSelectElement>("#export-size")!;
+    size.value = "1";
+    size.dispatchEvent(new Event("change"));
+    root.querySelector<HTMLButtonElement>("#export-projector")!.dispatchEvent(new Event("click"));
+    // every size rides in the file as a layer, so the picker does not rename it
+    expect(created).toEqual(["tee-projector.svg"]);
+  });
+
+  it("downloads the A0 file at the picked size", () => {
+    const created: string[] = [];
+    URL.createObjectURL = vi.fn(() => "blob:test");
+    URL.revokeObjectURL = vi.fn();
+    HTMLAnchorElement.prototype.click = vi.fn(function (this: HTMLAnchorElement) {
+      created.push(this.download);
+    });
+    const root = mount();
+    const size = root.querySelector<HTMLSelectElement>("#export-size")!;
+    size.value = "1";
+    size.dispatchEvent(new Event("change"));
+    root.querySelector<HTMLButtonElement>("#export-a0")!.dispatchEvent(new Event("click"));
+    expect(created).toEqual(["tee-L-A0.pdf"]);
   });
 
   it("exports the chosen size: the picker drives the filename and the geometry", () => {
@@ -581,5 +612,134 @@ describe("measurement-plausibility surfacing (Slice 32)", () => {
     const root = mount();
     setChest(root, "150");
     expect(root.querySelector("#style-host")!.innerHTML).not.toContain("✓ You're making");
+  });
+});
+
+// ── The guided journey (F2) ───────────────────────────────────────────────────
+
+describe("guided journey", () => {
+  beforeEach(() => localStorage.clear());
+
+  const jclick = (root: HTMLElement, id: string): void => {
+    root.querySelector<HTMLElement>(`#${id}`)!
+      .dispatchEvent(new Event("click", { bubbles: true }));
+  };
+  const setChest = (root: HTMLElement, v: string): void => {
+    const chest = root.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+    chest.value = v;
+    chest.dispatchEvent(new Event("input"));
+  };
+  const hidden = (root: HTMLElement, sel: string): boolean =>
+    root.querySelector<HTMLElement>(sel)!.style.display === "none";
+  const walkToOutput = (root: HTMLElement): void => {
+    jclick(root, "welcome-start"); // → measure
+    jclick(root, "journey-next"); // → fit
+    jclick(root, "journey-next"); // → refine
+    jclick(root, "journey-next"); // → output
+  };
+  const mockDownloads = (): void => {
+    URL.createObjectURL = vi.fn(() => "blob:test");
+    URL.revokeObjectURL = vi.fn();
+    HTMLAnchorElement.prototype.click = vi.fn();
+  };
+
+  it("opens the first run on a welcome card with everything tucked away", () => {
+    const root = mount();
+    expect(root.querySelector("#journey-welcome")).not.toBeNull();
+    expect(hidden(root, "#controls-panel")).toBe(true);
+    expect(hidden(root, "#export-host")).toBe(true);
+    expect(hidden(root, "#view-toggle-host")).toBe(true);
+    expect(hidden(root, "#style-host")).toBe(true);
+  });
+
+  it("starts the tour on Measure: controls appear and the body view teaches", () => {
+    const root = mount();
+    jclick(root, "welcome-start");
+    expect(hidden(root, "#controls-panel")).toBe(false);
+    expect(root.querySelector("#canvas-host")!.innerHTML).toContain("(circ)"); // body view
+    expect(hidden(root, "#view-body")).toBe(false);
+    expect(hidden(root, "#view-nest")).toBe(true); // advanced views stay tucked away
+    expect(hidden(root, "#export-host")).toBe(true);
+  });
+
+  it("reaches Output in the five coached steps, with exports finally revealed", () => {
+    const root = mount();
+    walkToOutput(root);
+    expect(hidden(root, "#export-host")).toBe(false);
+    expect(hidden(root, "#view-nest")).toBe(false);
+    expect(hidden(root, "#view-spec")).toBe(false);
+    // standard measurements: plausible + on-target + checks pass, not yet exported
+    expect(root.querySelector("#journey-host")!.innerHTML).toContain("4 of 5");
+  });
+
+  it("celebrates a valid export lightly — and dismissibly", () => {
+    mockDownloads();
+    const root = mount();
+    walkToOutput(root);
+    jclick(root, "export-svg");
+    const journeyHtml = (): string => root.querySelector("#journey-host")!.innerHTML;
+    expect(root.querySelector("#journey-celebration")).not.toBeNull();
+    expect(journeyHtml()).toContain("✓ Files exported");
+    expect(journeyHtml()).toContain("5 of 5");
+    jclick(root, "celebrate-dismiss");
+    expect(root.querySelector("#journey-celebration")).toBeNull();
+  });
+
+  it("never celebrates green while a measurement is implausible", () => {
+    mockDownloads();
+    const root = mount();
+    walkToOutput(root);
+    setChest(root, "160");
+    jclick(root, "export-svg");
+    const cel = root.querySelector("#journey-celebration")!;
+    expect(cel.innerHTML).toContain("review");
+    expect(cel.innerHTML).not.toContain("✓");
+  });
+
+  it("lets an expert skip the tour and see the whole app at once", () => {
+    const root = mount();
+    jclick(root, "welcome-skip");
+    expect(root.querySelector("#journey-welcome")).toBeNull();
+    expect(hidden(root, "#export-host")).toBe(false);
+    expect(hidden(root, "#view-edit")).toBe(false);
+    expect(root.querySelector("#journey-host")!.innerHTML).toContain("Tour complete");
+  });
+
+  it("resumes a persisted journey where it left off", () => {
+    localStorage.setItem("patternworks_journey_v1",
+      JSON.stringify({ v: 1, step: "refine", exported: false }));
+    const root = mount();
+    expect(root.querySelector("#journey-welcome")).toBeNull();
+    expect(hidden(root, "#view-check")).toBe(false); // refine unlocked Check…
+    expect(hidden(root, "#view-nest")).toBe(true); // …but Size run waits for Output
+    expect(hidden(root, "#export-host")).toBe(true);
+  });
+
+  it("steps back with the Back button", () => {
+    const root = mount();
+    jclick(root, "welcome-start"); // → measure
+    jclick(root, "journey-next"); // → fit
+    expect(hidden(root, "#style-host")).toBe(false);
+    jclick(root, "journey-back"); // → measure again
+    expect(hidden(root, "#style-host")).toBe(true);
+    expect(hidden(root, "#controls-panel")).toBe(false);
+  });
+
+  it("jumps back through the step chips", () => {
+    const root = mount();
+    walkToOutput(root);
+    jclick(root, "journey-step-measure");
+    expect(hidden(root, "#controls-panel")).toBe(false);
+    expect(hidden(root, "#export-host")).toBe(true);
+  });
+
+  it("keeps the Slice-30 hover spotlight alive inside the journey", () => {
+    const root = mount();
+    jclick(root, "welcome-start"); // measure step renders the body view
+    root.querySelector<HTMLElement>('[data-dim-row="chest"]')!
+      .dispatchEvent(new Event("mouseenter"));
+    const groups = [...root.querySelectorAll<SVGGElement>("#canvas-host [data-edge]")];
+    expect(groups.find((g) => g.dataset.edge === "chest")!.style.opacity).toBe("1");
+    expect(groups.find((g) => g.dataset.edge === "figure")!.style.opacity).toBe("0.15");
   });
 });

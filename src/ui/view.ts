@@ -39,7 +39,7 @@ function panel(title: string, body: string): string {
 /** The left-hand measurements panel. */
 export function controlsMarkup(m: Measurements): string {
   const rows = FIELDS.map((f) => field(f.id, f.label, m[f.id], f.min, f.max, f.step)).join("");
-  return `<div style="flex:0 0 220px;background:${PANEL};border:1px solid ${BORDER};` +
+  return `<div id="controls-panel" style="flex:0 0 220px;background:${PANEL};border:1px solid ${BORDER};` +
     `border-radius:10px;padding:14px">${panelTitle("Measurements (cm)")}${rows}</div>`;
 }
 
@@ -72,7 +72,7 @@ export function fabricSwatchesMarkup(current: string): string {
     `border:1px solid ${BORDER};outline:${f.color === current ? `2px solid ${T.lineActive}` : "none"};` +
     `outline-offset:1px"></button>`
   ).join("");
-  return `<div style="display:flex;gap:8px;align-items:center;margin:4px 0">` +
+  return `<div id="swatch-host" style="display:flex;gap:8px;align-items:center;margin:4px 0">` +
     `<span style="font-size:11px;color:${T.label};text-transform:uppercase;letter-spacing:0.04em;` +
     `margin-right:4px">Fabric</span>${sw}</div>`;
 }
@@ -141,10 +141,11 @@ export function exportButtonsMarkup(sizes: readonly SizeStep[]): string {
     `margin-left:8px;margin-right:4px">Size</span>` +
     `<select id="export-size" style="padding:4px 8px;font-size:12px;background:${T.background};` +
     `color:${T.line};border:1px solid ${BORDER};border-radius:5px">${options}</select>`;
-  return `<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:4px 0">` +
+  return `<div id="export-host" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:4px 0">` +
     `<span style="font-size:11px;color:${T.label};text-transform:uppercase;letter-spacing:0.04em;` +
     `margin-right:4px">Export</span>${btn("export-svg", "SVG")}${btn("export-dxf", "DXF")}${btn("export-pdf", "PDF")}` +
     `${btn("export-techpack", "Tech Pack")}` +
+    `${btn("export-projector", "Projector")}${btn("export-a0", "A0")}` +
     `${sizePicker}` +
     `<span style="font-size:11px;color:${T.label};text-transform:uppercase;letter-spacing:0.04em;` +
     `margin-left:8px;margin-right:4px">Pattern</span>${btn("save-pattern", "Save")}${btn("load-pattern", "Load")}` +
@@ -156,7 +157,7 @@ export function fabricStretchMarkup(current: string): string {
   const options = STRETCH_FABRICS
     .map((f) => `<option ${f.name === current ? "selected" : ""}>${f.name}</option>`)
     .join("");
-  return `<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:4px 0">` +
+  return `<div id="stretch-host" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:4px 0">` +
     `<span style="font-size:11px;color:${T.label};text-transform:uppercase;letter-spacing:0.04em;` +
     `margin-right:4px">Fabric</span>` +
     `<select id="stretch-select" style="padding:4px 8px;font-size:12px;background:${T.background};` +
@@ -169,7 +170,7 @@ export function viewToggleMarkup(active: string): string {
     `<button id="${id}" style="padding:5px 12px;font-size:12px;cursor:pointer;` +
     `background:${on ? T.lineActive : T.background};color:${on ? T.background : T.line};` +
     `border:1px solid ${BORDER};border-radius:5px">${label}</button>`;
-  return `<div style="display:flex;gap:6px;align-items:center;margin:4px 0">` +
+  return `<div id="view-toggle-host" style="display:flex;gap:6px;align-items:center;margin:4px 0">` +
     `<span style="font-size:11px;color:${T.label};text-transform:uppercase;letter-spacing:0.04em;` +
     `margin-right:4px">View</span>` +
     `${btn("view-pattern", "Pattern", active === "pattern")}` +
@@ -300,6 +301,7 @@ export function appShellMarkup(m: Measurements, fabric: string, sizes: readonly 
   return `<div style="display:flex;gap:16px;align-items:flex-start;font-family:system-ui,sans-serif">` +
     `${controlsMarkup(m)}` +
     `<div style="flex:1;min-width:300px;display:flex;flex-direction:column;gap:6px">` +
+    `<div id="journey-host"></div>` +
     `${viewToggleMarkup("pattern")}${garmentToggleMarkup("tee")}${fabricStretchMarkup(STRETCH_FABRICS[0].name)}` +
     `${fabricWidthMarkup(150)}` +
     `<div id="canvas-host"></div>${fabricSwatchesMarkup(fabric)}${exportButtonsMarkup(sizes)}` +
