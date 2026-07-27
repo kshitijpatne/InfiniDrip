@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 34. Update this after every slice (and commit it WITH the code)._
+_Last updated: after Slice 35. Update this after every slice (and commit it WITH the code)._
 
 ## What it is
 A lightweight, local 2D sewing-pattern designer in TypeScript. Type body
@@ -110,6 +110,15 @@ F1. **(Fable) Real-world export system** — two new writers on the existing exp
 22. per-size export — a size picker in the export area drafts the chosen graded
     size (via `draftAtSize`) and emits `<garment>-<SIZE>.<ext>`; scopes only the
     exports, every other view keeps its job (327)
+35. Recipe-owned sewability checks (skirt bridge, step 1) — `garment-check.ts` is now
+    GARMENT-AGNOSTIC. The tee/fitted seam/cap/hem/dart checks moved to
+    `drafting/tshirt-checks.ts` (`sleevedTopChecks`) and hang off the recipe as
+    `recipe.checks(block, m)`; the size-run orders by `recipe.sizeMetric`. The
+    checker now owns only the truly universal checks (every piece declares notches;
+    the graded run grows in order) and never reaches for a "sleeve", so a sleeveless
+    garment runs through it instead of throwing (proven with a stub panel recipe).
+    Pure refactor for tee+fitted: both reports hash byte-identical to s34
+    (TEE a64eca53, FITTED be5a47b7). `CheckSpec` retired. (538)
 34. Body-vs-finished measurement facets (last of Opus Phase A) — a displayed number
     is no longer ambiguous. New `drafting/facets.ts` classifies each raw field as a
     BODY measurement (taken off a person; garment may add ease) or a FINISHED garment
@@ -296,7 +305,9 @@ independently-shippable slices close that trust gap before the skirt. Confirmed 
 32 (C), 33 (B), 34 (E) all done.** With 34, **Opus Phase A is finished**: verdict fn,
 plausibility flags, severity data, and body-vs-finished data are all exposed as pure
 functions — so **Fable's F2 journey UI is fully unblocked** (Fable's F1 export track
-never depended on it). Next Opus epic is the **skirt bridge**:
+never depended on it). Next Opus epic is the **skirt bridge** — step 1 (recipe-owned
+checks) is DONE (Slice 35); remaining: recipe-owned guidance → per-garment
+`Measurements` (add waist/hip) → the skirt recipe (+ lower-body figure):
 
 - ✓ **30 (D). Hover highlights the outline too** (done) — a measurement→edges map
   alongside the dimension-line map; hovering/focusing a row lifts the outline
@@ -327,8 +338,9 @@ never depended on it). Next Opus epic is the **skirt bridge**:
   "body · circ" / "finished" tag; `measurementFacet` is the exposed datum Fable's F2
   renders. Completes Opus Phase A.
 
-Then: the **skirt** — a structurally new garment that drives the remaining
-block-generalization work (Slice 25 was step 1 of 5).
+Then: the **skirt** recipe itself, once `Measurements` carries waist/hip. The
+generalization is now well underway — Block (s25) and the checker (s35) are
+garment-agnostic; guidance and `Measurements` are the remaining tee-shaped pieces.
 
 Later: 2D body view → photo→pattern (Feature A) → upcycle planner (Feature B).
 
@@ -421,3 +433,4 @@ s14=187, s15=202, s16=219, s17=239, s18=257, s19=268, s20=285, s21=321, s22=327
 (+1 post-s22 SVG-export bugfix = 328), s23a=343, s23b=348, s24=355, s25=360, s26=368, s27=374, s28=381, s29=386, s30=396, s31=412, s32=429, s33=431, s34=445,
 F1=493 (48 new: 9 unfold, 17 projector, 12 A0, 8 byte-identity regression, 2 UI),
 F2=530 (37 new: 27 journey unit, 10 app journey-flow)
+s35=538 (8 new: 6 tshirt-checks unit, 2 garment-agnostic stub)

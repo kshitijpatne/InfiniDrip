@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { FITTED, PieceNotches, STANDARD_M, TEE, draftFitted, draftTshirt, rolePiece } from "../drafting";
-import { garmentReport, notchGrainCheck, dartLegCheck } from "./garment-check";
+import { FITTED, PieceNotches, STANDARD_M, TEE, draftFitted, draftTshirt, rolePiece, dartLegCheck } from "../drafting";
+import { garmentReport, notchGrainCheck } from "./garment-check";
 
 describe("garmentReport — the tee", () => {
   it("passes a sound standard t-shirt on every check", () => {
@@ -76,5 +76,53 @@ describe("notchGrainCheck", () => {
         grainline: { topEdge: "neckline", topT: 0.5, bottomEdge: "hem", bottomT: 0.5 } },
     ];
     expect(notchGrainCheck(["front"], empty).ok).toBe(false);
+  });
+});
+
+import { point } from "../geometry";
+import { block, TSHIRT_GRADE, TSHIRT_SIZES, edgeLength, pieceEdge, GarmentRecipe } from "../drafting";
+import { present } from "./check";
+
+describe("garmentReport — garment-agnostic (the skirt-bridge payoff)", () => {
+  // A minimal sleeveless stub: one "panel" piece with a hem, and NO front/back/
+  // sleeve roles. Before Slice 35 this threw inside garmentReport; now the checker
+  // asks the recipe for its own checks and never reaches for a sleeve.
+  const STUB: GarmentRecipe = {
+    name: "stub",
+    label: "Stub",
+    draft: (m) =>
+      block({
+        panel: {
+          name: "panel",
+          onFold: true,
+          edges: [{ kind: "line", name: "hem", start: point(0, m.length), end: point(m.chest / 4, m.length) }],
+        },
+      }),
+    checks: () => [present("Panel drafted", true, "ok")], // no seam pairs, no sleeve
+    sizeMetric: (b) => edgeLength(pieceEdge(rolePiece(b, "panel"), "hem")),
+    notches: [
+      {
+        pieceName: "panel",
+        notches: [{ edgeName: "hem", t: 0.5 }],
+        grainline: { topEdge: "hem", topT: 0, bottomEdge: "hem", bottomT: 1 },
+      },
+    ],
+    poms: [],
+    grade: TSHIRT_GRADE,
+    sizes: TSHIRT_SIZES,
+    techPack: { bom: [], construction: [] },
+    allowances: { default: 1, byEdge: {} },
+  };
+
+  it("runs without throwing on a garment that has no sleeve", () => {
+    expect(() => garmentReport(STUB, STANDARD_M)).not.toThrow();
+  });
+
+  it("folds the recipe's own checks in with the agnostic ones, and adds no seam checks itself", () => {
+    const names = garmentReport(STUB, STANDARD_M).checks.map((c) => c.name);
+    expect(names).toContain("Panel drafted"); // recipe-owned
+    expect(names).toContain("Notches + grainline on every piece"); // agnostic
+    expect(names).toContain("Size run grows in order"); // agnostic
+    expect(names).not.toContain("Sleeve-cap ease"); // the engine never invents this
   });
 });

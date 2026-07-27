@@ -42,14 +42,19 @@ describe("recipes are self-describing", () => {
     }
   });
 
-  it("declares the tee undarted with a trued hem, and the fitted darted and untrued", () => {
+  it("gives every garment a sewability-check function and a size metric", () => {
+    // The tee is undarted (no dart-leg check); the fitted is darted (has one).
     expect(dartOf(rolePiece(TEE.draft(STANDARD_M), "front"))).toBeNull();
-    expect(TEE.checks).toEqual({ frontSideEdges: ["side"], hemSquareToFold: true });
+    const teeChecks = TEE.checks(TEE.draft(STANDARD_M), STANDARD_M).map((c) => c.name);
+    expect(teeChecks).toContain("Side seam (front ↔ back)");
+    expect(teeChecks).toContain("Hem square to the fold"); // trued hem
+    expect(teeChecks).not.toContain("Dart legs equal");
 
     expect(dartOf(rolePiece(FITTED.draft(STANDARD_M), "front"))).not.toBeNull();
-    expect(FITTED.checks).toEqual({
-      frontSideEdges: ["sideUpper", "sideLower"],
-      hemSquareToFold: false,
-    });
+    const fittedChecks = FITTED.checks(FITTED.draft(STANDARD_M), STANDARD_M).map((c) => c.name);
+    expect(fittedChecks).toContain("Dart legs equal");
+    expect(fittedChecks).not.toContain("Hem square to the fold"); // untrued, opts out
+
+    expect(typeof TEE.sizeMetric(TEE.draft(STANDARD_M))).toBe("number");
   });
 });

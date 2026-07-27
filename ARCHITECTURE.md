@@ -239,13 +239,14 @@ where the split is real:
   nesting, renderBlueprint, the edit engine, and Block itself (s25).
 
   STILL TEE-SHAPED: (1) `Measurements` has no waist/hip — it is an upper-body set,
-  and controls/persist/style/body-view all key off it; (2) garment-check.ts
-  hard-codes shoulder/sleeve/cap seam pairs; (3) guidance.ts always runs
-  armholeMatch; (4) the style table is nine tees; (5) garment + body views draw a
-  top.
+  and controls/persist/style/body-view all key off it; (2) guidance.ts always runs
+  armholeMatch; (3) the style table is nine tees; (4) garment + body views draw a
+  top. (garment-check.ts was fixed in s35 — the sewability checks are recipe-owned
+  now via `recipe.checks` / `drafting/tshirt-checks.ts`, so the checker no longer
+  hard-codes a sleeve.)
 
-  A skirt needs ~5 slices: Block (done, s25) → recipe-owned checks → recipe-owned
-  guidance → per-garment Measurements → the skirt recipe itself.
+  A skirt needs ~5 slices: Block (done, s25) → recipe-owned checks (done, s35) →
+  recipe-owned guidance → per-garment Measurements → the skirt recipe itself.
 
 ## Where the roadmap plugs in (what's left, slices 19–20)
 

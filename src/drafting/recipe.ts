@@ -7,6 +7,8 @@
 
 import { Measurements } from "./measurements";
 import { Block } from "./block";
+import { CheckResult } from "../guidance/check";
+import { sleevedTopChecks, frontHemWidth } from "./tshirt-checks";
 import { AllowanceSpec } from "./allowance";
 import { Pom } from "./pom";
 import { GradeRule, SizeStep } from "./grading";
@@ -19,17 +21,14 @@ import { TSHIRT_GRADE, TSHIRT_SIZES } from "./tshirt-grade";
 import { FITTED_NOTCHES, FITTED_POMS } from "./fitted-tables";
 
 /**
- * The garment facts the production-readiness checker needs, which it cannot
- * infer from geometry alone.
- *  - frontSideEdges: the front edge(s) that together make the side seam. A darted
- *    front splits its side around the dart mouth, so it names two.
- *  - hemSquareToFold: only a *trued* hem meets the fold at a right angle. An
- *    untrued darted front slants at the side by design, so it opts out.
+ * How a garment declares its production-readiness checks, so the checker never
+ * names a seam itself:
+ *  - sewabilityChecks: the garment-specific seam/cap/hem/dart checks (a skirt
+ *    supplies waist/hem checks; a tee supplies shoulder/side/sleeve/cap). Returns
+ *    a flat list the checker folds into its verdict.
+ *  - sizeMetric: the single width the size-run check orders by — front hem for a
+ *    top, but a garment defines its own.
  */
-export interface CheckSpec {
-  readonly frontSideEdges: readonly string[];
-  readonly hemSquareToFold: boolean;
-}
 
 /**
  * Tech-pack scaffolding: the bill of materials and construction notes a maker
@@ -57,7 +56,8 @@ export interface GarmentRecipe {
   readonly poms: readonly Pom[];
   readonly grade: GradeRule;
   readonly sizes: readonly SizeStep[];
-  readonly checks: CheckSpec;
+  readonly checks: (block: Block, m: Measurements) => CheckResult[]; // sewability
+  readonly sizeMetric: (block: Block) => number;                     // size-run ordering
   readonly techPack: TechPack;
   readonly allowances: AllowanceSpec;
 }
@@ -95,7 +95,8 @@ export const TEE: GarmentRecipe = {
   poms: TSHIRT_POMS,
   grade: TSHIRT_GRADE,
   sizes: TSHIRT_SIZES,
-  checks: { frontSideEdges: ["side"], hemSquareToFold: true },
+  checks: sleevedTopChecks(["side"], true),
+  sizeMetric: frontHemWidth,
   allowances: KNIT_ALLOWANCES,
   techPack: {
     bom: KNIT_BOM,
@@ -118,7 +119,8 @@ export const FITTED: GarmentRecipe = {
   poms: FITTED_POMS,
   grade: TSHIRT_GRADE, // the same body grade drives both garments
   sizes: TSHIRT_SIZES,
-  checks: { frontSideEdges: ["sideUpper", "sideLower"], hemSquareToFold: false },
+  checks: sleevedTopChecks(["sideUpper", "sideLower"], false),
+  sizeMetric: frontHemWidth,
   allowances: KNIT_ALLOWANCES,
   techPack: {
     bom: KNIT_BOM,
