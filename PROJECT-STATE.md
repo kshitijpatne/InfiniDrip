@@ -28,6 +28,26 @@ header) → gate is `npm run coverage` (expected test count + 100%) AND `npm run
 SLICES-BRIEF.md) are committed in the same commit as the code they describe.**
 
 ## Slices done
+F1. **(Fable) Real-world export system** — two new writers on the existing export
+    spine (`flatten → layout → writer`), beside SVG/DXF/PDF. (1) **Projector
+    file** (`export/projector.ts`): one seamless cm-true SVG canvas, never tiled;
+    every graded size on its own toggleable layer (Inkscape layer convention,
+    `id="size-<LABEL>"`), sizes tree-ring-anchored per piece slot; bold
+    projector-weight lines/labels/notches; cut-on-fold pieces **unfolded to full
+    width** (`export/unfold.ts` mirrors the x=0 fold; single-layer fabric has no
+    fold). (2) **A0 copyshop file** (`export/a0.ts`): one-page portrait-A0 PDF
+    (landscape optional), whole pieces shelf-packed to the page width via
+    `nestPieces`, piece labels + notches + grainlines, kept folds marked
+    "PLACE ON FOLD". Both embed the LOCKED **10 cm × 10 cm calibration square**
+    labelled "10 cm" (`export/calibration.ts`). Tests follow the SVG-bug lesson:
+    projector validated by a REAL DOMParser parse measuring geometry out of the
+    DOM (unfolded front sew width == (chest+ease)/2, exact); A0 validated by a
+    REAL pdf-lib structural parse (page size in pt, the square measured at
+    exactly 10 cm in points from the decoded content stream). Existing
+    SVG/DXF/PDF/tech-pack outputs proven **byte-identical** to main\@4f7e796 by
+    SHA-256 baseline (`regression.test.ts`). New buttons: Projector (whole-run,
+    layered) + A0 (per-size picker). Boundary: geometry is NEVER scaled to fit —
+    an extreme size can honestly outgrow even A0. (493)
 1. geometry core (points, distance, Bézier + curve length)
 2. drafting engine (measurements → t-shirt block)
 3. render layer (pieces → blueprint SVG)
@@ -380,4 +400,5 @@ thread.
 ## Test counts (proof a slice landed)
 s4=58, s5=72, s6=82, s7=89, s8=94, s9=103, s10=119, s11=139, s12=155, s13=171,
 s14=187, s15=202, s16=219, s17=239, s18=257, s19=268, s20=285, s21=321, s22=327
-(+1 post-s22 SVG-export bugfix = 328), s23a=343, s23b=348, s24=355, s25=360, s26=368, s27=374, s28=381, s29=386, s30=396, s31=412, s32=429, s33=431, s34=445
+(+1 post-s22 SVG-export bugfix = 328), s23a=343, s23b=348, s24=355, s25=360, s26=368, s27=374, s28=381, s29=386, s30=396, s31=412, s32=429, s33=431, s34=445,
+F1=493 (48 new: 9 unfold, 17 projector, 12 A0, 8 byte-identity regression, 2 UI)

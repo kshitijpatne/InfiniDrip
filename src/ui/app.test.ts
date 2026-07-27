@@ -85,6 +85,37 @@ describe("mountApp", () => {
     expect(created).toEqual(["tee-techpack.pdf"]); // size picker does not rename it
   });
 
+  it("downloads a whole-run projector file, ignoring the per-size picker", () => {
+    const created: string[] = [];
+    URL.createObjectURL = vi.fn(() => "blob:test");
+    URL.revokeObjectURL = vi.fn();
+    HTMLAnchorElement.prototype.click = vi.fn(function (this: HTMLAnchorElement) {
+      created.push(this.download);
+    });
+    const root = mount();
+    const size = root.querySelector<HTMLSelectElement>("#export-size")!;
+    size.value = "1";
+    size.dispatchEvent(new Event("change"));
+    root.querySelector<HTMLButtonElement>("#export-projector")!.dispatchEvent(new Event("click"));
+    // every size rides in the file as a layer, so the picker does not rename it
+    expect(created).toEqual(["tee-projector.svg"]);
+  });
+
+  it("downloads the A0 file at the picked size", () => {
+    const created: string[] = [];
+    URL.createObjectURL = vi.fn(() => "blob:test");
+    URL.revokeObjectURL = vi.fn();
+    HTMLAnchorElement.prototype.click = vi.fn(function (this: HTMLAnchorElement) {
+      created.push(this.download);
+    });
+    const root = mount();
+    const size = root.querySelector<HTMLSelectElement>("#export-size")!;
+    size.value = "1";
+    size.dispatchEvent(new Event("change"));
+    root.querySelector<HTMLButtonElement>("#export-a0")!.dispatchEvent(new Event("click"));
+    expect(created).toEqual(["tee-L-A0.pdf"]);
+  });
+
   it("exports the chosen size: the picker drives the filename and the geometry", () => {
     const created: string[] = [];
     const blobs: string[] = [];

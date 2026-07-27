@@ -52,7 +52,15 @@ Screen drawing is for *looking*; export is for *making*, so it's its own layer w
 one shared spine. `flattenPiece` turns each piece into two true-scale point loops —
 the **sew line** and the **cut line** — and `layoutPieces` packs them side by side.
 Thin format writers ride on top: `exportSvg`, `exportDxf` (CUT/SEW layers), and
-`exportPdf` (tiled, print-at-home). The **nesting estimator** (`nesting.ts`) is a
+`exportPdf` (tiled, print-at-home). Two **real-world writers** (Fable F1) sit
+beside them on the same spine: `exportProjectorSvg` (one seamless cm-true
+canvas, a toggleable Inkscape-convention layer per graded size, cut-on-fold
+pieces unfolded to full width via `unfold.ts`) and `exportA0Pdf` (single-page A0,
+whole pieces shelf-packed via `nestPieces`, kept folds marked "PLACE ON FOLD").
+Both embed the locked 10 cm calibration square (`calibration.ts`) — the scale
+anchor the user verifies before cutting. Their tests parse the files with real
+parsers (DOMParser / pdf-lib) and measure geometry out of the parsed result;
+`regression.test.ts` pins the pre-F1 writers byte-identical by SHA-256. The **nesting estimator** (`nesting.ts`) is a
 sibling helper on this spine, and the **graded marker** (`marker.ts`) feeds it the
 whole size run at once (size-labelled) instead of one garment. A width-aware **shelf pack** onto a bolt with a true
 (polygon-area, shoelace) utilization read-out. It leaves the cutting-file exports
@@ -182,7 +190,10 @@ the parametric core stays consistent everywhere else.
   export/     pieces -> true-scale cutting files (SVG, DXF, tiled PDF); shared
               layout spine; nesting estimator (shelf pack + utilization);
               tech-pack document (techpack.ts — 3-page sketch + POM table + BOM;
-              callout leaders driven by an optional Pom.anchor on the front)
+              callout leaders driven by an optional Pom.anchor on the front);
+              real-world files (projector.ts — layered seamless SVG; a0.ts —
+              one-page A0 PDF; unfold.ts — mirror-on-fold; calibration.ts —
+              the 10 cm scale square both embed)
   guidance/   tape-measure checks; production-readiness checker, recipe-driven
               (check.ts primitives + garment-check.ts)
   style/      style table; target-fit gap (prescriptive)
