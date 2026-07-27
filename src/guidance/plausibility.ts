@@ -16,7 +16,7 @@
 // merely unusual body. `ease` is omitted: easeRange already owns it.
 
 import { Measurements } from "../drafting";
-import type { Note } from "./guidance";
+import type { Note } from "./note";
 
 interface Bound {
   readonly min: number;

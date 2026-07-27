@@ -8,7 +8,9 @@
 import { Measurements } from "./measurements";
 import { Block } from "./block";
 import { CheckResult } from "../guidance/check";
+import { Note } from "../guidance/note";
 import { sleevedTopChecks, frontHemWidth } from "./tshirt-checks";
+import { sleevedTopGuidance } from "./tshirt-guidance";
 import { AllowanceSpec } from "./allowance";
 import { Pom } from "./pom";
 import { GradeRule, SizeStep } from "./grading";
@@ -57,6 +59,7 @@ export interface GarmentRecipe {
   readonly grade: GradeRule;
   readonly sizes: readonly SizeStep[];
   readonly checks: (block: Block, m: Measurements) => CheckResult[]; // sewability
+  readonly guidance: (block: Block, m: Measurements) => Note[];      // advisory notes
   readonly sizeMetric: (block: Block) => number;                     // size-run ordering
   readonly techPack: TechPack;
   readonly allowances: AllowanceSpec;
@@ -96,6 +99,7 @@ export const TEE: GarmentRecipe = {
   grade: TSHIRT_GRADE,
   sizes: TSHIRT_SIZES,
   checks: sleevedTopChecks(["side"], true),
+  guidance: sleevedTopGuidance,
   sizeMetric: frontHemWidth,
   allowances: KNIT_ALLOWANCES,
   techPack: {
@@ -120,6 +124,7 @@ export const FITTED: GarmentRecipe = {
   grade: TSHIRT_GRADE, // the same body grade drives both garments
   sizes: TSHIRT_SIZES,
   checks: sleevedTopChecks(["sideUpper", "sideLower"], false),
+  guidance: sleevedTopGuidance,
   sizeMetric: frontHemWidth,
   allowances: KNIT_ALLOWANCES,
   techPack: {

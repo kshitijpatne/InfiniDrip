@@ -99,6 +99,7 @@ describe("garmentReport — garment-agnostic (the skirt-bridge payoff)", () => {
         },
       }),
     checks: () => [present("Panel drafted", true, "ok")], // no seam pairs, no sleeve
+    guidance: () => [],
     sizeMetric: (b) => edgeLength(pieceEdge(rolePiece(b, "panel"), "hem")),
     notches: [
       {

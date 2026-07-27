@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 35. Update this after every slice (and commit it WITH the code)._
+_Last updated: after Slice 36. Update this after every slice (and commit it WITH the code)._
 
 ## What it is
 A lightweight, local 2D sewing-pattern designer in TypeScript. Type body
@@ -110,6 +110,16 @@ F1. **(Fable) Real-world export system** — two new writers on the existing exp
 22. per-size export — a size picker in the export area drafts the chosen graded
     size (via `draftAtSize`) and emits `<garment>-<SIZE>.<ext>`; scopes only the
     exports, every other view keeps its job (327)
+36. Recipe-owned guidance (skirt bridge, step 2) — the guidance twin of s35. The
+    tee guidance (`armholeMatch`, `easeRange`, `armholeDepthCheck`, `shoulderCheck`)
+    moved to `drafting/tshirt-guidance.ts` (`sleevedTopGuidance`) and hangs off the
+    recipe as `recipe.guidance(block, m)`. `guide()` is now `guide(recipe, m)` and
+    GARMENT-AGNOSTIC — it runs the recipe's guidance then the sanity tiers, never
+    naming a sleeve, so a sleeveless recipe runs through it (tested). `Note` / `Level`
+    / `SEVERITY_ICON` extracted to a dependency-free `guidance/note.ts` so the recipe
+    can speak in Notes without a drafting↔guidance cycle (re-exported from guidance
+    for existing importers). Pure refactor: tee+fitted guide() output hashes
+    byte-identical (e68c3e2d). (541)
 35. Recipe-owned sewability checks (skirt bridge, step 1) — `garment-check.ts` is now
     GARMENT-AGNOSTIC. The tee/fitted seam/cap/hem/dart checks moved to
     `drafting/tshirt-checks.ts` (`sleevedTopChecks`) and hang off the recipe as
@@ -305,8 +315,8 @@ independently-shippable slices close that trust gap before the skirt. Confirmed 
 32 (C), 33 (B), 34 (E) all done.** With 34, **Opus Phase A is finished**: verdict fn,
 plausibility flags, severity data, and body-vs-finished data are all exposed as pure
 functions — so **Fable's F2 journey UI is fully unblocked** (Fable's F1 export track
-never depended on it). Next Opus epic is the **skirt bridge** — step 1 (recipe-owned
-checks) is DONE (Slice 35); remaining: recipe-owned guidance → per-garment
+never depended on it). Next Opus epic is the **skirt bridge** — steps 1–2 DONE
+(recipe-owned checks s35, recipe-owned guidance s36); remaining: per-garment
 `Measurements` (add waist/hip) → the skirt recipe (+ lower-body figure):
 
 - ✓ **30 (D). Hover highlights the outline too** (done) — a measurement→edges map
@@ -434,3 +444,4 @@ s14=187, s15=202, s16=219, s17=239, s18=257, s19=268, s20=285, s21=321, s22=327
 F1=493 (48 new: 9 unfold, 17 projector, 12 A0, 8 byte-identity regression, 2 UI),
 F2=530 (37 new: 27 journey unit, 10 app journey-flow)
 s35=538 (8 new: 6 tshirt-checks unit, 2 garment-agnostic stub)
+s36=541 (net +3: sleevedTopGuidance + agnostic guide payoff; tee-guidance tests moved)

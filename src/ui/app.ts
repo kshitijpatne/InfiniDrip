@@ -128,7 +128,7 @@ export function mountApp(root: HTMLElement): void {
     const plausible = measurementsPlausible(measurements);
     // Guidance = the geometry checks, plus a fabric-stretch ease note (advice only).
     const fabricNote: Note = { level: "info", text: fabricEaseNote(stretchFabric, measurements.chest) };
-    guidanceHost.innerHTML = guidanceMarkup([...guide(measurements, recipe.draft(measurements)), fabricNote]);
+    guidanceHost.innerHTML = guidanceMarkup([...guide(recipe, measurements), fabricNote]);
     // Style = prescriptive: the gap from current measurements to the chosen target.
     styleHost.innerHTML = styleMarkup(targetStyle, matchStyle(measurements, targetStyle), styleNames(), plausible);
     // Amber-outline any measurement input whose value is out of plausible range
