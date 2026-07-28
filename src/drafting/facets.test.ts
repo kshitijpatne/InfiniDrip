@@ -12,10 +12,17 @@ describe("MEASURE_ROLE", () => {
     expect(MEASURE_ROLE.sleeveLength.role).toBe("finished");
   });
 
-  it("marks the two girths as circumferences", () => {
+  it("marks the girths as circumferences (chest, bicep, waist, hip)", () => {
     expect(MEASURE_ROLE.chest.circumference).toBe(true);
     expect(MEASURE_ROLE.bicep.circumference).toBe(true);
+    expect(MEASURE_ROLE.waist.circumference).toBe(true);
+    expect(MEASURE_ROLE.hip.circumference).toBe(true);
     expect(MEASURE_ROLE.shoulderWidth.circumference).toBe(false);
+  });
+
+  it("classifies waist and hip as body measurements", () => {
+    expect(MEASURE_ROLE.waist.role).toBe("body");
+    expect(MEASURE_ROLE.hip.role).toBe("body");
   });
 
   it("does not classify ease (it is a parameter, not a measurement)", () => {

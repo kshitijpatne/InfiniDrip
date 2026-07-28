@@ -53,6 +53,7 @@ export interface TechPack {
 export interface GarmentRecipe {
   readonly name: string;  // stable id, e.g. "tee"
   readonly label: string; // what the UI shows, e.g. "Tee"
+  readonly fields: readonly (keyof Measurements)[]; // which measurements this garment uses (drives the UI, in order)
   readonly draft: (m: Measurements) => Block;
   readonly notches: readonly PieceNotches[];
   readonly poms: readonly Pom[];
@@ -93,6 +94,7 @@ const KNIT_BOM: readonly BomRow[] = [
 export const TEE: GarmentRecipe = {
   name: "tee",
   label: "Tee",
+  fields: ["chest", "shoulderWidth", "bicep", "length", "armholeDepth", "sleeveLength", "ease"],
   draft: draftTshirt,
   notches: TSHIRT_NOTCHES,
   poms: TSHIRT_POMS,
@@ -118,6 +120,7 @@ export const TEE: GarmentRecipe = {
 export const FITTED: GarmentRecipe = {
   name: "fitted",
   label: "Fitted",
+  fields: ["chest", "shoulderWidth", "bicep", "length", "armholeDepth", "sleeveLength", "ease"],
   draft: draftFitted,
   notches: FITTED_NOTCHES,
   poms: FITTED_POMS,

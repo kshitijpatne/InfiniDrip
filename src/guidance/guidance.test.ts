@@ -34,6 +34,7 @@ describe("guide (recipe-driven)", () => {
     const SLEEVELESS: GarmentRecipe = {
       name: "stub",
       label: "Stub",
+      fields: [],
       draft: (m) =>
         block({
           panel: {

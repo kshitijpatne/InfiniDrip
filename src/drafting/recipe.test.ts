@@ -58,3 +58,20 @@ describe("recipes are self-describing", () => {
     expect(typeof TEE.sizeMetric(TEE.draft(STANDARD_M))).toBe("number");
   });
 });
+
+describe("recipe fields (per-garment measurement set)", () => {
+  it("the tee and fitted declare the upper-body set, without waist/hip", () => {
+    for (const g of [TEE, FITTED]) {
+      expect(g.fields).toContain("chest");
+      expect(g.fields).toContain("ease");
+      expect(g.fields).not.toContain("waist");
+      expect(g.fields).not.toContain("hip");
+    }
+  });
+
+  it("every declared field exists on Measurements (STANDARD_M has it)", () => {
+    for (const id of TEE.fields) {
+      expect(STANDARD_M[id]).toBeTypeOf("number");
+    }
+  });
+});

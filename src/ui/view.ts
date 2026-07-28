@@ -7,7 +7,7 @@ import { BLUEPRINT as T, FABRICS } from "../render";
 import { Note, SEVERITY_ICON } from "../guidance";
 import { Report } from "../guidance";
 import { StyleMatch, Delta } from "../style";
-import { FIELDS } from "./controls";
+import { FIELDS, Field } from "./controls";
 
 const PANEL = "#13233A";
 const BORDER = "#1E3450";
@@ -37,8 +37,12 @@ function panel(title: string, body: string): string {
 }
 
 /** The left-hand measurements panel. */
-export function controlsMarkup(m: Measurements): string {
-  const rows = FIELDS.map((f) => field(f.id, f.label, m[f.id], f.min, f.max, f.step)).join("");
+export function controlsMarkup(m: Measurements, fields: readonly (keyof Measurements)[]): string {
+  const rows = fields
+    .map((id) => FIELDS.find((f) => f.id === id))
+    .filter((f): f is Field => f !== undefined)
+    .map((f) => field(f.id, f.label, m[f.id], f.min, f.max, f.step))
+    .join("");
   return `<div id="controls-panel" style="flex:0 0 220px;background:${PANEL};border:1px solid ${BORDER};` +
     `border-radius:10px;padding:14px">${panelTitle("Measurements (cm)")}${rows}</div>`;
 }
@@ -297,9 +301,9 @@ export function checkMarkup(report: Report, plausible: boolean): string {
 }
 
 /** The whole app shell: controls, canvas host, and a stacked guidance + style column. */
-export function appShellMarkup(m: Measurements, fabric: string, sizes: readonly SizeStep[]): string {
+export function appShellMarkup(m: Measurements, fabric: string, sizes: readonly SizeStep[], fields: readonly (keyof Measurements)[]): string {
   return `<div style="display:flex;gap:16px;align-items:flex-start;font-family:system-ui,sans-serif">` +
-    `${controlsMarkup(m)}` +
+    `${controlsMarkup(m, fields)}` +
     `<div style="flex:1;min-width:300px;display:flex;flex-direction:column;gap:6px">` +
     `<div id="journey-host"></div>` +
     `${viewToggleMarkup("pattern")}${garmentToggleMarkup("tee")}${fabricStretchMarkup(STRETCH_FABRICS[0].name)}` +

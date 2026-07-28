@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { STANDARD_M, GARMENTS, TSHIRT_SIZES } from "../drafting";
+import { STANDARD_M, GARMENTS, TSHIRT_SIZES, TEE } from "../drafting";
 import { garmentToggleMarkup, dartControlsMarkup, exportButtonsMarkup } from "./view";
 import { DEFAULT_FABRIC, BLUEPRINT } from "../render";
 import { matchStyle, styleNames } from "../style";
@@ -8,14 +8,14 @@ import { buildReport, present } from "../guidance";
 
 describe("controlsMarkup", () => {
   it("renders an input for every measurement, showing its value", () => {
-    const html = controlsMarkup(STANDARD_M);
+    const html = controlsMarkup(STANDARD_M, TEE.fields);
     expect(html).toContain('data-field="chest"');
     expect(html).toContain('value="100"'); // STANDARD_M.chest
     expect(html).toContain('data-field="ease"');
   });
 
   it("tags each measurement as body or finished (chest as a circumference)", () => {
-    const html = controlsMarkup(STANDARD_M);
+    const html = controlsMarkup(STANDARD_M, TEE.fields);
     expect(html).toContain("body · circ"); // chest / bicep
     expect(html).toContain("finished");    // length / armhole / sleeve
   });
@@ -23,11 +23,22 @@ describe("controlsMarkup", () => {
   it("does not tag the ease parameter as a measurement", () => {
     // ease's label span carries no role tag; the only "body/finished" text belongs
     // to real measurements. Check the ease row specifically has no tag markup.
-    const html = controlsMarkup(STANDARD_M);
+    const html = controlsMarkup(STANDARD_M, TEE.fields);
     const easeRow = html.slice(html.indexOf('data-dim-row="ease"'));
     const easeLabelEnd = easeRow.indexOf("</label>");
     expect(easeRow.slice(0, easeLabelEnd)).not.toContain("body");
     expect(easeRow.slice(0, easeLabelEnd)).not.toContain("finished");
+  });
+
+  it("renders only the fields it is given, in order, and skips the rest", () => {
+    // A lower-body field set: waist + hip + length + ease, no chest/sleeve.
+    const html = controlsMarkup(STANDARD_M, ["waist", "hip", "length", "ease"]);
+    expect(html).toContain('data-field="waist"');
+    expect(html).toContain('data-field="hip"');
+    expect(html).not.toContain('data-field="chest"');
+    expect(html).not.toContain('data-field="sleeveLength"');
+    // order follows the fields list, not the FIELDS table
+    expect(html.indexOf('data-field="waist"')).toBeLessThan(html.indexOf('data-field="length"'));
   });
 });
 
@@ -41,7 +52,7 @@ describe("fabricSwatchesMarkup", () => {
 
 describe("appShellMarkup", () => {
   it("includes the controls, canvas, garment, guidance, and style hosts", () => {
-    const html = appShellMarkup(STANDARD_M, DEFAULT_FABRIC, TSHIRT_SIZES);
+    const html = appShellMarkup(STANDARD_M, DEFAULT_FABRIC, TSHIRT_SIZES, TEE.fields);
     expect(html).toContain('id="canvas-host"');
     expect(html).toContain('id="export-size"');
     expect(html).toContain('id="garment-host"');
@@ -289,7 +300,7 @@ describe("fabricWidthMarkup — nest scope toggle", () => {
 });
 
 describe("controlsMarkup — body-link tags", () => {
-  const html = controlsMarkup(STANDARD_M);
+  const html = controlsMarkup(STANDARD_M, TEE.fields);
   it("tags each measurement row with its field for the body-view link", () => {
     expect(html).toContain('data-dim-row="chest"');
     expect(html).toContain('data-dim-row="length"');

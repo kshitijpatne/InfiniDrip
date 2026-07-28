@@ -238,17 +238,17 @@ where the split is real:
   REAL (garment-agnostic today): grading, POM engine, layout, SVG/DXF/PDF export,
   nesting, renderBlueprint, the edit engine, and Block itself (s25).
 
-  STILL TEE-SHAPED: (1) `Measurements` has no waist/hip — it is an upper-body set,
-  and controls/persist/style/body-view all key off it; (2) the style table is nine
-  tees; (3) garment + body views draw a top. (garment-check.ts fixed in s35 and
-  guidance.ts in s36 — both the sewability checks and the advisory guidance are
-  recipe-owned now via `recipe.checks` / `recipe.guidance`, in
-  `drafting/tshirt-checks.ts` and `drafting/tshirt-guidance.ts`; neither engine file
-  hard-codes a sleeve. `Note`/`SEVERITY_ICON` live in the dependency-free
-  `guidance/note.ts`.)
+  STILL TEE-SHAPED: (1) the style table is nine tees; (2) garment + body views draw
+  a top. (Fixed on the way to a skirt: garment-check.ts s35, guidance.ts s36 — both
+  recipe-owned via `recipe.checks` / `recipe.guidance` in `drafting/tshirt-checks.ts`
+  and `drafting/tshirt-guidance.ts`; `Measurements` s37 — it now carries waist/hip and
+  each recipe declares its own `fields`, so the UI is per-garment. `Note`/
+  `SEVERITY_ICON` live in the dependency-free `guidance/note.ts`.)
 
   A skirt needs ~5 slices: Block (done, s25) → recipe-owned checks (done, s35) →
-  recipe-owned guidance (done, s36) → per-garment Measurements → the skirt recipe.
+  recipe-owned guidance (done, s36) → per-garment Measurements (done, s37) → the
+  skirt recipe itself (waist/hip plausibility bounds, grade deltas, and a controls
+  re-render on garment switch ride along with it).
 
 ## Where the roadmap plugs in (what's left, slices 19–20)
 

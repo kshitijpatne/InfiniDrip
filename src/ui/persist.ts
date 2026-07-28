@@ -24,7 +24,9 @@ export function serialize(m: Measurements, fabric: string): string {
   return JSON.stringify(file, null, 2);
 }
 
-// The set of keys a valid Measurements object must have.
+// The set of keys a valid save MUST contain. waist/hip are intentionally absent:
+// they arrived in Slice 37, so older saves won't have them — they are read
+// leniently below (defaulted from STANDARD_M) rather than required.
 const M_KEYS: ReadonlyArray<keyof Measurements> = [
   "chest", "shoulderWidth", "bicep", "length",
   "armholeDepth", "sleeveLength", "ease",
@@ -43,6 +45,8 @@ const BOUNDS: Record<keyof Measurements, [number, number]> = {
   length:        [50,   90],
   armholeDepth:  [15,   35],
   sleeveLength:  [10,   70],
+  waist:         [50,  140],
+  hip:           [60,  150],
   ease:          [ 0,   30],
 };
 
@@ -96,6 +100,9 @@ export function deserialize(
       length:        m["length"]        as number,
       armholeDepth:  m["armholeDepth"]  as number,
       sleeveLength:  m["sleeveLength"]  as number,
+      // Added in Slice 37: older saves lack these, so default rather than reject.
+      waist:         inRange(m["waist"], BOUNDS.waist[0], BOUNDS.waist[1]) ? (m["waist"] as number) : STANDARD_M.waist,
+      hip:           inRange(m["hip"],   BOUNDS.hip[0],   BOUNDS.hip[1])   ? (m["hip"]   as number) : STANDARD_M.hip,
       ease:          m["ease"]          as number,
     },
     fabric,

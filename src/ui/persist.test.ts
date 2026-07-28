@@ -42,6 +42,26 @@ describe("deserialize (success)", () => {
     expect(result.measurements.shoulderWidth).toBe(STANDARD_M.shoulderWidth);
     expect(result.fabric).toBe(FABRIC);
   });
+
+  it("round-trips the waist and hip added in Slice 37", () => {
+    const m = { ...STANDARD_M, waist: 90, hip: 108 };
+    const result = deserialize(serialize(m, FABRIC));
+    expect(result.ok).toBe(true);
+    if (!result.ok) return;
+    expect(result.measurements.waist).toBe(90);
+    expect(result.measurements.hip).toBe(108);
+  });
+
+  it("loads an older save with no waist/hip, defaulting them from STANDARD_M", () => {
+    // Simulate a pre-Slice-37 file: measurements without waist/hip.
+    const { waist, hip, ...legacy } = STANDARD_M;
+    const r = deserialize(JSON.stringify({ v: SAVE_VERSION, measurements: legacy, fabric: FABRIC }));
+    expect(r.ok).toBe(true);
+    if (!r.ok) return;
+    expect(r.measurements.waist).toBe(STANDARD_M.waist);
+    expect(r.measurements.hip).toBe(STANDARD_M.hip);
+    expect(r.measurements.chest).toBe(STANDARD_M.chest); // the rest still load
+  });
 });
 
 // ── deserialize — error branches ──────────────────────────────────────────────

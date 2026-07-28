@@ -28,6 +28,8 @@ export const MEASURE_ROLE: Record<RawField, { role: MeasureRole; circumference: 
   chest: { role: "body", circumference: true },
   bicep: { role: "body", circumference: true },
   shoulderWidth: { role: "body", circumference: false },
+  waist: { role: "body", circumference: true },
+  hip: { role: "body", circumference: true },
   length: { role: "finished", circumference: false },
   armholeDepth: { role: "finished", circumference: false },
   sleeveLength: { role: "finished", circumference: false },

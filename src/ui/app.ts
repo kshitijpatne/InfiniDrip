@@ -26,7 +26,7 @@ export function mountApp(root: HTMLElement): void {
   const saved = loadFromStorage();
   let measurements: Measurements = saved ? saved.measurements : STANDARD_M;
   let fabric = saved ? saved.fabric : DEFAULT_FABRIC;
-  root.innerHTML = appShellMarkup(measurements, fabric, GARMENTS[0].sizes);
+  root.innerHTML = appShellMarkup(measurements, fabric, GARMENTS[0].sizes, GARMENTS[0].fields);
 
   const canvasHost = root.querySelector<HTMLDivElement>("#canvas-host")!;
   const garmentHost = root.querySelector<HTMLDivElement>("#garment-host")!;

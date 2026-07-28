@@ -90,6 +90,7 @@ describe("garmentReport — garment-agnostic (the skirt-bridge payoff)", () => {
   const STUB: GarmentRecipe = {
     name: "stub",
     label: "Stub",
+    fields: [],
     draft: (m) =>
       block({
         panel: {

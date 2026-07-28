@@ -4,9 +4,8 @@ import { FIELDS, clamp, applyChange } from "./controls";
 
 describe("FIELDS", () => {
   it("covers every measurement", () => {
-    expect(FIELDS.map((f) => f.id).sort()).toEqual(
-      ["armholeDepth", "bicep", "chest", "ease", "length", "shoulderWidth", "sleeveLength"]
-    );
+    // FIELDS must carry metadata for every key on Measurements (waist/hip added s37).
+    expect(FIELDS.map((f) => f.id).sort()).toEqual(Object.keys(STANDARD_M).sort());
   });
 });
 
