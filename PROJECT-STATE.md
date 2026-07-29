@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 37. Update this after every slice (and commit it WITH the code)._
+_Last updated: after Slice 38. Update this after every slice (and commit it WITH the code)._
 
 ## What it is
 A lightweight, local 2D sewing-pattern designer in TypeScript. Type body
@@ -110,6 +110,17 @@ F1. **(Fable) Real-world export system** — two new writers on the existing exp
 22. per-size export — a size picker in the export area drafts the chosen graded
     size (via `draftAtSize`) and emits `<garment>-<SIZE>.<ext>`; scopes only the
     exports, every other view keeps its job (327)
+38. The SKIRT recipe (skirt bridge COMPLETE — thesis proven) — a structurally
+    different garment runs through the whole engine with only a recipe added: it
+    drafts (front/back panels, waist→side→hem→centre, no sleeve/armhole), checks
+    READY, grades a waist/hip/length POM run, exports, and nests — all for free.
+    New `drafting/skirt.ts` (draft + recipe-owned `skirtChecks`/`skirtGuidance` +
+    grade/POM/notch tables); `SKIRT` assembled in recipe.ts and registered in
+    GARMENTS (the toggle picks it up). Deferred bits from s37 landed: waist/hip
+    plausibility bounds, `SKIRT_GRADE` deltas, and controls re-render + listener
+    re-wiring on garment switch. Body view + style panel show an honest placeholder
+    for the skirt (real lower-body figure + skirt styles = a later UI slice). Tee
+    byte-identical (controls aa9c18d6, guide db6b584b, report a64eca53). (561)
 37. Per-garment Measurements (skirt bridge, step 3) — `Measurements` gains required
     `waist` + `hip` (struct, not a generic bag — compile-time safety kept), and each
     recipe declares `fields: (keyof Measurements)[]`, the measurement set it uses, in
@@ -326,10 +337,11 @@ independently-shippable slices close that trust gap before the skirt. Confirmed 
 32 (C), 33 (B), 34 (E) all done.** With 34, **Opus Phase A is finished**: verdict fn,
 plausibility flags, severity data, and body-vs-finished data are all exposed as pure
 functions — so **Fable's F2 journey UI is fully unblocked** (Fable's F1 export track
-never depended on it). Next Opus epic is the **skirt bridge** — steps 1–3 DONE
-(recipe-owned checks s35, recipe-owned guidance s36, per-garment `Measurements` s37);
-remaining: the skirt recipe itself (+ lower-body figure), which also carries the
-deferred waist/hip plausibility bounds, grade deltas, and controls re-render:
+never depended on it). **The skirt bridge is COMPLETE (s35–s38): the engine/recipe
+thesis is proven — a skirt runs end-to-end as a recipe.** What's left is a UI-honesty
+pass (Slice 39): a real lower-body body-view figure and a skirt style set, replacing
+the placeholders the skirt shows today. The style table + body-view figure are the
+last tee-shaped spots:
 
 - ✓ **30 (D). Hover highlights the outline too** (done) — a measurement→edges map
   alongside the dimension-line map; hovering/focusing a row lifts the outline
@@ -458,3 +470,4 @@ F2=530 (37 new: 27 journey unit, 10 app journey-flow)
 s35=538 (8 new: 6 tshirt-checks unit, 2 garment-agnostic stub)
 s36=541 (net +3: sleevedTopGuidance + agnostic guide payoff; tee-guidance tests moved)
 s37=547 (net +6: fields filter, waist/hip facets+persist round-trip+lenient migration)
+s38=561 (14 new: skirt draft/checks/guidance/POM + garment-switch UI + waist/hip bounds)

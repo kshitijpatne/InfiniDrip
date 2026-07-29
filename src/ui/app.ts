@@ -14,7 +14,7 @@ import { guide, Note } from "../guidance";
 import { garmentReport, implausibleFields, measurementsPlausible } from "../guidance";
 import { matchStyle, styleNames } from "../style";
 import { FIELDS, applyChange } from "./controls";
-import { appShellMarkup, guidanceMarkup, styleMarkup, specTableMarkup, checkMarkup, editorHintMarkup, dartControlsMarkup } from "./view";
+import { appShellMarkup, controlsMarkup, unavailablePanel, guidanceMarkup, styleMarkup, specTableMarkup, checkMarkup, editorHintMarkup, dartControlsMarkup } from "./view";
 import { saveToStorage, loadFromStorage } from "./persist";
 import {
   JourneyStep, ViewName, COACHED_STEPS, disclosureFor, stepView, journeyChecklist,
@@ -82,6 +82,10 @@ export function mountApp(root: HTMLElement): void {
   };
 
   const draw = (): void => {
+    // The body figure and the style presets are upper-body only; a garment that
+    // doesn't use the chest (a skirt) gets a neutral placeholder instead of a
+    // misleading top. (Real lower-body figure + skirt styles: a later slice.)
+    const isTop = recipe.fields.includes("chest");
     fabricWidthHost.style.display = view === "fabric" ? "flex" : "none";
     if (view === "nest") {
       canvasHost.innerHTML = renderNest(
@@ -113,7 +117,9 @@ export function mountApp(root: HTMLElement): void {
       canvasHost.innerHTML = specTableMarkup(
         specSheet(graded, recipe.poms), graded.map((g) => g.label), baseIndex);
     } else if (view === "body") {
-      canvasHost.innerHTML = renderBody(measurements);
+      canvasHost.innerHTML = isTop
+        ? renderBody(measurements)
+        : unavailablePanel("Body view", "The body figure isn't available for this garment yet.");
     } else {
       const block = recipe.draft(measurements);
       const pieces = blockPieces(block);
@@ -130,7 +136,9 @@ export function mountApp(root: HTMLElement): void {
     const fabricNote: Note = { level: "info", text: fabricEaseNote(stretchFabric, measurements.chest) };
     guidanceHost.innerHTML = guidanceMarkup([...guide(recipe, measurements), fabricNote]);
     // Style = prescriptive: the gap from current measurements to the chosen target.
-    styleHost.innerHTML = styleMarkup(targetStyle, matchStyle(measurements, targetStyle), styleNames(), plausible);
+    styleHost.innerHTML = isTop
+      ? styleMarkup(targetStyle, matchStyle(measurements, targetStyle), styleNames(), plausible)
+      : unavailablePanel("Target fit", "Style presets aren't available for this garment yet.");
     // Amber-outline any measurement input whose value is out of plausible range
     // (same outline convention as the fabric swatches). Controls aren't re-rendered
     // per draw, so this is applied imperatively.
@@ -273,6 +281,10 @@ export function mountApp(root: HTMLElement): void {
     });
     editedFront = null; // a new garment invalidates the freeform snapshot
     selectedId = null;
+    // Re-render the measurement panel to this garment's fields (a skirt shows
+    // waist/hip, not chest/sleeve), then re-attach its listeners.
+    root.querySelector<HTMLElement>("#controls-panel")!.outerHTML = controlsMarkup(measurements, recipe.fields);
+    wireMeasurementInputs();
     if (view === "edit") editedFront = rolePiece(recipe.draft(measurements), "front");
     draw();
   };
@@ -303,32 +315,33 @@ export function mountApp(root: HTMLElement): void {
   single.addEventListener("click", () => setScope("single"));
   marker.addEventListener("click", () => setScope("marker"));
 
-  root.querySelectorAll<HTMLInputElement>("input[data-field]").forEach((input) => {
-    const field = FIELDS.find((f) => f.id === input.dataset.field)!;
-    input.addEventListener("input", () => {
-      measurements = applyChange(measurements, field, input.value);
-      draw();
-    });
-    input.addEventListener("change", () => {
-      input.value = String(measurements[field.id]);
-    });
-  });
-
-  // Body-view linking: focusing or hovering a measurement row spotlights that
-  // dimension on the body figure AND the outline edges it shapes (fading the
-  // rest). Re-applied after every draw() via `activeDim`, since the body SVG is
-  // re-rendered on each change.
+  // Wire the measurement rows: value inputs + body-view hover linking. Extracted
+  // so it can re-run after the controls panel is re-rendered on a garment switch
+  // (a garment with different fields renders different inputs).
   const highlightDim = (field: string | null): void => {
     activeDim = field;
     spotlight(field);
   };
-  root.querySelectorAll<HTMLElement>("[data-dim-row]").forEach((row) => {
-    const field = row.dataset.dimRow!;
-    row.addEventListener("mouseenter", () => highlightDim(field));
-    row.addEventListener("mouseleave", () => highlightDim(null));
-    row.addEventListener("focusin", () => highlightDim(field));
-    row.addEventListener("focusout", () => highlightDim(null));
-  });
+  const wireMeasurementInputs = (): void => {
+    root.querySelectorAll<HTMLInputElement>("input[data-field]").forEach((input) => {
+      const field = FIELDS.find((f) => f.id === input.dataset.field)!;
+      input.addEventListener("input", () => {
+        measurements = applyChange(measurements, field, input.value);
+        draw();
+      });
+      input.addEventListener("change", () => {
+        input.value = String(measurements[field.id]);
+      });
+    });
+    root.querySelectorAll<HTMLElement>("[data-dim-row]").forEach((row) => {
+      const field = row.dataset.dimRow!;
+      row.addEventListener("mouseenter", () => highlightDim(field));
+      row.addEventListener("mouseleave", () => highlightDim(null));
+      row.addEventListener("focusin", () => highlightDim(field));
+      row.addEventListener("focusout", () => highlightDim(null));
+    });
+  };
+  wireMeasurementInputs();
 
   const swatches = root.querySelectorAll<HTMLButtonElement>("button[data-fabric]");
   swatches.forEach((swatch) => {

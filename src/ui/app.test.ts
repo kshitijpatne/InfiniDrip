@@ -743,3 +743,38 @@ describe("guided journey", () => {
     expect(groups.find((g) => g.dataset.edge === "figure")!.style.opacity).toBe("0.15");
   });
 });
+
+describe("switching to the skirt (Slice 38)", () => {
+  it("swaps the measurement controls to the skirt's fields", () => {
+    const root = mount();
+    // tee shows chest + sleeve, not waist
+    expect(root.querySelector('input[data-field="chest"]')).not.toBeNull();
+    expect(root.querySelector('input[data-field="waist"]')).toBeNull();
+
+    root.querySelector<HTMLButtonElement>("#garment-skirt")!.dispatchEvent(new Event("click"));
+
+    // skirt shows waist + hip, not chest/sleeve
+    expect(root.querySelector('input[data-field="waist"]')).not.toBeNull();
+    expect(root.querySelector('input[data-field="hip"]')).not.toBeNull();
+    expect(root.querySelector('input[data-field="chest"]')).toBeNull();
+    expect(root.querySelector('input[data-field="sleeveLength"]')).toBeNull();
+  });
+
+  it("keeps the re-rendered skirt inputs live (listeners re-wired)", () => {
+    const root = mount();
+    root.querySelector<HTMLButtonElement>("#garment-skirt")!.dispatchEvent(new Event("click"));
+    const before = root.querySelector("#canvas-host")!.innerHTML;
+    const waist = root.querySelector<HTMLInputElement>('input[data-field="waist"]')!;
+    waist.value = "78";
+    waist.dispatchEvent(new Event("input"));
+    expect(root.querySelector("#canvas-host")!.innerHTML).not.toBe(before); // redrew
+  });
+
+  it("shows a placeholder for the body view and style panel instead of a top", () => {
+    const root = mount();
+    root.querySelector<HTMLButtonElement>("#garment-skirt")!.dispatchEvent(new Event("click"));
+    expect(root.querySelector("#style-host")!.innerHTML).toContain("aren't available");
+    root.querySelector<HTMLButtonElement>("#view-body")!.dispatchEvent(new Event("click"));
+    expect(root.querySelector("#canvas-host")!.innerHTML).toContain("isn't available");
+  });
+});

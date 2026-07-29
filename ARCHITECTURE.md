@@ -238,17 +238,19 @@ where the split is real:
   REAL (garment-agnostic today): grading, POM engine, layout, SVG/DXF/PDF export,
   nesting, renderBlueprint, the edit engine, and Block itself (s25).
 
-  STILL TEE-SHAPED: (1) the style table is nine tees; (2) garment + body views draw
-  a top. (Fixed on the way to a skirt: garment-check.ts s35, guidance.ts s36 — both
-  recipe-owned via `recipe.checks` / `recipe.guidance` in `drafting/tshirt-checks.ts`
-  and `drafting/tshirt-guidance.ts`; `Measurements` s37 — it now carries waist/hip and
-  each recipe declares its own `fields`, so the UI is per-garment. `Note`/
-  `SEVERITY_ICON` live in the dependency-free `guidance/note.ts`.)
+  SKIRT PROVES THE SPLIT (s38): a structurally different garment — `drafting/skirt.ts`,
+  front/back panels with no sleeve/armhole/neckline — runs through the whole engine
+  (draft, recipe-owned checks/guidance, grade, POM, export, nest, readiness) with
+  only a recipe added and registered in GARMENTS. The garment toggle, controls (now
+  re-rendered per garment's `fields`), and plausibility all follow.
 
-  A skirt needs ~5 slices: Block (done, s25) → recipe-owned checks (done, s35) →
-  recipe-owned guidance (done, s36) → per-garment Measurements (done, s37) → the
-  skirt recipe itself (waist/hip plausibility bounds, grade deltas, and a controls
-  re-render on garment switch ride along with it).
+  STILL TEE-SHAPED (the last two, a UI-honesty pass — Slice 39): (1) the style table
+  is nine tees; (2) the body-view figure draws a top. Today the skirt shows an honest
+  "not available for this garment yet" placeholder for both rather than misleading
+  tee content.
+
+  Skirt bridge, COMPLETE: Block (s25) → recipe-owned checks (s35) → recipe-owned
+  guidance (s36) → per-garment Measurements (s37) → the skirt recipe (s38).
 
 ## Where the roadmap plugs in (what's left, slices 19–20)
 

@@ -2,12 +2,12 @@ import { describe, it, expect } from "vitest";
 import { STANDARD_M } from "./measurements";
 import { TEE, FITTED, GARMENTS, garmentByName } from "./recipe";
 import { dartOf } from "./dart";
-import { rolePiece } from "./block";
+import { rolePiece, blockPieces } from "./block";
 
 describe("the garment registry", () => {
   it("lists every garment with a stable id and a display label", () => {
-    expect(GARMENTS.map((g) => g.name)).toEqual(["tee", "fitted"]);
-    expect(GARMENTS.map((g) => g.label)).toEqual(["Tee", "Fitted"]);
+    expect(GARMENTS.map((g) => g.name)).toEqual(["tee", "fitted", "skirt"]);
+    expect(GARMENTS.map((g) => g.label)).toEqual(["Tee", "Fitted", "Skirt"]);
   });
 
   it("looks a recipe up by name and falls back to the tee for an unknown one", () => {
@@ -18,18 +18,18 @@ describe("the garment registry", () => {
 });
 
 describe("recipes are self-describing", () => {
-  it("each drafts a complete three-piece block", () => {
+  it("each drafts a block of named pieces (two or more)", () => {
     for (const g of GARMENTS) {
-      const b = g.draft(STANDARD_M);
-      expect([rolePiece(b, "front").name, rolePiece(b, "back").name, rolePiece(b, "sleeve").name].every(Boolean)).toBe(true);
+      const pieces = blockPieces(g.draft(STANDARD_M));
+      expect(pieces.length).toBeGreaterThanOrEqual(2);
+      expect(pieces.every((p) => p.name.length > 0)).toBe(true);
     }
   });
 
   it("each declares notches for every piece it drafts", () => {
     for (const g of GARMENTS) {
-      const b = g.draft(STANDARD_M);
-      for (const name of [rolePiece(b, "front").name, rolePiece(b, "back").name, rolePiece(b, "sleeve").name]) {
-        expect(g.notches.find((n) => n.pieceName === name)).toBeDefined();
+      for (const p of blockPieces(g.draft(STANDARD_M))) {
+        expect(g.notches.find((n) => n.pieceName === p.name)).toBeDefined();
       }
     }
   });

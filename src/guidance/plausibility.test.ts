@@ -106,6 +106,11 @@ describe("coherenceChecks", () => {
 });
 
 describe("implausibleFields", () => {
+  it("flags an out-of-range waist or hip (bounds added in Slice 38)", () => {
+    expect(implausibleFields({ ...STANDARD_M, waist: 200 })).toContain("waist");
+    expect(implausibleFields({ ...STANDARD_M, hip: 10 })).toContain("hip");
+    expect(implausibleFields(STANDARD_M)).not.toContain("waist");
+  });
   it("is empty for the standard sample", () => {
     expect(implausibleFields(STANDARD_M)).toHaveLength(0);
   });

@@ -11,6 +11,7 @@ import { CheckResult } from "../guidance/check";
 import { Note } from "../guidance/note";
 import { sleevedTopChecks, frontHemWidth } from "./tshirt-checks";
 import { sleevedTopGuidance } from "./tshirt-guidance";
+import { draftSkirt, skirtChecks, skirtGuidance, SKIRT_GRADE, SKIRT_POMS, SKIRT_NOTCHES } from "./skirt";
 import { AllowanceSpec } from "./allowance";
 import { Pom } from "./pom";
 import { GradeRule, SizeStep } from "./grading";
@@ -144,7 +145,51 @@ export const FITTED: GarmentRecipe = {
   },
 };
 
-export const GARMENTS: readonly GarmentRecipe[] = [TEE, FITTED];
+// A woven skirt: deeper hem, a fold at each panel centre, a little at the waist
+// for the band. Structurally unrelated to the knit tee's allowances.
+const WOVEN_SKIRT_ALLOWANCES: AllowanceSpec = {
+  default: 1.5,
+  byEdge: {
+    center: 0, // fold
+    hem: 3,    // deep skirt turn-up
+    waist: 1,  // waistband seam
+  },
+};
+
+const WOVEN_SKIRT_BOM: readonly BomRow[] = [
+  { material: "Cotton twill, main", placement: "Front & back panels", qty: "0.9 m" },
+  { material: "Fusible interfacing", placement: "Waistband", qty: "0.2 m" },
+  { material: "Invisible zip", placement: "Centre-back seam", qty: "1" },
+  { material: "Hook & bar", placement: "Waistband", qty: "1" },
+  { material: "All-purpose thread", placement: "All seams", qty: "1 spool" },
+];
+
+export const SKIRT: GarmentRecipe = {
+  name: "skirt",
+  label: "Skirt",
+  fields: ["waist", "hip", "length", "ease"],
+  draft: draftSkirt,
+  notches: SKIRT_NOTCHES,
+  poms: SKIRT_POMS,
+  grade: SKIRT_GRADE,
+  sizes: TSHIRT_SIZES, // the same size run drives every garment
+  checks: skirtChecks,
+  guidance: skirtGuidance,
+  sizeMetric: frontHemWidth, // the front hem grows with the hip → orders the run
+  allowances: WOVEN_SKIRT_ALLOWANCES,
+  techPack: {
+    bom: WOVEN_SKIRT_BOM,
+    construction: [
+      "Overlock the panel edges that will be exposed.",
+      "Sew the side seams, front to back, matching the balance notches.",
+      "Insert the invisible zip in the centre-back seam.",
+      "Attach the interfaced waistband, easing the waist to fit.",
+      "Turn up and hem the skirt.",
+    ],
+  },
+};
+
+export const GARMENTS: readonly GarmentRecipe[] = [TEE, FITTED, SKIRT];
 
 /** Look a recipe up by its stable id; falls back to the tee. */
 export function garmentByName(name: string): GarmentRecipe {
