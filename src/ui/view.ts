@@ -36,12 +36,6 @@ function panel(title: string, body: string): string {
     `border-radius:10px;padding:14px">${panelTitle(title)}${body}</div>`;
 }
 
-/** A neutral placeholder for a panel/view that doesn't apply to the current garment
- *  yet — honest about the limit rather than showing misleading tee content. */
-export function unavailablePanel(title: string, text: string): string {
-  return panel(title, `<div style="font-size:12.5px;color:${T.label};line-height:1.5">${text}</div>`);
-}
-
 /** The left-hand measurements panel. */
 export function controlsMarkup(m: Measurements, fields: readonly (keyof Measurements)[]): string {
   const rows = fields

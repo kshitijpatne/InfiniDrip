@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 39. Update this after every slice (and commit it WITH the code)._
+_Last updated: after Slice 40. Update this after every slice (and commit it WITH the code)._
 
 ## What it is
 A lightweight, local 2D sewing-pattern designer in TypeScript. Type body
@@ -110,6 +110,16 @@ F1. **(Fable) Real-world export system** — two new writers on the existing exp
 22. per-size export — a size picker in the export area drafts the chosen graded
     size (via `draftAtSize`) and emits `<garment>-<SIZE>.<ext>`; scopes only the
     exports, every other view keeps its job (327)
+40. Skirt figures — the LAST tee-shaped spot closed (app is fully garment-general).
+    New `render/skirt-figure.ts`: `renderSkirtGarment` (assembled front/back panels,
+    fabric-filled, waist→hip→hem) and `renderSkirtBody` (annotated lower-body figure
+    with waist/hip/length dimension lines + `data-dim`/`data-edge` hover overlays like
+    the tee). Both gated in app.ts on `isTop`. Fixes a real s38 bug: the assembled
+    "PATTERN" view was drawing a fixed tee for the skirt (via `derive()` → chest) that
+    didn't even respond to hip; it now draws a skirt that does. Both skirt placeholders
+    removed; `unavailablePanel` deleted (dead code). Measurement-honest: the waist→hip
+    taper is drawn because a skirt MEASURES both (unlike the tee); girths marked
+    "(circ)". Tee byte-identical (garment d7d012c2, body 893568b0, style b9e41eb2). (573)
 39. Recipe-owned styles + skirt style set (UI-honesty pass, part 1) — the style
     suggester is no longer tee-only. The style TABLE moved onto `recipe.styles`
     (`TEE_STYLES` for tee/fitted, new `SKIRT_STYLES`: Mini/Knee/Midi/Maxi + Fitted/
@@ -349,8 +359,10 @@ functions — so **Fable's F2 journey UI is fully unblocked** (Fable's F1 export
 never depended on it). **The skirt bridge is COMPLETE (s35–s38): the engine/recipe
 thesis is proven — a skirt runs end-to-end as a recipe.** What's left is a UI-honesty
 pass: Slice 39 made the style suggester recipe-owned and gave the skirt its own
-style set (style-panel placeholder gone). The ONE remaining tee-shaped spot is the
-body-view figure (it still draws a top; the skirt shows a placeholder) — Slice 40:
+style set. **Slice 40 closed the last tee-shaped spot: the assembled view and the
+body-view figure are now garment-aware (`render/skirt-figure.ts`), so the skirt draws
+as a skirt everywhere. The app is fully garment-general — no tee-shaped spots remain,
+and the engine/recipe thesis is proven end-to-end.** History:
 
 - ✓ **30 (D). Hover highlights the outline too** (done) — a measurement→edges map
   alongside the dimension-line map; hovering/focusing a row lifts the outline
@@ -481,3 +493,4 @@ s36=541 (net +3: sleevedTopGuidance + agnostic guide payoff; tee-guidance tests 
 s37=547 (net +6: fields filter, waist/hip facets+persist round-trip+lenient migration)
 s38=561 (14 new: skirt draft/checks/guidance/POM + garment-switch UI + waist/hip bounds)
 s39=565 (4 new: recipe-owned style table + skirt style set; tee style panel unchanged)
+s40=573 (8 new: skirt assembled + body figures, real-SVG-parse + geometry; tee unchanged)

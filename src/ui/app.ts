@@ -6,7 +6,7 @@ import { Measurements, STANDARD_M, Piece, STRETCH_FABRICS, fabricEaseNote } from
 import { gradeRun, draftAtSize, specSheet, GARMENTS, GarmentRecipe, garmentByName } from "../drafting";
 import { blockPieces, rolePiece } from "../drafting";
 import { exportSvg, exportDxf, exportPdf, exportTechPack, exportProjectorSvg, exportA0Pdf, flattenPiece, nestPieces, gradedMarker } from "../export";
-import { renderBlueprint, renderGarment, renderNest, renderFabricNest, renderEditor, renderBody, DEFAULT_FABRIC } from "../render";
+import { renderBlueprint, renderGarment, renderNest, renderFabricNest, renderEditor, renderBody, renderSkirtGarment, renderSkirtBody, DEFAULT_FABRIC } from "../render";
 import { pieceHandles, moveHandle, nearestHandle, editorViewBox, viewboxPointToCm, Handle } from "../edit";
 import { dartOf, transferDart, trueSeam, edgesMeet } from "../drafting";
 import { BLUEPRINT } from "../render";
@@ -14,7 +14,7 @@ import { guide, Note } from "../guidance";
 import { garmentReport, implausibleFields, measurementsPlausible } from "../guidance";
 import { matchStyle, styleNames } from "../style";
 import { FIELDS, applyChange } from "./controls";
-import { appShellMarkup, controlsMarkup, unavailablePanel, guidanceMarkup, styleMarkup, specTableMarkup, checkMarkup, editorHintMarkup, dartControlsMarkup } from "./view";
+import { appShellMarkup, controlsMarkup, guidanceMarkup, styleMarkup, specTableMarkup, checkMarkup, editorHintMarkup, dartControlsMarkup } from "./view";
 import { saveToStorage, loadFromStorage } from "./persist";
 import {
   JourneyStep, ViewName, COACHED_STEPS, disclosureFor, stepView, journeyChecklist,
@@ -117,9 +117,7 @@ export function mountApp(root: HTMLElement): void {
       canvasHost.innerHTML = specTableMarkup(
         specSheet(graded, recipe.poms), graded.map((g) => g.label), baseIndex);
     } else if (view === "body") {
-      canvasHost.innerHTML = isTop
-        ? renderBody(measurements)
-        : unavailablePanel("Body view", "The body figure isn't available for this garment yet.");
+      canvasHost.innerHTML = isTop ? renderBody(measurements) : renderSkirtBody(measurements);
     } else {
       const block = recipe.draft(measurements);
       const pieces = blockPieces(block);
@@ -127,7 +125,7 @@ export function mountApp(root: HTMLElement): void {
         pieces,
         { active: pieces[0].name, notches: recipe.notches, allowances: recipe.allowances });
     }
-    garmentHost.innerHTML = renderGarment(measurements, fabric);
+    garmentHost.innerHTML = isTop ? renderGarment(measurements, fabric) : renderSkirtGarment(measurements, fabric);
     // One sanity read for the whole frame: are the numbers a real body? It gates
     // every green "validated" signal — the check banner, the style ✓ — and flags
     // the offending fields, so geometry passing can never masquerade as "ready".

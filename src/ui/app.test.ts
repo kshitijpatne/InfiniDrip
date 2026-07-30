@@ -770,16 +770,26 @@ describe("switching to the skirt (Slice 38)", () => {
     expect(root.querySelector("#canvas-host")!.innerHTML).not.toBe(before); // redrew
   });
 
-  it("shows real skirt styles in the style panel, and a placeholder only for the body view", () => {
+  it("draws the skirt in both the assembled view and the body view (Slice 40)", () => {
     const root = mount();
+    // tee assembled view has a neckline scoop
+    expect(root.querySelector("#garment-host")!.innerHTML).toMatch(/Q /);
+
     root.querySelector<HTMLButtonElement>("#garment-skirt")!.dispatchEvent(new Event("click"));
-    // style panel now offers the skirt's own presets (Slice 39), not a placeholder
-    const style = root.querySelector("#style-host")!.innerHTML;
-    expect(style).not.toContain("aren't available");
-    expect(style).toContain("skirt"); // e.g. "Midi skirt" in the target dropdown
-    // the body-view figure is still a placeholder (real lower-body figure = Slice 40)
+
+    // assembled view is now a skirt: FRONT/BACK panels, no tee neckline
+    const assembled = root.querySelector("#garment-host")!.innerHTML;
+    expect(assembled).toContain(">FRONT<");
+    expect(assembled).not.toMatch(/Q /);
+
+    // the style panel offers the skirt's own presets (Slice 39)
+    expect(root.querySelector("#style-host")!.innerHTML).toContain("skirt");
+
+    // the body view now draws the annotated skirt figure, not a placeholder
     root.querySelector<HTMLButtonElement>("#view-body")!.dispatchEvent(new Event("click"));
-    expect(root.querySelector("#canvas-host")!.innerHTML).toContain("isn't available");
+    const body = root.querySelector("#canvas-host")!.innerHTML;
+    expect(body).not.toContain("isn't available");
+    expect(body).toContain('data-dim="waist"');
   });
 });
 

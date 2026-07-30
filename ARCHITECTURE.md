@@ -244,10 +244,12 @@ where the split is real:
   only a recipe added and registered in GARMENTS. The garment toggle, controls (now
   re-rendered per garment's `fields`), and plausibility all follow.
 
-  STILL TEE-SHAPED (the last one, Slice 40): the body-view figure draws a top, so the
-  skirt shows an honest "not available for this garment yet" placeholder for it. (The
-  style suggester was made recipe-owned in s39 — `recipe.styles`, with `TEE_STYLES`
-  and `SKIRT_STYLES`; the skirt now offers its own target-fit presets.)
+  NO TEE-SHAPED SPOTS REMAIN (as of s40). The two figures were the last: the assembled
+  view (`renderGarment`) and the body view (`renderBody`) were tee-hardcoded, so app.ts
+  now gates both on `isTop` and draws `renderSkirtGarment` / `renderSkirtBody` (in
+  `render/skirt-figure.ts`) for the skirt. The style suggester became recipe-owned in
+  s39 (`recipe.styles`: `TEE_STYLES` / `SKIRT_STYLES`). The app is fully garment-general
+  — every engine and UI surface reads the recipe rather than assuming a tee.
 
   Skirt bridge, COMPLETE: Block (s25) → recipe-owned checks (s35) → recipe-owned
   guidance (s36) → per-garment Measurements (s37) → the skirt recipe (s38).
