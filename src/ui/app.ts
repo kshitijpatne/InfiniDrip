@@ -68,7 +68,7 @@ export function mountApp(root: HTMLElement): void {
   // fit gaps, the report verdict) — nothing here recomputes a check.
   const renderJourney = (): void => {
     const plausible = measurementsPlausible(measurements);
-    const gaps = matchStyle(measurements, targetStyle).deltas.length;
+    const gaps = matchStyle(measurements, targetStyle, recipe.styles).deltas.length;
     const report = garmentReport(recipe, measurements);
     const parts: string[] = [];
     if (journey.step === "start") parts.push(welcomeMarkup());
@@ -136,9 +136,7 @@ export function mountApp(root: HTMLElement): void {
     const fabricNote: Note = { level: "info", text: fabricEaseNote(stretchFabric, measurements.chest) };
     guidanceHost.innerHTML = guidanceMarkup([...guide(recipe, measurements), fabricNote]);
     // Style = prescriptive: the gap from current measurements to the chosen target.
-    styleHost.innerHTML = isTop
-      ? styleMarkup(targetStyle, matchStyle(measurements, targetStyle), styleNames(), plausible)
-      : unavailablePanel("Target fit", "Style presets aren't available for this garment yet.");
+    styleHost.innerHTML = styleMarkup(targetStyle, matchStyle(measurements, targetStyle, recipe.styles), styleNames(recipe.styles), plausible);
     // Amber-outline any measurement input whose value is out of plausible range
     // (same outline convention as the fabric swatches). Controls aren't re-rendered
     // per draw, so this is applied imperatively.
@@ -273,6 +271,7 @@ export function mountApp(root: HTMLElement): void {
 
   const setGarment = (name: string): void => {
     recipe = garmentByName(name);
+    targetStyle = recipe.styles[0].name; // the old target may not exist for this garment
     GARMENTS.forEach((g) => {
       const btn = root.querySelector<HTMLButtonElement>(`#garment-${g.name}`)!;
       const on = g.name === recipe.name;

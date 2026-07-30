@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 38. Update this after every slice (and commit it WITH the code)._
+_Last updated: after Slice 39. Update this after every slice (and commit it WITH the code)._
 
 ## What it is
 A lightweight, local 2D sewing-pattern designer in TypeScript. Type body
@@ -110,6 +110,15 @@ F1. **(Fable) Real-world export system** — two new writers on the existing exp
 22. per-size export — a size picker in the export area drafts the chosen graded
     size (via `draftAtSize`) and emits `<garment>-<SIZE>.<ext>`; scopes only the
     exports, every other view keeps its job (327)
+39. Recipe-owned styles + skirt style set (UI-honesty pass, part 1) — the style
+    suggester is no longer tee-only. The style TABLE moved onto `recipe.styles`
+    (`TEE_STYLES` for tee/fitted, new `SKIRT_STYLES`: Mini/Knee/Midi/Maxi + Fitted/
+    Relaxed skirt); the style functions (`matchStyle`/`styleNames`/`nearbyStyles`/
+    `currentStyles`/`styleSuggestions`) now take the table as an argument. The skirt's
+    style panel shows real targets instead of a placeholder; `targetStyle` resets to
+    the garment's first style on switch (so `matchStyle` never throws). Pure refactor
+    for the tee: its style panel is byte-identical (b9e41eb2 / 18a14acd / 288a1de6).
+    The body-view figure is the last tee-shaped spot (Slice 40). (565)
 38. The SKIRT recipe (skirt bridge COMPLETE — thesis proven) — a structurally
     different garment runs through the whole engine with only a recipe added: it
     drafts (front/back panels, waist→side→hem→centre, no sleeve/armhole), checks
@@ -339,9 +348,9 @@ plausibility flags, severity data, and body-vs-finished data are all exposed as 
 functions — so **Fable's F2 journey UI is fully unblocked** (Fable's F1 export track
 never depended on it). **The skirt bridge is COMPLETE (s35–s38): the engine/recipe
 thesis is proven — a skirt runs end-to-end as a recipe.** What's left is a UI-honesty
-pass (Slice 39): a real lower-body body-view figure and a skirt style set, replacing
-the placeholders the skirt shows today. The style table + body-view figure are the
-last tee-shaped spots:
+pass: Slice 39 made the style suggester recipe-owned and gave the skirt its own
+style set (style-panel placeholder gone). The ONE remaining tee-shaped spot is the
+body-view figure (it still draws a top; the skirt shows a placeholder) — Slice 40:
 
 - ✓ **30 (D). Hover highlights the outline too** (done) — a measurement→edges map
   alongside the dimension-line map; hovering/focusing a row lifts the outline
@@ -471,3 +480,4 @@ s35=538 (8 new: 6 tshirt-checks unit, 2 garment-agnostic stub)
 s36=541 (net +3: sleevedTopGuidance + agnostic guide payoff; tee-guidance tests moved)
 s37=547 (net +6: fields filter, waist/hip facets+persist round-trip+lenient migration)
 s38=561 (14 new: skirt draft/checks/guidance/POM + garment-switch UI + waist/hip bounds)
+s39=565 (4 new: recipe-owned style table + skirt style set; tee style panel unchanged)

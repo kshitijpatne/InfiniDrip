@@ -12,6 +12,7 @@ import { Note } from "../guidance/note";
 import { sleevedTopChecks, frontHemWidth } from "./tshirt-checks";
 import { sleevedTopGuidance } from "./tshirt-guidance";
 import { draftSkirt, skirtChecks, skirtGuidance, SKIRT_GRADE, SKIRT_POMS, SKIRT_NOTCHES } from "./skirt";
+import { StyleDef, TEE_STYLES, SKIRT_STYLES } from "../style";
 import { AllowanceSpec } from "./allowance";
 import { Pom } from "./pom";
 import { GradeRule, SizeStep } from "./grading";
@@ -55,6 +56,7 @@ export interface GarmentRecipe {
   readonly name: string;  // stable id, e.g. "tee"
   readonly label: string; // what the UI shows, e.g. "Tee"
   readonly fields: readonly (keyof Measurements)[]; // which measurements this garment uses (drives the UI, in order)
+  readonly styles: readonly StyleDef[];             // the target-fit presets this garment offers
   readonly draft: (m: Measurements) => Block;
   readonly notches: readonly PieceNotches[];
   readonly poms: readonly Pom[];
@@ -96,6 +98,7 @@ export const TEE: GarmentRecipe = {
   name: "tee",
   label: "Tee",
   fields: ["chest", "shoulderWidth", "bicep", "length", "armholeDepth", "sleeveLength", "ease"],
+  styles: TEE_STYLES,
   draft: draftTshirt,
   notches: TSHIRT_NOTCHES,
   poms: TSHIRT_POMS,
@@ -122,6 +125,7 @@ export const FITTED: GarmentRecipe = {
   name: "fitted",
   label: "Fitted",
   fields: ["chest", "shoulderWidth", "bicep", "length", "armholeDepth", "sleeveLength", "ease"],
+  styles: TEE_STYLES,
   draft: draftFitted,
   notches: FITTED_NOTCHES,
   poms: FITTED_POMS,
@@ -168,6 +172,7 @@ export const SKIRT: GarmentRecipe = {
   name: "skirt",
   label: "Skirt",
   fields: ["waist", "hip", "length", "ease"],
+  styles: SKIRT_STYLES,
   draft: draftSkirt,
   notches: SKIRT_NOTCHES,
   poms: SKIRT_POMS,

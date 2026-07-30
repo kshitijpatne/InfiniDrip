@@ -770,11 +770,26 @@ describe("switching to the skirt (Slice 38)", () => {
     expect(root.querySelector("#canvas-host")!.innerHTML).not.toBe(before); // redrew
   });
 
-  it("shows a placeholder for the body view and style panel instead of a top", () => {
+  it("shows real skirt styles in the style panel, and a placeholder only for the body view", () => {
     const root = mount();
     root.querySelector<HTMLButtonElement>("#garment-skirt")!.dispatchEvent(new Event("click"));
-    expect(root.querySelector("#style-host")!.innerHTML).toContain("aren't available");
+    // style panel now offers the skirt's own presets (Slice 39), not a placeholder
+    const style = root.querySelector("#style-host")!.innerHTML;
+    expect(style).not.toContain("aren't available");
+    expect(style).toContain("skirt"); // e.g. "Midi skirt" in the target dropdown
+    // the body-view figure is still a placeholder (real lower-body figure = Slice 40)
     root.querySelector<HTMLButtonElement>("#view-body")!.dispatchEvent(new Event("click"));
     expect(root.querySelector("#canvas-host")!.innerHTML).toContain("isn't available");
+  });
+});
+
+describe("skirt styles are selectable (Slice 39)", () => {
+  it("populates the target dropdown with skirt styles and switches target", () => {
+    const root = mount();
+    root.querySelector<HTMLButtonElement>("#garment-skirt")!.dispatchEvent(new Event("click"));
+    const sel = root.querySelector<HTMLSelectElement>("#style-target")!;
+    const opts = [...sel.options].map((o) => o.textContent);
+    expect(opts).toContain("Midi skirt");
+    expect(opts.join(" ")).not.toContain("tee");
   });
 });

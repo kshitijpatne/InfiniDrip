@@ -91,6 +91,7 @@ describe("garmentReport — garment-agnostic (the skirt-bridge payoff)", () => {
     name: "stub",
     label: "Stub",
     fields: [],
+    styles: [],
     draft: (m) =>
       block({
         panel: {

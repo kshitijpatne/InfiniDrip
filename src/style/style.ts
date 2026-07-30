@@ -1,21 +1,25 @@
 // The style suggester. A "style" is just a region of the measurement space:
-// a set of ranges that, together, describe a recognisable kind of t-shirt.
+// a set of ranges that, together, describe a recognisable kind of garment.
 //
 //  - currentStyles: which style(s) the current measurements already sit inside
 //  - nearbyStyles:  the closest styles you are NOT in, each with the smallest
 //                   measurement change that would step you into it
 //
-// The definitions below are a sensible starting table, meant to be tuned against
-// real references — the logic does not change when the numbers do.
+// The style TABLE is garment-specific and lives on the recipe (recipe.styles); the
+// logic here is garment-agnostic and takes the table as an argument. A tee's styles
+// range over ease/length/sleeve; a skirt's over length/ease. The numbers are a
+// sensible starting table, meant to be tuned against real references — the logic
+// does not change when the numbers do.
 
-import { Measurements } from "../drafting";
+import type { Measurements } from "../drafting";
 
-interface StyleDef {
+export interface StyleDef {
   readonly name: string;
   readonly ranges: Partial<Record<keyof Measurements, readonly [number, number]>>;
 }
 
-const STYLES: readonly StyleDef[] = [
+/** The tee/fitted style table (upper-body: ease, length, sleeve). */
+export const TEE_STYLES: readonly StyleDef[] = [
   { name: "Fitted tee", ranges: { ease: [0, 6], length: [59, 74] } },
   { name: "Classic tee", ranges: { ease: [7, 12], length: [59, 74] } },
   { name: "Relaxed tee", ranges: { ease: [13, 18], length: [59, 74] } },
@@ -25,6 +29,16 @@ const STYLES: readonly StyleDef[] = [
   { name: "Longline tee", ranges: { ease: [7, 18], length: [78, 100] } },
   { name: "Muscle tee", ranges: { ease: [0, 8], sleeveLength: [8, 12] } },
   { name: "Long-sleeve tee", ranges: { ease: [7, 14], sleeveLength: [55, 70] } },
+];
+
+/** The skirt style table (lower-body: length by silhouette, ease by fit). */
+export const SKIRT_STYLES: readonly StyleDef[] = [
+  { name: "Mini skirt", ranges: { length: [40, 50] } },
+  { name: "Knee skirt", ranges: { length: [55, 65] } },
+  { name: "Midi skirt", ranges: { length: [70, 85] } },
+  { name: "Maxi skirt", ranges: { length: [95, 120] } },
+  { name: "Fitted skirt", ranges: { ease: [2, 6] } },
+  { name: "Relaxed skirt", ranges: { ease: [10, 16] } },
 ];
 
 /** One measurement change needed to move toward a style (signed, in cm). */
@@ -58,30 +72,29 @@ function measureAgainst(m: Measurements, def: StyleDef): StyleMatch {
 }
 
 /** Names of the styles the current measurements already match. */
-export function currentStyles(m: Measurements): string[] {
-  return STYLES.filter((s) => measureAgainst(m, s).distance === 0).map((s) => s.name);
+export function currentStyles(m: Measurements, styles: readonly StyleDef[]): string[] {
+  return styles.filter((s) => measureAgainst(m, s).distance === 0).map((s) => s.name);
 }
 
 /** All style names, in table order — the selectable list of target fits. */
-export function styleNames(): string[] {
-  return STYLES.map((s) => s.name);
+export function styleNames(styles: readonly StyleDef[]): string[] {
+  return styles.map((s) => s.name);
 }
 
 /**
- * Measure the current measurements against ONE chosen style (the user's
- * declared target). Returns the signed deltas to reach it and whether you're
- * already there. This is the prescriptive counterpart to nearbyStyles: the user
- * picks the destination, this reports the gap. Unknown names throw.
+ * Measure the current measurements against ONE chosen style (the user's declared
+ * target). Returns the signed deltas to reach it and whether you're already there.
+ * Unknown names throw.
  */
-export function matchStyle(m: Measurements, styleName: string): StyleMatch {
-  const def = STYLES.find((s) => s.name === styleName);
+export function matchStyle(m: Measurements, styleName: string, styles: readonly StyleDef[]): StyleMatch {
+  const def = styles.find((s) => s.name === styleName);
   if (!def) throw new Error(`Unknown style: "${styleName}"`);
   return measureAgainst(m, def);
 }
 
 /** The closest styles you are not yet in, nearest first. */
-export function nearbyStyles(m: Measurements, limit = 3): StyleMatch[] {
-  return STYLES.map((s) => measureAgainst(m, s))
+export function nearbyStyles(m: Measurements, styles: readonly StyleDef[], limit = 3): StyleMatch[] {
+  return styles.map((s) => measureAgainst(m, s))
     .filter((match) => match.distance > 0)
     .sort((a, b) => a.distance - b.distance)
     .slice(0, limit);
@@ -92,6 +105,6 @@ export interface StyleSuggestions {
   readonly nearby: StyleMatch[];
 }
 
-export function styleSuggestions(m: Measurements): StyleSuggestions {
-  return { current: currentStyles(m), nearby: nearbyStyles(m) };
+export function styleSuggestions(m: Measurements, styles: readonly StyleDef[]): StyleSuggestions {
+  return { current: currentStyles(m, styles), nearby: nearbyStyles(m, styles) };
 }

@@ -35,6 +35,7 @@ describe("guide (recipe-driven)", () => {
       name: "stub",
       label: "Stub",
       fields: [],
+      styles: [],
       draft: (m) =>
         block({
           panel: {

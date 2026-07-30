@@ -244,10 +244,10 @@ where the split is real:
   only a recipe added and registered in GARMENTS. The garment toggle, controls (now
   re-rendered per garment's `fields`), and plausibility all follow.
 
-  STILL TEE-SHAPED (the last two, a UI-honesty pass — Slice 39): (1) the style table
-  is nine tees; (2) the body-view figure draws a top. Today the skirt shows an honest
-  "not available for this garment yet" placeholder for both rather than misleading
-  tee content.
+  STILL TEE-SHAPED (the last one, Slice 40): the body-view figure draws a top, so the
+  skirt shows an honest "not available for this garment yet" placeholder for it. (The
+  style suggester was made recipe-owned in s39 — `recipe.styles`, with `TEE_STYLES`
+  and `SKIRT_STYLES`; the skirt now offers its own target-fit presets.)
 
   Skirt bridge, COMPLETE: Block (s25) → recipe-owned checks (s35) → recipe-owned
   guidance (s36) → per-garment Measurements (s37) → the skirt recipe (s38).
