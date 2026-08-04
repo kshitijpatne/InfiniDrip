@@ -109,6 +109,13 @@ stateful (names its current value) and leads with a severity ICON from the expos
 `SEVERITY_ICON` map (⚠ / ℹ / ✓) so severity is never colour-only — Fable's journey UI
 reads the same map rather than inventing glyphs.
 
+**Garment-scoped (Slice 41).** Both tiers take `recipe.fields` and only judge a
+bound or ratio when every field it needs is in that set — a field the garment
+doesn't expose (chest, on a skirt) sits frozen at its default and must never be
+flagged. `guide()` and every `app.ts` reader of `measurementsPlausible`/
+`implausibleFields` pass `recipe.fields` through; the tee exposes every field these
+tiers touch, so its behaviour is unchanged.
+
 **Body vs finished (`drafting/facets.ts`, Slice 34).** A raw number is ambiguous on
 its own — "Chest 100" could be the wearer or the shirt. Each field is classified as
 a BODY measurement (taken off a person; the garment may add ease) or a FINISHED

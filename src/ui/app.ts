@@ -67,7 +67,7 @@ export function mountApp(root: HTMLElement): void {
   // The journey bar + checklist render Opus's guidance DATA (plausibility gate,
   // fit gaps, the report verdict) — nothing here recomputes a check.
   const renderJourney = (): void => {
-    const plausible = measurementsPlausible(measurements);
+    const plausible = measurementsPlausible(measurements, recipe.fields);
     const gaps = matchStyle(measurements, targetStyle, recipe.styles).deltas.length;
     const report = garmentReport(recipe, measurements);
     const parts: string[] = [];
@@ -97,7 +97,7 @@ export function mountApp(root: HTMLElement): void {
       canvasHost.innerHTML = renderFabricNest(
         nest.placed, nest.fabricWidth, nest.fabricLength, nest.utilization, nest.fits);
     } else if (view === "check") {
-      canvasHost.innerHTML = checkMarkup(garmentReport(recipe, measurements), measurementsPlausible(measurements));
+      canvasHost.innerHTML = checkMarkup(garmentReport(recipe, measurements), measurementsPlausible(measurements, recipe.fields));
     } else if (view === "edit") {
       const piece = editedFront!;
       const vb = editorViewBox(piece);
@@ -129,7 +129,7 @@ export function mountApp(root: HTMLElement): void {
     // One sanity read for the whole frame: are the numbers a real body? It gates
     // every green "validated" signal — the check banner, the style ✓ — and flags
     // the offending fields, so geometry passing can never masquerade as "ready".
-    const plausible = measurementsPlausible(measurements);
+    const plausible = measurementsPlausible(measurements, recipe.fields);
     // Guidance = the geometry checks, plus a fabric-stretch ease note (advice only).
     const fabricNote: Note = { level: "info", text: fabricEaseNote(stretchFabric, measurements.chest) };
     guidanceHost.innerHTML = guidanceMarkup([...guide(recipe, measurements), fabricNote]);
@@ -138,7 +138,7 @@ export function mountApp(root: HTMLElement): void {
     // Amber-outline any measurement input whose value is out of plausible range
     // (same outline convention as the fabric swatches). Controls aren't re-rendered
     // per draw, so this is applied imperatively.
-    const flagged = new Set<string>(implausibleFields(measurements));
+    const flagged = new Set<string>(implausibleFields(measurements, recipe.fields));
     root.querySelectorAll<HTMLInputElement>("[data-field]").forEach((inp) => {
       inp.style.outline = flagged.has(inp.dataset.field!) ? `2px solid ${BLUEPRINT.lineActive}` : "";
     });

@@ -36,19 +36,31 @@ export const MEASUREMENT_BOUNDS: Partial<Record<keyof Measurements, Bound>> = {
   sleeveLength: { min: 5, max: 70, label: "Sleeve length" },
 };
 
-/** The raw fields whose OWN value is outside its plausible bound. The single
- *  source of truth for "which inputs to flag" — used for the note text below and
- *  for the amber field outline in the UI. */
-export function implausibleFields(m: Measurements): (keyof Measurements)[] {
-  return (Object.keys(MEASUREMENT_BOUNDS) as (keyof Measurements)[]).filter((key) => {
-    const b = MEASUREMENT_BOUNDS[key]!;
-    return m[key] < b.min || m[key] > b.max;
-  });
+/** The raw fields whose OWN value is outside its plausible bound, SCOPED to the
+ *  fields this garment actually exposes (`recipe.fields`). A field the garment
+ *  doesn't use — chest, on a skirt — sits frozen at its default and was never
+ *  offered to the user to fix, so it must never be flagged. The single source of
+ *  truth for "which inputs to flag" — used for the note text below and for the
+ *  amber field outline in the UI. */
+export function implausibleFields(
+  m: Measurements,
+  fields: readonly (keyof Measurements)[],
+): (keyof Measurements)[] {
+  return (Object.keys(MEASUREMENT_BOUNDS) as (keyof Measurements)[])
+    .filter((key) => fields.includes(key))
+    .filter((key) => {
+      const b = MEASUREMENT_BOUNDS[key]!;
+      return m[key] < b.min || m[key] > b.max;
+    });
 }
 
-/** Warn for any raw measurement outside its plausible adult range. */
-export function plausibilityChecks(m: Measurements): Note[] {
-  return implausibleFields(m).map((key) => {
+/** Warn for any raw measurement outside its plausible adult range — scoped to
+ *  the garment's own fields (see implausibleFields). */
+export function plausibilityChecks(
+  m: Measurements,
+  fields: readonly (keyof Measurements)[],
+): Note[] {
+  return implausibleFields(m, fields).map((key) => {
     const b = MEASUREMENT_BOUNDS[key]!;
     return {
       level: "warn" as const,
@@ -78,9 +90,15 @@ export const RATIO_BOUNDS: readonly Ratio[] = [
     text: "Bicep and chest look out of proportion" },
 ];
 
-/** Warn when two measurements are implausible relative to each other. */
-export function coherenceChecks(m: Measurements): Note[] {
-  return RATIO_BOUNDS.flatMap((r) => {
+/** Warn when two measurements are implausible relative to each other — SCOPED to
+ *  the garment's own fields. A ratio needs BOTH its fields exposed by the current
+ *  garment; the tee's three ratios all lean on chest, so a garment that doesn't
+ *  measure chest (a skirt) skips them rather than judging a frozen default. */
+export function coherenceChecks(
+  m: Measurements,
+  fields: readonly (keyof Measurements)[],
+): Note[] {
+  return RATIO_BOUNDS.filter((r) => fields.includes(r.of) && fields.includes(r.per)).flatMap((r) => {
     const ratio = m[r.of] / m[r.per];
     if (ratio < r.min || ratio > r.max) {
       return [{
@@ -93,10 +111,14 @@ export function coherenceChecks(m: Measurements): Note[] {
   });
 }
 
-/** True when every sanity check passes — no out-of-range field and no bad ratio.
- *  The one gate the UI reads to decide whether a green "validated" signal has
- *  earned the right to show. Geometric soundness is necessary but NOT sufficient:
- *  a set can sew together (garment-check ok) yet still be an impossible body. */
-export function measurementsPlausible(m: Measurements): boolean {
-  return implausibleFields(m).length === 0 && coherenceChecks(m).length === 0;
+/** True when every sanity check passes — no out-of-range field and no bad ratio,
+ *  both scoped to the garment's own fields. The one gate the UI reads to decide
+ *  whether a green "validated" signal has earned the right to show. Geometric
+ *  soundness is necessary but NOT sufficient: a set can sew together (garment-check
+ *  ok) yet still be an impossible body. */
+export function measurementsPlausible(
+  m: Measurements,
+  fields: readonly (keyof Measurements)[],
+): boolean {
+  return implausibleFields(m, fields).length === 0 && coherenceChecks(m, fields).length === 0;
 }

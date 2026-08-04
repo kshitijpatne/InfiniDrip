@@ -22,7 +22,7 @@ export function guide(recipe: GarmentRecipe, m: Measurements): Note[] {
   // measurement.
   return [
     ...recipe.guidance(block, m),
-    ...plausibilityChecks(m),
-    ...coherenceChecks(m),
+    ...plausibilityChecks(m, recipe.fields),
+    ...coherenceChecks(m, recipe.fields),
   ];
 }

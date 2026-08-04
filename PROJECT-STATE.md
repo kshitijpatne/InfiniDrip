@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 40. Update this after every slice (and commit it WITH the code)._
+_Last updated: after Slice 41. Update this after every slice (and commit it WITH the code)._
 
 ## What it is
 A lightweight, local 2D sewing-pattern designer in TypeScript. Type body
@@ -110,6 +110,20 @@ F1. **(Fable) Real-world export system** — two new writers on the existing exp
 22. per-size export — a size picker in the export area drafts the chosen graded
     size (via `draftAtSize`) and emits `<garment>-<SIZE>.<ext>`; scopes only the
     exports, every other view keeps its job (327)
+41. Guidance garment-awareness (bugfix, 1 of 3 from the s40 screenshot review) —
+    `plausibilityChecks`/`coherenceChecks`/`implausibleFields`/`measurementsPlausible`
+    (`guidance/plausibility.ts`) now take `fields: (keyof Measurements)[]` and only
+    judge a bound/ratio if every field it needs is in that set. Fixes a real bug: on
+    the skirt, `chest` sits frozen at its STANDARD_M default (the skirt has no chest
+    control), so shortening the skirt used to trip a spurious "Body length and chest
+    look out of proportion" warning about a field the user never touched. `guide()`
+    and all four `app.ts` call sites now pass `recipe.fields`. Tee unaffected: its
+    7 fields already cover everything the 3 `RATIO_BOUNDS` touch and everything its
+    own controls can push out of range — verified byte-identical across a 14-case
+    measurement battery (the only 2 divergent cases force waist/hip out of range on
+    the tee, a state its UI can never actually produce, since tee doesn't expose
+    those fields). Two bugs from the same review remain queued: `hipDepth` as a real
+    field (42), and the skirt body-figure redesign against it (43). (583)
 40. Skirt figures — the LAST tee-shaped spot closed (app is fully garment-general).
     New `render/skirt-figure.ts`: `renderSkirtGarment` (assembled front/back panels,
     fabric-filled, waist→hip→hem) and `renderSkirtBody` (annotated lower-body figure
@@ -362,7 +376,12 @@ pass: Slice 39 made the style suggester recipe-owned and gave the skirt its own
 style set. **Slice 40 closed the last tee-shaped spot: the assembled view and the
 body-view figure are now garment-aware (`render/skirt-figure.ts`), so the skirt draws
 as a skirt everywhere. The app is fully garment-general — no tee-shaped spots remain,
-and the engine/recipe thesis is proven end-to-end.** History:
+and the engine/recipe thesis is proven end-to-end.** A post-40 screenshot review
+surfaced three real, diagnosed problems: guidance wasn't garment-aware (a live bug),
+the waist-to-hip depth was a hard-coded constant instead of a measurement, and the
+skirt body-figure needs a redesign against that real measurement. **Slice 41 fixes
+the first (this doc); 42 (`hipDepth`) and 43 (the figure redesign) are queued next.**
+History:
 
 - ✓ **30 (D). Hover highlights the outline too** (done) — a measurement→edges map
   alongside the dimension-line map; hovering/focusing a row lifts the outline
@@ -494,3 +513,4 @@ s37=547 (net +6: fields filter, waist/hip facets+persist round-trip+lenient migr
 s38=561 (14 new: skirt draft/checks/guidance/POM + garment-switch UI + waist/hip bounds)
 s39=565 (4 new: recipe-owned style table + skirt style set; tee style panel unchanged)
 s40=573 (8 new: skirt assembled + body figures, real-SVG-parse + geometry; tee unchanged)
+s41=583 (10 new: garment-scoped plausibility/coherence tiers + guide()/app.ts skirt bugfix regression; tee byte-identical)

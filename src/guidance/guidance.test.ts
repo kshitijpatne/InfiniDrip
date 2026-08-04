@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { point } from "../geometry";
 import {
-  STANDARD_M, TEE, GarmentRecipe, block, TSHIRT_GRADE, TSHIRT_SIZES,
+  STANDARD_M, TEE, SKIRT, GarmentRecipe, block, TSHIRT_GRADE, TSHIRT_SIZES,
 } from "../drafting";
 import { guide, SEVERITY_ICON, Level } from "./guidance";
 
@@ -58,6 +58,27 @@ describe("guide (recipe-driven)", () => {
     const notes = guide(SLEEVELESS, STANDARD_M);
     expect(notes.some((n) => n.text === "panel looks fine")).toBe(true); // recipe-owned guidance
     expect(notes.every((n) => n.level === "ok")).toBe(true); // STANDARD_M is sane
+  });
+});
+
+describe("guide is garment-aware (Slice 41 bugfix)", () => {
+  it("a short skirt no longer trips a spurious chest-proportion warning", () => {
+    // Skirt length 45 cm / the frozen chest default (100) = 0.45, below the
+    // tee's 0.52 ratio floor — this used to warn "Body length and chest look
+    // out of proportion" about a field (chest) the skirt doesn't even expose.
+    const notes = guide(SKIRT, { ...STANDARD_M, length: 45 });
+    expect(notes.some((n) => n.text.includes("proportion"))).toBe(false);
+    expect(notes.some((n) => n.text.includes("Chest"))).toBe(false);
+  });
+
+  it("still warns when the skirt's OWN field (waist) is genuinely out of range", () => {
+    const notes = guide(SKIRT, { ...STANDARD_M, waist: 300 });
+    expect(notes.some((n) => n.level === "warn" && n.text.includes("Waist"))).toBe(true);
+  });
+
+  it("tee guidance is unaffected: still warns on an implausible chest", () => {
+    const notes = guide(TEE, { ...STANDARD_M, chest: 160 });
+    expect(notes.some((n) => n.level === "warn" && n.text.includes("Chest (160 cm)"))).toBe(true);
   });
 });
 
