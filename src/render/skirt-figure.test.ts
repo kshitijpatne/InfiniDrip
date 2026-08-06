@@ -69,3 +69,48 @@ describe("renderSkirtBody (annotated body view)", () => {
     expect(renderSkirtBody({ ...STANDARD_M, hip: 130 })).not.toBe(svg);
   });
 });
+
+// Slice 42: HIP_DROP = 20 was duplicated in this module and in drafting/skirt.ts.
+// Both figures now read m.hipDepth. The gate parses the emitted path and MEASURES
+// the y-coordinate of the hip vertex — it never re-derives what the code wrote.
+describe("both figures track the real hipDepth measurement (Slice 42)", () => {
+  // The y of the first vertex the outline reaches after leaving the waist line.
+  const hipVertexY = (pathD: string): number => {
+    const commands = pathD.trim().split(/(?=[ML])/).map((s) => s.trim()).filter(Boolean);
+    const ys = commands.map((c) => Number(c.replace(/^[ML]\s*/, "").split(/\s+/)[1]));
+    return ys.find((y) => y > 0)!; // first vertex below the waist = the hip point
+  };
+
+  const bodyOutline = (svg: string): string => {
+    const doc = wellFormed(svg);
+    const paths = [...doc.querySelectorAll("path")];
+    return paths[paths.length - 1].getAttribute("d")!;
+  };
+
+  it("the assembled panel puts its hip vertex at m.hipDepth", () => {
+    for (const hipDepth of [14, 20, 30]) {
+      const doc = wellFormed(renderSkirtGarment({ ...STANDARD_M, hipDepth }, "#3A4150"));
+      const panel = [...doc.querySelectorAll("path")].find((p) => p.getAttribute("fill") === "#3A4150")!;
+      expect(hipVertexY(panel.getAttribute("d")!)).toBeCloseTo(hipDepth, 3);
+    }
+  });
+
+  it("the body figure puts its hip vertex at m.hipDepth", () => {
+    for (const hipDepth of [14, 20, 30]) {
+      expect(hipVertexY(bodyOutline(renderSkirtBody({ ...STANDARD_M, hipDepth })))).toBeCloseTo(hipDepth, 3);
+    }
+  });
+
+  it("both figures change when hipDepth changes — the constant is really gone", () => {
+    expect(renderSkirtGarment({ ...STANDARD_M, hipDepth: 30 }, "#3A4150"))
+      .not.toBe(renderSkirtGarment(STANDARD_M, "#3A4150"));
+    expect(renderSkirtBody({ ...STANDARD_M, hipDepth: 30 })).not.toBe(renderSkirtBody(STANDARD_M));
+  });
+
+  it("stays well-formed across the whole hipDepth range", () => {
+    for (const hipDepth of [12, 20, 35]) {
+      wellFormed(renderSkirtGarment({ ...STANDARD_M, hipDepth }, "#3A4150"));
+      wellFormed(renderSkirtBody({ ...STANDARD_M, hipDepth }));
+    }
+  });
+});

@@ -17,8 +17,6 @@ import { GradeRule } from "./grading";
 import { Pom, spanX, spanY, PointRef } from "./pom";
 import { PieceNotches } from "./tshirt-notches";
 
-const HIP_DROP = 20; // cm from the waist line down to the fullest hip
-
 /** One skirt panel (front or back), cut on the fold at the centre (x = 0). */
 function panel(m: Measurements, name: string): Piece {
   const waistQ = (m.waist + m.ease) / 4; // quarter-panel at the waist
@@ -26,7 +24,7 @@ function panel(m: Measurements, name: string): Piece {
 
   const cWaist = point(0, 0);
   const sWaist = point(waistQ, 0);
-  const sHip = point(hipQ, HIP_DROP);
+  const sHip = point(hipQ, m.hipDepth);
   const sHem = point(hipQ, m.length);
   const cHem = point(0, m.length);
 
@@ -67,7 +65,8 @@ export function skirtChecks(b: Block): CheckResult[] {
 
 // ── guidance (recipe-owned) ───────────────────────────────────────────────────
 
-/** Skirt-specific advice: the waist must be smaller than the hip, and a sane ease. */
+/** Skirt-specific advice: the waist must be smaller than the hip, the hem must
+ *  clear the hip line, and a sane ease. */
 export function skirtGuidance(_b: Block, m: Measurements): Note[] {
   const notes: Note[] = [];
   if (m.waist >= m.hip) {
@@ -75,6 +74,17 @@ export function skirtGuidance(_b: Block, m: Measurements): Note[] {
       level: "warn",
       text: `Waist (${m.waist} cm) is not smaller than the hip (${m.hip} cm) — a skirt needs ` +
             `the hip to be the wider of the two.`,
+    });
+  }
+  // The draft puts the hip point at hipDepth and the hem at length. If the hem is
+  // not BELOW the hip, the side seam runs back upward and the panel folds over
+  // itself. Unreachable while hip depth was a constant; reachable now it's a field.
+  if (m.length <= m.hipDepth) {
+    notes.push({
+      level: "warn",
+      text: `Length (${m.length} cm) does not clear the hip depth (${m.hipDepth} cm) — the hem ` +
+            `would sit at or above the fullest hip, so the side seam has nowhere to run. ` +
+            `Lengthen the skirt or reduce the hip depth.`,
     });
   }
   if (m.ease < 2) {

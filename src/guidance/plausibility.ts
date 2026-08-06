@@ -30,6 +30,7 @@ export const MEASUREMENT_BOUNDS: Partial<Record<keyof Measurements, Bound>> = {
   shoulderWidth: { min: 30, max: 60, label: "Shoulder width" },
   waist: { min: 50, max: 140, label: "Waist" },
   hip: { min: 60, max: 150, label: "Hip" },
+  hipDepth: { min: 12, max: 35, label: "Hip depth" },
   bicep: { min: 20, max: 55, label: "Bicep" },
   length: { min: 45, max: 95, label: "Length" },
   armholeDepth: { min: 15, max: 35, label: "Armhole depth" },

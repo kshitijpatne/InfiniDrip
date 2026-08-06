@@ -21,6 +21,7 @@ export const FIELDS: readonly Field[] = [
   { id: "sleeveLength", label: "Sleeve length", min: 8, max: 70, step: 1 },
   { id: "waist", label: "Waist", min: 50, max: 140, step: 1 },
   { id: "hip", label: "Hip", min: 60, max: 150, step: 1 },
+  { id: "hipDepth", label: "Hip depth", min: 10, max: 40, step: 1 },
   { id: "ease", label: "Ease", min: 0, max: 30, step: 1 },
 ];
 

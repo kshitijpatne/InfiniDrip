@@ -171,7 +171,7 @@ const WOVEN_SKIRT_BOM: readonly BomRow[] = [
 export const SKIRT: GarmentRecipe = {
   name: "skirt",
   label: "Skirt",
-  fields: ["waist", "hip", "length", "ease"],
+  fields: ["waist", "hip", "hipDepth", "length", "ease"],
   styles: SKIRT_STYLES,
   draft: draftSkirt,
   notches: SKIRT_NOTCHES,

@@ -24,9 +24,9 @@ export function serialize(m: Measurements, fabric: string): string {
   return JSON.stringify(file, null, 2);
 }
 
-// The set of keys a valid save MUST contain. waist/hip are intentionally absent:
-// they arrived in Slice 37, so older saves won't have them — they are read
-// leniently below (defaulted from STANDARD_M) rather than required.
+// The set of keys a valid save MUST contain. waist/hip/hipDepth are intentionally
+// absent: they arrived in Slices 37 and 42, so older saves won't have them — they
+// are read leniently below (defaulted from STANDARD_M) rather than required.
 const M_KEYS: ReadonlyArray<keyof Measurements> = [
   "chest", "shoulderWidth", "bicep", "length",
   "armholeDepth", "sleeveLength", "ease",
@@ -47,6 +47,7 @@ const BOUNDS: Record<keyof Measurements, [number, number]> = {
   sleeveLength:  [10,   70],
   waist:         [50,  140],
   hip:           [60,  150],
+  hipDepth:      [10,   40],
   ease:          [ 0,   30],
 };
 
@@ -103,6 +104,8 @@ export function deserialize(
       // Added in Slice 37: older saves lack these, so default rather than reject.
       waist:         inRange(m["waist"], BOUNDS.waist[0], BOUNDS.waist[1]) ? (m["waist"] as number) : STANDARD_M.waist,
       hip:           inRange(m["hip"],   BOUNDS.hip[0],   BOUNDS.hip[1])   ? (m["hip"]   as number) : STANDARD_M.hip,
+      // Added in Slice 42: same lenient treatment, for the same reason.
+      hipDepth:      inRange(m["hipDepth"], BOUNDS.hipDepth[0], BOUNDS.hipDepth[1]) ? (m["hipDepth"] as number) : STANDARD_M.hipDepth,
       ease:          m["ease"]          as number,
     },
     fabric,

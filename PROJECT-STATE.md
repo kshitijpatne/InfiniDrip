@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 41. Update this after every slice (and commit it WITH the code)._
+_Last updated: after Slice 42. Update this after every slice (and commit it WITH the code)._
 
 ## What it is
 A lightweight, local 2D sewing-pattern designer in TypeScript. Type body
@@ -110,6 +110,23 @@ F1. **(Fable) Real-world export system** — two new writers on the existing exp
 22. per-size export — a size picker in the export area drafts the chosen graded
     size (via `draftAtSize`) and emits `<garment>-<SIZE>.<ext>`; scopes only the
     exports, every other view keeps its job (327)
+42. hipDepth as a real measurement (2 of 3 from the s40 review) — the waist-to-hip
+    vertical was a hard-coded `HIP_DROP = 20` duplicated in `drafting/skirt.ts` AND
+    `render/skirt-figure.ts`, driven by no measurement. It is now a real
+    `Measurements` field, joining the same six registries waist/hip did in s37:
+    struct + `STANDARD_M` (default 20), `MEASUREMENT_BOUNDS` (12–35),
+    `MEASURE_ROLE` (body, non-circumference — ease never applies to a vertical
+    drop), `FIELDS` (slider 10–40), `persist` BOUNDS + a LENIENT read (old saves
+    lack it, so it defaults rather than rejecting), and `SKIRT.fields`. Both
+    constants deleted; draft and both figures read `m.hipDepth`.
+    Default 20 == the old constant, so the skirt draft, both skirt figures, and
+    tee/fitted guidance all hashed BYTE-IDENTICAL to origin. Making the field
+    editable opened a failure mode that was unreachable while it was frozen — a hem
+    at or above the hip line folds the panel over itself — so `skirtGuidance` gained
+    a warn-never-clamp note for `length <= hipDepth`. `hipDepth` deliberately does
+    NOT grade (real grading nudges it ~0.3 cm/size; adding it would move every graded
+    skirt POM and forfeit the byte-identity gate) — a later refinement. The body
+    figure has no `data-dim="hipDepth"` yet: left to 43, which redesigns it. (599)
 41. Guidance garment-awareness (bugfix, 1 of 3 from the s40 screenshot review) —
     `plausibilityChecks`/`coherenceChecks`/`implausibleFields`/`measurementsPlausible`
     (`guidance/plausibility.ts`) now take `fields: (keyof Measurements)[]` and only
@@ -379,8 +396,10 @@ as a skirt everywhere. The app is fully garment-general — no tee-shaped spots 
 and the engine/recipe thesis is proven end-to-end.** A post-40 screenshot review
 surfaced three real, diagnosed problems: guidance wasn't garment-aware (a live bug),
 the waist-to-hip depth was a hard-coded constant instead of a measurement, and the
-skirt body-figure needs a redesign against that real measurement. **Slice 41 fixes
-the first (this doc); 42 (`hipDepth`) and 43 (the figure redesign) are queued next.**
+skirt body-figure needs a redesign against that real measurement. **Slices 41 and 42
+fixed the first two; 43 (the body-figure redesign, now built against the real
+`hipDepth`) is the last one outstanding — and its SVG gets previewed for approval
+BEFORE any figure code is written, since the first preview was rejected.**
 History:
 
 - ✓ **30 (D). Hover highlights the outline too** (done) — a measurement→edges map
@@ -514,3 +533,4 @@ s38=561 (14 new: skirt draft/checks/guidance/POM + garment-switch UI + waist/hip
 s39=565 (4 new: recipe-owned style table + skirt style set; tee style panel unchanged)
 s40=573 (8 new: skirt assembled + body figures, real-SVG-parse + geometry; tee unchanged)
 s41=583 (10 new: garment-scoped plausibility/coherence tiers + guide()/app.ts skirt bugfix regression; tee byte-identical)
+s42=599 (16 new: hipDepth field across 6 registries, measured-vertex figure gates, hem-clears-hip warn, legacy-save compat; skirt draft + both figures + tee/fitted guidance all byte-identical)

@@ -18,7 +18,6 @@ import { BLUEPRINT as T } from "./theme";
 
 const round = (n: number): number => Math.round(n * 1000) / 1000;
 const FONT = 'font-family="system-ui, sans-serif"';
-const HIP_DROP = 20; // waist line down to the fullest hip (matches the draft)
 
 function txt(x: number, y: number, s: string, anchor = "middle", size = 3): string {
   return `<text x="${round(x)}" y="${round(y)}" fill="${T.label}" font-size="${size}" ` +
@@ -51,21 +50,21 @@ function seg(x1: number, y1: number, x2: number, y2: number, width: number): str
 
 // One full skirt panel silhouette (front or back), centred on x = 0, waist at y = 0.
 // Full panel = two drafted quarters, so the half-width is (girth + ease) / 4.
-function skirtPanelPath(waistHalf: number, hipHalf: number, len: number): string {
+function skirtPanelPath(waistHalf: number, hipHalf: number, len: number, hipDrop: number): string {
   return [
     `M ${round(-waistHalf)} 0`,
     `L ${round(waistHalf)} 0`,          // waist
-    `L ${round(hipHalf)} ${round(HIP_DROP)}`, // taper out to the hip
+    `L ${round(hipHalf)} ${round(hipDrop)}`, // taper out to the hip
     `L ${round(hipHalf)} ${round(len)}`,      // straight to the hem
     `L ${round(-hipHalf)} ${round(len)}`,     // hem
-    `L ${round(-hipHalf)} ${round(HIP_DROP)}`, // back up the other side
+    `L ${round(-hipHalf)} ${round(hipDrop)}`, // back up the other side
     "Z",
   ].join(" ");
 }
 
-function renderPanel(waistHalf: number, hipHalf: number, len: number, fabric: string,
+function renderPanel(waistHalf: number, hipHalf: number, len: number, hipDrop: number, fabric: string,
                      cx: number, top: number, label: string): string {
-  const path = `<path d="${skirtPanelPath(waistHalf, hipHalf, len)}" fill="${fabric}" ` +
+  const path = `<path d="${skirtPanelPath(waistHalf, hipHalf, len, hipDrop)}" fill="${fabric}" ` +
     `stroke="${T.line}" stroke-width="1.4" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>`;
   const band = line(-waistHalf, 4, waistHalf, 4, T.marker, 0.6); // a hint of the waistband
   const group = `<g transform="translate(${round(cx)} ${round(top)})">${path}${band}</g>`;
@@ -79,6 +78,7 @@ export function renderSkirtGarment(m: Measurements, fabric: string): string {
   const waistHalf = (m.waist + m.ease) / 4;
   const hipHalf = (m.hip + m.ease) / 4;
   const len = m.length;
+  const hipDrop = m.hipDepth;
 
   const halfW = hipHalf; // the widest half of one panel
   const margin = 6;
@@ -92,8 +92,8 @@ export function renderSkirtGarment(m: Measurements, fabric: string): string {
   return `<svg viewBox="0 0 ${round(width)} ${round(height)}" width="100%" ` +
     `xmlns="http://www.w3.org/2000/svg" style="background:${T.background};border-radius:8px">` +
     `<rect x="0" y="0" width="${round(width)}" height="${round(height)}" fill="${T.background}"/>` +
-    renderPanel(waistHalf, hipHalf, len, fabric, frontCx, top, "FRONT") +
-    renderPanel(waistHalf, hipHalf, len, fabric, backCx, top, "BACK") +
+    renderPanel(waistHalf, hipHalf, len, hipDrop, fabric, frontCx, top, "FRONT") +
+    renderPanel(waistHalf, hipHalf, len, hipDrop, fabric, backCx, top, "BACK") +
     `</svg>`;
 }
 
@@ -104,6 +104,7 @@ export function renderSkirtBody(m: Measurements): string {
   const waistHalf = m.waist * 0.20; // a body width from the girth; labelled "(circ)"
   const hipHalf = m.hip * 0.22;     // wider than the waist
   const len = m.length;
+  const hipDrop = m.hipDepth;       // the real waist-to-hip drop, no longer a constant
 
   // Faint upper-body + head stub above the waist: orientation only, no data.
   const stubTop = -22;
@@ -120,10 +121,10 @@ export function renderSkirtBody(m: Measurements): string {
   const body = [
     `M ${round(-waistHalf)} 0`,
     `L ${round(waistHalf)} 0`,
-    `L ${round(hipHalf)} ${round(HIP_DROP)}`,
+    `L ${round(hipHalf)} ${round(hipDrop)}`,
     `L ${round(hipHalf)} ${round(len)}`,
     `L ${round(-hipHalf)} ${round(len)}`,
-    `L ${round(-hipHalf)} ${round(HIP_DROP)}`,
+    `L ${round(-hipHalf)} ${round(hipDrop)}`,
     "Z",
   ].join(" ");
   const bodyPath = `<path d="${body}" fill="${T.fill}" stroke="${T.line}" ` +
@@ -134,7 +135,7 @@ export function renderSkirtBody(m: Measurements): string {
   const dim = (field: string, s: string): string => `<g data-dim="${field}">${s}</g>`;
   const dims =
     dim("waist", dimH(-waistHalf, waistHalf, headCy - headR - 3, `Waist ${m.waist} (circ)`)) +
-    dim("hip", dimH(-hipHalf, hipHalf, HIP_DROP + (len - HIP_DROP) * 0.30, `Hip ${m.hip} (circ)`)) +
+    dim("hip", dimH(-hipHalf, hipHalf, hipDrop + (len - hipDrop) * 0.30, `Hip ${m.hip} (circ)`)) +
     dim("length", dimV(rightDimX, 0, len, `Length ${m.length}`));
 
   // measurement → the outline segments it shapes (no overlap, so a hover is
@@ -145,7 +146,7 @@ export function renderSkirtBody(m: Measurements): string {
   const edges =
     edge("waist", seg(-waistHalf, 0, waistHalf, 0, 1.4)) +
     edge("hip", both((sx) =>
-      seg(sx * waistHalf, 0, sx * hipHalf, HIP_DROP, 1.4) + seg(sx * hipHalf, HIP_DROP, sx * hipHalf, len, 1.4))) +
+      seg(sx * waistHalf, 0, sx * hipHalf, hipDrop, 1.4) + seg(sx * hipHalf, hipDrop, sx * hipHalf, len, 1.4))) +
     edge("length", seg(-hipHalf, len, hipHalf, len, 1.4));
 
   const minX = -(hipHalf + 26);

@@ -11,6 +11,7 @@ export interface Measurements {
   readonly sleeveLength: number; // cap top to sleeve hem
   readonly waist: number;        // waist circumference (used by lower-body garments)
   readonly hip: number;          // hip circumference (used by lower-body garments)
+  readonly hipDepth: number;     // vertical waist line down to the fullest hip
   readonly ease: number;         // wearing room added around the chest
 }
 
@@ -18,7 +19,7 @@ export interface Measurements {
 export const STANDARD_M: Measurements = {
   chest: 100, shoulderWidth: 45, bicep: 38,
   length: 70, armholeDepth: 24, sleeveLength: 22,
-  waist: 84, hip: 100, ease: 10,
+  waist: 84, hip: 100, hipDepth: 20, ease: 10,
 };
 
 // Values the draft computes from the raw measurements. Exposed (not hidden

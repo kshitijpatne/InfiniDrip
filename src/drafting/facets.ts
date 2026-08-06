@@ -8,6 +8,7 @@
 //   chest         — draft width is (chest + ease)/4  → BODY, full ease around it
 //   bicep         — sleeve width is bicep + ease*0.5 → BODY, half ease around it
 //   shoulderWidth — used directly (shoulderWidth/2)  → BODY, no ease
+//   hipDepth      — waist-to-hip vertical, off a body → BODY, no ease
 //   length, armholeDepth, sleeveLength — used as garment coordinates → FINISHED
 
 import { Measurements } from "./measurements";
@@ -30,6 +31,7 @@ export const MEASURE_ROLE: Record<RawField, { role: MeasureRole; circumference: 
   shoulderWidth: { role: "body", circumference: false },
   waist: { role: "body", circumference: true },
   hip: { role: "body", circumference: true },
+  hipDepth: { role: "body", circumference: false },
   length: { role: "finished", circumference: false },
   armholeDepth: { role: "finished", circumference: false },
   sleeveLength: { role: "finished", circumference: false },

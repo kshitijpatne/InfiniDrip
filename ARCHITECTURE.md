@@ -140,9 +140,26 @@ base, so a chest of 160 just shifts the whole run up, it never falls "off" anyth
 The only absolute human-scale number in the engine is `STANDARD_M`. So the bounds
 are DECLARED in `plausibility.ts`, seeded from published adult apparel ranges and
 centred on `STANDARD_M` (each ~50% of its range), deliberately loose — they catch
-the absurd, not the merely unusual. A future per-garment `Measurements` (the skirt
-bridge) is where these would become recipe-owned; today one shared table serves both
-tee and fitted.
+the absurd, not the merely unusual. The table stays SHARED across garments, but since
+Slice 41 it is READ through `recipe.fields`, so each garment is only ever judged on
+the measurements it actually exposes — a skirt is never told its chest is wrong.
+Adding `hipDepth` in Slice 42 exercised exactly that: it sits in the same table, and
+the tee is structurally blind to it.
+
+**The raw measurement set** is `chest, shoulderWidth, bicep, length, armholeDepth,
+sleeveLength, waist, hip, hipDepth, ease`. Adding one means touching six registries
+in lockstep — the `Measurements` struct + `STANDARD_M`, `MEASUREMENT_BOUNDS`,
+`MEASURE_ROLE` (facets), `FIELDS` (controls), `persist`'s BOUNDS + read, and the
+`fields` list of every recipe that wants it. A field added after v1 is read
+LENIENTLY in `persist` (defaulted from `STANDARD_M`, never required) so older saves
+keep loading — `waist`/`hip` (s37) and `hipDepth` (s42) all work this way.
+
+**No drafting constant that a body actually varies may stay a constant.** `hipDepth`
+was `HIP_DROP = 20`, duplicated in the draft and the figure and driven by nothing;
+Slice 42 made it a real field. When such a constant becomes editable it can open
+failure modes that were previously unreachable, and the fix is a guidance note, not
+a clamp — `skirtGuidance` warns when `length <= hipDepth` would fold the panel over
+itself.
 
 **style — declare a target, see the gap (prescriptive).**
 A style is a **box of ranges** per measurement. You **pick a target fit** and the

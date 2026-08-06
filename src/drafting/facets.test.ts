@@ -49,6 +49,8 @@ describe("measurementFacet — finished values", () => {
   it("leaves body-no-ease and finished fields without a finished value", () => {
     expect(measurementFacet(STANDARD_M, "shoulderWidth").finished).toBeUndefined();
     expect(measurementFacet(STANDARD_M, "length").finished).toBeUndefined();
+    // Slice 42: ease is room around a girth — it never applies to a vertical drop.
+    expect(measurementFacet({ ...STANDARD_M, ease: 20 }, "hipDepth").finished).toBeUndefined();
   });
 
   it("carries the role and circumference through", () => {
@@ -71,5 +73,11 @@ describe("roleTag", () => {
   it("returns null for ease and for unknown fields", () => {
     expect(roleTag("ease")).toBeNull();
     expect(roleTag("nonsense")).toBeNull();
+  });
+
+  // Slice 42: hipDepth is a vertical distance taken off a person — a body
+  // measurement, but not a girth, and ease never applies to it.
+  it("labels hipDepth as a body linear measurement, not a circumference", () => {
+    expect(roleTag("hipDepth")).toBe("body");
   });
 });

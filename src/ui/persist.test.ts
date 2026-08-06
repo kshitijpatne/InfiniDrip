@@ -62,6 +62,32 @@ describe("deserialize (success)", () => {
     expect(r.measurements.hip).toBe(STANDARD_M.hip);
     expect(r.measurements.chest).toBe(STANDARD_M.chest); // the rest still load
   });
+
+  it("round-trips the hipDepth added in Slice 42", () => {
+    const m = { ...STANDARD_M, hipDepth: 26 };
+    const result = deserialize(serialize(m, FABRIC));
+    expect(result.ok).toBe(true);
+    if (!result.ok) return;
+    expect(result.measurements.hipDepth).toBe(26);
+  });
+
+  it("loads a pre-Slice-42 save with no hipDepth, defaulting it from STANDARD_M", () => {
+    const { hipDepth, ...legacy } = STANDARD_M;
+    const r = deserialize(JSON.stringify({ v: SAVE_VERSION, measurements: legacy, fabric: FABRIC }));
+    expect(r.ok).toBe(true);
+    if (!r.ok) return;
+    expect(r.measurements.hipDepth).toBe(STANDARD_M.hipDepth);
+    expect(r.measurements.waist).toBe(STANDARD_M.waist); // the rest still load
+  });
+
+  it("defaults an out-of-range hipDepth rather than rejecting the whole save", () => {
+    const r = deserialize(JSON.stringify({
+      v: SAVE_VERSION, measurements: { ...STANDARD_M, hipDepth: 999 }, fabric: FABRIC,
+    }));
+    expect(r.ok).toBe(true);
+    if (!r.ok) return;
+    expect(r.measurements.hipDepth).toBe(STANDARD_M.hipDepth);
+  });
 });
 
 // ── deserialize — error branches ──────────────────────────────────────────────

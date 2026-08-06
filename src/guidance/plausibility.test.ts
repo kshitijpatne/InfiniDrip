@@ -191,4 +191,20 @@ describe("garment-scoping (Slice 41)", () => {
   it("measurementsPlausible is still false for a skirt whose OWN field is out of range", () => {
     expect(measurementsPlausible({ ...STANDARD_M, waist: 999 }, SKIRT_FIELDS)).toBe(false);
   });
+
+  // Slice 42: hipDepth joined the bounds table. It belongs to the skirt only, so
+  // Slice 41's scoping is what keeps the tee from ever judging it.
+  it("flags an out-of-range hipDepth for a garment that exposes it", () => {
+    const withDepth: (keyof Measurements)[] = [...SKIRT_FIELDS, "hipDepth"];
+    expect(implausibleFields({ ...STANDARD_M, hipDepth: 60 }, withDepth)).toContain("hipDepth");
+    expect(implausibleFields({ ...STANDARD_M, hipDepth: 5 }, withDepth)).toContain("hipDepth");
+    expect(implausibleFields(STANDARD_M, withDepth)).not.toContain("hipDepth");
+  });
+
+  it("never flags hipDepth on the tee, which doesn't expose it", () => {
+    const TEE_FIELDS: (keyof Measurements)[] =
+      ["chest", "shoulderWidth", "bicep", "length", "armholeDepth", "sleeveLength", "ease"];
+    expect(implausibleFields({ ...STANDARD_M, hipDepth: 999 }, TEE_FIELDS)).toHaveLength(0);
+    expect(measurementsPlausible({ ...STANDARD_M, hipDepth: 999 }, TEE_FIELDS)).toBe(true);
+  });
 });
