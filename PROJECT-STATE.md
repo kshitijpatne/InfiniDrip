@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 42. Update this after every slice (and commit it WITH the code)._
+_Last updated: after Slice 43. Update this after every slice (and commit it WITH the code)._
 
 ## What it is
 A lightweight, local 2D sewing-pattern designer in TypeScript. Type body
@@ -110,6 +110,40 @@ F1. **(Fable) Real-world export system** — two new writers on the existing exp
 22. per-size export — a size picker in the export area drafts the chosen graded
     size (via `draftAtSize`) and emits `<garment>-<SIZE>.<ext>`; scopes only the
     exports, every other view keeps its job (327)
+43. Skirt body croquis (3 of 3 from the s40 review — the review queue is CLOSED) —
+    `renderSkirtBody` redrawn as a real lower-body figure. The old version was a
+    tapered box with a floating head-and-shoulder stub: decoration carrying no data
+    above the waist, and below it a hem that hung on nothing. Now: nothing above the
+    waist line at all; below it a waist → hip flare, a crotch, and two legs run to
+    y=118 (past the 100 cm hem the length slider allows), with the SKIRT drawn as a
+    separate cloth shape draped just outside the body — a garment ON a figure, not a
+    figure shaped like a garment. `hipDepth` finally gets its own `data-dim`
+    (deferred from 42), so all four raw skirt fields are annotated. New `cloth` theme
+    token. THREE REAL BUGS, none found by a failing test:
+    (1) both legs were traced in the same direction, so the outline ran waist → right
+    hip → right leg → crotch → left leg outward, then jumped straight home — never
+    visiting the LEFT HIP. The left silhouette was malformed while every envelope
+    test (widest point, deepest point, viewBox fit, well-formedness) stayed green.
+    Found by READING the emitted `d` string. Fixed by modelling a leg as a chain of
+    cubic segments walkable in either direction, so the left leg is traversed
+    crotch → inner → ankle → outer → hip.
+    (2) the hip dimension label collided with the crotch apex at shallow `hipDepth`.
+    It sat below the hip line on the approved preview, reasoning inherited from the
+    version that still had a head stub; with the stub gone the waist dim is pinned at
+    y=−6, so above the hip line is now strictly safer at every `hipDepth`.
+    (3) waist 140 / hip 60 is a reachable (and warned) state where the cloth is widest
+    at the WAIST, not the hip — a dimension gutter sized off `hipHalf` put the dim
+    lines INSIDE the figure. Now sized off the widest thing actually drawn.
+    Bug (3)'s first gate was itself wrong and was replaced: a viewBox-containment
+    test passed on the broken code, because the figure never left the viewBox, only
+    overran the dim lines — the "test the format, not the output" trap, caught and
+    corrected mid-slice. Every gate parses the emitted path (cubics flattened and
+    measured); the old `hip * 0.22 > waist * 0.20` test, which asserted the formula
+    against itself, is deleted. Guardrails mutation-tested: reintroducing bug (1)
+    fails 4 gates, bug (3) fails 1, and the envelope tests stay green in both cases.
+    Blast radius hashed against origin: tee/fitted/skirt drafts, blueprints, DXF, both
+    tee views and the skirt assembled view all BYTE-IDENTICAL; `skirt.body` is the
+    only output that moved (50bd2073 → 70da7d14). (611)
 42. hipDepth as a real measurement (2 of 3 from the s40 review) — the waist-to-hip
     vertical was a hard-coded `HIP_DROP = 20` duplicated in `drafting/skirt.ts` AND
     `render/skirt-figure.ts`, driven by no measurement. It is now a real
@@ -396,10 +430,14 @@ as a skirt everywhere. The app is fully garment-general — no tee-shaped spots 
 and the engine/recipe thesis is proven end-to-end.** A post-40 screenshot review
 surfaced three real, diagnosed problems: guidance wasn't garment-aware (a live bug),
 the waist-to-hip depth was a hard-coded constant instead of a measurement, and the
-skirt body-figure needs a redesign against that real measurement. **Slices 41 and 42
-fixed the first two; 43 (the body-figure redesign, now built against the real
-`hipDepth`) is the last one outstanding — and its SVG gets previewed for approval
-BEFORE any figure code is written, since the first preview was rejected.**
+skirt body-figure needs a redesign against that real measurement. **Slices 41, 42
+and 43 fixed all three — the post-40 review queue is CLOSED.** Slice 43 redrew the
+skirt body view as a real lower-body croquis (body + draped cloth, legs, crotch,
+`hipDepth` dimensioned) and caught three real geometry/layout bugs by rendering and
+reading the output rather than by any failing test. **There is no confirmed next
+slice.** Open candidates: a third garment recipe (further proof of engine/recipe
+generality), the demo artifact that unblocks RESUME-LOG.md, or marketplace research
+(Chunk 3, Fork B).
 History:
 
 - ✓ **30 (D). Hover highlights the outline too** (done) — a measurement→edges map
@@ -534,3 +572,4 @@ s39=565 (4 new: recipe-owned style table + skirt style set; tee style panel unch
 s40=573 (8 new: skirt assembled + body figures, real-SVG-parse + geometry; tee unchanged)
 s41=583 (10 new: garment-scoped plausibility/coherence tiers + guide()/app.ts skirt bugfix regression; tee byte-identical)
 s42=599 (16 new: hipDepth field across 6 registries, measured-vertex figure gates, hem-clears-hip warn, legacy-save compat; skirt draft + both figures + tee/fitted guidance all byte-identical)
+s43=611 (net +12: skirt body croquis rebuilt — path-connectivity + mirror-symmetry + crotch + dim-gutter + cloth-outside-body gates, all measured off the flattened path; tautological hip>waist test deleted; only `skirt.body` changed, every other output byte-identical)

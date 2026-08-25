@@ -2,14 +2,20 @@
 // render/body.ts:
 //   • renderSkirtGarment — the assembled front/back panels, in fabric colour.
 //   • renderSkirtBody     — an annotated lower-body figure with a dimension line
-//                           for each raw input (waist, hip, length).
+//                           for each raw input (waist, hip, hipDepth, length).
 //
 // Honesty (same rule as the tee body view): the figure only bends where we have a
 // number. A skirt DOES measure the waist and hip, so unlike the tee the sides taper
 // from waist to hip — that curve is earned. `ease` has no body dimension. Girths
 // (waist, hip) are marked "(circ)": the drawn span is a body width, not the
-// circumference, and the label says so. A faint head/torso stub above the waist is
-// orientation only and carries no data.
+// circumference, and the label says so.
+//
+// The body view draws a BODY and drapes CLOTH over it (Slice 43). Nothing above the
+// waist: a head or shoulder stub would be decoration carrying no data. Below the
+// waist everything is measured or structural — the hip flare, the waist-to-hip drop
+// (`hipDepth`), and the hem. The legs are structural rather than measured: they
+// exist so a hem always lands ON a body, and they run past the longest hem the
+// length slider allows.
 //
 // Pure: measurements in, one SVG string out.
 
@@ -33,17 +39,23 @@ function dimH(xa: number, xb: number, y: number, label: string): string {
     line(xb, y - 1.2, xb, y + 1.2, T.marker) +
     txt((xa + xb) / 2, y - 1.8, label);
 }
-// A vertical dimension line with end caps and a label on the right.
-function dimV(x: number, ya: number, yb: number, label: string): string {
+// A vertical dimension line with end caps and a label to one side:
+// side = 1 puts the label to the right of the line, side = -1 to the left.
+function dimV(x: number, ya: number, yb: number, label: string, side: 1 | -1): string {
   return line(x, ya, x, yb, T.marker) +
     line(x - 1.2, ya, x + 1.2, ya, T.marker) +
     line(x - 1.2, yb, x + 1.2, yb, T.marker) +
-    txt(x + 1.8, (ya + yb) / 2, label, "start");
+    txt(x + side * 1.8, (ya + yb) / 2, label, side === 1 ? "start" : "end");
 }
 function seg(x1: number, y1: number, x2: number, y2: number, width: number): string {
   return `<line x1="${round(x1)}" y1="${round(y1)}" x2="${round(x2)}" y2="${round(y2)}" ` +
     `stroke="${T.line}" stroke-width="${width}" stroke-linecap="round" ` +
     `vector-effect="non-scaling-stroke"/>`;
+}
+// The curved sibling of `seg`: an outline overlay that follows a path, not a chord.
+function curveSeg(d: string, width: number): string {
+  return `<path d="${d}" fill="none" stroke="${T.line}" stroke-width="${width}" ` +
+    `stroke-linecap="round" vector-effect="non-scaling-stroke"/>`;
 }
 
 // ── the assembled view ────────────────────────────────────────────────────────
@@ -99,60 +111,186 @@ export function renderSkirtGarment(m: Measurements, fabric: string): string {
 
 // ── the annotated body view ───────────────────────────────────────────────────
 
-/** The skirt body view: an annotated lower-body figure, measurement-honest. */
-export function renderSkirtBody(m: Measurements): string {
-  const waistHalf = m.waist * 0.20; // a body width from the girth; labelled "(circ)"
-  const hipHalf = m.hip * 0.22;     // wider than the waist
-  const len = m.length;
-  const hipDrop = m.hipDepth;       // the real waist-to-hip drop, no longer a constant
+// A silhouette is walked as a CHAIN of cubic segments, not emitted as a fixed
+// string. That matters: the left leg is the same chain walked BACKWARDS, so the
+// outline runs waist → right hip → right leg → crotch → left leg → LEFT HIP →
+// waist. Emitting the left leg forwards (the obvious way) skips the left hip
+// entirely and closes the path straight back to the waist — a malformed figure
+// that every "is it the right width / the right height" test still passes.
+type Pt = readonly [number, number];
+interface Cubic { readonly c1: Pt; readonly c2: Pt; readonly to: Pt }
+interface Chain { readonly start: Pt; readonly segs: readonly Cubic[] }
 
-  // Faint upper-body + head stub above the waist: orientation only, no data.
-  const stubTop = -22;
-  const headR = 7;
-  const headCy = stubTop - headR;
-  const stub =
-    `<circle cx="0" cy="${round(headCy)}" r="${round(headR)}" fill="none" ` +
-    `stroke="${T.marker}" stroke-width="0.8" stroke-opacity="0.45" vector-effect="non-scaling-stroke"/>` +
-    line(-waistHalf * 0.75, stubTop, -waistHalf, 0, T.marker, 0.45) +
-    line(waistHalf * 0.75, stubTop, waistHalf, 0, T.marker, 0.45) +
-    line(-waistHalf * 0.75, stubTop, waistHalf * 0.75, stubTop, T.marker, 0.45);
+/** The same chain traversed end-to-start: each segment flips, and so does its pair
+ *  of control points, so the drawn curve is identical but the direction reverses. */
+function reversed(chain: Chain): Chain {
+  const stops: Pt[] = [chain.start, ...chain.segs.map((s) => s.to)];
+  const segs: Cubic[] = [];
+  for (let i = chain.segs.length - 1; i >= 0; i--) {
+    segs.push({ c1: chain.segs[i].c2, c2: chain.segs[i].c1, to: stops[i] });
+  }
+  return { start: stops[stops.length - 1], segs };
+}
 
-  // The measured lower body: waist → hip (a real taper) → straight to the hem.
-  const body = [
-    `M ${round(-waistHalf)} 0`,
-    `L ${round(waistHalf)} 0`,
-    `L ${round(hipHalf)} ${round(hipDrop)}`,
-    `L ${round(hipHalf)} ${round(len)}`,
-    `L ${round(-hipHalf)} ${round(len)}`,
-    `L ${round(-hipHalf)} ${round(hipDrop)}`,
+const pt = (p: Pt): string => `${round(p[0])} ${round(p[1])}`;
+/** The `C …` commands for a chain — the caller has already reached `chain.start`. */
+const curveTo = (chain: Chain): string =>
+  chain.segs.map((s) => `C ${pt(s.c1)} ${pt(s.c2)} ${pt(s.to)}`).join(" ");
+
+const ANKLE_Y = 118; // past the longest hem the length slider allows (100 cm)
+
+/** The body geometry the view draws, all derived from the measurements. */
+interface Figure {
+  readonly waistHalf: number;
+  readonly hipHalf: number;
+  readonly hipY: number;
+  readonly len: number;
+  readonly crotchY: number;
+}
+
+function figureOf(m: Measurements): Figure {
+  return {
+    waistHalf: m.waist * 0.20, // a body width from the girth; labelled "(circ)"
+    hipHalf: m.hip * 0.22,     // wider than the waist on any ordinary body
+    hipY: m.hipDepth,          // the real waist-to-hip drop, no longer a constant
+    len: m.length,
+    crotchY: m.hipDepth * 1.35, // the crotch always sits below the hip line
+  };
+}
+
+/** Waist → hip on one side: a flare that leaves the waist and meets the hip
+ *  vertically, so the waist reads as the narrowest point. `sx` picks the side. */
+function flare(f: Figure, sx: 1 | -1): Chain {
+  return {
+    start: [sx * f.waistHalf, 0],
+    segs: [{
+      c1: [sx * f.waistHalf, f.hipY * 0.42],
+      c2: [sx * f.hipHalf, f.hipY * 0.52],
+      to: [sx * f.hipHalf, f.hipY],
+    }],
+  };
+}
+
+/** One leg, hip point → outer thigh → knee → ankle → inner thigh → crotch. */
+function leg(f: Figure, sx: 1 | -1): Chain {
+  const kneeY = f.crotchY + (ANKLE_Y - f.crotchY) * 0.52;
+  const h = f.hipHalf;
+  const x = (k: number): number => sx * h * k;
+  const thigh = kneeY - f.crotchY;
+  const shin = ANKLE_Y - kneeY;
+  return {
+    start: [sx * h, f.hipY],
+    segs: [
+      { // outer thigh: full hip width just below the hip, then in to the knee
+        c1: [sx * h, f.hipY + (kneeY - f.hipY) * 0.28],
+        c2: [x(0.70), kneeY - (kneeY - f.hipY) * 0.22],
+        to: [x(0.64), kneeY],
+      },
+      { // outer calf: a small bulge, then in to the ankle
+        c1: [x(0.63), kneeY + shin * 0.30],
+        c2: [x(0.44), ANKLE_Y - shin * 0.25],
+        to: [x(0.40), ANKLE_Y],
+      },
+      { // across the ankle — a straight run; the figure stops here, no feet
+        c1: [x(0.40), ANKLE_Y],
+        c2: [x(0.17), ANKLE_Y],
+        to: [x(0.17), ANKLE_Y],
+      },
+      { // inner calf, back up to the knee
+        c1: [x(0.17), ANKLE_Y - shin * 0.30],
+        c2: [x(0.11), kneeY + shin * 0.25],
+        to: [x(0.12), kneeY],
+      },
+      { // inner thigh, closing on the crotch at the centre line
+        c1: [x(0.13), kneeY - thigh * 0.40],
+        c2: [x(0.11), f.crotchY + thigh * 0.16],
+        to: [0, f.crotchY],
+      },
+    ],
+  };
+}
+
+/** The closed body outline: waist edge, both hip flares, both legs, both hips. */
+function silhouettePath(f: Figure): string {
+  return [
+    `M ${pt([-f.waistHalf, 0])}`,
+    `L ${pt([f.waistHalf, 0])}`,     // the waist edge
+    curveTo(flare(f, 1)),            // out to the right hip
+    curveTo(leg(f, 1)),              // right leg, hip → crotch
+    curveTo(reversed(leg(f, -1))),   // left leg, crotch → LEFT HIP
+    curveTo(reversed(flare(f, -1))), // left hip → back to the waist
     "Z",
   ].join(" ");
-  const bodyPath = `<path d="${body}" fill="${T.fill}" stroke="${T.line}" ` +
-    `stroke-width="1.4" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>`;
+}
+
+/** The skirt itself: cloth sitting just outside the body, waist → hip → hem.
+ *  Straight from hip to hem, because that is what the draft actually does — no
+ *  A-line flare is invented here. */
+function clothPath(f: Figure, out: number): string {
+  const cw = f.waistHalf + out;
+  const ch = f.hipHalf + out * 1.5;
+  const c: Figure = { ...f, waistHalf: cw, hipHalf: ch };
+  return [
+    `M ${pt([-cw, 0])}`,
+    `L ${pt([cw, 0])}`,
+    curveTo(flare(c, 1)),
+    `L ${pt([ch, f.len])}`,
+    `L ${pt([-ch, f.len])}`,
+    `L ${pt([-ch, f.hipY])}`,
+    curveTo(reversed(flare(c, -1))),
+    "Z",
+  ].join(" ");
+}
+
+/** The skirt body view: an annotated lower-body figure, measurement-honest. */
+export function renderSkirtBody(m: Measurements): string {
+  const f = figureOf(m);
+  const CLOTH_OUT = 1.0;                          // how far the cloth stands off the body
+  const clothHalf = f.hipHalf + CLOTH_OUT * 1.5;
+  // The dimension gutters must clear the widest thing DRAWN. Normally that is the
+  // cloth at the hip, but a waist wider than the hip is a reachable (and warned)
+  // state, and then the cloth at the WAIST is widest — the figure would otherwise
+  // run straight through its own dimension lines.
+  const widest = Math.max(clothHalf, f.waistHalf + CLOTH_OUT);
+
+  const bodyPath = `<path data-part="silhouette" d="${silhouettePath(f)}" fill="${T.fill}" ` +
+    `stroke="${T.line}" stroke-width="1.4" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>`;
+  const cloth = `<path data-part="cloth" d="${clothPath(f, CLOTH_OUT)}" fill="${T.cloth}" ` +
+    `stroke="${T.line}" stroke-width="1.2" stroke-linejoin="round" stroke-opacity="0.75" ` +
+    `vector-effect="non-scaling-stroke"/>`;
 
   // Dimension lines for the raw inputs (ease has none — it isn't a body measurement).
-  const rightDimX = hipHalf + 6;
+  const rightDimX = widest + 6;
+  const leftDimX = -(widest + 6);
   const dim = (field: string, s: string): string => `<g data-dim="${field}">${s}</g>`;
   const dims =
-    dim("waist", dimH(-waistHalf, waistHalf, headCy - headR - 3, `Waist ${m.waist} (circ)`)) +
-    dim("hip", dimH(-hipHalf, hipHalf, hipDrop + (len - hipDrop) * 0.30, `Hip ${m.hip} (circ)`)) +
-    dim("length", dimV(rightDimX, 0, len, `Length ${m.length}`));
+    dim("waist", dimH(-f.waistHalf, f.waistHalf, -6, `Waist ${m.waist} (circ)`)) +
+    // The hip dim sits just ABOVE the hip line, offset so it never doubles the
+    // hipDepth edge. It cannot collide with the waist dim (fixed at y = -6, and
+    // hipDepth is never below 10), and below the line it would land on the crotch
+    // whenever hipDepth is shallow.
+    dim("hip", dimH(-f.hipHalf, f.hipHalf, f.hipY - 2.5, `Hip ${m.hip} (circ)`)) +
+    dim("hipDepth", dimV(leftDimX, 0, f.hipY, `Hip depth ${m.hipDepth}`, -1)) +
+    dim("length", dimV(rightDimX, 0, f.len, `Length ${m.length}`, 1));
 
   // measurement → the outline segments it shapes (no overlap, so a hover is
-  // unambiguous):  waist → the waist edge,  hip → the two side seams,
-  // length → the hem.
+  // unambiguous):  waist → the waist edge,  hip → the two flare seams,
+  // hipDepth → the hip line,  length → the hem.
   const edge = (field: string, s: string): string => `<g data-edge="${field}">${s}</g>`;
-  const both = (fn: (sx: number) => string): string => fn(1) + fn(-1);
+  const flareOverlay = (sx: 1 | -1): string => {
+    const c = flare(f, sx);
+    return curveSeg(`M ${pt(c.start)} ${curveTo(c)}`, 1.4);
+  };
   const edges =
-    edge("waist", seg(-waistHalf, 0, waistHalf, 0, 1.4)) +
-    edge("hip", both((sx) =>
-      seg(sx * waistHalf, 0, sx * hipHalf, hipDrop, 1.4) + seg(sx * hipHalf, hipDrop, sx * hipHalf, len, 1.4))) +
-    edge("length", seg(-hipHalf, len, hipHalf, len, 1.4));
+    edge("waist", seg(-f.waistHalf, 0, f.waistHalf, 0, 1.4)) +
+    edge("hip", flareOverlay(1) + flareOverlay(-1)) +
+    edge("hipDepth", seg(-f.hipHalf, f.hipY, f.hipHalf, f.hipY, 1.4)) +
+    edge("length", seg(-clothHalf, f.len, clothHalf, f.len, 1.4));
 
-  const minX = -(hipHalf + 26);
-  const maxX = rightDimX + 30;
-  const minY = headCy - headR - 8;
-  const maxY = len + 8;
+  const minX = leftDimX - 26;
+  const maxX = rightDimX + 26;
+  const minY = -13;
+  const maxY = ANKLE_Y + 8;
   const width = maxX - minX;
   const height = maxY - minY;
 
@@ -161,10 +299,10 @@ export function renderSkirtBody(m: Measurements): string {
     `style="background:${T.background};border-radius:8px">` +
     `<rect x="${round(minX)}" y="${round(minY)}" width="${round(width)}" height="${round(height)}" ` +
     `fill="${T.background}"/>` +
-    // The silhouette is tagged "figure" — never a measurement name — so it always
-    // falls to the dimmed state when a row is active, letting the tagged edge read
-    // as the highlight.
-    `<g data-edge="figure">${stub + bodyPath}</g>` +
+    // The body + cloth are tagged "figure" — never a measurement name — so they
+    // always fall to the dimmed state when a row is active, letting the tagged
+    // edge read as the highlight.
+    `<g data-edge="figure">${bodyPath}${cloth}</g>` +
     edges + dims +
     `</svg>`;
 }

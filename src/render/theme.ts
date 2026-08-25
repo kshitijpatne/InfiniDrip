@@ -10,6 +10,7 @@ export const BLUEPRINT = {
   lineActive: "#E8B23A",  // the selected piece (amber)
   fill: "rgba(220,231,242,0.04)",
   fillActive: "rgba(232,178,58,0.10)",
+  cloth: "rgba(92,122,156,0.16)", // garment drawn OVER a body figure (the body view)
   marker: "#5C7A9C",      // fold lines, grainlines, labels
   label: "#8EA3BC",
 } as const;

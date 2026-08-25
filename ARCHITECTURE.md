@@ -93,6 +93,19 @@ non-overlapping (each segment belongs to exactly one measurement), so a hover ha
 one unambiguous answer. Because the body SVG is re-rendered on every change, the
 spotlight is re-applied after each draw via `activeDim`.
 
+**A figure is a BODY; a garment is drawn ON it (Slice 43).** `renderSkirtBody` draws
+two shapes: a `data-part="silhouette"` lower body (waist → hip flare → crotch → two
+legs to y=118) and a `data-part="cloth"` skirt draped just outside it. Nothing is
+drawn above the waist line — a head or shoulder stub would be decoration carrying no
+data, and the tee's stub is a legacy the skirt does not inherit. The legs are
+structural rather than measured: they exist so a hem always lands ON a body, and they
+outrun the longest hem the length slider allows. Because a hip is shaped by a CURVE,
+`data-edge="hip"` is a pair of `<path>` overlays, not `<line>`s — the edge overlay
+must follow the outline, never its chord. A silhouette is emitted from a CHAIN of
+cubic segments that can be walked in either direction, so the left side is the right
+side reversed; emitting both sides forwards produces a path that never visits the far
+hip, and every "right width / right height" test still passes on it.
+
 **Three tiers of validation (Slice 31 built tiers 2–3; 32–34 surface them).** The
 geometric checks answer one question — *does the pattern sew together?* Real use
 showed that's necessary but not sufficient: a chest of 160 cm sews together fine,
@@ -278,6 +291,9 @@ where the split is real:
   Skirt bridge, COMPLETE: Block (s25) → recipe-owned checks (s35) → recipe-owned
   guidance (s36) → per-garment Measurements (s37) → the skirt recipe (s38).
 
+  The post-s40 review queue is CLOSED: guidance garment-scoping (s41), `hipDepth` as
+  a real field (s42), and the skirt body croquis rebuilt against it (s43).
+
 ## Where the roadmap plugs in (what's left, slices 19–20)
 
 **Already built:** notches & grainlines; fabric/ease guidance; grading (tree-ring
@@ -321,7 +337,10 @@ the Pattern view.
   recipe BOM/construction. Callout leaders are opt-in per POM via `Pom.anchor?`.
 
 - **Body view (24) — built.** `render/body.ts`: measurements → an annotated
-  upper-body figure, engine-independent (no waist/hip in the measurement set).
+  upper-body figure, engine-independent. Its lower-body sibling is
+  `render/skirt-figure.ts` (`renderSkirtBody`, rebuilt in s43): a real croquis with
+  legs, plus the skirt drawn as separate cloth over it, annotating all four raw
+  skirt fields (waist, hip, hipDepth, length).
 
 - **Block generalization (25) — built.** `Block` is a role-keyed piece collection;
   the engine walks `blockPieces`, only a recipe names a role via `rolePiece`.
