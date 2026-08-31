@@ -18,3 +18,4 @@ export * from "./block";
 export * from "./allowance";
 export * from "./fitted-tables";
 export * from "./recipe";
+export * from "./fit-compare";

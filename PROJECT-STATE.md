@@ -1,6 +1,11 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 43. Update this after every slice (and commit it WITH the code)._
+_Last updated: after Slice 45. Update this after every slice (and commit it WITH the code)._
+
+**Governing plan:** MVP-PLAN.md (operative — the 6-month execution plan) and
+ROADMAP.md (strategic — full competitor analysis + long-term scope + the cut
+list) are the current planning documents, added after Slice 44. This file
+remains the engineering status log; it does not restate their content.
 
 ## What it is
 A lightweight, local 2D sewing-pattern designer in TypeScript. Type body
@@ -13,7 +18,11 @@ across sizes, **estimates fabric usage** (a width-aware nesting layout with a
 utilization read-out), runs a plain-English **production-readiness check** (one
 pass/fail verdict), lets you **freeform-edit** a piece by dragging its points,
 exports true-scale SVG + DXF + a tiled print-at-home PDF, and saves/loads your
-work. Repo: github.com/kshitijpatne/InfiniDrip
+work. The engine is fully garment-general: **tee, fitted (darted), and skirt**
+all run through one `GarmentRecipe`-driven pipeline (draft → grade → POM →
+check → nest → edit → export), plus **real-world exports** (projector SVG /
+A0 PDF with a verified calibration square) and a **guided 5-step journey** to
+a valid export. Repo: github.com/kshitijpatne/InfiniDrip
 
 ## Stack & rules
 TypeScript · SVG · Vite · Vitest (jsdom for UI). Strict TS, 100% coverage held
@@ -110,40 +119,72 @@ F1. **(Fable) Real-world export system** — two new writers on the existing exp
 22. per-size export — a size picker in the export area drafts the chosen graded
     size (via `draftAtSize`) and emits `<garment>-<SIZE>.<ext>`; scopes only the
     exports, every other view keeps its job (327)
-43. Skirt body croquis (3 of 3 from the s40 review — the review queue is CLOSED) —
-    `renderSkirtBody` redrawn as a real lower-body figure. The old version was a
-    tapered box with a floating head-and-shoulder stub: decoration carrying no data
-    above the waist, and below it a hem that hung on nothing. Now: nothing above the
-    waist line at all; below it a waist → hip flare, a crotch, and two legs run to
-    y=118 (past the 100 cm hem the length slider allows), with the SKIRT drawn as a
-    separate cloth shape draped just outside the body — a garment ON a figure, not a
-    figure shaped like a garment. `hipDepth` finally gets its own `data-dim`
-    (deferred from 42), so all four raw skirt fields are annotated. New `cloth` theme
-    token. THREE REAL BUGS, none found by a failing test:
-    (1) both legs were traced in the same direction, so the outline ran waist → right
-    hip → right leg → crotch → left leg outward, then jumped straight home — never
-    visiting the LEFT HIP. The left silhouette was malformed while every envelope
-    test (widest point, deepest point, viewBox fit, well-formedness) stayed green.
-    Found by READING the emitted `d` string. Fixed by modelling a leg as a chain of
-    cubic segments walkable in either direction, so the left leg is traversed
-    crotch → inner → ankle → outer → hip.
-    (2) the hip dimension label collided with the crotch apex at shallow `hipDepth`.
-    It sat below the hip line on the approved preview, reasoning inherited from the
-    version that still had a head stub; with the stub gone the waist dim is pinned at
-    y=−6, so above the hip line is now strictly safer at every `hipDepth`.
-    (3) waist 140 / hip 60 is a reachable (and warned) state where the cloth is widest
-    at the WAIST, not the hip — a dimension gutter sized off `hipHalf` put the dim
-    lines INSIDE the figure. Now sized off the widest thing actually drawn.
-    Bug (3)'s first gate was itself wrong and was replaced: a viewBox-containment
-    test passed on the broken code, because the figure never left the viewBox, only
-    overran the dim lines — the "test the format, not the output" trap, caught and
-    corrected mid-slice. Every gate parses the emitted path (cubics flattened and
-    measured); the old `hip * 0.22 > waist * 0.20` test, which asserted the formula
-    against itself, is deleted. Guardrails mutation-tested: reintroducing bug (1)
-    fails 4 gates, bug (3) fails 1, and the envelope tests stay green in both cases.
-    Blast radius hashed against origin: tee/fitted/skirt drafts, blueprints, DXF, both
-    tee views and the skirt assembled view all BYTE-IDENTICAL; `skirt.body` is the
-    only output that moved (50bd2073 → 70da7d14). (611)
+45. Fit Validation Loop — the checker verifies sewability, never fit, and says so
+    honestly; this slice builds the harness to close that gap. New pure module
+    `drafting/fit-compare.ts`: `sampleSpec(recipe, m)` reads every POM off the
+    EXACT block that gets cut (`recipe.draft(m)`, the same block the tech-pack
+    sketch draws), so the sketch, the printed sheet, and the comparator can
+    never quietly disagree about "predicted." `compareFit(predicted, actual)`
+    returns a per-POM delta and `withinTolerance` — `true`/`false` when the POM
+    has a declared tolerance, `null` when it doesn't (never an invented pass on
+    a number it wasn't given a tolerance for, the same honesty rule the printed
+    tolerance column already follows). The tech-pack PDF grows a 4th page, the
+    Fit Record: every POM's predicted value plus blank ruled space for a real,
+    hand-measured value after sewing — a print-and-write sheet, not an
+    interactive form (this writer only emits plain ASCII text streams). REAL BUG,
+    not found by a failing test: the first render's blank-fill header (Fabric /
+    Sewn by / Date) used hardcoded cm offsets — the Date rule ran off the page
+    edge, and Sewn-by's rule struck through Date's own label. Found by rendering
+    the actual PDF to an image and looking at it, same discipline as the Slice 43
+    silhouette bug. Fixed by sizing every column off `page.width`, not a fixed
+    cm offset; verified visually across tee, fitted, and skirt after the fix.
+    New regression gate parses the real rule-line coordinates out of the PDF
+    content stream and asserts they stay inside the page, on both supported page
+    sizes — the kind of test that would have caught the bug automatically.
+    Updated two existing callout-count tests that legitimately changed (every
+    POM label now also appears on page 4) and the tech-pack byte-identity
+    baseline only — svg/dxf/pdf hashes untouched, confirming the blast radius is
+    exactly the tech-pack writer. The loop still closes on paper, not in-app: no
+    UI field exists yet to type actual measurements back in; that's a deliberate
+    boundary, not an oversight (MVP-PLAN.md Month 1). (630)
+44. Demo artifact — the coached journey to a real export, captured live off the
+    running app, not staged. A scripted Chromium run against a fresh clone's
+    actual `npm run dev` walks the real DOM: welcome card → Start → Measure →
+    Fit → Refine → Output via `#journey-next`, hovers a measurement row to
+    trigger the live Slice 29/30 spotlight, opens Check to a live "✓ Ready to
+    cut" verdict, clicks `#export-projector`, and captures the file Chromium
+    actually downloaded. The calibration claim is verified by PARSING the
+    downloaded file's own SVG source (`width="10" height="10"` in a
+    1-unit-=-1cm viewBox) — not the on-screen label. Ships as a 9-frame GIF +
+    10 screenshots + the downloaded `tee-projector.svg` itself, so the claim
+    is checkable without re-running anything. RESUME-LOG.md updated: demo
+    artifact moved Pending → Earned; also caught and fixed a second stale
+    Pending claim ("structurally different garment — not started"), true
+    since Slice 43. Readiness threshold now 5 of 5. Not a coding slice — no
+    test-count change. Anchor: commit `e6fd79d` (Slice 43 baseline).
+43. Skirt body croquis (3 of 3 from the s40 review — the review queue is
+    CLOSED) — `renderSkirtBody` rebuilt as a real lower-body figure: nothing
+    above the waist (the old head/shoulder stub is gone), a waist→hip flare,
+    a crotch, two legs run to y=118 (past the 100 cm hem the length slider
+    allows), and the skirt drawn as a separate cloth shape draped outside the
+    body. `hipDepth` gets its own `data-dim` (deferred from 42), so all four
+    raw skirt fields are annotated. THREE REAL BUGS, none found by a failing
+    test: (1) both legs traced in the same direction, so the outline skipped
+    the LEFT HIP entirely — every envelope test (widest point, deepest point,
+    viewBox fit) stayed green; found by reading the emitted `d` string, fixed
+    by modelling a leg as a reversible chain of cubic segments so the left
+    leg walks crotch → inner → ankle → outer → hip; (2) the hip dimension
+    label collided with the crotch apex at shallow `hipDepth` — moved above
+    the hip line, safe now that the head stub is gone; (3) waist 140 / hip 60
+    (reachable, warned) made the cloth widest at the WAIST, not the hip, so a
+    gutter sized off the hip alone ran the dim lines through the figure — the
+    first gate written for this was itself wrong (a viewBox-containment test
+    passed on the broken code, because the figure never left the viewBox,
+    only overran the dim lines) and was replaced. Guardrails mutation-tested:
+    bug (1) fails 4 gates, bug (3) fails 1, envelope tests stay green in both
+    cases. Blast radius hashed against origin: only `skirt.body` changed
+    (50bd2073→70da7d14); tee/fitted/skirt drafts, blueprints, DXF, and the
+    skirt assembled view all byte-identical. (611)
 42. hipDepth as a real measurement (2 of 3 from the s40 review) — the waist-to-hip
     vertical was a hard-coded `HIP_DROP = 20` duplicated in `drafting/skirt.ts` AND
     `render/skirt-figure.ts`, driven by no measurement. It is now a real
@@ -401,44 +442,51 @@ roadmap), not in the recipe: a transferred dart changes the piece's orientation
 relative to the fold, which would silently invalidate the flat-span POMs in the Spec
 sheet. Keeping it in the editor avoids claiming a spec we haven't earned.
 
-## Roadmap (what's left)
-Ordering principle: **ride the export spine + pure engine first; defer the heavy
-freeform editor until darts need it.** Dependency spine (all ✓):
+## Roadmap — superseded by MVP-PLAN.md (kept below for slice-history context only)
+The engine/recipe thesis is proven end-to-end: tee, fitted, and skirt — three
+structurally different garments — all run through one recipe-driven pipeline,
+with zero tee-shaped spots remaining (closed slice by slice: 35 checks, 36
+guidance, 37 Measurements, 38 the skirt recipe itself, 39 styles, 40 both skirt
+figures, 41 guidance garment-awareness, 42 hipDepth as a real field, 43 the
+skirt body croquis rebuilt). The Fable epic (F1 real-world exports, F2 the
+guided journey) merged clean on top, and Slice 44 captured the demo artifact
+proving the coached journey reaches a real, calibration-verified export.
+
+**As of Slice 44 the project moved from tactical slice-by-slice planning to a
+strategic MVP plan.** The dependency spine below is COMPLETE; the roadmap
+prose that used to follow it (skirt bridge → UX pressure test → photo/upcycle
+features) is now either done or superseded — do not follow it. The live plan
+lives in two project-knowledge docs:
+- **ROADMAP.md** — full competitor analysis (Tailornova, FreeSewing,
+  GarmentCode, CLO/Optitex/Lectra), the honest 145–235-slice full-scope
+  estimate, and everything explicitly cut from v1 (photo→pattern
+  reconstruction, the vendor marketplace database, 3D drape simulation, the
+  tailored jacket).
+- **MVP-PLAN.md** — the operative 6-month, ~117-slice execution plan: Month 1
+  physical-fit validation + Electron packaging, Months 2–3 component
+  architecture (the multiplier — study GarmentCode's decomposition first),
+  Month 4 the woven shirt block, Month 5 trousers + surface design, Month 6
+  beta. Velocity is measured from this repo's own `git log` (4.7 slices/week
+  actual across 44 slices), not guessed.
+
+**Slice 45 (the Fit Validation Loop's harness) is built.** What's still
+outside the codebase: actually sewing the sample-size tee and filling in the
+Fit Record by hand. **Immediate next slice: 46, Electron packaging spike**
+(MVP-PLAN.md Month 1) — or the physical sew-and-measure step itself, which
+is not code and can happen in parallel. No garment drafted by this engine has
+been physically validated yet; that remains the single highest-priority open
+risk in the project until a Fit Record comes back filled in.
+
+Dependency spine (✓ = done, all done):
 notches ✓ → ease ✓ → grading ✓ → tech pack ✓ (spec sheet + document) →
-nesting ✓ → checker ✓ → editor ✓ → fitted recipe ✓ → darts ✓.
+nesting ✓ → checker ✓ → editor ✓ → fitted recipe ✓ → darts ✓ → body view ✓ →
+Block generalization ✓ → skirt bridge ✓ (checks/guidance/Measurements/
+styles/figures, recipe-owned) → real-world export ✓ → guided journey ✓ →
+demo artifact ✓ (Slice 44).
 
-The t-shirt is finished end-to-end, the engine carries a second darted garment, the
-tech-pack document ships (23a/b), and you can export any size or a full graded
-marker. The build now has two fronts: a short **UX pressure-test** pass, then the
-**skirt**.
-
-**Next — UX pressure-test fixes (Slices 30–34).** Real-world use surfaced the gap:
-the app validates *geometric* correctness but not whether the numbers are *sane* — a
-chest of 160 cm drafts a ridiculous tee while the panel still reads "production-ready
-✓", and the style panel still says "You're making a Classic tee ✓". These small,
-independently-shippable slices close that trust gap before the skirt. Confirmed order
-**D → A → C → B → E**. **The UX pressure-test pass is COMPLETE — 30 (D), 31 (A),
-32 (C), 33 (B), 34 (E) all done.** With 34, **Opus Phase A is finished**: verdict fn,
-plausibility flags, severity data, and body-vs-finished data are all exposed as pure
-functions — so **Fable's F2 journey UI is fully unblocked** (Fable's F1 export track
-never depended on it). **The skirt bridge is COMPLETE (s35–s38): the engine/recipe
-thesis is proven — a skirt runs end-to-end as a recipe.** What's left is a UI-honesty
-pass: Slice 39 made the style suggester recipe-owned and gave the skirt its own
-style set. **Slice 40 closed the last tee-shaped spot: the assembled view and the
-body-view figure are now garment-aware (`render/skirt-figure.ts`), so the skirt draws
-as a skirt everywhere. The app is fully garment-general — no tee-shaped spots remain,
-and the engine/recipe thesis is proven end-to-end.** A post-40 screenshot review
-surfaced three real, diagnosed problems: guidance wasn't garment-aware (a live bug),
-the waist-to-hip depth was a hard-coded constant instead of a measurement, and the
-skirt body-figure needs a redesign against that real measurement. **Slices 41, 42
-and 43 fixed all three — the post-40 review queue is CLOSED.** Slice 43 redrew the
-skirt body view as a real lower-body croquis (body + draped cloth, legs, crotch,
-`hipDepth` dimensioned) and caught three real geometry/layout bugs by rendering and
-reading the output rather than by any failing test. **There is no confirmed next
-slice.** Open candidates: a third garment recipe (further proof of engine/recipe
-generality), the demo artifact that unblocks RESUME-LOG.md, or marketplace research
-(Chunk 3, Fork B).
-History:
+_The detailed "History:" sub-list previously here duplicated slices already
+described above under "Slices done" (30–34) and has been removed rather than
+kept as a second stale copy._
 
 - ✓ **30 (D). Hover highlights the outline too** (done) — a measurement→edges map
   alongside the dimension-line map; hovering/focusing a row lifts the outline
@@ -516,6 +564,10 @@ Per feature (so we don't overclaim):
   checks; a **dart-leg** check runs on any darted garment (it arrived with the
   fitted block). Smooth-transition remains out (a fuzzy fit call). The checker is
   fully garment-driven: it reads the recipe's check spec, notches, and size run.
+  **Slice 45 built the harness for exactly this gap** (`drafting/fit-compare.ts`
+  + the tech-pack's 4th page): sewability ≠ fit, and the harness doesn't paper
+  over that — it exists so an actual sewn garment's measurements can be checked
+  against the prediction, per POM, against each POM's own declared tolerance.
 - **Fitted / dart**: the first non-tee recipe reuses the tee's back and sleeve and
   swaps in a darted front. The bust dart is baked into the outline as two named leg
   edges meeting at the apex (so it renders truthfully and the apex is a real vertex
@@ -526,10 +578,17 @@ Per feature (so we don't overclaim):
   then the fitted front declares `hemSquareToFold: false` so the checker doesn't
   flag intended geometry.
 - **Garments**: a `GarmentRecipe` (drafting/recipe.ts) carries everything
-  garment-specific — draft fn, notch table, POM list, grade rule, size run, and the
-  check spec. Every view is driven by it. The engine (grading, POM, render, export,
-  checker) no longer imports a t-shirt table. Adding a garment = adding a recipe.
-  Both garments share one body grade rule; a garment-specific grade is a later edit.
+  garment-specific — draft fn, notch table, POM list, grade rule, size run, check
+  spec, guidance, and styles. Every view is driven by it; the engine never imports
+  a t-shirt table. **Three recipes ship: tee, fitted (darted), and skirt** — one
+  structurally different garment family (no sleeve/armhole/neckline), proving the
+  split holds across families, not just variants within one (Slices 35–43). What
+  does NOT yet exist: component reuse BETWEEN recipes — the skirt's waistband and
+  the tee's hem are two separate hand-written implementations, not shared parts.
+  Building that (sleeve / neckline / collar / cuff / waistband as interchangeable,
+  parameterised components) is Months 2–3 of MVP-PLAN.md and the top architectural
+  priority right now. All garments share one body grade rule; a garment-specific
+  grade is a later edit.
 - **Dart manipulation**: `transferDart` pivots the wedge about the apex onto another
   **straight** seam (curved targets like the neckline/armhole would need Bézier
   splitting — not built). The fold is always the anchor and never moves. The
@@ -550,13 +609,17 @@ Per feature (so we don't overclaim):
   no dart, so 20 is gated on a fitted recipe (19).
 
 ## Research context
-Roadmap derives from a competitive landscape study (Seamly2D/Valentina,
-Tailornova, Fabra, Knitup, Gerber/Lectra/Optitex). Closest technical analog:
-Seamly2D. Closest mission analog: Tailornova. Differentiators we're leaning into:
-parametric grading (nearly free given the engine), auto POM/tech-pack export,
-fabric-aware ease guidance, and the plain-English production-readiness checker
-(a positioning nobody else owns). Full per-feature rationale lives in the research
-thread.
+**Superseded by ROADMAP.md §1** (Slice 44's deeper, current competitive analysis).
+Original landscape study (Seamly2D/Valentina, Tailornova, Fabra, Knitup,
+Gerber/Lectra/Optitex) still holds; added since: **FreeSewing** (our closest
+architectural peer — code-defined parametric patterns; their 2026 "Library"
+refactor is a direct warning to build components BEFORE garments, which is why
+that's Months 2–3 of MVP-PLAN.md and not later) and **GarmentCode** (ETH Zurich,
+SIGGRAPH Asia 2023 — the strongest available reference for that component
+architecture). Differentiators, updated: parametric grading, auto POM/tech-pack
+export, fabric-aware ease guidance, the plain-English production-readiness
+checker, and — new, and the one that actually matters — **physically verified
+fit**, which no competitor in our tier claims.
 
 ## Test counts (proof a slice landed)
 s4=58, s5=72, s6=82, s7=89, s8=94, s9=103, s10=119, s11=139, s12=155, s13=171,
@@ -571,5 +634,7 @@ s38=561 (14 new: skirt draft/checks/guidance/POM + garment-switch UI + waist/hip
 s39=565 (4 new: recipe-owned style table + skirt style set; tee style panel unchanged)
 s40=573 (8 new: skirt assembled + body figures, real-SVG-parse + geometry; tee unchanged)
 s41=583 (10 new: garment-scoped plausibility/coherence tiers + guide()/app.ts skirt bugfix regression; tee byte-identical)
-s42=599 (16 new: hipDepth field across 6 registries, measured-vertex figure gates, hem-clears-hip warn, legacy-save compat; skirt draft + both figures + tee/fitted guidance all byte-identical)
-s43=611 (net +12: skirt body croquis rebuilt — path-connectivity + mirror-symmetry + crotch + dim-gutter + cloth-outside-body gates, all measured off the flattened path; tautological hip>waist test deleted; only `skirt.body` changed, every other output byte-identical)
+s42=599 (16 new: hipDepth field across 6 registries, measured-vertex figure gates, hem-clears-hip warn, legacy-save compat; skirt draft + both figures + tee/fitted guidance all byte-identical),
+s43=611 (net +12: skirt body croquis rebuilt — path-connectivity + mirror-symmetry + crotch + dim-gutter + cloth-outside-body gates; tautological hip>waist test deleted; only skirt.body changed, every other output byte-identical),
+s44: no test-count change (non-coding slice — demo capture; RESUME-LOG.md updated, not the repo),
+s45=630 (19 new: 11 fit-compare unit incl. inclusive-tolerance boundary + null-when-no-tolerance + missing-label throw; 8 net tech-pack — new Fit Record page tests + page-bounds regression gate + 2 updated callout counts; tech-pack byte-identity baseline updated, svg/dxf/pdf untouched)

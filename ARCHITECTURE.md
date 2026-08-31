@@ -3,6 +3,11 @@
 How the app fits together, in plain language. Read the top to re-orient; skim the
 layers when you need detail. Updated every slice with only need-to-know changes.
 
+**Governing plan:** as of Slice 44, MVP-PLAN.md (operative — the 6-month
+execution plan) and ROADMAP.md (strategic — competitor analysis + long-term
+scope + the cut list) are the current planning documents. This file describes
+the engine as it exists; it does not restate the forward plan.
+
 ## The one big idea
 
 Everything runs off **one object: `measurements`** (your body numbers, in cm).
@@ -78,6 +83,17 @@ on. Guidance grew up into the **production-readiness checker** (`check.ts` engin
 the fold, notches/grain declared, the size run grows monotonically). The engine
 primitives are garment-agnostic; which edges pair up and what the thresholds are is
 recipe.
+
+**Sewability is not fit (Slice 45).** The checker above verifies geometry — do
+seam lengths agree, is the hem square — and never claimed otherwise. Closing
+that gap needs a real body, not more geometry: `drafting/fit-compare.ts` reads
+every POM off the exact block that gets cut (`sampleSpec`, the same block the
+tech-pack sketch draws), and `compareFit` checks a real sewn garment's
+measurements against that prediction, per-POM, against each POM's own declared
+tolerance. `withinTolerance` is `true`/`false` when a tolerance exists and
+`null` when it doesn't — never an invented pass on a number the POM was never
+given a tolerance for. There is no in-app field to type the actual numbers back
+in yet; the loop closes on paper via the tech-pack's 4th page.
 
 **Body view ↔ controls linking (Slices 29–30).** The body figure is the one place
 a measurement becomes visible as a body, so it carries the teaching load. It emits
@@ -332,9 +348,17 @@ the Pattern view.
   the size picker, the Spec sheet, and the Size-run nest all agree on what a size is.
   The export buttons draft the picked size and name the file `<garment>-<SIZE>`.
 
-- **Tech-pack document (23) — built.** `export/techpack.ts` composes a 3-page PDF on
-  the tiled-PDF spine: real-piece flat sketch (base size) + graded POM table +
-  recipe BOM/construction. Callout leaders are opt-in per POM via `Pom.anchor?`.
+- **Tech-pack document (23) — built, now 4 pages (45).** `export/techpack.ts`
+  composes a PDF on the tiled-PDF spine: real-piece flat sketch (base size) +
+  graded POM table + recipe BOM/construction + a **Fit Record** page (45) — the
+  same POMs at the sample size, blank ruled space for a real sewn measurement.
+  Callout leaders are opt-in per POM via `Pom.anchor?`. The first render of the
+  Fit Record page had a real bug — a hardcoded-cm header ran text off the page
+  edge — caught by rendering the PDF to an image and looking at it, the same
+  discipline that caught the Slice 43 silhouette bug. Fixed by sizing every
+  column off `page.width`; a regression test now parses the real rule
+  coordinates out of the content stream and checks they stay inside the page,
+  on both supported page sizes.
 
 - **Body view (24) — built.** `render/body.ts`: measurements → an annotated
   upper-body figure, engine-independent. Its lower-body sibling is

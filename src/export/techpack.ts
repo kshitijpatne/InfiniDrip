@@ -8,10 +8,19 @@
 //   Page 2  Spec          — the graded POM table (one column per size), the same
 //                           self-measuring spec sheet the Spec view shows.
 //   Page 3  BOM + build   — the recipe's bill of materials and construction stubs.
+//   Page 4  Fit Record    — the SAME POMs as page 2, but only the base/sample
+//                           size, with blank ruled space next to each for a real,
+//                           sewn measurement (slice 45). The checker verifies
+//                           sewability, never fit — this page is how fit gets
+//                           verified: print it, sew the sample size, measure the
+//                           finished garment, write the numbers in by hand.
 //
 // The sketch is drawn at the BASE (sample) size; the table grades across the whole
 // run. It is deliberately NOT wired to the per-size export picker — a tech pack is
-// a whole-style document, not one size's cutting file.
+// a whole-style document, not one size's cutting file. Page 4 uses that same base
+// size on purpose: it's the exact block sampleSpec() (drafting/fit-compare.ts)
+// reads, so the sketch, the table, and the Fit Record can never quietly disagree
+// about what "predicted" means.
 //
 // Like the tiled writer, every byte is printable ASCII (no binary streams), so it
 // opens in any reader — which is why `pdfString` forces text to a safe ASCII set
@@ -27,6 +36,8 @@ import {
   specSheet,
   blockPieces,
   NO_ALLOWANCE,
+  sampleSpec,
+  PredictedPom,
 } from "../drafting";
 import { flattenPiece, layoutPieces, polylineBounds } from "./layout";
 import { assemblePdf, pt, PAGE_A4, PageSize } from "./pdf";
@@ -161,11 +172,79 @@ function bomStream(tp: GarmentRecipe["techPack"], page: PageSize): string {
   return lines.join("\n");
 }
 
+// ── Page 4: the Fit Record ────────────────────────────────────────────────────
+
+// A print-and-write sheet, not an interactive PDF form — this writer emits
+// plain ASCII text streams (see the module comment on `pdfString`), so there
+// are no AcroForm fields to fill on screen. Blank space + a short rule is the
+// "field": the same honest constraint the rest of this writer already lives
+// under, just applied to a page whose whole job is to be written on by hand.
+function fitRecordStream(predicted: readonly PredictedPom[], label: string, page: PageSize): string {
+  const labelW = 7.5; // cm — matches tableStream's column, same table reads twice
+  const tolW = 2.0;
+  const predW = 2.4;
+  const actualX = M + labelW + tolW + predW;
+  const actualW = 3.2;
+  const passX = actualX + actualW + 0.6;
+
+  const lines: string[] = [
+    text(M, M + 1, 13, `${label} - Fit Record`, page),
+    text(
+      M,
+      M + 1.9,
+      8,
+      "Sew the sample size, measure the finished garment, write the actual value in cm.",
+      page
+    ),
+  ];
+
+  // A blank-fill header: fabric / who sewed it / when. Free text, ruled to write
+  // on. Three EQUAL columns across the actual printable width (page.width, not a
+  // hardcoded cm offset) — a fixed offset here is exactly the bug the sketch's
+  // scale-to-fit logic above already avoids, and it broke on first render: the
+  // Date column ran off the page, and Sewn-by's rule struck through Date's label.
+  let y = M + 3.0;
+  const colW = (page.width - 2 * M) / 3;
+  const meta: [string, number, number][] = [["Fabric", 0, 1.6], ["Sewn by", 1, 1.9], ["Date", 2, 1.3]];
+  for (const [fieldLabel, col, labelW2] of meta) {
+    const x = M + col * colW;
+    lines.push(text(x, y, 9, `${fieldLabel}:`, page));
+    const ruleY = pt(page.height - y + 0.15);
+    lines.push(`0 0 0 RG 0.4 w ${pt(x + labelW2)} ${ruleY} m ${pt(x + colW - 0.4)} ${ruleY} l S`);
+  }
+  y += 1.0;
+  lines.push(rule(y, page));
+  y += 0.6;
+
+  lines.push(text(M, y, 9, "Point of measure", page));
+  lines.push(text(M + labelW, y, 9, "Tol +/-", page));
+  lines.push(text(M + labelW + tolW, y, 9, "Predicted", page));
+  lines.push(text(actualX, y, 9, "Actual", page));
+  lines.push(text(passX, y, 9, "Pass?", page));
+  y += 0.5;
+  lines.push(rule(y, page));
+  y += 0.65;
+
+  for (const p of predicted) {
+    lines.push(text(M, y, 9, p.label, page));
+    lines.push(text(M + labelW, y, 9, p.tolerance === undefined ? "-" : p.tolerance.toFixed(1), page));
+    lines.push(text(M + labelW + tolW, y, 9, `${p.value.toFixed(1)} cm`, page));
+    // Actual + Pass?: blank ruled space, not a computed value — nothing here is
+    // invented, matching the tolerance column's own "don't guess" rule.
+    const ruleY = pt(page.height - y + 0.15);
+    lines.push(`0 0 0 RG 0.4 w ${pt(actualX)} ${ruleY} m ${pt(actualX + actualW)} ${ruleY} l S`);
+    lines.push(`0 0 0 RG 0.4 w ${pt(passX)} ${ruleY} m ${pt(passX + 1.6)} ${ruleY} l S`);
+    y += 0.7;
+  }
+  return lines.join("\n");
+}
+
 // ── Public API ────────────────────────────────────────────────────────────────
 
 /**
- * Export the garment as a three-page tech-pack PDF: flat sketch (sample size),
- * graded POM spec table, and the recipe's BOM + construction stubs.
+ * Export the garment as a four-page tech-pack PDF: flat sketch (sample size),
+ * graded POM spec table, the recipe's BOM + construction stubs, and a Fit
+ * Record page to validate the sample size against a real sewn garment.
  */
 export function exportTechPack(
   recipe: GarmentRecipe,
@@ -180,6 +259,7 @@ export function exportTechPack(
       sketchStream(recipe.draft(m), recipe.poms, recipe.label, page),
       tableStream(sizes, rows, page),
       bomStream(recipe.techPack, page),
+      fitRecordStream(sampleSpec(recipe, m), recipe.label, page),
     ],
     page
   );
