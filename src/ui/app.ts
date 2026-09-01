@@ -22,6 +22,16 @@ import {
   loadJourney, saveJourney,
 } from "./journey";
 
+// The desktop shell's bridge (Slice 46) — see electron/preload.cts for the
+// other end. Optional: undefined everywhere this app runs as a plain web page.
+declare global {
+  interface Window {
+    electronAPI?: {
+      saveFile(filename: string, content: string): Promise<{ saved: boolean; filePath?: string }>;
+    };
+  }
+}
+
 export function mountApp(root: HTMLElement): void {
   const saved = loadFromStorage();
   let measurements: Measurements = saved ? saved.measurements : STANDARD_M;
@@ -382,13 +392,24 @@ export function mountApp(root: HTMLElement): void {
     const block = draftAtSize(measurements, recipe.grade, exportStep, recipe.draft);
     return [...blockPieces(block)];
   };
+  // The desktop shell's only bridge into this app (Slice 46): when running
+  // inside Electron, `window.electronAPI` is set by electron/preload.cts via
+  // contextBridge, and download() below routes through it instead of the
+  // browser Blob-download trick. Absent it — `npm run dev` in a plain
+  // browser, or any other web host — the app is exactly what it was before
+  // this slice. Additive, not a fork: every export button, every test of
+  // this function's browser path, is unchanged.
   const download = (filename: string, text: string, mime: string): void => {
-    const url = URL.createObjectURL(new Blob([text], { type: mime }));
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = filename;
-    a.click();
-    URL.revokeObjectURL(url);
+    if (window.electronAPI) {
+      void window.electronAPI.saveFile(filename, text);
+    } else {
+      const url = URL.createObjectURL(new Blob([text], { type: mime }));
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
     // Reaching a real export completes the journey's checklist; while the tour
     // is still on, confirm it lightly (and honestly — see celebrationMarkup).
     journey = { ...journey, exported: true };

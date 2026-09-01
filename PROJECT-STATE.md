@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 45. Update this after every slice (and commit it WITH the code)._
+_Last updated: after Slice 46. Update this after every slice (and commit it WITH the code)._
 
 **Governing plan:** MVP-PLAN.md (operative — the 6-month execution plan) and
 ROADMAP.md (strategic — full competitor analysis + long-term scope + the cut
@@ -119,6 +119,52 @@ F1. **(Fable) Real-world export system** — two new writers on the existing exp
 22. per-size export — a size picker in the export area drafts the chosen graded
     size (via `draftAtSize`) and emits `<garment>-<SIZE>.<ext>`; scopes only the
     exports, every other view keeps its job (327)
+46. Electron shell — the desktop packaging spike (MVP-PLAN.md Month 1). The
+    app was, honestly, "a locally hosted webpage called an app" until now; this
+    slice makes it a real downloadable desktop app. `electron/main.cts` +
+    `electron/preload.cts` (both `.cts` — TypeScript always compiles these to
+    CommonJS regardless of the root package.json's `"type": "module"`, the one
+    thing that needed to not fight the rest of the build): a `BrowserWindow`
+    loads the SAME app that already runs in a browser tab — zero renderer code
+    forked — plus one IPC channel, `save-file`, so a native save dialog can
+    replace the browser's Blob-download trick. `src/ui/app.ts`'s `download()`
+    now checks `window.electronAPI` first (set by the preload's
+    `contextBridge`) and falls back to the exact unchanged Blob/`<a>` path when
+    it's absent — additive, not a fork; every existing export test still
+    exercises the browser path unmodified. TWO REAL BUGS, neither found by
+    `tsc --noEmit` or the coverage gate:
+    (1) Vite's default absolute asset paths (`/assets/index-*.js`) resolve to
+    the filesystem root under Electron's `file://` loading, so the packaged
+    app's script 404'd silently and never mounted — no error, just a blank
+    window. Found by actually launching the packaged build, not by trusting
+    the compile. Fixed with a new `vite.config.ts` (`base: "./"`); confirmed
+    the plain `npm run dev` server is unaffected.
+    (2) The first "it hangs" during verification was a false alarm mis-chased
+    as a bug: Electron persists `localStorage` across launches by default (the
+    same persistence that makes the app usable across restarts), so a SECOND
+    test run against a REUSED profile correctly skipped the already-completed
+    welcome card — the app was working the whole time. Root-caused by
+    launching with a fresh `--user-data-dir` per run and confirming the
+    failure disappeared; logged as a lesson because it's exactly the kind of
+    thing that could get "fixed" by breaking something that wasn't broken.
+    New `electron/verify-save.cjs`: launches the REAL Electron app (main +
+    preload + the real built renderer) via Playwright's official Electron
+    support, stubs only the native OS save dialog (the one piece a script
+    can't click), clicks a real export button, and confirms a real file with
+    real SVG content lands on disk — the round-trip a jsdom unit test
+    fundamentally cannot prove, since jsdom has no real IPC, no real dialog,
+    no real filesystem. Run via `npm run electron:verify` (dev, needs `npm run
+    dev` running separately) or `electron:verify-packaged` (against a real
+    `electron-builder` output). This is a NEW, separate gate from `npm run
+    coverage` — it needs a display (`xvfb-run` in CI/containers) and a real
+    Electron binary, and is not part of the 100%-coverage Vitest suite.
+    Verified both the dev-mode path and a real unsigned `electron-builder`
+    "dir" packaging output (mac/win/linux configured; only linux buildable in
+    this container — mac/win need their native toolchains, untested here).
+    Explicitly NOT in this slice: code signing (separate procurement track,
+    MVP-PLAN.md §1.4), auto-update, app-menu/window-state polish — the rest of
+    MVP-PLAN.md Month 1. `src/` unaffected beyond `app.ts`'s one new branch:
+    48 files still 100% covered, only `app.ts` grew a test. (631)
 45. Fit Validation Loop — the checker verifies sewability, never fit, and says so
     honestly; this slice builds the harness to close that gap. New pure module
     `drafting/fit-compare.ts`: `sampleSpec(recipe, m)` reads every POM off the
@@ -469,13 +515,17 @@ lives in two project-knowledge docs:
   beta. Velocity is measured from this repo's own `git log` (4.7 slices/week
   actual across 44 slices), not guessed.
 
-**Slice 45 (the Fit Validation Loop's harness) is built.** What's still
-outside the codebase: actually sewing the sample-size tee and filling in the
-Fit Record by hand. **Immediate next slice: 46, Electron packaging spike**
-(MVP-PLAN.md Month 1) — or the physical sew-and-measure step itself, which
-is not code and can happen in parallel. No garment drafted by this engine has
-been physically validated yet; that remains the single highest-priority open
-risk in the project until a Fit Record comes back filled in.
+**Slice 45 (Fit Validation Loop) and 46 (Electron shell) are both built.**
+Two things remain outside the codebase, and neither is code: sewing the
+sample-size tee and filling in the Fit Record by hand, and starting the
+code-signing certificate procurement (MVP-PLAN.md §1.4) — a lead-time
+blocker, worth starting even though signing itself isn't scoped yet.
+**Immediate next slice: 47+, the rest of MVP-PLAN.md Month 1** — app menu,
+window state, auto-update scaffold — or pull Month 2's component-architecture
+design doc forward if Month 1's remaining items are judged low-value spike
+polish. No garment drafted by this engine has been physically validated yet;
+that remains the single highest-priority open risk in the project until a
+Fit Record comes back filled in.
 
 Dependency spine (✓ = done, all done):
 notches ✓ → ease ✓ → grading ✓ → tech pack ✓ (spec sheet + document) →
@@ -637,4 +687,5 @@ s41=583 (10 new: garment-scoped plausibility/coherence tiers + guide()/app.ts sk
 s42=599 (16 new: hipDepth field across 6 registries, measured-vertex figure gates, hem-clears-hip warn, legacy-save compat; skirt draft + both figures + tee/fitted guidance all byte-identical),
 s43=611 (net +12: skirt body croquis rebuilt — path-connectivity + mirror-symmetry + crotch + dim-gutter + cloth-outside-body gates; tautological hip>waist test deleted; only skirt.body changed, every other output byte-identical),
 s44: no test-count change (non-coding slice — demo capture; RESUME-LOG.md updated, not the repo),
-s45=630 (19 new: 11 fit-compare unit incl. inclusive-tolerance boundary + null-when-no-tolerance + missing-label throw; 8 net tech-pack — new Fit Record page tests + page-bounds regression gate + 2 updated callout counts; tech-pack byte-identity baseline updated, svg/dxf/pdf untouched)
+s45=630 (19 new: 11 fit-compare unit incl. inclusive-tolerance boundary + null-when-no-tolerance + missing-label throw; 8 net tech-pack — new Fit Record page tests + page-bounds regression gate + 2 updated callout counts; tech-pack byte-identity baseline updated, svg/dxf/pdf untouched),
+s46=631 (1 new: app.test.ts's electronAPI branch; the desktop shell itself — electron/main.cts, preload.cts, verify-save.cjs — is a new e2e gate outside the Vitest suite entirely, verified separately via npm run electron:verify[-packaged])

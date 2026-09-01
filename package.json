@@ -3,20 +3,38 @@
   "private": true,
   "version": "0.0.1",
   "type": "module",
+  "main": "dist-electron/main.cjs",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "test": "vitest run",
     "test:watch": "vitest",
-    "coverage": "vitest run --coverage"
+    "coverage": "vitest run --coverage",
+    "electron:build-main": "tsc -p electron/tsconfig.json",
+    "electron:dev": "npm run electron:build-main && electron .",
+    "electron:pack": "npm run build && npm run electron:build-main && electron-builder",
+    "electron:verify": "node electron/verify-save.cjs",
+    "electron:verify-packaged": "node electron/verify-save.cjs --packaged"
   },
   "devDependencies": {
     "@types/node": "^26.1.2",
     "@vitest/coverage-v8": "^2.1.8",
+    "electron": "^44.1.0",
+    "electron-builder": "^26.15.3",
     "jsdom": "^25.0.1",
     "pdf-lib": "^1.17.1",
+    "playwright": "^1.62.1",
     "typescript": "^5.6.3",
     "vite": "^5.4.11",
     "vitest": "^2.1.8"
+  },
+  "build": {
+    "appId": "com.infinidrip.patternworks",
+    "productName": "InfiniDrip",
+    "files": ["dist/**/*", "dist-electron/**/*"],
+    "directories": { "output": "release" },
+    "mac": { "target": "dir", "identity": null },
+    "win": { "target": "dir" },
+    "linux": { "target": "dir" }
   }
 }

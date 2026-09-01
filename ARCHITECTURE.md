@@ -382,7 +382,44 @@ the Pattern view.
 - **Slider ↔ body-view linking (29) — built.** Body dimensions are tagged
   `data-dim`; hovering a measurement row spotlights its dimension. Pure UI.
 
-**What's left:** a structurally different garment (a bottom) still does not plug in —
-see the real-vs-tee-shaped inventory above. The path is recipe-owned checks →
-recipe-owned guidance → per-garment `Measurements` → the skirt recipe, but it is NOT
-started and NOT confirmed. Then the later features: photo→pattern → upcycle planner.
+**What was left as of Slice 29, now closed:** a structurally different garment (a
+bottom) plugs in as of the skirt bridge (Slices 35–43) — recipe-owned checks,
+recipe-owned guidance, per-garment `Measurements`, the skirt recipe itself, and
+both views all shipped. See the "Sewability is not fit" and Fit Record notes
+above for what replaced "photo→pattern → upcycle planner" as the next honest
+gap (ROADMAP.md §1.5 cut photo→pattern from v1 entirely — active research
+frontier, not a buildable feature on this timeline).
+
+## Desktop shell (Slice 46)
+
+The app was, until this slice, exactly "a locally hosted webpage" — `npm run
+dev` and a browser tab. `electron/main.cts` + `electron/preload.cts` change
+that without forking any renderer code: a `BrowserWindow` loads the identical
+app (dev: the Vite dev server; packaged: the same `dist/` `npm run build`
+already produces), and the ONLY new capability is one IPC channel,
+`save-file` — the renderer asks main to save, main owns the native dialog and
+the actual `fs.writeFile`, `contextIsolation` stays on throughout.
+`src/ui/app.ts`'s `download()` checks `window.electronAPI` first and falls
+back to the pre-Slice-46 Blob/`<a>` trick when it's absent, so the app is
+still, correctly, a plain website when it isn't running inside Electron.
+
+Both source files are `.cts`, not `.ts` — TypeScript always compiles a `.cts`
+file to CommonJS regardless of the root `package.json`'s `"type": "module"`,
+which is the one thing this layer needed to not fight the rest of the build
+over. `electron/tsconfig.json` is a separate, Node-context config; the
+`src/`-scoped `tsc --noEmit` gate and the 100%-coverage Vitest suite never see
+this directory at all.
+
+**This layer has its own gate, and it is deliberately NOT the Vitest suite.**
+`electron/verify-save.cjs` launches the real Electron app via Playwright's
+official Electron support, stubs only the native OS save dialog (the one
+piece that can't be scripted), clicks a real export button, and confirms a
+real file with real content lands on disk — proving the actual IPC round
+trip, which a jsdom-based unit test cannot do (jsdom has no real IPC, no real
+dialog, no real filesystem). Run via `npm run electron:verify` (needs `npm
+run dev` running separately) or `electron:verify-packaged` (against a real
+`electron-builder` output); needs a display (`xvfb-run` in CI/containers).
+
+Explicitly not here yet: code signing (MVP-PLAN.md §1.4, a separate
+procurement track with its own lead time), auto-update, and app-menu/window-
+state polish — the rest of MVP-PLAN.md Month 1.

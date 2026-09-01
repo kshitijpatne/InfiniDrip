@@ -69,6 +69,27 @@ describe("mountApp", () => {
     expect(URL.createObjectURL).toHaveBeenCalledTimes(3);
   });
 
+  it("routes the download through window.electronAPI when running inside the desktop shell (Slice 46), skipping the Blob path entirely", () => {
+    const saveFile = vi.fn().mockResolvedValue({ saved: true, filePath: "/tmp/tee-M.svg" });
+    window.electronAPI = { saveFile };
+    URL.createObjectURL = vi.fn(() => "blob:test"); // must NOT be called on this path
+    HTMLAnchorElement.prototype.click = vi.fn();
+    try {
+      const root = mount();
+      root.querySelector<HTMLButtonElement>("#export-svg")!.dispatchEvent(new Event("click"));
+      expect(saveFile).toHaveBeenCalledTimes(1);
+      const [filename, content] = saveFile.mock.calls[0];
+      expect(filename).toBe("tee-M.svg");
+      expect(content).toContain("<svg"); // the real exported SVG text, not a stub
+      expect(URL.createObjectURL).not.toHaveBeenCalled();
+      expect(HTMLAnchorElement.prototype.click).not.toHaveBeenCalled();
+    } finally {
+      // Every other test in this file assumes the plain-browser path — leaving
+      // this set would silently break them by taking the Electron branch instead.
+      delete window.electronAPI;
+    }
+  });
+
   it("downloads a whole-style tech pack, ignoring the per-size picker", () => {
     const created: string[] = [];
     URL.createObjectURL = vi.fn(() => "blob:test");
