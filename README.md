@@ -1,4 +1,4 @@
-# Patternworks
+# InfiniDrip
 
 A lightweight, local **2D sewing-pattern designer**. Type body measurements and
 it drafts a correct t-shirt pattern, draws it on a technical "blueprint" canvas,

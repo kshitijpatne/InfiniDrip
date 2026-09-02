@@ -47,7 +47,7 @@ async function main() {
 
   const app = PACKAGED
     ? await electron.launch({
-        executablePath: path.join(ROOT, "release/linux-unpacked/patternworks"),
+        executablePath: path.join(ROOT, "release/linux-unpacked/InfiniDrip"),
         args: ["--no-sandbox", `--user-data-dir=${userDataDir}`],
       })
     : await electron.launch({

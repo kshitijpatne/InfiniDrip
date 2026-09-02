@@ -1,5 +1,5 @@
 {
-  "name": "patternworks",
+  "name": "InfiniDrip",
   "private": true,
   "version": "0.0.1",
   "type": "module",
@@ -14,7 +14,9 @@
     "electron:dev": "npm run electron:build-main && electron .",
     "electron:pack": "npm run build && npm run electron:build-main && electron-builder",
     "electron:verify": "node electron/verify-save.cjs",
-    "electron:verify-packaged": "node electron/verify-save.cjs --packaged"
+    "electron:verify-packaged": "node electron/verify-save.cjs --packaged",
+    "electron:verify-menu": "node electron/verify-menu-and-window.cjs",
+    "electron:verify-menu-packaged": "node electron/verify-menu-and-window.cjs --packaged"
   },
   "devDependencies": {
     "@types/node": "^26.1.2",
@@ -29,12 +31,12 @@
     "vitest": "^2.1.8"
   },
   "build": {
-    "appId": "com.infinidrip.patternworks",
+    "appId": "com.infinidrip.app",
     "productName": "InfiniDrip",
     "files": ["dist/**/*", "dist-electron/**/*"],
     "directories": { "output": "release" },
     "mac": { "target": "dir", "identity": null },
     "win": { "target": "dir" },
-    "linux": { "target": "dir" }
+    "linux": { "target": "dir", "executableName": "InfiniDrip" }
   }
 }

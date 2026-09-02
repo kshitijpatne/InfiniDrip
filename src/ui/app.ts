@@ -28,6 +28,7 @@ declare global {
   interface Window {
     electronAPI?: {
       saveFile(filename: string, content: string): Promise<{ saved: boolean; filePath?: string }>;
+      onExportRequested?(callback: (kind: string) => void): void;
     };
   }
 }
@@ -438,6 +439,19 @@ export function mountApp(root: HTMLElement): void {
   });
   root.querySelector<HTMLButtonElement>("#export-a0")!.addEventListener("click", () => {
     download(`${recipe.name}-${exportSizeLabel()}-A0.pdf`, exportA0Pdf(exportPieces(), recipe.allowances, recipe.notches), "application/pdf");
+  });
+
+  // Slice 47: the desktop shell's File > Export menu clicks the SAME button
+  // above rather than duplicating any export logic — main only knows which
+  // kind was picked, never how to build the file. Absent electronAPI (a
+  // plain browser tab), this is simply never registered.
+  window.electronAPI?.onExportRequested?.((kind) => {
+    const buttonId: Record<string, string> = {
+      svg: "export-svg", dxf: "export-dxf", pdf: "export-pdf",
+      techpack: "export-techpack", projector: "export-projector", a0: "export-a0",
+    };
+    const id = buttonId[kind];
+    if (id) root.querySelector<HTMLButtonElement>(`#${id}`)?.click();
   });
 
   const statusEl = root.querySelector<HTMLSpanElement>("#persist-status")!;

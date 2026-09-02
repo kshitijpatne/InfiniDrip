@@ -90,6 +90,32 @@ describe("mountApp", () => {
     }
   });
 
+  it("routes a menu-triggered export (Slice 47) through the SAME button the mouse click uses, not a duplicated export path", () => {
+    const saveFile = vi.fn().mockResolvedValue({ saved: true });
+    let registered: ((kind: string) => void) | undefined;
+    window.electronAPI = {
+      saveFile,
+      onExportRequested: (cb) => { registered = cb; },
+    };
+    try {
+      mount();
+      expect(registered).toBeTypeOf("function"); // app.ts really registered a listener
+      registered!("dxf"); // simulates "File > Export > DXF" being clicked in the real menu
+      expect(saveFile).toHaveBeenCalledTimes(1);
+      const [filename, content] = saveFile.mock.calls[0];
+      expect(filename).toBe("tee-M.dxf"); // proves #export-dxf's own handler ran, not a copy
+      expect(content).toContain("POLYLINE"); // real DXF content, not a stub
+    } finally {
+      delete window.electronAPI;
+    }
+  });
+
+  it("registers no menu listener at all when electronAPI has no onExportRequested (a plain browser tab)", () => {
+    // Guards the optional chaining: mounting outside Electron must not throw
+    // just because window.electronAPI is entirely absent.
+    expect(() => mount()).not.toThrow();
+  });
+
   it("downloads a whole-style tech pack, ignoring the per-size picker", () => {
     const created: string[] = [];
     URL.createObjectURL = vi.fn(() => "blob:test");

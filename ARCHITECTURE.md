@@ -1,4 +1,4 @@
-# Patternworks — Architecture
+# InfiniDrip — Architecture
 
 How the app fits together, in plain language. Read the top to re-orient; skim the
 layers when you need detail. Updated every slice with only need-to-know changes.
@@ -390,7 +390,7 @@ above for what replaced "photo→pattern → upcycle planner" as the next honest
 gap (ROADMAP.md §1.5 cut photo→pattern from v1 entirely — active research
 frontier, not a buildable feature on this timeline).
 
-## Desktop shell (Slice 46)
+## Desktop shell (Slices 46–47)
 
 The app was, until this slice, exactly "a locally hosted webpage" — `npm run
 dev` and a browser tab. `electron/main.cts` + `electron/preload.cts` change
@@ -420,6 +420,46 @@ dialog, no real filesystem). Run via `npm run electron:verify` (needs `npm
 run dev` running separately) or `electron:verify-packaged` (against a real
 `electron-builder` output); needs a display (`xvfb-run` in CI/containers).
 
+**Product identity, made consistent everywhere (Slice 47).** `app.setName
+("InfiniDrip")` runs before `whenReady()` — without it, `app.getName()`
+returns `"Electron"` in dev mode (verified: it does not read `package.json`
+at all when launched by pointing electron directly at a `.cjs` file rather
+than a directory). The actual LIVE bug, though, was `index.html`'s own
+`<title>` tag — visible in every browser tab, and in the desktop window
+chrome too since Electron syncs its window title to the page's `<title>` by
+default. Both `package.json`'s `name` and the electron-builder `appId` also
+carried the project's old internal name; `linux.executableName` is now
+pinned explicitly rather than left to electron-builder's default (which
+derives from `package.json`'s `name`, not `productName` — a real,
+platform-specific inconsistency worth not depending on implicitly).
+
+**A real `Menu`, not the Electron default.** `buildMenu()` in `main.cts`
+gives File a working Export submenu — the same six kinds as the Output
+step's buttons, same labels — while keeping Edit/View/Window at Electron's
+already-sensible defaults (undo/redo/cut/copy/paste/select-all all
+genuinely worked before this slice too; that was checked empirically, not
+assumed, before any code was written to "fix" something that wasn't
+broken). A menu click sends one IPC message naming which export was picked;
+`app.ts` clicks the real matching button rather than main owning any export
+logic, so the menu and the mouse are provably one code path.
+
+**Window-state persistence uses synchronous file I/O on purpose** — the one
+deliberate exception to the async pattern the rest of this layer follows.
+The state file is a few dozen bytes, written once on the window's `close`
+event; an async write there risks the process exiting before it lands
+(Electron does not wait for a fire-and-forget promise before quitting),
+silently losing the save on every ordinary quit. Sync removes that race
+entirely rather than requiring an `event.preventDefault()`/`finally()`
+dance to paper over it.
+
+`electron/verify-menu-and-window.cjs` extends the Slice 46 e2e pattern: a
+real launch, a real click on the real native menu via Electron's own Menu
+API (Playwright cannot click an OS-level menu), a real resize → close →
+relaunch → check-bounds round trip on the SAME profile (persistence is the
+point), and a real `win.title()` check. Four checks, run against both dev
+mode and a real unsigned `electron-builder` output.
+
 Explicitly not here yet: code signing (MVP-PLAN.md §1.4, a separate
-procurement track with its own lead time), auto-update, and app-menu/window-
-state polish — the rest of MVP-PLAN.md Month 1.
+procurement track with its own lead time) and auto-update — there is no
+real release feed to point it at yet, and code that compiles against
+nothing to update FROM is not something this project ships unverified.

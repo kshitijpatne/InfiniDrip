@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 46. Update this after every slice (and commit it WITH the code)._
+_Last updated: after Slice 47. Update this after every slice (and commit it WITH the code)._
 
 **Governing plan:** MVP-PLAN.md (operative — the 6-month execution plan) and
 ROADMAP.md (strategic — full competitor analysis + long-term scope + the cut
@@ -119,6 +119,40 @@ F1. **(Fable) Real-world export system** — two new writers on the existing exp
 22. per-size export — a size picker in the export area drafts the chosen graded
     size (via `draftAtSize`) and emits `<garment>-<SIZE>.<ext>`; scopes only the
     exports, every other view keeps its job (327)
+47. App menu + window state + a real product identity (rest of MVP-PLAN.md
+    Month 1's Electron line). Two premises checked empirically before
+    building on them, one right and one wrong: Electron already ships a full
+    default menu (undo/redo/cut/copy/paste/select-all all genuinely worked,
+    confirmed by a real `Ctrl+C` that copied `"100"` off the chest field) —
+    so "fix broken shortcuts" was never the real gap. `app.getName()`
+    returning `"Electron"` in dev mode WAS real, confirmed the same way.
+    Built: a real `Menu` (File > Export mirrors all six export buttons
+    exactly — main only names which kind was picked over IPC, `app.ts`
+    clicks the real matching button, so the menu is provably the same code
+    path as the mouse, never a second implementation; standard Edit/View/
+    Window). Window-state persistence — deliberately SYNCHRONOUS file I/O,
+    not the async pattern used everywhere else in `electron/`: an async
+    write on the `close` event risks the process exiting before it lands,
+    silently losing the save on every ordinary quit. A second, unplanned
+    fix rode along once `app.getName()` was actually inspected: the packaged
+    build reported the raw npm package name, not `"Electron"` — and a
+    process-wide name sweep for consistency (not just this bug) found
+    `index.html`'s `<title>` tag was the ACTUAL live bug — visible in every
+    browser tab and, since Electron syncs window title to the page's own
+    `<title>` by default, the desktop window chrome too — plus `package.json`'s
+    `name`/`appId`, the packaged Linux binary's filename (was `patternworks`
+    on disk, verified before AND after the fix), and **`ARCHITECTURE.md`'s
+    own header, wrong through three prior full-file deliveries (43, the MVP
+    rewrite, 45) and never caught until this sweep**. New
+    `electron/verify-menu-and-window.cjs`: real launch, clicks the real
+    native menu via Electron's own Menu API (Playwright cannot click an OS
+    menu), a real resize→close→relaunch→check-bounds round trip on the SAME
+    profile, and a real `win.title()` check — 4 checks, run against both dev
+    mode and a real unsigned `electron-builder` output, twice each for
+    stability. `src/` gate: 49 files / 633 tests / 100% (2 new: the menu-
+    dispatch path proven to route through the SAME button the mouse uses,
+    and a guard that mounting without `electronAPI` at all never throws).
+    Anchor: commit TBD (this slice).
 46. Electron shell — the desktop packaging spike (MVP-PLAN.md Month 1). The
     app was, honestly, "a locally hosted webpage called an app" until now; this
     slice makes it a real downloadable desktop app. `electron/main.cts` +
@@ -515,16 +549,19 @@ lives in two project-knowledge docs:
   beta. Velocity is measured from this repo's own `git log` (4.7 slices/week
   actual across 44 slices), not guessed.
 
-**Slice 45 (Fit Validation Loop) and 46 (Electron shell) are both built.**
-Two things remain outside the codebase, and neither is code: sewing the
-sample-size tee and filling in the Fit Record by hand, and starting the
-code-signing certificate procurement (MVP-PLAN.md §1.4) — a lead-time
-blocker, worth starting even though signing itself isn't scoped yet.
-**Immediate next slice: 47+, the rest of MVP-PLAN.md Month 1** — app menu,
-window state, auto-update scaffold — or pull Month 2's component-architecture
-design doc forward if Month 1's remaining items are judged low-value spike
-polish. No garment drafted by this engine has been physically validated yet;
-that remains the single highest-priority open risk in the project until a
+**Slices 45, 46, and 47 are all built.** MVP-PLAN.md Month 1's Electron line
+is now fully done except auto-update, which stays deliberately unscoped —
+there is no real release feed to point it at yet, and code that compiles
+against nothing to update FROM can't be honestly verified, which this
+project doesn't ship. Two things remain outside the codebase, and neither is
+code: sewing the sample-size tee and filling in the Fit Record by hand, and
+starting the code-signing certificate procurement (MVP-PLAN.md §1.4) — a
+lead-time blocker, worth starting regardless of signing itself not being
+scoped yet. **Immediate next slice: the Month 2 component-architecture
+design doc, reviewed before any code** (MVP-PLAN.md Months 2–3; also folds
+in ROADMAP.md Priority 1.3's shared croquis library). No garment drafted by
+this engine has been physically validated yet; that remains the single
+highest-priority open risk in the project until a
 Fit Record comes back filled in.
 
 Dependency spine (✓ = done, all done):
@@ -688,4 +725,5 @@ s42=599 (16 new: hipDepth field across 6 registries, measured-vertex figure gate
 s43=611 (net +12: skirt body croquis rebuilt — path-connectivity + mirror-symmetry + crotch + dim-gutter + cloth-outside-body gates; tautological hip>waist test deleted; only skirt.body changed, every other output byte-identical),
 s44: no test-count change (non-coding slice — demo capture; RESUME-LOG.md updated, not the repo),
 s45=630 (19 new: 11 fit-compare unit incl. inclusive-tolerance boundary + null-when-no-tolerance + missing-label throw; 8 net tech-pack — new Fit Record page tests + page-bounds regression gate + 2 updated callout counts; tech-pack byte-identity baseline updated, svg/dxf/pdf untouched),
-s46=631 (1 new: app.test.ts's electronAPI branch; the desktop shell itself — electron/main.cts, preload.cts, verify-save.cjs — is a new e2e gate outside the Vitest suite entirely, verified separately via npm run electron:verify[-packaged])
+s46=631 (1 new: app.test.ts's electronAPI branch; the desktop shell itself — electron/main.cts, preload.cts, verify-save.cjs — is a new e2e gate outside the Vitest suite entirely, verified separately via npm run electron:verify[-packaged]),
+s47=633 (2 new: menu-dispatch routes through the real button not a duplicate path, mount() never throws with electronAPI entirely absent; menu/window-state/identity/title are a second e2e gate, npm run electron:verify-menu[-packaged], 4 checks × 2 environments × 2 runs, all passing)
