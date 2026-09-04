@@ -8,11 +8,17 @@ execution plan) and ROADMAP.md (strategic — competitor analysis + long-term
 scope + the cut list) are the current planning documents. This file describes
 the engine as it exists; it does not restate the forward plan.
 
-**Architectural fork, agreed but not yet built (Slice 48):**
+**Architectural fork, Phase A1 built (Slice 49):**
 `COMPONENT-ARCHITECTURE.md` is the design doc for the Interface/Stitch/
-Component work below — read it before touching `drafting/`. Status: AGREED,
-Phase A not started. This file will describe the new layer once it exists;
-until then the Piece/Block/Edge description below is still exactly current.
+Component work below — read it before touching `drafting/`. `drafting/
+stitch.ts` now exists: `EdgeRef`/`Interface`/`Stitch` as pure data,
+`interfaceLength`, `stitchChecks` — proven, with real numbers and a mutation
+test, to reproduce the existing hand-written sewability checks exactly.
+`Block` is still untouched and no recipe has committed to a stitch yet
+(§11 Q4) — this is a library sitting alongside the old checks, not a
+replacement for them. That happens in Phase A2. Until then, the Piece/
+Block/Edge description just below is still exactly current — nothing about
+how a recipe drafts or how the checker runs has changed.
 
 ## The one big idea
 

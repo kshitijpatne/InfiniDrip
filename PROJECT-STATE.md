@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 48. Update this after every slice (and commit it WITH the code)._
+_Last updated: after Slice 49. Update this after every slice (and commit it WITH the code)._
 
 **Governing plan:** MVP-PLAN.md (operative — the 6-month execution plan) and
 ROADMAP.md (strategic — full competitor analysis + long-term scope + the cut
@@ -119,6 +119,33 @@ F1. **(Fable) Real-world export system** — two new writers on the existing exp
 22. per-size export — a size picker in the export area drafts the chosen graded
     size (via `draftAtSize`) and emits `<garment>-<SIZE>.<ext>`; scopes only the
     exports, every other view keeps its job (327)
+49. Component architecture Phase A1 (COMPONENT-ARCHITECTURE.md §9) —
+    `drafting/stitch.ts`: `EdgeRef`/`Interface`/`Stitch` as pure data, plus
+    `interfaceLength` and `stitchChecks`, both reusing the SAME primitives
+    (`matchLengths`, `inBand`) the hand-written checks already called, not a
+    reimplementation of check logic — only of how a seam's two sides are
+    named and summed. Per §11 Q4, `Block` is untouched: no recipe declares a
+    stitch yet, this is a pure library sitting alongside the existing
+    checks, zero blast radius. The proof this slice owed: stitch tables
+    declared as data (mirroring `tshirt-checks.ts`/`skirt.ts` exactly) run
+    through `stitchChecks` on REAL drafted blocks and compared field-by-field
+    (name, ok, AND detail string) against the REAL existing check functions
+    — not "looks equivalent," byte-for-byte. Held across 4 tee points, 3
+    fitted points, 3 skirt points, including one deliberately implausible
+    chest (160cm) — the project's "warn, never clamp" philosophy means an
+    implausible number still drafts and still must check out correctly.
+    Confirms the design doc's own claim with numbers: tee's 4 stitch-
+    derivable checks match exactly (hem-square, index 4, correctly excluded
+    — a panel property, not a stitch); fitted's are ALL 5 checks
+    stitch-derivable, a clean result since `hemSquareToFold=false` for
+    fitted; skirt's 1 stitch-derivable check matches, with hem-square AND
+    waist-square correctly excluded as the two panel checks. Mutation-tested
+    before trusting the pass: dropped `back.armhole` from the cap-ease
+    interface, confirmed all 4 tee-point tests fail with a clear ok
+    true→false diff, restored. Gate: 50 files / 654 tests / 100% (21 new,
+    all in `stitch.ts`/`stitch.test.ts`); byte-identity regression untouched
+    (8/8) — confirms zero recipe, `Block`, or export-writer file changed.
+    File set: 2 new files + a one-line barrel export addition, nothing else.
 48. Component Architecture Design — a document, not code (MVP-PLAN.md
     Months 2–3, "the multiplier"; ROADMAP.md's own evidence for why it comes
     first: FreeSewing's 2026 "Library" refactor exists because they added
@@ -603,11 +630,17 @@ Phase A. Two things remain outside the codebase, and neither is code: sewing
 the sample-size tee and filling in the Fit Record by hand, and starting the
 code-signing certificate procurement (MVP-PLAN.md §1.4) — a lead-time
 blocker, worth starting regardless of signing itself not being scoped yet.
-**Immediate next slice: 49, Phase A1** — `EdgeRef`/`Interface`/`Stitch`
-types, proving the existing sewability checks reproduce byte-identically
-before any recipe is touched. No garment drafted by this engine has been
-physically validated yet; that remains the single highest-priority open
-risk in the project until a Fit Record comes back filled in.
+**Slice 49 (Phase A1) is built.** `stitch.ts`'s equivalence proof holds
+across every measurement point tested, mutation-verified. `Block` is still
+untouched — no recipe has committed to a stitch yet. **Immediate next
+slice: 50, Phase A2** — `Block` grows a `stitches` field (required from
+this slice on, per §11 Q4), every recipe declares its real stitches, and
+the hand-written checks in `tshirt-checks.ts`/`skirt.ts` are deleted in
+favour of `stitchChecks`. This is the first slice in the migration that
+touches an existing recipe — byte-identity on every export is the gate, not
+a nice-to-have. No garment drafted by this engine has been physically
+validated yet; that remains the single highest-priority open risk in the
+project until a Fit Record comes back filled in.
 
 Dependency spine (✓ = done, all done):
 notches ✓ → ease ✓ → grading ✓ → tech pack ✓ (spec sheet + document) →
@@ -772,4 +805,5 @@ s44: no test-count change (non-coding slice — demo capture; RESUME-LOG.md upda
 s45=630 (19 new: 11 fit-compare unit incl. inclusive-tolerance boundary + null-when-no-tolerance + missing-label throw; 8 net tech-pack — new Fit Record page tests + page-bounds regression gate + 2 updated callout counts; tech-pack byte-identity baseline updated, svg/dxf/pdf untouched),
 s46=631 (1 new: app.test.ts's electronAPI branch; the desktop shell itself — electron/main.cts, preload.cts, verify-save.cjs — is a new e2e gate outside the Vitest suite entirely, verified separately via npm run electron:verify[-packaged]),
 s47=633 (2 new: menu-dispatch routes through the real button not a duplicate path, mount() never throws with electronAPI entirely absent; menu/window-state/identity/title are a second e2e gate, npm run electron:verify-menu[-packaged], 4 checks × 2 environments × 2 runs, all passing),
-s48: no test-count change (design doc, not code — COMPONENT-ARCHITECTURE.md agreed, ready for Phase A)
+s48: no test-count change (design doc, not code — COMPONENT-ARCHITECTURE.md agreed, ready for Phase A),
+s49=654 (21 new, all in stitch.ts/stitch.test.ts: interfaceLength + stitchChecks unit tests on synthetic data, plus the real equivalence proof — 4 tee points + 3 fitted points + 3 skirt points, field-by-field against the actual hand-written checks, mutation-verified. Zero other file's test count changed.)
