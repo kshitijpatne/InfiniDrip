@@ -8,6 +8,12 @@ execution plan) and ROADMAP.md (strategic — competitor analysis + long-term
 scope + the cut list) are the current planning documents. This file describes
 the engine as it exists; it does not restate the forward plan.
 
+**Architectural fork, agreed but not yet built (Slice 48):**
+`COMPONENT-ARCHITECTURE.md` is the design doc for the Interface/Stitch/
+Component work below — read it before touching `drafting/`. Status: AGREED,
+Phase A not started. This file will describe the new layer once it exists;
+until then the Piece/Block/Edge description below is still exactly current.
+
 ## The one big idea
 
 Everything runs off **one object: `measurements`** (your body numbers, in cm).
@@ -35,7 +41,14 @@ curve). Drafting drops a few construction points (neck, shoulder, underarm, hem)
 and connects them. Edges carry *names* ("armhole", "side") so other layers can ask
 a piece "how long is your armhole?" The clever bit: the sleeve cap's height is
 **solved** — a quick guess-and-check loop finds the height that makes the cap the
-same length as the armhole. The garment-specific recipe also lives here: the
+same length as the armhole.
+
+*This is also exactly what makes Slice 48's component work additive rather
+than a rewrite: every edge is already named, which is the one precondition a
+formal `Interface`/`Stitch` layer needs. Today a seam relationship (front
+shoulder ↔ back shoulder) exists only as a hand-written assertion inside the
+checker — construction knowledge encoded in its own verification, backwards.
+`COMPONENT-ARCHITECTURE.md` covers why and how that becomes declared data.* The garment-specific recipe also lives here: the
 t-shirt drafting math, its **notch rules** (`tshirt-notches.ts`), its **fabric/ease
 guidance** tables (`ease.ts`), its **grade table** (`tshirt-grade.ts`), and its
 **POM list** (`tshirt-pom.ts`). Two pure engines also live in drafting: **grading**

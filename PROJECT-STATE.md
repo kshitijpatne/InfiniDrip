@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 47. Update this after every slice (and commit it WITH the code)._
+_Last updated: after Slice 48. Update this after every slice (and commit it WITH the code)._
 
 **Governing plan:** MVP-PLAN.md (operative — the 6-month execution plan) and
 ROADMAP.md (strategic — full competitor analysis + long-term scope + the cut
@@ -119,6 +119,52 @@ F1. **(Fable) Real-world export system** — two new writers on the existing exp
 22. per-size export — a size picker in the export area drafts the chosen graded
     size (via `draftAtSize`) and emits `<garment>-<SIZE>.<ext>`; scopes only the
     exports, every other view keeps its job (327)
+48. Component Architecture Design — a document, not code (MVP-PLAN.md
+    Months 2–3, "the multiplier"; ROADMAP.md's own evidence for why it comes
+    first: FreeSewing's 2026 "Library" refactor exists because they added
+    garments before componentising and had to refactor out the resulting
+    dependency tangle). Read the actual code before proposing anything —
+    `Edge`/`Piece`/`Block` already have the right shape (every edge is
+    already named, which is what makes any of this additive rather than a
+    rewrite); what's genuinely missing is a formal `Interface`/`Stitch`
+    concept, since seam relationships today live only as hand-written
+    assertions inside the checker (`tshirt-checks.ts`), which is
+    construction knowledge encoded backwards, in its own verification. Found
+    a real, currently-harmless coupling with numbers, not a guess:
+    `draftSleeve` fits its cap to a re-drafted TEE bodice
+    (`armholeLength(m)`), not the bodice actually in the block being
+    assembled — measured identical today (41.691/41.691) only because
+    fitted's front reuses the same points; any future bodice with a
+    different armhole would get a silently wrong sleeve. GarmentCode (ETH
+    Zurich, SIGGRAPH Asia 2023) supplied the reference vocabulary
+    (Edge/Panel/Component/Interface) and, concretely, its own shipped
+    component list (bodice, sleeve, collar, skirts, pants) validates our
+    Priority 2 target rather than just inspiring it. Proposed:
+    `EdgeRef`/`Interface`/`Stitch` types + `Block.stitches`, proving 6 of 8
+    current sewability checks (including the darted front's multi-edge side
+    seam and the sleeve-cap-spans-front-and-back case) become one generic
+    function over declared data — the remaining 2 ("hem/waist square to the
+    fold") are correctly identified as panel properties, not stitches, and
+    stay recipe-owned. The Slice 47 neckline finding resolved here, not as a
+    standalone measurement: a `NecklineParams` component parameter
+    (`shape`/`widthEase`/`frontDrop`), byte-identical at its default,
+    scoped and guarded (warn-never-clamp) rather than a raw global input —
+    exactly FreeSewing's own conclusion (options scoped to a part, not the
+    whole pattern). Four decisions, reviewed and answered before any Phase A
+    code: `backNeckDepth`'s non-scaling left as-is for MVP; neckline ships
+    crew+v now, scoop+boat with the Month 4 shirt block (the type declares
+    all four so the taxonomy doesn't take a breaking change later; the other
+    two throw "not implemented" rather than render silently wrong);
+    `Piece` stays, `Interface`/`Stitch`/`Component` are additive, not a
+    rename; `Block.stitches` optional in Phase A1, required from A2 — an
+    exact one-slice boundary, not an indefinite transitional state.
+    Migration is strangler-fig, ~17–26 slices across three phases (A:
+    stitches as data, B: components, C: prove the multiplier — adding a
+    tank should take hours not a slice-run, or Phase B isn't finished),
+    every phase byte-identity gated, with a standing rule carried
+    throughout: never refactor and change behaviour in the same slice.
+    Not a coding slice — no test-count change. `COMPONENT-ARCHITECTURE.md`
+    is the full document; read it before Slice 49.
 47. App menu + window state + a real product identity (rest of MVP-PLAN.md
     Month 1's Electron line). Two premises checked empirically before
     building on them, one right and one wrong: Electron already ships a full
@@ -549,20 +595,19 @@ lives in two project-knowledge docs:
   beta. Velocity is measured from this repo's own `git log` (4.7 slices/week
   actual across 44 slices), not guessed.
 
-**Slices 45, 46, and 47 are all built.** MVP-PLAN.md Month 1's Electron line
-is now fully done except auto-update, which stays deliberately unscoped —
-there is no real release feed to point it at yet, and code that compiles
-against nothing to update FROM can't be honestly verified, which this
-project doesn't ship. Two things remain outside the codebase, and neither is
-code: sewing the sample-size tee and filling in the Fit Record by hand, and
-starting the code-signing certificate procurement (MVP-PLAN.md §1.4) — a
-lead-time blocker, worth starting regardless of signing itself not being
-scoped yet. **Immediate next slice: the Month 2 component-architecture
-design doc, reviewed before any code** (MVP-PLAN.md Months 2–3; also folds
-in ROADMAP.md Priority 1.3's shared croquis library). No garment drafted by
-this engine has been physically validated yet; that remains the single
-highest-priority open risk in the project until a
-Fit Record comes back filled in.
+**Slices 45–48 are all built.** MVP-PLAN.md Month 1's Electron line is done
+except auto-update (deliberately unscoped — no real release feed to verify
+against). **The component-architecture design doc is AGREED**
+(`COMPONENT-ARCHITECTURE.md`) — all four open decisions answered, ready for
+Phase A. Two things remain outside the codebase, and neither is code: sewing
+the sample-size tee and filling in the Fit Record by hand, and starting the
+code-signing certificate procurement (MVP-PLAN.md §1.4) — a lead-time
+blocker, worth starting regardless of signing itself not being scoped yet.
+**Immediate next slice: 49, Phase A1** — `EdgeRef`/`Interface`/`Stitch`
+types, proving the existing sewability checks reproduce byte-identically
+before any recipe is touched. No garment drafted by this engine has been
+physically validated yet; that remains the single highest-priority open
+risk in the project until a Fit Record comes back filled in.
 
 Dependency spine (✓ = done, all done):
 notches ✓ → ease ✓ → grading ✓ → tech pack ✓ (spec sheet + document) →
@@ -726,4 +771,5 @@ s43=611 (net +12: skirt body croquis rebuilt — path-connectivity + mirror-symm
 s44: no test-count change (non-coding slice — demo capture; RESUME-LOG.md updated, not the repo),
 s45=630 (19 new: 11 fit-compare unit incl. inclusive-tolerance boundary + null-when-no-tolerance + missing-label throw; 8 net tech-pack — new Fit Record page tests + page-bounds regression gate + 2 updated callout counts; tech-pack byte-identity baseline updated, svg/dxf/pdf untouched),
 s46=631 (1 new: app.test.ts's electronAPI branch; the desktop shell itself — electron/main.cts, preload.cts, verify-save.cjs — is a new e2e gate outside the Vitest suite entirely, verified separately via npm run electron:verify[-packaged]),
-s47=633 (2 new: menu-dispatch routes through the real button not a duplicate path, mount() never throws with electronAPI entirely absent; menu/window-state/identity/title are a second e2e gate, npm run electron:verify-menu[-packaged], 4 checks × 2 environments × 2 runs, all passing)
+s47=633 (2 new: menu-dispatch routes through the real button not a duplicate path, mount() never throws with electronAPI entirely absent; menu/window-state/identity/title are a second e2e gate, npm run electron:verify-menu[-packaged], 4 checks × 2 environments × 2 runs, all passing),
+s48: no test-count change (design doc, not code — COMPONENT-ARCHITECTURE.md agreed, ready for Phase A)
