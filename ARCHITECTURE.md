@@ -8,17 +8,43 @@ execution plan) and ROADMAP.md (strategic — competitor analysis + long-term
 scope + the cut list) are the current planning documents. This file describes
 the engine as it exists; it does not restate the forward plan.
 
-**Architectural fork, Phase A1 built (Slice 49):**
+**Architectural fork, Phase A complete (Slice 50):**
 `COMPONENT-ARCHITECTURE.md` is the design doc for the Interface/Stitch/
-Component work below — read it before touching `drafting/`. `drafting/
-stitch.ts` now exists: `EdgeRef`/`Interface`/`Stitch` as pure data,
-`interfaceLength`, `stitchChecks` — proven, with real numbers and a mutation
-test, to reproduce the existing hand-written sewability checks exactly.
-`Block` is still untouched and no recipe has committed to a stitch yet
-(§11 Q4) — this is a library sitting alongside the old checks, not a
-replacement for them. That happens in Phase A2. Until then, the Piece/
-Block/Edge description just below is still exactly current — nothing about
-how a recipe drafts or how the checker runs has changed.
+Component work below — read it before touching `drafting/`. Seam knowledge
+is now real, declared data: every `Block` carries a required `stitches`
+field (`readonly Stitch[]`), populated by each recipe's own draft function
+— `sleevedTopStitches(frontSideEdges, hasDart)` for tee/fitted (one builder,
+two call sites, differing only in which front edges form the side seam and
+whether a dart exists), a plain `SKIRT_STITCHES` constant for the skirt
+(only one variant, no builder needed). `garmentReport`
+(`guidance/garment-check.ts`) assembles a garment's full check list from
+TWO sources now, in a fixed order that preserves the pre-migration ordering
+exactly: `stitchChecks(b, b.stitches)` first, then `recipe.checks(b, m)` for
+whatever isn't a stitch — a hem or waist meeting the fold square, a property
+of ONE panel with no "other side" to compare against. The old hand-written
+seam/cap/dart checks in `tshirt-checks.ts`/`skirt.ts` are gone; what
+remains there (`dartLegCheck`, `frontHemWidth`) are genuinely independent
+utilities, kept because they're still used and tested on their own, not
+migration leftovers.
+
+`Block` importing `Stitch` from `stitch.ts` — which itself imports `Block`
+from `block.ts` — is a real circular reference, resolved with `import type`:
+type-only imports are erased at compile time and never enter the runtime
+module graph, so the cycle exists only at the type level, which TypeScript
+resolves without complaint. Confirmed empirically (`tsc --noEmit` raised no
+cycle-related errors), not assumed.
+
+The migration's safety net is a FROZEN golden master
+(`drafting/garment-check-golden.ts`) — real `garmentReport` output for tee/
+fitted/skirt across several measurement points, captured and verified
+correct BEFORE any production code changed, then used as the comparison
+target throughout. This matters specifically because Slice 49's own
+equivalence tests compared declared stitches against `recipe.checks` — a
+comparison that would have become self-referential (or simply wrong) the
+moment `recipe.checks` was narrowed to panel-only, exactly the "a test that
+mirrors the output proves nothing" trap this project's testing discipline
+exists to catch. Recorded truth from before the change, not the thing being
+changed, is what makes the proof real.
 
 ## The one big idea
 

@@ -93,13 +93,16 @@ describe("garmentReport — garment-agnostic (the skirt-bridge payoff)", () => {
     fields: [],
     styles: [],
     draft: (m) =>
-      block({
-        panel: {
-          name: "panel",
-          onFold: true,
-          edges: [{ kind: "line", name: "hem", start: point(0, m.length), end: point(m.chest / 4, m.length) }],
+      block(
+        {
+          panel: {
+            name: "panel",
+            onFold: true,
+            edges: [{ kind: "line", name: "hem", start: point(0, m.length), end: point(m.chest / 4, m.length) }],
+          },
         },
-      }),
+        []
+      ),
     checks: () => [present("Panel drafted", true, "ok")], // no seam pairs, no sleeve
     guidance: () => [],
     sizeMetric: (b) => edgeLength(pieceEdge(rolePiece(b, "panel"), "hem")),

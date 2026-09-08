@@ -9,9 +9,9 @@ import { Measurements } from "./measurements";
 import { Block } from "./block";
 import { CheckResult } from "../guidance/check";
 import { Note } from "../guidance/note";
-import { sleevedTopChecks, frontHemWidth } from "./tshirt-checks";
+import { sleevedTopPanelChecks, frontHemWidth } from "./tshirt-checks";
 import { sleevedTopGuidance } from "./tshirt-guidance";
-import { draftSkirt, skirtChecks, skirtGuidance, SKIRT_GRADE, SKIRT_POMS, SKIRT_NOTCHES } from "./skirt";
+import { draftSkirt, skirtPanelChecks, skirtGuidance, SKIRT_GRADE, SKIRT_POMS, SKIRT_NOTCHES } from "./skirt";
 import { StyleDef, TEE_STYLES, SKIRT_STYLES } from "../style";
 import { AllowanceSpec } from "./allowance";
 import { Pom } from "./pom";
@@ -104,7 +104,7 @@ export const TEE: GarmentRecipe = {
   poms: TSHIRT_POMS,
   grade: TSHIRT_GRADE,
   sizes: TSHIRT_SIZES,
-  checks: sleevedTopChecks(["side"], true),
+  checks: sleevedTopPanelChecks(true),
   guidance: sleevedTopGuidance,
   sizeMetric: frontHemWidth,
   allowances: KNIT_ALLOWANCES,
@@ -131,7 +131,7 @@ export const FITTED: GarmentRecipe = {
   poms: FITTED_POMS,
   grade: TSHIRT_GRADE, // the same body grade drives both garments
   sizes: TSHIRT_SIZES,
-  checks: sleevedTopChecks(["sideUpper", "sideLower"], false),
+  checks: sleevedTopPanelChecks(false),
   guidance: sleevedTopGuidance,
   sizeMetric: frontHemWidth,
   allowances: KNIT_ALLOWANCES,
@@ -178,7 +178,7 @@ export const SKIRT: GarmentRecipe = {
   poms: SKIRT_POMS,
   grade: SKIRT_GRADE,
   sizes: TSHIRT_SIZES, // the same size run drives every garment
-  checks: skirtChecks,
+  checks: skirtPanelChecks,
   guidance: skirtGuidance,
   sizeMetric: frontHemWidth, // the front hem grows with the hip → orders the run
   allowances: WOVEN_SKIRT_ALLOWANCES,

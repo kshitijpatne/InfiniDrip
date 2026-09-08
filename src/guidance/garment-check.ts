@@ -18,6 +18,7 @@ import {
   gradeRun,
   PieceNotches,
   blockPieces,
+  stitchChecks,
 } from "../drafting";
 import {
   Report,
@@ -49,11 +50,21 @@ export function notchGrainCheck(
  *  this file still owns are the ones true of ANY garment — every drafted piece must
  *  declare its notches, and a graded run must grow in order.
  *
+ *  Phase A2 (Slice 50): the seam checks that used to come entirely from
+ *  `recipe.checks` now come from TWO sources, in this order — `stitchChecks`
+ *  over the block's own declared `stitches` first, then `recipe.checks` for
+ *  whatever isn't a stitch (a hem or waist being square to the fold — a
+ *  property of one panel, not a seam between two). This order is what keeps
+ *  every garment's check ordering byte-identical to before this slice: a
+ *  stitch declares its label in the same position the old hand-written check
+ *  used to push it in.
+ *
  *  It reports SEWABILITY, not fit — a muslin still decides fit. */
 export function garmentReport(recipe: GarmentRecipe, m: Measurements): Report {
   const b = recipe.draft(m);
 
   const checks: CheckResult[] = [
+    ...stitchChecks(b, b.stitches),
     ...recipe.checks(b, m),
     // Role-agnostic: every piece the garment drafted must declare its notches.
     notchGrainCheck(blockPieces(b).map((p) => p.name), recipe.notches),

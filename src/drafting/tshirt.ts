@@ -15,6 +15,7 @@ import { point, CubicBezier, cubicLength } from "../geometry";
 import { Measurements, derive } from "./measurements";
 import { Edge, Piece, edgeLength, pieceEdge } from "./piece";
 import { Block, block } from "./block";
+import { sleevedTopStitches } from "./tshirt-checks";
 
 export function draftFront(m: Measurements): Piece {
   const d = derive(m);
@@ -141,5 +142,8 @@ export function draftSleeve(m: Measurements): Piece {
 
 /** Draft a complete t-shirt block from one set of measurements. */
 export function draftTshirt(m: Measurements): Block {
-  return block({ front: draftFront(m), back: draftBack(m), sleeve: draftSleeve(m) });
+  return block(
+    { front: draftFront(m), back: draftBack(m), sleeve: draftSleeve(m) },
+    sleevedTopStitches(["side"], false)
+  );
 }

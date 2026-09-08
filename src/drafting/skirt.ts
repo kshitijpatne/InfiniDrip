@@ -9,13 +9,14 @@
 
 import { point } from "../geometry";
 import { Measurements } from "./measurements";
-import { Edge, Piece, pieceEdge, edgeLength, edgeStart, edgeEnd } from "./piece";
+import { Edge, Piece, pieceEdge, edgeStart, edgeEnd } from "./piece";
 import { Block, block, rolePiece } from "./block";
-import { CheckResult, matchLengths, squareCorner } from "../guidance/check";
+import { CheckResult, squareCorner } from "../guidance/check";
 import { Note } from "../guidance/note";
 import { GradeRule } from "./grading";
 import { Pom, spanX, spanY, PointRef } from "./pom";
 import { PieceNotches } from "./tshirt-notches";
+import { Stitch, edgeRef, iface } from "./stitch";
 
 /** One skirt panel (front or back), cut on the fold at the centre (x = 0). */
 function panel(m: Measurements, name: string): Piece {
@@ -38,26 +39,33 @@ function panel(m: Measurements, name: string): Piece {
   return { name, onFold: true, edges };
 }
 
+/** The skirt's one stitch: front and back side seams, each a two-edge interface
+ *  (sideUpper + sideLower — the taper to the hip, then straight to the hem). No
+ *  parameters needed, unlike the sleeved-top family: there's only one skirt
+ *  variant, so this is a plain constant rather than a builder function. */
+const SKIRT_STITCHES: readonly Stitch[] = [
+  {
+    label: "Side seam (front ↔ back)",
+    a: iface(edgeRef("front", "sideUpper"), edgeRef("front", "sideLower")),
+    b: iface(edgeRef("back", "sideUpper"), edgeRef("back", "sideLower")),
+  },
+];
+
 export function draftSkirt(m: Measurements): Block {
-  return block({ front: panel(m, "front"), back: panel(m, "back") });
+  return block({ front: panel(m, "front"), back: panel(m, "back") }, SKIRT_STITCHES);
 }
 
 // ── sewability checks (recipe-owned) ──────────────────────────────────────────
 
-function sideSeam(b: Block, role: string): number {
-  const p = rolePiece(b, role);
-  return edgeLength(pieceEdge(p, "sideUpper")) + edgeLength(pieceEdge(p, "sideLower"));
-}
-
-/** A skirt sews together when the front and back side seams match and the hem and
- *  waist meet the fold square. No sleeve is ever named. */
-export function skirtChecks(b: Block): CheckResult[] {
+/** What's left once the side-seam stitch above is declared: the hem and waist
+ *  each meeting the fold square — panel properties, not seams between two
+ *  pieces, so `stitchChecks` can't express them. No sleeve is ever named. */
+export function skirtPanelChecks(b: Block): CheckResult[] {
   const front = rolePiece(b, "front");
   const hem = pieceEdge(front, "hem");
   const waist = pieceEdge(front, "waist");
   const center = pieceEdge(front, "center");
   return [
-    matchLengths("Side seam (front ↔ back)", sideSeam(b, "front"), sideSeam(b, "back")),
     squareCorner("Hem square to the fold", edgeStart(hem), edgeEnd(hem), edgeEnd(center)),
     squareCorner("Waist square to the fold", edgeEnd(waist), edgeStart(waist), edgeStart(center)),
   ];

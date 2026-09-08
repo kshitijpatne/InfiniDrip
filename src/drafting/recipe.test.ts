@@ -3,6 +3,7 @@ import { STANDARD_M } from "./measurements";
 import { TEE, FITTED, GARMENTS, garmentByName } from "./recipe";
 import { dartOf } from "./dart";
 import { rolePiece, blockPieces } from "./block";
+import { garmentReport } from "../guidance/garment-check";
 
 describe("the garment registry", () => {
   it("lists every garment with a stable id and a display label", () => {
@@ -44,14 +45,18 @@ describe("recipes are self-describing", () => {
 
   it("gives every garment a sewability-check function and a size metric", () => {
     // The tee is undarted (no dart-leg check); the fitted is darted (has one).
+    // Phase A2: the seam/cap facts now come from stitches (declared on the
+    // block) plus recipe.checks for whatever isn't a stitch (a hem square to
+    // the fold). garmentReport is where production combines the two — read
+    // from there, not from recipe.checks alone, which only has the panel half.
     expect(dartOf(rolePiece(TEE.draft(STANDARD_M), "front"))).toBeNull();
-    const teeChecks = TEE.checks(TEE.draft(STANDARD_M), STANDARD_M).map((c) => c.name);
+    const teeChecks = garmentReport(TEE, STANDARD_M).checks.map((c) => c.name);
     expect(teeChecks).toContain("Side seam (front ↔ back)");
     expect(teeChecks).toContain("Hem square to the fold"); // trued hem
     expect(teeChecks).not.toContain("Dart legs equal");
 
     expect(dartOf(rolePiece(FITTED.draft(STANDARD_M), "front"))).not.toBeNull();
-    const fittedChecks = FITTED.checks(FITTED.draft(STANDARD_M), STANDARD_M).map((c) => c.name);
+    const fittedChecks = garmentReport(FITTED, STANDARD_M).checks.map((c) => c.name);
     expect(fittedChecks).toContain("Dart legs equal");
     expect(fittedChecks).not.toContain("Hem square to the fold"); // untrued, opts out
 

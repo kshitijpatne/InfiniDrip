@@ -2,8 +2,15 @@ import { describe, it, expect } from "vitest";
 import { STANDARD_M } from "./measurements";
 import { blockPieces, rolePiece } from "./block";
 import { pieceEdge, edgeStart, edgeEnd } from "./piece";
-import { draftSkirt, skirtChecks, skirtGuidance, SKIRT_GRADE, SKIRT_POMS } from "./skirt";
+import { draftSkirt, skirtPanelChecks, skirtGuidance, SKIRT_GRADE, SKIRT_POMS } from "./skirt";
+import { stitchChecks } from "./stitch";
 import { SKIRT, gradeRun, specSheet } from "./index";
+
+/** The whole sewability surface for a skirt — stitches plus panel checks
+ *  together, the same combination garmentReport assembles in production. */
+function allSkirtChecks(b: ReturnType<typeof draftSkirt>) {
+  return [...stitchChecks(b, b.stitches), ...skirtPanelChecks(b)];
+}
 
 describe("draftSkirt", () => {
   it("drafts a front and back panel, each with the skirt's edges and no sleeve", () => {
@@ -46,14 +53,21 @@ describe("draftSkirt", () => {
   it("still drafts a sewable panel at the extremes of the hipDepth range", () => {
     for (const hipDepth of [12, 35]) {
       const b = draftSkirt({ ...STANDARD_M, hipDepth });
-      expect(skirtChecks(b).every((c) => c.ok)).toBe(true);
+      expect(allSkirtChecks(b).every((c) => c.ok)).toBe(true);
     }
   });
 });
 
-describe("skirtChecks", () => {
-  it("passes on a real skirt and names no sleeve", () => {
-    const checks = skirtChecks(draftSkirt(STANDARD_M));
+describe("skirtPanelChecks", () => {
+  it("returns just the hem and waist checks — the side seam is a stitch now, not here", () => {
+    const checks = skirtPanelChecks(draftSkirt(STANDARD_M));
+    expect(checks.map((c) => c.name)).toEqual(["Hem square to the fold", "Waist square to the fold"]);
+    expect(checks.every((c) => c.ok)).toBe(true);
+  });
+
+  it("combined with its stitch, the full skirt check surface passes and names no sleeve", () => {
+    const b = draftSkirt(STANDARD_M);
+    const checks = allSkirtChecks(b);
     expect(checks.every((c) => c.ok)).toBe(true);
     const names = checks.map((c) => c.name);
     expect(names).toContain("Side seam (front ↔ back)");

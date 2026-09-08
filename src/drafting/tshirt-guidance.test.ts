@@ -19,7 +19,7 @@ function blockWith(armholeHalf: number, capHalf: number): Block {
       { kind: "line", name: "capRight", start: point(0, 0), end: point(0, capHalf) },
     ],
   };
-  return block({ front: armPiece("front", armholeHalf), back: armPiece("back", armholeHalf), sleeve });
+  return block({ front: armPiece("front", armholeHalf), back: armPiece("back", armholeHalf), sleeve }, []);
 }
 
 describe("armholeMatch", () => {

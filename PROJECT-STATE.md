@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 49. Update this after every slice (and commit it WITH the code)._
+_Last updated: after Slice 50. Update this after every slice (and commit it WITH the code)._
 
 **Governing plan:** MVP-PLAN.md (operative — the 6-month execution plan) and
 ROADMAP.md (strategic — full competitor analysis + long-term scope + the cut
@@ -119,6 +119,47 @@ F1. **(Fable) Real-world export system** — two new writers on the existing exp
 22. per-size export — a size picker in the export area drafts the chosen graded
     size (via `draftAtSize`) and emits `<garment>-<SIZE>.<ext>`; scopes only the
     exports, every other view keeps its job (327)
+50. Component architecture Phase A2 (COMPONENT-ARCHITECTURE.md §9) — the
+    migration lands. `Block.stitches` is now REQUIRED (§11 Q4's boundary);
+    all three recipes declare their real stitches (`sleevedTopStitches` for
+    tee/fitted, a plain `SKIRT_STITCHES` constant for skirt — no builder
+    needed, there's only one skirt variant); `garmentReport` combines
+    `stitchChecks(b, b.stitches)` with `recipe.checks(b, m)`, narrowed to
+    panel-only (a hem or waist square to the fold — a property of one
+    panel, not a seam). `dartLegCheck`/`frontHemWidth` deliberately
+    untouched — independently useful, independently tested elsewhere.
+    A real, solved circular-import risk, flagged at scoping time and
+    confirmed rather than assumed: `stitch.ts` imports `Block` from
+    `block.ts`, so `block.ts` importing `Stitch` back would be a genuine
+    cycle. Used `import type { Stitch }` — erased at compile time, never
+    touches the runtime module graph — and verified empirically: after the
+    change, `tsc` raised zero complaints about the cycle, only the expected
+    downstream call-site errors. The self-referential trap flagged when
+    scoping this slice was real and required a real fix, not just caution:
+    A1's equivalence tests compared declared stitches against
+    `recipe.checks`, which THIS slice narrows to panel-only — comparing
+    against it post-migration would either be vacuous or, since it no
+    longer contains the stitch checks at all, would simply fail. Fixed by
+    capturing a golden master (`garment-check-golden.ts`) — real
+    `garmentReport` output, frozen as literal data, BEFORE any production
+    code changed — and proving it byte-identical to live output first
+    (a dedicated sanity test), mutation-tested (corrupted one detail
+    string, confirmed the sanity test caught it, regenerated clean) BEFORE
+    trusting it as the safety net for the rest of the slice. `stitch.ts`'s
+    equivalence tests now compare the REAL production `b.stitches` (not a
+    parallel test-only table that could drift) against golden-master
+    truth. Mutation-tested the whole migration, not just the golden master:
+    swapped `hasDart: false → true` on the tee's real stitch declaration —
+    caught immediately, and more loudly than a numeric mismatch: the tee's
+    front genuinely has no dart edges, so `pieceEdge` threw "no edge named"
+    rather than silently reporting a wrong-but-plausible number. Two other
+    test files directly tested the deleted functions
+    (`tshirt-checks.test.ts`, `skirt.test.ts`) and needed real rewrites, not
+    just call-site patches; `recipe.test.ts` asserted on `recipe.checks`
+    directly and was fixed to read from `garmentReport` — the real
+    production combination — instead. Gate: 51 files / 660 tests / 100%;
+    byte-identity regression 8/8, confirming zero export-writer file moved.
+    File set: 15 modified + 2 new (the golden master + its sanity test).
 49. Component architecture Phase A1 (COMPONENT-ARCHITECTURE.md §9) —
     `drafting/stitch.ts`: `EdgeRef`/`Interface`/`Stitch` as pure data, plus
     `interfaceLength` and `stitchChecks`, both reusing the SAME primitives
@@ -630,17 +671,20 @@ Phase A. Two things remain outside the codebase, and neither is code: sewing
 the sample-size tee and filling in the Fit Record by hand, and starting the
 code-signing certificate procurement (MVP-PLAN.md §1.4) — a lead-time
 blocker, worth starting regardless of signing itself not being scoped yet.
-**Slice 49 (Phase A1) is built.** `stitch.ts`'s equivalence proof holds
-across every measurement point tested, mutation-verified. `Block` is still
-untouched — no recipe has committed to a stitch yet. **Immediate next
-slice: 50, Phase A2** — `Block` grows a `stitches` field (required from
-this slice on, per §11 Q4), every recipe declares its real stitches, and
-the hand-written checks in `tshirt-checks.ts`/`skirt.ts` are deleted in
-favour of `stitchChecks`. This is the first slice in the migration that
-touches an existing recipe — byte-identity on every export is the gate, not
-a nice-to-have. No garment drafted by this engine has been physically
-validated yet; that remains the single highest-priority open risk in the
-project until a Fit Record comes back filled in.
+**Phase A of the component-architecture migration is COMPLETE** — stitches
+are real, declared data on every recipe's block, `garmentReport` reads them
+generically, and the hand-written seam checks that used to encode
+construction knowledge backwards (inside their own verification) are gone.
+Byte-identity held at every step, proven against a frozen golden master, not
+a live comparison that could have quietly become self-referential.
+**Immediate next slice: Phase B** (COMPONENT-ARCHITECTURE.md §9) —
+`Component`/`ComponentResult` types, then extracting Bodice (collapsing the
+`draftFront`/`draftBack` duplication) and Sleeve (fixing the latent
+armhole-coupling risk documented in §2.4: the sleeve currently fits itself
+to a re-derived tee bodice rather than the one actually in the block).
+No garment drafted by this engine has been physically validated yet; that
+remains the single highest-priority open risk in the project until a Fit
+Record comes back filled in.
 
 Dependency spine (✓ = done, all done):
 notches ✓ → ease ✓ → grading ✓ → tech pack ✓ (spec sheet + document) →
@@ -806,4 +850,5 @@ s45=630 (19 new: 11 fit-compare unit incl. inclusive-tolerance boundary + null-w
 s46=631 (1 new: app.test.ts's electronAPI branch; the desktop shell itself — electron/main.cts, preload.cts, verify-save.cjs — is a new e2e gate outside the Vitest suite entirely, verified separately via npm run electron:verify[-packaged]),
 s47=633 (2 new: menu-dispatch routes through the real button not a duplicate path, mount() never throws with electronAPI entirely absent; menu/window-state/identity/title are a second e2e gate, npm run electron:verify-menu[-packaged], 4 checks × 2 environments × 2 runs, all passing),
 s48: no test-count change (design doc, not code — COMPONENT-ARCHITECTURE.md agreed, ready for Phase A),
-s49=654 (21 new, all in stitch.ts/stitch.test.ts: interfaceLength + stitchChecks unit tests on synthetic data, plus the real equivalence proof — 4 tee points + 3 fitted points + 3 skirt points, field-by-field against the actual hand-written checks, mutation-verified. Zero other file's test count changed.)
+s49=654 (21 new, all in stitch.ts/stitch.test.ts: interfaceLength + stitchChecks unit tests on synthetic data, plus the real equivalence proof — 4 tee points + 3 fitted points + 3 skirt points, field-by-field against the actual hand-written checks, mutation-verified. Zero other file's test count changed.),
+s50=660 (net +6: golden-master sanity tests (3) + skirtPanelChecks/allSkirtChecks coverage (2) + sleevedTopStitches/sleevedTopPanelChecks rewrite (net, replacing the deleted sleevedTopChecks tests) — 15 files modified, 2 new; byte-identity regression 8/8 unchanged, confirming the migration touched zero export-writer output)
