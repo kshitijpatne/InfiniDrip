@@ -8,7 +8,7 @@ execution plan) and ROADMAP.md (strategic — competitor analysis + long-term
 scope + the cut list) are the current planning documents. This file describes
 the engine as it exists; it does not restate the forward plan.
 
-**Architectural fork, Phase A complete (Slice 51), Phase B in progress (Slice 53):**
+**Architectural fork, Phase A complete (Slice 51), Phase B in progress (Slice 54):**
 `COMPONENT-ARCHITECTURE.md` is the design doc for the Interface/Stitch/
 Component work below — read it before touching `drafting/`. Seam knowledge
 is now real, declared data: every `Block` carries a required `stitches`
@@ -67,6 +67,21 @@ diverges into dart edges and a shifted hem — genuinely different geometry
 past that point, not the same duplication B2 was scoped to close. Folding it
 into `bodice` (a `dart?` param, per §5's taxonomy) is a real candidate for a
 later slice, not assumed here.
+
+Slice 54 (B3) is the first Phase-B slice that's a real FIX, not just
+infrastructure or extraction. §2.4's latent coupling — `draftSleeve` fit its
+cap to a re-drafted generic tee bodice, not the bodice actually in the block
+being assembled — is closed at both real consumers. `draftTshirt` measures
+the armhole off the `bodice` pieces it just drafted; `draftFitted` (now also
+on `assembleComponents`) measures it off `draftFittedFront`'s own armhole
+edge, not a generic one. The new `sleeve.ts` Component takes
+`targetArmhole: number` as a param instead of re-deriving it — so a future
+bodice whose armhole genuinely differs (raglan, dropped shoulder, a shirt
+block) can no longer silently get a sleeve fitted to the wrong number.
+Byte-identical at STANDARD_M by construction, exactly as §2.4 predicted:
+fitted's front reuses the tee front's exact armhole curve, so the "fixed"
+number and the old re-derived one come out numerically equal — the fix is
+structural (measuring the real thing), not a value change.
 
 `Block` importing `Stitch` from `stitch.ts` — which itself imports `Block`
 from `block.ts` — is a real circular reference, resolved with `import type`:

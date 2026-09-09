@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 53. Update this after every slice (and commit it WITH the code)._
+_Last updated: after Slice 54. Update this after every slice (and commit it WITH the code)._
 
 **Governing plan:** MVP-PLAN.md (operative — the 6-month execution plan) and
 ROADMAP.md (strategic — full competitor analysis + long-term scope + the cut
@@ -119,6 +119,40 @@ F1. **(Fable) Real-world export system** — two new writers on the existing exp
 22. per-size export — a size picker in the export area drafts the chosen graded
     size (via `draftAtSize`) and emits `<garment>-<SIZE>.<ext>`; scopes only the
     exports, every other view keeps its job (327)
+54. Component architecture Phase B3 (COMPONENT-ARCHITECTURE.md §2.4, §5) —
+    the real fix, not just infrastructure. New file `sleeve.ts`: the cap-
+    fitting machinery (`capCurves`, `solveCapHeight`, `CAP_EASE`) moved out
+    of `tshirt.ts` wholesale, behind `sleeve`, a `Component<SleeveParams>`
+    taking `targetArmhole: number` instead of re-deriving it internally.
+    §2.4's latent coupling: `draftSleeve` used to fit its cap to
+    `armholeLength(m)` — a RE-DRAFTED tee bodice — not the bodice actually
+    in the block being assembled; harmless today only because fitted's front
+    happens to reuse the tee front's exact armhole curve. Fixed at both real
+    consumers: `draftTshirt` now measures the armhole off the front/back
+    pieces it just drafted via `bodice`, and `draftFitted` — also converted
+    to `assembleComponents` this slice — measures it off `draftFittedFront`'s
+    OWN armhole edge, not a generic one. `draftFront`/`draftBack`/
+    `draftSleeve`/`armholeLength` all stay exported from `tshirt.ts` as thin
+    legacy wrappers (still re-deriving, as before) for direct callers/tests;
+    production drafting no longer goes through them. Byte-identical at
+    STANDARD_M by construction (doc's own prediction): every pre-existing
+    test passed unmodified, including `fitted.test.ts`'s
+    `rolePiece(block,"sleeve")).toEqual(draftSleeve(m))` and
+    `regression.test.ts`'s 8/8 SHA-256 baseline. New `sleeve.test.ts` proves
+    the Component contract (role-keyed piece, no stitches/interfaces,
+    targetArmhole genuinely changes the drafted cap — not just coverage from
+    indirect use) and, explicitly, that `draftFitted`'s armhole is now
+    measured off the real darted front (`dartedFront.name === "fitted
+    front"`), not assumed identical to the generic tee's. Verified
+    empirically: temporarily dropped the back's armhole from `draftTshirt`'s
+    targetArmhole sum and confirmed `regression.test.ts` +
+    `tshirt.test.ts` + `sleeve.test.ts` all failed immediately (5 tests),
+    before reverting. Gate: 54 files / 692 tests / 100%. File set: 2 new
+    (`sleeve.ts`, `sleeve.test.ts`), 3 modified (`tshirt.ts`, `fitted.ts`,
+    `drafting/index.ts` barrel export). Phase B: B1 ✅ B2 ✅ B3 ✅. Next
+    (B4): extract Neckline, default-only first (byte-identical), then a
+    separate slice adding shape/widthEase/frontDrop (a real behaviour
+    change, §2.5's neckline gap) — kept as two slices on purpose, not one.
 53. Component architecture Phase B2 (COMPONENT-ARCHITECTURE.md §2.2, §5) —
     the FIRST real consumer of B1's `assembleComponents`. New file
     `bodice.ts`: `bodicePanel`, the exact shared 90% §2.2 measured between
@@ -945,3 +979,4 @@ s50=660 (net +6: golden-master sanity tests (3) + skirtPanelChecks/allSkirtCheck
 s51=671 (11 new, all in stitch.test.ts: 4 matchedNotch unit tests + 3 TSHIRT_NOTCHES + 2 FITTED_NOTCHES + 2 SKIRT_NOTCHES field-by-field equivalence tests against the pre-migration literal tables; 5 files modified, 0 new; regression.test.ts's 8/8 tee/fitted SHA-256 baseline unchanged, confirming zero export-writer output moved)
 s52=680 (9 new, all in the new component.test.ts: 2 Component/ComponentResult shape tests + 7 assembleComponents tests incl. multi-component role-order, stitch-concatenation-order, connecting-stitches-appended-after, and the duplicate-role throw, mutation-verified; 2 new files (component.ts, component.test.ts), 1 file modified (index.ts barrel export only); zero existing recipe touched, so no byte-identity risk this slice)
 s53=686 (6 new, all in the new bodice.test.ts: 4 Component-contract tests (role-keyed pieces, no internal stitches, correct armhole interface, front/back neckline depths differ) + 2 draftFront/draftBack-ARE-bodice's-output equivalence tests; 2 new files (bodice.ts, bodice.test.ts), 2 files modified (tshirt.ts, index.ts barrel export); tshirt.test.ts's pre-existing golden-point assertions + regression.test.ts's 8/8 SHA-256 baseline (tee + fitted) both passed unmodified, mutation-verified via a corrupted neckline control factor)
+s54=692 (6 new, all in the new sleeve.test.ts: 3 Component-contract tests (role-keyed piece, no stitches/interfaces, targetArmhole genuinely used) + 1 draftSleeve-IS-sleeve's-output equivalence test + 2 §2.4-fix proof tests (draftTshirt/draftFitted measure the REAL assembled armhole, draftFitted's off the actual darted front by name); 2 new files (sleeve.ts, sleeve.test.ts), 3 files modified (tshirt.ts, fitted.ts, index.ts barrel export); every pre-existing test incl. fitted.test.ts's sleeve equivalence check and regression.test.ts's 8/8 baseline passed unmodified — byte-identical at STANDARD_M by construction, mutation-verified by dropping the back's armhole from the target sum and confirming 5 tests across 3 files failed immediately)

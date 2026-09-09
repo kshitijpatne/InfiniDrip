@@ -11,13 +11,13 @@
 // The sleeve cap is special: its length is fitted to the armhole length (plus a
 // little ease) so the sleeve actually sews into the armhole — see draftSleeve.
 
-import { point, CubicBezier, cubicLength } from "../geometry";
 import { Measurements } from "./measurements";
-import { Edge, Piece, edgeLength, pieceEdge } from "./piece";
+import { Piece, edgeLength, pieceEdge } from "./piece";
 import { Block } from "./block";
 import { sleevedTopStitches } from "./tshirt-checks";
 import { bodice } from "./bodice";
-import { ComponentResult, assembleComponents } from "./component";
+import { sleeve as sleeveComponent } from "./sleeve";
+import { assembleComponents } from "./component";
 
 /** Thin wrapper over the Bodice component (Phase B2, Slice 53) — kept so
  *  existing callers (armholeLength below, fitted.ts's draftBack reuse,
@@ -30,78 +30,32 @@ export function draftBack(m: Measurements): Piece {
   return bodice(m, { position: "back" }).pieces.back;
 }
 
-// A sleeve cap is eased slightly longer than the armhole it sets into.
-const CAP_EASE = 1.5;
-
-// The two halves of the sleeve cap as Bézier curves, for a given width/height.
-// Used both to measure the cap (when fitting it) and to build the real edges,
-// so the measured length always equals the drawn length.
-function capCurves(width: number, capHeight: number): readonly [CubicBezier, CubicBezier] {
-  const half = width / 2;
-  const left: CubicBezier = {
-    start: point(0, capHeight),
-    control1: point(half * 0.5, capHeight),
-    control2: point(half * 0.55, capHeight * 0.15),
-    end: point(half, 0),
-  };
-  const right: CubicBezier = {
-    start: point(half, 0),
-    control1: point(width - half * 0.55, capHeight * 0.15),
-    control2: point(width - half * 0.5, capHeight),
-    end: point(width, capHeight),
-  };
-  return [left, right];
-}
-
-function capLengthFor(width: number, capHeight: number): number {
-  const [left, right] = capCurves(width, capHeight);
-  return cubicLength(left) + cubicLength(right);
-}
-
-// The cap gets longer as it gets taller, so we binary-search the height that
-// makes the cap the target length. (If the bicep is so wide that even a flat
-// cap is too long, this lands at ~0 and the guidance layer flags the conflict.)
-function solveCapHeight(width: number, target: number): number {
-  let lo = 0;
-  let hi = width;
-  for (let i = 0; i < 30; i++) {
-    const mid = (lo + hi) / 2;
-    if (capLengthFor(width, mid) < target) lo = mid;
-    else hi = mid;
-  }
-  return (lo + hi) / 2;
-}
-
-/** Total armhole length (front + back) — what the sleeve cap must match. */
+/** Total armhole length (front + back) of a GENERIC tee bodice — a
+ *  re-derivation, kept for callers with no real assembled bodice on hand
+ *  (direct tests, the legacy draftSleeve wrapper below). Phase B3 (Slice
+ *  54, §2.4): production drafting no longer goes through this — draftTshirt
+ *  and draftFitted measure the armhole off the ACTUAL pieces they just
+ *  assembled instead, so a future bodice whose armhole genuinely differs
+ *  can no longer silently fit a sleeve to the wrong number. */
 export function armholeLength(m: Measurements): number {
   return edgeLength(pieceEdge(draftFront(m), "armhole")) +
          edgeLength(pieceEdge(draftBack(m), "armhole"));
 }
 
+/** Thin wrapper over the Sleeve component (Phase B3, Slice 54), fit to the
+ *  GENERIC tee armhole above — kept for direct callers/tests. Real recipes
+ *  call the `sleeve` component directly with their own measured armhole. */
 export function draftSleeve(m: Measurements): Piece {
-  const width = m.bicep + m.ease * 0.5;
-  const capHeight = solveCapHeight(width, armholeLength(m) + CAP_EASE);
-  const taper = 3;
-  const hemY = capHeight + m.sleeveLength;
-  const [capLeft, capRight] = capCurves(width, capHeight);
-  const rightHem = point(width - taper, hemY);
-  const leftHem = point(taper, hemY);
-
-  const edges: Edge[] = [
-    { kind: "curve", name: "capLeft", curve: capLeft },
-    { kind: "curve", name: "capRight", curve: capRight },
-    { kind: "line", name: "sideRight", start: point(width, capHeight), end: rightHem },
-    { kind: "line", name: "hem", start: rightHem, end: leftHem },
-    { kind: "line", name: "sideLeft", start: leftHem, end: point(0, capHeight) },
-  ];
-  return { name: "sleeve", onFold: false, edges };
+  return sleeveComponent(m, { targetArmhole: armholeLength(m) }).pieces.sleeve;
 }
 
 /** Draft a complete t-shirt block from one set of measurements. */
 export function draftTshirt(m: Measurements): Block {
-  const sleeve: ComponentResult = { pieces: { sleeve: draftSleeve(m) }, stitches: [], interfaces: {} };
-  return assembleComponents(
-    [bodice(m, { position: "front" }), bodice(m, { position: "back" }), sleeve],
-    sleevedTopStitches(["side"], false)
-  );
+  const front = bodice(m, { position: "front" });
+  const back = bodice(m, { position: "back" });
+  const targetArmhole =
+    edgeLength(pieceEdge(front.pieces.front, "armhole")) +
+    edgeLength(pieceEdge(back.pieces.back, "armhole"));
+  const sleeveResult = sleeveComponent(m, { targetArmhole });
+  return assembleComponents([front, back, sleeveResult], sleevedTopStitches(["side"], false));
 }
