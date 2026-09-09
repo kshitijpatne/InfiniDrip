@@ -16,7 +16,7 @@ import { Note } from "../guidance/note";
 import { GradeRule } from "./grading";
 import { Pom, spanX, spanY, PointRef } from "./pom";
 import { PieceNotches } from "./tshirt-notches";
-import { Stitch, edgeRef, iface } from "./stitch";
+import { Stitch, edgeRef, iface, matchedNotch } from "./stitch";
 
 /** One skirt panel (front or back), cut on the fold at the centre (x = 0). */
 function panel(m: Measurements, name: string): Piece {
@@ -132,15 +132,21 @@ export const SKIRT_POMS: readonly Pom[] = [
   },
 ];
 
+// Phase A3 (Slice 51): both balance notches read off SKIRT_STITCHES' own
+// side-seam interface (index 1 = sideLower, the edge nearest the hem) instead
+// of a second, separately-typed "sideLower" string.
 export const SKIRT_NOTCHES: readonly PieceNotches[] = [
   {
     pieceName: "front",
-    notches: [{ edgeName: "sideLower", t: 0.5 }], // a balance notch at the side
+    notches: [matchedNotch(SKIRT_STITCHES[0], "a", 0.5, 1)], // a balance notch at the side
     grainline: { topEdge: "waist", topT: 0.5, bottomEdge: "hem", bottomT: 0.5 },
   },
   {
     pieceName: "back",
-    notches: [{ edgeName: "sideLower", t: 0.5 }, { edgeName: "sideLower", t: 0.75 }], // 2 = back
+    notches: [
+      matchedNotch(SKIRT_STITCHES[0], "b", 0.5, 1),
+      matchedNotch(SKIRT_STITCHES[0], "b", 0.75, 1), // 2 = back
+    ],
     grainline: { topEdge: "waist", topT: 0.5, bottomEdge: "hem", bottomT: 0.5 },
   },
 ];

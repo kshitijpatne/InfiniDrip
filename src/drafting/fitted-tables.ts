@@ -9,17 +9,24 @@ import { Pom, seam, spanX, spanY, PointRef } from "./pom";
 import { pieceEdge, edgeStart, edgeEnd } from "./piece";
 import { rolePiece } from "./block";
 import { dartIntake } from "./dart";
+import { sleevedTopStitches } from "./tshirt-checks";
+import { matchedNotch } from "./stitch";
 
 const FOLD: PointRef = { edge: "centerFront", at: "start" };
+
+// Phase A3 (Slice 51): the fitted front's own stitches — same reasoning as
+// TSHIRT_NOTCHES. The side seam is 2 edges (sideUpper/sideLower); the notch
+// sits on sideLower (index 1), same as the hand table always placed it.
+const [FITTED_SHOULDER, FITTED_SIDE] = sleevedTopStitches(["sideUpper", "sideLower"], true);
 
 /** Notches + grainlines for the fitted block: a new front, the tee's back/sleeve. */
 export const FITTED_NOTCHES: readonly PieceNotches[] = [
   {
     pieceName: "fitted front",
     notches: [
-      { edgeName: "shoulder", t: 0.5 },
-      { edgeName: "sideLower", t: 0.5 },
-      { edgeName: "armhole", t: 0.33 },
+      matchedNotch(FITTED_SHOULDER, "a", 0.5),
+      matchedNotch(FITTED_SIDE, "a", 0.5, 1),
+      { edgeName: "armhole", t: 0.33 }, // sleeve-cap ease — not a matched point
     ],
     grainline: { topEdge: "neckline", topT: 0.5, bottomEdge: "hem", bottomT: 0.5 },
   },

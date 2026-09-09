@@ -2,8 +2,11 @@ import { describe, it, expect } from "vitest";
 import { Piece } from "./piece";
 import { Block, block } from "./block";
 import { Point } from "../geometry";
-import { Stitch, edgeRef, iface, interfaceLength, stitchChecks } from "./stitch";
+import { Stitch, edgeRef, iface, interfaceLength, stitchChecks, matchedNotch } from "./stitch";
 import { TEE, FITTED, SKIRT } from "./recipe";
+import { TSHIRT_NOTCHES } from "./tshirt-notches";
+import { FITTED_NOTCHES } from "./fitted-tables";
+import { SKIRT_NOTCHES } from "./skirt";
 import { STANDARD_M } from "./measurements";
 import { CheckResult } from "../guidance/check";
 import {
@@ -106,6 +109,99 @@ describe("stitchChecks", () => {
     const s2: Stitch = { label: "Second", a: iface(edgeRef("front", "cap")), b: iface(edgeRef("back", "armhole")), ease: { lo: -1, hi: 4 } };
     const results = stitchChecks(b, [s1, s2]);
     expect(results.map((r) => r.name)).toEqual(["First", "Second"]);
+  });
+});
+
+describe("matchedNotch", () => {
+  const s: Stitch = {
+    label: "Side seam",
+    a: iface(edgeRef("front", "sideUpper"), edgeRef("front", "sideLower")),
+    b: iface(edgeRef("back", "side")),
+  };
+
+  it("reads side a's edge name at the default index (0)", () => {
+    expect(matchedNotch(s, "a", 0.5)).toEqual({ edgeName: "sideUpper", t: 0.5 });
+  });
+
+  it("reads side b's edge name", () => {
+    expect(matchedNotch(s, "b", 0.5)).toEqual({ edgeName: "side", t: 0.5 });
+  });
+
+  it("picks a later edge of a multi-edge interface by index", () => {
+    expect(matchedNotch(s, "a", 0.5, 1)).toEqual({ edgeName: "sideLower", t: 0.5 });
+  });
+
+  it("carries t through unchanged, including a non-default position", () => {
+    expect(matchedNotch(s, "b", 0.75)).toEqual({ edgeName: "side", t: 0.75 });
+  });
+});
+
+// ── Phase A3 proof: each garment's derived notch table matches the ORIGINAL
+// hand-written literals exactly, field for field — not just the SVG hash
+// (regression.test.ts covers tee/fitted output; skirt has no export baseline,
+// so this is skirt's only byte-level proof). These are the literal values
+// tshirt-notches.ts / fitted-tables.ts / skirt.ts shipped before this slice.
+
+describe("TSHIRT_NOTCHES matches the pre-migration hand table exactly", () => {
+  it("front: shoulder, side, armhole", () => {
+    const front = TSHIRT_NOTCHES.find((r) => r.pieceName === "front")!;
+    expect(front.notches).toEqual([
+      { edgeName: "shoulder", t: 0.5 },
+      { edgeName: "side", t: 0.5 },
+      { edgeName: "armhole", t: 0.33 },
+    ]);
+  });
+
+  it("back: shoulder x2 (back reference), side, armhole", () => {
+    const back = TSHIRT_NOTCHES.find((r) => r.pieceName === "back")!;
+    expect(back.notches).toEqual([
+      { edgeName: "shoulder", t: 0.5 },
+      { edgeName: "shoulder", t: 0.5 },
+      { edgeName: "side", t: 0.5 },
+      { edgeName: "armhole", t: 0.33 },
+    ]);
+  });
+
+  it("sleeve: capLeft, capRight, sideLeft, sideRight", () => {
+    const sleeve = TSHIRT_NOTCHES.find((r) => r.pieceName === "sleeve")!;
+    expect(sleeve.notches).toEqual([
+      { edgeName: "capLeft", t: 0.5 },
+      { edgeName: "capRight", t: 0.5 },
+      { edgeName: "sideLeft", t: 0.5 },
+      { edgeName: "sideRight", t: 0.5 },
+    ]);
+  });
+});
+
+describe("FITTED_NOTCHES matches the pre-migration hand table exactly", () => {
+  it("fitted front: shoulder, sideLower, armhole", () => {
+    const front = FITTED_NOTCHES.find((r) => r.pieceName === "fitted front")!;
+    expect(front.notches).toEqual([
+      { edgeName: "shoulder", t: 0.5 },
+      { edgeName: "sideLower", t: 0.5 },
+      { edgeName: "armhole", t: 0.33 },
+    ]);
+  });
+
+  it("still reuses the tee's back and sleeve entries verbatim", () => {
+    expect(FITTED_NOTCHES.some((r) => r.pieceName === "back")).toBe(true);
+    expect(FITTED_NOTCHES.some((r) => r.pieceName === "sleeve")).toBe(true);
+    expect(FITTED_NOTCHES.some((r) => r.pieceName === "front")).toBe(false);
+  });
+});
+
+describe("SKIRT_NOTCHES matches the pre-migration hand table exactly", () => {
+  it("front: one balance notch at sideLower", () => {
+    const front = SKIRT_NOTCHES.find((r) => r.pieceName === "front")!;
+    expect(front.notches).toEqual([{ edgeName: "sideLower", t: 0.5 }]);
+  });
+
+  it("back: two notches at different t (2 = back reference)", () => {
+    const back = SKIRT_NOTCHES.find((r) => r.pieceName === "back")!;
+    expect(back.notches).toEqual([
+      { edgeName: "sideLower", t: 0.5 },
+      { edgeName: "sideLower", t: 0.75 },
+    ]);
   });
 });
 

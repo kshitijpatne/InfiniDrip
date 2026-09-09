@@ -8,7 +8,7 @@ execution plan) and ROADMAP.md (strategic — competitor analysis + long-term
 scope + the cut list) are the current planning documents. This file describes
 the engine as it exists; it does not restate the forward plan.
 
-**Architectural fork, Phase A complete (Slice 50):**
+**Architectural fork, Phase A complete (Slice 51):**
 `COMPONENT-ARCHITECTURE.md` is the design doc for the Interface/Stitch/
 Component work below — read it before touching `drafting/`. Seam knowledge
 is now real, declared data: every `Block` carries a required `stitches`
@@ -26,6 +26,23 @@ seam/cap/dart checks in `tshirt-checks.ts`/`skirt.ts` are gone; what
 remains there (`dartLegCheck`, `frontHemWidth`) are genuinely independent
 utilities, kept because they're still used and tested on their own, not
 migration leftovers.
+
+Slice 51 (A3) closed the last Phase-A gap: **matched notches now read their
+edge name off the stitch they mark**, via `matchedNotch(stitch, side, t,
+edgeIndex?)` in `stitch.ts`. `tshirt-notches.ts` (tee), `fitted-tables.ts`,
+and `skirt.ts`'s notch tables no longer re-type an edge name a stitch already
+declares — so a matched-seam notch can't silently drift from the seam it
+marks the way two independently hand-typed table entries could. NOT
+derived, deliberately: the armhole/sleeve-cap notches, because the stitch
+they'd come from (sleeve-cap ease) is multi-edge AND eased — there's no
+single matched point on a seam whose whole point is that its two sides
+*aren't* the same length. Those stay hand-authored, same boundary logic as
+the panel-owned hem/waist-square checks. Byte-identity gated: `tee`/`fitted`
+SVG output (which embeds resolved notch positions) is unchanged per
+`regression.test.ts`'s SHA-256 baseline; skirt has no export baseline, so
+its notch table is instead proven field-for-field against the pre-migration
+literal values in `stitch.test.ts`. Phase A (stitches as data) is now fully
+closed; Phase B (components) is next.
 
 `Block` importing `Stitch` from `stitch.ts` — which itself imports `Block`
 from `block.ts` — is a real circular reference, resolved with `import type`:

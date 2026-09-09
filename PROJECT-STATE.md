@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 50. Update this after every slice (and commit it WITH the code)._
+_Last updated: after Slice 51. Update this after every slice (and commit it WITH the code)._
 
 **Governing plan:** MVP-PLAN.md (operative — the 6-month execution plan) and
 ROADMAP.md (strategic — full competitor analysis + long-term scope + the cut
@@ -119,6 +119,40 @@ F1. **(Fable) Real-world export system** — two new writers on the existing exp
 22. per-size export — a size picker in the export area drafts the chosen graded
     size (via `draftAtSize`) and emits `<garment>-<SIZE>.<ext>`; scopes only the
     exports, every other view keeps its job (327)
+51. Component architecture Phase A3 (COMPONENT-ARCHITECTURE.md §9) — closes
+    Phase A. A matched notch exists *because* two edges are sewn together, so
+    it should read its edge name off the stitch that sews them, not a second,
+    independently hand-typed table entry that could silently drift from it.
+    New `matchedNotch(stitch, side, t, edgeIndex?)` in `stitch.ts`, returning
+    the same `{edgeName, t}` shape `NotchRule` needs — deliberately structural
+    rather than importing `NotchRule` from `render/notch.ts`, since that file
+    already imports the drafting barrel and a value import back would be a
+    real drafting → render cycle. `edgeIndex` (default 0) picks which edge of
+    a multi-edge interface carries the notch — the side seam is 2 edges
+    (sideUpper/sideLower); the notch sits on sideLower, index 1, same as the
+    hand table always placed it. Applied to `tshirt-notches.ts` (tee: shoulder,
+    side, sleeve-underarm notches now derived from `sleevedTopStitches(["side"],
+    false)`), `fitted-tables.ts` (fitted front: shoulder + side, derived from
+    `sleevedTopStitches(["sideUpper","sideLower"], true)`), and `skirt.ts`
+    (both balance notches derived from `SKIRT_STITCHES[0]`). Deliberately NOT
+    derived: the armhole/sleeve-cap notches (t=0.33 / capLeft / capRight) —
+    their stitch is the sleeve-cap-ease interface, multi-edge AND eased, so
+    there's no single matched point the way an ordinary 1:1 seam has one.
+    Those stay hand-authored, same boundary as A2's panel-owned hem/waist-
+    square checks. Verified empirically, not assumed: temporarily corrupted
+    the fitted side-seam's `edgeIndex` (1 → 0, picking sideUpper instead of
+    sideLower) and confirmed `regression.test.ts`'s SHA-256 gate caught it
+    immediately, before reverting. Proof this slice owed: each derived notch
+    table compared field-by-field against the literal pre-migration hand
+    values in `stitch.test.ts` (tee front/back/sleeve, fitted front, skirt
+    front/back) — skirt has no export byte-identity baseline, so this is its
+    only byte-level proof. `regression.test.ts`'s existing tee/fitted SHA-256
+    baseline (unchanged from Slice 34) is the other half of the gate and
+    passed unmodified — confirms zero export-writer output moved. Gate: 51
+    files / 671 tests / 100%. File set: 5 modified (`stitch.ts`,
+    `stitch.test.ts`, `tshirt-notches.ts`, `fitted-tables.ts`, `skirt.ts`),
+    zero new files. Phase A (stitches as data) is now fully closed; Phase B
+    (components) is next.
 50. Component architecture Phase A2 (COMPONENT-ARCHITECTURE.md §9) — the
     migration lands. `Block.stitches` is now REQUIRED (§11 Q4's boundary);
     all three recipes declare their real stitches (`sleevedTopStitches` for
@@ -852,3 +886,4 @@ s47=633 (2 new: menu-dispatch routes through the real button not a duplicate pat
 s48: no test-count change (design doc, not code — COMPONENT-ARCHITECTURE.md agreed, ready for Phase A),
 s49=654 (21 new, all in stitch.ts/stitch.test.ts: interfaceLength + stitchChecks unit tests on synthetic data, plus the real equivalence proof — 4 tee points + 3 fitted points + 3 skirt points, field-by-field against the actual hand-written checks, mutation-verified. Zero other file's test count changed.),
 s50=660 (net +6: golden-master sanity tests (3) + skirtPanelChecks/allSkirtChecks coverage (2) + sleevedTopStitches/sleevedTopPanelChecks rewrite (net, replacing the deleted sleevedTopChecks tests) — 15 files modified, 2 new; byte-identity regression 8/8 unchanged, confirming the migration touched zero export-writer output)
+s51=671 (11 new, all in stitch.test.ts: 4 matchedNotch unit tests + 3 TSHIRT_NOTCHES + 2 FITTED_NOTCHES + 2 SKIRT_NOTCHES field-by-field equivalence tests against the pre-migration literal tables; 5 files modified, 0 new; regression.test.ts's 8/8 tee/fitted SHA-256 baseline unchanged, confirming zero export-writer output moved)

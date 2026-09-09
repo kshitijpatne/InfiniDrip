@@ -70,3 +70,26 @@ export function stitchChecks(b: Block, stitches: readonly Stitch[]): CheckResult
     return s.ease ? inBand(s.label, la - lb, s.ease.lo, s.ease.hi) : matchLengths(s.label, la, lb);
   });
 }
+
+/**
+ * Phase A3 (Slice 51, COMPONENT-ARCHITECTURE.md §9). A matched notch exists
+ * *because* two edges are stitched together — so read the edge name off the
+ * stitch itself instead of re-typing it in a separate notch table, where it
+ * could silently drift from the seam it's meant to mark.
+ *
+ * `edgeIndex` picks which edge of a multi-edge interface carries the notch
+ * (the fitted side seam is two edges, sideUpper + sideLower; the notch sits
+ * on sideLower, index 1). Only for a plain, un-eased, 1:1 seam — the return
+ * shape is deliberately structural (not `NotchRule`, imported from
+ * render/notch.ts) so this stays a drafting-layer function with no
+ * dependency on render: drafting -> render would be a real cycle, since
+ * render/notch.ts already imports the drafting barrel.
+ */
+export function matchedNotch(
+  stitch: Stitch,
+  side: "a" | "b",
+  t: number,
+  edgeIndex = 0
+): { readonly edgeName: string; readonly t: number } {
+  return { edgeName: stitch[side].edges[edgeIndex].edge, t };
+}
