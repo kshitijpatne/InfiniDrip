@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 55. Update this after every slice (and commit it WITH the code)._
+_Last updated: after Slice 56. Update this after every slice (and commit it WITH the code)._
 
 **Governing plan:** MVP-PLAN.md (operative — the 6-month execution plan) and
 ROADMAP.md (strategic — full competitor analysis + long-term scope + the cut
@@ -119,6 +119,44 @@ F1. **(Fable) Real-world export system** — two new writers on the existing exp
 22. per-size export — a size picker in the export area drafts the chosen graded
     size (via `draftAtSize`) and emits `<garment>-<SIZE>.<ext>`; scopes only the
     exports, every other view keeps its job (327)
+56. Component architecture Phase B4, part 2 of 2 (COMPONENT-ARCHITECTURE.md
+    §6, §9) — the real behaviour change, scoped before building (no prior
+    agreed design existed for any of this). `necklineEdge` now implements
+    "v" for real: a straight line (`kind:"line"`) from cNeck to hps, no
+    curve — the true-to-life V, two straight seams meeting at a point.
+    `widthEase` genuinely widens `neckWidthHalf` (shared, so front/back stay
+    shoulder-seam-compatible); `frontDrop` genuinely deepens the front only
+    (back's depth is untouched by it, proven directly). Both §6 guardrails
+    are real: `necklineEdge` takes `shoulderHalf`/`armholeDepth` and returns
+    `notes: readonly Note[]` — warns (never blocks) when the effective
+    width reaches the shoulder seam or the front depth reaches the armhole,
+    both boundary-tested at the exact trigger value, both independently and
+    together. "scoop"/"boat" still throw — no curve math exists for them
+    anywhere, and §6 always scoped them to the shirt block, not invented
+    here. Scoping decision made explicit before coding: `NecklineParams` is
+    STILL not threaded through `BodiceParams` or any recipe — a v-neck tee
+    isn't draftable end-to-end yet, only the capability is real and proven
+    by direct tests. Wiring it to something a person can actually reach is
+    its own later slice, once a UI control exists to drive it; building
+    that now, nothing able to test it against, would be backwards from how
+    every prior Phase B slice proved itself. Byte-identical at
+    NECKLINE_DEFAULT: `bodice.ts`/`fitted.ts`'s calls now pass the 2 new
+    required params (`shoulderHalf`, `armholeDepth` — always already in
+    scope at both call sites) but every pre-existing test, incl.
+    `regression.test.ts`'s 8/8 SHA-256 baseline, passed unmodified — the
+    guardrails are mathematically silent at default measurements.
+    `neckline.test.ts` rewritten for the new signature: crew geometry
+    (unchanged from Slice 55) + v geometry + widthEase/frontDrop application
+    + both guardrails solo and combined + the "no live code path reaches
+    scoop/boat" throws + the 3 byte-identity equivalence checks. Verified
+    empirically: disabled the shoulder-seam guardrail's condition and
+    confirmed 2 tests failed immediately, before reverting. Gate: 55 files
+    / 709 tests / 100%. File set: 4 modified (`neckline.ts`,
+    `neckline.test.ts` rewritten, `bodice.ts`, `fitted.ts`), no new files
+    this slice. Phase B: B1 ✅ B2 ✅ B3 ✅ B4 ✅ (both parts). Next
+    (B5): extract Waistband/hem treatment — the last item on Phase B's own
+    list before Phase C (re-express the skirt via components, then the real
+    test: a tank in hours not a slice-run).
 55. Component architecture Phase B4, part 1 of 2 (COMPONENT-ARCHITECTURE.md
     §6, §9) — extract Neckline, default-only, byte-identical. New file
     `neckline.ts`: `NecklineParams`/`NECKLINE_DEFAULT` typed per §6's full
@@ -1021,3 +1059,4 @@ s52=680 (9 new, all in the new component.test.ts: 2 Component/ComponentResult sh
 s53=686 (6 new, all in the new bodice.test.ts: 4 Component-contract tests (role-keyed pieces, no internal stitches, correct armhole interface, front/back neckline depths differ) + 2 draftFront/draftBack-ARE-bodice's-output equivalence tests; 2 new files (bodice.ts, bodice.test.ts), 2 files modified (tshirt.ts, index.ts barrel export); tshirt.test.ts's pre-existing golden-point assertions + regression.test.ts's 8/8 SHA-256 baseline (tee + fitted) both passed unmodified, mutation-verified via a corrupted neckline control factor)
 s54=692 (6 new, all in the new sleeve.test.ts: 3 Component-contract tests (role-keyed piece, no stitches/interfaces, targetArmhole genuinely used) + 1 draftSleeve-IS-sleeve's-output equivalence test + 2 §2.4-fix proof tests (draftTshirt/draftFitted measure the REAL assembled armhole, draftFitted's off the actual darted front by name); 2 new files (sleeve.ts, sleeve.test.ts), 3 files modified (tshirt.ts, fitted.ts, index.ts barrel export); every pre-existing test incl. fitted.test.ts's sleeve equivalence check and regression.test.ts's 8/8 baseline passed unmodified — byte-identical at STANDARD_M by construction, mutation-verified by dropping the back's armhole from the target sum and confirming 5 tests across 3 files failed immediately)
 s55=702 (10 new, all in the new neckline.test.ts: 3 crew-geometry tests (point placement, front/back control-factor difference, params-default-to-NECKLINE_DEFAULT) + 4 deliberately-unimplemented tests (throws on v, scoop, boat, non-zero widthEase, non-zero frontDrop) + 3 draftFront/draftBack/draftFittedFront-ARE-necklineEdge's-output equivalence tests; 2 new files (neckline.ts, neckline.test.ts), 3 files modified (bodice.ts, fitted.ts, index.ts barrel export); every pre-existing test incl. fitted.test.ts's neckline-verbatim check and regression.test.ts's 8/8 baseline passed unmodified, mutation-verified by corrupting the back control factor and confirming 9 tests across 2 files failed immediately)
+s56=709 (net +7 vs s55, neckline.test.ts rewritten for the new 6-arg necklineEdge signature: crew tests kept + v-geometry, widthEase/frontDrop application, guardrail solo/combined/silent-at-default, and the narrowed scoop/boat-only throw tests added; 0 new files, 4 modified (neckline.ts, neckline.test.ts, bodice.ts, fitted.ts); every pre-existing test, incl. regression.test.ts's 8/8 baseline, passed unmodified — byte-identical at NECKLINE_DEFAULT despite both call sites gaining 2 new required params; mutation-verified by disabling the shoulder guardrail's condition and confirming 2 tests failed immediately)

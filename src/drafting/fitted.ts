@@ -24,7 +24,7 @@ const DART_INTAKE = 4; // cm taken up across the dart mouth on the side seam
 
 export function draftFittedFront(m: Measurements): Piece {
   const d = derive(m);
-  const { cNeck: cfNeck, hps, edge: neckline } = necklineEdge("front", d.neckWidthHalf, d.frontNeckDepth);
+  const { cNeck: cfNeck, hps, edge: neckline } = necklineEdge("front", d.neckWidthHalf, d.frontNeckDepth, d.shoulderHalf, m.armholeDepth);
   const shoulder = point(d.shoulderHalf, d.shoulderSlope);
   const underarm = point(d.chestWidthHalf, m.armholeDepth);
   // The dart's mouth opens ON the side seam, so closing the dart SHORTENS that

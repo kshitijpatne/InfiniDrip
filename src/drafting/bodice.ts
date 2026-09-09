@@ -42,7 +42,7 @@ interface PanelOptions {
  *  they didn't. */
 function bodicePanel(m: Measurements, position: "front" | "back", opts: PanelOptions): Piece {
   const d = derive(m);
-  const { cNeck, hps, edge: neckline } = necklineEdge(position, d.neckWidthHalf, opts.neckDepth);
+  const { cNeck, hps, edge: neckline } = necklineEdge(position, d.neckWidthHalf, opts.neckDepth, d.shoulderHalf, m.armholeDepth);
   const shoulder = point(d.shoulderHalf, d.shoulderSlope);
   const underarm = point(d.chestWidthHalf, m.armholeDepth);
   const sideHem = point(d.chestWidthHalf, m.length);

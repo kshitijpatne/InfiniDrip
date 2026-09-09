@@ -8,7 +8,7 @@ execution plan) and ROADMAP.md (strategic — competitor analysis + long-term
 scope + the cut list) are the current planning documents. This file describes
 the engine as it exists; it does not restate the forward plan.
 
-**Architectural fork, Phase A complete (Slice 51), Phase B in progress (Slice 55):**
+**Architectural fork, Phase A complete (Slice 51), Phase B complete (Slice 56):**
 `COMPONENT-ARCHITECTURE.md` is the design doc for the Interface/Stitch/
 Component work below — read it before touching `drafting/`. Seam knowledge
 is now real, declared data: every `Block` carries a required `stitches`
@@ -97,6 +97,28 @@ the tee's only by construction before, not by a shared code path. B4 part 2
 wired to do something, and the guardrails get built and exercised for real —
 none of that has a live code path yet, so building it now would be
 speculative.
+
+Slice 56 (B4 part 2) closed Phase B: `necklineEdge` implements real "v"
+geometry (a straight line to a point — no curve, the true-to-life V),
+applies `widthEase`/`frontDrop` for real, and returns real `notes` for
+both §6 guardrails (shoulder-seam width, armhole-depth front drop), neither
+of which can fire at `NECKLINE_DEFAULT`. Deliberately NOT done, decided
+before coding: `NecklineParams` still isn't threaded through `BodiceParams`
+or any recipe — nothing outside `neckline.test.ts` can reach a non-default
+value yet. A v-neck tee isn't draftable end-to-end; that wiring is its own
+slice, once a UI control exists to drive and test it against — building it
+speculatively now would be backwards from how every prior Phase B slice
+proved itself against something real. Byte-identical at
+`NECKLINE_DEFAULT`: `bodice.ts`/`fitted.ts` now pass 2 new required params
+(`shoulderHalf`, `armholeDepth`, always already in scope) but every
+pre-existing test, including the SHA-256 baseline, passed unmodified — the
+guardrails are mathematically silent at default measurements.
+
+**Phase B is now fully closed: B1 (types) → B2 (Bodice) → B3 (Sleeve, fixed
+§2.4) → B4 (Neckline, both parts).** Next is Phase C: re-express the skirt
+via components (C1), then the real test — a tank (bodice + no sleeve +
+different neckline) in hours, not a slice-run (C2). If it isn't, Phase B
+isn't actually finished, whatever the checklist says.
 
 `Block` importing `Stitch` from `stitch.ts` — which itself imports `Block`
 from `block.ts` — is a real circular reference, resolved with `import type`:
