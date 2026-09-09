@@ -8,7 +8,7 @@ execution plan) and ROADMAP.md (strategic — competitor analysis + long-term
 scope + the cut list) are the current planning documents. This file describes
 the engine as it exists; it does not restate the forward plan.
 
-**Architectural fork, Phase A complete (Slice 51):**
+**Architectural fork, Phase A complete (Slice 51), Phase B started (Slice 52):**
 `COMPONENT-ARCHITECTURE.md` is the design doc for the Interface/Stitch/
 Component work below — read it before touching `drafting/`. Seam knowledge
 is now real, declared data: every `Block` carries a required `stitches`
@@ -43,6 +43,16 @@ SVG output (which embeds resolved notch positions) is unchanged per
 its notch table is instead proven field-for-field against the pre-migration
 literal values in `stitch.test.ts`. Phase A (stitches as data) is now fully
 closed; Phase B (components) is next.
+
+Slice 52 (B1) opened Phase B: `component.ts` adds `ComponentResult` (a
+component's pieces by role, its own internal stitches, and the interfaces
+it exposes for another component to sew onto) and `assembleComponents`, the
+ordered merge helper that turns N `ComponentResult`s + a recipe's connecting
+stitches into a `Block`. Zero consumers yet — tee/fitted/skirt keep drafting
+exactly as before — so this is pure new infrastructure, proven only against
+synthetic data. B2 (extract Bodice) is where a real recipe consumes it for
+the first time, which is also the first real test of whether the shape is
+right.
 
 `Block` importing `Stitch` from `stitch.ts` — which itself imports `Block`
 from `block.ts` — is a real circular reference, resolved with `import type`:

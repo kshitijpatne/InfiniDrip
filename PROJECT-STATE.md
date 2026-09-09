@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 51. Update this after every slice (and commit it WITH the code)._
+_Last updated: after Slice 52. Update this after every slice (and commit it WITH the code)._
 
 **Governing plan:** MVP-PLAN.md (operative — the 6-month execution plan) and
 ROADMAP.md (strategic — full competitor analysis + long-term scope + the cut
@@ -119,6 +119,28 @@ F1. **(Fable) Real-world export system** — two new writers on the existing exp
 22. per-size export — a size picker in the export area drafts the chosen graded
     size (via `draftAtSize`) and emits `<garment>-<SIZE>.<ext>`; scopes only the
     exports, every other view keeps its job (327)
+52. Component architecture Phase B1 (COMPONENT-ARCHITECTURE.md §9) — first
+    slice of Phase B. New file `component.ts`: `ComponentResult` (pieces by
+    role, internal stitches, exposed interfaces), `Component<P>` (a pure
+    `(m, params) => ComponentResult` fn, same shape as a garment's own
+    `draft`), and `assembleComponents(results, connectingStitches?)`, which
+    merges component results — in the order a recipe builds them, since a
+    later component may depend on an earlier one's exposed interface (the
+    sleeve needs the assembled bodice's armhole, §2.4) — plus the recipe's
+    own connecting stitches, into a `Block`. Deliberately narrow, same
+    posture as A1: NO existing recipe touched. Tee/fitted/skirt keep
+    drafting exactly as they do today; zero consumers this slice, so zero
+    byte-identity risk — the merge helper is proven against synthetic
+    ComponentResults, not real garment geometry. `assembleComponents` throws
+    on a role claimed by more than one component rather than silently
+    letting the later one win — same "surface a mismatch immediately"
+    posture `rolePiece` already takes. Verified empirically: temporarily
+    disabled the duplicate-role guard and confirmed the test that names it
+    fails immediately, before reverting. Gate: 52 files / 680 tests / 100%.
+    File set: 2 new (`component.ts`, `component.test.ts`), 1 modified
+    (`drafting/index.ts`, barrel export only). Next (B2): extract Bodice —
+    the FIRST real consumer, and the first real test of whether this shape
+    holds up outside a synthetic test.
 51. Component architecture Phase A3 (COMPONENT-ARCHITECTURE.md §9) — closes
     Phase A. A matched notch exists *because* two edges are sewn together, so
     it should read its edge name off the stitch that sews them, not a second,
@@ -887,3 +909,4 @@ s48: no test-count change (design doc, not code — COMPONENT-ARCHITECTURE.md ag
 s49=654 (21 new, all in stitch.ts/stitch.test.ts: interfaceLength + stitchChecks unit tests on synthetic data, plus the real equivalence proof — 4 tee points + 3 fitted points + 3 skirt points, field-by-field against the actual hand-written checks, mutation-verified. Zero other file's test count changed.),
 s50=660 (net +6: golden-master sanity tests (3) + skirtPanelChecks/allSkirtChecks coverage (2) + sleevedTopStitches/sleevedTopPanelChecks rewrite (net, replacing the deleted sleevedTopChecks tests) — 15 files modified, 2 new; byte-identity regression 8/8 unchanged, confirming the migration touched zero export-writer output)
 s51=671 (11 new, all in stitch.test.ts: 4 matchedNotch unit tests + 3 TSHIRT_NOTCHES + 2 FITTED_NOTCHES + 2 SKIRT_NOTCHES field-by-field equivalence tests against the pre-migration literal tables; 5 files modified, 0 new; regression.test.ts's 8/8 tee/fitted SHA-256 baseline unchanged, confirming zero export-writer output moved)
+s52=680 (9 new, all in the new component.test.ts: 2 Component/ComponentResult shape tests + 7 assembleComponents tests incl. multi-component role-order, stitch-concatenation-order, connecting-stitches-appended-after, and the duplicate-role throw, mutation-verified; 2 new files (component.ts, component.test.ts), 1 file modified (index.ts barrel export only); zero existing recipe touched, so no byte-identity risk this slice)

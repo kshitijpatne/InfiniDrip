@@ -20,3 +20,4 @@ export * from "./fitted-tables";
 export * from "./recipe";
 export * from "./fit-compare";
 export * from "./stitch";
+export * from "./component";
