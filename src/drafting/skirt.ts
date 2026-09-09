@@ -10,13 +10,15 @@
 import { point } from "../geometry";
 import { Measurements } from "./measurements";
 import { Edge, Piece, pieceEdge, edgeStart, edgeEnd } from "./piece";
-import { Block, block, rolePiece } from "./block";
+import { Block, rolePiece } from "./block";
 import { CheckResult, squareCorner } from "../guidance/check";
 import { Note } from "../guidance/note";
 import { GradeRule } from "./grading";
 import { Pom, spanX, spanY, PointRef } from "./pom";
 import { PieceNotches } from "./tshirt-notches";
 import { Stitch, edgeRef, iface, matchedNotch } from "./stitch";
+import { ComponentResult, assembleComponents } from "./component";
+import { waistband, WAISTBAND_DEFAULT } from "./waistband";
 
 /** One skirt panel (front or back), cut on the fold at the centre (x = 0). */
 function panel(m: Measurements, name: string): Piece {
@@ -39,20 +41,30 @@ function panel(m: Measurements, name: string): Piece {
   return { name, onFold: true, edges };
 }
 
-/** The skirt's one stitch: front and back side seams, each a two-edge interface
- *  (sideUpper + sideLower — the taper to the hip, then straight to the hem). No
- *  parameters needed, unlike the sleeved-top family: there's only one skirt
- *  variant, so this is a plain constant rather than a builder function. */
+/** The skirt's stitches: front/back side seams (each a two-edge interface —
+ *  the taper to the hip, then straight to the hem), and the waistband seam
+ *  (Phase B5, Slice 57) — front+back's combined waist edges to the
+ *  waistband's own "seam" edge, a plain 1:1 match (cut-on-fold doubling
+ *  makes both sides the same half-circumference). No parameters needed: one
+ *  skirt variant, so this is a plain constant rather than a builder function. */
 const SKIRT_STITCHES: readonly Stitch[] = [
   {
     label: "Side seam (front ↔ back)",
     a: iface(edgeRef("front", "sideUpper"), edgeRef("front", "sideLower")),
     b: iface(edgeRef("back", "sideUpper"), edgeRef("back", "sideLower")),
   },
+  {
+    label: "Waistband (front + back ↔ waistband)",
+    a: iface(edgeRef("front", "waist"), edgeRef("back", "waist")),
+    b: iface(edgeRef("waistband", "seam")),
+  },
 ];
 
 export function draftSkirt(m: Measurements): Block {
-  return block({ front: panel(m, "front"), back: panel(m, "back") }, SKIRT_STITCHES);
+  const front: ComponentResult = { pieces: { front: panel(m, "front") }, stitches: [], interfaces: {} };
+  const back: ComponentResult = { pieces: { back: panel(m, "back") }, stitches: [], interfaces: {} };
+  const band = waistband(m, WAISTBAND_DEFAULT);
+  return assembleComponents([front, back, band], SKIRT_STITCHES);
 }
 
 // ── sewability checks (recipe-owned) ──────────────────────────────────────────
@@ -135,18 +147,35 @@ export const SKIRT_POMS: readonly Pom[] = [
 // Phase A3 (Slice 51): both balance notches read off SKIRT_STITCHES' own
 // side-seam interface (index 1 = sideLower, the edge nearest the hem) instead
 // of a second, separately-typed "sideLower" string.
+// Phase B5 (Slice 57): the waistband join point — where front.waist ends and
+// back.waist begins — is likewise read off SKIRT_STITCHES[1] (the waistband
+// stitch) rather than hand-typed. Front gets it at t=1 (end of its own waist
+// edge); back at t=0 (start of its own); the waistband at t=0.5 along its
+// single combined "seam" edge — the same physical point, three names for it.
+const SIDE_SEAM = SKIRT_STITCHES[0];
+const WAISTBAND_SEAM = SKIRT_STITCHES[1];
+
 export const SKIRT_NOTCHES: readonly PieceNotches[] = [
   {
     pieceName: "front",
-    notches: [matchedNotch(SKIRT_STITCHES[0], "a", 0.5, 1)], // a balance notch at the side
+    notches: [
+      matchedNotch(SIDE_SEAM, "a", 0.5, 1), // a balance notch at the side
+      matchedNotch(WAISTBAND_SEAM, "a", 1.0, 0), // where the waistband's front half ends
+    ],
     grainline: { topEdge: "waist", topT: 0.5, bottomEdge: "hem", bottomT: 0.5 },
   },
   {
     pieceName: "back",
     notches: [
-      matchedNotch(SKIRT_STITCHES[0], "b", 0.5, 1),
-      matchedNotch(SKIRT_STITCHES[0], "b", 0.75, 1), // 2 = back
+      matchedNotch(SIDE_SEAM, "b", 0.5, 1),
+      matchedNotch(SIDE_SEAM, "b", 0.75, 1), // 2 = back
+      matchedNotch(WAISTBAND_SEAM, "a", 0.0, 1), // where the waistband's back half starts
     ],
     grainline: { topEdge: "waist", topT: 0.5, bottomEdge: "hem", bottomT: 0.5 },
+  },
+  {
+    pieceName: "waistband",
+    notches: [matchedNotch(WAISTBAND_SEAM, "b", 0.5, 0)], // the same front/back join point, on the band itself
+    grainline: { topEdge: "fold", topT: 0.5, bottomEdge: "end", bottomT: 0.5 },
   },
 ];

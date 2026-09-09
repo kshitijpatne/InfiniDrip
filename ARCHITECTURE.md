@@ -8,7 +8,7 @@ execution plan) and ROADMAP.md (strategic — competitor analysis + long-term
 scope + the cut list) are the current planning documents. This file describes
 the engine as it exists; it does not restate the forward plan.
 
-**Architectural fork, Phase A complete (Slice 51), Phase B complete (Slice 56):**
+**Architectural fork, Phase A complete (Slice 51), Phase B complete (Slice 57):**
 `COMPONENT-ARCHITECTURE.md` is the design doc for the Interface/Stitch/
 Component work below — read it before touching `drafting/`. Seam knowledge
 is now real, declared data: every `Block` carries a required `stitches`
@@ -119,6 +119,26 @@ guardrails are mathematically silent at default measurements.
 via components (C1), then the real test — a tank (bodice + no sleeve +
 different neckline) in hours, not a slice-run (C2). If it isn't, Phase B
 isn't actually finished, whatever the checklist says.
+
+Slice 57 (B5) added Waistband — different in character from B1-B4: no
+waistband code existed anywhere to extract, so this is Phase B's first
+genuinely NEW component. `waistband.ts` drafts a plain strip cut on the
+fold (same convention as the skirt panels), sized to double to the
+existing finished-waist number by construction. `closure` is deliberately
+geometry-inert — real waistbands are cut identically regardless of button
+vs. hook, unlike Neckline's `shape`, which genuinely would change the
+curve. `draftSkirt` wires it in via `assembleComponents` for real: unlike
+B2-B4, this is NOT byte-identity gated (`regression.test.ts` never covered
+skirt), so `skirt.test.ts`, `stitch.test.ts`, and the golden-master file
+were updated to the new correct shape rather than preserved — the skirt
+now really has 3 pieces and 2 stitches. Verified against the real export
+pipeline end-to-end (SVG/DXF/tech-pack), not just unit tests, per the
+project's standing "bugs get caught by rendering" discipline.
+
+**Phase B is fully closed: B1 → B2 (Bodice) → B3 (Sleeve) → B4 (Neckline)
+→ B5 (Waistband).** Phase C is next — re-express the skirt via components
+(arguably already substantially true after B5), then the real test: a tank
+in hours, not a slice-run.
 
 `Block` importing `Stitch` from `stitch.ts` — which itself imports `Block`
 from `block.ts` — is a real circular reference, resolved with `import type`:

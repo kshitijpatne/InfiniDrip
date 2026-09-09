@@ -190,18 +190,27 @@ describe("FITTED_NOTCHES matches the pre-migration hand table exactly", () => {
   });
 });
 
-describe("SKIRT_NOTCHES matches the pre-migration hand table exactly", () => {
-  it("front: one balance notch at sideLower", () => {
+describe("SKIRT_NOTCHES matches the pre-migration hand table, plus Slice 57's waistband join notches", () => {
+  it("front: side balance notch, plus where the waistband's front half ends", () => {
     const front = SKIRT_NOTCHES.find((r) => r.pieceName === "front")!;
-    expect(front.notches).toEqual([{ edgeName: "sideLower", t: 0.5 }]);
+    expect(front.notches).toEqual([
+      { edgeName: "sideLower", t: 0.5 },
+      { edgeName: "waist", t: 1.0 },
+    ]);
   });
 
-  it("back: two notches at different t (2 = back reference)", () => {
+  it("back: two side notches at different t (2 = back reference), plus where the waistband's back half starts", () => {
     const back = SKIRT_NOTCHES.find((r) => r.pieceName === "back")!;
     expect(back.notches).toEqual([
       { edgeName: "sideLower", t: 0.5 },
       { edgeName: "sideLower", t: 0.75 },
+      { edgeName: "waist", t: 0.0 },
     ]);
+  });
+
+  it("waistband: the same front/back join point, on the band's own seam edge", () => {
+    const band = SKIRT_NOTCHES.find((r) => r.pieceName === "waistband")!;
+    expect(band.notches).toEqual([{ edgeName: "seam", t: 0.5 }]);
   });
 });
 
@@ -256,8 +265,15 @@ describe("PRODUCTION skirt stitches reproduce the golden master exactly", () => 
   SKIRT_GOLDEN_POINTS.forEach((m, i) => {
     it(`matches at waist=${m.waist}, hip=${m.hip}`, () => {
       const b = SKIRT.draft(m);
-      const expected = SKIRT_GOLDEN_REPORTS[i].checks.slice(0, 1); // stitch-derivable; hem/waist-square are panel checks
-      expectSameChecks(stitchChecks(b, b.stitches), expected);
+      const actual = stitchChecks(b, b.stitches);
+      const expected = SKIRT_GOLDEN_REPORTS[i].checks.slice(0, 1); // side seam only — golden master predates the waistband
+      expectSameChecks(actual.slice(0, 1), expected);
+      // Phase B5 (Slice 57): a second stitch-derivable check now exists — the
+      // waistband seam — with no golden-master equivalent (the feature didn't
+      // exist when the golden master was captured). Proven for correctness
+      // directly, not against frozen history.
+      expect(actual[1].name).toBe("Waistband (front + back ↔ waistband)");
+      expect(actual[1].ok).toBe(true);
     });
   });
 });
@@ -275,6 +291,6 @@ describe("what's deliberately NOT a stitch (panel properties) — still correct 
     const b = SKIRT.draft(STANDARD_M);
     const panel = SKIRT.checks(b, STANDARD_M);
     expect(panel.map((r) => r.name)).toEqual(["Hem square to the fold", "Waist square to the fold"]);
-    expect(b.stitches).toHaveLength(1); // just the side seam
+    expect(b.stitches).toHaveLength(2); // the side seam, plus the waistband seam (Slice 57)
   });
 });

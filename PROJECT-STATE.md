@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 56. Update this after every slice (and commit it WITH the code)._
+_Last updated: after Slice 57. Update this after every slice (and commit it WITH the code)._
 
 **Governing plan:** MVP-PLAN.md (operative — the 6-month execution plan) and
 ROADMAP.md (strategic — full competitor analysis + long-term scope + the cut
@@ -119,6 +119,57 @@ F1. **(Fable) Real-world export system** — two new writers on the existing exp
 22. per-size export — a size picker in the export area drafts the chosen graded
     size (via `draftAtSize`) and emits `<garment>-<SIZE>.<ext>`; scopes only the
     exports, every other view keeps its job (327)
+57. Component architecture Phase B5 (COMPONENT-ARCHITECTURE.md §5, §9) —
+    Waistband, Phase B's first genuinely NEW component (not a refactor: no
+    waistband code existed anywhere to extract). §5's taxonomy only
+    sketches `depth`/`closure`; the real design was scoped and flagged
+    before building. New file `waistband.ts`: a plain strip cut on the fold
+    — same convention as the skirt's own front/back panels — sized to
+    `(waist+ease)/2` (doubled by the fold = the full finished circumference,
+    the same number the existing "Waist (finished)" POM already reports, by
+    construction). `closure` (`"button"|"hook"`) is deliberately
+    geometry-inert: real waistbands are cut identically regardless of
+    hardware — unlike Neckline's `shape`, where an unimplemented value would
+    have changed the curve, `closure` genuinely has nothing to implement at
+    the drafting layer. Course-corrected during build from the originally
+    scoped "closure adds a width overlap": that would have broken the
+    seam-length match against front+back's combined waist edges for no real
+    benefit, since the overlap isn't part of the sewn seam. `draftSkirt` now
+    wires it in for real via `assembleComponents` — skirt has NO
+    byte-identity gate (`regression.test.ts` only covers tee/fitted), so
+    unlike B2-B4 this slice does NOT preserve prior output; `skirt.test.ts`'s
+    piece-count assertion and `stitch.test.ts`'s stitch-count/golden-master
+    comparisons were updated to the new correct shape, not preserved.
+    `garment-check-golden.ts`'s `SKIRT_GOLDEN_REPORTS` regenerated from a
+    REAL run of post-change `garmentReport(SKIRT, m)` — per that file's own
+    rule, correct only because it records a new *intentional* truth, not to
+    paper over a break. `SKIRT_NOTCHES` gained the front/back/waistband
+    join-point notches, derived via `matchedNotch` off the new waistband
+    stitch (not hand-typed) — front at t=1 on its own waist edge, back at
+    t=0, waistband at t=0.5 on its combined "seam" edge, all three the same
+    physical point. `WOVEN_SKIRT_ALLOWANCES` gained `fold: 0` / `seam: 1`
+    for the waistband's own edges. New `waistband.test.ts`: the Component
+    contract, real geometry (half-circumference formula, edge names, depth
+    genuinely applied), the closure-inertness claim proven directly
+    (button vs. hook produce `toEqual` identical geometry, not just
+    asserted in a comment), and the real `draftSkirt` wiring (role present,
+    finished length matches the existing POM by construction, grades in
+    order across the size run). Verified beyond unit tests, per project
+    discipline (bugs get caught by rendering, not trusting coverage): ran
+    the REAL export pipeline end-to-end — `exportSvg`/`exportDxf`/
+    `exportTechPack` on a drafted skirt — confirmed 3 pieces, a "WAISTBAND"
+    label in the SVG, "Waistband" in the tech pack, clean DXF output.
+    Mutation-tested twice: corrupted the half-circumference formula
+    (caught immediately — 6 tests across 3 files) and the notch edge
+    index, both reverted after confirming failure. Gate: 56 files / 720
+    tests / 100%. File set: 2 new (`waistband.ts`, `waistband.test.ts`), 6
+    modified (`skirt.ts`, `skirt.test.ts`, `stitch.test.ts`,
+    `garment-check-golden.ts`, `recipe.ts`, `drafting/index.ts` barrel
+    export). Phase B is fully closed (B1-B5); next is Phase C — re-express
+    the skirt via components (C1, arguably already substantially true
+    after this slice), then the real test: a tank (bodice + no sleeve +
+    different neckline) in hours, not a slice-run (C2). If it isn't,
+    Phase B isn't actually finished, whatever the checklist says.
 56. Component architecture Phase B4, part 2 of 2 (COMPONENT-ARCHITECTURE.md
     §6, §9) — the real behaviour change, scoped before building (no prior
     agreed design existed for any of this). `necklineEdge` now implements
@@ -1060,3 +1111,4 @@ s53=686 (6 new, all in the new bodice.test.ts: 4 Component-contract tests (role-
 s54=692 (6 new, all in the new sleeve.test.ts: 3 Component-contract tests (role-keyed piece, no stitches/interfaces, targetArmhole genuinely used) + 1 draftSleeve-IS-sleeve's-output equivalence test + 2 §2.4-fix proof tests (draftTshirt/draftFitted measure the REAL assembled armhole, draftFitted's off the actual darted front by name); 2 new files (sleeve.ts, sleeve.test.ts), 3 files modified (tshirt.ts, fitted.ts, index.ts barrel export); every pre-existing test incl. fitted.test.ts's sleeve equivalence check and regression.test.ts's 8/8 baseline passed unmodified — byte-identical at STANDARD_M by construction, mutation-verified by dropping the back's armhole from the target sum and confirming 5 tests across 3 files failed immediately)
 s55=702 (10 new, all in the new neckline.test.ts: 3 crew-geometry tests (point placement, front/back control-factor difference, params-default-to-NECKLINE_DEFAULT) + 4 deliberately-unimplemented tests (throws on v, scoop, boat, non-zero widthEase, non-zero frontDrop) + 3 draftFront/draftBack/draftFittedFront-ARE-necklineEdge's-output equivalence tests; 2 new files (neckline.ts, neckline.test.ts), 3 files modified (bodice.ts, fitted.ts, index.ts barrel export); every pre-existing test incl. fitted.test.ts's neckline-verbatim check and regression.test.ts's 8/8 baseline passed unmodified, mutation-verified by corrupting the back control factor and confirming 9 tests across 2 files failed immediately)
 s56=709 (net +7 vs s55, neckline.test.ts rewritten for the new 6-arg necklineEdge signature: crew tests kept + v-geometry, widthEase/frontDrop application, guardrail solo/combined/silent-at-default, and the narrowed scoop/boat-only throw tests added; 0 new files, 4 modified (neckline.ts, neckline.test.ts, bodice.ts, fitted.ts); every pre-existing test, incl. regression.test.ts's 8/8 baseline, passed unmodified — byte-identical at NECKLINE_DEFAULT despite both call sites gaining 2 new required params; mutation-verified by disabling the shoulder guardrail's condition and confirming 2 tests failed immediately)
+s57=720 (net +10 new in waistband.test.ts (Component contract, geometry, closure-inertness proven directly, real draftSkirt wiring) + skirt.test.ts/stitch.test.ts updated in place for the new 3-piece/2-stitch skirt shape — NOT preserved unmodified, since skirt has no byte-identity gate; garment-check-golden.ts's SKIRT_GOLDEN_REPORTS regenerated from a real post-change garmentReport run, per that file's own "regenerate only before a behaviour change" rule; 2 new files, 6 modified; regression.test.ts's 8/8 tee/fitted baseline untouched since neither recipe was touched; verified against the real export pipeline (SVG/DXF/tech-pack), not just unit tests; mutation-verified twice)

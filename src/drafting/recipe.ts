@@ -151,12 +151,17 @@ export const FITTED: GarmentRecipe = {
 
 // A woven skirt: deeper hem, a fold at each panel centre, a little at the waist
 // for the band. Structurally unrelated to the knit tee's allowances.
+// Phase B5 (Slice 57): the waistband is a real piece now — "fold" (its own
+// cut-on-fold edge) gets nothing, same reasoning as "center"; "seam" (where
+// it sews to the body) gets the same 1 cm the panels' own "waist" edge does.
 const WOVEN_SKIRT_ALLOWANCES: AllowanceSpec = {
   default: 1.5,
   byEdge: {
     center: 0, // fold
     hem: 3,    // deep skirt turn-up
     waist: 1,  // waistband seam
+    fold: 0,   // waistband's own fold
+    seam: 1,   // waistband-to-body seam
   },
 };
 

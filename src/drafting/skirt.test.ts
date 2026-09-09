@@ -13,9 +13,9 @@ function allSkirtChecks(b: ReturnType<typeof draftSkirt>) {
 }
 
 describe("draftSkirt", () => {
-  it("drafts a front and back panel, each with the skirt's edges and no sleeve", () => {
+  it("drafts a front panel, back panel, and waistband — no sleeve", () => {
     const b = draftSkirt(STANDARD_M);
-    expect(blockPieces(b).map((p) => p.name).sort()).toEqual(["back", "front"]);
+    expect(blockPieces(b).map((p) => p.name).sort()).toEqual(["back", "front", "waistband"]);
     const edges = rolePiece(b, "front").edges.map((e) => e.name);
     expect(edges).toEqual(["waist", "sideUpper", "sideLower", "hem", "center"]);
     expect(() => rolePiece(b, "sleeve")).toThrow(); // structurally not a top
