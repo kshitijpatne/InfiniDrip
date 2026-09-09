@@ -18,13 +18,13 @@ import { bodice } from "./bodice";
 import { sleeve as sleeveComponent } from "./sleeve";
 import { ComponentResult, assembleComponents } from "./component";
 import { iface, edgeRef } from "./stitch";
+import { necklineEdge } from "./neckline";
 
 const DART_INTAKE = 4; // cm taken up across the dart mouth on the side seam
 
 export function draftFittedFront(m: Measurements): Piece {
   const d = derive(m);
-  const cfNeck = point(0, d.frontNeckDepth);
-  const hps = point(d.neckWidthHalf, 0);
+  const { cNeck: cfNeck, hps, edge: neckline } = necklineEdge("front", d.neckWidthHalf, d.frontNeckDepth);
   const shoulder = point(d.shoulderHalf, d.shoulderSlope);
   const underarm = point(d.chestWidthHalf, m.armholeDepth);
   // The dart's mouth opens ON the side seam, so closing the dart SHORTENS that
@@ -43,11 +43,7 @@ export function draftFittedFront(m: Measurements): Piece {
   const mouthLower = point(d.chestWidthHalf, bustY + DART_INTAKE / 2);
 
   const edges: Edge[] = [
-    { kind: "curve", name: "neckline", curve: {
-        start: cfNeck,
-        control1: point(0, d.frontNeckDepth * 0.55),
-        control2: point(d.neckWidthHalf * 0.45, 0),
-        end: hps } },
+    neckline,
     { kind: "line", name: "shoulder", start: hps, end: shoulder },
     { kind: "curve", name: "armhole", curve: {
         start: shoulder,

@@ -13,12 +13,19 @@
 // edges and a shifted hem — real, different geometry, not more of this same
 // duplication. Folding it into `bodice` too is a real candidate for a later
 // slice, not assumed here.
+//
+// Phase B4 part 1 (Slice 55): the neckline curve itself — including the
+// 0.55/0.6 control-point factor this file used to own as
+// `necklineControl1Factor` — moved out to `neckline.ts`. This file now only
+// knows the DEPTH each side derives from chest measurements; the shape of
+// the curve at that depth belongs to the Neckline component.
 
 import { point } from "../geometry";
 import { Measurements, derive } from "./measurements";
 import { Edge, Piece } from "./piece";
 import { Component } from "./component";
 import { iface, edgeRef } from "./stitch";
+import { necklineEdge } from "./neckline";
 
 export interface BodiceParams {
   readonly position: "front" | "back";
@@ -26,7 +33,6 @@ export interface BodiceParams {
 
 interface PanelOptions {
   readonly neckDepth: number;
-  readonly necklineControl1Factor: number; // control1.y = neckDepth * this
   readonly centerEdgeName: string;
   readonly pieceName: string;
 }
@@ -34,21 +40,16 @@ interface PanelOptions {
 /** The shared 90%: neckline, shoulder, armhole, side, hem — everything
  *  draftFront and draftBack agreed on, parameterised by the three things
  *  they didn't. */
-function bodicePanel(m: Measurements, opts: PanelOptions): Piece {
+function bodicePanel(m: Measurements, position: "front" | "back", opts: PanelOptions): Piece {
   const d = derive(m);
-  const cNeck = point(0, opts.neckDepth);
-  const hps = point(d.neckWidthHalf, 0);
+  const { cNeck, hps, edge: neckline } = necklineEdge(position, d.neckWidthHalf, opts.neckDepth);
   const shoulder = point(d.shoulderHalf, d.shoulderSlope);
   const underarm = point(d.chestWidthHalf, m.armholeDepth);
   const sideHem = point(d.chestWidthHalf, m.length);
   const cHem = point(0, m.length);
 
   const edges: Edge[] = [
-    { kind: "curve", name: "neckline", curve: {
-        start: cNeck,
-        control1: point(0, opts.neckDepth * opts.necklineControl1Factor),
-        control2: point(d.neckWidthHalf * 0.45, 0),
-        end: hps } },
+    neckline,
     { kind: "line", name: "shoulder", start: hps, end: shoulder },
     { kind: "curve", name: "armhole", curve: {
         start: shoulder,
@@ -71,9 +72,9 @@ export const bodice: Component<BodiceParams> = (m, params) => {
   const d = derive(m);
   const opts: PanelOptions =
     params.position === "front"
-      ? { neckDepth: d.frontNeckDepth, necklineControl1Factor: 0.55, centerEdgeName: "centerFront", pieceName: "front" }
-      : { neckDepth: d.backNeckDepth, necklineControl1Factor: 0.6, centerEdgeName: "centerBack", pieceName: "back" };
-  const piece = bodicePanel(m, opts);
+      ? { neckDepth: d.frontNeckDepth, centerEdgeName: "centerFront", pieceName: "front" }
+      : { neckDepth: d.backNeckDepth, centerEdgeName: "centerBack", pieceName: "back" };
+  const piece = bodicePanel(m, params.position, opts);
   return {
     pieces: { [params.position]: piece },
     stitches: [],

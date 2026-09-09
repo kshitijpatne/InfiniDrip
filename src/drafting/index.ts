@@ -23,3 +23,4 @@ export * from "./stitch";
 export * from "./component";
 export * from "./bodice";
 export * from "./sleeve";
+export * from "./neckline";

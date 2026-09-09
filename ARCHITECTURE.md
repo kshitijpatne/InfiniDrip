@@ -8,7 +8,7 @@ execution plan) and ROADMAP.md (strategic — competitor analysis + long-term
 scope + the cut list) are the current planning documents. This file describes
 the engine as it exists; it does not restate the forward plan.
 
-**Architectural fork, Phase A complete (Slice 51), Phase B in progress (Slice 54):**
+**Architectural fork, Phase A complete (Slice 51), Phase B in progress (Slice 55):**
 `COMPONENT-ARCHITECTURE.md` is the design doc for the Interface/Stitch/
 Component work below — read it before touching `drafting/`. Seam knowledge
 is now real, declared data: every `Block` carries a required `stitches`
@@ -82,6 +82,21 @@ Byte-identical at STANDARD_M by construction, exactly as §2.4 predicted:
 fitted's front reuses the tee front's exact armhole curve, so the "fixed"
 number and the old re-derived one come out numerically equal — the fix is
 structural (measuring the real thing), not a value change.
+
+Slice 55 (B4 part 1) extracted Neckline — deliberately narrower than §6's
+full spec. `neckline.ts`'s `NecklineParams` is typed with all four shapes
+now, but `necklineEdge` implements only `"crew"`, throwing for `"v"`/
+`"scoop"`/`"boat"` and for any non-zero `widthEase`/`frontDrop` (a silently-
+ignored param would be a footgun once one becomes reachable). The 0.55/0.6
+control-point factor moved from `bodice.ts` into `necklineEdge` itself — it
+was always part of what "crew" means, not a bodice concern. `bodice.ts` AND
+`fitted.ts`'s `draftFittedFront` both call it now, closing a second
+duplication B2 had flagged and left alone: fitted's front neckline matched
+the tee's only by construction before, not by a shared code path. B4 part 2
+(the real fix) is where "v" gets actual curve math, widthEase/frontDrop get
+wired to do something, and the guardrails get built and exercised for real —
+none of that has a live code path yet, so building it now would be
+speculative.
 
 `Block` importing `Stitch` from `stitch.ts` — which itself imports `Block`
 from `block.ts` — is a real circular reference, resolved with `import type`:

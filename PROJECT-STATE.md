@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 54. Update this after every slice (and commit it WITH the code)._
+_Last updated: after Slice 55. Update this after every slice (and commit it WITH the code)._
 
 **Governing plan:** MVP-PLAN.md (operative — the 6-month execution plan) and
 ROADMAP.md (strategic — full competitor analysis + long-term scope + the cut
@@ -119,6 +119,46 @@ F1. **(Fable) Real-world export system** — two new writers on the existing exp
 22. per-size export — a size picker in the export area drafts the chosen graded
     size (via `draftAtSize`) and emits `<garment>-<SIZE>.<ext>`; scopes only the
     exports, every other view keeps its job (327)
+55. Component architecture Phase B4, part 1 of 2 (COMPONENT-ARCHITECTURE.md
+    §6, §9) — extract Neckline, default-only, byte-identical. New file
+    `neckline.ts`: `NecklineParams`/`NECKLINE_DEFAULT` typed per §6's full
+    spec (all 4 shapes, `widthEase`, `frontDrop`), but `necklineEdge` only
+    IMPLEMENTS `shape: "crew"` — the only case anything drafts today.
+    Deliberately narrower than §6's end state, and flagged as such before
+    building: throws for `"v"`/`"scoop"`/`"boat"` (not just scoop/boat —
+    real v-curve math isn't designed anywhere yet, and building it now would
+    be exactly the behaviour-change work the NEXT slice is scoped for), and
+    throws on non-zero `widthEase`/`frontDrop` too rather than silently
+    ignoring them (nothing calls them non-default yet, but a param that's
+    quietly a no-op is a footgun once one becomes live). Guardrail checks
+    (`neckWidthHalf+widthEase>=shoulderHalf`, `frontNeckDepth+frontDrop>=
+    armholeDepth`) deferred to that same next slice — untestable at
+    defaults, no live code path to exercise them yet. The 0.55 (front) /
+    0.6 (back) control-point factor — previously `bodice.ts`'s
+    `necklineControl1Factor`, passed in from outside — moves INTO
+    `necklineEdge` as `crewControlFactor(position)`: genuinely part of what
+    a crew neckline is, not something a bodice should own. `bodice.ts` and
+    `fitted.ts`'s `draftFittedFront` both now call `necklineEdge` instead of
+    each hand-drawing the same curve — closes a SECOND duplication B2 had
+    explicitly flagged and left alone (fitted's front neckline matching the
+    tee's only "by construction", not by a shared code path). Byte-
+    identical: every pre-existing test passed unmodified, incl.
+    `fitted.test.ts`'s "reuses the tee front's neckline... verbatim" check
+    and `regression.test.ts`'s 8/8 SHA-256 baseline. New `neckline.test.ts`
+    proves the crew geometry directly (front/back control-factor
+    difference), all four throw paths (v, scoop, boat, non-zero
+    widthEase/frontDrop — none reachable from any recipe yet, exercised
+    only by calling `necklineEdge` directly), and that `draftFront`/
+    `draftBack`/`draftFittedFront`'s neckline edges ARE `necklineEdge`'s
+    output, not independent copies. Verified empirically: corrupted the
+    back's control factor (0.6 → 0.55) and confirmed `regression.test.ts` +
+    `neckline.test.ts` + `tshirt.test.ts` failed 9 tests across 2 files
+    immediately, before reverting. Gate: 55 files / 702 tests / 100%. File
+    set: 2 new (`neckline.ts`, `neckline.test.ts`), 3 modified (`bodice.ts`,
+    `fitted.ts`, `drafting/index.ts` barrel export). Phase B: B1 ✅ B2 ✅
+    B3 ✅ B4 part 1 ✅. Next (B4 part 2): the actual behaviour change — real
+    "v" curve math, widthEase/frontDrop wired to do something, guardrails
+    built and exercised for real.
 54. Component architecture Phase B3 (COMPONENT-ARCHITECTURE.md §2.4, §5) —
     the real fix, not just infrastructure. New file `sleeve.ts`: the cap-
     fitting machinery (`capCurves`, `solveCapHeight`, `CAP_EASE`) moved out
@@ -980,3 +1020,4 @@ s51=671 (11 new, all in stitch.test.ts: 4 matchedNotch unit tests + 3 TSHIRT_NOT
 s52=680 (9 new, all in the new component.test.ts: 2 Component/ComponentResult shape tests + 7 assembleComponents tests incl. multi-component role-order, stitch-concatenation-order, connecting-stitches-appended-after, and the duplicate-role throw, mutation-verified; 2 new files (component.ts, component.test.ts), 1 file modified (index.ts barrel export only); zero existing recipe touched, so no byte-identity risk this slice)
 s53=686 (6 new, all in the new bodice.test.ts: 4 Component-contract tests (role-keyed pieces, no internal stitches, correct armhole interface, front/back neckline depths differ) + 2 draftFront/draftBack-ARE-bodice's-output equivalence tests; 2 new files (bodice.ts, bodice.test.ts), 2 files modified (tshirt.ts, index.ts barrel export); tshirt.test.ts's pre-existing golden-point assertions + regression.test.ts's 8/8 SHA-256 baseline (tee + fitted) both passed unmodified, mutation-verified via a corrupted neckline control factor)
 s54=692 (6 new, all in the new sleeve.test.ts: 3 Component-contract tests (role-keyed piece, no stitches/interfaces, targetArmhole genuinely used) + 1 draftSleeve-IS-sleeve's-output equivalence test + 2 §2.4-fix proof tests (draftTshirt/draftFitted measure the REAL assembled armhole, draftFitted's off the actual darted front by name); 2 new files (sleeve.ts, sleeve.test.ts), 3 files modified (tshirt.ts, fitted.ts, index.ts barrel export); every pre-existing test incl. fitted.test.ts's sleeve equivalence check and regression.test.ts's 8/8 baseline passed unmodified — byte-identical at STANDARD_M by construction, mutation-verified by dropping the back's armhole from the target sum and confirming 5 tests across 3 files failed immediately)
+s55=702 (10 new, all in the new neckline.test.ts: 3 crew-geometry tests (point placement, front/back control-factor difference, params-default-to-NECKLINE_DEFAULT) + 4 deliberately-unimplemented tests (throws on v, scoop, boat, non-zero widthEase, non-zero frontDrop) + 3 draftFront/draftBack/draftFittedFront-ARE-necklineEdge's-output equivalence tests; 2 new files (neckline.ts, neckline.test.ts), 3 files modified (bodice.ts, fitted.ts, index.ts barrel export); every pre-existing test incl. fitted.test.ts's neckline-verbatim check and regression.test.ts's 8/8 baseline passed unmodified, mutation-verified by corrupting the back control factor and confirming 9 tests across 2 files failed immediately)
