@@ -8,7 +8,7 @@ execution plan) and ROADMAP.md (strategic — competitor analysis + long-term
 scope + the cut list) are the current planning documents. This file describes
 the engine as it exists; it does not restate the forward plan.
 
-**Architectural fork, Phase A complete (Slice 51), Phase B started (Slice 52):**
+**Architectural fork, Phase A complete (Slice 51), Phase B in progress (Slice 53):**
 `COMPONENT-ARCHITECTURE.md` is the design doc for the Interface/Stitch/
 Component work below — read it before touching `drafting/`. Seam knowledge
 is now real, declared data: every `Block` carries a required `stitches`
@@ -53,6 +53,20 @@ exactly as before — so this is pure new infrastructure, proven only against
 synthetic data. B2 (extract Bodice) is where a real recipe consumes it for
 the first time, which is also the first real test of whether the shape is
 right.
+
+Slice 53 (B2) closed that test: `bodice.ts` extracts the exact ~90%
+`draftFront`/`draftBack` shared (§2.2) — same construction points, same
+edges, same control points — parameterised by the three things that
+actually differed (neck depth, neckline control point, centre edge name).
+`draftFront`/`draftBack` stay exported from `tshirt.ts` as thin wrappers
+over the new `bodice` Component, so nothing downstream (armholeLength,
+fitted's `draftBack` reuse, existing tests) had to change. `draftTshirt`
+now calls `assembleComponents` for real. Deliberately NOT touched: the
+fitted front. It shares `bodice`'s neckline/shoulder/armhole prefix but then
+diverges into dart edges and a shifted hem — genuinely different geometry
+past that point, not the same duplication B2 was scoped to close. Folding it
+into `bodice` (a `dart?` param, per §5's taxonomy) is a real candidate for a
+later slice, not assumed here.
 
 `Block` importing `Stitch` from `stitch.ts` — which itself imports `Block`
 from `block.ts` — is a real circular reference, resolved with `import type`:

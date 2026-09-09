@@ -21,3 +21,4 @@ export * from "./recipe";
 export * from "./fit-compare";
 export * from "./stitch";
 export * from "./component";
+export * from "./bodice";

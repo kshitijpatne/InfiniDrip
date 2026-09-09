@@ -12,65 +12,22 @@
 // little ease) so the sleeve actually sews into the armhole — see draftSleeve.
 
 import { point, CubicBezier, cubicLength } from "../geometry";
-import { Measurements, derive } from "./measurements";
+import { Measurements } from "./measurements";
 import { Edge, Piece, edgeLength, pieceEdge } from "./piece";
-import { Block, block } from "./block";
+import { Block } from "./block";
 import { sleevedTopStitches } from "./tshirt-checks";
+import { bodice } from "./bodice";
+import { ComponentResult, assembleComponents } from "./component";
 
+/** Thin wrapper over the Bodice component (Phase B2, Slice 53) — kept so
+ *  existing callers (armholeLength below, fitted.ts's draftBack reuse,
+ *  tests) don't need to know a component exists underneath. */
 export function draftFront(m: Measurements): Piece {
-  const d = derive(m);
-  const cfNeck = point(0, d.frontNeckDepth);          // centre-front neck (on the fold)
-  const hps = point(d.neckWidthHalf, 0);              // high point shoulder
-  const shoulder = point(d.shoulderHalf, d.shoulderSlope);
-  const underarm = point(d.chestWidthHalf, m.armholeDepth);
-  const sideHem = point(d.chestWidthHalf, m.length);
-  const cfHem = point(0, m.length);
-
-  const edges: Edge[] = [
-    { kind: "curve", name: "neckline", curve: {
-        start: cfNeck,
-        control1: point(0, d.frontNeckDepth * 0.55),
-        control2: point(d.neckWidthHalf * 0.45, 0),
-        end: hps } },
-    { kind: "line", name: "shoulder", start: hps, end: shoulder },
-    { kind: "curve", name: "armhole", curve: {
-        start: shoulder,
-        control1: point(d.shoulderHalf, d.shoulderSlope + (m.armholeDepth - d.shoulderSlope) * 0.45),
-        control2: point(d.chestWidthHalf - 2, m.armholeDepth - 3),
-        end: underarm } },
-    { kind: "line", name: "side", start: underarm, end: sideHem },
-    { kind: "line", name: "hem", start: sideHem, end: cfHem },
-    { kind: "line", name: "centerFront", start: cfHem, end: cfNeck },
-  ];
-  return { name: "front", onFold: true, edges };
+  return bodice(m, { position: "front" }).pieces.front;
 }
 
 export function draftBack(m: Measurements): Piece {
-  const d = derive(m);
-  const cbNeck = point(0, d.backNeckDepth);           // back neck barely dips
-  const hps = point(d.neckWidthHalf, 0);
-  const shoulder = point(d.shoulderHalf, d.shoulderSlope);
-  const underarm = point(d.chestWidthHalf, m.armholeDepth);
-  const sideHem = point(d.chestWidthHalf, m.length);
-  const cbHem = point(0, m.length);
-
-  const edges: Edge[] = [
-    { kind: "curve", name: "neckline", curve: {
-        start: cbNeck,
-        control1: point(0, d.backNeckDepth * 0.6),
-        control2: point(d.neckWidthHalf * 0.45, 0),
-        end: hps } },
-    { kind: "line", name: "shoulder", start: hps, end: shoulder },
-    { kind: "curve", name: "armhole", curve: {
-        start: shoulder,
-        control1: point(d.shoulderHalf, d.shoulderSlope + (m.armholeDepth - d.shoulderSlope) * 0.45),
-        control2: point(d.chestWidthHalf - 2, m.armholeDepth - 3),
-        end: underarm } },
-    { kind: "line", name: "side", start: underarm, end: sideHem },
-    { kind: "line", name: "hem", start: sideHem, end: cbHem },
-    { kind: "line", name: "centerBack", start: cbHem, end: cbNeck },
-  ];
-  return { name: "back", onFold: true, edges };
+  return bodice(m, { position: "back" }).pieces.back;
 }
 
 // A sleeve cap is eased slightly longer than the armhole it sets into.
@@ -142,8 +99,9 @@ export function draftSleeve(m: Measurements): Piece {
 
 /** Draft a complete t-shirt block from one set of measurements. */
 export function draftTshirt(m: Measurements): Block {
-  return block(
-    { front: draftFront(m), back: draftBack(m), sleeve: draftSleeve(m) },
+  const sleeve: ComponentResult = { pieces: { sleeve: draftSleeve(m) }, stitches: [], interfaces: {} };
+  return assembleComponents(
+    [bodice(m, { position: "front" }), bodice(m, { position: "back" }), sleeve],
     sleevedTopStitches(["side"], false)
   );
 }
