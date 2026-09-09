@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 57. Update this after every slice (and commit it WITH the code)._
+_Last updated: after Slice 58. Update this after every slice (and commit it WITH the code)._
 
 **Governing plan:** MVP-PLAN.md (operative — the 6-month execution plan) and
 ROADMAP.md (strategic — full competitor analysis + long-term scope + the cut
@@ -119,6 +119,41 @@ F1. **(Fable) Real-world export system** — two new writers on the existing exp
 22. per-size export — a size picker in the export area drafts the chosen graded
     size (via `draftAtSize`) and emits `<garment>-<SIZE>.<ext>`; scopes only the
     exports, every other view keeps its job (327)
+58. Component architecture Phase C1 (COMPONENT-ARCHITECTURE.md §5, §9) —
+    re-express the skirt via components. Small, mechanical: Slice 57
+    already did most of this incidentally (the waistband is a real
+    `Component`, `draftSkirt` already ran through `assembleComponents`).
+    What was left: `panel(m, name)` (the skirt's own real implementation
+    since Slice 1) was still hand-wrapped into `ComponentResult` objects
+    inline, twice, inside `draftSkirt`, instead of going through a real
+    `Component` the way `bodice` does. New `skirtPanel: Component
+    <SkirtPanelParams>` closes that — `{position, silhouette}`, mirroring
+    `bodice`'s `{position}` pattern exactly, exposing a `waist` interface
+    (unused today, same posture as `bodice`'s `armhole` before Sleeve
+    existed to consume it). `silhouette: "straight" | "flare"` per §5's
+    taxonomy; `"flare"` throws — the block's whole premise (its own file
+    header: "waist darts / A-line flare are a later refinement"), typed
+    now so the taxonomy doesn't need a breaking change later, same posture
+    as Neckline's unimplemented shapes. Scoping note carried from Slice 58
+    planning: §5's "two real consumers before extraction" rule is about
+    NOT inventing a speculative abstraction — `panel` already existed and
+    was already the skirt's real implementation; this slice wraps it in
+    the shape everything else in Phase B/C uses, for consistency, not
+    because a second consumer needs it yet. Byte-identical: `panel`'s own
+    geometry is untouched, so every pre-existing test passed unmodified,
+    including `regression.test.ts`'s 8/8 baseline and all of Slice 57's
+    skirt tests (front/back piece content unchanged, notches/allowances/
+    POMs untouched, since none of those reference `panel` directly).
+    New tests in `skirt.test.ts`: the Component contract (role-keyed piece,
+    `waist` interface, no internal stitches), the flare throw, and that
+    `draftSkirt`'s front/back pieces ARE `skirtPanel`'s output. Verified
+    empirically: disabled the silhouette guard and confirmed the throw
+    test failed immediately, before reverting. Gate: 56 files / 723 tests
+    / 100%. File set: 2 modified (`skirt.ts`, `skirt.test.ts`), no new
+    files. Next (C2, the real test of Phase B/C): add a genuinely new
+    variant — a tank (bodice + no sleeve + different neckline) — and it
+    should take hours, not a slice-run. If it doesn't, Phase B isn't
+    actually finished, whatever the checklist said at Slice 57.
 57. Component architecture Phase B5 (COMPONENT-ARCHITECTURE.md §5, §9) —
     Waistband, Phase B's first genuinely NEW component (not a refactor: no
     waistband code existed anywhere to extract). §5's taxonomy only
@@ -1112,3 +1147,4 @@ s54=692 (6 new, all in the new sleeve.test.ts: 3 Component-contract tests (role-
 s55=702 (10 new, all in the new neckline.test.ts: 3 crew-geometry tests (point placement, front/back control-factor difference, params-default-to-NECKLINE_DEFAULT) + 4 deliberately-unimplemented tests (throws on v, scoop, boat, non-zero widthEase, non-zero frontDrop) + 3 draftFront/draftBack/draftFittedFront-ARE-necklineEdge's-output equivalence tests; 2 new files (neckline.ts, neckline.test.ts), 3 files modified (bodice.ts, fitted.ts, index.ts barrel export); every pre-existing test incl. fitted.test.ts's neckline-verbatim check and regression.test.ts's 8/8 baseline passed unmodified, mutation-verified by corrupting the back control factor and confirming 9 tests across 2 files failed immediately)
 s56=709 (net +7 vs s55, neckline.test.ts rewritten for the new 6-arg necklineEdge signature: crew tests kept + v-geometry, widthEase/frontDrop application, guardrail solo/combined/silent-at-default, and the narrowed scoop/boat-only throw tests added; 0 new files, 4 modified (neckline.ts, neckline.test.ts, bodice.ts, fitted.ts); every pre-existing test, incl. regression.test.ts's 8/8 baseline, passed unmodified — byte-identical at NECKLINE_DEFAULT despite both call sites gaining 2 new required params; mutation-verified by disabling the shoulder guardrail's condition and confirming 2 tests failed immediately)
 s57=720 (net +10 new in waistband.test.ts (Component contract, geometry, closure-inertness proven directly, real draftSkirt wiring) + skirt.test.ts/stitch.test.ts updated in place for the new 3-piece/2-stitch skirt shape — NOT preserved unmodified, since skirt has no byte-identity gate; garment-check-golden.ts's SKIRT_GOLDEN_REPORTS regenerated from a real post-change garmentReport run, per that file's own "regenerate only before a behaviour change" rule; 2 new files, 6 modified; regression.test.ts's 8/8 tee/fitted baseline untouched since neither recipe was touched; verified against the real export pipeline (SVG/DXF/tech-pack), not just unit tests; mutation-verified twice)
+s58=723 (3 new, all in skirt.test.ts: the skirtPanel Component-contract test, the flare-throws test, and the draftSkirt-front/back-ARE-skirtPanel's-output equivalence test; 0 new files, 2 modified (skirt.ts, skirt.test.ts); every pre-existing test passed unmodified, incl. regression.test.ts's 8/8 baseline and every Slice-57 skirt test — panel()'s own geometry never changed; mutation-verified by disabling the silhouette guard and confirming the throw test failed immediately)

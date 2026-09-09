@@ -136,9 +136,16 @@ pipeline end-to-end (SVG/DXF/tech-pack), not just unit tests, per the
 project's standing "bugs get caught by rendering" discipline.
 
 **Phase B is fully closed: B1 → B2 (Bodice) → B3 (Sleeve) → B4 (Neckline)
-→ B5 (Waistband).** Phase C is next — re-express the skirt via components
-(arguably already substantially true after B5), then the real test: a tank
-in hours, not a slice-run.
+→ B5 (Waistband). Phase C1 (re-express the skirt via components) is also
+done, as of Slice 58** — small, since Slice 57 already did most of it
+incidentally. `skirtPanel: Component<SkirtPanelParams>` formalises `panel`
+(the skirt's own real implementation since Slice 1) behind the same shape
+`bodice` uses, mirroring its `{position}` pattern; `silhouette:"flare"`
+throws, same posture as Neckline's unimplemented shapes. Byte-identical —
+`panel`'s geometry never moved. Next is C2, the real test: add a
+genuinely new variant — a tank (bodice + no sleeve + different neckline)
+— and it should take hours, not a slice-run. If it doesn't, Phase B/C
+isn't actually finished, whatever the checklist says.
 
 `Block` importing `Stitch` from `stitch.ts` — which itself imports `Block`
 from `block.ts` — is a real circular reference, resolved with `import type`:

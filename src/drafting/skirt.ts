@@ -17,7 +17,7 @@ import { GradeRule } from "./grading";
 import { Pom, spanX, spanY, PointRef } from "./pom";
 import { PieceNotches } from "./tshirt-notches";
 import { Stitch, edgeRef, iface, matchedNotch } from "./stitch";
-import { ComponentResult, assembleComponents } from "./component";
+import { Component, assembleComponents } from "./component";
 import { waistband, WAISTBAND_DEFAULT } from "./waistband";
 
 /** One skirt panel (front or back), cut on the fold at the centre (x = 0). */
@@ -41,6 +41,34 @@ function panel(m: Measurements, name: string): Piece {
   return { name, onFold: true, edges };
 }
 
+export interface SkirtPanelParams {
+  readonly position: "front" | "back";
+  /** Per §5's taxonomy. Only "straight" is drafted — the block's whole
+   *  premise (§ file header: "waist darts / A-line flare are a later
+   *  refinement"). Typed now so the taxonomy doesn't need a breaking change
+   *  when flare ships; throws rather than silently drafting straight. */
+  readonly silhouette: "straight" | "flare";
+}
+
+/** The SkirtPanel component (Phase C1, Slice 58): formalises `panel` — the
+ *  skirt's own real implementation since Slice 1 — behind the same
+ *  `Component` shape every other Phase B/C piece uses, mirroring `bodice`'s
+ *  `{position}` pattern exactly. Not a new abstraction invented for a second
+ *  consumer that doesn't exist yet (§5's "two real consumers" rule is about
+ *  inventing, not about wrapping an already-real implementation for
+ *  consistency) — `panel`'s geometry is untouched, so this is byte-identical. */
+export const skirtPanel: Component<SkirtPanelParams> = (m, params) => {
+  if (params.silhouette !== "straight") {
+    throw new Error(`Skirt silhouette "${params.silhouette}" not yet implemented (straight only)`);
+  }
+  const piece = panel(m, params.position);
+  return {
+    pieces: { [params.position]: piece },
+    stitches: [],
+    interfaces: { waist: iface(edgeRef(params.position, "waist")) },
+  };
+};
+
 /** The skirt's stitches: front/back side seams (each a two-edge interface —
  *  the taper to the hip, then straight to the hem), and the waistband seam
  *  (Phase B5, Slice 57) — front+back's combined waist edges to the
@@ -61,8 +89,8 @@ const SKIRT_STITCHES: readonly Stitch[] = [
 ];
 
 export function draftSkirt(m: Measurements): Block {
-  const front: ComponentResult = { pieces: { front: panel(m, "front") }, stitches: [], interfaces: {} };
-  const back: ComponentResult = { pieces: { back: panel(m, "back") }, stitches: [], interfaces: {} };
+  const front = skirtPanel(m, { position: "front", silhouette: "straight" });
+  const back = skirtPanel(m, { position: "back", silhouette: "straight" });
   const band = waistband(m, WAISTBAND_DEFAULT);
   return assembleComponents([front, back, band], SKIRT_STITCHES);
 }

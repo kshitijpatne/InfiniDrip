@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { STANDARD_M } from "./measurements";
 import { blockPieces, rolePiece } from "./block";
 import { pieceEdge, edgeStart, edgeEnd } from "./piece";
-import { draftSkirt, skirtPanelChecks, skirtGuidance, SKIRT_GRADE, SKIRT_POMS } from "./skirt";
+import { draftSkirt, skirtPanelChecks, skirtGuidance, SKIRT_GRADE, SKIRT_POMS, skirtPanel } from "./skirt";
 import { stitchChecks } from "./stitch";
 import { SKIRT, gradeRun, specSheet } from "./index";
 
@@ -138,5 +138,26 @@ describe("SKIRT recipe end-to-end", () => {
         expect(typeof p.y).toBe("number");
       }
     }
+  });
+});
+
+describe("skirtPanel — the Component contract (Phase C1, Slice 58)", () => {
+  it("keys its piece under the requested position, exposes a waist interface, declares no internal stitches", () => {
+    const result = skirtPanel(STANDARD_M, { position: "front", silhouette: "straight" });
+    expect(Object.keys(result.pieces)).toEqual(["front"]);
+    expect(result.pieces.front.name).toBe("front");
+    expect(result.stitches).toHaveLength(0);
+    expect(result.interfaces.waist.edges).toEqual([{ piece: "front", edge: "waist" }]);
+  });
+
+  it("throws on any silhouette other than \"straight\" — flare isn't drafted yet", () => {
+    expect(() => skirtPanel(STANDARD_M, { position: "front", silhouette: "flare" }))
+      .toThrow(/not yet implemented/);
+  });
+
+  it("draftSkirt's front and back pieces ARE skirtPanel's output, not a re-derivation of it", () => {
+    const b = draftSkirt(STANDARD_M);
+    expect(rolePiece(b, "front")).toEqual(skirtPanel(STANDARD_M, { position: "front", silhouette: "straight" }).pieces.front);
+    expect(rolePiece(b, "back")).toEqual(skirtPanel(STANDARD_M, { position: "back", silhouette: "straight" }).pieces.back);
   });
 });
