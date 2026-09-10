@@ -154,7 +154,9 @@ was staked on; it passed.
 Slice 60 closed the two real gaps that "cheap" glossed over. `neckline.ts`
 gained real "scoop" curve math (`scoopControlFactors` — a genuinely new
 design decision, flagged as starting values, not inherited from any prior
-curve like crew's numbers were); the tank's front moved from v (a stand-in,
+curve like crew's numbers were; **superseded at Slice 62** — see the
+"Standing principle" section below, `scoopControlFactors` no longer exists);
+the tank's front moved from v (a stand-in,
 picked only because it was the sole non-crew shape that existed) to scoop
 (the real default). Separately: `render/garment.ts` and `render/body.ts`
 took only `Measurements`, no recipe — genuinely garment-blind, so both drew
@@ -653,7 +655,7 @@ procurement track with its own lead time) and auto-update — there is no
 real release feed to point it at yet, and code that compiles against
 nothing to update FROM is not something this project ships unverified.
 
-## Standing principle added after Slice 60: no silent geometry reuse
+## Standing principle added after Slice 60: no silent geometry reuse (extended Slice 61, Slice 62)
 
 Slice 60's own verification (100% coverage, mutation-tested, "all green")
 still shipped a body view that drew a visibly different torso from the
@@ -696,3 +698,31 @@ drift unnoticed) — including a new equivalence test in `recipe.test.ts` that
 redrafts each top garment and confirms its declared `frontNeckline`/
 `backNeckline` reproduces the actual drafted edge, closing the same
 "declared but never verified" gap rule 2 exists to prevent.
+
+**Slice 62 found a THIRD kind of gap, one level deeper than either rule
+anticipated: the source of truth `render/` was now faithfully syncing to
+was itself wrong.** Rule 2's own audit made this visible — rendering the
+real curve everywhere at once is what turned a numbers-only bug into a
+screenshot anyone could see. `necklineEdge()`'s curve (dating to Slice
+55/56, well before the tank existed) never met the centre-front/back fold
+at a right angle; every drafting source checked agrees that's the one rule
+that keeps a curve from spiking when mirrored on the fold, and ours broke
+it. Rebuilt as a true quarter-ellipse (control points pinned on the axis
+that makes each tangent perpendicular to the line it meets, using the
+standard 0.5523 Bézier circle-approximation constant). A direct consequence
+of enforcing that rule: the curve's shape became fully determined by its
+two endpoints, which is why `scoopControlFactors` (Slice 60) could be
+deleted outright — there was no shape left for it to express. Scoop is now
+crew geometry plus depth/width, matching what the drafting sources say a
+scoop actually is. Widening the tank's front neckline then surfaced a real,
+independent bug (shoulder-seam length mismatch, since the shoulder tip
+point never moves) — caught by `stitchChecks` failing during verification,
+not predicted in advance; fixed by widening the back equally
+(`TANK_BACK_NECKLINE`). `regression.test.ts`'s tee/fitted export baseline
+moved for only the second time ever (the first was Slice 45's tech-pack
+page) — the old bytes encoded the exact bug being fixed, so keeping them
+"unchanged" would have meant keeping the bug. Extends rule 2 with a
+corollary: verification against a claimed source of truth is only as good
+as that source — when the source itself is suspect (a formula nobody has
+independently checked against a real reference), verify the source too,
+not just the sync to it.

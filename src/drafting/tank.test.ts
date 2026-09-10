@@ -14,17 +14,28 @@ describe("draftTank", () => {
     expect(() => rolePiece(b, "sleeve")).toThrow();
   });
 
-  it("gives the front a scoop (rounder/deeper control points) distinct from the back's crew", () => {
+  it("gives the front a deeper scoop than the back's crew (Slice 62: depth, not curve shape)", () => {
     const b = draftTank(STANDARD_M);
     const front = pieceEdge(rolePiece(b, "front"), "neckline");
     const back = pieceEdge(rolePiece(b, "back"), "neckline");
     expect(front.kind).toBe("curve");
     expect(back.kind).toBe("curve");
     if (front.kind === "curve" && back.kind === "curve") {
-      // scoop's control1 sits much further down the fold than crew's, at the same depth ratio
-      const frontRatio = front.curve.control1.y / front.curve.start.y;
-      const backRatio = back.curve.control1.y / back.curve.start.y;
-      expect(frontRatio).toBeGreaterThan(backRatio);
+      // After the Slice 62 curve fix, crew and scoop share the SAME curve
+      // construction — a scoop is a crew curve that's deeper (and can be
+      // wider), not a differently-shaped one. Only the front carries
+      // TANK_FRONT_NECKLINE's frontDrop, so only its centre-front point
+      // sits deeper than the back's.
+      expect(front.curve.start.y).toBeGreaterThan(back.curve.start.y);
+    }
+  });
+
+  it("widens BOTH shoulder points equally, so the shoulder seam still matches (TANK_BACK_NECKLINE's whole reason to exist)", () => {
+    const b = draftTank(STANDARD_M);
+    const front = pieceEdge(rolePiece(b, "front"), "neckline");
+    const back = pieceEdge(rolePiece(b, "back"), "neckline");
+    if (front.kind === "curve" && back.kind === "curve") {
+      expect(front.curve.end.x).toBeCloseTo(back.curve.end.x);
     }
   });
 

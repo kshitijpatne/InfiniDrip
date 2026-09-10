@@ -1,10 +1,12 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 61 (Tank rework step 1: render bugs fixed —
-render/body.ts chest-width + neckline sync, render/garment.ts neckline sync,
-render/skirt-figure.ts waist/hip sync). Steps 2–4 of the Tank rework plan are
-still open — see the "Active directive" section below. Update this after
-every slice (and commit it WITH the code)._
+_Last updated: after Slice 62 (neckline curve construction rebuilt — crew/
+scoop now meet the fold at a right angle; scoop redefined as crew geometry
++ depth/width, not its own curve shape). This DELIBERATELY moved
+regression.test.ts's tee/fitted export baseline — see Slice 62's own entry.
+Steps 3–4 of the Tank rework plan (tank armhole/strap geometry, final
+confirmation) are still open — see the "Active directive" section below.
+Update this after every slice (and commit it WITH the code)._
 
 **Governing plan:** MVP-PLAN.md (operative — the 6-month execution plan) and
 ROADMAP.md (strategic — full competitor analysis + long-term scope + the cut
@@ -123,6 +125,58 @@ F1. **(Fable) Real-world export system** — two new writers on the existing exp
 22. per-size export — a size picker in the export area drafts the chosen graded
     size (via `draftAtSize`) and emits `<garment>-<SIZE>.<ext>`; scopes only the
     exports, every other view keeps its job (327)
+62. Tank rework, step 2 (the neckline curve itself) — found because Slice 61
+    worked exactly as intended. Kshitij flagged, with screenshots, that the
+    neckline on the tee, fitted, AND tank — front and back — read as a sharp
+    V-plunge, not a crew or scoop. Rendered it myself (not just trusted the
+    report) and sampled the actual Bézier numerically to confirm before
+    touching anything: the curve spent most of its length hugging the
+    centre-fold before flaring out only in the last 20%, on both crew and
+    Slice-60's scoop. Root cause, confirmed by checking tangent directions
+    at both curve endpoints: `neckline.ts`'s `control1` sat directly above
+    centre-front (`point(0, depth * c1)`) — same x as the curve's own start
+    point — which gives a VERTICAL tangent at the fold. Every independent
+    pattern-drafting source checked (5 of them, cross-referenced) states the
+    same rule: a curved neckline must meet centre front/back at a RIGHT
+    ANGLE to the fold, or mirroring it on the fold creates exactly the
+    spike Kshitij saw — "In the Folds" describes the identical failure mode
+    from real drafting, unprompted. Not a Slice 61 regression: this
+    construction dates to Slice 55/56, in the actual cut pattern piece too,
+    not just the previews — Slice 61 simply rendered it faithfully
+    everywhere at once for the first time, which is what made it visible.
+    Fix: `control1`/`control2` rebuilt as a true quarter-ellipse (the
+    standard 0.5523 cubic-Bézier circle-approximation constant), each
+    control point pinned on the axis that makes its tangent perpendicular to
+    the line it meets. Second finding, verified by direct construction, not
+    assumed: once the tangent rule holds, the curve's shape is FULLY
+    determined by its two endpoints — there's no degree of freedom left for
+    "rounder control points," so Slice 60's `scoopControlFactors` literally
+    cannot express a different shape any more. This matches what the
+    drafting sources say a scoop actually is: the same curve as crew, just
+    deeper and wider. `scoopControlFactors`/`crewControlFactors` deleted;
+    scoop is now crew geometry + `frontDrop`/`widthEase`, and `tank.ts`
+    declares `{widthEase: 1.5, frontDrop: 5}` — a starting decision,
+    rendered and eyeballed (no universal scoop spec exists per the sources),
+    not a sourced exact. Widening the front's neckline surfaced a REAL
+    structural bug the moment it was applied, caught by `stitchChecks`
+    failing, not assumed away: the shoulder TIP point never moves, so
+    widening only the front's neckline shortened its shoulder edge relative
+    to the back's, breaking the seam match. Fixed with a new
+    `TANK_BACK_NECKLINE` (same `widthEase` as the front, depth unchanged) —
+    both shoulder points now move together. `regression.test.ts`'s tee/
+    fitted SVG/DXF/PDF/tech-pack baseline DELIBERATELY moved (Kshitij's
+    explicit sign-off, requested before building) — the old "byte-identical"
+    bytes encoded the spiked curve, so preserving them would have meant
+    preserving the bug. Verified: full suite 765/765, 100% coverage, clean
+    build, fresh-clone `git apply` dry run before delivery, AND rendered and
+    visually re-inspected every view (tee/fitted/tank, body + garment) —
+    the actual failure mode here was screenshots the tests couldn't have
+    caught, so the tests alone were never going to be the final check. Gate:
+    58 files / 765 tests / 100%. File set: 0 new, 7 modified (`neckline.ts`,
+    `neckline.test.ts`, `tank.ts`, `tank.test.ts`, `recipe.ts`,
+    `neckline-path.test.ts`, `regression.test.ts`). Next: Tank rework step 3
+    (the original step 2) — real armhole/strap geometry for the tank,
+    researched per the standard below. See the renumbered Active directive.
 61. Tank rework, step 1 — fix the render bugs completely, systemically (the
     plan agreed after Slice 60, item 1 of 4). Two confirmed bugs, both fixed
     at the root, not patched per-garment: (1) `render/body.ts`'s `bodyHalf =
@@ -1109,7 +1163,8 @@ in a new PK-only doc, `TANK-RESEARCH.md`, following the same convention as
 not a one-off chat answer, so the NEXT new garment after the tank has a
 repeatable process instead of starting from zero.
 
-**The plan, in order (Slice 61 starts a NEW chat):**
+**The plan, in order (renumbered after Slice 62 — the neckline curve itself
+turned out to be a second, deeper bug under step 1, not part of step 2):**
 1. ~~**Fix the render bugs completely, systemically — not a tank patch.**~~
    **DONE — Slice 61.** `render/body.ts`'s chest-width formula and neckline
    sync, for EVERY upper-body garment (tee, fitted, tank), fixed via a real
@@ -1119,9 +1174,20 @@ repeatable process instead of starting from zero.
    the identical bug class (`waistHalf`/`hipHalf` computed independently of
    `skirt.ts`'s real formula) and fixed it the same way — one shared
    `skirtWidths()` function, both consumers read it. "No missing link left
-   unfixed" confirmed: nothing else in the render layer independently
-   re-derives a number `derive()`/`skirt.ts` already compute correctly.
-2. **Build the tank properly and completely**, integrating real styling
+   unfixed" confirmed FOR THE RENDER LAYER: nothing else in `render/`
+   independently re-derives a number `derive()`/`skirt.ts` already compute
+   correctly. (It did not, and was never claimed to, cover the underlying
+   curve CONSTRUCTION in `drafting/neckline.ts` — that's step 2.)
+2. ~~**Fix the neckline curve construction itself.**~~ **DONE — Slice 62.**
+   Slice 61 rendering the real curve everywhere is what exposed that the
+   curve itself — `neckline.ts`, dating to Slice 55/56 — didn't meet the
+   centre-front/back fold at a right angle, which is what spiked into a
+   visible V once mirrored. Rebuilt as a true quarter-ellipse; `scoop` is
+   now crew geometry + depth/width (no curve shape of its own — see the
+   Slice 62 log entry above for the full reasoning and the sources).
+   `regression.test.ts`'s tee/fitted export baseline moved, deliberately,
+   with sign-off requested and given before building.
+3. **Build the tank properly and completely**, integrating real styling
    depth. Real armhole/strap geometry for sleeveless garments (not reused
    from the sleeved bodice), researched and vetted per the standard above,
    with an explicit, agreed-before-building scope for how many named styles
@@ -1130,11 +1196,11 @@ repeatable process instead of starting from zero.
    proposed and confirmed BEFORE building, not discovered mid-slice.
    **NOT STARTED — `TANK-RESEARCH.md` does not exist yet; this is the next
    open item.**
-3. **Confirm everything works correctly and is backed by reason** — every
+4. **Confirm everything works correctly and is backed by reason** — every
    dimension traceable to a source, every visual claim checked against the
    actual rendered output (not just against test assertions), before
    calling it done.
-4. **Then, and only then, move on** — polo, or whatever's next-best at that
+5. **Then, and only then, move on** — polo, or whatever's next-best at that
    point. Polo is explicitly parked until this is finished.
 
 ## Roadmap — superseded by MVP-PLAN.md (kept below for slice-history context only)
@@ -1364,3 +1430,4 @@ s58=723 (3 new, all in skirt.test.ts: the skirtPanel Component-contract test, th
 s59=735 (12 new, all in the new tank.test.ts: structure/neckline-kind/stitch tests (4) + tankGuidance never-throws + 2 guidance-content tests (3) + notch/POM-count tests (2) + 3 end-to-end tests (registry fields, graded spec sheet grows in order, full garmentReport passes); 2 new files (tank.ts, tank.test.ts), 5 modified (bodice.ts — gained optional necklineParams, recipe.ts, recipe.test.ts, style.ts, index.ts); every pre-existing test incl. regression.test.ts's 8/8 baseline passed unmodified since necklineParams defaults preserve tee/fitted exactly; verified against the real export pipeline (SVG/DXF/techpack/guidance), not just unit tests; mutation-verified by swapping the tank's front neckline back to crew and confirming immediate failure)
 s60=750 (net +12 vs s59: 3 new scoop-geometry tests in neckline.test.ts (replacing the old throws-on-scoop test, since scoop is real now) + 1 updated tank.test.ts assertion (scoop vs crew control-factor comparison, replacing the old v-vs-crew kind check) + 4 new sleeveless-garment tests in garment.test.ts + 6 new sleeveless-figure tests in body.test.ts + 2 new DOM-level integration tests in app.test.ts (tank draws without a sleeve in both views; tee still draws WITH one); 0 new files, 10 modified; regression.test.ts's 8/8 baseline and every pre-existing render/body/garment test passed unmodified — hasSleeve defaults to true; the app.test.ts integration tests exist specifically because the first mutation test against a hardcoded app.ts wiring bug was caught by NOTHING until they were added — see the slice-60 log entry)
 s61=764 (14 new: 3 body.test.ts (chest-width sync, real front-collar geometry, scoop-vs-crew collar differs) + 3 garment.test.ts (real front-collar geometry, changing only the front neckline moves only the front path, defaults to crew) + 2 skirt-figure.test.ts (real waist/hip sync, body/garment agreement across waist/hip/ease combos) + 3 recipe.test.ts (tee/fitted/tank's declared frontNeckline/backNeckline reproduce the actual drafted edge) + 3 in the new neckline-path.test.ts (curve emits two mirrored halves, V emits two lines not a curve, control points mirror correctly); 2 new files (render/neckline-path.ts, render/neckline-path.test.ts), 13 modified; regression.test.ts's 8/8 SHA-256 baseline unchanged by construction — nothing here touches drafting/ output or export/; one pre-existing app.test.ts assertion legitimately updated (it was checking for the OLD placeholder curve's "/Q /" signature — the bug's own fingerprint — now checks for the real "/C /" cubic curve), not reverted)
+s62=765 (net +1: neckline.test.ts's crew "different control-point factors" test replaced with a right-angle-tangent proof (front AND back), its scoop-specific tests replaced with a byte-identical-to-crew-at-same-depth/width proof; tank.test.ts's scoop-vs-crew test rewritten for depth-only distinction + 1 new shoulder-alignment test (net +1 here); neckline-path.test.ts's mirror test fixed for a rounding-precision false failure, not a real bug. regression.test.ts's tee/fitted SVG/DXF/PDF/tech-pack baseline DELIBERATELY regenerated — Kshitij's explicit sign-off requested and given before building, since the old baseline encoded the exact spiked curve being fixed; this is only the 2nd time since Slice 34 this baseline has moved (1st: Slice 45's tech-pack-only page addition). 0 new files, 7 modified (neckline.ts, neckline.test.ts, tank.ts, tank.test.ts, recipe.ts, neckline-path.test.ts, regression.test.ts); verified on a fresh clone via plain `git apply` + full gate + production build, not just in the working copy; every OTHER test (structure, stitch-matching, POMs, checks) passed unmodified, confirming the blast radius is exactly the neckline curve's shape)

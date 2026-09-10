@@ -19,7 +19,7 @@ import { GradeRule, SizeStep } from "./grading";
 import { PieceNotches } from "./tshirt-notches";
 import { draftTshirt } from "./tshirt";
 import { draftFitted } from "./fitted";
-import { draftTank, tankGuidance, TANK_NOTCHES, TANK_POMS, TANK_FRONT_NECKLINE } from "./tank";
+import { draftTank, tankGuidance, TANK_NOTCHES, TANK_POMS, TANK_FRONT_NECKLINE, TANK_BACK_NECKLINE } from "./tank";
 import { NecklineParams, NECKLINE_DEFAULT } from "./neckline";
 import { TSHIRT_NOTCHES } from "./tshirt-notches";
 import { TSHIRT_POMS } from "./tshirt-pom";
@@ -181,10 +181,13 @@ export const TANK: GarmentRecipe = {
   guidance: tankGuidance,
   sizeMetric: frontHemWidth,
   allowances: KNIT_ALLOWANCES,
-  // The EXACT same constant draftTank() passes to bodice() for the front —
-  // imported, not re-typed, so this can't drift from what's really drafted.
+  // The EXACT same constants draftTank() passes to bodice() — imported, not
+  // re-typed, so these can't drift from what's really drafted. The back
+  // isn't NECKLINE_DEFAULT any more (Slice 62): it carries the same
+  // widthEase as the front, so the shoulder seam still matches — see
+  // TANK_BACK_NECKLINE's own comment in tank.ts.
   frontNeckline: TANK_FRONT_NECKLINE,
-  backNeckline: NECKLINE_DEFAULT,
+  backNeckline: TANK_BACK_NECKLINE,
   techPack: {
     bom: KNIT_BOM,
     construction: [

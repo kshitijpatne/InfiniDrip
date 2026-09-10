@@ -44,19 +44,34 @@ const TANK_STITCHES: readonly Stitch[] = [
   },
 ];
 
-/** Front: a deep, round scoop (Slice 60) — a tank's real default; v was a
- *  Slice 59 stand-in, used only because it was the sole non-crew shape with
- *  real curve math at the time. Back: crew (unchanged).
+/** Front: a deep, round scoop — a tank's real default; v was a Slice 59
+*  stand-in, used only because it was the sole non-crew shape with real
+*  curve math at the time. Back: crew (unchanged).
  *  Exported (Slice 61) so `recipe.ts`'s `TANK.frontNeckline` can import this
  *  EXACT constant rather than re-typing the shape literal — the body/garment
  *  preview views read the recipe's declared neckline, and re-typing the same
  *  object in two places is exactly the kind of drift that caused the Slice 60
- *  bug in the first place. */
-export const TANK_FRONT_NECKLINE: NecklineParams = { shape: "scoop", widthEase: 0, frontDrop: 0 };
+ *  bug in the first place.
+ *  Numbers (Slice 62): `neckline.ts`'s curve fix removed "scoop" as its own
+ *  curve SHAPE — a scoop is the same curve as crew, just deeper and wider
+ *  (every drafting source checked agrees on this; see neckline.ts's header).
+ *  +5 cm front drop, +1.5 cm width per side — a starting decision, rendered
+ *  and eyeballed against real scoop-tee references, not a sourced exact
+ *  (sources agree there is no universal scoop spec to match).
+ *
+ *  The back MUST carry the same `widthEase` as the front (`TANK_BACK_NECKLINE`
+ *  below) even though its shape stays crew — caught by `stitchChecks`, not
+ *  assumed: the shoulder TIP point (`bodicePanel`'s `shoulder`) never moves,
+ *  so if only the front's neckline widens, its shoulder-to-neckline edge
+ *  gets shorter than the back's un-widened one and the shoulder seam stops
+ *  matching. Widening both sides by the same amount keeps the two shoulder
+ *  points aligned; only the front also drops deeper. */
+export const TANK_FRONT_NECKLINE: NecklineParams = { shape: "scoop", widthEase: 1.5, frontDrop: 5 };
+export const TANK_BACK_NECKLINE: NecklineParams = { shape: "crew", widthEase: 1.5, frontDrop: 0 };
 
 export function draftTank(m: Measurements): Block {
   const front = bodice(m, { position: "front", necklineParams: TANK_FRONT_NECKLINE });
-  const back = bodice(m, { position: "back" });
+  const back = bodice(m, { position: "back", necklineParams: TANK_BACK_NECKLINE });
   return assembleComponents([front, back], TANK_STITCHES);
 }
 

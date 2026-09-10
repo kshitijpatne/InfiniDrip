@@ -28,7 +28,12 @@ describe("necklinePathCommand", () => {
     if (edge.kind !== "curve") throw new Error("expected a curve for the default crew shape");
     const cmd = necklinePathCommand(cNeck, hps, edge);
     const leftHalf = cmd.split(/(?=C )/)[0];
-    expect(leftHalf).toContain(`${-edge.curve.control2.x} ${edge.curve.control2.y}`);
-    expect(leftHalf).toContain(`${-edge.curve.control1.x} ${edge.curve.control1.y}`);
+    // necklinePathCommand rounds to 3 decimals internally — round the same
+    // way here, or an irrational-ish product like 7 * 0.5523 (control point
+    // coordinates aren't always "nice" numbers any more) mismatches on the
+    // digits the render function already trimmed off.
+    const round = (n: number): number => Math.round(n * 1000) / 1000;
+    expect(leftHalf).toContain(`${round(-edge.curve.control2.x)} ${round(edge.curve.control2.y)}`);
+    expect(leftHalf).toContain(`${round(-edge.curve.control1.x)} ${round(edge.curve.control1.y)}`);
   });
 });

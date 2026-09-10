@@ -16,14 +16,21 @@ describe("necklineEdge — crew", () => {
     expect(hps).toEqual({ x: d.neckWidthHalf, y: 0 });
   });
 
-  it("front and back use different control-point factors at the same depth", () => {
+  it("front and back both meet centre-front at a right angle to the fold (Slice 62 fix)", () => {
+    // The bug this slice fixed: the OLD control1 sat directly above cNeck
+    // (same x), giving a VERTICAL tangent at the fold — the curve left the
+    // fold running ALONG it, which is what spiked when mirrored. The tangent
+    // at cNeck is (control1 - cNeck); it must be purely horizontal (exactly
+    // zero y) for the curve to meet the fold at a right angle, per every
+    // drafting source checked.
     const front = necklineEdge("front", d.neckWidthHalf, 10, SHOULDER_HALF, ARMHOLE_DEPTH);
     const back = necklineEdge("back", d.neckWidthHalf, 10, SHOULDER_HALF, ARMHOLE_DEPTH);
-    expect(front.edge.kind).toBe("curve");
-    expect(back.edge.kind).toBe("curve");
-    if (front.edge.kind === "curve" && back.edge.kind === "curve") {
-      expect(front.edge.curve.control1.y).toBeCloseTo(5.5, 6);  // 10 * 0.55
-      expect(back.edge.curve.control1.y).toBeCloseTo(6, 6);     // 10 * 0.6
+    for (const { edge, cNeck } of [front, back]) {
+      expect(edge.kind).toBe("curve");
+      if (edge.kind === "curve") {
+        expect(edge.curve.control1.y).toBe(cNeck.y); // tangent's y-component is exactly zero
+        expect(edge.curve.control1.x).toBeGreaterThan(0); // and it's not a zero-length tangent either
+      }
     }
   });
 
@@ -107,28 +114,27 @@ describe("necklineEdge guardrails — warn, never clamp", () => {
   });
 });
 
-describe("necklineEdge — scoop (Slice 60, real curve math)", () => {
-  it("is a curve, deeper and wider than crew at the same depth/width", () => {
+describe("necklineEdge — scoop (Slice 62: same curve construction as crew, no shape of its own)", () => {
+  it("is byte-identical to crew's curve at the SAME depth and width", () => {
+    // Slice 60's scoop had its own, differently-proportioned control
+    // factors. Slice 62 removed them: once the curve is forced to meet the
+    // fold at a right angle, its shape is fully determined by its two
+    // endpoints — there's no remaining freedom for "rounder" control
+    // points. Every drafting source checked agrees a scoop is the SAME
+    // curve as crew, just deeper/wider (depth and width, not shape).
     const scoop = necklineEdge("front", d.neckWidthHalf, 10, SHOULDER_HALF, ARMHOLE_DEPTH,
       { shape: "scoop", widthEase: 0, frontDrop: 0 });
     const crew = necklineEdge("front", d.neckWidthHalf, 10, SHOULDER_HALF, ARMHOLE_DEPTH,
       { shape: "crew", widthEase: 0, frontDrop: 0 });
-    expect(scoop.edge.kind).toBe("curve");
-    if (scoop.edge.kind === "curve" && crew.edge.kind === "curve") {
-      expect(scoop.edge.curve.control1.y).toBeGreaterThan(crew.edge.curve.control1.y);
-      expect(scoop.edge.curve.control2.x).toBeGreaterThan(crew.edge.curve.control2.x);
-    }
+    expect(scoop.edge).toEqual(crew.edge);
   });
 
-  it("front and back use different depth factors, same asymmetry as crew", () => {
-    const front = necklineEdge("front", d.neckWidthHalf, 10, SHOULDER_HALF, ARMHOLE_DEPTH,
-      { shape: "scoop", widthEase: 0, frontDrop: 0 });
-    const back = necklineEdge("back", d.neckWidthHalf, 10, SHOULDER_HALF, ARMHOLE_DEPTH,
-      { shape: "scoop", widthEase: 0, frontDrop: 0 });
-    if (front.edge.kind === "curve" && back.edge.kind === "curve") {
-      expect(front.edge.curve.control1.y).toBeCloseTo(8.5, 6);  // 10 * 0.85
-      expect(back.edge.curve.control1.y).toBeCloseTo(8, 6);     // 10 * 0.8
-    }
+  it("reads as deeper/wider only when frontDrop/widthEase are set — the tank's real scoop, not the shape param alone", () => {
+    const scoop = necklineEdge("front", d.neckWidthHalf, d.frontNeckDepth, SHOULDER_HALF, ARMHOLE_DEPTH,
+      { shape: "scoop", widthEase: 1.5, frontDrop: 5 });
+    const crew = necklineEdge("front", d.neckWidthHalf, d.frontNeckDepth, SHOULDER_HALF, ARMHOLE_DEPTH, NECKLINE_DEFAULT);
+    expect(scoop.cNeck.y).toBeGreaterThan(crew.cNeck.y);
+    expect(scoop.hps.x).toBeGreaterThan(crew.hps.x);
   });
 
   it("still respects widthEase/frontDrop, same as every other shape", () => {
