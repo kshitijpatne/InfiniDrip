@@ -43,10 +43,11 @@ const TANK_STITCHES: readonly Stitch[] = [
   },
 ];
 
-/** Front: v-neck. Back: crew (unchanged) — the real-garment default; plenty
- *  of tanks keep a curved back even with a v front. */
+/** Front: a deep, round scoop (Slice 60) — a tank's real default; v was a
+ *  Slice 59 stand-in, used only because it was the sole non-crew shape with
+ *  real curve math at the time. Back: crew (unchanged). */
 export function draftTank(m: Measurements): Block {
-  const front = bodice(m, { position: "front", necklineParams: { shape: "v", widthEase: 0, frontDrop: 0 } });
+  const front = bodice(m, { position: "front", necklineParams: { shape: "scoop", widthEase: 0, frontDrop: 0 } });
   const back = bodice(m, { position: "back" });
   return assembleComponents([front, back], TANK_STITCHES);
 }

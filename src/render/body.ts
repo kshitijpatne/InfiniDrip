@@ -58,8 +58,12 @@ function seg(x1: number, y1: number, x2: number, y2: number, width: number): str
 
 const lerp = (a: number, b: number, t: number): number => a + (b - a) * t;
 
-/** The body view: an annotated upper-body figure, measurement-honest. */
-export function renderBody(m: Measurements): string {
+/** The body view: an annotated upper-body figure, measurement-honest.
+ *  `hasSleeve` (Slice 60): a sleeveless garment (a tank) passes `false` — no
+ *  arm quad, no Sleeve/Bicep dimension lines or edges, since neither
+ *  measurement drives that garment (the figure would otherwise show a
+ *  dimension for a field the garment's own `fields` array doesn't expose). */
+export function renderBody(m: Measurements, hasSleeve = true): string {
   const shoulderHalf = m.shoulderWidth / 2;
   const bodyHalf = m.chest * 0.22; // a body width driven by chest; girth is labelled "(circ)"
   const ad = m.armholeDepth;
@@ -111,10 +115,11 @@ export function renderBody(m: Measurements): string {
     line(neckHalf, 0, neckHalf * 0.7, -neckLen, T.marker, 0.5) +
     line(-neckHalf, 0, -neckHalf * 0.7, -neckLen, T.marker, 0.5);
 
-  // Dimension lines for the raw inputs.
+  // Dimension lines for the raw inputs. The right/left margins only need to
+  // clear the arm's reach when there IS an arm to draw.
   const armMaxX = shoulderHalf + dx + w * 0.5;
-  const rightDimX = armMaxX + 6;
-  const leftDimX = -(armMaxX + 6);
+  const rightDimX = (hasSleeve ? armMaxX : bodyHalf) + 6;
+  const leftDimX = -rightDimX;
   const bOut = { x: lerp(a1.x, a2.x, 0.3), y: lerp(a1.y, a2.y, 0.3) };
   const bIn = { x: lerp(a4.x, a3.x, 0.3), y: lerp(a4.y, a3.y, 0.3) };
 
@@ -127,12 +132,12 @@ export function renderBody(m: Measurements): string {
     dim("chest", dimH(-bodyHalf, bodyHalf, ad + (len - ad) * 0.22, `Chest ${m.chest} (circ)`)) +
     dim("length", dimV(rightDimX, 0, len, `Length ${m.length}`, "right")) +
     dim("armholeDepth", dimV(leftDimX, 0, ad, `Armhole depth ${m.armholeDepth}`, "left")) +
-    dim("sleeveLength",
+    (hasSleeve ? dim("sleeveLength",
       line(a1.x, a1.y, (a2.x + a3.x) / 2, (a2.y + a3.y) / 2, T.marker) +
-      txt((a2.x + a3.x) / 2 + 2, (a2.y + a3.y) / 2, `Sleeve ${m.sleeveLength}`, "start")) +
-    dim("bicep",
+      txt((a2.x + a3.x) / 2 + 2, (a2.y + a3.y) / 2, `Sleeve ${m.sleeveLength}`, "start")) : "") +
+    (hasSleeve ? dim("bicep",
       line(bIn.x, bIn.y, bOut.x, bOut.y, T.marker) +
-      txt(bOut.x + 2, bOut.y - 1, `Bicep ${m.bicep} (circ)`, "start"));
+      txt(bOut.x + 2, bOut.y - 1, `Bicep ${m.bicep} (circ)`, "start")) : "");
 
   // The measurement→EDGES map, the sibling of the measurement→dimension-line map
   // above: the dimension line says what a number IS, these say what it SHAPES.
@@ -150,8 +155,8 @@ export function renderBody(m: Measurements): string {
     edge("armholeDepth", bothArms((sx) => seg(sx * shoulderHalf, slope, sx * bodyHalf, ad, 1.4))) +
     edge("chest", bothArms((sx) => seg(sx * bodyHalf, ad, sx * bodyHalf, len, 1.4))) +
     edge("length", seg(-bodyHalf, len, bodyHalf, len, 1.4)) +
-    edge("sleeveLength", bothArms((sx) => seg(sx * a1.x, a1.y, sx * a2.x, a2.y, 1.2))) +
-    edge("bicep", bothArms((sx) => seg(sx * a2.x, a2.y, sx * a3.x, a3.y, 1.2)));
+    (hasSleeve ? edge("sleeveLength", bothArms((sx) => seg(sx * a1.x, a1.y, sx * a2.x, a2.y, 1.2))) : "") +
+    (hasSleeve ? edge("bicep", bothArms((sx) => seg(sx * a2.x, a2.y, sx * a3.x, a3.y, 1.2))) : "");
 
   const minX = leftDimX - 22;
   const maxX = rightDimX + 26;
@@ -159,6 +164,8 @@ export function renderBody(m: Measurements): string {
   const maxY = len + 8;
   const width = maxX - minX;
   const height = maxY - minY;
+
+  const arms = hasSleeve ? armPath(1) + armPath(-1) : "";
 
   return `<svg viewBox="${round(minX)} ${round(minY)} ${round(width)} ${round(height)}" ` +
     `width="100%" xmlns="http://www.w3.org/2000/svg" ` +
@@ -168,7 +175,7 @@ export function renderBody(m: Measurements): string {
     // The silhouette is tagged "figure" — never a measurement name, so it always
     // falls to the dimmed state whenever a row is active, letting the tagged edge
     // on top read as the highlight. No special case needed in the UI.
-    `<g data-edge="figure">${head + armPath(1) + armPath(-1) + torsoPath}</g>` +
+    `<g data-edge="figure">${head + arms + torsoPath}</g>` +
     edges + dims +
     `</svg>`;
 }

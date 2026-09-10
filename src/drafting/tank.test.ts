@@ -14,10 +14,18 @@ describe("draftTank", () => {
     expect(() => rolePiece(b, "sleeve")).toThrow();
   });
 
-  it("gives the front a v-neck (straight line) and the back a crew (curve)", () => {
+  it("gives the front a scoop (rounder/deeper control points) distinct from the back's crew", () => {
     const b = draftTank(STANDARD_M);
-    expect(pieceEdge(rolePiece(b, "front"), "neckline").kind).toBe("line");
-    expect(pieceEdge(rolePiece(b, "back"), "neckline").kind).toBe("curve");
+    const front = pieceEdge(rolePiece(b, "front"), "neckline");
+    const back = pieceEdge(rolePiece(b, "back"), "neckline");
+    expect(front.kind).toBe("curve");
+    expect(back.kind).toBe("curve");
+    if (front.kind === "curve" && back.kind === "curve") {
+      // scoop's control1 sits much further down the fold than crew's, at the same depth ratio
+      const frontRatio = front.curve.control1.y / front.curve.start.y;
+      const backRatio = back.curve.control1.y / back.curve.start.y;
+      expect(frontRatio).toBeGreaterThan(backRatio);
+    }
   });
 
   it("has only shoulder and side stitches — no cap-ease, no underarm", () => {

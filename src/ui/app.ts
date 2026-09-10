@@ -97,6 +97,11 @@ export function mountApp(root: HTMLElement): void {
     // doesn't use the chest (a skirt) gets a neutral placeholder instead of a
     // misleading top. (Real lower-body figure + skirt styles: a later slice.)
     const isTop = recipe.fields.includes("chest");
+    // A sleeveless top (the tank) still carries a `sleeveLength` value on
+    // `measurements` (fields not shown in a garment's UI don't disappear from
+    // the object) — without this check both figures would draw it with a
+    // short sleeve regardless (Slice 60).
+    const hasSleeve = recipe.fields.includes("sleeveLength");
     fabricWidthHost.style.display = view === "fabric" ? "flex" : "none";
     if (view === "nest") {
       canvasHost.innerHTML = renderNest(
@@ -128,7 +133,7 @@ export function mountApp(root: HTMLElement): void {
       canvasHost.innerHTML = specTableMarkup(
         specSheet(graded, recipe.poms), graded.map((g) => g.label), baseIndex);
     } else if (view === "body") {
-      canvasHost.innerHTML = isTop ? renderBody(measurements) : renderSkirtBody(measurements);
+      canvasHost.innerHTML = isTop ? renderBody(measurements, hasSleeve) : renderSkirtBody(measurements);
     } else {
       const block = recipe.draft(measurements);
       const pieces = blockPieces(block);
@@ -136,7 +141,7 @@ export function mountApp(root: HTMLElement): void {
         pieces,
         { active: pieces[0].name, notches: recipe.notches, allowances: recipe.allowances });
     }
-    garmentHost.innerHTML = isTop ? renderGarment(measurements, fabric) : renderSkirtGarment(measurements, fabric);
+    garmentHost.innerHTML = isTop ? renderGarment(measurements, fabric, hasSleeve) : renderSkirtGarment(measurements, fabric);
     // One sanity read for the whole frame: are the numbers a real body? It gates
     // every green "validated" signal — the check banner, the style ✓ — and flags
     // the offending fields, so geometry passing can never masquerade as "ready".

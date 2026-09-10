@@ -54,6 +54,28 @@ describe("mountApp", () => {
     expect(canvas).toContain("(circ)"); // girth labels are marked
   });
 
+  it("draws the tank without a sleeve, in both the body view and the assembled view (Slice 60)", () => {
+    const root = mount();
+    root.querySelector<HTMLButtonElement>("#garment-tank")!.dispatchEvent(new Event("click"));
+
+    const garment = root.querySelector("#garment-host svg")!.innerHTML;
+    expect(garment).not.toContain("stroke-dasharray"); // no armhole seam — nothing sews to it
+
+    root.querySelector<HTMLButtonElement>("#view-body")!.dispatchEvent(new Event("click"));
+    const body = root.querySelector("#canvas-host svg")!.innerHTML;
+    expect(body).not.toContain("Sleeve"); // sleeveLength isn't one of the tank's fields
+    expect(body).not.toContain("Bicep");
+    expect(body).toContain("Armhole depth"); // the tank DOES still use this one
+  });
+
+  it("still draws the tee WITH a sleeve — the fix is garment-specific, not global", () => {
+    const root = mount();
+    const garment = root.querySelector("#garment-host svg")!.innerHTML;
+    expect(garment).toContain("stroke-dasharray");
+    root.querySelector<HTMLButtonElement>("#view-body")!.dispatchEvent(new Event("click"));
+    expect(root.querySelector("#canvas-host svg")!.innerHTML).toContain("Sleeve");
+  });
+
   it("downloads a file when an export button is clicked", () => {
     const created: string[] = [];
     URL.createObjectURL = vi.fn(() => "blob:test");

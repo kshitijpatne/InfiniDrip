@@ -151,6 +151,23 @@ actually sleeve-specific); `sleevedTopGuidance` was not (it calls
 SHA-256 baseline passed unmodified. This is the slice the whole migration
 was staked on; it passed.
 
+Slice 60 closed the two real gaps that "cheap" glossed over. `neckline.ts`
+gained real "scoop" curve math (`scoopControlFactors` — a genuinely new
+design decision, flagged as starting values, not inherited from any prior
+curve like crew's numbers were); the tank's front moved from v (a stand-in,
+picked only because it was the sole non-crew shape that existed) to scoop
+(the real default). Separately: `render/garment.ts` and `render/body.ts`
+took only `Measurements`, no recipe — genuinely garment-blind, so both drew
+a sleeveless tank as a short-sleeve tee. Both gained a `hasSleeve` param
+(default `true`, byte-identical for tee/fitted); `app.ts` computes it the
+same way it already computes `isTop`. The mutation-testing found a real
+gap in the safety net itself: hardcoding `hasSleeve = true` in `app.ts` was
+caught by NOTHING — every existing test proved the render functions correct
+in isolation, none proved `app.ts` wires them right. A new DOM-level
+integration test in `app.test.ts` closes that: it clicks the tank button
+and inspects the actual rendered SVG, which is the only kind of test that
+could have caught the bug as originally reported.
+
 `Block` importing `Stitch` from `stitch.ts` — which itself imports `Block`
 from `block.ts` — is a real circular reference, resolved with `import type`:
 type-only imports are erased at compile time and never enter the runtime

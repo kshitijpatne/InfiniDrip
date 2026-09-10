@@ -107,12 +107,44 @@ describe("necklineEdge guardrails — warn, never clamp", () => {
   });
 });
 
-describe("necklineEdge — deliberately unimplemented", () => {
-  it("throws on \"scoop\" and \"boat\" — no curve math exists for them", () => {
-    for (const shape of ["scoop", "boat"] as const) {
-      expect(() => necklineEdge("front", d.neckWidthHalf, d.frontNeckDepth, SHOULDER_HALF, ARMHOLE_DEPTH,
-        { shape, widthEase: 0, frontDrop: 0 })).toThrow(/not yet implemented/);
+describe("necklineEdge — scoop (Slice 60, real curve math)", () => {
+  it("is a curve, deeper and wider than crew at the same depth/width", () => {
+    const scoop = necklineEdge("front", d.neckWidthHalf, 10, SHOULDER_HALF, ARMHOLE_DEPTH,
+      { shape: "scoop", widthEase: 0, frontDrop: 0 });
+    const crew = necklineEdge("front", d.neckWidthHalf, 10, SHOULDER_HALF, ARMHOLE_DEPTH,
+      { shape: "crew", widthEase: 0, frontDrop: 0 });
+    expect(scoop.edge.kind).toBe("curve");
+    if (scoop.edge.kind === "curve" && crew.edge.kind === "curve") {
+      expect(scoop.edge.curve.control1.y).toBeGreaterThan(crew.edge.curve.control1.y);
+      expect(scoop.edge.curve.control2.x).toBeGreaterThan(crew.edge.curve.control2.x);
     }
+  });
+
+  it("front and back use different depth factors, same asymmetry as crew", () => {
+    const front = necklineEdge("front", d.neckWidthHalf, 10, SHOULDER_HALF, ARMHOLE_DEPTH,
+      { shape: "scoop", widthEase: 0, frontDrop: 0 });
+    const back = necklineEdge("back", d.neckWidthHalf, 10, SHOULDER_HALF, ARMHOLE_DEPTH,
+      { shape: "scoop", widthEase: 0, frontDrop: 0 });
+    if (front.edge.kind === "curve" && back.edge.kind === "curve") {
+      expect(front.edge.curve.control1.y).toBeCloseTo(8.5, 6);  // 10 * 0.85
+      expect(back.edge.curve.control1.y).toBeCloseTo(8, 6);     // 10 * 0.8
+    }
+  });
+
+  it("still respects widthEase/frontDrop, same as every other shape", () => {
+    const base = necklineEdge("front", d.neckWidthHalf, d.frontNeckDepth, SHOULDER_HALF, ARMHOLE_DEPTH,
+      { shape: "scoop", widthEase: 0, frontDrop: 0 });
+    const eased = necklineEdge("front", d.neckWidthHalf, d.frontNeckDepth, SHOULDER_HALF, ARMHOLE_DEPTH,
+      { shape: "scoop", widthEase: 2, frontDrop: 3 });
+    expect(eased.hps.x).toBeCloseTo(base.hps.x + 2, 6);
+    expect(eased.cNeck.y).toBeCloseTo(base.cNeck.y + 3, 6);
+  });
+});
+
+describe("necklineEdge — deliberately unimplemented", () => {
+  it("throws on \"boat\" — no curve math exists for it", () => {
+    expect(() => necklineEdge("front", d.neckWidthHalf, d.frontNeckDepth, SHOULDER_HALF, ARMHOLE_DEPTH,
+      { shape: "boat", widthEase: 0, frontDrop: 0 })).toThrow(/not yet implemented/);
   });
 });
 

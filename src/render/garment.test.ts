@@ -25,3 +25,31 @@ describe("renderGarment", () => {
     expect(svg).toContain('fill="#123456"');
   });
 });
+
+describe("renderGarment — sleeveless (Slice 60)", () => {
+  const withSleeve = renderGarment(STANDARD_M, "#123456", true);
+  const withoutSleeve = renderGarment(STANDARD_M, "#123456", false);
+
+  it("still produces a valid svg with both silhouettes", () => {
+    expect(withoutSleeve.startsWith("<svg")).toBe(true);
+    expect(withoutSleeve).toContain(">FRONT<");
+    expect(withoutSleeve).toContain(">BACK<");
+  });
+
+  it("draws a narrower figure than the sleeved version — no sleeve extending outward", () => {
+    const widthOf = (svg: string): number => {
+      const m = svg.match(/viewBox="0 0 ([\d.]+)/)!;
+      return parseFloat(m[1]);
+    };
+    expect(widthOf(withoutSleeve)).toBeLessThan(widthOf(withSleeve));
+  });
+
+  it("draws no dashed armhole seam — a sleeveless armhole is a finished edge, not a seam", () => {
+    expect(withSleeve).toContain("stroke-dasharray");
+    expect(withoutSleeve).not.toContain("stroke-dasharray");
+  });
+
+  it("defaults hasSleeve to true when omitted", () => {
+    expect(renderGarment(STANDARD_M, "#123456")).toEqual(withSleeve);
+  });
+});

@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 59. Update this after every slice (and commit it WITH the code)._
+_Last updated: after Slice 60. Update this after every slice (and commit it WITH the code)._
 
 **Governing plan:** MVP-PLAN.md (operative — the 6-month execution plan) and
 ROADMAP.md (strategic — full competitor analysis + long-term scope + the cut
@@ -119,6 +119,49 @@ F1. **(Fable) Real-world export system** — two new writers on the existing exp
 22. per-size export — a size picker in the export area drafts the chosen graded
     size (via `draftAtSize`) and emits `<garment>-<SIZE>.<ext>`; scopes only the
     exports, every other view keeps its job (327)
+60. Finish the tank properly — two real gaps flagged by Kshitij after Slice
+    59, neither swept under "the tank was cheap": (1) the neckline choice
+    was a shortcut, not a decision — v was picked only because it was the
+    sole non-crew shape with real curve math, not because it's right for a
+    tank (a tank is normally a deep, round scoop); (2) `render/garment.ts`
+    (assembled view) and `render/body.ts` (measurement-dimension figure)
+    both took only `Measurements`, no recipe — genuinely garment-blind, so
+    both drew a tank as a short-sleeve tee (`m.sleeveLength`/`m.bicep`
+    still exist on the object even when a garment's `fields` array doesn't
+    expose them). `body.ts`'s own file header ("the figure only bends
+    where we have a number... honesty is the whole point") made this a
+    real violation of its own stated design, not just an aesthetic gap.
+    Fixed both. New real curve math in `neckline.ts`: `scoopControlFactors`
+    (0.85/0.8 front/back depth factor vs crew's 0.55/0.6, 0.65 vs crew's
+    0.45 width factor) — a genuinely new design decision with no prior spec
+    to match, unlike crew's byte-identical-inherited numbers; flagged as
+    starting values, not claimed exact. `necklineEdge` now accepts "crew",
+    "v", AND "scoop" (only "boat" still throws). `tank.ts`'s front switched
+    from v to scoop. `renderGarment`/`renderBody` both gained a `hasSleeve`
+    param (default `true` — tee/fitted byte-identical, confirmed:
+    `regression.test.ts`'s 8/8 baseline and every pre-existing render test
+    passed unmodified); `false` drops the sleeve extension, the dashed
+    armhole "seam" (nothing sews to a bound edge), and the Sleeve/Bicep
+    dimension lines entirely. `app.ts` computes `hasSleeve =
+    recipe.fields.includes("sleeveLength")` — same idiom as the existing
+    `isTop` check — and threads it through both call sites. Real gap found
+    and closed during verification, not assumed away: the first mutation
+    test (hardcoding `hasSleeve = true` in `app.ts`) was caught by NOTHING
+    — every existing test proved the render FUNCTIONS work correctly in
+    isolation, but nothing proved `app.ts` actually wires them right. Added
+    a real DOM-level integration test (`app.test.ts`) that clicks the tank
+    button and inspects the rendered SVG; re-ran the same mutation and
+    confirmed it now fails immediately, before reverting — this is
+    literally the bug Kshitij reported, now gated. Also mutation-tested the
+    scoop math independently. Gate: 57 files / 750 tests / 100%. File set:
+    10 modified (`neckline.ts`, `neckline.test.ts`, `tank.ts`,
+    `tank.test.ts`, `render/garment.ts`, `render/garment.test.ts`,
+    `render/body.ts`, `render/body.test.ts`, `ui/app.ts`, `ui/app.test.ts`),
+    no new files. Next: polo (Slice 61) — the user's pick over a second
+    long-sleeve garment, since sleeve length is already adjustable on the
+    tee without a separate recipe. Polo needs a genuinely new piece (a
+    collar, plus a partial button placket) — real new design surface,
+    closer in kind to Waistband (Slice 57) than to the tank.
 59. Component architecture Phase C2 — THE REAL TEST (COMPONENT-ARCHITECTURE.md
     §9): "add a genuinely new variant — a tank... it should take hours, not
     a slice-run. If it doesn't, Phase B is not finished." It did: new file
@@ -1193,3 +1236,4 @@ s56=709 (net +7 vs s55, neckline.test.ts rewritten for the new 6-arg necklineEdg
 s57=720 (net +10 new in waistband.test.ts (Component contract, geometry, closure-inertness proven directly, real draftSkirt wiring) + skirt.test.ts/stitch.test.ts updated in place for the new 3-piece/2-stitch skirt shape — NOT preserved unmodified, since skirt has no byte-identity gate; garment-check-golden.ts's SKIRT_GOLDEN_REPORTS regenerated from a real post-change garmentReport run, per that file's own "regenerate only before a behaviour change" rule; 2 new files, 6 modified; regression.test.ts's 8/8 tee/fitted baseline untouched since neither recipe was touched; verified against the real export pipeline (SVG/DXF/tech-pack), not just unit tests; mutation-verified twice)
 s58=723 (3 new, all in skirt.test.ts: the skirtPanel Component-contract test, the flare-throws test, and the draftSkirt-front/back-ARE-skirtPanel's-output equivalence test; 0 new files, 2 modified (skirt.ts, skirt.test.ts); every pre-existing test passed unmodified, incl. regression.test.ts's 8/8 baseline and every Slice-57 skirt test — panel()'s own geometry never changed; mutation-verified by disabling the silhouette guard and confirming the throw test failed immediately)
 s59=735 (12 new, all in the new tank.test.ts: structure/neckline-kind/stitch tests (4) + tankGuidance never-throws + 2 guidance-content tests (3) + notch/POM-count tests (2) + 3 end-to-end tests (registry fields, graded spec sheet grows in order, full garmentReport passes); 2 new files (tank.ts, tank.test.ts), 5 modified (bodice.ts — gained optional necklineParams, recipe.ts, recipe.test.ts, style.ts, index.ts); every pre-existing test incl. regression.test.ts's 8/8 baseline passed unmodified since necklineParams defaults preserve tee/fitted exactly; verified against the real export pipeline (SVG/DXF/techpack/guidance), not just unit tests; mutation-verified by swapping the tank's front neckline back to crew and confirming immediate failure)
+s60=750 (net +12 vs s59: 3 new scoop-geometry tests in neckline.test.ts (replacing the old throws-on-scoop test, since scoop is real now) + 1 updated tank.test.ts assertion (scoop vs crew control-factor comparison, replacing the old v-vs-crew kind check) + 4 new sleeveless-garment tests in garment.test.ts + 6 new sleeveless-figure tests in body.test.ts + 2 new DOM-level integration tests in app.test.ts (tank draws without a sleeve in both views; tee still draws WITH one); 0 new files, 10 modified; regression.test.ts's 8/8 baseline and every pre-existing render/body/garment test passed unmodified — hasSleeve defaults to true; the app.test.ts integration tests exist specifically because the first mutation test against a hardcoded app.ts wiring bug was caught by NOTHING until they were added — see the slice-60 log entry)

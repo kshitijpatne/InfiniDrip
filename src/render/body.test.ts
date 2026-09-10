@@ -119,3 +119,42 @@ describe("renderBody — outline edge linking", () => {
       .not.toBe(hemOf(renderBody({ ...STANDARD_M, length: 90 })));
   });
 });
+
+describe("renderBody — sleeveless (Slice 60)", () => {
+  const sleeveless = renderBody(STANDARD_M, false);
+
+  it("still returns a valid, self-contained SVG", () => {
+    expect(sleeveless.startsWith("<svg")).toBe(true);
+    expect(sleeveless).toContain("viewBox=");
+  });
+
+  it("draws only the torso path — no arm quads", () => {
+    expect(sleeveless.match(/<path/g)!.length).toBe(1);
+  });
+
+  it("carries no Sleeve or Bicep dimension/edge — neither measurement drives this garment", () => {
+    expect(sleeveless).not.toContain("Sleeve");
+    expect(sleeveless).not.toContain("Bicep");
+    expect(sleeveless).not.toContain('data-dim="sleeveLength"');
+    expect(sleeveless).not.toContain('data-dim="bicep"');
+    expect(sleeveless).not.toContain('data-edge="sleeveLength"');
+    expect(sleeveless).not.toContain('data-edge="bicep"');
+  });
+
+  it("still labels the four inputs a sleeveless garment DOES use", () => {
+    expect(sleeveless).toContain("Shoulder 45");
+    expect(sleeveless).toContain("Chest 100");
+    expect(sleeveless).toContain("Length 70");
+    expect(sleeveless).toContain("Armhole depth 24");
+  });
+
+  it("is narrower than the sleeved figure — no margin reserved for an arm that isn't drawn", () => {
+    const vb = viewBoxOf(sleeveless);
+    const vbSleeved = viewBoxOf(svg);
+    expect(vb[2]).toBeLessThan(vbSleeved[2]); // viewBox width
+  });
+
+  it("defaults hasSleeve to true when omitted", () => {
+    expect(renderBody(STANDARD_M)).toEqual(renderBody(STANDARD_M, true));
+  });
+});

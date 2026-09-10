@@ -1,33 +1,35 @@
 // Component architecture, Phase B4 part 1 of 2 (Slice 55) + part 2 (Slice
-// 56). Design: COMPONENT-ARCHITECTURE.md §6.
+// 56) + Slice 60 (real scoop). Design: COMPONENT-ARCHITECTURE.md §6.
 //
 // Carries the Slice 47 finding into code: a neckline style preference is not
 // a body measurement (§7) and shouldn't live on `Measurements` or be baked
 // into the bodice — it's its own concern, extracted here.
 //
-// Part 1 (Slice 55) was deliberately narrower than §6's end state: only
-// "crew" implemented, widthEase/frontDrop both threw if non-zero. Part 2
-// closes that gap for real: "v" now has actual curve math (a straight line
-// to a point — the true-to-life V, no curve), widthEase/frontDrop are
-// genuinely applied, and the two "warn, never clamp" guardrails §6 specifies
-// are real and exercised. "scoop"/"boat" still throw — no curve math for
-// them exists anywhere, and they ship with the shirt block per §6's own
-// scope decision (§11 Q2), not invented speculatively here.
+// Part 1 (Slice 55): only "crew" implemented. Part 2 (Slice 56): "v" got
+// real curve math, widthEase/frontDrop and both guardrails became real.
+// "scoop" stayed thrown at both points — deferred to "ships with the shirt
+// block" per §6's own scope decision (§11 Q2).
 //
-// Deliberately NOT done this slice (flagged before building, Slice 56
-// scoping): NecklineParams is NOT threaded through BodiceParams or any
-// recipe. A v-neck tee isn't draftable end-to-end yet — nothing outside
-// this file's own tests can reach a non-default NecklineParams. That's a
-// real, separate "wire it to something a person can reach" slice, once a UI
-// control exists to drive it; building that wiring speculatively now, with
-// no control to test it against, would be exactly backwards from how every
-// other Phase B slice proved itself against something real.
+// Slice 60 closes "scoop" early, ahead of that plan, because the tank (Slice
+// 59) needed it for real: a v-neck was picked there only because it was the
+// only non-crew shape that existed, not because it's the right default for a
+// tank — a tank is normally a deep, round scoop. `scoopControlFactors` below
+// is a genuinely new design decision with no prior spec to match (unlike
+// crew's factors, inherited byte-identical from the original hand-drafted
+// curve): a rounder, wider bezier than crew — deeper first control point
+// (0.85/0.8 vs crew's 0.55/0.6), wider second control point (0.65 vs crew's
+// 0.45). Starting numbers, not claimed exact — same posture as the original
+// crew constants, tunable against a real reference later. "boat" still
+// throws; no curve math for it exists anywhere.
 //
-// Byte-identity requirement (§6), still true at NECKLINE_DEFAULT after this
-// slice: with `{shape:"crew", widthEase:0, frontDrop:0}`, this must emit the
-// EXACT neckline curve draftFront/draftBack emit today — same control
-// points, including the 0.55 (front) / 0.6 (back) factor that used to live
-// in bodice.ts's PanelOptions.
+// Deliberately NOT done: NecklineParams is still not part of every recipe's
+// public surface — only bodice.ts's BodiceParams (Slice 59) accepts it, and
+// only the tank passes a non-default value. No UI control lets a person pick
+// a neckline shape yet.
+//
+// Byte-identity requirement (§6), still true at NECKLINE_DEFAULT: with
+// `{shape:"crew", widthEase:0, frontDrop:0}`, this must emit the EXACT
+// neckline curve draftFront/draftBack emit today.
 
 import { point, Point } from "../geometry";
 import { Edge } from "./piece";
@@ -41,12 +43,21 @@ export interface NecklineParams {
 
 export const NECKLINE_DEFAULT: NecklineParams = { shape: "crew", widthEase: 0, frontDrop: 0 };
 
-/** The crew neckline's control-point factor: how far down the fold the first
- *  control point sits, as a fraction of the neck depth. Front and back use
- *  different factors — the same asymmetry `bodice.ts` always drew, now
+/** The crew neckline's control-point factors: how far down the fold the
+ *  first control point sits (fraction of depth), and how far across the
+ *  second control point sits (fraction of width). Front and back use
+ *  different depth factors — the same asymmetry `bodice.ts` always drew, now
  *  owned by the shape that produces it instead of passed in from outside. */
-function crewControlFactor(position: "front" | "back"): number {
-  return position === "front" ? 0.55 : 0.6;
+function crewControlFactors(position: "front" | "back"): { c1: number; c2: number } {
+  return { c1: position === "front" ? 0.55 : 0.6, c2: 0.45 };
+}
+
+/** The scoop neckline (Slice 60): a deeper, wider bezier than crew — a real
+ *  U-shape rather than a rounded crew. Numbers are a starting design
+ *  decision (see file header), not inherited from any prior hand-drafted
+ *  curve. */
+function scoopControlFactors(position: "front" | "back"): { c1: number; c2: number } {
+  return { c1: position === "front" ? 0.85 : 0.8, c2: 0.65 };
 }
 
 /** One side's neckline: the high-point-shoulder and centre-fold points every
@@ -65,8 +76,8 @@ export function necklineEdge(
   armholeDepth: number,
   params: NecklineParams = NECKLINE_DEFAULT
 ): { readonly cNeck: Point; readonly hps: Point; readonly edge: Edge; readonly notes: readonly Note[] } {
-  if (params.shape !== "crew" && params.shape !== "v") {
-    throw new Error(`Neckline shape "${params.shape}" not yet implemented (crew and v only)`);
+  if (params.shape !== "crew" && params.shape !== "v" && params.shape !== "scoop") {
+    throw new Error(`Neckline shape "${params.shape}" not yet implemented (crew, v, and scoop only)`);
   }
 
   const effectiveWidthHalf = neckWidthHalf + params.widthEase;
@@ -86,15 +97,18 @@ export function necklineEdge(
   const cNeck = point(0, depth);
   const hps = point(effectiveWidthHalf, 0);
 
-  const edge: Edge =
-    params.shape === "v"
-      ? { kind: "line", name: "neckline", start: cNeck, end: hps } // a real V: two straight seams meeting at a point, no curve
-      : { kind: "curve", name: "neckline", curve: {
-            start: cNeck,
-            control1: point(0, depth * crewControlFactor(position)),
-            control2: point(effectiveWidthHalf * 0.45, 0),
-            end: hps,
-          } };
+  let edge: Edge;
+  if (params.shape === "v") {
+    edge = { kind: "line", name: "neckline", start: cNeck, end: hps }; // a real V: two straight seams meeting at a point, no curve
+  } else {
+    const { c1, c2 } = params.shape === "scoop" ? scoopControlFactors(position) : crewControlFactors(position);
+    edge = { kind: "curve", name: "neckline", curve: {
+        start: cNeck,
+        control1: point(0, depth * c1),
+        control2: point(effectiveWidthHalf * c2, 0),
+        end: hps,
+      } };
+  }
 
   return { cNeck, hps, edge, notes };
 }
