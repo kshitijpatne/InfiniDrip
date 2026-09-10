@@ -35,6 +35,11 @@ export const MEASURE_ROLE: Record<RawField, { role: MeasureRole; circumference: 
   length: { role: "finished", circumference: false },
   armholeDepth: { role: "finished", circumference: false },
   sleeveLength: { role: "finished", circumference: false },
+  // Slice 63: both are direct garment/pattern coordinates the person dials
+  // in for a sleeveless garment — like armholeDepth, not a measurement taken
+  // off the body.
+  strapWidth: { role: "finished", circumference: false },
+  neckDrop: { role: "finished", circumference: false },
 };
 
 /** The finished (garment) value where ease changes it; undefined otherwise. Mirrors

@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import { describe, it, expect } from "vitest";
 import { STANDARD_M, derive, necklineEdge, NECKLINE_DEFAULT } from "../drafting";
-import { TANK_FRONT_NECKLINE } from "../drafting/tank";
+import { tankFrontNeckline } from "../drafting/tank";
 import { renderBody } from "./body";
 
 const svg = renderBody(STANDARD_M);
@@ -191,9 +191,32 @@ describe("renderBody — real chest width and neckline sync (Slice 61)", () => {
 
   it("draws a genuinely different collar for a deeper neckline shape (scoop vs crew)", () => {
     const crew = renderBody(STANDARD_M);
-    const scoop = renderBody(STANDARD_M, true, TANK_FRONT_NECKLINE);
+    const scoop = renderBody(STANDARD_M, true, tankFrontNeckline(STANDARD_M));
     const torsoOf = (s: string): string =>
       s.match(/<path d="([^"]+)" fill="[^"]*" stroke="[^"]*" stroke-width="1.4"/)![1];
     expect(torsoOf(scoop)).not.toBe(torsoOf(crew));
+  });
+});
+
+describe("renderBody — real strap position for a sleeveless garment (Slice 63)", () => {
+  const torsoOf = (s: string): string =>
+    s.match(/<path d="([^"]+)" fill="[^"]*" stroke="[^"]*" stroke-width="1.4"/)![1];
+
+  it("draws the torso's shoulder corner at the REAL strapWidth, not the full sleeved shoulder point", () => {
+    const svgStrap = renderBody(STANDARD_M, false, tankFrontNeckline(STANDARD_M), 15);
+    const torso = torsoOf(svgStrap);
+    expect(torso).toContain("15 3.15"); // strapX at body.ts's own schematic shoulder slope
+    expect(torso).not.toContain("22.5 3.15"); // NOT the full sleeved shoulderHalf
+  });
+
+  it("defaults to the full sleeved shoulder point when strapWidth is omitted — byte-identical to before Slice 63", () => {
+    expect(renderBody(STANDARD_M, true, tankFrontNeckline(STANDARD_M)))
+      .toEqual(renderBody(STANDARD_M, true, tankFrontNeckline(STANDARD_M), undefined));
+  });
+
+  it("moves the drawn strap point when strapWidth changes", () => {
+    const narrow = torsoOf(renderBody(STANDARD_M, false, tankFrontNeckline(STANDARD_M), 12));
+    const wide = torsoOf(renderBody(STANDARD_M, false, tankFrontNeckline(STANDARD_M), 20));
+    expect(narrow).not.toBe(wide);
   });
 });

@@ -655,7 +655,7 @@ procurement track with its own lead time) and auto-update — there is no
 real release feed to point it at yet, and code that compiles against
 nothing to update FROM is not something this project ships unverified.
 
-## Standing principle added after Slice 60: no silent geometry reuse (extended Slice 61, Slice 62)
+## Standing principle added after Slice 60: no silent geometry reuse (extended Slice 61, 62, 63)
 
 Slice 60's own verification (100% coverage, mutation-tested, "all green")
 still shipped a body view that drew a visibly different torso from the
@@ -726,3 +726,30 @@ corollary: verification against a claimed source of truth is only as good
 as that source — when the source itself is suspect (a formula nobody has
 independently checked against a real reference), verify the source too,
 not just the sync to it.
+
+**Slice 63 extends the principle again, from geometry to the measurement
+surface itself.** Two findings, both from verification, neither assumed
+going in. First: `necklineEdge()` and `sleevelessArmhole()` both compute
+"warn, never clamp" guidance notes, and NOTHING in the codebase was reading
+either — every caller destructured `notes` and dropped it. Harmless while
+every neckline parameter was a fixed recipe constant nobody could push out
+of range; it stops being harmless the moment a parameter is a live slider.
+Fixed for the tank specifically (`tankGuidance` now recomputes and surfaces
+both), flagged as a real gap for every other neckline call too, not fixed
+wholesale here. Second, and the bigger one: the render preview views
+(`render/body.ts`/`render/garment.ts`) were still drawing the tank's
+shoulder corner at the full sleeved `shoulderHalf` — the exact "preview
+doesn't match the real pattern" gap Slice 61 fixed for the neckline, simply
+never checked for the strap because the strap didn't exist as a concept
+before this slice. Fixed proactively, before being told a third time.
+Separately, a real product decision from Kshitij reshaped the slice's
+scope mid-flight: rather than the engine resolving TANK-RESEARCH.md's open
+strap-width question by picking a winner, `strapWidth` and `neckDrop` both
+shipped as genuine user-adjustable measurements — joining `Measurements`
+itself, with the same plausibility bounds, UI slider, and save/load support
+every other field gets. The standing principle going forward: no garment
+dimension gets hardcoded to a single value when the person could reasonably
+want a different one; the guidance engine's warn-never-clamp checks are
+what keep an extreme combination visible, not an engine-side ceiling on the
+input itself. This is why `sleevelessArmhole()`'s guardrails exist and why
+Slice 63 made sure they actually reach the person, not just compute.

@@ -1,12 +1,11 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 62 (neckline curve construction rebuilt — crew/
-scoop now meet the fold at a right angle; scoop redefined as crew geometry
-+ depth/width, not its own curve shape). This DELIBERATELY moved
-regression.test.ts's tee/fitted export baseline — see Slice 62's own entry.
-Steps 3–4 of the Tank rework plan (tank armhole/strap geometry, final
-confirmation) are still open — see the "Active directive" section below.
-Update this after every slice (and commit it WITH the code)._
+_Last updated: after Slice 63 (Tank rework step 3: real strap/armhole
+geometry for the tank, PLUS strapWidth/neckDrop promoted to genuine
+user-adjustable measurements rather than hardcoded recipe constants — see
+Slice 63's own entry). Steps 4 (final confirmation) of the Tank rework plan
+is still open — see the "Active directive" section below. Update this after
+every slice (and commit it WITH the code)._
 
 **Governing plan:** MVP-PLAN.md (operative — the 6-month execution plan) and
 ROADMAP.md (strategic — full competitor analysis + long-term scope + the cut
@@ -125,6 +124,73 @@ F1. **(Fable) Real-world export system** — two new writers on the existing exp
 22. per-size export — a size picker in the export area drafts the chosen graded
     size (via `draftAtSize`) and emits `<garment>-<SIZE>.<ext>`; scopes only the
     exports, every other view keeps its job (327)
+63. Tank rework, step 3 — real strap/armhole geometry for the tank, AND a
+    scope change requested by Kshitij mid-slice that reshaped the whole
+    approach: rather than the engine picking a single "correct" strap width
+    (the open question left at the end of research), EVERY new dimension
+    this slice touches ships as a real, user-adjustable measurement —
+    `strapWidth` and `neckDrop` joined `Measurements` itself, with
+    plausibility bounds, a UI slider, and save/load support, exactly like
+    chest/shoulderWidth/etc. always have. "No measurement of any garment
+    should be limited to just one specific width... the guidance engine
+    already handles telling the user when values aren't synergetic" — the
+    engine's job is to draft what's asked and flag what doesn't fit
+    together, never to decide the answer for the person.
+    New `drafting/armhole.ts` (`sleevelessArmhole()`), mirroring
+    `necklineEdge()`'s shape: a real curve from the strap point to the
+    underarm that cuts further in than the sleeved curve (TANK-RESEARCH.md
+    Finding 2 — the underarm point itself never moves, only the curve's
+    shape does), plus two "warn, never clamp" guardrails (strap narrower
+    than the neckline; strap as wide as the full shoulder). `bodice.ts`
+    gained an optional `strapWidth` — undefined draws the exact old sleeved
+    armhole (byte-identical for tee/fitted), a value swaps in the new curve.
+    `tank.ts` rewritten: `tankFrontNeckline`/`tankBackNeckline` are now
+    functions of `Measurements` (frontDrop reads the live `m.neckDrop`), and
+    `draftTank` passes `m.strapWidth` to both panels. Widening the strap
+    surfaced a real, independent bug caught by `stitchChecks` failing
+    during verification, not predicted in advance: since `strapWidth` is
+    now literally the shared shoulder point for both panels, this is
+    actually SIMPLER than Slice 62's `TANK_BACK_NECKLINE` workaround, not
+    an addition to it — one shared value, both panels read it, seam matches
+    by construction.
+    A second pre-existing gap found and partially closed: `necklineEdge()`
+    and `sleevelessArmhole()` both compute "warn, never clamp" guidance
+    notes, but NOTHING in the codebase was reading them — every caller
+    (`bodice.ts`, `fitted.ts`) destructured `notes` and silently dropped it.
+    This was harmless while every neckline param was a fixed recipe
+    constant nobody could push out of range; it stops being harmless the
+    moment `neckDrop`/`strapWidth` are live sliders. Fixed for the tank
+    specifically (`tankGuidance` now recomputes and surfaces both
+    functions' notes) — flagged, not fixed wholesale, since the same gap
+    exists for every OTHER neckline call too and fixing that generally is
+    a separate, later decision, not assumed here.
+    Render layer: found, and fixed proactively rather than waiting to be
+    told a third time, that `render/body.ts`/`render/garment.ts` still drew
+    the tank's shoulder corner at the full sleeved `shoulderHalf` — the
+    exact "preview doesn't match the real pattern" gap Slice 61 fixed for
+    the neckline, just never checked for the strap because the strap didn't
+    exist as a concept until this slice. Both views gained an optional
+    `strapWidth` (undefined = old sleeved behaviour, byte-identical);
+    `body.ts`'s `shoulderWidth`/`armholeDepth` edge-highlight overlays also
+    had to move to the real strap point, or they'd float visibly past the
+    actual drawn silhouette — the measurement's own DIMENSION line (the
+    labelled arrow) is unaffected, only which part of the outline it
+    highlights.
+    `recipe.ts`'s `frontNeckline`/`backNeckline` changed from static values
+    to functions of `Measurements` (a real, necessary type change, not
+    optional) — tee/fitted's just ignore the argument.
+    Verified: 790/790 tests, 100% coverage, fresh-clone `git apply` + full
+    gate + production build, all three views (body/garment/actual cut
+    pattern) re-rendered and visually cross-checked at multiple strap
+    widths — front and back always match. `regression.test.ts`'s 8/8
+    baseline untouched (this never touches `drafting/tshirt.ts` or
+    `drafting/fitted.ts`'s output). Gate: 59 files / 790 tests / 100% (25
+    new: 8 in the new armhole.test.ts, +8 tank.test.ts, +3 persist.test.ts,
+    +3 body.test.ts, +3 garment.test.ts; 0 changed from Slice 62's own
+    count elsewhere). File set: 2 new (`armhole.ts`, `armhole.test.ts`), 16
+    modified. Next: Tank rework step 4 — final confirmation that everything
+    here is backed by reason before calling the Tank rework closed; polo
+    stays parked until then.
 62. Tank rework, step 2 (the neckline curve itself) — found because Slice 61
     worked exactly as intended. Kshitij flagged, with screenshots, that the
     neckline on the tee, fitted, AND tank — front and back — read as a sharp
@@ -1187,19 +1253,32 @@ turned out to be a second, deeper bug under step 1, not part of step 2):**
    Slice 62 log entry above for the full reasoning and the sources).
    `regression.test.ts`'s tee/fitted export baseline moved, deliberately,
    with sign-off requested and given before building.
-3. **Build the tank properly and completely**, integrating real styling
-   depth. Real armhole/strap geometry for sleeveless garments (not reused
-   from the sleeved bodice), researched and vetted per the standard above,
-   with an explicit, agreed-before-building scope for how many named styles
-   are achievable via parameters alone vs. which genuinely require princess
-   seams (a structural change, not a curve tweak) — that split gets
-   proposed and confirmed BEFORE building, not discovered mid-slice.
-   **NOT STARTED — `TANK-RESEARCH.md` does not exist yet; this is the next
-   open item.**
+3. ~~**Build the tank properly and completely**, integrating real styling
+   depth.~~ **DONE — Slice 63.** Real armhole/strap geometry for the tank
+   (`drafting/armhole.ts`), researched per the standard above
+   (`TANK-RESEARCH.md`) and NOT reused from the sleeved bodice. The
+   parameters-vs-princess-seams split was resolved by the research itself,
+   not assumed: `TANK_STYLES` has no style that varies by anything other
+   than ease/length, and princess seams are for bust/waist contouring no
+   current tank style asks for — so no princess seams, no new named styles,
+   confirmed before building. A real scope change came from Kshitij mid-
+   slice, ahead of the numeric strap-width call the research had left open:
+   rather than the engine resolving that open question by picking a
+   winner, `strapWidth` AND `neckDrop` both shipped as genuine
+   user-adjustable measurements (joined `Measurements` itself, with
+   plausibility bounds and a UI slider) — the standing principle now is
+   that no garment dimension gets hardcoded to one value when the person
+   could reasonably want a different one; the guidance engine's warn-never-
+   clamp checks are what keep an extreme combination visible, not an
+   engine-side ceiling on the input itself.
 4. **Confirm everything works correctly and is backed by reason** — every
    dimension traceable to a source, every visual claim checked against the
    actual rendered output (not just against test assertions), before
-   calling it done.
+   calling it done. **Largely satisfied by Slice 63's own verification**
+   (fresh-clone dry run, all three views re-rendered and cross-checked at
+   multiple strap widths) — kept as an open line item for a final pass
+   across the whole Tank rework before closing it out, not because
+   anything specific is known to be missing.
 5. **Then, and only then, move on** — polo, or whatever's next-best at that
    point. Polo is explicitly parked until this is finished.
 
@@ -1431,3 +1510,4 @@ s59=735 (12 new, all in the new tank.test.ts: structure/neckline-kind/stitch tes
 s60=750 (net +12 vs s59: 3 new scoop-geometry tests in neckline.test.ts (replacing the old throws-on-scoop test, since scoop is real now) + 1 updated tank.test.ts assertion (scoop vs crew control-factor comparison, replacing the old v-vs-crew kind check) + 4 new sleeveless-garment tests in garment.test.ts + 6 new sleeveless-figure tests in body.test.ts + 2 new DOM-level integration tests in app.test.ts (tank draws without a sleeve in both views; tee still draws WITH one); 0 new files, 10 modified; regression.test.ts's 8/8 baseline and every pre-existing render/body/garment test passed unmodified — hasSleeve defaults to true; the app.test.ts integration tests exist specifically because the first mutation test against a hardcoded app.ts wiring bug was caught by NOTHING until they were added — see the slice-60 log entry)
 s61=764 (14 new: 3 body.test.ts (chest-width sync, real front-collar geometry, scoop-vs-crew collar differs) + 3 garment.test.ts (real front-collar geometry, changing only the front neckline moves only the front path, defaults to crew) + 2 skirt-figure.test.ts (real waist/hip sync, body/garment agreement across waist/hip/ease combos) + 3 recipe.test.ts (tee/fitted/tank's declared frontNeckline/backNeckline reproduce the actual drafted edge) + 3 in the new neckline-path.test.ts (curve emits two mirrored halves, V emits two lines not a curve, control points mirror correctly); 2 new files (render/neckline-path.ts, render/neckline-path.test.ts), 13 modified; regression.test.ts's 8/8 SHA-256 baseline unchanged by construction — nothing here touches drafting/ output or export/; one pre-existing app.test.ts assertion legitimately updated (it was checking for the OLD placeholder curve's "/Q /" signature — the bug's own fingerprint — now checks for the real "/C /" cubic curve), not reverted)
 s62=765 (net +1: neckline.test.ts's crew "different control-point factors" test replaced with a right-angle-tangent proof (front AND back), its scoop-specific tests replaced with a byte-identical-to-crew-at-same-depth/width proof; tank.test.ts's scoop-vs-crew test rewritten for depth-only distinction + 1 new shoulder-alignment test (net +1 here); neckline-path.test.ts's mirror test fixed for a rounding-precision false failure, not a real bug. regression.test.ts's tee/fitted SVG/DXF/PDF/tech-pack baseline DELIBERATELY regenerated — Kshitij's explicit sign-off requested and given before building, since the old baseline encoded the exact spiked curve being fixed; this is only the 2nd time since Slice 34 this baseline has moved (1st: Slice 45's tech-pack-only page addition). 0 new files, 7 modified (neckline.ts, neckline.test.ts, tank.ts, tank.test.ts, recipe.ts, neckline-path.test.ts, regression.test.ts); verified on a fresh clone via plain `git apply` + full gate + production build, not just in the working copy; every OTHER test (structure, stitch-matching, POMs, checks) passed unmodified, confirming the blast radius is exactly the neckline curve's shape)
+s63=790 (25 new: 8 in the new armhole.test.ts (strap/underarm points, cuts-in-vs-straight-line proof, guardrails) + 8 tank.test.ts (strapWidth/neckDrop actually wired into the real drafted edges, front-only neckDrop, both new guardrails surfacing through tankGuidance) + 3 persist.test.ts (round-trip + pre-Slice-63 lenient load + out-of-range default, mirroring hipDepth's own precedent) + 3 body.test.ts (real strap point, byte-identical when omitted, moves with strapWidth) + 3 garment.test.ts (same, both panels); 2 new files (drafting/armhole.ts, drafting/armhole.test.ts), 17 modified (measurements.ts, plausibility.ts, controls.ts, facets.ts, drafting/index.ts, bodice.ts, tank.ts, tank.test.ts, recipe.ts, recipe.test.ts, app.ts, persist.ts, persist.test.ts, render/body.ts, render/body.test.ts, render/garment.ts, render/garment.test.ts); regression.test.ts's 8/8 baseline untouched by construction (never touches tshirt.ts/fitted.ts output); verified on a fresh clone via plain `git apply` + full gate + production build + all three views (body/garment/actual pattern) re-rendered and visually cross-checked at 3 strap widths, front and back matching at every one)

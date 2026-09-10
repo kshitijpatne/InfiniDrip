@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { STANDARD_M, derive, necklineEdge, NECKLINE_DEFAULT } from "../drafting";
-import { TANK_FRONT_NECKLINE } from "../drafting/tank";
+import { tankFrontNeckline, tankBackNeckline } from "../drafting/tank";
 import { renderGarment, FABRICS, DEFAULT_FABRIC } from "./garment";
 
 describe("FABRICS", () => {
@@ -70,7 +70,7 @@ describe("renderGarment — real neckline sync (Slice 61)", () => {
 
   it("changing only the FRONT neckline shape moves only the front path, not the back's", () => {
     const [front1, back1] = pathsOf(renderGarment(STANDARD_M, "#123456", true, NECKLINE_DEFAULT, NECKLINE_DEFAULT));
-    const [front2, back2] = pathsOf(renderGarment(STANDARD_M, "#123456", true, TANK_FRONT_NECKLINE, NECKLINE_DEFAULT));
+    const [front2, back2] = pathsOf(renderGarment(STANDARD_M, "#123456", true, tankFrontNeckline(STANDARD_M), NECKLINE_DEFAULT));
     expect(front2).not.toBe(front1); // the shape that changed
     expect(back2).toBe(back1);       // the shape that didn't
   });
@@ -78,5 +78,31 @@ describe("renderGarment — real neckline sync (Slice 61)", () => {
   it("defaults both necklines to crew (NECKLINE_DEFAULT) when omitted", () => {
     expect(renderGarment(STANDARD_M, "#123456", true))
       .toEqual(renderGarment(STANDARD_M, "#123456", true, NECKLINE_DEFAULT, NECKLINE_DEFAULT));
+  });
+});
+
+describe("renderGarment — real strap position for a sleeveless garment (Slice 63)", () => {
+  const pathsOf = (svg: string): string[] => [...svg.matchAll(/<path d="([^"]+)"/g)].map((mm) => mm[1]);
+
+  it("draws BOTH front and back shoulder corners at the REAL strapWidth, not the full sleeved shoulder point", () => {
+    const [front, back] = pathsOf(renderGarment(
+      STANDARD_M, "#123456", false, tankFrontNeckline(STANDARD_M), tankBackNeckline(STANDARD_M), 15));
+    expect(front).toContain("15 4"); // strapX at derive()'s shoulderSlope
+    expect(back).toContain("15 4");
+    expect(front).not.toContain("22.5 4"); // NOT the full sleeved shoulderHalf
+  });
+
+  it("defaults to the full sleeved shoulder point when strapWidth is omitted — byte-identical to before Slice 63", () => {
+    expect(renderGarment(STANDARD_M, "#123456", true, tankFrontNeckline(STANDARD_M), tankBackNeckline(STANDARD_M)))
+      .toEqual(renderGarment(
+        STANDARD_M, "#123456", true, tankFrontNeckline(STANDARD_M), tankBackNeckline(STANDARD_M), undefined));
+  });
+
+  it("moves the drawn strap point when strapWidth changes", () => {
+    const [narrow] = pathsOf(renderGarment(
+      STANDARD_M, "#123456", false, tankFrontNeckline(STANDARD_M), tankBackNeckline(STANDARD_M), 12));
+    const [wide] = pathsOf(renderGarment(
+      STANDARD_M, "#123456", false, tankFrontNeckline(STANDARD_M), tankBackNeckline(STANDARD_M), 20));
+    expect(narrow).not.toBe(wide);
   });
 });

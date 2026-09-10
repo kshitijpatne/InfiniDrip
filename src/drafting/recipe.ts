@@ -19,7 +19,7 @@ import { GradeRule, SizeStep } from "./grading";
 import { PieceNotches } from "./tshirt-notches";
 import { draftTshirt } from "./tshirt";
 import { draftFitted } from "./fitted";
-import { draftTank, tankGuidance, TANK_NOTCHES, TANK_POMS, TANK_FRONT_NECKLINE, TANK_BACK_NECKLINE } from "./tank";
+import { draftTank, tankGuidance, TANK_NOTCHES, TANK_POMS, tankFrontNeckline, tankBackNeckline } from "./tank";
 import { NecklineParams, NECKLINE_DEFAULT } from "./neckline";
 import { TSHIRT_NOTCHES } from "./tshirt-notches";
 import { TSHIRT_POMS } from "./tshirt-pom";
@@ -75,8 +75,17 @@ export interface GarmentRecipe {
   // garments (tee/fitted/tank) carry one; the skirt has no neckline at all,
   // and `render/body.ts`/`render/garment.ts` both default to `NECKLINE_DEFAULT`
   // when it's absent, so leaving it off a garment is inert, not a gap.
-  readonly frontNeckline?: NecklineParams;
-  readonly backNeckline?: NecklineParams;
+  // Functions of `Measurements`, not fixed values (Slice 63) — the tank's
+  // front depends on `m.neckDrop`, a real user-adjustable measurement now,
+  // not a hardcoded recipe constant. tee/fitted's just ignore `m`.
+  readonly frontNeckline?: (m: Measurements) => NecklineParams;
+  readonly backNeckline?: (m: Measurements) => NecklineParams;
+  // Slice 63: a sleeveless garment's real strap position (`m.strapWidth`),
+  // so body/garment preview views draw the real strap instead of the full
+  // sleeved shoulder point. Optional — only sleeveless garments (the tank)
+  // carry one; absent means "use the sleeved shoulder point," same
+  // optional-is-inert convention as frontNeckline/backNeckline above.
+  readonly strapWidth?: (m: Measurements) => number;
 }
 
 /**
@@ -121,8 +130,8 @@ export const TEE: GarmentRecipe = {
   // draftTshirt calls bodice() with no necklineParams on either panel, so both
   // default to NECKLINE_DEFAULT (crew) — declared explicitly here rather than
   // left implicit, matching what the draft actually does.
-  frontNeckline: NECKLINE_DEFAULT,
-  backNeckline: NECKLINE_DEFAULT,
+  frontNeckline: () => NECKLINE_DEFAULT,
+  backNeckline: () => NECKLINE_DEFAULT,
   techPack: {
     bom: KNIT_BOM,
     construction: [
@@ -151,8 +160,8 @@ export const FITTED: GarmentRecipe = {
   sizeMetric: frontHemWidth,
   allowances: KNIT_ALLOWANCES,
   // draftFitted, like draftTshirt, defaults both panels to NECKLINE_DEFAULT.
-  frontNeckline: NECKLINE_DEFAULT,
-  backNeckline: NECKLINE_DEFAULT,
+  frontNeckline: () => NECKLINE_DEFAULT,
+  backNeckline: () => NECKLINE_DEFAULT,
   techPack: {
     bom: KNIT_BOM,
     construction: [
@@ -170,7 +179,7 @@ export const FITTED: GarmentRecipe = {
 export const TANK: GarmentRecipe = {
   name: "tank",
   label: "Tank",
-  fields: ["chest", "shoulderWidth", "length", "armholeDepth", "ease"],
+  fields: ["chest", "shoulderWidth", "length", "armholeDepth", "strapWidth", "neckDrop", "ease"],
   styles: TANK_STYLES,
   draft: draftTank,
   notches: TANK_NOTCHES,
@@ -186,8 +195,9 @@ export const TANK: GarmentRecipe = {
   // isn't NECKLINE_DEFAULT any more (Slice 62): it carries the same
   // widthEase as the front, so the shoulder seam still matches — see
   // TANK_BACK_NECKLINE's own comment in tank.ts.
-  frontNeckline: TANK_FRONT_NECKLINE,
-  backNeckline: TANK_BACK_NECKLINE,
+  frontNeckline: tankFrontNeckline,
+  backNeckline: tankBackNeckline,
+  strapWidth: (m) => m.strapWidth,
   techPack: {
     bom: KNIT_BOM,
     construction: [

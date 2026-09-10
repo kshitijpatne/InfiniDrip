@@ -134,7 +134,7 @@ export function mountApp(root: HTMLElement): void {
         specSheet(graded, recipe.poms), graded.map((g) => g.label), baseIndex);
     } else if (view === "body") {
       canvasHost.innerHTML = isTop
-        ? renderBody(measurements, hasSleeve, recipe.frontNeckline)
+        ? renderBody(measurements, hasSleeve, recipe.frontNeckline?.(measurements), recipe.strapWidth?.(measurements))
         : renderSkirtBody(measurements);
     } else {
       const block = recipe.draft(measurements);
@@ -144,7 +144,8 @@ export function mountApp(root: HTMLElement): void {
         { active: pieces[0].name, notches: recipe.notches, allowances: recipe.allowances });
     }
     garmentHost.innerHTML = isTop
-      ? renderGarment(measurements, fabric, hasSleeve, recipe.frontNeckline, recipe.backNeckline)
+      ? renderGarment(measurements, fabric, hasSleeve,
+          recipe.frontNeckline?.(measurements), recipe.backNeckline?.(measurements), recipe.strapWidth?.(measurements))
       : renderSkirtGarment(measurements, fabric);
     // One sanity read for the whole frame: are the numbers a real body? It gates
     // every green "validated" signal — the check banner, the style ✓ — and flags

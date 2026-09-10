@@ -26,6 +26,7 @@ import { Edge, Piece } from "./piece";
 import { Component } from "./component";
 import { iface, edgeRef } from "./stitch";
 import { necklineEdge, NecklineParams, NECKLINE_DEFAULT } from "./neckline";
+import { sleevelessArmhole } from "./armhole";
 
 export interface BodiceParams {
   readonly position: "front" | "back";
@@ -37,6 +38,13 @@ export interface BodiceParams {
    *  reach it yet; this is that wiring, done once a real second consumer
    *  needed it, not speculatively ahead of one. */
   readonly necklineParams?: NecklineParams;
+  /** Optional (Slice 63) — undefined (the default) draws the SLEEVED
+   *  armhole curve, byte-identical to every panel before this slice. A
+   *  sleeveless garment passes `m.strapWidth`, which swaps in
+   *  `sleevelessArmhole()`'s curve instead — see armhole.ts and
+   *  TANK-RESEARCH.md for why this needed its own curve rather than
+   *  reusing the sleeved one. */
+  readonly strapWidth?: number;
 }
 
 interface PanelOptions {
@@ -52,25 +60,47 @@ function bodicePanel(
   m: Measurements,
   position: "front" | "back",
   opts: PanelOptions,
-  necklineParams: NecklineParams
+  necklineParams: NecklineParams,
+  strapWidth: number | undefined
 ): Piece {
   const d = derive(m);
   const { cNeck, hps, edge: neckline } = necklineEdge(
     position, d.neckWidthHalf, opts.neckDepth, d.shoulderHalf, m.armholeDepth, necklineParams
   );
-  const shoulder = point(d.shoulderHalf, d.shoulderSlope);
   const underarm = point(d.chestWidthHalf, m.armholeDepth);
   const sideHem = point(d.chestWidthHalf, m.length);
   const cHem = point(0, m.length);
 
+  // Sleeved (default): the shoulder point sits at the TRUE shoulder edge,
+  // and the armhole curve is shaped to receive a set-in sleeve cap.
+  // Sleeveless (`strapWidth` given): the strap sits IN from that edge, and
+  // the armhole is `sleevelessArmhole()`'s open-scoop curve instead — see
+  // armhole.ts.
+  const shoulderEdges: Edge[] =
+    strapWidth === undefined
+      ? (() => {
+          const shoulder = point(d.shoulderHalf, d.shoulderSlope);
+          return [
+            { kind: "line", name: "shoulder", start: hps, end: shoulder },
+            { kind: "curve", name: "armhole", curve: {
+                start: shoulder,
+                control1: point(d.shoulderHalf, d.shoulderSlope + (m.armholeDepth - d.shoulderSlope) * 0.45),
+                control2: point(d.chestWidthHalf - 2, m.armholeDepth - 3),
+                end: underarm } },
+          ];
+        })()
+      : (() => {
+          const { strap, edge } = sleevelessArmhole(
+            strapWidth, hps.x, d.shoulderHalf, d.shoulderSlope, d.chestWidthHalf, m.armholeDepth);
+          return [
+            { kind: "line", name: "shoulder", start: hps, end: strap },
+            edge,
+          ];
+        })();
+
   const edges: Edge[] = [
     neckline,
-    { kind: "line", name: "shoulder", start: hps, end: shoulder },
-    { kind: "curve", name: "armhole", curve: {
-        start: shoulder,
-        control1: point(d.shoulderHalf, d.shoulderSlope + (m.armholeDepth - d.shoulderSlope) * 0.45),
-        control2: point(d.chestWidthHalf - 2, m.armholeDepth - 3),
-        end: underarm } },
+    ...shoulderEdges,
     { kind: "line", name: "side", start: underarm, end: sideHem },
     { kind: "line", name: "hem", start: sideHem, end: cHem },
     { kind: "line", name: opts.centerEdgeName, start: cHem, end: cNeck },
@@ -89,7 +119,7 @@ export const bodice: Component<BodiceParams> = (m, params) => {
     params.position === "front"
       ? { neckDepth: d.frontNeckDepth, centerEdgeName: "centerFront", pieceName: "front" }
       : { neckDepth: d.backNeckDepth, centerEdgeName: "centerBack", pieceName: "back" };
-  const piece = bodicePanel(m, params.position, opts, params.necklineParams ?? NECKLINE_DEFAULT);
+  const piece = bodicePanel(m, params.position, opts, params.necklineParams ?? NECKLINE_DEFAULT, params.strapWidth);
   return {
     pieces: { [params.position]: piece },
     stitches: [],

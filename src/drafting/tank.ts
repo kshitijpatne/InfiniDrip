@@ -16,13 +16,14 @@
 // sleeve-specific (calls `rolePiece(block,"sleeve")`, would throw) — hence
 // `tankGuidance` below, which is the same function minus `armholeMatch`.
 
-import { Measurements } from "./measurements";
+import { Measurements, derive } from "./measurements";
 import { Block } from "./block";
 import { Note } from "../guidance/note";
 import { Stitch, edgeRef, iface, matchedNotch } from "./stitch";
 import { assembleComponents } from "./component";
 import { bodice } from "./bodice";
-import { NecklineParams } from "./neckline";
+import { NecklineParams, necklineEdge } from "./neckline";
+import { sleevelessArmhole } from "./armhole";
 import { PieceNotches } from "./tshirt-notches";
 import { Pom } from "./pom";
 import { TSHIRT_POMS } from "./tshirt-pom";
@@ -45,41 +46,60 @@ const TANK_STITCHES: readonly Stitch[] = [
 ];
 
 /** Front: a deep, round scoop — a tank's real default; v was a Slice 59
-*  stand-in, used only because it was the sole non-crew shape with real
-*  curve math at the time. Back: crew (unchanged).
- *  Exported (Slice 61) so `recipe.ts`'s `TANK.frontNeckline` can import this
- *  EXACT constant rather than re-typing the shape literal — the body/garment
- *  preview views read the recipe's declared neckline, and re-typing the same
- *  object in two places is exactly the kind of drift that caused the Slice 60
- *  bug in the first place.
- *  Numbers (Slice 62): `neckline.ts`'s curve fix removed "scoop" as its own
- *  curve SHAPE — a scoop is the same curve as crew, just deeper and wider
- *  (every drafting source checked agrees on this; see neckline.ts's header).
- *  +5 cm front drop, +1.5 cm width per side — a starting decision, rendered
- *  and eyeballed against real scoop-tee references, not a sourced exact
- *  (sources agree there is no universal scoop spec to match).
+ *  stand-in, used only because it was the sole non-crew shape with real
+ *  curve math at the time. Back: crew (unchanged).
+ *  Functions of `Measurements`, not fixed constants (Slice 63): `frontDrop`
+ *  now reads `m.neckDrop` — a real, user-adjustable measurement
+ *  (TANK-RESEARCH.md found no single sourced scoop depth to hardcode, so it
+ *  ships as a slider, guarded the same "warn, never clamp" way as every
+ *  other field, not resolved by the engine picking a winner). `widthEase`
+ *  stays a fixed 1.5 — only depth was asked to become adjustable this round;
+ *  width is a real candidate for the same treatment later, not assumed here.
  *
- *  The back MUST carry the same `widthEase` as the front (`TANK_BACK_NECKLINE`
- *  below) even though its shape stays crew — caught by `stitchChecks`, not
- *  assumed: the shoulder TIP point (`bodicePanel`'s `shoulder`) never moves,
- *  so if only the front's neckline widens, its shoulder-to-neckline edge
- *  gets shorter than the back's un-widened one and the shoulder seam stops
- *  matching. Widening both sides by the same amount keeps the two shoulder
- *  points aligned; only the front also drops deeper. */
-export const TANK_FRONT_NECKLINE: NecklineParams = { shape: "scoop", widthEase: 1.5, frontDrop: 5 };
-export const TANK_BACK_NECKLINE: NecklineParams = { shape: "crew", widthEase: 1.5, frontDrop: 0 };
+ *  The back MUST carry the same `widthEase` as the front even though its
+ *  shape stays crew — caught by `stitchChecks`, not assumed: the shoulder/
+ *  strap point never moves on its own, so if only the front's neckline
+ *  widens, its shoulder-to-neckline edge gets shorter than the back's
+ *  un-widened one and the shoulder seam stops matching. Widening both sides
+ *  by the same amount keeps the two shoulder points aligned; only the front
+ *  also drops deeper. */
+export function tankFrontNeckline(m: Measurements): NecklineParams {
+  return { shape: "scoop", widthEase: 1.5, frontDrop: m.neckDrop };
+}
+export function tankBackNeckline(_m: Measurements): NecklineParams {
+  return { shape: "crew", widthEase: 1.5, frontDrop: 0 };
+}
 
 export function draftTank(m: Measurements): Block {
-  const front = bodice(m, { position: "front", necklineParams: TANK_FRONT_NECKLINE });
-  const back = bodice(m, { position: "back", necklineParams: TANK_BACK_NECKLINE });
+  const front = bodice(m, {
+    position: "front", necklineParams: tankFrontNeckline(m), strapWidth: m.strapWidth,
+  });
+  const back = bodice(m, {
+    position: "back", necklineParams: tankBackNeckline(m), strapWidth: m.strapWidth,
+  });
   return assembleComponents([front, back], TANK_STITCHES);
 }
 
 /** The tank's own guidance: sleevedTopGuidance minus armholeMatch (which
- *  calls rolePiece(block,"sleeve") — there is none here). */
+ *  calls rolePiece(block,"sleeve") — there is none here), PLUS (Slice 63)
+ *  the "warn, never clamp" guardrails `necklineEdge()`/`sleevelessArmhole()`
+ *  already compute but that no caller has surfaced to the person yet
+ *  (a pre-existing gap in how those two functions' `notes` reach guidance,
+ *  true for every garment, not introduced by this slice — flagged, not
+ *  fixed wholesale here; fixed for the tank specifically, since `strapWidth`
+ *  and `neckDrop` are real sliders now and their guardrails need to actually
+ *  reach the person for "the guidance engine already handles synergy" to be
+ *  true rather than aspirational). Recomputed here read-only, from the same
+ *  functions `draftTank` calls — never a second, independently-derived copy
+ *  of the geometry itself. */
 export function tankGuidance(_block: Block, m: Measurements): Note[] {
   const notes: (Note | null)[] = [easeRange(m), armholeDepthCheck(m), shoulderCheck(m)];
-  return notes.filter((n): n is Note => n !== null);
+  const d = derive(m);
+  const front = necklineEdge(
+    "front", d.neckWidthHalf, d.frontNeckDepth, d.shoulderHalf, m.armholeDepth, tankFrontNeckline(m));
+  const armhole = sleevelessArmhole(
+    m.strapWidth, front.hps.x, d.shoulderHalf, d.shoulderSlope, d.chestWidthHalf, m.armholeDepth);
+  return notes.filter((n): n is Note => n !== null).concat(front.notes, armhole.notes);
 }
 
 const SHOULDER = TANK_STITCHES[0];

@@ -88,6 +88,35 @@ describe("deserialize (success)", () => {
     if (!r.ok) return;
     expect(r.measurements.hipDepth).toBe(STANDARD_M.hipDepth);
   });
+
+  it("round-trips the strapWidth/neckDrop added in Slice 63", () => {
+    const m = { ...STANDARD_M, strapWidth: 18, neckDrop: 7 };
+    const result = deserialize(serialize(m, FABRIC));
+    expect(result.ok).toBe(true);
+    if (!result.ok) return;
+    expect(result.measurements.strapWidth).toBe(18);
+    expect(result.measurements.neckDrop).toBe(7);
+  });
+
+  it("loads a pre-Slice-63 save with no strapWidth/neckDrop, defaulting them from STANDARD_M", () => {
+    const { strapWidth, neckDrop, ...legacy } = STANDARD_M;
+    const r = deserialize(JSON.stringify({ v: SAVE_VERSION, measurements: legacy, fabric: FABRIC }));
+    expect(r.ok).toBe(true);
+    if (!r.ok) return;
+    expect(r.measurements.strapWidth).toBe(STANDARD_M.strapWidth);
+    expect(r.measurements.neckDrop).toBe(STANDARD_M.neckDrop);
+    expect(r.measurements.hipDepth).toBe(STANDARD_M.hipDepth); // the rest still load
+  });
+
+  it("defaults an out-of-range strapWidth/neckDrop rather than rejecting the whole save", () => {
+    const r = deserialize(JSON.stringify({
+      v: SAVE_VERSION, measurements: { ...STANDARD_M, strapWidth: 999, neckDrop: -5 }, fabric: FABRIC,
+    }));
+    expect(r.ok).toBe(true);
+    if (!r.ok) return;
+    expect(r.measurements.strapWidth).toBe(STANDARD_M.strapWidth);
+    expect(r.measurements.neckDrop).toBe(STANDARD_M.neckDrop);
+  });
 });
 
 // ── deserialize — error branches ──────────────────────────────────────────────

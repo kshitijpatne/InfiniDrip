@@ -104,7 +104,7 @@ describe("recipe.frontNeckline/backNeckline actually match what draft() produces
       for (const position of ["front", "back"] as const) {
         const drafted = pieceEdge(rolePiece(block, position), "neckline");
         const baseDepth = position === "front" ? d.frontNeckDepth : d.backNeckDepth;
-        const declared = position === "front" ? recipe.frontNeckline : recipe.backNeckline;
+        const declared = (position === "front" ? recipe.frontNeckline : recipe.backNeckline)?.(STANDARD_M);
         const { edge: expected } = necklineEdge(
           position, d.neckWidthHalf, baseDepth, d.shoulderHalf, STANDARD_M.armholeDepth, declared);
         expect(drafted.kind).toBe(expected.kind);

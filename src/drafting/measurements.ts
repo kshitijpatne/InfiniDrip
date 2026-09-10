@@ -13,6 +13,13 @@ export interface Measurements {
   readonly hip: number;          // hip circumference (used by lower-body garments)
   readonly hipDepth: number;     // vertical waist line down to the fullest hip
   readonly ease: number;         // wearing room added around the chest
+  // Slice 63 — sleeveless garments only (today: the tank). Real, user-set
+  // measurements, not hardcoded recipe constants: TANK-RESEARCH.md found no
+  // single sourced number for either, so the person dials them in, guarded
+  // the same "warn, never clamp" way as every other field — not resolved by
+  // the engine picking a winner.
+  readonly strapWidth: number;   // strap's half-width at the shoulder line, from centre
+  readonly neckDrop: number;     // extra front-neckline depth beyond the derived default
 }
 
 /** A standard size M, used as the starting point. */
@@ -20,6 +27,7 @@ export const STANDARD_M: Measurements = {
   chest: 100, shoulderWidth: 45, bicep: 38,
   length: 70, armholeDepth: 24, sleeveLength: 22,
   waist: 84, hip: 100, hipDepth: 20, ease: 10,
+  strapWidth: 15, neckDrop: 5,
 };
 
 // Values the draft computes from the raw measurements. Exposed (not hidden

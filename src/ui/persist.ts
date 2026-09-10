@@ -49,6 +49,9 @@ const BOUNDS: Record<keyof Measurements, [number, number]> = {
   hip:           [60,  150],
   hipDepth:      [10,   40],
   ease:          [ 0,   30],
+  // Added in Slice 63: same lenient treatment as waist/hip/hipDepth below.
+  strapWidth:    [ 3,   30],
+  neckDrop:      [ 0,   18],
 };
 
 /**
@@ -107,6 +110,9 @@ export function deserialize(
       // Added in Slice 42: same lenient treatment, for the same reason.
       hipDepth:      inRange(m["hipDepth"], BOUNDS.hipDepth[0], BOUNDS.hipDepth[1]) ? (m["hipDepth"] as number) : STANDARD_M.hipDepth,
       ease:          m["ease"]          as number,
+      // Added in Slice 63: same lenient treatment, for the same reason.
+      strapWidth:    inRange(m["strapWidth"], BOUNDS.strapWidth[0], BOUNDS.strapWidth[1]) ? (m["strapWidth"] as number) : STANDARD_M.strapWidth,
+      neckDrop:      inRange(m["neckDrop"], BOUNDS.neckDrop[0], BOUNDS.neckDrop[1]) ? (m["neckDrop"] as number) : STANDARD_M.neckDrop,
     },
     fabric,
   };

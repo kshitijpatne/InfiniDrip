@@ -70,12 +70,21 @@ const lerp = (a: number, b: number, t: number): number => a + (b - a) * t;
  *  the real pattern at identical measurements (see PROJECT-STATE.md, "Tank
  *  rework"): the torso used its own ungrounded `chest * 0.22` body-width
  *  guess instead of `derive()`'s real `chestWidthHalf`, and the collar was a
- *  fixed decorative curve that never reflected crew vs. v vs. scoop. */
+ *  fixed decorative curve that never reflected crew vs. v vs. scoop.
+ *  `strapWidth` (Slice 63): a sleeveless garment's REAL strap position
+ *  (`m.strapWidth`) — undefined (the default) keeps the sleeved shoulder
+ *  point, `d.shoulderHalf`, byte-identical to every render before this
+ *  slice. Passing it moves the torso's shoulder corner in to the real strap
+ *  point instead of silently drawing a full sleeveless-tee shoulder for a
+ *  tank — the same "the view must match the real pattern" gap Slice 61
+ *  closed for the neckline, found here for the strap. */
 export function renderBody(
-  m: Measurements, hasSleeve = true, frontNeckline: NecklineParams = NECKLINE_DEFAULT
+  m: Measurements, hasSleeve = true, frontNeckline: NecklineParams = NECKLINE_DEFAULT,
+  strapWidth?: number
 ): string {
   const d = derive(m);
   const shoulderHalf = d.shoulderHalf;
+  const strapX = strapWidth ?? shoulderHalf; // the real strap point for a sleeveless garment
   const bodyHalf = d.chestWidthHalf; // the real half-width the pattern drafts, not an independent guess
   const ad = m.armholeDepth;
   const len = m.length;
@@ -111,12 +120,12 @@ export function renderBody(
   // Torso outline (straight sides — no waist taper, because none is measured).
   const torso = [
     `M ${round(neckHalf)} 0`,
-    `L ${round(shoulderHalf)} ${round(slope)}`,
+    `L ${round(strapX)} ${round(slope)}`,
     `L ${round(bodyHalf)} ${round(ad)}`,
     `L ${round(bodyHalf)} ${round(len)}`,
     `L ${round(-bodyHalf)} ${round(len)}`,
     `L ${round(-bodyHalf)} ${round(ad)}`,
-    `L ${round(-shoulderHalf)} ${round(slope)}`,
+    `L ${round(-strapX)} ${round(slope)}`,
     `L ${round(-neckHalf)} 0`,
     necklinePathCommand(cNeck, hps, neckEdge), // the real collar: crew, v, or scoop
     "Z",
@@ -163,12 +172,19 @@ export function renderBody(
   //   chest         → the side seams (±width)  length       → the hem
   //   sleeveLength  → the arm outer edges      bicep        → the cuff edges
   // Drawn on top of the silhouette, so lifting one to full opacity while the
-  // figure fades reads as "this edge is what that number moves".
+  // figure fades reads as "this edge is what that number moves". Slice 63: for
+  // a sleeveless garment these two use `strapX`, not `shoulderHalf` — the
+  // real outline corner moved to the strap, and an edge overlay that floated
+  // past the actual drawn silhouette (out to the old, wider shoulder point)
+  // would be exactly the kind of "reads correct, isn't" gap this project has
+  // already found twice. `shoulderWidth`'s own DIMENSION line (the labelled
+  // arrow above the head) is unaffected — the person's real shoulder width
+  // hasn't changed, only which edge of the outline it highlights.
   const edge = (field: string, body: string): string => `<g data-edge="${field}">${body}</g>`;
   const bothArms = (fn: (sx: number) => string): string => fn(1) + fn(-1);
   const edges =
-    edge("shoulderWidth", bothArms((sx) => seg(sx * neckHalf, 0, sx * shoulderHalf, slope, 1.4))) +
-    edge("armholeDepth", bothArms((sx) => seg(sx * shoulderHalf, slope, sx * bodyHalf, ad, 1.4))) +
+    edge("shoulderWidth", bothArms((sx) => seg(sx * neckHalf, 0, sx * strapX, slope, 1.4))) +
+    edge("armholeDepth", bothArms((sx) => seg(sx * strapX, slope, sx * bodyHalf, ad, 1.4))) +
     edge("chest", bothArms((sx) => seg(sx * bodyHalf, ad, sx * bodyHalf, len, 1.4))) +
     edge("length", seg(-bodyHalf, len, bodyHalf, len, 1.4)) +
     (hasSleeve ? edge("sleeveLength", bothArms((sx) => seg(sx * a1.x, a1.y, sx * a2.x, a2.y, 1.2))) : "") +

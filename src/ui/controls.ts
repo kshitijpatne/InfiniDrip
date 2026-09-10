@@ -23,6 +23,10 @@ export const FIELDS: readonly Field[] = [
   { id: "hip", label: "Hip", min: 60, max: 150, step: 1 },
   { id: "hipDepth", label: "Hip depth", min: 10, max: 40, step: 1 },
   { id: "ease", label: "Ease", min: 0, max: 30, step: 1 },
+  // Slice 63 — sleeveless-only fields (today: the tank). Ranges wider than
+  // MEASUREMENT_BOUNDS's "usual" band, same convention as every field above.
+  { id: "strapWidth", label: "Strap width", min: 3, max: 30, step: 0.5 },
+  { id: "neckDrop", label: "Neck scoop depth", min: 0, max: 18, step: 0.5 },
 ];
 
 /** Keep a number within [min, max]. */

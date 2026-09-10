@@ -28,11 +28,13 @@ export const DEFAULT_FABRIC = FABRICS[0].color;
 // itself is the REAL one `necklineEdge()` computes for this garment's
 // declared shape (crew/v/scoop), the same function the actual draft calls.
 function silhouettePath(
-  m: Measurements, position: "front" | "back", hasSleeve: boolean, neckline: NecklineParams
+  m: Measurements, position: "front" | "back", hasSleeve: boolean, neckline: NecklineParams,
+  strapWidth?: number
 ): string {
   const d = derive(m);
   const half = d.chestWidthHalf;        // half the body width
   const sh = d.shoulderHalf;            // shoulder point
+  const strapX = strapWidth ?? sh;      // Slice 63: the real strap point for a sleeveless garment
   const slope = d.shoulderSlope;
   const ad = m.armholeDepth;
   const len = m.length;
@@ -55,14 +57,14 @@ function silhouettePath(
 
   return [
     `M ${round(nh)} 0`,                          // right neck point
-    `L ${round(sh)} ${round(slope)}`,            // right shoulder
+    `L ${round(strapX)} ${round(slope)}`,        // right shoulder / strap point
     ...sleeveOut,                                 // out to the sleeve (if any)
     `L ${round(half)} ${round(ad)}`,             // in to the underarm
     `L ${round(half)} ${round(len)}`,            // right side down to hem
     `L ${round(-half)} ${round(len)}`,           // across the hem
     `L ${round(-half)} ${round(ad)}`,            // left side up
     ...sleeveIn,                                  // left sleeve (if any)
-    `L ${round(-sh)} ${round(slope)}`,           // left shoulder
+    `L ${round(-strapX)} ${round(slope)}`,       // left shoulder / strap point
     `L ${round(-nh)} 0`,                          // left neck point
     necklinePathCommand(cNeck, hps, neckEdge),    // the real collar: crew, v, or scoop
     "Z",
@@ -84,8 +86,8 @@ function armholeSeams(m: Measurements): string {
 
 function renderOne(m: Measurements, position: "front" | "back", fabric: string,
                    cx: number, top: number, label: string, hasSleeve: boolean,
-                   neckline: NecklineParams): string {
-  const path = `<path d="${silhouettePath(m, position, hasSleeve, neckline)}" fill="${fabric}" ` +
+                   neckline: NecklineParams, strapWidth?: number): string {
+  const path = `<path d="${silhouettePath(m, position, hasSleeve, neckline, strapWidth)}" fill="${fabric}" ` +
     `stroke="${T.line}" stroke-width="1.4" stroke-linejoin="round" ` +
     `vector-effect="non-scaling-stroke"/>`;
   const seams = hasSleeve ? armholeSeams(m) : "";
@@ -101,10 +103,14 @@ function renderOne(m: Measurements, position: "front" | "back", fabric: string,
  *  sleeve regardless of what `m.sleeveLength` happens to hold.
  *  `frontNeckline`/`backNeckline` (Slice 61) — the garment's real declared
  *  neckline shapes (`recipe.frontNeckline`/`backNeckline`); default to crew,
- *  matching what an unspecified garment actually drafts. */
+ *  matching what an unspecified garment actually drafts.
+ *  `strapWidth` (Slice 63) — a sleeveless garment's real strap position
+ *  (`m.strapWidth`); undefined keeps the sleeved shoulder point, byte-
+ *  identical to every render before this slice. */
 export function renderGarment(
   m: Measurements, fabric: string, hasSleeve = true,
-  frontNeckline: NecklineParams = NECKLINE_DEFAULT, backNeckline: NecklineParams = NECKLINE_DEFAULT
+  frontNeckline: NecklineParams = NECKLINE_DEFAULT, backNeckline: NecklineParams = NECKLINE_DEFAULT,
+  strapWidth?: number
 ): string {
   const d = derive(m);
   const halfW = hasSleeve ? d.shoulderHalf + m.sleeveLength : Math.max(d.shoulderHalf, d.chestWidthHalf);
@@ -119,7 +125,7 @@ export function renderGarment(
   return `<svg viewBox="0 0 ${round(width)} ${round(height)}" width="100%" ` +
     `xmlns="http://www.w3.org/2000/svg" style="background:${T.background};border-radius:8px">` +
     `<rect x="0" y="0" width="${round(width)}" height="${round(height)}" fill="${T.background}"/>` +
-    renderOne(m, "front", fabric, frontCx, top, "FRONT", hasSleeve, frontNeckline) +
-    renderOne(m, "back", fabric, backCx, top, "BACK", hasSleeve, backNeckline) +
+    renderOne(m, "front", fabric, frontCx, top, "FRONT", hasSleeve, frontNeckline, strapWidth) +
+    renderOne(m, "back", fabric, backCx, top, "BACK", hasSleeve, backNeckline, strapWidth) +
     `</svg>`;
 }

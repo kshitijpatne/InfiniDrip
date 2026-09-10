@@ -35,6 +35,15 @@ export const MEASUREMENT_BOUNDS: Partial<Record<keyof Measurements, Bound>> = {
   length: { min: 45, max: 95, label: "Length" },
   armholeDepth: { min: 15, max: 35, label: "Armhole depth" },
   sleeveLength: { min: 5, max: 70, label: "Sleeve length" },
+  // Slice 63: TANK-RESEARCH.md found sourced strap widths from ~12cm
+  // (spaghetti-adjacent) to ~19cm (classic tank) at STANDARD_M's shoulder
+  // width — the bound below is deliberately wider than that whole sourced
+  // range, same posture as every other bound here: catch the absurd, not
+  // the merely unusual. neckDrop's upper bound is loose for the same
+  // reason; necklineEdge's own guardrail (frontDrop pushing the neckline
+  // below the underarm) is the tighter, geometry-aware check.
+  strapWidth: { min: 5, max: 25, label: "Strap width" },
+  neckDrop: { min: 0, max: 15, label: "Neck scoop depth" },
 };
 
 /** The raw fields whose OWN value is outside its plausible bound, SCOPED to the
