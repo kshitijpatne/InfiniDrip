@@ -841,15 +841,16 @@ describe("switching to the skirt (Slice 38)", () => {
 
   it("draws the skirt in both the assembled view and the body view (Slice 40)", () => {
     const root = mount();
-    // tee assembled view has a neckline scoop
-    expect(root.querySelector("#garment-host")!.innerHTML).toMatch(/Q /);
+    // tee assembled view has a neckline curve (Slice 61: real necklineEdge()
+    // geometry, cubic "C" commands — no longer the old placeholder "Q")
+    expect(root.querySelector("#garment-host")!.innerHTML).toMatch(/C /);
 
     root.querySelector<HTMLButtonElement>("#garment-skirt")!.dispatchEvent(new Event("click"));
 
     // assembled view is now a skirt: FRONT/BACK panels, no tee neckline
     const assembled = root.querySelector("#garment-host")!.innerHTML;
     expect(assembled).toContain(">FRONT<");
-    expect(assembled).not.toMatch(/Q /);
+    expect(assembled).not.toMatch(/C /);
 
     // the style panel offers the skirt's own presets (Slice 39)
     expect(root.querySelector("#style-host")!.innerHTML).toContain("skirt");

@@ -20,10 +20,23 @@ import { Stitch, edgeRef, iface, matchedNotch } from "./stitch";
 import { Component, assembleComponents } from "./component";
 import { waistband, WAISTBAND_DEFAULT } from "./waistband";
 
+/** The skirt's own half-widths at the waist and hip — the single source of
+ *  truth `panel()` drafts from and `render/skirt-figure.ts` must draw from
+ *  too. Exported (Slice 61) after the figure view was found computing its
+ *  OWN independent approximation (`waist * 0.20`, `hip * 0.22` — dropping
+ *  ease entirely) a few lines away from `renderSkirtGarment`'s correct
+ *  formula in the very same file. Same fix as `derive().chestWidthHalf` for
+ *  the upper body: one function, every consumer reads it. */
+export function skirtWidths(m: Measurements): { waistHalf: number; hipHalf: number } {
+  return {
+    waistHalf: (m.waist + m.ease) / 4, // quarter-panel at the waist
+    hipHalf: (m.hip + m.ease) / 4,     // quarter-panel at the hip (the widest)
+  };
+}
+
 /** One skirt panel (front or back), cut on the fold at the centre (x = 0). */
 function panel(m: Measurements, name: string): Piece {
-  const waistQ = (m.waist + m.ease) / 4; // quarter-panel at the waist
-  const hipQ = (m.hip + m.ease) / 4;     // quarter-panel at the hip (the widest)
+  const { waistHalf: waistQ, hipHalf: hipQ } = skirtWidths(m);
 
   const cWaist = point(0, 0);
   const sWaist = point(waistQ, 0);

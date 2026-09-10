@@ -425,7 +425,10 @@ the parametric core stays consistent everywhere else.
               nest; fabric nest; freeform editor; garment view; body view; theme
               (body view = measurements -> annotated figure, engine-independent;
               it emits TWO tagged maps the UI drives — `data-dim` per dimension
-              line, `data-edge` per outline segment a measurement shapes)
+              line, `data-edge` per outline segment a measurement shapes);
+              neckline-path.ts (s61) — the one place a real `necklineEdge()`
+              result becomes a drawable SVG curve; shared by garment.ts and
+              body.ts so neither can draw a neckline shape unsynced from it
   export/     pieces -> true-scale cutting files (SVG, DXF, tiled PDF); shared
               layout spine; nesting estimator (shelf pack + utilization);
               tech-pack document (techpack.ts — 3-page sketch + POM table + BOM;
@@ -649,3 +652,47 @@ Explicitly not here yet: code signing (MVP-PLAN.md §1.4, a separate
 procurement track with its own lead time) and auto-update — there is no
 real release feed to point it at yet, and code that compiles against
 nothing to update FROM is not something this project ships unverified.
+
+## Standing principle added after Slice 60: no silent geometry reuse
+
+Slice 60's own verification (100% coverage, mutation-tested, "all green")
+still shipped a body view that drew a visibly different torso from the
+actual pattern, from identical measurements — `render/body.ts` computed
+chest width with its own never-reconciled formula instead of `derive()`'s.
+Passing tests proved the code did what it was told; it never proved what it
+was told was correct. Two rules follow, for every garment from here on:
+
+1. **No garment recipe may silently reuse another garment's geometry**
+   (an armhole curve, a body-width formula) **without an explicit, stated
+   reason.** The tank's Slice 59 armhole reused the sleeved bodice's curve —
+   built to fit a sleeve — for a sleeveless garment, unflagged as a
+   simplification at the time. "It happened to reuse cleanly" and "it's
+   correct for this garment" are different claims; conflating them is the
+   failure mode this rule closes.
+2. **Verification must include checking rendered output against the
+   claimed source of truth, not just that tests pass.** A render layer that
+   independently re-derives a number `derive()` already computes correctly
+   is exactly the kind of drift unit tests alone won't catch if both sides
+   are tested only against themselves. See PROJECT-STATE.md's "Active
+   directive: Tank rework" for the concrete fix plan and the research
+   standard (real, cross-vetted sources for garment construction data —
+   never recycled from one of our own existing garments) adopted alongside
+   it.
+
+**Slice 61 closed item 1 of that plan, and the principle held on its own
+audit.** `render/body.ts`'s chest width now reads `derive().chestWidthHalf`;
+both `body.ts` and `garment.ts`'s neckline curves now come from a real
+`necklineEdge()` call through one shared function
+(`render/neckline-path.ts`), so a crew/v/scoop can't drift between the two
+views again. Applying rule 2 to `render/skirt-figure.ts` (the mandated
+audit, not an afterthought) found the identical bug already sitting in that
+file: `figureOf()`'s waist/hip half-width was its own independent
+approximation, computed a few lines away from `renderSkirtGarment`'s correct
+formula in the SAME file. Fixed the same way rule 1 prescribes — one shared
+`skirtWidths()` in `skirt.ts`, every consumer reads it, no second formula
+left to drift. Every new test reads the real source of truth and checks the
+rendered SVG against it directly (not a hardcoded literal that could itself
+drift unnoticed) — including a new equivalence test in `recipe.test.ts` that
+redrafts each top garment and confirms its declared `frontNeckline`/
+`backNeckline` reproduces the actual drafted edge, closing the same
+"declared but never verified" gap rule 2 exists to prevent.

@@ -133,7 +133,9 @@ export function mountApp(root: HTMLElement): void {
       canvasHost.innerHTML = specTableMarkup(
         specSheet(graded, recipe.poms), graded.map((g) => g.label), baseIndex);
     } else if (view === "body") {
-      canvasHost.innerHTML = isTop ? renderBody(measurements, hasSleeve) : renderSkirtBody(measurements);
+      canvasHost.innerHTML = isTop
+        ? renderBody(measurements, hasSleeve, recipe.frontNeckline)
+        : renderSkirtBody(measurements);
     } else {
       const block = recipe.draft(measurements);
       const pieces = blockPieces(block);
@@ -141,7 +143,9 @@ export function mountApp(root: HTMLElement): void {
         pieces,
         { active: pieces[0].name, notches: recipe.notches, allowances: recipe.allowances });
     }
-    garmentHost.innerHTML = isTop ? renderGarment(measurements, fabric, hasSleeve) : renderSkirtGarment(measurements, fabric);
+    garmentHost.innerHTML = isTop
+      ? renderGarment(measurements, fabric, hasSleeve, recipe.frontNeckline, recipe.backNeckline)
+      : renderSkirtGarment(measurements, fabric);
     // One sanity read for the whole frame: are the numbers a real body? It gates
     // every green "validated" signal — the check banner, the style ✓ — and flags
     // the offending fields, so geometry passing can never masquerade as "ready".

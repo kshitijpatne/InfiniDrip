@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { STANDARD_M } from "../drafting";
+import { STANDARD_M, derive, necklineEdge, NECKLINE_DEFAULT } from "../drafting";
+import { TANK_FRONT_NECKLINE } from "../drafting/tank";
 import { renderGarment, FABRICS, DEFAULT_FABRIC } from "./garment";
 
 describe("FABRICS", () => {
@@ -51,5 +52,31 @@ describe("renderGarment — sleeveless (Slice 60)", () => {
 
   it("defaults hasSleeve to true when omitted", () => {
     expect(renderGarment(STANDARD_M, "#123456")).toEqual(withSleeve);
+  });
+});
+
+describe("renderGarment — real neckline sync (Slice 61)", () => {
+  const pathsOf = (svg: string): string[] => [...svg.matchAll(/<path d="([^"]+)"/g)].map((mm) => mm[1]);
+
+  it("draws the front collar from the real necklineEdge(), not a fixed placeholder", () => {
+    const d = derive(STANDARD_M);
+    const { cNeck, hps } = necklineEdge(
+      "front", d.neckWidthHalf, d.frontNeckDepth, d.shoulderHalf, STANDARD_M.armholeDepth, NECKLINE_DEFAULT);
+    const [frontD] = pathsOf(renderGarment(STANDARD_M, "#123456"));
+    expect(frontD).toContain(`${hps.x} 0`);
+    expect(frontD).toContain(`0 ${cNeck.y}`);
+    expect(frontD).toContain("C "); // real cubic curve, not the old "Q" placeholder
+  });
+
+  it("changing only the FRONT neckline shape moves only the front path, not the back's", () => {
+    const [front1, back1] = pathsOf(renderGarment(STANDARD_M, "#123456", true, NECKLINE_DEFAULT, NECKLINE_DEFAULT));
+    const [front2, back2] = pathsOf(renderGarment(STANDARD_M, "#123456", true, TANK_FRONT_NECKLINE, NECKLINE_DEFAULT));
+    expect(front2).not.toBe(front1); // the shape that changed
+    expect(back2).toBe(back1);       // the shape that didn't
+  });
+
+  it("defaults both necklines to crew (NECKLINE_DEFAULT) when omitted", () => {
+    expect(renderGarment(STANDARD_M, "#123456", true))
+      .toEqual(renderGarment(STANDARD_M, "#123456", true, NECKLINE_DEFAULT, NECKLINE_DEFAULT));
   });
 });

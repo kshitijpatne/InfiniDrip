@@ -2,8 +2,9 @@
 // finished t-shirt, drawn from the same measurements that drive the pattern.
 // It is a preview of how the pieces read as a garment — not a drape simulation.
 
-import { Measurements, derive } from "../drafting";
+import { Measurements, derive, necklineEdge, NecklineParams, NECKLINE_DEFAULT } from "../drafting";
 import { BLUEPRINT as T } from "./theme";
+import { necklinePathCommand } from "./neckline-path";
 
 const round = (n: number): number => Math.round(n * 1000) / 1000;
 
@@ -18,19 +19,27 @@ export const FABRICS: readonly { name: string; color: string }[] = [
 
 export const DEFAULT_FABRIC = FABRICS[0].color;
 
-// One full garment silhouette, centred on x = 0. Front and back differ only
-// in how deep the neckline dips. `hasSleeve` (Slice 60): a garment with no
-// sleeve role (a tank) stops at the armhole instead of extending out to a
-// cuff — the same distinction render/body.ts now makes for its dimension
-// lines, so neither view misrepresents a sleeveless garment as short-sleeved.
-function silhouettePath(m: Measurements, neckDepth: number, hasSleeve: boolean): string {
+// One full garment silhouette, centred on x = 0. `hasSleeve` (Slice 60): a
+// garment with no sleeve role (a tank) stops at the armhole instead of
+// extending out to a cuff — the same distinction render/body.ts now makes
+// for its dimension lines, so neither view misrepresents a sleeveless
+// garment as short-sleeved. `neckline` (Slice 61): front and back used to
+// differ only in how deep a fixed placeholder curve dipped; now the curve
+// itself is the REAL one `necklineEdge()` computes for this garment's
+// declared shape (crew/v/scoop), the same function the actual draft calls.
+function silhouettePath(
+  m: Measurements, position: "front" | "back", hasSleeve: boolean, neckline: NecklineParams
+): string {
   const d = derive(m);
   const half = d.chestWidthHalf;        // half the body width
   const sh = d.shoulderHalf;            // shoulder point
-  const nh = d.neckWidthHalf;           // half the neck opening
   const slope = d.shoulderSlope;
   const ad = m.armholeDepth;
   const len = m.length;
+  const baseDepth = position === "front" ? d.frontNeckDepth : d.backNeckDepth;
+  const { cNeck, hps, edge: neckEdge } =
+    necklineEdge(position, d.neckWidthHalf, baseDepth, sh, ad, neckline);
+  const nh = hps.x; // where the collar meets the shoulder — real, not the raw derived default
 
   // The sleeve's two extra points, going out from the shoulder and back in
   // to the underarm — only when there IS a sleeve to draw.
@@ -55,7 +64,7 @@ function silhouettePath(m: Measurements, neckDepth: number, hasSleeve: boolean):
     ...sleeveIn,                                  // left sleeve (if any)
     `L ${round(-sh)} ${round(slope)}`,           // left shoulder
     `L ${round(-nh)} 0`,                          // left neck point
-    `Q 0 ${round(2 * neckDepth)} ${round(nh)} 0`, // neckline scoop back to start
+    necklinePathCommand(cNeck, hps, neckEdge),    // the real collar: crew, v, or scoop
     "Z",
   ].join(" ");
 }
@@ -73,9 +82,10 @@ function armholeSeams(m: Measurements): string {
          seam(-d.shoulderHalf, d.shoulderSlope, -d.chestWidthHalf, m.armholeDepth);
 }
 
-function renderOne(m: Measurements, neckDepth: number, fabric: string,
-                   cx: number, top: number, label: string, hasSleeve: boolean): string {
-  const path = `<path d="${silhouettePath(m, neckDepth, hasSleeve)}" fill="${fabric}" ` +
+function renderOne(m: Measurements, position: "front" | "back", fabric: string,
+                   cx: number, top: number, label: string, hasSleeve: boolean,
+                   neckline: NecklineParams): string {
+  const path = `<path d="${silhouettePath(m, position, hasSleeve, neckline)}" fill="${fabric}" ` +
     `stroke="${T.line}" stroke-width="1.4" stroke-linejoin="round" ` +
     `vector-effect="non-scaling-stroke"/>`;
   const seams = hasSleeve ? armholeSeams(m) : "";
@@ -88,8 +98,14 @@ function renderOne(m: Measurements, neckDepth: number, fabric: string,
 /** The assembled view: front and back silhouettes side by side, in fabric
  *  colour. `hasSleeve` (Slice 60) — pass `false` for a sleeveless garment
  *  (a tank); the silhouette stops at the armhole instead of drawing a short
- *  sleeve regardless of what `m.sleeveLength` happens to hold. */
-export function renderGarment(m: Measurements, fabric: string, hasSleeve = true): string {
+ *  sleeve regardless of what `m.sleeveLength` happens to hold.
+ *  `frontNeckline`/`backNeckline` (Slice 61) — the garment's real declared
+ *  neckline shapes (`recipe.frontNeckline`/`backNeckline`); default to crew,
+ *  matching what an unspecified garment actually drafts. */
+export function renderGarment(
+  m: Measurements, fabric: string, hasSleeve = true,
+  frontNeckline: NecklineParams = NECKLINE_DEFAULT, backNeckline: NecklineParams = NECKLINE_DEFAULT
+): string {
   const d = derive(m);
   const halfW = hasSleeve ? d.shoulderHalf + m.sleeveLength : Math.max(d.shoulderHalf, d.chestWidthHalf);
   const margin = 6;
@@ -103,7 +119,7 @@ export function renderGarment(m: Measurements, fabric: string, hasSleeve = true)
   return `<svg viewBox="0 0 ${round(width)} ${round(height)}" width="100%" ` +
     `xmlns="http://www.w3.org/2000/svg" style="background:${T.background};border-radius:8px">` +
     `<rect x="0" y="0" width="${round(width)}" height="${round(height)}" fill="${T.background}"/>` +
-    renderOne(m, d.frontNeckDepth, fabric, frontCx, top, "FRONT", hasSleeve) +
-    renderOne(m, d.backNeckDepth, fabric, backCx, top, "BACK", hasSleeve) +
+    renderOne(m, "front", fabric, frontCx, top, "FRONT", hasSleeve, frontNeckline) +
+    renderOne(m, "back", fabric, backCx, top, "BACK", hasSleeve, backNeckline) +
     `</svg>`;
 }

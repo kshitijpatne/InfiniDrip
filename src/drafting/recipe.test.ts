@@ -1,8 +1,11 @@
 import { describe, it, expect } from "vitest";
 import { STANDARD_M } from "./measurements";
-import { TEE, FITTED, GARMENTS, garmentByName } from "./recipe";
+import { TEE, FITTED, TANK, GARMENTS, garmentByName } from "./recipe";
 import { dartOf } from "./dart";
 import { rolePiece, blockPieces } from "./block";
+import { pieceEdge } from "./piece";
+import { derive } from "./measurements";
+import { necklineEdge } from "./neckline";
 import { garmentReport } from "../guidance/garment-check";
 
 describe("the garment registry", () => {
@@ -79,4 +82,39 @@ describe("recipe fields (per-garment measurement set)", () => {
       expect(STANDARD_M[id]).toBeTypeOf("number");
     }
   });
+});
+
+describe("recipe.frontNeckline/backNeckline actually match what draft() produces (Slice 61)", () => {
+  // The whole point of declaring these on the recipe is so the body/garment
+  // preview views can draw the REAL neckline. A declared shape that quietly
+  // drifted from what bodice()/draftTank() actually draft would be exactly
+  // the "reads correct, isn't" failure mode Slice 60 shipped — so this checks
+  // the declared params reproduce the real drafted edge, not just that both
+  // exist.
+  const cases: readonly { recipe: typeof TEE; label: string }[] = [
+    { recipe: TEE, label: "tee" },
+    { recipe: FITTED, label: "fitted" },
+    { recipe: TANK, label: "tank" },
+  ];
+
+  for (const { recipe, label } of cases) {
+    it(`${label}: front/back declared neckline reproduces the real drafted edge`, () => {
+      const d = derive(STANDARD_M);
+      const block = recipe.draft(STANDARD_M);
+      for (const position of ["front", "back"] as const) {
+        const drafted = pieceEdge(rolePiece(block, position), "neckline");
+        const baseDepth = position === "front" ? d.frontNeckDepth : d.backNeckDepth;
+        const declared = position === "front" ? recipe.frontNeckline : recipe.backNeckline;
+        const { edge: expected } = necklineEdge(
+          position, d.neckWidthHalf, baseDepth, d.shoulderHalf, STANDARD_M.armholeDepth, declared);
+        expect(drafted.kind).toBe(expected.kind);
+        if (drafted.kind === "curve" && expected.kind === "curve") {
+          expect(drafted.curve).toEqual(expected.curve);
+        } else if (drafted.kind === "line" && expected.kind === "line") {
+          expect(drafted.start).toEqual(expected.start);
+          expect(drafted.end).toEqual(expected.end);
+        }
+      }
+    });
+  }
 });

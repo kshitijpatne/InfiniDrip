@@ -22,6 +22,7 @@ import { Note } from "../guidance/note";
 import { Stitch, edgeRef, iface, matchedNotch } from "./stitch";
 import { assembleComponents } from "./component";
 import { bodice } from "./bodice";
+import { NecklineParams } from "./neckline";
 import { PieceNotches } from "./tshirt-notches";
 import { Pom } from "./pom";
 import { TSHIRT_POMS } from "./tshirt-pom";
@@ -45,9 +46,16 @@ const TANK_STITCHES: readonly Stitch[] = [
 
 /** Front: a deep, round scoop (Slice 60) — a tank's real default; v was a
  *  Slice 59 stand-in, used only because it was the sole non-crew shape with
- *  real curve math at the time. Back: crew (unchanged). */
+ *  real curve math at the time. Back: crew (unchanged).
+ *  Exported (Slice 61) so `recipe.ts`'s `TANK.frontNeckline` can import this
+ *  EXACT constant rather than re-typing the shape literal — the body/garment
+ *  preview views read the recipe's declared neckline, and re-typing the same
+ *  object in two places is exactly the kind of drift that caused the Slice 60
+ *  bug in the first place. */
+export const TANK_FRONT_NECKLINE: NecklineParams = { shape: "scoop", widthEase: 0, frontDrop: 0 };
+
 export function draftTank(m: Measurements): Block {
-  const front = bodice(m, { position: "front", necklineParams: { shape: "scoop", widthEase: 0, frontDrop: 0 } });
+  const front = bodice(m, { position: "front", necklineParams: TANK_FRONT_NECKLINE });
   const back = bodice(m, { position: "back" });
   return assembleComponents([front, back], TANK_STITCHES);
 }

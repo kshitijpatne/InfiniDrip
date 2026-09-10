@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { describe, it, expect } from "vitest";
-import { STANDARD_M, Measurements } from "../drafting";
+import { STANDARD_M, Measurements, skirtWidths } from "../drafting";
 import { renderSkirtGarment, renderSkirtBody } from "./skirt-figure";
 
 const parse = (svg: string): Document => new DOMParser().parseFromString(svg, "image/svg+xml");
@@ -324,6 +324,34 @@ describe("both figures track the real hipDepth measurement (Slice 42)", () => {
     for (const hipDepth of [12, 20, 35]) {
       wellFormed(renderSkirtGarment({ ...STANDARD_M, hipDepth }, "#3A4150"));
       wellFormed(renderSkirtBody({ ...STANDARD_M, hipDepth }));
+    }
+  });
+});
+
+describe("renderSkirtBody — real waist/hip width sync (Slice 61)", () => {
+  it("draws the body's waist and hip at skirtWidths()'s real values, not an independent guess", () => {
+    const { waistHalf, hipHalf } = skirtWidths(STANDARD_M);
+    // Slice 60 shipped this at waist * 0.20 / hip * 0.22 = 16.8 / 22, silently
+    // diverging from what draftSkirt actually cuts (23.5 / 27.5). Confirm the
+    // fix reads the same values the panel draft itself uses.
+    expect(waistHalf).toBeCloseTo(23.5);
+    expect(hipHalf).toBeCloseTo(27.5);
+    const pts = flatten(silhouette(STANDARD_M));
+    expect(halfWidthAt(pts, 0)).toBeCloseTo(waistHalf, 1);              // the waist line
+    expect(halfWidthAt(pts, STANDARD_M.hipDepth)).toBeCloseTo(hipHalf, 1); // the hip line
+  });
+
+  it("the body view and the assembled view agree on width at every waist/hip/ease combination", () => {
+    for (const m of [
+      STANDARD_M,
+      { ...STANDARD_M, waist: 70, hip: 90 },
+      { ...STANDARD_M, ease: 4 },
+      { ...STANDARD_M, ease: 16 },
+    ]) {
+      const { waistHalf, hipHalf } = skirtWidths(m);
+      const pts = flatten(silhouette(m));
+      expect(halfWidthAt(pts, 0)).toBeCloseTo(waistHalf, 1);
+      expect(halfWidthAt(pts, m.hipDepth)).toBeCloseTo(hipHalf, 1);
     }
   });
 });

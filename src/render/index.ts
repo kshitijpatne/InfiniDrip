@@ -10,3 +10,4 @@ export * from "./nest";
 export * from "./fabric";
 export * from "./editor";
 export * from "./body";
+export * from "./neckline-path";

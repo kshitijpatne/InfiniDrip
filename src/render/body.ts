@@ -13,8 +13,9 @@
 //
 // Pure: measurements in, one SVG string out. A sibling to render/garment.ts.
 
-import { Measurements } from "../drafting";
+import { Measurements, derive, necklineEdge, NecklineParams, NECKLINE_DEFAULT } from "../drafting";
 import { BLUEPRINT as T } from "./theme";
+import { necklinePathCommand } from "./neckline-path";
 
 const round = (n: number): number => Math.round(n * 1000) / 1000;
 
@@ -62,16 +63,31 @@ const lerp = (a: number, b: number, t: number): number => a + (b - a) * t;
  *  `hasSleeve` (Slice 60): a sleeveless garment (a tank) passes `false` — no
  *  arm quad, no Sleeve/Bicep dimension lines or edges, since neither
  *  measurement drives that garment (the figure would otherwise show a
- *  dimension for a field the garment's own `fields` array doesn't expose). */
-export function renderBody(m: Measurements, hasSleeve = true): string {
-  const shoulderHalf = m.shoulderWidth / 2;
-  const bodyHalf = m.chest * 0.22; // a body width driven by chest; girth is labelled "(circ)"
+ *  dimension for a field the garment's own `fields` array doesn't expose).
+ *  `frontNeckline` (Slice 61): the garment's REAL declared neckline shape
+ *  (`recipe.frontNeckline`) — defaults to crew, matching what an unspecified
+ *  garment actually drafts. Fixes two bugs found comparing this view against
+ *  the real pattern at identical measurements (see PROJECT-STATE.md, "Tank
+ *  rework"): the torso used its own ungrounded `chest * 0.22` body-width
+ *  guess instead of `derive()`'s real `chestWidthHalf`, and the collar was a
+ *  fixed decorative curve that never reflected crew vs. v vs. scoop. */
+export function renderBody(
+  m: Measurements, hasSleeve = true, frontNeckline: NecklineParams = NECKLINE_DEFAULT
+): string {
+  const d = derive(m);
+  const shoulderHalf = d.shoulderHalf;
+  const bodyHalf = d.chestWidthHalf; // the real half-width the pattern drafts, not an independent guess
   const ad = m.armholeDepth;
   const len = m.length;
   const slope = m.shoulderWidth * 0.07; // a gentle shoulder fall (schematic)
 
+  // The real front collar geometry — the same necklineEdge() the actual
+  // bodice draft calls, so this view can't silently diverge from it again.
+  const { cNeck, hps, edge: neckEdge } =
+    necklineEdge("front", d.neckWidthHalf, d.frontNeckDepth, shoulderHalf, ad, frontNeckline);
+  const neckHalf = hps.x; // where the collar meets the shoulder — real, not a proportion of shoulderWidth
+
   const headR = m.shoulderWidth * 0.17;
-  const neckHalf = m.shoulderWidth * 0.11;
   const neckLen = m.shoulderWidth * 0.08;
   const headCy = -(neckLen + headR);
   const headTop = headCy - headR;
@@ -102,7 +118,7 @@ export function renderBody(m: Measurements, hasSleeve = true): string {
     `L ${round(-bodyHalf)} ${round(ad)}`,
     `L ${round(-shoulderHalf)} ${round(slope)}`,
     `L ${round(-neckHalf)} 0`,
-    `Q 0 ${round(neckHalf * 0.6)} ${round(neckHalf)} 0`,
+    necklinePathCommand(cNeck, hps, neckEdge), // the real collar: crew, v, or scoop
     "Z",
   ].join(" ");
   const torsoPath = `<path d="${torso}" fill="${T.fill}" stroke="${T.line}" ` +

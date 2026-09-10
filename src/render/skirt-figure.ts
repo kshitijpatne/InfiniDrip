@@ -19,7 +19,7 @@
 //
 // Pure: measurements in, one SVG string out.
 
-import { Measurements } from "../drafting";
+import { Measurements, skirtWidths } from "../drafting";
 import { BLUEPRINT as T } from "./theme";
 
 const round = (n: number): number => Math.round(n * 1000) / 1000;
@@ -87,8 +87,7 @@ function renderPanel(waistHalf: number, hipHalf: number, len: number, hipDrop: n
 
 /** The assembled skirt: front and back panels side by side, in fabric colour. */
 export function renderSkirtGarment(m: Measurements, fabric: string): string {
-  const waistHalf = (m.waist + m.ease) / 4;
-  const hipHalf = (m.hip + m.ease) / 4;
+  const { waistHalf, hipHalf } = skirtWidths(m);
   const len = m.length;
   const hipDrop = m.hipDepth;
 
@@ -149,9 +148,17 @@ interface Figure {
 }
 
 function figureOf(m: Measurements): Figure {
+  // Slice 61 fix: this used to compute its OWN waist/hip half-width
+  // (`waist * 0.20`, `hip * 0.22`) — an independent guess that dropped
+  // `ease` entirely and silently diverged from what `draftSkirt` actually
+  // cuts (at STANDARD_M: 16.8/22 here vs the real 23.5/27.5). Now reads the
+  // same `skirtWidths()` the panel draft itself uses, matching
+  // `renderSkirtGarment` a few lines above — the body the figure drapes
+  // cloth over is finally the same width as the cloth.
+  const { waistHalf, hipHalf } = skirtWidths(m);
   return {
-    waistHalf: m.waist * 0.20, // a body width from the girth; labelled "(circ)"
-    hipHalf: m.hip * 0.22,     // wider than the waist on any ordinary body
+    waistHalf,
+    hipHalf,
     hipY: m.hipDepth,          // the real waist-to-hip drop, no longer a constant
     len: m.length,
     crotchY: m.hipDepth * 1.35, // the crotch always sits below the hip line

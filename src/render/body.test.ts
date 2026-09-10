@@ -1,6 +1,7 @@
 // @vitest-environment jsdom
 import { describe, it, expect } from "vitest";
-import { STANDARD_M } from "../drafting";
+import { STANDARD_M, derive, necklineEdge, NECKLINE_DEFAULT } from "../drafting";
+import { TANK_FRONT_NECKLINE } from "../drafting/tank";
 import { renderBody } from "./body";
 
 const svg = renderBody(STANDARD_M);
@@ -156,5 +157,43 @@ describe("renderBody — sleeveless (Slice 60)", () => {
 
   it("defaults hasSleeve to true when omitted", () => {
     expect(renderBody(STANDARD_M)).toEqual(renderBody(STANDARD_M, true));
+  });
+});
+
+describe("renderBody — real chest width and neckline sync (Slice 61)", () => {
+  it("draws the torso at derive()'s real chestWidthHalf, not an independent guess", () => {
+    const d = derive(STANDARD_M);
+    // Slice 60 shipped this at bodyHalf = chest * 0.22 = 22, silently
+    // diverging from the pattern's real 27.5 (chest 100 + ease 10) / 4.
+    // Confirm the fix reads the SAME derived value the draft uses, not just
+    // a coincidentally-updated literal.
+    expect(d.chestWidthHalf).toBe(27.5);
+    const doc = new DOMParser().parseFromString(svg, "image/svg+xml");
+    expect(doc.querySelector("parsererror")).toBeNull();
+    // The chest DIMENSION line spans the full width horizontally (the two
+    // "chest" EDGE lines are each one vertical side seam, not a span).
+    const chestDim = doc.querySelector('[data-dim="chest"] line')!;
+    const width = Math.abs(Number(chestDim.getAttribute("x2")) - Number(chestDim.getAttribute("x1")));
+    expect(width).toBeCloseTo(2 * d.chestWidthHalf);
+  });
+
+  it("draws the real front collar geometry from necklineEdge(), not a fixed placeholder", () => {
+    const d = derive(STANDARD_M);
+    // Compute the expected curve the SAME way the render function does —
+    // not a hardcoded literal that could drift from necklineEdge() unnoticed.
+    const { cNeck, hps } = necklineEdge(
+      "front", d.neckWidthHalf, d.frontNeckDepth, d.shoulderHalf, STANDARD_M.armholeDepth, NECKLINE_DEFAULT);
+    const torso = svg.match(/<path d="([^"]+)" fill="[^"]*" stroke="[^"]*" stroke-width="1.4"/)![1];
+    expect(torso).toContain(`${hps.x} 0`); // the collar meets the shoulder at the real width
+    expect(torso).toContain(`0 ${cNeck.y}`); // the collar's deepest point is the real front depth
+    expect(torso).toContain("C "); // a real cubic curve, not the old "Q" placeholder
+  });
+
+  it("draws a genuinely different collar for a deeper neckline shape (scoop vs crew)", () => {
+    const crew = renderBody(STANDARD_M);
+    const scoop = renderBody(STANDARD_M, true, TANK_FRONT_NECKLINE);
+    const torsoOf = (s: string): string =>
+      s.match(/<path d="([^"]+)" fill="[^"]*" stroke="[^"]*" stroke-width="1.4"/)![1];
+    expect(torsoOf(scoop)).not.toBe(torsoOf(crew));
   });
 });
