@@ -25,3 +25,4 @@ export * from "./bodice";
 export * from "./sleeve";
 export * from "./neckline";
 export * from "./waistband";
+export * from "./tank";

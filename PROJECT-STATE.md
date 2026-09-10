@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 58. Update this after every slice (and commit it WITH the code)._
+_Last updated: after Slice 59. Update this after every slice (and commit it WITH the code)._
 
 **Governing plan:** MVP-PLAN.md (operative — the 6-month execution plan) and
 ROADMAP.md (strategic — full competitor analysis + long-term scope + the cut
@@ -18,11 +18,11 @@ across sizes, **estimates fabric usage** (a width-aware nesting layout with a
 utilization read-out), runs a plain-English **production-readiness check** (one
 pass/fail verdict), lets you **freeform-edit** a piece by dragging its points,
 exports true-scale SVG + DXF + a tiled print-at-home PDF, and saves/loads your
-work. The engine is fully garment-general: **tee, fitted (darted), and skirt**
-all run through one `GarmentRecipe`-driven pipeline (draft → grade → POM →
-check → nest → edit → export), plus **real-world exports** (projector SVG /
-A0 PDF with a verified calibration square) and a **guided 5-step journey** to
-a valid export. Repo: github.com/kshitijpatne/InfiniDrip
+work. The engine is fully garment-general: **tee, fitted (darted), tank, and
+skirt** all run through one `GarmentRecipe`-driven pipeline (draft → grade →
+POM → check → nest → edit → export), plus **real-world exports** (projector
+SVG / A0 PDF with a verified calibration square) and a **guided 5-step
+journey** to a valid export. Repo: github.com/kshitijpatne/InfiniDrip
 
 ## Stack & rules
 TypeScript · SVG · Vite · Vitest (jsdom for UI). Strict TS, 100% coverage held
@@ -119,6 +119,50 @@ F1. **(Fable) Real-world export system** — two new writers on the existing exp
 22. per-size export — a size picker in the export area drafts the chosen graded
     size (via `draftAtSize`) and emits `<garment>-<SIZE>.<ext>`; scopes only the
     exports, every other view keeps its job (327)
+59. Component architecture Phase C2 — THE REAL TEST (COMPONENT-ARCHITECTURE.md
+    §9): "add a genuinely new variant — a tank... it should take hours, not
+    a slice-run. If it doesn't, Phase B is not finished." It did: new file
+    `tank.ts` (~90 lines) + one real capability added to `bodice.ts` +
+    5-line `TANK_STYLES` table + one `GarmentRecipe` object in `recipe.ts`.
+    Zero engine-layer files touched — checked before building, not assumed:
+    the garment picker, the "is this a top" figure logic, and the style
+    panel all already walk `GARMENTS`/`recipe.fields` generically; adding
+    `TANK` to the `GARMENTS` array was the only wiring needed outside the
+    new/touched recipe files. The one real new capability: `BodiceParams`
+    gained an optional `necklineParams?: NecklineParams` (defaults to
+    `NECKLINE_DEFAULT`, so tee/fitted's output is provably unaffected —
+    every pre-existing test, incl. `regression.test.ts`'s 8/8 baseline,
+    passed unmodified). This is the wiring Slice 56 explicitly deferred
+    ("nothing outside neckline.test.ts can reach a non-default value yet...
+    building that now would be backwards from how every prior slice proved
+    itself") — the tank is that real second consumer, finally needing it.
+    `draftTank`: `bodice(front, {necklineParams: v-neck})` + `bodice(back)`
+    (crew, unchanged) + shoulder/side stitches only, no sleeve, no cap-ease.
+    Reused verbatim, not rewritten: `sleevedTopPanelChecks`/`frontHemWidth`
+    from `tshirt-checks.ts` (read first to confirm neither is actually
+    sleeve-specific despite the file name — they're not). NOT reusable:
+    `sleevedTopGuidance` (calls `rolePiece(block,"sleeve")`, would throw) —
+    new `tankGuidance` is the same function minus `armholeMatch`.
+    `TANK_POMS` = `TSHIRT_POMS`'s first 7 entries (the last 3 are
+    sleeve-only). `TANK_NOTCHES` mirrors the tee's own shoulder/side
+    pattern, no armhole/cap notches (nothing sews to a tank's armhole — a
+    finished, bound edge, not a seam). New `tank.test.ts`: structure
+    (2 pieces, no sleeve role, v-neck front is a LINE, crew back is a
+    CURVE), stitch correctness, `tankGuidance` never throws and still
+    surfaces ease/armhole/shoulder warnings, POM/notch counts, and full
+    end-to-end grading + `garmentReport` through the generic engine.
+    Verified beyond unit tests: ran the REAL export pipeline
+    (`exportSvg`/`exportDxf`/`exportTechPack`/`guide`) on a drafted tank —
+    2 pieces, a V-shaped neckline path in the SVG, clean tech pack and DXF,
+    real guidance notes. Mutation-tested: swapped the front's neckline
+    shape back to crew and confirmed the v-neck test caught it immediately,
+    before reverting. Gate: 57 files / 735 tests / 100%. File set: 2 new
+    (`tank.ts`, `tank.test.ts`), 5 modified (`bodice.ts`, `recipe.ts`,
+    `recipe.test.ts`, `style.ts`, `drafting/index.ts`). **Phase B/C's core
+    claim is now empirically proven, not just argued.** Next (C3): a
+    croquis library (ROADMAP Priority 1.3) — or, given how cheap the tank
+    was, a second genuinely new garment might be worth more evidence before
+    moving on; worth discussing before committing to C3's scope.
 58. Component architecture Phase C1 (COMPONENT-ARCHITECTURE.md §5, §9) —
     re-express the skirt via components. Small, mechanical: Slice 57
     already did most of this incidentally (the waistband is a real
@@ -1148,3 +1192,4 @@ s55=702 (10 new, all in the new neckline.test.ts: 3 crew-geometry tests (point p
 s56=709 (net +7 vs s55, neckline.test.ts rewritten for the new 6-arg necklineEdge signature: crew tests kept + v-geometry, widthEase/frontDrop application, guardrail solo/combined/silent-at-default, and the narrowed scoop/boat-only throw tests added; 0 new files, 4 modified (neckline.ts, neckline.test.ts, bodice.ts, fitted.ts); every pre-existing test, incl. regression.test.ts's 8/8 baseline, passed unmodified — byte-identical at NECKLINE_DEFAULT despite both call sites gaining 2 new required params; mutation-verified by disabling the shoulder guardrail's condition and confirming 2 tests failed immediately)
 s57=720 (net +10 new in waistband.test.ts (Component contract, geometry, closure-inertness proven directly, real draftSkirt wiring) + skirt.test.ts/stitch.test.ts updated in place for the new 3-piece/2-stitch skirt shape — NOT preserved unmodified, since skirt has no byte-identity gate; garment-check-golden.ts's SKIRT_GOLDEN_REPORTS regenerated from a real post-change garmentReport run, per that file's own "regenerate only before a behaviour change" rule; 2 new files, 6 modified; regression.test.ts's 8/8 tee/fitted baseline untouched since neither recipe was touched; verified against the real export pipeline (SVG/DXF/tech-pack), not just unit tests; mutation-verified twice)
 s58=723 (3 new, all in skirt.test.ts: the skirtPanel Component-contract test, the flare-throws test, and the draftSkirt-front/back-ARE-skirtPanel's-output equivalence test; 0 new files, 2 modified (skirt.ts, skirt.test.ts); every pre-existing test passed unmodified, incl. regression.test.ts's 8/8 baseline and every Slice-57 skirt test — panel()'s own geometry never changed; mutation-verified by disabling the silhouette guard and confirming the throw test failed immediately)
+s59=735 (12 new, all in the new tank.test.ts: structure/neckline-kind/stitch tests (4) + tankGuidance never-throws + 2 guidance-content tests (3) + notch/POM-count tests (2) + 3 end-to-end tests (registry fields, graded spec sheet grows in order, full garmentReport passes); 2 new files (tank.ts, tank.test.ts), 5 modified (bodice.ts — gained optional necklineParams, recipe.ts, recipe.test.ts, style.ts, index.ts); every pre-existing test incl. regression.test.ts's 8/8 baseline passed unmodified since necklineParams defaults preserve tee/fitted exactly; verified against the real export pipeline (SVG/DXF/techpack/guidance), not just unit tests; mutation-verified by swapping the tank's front neckline back to crew and confirming immediate failure)

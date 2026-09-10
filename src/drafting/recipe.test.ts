@@ -7,8 +7,8 @@ import { garmentReport } from "../guidance/garment-check";
 
 describe("the garment registry", () => {
   it("lists every garment with a stable id and a display label", () => {
-    expect(GARMENTS.map((g) => g.name)).toEqual(["tee", "fitted", "skirt"]);
-    expect(GARMENTS.map((g) => g.label)).toEqual(["Tee", "Fitted", "Skirt"]);
+    expect(GARMENTS.map((g) => g.name)).toEqual(["tee", "fitted", "tank", "skirt"]);
+    expect(GARMENTS.map((g) => g.label)).toEqual(["Tee", "Fitted", "Tank", "Skirt"]);
   });
 
   it("looks a recipe up by name and falls back to the tee for an unknown one", () => {

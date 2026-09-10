@@ -41,6 +41,16 @@ export const SKIRT_STYLES: readonly StyleDef[] = [
   { name: "Relaxed skirt", ranges: { ease: [10, 16] } },
 ];
 
+/** The tank style table (upper-body, no sleeve field: ease and length only —
+ *  TEE_STYLES' sleeve-keyed entries, Muscle/Long-sleeve, don't apply here). */
+export const TANK_STYLES: readonly StyleDef[] = [
+  { name: "Fitted tank", ranges: { ease: [0, 4], length: [59, 74] } },
+  { name: "Classic tank", ranges: { ease: [5, 10], length: [59, 74] } },
+  { name: "Relaxed tank", ranges: { ease: [11, 16], length: [59, 74] } },
+  { name: "Crop tank", ranges: { ease: [0, 10], length: [40, 57] } },
+  { name: "Longline tank", ranges: { ease: [5, 14], length: [78, 100] } },
+];
+
 /** One measurement change needed to move toward a style (signed, in cm). */
 export interface Delta {
   readonly id: keyof Measurements;

@@ -25,10 +25,18 @@ import { Measurements, derive } from "./measurements";
 import { Edge, Piece } from "./piece";
 import { Component } from "./component";
 import { iface, edgeRef } from "./stitch";
-import { necklineEdge } from "./neckline";
+import { necklineEdge, NecklineParams, NECKLINE_DEFAULT } from "./neckline";
 
 export interface BodiceParams {
   readonly position: "front" | "back";
+  /** Optional (Phase C2, Slice 59) — defaults to NECKLINE_DEFAULT (crew),
+   *  the ONLY value tee/fitted have ever passed, so this is additive: their
+   *  output is unaffected. The tank is the first caller to pass something
+   *  else (a v-neck front), which is the whole reason this exists — Slice
+   *  56 built real non-default neckline behaviour with nothing able to
+   *  reach it yet; this is that wiring, done once a real second consumer
+   *  needed it, not speculatively ahead of one. */
+  readonly necklineParams?: NecklineParams;
 }
 
 interface PanelOptions {
@@ -40,9 +48,16 @@ interface PanelOptions {
 /** The shared 90%: neckline, shoulder, armhole, side, hem — everything
  *  draftFront and draftBack agreed on, parameterised by the three things
  *  they didn't. */
-function bodicePanel(m: Measurements, position: "front" | "back", opts: PanelOptions): Piece {
+function bodicePanel(
+  m: Measurements,
+  position: "front" | "back",
+  opts: PanelOptions,
+  necklineParams: NecklineParams
+): Piece {
   const d = derive(m);
-  const { cNeck, hps, edge: neckline } = necklineEdge(position, d.neckWidthHalf, opts.neckDepth, d.shoulderHalf, m.armholeDepth);
+  const { cNeck, hps, edge: neckline } = necklineEdge(
+    position, d.neckWidthHalf, opts.neckDepth, d.shoulderHalf, m.armholeDepth, necklineParams
+  );
   const shoulder = point(d.shoulderHalf, d.shoulderSlope);
   const underarm = point(d.chestWidthHalf, m.armholeDepth);
   const sideHem = point(d.chestWidthHalf, m.length);
@@ -74,7 +89,7 @@ export const bodice: Component<BodiceParams> = (m, params) => {
     params.position === "front"
       ? { neckDepth: d.frontNeckDepth, centerEdgeName: "centerFront", pieceName: "front" }
       : { neckDepth: d.backNeckDepth, centerEdgeName: "centerBack", pieceName: "back" };
-  const piece = bodicePanel(m, params.position, opts);
+  const piece = bodicePanel(m, params.position, opts, params.necklineParams ?? NECKLINE_DEFAULT);
   return {
     pieces: { [params.position]: piece },
     stitches: [],

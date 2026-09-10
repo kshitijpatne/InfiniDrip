@@ -12,13 +12,14 @@ import { Note } from "../guidance/note";
 import { sleevedTopPanelChecks, frontHemWidth } from "./tshirt-checks";
 import { sleevedTopGuidance } from "./tshirt-guidance";
 import { draftSkirt, skirtPanelChecks, skirtGuidance, SKIRT_GRADE, SKIRT_POMS, SKIRT_NOTCHES } from "./skirt";
-import { StyleDef, TEE_STYLES, SKIRT_STYLES } from "../style";
+import { StyleDef, TEE_STYLES, SKIRT_STYLES, TANK_STYLES } from "../style";
 import { AllowanceSpec } from "./allowance";
 import { Pom } from "./pom";
 import { GradeRule, SizeStep } from "./grading";
 import { PieceNotches } from "./tshirt-notches";
 import { draftTshirt } from "./tshirt";
 import { draftFitted } from "./fitted";
+import { draftTank, tankGuidance, TANK_NOTCHES, TANK_POMS } from "./tank";
 import { TSHIRT_NOTCHES } from "./tshirt-notches";
 import { TSHIRT_POMS } from "./tshirt-pom";
 import { TSHIRT_GRADE, TSHIRT_SIZES } from "./tshirt-grade";
@@ -149,6 +150,32 @@ export const FITTED: GarmentRecipe = {
   },
 };
 
+export const TANK: GarmentRecipe = {
+  name: "tank",
+  label: "Tank",
+  fields: ["chest", "shoulderWidth", "length", "armholeDepth", "ease"],
+  styles: TANK_STYLES,
+  draft: draftTank,
+  notches: TANK_NOTCHES,
+  poms: TANK_POMS,
+  grade: TSHIRT_GRADE, // the same body grade drives every upper-body garment
+  sizes: TSHIRT_SIZES,
+  checks: sleevedTopPanelChecks(true), // NOT sleeve-specific — a hem-square check, reused verbatim
+  guidance: tankGuidance,
+  sizeMetric: frontHemWidth,
+  allowances: KNIT_ALLOWANCES,
+  techPack: {
+    bom: KNIT_BOM,
+    construction: [
+      "Staystitch the front and back necklines.",
+      "Join the shoulder seams, front to back.",
+      "Bind the neckline and both armholes with self-fabric or rib binding.",
+      "Close the side seams.",
+      "Hem the body.",
+    ],
+  },
+};
+
 // A woven skirt: deeper hem, a fold at each panel centre, a little at the waist
 // for the band. Structurally unrelated to the knit tee's allowances.
 // Phase B5 (Slice 57): the waistband is a real piece now — "fold" (its own
@@ -199,7 +226,7 @@ export const SKIRT: GarmentRecipe = {
   },
 };
 
-export const GARMENTS: readonly GarmentRecipe[] = [TEE, FITTED, SKIRT];
+export const GARMENTS: readonly GarmentRecipe[] = [TEE, FITTED, TANK, SKIRT];
 
 /** Look a recipe up by its stable id; falls back to the tee. */
 export function garmentByName(name: string): GarmentRecipe {

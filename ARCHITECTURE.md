@@ -135,17 +135,21 @@ now really has 3 pieces and 2 stitches. Verified against the real export
 pipeline end-to-end (SVG/DXF/tech-pack), not just unit tests, per the
 project's standing "bugs get caught by rendering" discipline.
 
-**Phase B is fully closed: B1 → B2 (Bodice) → B3 (Sleeve) → B4 (Neckline)
-→ B5 (Waistband). Phase C1 (re-express the skirt via components) is also
-done, as of Slice 58** — small, since Slice 57 already did most of it
-incidentally. `skirtPanel: Component<SkirtPanelParams>` formalises `panel`
-(the skirt's own real implementation since Slice 1) behind the same shape
-`bodice` uses, mirroring its `{position}` pattern; `silhouette:"flare"`
-throws, same posture as Neckline's unimplemented shapes. Byte-identical —
-`panel`'s geometry never moved. Next is C2, the real test: add a
-genuinely new variant — a tank (bodice + no sleeve + different neckline)
-— and it should take hours, not a slice-run. If it doesn't, Phase B/C
-isn't actually finished, whatever the checklist says.
+**Phase B/C's core claim, empirically proven (Slice 59):** a genuinely new
+garment — the tank (bodice + no sleeve + a v-neck front) — took one new
+~90-line recipe file, one real capability added to `bodice.ts`
+(`necklineParams`, wiring Slice 56 had deliberately deferred until a real
+second consumer needed it), a 5-line style table, and one `GarmentRecipe`
+object. Zero engine-layer files touched — checked, not assumed: the garment
+picker, the "is this a top" figure logic, and the style panel all already
+walk `GARMENTS`/`recipe.fields` generically. `sleevedTopPanelChecks`/
+`frontHemWidth` were reusable verbatim (read first to confirm neither is
+actually sleeve-specific); `sleevedTopGuidance` was not (it calls
+`rolePiece(block,"sleeve")`), so `tankGuidance` is that function minus
+`armholeMatch`. Byte-identical for tee/fitted: `necklineParams` defaults to
+`NECKLINE_DEFAULT`, so their output is provably unaffected — the 8/8
+SHA-256 baseline passed unmodified. This is the slice the whole migration
+was staked on; it passed.
 
 `Block` importing `Stitch` from `stitch.ts` — which itself imports `Block`
 from `block.ts` — is a real circular reference, resolved with `import type`:
