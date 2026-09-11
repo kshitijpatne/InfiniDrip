@@ -2,7 +2,7 @@
 // panel, a canvas host, a guidance panel, and a style panel. Pure, so the markup
 // can be checked in tests without a browser.
 
-import { Measurements, STRETCH_FABRICS, SpecRow, GARMENTS, SizeStep, roleTag } from "../drafting";
+import { Measurements, STRETCH_FABRICS, SpecRow, GARMENTS, SizeStep, roleTag, GarmentOption, GarmentOptions } from "../drafting";
 import { BLUEPRINT as T, FABRICS } from "../render";
 import { Note, SEVERITY_ICON } from "../guidance";
 import { Report } from "../guidance";
@@ -37,7 +37,10 @@ function panel(title: string, body: string): string {
 }
 
 /** The left-hand measurements panel. */
-export function controlsMarkup(m: Measurements, fields: readonly (keyof Measurements)[]): string {
+export function controlsMarkup(
+  m: Measurements, fields: readonly (keyof Measurements)[],
+  options: readonly GarmentOption[] = [], values: GarmentOptions = {}
+): string {
   const rows = fields
     .map((id) => FIELDS.find((f) => f.id === id))
     .filter((f): f is Field => f !== undefined)
@@ -48,8 +51,15 @@ export function controlsMarkup(m: Measurements, fields: readonly (keyof Measurem
     : fields.includes("hip")
       ? `<div style="font-size:11.5px;color:${T.label};margin-top:2px;margin-bottom:8px">Finished hip: <span style="color:${T.line};font-family:ui-monospace,monospace">${m.hip + m.ease} cm</span></div>`
       : "";
+  const optionRows = options.map((option) => field(
+    `option-${option.id}`, option.label, values[option.id] ?? option.defaultValue,
+    option.min, option.max, option.step
+  ).replace(`data-field="option-${option.id}"`, `data-option="${option.id}"`)).join("");
+  const optionPanel = options.length === 0 ? "" :
+    `<div style="border-top:1px solid ${BORDER};margin-top:12px;padding-top:12px">` +
+    `${panelTitle("Polo design (finished cm)")}${optionRows}</div>`;
   return `<div id="controls-panel" style="flex:0 0 220px;background:${PANEL};border:1px solid ${BORDER};` +
-    `border-radius:10px;padding:14px">${panelTitle("Measurements (cm)")}${rows}${finished}</div>`;
+    `border-radius:10px;padding:14px">${panelTitle("Measurements (cm)")}${rows}${finished}${optionPanel}</div>`;
 }
 
 const DOT: Record<Note["level"], string> = { ok: OK, info: T.label, warn: T.lineActive };

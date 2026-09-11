@@ -49,6 +49,14 @@ width, button spacing, finished stand height, and collar-leaf depth alongside
 the standard tee POMs. `POLO_STYLES` prevents a Polo target from being labelled
 as a tee. Live recipe-option routing is deliberately Slice 72 work.
 
+Slice 72: optional `GarmentOptions` now flows through recipe drafting, guidance,
+grading, readiness, marker/projector, tech pack, fit-record prediction, and the
+app's per-size exports. Existing garments receive `{}` and remain unchanged.
+`mountApp()` overlays each recipe's defaults with its persisted raw option map;
+Polo controls update that map only, so no design preference enters
+`Measurements`. `PoloVisual`/`PoloBodyVisual` show the selected finished front
+details on schematic views only—explicitly not simulated collar roll or drape.
+
 **Governing plan:** as of Slice 44, `docs/planning/MVP-PLAN.md` (operative — the 6-month
 execution plan) and `docs/planning/ROADMAP.md` (strategic — competitor analysis + long-term
 scope + the cut list) are the current planning documents. This file describes

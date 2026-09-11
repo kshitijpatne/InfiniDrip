@@ -165,6 +165,15 @@ length digitally. Its straight half-band stand is an engineering first draft,
 not proof of collar roll or stabilized-knit behavior. Physical sewing must still
 validate roll, stand shaping, placket flatness, and recovery before production.
 
+### Slice 72 visual-schematic resolution
+
+The Body and assembled views now render the selected finished placket length /
+width, three fixed button centres, stand height, and pointed collar-leaf depth.
+They are explicitly flat measurement schematics, not a claim about drape,
+collar roll, stabilizer behavior, or a sewn result. Those four design values
+persist per Polo recipe and feed every draft/export route without entering body
+measurements.
+
 ## Sources
 
 1. Maelo Studio, “How to Sew a Polo Shirt,” 2026,

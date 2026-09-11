@@ -18,6 +18,13 @@ import { BLUEPRINT as T } from "./theme";
 import { armholePathCommand, necklinePathCommand } from "./neckline-path";
 import { sleevelessArmhole } from "../drafting/armhole";
 
+export interface PoloBodyVisual {
+  readonly placketLength: number;
+  readonly placketWidth: number;
+  readonly standHeight: number;
+  readonly collarLeafDepth: number;
+}
+
 const round = (n: number): number => Math.round(n * 1000) / 1000;
 
 const FONT = 'font-family="system-ui, sans-serif"';
@@ -82,7 +89,7 @@ const lerp = (a: number, b: number, t: number): number => a + (b - a) * t;
  *  closed for the neckline, found here for the strap. */
 export function renderBody(
   m: Measurements, hasSleeve = true, frontNeckline: NecklineParams = NECKLINE_DEFAULT,
-  strapWidth?: number, position: "front" | "back" = "front"
+  strapWidth?: number, position: "front" | "back" = "front", polo?: PoloBodyVisual
 ): string {
   const d = derive(m);
   const shoulderHalf = d.shoulderHalf;
@@ -226,6 +233,18 @@ export function renderBody(
   const height = maxY - minY;
 
   const arms = hasSleeve ? armPath(1) + armPath(-1) : "";
+  const poloDetails = position === "front" && polo ? (() => {
+    const half = polo.placketWidth / 2;
+    const buttons = [3.5, 7, 10.5].map((offset) =>
+      `<circle cx="0" cy="${round(cNeck.y + offset)}" r="0.35" fill="none" stroke="${T.line}" stroke-width="0.2"/>`).join("");
+    return `<path d="M ${round(-neckHalf)} 0 L ${round(-neckHalf - 1.5)} ${round(-polo.collarLeafDepth)} ` +
+      `L ${round(neckHalf + 1.5)} ${round(-polo.collarLeafDepth)} L ${round(neckHalf)} 0" fill="none" ` +
+      `stroke="${T.line}" stroke-width="0.8"/>` +
+      `<line x1="${round(-neckHalf)}" y1="${round(-polo.standHeight)}" x2="${round(neckHalf)}" ` +
+      `y2="${round(-polo.standHeight)}" stroke="${T.line}" stroke-width="0.7"/>` +
+      `<rect x="${round(-half)}" y="${round(cNeck.y)}" width="${round(polo.placketWidth)}" ` +
+      `height="${round(polo.placketLength)}" fill="none" stroke="${T.line}" stroke-width="0.7"/>${buttons}`;
+  })() : "";
 
   return `<svg viewBox="${round(minX)} ${round(minY)} ${round(width)} ${round(height)}" ` +
     `width="100%" xmlns="http://www.w3.org/2000/svg" ` +
@@ -235,7 +254,7 @@ export function renderBody(
     // The silhouette is tagged "figure" — never a measurement name, so it always
     // falls to the dimmed state whenever a row is active, letting the tagged edge
     // on top read as the highlight. No special case needed in the UI.
-    `<g data-edge="figure">${head + arms + torsoPath}</g>` +
+    `<g data-edge="figure">${head + arms + torsoPath + poloDetails}</g>` +
     edges + dims +
     `</svg>`;
 }
@@ -245,11 +264,11 @@ export function renderBodyPair(
   m: Measurements, hasSleeve = true,
   frontNeckline: NecklineParams = NECKLINE_DEFAULT,
   backNeckline: NecklineParams = NECKLINE_DEFAULT,
-  strapWidth?: number
+  strapWidth?: number, polo?: PoloBodyVisual
 ): string {
   return `<div style="display:flex;gap:8px;width:100%">` +
     `<div style="flex:1;min-width:0"><div style="font-size:11px;color:${T.label};text-transform:uppercase;text-align:center;margin-bottom:4px">Front</div>` +
-    renderBody(m, hasSleeve, frontNeckline, strapWidth, "front") + `</div>` +
+    renderBody(m, hasSleeve, frontNeckline, strapWidth, "front", polo) + `</div>` +
     `<div style="flex:1;min-width:0"><div style="font-size:11px;color:${T.label};text-transform:uppercase;text-align:center;margin-bottom:4px">Back</div>` +
-    renderBody(m, hasSleeve, backNeckline, strapWidth, "back") + `</div></div>`;
+    renderBody(m, hasSleeve, backNeckline, strapWidth, "back", polo) + `</div></div>`;
 }

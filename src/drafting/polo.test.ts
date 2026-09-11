@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { STANDARD_M } from "./measurements";
 import { edgeLength, pieceEdge } from "./piece";
-import { draftPolo, draftPoloShell, POLO_ALLOWANCES, poloGuidance, resolvePoloOptions } from "./polo";
+import { draftPolo, draftPoloShell, POLO_ALLOWANCES, POLO_POMS, poloGuidance, resolvePoloOptions } from "./polo";
 import { rolePiece } from "./block";
 import { interfaceLength, stitchChecks } from "./stitch";
 
@@ -87,5 +87,25 @@ describe("Polo shell (Slice 69)", () => {
     expect(POLO_ALLOWANCES.byEdge).toMatchObject({
       centerFront: 0, centerBack: 0, attachmentRaw: 1, neckline: 1, collar: 1, frontTip: 1,
     });
+  });
+
+  it("refuses to invent finished placket width when required construction marks are absent", () => {
+    const drafted = draftPolo(STANDARD_M);
+    const malformed = {
+      ...drafted,
+      roles: { ...drafted.roles, buttonPlacket: { ...rolePiece(drafted, "buttonPlacket"), marks: [] } },
+    };
+    const width = POLO_POMS.find((pom) => pom.label === "Finished placket width")!;
+    expect(() => width.measure(malformed)).toThrow("construction marks are missing");
+  });
+
+  it("refuses to invent button spacing when a button point is absent", () => {
+    const drafted = draftPolo(STANDARD_M);
+    const malformed = {
+      ...drafted,
+      roles: { ...drafted.roles, buttonPlacket: { ...rolePiece(drafted, "buttonPlacket"), marks: [] } },
+    };
+    const spacing = POLO_POMS.find((pom) => pom.label === "Button spacing")!;
+    expect(() => spacing.measure(malformed)).toThrow('has no point mark "button-1"');
   });
 });

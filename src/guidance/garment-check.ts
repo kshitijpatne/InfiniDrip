@@ -19,6 +19,7 @@ import {
   PieceNotches,
   blockPieces,
   stitchChecks,
+  GarmentOptions,
 } from "../drafting";
 import {
   Report,
@@ -60,8 +61,8 @@ export function notchGrainCheck(
  *  used to push it in.
  *
  *  It reports SEWABILITY, not fit — a muslin still decides fit. */
-export function garmentReport(recipe: GarmentRecipe, m: Measurements): Report {
-  const b = recipe.draft(m);
+export function garmentReport(recipe: GarmentRecipe, m: Measurements, options: GarmentOptions = {}): Report {
+  const b = recipe.draft(m, options);
 
   const checks: CheckResult[] = [
     ...stitchChecks(b, b.stitches),
@@ -70,7 +71,7 @@ export function garmentReport(recipe: GarmentRecipe, m: Measurements): Report {
     notchGrainCheck(blockPieces(b).map((p) => p.name), recipe.notches),
   ];
 
-  const graded = gradeRun(m, recipe.grade, recipe.sizes, recipe.draft);
+  const graded = gradeRun(m, recipe.grade, recipe.sizes, recipe.draft, options);
   checks.push(strictlyIncreasing("Size run grows in order", graded.map((g) => recipe.sizeMetric(g.block))));
 
   return buildReport(checks);

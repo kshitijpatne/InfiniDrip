@@ -574,6 +574,19 @@ describe("body-view measurement linking", () => {
     }
   });
 
+  it("makes Polo options live, persisted design controls separate from measurements", () => {
+    const root = mount();
+    root.querySelector<HTMLButtonElement>("#garment-polo")!.dispatchEvent(new Event("click"));
+    const placket = root.querySelector<HTMLInputElement>('input[data-option="placketLength"]')!;
+    expect(placket.value).toBe("14");
+    const before = root.querySelector("#garment-host")!.innerHTML;
+    placket.value = "20";
+    placket.dispatchEvent(new Event("input"));
+    expect(root.querySelector("#garment-host")!.innerHTML).not.toBe(before);
+    root.querySelector<HTMLButtonElement>("#view-body")!.dispatchEvent(new Event("click"));
+    expect(root.querySelector("#canvas-host")!.innerHTML).toContain('height="20"');
+  });
+
   it("spotlights the hovered measurement's dimension and fades the rest", () => {
     const root = mount();
     root.querySelector<HTMLButtonElement>("#view-body")!.dispatchEvent(new Event("click"));

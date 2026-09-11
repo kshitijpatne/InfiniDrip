@@ -15,7 +15,7 @@
 // share one slot, anchored at the slot's top-centre, so they nest like the
 // size-run view's tree rings and a toggled size lands exactly where the last was.
 
-import { Measurements, GarmentRecipe, gradeRun, rolePiece, Piece } from "../drafting";
+import { Measurements, GarmentRecipe, GarmentOptions, gradeRun, rolePiece, Piece } from "../drafting";
 import { flattenPiece, polylineBounds, Polyline } from "./layout";
 import { resolveNotch, resolveGrainline, notchSvg, grainlineSvg } from "../render/notch";
 import { unfoldFlat, FOLD_EPS } from "./unfold";
@@ -103,8 +103,8 @@ function pieceMarkup(
  * The projector export: every graded size of every piece on one continuous
  * cm-true canvas, one toggleable layer per size, calibration square included.
  */
-export function exportProjectorSvg(recipe: GarmentRecipe, m: Measurements): string {
-  const run = gradeRun(m, recipe.grade, recipe.sizes, recipe.draft);
+export function exportProjectorSvg(recipe: GarmentRecipe, m: Measurements, options: GarmentOptions = {}): string {
+  const run = gradeRun(m, recipe.grade, recipe.sizes, recipe.draft, options);
   const roles = Object.keys(run[0].block.roles);
 
   // Slot per role: wide and tall enough for the largest size's unfolded cut line.

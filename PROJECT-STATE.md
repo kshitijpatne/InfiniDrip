@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 71 (polo recipe pipeline integration).
+_Last updated: after Slice 72 (live Polo controls and visual/output routing).
 Tank rework step 4
 is complete for automated and rendered verification; physical sewn validation
 has not occurred. Update this after every slice (and commit it WITH the code)._
@@ -27,8 +27,9 @@ loose tee body/current sleeve, self-knit lightly stabilized folded placket,
 14 cm × 3 cm finished placket, three buttons at 3.5 cm centres, 2 cm finished
 stand, 5 cm pointed collar leaf, and no V1 side vents. Slice 69 drafted the
 front slit, tee body/sleeve reuse, both folded placket pieces, and the layered
-collar/stand with warning-only geometry guardrails. Slice 71 made Polo a full
-recipe; Slice 72 is next for live controls and visual/output review.
+collar/stand with warning-only geometry guardrails. Slices 71–72 made Polo a
+full selectable recipe with live persisted design controls and visual/output
+routing. Slice 73 is next for final cross-size and production-readiness proof.
 
 ## What it is
 A lightweight, local 2D sewing-pattern designer in TypeScript. Type body
@@ -207,6 +208,16 @@ F1. **(Fable) Real-world export system** — two new writers on the existing exp
     SVG/DXF proof includes all pieces plus slit/button/buttonhole marks; Tee and
     Darted tee baselines stay protected. Next: Slice 72 live option UI,
     persistence routing, assembled/Body Polo visual, and output review.
+72. Polo live controls and visual/output routing — Polo's finished placket
+    length/width, stand height, and collar-leaf depth now render as recipe-owned
+    controls and persist in the existing version-3 options map, separate from
+    body measurements. Live values route through draft, guidance, check, grade,
+    nesting, all per-size cutting files, projector, and tech pack. Body and
+    assembled schematic views show selected collar/stand, placket, and three
+    buttons on the front only; this is a dimension-honest flat schematic, not
+    drape simulation. Invalid typed combinations remain drafted and receive
+    actionable warnings. Gates include default and altered-option DOM/render
+    proof. Next: Slice 73 cross-size/export final gate and readiness evidence.
 63. Tank rework, step 3 — real strap/armhole geometry for the tank, AND a
     scope change requested by Kshitij mid-slice that reshaped the whole
     approach: rather than the engine picking a single "correct" strap width

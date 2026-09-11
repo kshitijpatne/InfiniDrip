@@ -1,7 +1,7 @@
 # Polo V1 — build contract
 
-_Status: Slice 71 complete. Polo is integrated through generic product
-pipelines; Slice 72 is ready for live UI, persistence routing, and visual QA._
+_Status: Slice 72 complete. Polo is live through UI and output routes; Slice 73
+is ready for cross-size, export, and production-readiness final proof._
 
 ## Outcome
 
@@ -44,7 +44,7 @@ placket. It must remain a sewable pattern, not a decorative tee render.
 | 69 | Polo draft: front slit, body, sleeve reuse, placket pieces, allowances, raw stitch interfaces | Terra high | **Complete:** true slit / placket geometry and every shell seam match; no fake centre-front seam |
 | 70 | Collar and stand draft; options + guardrails; collar/stand/neckline stitches | Terra high | **Complete:** every interface measured; default and boundary warnings tested |
 | 71 | Polo recipe integration: POMs, notches, BOM, construction order, grading, nesting, checker | Terra medium | **Complete:** full generic recipe pipeline and parsed cutting outputs |
-| 72 | UI/persistence/Body and assembled rendering; visual evidence; hardened regression suite | Luna medium, Terra review | User controls own geometry; all pre-existing outputs unchanged |
+| 72 | UI/persistence/Body and assembled rendering; visual evidence; hardened regression suite | Luna medium, Terra review | **Complete:** user controls live geometry; existing outputs remain gated |
 | 73 | Cross-size/export final gate and production-readiness evidence | Luna medium, Terra review | 100% coverage, parsed exports, human visual review |
 
 Model move: keep Terra through Slices 68–70. Luna medium becomes safe for
@@ -54,5 +54,5 @@ export, or visual review.
 
 ## Build status
 
-Recipe pipeline is resolved. Slice 72 makes persisted options live in controls,
-Polo body/assembled views, exports, and user-facing visual evidence.
+Live integration is resolved. Slice 73 verifies cross-size/export evidence and
+records remaining physical-sewing limits before the product moves past Polo.

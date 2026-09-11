@@ -26,7 +26,7 @@ import { TSHIRT_NOTCHES } from "./tshirt-notches";
 import { TSHIRT_POMS } from "./tshirt-pom";
 import { TSHIRT_GRADE, TSHIRT_SIZES } from "./tshirt-grade";
 import { FITTED_NOTCHES, FITTED_POMS } from "./fitted-tables";
-import { GarmentOption } from "./options";
+import { GarmentOption, GarmentOptions } from "./options";
 import { draftPolo, poloGuidance, POLO_ALLOWANCES, POLO_NOTCHES, POLO_OPTION_DEFINITIONS, POLO_POMS } from "./polo";
 
 /**
@@ -62,13 +62,13 @@ export interface GarmentRecipe {
   readonly label: string; // what the UI shows, e.g. "Tee"
   readonly fields: readonly (keyof Measurements)[]; // which measurements this garment uses (drives the UI, in order)
   readonly styles: readonly StyleDef[];             // the target-fit presets this garment offers
-  readonly draft: (m: Measurements) => Block;
+  readonly draft: (m: Measurements, options?: GarmentOptions) => Block;
   readonly notches: readonly PieceNotches[];
   readonly poms: readonly Pom[];
   readonly grade: GradeRule;
   readonly sizes: readonly SizeStep[];
   readonly checks: (block: Block, m: Measurements) => CheckResult[]; // sewability
-  readonly guidance: (block: Block, m: Measurements) => Note[];      // advisory notes
+  readonly guidance: (block: Block, m: Measurements, options?: GarmentOptions) => Note[]; // advisory notes
   readonly sizeMetric: (block: Block) => number;                     // size-run ordering
   readonly techPack: TechPack;
   /** Recipe-owned design controls; absent means this garment has no such options. */
@@ -263,13 +263,13 @@ export const POLO: GarmentRecipe = {
   label: "Polo",
   fields: ["chest", "shoulderWidth", "bicep", "length", "armholeDepth", "sleeveLength", "ease"],
   styles: POLO_STYLES,
-  draft: draftPolo,
+  draft: (m, options = {}) => draftPolo(m, options),
   notches: POLO_NOTCHES,
   poms: [...TSHIRT_POMS, ...POLO_POMS],
   grade: TSHIRT_GRADE,
   sizes: TSHIRT_SIZES,
   checks: sleevedTopPanelChecks(true),
-  guidance: poloGuidance,
+  guidance: (block, m, options = {}) => poloGuidance(block, m, options),
   sizeMetric: frontHemWidth,
   techPack: POLO_TECH_PACK,
   options: POLO_OPTION_DEFINITIONS,

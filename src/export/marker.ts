@@ -13,7 +13,7 @@
 // upright, no interlock (see nesting.ts). What's true here is the cloth length and
 // the true-area utilization for the run as a whole.
 
-import { Measurements, GarmentRecipe, gradeRun, blockPieces } from "../drafting";
+import { Measurements, GarmentRecipe, GarmentOptions, gradeRun, blockPieces } from "../drafting";
 import { flattenPiece, FlatPiece } from "./layout";
 import { nestPieces, NestResult } from "./nesting";
 
@@ -23,8 +23,8 @@ function labelWithSize(flat: FlatPiece, sizeLabel: string): FlatPiece {
 }
 
 /** Every piece of every graded size, cut-ready and size-labelled, in one list. */
-export function markerPieces(recipe: GarmentRecipe, m: Measurements): FlatPiece[] {
-  const run = gradeRun(m, recipe.grade, recipe.sizes, recipe.draft);
+export function markerPieces(recipe: GarmentRecipe, m: Measurements, options: GarmentOptions = {}): FlatPiece[] {
+  const run = gradeRun(m, recipe.grade, recipe.sizes, recipe.draft, options);
   return run.flatMap((g) =>
     blockPieces(g.block).map((p) => labelWithSize(flattenPiece(p, recipe.allowances), g.label))
   );
@@ -34,7 +34,8 @@ export function markerPieces(recipe: GarmentRecipe, m: Measurements): FlatPiece[
 export function gradedMarker(
   recipe: GarmentRecipe,
   m: Measurements,
-  fabricWidth: number
+  fabricWidth: number,
+  options: GarmentOptions = {}
 ): NestResult {
-  return nestPieces(markerPieces(recipe, m), fabricWidth);
+  return nestPieces(markerPieces(recipe, m, options), fabricWidth);
 }

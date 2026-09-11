@@ -13,6 +13,7 @@
 
 import { Measurements } from "./measurements";
 import { Block } from "./block";
+import { GarmentOptions } from "./options";
 
 /** One size's position in the run: 0 = base, -1 a size down, +1 a size up. */
 export interface SizeStep {
@@ -53,9 +54,10 @@ export function draftAtSize(
   base: Measurements,
   rule: GradeRule,
   step: number,
-  draft: (m: Measurements) => Block
+  draft: (m: Measurements, options?: GarmentOptions) => Block,
+  options: GarmentOptions = {}
 ): Block {
-  return draft(gradeMeasurements(base, rule, step));
+  return draft(gradeMeasurements(base, rule, step), options);
 }
 
 /**
@@ -66,10 +68,11 @@ export function gradeRun(
   base: Measurements,
   rule: GradeRule,
   sizes: readonly SizeStep[],
-  draft: (m: Measurements) => Block
+  draft: (m: Measurements, options?: GarmentOptions) => Block,
+  options: GarmentOptions = {}
 ): GradedSize[] {
   return sizes.map((s) => {
     const measurements = gradeMeasurements(base, rule, s.step);
-    return { label: s.label, step: s.step, measurements, block: draftAtSize(base, rule, s.step, draft) };
+    return { label: s.label, step: s.step, measurements, block: draftAtSize(base, rule, s.step, draft, options) };
   });
 }

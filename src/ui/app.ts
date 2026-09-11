@@ -2,7 +2,7 @@
 // change re-draft, re-render the canvas, garment, guidance, and style. All real
 // logic lives in the pure modules.
 
-import { Measurements, STANDARD_M, Piece, STRETCH_FABRICS, fabricEaseNote, GarmentOptionsByRecipe } from "../drafting";
+import { Measurements, STANDARD_M, Piece, STRETCH_FABRICS, fabricEaseNote, GarmentOptionsByRecipe, GarmentOptions, defaultGarmentOptions } from "../drafting";
 import { gradeRun, draftAtSize, specSheet, GARMENTS, GarmentRecipe, garmentByName } from "../drafting";
 import { blockPieces, rolePiece } from "../drafting";
 import { exportSvg, exportDxf, exportPdf, exportTechPack, exportProjectorSvg, exportA0Pdf, flattenPiece, nestPieces, gradedMarker } from "../export";
@@ -63,6 +63,24 @@ export function mountApp(root: HTMLElement): void {
   let nestScope: "single" | "marker" = "single"; // one garment, or the whole size run
   let activeDim: string | null = null; // the measurement field spotlighted on the body view
 
+  /** Design options live per recipe, never in body measurements. Existing saved
+   * values stay verbatim so guidance can explain an invalid combination. */
+  const recipeOptions = (forRecipe: GarmentRecipe = recipe): GarmentOptions => ({
+    ...defaultGarmentOptions(forRecipe.options ?? []),
+    ...(garmentOptions[forRecipe.name] ?? {}),
+  });
+  const draftCurrent = (): ReturnType<GarmentRecipe["draft"]> => recipe.draft(measurements, recipeOptions());
+  const poloVisual = () => {
+    if (recipe.name !== "polo") return undefined;
+    const options = recipeOptions();
+    return {
+      placketLength: options.placketLength,
+      placketWidth: options.placketWidth,
+      standHeight: options.standHeight,
+      collarLeafDepth: options.collarLeafDepth,
+    };
+  };
+
   // Spotlight one measurement on the body view: its dimension line AND the outline
   // edges it shapes stay at full opacity, everything else drops back. A group
   // carries its field in `data-dim` (the dimension line) or `data-edge` (the
@@ -81,7 +99,7 @@ export function mountApp(root: HTMLElement): void {
   const renderJourney = (): void => {
     const plausible = measurementsPlausible(measurements, recipe.fields);
     const gaps = matchStyle(measurements, targetStyle, recipe.styles).deltas.length;
-    const report = garmentReport(recipe, measurements);
+    const report = garmentReport(recipe, measurements, recipeOptions());
     const parts: string[] = [];
     if (journey.step === "start") parts.push(welcomeMarkup());
     parts.push(journeyBarMarkup(journey.step));
@@ -106,15 +124,15 @@ export function mountApp(root: HTMLElement): void {
     fabricWidthHost.style.display = view === "fabric" ? "flex" : "none";
     if (view === "nest") {
       canvasHost.innerHTML = renderNest(
-        gradeRun(measurements, recipe.grade, recipe.sizes, recipe.draft));
+        gradeRun(measurements, recipe.grade, recipe.sizes, recipe.draft, recipeOptions()));
     } else if (view === "fabric") {
       const nest = nestScope === "marker"
-        ? gradedMarker(recipe, measurements, fabricWidth)
-        : nestPieces(blockPieces(recipe.draft(measurements)).map((p) => flattenPiece(p, recipe.allowances)), fabricWidth);
+        ? gradedMarker(recipe, measurements, fabricWidth, recipeOptions())
+        : nestPieces(blockPieces(draftCurrent()).map((p) => flattenPiece(p, recipe.allowances)), fabricWidth);
       canvasHost.innerHTML = renderFabricNest(
         nest.placed, nest.fabricWidth, nest.fabricLength, nest.utilization, nest.fits);
     } else if (view === "check") {
-      canvasHost.innerHTML = checkMarkup(garmentReport(recipe, measurements), measurementsPlausible(measurements, recipe.fields));
+      canvasHost.innerHTML = checkMarkup(garmentReport(recipe, measurements, recipeOptions()), measurementsPlausible(measurements, recipe.fields));
     } else if (view === "edit") {
       const piece = editedFront!;
       const vb = editorViewBox(piece);
@@ -129,16 +147,16 @@ export function mountApp(root: HTMLElement): void {
         editorHintMarkup() +
         dartControlsMarkup(hasDart, canTrue);
     } else if (view === "spec") {
-      const graded = gradeRun(measurements, recipe.grade, recipe.sizes, recipe.draft);
+      const graded = gradeRun(measurements, recipe.grade, recipe.sizes, recipe.draft, recipeOptions());
       const baseIndex = graded.findIndex((g) => g.step === 0);
       canvasHost.innerHTML = specTableMarkup(
         specSheet(graded, recipe.poms), graded.map((g) => g.label), baseIndex);
     } else if (view === "body") {
       canvasHost.innerHTML = isTop
-        ? renderBodyPair(measurements, hasSleeve, recipe.frontNeckline?.(measurements), recipe.backNeckline?.(measurements), recipe.strapWidth?.(measurements))
+        ? renderBodyPair(measurements, hasSleeve, recipe.frontNeckline?.(measurements), recipe.backNeckline?.(measurements), recipe.strapWidth?.(measurements), poloVisual())
         : renderSkirtBody(measurements);
     } else {
-      const block = recipe.draft(measurements);
+      const block = draftCurrent();
       const pieces = blockPieces(block);
       canvasHost.innerHTML = renderBlueprint(
         pieces,
@@ -146,7 +164,7 @@ export function mountApp(root: HTMLElement): void {
     }
     garmentHost.innerHTML = isTop
       ? renderGarment(measurements, fabric, hasSleeve,
-          recipe.frontNeckline?.(measurements), recipe.backNeckline?.(measurements), recipe.strapWidth?.(measurements))
+          recipe.frontNeckline?.(measurements), recipe.backNeckline?.(measurements), recipe.strapWidth?.(measurements), poloVisual())
       : renderSkirtGarment(measurements, fabric);
     // One sanity read for the whole frame: are the numbers a real body? It gates
     // every green "validated" signal — the check banner, the style ✓ — and flags
@@ -154,7 +172,7 @@ export function mountApp(root: HTMLElement): void {
     const plausible = measurementsPlausible(measurements, recipe.fields);
     // Guidance = the geometry checks, plus a fabric-stretch ease note (advice only).
     const fabricNote: Note = { level: "info", text: fabricEaseNote(stretchFabric, measurements.chest) };
-    guidanceHost.innerHTML = guidanceMarkup([...guide(recipe, measurements), fabricNote]);
+    guidanceHost.innerHTML = guidanceMarkup([...guide(recipe, measurements, recipeOptions()), fabricNote]);
     // Style = prescriptive: the gap from current measurements to the chosen target.
     styleHost.innerHTML = styleMarkup(targetStyle, matchStyle(measurements, targetStyle, recipe.styles), styleNames(recipe.styles), plausible);
     // Amber-outline any measurement input whose value is out of plausible range
@@ -180,7 +198,7 @@ export function mountApp(root: HTMLElement): void {
     edit: root.querySelector<HTMLButtonElement>("#view-edit")!,
   };
   const setView = (v: "pattern" | "body" | "nest" | "spec" | "fabric" | "check" | "edit"): void => {
-    if (v === "edit" && editedFront === null) editedFront = rolePiece(recipe.draft(measurements), "front");
+    if (v === "edit" && editedFront === null) editedFront = rolePiece(draftCurrent(), "front");
     view = v;
     (["pattern", "body", "nest", "spec", "fabric", "check", "edit"] as const).forEach((k) => {
       const on = k === v;
@@ -279,7 +297,7 @@ export function mountApp(root: HTMLElement): void {
   canvasHost.addEventListener("click", (e) => {
     const id = (e.target as HTMLElement).id;
     if (id === "editor-reset") {
-      editedFront = rolePiece(recipe.draft(measurements), "front");
+      editedFront = rolePiece(draftCurrent(), "front");
       selectedId = null;
       draw();
     } else if (DART_TOOLS[id] && editedFront) {
@@ -302,9 +320,10 @@ export function mountApp(root: HTMLElement): void {
     selectedId = null;
     // Re-render the measurement panel to this garment's fields (a skirt shows
     // waist/hip, not chest/sleeve), then re-attach its listeners.
-    root.querySelector<HTMLElement>("#controls-panel")!.outerHTML = controlsMarkup(measurements, recipe.fields);
+    root.querySelector<HTMLElement>("#controls-panel")!.outerHTML = controlsMarkup(
+      measurements, recipe.fields, recipe.options, recipeOptions());
     wireMeasurementInputs();
-    if (view === "edit") editedFront = rolePiece(recipe.draft(measurements), "front");
+    if (view === "edit") editedFront = rolePiece(draftCurrent(), "front");
     draw();
   };
   GARMENTS.forEach((g) => {
@@ -350,6 +369,20 @@ export function mountApp(root: HTMLElement): void {
       });
       input.addEventListener("change", () => {
         input.value = String(measurements[field.id]);
+      });
+    });
+    root.querySelectorAll<HTMLInputElement>("input[data-option]").forEach((input) => {
+      const id = input.dataset.option!;
+      input.addEventListener("input", () => {
+        const value = Number(input.value);
+        if (Number.isFinite(value)) {
+          garmentOptions = {
+            ...garmentOptions,
+            [recipe.name]: { ...recipeOptions(), [id]: value },
+          };
+          editedFront = null;
+          draw();
+        }
       });
     });
     root.querySelectorAll<HTMLElement>("[data-dim-row]").forEach((row) => {
@@ -401,7 +434,7 @@ export function mountApp(root: HTMLElement): void {
   const exportSizeLabel = (): string =>
     recipe.sizes.find((s) => s.step === exportStep)!.label;
   const exportPieces = (): Piece[] => {
-    const block = draftAtSize(measurements, recipe.grade, exportStep, recipe.draft);
+    const block = draftAtSize(measurements, recipe.grade, exportStep, recipe.draft, recipeOptions());
     return [...blockPieces(block)];
   };
   // The desktop shell's only bridge into this app (Slice 46): when running
@@ -441,12 +474,12 @@ export function mountApp(root: HTMLElement): void {
   // The tech pack is a whole-style document (sample-size sketch + graded table),
   // so it uses the live measurements directly and ignores the per-size picker.
   root.querySelector<HTMLButtonElement>("#export-techpack")!.addEventListener("click", () => {
-    download(`${recipe.name}-techpack.pdf`, exportTechPack(recipe, measurements, undefined, stretchFabric), "application/pdf");
+    download(`${recipe.name}-techpack.pdf`, exportTechPack(recipe, measurements, undefined, stretchFabric, recipeOptions()), "application/pdf");
   });
   // The projector file carries EVERY graded size as a toggleable layer, so it too
   // is a whole-style file and ignores the per-size picker.
   root.querySelector<HTMLButtonElement>("#export-projector")!.addEventListener("click", () => {
-    download(`${recipe.name}-projector.svg`, exportProjectorSvg(recipe, measurements), "image/svg+xml");
+    download(`${recipe.name}-projector.svg`, exportProjectorSvg(recipe, measurements, recipeOptions()), "image/svg+xml");
   });
   root.querySelector<HTMLButtonElement>("#export-a0")!.addEventListener("click", () => {
     download(`${recipe.name}-${exportSizeLabel()}-A0.pdf`, exportA0Pdf(exportPieces(), recipe.allowances, recipe.notches), "application/pdf");

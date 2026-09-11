@@ -231,3 +231,13 @@ describe("renderBody — real strap position for a sleeveless garment (Slice 63)
     expect(svgStrap).toContain("C 13.75 9 20 19 27.5 24");
   });
 });
+
+describe("renderBody — Polo V1", () => {
+  it("adds exact selected collar, stand, placket, and three button references to Front only", () => {
+    const pair = renderBodyPair(STANDARD_M, true, NECKLINE_DEFAULT, NECKLINE_DEFAULT, undefined, {
+      placketLength: 14, placketWidth: 3, standHeight: 2, collarLeafDepth: 5,
+    });
+    expect(pair).toContain('width="3" height="14"');
+    expect((pair.match(/r="0.35"/g) ?? []).length).toBe(3);
+  });
+});

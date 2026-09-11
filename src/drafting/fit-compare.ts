@@ -19,6 +19,7 @@
 
 import { GarmentRecipe } from "./recipe";
 import { Measurements } from "./measurements";
+import { GarmentOptions } from "./options";
 
 const round1 = (n: number): number => Math.round(n * 10) / 10;
 
@@ -34,8 +35,8 @@ export interface PredictedPom {
  * Fit Record page draw: `recipe.draft(m)`, the sample size. One source, so the
  * sketch, the printed sheet, and this comparator can never quietly disagree.
  */
-export function sampleSpec(recipe: GarmentRecipe, m: Measurements): PredictedPom[] {
-  const block = recipe.draft(m);
+export function sampleSpec(recipe: GarmentRecipe, m: Measurements, options: GarmentOptions = {}): PredictedPom[] {
+  const block = recipe.draft(m, options);
   return recipe.poms.map((pom) => ({
     label: pom.label,
     value: round1(pom.measure(block)),
