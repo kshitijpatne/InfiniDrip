@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { STANDARD_M } from "./measurements";
-import { TEE, FITTED, TANK, GARMENTS, garmentByName } from "./recipe";
+import { TEE, FITTED, TANK, POLO, GARMENTS, garmentByName } from "./recipe";
 import { dartOf } from "./dart";
 import { rolePiece, blockPieces } from "./block";
 import { pieceEdge } from "./piece";
@@ -10,14 +10,37 @@ import { garmentReport } from "../guidance/garment-check";
 
 describe("the garment registry", () => {
   it("lists every garment with a stable id and a display label", () => {
-    expect(GARMENTS.map((g) => g.name)).toEqual(["tee", "fitted", "tank", "skirt"]);
-    expect(GARMENTS.map((g) => g.label)).toEqual(["Tee", "Darted tee", "Tank", "Skirt"]);
+    expect(GARMENTS.map((g) => g.name)).toEqual(["tee", "fitted", "tank", "polo", "skirt"]);
+    expect(GARMENTS.map((g) => g.label)).toEqual(["Tee", "Darted tee", "Tank", "Polo", "Skirt"]);
   });
 
   it("looks a recipe up by name and falls back to the tee for an unknown one", () => {
     expect(garmentByName("fitted")).toBe(FITTED);
     expect(garmentByName("tee")).toBe(TEE);
+    expect(garmentByName("polo")).toBe(POLO);
     expect(garmentByName("kimono")).toBe(TEE);
+  });
+});
+
+describe("Polo recipe pipeline", () => {
+  it("is a loose polo with V1 controls, full POMs, and complete production data", () => {
+    expect(POLO.styles.map((style) => style.name)).toEqual(["Classic polo", "Relaxed polo", "Longline polo"]);
+    expect(POLO.options?.map((option) => option.id)).toEqual([
+      "placketLength", "placketWidth", "standHeight", "collarLeafDepth",
+    ]);
+    expect(POLO.poms.map((pom) => pom.label)).toEqual(expect.arrayContaining([
+      "Finished placket length", "Finished placket width", "Button spacing",
+      "Finished collar stand height", "Finished pointed collar leaf",
+    ]));
+    expect(POLO.techPack.bom.find((row) => row.material === "Buttons")?.qty).toBe("3");
+    expect(POLO.techPack.construction.join(" ")).toContain("knit-compatible stabilizer");
+  });
+
+  it("passes generic production checks across its real, nine-piece block", () => {
+    const report = garmentReport(POLO, STANDARD_M);
+    expect(report.ok).toBe(true);
+    expect(blockPieces(POLO.draft(STANDARD_M))).toHaveLength(9);
+    expect(report.checks.map((check) => check.name)).toContain("Notches + grainline on every piece");
   });
 });
 

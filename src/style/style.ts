@@ -51,6 +51,14 @@ export const TANK_STYLES: readonly StyleDef[] = [
   { name: "Longline tank", ranges: { ease: [5, 14], length: [78, 100] } },
 ];
 
+/** Polo V1 is a loose short-sleeve knit polo. Names describe finished garment
+ * type, not a tee surrogate; sleeve/collar variations remain explicitly out. */
+export const POLO_STYLES: readonly StyleDef[] = [
+  { name: "Classic polo", ranges: { ease: [7, 12], length: [59, 74] } },
+  { name: "Relaxed polo", ranges: { ease: [13, 18], length: [59, 78] } },
+  { name: "Longline polo", ranges: { ease: [7, 18], length: [78, 100] } },
+];
+
 /** One measurement change needed to move toward a style (signed, in cm). */
 export interface Delta {
   readonly id: keyof Measurements;

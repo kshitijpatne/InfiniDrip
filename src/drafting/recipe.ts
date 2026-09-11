@@ -13,7 +13,7 @@ import { Note } from "../guidance/note";
 import { sleevedTopPanelChecks, frontHemWidth } from "./tshirt-checks";
 import { sleevedTopGuidance } from "./tshirt-guidance";
 import { draftSkirt, skirtPanelChecks, skirtGuidance, SKIRT_GRADE, SKIRT_POMS, SKIRT_NOTCHES } from "./skirt";
-import { StyleDef, TEE_STYLES, SKIRT_STYLES, TANK_STYLES } from "../style";
+import { StyleDef, TEE_STYLES, SKIRT_STYLES, TANK_STYLES, POLO_STYLES } from "../style";
 import { AllowanceSpec } from "./allowance";
 import { Pom } from "./pom";
 import { GradeRule, SizeStep } from "./grading";
@@ -27,6 +27,7 @@ import { TSHIRT_POMS } from "./tshirt-pom";
 import { TSHIRT_GRADE, TSHIRT_SIZES } from "./tshirt-grade";
 import { FITTED_NOTCHES, FITTED_POMS } from "./fitted-tables";
 import { GarmentOption } from "./options";
+import { draftPolo, poloGuidance, POLO_ALLOWANCES, POLO_NOTCHES, POLO_OPTION_DEFINITIONS, POLO_POMS } from "./polo";
 
 /**
  * How a garment declares its production-readiness checks, so the checker never
@@ -236,6 +237,47 @@ export const TANK: GarmentRecipe = {
     : TANK_KNIT_TECH_PACK,
 };
 
+const POLO_TECH_PACK: TechPack = {
+  bom: [
+    { material: "Cotton jersey, main", placement: "Body, sleeves, collar & plackets", qty: "1.3 m" },
+    { material: "Lightweight knit fusible stabilizer", placement: "Plackets, collar & stands", qty: "0.25 m" },
+    { material: "Buttons", placement: "Front placket", qty: "3" },
+    { material: "Woven brand label", placement: "Centre back neck", qty: "1" },
+    { material: "Care/content label", placement: "Left side seam", qty: "1" },
+    { material: "Stretch sewing thread", placement: "All seams", qty: "1 cone" },
+  ],
+  construction: [
+    "Apply lightweight knit-compatible stabilizer to placket, collar, and stand layers.",
+    "Reinforce and cut the centre-front slit; sew and fold both plackets at their marked lines.",
+    "Make buttonholes and attach three buttons at the marked 3.5 cm centres.",
+    "Join upper and under collar around the outer edge; turn and press the points.",
+    "Sew collar layers into outer and inner stands, matching centre-back folds and front ends.",
+    "Attach the outer stand to the neckline; turn inner stand inside and finish securely.",
+    "Join shoulder seams, set sleeves flat, then close side and underarm seams.",
+    "Hem sleeves and body; inspect placket flatness, collar roll, and neckline recovery.",
+  ],
+};
+
+export const POLO: GarmentRecipe = {
+  name: "polo",
+  label: "Polo",
+  fields: ["chest", "shoulderWidth", "bicep", "length", "armholeDepth", "sleeveLength", "ease"],
+  styles: POLO_STYLES,
+  draft: draftPolo,
+  notches: POLO_NOTCHES,
+  poms: [...TSHIRT_POMS, ...POLO_POMS],
+  grade: TSHIRT_GRADE,
+  sizes: TSHIRT_SIZES,
+  checks: sleevedTopPanelChecks(true),
+  guidance: poloGuidance,
+  sizeMetric: frontHemWidth,
+  techPack: POLO_TECH_PACK,
+  options: POLO_OPTION_DEFINITIONS,
+  allowances: POLO_ALLOWANCES,
+  frontNeckline: () => NECKLINE_DEFAULT,
+  backNeckline: () => NECKLINE_DEFAULT,
+};
+
 // A woven skirt: deeper hem, a fold at each panel centre, a little at the waist
 // for the band. Structurally unrelated to the knit tee's allowances.
 // Phase B5 (Slice 57): the waistband is a real piece now — "fold" (its own
@@ -286,7 +328,7 @@ export const SKIRT: GarmentRecipe = {
   },
 };
 
-export const GARMENTS: readonly GarmentRecipe[] = [TEE, FITTED, TANK, SKIRT];
+export const GARMENTS: readonly GarmentRecipe[] = [TEE, FITTED, TANK, POLO, SKIRT];
 
 /** Look a recipe up by its stable id; falls back to the tee. */
 export function garmentByName(name: string): GarmentRecipe {

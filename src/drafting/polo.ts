@@ -1,8 +1,8 @@
 // Polo V1 shell (Slice 69): tee body/sleeve plus a real centre-front slit and
 // two folded plackets. Collar and stand join this block in Slice 70.
 
-import { point } from "../geometry";
-import { Block, block } from "./block";
+import { distance, point } from "../geometry";
+import { Block, block, rolePiece } from "./block";
 import { bodice } from "./bodice";
 import { Measurements } from "./measurements";
 import { GarmentOption } from "./options";
@@ -14,6 +14,9 @@ import { sleevedTopStitches } from "./tshirt-checks";
 import { AllowanceSpec } from "./allowance";
 import { Note } from "../guidance/note";
 import { sleevedTopGuidance } from "./tshirt-guidance";
+import { Pom, seam } from "./pom";
+import { PieceNotches } from "./tshirt-notches";
+import { TSHIRT_NOTCHES } from "./tshirt-notches";
 
 export interface PoloOptions {
   readonly placketLength: number;
@@ -254,3 +257,77 @@ export function poloGuidance(block: Block, m: Measurements, rawOptions: Partial<
   }
   return notes;
 }
+
+function markedPoint(block: Block, pieceRole: string, name: string): { readonly x: number; readonly y: number } {
+  const mark = rolePiece(block, pieceRole).marks?.find((candidate) => candidate.name === name);
+  if (!mark || !("at" in mark)) throw new Error(`Polo piece "${pieceRole}" has no point mark "${name}"`);
+  return mark.at;
+}
+
+/** Polo keeps the tee's body/sleeve POMs and adds every new finished V1 fact. */
+export const POLO_POMS: readonly Pom[] = [
+  // Kept local rather than sharing the exported array by reference: a Polo
+  // tech pack must remain self-contained if the tee later gains a tee-only POM.
+  {
+    label: "Finished placket length",
+    tolerance: 0.3,
+    measure: (block) => seam(rolePiece(block, "buttonPlacket"), "attachmentRaw"),
+  },
+  {
+    label: "Finished placket width",
+    tolerance: 0.2,
+    measure: (block) => {
+      const piece = rolePiece(block, "buttonPlacket");
+      const attachment = piece.marks?.find((mark) => mark.name === "attachmentLine");
+      const fold = piece.marks?.find((mark) => mark.name === "placketFold");
+      if (!attachment || !fold || !("start" in attachment) || !("start" in fold)) {
+        throw new Error("Polo placket construction marks are missing");
+      }
+      return distance(attachment.start, fold.start);
+    },
+  },
+  {
+    label: "Button spacing",
+    tolerance: 0.15,
+    measure: (block) => distance(
+      markedPoint(block, "buttonPlacket", "button-1"),
+      markedPoint(block, "buttonPlacket", "button-2")
+    ),
+  },
+  {
+    label: "Finished collar stand height",
+    tolerance: 0.2,
+    measure: (block) => seam(rolePiece(block, "outerStand"), "frontEnd"),
+  },
+  {
+    label: "Finished pointed collar leaf",
+    tolerance: 0.3,
+    measure: (block) => seam(rolePiece(block, "upperCollar"), "centerBack"),
+  },
+];
+
+/** Notches and grainlines for every Polo piece. Sleeve/body tables are reused
+ * verbatim because those pieces are the current tee geometry, not lookalikes. */
+export const POLO_NOTCHES: readonly PieceNotches[] = [
+  ...TSHIRT_NOTCHES,
+  {
+    pieceName: "button placket",
+    notches: [{ edgeName: "attachmentRaw", t: 0.5 }],
+    grainline: { topEdge: "top", topT: 0.5, bottomEdge: "bottom", bottomT: 0.5 },
+  },
+  {
+    pieceName: "buttonhole placket",
+    notches: [{ edgeName: "attachmentRaw", t: 0.5 }],
+    grainline: { topEdge: "top", topT: 0.5, bottomEdge: "bottom", bottomT: 0.5 },
+  },
+  ...["outer collar stand", "inner collar stand"].map((pieceName) => ({
+    pieceName,
+    notches: [{ edgeName: "frontEnd", t: 0.5 }],
+    grainline: { topEdge: "collar", topT: 0.5, bottomEdge: "neckline", bottomT: 0.5 },
+  })),
+  ...["upper pointed collar", "under pointed collar"].map((pieceName) => ({
+    pieceName,
+    notches: [{ edgeName: "frontTip", t: 0.5 }],
+    grainline: { topEdge: "stand", topT: 0.5, bottomEdge: "outer", bottomT: 0.5 },
+  })),
+];

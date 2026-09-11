@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { FITTED, SKIRT, STANDARD_M, TANK, TEE, STRETCH_FABRICS, rolePiece, sampleSpec } from "../drafting";
+import { FITTED, SKIRT, STANDARD_M, TANK, TEE, POLO, STRETCH_FABRICS, rolePiece, sampleSpec } from "../drafting";
 import { PAGE_A4, PAGE_LETTER, pt } from "./pdf";
 import { exportTechPack, pdfString } from "./techpack";
 
@@ -30,6 +30,14 @@ describe("pdfString", () => {
 
 describe("exportTechPack", () => {
   const pdf = exportTechPack(TEE, STANDARD_M);
+
+  it("writes all Polo POMs, pieces, stabilizer, and construction into its tech pack", () => {
+    const poloPdf = exportTechPack(POLO, STANDARD_M);
+    for (const pom of POLO.poms) expect(poloPdf).toContain(`(${pdfString(pom.label)})`);
+    expect(poloPdf).toContain("Lightweight knit fusible stabilizer");
+    expect(poloPdf).toContain("BUTTON PLACKET");
+    expect(poloPdf).toContain("OUTER COLLAR STAND");
+  });
 
   it("uses a fabric-aware Tank BOM when a woven fabric is selected", () => {
     const woven = STRETCH_FABRICS.find((f) => f.name === "Cotton woven")!;

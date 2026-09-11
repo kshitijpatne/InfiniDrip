@@ -40,6 +40,15 @@ then invalid V1 range, button-end clearance, hem clearance, and stand/leaf
 relationships get actionable warnings. Recipe/UI pipeline integration remains
 Slice 71/72 work.
 
+Slice 71: `POLO` joins `GARMENTS` as a conventional `GarmentRecipe`: no special
+pipeline exists. Its nine real pieces flow through generic grading, POM/spec,
+notch/grainline checking, nesting, tech-pack, and writers. `POLO_NOTCHES` reuses
+the exact tee table only for unchanged front/back/sleeve pieces; placket, stand,
+and collar layers declare their own marks. `POLO_POMS` reports placket length /
+width, button spacing, finished stand height, and collar-leaf depth alongside
+the standard tee POMs. `POLO_STYLES` prevents a Polo target from being labelled
+as a tee. Live recipe-option routing is deliberately Slice 72 work.
+
 **Governing plan:** as of Slice 44, `docs/planning/MVP-PLAN.md` (operative — the 6-month
 execution plan) and `docs/planning/ROADMAP.md` (strategic — competitor analysis + long-term
 scope + the cut list) are the current planning documents. This file describes

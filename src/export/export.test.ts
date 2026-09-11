@@ -4,7 +4,7 @@
 // file is plain string/number checks that don't care about the environment.
 import { describe, it, expect } from "vitest";
 import { point } from "../geometry";
-import { Piece, STANDARD_M, TANK, draftTshirt, rolePiece, blockPieces, AllowanceSpec, lineMark, pointMark } from "../drafting";
+import { Piece, STANDARD_M, TANK, POLO, draftTshirt, rolePiece, blockPieces, AllowanceSpec, lineMark, pointMark } from "../drafting";
 import {
   flattenPiece,
   polylineBounds,
@@ -30,6 +30,7 @@ const square: Piece = {
 const block = draftTshirt(STANDARD_M);
 const pieces = [rolePiece(block, "front"), rolePiece(block, "back"), rolePiece(block, "sleeve")];
 const tankPieces = blockPieces(TANK.draft(STANDARD_M));
+const poloPieces = blockPieces(POLO.draft(STANDARD_M));
 
 describe("flattenPiece", () => {
   it("returns a sew outline and a larger cut outline", () => {
@@ -128,6 +129,21 @@ describe("Tank exports", () => {
     const dxf = exportDxf(tankPieces, TANK.allowances);
     expect(dxf.startsWith("0\nSECTION")).toBe(true);
     expect((dxf.match(/0\nPOLYLINE/g) ?? []).length).toBe(4); // cut + sew for front/back
+  });
+});
+
+describe("Polo exports", () => {
+  it("exports all nine pieces and construction marks as valid true-scale SVG/DXF", () => {
+    const svg = exportSvg(poloPieces, POLO.allowances, POLO.notches);
+    const doc = new DOMParser().parseFromString(svg, "image/svg+xml");
+    expect(doc.querySelector("parsererror")).toBeNull();
+    expect(doc.querySelectorAll("polygon")).toHaveLength(18);
+    expect(doc.querySelector('[data-pattern-mark-name="placketOpening"]')).not.toBeNull();
+    expect(doc.querySelectorAll('[data-pattern-mark="button"]')).toHaveLength(3);
+    expect(doc.querySelectorAll('[data-pattern-mark="buttonhole"]')).toHaveLength(3);
+    const dxf = exportDxf(poloPieces, POLO.allowances);
+    expect(dxf).toContain("MARK_CUTLINE");
+    expect(dxf).toContain("MARK_BUTTONHOLE");
   });
 });
 
