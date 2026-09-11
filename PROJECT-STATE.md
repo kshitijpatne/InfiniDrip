@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 76 (Polo pattern and collar schematic cleanup).
+_Last updated: after Slice 77 (commit Polo V2 fidelity backlog).
 Tank rework
 step 4 is complete for automated and rendered verification; physical sewn
 validation has not occurred and is intentionally deferred. Update this after
@@ -264,6 +264,14 @@ F1. **(Fable) Real-world export system** — two new writers on the existing exp
     sampling remains deferred.
     Gate: focused render tests, full coverage, typecheck, production build, and
     fresh browser screenshots of Pattern, Body, and assembled views.
+77. Polo V2 fidelity backlog committed — `POLO-RESEARCH.md` now records the
+    required collar/stand geometry review, back-neck representation, placket
+    shaping review, and explicit decisions for the reference's longer-back
+    hem/side slit, sleeve rib, and Polo-specific grading. `docs/planning/ROADMAP.md`
+    carries this as committed item 2.2a, standby until a future Polo
+    refinement/version-upgrade slice is assigned. No implementation changes are
+    included; current V1 scope remains unchanged and physical sampling remains
+    deferred. Next: resolve the Edit-view product contract, then Phase C3.
 63. Tank rework, step 3 — real strap/armhole geometry for the tank, AND a
     scope change requested by Kshitij mid-slice that reshaped the whole
     approach: rather than the engine picking a single "correct" strap width

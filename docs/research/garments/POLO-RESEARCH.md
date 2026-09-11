@@ -135,6 +135,57 @@ not as an active next step.
   strain, neckline recovery, and wash behaviour. Do not mark validated before
   a cut/sew/fit record exists.
 
+## Committed Polo V2 fidelity workstream — standby backlog
+
+This is a committed roadmap item for the next Polo refinement or version
+upgrade. It is not part of the current V1 implementation and must not be
+treated as a cosmetic wishlist. Before implementation, refresh this section
+with additional cross-vetted construction research and a reviewed scope
+decision for each item.
+
+### Required geometry and representation review
+
+1. Replace the engineering-first straight stand with a parametric collar/stand
+   construction derived from the actual front and back neckline interfaces. The
+   review must cover separate inner/outer stand edges, centre-back and
+   centre-front behaviour, collar point placement, shaped/curved collar edges,
+   layer quantities, seam allowances, notches, stitches, grading, and all
+   true-scale exports.
+2. Show the collar/stand continuation at the back neckline in Body and
+   assembled views, keeping the preview tied to the drafted interfaces rather
+   than using a front-only decorative overlay.
+3. Reassess whether the placket base needs drafted shaping or reinforcement
+   geometry instead of only a construction mark. Preserve the current
+   cut-on-fold/front-slit interface unless the reviewed design decision changes
+   it.
+
+### Scope decisions required before adding variants
+
+4. Decide whether V2 includes the Polo convention in the attached CAD reference
+   of a back hem approximately 1.5 cm longer than the front with a roughly 6 cm
+   side slit. This conflicts with the locked V1 decision that side vents are out
+   of scope; no implementation is implied until that conflict is resolved.
+5. Decide whether V2 includes a separate sleeve rib/band. The reference treats
+   sleeve length as excluding the rib height and adds a rib piece; the current
+   V1 uses the tee sleeve and a direct hem. If adopted, define its finished
+   dimensions, stretch/allowance treatment, stitches, grading, POMs, guidance,
+   nesting, and export quantity.
+6. Reassess Polo-specific grading. The reference describes local changes around
+   HPS, shoulder tip, back neck drop, and hem, but does not provide a complete
+   size chart. Any adopted grade rule needs additional sources and a complete
+   cross-size specification before implementation.
+
+### V2 acceptance gate
+
+The workstream may be implemented only after the collar/stand and any selected
+hem, sleeve-rib, placket, and grading decisions have explicit research support
+or are clearly labelled product/engineering decisions. Acceptance must include
+fresh drafted geometry, Body/assembled/Pattern visual review, stitch and
+guidance checks, every affected export parsed at true scale, and unchanged
+legacy baselines unless a separately documented maintainer-approved reason
+requires a baseline move. This workstream does not claim physical fit,
+sewability, collar roll, recovery, or wash evidence.
+
 ## Decisions and unresolved questions
 
 ### Confirmed maintainer decisions — 2026-09-11
