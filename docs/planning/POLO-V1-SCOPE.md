@@ -1,7 +1,7 @@
 # Polo V1 — build contract
 
-_Status: Slice 69 complete. V1 shell geometry is drafted; Slice 70 is ready
-to draft collar/stand geometry and option guardrails._
+_Status: Slice 70 complete. V1 core geometry is drafted; Slice 71 is ready
+to integrate the Polo recipe through every product pipeline._
 
 ## Outcome
 
@@ -42,7 +42,7 @@ placket. It must remain a sewable pattern, not a decorative tee render.
 |---|---|---|---|
 | 68 | Pattern-mark / internal-cut-line capability; recipe-owned persisted garment options; no polo garment geometry | Terra medium | **Complete:** existing garments byte-identical; marks survive canvas, SVG, DXF, tiled PDF, A0, and projector |
 | 69 | Polo draft: front slit, body, sleeve reuse, placket pieces, allowances, raw stitch interfaces | Terra high | **Complete:** true slit / placket geometry and every shell seam match; no fake centre-front seam |
-| 70 | Collar and stand draft; options + guardrails; collar/stand/neckline stitches | Terra high | Every interface measured; boundary warnings verified visually |
+| 70 | Collar and stand draft; options + guardrails; collar/stand/neckline stitches | Terra high | **Complete:** every interface measured; default and boundary warnings tested |
 | 71 | Polo recipe integration: POMs, notches, BOM, construction order, grading, nesting, checker | Terra medium | Full garment pipeline works in every view/output |
 | 72 | UI/persistence/Body and assembled rendering; visual evidence; hardened regression suite | Luna medium, Terra review | User controls own geometry; all pre-existing outputs unchanged |
 | 73 | Cross-size/export final gate and production-readiness evidence | Luna medium, Terra review | 100% coverage, parsed exports, human visual review |
@@ -54,5 +54,5 @@ export, or visual review.
 
 ## Build status
 
-Shell geometry is resolved. Slice 70 adds the real collar/stand and tests its
-interfaces against the existing neckline and placket geometry.
+Core geometry is resolved. Slice 71 connects the existing draft into recipe,
+POM, notches, BOM, construction, grading, nesting, and checker pathways.

@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 69 (polo shell and folded placket geometry).
+_Last updated: after Slice 70 (polo collar, stand, and geometry guardrails).
 Tank rework step 4
 is complete for automated and rendered verification; physical sewn validation
 has not occurred. Update this after every slice (and commit it WITH the code)._
@@ -26,7 +26,8 @@ record.
 loose tee body/current sleeve, self-knit lightly stabilized folded placket,
 14 cm × 3 cm finished placket, three buttons at 3.5 cm centres, 2 cm finished
 stand, 5 cm pointed collar leaf, and no V1 side vents. Slice 69 drafted the
-front slit, tee body/sleeve reuse, and both folded placket pieces; Slice 70 is next.
+front slit, tee body/sleeve reuse, both folded placket pieces, and the layered
+collar/stand with warning-only geometry guardrails. Slice 71 is next.
 
 ## What it is
 A lightweight, local 2D sewing-pattern designer in TypeScript. Type body
@@ -187,6 +188,16 @@ F1. **(Fable) Real-world export system** — two new writers on the existing exp
     participate in a measured stitch while preserving exterior-edge-only
     notches. Default shell seams pass. Collar/stand are intentionally absent;
     next: Slice 70 collar, stand, option guardrails, and neckline stitches.
+70. Polo collar/stand — completed the V1 collar-plus-stand draft with separate
+    upper/under pointed collar and outer/inner stand half-pieces, each cut on
+    centre-back fold so physical layer quantity is represented directly. Stand
+    lower edge matches the actual front+back half-neckline; both collar bases,
+    both stands, and collar outer seams are declared/measured stitches. Defaults
+    are 2 cm finished stand and 5 cm pointed leaf. Polo options now draft
+    verbatim and issue exact warning corrections for V1 ranges, insufficient
+    button clearance, hem conflict, and stand/leaf conflict; no silent clamp.
+    Physical sewing still must validate collar roll, stand curvature, placket
+    flatness, and stabilizer behavior. Next: Slice 71 recipe integration.
 63. Tank rework, step 3 — real strap/armhole geometry for the tank, AND a
     scope change requested by Kshitij mid-slice that reshaped the whole
     approach: rather than the engine picking a single "correct" strap width

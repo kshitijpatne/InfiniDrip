@@ -9,8 +9,11 @@ import { GarmentOption } from "./options";
 import { Piece, edgeLength, edgeStart, pieceEdge } from "./piece";
 import { lineMark, pointMark } from "./pattern-mark";
 import { sleeve as sleeveComponent } from "./sleeve";
-import { iface, markRef, Stitch } from "./stitch";
+import { edgeRef, iface, markRef, Stitch } from "./stitch";
 import { sleevedTopStitches } from "./tshirt-checks";
+import { AllowanceSpec } from "./allowance";
+import { Note } from "../guidance/note";
+import { sleevedTopGuidance } from "./tshirt-guidance";
 
 export interface PoloOptions {
   readonly placketLength: number;
@@ -50,6 +53,26 @@ function finiteOr(value: number | undefined, fallback: number): number {
 
 const BUTTON_CENTRES = [3.5, 7, 10.5] as const;
 const PLACKET_SEAM_ALLOWANCE = 1;
+const MIN_BUTTON_END_CLEARANCE = 3.5;
+const COLLAR_TIP_FLARE = 1.5;
+
+/** V1 Polo's production allowances. Internal fold/attachment marks have no
+ * allowance themselves: their surrounding sew-outline edges own it. */
+export const POLO_ALLOWANCES: AllowanceSpec = {
+  default: 1,
+  byEdge: {
+    centerFront: 0,
+    centerBack: 0,
+    hem: 2,
+    attachmentRaw: 1,
+    outerRaw: 1,
+    neckline: 1,
+    collar: 1,
+    frontEnd: 1,
+    frontTip: 1,
+    outer: 1,
+  },
+};
 
 /** A 3 cm finished placket is a 3 cm outer face plus a 3 cm inner facing,
  * with 1 cm attachment and turn-under allowances. Its fold/attachment lines
@@ -126,4 +149,108 @@ export function draftPoloShell(m: Measurements, rawOptions: Partial<PoloOptions>
     buttonPlacket: placketPiece("buttonPlacket", options),
     buttonholePlacket: placketPiece("buttonholePlacket", options),
   }, POLO_SHELL_STITCHES());
+}
+
+/** One half of a stand, cut on the centre-back fold. Its neckline edge is the
+ * real front+back half-neckline length; unfolding produces one continuous
+ * stand without an invented centre-back seam. */
+function standPiece(name: string, necklineLength: number, height: number): Piece {
+  return {
+    name,
+    onFold: true,
+    edges: [
+      { kind: "line", name: "centerBack", start: point(0, height), end: point(0, 0) },
+      { kind: "line", name: "collar", start: point(0, 0), end: point(necklineLength, 0) },
+      { kind: "line", name: "frontEnd", start: point(necklineLength, 0), end: point(necklineLength, height) },
+      { kind: "line", name: "neckline", start: point(necklineLength, height), end: point(0, height) },
+    ],
+    marks: [lineMark("placementLine", "centerMatch", point(0, 0), point(0, height), "PLACE ON FOLD")],
+  };
+}
+
+/** One half of a pointed collar leaf, also cut on the centre-back fold. The
+ * base intentionally equals the stand's collar edge; only the outer edge
+ * flares to make the two front tips. */
+function collarPiece(name: string, necklineLength: number, depth: number): Piece {
+  return {
+    name,
+    onFold: true,
+    edges: [
+      { kind: "line", name: "centerBack", start: point(0, depth), end: point(0, 0) },
+      { kind: "line", name: "stand", start: point(0, 0), end: point(necklineLength, 0) },
+      { kind: "line", name: "frontTip", start: point(necklineLength, 0), end: point(necklineLength + COLLAR_TIP_FLARE, depth) },
+      { kind: "line", name: "outer", start: point(necklineLength + COLLAR_TIP_FLARE, depth), end: point(0, depth) },
+    ],
+    marks: [lineMark("placementLine", "centerMatch", point(0, 0), point(0, depth), "PLACE ON FOLD")],
+  };
+}
+
+function poloCollarStitches(): readonly Stitch[] {
+  return [
+    {
+      label: "Outer stand ↔ polo neckline",
+      a: iface(edgeRef("outerStand", "neckline")),
+      b: iface(edgeRef("front", "neckline"), edgeRef("back", "neckline")),
+    },
+    {
+      label: "Under collar ↔ outer stand",
+      a: iface(edgeRef("underCollar", "stand")),
+      b: iface(edgeRef("outerStand", "collar")),
+    },
+    {
+      label: "Upper collar ↔ inner stand",
+      a: iface(edgeRef("upperCollar", "stand")),
+      b: iface(edgeRef("innerStand", "collar")),
+    },
+    {
+      label: "Collar outer seam (upper ↔ under)",
+      a: iface(edgeRef("upperCollar", "frontTip"), edgeRef("upperCollar", "outer")),
+      b: iface(edgeRef("underCollar", "frontTip"), edgeRef("underCollar", "outer")),
+    },
+  ];
+}
+
+/** Completes the Slice 70 draft. Four layer pieces are emitted instead of a
+ * metadata-only “cut two”, so nesting/export have actual physical quantities. */
+export function draftPolo(m: Measurements, rawOptions: Partial<PoloOptions> = {}): Block {
+  const options = resolvePoloOptions(rawOptions);
+  const shell = draftPoloShell(m, options);
+  const necklineLength = edgeLength(pieceEdge(shell.roles.front, "neckline")) +
+    edgeLength(pieceEdge(shell.roles.back, "neckline"));
+  const outerStand = standPiece("outer collar stand", necklineLength, options.standHeight);
+  const innerStand = standPiece("inner collar stand", necklineLength, options.standHeight);
+  const upperCollar = collarPiece("upper pointed collar", necklineLength, options.collarLeafDepth);
+  const underCollar = collarPiece("under pointed collar", necklineLength, options.collarLeafDepth);
+  return block({
+    ...shell.roles,
+    outerStand,
+    innerStand,
+    upperCollar,
+    underCollar,
+  }, [...shell.stitches, ...poloCollarStitches()]);
+}
+
+/** Polo-specific warnings. Every value stays drafted exactly as supplied; a
+ * warning names the correction rather than altering it behind the maker's back. */
+export function poloGuidance(block: Block, m: Measurements, rawOptions: Partial<PoloOptions> = {}): Note[] {
+  const options = resolvePoloOptions(rawOptions);
+  const notes = [...sleevedTopGuidance(block, m)];
+  for (const definition of POLO_OPTION_DEFINITIONS) {
+    const value = options[definition.id as keyof PoloOptions];
+    if (value < definition.min || value > definition.max) {
+      notes.push({ level: "warn", text: `${definition.label} (${value} cm) is outside V1's ${definition.min}–${definition.max} cm range — adjust it into that range.` });
+    }
+  }
+  const minimumLength = BUTTON_CENTRES[BUTTON_CENTRES.length - 1] + MIN_BUTTON_END_CLEARANCE;
+  if (options.placketLength < minimumLength) {
+    notes.push({ level: "warn", text: `Placket (${options.placketLength} cm) is too short for the fixed button group — increase it to at least ${minimumLength} cm.` });
+  }
+  const frontNeckline = edgeStart(pieceEdge(block.roles.front, "neckline"));
+  if (frontNeckline.y + options.placketLength > m.length - 2) {
+    notes.push({ level: "warn", text: `Placket reaches the hem allowance — shorten it to ${Math.max(0, m.length - 2 - frontNeckline.y)} cm or less.` });
+  }
+  if (options.standHeight > options.collarLeafDepth) {
+    notes.push({ level: "warn", text: "Stand is deeper than the collar leaf — reduce stand height or increase collar leaf depth." });
+  }
+  return notes;
 }

@@ -154,6 +154,17 @@ corresponding placket attachment line. Each placket's sew outline is 8 cm wide:
 1 cm turn-under. This is an engineering construction decision for V1, pending
 physical sewing; it is not claimed as a sourced universal placket formula.
 
+### Slice 70 collar/stand resolution
+
+The stand and pointed collar are each drafted as two physical half-pieces on
+the centre-back fold: outer/inner stand plus upper/under collar. A half stand's
+neckline edge is set to the measured sum of the true front and back neckline
+edges; each collar base is set to that same length. The V1 pattern therefore
+proves every declared collar, stand, neckline, placket, body, and sleeve stitch
+length digitally. Its straight half-band stand is an engineering first draft,
+not proof of collar roll or stabilized-knit behavior. Physical sewing must still
+validate roll, stand shaping, placket flatness, and recovery before production.
+
 ## Sources
 
 1. Maelo Studio, “How to Sew a Polo Shirt,” 2026,

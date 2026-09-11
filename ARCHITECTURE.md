@@ -30,6 +30,16 @@ remains deliberately exterior-edge-only. `PoloOptions` keeps live dimensions
 outside `Measurements`; values pass through unchanged, awaiting Slice 70's
 guidance guardrails and collar/stand geometry.
 
+Slice 70: `draftPolo()` layers a pair of cut-on-fold stand pieces and a pair of
+cut-on-fold pointed-collar pieces over `draftPoloShell()`. Physical quantities
+are roles rather than passive “cut two” text, so a later nesting/export pass
+cannot silently omit a layer. Collar/stand interfaces use real exterior edges;
+only the slash-to-placket seam uses `MarkRef`. `poloGuidance()` is a pure,
+option-aware extension of normal sleeved-top guidance: values remain verbatim,
+then invalid V1 range, button-end clearance, hem clearance, and stand/leaf
+relationships get actionable warnings. Recipe/UI pipeline integration remains
+Slice 71/72 work.
+
 **Governing plan:** as of Slice 44, `docs/planning/MVP-PLAN.md` (operative — the 6-month
 execution plan) and `docs/planning/ROADMAP.md` (strategic — competitor analysis + long-term
 scope + the cut list) are the current planning documents. This file describes
