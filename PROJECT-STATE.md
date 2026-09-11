@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 65 (Tank UX clarity fixes). Tank rework step 4
+_Last updated: after Slice 66 (finished Tank strap-width semantics). Tank rework step 4
 is complete for automated and rendered verification; physical sewn validation
 has not occurred. Update this after every slice (and commit it WITH the code)._
 
