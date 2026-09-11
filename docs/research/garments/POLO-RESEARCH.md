@@ -110,7 +110,12 @@ Physical validation remains unstarted._
   a neckline-following stand with an attached pointed collar leaf; a straight
   rectangular bar perpendicular to the neckline is not an acceptable Polo
   convention. The Pattern view uses shelves for the nine pieces so labels and
-  construction marks remain readable.
+  construction marks remain readable. Slice 76 digital review found that shelf
+  separation alone was insufficient at the narrow placket/collar scale: title
+  lanes now reserve width for long component names, compact mark labels sit
+  beside their geometry at a smaller scale, and Body/assembled schematics use
+  a neckline-following stand with collar points dropping onto the chest. This
+  remains a flat digital convention, not physical collar-roll evidence.
 
 ## Physical validation plan (deferred)
 

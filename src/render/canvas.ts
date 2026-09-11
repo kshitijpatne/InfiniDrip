@@ -66,17 +66,25 @@ function placePolo(pieces: readonly Piece[]): { placed: Placed[]; width: number;
   let y = MARGIN_TOP;
   let maxW = 0;
   const placed: Placed[] = [];
+  const labelBand = 6;
   for (const row of rows) {
     let x = MARGIN_X;
     let maxH = 0;
     for (const piece of row) {
       const b = pieceBounds(piece);
-      placed.push({ piece, tx: x - b.minX, ty: y - b.minY, vx: x, vy: y, w: b.width, h: b.height });
-      x += b.width + GAP;
+      // Long names such as BUTTONHOLE PLACKET must own a wider title lane
+      // than their narrow pattern piece. The piece stays centred in that lane
+      // so title, component, and construction labels cannot collide.
+      const titleWidth = piece.name.length * 1.35 + 4;
+      const slotW = Math.max(b.width, titleWidth);
+      const pieceX = x + (slotW - b.width) / 2;
+      const pieceY = y + labelBand;
+      placed.push({ piece, tx: pieceX - b.minX, ty: pieceY - b.minY, vx: pieceX, vy: pieceY, w: b.width, h: b.height });
+      x += slotW + GAP;
       maxH = Math.max(maxH, b.height);
     }
     maxW = Math.max(maxW, x - GAP + MARGIN_X);
-    y += maxH + 12;
+    y += maxH + labelBand + 12;
   }
   return { placed, width: maxW, height: y - 12 + MARGIN_X };
 }
@@ -113,7 +121,9 @@ function renderPiece(p: Placed, isActive: boolean, notchTable: readonly PieceNot
     ? `<circle cx="${round(dart.apex.x)}" cy="${round(dart.apex.y)}" r="0.9" fill="none" ` +
       `stroke="${T.marker}" stroke-width="1" vector-effect="non-scaling-stroke"/>`
     : "";
-  const marks = patternMarksSvg(p.piece.marks, { stroke: T.marker, width: 0.9, pointSize: 0.7, labelSize: 2.1 });
+  const marks = patternMarksSvg(p.piece.marks, {
+    stroke: T.marker, width: 0.9, pointSize: 0.7, labelSize: 1.5, labelPlacement: "offset",
+  });
   const group = `<g transform="translate(${round(p.tx)} ${round(p.ty)})">${cut}${path}${notches}${grain}${dartMark}${marks}</g>`;
   const label = svgText(p.vx + p.w / 2, p.vy - 2.5, p.piece.name.toUpperCase(), T.label, 2.6);
   const fold = p.piece.onFold ? foldMark(p.vx, p.vy, p.h) : "";

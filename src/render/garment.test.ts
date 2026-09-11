@@ -114,6 +114,8 @@ describe("renderGarment — real strap position for a sleeveless garment (Slice 
 });
 
 describe("renderGarment — Polo V1", () => {
+  const POLO = { placketLength: 14, placketWidth: 3, standHeight: 2, collarLeafDepth: 5 };
+
   it("shows selected finished collar, stand, placket, and three buttons only on the front", () => {
     const svg = renderGarment(STANDARD_M, "#123456", true, NECKLINE_DEFAULT, NECKLINE_DEFAULT, undefined, {
       placketLength: 14, placketWidth: 3, standHeight: 2, collarLeafDepth: 5,
@@ -134,5 +136,12 @@ describe("renderGarment — Polo V1", () => {
     });
     expect(long).not.toBe(short);
     expect(long).toContain('width="4" height="20"');
+  });
+
+  it("keeps the neckline-following stand valid for a V neckline too", () => {
+    const svg = renderGarment(STANDARD_M, "#123456", true,
+      { shape: "v", widthEase: 0, frontDrop: 0 }, NECKLINE_DEFAULT, undefined, POLO);
+    expect(svg).toContain("L 0");
+    expect(svg).toContain('data-edge="option-standHeight"');
   });
 });

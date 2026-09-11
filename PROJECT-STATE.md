@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 75 (prevent dev-server module-resolution breakage).
+_Last updated: after Slice 76 (Polo pattern and collar schematic cleanup).
 Tank rework
 step 4 is complete for automated and rendered verification; physical sewn
 validation has not occurred and is intentionally deferred. Update this after
@@ -255,6 +255,15 @@ F1. **(Fable) Real-world export system** — two new writers on the existing exp
     existing Vite `dist/` output. Physical sampling remains deferred.
     Gate: full test suite, 100% coverage, production build, clean source tree,
     and fresh dev-server DOM load.
+76. Polo digital reference cleanup — the Pattern canvas now gives each narrow
+    placket/collar component a title lane sized for its label, and construction
+    labels are reduced and offset beside compact marks. The Body and assembled
+    schematics now draw a neckline-following stand with collar leaves pointing
+    down onto the chest, matching the real polo convention shown in the
+    reference sketches. This is a digital schematic correction only; physical
+    sampling remains deferred.
+    Gate: focused render tests, full coverage, typecheck, production build, and
+    fresh browser screenshots of Pattern, Body, and assembled views.
 63. Tank rework, step 3 — real strap/armhole geometry for the tank, AND a
     scope change requested by Kshitij mid-slice that reshaped the whole
     approach: rather than the engine picking a single "correct" strap width

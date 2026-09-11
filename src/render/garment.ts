@@ -106,7 +106,7 @@ function renderOne(m: Measurements, position: "front" | "back", fabric: string,
     `vector-effect="non-scaling-stroke"/>`;
   const seams = hasSleeve ? armholeSeams(m) : "";
   const group = `<g transform="translate(${round(cx)} ${round(top)})">${path}${seams}` +
-    (position === "front" && polo ? poloFrontDetails(m, polo) : "") + `</g>`;
+    (position === "front" && polo ? poloFrontDetails(m, neckline, polo) : "") + `</g>`;
   const tag = `<text x="${round(cx)}" y="${round(top - 3)}" fill="${T.label}" ` +
     `font-size="2.6" font-family="system-ui, sans-serif" text-anchor="middle">${label}</text>`;
   return group + tag;
@@ -114,12 +114,12 @@ function renderOne(m: Measurements, position: "front" | "back", fabric: string,
 
 /** Flat front view only: visible finished placket, fixed three buttons, and
  * collar/stand silhouette at the exact selected dimensions. No drape claim. */
-function poloFrontDetails(m: Measurements, polo: PoloVisual): string {
+function poloFrontDetails(m: Measurements, neckline: NecklineParams, polo: PoloVisual): string {
   const d = derive(m);
   return `<g color="rgba(0,0,0,0.5)">${poloDetailsSvg({
     neckWidthHalf: d.neckWidthHalf, frontNeckDepth: d.frontNeckDepth,
     shoulderHalf: d.shoulderHalf, armholeDepth: m.armholeDepth,
-    neckline: NECKLINE_DEFAULT, ...polo,
+    neckline, ...polo,
   })}</g>`;
 }
 

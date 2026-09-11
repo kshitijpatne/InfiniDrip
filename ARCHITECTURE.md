@@ -80,6 +80,13 @@ the sole renderer build, so `npm run build` cannot place compiled `.js` siblings
 beside TypeScript sources and alter Vite's module-resolution choice for a dev
 server.
 
+Slice 76: Polo's Pattern canvas layout is a presentation concern layered over
+the unchanged piece geometry. Polo slots reserve a title lane based on the
+component label, while compact construction-mark labels can render beside their
+mark. The shared Polo preview helper now draws the stand as two neckline-following
+edges and the collar leaves down onto the front; it does not alter drafted pieces,
+stitches, allowances, or exports.
+
 **Governing plan:** as of Slice 44, `docs/planning/MVP-PLAN.md` (operative — the 6-month
 execution plan) and `docs/planning/ROADMAP.md` (strategic — competitor analysis + long-term
 scope + the cut list) are the current planning documents. This file describes

@@ -61,6 +61,8 @@ describe("renderBlueprint with non-tshirt pieces", () => {
     expect(svg).toContain('viewBox="0 0');
     const transforms = [...svg.matchAll(/<g transform="translate\([^ ]+ ([^)]*)\)"/g)].map((m) => Number(m[1]));
     expect(new Set(transforms).size).toBeGreaterThan(1);
+    expect(svg).toContain('font-size="1.5"');
+    expect(Number(svg.match(/viewBox="0 0 ([^ ]+)/)?.[1])).toBeGreaterThan(100);
   });
 
   it("renders a piece with no notch recipe without crashing or drawing notches", () => {

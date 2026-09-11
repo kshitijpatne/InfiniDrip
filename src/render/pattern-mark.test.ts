@@ -28,4 +28,13 @@ describe("patternMarksSvg", () => {
     expect(svg).toContain("CUT SLIT");
     expect(svg).toContain('x1="5"');
   });
+
+  it("can move compact-mark labels beside their geometry", () => {
+    const svg = patternMarksSvg([
+      lineMark("cutLine", "slit", point(0, 0), point(0, 14), "CUT SLIT"),
+      pointMark("button", "button-1", point(3, 4), "BUTTON 1"),
+    ], { ...STYLE, labelPlacement: "offset" });
+    expect(svg).toContain('text-anchor="start"');
+    expect(svg).toContain('font-size="1.6"');
+  });
 });
