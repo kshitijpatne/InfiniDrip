@@ -3,6 +3,14 @@
 How the app fits together, in plain language. Read the top to re-orient; skim the
 layers when you need detail. Updated every slice with only need-to-know changes.
 
+Slice 67: `renderBodyPair()` is the Body-tab composition boundary. It renders
+front and back schematics side by side, passing each recipe's derived neckline
+and the same live measurements into `renderBody()`. `renderBody()` accepts a
+front/back position so depth and metadata stay honest: Tank neck-drop is
+front-only, while shared width/strap/armhole geometry and hover ownership remain
+available on both panels. The existing nesting utilization percentage was
+verified as already shipped, so no duplicate nesting change was introduced.
+
 **Governing plan:** as of Slice 44, `docs/planning/MVP-PLAN.md` (operative — the 6-month
 execution plan) and `docs/planning/ROADMAP.md` (strategic — competitor analysis + long-term
 scope + the cut list) are the current planning documents. This file describes

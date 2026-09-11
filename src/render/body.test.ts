@@ -1,8 +1,8 @@
 // @vitest-environment jsdom
 import { describe, it, expect } from "vitest";
 import { STANDARD_M, derive, necklineEdge, NECKLINE_DEFAULT } from "../drafting";
-import { tankFrontNeckline } from "../drafting/tank";
-import { renderBody } from "./body";
+import { tankFrontNeckline, tankBackNeckline } from "../drafting/tank";
+import { renderBody, renderBodyPair } from "./body";
 
 const svg = renderBody(STANDARD_M);
 
@@ -10,6 +10,12 @@ const viewBoxOf = (s: string): number[] =>
   s.match(/viewBox="([-\d. ]+)"/)![1].split(" ").map(Number);
 
 describe("renderBody", () => {
+  it("renders front and back figures together for Body view", () => {
+    const pair = renderBodyPair(STANDARD_M, false, tankFrontNeckline(STANDARD_M), tankBackNeckline(STANDARD_M), STANDARD_M.strapWidth);
+    expect(pair).toContain(">Front<");
+    expect(pair).toContain(">Back<");
+    expect((pair.match(/<svg/g) ?? []).length).toBe(2);
+  });
   it("returns a self-contained SVG with a viewBox", () => {
     expect(svg.startsWith("<svg")).toBe(true);
     expect(svg).toContain('xmlns="http://www.w3.org/2000/svg"');

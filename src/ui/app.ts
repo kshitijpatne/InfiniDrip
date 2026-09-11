@@ -6,7 +6,7 @@ import { Measurements, STANDARD_M, Piece, STRETCH_FABRICS, fabricEaseNote } from
 import { gradeRun, draftAtSize, specSheet, GARMENTS, GarmentRecipe, garmentByName } from "../drafting";
 import { blockPieces, rolePiece } from "../drafting";
 import { exportSvg, exportDxf, exportPdf, exportTechPack, exportProjectorSvg, exportA0Pdf, flattenPiece, nestPieces, gradedMarker } from "../export";
-import { renderBlueprint, renderGarment, renderNest, renderFabricNest, renderEditor, renderBody, renderSkirtGarment, renderSkirtBody, DEFAULT_FABRIC } from "../render";
+import { renderBlueprint, renderGarment, renderNest, renderFabricNest, renderEditor, renderBodyPair, renderSkirtGarment, renderSkirtBody, DEFAULT_FABRIC } from "../render";
 import { pieceHandles, moveHandle, nearestHandle, editorViewBox, viewboxPointToCm, Handle } from "../edit";
 import { dartOf, transferDart, trueSeam, edgesMeet } from "../drafting";
 import { BLUEPRINT } from "../render";
@@ -134,7 +134,7 @@ export function mountApp(root: HTMLElement): void {
         specSheet(graded, recipe.poms), graded.map((g) => g.label), baseIndex);
     } else if (view === "body") {
       canvasHost.innerHTML = isTop
-        ? renderBody(measurements, hasSleeve, recipe.frontNeckline?.(measurements), recipe.strapWidth?.(measurements))
+        ? renderBodyPair(measurements, hasSleeve, recipe.frontNeckline?.(measurements), recipe.backNeckline?.(measurements), recipe.strapWidth?.(measurements))
         : renderSkirtBody(measurements);
     } else {
       const block = recipe.draft(measurements);

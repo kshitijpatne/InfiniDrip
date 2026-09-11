@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 66 (finished Tank strap-width semantics). Tank rework step 4
+_Last updated: after Slice 67 (front/back Body view). Tank rework step 4
 is complete for automated and rendered verification; physical sewn validation
 has not occurred. Update this after every slice (and commit it WITH the code)._
 
@@ -155,6 +155,12 @@ F1. **(Fable) Real-world export system** — two new writers on the existing exp
     then polo. Slice 66 resolved strap semantics: `strapWidth` is finished
     span from neckline edge to armhole start; v1 saves migrate old strap-point
     values to this span under save version 2.
+67. Tank/pre-polo Body view — Body tab now renders labeled Front and Back
+    schematics together. Each panel uses the active recipe's derived neckline,
+    exact tank armhole curve, and shared measurement hover metadata; front-only
+    `neckDrop` guidance is not shown on the back. Existing nesting utilization
+    readout was re-verified and required no new implementation. Physical sewn
+    validation remains outstanding.
 63. Tank rework, step 3 — real strap/armhole geometry for the tank, AND a
     scope change requested by Kshitij mid-slice that reshaped the whole
     approach: rather than the engine picking a single "correct" strap width

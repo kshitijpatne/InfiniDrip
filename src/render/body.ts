@@ -82,7 +82,7 @@ const lerp = (a: number, b: number, t: number): number => a + (b - a) * t;
  *  closed for the neckline, found here for the strap. */
 export function renderBody(
   m: Measurements, hasSleeve = true, frontNeckline: NecklineParams = NECKLINE_DEFAULT,
-  strapWidth?: number
+  strapWidth?: number, position: "front" | "back" = "front"
 ): string {
   const d = derive(m);
   const shoulderHalf = d.shoulderHalf;
@@ -94,7 +94,7 @@ export function renderBody(
   // The real front collar geometry — the same necklineEdge() the actual
   // bodice draft calls, so this view can't silently diverge from it again.
   const { cNeck, hps, edge: neckEdge } =
-    necklineEdge("front", d.neckWidthHalf, d.frontNeckDepth, shoulderHalf, ad, frontNeckline);
+    necklineEdge(position, d.neckWidthHalf, position === "front" ? d.frontNeckDepth : d.backNeckDepth, shoulderHalf, ad, frontNeckline);
   const neckHalf = hps.x; // where the collar meets the shoulder — real, not a proportion of shoulderWidth
   const strapX = strapWidth === undefined ? shoulderHalf : neckHalf + strapWidth;
   const tankArmhole = !hasSleeve && strapWidth !== undefined
@@ -179,7 +179,7 @@ export function renderBody(
       txt(bOut.x + 2, bOut.y - 1, `Bicep ${m.bicep} (circ)`, "start")) : "") +
     (!hasSleeve ? dim("strapWidth",
       dimH(neckHalf, strapX, slope - 3, `Strap width ${m.strapWidth}`)) : "") +
-    (!hasSleeve ? dim("neckDrop",
+    (!hasSleeve && position === "front" ? dim("neckDrop",
       dimV(-neckHalf - 5, 0, cNeck.y, `Neck depth ${m.neckDrop}`, "left")) : "") +
     (!hasSleeve ? dim("neckWidthEase",
       dimH(-neckHalf, neckHalf, -4, `Neck width Δ ${m.neckWidthEase}`)) : "");
@@ -213,7 +213,7 @@ export function renderBody(
     edge("chest", bothArms((sx) => seg(sx * bodyHalf, ad, sx * bodyHalf, len, 1.4))) +
     edge("length", seg(-bodyHalf, len, bodyHalf, len, 1.4)) +
     (!hasSleeve ? edge("strapWidth", bothArms((sx) => seg(sx * neckHalf, 0, sx * strapX, slope, 1.4))) : "") +
-    (!hasSleeve ? edge("neckDrop", neckHighlight()) : "") +
+    (!hasSleeve && position === "front" ? edge("neckDrop", neckHighlight()) : "") +
     (!hasSleeve ? edge("neckWidthEase", neckHighlight()) : "") +
     (hasSleeve ? edge("sleeveLength", bothArms((sx) => seg(sx * a1.x, a1.y, sx * a2.x, a2.y, 1.2))) : "") +
     (hasSleeve ? edge("bicep", bothArms((sx) => seg(sx * a2.x, a2.y, sx * a3.x, a3.y, 1.2))) : "");
@@ -238,4 +238,18 @@ export function renderBody(
     `<g data-edge="figure">${head + arms + torsoPath}</g>` +
     edges + dims +
     `</svg>`;
+}
+
+/** Front and back schematic figures, sharing the same measurement spotlight map. */
+export function renderBodyPair(
+  m: Measurements, hasSleeve = true,
+  frontNeckline: NecklineParams = NECKLINE_DEFAULT,
+  backNeckline: NecklineParams = NECKLINE_DEFAULT,
+  strapWidth?: number
+): string {
+  return `<div style="display:flex;gap:8px;width:100%">` +
+    `<div style="flex:1;min-width:0"><div style="font-size:11px;color:${T.label};text-transform:uppercase;text-align:center;margin-bottom:4px">Front</div>` +
+    renderBody(m, hasSleeve, frontNeckline, strapWidth, "front") + `</div>` +
+    `<div style="flex:1;min-width:0"><div style="font-size:11px;color:${T.label};text-transform:uppercase;text-align:center;margin-bottom:4px">Back</div>` +
+    renderBody(m, hasSleeve, backNeckline, strapWidth, "back") + `</div></div>`;
 }
