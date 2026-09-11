@@ -1,6 +1,7 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 67 (front/back Body view). Tank rework step 4
+_Last updated: after Slice 67 (front/back Body view); polo V1 scoping is active.
+Tank rework step 4
 is complete for automated and rendered verification; physical sewn validation
 has not occurred. Update this after every slice (and commit it WITH the code)._
 
@@ -20,6 +21,13 @@ requires a durable research document equivalent to
 `docs/research/ASSET-RESOURCES.md` supersedes
 `apparel_design_resources.md`. See `docs/PROJECT-DECISIONS.md` for the durable
 record.
+
+**Polo V1 scoping (2026-09-11):** collar-plus-stand, loose tee body/current
+sleeve, and a self-knit lightly stabilized folded placket are locked. Finished
+placket is 14 cm × 3 cm with three buttons at 3.5 cm centres. The research
+record (`docs/research/garments/POLO-RESEARCH.md`) and build contract
+(`docs/planning/POLO-V1-SCOPE.md`) identify four remaining geometry decisions;
+no polo code begins until those are resolved.
 
 ## What it is
 A lightweight, local 2D sewing-pattern designer in TypeScript. Type body

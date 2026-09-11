@@ -21,6 +21,19 @@ No physical garment validation has occurred yet. No garment drafted by InfiniDri
 has been confirmed by cutting, sewing, and fitting it on a real body. This remains
 the project's highest product risk and must not be represented as complete.
 
+## Polo V1 — confirmed 2026-09-11
+
+- Construction is **collar plus stand**.
+- Base is the loose tee with the current tee sleeve.
+- Placket is visible, clean, folded, uses the same body knit with lightweight
+  stabilizer, and finishes at 14 cm long × 3 cm wide.
+- It has exactly three buttons at 3.5 cm centre-to-centre.
+- Meaningful polo dimensions must be user-adjustable with guardrails.
+
+Remaining geometry decisions and the build contract live in
+`research/garments/POLO-RESEARCH.md` and `planning/POLO-V1-SCOPE.md`; do not
+invent their defaults during implementation.
+
 ## Garment research
 
 `docs/research/garments/TANK-RESEARCH.md` is durable project documentation.
