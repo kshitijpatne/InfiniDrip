@@ -34,7 +34,7 @@ const BASELINE: Record<string, string> = {
   "fitted.svg": "cd16df87d100a40866e20738f858d3f11fdc3238ba0db88d99ca3a46f981a09c",
   "fitted.dxf": "e2dd0a36ea6d834a0aec470918f4ba2b823136c13998966a8f04ddeda085a8a6",
   "fitted.pdf": "184dcd975bb8067b452370c78748045384bb18fa8f89f7ca1d4a583b9d0190ff",
-  "fitted.techpack": "a32bc158c8ba26cafbe1165ee441a45fecc0558db245a4b4d309382308a267ff", // slice 62: neckline curve fix
+  "fitted.techpack": "8e89320bfa235c44ebb481b01012a43c7c1614ce27608ccbb49df31369bca8d2", // slice 65: product label clarified to Darted tee
 };
 
 for (const name of ["tee", "fitted"]) {

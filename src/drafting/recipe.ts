@@ -150,7 +150,7 @@ export const TEE: GarmentRecipe = {
 
 export const FITTED: GarmentRecipe = {
   name: "fitted",
-  label: "Fitted",
+  label: "Darted tee",
   fields: ["chest", "shoulderWidth", "bicep", "length", "armholeDepth", "sleeveLength", "ease"],
   styles: TEE_STYLES,
   draft: draftFitted,

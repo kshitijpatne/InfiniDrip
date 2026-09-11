@@ -94,7 +94,7 @@ describe("exportTechPack", () => {
   it("works for the fitted garment and includes its dart construction step", () => {
     const fit = exportTechPack(FITTED, STANDARD_M);
     expect(fit.startsWith("%PDF-1.4")).toBe(true);
-    expect(fit).toContain("(Fitted - Tech Pack)");
+    expect(fit).toContain("(Darted tee - Tech Pack)");
     expect(fit).toContain("(2. Sew the bust darts; press them toward the hem.)");
   });
 

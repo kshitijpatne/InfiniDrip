@@ -124,7 +124,7 @@ export function journeyChecklist(
     {
       label: "Garment picked",
       done: true,
-      next: "Switch any time with the Tee / Fitted toggle.",
+      next: "Switch any time between Tee and Darted tee.",
     },
     {
       label: "Measurements plausible",

@@ -129,8 +129,8 @@ describe("renderBody — sleeveless (Slice 60)", () => {
     expect(sleeveless).toContain("viewBox=");
   });
 
-  it("draws only the torso path — no arm quads", () => {
-    expect(sleeveless.match(/<path/g)!.length).toBe(1);
+  it("draws torso plus neckline hover overlays — no arm quads", () => {
+    expect(sleeveless.match(/<path/g)!.length).toBe(3);
   });
 
   it("carries no Sleeve or Bicep dimension/edge — neither measurement drives this garment", () => {

@@ -770,3 +770,10 @@ translates its line/curve edge into both body and assembled previews so visual
 evidence cannot drift from the drafted piece. `GarmentRecipe.techPackForFabric`
 allows materials and construction to follow the selected fabric family while
 preserving a recipe's default pack for callers that have no fabric selection.
+
+**Slice 65 makes those controls legible in use.** Body-view hover metadata now
+owns Tank strap, armhole, and neckline regions with the same exact paths as the
+silhouette. Controls expose finished chest/hip totals beside the user-owned
+ease input. The `fitted` recipe id remains stable for saved data, while its
+product label is `Darted tee` so construction method is not confused with a
+style target such as `Fitted tee`.

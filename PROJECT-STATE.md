@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 64 (Tank reality-check fixes). Tank rework step 4
+_Last updated: after Slice 65 (Tank UX clarity fixes). Tank rework step 4
 is complete for automated and rendered verification; physical sewn validation
 has not occurred. Update this after every slice (and commit it WITH the code)._
 
@@ -9,9 +9,9 @@ has not occurred. Update this after every slice (and commit it WITH the code)._
 list) are the current planning documents, added after Slice 44. This file
 remains the engineering status log; it does not restate their content.
 
-**Maintainer decisions confirmed after the Slice 64 handoff:** no physical
-garment validation has occurred; the sequence is Slice 64 reality-check → fix
-any real-world failures → build polo end-to-end → Phase C3; Tank neckline width
+**Maintainer decisions confirmed after the Slice 65 handoff:** no physical
+garment validation has occurred; the sequence is physical Tank validation →
+fix any real-world failures → build polo end-to-end → Phase C3; Tank neckline width
 must become user-adjustable; every meaningful garment aspect should be
 adjustable, with invalid combinations detected by guidance and paired with
 actionable corrections; code signing has not started; every future garment
@@ -146,6 +146,13 @@ F1. **(Fable) Real-world export system** — two new writers on the existing exp
     build, and parsed visual/export evidence. Physical sewn validation remains
     outstanding. Next: polo end-to-end, unless physical validation finds a
     Tank failure first.
+65. Tank UX clarity — completed Body-view hover ownership for `strapWidth`,
+    `neckDrop`, and `neckWidthEase`, including exact curved armhole/neckline
+    overlays. Controls now show the derived finished chest/hip result so ease
+    is understood as wearing room, while drafting math remains unchanged.
+    Renamed the product-facing Fitted garment to Darted tee; recipe id and
+    geometry remain stable. Added UI tests. Next: physical Tank validation,
+    then polo, unless the maintainer chooses a different naming/strap semantic.
 63. Tank rework, step 3 — real strap/armhole geometry for the tank, AND a
     scope change requested by Kshitij mid-slice that reshaped the whole
     approach: rather than the engine picking a single "correct" strap width

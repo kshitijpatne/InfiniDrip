@@ -43,8 +43,13 @@ export function controlsMarkup(m: Measurements, fields: readonly (keyof Measurem
     .filter((f): f is Field => f !== undefined)
     .map((f) => field(f.id, f.label, m[f.id], f.min, f.max, f.step))
     .join("");
+  const finished = fields.includes("chest")
+    ? `<div style="font-size:11.5px;color:${T.label};margin-top:2px;margin-bottom:8px">Finished chest: <span style="color:${T.line};font-family:ui-monospace,monospace">${m.chest + m.ease} cm</span></div>`
+    : fields.includes("hip")
+      ? `<div style="font-size:11.5px;color:${T.label};margin-top:2px;margin-bottom:8px">Finished hip: <span style="color:${T.line};font-family:ui-monospace,monospace">${m.hip + m.ease} cm</span></div>`
+      : "";
   return `<div id="controls-panel" style="flex:0 0 220px;background:${PANEL};border:1px solid ${BORDER};` +
-    `border-radius:10px;padding:14px">${panelTitle("Measurements (cm)")}${rows}</div>`;
+    `border-radius:10px;padding:14px">${panelTitle("Measurements (cm)")}${rows}${finished}</div>`;
 }
 
 const DOT: Record<Note["level"], string> = { ok: OK, info: T.label, warn: T.lineActive };

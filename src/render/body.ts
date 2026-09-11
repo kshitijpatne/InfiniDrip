@@ -156,6 +156,15 @@ export function renderBody(
   // reads, so the UI can highlight "the chest line" when the chest slider is
   // focused. `ease` has no body dimension — it isn't a body measurement.
   const dim = (field: string, body: string): string => `<g data-dim="${field}">${body}</g>`;
+  const armholeHighlight = (sx: number): string => {
+    const edge = tankArmhole as Extract<NonNullable<typeof tankArmhole>, { kind: "curve" }>;
+    const c = edge.curve;
+    const d = sx === 1
+      ? `M ${round(c.start.x)} ${round(c.start.y)} ${armholePathCommand(edge)}`
+      : `M ${round(-c.end.x)} ${round(c.end.y)} ${armholePathCommand(edge, true)}`;
+    return `<path d="${d}" fill="none" stroke="${T.line}" stroke-width="1.4" ` +
+      `stroke-linecap="round" vector-effect="non-scaling-stroke"/>`;
+  };
   const dims =
     dim("shoulderWidth", dimH(-shoulderHalf, shoulderHalf, headTop - 3, `Shoulder ${m.shoulderWidth}`)) +
     dim("chest", dimH(-bodyHalf, bodyHalf, ad + (len - ad) * 0.22, `Chest ${m.chest} (circ)`)) +
@@ -166,7 +175,13 @@ export function renderBody(
       txt((a2.x + a3.x) / 2 + 2, (a2.y + a3.y) / 2, `Sleeve ${m.sleeveLength}`, "start")) : "") +
     (hasSleeve ? dim("bicep",
       line(bIn.x, bIn.y, bOut.x, bOut.y, T.marker) +
-      txt(bOut.x + 2, bOut.y - 1, `Bicep ${m.bicep} (circ)`, "start")) : "");
+      txt(bOut.x + 2, bOut.y - 1, `Bicep ${m.bicep} (circ)`, "start")) : "") +
+    (!hasSleeve ? dim("strapWidth",
+      dimH(0, strapX, slope - 3, `Strap point ${m.strapWidth}`)) : "") +
+    (!hasSleeve ? dim("neckDrop",
+      dimV(-neckHalf - 5, 0, cNeck.y, `Neck depth ${m.neckDrop}`, "left")) : "") +
+    (!hasSleeve ? dim("neckWidthEase",
+      dimH(-neckHalf, neckHalf, -4, `Neck width Δ ${m.neckWidthEase}`)) : "");
 
   // The measurement→EDGES map, the sibling of the measurement→dimension-line map
   // above: the dimension line says what a number IS, these say what it SHAPES.
@@ -185,12 +200,20 @@ export function renderBody(
   // arrow above the head) is unaffected — the person's real shoulder width
   // hasn't changed, only which edge of the outline it highlights.
   const edge = (field: string, body: string): string => `<g data-edge="${field}">${body}</g>`;
+  const neckHighlight = (): string => `<path d="M ${round(-hps.x)} 0 ${necklinePathCommand(cNeck, hps, neckEdge)}" ` +
+    `fill="none" stroke="${T.line}" stroke-width="1.4" stroke-linecap="round" ` +
+    `vector-effect="non-scaling-stroke"/>`;
   const bothArms = (fn: (sx: number) => string): string => fn(1) + fn(-1);
   const edges =
     edge("shoulderWidth", bothArms((sx) => seg(sx * neckHalf, 0, sx * strapX, slope, 1.4))) +
-    edge("armholeDepth", bothArms((sx) => seg(sx * strapX, slope, sx * bodyHalf, ad, 1.4))) +
+    edge("armholeDepth", tankArmhole
+      ? armholeHighlight(1) + armholeHighlight(-1)
+      : bothArms((sx) => seg(sx * strapX, slope, sx * bodyHalf, ad, 1.4))) +
     edge("chest", bothArms((sx) => seg(sx * bodyHalf, ad, sx * bodyHalf, len, 1.4))) +
     edge("length", seg(-bodyHalf, len, bodyHalf, len, 1.4)) +
+    (!hasSleeve ? edge("strapWidth", bothArms((sx) => seg(sx * neckHalf, 0, sx * strapX, slope, 1.4))) : "") +
+    (!hasSleeve ? edge("neckDrop", neckHighlight()) : "") +
+    (!hasSleeve ? edge("neckWidthEase", neckHighlight()) : "") +
     (hasSleeve ? edge("sleeveLength", bothArms((sx) => seg(sx * a1.x, a1.y, sx * a2.x, a2.y, 1.2))) : "") +
     (hasSleeve ? edge("bicep", bothArms((sx) => seg(sx * a2.x, a2.y, sx * a3.x, a3.y, 1.2))) : "");
 

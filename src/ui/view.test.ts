@@ -14,6 +14,17 @@ describe("controlsMarkup", () => {
     expect(html).toContain('data-field="ease"');
   });
 
+  it("explains ease as finished wearing room", () => {
+    const html = controlsMarkup(STANDARD_M, TEE.fields);
+    expect(html).toContain("Ease");
+    expect(html).toContain("Finished chest:");
+    expect(html).toContain("110 cm");
+  });
+
+  it("does not invent a finished-width summary for unrelated fields", () => {
+    expect(controlsMarkup(STANDARD_M, ["length", "ease"])).not.toContain("Finished chest");
+  });
+
   it("tags each measurement as body or finished (chest as a circumference)", () => {
     const html = controlsMarkup(STANDARD_M, TEE.fields);
     expect(html).toContain("body · circ"); // chest / bicep
