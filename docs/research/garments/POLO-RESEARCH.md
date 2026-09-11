@@ -144,6 +144,16 @@ carry per-garment design options separately from body measurements. No polo
 geometry exists yet; Slice 69 may now draft the real centre-front slit and
 placket pieces against this contract.
 
+### Slice 69 shell resolution
+
+The front remains cut on fold and carries a 14 cm internal `placketOpening`
+cut line from the actual centre-front neckline point. The two physical slit
+sides are declared individually through `MarkRef`, then measured against the
+corresponding placket attachment line. Each placket's sew outline is 8 cm wide:
+1 cm attachment allowance, 3 cm finished visible face, 3 cm inner facing, and
+1 cm turn-under. This is an engineering construction decision for V1, pending
+physical sewing; it is not claimed as a sourced universal placket formula.
+
 ## Sources
 
 1. Maelo Studio, “How to Sew a Polo Shirt,” 2026,

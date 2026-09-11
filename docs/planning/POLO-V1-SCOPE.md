@@ -1,7 +1,7 @@
 # Polo V1 — build contract
 
-_Status: Slice 68 complete. V1 geometry decisions are locked; Slice 69 is ready
-to draft the polo body opening and placket pieces._
+_Status: Slice 69 complete. V1 shell geometry is drafted; Slice 70 is ready
+to draft collar/stand geometry and option guardrails._
 
 ## Outcome
 
@@ -41,7 +41,7 @@ placket. It must remain a sewable pattern, not a decorative tee render.
 | Slice | Scope | Model | Exit proof |
 |---|---|---|---|
 | 68 | Pattern-mark / internal-cut-line capability; recipe-owned persisted garment options; no polo garment geometry | Terra medium | **Complete:** existing garments byte-identical; marks survive canvas, SVG, DXF, tiled PDF, A0, and projector |
-| 69 | Polo draft: front slit, body, sleeve reuse, placket pieces, allowances, raw stitch interfaces | Terra high | True geometry + all seam matches; no fake centre-front seam |
+| 69 | Polo draft: front slit, body, sleeve reuse, placket pieces, allowances, raw stitch interfaces | Terra high | **Complete:** true slit / placket geometry and every shell seam match; no fake centre-front seam |
 | 70 | Collar and stand draft; options + guardrails; collar/stand/neckline stitches | Terra high | Every interface measured; boundary warnings verified visually |
 | 71 | Polo recipe integration: POMs, notches, BOM, construction order, grading, nesting, checker | Terra medium | Full garment pipeline works in every view/output |
 | 72 | UI/persistence/Body and assembled rendering; visual evidence; hardened regression suite | Luna medium, Terra review | User controls own geometry; all pre-existing outputs unchanged |
@@ -54,6 +54,5 @@ export, or visual review.
 
 ## Build status
 
-All geometry decisions are resolved. Slice 69 begins with real polo front-slit
-and placket-piece geometry; it must use Slice 68 marks rather than a fake
-centre-front seam.
+Shell geometry is resolved. Slice 70 adds the real collar/stand and tests its
+interfaces against the existing neckline and placket geometry.

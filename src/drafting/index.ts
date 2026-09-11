@@ -29,3 +29,4 @@ export * from "./waistband";
 export * from "./tank";
 export * from "./pattern-mark";
 export * from "./options";
+export * from "./polo";

@@ -20,6 +20,16 @@ once. `GarmentOption` schemas belong to recipes, and save version 3 persists a
 map of numeric options by recipe id separately from `Measurements`. Polo is the
 first planned consumer; no Polo recipe or garment geometry exists in this slice.
 
+Slice 69: `polo.ts` drafts only Polo V1's resolved shell: front/back Bodice,
+actual tee Sleeve, internal centre-front slit, and separate button/buttonhole
+placket pieces. `MarkRef` extends a stitching `Interface` to name either an
+exterior edge or a specific left/right side of an internal line mark. This lets
+the two raw slit sides check against their real placket attachment lines without
+misrepresenting a cut-on-fold front as a centre-front seam. `matchedNotch()`
+remains deliberately exterior-edge-only. `PoloOptions` keeps live dimensions
+outside `Measurements`; values pass through unchanged, awaiting Slice 70's
+guidance guardrails and collar/stand geometry.
+
 **Governing plan:** as of Slice 44, `docs/planning/MVP-PLAN.md` (operative — the 6-month
 execution plan) and `docs/planning/ROADMAP.md` (strategic — competitor analysis + long-term
 scope + the cut list) are the current planning documents. This file describes

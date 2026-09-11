@@ -2,7 +2,8 @@ import { describe, it, expect } from "vitest";
 import { Piece } from "./piece";
 import { Block, block } from "./block";
 import { Point } from "../geometry";
-import { Stitch, edgeRef, iface, interfaceLength, stitchChecks, matchedNotch } from "./stitch";
+import { Stitch, edgeRef, iface, interfaceLength, markRef, stitchChecks, matchedNotch } from "./stitch";
+import { lineMark, pointMark } from "./pattern-mark";
 import { TEE, FITTED, SKIRT } from "./recipe";
 import { TSHIRT_NOTCHES } from "./tshirt-notches";
 import { FITTED_NOTCHES } from "./fitted-tables";
@@ -59,6 +60,22 @@ describe("interfaceLength", () => {
   it("throws the same loud error pieceEdge always has when an edge is missing", () => {
     const b: Block = block({ a: linePiece("A", { top: [p(0, 0), p(1, 0)] }) }, []);
     expect(() => interfaceLength(b, iface(edgeRef("a", "bottom")))).toThrow('no edge named "bottom"');
+  });
+
+  it("measures a named side of an internal sewable cut line", () => {
+    const b = block({ front: { ...linePiece("Front", { top: [p(0, 0), p(1, 0)] }), marks: [
+      lineMark("cutLine", "slit", p(0, 0), p(0, 14)),
+    ] } }, []);
+    expect(interfaceLength(b, iface(markRef("front", "slit", "left")))).toBeCloseTo(14, 6);
+    expect(interfaceLength(b, iface(markRef("front", "slit", "right")))).toBeCloseTo(14, 6);
+  });
+
+  it("fails loudly when an internal stitch reference is missing or not a line", () => {
+    const b = block({ front: { ...linePiece("Front", { top: [p(0, 0), p(1, 0)] }), marks: [
+      pointMark("button", "button", p(0, 0)),
+    ] } }, []);
+    expect(() => interfaceLength(b, iface(markRef("front", "missing", "left")))).toThrow('no mark named "missing"');
+    expect(() => interfaceLength(b, iface(markRef("front", "button", "left")))).toThrow('mark "button" is not a line');
   });
 });
 
@@ -133,6 +150,13 @@ describe("matchedNotch", () => {
 
   it("carries t through unchanged, including a non-default position", () => {
     expect(matchedNotch(s, "b", 0.75)).toEqual({ edgeName: "side", t: 0.75 });
+  });
+
+  it("rejects an internal mark where a rendered notch needs an exterior edge", () => {
+    const markStitch: Stitch = {
+      label: "Slit", a: iface(markRef("front", "slit", "left")), b: iface(edgeRef("back", "neckline")),
+    };
+    expect(() => matchedNotch(markStitch, "a", 0.5)).toThrow("requires an exterior edge");
   });
 });
 

@@ -17,6 +17,7 @@
 import { Block, rolePiece } from "./block";
 import { pieceEdge, edgeLength } from "./piece";
 import { CheckResult, matchLengths, inBand } from "../guidance/check";
+import { distance } from "../geometry";
 
 /** One named edge on one piece, addressed the same way the checker always has:
  *  by role ("front", "back", "sleeve") and edge name ("shoulder", "armhole"). */
@@ -26,14 +27,26 @@ export interface EdgeRef {
 }
 export const edgeRef = (piece: string, edge: string): EdgeRef => ({ piece, edge });
 
+/** A sewable internal cut line. A slash has two physical sides, so `side`
+ * keeps each attachment explicit while both sides measure the same line. */
+export interface MarkRef {
+  readonly piece: string;
+  readonly mark: string;
+  readonly side: "left" | "right";
+}
+export const markRef = (piece: string, mark: string, side: "left" | "right"): MarkRef =>
+  ({ piece, mark, side });
+
+export type InterfaceRef = EdgeRef | MarkRef;
+
 /** An ordered set of edges that acts as one connectable seam. Multi-edge on
  *  purpose, not a simplification added later: a darted front's side seam is
  *  two edges (sideUpper + sideLower), a sleeve cap is capLeft + capRight, and
  *  an armhole spans front AND back. All three are real, existing cases. */
 export interface Interface {
-  readonly edges: readonly EdgeRef[];
+  readonly edges: readonly InterfaceRef[];
 }
-export const iface = (...edges: readonly EdgeRef[]): Interface => ({ edges });
+export const iface = (...edges: readonly InterfaceRef[]): Interface => ({ edges });
 
 /**
  * Two interfaces sewn together. `ease`, when present, means the two sides are
@@ -52,7 +65,15 @@ export interface Stitch {
  *  single-edge interface is just that edge's length — the common case falls
  *  out of the general one for free. */
 export function interfaceLength(b: Block, i: Interface): number {
-  return i.edges.reduce((sum, r) => sum + edgeLength(pieceEdge(rolePiece(b, r.piece), r.edge)), 0);
+  return i.edges.reduce((sum, r) => sum + interfaceRefLength(rolePiece(b, r.piece), r), 0);
+}
+
+function interfaceRefLength(piece: ReturnType<typeof rolePiece>, ref: InterfaceRef): number {
+  if ("edge" in ref) return edgeLength(pieceEdge(piece, ref.edge));
+  const mark = piece.marks?.find((candidate) => candidate.name === ref.mark);
+  if (!mark) throw new Error(`Piece "${piece.name}" has no mark named "${ref.mark}"`);
+  if (!("start" in mark)) throw new Error(`Piece "${piece.name}" mark "${ref.mark}" is not a line`);
+  return distance(mark.start, mark.end);
 }
 
 /**
@@ -91,5 +112,9 @@ export function matchedNotch(
   t: number,
   edgeIndex = 0
 ): { readonly edgeName: string; readonly t: number } {
-  return { edgeName: stitch[side].edges[edgeIndex].edge, t };
+  const ref = stitch[side].edges[edgeIndex];
+  if (!ref || !("edge" in ref)) {
+    throw new Error("matchedNotch requires an exterior edge reference");
+  }
+  return { edgeName: ref.edge, t };
 }
