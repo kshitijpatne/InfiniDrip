@@ -12,6 +12,8 @@ import {
   derive,
   draftAtSize,
   rolePiece,
+  lineMark,
+  pointMark,
 } from "../drafting";
 import { resolveNotch } from "../render/notch";
 import { flattenPiece, polylineBounds } from "./layout";
@@ -220,5 +222,34 @@ describe("exportProjectorSvg — slot sizing sanity", () => {
     ).width;
     const [, , vw] = doc.documentElement.getAttribute("viewBox")!.split(" ").map(Number);
     expect(vw).toBeGreaterThan(widest);
+  });
+});
+
+describe("exportProjectorSvg construction marks", () => {
+  it("keeps an on-fold cut line singular and mirrors off-fold button placement", () => {
+    const marked: GarmentRecipe = {
+      ...TEE,
+      draft: (m) => {
+        const block = TEE.draft(m);
+        const front = rolePiece(block, "front");
+        return {
+          ...block,
+          roles: {
+            ...block.roles,
+            front: {
+              ...front,
+              marks: [
+                lineMark("cutLine", "slit", { x: 0, y: 0 }, { x: 0, y: 14 }, "CUT SLIT"),
+                pointMark("button", "button-1", { x: 2, y: 4 }, "BUTTON 1"),
+              ],
+            },
+          },
+        };
+      },
+    };
+    const parsed = new DOMParser().parseFromString(exportProjectorSvg(marked, STANDARD_M), "image/svg+xml");
+    expect(parsed.querySelectorAll('[data-pattern-mark-name="slit"]')).toHaveLength(TEE.sizes.length);
+    expect(parsed.querySelectorAll('[data-pattern-mark-name="button-1"]')).toHaveLength(TEE.sizes.length);
+    expect(parsed.querySelectorAll('[data-pattern-mark-name="button-1-mirror"]')).toHaveLength(TEE.sizes.length);
   });
 });

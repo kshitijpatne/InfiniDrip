@@ -20,6 +20,7 @@ import { pt, assemblePdf, polylinePath, PageSize } from "./pdf";
 import { resolveNotch, resolveGrainline } from "../render/notch";
 import { calibrationPdfOps, CALIBRATION_CM } from "./calibration";
 import { FOLD_EPS } from "./unfold";
+import { patternMarksPdfOps, translatePatternMarks } from "./pattern-mark";
 
 export const PAGE_A0: PageSize = { width: 84.1, height: 118.9 };
 /** Landscape A0, for layouts that run wide instead of tall. */
@@ -68,6 +69,9 @@ export function exportA0Pdf(
     const placedB = polylineBounds(placed.cut);
     const dx = placedB.minX - origB.minX;
     const dy = placedB.minY - origB.minY;
+
+    lines.push("0 0 0 RG 0.5 w");
+    lines.push(patternMarksPdfOps(translatePatternMarks(original.marks, dx, dy), ph));
 
     // Piece label at the cut-line centre.
     const cx = placedB.minX + placedB.width / 2;

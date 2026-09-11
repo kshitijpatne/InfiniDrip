@@ -1,7 +1,7 @@
 # Polo V1 — build contract
 
-_Status: scoped; not build-ready until four maintained decisions in
-`../research/garments/POLO-RESEARCH.md` are resolved._
+_Status: Slice 68 complete. V1 geometry decisions are locked; Slice 69 is ready
+to draft the polo body opening and placket pieces._
 
 ## Outcome
 
@@ -40,7 +40,7 @@ placket. It must remain a sewable pattern, not a decorative tee render.
 
 | Slice | Scope | Model | Exit proof |
 |---|---|---|---|
-| 68 | Pattern-mark / internal-cut-line capability; recipe-owned persisted garment options; no polo garment geometry yet | Terra medium | Existing garments byte-identical; marks survive every export path |
+| 68 | Pattern-mark / internal-cut-line capability; recipe-owned persisted garment options; no polo garment geometry | Terra medium | **Complete:** existing garments byte-identical; marks survive canvas, SVG, DXF, tiled PDF, A0, and projector |
 | 69 | Polo draft: front slit, body, sleeve reuse, placket pieces, allowances, raw stitch interfaces | Terra high | True geometry + all seam matches; no fake centre-front seam |
 | 70 | Collar and stand draft; options + guardrails; collar/stand/neckline stitches | Terra high | Every interface measured; boundary warnings verified visually |
 | 71 | Polo recipe integration: POMs, notches, BOM, construction order, grading, nesting, checker | Terra medium | Full garment pipeline works in every view/output |
@@ -52,11 +52,8 @@ mechanical integration in Slice 71 only after stand, collar, placket, and option
 contracts have passing geometry tests. Use Terra again for any failed seam,
 export, or visual review.
 
-## Build blockers
+## Build status
 
-- Stand finished height.
-- Collar leaf depth and tip shape.
-- Exact button-group anchor relative to placket top / stand.
-- Side-vent decision (recommended: omit V1).
-
-Once resolved, Slice 68 is ready to implement without a design assumption.
+All geometry decisions are resolved. Slice 69 begins with real polo front-slit
+and placket-piece geometry; it must use Slice 68 marks rather than a fake
+centre-front seam.

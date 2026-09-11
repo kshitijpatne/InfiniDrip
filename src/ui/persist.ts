@@ -8,19 +8,20 @@
 // The serialise/deserialise functions are pure and storage-agnostic — the UI layer
 // is the only thing that touches localStorage, so these stay fully testable.
 
-import { Measurements, STANDARD_M } from "../drafting";
+import { Measurements, STANDARD_M, GarmentOptionsByRecipe } from "../drafting";
 
-export const SAVE_VERSION = 2;
+export const SAVE_VERSION = 3;
 
 export interface SaveFile {
   readonly v: number;
   readonly measurements: Measurements;
   readonly fabric: string;
+  readonly garmentOptions: GarmentOptionsByRecipe;
 }
 
 /** Turn the current state into a JSON string ready to store or download. */
-export function serialize(m: Measurements, fabric: string): string {
-  const file: SaveFile = { v: SAVE_VERSION, measurements: m, fabric };
+export function serialize(m: Measurements, fabric: string, garmentOptions: GarmentOptionsByRecipe = {}): string {
+  const file: SaveFile = { v: SAVE_VERSION, measurements: m, fabric, garmentOptions };
   return JSON.stringify(file, null, 2);
 }
 
@@ -61,7 +62,7 @@ const BOUNDS: Record<keyof Measurements, [number, number]> = {
  */
 export function deserialize(
   json: string
-): { ok: true; measurements: Measurements; fabric: string } | { ok: false; error: string } {
+): { ok: true; measurements: Measurements; fabric: string; garmentOptions: GarmentOptionsByRecipe } | { ok: false; error: string } {
   let parsed: unknown;
   try {
     parsed = JSON.parse(json);
@@ -75,7 +76,7 @@ export function deserialize(
 
   const p = parsed as Record<string, unknown>;
 
-  if (p["v"] !== SAVE_VERSION && p["v"] !== 1) {
+  if (p["v"] !== SAVE_VERSION && p["v"] !== 2 && p["v"] !== 1) {
     return { ok: false, error: `Unrecognised save version: ${String(p["v"])}.` };
   }
 
@@ -99,6 +100,16 @@ export function deserialize(
   const legacyStrap = p["v"] === 1 && inRange(m["strapWidth"], 0, 30)
     ? Math.max(0, (m["strapWidth"] as number) - (Number(m["chest"]) / 20 + 2))
     : m["strapWidth"];
+  const rawOptions = p["garmentOptions"];
+  const garmentOptions: Record<string, Record<string, number>> = {};
+  if (typeof rawOptions === "object" && rawOptions !== null) {
+    for (const [recipe, raw] of Object.entries(rawOptions as Record<string, unknown>)) {
+      if (typeof raw !== "object" || raw === null) continue;
+      const values = Object.fromEntries(Object.entries(raw as Record<string, unknown>)
+        .filter(([, value]) => typeof value === "number" && Number.isFinite(value))) as Record<string, number>;
+      garmentOptions[recipe] = values;
+    }
+  }
   return {
     ok: true,
     measurements: {
@@ -120,15 +131,16 @@ export function deserialize(
       neckWidthEase: inRange(m["neckWidthEase"], BOUNDS.neckWidthEase[0], BOUNDS.neckWidthEase[1]) ? (m["neckWidthEase"] as number) : STANDARD_M.neckWidthEase,
     },
     fabric,
+    garmentOptions,
   };
 }
 
 const STORAGE_KEY = "patternworks_save_v1";
 
 /** Persist to localStorage. Returns false if storage is unavailable. */
-export function saveToStorage(m: Measurements, fabric: string): boolean {
+export function saveToStorage(m: Measurements, fabric: string, garmentOptions: GarmentOptionsByRecipe = {}): boolean {
   try {
-    localStorage.setItem(STORAGE_KEY, serialize(m, fabric));
+    localStorage.setItem(STORAGE_KEY, serialize(m, fabric, garmentOptions));
     return true;
   } catch {
     return false;
@@ -139,12 +151,12 @@ export function saveToStorage(m: Measurements, fabric: string): boolean {
  * Load from localStorage.
  * Returns the saved state on success, or null if nothing is stored / it's invalid.
  */
-export function loadFromStorage(): { measurements: Measurements; fabric: string } | null {
+export function loadFromStorage(): { measurements: Measurements; fabric: string; garmentOptions: GarmentOptionsByRecipe } | null {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw === null) return null;
     const result = deserialize(raw);
-    return result.ok ? { measurements: result.measurements, fabric: result.fabric } : null;
+    return result.ok ? { measurements: result.measurements, fabric: result.fabric, garmentOptions: result.garmentOptions } : null;
   } catch {
     return null;
   }

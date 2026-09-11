@@ -6,6 +6,7 @@ import { Piece, AllowanceSpec } from "../drafting";
 import { flattenPiece, layoutPieces, polylineBounds, Polyline, PlacedPiece } from "./layout";
 import { resolveNotch, resolveGrainline, notchSvg, grainlineSvg } from "../render/notch";
 import { PieceNotches } from "../drafting/tshirt-notches";
+import { patternMarksSvg } from "../render/pattern-mark";
 
 const round = (n: number): number => Math.round(n * 1000) / 1000;
 
@@ -52,8 +53,9 @@ function pieceSvg(
         return grainlineSvg(translated, SEW, STROKE, 0.3);
       })()
     : "";
+  const marks = patternMarksSvg(originalPiece.marks, { stroke: SEW, width: STROKE, pointSize: 0.18, labelSize: 0.8 }, dx, dy);
 
-  return cut + sew + notches + grain + label;
+  return cut + sew + notches + grain + marks + label;
 }
 
 /** A printable, true-scale SVG of the pieces. Sew on the dashed line, cut on the solid. */

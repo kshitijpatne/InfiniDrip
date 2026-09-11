@@ -11,6 +11,15 @@ front-only, while shared width/strap/armhole geometry and hover ownership remain
 available on both panels. The existing nesting utilization percentage was
 verified as already shipped, so no duplicate nesting change was introduced.
 
+Slice 68: `Piece.marks` holds internal construction geometry (cut/fold/placement
+lines and button/buttonhole points), intentionally outside the piece outline so
+it never changes seam allowance, bounds, nesting, or stitching interfaces.
+Canvas and every cutting writer translate these marks at true scale; projector
+mirrors off-fold marks for single-layer cutting while retaining centre-fold marks
+once. `GarmentOption` schemas belong to recipes, and save version 3 persists a
+map of numeric options by recipe id separately from `Measurements`. Polo is the
+first planned consumer; no Polo recipe or garment geometry exists in this slice.
+
 **Governing plan:** as of Slice 44, `docs/planning/MVP-PLAN.md` (operative — the 6-month
 execution plan) and `docs/planning/ROADMAP.md` (strategic — competitor analysis + long-term
 scope + the cut list) are the current planning documents. This file describes

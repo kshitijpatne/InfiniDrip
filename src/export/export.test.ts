@@ -4,7 +4,7 @@
 // file is plain string/number checks that don't care about the environment.
 import { describe, it, expect } from "vitest";
 import { point } from "../geometry";
-import { Piece, STANDARD_M, TANK, draftTshirt, rolePiece, blockPieces, AllowanceSpec } from "../drafting";
+import { Piece, STANDARD_M, TANK, draftTshirt, rolePiece, blockPieces, AllowanceSpec, lineMark, pointMark } from "../drafting";
 import {
   flattenPiece,
   polylineBounds,
@@ -147,5 +147,25 @@ describe("exportDxf", () => {
     expect(dxf).toContain("SEQEND");
     // group code 70 = 1 marks the polyline closed
     expect(dxf).toContain("70\n1");
+  });
+});
+
+describe("construction marks in cutting exports", () => {
+  const marked: Piece = {
+    ...square,
+    marks: [
+      lineMark("cutLine", "placket-slit", point(5, 0), point(5, 8), "CUT SLIT"),
+      pointMark("button", "button-1", point(5, 3), "BUTTON 1"),
+    ],
+  };
+
+  it("keeps marks in true-scale SVG and DXF without changing the outline", () => {
+    const svg = exportSvg([marked], UNIFORM);
+    const doc = new DOMParser().parseFromString(svg, "image/svg+xml");
+    expect(doc.querySelector('[data-pattern-mark-name="placket-slit"]')).not.toBeNull();
+    expect(doc.querySelector('[data-pattern-mark-name="button-1"]')).not.toBeNull();
+    const dxf = exportDxf([marked], UNIFORM);
+    expect(dxf).toContain("MARK_CUTLINE");
+    expect(dxf).toContain("MARK_BUTTON");
   });
 });

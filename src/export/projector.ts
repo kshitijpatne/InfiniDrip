@@ -20,6 +20,8 @@ import { flattenPiece, polylineBounds, Polyline } from "./layout";
 import { resolveNotch, resolveGrainline, notchSvg, grainlineSvg } from "../render/notch";
 import { unfoldFlat, FOLD_EPS } from "./unfold";
 import { calibrationSvg, CALIBRATION_CM } from "./calibration";
+import { patternMarksSvg } from "../render/pattern-mark";
+import { unfoldPatternMarks } from "./pattern-mark";
 
 const round = (n: number): number => Math.round(n * 1000) / 1000;
 
@@ -58,6 +60,10 @@ function pieceMarkup(
     `stroke="${CUT}" stroke-width="${CUT_W}"/>`;
   const sew = `<polygon points="${pointList(translate(flat.sew, dx, dy))}" fill="none" ` +
     `stroke="${SEW}" stroke-width="${SEW_W}" stroke-dasharray="1 0.6"/>`;
+  const constructionMarks = patternMarksSvg(
+    piece.onFold ? unfoldPatternMarks(piece.marks) : piece.marks,
+    { stroke: SEW, width: SEW_W, pointSize: 0.35, labelSize: 1.4 }, dx, dy
+  );
 
   const table = recipe.notches.find((r) => r.pieceName === piece.name);
   let marks = "";
@@ -90,7 +96,7 @@ function pieceMarkup(
     `font-size="${LABEL_SIZE}" font-weight="bold" font-family="sans-serif" ` +
     `text-anchor="middle">${sizeLabel} ${flat.name.toUpperCase()}</text>`;
 
-  return cut + sew + marks + label;
+  return cut + sew + marks + constructionMarks + label;
 }
 
 /**

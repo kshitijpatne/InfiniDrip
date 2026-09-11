@@ -26,6 +26,7 @@ import { TSHIRT_NOTCHES } from "./tshirt-notches";
 import { TSHIRT_POMS } from "./tshirt-pom";
 import { TSHIRT_GRADE, TSHIRT_SIZES } from "./tshirt-grade";
 import { FITTED_NOTCHES, FITTED_POMS } from "./fitted-tables";
+import { GarmentOption } from "./options";
 
 /**
  * How a garment declares its production-readiness checks, so the checker never
@@ -69,6 +70,8 @@ export interface GarmentRecipe {
   readonly guidance: (block: Block, m: Measurements) => Note[];      // advisory notes
   readonly sizeMetric: (block: Block) => number;                     // size-run ordering
   readonly techPack: TechPack;
+  /** Recipe-owned design controls; absent means this garment has no such options. */
+  readonly options?: readonly GarmentOption[];
   /** Optional material variant selected from the live fabric family. */
   readonly techPackForFabric?: (fabric: StretchFabric) => TechPack;
   readonly allowances: AllowanceSpec;

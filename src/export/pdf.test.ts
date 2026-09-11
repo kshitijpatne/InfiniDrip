@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { STANDARD_M, draftTshirt, rolePiece, AllowanceSpec } from "../drafting";
+import { STANDARD_M, draftTshirt, rolePiece, AllowanceSpec, lineMark, pointMark } from "../drafting";
+import { point } from "../geometry";
 import {
   tilePlan,
   exportPdf,
@@ -118,5 +119,20 @@ describe("exportPdf", () => {
     const single = exportPdf(pieces, UNIFORM, bigPage, 1);
     expect(single.startsWith("%PDF-1.4")).toBe(true);
     expect(single).toContain("%%EOF");
+  });
+});
+
+describe("exportPdf construction marks", () => {
+  it("keeps internal cut and button marks at true scale on tiled pages", () => {
+    const marked = {
+      ...pieces[0],
+      marks: [
+        lineMark("cutLine", "slit", point(0, 0), point(0, 8), "CUT SLIT"),
+        pointMark("button", "button-1", point(2, 3), "BUTTON 1"),
+      ],
+    };
+    const pdf = exportPdf([marked], UNIFORM);
+    expect(pdf).toContain("CUT SLIT");
+    expect(pdf).toContain("BUTTON 1");
   });
 });

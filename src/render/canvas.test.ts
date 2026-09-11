@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { STANDARD_M, dartOf, draftFittedFront, draftTshirt, rolePiece } from "../drafting";
+import { STANDARD_M, dartOf, draftFittedFront, draftTshirt, rolePiece, lineMark, pointMark } from "../drafting";
+import { point } from "../geometry";
 import { renderBlueprint } from "./canvas";
 import { BLUEPRINT } from "./theme";
 
@@ -65,5 +66,19 @@ describe("renderBlueprint with non-tshirt pieces", () => {
     // an apex ring is drawn near the dart apex (x rounded to 3 dp in the path)
     expect(svg).toContain(`cx="${Math.round(apex.x * 1000) / 1000}"`);
     expect(svg).toContain('r="0.9"');
+  });
+
+  it("draws internal construction marks without treating them as outline edges", () => {
+    const marked = {
+      ...pieces[0],
+      marks: [
+        lineMark("cutLine", "placket-slit", point(0, 0), point(0, 14), "CUT SLIT"),
+        pointMark("button", "button-1", point(2, 4), "BUTTON 1"),
+      ],
+    };
+    const svg = renderBlueprint([marked]);
+    expect(svg).toContain('data-pattern-mark="cutLine"');
+    expect(svg).toContain('data-pattern-mark="button"');
+    expect(svg).toContain("CUT SLIT");
   });
 });

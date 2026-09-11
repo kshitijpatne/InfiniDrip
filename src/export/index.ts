@@ -10,3 +10,4 @@ export * from "./unfold";
 export * from "./calibration";
 export * from "./projector";
 export * from "./a0";
+export * from "./pattern-mark";

@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 67 (front/back Body view); polo V1 scoping is active.
+_Last updated: after Slice 68 (polo construction-mark and option foundation).
 Tank rework step 4
 is complete for automated and rendered verification; physical sewn validation
 has not occurred. Update this after every slice (and commit it WITH the code)._
@@ -22,12 +22,11 @@ requires a durable research document equivalent to
 `apparel_design_resources.md`. See `docs/PROJECT-DECISIONS.md` for the durable
 record.
 
-**Polo V1 scoping (2026-09-11):** collar-plus-stand, loose tee body/current
-sleeve, and a self-knit lightly stabilized folded placket are locked. Finished
-placket is 14 cm × 3 cm with three buttons at 3.5 cm centres. The research
-record (`docs/research/garments/POLO-RESEARCH.md`) and build contract
-(`docs/planning/POLO-V1-SCOPE.md`) identify four remaining geometry decisions;
-no polo code begins until those are resolved.
+**Polo V1 (2026-09-11):** all geometry decisions are locked: collar-plus-stand,
+loose tee body/current sleeve, self-knit lightly stabilized folded placket,
+14 cm × 3 cm finished placket, three buttons at 3.5 cm centres, 2 cm finished
+stand, 5 cm pointed collar leaf, and no V1 side vents. Slice 68 added the
+required internal-mark and persisted recipe-option foundation; Slice 69 is next.
 
 ## What it is
 A lightweight, local 2D sewing-pattern designer in TypeScript. Type body
@@ -169,6 +168,16 @@ F1. **(Fable) Real-world export system** — two new writers on the existing exp
     `neckDrop` guidance is not shown on the back. Existing nesting utilization
     readout was re-verified and required no new implementation. Physical sewn
     validation remains outstanding.
+68. Polo foundation — added `Piece.marks` for internal cut, fold, placement,
+    button, and buttonhole construction data, explicitly separate from exterior
+    edges and seam allowance. Canvas plus true-scale SVG, DXF, tiled PDF, A0,
+    and projector exports now preserve those marks; projector mirrors off-fold
+    marks but keeps an on-fold mark singular. Added recipe-owned option schema
+    support and version-3 save/load persistence for per-garment numeric options,
+    separate from body `Measurements`. No polo garment geometry was drafted.
+    Existing tee/darted-tee export regression hashes remain byte-identical.
+    Gates: full coverage, TypeScript, production build, parsed export evidence.
+    Next: Slice 69 polo front slit and folded placket pieces.
 63. Tank rework, step 3 — real strap/armhole geometry for the tank, AND a
     scope change requested by Kshitij mid-slice that reshaped the whole
     approach: rather than the engine picking a single "correct" strap width

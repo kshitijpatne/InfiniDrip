@@ -18,6 +18,8 @@
 
 import { Piece, AllowanceSpec } from "../drafting";
 import { flattenPiece, layoutPieces, Polyline } from "./layout";
+import { polylineBounds } from "./layout";
+import { patternMarksPdfOps, translatePatternMarks } from "./pattern-mark";
 
 // ── Unit conversion ───────────────────────────────────────────────────────────
 
@@ -106,6 +108,7 @@ function regCross(cx: number, cy: number, size = 6): string {
 function tileStream(
   tile: Tile,
   layout: { pieces: readonly { sew: Polyline; cut: Polyline; name: string }[]; height: number },
+  marks: readonly (readonly import("../drafting").PatternMark[])[],
   totalCols: number,
   totalRows: number
 ): string {
@@ -137,6 +140,11 @@ function tileStream(
     if (path) lines.push(`${path} S`);
   }
   lines.push("[] 0 d"); // reset dash
+
+  if (marks.some((pieceMarks) => pieceMarks.length > 0)) {
+    lines.push("0 0 0 RG 0.35 w");
+    for (const pieceMarks of marks) lines.push(patternMarksPdfOps(pieceMarks, sh));
+  }
 
   lines.push("Q"); // restore graphics state
 
@@ -243,9 +251,16 @@ export function exportPdf(
   overlap = 1.0
 ): string {
   const layout = layoutPieces(pieces.map((p) => flattenPiece(p, allowance)));
+  const marks = layout.pieces.map((placed, i) => {
+    const flat = flattenPiece(pieces[i], allowance);
+    const originalBounds = polylineBounds(flat.cut);
+    const placedBounds = polylineBounds(placed.cut);
+    return translatePatternMarks(pieces[i].marks,
+      placedBounds.minX - originalBounds.minX, placedBounds.minY - originalBounds.minY);
+  });
   const tiles = tilePlan(layout.width, layout.height, page, overlap);
   const cols = Math.max(...tiles.map((t) => t.col)) + 1;
   const rows = Math.max(...tiles.map((t) => t.row)) + 1;
-  const streams = tiles.map((tile) => tileStream(tile, layout, cols, rows));
+  const streams = tiles.map((tile) => tileStream(tile, layout, marks, cols, rows));
   return assemblePdf(streams, page);
 }

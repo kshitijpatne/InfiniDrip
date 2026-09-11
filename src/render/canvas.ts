@@ -9,6 +9,7 @@ import { BLUEPRINT as T } from "./theme";
 import { resolveNotch, resolveGrainline, notchSvg, grainlineSvg } from "./notch";
 import { PieceNotches } from "../drafting/tshirt-notches";
 import { dartOf } from "../drafting";
+import { patternMarksSvg } from "./pattern-mark";
 
 const round = (n: number): number => Math.round(n * 1000) / 1000;
 
@@ -88,7 +89,8 @@ function renderPiece(p: Placed, isActive: boolean, notchTable: readonly PieceNot
     ? `<circle cx="${round(dart.apex.x)}" cy="${round(dart.apex.y)}" r="0.9" fill="none" ` +
       `stroke="${T.marker}" stroke-width="1" vector-effect="non-scaling-stroke"/>`
     : "";
-  const group = `<g transform="translate(${round(p.tx)} ${round(p.ty)})">${cut}${path}${notches}${grain}${dartMark}</g>`;
+  const marks = patternMarksSvg(p.piece.marks, { stroke: T.marker, width: 0.9, pointSize: 0.7, labelSize: 2.1 });
+  const group = `<g transform="translate(${round(p.tx)} ${round(p.ty)})">${cut}${path}${notches}${grain}${dartMark}${marks}</g>`;
   const label = svgText(p.vx + p.w / 2, p.vy - 2.5, p.piece.name.toUpperCase(), T.label, 2.6);
   const fold = p.piece.onFold ? foldMark(p.vx, p.vy, p.h) : "";
   return group + fold + label;

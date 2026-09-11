@@ -29,10 +29,13 @@ the project's highest product risk and must not be represented as complete.
   stabilizer, and finishes at 14 cm long × 3 cm wide.
 - It has exactly three buttons at 3.5 cm centre-to-centre.
 - Meaningful polo dimensions must be user-adjustable with guardrails.
+- Finished collar stand: 2 cm default, adjustable 1–3 cm.
+- Finished pointed collar leaf: 5 cm default, adjustable 4–7 cm.
+- Button centres are 3.5 cm, 7.0 cm, and 10.5 cm below placket top.
+- Side vents are excluded from V1.
 
-Remaining geometry decisions and the build contract live in
-`research/garments/POLO-RESEARCH.md` and `planning/POLO-V1-SCOPE.md`; do not
-invent their defaults during implementation.
+The build contract and researched construction evidence live in
+`research/garments/POLO-RESEARCH.md` and `planning/POLO-V1-SCOPE.md`.
 
 ## Garment research
 

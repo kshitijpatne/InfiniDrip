@@ -5,7 +5,7 @@
 import { describe, it, expect } from "vitest";
 import { PDFDocument, PDFRawStream } from "pdf-lib";
 import { point } from "../geometry";
-import { STANDARD_M, TEE, TANK, Piece, blockPieces } from "../drafting";
+import { STANDARD_M, TEE, TANK, Piece, blockPieces, lineMark, pointMark } from "../drafting";
 import { exportA0Pdf, PAGE_A0, PAGE_A0_LANDSCAPE } from "./a0";
 import { CALIBRATION_CM } from "./calibration";
 
@@ -141,5 +141,20 @@ describe("A0 page constants", () => {
     expect(PAGE_A0.height).toBeCloseTo(118.9, 6);
     expect(PAGE_A0_LANDSCAPE.width).toBe(PAGE_A0.height);
     expect(PAGE_A0_LANDSCAPE.height).toBe(PAGE_A0.width);
+  });
+});
+
+describe("exportA0Pdf construction marks", () => {
+  it("keeps internal cut and button marks on the copyshop sheet", () => {
+    const marked = {
+      ...pieces[0],
+      marks: [
+        lineMark("cutLine", "slit", point(0, 0), point(0, 14), "CUT SLIT"),
+        pointMark("button", "button-1", point(2, 4), "BUTTON 1"),
+      ],
+    };
+    const pdf = exportA0Pdf([marked], TEE.allowances);
+    expect(pdf).toContain("CUT SLIT");
+    expect(pdf).toContain("BUTTON 1");
   });
 });

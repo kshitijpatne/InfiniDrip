@@ -11,6 +11,8 @@
 
 import { Piece, AllowanceSpec } from "../drafting";
 import { flattenPiece, layoutPieces, Polyline } from "./layout";
+import { polylineBounds } from "./layout";
+import { patternMarksDxf, translatePatternMarks } from "./pattern-mark";
 
 const num = (n: number): string => (Math.round(n * 1000) / 1000).toString();
 
@@ -33,7 +35,16 @@ function polyline(pts: Polyline, layer: string, height: number): string {
 export function exportDxf(pieces: readonly Piece[], allowance: AllowanceSpec): string {
   const layout = layoutPieces(pieces.map((p) => flattenPiece(p, allowance)));
   const entities = layout.pieces
-    .map((p) => polyline(p.cut, "CUT", layout.height) + polyline(p.sew, "SEW", layout.height))
+    .map((p, i) => {
+      const original = pieces[i];
+      const flat = flattenPiece(original, allowance);
+      const originalBounds = polylineBounds(flat.cut);
+      const placedBounds = polylineBounds(p.cut);
+      const marks = translatePatternMarks(original.marks,
+        placedBounds.minX - originalBounds.minX, placedBounds.minY - originalBounds.minY);
+      return polyline(p.cut, "CUT", layout.height) + polyline(p.sew, "SEW", layout.height) +
+        patternMarksDxf(marks, layout.height);
+    })
     .join("");
   return pair(0, "SECTION") + pair(2, "ENTITIES") + entities +
     pair(0, "ENDSEC") + pair(0, "EOF");

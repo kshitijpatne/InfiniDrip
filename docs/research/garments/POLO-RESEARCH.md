@@ -17,8 +17,7 @@ Physical validation remains unstarted._
   allowance, guidance, BOM, render, grade, nesting, and all exports.
 - **Not in V1:** yoke, pocket, sleeve band, side vent, contrast fabric, long
   sleeve, collar variants, decorative topstitch variants, or shirt/blouse
-  generalisation. Side vent is deliberately unresolved rather than silently
-  added because it changes construction and hem geometry.
+  generalisation.
 
 ## Existing-engine reuse audit
 
@@ -46,8 +45,8 @@ Physical validation remains unstarted._
 | Finished placket width | Yes; default 3 cm | Starting estimate 2–4 cm; validate digitally and physically | Maintainer decision: 3 cm | Warn when folded layers/overlap cannot produce selected finished width |
 | Button count | No in V1: fixed 3 | 3 | Maintainer decision | No silent count change |
 | Button spacing | No in V1: fixed 3.5 cm centre-to-centre | 3.5 cm | Maintainer decision | Button centres must retain end clearance as placket length changes |
-| Stand height | Yes | Default/range require maintainer choice | Collar-plus-stand is confirmed; dimension is open | Must not exceed usable neckline / placket-end geometry |
-| Collar leaf depth / shape | Yes | Default/range and point shape require maintainer choice | Collar-plus-stand is confirmed; dimension is open | Collar seam must match stand; warn for impossible leaf/stand relation |
+| Stand height | Yes; default 2 cm | 1–3 cm | Maintainer decision | Must not exceed usable neckline / placket-end geometry |
+| Collar leaf depth / shape | Yes; default 5 cm, pointed | 4–7 cm | Maintainer decision | Collar seam must match stand; warn for impossible leaf/stand relation |
 | Stabilizer | Material selection, not geometric control | Lightweight knit fusible default | Maintainer decision | BOM and instructions must state knit-compatible stabilizer |
 
 ## Construction and geometry research
@@ -131,17 +130,19 @@ Physical validation remains unstarted._
 - Three buttons, 3.5 cm centre-to-centre.
 - Main body knit throughout with lightweight knit stabilizer.
 - Meaningful polo dimensions user-adjustable with guardrails.
+- Finished stand defaults to 2 cm (range 1–3 cm).
+- Finished pointed collar leaf defaults to 5 cm (range 4–7 cm).
+- Button centres sit 3.5 cm, 7.0 cm, and 10.5 cm below placket top.
+- Side vents are excluded from V1.
 
-### Remaining blockers before geometry implementation
+### Slice 68 infrastructure resolution
 
-1. **Finished stand height:** recommend 2 cm default, adjustable 1–3 cm.
-2. **Finished collar leaf depth and tip:** recommend 5 cm default, adjustable
-   4–7 cm; choose pointed versus rounded tips.
-3. **Button group anchor:** proposed centres 3.5, 7.0, 10.5 cm below the
-   collar-stand / placket top, yielding 3.5 cm clear space at both ends of the
-   14 cm default. Confirm this is intended.
-4. **Side vents:** omit from V1 to preserve tee hem / side seam construction, or
-   include them now as an explicit new construction feature.
+`Piece.marks` now records internal construction data without turning it into
+an exterior seam. Canvas, SVG, DXF, tiled PDF, A0, and projector exports carry
+those marks at true scale. Recipe-owned option schemas and version-3 saves now
+carry per-garment design options separately from body measurements. No polo
+geometry exists yet; Slice 69 may now draft the real centre-front slit and
+placket pieces against this contract.
 
 ## Sources
 

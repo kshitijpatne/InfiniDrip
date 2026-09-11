@@ -11,3 +11,4 @@ export * from "./fabric";
 export * from "./editor";
 export * from "./body";
 export * from "./neckline-path";
+export * from "./pattern-mark";

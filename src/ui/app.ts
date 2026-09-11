@@ -2,7 +2,7 @@
 // change re-draft, re-render the canvas, garment, guidance, and style. All real
 // logic lives in the pure modules.
 
-import { Measurements, STANDARD_M, Piece, STRETCH_FABRICS, fabricEaseNote } from "../drafting";
+import { Measurements, STANDARD_M, Piece, STRETCH_FABRICS, fabricEaseNote, GarmentOptionsByRecipe } from "../drafting";
 import { gradeRun, draftAtSize, specSheet, GARMENTS, GarmentRecipe, garmentByName } from "../drafting";
 import { blockPieces, rolePiece } from "../drafting";
 import { exportSvg, exportDxf, exportPdf, exportTechPack, exportProjectorSvg, exportA0Pdf, flattenPiece, nestPieces, gradedMarker } from "../export";
@@ -37,6 +37,7 @@ export function mountApp(root: HTMLElement): void {
   const saved = loadFromStorage();
   let measurements: Measurements = saved ? saved.measurements : STANDARD_M;
   let fabric = saved ? saved.fabric : DEFAULT_FABRIC;
+  let garmentOptions: GarmentOptionsByRecipe = saved ? saved.garmentOptions : {};
   root.innerHTML = appShellMarkup(measurements, fabric, GARMENTS[0].sizes, GARMENTS[0].fields);
 
   const canvasHost = root.querySelector<HTMLDivElement>("#canvas-host")!;
@@ -474,7 +475,7 @@ export function mountApp(root: HTMLElement): void {
   };
 
   root.querySelector<HTMLButtonElement>("#save-pattern")!.addEventListener("click", () => {
-    saveToStorage(measurements, fabric)
+    saveToStorage(measurements, fabric, garmentOptions)
       ? flash("Saved ✓", "#2E9B63")
       : flash("Save failed", BLUEPRINT.lineActive);
   });
@@ -484,6 +485,7 @@ export function mountApp(root: HTMLElement): void {
     if (!loaded) { flash("Nothing saved", BLUEPRINT.label); return; }
     measurements = loaded.measurements;
     fabric = loaded.fabric;
+    garmentOptions = loaded.garmentOptions;
     root.querySelectorAll<HTMLInputElement>("input[data-field]").forEach((input) => {
       input.value = String(measurements[input.dataset.field as keyof Measurements]);
     });

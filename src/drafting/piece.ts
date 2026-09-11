@@ -4,6 +4,7 @@
 // That naming is what will later let us check a sleeve cap against its armhole.
 
 import { Point, distance, CubicBezier, cubicLength } from "../geometry";
+import { PatternMark } from "./pattern-mark";
 
 export type Edge =
   | { readonly kind: "line"; readonly name: string; readonly start: Point; readonly end: Point }
@@ -21,6 +22,8 @@ export interface Piece {
   readonly onFold: boolean; // true => the left edge is a fold (a half-piece)
   readonly edges: readonly Edge[];
   readonly dart?: Dart; // optional: a piece may carry one marked dart
+  /** Construction data inside the outline: never part of seam allowance. */
+  readonly marks?: readonly PatternMark[];
 }
 
 /** Where an edge begins. */

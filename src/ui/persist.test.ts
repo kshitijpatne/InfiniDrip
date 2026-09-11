@@ -29,6 +29,24 @@ describe("serialize", () => {
     if (!result.ok) return;
     expect(result.measurements).toEqual(STANDARD_M);
     expect(result.fabric).toBe(FABRIC);
+    expect(result.garmentOptions).toEqual({});
+  });
+
+  it("round-trips recipe-owned design options separately from measurements", () => {
+    const result = deserialize(serialize(STANDARD_M, FABRIC, { polo: { standHeight: 2, leafDepth: 5 } }));
+    expect(result.ok).toBe(true);
+    if (result.ok) expect(result.garmentOptions).toEqual({ polo: { standHeight: 2, leafDepth: 5 } });
+  });
+
+  it("drops malformed per-recipe option values without rejecting a valid save", () => {
+    const result = deserialize(JSON.stringify({
+      v: SAVE_VERSION,
+      measurements: STANDARD_M,
+      fabric: FABRIC,
+      garmentOptions: { polo: { standHeight: 2, leafDepth: "five" }, broken: null },
+    }));
+    expect(result.ok).toBe(true);
+    if (result.ok) expect(result.garmentOptions).toEqual({ polo: { standHeight: 2 } });
   });
 });
 
@@ -201,11 +219,12 @@ describe("saveToStorage / loadFromStorage", () => {
   beforeEach(() => localStorage.clear());
 
   it("saves and loads back the same state", () => {
-    saveToStorage(STANDARD_M, FABRIC);
+    saveToStorage(STANDARD_M, FABRIC, { polo: { placketLength: 14 } });
     const loaded = loadFromStorage();
     expect(loaded).not.toBeNull();
     expect(loaded!.measurements).toEqual(STANDARD_M);
     expect(loaded!.fabric).toBe(FABRIC);
+    expect(loaded!.garmentOptions).toEqual({ polo: { placketLength: 14 } });
   });
 
   it("returns null when nothing has been saved", () => {
