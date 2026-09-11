@@ -57,6 +57,14 @@ Polo controls update that map only, so no design preference enters
 `Measurements`. `PoloVisual`/`PoloBodyVisual` show the selected finished front
 details on schematic views only—explicitly not simulated collar roll or drape.
 
+Slice 73: the final Polo gate exercises the same option-aware recipe through
+every graded size and output writer. Real SVG DOM parsing, pdf-lib parsing for
+tiled/A0/tech-pack PDFs, DXF mark checks, and whole-run marker assertions prove
+that nine physical roles and live dimensions survive export without changing
+legacy baselines. This establishes digital sewability evidence only; physical
+collar roll, placket recovery, fit, and wash behavior remain unresolved until a
+sample is cut and sewn.
+
 **Governing plan:** as of Slice 44, `docs/planning/MVP-PLAN.md` (operative — the 6-month
 execution plan) and `docs/planning/ROADMAP.md` (strategic — competitor analysis + long-term
 scope + the cut list) are the current planning documents. This file describes

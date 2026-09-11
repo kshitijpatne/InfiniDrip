@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 72 (live Polo controls and visual/output routing).
+_Last updated: after Slice 73 (Polo cross-size and export readiness gate).
 Tank rework step 4
 is complete for automated and rendered verification; physical sewn validation
 has not occurred. Update this after every slice (and commit it WITH the code)._
@@ -29,7 +29,8 @@ stand, 5 cm pointed collar leaf, and no V1 side vents. Slice 69 drafted the
 front slit, tee body/sleeve reuse, both folded placket pieces, and the layered
 collar/stand with warning-only geometry guardrails. Slices 71–72 made Polo a
 full selectable recipe with live persisted design controls and visual/output
-routing. Slice 73 is next for final cross-size and production-readiness proof.
+routing. Slice 73 now records the final cross-size/export proof; physical sewing
+and fit validation remain outstanding.
 
 ## What it is
 A lightweight, local 2D sewing-pattern designer in TypeScript. Type body
@@ -42,7 +43,7 @@ across sizes, **estimates fabric usage** (a width-aware nesting layout with a
 utilization read-out), runs a plain-English **production-readiness check** (one
 pass/fail verdict), lets you **freeform-edit** a piece by dragging its points,
 exports true-scale SVG + DXF + a tiled print-at-home PDF, and saves/loads your
-work. The engine is fully garment-general: **tee, fitted (darted), tank, and
+work. The engine is fully garment-general: **tee, darted tee, tank, polo, and
 skirt** all run through one `GarmentRecipe`-driven pipeline (draft → grade →
 POM → check → nest → edit → export), plus **real-world exports** (projector
 SVG / A0 PDF with a verified calibration square) and a **guided 5-step
@@ -54,11 +55,17 @@ TypeScript · SVG · Vite · Vitest (jsdom for UI). Strict TS, 100% coverage hel
 ARCHITECTURE.md for the layer map.
 
 ## Workflow
-Build in numbered slices. Each: Claude verifies in its own env → delivers a
-Claude Code prompt (new files full, existing files as surgical patches, verbatim
-header) → gate is `npm run coverage` (expected test count + 100%) AND `npm run dev`
-(feature visible) → commit + push. **Docs (this file, ARCHITECTURE.md,
-SLICES-BRIEF.md) are committed in the same commit as the code they describe.**
+Build in numbered slices, grouped into a feature/epic when no maintainer
+decision is needed. Codex owns the sandbox/reality check, implementation,
+durable-doc updates, rendered/output inspection, tests, commit, and push; the
+maintainer remains the final authority for every major decision. Stop for a
+major bug, structural redesign, material ambiguity, or required product review.
+Every slice deliberately records model and reasoning level, stays token-efficient
+without weakening test quality, runs the full coverage gate (100%), TypeScript,
+production build, parsed export checks, and practical visual review. Commit
+**PROJECT-STATE.md, ARCHITECTURE.md, and affected durable context in the same
+commit as the behavior they describe.** Never claim physical fit or production
+readiness until a real sample is cut, sewn, measured, and recorded.
 
 ## Slices done
 F2. **(Fable) Guided journey UI** — the locked wireflow over the existing views:
@@ -218,6 +225,13 @@ F1. **(Fable) Real-world export system** — two new writers on the existing exp
     drape simulation. Invalid typed combinations remain drafted and receive
     actionable warnings. Gates include default and altered-option DOM/render
     proof. Next: Slice 73 cross-size/export final gate and readiness evidence.
+73. Polo cross-size/export final gate — graded XS–XL with altered live options,
+    full nine-piece marker, stitch/readiness report, true-scale SVG/DXF/PDF,
+    layered projector SVG, A0, and four-page tech-pack outputs were parsed with
+    real consumers. All digital gates pass and established export baselines are
+    unchanged. This is production-readiness evidence for sewability only; no
+    physical sewing, fit, collar roll, placket recovery, or wash validation has
+    occurred. Next: physical Polo sample/fit validation, then Phase C3.
 63. Tank rework, step 3 — real strap/armhole geometry for the tank, AND a
     scope change requested by Kshitij mid-slice that reshaped the whole
     approach: rather than the engine picking a single "correct" strap width

@@ -31,3 +31,16 @@ is authoritative for maintainer decisions that are not derivable from code.
 - Update `PROJECT-STATE.md`, `ARCHITECTURE.md`, and any affected durable context
   in the same change as the behavior they describe.
 - Treat `docs/archive/` as historical evidence, not current instructions.
+
+## OpenCode delegation
+
+- OpenCode may be used as a parallel individual contributor only under
+  `docs/OPENCODE-WORKFLOW.md`.
+- Codex must classify the work, produce a complete handoff packet, and review
+  every OpenCode PR before integration.
+- OpenCode works only on a separate branch and never pushes directly to
+  `main`; concurrent agents must use separate worktrees and disjoint file
+  ownership.
+- Codex must preserve the full verification gate, inspect the actual diff and
+  rendered/output evidence, and record useful delegation lessons for future
+  prompts.

@@ -1,7 +1,7 @@
 # Polo V1 — build contract
 
-_Status: Slice 72 complete. Polo is live through UI and output routes; Slice 73
-is ready for cross-size, export, and production-readiness final proof._
+_Status: Slice 73 complete. Polo is live through UI and output routes; digital
+cross-size/export proof passes. Physical sewing and fit validation remain open._
 
 ## Outcome
 
@@ -45,12 +45,12 @@ placket. It must remain a sewable pattern, not a decorative tee render.
 | 70 | Collar and stand draft; options + guardrails; collar/stand/neckline stitches | Terra high | **Complete:** every interface measured; default and boundary warnings tested |
 | 71 | Polo recipe integration: POMs, notches, BOM, construction order, grading, nesting, checker | Terra medium | **Complete:** full generic recipe pipeline and parsed cutting outputs |
 | 72 | UI/persistence/Body and assembled rendering; visual evidence; hardened regression suite | Luna medium, Terra review | **Complete:** user controls live geometry; existing outputs remain gated |
-| 73 | Cross-size/export final gate and production-readiness evidence | Luna medium, Terra review | 100% coverage, parsed exports, human visual review |
+| 73 | Cross-size/export final gate and production-readiness evidence | Luna high | **Complete:** 100% coverage, parsed exports, cross-size marker, and schematic review; physical validation remains open |
 
-Model move: keep Terra through Slices 68–70. Luna medium becomes safe for
-mechanical integration in Slice 71 only after stand, collar, placket, and option
-contracts have passing geometry tests. Use Terra again for any failed seam,
-export, or visual review.
+Model move: keep Terra through Slices 68–70. Luna high was used for Slice 73's
+mechanical final gate after stand, collar, placket, and option contracts had
+passing geometry tests. Use Terra again for any failed seam, export, or visual
+review.
 
 ## Build status
 

@@ -36,6 +36,8 @@ snapshots; they are not current status.
 - `README.md` — user-facing project overview; useful but less authoritative than
   the two files above.
 - `docs/PROJECT-DECISIONS.md` — decisions confirmed directly by the maintainer.
+- `docs/OPENCODE-WORKFLOW.md` — required delegation, branch, PR, review, and
+  feedback policy for using OpenCode alongside Codex.
 
 ## Planning documents
 
