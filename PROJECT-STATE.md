@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 78 (Edit-view contract clarification).
+_Last updated: after Slice 79 (Phase C3 croquis library).
 Tank rework
 step 4 is complete for automated and rendered verification; physical sewn
 validation has not occurred and is intentionally deferred. Update this after
@@ -284,6 +284,13 @@ F1. **(Fable) Real-world export system** — two new writers on the existing exp
     Physical sampling remains deferred until explicitly reopened. Next: Phase C3
     after the model-backed Edit decision is either accepted or deliberately
     deferred.
+79. Phase C3 croquis library — added render-only upper/lower croquis geometry
+    with explicit front, side, and back entry points. The library keeps figure
+    scaffolding separate from drafting and exports; side figures are available
+    as honest schematic envelopes but are not exposed as a new UI tab in this
+    slice. Existing Body and assembled outputs remain unchanged. No measurement,
+    Piece/Block, grading, export, or Edit-model changes were made. Next: Slice 80
+    requires a new scope decision; physical sampling remains deferred.
 63. Tank rework, step 3 — real strap/armhole geometry for the tank, AND a
     scope change requested by Kshitij mid-slice that reshaped the whole
     approach: rather than the engine picking a single "correct" strap width

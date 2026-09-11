@@ -85,6 +85,14 @@ define its size/grading semantics; all downstream consumers must then receive
 that state through validation and export rather than reading the editor SVG
 directly.
 
+Slice 79: `render/croquis.ts` is the render-layer croquis library. It exposes
+upper- and lower-body geometry by explicit `front`, `side`, and `back` views;
+the side paths are schematic envelopes because no side measurements exist.
+Croquis geometry is presentation scaffolding only and cannot enter drafting,
+grading, checks, nesting, or exports. Existing annotated Body and assembled
+renderers remain unchanged in this extraction slice; a future UI slice may
+expose side views after defining their product contract.
+
 Slice 75: the root `tsconfig.json` is type-check-only (`noEmit: true`). Vite is
 the sole renderer build, so `npm run build` cannot place compiled `.js` siblings
 beside TypeScript sources and alter Vite's module-resolution choice for a dev
