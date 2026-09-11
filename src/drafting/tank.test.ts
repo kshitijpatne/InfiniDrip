@@ -53,7 +53,7 @@ describe("draftTank", () => {
   });
 
   it("draws the armhole from the REAL m.strapWidth, not a hardcoded point (Slice 63)", () => {
-    const m = { ...STANDARD_M, strapWidth: 17 };
+    const m = { ...STANDARD_M, strapWidth: 10 };
     const b = draftTank(m);
     const front = pieceEdge(rolePiece(b, "front"), "armhole");
     const back = pieceEdge(rolePiece(b, "back"), "armhole");
@@ -66,11 +66,11 @@ describe("draftTank", () => {
   });
 
   it("moves the strap when m.strapWidth changes, and keeps the shoulder seam matching at every value", () => {
-    for (const strapWidth of [10, 15, 20]) {
+    for (const strapWidth of [5, 8, 12]) {
       const b = draftTank({ ...STANDARD_M, strapWidth });
       expect(stitchChecks(b, b.stitches).every((c) => c.ok)).toBe(true);
       const front = pieceEdge(rolePiece(b, "front"), "armhole");
-      if (front.kind === "curve") expect(front.curve.start.x).toBe(strapWidth);
+      if (front.kind === "curve") expect(front.curve.start.x).toBe(7 + strapWidth);
     }
   });
 
@@ -128,7 +128,7 @@ describe("tankGuidance", () => {
   });
 
   it("surfaces sleevelessArmhole()'s guardrail when the strap is narrower than the neckline (Slice 63)", () => {
-    const m = { ...STANDARD_M, strapWidth: 4 }; // below neckWidthHalf (7)
+    const m = { ...STANDARD_M, strapWidth: 0 }; // strap point meets neck edge
     const notes = tankGuidance(draftTank(m), m);
     expect(notes.some((n) => n.level === "warn" && n.text.includes("narrow"))).toBe(true);
   });

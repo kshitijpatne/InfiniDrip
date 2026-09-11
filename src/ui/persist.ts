@@ -3,14 +3,14 @@
 // draw, so it never needs saving.
 //
 // Format: a plain JSON object with a "v" version field so future changes can
-// migrate old saves gracefully. V1 holds measurements + fabric.
+// migrate old saves gracefully. V2 redefines Tank strapWidth as finished span.
 //
 // The serialise/deserialise functions are pure and storage-agnostic — the UI layer
 // is the only thing that touches localStorage, so these stay fully testable.
 
 import { Measurements, STANDARD_M } from "../drafting";
 
-export const SAVE_VERSION = 1;
+export const SAVE_VERSION = 2;
 
 export interface SaveFile {
   readonly v: number;
@@ -50,7 +50,7 @@ const BOUNDS: Record<keyof Measurements, [number, number]> = {
   hipDepth:      [10,   40],
   ease:          [ 0,   30],
   // Added in Slice 63: same lenient treatment as waist/hip/hipDepth below.
-  strapWidth:    [ 3,   30],
+  strapWidth:    [ 0,   15],
   neckDrop:      [ 0,   18],
   neckWidthEase: [-4,   12],
 };
@@ -75,7 +75,7 @@ export function deserialize(
 
   const p = parsed as Record<string, unknown>;
 
-  if (p["v"] !== SAVE_VERSION) {
+  if (p["v"] !== SAVE_VERSION && p["v"] !== 1) {
     return { ok: false, error: `Unrecognised save version: ${String(p["v"])}.` };
   }
 
@@ -96,6 +96,9 @@ export function deserialize(
     ? p["fabric"]
     : STANDARD_M.toString(); // fallback won't be hit in practice
 
+  const legacyStrap = p["v"] === 1 && inRange(m["strapWidth"], 0, 30)
+    ? Math.max(0, (m["strapWidth"] as number) - (Number(m["chest"]) / 20 + 2))
+    : m["strapWidth"];
   return {
     ok: true,
     measurements: {
@@ -112,7 +115,7 @@ export function deserialize(
       hipDepth:      inRange(m["hipDepth"], BOUNDS.hipDepth[0], BOUNDS.hipDepth[1]) ? (m["hipDepth"] as number) : STANDARD_M.hipDepth,
       ease:          m["ease"]          as number,
       // Added in Slice 63: same lenient treatment, for the same reason.
-      strapWidth:    inRange(m["strapWidth"], BOUNDS.strapWidth[0], BOUNDS.strapWidth[1]) ? (m["strapWidth"] as number) : STANDARD_M.strapWidth,
+      strapWidth:    inRange(legacyStrap, BOUNDS.strapWidth[0], BOUNDS.strapWidth[1]) ? (legacyStrap as number) : STANDARD_M.strapWidth,
       neckDrop:      inRange(m["neckDrop"], BOUNDS.neckDrop[0], BOUNDS.neckDrop[1]) ? (m["neckDrop"] as number) : STANDARD_M.neckDrop,
       neckWidthEase: inRange(m["neckWidthEase"], BOUNDS.neckWidthEase[0], BOUNDS.neckWidthEase[1]) ? (m["neckWidthEase"] as number) : STANDARD_M.neckWidthEase,
     },

@@ -72,8 +72,9 @@ const lerp = (a: number, b: number, t: number): number => a + (b - a) * t;
  *  rework"): the torso used its own ungrounded `chest * 0.22` body-width
  *  guess instead of `derive()`'s real `chestWidthHalf`, and the collar was a
  *  fixed decorative curve that never reflected crew vs. v vs. scoop.
- *  `strapWidth` (Slice 63): a sleeveless garment's REAL strap position
- *  (`m.strapWidth`) — undefined (the default) keeps the sleeved shoulder
+ *  `strapWidth` (Slice 66): a sleeveless garment's finished strap span from
+ *  neckline edge to armhole start; the renderer derives its real x position.
+ *  Undefined (the default) keeps the sleeved shoulder
  *  point, `d.shoulderHalf`, byte-identical to every render before this
  *  slice. Passing it moves the torso's shoulder corner in to the real strap
  *  point instead of silently drawing a full sleeveless-tee shoulder for a
@@ -85,7 +86,6 @@ export function renderBody(
 ): string {
   const d = derive(m);
   const shoulderHalf = d.shoulderHalf;
-  const strapX = strapWidth ?? shoulderHalf; // the real strap point for a sleeveless garment
   const bodyHalf = d.chestWidthHalf; // the real half-width the pattern drafts, not an independent guess
   const ad = m.armholeDepth;
   const len = m.length;
@@ -96,8 +96,9 @@ export function renderBody(
   const { cNeck, hps, edge: neckEdge } =
     necklineEdge("front", d.neckWidthHalf, d.frontNeckDepth, shoulderHalf, ad, frontNeckline);
   const neckHalf = hps.x; // where the collar meets the shoulder — real, not a proportion of shoulderWidth
+  const strapX = strapWidth === undefined ? shoulderHalf : neckHalf + strapWidth;
   const tankArmhole = !hasSleeve && strapWidth !== undefined
-    ? sleevelessArmhole(strapWidth, neckHalf, shoulderHalf, d.shoulderSlope, bodyHalf, ad).edge
+    ? sleevelessArmhole(strapX, neckHalf, shoulderHalf, d.shoulderSlope, bodyHalf, ad).edge
     : null;
 
   const headR = m.shoulderWidth * 0.17;
@@ -177,7 +178,7 @@ export function renderBody(
       line(bIn.x, bIn.y, bOut.x, bOut.y, T.marker) +
       txt(bOut.x + 2, bOut.y - 1, `Bicep ${m.bicep} (circ)`, "start")) : "") +
     (!hasSleeve ? dim("strapWidth",
-      dimH(0, strapX, slope - 3, `Strap point ${m.strapWidth}`)) : "") +
+      dimH(neckHalf, strapX, slope - 3, `Strap width ${m.strapWidth}`)) : "") +
     (!hasSleeve ? dim("neckDrop",
       dimV(-neckHalf - 5, 0, cNeck.y, `Neck depth ${m.neckDrop}`, "left")) : "") +
     (!hasSleeve ? dim("neckWidthEase",

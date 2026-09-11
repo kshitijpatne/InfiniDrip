@@ -86,8 +86,8 @@ describe("renderGarment — real strap position for a sleeveless garment (Slice 
 
   it("draws BOTH front and back shoulder corners at the REAL strapWidth, not the full sleeved shoulder point", () => {
     const [front, back] = pathsOf(renderGarment(
-      STANDARD_M, "#123456", false, tankFrontNeckline(STANDARD_M), tankBackNeckline(STANDARD_M), 15));
-    expect(front).toContain("15 4"); // strapX at derive()'s shoulderSlope
+      STANDARD_M, "#123456", false, tankFrontNeckline(STANDARD_M), tankBackNeckline(STANDARD_M), 8));
+    expect(front).toContain("15 4"); // neckline edge (7) + finished strap width (8)
     expect(back).toContain("15 4");
     expect(front).not.toContain("22.5 4"); // NOT the full sleeved shoulderHalf
   });
@@ -108,7 +108,7 @@ describe("renderGarment — real strap position for a sleeveless garment (Slice 
 
   it("uses the drafted curved armhole for a tank, not a straight diagonal", () => {
     const [front] = pathsOf(renderGarment(
-      STANDARD_M, "#123456", false, tankFrontNeckline(STANDARD_M), tankBackNeckline(STANDARD_M), 15));
+      STANDARD_M, "#123456", false, tankFrontNeckline(STANDARD_M), tankBackNeckline(STANDARD_M), 8));
     expect(front).toContain("C 13.75 9 20 19 27.5 24");
   });
 });

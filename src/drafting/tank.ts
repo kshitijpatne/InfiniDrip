@@ -97,7 +97,7 @@ export function tankGuidance(_block: Block, m: Measurements): Note[] {
   const front = necklineEdge(
     "front", d.neckWidthHalf, d.frontNeckDepth, d.shoulderHalf, m.armholeDepth, tankFrontNeckline(m));
   const armhole = sleevelessArmhole(
-    m.strapWidth, front.hps.x, d.shoulderHalf, d.shoulderSlope, d.chestWidthHalf, m.armholeDepth);
+    front.hps.x + m.strapWidth, front.hps.x, d.shoulderHalf, d.shoulderSlope, d.chestWidthHalf, m.armholeDepth);
   return notes.filter((n): n is Note => n !== null).concat(front.notes, armhole.notes);
 }
 

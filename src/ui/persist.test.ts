@@ -90,12 +90,18 @@ describe("deserialize (success)", () => {
   });
 
   it("round-trips the strapWidth/neckDrop added in Slice 63", () => {
-    const m = { ...STANDARD_M, strapWidth: 18, neckDrop: 7 };
+    const m = { ...STANDARD_M, strapWidth: 12, neckDrop: 7 };
     const result = deserialize(serialize(m, FABRIC));
     expect(result.ok).toBe(true);
     if (!result.ok) return;
-    expect(result.measurements.strapWidth).toBe(18);
+    expect(result.measurements.strapWidth).toBe(12);
     expect(result.measurements.neckDrop).toBe(7);
+  });
+
+  it("migrates a v1 strap point to finished strap span", () => {
+    const r = deserialize(JSON.stringify({ v: 1, measurements: { ...STANDARD_M, strapWidth: 15 }, fabric: FABRIC }));
+    expect(r.ok).toBe(true);
+    if (r.ok) expect(r.measurements.strapWidth).toBe(8);
   });
 
   it("round-trips the Tank neckline width adjustment", () => {

@@ -203,7 +203,7 @@ describe("renderBody — real strap position for a sleeveless garment (Slice 63)
     s.match(/<path d="([^"]+)" fill="[^"]*" stroke="[^"]*" stroke-width="1.4"/)![1];
 
   it("draws the torso's shoulder corner at the REAL strapWidth, not the full sleeved shoulder point", () => {
-    const svgStrap = renderBody(STANDARD_M, false, tankFrontNeckline(STANDARD_M), 15);
+    const svgStrap = renderBody(STANDARD_M, false, tankFrontNeckline(STANDARD_M), 8);
     const torso = torsoOf(svgStrap);
     expect(torso).toContain("15 3.15"); // strapX at body.ts's own schematic shoulder slope
     expect(torso).not.toContain("22.5 3.15"); // NOT the full sleeved shoulderHalf
@@ -221,7 +221,7 @@ describe("renderBody — real strap position for a sleeveless garment (Slice 63)
   });
 
   it("uses the drafted curved armhole for a tank, not a straight diagonal", () => {
-    const svgStrap = renderBody(STANDARD_M, false, tankFrontNeckline(STANDARD_M), 15);
+    const svgStrap = renderBody(STANDARD_M, false, tankFrontNeckline(STANDARD_M), 8);
     expect(svgStrap).toContain("C 13.75 9 20 19 27.5 24");
   });
 });

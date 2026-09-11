@@ -40,7 +40,7 @@ export interface BodiceParams {
   readonly necklineParams?: NecklineParams;
   /** Optional (Slice 63) — undefined (the default) draws the SLEEVED
    *  armhole curve, byte-identical to every panel before this slice. A
-   *  sleeveless garment passes `m.strapWidth`, which swaps in
+   *  sleeveless garment passes its finished strap span, which swaps in
    *  `sleevelessArmhole()`'s curve instead — see armhole.ts and
    *  TANK-RESEARCH.md for why this needed its own curve rather than
    *  reusing the sleeved one. */
@@ -73,7 +73,8 @@ function bodicePanel(
 
   // Sleeved (default): the shoulder point sits at the TRUE shoulder edge,
   // and the armhole curve is shaped to receive a set-in sleeve cap.
-  // Sleeveless (`strapWidth` given): the strap sits IN from that edge, and
+  // Sleeveless (`strapWidth` given): the finished span is measured from the
+  // neckline edge; its derived point sits IN from the full shoulder edge, and
   // the armhole is `sleevelessArmhole()`'s open-scoop curve instead — see
   // armhole.ts.
   const shoulderEdges: Edge[] =
@@ -90,8 +91,9 @@ function bodicePanel(
           ];
         })()
       : (() => {
+          const strapPoint = d.neckWidthHalf + strapWidth;
           const { strap, edge } = sleevelessArmhole(
-            strapWidth, hps.x, d.shoulderHalf, d.shoulderSlope, d.chestWidthHalf, m.armholeDepth);
+            strapPoint, hps.x, d.shoulderHalf, d.shoulderSlope, d.chestWidthHalf, m.armholeDepth);
           return [
             { kind: "line", name: "shoulder", start: hps, end: strap },
             edge,

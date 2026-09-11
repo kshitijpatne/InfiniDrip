@@ -35,7 +35,6 @@ function silhouettePath(
   const d = derive(m);
   const half = d.chestWidthHalf;        // half the body width
   const sh = d.shoulderHalf;            // shoulder point
-  const strapX = strapWidth ?? sh;      // Slice 63: the real strap point for a sleeveless garment
   const slope = d.shoulderSlope;
   const ad = m.armholeDepth;
   const len = m.length;
@@ -43,8 +42,9 @@ function silhouettePath(
   const { cNeck, hps, edge: neckEdge } =
     necklineEdge(position, d.neckWidthHalf, baseDepth, sh, ad, neckline);
   const nh = hps.x; // where the collar meets the shoulder — real, not the raw derived default
+  const strapX = strapWidth === undefined ? sh : nh + strapWidth;
   const tankArmhole = !hasSleeve && strapWidth !== undefined
-    ? sleevelessArmhole(strapWidth, nh, sh, slope, half, ad).edge
+    ? sleevelessArmhole(strapX, nh, sh, slope, half, ad).edge
     : null;
 
   // The sleeve's two extra points, going out from the shoulder and back in
@@ -108,8 +108,8 @@ function renderOne(m: Measurements, position: "front" | "back", fabric: string,
  *  `frontNeckline`/`backNeckline` (Slice 61) — the garment's real declared
  *  neckline shapes (`recipe.frontNeckline`/`backNeckline`); default to crew,
  *  matching what an unspecified garment actually drafts.
- *  `strapWidth` (Slice 63) — a sleeveless garment's real strap position
- *  (`m.strapWidth`); undefined keeps the sleeved shoulder point, byte-
+ *  `strapWidth` (Slice 66) — a sleeveless garment's finished strap span from
+ *  neckline edge to armhole start; undefined keeps the sleeved shoulder point, byte-
  *  identical to every render before this slice. */
 export function renderGarment(
   m: Measurements, fabric: string, hasSleeve = true,

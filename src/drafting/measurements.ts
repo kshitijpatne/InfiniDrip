@@ -18,7 +18,7 @@ export interface Measurements {
   // single sourced number for either, so the person dials them in, guarded
   // the same "warn, never clamp" way as every other field — not resolved by
   // the engine picking a winner.
-  readonly strapWidth: number;   // strap's half-width at the shoulder line, from centre
+  readonly strapWidth: number;   // finished strap span from neckline edge to armhole start
   readonly neckDrop: number;     // extra front-neckline depth beyond the derived default
   readonly neckWidthEase: number; // per-side width adjustment from the derived neckline
 }
@@ -28,7 +28,7 @@ export const STANDARD_M: Measurements = {
   chest: 100, shoulderWidth: 45, bicep: 38,
   length: 70, armholeDepth: 24, sleeveLength: 22,
   waist: 84, hip: 100, hipDepth: 20, ease: 10,
-  strapWidth: 15, neckDrop: 5, neckWidthEase: 0,
+  strapWidth: 8, neckDrop: 5, neckWidthEase: 0,
 };
 
 // Values the draft computes from the raw measurements. Exposed (not hidden

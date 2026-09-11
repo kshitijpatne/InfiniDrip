@@ -110,4 +110,5 @@ shape fix is a curve/dimension change, achievable entirely through
 **Resolved after this research was written:** the strap-width
 discrepancy. Wide (18.5cm) "classic tank" or narrow (12–15cm)
 spaghetti-adjacent? The engine does not choose between them; the user controls
-`strapWidth`, with guidance responsible for flagging invalid combinations.
+`strapWidth`, now defined as finished span from neckline edge to armhole start,
+with guidance responsible for flagging invalid combinations.

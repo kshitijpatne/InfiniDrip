@@ -152,7 +152,9 @@ F1. **(Fable) Real-world export system** — two new writers on the existing exp
     is understood as wearing room, while drafting math remains unchanged.
     Renamed the product-facing Fitted garment to Darted tee; recipe id and
     geometry remain stable. Added UI tests. Next: physical Tank validation,
-    then polo, unless the maintainer chooses a different naming/strap semantic.
+    then polo. Slice 66 resolved strap semantics: `strapWidth` is finished
+    span from neckline edge to armhole start; v1 saves migrate old strap-point
+    values to this span under save version 2.
 63. Tank rework, step 3 — real strap/armhole geometry for the tank, AND a
     scope change requested by Kshitij mid-slice that reshaped the whole
     approach: rather than the engine picking a single "correct" strap width
