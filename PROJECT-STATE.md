@@ -1,6 +1,7 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 74 (Polo digital UX and output audit). Tank rework
+_Last updated: after Slice 75 (prevent dev-server module-resolution breakage).
+Tank rework
 step 4 is complete for automated and rendered verification; physical sewn
 validation has not occurred and is intentionally deferred. Update this after
 every slice and commit it WITH the code._
@@ -247,6 +248,13 @@ F1. **(Fable) Real-world export system** — two new writers on the existing exp
     visual browser review, parsed export suite, and unchanged legacy hashes.
     Next: resolve the Edit-view product contract, then Phase C3; physical
     sampling remains deferred until explicitly reopened by the maintainer.
+75. Build hygiene fix — the root TypeScript check now uses `noEmit`, preventing
+    `npm run build` from writing JavaScript test/module siblings into `src/`.
+    Those generated siblings could cause Vite to resolve a missing `.js` module
+    after cleanup and leave the dev app blank. A clean build emits only to the
+    existing Vite `dist/` output. Physical sampling remains deferred.
+    Gate: full test suite, 100% coverage, production build, clean source tree,
+    and fresh dev-server DOM load.
 63. Tank rework, step 3 — real strap/armhole geometry for the tank, AND a
     scope change requested by Kshitij mid-slice that reshaped the whole
     approach: rather than the engine picking a single "correct" strap width

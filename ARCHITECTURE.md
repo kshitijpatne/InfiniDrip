@@ -75,6 +75,11 @@ explicit front-only in-memory override and is not part of the downstream draft
 or export graph; this is a known product-contract gap, not evidence that edits
 are applied to the final design.
 
+Slice 75: the root `tsconfig.json` is type-check-only (`noEmit: true`). Vite is
+the sole renderer build, so `npm run build` cannot place compiled `.js` siblings
+beside TypeScript sources and alter Vite's module-resolution choice for a dev
+server.
+
 **Governing plan:** as of Slice 44, `docs/planning/MVP-PLAN.md` (operative — the 6-month
 execution plan) and `docs/planning/ROADMAP.md` (strategic — competitor analysis + long-term
 scope + the cut list) are the current planning documents. This file describes
