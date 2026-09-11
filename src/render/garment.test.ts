@@ -105,4 +105,10 @@ describe("renderGarment — real strap position for a sleeveless garment (Slice 
       STANDARD_M, "#123456", false, tankFrontNeckline(STANDARD_M), tankBackNeckline(STANDARD_M), 20));
     expect(narrow).not.toBe(wide);
   });
+
+  it("uses the drafted curved armhole for a tank, not a straight diagonal", () => {
+    const [front] = pathsOf(renderGarment(
+      STANDARD_M, "#123456", false, tankFrontNeckline(STANDARD_M), tankBackNeckline(STANDARD_M), 15));
+    expect(front).toContain("C 13.75 9 20 19 27.5 24");
+  });
 });

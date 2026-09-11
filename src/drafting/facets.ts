@@ -40,6 +40,7 @@ export const MEASURE_ROLE: Record<RawField, { role: MeasureRole; circumference: 
   // off the body.
   strapWidth: { role: "finished", circumference: false },
   neckDrop: { role: "finished", circumference: false },
+  neckWidthEase: { role: "finished", circumference: false },
 };
 
 /** The finished (garment) value where ease changes it; undefined otherwise. Mirrors

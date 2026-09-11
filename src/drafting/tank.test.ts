@@ -91,6 +91,14 @@ describe("draftTank", () => {
     const deepBack = pieceEdge(rolePiece(deep, "back"), "neckline");
     expect(shallowBack).toEqual(deepBack);
   });
+
+  it("moves both neckline shoulder points with the user width adjustment", () => {
+    const narrow = draftTank({ ...STANDARD_M, neckWidthEase: -1 });
+    const wide = draftTank({ ...STANDARD_M, neckWidthEase: 3 });
+    const n = pieceEdge(rolePiece(narrow, "front"), "neckline");
+    const w = pieceEdge(rolePiece(wide, "front"), "neckline");
+    if (n.kind === "curve" && w.kind === "curve") expect(w.curve.end.x).toBeGreaterThan(n.curve.end.x);
+  });
 });
 
 describe("tankGuidance", () => {
@@ -156,7 +164,7 @@ describe("TANK recipe end-to-end — the real C2 test", () => {
     // Slice 63: gained strapWidth/neckDrop — real, user-adjustable measurements
     // for the strap position and neckline scoop depth, not hardcoded recipe
     // constants (TANK-RESEARCH.md found no single sourced number for either).
-    expect(TANK.fields).toEqual(["chest", "shoulderWidth", "length", "armholeDepth", "strapWidth", "neckDrop", "ease"]);
+    expect(TANK.fields).toEqual(["chest", "shoulderWidth", "length", "armholeDepth", "strapWidth", "neckDrop", "neckWidthEase", "ease"]);
   });
 
   it("grades a POM run that grows in order, with zero engine changes", () => {

@@ -20,6 +20,7 @@ export interface Measurements {
   // the engine picking a winner.
   readonly strapWidth: number;   // strap's half-width at the shoulder line, from centre
   readonly neckDrop: number;     // extra front-neckline depth beyond the derived default
+  readonly neckWidthEase: number; // per-side width adjustment from the derived neckline
 }
 
 /** A standard size M, used as the starting point. */
@@ -27,7 +28,7 @@ export const STANDARD_M: Measurements = {
   chest: 100, shoulderWidth: 45, bicep: 38,
   length: 70, armholeDepth: 24, sleeveLength: 22,
   waist: 84, hip: 100, hipDepth: 20, ease: 10,
-  strapWidth: 15, neckDrop: 5,
+  strapWidth: 15, neckDrop: 5, neckWidthEase: 0,
 };
 
 // Values the draft computes from the raw measurements. Exposed (not hidden

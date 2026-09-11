@@ -6,6 +6,7 @@
 // touching any engine file.
 
 import { Measurements } from "./measurements";
+import { StretchFabric } from "./ease";
 import { Block } from "./block";
 import { CheckResult } from "../guidance/check";
 import { Note } from "../guidance/note";
@@ -68,6 +69,8 @@ export interface GarmentRecipe {
   readonly guidance: (block: Block, m: Measurements) => Note[];      // advisory notes
   readonly sizeMetric: (block: Block) => number;                     // size-run ordering
   readonly techPack: TechPack;
+  /** Optional material variant selected from the live fabric family. */
+  readonly techPackForFabric?: (fabric: StretchFabric) => TechPack;
   readonly allowances: AllowanceSpec;
   // Slice 61: the neckline shape this garment ACTUALLY drafts, so the body and
   // garment preview views can draw the real curve (necklineEdge()) instead of
@@ -176,10 +179,21 @@ export const FITTED: GarmentRecipe = {
   },
 };
 
+const TANK_KNIT_TECH_PACK: TechPack = {
+  bom: KNIT_BOM,
+  construction: [
+    "Staystitch the front and back necklines.",
+    "Join the shoulder seams, front to back.",
+    "Bind the neckline and both armholes with self-fabric or rib binding.",
+    "Close the side seams.",
+    "Hem the body.",
+  ],
+};
+
 export const TANK: GarmentRecipe = {
   name: "tank",
   label: "Tank",
-  fields: ["chest", "shoulderWidth", "length", "armholeDepth", "strapWidth", "neckDrop", "ease"],
+  fields: ["chest", "shoulderWidth", "length", "armholeDepth", "strapWidth", "neckDrop", "neckWidthEase", "ease"],
   styles: TANK_STYLES,
   draft: draftTank,
   notches: TANK_NOTCHES,
@@ -190,24 +204,33 @@ export const TANK: GarmentRecipe = {
   guidance: tankGuidance,
   sizeMetric: frontHemWidth,
   allowances: KNIT_ALLOWANCES,
-  // The EXACT same constants draftTank() passes to bodice() — imported, not
-  // re-typed, so these can't drift from what's really drafted. The back
+  // The EXACT same live neckline functions draftTank() passes to bodice() —
+  // imported, not re-typed, so these can't drift from what's really drafted. The back
   // isn't NECKLINE_DEFAULT any more (Slice 62): it carries the same
   // widthEase as the front, so the shoulder seam still matches — see
   // TANK_BACK_NECKLINE's own comment in tank.ts.
   frontNeckline: tankFrontNeckline,
   backNeckline: tankBackNeckline,
   strapWidth: (m) => m.strapWidth,
-  techPack: {
-    bom: KNIT_BOM,
-    construction: [
-      "Staystitch the front and back necklines.",
-      "Join the shoulder seams, front to back.",
-      "Bind the neckline and both armholes with self-fabric or rib binding.",
-      "Close the side seams.",
-      "Hem the body.",
-    ],
-  },
+  techPack: TANK_KNIT_TECH_PACK,
+  techPackForFabric: (fabric) => fabric.family === "woven"
+    ? {
+        bom: [
+          { material: "Cotton woven, main", placement: "Front & back panels", qty: "1.2 m" },
+          { material: "Self-fabric binding", placement: "Neckline & armholes", qty: "0.2 m" },
+          { material: "Woven brand label", placement: "Centre back neck", qty: "1" },
+          { material: "Care/content label", placement: "Left side seam", qty: "1" },
+          { material: "All-purpose thread", placement: "All seams", qty: "1 spool" },
+        ],
+        construction: [
+          "Staystitch the front and back necklines.",
+          "Join the shoulder seams, front to back.",
+          "Bind the neckline and both armholes with self-fabric binding.",
+          "Close the side seams.",
+          "Hem the body.",
+        ],
+      }
+    : TANK_KNIT_TECH_PACK,
 };
 
 // A woven skirt: deeper hem, a fold at each panel centre, a little at the waist

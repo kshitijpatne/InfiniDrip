@@ -55,10 +55,10 @@ export function sleevelessArmhole(
 ): { readonly strap: Point; readonly underarm: Point; readonly edge: Edge; readonly notes: readonly Note[] } {
   const notes: Note[] = [];
   if (strapWidth <= neckWidthHalf) {
-    notes.push({ level: "warn", text: "The strap is as narrow as (or narrower than) the neckline — they'd overlap." });
+    notes.push({ level: "warn", text: "The strap is as narrow as (or narrower than) the neckline — increase strap width or reduce neckline width." });
   }
   if (strapWidth >= shoulderHalf) {
-    notes.push({ level: "warn", text: "The strap reaches the full shoulder width — there's no armhole cutout left." });
+    notes.push({ level: "warn", text: "The strap reaches the full shoulder width — reduce strap width to create an armhole cutout." });
   }
 
   const strap = point(strapWidth, shoulderSlope);

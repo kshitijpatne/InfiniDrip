@@ -53,10 +53,9 @@ const TANK_STITCHES: readonly Stitch[] = [
  *  (TANK-RESEARCH.md found no single sourced scoop depth to hardcode, so it
  *  ships as a slider, guarded the same "warn, never clamp" way as every
  *  other field, not resolved by the engine picking a winner). `widthEase`
- *  stays a fixed 1.5 — only depth was asked to become adjustable this round;
- *  width is a real candidate for the same treatment later, not assumed here.
+ *  now reads `m.neckWidthEase`, a per-side adjustment from the derived default.
  *
- *  The back MUST carry the same `widthEase` as the front even though its
+ *  The back MUST carry the same live `widthEase` as the front even though its
  *  shape stays crew — caught by `stitchChecks`, not assumed: the shoulder/
  *  strap point never moves on its own, so if only the front's neckline
  *  widens, its shoulder-to-neckline edge gets shorter than the back's
@@ -64,10 +63,10 @@ const TANK_STITCHES: readonly Stitch[] = [
  *  by the same amount keeps the two shoulder points aligned; only the front
  *  also drops deeper. */
 export function tankFrontNeckline(m: Measurements): NecklineParams {
-  return { shape: "scoop", widthEase: 1.5, frontDrop: m.neckDrop };
+  return { shape: "scoop", widthEase: m.neckWidthEase, frontDrop: m.neckDrop };
 }
-export function tankBackNeckline(_m: Measurements): NecklineParams {
-  return { shape: "crew", widthEase: 1.5, frontDrop: 0 };
+export function tankBackNeckline(m: Measurements): NecklineParams {
+  return { shape: "crew", widthEase: m.neckWidthEase, frontDrop: 0 };
 }
 
 export function draftTank(m: Measurements): Block {
@@ -93,7 +92,7 @@ export function draftTank(m: Measurements): Block {
  *  functions `draftTank` calls — never a second, independently-derived copy
  *  of the geometry itself. */
 export function tankGuidance(_block: Block, m: Measurements): Note[] {
-  const notes: (Note | null)[] = [easeRange(m), armholeDepthCheck(m), shoulderCheck(m)];
+  const notes: (Note | null)[] = [easeRange(m, "tank"), armholeDepthCheck(m), shoulderCheck(m)];
   const d = derive(m);
   const front = necklineEdge(
     "front", d.neckWidthHalf, d.frontNeckDepth, d.shoulderHalf, m.armholeDepth, tankFrontNeckline(m));

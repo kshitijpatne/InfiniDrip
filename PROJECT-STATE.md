@@ -1,18 +1,15 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 63 and the 2026-09-10 context handoff (Tank rework step 3: real strap/armhole
-geometry for the tank, PLUS strapWidth/neckDrop promoted to genuine
-user-adjustable measurements rather than hardcoded recipe constants — see
-Slice 63's own entry). Step 4 (final confirmation) of the Tank rework plan
-is still open — see the "Active directive" section below. Update this after
-every slice (and commit it WITH the code)._
+_Last updated: after Slice 64 (Tank reality-check fixes). Tank rework step 4
+is complete for automated and rendered verification; physical sewn validation
+has not occurred. Update this after every slice (and commit it WITH the code)._
 
 **Governing plan:** `docs/planning/MVP-PLAN.md` (operative — the 6-month execution plan) and
 `docs/planning/ROADMAP.md` (strategic — full competitor analysis + long-term scope + the cut
 list) are the current planning documents, added after Slice 44. This file
 remains the engineering status log; it does not restate their content.
 
-**Maintainer decisions confirmed after the Slice 63 handoff:** no physical
+**Maintainer decisions confirmed after the Slice 64 handoff:** no physical
 garment validation has occurred; the sequence is Slice 64 reality-check → fix
 any real-world failures → build polo end-to-end → Phase C3; Tank neckline width
 must become user-adjustable; every meaningful garment aspect should be
@@ -136,6 +133,19 @@ F1. **(Fable) Real-world export system** — two new writers on the existing exp
 22. per-size export — a size picker in the export area drafts the chosen graded
     size (via `draftAtSize`) and emits `<garment>-<SIZE>.<ext>`; scopes only the
     exports, every other view keeps its job (327)
+64. Tank reality-check — rendered the Tank through body, assembled, pattern,
+    guidance, and export paths and closed the confirmed practical gaps without
+    redesigning the garment. Both Tank previews now reuse the exact curved
+    `sleevelessArmhole()` geometry used by the draft. `neckWidthEase` is a
+    user-adjustable finished-width delta from the derived default, persisted
+    leniently with plausibility bounds and actionable neckline guidance. Tank
+    tech-pack materials are selected from the active fabric family (woven vs
+    knit), while the existing knit construction remains the default fallback.
+    Added focused geometry, persistence, guidance, UI, and export tests.
+    Gates: 59 files / 801 tests / 100% coverage, TypeScript check, production
+    build, and parsed visual/export evidence. Physical sewn validation remains
+    outstanding. Next: polo end-to-end, unless physical validation finds a
+    Tank failure first.
 63. Tank rework, step 3 — real strap/armhole geometry for the tank, AND a
     scope change requested by Kshitij mid-slice that reshaped the whole
     approach: rather than the engine picking a single "correct" strap width
@@ -1284,14 +1294,16 @@ turned out to be a second, deeper bug under step 1, not part of step 2):**
    could reasonably want a different one; the guidance engine's warn-never-
    clamp checks are what keep an extreme combination visible, not an
    engine-side ceiling on the input itself.
-4. **Confirm everything works correctly and is backed by reason** — every
+4. ~~**Confirm everything works correctly and is backed by reason**~~ **DONE — Slice 64.** Every
    dimension traceable to a source, every visual claim checked against the
    actual rendered output (not just against test assertions), before
    calling it done. **Largely satisfied by Slice 63's own verification**
    (fresh-clone dry run, all three views re-rendered and cross-checked at
-   multiple strap widths) — kept as an open line item for a final pass
-   across the whole Tank rework before closing it out, not because
-   anything specific is known to be missing.
+   multiple strap widths). Slice 64 closed the confirmed drift: both Tank
+   previews now use the exact curved armhole, neckline width is adjustable
+   from its derived default with guardrails, and Tank tech-pack materials
+   follow the selected fabric family. Automated gates and visual DOM checks
+   pass; physical sewing remains an explicit maintainer validation item.
 5. **Then, and only then, move on** — build the polo end-to-end, then
    complete Phase C3. This sequence was confirmed by Kshitij after the Slice 63
    handoff; polo remains parked until step 4 and any real-world failures it finds

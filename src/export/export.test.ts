@@ -4,7 +4,7 @@
 // file is plain string/number checks that don't care about the environment.
 import { describe, it, expect } from "vitest";
 import { point } from "../geometry";
-import { Piece, STANDARD_M, draftTshirt, rolePiece, AllowanceSpec } from "../drafting";
+import { Piece, STANDARD_M, TANK, draftTshirt, rolePiece, blockPieces, AllowanceSpec } from "../drafting";
 import {
   flattenPiece,
   polylineBounds,
@@ -29,6 +29,7 @@ const square: Piece = {
 
 const block = draftTshirt(STANDARD_M);
 const pieces = [rolePiece(block, "front"), rolePiece(block, "back"), rolePiece(block, "sleeve")];
+const tankPieces = blockPieces(TANK.draft(STANDARD_M));
 
 describe("flattenPiece", () => {
   it("returns a sew outline and a larger cut outline", () => {
@@ -109,6 +110,24 @@ describe("exportSvg with non-tshirt pieces", () => {
     const svg = exportSvg([unknown], UNIFORM);
     expect(svg).toContain("UNKNOWN-PIECE");
     expect(svg).toContain("viewBox");
+  });
+});
+
+describe("Tank exports", () => {
+  it("exports only the two Tank pieces as valid SVG", () => {
+    const svg = exportSvg(tankPieces, TANK.allowances, TANK.notches);
+    const doc = new DOMParser().parseFromString(svg, "image/svg+xml");
+    expect(doc.querySelector("parsererror")).toBeNull();
+    expect([...doc.getElementsByTagName("text")].map((t) => t.textContent)).toEqual(
+      expect.arrayContaining(["FRONT", "BACK"])
+    );
+    expect(svg).not.toContain("SLEEVE");
+  });
+
+  it("exports Tank DXF with front/back entities and no sleeve", () => {
+    const dxf = exportDxf(tankPieces, TANK.allowances);
+    expect(dxf.startsWith("0\nSECTION")).toBe(true);
+    expect((dxf.match(/0\nPOLYLINE/g) ?? []).length).toBe(4); // cut + sew for front/back
   });
 });
 

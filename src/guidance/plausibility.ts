@@ -44,6 +44,7 @@ export const MEASUREMENT_BOUNDS: Partial<Record<keyof Measurements, Bound>> = {
   // below the underarm) is the tighter, geometry-aware check.
   strapWidth: { min: 5, max: 25, label: "Strap width" },
   neckDrop: { min: 0, max: 15, label: "Neck scoop depth" },
+  neckWidthEase: { min: -4, max: 12, label: "Neckline width adjustment" },
 };
 
 /** The raw fields whose OWN value is outside its plausible bound, SCOPED to the

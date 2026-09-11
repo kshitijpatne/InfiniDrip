@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { necklineEdge, NECKLINE_DEFAULT } from "../drafting";
-import { necklinePathCommand } from "./neckline-path";
+import { armholePathCommand, necklinePathCommand } from "./neckline-path";
 
 describe("necklinePathCommand", () => {
   it("emits two mirrored cubic curves for a curved shape (crew/scoop) — left half then right half", () => {
@@ -35,5 +35,31 @@ describe("necklinePathCommand", () => {
     const round = (n: number): number => Math.round(n * 1000) / 1000;
     expect(leftHalf).toContain(`${round(-edge.curve.control2.x)} ${round(edge.curve.control2.y)}`);
     expect(leftHalf).toContain(`${round(-edge.curve.control1.x)} ${round(edge.curve.control1.y)}`);
+  });
+});
+
+describe("armholePathCommand", () => {
+  const edge = {
+    kind: "curve" as const,
+    name: "armhole",
+    curve: {
+      start: { x: 15, y: 4 },
+      control1: { x: 13.75, y: 9 },
+      control2: { x: 20, y: 19 },
+      end: { x: 27.5, y: 24 },
+    },
+  };
+
+  it("renders the drafted curve forward", () => {
+    expect(armholePathCommand(edge)).toBe("C 13.75 9 20 19 27.5 24");
+  });
+
+  it("renders the mirrored curve in reverse outline order", () => {
+    expect(armholePathCommand(edge, true)).toBe("C -20 19 -13.75 9 -15 4");
+  });
+
+  it("falls back to a line for a line edge", () => {
+    expect(armholePathCommand({ kind: "line", name: "armhole", start: { x: 2, y: 3 }, end: { x: 8, y: 9 } })).toBe("L 8 9");
+    expect(armholePathCommand({ kind: "line", name: "armhole", start: { x: 2, y: 3 }, end: { x: 8, y: 9 } }, true)).toBe("L -8 9");
   });
 });

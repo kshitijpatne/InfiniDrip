@@ -39,3 +39,18 @@ export function necklinePathCommand(cNeck: Point, hps: Point, edge: Edge): strin
     `${round(c.control2.x)} ${round(c.control2.y)} ${round(hps.x)} ${round(hps.y)}`;
   return `${left} ${right}`;
 }
+
+/** Render one drafted armhole edge. `mirrored` traverses the mirrored edge
+ * from underarm back to strap, matching the reverse walk of a full outline. */
+export function armholePathCommand(edge: Edge, mirrored = false): string {
+  if (edge.kind !== "curve") {
+    return `L ${round(mirrored ? -edge.end.x : edge.end.x)} ${round(edge.end.y)}`;
+  }
+  const c = edge.curve;
+  if (mirrored) {
+    return `C ${round(-c.control2.x)} ${round(c.control2.y)} ` +
+      `${round(-c.control1.x)} ${round(c.control1.y)} ${round(-c.start.x)} ${round(c.start.y)}`;
+  }
+  return `C ${round(c.control1.x)} ${round(c.control1.y)} ` +
+    `${round(c.control2.x)} ${round(c.control2.y)} ${round(c.end.x)} ${round(c.end.y)}`;
+}

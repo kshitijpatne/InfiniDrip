@@ -46,14 +46,14 @@ export function armholeMatch(block: Block): Note {
 /** Ease, always surfaced: too tight to wear, roomy/oversized, or comfortable.
  *  Never silent — a positive "you're in range" is guidance too, and stops the reader
  *  wondering whether the check even ran. */
-export function easeRange(m: Measurements): Note {
+export function easeRange(m: Measurements, garmentLabel = "tee"): Note {
   if (m.ease < 5) {
-    return { level: "warn", text: `Ease is ${m.ease} cm — tight to pull on. Most tees use 8–12 cm.` };
+    return { level: "warn", text: `Ease is ${m.ease} cm — tight to pull on. Most ${garmentLabel}s use 8–12 cm.` };
   }
   if (m.ease > 16) {
     return { level: "info", text: `Ease is ${m.ease} cm — roomy; expect an oversized fit.` };
   }
-  return { level: "ok", text: `Ease is ${m.ease} cm — a comfortable amount for a tee.` };
+  return { level: "ok", text: `Ease is ${m.ease} cm — a comfortable amount for a ${garmentLabel}.` };
 }
 
 /** An armhole too shallow for the chest binds the arm. */

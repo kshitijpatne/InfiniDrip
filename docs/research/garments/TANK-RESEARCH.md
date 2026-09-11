@@ -8,6 +8,16 @@
 > be adjustable with invalid combinations handled by actionable guidance. See
 > `../../PROJECT-DECISIONS.md`.
 
+## Slice 64 implementation resolution
+
+Neckline width is now a user-adjustable **width adjustment from the derived
+default**, not a new absolute standard. The adjustment is shared by the front
+and back neckline functions, persisted for older saves, and bounded with
+guidance that names the correction when a combination is incompatible. Tank
+previews consume the same curved armhole edge as the drafted pattern. No
+physical garment has yet been sewn, so these remain digital/measurement claims
+pending the planned reality check.
+
 Started Slice 63, per the Tank rework plan's research standard
 (PROJECT-STATE.md): real numeric dimensions and construction specs from
 genuine web research, cross-checked against at least two independent

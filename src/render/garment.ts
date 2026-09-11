@@ -4,7 +4,8 @@
 
 import { Measurements, derive, necklineEdge, NecklineParams, NECKLINE_DEFAULT } from "../drafting";
 import { BLUEPRINT as T } from "./theme";
-import { necklinePathCommand } from "./neckline-path";
+import { armholePathCommand, necklinePathCommand } from "./neckline-path";
+import { sleevelessArmhole } from "../drafting/armhole";
 
 const round = (n: number): number => Math.round(n * 1000) / 1000;
 
@@ -42,6 +43,9 @@ function silhouettePath(
   const { cNeck, hps, edge: neckEdge } =
     necklineEdge(position, d.neckWidthHalf, baseDepth, sh, ad, neckline);
   const nh = hps.x; // where the collar meets the shoulder — real, not the raw derived default
+  const tankArmhole = !hasSleeve && strapWidth !== undefined
+    ? sleevelessArmhole(strapWidth, nh, sh, slope, half, ad).edge
+    : null;
 
   // The sleeve's two extra points, going out from the shoulder and back in
   // to the underarm — only when there IS a sleeve to draw.
@@ -59,12 +63,12 @@ function silhouettePath(
     `M ${round(nh)} 0`,                          // right neck point
     `L ${round(strapX)} ${round(slope)}`,        // right shoulder / strap point
     ...sleeveOut,                                 // out to the sleeve (if any)
-    `L ${round(half)} ${round(ad)}`,             // in to the underarm
+    tankArmhole ? armholePathCommand(tankArmhole) : `L ${round(half)} ${round(ad)}`, // real tank armhole
     `L ${round(half)} ${round(len)}`,            // right side down to hem
     `L ${round(-half)} ${round(len)}`,           // across the hem
     `L ${round(-half)} ${round(ad)}`,            // left side up
     ...sleeveIn,                                  // left sleeve (if any)
-    `L ${round(-strapX)} ${round(slope)}`,       // left shoulder / strap point
+    tankArmhole ? armholePathCommand(tankArmhole, true) : `L ${round(-strapX)} ${round(slope)}`, // mirrored tank armhole
     `L ${round(-nh)} 0`,                          // left neck point
     necklinePathCommand(cNeck, hps, neckEdge),    // the real collar: crew, v, or scoop
     "Z",

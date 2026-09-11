@@ -440,7 +440,7 @@ export function mountApp(root: HTMLElement): void {
   // The tech pack is a whole-style document (sample-size sketch + graded table),
   // so it uses the live measurements directly and ignores the per-size picker.
   root.querySelector<HTMLButtonElement>("#export-techpack")!.addEventListener("click", () => {
-    download(`${recipe.name}-techpack.pdf`, exportTechPack(recipe, measurements), "application/pdf");
+    download(`${recipe.name}-techpack.pdf`, exportTechPack(recipe, measurements, undefined, stretchFabric), "application/pdf");
   });
   // The projector file carries EVERY graded size as a toggleable layer, so it too
   // is a whole-style file and ignores the per-size picker.

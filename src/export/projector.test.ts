@@ -6,6 +6,7 @@ import { describe, it, expect } from "vitest";
 import {
   STANDARD_M,
   TEE,
+  TANK,
   FITTED,
   GarmentRecipe,
   derive,
@@ -151,6 +152,14 @@ describe("exportProjectorSvg — projector-legible styling", () => {
 });
 
 describe("exportProjectorSvg — other garments and sparse recipes", () => {
+  it("exports Tank as two labelled pieces with no sleeve", () => {
+    const tank = new DOMParser().parseFromString(exportProjectorSvg(TANK, STANDARD_M), "image/svg+xml");
+    expect(tank.querySelector("parsererror")).toBeNull();
+    const labels = [...tank.getElementsByTagName("text")].map((t) => t.textContent);
+    expect(labels).toEqual(expect.arrayContaining(["M FRONT", "M BACK"]));
+    expect(labels).not.toContain("M SLEEVE");
+  });
+
   it("exports the fitted garment as clean XML too", () => {
     const fitted = new DOMParser().parseFromString(
       exportProjectorSvg(FITTED, STANDARD_M),

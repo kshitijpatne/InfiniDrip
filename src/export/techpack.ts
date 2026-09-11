@@ -38,6 +38,7 @@ import {
   NO_ALLOWANCE,
   sampleSpec,
   PredictedPom,
+  StretchFabric,
 } from "../drafting";
 import { flattenPiece, layoutPieces, polylineBounds } from "./layout";
 import { assemblePdf, pt, PAGE_A4, PageSize } from "./pdf";
@@ -249,7 +250,8 @@ function fitRecordStream(predicted: readonly PredictedPom[], label: string, page
 export function exportTechPack(
   recipe: GarmentRecipe,
   m: Measurements,
-  page: PageSize = PAGE_A4
+  page: PageSize = PAGE_A4,
+  fabric?: StretchFabric
 ): string {
   const graded = gradeRun(m, recipe.grade, recipe.sizes, recipe.draft);
   const rows = specSheet(graded, recipe.poms);
@@ -258,7 +260,7 @@ export function exportTechPack(
     [
       sketchStream(recipe.draft(m), recipe.poms, recipe.label, page),
       tableStream(sizes, rows, page),
-      bomStream(recipe.techPack, page),
+      bomStream(fabric && recipe.techPackForFabric ? recipe.techPackForFabric(fabric) : recipe.techPack, page),
       fitRecordStream(sampleSpec(recipe, m), recipe.label, page),
     ],
     page

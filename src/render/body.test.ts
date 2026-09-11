@@ -219,4 +219,9 @@ describe("renderBody — real strap position for a sleeveless garment (Slice 63)
     const wide = torsoOf(renderBody(STANDARD_M, false, tankFrontNeckline(STANDARD_M), 20));
     expect(narrow).not.toBe(wide);
   });
+
+  it("uses the drafted curved armhole for a tank, not a straight diagonal", () => {
+    const svgStrap = renderBody(STANDARD_M, false, tankFrontNeckline(STANDARD_M), 15);
+    expect(svgStrap).toContain("C 13.75 9 20 19 27.5 24");
+  });
 });

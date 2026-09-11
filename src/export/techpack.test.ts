@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { FITTED, SKIRT, STANDARD_M, TEE, rolePiece, sampleSpec } from "../drafting";
+import { FITTED, SKIRT, STANDARD_M, TANK, TEE, STRETCH_FABRICS, rolePiece, sampleSpec } from "../drafting";
 import { PAGE_A4, PAGE_LETTER, pt } from "./pdf";
 import { exportTechPack, pdfString } from "./techpack";
 
@@ -30,6 +30,18 @@ describe("pdfString", () => {
 
 describe("exportTechPack", () => {
   const pdf = exportTechPack(TEE, STANDARD_M);
+
+  it("uses a fabric-aware Tank BOM when a woven fabric is selected", () => {
+    const woven = STRETCH_FABRICS.find((f) => f.name === "Cotton woven")!;
+    const tankPdf = exportTechPack(TANK, STANDARD_M, undefined, woven);
+    expect(tankPdf).toContain("Cotton woven, main");
+    expect(tankPdf).toContain("Self-fabric binding");
+  });
+
+  it("keeps the knit Tank BOM when a knit fabric is selected", () => {
+    const knit = STRETCH_FABRICS.find((f) => f.name === "Cotton jersey")!;
+    expect(exportTechPack(TANK, STANDARD_M, undefined, knit)).toContain("Cotton jersey");
+  });
 
   it("is a valid PDF with header, xref, trailer and EOF", () => {
     expect(pdf.startsWith("%PDF-1.4")).toBe(true);

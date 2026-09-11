@@ -10,6 +10,7 @@ describe("MEASURE_ROLE", () => {
     expect(MEASURE_ROLE.length.role).toBe("finished");
     expect(MEASURE_ROLE.armholeDepth.role).toBe("finished");
     expect(MEASURE_ROLE.sleeveLength.role).toBe("finished");
+    expect(MEASURE_ROLE.neckWidthEase.role).toBe("finished");
   });
 
   it("marks the girths as circumferences (chest, bicep, waist, hip)", () => {

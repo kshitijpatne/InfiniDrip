@@ -364,7 +364,7 @@ Adding `hipDepth` in Slice 42 exercised exactly that: it sits in the same table,
 the tee is structurally blind to it.
 
 **The raw measurement set** is `chest, shoulderWidth, bicep, length, armholeDepth,
-sleeveLength, waist, hip, hipDepth, ease`. Adding one means touching six registries
+sleeveLength, waist, hip, hipDepth, neckWidthEase, neckDrop, strapWidth, ease`. Adding one means touching six registries
 in lockstep — the `Measurements` struct + `STANDARD_M`, `MEASUREMENT_BOUNDS`,
 `MEASURE_ROLE` (facets), `FIELDS` (controls), `persist`'s BOUNDS + read, and the
 `fields` list of every recipe that wants it. A field added after v1 is read
@@ -758,6 +758,15 @@ Slice 63 made sure they actually reach the person, not just compute.
 **Maintainer clarification after Slice 63:** this principle applies to every
 meaningful garment aspect, not dimensions alone. Prefer user-adjustable
 parameters with explicit, actionable compatibility guidance. Do not silently
-clamp or replace an invalid combination. Tank neckline width is the next known
-parameter that must be promoted from a recipe constant to a user control. The
-durable decision record is `docs/PROJECT-DECISIONS.md`.
+clamp or replace an invalid combination. Slice 64 promoted Tank neckline width
+from a recipe constant to a user control. The durable decision record is
+`docs/PROJECT-DECISIONS.md`.
+
+**Slice 64 closes that Tank follow-through.** `neckWidthEase` is a finished
+linear adjustment applied to the derived front and back neckline widths; its
+guardrails explain how to correct an incompatible value. `sleevelessArmhole()`
+is the single source for Tank armhole geometry, and `armholePathCommand()`
+translates its line/curve edge into both body and assembled previews so visual
+evidence cannot drift from the drafted piece. `GarmentRecipe.techPackForFabric`
+allows materials and construction to follow the selected fabric family while
+preserving a recipe's default pack for callers that have no fabric selection.

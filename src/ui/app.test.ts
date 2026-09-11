@@ -60,12 +60,15 @@ describe("mountApp", () => {
 
     const garment = root.querySelector("#garment-host svg")!.innerHTML;
     expect(garment).not.toContain("stroke-dasharray"); // no armhole seam — nothing sews to it
+    expect(garment).toContain("C 13.75 9 20 19 27.5 24"); // exact drafted armhole
+    expect(root.querySelector('input[data-field="neckWidthEase"]')).not.toBeNull();
 
     root.querySelector<HTMLButtonElement>("#view-body")!.dispatchEvent(new Event("click"));
     const body = root.querySelector("#canvas-host svg")!.innerHTML;
     expect(body).not.toContain("Sleeve"); // sleeveLength isn't one of the tank's fields
     expect(body).not.toContain("Bicep");
     expect(body).toContain("Armhole depth"); // the tank DOES still use this one
+    expect(body).toContain("C 13.75 9 20 19 27.5 24");
   });
 
   it("still draws the tee WITH a sleeve — the fix is garment-specific, not global", () => {

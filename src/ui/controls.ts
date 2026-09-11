@@ -27,6 +27,7 @@ export const FIELDS: readonly Field[] = [
   // MEASUREMENT_BOUNDS's "usual" band, same convention as every field above.
   { id: "strapWidth", label: "Strap width", min: 3, max: 30, step: 0.5 },
   { id: "neckDrop", label: "Neck scoop depth", min: 0, max: 18, step: 0.5 },
+  { id: "neckWidthEase", label: "Neckline width adjustment", min: -4, max: 12, step: 0.5 },
 ];
 
 /** Keep a number within [min, max]. */

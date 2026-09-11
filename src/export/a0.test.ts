@@ -5,7 +5,7 @@
 import { describe, it, expect } from "vitest";
 import { PDFDocument, PDFRawStream } from "pdf-lib";
 import { point } from "../geometry";
-import { STANDARD_M, TEE, Piece, blockPieces } from "../drafting";
+import { STANDARD_M, TEE, TANK, Piece, blockPieces } from "../drafting";
 import { exportA0Pdf, PAGE_A0, PAGE_A0_LANDSCAPE } from "./a0";
 import { CALIBRATION_CM } from "./calibration";
 
@@ -65,6 +65,14 @@ describe("exportA0Pdf — calibration square", () => {
 });
 
 describe("exportA0Pdf — whole pieces, print-oriented", () => {
+  it("exports Tank with front/back labels and no sleeve", async () => {
+    const tankPdf = await load(exportA0Pdf(blockPieces(TANK.draft(STANDARD_M)), TANK.allowances, TANK.notches));
+    const content = streamsText(tankPdf);
+    expect(content).toContain("(FRONT) Tj");
+    expect(content).toContain("(BACK) Tj");
+    expect(content).not.toContain("(SLEEVE) Tj");
+  });
+
   it("keeps every drawn coordinate on the page (whole pieces, no spill)", async () => {
     const doc = await load(pdfText);
     const { width, height } = doc.getPage(0).getSize();

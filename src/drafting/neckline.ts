@@ -117,10 +117,10 @@ export function necklineEdge(
   // decides what to do about it.
   const notes: Note[] = [];
   if (effectiveWidthHalf >= shoulderHalf) {
-    notes.push({ level: "warn", text: "The neckline is wide enough to reach the shoulder seam." });
+    notes.push({ level: "warn", text: "The neckline reaches the shoulder seam — reduce neckline width adjustment." });
   }
   if (position === "front" && depth >= armholeDepth) {
-    notes.push({ level: "warn", text: "The front neckline drops below the underarm." });
+    notes.push({ level: "warn", text: "The front neckline drops below the underarm — reduce neck scoop depth or increase armhole depth." });
   }
 
   const cNeck = point(0, depth);

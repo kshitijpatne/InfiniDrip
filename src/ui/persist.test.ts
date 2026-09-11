@@ -98,6 +98,13 @@ describe("deserialize (success)", () => {
     expect(result.measurements.neckDrop).toBe(7);
   });
 
+  it("round-trips the Tank neckline width adjustment", () => {
+    const result = deserialize(serialize({ ...STANDARD_M, neckWidthEase: 3 }, FABRIC));
+    expect(result.ok).toBe(true);
+    if (!result.ok) return;
+    expect(result.measurements.neckWidthEase).toBe(3);
+  });
+
   it("loads a pre-Slice-63 save with no strapWidth/neckDrop, defaulting them from STANDARD_M", () => {
     const { strapWidth, neckDrop, ...legacy } = STANDARD_M;
     const r = deserialize(JSON.stringify({ v: SAVE_VERSION, measurements: legacy, fabric: FABRIC }));
@@ -108,6 +115,14 @@ describe("deserialize (success)", () => {
     expect(r.measurements.hipDepth).toBe(STANDARD_M.hipDepth); // the rest still load
   });
 
+  it("loads a save without neckline width adjustment using the derived default", () => {
+    const { neckWidthEase, ...legacy } = STANDARD_M;
+    const r = deserialize(JSON.stringify({ v: SAVE_VERSION, measurements: legacy, fabric: FABRIC }));
+    expect(r.ok).toBe(true);
+    if (!r.ok) return;
+    expect(r.measurements.neckWidthEase).toBe(STANDARD_M.neckWidthEase);
+  });
+
   it("defaults an out-of-range strapWidth/neckDrop rather than rejecting the whole save", () => {
     const r = deserialize(JSON.stringify({
       v: SAVE_VERSION, measurements: { ...STANDARD_M, strapWidth: 999, neckDrop: -5 }, fabric: FABRIC,
@@ -116,6 +131,15 @@ describe("deserialize (success)", () => {
     if (!r.ok) return;
     expect(r.measurements.strapWidth).toBe(STANDARD_M.strapWidth);
     expect(r.measurements.neckDrop).toBe(STANDARD_M.neckDrop);
+  });
+
+  it("defaults an out-of-range neckline width adjustment", () => {
+    const r = deserialize(JSON.stringify({
+      v: SAVE_VERSION, measurements: { ...STANDARD_M, neckWidthEase: 999 }, fabric: FABRIC,
+    }));
+    expect(r.ok).toBe(true);
+    if (!r.ok) return;
+    expect(r.measurements.neckWidthEase).toBe(STANDARD_M.neckWidthEase);
   });
 });
 

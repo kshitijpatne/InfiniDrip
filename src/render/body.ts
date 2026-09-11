@@ -15,7 +15,8 @@
 
 import { Measurements, derive, necklineEdge, NecklineParams, NECKLINE_DEFAULT } from "../drafting";
 import { BLUEPRINT as T } from "./theme";
-import { necklinePathCommand } from "./neckline-path";
+import { armholePathCommand, necklinePathCommand } from "./neckline-path";
+import { sleevelessArmhole } from "../drafting/armhole";
 
 const round = (n: number): number => Math.round(n * 1000) / 1000;
 
@@ -95,6 +96,9 @@ export function renderBody(
   const { cNeck, hps, edge: neckEdge } =
     necklineEdge("front", d.neckWidthHalf, d.frontNeckDepth, shoulderHalf, ad, frontNeckline);
   const neckHalf = hps.x; // where the collar meets the shoulder — real, not a proportion of shoulderWidth
+  const tankArmhole = !hasSleeve && strapWidth !== undefined
+    ? sleevelessArmhole(strapWidth, neckHalf, shoulderHalf, d.shoulderSlope, bodyHalf, ad).edge
+    : null;
 
   const headR = m.shoulderWidth * 0.17;
   const neckLen = m.shoulderWidth * 0.08;
@@ -121,11 +125,11 @@ export function renderBody(
   const torso = [
     `M ${round(neckHalf)} 0`,
     `L ${round(strapX)} ${round(slope)}`,
-    `L ${round(bodyHalf)} ${round(ad)}`,
+    tankArmhole ? armholePathCommand(tankArmhole) : `L ${round(bodyHalf)} ${round(ad)}`,
     `L ${round(bodyHalf)} ${round(len)}`,
     `L ${round(-bodyHalf)} ${round(len)}`,
     `L ${round(-bodyHalf)} ${round(ad)}`,
-    `L ${round(-strapX)} ${round(slope)}`,
+    tankArmhole ? armholePathCommand(tankArmhole, true) : `L ${round(-strapX)} ${round(slope)}`,
     `L ${round(-neckHalf)} 0`,
     necklinePathCommand(cNeck, hps, neckEdge), // the real collar: crew, v, or scoop
     "Z",
