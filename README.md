@@ -71,13 +71,16 @@ TypeScript · SVG · Vite · Vitest
 
 ## Status
 
-In active development, built feature by feature. Current: measurement-driven
+In active development through numbered slices. Current through Slice 63:
+measurement-driven
 drafting, live render, a 2D body view linked to the measurement controls, guidance
 (geometric checks plus plausibility and proportional-coherence warnings),
 target-fit styles, an assembled garment view, seam allowances, notches + grainlines,
 save/load, parametric grading + spec sheet, a three-page tech-pack PDF, true-scale
 SVG/DXF/PDF export at any size, a fabric-nesting estimator and whole-run marker, a
 production-readiness checker, freeform piece editing, and a second fitted/darted
-garment with dart manipulation. Planned: finishing a short pass of measurement
-sanity-check UX, then a structurally different garment (a skirt) to prove the engine
-generalizes beyond tops.
+garment with dart manipulation. Four recipes ship: tee, fitted, skirt, and tank.
+The tank now has independently reasoned neckline and sleeveless armhole/strap
+geometry, with user-adjustable strap width and neck drop. Next: the Slice 64 Tank
+reality-check, any fixes it reveals, polo end-to-end, then Phase C3. No garment has
+yet completed physical cut/sew/fit validation.

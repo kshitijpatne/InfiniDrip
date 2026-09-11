@@ -1,16 +1,28 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 63 (Tank rework step 3: real strap/armhole
+_Last updated: after Slice 63 and the 2026-09-10 context handoff (Tank rework step 3: real strap/armhole
 geometry for the tank, PLUS strapWidth/neckDrop promoted to genuine
 user-adjustable measurements rather than hardcoded recipe constants — see
-Slice 63's own entry). Steps 4 (final confirmation) of the Tank rework plan
+Slice 63's own entry). Step 4 (final confirmation) of the Tank rework plan
 is still open — see the "Active directive" section below. Update this after
 every slice (and commit it WITH the code)._
 
-**Governing plan:** MVP-PLAN.md (operative — the 6-month execution plan) and
-ROADMAP.md (strategic — full competitor analysis + long-term scope + the cut
+**Governing plan:** `docs/planning/MVP-PLAN.md` (operative — the 6-month execution plan) and
+`docs/planning/ROADMAP.md` (strategic — full competitor analysis + long-term scope + the cut
 list) are the current planning documents, added after Slice 44. This file
 remains the engineering status log; it does not restate their content.
+
+**Maintainer decisions confirmed after the Slice 63 handoff:** no physical
+garment validation has occurred; the sequence is Slice 64 reality-check → fix
+any real-world failures → build polo end-to-end → Phase C3; Tank neckline width
+must become user-adjustable; every meaningful garment aspect should be
+adjustable, with invalid combinations detected by guidance and paired with
+actionable corrections; code signing has not started; every future garment
+requires a durable research document equivalent to
+`docs/research/garments/TANK-RESEARCH.md`; and
+`docs/research/ASSET-RESOURCES.md` supersedes
+`apparel_design_resources.md`. See `docs/PROJECT-DECISIONS.md` for the durable
+record.
 
 ## What it is
 A lightweight, local 2D sewing-pattern designer in TypeScript. Type body
@@ -1224,8 +1236,9 @@ brand spec/size charts, sewing-pattern drafting tutorials), cross-checked
 against at least two independent sources before being treated as a standard
 — never recycled from one of our own existing garments' numbers, and never
 presented as sourced when it's actually an estimate. Findings get recorded
-in a new PK-only doc, `TANK-RESEARCH.md`, following the same convention as
-`TOOLS-RESEARCH.md`/`ASSET-RESOURCES.md` — a persistent, checkable record,
+in a durable repository doc, `docs/research/garments/TANK-RESEARCH.md`, following
+the same convention as `docs/research/TOOLS-RESEARCH.md` and
+`docs/research/ASSET-RESOURCES.md` — a persistent, checkable record,
 not a one-off chat answer, so the NEXT new garment after the tank has a
 repeatable process instead of starting from zero.
 
@@ -1256,7 +1269,7 @@ turned out to be a second, deeper bug under step 1, not part of step 2):**
 3. ~~**Build the tank properly and completely**, integrating real styling
    depth.~~ **DONE — Slice 63.** Real armhole/strap geometry for the tank
    (`drafting/armhole.ts`), researched per the standard above
-   (`TANK-RESEARCH.md`) and NOT reused from the sleeved bodice. The
+   (`docs/research/garments/TANK-RESEARCH.md`) and NOT reused from the sleeved bodice. The
    parameters-vs-princess-seams split was resolved by the research itself,
    not assumed: `TANK_STYLES` has no style that varies by anything other
    than ease/length, and princess seams are for bust/waist contouring no
@@ -1279,8 +1292,10 @@ turned out to be a second, deeper bug under step 1, not part of step 2):**
    multiple strap widths) — kept as an open line item for a final pass
    across the whole Tank rework before closing it out, not because
    anything specific is known to be missing.
-5. **Then, and only then, move on** — polo, or whatever's next-best at that
-   point. Polo is explicitly parked until this is finished.
+5. **Then, and only then, move on** — build the polo end-to-end, then
+   complete Phase C3. This sequence was confirmed by Kshitij after the Slice 63
+   handoff; polo remains parked until step 4 and any real-world failures it finds
+   are closed.
 
 ## Roadmap — superseded by MVP-PLAN.md (kept below for slice-history context only)
 The engine/recipe thesis is proven end-to-end: tee, fitted, and skirt — three

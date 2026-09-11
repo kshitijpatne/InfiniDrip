@@ -1,5 +1,9 @@
 # Apparel Design Resources, Toolkits, and Datasets
 
+> **Superseded.** This original link list is retained for provenance. Use
+> `docs/research/ASSET-RESOURCES.md`, the refined and analyzed successor, for
+> current decisions.
+
 ### Data Schemas & Production Standardizers
 * **Open TechPack** - [Open TechPack GitHub](https://github.com/coatsdigital/opentechpack)
 * **OpenPack Dataset & Toolkit** - [OpenPack GitHub Organization](https://github.com/open-pack)

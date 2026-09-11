@@ -3,13 +3,13 @@
 How the app fits together, in plain language. Read the top to re-orient; skim the
 layers when you need detail. Updated every slice with only need-to-know changes.
 
-**Governing plan:** as of Slice 44, MVP-PLAN.md (operative — the 6-month
-execution plan) and ROADMAP.md (strategic — competitor analysis + long-term
+**Governing plan:** as of Slice 44, `docs/planning/MVP-PLAN.md` (operative — the 6-month
+execution plan) and `docs/planning/ROADMAP.md` (strategic — competitor analysis + long-term
 scope + the cut list) are the current planning documents. This file describes
 the engine as it exists; it does not restate the forward plan.
 
 **Architectural fork, Phase A complete (Slice 51), Phase B complete (Slice 57):**
-`COMPONENT-ARCHITECTURE.md` is the design doc for the Interface/Stitch/
+`docs/planning/COMPONENT-ARCHITECTURE.md` is the design doc for the Interface/Stitch/
 Component work below — read it before touching `drafting/`. Seam knowledge
 is now real, declared data: every `Block` carries a required `stitches`
 field (`readonly Stitch[]`), populated by each recipe's own draft function
@@ -743,7 +743,8 @@ doesn't match the real pattern" gap Slice 61 fixed for the neckline, simply
 never checked for the strap because the strap didn't exist as a concept
 before this slice. Fixed proactively, before being told a third time.
 Separately, a real product decision from Kshitij reshaped the slice's
-scope mid-flight: rather than the engine resolving TANK-RESEARCH.md's open
+scope mid-flight: rather than the engine resolving
+`docs/research/garments/TANK-RESEARCH.md`'s open
 strap-width question by picking a winner, `strapWidth` and `neckDrop` both
 shipped as genuine user-adjustable measurements — joining `Measurements`
 itself, with the same plausibility bounds, UI slider, and save/load support
@@ -753,3 +754,10 @@ want a different one; the guidance engine's warn-never-clamp checks are
 what keep an extreme combination visible, not an engine-side ceiling on the
 input itself. This is why `sleevelessArmhole()`'s guardrails exist and why
 Slice 63 made sure they actually reach the person, not just compute.
+
+**Maintainer clarification after Slice 63:** this principle applies to every
+meaningful garment aspect, not dimensions alone. Prefer user-adjustable
+parameters with explicit, actionable compatibility guidance. Do not silently
+clamp or replace an invalid combination. Tank neckline width is the next known
+parameter that must be promoted from a recipe constant to a user control. The
+durable decision record is `docs/PROJECT-DECISIONS.md`.
