@@ -160,7 +160,8 @@ export function mountApp(root: HTMLElement): void {
       const pieces = blockPieces(block);
       canvasHost.innerHTML = renderBlueprint(
         pieces,
-        { active: pieces[0].name, notches: recipe.notches, allowances: recipe.allowances });
+        { active: pieces[0].name, notches: recipe.notches, allowances: recipe.allowances,
+          layout: recipe.name === "polo" ? "polo" : "linear" });
     }
     garmentHost.innerHTML = isTop
       ? renderGarment(measurements, fabric, hasSleeve,

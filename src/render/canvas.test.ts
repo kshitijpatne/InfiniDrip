@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { STANDARD_M, dartOf, draftFittedFront, draftTshirt, rolePiece, lineMark, pointMark } from "../drafting";
+import { STANDARD_M, dartOf, draftFittedFront, draftTshirt, draftPolo, rolePiece, lineMark, pointMark } from "../drafting";
 import { point } from "../geometry";
 import { renderBlueprint } from "./canvas";
 import { BLUEPRINT } from "./theme";
@@ -53,6 +53,16 @@ describe("seam allowance", () => {
 });
 
 describe("renderBlueprint with non-tshirt pieces", () => {
+  it("uses readable shelves for the Polo's nine pieces", () => {
+    const poloPieces = ["front", "back", "sleeve", "buttonPlacket", "buttonholePlacket", "outerStand", "innerStand", "upperCollar", "underCollar"]
+      .map((role) => rolePiece(draftPolo(STANDARD_M), role));
+    const svg = renderBlueprint(poloPieces, { layout: "polo" });
+    expect((svg.match(/<g transform/g) || []).length).toBe(9);
+    expect(svg).toContain('viewBox="0 0');
+    const transforms = [...svg.matchAll(/<g transform="translate\([^ ]+ ([^)]*)\)"/g)].map((m) => Number(m[1]));
+    expect(new Set(transforms).size).toBeGreaterThan(1);
+  });
+
   it("renders a piece with no notch recipe without crashing or drawing notches", () => {
     const unknown = { ...rolePiece(block, "front"), name: "unknown-piece" };
     const svg = renderBlueprint([unknown]);

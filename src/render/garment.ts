@@ -6,6 +6,7 @@ import { Measurements, derive, necklineEdge, NecklineParams, NECKLINE_DEFAULT } 
 import { BLUEPRINT as T } from "./theme";
 import { armholePathCommand, necklinePathCommand } from "./neckline-path";
 import { sleevelessArmhole } from "../drafting/armhole";
+import { poloDetailsSvg } from "./polo-details";
 
 const round = (n: number): number => Math.round(n * 1000) / 1000;
 
@@ -115,19 +116,11 @@ function renderOne(m: Measurements, position: "front" | "back", fabric: string,
  * collar/stand silhouette at the exact selected dimensions. No drape claim. */
 function poloFrontDetails(m: Measurements, polo: PoloVisual): string {
   const d = derive(m);
-  const neckY = d.frontNeckDepth;
-  const half = polo.placketWidth / 2;
-  const stroke = "rgba(0,0,0,0.5)";
-  const buttons = [3.5, 7, 10.5].map((offset) =>
-    `<circle cx="0" cy="${round(neckY + offset)}" r="0.35" fill="none" stroke="${stroke}" stroke-width="0.18"/>`).join("");
-  const collar = `<path d="M ${round(-d.neckWidthHalf)} 0 L ${round(-d.neckWidthHalf - 1.5)} ${round(-polo.collarLeafDepth)} ` +
-    `L ${round(d.neckWidthHalf + 1.5)} ${round(-polo.collarLeafDepth)} L ${round(d.neckWidthHalf)} 0" ` +
-    `fill="none" stroke="${stroke}" stroke-width="0.3" stroke-linejoin="round"/>`;
-  const stand = `<line x1="${round(-d.neckWidthHalf)}" y1="${round(-polo.standHeight)}" ` +
-    `x2="${round(d.neckWidthHalf)}" y2="${round(-polo.standHeight)}" stroke="${stroke}" stroke-width="0.24"/>`;
-  const placket = `<rect x="${round(-half)}" y="${round(neckY)}" width="${round(polo.placketWidth)}" ` +
-    `height="${round(polo.placketLength)}" fill="none" stroke="${stroke}" stroke-width="0.24"/>`;
-  return collar + stand + placket + buttons;
+  return `<g color="rgba(0,0,0,0.5)">${poloDetailsSvg({
+    neckWidthHalf: d.neckWidthHalf, frontNeckDepth: d.frontNeckDepth,
+    shoulderHalf: d.shoulderHalf, armholeDepth: m.armholeDepth,
+    neckline: NECKLINE_DEFAULT, ...polo,
+  })}</g>`;
 }
 
 /** The assembled view: front and back silhouettes side by side, in fabric

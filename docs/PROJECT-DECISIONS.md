@@ -21,6 +21,11 @@ No physical garment validation has occurred yet. No garment drafted by InfiniDri
 has been confirmed by cutting, sewing, and fitting it on a real body. This remains
 the project's highest product risk and must not be represented as complete.
 
+Physical sampling is currently on hold at the maintainer's request because no
+manufacturer or printer is available. Do not suggest or schedule physical
+sampling, sewing, or measurement validation unless the maintainer explicitly
+reopens it.
+
 ## Polo V1 — confirmed 2026-09-11
 
 - Construction is **collar plus stand**.

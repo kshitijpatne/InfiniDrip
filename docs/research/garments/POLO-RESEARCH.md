@@ -106,8 +106,18 @@ Physical validation remains unstarted._
   exist at cm-true coordinates. Existing non-polo export hashes stay unchanged.
 - Polo output establishes new fixtures; it never changes the established tee,
   darted tee, tank, or skirt regression baselines.
+- Digital Slice 74 review found that the Body and assembled schematics must show
+  a neckline-following stand with an attached pointed collar leaf; a straight
+  rectangular bar perpendicular to the neckline is not an acceptable Polo
+  convention. The Pattern view uses shelves for the nine pieces so labels and
+  construction marks remain readable.
 
-## Physical validation plan
+## Physical validation plan (deferred)
+
+Physical sampling is explicitly on hold because no manufacturer or printer is
+currently available. Do not suggest this activity unless the maintainer
+explicitly reopens it. The following is retained as a future evidence template,
+not as an active next step.
 
 - **Person / body:** record actual measured wearer after first digital gate.
 - **Fabric / notions:** selected knit body fabric; lightweight knit fusible;

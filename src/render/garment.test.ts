@@ -120,7 +120,9 @@ describe("renderGarment — Polo V1", () => {
     });
     expect(svg).toContain('width="3" height="14"');
     expect((svg.match(/r="0.35"/g) ?? []).length).toBe(3);
-    expect(svg).toContain("-5");
+    expect(svg).toContain("-7"); // stand + selected 5 cm leaf depth
+    expect(svg).toContain('data-edge="option-standHeight"');
+    expect(svg).toContain('data-edge="option-collarLeafDepth"');
   });
 
   it("moves the finished placket when its option changes", () => {

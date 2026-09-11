@@ -587,6 +587,18 @@ describe("body-view measurement linking", () => {
     expect(root.querySelector("#canvas-host")!.innerHTML).toContain('height="20"');
   });
 
+  it("spotlights the Polo option's corresponding body feature", () => {
+    const root = mount();
+    root.querySelector<HTMLButtonElement>("#garment-polo")!.dispatchEvent(new Event("click"));
+    root.querySelector<HTMLButtonElement>("#view-body")!.dispatchEvent(new Event("click"));
+    for (const field of ["placketLength", "placketWidth", "standHeight", "collarLeafDepth"]) {
+      const row = root.querySelector<HTMLElement>(`[data-dim-row="option-${field}"]`)!;
+      row.dispatchEvent(new Event("mouseenter"));
+      expect(root.querySelector<SVGGElement>(`#canvas-host [data-edge="option-${field}"]`)!.style.opacity).toBe("1");
+      row.dispatchEvent(new Event("mouseleave"));
+    }
+  });
+
   it("spotlights the hovered measurement's dimension and fades the rest", () => {
     const root = mount();
     root.querySelector<HTMLButtonElement>("#view-body")!.dispatchEvent(new Event("click"));

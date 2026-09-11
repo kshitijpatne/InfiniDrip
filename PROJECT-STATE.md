@@ -1,9 +1,9 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 73 (Polo cross-size and export readiness gate).
-Tank rework step 4
-is complete for automated and rendered verification; physical sewn validation
-has not occurred. Update this after every slice (and commit it WITH the code)._
+_Last updated: after Slice 74 (Polo digital UX and output audit). Tank rework
+step 4 is complete for automated and rendered verification; physical sewn
+validation has not occurred and is intentionally deferred. Update this after
+every slice and commit it WITH the code._
 
 **Governing plan:** `docs/planning/MVP-PLAN.md` (operative — the 6-month execution plan) and
 `docs/planning/ROADMAP.md` (strategic — full competitor analysis + long-term scope + the cut
@@ -231,7 +231,22 @@ F1. **(Fable) Real-world export system** — two new writers on the existing exp
     real consumers. All digital gates pass and established export baselines are
     unchanged. This is production-readiness evidence for sewability only; no
     physical sewing, fit, collar roll, placket recovery, or wash validation has
-    occurred. Next: physical Polo sample/fit validation, then Phase C3.
+    occurred. Next: digital product-contract work, then Phase C3; physical
+    sampling remains deferred unless explicitly reopened.
+74. Polo digital UX and output audit — Pattern view now shelves the nine pieces
+    into readable construction groups instead of one crowded strip. Body and
+    assembled views share a neckline-following stand and pointed collar-leaf
+    schematic; the old perpendicular rectangular collar was a misleading
+    decorative representation. Polo finished-option rows now spotlight their
+    corresponding Body-view features. The audit also confirms the Edit view is
+    currently a front-only in-memory manual override: it does not flow into the
+    assembled preview, checks, grading, or exports, so it is not yet a complete
+    final-design editing workflow. All export writers remain digitally tested
+    with real parsers/consumers; no physical sampling is planned at this time.
+    Gate: 858 TypeScript tests / 100% coverage, typecheck, production build,
+    visual browser review, parsed export suite, and unchanged legacy hashes.
+    Next: resolve the Edit-view product contract, then Phase C3; physical
+    sampling remains deferred until explicitly reopened by the maintainer.
 63. Tank rework, step 3 — real strap/armhole geometry for the tank, AND a
     scope change requested by Kshitij mid-slice that reshaped the whole
     approach: rather than the engine picking a single "correct" strap width
@@ -1624,3 +1639,4 @@ s60=750 (net +12 vs s59: 3 new scoop-geometry tests in neckline.test.ts (replaci
 s61=764 (14 new: 3 body.test.ts (chest-width sync, real front-collar geometry, scoop-vs-crew collar differs) + 3 garment.test.ts (real front-collar geometry, changing only the front neckline moves only the front path, defaults to crew) + 2 skirt-figure.test.ts (real waist/hip sync, body/garment agreement across waist/hip/ease combos) + 3 recipe.test.ts (tee/fitted/tank's declared frontNeckline/backNeckline reproduce the actual drafted edge) + 3 in the new neckline-path.test.ts (curve emits two mirrored halves, V emits two lines not a curve, control points mirror correctly); 2 new files (render/neckline-path.ts, render/neckline-path.test.ts), 13 modified; regression.test.ts's 8/8 SHA-256 baseline unchanged by construction — nothing here touches drafting/ output or export/; one pre-existing app.test.ts assertion legitimately updated (it was checking for the OLD placeholder curve's "/Q /" signature — the bug's own fingerprint — now checks for the real "/C /" cubic curve), not reverted)
 s62=765 (net +1: neckline.test.ts's crew "different control-point factors" test replaced with a right-angle-tangent proof (front AND back), its scoop-specific tests replaced with a byte-identical-to-crew-at-same-depth/width proof; tank.test.ts's scoop-vs-crew test rewritten for depth-only distinction + 1 new shoulder-alignment test (net +1 here); neckline-path.test.ts's mirror test fixed for a rounding-precision false failure, not a real bug. regression.test.ts's tee/fitted SVG/DXF/PDF/tech-pack baseline DELIBERATELY regenerated — Kshitij's explicit sign-off requested and given before building, since the old baseline encoded the exact spiked curve being fixed; this is only the 2nd time since Slice 34 this baseline has moved (1st: Slice 45's tech-pack-only page addition). 0 new files, 7 modified (neckline.ts, neckline.test.ts, tank.ts, tank.test.ts, recipe.ts, neckline-path.test.ts, regression.test.ts); verified on a fresh clone via plain `git apply` + full gate + production build, not just in the working copy; every OTHER test (structure, stitch-matching, POMs, checks) passed unmodified, confirming the blast radius is exactly the neckline curve's shape)
 s63=790 (25 new: 8 in the new armhole.test.ts (strap/underarm points, cuts-in-vs-straight-line proof, guardrails) + 8 tank.test.ts (strapWidth/neckDrop actually wired into the real drafted edges, front-only neckDrop, both new guardrails surfacing through tankGuidance) + 3 persist.test.ts (round-trip + pre-Slice-63 lenient load + out-of-range default, mirroring hipDepth's own precedent) + 3 body.test.ts (real strap point, byte-identical when omitted, moves with strapWidth) + 3 garment.test.ts (same, both panels); 2 new files (drafting/armhole.ts, drafting/armhole.test.ts), 17 modified (measurements.ts, plausibility.ts, controls.ts, facets.ts, drafting/index.ts, bodice.ts, tank.ts, tank.test.ts, recipe.ts, recipe.test.ts, app.ts, persist.ts, persist.test.ts, render/body.ts, render/body.test.ts, render/garment.ts, render/garment.test.ts); regression.test.ts's 8/8 baseline untouched by construction (never touches tshirt.ts/fitted.ts output); verified on a fresh clone via plain `git apply` + full gate + production build + all three views (body/garment/actual pattern) re-rendered and visually cross-checked at 3 strap widths, front and back matching at every one)
+s74=858 (2 new tests: readable Polo shelf layout and Polo option-to-Body-feature spotlight; shared Polo schematic refactor and browser visual audit; full coverage remains 100%, legacy export hashes unchanged)

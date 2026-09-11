@@ -65,6 +65,16 @@ legacy baselines. This establishes digital sewability evidence only; physical
 collar roll, placket recovery, fit, and wash behavior remain unresolved until a
 sample is cut and sewn.
 
+Slice 74: `render/polo-details.ts` is the shared flat schematic for Polo's
+front stand, pointed collar leaf, and placket details in the Body and assembled
+views. Its construction regions carry the same `option-*` keys used by the UI
+rows, so finished Polo controls can spotlight the feature they affect. Polo's
+Pattern canvas opts into a three-shelf layout (body pieces, plackets, collar /
+stand pieces) to keep nine labels and marks legible. The Edit view remains an
+explicit front-only in-memory override and is not part of the downstream draft
+or export graph; this is a known product-contract gap, not evidence that edits
+are applied to the final design.
+
 **Governing plan:** as of Slice 44, `docs/planning/MVP-PLAN.md` (operative — the 6-month
 execution plan) and `docs/planning/ROADMAP.md` (strategic — competitor analysis + long-term
 scope + the cut list) are the current planning documents. This file describes
@@ -493,6 +503,8 @@ the parametric core stays consistent everywhere else.
               neckline-path.ts (s61) — the one place a real `necklineEdge()`
               result becomes a drawable SVG curve; shared by garment.ts and
               body.ts so neither can draw a neckline shape unsynced from it
+              polo-details.ts (s74) — shared stand/collar/placket schematic and
+              option-to-feature tags for Body and assembled views
   export/     pieces -> true-scale cutting files (SVG, DXF, tiled PDF); shared
               layout spine; nesting estimator (shelf pack + utilization);
               tech-pack document (techpack.ts — 3-page sketch + POM table + BOM;

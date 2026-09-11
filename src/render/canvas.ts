@@ -41,7 +41,8 @@ interface Placed {
   readonly h: number;
 }
 
-function place(pieces: readonly Piece[]): { placed: Placed[]; width: number; height: number } {
+function place(pieces: readonly Piece[], layout: "linear" | "polo" = "linear"): { placed: Placed[]; width: number; height: number } {
+  if (layout === "polo") return placePolo(pieces);
   let cursor = MARGIN_X;
   let maxH = 0;
   const placed = pieces.map((piece) => {
@@ -55,6 +56,29 @@ function place(pieces: readonly Piece[]): { placed: Placed[]; width: number; hei
     return item;
   });
   return { placed, width: cursor - GAP + MARGIN_X, height: MARGIN_TOP + maxH + MARGIN_X };
+}
+
+function placePolo(pieces: readonly Piece[]): { placed: Placed[]; width: number; height: number } {
+  const main = pieces.filter((p) => ["front", "back", "sleeve"].includes(p.name));
+  const plackets = pieces.filter((p) => p.name.includes("placket"));
+  const collar = pieces.filter((p) => !main.includes(p) && !plackets.includes(p));
+  const rows = [main, plackets, collar].filter((row) => row.length > 0);
+  let y = MARGIN_TOP;
+  let maxW = 0;
+  const placed: Placed[] = [];
+  for (const row of rows) {
+    let x = MARGIN_X;
+    let maxH = 0;
+    for (const piece of row) {
+      const b = pieceBounds(piece);
+      placed.push({ piece, tx: x - b.minX, ty: y - b.minY, vx: x, vy: y, w: b.width, h: b.height });
+      x += b.width + GAP;
+      maxH = Math.max(maxH, b.height);
+    }
+    maxW = Math.max(maxW, x - GAP + MARGIN_X);
+    y += maxH + 12;
+  }
+  return { placed, width: maxW, height: y - 12 + MARGIN_X };
 }
 
 // --- per-piece decorations --------------------------------------------------
@@ -114,6 +138,7 @@ export interface RenderOptions {
   readonly active?: string; // name of the piece to highlight
   readonly notches?: readonly PieceNotches[]; // the garment's notch/grain rules
   readonly allowances?: AllowanceSpec; // the garment's cutting allowances
+  readonly layout?: "linear" | "polo";
 }
 
 // Only used when a caller draws pieces with no garment behind them (a bare piece
@@ -125,7 +150,7 @@ export function renderBlueprint(pieces: readonly Piece[], options: RenderOptions
   const active = options.active ?? (pieces.length > 0 ? pieces[0].name : "");
   const notchTable = options.notches ?? [];
   const allowances = options.allowances ?? PLAIN_ALLOWANCE;
-  const { placed, width, height } = place(pieces);
+  const { placed, width, height } = place(pieces, options.layout);
   const body = placed.map((p) => renderPiece(p, p.piece.name === active, notchTable, allowances)).join("");
   return `<svg viewBox="0 0 ${round(width)} ${round(height)}" width="100%" ` +
     `xmlns="http://www.w3.org/2000/svg" style="background:${T.background};border-radius:8px">` +
