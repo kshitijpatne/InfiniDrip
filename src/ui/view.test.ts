@@ -97,7 +97,10 @@ describe("editorHintMarkup", () => {
   it("explains the override and offers a Reset button", () => {
     const html = editorHintMarkup();
     expect(html).toContain('id="editor-reset"');
-    expect(html).toContain("manual override");
+    expect(html).toContain('data-editor-contract="preview-only"');
+    expect(html).toContain("Exploratory edit");
+    expect(html).toContain("assembled garment");
+    expect(html).toContain("exports");
   });
 });
 

@@ -314,6 +314,7 @@ Ordered so each block unlocks several garments:
 | 2.1 | **Woven shirt block** (collar + stand, placket, cuff, yoke) | Button-up (long/short sleeve), blouse, overshirt | 15–25 slices |
 | 2.2 | **Knit top variants** (extends existing tee) | Polo (needs placket+collar from 2.1), tank, women's tops | 8–12 slices |
 | 2.2a | **Committed Polo V2 fidelity refinement** — revisit collar/stand geometry and back-neck representation; then make explicit scope decisions on shaped placket reinforcement, back hem/side slit, sleeve rib, and Polo-specific grading before implementation | Polo V2 / upgraded Polo | Standby until a refinement/version-upgrade slice is assigned; research and decision gate required |
+| 2.2b | **Edit-view final-design contract** — if exploratory front editing is promoted to a final-design override, add a durable design-state model, define persistence and size/grading semantics, route validation/nesting/preview/export through it, and verify every output; otherwise retain the explicit preview-only contract | Edit workflow | Decision gate after Phase C3; model change is mandatory before claiming edits affect final outputs |
 | 2.3 | **Trouser block** (crotch curve, rise, seat angle) | Casual pants, joggers, shorts, formal trousers | 15–25 slices |
 | 2.4 | **Denim variant** of 2.3 | Jeans | 6–10 slices |
 | 2.5 | **Hoodie / zip jacket** (hood, zip, raglan or set-in) | Hoodie, zip-up, sweatshirt | 10–15 slices |

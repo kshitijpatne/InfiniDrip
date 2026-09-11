@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 77 (commit Polo V2 fidelity backlog).
+_Last updated: after Slice 78 (Edit-view contract clarification).
 Tank rework
 step 4 is complete for automated and rendered verification; physical sewn
 validation has not occurred and is intentionally deferred. Update this after
@@ -272,6 +272,18 @@ F1. **(Fable) Real-world export system** — two new writers on the existing exp
     refinement/version-upgrade slice is assigned. No implementation changes are
     included; current V1 scope remains unchanged and physical sampling remains
     deferred. Next: resolve the Edit-view product contract, then Phase C3.
+78. Edit-view product contract clarified — Edit is explicitly an exploratory,
+    front-piece-only preview. Dragging handles or using dart tools does not alter
+    measurements, the assembled preview, checks, grading, nesting, persistence,
+    or exports; Reset returns to the current parametric draft. This slice makes
+    the existing quarantine visible and testable without claiming that a local
+    SVG mutation is part of the final design. The underlying design model must
+    change in a future, separately scoped slice if Edit is promoted to a
+    final-design override: that slice must define persistence, size/grading
+    semantics, downstream validation, and export behavior before implementation.
+    Physical sampling remains deferred until explicitly reopened. Next: Phase C3
+    after the model-backed Edit decision is either accepted or deliberately
+    deferred.
 63. Tank rework, step 3 — real strap/armhole geometry for the tank, AND a
     scope change requested by Kshitij mid-slice that reshaped the whole
     approach: rather than the engine picking a single "correct" strap width

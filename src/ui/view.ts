@@ -228,12 +228,16 @@ export function dartControlsMarkup(hasDart: boolean, canTrue: boolean): string {
     `${btn("dart-shoulder", "→ Shoulder")}${btn("dart-hem", "→ Hem")}${trueBtn}</div>`;
 }
 
-/** The Edit-view hint + Reset (freeform edits are a manual override, not parametric). */
+/** The Edit-view contract + Reset. Edits are intentionally an exploratory
+ * front-piece preview until a design-state model exists to carry them through
+ * grading, validation, nesting, persistence, and exports. */
 export function editorHintMarkup(): string {
-  return `<div style="display:flex;gap:10px;align-items:center;margin-top:6px;font-size:12px;` +
-    `color:${T.label}">` +
-    `<span style="flex:1">Drag the dots to reshape the front. Edits are a manual override — ` +
-    `they don't change your measurements.</span>` +
+  return `<div data-editor-contract="preview-only" style="display:flex;gap:10px;align-items:center;` +
+    `margin-top:6px;font-size:12px;color:${T.label}">` +
+    `<span style="flex:1"><strong style="color:${T.line}">Exploratory edit — front piece only.</strong> ` +
+    `Drag the dots or use dart tools to test a shape. This preview does not change ` +
+    `measurements, the assembled garment, checks, size grading, nesting, saves, or exports. ` +
+    `Use Reset to return to the current parametric draft.</span>` +
     `<button id="editor-reset" style="padding:5px 10px;font-size:12px;cursor:pointer;` +
     `background:${T.background};color:${T.line};border:1px solid ${BORDER};border-radius:5px">` +
     `Reset to draft</button></div>`;

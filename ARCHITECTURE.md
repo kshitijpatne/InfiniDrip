@@ -75,6 +75,16 @@ explicit front-only in-memory override and is not part of the downstream draft
 or export graph; this is a known product-contract gap, not evidence that edits
 are applied to the final design.
 
+Slice 78: the Edit view makes that contract explicit in the UI: it is an
+exploratory, front-piece-only preview. Its in-memory handle and dart changes do
+not enter the parametric draft graph, assembled preview, checks, grading,
+nesting, persistence, or exports. This is a deliberate quarantine, not a
+final-design editing model. If Edit is later promoted to a final-design
+override, the model must change first to represent the override durably and
+define its size/grading semantics; all downstream consumers must then receive
+that state through validation and export rather than reading the editor SVG
+directly.
+
 Slice 75: the root `tsconfig.json` is type-check-only (`noEmit: true`). Vite is
 the sole renderer build, so `npm run build` cannot place compiled `.js` siblings
 beside TypeScript sources and alter Vite's module-resolution choice for a dev
