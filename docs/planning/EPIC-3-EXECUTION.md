@@ -367,6 +367,8 @@ sample, fit, or production-readiness evidence is implied.
 
 ### Slice 102 — cross-surface audit and responsive verification
 
+Status: **complete** (live browser audit passed; no source fix was required).
+
 Scope: perform the integrated trouser audit across controls, views, guidance,
 size changes, persistence, exports, and responsive widths; fix only real Epic 3
 failures found by evidence.
@@ -390,6 +392,39 @@ Owner/model: Codex; high reasoning for root-cause/evidence reconciliation.
 
 Verification: focused/live browser matrix; no redundant full gate until the
 exit slice unless shared contracts or outputs changed materially.
+
+Evidence: the actual local app was exercised in the in-app browser with the
+valid L-size Trouser state using Cotton woven. Changing waist from 84 to 86 cm
+changed the finished waist from 94 to 96 cm and changed the rendered SVG. An
+out-of-range pocket angle stayed at `99`, set `aria-invalid`, paused the draft,
+disabled exports, and exposed `Review pocket angle`; clicking that action
+focused `input-option-pocketAngle`. A valid-range but invalid geometry case
+(inseam 55 cm plus pocket-bag depth 35 cm) reported the front side-seam
+crossing, kept the typed values, disabled exports, and focused
+`input-option-pocketBagDepth` through its review action. Restoring the valid
+state returned the digital pass and enabled all six exports.
+
+The live Pattern, Body front/back/side/pair, assembled-preview toggle, Size
+run, Spec, Nesting single-size/graded-marker and fabric-width controls, Check,
+Edit preview-only contract, Guidance, Save/Load, and all six export buttons
+were exercised. Save/Load restored the Trouser, size L, Cotton woven, Indigo,
+waist 86, and pocket drop 5 state. Each export button reached the browser
+download path and displayed the honest verification notice. The six existing
+garments (Tee, Darted tee, Tank, Polo, Woven shirt, and Skirt) each rendered
+Pattern and Body views, exposed a Spec table, and passed the digital Check
+view with compatible material selections. Browser diagnostics returned no
+errors or warnings.
+
+At widths 1280/900/700/560/390, document/body scroll widths were respectively
+1265/1265, 885/885, 685/685, 545/545, and 375/375; every width reported no
+page-level horizontal overflow and the key controls remained present. The
+intentional inspection surface remains independent from the page-level check.
+Screenshots are retained in `epic3-slice101-outputs/`, including
+`live-trouser-body.png`, `live-trouser-size-run.png`, `live-trouser-390.png`,
+and `live-trouser-900.png`. This is rendered digital evidence only; no sample
+was sewn or physically validated and no production-readiness conclusion is
+made. Because Slice 102 changed no shared contract or writer, the final full
+project gate remains the bounded work of Slice 103.
 
 ### Slice 103 — Epic 3 exit gate and durable report
 
@@ -437,8 +472,9 @@ alter account usage.
 
 ## Epic 3 exit report
 
-Status: **not started beyond Slice 101 output integration**.
+Status: **pending Slice 103 final gate**.
 
-Slices 102–103 remain live cross-surface verification and the final exit gate.
-No physical garment has been sewn or validated, and no production-readiness
-claim is authorized.
+Slices 94–102 are complete on the actual local `main` branch. Slice 103 still
+must run the final full project gate, inspect the final diff/branch, and record
+the exact exit evidence. No physical garment has been sewn or validated, and
+no production-readiness claim is authorized.

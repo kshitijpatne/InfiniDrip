@@ -304,6 +304,26 @@ tech-pack PNGs were visually inspected. These establish finite, coherent
 digital output only. No garment has been cut or sewn, and no physical fit,
 comfort, seam-performance, or production-readiness conclusion follows.
 
+### Slice 102 live application resolution
+
+The integrated recipe was exercised in the actual browser rather than accepted
+from test JSON. With the valid Cotton-woven state, waist 84 → 86 changed the
+finished waist 94 → 96 and changed the rendered pattern. Pocket angle 99 stayed
+typed and paused the draft with a focused Review action; a valid-range
+inseam-55 / pocket-bag-depth-35 combination exposed a front side-seam warning
+and a focused bag-depth correction without clamping. Restoring the values
+re-enabled all six outputs. Pattern, Body front/back/side/pair, assembled
+preview, Size run, Spec, Nesting modes and fabric width, Check, Edit,
+Guidance, Save/Load, and the six export buttons were exercised. Six existing
+garments passed live Pattern/Body/Spec/Check spot checks. Page-level overflow
+was absent at 1280, 900, 700, 560, and 390 px; the corresponding rendered
+screenshots remain in `epic3-slice101-outputs/`.
+
+This closes digital integration evidence only. The correction targets,
+material warning, and output notices are application behavior; they are not
+physical fit, sewing, comfort, shrinkage, or production evidence. Slice 103
+still owns the final full project gate and Epic exit report.
+
 ### Slice 96 geometry resolution
 
 Before implementation, the first digital approximation is fixed as follows:

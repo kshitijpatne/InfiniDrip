@@ -3,7 +3,7 @@
 How the app fits together, in plain language. Read the top to re-orient; skim the
 layers when you need detail. Updated every slice with only need-to-know changes.
 
-## Current Epic 3 boundary — Slice 101
+## Current Epic 3 boundary — Slice 102
 
 The pre-Epic 3 checkout and BUGFIX/FC-01 exit are verified on the actual
 `main` branch. The first trouser is a separate reusable relaxed casual
@@ -108,6 +108,19 @@ from the generated evidence files. Full `npm test` and `npm run coverage` pass
 at 80 files / 1,013 tests and 100% across statements/branches/functions/lines;
 TypeScript and production build pass. Live responsive browser audit remains
 Slice 102; no physical-fit or production-readiness assertion is implied.
+
+Slice 102 completes the live application audit without changing the shared
+contract or writer boundary. The actual in-app browser exercised the valid
+Trouser through Pattern, Body front/back/side/pair, assembled preview, Size
+run, Spec, Nesting, Check, Edit, Guidance, persistence, and all six export
+buttons. Body mutations changed finished geometry; invalid pocket values and
+an in-range pocket-bag/short-inseam combination remained visible and produced
+actionable, field-linked guidance rather than clamping. All six existing
+garments passed live Pattern/Body/Spec/Check spot checks. Page-level responsive
+checks at 1280/900/700/560/390 reported no horizontal overflow, while the
+inspection surface remained its own scroll/layout concern. Slice 103 is the
+remaining final gate and durable exit report; no physical-fit or
+production-readiness assertion is implied.
 
 BF-P1-02: the UI's current design verdict combines input validity, all recipe/
 plausibility guidance and geometric checks. Check, Style, journey and all six

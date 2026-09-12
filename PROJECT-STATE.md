@@ -1,9 +1,9 @@
 # InfiniDrip — Project State
 
-_Last updated: Epic 3 Slice 101, 2026-09-12; the BUGFIX
+_Last updated: Epic 3 Slice 102, 2026-09-12; the BUGFIX
 phase and pre-Epic 3 consistency extension passed._
 
-## Current status — Epic 3 Slice 101
+## Current status — Epic 3 Slice 102
 
 The actual `main` checkout contains the verified Slice 94–101 commits; it
 remains local and has not been pushed.
@@ -95,12 +95,27 @@ focused parsed/regression suite passes 28/28. The post-fix full checkpoint is
 production build, and 8/8 unchanged legacy hashes. Physical validation,
 surface design, Polo V2, and production-readiness claims remain deferred.
 
-Next safe action is Slice 102: audit the integrated trouser through every
-cross-surface control/view/guidance/persistence/export path at 1280/900/700/
-560/390 widths, and spot-check existing garments in the live browser. Keep the
-full exit gate, baseline identity, and physical-validation deferral intact.
+Slice 102 is complete as the live cross-surface and responsive checkpoint. In
+the actual in-app browser, valid Cotton-woven Trouser state passed Pattern,
+Body front/back/side/pair, assembled preview, Size run, Spec, Nesting,
+Check, Edit, Guidance, Save/Load, and all six export-button paths. Waist 84 →
+86 changed finished waist 94 → 96 and the rendered SVG; pocket angle 99 stayed
+typed, paused the draft, disabled exports, and focused its Review action. An
+in-range inseam 55 plus bag-depth 35 combination produced a side-seam guidance
+warning and a focused correction target without clamping. The six existing
+garments each passed live Pattern/Body/Spec/Check spot checks with compatible
+materials, and browser diagnostics were empty. At 1280/900/700/560/390, page
+scroll widths were 1265/885/685/545/375 respectively and no page-level
+horizontal overflow was reported. Evidence screenshots are in the thread
+folder `epic3-slice101-outputs/`. No source or shared output contract changed
+in this slice, so the final full gate is reserved for Slice 103.
 
-The independent functional-consistency audit now closes BUG-UI-032 through
+Next safe action is Slice 103: re-check usage, inspect the actual final
+branch/diff, run the full project gate, and write the Epic 3 exit report. Keep
+the baseline identity and physical-validation deferral intact; do not begin a
+later Epic.
+
+The independent functional-consistency audit (completed before Epic 3) closed BUG-UI-032 through
 BUG-UI-034. Woven Body front/back inspection uses its real lower shaping and
 highlights the waist/hip/hip-depth seam references; switching between upper and
 lower garments synchronizes the Body projection toolbar while preserving the
@@ -111,9 +126,8 @@ guidance correction targets, option markers, and responsive widths 1280/900/
 700/560/390 with no horizontal overflow at fit zoom. Focused tests pass 129/129;
 the final gate is recorded in `docs/planning/FUNCTIONAL-CONSISTENCY-AUDIT.md`:
 73 files / 963 tests at 100% coverage, TypeScript, build, parsed export checks,
-and 8 unchanged legacy hashes. All BUG-UI-001 through
-BUG-UI-034 records are closed. Epic 3 has not begun; physical validation
-remains deferred.
+and 8 unchanged legacy hashes. All BUG-UI-001 through BUG-UI-034 records are
+closed. Epic 3 work is recorded above; physical validation remains deferred.
 
 EPIC-BUGFIX-P1 closes BUG-UI-001 through BUG-UI-012 except no IDs are skipped:
 responsive layout, input truth, live totals, unified digital verdicts, full
