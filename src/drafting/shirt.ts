@@ -1,7 +1,7 @@
-import { lerp, point, CubicBezier } from "../geometry";
+import { cubicLength, lerp, point, CubicBezier } from "../geometry";
 import { Block, block } from "./block";
 import { Measurements } from "./measurements";
-import { Piece, Edge, edgeLength, edgeStart, pieceEdge } from "./piece";
+import { Piece, Edge, edgeEnd, edgeLength, edgeStart, pieceEdge } from "./piece";
 import { edgeRef, iface, markRef, Stitch } from "./stitch";
 import { necklineEdge, NECKLINE_DEFAULT } from "./neckline";
 import { WovenShirtOptions, resolveWovenShirtOptions } from "./shirt-contract";
@@ -187,7 +187,7 @@ export function addWovenShirtYoke(
   if (armhole.kind !== "curve") throw new Error("Woven back armhole must be a curve for yoke splitting");
   const shoulder = edgeStart(pieceEdge(back, "shoulder"));
   const t = (options.yokeDepth - shoulder.y) /
-    (edgeStart(armhole).y - shoulder.y);
+    (edgeEnd(armhole).y - shoulder.y);
   const split = splitCubic(armhole.curve, t);
   const foldTop = point(0, options.yokeDepth);
   const backLower: Piece = {
@@ -287,6 +287,149 @@ export function draftWovenShirtPocket(
   m: Measurements, rawOptions: Partial<WovenShirtOptions> = {}
 ): Block {
   return addWovenShirtPocket(draftWovenShirtYoke(m, rawOptions), m, rawOptions);
+}
+
+function curvedHemAndVent(piece: Piece, ventDepth: number): Piece {
+  const hem = pieceEdge(piece, "hem");
+  const sideEnd = edgeStart(hem);
+  const ventTop = point(sideEnd.x, sideEnd.y - ventDepth);
+  const updatedEdges = piece.edges.flatMap((edge): Edge[] => {
+    if (edge.name === "sideLower") {
+      return [{ kind: "line", name: "sideLower", start: edgeStart(edge), end: ventTop }];
+    }
+    if (edge.name === "hem") {
+      return [
+        { kind: "line", name: "vent", start: ventTop, end: sideEnd },
+        { kind: "curve", name: "hem", curve: {
+          start: sideEnd,
+          control1: point((sideEnd.x * 0.66), sideEnd.y + 1),
+          control2: point((sideEnd.x * 0.33), sideEnd.y + 1),
+          end: edgeEnd(edge),
+        } },
+      ];
+    }
+    return [edge];
+  });
+  return {
+    ...piece,
+    edges: updatedEdges,
+    marks: [
+      ...(piece.marks ?? []),
+      pointMark("placementPoint", "ventTop", ventTop, "VENT TOP"),
+    ],
+  };
+}
+
+/** Turn the body hems into a shallow curved hem and leave the selected lower
+ * side-seam section open as a real vent boundary. */
+export function addWovenShirtHemVent(
+  block: Block, rawOptions: Partial<WovenShirtOptions> = {}
+): Block {
+  const options = resolveWovenShirtOptions(rawOptions);
+  return blockFromRoles(block, {
+    front: curvedHemAndVent(block.roles.front, options.sideVentDepth),
+    back: curvedHemAndVent(block.roles.back, options.sideVentDepth),
+  });
+}
+
+function blockFromRoles(base: Block, replacements: Readonly<Record<string, Piece>>): Block {
+  return block({ ...base.roles, ...replacements }, base.stitches);
+}
+
+function wovenCapCurves(width: number, capHeight: number): readonly [CubicBezier, CubicBezier] {
+  const half = width / 2;
+  return [
+    {
+      start: point(0, capHeight), control1: point(half * 0.5, capHeight),
+      control2: point(half * 0.55, capHeight * 0.15), end: point(half, 0),
+    },
+    {
+      start: point(half, 0), control1: point(width - half * 0.55, capHeight * 0.15),
+      control2: point(width - half * 0.5, capHeight), end: point(width, capHeight),
+    },
+  ];
+}
+
+function solveWovenCapHeight(width: number, target: number): number {
+  let lo = 0;
+  let hi = width;
+  for (let i = 0; i < 30; i += 1) {
+    const mid = (lo + hi) / 2;
+    const curves = wovenCapCurves(width, mid);
+    if (cubicLength(curves[0]) + cubicLength(curves[1]) < target) lo = mid;
+    else hi = mid;
+  }
+  return (lo + hi) / 2;
+}
+
+function wovenSleeve(m: Measurements, targetArmhole: number): Piece {
+  const width = m.bicep + m.ease * 0.5;
+  const capHeight = solveWovenCapHeight(width, targetArmhole + 1.5);
+  const [capLeft, capRight] = wovenCapCurves(width, capHeight);
+  const taper = 3;
+  const hemY = capHeight + m.sleeveLength;
+  const rightHem = point(width - taper, hemY);
+  const leftHem = point(taper, hemY);
+  return {
+    name: "woven short sleeve",
+    onFold: false,
+    edges: [
+      { kind: "curve", name: "capLeft", curve: capLeft },
+      { kind: "curve", name: "capRight", curve: capRight },
+      { kind: "line", name: "sideRight", start: point(width, capHeight), end: rightHem },
+      { kind: "line", name: "hem", start: rightHem, end: leftHem },
+      { kind: "line", name: "sideLeft", start: leftHem, end: point(0, capHeight) },
+    ],
+  };
+}
+
+function sleeveBand(width: number, depth: number): Piece {
+  return {
+    name: "woven folded sleeve band",
+    onFold: false,
+    edges: [
+      { kind: "line", name: "top", start: point(0, 0), end: point(width, 0) },
+      { kind: "line", name: "sideRight", start: point(width, 0), end: point(width, depth) },
+      { kind: "line", name: "bottom", start: point(width, depth), end: point(0, depth) },
+      { kind: "line", name: "sideLeft", start: point(0, depth), end: point(0, 0) },
+    ],
+    marks: [lineMark("foldLine", "bandFold", point(0, depth / 2), point(width, depth / 2), "FOLD")],
+  };
+}
+
+export const WOVEN_SHIRT_SLEEVE_STITCHES: readonly Stitch[] = [
+  {
+    label: "Woven sleeve-cap ease",
+    a: iface(edgeRef("sleeve", "capLeft"), edgeRef("sleeve", "capRight")),
+    b: iface(edgeRef("front", "armhole"), edgeRef("yoke", "armholeUpper"), edgeRef("back", "armholeLower")),
+    ease: { lo: -1, hi: 4 },
+  },
+  {
+    label: "Folded sleeve band ↔ sleeve hem",
+    a: iface(edgeRef("sleeveBand", "top")),
+    b: iface(edgeRef("sleeve", "hem")),
+  },
+];
+
+/** Add a short set-in sleeve and a separate folded sleeve band to a yoke block. */
+export function addWovenShirtSleeves(
+  blockWithYoke: Block, m: Measurements, rawOptions: Partial<WovenShirtOptions> = {}
+): Block {
+  const options = resolveWovenShirtOptions(rawOptions);
+  const armhole = edgeLength(pieceEdge(blockWithYoke.roles.front, "armhole")) +
+    edgeLength(pieceEdge(blockWithYoke.roles.yoke, "armholeUpper")) +
+    edgeLength(pieceEdge(blockWithYoke.roles.back, "armholeLower"));
+  const sleeve = wovenSleeve(m, armhole);
+  const band = sleeveBand(edgeLength(pieceEdge(sleeve, "hem")), options.sleeveBandDepth);
+  return block({ ...blockWithYoke.roles, sleeve, sleeveBand: band }, [
+    ...blockWithYoke.stitches, ...WOVEN_SHIRT_SLEEVE_STITCHES,
+  ]);
+}
+
+export function draftWovenShirtSleeves(
+  m: Measurements, rawOptions: Partial<WovenShirtOptions> = {}
+): Block {
+  return addWovenShirtSleeves(addWovenShirtYoke(draftWovenShirtBody(m, rawOptions), rawOptions), m, rawOptions);
 }
 
 const PLACKET_SEAM_ALLOWANCE = 1;

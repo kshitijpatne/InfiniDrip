@@ -3,6 +3,11 @@
 How the app fits together, in plain language. Read the top to re-orient; skim the
 layers when you need detail. Updated every slice with only need-to-know changes.
 
+Slice 91: `src/drafting/shirt.ts` adds independent woven sleeve-cap geometry
+fitted to the assembled armscye, a matching folded band, curved body hems and
+an explicit open vent edge/mark. The vent is excluded from the sewn side seam;
+the existing knit sleeve is unchanged.
+
 Slice 90: `src/drafting/shirt.ts` splits the real back armhole with de Casteljau
 geometry into a lower-back piece and folded two-layer yoke. The yoke carries
 neckline/shoulder/upper-armhole edges, the lower back carries lower-armhole/

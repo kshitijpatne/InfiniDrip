@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 90 (woven-shirt yoke and patch pocket).
+_Last updated: after Slice 91 (woven-shirt sleeve, hem and vent).
 Tank rework
 step 4 is complete for automated and rendered verification; physical sewn
 validation has not occurred and is intentionally deferred. Update this after
@@ -55,6 +55,12 @@ retains neckline/shoulder/upper armscye and the lower back retains lower
 armscye/side/hem; one live-size patch pocket attaches to a named front
 placement mark. Sleeve, hem/vent and recipe/UI integration remain. Physical
 validation remains on hold.
+
+**Woven shirt Slice 91 (2026-09-12):** an independent woven short sleeve is
+fitted to the assembled armscye and joined to a folded band; both body hems
+are curved and each side has an explicit open vent segment/mark. The knit
+sleeve remains untouched. Recipe registration, guidance/report/POM/BOM and UI
+integration remain for Slice 92; physical validation remains on hold.
 
 **Polo V1 (2026-09-11):** all geometry decisions are locked: collar-plus-stand,
 loose tee body/current sleeve, self-knit lightly stabilized folded placket,

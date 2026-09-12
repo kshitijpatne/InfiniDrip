@@ -156,3 +156,26 @@ physical claim.
 
 Result: yoke and patch pocket implemented; focused tests pass (10 tests); full
 verification is recorded with the slice commit.
+
+## Slice 91 - Sleeve, folded band, curved hem and vent
+
+Objective/scope: add the woven short sleeve fitted to the assembled armscye,
+one folded sleeve band, a curved body hem and a small open side vent.
+Acceptance: cap ease is checked against front + upper-yoke + lower-back
+armscye; sleeve-band top matches sleeve hem; both body hems are curves; vent
+depth is explicit and the vent is not treated as a sewn side seam.
+Non-goals: recipe registration, UI/render routing, physical validation or
+changing the existing knit sleeve.
+Dependencies: Slice 90 yoke topology, Sleeve/Curve/Mark/Stitch primitives and
+the Slice 86 band/vent options.
+Risks: woven sleeve cap and hem/vent dimensions are digital estimates; later
+guidance must surface cap, length and vent collisions without clamping.
+Drafting/data-model change: `shirt.ts` adds independent woven sleeve-cap
+geometry, folded band, hem/vent transformation and two sleeve stitches.
+Owner: Codex. Model: GPT-6 Astra; reasoning: high, for assembled geometry.
+Delegation: none. Gates: focused sleeve/hem/vent tests, full
+coverage/typecheck/build, parsed export suite and unchanged legacy hashes; no
+physical claim.
+
+Result: shell details implemented; focused tests pass (13 tests); full
+verification is recorded with the slice commit.

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { edgeLength, edgeStart, pieceEdge, rolePiece, stitchChecks, STANDARD_M } from "./index";
 import { point } from "../geometry";
-import { addWovenShirtCollar, addWovenShirtPlackets, addWovenShirtYoke, draftWovenShirtBody, draftWovenShirtCollar, draftWovenShirtPlackets, draftWovenShirtPocket, draftWovenShirtYoke, frontButtonPositions, WOVEN_SHIRT_BODY_STITCHES, WOVEN_SHIRT_COLLAR_STITCHES } from "./shirt";
+import { addWovenShirtCollar, addWovenShirtHemVent, addWovenShirtPlackets, addWovenShirtYoke, draftWovenShirtBody, draftWovenShirtCollar, draftWovenShirtPlackets, draftWovenShirtPocket, draftWovenShirtSleeves, draftWovenShirtYoke, frontButtonPositions, WOVEN_SHIRT_BODY_STITCHES, WOVEN_SHIRT_COLLAR_STITCHES } from "./shirt";
 
 describe("woven shirt body", () => {
   it("drafts separate front/back panels with the required named boundaries", () => {
@@ -126,5 +126,27 @@ describe("woven shirt body", () => {
       },
     };
     expect(() => addWovenShirtYoke(nonCurve)).toThrow("must be a curve");
+  });
+
+  it("adds a woven sleeve and folded band fitted to the assembled armscye", () => {
+    const block = draftWovenShirtSleeves(STANDARD_M);
+    expect(block.roles.sleeve.name).toBe("woven short sleeve");
+    expect(block.roles.sleeveBand.name).toBe("woven folded sleeve band");
+    expect(stitchChecks(block, block.stitches).every((check) => check.ok)).toBe(true);
+    const capChecks = block.stitches.filter((stitch) => stitch.label === "Woven sleeve-cap ease");
+    expect(capChecks).toHaveLength(1);
+    const band = draftWovenShirtSleeves(STANDARD_M, { sleeveBandDepth: 4 }).roles.sleeveBand;
+    expect(edgeLength(pieceEdge(band, "sideRight"))).toBe(4);
+  });
+
+  it("turns body hems into curved edges and keeps the vent open segment explicit", () => {
+    const base = draftWovenShirtPocket(STANDARD_M);
+    const block = addWovenShirtHemVent(base, { sideVentDepth: 4 });
+    for (const role of ["front", "back"]) {
+      expect(pieceEdge(block.roles[role], "hem").kind).toBe("curve");
+      expect(edgeLength(pieceEdge(block.roles[role], "vent"))).toBe(4);
+      expect(block.roles[role].marks!.some((mark) => mark.name === "ventTop")).toBe(true);
+    }
+    expect(stitchChecks(block, block.stitches).every((check) => check.ok)).toBe(true);
   });
 });
