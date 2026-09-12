@@ -624,6 +624,18 @@ describe("body-view measurement linking", () => {
     }
   });
 
+  it("switches to the woven-shirt recipe and renders its live design details", () => {
+    const root = mount();
+    root.querySelector<HTMLButtonElement>("#garment-woven-shirt")!.dispatchEvent(new Event("click"));
+    expect(root.querySelector<HTMLInputElement>('input[data-option="buttonCount"]')!.value).toBe("7");
+    expect(root.querySelector("#garment-host")!.innerHTML).toContain('data-garment-detail="woven-shirt"');
+    expect(root.querySelectorAll('[data-edge="woven-button"]').length).toBe(7);
+    const buttonCount = root.querySelector<HTMLInputElement>('input[data-option="buttonCount"]')!;
+    buttonCount.value = "6";
+    buttonCount.dispatchEvent(new Event("input"));
+    expect(root.querySelectorAll('[data-edge="woven-button"]').length).toBe(6);
+  });
+
   it("spotlights the hovered measurement's dimension and fades the rest", () => {
     const root = mount();
     root.querySelector<HTMLButtonElement>("#view-body")!.dispatchEvent(new Event("click"));

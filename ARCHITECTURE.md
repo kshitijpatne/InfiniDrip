@@ -3,6 +3,14 @@
 How the app fits together, in plain language. Read the top to re-orient; skim the
 layers when you need detail. Updated every slice with only need-to-know changes.
 
+Slice 92: `src/drafting/recipe.ts` registers the complete woven-shirt recipe and
+routes its options, guidance, graded POMs, notches, allowances, tech-pack BOM,
+pattern/spec/check/nesting/export pipeline, and assembled preview through the
+existing engine. `src/render/garment.ts` adds schematic placket, buttons, yoke,
+pocket, and vent details; existing garment output remains byte-identical when
+the optional woven visual is absent. This is digital integration evidence only;
+physical sewing and fit validation remain outstanding.
+
 Slice 91: `src/drafting/shirt.ts` adds independent woven sleeve-cap geometry
 fitted to the assembled armscye, a matching folded band, curved body hems and
 an explicit open vent edge/mark. The vent is excluded from the sewn side seam;

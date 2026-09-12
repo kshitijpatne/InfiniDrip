@@ -262,7 +262,14 @@ export function exportTechPack(
     [
       sketchStream(recipe.draft(m, options), recipe.poms, recipe.label, page),
       tableStream(sizes, rows, page),
-      bomStream(fabric && recipe.techPackForFabric ? recipe.techPackForFabric(fabric) : recipe.techPack, page),
+      bomStream(
+        fabric && recipe.techPackForFabric
+          ? recipe.techPackForFabric(fabric)
+          : recipe.techPackForOptions
+            ? recipe.techPackForOptions(options)
+            : recipe.techPack,
+        page
+      ),
       fitRecordStream(sampleSpec(recipe, m, options), recipe.label, page),
     ],
     page

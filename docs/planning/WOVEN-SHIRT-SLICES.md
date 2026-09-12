@@ -179,3 +179,35 @@ physical claim.
 
 Result: shell details implemented; focused tests pass (13 tests); full
 verification is recorded with the slice commit.
+
+## Slice 92 - Recipe and product integration
+
+Objective/scope: register the complete woven shirt as a first-class recipe and
+route its measurement/options contract through pattern, assembled preview,
+guidance, style, grade/spec, nesting, checks and every export family.
+Acceptance: the UI exposes the independent neck and all meaningful shirt
+controls; the full block reports named pieces, interfaces, POMs, notches,
+grainlines, allowances and grade rules; guidance warns about invalid
+combinations without clamping; the tech pack reflects six or seven front
+buttons plus one stand button; all existing recipes and export baselines remain
+unchanged; the assembled preview reflects the live shirt details.
+Non-goals: physical sewing, fit/production claims, code signing, changing knit
+recipes, or moving any export baseline.
+Dependencies: Slices 86-91, the reusable recipe/export/UI/render contracts,
+and `WOVEN-SHIRT-RESEARCH.md`.
+Risks: the integrated shirt remains a digital drafting estimate until a sample
+is sewn; option combinations are surfaced by guidance but are not physically
+validated here.
+Drafting/data-model change: `WOVEN_SHIRT` and its production metadata are
+registered in `recipe.ts`; option-aware tech-pack BOM selection is additive;
+rendering and UI receive an optional woven-shirt visual detail payload.
+Owner: Codex. Model: GPT-6 Astra; reasoning: high, for integration and gate
+review. Delegation: none. Gates: focused and full tests, 100% coverage,
+typecheck/build, parsed export suite, unchanged legacy hashes, and rendered
+pattern/assembled/spec/check output assertions; no physical claim.
+
+Result: complete woven-shirt recipe and UI/render/export integration implemented;
+focused and full suites pass (71 files / 911 tests), coverage is 100% across
+statements/branches/functions/lines, production build passes, and legacy export
+hashes remain unchanged. Slice 93 is the component-library exit; physical
+validation remains on hold.

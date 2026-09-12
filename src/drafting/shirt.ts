@@ -1,11 +1,16 @@
-import { cubicLength, lerp, point, CubicBezier } from "../geometry";
+import { cubicLength, distance, lerp, point, CubicBezier } from "../geometry";
 import { Block, block } from "./block";
 import { Measurements } from "./measurements";
 import { Piece, Edge, edgeEnd, edgeLength, edgeStart, pieceEdge } from "./piece";
 import { edgeRef, iface, markRef, Stitch } from "./stitch";
 import { necklineEdge, NECKLINE_DEFAULT } from "./neckline";
-import { WovenShirtOptions, resolveWovenShirtOptions } from "./shirt-contract";
+import { WovenShirtOptions, resolveWovenShirtOptions, WOVEN_SHIRT_OPTION_DEFINITIONS } from "./shirt-contract";
 import { lineMark, pointMark } from "./pattern-mark";
+import { PieceNotches } from "./tshirt-notches";
+import { Pom } from "./pom";
+import { GradeRule } from "./grading";
+import { AllowanceSpec } from "./allowance";
+import { Note } from "../guidance/note";
 
 /** The relaxed woven body is drafted as a half-width back on fold and a
  * separate half-width front. Fronts are cut as a mirrored pair later; keeping
@@ -430,6 +435,154 @@ export function draftWovenShirtSleeves(
   m: Measurements, rawOptions: Partial<WovenShirtOptions> = {}
 ): Block {
   return addWovenShirtSleeves(addWovenShirtYoke(draftWovenShirtBody(m, rawOptions), rawOptions), m, rawOptions);
+}
+
+export function draftWovenShirt(
+  m: Measurements, rawOptions: Partial<WovenShirtOptions> = {}
+): Block {
+  const body = draftWovenShirtBody(m, rawOptions);
+  const yoke = addWovenShirtYoke(body, rawOptions);
+  const pocket = addWovenShirtPocket(yoke, m, rawOptions);
+  const hemmed = addWovenShirtHemVent(pocket, rawOptions);
+  const collar = addWovenShirtCollar(hemmed, rawOptions);
+  const plackets = addWovenShirtPlackets(collar, rawOptions);
+  return addWovenShirtSleeves(plackets, m, rawOptions);
+}
+
+export const WOVEN_SHIRT_ALLOWANCES: AllowanceSpec = {
+  default: 1,
+  byEdge: {
+    centerBack: 0,
+    centerFront: 1,
+    neckline: 0.6,
+    collar: 0.6,
+    stand: 0.6,
+    frontTip: 0.6,
+    outer: 0.6,
+    yokeSeam: 1,
+    armhole: 1,
+    armholeUpper: 1,
+    armholeLower: 1,
+    vent: 1,
+    hem: 1,
+    top: 1,
+    bottom: 1,
+  },
+};
+
+export const WOVEN_SHIRT_GRADE: GradeRule = {
+  neck: 1.5, chest: 5, shoulderWidth: 1.2, bicep: 1.5,
+  length: 2, armholeDepth: 0.6, sleeveLength: 0.8,
+  waist: 5, hip: 5, hipDepth: 0.5,
+};
+
+const markPoint = (piece: Piece, name: string): { readonly x: number; readonly y: number } => {
+  const mark = piece.marks?.find((candidate) => candidate.name === name);
+  if (!mark || !("at" in mark)) throw new Error(`Piece "${piece.name}" has no point mark "${name}"`);
+  return mark.at;
+};
+
+export const WOVEN_SHIRT_POMS: readonly Pom[] = [
+  {
+    label: "Body chest (finished)", tolerance: 1.3,
+    measure: (b) => 4 * edgeStart(pieceEdge(b.roles.front, "sideUpper")).x,
+  },
+  {
+    label: "Body length (HPS–hem)", tolerance: 1.3,
+    measure: (b) => edgeStart(pieceEdge(b.roles.front, "centerFront")).y - edgeStart(pieceEdge(b.roles.front, "shoulder")).y,
+  },
+  {
+    label: "Neck circumference (pattern)", tolerance: 0.6,
+    measure: (b) => 2 * (edgeLength(pieceEdge(b.roles.front, "neckline")) + edgeLength(pieceEdge(b.roles.yoke, "neckline"))),
+  },
+  {
+    label: "Back yoke depth", tolerance: 0.5,
+    measure: (b) => edgeStart(pieceEdge(b.roles.back, "yokeSeam")).y,
+  },
+  {
+    label: "Finished placket width", tolerance: 0.2,
+    measure: (b) => edgeLength(pieceEdge(b.roles.buttonPlacket, "top")) - 2,
+  },
+  {
+    label: "Front button spacing", tolerance: 0.2,
+    measure: (b) => distance(markPoint(b.roles.buttonPlacket, "button-1"), markPoint(b.roles.buttonPlacket, "button-2")),
+  },
+  {
+    label: "Patch pocket width", tolerance: 0.3,
+    measure: (b) => edgeLength(pieceEdge(b.roles.pocket, "top")),
+  },
+  {
+    label: "Patch pocket height", tolerance: 0.3,
+    measure: (b) => edgeLength(pieceEdge(b.roles.pocket, "sideRight")),
+  },
+  {
+    label: "Finished sleeve band depth", tolerance: 0.2,
+    measure: (b) => edgeLength(pieceEdge(b.roles.sleeveBand, "sideRight")),
+  },
+  {
+    label: "Side vent depth", tolerance: 0.3,
+    measure: (b) => edgeLength(pieceEdge(b.roles.front, "vent")),
+  },
+];
+
+const notch = (pieceName: string, topEdge: string, bottomEdge: string): PieceNotches => ({
+  pieceName,
+  notches: [{ edgeName: topEdge, t: 0.5 }],
+  grainline: { topEdge, topT: 0.5, bottomEdge, bottomT: 0.5 },
+});
+
+export const WOVEN_SHIRT_NOTCHES: readonly PieceNotches[] = [
+  notch("woven front", "shoulder", "hem"),
+  notch("woven back lower", "yokeSeam", "hem"),
+  notch("woven back yoke", "shoulder", "yokeSeam"),
+  notch("outer woven stand", "collar", "neckline"),
+  notch("inner woven stand", "collar", "neckline"),
+  notch("upper pointed woven collar", "stand", "outer"),
+  notch("under pointed woven collar", "stand", "outer"),
+  notch("woven button placket", "top", "bottom"),
+  notch("woven buttonhole placket", "top", "bottom"),
+  notch("woven short sleeve", "capLeft", "hem"),
+  notch("woven folded sleeve band", "top", "bottom"),
+  notch("woven patch pocket", "top", "bottom"),
+];
+
+export function wovenShirtGuidance(
+  block: Block, m: Measurements, rawOptions: Partial<WovenShirtOptions> = {}
+): Note[] {
+  const options = resolveWovenShirtOptions(rawOptions);
+  const notes: Note[] = [];
+  for (const definition of WOVEN_SHIRT_OPTION_DEFINITIONS) {
+    const value = options[definition.id as keyof WovenShirtOptions];
+    if (value < definition.min || value > definition.max) {
+      notes.push({ level: "warn", text: `${definition.label} (${value}) is outside the ${definition.min}–${definition.max} cm design range — adjust it into that range.` });
+    }
+  }
+  if (!Number.isInteger(options.buttonCount) || options.buttonCount < 6 || options.buttonCount > 7) {
+    notes.push({ level: "warn", text: `Front placket buttons (${options.buttonCount}) must be a whole number: choose 6 or 7.` });
+  }
+  if (options.frontOverlap > options.placketWidth) {
+    notes.push({ level: "warn", text: "Front overlap reaches beyond the finished placket face — reduce overlap or increase placket width." });
+  }
+  const frontLength = edgeLength(pieceEdge(block.roles.front, "centerFront"));
+  const positions = frontButtonPositions(options.buttonCount, options.buttonSpacing);
+  const lastButton = positions[positions.length - 1];
+  if (lastButton !== undefined && lastButton + 3 > frontLength) {
+    notes.push({ level: "warn", text: `The last front button leaves less than 3 cm at the placket end — reduce spacing/count or increase shirt length.` });
+  }
+  if (options.standHeight > options.collarLeafDepth) {
+    notes.push({ level: "warn", text: "Stand height is deeper than the collar leaf — reduce stand height or increase collar leaf depth." });
+  }
+  if (options.yokeDepth <= 2.5 || options.yokeDepth >= m.armholeDepth) {
+    notes.push({ level: "warn", text: `Back yoke depth (${options.yokeDepth} cm) must sit between shoulder and underarm — choose a shallower yoke than the armhole depth.` });
+  }
+  const neckHalf = (m.neck + options.neckEase) / 4;
+  if (neckHalf >= m.shoulderWidth / 2) {
+    notes.push({ level: "warn", text: "Neckline reaches the shoulder seam — reduce neck ease or check the neck measurement." });
+  }
+  if (neckHalf * 0.8 >= m.armholeDepth) {
+    notes.push({ level: "warn", text: "Front neckline drops below the underarm — reduce neck ease or increase armhole depth." });
+  }
+  return notes;
 }
 
 const PLACKET_SEAM_ALLOWANCE = 1;

@@ -59,6 +59,15 @@ export const POLO_STYLES: readonly StyleDef[] = [
   { name: "Longline polo", ranges: { ease: [7, 18], length: [78, 100] } },
 ];
 
+/** First woven shirt styles: the block is relaxed by construction, so the
+ * style table distinguishes length and the amount of wearing ease around it. */
+export const WOVEN_SHIRT_STYLES: readonly StyleDef[] = [
+  { name: "Classic woven shirt", ranges: { ease: [10, 16], length: [62, 78] } },
+  { name: "Relaxed woven shirt", ranges: { ease: [17, 24], length: [62, 82] } },
+  { name: "Cropped woven shirt", ranges: { ease: [10, 24], length: [45, 60] } },
+  { name: "Longline woven shirt", ranges: { ease: [10, 24], length: [82, 100] } },
+];
+
 /** One measurement change needed to move toward a style (signed, in cm). */
 export interface Delta {
   readonly id: keyof Measurements;

@@ -57,7 +57,7 @@ export function controlsMarkup(
   ).replace(`data-field="option-${option.id}"`, `data-option="${option.id}"`)).join("");
   const optionPanel = options.length === 0 ? "" :
     `<div style="border-top:1px solid ${BORDER};margin-top:12px;padding-top:12px">` +
-    `${panelTitle("Polo design (finished cm)")}${optionRows}</div>`;
+    `${panelTitle("Design options")}${optionRows}</div>`;
   return `<div id="controls-panel" style="flex:0 0 220px;background:${PANEL};border:1px solid ${BORDER};` +
     `border-radius:10px;padding:14px">${panelTitle("Measurements (cm)")}${rows}${finished}${optionPanel}</div>`;
 }

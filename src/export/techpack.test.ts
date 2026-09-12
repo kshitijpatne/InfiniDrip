@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { FITTED, SKIRT, STANDARD_M, TANK, TEE, POLO, STRETCH_FABRICS, rolePiece, sampleSpec } from "../drafting";
+import { FITTED, SKIRT, STANDARD_M, TANK, TEE, POLO, WOVEN_SHIRT, STRETCH_FABRICS, rolePiece, sampleSpec } from "../drafting";
 import { PAGE_A4, PAGE_LETTER, pt } from "./pdf";
 import { exportTechPack, pdfString } from "./techpack";
 
@@ -110,6 +110,13 @@ describe("exportTechPack", () => {
     const letter = exportTechPack(TEE, STANDARD_M, PAGE_LETTER);
     expect(letter.startsWith("%PDF-1.4")).toBe(true);
     expect(letter).toContain("%%EOF");
+  });
+
+  it("uses live woven-shirt options for the BOM while preserving the drafted sample", () => {
+    const pdf = exportTechPack(WOVEN_SHIRT, STANDARD_M, undefined, undefined, { buttonCount: 6 });
+    expect(pdf).toContain("(6 front + 1 stand)");
+    expect(pdf).toContain("(Woven shirt - Tech Pack)");
+    expect(pdf).toContain("(WOVEN BUTTON PLACKET)");
   });
 });
 

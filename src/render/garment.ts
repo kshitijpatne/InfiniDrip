@@ -30,6 +30,20 @@ export interface PoloVisual {
   readonly collarLeafDepth: number;
 }
 
+/** Finished woven-shirt details used only by the assembled schematic. */
+export interface WovenShirtVisual {
+  readonly buttonCount: number;
+  readonly buttonSpacing: number;
+  readonly frontOverlap: number;
+  readonly placketWidth: number;
+  readonly standHeight: number;
+  readonly collarLeafDepth: number;
+  readonly yokeDepth: number;
+  readonly pocketWidth: number;
+  readonly pocketHeight: number;
+  readonly sideVentDepth: number;
+}
+
 // One full garment silhouette, centred on x = 0. `hasSleeve` (Slice 60): a
 // garment with no sleeve role (a tank) stops at the armhole instead of
 // extending out to a cuff — the same distinction render/body.ts now makes
@@ -100,13 +114,15 @@ function armholeSeams(m: Measurements): string {
 
 function renderOne(m: Measurements, position: "front" | "back", fabric: string,
                    cx: number, top: number, label: string, hasSleeve: boolean,
-                   neckline: NecklineParams, strapWidth?: number, polo?: PoloVisual): string {
+                   neckline: NecklineParams, strapWidth?: number, polo?: PoloVisual,
+                   shirt?: WovenShirtVisual): string {
   const path = `<path d="${silhouettePath(m, position, hasSleeve, neckline, strapWidth)}" fill="${fabric}" ` +
     `stroke="${T.line}" stroke-width="1.4" stroke-linejoin="round" ` +
     `vector-effect="non-scaling-stroke"/>`;
   const seams = hasSleeve ? armholeSeams(m) : "";
   const group = `<g transform="translate(${round(cx)} ${round(top)})">${path}${seams}` +
-    (position === "front" && polo ? poloFrontDetails(m, neckline, polo) : "") + `</g>`;
+    (position === "front" && polo ? poloFrontDetails(m, neckline, polo) : "") +
+    (position === "front" && shirt ? wovenShirtFrontDetails(m, shirt) : "") + `</g>`;
   const tag = `<text x="${round(cx)}" y="${round(top - 3)}" fill="${T.label}" ` +
     `font-size="2.6" font-family="system-ui, sans-serif" text-anchor="middle">${label}</text>`;
   return group + tag;
@@ -123,6 +139,33 @@ function poloFrontDetails(m: Measurements, neckline: NecklineParams, polo: PoloV
   })}</g>`;
 }
 
+function wovenShirtFrontDetails(m: Measurements, shirt: WovenShirtVisual): string {
+  const d = derive(m);
+  const count = Number.isFinite(shirt.buttonCount)
+    ? Math.max(0, Math.min(20, Math.round(shirt.buttonCount)))
+    : 0;
+  const firstY = Math.max(5, d.frontNeckDepth + shirt.standHeight);
+  const buttons = Array.from({ length: count }, (_, i) =>
+    `<circle cx="${round(shirt.frontOverlap)}" cy="${round(firstY + i * shirt.buttonSpacing)}" r="0.45" fill="none" stroke="currentColor" data-edge="woven-button"/>`
+  ).join("");
+  const pocketY = Math.max(firstY + shirt.buttonSpacing, d.frontNeckDepth + shirt.yokeDepth);
+  const pocketX = Math.max(2, d.chestWidthHalf - shirt.pocketWidth - 2);
+  const ventY = Math.max(m.armholeDepth + 2, m.length - shirt.sideVentDepth);
+  return `<g data-garment-detail="woven-shirt" color="rgba(0,0,0,0.52)">` +
+    `<line x1="${round(shirt.frontOverlap)}" y1="${round(firstY - shirt.standHeight)}" ` +
+      `x2="${round(shirt.frontOverlap)}" y2="${round(ventY)}" stroke="currentColor" ` +
+      `stroke-width="${round(Math.max(0.5, shirt.placketWidth / 3))}" data-edge="option-placketWidth"/>` +
+    `<line x1="${round(-d.chestWidthHalf)}" y1="${round(pocketY)}" x2="${round(d.chestWidthHalf)}" ` +
+      `y2="${round(pocketY)}" stroke="currentColor" stroke-dasharray="2 2" ` +
+      `data-edge="option-yokeDepth"/>` +
+    `<rect x="${round(pocketX)}" y="${round(pocketY)}" width="${round(shirt.pocketWidth)}" ` +
+      `height="${round(shirt.pocketHeight)}" fill="none" stroke="currentColor" ` +
+      `data-edge="option-pocketWidth"/>` +
+    `<path d="M ${round(d.chestWidthHalf)} ${round(ventY)} V ${round(m.length)}" fill="none" ` +
+      `stroke="currentColor" stroke-dasharray="2 2" data-edge="option-sideVentDepth"/>` +
+    buttons + `</g>`;
+}
+
 /** The assembled view: front and back silhouettes side by side, in fabric
  *  colour. `hasSleeve` (Slice 60) — pass `false` for a sleeveless garment
  *  (a tank); the silhouette stops at the armhole instead of drawing a short
@@ -136,7 +179,7 @@ function poloFrontDetails(m: Measurements, neckline: NecklineParams, polo: PoloV
 export function renderGarment(
   m: Measurements, fabric: string, hasSleeve = true,
   frontNeckline: NecklineParams = NECKLINE_DEFAULT, backNeckline: NecklineParams = NECKLINE_DEFAULT,
-  strapWidth?: number, polo?: PoloVisual
+  strapWidth?: number, polo?: PoloVisual, shirt?: WovenShirtVisual
 ): string {
   const d = derive(m);
   const halfW = hasSleeve ? d.shoulderHalf + m.sleeveLength : Math.max(d.shoulderHalf, d.chestWidthHalf);
@@ -151,7 +194,7 @@ export function renderGarment(
   return `<svg viewBox="0 0 ${round(width)} ${round(height)}" width="100%" ` +
     `xmlns="http://www.w3.org/2000/svg" style="background:${T.background};border-radius:8px">` +
     `<rect x="0" y="0" width="${round(width)}" height="${round(height)}" fill="${T.background}"/>` +
-    renderOne(m, "front", fabric, frontCx, top, "FRONT", hasSleeve, frontNeckline, strapWidth, polo) +
-    renderOne(m, "back", fabric, backCx, top, "BACK", hasSleeve, backNeckline, strapWidth, polo) +
+    renderOne(m, "front", fabric, frontCx, top, "FRONT", hasSleeve, frontNeckline, strapWidth, polo, shirt) +
+    renderOne(m, "back", fabric, backCx, top, "BACK", hasSleeve, backNeckline, strapWidth, polo, shirt) +
     `</svg>`;
 }

@@ -81,6 +81,22 @@ export function mountApp(root: HTMLElement): void {
       collarLeafDepth: options.collarLeafDepth,
     };
   };
+  const wovenShirtVisual = () => {
+    if (recipe.name !== "woven-shirt") return undefined;
+    const options = recipeOptions();
+    return {
+      buttonCount: options.buttonCount,
+      buttonSpacing: options.buttonSpacing,
+      frontOverlap: options.frontOverlap,
+      placketWidth: options.placketWidth,
+      standHeight: options.standHeight,
+      collarLeafDepth: options.collarLeafDepth,
+      yokeDepth: options.yokeDepth,
+      pocketWidth: options.pocketWidth,
+      pocketHeight: options.pocketHeight,
+      sideVentDepth: options.sideVentDepth,
+    };
+  };
 
   // Spotlight one measurement on the body view: its dimension line AND the outline
   // edges it shapes stay at full opacity, everything else drops back. A group
@@ -168,7 +184,7 @@ export function mountApp(root: HTMLElement): void {
     }
     garmentHost.innerHTML = isTop
       ? renderGarment(measurements, fabric, hasSleeve,
-          recipe.frontNeckline?.(measurements), recipe.backNeckline?.(measurements), recipe.strapWidth?.(measurements), poloVisual())
+          recipe.frontNeckline?.(measurements), recipe.backNeckline?.(measurements), recipe.strapWidth?.(measurements), poloVisual(), wovenShirtVisual())
       : renderSkirtGarment(measurements, fabric);
     // One sanity read for the whole frame: are the numbers a real body? It gates
     // every green "validated" signal — the check banner, the style ✓ — and flags

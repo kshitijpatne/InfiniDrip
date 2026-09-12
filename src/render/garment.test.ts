@@ -145,3 +145,32 @@ describe("renderGarment — Polo V1", () => {
     expect(svg).toContain('data-edge="option-standHeight"');
   });
 });
+
+describe("renderGarment — woven shirt integration", () => {
+  const shirt = {
+    buttonCount: 6, buttonSpacing: 8, frontOverlap: 1.5, placketWidth: 3,
+    standHeight: 2.5, collarLeafDepth: 6, yokeDepth: 10, pocketWidth: 12,
+    pocketHeight: 13, sideVentDepth: 3,
+  };
+
+  it("shows the selected placket, yoke, pocket, vent, and six front buttons", () => {
+    const svg = renderGarment(STANDARD_M, "#123456", true, NECKLINE_DEFAULT, NECKLINE_DEFAULT, undefined, undefined, shirt);
+    expect(svg).toContain('data-garment-detail="woven-shirt"');
+    expect((svg.match(/data-edge="woven-button"/g) ?? []).length).toBe(6);
+    expect(svg).toContain('data-edge="option-yokeDepth"');
+    expect(svg).toContain('data-edge="option-pocketWidth"');
+    expect(svg).toContain('data-edge="option-sideVentDepth"');
+  });
+
+  it("moves the assembled details when a live dimension changes", () => {
+    const short = renderGarment(STANDARD_M, "#123456", true, NECKLINE_DEFAULT, NECKLINE_DEFAULT, undefined, undefined, shirt);
+    const long = renderGarment(STANDARD_M, "#123456", true, NECKLINE_DEFAULT, NECKLINE_DEFAULT, undefined, undefined, { ...shirt, buttonSpacing: 9, pocketWidth: 14 });
+    expect(long).not.toBe(short);
+    expect((long.match(/data-edge="woven-button"/g) ?? []).length).toBe(6);
+  });
+
+  it("does not draw buttons for a non-finite button count", () => {
+    const svg = renderGarment(STANDARD_M, "#123456", true, NECKLINE_DEFAULT, NECKLINE_DEFAULT, undefined, undefined, { ...shirt, buttonCount: Number.NaN });
+    expect(svg).not.toContain('data-edge="woven-button"');
+  });
+});

@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { STANDARD_M } from "./measurements";
-import { TEE, FITTED, TANK, POLO, GARMENTS, garmentByName } from "./recipe";
+import { TEE, FITTED, TANK, POLO, WOVEN_SHIRT, GARMENTS, garmentByName } from "./recipe";
 import { dartOf } from "./dart";
 import { rolePiece, blockPieces } from "./block";
 import { pieceEdge } from "./piece";
@@ -10,14 +10,15 @@ import { garmentReport } from "../guidance/garment-check";
 
 describe("the garment registry", () => {
   it("lists every garment with a stable id and a display label", () => {
-    expect(GARMENTS.map((g) => g.name)).toEqual(["tee", "fitted", "tank", "polo", "skirt"]);
-    expect(GARMENTS.map((g) => g.label)).toEqual(["Tee", "Darted tee", "Tank", "Polo", "Skirt"]);
+    expect(GARMENTS.map((g) => g.name)).toEqual(["tee", "fitted", "tank", "polo", "woven-shirt", "skirt"]);
+    expect(GARMENTS.map((g) => g.label)).toEqual(["Tee", "Darted tee", "Tank", "Polo", "Woven shirt", "Skirt"]);
   });
 
   it("looks a recipe up by name and falls back to the tee for an unknown one", () => {
     expect(garmentByName("fitted")).toBe(FITTED);
     expect(garmentByName("tee")).toBe(TEE);
     expect(garmentByName("polo")).toBe(POLO);
+    expect(garmentByName("woven-shirt")).toBe(WOVEN_SHIRT);
     expect(garmentByName("kimono")).toBe(TEE);
   });
 });
@@ -87,6 +88,34 @@ describe("recipes are self-describing", () => {
     expect(fittedChecks).not.toContain("Hem square to the fold"); // untrued, opts out
 
     expect(typeof TEE.sizeMetric(TEE.draft(STANDARD_M))).toBe("number");
+  });
+});
+
+describe("Woven shirt recipe integration", () => {
+  it("declares the full woven measurement and design-control contract", () => {
+    expect(WOVEN_SHIRT.fields).toEqual([
+      "neck", "chest", "shoulderWidth", "bicep", "length", "armholeDepth",
+      "sleeveLength", "waist", "hip", "hipDepth", "ease",
+    ]);
+    expect(WOVEN_SHIRT.options?.map((option) => option.id)).toEqual([
+      "neckEase", "buttonCount", "buttonSpacing", "frontOverlap", "placketWidth",
+      "standHeight", "collarLeafDepth", "yokeDepth", "pocketWidth", "pocketHeight",
+      "sleeveBandDepth", "sideVentDepth", "hemTurn",
+    ]);
+  });
+
+  it("keeps the selected button count in the tech pack", () => {
+    const six = WOVEN_SHIRT.techPackForOptions!({ buttonCount: 6 });
+    const seven = WOVEN_SHIRT.techPackForOptions!({ buttonCount: 7 });
+    const defaults = WOVEN_SHIRT.techPackForOptions!({});
+    expect(six.bom.find((row) => row.material === "Buttons")?.qty).toBe("6 front + 1 stand");
+    expect(seven.bom.find((row) => row.material === "Buttons")?.qty).toBe("7 front + 1 stand");
+    expect(defaults.bom.find((row) => row.material === "Buttons")?.qty).toBe("7 front + 1 stand");
+  });
+
+  it("evaluates every woven-shirt POM from the assembled block", () => {
+    const block = WOVEN_SHIRT.draft(STANDARD_M);
+    for (const pom of WOVEN_SHIRT.poms) expect(pom.measure(block)).toBeTypeOf("number");
   });
 });
 

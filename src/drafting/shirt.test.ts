@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { edgeLength, edgeStart, pieceEdge, rolePiece, stitchChecks, STANDARD_M } from "./index";
 import { point } from "../geometry";
-import { addWovenShirtCollar, addWovenShirtHemVent, addWovenShirtPlackets, addWovenShirtYoke, draftWovenShirtBody, draftWovenShirtCollar, draftWovenShirtPlackets, draftWovenShirtPocket, draftWovenShirtSleeves, draftWovenShirtYoke, frontButtonPositions, WOVEN_SHIRT_BODY_STITCHES, WOVEN_SHIRT_COLLAR_STITCHES } from "./shirt";
+import { addWovenShirtCollar, addWovenShirtHemVent, addWovenShirtPlackets, addWovenShirtYoke, draftWovenShirtBody, draftWovenShirtCollar, draftWovenShirtPlackets, draftWovenShirtPocket, draftWovenShirtSleeves, draftWovenShirtYoke, frontButtonPositions, wovenShirtGuidance, WOVEN_SHIRT_BODY_STITCHES, WOVEN_SHIRT_COLLAR_STITCHES, WOVEN_SHIRT_POMS } from "./shirt";
 
 describe("woven shirt body", () => {
   it("drafts separate front/back panels with the required named boundaries", () => {
@@ -148,5 +148,30 @@ describe("woven shirt body", () => {
       expect(block.roles[role].marks!.some((mark) => mark.name === "ventTop")).toBe(true);
     }
     expect(stitchChecks(block, block.stitches).every((check) => check.ok)).toBe(true);
+  });
+
+  it("reports actionable warnings for invalid combinations instead of hiding them", () => {
+    const notes = wovenShirtGuidance(draftWovenShirtBody(STANDARD_M),
+      { ...STANDARD_M, neck: 50, shoulderWidth: 20, armholeDepth: 8 }, {
+        neckEase: 3, buttonCount: 5, buttonSpacing: 9, frontOverlap: 4,
+        placketWidth: 2, standHeight: 8, collarLeafDepth: 4, yokeDepth: 2,
+        pocketWidth: 8, pocketHeight: 9, sleeveBandDepth: 1, sideVentDepth: -1, hemTurn: 0,
+      });
+    expect(notes.filter((note) => note.level === "warn").length).toBeGreaterThanOrEqual(13);
+    expect(notes.some((note) => note.text.includes("whole number"))).toBe(true);
+    expect(notes.some((note) => note.text.includes("shoulder seam"))).toBe(true);
+    expect(notes.some((note) => note.text.includes("below the underarm"))).toBe(true);
+    const shortBlock = draftWovenShirtBody({ ...STANDARD_M, length: 55 });
+    const shortNotes = wovenShirtGuidance(shortBlock, { ...STANDARD_M, length: 55 }, { buttonCount: 7, buttonSpacing: 9 });
+    expect(shortNotes.some((note) => note.text.includes("last front button"))).toBe(true);
+  });
+
+  it("fails loudly when a button POM loses its point mark", () => {
+    const block = draftWovenShirtPlackets(STANDARD_M);
+    const broken = {
+      ...block,
+      roles: { ...block.roles, buttonPlacket: { ...block.roles.buttonPlacket, marks: [] } },
+    };
+    expect(() => WOVEN_SHIRT_POMS[5].measure(broken)).toThrow("has no point mark");
   });
 });

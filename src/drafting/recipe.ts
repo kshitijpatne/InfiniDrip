@@ -13,7 +13,7 @@ import { Note } from "../guidance/note";
 import { sleevedTopPanelChecks, frontHemWidth } from "./tshirt-checks";
 import { sleevedTopGuidance } from "./tshirt-guidance";
 import { draftSkirt, skirtPanelChecks, skirtGuidance, SKIRT_GRADE, SKIRT_POMS, SKIRT_NOTCHES } from "./skirt";
-import { StyleDef, TEE_STYLES, SKIRT_STYLES, TANK_STYLES, POLO_STYLES } from "../style";
+import { StyleDef, TEE_STYLES, SKIRT_STYLES, TANK_STYLES, POLO_STYLES, WOVEN_SHIRT_STYLES } from "../style";
 import { AllowanceSpec } from "./allowance";
 import { Pom } from "./pom";
 import { GradeRule, SizeStep } from "./grading";
@@ -28,6 +28,10 @@ import { TSHIRT_GRADE, TSHIRT_SIZES } from "./tshirt-grade";
 import { FITTED_NOTCHES, FITTED_POMS } from "./fitted-tables";
 import { GarmentOption, GarmentOptions } from "./options";
 import { draftPolo, poloGuidance, POLO_ALLOWANCES, POLO_NOTCHES, POLO_OPTION_DEFINITIONS, POLO_POMS } from "./polo";
+import { draftWovenShirt, wovenShirtGuidance, WOVEN_SHIRT_ALLOWANCES, WOVEN_SHIRT_GRADE, WOVEN_SHIRT_NOTCHES, WOVEN_SHIRT_POMS } from "./shirt";
+import { WOVEN_SHIRT_FIELDS, WOVEN_SHIRT_OPTION_DEFINITIONS } from "./shirt-contract";
+import { edgeLength, pieceEdge } from "./piece";
+import { rolePiece } from "./block";
 
 /**
  * How a garment declares its production-readiness checks, so the checker never
@@ -73,6 +77,8 @@ export interface GarmentRecipe {
   readonly techPack: TechPack;
   /** Recipe-owned design controls; absent means this garment has no such options. */
   readonly options?: readonly GarmentOption[];
+  /** Option-aware production notes/BOM; absent keeps the static tech pack. */
+  readonly techPackForOptions?: (options: GarmentOptions) => TechPack;
   /** Optional material variant selected from the live fabric family. */
   readonly techPackForFabric?: (fabric: StretchFabric) => TechPack;
   readonly allowances: AllowanceSpec;
@@ -278,6 +284,48 @@ export const POLO: GarmentRecipe = {
   backNeckline: () => NECKLINE_DEFAULT,
 };
 
+const WOVEN_SHIRT_TECH_PACK = (buttonCount: number): TechPack => ({
+  bom: [
+    { material: "Lightweight woven fabric", placement: "Body, sleeves, yoke, collar & pocket", qty: "1.5 m" },
+    { material: "Fusible interfacing", placement: "Collar, stand & front plackets", qty: "0.35 m" },
+    { material: "Buttons", placement: "Front placket + collar stand", qty: `${buttonCount} front + 1 stand` },
+    { material: "Woven brand label", placement: "Centre back neck", qty: "1" },
+    { material: "Care/content label", placement: "Left side seam", qty: "1" },
+    { material: "All-purpose thread", placement: "All seams", qty: "1 spool" },
+  ],
+  construction: [
+    "Fuse the collar, stand, and front placket areas according to the selected fabric and interfacing instructions.",
+    "Join the front plackets to the two centre-front edges; press the folds and work the marked buttonholes.",
+    `Attach ${buttonCount} front buttons at the marked even spacing, plus one additional button on the collar stand.`,
+    "Sew the yoke to the lower back with the enclosed shoulder construction; match the yoke notches.",
+    "Join the upper and under collar, turn the points, and sew the collar into the two stand layers.",
+    "Attach the outer stand to the neckline, turn the inner stand, and secure the inside edge.",
+    "Sew the patch pocket to its placement mark, set the sleeves, and attach the folded sleeve bands.",
+    "Close side seams above the marked vents, finish the vent edges, and turn the curved hem.",
+  ],
+});
+
+export const WOVEN_SHIRT: GarmentRecipe = {
+  name: "woven-shirt",
+  label: "Woven shirt",
+  fields: WOVEN_SHIRT_FIELDS,
+  styles: WOVEN_SHIRT_STYLES,
+  draft: (m, options = {}) => draftWovenShirt(m, options),
+  notches: WOVEN_SHIRT_NOTCHES,
+  poms: WOVEN_SHIRT_POMS,
+  grade: WOVEN_SHIRT_GRADE,
+  sizes: TSHIRT_SIZES,
+  checks: () => [],
+  guidance: (block, m, options = {}) => wovenShirtGuidance(block, m, options),
+  sizeMetric: (block) => edgeLength(pieceEdge(rolePiece(block, "front"), "hem")),
+  techPack: WOVEN_SHIRT_TECH_PACK(7),
+  techPackForOptions: (options) => WOVEN_SHIRT_TECH_PACK(Number(options.buttonCount ?? 7)),
+  options: WOVEN_SHIRT_OPTION_DEFINITIONS,
+  allowances: WOVEN_SHIRT_ALLOWANCES,
+  frontNeckline: () => NECKLINE_DEFAULT,
+  backNeckline: () => NECKLINE_DEFAULT,
+};
+
 // A woven skirt: deeper hem, a fold at each panel centre, a little at the waist
 // for the band. Structurally unrelated to the knit tee's allowances.
 // Phase B5 (Slice 57): the waistband is a real piece now — "fold" (its own
@@ -328,7 +376,7 @@ export const SKIRT: GarmentRecipe = {
   },
 };
 
-export const GARMENTS: readonly GarmentRecipe[] = [TEE, FITTED, TANK, POLO, SKIRT];
+export const GARMENTS: readonly GarmentRecipe[] = [TEE, FITTED, TANK, POLO, WOVEN_SHIRT, SKIRT];
 
 /** Look a recipe up by its stable id; falls back to the tee. */
 export function garmentByName(name: string): GarmentRecipe {
