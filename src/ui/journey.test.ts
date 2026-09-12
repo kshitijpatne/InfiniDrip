@@ -76,6 +76,12 @@ describe("journeyChecklist — honest progress", () => {
     expect(items.every((i) => i.done)).toBe(true);
   });
 
+  it("describes the current garment choices without naming a stale subset", () => {
+    const items = journeyChecklist(true, 0, true, false);
+    expect(items[0].next).toContain("available garments");
+    expect(items[0].next).not.toContain("Darted tee");
+  });
+
   it("never ticks the production row while measurements are implausible", () => {
     // geometry passes (checksOk) but the numbers are absurd — no green.
     const items = journeyChecklist(false, 0, true, false);

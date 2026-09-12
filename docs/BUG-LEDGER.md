@@ -585,34 +585,67 @@ No console runtime errors were observed during that audit.
 
 ### BUG-UI-027 — Tee defaults to confusing woven/no-stretch material guidance
 
-- Tags: `BUGFIX`, `EPIC-BUGFIX-P3`, `P3`, `S3`, status `Open`.
+- Tags: `BUGFIX`, `EPIC-BUGFIX-P3`, `P3`, `S3`, status `Closed`.
 - Evidence: the default Tee opens with `Cotton woven` and no-stretch guidance,
   which conflicts with the user’s likely knit-tee mental model.
 - Root cause: the first stretch-material entry is used as the default for every
   garment. Source: `src/ui/app.ts:56`.
 - Done when: defaults are garment-appropriate or the material choice is clearly
   required before interpreting ease guidance.
-- Fix slice: —  Commit/PR: —  Verification: —
+- Fix slice: BF-P3-01. Commit/PR: BF-P3-01 behavior commit (immutable
+  reference recorded after the slice commit).
+- Root cause confirmed: fresh workspaces selected the first material in the
+  stretch-material list regardless of garment construction. A garment-keyed
+  default now selects Cotton jersey for knit-oriented garments and Cotton
+  woven for woven-oriented garments, with a woven fallback for future IDs;
+  saved explicit material choices remain unchanged.
+- Tests: persist and app tests cover every registered default family, the
+  unknown-garment fallback, and a fresh Tee mount; focused UI suites pass.
+- Live/rendered/output evidence: the live fresh workspace shows Cotton jersey
+  selected for Tee and the material control remains an explicit user choice;
+  rendered garment/output surfaces remain unchanged apart from the truthful
+  default state. No physical or production claim is made.
+- Closed by/date: Codex, 2026-09-12. Final status: Closed.
 
 ### BUG-UI-028 — Style helper copy says inputs are sliders
 
-- Tags: `BUGFIX`, `EPIC-BUGFIX-P3`, `P3`, `S4`, status `Open`.
+- Tags: `BUGFIX`, `EPIC-BUGFIX-P3`, `P3`, `S4`, status `Closed`.
 - Evidence: visible helper says `Adjust the sliders`, but controls are numeric
   inputs.
 - Root cause: stale copy from an earlier control design. Source: `src/ui/view.ts:142`.
 - Done when: helper copy describes the actual interaction and its effect.
-- Fix slice: —  Commit/PR: —  Verification: —
+- Fix slice: BF-P3-01. Commit/PR: BF-P3-01 behavior commit (immutable
+  reference recorded after the slice commit).
+- Root cause confirmed: the helper retained copy from a slider-based control
+  design after the controls became numeric inputs. It now names numeric entry
+  and says the preview updates immediately.
+- Tests: view markup tests assert the numeric-input and immediate-preview copy;
+  the focused UI suite passes.
+- Live/rendered/output evidence: the live Style panel shows the numeric-input
+  instruction while the preview remains the rendered response to changes. No
+  physical or production claim is made.
+- Closed by/date: Codex, 2026-09-12. Final status: Closed.
 
 ### BUG-UI-029 — Journey garment copy is stale
 
-- Tags: `BUGFIX`, `EPIC-BUGFIX-P3`, `P3`, `S4`, status `Open`.
+- Tags: `BUGFIX`, `EPIC-BUGFIX-P3`, `P3`, `S4`, status `Closed`.
 - Evidence: journey copy says users can switch between Tee and Darted tee despite
   six garments being available.
 - Root cause: fixed onboarding copy was not updated as the registry grew. Source:
   `src/ui/journey.ts:125`.
 - Done when: journey copy is registry-aware or accurately describes the current
   garment set.
-- Fix slice: —  Commit/PR: —  Verification: —
+- Fix slice: BF-P3-01. Commit/PR: BF-P3-01 behavior commit (immutable
+  reference recorded after the slice commit).
+- Root cause confirmed: the checklist sentence was fixed to a two-garment
+  subset while the registry grew to six available garments. It now refers to
+  the available garment set without naming a stale subset.
+- Tests: journey checklist tests assert the registry-aware wording and reject
+  the stale Darted tee phrase; the focused UI suite passes.
+- Live/rendered/output evidence: the live journey copy uses the available
+  garment wording when the checklist is shown; no physical or production claim
+  is made.
+- Closed by/date: Codex, 2026-09-12. Final status: Closed.
 
 ### BUG-UI-030 — Single and Marker controls do not explain scope
 

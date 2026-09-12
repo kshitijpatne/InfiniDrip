@@ -126,7 +126,7 @@ export function journeyChecklist(
     {
       label: "Garment picked",
       done: true,
-      next: "Switch any time between Tee and Darted tee.",
+      next: "Switch between the available garments above.",
     },
     {
       label: "Inputs and guidance checked",

@@ -16,8 +16,23 @@ export interface Workspace {
   readonly fabricWidth: number;
   readonly nestScope: "single" | "marker";
 }
+
+const DEFAULT_STRETCH_BY_GARMENT: Readonly<Record<string, string>> = {
+  tee: "Cotton jersey",
+  fitted: "Cotton jersey",
+  tank: "Cotton jersey",
+  polo: "Cotton jersey",
+  "woven-shirt": "Cotton woven",
+  skirt: "Cotton woven",
+};
+
+/** Fresh-workspace material defaults follow the garment's construction family. */
+export function defaultStretchFabricForGarment(garment: string): string {
+  return DEFAULT_STRETCH_BY_GARMENT[garment] ?? STRETCH_FABRICS[0].name;
+}
+
 export const DEFAULT_WORKSPACE: Workspace = {
-  garment: "tee", targetStyle: "Classic tee", stretchFabric: STRETCH_FABRICS[0].name,
+  garment: "tee", targetStyle: "Classic tee", stretchFabric: defaultStretchFabricForGarment("tee"),
   view: "pattern", bodyCroquisView: "front-back", exportStep: 0,
   fabricWidth: 150, nestScope: "single",
 };

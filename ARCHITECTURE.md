@@ -76,6 +76,13 @@ validated x/y coordinate inputs for every handle; finite changes use the same
 field metadata and delegate Review actions to the matching control after each
 redraw.
 
+BF-P3-01: fresh workspaces choose material defaults from the garment's
+construction family (knit-oriented garments use Cotton jersey; woven-oriented
+garments use Cotton woven) while saved material choices remain explicit. Style
+guidance names the numeric-input interaction and immediate preview update, and
+the journey checklist describes the available garment registry without a stale
+hardcoded subset.
+
 Slice 93: the woven-shirt component-library exit audit verifies closed geometry
 and sewability across XS–XL, all Pattern/Body/Side/Size run/Spec/Nesting/Check/
 preview-Edit routes, and parsed SVG/DXF/tiled-PDF/A0/projector/tech-pack output.

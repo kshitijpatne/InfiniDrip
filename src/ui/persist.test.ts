@@ -8,6 +8,7 @@ import {
   loadFromStorage,
   SAVE_VERSION,
   DEFAULT_WORKSPACE,
+  defaultStretchFabricForGarment,
   readFromStorage,
 } from "./persist";
 
@@ -68,6 +69,18 @@ describe("v4 workspace validation", () => {
     expect(readFromStorage()).toEqual({ ok: false, error: "Nothing saved" });
     localStorage.setItem("patternworks_save_v1", "broken");
     expect(readFromStorage()).toEqual({ ok: false, error: "Not valid JSON." });
+  });
+});
+
+describe("fresh workspace material defaults", () => {
+  it("uses a garment-appropriate stretch material and a woven fallback", () => {
+    expect(defaultStretchFabricForGarment("tee")).toBe("Cotton jersey");
+    expect(defaultStretchFabricForGarment("fitted")).toBe("Cotton jersey");
+    expect(defaultStretchFabricForGarment("tank")).toBe("Cotton jersey");
+    expect(defaultStretchFabricForGarment("polo")).toBe("Cotton jersey");
+    expect(defaultStretchFabricForGarment("woven-shirt")).toBe("Cotton woven");
+    expect(defaultStretchFabricForGarment("skirt")).toBe("Cotton woven");
+    expect(defaultStretchFabricForGarment("future")).toBe("Cotton woven");
   });
 });
 

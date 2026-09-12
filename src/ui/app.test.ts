@@ -20,6 +20,12 @@ describe("mountApp", () => {
     expect(root.querySelector("#assembled-preview-title")!.textContent).toBe("Assembled preview");
   });
 
+  it("starts a fresh Tee workspace with a knit-appropriate material", () => {
+    localStorage.clear();
+    const root = mount();
+    expect(root.querySelector<HTMLSelectElement>("#stretch-select")!.value).toBe("Cotton jersey");
+  });
+
   it("lets the secondary assembled preview collapse without losing ownership", () => {
     const root = mount();
     root.querySelector<HTMLButtonElement>("#assembled-preview-toggle")!
@@ -391,7 +397,7 @@ describe("mountApp", () => {
   it("shows a fabric-stretch ease note and updates it when fabric changes", () => {
     localStorage.clear();
     const root = mount();
-    expect(root.querySelector("#guidance-host")!.innerHTML).toContain("no stretch");
+    expect(root.querySelector("#guidance-host")!.innerHTML).toContain("Cotton jersey stretches");
     const stretch = root.querySelector<HTMLSelectElement>("#stretch-select")!;
     stretch.value = "Spandex blend";
     stretch.dispatchEvent(new Event("change"));

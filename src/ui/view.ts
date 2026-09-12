@@ -142,7 +142,7 @@ function deltaText(d: Delta): string {
 /**
  * The style panel, prescriptive: the user picks a TARGET fit, and the panel
  * shows the gap to it on every axis. Selecting a target writes no measurement —
- * the user closes each gap themselves with the sliders.
+ * the user closes each gap themselves with the numeric inputs.
  */
 export function styleMarkup(
   targetName: string,
@@ -176,7 +176,7 @@ export function styleMarkup(
     body = `<div style="font-size:12.5px;color:${T.line};margin-bottom:8px">` +
       `To reach ${targetName}:</div>${rows}` +
       `<div style="font-size:11.5px;color:${T.label};margin-top:8px">` +
-    `Adjust the numeric inputs — nothing changes on its own.</div>`;
+    `Enter the numeric inputs to make each change; the preview updates immediately.</div>`;
   }
   return panel("Style", label + select + body);
 }
@@ -448,7 +448,13 @@ export function checkMarkup(report: Report, plausible: boolean): string {
 }
 
 /** The whole app shell: controls, canvas host, and a stacked guidance + style column. */
-export function appShellMarkup(m: Measurements, fabric: string, sizes: readonly SizeStep[], fields: readonly (keyof Measurements)[]): string {
+export function appShellMarkup(
+  m: Measurements,
+  fabric: string,
+  sizes: readonly SizeStep[],
+  fields: readonly (keyof Measurements)[],
+  stretchFabric = STRETCH_FABRICS[0].name
+): string {
   const responsive = `<style id="infini-responsive-shell">` +
     `#infini-shell{display:grid!important;grid-template-columns:minmax(210px,0.75fr) minmax(300px,1.7fr) minmax(240px,0.9fr);gap:16px;align-items:start;font-family:system-ui,sans-serif}` +
     `#infini-workspace{min-width:0;display:flex;flex-direction:column;gap:6px}` +
@@ -462,7 +468,7 @@ export function appShellMarkup(m: Measurements, fabric: string, sizes: readonly 
     `${controlsMarkup(m, fields)}` +
     `<div id="infini-workspace" style="flex:1;min-width:300px;display:flex;flex-direction:column;gap:6px">` +
     `<div id="journey-host"></div>` +
-    `${viewToggleMarkup("pattern")}${bodyCroquisToggleMarkup("front-back")}${garmentToggleMarkup("tee")}${fabricStretchMarkup(STRETCH_FABRICS[0].name)}` +
+    `${viewToggleMarkup("pattern")}${bodyCroquisToggleMarkup("front-back")}${garmentToggleMarkup("tee")}${fabricStretchMarkup(stretchFabric)}` +
     `${fabricWidthMarkup(150)}` +
     `<div id="canvas-host"></div>${fabricSwatchesMarkup(fabric)}${exportButtonsMarkup(sizes)}` +
     `<div id="garment-host"></div></div>` +

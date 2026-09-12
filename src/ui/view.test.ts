@@ -325,6 +325,8 @@ describe("styleMarkup", () => {
     const html = styleMarkup("Oversized tee", matchStyle(STANDARD_M, "Oversized tee", TEE_STYLES), styleNames(TEE_STYLES), true);
     expect(html).toContain("To reach Oversized tee");
     expect(html).toContain("Ease +9 cm");
+    expect(html).toContain("Enter the numeric inputs");
+    expect(html).toContain("preview updates immediately");
   });
 
   it("shows a negative delta without a plus sign", () => {

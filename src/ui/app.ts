@@ -15,7 +15,7 @@ import { garmentReport, implausibleFields } from "../guidance";
 import { matchStyle, styleNames } from "../style";
 import { FIELDS, applyChange, inputError } from "./controls";
 import { appShellMarkup, controlsMarkup, guidanceMarkup, styleMarkup, specTableMarkup, checkMarkup, editorHintMarkup, editorHandleControlsMarkup, dartControlsMarkup, inspectionMarkup, assembledPreviewMarkup, BodyCroquisView } from "./view";
-import { saveToStorage, loadFromStorage, readFromStorage, serialize, deserialize, DEFAULT_WORKSPACE, Workspace } from "./persist";
+import { saveToStorage, loadFromStorage, readFromStorage, serialize, deserialize, DEFAULT_WORKSPACE, defaultStretchFabricForGarment, Workspace } from "./persist";
 import {
   JourneyStep, ViewName, COACHED_STEPS, disclosureFor, stepView, journeyChecklist,
   journeyBarMarkup, checklistMarkup, welcomeMarkup, celebrationMarkup,
@@ -38,9 +38,12 @@ export function mountApp(root: HTMLElement): void {
   let measurements: Measurements = saved ? saved.measurements : STANDARD_M;
   let fabric = saved ? saved.fabric : DEFAULT_FABRIC;
   let garmentOptions: GarmentOptionsByRecipe = saved ? saved.garmentOptions : {};
-  const initialWorkspace = saved?.workspace ?? DEFAULT_WORKSPACE;
+  const initialWorkspace = saved?.workspace ?? {
+    ...DEFAULT_WORKSPACE,
+    stretchFabric: defaultStretchFabricForGarment(DEFAULT_WORKSPACE.garment),
+  };
   let recipe: GarmentRecipe = garmentByName(initialWorkspace.garment);
-  root.innerHTML = appShellMarkup(measurements, fabric, recipe.sizes, recipe.fields);
+  root.innerHTML = appShellMarkup(measurements, fabric, recipe.sizes, recipe.fields, initialWorkspace.stretchFabric);
 
   const canvasHost = root.querySelector<HTMLDivElement>("#canvas-host")!;
   const garmentHost = root.querySelector<HTMLDivElement>("#garment-host")!;
