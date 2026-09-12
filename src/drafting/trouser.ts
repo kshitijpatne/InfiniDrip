@@ -1,8 +1,6 @@
-// The reusable lower-body leg block for Epic 3.
+// The reusable lower-body block for Epic 3.
 //
-// This slice owns the four leg panels only. Waistband, fly, and pocket
-// components arrive in later slices so each seam boundary is introduced and
-// verified separately. Coordinates are centimetres, x increases toward the
+// Coordinates are centimetres, x increases toward the
 // side seam, and y increases down from the body-panel waist reference.
 //
 // The curve is deliberately transparent digital drafting geometry: front and
@@ -11,13 +9,21 @@
 // coherent approximation, not a universal fit formula.
 
 import { point } from "../geometry";
-import { Block, block } from "./block";
+import { Block, block, rolePiece } from "./block";
 import { Edge, Piece } from "./piece";
 import { lineMark, pointMark, PatternMark } from "./pattern-mark";
 import { edgeRef, iface, markRef, Stitch } from "./stitch";
 import { Component, assembleComponents } from "./component";
-import { DEFAULT_TROUSER_OPTIONS, resolveTrouserOptions, TrouserOptions } from "./trouser-contract";
+import {
+  DEFAULT_TROUSER_OPTIONS,
+  resolveTrouserOptions,
+  TROUSER_OPTION_DEFINITIONS,
+  TrouserOptions,
+} from "./trouser-contract";
 import { Measurements } from "./measurements";
+import type { AllowanceSpec } from "./allowance";
+import type { PieceNotches } from "./tshirt-notches";
+import type { Note } from "../guidance/note";
 
 export interface TrouserDraftMetrics {
   readonly finishedWaist: number;
@@ -252,10 +258,10 @@ const FLY_SHIELD_WIDTH = 3.5;
 function addFlyMarks(b: Block, flyLength: number): Block {
   const roles = Object.fromEntries(Object.entries(b.roles).map(([role, piece]) => {
     if (!role.startsWith("front")) return [role, piece];
-    return [role, {
-      ...piece,
-      marks: [
-        ...(piece.marks ?? []),
+      return [role, {
+        ...piece,
+        marks: [
+        ...piece.marks!,
         lineMark("placementLine", "flyEdge", point(0, 0), point(0, flyLength), "front fly edge"),
       ],
     }];
@@ -293,6 +299,96 @@ export const trouserFly: Component<TrouserOptions> = (_m, rawOptions) => {
   };
 };
 
+/** The V1 pocket-opening construction line on the left front panel. The
+ * opening starts inboard of the side waist and travels down/inward at the
+ * user's chosen angle; no renderer invents a second pocket geometry. */
+export interface TrouserPocketOpening {
+  readonly start: ReturnType<typeof point>;
+  readonly end: ReturnType<typeof point>;
+}
+
+const POCKET_SIDE_WAIST_CLEARANCE = 3.5;
+
+export function trouserPocketOpening(
+  m: Measurements, rawOptions: Partial<TrouserOptions> = {}
+): TrouserPocketOpening {
+  const options = resolveTrouserOptions(rawOptions);
+  const waistQ = (m.waist + m.ease) / 4;
+  const angle = options.pocketAngle * Math.PI / 180;
+  const start = point(waistQ - POCKET_SIDE_WAIST_CLEARANCE, options.pocketDrop);
+  return {
+    start,
+    end: point(
+      start.x - Math.cos(angle) * options.pocketOpening,
+      start.y + Math.sin(angle) * options.pocketOpening,
+    ),
+  };
+}
+
+function pocketOpeningMark(opening: TrouserPocketOpening): PatternMark {
+  return lineMark("placementLine", "pocketOpening", opening.start, opening.end, "pocket opening");
+}
+
+/** Add the same live opening mark to the two mirrored front panels. */
+function addPocketMarks(b: Block, opening: TrouserPocketOpening): Block {
+  const roles = Object.fromEntries(Object.entries(b.roles).map(([role, piece]) => {
+    if (role === "frontLeft") {
+      return [role, { ...piece, marks: [...piece.marks!, pocketOpeningMark(opening)] }];
+    }
+    if (role === "frontRight") {
+      return [role, {
+        ...piece,
+        marks: [...piece.marks!, pocketOpeningMark({
+          start: mirrorPoint(opening.start), end: mirrorPoint(opening.end),
+        })],
+      }];
+    }
+    return [role, piece];
+  }));
+  return block(roles, b.stitches);
+}
+
+/** One minimal quadrilateral pocket bag. Its opening edge is the exact same
+ * line as the front-panel mark, so the pocket join is a real stitch rather
+ * than a decorative overlay. */
+function pocketBagPiece(
+  opening: TrouserPocketOpening, depth: number, name: string
+): Piece {
+  const bottomY = opening.end.y + depth;
+  const bottomEnd = point(opening.end.x, bottomY);
+  const bottomStart = point(opening.start.x, bottomY);
+  return {
+    name,
+    onFold: false,
+    edges: [
+      { kind: "line", name: "opening", start: opening.start, end: opening.end },
+      { kind: "line", name: "bagLower", start: opening.end, end: bottomEnd },
+      { kind: "line", name: "bagOuter", start: bottomEnd, end: bottomStart },
+      { kind: "line", name: "bagClose", start: bottomStart, end: opening.start },
+    ],
+    marks: [
+      lineMark("placementLine", "bagOpeningMatch", opening.start, opening.end, "MATCH FRONT OPENING"),
+      pointMark("placementPoint", "bagBottom", point((bottomStart.x + bottomEnd.x) / 2, bottomY), "bag bottom"),
+    ],
+  };
+}
+
+/** Paired minimal bags, mirrored from the same opening/depth contract. */
+export const trouserPocket: Component<TrouserOptions> = (m, rawOptions) => {
+  const options = resolveTrouserOptions(rawOptions);
+  const opening = trouserPocketOpening(m, options);
+  const left = pocketBagPiece(opening, options.pocketBagDepth, "trouser pocket bag left");
+  const right = mirrorPiece(left, "trouser pocket bag right");
+  return {
+    pieces: { pocketBagLeft: left, pocketBagRight: right },
+    stitches: [],
+    interfaces: {
+      leftOpening: iface(edgeRef("pocketBagLeft", "opening")),
+      rightOpening: iface(edgeRef("pocketBagRight", "opening")),
+    },
+  };
+};
+
 const trouserWaistStitch = (roles: readonly string[]): Stitch => ({
   label: "Waistband (four legs ↔ separate waistband)",
   a: iface(...roles.map((role) => edgeRef(role, "waist"))),
@@ -318,4 +414,177 @@ export function draftTrouserWithClosure(
     { label: "Right front fly ↔ shield", a: iface(markRef("frontRight", "flyEdge", "right")), b: iface(edgeRef("flyShield", "right")) },
   ];
   return block(combined.roles, stitches);
+}
+
+/** Slice 98's complete digital trouser block: closure plus paired pocket bags
+ * attached to the real front-panel opening marks. */
+export function draftTrouserWithPockets(
+  m: Measurements, rawOptions: Partial<TrouserOptions> = {}
+): Block {
+  const options = resolveTrouserOptions(rawOptions);
+  const opening = trouserPocketOpening(m, options);
+  const closure = addPocketMarks(draftTrouserWithClosure(m, options), opening);
+  const pocket = trouserPocket(m, options);
+  const leftPocketStitch: Stitch = {
+    label: "Left pocket opening ↔ bag",
+    a: iface(markRef("frontLeft", "pocketOpening", "left")),
+    b: iface(edgeRef("pocketBagLeft", "opening")),
+  };
+  const rightPocketStitch: Stitch = {
+    label: "Right pocket opening ↔ bag",
+    a: iface(markRef("frontRight", "pocketOpening", "right")),
+    b: iface(edgeRef("pocketBagRight", "opening")),
+  };
+  return assembleComponents([
+    { pieces: closure.roles, stitches: closure.stitches, interfaces: {} },
+    pocket,
+  ], [leftPocketStitch, rightPocketStitch]);
+}
+
+/** V1 woven trouser cutting allowances. All roles are off-fold; a future
+ * material-specific recipe may replace this table without changing sewing
+ * geometry. */
+export const TROUSER_ALLOWANCES: AllowanceSpec = {
+  default: 1,
+  byEdge: {
+    hem: 2,
+    waist: 1,
+    centerFront: 1,
+    centerBack: 1,
+    crotch: 1,
+    opening: 1,
+    bagLower: 1,
+    bagOuter: 1,
+    bagClose: 1,
+    top: 1,
+    bottom: 1,
+    endRight: 1,
+    endLeft: 1,
+    left: 1,
+    right: 1,
+  },
+};
+
+/** V1 balance and grain rules for every physical trouser piece. */
+export const TROUSER_NOTCHES: readonly PieceNotches[] = [
+  ...["trouser front left", "trouser front right"].map((pieceName) => ({
+    pieceName,
+    notches: [
+      { edgeName: "sideUpper", t: 0.5 },
+      { edgeName: "sideThighToKnee", t: 0.5 },
+      { edgeName: "inseamUpper", t: 0.5 },
+      { edgeName: "hem", t: 0.5 },
+    ],
+    grainline: { topEdge: "waist", topT: 0.5, bottomEdge: "hem", bottomT: 0.5 },
+  })),
+  ...["trouser back left", "trouser back right"].map((pieceName) => ({
+    pieceName,
+    notches: [
+      { edgeName: "sideUpper", t: 0.5 },
+      { edgeName: "sideThighToKnee", t: 0.5 },
+      { edgeName: "inseamUpper", t: 0.5 },
+      { edgeName: "centerBack", t: 0.5 },
+      { edgeName: "hem", t: 0.5 },
+    ],
+    grainline: { topEdge: "waist", topT: 0.5, bottomEdge: "hem", bottomT: 0.5 },
+  })),
+  {
+    pieceName: "trouser waistband",
+    notches: [{ edgeName: "top", t: 0.5 }, { edgeName: "bottom", t: 0.5 }],
+    grainline: { topEdge: "top", topT: 0.5, bottomEdge: "bottom", bottomT: 0.5 },
+  },
+  {
+    pieceName: "trouser fly shield",
+    notches: [{ edgeName: "left", t: 0.5 }],
+    grainline: { topEdge: "top", topT: 0.5, bottomEdge: "bottom", bottomT: 0.5 },
+  },
+  ...["trouser pocket bag left", "trouser pocket bag right"].map((pieceName) => ({
+    pieceName,
+    notches: [{ edgeName: "opening", t: 0.5 }, { edgeName: "bagOuter", t: 0.5 }],
+    grainline: { topEdge: "opening", topT: 0.5, bottomEdge: "bagOuter", bottomT: 0.5 },
+  })),
+];
+
+function sideBoundaryXAtY(piece: Piece, y: number): number | null {
+  for (const edge of piece.edges) {
+    if (!edge.name.startsWith("side") || edge.kind !== "line") continue;
+    const low = Math.min(edge.start.y, edge.end.y);
+    const high = Math.max(edge.start.y, edge.end.y);
+    if (y < low || y > high) continue;
+    const dy = edge.end.y - edge.start.y;
+    if (Math.abs(dy) < 1e-9) continue;
+    const t = (y - edge.start.y) / dy;
+    return edge.start.x + (edge.end.x - edge.start.x) * t;
+  }
+  return null;
+}
+
+function frontPanelPointInside(piece: Piece, p: ReturnType<typeof point>): boolean {
+  const side = sideBoundaryXAtY(piece, p.y);
+  return p.x > 0 && side !== null && p.x < side;
+}
+
+/** Pocket-specific guidance. It reports the supplied finite option values and
+ * geometry as-is; it never repairs an invalid opening or silently clamps a
+ * bag back into the panel. */
+export function trouserPocketGuidance(
+  drafted: Block, m: Measurements, rawOptions: Partial<TrouserOptions> = {}
+): Note[] {
+  const options = resolveTrouserOptions(rawOptions);
+  const notes: Note[] = [];
+  for (const definition of TROUSER_OPTION_DEFINITIONS.filter((d) => d.group === "Pocket")) {
+    const value = options[definition.id as keyof TrouserOptions];
+    if (value < definition.min || value > definition.max) {
+      notes.push({
+        field: `option-${definition.id}`,
+        level: "warn",
+        text: `${definition.label} (${value}${definition.unit === "°" ? "°" : " cm"}) is outside V1's ` +
+          `${definition.min}–${definition.max}${definition.unit === "°" ? "°" : " cm"} range — adjust it into that range.`,
+      });
+    }
+  }
+
+  const opening = trouserPocketOpening(m, options);
+  const metrics = trouserMetrics(m, options);
+  const front = rolePiece(drafted, "frontLeft");
+  const bottomY = opening.end.y + options.pocketBagDepth;
+  if (!frontPanelPointInside(front, opening.start) || !frontPanelPointInside(front, opening.end)) {
+    notes.push({
+      field: "option-pocketOpening",
+      level: "warn",
+      text: "Pocket opening leaves the front panel — shorten the opening, reduce its angle/drop, or add waist ease.",
+    });
+  }
+  if (opening.end.y >= metrics.frontCrotchY) {
+    notes.push({
+      field: "option-pocketDrop",
+      level: "warn",
+      text: `Pocket opening reaches the front rise (${opening.end.y.toFixed(1)} cm versus ${metrics.frontCrotchY.toFixed(1)} cm) — reduce pocket drop/angle or shorten the opening.`,
+    });
+  }
+  const bagStart = point(opening.start.x, bottomY);
+  const bagEnd = point(opening.end.x, bottomY);
+  if (bottomY >= metrics.kneeY) {
+    notes.push({
+      field: "option-pocketBagDepth",
+      level: "warn",
+      text: `Pocket bag reaches the knee region (${bottomY.toFixed(1)} cm) — shorten pocket-bag depth or increase inseam.`,
+    });
+  }
+  if (bottomY >= metrics.hemY) {
+    notes.push({
+      field: "option-pocketBagDepth",
+      level: "warn",
+      text: `Pocket bag reaches the hem (${bottomY.toFixed(1)} cm versus ${metrics.hemY.toFixed(1)} cm) — shorten pocket-bag depth or increase inseam.`,
+    });
+  }
+  if (bottomY < metrics.hemY &&
+      (!frontPanelPointInside(front, bagStart) || !frontPanelPointInside(front, bagEnd))) {
+    notes.push({
+      field: "option-pocketBagDepth",
+      level: "warn",
+      text: "Pocket bag extends past the front side seam — shorten the bag or reduce the opening/drop so its bottom stays inside the panel.",
+    });
+  }
+  return notes;
 }

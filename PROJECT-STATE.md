@@ -1,9 +1,9 @@
 # InfiniDrip — Project State
 
-_Last updated: FC-01 functional consistency audit, 2026-09-12; the BUGFIX
+_Last updated: Epic 3 Slice 98, 2026-09-12; the BUGFIX
 phase and pre-Epic 3 consistency extension passed._
 
-## Current status — Epic 3 Slice 97
+## Current status — Epic 3 Slice 98
 
 The actual `main` checkout was re-verified before Epic 3: tracked files are
 clean, `main` matches `origin/main`, the BUGFIX P1/P2/P3 and FC-01 records are
@@ -45,9 +45,21 @@ marks. Its eight declared seams pass the focused stitch checks; focused
 component tests pass 12/12 and TypeScript passes. The block is still not
 registered with the application or export pipeline.
 
-Next safe action is Slice 98: add the minimal paired pocket component and
-complete the lower-body sewability contract. Physical validation, surface
-design, Polo V2, and production-readiness claims remain deferred.
+Slice 98 is complete as the minimal pocket/sewability checkpoint. The
+`draftTrouserWithPockets()` block adds mirrored front pocket-opening marks and
+two quadrilateral bag roles, with each opening joined to the actual front mark
+by a length-checked stitch. The pocket angle, opening length, drop, and bag
+depth remain live; invalid ranges and panel/rise/knee/hem crossings produce
+option-linked guidance without clamping. `TROUSER_ALLOWANCES` and
+`TROUSER_NOTCHES` cover all eight physical roles, and the actual Blueprint/SVG
+render tests include the pocket marks and bags. Focused trouser tests pass
+21/21 and TypeScript passes. The complete recipe, application routing, full
+graded/output gate, and live browser verification remain pending.
+
+Next safe action is Slice 99: finish trouser-wide guidance, POMs, grading, BOM,
+and construction notes, then integrate the complete recipe. Physical
+validation, surface design, Polo V2, and production-readiness claims remain
+deferred.
 
 The independent functional-consistency audit now closes BUG-UI-032 through
 BUG-UI-034. Woven Body front/back inspection uses its real lower shaping and

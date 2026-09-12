@@ -182,6 +182,8 @@ registration and parsed output checks wait for the complete garment.
 
 ### Slice 98 — minimal pocket component and sewability contract
 
+Status: **complete** (focused tests 21/21).
+
 Scope: add paired pocket-opening marks/bags and the complete lower-body stitch,
 notch, allowance, and component checks.
 
@@ -205,10 +207,21 @@ Owner/model: Codex; high reasoning for pocket/edge interfaces.
 Verification: real `garmentReport` across the size run, focused mutation tests,
 and actual assembled/pattern SVG inspection.
 
+Evidence: `draftTrouserWithPockets()` now emits the four leg panels, separate
+waistband, fly shield, and paired pocket bags. The live angled opening is
+mirrored onto both front marks and is stitch-checked against each bag's
+`opening` edge; all ten declared seams pass on the standard block. Slice 98
+also declares the user-adjustable pocket angle, the V1 trouser allowance map,
+and notch/grainline rows for all eight physical roles. Focused trouser
+contract/leg/closure/pocket tests pass 21/21 and TypeScript passes. The focused
+guidance test exercises out-of-range and geometry-invalid pocket combinations;
+physical sewing remains deferred.
+
 ### Slice 99 — guidance, POMs, grading, allowances, and tech pack
 
 Scope: finish trouser-specific guidance/corrections, grade rule, size run,
-POM/notch/allowance tables, BOM, and ordered construction notes.
+POM table, BOM, and ordered construction notes; integrate and exercise the
+Slice 98 notch/allowance tables.
 
 Acceptance criteria:
 
@@ -217,7 +230,8 @@ Acceptance criteria:
 - Graded sizes grow coherently through `draftAtSize`/`gradeRun`; rise/seat/leg
   relationships remain explicit and finite.
 - POMs distinguish body versus finished dimensions and include rise, seat,
-  waistband, leg, closure, and pocket references.
+  waistband, leg, closure, and pocket references; the existing notch/allowance
+  tables are exercised against the live block.
 - Tech-pack BOM/construction data agrees with the roles, options, and marks;
   no “fit” or “production-ready” claim appears.
 

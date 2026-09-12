@@ -3,7 +3,7 @@
 How the app fits together, in plain language. Read the top to re-orient; skim the
 layers when you need detail. Updated every slice with only need-to-know changes.
 
-## Current Epic 3 boundary — Slice 97
+## Current Epic 3 boundary — Slice 98
 
 The pre-Epic 3 checkout and BUGFIX/FC-01 exit are verified on the actual
 `main` branch. The first trouser is a separate reusable relaxed casual
@@ -56,6 +56,18 @@ keeps the leg seams and adds named waistband/fly stitches, button/buttonhole,
 center, and fold marks. The skirt waistband remains untouched and is not a
 silent substitute. Focused leg/component tests pass 12/12 plus typecheck;
 pockets, recipe/UI, and output integration remain later slices.
+
+Slice 98 completes the minimal pocket/sewability boundary without registering
+the recipe. `trouserPocket` creates paired off-fold quadrilateral bags whose
+`opening` edges exactly match live `pocketOpening` marks on the mirrored front
+panels; `draftTrouserWithPockets()` adds the two real pocket stitches to the
+existing eight seams. The pocket angle, opening, drop, and bag depth are
+recipe-owned numeric controls; pocket-specific guidance reports range and
+front-panel/rise/knee/hem violations without clamping. The V1
+`TROUSER_ALLOWANCES` map and `TROUSER_NOTCHES` table cover all eight roles, and
+focused tests render/resolve the actual marks and grainlines. Focused
+trouser tests pass 21/21 plus typecheck; recipe/UI, full output integration,
+and live browser verification remain later slices.
 
 BF-P1-02: the UI's current design verdict combines input validity, all recipe/
 plausibility guidance and geometric checks. Check, Style, journey and all six

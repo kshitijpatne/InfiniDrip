@@ -17,6 +17,7 @@ export interface TrouserOptions {
   readonly legOpening: number;
   readonly flyLength: number;
   readonly pocketOpening: number;
+  readonly pocketAngle: number;
   readonly pocketBagDepth: number;
   readonly pocketDrop: number;
 }
@@ -32,6 +33,7 @@ export const TROUSER_OPTION_DEFINITIONS: readonly GarmentOption[] = [
   { id: "legOpening", label: "Leg opening", unit: "cm", group: "Leg fit", help: "Sets the finished straight-leg opening circumference; keep it near the finished knee circumference.", defaultValue: 40, min: 25, max: 65, step: 0.5 },
   { id: "flyLength", label: "Fly length", unit: "cm", group: "Front closure", help: "Sets the front fly length; shorten it if it reaches beyond the front rise after the waistband.", defaultValue: 15, min: 8, max: 25, step: 0.5 },
   { id: "pocketOpening", label: "Pocket opening", unit: "cm", group: "Pocket", help: "Sets each angled front pocket opening; shorten it if it leaves the front panel.", defaultValue: 16, min: 8, max: 25, step: 0.5 },
+  { id: "pocketAngle", label: "Pocket angle", unit: "°", group: "Pocket", help: "Sets the opening angle down from the side waist; reduce it if the opening approaches the front rise or centre front.", defaultValue: 58, min: 35, max: 70, step: 1 },
   { id: "pocketBagDepth", label: "Pocket bag depth", unit: "cm", group: "Pocket", help: "Sets the pocket bag depth; reduce it if the bag reaches the hem or knee region.", defaultValue: 23, min: 12, max: 35, step: 0.5 },
   { id: "pocketDrop", label: "Pocket drop", unit: "cm", group: "Pocket", help: "Moves the pocket opening below the waistband; keep the opening inside the front panel.", defaultValue: 2, min: 0, max: 15, step: 0.5 },
 ];

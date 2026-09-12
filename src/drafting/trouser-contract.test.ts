@@ -17,11 +17,11 @@ describe("trouser contract", () => {
   });
 
   it("has a complete option table with defaults in each declared range", () => {
-    expect(TROUSER_OPTION_DEFINITIONS).toHaveLength(10);
+    expect(TROUSER_OPTION_DEFINITIONS).toHaveLength(11);
     for (const definition of TROUSER_OPTION_DEFINITIONS) {
       expect(definition.min).toBeLessThan(definition.defaultValue);
       expect(definition.defaultValue).toBeLessThan(definition.max);
-      expect(definition.unit).toBe("cm");
+      expect(["cm", "°"]).toContain(definition.unit);
       expect(definition.group).toBeTruthy();
       expect(definition.help).toBeTruthy();
       expect(DEFAULT_TROUSER_OPTIONS[definition.id as keyof typeof DEFAULT_TROUSER_OPTIONS])
@@ -30,9 +30,10 @@ describe("trouser contract", () => {
   });
 
   it("restores missing/nonfinite options but preserves finite invalid work in progress", () => {
-    const options = resolveTrouserOptions({ frontRiseEase: 999, backRiseEase: NaN });
+    const options = resolveTrouserOptions({ frontRiseEase: 999, backRiseEase: NaN, pocketAngle: 85 });
     expect(options.frontRiseEase).toBe(999);
     expect(options.backRiseEase).toBe(DEFAULT_TROUSER_OPTIONS.backRiseEase);
+    expect(options.pocketAngle).toBe(85);
     expect(options.pocketDrop).toBe(DEFAULT_TROUSER_OPTIONS.pocketDrop);
   });
 });

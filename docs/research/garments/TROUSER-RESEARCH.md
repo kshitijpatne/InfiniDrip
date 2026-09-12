@@ -151,6 +151,7 @@ construction type fixed and explicit. Option values are stored by recipe ID.
 | `legOpening` | Finished hem/leg-opening circumference for the straight leg. | 25–65; 40 | Drives both front/back hem widths and the straight-leg silhouette. |
 | `flyLength` | Finished visible front fly length. | 8–25; 15 | Must fit inside the front rise and is represented by marks/pieces. |
 | `pocketOpening` | Finished side/front pocket opening length. | 8–25; 16 | Must remain inside the front panel and be paired across sides. |
+| `pocketAngle` | Angle of the pocket opening down from the side-waist start. | 35–70°; 58° | A user-adjustable construction dimension; guidance catches an opening that leaves the front panel. |
 | `pocketBagDepth` | Finished pocket-bag depth below the opening. | 12–35; 23 | Drives pocket-bag geometry; it cannot extend below the hem or beyond the side seam. |
 | `pocketDrop` | Vertical position of the pocket opening below the waistband reference. | 0–15; 2 | A named placement control, not a pixel offset hidden in the renderer. |
 
@@ -194,6 +195,24 @@ The required sewn interfaces are explicit and length-checked:
 The exact curve control points, seam allowance values, and fly/pocket piece
 outline are resolved in Slices 96–98 from this contract. They are not copied
 from the skirt or a top garment and are not hidden in a render-only overlay.
+
+### Slice 98 pocket resolution
+
+The V1 pocket is a deliberately small, inspectable construction: on each front
+panel, an angled opening starts 3.5 cm inboard of the side-waist endpoint and
+travels down/inward by the live `pocketOpening` length at the live
+`pocketAngle`. The paired bag uses that exact opening as its upper seam edge,
+then closes as a four-edge quadrilateral whose bottom is `pocketBagDepth` below
+the opening endpoint. Left/right openings and bags are geometric mirrors. The
+bag shape is otherwise fixed in V1; opening length, angle, drop, and depth are
+the meaningful user dimensions. No facing, coin pocket, decorative topstitch,
+or hidden render-only cut line is introduced.
+
+The pocket-opening line is a construction mark on each front piece, and the
+bag's `opening` edge is the matching sew edge. Slice 98 also declares one
+allowance map and a notch/grainline row for every emitted role. These are
+digital sewing contracts only; a physical bag opening, bag shape, and seam
+allowance still require a sewn sample before any fit or production claim.
 
 ### Slice 96 geometry resolution
 
