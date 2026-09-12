@@ -253,3 +253,25 @@ describe("renderBody — Polo V1", () => {
     expect((pair.match(/r="0.35"/g) ?? []).length).toBe(3);
   });
 });
+
+describe("renderBody — woven-shirt independent neck", () => {
+  it("uses the recipe-owned neck geometry and exposes the neck measurement", () => {
+    const svg = renderBody(STANDARD_M, true, NECKLINE_DEFAULT, undefined, "front", undefined, {
+      widthHalf: 10, frontDepth: 8, backDepth: 3,
+    });
+    const torso = svg.match(/<path d="([^\"]+)" fill="[^\"]*" stroke="[^\"]*" stroke-width="1.4"/)![1];
+    expect(torso).toContain("10 0");
+    expect(torso).toContain("0 8");
+    expect(svg).toContain('data-dim="neck"');
+    expect(svg).toContain("Neck 40 (circ)");
+    expect(svg).toContain('data-edge="neck"');
+  });
+
+  it("keeps front and back depths distinct in the paired view", () => {
+    const pair = renderBodyPair(STANDARD_M, true, NECKLINE_DEFAULT, NECKLINE_DEFAULT, undefined, undefined, {
+      widthHalf: 10, frontDepth: 8, backDepth: 3,
+    });
+    expect(pair).toContain("0 8");
+    expect(pair).toContain("0 3");
+  });
+});

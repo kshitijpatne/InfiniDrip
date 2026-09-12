@@ -211,3 +211,34 @@ focused and full suites pass (71 files / 911 tests), coverage is 100% across
 statements/branches/functions/lines, production build passes, and legacy export
 hashes remain unchanged. Slice 93 is the component-library exit; physical
 validation remains on hold.
+
+## Slice 93 - Component-library exit audit
+
+Objective/scope: audit the complete woven-shirt library end to end across the
+graded size run, rendered views and every existing output writer; fix any real
+integration failures found by that audit and record the digital milestone exit.
+Acceptance: default and altered-valid sizes remain closed, sewable and
+reportable across XS–XL; Pattern, assembled, Body Front/Back, schematic Side,
+Size run, Spec, Nesting, Check and preview-only Edit render without exceptions;
+SVG, DXF, tiled PDF, A0 PDF, projector SVG and tech-pack outputs parse with
+piece/mark/spec evidence; existing garment outputs retain their byte-identity
+baselines; no physical fit or production claim is made.
+Non-goals: physical sewing, fit validation, code signing, final-design Edit
+overrides, new garment variants, or moving any legacy export baseline.
+Dependencies: Slices 86-92, the woven-shirt research/decision record and all
+existing shared render/export contracts.
+Risks: the milestone demonstrates reusable digital geometry and data flow only;
+unknown physical behavior remains intentionally outside this exit.
+Drafting/render change: the audit corrected the folded-yoke centre-back edge
+closure and added optional independent woven-neck geometry to Body and assembled
+previews while retaining the old renderer output when omitted. New exit tests
+exercise the real block, view traversal and parsed consumers.
+Owner: Codex. Model: GPT-5.6 Luna; reasoning: max, for final audit and review.
+Delegation: none. Gates: focused/full tests, 100% coverage, typecheck/build,
+parsed output consumers, actual UI traversal and unchanged legacy hashes; no
+physical claim.
+
+Result: component-library exit audit complete; 72 test files / 918 tests pass
+with 100% statements/branches/functions/lines, TypeScript/production build,
+parsed SVG/DXF/PDF/projector/tech-pack consumers and unchanged legacy export
+hashes. Physical validation remains on hold.

@@ -84,7 +84,11 @@ export function mountApp(root: HTMLElement): void {
   const wovenShirtVisual = () => {
     if (recipe.name !== "woven-shirt") return undefined;
     const options = recipeOptions();
+    const neckWidthHalf = (measurements.neck + options.neckEase) / 4;
     return {
+      neckWidthHalf,
+      frontNeckDepth: neckWidthHalf * 0.8,
+      backNeckDepth: neckWidthHalf * 0.3,
       buttonCount: options.buttonCount,
       buttonSpacing: options.buttonSpacing,
       frontOverlap: options.frontOverlap,
@@ -96,6 +100,12 @@ export function mountApp(root: HTMLElement): void {
       pocketHeight: options.pocketHeight,
       sideVentDepth: options.sideVentDepth,
     };
+  };
+  const wovenBodyNeckline = () => {
+    if (recipe.name !== "woven-shirt") return undefined;
+    const options = recipeOptions();
+    const widthHalf = (measurements.neck + options.neckEase) / 4;
+    return { widthHalf, frontDepth: widthHalf * 0.8, backDepth: widthHalf * 0.3 };
   };
 
   // Spotlight one measurement on the body view: its dimension line AND the outline
@@ -172,7 +182,7 @@ export function mountApp(root: HTMLElement): void {
       canvasHost.innerHTML = bodyCroquisView === "side"
         ? renderSideCroquis(measurements, isTop ? "upper" : "lower")
         : isTop
-          ? renderBodyPair(measurements, hasSleeve, recipe.frontNeckline?.(measurements), recipe.backNeckline?.(measurements), recipe.strapWidth?.(measurements), poloVisual())
+          ? renderBodyPair(measurements, hasSleeve, recipe.frontNeckline?.(measurements), recipe.backNeckline?.(measurements), recipe.strapWidth?.(measurements), poloVisual(), wovenBodyNeckline())
           : renderSkirtBody(measurements);
     } else {
       const block = draftCurrent();

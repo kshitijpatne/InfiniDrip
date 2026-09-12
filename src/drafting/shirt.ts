@@ -199,7 +199,7 @@ export function addWovenShirtYoke(
     name: "woven back lower",
     onFold: true,
     edges: [
-      { kind: "line", name: "centerBack", start: edgeStart(pieceEdge(back, "hem")), end: foldTop },
+      { kind: "line", name: "centerBack", start: edgeStart(pieceEdge(back, "centerBack")), end: foldTop },
       { kind: "line", name: "yokeSeam", start: foldTop, end: split.right.start },
       { kind: "curve", name: "armholeLower", curve: split.right },
       pieceEdge(back, "sideUpper"),
@@ -212,7 +212,7 @@ export function addWovenShirtYoke(
     name: "woven back yoke",
     onFold: true,
     edges: [
-      { kind: "line", name: "centerBack", start: foldTop, end: edgeStart(pieceEdge(back, "centerBack")) },
+      { kind: "line", name: "centerBack", start: foldTop, end: edgeEnd(pieceEdge(back, "centerBack")) },
       pieceEdge(back, "neckline"),
       pieceEdge(back, "shoulder"),
       { kind: "curve", name: "armholeUpper", curve: split.left },

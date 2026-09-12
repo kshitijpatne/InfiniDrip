@@ -3,6 +3,15 @@
 How the app fits together, in plain language. Read the top to re-orient; skim the
 layers when you need detail. Updated every slice with only need-to-know changes.
 
+Slice 93: the woven-shirt component-library exit audit verifies closed geometry
+and sewability across XS–XL, all Pattern/Body/Side/Size run/Spec/Nesting/Check/
+preview-Edit routes, and parsed SVG/DXF/tiled-PDF/A0/projector/tech-pack output.
+It corrected the yoke centre-back fold closure and passes independent woven neck
+geometry into Body and assembled previews; omitted renderer inputs preserve
+existing output. This is digital evidence only; physical validation remains
+outstanding. The final gate is 72 test files / 918 tests with 100% coverage,
+typecheck/build, parsed output consumers and unchanged legacy export hashes.
+
 Slice 92: `src/drafting/recipe.ts` registers the complete woven-shirt recipe and
 routes its options, guidance, graded POMs, notches, allowances, tech-pack BOM,
 pattern/spec/check/nesting/export pipeline, and assembled preview through the

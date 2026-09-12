@@ -32,6 +32,9 @@ export interface PoloVisual {
 
 /** Finished woven-shirt details used only by the assembled schematic. */
 export interface WovenShirtVisual {
+  readonly neckWidthHalf: number;
+  readonly frontNeckDepth: number;
+  readonly backNeckDepth: number;
   readonly buttonCount: number;
   readonly buttonSpacing: number;
   readonly frontOverlap: number;
@@ -54,7 +57,7 @@ export interface WovenShirtVisual {
 // declared shape (crew/v/scoop), the same function the actual draft calls.
 function silhouettePath(
   m: Measurements, position: "front" | "back", hasSleeve: boolean, neckline: NecklineParams,
-  strapWidth?: number
+  strapWidth?: number, shirt?: WovenShirtVisual
 ): string {
   const d = derive(m);
   const half = d.chestWidthHalf;        // half the body width
@@ -62,9 +65,12 @@ function silhouettePath(
   const slope = d.shoulderSlope;
   const ad = m.armholeDepth;
   const len = m.length;
-  const baseDepth = position === "front" ? d.frontNeckDepth : d.backNeckDepth;
+  const neckWidthHalf = shirt?.neckWidthHalf ?? d.neckWidthHalf;
+  const baseDepth = shirt
+    ? (position === "front" ? shirt.frontNeckDepth : shirt.backNeckDepth)
+    : (position === "front" ? d.frontNeckDepth : d.backNeckDepth);
   const { cNeck, hps, edge: neckEdge } =
-    necklineEdge(position, d.neckWidthHalf, baseDepth, sh, ad, neckline);
+    necklineEdge(position, neckWidthHalf, baseDepth, sh, ad, neckline);
   const nh = hps.x; // where the collar meets the shoulder — real, not the raw derived default
   const strapX = strapWidth === undefined ? sh : nh + strapWidth;
   const tankArmhole = !hasSleeve && strapWidth !== undefined
@@ -116,7 +122,7 @@ function renderOne(m: Measurements, position: "front" | "back", fabric: string,
                    cx: number, top: number, label: string, hasSleeve: boolean,
                    neckline: NecklineParams, strapWidth?: number, polo?: PoloVisual,
                    shirt?: WovenShirtVisual): string {
-  const path = `<path d="${silhouettePath(m, position, hasSleeve, neckline, strapWidth)}" fill="${fabric}" ` +
+  const path = `<path d="${silhouettePath(m, position, hasSleeve, neckline, strapWidth, shirt)}" fill="${fabric}" ` +
     `stroke="${T.line}" stroke-width="1.4" stroke-linejoin="round" ` +
     `vector-effect="non-scaling-stroke"/>`;
   const seams = hasSleeve ? armholeSeams(m) : "";

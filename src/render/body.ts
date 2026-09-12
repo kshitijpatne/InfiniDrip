@@ -26,6 +26,14 @@ export interface PoloBodyVisual {
   readonly collarLeafDepth: number;
 }
 
+/** Optional recipe-owned neckline geometry for a body preview whose neck is
+ * independent from the generic upper-body derivation. */
+export interface BodyNecklineVisual {
+  readonly widthHalf: number;
+  readonly frontDepth: number;
+  readonly backDepth: number;
+}
+
 const round = (n: number): number => Math.round(n * 1000) / 1000;
 
 const FONT = 'font-family="system-ui, sans-serif"';
@@ -88,14 +96,19 @@ function seg(x1: number, y1: number, x2: number, y2: number, width: number): str
  *  closed for the neckline, found here for the strap. */
 export function renderBody(
   m: Measurements, hasSleeve = true, frontNeckline: NecklineParams = NECKLINE_DEFAULT,
-  strapWidth?: number, position: "front" | "back" = "front", polo?: PoloBodyVisual
+  strapWidth?: number, position: "front" | "back" = "front", polo?: PoloBodyVisual,
+  necklineVisual?: BodyNecklineVisual
 ): string {
   const d = derive(m);
 
   // The real front collar geometry — the same necklineEdge() the actual
   // bodice draft calls, so this view can't silently diverge from it again.
   const { cNeck, hps, edge: neckEdge } =
-    necklineEdge(position, d.neckWidthHalf, position === "front" ? d.frontNeckDepth : d.backNeckDepth, d.shoulderHalf, m.armholeDepth, frontNeckline);
+    necklineEdge(position, necklineVisual?.widthHalf ?? d.neckWidthHalf,
+      necklineVisual
+        ? (position === "front" ? necklineVisual.frontDepth : necklineVisual.backDepth)
+        : (position === "front" ? d.frontNeckDepth : d.backNeckDepth),
+      d.shoulderHalf, m.armholeDepth, frontNeckline);
   const croquis = upperCroquisFigure(m, position, {
     hasSleeve, strapWidth, neckline: { cNeck, hps, edge: neckEdge },
   });
@@ -129,6 +142,7 @@ export function renderBody(
   };
   const dims =
     dim("shoulderWidth", dimH(-shoulderHalf, shoulderHalf, headTop - 3, `Shoulder ${m.shoulderWidth}`)) +
+    (necklineVisual ? dim("neck", dimH(-neckHalf, neckHalf, -4, `Neck ${m.neck} (circ)`)) : "") +
     dim("chest", dimH(-bodyHalf, bodyHalf, ad + (len - ad) * 0.22, `Chest ${m.chest} (circ)`)) +
     dim("length", dimV(rightDimX, 0, len, `Length ${m.length}`, "right")) +
     dim("armholeDepth", dimV(leftDimX, 0, ad, `Armhole depth ${m.armholeDepth}`, "left")) +
@@ -176,6 +190,7 @@ export function renderBody(
     (!hasSleeve ? edge("strapWidth", bothArms((sx) => seg(sx * neckHalf, 0, sx * strapX, slope, 1.4))) : "") +
     (!hasSleeve && position === "front" ? edge("neckDrop", neckHighlight()) : "") +
     (!hasSleeve ? edge("neckWidthEase", neckHighlight()) : "") +
+    (necklineVisual ? edge("neck", neckHighlight()) : "") +
     (hasSleeve ? edge("sleeveLength", bothArms((sx) => seg(sx * a1.x, a1.y, sx * a2.x, a2.y, 1.2))) : "") +
     (hasSleeve ? edge("bicep", bothArms((sx) => seg(sx * a2.x, a2.y, sx * a3.x, a3.y, 1.2))) : "");
 
@@ -212,11 +227,11 @@ export function renderBodyPair(
   m: Measurements, hasSleeve = true,
   frontNeckline: NecklineParams = NECKLINE_DEFAULT,
   backNeckline: NecklineParams = NECKLINE_DEFAULT,
-  strapWidth?: number, polo?: PoloBodyVisual
+  strapWidth?: number, polo?: PoloBodyVisual, necklineVisual?: BodyNecklineVisual
 ): string {
   return `<div style="display:flex;gap:8px;width:100%">` +
     `<div style="flex:1;min-width:0"><div style="font-size:11px;color:${T.label};text-transform:uppercase;text-align:center;margin-bottom:4px">Front</div>` +
-    renderBody(m, hasSleeve, frontNeckline, strapWidth, "front", polo) + `</div>` +
+    renderBody(m, hasSleeve, frontNeckline, strapWidth, "front", polo, necklineVisual) + `</div>` +
     `<div style="flex:1;min-width:0"><div style="font-size:11px;color:${T.label};text-transform:uppercase;text-align:center;margin-bottom:4px">Back</div>` +
-    renderBody(m, hasSleeve, backNeckline, strapWidth, "back", polo) + `</div></div>`;
+    renderBody(m, hasSleeve, backNeckline, strapWidth, "back", polo, necklineVisual) + `</div></div>`;
 }

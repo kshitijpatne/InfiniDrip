@@ -636,6 +636,39 @@ describe("body-view measurement linking", () => {
     expect(root.querySelectorAll('[data-edge="woven-button"]').length).toBe(6);
   });
 
+  it("keeps the woven neck measurement visible and live in Body view", () => {
+    const root = mount();
+    root.querySelector<HTMLButtonElement>("#garment-woven-shirt")!.dispatchEvent(new Event("click"));
+    root.querySelector<HTMLButtonElement>("#view-body")!.dispatchEvent(new Event("click"));
+    expect(root.querySelector('#canvas-host [data-dim="neck"]')).not.toBeNull();
+    expect(root.querySelector("#canvas-host")!.textContent).toContain("Neck 40 (circ)");
+    const neck = root.querySelector<HTMLInputElement>('input[data-field="neck"]')!;
+    neck.value = "48";
+    neck.dispatchEvent(new Event("input"));
+    expect(root.querySelector("#canvas-host")!.textContent).toContain("Neck 48 (circ)");
+  });
+
+  it("runs the woven shirt through every user-facing view at the component exit", () => {
+    localStorage.clear();
+    const root = mount();
+    root.querySelector<HTMLButtonElement>("#garment-woven-shirt")!.dispatchEvent(new Event("click"));
+
+    root.querySelector<HTMLButtonElement>("#view-pattern")!.dispatchEvent(new Event("click"));
+    expect(root.querySelector("#canvas-host")!.textContent).toContain("WOVEN FRONT");
+
+    root.querySelector<HTMLButtonElement>("#view-body")!.dispatchEvent(new Event("click"));
+    expect(root.querySelectorAll("#canvas-host svg")).toHaveLength(2);
+    root.querySelector<HTMLButtonElement>("#body-side")!.dispatchEvent(new Event("click"));
+    expect(root.querySelector('#canvas-host svg[data-croquis-view="side"]')).not.toBeNull();
+    root.querySelector<HTMLButtonElement>("#body-front-back")!.dispatchEvent(new Event("click"));
+
+    for (const view of ["nest", "spec", "fabric", "check", "edit"] as const) {
+      root.querySelector<HTMLButtonElement>(`#view-${view}`)!.dispatchEvent(new Event("click"));
+      expect(root.querySelector("#canvas-host")!.innerHTML.length).toBeGreaterThan(0);
+    }
+    expect(root.querySelector("#canvas-host svg")).not.toBeNull();
+  });
+
   it("spotlights the hovered measurement's dimension and fades the rest", () => {
     const root = mount();
     root.querySelector<HTMLButtonElement>("#view-body")!.dispatchEvent(new Event("click"));

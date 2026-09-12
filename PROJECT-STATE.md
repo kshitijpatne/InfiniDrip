@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 92 (woven-shirt recipe and full integration).
+_Last updated: after Slice 93 (woven-shirt component-library exit).
 Tank rework
 step 4 is complete for automated and rendered verification; physical sewn
 validation has not occurred and is intentionally deferred. Update this after
@@ -71,6 +71,18 @@ wired through the existing engine. Full verification passed at 71 test files /
 build, parsed export suites and unchanged legacy export hashes. This verifies
 digital behavior only; no physical sewing or fit claim is made. Physical
 validation remains on hold; Slice 93 is the component-library exit.
+
+**Woven shirt Slice 93 (2026-09-12):** the component-library exit audit now
+proves the assembled block is closed and sewable across XS–XL, with every POM
+finite and the readiness report green for the valid six-button sample. It also
+parses the Pattern/preview editor output and every cutting/output writer: SVG,
+DXF, tiled PDF, A0 PDF, projector SVG and four-page tech pack. The audit found
+and fixed a real folded-yoke centre-back closure error and routed the
+independent woven neck into Body and assembled previews without changing
+legacy garment output. Full verification passed at 72 test files / 918 tests,
+100% statements/branches/functions/lines, TypeScript, production build, parsed
+output consumers and unchanged legacy export hashes. Physical validation
+remains explicitly deferred; the digital component-library milestone is closed.
 
 **Polo V1 (2026-09-11):** all geometry decisions are locked: collar-plus-stand,
 loose tee body/current sleeve, self-knit lightly stabilized folded placket,
@@ -1835,3 +1847,4 @@ s83=883 (6 new registry-driven cross-garment/render-purity tests; all five garme
 s84=883 (no new tests; final Phase C3 exit gate passed with 69 test files, 100% coverage, typecheck, production build, live Side/Front + Back review, no export diff from the pre-C3 base, and unchanged 8/8 legacy hashes)
 s85=883 (research-only; full coverage/typecheck/build and parsed export suite pass; eight legacy hashes unchanged; no implementation diff)
 s92=911 (complete woven-shirt recipe and UI/render/export integration; 71 test files, 100% statements/branches/functions/lines, TypeScript/production build, parsed export suites, and unchanged legacy hashes; physical validation remains on hold)
+s93=918 (component-library exit audit complete; 72 test files, 100% statements/branches/functions/lines, TypeScript/production build, parsed SVG/DXF/PDF/projector/tech-pack consumers, and unchanged legacy hashes; physical validation remains on hold)

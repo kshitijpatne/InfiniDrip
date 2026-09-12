@@ -148,6 +148,7 @@ describe("renderGarment — Polo V1", () => {
 
 describe("renderGarment — woven shirt integration", () => {
   const shirt = {
+    neckWidthHalf: 10, frontNeckDepth: 8, backNeckDepth: 3,
     buttonCount: 6, buttonSpacing: 8, frontOverlap: 1.5, placketWidth: 3,
     standHeight: 2.5, collarLeafDepth: 6, yokeDepth: 10, pocketWidth: 12,
     pocketHeight: 13, sideVentDepth: 3,
