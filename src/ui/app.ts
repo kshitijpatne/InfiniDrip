@@ -56,7 +56,7 @@ export function mountApp(root: HTMLElement): void {
 
   let targetStyle = initialWorkspace.targetStyle;
   let stretchFabric = STRETCH_FABRICS.find((f) => f.name === initialWorkspace.stretchFabric)!;
-  let view: ViewName = initialWorkspace.view;
+  let view: ViewName = journey.step === "start" ? "pattern" : initialWorkspace.view;
   let bodyCroquisView: BodyCroquisView = initialWorkspace.bodyCroquisView;
   let editedFront: Piece | null = null; // freeform snapshot of the front (override, not parametric)
   let dragId: string | null = null; // handle being dragged
@@ -455,7 +455,7 @@ export function mountApp(root: HTMLElement): void {
     } else if (id === "celebrate-dismiss") {
       celebrating = false;
       renderJourney();
-    } else if (id.startsWith("journey-step-")) {
+    } else if (journey.step === "done" && id.startsWith("journey-step-")) {
       setStep(id.slice("journey-step-".length) as JourneyStep);
     }
   });
@@ -685,9 +685,9 @@ export function mountApp(root: HTMLElement): void {
     statusTimer = window.setTimeout(() => { statusEl.textContent = ""; }, 2000);
   };
   const completeExport = (): void => {
-    journey = { ...journey, exported: true };
+    journey = { ...journey, step: "done", exported: true };
     saveJourney(journey);
-    if (journey.step !== "done") celebrating = true;
+    celebrating = true;
     renderJourney();
   };
   const download = async (filename: string, text: string, mime: string): Promise<void> => {

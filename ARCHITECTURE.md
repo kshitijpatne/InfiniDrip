@@ -62,6 +62,12 @@ Selected size formats separately from whole graded-run formats; Tech Pack and
 Projector explicitly ignore the selected-size picker. Export writer code and
 legacy baselines remain untouched.
 
+BF-P2-05: journey step chips are non-actionable status while the coached tour
+is active; only the welcome Start/Skip actions and sequential Back/Next path
+can change steps. After a confirmed Electron write, the journey persists Done
+with the five-of-five checklist. Start maps to the Pattern canvas so hidden
+disclosure cannot leave a stale Side or Edit surface visible.
+
 Slice 93: the woven-shirt component-library exit audit verifies closed geometry
 and sewability across XS–XL, all Pattern/Body/Side/Size run/Spec/Nesting/Check/
 preview-Edit routes, and parsed SVG/DXF/tiled-PDF/A0/projector/tech-pack output.

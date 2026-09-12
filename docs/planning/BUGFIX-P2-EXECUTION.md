@@ -84,10 +84,24 @@ formats and state the consequence of the selected-size picker.
 Focused verification: 61 tests pass across woven guidance and view markup;
 TypeScript passes. Live Output review confirmed the two visible export scopes.
 
-## BF-P2-05 — Pending
+## BF-P2-05 — Closed
 
-Journey progression/finish behavior and the defined Start landing state remain
-to be implemented and verified.
+Implementation: pending immutable behavior commit reference.
+
+The first-run journey now has one Start primary action, informational step chips
+until graduation, and Done-only revisit shortcuts. A confirmed Electron export
+transitions Output to Done/5 of 5; browser download initiation remains
+explicitly incomplete. Start is defined as the Pattern landing view, including
+when returning from Done.
+
+Focused verification: journey suite and 78 app tests pass. Live/browser review
+confirmed the defined Pattern landing and the separate browser/Electron export
+completion behavior.
+
+## BF-P2-06 — Pending
+
+Accessibility semantics, keyboard-equivalent editor controls, and field-linked
+guidance remain to be implemented and verified.
 
 ## P2 exit report — Pending
 

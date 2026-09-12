@@ -486,7 +486,7 @@ No console runtime errors were observed during that audit.
 
 ### BUG-UI-023 — First-run journey has duplicate actions, bypassable steps, and no finish state
 
-- Tags: `BUGFIX`, `EPIC-BUGFIX-P2`, `P2`, `S2`, status `Open`.
+- Tags: `BUGFIX`, `EPIC-BUGFIX-P2`, `P2`, `S2`, status `Closed`.
 - Evidence: Start shows Start, Skip, Next, Skip-tour, and clickable future steps;
   clicking Output immediately unlocks the complete surface. After export, Output
   remains `5 Output` rather than becoming complete.
@@ -495,18 +495,39 @@ No console runtime errors were observed during that audit.
 - Done when: onboarding has one clear primary action, progression rules are
   explicit, shortcuts are available only after graduation, and Output completes
   after a confirmed export.
-- Fix slice: —  Commit/PR: —  Verification: —
+- Fix slice: BF-P2-05. Commit/PR: pending (BF-P2-05 behavior commit).
+- Root cause confirmed: the journey rendered every step chip as a button and
+  exposed both welcome and bar actions at Start; confirmed Electron export did
+  not transition the journey to a graduated state. Pre-graduation chips are now
+  informational, Start has one primary welcome action, and chips become
+  revisit shortcuts only in Done. A confirmed desktop write sets Done/5 of 5.
+- Tests: journey markup and app regressions cover Start action count, locked
+  chips, Done shortcuts, confirmed export graduation, and browser-download
+  non-completion.
+- Live/rendered/output evidence: Output remains incomplete for browser anchor
+  downloads; the Electron success path is covered with a confirmed save result
+  and renders Tour complete/5 of 5. No physical or production claim is made.
+- Closed by/date: Codex, 2026-09-12. Final status: Closed.
 
 ### BUG-UI-024 — Returning to Start can display a stale hidden view
 
-- Tags: `BUGFIX`, `EPIC-BUGFIX-P2`, `P2`, `S2`, status `Open`.
+- Tags: `BUGFIX`, `EPIC-BUGFIX-P2`, `P2`, `S2`, status `Closed`.
 - Evidence: after visiting Side and returning to Start, the view selector was
   hidden but the canvas still contained the Side SVG.
 - Root cause: journey disclosure hides controls without resetting or explaining
   the active view. Source: `src/ui/app.ts:284`.
 - Done when: each journey landing state has a defined active view and never shows
   an inaccessible stale canvas.
-- Fix slice: —  Commit/PR: —  Verification: —
+- Fix slice: BF-P2-05. Commit/PR: pending (BF-P2-05 behavior commit).
+- Root cause confirmed: Start disclosure hid the view controls without defining
+  a landing view, so the previously active Side SVG could remain visible but
+  inaccessible. Start now maps to Pattern and returning from Done resets the
+  active canvas to that defined landing state.
+- Tests: journey step-view contract and app regression return from Done after
+  visiting Body and confirm Pattern is rendered while view controls are hidden.
+- Live/rendered/output evidence: the Done→Start transition was exercised in the
+  app and produced the titled Pattern inspection surface, not stale Side.
+- Closed by/date: Codex, 2026-09-12. Final status: Closed.
 
 ### BUG-UI-025 — Accessibility semantics and editor keyboard access are incomplete
 

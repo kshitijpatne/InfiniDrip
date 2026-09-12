@@ -353,6 +353,27 @@ describe("mountApp", () => {
     expect(root.querySelector("#guidance-host")!.innerHTML).toContain("negative ease");
   });
 
+  it("graduates Output to Done only after Electron confirms the write", async () => {
+    localStorage.clear();
+    const saveFile = vi.fn().mockResolvedValue({ saved: true });
+    window.electronAPI = { saveFile };
+    try {
+      const root = mount();
+      const journeyClick = (id: string): void => { root.querySelector<HTMLElement>("#" + id)!.dispatchEvent(new Event("click", { bubbles: true })); };
+      journeyClick("welcome-start");
+      journeyClick("journey-next");
+      journeyClick("journey-next");
+      journeyClick("journey-next");
+      journeyClick("export-svg");
+      await Promise.resolve();
+      expect(root.querySelector("#journey-host")!.textContent).toContain("Tour complete");
+      expect(root.querySelector("#journey-host")!.textContent).toContain("5 of 5");
+      expect(root.querySelector("#journey-celebration")!.textContent).toContain("Files exported");
+    } finally {
+      delete window.electronAPI;
+    }
+  });
+
   it("explains and gates a knit material selected for the woven shirt", () => {
     localStorage.clear();
     const root = mount();
@@ -961,12 +982,21 @@ describe("guided journey", () => {
     expect(hidden(root, "#controls-panel")).toBe(false);
   });
 
-  it("jumps back through the step chips", () => {
+  it("keeps future step chips informational until graduation", () => {
     const root = mount();
     walkToOutput(root);
     jclick(root, "journey-step-measure");
-    expect(hidden(root, "#controls-panel")).toBe(false);
-    expect(hidden(root, "#export-host")).toBe(true);
+    expect(root.querySelector("#journey-host")!.textContent).toContain("4 of 5");
+    expect(hidden(root, "#export-host")).toBe(false);
+  });
+
+  it("returns Done to the defined Pattern landing state", () => {
+    const root = mount();
+    jclick(root, "welcome-skip");
+    root.querySelector<HTMLButtonElement>("#view-body")!.dispatchEvent(new Event("click"));
+    jclick(root, "journey-step-start");
+    expect(root.querySelector("#canvas-inspection")!.getAttribute("data-inspection-view")).toBe("pattern");
+    expect(hidden(root, "#view-toggle-host")).toBe(true);
   });
 
   it("keeps the Slice-30 hover spotlight alive inside the journey", () => {

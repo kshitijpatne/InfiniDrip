@@ -94,8 +94,10 @@ export function disclosureFor(step: JourneyStep): Disclosure {
   }
 }
 
-/** The view a step lands on when entered (null = keep the current view). */
+/** The view a step lands on when entered. Start deliberately lands on Pattern
+ * so returning from the graduated state never leaves an inaccessible canvas. */
 export function stepView(step: JourneyStep): ViewName | null {
+  if (step === "start") return "pattern";
   if (step === "measure") return "body";
   if (step === "refine" || step === "output") return "pattern";
   return null;
@@ -166,7 +168,9 @@ export function journeyBarMarkup(step: JourneyStep): string {
   const chips = COACHED_STEPS.map((s, i) => {
     const state = step === "done" || i < idx ? "done" : i === idx ? "active" : "todo";
     const tick = state === "done" ? "✓ " : "";
-    return `<button id="journey-step-${s.id}" style="${chipStyle(state)}">${tick}${s.label}</button>`;
+    return step === "done"
+      ? `<button id="journey-step-${s.id}" type="button" aria-label="Revisit ${s.label}" style="${chipStyle(state)}">${tick}${s.label}</button>`
+      : `<span id="journey-step-${s.id}" aria-disabled="true" style="${chipStyle(state).replace("cursor:pointer", "cursor:default")}">${tick}${s.label}</span>`;
   }).join("");
 
   if (step === "done") {
@@ -176,6 +180,11 @@ export function journeyBarMarkup(step: JourneyStep): string {
   }
 
   const info = COACHED_STEPS[idx];
+  if (step === "start") {
+    return `<div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin:4px 0">` +
+      `${chips}<span style="font-size:11.5px;color:${T.label};margin-left:6px">Start the tour from the welcome card when ready.</span></div>` +
+      `<div style="font-size:12.5px;color:${T.line};margin:2px 0 6px 2px">${info.hint}</div>`;
+  }
   const back = idx > 0
     ? `<button id="journey-back" style="${chipStyle("todo")}">← Back</button>`
     : "";

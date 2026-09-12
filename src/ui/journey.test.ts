@@ -63,7 +63,7 @@ describe("stepView", () => {
     expect(stepView("measure")).toBe("body");
     expect(stepView("refine")).toBe("pattern");
     expect(stepView("output")).toBe("pattern");
-    expect(stepView("start")).toBeNull();
+    expect(stepView("start")).toBe("pattern");
     expect(stepView("fit")).toBeNull();
     expect(stepView("done")).toBeNull();
   });
@@ -103,10 +103,25 @@ describe("journeyBarMarkup", () => {
     expect(html).toContain('id="journey-step-measure"');
   });
 
-  it("offers Next but no Back on the first step", () => {
+  it("keeps Start to one welcome-card primary action", () => {
     const html = journeyBarMarkup("start");
-    expect(html).toContain('id="journey-next"');
+    expect(html).not.toContain('id="journey-next"');
     expect(html).not.toContain('id="journey-back"');
+    expect(html).not.toContain('id="journey-skip"');
+    expect(html).toContain('aria-disabled="true"');
+  });
+
+  it("keeps step chips informational until the tour is complete", () => {
+    const html = journeyBarMarkup("measure");
+    expect(html).toContain('id="journey-step-output"');
+    expect(html).toContain('aria-disabled="true"');
+    expect(html).not.toContain('aria-label="Revisit 5 Output"');
+  });
+
+  it("turns step chips into revisit shortcuts only after completion", () => {
+    const html = journeyBarMarkup("done");
+    expect(html).toContain('aria-label="Revisit 5 Output"');
+    expect(html).toContain("Tour complete");
   });
 
   it("offers Back but no Next on the last coached step", () => {
