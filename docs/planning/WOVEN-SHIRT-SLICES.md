@@ -83,3 +83,26 @@ parsed export suite and unchanged legacy hashes; no physical claim.
 
 Result: body component implemented; focused tests pass (6 tests); full
 verification is recorded with the slice commit.
+
+## Slice 88 - Point collar and separate stand
+
+Objective/scope: add two stand layers and two point-collar layers whose base
+seams are measured from the actual woven front and back necklines.
+Acceptance: outer stand joins the body neckline, under collar joins outer
+stand, upper collar joins inner stand, and the two collar layers share their
+complete outer seam; all four pieces are on the centre-back fold and their
+height/depth options remain live.
+Non-goals: buttons, plackets, yoke, pocket, sleeve, vent, recipe/UI
+integration or physical validation.
+Dependencies: Slice 87 body neckline edges and Slice 86 collar semantics.
+Risks: the pointed leaf flare and default values are digital estimates, not
+physical fit evidence; later guidance must catch stand/leaf and neckline
+collisions without clamping.
+Drafting/data-model change: `addWovenShirtCollar()` composes four named pieces
+and four stitch interfaces onto the body block; no existing recipe changes.
+Owner: Codex. Model: GPT-6 Astra; reasoning: high, for component geometry.
+Delegation: none. Gates: focused collar tests, full coverage/typecheck/build,
+parsed export suite and unchanged legacy hashes; no physical claim.
+
+Result: layered collar/stand component implemented; focused tests pass (5
+tests); full verification is recorded with the slice commit.

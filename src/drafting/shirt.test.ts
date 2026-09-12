@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { edgeLength, edgeStart, pieceEdge, rolePiece, stitchChecks, STANDARD_M } from "./index";
-import { draftWovenShirtBody, WOVEN_SHIRT_BODY_STITCHES } from "./shirt";
+import { draftWovenShirtBody, draftWovenShirtCollar, WOVEN_SHIRT_BODY_STITCHES, WOVEN_SHIRT_COLLAR_STITCHES } from "./shirt";
 
 describe("woven shirt body", () => {
   it("drafts separate front/back panels with the required named boundaries", () => {
@@ -30,5 +30,22 @@ describe("woven shirt body", () => {
     const shaped = rolePiece(draftWovenShirtBody({ ...STANDARD_M, waist: 100, hip: 120 }), "front");
     expect(edgeStart(pieceEdge(shaped, "sideMiddle")).x).toBeGreaterThan(edgeStart(pieceEdge(base, "sideMiddle")).x);
     expect(edgeStart(pieceEdge(shaped, "sideLower")).x).toBeGreaterThan(edgeStart(pieceEdge(base, "sideLower")).x);
+  });
+
+  it("adds layered point collar and stand pieces that sew to the real neckline", () => {
+    const block = draftWovenShirtCollar(STANDARD_M);
+    expect(Object.keys(block.roles)).toEqual(["front", "back", "outerStand", "innerStand", "upperCollar", "underCollar"]);
+    expect(block.roles.outerStand.onFold).toBe(true);
+    expect(block.roles.upperCollar.edges.map((e) => e.name)).toEqual(["centerBack", "stand", "frontTip", "outer"]);
+    expect(WOVEN_SHIRT_COLLAR_STITCHES).toHaveLength(4);
+    expect(stitchChecks(block, block.stitches).every((check) => check.ok)).toBe(true);
+  });
+
+  it("keeps collar and stand dimensions live", () => {
+    const base = draftWovenShirtCollar(STANDARD_M);
+    const changed = draftWovenShirtCollar(STANDARD_M, { standHeight: 3, collarLeafDepth: 8 });
+    expect(edgeLength(pieceEdge(changed.roles.outerStand, "frontEnd"))).toBeGreaterThan(edgeLength(pieceEdge(base.roles.outerStand, "frontEnd")));
+    expect(edgeLength(pieceEdge(changed.roles.upperCollar, "frontTip"))).toBeGreaterThan(edgeLength(pieceEdge(base.roles.upperCollar, "frontTip")));
+    expect(edgeStart(pieceEdge(changed.roles.upperCollar, "outer")).y).toBeGreaterThan(edgeStart(pieceEdge(base.roles.upperCollar, "outer")).y);
   });
 });

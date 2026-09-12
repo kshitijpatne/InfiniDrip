@@ -5,6 +5,8 @@ import { Piece, Edge } from "./piece";
 import { edgeRef, iface, Stitch } from "./stitch";
 import { necklineEdge, NECKLINE_DEFAULT } from "./neckline";
 import { WovenShirtOptions, resolveWovenShirtOptions } from "./shirt-contract";
+import { edgeLength, pieceEdge } from "./piece";
+import { lineMark } from "./pattern-mark";
 
 /** The relaxed woven body is drafted as a half-width back on fold and a
  * separate half-width front. Fronts are cut as a mirrored pair later; keeping
@@ -73,4 +75,79 @@ export function draftWovenShirtBody(
     front: shirtPanel(m, "front", options),
     back: shirtPanel(m, "back", options),
   }, WOVEN_SHIRT_BODY_STITCHES);
+}
+
+const COLLAR_TIP_FLARE = 2;
+
+function standPiece(name: string, necklineLength: number, height: number): Piece {
+  return {
+    name,
+    onFold: true,
+    edges: [
+      { kind: "line", name: "centerBack", start: point(0, height), end: point(0, 0) },
+      { kind: "line", name: "collar", start: point(0, 0), end: point(necklineLength, 0) },
+      { kind: "line", name: "frontEnd", start: point(necklineLength, 0), end: point(necklineLength, height) },
+      { kind: "line", name: "neckline", start: point(necklineLength, height), end: point(0, height) },
+    ],
+    marks: [lineMark("placementLine", "centerMatch", point(0, 0), point(0, height), "PLACE ON FOLD")],
+  };
+}
+
+function collarPiece(name: string, necklineLength: number, depth: number): Piece {
+  return {
+    name,
+    onFold: true,
+    edges: [
+      { kind: "line", name: "centerBack", start: point(0, depth), end: point(0, 0) },
+      { kind: "line", name: "stand", start: point(0, 0), end: point(necklineLength, 0) },
+      { kind: "line", name: "frontTip", start: point(necklineLength, 0), end: point(necklineLength + COLLAR_TIP_FLARE, depth) },
+      { kind: "line", name: "outer", start: point(necklineLength + COLLAR_TIP_FLARE, depth), end: point(0, depth) },
+    ],
+    marks: [lineMark("placementLine", "centerMatch", point(0, 0), point(0, depth), "PLACE ON FOLD")],
+  };
+}
+
+export const WOVEN_SHIRT_COLLAR_STITCHES: readonly Stitch[] = [
+  {
+    label: "Outer stand ↔ woven neckline",
+    a: iface(edgeRef("outerStand", "neckline")),
+    b: iface(edgeRef("front", "neckline"), edgeRef("back", "neckline")),
+  },
+  {
+    label: "Under collar ↔ outer stand",
+    a: iface(edgeRef("underCollar", "stand")),
+    b: iface(edgeRef("outerStand", "collar")),
+  },
+  {
+    label: "Upper collar ↔ inner stand",
+    a: iface(edgeRef("upperCollar", "stand")),
+    b: iface(edgeRef("innerStand", "collar")),
+  },
+  {
+    label: "Collar outer seam (upper ↔ under)",
+    a: iface(edgeRef("upperCollar", "frontTip"), edgeRef("upperCollar", "outer")),
+    b: iface(edgeRef("underCollar", "frontTip"), edgeRef("underCollar", "outer")),
+  },
+];
+
+/** Add the four physical collar layers to an already drafted woven body. */
+export function addWovenShirtCollar(
+  body: Block, rawOptions: Partial<WovenShirtOptions> = {}
+): Block {
+  const options = resolveWovenShirtOptions(rawOptions);
+  const necklineLength = edgeLength(pieceEdge(body.roles.front, "neckline")) +
+    edgeLength(pieceEdge(body.roles.back, "neckline"));
+  const outerStand = standPiece("outer woven stand", necklineLength, options.standHeight);
+  const innerStand = standPiece("inner woven stand", necklineLength, options.standHeight);
+  const upperCollar = collarPiece("upper pointed woven collar", necklineLength, options.collarLeafDepth);
+  const underCollar = collarPiece("under pointed woven collar", necklineLength, options.collarLeafDepth);
+  return block({ ...body.roles, outerStand, innerStand, upperCollar, underCollar }, [
+    ...body.stitches, ...WOVEN_SHIRT_COLLAR_STITCHES,
+  ]);
+}
+
+export function draftWovenShirtCollar(
+  m: Measurements, rawOptions: Partial<WovenShirtOptions> = {}
+): Block {
+  return addWovenShirtCollar(draftWovenShirtBody(m, rawOptions), rawOptions);
 }

@@ -3,6 +3,12 @@
 How the app fits together, in plain language. Read the top to re-orient; skim the
 layers when you need detail. Updated every slice with only need-to-know changes.
 
+Slice 88: `src/drafting/shirt.ts` composes two folded stand layers and two
+folded pointed-collar layers from the woven body's measured front+back neckline.
+Their four named stitches cover body↔stand, stand↔under-collar,
+inner-stand↔upper-collar and the complete layered collar outer seam. Stand
+height and collar depth remain live recipe choices.
+
 Slice 87: `src/drafting/shirt.ts` adds a woven-only front/back body component.
 The separate front has a real centre-front edge; the back is on fold; both
 panels expose named shoulder, armhole, three-part side and hem boundaries. The
