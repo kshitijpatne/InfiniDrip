@@ -77,3 +77,22 @@ snapshots; they are not current status.
 
 - `apparel_design_resources.md` is retained for provenance only and is
   superseded by `docs/research/ASSET-RESOURCES.md`.
+
+## External research references routed to future slices
+
+The following product-owner-supplied references are durable research inputs,
+not implementation instructions. Consult them automatically when a slice
+concerns the listed subject, distinguishing source guidance from estimates,
+product decisions, and unresolved questions:
+
+- `F:\tank-sketches\scribd - garment-design - files\226112995-Pattern-Making.pdf` — measurement taxonomy, block/working/master pattern lifecycle, grain/layout, seam allowance, hem, and future trouser coverage.
+- `F:\tank-sketches\scribd - garment-design - files\aqm1_spec_sheet_detailed_reference.docx` — POM/spec-sheet structure, relaxed versus extended measurements, pocket placement, operation sequencing, and technical-pack vocabulary.
+- `F:\tank-sketches\scribd - garment-design - files\garment_measurement_quick_reference.docx` — finished-garment measurement definitions and collar, sleeve, waistband, rise, inseam, outseam, pocket, and stretch-state terminology.
+- `F:\tank-sketches\scribd - garment-design - files\pattern_drafting_quick_reference.docx` — drafting workflow, ease, landmarks, truing, markings, reusable blocks, grading, and quality checks.
+- `F:\tank-sketches\scribd - garment-design - files\pattern_making_body_measurements_reference.docx` — standardized body measurements, trouser dimensions, grading, balance, fitting diagnostics, grain, and layout.
+- `F:\tank-sketches\scribd - garment-design - files\stitches_seams_detailed_reference.docx` — stitch/seam terminology and construction metadata by operation and fabric; not proof of sewability or a source for hardcoded machine settings.
+- `F:\tank-sketches\scribd - garment-design - files\types_of_fullness_detailed_reference.docx` — deferred fullness techniques; consult only if a future garment explicitly introduces darts, gathers, pleats, or tucks.
+- `F:\tank-sketches\290184313-T-shirt-Poloshirt-Cad-Drawing.pdf` — Polo V2 research input for collar/stand, placket, longer-back/side-vent, sleeve-rib, and Polo-specific grading questions; its assignment-specific values are not universal formulas.
+
+These references do not authorize physical sampling. Physical validation is on
+hold until the maintainer explicitly reopens it.

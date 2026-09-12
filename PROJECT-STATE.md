@@ -1454,6 +1454,34 @@ turned out to be a second, deeper bug under step 1, not part of step 2):**
    handoff; polo remains parked until step 4 and any real-world failures it finds
    are closed.
 
+## Refined forward plan confirmed 2026-09-12
+
+Physical sampling and manufacturer/printer-dependent validation remain on hold;
+never suggest them unless the maintainer explicitly reopens them. Phase C3
+includes a visible Side view. Edit remains preview-only through Phase 5; final
+cross-garment design editing is deferred until afterward.
+
+The next three Epics are fully scoped as follows:
+
+- **Epic 1 / Phase C3, Slices 80–84:** complete upper/lower shared-croquis
+  routing, expose Side view, add cross-garment render-contract tests, prove
+  croquis remains outside drafting/grading/checks/nesting/exports, and run the
+  C3 exit gate.
+- **Epic 2 / Phase 4, Slices 85–93:** research and implement the reusable
+  relaxed woven short-sleeve button-up with point collar/stand, front placket,
+  back yoke, one patch pocket, sleeve band, curved hem, side vent, adjustable
+  research-derived six/seven-button spacing, and its complete digital gate.
+- **Epic 3 / Phase 5, Slices 94–103:** research and implement the reusable
+  relaxed straight-leg trouser with separate waistband, simple closure, minimal
+  pockets, rise/seat/grading logic, then define independent later surface
+  design foundation work.
+
+The supplied measurement, drafting, specification, stitch/seam, and Polo CAD
+references are indexed in `CONTEXT-INDEX.md` and must be consulted by relevant
+slices. The Polo CAD reference informs the committed Polo V2 standby backlog
+only; it does not alter locked Polo V1. Full decisions and slice boundaries
+are recorded in `docs/PROJECT-DECISIONS.md`.
+
 ## Roadmap — superseded by MVP-PLAN.md (kept below for slice-history context only)
 The engine/recipe thesis is proven end-to-end: tee, fitted, and skirt — three
 structurally different garments — all run through one recipe-driven pipeline,

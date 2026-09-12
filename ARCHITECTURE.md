@@ -105,6 +105,22 @@ mark. The shared Polo preview helper now draws the stand as two neckline-followi
 edges and the collar leaves down onto the front; it does not alter drafted pieces,
 stitches, allowances, or exports.
 
+Forward boundaries confirmed 2026-09-12: C3's visible Side view is a
+presentation-layer feature built on `render/croquis.ts`; it must not enter
+drafting, grading, checks, nesting, or exports unless a later approved
+contract requires real side measurements. Edit remains a preview-only
+front-piece override through Phase 5. A future final Edit system must change
+the design model first so overrides are durable, validated, gradeable, and
+exportable.
+
+The next garment architecture milestones are a reusable woven-shirt component
+library (point collar/stand, button placket, back yoke, patch pocket, sleeve
+band, curved hem, side vent), followed by a reusable straight-leg trouser
+block (waistband, closure, pockets, rise/seat logic, and grading). Surface
+design is intentionally later and independent from unfinished garment
+geometry. External references routed in `CONTEXT-INDEX.md` inform these
+contracts but do not override current code or authorize universal formulas.
+
 **Governing plan:** as of Slice 44, `docs/planning/MVP-PLAN.md` (operative — the 6-month
 execution plan) and `docs/planning/ROADMAP.md` (strategic — competitor analysis + long-term
 scope + the cut list) are the current planning documents. This file describes

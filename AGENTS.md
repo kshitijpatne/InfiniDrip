@@ -32,15 +32,15 @@ is authoritative for maintainer decisions that are not derivable from code.
   in the same change as the behavior they describe.
 - Treat `docs/archive/` as historical evidence, not current instructions.
 
-## OpenCode delegation
+## External coding-agent delegation
 
-- OpenCode may be used as a parallel individual contributor only under
-  `docs/OPENCODE-WORKFLOW.md`.
-- Codex must classify the work, produce a complete handoff packet, and review
-  every OpenCode PR before integration.
-- OpenCode works only on a separate branch and never pushes directly to
-  `main`; concurrent agents must use separate worktrees and disjoint file
-  ownership.
-- Codex must preserve the full verification gate, inspect the actual diff and
-  rendered/output evidence, and record useful delegation lessons for future
-  prompts.
+- Claude Code CLI and OpenCode CLI may be used as lower-intensity individual
+  contributors only under `docs/OPENCODE-WORKFLOW.md`.
+- Codex is the sole project control point: it manages delegation, produces the
+  handoff packet, reviews every result, fixes or redirects errors, and decides
+  what reaches `main`.
+- No MCP wrapper or API-key integration is required for this workflow. Agents
+  are invoked as headless CLIs from Codex-controlled terminal sessions.
+- Codex must classify the work, preserve the full verification gate, inspect the
+  actual diff and rendered/output evidence, and report progress and decisions
+  to the product owner.

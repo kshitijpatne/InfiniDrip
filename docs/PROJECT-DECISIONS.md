@@ -68,3 +68,60 @@ Code-signing procurement and implementation have not started.
 `docs/research/ASSET-RESOURCES.md` is the refined, analyzed successor to
 `apparel_design_resources.md`. They serve the same purpose. The legacy document
 is retained only for provenance and should not be used for current decisions.
+
+## Planning decisions confirmed 2026-09-12
+
+- Phase C3 includes a visible Side view. Its initial contract remains
+  render-only unless a genuine measurement/data requirement is separately
+  approved.
+- Edit remains preview-only through Phase 5. A later cross-garment final
+  design-editing system must define durable overrides, persistence,
+  size/grading semantics, downstream validation, and export behavior first.
+- The first woven shirt is a reusable relaxed short-sleeve button-up block with
+  a point collar and separate stand, front button placket, back yoke, one simple
+  patch pocket, turned sleeve cuff/band, curved hem, small side vent, and six
+  or seven evenly spaced buttons. Spacing must become research-derived and
+  adjustable. Long/two-piece sleeves, sleeve plackets, complex cuffs, multiple
+  pockets, pleated backs, princess seams, decorative details, and Polo V2
+  changes are deferred.
+- The woven shirt is a digital component-library milestone. Do not schedule or
+  suggest physical validation unless the maintainer explicitly reopens it.
+- The first trouser is a reusable relaxed casual straight-leg block with a
+  separate waistband, simple front closure, and minimal pocket construction.
+  Its rise, crotch, seat, waistband, grading, and fit logic should support
+  later shorts and joggers.
+- Surface design is a separate later Epic after the trouser block.
+- OpenCode is preferred for higher-volume research, documentation, UI polish,
+  export QA, and test expansion. Claude Code is preferred for shorter,
+  high-signal tasks. Codex retains geometry, drafting, garment architecture,
+  shared pipeline, data model, grading, exports, physical-validation
+  decisions, final review, and integration.
+
+## Refined forward Epic plan
+
+### Epic 1 — Phase C3 croquis and views (Slices 80–84)
+
+Complete upper/lower croquis routing, expose the visible Side view, add
+cross-garment front/side/back render-contract tests, prove croquis remains
+outside drafting, grading, checks, nesting, and exports, then run the C3 exit
+gate and update durable context.
+
+### Epic 2 — Phase 4 reusable woven shirt (Slices 85–93)
+
+Research and document the block; define construction and component contracts;
+implement the bodice, point collar/stand, placket, button spacing, back yoke,
+pocket, sleeve band, curved hem, side vent, recipe integration, and complete
+digital gate. Narrow research, documentation, focused tests, and export QA
+may be delegated; geometry, drafting, architecture, data-model, grading, and
+exports remain Codex-owned.
+
+### Epic 3 — Phase 5 trouser block and later surface foundation (Slices 94–103)
+
+Research and define the reusable trouser measurement/ease, rise, seat,
+waistband, grading, closure, and pocket contracts; implement and verify the
+straight-leg trouser; define the later shorts/jogger relationship; then keep
+surface design independent from unfinished garment geometry.
+
+Every slice must state scope, acceptance criteria, non-goals, dependencies,
+ownership, recommended model/reasoning, whether the drafting/data model must
+change, and applicable verification gates before work starts.
