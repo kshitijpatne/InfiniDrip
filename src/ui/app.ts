@@ -6,7 +6,7 @@ import { Measurements, STANDARD_M, Piece, STRETCH_FABRICS, fabricEaseNote, Garme
 import { gradeRun, draftAtSize, specSheet, GARMENTS, GarmentRecipe, garmentByName } from "../drafting";
 import { blockPieces, rolePiece } from "../drafting";
 import { exportSvg, exportDxf, exportPdf, exportTechPack, exportProjectorSvg, exportA0Pdf, flattenPiece, nestPieces, gradedMarker } from "../export";
-import { renderBlueprint, renderGarment, renderNest, renderFabricNest, renderEditor, renderBodyPair, renderSkirtGarment, renderSkirtBody, renderSideCroquis, DEFAULT_FABRIC } from "../render";
+import { renderBlueprint, renderGarment, renderNest, renderFabricNest, renderEditor, renderBody, renderBodyPair, renderSkirtGarment, renderSkirtBody, renderSideCroquis, DEFAULT_FABRIC } from "../render";
 import { pieceHandles, moveHandle, nearestHandle, editorViewBox, viewboxPointToCm, Handle } from "../edit";
 import { dartOf, transferDart, trueSeam, edgesMeet } from "../drafting";
 import { BLUEPRINT } from "../render";
@@ -14,7 +14,7 @@ import { guide, Note } from "../guidance";
 import { garmentReport, implausibleFields } from "../guidance";
 import { matchStyle, styleNames } from "../style";
 import { FIELDS, applyChange, inputError } from "./controls";
-import { appShellMarkup, controlsMarkup, guidanceMarkup, styleMarkup, specTableMarkup, checkMarkup, editorHintMarkup, dartControlsMarkup, BodyCroquisView } from "./view";
+import { appShellMarkup, controlsMarkup, guidanceMarkup, styleMarkup, specTableMarkup, checkMarkup, editorHintMarkup, dartControlsMarkup, inspectionMarkup, BodyCroquisView } from "./view";
 import { saveToStorage, loadFromStorage, readFromStorage, serialize, deserialize, DEFAULT_WORKSPACE, Workspace } from "./persist";
 import {
   JourneyStep, ViewName, COACHED_STEPS, disclosureFor, stepView, journeyChecklist,
@@ -65,6 +65,7 @@ export function mountApp(root: HTMLElement): void {
   let nestScope: "single" | "marker" = initialWorkspace.nestScope;
   let exportStep = initialWorkspace.exportStep;
   let activeDim: string | null = null; // the measurement field spotlighted on the body view
+  let inspectionZoom = 1;
 
   /** Design options live per recipe, never in body measurements. Existing saved
    * values stay verbatim so guidance can explain an invalid combination. */
@@ -165,6 +166,72 @@ export function mountApp(root: HTMLElement): void {
     saveJourney(journey);
   };
 
+  /** Keep every SVG inside a bounded, keyboard-reachable inspection viewport.
+   * The SVG's aspect ratio is preserved; portrait drawings get a capped height,
+   * while unusually wide drawings get an intentional horizontal inspection
+   * surface instead of making the entire page microscopic. */
+  const applyInspectionPresentation = (): void => {
+    const section = root.querySelector<HTMLElement>("#canvas-inspection");
+    const viewport = root.querySelector<HTMLElement>("#inspection-viewport");
+    const content = root.querySelector<HTMLElement>("#inspection-content");
+    if (!section || !viewport || !content) return;
+    const svgs = [...content.querySelectorAll<SVGSVGElement>("svg")];
+    const title = section.querySelector<HTMLElement>("#inspection-title")?.textContent ?? "Canvas";
+    svgs.forEach((svg, index) => {
+      svg.classList.add("inspection-svg");
+      svg.setAttribute("role", "img");
+      if (!svg.getAttribute("aria-label")) {
+        const label = view === "body" && svgs.length === 2
+          ? `${title} ${index === 0 ? "front" : "back"}`
+          : `${title} graphic`;
+        svg.setAttribute("aria-label", label);
+      }
+    });
+    const viewportWidth = Math.max(260, viewport.clientWidth - 16 || 560);
+    const zoomOutput = root.querySelector<HTMLOutputElement>("#inspection-zoom");
+    if (svgs.length === 0) {
+      content.style.width = "100%";
+      content.style.display = "block";
+      if (zoomOutput) zoomOutput.textContent = "";
+      return;
+    }
+    if (svgs.length > 1) {
+      content.style.display = "block";
+      content.style.width = `${Math.max(100, Math.round(inspectionZoom * 100))}%`;
+      svgs.forEach((svg) => {
+        svg.style.width = "100%";
+        svg.style.height = "auto";
+        svg.style.maxWidth = "none";
+      });
+      if (zoomOutput) zoomOutput.textContent = `${Math.round(inspectionZoom * 100)}%`;
+      return;
+    }
+    const svg = svgs[0];
+    const values = (svg.getAttribute("viewBox") ?? "0 0 100 100")
+      .trim().split(/[ ,]+/).map(Number);
+    const ratio = values.length === 4 && values[2] > 0 && values[3] > 0 ? values[2] / values[3] : 1;
+    const maxHeight = 520;
+    const minHeight = 260;
+    let height = Math.min(maxHeight, Math.max(minHeight, viewportWidth / ratio));
+    let width = height * ratio;
+    if (ratio >= 1 && width < viewportWidth) {
+      width = viewportWidth;
+      height = width / ratio;
+    }
+    width *= inspectionZoom;
+    height *= inspectionZoom;
+    svg.style.width = `${Math.round(width)}px`;
+    svg.style.height = `${Math.round(height)}px`;
+    svg.style.maxWidth = "none";
+    svg.style.display = "block";
+    content.style.display = "flex";
+    content.style.flexDirection = "column";
+    content.style.alignItems = ratio < 1 ? "center" : "stretch";
+    content.style.width = `${Math.max(viewportWidth, Math.ceil(width))}px`;
+    viewport.style.minHeight = `${Math.min(560, Math.max(260, Math.ceil(Math.min(maxHeight, height) + 16)))}px`;
+    if (zoomOutput) zoomOutput.textContent = `${Math.round(inspectionZoom * 100)}%`;
+  };
+
   const draw = (): void => {
     const errors = inputErrors();
     const valid = designValid();
@@ -201,17 +268,18 @@ export function mountApp(root: HTMLElement): void {
     // short sleeve regardless (Slice 60).
     const hasSleeve = recipe.fields.includes("sleeveLength");
     fabricWidthHost.style.display = view === "fabric" ? "flex" : "none";
+    let canvasContent: string;
     if (view === "nest") {
-      canvasHost.innerHTML = renderNest(
+      canvasContent = renderNest(
         gradeRun(measurements, recipe.grade, recipe.sizes, recipe.draft, recipeOptions()));
     } else if (view === "fabric") {
       const nest = nestScope === "marker"
         ? gradedMarker(recipe, measurements, fabricWidth, recipeOptions())
         : nestPieces(blockPieces(draftCurrent()).map((p) => flattenPiece(p, recipe.allowances)), fabricWidth);
-      canvasHost.innerHTML = renderFabricNest(
+      canvasContent = renderFabricNest(
         nest.placed, nest.fabricWidth, nest.fabricLength, nest.utilization, nest.fits);
     } else if (view === "check") {
-      canvasHost.innerHTML = checkMarkup(garmentReport(recipe, measurements, recipeOptions()), valid);
+      canvasContent = checkMarkup(garmentReport(recipe, measurements, recipeOptions()), valid);
     } else if (view === "edit") {
       const piece = editedFront ?? rolePiece(draftCurrent(), "front");
       editedFront = piece;
@@ -222,29 +290,37 @@ export function mountApp(root: HTMLElement): void {
       const sideSplit = ["sideUpper", "sideLower"].every((n) =>
         piece.edges.some((e) => e.name === n));
       const canTrue = hasDart && sideSplit && edgesMeet(piece, "sideUpper", "sideLower");
-      canvasHost.innerHTML =
+      canvasContent =
         renderEditor(piece, pieceHandles(piece), vb, selectedId) +
         editorHintMarkup() +
         dartControlsMarkup(hasDart, canTrue);
     } else if (view === "spec") {
       const graded = gradeRun(measurements, recipe.grade, recipe.sizes, recipe.draft, recipeOptions());
       const baseIndex = graded.findIndex((g) => g.step === 0);
-      canvasHost.innerHTML = specTableMarkup(
+      canvasContent = specTableMarkup(
         specSheet(graded, recipe.poms), graded.map((g) => g.label), baseIndex);
     } else if (view === "body") {
-      canvasHost.innerHTML = bodyCroquisView === "side"
-        ? renderSideCroquis(measurements, isTop ? "upper" : "lower")
-        : isTop
-          ? renderBodyPair(measurements, hasSleeve, recipe.frontNeckline?.(measurements), recipe.backNeckline?.(measurements), recipe.strapWidth?.(measurements), poloVisual(), wovenBodyNeckline())
-          : renderSkirtBody(measurements);
+      if (bodyCroquisView === "side") {
+        canvasContent = renderSideCroquis(measurements, isTop ? "upper" : "lower");
+      } else if (!isTop) {
+        canvasContent = renderSkirtBody(measurements);
+      } else if (bodyCroquisView === "front") {
+        canvasContent = renderBody(measurements, hasSleeve, recipe.frontNeckline?.(measurements), recipe.strapWidth?.(measurements), "front", poloVisual(), wovenBodyNeckline());
+      } else if (bodyCroquisView === "back") {
+        canvasContent = renderBody(measurements, hasSleeve, recipe.backNeckline?.(measurements), recipe.strapWidth?.(measurements), "back", poloVisual(), wovenBodyNeckline());
+      } else {
+        canvasContent = renderBodyPair(measurements, hasSleeve, recipe.frontNeckline?.(measurements), recipe.backNeckline?.(measurements), recipe.strapWidth?.(measurements), poloVisual(), wovenBodyNeckline());
+      }
     } else {
       const block = draftCurrent();
       const pieces = blockPieces(block);
-      canvasHost.innerHTML = renderBlueprint(
+      canvasContent = renderBlueprint(
         pieces,
         { active: pieces[0].name, notches: recipe.notches, allowances: recipe.allowances,
           layout: recipe.name === "polo" ? "polo" : "linear" });
     }
+    canvasHost.innerHTML = inspectionMarkup(canvasContent, view);
+    applyInspectionPresentation();
     garmentHost.innerHTML = isTop
       ? renderGarment(measurements, fabric, hasSleeve,
           recipe.frontNeckline?.(measurements), recipe.backNeckline?.(measurements), recipe.strapWidth?.(measurements), poloVisual(), wovenShirtVisual())
@@ -284,27 +360,33 @@ export function mountApp(root: HTMLElement): void {
   const bodyCroquisHost = root.querySelector<HTMLElement>("#body-croquis-toggle-host")!;
   const bodyCroquisBtns = {
     frontBack: root.querySelector<HTMLButtonElement>("#body-front-back")!,
+    front: root.querySelector<HTMLButtonElement>("#body-front")!,
+    back: root.querySelector<HTMLButtonElement>("#body-back")!,
     side: root.querySelector<HTMLButtonElement>("#body-side")!,
+  };
+  const syncBodyCroquisButton = (button: HTMLButtonElement, on: boolean): void => {
+    button.style.background = on ? BLUEPRINT.lineActive : BLUEPRINT.background;
+    button.style.color = on ? BLUEPRINT.background : BLUEPRINT.line;
+    button.setAttribute("aria-pressed", String(on));
   };
   const setBodyCroquisView = (v: BodyCroquisView): void => {
     bodyCroquisView = v;
-    bodyCroquisBtns.frontBack.style.background = v === "front-back" ? BLUEPRINT.lineActive : BLUEPRINT.background;
-    bodyCroquisBtns.frontBack.style.color = v === "front-back" ? BLUEPRINT.background : BLUEPRINT.line;
-    bodyCroquisBtns.frontBack.setAttribute("aria-pressed", String(v === "front-back"));
-    bodyCroquisBtns.side.style.background = v === "side" ? BLUEPRINT.lineActive : BLUEPRINT.background;
-    bodyCroquisBtns.side.style.color = v === "side" ? BLUEPRINT.background : BLUEPRINT.line;
-    bodyCroquisBtns.side.setAttribute("aria-pressed", String(v === "side"));
+    syncBodyCroquisButton(bodyCroquisBtns.frontBack, v === "front-back");
+    syncBodyCroquisButton(bodyCroquisBtns.front, v === "front");
+    syncBodyCroquisButton(bodyCroquisBtns.back, v === "back");
+    syncBodyCroquisButton(bodyCroquisBtns.side, v === "side");
     draw();
   };
   const setView = (v: "pattern" | "body" | "nest" | "spec" | "fabric" | "check" | "edit"): void => {
     if (v === "edit" && editedFront === null && inputErrors().size === 0) editedFront = rolePiece(draftCurrent(), "front");
     view = v;
+    inspectionZoom = 1;
     (["pattern", "body", "nest", "spec", "fabric", "check", "edit"] as const).forEach((k) => {
       const on = k === v;
       viewBtns[k].style.background = on ? BLUEPRINT.lineActive : BLUEPRINT.background;
       viewBtns[k].style.color = on ? BLUEPRINT.background : BLUEPRINT.line;
     });
-    bodyCroquisHost.style.display = v === "body" ? "flex" : "none";
+    bodyCroquisHost.style.display = v === "body" && recipe.fields.includes("chest") ? "flex" : "none";
     draw();
   };
   viewBtns.pattern.addEventListener("click", () => setView("pattern"));
@@ -315,6 +397,8 @@ export function mountApp(root: HTMLElement): void {
   viewBtns.check.addEventListener("click", () => setView("check"));
   viewBtns.edit.addEventListener("click", () => setView("edit"));
   bodyCroquisBtns.frontBack.addEventListener("click", () => setBodyCroquisView("front-back"));
+  bodyCroquisBtns.front.addEventListener("click", () => setBodyCroquisView("front"));
+  bodyCroquisBtns.back.addEventListener("click", () => setBodyCroquisView("back"));
   bodyCroquisBtns.side.addEventListener("click", () => setBodyCroquisView("side"));
 
   // Progressive disclosure: each journey step reveals only what it needs; the
@@ -329,7 +413,7 @@ export function mountApp(root: HTMLElement): void {
     guidanceHost.style.display = d.guidance ? "" : "none";
     root.querySelector<HTMLElement>("#view-toggle-host")!.style.display =
       d.views.length > 0 ? "flex" : "none";
-    bodyCroquisHost.style.display = view === "body" && d.views.includes("body") ? "flex" : "none";
+    bodyCroquisHost.style.display = view === "body" && recipe.fields.includes("chest") && d.views.includes("body") ? "flex" : "none";
     (Object.keys(viewBtns) as ViewName[]).forEach((k) => {
       viewBtns[k].style.display = d.views.includes(k) ? "" : "none";
     });
@@ -363,6 +447,7 @@ export function mountApp(root: HTMLElement): void {
     }
   });
   applyDisclosure();
+  window.addEventListener("resize", applyInspectionPresentation);
 
   // Freeform drag: pointer -> nearest handle -> moveHandle -> redraw. All the
   // maths is pure (edit engine); these three handlers are the only impure glue.
@@ -398,7 +483,17 @@ export function mountApp(root: HTMLElement): void {
     "dart-true": (p) => trueSeam(p, "sideUpper", "sideLower"),
   };
   canvasHost.addEventListener("click", (e) => {
-    const id = (e.target as HTMLElement).id;
+    const target = e.target as HTMLElement;
+    const zoomButton = target.closest<HTMLButtonElement>("button[data-inspection-zoom]");
+    if (zoomButton) {
+      const action = zoomButton.dataset.inspectionZoom;
+      inspectionZoom = action === "fit" ? 1
+        : action === "in" ? Math.min(2.5, inspectionZoom + 0.25)
+          : Math.max(0.5, inspectionZoom - 0.25);
+      applyInspectionPresentation();
+      return;
+    }
+    const id = target.id;
     if (id === "editor-reset") {
       editedFront = rolePiece(draftCurrent(), "front");
       selectedId = null;

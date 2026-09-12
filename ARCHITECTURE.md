@@ -35,6 +35,14 @@ bounds and the app pauses drawing and export with associated corrections until
 inputs are valid. Ease accepts -30 through 30 without clamping. Drafting and
 export writers are unchanged. See `docs/planning/BUGFIX-P1-EXECUTION.md`.
 
+BF-P2-01: the main canvas is owned by a bounded inspection section with a
+keyboard-reachable viewport and local Fit/Zoom controls. SVG aspect ratios are
+preserved while portrait drawings are capped and centered; component-heavy
+linear layouts shelf-wrap so woven pieces keep readable labels. Body exposes a
+combined Front + Back view plus single Front/Back focus and an explicitly
+schematic Side view. The extra Body focus choices are included in the existing
+version-4 workspace payload; export writers remain unchanged.
+
 Slice 93: the woven-shirt component-library exit audit verifies closed geometry
 and sewability across XS–XL, all Pattern/Body/Side/Size run/Spec/Nesting/Check/
 preview-Edit routes, and parsed SVG/DXF/tiled-PDF/A0/projector/tech-pack output.

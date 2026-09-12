@@ -203,21 +203,53 @@ export function viewToggleMarkup(active: string): string {
     `${btn("view-edit", "Edit", active === "edit")}</div>`;
 }
 
-export type BodyCroquisView = "front-back" | "side";
+export type BodyCroquisView = "front-back" | "front" | "back" | "side";
 
 /** The Body view's projection selector. Side is intentionally a separate
  * presentation mode because it is a schematic envelope, not another measured
  * front/back panel. */
 export function bodyCroquisToggleMarkup(active: BodyCroquisView): string {
   const btn = (id: string, label: string, on: boolean): string =>
-    `<button id="${id}" aria-pressed="${on}" style="padding:4px 10px;font-size:12px;cursor:pointer;` +
+    `<button id="${id}" aria-label="Show ${label.toLowerCase()} body figure" aria-pressed="${on}" style="padding:4px 10px;font-size:12px;cursor:pointer;` +
     `background:${on ? T.lineActive : T.background};color:${on ? T.background : T.line};` +
     `border:1px solid ${BORDER};border-radius:5px">${label}</button>`;
   return `<div id="body-croquis-toggle-host" style="display:none;gap:6px;align-items:center;` +
     `margin:0 0 4px 2px"><span style="font-size:11px;color:${T.label};text-transform:uppercase;` +
     `letter-spacing:0.04em;margin-right:2px">Body figure</span>` +
     `${btn("body-front-back", "Front + Back", active === "front-back")}` +
+    `${btn("body-front", "Front", active === "front")}` +
+    `${btn("body-back", "Back", active === "back")}` +
     `${btn("body-side", "Side", active === "side")}</div>`;
+}
+
+const INSPECTION_TITLES: Record<string, string> = {
+  pattern: "Pattern inspection",
+  body: "Body figure inspection",
+  nest: "Size-run inspection",
+  fabric: "Marker inspection",
+  check: "Digital check inspection",
+  edit: "Pattern edit inspection",
+  spec: "Specification inspection",
+};
+
+/** A bounded inspection frame for every main canvas. SVGs are deliberately
+ * labelled and live inside a scrollable viewport so a narrow/portrait drawing
+ * cannot make the whole page unusably tall or disappear at intrinsic size. */
+export function inspectionMarkup(content: string, view: string): string {
+  const title = INSPECTION_TITLES[view] ?? "Canvas inspection";
+  return `<section id="canvas-inspection" data-inspection-view="${view}" aria-labelledby="inspection-title" ` +
+    `style="background:${PANEL};border:1px solid ${BORDER};border-radius:10px;padding:10px;min-width:0">` +
+    `<div id="inspection-toolbar" role="group" aria-label="${title} controls" ` +
+    `style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:8px">` +
+    `<h2 id="inspection-title" style="flex:1;margin:0;font-size:12px;font-weight:600;color:${T.line}">${title}</h2>` +
+    `<button type="button" data-inspection-zoom="out" aria-label="Zoom out" style="padding:3px 8px;cursor:pointer;background:${T.background};color:${T.line};border:1px solid ${BORDER};border-radius:5px">−</button>` +
+    `<button type="button" data-inspection-zoom="fit" aria-label="Fit inspection" style="padding:3px 8px;cursor:pointer;background:${T.background};color:${T.line};border:1px solid ${BORDER};border-radius:5px">Fit</button>` +
+    `<button type="button" data-inspection-zoom="in" aria-label="Zoom in" style="padding:3px 8px;cursor:pointer;background:${T.background};color:${T.line};border:1px solid ${BORDER};border-radius:5px">+</button>` +
+    `<output id="inspection-zoom" aria-live="polite" style="min-width:38px;text-align:right;font-size:11px;color:${T.label}">100%</output>` +
+    `</div>` +
+    `<div id="inspection-viewport" role="region" aria-labelledby="inspection-title" tabindex="0" ` +
+    `style="min-height:260px;max-height:560px;overflow:auto;background:${T.background};border-radius:8px;padding:8px;box-sizing:border-box">` +
+    `<div id="inspection-content" style="min-width:0">${content}</div></div></section>`;
 }
 
 export function garmentToggleMarkup(active: string): string {

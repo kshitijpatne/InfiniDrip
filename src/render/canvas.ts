@@ -26,10 +26,16 @@ function svgText(x: number, y: number, content: string, fill: string, size: numb
          `font-family="system-ui, sans-serif" text-anchor="middle">${content}</text>`;
 }
 
-// --- layout: place pieces left to right, tops aligned -----------------------
+// --- layout: place pieces in readable shelves --------------------------------
 const MARGIN_X = 6;
 const MARGIN_TOP = 10;
 const GAP = 8;
+const LABEL_BAND = 6;
+// A linear row that is allowed to run indefinitely becomes a very wide, very
+// short SVG for component-heavy garments (the woven shirt exposed this first).
+// Keep the drawing in a small number of inspectable shelves instead. The
+// renderer remains width-agnostic; the UI's inspection frame can still zoom it.
+const LINEAR_SHELF_WIDTH = 190;
 
 interface Placed {
   readonly piece: Piece;
@@ -44,18 +50,31 @@ interface Placed {
 function place(pieces: readonly Piece[], layout: "linear" | "polo" = "linear"): { placed: Placed[]; width: number; height: number } {
   if (layout === "polo") return placePolo(pieces);
   let cursor = MARGIN_X;
-  let maxH = 0;
-  const placed = pieces.map((piece) => {
+  let rowTop = MARGIN_TOP;
+  let rowHeight = 0;
+  let maxW = 0;
+  const placed: Placed[] = [];
+  for (const piece of pieces) {
     const b = pieceBounds(piece);
-    const item: Placed = {
-      piece, tx: cursor - b.minX, ty: MARGIN_TOP - b.minY,
-      vx: cursor, vy: MARGIN_TOP, w: b.width, h: b.height,
-    };
-    cursor += b.width + GAP;
-    maxH = Math.max(maxH, b.height);
-    return item;
-  });
-  return { placed, width: cursor - GAP + MARGIN_X, height: MARGIN_TOP + maxH + MARGIN_X };
+    const titleWidth = piece.name.length * 1.35 + 4;
+    const slotW = Math.max(b.width, titleWidth);
+    if (cursor > MARGIN_X && cursor + slotW > MARGIN_X + LINEAR_SHELF_WIDTH) {
+      maxW = Math.max(maxW, cursor - GAP + MARGIN_X);
+      rowTop += rowHeight + 12;
+      cursor = MARGIN_X;
+      rowHeight = 0;
+    }
+    const pieceX = cursor + (slotW - b.width) / 2;
+    const pieceY = rowTop + LABEL_BAND;
+    placed.push({
+      piece, tx: pieceX - b.minX, ty: pieceY - b.minY,
+      vx: pieceX, vy: pieceY, w: b.width, h: b.height,
+    });
+    cursor += slotW + GAP;
+    rowHeight = Math.max(rowHeight, b.height);
+  }
+  maxW = Math.max(maxW, cursor - GAP + MARGIN_X);
+  return { placed, width: maxW, height: rowTop + LABEL_BAND + rowHeight + MARGIN_X };
 }
 
 function placePolo(pieces: readonly Piece[]): { placed: Placed[]; width: number; height: number } {

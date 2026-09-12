@@ -255,7 +255,7 @@ No console runtime errors were observed during that audit.
 
 ### BUG-UI-013 — Intrinsic SVG aspect ratios create tiny or giant work areas
 
-- Tags: `BUGFIX`, `EPIC-BUGFIX-P2`, `P2`, `S2`, status `Open`.
+- Tags: `BUGFIX`, `EPIC-BUGFIX-P2`, `P2`, `S2`, status `Closed`.
 - Evidence: Woven Pattern is a thin strip; Woven Side is about 1441px tall;
   Marker is about 1144px; Edit is about 1119px. No fit, max-height, zoom, or
   pan behavior exists.
@@ -263,33 +263,66 @@ No console runtime errors were observed during that audit.
   Sources: `src/render/croquis-view.ts:45`, `src/render/canvas.ts:165`.
 - Done when: each view has a predictable initial fit and usable inspect/zoom
   behavior without pushing the workflow below an unreasonable scroll distance.
-- Fix slice: —  Commit/PR: —  Verification: —
+- Fix slice: BF-P2-01. Commit/PR: pending (BF-P2-01 behavior commit).
+- Root cause confirmed: linear component placement produced a very wide, short
+  woven SVG and the UI rendered every intrinsic ratio directly with no bounded
+  inspection surface. Portrait Side/Edit canvases consequently expanded the
+  page instead of providing a local inspection area.
+- Tests: canvas shelf-layout regression; inspection markup, body-focus,
+  persistence, zoom and app view regressions; 166 focused tests pass.
+- Live/rendered/output evidence: at the live 1280×720 viewport, woven Pattern
+  now renders viewBox `0 0 178.5 239.6` at 387×520 inside the inspection frame;
+  the upper Side schematic is capped at 170×520 and centered; Front focus is
+  564×423. Fit/zoom controls were exercised from 100% to 125% and back. No
+  physical-fit or production-readiness claim is made.
+- Closed by/date: Codex, 2026-09-12. Final status: Closed.
 
 ### BUG-UI-014 — Pattern, nesting, and marker labels collide or become unreadable
 
-- Tags: `BUGFIX`, `EPIC-BUGFIX-P2`, `P2`, `S3`, status `Open`.
+- Tags: `BUGFIX`, `EPIC-BUGFIX-P2`, `P2`, `S3`, status `Closed`.
 - Evidence: Woven pieces are shown in one linear row; nesting and marker labels
   overlap heavily at normal UI scale.
 - Root cause: layout is linear and label placement has no collision strategy,
   legend, or piece focus mode. Source: `src/render/canvas.ts:44`.
 - Done when: piece identity, size, grain, fold, and marks can be read and
   inspected at normal scale or through an explicit focus affordance.
-- Fix slice: —  Commit/PR: —  Verification: —
+- Fix slice: BF-P2-01. Commit/PR: pending (BF-P2-01 behavior commit).
+- Root cause confirmed: linear shelves had no row wrapping or title lane, so
+  woven pieces and their construction labels were compressed into one strip.
+  The bounded inspection frame now gives the full shelf layout a readable
+  initial fit and explicit zoom affordance.
+- Tests: linear shelf-wrap renderer regression plus the focused app/view/render
+  suite; 166 focused tests pass.
+- Live/rendered/output evidence: woven Pattern was inspected in the live app;
+  all component labels, fold/grain/mark text remain in the rendered SVG and the
+  wrapped view fits the local inspection frame without page-wide horizontal
+  overflow at 1280×720.
+- Closed by/date: Codex, 2026-09-12. Final status: Closed.
 
 ### BUG-UI-015 — Body croquis figures and annotations are too small
 
-- Tags: `BUGFIX`, `EPIC-BUGFIX-P2`, `P2`, `S3`, status `Open`.
+- Tags: `BUGFIX`, `EPIC-BUGFIX-P2`, `P2`, `S3`, status `Closed`.
 - Evidence: front/back figures render side by side at roughly 230px each with
   tiny annotations; there is no single-figure zoom/focus mode.
 - Root cause: the pair view gives both figures equal space without a readable
   scale or inspection control. Source: `src/render/body.ts:212`.
 - Done when: front and back dimensions can be read without relying on browser
   zoom or horizontal layout luck.
-- Fix slice: —  Commit/PR: —  Verification: —
+- Fix slice: BF-P2-01. Commit/PR: pending (BF-P2-01 behavior commit).
+- Root cause confirmed: the only Body presentation was a side-by-side pair,
+  giving each annotated figure half the available width. A bounded frame and
+  explicit Front/Back focus now let one figure use the available inspection
+  area while preserving the combined view.
+- Tests: app regression verifies single-figure Body focus, selected state and
+  zoom reset; body markup and persistence tests cover the new modes.
+- Live/rendered/output evidence: woven Front focus produced one named SVG at
+  564×423 in the 1280×720 live viewport; Front + Back remains available as a
+  combined view. No browser-zoom dependence is required.
+- Closed by/date: Codex, 2026-09-12. Final status: Closed.
 
 ### BUG-UI-016 — Side view has poor context and an extreme vertical footprint
 
-- Tags: `BUGFIX`, `EPIC-BUGFIX-P2`, `P2`, `S3`, status `Open`.
+- Tags: `BUGFIX`, `EPIC-BUGFIX-P2`, `P2`, `S3`, status `Closed`.
 - Evidence: Side is labelled only `Side`, renders a long narrow schematic, and
   gives no clear indication that it is render-only rather than measured side
   construction data.
@@ -297,7 +330,18 @@ No console runtime errors were observed during that audit.
   explanation and inherits its narrow viewBox. Source: `src/render/croquis-view.ts:45`.
 - Done when: Side clearly states its purpose/limits and occupies a usable,
   consistent canvas area.
-- Fix slice: —  Commit/PR: —  Verification: —
+- Fix slice: BF-P2-01. Commit/PR: pending (BF-P2-01 behavior commit).
+- Root cause confirmed: the Side croquis had a narrow intrinsic viewBox and
+  only a terse label. The new inspection frame caps its rendered height and
+  centers it; the existing explicit SIDE · SCHEMATIC label remains the honest
+  indication that it is a render-only envelope with no side-specific inputs.
+- Tests: app lower/upper Side regression plus bounded inspection presentation
+  coverage; the live app was reviewed at 1280×720 with no page-sized vertical
+  expansion.
+- Live/rendered/output evidence: Side renders at 170×520 inside the scrollable
+  local viewport and visibly says `SIDE · SCHEMATIC`. Physical validation is
+  deferred.
+- Closed by/date: Codex, 2026-09-12. Final status: Closed.
 
 ### BUG-UI-017 — Assembled preview is always present without ownership or collapse
 

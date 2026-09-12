@@ -34,6 +34,14 @@ describe("v4 workspace validation", () => {
       expect(result.garmentOptions["woven-shirt"].buttonCount).toBe(6);
     }
   });
+  it("round-trips a single front or back body focus", () => {
+    for (const bodyCroquisView of ["front", "back"] as const) {
+      const workspace = { ...DEFAULT_WORKSPACE, bodyCroquisView };
+      const result = deserialize(serialize(STANDARD_M, FABRIC, {}, workspace));
+      expect(result.ok).toBe(true);
+      if (result.ok) expect(result.workspace.bodyCroquisView).toBe(bodyCroquisView);
+    }
+  });
   it("rejects corrupt current saves instead of silently defaulting selected state", () => {
     const changes = [{ measurements: null }, { measurements: [] }, { garmentOptions: null },
       { garmentOptions: { polo: null } }, { garmentOptions: { polo: { standHeight: null } } },

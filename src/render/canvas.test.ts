@@ -93,4 +93,14 @@ describe("renderBlueprint with non-tshirt pieces", () => {
     expect(svg).toContain('data-pattern-mark="button"');
     expect(svg).toContain("CUT SLIT");
   });
+
+  it("wraps a component-heavy linear set into readable shelves", () => {
+    const many = Array.from({ length: 8 }, (_, index) => ({
+      ...pieces[index % pieces.length], name: `component-${index + 1}`,
+    }));
+    const svg = renderBlueprint(many);
+    const match = svg.match(/viewBox="0 0 ([^ ]+) ([^"]+)"/)!;
+    expect(Number(match[1])).toBeLessThan(240);
+    expect(Number(match[2])).toBeGreaterThan(86);
+  });
 });

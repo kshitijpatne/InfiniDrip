@@ -11,7 +11,7 @@ export interface Workspace {
   readonly targetStyle: string;
   readonly stretchFabric: string;
   readonly view: ViewName;
-  readonly bodyCroquisView: "front-back" | "side";
+  readonly bodyCroquisView: "front-back" | "front" | "back" | "side";
   readonly exportStep: number;
   readonly fabricWidth: number;
   readonly nestScope: "single" | "marker";
@@ -93,7 +93,7 @@ export function deserialize(json: string): LoadResult {
     if (!recipe || !recipe.styles.some((style) => style.name === w.targetStyle)
       || !STRETCH_FABRICS.some((f) => f.name === w.stretchFabric)
       || !VIEWS.includes(w.view as string)
-      || !["front-back", "side"].includes(w.bodyCroquisView as string)
+      || !["front-back", "front", "back", "side"].includes(w.bodyCroquisView as string)
       || !recipe.sizes.some((size) => size.step === w.exportStep)
       || typeof w.fabricWidth !== "number" || !Number.isFinite(w.fabricWidth) || w.fabricWidth <= 0
       || !["single", "marker"].includes(w.nestScope as string)) {

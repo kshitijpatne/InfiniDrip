@@ -57,6 +57,22 @@ describe("mountApp", () => {
     expect(canvas).toContain("(circ)"); // girth labels are marked
   });
 
+  it("supports readable single-figure body focus and bounded zoom", () => {
+    localStorage.clear();
+    const root = mount();
+    root.querySelector<HTMLButtonElement>("#view-body")!.dispatchEvent(new Event("click"));
+    root.querySelector<HTMLButtonElement>("#body-front")!.dispatchEvent(new Event("click"));
+    expect(root.querySelectorAll("#inspection-content svg")).toHaveLength(1);
+    expect(root.querySelector<HTMLButtonElement>("#body-front")!.getAttribute("aria-pressed")).toBe("true");
+    expect(root.querySelector("#inspection-content svg")!.getAttribute("aria-label")).toContain("Body figure inspection");
+    root.querySelector<HTMLButtonElement>('button[data-inspection-zoom="in"]')!
+      .dispatchEvent(new Event("click", { bubbles: true }));
+    expect(root.querySelector("#inspection-zoom")!.textContent).toBe("125%");
+    root.querySelector<HTMLButtonElement>('button[data-inspection-zoom="fit"]')!
+      .dispatchEvent(new Event("click", { bubbles: true }));
+    expect(root.querySelector("#inspection-zoom")!.textContent).toBe("100%");
+  });
+
   it("offers the schematic Side body view for both upper and lower garments", () => {
     localStorage.clear();
     const root = mount();
