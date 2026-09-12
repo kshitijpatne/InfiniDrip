@@ -1,8 +1,9 @@
 # P1 execution and evidence
 
 Owner: Codex (GPT-6; reasoning setting not exposed to the agent). Date: 2026-09-12.
-One master goal covers P1 → P2 → P3. This run stops after P1 for the maintainer's
-model switch to Luna/max. Epic 3 and physical validation remain deferred.
+One master goal covers P1 → P2 → P3. P1 is complete and execution now continues
+through the resumed P2/P3 milestones. Epic 3 and physical validation remain
+deferred.
 
 ## Bounded slices
 
@@ -146,4 +147,5 @@ live/rendered/output evidence and closure status preserved in
 branches, functions and lines; TypeScript; production build; parsed SVG/DXF,
 tiled PDF, A0 PDF, projector SVG and tech-pack checks; eight unchanged legacy
 export hashes. Diff and rendered UI/output were reviewed after each bounded
-slice. Do not begin Epic 3; P2/P3 remain pending under the master goal.
+slice. P2/P3 continue sequentially under the same master goal; Epic 3 remains
+parked until all three bug-fix exit reports pass.

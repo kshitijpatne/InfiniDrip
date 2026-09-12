@@ -241,19 +241,19 @@ export function poloGuidance(block: Block, m: Measurements, rawOptions: Partial<
   for (const definition of POLO_OPTION_DEFINITIONS) {
     const value = options[definition.id as keyof PoloOptions];
     if (value < definition.min || value > definition.max) {
-      notes.push({ level: "warn", text: `${definition.label} (${value} cm) is outside V1's ${definition.min}–${definition.max} cm range — adjust it into that range.` });
+      notes.push({ field: `option-${definition.id}`, level: "warn", text: `${definition.label} (${value} cm) is outside V1's ${definition.min}–${definition.max} cm range — adjust it into that range.` });
     }
   }
   const minimumLength = BUTTON_CENTRES[BUTTON_CENTRES.length - 1] + MIN_BUTTON_END_CLEARANCE;
   if (options.placketLength < minimumLength) {
-    notes.push({ level: "warn", text: `Placket (${options.placketLength} cm) is too short for the fixed button group — increase it to at least ${minimumLength} cm.` });
+    notes.push({ field: "option-placketLength", level: "warn", text: `Placket (${options.placketLength} cm) is too short for the fixed button group — increase it to at least ${minimumLength} cm.` });
   }
   const frontNeckline = edgeStart(pieceEdge(block.roles.front, "neckline"));
   if (frontNeckline.y + options.placketLength > m.length - 2) {
-    notes.push({ level: "warn", text: `Placket reaches the hem allowance — shorten it to ${Math.max(0, m.length - 2 - frontNeckline.y)} cm or less.` });
+    notes.push({ field: "option-placketLength", level: "warn", text: `Placket reaches the hem allowance — shorten it to ${Math.max(0, m.length - 2 - frontNeckline.y)} cm or less.` });
   }
   if (options.standHeight > options.collarLeafDepth) {
-    notes.push({ level: "warn", text: "Stand is deeper than the collar leaf — reduce stand height or increase collar leaf depth." });
+    notes.push({ field: "option-standHeight", level: "warn", text: "Stand is deeper than the collar leaf — reduce stand height or increase collar leaf depth." });
   }
   return notes;
 }

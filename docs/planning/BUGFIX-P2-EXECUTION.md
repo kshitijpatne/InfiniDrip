@@ -29,7 +29,7 @@ affected ledger record is Closed and the gate is recorded here.
 
 ## BF-P2-01 — Closed
 
-Implementation: pending immutable behavior commit reference.
+Implementation: `9bcd2bb` (`Slice BF-P2-01: bound inspection surfaces and body focus [BUG-UI-013–016]`).
 
 The linear canvas now wraps component-heavy drawings into readable shelves. A
 local inspection section provides a named viewport with Fit, Zoom out, and Zoom
@@ -46,7 +46,7 @@ rendered screenshots were inspected before proceeding.
 
 ## BF-P2-02 — Closed
 
-Implementation: pending immutable behavior commit reference.
+Implementation: `f3d763e` (`Slice BF-P2-02: own preview and group woven options [BUG-UI-017–018]`).
 
 The assembled garment is now a separately titled, collapsible secondary
 preview. Woven construction options carry semantic groups, correct units, and
@@ -58,7 +58,7 @@ preview Hide/Show state changed the rendered content while keeping its owner.
 
 ## BF-P2-03 — Closed
 
-Implementation: pending immutable behavior commit reference.
+Implementation: `6426059` (`Slice BF-P2-03: link option features and material semantics [BUG-UI-019–020]`).
 
 Woven assembled details now expose a matching marker for every option; the
 spotlight searches both analytical and assembled surfaces so a focused option
@@ -73,7 +73,7 @@ Woven + Spandex blend showed the stable-woven warning and disabled SVG export.
 
 ## BF-P2-04 — Closed
 
-Implementation: pending immutable behavior commit reference.
+Implementation: `78f982a` (`Slice BF-P2-04: clarify button and export scope [BUG-UI-021–022]`).
 
 Woven button-count guidance is unit-aware and no longer duplicates an integer
 warning when the count is out of range. The control explains the six/seven
@@ -86,7 +86,7 @@ TypeScript passes. Live Output review confirmed the two visible export scopes.
 
 ## BF-P2-05 — Closed
 
-Implementation: pending immutable behavior commit reference.
+Implementation: `d3d2cb6` (`Slice BF-P2-05: lock journey progression and completion [BUG-UI-023–024]`).
 
 The first-run journey now has one Start primary action, informational step chips
 until graduation, and Done-only revisit shortcuts. A confirmed Electron export
@@ -98,12 +98,29 @@ Focused verification: journey suite and 78 app tests pass. Live/browser review
 confirmed the defined Pattern landing and the separate browser/Electron export
 completion behavior.
 
-## BF-P2-06 — Pending
+## BF-P2-06 — Closed
 
-Accessibility semantics, keyboard-equivalent editor controls, and field-linked
-guidance remain to be implemented and verified.
+Implementation: BF-P2-06 behavior commit (this slice; immutable hash is recorded
+after commit).
+
+The UI now exposes named landmarks and headings, named inspection SVGs, pressed
+state for view/garment/nesting controls, and explicit group labels for material,
+color, and canvas views. Edit includes validated x/y coordinate inputs for every
+pointer handle and applies finite changes through the same `moveHandle` engine;
+invalid values remain visible and receive native validation feedback. Draft and
+check notes carry field metadata, and Guidance renders a direct Review action
+that delegates focus to the associated control after redraws.
+
+Focused verification: 73 test files / 956 tests pass with 100% statements,
+branches, functions, and lines. App/view/drafting tests cover the semantic
+markup, named SVGs, active states, coordinate edits and invalid paths. Live
+1280×720 review confirmed 20 Edit coordinate inputs, a named Pattern edit
+inspection SVG, field-linked Review focus, and no physical or production claim.
 
 ## P2 exit report — Pending
 
-No P2 exit gate is claimed yet. P3 and Epic 3 remain blocked by sequencing
-until this report records a passing full gate.
+The coverage portion passes at 100% statements, branches, functions, and lines
+(73 test files / 956 tests). TypeScript, production build, parsed export checks,
+and the eight unchanged legacy export hashes still need to be recorded before
+this report can be marked passing. P3 and Epic 3 remain blocked by sequencing
+until that full gate is complete.

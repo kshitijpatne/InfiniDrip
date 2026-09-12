@@ -132,6 +132,7 @@ export function skirtGuidance(_b: Block, m: Measurements): Note[] {
   const notes: Note[] = [];
   if (m.waist >= m.hip) {
     notes.push({
+      field: "waist",
       level: "warn",
       text: `Waist (${m.waist} cm) is not smaller than the hip (${m.hip} cm) — a skirt needs ` +
             `the hip to be the wider of the two.`,
@@ -142,6 +143,7 @@ export function skirtGuidance(_b: Block, m: Measurements): Note[] {
   // itself. Unreachable while hip depth was a constant; reachable now it's a field.
   if (m.length <= m.hipDepth) {
     notes.push({
+      field: "length",
       level: "warn",
       text: `Length (${m.length} cm) does not clear the hip depth (${m.hipDepth} cm) — the hem ` +
             `would sit at or above the fullest hip, so the side seam has nowhere to run. ` +
@@ -149,11 +151,11 @@ export function skirtGuidance(_b: Block, m: Measurements): Note[] {
     });
   }
   if (m.ease < 2) {
-    notes.push({ level: "warn", text: `Ease is ${m.ease} cm — a skirt needs a little room to sit over the hip.` });
+    notes.push({ field: "ease", level: "warn", text: `Ease is ${m.ease} cm — a skirt needs a little room to sit over the hip.` });
   } else if (m.ease > 12) {
-    notes.push({ level: "info", text: `Ease is ${m.ease} cm — loose; the skirt will sit away from the body.` });
+    notes.push({ field: "ease", level: "info", text: `Ease is ${m.ease} cm — loose; the skirt will sit away from the body.` });
   } else {
-    notes.push({ level: "ok", text: `Ease is ${m.ease} cm — comfortable for a skirt.` });
+    notes.push({ field: "ease", level: "ok", text: `Ease is ${m.ease} cm — comfortable for a skirt.` });
   }
   return notes;
 }

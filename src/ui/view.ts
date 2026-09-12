@@ -8,6 +8,7 @@ import { Note, SEVERITY_ICON } from "../guidance";
 import { Report } from "../guidance";
 import { StyleMatch, Delta } from "../style";
 import { FIELDS, Field } from "./controls";
+import type { Handle } from "../edit";
 
 const PANEL = "#13233A";
 const BORDER = "#1E3450";
@@ -21,7 +22,7 @@ function field(id: string, label: string,
     `<span style="opacity:0.55;font-size:11px;margin-left:6px">${tag}</span>`;
   const helpId = `help-${id}`;
   const describedBy = details.help ? `error-${id} ${helpId}` : `error-${id}`;
-  const input = `<input data-field="${id}" type="number" value="${value}" min="${min}" max="${max}" step="${step}" ` +
+  const input = `<input id="input-${id}" data-field="${id}" data-guidance-control="${id}" type="number" value="${value}" min="${min}" max="${max}" step="${step}" ` +
     `style="width:64px;padding:4px 6px;text-align:right;background:${T.background};color:${T.line};` +
     `border:1px solid ${BORDER};border-radius:5px;font-family:ui-monospace,monospace" ` +
     `aria-describedby="${describedBy}"/>`;
@@ -38,14 +39,15 @@ function field(id: string, label: string,
     `<div id="error-${id}" data-input-error="${id}" style="font-size:12px;color:${T.lineActive}" role="status"></div>${help}`;
 }
 
-function panelTitle(text: string): string {
-  return `<div style="font-size:11px;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;` +
-    `color:${T.label};margin-bottom:12px">${text}</div>`;
+function panelTitle(text: string, id: string): string {
+  return `<h2 id="${id}" style="font-size:11px;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;` +
+    `color:${T.label};margin:0 0 12px">${text}</h2>`;
 }
 
 function panel(title: string, body: string): string {
+  const titleId = `panel-${title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-title`;
   return `<div style="flex:0 0 230px;background:${PANEL};border:1px solid ${BORDER};` +
-    `border-radius:10px;padding:14px">${panelTitle(title)}${body}</div>`;
+    `border-radius:10px;padding:14px" role="region" aria-labelledby="${titleId}">${panelTitle(title, titleId)}${body}</div>`;
 }
 
 /** The left-hand measurements panel. */
@@ -79,9 +81,9 @@ export function controlsMarkup(
   ).join("");
   const optionPanel = options.length === 0 ? "" :
     `<div style="border-top:1px solid ${BORDER};margin-top:12px;padding-top:12px">` +
-    `${panelTitle("Design options")}${optionGroups}</div>`;
-  return `<div id="controls-panel" style="flex:0 0 220px;background:${PANEL};border:1px solid ${BORDER};` +
-    `border-radius:10px;padding:14px">${panelTitle("Measurements (cm)")}${rows}${finished}${optionPanel}</div>`;
+    `${panelTitle("Design options", "design-options-title")}${optionGroups}</div>`;
+  return `<section id="controls-panel" role="region" aria-labelledby="measurements-title" style="flex:0 0 220px;background:${PANEL};border:1px solid ${BORDER};` +
+    `border-radius:10px;padding:14px">${panelTitle("Measurements (cm)", "measurements-title")}${rows}${finished}${optionPanel}</section>`;
 }
 
 const DOT: Record<Note["level"], string> = { ok: OK, info: T.label, warn: T.lineActive };
@@ -97,11 +99,22 @@ export function guidanceMarkup(notes: readonly Note[]): string {
     : `${SEVERITY_ICON.warn} ${warnCount} to review`;
   const verdict = `<div style="font-size:13px;font-weight:600;margin-bottom:12px;` +
     `color:${clean ? OK : T.lineActive}">${verdictText}</div>`;
-  const rows = notes.map((n) =>
-    `<div style="display:flex;gap:8px;margin-bottom:10px;font-size:12.5px;line-height:1.4">` +
-    `<span style="flex:0 0 14px;color:${DOT[n.level]};font-weight:700" aria-hidden="true">` +
-    `${SEVERITY_ICON[n.level]}</span><span style="color:${T.line}">${n.text}</span></div>`
-  ).join("");
+  const rows = notes.map((n, index) => {
+    const fieldName = n.field;
+    const fieldLabel = fieldName?.startsWith("option-")
+      ? fieldName.slice("option-".length).replace(/([A-Z])/g, " $1").toLowerCase()
+      : fieldName ? FIELDS.find((f) => f.id === fieldName)?.label ?? fieldName : "";
+    const controlId = fieldName === "stretchFabric" ? "stretch-select" : `input-${fieldName}`;
+    const action = fieldName
+      ? `<button type="button" data-guidance-focus="${fieldName}" aria-controls="${controlId}" ` +
+        `style="flex:0 0 auto;padding:3px 6px;font-size:11px;cursor:pointer;background:${T.background};` +
+        `color:${T.line};border:1px solid ${BORDER};border-radius:4px">Review ${fieldLabel}</button>`
+      : "";
+    return `<div data-guidance-row="${index}"${fieldName ? ` data-guidance-field="${fieldName}"` : ""} ` +
+      `style="display:flex;gap:8px;align-items:flex-start;margin-bottom:10px;font-size:12.5px;line-height:1.4">` +
+      `<span style="flex:0 0 14px;color:${DOT[n.level]};font-weight:700" aria-hidden="true">` +
+      `${SEVERITY_ICON[n.level]}</span><span style="flex:1;color:${T.line}">${n.text}</span>${action}</div>`;
+  }).join("");
   return panel("Guidance", verdict + rows);
 }
 
@@ -115,7 +128,7 @@ export function fabricSwatchesMarkup(current: string): string {
     `outline-offset:1px"></button>` +
     `<span data-fabric-name="${f.color}" style="font-size:10px;color:${T.label};white-space:nowrap">${f.name}</span></span>`
   ).join("");
-  return `<div id="swatch-host" style="display:flex;gap:8px;align-items:center;margin:4px 0">` +
+  return `<div id="swatch-host" role="group" aria-label="Color" style="display:flex;gap:8px;align-items:center;margin:4px 0">` +
     `<span style="font-size:11px;color:${T.label};text-transform:uppercase;letter-spacing:0.04em;` +
     `margin-right:4px">Color</span>${sw}</div>`;
 }
@@ -173,7 +186,7 @@ export function styleMarkup(
  *  its own job (Pattern = base draft, Nest/Spec = the whole run). */
 export function exportButtonsMarkup(sizes: readonly SizeStep[]): string {
   const btn = (id: string, label: string): string =>
-    `<button id="${id}" style="padding:5px 10px;font-size:12px;cursor:pointer;` +
+    `<button id="${id}" type="button" style="padding:5px 10px;font-size:12px;cursor:pointer;` +
     `background:${T.background};color:${T.line};border:1px solid ${BORDER};border-radius:5px">` +
     `${label}</button>`;
   const options = sizes
@@ -203,10 +216,10 @@ export function fabricStretchMarkup(current: string): string {
   const options = STRETCH_FABRICS
     .map((f) => `<option ${f.name === current ? "selected" : ""}>${f.name}</option>`)
     .join("");
-  return `<div id="stretch-host" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:4px 0">` +
+  return `<div id="stretch-host" role="group" aria-label="Material and stretch" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:4px 0">` +
     `<span style="font-size:11px;color:${T.label};text-transform:uppercase;letter-spacing:0.04em;` +
     `margin-right:4px">Material / stretch</span>` +
-    `<select id="stretch-select" aria-label="Material and stretch" style="padding:4px 8px;font-size:12px;background:${T.background};` +
+    `<select id="stretch-select" data-guidance-control="stretchFabric" aria-label="Material and stretch" style="padding:4px 8px;font-size:12px;background:${T.background};` +
     `color:${T.line};border:1px solid ${BORDER};border-radius:5px">${options}</select>` +
     `<span style="font-size:11px;color:${T.label};line-height:1.35">Guides ease and tech-pack material; it does not set garment color.</span></div>`;
 }
@@ -214,10 +227,10 @@ export function fabricStretchMarkup(current: string): string {
 /** Pattern vs. graded size-run toggle for the main canvas. */
 export function viewToggleMarkup(active: string): string {
   const btn = (id: string, label: string, on: boolean): string =>
-    `<button id="${id}" style="padding:5px 12px;font-size:12px;cursor:pointer;` +
+    `<button id="${id}" type="button" aria-pressed="${on}" style="padding:5px 12px;font-size:12px;cursor:pointer;` +
     `background:${on ? T.lineActive : T.background};color:${on ? T.background : T.line};` +
     `border:1px solid ${BORDER};border-radius:5px">${label}</button>`;
-  return `<div id="view-toggle-host" style="display:flex;gap:6px;align-items:center;margin:4px 0">` +
+  return `<div id="view-toggle-host" role="group" aria-label="Canvas view" style="display:flex;gap:6px;align-items:center;margin:4px 0">` +
     `<span style="font-size:11px;color:${T.label};text-transform:uppercase;letter-spacing:0.04em;` +
     `margin-right:4px">View</span>` +
     `${btn("view-pattern", "Pattern", active === "pattern")}` +
@@ -236,10 +249,10 @@ export type BodyCroquisView = "front-back" | "front" | "back" | "side";
  * front/back panel. */
 export function bodyCroquisToggleMarkup(active: BodyCroquisView): string {
   const btn = (id: string, label: string, on: boolean): string =>
-    `<button id="${id}" aria-label="Show ${label.toLowerCase()} body figure" aria-pressed="${on}" style="padding:4px 10px;font-size:12px;cursor:pointer;` +
+    `<button id="${id}" type="button" aria-label="Show ${label.toLowerCase()} body figure" aria-pressed="${on}" style="padding:4px 10px;font-size:12px;cursor:pointer;` +
     `background:${on ? T.lineActive : T.background};color:${on ? T.background : T.line};` +
     `border:1px solid ${BORDER};border-radius:5px">${label}</button>`;
-  return `<div id="body-croquis-toggle-host" style="display:none;gap:6px;align-items:center;` +
+  return `<div id="body-croquis-toggle-host" role="group" aria-label="Body figure" style="display:none;gap:6px;align-items:center;` +
     `margin:0 0 4px 2px"><span style="font-size:11px;color:${T.label};text-transform:uppercase;` +
     `letter-spacing:0.04em;margin-right:2px">Body figure</span>` +
     `${btn("body-front-back", "Front + Back", active === "front-back")}` +
@@ -295,11 +308,11 @@ export function assembledPreviewMarkup(content: string, expanded = true): string
 
 export function garmentToggleMarkup(active: string): string {
   const btn = (g: { name: string; label: string }): string =>
-    `<button id="garment-${g.name}" style="padding:6px 12px;font-size:13px;cursor:pointer;` +
+    `<button id="garment-${g.name}" type="button" aria-pressed="${g.name === active}" style="padding:6px 12px;font-size:13px;cursor:pointer;` +
     `background:${g.name === active ? T.lineActive : T.background};` +
     `color:${g.name === active ? T.background : T.line};` +
     `border:1px solid ${BORDER};border-radius:5px">${g.label}</button>`;
-  return `<div id="garment-toggle-host" style="display:flex;gap:6px;align-items:center;margin-left:8px">` +
+  return `<div id="garment-toggle-host" role="group" aria-label="Garment" style="display:flex;gap:6px;align-items:center;margin-left:8px">` +
     `<span style="font-size:12px;color:${T.label}">Garment</span>` +
     `${GARMENTS.map(btn).join("")}</div>`;
 }
@@ -310,7 +323,7 @@ export function garmentToggleMarkup(active: string): string {
 export function dartControlsMarkup(hasDart: boolean, canTrue: boolean): string {
   if (!hasDart) return "";
   const btn = (id: string, label: string): string =>
-    `<button id="${id}" style="padding:5px 10px;font-size:12px;cursor:pointer;` +
+    `<button id="${id}" type="button" style="padding:5px 10px;font-size:12px;cursor:pointer;` +
     `background:${T.background};color:${T.line};border:1px solid ${BORDER};` +
     `border-radius:5px">${label}</button>`;
   const trueBtn = canTrue ? btn("dart-true", "True side seam") : "";
@@ -327,22 +340,45 @@ export function editorHintMarkup(): string {
   return `<div data-editor-contract="preview-only" style="display:flex;gap:10px;align-items:center;` +
     `margin-top:6px;font-size:12px;color:${T.label}">` +
     `<span style="flex:1"><strong style="color:${T.line}">Exploratory edit — front piece only.</strong> ` +
-    `Drag the dots or use dart tools to test a shape. This preview does not change ` +
+    `Drag the dots, enter their coordinates below, or use dart tools to test a shape. This preview does not change ` +
     `measurements, the assembled garment, checks, size grading, nesting, saves, or exports. ` +
     `Use Reset to return to the current parametric draft.</span>` +
-    `<button id="editor-reset" style="padding:5px 10px;font-size:12px;cursor:pointer;` +
+    `<button id="editor-reset" type="button" style="padding:5px 10px;font-size:12px;cursor:pointer;` +
     `background:${T.background};color:${T.line};border:1px solid ${BORDER};border-radius:5px">` +
     `Reset to draft</button></div>`;
+}
+
+/** Numeric equivalents for every pointer handle. They keep Edit usable with a
+ * keyboard or assistive technology while retaining the pointer canvas as a
+ * quick exploratory surface. */
+export function editorHandleControlsMarkup(handles: readonly Handle[]): string {
+  const rows = handles.map((handle, index) => {
+    const label = handle.kind === "vertex" ? `Corner ${index + 1}` : `Curve control ${index + 1}`;
+    const input = (axis: "x" | "y", value: number): string =>
+      `<label style="display:inline-flex;gap:4px;align-items:center;font-size:12px;color:${T.label}">` +
+      `${axis.toUpperCase()} <input type="number" data-editor-coordinate data-editor-handle-id="${handle.id}" ` +
+      `data-editor-axis="${axis}" value="${value}" step="0.1" aria-label="${label} ${axis.toUpperCase()} coordinate" ` +
+      `style="width:70px;padding:4px 6px;text-align:right;background:${T.background};color:${T.line};` +
+      `border:1px solid ${BORDER};border-radius:5px;font-family:ui-monospace,monospace"/></label>`;
+    return `<div data-editor-handle="${handle.id}" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:6px">` +
+      `<span style="min-width:116px;color:${T.line};font-size:12px">${label} <span style="color:${T.label}">(${handle.id})</span></span>` +
+      `${input("x", handle.pos.x)}${input("y", handle.pos.y)}</div>`;
+  }).join("");
+  return `<section data-editor-handle-controls role="group" aria-labelledby="editor-coordinates-title" ` +
+    `style="margin-top:8px;padding-top:8px;border-top:1px solid ${BORDER}">` +
+    `<h3 id="editor-coordinates-title" style="margin:0 0 4px;font-size:12px;color:${T.line}">Keyboard handle coordinates</h3>` +
+    `<p style="margin:0 0 8px;font-size:11px;color:${T.label}">Enter a finite coordinate in centimetres, then leave the field to apply it.</p>` +
+    rows + `</section>`;
 }
 
 /** Fabric-width input for the nesting estimator (a cutting setting, not a body number).
  *  Wrapped in an id'd host so the app can hide it in views where it does nothing. */
 export function fabricWidthMarkup(width: number): string {
   const scopeBtn = (id: string, label: string, on: boolean): string =>
-    `<button id="${id}" style="padding:4px 10px;font-size:12px;cursor:pointer;` +
+    `<button id="${id}" type="button" aria-pressed="${on}" style="padding:4px 10px;font-size:12px;cursor:pointer;` +
     `background:${on ? T.lineActive : "transparent"};color:${on ? T.background : T.label};` +
     `border:1px solid ${BORDER};border-radius:5px">${label}</button>`;
-  return `<div id="fabric-width-host" style="display:none;gap:8px;align-items:center;margin:4px 0">` +
+  return `<div id="fabric-width-host" role="group" aria-label="Nesting scope" style="display:none;gap:8px;align-items:center;margin:4px 0">` +
     `<span style="font-size:11px;color:${T.label};text-transform:uppercase;letter-spacing:0.04em;` +
     `margin-right:4px">Fabric width</span>` +
     `<input id="fabric-width" type="number" value="${width}" min="30" max="300" step="1" ` +

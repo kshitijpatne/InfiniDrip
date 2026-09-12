@@ -185,9 +185,7 @@ export function journeyBarMarkup(step: JourneyStep): string {
       `${chips}<span style="font-size:11.5px;color:${T.label};margin-left:6px">Start the tour from the welcome card when ready.</span></div>` +
       `<div style="font-size:12.5px;color:${T.line};margin:2px 0 6px 2px">${info.hint}</div>`;
   }
-  const back = idx > 0
-    ? `<button id="journey-back" style="${chipStyle("todo")}">← Back</button>`
-    : "";
+  const back = `<button id="journey-back" type="button" style="${chipStyle("todo")}">← Back</button>`;
   const next = idx < COACHED_STEPS.length - 1
     ? `<button id="journey-next" style="${chipStyle("active")}">Next →</button>`
     : "";

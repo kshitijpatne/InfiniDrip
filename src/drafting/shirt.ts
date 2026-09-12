@@ -553,7 +553,10 @@ export function wovenShirtGuidance(
   const notes: Note[] = [];
   for (const definition of WOVEN_SHIRT_OPTION_DEFINITIONS) {
     const value = options[definition.id as keyof WovenShirtOptions];
-    const unit = definition.unit ?? "cm";
+    // Every woven option declares a unit in shirt-contract.ts. Keep the
+    // guidance value sourced from that contract so a count can never inherit a
+    // dimensional suffix by accident.
+    const unit = definition.unit!;
     const valueLabel = unit === "buttons" ? `${value} buttons` : `${value} ${unit}`;
     if (value < definition.min || value > definition.max) {
       notes.push({ field: `option-${definition.id}`, level: "warn", text: `${definition.label} (${valueLabel}) is outside the ${definition.min}–${definition.max} ${unit} design range — adjust it into that range.` });

@@ -68,6 +68,14 @@ can change steps. After a confirmed Electron write, the journey persists Done
 with the five-of-five checklist. Start maps to the Pattern canvas so hidden
 disclosure cannot leave a stale Side or Edit surface visible.
 
+BF-P2-06: the shell exposes semantic landmarks/headings, named inspection SVGs,
+and pressed state for the view, garment, material/color, and nesting controls.
+The Edit route keeps pointer handles as an exploratory surface but also renders
+validated x/y coordinate inputs for every handle; finite changes use the same
+`moveHandle` engine and invalid values remain visible. Guidance notes carry
+field metadata and delegate Review actions to the matching control after each
+redraw.
+
 Slice 93: the woven-shirt component-library exit audit verifies closed geometry
 and sewability across XS–XL, all Pattern/Body/Side/Size run/Spec/Nesting/Check/
 preview-Edit routes, and parsed SVG/DXF/tiled-PDF/A0/projector/tech-pack output.

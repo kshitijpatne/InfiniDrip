@@ -1,9 +1,10 @@
 import { describe, it, expect } from "vitest";
-import { STANDARD_M, GARMENTS, TSHIRT_SIZES, TEE, WOVEN_SHIRT, WOVEN_SHIRT_OPTION_DEFINITIONS } from "../drafting";
+import { STANDARD_M, GARMENTS, TSHIRT_SIZES, TEE, WOVEN_SHIRT, WOVEN_SHIRT_OPTION_DEFINITIONS, draftTshirt, rolePiece } from "../drafting";
 import { garmentToggleMarkup, dartControlsMarkup, exportButtonsMarkup } from "./view";
 import { DEFAULT_FABRIC, BLUEPRINT } from "../render";
 import { matchStyle, styleNames, TEE_STYLES } from "../style";
-import { controlsMarkup, appShellMarkup, guidanceMarkup, styleMarkup, fabricSwatchesMarkup, specTableMarkup, viewToggleMarkup, bodyCroquisToggleMarkup, fabricWidthMarkup, checkMarkup, editorHintMarkup, inspectionMarkup, assembledPreviewMarkup } from "./view";
+import { controlsMarkup, appShellMarkup, guidanceMarkup, styleMarkup, fabricSwatchesMarkup, specTableMarkup, viewToggleMarkup, bodyCroquisToggleMarkup, fabricWidthMarkup, checkMarkup, editorHintMarkup, editorHandleControlsMarkup, inspectionMarkup, assembledPreviewMarkup } from "./view";
+import { pieceHandles } from "../edit";
 import { buildReport, present } from "../guidance";
 
 describe("controlsMarkup", () => {
@@ -75,6 +76,8 @@ describe("appShellMarkup", () => {
     expect(html).toContain('id="fabric-width"');
     expect(html).toContain('id="infini-responsive-shell"');
     expect(html).toContain('@media(max-width:560px)');
+    expect(html).toContain('role="region" aria-labelledby="measurements-title"');
+    expect(html).toContain('<h2 id="measurements-title"');
   });
 });
 
@@ -83,6 +86,8 @@ describe("viewToggleMarkup", () => {
     const html = viewToggleMarkup("fabric");
     expect(html).toContain('id="view-fabric"');
     expect(html).toContain(">Nesting<");
+    expect(html).toContain('role="group" aria-label="Canvas view"');
+    expect(html).toContain('id="view-fabric" type="button" aria-pressed="true"');
   });
 
   it("offers a Check view", () => {
@@ -120,6 +125,10 @@ describe("inspectionMarkup", () => {
     expect(html).toContain('id="inspection-viewport"');
     expect(html).toContain('data-inspection-zoom="fit"');
     expect(html).toContain('aria-label="Zoom in"');
+  });
+
+  it("falls back to a neutral canvas title for an unknown inspection view", () => {
+    expect(inspectionMarkup("<div></div>", "future")).toContain("Canvas inspection");
   });
 });
 
@@ -164,6 +173,17 @@ describe("editorHintMarkup", () => {
     expect(html).toContain("Exploratory edit");
     expect(html).toContain("assembled garment");
     expect(html).toContain("exports");
+  });
+});
+
+describe("editorHandleControlsMarkup", () => {
+  it("renders finite x/y inputs for every pointer handle", () => {
+    const handles = pieceHandles(rolePiece(draftTshirt(STANDARD_M), "front"));
+    const html = editorHandleControlsMarkup(handles);
+    expect(html).toContain("Keyboard handle coordinates");
+    expect((html.match(/data-editor-coordinate/g) || [])).toHaveLength(handles.length * 2);
+    expect(html).toContain('data-editor-handle-id="v0"');
+    expect(html).toContain('aria-label="Corner 1 X coordinate"');
   });
 });
 
@@ -228,6 +248,19 @@ describe("guidanceMarkup", () => {
     ]);
     expect(html).toContain("⚠ 2 to review"); // info does not count
     expect(html).not.toContain("production-ready");
+  });
+
+  it("links field-aware notes to a direct Review action", () => {
+    const html = guidanceMarkup([
+      { level: "warn", field: "chest", text: "Check chest" },
+      { level: "warn", field: "option-buttonCount", text: "Check buttons" },
+      { level: "info", field: "stretchFabric", text: "Material note" },
+    ]);
+    expect(html).toContain('data-guidance-focus="chest"');
+    expect(html).toContain('aria-controls="input-chest"');
+    expect(html).toContain('data-guidance-focus="option-buttonCount"');
+    expect(html).toContain('aria-controls="input-option-buttonCount"');
+    expect(html).toContain('aria-controls="stretch-select"');
   });
 });
 

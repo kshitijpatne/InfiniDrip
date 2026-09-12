@@ -68,6 +68,24 @@ describe("mountApp", () => {
     const canvas = root.querySelector("#canvas-host svg")!.innerHTML;
     expect(canvas).toContain("Armhole depth"); // a body-view dimension label
     expect(canvas).toContain("(circ)"); // girth labels are marked
+    expect(root.querySelector<HTMLButtonElement>("#view-body")!.getAttribute("aria-pressed")).toBe("true");
+    expect(root.querySelector<HTMLButtonElement>("#view-pattern")!.getAttribute("aria-pressed")).toBe("false");
+  });
+
+  it("moves focus from a guidance note to its associated control", () => {
+    localStorage.clear();
+    const root = mount();
+    document.body.appendChild(root);
+    const review = root.querySelector<HTMLButtonElement>('button[data-guidance-focus="ease"]')!;
+    review.dispatchEvent(new Event("click", { bubbles: true }));
+    expect(document.activeElement).toBe(root.querySelector('input[data-field="ease"]'));
+    const guidanceHost = root.querySelector<HTMLElement>("#guidance-host")!;
+    guidanceHost.dispatchEvent(new Event("click", { bubbles: true }));
+    const emptyFocus = document.createElement("button");
+    emptyFocus.setAttribute("data-guidance-focus", "");
+    guidanceHost.append(emptyFocus);
+    emptyFocus.dispatchEvent(new Event("click", { bubbles: true }));
+    root.remove();
   });
 
   it("supports readable single-figure body focus and bounded zoom", () => {
@@ -84,6 +102,33 @@ describe("mountApp", () => {
     root.querySelector<HTMLButtonElement>('button[data-inspection-zoom="fit"]')!
       .dispatchEvent(new Event("click", { bubbles: true }));
     expect(root.querySelector("#inspection-zoom")!.textContent).toBe("100%");
+    root.querySelector<HTMLButtonElement>('button[data-inspection-zoom="out"]')!
+      .dispatchEvent(new Event("click", { bubbles: true }));
+    expect(root.querySelector("#inspection-zoom")!.textContent).toBe("75%");
+  });
+
+  it("keeps the back body figure named and fits a wide inspection SVG", () => {
+    localStorage.clear();
+    const root = mount();
+    root.querySelector<HTMLButtonElement>("#view-body")!.dispatchEvent(new Event("click"));
+    root.querySelector<HTMLButtonElement>("#body-back")!.dispatchEvent(new Event("click"));
+    expect(root.querySelectorAll("#inspection-content svg")).toHaveLength(1);
+    expect(root.querySelector<HTMLButtonElement>("#body-back")!.getAttribute("aria-pressed")).toBe("true");
+    expect(root.querySelector("#inspection-content svg")!.getAttribute("aria-label")).toContain("Body figure inspection");
+
+    const viewport = root.querySelector<HTMLElement>("#inspection-viewport")!;
+    Object.defineProperty(viewport, "clientWidth", { configurable: true, value: 600 });
+    root.querySelector<HTMLElement>("#inspection-content")!.innerHTML = '<svg viewBox="0 0 100 100"></svg>';
+    window.dispatchEvent(new Event("resize"));
+    expect(root.querySelector<SVGSVGElement>("#inspection-content svg")!.style.width).toBe("584px");
+    expect(root.querySelector<SVGSVGElement>("#inspection-content svg")!.style.height).toBe("584px");
+
+    root.querySelector<HTMLElement>("#inspection-title")!.remove();
+    Object.defineProperty(viewport, "clientWidth", { configurable: true, value: 16 });
+    root.querySelector<HTMLElement>("#inspection-content")!.innerHTML = '<svg viewBox="0 0 0 100"></svg>';
+    window.dispatchEvent(new Event("resize"));
+    root.querySelector<HTMLElement>("#inspection-content")!.innerHTML = "<svg></svg>";
+    window.dispatchEvent(new Event("resize"));
   });
 
   it("offers the schematic Side body view for both upper and lower garments", () => {
@@ -440,6 +485,43 @@ describe("mountApp", () => {
     expect(root.querySelector("#canvas-host")!.innerHTML).not.toContain("editor-reset");
   });
 
+  it("applies keyboard coordinate edits and rejects incomplete or unknown coordinates", () => {
+    localStorage.clear();
+    const root = mount();
+    root.querySelector<HTMLButtonElement>("#view-edit")!.dispatchEvent(new Event("click"));
+    const host = root.querySelector<HTMLDivElement>("#canvas-host")!;
+    const coordinate = host.querySelector<HTMLInputElement>('input[data-editor-coordinate][data-editor-axis="x"]')!;
+    const before = host.innerHTML;
+    coordinate.value = String(Number(coordinate.value) + 3);
+    coordinate.dispatchEvent(new Event("change", { bubbles: true }));
+    expect(host.innerHTML).not.toBe(before);
+    expect(host.querySelector<HTMLInputElement>(`input[data-editor-handle-id="${coordinate.dataset.editorHandleId}"][data-editor-axis="x"]`)!.value)
+      .toBe(coordinate.value);
+
+    host.dispatchEvent(new Event("change", { bubbles: true })); // no editor input target
+    const current = host.querySelector<HTMLInputElement>('input[data-editor-coordinate]')!;
+    current.value = "";
+    current.dispatchEvent(new Event("change", { bubbles: true }));
+    expect(current.getAttribute("aria-invalid")).toBe("true");
+    expect(current.validationMessage).toContain("finite coordinate");
+
+    const unknown = document.createElement("input");
+    unknown.type = "number";
+    unknown.dataset.editorCoordinate = "";
+    unknown.dataset.editorHandleId = "unknown";
+    unknown.dataset.editorAxis = "x";
+    unknown.value = "1";
+    host.appendChild(unknown);
+    unknown.dispatchEvent(new Event("change", { bubbles: true }));
+    expect(unknown.getAttribute("aria-invalid")).toBe("false");
+
+    const badAxis = host.querySelector<HTMLInputElement>('input[data-editor-coordinate]')!;
+    badAxis.dataset.editorAxis = "z";
+    badAxis.value = "1";
+    badAxis.dispatchEvent(new Event("change", { bubbles: true }));
+    expect(badAxis.getAttribute("aria-invalid")).toBe("true");
+  });
+
   it("drags a handle to reshape the front, ignores stray input, and resets", () => {
     localStorage.clear();
     // 1 cm == 1 px, origin aligned, so screen coords map straight to cm - vb.min
@@ -657,6 +739,7 @@ describe("body-view measurement linking", () => {
     const root = mount();
     root.querySelector<HTMLButtonElement>("#garment-tank")!.dispatchEvent(new Event("click"));
     root.querySelector<HTMLButtonElement>("#view-body")!.dispatchEvent(new Event("click"));
+    root.querySelector<HTMLButtonElement>("#body-front")!.dispatchEvent(new Event("click"));
     for (const field of ["strapWidth", "neckDrop", "neckWidthEase"]) {
       const row = root.querySelector<HTMLElement>(`[data-dim-row="${field}"]`)!;
       row.dispatchEvent(new Event("mouseenter"));
@@ -664,6 +747,7 @@ describe("body-view measurement linking", () => {
       expect(root.querySelector<SVGGElement>(`#canvas-host [data-edge="${field}"]`)!.style.opacity).toBe("1");
       row.dispatchEvent(new Event("mouseleave"));
     }
+    root.querySelector<HTMLButtonElement>("#body-back")!.dispatchEvent(new Event("click"));
   });
 
   it("makes Polo options live, persisted design controls separate from measurements", () => {

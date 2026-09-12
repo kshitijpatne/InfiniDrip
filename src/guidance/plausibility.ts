@@ -76,6 +76,7 @@ export function plausibilityChecks(
     const b = MEASUREMENT_BOUNDS[key]!;
     return {
       level: "warn" as const,
+      field: key,
       text: `${b.label} (${m[key]} cm) is outside the usual range for an adult garment ` +
             `(${b.min}–${b.max} cm). Double-check the measurement.`,
     };
@@ -115,6 +116,7 @@ export function coherenceChecks(
     if (ratio < r.min || ratio > r.max) {
       return [{
         level: "warn" as const,
+        field: r.of,
         text: `${r.text} (ratio ${ratio.toFixed(2)}, usually ${r.min}–${r.max}). ` +
               `One of them may be off.`,
       }];

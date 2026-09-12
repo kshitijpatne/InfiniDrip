@@ -90,7 +90,7 @@ describe("necklineEdge guardrails — warn, never clamp", () => {
     const widthEase = SHOULDER_HALF - d.neckWidthHalf; // exactly reaches shoulderHalf
     const { notes, edge } = necklineEdge("front", d.neckWidthHalf, d.frontNeckDepth, SHOULDER_HALF, ARMHOLE_DEPTH,
       { shape: "crew", widthEase, frontDrop: 0 });
-    expect(notes).toContainEqual({ level: "warn", text: "The neckline reaches the shoulder seam — reduce neckline width adjustment." });
+    expect(notes).toContainEqual({ field: "neckWidthEase", level: "warn", text: "The neckline reaches the shoulder seam — reduce neckline width adjustment." });
     expect(edge.kind).toBe("curve"); // still drafts — warn, never clamp
   });
 
@@ -98,7 +98,7 @@ describe("necklineEdge guardrails — warn, never clamp", () => {
     const frontDrop = ARMHOLE_DEPTH - d.frontNeckDepth; // exactly reaches armholeDepth
     const { notes } = necklineEdge("front", d.neckWidthHalf, d.frontNeckDepth, SHOULDER_HALF, ARMHOLE_DEPTH,
       { shape: "crew", widthEase: 0, frontDrop });
-    expect(notes).toContainEqual({ level: "warn", text: "The front neckline drops below the underarm — reduce neck scoop depth or increase armhole depth." });
+    expect(notes).toContainEqual({ field: "neckDrop", level: "warn", text: "The front neckline drops below the underarm — reduce neck scoop depth or increase armhole depth." });
   });
 
   it("the depth guardrail is FRONT-only — the same absolute depth on the back never warns", () => {

@@ -263,7 +263,7 @@ No console runtime errors were observed during that audit.
   Sources: `src/render/croquis-view.ts:45`, `src/render/canvas.ts:165`.
 - Done when: each view has a predictable initial fit and usable inspect/zoom
   behavior without pushing the workflow below an unreasonable scroll distance.
-- Fix slice: BF-P2-01. Commit/PR: pending (BF-P2-01 behavior commit).
+- Fix slice: BF-P2-01. Commit/PR: `9bcd2bb` (`Slice BF-P2-01: bound inspection surfaces and body focus [BUG-UI-013–016]`).
 - Root cause confirmed: linear component placement produced a very wide, short
   woven SVG and the UI rendered every intrinsic ratio directly with no bounded
   inspection surface. Portrait Side/Edit canvases consequently expanded the
@@ -286,7 +286,7 @@ No console runtime errors were observed during that audit.
   legend, or piece focus mode. Source: `src/render/canvas.ts:44`.
 - Done when: piece identity, size, grain, fold, and marks can be read and
   inspected at normal scale or through an explicit focus affordance.
-- Fix slice: BF-P2-01. Commit/PR: pending (BF-P2-01 behavior commit).
+- Fix slice: BF-P2-01. Commit/PR: `9bcd2bb` (`Slice BF-P2-01: bound inspection surfaces and body focus [BUG-UI-013–016]`).
 - Root cause confirmed: linear shelves had no row wrapping or title lane, so
   woven pieces and their construction labels were compressed into one strip.
   The bounded inspection frame now gives the full shelf layout a readable
@@ -353,7 +353,7 @@ No console runtime errors were observed during that audit.
   `src/ui/app.ts:195`.
 - Done when: users can distinguish the active analytical view from the preview
   and control whether the preview occupies the page.
-- Fix slice: BF-P2-02. Commit/PR: pending (BF-P2-02 behavior commit).
+- Fix slice: BF-P2-02. Commit/PR: `f3d763e` (`Slice BF-P2-02: own preview and group woven options [BUG-UI-017–018]`).
 - Root cause confirmed: `garmentHost` received raw assembled SVG markup with no
   semantic owner or local visibility state. It now renders an Assembled preview
   section with a persistent collapse/expand control while the analytical canvas
@@ -374,7 +374,7 @@ No console runtime errors were observed during that audit.
   grouping or contextual help. Source: `src/drafting/shirt-contract.ts:38`.
 - Done when: options are grouped by construction area, values have correct units,
   and each field explains its effect and valid correction path.
-- Fix slice: BF-P2-02. Commit/PR: pending (BF-P2-02 behavior commit).
+- Fix slice: BF-P2-02. Commit/PR: `f3d763e` (`Slice BF-P2-02: own preview and group woven options [BUG-UI-017–018]`).
 - Root cause confirmed: `GarmentOption` exposed only labels and numeric bounds,
   so the thirteen woven controls rendered as one unlabelled list with generic
   units. Option metadata now supplies construction groups, units, and a short
@@ -398,7 +398,7 @@ No console runtime errors were observed during that audit.
   `src/ui/app.ts:412`.
 - Done when: every spotlight-capable row either highlights a real matching region
   or is not presented as spotlight-capable.
-- Fix slice: BF-P2-03. Commit/PR: pending (BF-P2-03 behavior commit).
+- Fix slice: BF-P2-03. Commit/PR: `6426059` (`Slice BF-P2-03: link option features and material semantics [BUG-UI-019–020]`).
 - Root cause confirmed: option rows reused measurement spotlight wiring, but the
   woven assembled detail SVG exposed only a subset of option markers and the
   spotlight searched the analytical canvas alone. Every woven option now has a
@@ -422,7 +422,7 @@ No console runtime errors were observed during that audit.
   `src/ui/view.ts:86`, `src/ui/view.ts:174`.
 - Done when: material, stretch, and color have distinct names and incompatible
   combinations are clearly explained or prevented by guidance.
-- Fix slice: BF-P2-03. Commit/PR: pending (BF-P2-03 behavior commit).
+- Fix slice: BF-P2-03. Commit/PR: `6426059` (`Slice BF-P2-03: link option features and material semantics [BUG-UI-019–020]`).
 - Root cause confirmed: the stretch/material selector and color swatches shared
   the word FABRIC while their effects were different; woven shirts could also
   receive knit-only advice with no compatibility warning. Labels now say
@@ -447,7 +447,7 @@ No console runtime errors were observed during that audit.
   overlapping warnings without semantic helper text. Source: `src/drafting/shirt.ts:554`.
 - Done when: count, spacing, and length units are correct and the collar-stand
   button rule is visible wherever the control is edited or reviewed.
-- Fix slice: BF-P2-04. Commit/PR: pending (BF-P2-04 behavior commit).
+- Fix slice: BF-P2-04. Commit/PR: `78f982a` (`Slice BF-P2-04: clarify button and export scope [BUG-UI-021–022]`).
 - Root cause confirmed: generic option guidance appended `cm` to button count
   and emitted a second whole-number warning even when the count was already
   outside the allowed range. Unit-aware guidance now reports `buttons`, emits
@@ -471,7 +471,7 @@ No console runtime errors were observed during that audit.
   semantics. Source: `src/ui/app.ts:523`.
 - Done when: each export clearly states per-size or whole-run scope and the
   selected size cannot be mistaken for the export scope.
-- Fix slice: BF-P2-04. Commit/PR: pending (BF-P2-04 behavior commit).
+- Fix slice: BF-P2-04. Commit/PR: `78f982a` (`Slice BF-P2-04: clarify button and export scope [BUG-UI-021–022]`).
 - Root cause confirmed: per-size and whole-run formats shared one unqualified
   toolbar and picker. Export markup now has separate Selected size exports and
   Whole graded run exports groups; the latter explicitly says it ignores the
@@ -495,7 +495,7 @@ No console runtime errors were observed during that audit.
 - Done when: onboarding has one clear primary action, progression rules are
   explicit, shortcuts are available only after graduation, and Output completes
   after a confirmed export.
-- Fix slice: BF-P2-05. Commit/PR: pending (BF-P2-05 behavior commit).
+- Fix slice: BF-P2-05. Commit/PR: `d3d2cb6` (`Slice BF-P2-05: lock journey progression and completion [BUG-UI-023–024]`).
 - Root cause confirmed: the journey rendered every step chip as a button and
   exposed both welcome and bar actions at Start; confirmed Electron export did
   not transition the journey to a graduated state. Pre-graduation chips are now
@@ -518,7 +518,7 @@ No console runtime errors were observed during that audit.
   the active view. Source: `src/ui/app.ts:284`.
 - Done when: each journey landing state has a defined active view and never shows
   an inaccessible stale canvas.
-- Fix slice: BF-P2-05. Commit/PR: pending (BF-P2-05 behavior commit).
+- Fix slice: BF-P2-05. Commit/PR: `d3d2cb6` (`Slice BF-P2-05: lock journey progression and completion [BUG-UI-023–024]`).
 - Root cause confirmed: Start disclosure hid the view controls without defining
   a landing view, so the previously active Side SVG could remain visible but
   inaccessible. Start now maps to Pattern and returning from Done resets the
@@ -540,7 +540,21 @@ No console runtime errors were observed during that audit.
   `src/ui/view.ts:187`, `src/ui/view.ts:221`, `src/ui/app.ts:313`.
 - Done when: headings/regions, selected states, SVG names, keyboard operation,
   focus states, and equivalent editor input are available and tested.
-- Fix slice: —  Commit/PR: —  Verification: —
+- Fix slice: BF-P2-06. Commit/PR: BF-P2-06 behavior commit (this slice).
+- Root cause confirmed: the view layer exposed visual containers and pointer-only
+  handles without landmarks, names, state semantics, or a keyboard-equivalent
+  coordinate path. The shell now uses headings/regions and named SVGs, view,
+  garment, and scope controls expose their state, and Edit renders validated
+  x/y coordinate inputs that call the same `moveHandle` path as pointer edits.
+- Tests: app/view regressions cover landmark and heading semantics, named SVGs,
+  pressed states, zoom/body branches, direct keyboard-equivalent coordinate
+  edits, invalid coordinates, and editor markup; the full suite passes 73 files
+  / 956 tests with 100% statements, branches, functions, and lines.
+- Live/rendered/output evidence: the live 1280×720 Edit view shows a named
+  `Pattern edit inspection` SVG, 20 x/y coordinate inputs, grouped landmarks,
+  and pressed Pattern/Tee states. A keyboard edit changed a coordinate from the
+  live control and redrew the preview; no physical or production claim is made.
+- Closed by/date: Codex, 2026-09-12. Final status: Closed.
 
 ### BUG-UI-026 — Guidance is global, distant, and not field-associated
 
@@ -552,7 +566,20 @@ No console runtime errors were observed during that audit.
   linked to individual controls. Source: `src/ui/view.ts:70`.
 - Done when: warnings identify the field/option that caused them, provide an
   actionable correction, and remain reachable at supported viewport widths.
-- Fix slice: —  Commit/PR: —  Verification: —
+- Fix slice: BF-P2-06. Commit/PR: BF-P2-06 behavior commit (this slice).
+- Root cause confirmed: guidance notes were plain global text and several draft
+  and check warnings carried no field identity, so the UI could not offer a
+  direct correction path. Notes now carry field metadata, visible Review
+  actions point at stable controls, and delegated focus works after each draw
+  without replacing the guidance owner.
+- Tests: guidance, drafting, view, and app regressions cover field metadata,
+  option/material links, direct focus, invalid-coordinate paths, and the full
+  73-file / 956-test suite with 100% statements, branches, functions, and lines.
+- Live/rendered/output evidence: the live Guidance panel shows field-linked
+  Review actions; activating Review ease focused the associated numeric input.
+  The rendered Edit surface and output controls remained reachable in the same
+  named inspection frame. No physical or production claim is made.
+- Closed by/date: Codex, 2026-09-12. Final status: Closed.
 
 ## `EPIC-BUGFIX-P3`
 

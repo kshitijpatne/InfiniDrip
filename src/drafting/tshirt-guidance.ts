@@ -27,17 +27,19 @@ export function armholeMatch(block: Block): Note {
   const diff = cap - armhole; // positive = cap longer (normal easing)
 
   if (diff >= -1 && diff <= 4) {
-    return { level: "ok", text: `Sleeve cap matches the armhole (ease ${diff.toFixed(1)} cm).` };
+    return { level: "ok", field: "bicep", text: `Sleeve cap matches the armhole (ease ${diff.toFixed(1)} cm).` };
   }
   if (diff > 4) {
     return {
       level: "warn",
+      field: "bicep",
       text: `Sleeve cap is ${diff.toFixed(1)} cm longer than the armhole — the bicep is too ` +
             `wide for this armhole. Reduce bicep or increase armhole depth.`,
     };
   }
   return {
     level: "warn",
+    field: "bicep",
     text: `Sleeve cap is ${(-diff).toFixed(1)} cm shorter than the armhole — the sleeve will ` +
           `not reach. Increase bicep or reduce armhole depth.`,
   };
@@ -48,12 +50,12 @@ export function armholeMatch(block: Block): Note {
  *  wondering whether the check even ran. */
 export function easeRange(m: Measurements, garmentLabel = "tee"): Note {
   if (m.ease < 5) {
-    return { level: "warn", text: `Ease is ${m.ease} cm — tight to pull on. Most ${garmentLabel}s use 8–12 cm.` };
+    return { level: "warn", field: "ease", text: `Ease is ${m.ease} cm — tight to pull on. Most ${garmentLabel}s use 8–12 cm.` };
   }
   if (m.ease > 16) {
-    return { level: "info", text: `Ease is ${m.ease} cm — roomy; expect an oversized fit.` };
+    return { level: "info", field: "ease", text: `Ease is ${m.ease} cm — roomy; expect an oversized fit.` };
   }
-  return { level: "ok", text: `Ease is ${m.ease} cm — a comfortable amount for a ${garmentLabel}.` };
+  return { level: "ok", field: "ease", text: `Ease is ${m.ease} cm — a comfortable amount for a ${garmentLabel}.` };
 }
 
 /** An armhole too shallow for the chest binds the arm. */
@@ -62,6 +64,7 @@ export function armholeDepthCheck(m: Measurements): Note | null {
   if (m.armholeDepth < minDepth) {
     return {
       level: "warn",
+      field: "armholeDepth",
       text: `Armhole depth (${m.armholeDepth} cm) is shallow for this chest — try at least ` +
             `${minDepth.toFixed(1)} cm.`,
     };
@@ -75,6 +78,7 @@ export function shoulderCheck(m: Measurements): Note | null {
   if (m.shoulderWidth / 2 > panel) {
     return {
       level: "warn",
+      field: "shoulderWidth",
       text: `Shoulder width (${m.shoulderWidth} cm) is wider than the body panel allows here — ` +
             `the shoulder point sits past the side seam. Reduce shoulder width or add chest/ease.`,
     };

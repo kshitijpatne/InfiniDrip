@@ -14,7 +14,7 @@ import { guide, Note } from "../guidance";
 import { garmentReport, implausibleFields } from "../guidance";
 import { matchStyle, styleNames } from "../style";
 import { FIELDS, applyChange, inputError } from "./controls";
-import { appShellMarkup, controlsMarkup, guidanceMarkup, styleMarkup, specTableMarkup, checkMarkup, editorHintMarkup, dartControlsMarkup, inspectionMarkup, assembledPreviewMarkup, BodyCroquisView } from "./view";
+import { appShellMarkup, controlsMarkup, guidanceMarkup, styleMarkup, specTableMarkup, checkMarkup, editorHintMarkup, editorHandleControlsMarkup, dartControlsMarkup, inspectionMarkup, assembledPreviewMarkup, BodyCroquisView } from "./view";
 import { saveToStorage, loadFromStorage, readFromStorage, serialize, deserialize, DEFAULT_WORKSPACE, Workspace } from "./persist";
 import {
   JourneyStep, ViewName, COACHED_STEPS, disclosureFor, stepView, journeyChecklist,
@@ -259,7 +259,7 @@ export function mountApp(root: HTMLElement): void {
     if (errors.size > 0) {
       canvasHost.innerHTML = "<p role=\"status\">Draft paused — correct the flagged inputs to render your current design.</p>";
       garmentHost.innerHTML = "";
-      guidanceHost.innerHTML = guidanceMarkup([...errors.values()].map((text) => ({ level: "warn", text })));
+      guidanceHost.innerHTML = guidanceMarkup([...errors.entries()].map(([field, text]) => ({ level: "warn", field, text })));
       styleHost.innerHTML = styleMarkup(targetStyle, matchStyle(measurements, targetStyle, recipe.styles), styleNames(recipe.styles), false);
       renderJourney();
       return;
@@ -299,6 +299,7 @@ export function mountApp(root: HTMLElement): void {
       canvasContent =
         renderEditor(piece, pieceHandles(piece), vb, selectedId) +
         editorHintMarkup() +
+        editorHandleControlsMarkup(pieceHandles(piece)) +
         dartControlsMarkup(hasDart, canTrue);
     } else if (view === "spec") {
       const graded = gradeRun(measurements, recipe.grade, recipe.sizes, recipe.draft, recipeOptions());
@@ -337,9 +338,9 @@ export function mountApp(root: HTMLElement): void {
     // the offending fields, so geometry passing can never masquerade as "ready".
     const plausible = valid;
     // Guidance = the geometry checks, plus a fabric-stretch ease note (advice only).
-    const fabricNote: Note = { level: "info", text: fabricEaseNote(stretchFabric, measurements.chest) };
+    const fabricNote: Note = { level: "info", field: "ease", text: fabricEaseNote(stretchFabric, measurements.chest) };
     const failedChecks: Note[] = garmentReport(recipe, measurements, recipeOptions()).checks
-      .filter((check) => !check.ok).map((check) => ({ level: "warn", text: `${check.name}: ${check.detail}` }));
+      .filter((check) => !check.ok).map((check) => ({ field: CHECK_FIELDS[check.name], level: "warn", text: `${check.name}: ${check.detail}` }));
     const materialNote = materialCompatibilityNote();
     guidanceHost.innerHTML = guidanceMarkup([
       ...guide(recipe, measurements, recipeOptions()),
@@ -398,6 +399,7 @@ export function mountApp(root: HTMLElement): void {
       const on = k === v;
       viewBtns[k].style.background = on ? BLUEPRINT.lineActive : BLUEPRINT.background;
       viewBtns[k].style.color = on ? BLUEPRINT.background : BLUEPRINT.line;
+      viewBtns[k].setAttribute("aria-pressed", String(on));
     });
     bodyCroquisHost.style.display = v === "body" && recipe.fields.includes("chest") ? "flex" : "none";
     draw();
@@ -470,6 +472,18 @@ export function mountApp(root: HTMLElement): void {
     }
   });
 
+  // Guidance rows are rebuilt every draw, so the stable host delegates their
+  // correction affordance back to the matching control. This keeps warnings
+  // actionable even when the controls are far away or the panel has wrapped.
+  guidanceHost.addEventListener("click", (e) => {
+    const target = (e.target as HTMLElement).closest<HTMLButtonElement>("button[data-guidance-focus]");
+    if (!target) return;
+    const field = target.dataset.guidanceFocus;
+    if (!field) return;
+    const control = root.querySelector<HTMLElement>(`[data-guidance-control="${field}"]`);
+    if (control) control.focus();
+  });
+
   // Freeform drag: pointer -> nearest handle -> moveHandle -> redraw. All the
   // maths is pure (edit engine); these three handlers are the only impure glue.
   const handleAt = (e: MouseEvent): { handle: Handle | null; at: ReturnType<typeof viewboxPointToCm> } => {
@@ -487,6 +501,25 @@ export function mountApp(root: HTMLElement): void {
       selectedId = hit.handle.id;
       draw();
     }
+  });
+  canvasHost.addEventListener("change", (e) => {
+    const input = (e.target as HTMLElement).closest<HTMLInputElement>("input[data-editor-coordinate]");
+    if (!input || !editedFront) return;
+    const axis = input.dataset.editorAxis;
+    const raw = input.value.trim();
+    const value = raw === "" ? NaN : Number(raw);
+    if ((axis !== "x" && axis !== "y") || !Number.isFinite(value)) {
+      input.setAttribute("aria-invalid", "true");
+      input.setCustomValidity("Enter a finite coordinate.");
+      return;
+    }
+    input.setAttribute("aria-invalid", "false");
+    input.setCustomValidity("");
+    const handle = pieceHandles(editedFront).find((candidate) => candidate.id === input.dataset.editorHandleId);
+    if (!handle) return;
+    editedFront = moveHandle(editedFront, handle, { ...handle.pos, [axis]: value });
+    selectedId = handle.id;
+    draw();
   });
   window.addEventListener("mousemove", (e) => {
     if (!dragId) return;
@@ -572,8 +605,10 @@ export function mountApp(root: HTMLElement): void {
     markOutputDirty();
     single.style.background = s === "single" ? BLUEPRINT.lineActive : "transparent";
     single.style.color = s === "single" ? BLUEPRINT.background : BLUEPRINT.label;
+    single.setAttribute("aria-pressed", String(s === "single"));
     marker.style.background = s === "marker" ? BLUEPRINT.lineActive : "transparent";
     marker.style.color = s === "marker" ? BLUEPRINT.background : BLUEPRINT.label;
+    marker.setAttribute("aria-pressed", String(s === "marker"));
     draw();
   };
   single.addEventListener("click", () => setScope("single"));
@@ -818,3 +853,15 @@ export function mountApp(root: HTMLElement): void {
   };
   syncWorkspace(saved !== null);
 }
+
+/** Geometry checks remain owned by their recipe, but a failed fact still needs
+ * a useful correction target when it is repeated in Guidance. */
+const CHECK_FIELDS: Readonly<Record<string, string>> = {
+  "Shoulder seam (front ↔ back)": "shoulderWidth",
+  "Side seam (front ↔ back)": "chest",
+  "Sleeve underarm (left ↔ right)": "bicep",
+  "Sleeve-cap ease": "bicep",
+  "Dart legs equal": "chest",
+  "Hem square to the fold": "length",
+  "Waist square to the fold": "waist",
+};

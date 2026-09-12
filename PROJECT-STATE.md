@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: BF-P2-05, BUGFIX P1 exit complete and P2 in progress._
+_Last updated: BF-P2-06, 2026-09-12; P2 implementation complete and full gate in progress._
 
 EPIC-BUGFIX-P1 closes BUG-UI-001 through BUG-UI-012 except no IDs are skipped:
 responsive layout, input truth, live totals, unified digital verdicts, full
@@ -17,17 +17,20 @@ options with units and per-field correction help. BF-P2-03 now maps all woven
 options to real assembled-detail markers and separates Material / stretch from
 Color; knit material selected for the woven shirt is explicitly warned and
 gated. BF-P2-04 now distinguishes one-selected-size exports from whole graded
-run exports and reports button counts in buttons rather than cm. The P2 full
-gate is still pending; BF-P2-05 through BF-P2-06, then P3, remain sequential
-milestones of
-the same master goal. Physical validation and Epic 3 remain deferred.
+run exports and reports button counts in buttons rather than cm. BF-P2-06 now
+adds semantic landmarks/headings, named SVGs, pressed control states, keyboard-
+equivalent Edit coordinate inputs, and field-linked Guidance Review actions.
+Coverage is passing at 100% statements/branches/functions/lines across 73 test
+files and 956 tests; the remaining P2 gate records are TypeScript, production
+build, parsed exports, and unchanged legacy hashes. P3 remains the next
+sequential milestone of the same master goal. Physical validation and Epic 3
+remain deferred.
 
 BF-P1-01 closes BUG-UI-002/003: no silent clamp, verbatim negative ease,
 associated input corrections and safe draft pause/recovery. Scope and evidence:
-`docs/planning/BUGFIX-P1-EXECUTION.md`. Next: BF-P1-02 derived state and digital
-verdicts. The maintainer requests stopping after P1 to switch to Luna/max;
-P2/P3 remain sequential milestones of the same master goal. Physical validation
-remains deferred. BF-P1-01 gate: 73 files / 919 tests, 100% coverage,
+`docs/planning/BUGFIX-P1-EXECUTION.md`. P1 is complete; P2/P3 remain sequential
+milestones of the same master goal. Physical validation remains deferred.
+BF-P1-01 gate: 73 files / 919 tests, 100% coverage,
 TypeScript/build, parsed outputs and eight unchanged legacy hashes.
 
 Tank rework step 4 is complete for automated and rendered verification;
