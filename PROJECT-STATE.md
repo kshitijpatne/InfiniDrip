@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: BF-P2-02, BUGFIX P1 exit complete and P2 in progress._
+_Last updated: BF-P2-03, BUGFIX P1 exit complete and P2 in progress._
 
 EPIC-BUGFIX-P1 closes BUG-UI-001 through BUG-UI-012 except no IDs are skipped:
 responsive layout, input truth, live totals, unified digital verdicts, full
@@ -13,8 +13,11 @@ label-layout, Body-focus, and Side-context records: inspection surfaces are
 bounded and zoomable, linear component drawings shelf-wrap, and single Body
 figures can be inspected without browser zoom. BF-P2-02 now gives the
 assembled SVG an owned collapse/expand section and groups woven construction
-options with units and per-field correction help. The P2 full gate is still
-pending; BF-P2-03 through BF-P2-06, then P3, remain sequential milestones of
+options with units and per-field correction help. BF-P2-03 now maps all woven
+options to real assembled-detail markers and separates Material / stretch from
+Color; knit material selected for the woven shirt is explicitly warned and
+gated. The P2 full gate is still pending; BF-P2-04 through BF-P2-06, then P3,
+remain sequential milestones of
 the same master goal. Physical validation and Epic 3 remain deferred.
 
 BF-P1-01 closes BUG-UI-002/003: no silent clamp, verbatim negative ease,

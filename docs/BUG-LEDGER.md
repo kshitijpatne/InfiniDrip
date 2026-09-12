@@ -390,7 +390,7 @@ No console runtime errors were observed during that audit.
 
 ### BUG-UI-019 — Woven option spotlight dims the body without highlighting anything
 
-- Tags: `BUGFIX`, `EPIC-BUGFIX-P2`, `P2`, `S3`, status `Open`.
+- Tags: `BUGFIX`, `EPIC-BUGFIX-P2`, `P2`, `S3`, status `Closed`.
 - Evidence: hovering/focusing yoke depth dims the entire body canvas to `0.15`
   opacity but highlights no matching feature.
 - Root cause: option rows are wired into the generic spotlight listener, while
@@ -398,11 +398,22 @@ No console runtime errors were observed during that audit.
   `src/ui/app.ts:412`.
 - Done when: every spotlight-capable row either highlights a real matching region
   or is not presented as spotlight-capable.
-- Fix slice: —  Commit/PR: —  Verification: —
+- Fix slice: BF-P2-03. Commit/PR: pending (BF-P2-03 behavior commit).
+- Root cause confirmed: option rows reused measurement spotlight wiring, but the
+  woven assembled detail SVG exposed only a subset of option markers and the
+  spotlight searched the analytical canvas alone. Every woven option now has a
+  matching assembled-detail marker and the spotlight searches both surfaces.
+- Tests: woven renderer asserts all thirteen option markers; app regression
+  focuses every woven option and confirms its matching detail stays visible.
+- Live/rendered/output evidence: focusing Woven `Back yoke depth` in the live
+  Body route kept the matching assembled yoke detail at opacity 1; all marker
+  keys were inspected in the rendered SVG. Rows without a matching feature are
+  not presented by this route.
+- Closed by/date: Codex, 2026-09-12. Final status: Closed.
 
 ### BUG-UI-020 — Material/stretch and color controls are duplicated and can conflict
 
-- Tags: `BUGFIX`, `EPIC-BUGFIX-P2`, `P2`, `S2`, status `Open`.
+- Tags: `BUGFIX`, `EPIC-BUGFIX-P2`, `P2`, `S2`, status `Closed`.
 - Evidence: two visible controls are both labelled `FABRIC`; one changes guidance
   only and the other changes garment color. Selecting Spandex for the woven shirt
   gives negative-ease advice without a compatibility explanation.
@@ -411,7 +422,20 @@ No console runtime errors were observed during that audit.
   `src/ui/view.ts:86`, `src/ui/view.ts:174`.
 - Done when: material, stretch, and color have distinct names and incompatible
   combinations are clearly explained or prevented by guidance.
-- Fix slice: —  Commit/PR: —  Verification: —
+- Fix slice: BF-P2-03. Commit/PR: pending (BF-P2-03 behavior commit).
+- Root cause confirmed: the stretch/material selector and color swatches shared
+  the word FABRIC while their effects were different; woven shirts could also
+  receive knit-only advice with no compatibility warning. Labels now say
+  Material / stretch and Color, with visible scope text; a knit selected for a
+  woven shirt adds a warning and gates digital readiness without changing the
+  user's choice.
+- Tests: swatch/material markup and app compatibility-gate regressions; 74 app
+  tests plus renderer/view suites pass.
+- Live/rendered/output evidence: live Woven + Spandex blend shows the distinct
+  material/color controls, the stable-woven warning, and disabled SVG export;
+  the selected material remains visible. No physical or production claim is
+  made.
+- Closed by/date: Codex, 2026-09-12. Final status: Closed.
 
 ### BUG-UI-021 — Button-count validation uses wrong units and noisy semantics
 

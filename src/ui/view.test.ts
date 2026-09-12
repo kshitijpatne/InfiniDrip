@@ -58,6 +58,9 @@ describe("fabricSwatchesMarkup", () => {
     const html = fabricSwatchesMarkup(DEFAULT_FABRIC);
     expect(html).toContain(`data-fabric="${DEFAULT_FABRIC}"`);
     expect(html).toContain("outline:2px solid"); // the current swatch is ringed
+    expect(html).toContain(">Charcoal<");
+    expect(html).toContain('aria-label="Color Charcoal"');
+    expect(html).toContain(">Color<");
   });
 });
 

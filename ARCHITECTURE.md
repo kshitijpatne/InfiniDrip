@@ -49,6 +49,13 @@ option metadata can declare a construction group, display unit, and concise
 feature/correction help; controls render those declarations as grouped
 fieldsets without changing the underlying numeric option state.
 
+BF-P2-03: option spotlighting is a presentation link, not a generic dimmer.
+Woven assembled details expose a real marker for every option, and the UI
+searches both analytical and assembled SVG surfaces before fading anything.
+Material/stretch selection is separately named from Color; a knit material on
+the woven-shirt recipe remains user-selected but raises a warning and blocks
+the digital readiness gate until reviewed.
+
 Slice 93: the woven-shirt component-library exit audit verifies closed geometry
 and sewability across XS–XL, all Pattern/Body/Side/Size run/Spec/Nesting/Check/
 preview-Edit routes, and parsed SVG/DXF/tiled-PDF/A0/projector/tech-pack output.

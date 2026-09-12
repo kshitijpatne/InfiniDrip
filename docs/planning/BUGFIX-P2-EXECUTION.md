@@ -56,10 +56,25 @@ suites. The live 1280×720 Woven route showed five groups with the expected
 counts (3/4/1/2/3), `buttons` for button count, `cm` for dimensions, and the
 preview Hide/Show state changed the rendered content while keeping its owner.
 
-## BF-P2-03 — Pending
+## BF-P2-03 — Closed
 
-Option-to-feature highlighting and material/color compatibility semantics remain
-to be implemented and verified.
+Implementation: pending immutable behavior commit reference.
+
+Woven assembled details now expose a matching marker for every option; the
+spotlight searches both analytical and assembled surfaces so a focused option
+has a real target. Material/stretch and Color have separate labels and scope
+copy. Selecting knit material for the woven shirt produces an actionable
+compatibility warning and gates the digital readiness state without silently
+changing the selection.
+
+Focused verification: 74 app tests plus renderer/view suites pass. Live review
+at 1280×720 confirmed Back yoke focus leaves its assembled marker at opacity 1;
+Woven + Spandex blend showed the stable-woven warning and disabled SVG export.
+
+## BF-P2-04 — Pending
+
+Button-count semantics and explicit export-size scope remain to be implemented
+and verified.
 
 ## P2 exit report — Pending
 

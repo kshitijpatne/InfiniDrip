@@ -108,14 +108,16 @@ export function guidanceMarkup(notes: readonly Note[]): string {
 /** A row of fabric colour swatches; the current colour gets a highlight ring. */
 export function fabricSwatchesMarkup(current: string): string {
   const sw = FABRICS.map((f) =>
-    `<button data-fabric="${f.color}" title="${f.name}" ` +
+    `<span data-swatch="${f.color}" style="display:inline-flex;flex-direction:column;align-items:center;gap:3px">` +
+    `<button data-fabric="${f.color}" title="${f.name}" aria-label="Color ${f.name}" aria-pressed="${f.color === current}" ` +
     `style="width:22px;height:22px;border-radius:6px;cursor:pointer;background:${f.color};` +
     `border:1px solid ${BORDER};outline:${f.color === current ? `2px solid ${T.lineActive}` : "none"};` +
-    `outline-offset:1px"></button>`
+    `outline-offset:1px"></button>` +
+    `<span data-fabric-name="${f.color}" style="font-size:10px;color:${T.label};white-space:nowrap">${f.name}</span></span>`
   ).join("");
   return `<div id="swatch-host" style="display:flex;gap:8px;align-items:center;margin:4px 0">` +
     `<span style="font-size:11px;color:${T.label};text-transform:uppercase;letter-spacing:0.04em;` +
-    `margin-right:4px">Fabric</span>${sw}</div>`;
+    `margin-right:4px">Color</span>${sw}</div>`;
 }
 
 // "Length +8 cm" — a single change, using the measurement's friendly label.
@@ -161,7 +163,7 @@ export function styleMarkup(
     body = `<div style="font-size:12.5px;color:${T.line};margin-bottom:8px">` +
       `To reach ${targetName}:</div>${rows}` +
       `<div style="font-size:11.5px;color:${T.label};margin-top:8px">` +
-      `Adjust the sliders — nothing changes on its own.</div>`;
+    `Adjust the numeric inputs — nothing changes on its own.</div>`;
   }
   return panel("Style", label + select + body);
 }
@@ -193,16 +195,17 @@ export function exportButtonsMarkup(sizes: readonly SizeStep[]): string {
     `<span id="persist-status" style="font-size:11px;color:${T.label};min-width:80px"></span></div>`;
 }
 
-/** Fabric (stretch) dropdown — drives the ease guidance note only, sets nothing. */
+/** Material/stretch dropdown — drives ease and compatibility guidance only. */
 export function fabricStretchMarkup(current: string): string {
   const options = STRETCH_FABRICS
     .map((f) => `<option ${f.name === current ? "selected" : ""}>${f.name}</option>`)
     .join("");
   return `<div id="stretch-host" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:4px 0">` +
     `<span style="font-size:11px;color:${T.label};text-transform:uppercase;letter-spacing:0.04em;` +
-    `margin-right:4px">Fabric</span>` +
-    `<select id="stretch-select" style="padding:4px 8px;font-size:12px;background:${T.background};` +
-    `color:${T.line};border:1px solid ${BORDER};border-radius:5px">${options}</select></div>`;
+    `margin-right:4px">Material / stretch</span>` +
+    `<select id="stretch-select" aria-label="Material and stretch" style="padding:4px 8px;font-size:12px;background:${T.background};` +
+    `color:${T.line};border:1px solid ${BORDER};border-radius:5px">${options}</select>` +
+    `<span style="font-size:11px;color:${T.label};line-height:1.35">Guides ease and tech-pack material; it does not set garment color.</span></div>`;
 }
 
 /** Pattern vs. graded size-run toggle for the main canvas. */

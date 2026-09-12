@@ -353,6 +353,18 @@ describe("mountApp", () => {
     expect(root.querySelector("#guidance-host")!.innerHTML).toContain("negative ease");
   });
 
+  it("explains and gates a knit material selected for the woven shirt", () => {
+    localStorage.clear();
+    const root = mount();
+    root.querySelector<HTMLButtonElement>("#garment-woven-shirt")!.dispatchEvent(new Event("click"));
+    const stretch = root.querySelector<HTMLSelectElement>("#stretch-select")!;
+    stretch.value = "Spandex blend";
+    stretch.dispatchEvent(new Event("change"));
+    expect(root.querySelector("#stretch-host")!.textContent).toContain("Material / stretch");
+    expect(root.querySelector("#guidance-host")!.textContent).toContain("stable woven material");
+    expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(true);
+  });
+
   it("shows the auto-measured spec sheet in the Spec view", () => {
     localStorage.clear();
     const root = mount();
@@ -654,6 +666,18 @@ describe("body-view measurement linking", () => {
       const row = root.querySelector<HTMLElement>(`[data-dim-row="option-${field}"]`)!;
       row.dispatchEvent(new Event("mouseenter"));
       expect(root.querySelector<SVGGElement>(`#canvas-host [data-edge="option-${field}"]`)!.style.opacity).toBe("1");
+      row.dispatchEvent(new Event("mouseleave"));
+    }
+  });
+
+  it("spotlights Woven options on matching assembled features", () => {
+    const root = mount();
+    root.querySelector<HTMLButtonElement>("#garment-woven-shirt")!.dispatchEvent(new Event("click"));
+    root.querySelector<HTMLButtonElement>("#view-body")!.dispatchEvent(new Event("click"));
+    for (const field of ["neckEase", "buttonCount", "buttonSpacing", "frontOverlap", "placketWidth", "standHeight", "collarLeafDepth", "yokeDepth", "pocketWidth", "pocketHeight", "sleeveBandDepth", "sideVentDepth", "hemTurn"]) {
+      const row = root.querySelector<HTMLElement>(`[data-dim-row="option-${field}"]`)!;
+      row.dispatchEvent(new Event("mouseenter"));
+      expect(root.querySelector<SVGElement>(`#garment-host [data-edge="option-${field}"]`)!.style.opacity).toBe("1");
       row.dispatchEvent(new Event("mouseleave"));
     }
   });

@@ -9,6 +9,8 @@ export type Level = "ok" | "info" | "warn";
 export interface Note {
   readonly level: Level;
   readonly text: string;
+  /** Optional stable control key for field-level guidance affordances. */
+  readonly field?: string;
 }
 
 /** Severity as an ICON, not colour alone — so the signal survives colour-blindness

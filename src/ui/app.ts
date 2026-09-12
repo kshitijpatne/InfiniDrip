@@ -87,9 +87,14 @@ export function mountApp(root: HTMLElement): void {
     }
     return errors;
   };
+  const materialCompatibilityNote = (): Note | null =>
+    recipe.name === "woven-shirt" && stretchFabric.family === "knit"
+      ? { level: "warn", field: "stretchFabric", text: "Woven shirt is drafted for stable woven material; choose Cotton woven or Linen, or review the construction before using a knit." }
+      : null;
   // Include recipe warnings without changing the geometry-only export report.
   const designValid = (): boolean => inputErrors().size === 0
     && !guide(recipe, measurements, recipeOptions()).some((note) => note.level === "warn")
+    && materialCompatibilityNote() === null
     && garmentReport(recipe, measurements, recipeOptions()).ok;
   const poloVisual = () => {
     if (recipe.name !== "polo") return undefined;
@@ -136,7 +141,7 @@ export function mountApp(root: HTMLElement): void {
   // outline segments, plus the silhouette itself tagged "figure" — never a field
   // name, so it always dims). `null` restores the whole figure.
   const spotlight = (field: string | null): void => {
-    root.querySelectorAll<SVGGElement>("#canvas-host [data-dim], #canvas-host [data-edge]")
+    root.querySelectorAll<SVGElement>("#canvas-host [data-dim], #canvas-host [data-edge], #garment-host [data-edge]")
       .forEach((g) => {
         const owns = g.dataset.dim ?? g.dataset.edge;
         g.style.opacity = field === null || owns === field ? "1" : "0.15";
@@ -335,7 +340,13 @@ export function mountApp(root: HTMLElement): void {
     const fabricNote: Note = { level: "info", text: fabricEaseNote(stretchFabric, measurements.chest) };
     const failedChecks: Note[] = garmentReport(recipe, measurements, recipeOptions()).checks
       .filter((check) => !check.ok).map((check) => ({ level: "warn", text: `${check.name}: ${check.detail}` }));
-    guidanceHost.innerHTML = guidanceMarkup([...guide(recipe, measurements, recipeOptions()), ...failedChecks, fabricNote]);
+    const materialNote = materialCompatibilityNote();
+    guidanceHost.innerHTML = guidanceMarkup([
+      ...guide(recipe, measurements, recipeOptions()),
+      ...failedChecks,
+      fabricNote,
+      ...(materialNote ? [materialNote] : []),
+    ]);
     // Style = prescriptive: the gap from current measurements to the chosen target.
     styleHost.innerHTML = styleMarkup(targetStyle, matchStyle(measurements, targetStyle, recipe.styles), styleNames(recipe.styles), plausible);
     // Amber-outline any measurement input whose value is out of plausible range

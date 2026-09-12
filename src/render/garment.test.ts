@@ -164,6 +164,9 @@ describe("renderGarment — woven shirt integration", () => {
     expect(svg).toContain('data-edge="option-sideVentDepth"');
     expect(svg).toContain('data-edge="option-collarLeafDepth"');
     expect(svg).toContain('data-edge="option-sleeveBandDepth"');
+    for (const option of ["neckEase", "buttonCount", "buttonSpacing", "frontOverlap", "pocketHeight", "hemTurn"]) {
+      expect(svg).toContain(`data-edge="option-${option}"`);
+    }
     expect(svg).toContain("C "); // the woven curved hem
   });
 
