@@ -13,7 +13,11 @@ export interface Measurements {
   readonly waist: number;        // waist circumference (used by lower-body garments)
   readonly hip: number;          // hip circumference (used by lower-body garments)
   readonly hipDepth: number;     // vertical waist line down to the fullest hip
-  readonly ease: number;         // wearing room added around the chest
+  readonly crotchDepth: number;  // sitting waist-to-seat depth for lower-body garments
+  readonly thigh: number;        // upper-thigh circumference at the documented point
+  readonly knee: number;         // knee circumference at the documented landmark
+  readonly inseam: number;       // finished lower-body length from crotch seam to hem
+  readonly ease: number;         // wearing/design room added by the active garment
   // Slice 63 — sleeveless garments only (today: the tank). Real, user-set
   // measurements, not hardcoded recipe constants: TANK-RESEARCH.md found no
   // single sourced number for either, so the person dials them in, guarded
@@ -29,7 +33,7 @@ export const STANDARD_M: Measurements = {
   neck: 40,
   chest: 100, shoulderWidth: 45, bicep: 38,
   length: 70, armholeDepth: 24, sleeveLength: 22,
-  waist: 84, hip: 100, hipDepth: 20, ease: 10,
+  waist: 84, hip: 100, hipDepth: 20, crotchDepth: 27, thigh: 58, knee: 40, inseam: 78, ease: 10,
   strapWidth: 8, neckDrop: 5, neckWidthEase: 0,
 };
 

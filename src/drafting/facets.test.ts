@@ -11,6 +11,9 @@ describe("MEASURE_ROLE", () => {
     expect(MEASURE_ROLE.armholeDepth.role).toBe("finished");
     expect(MEASURE_ROLE.sleeveLength.role).toBe("finished");
     expect(MEASURE_ROLE.neckWidthEase.role).toBe("finished");
+    expect(MEASURE_ROLE.crotchDepth.role).toBe("body");
+    expect(MEASURE_ROLE.thigh.circumference).toBe(true);
+    expect(MEASURE_ROLE.inseam.role).toBe("finished");
   });
 
   it("marks the girths as circumferences (chest, bicep, waist, hip)", () => {
@@ -19,6 +22,8 @@ describe("MEASURE_ROLE", () => {
     expect(MEASURE_ROLE.bicep.circumference).toBe(true);
     expect(MEASURE_ROLE.waist.circumference).toBe(true);
     expect(MEASURE_ROLE.hip.circumference).toBe(true);
+    expect(MEASURE_ROLE.thigh.circumference).toBe(true);
+    expect(MEASURE_ROLE.knee.circumference).toBe(true);
     expect(MEASURE_ROLE.shoulderWidth.circumference).toBe(false);
   });
 
@@ -65,6 +70,12 @@ describe("measurementFacet — finished values", () => {
 describe("roleTag", () => {
   it("labels a body circumference", () => {
     expect(roleTag("chest")).toBe("body · circ");
+  });
+
+  it("labels trouser body and finished facets", () => {
+    expect(roleTag("crotchDepth")).toBe("body");
+    expect(roleTag("thigh")).toBe("body · circ");
+    expect(roleTag("inseam")).toBe("finished");
   });
   it("labels a body linear measurement", () => {
     expect(roleTag("shoulderWidth")).toBe("body");

@@ -5,7 +5,7 @@ import { DEFAULT_FABRIC } from "../render";
 import { FIELDS, inputError } from "./controls";
 import type { ViewName } from "./journey";
 
-export const SAVE_VERSION = 4;
+export const SAVE_VERSION = 5;
 export interface Workspace {
   readonly garment: string;
   readonly targetStyle: string;
@@ -24,6 +24,7 @@ const DEFAULT_STRETCH_BY_GARMENT: Readonly<Record<string, string>> = {
   polo: "Cotton jersey",
   "woven-shirt": "Cotton woven",
   skirt: "Cotton woven",
+  trouser: "Cotton woven",
 };
 
 /** Fresh-workspace material defaults follow the garment's construction family. */
@@ -57,7 +58,7 @@ export function deserialize(json: string): LoadResult {
   let p: unknown;
   try { p = JSON.parse(json); } catch { return { ok: false, error: "Not valid JSON." }; }
   if (!object(p)) return { ok: false, error: "Save file is not an object." };
-  if (![1, 2, 3, SAVE_VERSION].includes(p.v as number)) return { ok: false, error: `Unrecognised save version: ${String(p.v)}.` };
+  if (![1, 2, 3, 4, SAVE_VERSION].includes(p.v as number)) return { ok: false, error: `Unrecognised save version: ${String(p.v)}.` };
   if (!object(p.measurements)) return { ok: false, error: "Missing measurements." };
   const legacy = p.v !== SAVE_VERSION;
   const measurements = { ...STANDARD_M };

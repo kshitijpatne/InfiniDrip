@@ -21,10 +21,18 @@ waistband, simple front fly, minimal paired pocket bags, guidance/grading/POM/
 export/persistence contracts, and later shorts/jogger relationships. No
 implementation code, output writer, or legacy baseline changed in Slice 94.
 
-Next safe action is Slice 95: add the documented lower-body data model and
-recipe options with migration, facets, guidance, and focused tests. Do not
-start geometry until the Slice 95 contract tests pass. Physical validation,
-surface design, Polo V2, and production-readiness claims remain deferred.
+Slice 95 is complete as the shared lower-body data-model checkpoint. The
+explicit `crotchDepth`, `thigh`, `knee`, and finished `inseam` fields now have
+standards, controls, facets, plausible bounds, and v5 persistence migration;
+the trouser option table preserves finite invalid work-in-progress values for
+guidance and accepts v4 saves with deterministic fallbacks. The full checkpoint
+passes 74 files / 969 tests, 100% coverage, TypeScript, production build,
+parsed export suites, and all eight unchanged legacy hashes. No trouser recipe
+or geometry is registered yet.
+
+Next safe action is Slice 96: resolve and implement the documented reusable
+straight-leg leg block. Physical validation, surface design, Polo V2, and
+production-readiness claims remain deferred.
 
 The independent functional-consistency audit now closes BUG-UI-032 through
 BUG-UI-034. Woven Body front/back inspection uses its real lower shaping and
@@ -1941,3 +1949,4 @@ s85=883 (research-only; full coverage/typecheck/build and parsed export suite pa
 s92=911 (complete woven-shirt recipe and UI/render/export integration; 71 test files, 100% statements/branches/functions/lines, TypeScript/production build, parsed export suites, and unchanged legacy hashes; physical validation remains on hold)
 s93=918 (component-library exit audit complete; 72 test files, 100% statements/branches/functions/lines, TypeScript/production build, parsed SVG/DXF/PDF/projector/tech-pack consumers, and unchanged legacy hashes; physical validation remains on hold)
 s94: no test-count change (research/contract foundation only; trouser implementation has not started)
+s95=969 (shared lower-body fields/options/facets/plausibility/persistence contract; 74 test files, 100% coverage, TypeScript/build, parsed export suites, and unchanged legacy hashes; trouser geometry remains unregistered)

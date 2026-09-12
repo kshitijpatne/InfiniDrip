@@ -5,6 +5,10 @@ describe("STANDARD_M", () => {
   it("is a complete size-M measurement set", () => {
     expect(STANDARD_M.neck).toBe(40);
     expect(STANDARD_M.chest).toBe(100);
+    expect(STANDARD_M.crotchDepth).toBe(27);
+    expect(STANDARD_M.thigh).toBe(58);
+    expect(STANDARD_M.knee).toBe(40);
+    expect(STANDARD_M.inseam).toBe(78);
     expect(STANDARD_M.ease).toBe(10);
   });
 });

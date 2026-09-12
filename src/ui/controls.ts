@@ -23,6 +23,10 @@ export const FIELDS: readonly Field[] = [
   { id: "waist", label: "Waist", min: 50, max: 140, step: 1 },
   { id: "hip", label: "Hip", min: 60, max: 150, step: 1 },
   { id: "hipDepth", label: "Hip depth", min: 10, max: 40, step: 1 },
+  { id: "crotchDepth", label: "Crotch depth (sitting)", min: 16, max: 40, step: 0.5 },
+  { id: "thigh", label: "Thigh girth", min: 40, max: 90, step: 1 },
+  { id: "knee", label: "Knee girth", min: 30, max: 70, step: 1 },
+  { id: "inseam", label: "Inseam (finished)", min: 55, max: 105, step: 1 },
   { id: "ease", label: "Ease", min: -30, max: 30, step: 1 },
   // Slice 63 — sleeveless-only fields (today: the tank). Ranges wider than
   // MEASUREMENT_BOUNDS's "usual" band, same convention as every field above.

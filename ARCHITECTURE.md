@@ -27,6 +27,17 @@ outlines, and allowance values are implementation decisions for Slices 96–98
 and must be recorded/tested before use. Digital geometry/checks are not fit or
 physical validation; surface design remains a later independent Epic.
 
+Slice 95 implements the shared lower-body data contract without registering a
+garment. `Measurements` now carries explicit sitting `crotchDepth`, body
+`thigh`/`knee`, and finished `inseam` fields; `length` retains its upper-body
+meaning. `trouser-contract.ts` owns the recipe's numeric rise, waistband,
+leg-fit, fly, and pocket option definitions and preserves finite invalid live
+values for guidance. The save format is v5, with v4 accepted as a legacy
+source whose missing lower-body fields default from `STANDARD_M`; existing
+garment drafts and export bytes remain untouched. The full checkpoint is 74
+test files / 969 tests at 100% coverage with typecheck/build, parsed outputs,
+and unchanged legacy hashes.
+
 BF-P1-02: the UI's current design verdict combines input validity, all recipe/
 plausibility guidance and geometric checks. Check, Style, journey and all six
 export handlers share this gate; failed geometric checks also reach Guidance.

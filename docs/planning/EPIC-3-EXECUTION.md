@@ -74,6 +74,8 @@ baseline gate as the no-code proof.
 
 ### Slice 95 — shared lower-body data model and controls
 
+Status: **complete** (`5710268`, with durable-state amendment).
+
 Scope: add the explicitly named lower-body measurements and trouser recipe
 options, standards, fields/facets, plausibility ranges, persistence migration,
 and UI correction plumbing.
@@ -101,6 +103,11 @@ medium. This changes the shared data model and persistence.
 
 Verification: focused measurement/options/facet/persistence/guidance tests,
 then typecheck and the legacy export suite.
+
+Evidence: the actual checkpoint passes 74 test files / 969 tests, 100%
+statements/branches/functions/lines, `npx tsc --noEmit`, `npm run build`, all
+13 export suites / 140 tests, and all eight unchanged legacy hashes. No recipe
+or trouser geometry was registered.
 
 ### Slice 96 — reusable straight-leg leg block
 
@@ -332,7 +339,7 @@ alter account usage.
 
 ## Epic 3 exit report
 
-Status: **not started beyond Slice 94 documentation foundation**.
+Status: **not started beyond Slice 95 shared contract**.
 
-Slices 95–103 remain implementation and verification work. No physical garment
+Slices 96–103 remain implementation and verification work. No physical garment
 has been sewn or validated, and no production-readiness claim is authorized.

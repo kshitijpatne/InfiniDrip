@@ -80,6 +80,7 @@ describe("fresh workspace material defaults", () => {
     expect(defaultStretchFabricForGarment("polo")).toBe("Cotton jersey");
     expect(defaultStretchFabricForGarment("woven-shirt")).toBe("Cotton woven");
     expect(defaultStretchFabricForGarment("skirt")).toBe("Cotton woven");
+    expect(defaultStretchFabricForGarment("trouser")).toBe("Cotton woven");
     expect(defaultStretchFabricForGarment("future")).toBe("Cotton woven");
   });
 });
@@ -174,6 +175,27 @@ describe("deserialize (success)", () => {
     expect(r.measurements.waist).toBe(STANDARD_M.waist);
     expect(r.measurements.hip).toBe(STANDARD_M.hip);
     expect(r.measurements.chest).toBe(STANDARD_M.chest); // the rest still load
+  });
+
+  it("accepts a v4 save and defaults lower-body fields added in v5", () => {
+    const { crotchDepth, thigh, knee, inseam, ...legacy } = STANDARD_M;
+    const r = deserialize(JSON.stringify({ v: 4, measurements: legacy, fabric: FABRIC }));
+    expect(r.ok).toBe(true);
+    if (!r.ok) return;
+    expect(r.measurements.crotchDepth).toBe(STANDARD_M.crotchDepth);
+    expect(r.measurements.thigh).toBe(STANDARD_M.thigh);
+    expect(r.measurements.knee).toBe(STANDARD_M.knee);
+    expect(r.measurements.inseam).toBe(STANDARD_M.inseam);
+  });
+
+  it("round-trips the lower-body measurements and recipe options", () => {
+    const m = { ...STANDARD_M, crotchDepth: 29, thigh: 62, knee: 43, inseam: 82 };
+    const options = { trouser: { frontRiseEase: 1.5, pocketDrop: 3 } };
+    const result = deserialize(serialize(m, FABRIC, options));
+    expect(result.ok).toBe(true);
+    if (!result.ok) return;
+    expect(result.measurements).toEqual(m);
+    expect(result.garmentOptions).toEqual(options);
   });
 
   it("round-trips the hipDepth added in Slice 42", () => {
