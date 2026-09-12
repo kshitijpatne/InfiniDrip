@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 85 (relaxed woven-shirt research).
+_Last updated: after Slice 86 (woven-shirt construction and data contract).
 Tank rework
 step 4 is complete for automated and rendered verification; physical sewn
 validation has not occurred and is intentionally deferred. Update this after
@@ -22,6 +22,13 @@ requires a durable research document equivalent to
 `docs/research/ASSET-RESOURCES.md` supersedes
 `apparel_design_resources.md`. See `docs/PROJECT-DECISIONS.md` for the durable
 record.
+
+**Woven shirt Slice 86 (2026-09-12):** construction semantics are now explicit:
+neck is a body circumference, options own overlap/spacing/collar/placket/yoke/
+pocket/band/vent/hem choices, six or seven front-placket buttons exclude one
+stand button, and the 16 physical-role quantities are recorded. No geometry or
+recipe is registered yet; that starts in Slice 87. Older saves default neck to
+40 cm. Physical validation remains on hold.
 
 **Polo V1 (2026-09-11):** all geometry decisions are locked: collar-plus-stand,
 loose tee body/current sleeve, self-knit lightly stabilized folded placket,

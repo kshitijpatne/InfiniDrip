@@ -3,6 +3,14 @@
 How the app fits together, in plain language. Read the top to re-orient; skim the
 layers when you need detail. Updated every slice with only need-to-know changes.
 
+Slice 86: `src/drafting/shirt-contract.ts` now separates woven-shirt body data
+from recipe-owned construction choices. `Measurements.neck` is an independent
+body circumference with a backward-compatible persistence fallback. The option
+contract defines finished overlap/spacing semantics, six or seven front-placket
+buttons plus one stand button, and explicit quantities for the 16 physical
+roles. No woven geometry is drafted yet; named interfaces remain a Slice 87+
+implementation obligation.
+
 Slice 85: `docs/research/garments/WOVEN-SHIRT-RESEARCH.md` establishes the
 evidence boundary for the woven block. Neck/body independence, front overlap,
 usable collar/stand seams, sleeve-length semantics, yoke layers and physical

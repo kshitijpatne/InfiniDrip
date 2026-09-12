@@ -14,6 +14,7 @@ export interface Field {
 
 export const FIELDS: readonly Field[] = [
   { id: "chest", label: "Chest", min: 60, max: 160, step: 1 },
+  { id: "neck", label: "Neck", min: 25, max: 70, step: 0.5 },
   { id: "shoulderWidth", label: "Shoulder width", min: 30, max: 70, step: 1 },
   { id: "bicep", label: "Bicep", min: 20, max: 60, step: 1 },
   { id: "length", label: "Length", min: 40, max: 100, step: 1 },

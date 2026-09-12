@@ -26,6 +26,7 @@ type RawField = Exclude<keyof Measurements, "ease">;
 /** Value-independent classification per field. `ease` is a parameter, not a
  *  measurement, so it is deliberately absent. */
 export const MEASURE_ROLE: Record<RawField, { role: MeasureRole; circumference: boolean }> = {
+  neck: { role: "body", circumference: true },
   chest: { role: "body", circumference: true },
   bicep: { role: "body", circumference: true },
   shoulderWidth: { role: "body", circumference: false },

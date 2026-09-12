@@ -53,6 +53,13 @@ describe("serialize", () => {
 // ── deserialize — success ─────────────────────────────────────────────────────
 
 describe("deserialize (success)", () => {
+  it("loads a pre-Slice-86 save with no neck, defaulting it from STANDARD_M", () => {
+    const { neck, ...legacy } = STANDARD_M;
+    const result = deserialize(JSON.stringify({ v: SAVE_VERSION, measurements: legacy, fabric: FABRIC }));
+    expect(result.ok).toBe(true);
+    if (result.ok) expect(result.measurements.neck).toBe(STANDARD_M.neck);
+  });
+
   it("accepts a valid save and returns measurements + fabric", () => {
     const result = deserialize(serialize(STANDARD_M, FABRIC));
     expect(result.ok).toBe(true);

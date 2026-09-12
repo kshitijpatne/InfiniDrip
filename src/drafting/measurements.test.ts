@@ -3,6 +3,7 @@ import { STANDARD_M, derive } from "./measurements";
 
 describe("STANDARD_M", () => {
   it("is a complete size-M measurement set", () => {
+    expect(STANDARD_M.neck).toBe(40);
     expect(STANDARD_M.chest).toBe(100);
     expect(STANDARD_M.ease).toBe(10);
   });

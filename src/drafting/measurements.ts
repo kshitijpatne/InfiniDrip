@@ -3,6 +3,7 @@
 // so the pattern stays internally consistent when any input changes.
 
 export interface Measurements {
+  readonly neck: number;         // neck circumference, measured at the neck base
   readonly chest: number;        // full chest circumference
   readonly shoulderWidth: number; // shoulder point to shoulder point
   readonly bicep: number;        // upper-arm circumference
@@ -25,6 +26,7 @@ export interface Measurements {
 
 /** A standard size M, used as the starting point. */
 export const STANDARD_M: Measurements = {
+  neck: 40,
   chest: 100, shoulderWidth: 45, bicep: 38,
   length: 70, armholeDepth: 24, sleeveLength: 22,
   waist: 84, hip: 100, hipDepth: 20, ease: 10,

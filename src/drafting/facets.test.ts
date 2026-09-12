@@ -14,6 +14,7 @@ describe("MEASURE_ROLE", () => {
   });
 
   it("marks the girths as circumferences (chest, bicep, waist, hip)", () => {
+    expect(MEASURE_ROLE.neck).toEqual({ role: "body", circumference: true });
     expect(MEASURE_ROLE.chest.circumference).toBe(true);
     expect(MEASURE_ROLE.bicep.circumference).toBe(true);
     expect(MEASURE_ROLE.waist.circumference).toBe(true);

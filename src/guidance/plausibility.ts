@@ -26,6 +26,7 @@ interface Bound {
 
 /** Absolute plausible range per raw measurement, in cm, for one adult garment. */
 export const MEASUREMENT_BOUNDS: Partial<Record<keyof Measurements, Bound>> = {
+  neck: { min: 28, max: 60, label: "Neck" },
   chest: { min: 60, max: 140, label: "Chest" },
   shoulderWidth: { min: 30, max: 60, label: "Shoulder width" },
   waist: { min: 50, max: 140, label: "Waist" },

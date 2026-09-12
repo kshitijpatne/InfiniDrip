@@ -25,9 +25,10 @@ export function serialize(m: Measurements, fabric: string, garmentOptions: Garme
   return JSON.stringify(file, null, 2);
 }
 
-// The set of keys a valid save MUST contain. waist/hip/hipDepth are intentionally
-// absent: they arrived in Slices 37 and 42, so older saves won't have them — they
-// are read leniently below (defaulted from STANDARD_M) rather than required.
+// The set of keys a valid save MUST contain. waist/hip/hipDepth and neck are
+// intentionally absent: they arrived after the original save format, so older
+// saves won't have them — they are read leniently below (defaulted from
+// STANDARD_M) rather than rejected.
 const M_KEYS: ReadonlyArray<keyof Measurements> = [
   "chest", "shoulderWidth", "bicep", "length",
   "armholeDepth", "sleeveLength", "ease",
@@ -40,6 +41,7 @@ function inRange(v: unknown, min: number, max: number): boolean {
 
 // Reasonable bounds (same as the UI slider limits).
 const BOUNDS: Record<keyof Measurements, [number, number]> = {
+  neck:          [25,   70],
   chest:         [60,  160],
   shoulderWidth: [30,   60],
   bicep:         [25,   60],
@@ -113,6 +115,9 @@ export function deserialize(
   return {
     ok: true,
     measurements: {
+      // Added in Slice 86: older saves lack the independent neck measurement,
+      // so they retain the standard starting value rather than being rejected.
+      neck:          inRange(m["neck"], BOUNDS.neck[0], BOUNDS.neck[1]) ? (m["neck"] as number) : STANDARD_M.neck,
       chest:         m["chest"]         as number,
       shoulderWidth: m["shoulderWidth"] as number,
       bicep:         m["bicep"]         as number,
