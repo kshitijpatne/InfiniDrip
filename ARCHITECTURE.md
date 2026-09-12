@@ -104,6 +104,16 @@ making the figure geometry reusable. The contract remains render-only: no
 drafting, data model, grading, checks, nesting, Edit, or export writer consumes
 it. Lower-body routing is Slice 81 and visible Side UI is Slice 82.
 
+Slice 81: `lowerCroquisFigure()` is now the shared lower-body render contract
+for the annotated Skirt Body view. It owns the measured waist/hip envelope,
+structural leg chain, silhouette path, and anchors for the lower annotations.
+`render/skirt-figure.ts` retains only skirt-specific cloth geometry and the
+presentation layer around that body, so cloth remains visibly distinct and
+outside the body contract. Front/back lower croquis paths use the shared
+figure; the side path remains a schematic profile until side measurements exist.
+This is still render-only and cannot feed drafting, grading, checks, nesting,
+Edit, or exports. Visible Side UI remains Slice 82.
+
 Slice 75: the root `tsconfig.json` is type-check-only (`noEmit: true`). Vite is
 the sole renderer build, so `npm run build` cannot place compiled `.js` siblings
 beside TypeScript sources and alter Vite's module-resolution choice for a dev

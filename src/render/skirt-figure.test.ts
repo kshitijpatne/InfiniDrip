@@ -2,6 +2,7 @@
 import { describe, it, expect } from "vitest";
 import { STANDARD_M, Measurements, skirtWidths } from "../drafting";
 import { renderSkirtGarment, renderSkirtBody } from "./skirt-figure";
+import { lowerCroquisFigure } from "./croquis";
 
 const parse = (svg: string): Document => new DOMParser().parseFromString(svg, "image/svg+xml");
 const wellFormed = (svg: string): Document => {
@@ -159,6 +160,13 @@ describe("renderSkirtBody (annotated body view)", () => {
     expect(figure.querySelector('[data-part="silhouette"]')).not.toBeNull();
     expect(figure.querySelector('[data-part="cloth"]')).not.toBeNull();
     expect(pathOf(svg, "cloth")).not.toBe(pathOf(svg, "silhouette"));
+  });
+
+  it("takes the body silhouette from the shared lower croquis contract", () => {
+    const figure = lowerCroquisFigure(STANDARD_M);
+    const doc = wellFormed(svg);
+    expect(pathOf(svg, "silhouette")).toBe(figure.silhouettePath);
+    expect(doc.querySelector('[data-part="cloth"]')).not.toBeNull();
   });
 });
 

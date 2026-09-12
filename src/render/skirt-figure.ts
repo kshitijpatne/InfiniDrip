@@ -21,6 +21,8 @@
 
 import { Measurements, skirtWidths } from "../drafting";
 import { BLUEPRINT as T } from "./theme";
+import { lowerCroquisFigure, lowerCroquisFlareCommand } from "./croquis";
+import type { LowerCroquisAnchors } from "./croquis";
 
 const round = (n: number): number => Math.round(n * 1000) / 1000;
 const FONT = 'font-family="system-ui, sans-serif"';
@@ -57,6 +59,9 @@ function curveSeg(d: string, width: number): string {
   return `<path d="${d}" fill="none" stroke="${T.line}" stroke-width="${width}" ` +
     `stroke-linecap="round" vector-effect="non-scaling-stroke"/>`;
 }
+
+type Pt = readonly [number, number];
+const pt = (p: Pt): string => `${round(p[0])} ${round(p[1])}`;
 
 // ── the assembled view ────────────────────────────────────────────────────────
 
@@ -116,142 +121,31 @@ export function renderSkirtGarment(m: Measurements, fabric: string): string {
 // waist. Emitting the left leg forwards (the obvious way) skips the left hip
 // entirely and closes the path straight back to the waist — a malformed figure
 // that every "is it the right width / the right height" test still passes.
-type Pt = readonly [number, number];
-interface Cubic { readonly c1: Pt; readonly c2: Pt; readonly to: Pt }
-interface Chain { readonly start: Pt; readonly segs: readonly Cubic[] }
-
-/** The same chain traversed end-to-start: each segment flips, and so does its pair
- *  of control points, so the drawn curve is identical but the direction reverses. */
-function reversed(chain: Chain): Chain {
-  const stops: Pt[] = [chain.start, ...chain.segs.map((s) => s.to)];
-  const segs: Cubic[] = [];
-  for (let i = chain.segs.length - 1; i >= 0; i--) {
-    segs.push({ c1: chain.segs[i].c2, c2: chain.segs[i].c1, to: stops[i] });
-  }
-  return { start: stops[stops.length - 1], segs };
-}
-
-const pt = (p: Pt): string => `${round(p[0])} ${round(p[1])}`;
-/** The `C …` commands for a chain — the caller has already reached `chain.start`. */
-const curveTo = (chain: Chain): string =>
-  chain.segs.map((s) => `C ${pt(s.c1)} ${pt(s.c2)} ${pt(s.to)}`).join(" ");
-
-const ANKLE_Y = 118; // past the longest hem the length slider allows (100 cm)
-
-/** The body geometry the view draws, all derived from the measurements. */
-interface Figure {
-  readonly waistHalf: number;
-  readonly hipHalf: number;
-  readonly hipY: number;
-  readonly len: number;
-  readonly crotchY: number;
-}
-
-function figureOf(m: Measurements): Figure {
-  // Slice 61 fix: this used to compute its OWN waist/hip half-width
-  // (`waist * 0.20`, `hip * 0.22`) — an independent guess that dropped
-  // `ease` entirely and silently diverged from what `draftSkirt` actually
-  // cuts (at STANDARD_M: 16.8/22 here vs the real 23.5/27.5). Now reads the
-  // same `skirtWidths()` the panel draft itself uses, matching
-  // `renderSkirtGarment` a few lines above — the body the figure drapes
-  // cloth over is finally the same width as the cloth.
-  const { waistHalf, hipHalf } = skirtWidths(m);
-  return {
-    waistHalf,
-    hipHalf,
-    hipY: m.hipDepth,          // the real waist-to-hip drop, no longer a constant
-    len: m.length,
-    crotchY: m.hipDepth * 1.35, // the crotch always sits below the hip line
-  };
-}
-
-/** Waist → hip on one side: a flare that leaves the waist and meets the hip
- *  vertically, so the waist reads as the narrowest point. `sx` picks the side. */
-function flare(f: Figure, sx: 1 | -1): Chain {
-  return {
-    start: [sx * f.waistHalf, 0],
-    segs: [{
-      c1: [sx * f.waistHalf, f.hipY * 0.42],
-      c2: [sx * f.hipHalf, f.hipY * 0.52],
-      to: [sx * f.hipHalf, f.hipY],
-    }],
-  };
-}
-
-/** One leg, hip point → outer thigh → knee → ankle → inner thigh → crotch. */
-function leg(f: Figure, sx: 1 | -1): Chain {
-  const kneeY = f.crotchY + (ANKLE_Y - f.crotchY) * 0.52;
-  const h = f.hipHalf;
-  const x = (k: number): number => sx * h * k;
-  const thigh = kneeY - f.crotchY;
-  const shin = ANKLE_Y - kneeY;
-  return {
-    start: [sx * h, f.hipY],
-    segs: [
-      { // outer thigh: full hip width just below the hip, then in to the knee
-        c1: [sx * h, f.hipY + (kneeY - f.hipY) * 0.28],
-        c2: [x(0.70), kneeY - (kneeY - f.hipY) * 0.22],
-        to: [x(0.64), kneeY],
-      },
-      { // outer calf: a small bulge, then in to the ankle
-        c1: [x(0.63), kneeY + shin * 0.30],
-        c2: [x(0.44), ANKLE_Y - shin * 0.25],
-        to: [x(0.40), ANKLE_Y],
-      },
-      { // across the ankle — a straight run; the figure stops here, no feet
-        c1: [x(0.40), ANKLE_Y],
-        c2: [x(0.17), ANKLE_Y],
-        to: [x(0.17), ANKLE_Y],
-      },
-      { // inner calf, back up to the knee
-        c1: [x(0.17), ANKLE_Y - shin * 0.30],
-        c2: [x(0.11), kneeY + shin * 0.25],
-        to: [x(0.12), kneeY],
-      },
-      { // inner thigh, closing on the crotch at the centre line
-        c1: [x(0.13), kneeY - thigh * 0.40],
-        c2: [x(0.11), f.crotchY + thigh * 0.16],
-        to: [0, f.crotchY],
-      },
-    ],
-  };
-}
-
-/** The closed body outline: waist edge, both hip flares, both legs, both hips. */
-function silhouettePath(f: Figure): string {
-  return [
-    `M ${pt([-f.waistHalf, 0])}`,
-    `L ${pt([f.waistHalf, 0])}`,     // the waist edge
-    curveTo(flare(f, 1)),            // out to the right hip
-    curveTo(leg(f, 1)),              // right leg, hip → crotch
-    curveTo(reversed(leg(f, -1))),   // left leg, crotch → LEFT HIP
-    curveTo(reversed(flare(f, -1))), // left hip → back to the waist
-    "Z",
-  ].join(" ");
-}
+// The shared lower-body figure geometry lives in render/croquis.ts. This module
+// retains the skirt-specific cloth overlay and annotated presentation around it.
 
 /** The skirt itself: cloth sitting just outside the body, waist → hip → hem.
  *  Straight from hip to hem, because that is what the draft actually does — no
  *  A-line flare is invented here. */
-function clothPath(f: Figure, out: number): string {
+function clothPath(f: LowerCroquisAnchors, out: number): string {
   const cw = f.waistHalf + out;
   const ch = f.hipHalf + out * 1.5;
-  const c: Figure = { ...f, waistHalf: cw, hipHalf: ch };
   return [
     `M ${pt([-cw, 0])}`,
     `L ${pt([cw, 0])}`,
-    curveTo(flare(c, 1)),
-    `L ${pt([ch, f.len])}`,
-    `L ${pt([-ch, f.len])}`,
+    lowerCroquisFlareCommand(cw, ch, f.hipY, 1),
+    `L ${pt([ch, f.length])}`,
+    `L ${pt([-ch, f.length])}`,
     `L ${pt([-ch, f.hipY])}`,
-    curveTo(reversed(flare(c, -1))),
+    lowerCroquisFlareCommand(cw, ch, f.hipY, -1, true),
     "Z",
   ].join(" ");
 }
 
 /** The skirt body view: an annotated lower-body figure, measurement-honest. */
 export function renderSkirtBody(m: Measurements): string {
-  const f = figureOf(m);
+  const croquis = lowerCroquisFigure(m);
+  const f = croquis.anchors;
   const CLOTH_OUT = 1.0;                          // how far the cloth stands off the body
   const clothHalf = f.hipHalf + CLOTH_OUT * 1.5;
   // The dimension gutters must clear the widest thing DRAWN. Normally that is the
@@ -260,7 +154,7 @@ export function renderSkirtBody(m: Measurements): string {
   // run straight through its own dimension lines.
   const widest = Math.max(clothHalf, f.waistHalf + CLOTH_OUT);
 
-  const bodyPath = `<path data-part="silhouette" d="${silhouettePath(f)}" fill="${T.fill}" ` +
+  const bodyPath = `<path data-part="silhouette" d="${croquis.silhouettePath}" fill="${T.fill}" ` +
     `stroke="${T.line}" stroke-width="1.4" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>`;
   const cloth = `<path data-part="cloth" d="${clothPath(f, CLOTH_OUT)}" fill="${T.cloth}" ` +
     `stroke="${T.line}" stroke-width="1.2" stroke-linejoin="round" stroke-opacity="0.75" ` +
@@ -278,26 +172,26 @@ export function renderSkirtBody(m: Measurements): string {
     // whenever hipDepth is shallow.
     dim("hip", dimH(-f.hipHalf, f.hipHalf, f.hipY - 2.5, `Hip ${m.hip} (circ)`)) +
     dim("hipDepth", dimV(leftDimX, 0, f.hipY, `Hip depth ${m.hipDepth}`, -1)) +
-    dim("length", dimV(rightDimX, 0, f.len, `Length ${m.length}`, 1));
+    dim("length", dimV(rightDimX, 0, f.length, `Length ${m.length}`, 1));
 
   // measurement → the outline segments it shapes (no overlap, so a hover is
   // unambiguous):  waist → the waist edge,  hip → the two flare seams,
   // hipDepth → the hip line,  length → the hem.
   const edge = (field: string, s: string): string => `<g data-edge="${field}">${s}</g>`;
   const flareOverlay = (sx: 1 | -1): string => {
-    const c = flare(f, sx);
-    return curveSeg(`M ${pt(c.start)} ${curveTo(c)}`, 1.4);
+    return curveSeg(`M ${pt([sx * f.waistHalf, 0])} ${lowerCroquisFlareCommand(
+      f.waistHalf, f.hipHalf, f.hipY, sx)}`, 1.4);
   };
   const edges =
     edge("waist", seg(-f.waistHalf, 0, f.waistHalf, 0, 1.4)) +
     edge("hip", flareOverlay(1) + flareOverlay(-1)) +
     edge("hipDepth", seg(-f.hipHalf, f.hipY, f.hipHalf, f.hipY, 1.4)) +
-    edge("length", seg(-clothHalf, f.len, clothHalf, f.len, 1.4));
+    edge("length", seg(-clothHalf, f.length, clothHalf, f.length, 1.4));
 
   const minX = leftDimX - 26;
   const maxX = rightDimX + 26;
   const minY = -13;
-  const maxY = ANKLE_Y + 8;
+  const maxY = f.ankleY + 8;
   const width = maxX - minX;
   const height = maxY - minY;
 

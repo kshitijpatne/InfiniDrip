@@ -3,7 +3,7 @@
 // Front, side, and back are named separately so a future view cannot silently
 // substitute a front figure for a side or back representation.
 
-import { Measurements, derive, necklineEdge, NECKLINE_DEFAULT } from "../drafting";
+import { Measurements, derive, necklineEdge, NECKLINE_DEFAULT, skirtWidths } from "../drafting";
 import type { Edge } from "../drafting";
 import { armholePathCommand, necklinePathCommand } from "./neckline-path";
 import { sleevelessArmhole } from "../drafting/armhole";
@@ -160,22 +160,131 @@ export function upperCroquisPath(
   return [figure.torsoPath, ...figure.armPaths].join(" ");
 }
 
-/** Reusable lower-body croquis paths. The lower front/back are identical at
- * this measurement level; the side is a truthful profile envelope, not a
- * drape simulation. */
+type LowerPt = readonly [number, number];
+interface LowerCubic { readonly c1: LowerPt; readonly c2: LowerPt; readonly to: LowerPt }
+interface LowerChain { readonly start: LowerPt; readonly segs: readonly LowerCubic[] }
+
+/** The same lower-body chain traversed end-to-start. */
+function reverseLowerChain(chain: LowerChain): LowerChain {
+  const stops: LowerPt[] = [chain.start, ...chain.segs.map((s) => s.to)];
+  const segs: LowerCubic[] = [];
+  for (let i = chain.segs.length - 1; i >= 0; i--) {
+    segs.push({ c1: chain.segs[i].c2, c2: chain.segs[i].c1, to: stops[i] });
+  }
+  return { start: stops[stops.length - 1], segs };
+}
+
+const lowerPt = (p: LowerPt): string => `${round(p[0])} ${round(p[1])}`;
+const lowerCurveTo = (chain: LowerChain): string =>
+  chain.segs.map((s) => `C ${lowerPt(s.c1)} ${lowerPt(s.c2)} ${lowerPt(s.to)}`).join(" ");
+
+const LOWER_ANKLE_Y = 118; // past the longest hem the length slider allows (100 cm)
+
+export interface LowerCroquisAnchors {
+  readonly waistHalf: number;
+  readonly hipHalf: number;
+  readonly hipY: number;
+  readonly length: number;
+  readonly crotchY: number;
+  readonly ankleY: number;
+}
+
+/** The shared lower-body render contract. It contains the measured body
+ * silhouette and the anchors needed by a garment-specific cloth overlay. */
+export interface LowerCroquisFigure {
+  readonly silhouettePath: string;
+  readonly anchors: LowerCroquisAnchors;
+}
+
+/** Waist → hip on one side: a flare that leaves the waist and meets the hip
+ * vertically, so the waist reads as the narrowest point. */
+function lowerFlare(waistHalf: number, hipHalf: number, hipY: number, sx: 1 | -1): LowerChain {
+  return {
+    start: [sx * waistHalf, 0],
+    segs: [{
+      c1: [sx * waistHalf, hipY * 0.42],
+      c2: [sx * hipHalf, hipY * 0.52],
+      to: [sx * hipHalf, hipY],
+    }],
+  };
+}
+
+/** Emit a waist-to-hip curve, optionally walked from hip back to waist. This
+ * is also the shared curve command used by the skirt's cloth overlay, so the
+ * overlay cannot drift away from the body contract's real flare. */
+export function lowerCroquisFlareCommand(
+  waistHalf: number, hipHalf: number, hipY: number, sx: 1 | -1, reverse = false
+): string {
+  const chain = lowerFlare(waistHalf, hipHalf, hipY, sx);
+  return lowerCurveTo(reverse ? reverseLowerChain(chain) : chain);
+}
+
+/** One leg, hip point → outer thigh → knee → ankle → inner thigh → crotch. */
+function lowerLeg(f: LowerCroquisAnchors, sx: 1 | -1): LowerChain {
+  const kneeY = f.crotchY + (f.ankleY - f.crotchY) * 0.52;
+  const h = f.hipHalf;
+  const x = (k: number): number => sx * h * k;
+  const thigh = kneeY - f.crotchY;
+  const shin = f.ankleY - kneeY;
+  return {
+    start: [sx * h, f.hipY],
+    segs: [
+      { // outer thigh: full hip width just below the hip, then in to the knee
+        c1: [sx * h, f.hipY + (kneeY - f.hipY) * 0.28],
+        c2: [x(0.70), kneeY - (kneeY - f.hipY) * 0.22],
+        to: [x(0.64), kneeY],
+      },
+      { // outer calf: a small bulge, then in to the ankle
+        c1: [x(0.63), kneeY + shin * 0.30],
+        c2: [x(0.44), f.ankleY - shin * 0.25],
+        to: [x(0.40), f.ankleY],
+      },
+      { // across the ankle — a straight run; the figure stops here, no feet
+        c1: [x(0.40), f.ankleY],
+        c2: [x(0.17), f.ankleY],
+        to: [x(0.17), f.ankleY],
+      },
+      { // inner calf, back up to the knee
+        c1: [x(0.17), f.ankleY - shin * 0.30],
+        c2: [x(0.11), kneeY + shin * 0.25],
+        to: [x(0.12), kneeY],
+      },
+      { // inner thigh, closing on the crotch at the centre line
+        c1: [x(0.13), kneeY - thigh * 0.40],
+        c2: [x(0.11), f.crotchY + thigh * 0.16],
+        to: [0, f.crotchY],
+      },
+    ],
+  };
+}
+
+/** Build the lower-body figure drawn by the annotated skirt Body view. */
+export function lowerCroquisFigure(m: Measurements): LowerCroquisFigure {
+  const { waistHalf, hipHalf } = skirtWidths(m);
+  const anchors: LowerCroquisAnchors = {
+    waistHalf, hipHalf, hipY: m.hipDepth, length: m.length,
+    crotchY: m.hipDepth * 1.35, ankleY: LOWER_ANKLE_Y,
+  };
+  const silhouettePath = [
+    `M ${lowerPt([-anchors.waistHalf, 0])}`,
+    `L ${lowerPt([anchors.waistHalf, 0])}`,
+    lowerCroquisFlareCommand(anchors.waistHalf, anchors.hipHalf, anchors.hipY, 1),
+    lowerCurveTo(lowerLeg(anchors, 1)),
+    lowerCurveTo(reverseLowerChain(lowerLeg(anchors, -1))),
+    lowerCroquisFlareCommand(anchors.waistHalf, anchors.hipHalf, anchors.hipY, -1, true),
+    "Z",
+  ].join(" ");
+  return { silhouettePath, anchors };
+}
+
+/** Reusable lower-body croquis paths. The lower front/back use the shared
+ * figure contract; the side is a truthful profile envelope, not a drape
+ * simulation. */
 export function lowerCroquisPath(m: Measurements, view: CroquisView): string {
+  if (view !== "side") return lowerCroquisFigure(m).silhouettePath;
   const waist = (m.waist + m.ease) / 4;
   const hip = (m.hip + m.ease) / 4;
-  if (view === "side") {
-    return `M 0 0 C ${round(hip * 0.35)} ${round(m.hipDepth * 0.4)} ${round(hip * 0.45)} ${round(m.hipDepth * 0.8)} ${round(hip * 0.35)} ${round(m.hipDepth)} L ${round(hip * 0.35)} ${round(m.length)} L ${round(-hip * 0.25)} ${round(m.length)} L ${round(-hip * 0.25)} ${round(m.hipDepth)} C ${round(-hip * 0.25)} ${round(m.hipDepth * 0.7)} ${round(-waist * 0.6)} ${round(m.hipDepth * 0.3)} 0 0 Z`;
-  }
-  return [
-    `M ${round(-waist)} 0 L ${round(waist)} 0`,
-    `L ${round(hip)} ${round(m.hipDepth)}`,
-    `L ${round(hip)} ${round(m.length)}`,
-    `L ${round(-hip)} ${round(m.length)}`,
-    `L ${round(-hip)} ${round(m.hipDepth)} Z`,
-  ].join(" ");
+  return `M 0 0 C ${round(hip * 0.35)} ${round(m.hipDepth * 0.4)} ${round(hip * 0.45)} ${round(m.hipDepth * 0.8)} ${round(hip * 0.35)} ${round(m.hipDepth)} L ${round(hip * 0.35)} ${round(m.length)} L ${round(-hip * 0.25)} ${round(m.length)} L ${round(-hip * 0.25)} ${round(m.hipDepth)} C ${round(-hip * 0.25)} ${round(m.hipDepth * 0.7)} ${round(-waist * 0.6)} ${round(m.hipDepth * 0.3)} 0 0 Z`;
 }
 
 /** One public entry point for callers that select a croquis by region/view. */

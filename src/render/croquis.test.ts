@@ -1,8 +1,8 @@
 // @vitest-environment jsdom
 import { describe, expect, it } from "vitest";
-import { derive, necklineEdge, NECKLINE_DEFAULT, STANDARD_M } from "../drafting";
+import { derive, necklineEdge, NECKLINE_DEFAULT, skirtWidths, STANDARD_M } from "../drafting";
 import { tankFrontNeckline } from "../drafting/tank";
-import { croquisPath, lowerCroquisPath, upperCroquisFigure, upperCroquisPath } from "./croquis";
+import { croquisPath, lowerCroquisFigure, lowerCroquisPath, upperCroquisFigure, upperCroquisPath } from "./croquis";
 
 describe("croquis library", () => {
   it.each(["front", "side", "back"] as const)("provides an upper %s figure", (view) => {
@@ -55,5 +55,18 @@ describe("croquis library", () => {
     expect(figure.armhole?.kind).toBe("curve");
     expect(figure.anchors.strapX).toBe(15);
     expect(figure.torsoPath).toContain("C 13.75 9 20 19 27.5 24");
+  });
+
+  it("exposes the measured lower-body silhouette and its reusable anchors", () => {
+    const figure = lowerCroquisFigure(STANDARD_M);
+    const widths = skirtWidths(STANDARD_M);
+
+    expect(figure.anchors.waistHalf).toBe(widths.waistHalf);
+    expect(figure.anchors.hipHalf).toBe(widths.hipHalf);
+    expect(figure.anchors.hipY).toBe(STANDARD_M.hipDepth);
+    expect(figure.anchors.length).toBe(STANDARD_M.length);
+    expect(figure.anchors.crotchY).toBe(STANDARD_M.hipDepth * 1.35);
+    expect(lowerCroquisPath(STANDARD_M, "front")).toBe(figure.silhouettePath);
+    expect(lowerCroquisPath(STANDARD_M, "back")).toBe(figure.silhouettePath);
   });
 });
