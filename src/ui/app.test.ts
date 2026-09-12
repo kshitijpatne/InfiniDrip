@@ -28,13 +28,16 @@ describe("mountApp", () => {
     expect(viewBox(root)).not.toBe(before);
   });
 
-  it("snaps an out-of-range field to its clamped value on change", () => {
+  it("preserves an out-of-range field with an actionable correction on change", () => {
     const root = mount();
     const chest = root.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
     chest.value = "999";
     chest.dispatchEvent(new Event("input"));
     chest.dispatchEvent(new Event("change"));
-    expect(chest.value).toBe("160");
+    expect(chest.value).toBe("999");
+    expect(chest.getAttribute("aria-invalid")).toBe("true");
+    expect(root.querySelector("#error-chest")!.textContent).toContain("60–160");
+    expect(root.querySelector("#canvas-host")!.textContent).toContain("Draft paused");
   });
 
   it("recolours the garment when a fabric swatch is clicked", () => {

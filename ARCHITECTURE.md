@@ -3,6 +3,12 @@
 How the app fits together, in plain language. Read the top to re-orient; skim the
 layers when you need detail. Updated every slice with only need-to-know changes.
 
+BF-P1-01: measurement inputs retain raw numeric values; empty/nonfinite fields
+are explicit incomplete UI states. `inputError` checks declared field/option
+bounds and the app pauses drawing and export with associated corrections until
+inputs are valid. Ease accepts -30 through 30 without clamping. Drafting and
+export writers are unchanged. See `docs/planning/BUGFIX-P1-EXECUTION.md`.
+
 Slice 93: the woven-shirt component-library exit audit verifies closed geometry
 and sewability across XS–XL, all Pattern/Body/Side/Size run/Spec/Nesting/Check/
 preview-Edit routes, and parsed SVG/DXF/tiled-PDF/A0/projector/tech-pack output.

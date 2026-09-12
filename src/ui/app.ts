@@ -13,7 +13,7 @@ import { BLUEPRINT } from "../render";
 import { guide, Note } from "../guidance";
 import { garmentReport, implausibleFields, measurementsPlausible } from "../guidance";
 import { matchStyle, styleNames } from "../style";
-import { FIELDS, applyChange } from "./controls";
+import { FIELDS, applyChange, inputError } from "./controls";
 import { appShellMarkup, controlsMarkup, guidanceMarkup, styleMarkup, specTableMarkup, checkMarkup, editorHintMarkup, dartControlsMarkup, BodyCroquisView } from "./view";
 import { saveToStorage, loadFromStorage } from "./persist";
 import {
@@ -71,6 +71,18 @@ export function mountApp(root: HTMLElement): void {
     ...(garmentOptions[forRecipe.name] ?? {}),
   });
   const draftCurrent = (): ReturnType<GarmentRecipe["draft"]> => recipe.draft(measurements, recipeOptions());
+  const inputErrors = (): Map<string, string> => {
+    const errors = new Map<string, string>();
+    for (const field of FIELDS.filter((f) => recipe.fields.includes(f.id))) {
+      const error = inputError(measurements[field.id], field);
+      if (error) errors.set(field.id, error);
+    }
+    for (const option of recipe.options ?? []) {
+      const error = inputError(recipeOptions()[option.id], option);
+      if (error) errors.set(`option-${option.id}`, error);
+    }
+    return errors;
+  };
   const poloVisual = () => {
     if (recipe.name !== "polo") return undefined;
     const options = recipeOptions();
@@ -124,9 +136,10 @@ export function mountApp(root: HTMLElement): void {
   // The journey bar + checklist render Opus's guidance DATA (plausibility gate,
   // fit gaps, the report verdict) — nothing here recomputes a check.
   const renderJourney = (): void => {
-    const plausible = measurementsPlausible(measurements, recipe.fields);
+    const inputsOk = inputErrors().size === 0;
+    const plausible = inputsOk && measurementsPlausible(measurements, recipe.fields);
     const gaps = matchStyle(measurements, targetStyle, recipe.styles).deltas.length;
-    const report = garmentReport(recipe, measurements, recipeOptions());
+    const report = inputsOk ? garmentReport(recipe, measurements, recipeOptions()) : { ok: false };
     const parts: string[] = [];
     if (journey.step === "start") parts.push(welcomeMarkup());
     parts.push(journeyBarMarkup(journey.step));
@@ -139,6 +152,25 @@ export function mountApp(root: HTMLElement): void {
   };
 
   const draw = (): void => {
+    const errors = inputErrors();
+    root.querySelectorAll<HTMLInputElement>("[data-field], [data-option]").forEach((input) => {
+      const key = input.dataset.field ?? `option-${input.dataset.option}`;
+      const error = errors.get(key);
+      input.setAttribute("aria-invalid", String(!!error));
+      input.setCustomValidity(error ?? "");
+      root.querySelector<HTMLElement>(`#error-${key}`)!.textContent = error ?? "";
+    });
+    root.querySelectorAll<HTMLButtonElement>('#export-host button[id^="export-"]').forEach((button) => {
+      button.disabled = errors.size > 0;
+    });
+    if (errors.size > 0) {
+      canvasHost.innerHTML = "<p role=\"status\">Draft paused — correct the flagged inputs to render your current design.</p>";
+      garmentHost.innerHTML = "";
+      guidanceHost.innerHTML = guidanceMarkup([...errors.values()].map((text) => ({ level: "warn", text })));
+      styleHost.innerHTML = styleMarkup(targetStyle, matchStyle(measurements, targetStyle, recipe.styles), styleNames(recipe.styles), false);
+      renderJourney();
+      return;
+    }
     // The body figure and the style presets are upper-body only; a garment that
     // doesn't use the chest (a skirt) gets a neutral placeholder instead of a
     // misleading top. (Real lower-body figure + skirt styles: a later slice.)
@@ -161,7 +193,8 @@ export function mountApp(root: HTMLElement): void {
     } else if (view === "check") {
       canvasHost.innerHTML = checkMarkup(garmentReport(recipe, measurements, recipeOptions()), measurementsPlausible(measurements, recipe.fields));
     } else if (view === "edit") {
-      const piece = editedFront!;
+      const piece = editedFront ?? rolePiece(draftCurrent(), "front");
+      editedFront = piece;
       const vb = editorViewBox(piece);
       const hasDart = dartOf(piece) !== null;
       // Truing consumes `sideLower`, so only offer it while both halves still exist
@@ -243,7 +276,7 @@ export function mountApp(root: HTMLElement): void {
     draw();
   };
   const setView = (v: "pattern" | "body" | "nest" | "spec" | "fabric" | "check" | "edit"): void => {
-    if (v === "edit" && editedFront === null) editedFront = rolePiece(draftCurrent(), "front");
+    if (v === "edit" && editedFront === null && inputErrors().size === 0) editedFront = rolePiece(draftCurrent(), "front");
     view = v;
     (["pattern", "body", "nest", "spec", "fabric", "check", "edit"] as const).forEach((k) => {
       const on = k === v;
@@ -320,7 +353,7 @@ export function mountApp(root: HTMLElement): void {
     return { handle: nearestHandle(pieceHandles(piece), at, 2), at };
   };
   canvasHost.addEventListener("mousedown", (e) => {
-    if (view !== "edit") return;
+    if (view !== "edit" || inputErrors().size > 0) return;
     const hit = handleAt(e);
     if (hit.handle) {
       dragId = hit.handle.id;
@@ -372,7 +405,7 @@ export function mountApp(root: HTMLElement): void {
     root.querySelector<HTMLElement>("#controls-panel")!.outerHTML = controlsMarkup(
       measurements, recipe.fields, recipe.options, recipeOptions());
     wireMeasurementInputs();
-    if (view === "edit") editedFront = rolePiece(draftCurrent(), "front");
+    if (view === "edit" && inputErrors().size === 0) editedFront = rolePiece(draftCurrent(), "front");
     draw();
   };
   GARMENTS.forEach((g) => {
@@ -416,22 +449,17 @@ export function mountApp(root: HTMLElement): void {
         measurements = applyChange(measurements, field, input.value);
         draw();
       });
-      input.addEventListener("change", () => {
-        input.value = String(measurements[field.id]);
-      });
     });
     root.querySelectorAll<HTMLInputElement>("input[data-option]").forEach((input) => {
       const id = input.dataset.option!;
       input.addEventListener("input", () => {
-        const value = Number(input.value);
-        if (Number.isFinite(value)) {
-          garmentOptions = {
-            ...garmentOptions,
-            [recipe.name]: { ...recipeOptions(), [id]: value },
-          };
-          editedFront = null;
-          draw();
-        }
+        const value = input.value.trim() === "" ? NaN : Number(input.value);
+        garmentOptions = {
+          ...garmentOptions,
+          [recipe.name]: { ...recipeOptions(), [id]: value },
+        };
+        editedFront = null;
+        draw();
       });
     });
     root.querySelectorAll<HTMLElement>("[data-dim-row]").forEach((row) => {

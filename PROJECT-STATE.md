@@ -1,7 +1,14 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 93 (woven-shirt component-library exit); UI bug-fix
-phase planned before Epic 3._
+_Last updated: BF-P1-01, input truthfulness; P1 is in progress before Epic 3._
+
+BF-P1-01 closes BUG-UI-002/003: no silent clamp, verbatim negative ease,
+associated input corrections and safe draft pause/recovery. Scope and evidence:
+`docs/planning/BUGFIX-P1-EXECUTION.md`. Next: BF-P1-02 derived state and digital
+verdicts. The maintainer requests stopping after P1 to switch to Luna/max;
+P2/P3 remain sequential milestones of the same master goal. Physical validation
+remains deferred. BF-P1-01 gate: 73 files / 919 tests, 100% coverage,
+TypeScript/build, parsed outputs and eight unchanged legacy hashes.
 
 Tank rework step 4 is complete for automated and rendered verification;
 physical sewn validation has not occurred and is intentionally deferred. Update
@@ -91,7 +98,7 @@ UI audit: `EPIC-BUGFIX-P1` (correctness and trust), `EPIC-BUGFIX-P2` (usable
 inspection and interaction), and `EPIC-BUGFIX-P3` (polish and discoverability).
 The stable records, separate severity/priority tags, root-cause fields, and
 closure evidence live in `docs/BUG-LEDGER.md`; execution and goal-setting rules
-live in `docs/planning/BUG-FIX-PHASE.md`. No implementation fix has started.
+live in `docs/planning/BUG-FIX-PHASE.md`. P1 implementation has started.
 Epic 3 remains parked until the three bug-fix exit reports pass.
 
 **Polo V1 (2026-09-11):** all geometry decisions are locked: collar-plus-stand,

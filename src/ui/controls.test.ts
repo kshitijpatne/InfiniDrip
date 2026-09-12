@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { STANDARD_M } from "../drafting";
-import { FIELDS, clamp, applyChange } from "./controls";
+import { FIELDS, inputError, applyChange } from "./controls";
 
 describe("FIELDS", () => {
   it("covers every measurement", () => {
@@ -9,15 +9,12 @@ describe("FIELDS", () => {
   });
 });
 
-describe("clamp", () => {
-  it("raises a value below the minimum", () => {
-    expect(clamp(5, 10, 20)).toBe(10);
-  });
-  it("lowers a value above the maximum", () => {
-    expect(clamp(99, 10, 20)).toBe(20);
-  });
-  it("leaves a value already in range", () => {
-    expect(clamp(15, 10, 20)).toBe(15);
+describe("inputError", () => {
+  it("diagnoses nonfinite and out-of-range input without modifying it", () => {
+    const field = { label: "Chest", min: 60, max: 160 };
+    for (const value of [NaN, Infinity, -Infinity]) expect(inputError(value, field)).toContain("finite number");
+    for (const value of [20, 999]) expect(inputError(value, field)).toContain("60–160");
+    for (const value of [60, 100, 160]) expect(inputError(value, field)).toBeNull();
   });
 });
 
@@ -26,11 +23,11 @@ describe("applyChange", () => {
   it("updates the field with a valid value", () => {
     expect(applyChange(STANDARD_M, chest, "120").chest).toBe(120);
   });
-  it("clamps an out-of-range value", () => {
-    expect(applyChange(STANDARD_M, chest, "999").chest).toBe(160);
+  it("preserves an out-of-range value", () => {
+    expect(applyChange(STANDARD_M, chest, "999").chest).toBe(999);
   });
-  it("ignores non-numeric input", () => {
-    expect(applyChange(STANDARD_M, chest, "abc")).toEqual(STANDARD_M);
+  it("represents empty and non-numeric input as incomplete", () => {
+    for (const raw of ["abc", "", " "]) expect(applyChange(STANDARD_M, chest, raw).chest).toBeNaN();
   });
   it("never mutates the original measurements", () => {
     const before = { ...STANDARD_M };

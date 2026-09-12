@@ -39,7 +39,7 @@ No console runtime errors were observed during that audit.
 
 ### BUG-UI-002 — Negative-ease guidance contradicts the Ease input
 
-- Tags: `BUGFIX`, `EPIC-BUGFIX-P1`, `P1`, `S1`, status `Open`.
+- Tags: `BUGFIX`, `EPIC-BUGFIX-P1`, `P1`, `S1`, status `Closed`.
 - Evidence: Spandex guidance recommends approximately `-8 cm`; entering `-8`
   leaves `-8` visible while drafting and guidance use `0`.
 - Root cause: the UI minimum is `0` while the ease model supports negative ease;
@@ -48,18 +48,28 @@ No console runtime errors were observed during that audit.
 - Done when: supported negative ease is represented consistently, or an invalid
   combination is explicitly rejected with an actionable field-level correction;
   displayed and drafted values cannot diverge.
-- Fix slice: —  Commit/PR: —  Verification: —
+- Fix slice: BF-P1-01. Commit/PR: commit subject `Slice BF-P1-01: preserve typed input [BUG-UI-002, BUG-UI-003]` (hash recorded in next slice).
+- Root cause confirmed: range minimum 0 and `applyChange` clamp replaced -8 with 0.
+- Tests: controls and P1 DOM regressions verify verbatim -8 and real draft output.
+- Live/rendered/output evidence: negative-ease draft and -8 guidance inspected in
+  the live app; see `docs/planning/BUGFIX-P1-EXECUTION.md`.
+- Closed by/date: Codex, 2026-09-12. Final status: Closed.
 
 ### BUG-UI-003 — Out-of-range input is silently clamped and left displayed
 
-- Tags: `BUGFIX`, `EPIC-BUGFIX-P1`, `P1`, `S1`, status `Open`.
+- Tags: `BUGFIX`, `EPIC-BUGFIX-P1`, `P1`, `S1`, status `Closed`.
 - Evidence: Chest `20` remained visible while geometry/guidance used the clamped
   value `60`, with no field error or invalid styling.
 - Root cause: UI change handling clamps to bounds rather than preserving an
   invalid value as an explicitly diagnosed state. Source: `src/ui/controls.ts:34`.
 - Done when: every invalid value is visible as invalid with a direct correction,
   and no hidden replacement occurs.
-- Fix slice: —  Commit/PR: —  Verification: —
+- Fix slice: BF-P1-01. Commit/PR: commit subject `Slice BF-P1-01: preserve typed input [BUG-UI-002, BUG-UI-003]` (hash recorded in next slice).
+- Root cause confirmed: clamp on input and replacement on blur; blank was converted to zero.
+- Tests: empty/range/finite bounds, focus retention, disabled export and Edit recovery.
+- Live/rendered/output evidence: Chest 20 remains visible with associated 60–160
+  correction and paused draft, then recovers; see `docs/planning/BUGFIX-P1-EXECUTION.md`.
+- Closed by/date: Codex, 2026-09-12. Final status: Closed.
 
 ### BUG-UI-004 — Finished measurement totals do not update live
 

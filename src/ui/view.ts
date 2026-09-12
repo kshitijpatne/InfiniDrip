@@ -23,7 +23,9 @@ function field(id: string, label: string,
     `<span style="color:${T.label}">${label}${tagSpan}</span>` +
     `<input data-field="${id}" type="number" value="${value}" min="${min}" max="${max}" step="${step}" ` +
     `style="width:64px;padding:4px 6px;text-align:right;background:${T.background};color:${T.line};` +
-    `border:1px solid ${BORDER};border-radius:5px;font-family:ui-monospace,monospace"/></label>`;
+    `border:1px solid ${BORDER};border-radius:5px;font-family:ui-monospace,monospace" ` +
+    `aria-describedby="error-${id}"/></label>` +
+    `<div id="error-${id}" data-input-error="${id}" style="font-size:12px;color:${T.lineActive}" role="status"></div>`;
 }
 
 function panelTitle(text: string): string {
