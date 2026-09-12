@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { edgeLength, edgeStart, pieceEdge, rolePiece, stitchChecks, STANDARD_M } from "./index";
-import { addWovenShirtPlackets, draftWovenShirtBody, draftWovenShirtCollar, draftWovenShirtPlackets, frontButtonPositions, WOVEN_SHIRT_BODY_STITCHES, WOVEN_SHIRT_COLLAR_STITCHES } from "./shirt";
+import { point } from "../geometry";
+import { addWovenShirtCollar, addWovenShirtPlackets, addWovenShirtYoke, draftWovenShirtBody, draftWovenShirtCollar, draftWovenShirtPlackets, draftWovenShirtPocket, draftWovenShirtYoke, frontButtonPositions, WOVEN_SHIRT_BODY_STITCHES, WOVEN_SHIRT_COLLAR_STITCHES } from "./shirt";
 
 describe("woven shirt body", () => {
   it("drafts separate front/back panels with the required named boundaries", () => {
@@ -86,5 +87,44 @@ describe("woven shirt body", () => {
     const result = addWovenShirtPlackets(withoutMarks);
     expect(result.roles.outerStand.marks).toHaveLength(1);
     expect(result.roles.innerStand.marks).toHaveLength(1);
+  });
+
+  it("splits the real back armhole into a lower back and two-layer yoke", () => {
+    const block = draftWovenShirtYoke(STANDARD_M);
+    const back = block.roles.back;
+    const yoke = block.roles.yoke;
+    expect(back.edges.map((e) => e.name)).toEqual(["centerBack", "yokeSeam", "armholeLower", "sideUpper", "sideMiddle", "sideLower", "hem"]);
+    expect(yoke.edges.map((e) => e.name)).toEqual(["centerBack", "neckline", "shoulder", "armholeUpper", "yokeSeam"]);
+    expect(back.onFold).toBe(true);
+    expect(stitchChecks(block, block.stitches).every((check) => check.ok)).toBe(true);
+    expect(edgeLength(pieceEdge(back, "yokeSeam"))).toBe(edgeLength(pieceEdge(yoke, "yokeSeam")));
+  });
+
+  it("keeps yoke depth live and places one patch pocket on the front", () => {
+    const base = draftWovenShirtPocket(STANDARD_M);
+    const changed = draftWovenShirtPocket(STANDARD_M, { yokeDepth: 13, pocketWidth: 14, pocketHeight: 15 });
+    expect(edgeStart(pieceEdge(changed.roles.back, "yokeSeam")).y).toBe(13);
+    expect(edgeLength(pieceEdge(changed.roles.pocket, "sideRight"))).toBe(15);
+    expect(edgeLength(pieceEdge(changed.roles.pocket, "top"))).toBe(14);
+    expect(changed.roles.front.marks!.some((mark) => mark.name === "pocketPlacement")).toBe(true);
+    expect(stitchChecks(changed, changed.stitches).every((check) => check.ok)).toBe(true);
+    expect(edgeLength(pieceEdge(base.roles.pocket, "top"))).not.toBe(edgeLength(pieceEdge(changed.roles.pocket, "top")));
+  });
+
+  it("routes collar measurement through the yoke neckline and rejects a non-curve armhole", () => {
+    const collaredYoke = addWovenShirtCollar(draftWovenShirtYoke(STANDARD_M));
+    expect(collaredYoke.stitches.some((stitch) => stitch.label === "Outer stand ↔ woven neckline" && stitch.b.edges.some((ref) => ref.piece === "yoke"))).toBe(true);
+    const body = draftWovenShirtBody(STANDARD_M);
+    const back = body.roles.back;
+    const nonCurve = {
+      ...body,
+      roles: {
+        ...body.roles,
+        back: { ...back, edges: back.edges.map((edge) => edge.name === "armhole"
+          ? { kind: "line" as const, name: "armhole", start: point(1, 1), end: point(2, 2) }
+          : edge) },
+      },
+    };
+    expect(() => addWovenShirtYoke(nonCurve)).toThrow("must be a curve");
   });
 });

@@ -129,3 +129,30 @@ build, parsed export suite and unchanged legacy hashes; no physical claim.
 
 Result: button system implemented; focused tests pass (7 tests); full
 verification is recorded with the slice commit.
+
+## Slice 90 - Back yoke and patch pocket
+
+Objective/scope: split the actual back armhole at the selected yoke depth into
+a lower-back piece and a two-layer folded yoke, then add one placed patch
+pocket with live width/height.
+Acceptance: yoke seam lengths match exactly; the yoke retains neckline,
+shoulder and upper armhole boundaries; lower back retains the lower armhole,
+side and hem; front pocket placement is a named mark and the pocket top joins
+it as a stitch; yoke depth and pocket dimensions move the output.
+Non-goals: sleeve, folded sleeve band, curved hem/vent, recipe/UI integration
+or physical validation.
+Dependencies: Slice 87 body edges, Slice 88 collar neckline ownership, and
+the generic cubic/stitch/mark primitives.
+Risks: yoke depth outside the armhole is intentionally drafted verbatim and
+must be surfaced by later guidance; the pocket placement is a product estimate,
+not a physical validation result.
+Drafting/data-model change: `shirt.ts` now performs a cubic armhole split,
+composes the yoke and lower back, adds the pocket placement mark and one pocket
+stitch; collar composition recognizes the yoke's neckline role.
+Owner: Codex. Model: GPT-6 Astra; reasoning: high, for seam topology.
+Delegation: none. Gates: focused yoke/pocket geometry/stitch tests, full
+coverage/typecheck/build, parsed export suite and unchanged legacy hashes; no
+physical claim.
+
+Result: yoke and patch pocket implemented; focused tests pass (10 tests); full
+verification is recorded with the slice commit.

@@ -1,11 +1,10 @@
-import { point } from "../geometry";
+import { lerp, point, CubicBezier } from "../geometry";
 import { Block, block } from "./block";
 import { Measurements } from "./measurements";
-import { Piece, Edge } from "./piece";
-import { edgeRef, iface, Stitch } from "./stitch";
+import { Piece, Edge, edgeLength, edgeStart, pieceEdge } from "./piece";
+import { edgeRef, iface, markRef, Stitch } from "./stitch";
 import { necklineEdge, NECKLINE_DEFAULT } from "./neckline";
 import { WovenShirtOptions, resolveWovenShirtOptions } from "./shirt-contract";
-import { edgeLength, edgeStart, pieceEdge } from "./piece";
 import { lineMark, pointMark } from "./pattern-mark";
 
 /** The relaxed woven body is drafted as a half-width back on fold and a
@@ -130,19 +129,30 @@ export const WOVEN_SHIRT_COLLAR_STITCHES: readonly Stitch[] = [
   },
 ];
 
+function wovenCollarStitches(necklineRole: "back" | "yoke"): readonly Stitch[] {
+  return WOVEN_SHIRT_COLLAR_STITCHES.map((stitch) => {
+    if (stitch.label !== "Outer stand ↔ woven neckline") return stitch;
+    return {
+      ...stitch,
+      b: iface(edgeRef("front", "neckline"), edgeRef(necklineRole, "neckline")),
+    };
+  });
+}
+
 /** Add the four physical collar layers to an already drafted woven body. */
 export function addWovenShirtCollar(
   body: Block, rawOptions: Partial<WovenShirtOptions> = {}
 ): Block {
   const options = resolveWovenShirtOptions(rawOptions);
+  const necklineRole = "yoke" in body.roles ? "yoke" : "back";
   const necklineLength = edgeLength(pieceEdge(body.roles.front, "neckline")) +
-    edgeLength(pieceEdge(body.roles.back, "neckline"));
+    edgeLength(pieceEdge(body.roles[necklineRole], "neckline"));
   const outerStand = standPiece("outer woven stand", necklineLength, options.standHeight);
   const innerStand = standPiece("inner woven stand", necklineLength, options.standHeight);
   const upperCollar = collarPiece("upper pointed woven collar", necklineLength, options.collarLeafDepth);
   const underCollar = collarPiece("under pointed woven collar", necklineLength, options.collarLeafDepth);
   return block({ ...body.roles, outerStand, innerStand, upperCollar, underCollar }, [
-    ...body.stitches, ...WOVEN_SHIRT_COLLAR_STITCHES,
+    ...body.stitches, ...wovenCollarStitches(necklineRole),
   ]);
 }
 
@@ -150,6 +160,133 @@ export function draftWovenShirtCollar(
   m: Measurements, rawOptions: Partial<WovenShirtOptions> = {}
 ): Block {
   return addWovenShirtCollar(draftWovenShirtBody(m, rawOptions), rawOptions);
+}
+
+function splitCubic(curve: CubicBezier, t: number): { readonly left: CubicBezier; readonly right: CubicBezier } {
+  const p01 = lerp(curve.start, curve.control1, t);
+  const p12 = lerp(curve.control1, curve.control2, t);
+  const p23 = lerp(curve.control2, curve.end, t);
+  const p012 = lerp(p01, p12, t);
+  const p123 = lerp(p12, p23, t);
+  const split = lerp(p012, p123, t);
+  return {
+    left: { start: curve.start, control1: p01, control2: p012, end: split },
+    right: { start: split, control1: p123, control2: p23, end: curve.end },
+  };
+}
+
+/** Replace the back's upper outline with a true yoke seam. The armhole curve
+ * is split at the requested depth so the lower back remains a real garment
+ * piece and the yoke still carries the neckline/shoulder. */
+export function addWovenShirtYoke(
+  body: Block, rawOptions: Partial<WovenShirtOptions> = {}
+): Block {
+  const options = resolveWovenShirtOptions(rawOptions);
+  const back = body.roles.back;
+  const armhole = pieceEdge(back, "armhole");
+  if (armhole.kind !== "curve") throw new Error("Woven back armhole must be a curve for yoke splitting");
+  const shoulder = edgeStart(pieceEdge(back, "shoulder"));
+  const t = (options.yokeDepth - shoulder.y) /
+    (edgeStart(armhole).y - shoulder.y);
+  const split = splitCubic(armhole.curve, t);
+  const foldTop = point(0, options.yokeDepth);
+  const backLower: Piece = {
+    name: "woven back lower",
+    onFold: true,
+    edges: [
+      { kind: "line", name: "centerBack", start: edgeStart(pieceEdge(back, "hem")), end: foldTop },
+      { kind: "line", name: "yokeSeam", start: foldTop, end: split.right.start },
+      { kind: "curve", name: "armholeLower", curve: split.right },
+      pieceEdge(back, "sideUpper"),
+      pieceEdge(back, "sideMiddle"),
+      pieceEdge(back, "sideLower"),
+      pieceEdge(back, "hem"),
+    ],
+  };
+  const yoke: Piece = {
+    name: "woven back yoke",
+    onFold: true,
+    edges: [
+      { kind: "line", name: "centerBack", start: foldTop, end: edgeStart(pieceEdge(back, "centerBack")) },
+      pieceEdge(back, "neckline"),
+      pieceEdge(back, "shoulder"),
+      { kind: "curve", name: "armholeUpper", curve: split.left },
+      { kind: "line", name: "yokeSeam", start: split.left.end, end: foldTop },
+    ],
+  };
+  const stitches: Stitch[] = [
+    {
+      label: "Shoulder seam (front ↔ yoke)",
+      a: iface(edgeRef("front", "shoulder")),
+      b: iface(edgeRef("yoke", "shoulder")),
+    },
+    {
+      label: "Side seam (front ↔ back)",
+      a: iface(edgeRef("front", "sideUpper"), edgeRef("front", "sideMiddle"), edgeRef("front", "sideLower")),
+      b: iface(edgeRef("back", "sideUpper"), edgeRef("back", "sideMiddle"), edgeRef("back", "sideLower")),
+    },
+    {
+      label: "Yoke seam (yoke ↔ back lower)",
+      a: iface(edgeRef("yoke", "yokeSeam")),
+      b: iface(edgeRef("back", "yokeSeam")),
+    },
+  ];
+  return block({ ...body.roles, back: backLower, yoke }, stitches);
+}
+
+export function draftWovenShirtYoke(
+  m: Measurements, rawOptions: Partial<WovenShirtOptions> = {}
+): Block {
+  return addWovenShirtYoke(draftWovenShirtBody(m, rawOptions), rawOptions);
+}
+
+function patchPocket(width: number, height: number): Piece {
+  return {
+    name: "woven patch pocket",
+    onFold: false,
+    edges: [
+      { kind: "line", name: "top", start: point(0, 0), end: point(width, 0) },
+      { kind: "line", name: "sideRight", start: point(width, 0), end: point(width, height) },
+      { kind: "line", name: "bottom", start: point(width, height), end: point(0, height) },
+      { kind: "line", name: "sideLeft", start: point(0, height), end: point(0, 0) },
+    ],
+    marks: [lineMark("foldLine", "pocketTopTurn", point(0, 1), point(width, 1), "TURN UNDER")],
+  };
+}
+
+export const WOVEN_SHIRT_POCKET_STITCHES: readonly Stitch[] = [
+  {
+    label: "Patch pocket ↔ front placement",
+    a: iface(edgeRef("pocket", "top")),
+    b: iface(markRef("front", "pocketPlacement", "left")),
+  },
+];
+
+export function addWovenShirtPocket(
+  yoke: Block, m: Measurements, rawOptions: Partial<WovenShirtOptions> = {}
+): Block {
+  const options = resolveWovenShirtOptions(rawOptions);
+  const pocketX = m.chest / 20;
+  const pocketY = m.armholeDepth + 6;
+  const front = yoke.roles.front;
+  const frontWithPlacement: Piece = {
+    ...front,
+    marks: [
+      ...(front.marks ?? []),
+      lineMark("placementLine", "pocketPlacement", point(pocketX, pocketY), point(pocketX + options.pocketWidth, pocketY), "POCKET PLACEMENT"),
+    ],
+  };
+  return block({
+    ...yoke.roles,
+    front: frontWithPlacement,
+    pocket: patchPocket(options.pocketWidth, options.pocketHeight),
+  }, [...yoke.stitches, ...WOVEN_SHIRT_POCKET_STITCHES]);
+}
+
+export function draftWovenShirtPocket(
+  m: Measurements, rawOptions: Partial<WovenShirtOptions> = {}
+): Block {
+  return addWovenShirtPocket(draftWovenShirtYoke(m, rawOptions), m, rawOptions);
 }
 
 const PLACKET_SEAM_ALLOWANCE = 1;

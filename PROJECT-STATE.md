@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 89 (woven-shirt plackets and buttons).
+_Last updated: after Slice 90 (woven-shirt yoke and patch pocket).
 Tank rework
 step 4 is complete for automated and rendered verification; physical sewn
 validation has not occurred and is intentionally deferred. Update this after
@@ -48,6 +48,13 @@ button/buttonhole marks are supported, excluding one additional stand button
 and hole. Placket joins and stand marks are explicit; yoke, pocket, sleeve,
 hem/vent, recipe and UI integration remain. Physical validation remains on
 hold.
+
+**Woven shirt Slice 90 (2026-09-12):** the real back armhole is split into a
+lower back and two-layer folded yoke with exact yoke-seam matching. The yoke
+retains neckline/shoulder/upper armscye and the lower back retains lower
+armscye/side/hem; one live-size patch pocket attaches to a named front
+placement mark. Sleeve, hem/vent and recipe/UI integration remain. Physical
+validation remains on hold.
 
 **Polo V1 (2026-09-11):** all geometry decisions are locked: collar-plus-stand,
 loose tee body/current sleeve, self-knit lightly stabilized folded placket,

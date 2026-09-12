@@ -3,6 +3,12 @@
 How the app fits together, in plain language. Read the top to re-orient; skim the
 layers when you need detail. Updated every slice with only need-to-know changes.
 
+Slice 90: `src/drafting/shirt.ts` splits the real back armhole with de Casteljau
+geometry into a lower-back piece and folded two-layer yoke. The yoke carries
+neckline/shoulder/upper-armhole edges, the lower back carries lower-armhole/
+side/hem edges, and their yoke seams match exactly. One front patch pocket
+joins a named placement mark; collar composition now follows the yoke neckline.
+
 Slice 89: `src/drafting/shirt.ts` adds two full-length folded front plackets.
 Their attachment edges match the real centre-front seam; button and buttonhole
 marks use the same live six/seven count and finished spacing, while the collar
