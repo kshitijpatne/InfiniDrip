@@ -698,6 +698,99 @@ No console runtime errors were observed during that audit.
   physical or production claim is made.
 - Closed by/date: Codex, 2026-09-12. Final status: Closed.
 
+## Functional consistency audit extension (pre-Epic 3)
+
+The independent cross-garment pass is recorded in
+`docs/planning/FUNCTIONAL-CONSISTENCY-AUDIT.md`. These records extend the P2
+inspection/interaction scope without starting Epic 3.
+
+### BUG-UI-032 — Woven lower measurements are absent from Body inspection
+
+- Tags: `BUGFIX`, `EPIC-BUGFIX-P2`, `P2`, `S2`, status `Closed`.
+- Evidence: the Woven shirt controls expose `waist`, `hip`, and `hipDepth`, but
+  both Body figures rendered zero matching `data-dim` and `data-edge` groups;
+  the same matrix passed for every other exposed measurement on all six
+  garments. The Woven draft visibly uses those values for `sideUpper`,
+  `sideMiddle`, and `sideLower`.
+- Root cause: `renderBody()` only supported the shared upper-body chest/arm/hem
+  envelope, while `src/drafting/shirt.ts` already drafted a lower-shaped shirt
+  panel from finished waist/hip widths and hip depth. The app passed only the
+  Woven neckline into Body.
+- Done when: Woven Body front/back figures use the draft's waist/hip coordinates,
+  expose all three dimensions, and focus lifts their relative side-seam overlays
+  without changing non-Woven output.
+- Fix slice: FC-01. Commit/PR: this behavior commit (Slice FC-01); exact hash
+  recorded in the FC-01 gate update.
+- Root cause confirmed: `UpperCroquisLowerShape` now carries the same finished
+  quarter widths and y positions used by the Woven panel draft; Body emits
+  `waist`, `hip`, and `hipDepth` dimensions and side-seam overlays for both
+  figures, and the hem/viewport expands to the widest lower coordinate.
+- Tests: renderer tests cover parsed lower groups, live labels, and changed
+  waist/hip/hip-depth geometry; app tests cover two front/back figures and all
+  three spotlight mappings.
+- Live/rendered/output evidence: live 1280×720 Woven Body rendered two figures
+  with 2 dimensions and 2 edge groups per lower field; focusing Waist or Hip
+  kept its edges at opacity 1 and the figure at 0.15. A rendered screenshot
+  showed the waist/hip shaping and highlighted hip reference. Export writers
+  and legacy output checks are unchanged. No physical or production claim is
+  made.
+- Closed by/date: Codex, 2026-09-12. Final status: Closed.
+
+### BUG-UI-033 — Garment switching leaves Body projection controls stale
+
+- Tags: `BUGFIX`, `EPIC-BUGFIX-P2`, `P2`, `S3`, status `Closed`.
+- Evidence: from a top Body Side view, switching to Skirt left the projection
+  toolbar stale; the lower renderer retained a valid Side selection, but the
+  control state was not re-synchronized. From Skirt Body, switching back to a
+  top left the required projection controls hidden. Front + Back and Side
+  therefore did not have a consistent cross-garment action path.
+- Root cause: `setGarment()` changed the recipe and redrew the canvas without
+  reapplying disclosure or synchronizing the Body projection state. The shared
+  `bodyCroquisView` could outlive the garment region.
+- Done when: every garment that exposes Body also exposes the same projection
+  toolbar; switching garments preserves a valid Front + Back, Front, Back, or
+  Side selection and restores a truthful pressed state.
+- Fix slice: FC-01. Commit/PR: this behavior commit (Slice FC-01); exact hash
+  recorded in the FC-01 gate update.
+- Root cause confirmed: `setGarment()` now synchronizes all four pressed states
+  and reapplies disclosure after changing the recipe before the redraw; Body's
+  projection toolbar is disclosed for every garment's Body view, including the
+  existing lower Side schematic.
+- Tests: app tests cover top Side → Skirt, lower Side → Front + Back, and
+  Skirt → Polo transitions, with truthful pressed states and restored output.
+- Live/rendered/output evidence: live DOM checks at 1280×720 showed top Side →
+  Skirt retaining the lower `SIDE · SCHEMATIC` with toggle `display:flex` and
+  Side pressed; clicking Front + Back rendered the lower measured figure; and
+  Skirt → Polo restored the flex toolbar and two figures. No export output
+  changed. No physical or production claim is made.
+- Closed by/date: Codex, 2026-09-12. Final status: Closed.
+
+### BUG-UI-034 — Pointer leave cancels a still-focused measurement spotlight
+
+- Tags: `BUGFIX`, `EPIC-BUGFIX-P2`, `P2`, `S3`, status `Closed`.
+- Evidence: in the live Tee Body view, focusing the Chest input highlighted its
+  edge, but moving the pointer outside the row immediately restored the full
+  silhouette even though Chest retained DOM focus. Keyboard and pointer users
+  therefore saw different answers for the same active control.
+- Root cause: `wireMeasurementInputs()` sent both mouseleave and focusout
+  directly to one shared `activeDim`; either event could clear the other active
+  modality.
+- Done when: hover and keyboard focus can coexist, focus has precedence, and a
+  spotlight clears only after both hover and focus are gone.
+- Fix slice: FC-01. Commit/PR: this behavior commit (Slice FC-01); exact hash
+  recorded in the FC-01 gate update.
+- Root cause confirmed: the UI now tracks `hoveredDim` and `focusedDim`
+  independently and derives the active spotlight from `focusedDim ?? hoveredDim`.
+  Garment/workspace replacement clears both transient states.
+- Tests: app tests cover hover/focus event ordering and the live redraw path;
+  the cross-garment matrix exercises the same row wiring after each panel
+  replacement.
+- Live/rendered/output evidence: live CUA verification kept the focused Chest
+  edge at opacity 1 and the figure at 0.15 after the pointer moved outside the
+  row; focusout then restored all edges. No export output changed. No physical
+  or production claim is made.
+- Closed by/date: Codex, 2026-09-12. Final status: Closed.
+
 ## Closure record
 
 For every fix, append or update the affected entry with:

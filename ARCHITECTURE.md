@@ -93,6 +93,15 @@ above the workspace, while the Color group is named by its visible heading and
 each swatch keeps a visible color name. P2 semantic panel headings remain the
 section hierarchy for the working surfaces.
 
+FC-01: the Body inspection contract stays aligned with the active garment. The
+Woven shirt passes finished waist/hip widths and hip depth from the same
+coordinates used by its draft, so both front/back figures expose dimensions and
+side-seam overlays for every declared lower field. Garment changes reapply and
+restore the shared Body projection toolbar, including the existing lower Side
+schematic, and spotlighting tracks hover and focus independently with focus
+taking precedence. This is a presentation-only contract; export writers and
+physical validation are unchanged.
+
 Slice 93: the woven-shirt component-library exit audit verifies closed geometry
 and sewability across XS–XL, all Pattern/Body/Side/Size run/Spec/Nesting/Check/
 preview-Edit routes, and parsed SVG/DXF/tiled-PDF/A0/projector/tech-pack output.

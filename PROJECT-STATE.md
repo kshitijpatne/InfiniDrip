@@ -1,6 +1,21 @@
 # InfiniDrip — Project State
 
-_Last updated: EPIC-BUGFIX-P3 exit, 2026-09-12; the BUGFIX phase passed._
+_Last updated: FC-01 functional consistency audit, 2026-09-12; the behavior
+slice is complete and the final gate is pending._
+
+The independent functional-consistency audit now closes BUG-UI-032 through
+BUG-UI-034. Woven Body front/back inspection uses its real lower shaping and
+highlights the waist/hip/hip-depth seam references; switching between upper and
+lower garments synchronizes the Body projection toolbar while preserving the
+valid Side schematic; and focused field
+spotlights remain active when the pointer leaves the row. Live checks covered
+all six garments, all seven primary views, keyboard increment/decrement,
+guidance correction targets, option markers, and responsive widths 1280/900/
+700/560/390 with no horizontal overflow at fit zoom. Focused tests pass 129/129;
+the full final gate remains to be recorded in
+`docs/planning/FUNCTIONAL-CONSISTENCY-AUDIT.md`. All BUG-UI-001 through
+BUG-UI-034 records are closed. Epic 3 has not begun; physical validation
+remains deferred.
 
 EPIC-BUGFIX-P1 closes BUG-UI-001 through BUG-UI-012 except no IDs are skipped:
 responsive layout, input truth, live totals, unified digital verdicts, full
@@ -30,7 +45,7 @@ the visible product hierarchy and visible/semantically named swatches. The
 full P3 gate passes across 73 test files / 959 tests at 100% statements,
 branches, functions, and lines, with standalone TypeScript, production build,
 parsed SVG/DXF/PDF/A0/projector/tech-pack checks, and eight unchanged legacy
-export hashes. All BUG-UI-001 through BUG-UI-031 records are closed. Epic 3
+export hashes. All BUG-UI-001 through BUG-UI-034 records are closed. Epic 3
 has not begun; physical validation remains deferred.
 
 BF-P1-01 closes BUG-UI-002/003: no silent clamp, verbatim negative ease,

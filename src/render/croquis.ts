@@ -19,6 +19,16 @@ export interface UpperCroquisNeckline {
   readonly edge: Edge;
 }
 
+/** Optional lower torso shaping for an upper-body garment whose measured
+ * waist and hip are part of the same figure. The values are finished quarter
+ * widths and y positions, matching the garment draft's panel coordinates. */
+export interface UpperCroquisLowerShape {
+  readonly waistHalf: number;
+  readonly hipHalf: number;
+  readonly waistY: number;
+  readonly hipY: number;
+}
+
 /** Optional garment-aware inputs for the upper-body figure. The Body renderer
  * supplies the already-resolved neckline so this library owns the path
  * assembly without re-drafting a neckline of its own. */
@@ -26,6 +36,7 @@ export interface UpperCroquisOptions {
   readonly hasSleeve?: boolean;
   readonly neckline?: UpperCroquisNeckline;
   readonly strapWidth?: number;
+  readonly lowerShape?: UpperCroquisLowerShape;
 }
 
 export interface UpperCroquisAnchors {
@@ -91,6 +102,7 @@ export function upperCroquisFigure(
   const neckline = options.neckline ?? defaultUpperNeckline(m, view, d);
   const neckHalf = neckline.hps.x;
   const strapX = options.strapWidth === undefined ? shoulder : neckHalf + options.strapWidth;
+  const lowerShape = options.lowerShape;
   const armhole = !hasSleeve && options.strapWidth !== undefined
     // Preserve the Body view's established split: its shoulder corner uses a
     // schematic fall, while the drafted tank armhole starts from the draft's
@@ -114,13 +126,27 @@ export function upperCroquisFigure(
   const bOut = { x: lerp(a1.x, a2.x, 0.3), y: lerp(a1.y, a2.y, 0.3) };
   const bIn = { x: lerp(a4.x, a3.x, 0.3), y: lerp(a4.y, a3.y, 0.3) };
 
+  const rightLowerTorso = lowerShape
+    ? [
+        `L ${round(lowerShape.waistHalf)} ${round(lowerShape.waistY)}`,
+        `L ${round(lowerShape.hipHalf)} ${round(lowerShape.hipY)}`,
+        `L ${round(lowerShape.hipHalf)} ${round(len)}`,
+      ]
+    : [`L ${round(half)} ${round(len)}`];
+  const leftLowerTorso = lowerShape
+    ? [
+        `L ${round(-lowerShape.hipHalf)} ${round(len)}`,
+        `L ${round(-lowerShape.hipHalf)} ${round(lowerShape.hipY)}`,
+        `L ${round(-lowerShape.waistHalf)} ${round(lowerShape.waistY)}`,
+        `L ${round(-half)} ${round(ad)}`,
+      ]
+    : [`L ${round(-half)} ${round(len)}`, `L ${round(-half)} ${round(ad)}`];
   const torsoPath = [
     `M ${round(neckHalf)} 0`,
     `L ${round(strapX)} ${round(slope)}`,
     armhole ? armholePathCommand(armhole) : `L ${round(half)} ${round(ad)}`,
-    `L ${round(half)} ${round(len)}`,
-    `L ${round(-half)} ${round(len)}`,
-    `L ${round(-half)} ${round(ad)}`,
+    ...rightLowerTorso,
+    ...leftLowerTorso,
     armhole ? armholePathCommand(armhole, true) : `L ${round(-strapX)} ${round(slope)}`,
     `L ${round(-neckHalf)} 0`,
     necklinePathCommand(neckline.cNeck, neckline.hps, neckline.edge),
@@ -131,7 +157,8 @@ export function upperCroquisFigure(
     `M ${round(sx * a1.x)} ${round(a1.y)} L ${round(sx * a2.x)} ${round(a2.y)} ` +
     `L ${round(sx * a3.x)} ${round(a3.y)} L ${round(sx * a4.x)} ${round(a4.y)} Z`;
   const armMaxX = shoulder + dx + w * 0.5;
-  const rightDimX = (hasSleeve ? armMaxX : half) + 6;
+  const widestTorsoHalf = Math.max(half, lowerShape?.waistHalf ?? half, lowerShape?.hipHalf ?? half);
+  const rightDimX = Math.max(hasSleeve ? armMaxX : half, widestTorsoHalf) + 6;
 
   return {
     torsoPath,

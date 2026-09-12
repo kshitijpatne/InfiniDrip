@@ -68,6 +68,8 @@ export function mountApp(root: HTMLElement): void {
   let nestScope: "single" | "marker" = initialWorkspace.nestScope;
   let exportStep = initialWorkspace.exportStep;
   let activeDim: string | null = null; // the measurement field spotlighted on the body view
+  let hoveredDim: string | null = null;
+  let focusedDim: string | null = null;
   let inspectionZoom = 1;
   let previewExpanded = true;
 
@@ -136,6 +138,17 @@ export function mountApp(root: HTMLElement): void {
     const options = recipeOptions();
     const widthHalf = (measurements.neck + options.neckEase) / 4;
     return { widthHalf, frontDepth: widthHalf * 0.8, backDepth: widthHalf * 0.3 };
+  };
+  const wovenBodyLowerShape = () => {
+    if (recipe.name !== "woven-shirt") return undefined;
+    const waistY = measurements.armholeDepth +
+      (measurements.length - measurements.armholeDepth) * 0.35;
+    return {
+      waistHalf: (measurements.waist + measurements.ease) / 4,
+      hipHalf: (measurements.hip + measurements.ease) / 4,
+      waistY,
+      hipY: waistY + measurements.hipDepth,
+    };
   };
 
   // Spotlight one measurement on the body view: its dimension line AND the outline
@@ -315,11 +328,11 @@ export function mountApp(root: HTMLElement): void {
       } else if (!isTop) {
         canvasContent = renderSkirtBody(measurements);
       } else if (bodyCroquisView === "front") {
-        canvasContent = renderBody(measurements, hasSleeve, recipe.frontNeckline?.(measurements), recipe.strapWidth?.(measurements), "front", poloVisual(), wovenBodyNeckline());
+        canvasContent = renderBody(measurements, hasSleeve, recipe.frontNeckline?.(measurements), recipe.strapWidth?.(measurements), "front", poloVisual(), wovenBodyNeckline(), wovenBodyLowerShape());
       } else if (bodyCroquisView === "back") {
-        canvasContent = renderBody(measurements, hasSleeve, recipe.backNeckline?.(measurements), recipe.strapWidth?.(measurements), "back", poloVisual(), wovenBodyNeckline());
+        canvasContent = renderBody(measurements, hasSleeve, recipe.backNeckline?.(measurements), recipe.strapWidth?.(measurements), "back", poloVisual(), wovenBodyNeckline(), wovenBodyLowerShape());
       } else {
-        canvasContent = renderBodyPair(measurements, hasSleeve, recipe.frontNeckline?.(measurements), recipe.backNeckline?.(measurements), recipe.strapWidth?.(measurements), poloVisual(), wovenBodyNeckline());
+        canvasContent = renderBodyPair(measurements, hasSleeve, recipe.frontNeckline?.(measurements), recipe.backNeckline?.(measurements), recipe.strapWidth?.(measurements), poloVisual(), wovenBodyNeckline(), wovenBodyLowerShape());
       }
     } else {
       const block = draftCurrent();
@@ -431,7 +444,7 @@ export function mountApp(root: HTMLElement): void {
     guidanceHost.style.display = d.guidance ? "" : "none";
     root.querySelector<HTMLElement>("#view-toggle-host")!.style.display =
       d.views.length > 0 ? "flex" : "none";
-    bodyCroquisHost.style.display = view === "body" && recipe.fields.includes("chest") && d.views.includes("body") ? "flex" : "none";
+    bodyCroquisHost.style.display = view === "body" && d.views.includes("body") ? "flex" : "none";
     (Object.keys(viewBtns) as ViewName[]).forEach((k) => {
       viewBtns[k].style.display = d.views.includes(k) ? "" : "none";
     });
@@ -567,6 +580,13 @@ export function mountApp(root: HTMLElement): void {
   const setGarment = (name: string): void => {
     markOutputDirty();
     recipe = garmentByName(name);
+    hoveredDim = null;
+    focusedDim = null;
+    highlightDim(null);
+    syncBodyCroquisButton(bodyCroquisBtns.frontBack, bodyCroquisView === "front-back");
+    syncBodyCroquisButton(bodyCroquisBtns.front, bodyCroquisView === "front");
+    syncBodyCroquisButton(bodyCroquisBtns.back, bodyCroquisView === "back");
+    syncBodyCroquisButton(bodyCroquisBtns.side, bodyCroquisView === "side");
     targetStyle = recipe.styles[0].name; // the old target may not exist for this garment
     GARMENTS.forEach((g) => {
       const btn = root.querySelector<HTMLButtonElement>(`#garment-${g.name}`)!;
@@ -584,6 +604,7 @@ export function mountApp(root: HTMLElement): void {
     wireMeasurementInputs();
     syncExportSizes();
     if (view === "edit" && inputErrors().size === 0) editedFront = rolePiece(draftCurrent(), "front");
+    applyDisclosure();
     draw();
   };
   GARMENTS.forEach((g) => {
@@ -624,6 +645,7 @@ export function mountApp(root: HTMLElement): void {
     activeDim = field;
     spotlight(field);
   };
+  const syncDimSpotlight = (): void => highlightDim(focusedDim ?? hoveredDim);
   const wireMeasurementInputs = (): void => {
     root.querySelectorAll<HTMLInputElement>("input[data-field]").forEach((input) => {
       const field = FIELDS.find((f) => f.id === input.dataset.field)!;
@@ -648,10 +670,22 @@ export function mountApp(root: HTMLElement): void {
     });
     root.querySelectorAll<HTMLElement>("[data-dim-row]").forEach((row) => {
       const field = row.dataset.dimRow!;
-      row.addEventListener("mouseenter", () => highlightDim(field));
-      row.addEventListener("mouseleave", () => highlightDim(null));
-      row.addEventListener("focusin", () => highlightDim(field));
-      row.addEventListener("focusout", () => highlightDim(null));
+      row.addEventListener("mouseenter", () => {
+        hoveredDim = field;
+        syncDimSpotlight();
+      });
+      row.addEventListener("mouseleave", () => {
+        if (hoveredDim === field) hoveredDim = null;
+        syncDimSpotlight();
+      });
+      row.addEventListener("focusin", () => {
+        focusedDim = field;
+        syncDimSpotlight();
+      });
+      row.addEventListener("focusout", () => {
+        if (focusedDim === field) focusedDim = null;
+        syncDimSpotlight();
+      });
     });
   };
   wireMeasurementInputs();
@@ -830,6 +864,8 @@ export function mountApp(root: HTMLElement): void {
     selectedId = null;
     dragId = null;
     activeDim = null;
+    hoveredDim = null;
+    focusedDim = null;
     root.querySelector<HTMLElement>("#controls-panel")!.outerHTML = controlsMarkup(
       measurements, recipe.fields, recipe.options, recipeOptions());
     wireMeasurementInputs();

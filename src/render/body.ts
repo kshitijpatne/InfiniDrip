@@ -3,9 +3,9 @@
 // designer can see what every number means on a body before drafting.
 //
 // Honesty is the whole point (this tool measures, it doesn't invent):
-//   • The figure only bends where we have a number. There is no waist or hip in
-//     the measurement set, so the torso sides run straight — we don't draw a curve
-//     we didn't measure.
+//   • A plain upper-body figure only bends where its garment has a measured
+//     number. Garments with lower shaping (the woven shirt) pass those real
+//     waist/hip coordinates explicitly; no figure invents a curve.
 //   • Girth inputs (chest, bicep) are marked "(circ)"; the drawn span is a body
 //     width, not the circumference, and the label says so.
 //   • The head and neck are a faint, fixed-proportion placeholder for orientation
@@ -17,7 +17,7 @@ import { Measurements, derive, necklineEdge, NecklineParams, NECKLINE_DEFAULT } 
 import { BLUEPRINT as T } from "./theme";
 import { armholePathCommand, necklinePathCommand } from "./neckline-path";
 import { poloDetailsSvg } from "./polo-details";
-import { upperCroquisFigure } from "./croquis";
+import { upperCroquisFigure, UpperCroquisLowerShape } from "./croquis";
 
 export interface PoloBodyVisual {
   readonly placketLength: number;
@@ -97,7 +97,7 @@ function seg(x1: number, y1: number, x2: number, y2: number, width: number): str
 export function renderBody(
   m: Measurements, hasSleeve = true, frontNeckline: NecklineParams = NECKLINE_DEFAULT,
   strapWidth?: number, position: "front" | "back" = "front", polo?: PoloBodyVisual,
-  necklineVisual?: BodyNecklineVisual
+  necklineVisual?: BodyNecklineVisual, lowerShape?: UpperCroquisLowerShape
 ): string {
   const d = derive(m);
 
@@ -110,7 +110,7 @@ export function renderBody(
         : (position === "front" ? d.frontNeckDepth : d.backNeckDepth),
       d.shoulderHalf, m.armholeDepth, frontNeckline);
   const croquis = upperCroquisFigure(m, position, {
-    hasSleeve, strapWidth, neckline: { cNeck, hps, edge: neckEdge },
+    hasSleeve, strapWidth, neckline: { cNeck, hps, edge: neckEdge }, lowerShape,
   });
   const { bodyHalf, shoulderHalf, neckHalf, strapX, slope, armholeDepth: ad, length: len,
     headR, headCy, headTop, neckLen, rightDimX, leftDimX, a1, a2, a3, bOut, bIn } = croquis.anchors;
@@ -144,6 +144,9 @@ export function renderBody(
     dim("shoulderWidth", dimH(-shoulderHalf, shoulderHalf, headTop - 3, `Shoulder ${m.shoulderWidth}`)) +
     (necklineVisual ? dim("neck", dimH(-neckHalf, neckHalf, -4, `Neck ${m.neck} (circ)`)) : "") +
     dim("chest", dimH(-bodyHalf, bodyHalf, ad + (len - ad) * 0.22, `Chest ${m.chest} (circ)`)) +
+    (lowerShape ? dim("waist", dimH(-lowerShape.waistHalf, lowerShape.waistHalf, lowerShape.waistY, `Waist ${m.waist} (circ)`)) : "") +
+    (lowerShape ? dim("hip", dimH(-lowerShape.hipHalf, lowerShape.hipHalf, lowerShape.hipY - 2.5, `Hip ${m.hip} (circ)`)) : "") +
+    (lowerShape ? dim("hipDepth", dimV(leftDimX, 0, lowerShape.hipY, `Hip depth ${m.hipDepth}`, "left")) : "") +
     dim("length", dimV(rightDimX, 0, len, `Length ${m.length}`, "right")) +
     dim("armholeDepth", dimV(leftDimX, 0, ad, `Armhole depth ${m.armholeDepth}`, "left")) +
     (hasSleeve ? dim("sleeveLength",
@@ -164,8 +167,10 @@ export function renderBody(
   // Each measurement owns exactly the outline segments it positions, so the sets
   // don't overlap and a hover has one unambiguous answer:
   //   shoulderWidth → the shoulder slopes      armholeDepth → the underarm diagonals
-  //   chest         → the side seams (±width)  length       → the hem
+  //   chest         → the upper side seam       length       → the hem
   //   sleeveLength  → the arm outer edges      bicep        → the cuff edges
+  // For a lower-shaped woven shirt, the three real side-seam spans are split
+  // across chest/waist/hip and hipDepth also carries the hip cross-reference.
   // Drawn on top of the silhouette, so lifting one to full opacity while the
   // figure fades reads as "this edge is what that number moves". Slice 63: for
   // a sleeveless garment these two use `strapX`, not `shoulderHalf` — the
@@ -180,13 +185,21 @@ export function renderBody(
     `fill="none" stroke="${T.line}" stroke-width="1.4" stroke-linecap="round" ` +
     `vector-effect="non-scaling-stroke"/>`;
   const bothArms = (fn: (sx: number) => string): string => fn(1) + fn(-1);
+  const lowerEdges = lowerShape
+    ? edge("chest", bothArms((sx) => seg(sx * bodyHalf, ad, sx * lowerShape.waistHalf, lowerShape.waistY, 1.4))) +
+      edge("waist", bothArms((sx) => seg(sx * lowerShape.waistHalf, lowerShape.waistY, sx * lowerShape.hipHalf, lowerShape.hipY, 1.4))) +
+      edge("hip", bothArms((sx) => seg(sx * lowerShape.hipHalf, lowerShape.hipY, sx * lowerShape.hipHalf, len, 1.4))) +
+      edge("hipDepth", seg(-lowerShape.hipHalf, lowerShape.hipY, lowerShape.hipHalf, lowerShape.hipY, 1.4) +
+        bothArms((sx) => seg(sx * lowerShape.waistHalf, lowerShape.waistY, sx * lowerShape.hipHalf, lowerShape.hipY, 1.4)))
+    : edge("chest", bothArms((sx) => seg(sx * bodyHalf, ad, sx * bodyHalf, len, 1.4)));
+  const hemHalf = lowerShape?.hipHalf ?? bodyHalf;
   const edges =
     edge("shoulderWidth", bothArms((sx) => seg(sx * neckHalf, 0, sx * strapX, slope, 1.4))) +
     edge("armholeDepth", tankArmhole
       ? armholeHighlight(1) + armholeHighlight(-1)
       : bothArms((sx) => seg(sx * strapX, slope, sx * bodyHalf, ad, 1.4))) +
-    edge("chest", bothArms((sx) => seg(sx * bodyHalf, ad, sx * bodyHalf, len, 1.4))) +
-    edge("length", seg(-bodyHalf, len, bodyHalf, len, 1.4)) +
+    lowerEdges +
+    edge("length", seg(-hemHalf, len, hemHalf, len, 1.4)) +
     (!hasSleeve ? edge("strapWidth", bothArms((sx) => seg(sx * neckHalf, 0, sx * strapX, slope, 1.4))) : "") +
     (!hasSleeve && position === "front" ? edge("neckDrop", neckHighlight()) : "") +
     (!hasSleeve ? edge("neckWidthEase", neckHighlight()) : "") +
@@ -227,11 +240,12 @@ export function renderBodyPair(
   m: Measurements, hasSleeve = true,
   frontNeckline: NecklineParams = NECKLINE_DEFAULT,
   backNeckline: NecklineParams = NECKLINE_DEFAULT,
-  strapWidth?: number, polo?: PoloBodyVisual, necklineVisual?: BodyNecklineVisual
+  strapWidth?: number, polo?: PoloBodyVisual, necklineVisual?: BodyNecklineVisual,
+  lowerShape?: UpperCroquisLowerShape
 ): string {
   return `<div style="display:flex;gap:8px;width:100%">` +
     `<div style="flex:1;min-width:0"><div style="font-size:11px;color:${T.label};text-transform:uppercase;text-align:center;margin-bottom:4px">Front</div>` +
-    renderBody(m, hasSleeve, frontNeckline, strapWidth, "front", polo, necklineVisual) + `</div>` +
+    renderBody(m, hasSleeve, frontNeckline, strapWidth, "front", polo, necklineVisual, lowerShape) + `</div>` +
     `<div style="flex:1;min-width:0"><div style="font-size:11px;color:${T.label};text-transform:uppercase;text-align:center;margin-bottom:4px">Back</div>` +
-    renderBody(m, hasSleeve, backNeckline, strapWidth, "back", polo, necklineVisual) + `</div></div>`;
+    renderBody(m, hasSleeve, backNeckline, strapWidth, "back", polo, necklineVisual, lowerShape) + `</div></div>`;
 }

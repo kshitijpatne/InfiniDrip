@@ -141,6 +141,7 @@ describe("mountApp", () => {
   it("offers the schematic Side body view for both upper and lower garments", () => {
     localStorage.clear();
     const root = mount();
+    root.querySelector<HTMLButtonElement>("#welcome-skip")!.dispatchEvent(new Event("click", { bubbles: true }));
     root.querySelector<HTMLButtonElement>("#view-body")!.dispatchEvent(new Event("click"));
     expect(root.querySelector<HTMLElement>("#body-croquis-toggle-host")!.style.display).toBe("flex");
 
@@ -156,11 +157,20 @@ describe("mountApp", () => {
     root.querySelector<HTMLButtonElement>("#garment-skirt")!.dispatchEvent(new Event("click"));
     side = root.querySelector("#canvas-host svg")!;
     expect(side.getAttribute("data-croquis-region")).toBe("lower");
+    expect(side.getAttribute("data-croquis-view")).toBe("side");
     expect(side.querySelector('[data-part="side-silhouette"]')).not.toBeNull();
+    expect(root.querySelector<HTMLElement>("#body-croquis-toggle-host")!.style.display).toBe("flex");
+    expect(root.querySelector<HTMLButtonElement>("#body-side")!.getAttribute("aria-pressed")).toBe("true");
 
     root.querySelector<HTMLButtonElement>("#body-front-back")!.dispatchEvent(new Event("click"));
     expect(root.querySelector('[data-dim="waist"]')).not.toBeNull();
     expect(root.querySelector('[data-part="side-silhouette"]')).toBeNull();
+    expect(root.querySelector<HTMLButtonElement>("#body-front-back")!.getAttribute("aria-pressed")).toBe("true");
+
+    root.querySelector<HTMLButtonElement>("#garment-polo")!.dispatchEvent(new Event("click"));
+    expect(root.querySelector<HTMLElement>("#body-croquis-toggle-host")!.style.display).toBe("flex");
+    expect(root.querySelector<HTMLButtonElement>("#body-front-back")!.getAttribute("aria-pressed")).toBe("true");
+    expect(root.querySelectorAll("#canvas-host svg")).toHaveLength(2);
   });
 
   it("draws the tank without a sleeve, in both the body view and the assembled view (Slice 60)", () => {
@@ -819,6 +829,24 @@ describe("body-view measurement linking", () => {
     expect(root.querySelector("#canvas-host")!.textContent).toContain("Neck 48 (circ)");
   });
 
+  it("maps Woven lower measurements to both Body figures and their side seams", () => {
+    const root = mount();
+    root.querySelector<HTMLButtonElement>("#garment-woven-shirt")!.dispatchEvent(new Event("click"));
+    root.querySelector<HTMLButtonElement>("#view-body")!.dispatchEvent(new Event("click"));
+    root.querySelector<HTMLButtonElement>("#body-front-back")!.dispatchEvent(new Event("click"));
+    for (const field of ["waist", "hip", "hipDepth"]) {
+      expect(root.querySelectorAll(`#canvas-host [data-dim="${field}"]`)).toHaveLength(2);
+      expect(root.querySelectorAll(`#canvas-host [data-edge="${field}"]`)).toHaveLength(2);
+      const row = root.querySelector<HTMLElement>(`[data-dim-row="${field}"]`)!;
+      row.dispatchEvent(new Event("mouseenter"));
+      expect([...root.querySelectorAll<SVGGElement>(`#canvas-host [data-dim="${field}"]`)]
+        .every((g) => g.style.opacity === "1")).toBe(true);
+      expect([...root.querySelectorAll<SVGGElement>('#canvas-host [data-edge="figure"]')]
+        .every((g) => g.style.opacity === "0.15")).toBe(true);
+      row.dispatchEvent(new Event("mouseleave"));
+    }
+  });
+
   it("runs the woven shirt through every user-facing view at the component exit", () => {
     localStorage.clear();
     const root = mount();
@@ -913,6 +941,19 @@ describe("body-view measurement linking", () => {
     input.dispatchEvent(new Event("input"));
     expect(root.querySelector<SVGGElement>('#canvas-host [data-edge="chest"]')!.style.opacity).toBe("1");
     expect(root.querySelector<SVGGElement>('#canvas-host [data-edge="figure"]')!.style.opacity).toBe("0.15");
+  });
+
+  it("keeps keyboard focus spotlighted after the pointer leaves the row", () => {
+    const root = mount();
+    root.querySelector<HTMLButtonElement>("#view-body")!.dispatchEvent(new Event("click"));
+    const row = root.querySelector<HTMLElement>('[data-dim-row="chest"]')!;
+    row.dispatchEvent(new Event("mouseenter"));
+    row.dispatchEvent(new Event("focusin"));
+    row.dispatchEvent(new Event("mouseleave"));
+    expect(root.querySelector<SVGGElement>('#canvas-host [data-edge="chest"]')!.style.opacity).toBe("1");
+    expect(root.querySelector<SVGGElement>('#canvas-host [data-edge="figure"]')!.style.opacity).toBe("0.15");
+    row.dispatchEvent(new Event("focusout"));
+    expect(root.querySelector<SVGGElement>('#canvas-host [data-edge="figure"]')!.style.opacity).toBe("1");
   });
 });
 

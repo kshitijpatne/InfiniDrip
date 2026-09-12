@@ -274,4 +274,53 @@ describe("renderBody — woven-shirt independent neck", () => {
     expect(pair).toContain("0 8");
     expect(pair).toContain("0 3");
   });
+
+  it("uses the woven shirt's measured lower shaping and exposes every lower field", () => {
+    const lowerShape = {
+      waistHalf: (STANDARD_M.waist + STANDARD_M.ease) / 4,
+      hipHalf: (STANDARD_M.hip + STANDARD_M.ease) / 4,
+      waistY: STANDARD_M.armholeDepth +
+        (STANDARD_M.length - STANDARD_M.armholeDepth) * 0.35,
+      hipY: STANDARD_M.armholeDepth +
+        (STANDARD_M.length - STANDARD_M.armholeDepth) * 0.35 + STANDARD_M.hipDepth,
+    };
+    const svg = renderBody(STANDARD_M, true, NECKLINE_DEFAULT, undefined, "front", undefined, {
+      widthHalf: 10, frontDepth: 8, backDepth: 3,
+    }, lowerShape);
+    const doc = new DOMParser().parseFromString(svg, "image/svg+xml");
+    expect(doc.querySelector("parsererror")).toBeNull();
+    for (const field of ["waist", "hip", "hipDepth"]) {
+      expect(doc.querySelector(`[data-dim="${field}"]`)).not.toBeNull();
+      expect(doc.querySelector(`[data-edge="${field}"]`)).not.toBeNull();
+    }
+    expect(svg).toContain("Waist 84 (circ)");
+    expect(svg).toContain("Hip 100 (circ)");
+    expect(svg).toContain("Hip depth 20");
+    expect(svg).toContain("23.5 40.1");
+    expect(svg).toContain("27.5 60.1");
+  });
+
+  it("keeps the lower body preview tied to live waist, hip, and hip-depth values", () => {
+    const shape = (waist: number, hip: number, hipDepth: number) => {
+      const waistY = STANDARD_M.armholeDepth +
+        (STANDARD_M.length - STANDARD_M.armholeDepth) * 0.35;
+      return {
+        waistHalf: (waist + STANDARD_M.ease) / 4,
+        hipHalf: (hip + STANDARD_M.ease) / 4,
+        waistY,
+        hipY: waistY + hipDepth,
+      };
+    };
+    const base = renderBody(STANDARD_M, true, NECKLINE_DEFAULT, undefined, "front", undefined, {
+      widthHalf: 10, frontDepth: 8, backDepth: 3,
+    }, shape(84, 100, 20));
+    const changedMeasurements = { ...STANDARD_M, waist: 96, hip: 124, hipDepth: 24, length: 76 };
+    const changed = renderBody(changedMeasurements, true, NECKLINE_DEFAULT, undefined, "front", undefined, {
+      widthHalf: 10, frontDepth: 8, backDepth: 3,
+    }, shape(changedMeasurements.waist, changedMeasurements.hip, changedMeasurements.hipDepth));
+    expect(changed).not.toBe(base);
+    expect(changed).toContain("Waist 96 (circ)");
+    expect(changed).toContain("Hip 124 (circ)");
+    expect(changed).toContain("Hip depth 24");
+  });
 });

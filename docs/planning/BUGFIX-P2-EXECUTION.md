@@ -126,3 +126,14 @@ diff and rendered/live UI were reviewed after BF-P2-06, including the named
 Edit inspection SVG, keyboard coordinate update, and field-linked Guidance
 focus. P3 may now begin sequentially; Epic 3 remains parked until the P3 exit
 report also passes. Physical validation remains deferred.
+
+## Post-exit functional consistency extension — FC-01
+
+Before treating the BUGFIX phase as ready for Epic 3, an independent matrix
+pass found three small P2 inspection/interaction gaps recorded as BUG-UI-032
+through BUG-UI-034 in `docs/BUG-LEDGER.md`: Woven lower fields were absent from
+Body, garment switching left the Body projection toolbar stale, and pointer
+leave could override a still-focused measurement spotlight. FC-01 closes all
+three in one bounded presentation slice. The detailed matrix and final gate are
+recorded in `docs/planning/FUNCTIONAL-CONSISTENCY-AUDIT.md`; Epic 3 remains
+parked and physical validation remains deferred.
