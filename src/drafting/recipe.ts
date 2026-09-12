@@ -85,6 +85,10 @@ export interface GarmentRecipe {
   readonly region?: "upper" | "lower";
   /** Role used by the exploratory Edit view; defaults to the conventional "front". */
   readonly editRole?: string;
+  /** Permit a whole-piece multi-page A0 export when the true-scale layout overflows one sheet. */
+  readonly a0Overflow?: boolean;
+  /** Use page-local coordinates for the tiled PDF; legacy recipes keep their byte-identity path. */
+  readonly tiledPdfLocalCoordinates?: boolean;
   readonly fields: readonly (keyof Measurements)[]; // which measurements this garment uses (drives the UI, in order)
   readonly styles: readonly StyleDef[];             // the target-fit presets this garment offers
   readonly draft: (m: Measurements, options?: GarmentOptions) => Block;
@@ -411,6 +415,8 @@ export const TROUSER: GarmentRecipe = {
   label: "Trouser",
   region: "lower",
   editRole: "frontLeft",
+  a0Overflow: true,
+  tiledPdfLocalCoordinates: true,
   fields: TROUSER_FIELDS,
   styles: TROUSER_STYLES,
   draft: (m, options = {}) => draftTrouserWithPockets(m, options as Partial<TrouserOptions>),

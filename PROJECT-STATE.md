@@ -1,12 +1,12 @@
 # InfiniDrip — Project State
 
-_Last updated: Epic 3 Slice 100, 2026-09-12; the BUGFIX
+_Last updated: Epic 3 Slice 101, 2026-09-12; the BUGFIX
 phase and pre-Epic 3 consistency extension passed._
 
-## Current status — Epic 3 Slice 100
+## Current status — Epic 3 Slice 101
 
-The actual `main` checkout contains the verified Slice 94–99 commits and the
-Slice 100 integration checkpoint; it remains local and has not been pushed.
+The actual `main` checkout contains the verified Slice 94–101 commits; it
+remains local and has not been pushed.
 The BUGFIX P1/P2/P3 and FC-01 records are closed. Preserved untracked logs and
 `tmp/` evidence remain user artifacts and were not touched or staged.
 
@@ -80,10 +80,25 @@ consumers and live responsive browser evidence are not yet accepted and are
 the next safe work in Slices 101–102. Physical validation, surface design,
 Polo V2, and production-readiness claims remain deferred.
 
-Next safe action is Slice 101: integrate and inspect the trouser through SVG,
-DXF, tiled PDF, A0 PDF, projector SVG, nesting, and tech-pack output consumers;
-do not move a baseline. Keep the full output/browser gate and physical
-validation deferral intact.
+Slice 101 is complete as the parsed/rendered output checkpoint. The selected
+L-size trouser reaches SVG, DXF, tiled PDF, opt-in multi-page A0, projector,
+and tech-pack consumers with actual artifacts in the thread evidence folder
+`epic3-slice101-outputs/`: 16 SVG polygons, 16 DXF polylines, 80 tiled pages,
+8 A0 pages, 5 projector layers / 80 polygons, and 4 tech-pack pages. The A0
+nest diagnostic exposed a real one-page overflow risk; the recipe-owned
+whole-piece fallback preserves true scale. The tiled PDF received a separate
+recipe-owned page-local coordinate mode after rendered pages exposed global
+coordinate placement; the default legacy path remains byte-identical.
+Rendered A0, tiled, and tech-pack pages were visually inspected, and the
+focused parsed/regression suite passes 28/28. The post-fix full checkpoint is
+80 files / 1,013 tests, 100% coverage across all four metrics, TypeScript,
+production build, and 8/8 unchanged legacy hashes. Physical validation,
+surface design, Polo V2, and production-readiness claims remain deferred.
+
+Next safe action is Slice 102: audit the integrated trouser through every
+cross-surface control/view/guidance/persistence/export path at 1280/900/700/
+560/390 widths, and spot-check existing garments in the live browser. Keep the
+full exit gate, baseline identity, and physical-validation deferral intact.
 
 The independent functional-consistency audit now closes BUG-UI-032 through
 BUG-UI-034. Woven Body front/back inspection uses its real lower shaping and

@@ -158,3 +158,46 @@ describe("exportA0Pdf construction marks", () => {
     expect(pdf).toContain("BUTTON 1");
   });
 });
+
+describe("exportA0Pdf — opt-in whole-piece overflow", () => {
+  const rectanglePiece = (name: string, onFold: boolean, width = 10, height = 116): Piece => ({
+    name,
+    onFold,
+    edges: [
+      { kind: "line", name: "top", start: point(0, 0), end: point(width, 0) },
+      { kind: "line", name: "right", start: point(width, 0), end: point(width, height) },
+      { kind: "line", name: "bottom", start: point(width, height), end: point(0, height) },
+      { kind: "line", name: "fold", start: point(0, height), end: point(0, 0) },
+    ],
+  });
+
+  it("keeps overflow opt-in and emits one whole-page stream per piece", async () => {
+    const tall = rectanglePiece("tall", false);
+    const folded = rectanglePiece("folded", true);
+    const wideFold = rectanglePiece("wide fold", true, 70, 20);
+    const doc = await load(exportA0Pdf([tall, folded, wideFold], { default: 1 }, [], PAGE_A0, true));
+    expect(doc.getPageCount()).toBe(3);
+    const content = streamsText(doc);
+    expect(content).toContain("(TALL) Tj");
+    expect(content).toContain("(FOLDED) Tj");
+    expect(content).toContain("(WIDE FOLD) Tj");
+    expect([...content.matchAll(/\(PLACE ON FOLD\) Tj/g)]).toHaveLength(2);
+    expect([...content.matchAll(/(-?\d+(?:\.\d+)?) (-?\d+(?:\.\d+)?) (-?\d+(?:\.\d+)?) (-?\d+(?:\.\d+)?) re/g)])
+      .toHaveLength(3);
+  });
+
+  it("rejects a piece that cannot fit any A0 orientation at true scale", () => {
+    const oversized: Piece = {
+      name: "oversized",
+      onFold: false,
+      edges: [
+        { kind: "line", name: "top", start: point(0, 0), end: point(200, 0) },
+        { kind: "line", name: "right", start: point(200, 0), end: point(200, 10) },
+        { kind: "line", name: "bottom", start: point(200, 10), end: point(0, 10) },
+        { kind: "line", name: "left", start: point(0, 10), end: point(0, 0) },
+      ],
+    };
+    expect(() => exportA0Pdf([oversized], { default: 1 }, [], PAGE_A0, true))
+      .toThrow("cannot fit on an A0 sheet at true scale");
+  });
+});

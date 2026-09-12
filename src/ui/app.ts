@@ -811,7 +811,9 @@ export function mountApp(root: HTMLElement): void {
     download(`${recipe.name}-${exportSizeLabel()}.dxf`, exportDxf(exportPieces(), recipe.allowances), "image/vnd.dxf");
   });
   onExport("#export-pdf", () => {
-    download(`${recipe.name}-${exportSizeLabel()}.pdf`, exportPdf(exportPieces(), recipe.allowances), "application/pdf");
+    download(`${recipe.name}-${exportSizeLabel()}.pdf`, exportPdf(
+      exportPieces(), recipe.allowances, undefined, 1.0, recipe.tiledPdfLocalCoordinates === true
+    ), "application/pdf");
   });
   // The tech pack is a whole-style document (sample-size sketch + graded table),
   // so it uses the live measurements directly and ignores the per-size picker.
@@ -824,7 +826,9 @@ export function mountApp(root: HTMLElement): void {
     download(`${recipe.name}-projector.svg`, exportProjectorSvg(recipe, measurements, recipeOptions()), "image/svg+xml");
   });
   onExport("#export-a0", () => {
-    download(`${recipe.name}-${exportSizeLabel()}-A0.pdf`, exportA0Pdf(exportPieces(), recipe.allowances, recipe.notches), "application/pdf");
+    download(`${recipe.name}-${exportSizeLabel()}-A0.pdf`, exportA0Pdf(
+      exportPieces(), recipe.allowances, recipe.notches, undefined, recipe.a0Overflow === true
+    ), "application/pdf");
   });
 
   // Slice 47: the desktop shell's File > Export menu clicks the SAME button

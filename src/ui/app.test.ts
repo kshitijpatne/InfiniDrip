@@ -1207,6 +1207,38 @@ describe("skirt styles are selectable (Slice 39)", () => {
 describe("switching to the trouser recipe (Slice 100)", () => {
   beforeEach(() => localStorage.clear());
 
+  it("routes all six export buttons through the live trouser recipe and picked size", () => {
+    const created: string[] = [];
+    URL.createObjectURL = vi.fn(() => "blob:test");
+    URL.revokeObjectURL = vi.fn();
+    HTMLAnchorElement.prototype.click = vi.fn(function (this: HTMLAnchorElement) {
+      created.push(this.download);
+    });
+
+    const root = mount();
+    root.querySelector<HTMLButtonElement>("#garment-trouser")!.dispatchEvent(new Event("click"));
+    const material = root.querySelector<HTMLSelectElement>("#stretch-select")!;
+    material.value = "Cotton woven";
+    material.dispatchEvent(new Event("change"));
+    const size = root.querySelector<HTMLSelectElement>("#export-size")!;
+    size.value = "1";
+    size.dispatchEvent(new Event("change"));
+
+    for (const id of ["#export-svg", "#export-dxf", "#export-pdf", "#export-techpack", "#export-projector", "#export-a0"]) {
+      expect(root.querySelector<HTMLButtonElement>(id)!.disabled).toBe(false);
+      root.querySelector<HTMLButtonElement>(id)!.dispatchEvent(new Event("click"));
+    }
+
+    expect(created).toEqual([
+      "trouser-L.svg",
+      "trouser-L.dxf",
+      "trouser-L.pdf",
+      "trouser-techpack.pdf",
+      "trouser-projector.svg",
+      "trouser-L-A0.pdf",
+    ]);
+  });
+
   it("routes the registered lower-body recipe through controls, views, and Edit", () => {
     const root = mount();
     root.querySelector<HTMLButtonElement>("#garment-trouser")!.dispatchEvent(new Event("click"));

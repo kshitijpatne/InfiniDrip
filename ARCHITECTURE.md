@@ -3,7 +3,7 @@
 How the app fits together, in plain language. Read the top to re-orient; skim the
 layers when you need detail. Updated every slice with only need-to-know changes.
 
-## Current Epic 3 boundary — Slice 100
+## Current Epic 3 boundary — Slice 101
 
 The pre-Epic 3 checkout and BUGFIX/FC-01 exit are verified on the actual
 `main` branch. The first trouser is a separate reusable relaxed casual
@@ -93,6 +93,21 @@ remains transient preview-only. The Slice 100 checkpoint passes 79 test files /
 1,007 tests, 100% coverage across all four metrics, typecheck, and production
 build. Parsed trouser output and live responsive browser review remain Slices
 101–102; no physical-fit or production-readiness assertion is implied.
+
+Slice 101 proves the registered recipe against actual output consumers. The
+generic SVG, DXF, tiled PDF, A0 PDF, projector, marker, and tech-pack writers
+remain the shared output spine. The recipe explicitly opts into page-local
+tiled-PDF coordinates and whole-piece multi-page A0 overflow because the
+L-size trouser's actual nest exceeds one A0 sheet; the default paths for
+legacy recipes are unchanged, preserving the eight export hashes. The parsed
+artifact evidence is 16 SVG polygons, 16 DXF polylines, 80 tiled pages, 8 A0
+pages with in-bounds coordinates, 5 projector layers / 80 polygons, and a
+4-page tech pack. A0 fold/no-notch/oversize branches and tiled page placement
+are directly tested; rendered A0, tiled, and tech-pack pages were inspected
+from the generated evidence files. Full `npm test` and `npm run coverage` pass
+at 80 files / 1,013 tests and 100% across statements/branches/functions/lines;
+TypeScript and production build pass. Live responsive browser audit remains
+Slice 102; no physical-fit or production-readiness assertion is implied.
 
 BF-P1-02: the UI's current design verdict combines input validity, all recipe/
 plausibility guidance and geometric checks. Check, Style, journey and all six

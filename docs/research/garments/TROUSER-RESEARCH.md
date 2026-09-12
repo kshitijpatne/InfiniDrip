@@ -264,6 +264,46 @@ Slice 100 adds no physical sample, production-readiness, surface-design,
 Polo-V2, shorts, or jogger evidence. Parsed trouser output and live responsive
 browser verification remain the work of Slices 101–102.
 
+### Slice 101 output resolution
+
+The existing output writers remain the contract boundary; the new trouser does
+not introduce a parallel format or a render-only export shape. The actual
+selected-size artifact run is kept in the thread evidence folder
+`epic3-slice101-outputs/` and is independently reopened by structural parsers
+before visual review.
+
+The first true-scale L-size A0 attempt exposed a real layout failure: the
+generic nest reported `fits=false` and a 291.056 cm fabric-length estimate,
+while the one-page render could not show all eight long trouser pieces. This
+was resolved as an explicit recipe capability, `a0Overflow`, rather than a
+generic fallback that would alter existing outputs. When enabled, the A0
+writer emits one whole piece per landscape A0 page, rotates a long piece only
+when it fits at true scale, retains notches/grainlines/marks/fold labels, and
+embeds the 10 cm calibration square. A piece that cannot fit either
+orientation throws instead of scaling or silently clipping. Existing recipes
+leave the capability off, so the legacy one-page path and all eight baseline
+hashes remain unchanged.
+
+The first rendered trouser tiled PDF also exposed that the established writer
+was drawing global virtual-sheet coordinates into page-local MediaBoxes. The
+writer therefore has a second explicit capability,
+`tiledPdfLocalCoordinates`, used by `TROUSER`: it subtracts the tile origin,
+reapplies the page margin, and keeps clipping/registration marks in the page's
+coordinate system. The default false path is unchanged for legacy byte
+identity. This is a digital output correction, not a claim about home-printer
+production behavior.
+
+The tech-pack sketch keeps the same live geometry and tables but uses compact,
+staggered labels for the eight small trouser components so the rendered first
+page is legible. Parsed evidence is: SVG root valid with 16 polygons; DXF with
+16 polylines, construction layers, and no `NaN`; 80 tiled pages; 8 A0 pages
+with all selected-size piece labels and calibration evidence; 5 projector
+layers with 80 polygons; and 4 tech-pack pages containing all POM labels,
+BOM material text, and construction steps. Representative A0, tiled, and
+tech-pack PNGs were visually inspected. These establish finite, coherent
+digital output only. No garment has been cut or sewn, and no physical fit,
+comfort, seam-performance, or production-readiness conclusion follows.
+
 ### Slice 96 geometry resolution
 
 Before implementation, the first digital approximation is fixed as follows:

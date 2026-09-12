@@ -306,6 +306,9 @@ production-readiness claim is made.
 
 ### Slice 101 — export/output integration and evidence
 
+Status: **complete** (parsed/rendered output evidence; code gate green; live
+cross-surface audit remains Slice 102).
+
 Scope: make the live trouser consumable by SVG, DXF, tiled PDF, A0 PDF,
 projector SVG, nesting, and tech-pack outputs; add parsed consumer checks and
 render evidence.
@@ -318,6 +321,8 @@ Acceptance criteria:
 - Existing garment export bytes remain unchanged; no baseline is moved.
 - Actual output files and screenshots are reviewed, not inferred from JSON or
   unit tests alone.
+- Long-layout A0 and page-local tiled-PDF behavior are explicit trouser recipe
+  capabilities; the default legacy writer paths remain unchanged.
 
 Non-goals: production marker quality, fabric-specific shrinkage, or new output
 formats.
@@ -329,6 +334,36 @@ QA may be delegated only as a bounded review with an actual diff/artifact.
 
 Verification: parsed six-consumer suite, eight legacy hash suite, real file
 inspection, and browser Output/Nesting/Spec checks.
+
+Evidence: `src/export/trouser-final.test.ts` parses all six selected-size
+consumers and the five-size marker; the focused output/regression suite passes
+28/28. An independent artifact run wrote the actual files to the thread
+evidence folder `epic3-slice101-outputs/` and reopened them with `jsdom` and
+`pdf-lib`: SVG has a valid root and 16 polygons with no parser error; DXF has
+16 cut/sew polylines, fold/placement layers, and no `NaN`; the tiled PDF has
+80 parsed A4 pages and pocket marks; the opt-in A0 PDF has 8 landscape pages,
+the 10 cm calibration mark, all eight whole-piece labels, and every parsed
+move/line coordinate inside its page bounds; the projector has 5 size layers
+and 80 polygons; and the tech pack has 4 pages with the POM/BOM evidence and
+construction text.
+
+The actual L-size A0 nest diagnostic was `fits=false` with a 291.056 cm
+fabric-length estimate, which exposed the prior one-page clipping risk. The
+trouser recipe now opts into a true-scale whole-piece A0 page per overflow
+piece; a folded/rotated branch and an impossible-size error are directly
+tested. The tiled PDF similarly opts into page-local coordinates so rendered
+tile 1 and tile 20 contain visible pattern geometry. Rendered evidence was
+visually inspected in `final-a0-page-1.png`, `final-a0-page-5.png`,
+`final-a0-page-7.png`, `final-tiled-page-01.png`,
+`final-tiled-page20-20.png`, and `final-techpack-page-1.png` through
+`final-techpack-page-4.png`. The tech-pack page-1 labels are compacted and
+staggered for the eight small trouser components; pages 2–4 remain readable.
+
+The post-fix full checkpoint passes `npm test` (80 files / 1,013 tests),
+`npm run coverage` (100% statements, branches, functions, and lines),
+`npx tsc --noEmit`, and `npm run build` (92 Vite modules). The legacy
+regression suite remains 8/8 with all eight hashes unchanged. No physical
+sample, fit, or production-readiness evidence is implied.
 
 ### Slice 102 — cross-surface audit and responsive verification
 
@@ -402,8 +437,8 @@ alter account usage.
 
 ## Epic 3 exit report
 
-Status: **not started beyond Slice 100 recipe/application integration**.
+Status: **not started beyond Slice 101 output integration**.
 
-Slices 101–103 remain output integration, live cross-surface verification, and
-the final exit gate. No physical garment has been sewn or validated, and no
-production-readiness claim is authorized.
+Slices 102–103 remain live cross-surface verification and the final exit gate.
+No physical garment has been sewn or validated, and no production-readiness
+claim is authorized.

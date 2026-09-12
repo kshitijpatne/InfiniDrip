@@ -80,7 +80,13 @@ function rule(yTopCm: number, page: PageSize): string {
 
 // ── Page 1: the flat sketch ───────────────────────────────────────────────────
 
-function sketchStream(block: Block, poms: readonly Pom[], label: string, page: PageSize): string {
+function sketchStream(
+  block: Block,
+  poms: readonly Pom[],
+  label: string,
+  page: PageSize,
+  compactLabels = false
+): string {
   const flats = blockPieces(block).map((p) => flattenPiece(p, NO_ALLOWANCE));
   const layout = layoutPieces(flats);
 
@@ -95,13 +101,30 @@ function sketchStream(block: Block, poms: readonly Pom[], label: string, page: P
   const my = (y: number): number => pt(page.height - (topCm + y * s));
 
   const lines: string[] = [text(M, M + 1, 13, `${label} - Tech Pack`, page), "0 0 0 RG 0.6 w"];
-  for (const piece of layout.pieces) {
+  for (const [pieceIndex, piece] of layout.pieces.entries()) {
     const pts = piece.sew;
     const head = `${mx(pts[0].x)} ${my(pts[0].y)} m`;
     const rest = pts.slice(1).map((p) => `${mx(p.x)} ${my(p.y)} l`).join(" ");
     lines.push(`${head} ${rest} h S`);
     const b = polylineBounds(piece.sew);
-    lines.push(text(leftCm + b.minX * s, topCm + (b.minY + b.height) * s + 0.6, 8, piece.name.toUpperCase(), page));
+    const labelText = piece.name.toUpperCase();
+    // The sketch already carries the recipe title. Drop its repeated prefix
+    // only for this compact trouser sketch so narrow component labels stay
+    // legible; the full role names remain in the cutting/A0 outputs.
+    const displayLabel = compactLabels
+      ? labelText.replace(/^TROUSER /, "")
+        .replace(/^POCKET BAG LEFT$/, "BAG L")
+        .replace(/^POCKET BAG RIGHT$/, "BAG R")
+      : labelText;
+    const labelSize = compactLabels
+      ? Math.max(3.2, Math.min(8, pt(Math.max(b.width * s - 0.4, 0.8)) / (displayLabel.length * 0.52)))
+      : 8;
+    const labelX = compactLabels
+      ? leftCm + (b.minX + b.width / 2) * s - displayLabel.length * labelSize * 0.25 / pt(1)
+      : leftCm + b.minX * s;
+    const labelY = topCm + (b.minY + b.height) * s + 0.6 +
+      (compactLabels && pieceIndex >= 4 ? (pieceIndex - 4) * 0.8 : 0);
+    lines.push(text(labelX, labelY, labelSize, displayLabel, page));
   }
 
   // Callout leaders: the front is drawn as pieces[0], translated by the layout;
@@ -260,7 +283,7 @@ export function exportTechPack(
   const sizes = graded.map((g) => g.label);
   return assemblePdf(
     [
-      sketchStream(recipe.draft(m, options), recipe.poms, recipe.label, page),
+      sketchStream(recipe.draft(m, options), recipe.poms, recipe.label, page, recipe.name === "trouser"),
       tableStream(sizes, rows, page),
       bomStream(
         fabric && recipe.techPackForFabric

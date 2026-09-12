@@ -110,14 +110,20 @@ function tileStream(
   layout: { pieces: readonly { sew: Polyline; cut: Polyline; name: string }[]; height: number },
   marks: readonly (readonly import("../drafting").PatternMark[])[],
   totalCols: number,
-  totalRows: number
+  totalRows: number,
+  page: PageSize,
+  localCoordinates = false
 ): string {
   const { x: tx, y: ty, w: tw, h: th } = tile;
   const sh = layout.height;
+  const drawHeight = localCoordinates ? page.height - 1 : sh;
+  const localize = (points: Polyline): Polyline => localCoordinates
+    ? points.map((p) => ({ x: p.x - tx, y: p.y - ty }))
+    : points;
 
   // ── clip rectangle (the printable tile window, in pt, PDF coords) ──────────
-  const clipX = pt(tx);
-  const clipY = pt(sh - ty - th);
+  const clipX = localCoordinates ? pt(1) : pt(tx);
+  const clipY = localCoordinates ? pt(1) : pt(sh - ty - th);
   const clipW = pt(tw);
   const clipH = pt(th);
 
@@ -129,21 +135,24 @@ function tileStream(
   // ── cut lines (solid, 0.5 pt, black) ──────────────────────────────────────
   lines.push("0 0 0 RG 0.5 w");
   for (const p of layout.pieces) {
-    const path = polylinePath(p.cut, sh);
+    const path = polylinePath(localize(p.cut), drawHeight);
     if (path) lines.push(`${path} S`);
   }
 
   // ── sew lines (dashed, 0.3 pt, grey) ──────────────────────────────────────
   lines.push("0.5 0.5 0.5 RG 0.3 w [2 1.5] 0 d");
   for (const p of layout.pieces) {
-    const path = polylinePath(p.sew, sh);
+    const path = polylinePath(localize(p.sew), drawHeight);
     if (path) lines.push(`${path} S`);
   }
   lines.push("[] 0 d"); // reset dash
 
   if (marks.some((pieceMarks) => pieceMarks.length > 0)) {
     lines.push("0 0 0 RG 0.35 w");
-    for (const pieceMarks of marks) lines.push(patternMarksPdfOps(pieceMarks, sh));
+    for (const pieceMarks of marks) {
+      const localMarks = localCoordinates ? translatePatternMarks(pieceMarks, -tx, -ty) : pieceMarks;
+      lines.push(patternMarksPdfOps(localMarks, drawHeight));
+    }
   }
 
   lines.push("Q"); // restore graphics state
@@ -243,12 +252,15 @@ export function assemblePdf(streams: string[], page: PageSize): string {
  * Export the pattern as a tiled, print-at-home PDF.
  * Each page is one tile; adjacent tiles overlap by `overlap` cm so you can tape
  * them together using the registration-mark crosses at each corner.
+ * `localCoordinates` is an opt-in page-placement correction for new recipes;
+ * the default false path preserves the established legacy bytes.
  */
 export function exportPdf(
   pieces: readonly Piece[],
   allowance: AllowanceSpec,
   page: PageSize = PAGE_A4,
-  overlap = 1.0
+  overlap = 1.0,
+  localCoordinates = false
 ): string {
   const layout = layoutPieces(pieces.map((p) => flattenPiece(p, allowance)));
   const marks = layout.pieces.map((placed, i) => {
@@ -261,6 +273,6 @@ export function exportPdf(
   const tiles = tilePlan(layout.width, layout.height, page, overlap);
   const cols = Math.max(...tiles.map((t) => t.col)) + 1;
   const rows = Math.max(...tiles.map((t) => t.row)) + 1;
-  const streams = tiles.map((tile) => tileStream(tile, layout, marks, cols, rows));
+  const streams = tiles.map((tile) => tileStream(tile, layout, marks, cols, rows, page, localCoordinates));
   return assemblePdf(streams, page);
 }
