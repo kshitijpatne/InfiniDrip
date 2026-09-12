@@ -17,8 +17,8 @@ model switch to Luna/max. Epic 3 and physical validation remain deferred.
 
 Every slice receives diff review, live/rendered review, 100% coverage,
 TypeScript/build, parsed export suites and unchanged eight legacy hashes.
-Commit subjects contain the slice and affected IDs; immutable hashes are added
-in the following slice and consolidated in the epic exit report.
+Commit subjects contain the slice and affected IDs; immutable hashes are
+consolidated in the epic exit report.
 
 ## BF-P1-01
 
@@ -115,6 +115,8 @@ changed the SVG. Screenshot and rendered DOM inspected.
 
 Tests: 23 garment-render tests, app woven route tests, all parsed woven export
 consumers. Physical sewing and fit remain unverified.
+
+Implementation reference for BF-P1-03 through BF-P1-06: `65fcc86`.
 
 ## BF-P1-06
 

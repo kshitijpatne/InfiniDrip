@@ -35,7 +35,7 @@ No console runtime errors were observed during that audit.
 - Done when: the primary workflow is usable at supported narrow widths with no
   horizontal overflow or overlapping controls; live viewport evidence is saved
   in the verification record.
-- Fix slice: BF-P1-06. Commit/PR: `Slice BF-P1-03–06 implementation commit`.
+- Fix slice: BF-P1-06. Commit/PR: `65fcc86` (`Slice BF-P1-03–06: complete workspace, export, woven preview, responsive fixes [BUG-UI-001, BUG-UI-006–011]`).
 - Root cause confirmed: the shell used fixed flex columns, a 300px workspace
   minimum and non-wrapping control rows with no narrow-width breakpoint.
 - Tests: responsive markup assertions and the full app/view suite; a real 390px
@@ -126,7 +126,7 @@ No console runtime errors were observed during that audit.
   garment options. Sources: `src/ui/persist.ts:1`, `src/ui/app.ts:36`.
 - Done when: a saved workspace restores all intentionally persistent state, with
   documented migration behavior for older saves.
-- Fix slice: BF-P1-03. Commit/PR: `Slice BF-P1-03–06 implementation commit`.
+- Fix slice: BF-P1-03. Commit/PR: `65fcc86` (`Slice BF-P1-03–06: complete workspace, export, woven preview, responsive fixes [BUG-UI-001, BUG-UI-006–011]`).
 - Root cause confirmed: the save payload contained measurements, fabric and
   options only; active recipe and other workspace choices were transient UI state.
 - Tests: version-4 workspace round-trip and app restart/load DOM regressions cover
@@ -146,7 +146,7 @@ No console runtime errors were observed during that audit.
   `src/ui/app.ts:569`.
 - Done when: every restored value has one visible control state and visual
   selection state agrees with the rendered recipe.
-- Fix slice: BF-P1-03. Commit/PR: `Slice BF-P1-03–06 implementation commit`.
+- Fix slice: BF-P1-03. Commit/PR: `65fcc86` (`Slice BF-P1-03–06: complete workspace, export, woven preview, responsive fixes [BUG-UI-001, BUG-UI-006–011]`).
 - Root cause confirmed: Load updated measurements and the drawing but never rebuilt
   recipe option controls, garment selection, swatch state, or workspace selectors.
 - Tests: app DOM regressions verify restored option value, garment/material pressed
@@ -164,7 +164,7 @@ No console runtime errors were observed during that audit.
   `src/ui/persist.ts:42`.
 - Done when: one shared validation contract governs edit, save, load, guidance,
   and status messaging; a rejected save explains why.
-- Fix slice: BF-P1-03. Commit/PR: `Slice BF-P1-03–06 implementation commit`.
+- Fix slice: BF-P1-03. Commit/PR: `65fcc86` (`Slice BF-P1-03–06: complete workspace, export, woven preview, responsive fixes [BUG-UI-001, BUG-UI-006–011]`).
 - Root cause confirmed: UI and persistence had separate bounds; Length 100 was
   accepted in the UI but rejected by the old persistence contract.
 - Tests: shared `FIELDS`/`inputError` validation covers save, load, edit and status;
@@ -183,7 +183,7 @@ No console runtime errors were observed during that audit.
   `src/ui/app.ts:496`, `electron/main.cts:170`.
 - Done when: only a confirmed successful write marks export complete; cancel and
   failure show distinct, actionable feedback.
-- Fix slice: BF-P1-04. Commit/PR: `Slice BF-P1-03–06 implementation commit`.
+- Fix slice: BF-P1-04. Commit/PR: `65fcc86` (`Slice BF-P1-03–06: complete workspace, export, woven preview, responsive fixes [BUG-UI-001, BUG-UI-006–011]`).
 - Root cause confirmed: Electron's save promise was ignored and browser anchor
   clicks were treated as proof of a completed filesystem write.
 - Tests: P1 DOM regressions cover confirmed success, cancellation, rejection,
@@ -202,7 +202,7 @@ No console runtime errors were observed during that audit.
   options change. Source: `src/ui/app.ts:507`.
 - Done when: any output-affecting change makes the previous export stale and the
   journey clearly identifies what must be exported again.
-- Fix slice: BF-P1-04. Commit/PR: `Slice BF-P1-03–06 implementation commit`.
+- Fix slice: BF-P1-04. Commit/PR: `65fcc86` (`Slice BF-P1-03–06: complete workspace, export, woven preview, responsive fixes [BUG-UI-001, BUG-UI-006–011]`).
 - Root cause confirmed: journey export state had no dirty transition when the
   recipe, measurements, options or export/workspace choices changed.
 - Tests: P1 DOM regression confirms a successful export is cleared after a later
@@ -222,7 +222,7 @@ No console runtime errors were observed during that audit.
   `src/render/garment.ts:148`.
 - Done when: front and back preview geometry visibly matches the drafted woven
   components and every live option that claims visual impact changes the preview.
-- Fix slice: BF-P1-05. Commit/PR: `Slice BF-P1-03–06 implementation commit`.
+- Fix slice: BF-P1-05. Commit/PR: `65fcc86` (`Slice BF-P1-03–06: complete workspace, export, woven preview, responsive fixes [BUG-UI-001, BUG-UI-006–011]`).
 - Root cause confirmed: the preview emitted only partial front details and placed
   a yoke guide across the front; it omitted the collar/stand, sleeve band,
   curved hem and back-only yoke contract.
