@@ -123,6 +123,14 @@ touch the drafting model, recipe options, grading, checks, nesting, Edit, or any
 export writer. Returning to Front + Back restores the existing annotated
 upper/lower renderers unchanged.
 
+Slice 83: `render/croquis-contract.test.ts` drives the render contract from the
+actual `GARMENTS` registry, so adding or removing a recipe cannot silently leave
+one region out of the Front/Side/Back checks. It parses upper and lower Body
+outputs, verifies the side renderer consumes the named side path without
+measurement annotations, and calls the complete export family after side
+rendering to prove the render layer remains pure. No croquis API is imported by
+the drafting or export writers, and no export baseline moves as part of C3.
+
 Slice 75: the root `tsconfig.json` is type-check-only (`noEmit: true`). Vite is
 the sole renderer build, so `npm run build` cannot place compiled `.js` siblings
 beside TypeScript sources and alter Vite's module-resolution choice for a dev
