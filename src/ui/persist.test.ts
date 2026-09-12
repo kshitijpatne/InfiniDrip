@@ -7,9 +7,61 @@ import {
   saveToStorage,
   loadFromStorage,
   SAVE_VERSION,
+  DEFAULT_WORKSPACE,
+  readFromStorage,
 } from "./persist";
 
-const FABRIC = "#F5F5DC";
+const FABRIC = "#3A4150";
+
+describe("v4 workspace validation", () => {
+  const valid = () => JSON.parse(serialize(STANDARD_M, FABRIC));
+  it("uses identical edit/save/load bounds, including length 100 and negative ease", () => {
+    const m = { ...STANDARD_M, length: 100, shoulderWidth: 70, bicep: 20, armholeDepth: 12, sleeveLength: 8, ease: -8 };
+    expect(saveToStorage(m, FABRIC)).toBe(true);
+    expect(loadFromStorage()!.measurements).toEqual(m);
+    const previous = localStorage.getItem("patternworks_save_v1");
+    expect(saveToStorage({ ...m, chest: NaN }, FABRIC)).toBe(false);
+    expect(localStorage.getItem("patternworks_save_v1")).toBe(previous);
+  });
+  it("round-trips every workspace choice and finite design options", () => {
+    const workspace = { ...DEFAULT_WORKSPACE, garment: "woven-shirt", targetStyle: "Relaxed woven shirt",
+      stretchFabric: "Linen", view: "fabric" as const, bodyCroquisView: "side" as const,
+      exportStep: 2, fabricWidth: 120, nestScope: "marker" as const };
+    const result = deserialize(serialize(STANDARD_M, FABRIC, { "woven-shirt": { buttonCount: 6 } }, workspace));
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.workspace).toEqual(workspace);
+      expect(result.garmentOptions["woven-shirt"].buttonCount).toBe(6);
+    }
+  });
+  it("rejects corrupt current saves instead of silently defaulting selected state", () => {
+    const changes = [{ measurements: null }, { measurements: [] }, { garmentOptions: null },
+      { garmentOptions: { polo: null } }, { garmentOptions: { polo: { standHeight: null } } },
+      { fabric: "bad" }, { fabric: 42 }, { workspace: null },
+      { measurements: { ...STANDARD_M, neck: 999 } }];
+    for (const change of changes) expect(deserialize(JSON.stringify({ ...valid(), ...change })).ok).toBe(false);
+    for (const change of [{ garment: "missing" }, { targetStyle: "missing" }, { stretchFabric: "missing" },
+      { view: "missing" }, { bodyCroquisView: "missing" }, { exportStep: 99 },
+      { fabricWidth: "150" }, { fabricWidth: 0 }, { nestScope: "missing" }]) {
+      expect(deserialize(JSON.stringify({ ...valid(), workspace: { ...DEFAULT_WORKSPACE, ...change } })).ok).toBe(false);
+    }
+    expect(deserialize(serialize(STANDARD_M, FABRIC).replace('"fabricWidth": 150', '"fabricWidth": 1e400')).ok).toBe(false);
+    expect(deserialize(serialize(STANDARD_M, FABRIC, { polo: { standHeight: 2 } }).replace('"standHeight": 2', '"standHeight": 1e400')).ok).toBe(false);
+    expect(deserialize(serialize(STANDARD_M, FABRIC, { "woven-shirt": { buttonCount: 8 } })).ok).toBe(false);
+    expect(deserialize("[]").ok).toBe(false);
+  });
+  it("retains v1/v2/v3 migration and distinguishes missing from corrupt storage", () => {
+    for (const v of [1, 2, 3]) {
+      const result = deserialize(JSON.stringify({ v, measurements: { ...STANDARD_M, strapWidth: 99 } }));
+      expect(result.ok).toBe(true);
+      if (result.ok) expect(result.workspace).toEqual(DEFAULT_WORKSPACE);
+    }
+    localStorage.clear();
+    expect(readFromStorage()).toEqual({ ok: false, error: "Nothing saved" });
+    localStorage.setItem("patternworks_save_v1", "broken");
+    expect(readFromStorage()).toEqual({ ok: false, error: "Not valid JSON." });
+  });
+});
 
 // ── serialize ─────────────────────────────────────────────────────────────────
 
@@ -38,15 +90,30 @@ describe("serialize", () => {
     if (result.ok) expect(result.garmentOptions).toEqual({ polo: { standHeight: 2, leafDepth: 5 } });
   });
 
+  it("preserves options for a future recipe without a local definition", () => {
+    const result = deserialize(serialize(STANDARD_M, FABRIC, { future: { panelCount: 2 } }));
+    expect(result.ok).toBe(true);
+    if (result.ok) expect(result.garmentOptions).toEqual({ future: { panelCount: 2 } });
+  });
+
   it("drops malformed per-recipe option values without rejecting a valid save", () => {
     const result = deserialize(JSON.stringify({
-      v: SAVE_VERSION,
+      v: 3,
       measurements: STANDARD_M,
       fabric: FABRIC,
       garmentOptions: { polo: { standHeight: 2, leafDepth: "five" }, broken: null },
     }));
     expect(result.ok).toBe(true);
     if (result.ok) expect(result.garmentOptions).toEqual({ polo: { standHeight: 2 } });
+  });
+
+  it("drops out-of-range known options while migrating a legacy save", () => {
+    const result = deserialize(JSON.stringify({
+      v: 3, measurements: STANDARD_M, fabric: FABRIC,
+      garmentOptions: { "woven-shirt": { buttonCount: 8 } },
+    }));
+    expect(result.ok).toBe(true);
+    if (result.ok) expect(result.garmentOptions).toEqual({ "woven-shirt": {} });
   });
 });
 
@@ -55,7 +122,7 @@ describe("serialize", () => {
 describe("deserialize (success)", () => {
   it("loads a pre-Slice-86 save with no neck, defaulting it from STANDARD_M", () => {
     const { neck, ...legacy } = STANDARD_M;
-    const result = deserialize(JSON.stringify({ v: SAVE_VERSION, measurements: legacy, fabric: FABRIC }));
+    const result = deserialize(JSON.stringify({ v: 3, measurements: legacy, fabric: FABRIC }));
     expect(result.ok).toBe(true);
     if (result.ok) expect(result.measurements.neck).toBe(STANDARD_M.neck);
   });
@@ -80,7 +147,7 @@ describe("deserialize (success)", () => {
   it("loads an older save with no waist/hip, defaulting them from STANDARD_M", () => {
     // Simulate a pre-Slice-37 file: measurements without waist/hip.
     const { waist, hip, ...legacy } = STANDARD_M;
-    const r = deserialize(JSON.stringify({ v: SAVE_VERSION, measurements: legacy, fabric: FABRIC }));
+    const r = deserialize(JSON.stringify({ v: 3, measurements: legacy, fabric: FABRIC }));
     expect(r.ok).toBe(true);
     if (!r.ok) return;
     expect(r.measurements.waist).toBe(STANDARD_M.waist);
@@ -98,7 +165,7 @@ describe("deserialize (success)", () => {
 
   it("loads a pre-Slice-42 save with no hipDepth, defaulting it from STANDARD_M", () => {
     const { hipDepth, ...legacy } = STANDARD_M;
-    const r = deserialize(JSON.stringify({ v: SAVE_VERSION, measurements: legacy, fabric: FABRIC }));
+    const r = deserialize(JSON.stringify({ v: 3, measurements: legacy, fabric: FABRIC }));
     expect(r.ok).toBe(true);
     if (!r.ok) return;
     expect(r.measurements.hipDepth).toBe(STANDARD_M.hipDepth);
@@ -107,7 +174,7 @@ describe("deserialize (success)", () => {
 
   it("defaults an out-of-range hipDepth rather than rejecting the whole save", () => {
     const r = deserialize(JSON.stringify({
-      v: SAVE_VERSION, measurements: { ...STANDARD_M, hipDepth: 999 }, fabric: FABRIC,
+      v: 3, measurements: { ...STANDARD_M, hipDepth: 999 }, fabric: FABRIC,
     }));
     expect(r.ok).toBe(true);
     if (!r.ok) return;
@@ -138,7 +205,7 @@ describe("deserialize (success)", () => {
 
   it("loads a pre-Slice-63 save with no strapWidth/neckDrop, defaulting them from STANDARD_M", () => {
     const { strapWidth, neckDrop, ...legacy } = STANDARD_M;
-    const r = deserialize(JSON.stringify({ v: SAVE_VERSION, measurements: legacy, fabric: FABRIC }));
+    const r = deserialize(JSON.stringify({ v: 3, measurements: legacy, fabric: FABRIC }));
     expect(r.ok).toBe(true);
     if (!r.ok) return;
     expect(r.measurements.strapWidth).toBe(STANDARD_M.strapWidth);
@@ -148,7 +215,7 @@ describe("deserialize (success)", () => {
 
   it("loads a save without neckline width adjustment using the derived default", () => {
     const { neckWidthEase, ...legacy } = STANDARD_M;
-    const r = deserialize(JSON.stringify({ v: SAVE_VERSION, measurements: legacy, fabric: FABRIC }));
+    const r = deserialize(JSON.stringify({ v: 3, measurements: legacy, fabric: FABRIC }));
     expect(r.ok).toBe(true);
     if (!r.ok) return;
     expect(r.measurements.neckWidthEase).toBe(STANDARD_M.neckWidthEase);
@@ -156,7 +223,7 @@ describe("deserialize (success)", () => {
 
   it("defaults an out-of-range strapWidth/neckDrop rather than rejecting the whole save", () => {
     const r = deserialize(JSON.stringify({
-      v: SAVE_VERSION, measurements: { ...STANDARD_M, strapWidth: 999, neckDrop: -5 }, fabric: FABRIC,
+      v: 3, measurements: { ...STANDARD_M, strapWidth: 999, neckDrop: -5 }, fabric: FABRIC,
     }));
     expect(r.ok).toBe(true);
     if (!r.ok) return;
@@ -166,7 +233,7 @@ describe("deserialize (success)", () => {
 
   it("defaults an out-of-range neckline width adjustment", () => {
     const r = deserialize(JSON.stringify({
-      v: SAVE_VERSION, measurements: { ...STANDARD_M, neckWidthEase: 999 }, fabric: FABRIC,
+      v: 3, measurements: { ...STANDARD_M, neckWidthEase: 999 }, fabric: FABRIC,
     }));
     expect(r.ok).toBe(true);
     if (!r.ok) return;
@@ -198,7 +265,7 @@ describe("deserialize (errors)", () => {
   });
 
   it("rejects a missing measurements field", () => {
-    const r = deserialize(JSON.stringify({ v: SAVE_VERSION, fabric: FABRIC }));
+    const r = deserialize(JSON.stringify({ v: 3, fabric: FABRIC }));
     expect(r.ok).toBe(false);
     if (r.ok) return;
     expect(r.error).toContain("measurements");
@@ -206,7 +273,7 @@ describe("deserialize (errors)", () => {
 
   it("rejects an out-of-range measurement", () => {
     const bad = { ...STANDARD_M, chest: 999 };
-    const r = deserialize(JSON.stringify({ v: SAVE_VERSION, measurements: bad, fabric: FABRIC }));
+    const r = deserialize(JSON.stringify({ v: 3, measurements: bad, fabric: FABRIC }));
     expect(r.ok).toBe(false);
     if (r.ok) return;
     expect(r.error).toContain("chest");
@@ -214,7 +281,7 @@ describe("deserialize (errors)", () => {
 
   it("rejects a non-numeric measurement value", () => {
     const bad = { ...STANDARD_M, ease: "lots" };
-    const r = deserialize(JSON.stringify({ v: SAVE_VERSION, measurements: bad, fabric: FABRIC }));
+    const r = deserialize(JSON.stringify({ v: 3, measurements: bad, fabric: FABRIC }));
     expect(r.ok).toBe(false);
     if (r.ok) return;
     expect(r.error).toContain("ease");
@@ -267,7 +334,7 @@ describe("saveToStorage / loadFromStorage", () => {
 // ── missing fabric fallback ───────────────────────────────────────────────────
 describe("deserialize (missing fabric fallback)", () => {
   it("accepts a save with a missing fabric field and substitutes a non-empty string", () => {
-    const raw = JSON.stringify({ v: SAVE_VERSION, measurements: STANDARD_M });
+    const raw = JSON.stringify({ v: 3, measurements: STANDARD_M });
     const r = deserialize(raw);
     expect(r.ok).toBe(true);
     if (!r.ok) return;

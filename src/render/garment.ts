@@ -44,7 +44,9 @@ export interface WovenShirtVisual {
   readonly yokeDepth: number;
   readonly pocketWidth: number;
   readonly pocketHeight: number;
+  readonly sleeveBandDepth: number;
   readonly sideVentDepth: number;
+  readonly hemTurn: number;
 }
 
 // One full garment silhouette, centred on x = 0. `hasSleeve` (Slice 60): a
@@ -65,6 +67,11 @@ function silhouettePath(
   const slope = d.shoulderSlope;
   const ad = m.armholeDepth;
   const len = m.length;
+  const waistHalf = (m.waist + m.ease) / 4;
+  const hipHalf = (m.hip + m.ease) / 4;
+  const waistY = ad + (len - ad) * 0.35;
+  const hipY = waistY + m.hipDepth;
+  const ventTop = len - (shirt?.sideVentDepth ?? 0);
   const neckWidthHalf = shirt?.neckWidthHalf ?? d.neckWidthHalf;
   const baseDepth = shirt
     ? (position === "front" ? shirt.frontNeckDepth : shirt.backNeckDepth)
@@ -94,9 +101,14 @@ function silhouettePath(
     `L ${round(strapX)} ${round(slope)}`,        // right shoulder / strap point
     ...sleeveOut,                                 // out to the sleeve (if any)
     tankArmhole ? armholePathCommand(tankArmhole) : `L ${round(half)} ${round(ad)}`, // real tank armhole
-    `L ${round(half)} ${round(len)}`,            // right side down to hem
-    `L ${round(-half)} ${round(len)}`,           // across the hem
-    `L ${round(-half)} ${round(ad)}`,            // left side up
+    shirt
+      ? `L ${round(waistHalf)} ${round(waistY)} L ${round(hipHalf)} ${round(hipY)} ` +
+        `L ${round(hipHalf)} ${round(ventTop)} L ${round(hipHalf)} ${round(len)} ` +
+        `C ${round(hipHalf * 0.66)} ${round(len + shirt.hemTurn)} ${round(hipHalf * 0.33)} ${round(len + shirt.hemTurn)} 0 ${round(len)} ` +
+        `L ${round(-hipHalf)} ${round(len)} ` +
+        `C ${round(-hipHalf * 0.33)} ${round(len + shirt.hemTurn)} ${round(-hipHalf * 0.66)} ${round(len + shirt.hemTurn)} ${round(-hipHalf)} ${round(len)} ` +
+        `L ${round(-hipHalf)} ${round(ventTop)} L ${round(-hipHalf)} ${round(hipY)} L ${round(-waistHalf)} ${round(waistY)} L ${round(-half)} ${round(ad)}`
+      : `L ${round(half)} ${round(len)} L ${round(-half)} ${round(len)} L ${round(-half)} ${round(ad)}`,
     ...sleeveIn,                                  // left sleeve (if any)
     tankArmhole ? armholePathCommand(tankArmhole, true) : `L ${round(-strapX)} ${round(slope)}`, // mirrored tank armhole
     `L ${round(-nh)} 0`,                          // left neck point
@@ -128,7 +140,7 @@ function renderOne(m: Measurements, position: "front" | "back", fabric: string,
   const seams = hasSleeve ? armholeSeams(m) : "";
   const group = `<g transform="translate(${round(cx)} ${round(top)})">${path}${seams}` +
     (position === "front" && polo ? poloFrontDetails(m, neckline, polo) : "") +
-    (position === "front" && shirt ? wovenShirtFrontDetails(m, shirt) : "") + `</g>`;
+    (shirt ? wovenShirtDetails(m, position, shirt) : "") + `</g>`;
   const tag = `<text x="${round(cx)}" y="${round(top - 3)}" fill="${T.label}" ` +
     `font-size="2.6" font-family="system-ui, sans-serif" text-anchor="middle">${label}</text>`;
   return group + tag;
@@ -145,31 +157,43 @@ function poloFrontDetails(m: Measurements, neckline: NecklineParams, polo: PoloV
   })}</g>`;
 }
 
-function wovenShirtFrontDetails(m: Measurements, shirt: WovenShirtVisual): string {
+function wovenShirtDetails(m: Measurements, position: "front" | "back", shirt: WovenShirtVisual): string {
   const d = derive(m);
   const count = Number.isFinite(shirt.buttonCount)
     ? Math.max(0, Math.min(20, Math.round(shirt.buttonCount)))
     : 0;
-  const firstY = Math.max(5, d.frontNeckDepth + shirt.standHeight);
+  const neckDepth = position === "front" ? shirt.frontNeckDepth : shirt.backNeckDepth;
+  const firstY = Math.max(5, neckDepth + shirt.standHeight);
   const buttons = Array.from({ length: count }, (_, i) =>
     `<circle cx="${round(shirt.frontOverlap)}" cy="${round(firstY + i * shirt.buttonSpacing)}" r="0.45" fill="none" stroke="currentColor" data-edge="woven-button"/>`
   ).join("");
-  const pocketY = Math.max(firstY + shirt.buttonSpacing, d.frontNeckDepth + shirt.yokeDepth);
+  const pocketY = Math.max(firstY + shirt.buttonSpacing, neckDepth + shirt.yokeDepth);
   const pocketX = Math.max(2, d.chestWidthHalf - shirt.pocketWidth - 2);
   const ventY = Math.max(m.armholeDepth + 2, m.length - shirt.sideVentDepth);
-  return `<g data-garment-detail="woven-shirt" color="rgba(0,0,0,0.52)">` +
-    `<line x1="${round(shirt.frontOverlap)}" y1="${round(firstY - shirt.standHeight)}" ` +
+  const stand = `<path d="M ${round(-shirt.neckWidthHalf)} 0 Q 0 ${round(shirt.standHeight)} ${round(shirt.neckWidthHalf)} 0" ` +
+    `fill="none" stroke="currentColor" data-edge="option-standHeight"/>`;
+  const collar = `<path d="M ${round(-shirt.neckWidthHalf)} 0 L ${round(-shirt.neckWidthHalf - shirt.collarLeafDepth * 0.35)} ${round(neckDepth + shirt.collarLeafDepth)} ` +
+    `L 0 ${round(neckDepth + shirt.collarLeafDepth * 0.35)} L ${round(shirt.neckWidthHalf + shirt.collarLeafDepth * 0.35)} ${round(neckDepth + shirt.collarLeafDepth)} ` +
+    `L ${round(shirt.neckWidthHalf)} 0" fill="none" stroke="currentColor" data-edge="option-collarLeafDepth"/>`;
+  const yoke = position === "back"
+    ? `<line x1="${round(-d.chestWidthHalf)}" y1="${round(shirt.yokeDepth)}" x2="${round(d.chestWidthHalf)}" ` +
+      `y2="${round(shirt.yokeDepth)}" stroke="currentColor" stroke-dasharray="2 2" data-edge="option-yokeDepth"/>`
+    : "";
+  const front = position === "front"
+    ? `<line x1="${round(shirt.frontOverlap)}" y1="${round(firstY - shirt.standHeight)}" ` +
       `x2="${round(shirt.frontOverlap)}" y2="${round(ventY)}" stroke="currentColor" ` +
       `stroke-width="${round(Math.max(0.5, shirt.placketWidth / 3))}" data-edge="option-placketWidth"/>` +
-    `<line x1="${round(-d.chestWidthHalf)}" y1="${round(pocketY)}" x2="${round(d.chestWidthHalf)}" ` +
-      `y2="${round(pocketY)}" stroke="currentColor" stroke-dasharray="2 2" ` +
-      `data-edge="option-yokeDepth"/>` +
-    `<rect x="${round(pocketX)}" y="${round(pocketY)}" width="${round(shirt.pocketWidth)}" ` +
-      `height="${round(shirt.pocketHeight)}" fill="none" stroke="currentColor" ` +
-      `data-edge="option-pocketWidth"/>` +
-    `<path d="M ${round(d.chestWidthHalf)} ${round(ventY)} V ${round(m.length)}" fill="none" ` +
-      `stroke="currentColor" stroke-dasharray="2 2" data-edge="option-sideVentDepth"/>` +
-    buttons + `</g>`;
+      `<rect x="${round(pocketX)}" y="${round(pocketY)}" width="${round(shirt.pocketWidth)}" ` +
+      `height="${round(shirt.pocketHeight)}" fill="none" stroke="currentColor" data-edge="option-pocketWidth"/>` + buttons
+    : "";
+  const sleeveBandY = m.shoulderWidth / 2 + m.armholeDepth * 0.3 + m.bicep * 0.4 - shirt.sleeveBandDepth;
+  const sleeveBand = `<line x1="${round(d.shoulderHalf + m.sleeveLength - 2)}" y1="${round(sleeveBandY)}" ` +
+    `x2="${round(d.shoulderHalf + m.sleeveLength)}" y2="${round(sleeveBandY)}" stroke="currentColor" ` +
+    `data-edge="option-sleeveBandDepth"/>`;
+  const vent = `<line x1="${round(d.chestWidthHalf)}" y1="${round(ventY)}" x2="${round(d.chestWidthHalf)}" y2="${round(m.length)}" ` +
+    `stroke="currentColor" stroke-dasharray="2 2" data-edge="option-sideVentDepth"/>`;
+  return `<g data-garment-detail="woven-shirt" data-position="${position}" color="rgba(0,0,0,0.52)">` +
+    stand + collar + yoke + front + sleeveBand + vent + `</g>`;
 }
 
 /** The assembled view: front and back silhouettes side by side, in fabric

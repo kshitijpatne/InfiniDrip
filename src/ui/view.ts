@@ -226,7 +226,7 @@ export function garmentToggleMarkup(active: string): string {
     `background:${g.name === active ? T.lineActive : T.background};` +
     `color:${g.name === active ? T.background : T.line};` +
     `border:1px solid ${BORDER};border-radius:5px">${g.label}</button>`;
-  return `<div style="display:flex;gap:6px;align-items:center;margin-left:8px">` +
+  return `<div id="garment-toggle-host" style="display:flex;gap:6px;align-items:center;margin-left:8px">` +
     `<span style="font-size:12px;color:${T.label}">Garment</span>` +
     `${GARMENTS.map(btn).join("")}</div>`;
 }
@@ -340,14 +340,23 @@ export function checkMarkup(report: Report, plausible: boolean): string {
 
 /** The whole app shell: controls, canvas host, and a stacked guidance + style column. */
 export function appShellMarkup(m: Measurements, fabric: string, sizes: readonly SizeStep[], fields: readonly (keyof Measurements)[]): string {
-  return `<div style="display:flex;gap:16px;align-items:flex-start;font-family:system-ui,sans-serif">` +
+  const responsive = `<style id="infini-responsive-shell">` +
+    `#infini-shell{display:grid!important;grid-template-columns:minmax(210px,0.75fr) minmax(300px,1.7fr) minmax(240px,0.9fr);gap:16px;align-items:start;font-family:system-ui,sans-serif}` +
+    `#infini-workspace{min-width:0;display:flex;flex-direction:column;gap:6px}` +
+    `#infini-inspection{min-width:0;display:flex;flex-direction:column;gap:16px}` +
+    `#infini-shell svg{max-width:100%;height:auto}` +
+    `#view-toggle-host,#garment-toggle-host,#body-croquis-toggle-host,#swatch-host,#stretch-host,#export-host{flex-wrap:wrap}` +
+    `@media(max-width:900px){#infini-shell{grid-template-columns:minmax(190px,0.7fr) minmax(0,1.3fr)}#infini-inspection{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}}` +
+    `@media(max-width:560px){#infini-shell{display:flex!important;flex-direction:column;gap:12px}#infini-shell>*{width:100%;min-width:0;box-sizing:border-box}#infini-shell #controls-panel{flex:0 1 auto!important;width:100%}#infini-workspace,#infini-inspection{width:100%}#infini-inspection{display:flex;gap:12px}#infini-shell button,#infini-shell select{max-width:100%}}` +
+    `</style>`;
+  return responsive + `<div id="infini-shell" style="display:flex;gap:16px;align-items:flex-start;font-family:system-ui,sans-serif">` +
     `${controlsMarkup(m, fields)}` +
-    `<div style="flex:1;min-width:300px;display:flex;flex-direction:column;gap:6px">` +
+    `<div id="infini-workspace" style="flex:1;min-width:300px;display:flex;flex-direction:column;gap:6px">` +
     `<div id="journey-host"></div>` +
     `${viewToggleMarkup("pattern")}${bodyCroquisToggleMarkup("front-back")}${garmentToggleMarkup("tee")}${fabricStretchMarkup(STRETCH_FABRICS[0].name)}` +
     `${fabricWidthMarkup(150)}` +
     `<div id="canvas-host"></div>${fabricSwatchesMarkup(fabric)}${exportButtonsMarkup(sizes)}` +
     `<div id="garment-host"></div></div>` +
-    `<div style="display:flex;flex-direction:column;gap:16px">` +
+    `<div id="infini-inspection" style="display:flex;flex-direction:column;gap:16px">` +
     `<div id="guidance-host"></div><div id="style-host"></div></div></div>`;
 }

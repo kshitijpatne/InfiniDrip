@@ -151,16 +151,32 @@ describe("renderGarment — woven shirt integration", () => {
     neckWidthHalf: 10, frontNeckDepth: 8, backNeckDepth: 3,
     buttonCount: 6, buttonSpacing: 8, frontOverlap: 1.5, placketWidth: 3,
     standHeight: 2.5, collarLeafDepth: 6, yokeDepth: 10, pocketWidth: 12,
-    pocketHeight: 13, sideVentDepth: 3,
+    pocketHeight: 13, sleeveBandDepth: 3, sideVentDepth: 3, hemTurn: 1,
   };
 
   it("shows the selected placket, yoke, pocket, vent, and six front buttons", () => {
     const svg = renderGarment(STANDARD_M, "#123456", true, NECKLINE_DEFAULT, NECKLINE_DEFAULT, undefined, undefined, shirt);
     expect(svg).toContain('data-garment-detail="woven-shirt"');
+    expect((svg.match(/data-garment-detail="woven-shirt"/g) ?? []).length).toBe(2);
     expect((svg.match(/data-edge="woven-button"/g) ?? []).length).toBe(6);
     expect(svg).toContain('data-edge="option-yokeDepth"');
     expect(svg).toContain('data-edge="option-pocketWidth"');
     expect(svg).toContain('data-edge="option-sideVentDepth"');
+    expect(svg).toContain('data-edge="option-collarLeafDepth"');
+    expect(svg).toContain('data-edge="option-sleeveBandDepth"');
+    expect(svg).toContain("C "); // the woven curved hem
+  });
+
+  it("keeps back-only yoke construction out of the front and uses selected collar/hem dimensions", () => {
+    const svg = renderGarment(STANDARD_M, "#123456", true, NECKLINE_DEFAULT, NECKLINE_DEFAULT, undefined, undefined, shirt);
+    const front = svg.match(/<g data-garment-detail="woven-shirt" data-position="front"[\s\S]*?<\/g>/)![0];
+    const back = svg.match(/<g data-garment-detail="woven-shirt" data-position="back"[\s\S]*?<\/g>/)![0];
+    expect(front).not.toContain('data-edge="option-yokeDepth"');
+    expect(back).toContain('data-edge="option-yokeDepth"');
+    const altered = renderGarment(STANDARD_M, "#123456", true, NECKLINE_DEFAULT, NECKLINE_DEFAULT, undefined, undefined, {
+      ...shirt, collarLeafDepth: 8, sleeveBandDepth: 4, hemTurn: 2,
+    });
+    expect(altered).not.toBe(svg);
   });
 
   it("moves the assembled details when a live dimension changes", () => {

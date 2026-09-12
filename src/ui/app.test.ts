@@ -122,7 +122,7 @@ describe("mountApp", () => {
     expect(URL.createObjectURL).toHaveBeenCalledTimes(3);
   });
 
-  it("routes the download through window.electronAPI when running inside the desktop shell (Slice 46), skipping the Blob path entirely", () => {
+  it("routes the download through window.electronAPI when running inside the desktop shell (Slice 46), skipping the Blob path entirely", async () => {
     const saveFile = vi.fn().mockResolvedValue({ saved: true, filePath: "/tmp/tee-M.svg" });
     window.electronAPI = { saveFile };
     URL.createObjectURL = vi.fn(() => "blob:test"); // must NOT be called on this path
@@ -130,6 +130,7 @@ describe("mountApp", () => {
     try {
       const root = mount();
       root.querySelector<HTMLButtonElement>("#export-svg")!.dispatchEvent(new Event("click"));
+      await Promise.resolve();
       expect(saveFile).toHaveBeenCalledTimes(1);
       const [filename, content] = saveFile.mock.calls[0];
       expect(filename).toBe("tee-M.svg");
@@ -143,7 +144,7 @@ describe("mountApp", () => {
     }
   });
 
-  it("routes a menu-triggered export (Slice 47) through the SAME button the mouse click uses, not a duplicated export path", () => {
+  it("routes a menu-triggered export (Slice 47) through the SAME button the mouse click uses, not a duplicated export path", async () => {
     const saveFile = vi.fn().mockResolvedValue({ saved: true });
     let registered: ((kind: string) => void) | undefined;
     window.electronAPI = {
@@ -154,6 +155,7 @@ describe("mountApp", () => {
       mount();
       expect(registered).toBeTypeOf("function"); // app.ts really registered a listener
       registered!("dxf"); // simulates "File > Export > DXF" being clicked in the real menu
+      await Promise.resolve();
       expect(saveFile).toHaveBeenCalledTimes(1);
       const [filename, content] = saveFile.mock.calls[0];
       expect(filename).toBe("tee-M.dxf"); // proves #export-dxf's own handler ran, not a copy
@@ -279,7 +281,7 @@ describe("mountApp", () => {
     // Load restores the saved state
     root.querySelector<HTMLButtonElement>("#load-pattern")!.dispatchEvent(new Event("click"));
     expect(root.querySelector("#canvas-host svg")!.getAttribute("viewBox")).toBe(savedCanvas);
-    expect(chest.value).toBe("120");
+    expect(root.querySelector<HTMLInputElement>('input[data-field="chest"]')!.value).toBe("120");
   });
 
   it("Save shows a failure message when localStorage throws", () => {
@@ -855,17 +857,16 @@ describe("guided journey", () => {
     expect(root.querySelector("#journey-host")!.innerHTML).toContain("4 of 5");
   });
 
-  it("celebrates a valid export lightly — and dismissibly", () => {
+  it("does not claim a browser download was written", () => {
     mockDownloads();
     const root = mount();
     walkToOutput(root);
     jclick(root, "export-svg");
     const journeyHtml = (): string => root.querySelector("#journey-host")!.innerHTML;
-    expect(root.querySelector("#journey-celebration")).not.toBeNull();
-    expect(journeyHtml()).toContain("✓ Files exported");
-    expect(journeyHtml()).toContain("5 of 5");
-    jclick(root, "celebrate-dismiss");
     expect(root.querySelector("#journey-celebration")).toBeNull();
+    expect(journeyHtml()).toContain("4 of 5");
+    expect(journeyHtml()).not.toContain("✓Files exported");
+    expect(root.querySelector("#persist-status")!.textContent).toContain("Download started");
   });
 
   it("never celebrates green while a measurement is implausible", () => {

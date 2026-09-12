@@ -27,7 +27,7 @@ No console runtime errors were observed during that audit.
 
 ### BUG-UI-001 — Fixed shell does not reflow at narrow widths
 
-- Tags: `BUGFIX`, `EPIC-BUGFIX-P1`, `P1`, `S2`, status `Open`.
+- Tags: `BUGFIX`, `EPIC-BUGFIX-P1`, `P1`, `S2`, status `Closed`.
 - Evidence: at 390px, document width was about 754px; at 768px, guidance and
   toolbar panels collided or became unreadably narrow.
 - Root cause: the app shell is a fixed multi-column flex layout without a
@@ -35,7 +35,15 @@ No console runtime errors were observed during that audit.
 - Done when: the primary workflow is usable at supported narrow widths with no
   horizontal overflow or overlapping controls; live viewport evidence is saved
   in the verification record.
-- Fix slice: —  Commit/PR: —  Verification: —
+- Fix slice: BF-P1-06. Commit/PR: `Slice BF-P1-03–06 implementation commit`.
+- Root cause confirmed: the shell used fixed flex columns, a 300px workspace
+  minimum and non-wrapping control rows with no narrow-width breakpoint.
+- Tests: responsive markup assertions and the full app/view suite; a real 390px
+  viewport check found no overflowing element or document horizontal overflow.
+- Live/rendered/output evidence: at 390×844 the controls, journey, toggles and
+  preview stack and wrap within the viewport; the responsive screenshot was
+  inspected. No unsupported device claim is made.
+- Closed by/date: Codex, 2026-09-12. Final status: Closed.
 
 ### BUG-UI-002 — Negative-ease guidance contradicts the Ease input
 
@@ -80,7 +88,7 @@ No console runtime errors were observed during that audit.
   computed in controls markup. Sources: `src/ui/view.ts:49`, `src/ui/app.ts:208`.
 - Done when: all derived totals update from the current state without stale
   summaries or focus loss.
-- Fix slice: BF-P1-02. Commit/PR: implementation commit with subject `Slice BF-P1-02: unify digital verdicts [BUG-UI-004, BUG-UI-005, BUG-UI-012]`; hash follows in next slice.
+- Fix slice: BF-P1-02. Commit/PR: `ba98cbb` (`Slice BF-P1-02: unify digital verdicts [BUG-UI-004, BUG-UI-005, BUG-UI-012]`).
 - Root cause confirmed: Controls were rendered only on mount/garment switch; draw now updates the finished chest/hip text in place without replacing focused inputs.
 - Tests: P1 DOM regressions, original app/view/journey suites; 73 files / 921 tests,
   100% coverage, TypeScript/build, parsed export consumers and eight unchanged hashes.
@@ -99,7 +107,7 @@ No console runtime errors were observed during that audit.
   `src/ui/view.ts:316`.
 - Done when: every invalid state has one consistent verdict across Guidance,
   Style, Check, journey, and exports.
-- Fix slice: BF-P1-02. Commit/PR: implementation commit with subject `Slice BF-P1-02: unify digital verdicts [BUG-UI-004, BUG-UI-005, BUG-UI-012]`; hash follows in next slice.
+- Fix slice: BF-P1-02. Commit/PR: `ba98cbb` (`Slice BF-P1-02: unify digital verdicts [BUG-UI-004, BUG-UI-005, BUG-UI-012]`).
 - Root cause confirmed: UI green states consumed geometry/plausibility but omitted recipe warnings. A shared current-state verdict now gates Guidance, Check, Style, journey and all six export handlers.
 - Tests: P1 DOM regressions, original app/view/journey suites; 73 files / 921 tests,
   100% coverage, TypeScript/build, parsed export consumers and eight unchanged hashes.
@@ -110,7 +118,7 @@ No console runtime errors were observed during that audit.
 
 ### BUG-UI-006 — Save/Load does not round-trip the active workspace
 
-- Tags: `BUGFIX`, `EPIC-BUGFIX-P1`, `P1`, `S1`, status `Open`.
+- Tags: `BUGFIX`, `EPIC-BUGFIX-P1`, `P1`, `S1`, status `Closed`.
 - Evidence: saving a Woven Shirt draft and reloading reopened Tee. Active garment,
   style, material/stretch choice, view, export size, and nesting scope are not
   all saved.
@@ -118,11 +126,18 @@ No console runtime errors were observed during that audit.
   garment options. Sources: `src/ui/persist.ts:1`, `src/ui/app.ts:36`.
 - Done when: a saved workspace restores all intentionally persistent state, with
   documented migration behavior for older saves.
-- Fix slice: —  Commit/PR: —  Verification: —
+- Fix slice: BF-P1-03. Commit/PR: `Slice BF-P1-03–06 implementation commit`.
+- Root cause confirmed: the save payload contained measurements, fabric and
+  options only; active recipe and other workspace choices were transient UI state.
+- Tests: version-4 workspace round-trip and app restart/load DOM regressions cover
+  garment, style, material, view, export size, nesting scope, width, color and options.
+- Live/rendered/output evidence: a woven-shirt workspace was saved, changed, loaded,
+  and remounted; all controls, selected states and the rendered view matched.
+- Closed by/date: Codex, 2026-09-12. Final status: Closed.
 
 ### BUG-UI-007 — Load updates rendering without synchronizing visible controls
 
-- Tags: `BUGFIX`, `EPIC-BUGFIX-P1`, `P1`, `S2`, status `Open`.
+- Tags: `BUGFIX`, `EPIC-BUGFIX-P1`, `P1`, `S2`, status `Closed`.
 - Evidence: saved button count `6`, changed field to `7`, then loaded; preview
   used `6` while the field still displayed `7`. Loading Charcoal changed the
   garment but left Indigo visually selected.
@@ -131,22 +146,36 @@ No console runtime errors were observed during that audit.
   `src/ui/app.ts:569`.
 - Done when: every restored value has one visible control state and visual
   selection state agrees with the rendered recipe.
-- Fix slice: —  Commit/PR: —  Verification: —
+- Fix slice: BF-P1-03. Commit/PR: `Slice BF-P1-03–06 implementation commit`.
+- Root cause confirmed: Load updated measurements and the drawing but never rebuilt
+  recipe option controls, garment selection, swatch state, or workspace selectors.
+- Tests: app DOM regressions verify restored option value, garment/material pressed
+  state, style/stretch/view/size/width/scope controls and a fresh mount.
+- Live/rendered/output evidence: restored woven preview and Side/Nesting selections
+  were inspected in the live app; control state agreed with the rendered output.
+- Closed by/date: Codex, 2026-09-12. Final status: Closed.
 
 ### BUG-UI-008 — Save accepts values that persistence later rejects
 
-- Tags: `BUGFIX`, `EPIC-BUGFIX-P1`, `P1`, `S1`, status `Open`.
+- Tags: `BUGFIX`, `EPIC-BUGFIX-P1`, `P1`, `S1`, status `Closed`.
 - Evidence: UI accepted Length `100`; Save reported `Saved ✓`; Load reported
   `Nothing saved` because persistence validation allows only through `90`.
 - Root cause: UI and persistence bounds are separate and inconsistent. Source:
   `src/ui/persist.ts:42`.
 - Done when: one shared validation contract governs edit, save, load, guidance,
   and status messaging; a rejected save explains why.
-- Fix slice: —  Commit/PR: —  Verification: —
+- Fix slice: BF-P1-03. Commit/PR: `Slice BF-P1-03–06 implementation commit`.
+- Root cause confirmed: UI and persistence had separate bounds; Length 100 was
+  accepted in the UI but rejected by the old persistence contract.
+- Tests: shared `FIELDS`/`inputError` validation covers save, load, edit and status;
+  invalid current saves preserve the prior stored workspace and explain the error.
+- Live/rendered/output evidence: invalid Length 110 and incomplete Chest are retained
+  visibly, Save reports the exact correction, and Load preserves the previous save.
+- Closed by/date: Codex, 2026-09-12. Final status: Closed.
 
 ### BUG-UI-009 — Export cancellation or failure can report success
 
-- Tags: `BUGFIX`, `EPIC-BUGFIX-P1`, `P1`, `S1`, status `Open`.
+- Tags: `BUGFIX`, `EPIC-BUGFIX-P1`, `P1`, `S1`, status `Closed`.
 - Evidence: Electron returns `{saved:false}` on cancellation, but the renderer
   ignores the result and marks the journey exported. Browser downloads are also
   marked complete immediately after clicking the anchor.
@@ -154,22 +183,37 @@ No console runtime errors were observed during that audit.
   `src/ui/app.ts:496`, `electron/main.cts:170`.
 - Done when: only a confirmed successful write marks export complete; cancel and
   failure show distinct, actionable feedback.
-- Fix slice: —  Commit/PR: —  Verification: —
+- Fix slice: BF-P1-04. Commit/PR: `Slice BF-P1-03–06 implementation commit`.
+- Root cause confirmed: Electron's save promise was ignored and browser anchor
+  clicks were treated as proof of a completed filesystem write.
+- Tests: P1 DOM regressions cover confirmed success, cancellation, rejection,
+  browser-start failure and celebration dismissal; full app/journey suite passes.
+- Live/rendered/output evidence: browser download reports “Download started” and
+  leaves Files exported incomplete; desktop cancellation/failure report distinct
+  actionable messages. No physical or production claim is made.
+- Closed by/date: Codex, 2026-09-12. Final status: Closed.
 
 ### BUG-UI-010 — Export completion is not invalidated by later changes
 
-- Tags: `BUGFIX`, `EPIC-BUGFIX-P1`, `P1`, `S1`, status `Open`.
+- Tags: `BUGFIX`, `EPIC-BUGFIX-P1`, `P1`, `S1`, status `Closed`.
 - Evidence: after export, changing Chest or switching garments left
   `Files exported ✓` active for the new design.
 - Root cause: journey export state is not dirtied when recipe, measurements, or
   options change. Source: `src/ui/app.ts:507`.
 - Done when: any output-affecting change makes the previous export stale and the
   journey clearly identifies what must be exported again.
-- Fix slice: —  Commit/PR: —  Verification: —
+- Fix slice: BF-P1-04. Commit/PR: `Slice BF-P1-03–06 implementation commit`.
+- Root cause confirmed: journey export state had no dirty transition when the
+  recipe, measurements, options or export/workspace choices changed.
+- Tests: P1 DOM regression confirms a successful export is cleared after a later
+  measurement change; all relevant app/journey tests pass.
+- Live/rendered/output evidence: changing the current design removes the Files
+  exported completion state and restores the next-action prompt.
+- Closed by/date: Codex, 2026-09-12. Final status: Closed.
 
 ### BUG-UI-011 — Woven assembled preview omits or misplaces construction details
 
-- Tags: `BUGFIX`, `EPIC-BUGFIX-P1`, `P1`, `S1`, status `Open`.
+- Tags: `BUGFIX`, `EPIC-BUGFIX-P1`, `P1`, `S1`, status `Closed`.
 - Evidence: preview lacks collar/stand silhouette, point collar leaf, sleeve band,
   curved hem, and back yoke; yoke guide is drawn across the front. Collar leaf
   depth changes the pattern but not the assembled preview.
@@ -178,7 +222,16 @@ No console runtime errors were observed during that audit.
   `src/render/garment.ts:148`.
 - Done when: front and back preview geometry visibly matches the drafted woven
   components and every live option that claims visual impact changes the preview.
-- Fix slice: —  Commit/PR: —  Verification: —
+- Fix slice: BF-P1-05. Commit/PR: `Slice BF-P1-03–06 implementation commit`.
+- Root cause confirmed: the preview emitted only partial front details and placed
+  a yoke guide across the front; it omitted the collar/stand, sleeve band,
+  curved hem and back-only yoke contract.
+- Tests: 23 garment-render tests, woven app route regressions and all parsed woven
+  export consumers pass; full P1 gate is recorded below.
+- Live/rendered/output evidence: front/back detail groups, live button count,
+  collar/stand, pocket/placket, back yoke, sleeve band, curved hem and vent cues
+  were inspected in the rendered app; live option changes alter the SVG.
+- Closed by/date: Codex, 2026-09-12. Final status: Closed.
 
 ### BUG-UI-012 — Digital checks use production-readiness language
 
@@ -189,7 +242,7 @@ No console runtime errors were observed during that audit.
   world validation. Sources: `src/ui/view.ts:70`, `src/guidance/garment-check.ts:13`.
 - Done when: status copy accurately states what was digitally checked and avoids
   physical fit or production claims.
-- Fix slice: BF-P1-02. Commit/PR: implementation commit with subject `Slice BF-P1-02: unify digital verdicts [BUG-UI-004, BUG-UI-005, BUG-UI-012]`; hash follows in next slice.
+- Fix slice: BF-P1-02. Commit/PR: `ba98cbb` (`Slice BF-P1-02: unify digital verdicts [BUG-UI-004, BUG-UI-005, BUG-UI-012]`).
 - Root cause confirmed: Legacy UI wording overstated geometry checks. Status now describes digital checks and explicitly identifies pending physical validation.
 - Tests: P1 DOM regressions, original app/view/journey suites; 73 files / 921 tests,
   100% coverage, TypeScript/build, parsed export consumers and eight unchanged hashes.

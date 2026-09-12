@@ -15,7 +15,7 @@ import { garmentReport, implausibleFields } from "../guidance";
 import { matchStyle, styleNames } from "../style";
 import { FIELDS, applyChange, inputError } from "./controls";
 import { appShellMarkup, controlsMarkup, guidanceMarkup, styleMarkup, specTableMarkup, checkMarkup, editorHintMarkup, dartControlsMarkup, BodyCroquisView } from "./view";
-import { saveToStorage, loadFromStorage } from "./persist";
+import { saveToStorage, loadFromStorage, readFromStorage, serialize, deserialize, DEFAULT_WORKSPACE, Workspace } from "./persist";
 import {
   JourneyStep, ViewName, COACHED_STEPS, disclosureFor, stepView, journeyChecklist,
   journeyBarMarkup, checklistMarkup, welcomeMarkup, celebrationMarkup,
@@ -38,7 +38,9 @@ export function mountApp(root: HTMLElement): void {
   let measurements: Measurements = saved ? saved.measurements : STANDARD_M;
   let fabric = saved ? saved.fabric : DEFAULT_FABRIC;
   let garmentOptions: GarmentOptionsByRecipe = saved ? saved.garmentOptions : {};
-  root.innerHTML = appShellMarkup(measurements, fabric, GARMENTS[0].sizes, GARMENTS[0].fields);
+  const initialWorkspace = saved?.workspace ?? DEFAULT_WORKSPACE;
+  let recipe: GarmentRecipe = garmentByName(initialWorkspace.garment);
+  root.innerHTML = appShellMarkup(measurements, fabric, recipe.sizes, recipe.fields);
 
   const canvasHost = root.querySelector<HTMLDivElement>("#canvas-host")!;
   const garmentHost = root.querySelector<HTMLDivElement>("#garment-host")!;
@@ -52,16 +54,16 @@ export function mountApp(root: HTMLElement): void {
   let journey = loadJourney();
   let celebrating = false; // the light, dismissible export confirmation
 
-  let targetStyle = "Classic tee"; // the declared fit target (sets nothing)
-  let stretchFabric = STRETCH_FABRICS[0]; // drives the ease guidance note
-  let view: "pattern" | "body" | "nest" | "spec" | "fabric" | "check" | "edit" = "pattern";
-  let bodyCroquisView: BodyCroquisView = "front-back";
-  let recipe: GarmentRecipe = GARMENTS[0]; // the garment every view is built from
+  let targetStyle = initialWorkspace.targetStyle;
+  let stretchFabric = STRETCH_FABRICS.find((f) => f.name === initialWorkspace.stretchFabric)!;
+  let view: ViewName = initialWorkspace.view;
+  let bodyCroquisView: BodyCroquisView = initialWorkspace.bodyCroquisView;
   let editedFront: Piece | null = null; // freeform snapshot of the front (override, not parametric)
   let dragId: string | null = null; // handle being dragged
   let selectedId: string | null = null; // handle highlighted in the editor
-  let fabricWidth = 150; // cm — the bolt width for the nesting estimator
-  let nestScope: "single" | "marker" = "single"; // one garment, or the whole size run
+  let fabricWidth = initialWorkspace.fabricWidth;
+  let nestScope: "single" | "marker" = initialWorkspace.nestScope;
+  let exportStep = initialWorkspace.exportStep;
   let activeDim: string | null = null; // the measurement field spotlighted on the body view
 
   /** Design options live per recipe, never in body measurements. Existing saved
@@ -114,7 +116,9 @@ export function mountApp(root: HTMLElement): void {
       yokeDepth: options.yokeDepth,
       pocketWidth: options.pocketWidth,
       pocketHeight: options.pocketHeight,
+      sleeveBandDepth: options.sleeveBandDepth,
       sideVentDepth: options.sideVentDepth,
+      hemTurn: options.hemTurn,
     };
   };
   const wovenBodyNeckline = () => {
@@ -153,6 +157,12 @@ export function mountApp(root: HTMLElement): void {
         journeyChecklist(plausible, gaps, report.ok, journey.exported)));
     }
     journeyHost.innerHTML = parts.join("");
+  };
+  const markOutputDirty = (): void => {
+    if (!journey.exported && !celebrating) return;
+    journey = { ...journey, exported: false };
+    celebrating = false;
+    saveJourney(journey);
   };
 
   const draw = (): void => {
@@ -261,7 +271,6 @@ export function mountApp(root: HTMLElement): void {
     if (activeDim !== null) spotlight(activeDim);
     renderJourney();
   };
-  draw();
 
   const viewBtns = {
     pattern: root.querySelector<HTMLButtonElement>("#view-pattern")!,
@@ -393,15 +402,18 @@ export function mountApp(root: HTMLElement): void {
     if (id === "editor-reset") {
       editedFront = rolePiece(draftCurrent(), "front");
       selectedId = null;
+      markOutputDirty();
       draw();
     } else if (DART_TOOLS[id] && editedFront) {
       editedFront = DART_TOOLS[id](editedFront);
       selectedId = null;
+      markOutputDirty();
       draw();
     }
   });
 
   const setGarment = (name: string): void => {
+    markOutputDirty();
     recipe = garmentByName(name);
     targetStyle = recipe.styles[0].name; // the old target may not exist for this garment
     GARMENTS.forEach((g) => {
@@ -409,6 +421,7 @@ export function mountApp(root: HTMLElement): void {
       const on = g.name === recipe.name;
       btn.style.background = on ? BLUEPRINT.lineActive : BLUEPRINT.background;
       btn.style.color = on ? BLUEPRINT.background : BLUEPRINT.line;
+      btn.setAttribute("aria-pressed", String(on));
     });
     editedFront = null; // a new garment invalidates the freeform snapshot
     selectedId = null;
@@ -417,6 +430,7 @@ export function mountApp(root: HTMLElement): void {
     root.querySelector<HTMLElement>("#controls-panel")!.outerHTML = controlsMarkup(
       measurements, recipe.fields, recipe.options, recipeOptions());
     wireMeasurementInputs();
+    syncExportSizes();
     if (view === "edit" && inputErrors().size === 0) editedFront = rolePiece(draftCurrent(), "front");
     draw();
   };
@@ -430,6 +444,7 @@ export function mountApp(root: HTMLElement): void {
     const v = Number(widthInput.value);
     if (Number.isFinite(v) && v > 0) {
       fabricWidth = v;
+      markOutputDirty();
       draw();
     }
   });
@@ -438,6 +453,7 @@ export function mountApp(root: HTMLElement): void {
   const marker = root.querySelector<HTMLButtonElement>("#nest-marker")!;
   const setScope = (s: "single" | "marker"): void => {
     nestScope = s;
+    markOutputDirty();
     single.style.background = s === "single" ? BLUEPRINT.lineActive : "transparent";
     single.style.color = s === "single" ? BLUEPRINT.background : BLUEPRINT.label;
     marker.style.background = s === "marker" ? BLUEPRINT.lineActive : "transparent";
@@ -459,6 +475,7 @@ export function mountApp(root: HTMLElement): void {
       const field = FIELDS.find((f) => f.id === input.dataset.field)!;
       input.addEventListener("input", () => {
         measurements = applyChange(measurements, field, input.value);
+        markOutputDirty();
         draw();
       });
     });
@@ -471,6 +488,7 @@ export function mountApp(root: HTMLElement): void {
           [recipe.name]: { ...recipeOptions(), [id]: value },
         };
         editedFront = null;
+        markOutputDirty();
         draw();
       });
     });
@@ -488,8 +506,10 @@ export function mountApp(root: HTMLElement): void {
   swatches.forEach((swatch) => {
     swatch.addEventListener("click", () => {
       fabric = swatch.dataset.fabric!;
+      markOutputDirty();
       swatches.forEach((s) => {
         s.style.outline = s.dataset.fabric === fabric ? `2px solid ${BLUEPRINT.lineActive}` : "none";
+        s.setAttribute("aria-pressed", String(s.dataset.fabric === fabric));
       });
       draw();
     });
@@ -501,6 +521,7 @@ export function mountApp(root: HTMLElement): void {
     const sel = e.target as HTMLSelectElement;
     if (sel.id === "style-target") {
       targetStyle = sel.value;
+      markOutputDirty();
       draw();
     }
   });
@@ -508,15 +529,21 @@ export function mountApp(root: HTMLElement): void {
   const stretchSelect = root.querySelector<HTMLSelectElement>("#stretch-select")!;
   stretchSelect.addEventListener("change", () => {
     stretchFabric = STRETCH_FABRICS.find((f) => f.name === stretchSelect.value)!;
+    markOutputDirty();
     draw();
   });
 
   // Export-local state: which size the download buttons emit. Defaults to base (M);
   // it scopes ONLY the exports, never the other views.
-  let exportStep = 0;
   const exportSizeEl = root.querySelector<HTMLSelectElement>("#export-size")!;
+  const syncExportSizes = (): void => {
+    if (!recipe.sizes.some((s) => s.step === exportStep)) exportStep = 0;
+    exportSizeEl.replaceChildren(...recipe.sizes.map((size) => new Option(size.label, String(size.step))));
+    exportSizeEl.value = String(exportStep);
+  };
   exportSizeEl.addEventListener("change", () => {
     exportStep = Number(exportSizeEl.value);
+    markOutputDirty();
   });
   // exportStep always comes from the picker, which is populated from recipe.sizes,
   // so the step is guaranteed to resolve to a real size.
@@ -533,23 +560,46 @@ export function mountApp(root: HTMLElement): void {
   // browser, or any other web host — the app is exactly what it was before
   // this slice. Additive, not a fork: every export button, every test of
   // this function's browser path, is unchanged.
-  const download = (filename: string, text: string, mime: string): void => {
+  const statusEl = root.querySelector<HTMLSpanElement>("#persist-status")!;
+  let statusTimer = 0;
+  const flash = (msg: string, color: string): void => {
+    statusEl.textContent = msg;
+    statusEl.style.color = color;
+    clearTimeout(statusTimer);
+    statusTimer = window.setTimeout(() => { statusEl.textContent = ""; }, 2000);
+  };
+  const completeExport = (): void => {
+    journey = { ...journey, exported: true };
+    saveJourney(journey);
+    if (journey.step !== "done") celebrating = true;
+    renderJourney();
+  };
+  const download = async (filename: string, text: string, mime: string): Promise<void> => {
     if (window.electronAPI) {
-      void window.electronAPI.saveFile(filename, text);
-    } else {
+      try {
+        const result = await window.electronAPI.saveFile(filename, text);
+        if (!result.saved) {
+          flash("Export canceled — choose a file location to complete it.", BLUEPRINT.lineActive);
+          return;
+        }
+        completeExport();
+        return;
+      } catch {
+        flash("Export failed — check the destination and retry.", BLUEPRINT.lineActive);
+        return;
+      }
+    }
+    try {
       const url = URL.createObjectURL(new Blob([text], { type: mime }));
       const a = document.createElement("a");
       a.href = url;
       a.download = filename;
       a.click();
       URL.revokeObjectURL(url);
+      flash("Download started — verify the file before marking export complete.", BLUEPRINT.label);
+    } catch {
+      flash("Export failed — the browser could not start the download.", BLUEPRINT.lineActive);
     }
-    // Reaching a real export completes the journey's checklist; while the tour
-    // is still on, confirm it lightly (and honestly — see celebrationMarkup).
-    journey = { ...journey, exported: true };
-    saveJourney(journey);
-    if (journey.step !== "done") celebrating = true;
-    renderJourney();
   };
   const onExport = (id: string, action: () => void): void => {
     root.querySelector<HTMLButtonElement>(id)!.addEventListener("click", () => {
@@ -592,31 +642,63 @@ export function mountApp(root: HTMLElement): void {
     if (id) root.querySelector<HTMLButtonElement>(`#${id}`)?.click();
   });
 
-  const statusEl = root.querySelector<HTMLSpanElement>("#persist-status")!;
-  let statusTimer = 0;
-  const flash = (msg: string, color: string): void => {
-    statusEl.textContent = msg;
-    statusEl.style.color = color;
-    clearTimeout(statusTimer);
-    statusTimer = window.setTimeout(() => { statusEl.textContent = ""; }, 2000);
-  };
-
   root.querySelector<HTMLButtonElement>("#save-pattern")!.addEventListener("click", () => {
-    saveToStorage(measurements, fabric, garmentOptions)
+    const workspace: Workspace = { garment: recipe.name, targetStyle, stretchFabric: stretchFabric.name,
+      view, bodyCroquisView, exportStep, fabricWidth, nestScope };
+    const validation = deserialize(serialize(measurements, fabric, garmentOptions, workspace));
+    if (!validation.ok) { flash(`Save failed: ${validation.error}`, BLUEPRINT.lineActive); return; }
+    saveToStorage(measurements, fabric, garmentOptions, workspace)
       ? flash("Saved ✓", "#2E9B63")
       : flash("Save failed", BLUEPRINT.lineActive);
   });
 
   root.querySelector<HTMLButtonElement>("#load-pattern")!.addEventListener("click", () => {
-    const loaded = loadFromStorage();
-    if (!loaded) { flash("Nothing saved", BLUEPRINT.label); return; }
+    const loaded = readFromStorage();
+    if (!loaded.ok) { flash(loaded.error, BLUEPRINT.label); return; }
     measurements = loaded.measurements;
     fabric = loaded.fabric;
     garmentOptions = loaded.garmentOptions;
-    root.querySelectorAll<HTMLInputElement>("input[data-field]").forEach((input) => {
-      input.value = String(measurements[input.dataset.field as keyof Measurements]);
-    });
-    draw();
+    recipe = garmentByName(loaded.workspace.garment);
+    targetStyle = loaded.workspace.targetStyle;
+    stretchFabric = STRETCH_FABRICS.find((f) => f.name === loaded.workspace.stretchFabric)!;
+    view = loaded.workspace.view;
+    bodyCroquisView = loaded.workspace.bodyCroquisView;
+    exportStep = loaded.workspace.exportStep;
+    fabricWidth = loaded.workspace.fabricWidth;
+    nestScope = loaded.workspace.nestScope;
+    markOutputDirty();
+    syncWorkspace(true);
     flash("Loaded ✓", "#2E9B63");
   });
+
+  const syncWorkspace = (restoring: boolean): void => {
+    editedFront = null;
+    selectedId = null;
+    dragId = null;
+    activeDim = null;
+    root.querySelector<HTMLElement>("#controls-panel")!.outerHTML = controlsMarkup(
+      measurements, recipe.fields, recipe.options, recipeOptions());
+    wireMeasurementInputs();
+    GARMENTS.forEach((g) => {
+      const button = root.querySelector<HTMLButtonElement>(`#garment-${g.name}`)!;
+      const on = g.name === recipe.name;
+      button.style.background = on ? BLUEPRINT.lineActive : BLUEPRINT.background;
+      button.style.color = on ? BLUEPRINT.background : BLUEPRINT.line;
+      button.setAttribute("aria-pressed", String(on));
+    });
+    swatches.forEach((swatch) => {
+      const on = swatch.dataset.fabric === fabric;
+      swatch.style.outline = on ? `2px solid ${BLUEPRINT.lineActive}` : "none";
+      swatch.setAttribute("aria-pressed", String(on));
+    });
+    stretchSelect.value = stretchFabric.name;
+    widthInput.value = String(fabricWidth);
+    syncExportSizes();
+    if (restoring && !disclosureFor(journey.step).views.includes(view)) journey = { ...journey, step: "done" };
+    setBodyCroquisView(bodyCroquisView);
+    setScope(nestScope);
+    setView(view);
+    applyDisclosure();
+  };
+  syncWorkspace(saved !== null);
 }

@@ -58,3 +58,90 @@ completion is scoped to BF-P1-04.
 Gate: 73 files / 921 tests, 100% statements/branches/functions/lines,
 TypeScript/build, all parsed export consumers and eight unchanged legacy hashes.
 BF-P1-01 immutable implementation reference: `8f44f05`.
+
+## BF-P1-03
+
+BUG-UI-006/007/008 are closed. Save format v4 stores the full intentional
+workspace in addition to measurements, color and recipe options. Load validates
+the selected recipe/style/material/view/size/width/scope and rebuilds controls,
+pressed states and the rendered output from the restored values. Existing v1–v3
+saves migrate to the standard workspace defaults. `FIELDS` plus `inputError`
+provides the shared bounds contract; current invalid measurements/options are
+rejected with an exact Save error and the prior stored workspace remains intact.
+Exploratory Edit geometry is still intentionally transient.
+
+Live review: a woven-shirt workspace with altered button count, color, Linen,
+Relaxed style, Body Side, Nesting Marker, 120 cm width and size step 2 was saved,
+changed, loaded, and remounted. All controls, pressed states and the view matched;
+the actual render was inspected. Invalid Length/Chest saves reported corrections
+and did not overwrite the prior save.
+
+Focused tests: 37 persistence tests, 12 P1 DOM tests and the existing app suite.
+
+## BF-P1-04
+
+BUG-UI-009/010 are closed. Desktop export completion now follows the confirmed
+Electron writer result: canceled dialogs and rejected writes show distinct
+feedback and leave `Files exported` incomplete. Plain-browser downloads report
+that the request started but do not claim that the file was written. Changes to
+measurements, recipe/options, fabric/material, target fit, export size, width or
+nesting scope clear a prior export completion and celebration.
+
+Confirmed root cause: `download()` was fire-and-forget for the Electron promise,
+and the browser anchor click was treated as proof of a filesystem write; the
+journey state had no dirty transition on later changes.
+
+Tests: 12 P1 DOM tests plus the original app/journey suites cover confirmed,
+canceled, rejected and browser-start failure paths, celebration dismissal, and
+post-export invalidation. Actual diff reviewed.
+
+## BF-P1-05
+
+BUG-UI-011 is closed. The woven assembled preview now consumes the complete
+visual option contract for both silhouettes: front placket/buttons/pocket and
+collar/stand, back-only yoke, sleeve-band cue, curved hem, and open side-vent
+cue. The body shape follows the woven chest/waist/hip panel and the selected
+hem/vent dimensions; non-woven rendering remains byte-compatible.
+
+Confirmed root cause: the old `wovenShirtFrontDetails()` emitted only a front
+placket, buttons, pocket and a yoke guide incorrectly across the front; collar,
+stand, sleeve band, curved hem and back yoke were absent from the assembled
+preview.
+
+Live/rendered review: live Woven shirt output showed distinct front/back detail
+groups, seven default buttons, front-only pocket/placket, back-only yoke and
+collar/sleeve/vent/curved-hem cues. Changing live collar/sleeve-band/hem options
+changed the SVG. Screenshot and rendered DOM inspected.
+
+Tests: 23 garment-render tests, app woven route tests, all parsed woven export
+consumers. Physical sewing and fit remain unverified.
+
+## BF-P1-06
+
+BUG-UI-001 is closed. The primary shell now uses responsive grid/flex layout;
+the 390px breakpoint stacks the three work areas, wraps toggle/garment/export
+controls and constrains previews to the available width. The 900px breakpoint
+places inspection panels below the working columns.
+
+Confirmed root cause: the shell was a fixed three-flex-column row with a 300px
+workspace minimum and non-wrapping control rows, so the primary workflow
+overflowed narrow screens.
+
+Live/rendered review: at a real 390×844 viewport, document scroll width was 375px
+inside the 390px viewport with no overflowing element; the responsive screenshot
+showed stacked controls, journey, workflow toggles and preview. Desktop woven
+render was also inspected.
+
+Tests: responsive markup assertions, full app/view suites and the live viewport
+check. No mobile browser claim extends beyond the verified viewport.
+
+## EPIC-BUGFIX-P1 exit report
+
+All BUG-UI-001 through BUG-UI-012 records are Closed with severity/priority,
+confirmed root cause, fix slice, implementation commit subject, tests,
+live/rendered/output evidence and closure status preserved in
+`docs/BUG-LEDGER.md`. Full gate: 73 test files / 935 tests; 100% statements,
+branches, functions and lines; TypeScript; production build; parsed SVG/DXF,
+tiled PDF, A0 PDF, projector SVG and tech-pack checks; eight unchanged legacy
+export hashes. Diff and rendered UI/output were reviewed after each bounded
+slice. Do not begin Epic 3; P2/P3 remain pending under the master goal.

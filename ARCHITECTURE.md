@@ -9,6 +9,26 @@ export handlers share this gate; failed geometric checks also reach Guidance.
 Geometry-only reports/writers remain stable. Finished totals update in place,
 and status copy identifies digital checks without physical/production claims.
 
+BF-P1-03: version-4 persistence stores intentional workspace state alongside
+measurements, color and recipe options: garment, style, stretch material, view,
+Body projection, export size, fabric width and nesting scope. `FIELDS` and
+`inputError` are the shared edit/save/load contract; invalid current saves are
+rejected with an actionable message. Exploratory Edit geometry remains transient.
+
+BF-P1-04: export completion is an explicit state transition. Electron marks the
+journey exported only after `saveFile` confirms a write; cancel, rejection and
+browser-start failures remain incomplete with actionable status. Input, recipe,
+option, material, fit-target, size and nesting changes invalidate prior output.
+
+BF-P1-05: the woven assembled preview renders both front and back detail groups
+from the woven option contract. Front closure/collar/pocket/button geometry,
+back yoke, sleeve-band cue, curved hem and side vent cues remain tied to their
+live options; the renderer remains unchanged for non-woven calls.
+
+BF-P1-06: the shell uses responsive grid/flex breakpoints. At narrow widths the
+controls, workspace and inspection columns stack, toggle/export rows wrap, and
+SVG previews stay within the available width without horizontal overflow.
+
 BF-P1-01: measurement inputs retain raw numeric values; empty/nonfinite fields
 are explicit incomplete UI states. `inputError` checks declared field/option
 bounds and the app pauses drawing and export with associated corrections until

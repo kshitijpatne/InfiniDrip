@@ -70,6 +70,8 @@ describe("appShellMarkup", () => {
     expect(html).toContain('id="guidance-host"');
     expect(html).toContain('id="style-host"');
     expect(html).toContain('id="fabric-width"');
+    expect(html).toContain('id="infini-responsive-shell"');
+    expect(html).toContain('@media(max-width:560px)');
   });
 });
 
