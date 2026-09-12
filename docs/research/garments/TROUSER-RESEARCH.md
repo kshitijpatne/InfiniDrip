@@ -214,6 +214,29 @@ allowance map and a notch/grainline row for every emitted role. These are
 digital sewing contracts only; a physical bag opening, bag shape, and seam
 allowance still require a sewn sample before any fit or production claim.
 
+### Slice 99 guidance, measurement, and production-data resolution
+
+The V1 grade is explicit and constant across the run: waist +4 cm, hip +4 cm,
+hip depth +1 cm, sitting crotch depth +1 cm, thigh +2 cm, knee +1.5 cm, and
+finished inseam +1.5 cm per size step. Ease and all construction options stay
+constant; each size is a fresh draft through the same trouser recipe contract.
+
+The POM table reads finished values from the assembled edges: finished waist,
+waistband depth, seat/hip, front/back rise including the waistband, thigh,
+knee, inseam, outseam, leg opening, fly length, both pocket openings, bag
+depth/width, and pocket drop. Hip depth is labelled as a body reference. The
+front-only anchor rule is respected by leaving the back-rise row table-only;
+no back coordinate is mislabelled as a front callout in the tech-pack sketch.
+
+Guidance reports, without clamping, waist/hip and hip-depth/crotch ordering,
+positive finished dimensions, back-rise-over-front-rise relationship,
+waistband and fly reach, thigh-to-knee-to-opening progression, and the pocket
+range/panel/rise/knee/hem checks. Each warning names the measurement or option
+whose value should change. The BOM and ordered construction notes name the
+four-panel body, separate waistband, fly support/zip, fastening, and paired
+pocket bags; quantities, hardware, and operation details remain provisional
+until material and sewn-sample evidence exists.
+
 ### Slice 96 geometry resolution
 
 Before implementation, the first digital approximation is fixed as follows:

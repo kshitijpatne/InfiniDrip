@@ -329,16 +329,25 @@ function pocketOpeningMark(opening: TrouserPocketOpening): PatternMark {
   return lineMark("placementLine", "pocketOpening", opening.start, opening.end, "pocket opening");
 }
 
+function pocketOpeningStartMark(opening: TrouserPocketOpening): PatternMark {
+  return pointMark("placementPoint", "pocketOpeningStart", opening.start, "pocket start");
+}
+
 /** Add the same live opening mark to the two mirrored front panels. */
 function addPocketMarks(b: Block, opening: TrouserPocketOpening): Block {
   const roles = Object.fromEntries(Object.entries(b.roles).map(([role, piece]) => {
     if (role === "frontLeft") {
-      return [role, { ...piece, marks: [...piece.marks!, pocketOpeningMark(opening)] }];
+      return [role, {
+        ...piece,
+        marks: [...piece.marks!, pocketOpeningMark(opening), pocketOpeningStartMark(opening)],
+      }];
     }
     if (role === "frontRight") {
       return [role, {
         ...piece,
         marks: [...piece.marks!, pocketOpeningMark({
+          start: mirrorPoint(opening.start), end: mirrorPoint(opening.end),
+        }), pocketOpeningStartMark({
           start: mirrorPoint(opening.start), end: mirrorPoint(opening.end),
         })],
       }];

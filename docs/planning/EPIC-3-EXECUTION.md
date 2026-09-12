@@ -219,6 +219,9 @@ physical sewing remains deferred.
 
 ### Slice 99 — guidance, POMs, grading, allowances, and tech pack
 
+Status: **complete** (focused tests 27/27 across the trouser contract,
+geometry, components, pocket, and table suites).
+
 Scope: finish trouser-specific guidance/corrections, grade rule, size run,
 POM table, BOM, and ordered construction notes; integrate and exercise the
 Slice 98 notch/allowance tables.
@@ -244,6 +247,16 @@ Owner/model: Codex; medium/high reasoning for cross-contract review.
 
 Verification: focused guidance/grade/POM/tech-pack/check tests; full legacy
 export regression remains mandatory.
+
+Evidence: `trouserGuidance()` now reports the lower-body ordering, positive
+finished dimensions, rise/waistband/fly relationships, straight-leg
+progression, and Slice 98 pocket checks without clamping. `TROUSER_GRADE` and
+`TROUSER_SIZES` drive fresh XS–XL drafts; `TROUSER_POMS` measures the live
+assembled block across finished/body-reference rows; and `TROUSER_TECH_PACK`
+names the eight-role construction, materials, closure, and paired bags.
+Focused tests verify graded fields, finite POMs/anchors, tech-pack scope, and
+invalid guidance at 27/27; TypeScript passes. The complete recipe and
+application routing remain Slice 100 work.
 
 ### Slice 100 — recipe and application integration
 
@@ -370,7 +383,7 @@ alter account usage.
 
 ## Epic 3 exit report
 
-Status: **not started beyond Slice 97 waistband/closure components**.
+Status: **not started beyond Slice 99 guidance/tables**.
 
-Slices 98–103 remain implementation and verification work. No physical garment
+Slices 100–103 remain implementation and verification work. No physical garment
 has been sewn or validated, and no production-readiness claim is authorized.

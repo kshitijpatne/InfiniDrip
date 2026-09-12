@@ -34,3 +34,5 @@ export * from "./shirt-contract";
 export * from "./shirt";
 export * from "./trouser-contract";
 export * from "./trouser";
+export * from "./trouser-guidance";
+export * from "./trouser-tables";

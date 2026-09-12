@@ -3,7 +3,7 @@
 How the app fits together, in plain language. Read the top to re-orient; skim the
 layers when you need detail. Updated every slice with only need-to-know changes.
 
-## Current Epic 3 boundary — Slice 98
+## Current Epic 3 boundary — Slice 99
 
 The pre-Epic 3 checkout and BUGFIX/FC-01 exit are verified on the actual
 `main` branch. The first trouser is a separate reusable relaxed casual
@@ -68,6 +68,17 @@ front-panel/rise/knee/hem violations without clamping. The V1
 focused tests render/resolve the actual marks and grainlines. Focused
 trouser tests pass 21/21 plus typecheck; recipe/UI, full output integration,
 and live browser verification remain later slices.
+
+Slice 99 completes the trouser-wide guidance and table boundary without
+registering the recipe. `trouserGuidance()` owns actionable no-clamp checks for
+body ordering, rise/waistband/fly reach, positive dimensions, straight-leg
+progression, and pocket placement. `TROUSER_GRADE`/`TROUSER_SIZES` redraft the
+shared XS–XL run; `TROUSER_POMS` reads finished and body-reference values from
+the assembled block; and `TROUSER_TECH_PACK` names the four-panel body,
+waistband, fly/fastening, and paired-bag operations. Focused tests pass 27/27
+across the trouser contract and geometry/table suites, with the full digital
+coverage gate at 100% across all four metrics. Recipe/UI and live browser
+integration remain Slice 100 work.
 
 BF-P1-02: the UI's current design verdict combines input validity, all recipe/
 plausibility guidance and geometric checks. Check, Style, journey and all six

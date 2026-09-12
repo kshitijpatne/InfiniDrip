@@ -1,9 +1,9 @@
 # InfiniDrip — Project State
 
-_Last updated: Epic 3 Slice 98, 2026-09-12; the BUGFIX
+_Last updated: Epic 3 Slice 99, 2026-09-12; the BUGFIX
 phase and pre-Epic 3 consistency extension passed._
 
-## Current status — Epic 3 Slice 98
+## Current status — Epic 3 Slice 99
 
 The actual `main` checkout was re-verified before Epic 3: tracked files are
 clean, `main` matches `origin/main`, the BUGFIX P1/P2/P3 and FC-01 records are
@@ -56,8 +56,19 @@ render tests include the pocket marks and bags. Focused trouser tests pass
 21/21 and TypeScript passes. The complete recipe, application routing, full
 graded/output gate, and live browser verification remain pending.
 
-Next safe action is Slice 99: finish trouser-wide guidance, POMs, grading, BOM,
-and construction notes, then integrate the complete recipe. Physical
+Slice 99 is complete as the guidance/POM/grading/tech-pack checkpoint.
+`trouserGuidance()` now catches body-order, rise/waistband/fly, positive
+dimension, straight-leg progression, and pocket failures with actionable
+measurement/option fields and no clamping. `TROUSER_GRADE`/`TROUSER_SIZES`
+redraft an XS–XL run, `TROUSER_POMS` reads the live assembled geometry for
+finished and body-reference rows, and `TROUSER_TECH_PACK` names the physical
+roles, materials, closure, and construction order. Focused trouser tests pass
+27/27; the full checkpoint passes 78 files / 993 tests with 100% statements,
+branches, functions, and lines. The complete recipe, application routing,
+full output integration, and live browser verification remain pending.
+
+Next safe action is Slice 100: register the complete trouser recipe and route
+it through every existing application surface and persistence path. Physical
 validation, surface design, Polo V2, and production-readiness claims remain
 deferred.
 
@@ -1982,3 +1993,9 @@ leg block is not yet registered with the application/export pipeline, so the
 full Epic 3 integration gate remains pending
 s97: 12 focused leg/component tests pass and TypeScript passes; the combined
 waistband/fly block is not yet registered with the application/export pipeline
+s98: 21 focused contract/geometry/component/pocket tests pass and TypeScript
+passes; paired pocket bags, live opening marks, notch/grainline rules, and the
+trouser allowance map are complete but not registered with the application
+s99=993 (78 test files, 100% statements/branches/functions/lines; trouser
+guidance, XS–XL grade/POM/tech-pack tables pass; recipe/UI and full export
+integration remain pending)
