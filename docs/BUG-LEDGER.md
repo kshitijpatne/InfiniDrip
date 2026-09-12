@@ -656,8 +656,8 @@ No console runtime errors were observed during that audit.
   `src/ui/view.ts:278`.
 - Done when: each mode states its scope and output consequence in the control
   label or adjacent helper text.
-- Fix slice: BF-P3-02. Commit/PR: BF-P3-02 behavior commit (immutable
-  reference recorded after the slice commit).
+- Fix slice: BF-P3-02. Commit/PR: `f965869` (`Slice BF-P3-02: clarify nesting
+  scope [BUG-UI-030]`).
 - Root cause confirmed: terse Single/Marker labels omitted whether the mode
   used one selected size or the complete graded run. The controls now say
   Single size and Graded marker, carry matching accessible descriptions, and

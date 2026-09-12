@@ -40,8 +40,8 @@ Focused verification and live evidence are recorded after implementation.
 
 ## BF-P3-02 — Closed
 
-Implementation: BF-P3-02 behavior commit (immutable reference recorded after
-the slice commit).
+Implementation: `f965869` (`Slice BF-P3-02: clarify nesting scope
+[BUG-UI-030]`).
 
 Nesting controls now say Single size and Graded marker. Each button exposes an
 accessible scope description, and visible helper text explains that Single size
