@@ -14,7 +14,7 @@ import { guide, Note } from "../guidance";
 import { garmentReport, implausibleFields } from "../guidance";
 import { matchStyle, styleNames } from "../style";
 import { FIELDS, applyChange, inputError } from "./controls";
-import { appShellMarkup, controlsMarkup, guidanceMarkup, styleMarkup, specTableMarkup, checkMarkup, editorHintMarkup, dartControlsMarkup, inspectionMarkup, BodyCroquisView } from "./view";
+import { appShellMarkup, controlsMarkup, guidanceMarkup, styleMarkup, specTableMarkup, checkMarkup, editorHintMarkup, dartControlsMarkup, inspectionMarkup, assembledPreviewMarkup, BodyCroquisView } from "./view";
 import { saveToStorage, loadFromStorage, readFromStorage, serialize, deserialize, DEFAULT_WORKSPACE, Workspace } from "./persist";
 import {
   JourneyStep, ViewName, COACHED_STEPS, disclosureFor, stepView, journeyChecklist,
@@ -66,6 +66,7 @@ export function mountApp(root: HTMLElement): void {
   let exportStep = initialWorkspace.exportStep;
   let activeDim: string | null = null; // the measurement field spotlighted on the body view
   let inspectionZoom = 1;
+  let previewExpanded = true;
 
   /** Design options live per recipe, never in body measurements. Existing saved
    * values stay verbatim so guidance can explain an invalid combination. */
@@ -321,10 +322,11 @@ export function mountApp(root: HTMLElement): void {
     }
     canvasHost.innerHTML = inspectionMarkup(canvasContent, view);
     applyInspectionPresentation();
-    garmentHost.innerHTML = isTop
+    const assembled = isTop
       ? renderGarment(measurements, fabric, hasSleeve,
           recipe.frontNeckline?.(measurements), recipe.backNeckline?.(measurements), recipe.strapWidth?.(measurements), poloVisual(), wovenShirtVisual())
       : renderSkirtGarment(measurements, fabric);
+    garmentHost.innerHTML = assembledPreviewMarkup(assembled, previewExpanded);
     // One sanity read for the whole frame: are the numbers a real body? It gates
     // every green "validated" signal — the check banner, the style ✓ — and flags
     // the offending fields, so geometry passing can never masquerade as "ready".
@@ -448,6 +450,14 @@ export function mountApp(root: HTMLElement): void {
   });
   applyDisclosure();
   window.addEventListener("resize", applyInspectionPresentation);
+
+  garmentHost.addEventListener("click", (e) => {
+    const target = e.target as HTMLElement;
+    if (target.closest("#assembled-preview-toggle")) {
+      previewExpanded = !previewExpanded;
+      draw();
+    }
+  });
 
   // Freeform drag: pointer -> nearest handle -> moveHandle -> redraw. All the
   // maths is pure (edit engine); these three handlers are the only impure glue.

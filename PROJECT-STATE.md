@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: BF-P2-01, BUGFIX P1 exit complete and P2 in progress._
+_Last updated: BF-P2-02, BUGFIX P1 exit complete and P2 in progress._
 
 EPIC-BUGFIX-P1 closes BUG-UI-001 through BUG-UI-012 except no IDs are skipped:
 responsive layout, input truth, live totals, unified digital verdicts, full
@@ -11,8 +11,10 @@ TypeScript, production build, parsed SVG/DXF/PDF/projector/tech-pack checks, and
 eight unchanged legacy export hashes. BF-P2-01 also closes the intrinsic-canvas,
 label-layout, Body-focus, and Side-context records: inspection surfaces are
 bounded and zoomable, linear component drawings shelf-wrap, and single Body
-figures can be inspected without browser zoom. The P2 full gate is still
-pending; BF-P2-02 through BF-P2-06, then P3, remain sequential milestones of
+figures can be inspected without browser zoom. BF-P2-02 now gives the
+assembled SVG an owned collapse/expand section and groups woven construction
+options with units and per-field correction help. The P2 full gate is still
+pending; BF-P2-03 through BF-P2-06, then P3, remain sequential milestones of
 the same master goal. Physical validation and Epic 3 remain deferred.
 
 BF-P1-01 closes BUG-UI-002/003: no silent clamp, verbatim negative ease,

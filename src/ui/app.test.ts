@@ -17,6 +17,19 @@ describe("mountApp", () => {
     const root = mount();
     expect(root.querySelector("#canvas-host svg")).not.toBeNull();
     expect(root.querySelector("#garment-host svg")).not.toBeNull();
+    expect(root.querySelector("#assembled-preview-title")!.textContent).toBe("Assembled preview");
+  });
+
+  it("lets the secondary assembled preview collapse without losing ownership", () => {
+    const root = mount();
+    root.querySelector<HTMLButtonElement>("#assembled-preview-toggle")!
+      .dispatchEvent(new Event("click", { bubbles: true }));
+    expect(root.querySelector<HTMLButtonElement>("#assembled-preview-toggle")!.getAttribute("aria-expanded")).toBe("false");
+    expect(root.querySelector<HTMLElement>("#assembled-preview-content")!.style.display).toBe("none");
+    expect(root.querySelector("#assembled-preview-title")!.textContent).toBe("Assembled preview");
+    root.querySelector<HTMLButtonElement>("#assembled-preview-toggle")!
+      .dispatchEvent(new Event("click", { bubbles: true }));
+    expect(root.querySelector<HTMLButtonElement>("#assembled-preview-toggle")!.getAttribute("aria-expanded")).toBe("true");
   });
 
   it("redraws the canvas when a measurement changes", () => {

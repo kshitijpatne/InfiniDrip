@@ -44,10 +44,22 @@ suites. Live review at 1280×720 confirmed woven Pattern viewBox
 170×520. Fit/zoom was exercised from 100% to 125% and back. Actual diff and
 rendered screenshots were inspected before proceeding.
 
-## BF-P2-02 — Pending
+## BF-P2-02 — Closed
 
-Preview ownership and woven option grouping remain to be implemented and
-verified before P2 continues to BF-P2-03.
+Implementation: pending immutable behavior commit reference.
+
+The assembled garment is now a separately titled, collapsible secondary
+preview. Woven construction options carry semantic groups, correct units, and
+short feature/correction help; the controls render as five fieldset groups.
+Focused verification: 122 tests pass across the contract, view, and app
+suites. The live 1280×720 Woven route showed five groups with the expected
+counts (3/4/1/2/3), `buttons` for button count, `cm` for dimensions, and the
+preview Hide/Show state changed the rendered content while keeping its owner.
+
+## BF-P2-03 — Pending
+
+Option-to-feature highlighting and material/color compatibility semantics remain
+to be implemented and verified.
 
 ## P2 exit report — Pending
 

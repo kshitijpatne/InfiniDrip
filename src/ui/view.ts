@@ -14,18 +14,28 @@ const BORDER = "#1E3450";
 const OK = "#2E9B63";
 
 function field(id: string, label: string,
-               value: number, min: number, max: number, step: number): string {
+               value: number, min: number, max: number, step: number,
+               details: Pick<GarmentOption, "unit" | "help"> = {}): string {
   const tag = roleTag(id); // "body · circ" / "finished", or null for ease
   const tagSpan = tag === null ? "" :
     `<span style="opacity:0.55;font-size:11px;margin-left:6px">${tag}</span>`;
+  const helpId = `help-${id}`;
+  const describedBy = details.help ? `error-${id} ${helpId}` : `error-${id}`;
+  const input = `<input data-field="${id}" type="number" value="${value}" min="${min}" max="${max}" step="${step}" ` +
+    `style="width:64px;padding:4px 6px;text-align:right;background:${T.background};color:${T.line};` +
+    `border:1px solid ${BORDER};border-radius:5px;font-family:ui-monospace,monospace" ` +
+    `aria-describedby="${describedBy}"/>`;
+  const unit = details.unit
+    ? `<span data-field-unit="${id}" style="font-size:11px;color:${T.label};margin-left:4px">${details.unit}</span>`
+    : "";
+  const help = details.help
+    ? `<div id="${helpId}" data-option-help="${id}" style="font-size:11px;color:${T.label};line-height:1.35;margin:-4px 0 8px">${details.help}</div>`
+    : "";
   return `<label data-dim-row="${id}" style="display:flex;justify-content:space-between;align-items:center;` +
     `gap:8px;margin-bottom:8px;font-size:13px">` +
     `<span style="color:${T.label}">${label}${tagSpan}</span>` +
-    `<input data-field="${id}" type="number" value="${value}" min="${min}" max="${max}" step="${step}" ` +
-    `style="width:64px;padding:4px 6px;text-align:right;background:${T.background};color:${T.line};` +
-    `border:1px solid ${BORDER};border-radius:5px;font-family:ui-monospace,monospace" ` +
-    `aria-describedby="error-${id}"/></label>` +
-    `<div id="error-${id}" data-input-error="${id}" style="font-size:12px;color:${T.lineActive}" role="status"></div>`;
+    `<span style="display:inline-flex;align-items:center;white-space:nowrap">${input}${unit}</span></label>` +
+    `<div id="error-${id}" data-input-error="${id}" style="font-size:12px;color:${T.lineActive}" role="status"></div>${help}`;
 }
 
 function panelTitle(text: string): string {
@@ -53,13 +63,23 @@ export function controlsMarkup(
     : fields.includes("hip")
       ? `<div style="font-size:11.5px;color:${T.label};margin-top:2px;margin-bottom:8px">Finished hip: <span data-finished="hip" style="color:${T.line};font-family:ui-monospace,monospace">${m.hip + m.ease} cm</span></div>`
       : "";
-  const optionRows = options.map((option) => field(
+  const optionRows = (option: GarmentOption): string => field(
     `option-${option.id}`, option.label, values[option.id] ?? option.defaultValue,
-    option.min, option.max, option.step
-  ).replace(`data-field="option-${option.id}"`, `data-option="${option.id}"`)).join("");
+    option.min, option.max, option.step, option
+  ).replace(`data-field="option-${option.id}"`, `data-option="${option.id}"`);
+  const groups = new Map<string, GarmentOption[]>();
+  options.forEach((option) => {
+    const group = option.group ?? "Design options";
+    groups.set(group, [...(groups.get(group) ?? []), option]);
+  });
+  const optionGroups = [...groups.entries()].map(([group, groupOptions]) =>
+    `<fieldset data-option-group="${group}" style="border:1px solid ${BORDER};border-radius:7px;padding:8px 9px;margin:0 0 10px">` +
+    `<legend style="padding:0 4px;font-size:11px;color:${T.line};text-transform:uppercase;letter-spacing:0.04em">${group}</legend>` +
+    `${groupOptions.map(optionRows).join("")}</fieldset>`
+  ).join("");
   const optionPanel = options.length === 0 ? "" :
     `<div style="border-top:1px solid ${BORDER};margin-top:12px;padding-top:12px">` +
-    `${panelTitle("Design options")}${optionRows}</div>`;
+    `${panelTitle("Design options")}${optionGroups}</div>`;
   return `<div id="controls-panel" style="flex:0 0 220px;background:${PANEL};border:1px solid ${BORDER};` +
     `border-radius:10px;padding:14px">${panelTitle("Measurements (cm)")}${rows}${finished}${optionPanel}</div>`;
 }
@@ -250,6 +270,21 @@ export function inspectionMarkup(content: string, view: string): string {
     `<div id="inspection-viewport" role="region" aria-labelledby="inspection-title" tabindex="0" ` +
     `style="min-height:260px;max-height:560px;overflow:auto;background:${T.background};border-radius:8px;padding:8px;box-sizing:border-box">` +
     `<div id="inspection-content" style="min-width:0">${content}</div></div></section>`;
+}
+
+/** The assembled garment is a secondary preview, not the active analytical
+ * canvas. Give it an explicit owner and let the user collapse it when it is
+ * competing with the current inspection task. */
+export function assembledPreviewMarkup(content: string, expanded = true): string {
+  const display = expanded ? "block" : "none";
+  const label = expanded ? "Hide preview" : "Show preview";
+  return `<section id="assembled-preview" aria-labelledby="assembled-preview-title" ` +
+    `style="background:${PANEL};border:1px solid ${BORDER};border-radius:10px;padding:10px;margin-top:2px">` +
+    `<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">` +
+    `<h2 id="assembled-preview-title" style="flex:1;margin:0;font-size:12px;font-weight:600;color:${T.line}">Assembled preview</h2>` +
+    `<button id="assembled-preview-toggle" type="button" aria-controls="assembled-preview-content" aria-expanded="${expanded}" ` +
+    `style="padding:3px 8px;cursor:pointer;background:${T.background};color:${T.line};border:1px solid ${BORDER};border-radius:5px">${label}</button></div>` +
+    `<div id="assembled-preview-content" style="display:${display}">${content}</div></section>`;
 }
 
 export function garmentToggleMarkup(active: string): string {

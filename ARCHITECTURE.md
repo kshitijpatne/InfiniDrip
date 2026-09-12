@@ -43,6 +43,12 @@ combined Front + Back view plus single Front/Back focus and an explicitly
 schematic Side view. The extra Body focus choices are included in the existing
 version-4 workspace payload; export writers remain unchanged.
 
+BF-P2-02: the assembled garment is rendered in its own titled, collapsible
+secondary preview section, separate from the active analytical canvas. Recipe
+option metadata can declare a construction group, display unit, and concise
+feature/correction help; controls render those declarations as grouped
+fieldsets without changing the underlying numeric option state.
+
 Slice 93: the woven-shirt component-library exit audit verifies closed geometry
 and sewability across XS–XL, all Pattern/Body/Side/Size run/Spec/Nesting/Check/
 preview-Edit routes, and parsed SVG/DXF/tiled-PDF/A0/projector/tech-pack output.

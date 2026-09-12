@@ -345,7 +345,7 @@ No console runtime errors were observed during that audit.
 
 ### BUG-UI-017 — Assembled preview is always present without ownership or collapse
 
-- Tags: `BUGFIX`, `EPIC-BUGFIX-P2`, `P2`, `S3`, status `Open`.
+- Tags: `BUGFIX`, `EPIC-BUGFIX-P2`, `P2`, `S3`, status `Closed`.
 - Evidence: the assembled garment remains below Pattern, Body, Spec, Check,
   Nesting, Marker, Side, and Edit, with no `Assembled preview` heading or hide
   control.
@@ -353,18 +353,40 @@ No console runtime errors were observed during that audit.
   `src/ui/app.ts:195`.
 - Done when: users can distinguish the active analytical view from the preview
   and control whether the preview occupies the page.
-- Fix slice: —  Commit/PR: —  Verification: —
+- Fix slice: BF-P2-02. Commit/PR: pending (BF-P2-02 behavior commit).
+- Root cause confirmed: `garmentHost` received raw assembled SVG markup with no
+  semantic owner or local visibility state. It now renders an Assembled preview
+  section with a persistent collapse/expand control while the analytical canvas
+  remains separately titled and owned.
+- Tests: view markup covers both expanded and collapsed states; app regression
+  toggles the preview twice and confirms the owner/title remains present.
+- Live/rendered/output evidence: the live 1280×720 app was toggled to Hide
+  preview and back to Show preview; `aria-expanded` and rendered visibility
+  agreed without changing the active Pattern/Body inspection.
+- Closed by/date: Codex, 2026-09-12. Final status: Closed.
 
 ### BUG-UI-018 — Woven options are dense, ungrouped, and under-explained
 
-- Tags: `BUGFIX`, `EPIC-BUGFIX-P2`, `P2`, `S3`, status `Open`.
+- Tags: `BUGFIX`, `EPIC-BUGFIX-P2`, `P2`, `S3`, status `Closed`.
 - Evidence: thirteen construction options appear in one long block, with no
   groups, helper text, units, or clear mapping to garment features.
 - Root cause: option metadata exposes labels and numeric fields but not semantic
   grouping or contextual help. Source: `src/drafting/shirt-contract.ts:38`.
 - Done when: options are grouped by construction area, values have correct units,
   and each field explains its effect and valid correction path.
-- Fix slice: —  Commit/PR: —  Verification: —
+- Fix slice: BF-P2-02. Commit/PR: pending (BF-P2-02 behavior commit).
+- Root cause confirmed: `GarmentOption` exposed only labels and numeric bounds,
+  so the thirteen woven controls rendered as one unlabelled list with generic
+  units. Option metadata now supplies construction groups, units, and a short
+  feature/correction explanation; the UI renders native fieldsets and help
+  text while preserving raw live values.
+- Tests: option metadata/contract, grouped-control markup, unit and help
+  assertions, plus app woven-route regressions; 122 focused tests pass.
+- Live/rendered/output evidence: the live Woven shirt controls show five groups
+  (Neck & collar, Front closure, Back yoke, Pocket, Sleeve & hem), `buttons` on
+  count, `cm` on dimensional choices, and per-field correction help. No
+  physical construction claim is made.
+- Closed by/date: Codex, 2026-09-12. Final status: Closed.
 
 ### BUG-UI-019 — Woven option spotlight dims the body without highlighting anything
 

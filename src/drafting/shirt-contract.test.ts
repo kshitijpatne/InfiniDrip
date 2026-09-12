@@ -12,8 +12,11 @@ describe("woven shirt construction contract", () => {
     expect(WOVEN_SHIRT_FIELDS).toContain("neck");
     expect(WOVEN_SHIRT_FIELDS).toContain("chest");
     expect(WOVEN_SHIRT_FIELDS).not.toContain("strapWidth");
-    expect(WOVEN_SHIRT_OPTION_DEFINITIONS.find((d) => d.id === "buttonCount")).toEqual({
+    expect(WOVEN_SHIRT_OPTION_DEFINITIONS.find((d) => d.id === "buttonCount")).toMatchObject({
       id: "buttonCount", label: "Front placket buttons", defaultValue: 7, min: 6, max: 7, step: 1,
+    });
+    expect(WOVEN_SHIRT_OPTION_DEFINITIONS.find((d) => d.id === "buttonCount")).toMatchObject({
+      unit: "buttons", group: "Front closure",
     });
   });
 

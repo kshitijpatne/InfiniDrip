@@ -1,9 +1,9 @@
 import { describe, it, expect } from "vitest";
-import { STANDARD_M, GARMENTS, TSHIRT_SIZES, TEE } from "../drafting";
+import { STANDARD_M, GARMENTS, TSHIRT_SIZES, TEE, WOVEN_SHIRT, WOVEN_SHIRT_OPTION_DEFINITIONS } from "../drafting";
 import { garmentToggleMarkup, dartControlsMarkup, exportButtonsMarkup } from "./view";
 import { DEFAULT_FABRIC, BLUEPRINT } from "../render";
 import { matchStyle, styleNames, TEE_STYLES } from "../style";
-import { controlsMarkup, appShellMarkup, guidanceMarkup, styleMarkup, fabricSwatchesMarkup, specTableMarkup, viewToggleMarkup, bodyCroquisToggleMarkup, fabricWidthMarkup, checkMarkup, editorHintMarkup, inspectionMarkup } from "./view";
+import { controlsMarkup, appShellMarkup, guidanceMarkup, styleMarkup, fabricSwatchesMarkup, specTableMarkup, viewToggleMarkup, bodyCroquisToggleMarkup, fabricWidthMarkup, checkMarkup, editorHintMarkup, inspectionMarkup, assembledPreviewMarkup } from "./view";
 import { buildReport, present } from "../guidance";
 
 describe("controlsMarkup", () => {
@@ -117,6 +117,39 @@ describe("inspectionMarkup", () => {
     expect(html).toContain('id="inspection-viewport"');
     expect(html).toContain('data-inspection-zoom="fit"');
     expect(html).toContain('aria-label="Zoom in"');
+  });
+});
+
+describe("woven option controls", () => {
+  it("groups construction options and shows units plus correction help", () => {
+    const html = controlsMarkup(STANDARD_M, WOVEN_SHIRT.fields, WOVEN_SHIRT_OPTION_DEFINITIONS);
+    expect((html.match(/data-option-group=/g) || [])).toHaveLength(5);
+    expect(html).toContain('data-field-unit="option-buttonCount"');
+    expect(html).toContain(">buttons<");
+    expect(html).toContain('data-field-unit="option-neckEase"');
+    expect(html).toContain("one additional button belongs on the collar stand");
+    expect(html).toContain('aria-describedby="error-option-buttonCount help-option-buttonCount"');
+  });
+
+  it("keeps unitless custom options usable", () => {
+    const html = controlsMarkup(STANDARD_M, ["chest"], [{
+      id: "custom", label: "Custom choice", defaultValue: 1, min: 0, max: 2, step: 1,
+    }]);
+    expect(html).toContain('data-option="custom"');
+    expect(html).not.toContain('data-field-unit="option-custom"');
+  });
+});
+
+describe("assembledPreviewMarkup", () => {
+  it("owns the preview and exposes an honest collapse state", () => {
+    const open = assembledPreviewMarkup("<svg></svg>");
+    const closed = assembledPreviewMarkup("<svg></svg>", false);
+    expect(open).toContain("Assembled preview");
+    expect(open).toContain('aria-expanded="true"');
+    expect(open).toContain("Hide preview");
+    expect(closed).toContain('aria-expanded="false"');
+    expect(closed).toContain("Show preview");
+    expect(closed).toContain('display:none');
   });
 });
 

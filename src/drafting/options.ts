@@ -6,6 +6,12 @@
 export interface GarmentOption {
   readonly id: string;
   readonly label: string;
+  /** Unit shown beside the numeric control; omitted for unitless choices. */
+  readonly unit?: string;
+  /** Short explanation of the feature affected and the correction path. */
+  readonly help?: string;
+  /** Construction area used to group related controls in the UI. */
+  readonly group?: string;
   readonly defaultValue: number;
   readonly min: number;
   readonly max: number;
