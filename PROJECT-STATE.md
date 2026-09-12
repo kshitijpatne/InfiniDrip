@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: BF-P3-03, 2026-09-12; P1/P2 passed and P3 behavior is complete._
+_Last updated: EPIC-BUGFIX-P3 exit, 2026-09-12; the BUGFIX phase passed._
 
 EPIC-BUGFIX-P1 closes BUG-UI-001 through BUG-UI-012 except no IDs are skipped:
 responsive layout, input truth, live totals, unified digital verdicts, full
@@ -26,15 +26,17 @@ SVG/DXF/tiled-PDF/A0/projector/tech-pack checks, and eight unchanged legacy
 export hashes. BF-P3-01 now aligns fresh material defaults with garment
 construction and makes Style/journey copy truthful. BF-P3-02 now names the
 selected-size versus every-graded-size nesting consequence. BF-P3-03 now adds
-the visible product hierarchy and visible/semantically named swatches. P3
-behavior is complete; the full P3 gate and exit report remain before Epic 3,
-which is still parked. Physical validation remains deferred.
+the visible product hierarchy and visible/semantically named swatches. The
+full P3 gate passes across 73 test files / 959 tests at 100% statements,
+branches, functions, and lines, with standalone TypeScript, production build,
+parsed SVG/DXF/PDF/A0/projector/tech-pack checks, and eight unchanged legacy
+export hashes. All BUG-UI-001 through BUG-UI-031 records are closed. Epic 3
+has not begun; physical validation remains deferred.
 
 BF-P1-01 closes BUG-UI-002/003: no silent clamp, verbatim negative ease,
 associated input corrections and safe draft pause/recovery. Scope and evidence:
-`docs/planning/BUGFIX-P1-EXECUTION.md`. P1 and P2 are complete; P3 remains the
-active sequential milestone of the same master goal. Physical validation remains
-deferred.
+`docs/planning/BUGFIX-P1-EXECUTION.md`. P1, P2, and P3 are complete under the
+same master goal; Epic 3 remains unstarted. Physical validation remains deferred.
 BF-P1-01 gate: 73 files / 919 tests, 100% coverage,
 TypeScript/build, parsed outputs and eight unchanged legacy hashes.
 
@@ -1656,11 +1658,10 @@ slices. The Polo CAD reference informs the committed Polo V2 standby backlog
 only; it does not alter locked Polo V1. Full decisions and slice boundaries
 are recorded in `docs/PROJECT-DECISIONS.md`.
 
-**Current immediate next work:** complete the sequential `BUGFIX` phase before
-Epic 3. Use `docs/planning/BUG-FIX-PHASE.md` for the three epic boundaries and
-`docs/BUG-LEDGER.md` for the authoritative open/closed bug records. Epic 3 is
-not current until `EPIC-BUGFIX-P1`, `EPIC-BUGFIX-P2`, and `EPIC-BUGFIX-P3` each
-have a passing exit report.
+**Current immediate next work:** the sequential `BUGFIX` phase is complete.
+Use `docs/planning/BUG-FIX-PHASE.md`, `docs/planning/BUGFIX-P3-EXECUTION.md`,
+and `docs/BUG-LEDGER.md` for the passing exit evidence and authoritative closed
+bug records. Epic 3 has not begun. Physical validation remains deferred.
 
 ## Roadmap — superseded by MVP-PLAN.md (kept below for slice-history context only)
 The engine/recipe thesis is proven end-to-end: tee, fitted, and skirt — three

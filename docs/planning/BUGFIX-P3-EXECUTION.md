@@ -36,7 +36,10 @@ not replaced. The Style helper now describes numeric inputs and immediate
 preview updates, and the journey checklist refers to the available garments
 instead of a stale two-garment subset.
 
-Focused verification and live evidence are recorded after implementation.
+Focused verification: `npx vitest run src/ui/persist.test.ts
+src/ui/journey.test.ts src/ui/view.test.ts src/ui/app.test.ts` passed 4 files /
+199 tests. Live review at 1280×720 confirmed Cotton jersey selected for the
+fresh Tee workspace and the Style panel's numeric-input/immediate-preview copy.
 
 ## BF-P3-02 — Closed
 
@@ -48,7 +51,11 @@ accessible scope description, and visible helper text explains that Single size
 uses the selected size while Graded marker includes every graded size. The
 underlying nesting and export behavior remains unchanged.
 
-Focused verification and live evidence are recorded after implementation.
+Focused verification: `npx vitest run src/ui/view.test.ts src/ui/app.test.ts`
+passed 2 files / 130 tests. Live review at 1280×720 confirmed the visible
+Single size and Graded marker labels, their accessible descriptions, and the
+selected-size versus every-graded-size helper while the marker rendered as
+expected.
 
 ## BF-P3-03 — Closed
 
@@ -60,9 +67,28 @@ with a concise workspace subtitle. The Color group is named by its visible
 heading, and every swatch keeps its visible color name instead of relying on
 hover metadata. P2's semantic panel headings remain in place.
 
-Focused verification and live evidence are recorded after implementation.
+Focused verification: `npx vitest run src/ui/view.test.ts src/ui/app.test.ts`
+passed 2 files / 130 tests. Live review at 1280×720 confirmed the InfiniDrip
+H1/subtitle, `main#infini-shell` landmark, visible Color heading, and all five
+visible swatch names.
 
-## P3 exit report — Pending
+## P3 exit report — Passing
 
-Epic 3 remains parked until this report passes. Physical validation remains
-deferred.
+The complete P3 gate passes:
+
+- `npm run coverage`: 73 test files / 959 tests, 100% statements, branches,
+  functions, and lines.
+- `npx tsc --noEmit`: passed.
+- `npm run build`: passed; TypeScript and Vite production build completed.
+- `npm test`: 73 test files / 959 tests passed.
+- Parsed export checks: 6 export test files / 104 tests passed across SVG/DXF,
+  tiled PDF, A0 PDF, projector SVG, and tech-pack consumers. The 8 legacy
+  export hashes in `src/export/regression.test.ts` remain unchanged.
+- Rendered/live review: the 1280×720 app showed the final product heading,
+  material copy, explicit nesting scope, named inspection surfaces, and
+  visible swatch names. No physical or production-readiness claim is made.
+- Ledger closure: BUG-UI-027 through BUG-UI-031 are Closed with exact behavior
+  commit references; all BUG-UI records in `docs/BUG-LEDGER.md` remain
+  preserved and closed.
+
+Epic 3 has not begun. Physical validation remains deferred.

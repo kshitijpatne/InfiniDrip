@@ -308,7 +308,8 @@ No console runtime errors were observed during that audit.
   scale or inspection control. Source: `src/render/body.ts:212`.
 - Done when: front and back dimensions can be read without relying on browser
   zoom or horizontal layout luck.
-- Fix slice: BF-P2-01. Commit/PR: pending (BF-P2-01 behavior commit).
+- Fix slice: BF-P2-01. Commit/PR: `9bcd2bb` (`Slice BF-P2-01: bound inspection
+  surfaces and body focus [BUG-UI-013–016]`).
 - Root cause confirmed: the only Body presentation was a side-by-side pair,
   giving each annotated figure half the available width. A bounded frame and
   explicit Front/Back focus now let one figure use the available inspection
@@ -330,7 +331,8 @@ No console runtime errors were observed during that audit.
   explanation and inherits its narrow viewBox. Source: `src/render/croquis-view.ts:45`.
 - Done when: Side clearly states its purpose/limits and occupies a usable,
   consistent canvas area.
-- Fix slice: BF-P2-01. Commit/PR: pending (BF-P2-01 behavior commit).
+- Fix slice: BF-P2-01. Commit/PR: `9bcd2bb` (`Slice BF-P2-01: bound inspection
+  surfaces and body focus [BUG-UI-013–016]`).
 - Root cause confirmed: the Side croquis had a narrow intrinsic viewBox and
   only a terse label. The new inspection frame caps its rendered height and
   centers it; the existing explicit SIDE · SCHEMATIC label remains the honest
@@ -531,7 +533,7 @@ No console runtime errors were observed during that audit.
 
 ### BUG-UI-025 — Accessibility semantics and editor keyboard access are incomplete
 
-- Tags: `BUGFIX`, `EPIC-BUGFIX-P2`, `P2`, `S2`, status `Open`.
+- Tags: `BUGFIX`, `EPIC-BUGFIX-P2`, `P2`, `S2`, status `Closed`.
 - Evidence: live audit found zero headings, no landmarks, no named SVGs, and no
   pressed/selected state for most view/garment buttons. Edit handles are pointer-
   only.
@@ -558,7 +560,7 @@ No console runtime errors were observed during that audit.
 
 ### BUG-UI-026 — Guidance is global, distant, and not field-associated
 
-- Tags: `BUGFIX`, `EPIC-BUGFIX-P2`, `P2`, `S2`, status `Open`.
+- Tags: `BUGFIX`, `EPIC-BUGFIX-P2`, `P2`, `S2`, status `Closed`.
 - Evidence: warnings appear in a separate guidance panel with no inline field
   association or direct correction affordance; at narrow widths the panel is
   effectively off-screen.
