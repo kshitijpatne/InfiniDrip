@@ -3,7 +3,7 @@
 _Last updated: FC-01 functional consistency audit, 2026-09-12; the BUGFIX
 phase and pre-Epic 3 consistency extension passed._
 
-## Current status — Epic 3 Slice 96
+## Current status — Epic 3 Slice 97
 
 The actual `main` checkout was re-verified before Epic 3: tracked files are
 clean, `main` matches `origin/main`, the BUGFIX P1/P2/P3 and FC-01 records are
@@ -38,9 +38,16 @@ hip/thigh/knee/hem/grain/crease landmarks. Focused geometry/render tests pass
 7/7 and TypeScript passes; the full integration gate remains pending until the
 block is assembled with its waistband, closure, and pockets.
 
-Next safe action is Slice 97: add and verify the separate trouser waistband and
-simple front closure. Physical validation, surface design, Polo V2, and
-production-readiness claims remain deferred.
+Slice 97 is complete as the waistband/closure component checkpoint. The
+combined `draftTrouserWithClosure()` block now adds a full off-fold trouser
+waistband, center/fastening marks, a simple fly shield, and live front fly
+marks. Its eight declared seams pass the focused stitch checks; focused
+component tests pass 12/12 and TypeScript passes. The block is still not
+registered with the application or export pipeline.
+
+Next safe action is Slice 98: add the minimal paired pocket component and
+complete the lower-body sewability contract. Physical validation, surface
+design, Polo V2, and production-readiness claims remain deferred.
 
 The independent functional-consistency audit now closes BUG-UI-032 through
 BUG-UI-034. Woven Body front/back inspection uses its real lower shaping and
@@ -1961,3 +1968,5 @@ s95=969 (shared lower-body fields/options/facets/plausibility/persistence contra
 s96: 7 focused geometry/render tests pass and TypeScript passes; the reusable
 leg block is not yet registered with the application/export pipeline, so the
 full Epic 3 integration gate remains pending
+s97: 12 focused leg/component tests pass and TypeScript passes; the combined
+waistband/fly block is not yet registered with the application/export pipeline

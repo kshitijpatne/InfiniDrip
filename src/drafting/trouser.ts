@@ -14,7 +14,8 @@ import { point } from "../geometry";
 import { Block, block } from "./block";
 import { Edge, Piece } from "./piece";
 import { lineMark, pointMark, PatternMark } from "./pattern-mark";
-import { edgeRef, iface, Stitch } from "./stitch";
+import { edgeRef, iface, markRef, Stitch } from "./stitch";
+import { Component, assembleComponents } from "./component";
 import { DEFAULT_TROUSER_OPTIONS, resolveTrouserOptions, TrouserOptions } from "./trouser-contract";
 import { Measurements } from "./measurements";
 
@@ -206,3 +207,115 @@ export function draftTrouserLegs(
 /** Public defaults make the contract easy to inspect in tests and later
  * components without making callers reconstruct the option table. */
 export const TROUSER_LEG_DEFAULT_OPTIONS = DEFAULT_TROUSER_OPTIONS;
+
+/** Package the already-verified leg block for later component assembly. */
+export const trouserLegsComponent: Component<TrouserOptions> = (m, options) => {
+  const legs = draftTrouserLegs(m, options);
+  return { pieces: legs.roles, stitches: legs.stitches, interfaces: {} };
+};
+
+/** Separate full-length waistband. Its lower edge equals the combined waist
+ * edges of the four leg panels, so the later stitch is a real 1:1 seam. */
+export const trouserWaistband: Component<TrouserOptions> = (m, rawOptions) => {
+  const options = resolveTrouserOptions(rawOptions);
+  const finishedWaist = m.waist + m.ease;
+  const depth = options.waistbandDepth;
+  const end = point(finishedWaist, 0);
+  const endBottom = point(finishedWaist, depth);
+  const bottom = point(0, depth);
+  return {
+    pieces: {
+      waistband: {
+        name: "trouser waistband",
+        onFold: false,
+        edges: [
+          { kind: "line", name: "top", start: point(0, 0), end },
+          { kind: "line", name: "endRight", start: end, end: endBottom },
+          { kind: "line", name: "bottom", start: endBottom, end: bottom },
+          { kind: "line", name: "endLeft", start: bottom, end: point(0, 0) },
+        ],
+        marks: [
+          pointMark("placementPoint", "centerBack", point(0, depth / 2), "center back"),
+          pointMark("placementPoint", "centerFront", point(finishedWaist / 2, depth / 2), "center front"),
+          pointMark("button", "waistbandButton", point(finishedWaist / 2, depth / 2), "waistband button"),
+        ],
+      },
+    },
+    stitches: [],
+    interfaces: { bottom: iface(edgeRef("waistband", "bottom")) },
+  };
+};
+
+const FLY_SHIELD_WIDTH = 3.5;
+
+/** Add a real front-fly mark to both front legs and return the marked block. */
+function addFlyMarks(b: Block, flyLength: number): Block {
+  const roles = Object.fromEntries(Object.entries(b.roles).map(([role, piece]) => {
+    if (!role.startsWith("front")) return [role, piece];
+    return [role, {
+      ...piece,
+      marks: [
+        ...(piece.marks ?? []),
+        lineMark("placementLine", "flyEdge", point(0, 0), point(0, flyLength), "front fly edge"),
+      ],
+    }];
+  }));
+  return block(roles, b.stitches);
+}
+
+/** A simple two-sided fly shield. Zip/hardware variants are intentionally not
+ * modeled in V1; the attachment edges and buttonhole mark are explicit. */
+export const trouserFly: Component<TrouserOptions> = (_m, rawOptions) => {
+  const options = resolveTrouserOptions(rawOptions);
+  const length = options.flyLength;
+  const w = FLY_SHIELD_WIDTH;
+  const piece: Piece = {
+    name: "trouser fly shield",
+    onFold: false,
+    edges: [
+      { kind: "line", name: "top", start: point(0, 0), end: point(w, 0) },
+      { kind: "line", name: "right", start: point(w, 0), end: point(w, length) },
+      { kind: "line", name: "bottom", start: point(w, length), end: point(0, length) },
+      { kind: "line", name: "left", start: point(0, length), end: point(0, 0) },
+    ],
+    marks: [
+      lineMark("foldLine", "flyFold", point(w / 2, 0), point(w / 2, length), "fly fold"),
+      pointMark("buttonhole", "waistbandButtonhole", point(w / 2, 2), "waistband buttonhole"),
+    ],
+  };
+  return {
+    pieces: { flyShield: piece },
+    stitches: [],
+    interfaces: {
+      left: iface(edgeRef("flyShield", "left")),
+      right: iface(edgeRef("flyShield", "right")),
+    },
+  };
+};
+
+const trouserWaistStitch = (roles: readonly string[]): Stitch => ({
+  label: "Waistband (four legs ↔ separate waistband)",
+  a: iface(...roles.map((role) => edgeRef(role, "waist"))),
+  b: iface(edgeRef("waistband", "bottom")),
+});
+
+/** Slice 97's assembled lower-body block: legs + separate waistband + fly. */
+export function draftTrouserWithClosure(
+  m: Measurements, rawOptions: Partial<TrouserOptions> = {}
+): Block {
+  const options = resolveTrouserOptions(rawOptions);
+  const legs = addFlyMarks(draftTrouserLegs(m, options), options.flyLength);
+  const legRoles = ["frontLeft", "frontRight", "backLeft", "backRight"] as const;
+  const combined = assembleComponents([
+    { pieces: legs.roles, stitches: legs.stitches, interfaces: {} },
+    trouserWaistband(m, options),
+    trouserFly(m, options),
+  ]);
+  const stitches: Stitch[] = [
+    ...combined.stitches,
+    trouserWaistStitch(legRoles),
+    { label: "Left front fly ↔ shield", a: iface(markRef("frontLeft", "flyEdge", "left")), b: iface(edgeRef("flyShield", "left")) },
+    { label: "Right front fly ↔ shield", a: iface(markRef("frontRight", "flyEdge", "right")), b: iface(edgeRef("flyShield", "right")) },
+  ];
+  return block(combined.roles, stitches);
+}

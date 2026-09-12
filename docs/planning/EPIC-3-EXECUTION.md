@@ -150,6 +150,8 @@ components are assembled.
 
 ### Slice 97 — separate waistband and simple closure
 
+Status: **complete** (focused tests 12/12).
+
 Scope: implement the trouser waistband as a distinct component and add the
 simple front fly/zip closure and fastening marks/piece required by the contract.
 
@@ -171,6 +173,12 @@ Owner/model: Codex; high reasoning for component boundary, medium for marks.
 
 Verification: component/stitch/mutation tests; parsed SVG/DXF/PDF/projector
 checks for marks and roles; inspect the actual SVG.
+
+Evidence: the actual `draftTrouserWithClosure()` block contains the four leg
+roles plus `trouser waistband` and `trouser fly shield`; all eight declared
+stitches pass and live depth/length changes move their real pieces/marks. The
+focused leg/component suite passes 12/12 and TypeScript passes. Application
+registration and parsed output checks wait for the complete garment.
 
 ### Slice 98 — minimal pocket component and sewability contract
 
@@ -348,7 +356,7 @@ alter account usage.
 
 ## Epic 3 exit report
 
-Status: **not started beyond Slice 95 shared contract**.
+Status: **not started beyond Slice 97 waistband/closure components**.
 
-Slices 96–103 remain implementation and verification work. No physical garment
+Slices 98–103 remain implementation and verification work. No physical garment
 has been sewn or validated, and no production-readiness claim is authorized.

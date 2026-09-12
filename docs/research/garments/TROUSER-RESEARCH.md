@@ -222,6 +222,24 @@ This resolution closes the Slice 96 curve/panel ambiguity for digital work.
 It does not establish physical fit, crotch comfort, or production readiness;
 those remain deferred until the maintainer explicitly reopens sampling.
 
+### Slice 97 component resolution
+
+The separate waistband is resolved as one full, off-fold strip. Its lower edge
+has the full finished waist length and joins the four leg-panel waist edges as
+one named multi-edge stitch. It carries center-front/center-back placement and
+fastening marks; it is not the skirt's half-circumference folded strip.
+
+The simple V1 closure is resolved as one fixed-type fly shield with a small
+fixed digital width and a user-adjustable `flyLength`. Each front panel gets a
+named fly line mark of that length; the two marks join the shield's two named
+attachment edges. This is enough to make the closure a real component and
+exportable construction data without pretending to model every zip, fly,
+underlap, or hardware variant.
+
+These are digital component decisions for V1. The exact width, seam allowance,
+hardware, and sewing order remain provisional until physical/material evidence
+exists; no physical closure or waistband validation has occurred.
+
 ## Guidance and invalid combinations
 
 Guidance warns without clamping or replacing a value. It should identify the

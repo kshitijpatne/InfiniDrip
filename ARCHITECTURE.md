@@ -3,7 +3,7 @@
 How the app fits together, in plain language. Read the top to re-orient; skim the
 layers when you need detail. Updated every slice with only need-to-know changes.
 
-## Current Epic 3 boundary — Slice 94
+## Current Epic 3 boundary — Slice 97
 
 The pre-Epic 3 checkout and BUGFIX/FC-01 exit are verified on the actual
 `main` branch. The first trouser is a separate reusable relaxed casual
@@ -11,7 +11,7 @@ straight-leg woven recipe. Its durable research and contract live in
 `docs/research/garments/TROUSER-RESEARCH.md`; the slice-by-slice execution and
 exit gate live in `docs/planning/EPIC-3-EXECUTION.md`.
 
-Slice 94 changes documentation only. The future lower-body contract adds
+Slice 94 established the research-only boundary. The future lower-body contract adds
 explicit body `crotchDepth`, `thigh`, and `knee` measurements plus a finished
 `inseam`, while preserving the existing upper-body meaning of `length`. The
 trouser recipe owns numeric front/back rise ease, waistband depth, thigh/knee
@@ -47,6 +47,15 @@ The live draft exposes waist, seat, hip depth, thigh, knee, inseam, leg opening,
 rise, grain, and crease changes through real edges/marks. Focused tests pass
 7/7 plus typecheck; waistband, fly, pocket, UI, and full output integration
 remain later slices.
+
+Slice 97 adds the explicit lower-body component boundary without registering a
+recipe. `trouserWaistband` drafts one full off-fold strip whose lower edge
+matches the four live leg waist edges; `trouserFly` drafts a fixed-width shield
+whose two attachment edges match live front-fly line marks. The composed block
+keeps the leg seams and adds named waistband/fly stitches, button/buttonhole,
+center, and fold marks. The skirt waistband remains untouched and is not a
+silent substitute. Focused leg/component tests pass 12/12 plus typecheck;
+pockets, recipe/UI, and output integration remain later slices.
 
 BF-P1-02: the UI's current design verdict combines input validity, all recipe/
 plausibility guidance and geometric checks. Check, Style, journey and all six
