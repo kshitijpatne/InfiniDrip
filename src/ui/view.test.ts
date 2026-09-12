@@ -61,6 +61,8 @@ describe("fabricSwatchesMarkup", () => {
     expect(html).toContain("outline:2px solid"); // the current swatch is ringed
     expect(html).toContain(">Charcoal<");
     expect(html).toContain('aria-label="Color Charcoal"');
+    expect(html).toContain('aria-labelledby="color-title"');
+    expect(html).toContain('id="color-title"');
     expect(html).toContain(">Color<");
   });
 });
@@ -78,6 +80,10 @@ describe("appShellMarkup", () => {
     expect(html).toContain('@media(max-width:560px)');
     expect(html).toContain('role="region" aria-labelledby="measurements-title"');
     expect(html).toContain('<h2 id="measurements-title"');
+    expect(html).toContain('<main id="infini-shell" aria-labelledby="product-title"');
+    expect(html).toContain('<header id="product-header"');
+    expect(html).toContain('<h1 id="product-title"');
+    expect(html).toContain("Parametric garment design workspace");
   });
 });
 

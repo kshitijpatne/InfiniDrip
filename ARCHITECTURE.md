@@ -88,6 +88,11 @@ each mode in both visible labels and accessible descriptions: Single size uses
 the selected size, while Graded marker includes every graded size. The nesting
 engine and export writers remain unchanged.
 
+BF-P3-03: the shell has a visible InfiniDrip product heading and main landmark
+above the workspace, while the Color group is named by its visible heading and
+each swatch keeps a visible color name. P2 semantic panel headings remain the
+section hierarchy for the working surfaces.
+
 Slice 93: the woven-shirt component-library exit audit verifies closed geometry
 and sewability across XS–XL, all Pattern/Body/Side/Size run/Spec/Nesting/Check/
 preview-Edit routes, and parsed SVG/DXF/tiled-PDF/A0/projector/tech-pack output.

@@ -15,6 +15,7 @@ const viewBox = (root: HTMLElement): string =>
 describe("mountApp", () => {
   it("draws the canvas and the garment on mount", () => {
     const root = mount();
+    expect(root.querySelector("h1#product-title")!.textContent).toBe("InfiniDrip");
     expect(root.querySelector("#canvas-host svg")).not.toBeNull();
     expect(root.querySelector("#garment-host svg")).not.toBeNull();
     expect(root.querySelector("#assembled-preview-title")!.textContent).toBe("Assembled preview");

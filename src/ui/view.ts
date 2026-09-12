@@ -128,8 +128,8 @@ export function fabricSwatchesMarkup(current: string): string {
     `outline-offset:1px"></button>` +
     `<span data-fabric-name="${f.color}" style="font-size:10px;color:${T.label};white-space:nowrap">${f.name}</span></span>`
   ).join("");
-  return `<div id="swatch-host" role="group" aria-label="Color" style="display:flex;gap:8px;align-items:center;margin:4px 0">` +
-    `<span style="font-size:11px;color:${T.label};text-transform:uppercase;letter-spacing:0.04em;` +
+  return `<div id="swatch-host" role="group" aria-labelledby="color-title" style="display:flex;gap:8px;align-items:center;margin:4px 0">` +
+    `<span id="color-title" style="font-size:11px;color:${T.label};text-transform:uppercase;letter-spacing:0.04em;` +
     `margin-right:4px">Color</span>${sw}</div>`;
 }
 
@@ -467,7 +467,11 @@ export function appShellMarkup(
     `@media(max-width:900px){#infini-shell{grid-template-columns:minmax(190px,0.7fr) minmax(0,1.3fr)}#infini-inspection{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}}` +
     `@media(max-width:560px){#infini-shell{display:flex!important;flex-direction:column;gap:12px}#infini-shell>*{width:100%;min-width:0;box-sizing:border-box}#infini-shell #controls-panel{flex:0 1 auto!important;width:100%}#infini-workspace,#infini-inspection{width:100%}#infini-inspection{display:flex;gap:12px}#infini-shell button,#infini-shell select{max-width:100%}}` +
     `</style>`;
-  return responsive + `<div id="infini-shell" style="display:flex;gap:16px;align-items:flex-start;font-family:system-ui,sans-serif">` +
+  const productHeader = `<header id="product-header" style="grid-column:1 / -1;padding:2px 0 0">` +
+    `<h1 id="product-title" style="font-size:22px;line-height:1.1;letter-spacing:-0.02em;color:${T.line};margin:0">InfiniDrip</h1>` +
+    `<p id="product-subtitle" style="font-size:12px;color:${T.label};margin:4px 0 0">Parametric garment design workspace</p></header>`;
+  return responsive + `<main id="infini-shell" aria-labelledby="product-title" style="display:flex;gap:16px;align-items:flex-start;font-family:system-ui,sans-serif">` +
+    productHeader +
     `${controlsMarkup(m, fields)}` +
     `<div id="infini-workspace" style="flex:1;min-width:300px;display:flex;flex-direction:column;gap:6px">` +
     `<div id="journey-host"></div>` +
@@ -476,5 +480,5 @@ export function appShellMarkup(
     `<div id="canvas-host"></div>${fabricSwatchesMarkup(fabric)}${exportButtonsMarkup(sizes)}` +
     `<div id="garment-host"></div></div>` +
     `<div id="infini-inspection" style="display:flex;flex-direction:column;gap:16px">` +
-    `<div id="guidance-host"></div><div id="style-host"></div></div></div>`;
+    `<div id="guidance-host"></div><div id="style-host"></div></div></main>`;
 }

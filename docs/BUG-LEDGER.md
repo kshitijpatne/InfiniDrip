@@ -672,7 +672,7 @@ No console runtime errors were observed during that audit.
 
 ### BUG-UI-031 — Product hierarchy and swatch discoverability are weak
 
-- Tags: `BUGFIX`, `EPIC-BUGFIX-P3`, `P3`, `S4`, status `Open`.
+- Tags: `BUGFIX`, `EPIC-BUGFIX-P3`, `P3`, `S4`, status `Closed`.
 - Evidence: the UI has no visible product heading, panel titles are styled divs
   rather than headings, and color swatches expose names only through hover or
   accessible metadata.
@@ -680,7 +680,21 @@ No console runtime errors were observed during that audit.
   visible naming. Sources: `src/ui/view.ts:29`, `src/ui/view.ts:88`.
 - Done when: the product and major sections have a clear visual/semantic
   hierarchy and color choices are discoverable without hover.
-- Fix slice: —  Commit/PR: —  Verification: —
+- Fix slice: BF-P3-03. Commit/PR: BF-P3-03 behavior commit (immutable
+  reference recorded after the slice commit).
+- Root cause confirmed: the shell had no product-level heading and the color
+  group was named independently of its visible label. Panel headings were also
+  part of the earlier hierarchy gap and are now semantic headings from P2. The
+  shell now has a visible InfiniDrip H1/main landmark, and the swatch group is
+  named by its visible Color heading while every swatch name remains visible.
+- Tests: view and app tests cover the product heading/main landmark, visible
+  subtitle, visible Color heading, named swatch group, and unchanged swatch
+  selection behavior.
+- Live/rendered/output evidence: the live workspace shows the InfiniDrip
+  product heading above the controls and visible names under the color swatches;
+  the rendered garment preview and output controls remain reachable. No
+  physical or production claim is made.
+- Closed by/date: Codex, 2026-09-12. Final status: Closed.
 
 ## Closure record
 

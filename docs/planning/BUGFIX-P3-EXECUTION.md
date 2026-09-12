@@ -50,7 +50,17 @@ underlying nesting and export behavior remains unchanged.
 
 Focused verification and live evidence are recorded after implementation.
 
-## BF-P3-03 — Pending
+## BF-P3-03 — Closed
+
+Implementation: BF-P3-03 behavior commit (immutable reference recorded after
+the slice commit).
+
+The shell now presents a visible InfiniDrip product heading in a main landmark
+with a concise workspace subtitle. The Color group is named by its visible
+heading, and every swatch keeps its visible color name instead of relying on
+hover metadata. P2's semantic panel headings remain in place.
+
+Focused verification and live evidence are recorded after implementation.
 
 ## P3 exit report — Pending
 
