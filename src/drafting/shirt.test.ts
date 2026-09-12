@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { edgeLength, edgeStart, pieceEdge, rolePiece, stitchChecks, STANDARD_M } from "./index";
-import { draftWovenShirtBody, draftWovenShirtCollar, WOVEN_SHIRT_BODY_STITCHES, WOVEN_SHIRT_COLLAR_STITCHES } from "./shirt";
+import { addWovenShirtPlackets, draftWovenShirtBody, draftWovenShirtCollar, draftWovenShirtPlackets, frontButtonPositions, WOVEN_SHIRT_BODY_STITCHES, WOVEN_SHIRT_COLLAR_STITCHES } from "./shirt";
 
 describe("woven shirt body", () => {
   it("drafts separate front/back panels with the required named boundaries", () => {
@@ -47,5 +47,44 @@ describe("woven shirt body", () => {
     expect(edgeLength(pieceEdge(changed.roles.outerStand, "frontEnd"))).toBeGreaterThan(edgeLength(pieceEdge(base.roles.outerStand, "frontEnd")));
     expect(edgeLength(pieceEdge(changed.roles.upperCollar, "frontTip"))).toBeGreaterThan(edgeLength(pieceEdge(base.roles.upperCollar, "frontTip")));
     expect(edgeStart(pieceEdge(changed.roles.upperCollar, "outer")).y).toBeGreaterThan(edgeStart(pieceEdge(base.roles.upperCollar, "outer")).y);
+  });
+
+  it("adds full plackets with six or seven evenly spaced front marks", () => {
+    const block = draftWovenShirtPlackets(STANDARD_M, { buttonCount: 6, buttonSpacing: 7 });
+    const buttons = block.roles.buttonPlacket.marks!.filter((mark) => mark.kind === "button");
+    const holes = block.roles.buttonholePlacket.marks!.filter((mark) => mark.kind === "buttonhole");
+    expect(buttons).toHaveLength(6);
+    expect(holes).toHaveLength(6);
+    expect(frontButtonPositions(6, 7)).toEqual([5, 12, 19, 26, 33, 40]);
+    expect(frontButtonPositions(6.5, 7)).toEqual([]);
+    expect(block.roles.outerStand.marks!.filter((mark) => mark.name === "stand-button")).toHaveLength(1);
+    expect(block.roles.innerStand.marks!.filter((mark) => mark.name === "stand-buttonhole")).toHaveLength(1);
+    expect(stitchChecks(block, block.stitches).every((check) => check.ok)).toBe(true);
+  });
+
+  it("keeps placket length and closure position tied to the live body/options", () => {
+    const base = draftWovenShirtPlackets(STANDARD_M);
+    const changed = draftWovenShirtPlackets(STANDARD_M, { frontOverlap: 2.5, placketWidth: 4 });
+    expect(edgeLength(pieceEdge(base.roles.buttonPlacket, "attachmentRaw"))).toBe(edgeLength(pieceEdge(base.roles.front, "centerFront")));
+    const baseButton = base.roles.buttonPlacket.marks!.find((mark) => mark.name === "button-1")!;
+    const changedButton = changed.roles.buttonPlacket.marks!.find((mark) => mark.name === "button-1")!;
+    if (!("at" in baseButton) || !("at" in changedButton)) throw new Error("button mark missing");
+    expect(changedButton.at.x).toBeGreaterThan(baseButton.at.x);
+    expect(edgeLength(pieceEdge(changed.roles.buttonPlacket, "top"))).toBeGreaterThan(edgeLength(pieceEdge(base.roles.buttonPlacket, "top")));
+  });
+
+  it("can add plackets to a collar block whose construction marks are absent", () => {
+    const collar = draftWovenShirtCollar(STANDARD_M);
+    const withoutMarks = {
+      ...collar,
+      roles: {
+        ...collar.roles,
+        outerStand: { ...collar.roles.outerStand, marks: undefined },
+        innerStand: { ...collar.roles.innerStand, marks: undefined },
+      },
+    };
+    const result = addWovenShirtPlackets(withoutMarks);
+    expect(result.roles.outerStand.marks).toHaveLength(1);
+    expect(result.roles.innerStand.marks).toHaveLength(1);
   });
 });

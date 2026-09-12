@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 88 (woven-shirt collar and stand).
+_Last updated: after Slice 89 (woven-shirt plackets and buttons).
 Tank rework
 step 4 is complete for automated and rendered verification; physical sewn
 validation has not occurred and is intentionally deferred. Update this after
@@ -41,6 +41,13 @@ outer/inner stand and upper/under point-collar layers from the real neckline
 seams. Four named joins are declared and tested; buttons, plackets, yoke,
 pocket, sleeve, hem/vent, recipe and UI integration remain. Physical validation
 remains on hold.
+
+**Woven shirt Slice 89 (2026-09-12):** two full-length folded front plackets
+now attach to the actual centre-front seam. Six or seven live, evenly spaced
+button/buttonhole marks are supported, excluding one additional stand button
+and hole. Placket joins and stand marks are explicit; yoke, pocket, sleeve,
+hem/vent, recipe and UI integration remain. Physical validation remains on
+hold.
 
 **Polo V1 (2026-09-11):** all geometry decisions are locked: collar-plus-stand,
 loose tee body/current sleeve, self-knit lightly stabilized folded placket,

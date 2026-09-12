@@ -5,8 +5,8 @@ import { Piece, Edge } from "./piece";
 import { edgeRef, iface, Stitch } from "./stitch";
 import { necklineEdge, NECKLINE_DEFAULT } from "./neckline";
 import { WovenShirtOptions, resolveWovenShirtOptions } from "./shirt-contract";
-import { edgeLength, pieceEdge } from "./piece";
-import { lineMark } from "./pattern-mark";
+import { edgeLength, edgeStart, pieceEdge } from "./piece";
+import { lineMark, pointMark } from "./pattern-mark";
 
 /** The relaxed woven body is drafted as a half-width back on fold and a
  * separate half-width front. Fronts are cut as a mirrored pair later; keeping
@@ -150,4 +150,90 @@ export function draftWovenShirtCollar(
   m: Measurements, rawOptions: Partial<WovenShirtOptions> = {}
 ): Block {
   return addWovenShirtCollar(draftWovenShirtBody(m, rawOptions), rawOptions);
+}
+
+const PLACKET_SEAM_ALLOWANCE = 1;
+const FIRST_BUTTON_DROP = 5;
+
+export function frontButtonPositions(buttonCount: number, spacing: number): readonly number[] {
+  if (!Number.isInteger(buttonCount) || buttonCount < 0) return [];
+  return Array.from({ length: buttonCount }, (_, index) => FIRST_BUTTON_DROP + index * spacing);
+}
+
+function placketPiece(
+  name: string, length: number, options: WovenShirtOptions,
+  markKind: "button" | "buttonhole"
+): Piece {
+  const cutWidth = options.placketWidth + PLACKET_SEAM_ALLOWANCE * 2;
+  const faceStart = PLACKET_SEAM_ALLOWANCE;
+  const faceEnd = faceStart + options.placketWidth;
+  const closureX = options.frontOverlap;
+  const prefix = markKind === "button" ? "button" : "buttonhole";
+  const buttonMarks = frontButtonPositions(options.buttonCount, options.buttonSpacing).map((y, index) =>
+    pointMark(markKind, `${prefix}-${index + 1}`, point(closureX, y), markKind === "button" ? "BUTTON" : "BUTTONHOLE")
+  );
+  return {
+    name,
+    onFold: false,
+    edges: [
+      { kind: "line", name: "top", start: point(0, 0), end: point(cutWidth, 0) },
+      { kind: "line", name: "outerRaw", start: point(cutWidth, 0), end: point(cutWidth, length) },
+      { kind: "line", name: "bottom", start: point(cutWidth, length), end: point(0, length) },
+      { kind: "line", name: "attachmentRaw", start: point(0, length), end: point(0, 0) },
+    ],
+    marks: [
+      lineMark("placementLine", "placketFace", point(faceStart, 0), point(faceStart, length), "FOLD"),
+      lineMark("foldLine", "placketFold", point(faceEnd, 0), point(faceEnd, length), "FOLD"),
+      lineMark("placementLine", "closureLine", point(closureX, 0), point(closureX, length), "CLOSURE"),
+      ...buttonMarks,
+    ],
+  };
+}
+
+export const WOVEN_SHIRT_PLACKET_STITCHES: readonly Stitch[] = [
+  {
+    label: "Button placket ↔ right front centre front",
+    a: iface(edgeRef("buttonPlacket", "attachmentRaw")),
+    b: iface(edgeRef("front", "centerFront")),
+  },
+  {
+    label: "Buttonhole placket ↔ left front centre front",
+    a: iface(edgeRef("buttonholePlacket", "attachmentRaw")),
+    b: iface(edgeRef("front", "centerFront")),
+  },
+];
+
+/** Add two full-length folded plackets and the one additional collar-stand
+ * button/hole pair. Front buttons and buttonholes share measured positions. */
+export function addWovenShirtPlackets(
+  collar: Block, rawOptions: Partial<WovenShirtOptions> = {}
+): Block {
+  const options = resolveWovenShirtOptions(rawOptions);
+  const frontLength = edgeLength(pieceEdge(collar.roles.front, "centerFront"));
+  const necklineLength = edgeLength(pieceEdge(collar.roles.outerStand, "collar"));
+  const stand = collar.roles.outerStand;
+  const innerStand = collar.roles.innerStand;
+  const standY = edgeStart(pieceEdge(stand, "centerBack")).y / 2;
+  const standButtonX = necklineLength - PLACKET_SEAM_ALLOWANCE;
+  const outerStand: Piece = {
+    ...stand,
+    marks: [...(stand.marks ?? []), pointMark("button", "stand-button", point(standButtonX, standY), "STAND BUTTON")],
+  };
+  const innerStandWithHole: Piece = {
+    ...innerStand,
+    marks: [...(innerStand.marks ?? []), pointMark("buttonhole", "stand-buttonhole", point(standButtonX, standY), "STAND BUTTONHOLE")],
+  };
+  return block({
+    ...collar.roles,
+    outerStand,
+    innerStand: innerStandWithHole,
+    buttonPlacket: placketPiece("woven button placket", frontLength, options, "button"),
+    buttonholePlacket: placketPiece("woven buttonhole placket", frontLength, options, "buttonhole"),
+  }, [...collar.stitches, ...WOVEN_SHIRT_PLACKET_STITCHES]);
+}
+
+export function draftWovenShirtPlackets(
+  m: Measurements, rawOptions: Partial<WovenShirtOptions> = {}
+): Block {
+  return addWovenShirtPlackets(draftWovenShirtCollar(m, rawOptions), rawOptions);
 }

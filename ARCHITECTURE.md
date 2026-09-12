@@ -3,6 +3,12 @@
 How the app fits together, in plain language. Read the top to re-orient; skim the
 layers when you need detail. Updated every slice with only need-to-know changes.
 
+Slice 89: `src/drafting/shirt.ts` adds two full-length folded front plackets.
+Their attachment edges match the real centre-front seam; button and buttonhole
+marks use the same live six/seven count and finished spacing, while the collar
+stand carries one additional button/hole pair. Both placket joins are explicit
+stitches and invalid fractional counts produce no fabricated partial group.
+
 Slice 88: `src/drafting/shirt.ts` composes two folded stand layers and two
 folded pointed-collar layers from the woven body's measured front+back neckline.
 Their four named stitches cover body↔stand, stand↔under-collar,

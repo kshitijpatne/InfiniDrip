@@ -106,3 +106,26 @@ parsed export suite and unchanged legacy hashes; no physical claim.
 
 Result: layered collar/stand component implemented; focused tests pass (5
 tests); full verification is recorded with the slice commit.
+
+## Slice 89 - Full plackets and button system
+
+Objective/scope: add two full-length folded front plackets with a live closure
+line, six or seven evenly spaced button/buttonhole marks, and the one additional
+button plus buttonhole on the collar stand.
+Acceptance: placket attachment lengths equal the real centre-front edge;
+button/buttonhole counts and centre-to-centre spacing follow the options; six
+and seven are supported without fractional-count fabrication; front overlap and
+placket width move the marks/outline; stitch data names both physical joins.
+Non-goals: yoke, pocket, sleeve, hem/vent, recipe/UI integration or physical
+validation.
+Dependencies: Slice 88 collar/stand and Slice 86 button semantics.
+Risks: full-placket placement is a digital construction estimate; short bodies
+or excessive spacing must be warned about in the later guidance/recipe slice.
+Drafting/data-model change: `shirt.ts` adds full placket pieces, live mark
+positions, explicit stand button/buttonhole marks and two placket stitches.
+Owner: Codex. Model: GPT-6 Astra; reasoning: high, for closure geometry.
+Delegation: none. Gates: focused marks/stitch tests, full coverage/typecheck/
+build, parsed export suite and unchanged legacy hashes; no physical claim.
+
+Result: button system implemented; focused tests pass (7 tests); full
+verification is recorded with the slice commit.
