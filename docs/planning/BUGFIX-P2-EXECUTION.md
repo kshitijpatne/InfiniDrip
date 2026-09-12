@@ -135,5 +135,9 @@ through BUG-UI-034 in `docs/BUG-LEDGER.md`: Woven lower fields were absent from
 Body, garment switching left the Body projection toolbar stale, and pointer
 leave could override a still-focused measurement spotlight. FC-01 closes all
 three in one bounded presentation slice. The detailed matrix and final gate are
-recorded in `docs/planning/FUNCTIONAL-CONSISTENCY-AUDIT.md`; Epic 3 remains
-parked and physical validation remains deferred.
+recorded in `docs/planning/FUNCTIONAL-CONSISTENCY-AUDIT.md`. The final FC-01
+gate passes: 73 test files / 963 tests at 100% statements, branches, functions,
+and lines; standalone TypeScript; production build; 13 parsed export files / 140
+tests covering SVG/DXF/PDF/A0/projector/tech-pack consumers; and all 8 unchanged
+legacy export hashes. Epic 3 remains parked and physical validation remains
+deferred.

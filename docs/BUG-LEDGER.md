@@ -719,8 +719,8 @@ inspection/interaction scope without starting Epic 3.
 - Done when: Woven Body front/back figures use the draft's waist/hip coordinates,
   expose all three dimensions, and focus lifts their relative side-seam overlays
   without changing non-Woven output.
-- Fix slice: FC-01. Commit/PR: this behavior commit (Slice FC-01); exact hash
-  recorded in the FC-01 gate update.
+- Fix slice: FC-01. Commit/PR: `c2c8f48` (`Slice FC-01: align cross-garment
+  Body inspection [BUG-UI-032-034]`).
 - Root cause confirmed: `UpperCroquisLowerShape` now carries the same finished
   quarter widths and y positions used by the Woven panel draft; Body emits
   `waist`, `hip`, and `hipDepth` dimensions and side-seam overlays for both
@@ -750,8 +750,8 @@ inspection/interaction scope without starting Epic 3.
 - Done when: every garment that exposes Body also exposes the same projection
   toolbar; switching garments preserves a valid Front + Back, Front, Back, or
   Side selection and restores a truthful pressed state.
-- Fix slice: FC-01. Commit/PR: this behavior commit (Slice FC-01); exact hash
-  recorded in the FC-01 gate update.
+- Fix slice: FC-01. Commit/PR: `c2c8f48` (`Slice FC-01: align cross-garment
+  Body inspection [BUG-UI-032-034]`).
 - Root cause confirmed: `setGarment()` now synchronizes all four pressed states
   and reapplies disclosure after changing the recipe before the redraw; Body's
   projection toolbar is disclosed for every garment's Body view, including the
@@ -777,8 +777,8 @@ inspection/interaction scope without starting Epic 3.
   modality.
 - Done when: hover and keyboard focus can coexist, focus has precedence, and a
   spotlight clears only after both hover and focus are gone.
-- Fix slice: FC-01. Commit/PR: this behavior commit (Slice FC-01); exact hash
-  recorded in the FC-01 gate update.
+- Fix slice: FC-01. Commit/PR: `c2c8f48` (`Slice FC-01: align cross-garment
+  Body inspection [BUG-UI-032-034]`).
 - Root cause confirmed: the UI now tracks `hoveredDim` and `focusedDim`
   independently and derives the active spotlight from `focusedDim ?? hoveredDim`.
   Garment/workspace replacement clears both transient states.

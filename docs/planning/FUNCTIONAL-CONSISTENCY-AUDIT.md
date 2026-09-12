@@ -1,6 +1,6 @@
 # InfiniDrip functional consistency audit
 
-Status: `FC-01` behavior slice prepared; final gate pending, 2026-09-12.
+Status: `FC-01` closed; final gate passing, 2026-09-12.
 Master goal: complete the BUGFIX phase before Epic 3. Epic 3 remains explicitly
 on hold.
 
@@ -60,16 +60,35 @@ fabricated side-specific measurements.
 | --- | --- | --- | --- |
 | FC-01 | BUG-UI-032–034 | Woven lower-body Body parity; cross-garment Body projection state; focus/hover spotlight precedence | No export-writer change, no baseline move, no new garment, no physical or production claim |
 
-## FC-01 exit report — pending full gate
+## FC-01 exit report — Passing
 
-The focused renderer/UI tests and TypeScript check pass, and the live rendered
-verification above is complete. The final FC-01 exit status is not complete
-until the full project gate is rerun and recorded: 100% coverage, TypeScript,
-production build, parsed SVG/DXF/PDF/A0/projector/tech-pack checks, and all eight
-unchanged legacy export hashes.
+Behavior commit: `c2c8f48` (`Slice FC-01: align cross-garment Body inspection
+[BUG-UI-032-034]`). The complete gate was rerun after the final behavior change:
+
+- `npm test`: 73 test files / 963 tests passed.
+- `npm run coverage`: 73 test files / 963 tests passed with 100% statements,
+  branches, functions, and lines.
+- `npx tsc --noEmit`: passed.
+- `npm run build`: passed; TypeScript and the Vite production build completed
+  with 87 modules transformed.
+- Parsed export checks: `npx vitest run src/export` passed 13 files / 140
+  tests covering SVG/DXF, tiled PDF, A0 PDF, projector SVG, tech-pack, marker,
+  nesting, and final woven/Polo consumers. `src/export/regression.test.ts`
+  passed all 8 unchanged legacy export hashes.
+- Rendered/live evidence: the in-app browser verified top Side → Skirt Side
+  with the shared toolbar visible and Side pressed, lower Side → Front + Back
+  with the skirt dimensions rendered, Skirt → Polo with two figures restored,
+  all Woven lower fields at 2 dimensions/2 edges, and focused Hip remaining at
+  edge opacity 1 / figure opacity 0.15 after pointer exit. The responsive
+  matrix covered 1280/900/700/560/390px; the final 390px screenshot showed the
+  four-button Body toolbar wrapping without horizontal overflow. No physical or
+  production-readiness claim is made.
+
+BUG-UI-032 through BUG-UI-034 are Closed, all original BUG-UI IDs remain
+preserved, and Epic 3 has not begun.
 
 ## Epic 3 boundary
 
-No Epic 3 implementation may begin from this audit. The master BUGFIX goal stays
-active until the full gate is recorded and all audit records are closed. Physical
-validation remains deferred.
+No Epic 3 implementation may begin from this audit. The master BUGFIX goal is
+complete for the digital BUGFIX scope; Epic 3 remains explicitly on hold until
+the maintainer instructs otherwise. Physical validation remains deferred.

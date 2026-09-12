@@ -1,19 +1,20 @@
 # InfiniDrip — Project State
 
-_Last updated: FC-01 functional consistency audit, 2026-09-12; the behavior
-slice is complete and the final gate is pending._
+_Last updated: FC-01 functional consistency audit, 2026-09-12; the BUGFIX
+phase and pre-Epic 3 consistency extension passed._
 
 The independent functional-consistency audit now closes BUG-UI-032 through
 BUG-UI-034. Woven Body front/back inspection uses its real lower shaping and
 highlights the waist/hip/hip-depth seam references; switching between upper and
 lower garments synchronizes the Body projection toolbar while preserving the
-valid Side schematic; and focused field
-spotlights remain active when the pointer leaves the row. Live checks covered
+valid Side schematic; focused field spotlights remain active when the pointer
+leaves the row. Live checks covered
 all six garments, all seven primary views, keyboard increment/decrement,
 guidance correction targets, option markers, and responsive widths 1280/900/
 700/560/390 with no horizontal overflow at fit zoom. Focused tests pass 129/129;
-the full final gate remains to be recorded in
-`docs/planning/FUNCTIONAL-CONSISTENCY-AUDIT.md`. All BUG-UI-001 through
+the final gate is recorded in `docs/planning/FUNCTIONAL-CONSISTENCY-AUDIT.md`:
+73 files / 963 tests at 100% coverage, TypeScript, build, parsed export checks,
+and 8 unchanged legacy hashes. All BUG-UI-001 through
 BUG-UI-034 records are closed. Epic 3 has not begun; physical validation
 remains deferred.
 
