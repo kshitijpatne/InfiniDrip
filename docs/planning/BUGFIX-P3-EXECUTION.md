@@ -26,8 +26,8 @@ affected ledger record is Closed and the gate is recorded here.
 
 ## BF-P3-01 — Closed
 
-Implementation: BF-P3-01 behavior commit (immutable reference recorded after
-the slice commit).
+Implementation: `733aff5` (`Slice BF-P3-01: align defaults and copy
+[BUG-UI-027–029]`).
 
 Fresh workspaces now choose Cotton jersey for knit-oriented garments and Cotton
 woven for woven-oriented garments, with a stable woven fallback for unknown

@@ -592,8 +592,8 @@ No console runtime errors were observed during that audit.
   garment. Source: `src/ui/app.ts:56`.
 - Done when: defaults are garment-appropriate or the material choice is clearly
   required before interpreting ease guidance.
-- Fix slice: BF-P3-01. Commit/PR: BF-P3-01 behavior commit (immutable
-  reference recorded after the slice commit).
+- Fix slice: BF-P3-01. Commit/PR: `733aff5` (`Slice BF-P3-01: align defaults
+  and copy [BUG-UI-027–029]`).
 - Root cause confirmed: fresh workspaces selected the first material in the
   stretch-material list regardless of garment construction. A garment-keyed
   default now selects Cotton jersey for knit-oriented garments and Cotton
@@ -614,8 +614,8 @@ No console runtime errors were observed during that audit.
   inputs.
 - Root cause: stale copy from an earlier control design. Source: `src/ui/view.ts:142`.
 - Done when: helper copy describes the actual interaction and its effect.
-- Fix slice: BF-P3-01. Commit/PR: BF-P3-01 behavior commit (immutable
-  reference recorded after the slice commit).
+- Fix slice: BF-P3-01. Commit/PR: `733aff5` (`Slice BF-P3-01: align defaults
+  and copy [BUG-UI-027–029]`).
 - Root cause confirmed: the helper retained copy from a slider-based control
   design after the controls became numeric inputs. It now names numeric entry
   and says the preview updates immediately.
@@ -635,8 +635,8 @@ No console runtime errors were observed during that audit.
   `src/ui/journey.ts:125`.
 - Done when: journey copy is registry-aware or accurately describes the current
   garment set.
-- Fix slice: BF-P3-01. Commit/PR: BF-P3-01 behavior commit (immutable
-  reference recorded after the slice commit).
+- Fix slice: BF-P3-01. Commit/PR: `733aff5` (`Slice BF-P3-01: align defaults
+  and copy [BUG-UI-027–029]`).
 - Root cause confirmed: the checklist sentence was fixed to a two-garment
   subset while the registry grew to six available garments. It now refers to
   the available garment set without naming a stale subset.
