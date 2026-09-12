@@ -48,7 +48,7 @@ No console runtime errors were observed during that audit.
 - Done when: supported negative ease is represented consistently, or an invalid
   combination is explicitly rejected with an actionable field-level correction;
   displayed and drafted values cannot diverge.
-- Fix slice: BF-P1-01. Commit/PR: commit subject `Slice BF-P1-01: preserve typed input [BUG-UI-002, BUG-UI-003]` (hash recorded in next slice).
+- Fix slice: BF-P1-01. Commit/PR: `8f44f05`.
 - Root cause confirmed: range minimum 0 and `applyChange` clamp replaced -8 with 0.
 - Tests: controls and P1 DOM regressions verify verbatim -8 and real draft output.
 - Live/rendered/output evidence: negative-ease draft and -8 guidance inspected in
@@ -64,7 +64,7 @@ No console runtime errors were observed during that audit.
   invalid value as an explicitly diagnosed state. Source: `src/ui/controls.ts:34`.
 - Done when: every invalid value is visible as invalid with a direct correction,
   and no hidden replacement occurs.
-- Fix slice: BF-P1-01. Commit/PR: commit subject `Slice BF-P1-01: preserve typed input [BUG-UI-002, BUG-UI-003]` (hash recorded in next slice).
+- Fix slice: BF-P1-01. Commit/PR: `8f44f05`.
 - Root cause confirmed: clamp on input and replacement on blur; blank was converted to zero.
 - Tests: empty/range/finite bounds, focus retention, disabled export and Edit recovery.
 - Live/rendered/output evidence: Chest 20 remains visible with associated 60–160
@@ -73,18 +73,25 @@ No console runtime errors were observed during that audit.
 
 ### BUG-UI-004 — Finished measurement totals do not update live
 
-- Tags: `BUGFIX`, `EPIC-BUGFIX-P1`, `P1`, `S2`, status `Open`.
+- Tags: `BUGFIX`, `EPIC-BUGFIX-P1`, `P1`, `S2`, status `Closed`.
 - Evidence: Chest changed from `100` to `120`; guidance changed but the visible
   summary remained `Finished chest: 110 cm`.
 - Root cause: controls are not rerendered during draw even though totals are
   computed in controls markup. Sources: `src/ui/view.ts:49`, `src/ui/app.ts:208`.
 - Done when: all derived totals update from the current state without stale
   summaries or focus loss.
-- Fix slice: —  Commit/PR: —  Verification: —
+- Fix slice: BF-P1-02. Commit/PR: implementation commit with subject `Slice BF-P1-02: unify digital verdicts [BUG-UI-004, BUG-UI-005, BUG-UI-012]`; hash follows in next slice.
+- Root cause confirmed: Controls were rendered only on mount/garment switch; draw now updates the finished chest/hip text in place without replacing focused inputs.
+- Tests: P1 DOM regressions, original app/view/journey suites; 73 files / 921 tests,
+  100% coverage, TypeScript/build, parsed export consumers and eight unchanged hashes.
+- Live/rendered/output evidence: Chest 120 immediately shows 130 cm; woven count
+  6.5 withholds every green verdict and disables export; corrected count restores
+  digital pass. Screenshot and actual diff inspected. See `docs/planning/BUGFIX-P1-EXECUTION.md`.
+- Closed by/date: Codex, 2026-09-12. Final status: Closed.
 
 ### BUG-UI-005 — Invalid design options do not gate readiness or exports
 
-- Tags: `BUGFIX`, `EPIC-BUGFIX-P1`, `P1`, `S1`, status `Open`.
+- Tags: `BUGFIX`, `EPIC-BUGFIX-P1`, `P1`, `S1`, status `Closed`.
 - Evidence: woven button count `8` produced guidance warnings, while Check said
   `Ready to cut`, Style remained green, and exports remained enabled.
 - Root cause: Check, Style, and journey gates use sewability/plausibility but do
@@ -92,7 +99,14 @@ No console runtime errors were observed during that audit.
   `src/ui/view.ts:316`.
 - Done when: every invalid state has one consistent verdict across Guidance,
   Style, Check, journey, and exports.
-- Fix slice: —  Commit/PR: —  Verification: —
+- Fix slice: BF-P1-02. Commit/PR: implementation commit with subject `Slice BF-P1-02: unify digital verdicts [BUG-UI-004, BUG-UI-005, BUG-UI-012]`; hash follows in next slice.
+- Root cause confirmed: UI green states consumed geometry/plausibility but omitted recipe warnings. A shared current-state verdict now gates Guidance, Check, Style, journey and all six export handlers.
+- Tests: P1 DOM regressions, original app/view/journey suites; 73 files / 921 tests,
+  100% coverage, TypeScript/build, parsed export consumers and eight unchanged hashes.
+- Live/rendered/output evidence: Chest 120 immediately shows 130 cm; woven count
+  6.5 withholds every green verdict and disables export; corrected count restores
+  digital pass. Screenshot and actual diff inspected. See `docs/planning/BUGFIX-P1-EXECUTION.md`.
+- Closed by/date: Codex, 2026-09-12. Final status: Closed.
 
 ### BUG-UI-006 — Save/Load does not round-trip the active workspace
 
@@ -168,14 +182,21 @@ No console runtime errors were observed during that audit.
 
 ### BUG-UI-012 — Digital checks use production-readiness language
 
-- Tags: `BUGFIX`, `EPIC-BUGFIX-P1`, `P1`, `S2`, status `Open`.
+- Tags: `BUGFIX`, `EPIC-BUGFIX-P1`, `P1`, `S2`, status `Closed`.
 - Evidence: Check says `Ready to cut` and Guidance says `Looks production-ready`,
   although the project has no physical sewing/fit validation.
 - Root cause: UI copy does not distinguish digital sewability checks from real-
   world validation. Sources: `src/ui/view.ts:70`, `src/guidance/garment-check.ts:13`.
 - Done when: status copy accurately states what was digitally checked and avoids
   physical fit or production claims.
-- Fix slice: —  Commit/PR: —  Verification: —
+- Fix slice: BF-P1-02. Commit/PR: implementation commit with subject `Slice BF-P1-02: unify digital verdicts [BUG-UI-004, BUG-UI-005, BUG-UI-012]`; hash follows in next slice.
+- Root cause confirmed: Legacy UI wording overstated geometry checks. Status now describes digital checks and explicitly identifies pending physical validation.
+- Tests: P1 DOM regressions, original app/view/journey suites; 73 files / 921 tests,
+  100% coverage, TypeScript/build, parsed export consumers and eight unchanged hashes.
+- Live/rendered/output evidence: Chest 120 immediately shows 130 cm; woven count
+  6.5 withholds every green verdict and disables export; corrected count restores
+  digital pass. Screenshot and actual diff inspected. See `docs/planning/BUGFIX-P1-EXECUTION.md`.
+- Closed by/date: Codex, 2026-09-12. Final status: Closed.
 
 ## `EPIC-BUGFIX-P2`
 

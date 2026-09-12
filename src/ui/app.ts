@@ -11,7 +11,7 @@ import { pieceHandles, moveHandle, nearestHandle, editorViewBox, viewboxPointToC
 import { dartOf, transferDart, trueSeam, edgesMeet } from "../drafting";
 import { BLUEPRINT } from "../render";
 import { guide, Note } from "../guidance";
-import { garmentReport, implausibleFields, measurementsPlausible } from "../guidance";
+import { garmentReport, implausibleFields } from "../guidance";
 import { matchStyle, styleNames } from "../style";
 import { FIELDS, applyChange, inputError } from "./controls";
 import { appShellMarkup, controlsMarkup, guidanceMarkup, styleMarkup, specTableMarkup, checkMarkup, editorHintMarkup, dartControlsMarkup, BodyCroquisView } from "./view";
@@ -83,6 +83,10 @@ export function mountApp(root: HTMLElement): void {
     }
     return errors;
   };
+  // Include recipe warnings without changing the geometry-only export report.
+  const designValid = (): boolean => inputErrors().size === 0
+    && !guide(recipe, measurements, recipeOptions()).some((note) => note.level === "warn")
+    && garmentReport(recipe, measurements, recipeOptions()).ok;
   const poloVisual = () => {
     if (recipe.name !== "polo") return undefined;
     const options = recipeOptions();
@@ -137,7 +141,7 @@ export function mountApp(root: HTMLElement): void {
   // fit gaps, the report verdict) — nothing here recomputes a check.
   const renderJourney = (): void => {
     const inputsOk = inputErrors().size === 0;
-    const plausible = inputsOk && measurementsPlausible(measurements, recipe.fields);
+    const plausible = designValid();
     const gaps = matchStyle(measurements, targetStyle, recipe.styles).deltas.length;
     const report = inputsOk ? garmentReport(recipe, measurements, recipeOptions()) : { ok: false };
     const parts: string[] = [];
@@ -153,6 +157,11 @@ export function mountApp(root: HTMLElement): void {
 
   const draw = (): void => {
     const errors = inputErrors();
+    const valid = designValid();
+    root.querySelectorAll<HTMLElement>("[data-finished]").forEach((total) => {
+      const value = measurements[total.dataset.finished as keyof Measurements] + measurements.ease;
+      total.textContent = Number.isFinite(value) ? `${value} cm` : "Enter complete measurements";
+    });
     root.querySelectorAll<HTMLInputElement>("[data-field], [data-option]").forEach((input) => {
       const key = input.dataset.field ?? `option-${input.dataset.option}`;
       const error = errors.get(key);
@@ -161,7 +170,8 @@ export function mountApp(root: HTMLElement): void {
       root.querySelector<HTMLElement>(`#error-${key}`)!.textContent = error ?? "";
     });
     root.querySelectorAll<HTMLButtonElement>('#export-host button[id^="export-"]').forEach((button) => {
-      button.disabled = errors.size > 0;
+      button.disabled = !valid;
+      button.title = button.disabled ? "Resolve the flagged inputs and digital checks before exporting." : "";
     });
     if (errors.size > 0) {
       canvasHost.innerHTML = "<p role=\"status\">Draft paused — correct the flagged inputs to render your current design.</p>";
@@ -191,7 +201,7 @@ export function mountApp(root: HTMLElement): void {
       canvasHost.innerHTML = renderFabricNest(
         nest.placed, nest.fabricWidth, nest.fabricLength, nest.utilization, nest.fits);
     } else if (view === "check") {
-      canvasHost.innerHTML = checkMarkup(garmentReport(recipe, measurements, recipeOptions()), measurementsPlausible(measurements, recipe.fields));
+      canvasHost.innerHTML = checkMarkup(garmentReport(recipe, measurements, recipeOptions()), valid);
     } else if (view === "edit") {
       const piece = editedFront ?? rolePiece(draftCurrent(), "front");
       editedFront = piece;
@@ -232,10 +242,12 @@ export function mountApp(root: HTMLElement): void {
     // One sanity read for the whole frame: are the numbers a real body? It gates
     // every green "validated" signal — the check banner, the style ✓ — and flags
     // the offending fields, so geometry passing can never masquerade as "ready".
-    const plausible = measurementsPlausible(measurements, recipe.fields);
+    const plausible = valid;
     // Guidance = the geometry checks, plus a fabric-stretch ease note (advice only).
     const fabricNote: Note = { level: "info", text: fabricEaseNote(stretchFabric, measurements.chest) };
-    guidanceHost.innerHTML = guidanceMarkup([...guide(recipe, measurements, recipeOptions()), fabricNote]);
+    const failedChecks: Note[] = garmentReport(recipe, measurements, recipeOptions()).checks
+      .filter((check) => !check.ok).map((check) => ({ level: "warn", text: `${check.name}: ${check.detail}` }));
+    guidanceHost.innerHTML = guidanceMarkup([...guide(recipe, measurements, recipeOptions()), ...failedChecks, fabricNote]);
     // Style = prescriptive: the gap from current measurements to the chosen target.
     styleHost.innerHTML = styleMarkup(targetStyle, matchStyle(measurements, targetStyle, recipe.styles), styleNames(recipe.styles), plausible);
     // Amber-outline any measurement input whose value is out of plausible range
@@ -539,26 +551,31 @@ export function mountApp(root: HTMLElement): void {
     if (journey.step !== "done") celebrating = true;
     renderJourney();
   };
-  root.querySelector<HTMLButtonElement>("#export-svg")!.addEventListener("click", () => {
+  const onExport = (id: string, action: () => void): void => {
+    root.querySelector<HTMLButtonElement>(id)!.addEventListener("click", () => {
+      if (designValid()) action();
+    });
+  };
+  onExport("#export-svg", () => {
     download(`${recipe.name}-${exportSizeLabel()}.svg`, exportSvg(exportPieces(), recipe.allowances, recipe.notches), "image/svg+xml");
   });
-  root.querySelector<HTMLButtonElement>("#export-dxf")!.addEventListener("click", () => {
+  onExport("#export-dxf", () => {
     download(`${recipe.name}-${exportSizeLabel()}.dxf`, exportDxf(exportPieces(), recipe.allowances), "image/vnd.dxf");
   });
-  root.querySelector<HTMLButtonElement>("#export-pdf")!.addEventListener("click", () => {
+  onExport("#export-pdf", () => {
     download(`${recipe.name}-${exportSizeLabel()}.pdf`, exportPdf(exportPieces(), recipe.allowances), "application/pdf");
   });
   // The tech pack is a whole-style document (sample-size sketch + graded table),
   // so it uses the live measurements directly and ignores the per-size picker.
-  root.querySelector<HTMLButtonElement>("#export-techpack")!.addEventListener("click", () => {
+  onExport("#export-techpack", () => {
     download(`${recipe.name}-techpack.pdf`, exportTechPack(recipe, measurements, undefined, stretchFabric, recipeOptions()), "application/pdf");
   });
   // The projector file carries EVERY graded size as a toggleable layer, so it too
   // is a whole-style file and ignores the per-size picker.
-  root.querySelector<HTMLButtonElement>("#export-projector")!.addEventListener("click", () => {
+  onExport("#export-projector", () => {
     download(`${recipe.name}-projector.svg`, exportProjectorSvg(recipe, measurements, recipeOptions()), "image/svg+xml");
   });
-  root.querySelector<HTMLButtonElement>("#export-a0")!.addEventListener("click", () => {
+  onExport("#export-a0", () => {
     download(`${recipe.name}-${exportSizeLabel()}-A0.pdf`, exportA0Pdf(exportPieces(), recipe.allowances, recipe.notches), "application/pdf");
   });
 

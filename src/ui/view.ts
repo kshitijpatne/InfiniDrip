@@ -49,9 +49,9 @@ export function controlsMarkup(
     .map((f) => field(f.id, f.label, m[f.id], f.min, f.max, f.step))
     .join("");
   const finished = fields.includes("chest")
-    ? `<div style="font-size:11.5px;color:${T.label};margin-top:2px;margin-bottom:8px">Finished chest: <span style="color:${T.line};font-family:ui-monospace,monospace">${m.chest + m.ease} cm</span></div>`
+    ? `<div style="font-size:11.5px;color:${T.label};margin-top:2px;margin-bottom:8px">Finished chest: <span data-finished="chest" style="color:${T.line};font-family:ui-monospace,monospace">${m.chest + m.ease} cm</span></div>`
     : fields.includes("hip")
-      ? `<div style="font-size:11.5px;color:${T.label};margin-top:2px;margin-bottom:8px">Finished hip: <span style="color:${T.line};font-family:ui-monospace,monospace">${m.hip + m.ease} cm</span></div>`
+      ? `<div style="font-size:11.5px;color:${T.label};margin-top:2px;margin-bottom:8px">Finished hip: <span data-finished="hip" style="color:${T.line};font-family:ui-monospace,monospace">${m.hip + m.ease} cm</span></div>`
       : "";
   const optionRows = options.map((option) => field(
     `option-${option.id}`, option.label, values[option.id] ?? option.defaultValue,
@@ -73,7 +73,7 @@ export function guidanceMarkup(notes: readonly Note[]): string {
   const warnCount = notes.filter((n) => n.level === "warn").length;
   const clean = warnCount === 0;
   const verdictText = clean
-    ? `${SEVERITY_ICON.ok} Looks production-ready`
+    ? `${SEVERITY_ICON.ok} Digital checks pass`
     : `${SEVERITY_ICON.warn} ${warnCount} to review`;
   const verdict = `<div style="font-size:13px;font-weight:600;margin-bottom:12px;` +
     `color:${clean ? OK : T.lineActive}">${verdictText}</div>`;
@@ -130,7 +130,7 @@ export function styleMarkup(
     // The measurements hit the target on every axis, but at least one is implausible
     // — so "you're making a X" would be a green lie. Withhold it until they're sane.
     body = `<div style="font-size:12.5px;color:${T.lineActive}">` +
-      `⚠ This matches ${targetName} on paper, but some measurements need review first.</div>`;
+      `⚠ This matches ${targetName} on paper, but the flagged inputs or digital checks need review first.</div>`;
   } else if (match.deltas.length === 0) {
     body = `<div style="font-size:13px;color:${OK}">✓ You're making a ${targetName}.</div>`;
   } else {
@@ -319,10 +319,10 @@ export function checkMarkup(report: Report, plausible: boolean): string {
   const green = report.ok && plausible;
   const bannerBg = green ? OK : T.lineActive;
   const bannerText = green
-    ? "✓ Ready to cut"
+    ? "✓ Digital checks pass — physical validation pending"
     : report.ok
-      ? "⚠ Sews together, but check the flagged measurements"
-      : "✗ Not ready — fix the flagged checks";
+      ? "⚠ Review the flagged inputs and design guidance"
+      : "✗ Digital checks need review — fix the flagged checks";
   const banner = `<div style="padding:10px 14px;border-radius:8px;font-weight:600;font-size:14px;` +
     `color:${T.background};background:${bannerBg};margin-bottom:12px">${bannerText}</div>`;
 

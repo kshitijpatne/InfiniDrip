@@ -422,10 +422,10 @@ describe("mountApp", () => {
     const root = mount();
     root.querySelector<HTMLButtonElement>("#view-check")!.dispatchEvent(new Event("click"));
     const html = root.querySelector("#canvas-host")!.innerHTML;
-    expect(html).toContain("Ready to cut");
+    expect(html).toContain("Digital checks pass");
     expect(html).toContain("Shoulder seam");
     root.querySelector<HTMLButtonElement>("#view-pattern")!.dispatchEvent(new Event("click"));
-    expect(root.querySelector("#canvas-host")!.innerHTML).not.toContain("Ready to cut");
+    expect(root.querySelector("#canvas-host")!.innerHTML).not.toContain("Digital checks pass");
   });
 
   it("toggles the canvas between the pattern and the graded size run", () => {
@@ -491,7 +491,7 @@ describe("garment toggle", () => {
     expect(host(root)).not.toContain("Dart legs equal");
     pick(root, "#garment-fitted");
     expect(host(root)).toContain("Dart legs equal");
-    expect(host(root)).toContain("Ready to cut"); // the fitted block is sewable
+    expect(host(root)).toContain("Digital checks pass"); // the fitted block is sewable
   });
 
   it("re-snapshots the freeform editor when the garment changes", () => {
@@ -759,7 +759,7 @@ describe("measurement-plausibility surfacing (Slice 32)", () => {
     const root = mount();
     const chest = root.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
     expect(chest.style.outline === "" || chest.style.outline === "none").toBe(true);
-    expect(root.querySelector("#guidance-host")!.innerHTML).toContain("Looks production-ready");
+    expect(root.querySelector("#guidance-host")!.innerHTML).toContain("Digital checks pass");
   });
 
   it("amber-outlines an implausible field and clears it when fixed", () => {
@@ -779,7 +779,7 @@ describe("measurement-plausibility surfacing (Slice 32)", () => {
     const root = mount();
     setChest(root, "150");
     expect(root.querySelector("#guidance-host")!.innerHTML).toContain("to review");
-    expect(root.querySelector("#guidance-host")!.innerHTML).not.toContain("Looks production-ready");
+    expect(root.querySelector("#guidance-host")!.innerHTML).not.toContain("Digital checks pass");
   });
 
   it("withholds the green Ready banner in the check view while implausible", () => {
@@ -787,8 +787,8 @@ describe("measurement-plausibility surfacing (Slice 32)", () => {
     setChest(root, "150");
     root.querySelector<HTMLButtonElement>("#view-check")!.dispatchEvent(new Event("click"));
     const html = root.querySelector("#canvas-host")!.innerHTML;
-    expect(html).not.toContain("✓ Ready to cut");
-    expect(html).toContain("check the flagged measurements");
+    expect(html).not.toContain("✓ Digital checks pass");
+    expect(html).toContain("Review the flagged inputs and design guidance");
   });
 
   it("stops the style panel reading green while implausible", () => {
@@ -874,9 +874,8 @@ describe("guided journey", () => {
     walkToOutput(root);
     setChest(root, "160");
     jclick(root, "export-svg");
-    const cel = root.querySelector("#journey-celebration")!;
-    expect(cel.innerHTML).toContain("review");
-    expect(cel.innerHTML).not.toContain("✓");
+    expect(root.querySelector("#journey-celebration")).toBeNull();
+    expect(URL.createObjectURL).not.toHaveBeenCalled();
   });
 
   it("lets an expert skip the tour and see the whole app at once", () => {

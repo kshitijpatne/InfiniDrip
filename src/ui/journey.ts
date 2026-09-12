@@ -127,20 +127,20 @@ export function journeyChecklist(
       next: "Switch any time between Tee and Darted tee.",
     },
     {
-      label: "Measurements plausible",
+      label: "Inputs and guidance checked",
       done: plausible,
       next: "Review the amber-outlined fields in Measure.",
     },
     {
       label: "Target fit reached",
-      done: fitGaps === 0,
+      done: fitGaps === 0 && plausible,
       next: "Close the remaining gaps shown in the Style panel.",
     },
     {
-      label: "Production checks pass",
+      label: "Digital checks pass",
       done: checksOk && plausible,
       next: checksOk && !plausible
-        ? "It sews together, but fix the flagged measurements first."
+        ? "Review the flagged inputs and design guidance first."
         : "Open the Check view to see what needs attention.",
     },
     {
@@ -214,7 +214,7 @@ export function welcomeMarkup(): string {
   return `<div id="journey-welcome" style="background:${PANEL};border:1px solid ${BORDER};` +
     `border-radius:10px;padding:16px;margin:4px 0">` +
     `<div style="font-size:15px;font-weight:600;color:${T.line};margin-bottom:8px">` +
-    `Design a real, cuttable garment in five steps</div>` +
+    `Draft and digitally check a garment in five steps</div>` +
     `<div style="font-size:12.5px;color:${T.label};line-height:1.5;margin-bottom:12px">` +
     `Pick a garment, type your measurements, choose a fit, review the pattern, and ` +
     `export true-scale cutting files. The app checks your numbers as you go and ` +

@@ -118,7 +118,7 @@ describe("editorHintMarkup", () => {
 describe("checkMarkup", () => {
   it("shows a ready banner and a tick when every check passes", () => {
     const html = checkMarkup(buildReport([present("Seam", true, "agree")]), true);
-    expect(html).toContain("Ready to cut");
+    expect(html).toContain("Digital checks pass");
     expect(html).toContain("✓");
     expect(html).toContain("Seam");
     expect(html).toContain("agree");
@@ -126,7 +126,7 @@ describe("checkMarkup", () => {
 
   it("shows a not-ready banner and a cross when a check fails", () => {
     const html = checkMarkup(buildReport([present("Seam", false, "off by 3 cm")]), true);
-    expect(html).toContain("Not ready");
+    expect(html).toContain("Digital checks need review");
     expect(html).toContain("✗");
     expect(html).toContain("off by 3 cm");
   });
@@ -165,7 +165,7 @@ describe("guidanceMarkup", () => {
 
   it("heads a clean panel with a production-ready verdict", () => {
     const html = guidanceMarkup([{ level: "ok", text: "All good" }]);
-    expect(html).toContain("✓ Looks production-ready");
+    expect(html).toContain("✓ Digital checks pass");
   });
 
   it("heads a panel with warnings with a count to review", () => {
@@ -182,18 +182,18 @@ describe("guidanceMarkup", () => {
 describe("checkMarkup — plausibility gates the green", () => {
   it("reads green only when the pattern is sound AND plausible", () => {
     const html = checkMarkup(buildReport([present("Seam", true, "agree")]), true);
-    expect(html).toContain("✓ Ready to cut");
+    expect(html).toContain("✓ Digital checks pass");
   });
 
   it("withholds green when geometry passes but a measurement is implausible", () => {
     const html = checkMarkup(buildReport([present("Seam", true, "agree")]), false);
-    expect(html).not.toContain("✓ Ready to cut");
-    expect(html).toContain("Sews together, but check the flagged measurements");
+    expect(html).not.toContain("✓ Digital checks pass");
+    expect(html).toContain("Review the flagged inputs and design guidance");
   });
 
   it("still shows the not-ready banner when a check fails, regardless of plausibility", () => {
     const html = checkMarkup(buildReport([present("Seam", false, "off by 3 cm")]), true);
-    expect(html).toContain("Not ready");
+    expect(html).toContain("Digital checks need review");
   });
 });
 

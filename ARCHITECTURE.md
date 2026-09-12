@@ -3,6 +3,12 @@
 How the app fits together, in plain language. Read the top to re-orient; skim the
 layers when you need detail. Updated every slice with only need-to-know changes.
 
+BF-P1-02: the UI's current design verdict combines input validity, all recipe/
+plausibility guidance and geometric checks. Check, Style, journey and all six
+export handlers share this gate; failed geometric checks also reach Guidance.
+Geometry-only reports/writers remain stable. Finished totals update in place,
+and status copy identifies digital checks without physical/production claims.
+
 BF-P1-01: measurement inputs retain raw numeric values; empty/nonfinite fields
 are explicit incomplete UI states. `inputError` checks declared field/option
 bounds and the app pauses drawing and export with associated corrections until

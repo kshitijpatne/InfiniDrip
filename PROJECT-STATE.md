@@ -1,6 +1,12 @@
 # InfiniDrip — Project State
 
-_Last updated: BF-P1-01, input truthfulness; P1 is in progress before Epic 3._
+_Last updated: BF-P1-02, live totals and consistent digital verdicts; P1 in progress._
+
+BF-P1-02 closes BUG-UI-004/005/012: totals update without focus loss; invalid
+options/guidance/checks gate all status and export paths; copy states digital
+validation only. Gate: 73 files / 921 tests, 100% coverage, TypeScript/build,
+parsed exports and eight unchanged legacy hashes. Next: BF-P1-03 workspace
+persistence. Stop after P1 for the requested model switch.
 
 BF-P1-01 closes BUG-UI-002/003: no silent clamp, verbatim negative ease,
 associated input corrections and safe draft pause/recovery. Scope and evidence:

@@ -40,3 +40,21 @@ clamp regression in `src/ui/app.test.ts`; original reproduction retained in ledg
 Gate: 73 test files / 919 tests; 100% statements/branches/functions/lines;
 TypeScript and production build pass; parsed export suites and all eight
 legacy export hashes pass unchanged. Actual implementation diff reviewed.
+
+## BF-P1-02
+
+BUG-UI-004/005/012 are closed. In-place totals eliminate the stale 110 cm readout;
+the UI validity predicate includes input errors, every recipe/plausibility warning,
+and geometric checks. It drives Check, Style, journey and six export handlers.
+The existing geometry-only report and legacy output bytes remain stable.
+
+Live review: Chest 120 immediately produces “Finished chest: 130 cm”. Woven
+button count 6.5 is shown verbatim, its actionable warning is visible, Check
+withholds pass, Style withholds green, journey checks are incomplete and all six
+exports disable. Correcting to 6 restores the digital-pass state. Screenshot and
+diff inspected. Physical validation remains pending; remaining stale export
+completion is scoped to BF-P1-04.
+
+Gate: 73 files / 921 tests, 100% statements/branches/functions/lines,
+TypeScript/build, all parsed export consumers and eight unchanged legacy hashes.
+BF-P1-01 immutable implementation reference: `8f44f05`.

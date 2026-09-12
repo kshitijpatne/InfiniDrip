@@ -20,6 +20,37 @@ function input(root: HTMLElement, selector: string, value: string): HTMLInputEle
 }
 
 describe("P1 input truth", () => {
+  it("updates chest/hip totals in place, including incomplete inputs", () => {
+    const root = mount();
+    const chest = input(root, '[data-field="chest"]', "120");
+    expect(root.querySelector('[data-finished="chest"]')!.textContent).toBe("130 cm");
+    expect(root.querySelector('[data-field="chest"]')).toBe(chest);
+    input(root, '[data-field="ease"]', "");
+    expect(root.querySelector('[data-finished="chest"]')!.textContent).toContain("complete");
+    input(root, '[data-field="ease"]', "10");
+    click(root, "garment-skirt");
+    input(root, '[data-field="hip"]', "110");
+    expect(root.querySelector('[data-finished="hip"]')!.textContent).toBe("120 cm");
+  });
+
+  it("gates every status and export on invalid woven option combinations", () => {
+    const root = mount();
+    click(root, "welcome-skip");
+    click(root, "garment-woven-shirt");
+    click(root, "view-check");
+    input(root, '[data-option="buttonCount"]', "6.5");
+    expect(root.querySelector("#guidance-host")!.textContent).toContain("to review");
+    expect(root.querySelector("#canvas-host")!.textContent).toContain("Review the flagged inputs");
+    expect(root.querySelector("#style-host")!.textContent).not.toContain("✓ You're making");
+    expect(root.querySelector("#journey-host")!.textContent).not.toContain("✓Digital checks pass");
+    URL.createObjectURL = vi.fn();
+    root.querySelector("#export-svg")!.dispatchEvent(new Event("click"));
+    expect(URL.createObjectURL).not.toHaveBeenCalled();
+    input(root, '[data-option="buttonCount"]', "6");
+    expect(root.querySelector("#canvas-host")!.textContent).toContain("physical validation pending");
+    expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(false);
+    expect(root.textContent).not.toMatch(/Ready to cut|production-ready/);
+  });
   it("drafts negative ease verbatim and recovers from empty/range errors without losing focus", () => {
     const root = mount();
     const ease = input(root, '[data-field="ease"]', "-8");
