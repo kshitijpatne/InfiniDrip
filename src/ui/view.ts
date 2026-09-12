@@ -180,19 +180,22 @@ export function exportButtonsMarkup(sizes: readonly SizeStep[]): string {
     .map((s) => `<option value="${s.step}" ${s.step === 0 ? "selected" : ""}>${s.label}</option>`)
     .join("");
   const sizePicker =
-    `<span style="font-size:11px;color:${T.label};text-transform:uppercase;letter-spacing:0.04em;` +
-    `margin-left:8px;margin-right:4px">Size</span>` +
-    `<select id="export-size" style="padding:4px 8px;font-size:12px;background:${T.background};` +
-    `color:${T.line};border:1px solid ${BORDER};border-radius:5px">${options}</select>`;
-  return `<div id="export-host" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:4px 0">` +
-    `<span style="font-size:11px;color:${T.label};text-transform:uppercase;letter-spacing:0.04em;` +
-    `margin-right:4px">Export</span>${btn("export-svg", "SVG")}${btn("export-dxf", "DXF")}${btn("export-pdf", "PDF")}` +
-    `${btn("export-techpack", "Tech Pack")}` +
-    `${btn("export-projector", "Projector")}${btn("export-a0", "A0")}` +
-    `${sizePicker}` +
-    `<span style="font-size:11px;color:${T.label};text-transform:uppercase;letter-spacing:0.04em;` +
-    `margin-left:8px;margin-right:4px">Pattern</span>${btn("save-pattern", "Save")}${btn("load-pattern", "Load")}` +
-    `<span id="persist-status" style="font-size:11px;color:${T.label};min-width:80px"></span></div>`;
+    `<label style="display:inline-flex;gap:5px;align-items:center;font-size:11px;color:${T.label}">` +
+    `Selected size <select id="export-size" aria-label="Selected size for per-size exports" style="padding:4px 8px;font-size:12px;background:${T.background};` +
+    `color:${T.line};border:1px solid ${BORDER};border-radius:5px">${options}</select></label>`;
+  const scope = (name: string, consequence: string, buttons: string): string =>
+    `<div data-export-scope="${name}" style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;` +
+    `padding:7px 0;border-top:1px solid ${BORDER}">` +
+    `<strong style="font-size:11px;color:${T.line};white-space:nowrap">${name === "selected-size" ? "Selected size exports" : "Whole graded run exports"}</strong>` +
+    `<span style="font-size:11px;color:${T.label};margin-right:3px">${consequence}</span>${buttons}</div>`;
+  return `<div id="export-host" style="display:flex;flex-direction:column;gap:2px;align-items:stretch;flex-wrap:wrap;margin:4px 0">` +
+    `<div style="font-size:11px;color:${T.label};text-transform:uppercase;letter-spacing:0.04em">Export</div>` +
+    scope("selected-size", "One selected size", `${btn("export-svg", "SVG")}${btn("export-dxf", "DXF")}${btn("export-pdf", "PDF")}${btn("export-a0", "A0")}${sizePicker}`) +
+    scope("whole-run", "All graded sizes; ignores Selected size", `${btn("export-techpack", "Tech Pack")}${btn("export-projector", "Projector")}`) +
+    `<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding-top:6px">` +
+    `<span style="font-size:11px;color:${T.label};text-transform:uppercase;letter-spacing:0.04em;margin-right:4px">Workspace</span>` +
+    `${btn("save-pattern", "Save")}${btn("load-pattern", "Load")}` +
+    `<span id="persist-status" style="font-size:11px;color:${T.label};min-width:80px"></span></div></div>`;
 }
 
 /** Material/stretch dropdown — drives ease and compatibility guidance only. */

@@ -439,7 +439,7 @@ No console runtime errors were observed during that audit.
 
 ### BUG-UI-021 — Button-count validation uses wrong units and noisy semantics
 
-- Tags: `BUGFIX`, `EPIC-BUGFIX-P2`, `P2`, `S2`, status `Open`.
+- Tags: `BUGFIX`, `EPIC-BUGFIX-P2`, `P2`, `S2`, status `Closed`.
 - Evidence: button count `8` produces `6–7 cm`, plus separate range and whole-
   number warnings. The UI does not state that six/seven placket buttons exclude
   one additional collar-stand button.
@@ -447,11 +447,23 @@ No console runtime errors were observed during that audit.
   overlapping warnings without semantic helper text. Source: `src/drafting/shirt.ts:554`.
 - Done when: count, spacing, and length units are correct and the collar-stand
   button rule is visible wherever the control is edited or reviewed.
-- Fix slice: —  Commit/PR: —  Verification: —
+- Fix slice: BF-P2-04. Commit/PR: pending (BF-P2-04 behavior commit).
+- Root cause confirmed: generic option guidance appended `cm` to button count
+  and emitted a second whole-number warning even when the count was already
+  outside the allowed range. Unit-aware guidance now reports `buttons`, emits
+  one range warning for 5/8, and reserves the whole-number correction for a
+  fractional in-range count. The control help states that six/seven placket
+  buttons exclude the additional collar-stand button.
+- Tests: woven guidance regressions cover out-of-range and fractional counts;
+  export/view markup tests cover the visible option contract.
+- Live/rendered/output evidence: Woven controls visibly show `buttons`; the
+  six/seven plus one stand-button rule is visible beside the field. No
+  physical or production claim is made.
+- Closed by/date: Codex, 2026-09-12. Final status: Closed.
 
 ### BUG-UI-022 — Export size scope is ambiguous
 
-- Tags: `BUGFIX`, `EPIC-BUGFIX-P2`, `P2`, `S2`, status `Open`.
+- Tags: `BUGFIX`, `EPIC-BUGFIX-P2`, `P2`, `S2`, status `Closed`.
 - Evidence: a generic `Size` picker sits beside all exports, while Tech Pack and
   Projector export the full graded run rather than the selected size. No scope
   explanation is visible.
@@ -459,7 +471,18 @@ No console runtime errors were observed during that audit.
   semantics. Source: `src/ui/app.ts:523`.
 - Done when: each export clearly states per-size or whole-run scope and the
   selected size cannot be mistaken for the export scope.
-- Fix slice: —  Commit/PR: —  Verification: —
+- Fix slice: BF-P2-04. Commit/PR: pending (BF-P2-04 behavior commit).
+- Root cause confirmed: per-size and whole-run formats shared one unqualified
+  toolbar and picker. Export markup now has separate Selected size exports and
+  Whole graded run exports groups; the latter explicitly says it ignores the
+  selected size and contains Tech Pack/Projector only.
+- Tests: view markup asserts both scope groups, consequences and the accessible
+  selected-size label; existing app export handlers remain wired to the same
+  stable IDs.
+- Live/rendered/output evidence: the live Output view showed the selected-size
+  SVG/DXF/PDF/A0 group separately from the all-graded-sizes Tech Pack/Projector
+  group. Legacy export writers and hashes were not changed.
+- Closed by/date: Codex, 2026-09-12. Final status: Closed.
 
 ### BUG-UI-023 — First-run journey has duplicate actions, bypassable steps, and no finish state
 

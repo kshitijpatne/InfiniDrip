@@ -56,6 +56,12 @@ Material/stretch selection is separately named from Color; a knit material on
 the woven-shirt recipe remains user-selected but raises a warning and blocks
 the digital readiness gate until reviewed.
 
+BF-P2-04: woven option guidance uses each option's declared unit and emits a
+single appropriate correction for button counts. The export toolbar labels
+Selected size formats separately from whole graded-run formats; Tech Pack and
+Projector explicitly ignore the selected-size picker. Export writer code and
+legacy baselines remain untouched.
+
 Slice 93: the woven-shirt component-library exit audit verifies closed geometry
 and sewability across XS–XL, all Pattern/Body/Side/Size run/Spec/Nesting/Check/
 preview-Edit routes, and parsed SVG/DXF/tiled-PDF/A0/projector/tech-pack output.

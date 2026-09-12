@@ -553,34 +553,35 @@ export function wovenShirtGuidance(
   const notes: Note[] = [];
   for (const definition of WOVEN_SHIRT_OPTION_DEFINITIONS) {
     const value = options[definition.id as keyof WovenShirtOptions];
+    const unit = definition.unit ?? "cm";
+    const valueLabel = unit === "buttons" ? `${value} buttons` : `${value} ${unit}`;
     if (value < definition.min || value > definition.max) {
-      notes.push({ level: "warn", text: `${definition.label} (${value}) is outside the ${definition.min}–${definition.max} cm design range — adjust it into that range.` });
+      notes.push({ field: `option-${definition.id}`, level: "warn", text: `${definition.label} (${valueLabel}) is outside the ${definition.min}–${definition.max} ${unit} design range — adjust it into that range.` });
+    } else if (definition.id === "buttonCount" && !Number.isInteger(value)) {
+      notes.push({ field: "option-buttonCount", level: "warn", text: `Front placket buttons (${valueLabel}) must be a whole number: choose 6 or 7.` });
     }
   }
-  if (!Number.isInteger(options.buttonCount) || options.buttonCount < 6 || options.buttonCount > 7) {
-    notes.push({ level: "warn", text: `Front placket buttons (${options.buttonCount}) must be a whole number: choose 6 or 7.` });
-  }
   if (options.frontOverlap > options.placketWidth) {
-    notes.push({ level: "warn", text: "Front overlap reaches beyond the finished placket face — reduce overlap or increase placket width." });
+    notes.push({ field: "option-frontOverlap", level: "warn", text: "Front overlap reaches beyond the finished placket face — reduce overlap or increase placket width." });
   }
   const frontLength = edgeLength(pieceEdge(block.roles.front, "centerFront"));
   const positions = frontButtonPositions(options.buttonCount, options.buttonSpacing);
   const lastButton = positions[positions.length - 1];
   if (lastButton !== undefined && lastButton + 3 > frontLength) {
-    notes.push({ level: "warn", text: `The last front button leaves less than 3 cm at the placket end — reduce spacing/count or increase shirt length.` });
+    notes.push({ field: "option-buttonSpacing", level: "warn", text: `The last front button leaves less than 3 cm at the placket end — reduce spacing/count or increase shirt length.` });
   }
   if (options.standHeight > options.collarLeafDepth) {
-    notes.push({ level: "warn", text: "Stand height is deeper than the collar leaf — reduce stand height or increase collar leaf depth." });
+    notes.push({ field: "option-standHeight", level: "warn", text: "Stand height is deeper than the collar leaf — reduce stand height or increase collar leaf depth." });
   }
   if (options.yokeDepth <= 2.5 || options.yokeDepth >= m.armholeDepth) {
-    notes.push({ level: "warn", text: `Back yoke depth (${options.yokeDepth} cm) must sit between shoulder and underarm — choose a shallower yoke than the armhole depth.` });
+    notes.push({ field: "option-yokeDepth", level: "warn", text: `Back yoke depth (${options.yokeDepth} cm) must sit between shoulder and underarm — choose a shallower yoke than the armhole depth.` });
   }
   const neckHalf = (m.neck + options.neckEase) / 4;
   if (neckHalf >= m.shoulderWidth / 2) {
-    notes.push({ level: "warn", text: "Neckline reaches the shoulder seam — reduce neck ease or check the neck measurement." });
+    notes.push({ field: "option-neckEase", level: "warn", text: "Neckline reaches the shoulder seam — reduce neck ease or check the neck measurement." });
   }
   if (neckHalf * 0.8 >= m.armholeDepth) {
-    notes.push({ level: "warn", text: "Front neckline drops below the underarm — reduce neck ease or increase armhole depth." });
+    notes.push({ field: "option-neckEase", level: "warn", text: "Front neckline drops below the underarm — reduce neck ease or increase armhole depth." });
   }
   return notes;
 }

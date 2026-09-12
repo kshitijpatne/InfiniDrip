@@ -158,12 +158,22 @@ describe("woven shirt body", () => {
         pocketWidth: 8, pocketHeight: 9, sleeveBandDepth: 1, sideVentDepth: -1, hemTurn: 0,
       });
     expect(notes.filter((note) => note.level === "warn").length).toBeGreaterThanOrEqual(13);
-    expect(notes.some((note) => note.text.includes("whole number"))).toBe(true);
+    expect(notes.some((note) => note.text.includes("Front placket buttons") && note.text.includes("buttons"))).toBe(true);
     expect(notes.some((note) => note.text.includes("shoulder seam"))).toBe(true);
     expect(notes.some((note) => note.text.includes("below the underarm"))).toBe(true);
     const shortBlock = draftWovenShirtBody({ ...STANDARD_M, length: 55 });
     const shortNotes = wovenShirtGuidance(shortBlock, { ...STANDARD_M, length: 55 }, { buttonCount: 7, buttonSpacing: 9 });
     expect(shortNotes.some((note) => note.text.includes("last front button"))).toBe(true);
+  });
+
+  it("uses button units without duplicating the whole-number warning", () => {
+    const block = draftWovenShirtBody(STANDARD_M);
+    const outOfRange = wovenShirtGuidance(block, STANDARD_M, { buttonCount: 8 });
+    expect(outOfRange.filter((note) => note.text.includes("Front placket buttons"))).toHaveLength(1);
+    expect(outOfRange.find((note) => note.text.includes("Front placket buttons"))!.text).toContain("buttons");
+    const fractional = wovenShirtGuidance(block, STANDARD_M, { buttonCount: 6.5 });
+    expect(fractional).toHaveLength(1);
+    expect(fractional[0].text).toContain("whole number");
   });
 
   it("fails loudly when a button POM loses its point mark", () => {

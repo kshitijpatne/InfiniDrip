@@ -71,10 +71,23 @@ Focused verification: 74 app tests plus renderer/view suites pass. Live review
 at 1280×720 confirmed Back yoke focus leaves its assembled marker at opacity 1;
 Woven + Spandex blend showed the stable-woven warning and disabled SVG export.
 
-## BF-P2-04 — Pending
+## BF-P2-04 — Closed
 
-Button-count semantics and explicit export-size scope remain to be implemented
-and verified.
+Implementation: pending immutable behavior commit reference.
+
+Woven button-count guidance is unit-aware and no longer duplicates an integer
+warning when the count is out of range. The control explains the six/seven
+front-placket buttons plus the additional stand button. Export controls now
+separate one-selected-size formats from whole-graded-run Tech Pack/Projector
+formats and state the consequence of the selected-size picker.
+
+Focused verification: 61 tests pass across woven guidance and view markup;
+TypeScript passes. Live Output review confirmed the two visible export scopes.
+
+## BF-P2-05 — Pending
+
+Journey progression/finish behavior and the defined Start landing state remain
+to be implemented and verified.
 
 ## P2 exit report — Pending
 

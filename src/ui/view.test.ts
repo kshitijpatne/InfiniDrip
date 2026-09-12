@@ -346,6 +346,10 @@ describe("exportButtonsMarkup", () => {
     expect(html).toContain('id="export-size"');
     for (const s of TSHIRT_SIZES) expect(html).toContain(`>${s.label}</option>`);
     expect(html).toContain('value="0" selected'); // base size is the default
+    expect(html).toContain('data-export-scope="selected-size"');
+    expect(html).toContain('data-export-scope="whole-run"');
+    expect(html).toContain("All graded sizes; ignores Selected size");
+    expect(html).toContain("Selected size for per-size exports");
   });
 });
 
