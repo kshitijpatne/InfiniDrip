@@ -322,7 +322,8 @@ screenshots remain in `epic3-slice101-outputs/`.
 This closes digital integration evidence only. The correction targets,
 material warning, and output notices are application behavior; they are not
 physical fit, sewing, comfort, shrinkage, or production evidence. Slice 103
-still owns the final full project gate and Epic exit report.
+completed the final full project gate and Epic exit report; no later garment
+or surface-design scope is implied.
 
 ### Slice 96 geometry resolution
 

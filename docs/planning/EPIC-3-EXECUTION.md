@@ -428,6 +428,9 @@ project gate remains the bounded work of Slice 103.
 
 ### Slice 103 — Epic 3 exit gate and durable report
 
+Status: **complete** (final gate passed; Epic 3 closed without starting a later
+Epic).
+
 Scope: complete the project gate, inspect the actual final diff/branch, record
 exact commits/evidence, and close Epic 3 without starting a later Epic.
 
@@ -460,6 +463,59 @@ Verification: the full project gate listed above, with command output,
 coverage summary, parsed-output evidence, legacy hash manifest, and rendered
 evidence paths recorded in the exit report.
 
+Final gate record: the actual local `main` checkout at `0877e30` was inspected
+before this docs-only closeout. `npm test` passed 80 files / 1,013 tests.
+`npm run coverage` passed 80 files / 1,013 tests with 100% statements,
+branches, functions, and lines. `npx tsc --noEmit` passed. `npm run build`
+passed with 92 Vite modules transformed and a 190.70 kB production bundle
+(55.59 kB gzip). `git diff --check` passed. The branch remains local and was
+not pushed; the preserved untracked `coverage-p1.log`, `p1-focused.log`, and
+`tmp/` entries were not touched or staged.
+
+The independent parser reopened the actual files in `epic3-slice101-outputs/`:
+
+- `trouser-L.svg`: SVG root, 16 polygons, pocket mark, no parser error.
+- `trouser-L.dxf`: 16 POLYLINE entities, fold and placement layers, no `NaN`.
+- `trouser-L-tiles.pdf`: 80 pages/80 content streams, pocket-opening text,
+  page clips, a visible first-page coordinate, and no `NaN`.
+- `trouser-L-A0.pdf`: 8 pages/8 streams, calibration and waistband labels, and
+  all parsed move/line coordinates inside their page bounds.
+- `trouser-projector.svg`: 5 parsed size layers, 16 polygons in each layer,
+  and no parser error.
+- `trouser-techpack.pdf`: 4 pages with POM labels, BOM material text, and
+  construction text.
+
+The legacy regression suite passed 8/8. The independently computed current
+hashes exactly match the recorded baseline manifest:
+
+```
+tee.svg       3fbf2e3215af5bdfc66398b9b16714e8ee8139f5edc10dab527bc4c8378f2b9d
+tee.dxf       0b6cba95c9afd4cc6f17a2171f67303e0891babb94828816c149767935165fc9
+tee.pdf       1256ccf60abedeed40b01915ea9a2df4d063b224d01a39dfbf8730136a128523
+tee.techpack  6691a28a6cae0baccfe271887c6d4d00a968867fe0628a8e1d1eacd2b8b047d1
+fitted.svg    cd16df87d100a40866e20738f858d3f11fdc3238ba0db88d99ca3a46f981a09c
+fitted.dxf    e2dd0a36ea6d834a0aec470918f4ba2b823136c13998966a8f04ddeda085a8a6
+fitted.pdf    184dcd975bb8067b452370c78748045384bb18fa8f89f7ca1d4a583b9d0190ff
+fitted.techpack 8e89320bfa235c44ebb481b01012a43c7c1614ce27608ccbb49df31369bca8d2
+```
+
+Rendered evidence was reviewed from the A0 pages 1/5/7, tiled pages 1/20,
+tech-pack pages 1–4, and live browser screenshots `live-trouser-pattern.png`,
+`live-trouser-body.png`, `live-trouser-size-run.png`, `live-trouser-390.png`,
+and `live-trouser-900.png`. The live audit covered every Trouser control/view,
+measurement and option mutation, invalid guidance correction, size change,
+save/load path, and export button, plus Pattern/Body/Spec/Check spot checks for
+Tee, Darted tee, Tank, Polo, Woven shirt, and Skirt. Page-level overflow was
+absent at 1280/900/700/560/390 px (scroll widths 1265/885/685/545/375), and
+browser diagnostics were empty. These are digital/rendered checks only.
+
+The exact local Epic 3 implementation commits are:
+`6db9a1e` (94), `199b83c` (95), `513537e` (96), `c31a5a5` (97), `d8ef239`
+(98), `1525c26` (99), `a4223af` (100), `8b2aec0` (101), and `0877e30`
+(102). The Slice 103 closeout commit records this report. Shorts and joggers
+remain documented derivatives only; surface design, physical validation, and
+production-readiness are not part of this Epic and were not started.
+
 ## Usage-limit pacing and checkpoints
 
 Check the usage dashboard at startup, before each major slice, before any
@@ -472,9 +528,11 @@ alter account usage.
 
 ## Epic 3 exit report
 
-Status: **pending Slice 103 final gate**.
+Status: **complete**.
 
-Slices 94–102 are complete on the actual local `main` branch. Slice 103 still
-must run the final full project gate, inspect the final diff/branch, and record
-the exact exit evidence. No physical garment has been sewn or validated, and
-no production-readiness claim is authorized.
+Slices 94–103 are complete on the actual local `main` branch. The straight-leg
+trouser contract is integrated, its shorts/jogger relationship is documented
+without implementing those garments, and the full project gate plus rendered
+browser/output evidence passed. No physical garment has been sewn or
+validated, and no production-readiness claim is authorized. Do not begin a
+later Epic from this closeout without a new explicit scope decision.
