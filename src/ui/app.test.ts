@@ -54,6 +54,31 @@ describe("mountApp", () => {
     expect(canvas).toContain("(circ)"); // girth labels are marked
   });
 
+  it("offers the schematic Side body view for both upper and lower garments", () => {
+    localStorage.clear();
+    const root = mount();
+    root.querySelector<HTMLButtonElement>("#view-body")!.dispatchEvent(new Event("click"));
+    expect(root.querySelector<HTMLElement>("#body-croquis-toggle-host")!.style.display).toBe("flex");
+
+    root.querySelector<HTMLButtonElement>("#body-side")!.dispatchEvent(new Event("click"));
+    let side = root.querySelector("#canvas-host svg")!;
+    expect(side.getAttribute("data-croquis-region")).toBe("upper");
+    expect(side.getAttribute("data-croquis-view")).toBe("side");
+    expect(side.querySelector('[data-part="side-silhouette"]')).not.toBeNull();
+    expect(side.querySelector("[data-dim]")).toBeNull(); // no side-specific measurements exist
+    expect(side.textContent).toContain("SIDE · SCHEMATIC");
+    expect(root.querySelector<HTMLButtonElement>("#body-side")!.getAttribute("aria-pressed")).toBe("true");
+
+    root.querySelector<HTMLButtonElement>("#garment-skirt")!.dispatchEvent(new Event("click"));
+    side = root.querySelector("#canvas-host svg")!;
+    expect(side.getAttribute("data-croquis-region")).toBe("lower");
+    expect(side.querySelector('[data-part="side-silhouette"]')).not.toBeNull();
+
+    root.querySelector<HTMLButtonElement>("#body-front-back")!.dispatchEvent(new Event("click"));
+    expect(root.querySelector('[data-dim="waist"]')).not.toBeNull();
+    expect(root.querySelector('[data-part="side-silhouette"]')).toBeNull();
+  });
+
   it("draws the tank without a sleeve, in both the body view and the assembled view (Slice 60)", () => {
     const root = mount();
     root.querySelector<HTMLButtonElement>("#garment-tank")!.dispatchEvent(new Event("click"));

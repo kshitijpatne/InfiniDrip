@@ -6,7 +6,7 @@ import { Measurements, STANDARD_M, Piece, STRETCH_FABRICS, fabricEaseNote, Garme
 import { gradeRun, draftAtSize, specSheet, GARMENTS, GarmentRecipe, garmentByName } from "../drafting";
 import { blockPieces, rolePiece } from "../drafting";
 import { exportSvg, exportDxf, exportPdf, exportTechPack, exportProjectorSvg, exportA0Pdf, flattenPiece, nestPieces, gradedMarker } from "../export";
-import { renderBlueprint, renderGarment, renderNest, renderFabricNest, renderEditor, renderBodyPair, renderSkirtGarment, renderSkirtBody, DEFAULT_FABRIC } from "../render";
+import { renderBlueprint, renderGarment, renderNest, renderFabricNest, renderEditor, renderBodyPair, renderSkirtGarment, renderSkirtBody, renderSideCroquis, DEFAULT_FABRIC } from "../render";
 import { pieceHandles, moveHandle, nearestHandle, editorViewBox, viewboxPointToCm, Handle } from "../edit";
 import { dartOf, transferDart, trueSeam, edgesMeet } from "../drafting";
 import { BLUEPRINT } from "../render";
@@ -14,7 +14,7 @@ import { guide, Note } from "../guidance";
 import { garmentReport, implausibleFields, measurementsPlausible } from "../guidance";
 import { matchStyle, styleNames } from "../style";
 import { FIELDS, applyChange } from "./controls";
-import { appShellMarkup, controlsMarkup, guidanceMarkup, styleMarkup, specTableMarkup, checkMarkup, editorHintMarkup, dartControlsMarkup } from "./view";
+import { appShellMarkup, controlsMarkup, guidanceMarkup, styleMarkup, specTableMarkup, checkMarkup, editorHintMarkup, dartControlsMarkup, BodyCroquisView } from "./view";
 import { saveToStorage, loadFromStorage } from "./persist";
 import {
   JourneyStep, ViewName, COACHED_STEPS, disclosureFor, stepView, journeyChecklist,
@@ -55,6 +55,7 @@ export function mountApp(root: HTMLElement): void {
   let targetStyle = "Classic tee"; // the declared fit target (sets nothing)
   let stretchFabric = STRETCH_FABRICS[0]; // drives the ease guidance note
   let view: "pattern" | "body" | "nest" | "spec" | "fabric" | "check" | "edit" = "pattern";
+  let bodyCroquisView: BodyCroquisView = "front-back";
   let recipe: GarmentRecipe = GARMENTS[0]; // the garment every view is built from
   let editedFront: Piece | null = null; // freeform snapshot of the front (override, not parametric)
   let dragId: string | null = null; // handle being dragged
@@ -152,9 +153,11 @@ export function mountApp(root: HTMLElement): void {
       canvasHost.innerHTML = specTableMarkup(
         specSheet(graded, recipe.poms), graded.map((g) => g.label), baseIndex);
     } else if (view === "body") {
-      canvasHost.innerHTML = isTop
-        ? renderBodyPair(measurements, hasSleeve, recipe.frontNeckline?.(measurements), recipe.backNeckline?.(measurements), recipe.strapWidth?.(measurements), poloVisual())
-        : renderSkirtBody(measurements);
+      canvasHost.innerHTML = bodyCroquisView === "side"
+        ? renderSideCroquis(measurements, isTop ? "upper" : "lower")
+        : isTop
+          ? renderBodyPair(measurements, hasSleeve, recipe.frontNeckline?.(measurements), recipe.backNeckline?.(measurements), recipe.strapWidth?.(measurements), poloVisual())
+          : renderSkirtBody(measurements);
     } else {
       const block = draftCurrent();
       const pieces = blockPieces(block);
@@ -198,6 +201,21 @@ export function mountApp(root: HTMLElement): void {
     check: root.querySelector<HTMLButtonElement>("#view-check")!,
     edit: root.querySelector<HTMLButtonElement>("#view-edit")!,
   };
+  const bodyCroquisHost = root.querySelector<HTMLElement>("#body-croquis-toggle-host")!;
+  const bodyCroquisBtns = {
+    frontBack: root.querySelector<HTMLButtonElement>("#body-front-back")!,
+    side: root.querySelector<HTMLButtonElement>("#body-side")!,
+  };
+  const setBodyCroquisView = (v: BodyCroquisView): void => {
+    bodyCroquisView = v;
+    bodyCroquisBtns.frontBack.style.background = v === "front-back" ? BLUEPRINT.lineActive : BLUEPRINT.background;
+    bodyCroquisBtns.frontBack.style.color = v === "front-back" ? BLUEPRINT.background : BLUEPRINT.line;
+    bodyCroquisBtns.frontBack.setAttribute("aria-pressed", String(v === "front-back"));
+    bodyCroquisBtns.side.style.background = v === "side" ? BLUEPRINT.lineActive : BLUEPRINT.background;
+    bodyCroquisBtns.side.style.color = v === "side" ? BLUEPRINT.background : BLUEPRINT.line;
+    bodyCroquisBtns.side.setAttribute("aria-pressed", String(v === "side"));
+    draw();
+  };
   const setView = (v: "pattern" | "body" | "nest" | "spec" | "fabric" | "check" | "edit"): void => {
     if (v === "edit" && editedFront === null) editedFront = rolePiece(draftCurrent(), "front");
     view = v;
@@ -206,6 +224,7 @@ export function mountApp(root: HTMLElement): void {
       viewBtns[k].style.background = on ? BLUEPRINT.lineActive : BLUEPRINT.background;
       viewBtns[k].style.color = on ? BLUEPRINT.background : BLUEPRINT.line;
     });
+    bodyCroquisHost.style.display = v === "body" ? "flex" : "none";
     draw();
   };
   viewBtns.pattern.addEventListener("click", () => setView("pattern"));
@@ -215,6 +234,8 @@ export function mountApp(root: HTMLElement): void {
   viewBtns.fabric.addEventListener("click", () => setView("fabric"));
   viewBtns.check.addEventListener("click", () => setView("check"));
   viewBtns.edit.addEventListener("click", () => setView("edit"));
+  bodyCroquisBtns.frontBack.addEventListener("click", () => setBodyCroquisView("front-back"));
+  bodyCroquisBtns.side.addEventListener("click", () => setBodyCroquisView("side"));
 
   // Progressive disclosure: each journey step reveals only what it needs; the
   // advanced views stay one click away once unlocked, never front-loaded.
@@ -228,6 +249,7 @@ export function mountApp(root: HTMLElement): void {
     guidanceHost.style.display = d.guidance ? "" : "none";
     root.querySelector<HTMLElement>("#view-toggle-host")!.style.display =
       d.views.length > 0 ? "flex" : "none";
+    bodyCroquisHost.style.display = view === "body" && d.views.includes("body") ? "flex" : "none";
     (Object.keys(viewBtns) as ViewName[]).forEach((k) => {
       viewBtns[k].style.display = d.views.includes(k) ? "" : "none";
     });

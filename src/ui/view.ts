@@ -201,6 +201,23 @@ export function viewToggleMarkup(active: string): string {
     `${btn("view-edit", "Edit", active === "edit")}</div>`;
 }
 
+export type BodyCroquisView = "front-back" | "side";
+
+/** The Body view's projection selector. Side is intentionally a separate
+ * presentation mode because it is a schematic envelope, not another measured
+ * front/back panel. */
+export function bodyCroquisToggleMarkup(active: BodyCroquisView): string {
+  const btn = (id: string, label: string, on: boolean): string =>
+    `<button id="${id}" aria-pressed="${on}" style="padding:4px 10px;font-size:12px;cursor:pointer;` +
+    `background:${on ? T.lineActive : T.background};color:${on ? T.background : T.line};` +
+    `border:1px solid ${BORDER};border-radius:5px">${label}</button>`;
+  return `<div id="body-croquis-toggle-host" style="display:none;gap:6px;align-items:center;` +
+    `margin:0 0 4px 2px"><span style="font-size:11px;color:${T.label};text-transform:uppercase;` +
+    `letter-spacing:0.04em;margin-right:2px">Body figure</span>` +
+    `${btn("body-front-back", "Front + Back", active === "front-back")}` +
+    `${btn("body-side", "Side", active === "side")}</div>`;
+}
+
 export function garmentToggleMarkup(active: string): string {
   const btn = (g: { name: string; label: string }): string =>
     `<button id="garment-${g.name}" style="padding:6px 12px;font-size:13px;cursor:pointer;` +
@@ -325,7 +342,7 @@ export function appShellMarkup(m: Measurements, fabric: string, sizes: readonly 
     `${controlsMarkup(m, fields)}` +
     `<div style="flex:1;min-width:300px;display:flex;flex-direction:column;gap:6px">` +
     `<div id="journey-host"></div>` +
-    `${viewToggleMarkup("pattern")}${garmentToggleMarkup("tee")}${fabricStretchMarkup(STRETCH_FABRICS[0].name)}` +
+    `${viewToggleMarkup("pattern")}${bodyCroquisToggleMarkup("front-back")}${garmentToggleMarkup("tee")}${fabricStretchMarkup(STRETCH_FABRICS[0].name)}` +
     `${fabricWidthMarkup(150)}` +
     `<div id="canvas-host"></div>${fabricSwatchesMarkup(fabric)}${exportButtonsMarkup(sizes)}` +
     `<div id="garment-host"></div></div>` +

@@ -114,6 +114,15 @@ figure; the side path remains a schematic profile until side measurements exist.
 This is still render-only and cannot feed drafting, grading, checks, nesting,
 Edit, or exports. Visible Side UI remains Slice 82.
 
+Slice 82: the Body view has a separate `Front + Back` / `Side` presentation
+selector. `render/croquis-view.ts` frames the shared `upperCroquisPath()` or
+`lowerCroquisPath()` side envelope and labels it `SIDE · SCHEMATIC`. It emits no
+measurement dimensions or edge spotlight groups because the product has no
+side-specific measurements. The selector is UI-only state: changing it does not
+touch the drafting model, recipe options, grading, checks, nesting, Edit, or any
+export writer. Returning to Front + Back restores the existing annotated
+upper/lower renderers unchanged.
+
 Slice 75: the root `tsconfig.json` is type-check-only (`noEmit: true`). Vite is
 the sole renderer build, so `npm run build` cannot place compiled `.js` siblings
 beside TypeScript sources and alter Vite's module-resolution choice for a dev

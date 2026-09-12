@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 81 (Phase C3 lower-body croquis routing).
+_Last updated: after Slice 82 (Phase C3 visible Side view).
 Tank rework
 step 4 is complete for automated and rendered verification; physical sewn
 validation has not occurred and is intentionally deferred. Update this after
@@ -313,6 +313,17 @@ F1. **(Fable) Real-world export system** — two new writers on the existing exp
     data-model, Piece/Block, grading, checks, nesting, Edit, or export-writer
     changes were made; the legacy export hashes remain unchanged. Side UI
     remains Slice 82. Physical sampling remains deferred.
+82. Phase C3 visible Side view — the Body view now has an explicit `Front + Back`
+    / `Side` selector. Side renders route through the shared upper/lower croquis
+    paths for Tee, Darted tee, Tank, Polo, and Skirt, with a visible
+    `SIDE · SCHEMATIC` label and no measurement dimensions or edge spotlight
+    groups because no side-specific measurements exist. The existing annotated
+    Front + Back mode remains intact, including Tank and Polo behavior, and
+    switching between upper and lower garments preserves the render-only Side
+    mode. No drafting, data-model, grading, checks, nesting, Edit, or export
+    changes were made; the legacy export hashes remain unchanged. Cross-garment
+    render-contract coverage remains Slice 83 work. Physical sampling remains
+    deferred.
 63. Tank rework, step 3 — real strap/armhole geometry for the tank, AND a
     scope change requested by Kshitij mid-slice that reshaped the whole
     approach: rather than the engine picking a single "correct" strap width
@@ -1736,3 +1747,4 @@ s63=790 (25 new: 8 in the new armhole.test.ts (strap/underarm points, cuts-in-vs
 s74=858 (2 new tests: readable Polo shelf layout and Polo option-to-Body-feature spotlight; shared Polo schematic refactor and browser visual audit; full coverage remains 100%, legacy export hashes unchanged)
 s80=871 (3 new upper-body croquis contract/parity tests; Body now consumes shared upper figure paths and anchors; 67 files, 100% coverage, production build, and live Tee/Tank/Polo Body renders verified; legacy export hashes unchanged)
 s81=873 (2 new lower-body croquis contract/parity tests; Skirt Body now consumes the shared lower silhouette and anchors while cloth remains skirt-owned; 67 files, 100% coverage, production build, and live Skirt Body render verified; legacy export hashes unchanged)
+s82=877 (4 new side-view render/UI tests; Body exposes Front + Back / Side, upper and lower Side paths are rendered from the shared croquis library, and the live UI was checked for Tee and Skirt; 68 files, 100% coverage, production build, and legacy export hashes unchanged)

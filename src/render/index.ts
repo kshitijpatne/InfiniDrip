@@ -11,5 +11,6 @@ export * from "./fabric";
 export * from "./editor";
 export * from "./body";
 export * from "./croquis";
+export * from "./croquis-view";
 export * from "./neckline-path";
 export * from "./pattern-mark";

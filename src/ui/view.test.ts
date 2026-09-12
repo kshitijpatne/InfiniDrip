@@ -3,7 +3,7 @@ import { STANDARD_M, GARMENTS, TSHIRT_SIZES, TEE } from "../drafting";
 import { garmentToggleMarkup, dartControlsMarkup, exportButtonsMarkup } from "./view";
 import { DEFAULT_FABRIC, BLUEPRINT } from "../render";
 import { matchStyle, styleNames, TEE_STYLES } from "../style";
-import { controlsMarkup, appShellMarkup, guidanceMarkup, styleMarkup, fabricSwatchesMarkup, specTableMarkup, viewToggleMarkup, fabricWidthMarkup, checkMarkup, editorHintMarkup } from "./view";
+import { controlsMarkup, appShellMarkup, guidanceMarkup, styleMarkup, fabricSwatchesMarkup, specTableMarkup, viewToggleMarkup, bodyCroquisToggleMarkup, fabricWidthMarkup, checkMarkup, editorHintMarkup } from "./view";
 import { buildReport, present } from "../guidance";
 
 describe("controlsMarkup", () => {
@@ -90,6 +90,17 @@ describe("viewToggleMarkup", () => {
     const html = viewToggleMarkup("edit");
     expect(html).toContain('id="view-edit"');
     expect(html).toContain(">Edit<");
+  });
+});
+
+describe("bodyCroquisToggleMarkup", () => {
+  it("offers Front + Back and Side modes with the active mode pressed", () => {
+    const html = bodyCroquisToggleMarkup("side");
+    expect(html).toContain('id="body-front-back"');
+    expect(html).toContain('id="body-side"');
+    expect(html).toContain('aria-pressed="false"');
+    expect(html).toContain('aria-pressed="true"');
+    expect(html).toContain(">Side<");
   });
 });
 
