@@ -3,6 +3,29 @@
 _Last updated: FC-01 functional consistency audit, 2026-09-12; the BUGFIX
 phase and pre-Epic 3 consistency extension passed._
 
+## Current status — Epic 3 Slice 94
+
+The actual `main` checkout was re-verified before Epic 3: tracked files are
+clean, `main` matches `origin/main`, the BUGFIX P1/P2/P3 and FC-01 records are
+closed, and no trouser implementation is present. The baseline passes the full
+digital test/type/build/export gates recorded below, including 100% coverage
+and all eight unchanged legacy export hashes. Preserved untracked logs and
+`tmp/` evidence remain user artifacts and were not touched.
+
+Slice 94 is complete as a research/contract foundation. It adds
+`docs/research/garments/TROUSER-RESEARCH.md` and
+`docs/planning/EPIC-3-EXECUTION.md`, and records the reusable relaxed casual
+straight-leg scope: explicit lower-body measurements, recipe-owned rise/
+waistband/leg/closure/pocket controls, four-panel leg roles, separate
+waistband, simple front fly, minimal paired pocket bags, guidance/grading/POM/
+export/persistence contracts, and later shorts/jogger relationships. No
+implementation code, output writer, or legacy baseline changed in Slice 94.
+
+Next safe action is Slice 95: add the documented lower-body data model and
+recipe options with migration, facets, guidance, and focused tests. Do not
+start geometry until the Slice 95 contract tests pass. Physical validation,
+surface design, Polo V2, and production-readiness claims remain deferred.
+
 The independent functional-consistency audit now closes BUG-UI-032 through
 BUG-UI-034. Woven Body front/back inspection uses its real lower shaping and
 highlights the waist/hip/hip-depth seam references; switching between upper and
@@ -1917,3 +1940,4 @@ s84=883 (no new tests; final Phase C3 exit gate passed with 69 test files, 100% 
 s85=883 (research-only; full coverage/typecheck/build and parsed export suite pass; eight legacy hashes unchanged; no implementation diff)
 s92=911 (complete woven-shirt recipe and UI/render/export integration; 71 test files, 100% statements/branches/functions/lines, TypeScript/production build, parsed export suites, and unchanged legacy hashes; physical validation remains on hold)
 s93=918 (component-library exit audit complete; 72 test files, 100% statements/branches/functions/lines, TypeScript/production build, parsed SVG/DXF/PDF/projector/tech-pack consumers, and unchanged legacy hashes; physical validation remains on hold)
+s94: no test-count change (research/contract foundation only; trouser implementation has not started)

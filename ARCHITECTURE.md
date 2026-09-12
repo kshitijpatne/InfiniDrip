@@ -3,6 +3,30 @@
 How the app fits together, in plain language. Read the top to re-orient; skim the
 layers when you need detail. Updated every slice with only need-to-know changes.
 
+## Current Epic 3 boundary — Slice 94
+
+The pre-Epic 3 checkout and BUGFIX/FC-01 exit are verified on the actual
+`main` branch. The first trouser is a separate reusable relaxed casual
+straight-leg woven recipe. Its durable research and contract live in
+`docs/research/garments/TROUSER-RESEARCH.md`; the slice-by-slice execution and
+exit gate live in `docs/planning/EPIC-3-EXECUTION.md`.
+
+Slice 94 changes documentation only. The future lower-body contract adds
+explicit body `crotchDepth`, `thigh`, and `knee` measurements plus a finished
+`inseam`, while preserving the existing upper-body meaning of `length`. The
+trouser recipe owns numeric front/back rise ease, waistband depth, thigh/knee
+ease, leg opening, fly, and pocket controls. The draft will own four explicit
+front/back leg roles, a separate full waistband, a simple fly shield, and
+paired pocket bags; it will not silently reuse skirt, top, or render-only
+geometry.
+
+The lower-body body-vs-finished distinction, raw invalid-input behavior,
+recipe-owned option persistence, size grading, named interfaces, and generic
+output consumers remain shared architecture. Exact crotch curves, fly/pocket
+outlines, and allowance values are implementation decisions for Slices 96–98
+and must be recorded/tested before use. Digital geometry/checks are not fit or
+physical validation; surface design remains a later independent Epic.
+
 BF-P1-02: the UI's current design verdict combines input validity, all recipe/
 plausibility guidance and geometric checks. Check, Style, journey and all six
 export handlers share this gate; failed geometric checks also reach Guidance.
