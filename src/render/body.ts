@@ -16,8 +16,8 @@
 import { Measurements, derive, necklineEdge, NecklineParams, NECKLINE_DEFAULT } from "../drafting";
 import { BLUEPRINT as T } from "./theme";
 import { armholePathCommand, necklinePathCommand } from "./neckline-path";
-import { sleevelessArmhole } from "../drafting/armhole";
 import { poloDetailsSvg } from "./polo-details";
+import { upperCroquisFigure } from "./croquis";
 
 export interface PoloBodyVisual {
   readonly placketLength: number;
@@ -66,8 +66,6 @@ function seg(x1: number, y1: number, x2: number, y2: number, width: number): str
     `vector-effect="non-scaling-stroke"/>`;
 }
 
-const lerp = (a: number, b: number, t: number): number => a + (b - a) * t;
-
 /** The body view: an annotated upper-body figure, measurement-honest.
  *  `hasSleeve` (Slice 60): a sleeveless garment (a tank) passes `false` — no
  *  arm quad, no Sleeve/Bicep dimension lines or edges, since neither
@@ -93,57 +91,18 @@ export function renderBody(
   strapWidth?: number, position: "front" | "back" = "front", polo?: PoloBodyVisual
 ): string {
   const d = derive(m);
-  const shoulderHalf = d.shoulderHalf;
-  const bodyHalf = d.chestWidthHalf; // the real half-width the pattern drafts, not an independent guess
-  const ad = m.armholeDepth;
-  const len = m.length;
-  const slope = m.shoulderWidth * 0.07; // a gentle shoulder fall (schematic)
 
   // The real front collar geometry — the same necklineEdge() the actual
   // bodice draft calls, so this view can't silently diverge from it again.
   const { cNeck, hps, edge: neckEdge } =
-    necklineEdge(position, d.neckWidthHalf, position === "front" ? d.frontNeckDepth : d.backNeckDepth, shoulderHalf, ad, frontNeckline);
-  const neckHalf = hps.x; // where the collar meets the shoulder — real, not a proportion of shoulderWidth
-  const strapX = strapWidth === undefined ? shoulderHalf : neckHalf + strapWidth;
-  const tankArmhole = !hasSleeve && strapWidth !== undefined
-    ? sleevelessArmhole(strapX, neckHalf, shoulderHalf, d.shoulderSlope, bodyHalf, ad).edge
-    : null;
-
-  const headR = m.shoulderWidth * 0.17;
-  const neckLen = m.shoulderWidth * 0.08;
-  const headCy = -(neckLen + headR);
-  const headTop = headCy - headR;
-
-  // arm limb geometry (depicts the sleeve reach — a measured value — not full arm)
-  const dx = m.sleeveLength * 0.55;
-  const dy = m.sleeveLength * 0.92;
-  const w = m.bicep * 0.28;
-
-  // Right-arm quad: shoulder tip → outer cuff → inner cuff → armpit.
-  const a1 = { x: shoulderHalf, y: slope };
-  const a2 = { x: shoulderHalf + dx + w * 0.5, y: slope + dy };
-  const a3 = { x: shoulderHalf + dx - w * 0.5, y: slope + dy + w };
-  const a4 = { x: bodyHalf, y: ad };
-  const armPath = (sx: number): string =>
-    `<path d="M ${round(sx * a1.x)} ${round(a1.y)} L ${round(sx * a2.x)} ${round(a2.y)} ` +
-    `L ${round(sx * a3.x)} ${round(a3.y)} L ${round(sx * a4.x)} ${round(a4.y)} Z" ` +
-    `fill="${T.fill}" stroke="${T.line}" stroke-width="1.2" stroke-linejoin="round" ` +
-    `vector-effect="non-scaling-stroke"/>`;
-
-  // Torso outline (straight sides — no waist taper, because none is measured).
-  const torso = [
-    `M ${round(neckHalf)} 0`,
-    `L ${round(strapX)} ${round(slope)}`,
-    tankArmhole ? armholePathCommand(tankArmhole) : `L ${round(bodyHalf)} ${round(ad)}`,
-    `L ${round(bodyHalf)} ${round(len)}`,
-    `L ${round(-bodyHalf)} ${round(len)}`,
-    `L ${round(-bodyHalf)} ${round(ad)}`,
-    tankArmhole ? armholePathCommand(tankArmhole, true) : `L ${round(-strapX)} ${round(slope)}`,
-    `L ${round(-neckHalf)} 0`,
-    necklinePathCommand(cNeck, hps, neckEdge), // the real collar: crew, v, or scoop
-    "Z",
-  ].join(" ");
-  const torsoPath = `<path d="${torso}" fill="${T.fill}" stroke="${T.line}" ` +
+    necklineEdge(position, d.neckWidthHalf, position === "front" ? d.frontNeckDepth : d.backNeckDepth, d.shoulderHalf, m.armholeDepth, frontNeckline);
+  const croquis = upperCroquisFigure(m, position, {
+    hasSleeve, strapWidth, neckline: { cNeck, hps, edge: neckEdge },
+  });
+  const { bodyHalf, shoulderHalf, neckHalf, strapX, slope, armholeDepth: ad, length: len,
+    headR, headCy, headTop, neckLen, rightDimX, leftDimX, a1, a2, a3, bOut, bIn } = croquis.anchors;
+  const tankArmhole = croquis.armhole;
+  const torsoPath = `<path d="${croquis.torsoPath}" fill="${T.fill}" stroke="${T.line}" ` +
     `stroke-width="1.4" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>`;
 
   // Faint head + neck: orientation only, carries no measurement.
@@ -155,12 +114,6 @@ export function renderBody(
 
   // Dimension lines for the raw inputs. The right/left margins only need to
   // clear the arm's reach when there IS an arm to draw.
-  const armMaxX = shoulderHalf + dx + w * 0.5;
-  const rightDimX = (hasSleeve ? armMaxX : bodyHalf) + 6;
-  const leftDimX = -rightDimX;
-  const bOut = { x: lerp(a1.x, a2.x, 0.3), y: lerp(a1.y, a2.y, 0.3) };
-  const bIn = { x: lerp(a4.x, a3.x, 0.3), y: lerp(a4.y, a3.y, 0.3) };
-
   // Each dimension is wrapped in a group tagged with the measurement FIELD it
   // reads, so the UI can highlight "the chest line" when the chest slider is
   // focused. `ease` has no body dimension — it isn't a body measurement.
@@ -233,7 +186,9 @@ export function renderBody(
   const width = maxX - minX;
   const height = maxY - minY;
 
-  const arms = hasSleeve ? armPath(1) + armPath(-1) : "";
+  const arms = croquis.armPaths.map((path) =>
+    `<path d="${path}" fill="${T.fill}" stroke="${T.line}" stroke-width="1.2" stroke-linejoin="round" ` +
+    `vector-effect="non-scaling-stroke"/>`).join("");
   const poloDetails = position === "front" && polo ? poloDetailsSvg({
     neckWidthHalf: d.neckWidthHalf, frontNeckDepth: d.frontNeckDepth,
     shoulderHalf, armholeDepth: ad, neckline: frontNeckline, ...polo,

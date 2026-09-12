@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 79 (Phase C3 croquis library).
+_Last updated: after Slice 80 (Phase C3 upper-body croquis routing).
 Tank rework
 step 4 is complete for automated and rendered verification; physical sewn
 validation has not occurred and is intentionally deferred. Update this after
@@ -289,8 +289,19 @@ F1. **(Fable) Real-world export system** — two new writers on the existing exp
     scaffolding separate from drafting and exports; side figures are available
     as honest schematic envelopes but are not exposed as a new UI tab in this
     slice. Existing Body and assembled outputs remain unchanged. No measurement,
-    Piece/Block, grading, export, or Edit-model changes were made. Next: Slice 80
-    requires a new scope decision; physical sampling remains deferred.
+    Piece/Block, grading, export, or Edit-model changes were made. Slice 80
+    routes the existing upper-body Body renderer through the new contract;
+    physical sampling remains deferred.
+80. Phase C3 upper-body croquis routing — `upperCroquisFigure()` now owns the
+    annotated Body view's upper-body torso and sleeve paths plus the anchors
+    consumed by its measurement overlays. Front/back recipe-aware necklines,
+    Tank strap/armhole geometry, and Polo's schematic details remain live at
+    their existing boundaries. Tee output paths and Body measurement/edge tags
+    were checked against the pre-slice render; Tank and Polo were re-rendered
+    in the live app. No drafting, data-model, Piece/Block, grading, checks,
+    nesting, Edit, or export-writer changes were made; the 8/8 legacy export
+    hashes remain unchanged. Side UI remains Slice 82 and lower-body routing
+    remains Slice 81. Physical sampling remains deferred.
 63. Tank rework, step 3 — real strap/armhole geometry for the tank, AND a
     scope change requested by Kshitij mid-slice that reshaped the whole
     approach: rather than the engine picking a single "correct" strap width
@@ -1712,3 +1723,4 @@ s61=764 (14 new: 3 body.test.ts (chest-width sync, real front-collar geometry, s
 s62=765 (net +1: neckline.test.ts's crew "different control-point factors" test replaced with a right-angle-tangent proof (front AND back), its scoop-specific tests replaced with a byte-identical-to-crew-at-same-depth/width proof; tank.test.ts's scoop-vs-crew test rewritten for depth-only distinction + 1 new shoulder-alignment test (net +1 here); neckline-path.test.ts's mirror test fixed for a rounding-precision false failure, not a real bug. regression.test.ts's tee/fitted SVG/DXF/PDF/tech-pack baseline DELIBERATELY regenerated — Kshitij's explicit sign-off requested and given before building, since the old baseline encoded the exact spiked curve being fixed; this is only the 2nd time since Slice 34 this baseline has moved (1st: Slice 45's tech-pack-only page addition). 0 new files, 7 modified (neckline.ts, neckline.test.ts, tank.ts, tank.test.ts, recipe.ts, neckline-path.test.ts, regression.test.ts); verified on a fresh clone via plain `git apply` + full gate + production build, not just in the working copy; every OTHER test (structure, stitch-matching, POMs, checks) passed unmodified, confirming the blast radius is exactly the neckline curve's shape)
 s63=790 (25 new: 8 in the new armhole.test.ts (strap/underarm points, cuts-in-vs-straight-line proof, guardrails) + 8 tank.test.ts (strapWidth/neckDrop actually wired into the real drafted edges, front-only neckDrop, both new guardrails surfacing through tankGuidance) + 3 persist.test.ts (round-trip + pre-Slice-63 lenient load + out-of-range default, mirroring hipDepth's own precedent) + 3 body.test.ts (real strap point, byte-identical when omitted, moves with strapWidth) + 3 garment.test.ts (same, both panels); 2 new files (drafting/armhole.ts, drafting/armhole.test.ts), 17 modified (measurements.ts, plausibility.ts, controls.ts, facets.ts, drafting/index.ts, bodice.ts, tank.ts, tank.test.ts, recipe.ts, recipe.test.ts, app.ts, persist.ts, persist.test.ts, render/body.ts, render/body.test.ts, render/garment.ts, render/garment.test.ts); regression.test.ts's 8/8 baseline untouched by construction (never touches tshirt.ts/fitted.ts output); verified on a fresh clone via plain `git apply` + full gate + production build + all three views (body/garment/actual pattern) re-rendered and visually cross-checked at 3 strap widths, front and back matching at every one)
 s74=858 (2 new tests: readable Polo shelf layout and Polo option-to-Body-feature spotlight; shared Polo schematic refactor and browser visual audit; full coverage remains 100%, legacy export hashes unchanged)
+s80=871 (3 new upper-body croquis contract/parity tests; Body now consumes shared upper figure paths and anchors; 67 files, 100% coverage, production build, and live Tee/Tank/Polo Body renders verified; legacy export hashes unchanged)

@@ -93,6 +93,17 @@ grading, checks, nesting, or exports. Existing annotated Body and assembled
 renderers remain unchanged in this extraction slice; a future UI slice may
 expose side views after defining their product contract.
 
+Slice 80: `upperCroquisFigure()` is now the shared upper-body render contract
+for the annotated Body view. It owns the measured torso and sleeve paths and
+returns the anchors used by Body's dimensions and measurement-to-edge overlays.
+`render/body.ts` still owns SVG styling, labels, overlays, and Polo detail
+composition; it resolves each recipe's real neckline and passes that geometry
+into the contract. Tank's sleeveless armhole and strap point remain recipe/live
+measurement-aware. This preserves the existing Tee/Tank/Polo Body output while
+making the figure geometry reusable. The contract remains render-only: no
+drafting, data model, grading, checks, nesting, Edit, or export writer consumes
+it. Lower-body routing is Slice 81 and visible Side UI is Slice 82.
+
 Slice 75: the root `tsconfig.json` is type-check-only (`noEmit: true`). Vite is
 the sole renderer build, so `npm run build` cannot place compiled `.js` siblings
 beside TypeScript sources and alter Vite's module-resolution choice for a dev

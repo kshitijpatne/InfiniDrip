@@ -3,6 +3,7 @@ import { describe, it, expect } from "vitest";
 import { STANDARD_M, derive, necklineEdge, NECKLINE_DEFAULT } from "../drafting";
 import { tankFrontNeckline, tankBackNeckline } from "../drafting/tank";
 import { renderBody, renderBodyPair } from "./body";
+import { upperCroquisFigure } from "./croquis";
 
 const svg = renderBody(STANDARD_M);
 
@@ -52,6 +53,17 @@ describe("renderBody", () => {
     const short = viewBoxOf(renderBody({ ...STANDARD_M, length: 60 }));
     const long = viewBoxOf(renderBody({ ...STANDARD_M, length: 90 }));
     expect(long[3]).toBeGreaterThan(short[3]); // viewBox height
+  });
+
+  it("takes its torso and arm paths from the shared upper croquis contract", () => {
+    const d = derive(STANDARD_M);
+    const neckline = necklineEdge(
+      "front", d.neckWidthHalf, d.frontNeckDepth, d.shoulderHalf, STANDARD_M.armholeDepth, NECKLINE_DEFAULT);
+    const figure = upperCroquisFigure(STANDARD_M, "front", { neckline });
+    const paths = [...new DOMParser().parseFromString(svg, "image/svg+xml").querySelectorAll("path")]
+      .map((p) => p.getAttribute("d"));
+
+    expect(paths).toEqual([...figure.armPaths, figure.torsoPath]);
   });
 });
 
