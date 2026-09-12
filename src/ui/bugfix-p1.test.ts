@@ -93,6 +93,9 @@ describe("P1 input truth", () => {
     const root = mount();
     click(root, "welcome-skip");
     click(root, "garment-woven-shirt");
+    const material = root.querySelector<HTMLSelectElement>("#stretch-select")!;
+    material.value = "Cotton woven";
+    material.dispatchEvent(new Event("change", { bubbles: true }));
     click(root, "view-check");
     input(root, '[data-option="buttonCount"]', "6.5");
     expect(root.querySelector("#guidance-host")!.textContent).toContain("to review");
