@@ -38,6 +38,16 @@ garment drafts and export bytes remain untouched. The full checkpoint is 74
 test files / 969 tests at 100% coverage with typecheck/build, parsed outputs,
 and unchanged legacy hashes.
 
+Slice 96 adds the reusable `draftTrouserLegs()` geometry without registering a
+recipe or changing an existing writer. Four off-fold roles (`frontLeft`,
+`frontRight`, `backLeft`, `backRight`) use quartered finished station widths;
+the side and inner-leg paths are shared for exact seam matching, while named
+front/back cubic crotch curves end at independently derived rise references.
+The live draft exposes waist, seat, hip depth, thigh, knee, inseam, leg opening,
+rise, grain, and crease changes through real edges/marks. Focused tests pass
+7/7 plus typecheck; waistband, fly, pocket, UI, and full output integration
+remain later slices.
+
 BF-P1-02: the UI's current design verdict combines input validity, all recipe/
 plausibility guidance and geometric checks. Check, Style, journey and all six
 export handlers share this gate; failed geometric checks also reach Guidance.

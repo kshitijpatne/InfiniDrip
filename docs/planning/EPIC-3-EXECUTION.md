@@ -111,6 +111,8 @@ or trouser geometry was registered.
 
 ### Slice 96 — reusable straight-leg leg block
 
+Status: **complete** (geometry checkpoint; focused tests 7/7).
+
 Scope: implement the lower-body draft with explicit front/back rise and
 crotch/seat shaping, four leg roles, landmarks, grain/crease marks, and named
 leg interfaces. Resolve and record the transparent curve approximation before
@@ -138,6 +140,13 @@ relationships.
 
 Verification: focused draft/component geometry tests and direct rendered
 pattern inspection before integrating further.
+
+Evidence: `draftTrouserLegs()` is exported as a standalone drafting contract;
+its 7 focused geometry/render tests and `npx tsc --noEmit` pass. The test
+renders the actual four-piece blueprint string and verifies labels/closed
+curves. No recipe, application route, export writer, or legacy baseline changed;
+the full integration gate is intentionally pending until the remaining
+components are assembled.
 
 ### Slice 97 — separate waistband and simple closure
 

@@ -3,7 +3,7 @@
 _Last updated: FC-01 functional consistency audit, 2026-09-12; the BUGFIX
 phase and pre-Epic 3 consistency extension passed._
 
-## Current status — Epic 3 Slice 94
+## Current status — Epic 3 Slice 96
 
 The actual `main` checkout was re-verified before Epic 3: tracked files are
 clean, `main` matches `origin/main`, the BUGFIX P1/P2/P3 and FC-01 records are
@@ -30,8 +30,16 @@ passes 74 files / 969 tests, 100% coverage, TypeScript, production build,
 parsed export suites, and all eight unchanged legacy hashes. No trouser recipe
 or geometry is registered yet.
 
-Next safe action is Slice 96: resolve and implement the documented reusable
-straight-leg leg block. Physical validation, surface design, Polo V2, and
+Slice 96 is complete as the geometry-only reusable leg-block checkpoint. The
+new `draftTrouserLegs()` consumes the live lower-body fields and trouser
+options, drafts four off-fold front/back panels with shared sewable side and
+inseam paths, separate front/back crotch Béziers, explicit rise endpoints, and
+hip/thigh/knee/hem/grain/crease landmarks. Focused geometry/render tests pass
+7/7 and TypeScript passes; the full integration gate remains pending until the
+block is assembled with its waistband, closure, and pockets.
+
+Next safe action is Slice 97: add and verify the separate trouser waistband and
+simple front closure. Physical validation, surface design, Polo V2, and
 production-readiness claims remain deferred.
 
 The independent functional-consistency audit now closes BUG-UI-032 through
@@ -1950,3 +1958,6 @@ s92=911 (complete woven-shirt recipe and UI/render/export integration; 71 test f
 s93=918 (component-library exit audit complete; 72 test files, 100% statements/branches/functions/lines, TypeScript/production build, parsed SVG/DXF/PDF/projector/tech-pack consumers, and unchanged legacy hashes; physical validation remains on hold)
 s94: no test-count change (research/contract foundation only; trouser implementation has not started)
 s95=969 (shared lower-body fields/options/facets/plausibility/persistence contract; 74 test files, 100% coverage, TypeScript/build, parsed export suites, and unchanged legacy hashes; trouser geometry remains unregistered)
+s96: 7 focused geometry/render tests pass and TypeScript passes; the reusable
+leg block is not yet registered with the application/export pipeline, so the
+full Epic 3 integration gate remains pending

@@ -195,6 +195,33 @@ The exact curve control points, seam allowance values, and fly/pocket piece
 outline are resolved in Slices 96–98 from this contract. They are not copied
 from the skirt or a top garment and are not hidden in a render-only overlay.
 
+### Slice 96 geometry resolution
+
+Before implementation, the first digital approximation is fixed as follows:
+
+- Each leg panel uses a quarter of the finished waist/seat/thigh/knee/leg-
+  opening circumference at its named horizontal station. The side profile is
+  shared by front and back so the side seams match; the straight-leg lower
+  profile transitions through the hip, upper-thigh, knee, and hem stations.
+- The front and back panels share the inner-leg/knee/hem path and its crotch
+  point so the paired inseams match exactly. The front `centerFront` crotch
+  endpoint uses `crotchDepth + frontRiseEase - waistbandDepth`; the back
+  `centerBack` endpoint uses `crotchDepth + backRiseEase - waistbandDepth`.
+  The shared inner crotch point is anchored to the back-rise station, so the
+  extra front/back balance is expressed in the two named crotch curves rather
+  than by making the sewn inseams different lengths.
+- The front crotch curve is a named cubic Bézier with a shallower, less
+  projecting control path; the back curve is a separate named cubic Bézier
+  with more projection and depth. The control points are transparent recipe
+  geometry and are tested through their real edge lengths/paths.
+- All four leg pieces are off fold in V1. This makes the center-front fly and
+  center-back seam explicit; it is a V1 role choice, not a claim that every
+  trouser must use four panels.
+
+This resolution closes the Slice 96 curve/panel ambiguity for digital work.
+It does not establish physical fit, crotch comfort, or production readiness;
+those remain deferred until the maintainer explicitly reopens sampling.
+
 ## Guidance and invalid combinations
 
 Guidance warns without clamping or replacing a value. It should identify the

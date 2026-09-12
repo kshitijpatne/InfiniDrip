@@ -33,3 +33,4 @@ export * from "./polo";
 export * from "./shirt-contract";
 export * from "./shirt";
 export * from "./trouser-contract";
+export * from "./trouser";
