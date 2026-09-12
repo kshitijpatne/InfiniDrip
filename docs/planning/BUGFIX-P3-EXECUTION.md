@@ -52,8 +52,8 @@ Focused verification and live evidence are recorded after implementation.
 
 ## BF-P3-03 — Closed
 
-Implementation: BF-P3-03 behavior commit (immutable reference recorded after
-the slice commit).
+Implementation: `2f054b7` (`Slice BF-P3-03: strengthen product hierarchy and
+swatch naming [BUG-UI-031]`).
 
 The shell now presents a visible InfiniDrip product heading in a main landmark
 with a concise workspace subtitle. The Color group is named by its visible

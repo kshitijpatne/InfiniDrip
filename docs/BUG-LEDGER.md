@@ -680,8 +680,8 @@ No console runtime errors were observed during that audit.
   visible naming. Sources: `src/ui/view.ts:29`, `src/ui/view.ts:88`.
 - Done when: the product and major sections have a clear visual/semantic
   hierarchy and color choices are discoverable without hover.
-- Fix slice: BF-P3-03. Commit/PR: BF-P3-03 behavior commit (immutable
-  reference recorded after the slice commit).
+- Fix slice: BF-P3-03. Commit/PR: `2f054b7` (`Slice BF-P3-03: strengthen
+  product hierarchy and swatch naming [BUG-UI-031]`).
 - Root cause confirmed: the shell had no product-level heading and the color
   group was named independently of its visible label. Panel headings were also
   part of the earlier hierarchy gap and are now semantic headings from P2. The
