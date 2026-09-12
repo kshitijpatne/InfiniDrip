@@ -171,6 +171,17 @@ describe("assembledPreviewMarkup", () => {
   });
 });
 
+describe("appShellMarkup garment routing (Slice 100)", () => {
+  it("accepts the active recipe instead of assuming Tee is selected", () => {
+    const html = appShellMarkup(STANDARD_M, DEFAULT_FABRIC, TSHIRT_SIZES, [
+      "waist", "hip", "hipDepth", "crotchDepth", "thigh", "knee", "inseam", "ease",
+    ], "Cotton woven", "trouser");
+    expect(html).toContain('id="garment-trouser"');
+    expect(html).toMatch(/id="garment-trouser"[^>]*aria-pressed="true"/);
+    expect(html).toMatch(/id="garment-tee"[^>]*aria-pressed="false"/);
+  });
+});
+
 describe("editorHintMarkup", () => {
   it("explains the override and offers a Reset button", () => {
     const html = editorHintMarkup();

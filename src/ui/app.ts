@@ -6,7 +6,7 @@ import { Measurements, STANDARD_M, Piece, STRETCH_FABRICS, fabricEaseNote, Garme
 import { gradeRun, draftAtSize, specSheet, GARMENTS, GarmentRecipe, garmentByName } from "../drafting";
 import { blockPieces, rolePiece } from "../drafting";
 import { exportSvg, exportDxf, exportPdf, exportTechPack, exportProjectorSvg, exportA0Pdf, flattenPiece, nestPieces, gradedMarker } from "../export";
-import { renderBlueprint, renderGarment, renderNest, renderFabricNest, renderEditor, renderBody, renderBodyPair, renderSkirtGarment, renderSkirtBody, renderSideCroquis, DEFAULT_FABRIC } from "../render";
+import { renderBlueprint, renderGarment, renderNest, renderFabricNest, renderEditor, renderBody, renderBodyPair, renderSkirtGarment, renderSkirtBody, renderTrouserGarment, renderTrouserBody, renderTrouserBodyPair, renderTrouserSide, renderSideCroquis, DEFAULT_FABRIC } from "../render";
 import { pieceHandles, moveHandle, nearestHandle, editorViewBox, viewboxPointToCm, Handle } from "../edit";
 import { dartOf, transferDart, trueSeam, edgesMeet } from "../drafting";
 import { BLUEPRINT } from "../render";
@@ -43,7 +43,7 @@ export function mountApp(root: HTMLElement): void {
     stretchFabric: defaultStretchFabricForGarment(DEFAULT_WORKSPACE.garment),
   };
   let recipe: GarmentRecipe = garmentByName(initialWorkspace.garment);
-  root.innerHTML = appShellMarkup(measurements, fabric, recipe.sizes, recipe.fields, initialWorkspace.stretchFabric);
+  root.innerHTML = appShellMarkup(measurements, fabric, recipe.sizes, recipe.fields, initialWorkspace.stretchFabric, recipe.name);
 
   const canvasHost = root.querySelector<HTMLDivElement>("#canvas-host")!;
   const garmentHost = root.querySelector<HTMLDivElement>("#garment-host")!;
@@ -93,8 +93,8 @@ export function mountApp(root: HTMLElement): void {
     return errors;
   };
   const materialCompatibilityNote = (): Note | null =>
-    recipe.name === "woven-shirt" && stretchFabric.family === "knit"
-      ? { level: "warn", field: "stretchFabric", text: "Woven shirt is drafted for stable woven material; choose Cotton woven or Linen, or review the construction before using a knit." }
+    (recipe.name === "woven-shirt" || recipe.name === "trouser") && stretchFabric.family === "knit"
+      ? { level: "warn", field: "stretchFabric", text: `${recipe.label} is drafted for stable woven material; choose Cotton woven or Linen, or review the construction before using a knit.` }
       : null;
   // Include recipe warnings without changing the geometry-only export report.
   const designValid = (): boolean => inputErrors().size === 0
@@ -280,10 +280,10 @@ export function mountApp(root: HTMLElement): void {
       renderJourney();
       return;
     }
-    // The body figure and the style presets are upper-body only; a garment that
-    // doesn't use the chest (a skirt) gets a neutral placeholder instead of a
-    // misleading top. (Real lower-body figure + skirt styles: a later slice.)
-    const isTop = recipe.fields.includes("chest");
+    // Presentation follows the recipe's declared body region. Legacy/custom
+    // recipes without it retain the historical field-based fallback.
+    const isTop = (recipe.region ?? (recipe.fields.includes("chest") ? "upper" : "lower")) === "upper";
+    const isTrouser = recipe.name === "trouser";
     // A sleeveless top (the tank) still carries a `sleeveLength` value on
     // `measurements` (fields not shown in a garment's UI don't disappear from
     // the object) — without this check both figures would draw it with a
@@ -303,7 +303,7 @@ export function mountApp(root: HTMLElement): void {
     } else if (view === "check") {
       canvasContent = checkMarkup(garmentReport(recipe, measurements, recipeOptions()), valid);
     } else if (view === "edit") {
-      const piece = editedFront ?? rolePiece(draftCurrent(), "front");
+      const piece = editedFront ?? rolePiece(draftCurrent(), recipe.editRole ?? "front");
       editedFront = piece;
       const vb = editorViewBox(piece);
       const hasDart = dartOf(piece) !== null;
@@ -324,9 +324,17 @@ export function mountApp(root: HTMLElement): void {
         specSheet(graded, recipe.poms), graded.map((g) => g.label), baseIndex);
     } else if (view === "body") {
       if (bodyCroquisView === "side") {
-        canvasContent = renderSideCroquis(measurements, isTop ? "upper" : "lower");
+        canvasContent = isTrouser
+          ? renderTrouserSide(measurements, recipeOptions())
+          : renderSideCroquis(measurements, isTop ? "upper" : "lower");
       } else if (!isTop) {
-        canvasContent = renderSkirtBody(measurements);
+        canvasContent = isTrouser
+          ? bodyCroquisView === "front"
+            ? renderTrouserBody(measurements, recipeOptions(), "front")
+            : bodyCroquisView === "back"
+              ? renderTrouserBody(measurements, recipeOptions(), "back")
+              : renderTrouserBodyPair(measurements, recipeOptions())
+          : renderSkirtBody(measurements);
       } else if (bodyCroquisView === "front") {
         canvasContent = renderBody(measurements, hasSleeve, recipe.frontNeckline?.(measurements), recipe.strapWidth?.(measurements), "front", poloVisual(), wovenBodyNeckline(), wovenBodyLowerShape());
       } else if (bodyCroquisView === "back") {
@@ -347,14 +355,16 @@ export function mountApp(root: HTMLElement): void {
     const assembled = isTop
       ? renderGarment(measurements, fabric, hasSleeve,
           recipe.frontNeckline?.(measurements), recipe.backNeckline?.(measurements), recipe.strapWidth?.(measurements), poloVisual(), wovenShirtVisual())
-      : renderSkirtGarment(measurements, fabric);
+      : isTrouser
+        ? renderTrouserGarment(measurements, fabric, recipeOptions())
+        : renderSkirtGarment(measurements, fabric);
     garmentHost.innerHTML = assembledPreviewMarkup(assembled, previewExpanded);
     // One sanity read for the whole frame: are the numbers a real body? It gates
     // every green "validated" signal — the check banner, the style ✓ — and flags
     // the offending fields, so geometry passing can never masquerade as "ready".
     const plausible = valid;
     // Guidance = the geometry checks, plus a fabric-stretch ease note (advice only).
-    const fabricNote: Note = { level: "info", field: "ease", text: fabricEaseNote(stretchFabric, measurements.chest) };
+    const fabricNote: Note = { level: "info", field: "ease", text: fabricEaseNote(stretchFabric, isTop ? measurements.chest : measurements.hip) };
     const failedChecks: Note[] = garmentReport(recipe, measurements, recipeOptions()).checks
       .filter((check) => !check.ok).map((check) => ({ field: CHECK_FIELDS[check.name], level: "warn", text: `${check.name}: ${check.detail}` }));
     const materialNote = materialCompatibilityNote();
@@ -408,7 +418,7 @@ export function mountApp(root: HTMLElement): void {
     draw();
   };
   const setView = (v: "pattern" | "body" | "nest" | "spec" | "fabric" | "check" | "edit"): void => {
-    if (v === "edit" && editedFront === null && inputErrors().size === 0) editedFront = rolePiece(draftCurrent(), "front");
+    if (v === "edit" && editedFront === null && inputErrors().size === 0) editedFront = rolePiece(draftCurrent(), recipe.editRole ?? "front");
     view = v;
     inspectionZoom = 1;
     (["pattern", "body", "nest", "spec", "fabric", "check", "edit"] as const).forEach((k) => {
@@ -417,7 +427,7 @@ export function mountApp(root: HTMLElement): void {
       viewBtns[k].style.color = on ? BLUEPRINT.background : BLUEPRINT.line;
       viewBtns[k].setAttribute("aria-pressed", String(on));
     });
-    bodyCroquisHost.style.display = v === "body" && recipe.fields.includes("chest") ? "flex" : "none";
+    bodyCroquisHost.style.display = v === "body" ? "flex" : "none";
     draw();
   };
   viewBtns.pattern.addEventListener("click", () => setView("pattern"));
@@ -565,7 +575,7 @@ export function mountApp(root: HTMLElement): void {
     }
     const id = target.id;
     if (id === "editor-reset") {
-      editedFront = rolePiece(draftCurrent(), "front");
+      editedFront = rolePiece(draftCurrent(), recipe.editRole ?? "front");
       selectedId = null;
       markOutputDirty();
       draw();
@@ -603,7 +613,7 @@ export function mountApp(root: HTMLElement): void {
       measurements, recipe.fields, recipe.options, recipeOptions());
     wireMeasurementInputs();
     syncExportSizes();
-    if (view === "edit" && inputErrors().size === 0) editedFront = rolePiece(draftCurrent(), "front");
+    if (view === "edit" && inputErrors().size === 0) editedFront = rolePiece(draftCurrent(), recipe.editRole ?? "front");
     applyDisclosure();
     draw();
   };

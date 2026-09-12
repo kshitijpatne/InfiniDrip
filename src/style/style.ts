@@ -68,6 +68,15 @@ export const WOVEN_SHIRT_STYLES: readonly StyleDef[] = [
   { name: "Longline woven shirt", ranges: { ease: [10, 24], length: [82, 100] } },
 ];
 
+/** The first trouser style table. Inseam is the finished lower-body length;
+ * these names describe the target silhouette/fit envelope, not a fit claim. */
+export const TROUSER_STYLES: readonly StyleDef[] = [
+  { name: "Relaxed straight trouser", ranges: { ease: [8, 14], inseam: [72, 84] } },
+  { name: "Classic straight trouser", ranges: { ease: [4, 8], inseam: [72, 84] } },
+  { name: "Cropped straight trouser", ranges: { ease: [8, 18], inseam: [55, 71] } },
+  { name: "Long straight trouser", ranges: { ease: [8, 18], inseam: [85, 105] } },
+];
+
 /** One measurement change needed to move toward a style (signed, in cm). */
 export interface Delta {
   readonly id: keyof Measurements;

@@ -1,16 +1,14 @@
 # InfiniDrip — Project State
 
-_Last updated: Epic 3 Slice 99, 2026-09-12; the BUGFIX
+_Last updated: Epic 3 Slice 100, 2026-09-12; the BUGFIX
 phase and pre-Epic 3 consistency extension passed._
 
-## Current status — Epic 3 Slice 99
+## Current status — Epic 3 Slice 100
 
-The actual `main` checkout was re-verified before Epic 3: tracked files are
-clean, `main` matches `origin/main`, the BUGFIX P1/P2/P3 and FC-01 records are
-closed, and no trouser implementation is present. The baseline passes the full
-digital test/type/build/export gates recorded below, including 100% coverage
-and all eight unchanged legacy export hashes. Preserved untracked logs and
-`tmp/` evidence remain user artifacts and were not touched.
+The actual `main` checkout contains the verified Slice 94–99 commits and the
+Slice 100 integration checkpoint; it remains local and has not been pushed.
+The BUGFIX P1/P2/P3 and FC-01 records are closed. Preserved untracked logs and
+`tmp/` evidence remain user artifacts and were not touched or staged.
 
 Slice 94 is complete as a research/contract foundation. It adds
 `docs/research/garments/TROUSER-RESEARCH.md` and
@@ -63,14 +61,29 @@ measurement/option fields and no clamping. `TROUSER_GRADE`/`TROUSER_SIZES`
 redraft an XS–XL run, `TROUSER_POMS` reads the live assembled geometry for
 finished and body-reference rows, and `TROUSER_TECH_PACK` names the physical
 roles, materials, closure, and construction order. Focused trouser tests pass
-27/27; the full checkpoint passes 78 files / 993 tests with 100% statements,
-branches, functions, and lines. The complete recipe, application routing,
-full output integration, and live browser verification remain pending.
+27/27; its checkpoint passed 78 files / 993 tests with 100% statements,
+branches, functions, and lines. Slice 100 below resolves the recipe and
+application boundary; output integration and live browser verification remain
+later checkpoints.
 
-Next safe action is Slice 100: register the complete trouser recipe and route
-it through every existing application surface and persistence path. Physical
-validation, surface design, Polo V2, and production-readiness claims remain
-deferred.
+Slice 100 is complete as digital recipe/application integration. `TROUSER` is
+now a first-class registry entry with the complete lower-body contract,
+`lower` region, and `frontLeft` Edit role. The shared shell routes its controls,
+Style, Body front/back/side/pair, assembled preview, Pattern, Size run, Spec,
+Nesting, Check, Guidance, persistence, and Edit flows; the trouser-specific
+Body/Side/assembled renderers read the actual live block and components. The
+focused app/render evidence is 92/92; full `npm test` passes 79 files / 1,007
+tests, `npm run coverage` is 100% for statements/branches/functions/lines,
+`npx tsc --noEmit` passes, and `npm run build` passes. The legacy regression
+suite remains green with all eight unchanged hashes. Parsed trouser output
+consumers and live responsive browser evidence are not yet accepted and are
+the next safe work in Slices 101–102. Physical validation, surface design,
+Polo V2, and production-readiness claims remain deferred.
+
+Next safe action is Slice 101: integrate and inspect the trouser through SVG,
+DXF, tiled PDF, A0 PDF, projector SVG, nesting, and tech-pack output consumers;
+do not move a baseline. Keep the full output/browser gate and physical
+validation deferral intact.
 
 The independent functional-consistency audit now closes BUG-UI-032 through
 BUG-UI-034. Woven Body front/back inspection uses its real lower shaping and
@@ -1999,3 +2012,8 @@ trouser allowance map are complete but not registered with the application
 s99=993 (78 test files, 100% statements/branches/functions/lines; trouser
 guidance, XS–XL grade/POM/tech-pack tables pass; recipe/UI and full export
 integration remain pending)
+s100=1007 (79 test files; recipe/application integration and actual
+trouser-renderer checks pass, full test and coverage runs are green at 100% for
+all four metrics, TypeScript/build pass, and the 8/8 legacy regression remains
+unchanged; parsed trouser outputs and live browser verification remain for
+Slices 101–102)

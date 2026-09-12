@@ -5,6 +5,7 @@ export * from "./canvas";
 export * from "./allowance";
 export * from "./garment";
 export * from "./skirt-figure";
+export * from "./trouser-figure";
 export * from "./notch";
 export * from "./nest";
 export * from "./fabric";

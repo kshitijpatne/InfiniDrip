@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { STANDARD_M } from "./measurements";
-import { TEE, FITTED, TANK, POLO, WOVEN_SHIRT, GARMENTS, garmentByName } from "./recipe";
+import { TEE, FITTED, TANK, POLO, WOVEN_SHIRT, TROUSER, GARMENTS, garmentByName } from "./recipe";
 import { dartOf } from "./dart";
 import { rolePiece, blockPieces } from "./block";
 import { pieceEdge } from "./piece";
@@ -10,8 +10,8 @@ import { garmentReport } from "../guidance/garment-check";
 
 describe("the garment registry", () => {
   it("lists every garment with a stable id and a display label", () => {
-    expect(GARMENTS.map((g) => g.name)).toEqual(["tee", "fitted", "tank", "polo", "woven-shirt", "skirt"]);
-    expect(GARMENTS.map((g) => g.label)).toEqual(["Tee", "Darted tee", "Tank", "Polo", "Woven shirt", "Skirt"]);
+    expect(GARMENTS.map((g) => g.name)).toEqual(["tee", "fitted", "tank", "polo", "woven-shirt", "skirt", "trouser"]);
+    expect(GARMENTS.map((g) => g.label)).toEqual(["Tee", "Darted tee", "Tank", "Polo", "Woven shirt", "Skirt", "Trouser"]);
   });
 
   it("looks a recipe up by name and falls back to the tee for an unknown one", () => {
@@ -19,6 +19,7 @@ describe("the garment registry", () => {
     expect(garmentByName("tee")).toBe(TEE);
     expect(garmentByName("polo")).toBe(POLO);
     expect(garmentByName("woven-shirt")).toBe(WOVEN_SHIRT);
+    expect(garmentByName("trouser")).toBe(TROUSER);
     expect(garmentByName("kimono")).toBe(TEE);
   });
 });
@@ -116,6 +117,29 @@ describe("Woven shirt recipe integration", () => {
   it("evaluates every woven-shirt POM from the assembled block", () => {
     const block = WOVEN_SHIRT.draft(STANDARD_M);
     for (const pom of WOVEN_SHIRT.poms) expect(pom.measure(block)).toBeTypeOf("number");
+  });
+});
+
+describe("Trouser recipe integration (Slice 100)", () => {
+  it("registers the complete lower-body contract as one recipe", () => {
+    expect(TROUSER.region).toBe("lower");
+    expect(TROUSER.editRole).toBe("frontLeft");
+    expect(TROUSER.fields).toEqual([
+      "waist", "hip", "hipDepth", "crotchDepth", "thigh", "knee", "inseam", "ease",
+    ]);
+    expect(TROUSER.options?.map((option) => option.id)).toHaveLength(11);
+    expect(TROUSER.styles.map((style) => style.name)).toContain("Relaxed straight trouser");
+  });
+
+  it("runs the live eight-role block through the generic production report", () => {
+    const block = TROUSER.draft(STANDARD_M);
+    expect(Object.keys(block.roles)).toEqual([
+      "frontLeft", "frontRight", "backLeft", "backRight",
+      "waistband", "flyShield", "pocketBagLeft", "pocketBagRight",
+    ]);
+    expect(garmentReport(TROUSER, STANDARD_M).ok).toBe(true);
+    expect(TROUSER.sizeMetric(block)).toBeGreaterThan(0);
+    for (const pom of TROUSER.poms) expect(pom.measure(block)).toBeTypeOf("number");
   });
 });
 

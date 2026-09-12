@@ -1203,3 +1203,92 @@ describe("skirt styles are selectable (Slice 39)", () => {
     expect(opts.join(" ")).not.toContain("tee");
   });
 });
+
+describe("switching to the trouser recipe (Slice 100)", () => {
+  beforeEach(() => localStorage.clear());
+
+  it("routes the registered lower-body recipe through controls, views, and Edit", () => {
+    const root = mount();
+    root.querySelector<HTMLButtonElement>("#garment-trouser")!.dispatchEvent(new Event("click"));
+
+    expect(root.querySelector('input[data-field="chest"]')).toBeNull();
+    for (const field of ["waist", "hip", "hipDepth", "crotchDepth", "thigh", "knee", "inseam", "ease"]) {
+      expect(root.querySelector(`input[data-field="${field}"]`)).not.toBeNull();
+    }
+    expect(root.querySelectorAll("input[data-option]")).toHaveLength(11);
+    expect(root.querySelector('[data-finished="waist"]')).not.toBeNull();
+    expect(root.querySelector('[data-finished="hip"]')).not.toBeNull();
+    expect(root.querySelector('#garment-host svg[data-garment="trouser"]')).not.toBeNull();
+    expect(root.querySelector("#style-host")!.textContent).toContain("straight trouser");
+
+    root.querySelector<HTMLButtonElement>("#view-body")!.dispatchEvent(new Event("click"));
+    expect(root.querySelector<HTMLElement>("#body-croquis-toggle-host")!.style.display).toBe("flex");
+    expect(root.querySelectorAll("#canvas-host svg")).toHaveLength(2);
+    expect(root.querySelector('[data-dim="crotchDepth"]')).not.toBeNull();
+    expect(root.querySelector('[data-edge="option-frontRiseEase"]')).not.toBeNull();
+
+    root.querySelector<HTMLButtonElement>("#body-back")!.dispatchEvent(new Event("click"));
+    expect(root.querySelectorAll("#canvas-host svg")).toHaveLength(1);
+    expect(root.querySelector('[data-edge="option-backRiseEase"]')).not.toBeNull();
+    root.querySelector<HTMLButtonElement>("#body-side")!.dispatchEvent(new Event("click"));
+    expect(root.querySelector('#canvas-host svg[data-croquis-view="side"]')).not.toBeNull();
+
+    root.querySelector<HTMLButtonElement>("#view-pattern")!.dispatchEvent(new Event("click"));
+    expect(root.querySelector("#canvas-host")!.textContent).toContain("TROUSER FRONT LEFT");
+    root.querySelector<HTMLButtonElement>("#view-edit")!.dispatchEvent(new Event("click"));
+    expect(root.querySelector('[data-editor-contract="preview-only"]')).not.toBeNull();
+    root.querySelector<HTMLButtonElement>("#garment-tee")!.dispatchEvent(new Event("click"));
+  });
+
+  it("keeps option and measurement changes live in the shared draft-backed previews", () => {
+    const root = mount();
+    root.querySelector<HTMLButtonElement>("#garment-trouser")!.dispatchEvent(new Event("click"));
+    const before = root.querySelector("#garment-host")!.innerHTML;
+    const legOpening = root.querySelector<HTMLInputElement>('input[data-option="legOpening"]')!;
+    legOpening.value = "48";
+    legOpening.dispatchEvent(new Event("input"));
+    expect(root.querySelector("#garment-host")!.innerHTML).not.toBe(before);
+
+    root.querySelector<HTMLButtonElement>("#view-body")!.dispatchEvent(new Event("click"));
+    root.querySelector<HTMLButtonElement>("#body-front")!.dispatchEvent(new Event("click"));
+    const bodyBefore = root.querySelector("#canvas-host")!.innerHTML;
+    const inseam = root.querySelector<HTMLInputElement>('input[data-field="inseam"]')!;
+    inseam.value = "90";
+    inseam.dispatchEvent(new Event("input"));
+    expect(root.querySelector("#canvas-host")!.innerHTML).not.toBe(bodyBefore);
+    expect(root.querySelector('[data-dim="inseam"]')).not.toBeNull();
+  });
+
+  it("pauses invalid trouser options, reports material incompatibility, and restores saved state", () => {
+    const root = mount();
+    root.querySelector<HTMLButtonElement>("#garment-trouser")!.dispatchEvent(new Event("click"));
+    const angle = root.querySelector<HTMLInputElement>('input[data-option="pocketAngle"]')!;
+    angle.value = "99";
+    angle.dispatchEvent(new Event("input"));
+    expect(angle.getAttribute("aria-invalid")).toBe("true");
+    expect(root.querySelector("#canvas-host")!.textContent).toContain("Draft paused");
+    expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(true);
+
+    angle.value = "58";
+    angle.dispatchEvent(new Event("input"));
+    expect(root.querySelector("#canvas-host svg")).not.toBeNull();
+    const material = root.querySelector<HTMLSelectElement>("#stretch-select")!;
+    material.value = "Cotton jersey";
+    material.dispatchEvent(new Event("change"));
+    expect(root.querySelector("#guidance-host")!.textContent).toContain("stable woven material");
+    expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(true);
+
+    material.value = "Cotton woven";
+    material.dispatchEvent(new Event("change"));
+    const drop = root.querySelector<HTMLInputElement>('input[data-option="pocketDrop"]')!;
+    drop.value = "5";
+    drop.dispatchEvent(new Event("input"));
+    root.querySelector<HTMLButtonElement>("#save-pattern")!.dispatchEvent(new Event("click"));
+    expect(localStorage.getItem("patternworks_save_v1")).toContain('"trouser"');
+
+    root.querySelector<HTMLButtonElement>("#garment-tee")!.dispatchEvent(new Event("click"));
+    root.querySelector<HTMLButtonElement>("#load-pattern")!.dispatchEvent(new Event("click"));
+    expect(root.querySelector<HTMLButtonElement>("#garment-trouser")!.getAttribute("aria-pressed")).toBe("true");
+    expect(root.querySelector<HTMLInputElement>('input[data-option="pocketDrop"]')!.value).toBe("5");
+  });
+});

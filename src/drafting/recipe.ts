@@ -13,7 +13,7 @@ import { Note } from "../guidance/note";
 import { sleevedTopPanelChecks, frontHemWidth } from "./tshirt-checks";
 import { sleevedTopGuidance } from "./tshirt-guidance";
 import { draftSkirt, skirtPanelChecks, skirtGuidance, SKIRT_GRADE, SKIRT_POMS, SKIRT_NOTCHES } from "./skirt";
-import { StyleDef, TEE_STYLES, SKIRT_STYLES, TANK_STYLES, POLO_STYLES, WOVEN_SHIRT_STYLES } from "../style";
+import { StyleDef, TEE_STYLES, SKIRT_STYLES, TANK_STYLES, POLO_STYLES, WOVEN_SHIRT_STYLES, TROUSER_STYLES } from "../style";
 import { AllowanceSpec } from "./allowance";
 import { Pom } from "./pom";
 import { GradeRule, SizeStep } from "./grading";
@@ -32,6 +32,23 @@ import { draftWovenShirt, wovenShirtGuidance, WOVEN_SHIRT_ALLOWANCES, WOVEN_SHIR
 import { WOVEN_SHIRT_FIELDS, WOVEN_SHIRT_OPTION_DEFINITIONS } from "./shirt-contract";
 import { edgeLength, pieceEdge } from "./piece";
 import { rolePiece } from "./block";
+import {
+  draftTrouserWithPockets,
+  TROUSER_ALLOWANCES,
+  TROUSER_NOTCHES,
+} from "./trouser";
+import {
+  TROUSER_FIELDS,
+  TROUSER_OPTION_DEFINITIONS,
+  TrouserOptions,
+} from "./trouser-contract";
+import {
+  TROUSER_GRADE,
+  TROUSER_POMS,
+  TROUSER_SIZES,
+  TROUSER_TECH_PACK,
+} from "./trouser-tables";
+import { trouserGuidance } from "./trouser-guidance";
 
 /**
  * How a garment declares its production-readiness checks, so the checker never
@@ -64,6 +81,10 @@ export interface TechPack {
 export interface GarmentRecipe {
   readonly name: string;  // stable id, e.g. "tee"
   readonly label: string; // what the UI shows, e.g. "Tee"
+  /** Body region used by application presentation routing. */
+  readonly region?: "upper" | "lower";
+  /** Role used by the exploratory Edit view; defaults to the conventional "front". */
+  readonly editRole?: string;
   readonly fields: readonly (keyof Measurements)[]; // which measurements this garment uses (drives the UI, in order)
   readonly styles: readonly StyleDef[];             // the target-fit presets this garment offers
   readonly draft: (m: Measurements, options?: GarmentOptions) => Block;
@@ -161,6 +182,8 @@ export const TEE: GarmentRecipe = {
 export const FITTED: GarmentRecipe = {
   name: "fitted",
   label: "Darted tee",
+  region: "upper",
+  editRole: "front",
   fields: ["chest", "shoulderWidth", "bicep", "length", "armholeDepth", "sleeveLength", "ease"],
   styles: TEE_STYLES,
   draft: draftFitted,
@@ -203,6 +226,8 @@ const TANK_KNIT_TECH_PACK: TechPack = {
 export const TANK: GarmentRecipe = {
   name: "tank",
   label: "Tank",
+  region: "upper",
+  editRole: "front",
   fields: ["chest", "shoulderWidth", "length", "armholeDepth", "strapWidth", "neckDrop", "neckWidthEase", "ease"],
   styles: TANK_STYLES,
   draft: draftTank,
@@ -267,6 +292,8 @@ const POLO_TECH_PACK: TechPack = {
 export const POLO: GarmentRecipe = {
   name: "polo",
   label: "Polo",
+  region: "upper",
+  editRole: "front",
   fields: ["chest", "shoulderWidth", "bicep", "length", "armholeDepth", "sleeveLength", "ease"],
   styles: POLO_STYLES,
   draft: (m, options = {}) => draftPolo(m, options),
@@ -308,6 +335,8 @@ const WOVEN_SHIRT_TECH_PACK = (buttonCount: number): TechPack => ({
 export const WOVEN_SHIRT: GarmentRecipe = {
   name: "woven-shirt",
   label: "Woven shirt",
+  region: "upper",
+  editRole: "front",
   fields: WOVEN_SHIRT_FIELDS,
   styles: WOVEN_SHIRT_STYLES,
   draft: (m, options = {}) => draftWovenShirt(m, options),
@@ -353,6 +382,7 @@ const WOVEN_SKIRT_BOM: readonly BomRow[] = [
 export const SKIRT: GarmentRecipe = {
   name: "skirt",
   label: "Skirt",
+  editRole: "front",
   fields: ["waist", "hip", "hipDepth", "length", "ease"],
   styles: SKIRT_STYLES,
   draft: draftSkirt,
@@ -376,7 +406,27 @@ export const SKIRT: GarmentRecipe = {
   },
 };
 
-export const GARMENTS: readonly GarmentRecipe[] = [TEE, FITTED, TANK, POLO, WOVEN_SHIRT, SKIRT];
+export const TROUSER: GarmentRecipe = {
+  name: "trouser",
+  label: "Trouser",
+  region: "lower",
+  editRole: "frontLeft",
+  fields: TROUSER_FIELDS,
+  styles: TROUSER_STYLES,
+  draft: (m, options = {}) => draftTrouserWithPockets(m, options as Partial<TrouserOptions>),
+  notches: TROUSER_NOTCHES,
+  poms: TROUSER_POMS,
+  grade: TROUSER_GRADE,
+  sizes: TROUSER_SIZES,
+  checks: () => [],
+  guidance: (block, m, options = {}) => trouserGuidance(block, m, options as Partial<TrouserOptions>),
+  sizeMetric: (block) => edgeLength(pieceEdge(rolePiece(block, "frontLeft"), "waist")),
+  techPack: TROUSER_TECH_PACK,
+  options: TROUSER_OPTION_DEFINITIONS,
+  allowances: TROUSER_ALLOWANCES,
+};
+
+export const GARMENTS: readonly GarmentRecipe[] = [TEE, FITTED, TANK, POLO, WOVEN_SHIRT, SKIRT, TROUSER];
 
 /** Look a recipe up by its stable id; falls back to the tee. */
 export function garmentByName(name: string): GarmentRecipe {

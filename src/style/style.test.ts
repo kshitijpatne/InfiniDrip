@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { STANDARD_M } from "../drafting";
-import { currentStyles, nearbyStyles, styleSuggestions, styleNames, matchStyle, TEE_STYLES, SKIRT_STYLES } from "./style";
+import { currentStyles, nearbyStyles, styleSuggestions, styleNames, matchStyle, TEE_STYLES, SKIRT_STYLES, TROUSER_STYLES } from "./style";
 
 describe("currentStyles", () => {
   it("classifies the standard block as a Classic tee", () => {
@@ -88,5 +88,20 @@ describe("SKIRT_STYLES (recipe-owned, Slice 39)", () => {
     const m = { ...STANDARD_M, length: 45 }; // a mini
     const match = matchStyle(m, "Maxi skirt", SKIRT_STYLES);
     expect(match.deltas).toContainEqual({ id: "length", change: 50 }); // 95 - 45
+  });
+});
+
+describe("TROUSER_STYLES (recipe-owned, Slice 100)", () => {
+  it("classifies the standard lower-body block as relaxed straight", () => {
+    expect(currentStyles(STANDARD_M, TROUSER_STYLES)).toContain("Relaxed straight trouser");
+  });
+
+  it("uses inseam for lower-body length and keeps targets trouser-specific", () => {
+    const names = styleNames(TROUSER_STYLES);
+    expect(names).toContain("Cropped straight trouser");
+    expect(names).toContain("Long straight trouser");
+    expect(names.join(" ")).not.toContain("tee");
+    expect(matchStyle({ ...STANDARD_M, inseam: 60 }, "Long straight trouser", TROUSER_STYLES).deltas)
+      .toContainEqual({ id: "inseam", change: 25 });
   });
 });

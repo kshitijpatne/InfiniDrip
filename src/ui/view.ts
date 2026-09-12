@@ -60,7 +60,9 @@ export function controlsMarkup(
     .filter((f): f is Field => f !== undefined)
     .map((f) => field(f.id, f.label, m[f.id], f.min, f.max, f.step))
     .join("");
-  const finished = fields.includes("chest")
+  const finished = fields.includes("crotchDepth")
+    ? `<div style="font-size:11.5px;color:${T.label};margin-top:2px;margin-bottom:8px">Finished waist: <span data-finished="waist" style="color:${T.line};font-family:ui-monospace,monospace">${m.waist + m.ease} cm</span> · Finished hip: <span data-finished="hip" style="color:${T.line};font-family:ui-monospace,monospace">${m.hip + m.ease} cm</span></div>`
+    : fields.includes("chest")
     ? `<div style="font-size:11.5px;color:${T.label};margin-top:2px;margin-bottom:8px">Finished chest: <span data-finished="chest" style="color:${T.line};font-family:ui-monospace,monospace">${m.chest + m.ease} cm</span></div>`
     : fields.includes("hip")
       ? `<div style="font-size:11.5px;color:${T.label};margin-top:2px;margin-bottom:8px">Finished hip: <span data-finished="hip" style="color:${T.line};font-family:ui-monospace,monospace">${m.hip + m.ease} cm</span></div>`
@@ -456,7 +458,8 @@ export function appShellMarkup(
   fabric: string,
   sizes: readonly SizeStep[],
   fields: readonly (keyof Measurements)[],
-  stretchFabric = STRETCH_FABRICS[0].name
+  stretchFabric = STRETCH_FABRICS[0].name,
+  activeGarment = "tee"
 ): string {
   const responsive = `<style id="infini-responsive-shell">` +
     `#infini-shell{display:grid!important;grid-template-columns:minmax(210px,0.75fr) minmax(300px,1.7fr) minmax(240px,0.9fr);gap:16px;align-items:start;font-family:system-ui,sans-serif}` +
@@ -475,7 +478,7 @@ export function appShellMarkup(
     `${controlsMarkup(m, fields)}` +
     `<div id="infini-workspace" style="flex:1;min-width:300px;display:flex;flex-direction:column;gap:6px">` +
     `<div id="journey-host"></div>` +
-    `${viewToggleMarkup("pattern")}${bodyCroquisToggleMarkup("front-back")}${garmentToggleMarkup("tee")}${fabricStretchMarkup(stretchFabric)}` +
+    `${viewToggleMarkup("pattern")}${bodyCroquisToggleMarkup("front-back")}${garmentToggleMarkup(activeGarment)}${fabricStretchMarkup(stretchFabric)}` +
     `${fabricWidthMarkup(150)}` +
     `<div id="canvas-host"></div>${fabricSwatchesMarkup(fabric)}${exportButtonsMarkup(sizes)}` +
     `<div id="garment-host"></div></div>` +

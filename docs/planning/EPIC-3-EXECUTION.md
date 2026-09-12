@@ -260,6 +260,8 @@ application routing remain Slice 100 work.
 
 ### Slice 100 — recipe and application integration
 
+Status: **complete** (digital integration; focused app/render tests 92/92).
+
 Scope: register the trouser recipe and route it through all existing app
 surfaces, including garment switching, Style, Body, assembled preview, Pattern,
 Size run, Spec, Nesting, Check, Edit, Guidance, and save/load.
@@ -284,6 +286,23 @@ drift. This is a shared pipeline integration slice.
 
 Verification: focused app/render tests and live browser checks at supported
 widths; retain 8/8 legacy hashes.
+
+Evidence: `TROUSER` is now the registered seven-garment recipe and is the
+single source for its eight roles, fields, eleven options, styles, draft,
+guidance, grade/POM/tech-pack tables, notches, and allowances. `region` and
+`editRole` route the lower-body recipe through the existing shell without a
+top-only or conventional-`front` assumption. Pattern/Size run/Spec/Nesting/
+Check/Guidance/persistence continue through the generic recipe contracts; the
+actual trouser Body/Side/assembled renderers consume the live drafted block and
+component edges/marks. Focused registry/style/view/croquis/renderer checks pass,
+the focused app/render set passes 92/92, and the full `npm test` run passes 79
+test files / 1,007 tests with the unchanged legacy export regression included.
+`npm run coverage` passes 100% statements/branches/functions/lines; `npx tsc
+--noEmit` and `npm run build` pass. The knit-material warning/gate, invalid
+option recovery, size/measurement mutations, and save/load route are covered
+at the DOM level. Live browser/responsive review and parsed trouser output
+consumers are intentionally deferred to Slices 101–102; no physical-fit or
+production-readiness claim is made.
 
 ### Slice 101 — export/output integration and evidence
 
@@ -383,7 +402,8 @@ alter account usage.
 
 ## Epic 3 exit report
 
-Status: **not started beyond Slice 99 guidance/tables**.
+Status: **not started beyond Slice 100 recipe/application integration**.
 
-Slices 100–103 remain implementation and verification work. No physical garment
-has been sewn or validated, and no production-readiness claim is authorized.
+Slices 101–103 remain output integration, live cross-surface verification, and
+the final exit gate. No physical garment has been sewn or validated, and no
+production-readiness claim is authorized.

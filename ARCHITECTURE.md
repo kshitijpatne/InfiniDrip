@@ -3,7 +3,7 @@
 How the app fits together, in plain language. Read the top to re-orient; skim the
 layers when you need detail. Updated every slice with only need-to-know changes.
 
-## Current Epic 3 boundary — Slice 99
+## Current Epic 3 boundary — Slice 100
 
 The pre-Epic 3 checkout and BUGFIX/FC-01 exit are verified on the actual
 `main` branch. The first trouser is a separate reusable relaxed casual
@@ -78,7 +78,21 @@ the assembled block; and `TROUSER_TECH_PACK` names the four-panel body,
 waistband, fly/fastening, and paired-bag operations. Focused tests pass 27/27
 across the trouser contract and geometry/table suites, with the full digital
 coverage gate at 100% across all four metrics. Recipe/UI and live browser
-integration remain Slice 100 work.
+integration were the next boundary at that point.
+
+Slice 100 registers `TROUSER` as the first-class lower-body recipe. The recipe
+owns the complete fields/options/style/draft/check/guidance/grade/POM/notch/
+allowance/tech-pack contract and declares `lower` plus the `frontLeft` Edit
+role; the optional region/edit-role fallback preserves legacy recipe objects.
+Generic Pattern, Size run, Spec, Nesting, Check, Guidance, persistence, and
+export routing now see the trouser through the shared recipe/block contracts.
+Trouser Body front/back/pair, Side, and assembled presentation consume the
+actual live four-panel/component block, so the renderer is not a second source
+of geometry. Side remains a labelled schematic drafting envelope, and Edit
+remains transient preview-only. The Slice 100 checkpoint passes 79 test files /
+1,007 tests, 100% coverage across all four metrics, typecheck, and production
+build. Parsed trouser output and live responsive browser review remain Slices
+101–102; no physical-fit or production-readiness assertion is implied.
 
 BF-P1-02: the UI's current design verdict combines input validity, all recipe/
 plausibility guidance and geometric checks. Check, Style, journey and all six

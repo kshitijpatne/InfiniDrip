@@ -237,6 +237,33 @@ four-panel body, separate waistband, fly support/zip, fastening, and paired
 pocket bags; quantities, hardware, and operation details remain provisional
 until material and sewn-sample evidence exists.
 
+### Slice 100 application resolution
+
+`TROUSER` is the single registry source for the lower-body fields, style target
+table, draft adapter, checks, guidance, size run, grade rule, POMs, notches,
+allowances, tech pack, and the eleven numeric construction options. The style
+names remain digital target envelopes; they are not fit or production claims.
+
+The recipe declares the `lower` body region and `frontLeft` exploratory Edit
+role because the trouser block has eight roles rather than the conventional
+single `front` role. Existing recipes retain the optional region/edit-role
+fallback, so the shared application contract stays compatible with legacy
+recipe objects.
+
+Pattern, Size run, Spec, Nesting, Check, Guidance, persistence, and export
+handlers continue to use the generic recipe/block contracts. The lower-body
+Body front/back/pair views and the assembled trouser preview now read the live
+four-panel block, waistband, fly shield, and paired bags, including actual
+edges/marks and option overlays. The Side view is explicitly labelled as a
+schematic drafting envelope and carries no fit or drape assertion. Edit remains
+a transient preview-only surface and does not save geometry overrides.
+
+The application warns and gates the digital verdict when a trouser is paired
+with a knit material; it does not silently reinterpret the woven construction.
+Slice 100 adds no physical sample, production-readiness, surface-design,
+Polo-V2, shorts, or jogger evidence. Parsed trouser output and live responsive
+browser verification remain the work of Slices 101–102.
+
 ### Slice 96 geometry resolution
 
 Before implementation, the first digital approximation is fixed as follows:
