@@ -100,8 +100,7 @@ completion behavior.
 
 ## BF-P2-06 — Closed
 
-Implementation: BF-P2-06 behavior commit (this slice; immutable hash is recorded
-after commit).
+Implementation: `be423b8` (`Slice BF-P2-06: complete accessibility and field-linked guidance [BUG-UI-025–026]`).
 
 The UI now exposes named landmarks and headings, named inspection SVGs, pressed
 state for view/garment/nesting controls, and explicit group labels for material,
@@ -117,10 +116,13 @@ markup, named SVGs, active states, coordinate edits and invalid paths. Live
 1280×720 review confirmed 20 Edit coordinate inputs, a named Pattern edit
 inspection SVG, field-linked Review focus, and no physical or production claim.
 
-## P2 exit report — Pending
+## P2 exit report — Passing
 
-The coverage portion passes at 100% statements, branches, functions, and lines
-(73 test files / 956 tests). TypeScript, production build, parsed export checks,
-and the eight unchanged legacy export hashes still need to be recorded before
-this report can be marked passing. P3 and Epic 3 remain blocked by sequencing
-until that full gate is complete.
+The full P2 gate passes: 100% statements, branches, functions, and lines
+(73 test files / 956 tests); standalone TypeScript; production build; parsed
+SVG/DXF, tiled PDF, A0 PDF, projector SVG, and tech-pack consumers; and all
+8 unchanged legacy export hashes in `src/export/regression.test.ts`. The actual
+diff and rendered/live UI were reviewed after BF-P2-06, including the named
+Edit inspection SVG, keyboard coordinate update, and field-linked Guidance
+focus. P3 may now begin sequentially; Epic 3 remains parked until the P3 exit
+report also passes. Physical validation remains deferred.

@@ -540,7 +540,7 @@ No console runtime errors were observed during that audit.
   `src/ui/view.ts:187`, `src/ui/view.ts:221`, `src/ui/app.ts:313`.
 - Done when: headings/regions, selected states, SVG names, keyboard operation,
   focus states, and equivalent editor input are available and tested.
-- Fix slice: BF-P2-06. Commit/PR: BF-P2-06 behavior commit (this slice).
+- Fix slice: BF-P2-06. Commit/PR: `be423b8` (`Slice BF-P2-06: complete accessibility and field-linked guidance [BUG-UI-025–026]`).
 - Root cause confirmed: the view layer exposed visual containers and pointer-only
   handles without landmarks, names, state semantics, or a keyboard-equivalent
   coordinate path. The shell now uses headings/regions and named SVGs, view,
@@ -566,7 +566,7 @@ No console runtime errors were observed during that audit.
   linked to individual controls. Source: `src/ui/view.ts:70`.
 - Done when: warnings identify the field/option that caused them, provide an
   actionable correction, and remain reachable at supported viewport widths.
-- Fix slice: BF-P2-06. Commit/PR: BF-P2-06 behavior commit (this slice).
+- Fix slice: BF-P2-06. Commit/PR: `be423b8` (`Slice BF-P2-06: complete accessibility and field-linked guidance [BUG-UI-025–026]`).
 - Root cause confirmed: guidance notes were plain global text and several draft
   and check warnings carried no field identity, so the UI could not offer a
   direct correction path. Notes now carry field metadata, visible Review

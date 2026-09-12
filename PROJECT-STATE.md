@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: BF-P2-06, 2026-09-12; P2 implementation complete and full gate in progress._
+_Last updated: EPIC-BUGFIX-P2 exit, 2026-09-12; P2 passed and P3 is next._
 
 EPIC-BUGFIX-P1 closes BUG-UI-001 through BUG-UI-012 except no IDs are skipped:
 responsive layout, input truth, live totals, unified digital verdicts, full
@@ -20,11 +20,12 @@ gated. BF-P2-04 now distinguishes one-selected-size exports from whole graded
 run exports and reports button counts in buttons rather than cm. BF-P2-06 now
 adds semantic landmarks/headings, named SVGs, pressed control states, keyboard-
 equivalent Edit coordinate inputs, and field-linked Guidance Review actions.
-Coverage is passing at 100% statements/branches/functions/lines across 73 test
-files and 956 tests; the remaining P2 gate records are TypeScript, production
-build, parsed exports, and unchanged legacy hashes. P3 remains the next
-sequential milestone of the same master goal. Physical validation and Epic 3
-remain deferred.
+The P2 full gate passes: 100% statements/branches/functions/lines across 73
+test files and 956 tests, standalone TypeScript, production build, parsed
+SVG/DXF/tiled-PDF/A0/projector/tech-pack checks, and eight unchanged legacy
+export hashes. P3 is the next sequential milestone of the same master goal;
+Epic 3 remains parked until P3's exit report passes. Physical validation remains
+deferred.
 
 BF-P1-01 closes BUG-UI-002/003: no silent clamp, verbatim negative ease,
 associated input corrections and safe draft pause/recovery. Scope and evidence:
