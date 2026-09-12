@@ -99,6 +99,12 @@ is retained only for provenance and should not be used for current decisions.
 
 ## Refined forward Epic plan
 
+### Woven-shirt button count clarified 2026-09-12
+
+The six or seven evenly spaced buttons are on the front placket. The collar
+stand has one additional button. The maintainer confirmed this during Slice 85;
+UI, BOM, pattern marks and reports must agree.
+
 ### Epic 1 — Phase C3 croquis and views (Slices 80–84)
 
 Complete upper/lower croquis routing, expose the visible Side view, add

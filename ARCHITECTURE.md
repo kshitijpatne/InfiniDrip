@@ -3,6 +3,13 @@
 How the app fits together, in plain language. Read the top to re-orient; skim the
 layers when you need detail. Updated every slice with only need-to-know changes.
 
+Slice 85: `docs/research/garments/WOVEN-SHIRT-RESEARCH.md` establishes the
+evidence boundary for the woven block. Neck/body independence, front overlap,
+usable collar/stand seams, sleeve-length semantics, yoke layers and physical
+quantities require a Slice 86 contract. Existing Piece/mark/interface machinery
+is reusable; knit bodice/sleeve and Polo geometry are not silently adopted.
+No implementation/model changes. Six/seven front buttons exclude the stand button.
+
 Slice 67: `renderBodyPair()` is the Body-tab composition boundary. It renders
 front and back schematics side by side, passing each recipe's derived neckline
 and the same live measurements into `renderBody()`. `renderBody()` accepts a

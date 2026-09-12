@@ -64,6 +64,9 @@ snapshots; they are not current status.
   directory before implementation.
 - `docs/research/garments/TEMPLATE.md` — required starting structure for each
   future garment's research record.
+- `docs/research/garments/WOVEN-SHIRT-RESEARCH.md` — Slice 85 evidence, source
+  conflicts, measurements/construction proposals and digital verification scope
+  for the relaxed button-up. Read before Slices 86-93.
 
 ## Historical archive
 

@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 83 (Phase C3 cross-garment render contracts).
+_Last updated: after Slice 85 (relaxed woven-shirt research).
 Tank rework
 step 4 is complete for automated and rendered verification; physical sewn
 validation has not occurred and is intentionally deferred. Update this after
@@ -345,6 +345,19 @@ F1. **(Fable) Real-world export system** — two new writers on the existing exp
     fit, sewability, or production readiness. Phase C3 is complete; next is
     Slice 85's researched woven-shirt block, with its required durable research
     document before implementation. Physical sampling remains deferred.
+85. Woven-shirt research — created the required durable garment research record
+    from the five applicable supplied Word references, the Patternmaking PDF,
+    and independent primary construction sources. It separates sourced rules,
+    conflicts, adjustable estimates, maintainer choices and deferred questions.
+    The six/seven front buttons exclude the additional stand button, confirmed
+    during research. Sleeve length includes cap/band; independent neck sizing,
+    full opening/overlap, layered pieces and all physical quantities require the
+    Slice 86 construction contract. No implementation/model changes, no physical
+    claims. Next: Slice 86, then the requested continuous run through Slice 92;
+    final woven milestone exit remains Slice 93. Gates: 69 files / 883 tests,
+    100% coverage, TypeScript/production build, parsed export suites and 8/8
+    unchanged legacy hashes. Word-layout rendering unavailable (no LibreOffice);
+    reference text/tables and PDF hem diagrams inspected.
 63. Tank rework, step 3 — real strap/armhole geometry for the tank, AND a
     scope change requested by Kshitij mid-slice that reshaped the whole
     approach: rather than the engine picking a single "correct" strap width
@@ -1771,3 +1784,4 @@ s81=873 (2 new lower-body croquis contract/parity tests; Skirt Body now consumes
 s82=877 (4 new side-view render/UI tests; Body exposes Front + Back / Side, upper and lower Side paths are rendered from the shared croquis library, and the live UI was checked for Tee and Skirt; 68 files, 100% coverage, production build, and legacy export hashes unchanged)
 s83=883 (6 new registry-driven cross-garment/render-purity tests; all five garments are checked across Front/Side/Back, and SVG/DXF/PDF/tech-pack/marker/projector/A0 outputs remain unchanged after Side rendering; 69 files, 100% coverage, production build, and 8/8 legacy hashes unchanged)
 s84=883 (no new tests; final Phase C3 exit gate passed with 69 test files, 100% coverage, typecheck, production build, live Side/Front + Back review, no export diff from the pre-C3 base, and unchanged 8/8 legacy hashes)
+s85=883 (research-only; full coverage/typecheck/build and parsed export suite pass; eight legacy hashes unchanged; no implementation diff)
