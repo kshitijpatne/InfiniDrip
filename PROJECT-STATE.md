@@ -1,10 +1,11 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 93 (woven-shirt component-library exit).
-Tank rework
-step 4 is complete for automated and rendered verification; physical sewn
-validation has not occurred and is intentionally deferred. Update this after
-every slice and commit it WITH the code._
+_Last updated: after Slice 93 (woven-shirt component-library exit); UI bug-fix
+phase planned before Epic 3._
+
+Tank rework step 4 is complete for automated and rendered verification;
+physical sewn validation has not occurred and is intentionally deferred. Update
+this after every slice and commit it WITH the code.
 
 **Governing plan:** `docs/planning/MVP-PLAN.md` (operative — the 6-month execution plan) and
 `docs/planning/ROADMAP.md` (strategic — full competitor analysis + long-term scope + the cut
@@ -83,6 +84,15 @@ legacy garment output. Full verification passed at 72 test files / 918 tests,
 100% statements/branches/functions/lines, TypeScript, production build, parsed
 output consumers and unchanged legacy export hashes. Physical validation
 remains explicitly deferred; the digital component-library milestone is closed.
+
+**UI Bug-Fix Phase (planned 2026-09-12):** before Epic 3 / Phase 5, the
+maintainer inserted three sequential bug-fix epics based on the Slice 93 live
+UI audit: `EPIC-BUGFIX-P1` (correctness and trust), `EPIC-BUGFIX-P2` (usable
+inspection and interaction), and `EPIC-BUGFIX-P3` (polish and discoverability).
+The stable records, separate severity/priority tags, root-cause fields, and
+closure evidence live in `docs/BUG-LEDGER.md`; execution and goal-setting rules
+live in `docs/planning/BUG-FIX-PHASE.md`. No implementation fix has started.
+Epic 3 remains parked until the three bug-fix exit reports pass.
 
 **Polo V1 (2026-09-11):** all geometry decisions are locked: collar-plus-stand,
 loose tee body/current sleeve, self-knit lightly stabilized folded placket,
@@ -1589,7 +1599,8 @@ never suggest them unless the maintainer explicitly reopens them. Phase C3
 includes a visible Side view. Edit remains preview-only through Phase 5; final
 cross-garment design editing is deferred until afterward.
 
-The next three Epics are fully scoped as follows:
+The pre-bug-fix garment sequence below is retained as historical planning
+context:
 
 - **Epic 1 / Phase C3, Slices 80–84:** complete upper/lower shared-croquis
   routing, expose Side view, add cross-garment render-contract tests, prove
@@ -1609,6 +1620,12 @@ references are indexed in `CONTEXT-INDEX.md` and must be consulted by relevant
 slices. The Polo CAD reference informs the committed Polo V2 standby backlog
 only; it does not alter locked Polo V1. Full decisions and slice boundaries
 are recorded in `docs/PROJECT-DECISIONS.md`.
+
+**Current immediate next work:** complete the sequential `BUGFIX` phase before
+Epic 3. Use `docs/planning/BUG-FIX-PHASE.md` for the three epic boundaries and
+`docs/BUG-LEDGER.md` for the authoritative open/closed bug records. Epic 3 is
+not current until `EPIC-BUGFIX-P1`, `EPIC-BUGFIX-P2`, and `EPIC-BUGFIX-P3` each
+have a passing exit report.
 
 ## Roadmap — superseded by MVP-PLAN.md (kept below for slice-history context only)
 The engine/recipe thesis is proven end-to-end: tee, fitted, and skirt — three

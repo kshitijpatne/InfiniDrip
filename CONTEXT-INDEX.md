@@ -33,6 +33,8 @@ snapshots; they are not current status.
 
 - `PROJECT-STATE.md` — engineering status log and immediate roadmap.
 - `ARCHITECTURE.md` — implemented architecture and standing principles.
+- `docs/BUG-LEDGER.md` — durable UI/UX bug IDs, severity, priority, root cause,
+  fix, and verification history.
 - `README.md` — user-facing project overview; useful but less authoritative than
   the two files above.
 - `docs/PROJECT-DECISIONS.md` — decisions confirmed directly by the maintainer.
@@ -50,6 +52,8 @@ snapshots; they are not current status.
   Use `PROJECT-STATE.md` for which phases are actually complete.
 - `docs/planning/SLICES-BRIEF.md` — reusable slice-planning brief. It is a
   template, not a live status source.
+- `docs/planning/BUG-FIX-PHASE.md` — sequential P1/P2/P3 bug-fix epics and
+  goal-setting, ownership, and exit-gate rules before Epic 3.
 
 ## Research documents
 

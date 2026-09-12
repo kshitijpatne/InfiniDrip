@@ -131,3 +131,20 @@ surface design independent from unfinished garment geometry.
 Every slice must state scope, acceptance criteria, non-goals, dependencies,
 ownership, recommended model/reasoning, whether the drafting/data model must
 change, and applicable verification gates before work starts.
+
+### UI bug-fix phase before Epic 3 — confirmed 2026-09-12
+
+Before starting Epic 3, the maintainer inserted a dedicated `BUGFIX` phase for
+the Slice 93 UI/UX audit. It is split into three sequential tagged epics:
+`EPIC-BUGFIX-P1` for correctness and trust, `EPIC-BUGFIX-P2` for usability and
+interaction, and `EPIC-BUGFIX-P3` for polish and discoverability. The durable
+records and phase rules live in `docs/BUG-LEDGER.md` and
+`docs/planning/BUG-FIX-PHASE.md`.
+
+Every bug record must retain a stable ID, separate severity and priority, the
+observed reproduction, root cause, fix slice, commit/PR reference, tests, live
+or rendered evidence, and closure status. No record may be removed merely
+because it was fixed or reclassified. Epic 3 is gated on the three bug-fix
+epics' exit reports and the normal 100% coverage, typecheck, production-build,
+parsed-output, and legacy-export-identity gates. Physical validation remains
+deferred.
