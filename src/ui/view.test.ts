@@ -407,11 +407,15 @@ describe("specTableMarkup — tolerance column", () => {
 
 describe("fabricWidthMarkup — nest scope toggle", () => {
   const html = fabricWidthMarkup(150);
-  it("offers a Single and a Marker button", () => {
+  it("states the scope and consequence of each nesting mode", () => {
     expect(html).toContain('id="nest-single"');
     expect(html).toContain('id="nest-marker"');
-    expect(html).toContain(">Single<");
-    expect(html).toContain(">Marker<");
+    expect(html).toContain(">Single size<");
+    expect(html).toContain(">Graded marker<");
+    expect(html).toContain('aria-label="Nest the selected size only"');
+    expect(html).toContain('aria-label="Nest every graded size"');
+    expect(html).toContain("Single size uses the selected size");
+    expect(html).toContain("Graded marker includes every graded size");
   });
 });
 

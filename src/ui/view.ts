@@ -374,8 +374,8 @@ export function editorHandleControlsMarkup(handles: readonly Handle[]): string {
 /** Fabric-width input for the nesting estimator (a cutting setting, not a body number).
  *  Wrapped in an id'd host so the app can hide it in views where it does nothing. */
 export function fabricWidthMarkup(width: number): string {
-  const scopeBtn = (id: string, label: string, on: boolean): string =>
-    `<button id="${id}" type="button" aria-pressed="${on}" style="padding:4px 10px;font-size:12px;cursor:pointer;` +
+  const scopeBtn = (id: string, label: string, description: string, on: boolean): string =>
+    `<button id="${id}" type="button" aria-pressed="${on}" aria-label="${description}" aria-describedby="nest-scope-help" style="padding:4px 10px;font-size:12px;cursor:pointer;` +
     `background:${on ? T.lineActive : "transparent"};color:${on ? T.background : T.label};` +
     `border:1px solid ${BORDER};border-radius:5px">${label}</button>`;
   return `<div id="fabric-width-host" role="group" aria-label="Nesting scope" style="display:none;gap:8px;align-items:center;margin:4px 0">` +
@@ -386,7 +386,10 @@ export function fabricWidthMarkup(width: number): string {
     `border:1px solid ${BORDER};border-radius:5px;font-family:ui-monospace,monospace"/>` +
     `<span style="font-size:12px;color:${T.label}">cm</span>` +
     `<span style="width:8px"></span>` +
-    `${scopeBtn("nest-single", "Single", true)}${scopeBtn("nest-marker", "Marker", false)}</div>`;
+    `${scopeBtn("nest-single", "Single size", "Nest the selected size only", true)}` +
+    `${scopeBtn("nest-marker", "Graded marker", "Nest every graded size", false)}` +
+    `<span id="nest-scope-help" style="font-size:11px;color:${T.label};flex-basis:100%">` +
+    `Single size uses the selected size; Graded marker includes every graded size.</span></div>`;
 }
 
 /** The auto-measured spec sheet: POM rows × size columns, base column highlighted. */

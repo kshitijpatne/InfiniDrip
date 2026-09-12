@@ -728,6 +728,7 @@ describe("nesting scope toggle", () => {
   it("switches the fabric view to a graded marker when Marker is clicked", () => {
     const root = mount();
     root.querySelector<HTMLButtonElement>("#view-fabric")!.dispatchEvent(new Event("click"));
+    expect(root.querySelector("#fabric-width-host")!.textContent).toContain("Single size uses the selected size");
     const single = root.querySelector("#canvas-host svg")!.innerHTML;
     root.querySelector<HTMLButtonElement>("#nest-marker")!.dispatchEvent(new Event("click"));
     const marker = root.querySelector("#canvas-host svg")!.innerHTML;

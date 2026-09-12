@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: BF-P3-01, 2026-09-12; P1/P2 passed and P3 is in progress._
+_Last updated: BF-P3-02, 2026-09-12; P1/P2 passed and P3 is in progress._
 
 EPIC-BUGFIX-P1 closes BUG-UI-001 through BUG-UI-012 except no IDs are skipped:
 responsive layout, input truth, live totals, unified digital verdicts, full
@@ -24,9 +24,10 @@ The P2 full gate passes: 100% statements/branches/functions/lines across 73
 test files and 956 tests, standalone TypeScript, production build, parsed
 SVG/DXF/tiled-PDF/A0/projector/tech-pack checks, and eight unchanged legacy
 export hashes. BF-P3-01 now aligns fresh material defaults with garment
-construction and makes Style/journey copy truthful. P3-02 and P3-03 remain
-sequential before the P3 exit gate; Epic 3 remains parked until that report
-passes. Physical validation remains deferred.
+construction and makes Style/journey copy truthful. BF-P3-02 now names the
+selected-size versus every-graded-size nesting consequence. P3-03 remains
+before the P3 exit gate; Epic 3 remains parked until that report passes.
+Physical validation remains deferred.
 
 BF-P1-01 closes BUG-UI-002/003: no silent clamp, verbatim negative ease,
 associated input corrections and safe draft pause/recovery. Scope and evidence:

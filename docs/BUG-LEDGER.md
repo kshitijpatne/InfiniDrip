@@ -649,14 +649,26 @@ No console runtime errors were observed during that audit.
 
 ### BUG-UI-030 — Single and Marker controls do not explain scope
 
-- Tags: `BUGFIX`, `EPIC-BUGFIX-P3`, `P3`, `S3`, status `Open`.
+- Tags: `BUGFIX`, `EPIC-BUGFIX-P3`, `P3`, `S3`, status `Closed`.
 - Evidence: Nesting controls are labelled only `Single` and `Marker`; users are
   not told whether these mean one selected size, a base size, or the full grade.
 - Root cause: terse labels omit the distinction between nesting modes. Source:
   `src/ui/view.ts:278`.
 - Done when: each mode states its scope and output consequence in the control
   label or adjacent helper text.
-- Fix slice: —  Commit/PR: —  Verification: —
+- Fix slice: BF-P3-02. Commit/PR: BF-P3-02 behavior commit (immutable
+  reference recorded after the slice commit).
+- Root cause confirmed: terse Single/Marker labels omitted whether the mode
+  used one selected size or the complete graded run. The controls now say
+  Single size and Graded marker, carry matching accessible descriptions, and
+  show the consequence beside the controls.
+- Tests: view markup and app nesting tests cover the visible labels, scope
+  descriptions, helper text, and unchanged single/graded rendered behavior.
+- Live/rendered/output evidence: the live Nesting view shows the two explicit
+  labels and the selected-size versus every-graded-size helper; switching modes
+  still changes only the rendered nesting scope. No physical or production
+  claim is made.
+- Closed by/date: Codex, 2026-09-12. Final status: Closed.
 
 ### BUG-UI-031 — Product hierarchy and swatch discoverability are weak
 

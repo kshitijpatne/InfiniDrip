@@ -83,6 +83,11 @@ guidance names the numeric-input interaction and immediate preview update, and
 the journey checklist describes the available garment registry without a stale
 hardcoded subset.
 
+BF-P3-02: the Nesting view's scope controls expose the actual consequence of
+each mode in both visible labels and accessible descriptions: Single size uses
+the selected size, while Graded marker includes every graded size. The nesting
+engine and export writers remain unchanged.
+
 Slice 93: the woven-shirt component-library exit audit verifies closed geometry
 and sewability across XS–XL, all Pattern/Body/Side/Size run/Spec/Nesting/Check/
 preview-Edit routes, and parsed SVG/DXF/tiled-PDF/A0/projector/tech-pack output.

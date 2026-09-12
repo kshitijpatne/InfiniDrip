@@ -38,7 +38,17 @@ instead of a stale two-garment subset.
 
 Focused verification and live evidence are recorded after implementation.
 
-## BF-P3-02 — Pending
+## BF-P3-02 — Closed
+
+Implementation: BF-P3-02 behavior commit (immutable reference recorded after
+the slice commit).
+
+Nesting controls now say Single size and Graded marker. Each button exposes an
+accessible scope description, and visible helper text explains that Single size
+uses the selected size while Graded marker includes every graded size. The
+underlying nesting and export behavior remains unchanged.
+
+Focused verification and live evidence are recorded after implementation.
 
 ## BF-P3-03 — Pending
 
