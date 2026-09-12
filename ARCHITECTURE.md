@@ -131,6 +131,16 @@ measurement annotations, and calls the complete export family after side
 rendering to prove the render layer remains pure. No croquis API is imported by
 the drafting or export writers, and no export baseline moves as part of C3.
 
+Slice 84: Phase C3 is complete. Upper and lower Body renderers consume shared
+front/back croquis contracts, the user-facing Body selector exposes the named
+Side envelopes, and the registry-driven tests cover all five current garments.
+The final gate confirms croquis remains a presentation-only layer: the
+pre-C3-to-HEAD diff has no drafting/data/grading/checks/nesting/export-writer
+changes, and all legacy export hashes remain unchanged. Side output is honest
+schematic guidance, not evidence of physical fit, sewability, or production
+readiness. The next architecture milestone is the researched woven-shirt
+component library; its garment research document must precede implementation.
+
 Slice 75: the root `tsconfig.json` is type-check-only (`noEmit: true`). Vite is
 the sole renderer build, so `npm run build` cannot place compiled `.js` siblings
 beside TypeScript sources and alter Vite's module-resolution choice for a dev

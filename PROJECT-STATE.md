@@ -333,6 +333,18 @@ F1. **(Fable) Real-world export system** — two new writers on the existing exp
     the existing 8/8 SHA-256 export baseline also passes. No production code,
     drafting, data-model, grading, checks, nesting, Edit, or export changes were
     made. Physical sampling remains deferred.
+84. Phase C3 exit gate — the shared croquis migration and visible Side view are
+    complete. The final repository gate passed at 69 test files / 883 tests,
+    100% statements/branches/functions/lines, TypeScript, and production build.
+    Parsed render checks cover upper/lower Front, Side, and Back contracts;
+    live browser review covered Tee, Tank, Polo, and Skirt Side/Front + Back
+    switching. The pre-C3 base-to-HEAD diff contains no drafting, measurement,
+    data-model, grading, checks, nesting, or export-writer changes, and the
+    complete export-family purity check plus 8/8 SHA-256 legacy hashes remain
+    unchanged. Side is explicitly schematic and does not establish physical
+    fit, sewability, or production readiness. Phase C3 is complete; next is
+    Slice 85's researched woven-shirt block, with its required durable research
+    document before implementation. Physical sampling remains deferred.
 63. Tank rework, step 3 — real strap/armhole geometry for the tank, AND a
     scope change requested by Kshitij mid-slice that reshaped the whole
     approach: rather than the engine picking a single "correct" strap width
@@ -1758,3 +1770,4 @@ s80=871 (3 new upper-body croquis contract/parity tests; Body now consumes share
 s81=873 (2 new lower-body croquis contract/parity tests; Skirt Body now consumes the shared lower silhouette and anchors while cloth remains skirt-owned; 67 files, 100% coverage, production build, and live Skirt Body render verified; legacy export hashes unchanged)
 s82=877 (4 new side-view render/UI tests; Body exposes Front + Back / Side, upper and lower Side paths are rendered from the shared croquis library, and the live UI was checked for Tee and Skirt; 68 files, 100% coverage, production build, and legacy export hashes unchanged)
 s83=883 (6 new registry-driven cross-garment/render-purity tests; all five garments are checked across Front/Side/Back, and SVG/DXF/PDF/tech-pack/marker/projector/A0 outputs remain unchanged after Side rendering; 69 files, 100% coverage, production build, and 8/8 legacy hashes unchanged)
+s84=883 (no new tests; final Phase C3 exit gate passed with 69 test files, 100% coverage, typecheck, production build, live Side/Front + Back review, no export diff from the pre-C3 base, and unchanged 8/8 legacy hashes)
