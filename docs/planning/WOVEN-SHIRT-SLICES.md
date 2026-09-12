@@ -60,3 +60,26 @@ SHA-256 baselines. No physical claim.
 
 Result: contract implemented; focused tests pass (60 tests); full verification
 is recorded with the slice commit.
+
+## Slice 87 - Woven bodice
+
+Objective/scope: draft the woven-only front/back body block with independent
+neck circumference and ease, a relaxed waist/hip path, separate centre front,
+and named shoulder, armhole, side and hem boundaries.
+Acceptance: front is a separate cut piece, back is on fold, neckline responds
+to neck input, waist/hip inputs affect the lower shape, and shoulder/three-part
+side interfaces match without importing knit body geometry.
+Non-goals: collar, stand, plackets, buttons, yoke, pocket, sleeve, vent,
+recipe registration, UI rendering or physical validation.
+Dependencies: Slice 86 contract; existing Piece, Block, neckline and stitch
+primitives.
+Risks: the relaxed lower path is a digital drafting estimate and needs the
+later guidance slice to surface malformed proportions rather than hide them.
+Drafting/data-model change: `draftWovenShirtBody()` and its two declared body
+stitches are added in `shirt.ts`; existing recipes and exports are untouched.
+Owner: Codex. Model: GPT-6 Astra; reasoning: high, for geometry and interfaces.
+Delegation: none. Gates: focused geometry tests, full coverage/typecheck/build,
+parsed export suite and unchanged legacy hashes; no physical claim.
+
+Result: body component implemented; focused tests pass (6 tests); full
+verification is recorded with the slice commit.

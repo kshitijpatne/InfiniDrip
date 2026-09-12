@@ -14,6 +14,8 @@ export const WOVEN_SHIRT_FIELDS = [
 ] as const satisfies readonly (keyof Measurements)[];
 
 export interface WovenShirtOptions {
+  /** Added to the measured neck circumference before quartering the neckline. */
+  readonly neckEase: number;
   /** Number of evenly spaced buttons on the front placket; excludes stand button. */
   readonly buttonCount: number;
   /** Finished centre-to-centre distance between adjacent front buttons. */
@@ -36,6 +38,7 @@ export interface WovenShirtOptions {
 /** Recipe controls exposed in the first woven-shirt UI. Ranges are advisory
  * guardrails, not a permission to clamp live input. */
 export const WOVEN_SHIRT_OPTION_DEFINITIONS: readonly GarmentOption[] = [
+  { id: "neckEase", label: "Neck ease", defaultValue: 1, min: 0, max: 3, step: 0.5 },
   { id: "buttonCount", label: "Front placket buttons", defaultValue: 7, min: 6, max: 7, step: 1 },
   { id: "buttonSpacing", label: "Front button spacing", defaultValue: 8, min: 6, max: 9, step: 0.5 },
   { id: "frontOverlap", label: "Front overlap", defaultValue: 1.5, min: 1, max: 3, step: 0.5 },

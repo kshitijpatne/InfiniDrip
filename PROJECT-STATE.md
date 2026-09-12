@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: after Slice 86 (woven-shirt construction and data contract).
+_Last updated: after Slice 87 (woven-shirt body block).
 Tank rework
 step 4 is complete for automated and rendered verification; physical sewn
 validation has not occurred and is intentionally deferred. Update this after
@@ -29,6 +29,12 @@ pocket/band/vent/hem choices, six or seven front-placket buttons exclude one
 stand button, and the 16 physical-role quantities are recorded. No geometry or
 recipe is registered yet; that starts in Slice 87. Older saves default neck to
 40 cm. Physical validation remains on hold.
+
+**Woven shirt Slice 87 (2026-09-12):** `draftWovenShirtBody()` now drafts the
+separate front and on-fold back with independent neck/neck-ease geometry,
+relaxed waist/hip shaping, explicit centre-front/centre-back edges, and named
+shoulder/armhole/side/hem interfaces. Collar, closures, components, recipe and
+UI integration remain for later slices; physical validation remains on hold.
 
 **Polo V1 (2026-09-11):** all geometry decisions are locked: collar-plus-stand,
 loose tee body/current sleeve, self-knit lightly stabilized folded placket,

@@ -3,6 +3,12 @@
 How the app fits together, in plain language. Read the top to re-orient; skim the
 layers when you need detail. Updated every slice with only need-to-know changes.
 
+Slice 87: `src/drafting/shirt.ts` adds a woven-only front/back body component.
+The separate front has a real centre-front edge; the back is on fold; both
+panels expose named shoulder, armhole, three-part side and hem boundaries. The
+declared shoulder and side stitches match, while neck, waist and hip inputs
+genuinely move the draft. Knit `bodice()` remains untouched.
+
 Slice 86: `src/drafting/shirt-contract.ts` now separates woven-shirt body data
 from recipe-owned construction choices. `Measurements.neck` is an independent
 body circumference with a backward-compatible persistence fallback. The option

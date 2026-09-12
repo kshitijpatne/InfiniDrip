@@ -31,3 +31,4 @@ export * from "./pattern-mark";
 export * from "./options";
 export * from "./polo";
 export * from "./shirt-contract";
+export * from "./shirt";
