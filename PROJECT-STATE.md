@@ -1,14 +1,16 @@
 # InfiniDrip — Project State
 
-_Last updated: Epic 3 Slice 104, 2026-09-12; the BUGFIX
-phase, pre-Epic 3 consistency extension, and Epic 3 exit gate passed._
+_Last updated: Epic 4 Slice 105, 2026-09-13; Epic 3 passed and Epic 4
+Component Architecture and Garment Grammar has started._
 
-## Current status — Epic 3 Slice 104
+## Current status — Epic 4 Slice 105
 
-The actual `main` checkout contains the verified Slice 94–103 work plus the
-completed Slice 104 shared numeric-control implementation and focused tests.
-The final gate passed on the actual branch, and the explicitly authorized
-push to `origin/main` is the final handoff operation for this state update.
+The actual `main` checkout contains the verified Epic 3 work through
+`9890beb`. Epic 4 is now confirmed and in progress. Slice 105 records the
+actual-code baseline, the full Priority 1 scope, the seven-recipe migration
+contract, the one user-facing composition-proof boundary, and the separate
+Desktop Release delegation workstream. No Epic 4 source implementation has
+landed yet.
 The BUGFIX P1/P2/P3 and FC-01 records are closed. Preserved untracked logs and
 `tmp/` evidence remain user artifacts and were not touched or staged.
 
@@ -142,6 +144,16 @@ Woven shirt, Skirt, and Trouser; direct invalid entry, boundary recovery,
 option/nesting controls, and 20 open Edit-coordinate rails were exercised.
 The 8/8 legacy export hashes remain unchanged. Physical fit and
 production-readiness remain deferred.
+
+Epic 4 Slice 105 is the current docs/contract checkpoint. The target is to
+complete the existing partial `Component`, `Interface`, `Stitch`, ordered
+assembly, and croquis foundations into one grammar used by Tee, Fitted tee,
+Tank, Polo, Woven shirt, Skirt, and Trouser. Components own geometry and
+interfaces; composition owns dependency order and seam matching; the composed
+Block remains the sole downstream input. One bounded user-facing composition
+proof is in scope; a full configurator, new garment family, surface design,
+physical validation, and final Edit overrides are not. See
+`docs/planning/EPIC-4-EXECUTION.md` for the slice plan and acceptance gate.
 
 The independent functional-consistency audit (completed before Epic 3) closed BUG-UI-032 through
 BUG-UI-034. Woven Body front/back inspection uses its real lower shaping and

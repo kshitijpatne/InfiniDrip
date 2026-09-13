@@ -162,3 +162,22 @@ garment's measurements, recipe-owned numeric options, nesting fabric width,
 and open-ended exploratory Edit coordinates (which show open endpoints rather
 than invented limits). This is a UI contract only and does not alter drafting,
 grading, persistence, exports, or physical-validation status.
+
+## Epic 4 — Component Architecture and Garment Grammar — confirmed 2026-09-13
+
+- The full Priority 1 package is in scope: component architecture, structural
+  primitives, and the shared render-only croquis/Side-view library.
+- Epic 4 delivers the internal architecture plus one narrowly scoped
+  user-facing composition proof. It does not deliver a general-purpose
+  configurator or a new garment family.
+- Components own geometry and named interfaces; composition owns
+  dependency-ordered assembly and seam matching; options are scoped to their
+  owning component; downstream consumers read the composed result.
+- All seven current recipes — Tee, Fitted tee, Tank, Polo, Woven shirt, Skirt,
+  and Trouser — must migrate through the shared grammar. The eight legacy
+  export hashes remain unchanged, and the other existing outputs require
+  semantic/rendered parity.
+- No new garment family is added. An existing garment or variant is the proof
+  vehicle when a real composition consumer is needed.
+- Edit remains preview-only through Phase 5; surface design, physical
+  validation, and production-readiness claims remain outside this Epic.

@@ -56,6 +56,8 @@ snapshots; they are not current status.
   goal-setting, ownership, and exit-gate rules before Epic 3.
 - `docs/planning/EPIC-3-EXECUTION.md` — authoritative Slice 94–104 execution,
   verification, and Epic 3 exit record.
+- `docs/planning/EPIC-4-EXECUTION.md` — live Component Architecture and Garment
+  Grammar execution, acceptance criteria, delegation boundary, and exit report.
 
 ## Research documents
 

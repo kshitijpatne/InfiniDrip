@@ -141,6 +141,18 @@ audit is clean. Source commits are `d391cdc` (shared implementation) and
 `docs/planning/EPIC-3-EXECUTION.md`; no physical-fit or production-readiness
 assertion is implied.
 
+Epic 4 current boundary — Slice 105
+
+Epic 4 is confirmed as Component Architecture and Garment Grammar. The
+existing partial component foundation (`Component`, `Interface`, `Stitch`,
+ordered assembly, structural drafting helpers, and render-only croquis) will
+be completed behind the existing `GarmentRecipe`/`Block` seam. All seven
+current recipes must consume the same composition contract; components own
+geometry and named interfaces, composition owns dependency order and seam
+matching, and every downstream consumer continues to receive the composed
+`Block`. One bounded user-facing composition proof is included, but no full
+configurator or new garment family.
+
 Epic 3 is closed at the integrated straight-leg trouser plus shared numeric
 editing boundary. Shorts and joggers remain documented derivatives only;
 surface design, physical validation, and production-readiness work are outside
