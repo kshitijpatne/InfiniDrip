@@ -520,7 +520,7 @@ production-readiness are not part of this Epic and were not started.
 
 ### Slice 104 — shared numeric editing and Boundary Rail
 
-Status: **in progress**.
+Status: **complete**.
 
 Scope: replace native number spinners in every measurement and related numeric
 edit surface with a shared direct-entry plus click/hold +/- control. Add the
@@ -562,8 +562,9 @@ Verification: focused UI/logic tests first; then `npm test`, `npm run coverage`,
 legacy hash suite, and rendered/live browser checks before the final push.
 
 Research and decision record: `docs/research/NUMERIC-CONTROLS-RESEARCH.md`.
-The implementation is source-complete only when its final gate evidence is
-recorded below.
+The implementation and final gate evidence are recorded below. The shared
+primitive is UI-only; no drafting, grading, persistence, export writer, or
+legacy baseline changed.
 
 ## Usage-limit pacing and checkpoints
 
@@ -575,15 +576,61 @@ default during implementation. If the visible remaining allowance approaches
 before another expensive slice or full gate. Do not consume a reset credit or
 alter account usage.
 
+Observed checkpoints for this run: startup was 0% primary / 27% secondary;
+the pre-coverage checkpoint was 6–7% / 28%; and the pre-final-gate checkpoint
+was 8% / 28%. The final push checkpoint was 12% / 29%. No reset credit was
+available or consumed, and no continuation checkpoint was needed.
+
 ## Epic 3 exit report
 
-Status: **pending Slice 104 final gate**.
+Status: **passing — Epic 3 complete**.
 
-Slices 94–103 are complete on the actual local `main` branch, and Slice 104 is
-the final maintainer-requested UI slice within this Epic. The straight-leg
-trouser contract is integrated, its shorts/jogger relationship is documented
-without implementing those garments. The exit report will be marked passing
-only after the Slice 104 full project gate, rendered/live evidence, durable
-state update, and explicitly authorized push to `origin/main`. No physical
-garment has been sewn or validated, and no production-readiness claim is
-authorized; do not begin a later Epic.
+Slices 94–104 are complete on the actual `main` branch. The straight-leg
+trouser contract is integrated, and the later shorts/jogger relationship is
+documented without implementing those garments. Slice 104 adds the shared
+direct-entry plus click/hold +/- control and Boundary Rail to every garment's
+measurements, recipe-owned numeric options, nesting fabric width, and
+open-ended Edit coordinates. The two-sided control keeps manual entry, repeats
+on hold, exposes exact digital limits, preserves invalid raw input for
+guidance, and recovers only on an explicit boundary action.
+
+Final gate evidence on the actual branch:
+
+- `npm test`: 80 files / 1,021 tests passed.
+- `npm run coverage`: 80 files / 1,021 tests passed; statements, branches,
+  functions, and lines are each 100%.
+- `npx tsc --noEmit`: passed.
+- `npm run build`: passed; 92 Vite modules, 196.69 kB bundle / 57.50 kB gzip.
+- Independent parsers reopened the actual selected Trouser artifacts: SVG 16
+  polygons with no parser error; DXF 16 POLYLINE entities with CUT, SEW,
+  placement, fold, button, and buttonhole layers and no `NaN`; tiled PDF 80
+  A4 pages / 160 content streams with pocket, fly-edge, and grain markers; A0
+  PDF 8 pages / 16 streams with waistband, pocket, and `10 cm` calibration;
+  projector SVG 5 size layers / 80 polygons with no parser error; tech pack
+  PDF 4 pages / 8 streams with BOM/materials, POM rows, and construction text.
+- The legacy regression suite passed 8/8. The exact eight SHA-256 values in
+  `src/export/regression.test.ts` remain unchanged; no export baseline moved.
+- The live in-app browser audit found every current numeric input in Tee,
+  Fitted tee, Tank, Polo, Woven shirt, Skirt, and Trouser wrapped with both
+  flank actions and a Boundary Rail. It exercised direct click, invalid manual
+  entry, above-maximum recovery, recipe-option/nesting controls, and 20
+  open-range Edit coordinate rails. The current Slice 104 live viewport
+  reported no page-level horizontal overflow. The supported 1280/900/700/560/390
+  shell matrix was previously live-verified in Slice 102 and remains free of
+  page overflow, with the inspection surface retaining its own scroll boundary.
+  Current rendered evidence is the Slice 104
+  measurement-control/Edit screenshots; the existing rendered Trouser
+  Pattern/Body/Size-run/responsive screenshots remain in the thread evidence
+  folder `epic3-slice101-outputs/`. Browser diagnostics contained only Vite
+  connect messages.
+- `git diff --check` passed. Preserved untracked `coverage-p1.log`,
+  `p1-focused.log`, and `tmp/` remain untouched and uncommitted.
+
+The exact implementation commits are `6db9a1e` (94), `199b83c` (95),
+`513537e` (96), `c31a5a5` (97), `d8ef239` (98), `1525c26` (99), `a4223af`
+(100), `8b2aec0` (101), `0877e30` (102), `796eb18` (103), `d391cdc`
+(104 shared implementation), and `ae9701b` (104 final coverage paths). The
+final durable-state commit containing this report is the payload for the
+user-authorized push to `origin/main`. No later Epic may begin from this
+record. No physical garment has been sewn or validated, and no physical-fit
+or production-readiness claim is made.

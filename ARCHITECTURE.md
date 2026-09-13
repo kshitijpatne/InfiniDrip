@@ -132,6 +132,15 @@ silently rewriting manual input. Open-ended Edit coordinates show `−∞` and
 `+∞` endpoints. This is presentation and interaction glue only: drafting,
 grading, persistence, and all export writers remain unchanged.
 
+The Slice 104 final gate passed on the actual branch: all 80 test files / 1,021
+tests pass, coverage is 100% across statements/branches/functions/lines,
+TypeScript and the 92-module production build pass, the parsed output
+consumers and all eight legacy hashes pass, and the live cross-garment control
+audit is clean. Source commits are `d391cdc` (shared implementation) and
+`ae9701b` (final delegation-path coverage). The durable exit record is in
+`docs/planning/EPIC-3-EXECUTION.md`; no physical-fit or production-readiness
+assertion is implied.
+
 Epic 3 is closed at the integrated straight-leg trouser plus shared numeric
 editing boundary. Shorts and joggers remain documented derivatives only;
 surface design, physical validation, and production-readiness work are outside

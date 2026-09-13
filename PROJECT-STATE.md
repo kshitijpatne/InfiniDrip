@@ -1,14 +1,14 @@
 # InfiniDrip — Project State
 
 _Last updated: Epic 3 Slice 104, 2026-09-12; the BUGFIX
-phase and pre-Epic 3 consistency extension passed._
+phase, pre-Epic 3 consistency extension, and Epic 3 exit gate passed._
 
 ## Current status — Epic 3 Slice 104
 
 The actual `main` checkout contains the verified Slice 94–103 work plus the
-Slice 104 shared numeric-control implementation and focused tests. The final
-Slice 104 full gate and the explicitly authorized push to `origin/main` remain
-pending while this slice is being verified.
+completed Slice 104 shared numeric-control implementation and focused tests.
+The final gate passed on the actual branch, and the explicitly authorized
+push to `origin/main` is the final handoff operation for this state update.
 The BUGFIX P1/P2/P3 and FC-01 records are closed. Preserved untracked logs and
 `tmp/` evidence remain user artifacts and were not touched or staged.
 
@@ -124,12 +124,23 @@ all eight hashes unchanged; the exact manifest and rendered evidence are
 recorded in `docs/planning/EPIC-3-EXECUTION.md`. Slice 104 is the maintainer-
 requested final UI slice within this Epic, not a later Epic.
 
-Slice 104 is in progress. It adds the shared direct-entry plus click/hold +/-
+Slice 104 is complete. It adds the shared direct-entry plus click/hold +/-
 control and Boundary Rail for measurements, recipe options, nesting fabric
 width, and open-ended Edit coordinates. The implementation keeps manual raw
 invalid values visible, disables only reached bounded endpoints, and does not
-change drafting or export code. Focused UI/logic tests pass; the full gate,
-rendered matrix, and push are the remaining acceptance work. Physical fit and
+change drafting or export code. The focused interaction tests and the full
+gate pass: `npm test` is 80 files / 1,021 tests; `npm run coverage` is 100% for
+statements, branches, functions, and lines; `npx tsc --noEmit` passes; and
+`npm run build` passes with 92 Vite modules (196.69 kB, 57.50 kB gzip).
+Independent parsing of the actual selected Trouser artifacts passes: 16 SVG
+polygons, 16 DXF polylines with CUT/SEW/placement/fold layers, 80 tiled PDF
+pages, 8 A0 pages with calibration, 5 projector size layers / 80 polygons,
+and 4 tech-pack pages with materials/BOM/construction/POM content; no parser
+errors or `NaN` values were found. The live in-app audit found both flank
+buttons and a rail on every numeric control in Tee, Fitted tee, Tank, Polo,
+Woven shirt, Skirt, and Trouser; direct invalid entry, boundary recovery,
+option/nesting controls, and 20 open Edit-coordinate rails were exercised.
+The 8/8 legacy export hashes remain unchanged. Physical fit and
 production-readiness remain deferred.
 
 The independent functional-consistency audit (completed before Epic 3) closed BUG-UI-032 through
