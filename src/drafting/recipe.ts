@@ -49,6 +49,7 @@ import {
   TROUSER_TECH_PACK,
 } from "./trouser-tables";
 import { trouserGuidance } from "./trouser-guidance";
+import type { GarmentGrammar } from "./grammar";
 
 /**
  * How a garment declares its production-readiness checks, so the checker never
@@ -124,6 +125,8 @@ export interface GarmentRecipe {
   // carry one; absent means "use the sleeved shoulder point," same
   // optional-is-inert convention as frontNeckline/backNeckline above.
   readonly strapWidth?: (m: Measurements) => number;
+  /** The declarative component graph behind this recipe, when migrated. */
+  readonly grammar?: GarmentGrammar;
 }
 
 /**

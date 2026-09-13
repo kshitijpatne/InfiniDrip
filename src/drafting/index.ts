@@ -21,6 +21,7 @@ export * from "./recipe";
 export * from "./fit-compare";
 export * from "./stitch";
 export * from "./component";
+export * from "./grammar";
 export * from "./bodice";
 export * from "./sleeve";
 export * from "./neckline";
