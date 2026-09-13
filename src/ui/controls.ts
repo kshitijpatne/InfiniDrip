@@ -49,3 +49,50 @@ export function inputError(value: number, field: Pick<Field, "label" | "min" | "
 export function applyChange(m: Measurements, field: Field, raw: string): Measurements {
   return { ...m, [field.id]: raw.trim() === "" ? NaN : Number(raw) };
 }
+
+export type NumericRangeState = "valid" | "under" | "over" | "empty";
+
+/** The visible state of a numeric control's declared range. Empty also covers
+ * non-finite text: the app keeps the raw entry for guidance rather than
+ * silently replacing it. */
+export function numericRangeState(
+  raw: string, min?: number, max?: number
+): NumericRangeState {
+  const value = raw.trim() === "" ? NaN : Number(raw);
+  if (!Number.isFinite(value)) return "empty";
+  if (min !== undefined && value < min) return "under";
+  if (max !== undefined && value > max) return "over";
+  return "valid";
+}
+
+/** Position a finite value on a bounded rail. Open-ended controls have no
+ * meaningful percentage position and deliberately return null. Values outside
+ * the rail are retained so the UI can show which side of the boundary failed. */
+export function numericRangePosition(
+  raw: string, min?: number, max?: number
+): number | null {
+  const value = raw.trim() === "" ? NaN : Number(raw);
+  if (!Number.isFinite(value) || min === undefined || max === undefined || max <= min) return null;
+  return ((value - min) / (max - min)) * 100;
+}
+
+/** One explicit +/- action. Direct typing remains untouched; pressing a
+ * control is an intentional correction and therefore recovers an invalid or
+ * empty value to the nearest declared boundary. */
+export function stepNumericValue(
+  raw: string, direction: -1 | 1, step: number, min?: number, max?: number
+): string {
+  const value = raw.trim() === "" ? NaN : Number(raw);
+  const decimalText = String(step).split(".")[1] ?? "";
+  const decimals = decimalText.length;
+  const format = (next: number): string => String(Number(next.toFixed(decimals)));
+  if (!Number.isFinite(value)) {
+    if (min !== undefined && direction > 0) return format(min);
+    if (max !== undefined && direction < 0) return format(max);
+    return format(direction * step);
+  }
+  let next = value + direction * step;
+  if (min !== undefined && next < min) next = min;
+  if (max !== undefined && next > max) next = max;
+  return format(next);
+}

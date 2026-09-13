@@ -3,7 +3,7 @@
 How the app fits together, in plain language. Read the top to re-orient; skim the
 layers when you need detail. Updated every slice with only need-to-know changes.
 
-## Current Epic 3 boundary — Slice 103
+## Current Epic 3 boundary — Slice 104
 
 The pre-Epic 3 checkout and BUGFIX/FC-01 exit are verified on the actual
 `main` branch. The first trouser is a separate reusable relaxed casual
@@ -120,13 +120,22 @@ garments passed live Pattern/Body/Spec/Check spot checks. Page-level responsive
 checks at 1280/900/700/560/390 reported no horizontal overflow, while the
 inspection surface remained its own scroll/layout concern. Slice 103 then
 passed the final code, parsed-output, legacy-hash, and rendered-evidence gate
-and recorded the durable Epic 3 exit report. No physical-fit or
+and recorded the durable Epic 3 exit report checkpoint. No physical-fit or
 production-readiness assertion is implied.
 
-Epic 3 is closed at the integrated straight-leg trouser boundary. Shorts and
-joggers remain documented derivatives only; surface design, physical
-validation, and production-readiness work are outside this boundary. The
-actual branch and all exact gate evidence are recorded in
+Slice 104 adds the shared numeric editing primitive used by measurements,
+recipe options, nesting fabric width, and exploratory Edit coordinates. The
+editable number is flanked by explicit minus/plus actions with bounded
+click/hold repetition. Its Boundary Rail exposes exact declared endpoints and
+the current valid position; under/over/empty states remain visible without
+silently rewriting manual input. Open-ended Edit coordinates show `−∞` and
+`+∞` endpoints. This is presentation and interaction glue only: drafting,
+grading, persistence, and all export writers remain unchanged.
+
+Epic 3 is closed at the integrated straight-leg trouser plus shared numeric
+editing boundary. Shorts and joggers remain documented derivatives only;
+surface design, physical validation, and production-readiness work are outside
+this boundary. The actual branch and all exact gate evidence are recorded in
 `docs/planning/EPIC-3-EXECUTION.md`.
 
 BF-P1-02: the UI's current design verdict combines input validity, all recipe/

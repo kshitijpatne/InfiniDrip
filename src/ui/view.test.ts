@@ -52,6 +52,20 @@ describe("controlsMarkup", () => {
     // order follows the fields list, not the FIELDS table
     expect(html.indexOf('data-field="waist"')).toBeLessThan(html.indexOf('data-field="length"'));
   });
+
+  it("puts explicit +/- actions and exact boundary endpoints around each field", () => {
+    const html = controlsMarkup(STANDARD_M, ["chest"]);
+    expect(html).toContain('data-range-control="chest"');
+    expect(html).toContain('data-step-direction="-1"');
+    expect(html).toContain('data-step-direction="1"');
+    expect(html).toContain('aria-label="Decrease Chest by 1 cm"');
+    expect(html).toContain('aria-label="Increase Chest by 1 cm"');
+    expect(html).toContain('data-range-min="60"');
+    expect(html).toContain('data-range-max="160"');
+    expect(html).toContain('data-range-rail');
+    expect(html).toContain(">60<");
+    expect(html).toContain(">160<");
+  });
 });
 
 describe("fabricSwatchesMarkup", () => {
@@ -84,6 +98,9 @@ describe("appShellMarkup", () => {
     expect(html).toContain('<header id="product-header"');
     expect(html).toContain('<h1 id="product-title"');
     expect(html).toContain("Parametric garment design workspace");
+    expect(html).toContain("::-webkit-inner-spin-button");
+    expect(html).toContain('data-step-direction="-1"');
+    expect(html).toContain('data-step-direction="1"');
   });
 });
 
@@ -155,6 +172,7 @@ describe("woven option controls", () => {
     }]);
     expect(html).toContain('data-option="custom"');
     expect(html).not.toContain('data-field-unit="option-custom"');
+    expect(html).toContain('aria-label="Increase Custom choice by 1"');
   });
 });
 
@@ -201,6 +219,10 @@ describe("editorHandleControlsMarkup", () => {
     expect((html.match(/data-editor-coordinate/g) || [])).toHaveLength(handles.length * 2);
     expect(html).toContain('data-editor-handle-id="v0"');
     expect(html).toContain('aria-label="Corner 1 X coordinate"');
+    expect(html).toContain('data-step-direction="-1"');
+    expect(html).toContain('data-step-direction="1"');
+    expect(html).toContain(">−∞<");
+    expect(html).toContain(">+∞<");
   });
 });
 
@@ -227,6 +249,14 @@ describe("fabricWidthMarkup", () => {
     expect(html).toContain('id="fabric-width"');
     expect(html).toContain('value="150"');
     expect(html).toContain("Fabric width");
+    expect(html).toContain('data-range-control="fabric-width"');
+    expect(html).toContain(">30<");
+    expect(html).toContain(">300<");
+    expect(html).toContain('data-step-direction="1"');
+  });
+
+  it("marks an unavailable width as unavailable on the rail", () => {
+    expect(fabricWidthMarkup(Number.NaN)).toContain("current value unavailable");
   });
 });
 

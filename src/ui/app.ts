@@ -13,7 +13,7 @@ import { BLUEPRINT } from "../render";
 import { guide, Note } from "../guidance";
 import { garmentReport, implausibleFields } from "../guidance";
 import { matchStyle, styleNames } from "../style";
-import { FIELDS, applyChange, inputError } from "./controls";
+import { FIELDS, applyChange, inputError, numericRangePosition, numericRangeState, stepNumericValue } from "./controls";
 import { appShellMarkup, controlsMarkup, guidanceMarkup, styleMarkup, specTableMarkup, checkMarkup, editorHintMarkup, editorHandleControlsMarkup, dartControlsMarkup, inspectionMarkup, assembledPreviewMarkup, BodyCroquisView } from "./view";
 import { saveToStorage, loadFromStorage, readFromStorage, serialize, deserialize, DEFAULT_WORKSPACE, defaultStretchFabricForGarment, Workspace } from "./persist";
 import {
@@ -254,6 +254,53 @@ export function mountApp(root: HTMLElement): void {
     if (zoomOutput) zoomOutput.textContent = `${Math.round(inspectionZoom * 100)}%`;
   };
 
+  /** Keep each boundary rail truthful after typing, a +/- action, a garment
+   * switch, or a redraw. The input stays the source of truth; the rail is a
+   * visual/accessibility projection of its declared range. */
+  const syncRangeIndicators = (): void => {
+    root.querySelectorAll<HTMLElement>("[data-range-control]").forEach((control) => {
+      const input = control.querySelector<HTMLInputElement>("input");
+      const rail = control.querySelector<HTMLElement>("[data-range-rail]");
+      if (!input || !rail) return;
+      const min = control.dataset.rangeMin === undefined ? undefined : Number(control.dataset.rangeMin);
+      const max = control.dataset.rangeMax === undefined ? undefined : Number(control.dataset.rangeMax);
+      const state = numericRangeState(input.value, min, max);
+      const position = numericRangePosition(input.value, min, max);
+      const raw = input.value.trim();
+      const value = raw === "" ? NaN : Number(raw);
+      const unit = control.dataset.rangeUnit ? ` ${control.dataset.rangeUnit}` : "";
+      const markerColor = state === "valid" ? "#2E9B63"
+        : state === "empty" ? BLUEPRINT.label : BLUEPRINT.lineActive;
+      const marker = control.querySelector<HTMLElement>("[data-range-marker]");
+      const fill = control.querySelector<HTMLElement>("[data-range-fill]");
+      if (marker) {
+        marker.style.display = position === null ? "none" : "block";
+        marker.style.background = markerColor;
+        if (position !== null) marker.style.left = `${Math.max(0, Math.min(100, position))}%`;
+      }
+      if (fill) {
+        fill.style.width = position === null ? "0%" : `${Math.max(0, Math.min(100, position))}%`;
+        fill.style.background = markerColor;
+      }
+      control.dataset.rangeState = state;
+      rail.dataset.rangeState = state;
+      const allowed = min === undefined || max === undefined
+        ? "Open range"
+        : `Allowed range ${min}–${max}${unit}`;
+      const current = !Number.isFinite(value)
+        ? "current value unavailable"
+        : `current value ${value}${unit}${state === "under" ? " (below minimum)" : state === "over" ? " (above maximum)" : ""}`;
+      rail.setAttribute("aria-label", `${allowed}; ${current}`);
+      if (Number.isFinite(value)) input.setAttribute("aria-valuenow", String(value));
+      else input.removeAttribute("aria-valuenow");
+      control.querySelectorAll<HTMLButtonElement>("button[data-step-direction]").forEach((button) => {
+        const direction = button.dataset.stepDirection;
+        button.disabled = state === "valid" && ((direction === "-1" && min !== undefined && value <= min) ||
+          (direction === "1" && max !== undefined && value >= max));
+      });
+    });
+  };
+
   const draw = (): void => {
     const errors = inputErrors();
     const valid = designValid();
@@ -268,6 +315,7 @@ export function mountApp(root: HTMLElement): void {
       input.setCustomValidity(error ?? "");
       root.querySelector<HTMLElement>(`#error-${key}`)!.textContent = error ?? "";
     });
+    syncRangeIndicators();
     root.querySelectorAll<HTMLButtonElement>('#export-host button[id^="export-"]').forEach((button) => {
       button.disabled = !valid;
       button.title = button.disabled ? "Resolve the flagged inputs and digital checks before exporting." : "";
@@ -351,6 +399,9 @@ export function mountApp(root: HTMLElement): void {
           layout: recipe.name === "polo" ? "polo" : "linear" });
     }
     canvasHost.innerHTML = inspectionMarkup(canvasContent, view);
+    // Edit coordinates are created inside the freshly rebuilt inspection
+    // surface, so sync once more after that markup exists.
+    syncRangeIndicators();
     applyInspectionPresentation();
     const assembled = isTop
       ? renderGarment(measurements, fabric, hasSleeve,
@@ -699,6 +750,78 @@ export function mountApp(root: HTMLElement): void {
     });
   };
   wireMeasurementInputs();
+
+  // +/- buttons are delegated from the stable root because controls are
+  // replaced when the garment changes and editor coordinates are rebuilt on
+  // every edit. A short delay followed by a steady repeat makes click/hold
+  // useful without changing the direct-entry or validation contract.
+  let activeStepper: HTMLButtonElement | null = null;
+  let repeatDelay = 0;
+  let repeatInterval = 0;
+  let suppressNextStepperClick: HTMLButtonElement | null = null;
+  const stopStepperRepeat = (suppressClick: boolean): void => {
+    if (repeatDelay !== 0) window.clearTimeout(repeatDelay);
+    if (repeatInterval !== 0) window.clearInterval(repeatInterval);
+    if (suppressClick && activeStepper) suppressNextStepperClick = activeStepper;
+    repeatDelay = 0;
+    repeatInterval = 0;
+    activeStepper = null;
+  };
+  const stepFromButton = (button: HTMLButtonElement): HTMLButtonElement | null => {
+    if (button.disabled) return null;
+    const control = button.closest<HTMLElement>("[data-range-control]");
+    const input = control?.querySelector<HTMLInputElement>("input");
+    if (!control || !input) return null;
+    const step = Number(control.dataset.rangeStep);
+    if (!Number.isFinite(step) || step <= 0) return null;
+    const min = control.dataset.rangeMin === undefined ? undefined : Number(control.dataset.rangeMin);
+    const max = control.dataset.rangeMax === undefined ? undefined : Number(control.dataset.rangeMax);
+    const direction: -1 | 1 = button.dataset.stepDirection === "1" ? 1 : -1;
+    input.value = stepNumericValue(input.value, direction, step, min, max);
+    const eventName = input.matches("[data-editor-coordinate]") ? "change" : "input";
+    input.dispatchEvent(new Event(eventName, { bubbles: true }));
+    const nextInput = input.id ? root.querySelector<HTMLInputElement>(`#${input.id}`) : input;
+    nextInput?.focus();
+    return root.querySelector<HTMLButtonElement>(
+      `button[data-step-target="${control.dataset.rangeControl}"][data-step-direction="${direction}"]`
+    );
+  };
+  root.addEventListener("pointerdown", (e) => {
+    const button = (e.target as HTMLElement).closest<HTMLButtonElement>("button[data-step-direction]");
+    if (!button || button.disabled) return;
+    e.preventDefault();
+    stopStepperRepeat(false);
+    suppressNextStepperClick = null;
+    activeStepper = stepFromButton(button);
+    if (!activeStepper) return;
+    repeatDelay = window.setTimeout(() => {
+      if (!activeStepper || activeStepper.disabled || !root.contains(activeStepper)) {
+        stopStepperRepeat(false);
+        return;
+      }
+      repeatDelay = 0;
+      repeatInterval = window.setInterval(() => {
+        const current = activeStepper;
+        if (!current || current.disabled || !root.contains(current)) {
+          stopStepperRepeat(false);
+          return;
+        }
+        activeStepper = stepFromButton(current) ?? current;
+      }, 80);
+    }, 350);
+  });
+  root.addEventListener("click", (e) => {
+    const button = (e.target as HTMLElement).closest<HTMLButtonElement>("button[data-step-direction]");
+    if (!button) return;
+    if (suppressNextStepperClick === button) {
+      suppressNextStepperClick = null;
+      return;
+    }
+    stepFromButton(button);
+  });
+  window.addEventListener("pointerup", () => stopStepperRepeat(true));
+  window.addEventListener("pointercancel", () => stopStepperRepeat(true));
+  window.addEventListener("blur", () => stopStepperRepeat(false));
 
   const swatches = root.querySelectorAll<HTMLButtonElement>("button[data-fabric]");
   swatches.forEach((swatch) => {

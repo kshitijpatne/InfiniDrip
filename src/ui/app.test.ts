@@ -48,6 +48,130 @@ describe("mountApp", () => {
     expect(viewBox(root)).not.toBe(before);
   });
 
+  it("uses flank +/- buttons and keeps the live boundary rail truthful", () => {
+    localStorage.clear();
+    const root = mount();
+    const chest = root.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+    const control = chest.closest<HTMLElement>("[data-range-control]")!;
+    const plus = control.querySelector<HTMLButtonElement>('button[data-step-direction="1"]')!;
+    const minus = control.querySelector<HTMLButtonElement>('button[data-step-direction="-1"]')!;
+
+    plus.dispatchEvent(new Event("click", { bubbles: true }));
+    expect(chest.value).toBe("101");
+    expect(control.dataset.rangeState).toBe("valid");
+    expect(control.querySelector("[data-range-rail]")!.getAttribute("aria-label"))
+      .toContain("current value 101 cm");
+    expect(control.querySelector<HTMLElement>("[data-range-marker]")!.style.left).toBe("41%");
+
+    chest.value = "60";
+    chest.dispatchEvent(new Event("input"));
+    expect(minus.disabled).toBe(true);
+    minus.dispatchEvent(new Event("click", { bubbles: true }));
+    expect(chest.value).toBe("60");
+
+    chest.value = "999";
+    chest.dispatchEvent(new Event("input"));
+    expect(control.dataset.rangeState).toBe("over");
+    expect(control.querySelector("[data-range-rail]")!.getAttribute("aria-label"))
+      .toContain("above maximum");
+    minus.dispatchEvent(new Event("click", { bubbles: true }));
+    expect(chest.value).toBe("160"); // an explicit action recovers to the boundary
+    expect(plus.disabled).toBe(true);
+
+    chest.value = "";
+    chest.dispatchEvent(new Event("input"));
+    expect(control.dataset.rangeState).toBe("empty");
+    expect(control.querySelector("[data-range-rail]")!.getAttribute("aria-label"))
+      .toContain("current value unavailable");
+    expect(chest.getAttribute("aria-valuenow")).toBeNull();
+  });
+
+  it("repeats a held stepper and suppresses the synthetic click", () => {
+    localStorage.clear();
+    vi.useFakeTimers();
+    try {
+      const root = mount();
+      const plus = root.querySelector<HTMLButtonElement>('input[data-field="chest"]')!
+        .closest<HTMLElement>("[data-range-control]")!
+        .querySelector<HTMLButtonElement>('button[data-step-direction="1"]')!;
+      const chest = root.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+
+      plus.dispatchEvent(new Event("pointerdown", { bubbles: true }));
+      expect(chest.value).toBe("101"); // immediate response
+      vi.advanceTimersByTime(350);
+      vi.advanceTimersByTime(240); // three 80 ms repeats
+      const held = Number(chest.value);
+      expect(held).toBeGreaterThan(101);
+      window.dispatchEvent(new Event("pointerup"));
+      plus.dispatchEvent(new Event("click", { bubbles: true }));
+      expect(Number(chest.value)).toBe(held); // no double-step after release
+      vi.advanceTimersByTime(500);
+      expect(Number(chest.value)).toBe(held); // release stopped the interval
+
+      chest.value = "158";
+      chest.dispatchEvent(new Event("input"));
+      plus.dispatchEvent(new Event("pointerdown", { bubbles: true }));
+      expect(chest.value).toBe("159");
+      vi.advanceTimersByTime(350);
+      vi.advanceTimersByTime(160); // the interval reaches 160, then stops on disabled +
+      expect(chest.value).toBe("160");
+      window.dispatchEvent(new Event("pointerup"));
+
+      chest.value = "159";
+      chest.dispatchEvent(new Event("input"));
+      plus.dispatchEvent(new Event("pointerdown", { bubbles: true }));
+      expect(chest.value).toBe("160");
+      vi.advanceTimersByTime(350); // the delayed repeat also stops at a boundary
+      window.dispatchEvent(new Event("pointerup"));
+
+      chest.value = "100";
+      chest.dispatchEvent(new Event("input"));
+      plus.dispatchEvent(new Event("pointerdown", { bubbles: true }));
+      expect(chest.value).toBe("101");
+      window.dispatchEvent(new Event("blur"));
+      const blurred = chest.value;
+      vi.advanceTimersByTime(500);
+      expect(chest.value).toBe(blurred);
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it("keeps the same +/- and range contract for recipe options, nesting width, and Edit coordinates", () => {
+    localStorage.clear();
+    const root = mount();
+    root.querySelector<HTMLButtonElement>("#garment-polo")!.dispatchEvent(new Event("click"));
+    const option = root.querySelector<HTMLInputElement>('input[data-option="placketLength"]')!;
+    const optionControl = option.closest<HTMLElement>("[data-range-control]")!;
+    optionControl.querySelector<HTMLButtonElement>('button[data-step-direction="1"]')!
+      .dispatchEvent(new Event("click", { bubbles: true }));
+    expect(option.value).toBe("14.5");
+    expect(optionControl.querySelector("[data-range-rail]")!.getAttribute("aria-label"))
+      .toContain("Allowed range");
+
+    root.querySelector<HTMLButtonElement>("#view-fabric")!.dispatchEvent(new Event("click"));
+    const width = root.querySelector<HTMLInputElement>("#fabric-width")!;
+    root.querySelector<HTMLElement>('[data-range-control="fabric-width"]')!
+      .querySelector<HTMLButtonElement>('button[data-step-direction="1"]')!
+      .dispatchEvent(new Event("click", { bubbles: true }));
+    expect(width.value).toBe("151");
+    expect(root.querySelector('[data-range-control="fabric-width"] [data-range-rail]')!.getAttribute("aria-label"))
+      .toContain("30–300 cm");
+
+    root.querySelector<HTMLButtonElement>("#view-edit")!.dispatchEvent(new Event("click"));
+    const coordinate = root.querySelector<HTMLInputElement>('input[data-editor-coordinate][data-editor-axis="x"]')!;
+    const before = Number(coordinate.value);
+    coordinate.closest<HTMLElement>("[data-range-control]")!
+      .querySelector<HTMLButtonElement>('button[data-step-direction="1"]')!
+      .dispatchEvent(new Event("click", { bubbles: true }));
+    const after = root.querySelector<HTMLInputElement>(`#${coordinate.id}`)!;
+    expect(Number(after.value)).toBeCloseTo(before + 0.1, 5);
+    expect(after.closest<HTMLElement>("[data-range-control]")!.querySelector("[data-range-rail]")!.getAttribute("aria-label"))
+      .toContain("Open range");
+    expect(after.closest<HTMLElement>("[data-range-control]")!.querySelector<HTMLElement>("[data-range-marker]")!.style.display)
+      .toBe("none");
+  });
+
   it("preserves an out-of-range field with an actionable correction on change", () => {
     const root = mount();
     const chest = root.querySelector<HTMLInputElement>('input[data-field="chest"]')!;

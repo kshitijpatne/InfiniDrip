@@ -7,12 +7,63 @@ import { BLUEPRINT as T, FABRICS } from "../render";
 import { Note, SEVERITY_ICON } from "../guidance";
 import { Report } from "../guidance";
 import { StyleMatch, Delta } from "../style";
-import { FIELDS, Field } from "./controls";
+import { FIELDS, Field, numericRangeState } from "./controls";
 import type { Handle } from "../edit";
 
 const PANEL = "#13233A";
 const BORDER = "#1E3450";
 const OK = "#2E9B63";
+
+/** Shared number control: explicit +/- affordances flank the editable value,
+ * and the small boundary rail turns the declared min/max into a glanceable
+ * number line. Open-ended exploratory coordinates use infinity endpoints. */
+function numericControlMarkup(
+  controlId: string,
+  inputId: string,
+  label: string,
+  value: number,
+  min: number | undefined,
+  max: number | undefined,
+  step: number,
+  inputAttributes: string,
+  rangeUnit: string,
+): string {
+  const unit = rangeUnit ? ` ${rangeUnit}` : "";
+  const inputMinAttribute = min === undefined ? "" : ` min="${min}" data-range-min="${min}" aria-valuemin="${min}"`;
+  const inputMaxAttribute = max === undefined ? "" : ` max="${max}" data-range-max="${max}" aria-valuemax="${max}"`;
+  const controlMinAttribute = min === undefined ? "" : ` data-range-min="${min}"`;
+  const controlMaxAttribute = max === undefined ? "" : ` data-range-max="${max}"`;
+  const state = numericRangeState(String(value), min, max);
+  const allowed = min === undefined || max === undefined
+    ? "Open range"
+    : `Allowed range ${min}–${max}${unit}`;
+  const current = state === "empty" ? "current value unavailable" : `current value ${value}${unit}`;
+  const endpoint = (edge: "min" | "max"): string => edge === "min"
+    ? (min === undefined ? "−∞" : String(min))
+    : (max === undefined ? "+∞" : String(max));
+  const button = (direction: -1 | 1, symbol: string, verb: string): string =>
+    `<button type="button" data-step-target="${controlId}" data-step-direction="${direction}" ` +
+    `aria-controls="${inputId}" aria-label="${verb} ${label} by ${step}${unit}" ` +
+    `style="flex:0 0 21px;width:21px;height:28px;padding:0;cursor:pointer;touch-action:manipulation;` +
+    `background:${T.background};color:${T.line};border:1px solid ${BORDER};font-size:16px;line-height:1">${symbol}</button>`;
+  const input = `<input id="${inputId}" ${inputAttributes} type="number" value="${value}" step="${step}"${inputMinAttribute}${inputMaxAttribute} ` +
+    `style="width:58px;height:28px;box-sizing:border-box;padding:4px 5px;text-align:right;background:${T.background};color:${T.line};` +
+    `border:1px solid ${BORDER};font-family:ui-monospace,monospace"/>`;
+  return `<span class="numeric-control" data-range-control="${controlId}" data-range-label="${label}" ` +
+    `data-range-unit="${rangeUnit}" data-range-step="${step}" data-range-state="${state}"${controlMinAttribute}${controlMaxAttribute}` +
+    ` style="display:inline-flex;flex:0 0 112px;flex-direction:column;gap:2px;min-width:112px">` +
+    `<span class="numeric-stepper" style="display:inline-flex;align-items:center;justify-content:center">` +
+    `${button(-1, "−", "Decrease")}${input}${button(1, "+", "Increase")}</span>` +
+    `<span data-range-rail role="img" aria-label="${allowed}; ${current}" ` +
+    `style="display:flex;align-items:center;gap:3px;width:112px;height:12px;color:${T.label};font-size:9px;line-height:1;` +
+    `font-family:ui-monospace,monospace;white-space:nowrap">` +
+    `<span data-range-endpoint="min" style="min-width:16px;text-align:left">${endpoint("min")}</span>` +
+    `<span data-range-track style="position:relative;flex:1;height:3px;border-radius:3px;background:${BORDER};overflow:visible">` +
+    `<span data-range-fill style="position:absolute;left:0;top:0;height:100%;width:50%;border-radius:3px;background:${OK}"></span>` +
+    `<span data-range-marker style="position:absolute;left:50%;top:-3px;width:9px;height:9px;transform:translateX(-50%);` +
+    `border:1px solid ${T.background};border-radius:50%;background:${OK};box-sizing:border-box"></span></span>` +
+    `<span data-range-endpoint="max" style="min-width:16px;text-align:right">${endpoint("max")}</span></span></span>`;
+}
 
 function field(id: string, label: string,
                value: number, min: number, max: number, step: number,
@@ -22,10 +73,11 @@ function field(id: string, label: string,
     `<span style="opacity:0.55;font-size:11px;margin-left:6px">${tag}</span>`;
   const helpId = `help-${id}`;
   const describedBy = details.help ? `error-${id} ${helpId}` : `error-${id}`;
-  const input = `<input id="input-${id}" data-field="${id}" data-guidance-control="${id}" type="number" value="${value}" min="${min}" max="${max}" step="${step}" ` +
-    `style="width:64px;padding:4px 6px;text-align:right;background:${T.background};color:${T.line};` +
-    `border:1px solid ${BORDER};border-radius:5px;font-family:ui-monospace,monospace" ` +
-    `aria-describedby="${describedBy}"/>`;
+  const input = numericControlMarkup(
+    id, `input-${id}`, label, value, min, max, step,
+    `data-field="${id}" data-guidance-control="${id}" aria-describedby="${describedBy}"`,
+    details.unit ?? (id.startsWith("option-") ? "" : "cm"),
+  );
   const unit = details.unit
     ? `<span data-field-unit="${id}" style="font-size:11px;color:${T.label};margin-left:4px">${details.unit}</span>`
     : "";
@@ -358,10 +410,12 @@ export function editorHandleControlsMarkup(handles: readonly Handle[]): string {
     const label = handle.kind === "vertex" ? `Corner ${index + 1}` : `Curve control ${index + 1}`;
     const input = (axis: "x" | "y", value: number): string =>
       `<label style="display:inline-flex;gap:4px;align-items:center;font-size:12px;color:${T.label}">` +
-      `${axis.toUpperCase()} <input type="number" data-editor-coordinate data-editor-handle-id="${handle.id}" ` +
-      `data-editor-axis="${axis}" value="${value}" step="0.1" aria-label="${label} ${axis.toUpperCase()} coordinate" ` +
-      `style="width:70px;padding:4px 6px;text-align:right;background:${T.background};color:${T.line};` +
-      `border:1px solid ${BORDER};border-radius:5px;font-family:ui-monospace,monospace"/></label>`;
+      `${axis.toUpperCase()} ${numericControlMarkup(
+        `editor-${handle.id}-${axis}`, `editor-coordinate-${handle.id}-${axis}`,
+        `${label} ${axis.toUpperCase()} coordinate`, value, undefined, undefined, 0.1,
+        `data-editor-coordinate data-editor-handle-id="${handle.id}" data-editor-axis="${axis}" ` +
+        `aria-label="${label} ${axis.toUpperCase()} coordinate"`, "cm",
+      )}</label>`;
     return `<div data-editor-handle="${handle.id}" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:6px">` +
       `<span style="min-width:116px;color:${T.line};font-size:12px">${label} <span style="color:${T.label}">(${handle.id})</span></span>` +
       `${input("x", handle.pos.x)}${input("y", handle.pos.y)}</div>`;
@@ -380,13 +434,14 @@ export function fabricWidthMarkup(width: number): string {
     `<button id="${id}" type="button" aria-pressed="${on}" aria-label="${description}" aria-describedby="nest-scope-help" style="padding:4px 10px;font-size:12px;cursor:pointer;` +
     `background:${on ? T.lineActive : "transparent"};color:${on ? T.background : T.label};` +
     `border:1px solid ${BORDER};border-radius:5px">${label}</button>`;
+  const widthInput = numericControlMarkup(
+    "fabric-width", "fabric-width", "Fabric width", width, 30, 300, 1,
+    `aria-label="Fabric width"`, "cm",
+  );
   return `<div id="fabric-width-host" role="group" aria-label="Nesting scope" style="display:none;gap:8px;align-items:center;margin:4px 0">` +
     `<span style="font-size:11px;color:${T.label};text-transform:uppercase;letter-spacing:0.04em;` +
     `margin-right:4px">Fabric width</span>` +
-    `<input id="fabric-width" type="number" value="${width}" min="30" max="300" step="1" ` +
-    `style="width:64px;padding:4px 6px;text-align:right;background:${T.background};color:${T.line};` +
-    `border:1px solid ${BORDER};border-radius:5px;font-family:ui-monospace,monospace"/>` +
-    `<span style="font-size:12px;color:${T.label}">cm</span>` +
+    `${widthInput}` +
     `<span style="width:8px"></span>` +
     `${scopeBtn("nest-single", "Single size", "Nest the selected size only", true)}` +
     `${scopeBtn("nest-marker", "Graded marker", "Nest every graded size", false)}` +
@@ -462,6 +517,13 @@ export function appShellMarkup(
   activeGarment = "tee"
 ): string {
   const responsive = `<style id="infini-responsive-shell">` +
+    `#infini-shell .numeric-control input[type=number]{appearance:textfield;-moz-appearance:textfield}` +
+    `#infini-shell .numeric-control input[type=number]::-webkit-inner-spin-button,#infini-shell .numeric-control input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}` +
+    `#infini-shell .numeric-stepper button{user-select:none;-webkit-user-select:none}` +
+    `#infini-shell .numeric-stepper button:first-child{border-radius:5px 0 0 5px}` +
+    `#infini-shell .numeric-stepper button:last-child{border-radius:0 5px 5px 0}` +
+    `#infini-shell .numeric-stepper input{border-radius:0}` +
+    `#infini-shell .numeric-stepper button:disabled{opacity:.35;cursor:not-allowed}` +
     `#infini-shell{display:grid!important;grid-template-columns:minmax(210px,0.75fr) minmax(300px,1.7fr) minmax(240px,0.9fr);gap:16px;align-items:start;font-family:system-ui,sans-serif}` +
     `#infini-workspace{min-width:0;display:flex;flex-direction:column;gap:6px}` +
     `#infini-inspection{min-width:0;display:flex;flex-direction:column;gap:16px}` +

@@ -148,3 +148,17 @@ because it was fixed or reclassified. Epic 3 is gated on the three bug-fix
 epics' exit reports and the normal 100% coverage, typecheck, production-build,
 parsed-output, and legacy-export-identity gates. Physical validation remains
 deferred.
+
+## Numeric editing — confirmed 2026-09-12
+
+Measurement and related numeric edit fields use a shared direct-entry plus
+click/hold +/- control. The decrement action is on the left, increment on the
+right, and native browser number spinners are hidden. A compact Boundary Rail
+shows each control's declared lower and upper endpoints and the current value's
+position without adding instructional copy. Manual invalid values remain raw
+and visible to guidance; only an explicit +/- recovery action moves an invalid
+or empty value to a declared boundary. The same interaction applies to every
+garment's measurements, recipe-owned numeric options, nesting fabric width,
+and open-ended exploratory Edit coordinates (which show open endpoints rather
+than invented limits). This is a UI contract only and does not alter drafting,
+grading, persistence, exports, or physical-validation status.

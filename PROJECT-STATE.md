@@ -1,13 +1,14 @@
 # InfiniDrip — Project State
 
-_Last updated: Epic 3 Slice 103, 2026-09-12; the BUGFIX
+_Last updated: Epic 3 Slice 104, 2026-09-12; the BUGFIX
 phase and pre-Epic 3 consistency extension passed._
 
-## Current status — Epic 3 Slice 103
+## Current status — Epic 3 Slice 104
 
-The actual `main` checkout contains the verified Slice 94–102 commits and this
-final durable closeout; it
-remains local and has not been pushed.
+The actual `main` checkout contains the verified Slice 94–103 work plus the
+Slice 104 shared numeric-control implementation and focused tests. The final
+Slice 104 full gate and the explicitly authorized push to `origin/main` remain
+pending while this slice is being verified.
 The BUGFIX P1/P2/P3 and FC-01 records are closed. Preserved untracked logs and
 `tmp/` evidence remain user artifacts and were not touched or staged.
 
@@ -111,7 +112,8 @@ horizontal overflow was reported. Evidence screenshots are in the thread
 folder `epic3-slice101-outputs/`. No source or shared output contract changed
 in this slice, so the final full gate is reserved for Slice 103.
 
-Slice 103 is complete. The final gate passed on the actual branch: `npm test`
+Slice 103 was a complete trouser/output closeout checkpoint. Its final gate
+passed on the actual branch: `npm test`
 passed 80 files / 1,013 tests; `npm run coverage` passed 100% statements,
 branches, functions, and lines; `npx tsc --noEmit` passed; and `npm run build`
 passed with 92 Vite modules transformed. Independent parsing of the actual
@@ -119,11 +121,16 @@ Trouser SVG/DXF/tiled PDF/A0/projector/tech-pack files passed with 16/16
 polygons/polylines, 80 tiled pages, 8 A0 pages with in-bounds coordinates, five
 projector layers, and four tech-pack pages. The legacy suite passed 8/8 with
 all eight hashes unchanged; the exact manifest and rendered evidence are
-recorded in `docs/planning/EPIC-3-EXECUTION.md`.
+recorded in `docs/planning/EPIC-3-EXECUTION.md`. Slice 104 is the maintainer-
+requested final UI slice within this Epic, not a later Epic.
 
-Epic 3 is closed at this boundary. There is no later implementation action in
-this scope; keep the baseline identity and physical-validation deferral intact
-and do not begin a later Epic without a new explicit scope decision.
+Slice 104 is in progress. It adds the shared direct-entry plus click/hold +/-
+control and Boundary Rail for measurements, recipe options, nesting fabric
+width, and open-ended Edit coordinates. The implementation keeps manual raw
+invalid values visible, disables only reached bounded endpoints, and does not
+change drafting or export code. Focused UI/logic tests pass; the full gate,
+rendered matrix, and push are the remaining acceptance work. Physical fit and
+production-readiness remain deferred.
 
 The independent functional-consistency audit (completed before Epic 3) closed BUG-UI-032 through
 BUG-UI-034. Woven Body front/back inspection uses its real lower shaping and
@@ -1784,10 +1791,10 @@ context:
   relaxed woven short-sleeve button-up with point collar/stand, front placket,
   back yoke, one patch pocket, sleeve band, curved hem, side vent, adjustable
   research-derived six/seven-button spacing, and its complete digital gate.
-- **Epic 3 / Phase 5, Slices 94–103:** research and implement the reusable
+- **Epic 3 / Phase 5, Slices 94–104:** research and implement the reusable
   relaxed straight-leg trouser with separate waistband, simple closure, minimal
-  pockets, rise/seat/grading logic, then define independent later surface
-  design foundation work.
+  pockets, rise/seat/grading logic, then finish the shared numeric editing
+  foundation; later surface design remains independent.
 
 The supplied measurement, drafting, specification, stitch/seam, and Polo CAD
 references are indexed in `CONTEXT-INDEX.md` and must be consulted by relevant
@@ -1795,10 +1802,10 @@ slices. The Polo CAD reference informs the committed Polo V2 standby backlog
 only; it does not alter locked Polo V1. Full decisions and slice boundaries
 are recorded in `docs/PROJECT-DECISIONS.md`.
 
-**Current immediate next work:** the sequential `BUGFIX` phase is complete.
-Use `docs/planning/BUG-FIX-PHASE.md`, `docs/planning/BUGFIX-P3-EXECUTION.md`,
-and `docs/BUG-LEDGER.md` for the passing exit evidence and authoritative closed
-bug records. Epic 3 has not begun. Physical validation remains deferred.
+**Current immediate next work:** finish Slice 104's full project gate and
+rendered/live numeric-control audit, record the passing Epic 3 exit report, and
+push the verified local `main` to `origin/main` as explicitly authorized by
+the maintainer. Physical validation remains deferred.
 
 ## Roadmap — superseded by MVP-PLAN.md (kept below for slice-history context only)
 The engine/recipe thesis is proven end-to-end: tee, fitted, and skirt — three

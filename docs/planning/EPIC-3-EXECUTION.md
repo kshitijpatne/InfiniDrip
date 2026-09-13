@@ -4,7 +4,7 @@ _Planning baseline: 2026-09-12._
 
 ## Master objective
 
-Complete InfiniDrip EPIC 3 / Phase 5 trouser block across Slices 94–103.
+Complete InfiniDrip EPIC 3 / Phase 5 trouser block across Slices 94–104.
 Research and define the reusable trouser measurement/ease, rise, seat,
 waistband, grading, closure, pocket, guidance, rendering, persistence, and
 export contracts; implement and verify the relaxed casual straight-leg
@@ -423,16 +423,18 @@ Screenshots are retained in `epic3-slice101-outputs/`, including
 `live-trouser-body.png`, `live-trouser-size-run.png`, `live-trouser-390.png`,
 and `live-trouser-900.png`. This is rendered digital evidence only; no sample
 was sewn or physically validated and no production-readiness conclusion is
-made. Because Slice 102 changed no shared contract or writer, the final full
-project gate remains the bounded work of Slice 103.
+made. Because Slice 102 changed no shared contract or writer, the trouser/output
+gate remained the bounded work of Slice 103; the later UI request is recorded
+as Slice 104 within this Epic.
 
-### Slice 103 — Epic 3 exit gate and durable report
+### Slice 103 — trouser/output gate and durable report checkpoint
 
-Status: **complete** (final gate passed; Epic 3 closed without starting a later
-Epic).
+Status: **complete** (trouser/output gate passed; Slice 104 remained as a
+maintainer-requested final UI slice within Epic 3).
 
-Scope: complete the project gate, inspect the actual final diff/branch, record
-exact commits/evidence, and close Epic 3 without starting a later Epic.
+Scope: complete the trouser/output gate, inspect the actual branch, record exact
+commits/evidence, and establish the digital closeout checkpoint before the
+maintainer-requested numeric-control polish.
 
 Acceptance criteria:
 
@@ -452,7 +454,7 @@ Acceptance criteria:
   makes no production-readiness claim.
 
 Non-goals: later surface design, Polo V2, physical validation, code signing, or
-push/shared-history changes.
+the Slice 104 UI interaction work.
 
 Dependencies: all prior slices and a final usage check with enough allowance
 for the gate.
@@ -509,17 +511,64 @@ Tee, Darted tee, Tank, Polo, Woven shirt, and Skirt. Page-level overflow was
 absent at 1280/900/700/560/390 px (scroll widths 1265/885/685/545/375), and
 browser diagnostics were empty. These are digital/rendered checks only.
 
-The exact local Epic 3 implementation commits are:
+The exact local trouser implementation commits are:
 `6db9a1e` (94), `199b83c` (95), `513537e` (96), `c31a5a5` (97), `d8ef239`
 (98), `1525c26` (99), `a4223af` (100), `8b2aec0` (101), and `0877e30`
-(102). The Slice 103 closeout commit records this report. Shorts and joggers
+(102). The Slice 103 checkpoint commit records this report. Shorts and joggers
 remain documented derivatives only; surface design, physical validation, and
 production-readiness are not part of this Epic and were not started.
+
+### Slice 104 — shared numeric editing and Boundary Rail
+
+Status: **in progress**.
+
+Scope: replace native number spinners in every measurement and related numeric
+edit surface with a shared direct-entry plus click/hold +/- control. Add the
+quiet Boundary Rail that shows exact declared lower/upper endpoints and the
+current position/state without adding instructional paragraphs. Apply the same
+primitive to all garments, recipe-owned options, nesting fabric width, and
+open-ended exploratory Edit coordinates.
+
+Acceptance criteria:
+
+- Every numeric input is flanked by decrement on the left and increment on the
+  right; one click changes by the declared step and a hold repeats predictably.
+- Native spinner arrows are hidden; direct manual entry remains available.
+- Every bounded measurement/option/nesting field visibly shows its actual
+  minimum and maximum; valid, under, over, and empty states are distinguishable
+  without rewriting manual input. Reached endpoints disable only their own
+  action.
+- Recipe switches and rerendered Edit controls retain the same interaction;
+  open coordinates show open endpoints rather than invented product limits.
+- Tests cover the pure range/step rules, markup contract, click/hold behavior,
+  invalid recovery, options, nesting, and Edit; rendered browser evidence
+  covers all garments, relevant views, and supported responsive widths.
+- Drafting, grading, persistence, output writers, and all eight legacy export
+  hashes remain unchanged. The final Epic 3 gate is rerun after this source
+  change and the actual branch is pushed to `origin/main` only at the end.
+
+Non-goals: new garment geometry, surface design, physical validation, or any
+claim of physical fit or production readiness. The rail communicates digital
+declared ranges only.
+
+Dependencies: Slices 94–103 and the existing shared `FIELDS`, recipe-option,
+nesting, Edit, guidance, and responsive-shell contracts.
+
+Owner/model: Codex; medium reasoning for the shared UI implementation and
+highest reasoning only for final integration/evidence review.
+
+Verification: focused UI/logic tests first; then `npm test`, `npm run coverage`,
+`npx tsc --noEmit`, `npm run build`, parsed output consumers, the unchanged
+legacy hash suite, and rendered/live browser checks before the final push.
+
+Research and decision record: `docs/research/NUMERIC-CONTROLS-RESEARCH.md`.
+The implementation is source-complete only when its final gate evidence is
+recorded below.
 
 ## Usage-limit pacing and checkpoints
 
 Check the usage dashboard at startup, before each major slice, before any
-expensive parallel work, and before Slice 103's full gate. Focused tests are the
+expensive parallel work, and before Slice 104's full gate. Focused tests are the
 default during implementation. If the visible remaining allowance approaches
 15%, finish only the current atomic operation, commit it, update this file and
 `PROJECT-STATE.md` with exact remaining work and resume commands, and stop
@@ -528,11 +577,13 @@ alter account usage.
 
 ## Epic 3 exit report
 
-Status: **complete**.
+Status: **pending Slice 104 final gate**.
 
-Slices 94–103 are complete on the actual local `main` branch. The straight-leg
+Slices 94–103 are complete on the actual local `main` branch, and Slice 104 is
+the final maintainer-requested UI slice within this Epic. The straight-leg
 trouser contract is integrated, its shorts/jogger relationship is documented
-without implementing those garments, and the full project gate plus rendered
-browser/output evidence passed. No physical garment has been sewn or
-validated, and no production-readiness claim is authorized. Do not begin a
-later Epic from this closeout without a new explicit scope decision.
+without implementing those garments. The exit report will be marked passing
+only after the Slice 104 full project gate, rendered/live evidence, durable
+state update, and explicitly authorized push to `origin/main`. No physical
+garment has been sewn or validated, and no production-readiness claim is
+authorized; do not begin a later Epic.

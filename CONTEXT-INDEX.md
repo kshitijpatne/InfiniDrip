@@ -54,6 +54,8 @@ snapshots; they are not current status.
   template, not a live status source.
 - `docs/planning/BUG-FIX-PHASE.md` — sequential P1/P2/P3 bug-fix epics and
   goal-setting, ownership, and exit-gate rules before Epic 3.
+- `docs/planning/EPIC-3-EXECUTION.md` — authoritative Slice 94–104 execution,
+  verification, and Epic 3 exit record.
 
 ## Research documents
 
@@ -71,6 +73,8 @@ snapshots; they are not current status.
 - `docs/research/garments/WOVEN-SHIRT-RESEARCH.md` — Slice 85 evidence, source
   conflicts, measurements/construction proposals and digital verification scope
   for the relaxed button-up. Read before Slices 86-93.
+- `docs/research/NUMERIC-CONTROLS-RESEARCH.md` — Slice 104 research and the
+  shared Boundary Rail decision for numeric edit controls.
 
 ## Historical archive
 
