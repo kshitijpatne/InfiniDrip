@@ -66,8 +66,46 @@ describe("mountApp", () => {
     chest.value = "60";
     chest.dispatchEvent(new Event("input"));
     expect(minus.disabled).toBe(true);
+    minus.dispatchEvent(new Event("pointerdown", { bubbles: true }));
     minus.dispatchEvent(new Event("click", { bubbles: true }));
     expect(chest.value).toBe("60");
+
+    // Defensive delegation paths: a stable root can receive unrelated or
+    // malformed controls without turning them into measurement changes.
+    root.dispatchEvent(new Event("pointerdown", { bubbles: true }));
+    const orphan = document.createElement("span");
+    orphan.dataset.rangeControl = "orphan";
+    root.append(orphan);
+    chest.dispatchEvent(new Event("input")); // syncRangeIndicators skips it
+    const orphanButton = document.createElement("button");
+    orphanButton.type = "button";
+    orphanButton.dataset.stepDirection = "1";
+    root.append(orphanButton);
+    orphanButton.dispatchEvent(new Event("click", { bubbles: true }));
+    const anonymous = document.createElement("span");
+    anonymous.dataset.rangeControl = "anonymous";
+    anonymous.dataset.rangeStep = "1";
+    const anonymousInput = document.createElement("input");
+    anonymousInput.type = "number";
+    anonymousInput.value = "1";
+    const anonymousButton = document.createElement("button");
+    anonymousButton.type = "button";
+    anonymousButton.dataset.stepDirection = "1";
+    anonymous.append(anonymousInput, anonymousButton);
+    root.append(anonymous);
+    anonymousButton.dispatchEvent(new Event("click", { bubbles: true }));
+    expect(anonymousInput.value).toBe("2"); // no id uses the existing input for focus
+    const malformed = document.createElement("span");
+    malformed.dataset.rangeControl = "malformed";
+    malformed.dataset.rangeStep = "not-a-step";
+    const malformedInput = document.createElement("input");
+    malformedInput.type = "number";
+    const malformedButton = document.createElement("button");
+    malformedButton.type = "button";
+    malformedButton.dataset.stepDirection = "1";
+    malformed.append(malformedInput, malformedButton);
+    root.append(malformed);
+    malformedButton.dispatchEvent(new Event("pointerdown", { bubbles: true }));
 
     chest.value = "999";
     chest.dispatchEvent(new Event("input"));
@@ -132,6 +170,15 @@ describe("mountApp", () => {
       const blurred = chest.value;
       vi.advanceTimersByTime(500);
       expect(chest.value).toBe(blurred);
+
+      plus.setAttribute("data-step-target", "chest");
+      chest.value = "100";
+      chest.dispatchEvent(new Event("input"));
+      plus.dispatchEvent(new Event("pointerdown", { bubbles: true }));
+      plus.removeAttribute("data-step-target");
+      vi.advanceTimersByTime(350);
+      vi.advanceTimersByTime(80); // a redraw can remove the replacement button; current is retained
+      window.dispatchEvent(new Event("pointerup"));
     } finally {
       vi.useRealTimers();
     }
