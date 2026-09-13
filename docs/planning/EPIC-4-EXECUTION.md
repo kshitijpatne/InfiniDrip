@@ -7,12 +7,11 @@ plan._
 
 ## Status
 
-**In progress — Slice 113 (final Epic 4 gate).**
+**Passing — Epic 4 exit (Slice 113).**
 
-Epic 3 is closed. Slices 105–109 have been implemented on this branch. The
-remaining work is the final Epic 4 gate. The
-separate Desktop Release workstream was reviewed and promoted in its own
-commits; it is not part of Epic 4's acceptance gate.
+Epic 3 is closed. Slices 105–113 are complete on this branch. The separate
+Desktop Release workstream was reviewed and promoted in its own commits; it is
+not part of Epic 4's acceptance gate.
 
 ## Objective
 
@@ -184,7 +183,7 @@ contracts. No full configurator or arbitrary component swapping.
 
 ### Slice 113 — Epic 4 integration and exit gate
 
-Status: **in progress**.
+Status: **complete — Epic 4 exit gate passed**.
 
 Run the full project gate, inspect the actual diff and branch, parse all output
 consumers, verify all eight legacy hashes, run rendered/live cross-garment and
@@ -304,7 +303,47 @@ only the current atomic operation, commit it, update this file and
 `PROJECT-STATE.md` with exact resume state, and stop before another expensive
 slice. No reset credit may be consumed without explicit authorization.
 
-## Epic 4 exit report
+## Epic 4 exit report — PASS — 2026-09-13
 
-Pending. It may be marked passing only after all acceptance criteria above are
-proven on the actual branch and the durable documents are current.
+All Epic 4 acceptance criteria passed on the actual `main` checkout. The
+implementation commits are `46ae2f9` (scope), `81002dd` (grammar contract),
+`32b8994` (seven-recipe migration), and `e52b0b7` (downstream/convergence
+records). The separately scoped Desktop Release commits are `7d84e7a`
+(OpenCode research) and `7ecc9c2` (Claude Code Electron hardening/verifiers).
+
+Final project gate:
+
+- `npm test`: PASS, 81 files / 1,031 tests.
+- `npm run coverage`: PASS, 100% statements, branches, functions, and lines.
+- `npx tsc --noEmit`: PASS.
+- `npm run build`: PASS, 93 Vite modules transformed; output is
+  `dist/assets/index-C7eCV-Af.js` (201.07 kB, 58.63 kB gzip).
+- Parsed output suite: PASS, 21/21 focused tests covering SVG, DXF, tiled PDF,
+  A0 PDF, Projector SVG, and Tech Pack consumers for Woven shirt, Polo, and
+  Trouser, plus the legacy regression suite.
+- Legacy regression: PASS, 8/8 unchanged hashes. Tee retains SVG
+  `3fbf2e3215af5bdfc66398b9b16714e8ee8139f5edc10dab527bc4c8378f2b9d`, DXF
+  `0b6cba95c9afd4cc6f17a2171f67303e0891babb94828816c149767935165fc9`, PDF
+  `1256ccf60abedeed40b01915ea9a2df4d063b224d01a39dfbf8730136a128523`, and
+  Tech Pack `6691a28a6cae0baccfe271887c6d4d00a968867fe0628a8e1d1eacd2b8b047d1`.
+  Darted tee retains SVG `cd16df87d100a40866e20738f858d3f11fdc3238ba0db88d99ca3a46f981a09c`,
+  DXF `e2dd0a36ea6d834a0aec470918f4ba2b823136c13998966a8f04ddeda085a8a6`, PDF
+  `184dcd975bb8067b452370c78748045384bb18fa8f89f7ca1d4a583b9d0190ff`, and
+  Tech Pack `8e89320bfa235c44ebb481b01012a43c7c1614ce27608ccbb49df31369bca8d2`.
+- Live/rendered verification: PASS across all seven garments and all seven
+  views, with empty browser error/warning diagnostics. The Tee ↔ Darted tee
+  proof changed the actual pattern SVG and retained dart evidence in Spec and
+  Check. The live responsive matrix passed at 1280/900/700/560/390 px for all
+  seven garments with no horizontal overflow; the rendered Trouser Pattern was
+  visually inspected. The live Trouser waist control passed 86 → 87 → 86 and
+  its Boundary Rail tracked the current value.
+- Electron shell verification: PASS for main-process compile, native save,
+  identity/title, menu-triggered SVG export, and persisted position/size
+  checks. The observed Windows 125%-DPI single-relaunch size drift is bounded
+  and documented; packaged installer, signing, notarization, auto-update, and
+  multi-OS/offline release verification remain separate open work.
+
+No physical garment was sewn or physically fit-validated. No physical-fit or
+production-readiness claim is made. Shorts and joggers remain documented
+trouser derivatives only; no later Epic has started and no new garment family
+or full configurator was added.
