@@ -141,17 +141,28 @@ audit is clean. Source commits are `d391cdc` (shared implementation) and
 `docs/planning/EPIC-3-EXECUTION.md`; no physical-fit or production-readiness
 assertion is implied.
 
-Epic 4 current boundary — Slice 105
+Epic 4 current boundary — Slice 109
 
 Epic 4 is confirmed as Component Architecture and Garment Grammar. The
-existing partial component foundation (`Component`, `Interface`, `Stitch`,
-ordered assembly, structural drafting helpers, and render-only croquis) will
-be completed behind the existing `GarmentRecipe`/`Block` seam. All seven
-current recipes must consume the same composition contract; components own
-geometry and named interfaces, composition owns dependency order and seam
-matching, and every downstream consumer continues to receive the composed
-`Block`. One bounded user-facing composition proof is included, but no full
-configurator or new garment family.
+component foundation (`Component`, `Interface`, `Stitch`, ordered assembly,
+structural drafting helpers, and render-only croquis) is now adopted behind the
+existing `GarmentRecipe`/`Block` seam. `src/drafting/grammar.ts` supplies the
+typed dependency graph: node-owned parameter resolvers run in dependency order,
+components expose named edge/mark interfaces, and composition validates final
+stitch references before returning the assembled `Block`. All seven current
+recipes — Tee, Fitted tee, Tank, Polo, Woven shirt, Skirt, and Trouser — now
+declare a grammar and route their public draft through it. The downstream
+engine still receives only the composed `Block`; no consumer owns a second
+geometry source. One bounded user-facing composition proof uses the existing
+Tee/Fitted selector, with no full configurator or new garment family.
+
+The migration preserves the staged component/helper APIs where they remain
+public or tested. Structural reuse is deliberately concrete: bodice/panels,
+sleeves, neckline/collar/stand, plackets, bands, waistband, pocket, dart, vent,
+and hem helpers are reused only where the current garments have real
+consumers. Croquis and Side remain presentation-only and are not imported by
+drafting. The final downstream, live, parsed-output, and Epic 4 exit evidence is
+tracked in `docs/planning/EPIC-4-EXECUTION.md`.
 
 Epic 3 is closed at the integrated straight-leg trouser plus shared numeric
 editing boundary. Shorts and joggers remain documented derivatives only;

@@ -17,8 +17,9 @@ import { GradeRule } from "./grading";
 import { Pom, spanX, spanY, PointRef } from "./pom";
 import { PieceNotches } from "./tshirt-notches";
 import { Stitch, edgeRef, iface, matchedNotch } from "./stitch";
-import { Component, assembleComponents } from "./component";
+import { Component } from "./component";
 import { waistband, WAISTBAND_DEFAULT } from "./waistband";
+import { componentNode, composeBlock, garmentGrammar } from "./grammar";
 
 /** The skirt's own half-widths at the waist and hip — the single source of
  *  truth `panel()` drafts from and `render/skirt-figure.ts` must draw from
@@ -102,11 +103,32 @@ const SKIRT_STITCHES: readonly Stitch[] = [
 ];
 
 export function draftSkirt(m: Measurements): Block {
-  const front = skirtPanel(m, { position: "front", silhouette: "straight" });
-  const back = skirtPanel(m, { position: "back", silhouette: "straight" });
-  const band = waistband(m, WAISTBAND_DEFAULT);
-  return assembleComponents([front, back, band], SKIRT_STITCHES);
+  return composeBlock(SKIRT_GRAMMAR, m);
 }
+
+/** The waistband receives the measured half-circumference exposed by the two
+ * real panel instances. This keeps the dependency in the grammar instead of
+ * letting the band quietly re-derive a second waist formula. */
+export const SKIRT_GRAMMAR = garmentGrammar(
+  "skirt",
+  [
+    componentNode("front", "skirt-panel", skirtPanel, () => ({ position: "front" as const, silhouette: "straight" as const })),
+    componentNode("back", "skirt-panel", skirtPanel, () => ({ position: "back" as const, silhouette: "straight" as const })),
+    componentNode(
+      "waistband",
+      "waistband",
+      waistband,
+      (context) => ({
+        ...WAISTBAND_DEFAULT,
+        targetHalfCircumference:
+          context.interfaceLength("front", "waist") +
+          context.interfaceLength("back", "waist"),
+      }),
+      ["front", "back"],
+    ),
+  ],
+  () => SKIRT_STITCHES,
+);
 
 // ── sewability checks (recipe-owned) ──────────────────────────────────────────
 

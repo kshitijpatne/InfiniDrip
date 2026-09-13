@@ -17,6 +17,8 @@ import { sleevedTopGuidance } from "./tshirt-guidance";
 import { Pom, seam } from "./pom";
 import { PieceNotches } from "./tshirt-notches";
 import { TSHIRT_NOTCHES } from "./tshirt-notches";
+import type { ComponentResult } from "./component";
+import { componentNode, composeBlock, garmentGrammar } from "./grammar";
 
 export interface PoloOptions {
   readonly placketLength: number;
@@ -213,24 +215,106 @@ function poloCollarStitches(): readonly Stitch[] {
   ];
 }
 
+const poloFrontComponent = (m: Measurements, options: PoloOptions): ComponentResult => {
+  const front = poloFront(m, options);
+  return {
+    pieces: { front },
+    stitches: [],
+    interfaces: {
+      armhole: iface(edgeRef("front", "armhole")),
+      neckline: iface(edgeRef("front", "neckline")),
+      placketOpeningLeft: iface(markRef("front", "placketOpening", "left")),
+      placketOpeningRight: iface(markRef("front", "placketOpening", "right")),
+    },
+  };
+};
+
+const poloBackComponent = (m: Measurements): ComponentResult => {
+  const back = bodice(m, { position: "back" });
+  return {
+    ...back,
+    interfaces: {
+      ...back.interfaces,
+      neckline: iface(edgeRef("back", "neckline")),
+    },
+  };
+};
+
+const poloPlacketsComponent = (_m: Measurements, options: PoloOptions): ComponentResult => ({
+  pieces: {
+    buttonPlacket: placketPiece("buttonPlacket", options),
+    buttonholePlacket: placketPiece("buttonholePlacket", options),
+  },
+  stitches: [],
+  interfaces: {
+    button: iface(edgeRef("buttonPlacket", "attachmentRaw")),
+    buttonhole: iface(edgeRef("buttonholePlacket", "attachmentRaw")),
+  },
+});
+
+const poloCollarComponent = (
+  _m: Measurements,
+  params: { readonly options: PoloOptions; readonly necklineLength: number },
+): ComponentResult => ({
+  pieces: {
+    outerStand: standPiece("outer collar stand", params.necklineLength, params.options.standHeight),
+    innerStand: standPiece("inner collar stand", params.necklineLength, params.options.standHeight),
+    upperCollar: collarPiece("upper pointed collar", params.necklineLength, params.options.collarLeafDepth),
+    underCollar: collarPiece("under pointed collar", params.necklineLength, params.options.collarLeafDepth),
+  },
+  stitches: [],
+  interfaces: {
+    neckline: iface(edgeRef("outerStand", "neckline")),
+    collar: iface(edgeRef("underCollar", "stand")),
+  },
+});
+
+/** The complete Polo grammar keeps the existing role order while making the
+ * sleeve and collar lengths depend on the actual preceding interfaces. The
+ * public draft function below remains the only recipe-facing seam. */
+export const POLO_GRAMMAR = garmentGrammar(
+  "polo",
+  [
+    componentNode("front", "polo-front", poloFrontComponent, (context) => resolvePoloOptions(context.options)),
+    componentNode("back", "bodice", poloBackComponent, () => ({})),
+    componentNode(
+      "sleeve",
+      "sleeve",
+      sleeveComponent,
+      (context) => ({
+        targetArmhole:
+          context.interfaceLength("front", "armhole") +
+          context.interfaceLength("back", "armhole"),
+      }),
+      ["front", "back"],
+    ),
+    componentNode(
+      "plackets",
+      "placket",
+      poloPlacketsComponent,
+      (context) => resolvePoloOptions(context.options),
+      ["front"],
+    ),
+    componentNode(
+      "collar",
+      "collar-stand",
+      poloCollarComponent,
+      (context) => ({
+        options: resolvePoloOptions(context.options),
+        necklineLength:
+          context.interfaceLength("front", "neckline") +
+          context.interfaceLength("back", "neckline"),
+      }),
+      ["front", "back"],
+    ),
+  ],
+  () => [...POLO_SHELL_STITCHES(), ...poloCollarStitches()],
+);
+
 /** Completes the Slice 70 draft. Four layer pieces are emitted instead of a
  * metadata-only “cut two”, so nesting/export have actual physical quantities. */
 export function draftPolo(m: Measurements, rawOptions: Partial<PoloOptions> = {}): Block {
-  const options = resolvePoloOptions(rawOptions);
-  const shell = draftPoloShell(m, options);
-  const necklineLength = edgeLength(pieceEdge(shell.roles.front, "neckline")) +
-    edgeLength(pieceEdge(shell.roles.back, "neckline"));
-  const outerStand = standPiece("outer collar stand", necklineLength, options.standHeight);
-  const innerStand = standPiece("inner collar stand", necklineLength, options.standHeight);
-  const upperCollar = collarPiece("upper pointed collar", necklineLength, options.collarLeafDepth);
-  const underCollar = collarPiece("under pointed collar", necklineLength, options.collarLeafDepth);
-  return block({
-    ...shell.roles,
-    outerStand,
-    innerStand,
-    upperCollar,
-    underCollar,
-  }, [...shell.stitches, ...poloCollarStitches()]);
+  return composeBlock(POLO_GRAMMAR, m, rawOptions);
 }
 
 /** Polo-specific warnings. Every value stays drafted exactly as supplied; a

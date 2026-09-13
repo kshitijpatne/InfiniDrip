@@ -11,14 +11,15 @@
 
 import { point } from "../geometry";
 import { Measurements, derive } from "./measurements";
-import { Edge, Piece, edgeLength, pieceEdge } from "./piece";
+import { Edge, Piece } from "./piece";
 import { Block } from "./block";
 import { sleevedTopStitches } from "./tshirt-checks";
 import { bodice } from "./bodice";
 import { sleeve as sleeveComponent } from "./sleeve";
-import { ComponentResult, assembleComponents } from "./component";
+import { ComponentResult } from "./component";
 import { iface, edgeRef } from "./stitch";
 import { necklineEdge } from "./neckline";
+import { componentNode, composeBlock, garmentGrammar } from "./grammar";
 
 const DART_INTAKE = 4; // cm taken up across the dart mouth on the side seam
 
@@ -65,24 +66,39 @@ export function draftFittedFront(m: Measurements): Piece {
   };
 }
 
+const fittedFrontComponent = (m: Measurements): ComponentResult => ({
+  pieces: { front: draftFittedFront(m) },
+  stitches: [],
+  interfaces: { armhole: iface(edgeRef("front", "armhole")) },
+});
+
+/** The fitted tee reuses the shared back and sleeve nodes while swapping only
+ * its darted front. The sleeve still measures the actual front/back pair. */
+export const FITTED_GRAMMAR = garmentGrammar(
+  "fitted",
+  [
+    componentNode("front", "darted-bodice", fittedFrontComponent, () => ({})),
+    componentNode("back", "bodice", bodice, () => ({ position: "back" as const })),
+    componentNode(
+      "sleeve",
+      "sleeve",
+      sleeveComponent,
+      (context) => ({
+        targetArmhole:
+          context.interfaceLength("front", "armhole") +
+          context.interfaceLength("back", "armhole"),
+      }),
+      ["front", "back"],
+    ),
+  ],
+  () => sleevedTopStitches(["sideUpper", "sideLower"], true),
+);
+
 /** A fitted block: a darted front, with the tee's back and sleeve reused as-is.
  *  Phase B3 (Slice 54, §2.4): the sleeve is fit to the armhole measured off
  *  THIS front (the real darted piece just drafted), not a re-derived generic
  *  one — the actual fix, even though the number comes out identical here
  *  because the fitted front reuses the tee front's exact armhole curve. */
 export function draftFitted(m: Measurements): Block {
-  const front: ComponentResult = {
-    pieces: { front: draftFittedFront(m) },
-    stitches: [],
-    interfaces: { armhole: iface(edgeRef("front", "armhole")) },
-  };
-  const back = bodice(m, { position: "back" });
-  const targetArmhole =
-    edgeLength(pieceEdge(front.pieces.front, "armhole")) +
-    edgeLength(pieceEdge(back.pieces.back, "armhole"));
-  const sleeveResult = sleeveComponent(m, { targetArmhole });
-  return assembleComponents(
-    [front, back, sleeveResult],
-    sleevedTopStitches(["sideUpper", "sideLower"], true)
-  );
+  return composeBlock(FITTED_GRAMMAR, m);
 }

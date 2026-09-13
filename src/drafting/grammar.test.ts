@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { STANDARD_M } from "./measurements";
+import { GARMENTS } from "./recipe";
 import type { Component, ComponentResult } from "./component";
 import {
   componentNode,
@@ -44,6 +45,20 @@ describe("componentNode and garmentGrammar", () => {
 });
 
 describe("composeGrammar", () => {
+  it("routes every registered garment through a named grammar", () => {
+    for (const recipe of GARMENTS) {
+      const grammar = recipe.grammar;
+      expect(grammar, `${recipe.name} grammar`).toBeDefined();
+      expect(grammar!.id).toBe(recipe.name);
+      expect(new Set(grammar!.nodes.map((node) => node.id)).size).toBe(grammar!.nodes.length);
+
+      const composed = composeGrammar(grammar!, STANDARD_M, {});
+      expect(composed.components).toHaveLength(grammar!.nodes.length);
+      expect(Object.keys(composed.block.roles)).toEqual(Object.keys(recipe.draft(STANDARD_M).roles));
+      expect(composed.block.roles).not.toEqual({});
+    }
+  });
+
   it("executes dependencies first and exposes measured interfaces to later components", () => {
     const order: string[] = [];
     const base = componentNode("base", "panel", () => {
@@ -101,6 +116,27 @@ describe("composeGrammar", () => {
 
     expect(seenOptions).toBe(9);
     expect(composed.block.stitches).toEqual([stitch]);
+  });
+
+  it("rejects a final connector that references an unknown piece or edge", () => {
+    const panel = componentNode("panel", "panel", fixed("panel", 4), () => ({}));
+    expect(() => composeGrammar(
+      garmentGrammar("bad-connector", [panel], () => [{
+        label: "panel ↔ missing",
+        a: iface(edgeRef("panel", "join")),
+        b: iface(edgeRef("missing", "join")),
+      }]),
+      STANDARD_M,
+    )).toThrow('Block has no piece in role "missing"');
+
+    expect(() => composeGrammar(
+      garmentGrammar("bad-edge", [panel], () => [{
+        label: "panel ↔ missing edge",
+        a: iface(edgeRef("panel", "missing")),
+        b: iface(edgeRef("panel", "join")),
+      }]),
+      STANDARD_M,
+    )).toThrow('Piece "panel" has no edge named "missing"');
   });
 
   it("keeps a shared dependency from executing twice", () => {

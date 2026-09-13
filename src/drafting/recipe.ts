@@ -12,28 +12,29 @@ import { CheckResult } from "../guidance/check";
 import { Note } from "../guidance/note";
 import { sleevedTopPanelChecks, frontHemWidth } from "./tshirt-checks";
 import { sleevedTopGuidance } from "./tshirt-guidance";
-import { draftSkirt, skirtPanelChecks, skirtGuidance, SKIRT_GRADE, SKIRT_POMS, SKIRT_NOTCHES } from "./skirt";
+import { draftSkirt, SKIRT_GRAMMAR, skirtPanelChecks, skirtGuidance, SKIRT_GRADE, SKIRT_POMS, SKIRT_NOTCHES } from "./skirt";
 import { StyleDef, TEE_STYLES, SKIRT_STYLES, TANK_STYLES, POLO_STYLES, WOVEN_SHIRT_STYLES, TROUSER_STYLES } from "../style";
 import { AllowanceSpec } from "./allowance";
 import { Pom } from "./pom";
 import { GradeRule, SizeStep } from "./grading";
 import { PieceNotches } from "./tshirt-notches";
-import { draftTshirt } from "./tshirt";
-import { draftFitted } from "./fitted";
-import { draftTank, tankGuidance, TANK_NOTCHES, TANK_POMS, tankFrontNeckline, tankBackNeckline } from "./tank";
+import { draftTshirt, TEE_GRAMMAR } from "./tshirt";
+import { draftFitted, FITTED_GRAMMAR } from "./fitted";
+import { draftTank, TANK_GRAMMAR, tankGuidance, TANK_NOTCHES, TANK_POMS, tankFrontNeckline, tankBackNeckline } from "./tank";
 import { NecklineParams, NECKLINE_DEFAULT } from "./neckline";
 import { TSHIRT_NOTCHES } from "./tshirt-notches";
 import { TSHIRT_POMS } from "./tshirt-pom";
 import { TSHIRT_GRADE, TSHIRT_SIZES } from "./tshirt-grade";
 import { FITTED_NOTCHES, FITTED_POMS } from "./fitted-tables";
 import { GarmentOption, GarmentOptions } from "./options";
-import { draftPolo, poloGuidance, POLO_ALLOWANCES, POLO_NOTCHES, POLO_OPTION_DEFINITIONS, POLO_POMS } from "./polo";
-import { draftWovenShirt, wovenShirtGuidance, WOVEN_SHIRT_ALLOWANCES, WOVEN_SHIRT_GRADE, WOVEN_SHIRT_NOTCHES, WOVEN_SHIRT_POMS } from "./shirt";
+import { draftPolo, POLO_GRAMMAR, poloGuidance, POLO_ALLOWANCES, POLO_NOTCHES, POLO_OPTION_DEFINITIONS, POLO_POMS } from "./polo";
+import { draftWovenShirt, WOVEN_SHIRT_GRAMMAR, wovenShirtGuidance, WOVEN_SHIRT_ALLOWANCES, WOVEN_SHIRT_GRADE, WOVEN_SHIRT_NOTCHES, WOVEN_SHIRT_POMS } from "./shirt";
 import { WOVEN_SHIRT_FIELDS, WOVEN_SHIRT_OPTION_DEFINITIONS } from "./shirt-contract";
 import { edgeLength, pieceEdge } from "./piece";
 import { rolePiece } from "./block";
 import {
   draftTrouserWithPockets,
+  TROUSER_GRAMMAR,
   TROUSER_ALLOWANCES,
   TROUSER_NOTCHES,
 } from "./trouser";
@@ -160,6 +161,7 @@ export const TEE: GarmentRecipe = {
   fields: ["chest", "shoulderWidth", "bicep", "length", "armholeDepth", "sleeveLength", "ease"],
   styles: TEE_STYLES,
   draft: draftTshirt,
+  grammar: TEE_GRAMMAR,
   notches: TSHIRT_NOTCHES,
   poms: TSHIRT_POMS,
   grade: TSHIRT_GRADE,
@@ -194,6 +196,7 @@ export const FITTED: GarmentRecipe = {
   fields: ["chest", "shoulderWidth", "bicep", "length", "armholeDepth", "sleeveLength", "ease"],
   styles: TEE_STYLES,
   draft: draftFitted,
+  grammar: FITTED_GRAMMAR,
   notches: FITTED_NOTCHES,
   poms: FITTED_POMS,
   grade: TSHIRT_GRADE, // the same body grade drives both garments
@@ -238,6 +241,7 @@ export const TANK: GarmentRecipe = {
   fields: ["chest", "shoulderWidth", "length", "armholeDepth", "strapWidth", "neckDrop", "neckWidthEase", "ease"],
   styles: TANK_STYLES,
   draft: draftTank,
+  grammar: TANK_GRAMMAR,
   notches: TANK_NOTCHES,
   poms: TANK_POMS,
   grade: TSHIRT_GRADE, // the same body grade drives every upper-body garment
@@ -304,6 +308,7 @@ export const POLO: GarmentRecipe = {
   fields: ["chest", "shoulderWidth", "bicep", "length", "armholeDepth", "sleeveLength", "ease"],
   styles: POLO_STYLES,
   draft: (m, options = {}) => draftPolo(m, options),
+  grammar: POLO_GRAMMAR,
   notches: POLO_NOTCHES,
   poms: [...TSHIRT_POMS, ...POLO_POMS],
   grade: TSHIRT_GRADE,
@@ -347,6 +352,7 @@ export const WOVEN_SHIRT: GarmentRecipe = {
   fields: WOVEN_SHIRT_FIELDS,
   styles: WOVEN_SHIRT_STYLES,
   draft: (m, options = {}) => draftWovenShirt(m, options),
+  grammar: WOVEN_SHIRT_GRAMMAR,
   notches: WOVEN_SHIRT_NOTCHES,
   poms: WOVEN_SHIRT_POMS,
   grade: WOVEN_SHIRT_GRADE,
@@ -393,6 +399,7 @@ export const SKIRT: GarmentRecipe = {
   fields: ["waist", "hip", "hipDepth", "length", "ease"],
   styles: SKIRT_STYLES,
   draft: draftSkirt,
+  grammar: SKIRT_GRAMMAR,
   notches: SKIRT_NOTCHES,
   poms: SKIRT_POMS,
   grade: SKIRT_GRADE,
@@ -423,6 +430,7 @@ export const TROUSER: GarmentRecipe = {
   fields: TROUSER_FIELDS,
   styles: TROUSER_STYLES,
   draft: (m, options = {}) => draftTrouserWithPockets(m, options as Partial<TrouserOptions>),
+  grammar: TROUSER_GRAMMAR,
   notches: TROUSER_NOTCHES,
   poms: TROUSER_POMS,
   grade: TROUSER_GRADE,

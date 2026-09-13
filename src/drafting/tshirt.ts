@@ -17,7 +17,7 @@ import { Block } from "./block";
 import { sleevedTopStitches } from "./tshirt-checks";
 import { bodice } from "./bodice";
 import { sleeve as sleeveComponent } from "./sleeve";
-import { assembleComponents } from "./component";
+import { componentNode, composeBlock, garmentGrammar } from "./grammar";
 
 /** Thin wrapper over the Bodice component (Phase B2, Slice 53) — kept so
  *  existing callers (armholeLength below, fitted.ts's draftBack reuse,
@@ -49,13 +49,31 @@ export function draftSleeve(m: Measurements): Piece {
   return sleeveComponent(m, { targetArmhole: armholeLength(m) }).pieces.sleeve;
 }
 
+/** The tee composition is the smallest real grammar: two bodice instances
+ * feed the sleeve's target from their exposed armhole interfaces. Keeping the
+ * resolver here makes the dependency visible without changing the public
+ * `draftTshirt(m): Block` seam. */
+export const TEE_GRAMMAR = garmentGrammar(
+  "tee",
+  [
+    componentNode("front", "bodice", bodice, () => ({ position: "front" as const })),
+    componentNode("back", "bodice", bodice, () => ({ position: "back" as const })),
+    componentNode(
+      "sleeve",
+      "sleeve",
+      sleeveComponent,
+      (context) => ({
+        targetArmhole:
+          context.interfaceLength("front", "armhole") +
+          context.interfaceLength("back", "armhole"),
+      }),
+      ["front", "back"],
+    ),
+  ],
+  () => sleevedTopStitches(["side"], false),
+);
+
 /** Draft a complete t-shirt block from one set of measurements. */
 export function draftTshirt(m: Measurements): Block {
-  const front = bodice(m, { position: "front" });
-  const back = bodice(m, { position: "back" });
-  const targetArmhole =
-    edgeLength(pieceEdge(front.pieces.front, "armhole")) +
-    edgeLength(pieceEdge(back.pieces.back, "armhole"));
-  const sleeveResult = sleeveComponent(m, { targetArmhole });
-  return assembleComponents([front, back, sleeveResult], sleevedTopStitches(["side"], false));
+  return composeBlock(TEE_GRAMMAR, m);
 }

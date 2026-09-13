@@ -1,16 +1,18 @@
 # InfiniDrip — Project State
 
-_Last updated: Epic 4 Slice 105, 2026-09-13; Epic 3 passed and Epic 4
+_Last updated: Epic 4 Slice 109, 2026-09-13; Epic 3 passed and Epic 4
 Component Architecture and Garment Grammar has started._
 
-## Current status — Epic 4 Slice 105
+## Current status — Epic 4 Slice 109
 
 The actual `main` checkout contains the verified Epic 3 work through
 `9890beb`. Epic 4 is now confirmed and in progress. Slice 105 records the
 actual-code baseline, the full Priority 1 scope, the seven-recipe migration
 contract, the one user-facing composition-proof boundary, and the separate
-Desktop Release delegation workstream. No Epic 4 source implementation has
-landed yet.
+Desktop Release delegation workstream. Slices 106–109 now implement and adopt
+the typed grammar contract across all seven registered recipes. The public
+recipe seam and downstream `Block` contract remain intact; the downstream,
+croquis, live-proof, and final gate closeout are still pending.
 The BUGFIX P1/P2/P3 and FC-01 records are closed. Preserved untracked logs and
 `tmp/` evidence remain user artifacts and were not touched or staged.
 
@@ -145,15 +147,22 @@ option/nesting controls, and 20 open Edit-coordinate rails were exercised.
 The 8/8 legacy export hashes remain unchanged. Physical fit and
 production-readiness remain deferred.
 
-Epic 4 Slice 105 is the current docs/contract checkpoint. The target is to
-complete the existing partial `Component`, `Interface`, `Stitch`, ordered
-assembly, and croquis foundations into one grammar used by Tee, Fitted tee,
-Tank, Polo, Woven shirt, Skirt, and Trouser. Components own geometry and
-interfaces; composition owns dependency order and seam matching; the composed
-Block remains the sole downstream input. One bounded user-facing composition
-proof is in scope; a full configurator, new garment family, surface design,
-physical validation, and final Edit overrides are not. See
-`docs/planning/EPIC-4-EXECUTION.md` for the slice plan and acceptance gate.
+Epic 4 Slices 106–109 are the grammar adoption checkpoint. `src/drafting/grammar.ts`
+now provides typed dependency ordering, scoped parameter resolution, exposed
+interfaces, composition-owned stitches, and loud graph/reference failures.
+`TEE_GRAMMAR`, `FITTED_GRAMMAR`, `TANK_GRAMMAR`, `POLO_GRAMMAR`,
+`WOVEN_SHIRT_GRAMMAR`, `SKIRT_GRAMMAR`, and `TROUSER_GRAMMAR` route every
+registered recipe through the same composition boundary while retaining the
+ordinary assembled `Block` consumed by checks, guidance, grading, POM,
+rendering, persistence, and export. Existing helper APIs remain for compatibility.
+
+The migration checkpoint passes 81 test files / 1,031 tests and 100% coverage
+for statements, branches, functions, and lines. The existing garment selector's
+Tee ↔ Fitted route is the bounded user-facing composition proof: it changes the
+actual composed front and is already covered through Pattern, Spec, Check, and
+Edit. The final Epic 4 closeout still requires standalone typecheck/build,
+parsed output evidence, legacy hash confirmation, and rendered/live responsive
+verification. See `docs/planning/EPIC-4-EXECUTION.md` for the complete gate.
 
 The independent functional-consistency audit (completed before Epic 3) closed BUG-UI-032 through
 BUG-UI-034. Woven Body front/back inspection uses its real lower shaping and

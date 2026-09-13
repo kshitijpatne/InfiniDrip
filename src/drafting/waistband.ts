@@ -32,6 +32,8 @@ import { Component } from "./component";
 export interface WaistbandParams {
   readonly depth: number; // cm, the band's height
   readonly closure: "button" | "hook"; // BOM/notions only — see file header
+  /** Optional measured target supplied by a preceding panel composition. */
+  readonly targetHalfCircumference?: number;
 }
 
 export const WAISTBAND_DEFAULT: WaistbandParams = { depth: 3.5, closure: "button" };
@@ -42,7 +44,7 @@ export const WAISTBAND_DEFAULT: WaistbandParams = { depth: 3.5, closure: "button
  *  downstream attaches onto a waistband; only the recipe wires its own
  *  stitch INTO the "seam" edge from outside. */
 export const waistband: Component<WaistbandParams> = (m, params) => {
-  const halfCirc = (m.waist + m.ease) / 2; // half the finished circumference; doubled by the fold
+  const halfCirc = params.targetHalfCircumference ?? (m.waist + m.ease) / 2;
   const depth = params.depth;
 
   const foldTop = point(0, 0);

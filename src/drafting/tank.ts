@@ -20,8 +20,8 @@ import { Measurements, derive } from "./measurements";
 import { Block } from "./block";
 import { Note } from "../guidance/note";
 import { Stitch, edgeRef, iface, matchedNotch } from "./stitch";
-import { assembleComponents } from "./component";
 import { bodice } from "./bodice";
+import { componentNode, composeBlock, garmentGrammar } from "./grammar";
 import { NecklineParams, necklineEdge } from "./neckline";
 import { sleevelessArmhole } from "./armhole";
 import { PieceNotches } from "./tshirt-notches";
@@ -70,14 +70,28 @@ export function tankBackNeckline(m: Measurements): NecklineParams {
 }
 
 export function draftTank(m: Measurements): Block {
-  const front = bodice(m, {
-    position: "front", necklineParams: tankFrontNeckline(m), strapWidth: m.strapWidth,
-  });
-  const back = bodice(m, {
-    position: "back", necklineParams: tankBackNeckline(m), strapWidth: m.strapWidth,
-  });
-  return assembleComponents([front, back], TANK_STITCHES);
+  return composeBlock(TANK_GRAMMAR, m);
 }
+
+/** A tank is the shared bodice grammar with the sleeve node intentionally
+ * absent. Its two neckline parameter resolvers stay owned by the tank recipe,
+ * while the resulting shoulder interfaces are still joined by composition. */
+export const TANK_GRAMMAR = garmentGrammar(
+  "tank",
+  [
+    componentNode("front", "bodice", bodice, (context) => ({
+      position: "front" as const,
+      necklineParams: tankFrontNeckline(context.measurements),
+      strapWidth: context.measurements.strapWidth,
+    })),
+    componentNode("back", "bodice", bodice, (context) => ({
+      position: "back" as const,
+      necklineParams: tankBackNeckline(context.measurements),
+      strapWidth: context.measurements.strapWidth,
+    })),
+  ],
+  () => TANK_STITCHES,
+);
 
 /** The tank's own guidance: sleevedTopGuidance minus armholeMatch (which
  *  calls rolePiece(block,"sleeve") — there is none here), PLUS (Slice 63)

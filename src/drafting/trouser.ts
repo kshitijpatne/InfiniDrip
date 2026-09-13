@@ -14,6 +14,8 @@ import { Edge, Piece } from "./piece";
 import { lineMark, pointMark, PatternMark } from "./pattern-mark";
 import { edgeRef, iface, markRef, Stitch } from "./stitch";
 import { Component, assembleComponents } from "./component";
+import type { ComponentResult } from "./component";
+import { componentNode, composeBlock, garmentGrammar } from "./grammar";
 import {
   DEFAULT_TROUSER_OPTIONS,
   resolveTrouserOptions,
@@ -222,9 +224,14 @@ export const trouserLegsComponent: Component<TrouserOptions> = (m, options) => {
 
 /** Separate full-length waistband. Its lower edge equals the combined waist
  * edges of the four leg panels, so the later stitch is a real 1:1 seam. */
-export const trouserWaistband: Component<TrouserOptions> = (m, rawOptions) => {
+export interface TrouserWaistbandParams extends TrouserOptions {
+  /** The measured waist interface of the preceding leg component. */
+  readonly targetWaist?: number;
+}
+
+export const trouserWaistband: Component<TrouserWaistbandParams> = (m, rawOptions) => {
   const options = resolveTrouserOptions(rawOptions);
-  const finishedWaist = m.waist + m.ease;
+  const finishedWaist = rawOptions.targetWaist ?? (m.waist + m.ease);
   const depth = options.waistbandDepth;
   const end = point(finishedWaist, 0);
   const endBottom = point(finishedWaist, depth);
@@ -404,6 +411,89 @@ const trouserWaistStitch = (roles: readonly string[]): Stitch => ({
   b: iface(edgeRef("waistband", "bottom")),
 });
 
+const trouserGrammarLegs = (m: Measurements, options: TrouserOptions): ComponentResult => {
+  const opening = trouserPocketOpening(m, options);
+  const withFly = addFlyMarks(draftTrouserLegs(m, options), options.flyLength);
+  const legs = addPocketMarks(withFly, opening);
+  return {
+    pieces: legs.roles,
+    stitches: legs.stitches,
+    interfaces: {
+      waist: iface(
+        edgeRef("frontLeft", "waist"),
+        edgeRef("frontRight", "waist"),
+        edgeRef("backLeft", "waist"),
+        edgeRef("backRight", "waist"),
+      ),
+      flyLeft: iface(markRef("frontLeft", "flyEdge", "left")),
+      flyRight: iface(markRef("frontRight", "flyEdge", "right")),
+      pocketLeft: iface(markRef("frontLeft", "pocketOpening", "left")),
+      pocketRight: iface(markRef("frontRight", "pocketOpening", "right")),
+    },
+  };
+};
+
+/** Full trouser composition: the waistband is sized from the actual four-leg
+ * waist interface, and all closure/pocket joins use exposed component
+ * interfaces rather than retyping their role/mark references here. */
+export const TROUSER_GRAMMAR = garmentGrammar(
+  "trouser",
+  [
+    componentNode("legs", "trouser-legs", trouserGrammarLegs, (context) => resolveTrouserOptions(context.options)),
+    componentNode(
+      "waistband",
+      "waistband",
+      trouserWaistband,
+      (context) => ({
+        ...resolveTrouserOptions(context.options),
+        targetWaist: context.interfaceLength("legs", "waist"),
+      }),
+      ["legs"],
+    ),
+    componentNode(
+      "fly",
+      "fly",
+      trouserFly,
+      (context) => resolveTrouserOptions(context.options),
+      ["legs"],
+    ),
+    componentNode(
+      "pockets",
+      "pocket",
+      trouserPocket,
+      (context) => resolveTrouserOptions(context.options),
+      ["legs"],
+    ),
+  ],
+  (context) => [
+    {
+      label: "Waistband (four legs ↔ separate waistband)",
+      a: context.interfaceOf("legs", "waist"),
+      b: context.interfaceOf("waistband", "bottom"),
+    },
+    {
+      label: "Left front fly ↔ shield",
+      a: context.interfaceOf("legs", "flyLeft"),
+      b: context.interfaceOf("fly", "left"),
+    },
+    {
+      label: "Right front fly ↔ shield",
+      a: context.interfaceOf("legs", "flyRight"),
+      b: context.interfaceOf("fly", "right"),
+    },
+    {
+      label: "Left pocket opening ↔ bag",
+      a: context.interfaceOf("legs", "pocketLeft"),
+      b: context.interfaceOf("pockets", "leftOpening"),
+    },
+    {
+      label: "Right pocket opening ↔ bag",
+      a: context.interfaceOf("legs", "pocketRight"),
+      b: context.interfaceOf("pockets", "rightOpening"),
+    },
+  ],
+);
+
 /** Slice 97's assembled lower-body block: legs + separate waistband + fly. */
 export function draftTrouserWithClosure(
   m: Measurements, rawOptions: Partial<TrouserOptions> = {}
@@ -430,24 +520,7 @@ export function draftTrouserWithClosure(
 export function draftTrouserWithPockets(
   m: Measurements, rawOptions: Partial<TrouserOptions> = {}
 ): Block {
-  const options = resolveTrouserOptions(rawOptions);
-  const opening = trouserPocketOpening(m, options);
-  const closure = addPocketMarks(draftTrouserWithClosure(m, options), opening);
-  const pocket = trouserPocket(m, options);
-  const leftPocketStitch: Stitch = {
-    label: "Left pocket opening ↔ bag",
-    a: iface(markRef("frontLeft", "pocketOpening", "left")),
-    b: iface(edgeRef("pocketBagLeft", "opening")),
-  };
-  const rightPocketStitch: Stitch = {
-    label: "Right pocket opening ↔ bag",
-    a: iface(markRef("frontRight", "pocketOpening", "right")),
-    b: iface(edgeRef("pocketBagRight", "opening")),
-  };
-  return assembleComponents([
-    { pieces: closure.roles, stitches: closure.stitches, interfaces: {} },
-    pocket,
-  ], [leftPocketStitch, rightPocketStitch]);
+  return composeBlock(TROUSER_GRAMMAR, m, rawOptions);
 }
 
 /** V1 woven trouser cutting allowances. All roles are off-fold; a future

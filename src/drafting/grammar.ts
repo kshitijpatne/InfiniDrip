@@ -154,6 +154,13 @@ export function composeGrammar(
 
   const finalContext = contextFor(instances);
   const connectingStitches = grammar.connect(finalContext);
+  // Validate the composition-owned seam graph at the composition boundary.
+  // Without this pass, a typo in a final connector would survive until a
+  // downstream checker happened to inspect that stitch.
+  for (const stitch of connectingStitches) {
+    measureInterfaceLength(finalContext.block, stitch.a);
+    measureInterfaceLength(finalContext.block, stitch.b);
+  }
   return {
     components: instances,
     block: assembleComponents(instances.map((instance) => instance.result), connectingStitches),

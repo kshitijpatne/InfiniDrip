@@ -7,11 +7,12 @@ plan._
 
 ## Status
 
-**In progress — Slice 105 (baseline and contract confirmation).**
+**In progress — Slice 110 (downstream convergence audit).**
 
-Epic 3 is closed. No later Epic has started in the repository. The separate
-Desktop Release workstream is running in isolated contributor worktrees and is
-not part of Epic 4's acceptance gate.
+Epic 3 is closed. Slices 105–109 have been implemented on this branch. The
+remaining work is the downstream/croquis/proof audit and final Epic 4 gate. The
+separate Desktop Release workstream is running in isolated contributor
+worktrees and is not part of Epic 4's acceptance gate.
 
 ## Objective
 
@@ -54,17 +55,20 @@ Already-set boundaries remain in force:
 
 ## Current-code baseline
 
-The actual checkout already contains these partial foundations:
+The actual checkout contains these foundations and the completed migration
+checkpoint:
 
 - `Edge`, `Piece`, `Block`, `EdgeRef`, `Interface`, `Stitch`,
   `stitchChecks()`, `matchedNotch()`, `Component`, and ordered
   `assembleComponents()`.
-- Tee, fitted tee, tank, skirt, and trouser drafting already exercise parts of
-  the component/stitch vocabulary. Polo and woven shirt still contain
-  composition logic that must be brought behind the same boundary.
-- `render/croquis.ts` and `render/croquis-view.ts` already provide part of the
-  shared upper/lower and front/side/back presentation contract; this Epic must
-  finish the ownership boundary without allowing croquis data into drafting.
+- All seven registered recipes now declare a named `GarmentGrammar` and their
+  public `draft()` functions compose through it. The migration retains the
+  existing staged helper APIs where they are still public/tested, but the
+  registry and application path use the composed result.
+- `render/croquis.ts` and `render/croquis-view.ts` provide the shared
+  upper/lower and front/side/back presentation contract; the Epic audit must
+  keep that ownership boundary intact without allowing croquis data into
+  drafting.
 - The current recipe registry has seven garments and remains the public engine
   seam. Existing output writers, grading, persistence, and guidance consumers
   must continue to receive a normal assembled `Block`.
@@ -101,24 +105,33 @@ their deliberate change and retain the legacy gate.
 
 ### Slice 105 — baseline, contract, and migration map
 
-Status: **in progress**.
+Status: **complete**.
 
 Record the confirmed scope, actual-code inventory, target invariants, exact
 legacy/semantic parity rules, delegation boundary, and exit gates in this file
-and the durable project documents.
+and the durable project documents. The record is the Slice 105 checkpoint
+commit `46ae2f9`.
 
 Non-goals: source refactoring, new UI, new garments, surface design, physical
 validation, or Desktop Release implementation.
 
 ### Slice 106 — grammar and composition contract
 
+Status: **complete**.
+
 Define the minimal typed composition vocabulary needed beyond the existing
 `ComponentResult`: component identity/ownership, dependency-ordered assembly,
 owned params, exposed interfaces, composed metadata, and loud invalid-graph
 failures. Add pure tests before migrating recipes. Preserve the existing
-`GarmentRecipe` seam and output bytes.
+`GarmentRecipe` seam and output bytes. `src/drafting/grammar.ts` now validates
+duplicate/recursive dependency graphs, role collisions, missing interfaces,
+and final connector piece/edge/mark references; `grammar.test.ts` covers the
+contract with ten focused tests. The contract checkpoint is `81002dd` plus the
+final-connector validation in the migration checkpoint.
 
 ### Slice 107 — shared structural primitives
+
+Status: **complete as an adoption checkpoint**.
 
 Consolidate the real repeated structural vocabulary behind the grammar:
 bodice/panel, sleeve, neckline, collar/stand, placket, cuff/band, waistband,
@@ -128,17 +141,23 @@ rule unless an existing physical component has a clearly bounded owner.
 
 ### Slice 108 — knit compositions
 
+Status: **complete**.
+
 Migrate Tee, Fitted tee, Tank, and Polo through the common grammar. The proof
 must measure downstream interfaces from the actual preceding component, retain
 the current option and guidance semantics, and preserve legacy output identity.
 
 ### Slice 109 — woven and lower-body compositions
 
+Status: **complete**.
+
 Migrate Woven shirt, Skirt, and Trouser through the same grammar. Preserve
 their distinct construction semantics, lower/upper region routing, marks,
 allowances, POMs, grading, tech packs, and recipe-owned guidance.
 
 ### Slice 110 — downstream consumer convergence
+
+Status: **in progress**.
 
 Remove remaining consumer-specific assumptions that bypass composition. Verify
 checks/guidance, matched notches, allowances, grading, POM, nesting, Edit,
@@ -147,12 +166,16 @@ without a second geometry source.
 
 ### Slice 111 — shared croquis and Side-view ownership
 
+Status: **audit pending final live gate**.
+
 Finish the render-only croquis library for upper/lower × front/side/back,
 including component-contributed measurement annotations where applicable. Keep
 croquis out of drafting and preserve the explicit schematic-not-simulation
 label for Side.
 
 ### Slice 112 — one user-facing composition proof
+
+Status: **implemented; rendered/live evidence pending final gate**.
 
 Expose one bounded, reversible composition-backed choice using an existing
 garment/variant. The proof must visibly change the actual draft and downstream
@@ -200,6 +223,26 @@ Electron shell audit/hardening task. They use separate worktrees and may not
 touch Epic 4 files. Codex reviews their actual diffs, tests, and evidence and
 alone decides whether either result is integrated or promoted to a later Epic.
 No contributor may push `main`.
+
+## Slice 107–109 migration checkpoint
+
+The seven registry entries now carry named grammar graphs: `tee`, `fitted`,
+`tank`, `polo`, `woven-shirt`, `skirt`, and `trouser`. Knit sleeve targets,
+neckline/collar and placket lengths, woven yoke/sleeve dependencies, skirt
+waistband circumference, and trouser waistband/fly/pocket joins are resolved
+from the actual preceding component interfaces. Existing downstream callers
+still receive an ordinary assembled `Block`; no export writer or baseline was
+changed.
+
+The existing garment selector is the bounded user-facing proof vehicle: Tee ↔
+Fitted switches the actual composed front component, and the already-covered
+Pattern, Spec, Check, and Edit routes observe that same draft. No new garment
+family or arbitrary component UI was added.
+
+The post-migration checkpoint passes `npm test` (81 files / 1,031 tests) and
+`npm run coverage` (100% statements, branches, functions, and lines). The
+standalone typecheck, production build, parsed-output gate, legacy hash gate,
+and rendered/live responsive audit remain the Slice 110–113 closeout work.
 
 ## Usage pacing
 

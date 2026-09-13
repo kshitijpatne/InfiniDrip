@@ -11,6 +11,8 @@ import { Pom } from "./pom";
 import { GradeRule } from "./grading";
 import { AllowanceSpec } from "./allowance";
 import { Note } from "../guidance/note";
+import type { ComponentResult } from "./component";
+import { componentNode, composeBlock, garmentGrammar } from "./grammar";
 
 /** The relaxed woven body is drafted as a half-width back on fold and a
  * separate half-width front. Fronts are cut as a mirrored pair later; keeping
@@ -180,14 +182,12 @@ function splitCubic(curve: CubicBezier, t: number): { readonly left: CubicBezier
   };
 }
 
-/** Replace the back's upper outline with a true yoke seam. The armhole curve
- * is split at the requested depth so the lower back remains a real garment
- * piece and the yoke still carries the neckline/shoulder. */
-export function addWovenShirtYoke(
-  body: Block, rawOptions: Partial<WovenShirtOptions> = {}
-): Block {
-  const options = resolveWovenShirtOptions(rawOptions);
-  const back = body.roles.back;
+interface WovenYokePieces {
+  readonly back: Piece;
+  readonly yoke: Piece;
+}
+
+function splitWovenBack(back: Piece, options: WovenShirtOptions): WovenYokePieces {
   const armhole = pieceEdge(back, "armhole");
   if (armhole.kind !== "curve") throw new Error("Woven back armhole must be a curve for yoke splitting");
   const shoulder = edgeStart(pieceEdge(back, "shoulder"));
@@ -219,24 +219,39 @@ export function addWovenShirtYoke(
       { kind: "line", name: "yokeSeam", start: split.left.end, end: foldTop },
     ],
   };
-  const stitches: Stitch[] = [
-    {
-      label: "Shoulder seam (front ↔ yoke)",
-      a: iface(edgeRef("front", "shoulder")),
-      b: iface(edgeRef("yoke", "shoulder")),
-    },
-    {
-      label: "Side seam (front ↔ back)",
-      a: iface(edgeRef("front", "sideUpper"), edgeRef("front", "sideMiddle"), edgeRef("front", "sideLower")),
-      b: iface(edgeRef("back", "sideUpper"), edgeRef("back", "sideMiddle"), edgeRef("back", "sideLower")),
-    },
-    {
-      label: "Yoke seam (yoke ↔ back lower)",
-      a: iface(edgeRef("yoke", "yokeSeam")),
-      b: iface(edgeRef("back", "yokeSeam")),
-    },
-  ];
-  return block({ ...body.roles, back: backLower, yoke }, stitches);
+  return {
+    back: backLower,
+    yoke,
+  };
+}
+
+export const WOVEN_SHIRT_YOKE_STITCHES: readonly Stitch[] = [
+  {
+    label: "Shoulder seam (front ↔ yoke)",
+    a: iface(edgeRef("front", "shoulder")),
+    b: iface(edgeRef("yoke", "shoulder")),
+  },
+  {
+    label: "Side seam (front ↔ back)",
+    a: iface(edgeRef("front", "sideUpper"), edgeRef("front", "sideMiddle"), edgeRef("front", "sideLower")),
+    b: iface(edgeRef("back", "sideUpper"), edgeRef("back", "sideMiddle"), edgeRef("back", "sideLower")),
+  },
+  {
+    label: "Yoke seam (yoke ↔ back lower)",
+    a: iface(edgeRef("yoke", "yokeSeam")),
+    b: iface(edgeRef("back", "yokeSeam")),
+  },
+];
+
+/** Replace the back's upper outline with a true yoke seam. The armhole curve
+ * is split at the requested depth so the lower back remains a real garment
+ * piece and the yoke still carries the neckline/shoulder. */
+export function addWovenShirtYoke(
+  body: Block, rawOptions: Partial<WovenShirtOptions> = {}
+): Block {
+  const options = resolveWovenShirtOptions(rawOptions);
+  const pieces = splitWovenBack(body.roles.back, options);
+  return block({ ...body.roles, back: pieces.back, yoke: pieces.yoke }, WOVEN_SHIRT_YOKE_STITCHES);
 }
 
 export function draftWovenShirtYoke(
@@ -440,13 +455,7 @@ export function draftWovenShirtSleeves(
 export function draftWovenShirt(
   m: Measurements, rawOptions: Partial<WovenShirtOptions> = {}
 ): Block {
-  const body = draftWovenShirtBody(m, rawOptions);
-  const yoke = addWovenShirtYoke(body, rawOptions);
-  const pocket = addWovenShirtPocket(yoke, m, rawOptions);
-  const hemmed = addWovenShirtHemVent(pocket, rawOptions);
-  const collar = addWovenShirtCollar(hemmed, rawOptions);
-  const plackets = addWovenShirtPlackets(collar, rawOptions);
-  return addWovenShirtSleeves(plackets, m, rawOptions);
+  return composeBlock(WOVEN_SHIRT_GRAMMAR, m, rawOptions);
 }
 
 export const WOVEN_SHIRT_ALLOWANCES: AllowanceSpec = {
@@ -626,6 +635,171 @@ function placketPiece(
     ],
   };
 }
+
+const wovenGrammarFront = (m: Measurements, options: WovenShirtOptions): ComponentResult => {
+  const base = shirtPanel(m, "front", options);
+  const pocketX = m.chest / 20;
+  const pocketY = m.armholeDepth + 6;
+  const withPlacement: Piece = {
+    ...base,
+    marks: [
+      ...(base.marks ?? []),
+      lineMark("placementLine", "pocketPlacement", point(pocketX, pocketY), point(pocketX + options.pocketWidth, pocketY), "POCKET PLACEMENT"),
+    ],
+  };
+  return {
+    pieces: { front: curvedHemAndVent(withPlacement, options.sideVentDepth) },
+    stitches: [],
+    interfaces: {
+      shoulder: iface(edgeRef("front", "shoulder")),
+      neckline: iface(edgeRef("front", "neckline")),
+      centerFront: iface(edgeRef("front", "centerFront")),
+      armhole: iface(edgeRef("front", "armhole")),
+    },
+  };
+};
+
+const wovenGrammarBackYoke = (m: Measurements, options: WovenShirtOptions): ComponentResult => {
+  const split = splitWovenBack(shirtPanel(m, "back", options), options);
+  return {
+    pieces: {
+      back: curvedHemAndVent(split.back, options.sideVentDepth),
+      yoke: split.yoke,
+    },
+    stitches: [],
+    interfaces: {
+      shoulder: iface(edgeRef("yoke", "shoulder")),
+      neckline: iface(edgeRef("yoke", "neckline")),
+      armholeUpper: iface(edgeRef("yoke", "armholeUpper")),
+      armholeLower: iface(edgeRef("back", "armholeLower")),
+      yokeSeam: iface(edgeRef("yoke", "yokeSeam")),
+    },
+  };
+};
+
+const wovenGrammarPocket = (_m: Measurements, options: WovenShirtOptions): ComponentResult => ({
+  pieces: { pocket: patchPocket(options.pocketWidth, options.pocketHeight) },
+  stitches: [],
+  interfaces: { top: iface(edgeRef("pocket", "top")) },
+});
+
+const wovenGrammarCollar = (
+  _m: Measurements,
+  params: { readonly options: WovenShirtOptions; readonly necklineLength: number },
+): ComponentResult => {
+  const outer = standPiece("outer woven stand", params.necklineLength, params.options.standHeight);
+  const inner = standPiece("inner woven stand", params.necklineLength, params.options.standHeight);
+  const standY = edgeStart(pieceEdge(outer, "centerBack")).y / 2;
+  const standButtonX = params.necklineLength - PLACKET_SEAM_ALLOWANCE;
+  const outerStand: Piece = {
+    ...outer,
+    marks: [...outer.marks!, pointMark("button", "stand-button", point(standButtonX, standY), "STAND BUTTON")],
+  };
+  const innerStand: Piece = {
+    ...inner,
+    marks: [...inner.marks!, pointMark("buttonhole", "stand-buttonhole", point(standButtonX, standY), "STAND BUTTONHOLE")],
+  };
+  return {
+    pieces: {
+      outerStand,
+      innerStand,
+      upperCollar: collarPiece("upper pointed woven collar", params.necklineLength, params.options.collarLeafDepth),
+      underCollar: collarPiece("under pointed woven collar", params.necklineLength, params.options.collarLeafDepth),
+    },
+    stitches: [],
+    interfaces: {
+      neckline: iface(edgeRef("outerStand", "neckline")),
+      collar: iface(edgeRef("underCollar", "stand")),
+    },
+  };
+};
+
+const wovenGrammarPlackets = (
+  _m: Measurements,
+  params: { readonly options: WovenShirtOptions; readonly frontLength: number },
+): ComponentResult => ({
+  pieces: {
+    buttonPlacket: placketPiece("woven button placket", params.frontLength, params.options, "button"),
+    buttonholePlacket: placketPiece("woven buttonhole placket", params.frontLength, params.options, "buttonhole"),
+  },
+  stitches: [],
+  interfaces: {
+    button: iface(edgeRef("buttonPlacket", "attachmentRaw")),
+    buttonhole: iface(edgeRef("buttonholePlacket", "attachmentRaw")),
+  },
+});
+
+const wovenGrammarSleeves = (
+  m: Measurements,
+  params: { readonly options: WovenShirtOptions; readonly targetArmhole: number },
+): ComponentResult => {
+  const sleeve = wovenSleeve(m, params.targetArmhole);
+  return {
+    pieces: {
+      sleeve,
+      sleeveBand: sleeveBand(edgeLength(pieceEdge(sleeve, "hem")), params.options.sleeveBandDepth),
+    },
+    stitches: [],
+    interfaces: {
+      cap: iface(edgeRef("sleeve", "capLeft"), edgeRef("sleeve", "capRight")),
+      hem: iface(edgeRef("sleeve", "hem")),
+    },
+  };
+};
+
+/** Complete woven-shirt composition. Each node owns only the roles it emits;
+ * measurements for collar, placket, and sleeve sizing come from interfaces of
+ * the already executed nodes. */
+export const WOVEN_SHIRT_GRAMMAR = garmentGrammar(
+  "woven-shirt",
+  [
+    componentNode("front", "woven-body", wovenGrammarFront, (context) => resolveWovenShirtOptions(context.options)),
+    componentNode("back-yoke", "yoke", wovenGrammarBackYoke, (context) => resolveWovenShirtOptions(context.options), ["front"]),
+    componentNode("pocket", "pocket", wovenGrammarPocket, (context) => resolveWovenShirtOptions(context.options), ["front", "back-yoke"]),
+    componentNode(
+      "collar",
+      "collar-stand",
+      wovenGrammarCollar,
+      (context) => ({
+        options: resolveWovenShirtOptions(context.options),
+        necklineLength:
+          context.interfaceLength("front", "neckline") +
+          context.interfaceLength("back-yoke", "neckline"),
+      }),
+      ["front", "back-yoke"],
+    ),
+    componentNode(
+      "plackets",
+      "placket",
+      wovenGrammarPlackets,
+      (context) => ({
+        options: resolveWovenShirtOptions(context.options),
+        frontLength: context.interfaceLength("front", "centerFront"),
+      }),
+      ["front", "collar"],
+    ),
+    componentNode(
+      "sleeves",
+      "sleeve-band",
+      wovenGrammarSleeves,
+      (context) => ({
+        options: resolveWovenShirtOptions(context.options),
+        targetArmhole:
+          context.interfaceLength("front", "armhole") +
+          context.interfaceLength("back-yoke", "armholeUpper") +
+          context.interfaceLength("back-yoke", "armholeLower"),
+      }),
+      ["front", "back-yoke", "pocket", "collar", "plackets"],
+    ),
+  ],
+  () => [
+    ...WOVEN_SHIRT_YOKE_STITCHES,
+    ...WOVEN_SHIRT_POCKET_STITCHES,
+    ...wovenCollarStitches("yoke"),
+    ...WOVEN_SHIRT_PLACKET_STITCHES,
+    ...WOVEN_SHIRT_SLEEVE_STITCHES,
+  ],
+);
 
 export const WOVEN_SHIRT_PLACKET_STITCHES: readonly Stitch[] = [
   {
