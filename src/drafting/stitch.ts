@@ -1,18 +1,16 @@
-// Component architecture, Phase A1 (Slice 49). Design: COMPONENT-ARCHITECTURE.md.
+// Component architecture, adopted by Epic 4 Slices 106–109.
+// Design rationale: COMPONENT-ARCHITECTURE.md.
 //
 // The problem this closes: a seam relationship — "front shoulder sews to back
 // shoulder" — exists today only as a hand-written assertion inside the checker
 // (tshirt-checks.ts, skirt.ts). That's construction knowledge encoded backwards,
 // in its own verification, instead of as data the rest of the system could read.
 //
-// This module is the data shape and nothing else: an Interface names a seam's
-// edges, a Stitch says two interfaces join. Phase A1 is deliberately narrow —
-// per COMPONENT-ARCHITECTURE.md §11 Q4, `Block` is NOT touched in this slice.
-// No recipe declares a stitch yet. The proof this slice owes (stitch.test.ts)
-// is that stitches DECLARED AS DATA, run through stitchChecks, reproduce the
-// real hand-written checks byte-for-byte on real drafted blocks. Phase A2 is
-// the slice where `Block` actually grows a `stitches` field and recipes commit
-// to it; until then this is a pure library, safe to add with zero blast radius.
+// This module is the shared data vocabulary: an Interface names a seam's
+// edges, a Stitch says two interfaces join, and `Block` carries the resulting
+// declarations to check/render/export consumers. All seven registered recipes
+// now declare stitches as composition data; `stitchChecks` remains the single
+// measurement implementation used to verify those real drafted blocks.
 
 import { Block, rolePiece } from "./block";
 import { pieceEdge, edgeLength } from "./piece";

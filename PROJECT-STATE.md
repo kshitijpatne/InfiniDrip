@@ -1,18 +1,18 @@
 # InfiniDrip — Project State
 
-_Last updated: Epic 4 Slice 109, 2026-09-13; Epic 3 passed and Epic 4
+_Last updated: Epic 4 Slice 113, 2026-09-13; Epic 3 passed and Epic 4
 Component Architecture and Garment Grammar has started._
 
-## Current status — Epic 4 Slice 109
+## Current status — Epic 4 Slice 113
 
 The actual `main` checkout contains the verified Epic 3 work through
 `9890beb`. Epic 4 is now confirmed and in progress. Slice 105 records the
 actual-code baseline, the full Priority 1 scope, the seven-recipe migration
 contract, the one user-facing composition-proof boundary, and the separate
-Desktop Release delegation workstream. Slices 106–109 now implement and adopt
-the typed grammar contract across all seven registered recipes. The public
-recipe seam and downstream `Block` contract remain intact; the downstream,
-croquis, live-proof, and final gate closeout are still pending.
+Desktop Release delegation workstream. Slices 106–112 now implement, adopt,
+and verify the typed grammar contract across all seven registered recipes. The
+public recipe seam and downstream `Block` contract remain intact. The final
+Slice 113 gate is running; no later Epic has started.
 The BUGFIX P1/P2/P3 and FC-01 records are closed. Preserved untracked logs and
 `tmp/` evidence remain user artifacts and were not touched or staged.
 
@@ -160,9 +160,29 @@ The migration checkpoint passes 81 test files / 1,031 tests and 100% coverage
 for statements, branches, functions, and lines. The existing garment selector's
 Tee ↔ Fitted route is the bounded user-facing composition proof: it changes the
 actual composed front and is already covered through Pattern, Spec, Check, and
-Edit. The final Epic 4 closeout still requires standalone typecheck/build,
-parsed output evidence, legacy hash confirmation, and rendered/live responsive
-verification. See `docs/planning/EPIC-4-EXECUTION.md` for the complete gate.
+Edit. The final Slice 113 gate records standalone typecheck/build, parsed output
+evidence, legacy hash confirmation, and rendered/live responsive verification
+in `docs/planning/EPIC-4-EXECUTION.md`; the final full command pass is the last
+closeout operation.
+
+The live Slice 110–112 audit covered all seven garments through Pattern, Body,
+Size run, Spec, Nesting, Check, and Edit. At 1280/900/700/560/390 px every
+garment had no horizontal overflow, visible SVG, matching +/- and Boundary Rail
+counts, and no browser diagnostics. Tee ↔ Darted tee changed the actual pattern
+SVG and retained dart evidence in Spec/Check; Trouser waist changed 86 → 87 →
+86 with the rail label tracking the value. The focused parsed-output suite
+passed 21/21, including SVG, DXF, tiled PDF, A0 PDF, Projector SVG, Tech Pack,
+and the 8/8 legacy hash regression tests.
+
+The separate Desktop Release delegation was reviewed from actual isolated
+worktrees. OpenCode's research packet is promoted as `7d84e7a`, and Claude
+Code's Electron navigation hardening plus corrected real-shell verifiers are
+promoted as `7ecc9c2`. Main-process build/typecheck and the real dev-shell save,
+menu, identity/title, and bounded window-state checks pass. The research packet
+records that packaging targets remain unpacked `dir` outputs, signing,
+notarization, auto-update, and packaged/offline per-OS verification are still
+open; the 125%-DPI multi-relaunch window-size creep is a known limitation, not
+a production-readiness claim.
 
 The independent functional-consistency audit (completed before Epic 3) closed BUG-UI-032 through
 BUG-UI-034. Woven Body front/back inspection uses its real lower shaping and

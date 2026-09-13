@@ -77,6 +77,9 @@ snapshots; they are not current status.
   for the relaxed button-up. Read before Slices 86-93.
 - `docs/research/NUMERIC-CONTROLS-RESEARCH.md` — Slice 104 research and the
   shared Boundary Rail decision for numeric edit controls.
+- `docs/research/DESKTOP-RELEASE-RESEARCH.md` — OpenCode's observed Electron
+  release architecture, signing/offline/update risks, and deferred packaging
+  gates; it does not claim a packaged or signed release.
 
 ## Historical archive
 

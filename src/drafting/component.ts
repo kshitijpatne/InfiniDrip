@@ -1,4 +1,5 @@
-// Component architecture, Phase B1 (Slice 52). Design: COMPONENT-ARCHITECTURE.md §4.5.
+// Component architecture, adopted by Epic 4 Slices 106–109.
+// Design rationale: COMPONENT-ARCHITECTURE.md §4.5.
 //
 // The problem this closes: `draftTshirt`/`draftFitted`/`draftSkirt` each build
 // their whole block in one function — a bodice, a sleeve, a neckline, all
@@ -6,15 +7,11 @@
 // (a bodice, a sleeve, a neckline), built independently and merged into a
 // `Block` by a recipe's `draft` function.
 //
-// This slice is deliberately narrow, same posture as Phase A1: the types and
-// the merge helper, nothing else. NO existing recipe is touched — tee, fitted,
-// and skirt keep drafting exactly as they do today. The first real extraction
-// (Bodice) is Phase B2, which is also the first real test of this shape: with
-// zero consumers, there is no way to know yet whether `ComponentResult` is
-// right, only whether it is *plausible*. Kept intentionally strict rather than
-// permissive (assembleComponents throws on a role collision instead of
-// silently overwriting) so a wrong assumption fails loudly at extraction time
-// instead of drafting a garment with a missing piece.
+// The original Phase B1 shape is now used by every registered recipe through
+// `GarmentGrammar`. It remains intentionally strict: assembleComponents throws
+// on a role collision instead of silently overwriting, so a wrong assumption
+// fails loudly at composition time instead of drafting a garment with a
+// missing piece.
 
 import { Measurements } from "./measurements";
 import { Piece } from "./piece";

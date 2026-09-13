@@ -164,6 +164,11 @@ consumers. Croquis and Side remain presentation-only and are not imported by
 drafting. The final downstream, live, parsed-output, and Epic 4 exit evidence is
 tracked in `docs/planning/EPIC-4-EXECUTION.md`.
 
+Desktop Release is a separate platform boundary. Its observed Electron
+architecture and remaining signed/offline packaging work are recorded in
+`docs/research/DESKTOP-RELEASE-RESEARCH.md`; the shell hardening in `electron/`
+does not alter drafting, exports, or the composed `Block` contract.
+
 Epic 3 is closed at the integrated straight-leg trouser plus shared numeric
 editing boundary. Shorts and joggers remain documented derivatives only;
 surface design, physical validation, and production-readiness work are outside

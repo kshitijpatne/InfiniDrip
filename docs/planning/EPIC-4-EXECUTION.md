@@ -7,12 +7,12 @@ plan._
 
 ## Status
 
-**In progress — Slice 110 (downstream convergence audit).**
+**In progress — Slice 113 (final Epic 4 gate).**
 
 Epic 3 is closed. Slices 105–109 have been implemented on this branch. The
-remaining work is the downstream/croquis/proof audit and final Epic 4 gate. The
-separate Desktop Release workstream is running in isolated contributor
-worktrees and is not part of Epic 4's acceptance gate.
+remaining work is the final Epic 4 gate. The
+separate Desktop Release workstream was reviewed and promoted in its own
+commits; it is not part of Epic 4's acceptance gate.
 
 ## Objective
 
@@ -157,7 +157,7 @@ allowances, POMs, grading, tech packs, and recipe-owned guidance.
 
 ### Slice 110 — downstream consumer convergence
 
-Status: **in progress**.
+Status: **complete**.
 
 Remove remaining consumer-specific assumptions that bypass composition. Verify
 checks/guidance, matched notches, allowances, grading, POM, nesting, Edit,
@@ -166,7 +166,7 @@ without a second geometry source.
 
 ### Slice 111 — shared croquis and Side-view ownership
 
-Status: **audit pending final live gate**.
+Status: **complete**.
 
 Finish the render-only croquis library for upper/lower × front/side/back,
 including component-contributed measurement annotations where applicable. Keep
@@ -175,7 +175,7 @@ label for Side.
 
 ### Slice 112 — one user-facing composition proof
 
-Status: **implemented; rendered/live evidence pending final gate**.
+Status: **complete**.
 
 Expose one bounded, reversible composition-backed choice using an existing
 garment/variant. The proof must visibly change the actual draft and downstream
@@ -183,6 +183,8 @@ digital checks/preview while remaining within the existing recipe and option
 contracts. No full configurator or arbitrary component swapping.
 
 ### Slice 113 — Epic 4 integration and exit gate
+
+Status: **in progress**.
 
 Run the full project gate, inspect the actual diff and branch, parse all output
 consumers, verify all eight legacy hashes, run rendered/live cross-garment and
@@ -243,6 +245,54 @@ The post-migration checkpoint passes `npm test` (81 files / 1,031 tests) and
 `npm run coverage` (100% statements, branches, functions, and lines). The
 standalone typecheck, production build, parsed-output gate, legacy hash gate,
 and rendered/live responsive audit remain the Slice 110–113 closeout work.
+
+## Slice 110–112 verification checkpoint
+
+The downstream audit found every application/export/check path entering through
+the recipe's composed `Block`; no writer or view introduced a second geometry
+source. The existing croquis contract remains render-only and drafting has no
+croquis import. Live app evidence covered all seven garments through Pattern,
+Body, Size run, Spec, Nesting, Check, and Edit; every surface rendered SVG with
+no `NaN` or browser error. The existing Tee ↔ Darted tee selector changed the
+actual pattern SVG (`FOLDFRONTFOLDBACKSLEEVE` →
+`FOLDFITTED FRONTFOLDBACKSLEEVE`) and the fitted Spec/Check surfaces retained
+the dart evidence.
+
+The live responsive matrix covered all seven garments at 1280, 900, 700, 560,
+and 390 px. Every case had no horizontal overflow, a visible pattern SVG, and
+matching left/right +/- and Boundary Rail counts: Tee 8, Darted tee 8, Tank 9,
+Polo 12, Woven shirt 25, Skirt 6, and Trouser 20. A real Trouser control round
+trip changed waist 86 → 87 → 86 and the rail label followed the current value;
+browser error/warning diagnostics were empty. A rendered Trouser Pattern
+screenshot was visually inspected at the default 1280 px viewport.
+
+The parsed output checkpoint passed 21/21 focused tests across the Woven shirt,
+Polo, Trouser, and legacy regression suites. These tests parse actual SVG with
+DOMParser, DXF structure, tiled PDF/A0/Tech Pack pages with pdf-lib, and
+Projector SVG layer/mark counts. The eight legacy SHA-256 values remain:
+
+- Tee: SVG `3fbf2e3215af5bdfc66398b9b16714e8ee8139f5edc10dab527bc4c8378f2b9d`,
+  DXF `0b6cba95c9afd4cc6f17a2171f67303e0891babb94828816c149767935165fc9`,
+  PDF `1256ccf60abedeed40b01915ea9a2df4d063b224d01a39dfbf8730136a128523`,
+  Tech Pack `6691a28a6cae0baccfe271887c6d4d00a968867fe0628a8e1d1eacd2b8b047d1`.
+- Darted tee: SVG `cd16df87d100a40866e20738f858d3f11fdc3238ba0db88d99ca3a46f981a09c`,
+  DXF `e2dd0a36ea6d834a0aec470918f4ba2b823136c13998966a8f04ddeda085a8a6`,
+  PDF `184dcd975bb8067b452370c78748045384bb18fa8f89f7ca1d4a583b9d0190ff`,
+  Tech Pack `8e89320bfa235c44ebb481b01012a43c7c1614ce27608ccbb49df31369bca8d2`.
+
+## Desktop Release delegation review
+
+This remains a separate workstream and does not widen Epic 4. OpenCode's
+research-only packet was reviewed and promoted as `7d84e7a` (contributor
+commit `57948a3`). Claude Code's Electron hardening and verifier correction was
+reviewed and promoted as `7ecc9c2` (contributor commit `34fc327`). On the real
+Windows development run, `npm run electron:verify` passed native save, and
+`npm run electron:verify-menu` passed app identity/title, native File → Export
+→ SVG, and window-state persistence with the observed 125%-DPI single-relaunch
+drift explicitly bounded by the verifier. The underlying multi-relaunch size
+creep remains a documented Electron/Windows limitation; no claim of pixel-
+exact long-term restoration is made. No packaged installer, signing,
+notarization, or auto-update gate was claimed or shipped.
 
 ## Usage pacing
 
