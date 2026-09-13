@@ -148,6 +148,18 @@ function createWindow(): void {
     saveWindowState(win);
   });
 
+  // Defense-in-depth against a compromised or confused renderer: this app
+  // never legitimately opens new windows or navigates away from its own
+  // dev-server/dist origin, so both are denied outright rather than left to
+  // Electron's permissive defaults.
+  win.webContents.setWindowOpenHandler(() => ({ action: "deny" }));
+  win.webContents.on("will-navigate", (event, url) => {
+    const target = new URL(url);
+    const isDevServer = !app.isPackaged && target.origin === new URL(process.env.VITE_DEV_SERVER_URL ?? "http://localhost:5173").origin;
+    const isFileLoad = app.isPackaged && target.protocol === "file:";
+    if (!isDevServer && !isFileLoad) event.preventDefault();
+  });
+
   // Dev: point at the Vite dev server (run `npm run dev` in a second terminal
   // first — this slice doesn't add a combined dev-server launcher, on purpose,
   // to keep the new-dependency count down for a spike). Packaged: load the

@@ -64,7 +64,7 @@ async function main() {
 
   const win = await app.firstWindow();
   await win.waitForSelector("#welcome-start, #export-svg", { timeout: 15000 });
-  const skip = win.locator("text=Skip tour");
+  const skip = win.locator("#welcome-skip");
   if (await skip.count()) await skip.first().click();
   await win.waitForSelector("#export-svg", { timeout: 15000, state: "visible" });
   await win.click("#export-svg");
