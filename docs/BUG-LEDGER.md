@@ -23,6 +23,34 @@ No console runtime errors were observed during that audit.
 - `Commit/PR`: immutable implementation reference once available.
 - `Verification`: tests, live reproduction, and rendered/output evidence.
 
+## Workspace redesign audit — Slice 114, 2026-09-13
+
+These new records preserve the historical closure scope of BUG-UI-001–034 while
+tracking current failures under the new maintainer request. All are **Open**;
+fix commits and post-fix tests/rendered evidence are pending. Reproduction and
+source details: `docs/research/UX-REDESIGN-RESEARCH.md`. Execution and acceptance:
+`docs/planning/UX-REDESIGN-EXECUTION.md`. Epic/workstream: `UX-REDESIGN`.
+
+| ID | Severity / priority | Observed problem and root cause | Planned fix slice |
+|---|---|---|---|
+| BUG-UI-035 | S2 / P1 | Long controls scroll the canvas off-screen; outer-page flow owns both columns and inspector height is unbounded. Woven pocket-height edit reproduced at 1280×720. | 115 |
+| BUG-UI-036 | S3 / P1 | Assembled view is a separate lower panel, requiring a second scroll context; no reversible analytical-canvas mode. | 115 |
+| BUG-UI-037 | S2 / P1 | Tour skip marks all stage chips checked while design is incomplete; tour familiarity and readiness share presentation state. | 115 |
+| BUG-UI-038 | S2 / P1 | Load immediately replaces dirty work; no dirty-state confirmation. Edit snapshots also disappear on garment switch. Load 14→13 reproduced. | 119 |
+| BUG-UI-039 | S2 / P1 | All 13 Woven options lack Body targets; separate assembled markers cannot explain the active Body view. Pocket-height focus dims 42 Body elements. | 118 |
+| BUG-UI-040 | S3 / P1 | Ease has no Body highlight for all seven recipes; unconditional dimming produces no useful focus. Front-only controls viewed from back have the same routing risk. | 118 |
+| BUG-UI-041 | S3 / P2 | Color is limited to five swatches; no exact editor or appearance scope. Garment/fit/material choices lack distinct hierarchy and useful selection context. | 116–117 |
+| BUG-UI-042 | S3 / P2 | Untouched Tee material default follows a switch to Woven shirt and immediately raises a warning. Defaults and intentional choices are not distinguished. | 116 |
+| BUG-UI-043 | S3 / P1 | Guidance is distant from its correction target and cannot be dismissed/remembered as advice; no spatial targeting/recall lifecycle. | 118 |
+| BUG-UI-044 | S3 / P1 | Save/Load is hidden in early tour stages by export disclosure. Exports lack per-format purpose guidance and put size after format actions. | 115, 119–120 |
+| BUG-UI-045 | S3 / P2 | 21px-wide step buttons and 9px endpoint labels make dense input groups difficult to operate/read. CSS gives unrelated actions near-identical treatment. | 115 |
+| BUG-UI-046 | S2 / P1 | No unfinished-draft recovery or navigation guard; validated Save rejects incomplete input. Safety needs a separate recovery contract, not relaxed export validity. | 119 |
+| BUG-UI-047 | S2 / P1 | Single size nesting ignores selected size despite explicit UI claim; source drafts base measurements. M→L live canvas remains identical. | 120 |
+
+Responsive audit note: the narrow-viewport request did not change measured
+dimensions in this session. No new responsive pass is claimed. Actual viewport
+dimensions and field/canvas co-visibility are required in the final gate.
+
 ## `EPIC-BUGFIX-P1`
 
 ### BUG-UI-001 — Fixed shell does not reflow at narrow widths

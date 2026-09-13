@@ -3,7 +3,23 @@
 How the app fits together, in plain language. Read the top to re-orient; skim the
 layers when you need detail. Updated every slice with only need-to-know changes.
 
-## Current Epic 3 boundary — Slice 104
+## Current workspace redesign boundary — Slice 114
+
+The newly authorized UI/UX work is research/audit-first. The implemented
+seven-recipe grammar and `GarmentRecipe` → composed `Block` → consumer boundary
+remain unchanged. `docs/planning/UX-REDESIGN-EXECUTION.md` defines Slices 114–121;
+`docs/research/UX-REDESIGN-RESEARCH.md` records actual defects and source evidence.
+
+The planned presentation boundary is a stable analytical canvas with a
+reversible Assembled mode, task-stage navigation and a bounded grouped inspector.
+Tour familiarity must be separate from design readiness. Guidance targets must
+come from real render metadata; no-target cases must not dim the whole figure,
+and Side remains explicitly schematic. Appearance controls will be render-only;
+workspace recovery must not weaken numeric, geometry or export validity.
+These are planned constraints, not shipped behavior. No implementation or
+export writer changed in Slice 114; all legacy baselines remain untouched.
+
+## Previous Epic 3 boundary — Slice 104
 
 The pre-Epic 3 checkout and BUGFIX/FC-01 exit are verified on the actual
 `main` branch. The first trouser is a separate reusable relaxed casual

@@ -58,6 +58,10 @@ snapshots; they are not current status.
   verification, and Epic 3 exit record.
 - `docs/planning/EPIC-4-EXECUTION.md` — live Component Architecture and Garment
   Grammar execution, acceptance criteria, delegation boundary, and exit report.
+- `docs/planning/UX-REDESIGN-EXECUTION.md` — current beginner-facing workspace
+  redesign, Slices 114–121, acceptance criteria, pacing and exact resume state.
+- `docs/planning/UX-REDESIGN-HANDOFFS.md` — isolated OpenCode research and Claude
+  Code audit packets for Slice 114; Codex owns implementation and acceptance.
 
 ## Research documents
 
@@ -77,6 +81,8 @@ snapshots; they are not current status.
   for the relaxed button-up. Read before Slices 86-93.
 - `docs/research/NUMERIC-CONTROLS-RESEARCH.md` — Slice 104 research and the
   shared Boundary Rail decision for numeric edit controls.
+- `docs/research/UX-REDESIGN-RESEARCH.md` — current screenshot/live audit,
+  competitor/historical/community evidence, design rationale and limitations.
 - `docs/research/DESKTOP-RELEASE-RESEARCH.md` — OpenCode's observed Electron
   release architecture, signing/offline/update risks, and deferred packaging
   gates; it does not claim a packaged or signed release.

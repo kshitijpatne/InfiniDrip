@@ -1,8 +1,46 @@
 # InfiniDrip — Project State
 
-_Last updated: Epic 4 exit, 2026-09-13; Epic 3 and Epic 4 passed._
+_Last updated: UI/UX redesign Slice 114, 2026-09-13; Epic 3 and Epic 4 remain closed._
 
-## Current status — Epic 4 exit
+## Current work — beginner-facing workspace redesign
+
+The maintainer has authorized a comprehensive UI/UX audit and redesign from
+first launch to export, with research before implementation and the existing
+usage pacing/full verification gates. Active branch: `codex/ux-studio`, based
+on approved `main`/`origin/main` at `816b9ff`. The live execution record is
+`docs/planning/UX-REDESIGN-EXECUTION.md`; research and exact baseline evidence
+are in `docs/research/UX-REDESIGN-RESEARCH.md`. Slices 114–121 are reserved.
+
+Slice 114 has reproduced the long-control/off-screen-canvas loop, missing Ease
+and Woven Body highlights, immediate destructive Load, misleading tour-complete
+chips, and Single size nesting that ignores the selected size. The prior gate
+proved routing/export behavior, not beginner usability or field/canvas
+co-visibility; these new findings remain open. Research includes dated primary
+UX literature, competitor documentation, public complaints and a live CLO video
+frame. Claude Code's isolated source audit has been reviewed with corrections;
+OpenCode's actual research report has also been reviewed, with selected sources
+independently checked and overbroad recommendations rejected. No implementation
+has changed yet. BUG-UI-035–047 track the new findings.
+
+The intended redesign keeps one canvas beside a bounded/grouped inspector,
+uses explicit Garment/Measure/Style/Check/Export stages, integrates the
+Assembled lens, improves selection/appearance and field-linked guidance, and
+makes save/restore safety persistent. Appearance means screen color and
+schematic texture/shine only; no physical-fit or material simulation claim.
+
+Next action after the usage reset: `git switch codex/ux-studio`, inspect status,
+then implement Slice 115 from the completed research/specification. Resolve the browser viewport
+override before claiming mobile evidence: a requested narrow override still
+reported 1280 × 720 and is not a responsive pass. No full suite has been rerun
+for this documentation-only slice. Preserve `coverage-p1.log`, `p1-focused.log`
+and `tmp/`; none was staged or modified. Final usage check: 91% short-window and
+45% weekly consumed; next short-window reset is 2026-09-13 22:26:09 UTC. This
+bounded documentation checkpoint has an ACTIVE supported thread continuation
+scheduled for 18:30 America/New_York; it rechecks allowance before resuming.
+The temporary audit server was stopped. Do not rerun completed research or
+start a full gate while low. No reset credit has been consumed.
+
+## Previous baseline — Epic 4 exit
 
 The actual `main` checkout contains the verified Epic 3 work through
 `9890beb`. Epic 4 is now confirmed and passed. Slice 105 records the

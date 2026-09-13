@@ -181,3 +181,27 @@ grading, persistence, exports, or physical-validation status.
   vehicle when a real composition consumer is needed.
 - Edit remains preview-only through Phase 5; surface design, physical
   validation, and production-readiness claims remain outside this Epic.
+
+## Beginner-facing UI/UX redesign — authorized 2026-09-13
+
+The maintainer requests research before implementation and a thorough redesign
+from first launch to final export, not isolated cosmetic fixes. The supplied
+screenshots establish long measurement panels, a separated assembled preview,
+cluttered controls/progress/export layout, weak garment/color/style selection,
+distant guidance, and missing field highlights as priorities. Codex must also
+find additional issues through actual use, current competitor tools, public
+forums, image/video references and historical usability research.
+
+The requested behavior includes keeping controls and the active design visible
+together, a reversible in-canvas Assembled toggle, stage-relevant disclosure,
+clearer save/load consequences, contextual exports with size first, richer
+color/texture/shine editing, and actionable field/seam-linked guidance. Ignored
+suggestions remain visible for reconsideration in Check. That request does not
+authorize suppressing invalid input or failed geometry into a passing result.
+
+The implementation must preserve all existing garments/features, clean reusable
+code, meaningful tests, the full project gate, and unchanged legacy hashes.
+Usage-limit pacing and supported quiet autonomous continuation remain required;
+no reset credit/account-allowance changes are authorized. No physical sampling
+or physical-fit/manufacturing guarantee is authorized. Exact researched design
+choices and their verification live in the new UX execution/research records.
