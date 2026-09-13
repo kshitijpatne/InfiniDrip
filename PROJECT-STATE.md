@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: UI/UX redesign Slice 114, 2026-09-13; Epic 3 and Epic 4 remain closed._
+_Last updated: UI/UX redesign Slice 115A checkpoint, 2026-09-13; Epic 3 and Epic 4 remain closed._
 
 ## Current work — beginner-facing workspace redesign
 
@@ -19,8 +19,8 @@ co-visibility; these new findings remain open. Research includes dated primary
 UX literature, competitor documentation, public complaints and a live CLO video
 frame. Claude Code's isolated source audit has been reviewed with corrections;
 OpenCode's actual research report has also been reviewed, with selected sources
-independently checked and overbroad recommendations rejected. No implementation
-has changed yet. BUG-UI-035–047 track the new findings.
+independently checked and overbroad recommendations rejected. BUG-UI-035–047
+track the new findings; none is yet closed by a final integration gate.
 
 The intended redesign keeps one canvas beside a bounded/grouped inspector,
 uses explicit Garment/Measure/Style/Check/Export stages, integrates the
@@ -28,17 +28,33 @@ Assembled lens, improves selection/appearance and field-linked guidance, and
 makes save/restore safety persistent. Appearance means screen color and
 schematic texture/shine only; no physical-fit or material simulation claim.
 
-Next action after the usage reset: `git switch codex/ux-studio`, inspect status,
-then implement Slice 115 from the completed research/specification. Resolve the browser viewport
-override before claiming mobile evidence: a requested narrow override still
-reported 1280 × 720 and is not a responsive pass. No full suite has been rerun
-for this documentation-only slice. Preserve `coverage-p1.log`, `p1-focused.log`
-and `tmp/`; none was staged or modified. Final usage check: 91% short-window and
-45% weekly consumed; next short-window reset is 2026-09-13 22:26:09 UTC. This
-bounded documentation checkpoint has an ACTIVE supported thread continuation
-scheduled for 18:30 America/New_York; it rechecks allowance before resuming.
-The temporary audit server was stopped. Do not rerun completed research or
-start a full gate while low. No reset credit has been consumed.
+Slice 115A now implements the viewport-height studio, grouped measurements,
+reversible in-canvas Assembled lens, persistent Save/Load header, readable numeric
+actions and explicitly named inputs. A missing target no longer dims a whole
+figure. These changes leave geometry/export contracts and legacy baselines alone.
+Files: src/main.ts; src/ui/{app.ts,view.ts,studio.css,studio.test.ts,app.test.ts,
+view.test.ts,bugfix-p1.test.ts}; this file, ARCHITECTURE.md and UX execution record.
+
+Verified: 19 new studio tests; 34-pass focused studio/Body-linking run; corrected
+prior host assertions pass focused reruns; TypeScript and diff whitespace pass.
+No current full-suite, coverage, build, parsed-output or legacy gate is claimed.
+Live: real 1280/900/700/560/390 widths at height 844 retained the Woven shirt's
+last edited control with its canvas. All seven views at 1280×720 switched into
+Assembled and back. The viewport integration now works. Detailed evidence and
+remaining limitations are in docs/planning/UX-REDESIGN-EXECUTION.md.
+
+Next: continue Slice 115, not 116. Replace tour-complete chips with truthful
+stage navigation/readiness, correction routes and stage-specific tools; check
+short-height/text-zoom/focus and multi-SVG Fit, then run the full integration
+gate. The old expert-skip all-tools state still exists. Later selector,
+appearance, spatial-guidance, safety/recovery and export work remains scoped.
+Resume with a fresh usage check and `git status --short --branch`; do not redo
+research. Pre-documentation usage was 80% short-window / 59% weekly consumed;
+next reset is 2026-09-14 03:35:32 UTC. Final checkpoint meter: 86% short-window /
+60% weekly used. Supported continuation was confirmed ACTIVE for 23:40
+America/New_York, just after that reset. Browser override reset and temporary
+dev server stopped. Preserve coverage-p1.log, p1-focused.log and tmp/ (untouched
+and unstaged). No push and no account reset credit use.
 
 ## Previous baseline — Epic 4 exit
 

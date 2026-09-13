@@ -14,7 +14,7 @@ import { guide, Note } from "../guidance";
 import { garmentReport, implausibleFields } from "../guidance";
 import { matchStyle, styleNames } from "../style";
 import { FIELDS, applyChange, inputError, numericRangePosition, numericRangeState, stepNumericValue } from "./controls";
-import { appShellMarkup, controlsMarkup, guidanceMarkup, styleMarkup, specTableMarkup, checkMarkup, editorHintMarkup, editorHandleControlsMarkup, dartControlsMarkup, inspectionMarkup, assembledPreviewMarkup, BodyCroquisView } from "./view";
+import { appShellMarkup, controlsMarkup, guidanceMarkup, styleMarkup, specTableMarkup, checkMarkup, editorHintMarkup, editorHandleControlsMarkup, dartControlsMarkup, inspectionMarkup, BodyCroquisView } from "./view";
 import { saveToStorage, loadFromStorage, readFromStorage, serialize, deserialize, DEFAULT_WORKSPACE, defaultStretchFabricForGarment, Workspace } from "./persist";
 import {
   JourneyStep, ViewName, COACHED_STEPS, disclosureFor, stepView, journeyChecklist,
@@ -46,7 +46,6 @@ export function mountApp(root: HTMLElement): void {
   root.innerHTML = appShellMarkup(measurements, fabric, recipe.sizes, recipe.fields, initialWorkspace.stretchFabric, recipe.name);
 
   const canvasHost = root.querySelector<HTMLDivElement>("#canvas-host")!;
-  const garmentHost = root.querySelector<HTMLDivElement>("#garment-host")!;
   const guidanceHost = root.querySelector<HTMLDivElement>("#guidance-host")!;
   const styleHost = root.querySelector<HTMLDivElement>("#style-host")!;
   const fabricWidthHost = root.querySelector<HTMLDivElement>("#fabric-width-host")!;
@@ -71,7 +70,8 @@ export function mountApp(root: HTMLElement): void {
   let hoveredDim: string | null = null;
   let focusedDim: string | null = null;
   let inspectionZoom = 1;
-  let previewExpanded = true;
+  let previewActive = false;
+  let inactiveInspection = { zoom: 1, left: 0, top: 0 };
 
   /** Design options live per recipe, never in body measurements. Existing saved
    * values stay verbatim so guidance can explain an invalid combination. */
@@ -157,11 +157,14 @@ export function mountApp(root: HTMLElement): void {
   // outline segments, plus the silhouette itself tagged "figure" — never a field
   // name, so it always dims). `null` restores the whole figure.
   const spotlight = (field: string | null): void => {
-    root.querySelectorAll<SVGElement>("#canvas-host [data-dim], #canvas-host [data-edge], #garment-host [data-edge]")
-      .forEach((g) => {
-        const owns = g.dataset.dim ?? g.dataset.edge;
-        g.style.opacity = field === null || owns === field ? "1" : "0.15";
+    root.querySelectorAll<HTMLElement>("#analysis-host, #garment-host").forEach((host) => {
+      const elements = [...host.querySelectorAll<SVGElement>("[data-dim], [data-edge]")];
+      const hasTarget = field !== null && elements.some((element) => (element.dataset.dim ?? element.dataset.edge) === field);
+      elements.forEach((element) => {
+        const owns = element.dataset.dim ?? element.dataset.edge;
+        element.style.opacity = !hasTarget || owns === field ? "1" : "0.15";
       });
+    });
   };
 
   // The journey bar + checklist render Opus's guidance DATA (plausibility gate,
@@ -172,13 +175,11 @@ export function mountApp(root: HTMLElement): void {
     const gaps = matchStyle(measurements, targetStyle, recipe.styles).deltas.length;
     const report = inputsOk ? garmentReport(recipe, measurements, recipeOptions()) : { ok: false };
     const parts: string[] = [];
-    if (journey.step === "start") parts.push(welcomeMarkup());
+    root.querySelector<HTMLElement>("#welcome-host")!.innerHTML = journey.step === "start" ? welcomeMarkup() : "";
     parts.push(journeyBarMarkup(journey.step));
     if (celebrating) parts.push(celebrationMarkup(plausible));
-    if (journey.step !== "start") {
-      parts.push(checklistMarkup(
-        journeyChecklist(plausible, gaps, report.ok, journey.exported)));
-    }
+    root.querySelector<HTMLElement>("#readiness-host")!.innerHTML = checklistMarkup(
+      journeyChecklist(plausible, gaps, report.ok, journey.exported));
     journeyHost.innerHTML = parts.join("");
   };
   const markOutputDirty = (): void => {
@@ -195,7 +196,7 @@ export function mountApp(root: HTMLElement): void {
   const applyInspectionPresentation = (): void => {
     const section = root.querySelector<HTMLElement>("#canvas-inspection");
     const viewport = root.querySelector<HTMLElement>("#inspection-viewport");
-    const content = root.querySelector<HTMLElement>("#inspection-content");
+    const content = root.querySelector<HTMLElement>(previewActive ? "#garment-host" : "#analysis-host");
     if (!section || !viewport || !content) return;
     const svgs = [...content.querySelectorAll<SVGSVGElement>("svg")];
     const title = section.querySelector<HTMLElement>("#inspection-title")?.textContent ?? "Canvas";
@@ -232,14 +233,9 @@ export function mountApp(root: HTMLElement): void {
     const values = (svg.getAttribute("viewBox") ?? "0 0 100 100")
       .trim().split(/[ ,]+/).map(Number);
     const ratio = values.length === 4 && values[2] > 0 && values[3] > 0 ? values[2] / values[3] : 1;
-    const maxHeight = 520;
-    const minHeight = 260;
-    let height = Math.min(maxHeight, Math.max(minHeight, viewportWidth / ratio));
+    const maxHeight = Math.max(80, (viewport.clientHeight || 536) - 16);
+    let height = Math.min(maxHeight, viewportWidth / ratio);
     let width = height * ratio;
-    if (ratio >= 1 && width < viewportWidth) {
-      width = viewportWidth;
-      height = width / ratio;
-    }
     width *= inspectionZoom;
     height *= inspectionZoom;
     svg.style.width = `${Math.round(width)}px`;
@@ -248,9 +244,8 @@ export function mountApp(root: HTMLElement): void {
     svg.style.display = "block";
     content.style.display = "flex";
     content.style.flexDirection = "column";
-    content.style.alignItems = ratio < 1 ? "center" : "stretch";
+    content.style.alignItems = "center";
     content.style.width = `${Math.max(viewportWidth, Math.ceil(width))}px`;
-    viewport.style.minHeight = `${Math.min(560, Math.max(260, Math.ceil(Math.min(maxHeight, height) + 16)))}px`;
     if (zoomOutput) zoomOutput.textContent = `${Math.round(inspectionZoom * 100)}%`;
   };
 
@@ -321,8 +316,7 @@ export function mountApp(root: HTMLElement): void {
       button.title = button.disabled ? "Resolve the flagged inputs and digital checks before exporting." : "";
     });
     if (errors.size > 0) {
-      canvasHost.innerHTML = "<p role=\"status\">Draft paused — correct the flagged inputs to render your current design.</p>";
-      garmentHost.innerHTML = "";
+      canvasHost.innerHTML = inspectionMarkup("<p role=\"status\">Draft paused — correct the flagged inputs to render your current design.</p>", previewActive ? "assembled" : view);
       guidanceHost.innerHTML = guidanceMarkup([...errors.entries()].map(([field, text]) => ({ level: "warn", field, text })));
       styleHost.innerHTML = styleMarkup(targetStyle, matchStyle(measurements, targetStyle, recipe.styles), styleNames(recipe.styles), false);
       renderJourney();
@@ -337,7 +331,8 @@ export function mountApp(root: HTMLElement): void {
     // the object) — without this check both figures would draw it with a
     // short sleeve regardless (Slice 60).
     const hasSleeve = recipe.fields.includes("sleeveLength");
-    fabricWidthHost.style.display = view === "fabric" ? "flex" : "none";
+    fabricWidthHost.style.display = view === "fabric" && !previewActive ? "flex" : "none";
+    bodyCroquisHost.style.display = view === "body" && !previewActive ? "flex" : "none";
     let canvasContent: string;
     if (view === "nest") {
       canvasContent = renderNest(
@@ -398,18 +393,19 @@ export function mountApp(root: HTMLElement): void {
         { active: pieces[0].name, notches: recipe.notches, allowances: recipe.allowances,
           layout: recipe.name === "polo" ? "polo" : "linear" });
     }
-    canvasHost.innerHTML = inspectionMarkup(canvasContent, view);
-    // Edit coordinates are created inside the freshly rebuilt inspection
-    // surface, so sync once more after that markup exists.
-    syncRangeIndicators();
-    applyInspectionPresentation();
     const assembled = isTop
       ? renderGarment(measurements, fabric, hasSleeve,
           recipe.frontNeckline?.(measurements), recipe.backNeckline?.(measurements), recipe.strapWidth?.(measurements), poloVisual(), wovenShirtVisual())
       : isTrouser
         ? renderTrouserGarment(measurements, fabric, recipeOptions())
         : renderSkirtGarment(measurements, fabric);
-    garmentHost.innerHTML = assembledPreviewMarkup(assembled, previewExpanded);
+    canvasHost.innerHTML = inspectionMarkup(
+      `<div id="analysis-host"${previewActive ? " hidden" : ""}>${canvasContent}</div>` +
+      `<div id="garment-host"${previewActive ? "" : " hidden"}>${assembled}</div>`,
+      previewActive ? "assembled" : view,
+    );
+    syncRangeIndicators();
+    applyInspectionPresentation();
     // One sanity read for the whole frame: are the numbers a real body? It gates
     // every green "validated" signal — the check banner, the style ✓ — and flags
     // the offending fields, so geometry passing can never masquerade as "ready".
@@ -471,6 +467,9 @@ export function mountApp(root: HTMLElement): void {
   const setView = (v: "pattern" | "body" | "nest" | "spec" | "fabric" | "check" | "edit"): void => {
     if (v === "edit" && editedFront === null && inputErrors().size === 0) editedFront = rolePiece(draftCurrent(), recipe.editRole ?? "front");
     view = v;
+    previewActive = false;
+    inactiveInspection = { zoom: 1, left: 0, top: 0 };
+    syncPreviewToggle();
     inspectionZoom = 1;
     (["pattern", "body", "nest", "spec", "fabric", "check", "edit"] as const).forEach((k) => {
       const on = k === v;
@@ -503,9 +502,10 @@ export function mountApp(root: HTMLElement): void {
     root.querySelector<HTMLElement>("#export-host")!.style.display = d.exports ? "flex" : "none";
     styleHost.style.display = d.style ? "" : "none";
     guidanceHost.style.display = d.guidance ? "" : "none";
+    root.querySelector<HTMLElement>("#guidance-details")!.hidden = !d.guidance;
     root.querySelector<HTMLElement>("#view-toggle-host")!.style.display =
       d.views.length > 0 ? "flex" : "none";
-    bodyCroquisHost.style.display = view === "body" && d.views.includes("body") ? "flex" : "none";
+    bodyCroquisHost.style.display = view === "body" && !previewActive && d.views.includes("body") ? "flex" : "none";
     (Object.keys(viewBtns) as ViewName[]).forEach((k) => {
       viewBtns[k].style.display = d.views.includes(k) ? "" : "none";
     });
@@ -522,7 +522,7 @@ export function mountApp(root: HTMLElement): void {
   };
 
   // The journey host is rebuilt every draw, so its clicks are delegated.
-  journeyHost.addEventListener("click", (e) => {
+  root.addEventListener("click", (e) => {
     const id = (e.target as HTMLElement).id;
     const idx = COACHED_STEPS.findIndex((st) => st.id === journey.step);
     if (id === "welcome-start" || id === "journey-next") {
@@ -541,12 +541,42 @@ export function mountApp(root: HTMLElement): void {
   applyDisclosure();
   window.addEventListener("resize", applyInspectionPresentation);
 
-  garmentHost.addEventListener("click", (e) => {
-    const target = e.target as HTMLElement;
-    if (target.closest("#assembled-preview-toggle")) {
-      previewExpanded = !previewExpanded;
-      draw();
-    }
+  const previewToggle = root.querySelector<HTMLButtonElement>("#assembled-preview-toggle")!;
+  const syncPreviewToggle = (): void => {
+    previewToggle.setAttribute("aria-pressed", String(previewActive));
+    previewToggle.textContent = previewActive ? `↩ ${viewBtns[view].textContent}` : "Assembled";
+    previewToggle.setAttribute("aria-label", previewActive ? `Return to ${viewBtns[view].textContent} view` : "Show assembled preview");
+  };
+  previewToggle.addEventListener("click", () => {
+    const viewport = root.querySelector<HTMLElement>("#inspection-viewport")!;
+    const current = { zoom: inspectionZoom, left: viewport.scrollLeft, top: viewport.scrollTop };
+    previewActive = !previewActive;
+    inspectionZoom = inactiveInspection.zoom;
+    syncPreviewToggle();
+    draw();
+    const nextViewport = root.querySelector<HTMLElement>("#inspection-viewport")!;
+    nextViewport.scrollLeft = inactiveInspection.left;
+    nextViewport.scrollTop = inactiveInspection.top;
+    inactiveInspection = current;
+  });
+
+  const setControlPage = (index: number): void => {
+    const pages = [...root.querySelectorAll<HTMLElement>("[data-control-page]")];
+    const current = Math.max(0, Math.min(pages.length - 1, index));
+    pages.forEach((page, i) => { page.hidden = i !== current; });
+    root.querySelector<HTMLSelectElement>("#control-page-select")!.value = String(current);
+    root.querySelector<HTMLButtonElement>('[data-control-page-step="-1"]')!.disabled = current === 0;
+    root.querySelector<HTMLButtonElement>('[data-control-page-step="1"]')!.disabled = current === pages.length - 1;
+  };
+  root.addEventListener("change", (event) => {
+    const target = event.target as HTMLSelectElement;
+    if (target.id === "control-page-select") setControlPage(Number(target.value));
+  });
+  root.addEventListener("click", (event) => {
+    const button = (event.target as HTMLElement).closest<HTMLButtonElement>("[data-control-page-step]");
+    if (!button || button.disabled) return;
+    const current = Number(root.querySelector<HTMLSelectElement>("#control-page-select")!.value);
+    setControlPage(current + Number(button.dataset.controlPageStep));
   });
 
   // Guidance rows are rebuilt every draw, so the stable host delegates their
@@ -558,7 +588,11 @@ export function mountApp(root: HTMLElement): void {
     const field = target.dataset.guidanceFocus;
     if (!field) return;
     const control = root.querySelector<HTMLElement>(`[data-guidance-control="${field}"]`);
-    if (control) control.focus();
+    if (control) {
+      const page = control.closest<HTMLElement>("[data-control-page]");
+      if (page) setControlPage(Number(page.dataset.controlPage));
+      control.focus();
+    }
   });
 
   // Freeform drag: pointer -> nearest handle -> moveHandle -> redraw. All the
@@ -571,7 +605,7 @@ export function mountApp(root: HTMLElement): void {
     return { handle: nearestHandle(pieceHandles(piece), at, 2), at };
   };
   canvasHost.addEventListener("mousedown", (e) => {
-    if (view !== "edit" || inputErrors().size > 0) return;
+    if (view !== "edit" || previewActive || inputErrors().size > 0) return;
     const hit = handleAt(e);
     if (hit.handle) {
       dragId = hit.handle.id;

@@ -175,9 +175,9 @@ describe("P1 input truth", () => {
     click(root, "welcome-skip");
     click(root, "export-svg");
     await Promise.resolve();
-    expect(root.querySelector("#journey-host")!.textContent).toContain("✓Files exported");
+    expect(root.querySelector("#readiness-host")!.textContent).toContain("✓Files exported");
     input(root, '[data-field="chest"]', "120");
-    expect(root.querySelector("#journey-host")!.textContent).not.toContain("✓Files exported");
+    expect(root.querySelector("#readiness-host")!.textContent).not.toContain("✓Files exported");
   });
 
   it("allows the confirmed-export celebration to be dismissed", async () => {

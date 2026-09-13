@@ -3,7 +3,7 @@ import { STANDARD_M, GARMENTS, TSHIRT_SIZES, TEE, WOVEN_SHIRT, WOVEN_SHIRT_OPTIO
 import { garmentToggleMarkup, dartControlsMarkup, exportButtonsMarkup } from "./view";
 import { DEFAULT_FABRIC, BLUEPRINT } from "../render";
 import { matchStyle, styleNames, TEE_STYLES } from "../style";
-import { controlsMarkup, appShellMarkup, guidanceMarkup, styleMarkup, fabricSwatchesMarkup, specTableMarkup, viewToggleMarkup, bodyCroquisToggleMarkup, fabricWidthMarkup, checkMarkup, editorHintMarkup, editorHandleControlsMarkup, inspectionMarkup, assembledPreviewMarkup } from "./view";
+import { controlsMarkup, appShellMarkup, guidanceMarkup, styleMarkup, fabricSwatchesMarkup, specTableMarkup, viewToggleMarkup, bodyCroquisToggleMarkup, fabricWidthMarkup, checkMarkup, editorHintMarkup, editorHandleControlsMarkup, inspectionMarkup } from "./view";
 import { pieceHandles } from "../edit";
 import { buildReport, present } from "../guidance";
 
@@ -86,19 +86,18 @@ describe("appShellMarkup", () => {
     const html = appShellMarkup(STANDARD_M, DEFAULT_FABRIC, TSHIRT_SIZES, TEE.fields);
     expect(html).toContain('id="canvas-host"');
     expect(html).toContain('id="export-size"');
-    expect(html).toContain('id="garment-host"');
+    expect(html).toContain('id="assembled-preview-toggle"');
     expect(html).toContain('id="guidance-host"');
     expect(html).toContain('id="style-host"');
     expect(html).toContain('id="fabric-width"');
-    expect(html).toContain('id="infini-responsive-shell"');
-    expect(html).toContain('@media(max-width:560px)');
+    expect(html).toContain('id="studio-inspector"');
     expect(html).toContain('role="region" aria-labelledby="measurements-title"');
     expect(html).toContain('<h2 id="measurements-title"');
     expect(html).toContain('<main id="infini-shell" aria-labelledby="product-title"');
     expect(html).toContain('<header id="product-header"');
     expect(html).toContain('<h1 id="product-title"');
     expect(html).toContain("Parametric garment design workspace");
-    expect(html).toContain("::-webkit-inner-spin-button");
+    expect(html).toContain('id="workspace-actions"');
     expect(html).toContain('data-step-direction="-1"');
     expect(html).toContain('data-step-direction="1"');
   });
@@ -176,16 +175,12 @@ describe("woven option controls", () => {
   });
 });
 
-describe("assembledPreviewMarkup", () => {
-  it("owns the preview and exposes an honest collapse state", () => {
-    const open = assembledPreviewMarkup("<svg></svg>");
-    const closed = assembledPreviewMarkup("<svg></svg>", false);
-    expect(open).toContain("Assembled preview");
-    expect(open).toContain('aria-expanded="true"');
-    expect(open).toContain("Hide preview");
-    expect(closed).toContain('aria-expanded="false"');
-    expect(closed).toContain("Show preview");
-    expect(closed).toContain('display:none');
+describe("assembled inspection", () => {
+  it("uses the same named frame and labels the physical limitation", () => {
+    const html = inspectionMarkup("<svg></svg>", "assembled");
+    expect(html).toContain('data-inspection-view="assembled"');
+    expect(html).toContain("Assembled preview · schematic, not a fit simulation");
+    expect(html).toContain('data-inspection-zoom="fit"');
   });
 });
 

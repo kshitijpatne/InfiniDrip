@@ -9,6 +9,7 @@ import { Report } from "../guidance";
 import { StyleMatch, Delta } from "../style";
 import { FIELDS, Field, numericRangeState } from "./controls";
 import type { Handle } from "../edit";
+import "./studio.css";
 
 const PANEL = "#13233A";
 const BORDER = "#1E3450";
@@ -44,18 +45,18 @@ function numericControlMarkup(
   const button = (direction: -1 | 1, symbol: string, verb: string): string =>
     `<button type="button" data-step-target="${controlId}" data-step-direction="${direction}" ` +
     `aria-controls="${inputId}" aria-label="${verb} ${label} by ${step}${unit}" ` +
-    `style="flex:0 0 21px;width:21px;height:28px;padding:0;cursor:pointer;touch-action:manipulation;` +
+    `style="flex:0 0 36px;width:36px;height:36px;padding:0;cursor:pointer;touch-action:manipulation;` +
     `background:${T.background};color:${T.line};border:1px solid ${BORDER};font-size:16px;line-height:1">${symbol}</button>`;
   const input = `<input id="${inputId}" ${inputAttributes} type="number" value="${value}" step="${step}"${inputMinAttribute}${inputMaxAttribute} ` +
-    `style="width:58px;height:28px;box-sizing:border-box;padding:4px 5px;text-align:right;background:${T.background};color:${T.line};` +
+    `style="width:58px;height:36px;box-sizing:border-box;padding:4px 5px;text-align:right;background:${T.background};color:${T.line};` +
     `border:1px solid ${BORDER};font-family:ui-monospace,monospace"/>`;
   return `<span class="numeric-control" data-range-control="${controlId}" data-range-label="${label}" ` +
     `data-range-unit="${rangeUnit}" data-range-step="${step}" data-range-state="${state}"${controlMinAttribute}${controlMaxAttribute}` +
-    ` style="display:inline-flex;flex:0 0 112px;flex-direction:column;gap:2px;min-width:112px">` +
+    ` style="display:inline-flex;flex:0 0 130px;flex-direction:column;gap:5px;min-width:130px">` +
     `<span class="numeric-stepper" style="display:inline-flex;align-items:center;justify-content:center">` +
     `${button(-1, "−", "Decrease")}${input}${button(1, "+", "Increase")}</span>` +
     `<span data-range-rail role="img" aria-label="${allowed}; ${current}" ` +
-    `style="display:flex;align-items:center;gap:3px;width:112px;height:12px;color:${T.label};font-size:9px;line-height:1;` +
+    `style="display:flex;align-items:center;gap:5px;width:130px;height:14px;color:${T.label};font-size:11px;line-height:1;` +
     `font-family:ui-monospace,monospace;white-space:nowrap">` +
     `<span data-range-endpoint="min" style="min-width:16px;text-align:left">${endpoint("min")}</span>` +
     `<span data-range-track style="position:relative;flex:1;height:3px;border-radius:3px;background:${BORDER};overflow:visible">` +
@@ -70,12 +71,12 @@ function field(id: string, label: string,
                details: Pick<GarmentOption, "unit" | "help"> = {}): string {
   const tag = roleTag(id); // "body · circ" / "finished", or null for ease
   const tagSpan = tag === null ? "" :
-    `<span style="opacity:0.55;font-size:11px;margin-left:6px">${tag}</span>`;
+    `<span style="display:block;color:${T.label};font-size:11px;margin-top:3px">${tag}</span>`;
   const helpId = `help-${id}`;
   const describedBy = details.help ? `error-${id} ${helpId}` : `error-${id}`;
   const input = numericControlMarkup(
     id, `input-${id}`, label, value, min, max, step,
-    `data-field="${id}" data-guidance-control="${id}" aria-describedby="${describedBy}"`,
+    `data-field="${id}" data-guidance-control="${id}" aria-label="${label}" aria-describedby="${describedBy}"`,
     details.unit ?? (id.startsWith("option-") ? "" : "cm"),
   );
   const unit = details.unit
@@ -107,11 +108,9 @@ export function controlsMarkup(
   m: Measurements, fields: readonly (keyof Measurements)[],
   options: readonly GarmentOption[] = [], values: GarmentOptions = {}
 ): string {
-  const rows = fields
+  const measurementFields = fields
     .map((id) => FIELDS.find((f) => f.id === id))
-    .filter((f): f is Field => f !== undefined)
-    .map((f) => field(f.id, f.label, m[f.id], f.min, f.max, f.step))
-    .join("");
+    .filter((f): f is Field => f !== undefined);
   const finished = fields.includes("crotchDepth")
     ? `<div style="font-size:11.5px;color:${T.label};margin-top:2px;margin-bottom:8px">Finished waist: <span data-finished="waist" style="color:${T.line};font-family:ui-monospace,monospace">${m.waist + m.ease} cm</span> · Finished hip: <span data-finished="hip" style="color:${T.line};font-family:ui-monospace,monospace">${m.hip + m.ease} cm</span></div>`
     : fields.includes("chest")
@@ -128,16 +127,31 @@ export function controlsMarkup(
     const group = option.group ?? "Design options";
     groups.set(group, [...(groups.get(group) ?? []), option]);
   });
-  const optionGroups = [...groups.entries()].map(([group, groupOptions]) =>
-    `<fieldset data-option-group="${group}" style="border:1px solid ${BORDER};border-radius:7px;padding:8px 9px;margin:0 0 10px">` +
-    `<legend style="padding:0 4px;font-size:11px;color:${T.line};text-transform:uppercase;letter-spacing:0.04em">${group}</legend>` +
-    `${groupOptions.map(optionRows).join("")}</fieldset>`
-  ).join("");
-  const optionPanel = options.length === 0 ? "" :
-    `<div style="border-top:1px solid ${BORDER};margin-top:12px;padding-top:12px">` +
-    `${panelTitle("Design options", "design-options-title")}${optionGroups}</div>`;
-  return `<section id="controls-panel" role="region" aria-labelledby="measurements-title" style="flex:0 0 220px;background:${PANEL};border:1px solid ${BORDER};` +
-    `border-radius:10px;padding:14px">${panelTitle("Measurements (cm)", "measurements-title")}${rows}${finished}${optionPanel}</section>`;
+  const measurementGroups = new Map<string, Field[]>();
+  measurementFields.forEach((f) => {
+    const group = f.id === "ease" ? "Fit allowance"
+      : roleTag(f.id)?.startsWith("body") ? "Body measurements" : "Lengths & shape";
+    measurementGroups.set(group, [...(measurementGroups.get(group) ?? []), f]);
+  });
+  const pages = [
+    ...[...measurementGroups].map(([label, groupFields]) => ({
+      label, option: false,
+      body: groupFields.map((f) => field(f.id, f.label, m[f.id], f.min, f.max, f.step)).join("") +
+        (label === "Fit allowance" ? finished : ""),
+    })),
+    ...[...groups].map(([label, groupOptions]) => ({ label, option: true, body: groupOptions.map(optionRows).join("") })),
+  ];
+  const selector = pages.map((page, index) => `<option value="${index}">${index + 1} / ${pages.length} · ${page.label}</option>`).join("");
+  const pageMarkup = pages.map((page, index) =>
+    `<fieldset data-control-page="${index}"${page.option ? ` data-option-group="${page.label}"` : ""}${index > 0 ? " hidden" : ""}>` +
+    `<legend>${page.label}</legend>${page.body}</fieldset>`).join("");
+  return `<section id="controls-panel" role="region" aria-labelledby="measurements-title">` +
+    `${panelTitle("Measurements & construction (cm)", "measurements-title")}` +
+    `<nav class="control-pages" aria-label="Measurement groups">` +
+    `<button type="button" data-control-page-step="-1" aria-label="Previous measurement group" disabled>←</button>` +
+    `<select id="control-page-select" aria-label="Measurement group">${selector}</select>` +
+    `<button type="button" data-control-page-step="1" aria-label="Next measurement group"${pages.length < 2 ? " disabled" : ""}>→</button>` +
+    `</nav>${pageMarkup}</section>`;
 }
 
 const DOT: Record<Note["level"], string> = { ok: OK, info: T.label, warn: T.lineActive };
@@ -257,12 +271,9 @@ export function exportButtonsMarkup(sizes: readonly SizeStep[]): string {
     `<span style="font-size:11px;color:${T.label};margin-right:3px">${consequence}</span>${buttons}</div>`;
   return `<div id="export-host" style="display:flex;flex-direction:column;gap:2px;align-items:stretch;flex-wrap:wrap;margin:4px 0">` +
     `<div style="font-size:11px;color:${T.label};text-transform:uppercase;letter-spacing:0.04em">Export</div>` +
-    scope("selected-size", "One selected size", `${btn("export-svg", "SVG")}${btn("export-dxf", "DXF")}${btn("export-pdf", "PDF")}${btn("export-a0", "A0")}${sizePicker}`) +
+    scope("selected-size", "One selected size", `${sizePicker}${btn("export-svg", "SVG")}${btn("export-dxf", "DXF")}${btn("export-pdf", "PDF")}${btn("export-a0", "A0")}`) +
     scope("whole-run", "All graded sizes; ignores Selected size", `${btn("export-techpack", "Tech Pack")}${btn("export-projector", "Projector")}`) +
-    `<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding-top:6px">` +
-    `<span style="font-size:11px;color:${T.label};text-transform:uppercase;letter-spacing:0.04em;margin-right:4px">Workspace</span>` +
-    `${btn("save-pattern", "Save")}${btn("load-pattern", "Load")}` +
-    `<span id="persist-status" style="font-size:11px;color:${T.label};min-width:80px"></span></div></div>`;
+    `</div>`;
 }
 
 /** Material/stretch dropdown — drives ease and compatibility guidance only. */
@@ -323,6 +334,7 @@ const INSPECTION_TITLES: Record<string, string> = {
   check: "Digital check inspection",
   edit: "Pattern edit inspection",
   spec: "Specification inspection",
+  assembled: "Assembled preview · schematic, not a fit simulation",
 };
 
 /** A bounded inspection frame for every main canvas. SVGs are deliberately
@@ -330,34 +342,16 @@ const INSPECTION_TITLES: Record<string, string> = {
  * cannot make the whole page unusably tall or disappear at intrinsic size. */
 export function inspectionMarkup(content: string, view: string): string {
   const title = INSPECTION_TITLES[view] ?? "Canvas inspection";
-  return `<section id="canvas-inspection" data-inspection-view="${view}" aria-labelledby="inspection-title" ` +
-    `style="background:${PANEL};border:1px solid ${BORDER};border-radius:10px;padding:10px;min-width:0">` +
-    `<div id="inspection-toolbar" role="group" aria-label="${title} controls" ` +
-    `style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:8px">` +
-    `<h2 id="inspection-title" style="flex:1;margin:0;font-size:12px;font-weight:600;color:${T.line}">${title}</h2>` +
+  return `<section id="canvas-inspection" data-inspection-view="${view}" aria-labelledby="inspection-title">` +
+    `<div id="inspection-toolbar" role="group" aria-label="${title} controls">` +
+    `<h2 id="inspection-title">${title}</h2>` +
     `<button type="button" data-inspection-zoom="out" aria-label="Zoom out" style="padding:3px 8px;cursor:pointer;background:${T.background};color:${T.line};border:1px solid ${BORDER};border-radius:5px">−</button>` +
     `<button type="button" data-inspection-zoom="fit" aria-label="Fit inspection" style="padding:3px 8px;cursor:pointer;background:${T.background};color:${T.line};border:1px solid ${BORDER};border-radius:5px">Fit</button>` +
     `<button type="button" data-inspection-zoom="in" aria-label="Zoom in" style="padding:3px 8px;cursor:pointer;background:${T.background};color:${T.line};border:1px solid ${BORDER};border-radius:5px">+</button>` +
     `<output id="inspection-zoom" aria-live="polite" style="min-width:38px;text-align:right;font-size:11px;color:${T.label}">100%</output>` +
     `</div>` +
-    `<div id="inspection-viewport" role="region" aria-labelledby="inspection-title" tabindex="0" ` +
-    `style="min-height:260px;max-height:560px;overflow:auto;background:${T.background};border-radius:8px;padding:8px;box-sizing:border-box">` +
-    `<div id="inspection-content" style="min-width:0">${content}</div></div></section>`;
-}
-
-/** The assembled garment is a secondary preview, not the active analytical
- * canvas. Give it an explicit owner and let the user collapse it when it is
- * competing with the current inspection task. */
-export function assembledPreviewMarkup(content: string, expanded = true): string {
-  const display = expanded ? "block" : "none";
-  const label = expanded ? "Hide preview" : "Show preview";
-  return `<section id="assembled-preview" aria-labelledby="assembled-preview-title" ` +
-    `style="background:${PANEL};border:1px solid ${BORDER};border-radius:10px;padding:10px;margin-top:2px">` +
-    `<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">` +
-    `<h2 id="assembled-preview-title" style="flex:1;margin:0;font-size:12px;font-weight:600;color:${T.line}">Assembled preview</h2>` +
-    `<button id="assembled-preview-toggle" type="button" aria-controls="assembled-preview-content" aria-expanded="${expanded}" ` +
-    `style="padding:3px 8px;cursor:pointer;background:${T.background};color:${T.line};border:1px solid ${BORDER};border-radius:5px">${label}</button></div>` +
-    `<div id="assembled-preview-content" style="display:${display}">${content}</div></section>`;
+    `<div id="inspection-viewport" role="region" aria-labelledby="inspection-title" tabindex="0">` +
+    `<div id="inspection-content">${content}</div></div></section>`;
 }
 
 export function garmentToggleMarkup(active: string): string {
@@ -516,34 +510,23 @@ export function appShellMarkup(
   stretchFabric = STRETCH_FABRICS[0].name,
   activeGarment = "tee"
 ): string {
-  const responsive = `<style id="infini-responsive-shell">` +
-    `#infini-shell .numeric-control input[type=number]{appearance:textfield;-moz-appearance:textfield}` +
-    `#infini-shell .numeric-control input[type=number]::-webkit-inner-spin-button,#infini-shell .numeric-control input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}` +
-    `#infini-shell .numeric-stepper button{user-select:none;-webkit-user-select:none}` +
-    `#infini-shell .numeric-stepper button:first-child{border-radius:5px 0 0 5px}` +
-    `#infini-shell .numeric-stepper button:last-child{border-radius:0 5px 5px 0}` +
-    `#infini-shell .numeric-stepper input{border-radius:0}` +
-    `#infini-shell .numeric-stepper button:disabled{opacity:.35;cursor:not-allowed}` +
-    `#infini-shell{display:grid!important;grid-template-columns:minmax(210px,0.75fr) minmax(300px,1.7fr) minmax(240px,0.9fr);gap:16px;align-items:start;font-family:system-ui,sans-serif}` +
-    `#infini-workspace{min-width:0;display:flex;flex-direction:column;gap:6px}` +
-    `#infini-inspection{min-width:0;display:flex;flex-direction:column;gap:16px}` +
-    `#infini-shell svg{max-width:100%;height:auto}` +
-    `#view-toggle-host,#garment-toggle-host,#body-croquis-toggle-host,#swatch-host,#stretch-host,#export-host{flex-wrap:wrap}` +
-    `@media(max-width:900px){#infini-shell{grid-template-columns:minmax(190px,0.7fr) minmax(0,1.3fr)}#infini-inspection{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}}` +
-    `@media(max-width:560px){#infini-shell{display:flex!important;flex-direction:column;gap:12px}#infini-shell>*{width:100%;min-width:0;box-sizing:border-box}#infini-shell #controls-panel{flex:0 1 auto!important;width:100%}#infini-workspace,#infini-inspection{width:100%}#infini-inspection{display:flex;gap:12px}#infini-shell button,#infini-shell select{max-width:100%}}` +
-    `</style>`;
-  const productHeader = `<header id="product-header" style="grid-column:1 / -1;padding:2px 0 0">` +
-    `<h1 id="product-title" style="font-size:22px;line-height:1.1;letter-spacing:-0.02em;color:${T.line};margin:0">InfiniDrip</h1>` +
-    `<p id="product-subtitle" style="font-size:12px;color:${T.label};margin:4px 0 0">Parametric garment design workspace</p></header>`;
-  return responsive + `<main id="infini-shell" aria-labelledby="product-title" style="display:flex;gap:16px;align-items:flex-start;font-family:system-ui,sans-serif">` +
-    productHeader +
+  return `<main id="infini-shell" aria-labelledby="product-title">` +
+    `<header id="product-header"><div><h1 id="product-title">InfiniDrip</h1>` +
+    `<p id="product-subtitle">Parametric garment design workspace</p></div>` +
+    `<div id="workspace-actions" role="group" aria-label="Local workspace">` +
+    `<span id="persist-status" role="status"></span>` +
+    `<button id="save-pattern" type="button" title="Save this workspace locally on this device">Save</button>` +
+    `<button id="load-pattern" type="button" title="Replace this workspace with your last local save">Load</button></div></header>` +
+    `<div id="journey-host"></div><div id="studio-body">` +
+    `<aside id="studio-inspector" aria-label="Design controls">` +
+    `<div id="welcome-host"></div>${garmentToggleMarkup(activeGarment)}` +
+    `<details id="readiness-details"><summary>Design readiness</summary><div id="readiness-host"></div></details>` +
+    `<div id="style-host"></div>${fabricStretchMarkup(stretchFabric)}${fabricSwatchesMarkup(fabric)}` +
     `${controlsMarkup(m, fields)}` +
-    `<div id="infini-workspace" style="flex:1;min-width:300px;display:flex;flex-direction:column;gap:6px">` +
-    `<div id="journey-host"></div>` +
-    `${viewToggleMarkup("pattern")}${bodyCroquisToggleMarkup("front-back")}${garmentToggleMarkup(activeGarment)}${fabricStretchMarkup(stretchFabric)}` +
-    `${fabricWidthMarkup(150)}` +
-    `<div id="canvas-host"></div>${fabricSwatchesMarkup(fabric)}${exportButtonsMarkup(sizes)}` +
-    `<div id="garment-host"></div></div>` +
-    `<div id="infini-inspection" style="display:flex;flex-direction:column;gap:16px">` +
-    `<div id="guidance-host"></div><div id="style-host"></div></div></main>`;
+    `<details id="guidance-details"><summary>Guidance & corrections</summary><div id="guidance-host"></div></details>` +
+    `${exportButtonsMarkup(sizes)}</aside>` +
+    `<div id="infini-workspace"><div id="canvas-tools">${viewToggleMarkup("pattern")}` +
+    `<button id="assembled-preview-toggle" type="button" aria-pressed="false" aria-controls="canvas-host">Assembled</button></div>` +
+    `${bodyCroquisToggleMarkup("front-back")}${fabricWidthMarkup(150)}<div id="canvas-host"></div>` +
+    `</div></div></main>`;
 }

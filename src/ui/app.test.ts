@@ -18,7 +18,7 @@ describe("mountApp", () => {
     expect(root.querySelector("h1#product-title")!.textContent).toBe("InfiniDrip");
     expect(root.querySelector("#canvas-host svg")).not.toBeNull();
     expect(root.querySelector("#garment-host svg")).not.toBeNull();
-    expect(root.querySelector("#assembled-preview-title")!.textContent).toBe("Assembled preview");
+    expect(root.querySelector<HTMLElement>("#garment-host")!.hidden).toBe(true);
   });
 
   it("starts a fresh Tee workspace with a knit-appropriate material", () => {
@@ -27,16 +27,19 @@ describe("mountApp", () => {
     expect(root.querySelector<HTMLSelectElement>("#stretch-select")!.value).toBe("Cotton jersey");
   });
 
-  it("lets the secondary assembled preview collapse without losing ownership", () => {
+  it("replaces the active canvas with Assembled, then returns to the same view", () => {
     const root = mount();
     root.querySelector<HTMLButtonElement>("#assembled-preview-toggle")!
       .dispatchEvent(new Event("click", { bubbles: true }));
-    expect(root.querySelector<HTMLButtonElement>("#assembled-preview-toggle")!.getAttribute("aria-expanded")).toBe("false");
-    expect(root.querySelector<HTMLElement>("#assembled-preview-content")!.style.display).toBe("none");
-    expect(root.querySelector("#assembled-preview-title")!.textContent).toBe("Assembled preview");
+    expect(root.querySelector<HTMLButtonElement>("#assembled-preview-toggle")!.getAttribute("aria-pressed")).toBe("true");
+    expect(root.querySelector<HTMLElement>("#analysis-host")!.hidden).toBe(true);
+    expect(root.querySelector<HTMLElement>("#garment-host")!.hidden).toBe(false);
+    expect(root.querySelector("#inspection-title")!.textContent).toContain("Assembled preview");
     root.querySelector<HTMLButtonElement>("#assembled-preview-toggle")!
       .dispatchEvent(new Event("click", { bubbles: true }));
-    expect(root.querySelector<HTMLButtonElement>("#assembled-preview-toggle")!.getAttribute("aria-expanded")).toBe("true");
+    expect(root.querySelector<HTMLButtonElement>("#assembled-preview-toggle")!.getAttribute("aria-pressed")).toBe("false");
+    expect(root.querySelector<HTMLElement>("#analysis-host")!.hidden).toBe(false);
+    expect(root.querySelector("#inspection-title")!.textContent).toBe("Pattern inspection");
   });
 
   it("redraws the canvas when a measurement changes", () => {
@@ -271,7 +274,7 @@ describe("mountApp", () => {
     const root = mount();
     root.querySelector<HTMLButtonElement>("#view-body")!.dispatchEvent(new Event("click"));
     root.querySelector<HTMLButtonElement>("#body-front")!.dispatchEvent(new Event("click"));
-    expect(root.querySelectorAll("#inspection-content svg")).toHaveLength(1);
+    expect(root.querySelectorAll("#analysis-host svg")).toHaveLength(1);
     expect(root.querySelector<HTMLButtonElement>("#body-front")!.getAttribute("aria-pressed")).toBe("true");
     expect(root.querySelector("#inspection-content svg")!.getAttribute("aria-label")).toContain("Body figure inspection");
     root.querySelector<HTMLButtonElement>('button[data-inspection-zoom="in"]')!
@@ -290,22 +293,22 @@ describe("mountApp", () => {
     const root = mount();
     root.querySelector<HTMLButtonElement>("#view-body")!.dispatchEvent(new Event("click"));
     root.querySelector<HTMLButtonElement>("#body-back")!.dispatchEvent(new Event("click"));
-    expect(root.querySelectorAll("#inspection-content svg")).toHaveLength(1);
+    expect(root.querySelectorAll("#analysis-host svg")).toHaveLength(1);
     expect(root.querySelector<HTMLButtonElement>("#body-back")!.getAttribute("aria-pressed")).toBe("true");
     expect(root.querySelector("#inspection-content svg")!.getAttribute("aria-label")).toContain("Body figure inspection");
 
     const viewport = root.querySelector<HTMLElement>("#inspection-viewport")!;
     Object.defineProperty(viewport, "clientWidth", { configurable: true, value: 600 });
-    root.querySelector<HTMLElement>("#inspection-content")!.innerHTML = '<svg viewBox="0 0 100 100"></svg>';
+    root.querySelector<HTMLElement>("#analysis-host")!.innerHTML = '<svg viewBox="0 0 100 100"></svg>';
     window.dispatchEvent(new Event("resize"));
-    expect(root.querySelector<SVGSVGElement>("#inspection-content svg")!.style.width).toBe("584px");
-    expect(root.querySelector<SVGSVGElement>("#inspection-content svg")!.style.height).toBe("584px");
+    expect(root.querySelector<SVGSVGElement>("#analysis-host svg")!.style.width).toBe("520px");
+    expect(root.querySelector<SVGSVGElement>("#analysis-host svg")!.style.height).toBe("520px");
 
     root.querySelector<HTMLElement>("#inspection-title")!.remove();
     Object.defineProperty(viewport, "clientWidth", { configurable: true, value: 16 });
-    root.querySelector<HTMLElement>("#inspection-content")!.innerHTML = '<svg viewBox="0 0 0 100"></svg>';
+    root.querySelector<HTMLElement>("#analysis-host")!.innerHTML = '<svg viewBox="0 0 0 100"></svg>';
     window.dispatchEvent(new Event("resize"));
-    root.querySelector<HTMLElement>("#inspection-content")!.innerHTML = "<svg></svg>";
+    root.querySelector<HTMLElement>("#analysis-host")!.innerHTML = "<svg></svg>";
     window.dispatchEvent(new Event("resize"));
   });
 
@@ -341,7 +344,7 @@ describe("mountApp", () => {
     root.querySelector<HTMLButtonElement>("#garment-polo")!.dispatchEvent(new Event("click"));
     expect(root.querySelector<HTMLElement>("#body-croquis-toggle-host")!.style.display).toBe("flex");
     expect(root.querySelector<HTMLButtonElement>("#body-front-back")!.getAttribute("aria-pressed")).toBe("true");
-    expect(root.querySelectorAll("#canvas-host svg")).toHaveLength(2);
+    expect(root.querySelectorAll("#analysis-host svg")).toHaveLength(2);
   });
 
   it("draws the tank without a sleeve, in both the body view and the assembled view (Slice 60)", () => {
@@ -600,7 +603,7 @@ describe("mountApp", () => {
       journeyClick("export-svg");
       await Promise.resolve();
       expect(root.querySelector("#journey-host")!.textContent).toContain("Tour complete");
-      expect(root.querySelector("#journey-host")!.textContent).toContain("5 of 5");
+      expect(root.querySelector("#readiness-host")!.textContent).toContain("5 of 5");
       expect(root.querySelector("#journey-celebration")!.textContent).toContain("Files exported");
     } finally {
       delete window.electronAPI;
@@ -1027,7 +1030,7 @@ describe("body-view measurement linking", () => {
     expect(root.querySelector("#canvas-host")!.textContent).toContain("WOVEN FRONT");
 
     root.querySelector<HTMLButtonElement>("#view-body")!.dispatchEvent(new Event("click"));
-    expect(root.querySelectorAll("#canvas-host svg")).toHaveLength(2);
+    expect(root.querySelectorAll("#analysis-host svg")).toHaveLength(2);
     root.querySelector<HTMLButtonElement>("#body-side")!.dispatchEvent(new Event("click"));
     expect(root.querySelector('#canvas-host svg[data-croquis-view="side"]')).not.toBeNull();
     root.querySelector<HTMLButtonElement>("#body-front-back")!.dispatchEvent(new Event("click"));
@@ -1232,7 +1235,7 @@ describe("guided journey", () => {
     expect(hidden(root, "#view-nest")).toBe(false);
     expect(hidden(root, "#view-spec")).toBe(false);
     // standard measurements: plausible + on-target + checks pass, not yet exported
-    expect(root.querySelector("#journey-host")!.innerHTML).toContain("4 of 5");
+    expect(root.querySelector("#readiness-host")!.innerHTML).toContain("4 of 5");
   });
 
   it("does not claim a browser download was written", () => {
@@ -1240,7 +1243,7 @@ describe("guided journey", () => {
     const root = mount();
     walkToOutput(root);
     jclick(root, "export-svg");
-    const journeyHtml = (): string => root.querySelector("#journey-host")!.innerHTML;
+    const journeyHtml = (): string => root.querySelector("#readiness-host")!.innerHTML;
     expect(root.querySelector("#journey-celebration")).toBeNull();
     expect(journeyHtml()).toContain("4 of 5");
     expect(journeyHtml()).not.toContain("✓Files exported");
@@ -1290,7 +1293,7 @@ describe("guided journey", () => {
     const root = mount();
     walkToOutput(root);
     jclick(root, "journey-step-measure");
-    expect(root.querySelector("#journey-host")!.textContent).toContain("4 of 5");
+    expect(root.querySelector("#readiness-host")!.textContent).toContain("4 of 5");
     expect(hidden(root, "#export-host")).toBe(false);
   });
 
@@ -1426,12 +1429,12 @@ describe("switching to the trouser recipe (Slice 100)", () => {
 
     root.querySelector<HTMLButtonElement>("#view-body")!.dispatchEvent(new Event("click"));
     expect(root.querySelector<HTMLElement>("#body-croquis-toggle-host")!.style.display).toBe("flex");
-    expect(root.querySelectorAll("#canvas-host svg")).toHaveLength(2);
+    expect(root.querySelectorAll("#analysis-host svg")).toHaveLength(2);
     expect(root.querySelector('[data-dim="crotchDepth"]')).not.toBeNull();
     expect(root.querySelector('[data-edge="option-frontRiseEase"]')).not.toBeNull();
 
     root.querySelector<HTMLButtonElement>("#body-back")!.dispatchEvent(new Event("click"));
-    expect(root.querySelectorAll("#canvas-host svg")).toHaveLength(1);
+    expect(root.querySelectorAll("#analysis-host svg")).toHaveLength(1);
     expect(root.querySelector('[data-edge="option-backRiseEase"]')).not.toBeNull();
     root.querySelector<HTMLButtonElement>("#body-side")!.dispatchEvent(new Event("click"));
     expect(root.querySelector('#canvas-host svg[data-croquis-view="side"]')).not.toBeNull();

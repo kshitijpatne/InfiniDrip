@@ -3,7 +3,7 @@
 How the app fits together, in plain language. Read the top to re-orient; skim the
 layers when you need detail. Updated every slice with only need-to-know changes.
 
-## Current workspace redesign boundary — Slice 114
+## Current workspace redesign boundary — Slice 115A checkpoint
 
 The newly authorized UI/UX work is research/audit-first. The implemented
 seven-recipe grammar and `GarmentRecipe` → composed `Block` → consumer boundary
@@ -16,8 +16,20 @@ Tour familiarity must be separate from design readiness. Guidance targets must
 come from real render metadata; no-target cases must not dim the whole figure,
 and Side remains explicitly schematic. Appearance controls will be render-only;
 workspace recovery must not weaken numeric, geometry or export validity.
-These are planned constraints, not shipped behavior. No implementation or
-export writer changed in Slice 114; all legacy baselines remain untouched.
+Slice 115A implements a viewport-height CSS studio with a bounded inspector.
+Measurement pages derive from body/finished roles and recipe option groups;
+inputs remain mounted while page visibility changes, and guidance reveals the
+target page before focus. No measurement value is silently modified by grouping.
+The shared inspection frame contains mutually exclusive analysis/assembled
+hosts. The lens swaps zoom/scroll context without changing the selected view,
+Body projection or transient Edit snapshot; Edit drag is blocked in Assembled.
+Highlight matching is per host and leaves unmatched figures undimmed.
+Workspace actions live in the persistent header, independent of export controls.
+
+Stage navigation/readiness, richer selectors, spatial notes and workspace
+recovery remain planned. The old journey chips still require replacement in
+Slice 115. This checkpoint is not a full-gate pass. Drafting, export writers,
+save schemas and all legacy baselines remain untouched.
 
 ## Previous Epic 3 boundary — Slice 104
 

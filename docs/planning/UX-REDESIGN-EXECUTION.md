@@ -1,7 +1,7 @@
 # UI/UX redesign execution — Slices 114–121
 
-Status: Slice 114 research/specification checkpoint complete, 2026-09-13;
-implementation pending. Epic 4 remains closed.
+Status: Slice 115A implementation checkpoint, 2026-09-13; Slice 115 remains
+in progress and has NOT passed its integration gate. Epic 4 remains closed.
 This is the newly authorized workspace redesign, not a reopened garment-grammar
 migration. Branch: `codex/ux-studio`; approved baseline: `816b9ff`.
 
@@ -101,6 +101,78 @@ The previous 81-file/1,031-test pass is a baseline, not a test run for this work
 
 ## Current checkpoint / exact next actions
 
+### Slice 115A — bounded studio and reversible preview
+
+Implemented on `codex/ux-studio` after resuming from `9fb9e7e`:
+
+- Viewport-height studio with independently scrolling inspector; stacked canvas
+  above inspector at 700px and narrower. The canvas no longer follows the long
+  measurement panel down the page. Layout CSS moved to `src/ui/studio.css`.
+- Measurement pages derive from measurement roles and recipe option groups.
+  Group chooser and Previous/Next retain live inputs. Guidance reveals the
+  corresponding group before focusing. Numeric actions are 36px, range labels
+  11px, and numeric inputs now have explicit accessible names.
+- Assembled and analysis share one inspection frame. Toggle preserves the prior
+  view, zoom, scroll, Body projection and transient Edit snapshot. Selecting a
+  different view exits the lens. Assembled does not receive Edit drag actions.
+- Save/Load moved to persistent header; selected export size now precedes file
+  buttons. Confirmation/recovery and final format cards remain later work.
+- Missing highlight targets no longer dim an entire figure. This guard applies
+  independently to analysis and assembled hosts; adding missing targets remains
+  Slice 118. No invented geometry or side-projection markers were added.
+
+Live evidence: documented viewport control now reports the requested dimensions.
+At widths 1280/900/700/560/390, height 844, the Woven shirt's last `hemTurn`
+control was incremented through the UI. Document width equaled viewport width,
+document height was 844, canvas and focused field stayed within their respective
+visible panes in all five cases. At 390, canvas y=258.4–490.6 and focused input
+y=649.5–685.5. At 1280, canvas y=212.6–828 and input y=487.5–523.5.
+At 1280×720, all seven view buttons were exercised: each changed to Assembled
+and returned to its original view. Screenshots were visually inspected, not
+only counted. This is NOT the final all-garment/height/keyboard-zoom matrix.
+
+Tests/gates actually run:
+
+- Initial focused run: view 51 passed; app/bugfix had four stale host assertions.
+  Updated those assertions to the actual analysis/readiness hosts; subsequent
+  focused reruns exposed and corrected one further Trouser host-count assertion.
+- New `studio.test.ts`: 19 passed, covering seven garment group inventories,
+  guidance focus, persistent actions, missing-target guard, seven lens returns,
+  transient Edit and invalid-input behavior.
+- Focused studio + Body-linking run: 34 passed, 76 intentionally filtered out.
+- Focused prior failures: Side, Woven all-views and confirmed-export invalidation
+  passed; final Trouser routing rerun passed (1, 90 filtered out).
+- `npx tsc --noEmit`: passed. `git diff --check`: passed.
+- NO passing full-suite/coverage/build/parsed-output/legacy gate is claimed for
+  this checkpoint. These have not been rerun since implementation began.
+
+Changed files: `src/main.ts`, `src/ui/app.ts`, `src/ui/view.ts`, new
+`src/ui/studio.css`, new `src/ui/studio.test.ts`, `src/ui/app.test.ts`,
+`src/ui/view.test.ts`, `src/ui/bugfix-p1.test.ts`, PROJECT-STATE.md,
+ARCHITECTURE.md and this execution record. No drafting, export, persistence
+schema, dependencies or legacy baselines changed. User logs and `tmp/` preserved.
+
+Remaining Slice 115: replace the old tour-complete chips with actual stage
+navigation/readiness, gate Next with correction routes, stage-relevant tools,
+keyboard/focus continuity, inspect short-height and text-zoom behavior, improve
+multi-SVG Fit if necessary, run the complete UI tests and meaningful integration
+gate with 100% coverage. Current tour labels and expert skip still expose the old
+all-tools state; do not accept BUG-UI-037 or the overall declutter criterion yet.
+Slices 116–121 remain as scoped above; no final UX or physical-fit claim.
+
+Resume: check usage, `git status --short --branch`, then continue Slice 115 from
+this checkpoint. Do not repeat research or external-agent audits. Start the
+local dev server with `npm run dev -- --host 127.0.0.1 --port 5180 --strictPort`
+if it is not listening. Run focused UI tests after the navigation change, not a
+redundant pre-change full suite. Usage before final checkpoint documentation:
+80% current-window / 59% weekly used; next reset 2026-09-14 03:35:32 UTC.
+Final checkpoint meter: 86% current-window / 60% weekly used. Supported
+continuation was updated and confirmed ACTIVE for 23:40 America/New_York, just
+after that reset, subject to a fresh allowance check. The viewport override was
+reset and temporary dev server stopped. No account reset credit or push.
+
+### Previous checkpoint — Slice 114 (historical)
+
 Completed: goal created; actual branch/status verified; required context read;
 source and live baseline inspected; dated primary/historical/community research;
 one actual CLO video frame inspected; all-seven Body target inventory; pocket
@@ -151,4 +223,5 @@ purchase credits, or alter account allowance without explicit authorization.
 
 ## Exit report
 
-PENDING. None of the redesign acceptance criteria is yet claimed as shipped.
+PENDING. Slice 115A is a partial implementation checkpoint, not a passed Slice
+115 or final redesign. No full-gate or physical-validation claim is made.
