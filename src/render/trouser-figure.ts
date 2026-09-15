@@ -125,7 +125,7 @@ function panelPair(
   const [leftRole, rightRole] = panelRoles(position);
   const pieces = [rolePiece(block, leftRole), rolePiece(block, rightRole)];
   const outlines = pieces.map((piece, index) =>
-    `<path data-role="${index === 0 ? leftRole : rightRole}" d="${pieceToPath(piece)}" fill="${fill}" ` +
+    `<path data-role="${index === 0 ? leftRole : rightRole}" d="${pieceToPath(piece)}" data-edge="ease" fill="${fill}" ` +
     `stroke="${T.line}" stroke-width="1.4" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>`
   ).join("");
   const construction = pieces.map((piece) => {

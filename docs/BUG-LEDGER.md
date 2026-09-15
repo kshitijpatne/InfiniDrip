@@ -47,6 +47,25 @@ source details: `docs/research/UX-REDESIGN-RESEARCH.md`. Execution and acceptanc
 | BUG-UI-046 | S2 / P1 | No unfinished-draft recovery or navigation guard; validated Save rejects incomplete input. Safety needs a separate recovery contract, not relaxed export validity. | 119 |
 | BUG-UI-047 | S2 / P1 | Single size nesting ignores selected size despite explicit UI claim; source drafts base measurements. M→L live canvas remains identical. | 120 |
 
+## Current implementation evidence — Slice 118
+
+The following records remain `In progress`; this evidence is bounded to the
+current slice and is not a final closure claim.
+
+- `BUG-UI-039` / `BUG-UI-040`: Body and assembled highlight matching now stays
+  per host. Ease has assembled silhouette targets for upper, skirt, and trouser
+  renderers; a missing active-lens target leaves the figure undimmed and offers
+  a one-click Assembled route. Focused app/view coverage passed 156/156 before
+  the final placement refinement and the target-specific regression passed 2/2
+  afterward.
+- `BUG-UI-043`: field-backed warnings with a visible target now render as
+  translucent, collision-aware note cards with connector arrows. Ignore hides
+  the current-draft card, the panel and Check restore it, draft changes clear
+  the dismissal, and cleared warnings remove the card. Live browser evidence
+  showed four non-overlapping cards/four arrows in Body and the dismissed chest
+  advisory in Check. Renderer contracts passed 55/55; no export or save payload
+  changed.
+
 Responsive audit note: the narrow-viewport request did not change measured
 dimensions in this session. No new responsive pass is claimed. Actual viewport
 dimensions and field/canvas co-visibility are required in the final gate.

@@ -1,13 +1,13 @@
 # InfiniDrip — Project State
 
-_Last updated: UI/UX redesign Slice 117 focused/live checkpoint, 2026-09-15; Epic 3 and Epic 4 remain closed._
+_Last updated: UI/UX redesign Slice 118 focused/live checkpoint, 2026-09-15; Epic 3 and Epic 4 remain closed._
 
 ## Current work — beginner-facing workspace redesign
 
-### Slice 117 checkpoint — focused/live evidence green; full redesign gate pending
+### Slice 118 checkpoint — focused/live evidence green; full redesign gate pending
 
-Current checkpoint: `codex/ux-studio` after `dac3980`, with Slice 117 changes
-ready for commit. Slice 114 research is complete; do not repeat it. The
+Current checkpoint: `codex/ux-studio` after `b970861`, with the bounded Slice 118
+changes ready for commit. Slice 114 research is complete; do not repeat it. The
 implementation now has five actual stages:
 Garment, Measure, Style, Check, and Export. Readiness—not earlier index—drives
 completion: `styleReviewed` is set only on Style → Next, current Check review
@@ -36,7 +36,21 @@ v5 save payload, so older saves retain the smooth legacy cue. Only the
 assembled screen preview receives texture/shine decoration; drafting and export
 outputs still use the original color/geometry contracts.
 
-Affected focused verification passes 201/201 across `app.test.ts`,
+Slice 118 extends the same target contract across the assembled silhouettes for
+upper, skirt, and trouser renderers. A field with no target in the active Body or
+Pattern lens leaves that lens undimmed and offers a one-click Assembled route.
+Warnings with a real visible target render as translucent, collision-aware
+spatial notes with connector arrows; a user can set an advisory aside for the
+current draft, restore it from the panel or Check, and any draft change clears
+the dismissal. Cleared warnings remove their notes automatically. Dismissed
+advice is retained as a mild Check-stage reconsideration cue. These notes are
+screen-only and never enter SVG, DXF, PDF, or other output contracts.
+
+Slice 118 verification includes `npx vitest run src/ui/app.test.ts
+src/ui/view.test.ts` at 156/156 before the final placement refinement, a
+targeted app rerun at 2/2 afterward, and renderer contracts at 55/55 across
+garment, skirt, and trouser figures. `npx tsc --noEmit` and `git diff --check`
+are clean. The prior Slice 117 affected focused verification passes 201/201 across `app.test.ts`,
 `appearance.test.ts`, `persist.test.ts`, and `view.test.ts`; `npx tsc --noEmit`
 is clean. The prior Slice 115B checkpoint
 passed 207/207 across the five affected UI test files. The actual browser
@@ -61,7 +75,8 @@ coverage across every garment, options/material/appearance, persistence and
 export path; zoom/text-size checks; `npm test`; 100% coverage; build; parsed
 consumer checks; and the eight-hash legacy gate remain. Slices 118–121 remain.
 No export writers, geometry, or export baselines changed. The workspace save
-payload gained an optional appearance extension with a legacy default.
+payload gained an optional appearance extension with a legacy default. Slice 118
+changed only render metadata, UI markup/state, styling, and focused tests.
 Preserve user logs/tmp; no push or credits.
 
 The maintainer has authorized a comprehensive UI/UX audit and redesign from
@@ -70,6 +85,10 @@ usage pacing/full verification gates. Active branch: `codex/ux-studio`, based
 on approved `main`/`origin/main` at `816b9ff`. The live execution record is
 `docs/planning/UX-REDESIGN-EXECUTION.md`; research and exact baseline evidence
 are in `docs/research/UX-REDESIGN-RESEARCH.md`. Slices 114–121 are reserved.
+After the Slice 118 checkpoint commit, the exact next action is a fresh usage
+check followed by Slice 119 workspace safety and recovery; do not start that
+expensive slice if the weekly meter reaches the conservative 15% remaining
+threshold.
 
 Slice 114 has reproduced the long-control/off-screen-canvas loop, missing Ease
 and Woven Body highlights, immediate destructive Load, misleading tour-complete

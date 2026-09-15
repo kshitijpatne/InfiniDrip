@@ -1115,6 +1115,55 @@ describe("body-view measurement linking", () => {
     }
   });
 
+  it("offers an honest Assembled route when the active Body view has no target", () => {
+    localStorage.clear();
+    const root = mount();
+    clickId(root, "welcome-skip");
+    clickId(root, "garment-woven-shirt");
+    clickId(root, "view-body");
+    const row = root.querySelector<HTMLElement>('[data-dim-row="option-pocketWidth"]')!;
+    row.dispatchEvent(new Event("mouseenter"));
+    expect(root.querySelector<HTMLElement>("#spatial-cue")!.hidden).toBe(false);
+    expect(root.querySelector("#spatial-cue-text")!.textContent).toContain("highlighted in Assembled");
+    expect(root.querySelector<HTMLButtonElement>("#spatial-cue-action")!.hidden).toBe(false);
+    clickId(root, "spatial-cue-action");
+    expect(root.querySelector<HTMLButtonElement>("#assembled-preview-toggle")!.getAttribute("aria-pressed")).toBe("true");
+    expect(root.querySelector("#inspection-title")!.textContent).toContain("Assembled preview");
+    clickId(root, "assembled-preview-toggle");
+    row.dispatchEvent(new Event("mouseleave"));
+    expect(root.querySelector<HTMLElement>("#spatial-cue")!.hidden).toBe(true);
+  });
+
+  it("anchors a warning to its visible target and carries a dismissal into Check", () => {
+    const root = mount();
+    clickId(root, "view-body");
+    const box = (left: number, top: number, width: number, height: number): DOMRect =>
+      ({ left, top, right: left + width, bottom: top + height, width, height, x: left, y: top, toJSON: () => ({}) } as DOMRect);
+    vi.spyOn(HTMLElement.prototype, "getBoundingClientRect").mockImplementation(function (this: HTMLElement) {
+      if (this.id === "canvas-inspection") return box(0, 0, 900, 700);
+      if (this.id === "inspection-viewport") return box(10, 40, 880, 640);
+      if (this.classList.contains("spatial-guidance-note")) {
+        return box(Number.parseFloat(this.style.left) || 0, Number.parseFloat(this.style.top) || 0, 230, 92);
+      }
+      return box(0, 0, 0, 0);
+    });
+    vi.spyOn(SVGElement.prototype, "getBoundingClientRect").mockReturnValue(box(420, 250, 24, 180));
+    const chest = root.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+    chest.value = "150";
+    chest.dispatchEvent(new Event("input"));
+    expect(root.querySelector<HTMLElement>('.spatial-guidance-note[data-guidance-field="chest"]')).not.toBeNull();
+    root.querySelector<HTMLButtonElement>('[data-ignore-guidance="chest"]')!.click();
+    expect(root.querySelector('.spatial-guidance-note[data-guidance-field="chest"]')).toBeNull();
+    expect(root.querySelector('[data-guidance-field="chest"][data-guidance-ignored]')).not.toBeNull();
+    clickId(root, "view-check");
+    expect(root.querySelector('[data-ignored-guidance-field="chest"]')).not.toBeNull();
+    root.querySelector<HTMLButtonElement>('[data-restore-guidance="chest"]')!.click();
+    expect(root.querySelector('[data-ignored-guidance-field="chest"]')).toBeNull();
+    chest.value = "100";
+    chest.dispatchEvent(new Event("input"));
+    expect(root.querySelector('[data-guidance-field="chest"][data-guidance-ignored]')).toBeNull();
+  });
+
   it("switches to the woven-shirt recipe and renders its live design details", () => {
     const root = mount();
     root.querySelector<HTMLButtonElement>("#garment-woven-shirt")!.dispatchEvent(new Event("click"));

@@ -67,7 +67,7 @@ body { margin: 0; }
 #body-croquis-toggle-host button { min-height: 30px; }
 #canvas-host { flex: 1; min-height: 0; display: flex; }
 #canvas-inspection {
-  flex: 1; min-width: 0; min-height: 0; display: flex; flex-direction: column;
+  position: relative; flex: 1; min-width: 0; min-height: 0; display: flex; flex-direction: column;
   padding: 10px; background: #112237; border: 1px solid #294158; border-radius: 12px;
 }
 #inspection-toolbar { display: flex; gap: 6px; align-items: center; margin-bottom: 8px; }
@@ -80,6 +80,38 @@ body { margin: 0; }
 #analysis-host, #garment-host { min-width: 0; }
 #inspection-content svg { display: block; }
 #inspection-content table { max-width: none; }
+#spatial-guidance-host { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 4; }
+.spatial-guidance-note {
+  position: absolute; width: min(230px, calc(100% - 20px)); box-sizing: border-box;
+  display: flex; flex-direction: column; gap: 8px; padding: 10px 11px;
+  border: 1px solid #b58b32; border-radius: 3px 9px 9px 9px;
+  background: rgba(44, 42, 32, .88); color: #f3e4b1; box-shadow: 0 7px 16px rgba(0, 0, 0, .35);
+  font-size: 12px; line-height: 1.35; pointer-events: auto;
+}
+.spatial-guidance-note::before {
+  content: ""; position: absolute; left: -1px; top: -1px; width: 10px; height: 10px;
+  border-right: 1px solid #b58b32; border-bottom: 1px solid #b58b32; background: #112237;
+}
+.spatial-guidance-copy { max-height: 8.1em; overflow: auto; }
+.spatial-guidance-note button,
+.check-advisory button {
+  align-self: flex-start; padding: 4px 7px; border: 1px solid #b58b32; border-radius: 4px;
+  background: #171a20; color: #f3e4b1; cursor: pointer; font-size: 11px;
+}
+.spatial-guidance-note button:hover, .spatial-guidance-note button:focus-visible,
+.check-advisory button:hover, .check-advisory button:focus-visible { border-color: #f3e4b1; }
+.spatial-guidance-connector {
+  position: absolute; height: 2px; transform-origin: 0 50%; background: #d6a83f;
+  pointer-events: none; z-index: 0;
+}
+.spatial-guidance-connector::after {
+  content: ""; position: absolute; right: -5px; top: -4px;
+  border-left: 7px solid #d6a83f; border-top: 5px solid transparent; border-bottom: 5px solid transparent;
+}
+.spatial-guidance-more {
+  position: absolute; right: 10px; bottom: 10px; padding: 4px 7px; border-radius: 4px;
+  background: #201e18; color: #e9dca9; font-size: 11px; pointer-events: none;
+}
 #infini-shell .numeric-control input[type=number] { appearance: textfield; -moz-appearance: textfield; }
 #infini-shell .numeric-control input[type=number]::-webkit-inner-spin-button,
 #infini-shell .numeric-control input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
@@ -266,6 +298,19 @@ body { margin: 0; }
   border-radius: 999px; color: #d9e6ef; font-size: 11px; font-weight: 600;
 }
 #review-context { color: #9bb8cc; font-size: 13px; line-height: 1.4; }
+#spatial-cue { display: flex; align-items: center; gap: 8px; margin: 6px 0; padding: 7px 9px; border: 1px solid #34506a; border-radius: 7px; background: #13233a; color: #9bb8cc; font-size: 11px; line-height: 1.35; }
+#spatial-cue[hidden] { display: none; }
+#spatial-cue-text { flex: 1; }
+#spatial-cue-action { flex: 0 0 auto; padding: 4px 7px; border: 1px solid #34506a; border-radius: 5px; background: #0d1b2c; color: #d9e6ef; cursor: pointer; font-size: 11px; }
+#spatial-cue-action:hover, #spatial-cue-action:focus-visible { border-color: #88d7ef; }
+.guidance-ignored-state { display: block; margin-top: 3px; color: #d6a83f; font-size: 11px; }
+.check-advisory {
+  margin-bottom: 12px; padding: 10px 12px; border: 1px solid #7e6630; border-radius: 7px;
+  background: #201e18; color: #e9dca9; font-size: 12px; line-height: 1.4;
+}
+.check-advisory > strong { display: block; margin-bottom: 7px; color: #f3e4b1; }
+.check-advisory-row { display: flex; align-items: baseline; gap: 8px; margin-top: 7px; }
+.check-advisory-row > span { flex: 1; min-width: 0; }
 
 .studio-visually-hidden {
   position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;

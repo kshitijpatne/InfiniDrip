@@ -206,6 +206,7 @@ describe("inspectionMarkup", () => {
     expect(html).toContain('data-inspection-view="body"');
     expect(html).toContain("Body figure inspection");
     expect(html).toContain('id="inspection-viewport"');
+    expect(html).toContain('id="spatial-guidance-host"');
     expect(html).toContain('data-inspection-zoom="fit"');
     expect(html).toContain('aria-label="Zoom in"');
   });
@@ -366,6 +367,16 @@ describe("guidanceMarkup", () => {
     expect(html).toContain('aria-controls="input-option-buttonCount"');
     expect(html).toContain('aria-controls="stretch-select"');
   });
+
+  it("marks a dismissed advisory and offers a restore action", () => {
+    const html = guidanceMarkup(
+      [{ level: "warn", field: "chest", text: "Check chest" }],
+      new Set(["chest"]),
+    );
+    expect(html).toContain('data-guidance-ignored');
+    expect(html).toContain("Set aside for this draft");
+    expect(html).toContain('data-restore-guidance="chest"');
+  });
 });
 
 describe("checkMarkup — plausibility gates the green", () => {
@@ -383,6 +394,16 @@ describe("checkMarkup — plausibility gates the green", () => {
   it("still shows the not-ready banner when a check fails, regardless of plausibility", () => {
     const html = checkMarkup(buildReport([present("Seam", false, "off by 3 cm")]), true);
     expect(html).toContain("Digital checks need review");
+  });
+
+  it("shows dismissed guidance as a reconsideration cue", () => {
+    const html = checkMarkup(
+      buildReport([present("Seam", true, "agree")]),
+      true,
+      [{ level: "warn", field: "chest", text: "Check chest" }],
+    );
+    expect(html).toContain("Advisory set aside for this draft");
+    expect(html).toContain('data-restore-guidance="chest"');
   });
 });
 

@@ -63,6 +63,7 @@ export function mountApp(root: HTMLElement): void {
   let checkReviewed = false;
   let outputRevision = 0;
   let currentNotes: readonly Note[] = [];
+  const ignoredGuidance = new Set<string>();
   const selectedControlPages = new Map<JourneyStep, number>();
 
   let targetStyle = initialWorkspace.targetStyle;
@@ -167,14 +168,35 @@ export function mountApp(root: HTMLElement): void {
   // outline segments, plus the silhouette itself tagged "figure" — never a field
   // name, so it always dims). `null` restores the whole figure.
   const spotlight = (field: string | null): void => {
+    const analysisHost = root.querySelector<HTMLElement>("#analysis-host");
+    const assembledHost = root.querySelector<HTMLElement>("#garment-host");
+    const hasTarget = (host: HTMLElement | null): boolean => host !== null && [...host.querySelectorAll<SVGElement>("[data-dim], [data-edge]")]
+      .some((element) => (element.dataset.dim ?? element.dataset.edge) === field);
     root.querySelectorAll<HTMLElement>("#analysis-host, #garment-host").forEach((host) => {
       const elements = [...host.querySelectorAll<SVGElement>("[data-dim], [data-edge]")];
-      const hasTarget = field !== null && elements.some((element) => (element.dataset.dim ?? element.dataset.edge) === field);
+      const hostHasTarget = field !== null && elements.some((element) => (element.dataset.dim ?? element.dataset.edge) === field);
       elements.forEach((element) => {
         const owns = element.dataset.dim ?? element.dataset.edge;
-        element.style.opacity = !hasTarget || owns === field ? "1" : "0.15";
+        element.style.opacity = !hostHasTarget || owns === field ? "1" : "0.15";
       });
     });
+    const cue = root.querySelector<HTMLElement>("#spatial-cue");
+    const action = root.querySelector<HTMLButtonElement>("#spatial-cue-action");
+    const text = root.querySelector<HTMLElement>("#spatial-cue-text");
+    if (!cue || !action || !text || field === null || previewActive) {
+      if (cue) cue.hidden = true;
+      return;
+    }
+    const visibleTarget = hasTarget(previewActive ? assembledHost : analysisHost);
+    const assembledTarget = hasTarget(assembledHost);
+    const label = field.startsWith("option-")
+      ? field.slice("option-".length).replace(/([A-Z])/g, " $1").toLowerCase()
+      : FIELDS.find((candidate) => candidate.id === field)?.label ?? field;
+    cue.hidden = visibleTarget;
+    text.textContent = assembledTarget
+      ? `${label} is highlighted in Assembled.`
+      : `No direct highlight for ${label} in this view.`;
+    action.hidden = !assembledTarget;
   };
 
   const readiness = (): StageReadiness => ({
@@ -220,6 +242,7 @@ export function mountApp(root: HTMLElement): void {
   const markOutputDirty = (designChanged = true): void => {
     outputRevision++;
     if (designChanged) {
+      ignoredGuidance.clear();
       styleReviewed = false;
       checkReviewed = false;
       if (journey.step === "output") journey = { ...journey, step: "refine" };
@@ -230,7 +253,7 @@ export function mountApp(root: HTMLElement): void {
   };
   const renderGuidance = (notes: readonly Note[]): void => {
     currentNotes = notes;
-    guidanceHost.innerHTML = guidanceMarkup(notes);
+    guidanceHost.innerHTML = guidanceMarkup(notes, ignoredGuidance);
     const warnings = notes.filter((note) => note.level === "warn").length;
     root.querySelector<HTMLElement>("#guidance-details summary")!.textContent = warnings
       ? `⚠ ${warnings} to review · Guidance` : "Guidance & material advice";
@@ -294,6 +317,119 @@ export function mountApp(root: HTMLElement): void {
     content.style.alignItems = "center";
     content.style.width = `${Math.max(viewportWidth, Math.ceil(width))}px`;
     if (zoomOutput) zoomOutput.textContent = `${Math.round(inspectionZoom * 100)}%`;
+  };
+
+  /** Put actionable warnings beside the rendered seam or dimension they name.
+   * The note is a screen overlay only: it never enters an SVG or an export. */
+  const renderSpatialGuidance = (): void => {
+    const host = root.querySelector<HTMLElement>("#spatial-guidance-host");
+    const section = root.querySelector<HTMLElement>("#canvas-inspection");
+    const viewport = root.querySelector<HTMLElement>("#inspection-viewport");
+    const targetHost = root.querySelector<HTMLElement>(previewActive ? "#garment-host" : "#analysis-host");
+    if (!host || !section || !viewport || !targetHost) return;
+    host.replaceChildren();
+    const candidates = [...new Map(currentNotes
+      .filter((note) => note.level === "warn" && note.field !== undefined && !ignoredGuidance.has(note.field))
+      .map((note) => [note.field!, note])).values()];
+    if (candidates.length === 0) return;
+    const sectionRect = section.getBoundingClientRect();
+    const viewportRect = viewport.getBoundingClientRect();
+    const targetElements = [...targetHost.querySelectorAll<SVGElement>("[data-dim], [data-edge]")];
+    const clamp = (value: number, min: number, max: number): number => Math.max(min, Math.min(max, value));
+    const targeted = candidates.map((note) => {
+      const target = targetElements.find((element) => {
+        const owns = element.dataset.dim ?? element.dataset.edge;
+        if (owns !== note.field) return false;
+        const rect = element.getBoundingClientRect();
+        return (rect.width > 0 || rect.height > 0) && rect.right >= viewportRect.left &&
+          rect.left <= viewportRect.right && rect.bottom >= viewportRect.top && rect.top <= viewportRect.bottom;
+      });
+      return target ? { note, target } : null;
+    }).filter((entry): entry is { note: Note; target: SVGElement } => entry !== null);
+    const visible = targeted.slice(0, 4);
+    const placed: { left: number; top: number; width: number; height: number }[] = [];
+    const connections: { note: HTMLElement; target: SVGElement }[] = [];
+    visible.forEach(({ note, target }) => {
+      const targetRect = target.getBoundingClientRect();
+      const targetX = targetRect.left + targetRect.width / 2;
+      const targetY = targetRect.top + targetRect.height / 2;
+      const noteElement = document.createElement("article");
+      noteElement.className = "spatial-guidance-note";
+      noteElement.dataset.guidanceField = note.field!;
+      noteElement.setAttribute("role", "note");
+      const copy = document.createElement("span");
+      copy.className = "spatial-guidance-copy";
+      copy.textContent = note.text;
+      const ignore = document.createElement("button");
+      ignore.type = "button";
+      ignore.dataset.ignoreGuidance = note.field!;
+      ignore.textContent = "Ignore for this draft";
+      ignore.setAttribute("aria-label", `Ignore ${note.field} guidance for this draft`);
+      noteElement.append(copy, ignore);
+      const widthLimit = viewportRect.width > 0 ? Math.max(160, Math.min(230, viewportRect.width - 20)) : 230;
+      noteElement.style.width = `${widthLimit}px`;
+      host.append(noteElement);
+      const width = noteElement.getBoundingClientRect().width || widthLimit;
+      const height = noteElement.getBoundingClientRect().height || 92;
+      const minLeft = viewportRect.left - sectionRect.left + 10;
+      const maxLeft = Math.max(minLeft, viewportRect.right - sectionRect.left - width - 10);
+      const minTop = viewportRect.top - sectionRect.top + 10;
+      const maxTop = Math.max(minTop, viewportRect.bottom - sectionRect.top - height - 10);
+      const centerLeft = clamp(targetX - sectionRect.left - width / 2, minLeft, maxLeft);
+      const options = [
+        { left: minLeft, top: minTop }, { left: maxLeft, top: minTop },
+        { left: minLeft, top: maxTop }, { left: maxLeft, top: maxTop },
+        { left: centerLeft, top: minTop }, { left: centerLeft, top: maxTop },
+      ];
+      const overlapArea = (a: { left: number; top: number; width: number; height: number }, b: { left: number; top: number; width: number; height: number }): number =>
+        Math.max(0, Math.min(a.left + a.width, b.left + b.width) - Math.max(a.left, b.left)) *
+        Math.max(0, Math.min(a.top + a.height, b.top + b.height) - Math.max(a.top, b.top));
+      const targetBox = {
+        left: targetRect.left - sectionRect.left - 8, top: targetRect.top - sectionRect.top - 8,
+        width: targetRect.width + 16, height: targetRect.height + 16,
+      };
+      const choice = options.reduce((best, option) => {
+        const candidate = { ...option, width, height };
+        const overlap = placed.reduce((sum, existing) => sum + overlapArea(candidate, existing), 0);
+        const targetOverlap = overlapArea(candidate, targetBox);
+        const distance = Math.hypot(targetX - sectionRect.left - option.left - width / 2,
+          targetY - sectionRect.top - option.top - height / 2);
+        const score = targetOverlap * 100000 + overlap * 1000 + distance;
+        return score < best.score ? { option, score } : best;
+      }, { option: options[0], score: Number.POSITIVE_INFINITY }).option;
+      const left = choice.left;
+      const top = choice.top;
+      noteElement.style.left = `${left}px`;
+      noteElement.style.top = `${top}px`;
+      placed.push({ left, top, width, height });
+      connections.push({ note: noteElement, target });
+    });
+    connections.forEach(({ note, target }) => {
+      const targetRect = target.getBoundingClientRect();
+      const targetX = targetRect.left + targetRect.width / 2;
+      const targetY = targetRect.top + targetRect.height / 2;
+      const noteRect = note.getBoundingClientRect();
+      const startX = clamp(targetX, noteRect.left, noteRect.right);
+      const startY = clamp(targetY, noteRect.top, noteRect.bottom);
+      const dx = targetX - startX;
+      const dy = targetY - startY;
+      const distance = Math.hypot(dx, dy);
+      if (distance < 8) return;
+      const connector = document.createElement("span");
+      connector.className = "spatial-guidance-connector";
+      connector.setAttribute("aria-hidden", "true");
+      connector.style.left = `${startX - sectionRect.left}px`;
+      connector.style.top = `${startY - sectionRect.top}px`;
+      connector.style.width = `${distance}px`;
+      connector.style.transform = `rotate(${Math.atan2(dy, dx)}rad)`;
+      host.append(connector);
+    });
+    if (targeted.length > visible.length) {
+      const more = document.createElement("span");
+      more.className = "spatial-guidance-more";
+      more.textContent = `+${targeted.length - visible.length} more in Guidance`;
+      host.append(more);
+    }
   };
 
   /** Keep each boundary rail truthful after typing, a +/- action, a garment
@@ -379,6 +515,16 @@ export function mountApp(root: HTMLElement): void {
     // the object) — without this check both figures would draw it with a
     // short sleeve regardless (Slice 60).
     const hasSleeve = recipe.fields.includes("sleeveLength");
+    const fabricNote: Note = { level: "info", field: "ease", text: fabricEaseNote(stretchFabric, isTop ? measurements.chest : measurements.hip) };
+    const failedChecks: Note[] = garmentReport(recipe, measurements, recipeOptions()).checks
+      .filter((check) => !check.ok).map((check) => ({ field: CHECK_FIELDS[check.name], level: "warn", text: `${check.name}: ${check.detail}` }));
+    const materialNote = materialCompatibilityNote();
+    const guidanceNotes: Note[] = [
+      ...guide(recipe, measurements, recipeOptions()),
+      ...failedChecks,
+      fabricNote,
+      ...(materialNote ? [materialNote] : []),
+    ];
     fabricWidthHost.style.display = view === "fabric" && !previewActive ? "flex" : "none";
     bodyCroquisHost.style.display = view === "body" && !previewActive ? "flex" : "none";
     let canvasContent: string;
@@ -392,7 +538,9 @@ export function mountApp(root: HTMLElement): void {
       canvasContent = renderFabricNest(
         nest.placed, nest.fabricWidth, nest.fabricLength, nest.utilization, nest.fits);
     } else if (view === "check") {
-      canvasContent = checkMarkup(garmentReport(recipe, measurements, recipeOptions()), valid);
+      const dismissedGuidance = guidanceNotes.filter((note) =>
+        note.level === "warn" && note.field !== undefined && ignoredGuidance.has(note.field));
+      canvasContent = checkMarkup(garmentReport(recipe, measurements, recipeOptions()), valid, dismissedGuidance);
     } else if (view === "edit") {
       const piece = editedFront ?? rolePiece(draftCurrent(), recipe.editRole ?? "front");
       editedFront = piece;
@@ -459,17 +607,7 @@ export function mountApp(root: HTMLElement): void {
     // every green "validated" signal — the check banner, the style ✓ — and flags
     // the offending fields, so geometry passing can never masquerade as "ready".
     const plausible = valid;
-    // Guidance = the geometry checks, plus a fabric-stretch ease note (advice only).
-    const fabricNote: Note = { level: "info", field: "ease", text: fabricEaseNote(stretchFabric, isTop ? measurements.chest : measurements.hip) };
-    const failedChecks: Note[] = garmentReport(recipe, measurements, recipeOptions()).checks
-      .filter((check) => !check.ok).map((check) => ({ field: CHECK_FIELDS[check.name], level: "warn", text: `${check.name}: ${check.detail}` }));
-    const materialNote = materialCompatibilityNote();
-    renderGuidance([
-      ...guide(recipe, measurements, recipeOptions()),
-      ...failedChecks,
-      fabricNote,
-      ...(materialNote ? [materialNote] : []),
-    ]);
+    renderGuidance(guidanceNotes);
     // Style = prescriptive: the gap from current measurements to the chosen target.
     styleHost.innerHTML = styleMarkup(targetStyle, matchStyle(measurements, targetStyle, recipe.styles), styleNames(recipe.styles), plausible);
     // Amber-outline any measurement input whose value is out of plausible range
@@ -482,6 +620,9 @@ export function mountApp(root: HTMLElement): void {
     // The body SVG was just re-rendered; restore any active dimension spotlight.
     if (activeDim !== null) spotlight(activeDim);
     renderJourney();
+    // The journey blocker can change the canvas height; place notes against the
+    // settled inspection frame rather than the pre-banner geometry.
+    renderSpatialGuidance();
   };
 
   const viewBtns = {
@@ -647,6 +788,18 @@ export function mountApp(root: HTMLElement): void {
     nextViewport.scrollTop = inactiveInspection.top;
     inactiveInspection = current;
   });
+  root.querySelector<HTMLButtonElement>("#spatial-cue-action")!.addEventListener("click", () => {
+    if (!previewActive) previewToggle.click();
+  });
+  canvasHost.addEventListener("click", (event) => {
+    const target = (event.target as HTMLElement).closest<HTMLButtonElement>("button[data-ignore-guidance], button[data-restore-guidance]");
+    if (!target) return;
+    const field = target.dataset.ignoreGuidance ?? target.dataset.restoreGuidance;
+    if (!field) return;
+    if (target.dataset.ignoreGuidance) ignoredGuidance.add(field);
+    else ignoredGuidance.delete(field);
+    draw();
+  });
 
   const syncControlPages = (): void => {
     const stage = journey.step === "fit" ? "fit" : "measure";
@@ -682,7 +835,17 @@ export function mountApp(root: HTMLElement): void {
   // correction affordance back to the matching control. This keeps warnings
   // actionable even when the controls are far away or the panel has wrapped.
   guidanceHost.addEventListener("click", (e) => {
-    const target = (e.target as HTMLElement).closest<HTMLButtonElement>("button[data-guidance-focus]");
+    const element = e.target as HTMLElement;
+    const restore = element.closest<HTMLButtonElement>("button[data-restore-guidance]");
+    if (restore) {
+      const field = restore.dataset.restoreGuidance;
+      if (field) {
+        ignoredGuidance.delete(field);
+        draw();
+      }
+      return;
+    }
+    const target = element.closest<HTMLButtonElement>("button[data-guidance-focus]");
     if (!target) return;
     const field = target.dataset.guidanceFocus;
     if (!field) return;

@@ -1,6 +1,6 @@
 # UI/UX redesign execution — Slices 114–121
 
-Status: Slice 117 focused/live checkpoint, 2026-09-15; the bounded stage,
+Status: Slice 118 focused/live checkpoint, 2026-09-15; the bounded stage,
 assembled integration, selection-card, and appearance checks are green, but
 the full redesign gate remains.
 Epic 4 remains closed.
@@ -103,10 +103,37 @@ The previous 81-file/1,031-test pass is a baseline, not a test run for this work
 
 ## Current checkpoint / exact next actions
 
+### Slice 118 — cross-garment targets and spatial guidance
+
+Slice 118 is implemented on `codex/ux-studio` after `b970861`; the bounded
+changes are ready for checkpoint commit. The assembled upper, skirt, and
+trouser silhouettes now expose a real `data-edge="ease"` target without changing
+geometry. Body/Pattern fields with no target remain undimmed and offer a direct
+Assembled route. Field-backed warnings with visible targets become translucent,
+collision-aware notes with connector arrows. Ignore applies only to the current
+draft; the guidance panel and Check can restore it, draft changes clear the
+dismissal, and cleared warnings remove their notes. Check retains dismissed
+advice as a mild reconsideration cue. The spatial layer is screen-only and does
+not enter any export or save contract.
+
+Changed paths: `src/render/garment.ts`, `src/render/skirt-figure.ts`,
+`src/render/trouser-figure.ts`, `src/ui/view.ts`, `src/ui/app.ts`,
+`src/ui/studio.css`, `src/ui/app.test.ts`, and `src/ui/view.test.ts`.
+
+Verification: the full app/view run passed 156/156 before the final placement
+refinement; the target/dismissal app regression passed 2/2 afterward; renderer
+contracts passed 55/55 across garment, skirt, and trouser figures;
+`npx tsc --noEmit` and `git diff --check` passed. Live browser evidence showed
+four non-overlapping note cards and four connector arrows inside the Body
+inspection frame at the supported desktop viewport, with a translucent surface;
+the Check stage showed the dismissed chest advisory and `Show guidance again`.
+No final full project gate is claimed. The next action after this checkpoint is
+a fresh usage check, then Slice 119's workspace safety/recovery work only while
+the weekly meter remains above the conservative 15% remaining threshold.
+
 ### Slice 117 — contextual color and appearance editor
 
-Slice 117 is implemented on `codex/ux-studio` after `dac3980`; source, focused
-tests, and durable records are ready for the bounded Slice 117 commit. Style
+Slice 117 is committed as `b970861` on `codex/ux-studio`. Style
 now keeps a compact palette visible and opens an on-demand appearance editor:
 a hue/saturation wheel, exact Hex/native color entry, lightness, four
 screen-only texture cues, and shine. The editor keeps the existing swatch and
@@ -130,8 +157,7 @@ expected texture and sheen definitions. The previous seven-garment/stage/view
 matrix remains the Slice 115B evidence; screenshots were inspected inline and
 are not durable artifacts.
 
-Exact remaining work: commit this bounded slice, then implement Slice 118's
-cross-garment highlight and spatial-guidance contract. The full per-control
+Exact remaining work: the full per-control
 live matrix, full suite, 100% coverage, build, parsed-consumer checks, and
 eight-hash legacy gate remain reserved for shared-contract/final checkpoints.
 

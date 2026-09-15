@@ -162,7 +162,7 @@ const DOT: Record<Note["level"], string> = { ok: OK, info: T.label, warn: T.line
 /** The guidance panel: a top-line verdict, then one line per note. Each line leads
  *  with a severity ICON (not colour alone) so the signal survives colour-blindness
  *  and greyscale; the verdict folds every warning into a single read. */
-export function guidanceMarkup(notes: readonly Note[]): string {
+export function guidanceMarkup(notes: readonly Note[], ignored: ReadonlySet<string> = new Set()): string {
   const warnCount = notes.filter((n) => n.level === "warn").length;
   const clean = warnCount === 0;
   const verdictText = clean
@@ -172,19 +172,25 @@ export function guidanceMarkup(notes: readonly Note[]): string {
     `color:${clean ? OK : T.lineActive}">${verdictText}</div>`;
   const rows = notes.map((n, index) => {
     const fieldName = n.field;
+    const isIgnored = fieldName !== undefined && ignored.has(fieldName);
     const fieldLabel = fieldName?.startsWith("option-")
       ? fieldName.slice("option-".length).replace(/([A-Z])/g, " $1").toLowerCase()
       : fieldName ? FIELDS.find((f) => f.id === fieldName)?.label ?? fieldName : "";
     const controlId = fieldName === "stretchFabric" ? "stretch-select" : `input-${fieldName}`;
     const action = fieldName
-      ? `<button type="button" data-guidance-focus="${fieldName}" aria-controls="${controlId}" ` +
-        `style="flex:0 0 auto;padding:3px 6px;font-size:11px;cursor:pointer;background:${T.background};` +
-        `color:${T.line};border:1px solid ${BORDER};border-radius:4px">Review ${fieldLabel}</button>`
+      ? isIgnored
+        ? `<button type="button" data-restore-guidance="${fieldName}" ` +
+          `style="flex:0 0 auto;padding:3px 6px;font-size:11px;cursor:pointer;background:${T.background};` +
+          `color:${T.line};border:1px solid ${BORDER};border-radius:4px">Show again</button>`
+        : `<button type="button" data-guidance-focus="${fieldName}" aria-controls="${controlId}" ` +
+          `style="flex:0 0 auto;padding:3px 6px;font-size:11px;cursor:pointer;background:${T.background};` +
+          `color:${T.line};border:1px solid ${BORDER};border-radius:4px">Review ${fieldLabel}</button>`
       : "";
-    return `<div data-guidance-row="${index}"${fieldName ? ` data-guidance-field="${fieldName}"` : ""} ` +
+    const ignoredState = isIgnored ? `<span class="guidance-ignored-state">Set aside for this draft</span>` : "";
+    return `<div data-guidance-row="${index}"${fieldName ? ` data-guidance-field="${fieldName}"` : ""}${isIgnored ? " data-guidance-ignored" : ""} ` +
       `style="display:flex;gap:8px;align-items:flex-start;margin-bottom:10px;font-size:12.5px;line-height:1.4">` +
       `<span style="flex:0 0 14px;color:${DOT[n.level]};font-weight:700" aria-hidden="true">` +
-      `${SEVERITY_ICON[n.level]}</span><span style="flex:1;color:${T.line}">${n.text}</span>${action}</div>`;
+      `${SEVERITY_ICON[n.level]}</span><span style="flex:1;color:${T.line}">${n.text}${ignoredState}</span>${action}</div>`;
   }).join("");
   return panel("Guidance", verdict + rows);
 }
@@ -418,7 +424,8 @@ export function inspectionMarkup(content: string, view: string): string {
     `<output id="inspection-zoom" aria-live="polite" style="min-width:38px;text-align:right;font-size:11px;color:${T.label}">100%</output>` +
     `</div>` +
     `<div id="inspection-viewport" role="region" aria-labelledby="inspection-title" tabindex="0">` +
-    `<div id="inspection-content">${content}</div></div></section>`;
+    `<div id="inspection-content">${content}</div></div>` +
+    `<div id="spatial-guidance-host" aria-live="polite"></div></section>`;
 }
 
 export function garmentToggleMarkup(active: string): string {
@@ -548,7 +555,7 @@ export function specTableMarkup(
 /** The production-readiness report: a pass/fail verdict banner over the check list.
  *  `plausible` gates the GREEN state: geometry can pass (it sews) while the numbers
  *  are still an impossible body — that must not read as a green "ready". */
-export function checkMarkup(report: Report, plausible: boolean): string {
+export function checkMarkup(report: Report, plausible: boolean, ignored: readonly Note[] = []): string {
   const green = report.ok && plausible;
   const bannerBg = green ? OK : T.lineActive;
   const bannerText = green
@@ -567,8 +574,17 @@ export function checkMarkup(report: Report, plausible: boolean): string {
       `<span style="flex:1;color:${T.line}">${c.name}` +
       `<span style="color:${T.label};font-size:12px"> — ${c.detail}</span></span></div>`;
   }).join("");
-
-  return `<div style="background:${T.background};border-radius:8px;padding:14px">${banner}${rows}</div>`;
+  const dismissed = [...new Map(ignored
+    .filter((note) => note.level === "warn" && note.field)
+    .map((note) => [note.field!, note])).values()];
+  const dismissedMarkup = dismissed.length === 0 ? "" :
+    `<aside class="check-advisory" data-ignored-guidance role="status">` +
+    `<strong>Advisory set aside for this draft</strong>` +
+    dismissed.map((note) => `<div class="check-advisory-row" data-ignored-guidance-field="${note.field}">` +
+      `<span>⚠ ${note.text}</span>` +
+      `<button type="button" data-restore-guidance="${note.field}">Show guidance again</button></div>`).join("") +
+    `</aside>`;
+  return `<div style="background:${T.background};border-radius:8px;padding:14px">${banner}${dismissedMarkup}${rows}</div>`;
 }
 
 /** The whole app shell: persistent workspace actions, a stable canvas, and a
@@ -601,6 +617,8 @@ export function appShellMarkup(
     `${exportButtonsMarkup(sizes)}</aside>` +
     `<div id="infini-workspace"><div id="canvas-tools">${viewToggleMarkup("pattern")}` +
     `<button id="assembled-preview-toggle" type="button" aria-pressed="false" aria-controls="canvas-host">Assembled</button></div>` +
-    `${bodyCroquisToggleMarkup("front-back")}${fabricWidthMarkup(150)}<div id="canvas-host"></div>` +
+    `${bodyCroquisToggleMarkup("front-back")}<div id="spatial-cue" role="status" hidden>` +
+    `<span id="spatial-cue-text"></span><button id="spatial-cue-action" type="button">Show in Assembled</button></div>` +
+    `${fabricWidthMarkup(150)}<div id="canvas-host"></div>` +
     `</div></div></main>`;
 }

@@ -3,7 +3,7 @@
 How the app fits together, in plain language. Read the top to re-orient; skim the
 layers when you need detail. Updated every slice with only need-to-know changes.
 
-## Current workspace redesign boundary — Slice 117 focused/live checkpoint
+## Current workspace redesign boundary — Slice 118 focused/live checkpoint
 
 The current beginner-facing workspace uses five actual stages: Garment,
 Measure, Style, Check, and Export. Stage completion is readiness-derived, not
@@ -34,9 +34,22 @@ defaults to the legacy smooth cue when absent. `applyAppearanceToSvg` decorates
 only the assembled preview; pattern, nesting, and export consumers continue to
 receive the original color and geometry contracts.
 
+Slice 118 makes target semantics explicit across upper, skirt, and trouser
+assembled silhouettes by adding render-only `data-edge="ease"` metadata. Body or
+Pattern lenses with no direct target remain undimmed and expose a one-click route
+to the assembled lens. Field-backed warnings with visible targets render as
+translucent, collision-aware notes with arrows to the actual SVG target. Notes
+are screen-only; Ignore applies to the current draft, the panel and Check can
+restore it, and any design change clears the dismissal. A cleared warning
+removes its note automatically; dismissed advice remains a mild Check-stage
+reconsideration cue.
+
 No drafting geometry, export writers, or export baselines changed. The
 workspace save payload gained an optional appearance extension with a legacy
-default. Slice 117 affected focused verification passes 201/201 across
+default. Slice 118 focused checks recorded UI app/view 156/156 before the final
+placement refinement, targeted app 2/2 afterward, renderer contracts 55/55,
+and clean TypeScript/diff checks. Slice 117 affected focused verification passes
+201/201 across
 `app.test.ts`, `appearance.test.ts`, `persist.test.ts`, and `view.test.ts`;
 `npx tsc --noEmit` is clean. The prior
 Slice 115B checkpoint passed 207/207 across the five affected UI test files.

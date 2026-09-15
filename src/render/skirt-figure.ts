@@ -81,7 +81,7 @@ function skirtPanelPath(waistHalf: number, hipHalf: number, len: number, hipDrop
 
 function renderPanel(waistHalf: number, hipHalf: number, len: number, hipDrop: number, fabric: string,
                      cx: number, top: number, label: string): string {
-  const path = `<path d="${skirtPanelPath(waistHalf, hipHalf, len, hipDrop)}" fill="${fabric}" ` +
+  const path = `<path d="${skirtPanelPath(waistHalf, hipHalf, len, hipDrop)}" data-edge="ease" fill="${fabric}" ` +
     `stroke="${T.line}" stroke-width="1.4" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>`;
   const band = line(-waistHalf, 4, waistHalf, 4, T.marker, 0.6); // a hint of the waistband
   const group = `<g transform="translate(${round(cx)} ${round(top)})">${path}${band}</g>`;

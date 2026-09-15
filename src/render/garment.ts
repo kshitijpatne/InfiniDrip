@@ -134,7 +134,7 @@ function renderOne(m: Measurements, position: "front" | "back", fabric: string,
                    cx: number, top: number, label: string, hasSleeve: boolean,
                    neckline: NecklineParams, strapWidth?: number, polo?: PoloVisual,
                    shirt?: WovenShirtVisual): string {
-  const path = `<path d="${silhouettePath(m, position, hasSleeve, neckline, strapWidth, shirt)}" fill="${fabric}" ` +
+  const path = `<path d="${silhouettePath(m, position, hasSleeve, neckline, strapWidth, shirt)}" data-edge="ease" fill="${fabric}" ` +
     `stroke="${T.line}" stroke-width="1.4" stroke-linejoin="round" ` +
     `vector-effect="non-scaling-stroke"/>`;
   const seams = hasSleeve ? armholeSeams(m) : "";
