@@ -8,6 +8,7 @@ import { Note, SEVERITY_ICON } from "../guidance";
 import { Report } from "../guidance";
 import { StyleMatch, Delta } from "../style";
 import { FIELDS, Field, numericRangeState } from "./controls";
+import { APPEARANCE_TEXTURES, Appearance, DEFAULT_APPEARANCE, hexToHsl, normalizeHex } from "./appearance";
 import type { Handle } from "../edit";
 import "./studio.css";
 
@@ -188,19 +189,48 @@ export function guidanceMarkup(notes: readonly Note[]): string {
   return panel("Guidance", verdict + rows);
 }
 
-/** A row of fabric colour swatches; the current colour gets a highlight ring. */
-export function fabricSwatchesMarkup(current: string): string {
+/** Compact palette plus an on-demand screen appearance editor. */
+export function fabricSwatchesMarkup(current: string, appearance: Appearance = DEFAULT_APPEARANCE): string {
+  const color = normalizeHex(current) ?? FABRICS[0].color;
+  const hsl = hexToHsl(color) ?? { h: 0, s: 0, l: 0.5 };
+  const angle = (hsl.h - 90) * Math.PI / 180;
+  const wheelX = 50 + Math.cos(angle) * hsl.s * 42;
+  const wheelY = 50 + Math.sin(angle) * hsl.s * 42;
   const sw = FABRICS.map((f) =>
     `<span data-swatch="${f.color}" style="display:inline-flex;flex-direction:column;align-items:center;gap:3px">` +
-    `<button data-fabric="${f.color}" title="${f.name}" aria-label="Color ${f.name}" aria-pressed="${f.color === current}" ` +
+    `<button data-fabric="${f.color}" title="${f.name}" aria-label="Color ${f.name}" aria-pressed="${f.color === color}" ` +
     `style="width:22px;height:22px;border-radius:6px;cursor:pointer;background:${f.color};` +
-    `border:1px solid ${BORDER};outline:${f.color === current ? `2px solid ${T.lineActive}` : "none"};` +
+    `border:1px solid ${BORDER};outline:${f.color === color ? `2px solid ${T.lineActive}` : "none"};` +
     `outline-offset:1px"></button>` +
     `<span data-fabric-name="${f.color}" style="font-size:10px;color:${T.label};white-space:nowrap">${f.name}</span></span>`
   ).join("");
-  return `<div id="swatch-host" role="group" aria-labelledby="color-title" style="display:flex;gap:8px;align-items:center;margin:4px 0">` +
-    `<span id="color-title" style="font-size:11px;color:${T.label};text-transform:uppercase;letter-spacing:0.04em;` +
-    `margin-right:4px">Color</span>${sw}</div>`;
+  const textures = APPEARANCE_TEXTURES.map((option) =>
+    `<button type="button" class="appearance-texture-card" data-texture="${option.id}" ` +
+    `aria-pressed="${option.id === appearance.texture}" aria-label="Choose ${option.label} texture">` +
+    `<span>${option.label}</span><small>${option.detail}</small></button>`).join("");
+  return `<section id="swatch-host" role="group" aria-labelledby="color-title" class="appearance-host">` +
+    `<div class="appearance-summary">` +
+    `<span id="color-title" class="appearance-label">Color</span>` +
+    `<span class="appearance-current-chip" style="background:${color}" aria-label="Current color ${color}"></span>` +
+    `<span id="appearance-readout" class="appearance-readout">${color}</span>` +
+    `<button id="appearance-toggle" type="button" class="appearance-toggle" aria-expanded="false" aria-controls="appearance-editor">Adjust appearance</button>` +
+    `</div><div class="appearance-palette">${sw}</div>` +
+    `<div id="appearance-editor" class="appearance-editor" hidden>` +
+    `<div class="appearance-editor-heading"><strong>Appearance editor</strong><span>Screen cue only</span></div>` +
+    `<div class="appearance-color-grid">` +
+    `<div id="appearance-wheel" class="appearance-wheel" role="slider" tabindex="0" aria-label="Choose hue and saturation" ` +
+    `aria-valuemin="0" aria-valuemax="360" aria-valuenow="${Math.round(hsl.h)}" aria-valuetext="Hue ${Math.round(hsl.h)}, saturation ${Math.round(hsl.s * 100)} percent" ` +
+    `style="--wheel-hue:${hsl.h}deg"><span data-wheel-knob class="appearance-wheel-knob" style="left:${wheelX}%;top:${wheelY}%"></span></div>` +
+    `<div class="appearance-color-values">` +
+    `<label for="appearance-hex">Hex<input id="appearance-hex" type="text" value="${color}" inputmode="text" autocomplete="off" spellcheck="false" maxlength="7" pattern="#[0-9A-Fa-f]{6}" aria-describedby="appearance-hex-status"></label>` +
+    `<label for="appearance-color-native">Native color<input id="appearance-color-native" type="color" value="${color}" aria-label="Exact color picker"></label>` +
+    `<label for="appearance-lightness">Lightness<output id="appearance-lightness-output">${Math.round(hsl.l * 100)}%</output><input id="appearance-lightness" type="range" min="0" max="100" step="1" value="${Math.round(hsl.l * 100)}" aria-label="Lightness"></label>` +
+    `<span id="appearance-hex-status" class="appearance-input-status" role="status"></span>` +
+    `</div></div>` +
+    `<div class="appearance-choice-heading">Texture</div><div class="appearance-texture-cards" role="group" aria-label="Screen texture">${textures}</div>` +
+    `<label class="appearance-shine" for="appearance-shine">Shine <output id="appearance-shine-output">${appearance.shine}%</output><input id="appearance-shine" type="range" min="0" max="100" step="1" value="${appearance.shine}" aria-label="Screen shine"></label>` +
+    `<p class="appearance-note">Color changes the assembled screen preview; material/stretch still controls drafting advice.</p>` +
+    `</div></section>`;
 }
 
 // "Length +8 cm" — a single change, using the measurement's friendly label.
@@ -549,7 +579,8 @@ export function appShellMarkup(
   sizes: readonly SizeStep[],
   fields: readonly (keyof Measurements)[],
   stretchFabric = STRETCH_FABRICS[0].name,
-  activeGarment = "tee"
+  activeGarment = "tee",
+  appearance: Appearance = DEFAULT_APPEARANCE
 ): string {
   const activeGarmentLabel = GARMENTS.find((g) => g.name === activeGarment)?.label ?? activeGarment;
   return `<main id="infini-shell" aria-labelledby="product-title">` +
@@ -564,7 +595,7 @@ export function appShellMarkup(
     `<aside id="studio-inspector" aria-label="Design controls">` +
     `<div id="welcome-host"></div>${garmentToggleMarkup(activeGarment)}<div id="review-context"></div>` +
     `<details id="readiness-details"><summary>Design readiness</summary><div id="readiness-host"></div></details>` +
-    `<div id="style-host"></div>${fabricStretchMarkup(stretchFabric)}${fabricSwatchesMarkup(fabric)}` +
+    `<div id="style-host"></div>${fabricStretchMarkup(stretchFabric)}${fabricSwatchesMarkup(fabric, appearance)}` +
     `${controlsMarkup(m, fields)}` +
     `<details id="guidance-details"><summary>Guidance & corrections</summary><div id="guidance-host"></div></details>` +
     `${exportButtonsMarkup(sizes)}</aside>` +

@@ -1,12 +1,12 @@
 # InfiniDrip — Project State
 
-_Last updated: UI/UX redesign Slice 116 focused/live checkpoint, 2026-09-15; Epic 3 and Epic 4 remain closed._
+_Last updated: UI/UX redesign Slice 117 focused/live checkpoint, 2026-09-15; Epic 3 and Epic 4 remain closed._
 
 ## Current work — beginner-facing workspace redesign
 
-### Slice 116 checkpoint — focused/live evidence green; full redesign gate pending
+### Slice 117 checkpoint — focused/live evidence green; full redesign gate pending
 
-Current checkpoint: `codex/ux-studio` after `022feac`, with Slice 116 changes
+Current checkpoint: `codex/ux-studio` after `dac3980`, with Slice 117 changes
 ready for commit. Slice 114 research is complete; do not repeat it. The
 implementation now has five actual stages:
 Garment, Measure, Style, Check, and Export. Readiness—not earlier index—drives
@@ -29,9 +29,16 @@ and state contracts remain intact. Untouched garment changes use the
 garment-family material default; an explicit material choice persists across
 garment changes and continues to surface compatibility guidance. Stage changes
 reset the bounded inspector to its new context.
+Appearance is an on-demand editor in Style: the compact palette opens a
+hue/saturation wheel, exact Hex and native color entry, lightness, four screen
+texture cues, and shine. The appearance extension is optional in the existing
+v5 save payload, so older saves retain the smooth legacy cue. Only the
+assembled screen preview receives texture/shine decoration; drafting and export
+outputs still use the original color/geometry contracts.
 
-Affected focused verification passes 149/149 across `app.test.ts` and
-`view.test.ts`; `npx tsc --noEmit` is clean. The prior Slice 115B checkpoint
+Affected focused verification passes 201/201 across `app.test.ts`,
+`appearance.test.ts`, `persist.test.ts`, and `view.test.ts`; `npx tsc --noEmit`
+is clean. The prior Slice 115B checkpoint
 passed 207/207 across the five affected UI test files. The actual browser
 checkpoint exercised all seven garments through Garment → Measure → Style →
 Check → Export, and every one of the seven views round-tripped through
@@ -39,7 +46,11 @@ Assembled and returned to its original view. Slice 116 live interaction
 additionally rendered all seven garment cards, four fit cards, and five material
 cards; selecting Woven shirt used Cotton woven without a warning, while an
 explicit Cotton jersey choice surfaced the stable-woven warning and remained
-selected. At 1280/900/700/560/390×844, document width matched the viewport
+selected. Slice 117 live interaction entered an exact custom color, selected
+the wheel with a pointer and keyboard, and enabled Fine weave plus 60% shine;
+the rendered editor stayed visible beside the body canvas and the assembled
+preview contained the expected screen-only texture and sheen definitions. At
+1280/900/700/560/390×844, document width matched the viewport
 with no page horizontal overflow; the narrow inspector kept the canvas and a
 focused second measurement page visible. Escape returned focus to More views
 and an outside click closed it. Screenshots were inline only, not durable
@@ -48,8 +59,9 @@ artifacts.
 This is still not the final redesign gate. Full per-control live interaction
 coverage across every garment, options/material/appearance, persistence and
 export path; zoom/text-size checks; `npm test`; 100% coverage; build; parsed
-consumer checks; and the eight-hash legacy gate remain. Slices 116–121 remain.
-No export writers, geometry, baselines, or workspace-save schema changed.
+consumer checks; and the eight-hash legacy gate remain. Slices 118–121 remain.
+No export writers, geometry, or export baselines changed. The workspace save
+payload gained an optional appearance extension with a legacy default.
 Preserve user logs/tmp; no push or credits.
 
 The maintainer has authorized a comprehensive UI/UX audit and redesign from

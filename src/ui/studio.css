@@ -303,6 +303,36 @@ body { margin: 0; }
 .material-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
 .material-card { display: flex; flex-direction: column; gap: 3px; padding: 8px; }
 .garment-card:hover, .fit-intent-card:hover, .material-card:hover { border-color: #6ab8c7; }
+.appearance-host { display: flex; flex-direction: column; gap: 8px; margin: 4px 0; }
+.appearance-summary { display: flex; align-items: center; gap: 7px; min-height: 28px; }
+.appearance-label { color: #9bb8cc; font-size: 11px; letter-spacing: .04em; text-transform: uppercase; }
+.appearance-current-chip { width: 20px; height: 20px; border: 1px solid #d9e6ef; border-radius: 50%; box-sizing: border-box; }
+.appearance-readout { color: #9bb8cc; font: 11px ui-monospace, monospace; }
+.appearance-toggle { margin-left: auto; padding: 6px 9px; border: 1px solid #34506a; border-radius: 6px; background: #0d1b2c; color: #d9e6ef; cursor: pointer; }
+.appearance-toggle:hover, .appearance-toggle:focus-visible { border-color: #88d7ef; }
+.appearance-palette { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+.appearance-editor { display: flex; flex-direction: column; gap: 9px; padding: 10px; border: 1px solid #34506a; border-radius: 8px; background: #0d1b2c; }
+.appearance-editor-heading, .appearance-shine { display: flex; align-items: center; gap: 8px; color: #d9e6ef; font-size: 12px; }
+.appearance-editor-heading span { margin-left: auto; color: #6f96ad; font-size: 10px; text-transform: uppercase; }
+.appearance-color-grid { display: grid; grid-template-columns: 132px minmax(0, 1fr); gap: 12px; align-items: center; }
+.appearance-wheel { position: relative; width: 124px; height: 124px; border: 2px solid #34506a; border-radius: 50%; box-sizing: border-box; cursor: crosshair; background: radial-gradient(circle at center, #ffffff 0%, transparent 45%, #000000 100%), conic-gradient(from -90deg, #ff3b30, #ffd60a, #34c759, #00c7be, #0a84ff, #af52de, #ff375f, #ff3b30); }
+.appearance-wheel:focus-visible { outline: 2px solid #88d7ef; outline-offset: 3px; }
+.appearance-wheel-knob { position: absolute; width: 12px; height: 12px; box-sizing: border-box; transform: translate(-50%, -50%); border: 2px solid #ffffff; border-radius: 50%; box-shadow: 0 0 0 1px #0a1422; pointer-events: none; }
+.appearance-color-values { display: flex; flex-direction: column; gap: 7px; min-width: 0; }
+.appearance-color-values label { display: flex; align-items: center; gap: 7px; color: #9bb8cc; font-size: 11px; }
+.appearance-color-values label input[type=text] { min-width: 0; flex: 1; box-sizing: border-box; padding: 5px 6px; border: 1px solid #34506a; border-radius: 5px; background: #13233a; color: #d9e6ef; font: 12px ui-monospace, monospace; }
+.appearance-color-values input[type=color] { width: 32px; height: 26px; padding: 1px; border: 1px solid #34506a; border-radius: 5px; background: #13233a; }
+.appearance-color-values input[type=range], .appearance-shine input[type=range] { min-width: 0; flex: 1; accent-color: #88d7ef; }
+.appearance-color-values output, .appearance-shine output { margin-left: auto; min-width: 34px; color: #d9e6ef; font: 11px ui-monospace, monospace; text-align: right; }
+.appearance-input-status { min-height: 14px; color: #f5d9a3; font-size: 11px; }
+.appearance-choice-heading { color: #9bb8cc; font-size: 11px; letter-spacing: .04em; text-transform: uppercase; }
+.appearance-texture-cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 5px; }
+.appearance-texture-card { display: flex; flex-direction: column; gap: 3px; min-width: 0; padding: 7px; border: 1px solid #34506a; border-radius: 6px; background: #13233a; color: #d9e6ef; cursor: pointer; text-align: left; }
+.appearance-texture-card span { font-size: 11px; font-weight: 700; }
+.appearance-texture-card small { color: #9bb8cc; font-size: 10px; }
+.appearance-texture-card[aria-pressed="true"] { border-color: #88d7ef; background: #183d46; }
+.appearance-texture-card:focus-visible { outline: 2px solid #88d7ef; outline-offset: 2px; }
+.appearance-note { margin: 0; color: #6f96ad; font-size: 10px; line-height: 1.35; }
 
 @media (max-width: 700px) {
   #canvas-tools { overflow: visible; }
@@ -321,6 +351,7 @@ body { margin: 0; }
 
 @media (max-width: 420px) {
   .garment-card-grid, .fit-intent-cards, .material-cards { grid-template-columns: 1fr; }
+  .appearance-color-grid, .appearance-texture-cards { grid-template-columns: 1fr; }
   .journey-stage-rail {
     display: flex; overflow-x: auto; gap: 4px; padding-bottom: 3px;
     scrollbar-width: thin;

@@ -256,6 +256,67 @@ describe("mountApp", () => {
     expect(garment).toContain(`fill="${target.dataset.fabric}"`);
   });
 
+  it("opens the contextual appearance editor and updates color, texture, and shine", () => {
+    localStorage.clear();
+    const root = mount();
+    clickId(root, "welcome-skip");
+    clickId(root, "journey-step-fit");
+    clickId(root, "appearance-toggle");
+    expect(root.querySelector<HTMLElement>("#appearance-editor")!.hidden).toBe(false);
+    const hex = root.querySelector<HTMLInputElement>("#appearance-hex")!;
+    hex.value = "#112233";
+    hex.dispatchEvent(new Event("change", { bubbles: true }));
+    expect(root.querySelector("#garment-host svg")!.innerHTML).toContain('fill="#112233"');
+    root.querySelector<HTMLButtonElement>('[data-texture="woven"]')!.click();
+    expect(root.querySelector("#garment-host svg")!.innerHTML).toContain("url(#appearance-texture)");
+    const shine = root.querySelector<HTMLInputElement>("#appearance-shine")!;
+    shine.value = "60";
+    shine.dispatchEvent(new Event("input", { bubbles: true }));
+    expect(root.querySelector("#garment-host svg")!.innerHTML).toContain("url(#appearance-sheen)");
+    expect(root.querySelector<HTMLElement>("#appearance-shine-output")!.textContent).toBe("60%");
+    const wheel = root.querySelector<HTMLElement>("#appearance-wheel")!;
+    const beforeWheel = root.querySelector<HTMLElement>("#appearance-readout")!.textContent;
+    wheel.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true }));
+    expect(root.querySelector<HTMLElement>("#appearance-readout")!.textContent).not.toBe(beforeWheel);
+  });
+
+  it("rejects an incomplete exact color without changing the live preview", () => {
+    localStorage.clear();
+    const root = mount();
+    clickId(root, "welcome-skip");
+    clickId(root, "journey-step-fit");
+    const before = root.querySelector("#garment-host svg")!.innerHTML;
+    clickId(root, "appearance-toggle");
+    const hex = root.querySelector<HTMLInputElement>("#appearance-hex")!;
+    hex.value = "#1234";
+    hex.dispatchEvent(new Event("change", { bubbles: true }));
+    expect(root.querySelector("#garment-host svg")!.innerHTML).toBe(before);
+    expect(root.querySelector("#appearance-hex-status")!.textContent).toContain("#RRGGBB");
+    expect(hex.validationMessage).toContain("six-digit");
+  });
+
+  it("round-trips appearance choices through the existing local workspace save", () => {
+    localStorage.clear();
+    const root = mount();
+    clickId(root, "welcome-skip");
+    clickId(root, "journey-step-fit");
+    clickId(root, "appearance-toggle");
+    const hex = root.querySelector<HTMLInputElement>("#appearance-hex")!;
+    hex.value = "#456789";
+    hex.dispatchEvent(new Event("change", { bubbles: true }));
+    root.querySelector<HTMLButtonElement>('[data-texture="rib"]')!.click();
+    const shine = root.querySelector<HTMLInputElement>("#appearance-shine")!;
+    shine.value = "35";
+    shine.dispatchEvent(new Event("input", { bubbles: true }));
+    clickId(root, "save-pattern");
+    hex.value = "#AABBCC";
+    hex.dispatchEvent(new Event("change", { bubbles: true }));
+    clickId(root, "load-pattern");
+    expect(root.querySelector<HTMLInputElement>("#appearance-hex")!.value).toBe("#456789");
+    expect(root.querySelector<HTMLButtonElement>('[data-texture="rib"]')!.getAttribute("aria-pressed")).toBe("true");
+    expect(root.querySelector<HTMLInputElement>("#appearance-shine")!.value).toBe("35");
+  });
+
   it("switches the canvas to the body view when Body is clicked", () => {
     const root = mount();
     root.querySelector<HTMLButtonElement>("#view-body")!.dispatchEvent(new Event("click"));

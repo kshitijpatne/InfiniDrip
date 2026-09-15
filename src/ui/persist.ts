@@ -3,6 +3,7 @@
 import { Measurements, STANDARD_M, GarmentOptionsByRecipe, GARMENTS, STRETCH_FABRICS } from "../drafting";
 import { DEFAULT_FABRIC } from "../render";
 import { FIELDS, inputError } from "./controls";
+import { Appearance, DEFAULT_APPEARANCE, parseAppearance } from "./appearance";
 import type { ViewName } from "./journey";
 
 export const SAVE_VERSION = 5;
@@ -41,14 +42,15 @@ export interface SaveFile {
   readonly v: number;
   readonly measurements: Measurements;
   readonly fabric: string;
+  readonly appearance: Appearance;
   readonly garmentOptions: GarmentOptionsByRecipe;
   readonly workspace: Workspace;
 }
 type LoadResult = ({ ok: true } & Omit<SaveFile, "v">) | { ok: false; error: string };
 const object = (v: unknown): v is Record<string, unknown> => typeof v === "object" && v !== null && !Array.isArray(v);
 
-export function serialize(m: Measurements, fabric: string, garmentOptions: GarmentOptionsByRecipe = {}, workspace: Workspace = DEFAULT_WORKSPACE): string {
-  return JSON.stringify({ v: SAVE_VERSION, measurements: m, fabric, garmentOptions, workspace }, null, 2);
+export function serialize(m: Measurements, fabric: string, garmentOptions: GarmentOptionsByRecipe = {}, workspace: Workspace = DEFAULT_WORKSPACE, appearance: Appearance = DEFAULT_APPEARANCE): string {
+  return JSON.stringify({ v: SAVE_VERSION, measurements: m, fabric, appearance, garmentOptions, workspace }, null, 2);
 }
 
 const LEGACY_REQUIRED = ["chest", "shoulderWidth", "bicep", "length", "armholeDepth", "sleeveLength", "ease"];
@@ -101,6 +103,8 @@ export function deserialize(json: string): LoadResult {
   }
   const fabric = typeof p.fabric === "string" && /^#[0-9a-f]{6}$/i.test(p.fabric) ? p.fabric : DEFAULT_FABRIC;
   if (!legacy && fabric !== p.fabric) return { ok: false, error: "Invalid fabric color." };
+  const appearance = parseAppearance(p.appearance);
+  if (!appearance) return { ok: false, error: "Invalid appearance settings." };
   let workspace = DEFAULT_WORKSPACE;
   if (!legacy) {
     const w = p.workspace;
@@ -117,13 +121,13 @@ export function deserialize(json: string): LoadResult {
     }
     workspace = w as unknown as Workspace;
   }
-  return { ok: true, measurements, fabric, garmentOptions, workspace };
+  return { ok: true, measurements, fabric, appearance, garmentOptions, workspace };
 }
 
 const STORAGE_KEY = "patternworks_save_v1";
-export function saveToStorage(m: Measurements, fabric: string, garmentOptions: GarmentOptionsByRecipe = {}, workspace: Workspace = DEFAULT_WORKSPACE): boolean {
+export function saveToStorage(m: Measurements, fabric: string, garmentOptions: GarmentOptionsByRecipe = {}, workspace: Workspace = DEFAULT_WORKSPACE, appearance: Appearance = DEFAULT_APPEARANCE): boolean {
   try {
-    const json = serialize(m, fabric, garmentOptions, workspace);
+    const json = serialize(m, fabric, garmentOptions, workspace, appearance);
     if (!deserialize(json).ok) return false;
     localStorage.setItem(STORAGE_KEY, json);
     return true;

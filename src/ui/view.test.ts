@@ -98,6 +98,10 @@ describe("fabricSwatchesMarkup", () => {
     expect(html).toContain('aria-labelledby="color-title"');
     expect(html).toContain('id="color-title"');
     expect(html).toContain(">Color<");
+    expect(html).toContain('id="appearance-toggle"');
+    expect(html).toContain('id="appearance-wheel"');
+    expect(html).toContain('data-texture="woven"');
+    expect(html).toContain('id="appearance-hex"');
   });
 });
 

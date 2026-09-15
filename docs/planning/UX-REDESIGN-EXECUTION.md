@@ -1,8 +1,8 @@
 # UI/UX redesign execution — Slices 114–121
 
-Status: Slice 116 focused/live checkpoint, 2026-09-15; the bounded stage,
-assembled integration, and selection-card checks are green, but the full
-redesign gate remains.
+Status: Slice 117 focused/live checkpoint, 2026-09-15; the bounded stage,
+assembled integration, selection-card, and appearance checks are green, but
+the full redesign gate remains.
 Epic 4 remains closed.
 This is the newly authorized workspace redesign, not a reopened garment-grammar
 migration. Branch: `codex/ux-studio`; approved baseline: `816b9ff`.
@@ -103,10 +103,41 @@ The previous 81-file/1,031-test pass is a baseline, not a test run for this work
 
 ## Current checkpoint / exact next actions
 
+### Slice 117 — contextual color and appearance editor
+
+Slice 117 is implemented on `codex/ux-studio` after `dac3980`; source, focused
+tests, and durable records are ready for the bounded Slice 117 commit. Style
+now keeps a compact palette visible and opens an on-demand appearance editor:
+a hue/saturation wheel, exact Hex/native color entry, lightness, four
+screen-only texture cues, and shine. The editor keeps the existing swatch and
+native state paths, and its optional appearance payload extension defaults
+cleanly for v5 saves without appearance settings. `applyAppearanceToSvg`
+decorates only the assembled screen preview, so drafting geometry and export
+writers remain unchanged.
+
+Changed paths: `src/ui/appearance.ts`, `src/ui/appearance.test.ts`,
+`src/ui/persist.ts`, `src/ui/persist.test.ts`, `src/ui/view.ts`,
+`src/ui/view.test.ts`, `src/ui/studio.css`, `src/ui/app.ts`, and
+`src/ui/app.test.ts`. No export baseline or workspace choice contract changed.
+
+Verification: `npx vitest run src/ui/app.test.ts` passed 98/98;
+`npx vitest run src/ui/appearance.test.ts src/ui/persist.test.ts
+src/ui/view.test.ts` passed 103/103; `npx tsc --noEmit` passed. Live browser
+verification entered a custom Hex color, selected the wheel with a pointer and
+keyboard, enabled Fine weave and 60% shine, and showed the editor beside the
+body canvas inside the bounded inspector. The assembled preview contained the
+expected texture and sheen definitions. The previous seven-garment/stage/view
+matrix remains the Slice 115B evidence; screenshots were inspected inline and
+are not durable artifacts.
+
+Exact remaining work: commit this bounded slice, then implement Slice 118's
+cross-garment highlight and spatial-guidance contract. The full per-control
+live matrix, full suite, 100% coverage, build, parsed-consumer checks, and
+eight-hash legacy gate remain reserved for shared-contract/final checkpoints.
+
 ### Slice 116 — garment library, fit intent, and material selection
 
-Slice 116 is implemented on `codex/ux-studio` after `022feac`; source, focused
-tests, and durable records are ready for the bounded Slice 116 commit. The
+Slice 116 was committed as `dac3980` on `codex/ux-studio`. The
 garment selector is now a descriptive seven-card library grouped by upper and
 lower body. Style fit intent and material/stretch choices use readable cards
 backed by the existing native selects, preserving keyboard and state

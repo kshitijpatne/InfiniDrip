@@ -16,6 +16,7 @@ import { matchStyle, styleNames } from "../style";
 import { FIELDS, applyChange, inputError, numericRangePosition, numericRangeState, stepNumericValue } from "./controls";
 import { appShellMarkup, controlsMarkup, guidanceMarkup, styleMarkup, specTableMarkup, checkMarkup, editorHintMarkup, editorHandleControlsMarkup, dartControlsMarkup, inspectionMarkup, BodyCroquisView } from "./view";
 import { saveToStorage, loadFromStorage, readFromStorage, serialize, deserialize, DEFAULT_WORKSPACE, defaultStretchFabricForGarment, Workspace } from "./persist";
+import { Appearance, APPEARANCE_TEXTURES, DEFAULT_APPEARANCE, applyAppearanceToSvg, hexToHsl, hslToHex, normalizeHex } from "./appearance";
 import {
   JourneyStep, ViewName, StageReadiness, StageBlocker, COACHED_STEPS, disclosureFor, stepView, journeyChecklist,
   journeyBarMarkup, checklistMarkup, welcomeMarkup, celebrationMarkup,
@@ -43,7 +44,9 @@ export function mountApp(root: HTMLElement): void {
     stretchFabric: defaultStretchFabricForGarment(DEFAULT_WORKSPACE.garment),
   };
   let recipe: GarmentRecipe = garmentByName(initialWorkspace.garment);
-  root.innerHTML = appShellMarkup(measurements, fabric, recipe.sizes, recipe.fields, initialWorkspace.stretchFabric, recipe.name);
+  let appearance: Appearance = saved?.appearance ?? DEFAULT_APPEARANCE;
+  let appearanceOpen = false;
+  root.innerHTML = appShellMarkup(measurements, fabric, recipe.sizes, recipe.fields, initialWorkspace.stretchFabric, recipe.name, appearance);
 
   const canvasHost = root.querySelector<HTMLDivElement>("#canvas-host")!;
   const guidanceHost = root.querySelector<HTMLDivElement>("#guidance-host")!;
@@ -444,9 +447,10 @@ export function mountApp(root: HTMLElement): void {
       : isTrouser
         ? renderTrouserGarment(measurements, fabric, recipeOptions())
         : renderSkirtGarment(measurements, fabric);
+    const assembledPreview = applyAppearanceToSvg(assembled, fabric, appearance);
     canvasHost.innerHTML = inspectionMarkup(
       `<div id="analysis-host"${previewActive ? " hidden" : ""}>${canvasContent}</div>` +
-      `<div id="garment-host"${previewActive ? "" : " hidden"}>${assembled}</div>`,
+      `<div id="garment-host"${previewActive ? "" : " hidden"}>${assembledPreview}</div>`,
       previewActive ? "assembled" : view,
     );
     syncRangeIndicators();
@@ -952,18 +956,133 @@ export function mountApp(root: HTMLElement): void {
   window.addEventListener("pointercancel", () => stopStepperRepeat(true));
   window.addEventListener("blur", () => stopStepperRepeat(false));
 
-  const swatches = root.querySelectorAll<HTMLButtonElement>("button[data-fabric]");
-  swatches.forEach((swatch) => {
-    swatch.addEventListener("click", () => {
-      fabric = swatch.dataset.fabric!;
-      markOutputDirty(false);
-      swatches.forEach((s) => {
-        s.style.outline = s.dataset.fabric === fabric ? `2px solid ${BLUEPRINT.lineActive}` : "none";
-        s.setAttribute("aria-pressed", String(s.dataset.fabric === fabric));
-      });
-      draw();
+  const swatchHost = root.querySelector<HTMLElement>("#swatch-host")!;
+  const swatches = swatchHost.querySelectorAll<HTMLButtonElement>("button[data-fabric]");
+  const syncAppearanceControls = (): void => {
+    const hsl = hexToHsl(fabric) ?? { h: 0, s: 0, l: 0.5 };
+    const hex = swatchHost.querySelector<HTMLInputElement>("#appearance-hex")!;
+    const native = swatchHost.querySelector<HTMLInputElement>("#appearance-color-native")!;
+    const lightness = swatchHost.querySelector<HTMLInputElement>("#appearance-lightness")!;
+    const shine = swatchHost.querySelector<HTMLInputElement>("#appearance-shine")!;
+    const wheel = swatchHost.querySelector<HTMLElement>("#appearance-wheel")!;
+    const knob = swatchHost.querySelector<HTMLElement>("[data-wheel-knob]")!;
+    const angle = (hsl.h - 90) * Math.PI / 180;
+    hex.value = fabric;
+    native.value = fabric;
+    lightness.value = String(Math.round(hsl.l * 100));
+    shine.value = String(appearance.shine);
+    swatchHost.querySelector<HTMLElement>("#appearance-lightness-output")!.textContent = `${lightness.value}%`;
+    swatchHost.querySelector<HTMLElement>("#appearance-shine-output")!.textContent = `${shine.value}%`;
+    swatchHost.querySelector<HTMLElement>("#appearance-readout")!.textContent = `${fabric} · H ${Math.round(hsl.h)}°`;
+    swatchHost.querySelector<HTMLElement>(".appearance-current-chip")!.style.background = fabric;
+    wheel.style.setProperty("--wheel-hue", `${hsl.h}deg`);
+    wheel.setAttribute("aria-valuenow", String(Math.round(hsl.h)));
+    wheel.setAttribute("aria-valuetext", `Hue ${Math.round(hsl.h)}, saturation ${Math.round(hsl.s * 100)} percent`);
+    knob.style.left = `${50 + Math.cos(angle) * hsl.s * 42}%`;
+    knob.style.top = `${50 + Math.sin(angle) * hsl.s * 42}%`;
+    swatches.forEach((swatch) => {
+      const on = swatch.dataset.fabric === fabric;
+      swatch.style.outline = on ? `2px solid ${BLUEPRINT.lineActive}` : "none";
+      swatch.setAttribute("aria-pressed", String(on));
     });
+    swatchHost.querySelectorAll<HTMLButtonElement>("[data-texture]").forEach((button) => {
+      button.setAttribute("aria-pressed", String(button.dataset.texture === appearance.texture));
+    });
+    const toggle = swatchHost.querySelector<HTMLButtonElement>("#appearance-toggle")!;
+    const panel = swatchHost.querySelector<HTMLElement>("#appearance-editor")!;
+    toggle.setAttribute("aria-expanded", String(appearanceOpen));
+    panel.hidden = !appearanceOpen;
+  };
+  const commitColor = (value: string): boolean => {
+    const next = normalizeHex(value.trim());
+    const status = swatchHost.querySelector<HTMLElement>("#appearance-hex-status")!;
+    const hex = swatchHost.querySelector<HTMLInputElement>("#appearance-hex")!;
+    if (!next) {
+      status.textContent = "Use #RRGGBB";
+      hex.setCustomValidity("Enter a six-digit hexadecimal color.");
+      return false;
+    }
+    status.textContent = "";
+    hex.setCustomValidity("");
+    fabric = next;
+    markOutputDirty(false);
+    syncAppearanceControls();
+    draw();
+    return true;
+  };
+  const commitAppearance = (next: Appearance): void => {
+    appearance = next;
+    markOutputDirty(false);
+    syncAppearanceControls();
+    draw();
+  };
+  swatches.forEach((swatch) => swatch.addEventListener("click", () => commitColor(swatch.dataset.fabric!)));
+  const chooseWheelColor = (clientX: number, clientY: number): void => {
+    const wheel = swatchHost.querySelector<HTMLElement>("#appearance-wheel")!;
+    const rect = wheel.getBoundingClientRect();
+    const radius = Math.min(rect.width, rect.height) / 2;
+    if (radius <= 0) return;
+    const dx = clientX - (rect.left + rect.width / 2);
+    const dy = clientY - (rect.top + rect.height / 2);
+    const hue = (Math.atan2(dy, dx) * 180 / Math.PI + 90 + 360) % 360;
+    const saturation = Math.min(1, Math.hypot(dx, dy) / radius);
+    const hsl = hexToHsl(fabric) ?? { h: 0, s: 0, l: 0.5 };
+    commitColor(hslToHex(hue, saturation, hsl.l));
+  };
+  swatchHost.addEventListener("click", (e) => {
+    const target = e.target as HTMLElement;
+    const toggle = target.closest<HTMLButtonElement>("#appearance-toggle");
+    if (toggle) {
+      appearanceOpen = !appearanceOpen;
+      syncAppearanceControls();
+      if (appearanceOpen) {
+        const panel = swatchHost.querySelector<HTMLElement>("#appearance-editor")!;
+        if (typeof panel.scrollIntoView === "function") panel.scrollIntoView({ block: "nearest" });
+      }
+      return;
+    }
+    const texture = target.closest<HTMLButtonElement>("[data-texture]");
+    if (texture && APPEARANCE_TEXTURES.some((option) => option.id === texture.dataset.texture)) {
+      commitAppearance({ ...appearance, texture: texture.dataset.texture as Appearance["texture"] });
+    }
   });
+  swatchHost.addEventListener("change", (e) => {
+    const input = e.target as HTMLInputElement;
+    if (input.id === "appearance-hex") commitColor(input.value);
+  });
+  swatchHost.addEventListener("input", (e) => {
+    const input = e.target as HTMLInputElement;
+    if (input.id === "appearance-hex") {
+      if (input.value.length === 7) commitColor(input.value);
+    } else if (input.id === "appearance-color-native") {
+      commitColor(input.value);
+    } else if (input.id === "appearance-lightness") {
+      const hsl = hexToHsl(fabric)!;
+      commitColor(hslToHex(hsl.h, hsl.s, Number(input.value) / 100));
+    } else if (input.id === "appearance-shine") {
+      const shine = Number(input.value);
+      if (Number.isFinite(shine) && shine >= 0 && shine <= 100) commitAppearance({ ...appearance, shine });
+    }
+  });
+  swatchHost.addEventListener("pointerdown", (e) => {
+    if ((e.target as HTMLElement).closest("#appearance-wheel")) chooseWheelColor(e.clientX, e.clientY);
+  });
+  swatchHost.addEventListener("pointermove", (e) => {
+    if (e.buttons > 0 && (e.target as HTMLElement).closest("#appearance-wheel")) chooseWheelColor(e.clientX, e.clientY);
+  });
+  swatchHost.addEventListener("keydown", (e) => {
+    const target = e.target as HTMLElement;
+    if (!target.closest("#appearance-wheel")) return;
+    const hsl = hexToHsl(fabric)!;
+    let hue = hsl.h;
+    let saturation = hsl.s;
+    if (e.key === "ArrowLeft" || e.key === "ArrowRight") hue += e.key === "ArrowRight" ? 5 : -5;
+    else if (e.key === "ArrowUp" || e.key === "ArrowDown") saturation += e.key === "ArrowUp" ? 0.05 : -0.05;
+    else return;
+    e.preventDefault();
+    commitColor(hslToHex(hue, Math.min(1, Math.max(0, saturation)), hsl.l));
+  });
+  syncAppearanceControls();
 
   // Style target lives inside styleHost, which is rebuilt every draw — so we
   // delegate the change event from the stable host element.
@@ -1133,9 +1252,9 @@ export function mountApp(root: HTMLElement): void {
   root.querySelector<HTMLButtonElement>("#save-pattern")!.addEventListener("click", () => {
     const workspace: Workspace = { garment: recipe.name, targetStyle, stretchFabric: stretchFabric.name,
       view, bodyCroquisView, exportStep, fabricWidth, nestScope };
-    const validation = deserialize(serialize(measurements, fabric, garmentOptions, workspace));
+    const validation = deserialize(serialize(measurements, fabric, garmentOptions, workspace, appearance));
     if (!validation.ok) { flash(`Save failed: ${validation.error}`, BLUEPRINT.lineActive); return; }
-    saveToStorage(measurements, fabric, garmentOptions, workspace)
+    saveToStorage(measurements, fabric, garmentOptions, workspace, appearance)
       ? flash("Saved ✓", "#2E9B63")
       : flash("Save failed", BLUEPRINT.lineActive);
   });
@@ -1149,6 +1268,7 @@ export function mountApp(root: HTMLElement): void {
     recipe = garmentByName(loaded.workspace.garment);
     targetStyle = loaded.workspace.targetStyle;
     stretchFabric = STRETCH_FABRICS.find((f) => f.name === loaded.workspace.stretchFabric)!;
+    appearance = loaded.appearance;
     materialSelectionExplicit = true;
     view = loaded.workspace.view;
     bodyCroquisView = loaded.workspace.bodyCroquisView;
@@ -1185,6 +1305,7 @@ export function mountApp(root: HTMLElement): void {
     });
     stretchSelect.value = stretchFabric.name;
     syncMaterialCards();
+    syncAppearanceControls();
     widthInput.value = String(fabricWidth);
     syncExportSizes();
     if (restoring && journey.step === "start") journey = { ...journey, step: "measure", familiar: true };

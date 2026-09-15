@@ -11,6 +11,7 @@ import {
   defaultStretchFabricForGarment,
   readFromStorage,
 } from "./persist";
+import { DEFAULT_APPEARANCE } from "./appearance";
 
 const FABRIC = "#3A4150";
 
@@ -34,6 +35,19 @@ describe("v4 workspace validation", () => {
       expect(result.workspace).toEqual(workspace);
       expect(result.garmentOptions["woven-shirt"].buttonCount).toBe(6);
     }
+  });
+  it("round-trips appearance without changing the workspace contract", () => {
+    const appearance = { texture: "rib" as const, shine: 35 };
+    const result = deserialize(serialize(STANDARD_M, FABRIC, {}, DEFAULT_WORKSPACE, appearance));
+    expect(result.ok).toBe(true);
+    if (result.ok) expect(result.appearance).toEqual(appearance);
+  });
+  it("keeps a current save created before appearance was added", () => {
+    const raw = JSON.parse(serialize(STANDARD_M, FABRIC));
+    delete raw.appearance;
+    const result = deserialize(JSON.stringify(raw));
+    expect(result.ok).toBe(true);
+    if (result.ok) expect(result.appearance).toEqual(DEFAULT_APPEARANCE);
   });
   it("round-trips a single front or back body focus", () => {
     for (const bodyCroquisView of ["front", "back"] as const) {
@@ -94,6 +108,7 @@ describe("serialize", () => {
     expect(parsed.v).toBe(SAVE_VERSION);
     expect(parsed.measurements.chest).toBe(STANDARD_M.chest);
     expect(parsed.fabric).toBe(FABRIC);
+    expect(parsed.appearance).toEqual(DEFAULT_APPEARANCE);
   });
 
   it("round-trips: deserialize(serialize(m, f)) gives back m and f", () => {
@@ -312,6 +327,15 @@ describe("deserialize (errors)", () => {
     expect(r.ok).toBe(false);
     if (r.ok) return;
     expect(r.error).toContain("measurements");
+  });
+
+  it("rejects malformed appearance settings in a current save", () => {
+    const raw = JSON.parse(serialize(STANDARD_M, FABRIC));
+    for (const appearance of [null, { texture: "unknown", shine: 0 }, { texture: "woven", shine: 101 }]) {
+      const r = deserialize(JSON.stringify({ ...raw, appearance }));
+      expect(r.ok).toBe(false);
+      if (!r.ok) expect(r.error).toContain("appearance");
+    }
   });
 
   it("rejects an out-of-range measurement", () => {

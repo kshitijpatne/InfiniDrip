@@ -3,7 +3,7 @@
 How the app fits together, in plain language. Read the top to re-orient; skim the
 layers when you need detail. Updated every slice with only need-to-know changes.
 
-## Current workspace redesign boundary — Slice 116 focused/live checkpoint
+## Current workspace redesign boundary — Slice 117 focused/live checkpoint
 
 The current beginner-facing workspace uses five actual stages: Garment,
 Measure, Style, Check, and Export. Stage completion is readiness-derived, not
@@ -27,10 +27,18 @@ native selects. Untouched garment changes use the garment-family material
 default; an explicit material choice persists across garment changes and
 remains subject to compatibility guidance. Stage changes reset the bounded
 inspector to the new context.
+Appearance is a contextual Style control, not a drafting input. Its compact
+palette opens a hue/saturation wheel, exact Hex/native color entry, lightness,
+four screen texture cues, and shine. The optional appearance save extension
+defaults to the legacy smooth cue when absent. `applyAppearanceToSvg` decorates
+only the assembled preview; pattern, nesting, and export consumers continue to
+receive the original color and geometry contracts.
 
-No drafting geometry, export writers, export baselines, or workspace-save
-schema changed. Slice 116 affected focused verification passes 149/149 across
-`app.test.ts` and `view.test.ts`; `npx tsc --noEmit` is clean. The prior
+No drafting geometry, export writers, or export baselines changed. The
+workspace save payload gained an optional appearance extension with a legacy
+default. Slice 117 affected focused verification passes 201/201 across
+`app.test.ts`, `appearance.test.ts`, `persist.test.ts`, and `view.test.ts`;
+`npx tsc --noEmit` is clean. The prior
 Slice 115B checkpoint passed 207/207 across the five affected UI test files.
 Live browser verification
 covered all seven garments through the five stages and all seven analysis
@@ -40,11 +48,15 @@ field-to-canvas focus behavior remained usable, and More views passed Escape
 and outside-click checks. Slice 116 live checks rendered the seven garment,
 four fit, and five material cards; default Woven shirt material was Cotton
 woven without a warning, while an explicit Cotton jersey selection surfaced
-the compatibility warning. Screenshots were inline only, not durable artifacts.
+the compatibility warning. Slice 117 live checks entered a custom Hex color,
+selected the wheel with pointer and keyboard, enabled Fine weave and 60% shine,
+and kept the editor visible beside the body canvas; the assembled preview
+contained the expected texture and sheen definitions. Screenshots were inline
+only, not durable artifacts.
 This checkpoint is not the final redesign gate: full per-control live
 coverage, zoom/text-size, persistence/export paths, full suite, 100% coverage,
 build, parsed consumers, and eight-hash legacy verification remain. Slices
-116–121 remain.
+118–121 remain.
 
 ### Prior Slice 115A presentation notes
 
