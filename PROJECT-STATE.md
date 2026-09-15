@@ -6,8 +6,8 @@ _Last updated: UI/UX redesign Slice 118 focused/live checkpoint, 2026-09-15; Epi
 
 ### Slice 118 checkpoint — focused/live evidence green; full redesign gate pending
 
-Current checkpoint: `codex/ux-studio` after `b970861`, with the bounded Slice 118
-changes ready for commit. Slice 114 research is complete; do not repeat it. The
+Current checkpoint: `codex/ux-studio` at `1fc20cc` after `b970861`; Slice 118 is
+committed. Slice 114 research is complete; do not repeat it. The
 implementation now has five actual stages:
 Garment, Measure, Style, Check, and Export. Readiness—not earlier index—drives
 completion: `styleReviewed` is set only on Style → Next, current Check review

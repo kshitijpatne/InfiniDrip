@@ -105,8 +105,8 @@ The previous 81-file/1,031-test pass is a baseline, not a test run for this work
 
 ### Slice 118 — cross-garment targets and spatial guidance
 
-Slice 118 is implemented on `codex/ux-studio` after `b970861`; the bounded
-changes are ready for checkpoint commit. The assembled upper, skirt, and
+Slice 118 is committed as `1fc20cc` on `codex/ux-studio` after `b970861`. The
+assembled upper, skirt, and
 trouser silhouettes now expose a real `data-edge="ease"` target without changing
 geometry. Body/Pattern fields with no target remain undimmed and offer a direct
 Assembled route. Field-backed warnings with visible targets become translucent,
