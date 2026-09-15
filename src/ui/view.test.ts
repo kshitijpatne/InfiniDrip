@@ -3,7 +3,7 @@ import { STANDARD_M, GARMENTS, TSHIRT_SIZES, TEE, WOVEN_SHIRT, WOVEN_SHIRT_OPTIO
 import { garmentToggleMarkup, dartControlsMarkup, exportButtonsMarkup } from "./view";
 import { DEFAULT_FABRIC, BLUEPRINT } from "../render";
 import { matchStyle, styleNames, TEE_STYLES } from "../style";
-import { controlsMarkup, appShellMarkup, guidanceMarkup, styleMarkup, fabricSwatchesMarkup, specTableMarkup, viewToggleMarkup, bodyCroquisToggleMarkup, fabricWidthMarkup, checkMarkup, editorHintMarkup, editorHandleControlsMarkup, inspectionMarkup } from "./view";
+import { controlsMarkup, appShellMarkup, guidanceMarkup, styleMarkup, fabricSwatchesMarkup, fabricStretchMarkup, specTableMarkup, viewToggleMarkup, bodyCroquisToggleMarkup, fabricWidthMarkup, checkMarkup, editorHintMarkup, editorHandleControlsMarkup, inspectionMarkup } from "./view";
 import { pieceHandles } from "../edit";
 import { buildReport, present } from "../guidance";
 
@@ -412,8 +412,11 @@ describe("styleMarkup", () => {
   it("renders the target selector with all styles and the chosen one selected", () => {
     const html = styleMarkup("Classic tee", matchStyle(STANDARD_M, "Classic tee", TEE_STYLES), styleNames(TEE_STYLES), true);
     expect(html).toContain('id="style-target"');
-    expect(html).toContain('<select id="style-target" aria-label="Target fit"');
+    expect(html).toContain('aria-label="Target fit"');
     expect(html).toContain('<label for="style-target"');
+    expect(html).toContain('class="fit-intent-cards"');
+    expect(html).toContain('data-style-target="Classic tee"');
+    expect(html).toContain('aria-pressed="true"');
     expect(html).toContain("Oversized tee"); // an option
     expect(html).toContain("Target fit");
   });
@@ -448,8 +451,24 @@ describe("garmentToggleMarkup", () => {
     const html = garmentToggleMarkup("fitted");
     for (const g of GARMENTS) {
       expect(html).toContain(`id="garment-${g.name}"`);
-      expect(html).toContain(`>${g.label}<`);
+      expect(html).toContain(`>${g.label}</span>`);
     }
+    expect(html).toContain("Choose a starting garment");
+    expect(html).toContain("Straight-leg trouser");
+    expect(html).toContain('data-garment-region="Lower body"');
+  });
+});
+
+describe("fabricStretchMarkup", () => {
+  it("renders material cards backed by the accessible native selector", () => {
+    const html = fabricStretchMarkup("Cotton jersey");
+    expect(html).toContain('id="stretch-select"');
+    expect(html).toContain('class="studio-visually-hidden"');
+    expect(html).toContain('data-material-option="Cotton jersey"');
+    expect(html).toContain('data-material-option="Linen"');
+    expect(html).toContain('aria-pressed="true"');
+    expect(html).toContain("25% stretch");
+    expect(html).toContain("Stable woven");
   });
 });
 

@@ -1,7 +1,8 @@
 # UI/UX redesign execution — Slices 114–121
 
-Status: Slice 115B focused/live checkpoint, 2026-09-15; the bounded stage and
-assembled integration checks are green, but the full redesign gate remains.
+Status: Slice 116 focused/live checkpoint, 2026-09-15; the bounded stage,
+assembled integration, and selection-card checks are green, but the full
+redesign gate remains.
 Epic 4 remains closed.
 This is the newly authorized workspace redesign, not a reopened garment-grammar
 migration. Branch: `codex/ux-studio`; approved baseline: `816b9ff`.
@@ -102,7 +103,39 @@ The previous 81-file/1,031-test pass is a baseline, not a test run for this work
 
 ## Current checkpoint / exact next actions
 
-### Slice 115B — readiness journey and integration checkpoint
+### Slice 116 — garment library, fit intent, and material selection
+
+Slice 116 is implemented on `codex/ux-studio` after `022feac`; source, focused
+tests, and durable records are ready for the bounded Slice 116 commit. The
+garment selector is now a descriptive seven-card library grouped by upper and
+lower body. Style fit intent and material/stretch choices use readable cards
+backed by the existing native selects, preserving keyboard and state
+contracts. Untouched garment switches choose the declared garment-family
+material default; once a user makes an explicit material choice, that choice
+survives garment changes and compatibility guidance remains truthful. Stage
+navigation resets the bounded inspector to the new stage context.
+
+Changed paths: `src/ui/view.ts`, `src/ui/studio.css`, `src/ui/app.ts`,
+`src/ui/view.test.ts`, and `src/ui/app.test.ts`. No drafting geometry, export
+writer, export baseline, or workspace-save schema changed.
+
+Verification: `npx vitest run src/ui/app.test.ts src/ui/view.test.ts` passed
+149/149; `npx tsc --noEmit` passed. Live browser checks rendered seven garment
+cards, four fit cards, and five material cards. A fresh Woven shirt selection
+used Cotton woven without a compatibility warning; selecting Cotton jersey
+explicitly surfaced the stable-woven warning and kept the selected card
+active. The prior Slice 115B live matrix remains: all seven garments reached
+all five stages, all seven views round-tripped through Assembled, and
+1280/900/700/560/390×844 had no page horizontal overflow. The live screenshots
+were inspected inline and are not durable artifacts.
+
+Exact remaining work: commit this bounded slice, then implement Slice 117's
+contextual appearance editor. The full per-control live matrix, full suite,
+100% coverage, build, parsed-consumer checks, and eight-hash legacy gate remain
+reserved for the shared-contract and final checkpoints. Do not start the full
+gate during routine iteration near the usage stop threshold.
+
+### Slice 115B — readiness journey and integration checkpoint (superseded)
 
 This is an incomplete checkpoint, not Slice 115 acceptance. On
 `codex/ux-studio` at baseline `c2c3bc0`, the concurrent implementation now has

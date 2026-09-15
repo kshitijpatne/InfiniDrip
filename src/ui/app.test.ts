@@ -612,6 +612,51 @@ describe("mountApp", () => {
     expect(root.querySelector("#style-host")!.innerHTML).toContain("To reach Oversized tee");
   });
 
+  it("uses fit and material cards without bypassing the native state controls", () => {
+    localStorage.clear();
+    const root = mount();
+    clickId(root, "welcome-skip");
+    clickId(root, "journey-step-fit");
+    root.querySelector<HTMLButtonElement>('[data-style-target="Oversized tee"]')!.click();
+    expect(root.querySelector<HTMLSelectElement>("#style-target")!.value).toBe("Oversized tee");
+    expect(root.querySelector<HTMLButtonElement>('[data-style-target="Oversized tee"]')!.getAttribute("aria-pressed")).toBe("true");
+    root.querySelector<HTMLButtonElement>('[data-material-option="Linen"]')!.click();
+    expect(root.querySelector<HTMLSelectElement>("#stretch-select")!.value).toBe("Linen");
+    expect(root.querySelector<HTMLButtonElement>('[data-material-option="Linen"]')!.getAttribute("aria-pressed")).toBe("true");
+    clickId(root, "journey-step-measure");
+    clickId(root, "journey-step-fit");
+    expect(root.querySelector<HTMLSelectElement>("#stretch-select")!.value).toBe("Linen");
+    expect(root.querySelector<HTMLButtonElement>('[data-style-target="Oversized tee"]')!.getAttribute("aria-pressed")).toBe("true");
+  });
+
+  it("surfaces a material mismatch when a woven garment gets an explicit knit choice", () => {
+    localStorage.clear();
+    const root = mount();
+    clickId(root, "welcome-skip");
+    clickId(root, "journey-step-start");
+    clickId(root, "garment-woven-shirt");
+    clickId(root, "journey-step-fit");
+    root.querySelector<HTMLButtonElement>('[data-material-option="Cotton jersey"]')!.click();
+    expect(root.querySelector<HTMLSelectElement>("#stretch-select")!.value).toBe("Cotton jersey");
+    expect(root.querySelector("#guidance-host")!.textContent).toContain("stable woven material");
+    expect(root.querySelector<HTMLButtonElement>('[data-material-option="Cotton jersey"]')!.getAttribute("aria-pressed")).toBe("true");
+  });
+
+  it("uses a garment-family material default until the user makes an explicit choice", () => {
+    localStorage.clear();
+    const root = mount();
+    clickId(root, "journey-step-start");
+    clickId(root, "garment-woven-shirt");
+    expect(root.querySelector<HTMLSelectElement>("#stretch-select")!.value).toBe("Cotton woven");
+    expect(root.querySelector("#guidance-host")!.textContent).not.toContain("stable woven material");
+    root.querySelector<HTMLButtonElement>('[data-material-option="Cotton jersey"]')!.click();
+    clickId(root, "garment-tee");
+    expect(root.querySelector<HTMLSelectElement>("#stretch-select")!.value).toBe("Cotton jersey");
+    clickId(root, "garment-woven-shirt");
+    expect(root.querySelector<HTMLSelectElement>("#stretch-select")!.value).toBe("Cotton jersey");
+    expect(root.querySelector("#guidance-host")!.textContent).toContain("stable woven material");
+  });
+
   it("shows a fabric-stretch ease note and updates it when fabric changes", () => {
     localStorage.clear();
     const root = mount();
@@ -1297,6 +1342,15 @@ describe("guided journey", () => {
     expect(root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("measure");
     expect(root.querySelector("#journey-host")!.textContent).not.toContain("Tour complete");
     expect(root.querySelector("#readiness-host")!.textContent).not.toContain("5 of 5");
+  });
+
+  it("returns the inspector to the new stage context when navigation changes stage", () => {
+    const root = mount();
+    clickId(root, "welcome-skip");
+    root.querySelector<HTMLElement>("#studio-inspector")!.scrollTop = 480;
+    clickId(root, "journey-step-fit");
+    expect(root.querySelector<HTMLElement>("#studio-inspector")!.scrollTop).toBe(0);
+    expect(root.querySelector(".fit-intent-cards")).not.toBeNull();
   });
 
   it("resumes a persisted journey where it left off", () => {

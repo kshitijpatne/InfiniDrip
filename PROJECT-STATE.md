@@ -1,13 +1,14 @@
 # InfiniDrip — Project State
 
-_Last updated: UI/UX redesign Slice 115B live checkpoint, 2026-09-15; Epic 3 and Epic 4 remain closed._
+_Last updated: UI/UX redesign Slice 116 focused/live checkpoint, 2026-09-15; Epic 3 and Epic 4 remain closed._
 
 ## Current work — beginner-facing workspace redesign
 
-### Slice 115B checkpoint — focused/live evidence green; full redesign gate pending
+### Slice 116 checkpoint — focused/live evidence green; full redesign gate pending
 
-Current checkpoint: `codex/ux-studio` at baseline `c2c3bc0`. Slice 114 research
-is complete; do not repeat it. The implementation now has five actual stages:
+Current checkpoint: `codex/ux-studio` after `022feac`, with Slice 116 changes
+ready for commit. Slice 114 research is complete; do not repeat it. The
+implementation now has five actual stages:
 Garment, Measure, Style, Check, and Export. Readiness—not earlier index—drives
 completion: `styleReviewed` is set only on Style → Next, current Check review
 is required, and the true Export gate applies to the desktop menu and buttons.
@@ -21,18 +22,28 @@ restores current-stage focus. More views keeps all seven views and supports
 Escape, outside click, and selection focus. Skip introduction does not mark
 readiness. Journey persistence is v2, accepts legacy v1, and resets historical
 `exported` on load. The selected-garment header, named Style combobox, and
-local rail containment fix are included.
+local rail containment fix are included. Garment selection is now a descriptive
+seven-card library grouped by upper/lower body. Fit intent and material choices
+are card-based presentations backed by the existing native selects, so keyboard
+and state contracts remain intact. Untouched garment changes use the
+garment-family material default; an explicit material choice persists across
+garment changes and continues to surface compatibility guidance. Stage changes
+reset the bounded inspector to its new context.
 
-Focused verification now passes 207/207 across `app.test.ts`,
-`bugfix-p1.test.ts`, `journey.test.ts`, `studio.test.ts`, and `view.test.ts`;
-`npx tsc --noEmit` is clean. The actual browser checkpoint exercised all
-seven garments through Garment → Measure → Style → Check → Export, and every
-one of the seven views round-tripped through Assembled and returned to its
-original view. At 1280/900/700/560/390×844, document width matched the
-viewport with no page horizontal overflow; the narrow inspector kept the
-canvas and a focused second measurement page visible. Escape returned focus
-to More views and an outside click closed it. Screenshots were inline only,
-not durable artifacts.
+Affected focused verification passes 149/149 across `app.test.ts` and
+`view.test.ts`; `npx tsc --noEmit` is clean. The prior Slice 115B checkpoint
+passed 207/207 across the five affected UI test files. The actual browser
+checkpoint exercised all seven garments through Garment → Measure → Style →
+Check → Export, and every one of the seven views round-tripped through
+Assembled and returned to its original view. Slice 116 live interaction
+additionally rendered all seven garment cards, four fit cards, and five material
+cards; selecting Woven shirt used Cotton woven without a warning, while an
+explicit Cotton jersey choice surfaced the stable-woven warning and remained
+selected. At 1280/900/700/560/390×844, document width matched the viewport
+with no page horizontal overflow; the narrow inspector kept the canvas and a
+focused second measurement page visible. Escape returned focus to More views
+and an outside click closed it. Screenshots were inline only, not durable
+artifacts.
 
 This is still not the final redesign gate. Full per-control live interaction
 coverage across every garment, options/material/appearance, persistence and

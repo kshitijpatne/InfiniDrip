@@ -267,6 +267,43 @@ body { margin: 0; }
 }
 #review-context { color: #9bb8cc; font-size: 13px; line-height: 1.4; }
 
+.studio-visually-hidden {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+.garment-library { display: flex; flex-direction: column; gap: 8px; margin-left: 0 !important; }
+.garment-library-heading {
+  display: flex; justify-content: space-between; gap: 8px; color: #9bb8cc;
+  font-size: 11px; letter-spacing: .04em; text-transform: uppercase;
+}
+.garment-library-heading span:last-child { color: #6f96ad; }
+.garment-card-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
+.garment-card,
+.fit-intent-card,
+.material-card {
+  min-width: 0; border: 1px solid #34506a; border-radius: 8px; background: #0d1b2c;
+  color: #d9e6ef; cursor: pointer; text-align: left;
+}
+.garment-card { display: flex; flex-direction: column; gap: 3px; padding: 9px; }
+.garment-card[aria-pressed="true"],
+.fit-intent-card[aria-pressed="true"],
+.material-card[aria-pressed="true"] {
+  border-color: #88d7ef; background: #183d46; color: #e9fbff;
+}
+.garment-card-title, .fit-intent-card-name, .material-card-name { font-size: 13px; font-weight: 700; }
+.garment-card-summary, .fit-intent-card-description, .material-card-detail {
+  color: #9bb8cc; font-size: 11px; line-height: 1.3;
+}
+.garment-card[aria-pressed="true"] .garment-card-summary,
+.garment-card[aria-pressed="true"] .garment-card-detail,
+.fit-intent-card[aria-pressed="true"] .fit-intent-card-description,
+.material-card[aria-pressed="true"] .material-card-detail { color: #b8e6d0; }
+.fit-intent-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; margin-bottom: 10px; }
+.fit-intent-card { display: flex; flex-direction: column; gap: 3px; padding: 8px; }
+.material-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+.material-card { display: flex; flex-direction: column; gap: 3px; padding: 8px; }
+.garment-card:hover, .fit-intent-card:hover, .material-card:hover { border-color: #6ab8c7; }
+
 @media (max-width: 700px) {
   #canvas-tools { overflow: visible; }
   #view-toggle-host {
@@ -283,6 +320,7 @@ body { margin: 0; }
 }
 
 @media (max-width: 420px) {
+  .garment-card-grid, .fit-intent-cards, .material-cards { grid-template-columns: 1fr; }
   .journey-stage-rail {
     display: flex; overflow-x: auto; gap: 4px; padding-bottom: 3px;
     scrollbar-width: thin;

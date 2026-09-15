@@ -64,6 +64,7 @@ export function mountApp(root: HTMLElement): void {
 
   let targetStyle = initialWorkspace.targetStyle;
   let stretchFabric = STRETCH_FABRICS.find((f) => f.name === initialWorkspace.stretchFabric)!;
+  let materialSelectionExplicit = saved !== null;
   let view: ViewName = saved ? initialWorkspace.view : stepView(journey.step);
   let bodyCroquisView: BodyCroquisView = initialWorkspace.bodyCroquisView;
   let editedFront: Piece | null = null; // freeform snapshot of the front (override, not parametric)
@@ -575,6 +576,7 @@ export function mountApp(root: HTMLElement): void {
     saveJourney(journey);
     celebrating = false;
     applyDisclosure();
+    root.querySelector<HTMLElement>("#studio-inspector")!.scrollTop = 0;
     setView(stepView(s));
     root.querySelector<HTMLElement>('#journey-host [aria-current="step"]')!.focus();
   };
@@ -761,6 +763,12 @@ export function mountApp(root: HTMLElement): void {
   const setGarment = (name: string): void => {
     markOutputDirty();
     recipe = garmentByName(name);
+    if (!materialSelectionExplicit) {
+      const defaultMaterial = defaultStretchFabricForGarment(recipe.name);
+      stretchFabric = STRETCH_FABRICS.find((f) => f.name === defaultMaterial)!;
+      stretchSelect.value = stretchFabric.name;
+      syncMaterialCards();
+    }
     selectedControlPages.clear();
     hoveredDim = null;
     focusedDim = null;
@@ -967,12 +975,36 @@ export function mountApp(root: HTMLElement): void {
       draw();
     }
   });
+  styleHost.addEventListener("click", (e) => {
+    const card = (e.target as HTMLElement).closest<HTMLButtonElement>("[data-style-target]");
+    if (!card) return;
+    const select = styleHost.querySelector<HTMLSelectElement>("#style-target")!;
+    if (select.value === card.dataset.styleTarget) return;
+    select.value = card.dataset.styleTarget!;
+    select.dispatchEvent(new Event("change", { bubbles: true }));
+  });
 
   const stretchSelect = root.querySelector<HTMLSelectElement>("#stretch-select")!;
+  const stretchHost = root.querySelector<HTMLElement>("#stretch-host")!;
+  const syncMaterialCards = (): void => {
+    stretchHost.querySelectorAll<HTMLButtonElement>("[data-material-option]").forEach((card) => {
+      card.setAttribute("aria-pressed", String(card.dataset.materialOption === stretchSelect.value));
+    });
+  };
   stretchSelect.addEventListener("change", () => {
+    materialSelectionExplicit = true;
     stretchFabric = STRETCH_FABRICS.find((f) => f.name === stretchSelect.value)!;
+    syncMaterialCards();
     markOutputDirty();
     draw();
+  });
+  stretchHost.addEventListener("click", (e) => {
+    const card = (e.target as HTMLElement).closest<HTMLButtonElement>("[data-material-option]");
+    if (!card) return;
+    materialSelectionExplicit = true;
+    if (card.dataset.materialOption === stretchSelect.value) return;
+    stretchSelect.value = card.dataset.materialOption!;
+    stretchSelect.dispatchEvent(new Event("change", { bubbles: true }));
   });
 
   // Export-local state: which size the download buttons emit. Defaults to base (M);
@@ -1117,6 +1149,7 @@ export function mountApp(root: HTMLElement): void {
     recipe = garmentByName(loaded.workspace.garment);
     targetStyle = loaded.workspace.targetStyle;
     stretchFabric = STRETCH_FABRICS.find((f) => f.name === loaded.workspace.stretchFabric)!;
+    materialSelectionExplicit = true;
     view = loaded.workspace.view;
     bodyCroquisView = loaded.workspace.bodyCroquisView;
     exportStep = loaded.workspace.exportStep;
@@ -1151,6 +1184,7 @@ export function mountApp(root: HTMLElement): void {
       swatch.setAttribute("aria-pressed", String(on));
     });
     stretchSelect.value = stretchFabric.name;
+    syncMaterialCards();
     widthInput.value = String(fabricWidth);
     syncExportSizes();
     if (restoring && journey.step === "start") journey = { ...journey, step: "measure", familiar: true };

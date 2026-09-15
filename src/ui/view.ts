@@ -209,6 +209,32 @@ function deltaText(d: Delta): string {
   return `${label} ${d.change > 0 ? "+" : ""}${d.change} cm`;
 }
 
+const GARMENT_UI: Readonly<Record<string, { region: string; summary: string; detail: string }>> = {
+  tee: { region: "Upper body", summary: "Everyday knit top", detail: "Short sleeve · crew neck" },
+  fitted: { region: "Upper body", summary: "Shaped knit top", detail: "Darted fit · short sleeve" },
+  tank: { region: "Upper body", summary: "Sleeveless knit top", detail: "Strap and neckline controls" },
+  polo: { region: "Upper body", summary: "Collared knit top", detail: "Placket and collar controls" },
+  "woven-shirt": { region: "Upper body", summary: "Stable woven shirt", detail: "Yoke, placket and pocket" },
+  skirt: { region: "Lower body", summary: "Simple woven skirt", detail: "Waist and hem controls" },
+  trouser: { region: "Lower body", summary: "Straight-leg trouser", detail: "Rise, leg and pocket controls" },
+};
+
+function styleDescription(name: string): string {
+  const lower = name.toLowerCase();
+  if (lower.includes("fitted")) return "Close, shaped ease";
+  if (lower.includes("oversized")) return "Maximum wearing room";
+  if (lower.includes("relaxed")) return "More room to move";
+  if (lower.includes("classic")) return "Balanced everyday ease";
+  if (lower.includes("crop")) return "Shorter finished length";
+  if (lower.includes("longline") || lower.includes("long ")) return "Longer finished length";
+  if (lower.includes("mini")) return "Above-knee length";
+  if (lower.includes("knee")) return "Knee length";
+  if (lower.includes("midi")) return "Mid-calf length";
+  if (lower.includes("maxi")) return "Full length";
+  if (lower.includes("muscle")) return "Sleeveless shape";
+  return "A declared starting direction";
+}
+
 /**
  * The style panel, prescriptive: the user picks a TARGET fit, and the panel
  * shows the gap to it on every axis. Selecting a target writes no measurement —
@@ -223,12 +249,16 @@ export function styleMarkup(
   const options = allNames
     .map((n) => `<option ${n === targetName ? "selected" : ""}>${n}</option>`)
     .join("");
-  const select = `<select id="style-target" aria-label="Target fit" style="width:100%;padding:5px 8px;font-size:13px;` +
-    `background:${T.background};color:${T.line};border:1px solid ${BORDER};border-radius:5px;` +
-    `margin-bottom:12px">${options}</select>`;
+  const select = `<select id="style-target" class="studio-visually-hidden" aria-label="Target fit">${options}</select>`;
 
   const label = `<label for="style-target" style="font-size:11px;color:${T.label};text-transform:uppercase;` +
-    `letter-spacing:0.04em;margin-bottom:6px">Target fit</label>`;
+    `letter-spacing:0.04em;margin-bottom:7px">Target fit</label>`;
+  const cards = `<div class="fit-intent-cards" role="group" aria-label="Fit intent">` +
+    allNames.map((name) => `<button type="button" class="fit-intent-card" data-style-target="${name}" ` +
+      `aria-pressed="${name === targetName}" aria-label="Choose ${name}">` +
+      `<span class="fit-intent-card-name">${name}</span>` +
+      `<span class="fit-intent-card-description">${styleDescription(name)}</span></button>`).join("") +
+    `</div>`;
 
   let body: string;
   if (match.deltas.length === 0 && !plausible) {
@@ -248,7 +278,7 @@ export function styleMarkup(
       `<div style="font-size:11.5px;color:${T.label};margin-top:8px">` +
     `Enter the numeric inputs to make each change; the preview updates immediately.</div>`;
   }
-  return panel("Style", label + select + body);
+  return panel("Style", label + select + cards + body);
 }
 
 /** Download buttons for the export files, a size picker, plus Save/Load pattern state.
@@ -278,17 +308,20 @@ export function exportButtonsMarkup(sizes: readonly SizeStep[]): string {
     `</div>`;
 }
 
-/** Material/stretch dropdown — drives ease and compatibility guidance only. */
+/** Material cards plus a native selector — drives ease and compatibility guidance only. */
 export function fabricStretchMarkup(current: string): string {
   const options = STRETCH_FABRICS
     .map((f) => `<option ${f.name === current ? "selected" : ""}>${f.name}</option>`)
     .join("");
-  return `<div id="stretch-host" role="group" aria-label="Material and stretch" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:4px 0">` +
-    `<span style="font-size:11px;color:${T.label};text-transform:uppercase;letter-spacing:0.04em;` +
-    `margin-right:4px">Material / stretch</span>` +
-    `<select id="stretch-select" data-guidance-control="stretchFabric" aria-label="Material and stretch" style="padding:4px 8px;font-size:12px;background:${T.background};` +
-    `color:${T.line};border:1px solid ${BORDER};border-radius:5px">${options}</select>` +
-    `<span style="font-size:11px;color:${T.label};line-height:1.35">Guides ease and tech-pack material; it does not set garment color.</span></div>`;
+  const cards = STRETCH_FABRICS.map((f) => `<button type="button" class="material-card" ` +
+    `data-material-option="${f.name}" aria-pressed="${f.name === current}" aria-label="Choose ${f.name}">` +
+    `<span class="material-card-name">${f.name}</span>` +
+    `<span class="material-card-detail">${f.family === "knit" ? `${f.stretchPercent}% stretch` : "Stable woven"}</span></button>`).join("");
+  return `<div id="stretch-host" role="group" aria-label="Material and stretch" style="display:flex;flex-direction:column;gap:7px;margin:4px 0">` +
+    `<span style="font-size:11px;color:${T.label};text-transform:uppercase;letter-spacing:0.04em">Material / stretch</span>` +
+    `<select id="stretch-select" class="studio-visually-hidden" data-guidance-control="stretchFabric" aria-label="Material and stretch">${options}</select>` +
+    `<div class="material-cards" role="group" aria-label="Material choices">${cards}</div>` +
+    `<span style="font-size:11px;color:${T.label};line-height:1.35">Sets ease advice and tech-pack material; garment color is separate.</span></div>`;
 }
 
 /** Pattern/body stay primary; the remaining canvas views use native disclosure. */
@@ -359,14 +392,17 @@ export function inspectionMarkup(content: string, view: string): string {
 }
 
 export function garmentToggleMarkup(active: string): string {
-  const btn = (g: { name: string; label: string }): string =>
-    `<button id="garment-${g.name}" type="button" aria-pressed="${g.name === active}" style="padding:6px 12px;font-size:13px;cursor:pointer;` +
-    `background:${g.name === active ? T.lineActive : T.background};` +
-    `color:${g.name === active ? T.background : T.line};` +
-    `border:1px solid ${BORDER};border-radius:5px">${g.label}</button>`;
-  return `<div id="garment-toggle-host" role="group" aria-label="Garment" style="display:flex;gap:6px;align-items:center;margin-left:8px">` +
-    `<span style="font-size:12px;color:${T.label}">Garment</span>` +
-    `${GARMENTS.map(btn).join("")}</div>`;
+  const cards = GARMENTS.map((g) => {
+    const ui = GARMENT_UI[g.name];
+    return `<button id="garment-${g.name}" class="garment-card" type="button" ` +
+      `data-garment-region="${ui.region}" aria-pressed="${g.name === active}" aria-label="Choose ${g.label}">` +
+      `<span class="garment-card-title">${g.label}</span>` +
+      `<span class="garment-card-summary">${ui.summary}</span>` +
+      `<span class="garment-card-detail">${ui.detail}</span></button>`;
+  }).join("");
+  return `<div id="garment-toggle-host" role="group" aria-label="Garment" class="garment-library">` +
+    `<div class="garment-library-heading"><span>Choose a starting garment</span><span>7 drafting blocks</span></div>` +
+    `<div class="garment-card-grid">${cards}</div></div>`;
 }
 
 /** Dart tools, shown only when the piece being edited actually has a dart.

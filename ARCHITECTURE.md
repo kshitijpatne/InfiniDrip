@@ -3,7 +3,7 @@
 How the app fits together, in plain language. Read the top to re-orient; skim the
 layers when you need detail. Updated every slice with only need-to-know changes.
 
-## Current workspace redesign boundary — Slice 115B focused/live checkpoint
+## Current workspace redesign boundary — Slice 116 focused/live checkpoint
 
 The current beginner-facing workspace uses five actual stages: Garment,
 Measure, Style, Check, and Export. Stage completion is readiness-derived, not
@@ -20,16 +20,27 @@ restores focus on the current stage. More views retains all seven views and
 supports Escape, outside-click, and selection focus. Skip introduction does not
 complete readiness. Journey persistence is v2 with legacy v1 acceptance, and
 historical `exported` resets on load. The selected-garment header, named Style
-combobox, and local rail containment fix are within this UI boundary.
+combobox, and local rail containment fix are within this UI boundary. Garment
+selection is a descriptive seven-card library with upper/lower-body grouping.
+Fit intent and material choices are card presentations backed by the existing
+native selects. Untouched garment changes use the garment-family material
+default; an explicit material choice persists across garment changes and
+remains subject to compatibility guidance. Stage changes reset the bounded
+inspector to the new context.
 
 No drafting geometry, export writers, export baselines, or workspace-save
-schema changed. Focused verification passes 207/207 across the five affected
-UI test files and `npx tsc --noEmit` is clean. Live browser verification
+schema changed. Slice 116 affected focused verification passes 149/149 across
+`app.test.ts` and `view.test.ts`; `npx tsc --noEmit` is clean. The prior
+Slice 115B checkpoint passed 207/207 across the five affected UI test files.
+Live browser verification
 covered all seven garments through the five stages and all seven analysis
 views through the reversible Assembled lens. Responsive checks at
 1280/900/700/560/390×844 found no page overflow; narrow inspector and
 field-to-canvas focus behavior remained usable, and More views passed Escape
-and outside-click checks. Screenshots were inline only, not durable artifacts.
+and outside-click checks. Slice 116 live checks rendered the seven garment,
+four fit, and five material cards; default Woven shirt material was Cotton
+woven without a warning, while an explicit Cotton jersey selection surfaced
+the compatibility warning. Screenshots were inline only, not durable artifacts.
 This checkpoint is not the final redesign gate: full per-control live
 coverage, zoom/text-size, persistence/export paths, full suite, 100% coverage,
 build, parsed consumers, and eight-hash legacy verification remain. Slices
