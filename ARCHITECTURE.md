@@ -3,7 +3,39 @@
 How the app fits together, in plain language. Read the top to re-orient; skim the
 layers when you need detail. Updated every slice with only need-to-know changes.
 
-## Current workspace redesign boundary — Slice 115A checkpoint
+## Current workspace redesign boundary — Slice 115B focused/live checkpoint
+
+The current beginner-facing workspace uses five actual stages: Garment,
+Measure, Style, Check, and Export. Stage completion is readiness-derived, not
+index-derived: `styleReviewed` is set only on Style → Next, the current Check
+review is required, and the true Export gate is shared by the desktop menu and
+export buttons. Measurement, material, option, and target edits invalidate
+review and file confirmation; export size, nesting scope, fabric width, and
+color edits invalidate file confirmation. A delayed old desktop write cannot
+confirm a newer revision.
+
+Measure exposes body/length groups and Style exposes ease/options groups.
+Correction routes reveal the named stage/group and focus its field; navigation
+restores focus on the current stage. More views retains all seven views and
+supports Escape, outside-click, and selection focus. Skip introduction does not
+complete readiness. Journey persistence is v2 with legacy v1 acceptance, and
+historical `exported` resets on load. The selected-garment header, named Style
+combobox, and local rail containment fix are within this UI boundary.
+
+No drafting geometry, export writers, export baselines, or workspace-save
+schema changed. Focused verification passes 207/207 across the five affected
+UI test files and `npx tsc --noEmit` is clean. Live browser verification
+covered all seven garments through the five stages and all seven analysis
+views through the reversible Assembled lens. Responsive checks at
+1280/900/700/560/390×844 found no page overflow; narrow inspector and
+field-to-canvas focus behavior remained usable, and More views passed Escape
+and outside-click checks. Screenshots were inline only, not durable artifacts.
+This checkpoint is not the final redesign gate: full per-control live
+coverage, zoom/text-size, persistence/export paths, full suite, 100% coverage,
+build, parsed consumers, and eight-hash legacy verification remain. Slices
+116–121 remain.
+
+### Prior Slice 115A presentation notes
 
 The newly authorized UI/UX work is research/audit-first. The implemented
 seven-recipe grammar and `GarmentRecipe` → composed `Block` → consumer boundary

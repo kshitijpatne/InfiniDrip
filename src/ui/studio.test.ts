@@ -28,18 +28,31 @@ describe("bounded measurement groups", () => {
     const inputs = [...root.querySelectorAll<HTMLInputElement>("#controls-panel input")];
     expect(inputs).toHaveLength(recipe.fields.length + (recipe.options?.length ?? 0));
     expect(new Set(inputs.map((input) => input.id)).size).toBe(inputs.length);
-    pages.forEach((page, index) => {
-      changeGroup(index);
-      expect(pages.filter((candidate) => !candidate.hidden)).toEqual([page]);
-      expect(page.querySelector("input")).not.toBeNull();
-    });
-    expect(root.querySelector<HTMLButtonElement>('[data-control-page-step="1"]')!.disabled).toBe(true);
-    click('[data-control-page-step="-1"]');
-    expect(pages[pages.length - 2].hidden).toBe(false);
-    changeGroup(0);
-    expect(root.querySelector<HTMLButtonElement>('[data-control-page-step="-1"]')!.disabled).toBe(true);
-    click('[data-control-page-step="1"]');
-    expect(pages[1].hidden).toBe(false);
+    const checkStagePages = (stage: "measure" | "fit"): HTMLFieldSetElement[] => {
+      click(`#journey-step-${stage === "measure" ? "measure" : "fit"}`);
+      const stagePages = pages.filter((page) => page.dataset.controlStage === stage);
+      expect(stagePages.length).toBeGreaterThan(0);
+      stagePages.forEach((page) => {
+        changeGroup(Number(page.dataset.controlPage));
+        expect(stagePages.filter((candidate) => !candidate.hidden)).toEqual([page]);
+        expect(page.querySelector("input")).not.toBeNull();
+      });
+      changeGroup(Number(stagePages[0].dataset.controlPage));
+      expect(root.querySelector<HTMLButtonElement>('[data-control-page-step="-1"]')!.disabled).toBe(true);
+      if (stagePages.length > 1) {
+        click('[data-control-page-step="1"]');
+        expect(stagePages[1].hidden).toBe(false);
+        changeGroup(Number(stagePages[stagePages.length - 1].dataset.controlPage));
+        expect(root.querySelector<HTMLButtonElement>('[data-control-page-step="1"]')!.disabled).toBe(true);
+        click('[data-control-page-step="-1"]');
+        expect(stagePages[stagePages.length - 2].hidden).toBe(false);
+      } else {
+        expect(root.querySelector<HTMLButtonElement>('[data-control-page-step="1"]')!.disabled).toBe(true);
+      }
+      return stagePages;
+    };
+    checkStagePages("measure");
+    checkStagePages("fit");
   });
 
   it("reveals a guidance target in its group before focusing the named input", () => {

@@ -19,6 +19,12 @@ function input(root: HTMLElement, selector: string, value: string): HTMLInputEle
   field.dispatchEvent(new Event("input"));
   return field;
 }
+function reachExportStage(root: HTMLElement): void {
+  root.querySelector<HTMLElement>("#welcome-start, #welcome-skip")?.click();
+  root.querySelector<HTMLElement>("#journey-step-fit")!.click();
+  root.querySelector<HTMLElement>("#journey-next")!.click();
+  root.querySelector<HTMLElement>("#journey-next")!.click();
+}
 
 describe("P1 input truth", () => {
   it("restores the active workspace, option controls, swatch and view on Load and restart", () => {
@@ -107,6 +113,7 @@ describe("P1 input truth", () => {
     expect(URL.createObjectURL).not.toHaveBeenCalled();
     input(root, '[data-option="buttonCount"]', "6");
     expect(root.querySelector("#canvas-host")!.textContent).toContain("physical validation pending");
+    reachExportStage(root);
     expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(false);
     expect(root.textContent).not.toMatch(/Ready to cut|production-ready/);
   });
@@ -158,7 +165,7 @@ describe("P1 input truth", () => {
       .mockRejectedValueOnce(new Error("disk error"));
     window.electronAPI = { saveFile };
     const root = mount();
-    click(root, "welcome-skip");
+    reachExportStage(root);
     click(root, "export-svg");
     await Promise.resolve();
     expect(root.querySelector("#persist-status")!.textContent).toContain("canceled");
@@ -172,10 +179,10 @@ describe("P1 input truth", () => {
   it("invalidates a confirmed export after a later design change", async () => {
     window.electronAPI = { saveFile: vi.fn().mockResolvedValue({ saved: true }) };
     const root = mount();
-    click(root, "welcome-skip");
+    reachExportStage(root);
     click(root, "export-svg");
     await Promise.resolve();
-    expect(root.querySelector("#readiness-host")!.textContent).toContain("✓Files exported");
+    expect(root.querySelector("#journey-host")!.textContent).toContain("✓ Files exported");
     input(root, '[data-field="chest"]', "120");
     expect(root.querySelector("#readiness-host")!.textContent).not.toContain("✓Files exported");
   });
@@ -197,7 +204,7 @@ describe("P1 input truth", () => {
   it("reports a browser failure without claiming export completion", () => {
     URL.createObjectURL = vi.fn(() => { throw new Error("blob unavailable"); });
     const root = mount();
-    click(root, "welcome-skip");
+    reachExportStage(root);
     click(root, "export-svg");
     expect(root.querySelector("#persist-status")!.textContent).toContain("browser could not start");
     expect(root.querySelector("#journey-host")!.textContent).not.toContain("✓Files exported");

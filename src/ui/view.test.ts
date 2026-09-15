@@ -42,6 +42,26 @@ describe("controlsMarkup", () => {
     expect(easeRow.slice(0, easeLabelEnd)).not.toContain("finished");
   });
 
+  it("marks each grouped page with its stable index, stage, and label", () => {
+    const html = controlsMarkup(STANDARD_M, ["chest", "length", "ease"], [{
+      id: "custom", label: "Custom choice", defaultValue: 1, min: 0, max: 2, step: 1,
+      group: "Construction",
+    }]);
+    const pages = [...html.matchAll(/<fieldset\b[^>]*>/g)].map((match) => match[0]);
+
+    expect(pages).toHaveLength(4);
+    expect(pages.map((page) => page.match(/data-control-page="(\d+)"/)?.[1]))
+      .toEqual(["0", "1", "2", "3"]);
+    expect(pages[0]).toContain('data-control-stage="measure"');
+    expect(pages[0]).toContain('data-control-label="Body measurements"');
+    expect(pages[1]).toContain('data-control-stage="measure"');
+    expect(pages[1]).toContain('data-control-label="Lengths & shape"');
+    expect(pages[2]).toContain('data-control-stage="fit"');
+    expect(pages[2]).toContain('data-control-label="Fit allowance"');
+    expect(pages[3]).toContain('data-control-stage="fit"');
+    expect(pages[3]).toContain('data-control-label="Construction"');
+  });
+
   it("renders only the fields it is given, in order, and skips the rest", () => {
     // A lower-body field set: waist + hip + length + ease, no chest/sleeve.
     const html = controlsMarkup(STANDARD_M, ["waist", "hip", "length", "ease"]);
@@ -97,7 +117,17 @@ describe("appShellMarkup", () => {
     expect(html).toContain('<header id="product-header"');
     expect(html).toContain('<h1 id="product-title"');
     expect(html).toContain("Parametric garment design workspace");
+    expect(html).toContain('<p id="product-subtitle">Parametric garment design workspace</p>');
     expect(html).toContain('id="workspace-actions"');
+    expect(html).toContain('<span id="current-garment">Tee</span>');
+    expect(html).toContain('<div id="review-context"></div>');
+    expect(html).toContain('id="welcome-host"');
+    expect(html).toContain('id="readiness-host"');
+    expect(html).toContain('id="stretch-host"');
+    expect(html).toContain('id="swatch-host"');
+    expect(html).toContain('id="controls-panel"');
+    expect(html).toContain('id="guidance-host"');
+    expect(html).toContain('id="export-host"');
     expect(html).toContain('data-step-direction="-1"');
     expect(html).toContain('data-step-direction="1"');
   });
@@ -110,6 +140,33 @@ describe("viewToggleMarkup", () => {
     expect(html).toContain(">Nesting<");
     expect(html).toContain('role="group" aria-label="Canvas view"');
     expect(html).toContain('id="view-fabric" type="button" aria-pressed="true"');
+  });
+
+  it("keeps all seven unique and puts secondary views in native disclosure", () => {
+    const html = viewToggleMarkup("spec");
+    const ids = [
+      "view-pattern", "view-body", "view-nest", "view-spec", "view-fabric", "view-check", "view-edit",
+    ];
+    const advancedIds = ["view-nest", "view-spec", "view-fabric", "view-check", "view-edit"];
+    const detailsStart = html.indexOf('<details id="advanced-views">');
+    const menuStart = html.indexOf('<div class="advanced-view-menu">', detailsStart);
+    const menuEnd = html.indexOf("</div></details>", menuStart);
+
+    expect(html).toContain('<div id="view-toggle-host" role="group" aria-label="Canvas view"');
+    expect(html).toContain('<summary id="advanced-view-label">More views</summary>');
+    expect(detailsStart).toBeGreaterThan(-1);
+    expect(menuStart).toBeGreaterThan(detailsStart);
+    expect(menuEnd).toBeGreaterThan(menuStart);
+    expect((html.match(/aria-pressed="true"/g) ?? [])).toHaveLength(1);
+    expect((html.match(/aria-pressed="false"/g) ?? [])).toHaveLength(6);
+
+    for (const id of ids) {
+      expect((html.match(new RegExp(`id="${id}"`, "g")) ?? [])).toHaveLength(1);
+    }
+    expect(html.indexOf('id="view-pattern"')).toBeLessThan(detailsStart);
+    expect(html.indexOf('id="view-body"')).toBeLessThan(detailsStart);
+    const menu = html.slice(menuStart, menuEnd);
+    for (const id of advancedIds) expect(menu).toContain(`id="${id}"`);
   });
 
   it("offers a Check view", () => {
@@ -190,6 +247,7 @@ describe("appShellMarkup garment routing (Slice 100)", () => {
       "waist", "hip", "hipDepth", "crotchDepth", "thigh", "knee", "inseam", "ease",
     ], "Cotton woven", "trouser");
     expect(html).toContain('id="garment-trouser"');
+    expect(html).toContain('<span id="current-garment">Trouser</span>');
     expect(html).toMatch(/id="garment-trouser"[^>]*aria-pressed="true"/);
     expect(html).toMatch(/id="garment-tee"[^>]*aria-pressed="false"/);
   });
@@ -354,6 +412,8 @@ describe("styleMarkup", () => {
   it("renders the target selector with all styles and the chosen one selected", () => {
     const html = styleMarkup("Classic tee", matchStyle(STANDARD_M, "Classic tee", TEE_STYLES), styleNames(TEE_STYLES), true);
     expect(html).toContain('id="style-target"');
+    expect(html).toContain('<select id="style-target" aria-label="Target fit"');
+    expect(html).toContain('<label for="style-target"');
     expect(html).toContain("Oversized tee"); // an option
     expect(html).toContain("Target fit");
   });

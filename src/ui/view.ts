@@ -1,6 +1,6 @@
-// Builds the app's HTML as strings (same approach as the SVG canvas): a controls
-// panel, a canvas host, a guidance panel, and a style panel. Pure, so the markup
-// can be checked in tests without a browser.
+// Builds the app's HTML as strings (same approach as the SVG canvas): a persistent
+// workspace header, a stable inspection canvas, and a bounded grouped inspector.
+// Pure, so the markup can be checked in tests without a browser.
 
 import { Measurements, STRETCH_FABRICS, SpecRow, GARMENTS, SizeStep, roleTag, GarmentOption, GarmentOptions } from "../drafting";
 import { BLUEPRINT as T, FABRICS } from "../render";
@@ -103,7 +103,7 @@ function panel(title: string, body: string): string {
     `border-radius:10px;padding:14px" role="region" aria-labelledby="${titleId}">${panelTitle(title, titleId)}${body}</div>`;
 }
 
-/** The left-hand measurements panel. */
+/** The grouped measurement and construction controls in the bounded inspector. */
 export function controlsMarkup(
   m: Measurements, fields: readonly (keyof Measurements)[],
   options: readonly GarmentOption[] = [], values: GarmentOptions = {}
@@ -135,15 +135,17 @@ export function controlsMarkup(
   });
   const pages = [
     ...[...measurementGroups].map(([label, groupFields]) => ({
-      label, option: false,
+      label, option: false, stage: label === "Fit allowance" ? "fit" : "measure",
       body: groupFields.map((f) => field(f.id, f.label, m[f.id], f.min, f.max, f.step)).join("") +
         (label === "Fit allowance" ? finished : ""),
     })),
-    ...[...groups].map(([label, groupOptions]) => ({ label, option: true, body: groupOptions.map(optionRows).join("") })),
+    ...[...groups].map(([label, groupOptions]) => ({
+      label, option: true, stage: "fit", body: groupOptions.map(optionRows).join(""),
+    })),
   ];
   const selector = pages.map((page, index) => `<option value="${index}">${index + 1} / ${pages.length} · ${page.label}</option>`).join("");
   const pageMarkup = pages.map((page, index) =>
-    `<fieldset data-control-page="${index}"${page.option ? ` data-option-group="${page.label}"` : ""}${index > 0 ? " hidden" : ""}>` +
+    `<fieldset data-control-page="${index}" data-control-stage="${page.stage}" data-control-label="${page.label}"${page.option ? ` data-option-group="${page.label}"` : ""}${index > 0 ? " hidden" : ""}>` +
     `<legend>${page.label}</legend>${page.body}</fieldset>`).join("");
   return `<section id="controls-panel" role="region" aria-labelledby="measurements-title">` +
     `${panelTitle("Measurements & construction (cm)", "measurements-title")}` +
@@ -221,12 +223,12 @@ export function styleMarkup(
   const options = allNames
     .map((n) => `<option ${n === targetName ? "selected" : ""}>${n}</option>`)
     .join("");
-  const select = `<select id="style-target" style="width:100%;padding:5px 8px;font-size:13px;` +
+  const select = `<select id="style-target" aria-label="Target fit" style="width:100%;padding:5px 8px;font-size:13px;` +
     `background:${T.background};color:${T.line};border:1px solid ${BORDER};border-radius:5px;` +
     `margin-bottom:12px">${options}</select>`;
 
-  const label = `<div style="font-size:11px;color:${T.label};text-transform:uppercase;` +
-    `letter-spacing:0.04em;margin-bottom:6px">Target fit</div>`;
+  const label = `<label for="style-target" style="font-size:11px;color:${T.label};text-transform:uppercase;` +
+    `letter-spacing:0.04em;margin-bottom:6px">Target fit</label>`;
 
   let body: string;
   if (match.deltas.length === 0 && !plausible) {
@@ -289,7 +291,7 @@ export function fabricStretchMarkup(current: string): string {
     `<span style="font-size:11px;color:${T.label};line-height:1.35">Guides ease and tech-pack material; it does not set garment color.</span></div>`;
 }
 
-/** Pattern vs. graded size-run toggle for the main canvas. */
+/** Pattern/body stay primary; the remaining canvas views use native disclosure. */
 export function viewToggleMarkup(active: string): string {
   const btn = (id: string, label: string, on: boolean): string =>
     `<button id="${id}" type="button" aria-pressed="${on}" style="padding:5px 12px;font-size:12px;cursor:pointer;` +
@@ -300,11 +302,13 @@ export function viewToggleMarkup(active: string): string {
     `margin-right:4px">View</span>` +
     `${btn("view-pattern", "Pattern", active === "pattern")}` +
     `${btn("view-body", "Body", active === "body")}` +
+    `<details id="advanced-views"><summary id="advanced-view-label">More views</summary>` +
+    `<div class="advanced-view-menu">` +
     `${btn("view-nest", "Size run", active === "nest")}` +
     `${btn("view-spec", "Spec", active === "spec")}` +
     `${btn("view-fabric", "Nesting", active === "fabric")}` +
     `${btn("view-check", "Check", active === "check")}` +
-    `${btn("view-edit", "Edit", active === "edit")}</div>`;
+    `${btn("view-edit", "Edit", active === "edit")}</div></details></div>`;
 }
 
 export type BodyCroquisView = "front-back" | "front" | "back" | "side";
@@ -501,7 +505,8 @@ export function checkMarkup(report: Report, plausible: boolean): string {
   return `<div style="background:${T.background};border-radius:8px;padding:14px">${banner}${rows}</div>`;
 }
 
-/** The whole app shell: controls, canvas host, and a stacked guidance + style column. */
+/** The whole app shell: persistent workspace actions, a stable canvas, and a
+ * bounded inspector whose controls stay grouped by task. */
 export function appShellMarkup(
   m: Measurements,
   fabric: string,
@@ -510,8 +515,10 @@ export function appShellMarkup(
   stretchFabric = STRETCH_FABRICS[0].name,
   activeGarment = "tee"
 ): string {
+  const activeGarmentLabel = GARMENTS.find((g) => g.name === activeGarment)?.label ?? activeGarment;
   return `<main id="infini-shell" aria-labelledby="product-title">` +
     `<header id="product-header"><div><h1 id="product-title">InfiniDrip</h1>` +
+    `<span id="current-garment">${activeGarmentLabel}</span>` +
     `<p id="product-subtitle">Parametric garment design workspace</p></div>` +
     `<div id="workspace-actions" role="group" aria-label="Local workspace">` +
     `<span id="persist-status" role="status"></span>` +
@@ -519,7 +526,7 @@ export function appShellMarkup(
     `<button id="load-pattern" type="button" title="Replace this workspace with your last local save">Load</button></div></header>` +
     `<div id="journey-host"></div><div id="studio-body">` +
     `<aside id="studio-inspector" aria-label="Design controls">` +
-    `<div id="welcome-host"></div>${garmentToggleMarkup(activeGarment)}` +
+    `<div id="welcome-host"></div>${garmentToggleMarkup(activeGarment)}<div id="review-context"></div>` +
     `<details id="readiness-details"><summary>Design readiness</summary><div id="readiness-host"></div></details>` +
     `<div id="style-host"></div>${fabricStretchMarkup(stretchFabric)}${fabricSwatchesMarkup(fabric)}` +
     `${controlsMarkup(m, fields)}` +

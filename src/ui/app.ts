@@ -17,7 +17,7 @@ import { FIELDS, applyChange, inputError, numericRangePosition, numericRangeStat
 import { appShellMarkup, controlsMarkup, guidanceMarkup, styleMarkup, specTableMarkup, checkMarkup, editorHintMarkup, editorHandleControlsMarkup, dartControlsMarkup, inspectionMarkup, BodyCroquisView } from "./view";
 import { saveToStorage, loadFromStorage, readFromStorage, serialize, deserialize, DEFAULT_WORKSPACE, defaultStretchFabricForGarment, Workspace } from "./persist";
 import {
-  JourneyStep, ViewName, COACHED_STEPS, disclosureFor, stepView, journeyChecklist,
+  JourneyStep, ViewName, StageReadiness, StageBlocker, COACHED_STEPS, disclosureFor, stepView, journeyChecklist,
   journeyBarMarkup, checklistMarkup, welcomeMarkup, celebrationMarkup,
   loadJourney, saveJourney,
 } from "./journey";
@@ -54,11 +54,17 @@ export function mountApp(root: HTMLElement): void {
   // The guided journey (F2): a coached Start→Output path over the existing views.
   // Its state is presentation-only and persisted separately from the pattern.
   let journey = loadJourney();
+  if (saved && journey.step === "start" && !journey.familiar) journey = { ...journey, step: "measure", familiar: true };
   let celebrating = false; // the light, dismissible export confirmation
+  let styleReviewed = false;
+  let checkReviewed = false;
+  let outputRevision = 0;
+  let currentNotes: readonly Note[] = [];
+  const selectedControlPages = new Map<JourneyStep, number>();
 
   let targetStyle = initialWorkspace.targetStyle;
   let stretchFabric = STRETCH_FABRICS.find((f) => f.name === initialWorkspace.stretchFabric)!;
-  let view: ViewName = journey.step === "start" ? "pattern" : initialWorkspace.view;
+  let view: ViewName = saved ? initialWorkspace.view : stepView(journey.step);
   let bodyCroquisView: BodyCroquisView = initialWorkspace.bodyCroquisView;
   let editedFront: Piece | null = null; // freeform snapshot of the front (override, not parametric)
   let dragId: string | null = null; // handle being dragged
@@ -167,26 +173,63 @@ export function mountApp(root: HTMLElement): void {
     });
   };
 
-  // The journey bar + checklist render Opus's guidance DATA (plausibility gate,
-  // fit gaps, the report verdict) — nothing here recomputes a check.
-  const renderJourney = (): void => {
-    const inputsOk = inputErrors().size === 0;
-    const plausible = designValid();
-    const gaps = matchStyle(measurements, targetStyle, recipe.styles).deltas.length;
-    const report = inputsOk ? garmentReport(recipe, measurements, recipeOptions()) : { ok: false };
-    const parts: string[] = [];
-    root.querySelector<HTMLElement>("#welcome-host")!.innerHTML = journey.step === "start" ? welcomeMarkup() : "";
-    parts.push(journeyBarMarkup(journey.step));
-    if (celebrating) parts.push(celebrationMarkup(plausible));
-    root.querySelector<HTMLElement>("#readiness-host")!.innerHTML = checklistMarkup(
-      journeyChecklist(plausible, gaps, report.ok, journey.exported));
-    journeyHost.innerHTML = parts.join("");
+  const readiness = (): StageReadiness => ({
+    inputsOk: inputErrors().size === 0 && implausibleFields(measurements, recipe.fields).length === 0,
+    styleReviewed,
+    checksOk: designValid(),
+    checkReviewed,
+    exported: journey.exported,
+  });
+  const correctionStep = (field: string): JourneyStep =>
+    field === "ease" || field === "stretchFabric" || field.startsWith("option-") ? "fit" : "measure";
+  const canExport = (): boolean => styleReviewed && checkReviewed && designValid();
+  const stageBlocker = (): StageBlocker | undefined => {
+    if (journey.step === "start") return undefined;
+    const error = inputErrors().entries().next().value;
+    const implausible = implausibleFields(measurements, recipe.fields)[0];
+    if (error) return { message: error[1], field: error[0], step: correctionStep(error[0]) };
+    if (implausible) return {
+      message: "Review the highlighted measurement before continuing.", field: implausible, step: "measure",
+    };
+    if (journey.step === "refine" || journey.step === "output") {
+      if (!styleReviewed) return { message: "Review your current fit and construction choices in Style.", step: "fit" };
+      if (!designValid()) {
+        const note = currentNotes.find((candidate) => candidate.level === "warn");
+        return { message: note?.text ?? "Review the flagged digital checks.",
+          step: note?.field ? correctionStep(note.field) : "refine", field: note?.field };
+      }
+      if (!checkReviewed) return { message: "Inspect the current digital checks before exporting.", step: "refine" };
+    }
+    return undefined;
   };
-  const markOutputDirty = (): void => {
-    if (!journey.exported && !celebrating) return;
+
+  const renderJourney = (): void => {
+    const status = readiness();
+    const parts: string[] = [];
+    root.querySelector<HTMLElement>("#welcome-host")!.innerHTML = journey.step === "start" && !journey.familiar ? welcomeMarkup() : "";
+    parts.push(journeyBarMarkup(journey.step, status, stageBlocker()));
+    if (celebrating) parts.push(celebrationMarkup(status.checksOk));
+    root.querySelector<HTMLElement>("#readiness-host")!.innerHTML = checklistMarkup(journeyChecklist(status));
+    journeyHost.innerHTML = parts.join("");
+    if (journey.step === "start" && !journey.familiar) root.querySelector<HTMLElement>("#journey-next")!.hidden = true;
+  };
+  const markOutputDirty = (designChanged = true): void => {
+    outputRevision++;
+    if (designChanged) {
+      styleReviewed = false;
+      checkReviewed = false;
+      if (journey.step === "output") journey = { ...journey, step: "refine" };
+    }
     journey = { ...journey, exported: false };
     celebrating = false;
     saveJourney(journey);
+  };
+  const renderGuidance = (notes: readonly Note[]): void => {
+    currentNotes = notes;
+    guidanceHost.innerHTML = guidanceMarkup(notes);
+    const warnings = notes.filter((note) => note.level === "warn").length;
+    root.querySelector<HTMLElement>("#guidance-details summary")!.textContent = warnings
+      ? `⚠ ${warnings} to review · Guidance` : "Guidance & material advice";
   };
 
   /** Keep every SVG inside a bounded, keyboard-reachable inspection viewport.
@@ -297,6 +340,7 @@ export function mountApp(root: HTMLElement): void {
   };
 
   const draw = (): void => {
+    applyDisclosure();
     const errors = inputErrors();
     const valid = designValid();
     root.querySelectorAll<HTMLElement>("[data-finished]").forEach((total) => {
@@ -312,12 +356,12 @@ export function mountApp(root: HTMLElement): void {
     });
     syncRangeIndicators();
     root.querySelectorAll<HTMLButtonElement>('#export-host button[id^="export-"]').forEach((button) => {
-      button.disabled = !valid;
-      button.title = button.disabled ? "Resolve the flagged inputs and digital checks before exporting." : "";
+      button.disabled = !canExport();
+      button.title = button.disabled ? "Review Style and the current digital checks before exporting." : "";
     });
     if (errors.size > 0) {
       canvasHost.innerHTML = inspectionMarkup("<p role=\"status\">Draft paused — correct the flagged inputs to render your current design.</p>", previewActive ? "assembled" : view);
-      guidanceHost.innerHTML = guidanceMarkup([...errors.entries()].map(([field, text]) => ({ level: "warn", field, text })));
+      renderGuidance([...errors.entries()].map(([field, text]) => ({ level: "warn", field, text })));
       styleHost.innerHTML = styleMarkup(targetStyle, matchStyle(measurements, targetStyle, recipe.styles), styleNames(recipe.styles), false);
       renderJourney();
       return;
@@ -415,7 +459,7 @@ export function mountApp(root: HTMLElement): void {
     const failedChecks: Note[] = garmentReport(recipe, measurements, recipeOptions()).checks
       .filter((check) => !check.ok).map((check) => ({ field: CHECK_FIELDS[check.name], level: "warn", text: `${check.name}: ${check.detail}` }));
     const materialNote = materialCompatibilityNote();
-    guidanceHost.innerHTML = guidanceMarkup([
+    renderGuidance([
       ...guide(recipe, measurements, recipeOptions()),
       ...failedChecks,
       fabricNote,
@@ -467,6 +511,7 @@ export function mountApp(root: HTMLElement): void {
   const setView = (v: "pattern" | "body" | "nest" | "spec" | "fabric" | "check" | "edit"): void => {
     if (v === "edit" && editedFront === null && inputErrors().size === 0) editedFront = rolePiece(draftCurrent(), recipe.editRole ?? "front");
     view = v;
+    if (v === "check" && journey.step === "refine") checkReviewed = true;
     previewActive = false;
     inactiveInspection = { zoom: 1, left: 0, top: 0 };
     syncPreviewToggle();
@@ -477,15 +522,20 @@ export function mountApp(root: HTMLElement): void {
       viewBtns[k].style.color = on ? BLUEPRINT.background : BLUEPRINT.line;
       viewBtns[k].setAttribute("aria-pressed", String(on));
     });
+    const advancedViews = root.querySelector<HTMLDetailsElement>("#advanced-views")!;
+    const fromMenu = advancedViews.open;
+    advancedViews.open = false;
+    root.querySelector<HTMLElement>("#advanced-view-label")!.textContent = v === "pattern" || v === "body" ? "More views" : viewBtns[v].textContent;
     bodyCroquisHost.style.display = v === "body" ? "flex" : "none";
     draw();
+    if (fromMenu) root.querySelector<HTMLElement>("#advanced-view-label")!.focus();
   };
   viewBtns.pattern.addEventListener("click", () => setView("pattern"));
   viewBtns.body.addEventListener("click", () => setView("body"));
   viewBtns.nest.addEventListener("click", () => setView("nest"));
   viewBtns.spec.addEventListener("click", () => setView("spec"));
   viewBtns.fabric.addEventListener("click", () => setView("fabric"));
-  viewBtns.check.addEventListener("click", () => setView("check"));
+  viewBtns.check.addEventListener("click", () => setStep("refine"));
   viewBtns.edit.addEventListener("click", () => setView("edit"));
   bodyCroquisBtns.frontBack.addEventListener("click", () => setBodyCroquisView("front-back"));
   bodyCroquisBtns.front.addEventListener("click", () => setBodyCroquisView("front"));
@@ -496,6 +546,9 @@ export function mountApp(root: HTMLElement): void {
   // advanced views stay one click away once unlocked, never front-loaded.
   const applyDisclosure = (): void => {
     const d = disclosureFor(journey.step);
+    root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage = journey.step;
+    root.querySelector<HTMLElement>("#current-garment")!.textContent = recipe.label;
+    root.querySelector<HTMLElement>("#garment-toggle-host")!.style.display = journey.step === "start" ? "flex" : "none";
     root.querySelector<HTMLElement>("#controls-panel")!.style.display = d.controls ? "" : "none";
     root.querySelector<HTMLElement>("#stretch-host")!.style.display = d.stretch ? "flex" : "none";
     root.querySelector<HTMLElement>("#swatch-host")!.style.display = d.swatches ? "flex" : "none";
@@ -503,42 +556,71 @@ export function mountApp(root: HTMLElement): void {
     styleHost.style.display = d.style ? "" : "none";
     guidanceHost.style.display = d.guidance ? "" : "none";
     root.querySelector<HTMLElement>("#guidance-details")!.hidden = !d.guidance;
+    root.querySelector<HTMLElement>("#readiness-details")!.hidden = journey.step !== "refine" && journey.step !== "output";
+    const context = root.querySelector<HTMLElement>("#review-context")!;
+    context.hidden = journey.step !== "refine" && journey.step !== "output";
+    context.textContent = journey.step === "output"
+      ? "Choose a size, then a cutting or reference file. Digital checks are not physical fit validation."
+      : "Review the current draft and any guidance before exporting. Digital checks do not replace a sewn sample.";
     root.querySelector<HTMLElement>("#view-toggle-host")!.style.display =
       d.views.length > 0 ? "flex" : "none";
     bodyCroquisHost.style.display = view === "body" && !previewActive && d.views.includes("body") ? "flex" : "none";
-    (Object.keys(viewBtns) as ViewName[]).forEach((k) => {
-      viewBtns[k].style.display = d.views.includes(k) ? "" : "none";
-    });
+    root.querySelector<HTMLElement>("#advanced-views")!.hidden = journey.step === "start";
+    syncControlPages();
   };
 
   const setStep = (s: JourneyStep): void => {
-    journey = { ...journey, step: s };
+    if (s === "output" && !canExport()) return;
+    journey = { ...journey, step: s, familiar: true };
     saveJourney(journey);
     celebrating = false;
     applyDisclosure();
-    const v = stepView(s);
-    if (v !== null && view !== v) setView(v); // setView redraws (and the journey with it)
-    else draw();
+    setView(stepView(s));
+    root.querySelector<HTMLElement>('#journey-host [aria-current="step"]')!.focus();
+  };
+
+  const focusGuidanceField = (field: string): void => {
+    setStep(correctionStep(field));
+    const control = root.querySelector<HTMLElement>(`[data-guidance-control="${field}"]`);
+    if (!control) return;
+    const page = control.closest<HTMLElement>("[data-control-page]");
+    if (page) setControlPage(Number(page.dataset.controlPage));
+    control.focus();
   };
 
   // The journey host is rebuilt every draw, so its clicks are delegated.
   root.addEventListener("click", (e) => {
-    const id = (e.target as HTMLElement).id;
+    const element = e.target as HTMLElement;
+    const menu = root.querySelector<HTMLDetailsElement>("#advanced-views")!;
+    if (menu.open && !menu.contains(element)) menu.open = false;
+    const target = element.closest<HTMLElement>("button");
+    if (!target) return;
+    const id = target.id;
     const idx = COACHED_STEPS.findIndex((st) => st.id === journey.step);
-    if (id === "welcome-start" || id === "journey-next") {
+    if (id === "welcome-start" || id === "welcome-skip") {
+      setStep("measure");
+    } else if (id === "journey-next" && !stageBlocker()) {
+      if (journey.step === "fit") styleReviewed = true;
       setStep(COACHED_STEPS[Math.min(idx + 1, COACHED_STEPS.length - 1)].id);
     } else if (id === "journey-back") {
       setStep(COACHED_STEPS[Math.max(idx - 1, 0)].id);
-    } else if (id === "welcome-skip" || id === "journey-skip") {
-      setStep("done");
+    } else if (id === "journey-correction") {
+      const field = target.dataset.correctionField;
+      if (field) focusGuidanceField(field);
+      else setStep(target.dataset.correctionStep as JourneyStep);
     } else if (id === "celebrate-dismiss") {
       celebrating = false;
       renderJourney();
-    } else if (journey.step === "done" && id.startsWith("journey-step-")) {
+    } else if (id.startsWith("journey-step-")) {
       setStep(id.slice("journey-step-".length) as JourneyStep);
     }
   });
-  applyDisclosure();
+  root.addEventListener("keydown", (event) => {
+    const menu = root.querySelector<HTMLDetailsElement>("#advanced-views")!;
+    if (event.key !== "Escape" || !menu.open) return;
+    menu.open = false;
+    root.querySelector<HTMLElement>("#advanced-view-label")!.focus();
+  });
   window.addEventListener("resize", applyInspectionPresentation);
 
   const previewToggle = root.querySelector<HTMLButtonElement>("#assembled-preview-toggle")!;
@@ -560,13 +642,23 @@ export function mountApp(root: HTMLElement): void {
     inactiveInspection = current;
   });
 
-  const setControlPage = (index: number): void => {
+  const syncControlPages = (): void => {
+    const stage = journey.step === "fit" ? "fit" : "measure";
     const pages = [...root.querySelectorAll<HTMLElement>("[data-control-page]")];
-    const current = Math.max(0, Math.min(pages.length - 1, index));
-    pages.forEach((page, i) => { page.hidden = i !== current; });
-    root.querySelector<HTMLSelectElement>("#control-page-select")!.value = String(current);
-    root.querySelector<HTMLButtonElement>('[data-control-page-step="-1"]')!.disabled = current === 0;
-    root.querySelector<HTMLButtonElement>('[data-control-page-step="1"]')!.disabled = current === pages.length - 1;
+    const available = pages.filter((page) => page.dataset.controlStage === stage);
+    const current = available.find((page) => Number(page.dataset.controlPage) === selectedControlPages.get(stage)) ?? available[0];
+    pages.forEach((page) => { page.hidden = page !== current; });
+    const select = root.querySelector<HTMLSelectElement>("#control-page-select")!;
+    select.replaceChildren(...available.map((page, index) =>
+      new Option(`${index + 1} / ${available.length} · ${page.dataset.controlLabel}`, page.dataset.controlPage)));
+    select.value = current.dataset.controlPage!;
+    const position = available.indexOf(current);
+    root.querySelector<HTMLButtonElement>('[data-control-page-step="-1"]')!.disabled = position === 0;
+    root.querySelector<HTMLButtonElement>('[data-control-page-step="1"]')!.disabled = position === available.length - 1;
+  };
+  const setControlPage = (index: number): void => {
+    selectedControlPages.set(journey.step === "fit" ? "fit" : "measure", index);
+    syncControlPages();
   };
   root.addEventListener("change", (event) => {
     const target = event.target as HTMLSelectElement;
@@ -575,8 +667,9 @@ export function mountApp(root: HTMLElement): void {
   root.addEventListener("click", (event) => {
     const button = (event.target as HTMLElement).closest<HTMLButtonElement>("[data-control-page-step]");
     if (!button || button.disabled) return;
-    const current = Number(root.querySelector<HTMLSelectElement>("#control-page-select")!.value);
-    setControlPage(current + Number(button.dataset.controlPageStep));
+    const select = root.querySelector<HTMLSelectElement>("#control-page-select")!;
+    const next = select.options[select.selectedIndex + Number(button.dataset.controlPageStep)];
+    setControlPage(Number(next.value));
   });
 
   // Guidance rows are rebuilt every draw, so the stable host delegates their
@@ -587,12 +680,7 @@ export function mountApp(root: HTMLElement): void {
     if (!target) return;
     const field = target.dataset.guidanceFocus;
     if (!field) return;
-    const control = root.querySelector<HTMLElement>(`[data-guidance-control="${field}"]`);
-    if (control) {
-      const page = control.closest<HTMLElement>("[data-control-page]");
-      if (page) setControlPage(Number(page.dataset.controlPage));
-      control.focus();
-    }
+    focusGuidanceField(field);
   });
 
   // Freeform drag: pointer -> nearest handle -> moveHandle -> redraw. All the
@@ -662,12 +750,10 @@ export function mountApp(root: HTMLElement): void {
     if (id === "editor-reset") {
       editedFront = rolePiece(draftCurrent(), recipe.editRole ?? "front");
       selectedId = null;
-      markOutputDirty();
       draw();
     } else if (DART_TOOLS[id] && editedFront) {
       editedFront = DART_TOOLS[id](editedFront);
       selectedId = null;
-      markOutputDirty();
       draw();
     }
   });
@@ -675,6 +761,7 @@ export function mountApp(root: HTMLElement): void {
   const setGarment = (name: string): void => {
     markOutputDirty();
     recipe = garmentByName(name);
+    selectedControlPages.clear();
     hoveredDim = null;
     focusedDim = null;
     highlightDim(null);
@@ -712,7 +799,7 @@ export function mountApp(root: HTMLElement): void {
     const v = Number(widthInput.value);
     if (Number.isFinite(v) && v > 0) {
       fabricWidth = v;
-      markOutputDirty();
+      markOutputDirty(false);
       draw();
     }
   });
@@ -721,7 +808,7 @@ export function mountApp(root: HTMLElement): void {
   const marker = root.querySelector<HTMLButtonElement>("#nest-marker")!;
   const setScope = (s: "single" | "marker"): void => {
     nestScope = s;
-    markOutputDirty();
+    markOutputDirty(false);
     single.style.background = s === "single" ? BLUEPRINT.lineActive : "transparent";
     single.style.color = s === "single" ? BLUEPRINT.background : BLUEPRINT.label;
     single.setAttribute("aria-pressed", String(s === "single"));
@@ -861,7 +948,7 @@ export function mountApp(root: HTMLElement): void {
   swatches.forEach((swatch) => {
     swatch.addEventListener("click", () => {
       fabric = swatch.dataset.fabric!;
-      markOutputDirty();
+      markOutputDirty(false);
       swatches.forEach((s) => {
         s.style.outline = s.dataset.fabric === fabric ? `2px solid ${BLUEPRINT.lineActive}` : "none";
         s.setAttribute("aria-pressed", String(s.dataset.fabric === fabric));
@@ -898,7 +985,8 @@ export function mountApp(root: HTMLElement): void {
   };
   exportSizeEl.addEventListener("change", () => {
     exportStep = Number(exportSizeEl.value);
-    markOutputDirty();
+    markOutputDirty(false);
+    renderJourney();
   });
   // exportStep always comes from the picker, which is populated from recipe.sizes,
   // so the step is guaranteed to resolve to a real size.
@@ -924,12 +1012,13 @@ export function mountApp(root: HTMLElement): void {
     statusTimer = window.setTimeout(() => { statusEl.textContent = ""; }, 2000);
   };
   const completeExport = (): void => {
-    journey = { ...journey, step: "done", exported: true };
+    journey = { ...journey, step: "output", exported: true };
     saveJourney(journey);
     celebrating = true;
     renderJourney();
   };
   const download = async (filename: string, text: string, mime: string): Promise<void> => {
+    const requestedRevision = outputRevision;
     if (window.electronAPI) {
       try {
         const result = await window.electronAPI.saveFile(filename, text);
@@ -937,7 +1026,8 @@ export function mountApp(root: HTMLElement): void {
           flash("Export canceled — choose a file location to complete it.", BLUEPRINT.lineActive);
           return;
         }
-        completeExport();
+        if (requestedRevision === outputRevision) completeExport();
+        else flash("File saved for the earlier design — review the current design before exporting again.", BLUEPRINT.lineActive);
         return;
       } catch {
         flash("Export failed — check the destination and retry.", BLUEPRINT.lineActive);
@@ -958,7 +1048,7 @@ export function mountApp(root: HTMLElement): void {
   };
   const onExport = (id: string, action: () => void): void => {
     root.querySelector<HTMLButtonElement>(id)!.addEventListener("click", () => {
-      if (designValid()) action();
+      if (canExport()) action();
     });
   };
   onExport("#export-svg", () => {
@@ -998,7 +1088,14 @@ export function mountApp(root: HTMLElement): void {
       techpack: "export-techpack", projector: "export-projector", a0: "export-a0",
     };
     const id = buttonId[kind];
-    if (id) root.querySelector<HTMLButtonElement>(`#${id}`)?.click();
+    if (!id) return;
+    if (!canExport()) {
+      setStep("refine");
+      flash("Review Style and the current digital checks before exporting.", BLUEPRINT.lineActive);
+      return;
+    }
+    setStep("output");
+    root.querySelector<HTMLButtonElement>(`#${id}`)?.click();
   });
 
   root.querySelector<HTMLButtonElement>("#save-pattern")!.addEventListener("click", () => {
@@ -1031,6 +1128,7 @@ export function mountApp(root: HTMLElement): void {
   });
 
   const syncWorkspace = (restoring: boolean): void => {
+    selectedControlPages.clear();
     editedFront = null;
     selectedId = null;
     dragId = null;
@@ -1055,7 +1153,7 @@ export function mountApp(root: HTMLElement): void {
     stretchSelect.value = stretchFabric.name;
     widthInput.value = String(fabricWidth);
     syncExportSizes();
-    if (restoring && !disclosureFor(journey.step).views.includes(view)) journey = { ...journey, step: "done" };
+    if (restoring && journey.step === "start") journey = { ...journey, step: "measure", familiar: true };
     setBodyCroquisView(bodyCroquisView);
     setScope(nestScope);
     setView(view);

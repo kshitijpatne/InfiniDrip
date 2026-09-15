@@ -1,7 +1,8 @@
 # UI/UX redesign execution — Slices 114–121
 
-Status: Slice 115A implementation checkpoint, 2026-09-13; Slice 115 remains
-in progress and has NOT passed its integration gate. Epic 4 remains closed.
+Status: Slice 115B focused/live checkpoint, 2026-09-15; the bounded stage and
+assembled integration checks are green, but the full redesign gate remains.
+Epic 4 remains closed.
 This is the newly authorized workspace redesign, not a reopened garment-grammar
 migration. Branch: `codex/ux-studio`; approved baseline: `816b9ff`.
 
@@ -101,7 +102,52 @@ The previous 81-file/1,031-test pass is a baseline, not a test run for this work
 
 ## Current checkpoint / exact next actions
 
-### Slice 115A — bounded studio and reversible preview
+### Slice 115B — readiness journey and integration checkpoint
+
+This is an incomplete checkpoint, not Slice 115 acceptance. On
+`codex/ux-studio` at baseline `c2c3bc0`, the concurrent implementation now has
+five actual stages: Garment, Measure, Style, Check, and Export. Completion is
+readiness-derived; `styleReviewed` is set only on Style → Next, current Check
+review is required, and the true Export gate applies to the desktop menu and
+buttons.
+
+Measurement, material, option, and target changes invalidate review and file
+confirmation. Export size, nesting scope, fabric width, and color changes
+invalidate file confirmation, and a delayed old desktop write cannot confirm a
+new revision. Measure separates body/length groups from Style ease/options;
+corrections reveal the right stage/group and focus the field. Stage navigation
+restores current-stage focus. More views retains all seven views and supports
+Escape, outside click, and selection focus. Skip introduction does not mark
+readiness. Journey persistence is v2, accepts legacy v1, and resets historical
+`exported` on load. Selected-garment header, named Style combobox, and local
+rail containment are included.
+
+Changed concurrent source/test paths are `src/ui/app.ts`, `src/ui/journey.ts`,
+`src/ui/view.ts`, `src/ui/studio.css`, `src/ui/app.test.ts`,
+`src/ui/journey.test.ts`, `src/ui/view.test.ts`, possibly
+`src/ui/bugfix-p1.test.ts`, `src/ui/studio.test.ts`, and `vitest.config.ts`.
+No export writers, geometry, export baseline, or workspace-save schema changes
+were made.
+
+Verification now passes 207/207 across `app.test.ts`, `bugfix-p1.test.ts`,
+`journey.test.ts`, `studio.test.ts`, and `view.test.ts`; `npx tsc --noEmit`
+is clean. The live browser checkpoint exercised all seven garments through
+Garment → Measure → Style → Check → Export, and all seven views through
+Assembled and back. Responsive checks at 1280/900/700/560/390×844 found no
+page horizontal overflow; the narrow inspector retained the canvas and a
+focused second measurement page, and More views passed Escape/outside-click
+checks. Screenshots were inline only and not durable artifacts.
+
+Exact remaining work: complete the full per-control live matrix (including
+zoom/text-size, persistence/recovery, options/material/appearance and every
+export path), then run the full `npm test`, 100% coverage, `npx tsc --noEmit`,
+build, parsed-consumer checks, and eight-hash legacy gate. Only those results
+can close the full redesign; Slices 116–121 remain. Preserve user logs/tmp;
+no push or credits. Current observed usage is 2% short-window / 79% weekly;
+do not start an expensive full gate after the allowance approaches the
+documented stop threshold.
+
+### Slice 115A — prior bounded-studio checkpoint (superseded)
 
 Implemented on `codex/ux-studio` after resuming from `9fb9e7e`:
 

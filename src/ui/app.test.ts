@@ -11,6 +11,19 @@ function mount(): HTMLDivElement {
 }
 const viewBox = (root: HTMLElement): string =>
   root.querySelector("#canvas-host svg")!.getAttribute("viewBox")!;
+const clickId = (root: HTMLElement, id: string): void => {
+  root.querySelector<HTMLElement>(`#${id}`)!.click();
+};
+const clickIfPresent = (root: HTMLElement, id: string): void => {
+  root.querySelector<HTMLElement>(`#${id}`)?.click();
+};
+/** Navigate the real reviewed path used by export-writer tests. */
+const reachExportStage = (root: HTMLElement): void => {
+  clickIfPresent(root, "welcome-start");
+  clickId(root, "journey-step-fit");
+  clickId(root, "journey-next"); // accept the current Style choices → Check
+  clickId(root, "journey-next"); // reviewed Check → Export
+};
 
 describe("mountApp", () => {
   it("draws the canvas and the garment on mount", () => {
@@ -380,6 +393,7 @@ describe("mountApp", () => {
       created.push(this.download);
     });
     const root = mount();
+    reachExportStage(root);
     root.querySelector<HTMLButtonElement>("#export-svg")!.dispatchEvent(new Event("click"));
     root.querySelector<HTMLButtonElement>("#export-dxf")!.dispatchEvent(new Event("click"));
     root.querySelector<HTMLButtonElement>("#export-pdf")!.dispatchEvent(new Event("click"));
@@ -394,6 +408,7 @@ describe("mountApp", () => {
     HTMLAnchorElement.prototype.click = vi.fn();
     try {
       const root = mount();
+      reachExportStage(root);
       root.querySelector<HTMLButtonElement>("#export-svg")!.dispatchEvent(new Event("click"));
       await Promise.resolve();
       expect(saveFile).toHaveBeenCalledTimes(1);
@@ -417,7 +432,8 @@ describe("mountApp", () => {
       onExportRequested: (cb) => { registered = cb; },
     };
     try {
-      mount();
+      const root = mount();
+      reachExportStage(root);
       expect(registered).toBeTypeOf("function"); // app.ts really registered a listener
       registered!("dxf"); // simulates "File > Export > DXF" being clicked in the real menu
       await Promise.resolve();
@@ -444,6 +460,7 @@ describe("mountApp", () => {
       created.push(this.download);
     });
     const root = mount();
+    reachExportStage(root);
     const size = root.querySelector<HTMLSelectElement>("#export-size")!;
     const opts = [...root.querySelectorAll<HTMLOptionElement>("#export-size option")];
     size.value = opts[opts.length - 1].value;
@@ -460,6 +477,7 @@ describe("mountApp", () => {
       created.push(this.download);
     });
     const root = mount();
+    reachExportStage(root);
     const size = root.querySelector<HTMLSelectElement>("#export-size")!;
     size.value = "1";
     size.dispatchEvent(new Event("change"));
@@ -476,6 +494,7 @@ describe("mountApp", () => {
       created.push(this.download);
     });
     const root = mount();
+    reachExportStage(root);
     const size = root.querySelector<HTMLSelectElement>("#export-size")!;
     size.value = "1";
     size.dispatchEvent(new Event("change"));
@@ -502,6 +521,7 @@ describe("mountApp", () => {
     });
     try {
       const root = mount();
+      reachExportStage(root);
       const size = root.querySelector<HTMLSelectElement>("#export-size")!;
       // default is base M
       root.querySelector<HTMLButtonElement>("#export-svg")!.dispatchEvent(new Event("click"));
@@ -550,13 +570,26 @@ describe("mountApp", () => {
   });
 
   it("Save shows a failure message when localStorage throws", () => {
-    vi.spyOn(Storage.prototype, "setItem").mockImplementationOnce(() => {
-      throw new Error("quota");
-    });
-    const root = mount();
-    root.querySelector<HTMLButtonElement>("#save-pattern")!.dispatchEvent(new Event("click"));
-    expect(root.querySelector<HTMLSpanElement>("#persist-status")!.textContent).toContain("failed");
-    vi.restoreAllMocks();
+    const originalWindowStorage = window.localStorage;
+    const originalGlobalStorage = globalThis.localStorage;
+    const unavailableStorage = {
+      clear: (): void => undefined,
+      getItem: (): null => null,
+      key: (): null => null,
+      removeItem: (): void => undefined,
+      setItem: (): never => { throw new Error("quota"); },
+      get length(): number { return 0; },
+    } as unknown as Storage;
+    Object.defineProperty(window, "localStorage", { configurable: true, value: unavailableStorage });
+    Object.defineProperty(globalThis, "localStorage", { configurable: true, value: unavailableStorage });
+    try {
+      const root = mount();
+      root.querySelector<HTMLButtonElement>("#save-pattern")!.dispatchEvent(new Event("click"));
+      expect(root.querySelector<HTMLSpanElement>("#persist-status")!.textContent).toContain("failed");
+    } finally {
+      Object.defineProperty(window, "localStorage", { configurable: true, value: originalWindowStorage });
+      Object.defineProperty(globalThis, "localStorage", { configurable: true, value: originalGlobalStorage });
+    }
   });
 
   it("Load is a no-op when nothing has been saved", () => {
@@ -589,20 +622,17 @@ describe("mountApp", () => {
     expect(root.querySelector("#guidance-host")!.innerHTML).toContain("negative ease");
   });
 
-  it("graduates Output to Done only after Electron confirms the write", async () => {
+  it("confirms Export only after Electron confirms the reviewed write", async () => {
     localStorage.clear();
     const saveFile = vi.fn().mockResolvedValue({ saved: true });
     window.electronAPI = { saveFile };
     try {
       const root = mount();
-      const journeyClick = (id: string): void => { root.querySelector<HTMLElement>("#" + id)!.dispatchEvent(new Event("click", { bubbles: true })); };
-      journeyClick("welcome-start");
-      journeyClick("journey-next");
-      journeyClick("journey-next");
-      journeyClick("journey-next");
-      journeyClick("export-svg");
+      reachExportStage(root);
+      clickId(root, "export-svg");
       await Promise.resolve();
-      expect(root.querySelector("#journey-host")!.textContent).toContain("Tour complete");
+      expect(root.querySelector("#journey-host")!.textContent).toContain("Current stage: 5 Export");
+      expect(root.querySelector("#journey-step-output")!.getAttribute("aria-current")).toBe("step");
       expect(root.querySelector("#readiness-host")!.textContent).toContain("5 of 5");
       expect(root.querySelector("#journey-celebration")!.textContent).toContain("Files exported");
     } finally {
@@ -1197,24 +1227,20 @@ describe("guided journey", () => {
   };
   const hidden = (root: HTMLElement, sel: string): boolean =>
     root.querySelector<HTMLElement>(sel)!.style.display === "none";
-  const walkToOutput = (root: HTMLElement): void => {
-    jclick(root, "welcome-start"); // → measure
-    jclick(root, "journey-next"); // → fit
-    jclick(root, "journey-next"); // → refine
-    jclick(root, "journey-next"); // → output
-  };
+  const walkToOutput = (root: HTMLElement): void => reachExportStage(root);
   const mockDownloads = (): void => {
     URL.createObjectURL = vi.fn(() => "blob:test");
     URL.revokeObjectURL = vi.fn();
     HTMLAnchorElement.prototype.click = vi.fn();
   };
 
-  it("opens the first run on a welcome card with everything tucked away", () => {
+  it("opens the first run on a welcome card with design controls tucked away", () => {
     const root = mount();
     expect(root.querySelector("#journey-welcome")).not.toBeNull();
     expect(hidden(root, "#controls-panel")).toBe(true);
     expect(hidden(root, "#export-host")).toBe(true);
-    expect(hidden(root, "#view-toggle-host")).toBe(true);
+    expect(hidden(root, "#view-toggle-host")).toBe(false);
+    expect(root.querySelector<HTMLElement>("#advanced-views")!.hidden).toBe(true);
     expect(hidden(root, "#style-host")).toBe(true);
   });
 
@@ -1224,11 +1250,12 @@ describe("guided journey", () => {
     expect(hidden(root, "#controls-panel")).toBe(false);
     expect(root.querySelector("#canvas-host")!.innerHTML).toContain("(circ)"); // body view
     expect(hidden(root, "#view-body")).toBe(false);
-    expect(hidden(root, "#view-nest")).toBe(true); // advanced views stay tucked away
+    expect(root.querySelector<HTMLElement>("#advanced-views")!.hidden).toBe(false);
     expect(hidden(root, "#export-host")).toBe(true);
+    expect(root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("measure");
   });
 
-  it("reaches Output in the five coached steps, with exports finally revealed", () => {
+  it("reaches Export through the reviewed stage path, with exports finally revealed", () => {
     const root = mount();
     walkToOutput(root);
     expect(hidden(root, "#export-host")).toBe(false);
@@ -1236,6 +1263,7 @@ describe("guided journey", () => {
     expect(hidden(root, "#view-spec")).toBe(false);
     // standard measurements: plausible + on-target + checks pass, not yet exported
     expect(root.querySelector("#readiness-host")!.innerHTML).toContain("4 of 5");
+    expect(root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("output");
   });
 
   it("does not claim a browser download was written", () => {
@@ -1260,13 +1288,15 @@ describe("guided journey", () => {
     expect(URL.createObjectURL).not.toHaveBeenCalled();
   });
 
-  it("lets an expert skip the tour and see the whole app at once", () => {
+  it("moves Skip to Measure without completing design readiness", () => {
     const root = mount();
     jclick(root, "welcome-skip");
     expect(root.querySelector("#journey-welcome")).toBeNull();
-    expect(hidden(root, "#export-host")).toBe(false);
-    expect(hidden(root, "#view-edit")).toBe(false);
-    expect(root.querySelector("#journey-host")!.innerHTML).toContain("Tour complete");
+    expect(hidden(root, "#controls-panel")).toBe(false);
+    expect(hidden(root, "#export-host")).toBe(true);
+    expect(root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("measure");
+    expect(root.querySelector("#journey-host")!.textContent).not.toContain("Tour complete");
+    expect(root.querySelector("#readiness-host")!.textContent).not.toContain("5 of 5");
   });
 
   it("resumes a persisted journey where it left off", () => {
@@ -1274,8 +1304,8 @@ describe("guided journey", () => {
       JSON.stringify({ v: 1, step: "refine", exported: false }));
     const root = mount();
     expect(root.querySelector("#journey-welcome")).toBeNull();
-    expect(hidden(root, "#view-check")).toBe(false); // refine unlocked Check…
-    expect(hidden(root, "#view-nest")).toBe(true); // …but Size run waits for Output
+    expect(root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("refine");
+    expect(root.querySelector("#canvas-inspection")!.getAttribute("data-inspection-view")).toBe("check");
     expect(hidden(root, "#export-host")).toBe(true);
   });
 
@@ -1289,21 +1319,35 @@ describe("guided journey", () => {
     expect(hidden(root, "#controls-panel")).toBe(false);
   });
 
-  it("keeps future step chips informational until graduation", () => {
+  it("lets the first four stage chips revisit their stage and preferred view", () => {
     const root = mount();
-    walkToOutput(root);
+    jclick(root, "welcome-skip");
+    jclick(root, "journey-step-start");
+    expect(root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("start");
+    expect(root.querySelector("#canvas-inspection")!.getAttribute("data-inspection-view")).toBe("pattern");
     jclick(root, "journey-step-measure");
-    expect(root.querySelector("#readiness-host")!.textContent).toContain("4 of 5");
-    expect(hidden(root, "#export-host")).toBe(false);
+    expect(root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("measure");
+    expect(root.querySelector("#canvas-inspection")!.getAttribute("data-inspection-view")).toBe("body");
+    jclick(root, "journey-step-fit");
+    expect(root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("fit");
+    expect(root.querySelector("#canvas-inspection")!.getAttribute("data-inspection-view")).toBe("body");
+    jclick(root, "journey-step-refine");
+    expect(root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("refine");
+    expect(root.querySelector("#canvas-inspection")!.getAttribute("data-inspection-view")).toBe("check");
+    expect(root.querySelector<HTMLButtonElement>("#journey-step-output")!.disabled).toBe(true);
   });
 
-  it("returns Done to the defined Pattern landing state", () => {
+  it("keeps the legacy Done state from bypassing the reviewed journey", () => {
     const root = mount();
     jclick(root, "welcome-skip");
     root.querySelector<HTMLButtonElement>("#view-body")!.dispatchEvent(new Event("click"));
-    jclick(root, "journey-step-start");
-    expect(root.querySelector("#canvas-inspection")!.getAttribute("data-inspection-view")).toBe("pattern");
-    expect(hidden(root, "#view-toggle-host")).toBe(true);
+    localStorage.setItem("patternworks_journey_v1",
+      JSON.stringify({ v: 1, step: "done", exported: true }));
+    const restored = mount();
+    expect(restored.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("measure");
+    expect(restored.querySelector("#canvas-inspection")!.getAttribute("data-inspection-view")).toBe("body");
+    expect(restored.querySelector<HTMLButtonElement>("#journey-step-output")!.disabled).toBe(true);
+    expect(restored.querySelector("#readiness-host")!.textContent).not.toContain("5 of 5");
   });
 
   it("keeps the Slice-30 hover spotlight alive inside the journey", () => {
@@ -1394,6 +1438,7 @@ describe("switching to the trouser recipe (Slice 100)", () => {
     const material = root.querySelector<HTMLSelectElement>("#stretch-select")!;
     material.value = "Cotton woven";
     material.dispatchEvent(new Event("change"));
+    reachExportStage(root);
     const size = root.querySelector<HTMLSelectElement>("#export-size")!;
     size.value = "1";
     size.dispatchEvent(new Event("change"));

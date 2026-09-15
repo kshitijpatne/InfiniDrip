@@ -1,8 +1,45 @@
 # InfiniDrip — Project State
 
-_Last updated: UI/UX redesign Slice 115A checkpoint, 2026-09-13; Epic 3 and Epic 4 remain closed._
+_Last updated: UI/UX redesign Slice 115B live checkpoint, 2026-09-15; Epic 3 and Epic 4 remain closed._
 
 ## Current work — beginner-facing workspace redesign
+
+### Slice 115B checkpoint — focused/live evidence green; full redesign gate pending
+
+Current checkpoint: `codex/ux-studio` at baseline `c2c3bc0`. Slice 114 research
+is complete; do not repeat it. The implementation now has five actual stages:
+Garment, Measure, Style, Check, and Export. Readiness—not earlier index—drives
+completion: `styleReviewed` is set only on Style → Next, current Check review
+is required, and the true Export gate applies to the desktop menu and buttons.
+
+Design measurement, material, option, and target changes invalidate review and
+file confirmation. Export size, nesting scope, fabric width, and color changes
+invalidate file confirmation; a delayed old desktop write cannot confirm a new
+revision. Measure separates body/length groups from Style ease/options groups;
+corrections reveal the right stage/group and focus the field. Stage navigation
+restores current-stage focus. More views keeps all seven views and supports
+Escape, outside click, and selection focus. Skip introduction does not mark
+readiness. Journey persistence is v2, accepts legacy v1, and resets historical
+`exported` on load. The selected-garment header, named Style combobox, and
+local rail containment fix are included.
+
+Focused verification now passes 207/207 across `app.test.ts`,
+`bugfix-p1.test.ts`, `journey.test.ts`, `studio.test.ts`, and `view.test.ts`;
+`npx tsc --noEmit` is clean. The actual browser checkpoint exercised all
+seven garments through Garment → Measure → Style → Check → Export, and every
+one of the seven views round-tripped through Assembled and returned to its
+original view. At 1280/900/700/560/390×844, document width matched the
+viewport with no page horizontal overflow; the narrow inspector kept the
+canvas and a focused second measurement page visible. Escape returned focus
+to More views and an outside click closed it. Screenshots were inline only,
+not durable artifacts.
+
+This is still not the final redesign gate. Full per-control live interaction
+coverage across every garment, options/material/appearance, persistence and
+export path; zoom/text-size checks; `npm test`; 100% coverage; build; parsed
+consumer checks; and the eight-hash legacy gate remain. Slices 116–121 remain.
+No export writers, geometry, baselines, or workspace-save schema changed.
+Preserve user logs/tmp; no push or credits.
 
 The maintainer has authorized a comprehensive UI/UX audit and redesign from
 first launch to export, with research before implementation and the existing
