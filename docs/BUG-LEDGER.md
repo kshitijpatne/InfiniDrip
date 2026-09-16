@@ -66,6 +66,28 @@ current slice and is not a final closure claim.
   advisory in Check. Renderer contracts passed 55/55; no export or save payload
   changed.
 
+## Current implementation evidence — Slice 119A
+
+The following records remain `In progress`; this checkpoint closes only the
+bounded dirty-replacement behavior and does not claim the full Slice 119 or
+redesign gate.
+
+- `BUG-UI-038`: the existing local Save/Load payload remains validated, but a
+  dirty Load now opens a replacement dialog. `Keep editing` and Escape leave
+  the changed draft in place; accepting the saved workspace restores all
+  synchronized controls. Implementation: `84ee51f` (`Slice 119: guard dirty
+  workspace replacement`). Focused app/view coverage passed 157/157. Live
+  rendered verification observed the modal, cancel preservation, and accepted
+  restore at the desktop viewport. Edit-snapshot loss on garment switch remains
+  a separate recovery concern.
+- `BUG-UI-046`: Save continues to reject incomplete drafts rather than relaxing
+  validity. Unfinished-draft recovery and a navigation guard remain Slice 119B
+  work; no recovery claim is made here.
+- `BUG-UI-044`: Save/Load remains persistently reachable in the header, and
+  dirty replacement now states its consequence with an explicit choice. Format
+  purpose guidance and final export-stage treatment remain planned for Slice
+  120.
+
 Responsive audit note: the narrow-viewport request did not change measured
 dimensions in this session. No new responsive pass is claimed. Actual viewport
 dimensions and field/canvas co-visibility are required in the final gate.

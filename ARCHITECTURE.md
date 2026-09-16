@@ -3,7 +3,7 @@
 How the app fits together, in plain language. Read the top to re-orient; skim the
 layers when you need detail. Updated every slice with only need-to-know changes.
 
-## Current workspace redesign boundary — Slice 118 focused/live checkpoint
+## Current workspace redesign boundary — Slice 119A focused/live checkpoint
 
 The current beginner-facing workspace uses five actual stages: Garment,
 Measure, Style, Check, and Export. Stage completion is readiness-derived, not
@@ -44,10 +44,22 @@ restore it, and any design change clears the dismissal. A cleared warning
 removes its note automatically; dismissed advice remains a mild Check-stage
 reconsideration cue.
 
+The persistent workspace boundary now tracks `outputRevision` against a
+`savedRevision` baseline. A successful Save marks the current revision clean.
+Load validates the existing local snapshot before either applying it directly
+when clean or opening a modal replacement decision when dirty. Keep editing and
+Escape preserve the current draft and restore the initiating control's focus;
+accepting the replacement runs the existing synchronized restore path and marks
+that loaded revision clean. This is orchestration around the existing v5
+payload, not a schema change. Unfinished-draft recovery and bounded Undo/Redo
+remain Slice 119B work.
+
 No drafting geometry, export writers, or export baselines changed. The
 workspace save payload gained an optional appearance extension with a legacy
-default. Slice 118 focused checks recorded UI app/view 156/156 before the final
-placement refinement, targeted app 2/2 afterward, renderer contracts 55/55,
+default. Slice 119A focused checks recorded UI app/view 157/157, clean TypeScript,
+and live rendered dirty-load protection at the desktop viewport. Slice 118
+focused checks recorded UI app/view 156/156 before the final placement
+refinement, targeted app 2/2 afterward, renderer contracts 55/55,
 and clean TypeScript/diff checks. Slice 117 affected focused verification passes
 201/201 across
 `app.test.ts`, `appearance.test.ts`, `persist.test.ts`, and `view.test.ts`;
@@ -69,7 +81,7 @@ only, not durable artifacts.
 This checkpoint is not the final redesign gate: full per-control live
 coverage, zoom/text-size, persistence/export paths, full suite, 100% coverage,
 build, parsed consumers, and eight-hash legacy verification remain. Slices
-118–121 remain.
+119B–121 remain.
 
 ### Prior Slice 115A presentation notes
 

@@ -1,8 +1,8 @@
 # UI/UX redesign execution — Slices 114–121
 
-Status: Slice 118 focused/live checkpoint, 2026-09-15; the bounded stage,
-assembled integration, selection-card, and appearance checks are green, but
-the full redesign gate remains.
+Status: Slice 119A focused/live checkpoint, 2026-09-16; the bounded stage,
+assembled integration, selection-card, appearance, and dirty-load safety
+checks are green, but the full redesign gate remains.
 Epic 4 remains closed.
 This is the newly authorized workspace redesign, not a reopened garment-grammar
 migration. Branch: `codex/ux-studio`; approved baseline: `816b9ff`.
@@ -103,6 +103,29 @@ The previous 81-file/1,031-test pass is a baseline, not a test run for this work
 
 ## Current checkpoint / exact next actions
 
+### Slice 119A — dirty workspace replacement safety
+
+Slice 119A is committed as `84ee51f` on `codex/ux-studio` after `a3e7104`.
+It keeps the existing validated local save payload and adds an in-memory
+revision boundary: successful Save marks the current draft clean; a dirty Load
+opens a replacement dialog; Keep editing and Escape preserve the draft, while
+Load saved workspace applies the validated snapshot and synchronizes the
+visible workspace. Clean Load remains direct. The initiating control regains
+focus after Cancel/Escape. No save schema, export writer, geometry, or legacy
+baseline changed.
+
+Changed paths: `src/ui/app.ts`, `src/ui/view.ts`, `src/ui/studio.css`,
+`src/ui/app.test.ts`, and `src/ui/view.test.ts`.
+
+Verification: `npx vitest run src/ui/app.test.ts src/ui/view.test.ts` passed
+157/157; `npx tsc --noEmit` and `git diff --check` passed. Live browser
+verification changed and saved Waist, changed it again, confirmed the modal
+appeared, kept the unsaved edit, then accepted the saved workspace and observed
+the saved value restored. The modal was visually inspected at the desktop
+viewport. Exact remaining work: unfinished-draft recovery, navigation safety,
+and bounded Undo/Redo remain Slice 119B; the full project gate remains reserved
+for the shared-contract/final checkpoints.
+
 ### Slice 118 — cross-garment targets and spatial guidance
 
 Slice 118 is committed as `1fc20cc` on `codex/ux-studio` after `b970861`. The
@@ -128,8 +151,8 @@ four non-overlapping note cards and four connector arrows inside the Body
 inspection frame at the supported desktop viewport, with a translucent surface;
 the Check stage showed the dismissed chest advisory and `Show guidance again`.
 No final full project gate is claimed. The next action after this checkpoint is
-a fresh usage check, then Slice 119's workspace safety/recovery work only while
-the weekly meter remains above the conservative 15% remaining threshold.
+a fresh usage check, then Slice 119B recovery/Undo/Redo work only while the
+weekly meter remains above the conservative 15% remaining threshold.
 
 ### Slice 117 — contextual color and appearance editor
 
