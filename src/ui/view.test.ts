@@ -123,6 +123,9 @@ describe("appShellMarkup", () => {
     expect(html).toContain("Parametric garment design workspace");
     expect(html).toContain('<p id="product-subtitle">Parametric garment design workspace</p>');
     expect(html).toContain('id="workspace-actions"');
+    expect(html).toContain('id="workspace-confirm"');
+    expect(html).toContain('id="workspace-confirm-cancel"');
+    expect(html).toContain('id="workspace-confirm-accept"');
     expect(html).toContain('<span id="current-garment">Tee</span>');
     expect(html).toContain('<div id="review-context"></div>');
     expect(html).toContain('id="welcome-host"');

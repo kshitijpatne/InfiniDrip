@@ -607,6 +607,11 @@ export function appShellMarkup(
     `<span id="persist-status" role="status"></span>` +
     `<button id="save-pattern" type="button" title="Save this workspace locally on this device">Save</button>` +
     `<button id="load-pattern" type="button" title="Replace this workspace with your last local save">Load</button></div></header>` +
+    `<div id="workspace-confirm" hidden role="dialog" aria-modal="true" aria-labelledby="workspace-confirm-title">` +
+    `<div class="workspace-confirm-card"><h2 id="workspace-confirm-title">Replace this workspace?</h2>` +
+    `<p>Your current unsaved changes will be replaced by the last local save.</p>` +
+    `<div class="workspace-confirm-actions"><button id="workspace-confirm-cancel" type="button">Keep editing</button>` +
+    `<button id="workspace-confirm-accept" type="button">Load saved workspace</button></div></div></div>` +
     `<div id="journey-host"></div><div id="studio-body">` +
     `<aside id="studio-inspector" aria-label="Design controls">` +
     `<div id="welcome-host"></div>${garmentToggleMarkup(activeGarment)}<div id="review-context"></div>` +

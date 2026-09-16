@@ -15,7 +15,7 @@ import { garmentReport, implausibleFields } from "../guidance";
 import { matchStyle, styleNames } from "../style";
 import { FIELDS, applyChange, inputError, numericRangePosition, numericRangeState, stepNumericValue } from "./controls";
 import { appShellMarkup, controlsMarkup, guidanceMarkup, styleMarkup, specTableMarkup, checkMarkup, editorHintMarkup, editorHandleControlsMarkup, dartControlsMarkup, inspectionMarkup, BodyCroquisView } from "./view";
-import { saveToStorage, loadFromStorage, readFromStorage, serialize, deserialize, DEFAULT_WORKSPACE, defaultStretchFabricForGarment, Workspace } from "./persist";
+import { saveToStorage, loadFromStorage, readFromStorage, serialize, deserialize, DEFAULT_WORKSPACE, defaultStretchFabricForGarment, Workspace, SaveFile } from "./persist";
 import { Appearance, APPEARANCE_TEXTURES, DEFAULT_APPEARANCE, applyAppearanceToSvg, hexToHsl, hslToHex, normalizeHex } from "./appearance";
 import {
   JourneyStep, ViewName, StageReadiness, StageBlocker, COACHED_STEPS, disclosureFor, stepView, journeyChecklist,
@@ -62,6 +62,9 @@ export function mountApp(root: HTMLElement): void {
   let styleReviewed = false;
   let checkReviewed = false;
   let outputRevision = 0;
+  let savedRevision = 0;
+  let pendingLoad: Omit<SaveFile, "v"> | null = null;
+  let pendingLoadFocus: HTMLElement | null = null;
   let currentNotes: readonly Note[] = [];
   const ignoredGuidance = new Set<string>();
   const selectedControlPages = new Map<JourneyStep, number>();
@@ -1325,6 +1328,60 @@ export function mountApp(root: HTMLElement): void {
     clearTimeout(statusTimer);
     statusTimer = window.setTimeout(() => { statusEl.textContent = ""; }, 2000);
   };
+  const confirmHost = root.querySelector<HTMLElement>("#workspace-confirm")!;
+  const confirmCancel = root.querySelector<HTMLButtonElement>("#workspace-confirm-cancel")!;
+  const confirmAccept = root.querySelector<HTMLButtonElement>("#workspace-confirm-accept")!;
+  const closeLoadConfirmation = (): void => {
+    pendingLoad = null;
+    confirmHost.hidden = true;
+    const focus = pendingLoadFocus;
+    pendingLoadFocus = null;
+    focus?.focus();
+  };
+  const applyLoaded = (loaded: Omit<SaveFile, "v">): void => {
+    measurements = loaded.measurements;
+    fabric = loaded.fabric;
+    garmentOptions = loaded.garmentOptions;
+    recipe = garmentByName(loaded.workspace.garment);
+    targetStyle = loaded.workspace.targetStyle;
+    stretchFabric = STRETCH_FABRICS.find((f) => f.name === loaded.workspace.stretchFabric)!;
+    appearance = loaded.appearance;
+    materialSelectionExplicit = true;
+    view = loaded.workspace.view;
+    bodyCroquisView = loaded.workspace.bodyCroquisView;
+    exportStep = loaded.workspace.exportStep;
+    fabricWidth = loaded.workspace.fabricWidth;
+    nestScope = loaded.workspace.nestScope;
+    markOutputDirty();
+    syncWorkspace(true);
+    savedRevision = outputRevision;
+    flash("Loaded ✓", "#2E9B63");
+  };
+  const requestLoad = (loaded: Omit<SaveFile, "v">): void => {
+    if (outputRevision === savedRevision) {
+      applyLoaded(loaded);
+      return;
+    }
+    pendingLoad = loaded;
+    pendingLoadFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    confirmHost.hidden = false;
+    confirmAccept.focus();
+  };
+  confirmCancel.addEventListener("click", closeLoadConfirmation);
+  confirmAccept.addEventListener("click", () => {
+    const loaded = pendingLoad;
+    if (!loaded) {
+      closeLoadConfirmation();
+      return;
+    }
+    pendingLoad = null;
+    pendingLoadFocus = null;
+    confirmHost.hidden = true;
+    applyLoaded(loaded);
+  });
+  confirmHost.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeLoadConfirmation();
+  });
   const completeExport = (): void => {
     journey = { ...journey, step: "output", exported: true };
     saveJourney(journey);
@@ -1417,30 +1474,16 @@ export function mountApp(root: HTMLElement): void {
       view, bodyCroquisView, exportStep, fabricWidth, nestScope };
     const validation = deserialize(serialize(measurements, fabric, garmentOptions, workspace, appearance));
     if (!validation.ok) { flash(`Save failed: ${validation.error}`, BLUEPRINT.lineActive); return; }
-    saveToStorage(measurements, fabric, garmentOptions, workspace, appearance)
-      ? flash("Saved ✓", "#2E9B63")
-      : flash("Save failed", BLUEPRINT.lineActive);
+    if (saveToStorage(measurements, fabric, garmentOptions, workspace, appearance)) {
+      savedRevision = outputRevision;
+      flash("Saved ✓", "#2E9B63");
+    } else flash("Save failed", BLUEPRINT.lineActive);
   });
 
   root.querySelector<HTMLButtonElement>("#load-pattern")!.addEventListener("click", () => {
     const loaded = readFromStorage();
     if (!loaded.ok) { flash(loaded.error, BLUEPRINT.label); return; }
-    measurements = loaded.measurements;
-    fabric = loaded.fabric;
-    garmentOptions = loaded.garmentOptions;
-    recipe = garmentByName(loaded.workspace.garment);
-    targetStyle = loaded.workspace.targetStyle;
-    stretchFabric = STRETCH_FABRICS.find((f) => f.name === loaded.workspace.stretchFabric)!;
-    appearance = loaded.appearance;
-    materialSelectionExplicit = true;
-    view = loaded.workspace.view;
-    bodyCroquisView = loaded.workspace.bodyCroquisView;
-    exportStep = loaded.workspace.exportStep;
-    fabricWidth = loaded.workspace.fabricWidth;
-    nestScope = loaded.workspace.nestScope;
-    markOutputDirty();
-    syncWorkspace(true);
-    flash("Loaded ✓", "#2E9B63");
+    requestLoad(loaded);
   });
 
   const syncWorkspace = (restoring: boolean): void => {
@@ -1478,6 +1521,7 @@ export function mountApp(root: HTMLElement): void {
     applyDisclosure();
   };
   syncWorkspace(saved !== null);
+  savedRevision = outputRevision;
 }
 
 /** Geometry checks remain owned by their recipe, but a failed fact still needs

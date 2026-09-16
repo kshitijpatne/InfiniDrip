@@ -312,6 +312,7 @@ describe("mountApp", () => {
     hex.value = "#AABBCC";
     hex.dispatchEvent(new Event("change", { bubbles: true }));
     clickId(root, "load-pattern");
+    clickId(root, "workspace-confirm-accept");
     expect(root.querySelector<HTMLInputElement>("#appearance-hex")!.value).toBe("#456789");
     expect(root.querySelector<HTMLButtonElement>('[data-texture="rib"]')!.getAttribute("aria-pressed")).toBe("true");
     expect(root.querySelector<HTMLInputElement>("#appearance-shine")!.value).toBe("35");
@@ -608,7 +609,7 @@ describe("mountApp", () => {
     expect(opts.find((o) => o.selected)!.textContent).toBe("M");
   });
 
-  it("Save writes to localStorage and Load restores the canvas", () => {
+  it("Save writes to localStorage and Load protects unsaved edits before restoring", () => {
     localStorage.clear();
     const root = mount();
     // Change a measurement then save
@@ -624,10 +625,38 @@ describe("mountApp", () => {
     const resetCanvas = root.querySelector("#canvas-host svg")!.getAttribute("viewBox");
     expect(resetCanvas).not.toBe(savedCanvas);
 
-    // Load restores the saved state
+    // A dirty workspace must ask before replacing the current edit.
     root.querySelector<HTMLButtonElement>("#load-pattern")!.dispatchEvent(new Event("click"));
+    const confirmation = root.querySelector<HTMLElement>("#workspace-confirm")!;
+    expect(confirmation.hidden).toBe(false);
+    root.querySelector<HTMLButtonElement>("#workspace-confirm-cancel")!.click();
+    expect(confirmation.hidden).toBe(true);
+    expect(root.querySelector<HTMLInputElement>('input[data-field="chest"]')!.value).toBe("100");
+
+    // Accepting the same request restores the saved state.
+    root.querySelector<HTMLButtonElement>("#load-pattern")!.click();
+    root.querySelector<HTMLButtonElement>("#workspace-confirm-accept")!.click();
     expect(root.querySelector("#canvas-host svg")!.getAttribute("viewBox")).toBe(savedCanvas);
     expect(root.querySelector<HTMLInputElement>('input[data-field="chest"]')!.value).toBe("120");
+  });
+
+  it("closes the dirty-load confirmation with Escape and returns focus", () => {
+    localStorage.clear();
+    const root = mount();
+    document.body.appendChild(root);
+    root.querySelector<HTMLButtonElement>("#save-pattern")!.click();
+    const chest = root.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+    chest.value = "120";
+    chest.dispatchEvent(new Event("input"));
+    const load = root.querySelector<HTMLButtonElement>("#load-pattern")!;
+    load.focus();
+    load.click();
+    const confirmation = root.querySelector<HTMLElement>("#workspace-confirm")!;
+    expect(confirmation.hidden).toBe(false);
+    confirmation.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+    expect(confirmation.hidden).toBe(true);
+    expect(document.activeElement).toBe(load);
+    root.remove();
   });
 
   it("Save shows a failure message when localStorage throws", () => {
@@ -1703,6 +1732,7 @@ describe("switching to the trouser recipe (Slice 100)", () => {
 
     root.querySelector<HTMLButtonElement>("#garment-tee")!.dispatchEvent(new Event("click"));
     root.querySelector<HTMLButtonElement>("#load-pattern")!.dispatchEvent(new Event("click"));
+    root.querySelector<HTMLButtonElement>("#workspace-confirm-accept")!.click();
     expect(root.querySelector<HTMLButtonElement>("#garment-trouser")!.getAttribute("aria-pressed")).toBe("true");
     expect(root.querySelector<HTMLInputElement>('input[data-option="pocketDrop"]')!.value).toBe("5");
   });
