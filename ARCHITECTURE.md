@@ -3,6 +3,36 @@
 How the app fits together, in plain language. Read the top to re-orient; skim the
 layers when you need detail. Updated every slice with only need-to-know changes.
 
+## Open-source integration boundary — 2026-09-17 audit
+
+External repositories do not become architectural authority merely because a
+license permits reuse. `GarmentRecipe -> Component/Interface/Stitch -> Block`
+remains the owned drafting seam, and the completed grammar is not replaced by
+OpenPattern, GarmentCode, FreeSewing, or a Python/3D runtime. External code may
+enter only through a narrow adapter whose failure cannot corrupt drafting,
+guidance, persistence, or existing exports.
+
+The approved research boundaries are:
+
+- accessibility automation may run only in the test harness and supplements
+  manual keyboard/focus/zoom/viewport review;
+- property generation and geometry oracles remain test-only, seeded/bounded,
+  and cannot become alternate pattern truth;
+- any future irregular-nesting solver receives owned flattened loops and
+  constraints, returns seed plus transforms, and is followed by InfiniDrip's
+  own overlap/boundary/grain/fold/nap/quantity validation. The current shelf
+  packer remains the deterministic fallback;
+- external garment grammars may motivate optional typed metadata only when a
+  real recipe consumes it. Current recipes and legacy export bytes must remain
+  unchanged;
+- no awesome list, topic tag, dataset license, model weight, body asset, or
+  transitive dependency inherits the top-level repository's license by
+  implication.
+
+The detailed license/evidence/pressure-test record is
+`docs/research/OPEN-SOURCE-REPOSITORY-AUDIT.md`. These boundaries add no current
+runtime dependency and do not change the Slice 119B -> 120 -> 121 sequence.
+
 ## Current workspace redesign boundary — Slice 119A focused/live checkpoint
 
 The current beginner-facing workspace uses five actual stages: Garment,

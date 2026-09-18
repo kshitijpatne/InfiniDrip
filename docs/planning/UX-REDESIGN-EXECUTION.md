@@ -75,7 +75,7 @@ integration; ordinary bounded markup/docs/test work uses lower intensity.
 | 118 | Cross-garment highlight contract, spatial guidance and ignored-advice review; depends on 115–116 | Registry-driven target semantics, front/back/Side alternatives, note lifecycles, no-clamp/blocker checks, rendered evidence |
 | 119 | Persistent workspace safety, recovery, restore confirmation and bounded Undo/Redo; depends on 115–118 | Dirty/cancel/failed-storage/invalid-draft/old-save/reload/Edit-discard cases, full persistence-contract gate |
 | 120 | Check-to-Export flow, format/size context, real selected-size nesting; depends on 115–119 | All output paths and cancellation, size mutation evidence, parsed consumers, unchanged legacy hashes |
-| 121 | End-to-end beginner, accessibility and responsive audit; fix found failures; final integration | Entire full project gate and durable exit report; no deferred acceptance hidden as pass |
+| 121 | End-to-end beginner, accessibility and responsive audit; fix found failures; final integration. Trial `axe-core` as dev-only automated evidence, not as an accessibility certificate. | Entire full project gate, reviewed automated findings plus manual keyboard/focus/zoom/viewport evidence, and durable exit report; no deferred acceptance hidden as pass |
 
 Numbers reserve sequence, not permission to skip acceptance. If a discovered
 defect changes an invariant, document the decision before implementation; ask
@@ -96,7 +96,10 @@ during every CSS or focused-test iteration:
 7. Real rendered/live matrix: seven garments, all controls/views, sizing,
    options/material/appearance, invalid/corrected/dismissed guidance, save/load/
    recovery, every export, supported widths, focus, zoom and visibility
-8. Research, execution, PROJECT-STATE, ARCHITECTURE, decisions and bug records
+8. Slice 121 only: reviewed `axe-core` results across major stage/dialog
+   states; justified exclusions recorded; automation supplements rather than
+   replaces the live accessibility matrix
+9. Research, execution, PROJECT-STATE, ARCHITECTURE, decisions and bug records
    updated with exact commits and evidence; honest limitations and deferred fit
 
 The previous 81-file/1,031-test pass is a baseline, not a test run for this work.
@@ -105,7 +108,8 @@ The previous 81-file/1,031-test pass is a baseline, not a test run for this work
 
 ### Slice 119A — dirty workspace replacement safety
 
-Slice 119A is committed as `84ee51f` on `codex/ux-studio` after `a3e7104`.
+Slice 119A implementation is committed as `84ee51f` on `codex/ux-studio`
+after `a3e7104`; documentation checkpoint `58ebd9c` is the current branch tip.
 It keeps the existing validated local save payload and adds an in-memory
 revision boundary: successful Save marks the current draft clean; a dirty Load
 opens a replacement dialog; Keep editing and Escape preserve the draft, while

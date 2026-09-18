@@ -1,12 +1,39 @@
 # InfiniDrip — Project State
 
-_Last updated: UI/UX redesign Slice 119A focused/live checkpoint, 2026-09-16; Epic 3 and Epic 4 remain closed._
+_Last updated: open-source research integration, 2026-09-17; UI/UX redesign remains at Slice 119A, and Epic 3 and Epic 4 remain closed._
 
 ## Current work — beginner-facing workspace redesign
 
+### Open-source audit checkpoint — current sequence unchanged
+
+The 2026-09-17 repository audit is complete and durable at
+`docs/research/OPEN-SOURCE-REPOSITORY-AUDIT.md`. It covers every supplied repo,
+both GitHub topic pages, the two awesome directories, a systematic reject/defer
+ledger, and adjacent high-synergy candidates. Claude Code handled the isolated
+deep source/license pass for OpenPattern, GarmentCode and deepFashion3D;
+OpenCode handled the broad directory/topic sweep; Codex cloned and sampled the
+sources, checked both reports against the current TypeScript architecture, and
+made the final decisions. No external agent edited the product checkout.
+
+No garment engine, 3D/virtual-try-on stack, or external geometry implementation
+is approved for direct product integration. The bounded survivors are: an
+`axe-core` dev-only trial inside Slice 121's existing accessibility gate;
+post-121 `fast-check` property-test and `@flatten-js/core` test-oracle trials;
+and a deferred opt-in Sparrow irregular-nesting proof only after grain, nap,
+fold, pair/mirror and clearance constraints are explicit. GarmentCode remains
+reference-only for future stitch orientation, projected ease/correspondence,
+and option-compatibility metadata with real consumers. None authorizes 3D,
+photo/CV, silent correction, output-baseline movement, or physical-fit claims.
+
+The next implementation action is still a fresh usage check followed by Slice
+119B unfinished-draft recovery and bounded Undo/Redo, then Slices 120–121. The
+research work changed documentation only. Current branch checkpoint is
+`codex/ux-studio` at `58ebd9c`; preserve the existing untracked logs and `tmp/`.
+
 ### Slice 119A checkpoint — dirty workspace replacement safety; full redesign gate pending
 
-Current checkpoint: `codex/ux-studio` at `84ee51f` after `a3e7104`; Slice 119A is
+Current checkpoint: `codex/ux-studio` at `58ebd9c` after implementation commit
+`84ee51f`; Slice 119A is
 committed. Slice 114 research is complete; do not repeat it. The
 implementation now has five actual stages:
 Garment, Measure, Style, Check, and Export. Readiness—not earlier index—drives

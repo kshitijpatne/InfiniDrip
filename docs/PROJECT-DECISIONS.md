@@ -69,6 +69,29 @@ Code-signing procurement and implementation have not started.
 `apparel_design_resources.md`. They serve the same purpose. The legacy document
 is retained only for provenance and should not be used for current decisions.
 
+## Open-source due diligence — confirmed 2026-09-17
+
+Repository research must go below README-level synthesis. Before a dependency,
+port, algorithm, schema, asset, dataset, or implementation idea reaches the
+roadmap, verify the exact license and transitive obligations, inspect source and
+tests, compare it to actual InfiniDrip behavior, and pressure-test user value,
+scalability, maintenance, hidden dependencies, failure modes, and overlap.
+Rejected repositories remain in a reasoned ledger rather than disappearing.
+
+Permissive licensing is necessary but not sufficient. No-license sources are
+not code-reuse sources; GPL code requires a deliberate distribution decision;
+noncommercial data is not usable for the intended commercial product; and a
+list's license never clears everything it links. Pattern formulas must also have
+clean subject-matter provenance rather than relying on code licensing alone.
+
+Accepted external technology must use the smallest reversible boundary, retain
+InfiniDrip-owned validation and deterministic fallback, and preserve pure
+drafting, visible-invalid/actionable guidance, 100% coverage, rendered/parsed
+verification, and the eight export hashes unless a separately documented and
+approved baseline decision says otherwise. An optimizer or linter never proves
+physical fit. Full decisions live in
+`docs/research/OPEN-SOURCE-REPOSITORY-AUDIT.md`.
+
 ## Planning decisions confirmed 2026-09-12
 
 - Phase C3 includes a visible Side view. Its initial contract remains

@@ -86,6 +86,11 @@ snapshots; they are not current status.
 - `docs/research/DESKTOP-RELEASE-RESEARCH.md` — OpenCode's observed Electron
   release architecture, signing/offline/update risks, and deferred packaging
   gates; it does not claim a packaged or signed release.
+- `docs/research/OPEN-SOURCE-REPOSITORY-AUDIT.md` — 2026-09-17 license,
+  dependency, architecture-fit, edge-case and roadmap audit of the
+  product-owner-supplied GitHub repositories/topics plus adjacent candidates.
+  Its accept/reject decisions are the current open-source due-diligence record;
+  re-check exact licenses and dependency trees before implementation.
 
 ## Historical archive
 

@@ -4,6 +4,11 @@ _Every link in `apparel_design_resources.md` checked individually (license, acti
 actual contents — not just the name). Split into usable / not usable, with a
 formalized integration plan for the usable set. Cross-referenced from ROADMAP.md §1.7._
 
+The broader 2026-09-17 GitHub/license/dependency pressure test now lives in
+`OPEN-SOURCE-REPOSITORY-AUDIT.md`. It supersedes this document for the newly
+supplied repositories and discovered QA/nesting candidates; the Fabric.js
+surface-design decision below remains in force.
+
 ---
 
 ## Usable — integrate

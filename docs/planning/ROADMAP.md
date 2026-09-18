@@ -249,6 +249,33 @@ fit a 2D, no-backend, no-CV app, plus one proprietary SDK (IMG.LY) that conflict
 with the free/no-subscription thesis, and one false positive (OpenPack — a
 warehouse logistics dataset, unrelated despite the name).
 
+### 1.8 Open-source repository pressure test — 2026-09-17
+
+Full evidence, license analysis and reject ledger:
+`OPEN-SOURCE-REPOSITORY-AUDIT.md`. This pass inspected the product-owner-supplied
+OpenPattern, GarmentCode, virtual-try-on, cloth-simulation and deepFashion3D
+sources; both sewing-pattern topic pages; the apparel-design topic; the general
+awesome index; and adjacent candidates discovered from them.
+
+The result is deliberately narrower than the input list:
+
+- no external garment engine replaces the completed Epic 4 grammar. GarmentCode
+  independently confirms the component/interface/stitch shape already shipped;
+  only optional orientation, projected-ease correspondence and compatibility
+  metadata remain as consumer-triggered additions;
+- OpenPattern is GPL-3.0, Python-coupled and provenance-sensitive because its
+  formulas follow named commercial patternmaking authors. deepFashion3D is a
+  gated, code-free CC BY-NC 4.0 dataset. Neither is an integration source;
+- virtual try-on and cloth simulation remain different products with GPU/model,
+  dataset/privacy, licensing and 3D-validation costs. Nothing in those directories
+  reopens the existing cut list;
+- the high-synergy findings sit at existing clean seams: automated accessibility
+  evidence, property-based test generation, an independent geometry oracle, and
+  a future deterministic irregular-nesting worker.
+
+This pass adds the bounded backlog rows below. It does not displace Slice 119B,
+120 or 121, authorize a runtime dependency, or move an export baseline.
+
 ## 2. Prioritisation
 
 Scored on: **multiplier effect** (does it make later work cheaper?), **risk
@@ -288,12 +315,17 @@ piggybacked onto a month that's already touching the same file.
 | 0.5.9 | **Named customisation axes** presentation (Knitup-style) | journey UI (shipped) | Month 6 onboarding | Backlog |
 | 0.5.10 | **In-app "101" education hub** | content, not code | Month 6 (already scopes docs/help) | Backlog — content cost, not slice cost |
 | 0.5.11 | **Back view in the Body view tab** (all garments) — the identical derivation already used for front (walk the piece's outer edges relative to a croquis), applied a second time to the back piece. Real derived geometry, same honesty tier as front. Industry-verified as the true minimum: professional flats standardise on front+back, side is a situational add, not a universal one. | body-figure rendering (shipped, per-garment) | anywhere — fully independent, no component-architecture dependency | **Approved** — pull in whenever convenient |
+| 0.5.12 | **Automated accessibility evidence** — trial `axe-core` in the existing Playwright harness, without treating automation as complete accessibility | Slice 121 final gate | existing manual keyboard/focus/zoom/viewport audit | **Accepted trial** — dev-only; triage findings and retain manual evidence |
+| 0.5.13 | **Property-based drafting/guidance regression** — bounded, seeded `fast-check` generators whose failures become permanent fixtures | test harness only | first separately scoped post-121 quality slice | **Accepted trial** — no production import; remove if it only duplicates fixtures |
+| 0.5.14 | **Independent flattened-geometry oracle** — `@flatten-js/core` intersections/containment/validity in tests, never as drafting truth | test harness only | with 0.5.13 or a later demonstrated geometry defect | **Accepted trial** — flattened loops only; no output-byte changes |
+| 0.5.15 | **Irregular fabric nesting proof** — optional deterministic Sparrow worker returning seed + transforms, followed by owned constraint validation and shelf-packer fallback | current nesting/export boundary | only after 0.5.2–0.5.4 define grain/nap/fold/pair/clearance semantics | **Deferred redesign candidate** — benchmark all recipes; no production adoption yet |
+| 0.5.16 | **Richer seam-interface semantics** — optional stitch side/orientation, per-section correspondence/projected ease and option compatibility when a real garment consumes them | completed component grammar | first future gather/directional join/incompatible-option case | **Trigger-based addition** — independently specified TypeScript, not a GarmentCode port |
 
 ### Priority 1 — The multiplier (architecture before library)
 
 | # | Item | Why | Est. |
 |---|---|---|---|
-| 1.1 | **Component architecture** — decompose recipes into interchangeable parameterised components (bodice / sleeve / collar / cuff / waistband / closure) with scoped options | Every garment after this is dramatically cheaper. Doing garments first guarantees the FreeSewing dependency tangle. Study GarmentCode's decomposition first. | 12–20 slices |
+| 1.1 | **Component architecture** — decompose recipes into interchangeable parameterised components (bodice / sleeve / collar / cuff / waistband / closure) with scoped options | **Completed in Epic 4.** GarmentCode's decomposition was studied and confirms the shipped direction; no external runtime or rewrite is warranted. | completed |
 | 1.2 | **Structural detail primitives** — dart placement, pocket application, placket, vent | These are the shared vocabulary all garments need. Belongs with 1.1, not after. | 8–15 slices |
 | 1.3 | **Side view + croquis-library split** — deliberately bundled into this phase, not built separately: a shared, engine-level croquis library (`{upper-body, lower-body} × {front, side, back}`, six reusable figures) decoupled from garment-specific silhouette derivation, so no recipe ever draws a body. Front/back derivation is the existing edge-walk pattern (0.5.11) applied uniformly; **side is a separately-named function** — a labelled schematic approximation from flat measurements (chest/hip ease → stand-off, length → hem drop, hem circumference → flare), carrying the same "schematic, not simulation" honesty label as the assembled view, never conflated with the front/back derivation. A `bilaterallySymmetric` flag (default true) lets the engine mirror one side view instead of computing two identical ones — true for every garment drafted so far; a future asymmetric garment can flip it. **Why bundled here and not built standalone first:** it answers the same "how does a body-region figure generalise across garments" question Priority 1.1 is already solving — building it against today's per-garment recipes and rebuilding it after the refactor is the exact throwaway-work risk FreeSewing's Library refactor already warns us about (§1, ROADMAP context). | fold into the 1.1 design doc; no separate estimate |
 

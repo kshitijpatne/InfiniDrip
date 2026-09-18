@@ -238,6 +238,13 @@ the Priority 1 critical path, and is not scheduled into a specific month. Nothin
 else from the Priority 0.5 research backlog is scheduled; each needs its own
 conscious pull-in, same as any other scope addition.
 
+The 2026-09-17 open-source audit does not widen MVP scope. `axe-core` may be
+trialled inside the already-required final redesign accessibility gate;
+`fast-check` and `@flatten-js/core` are post-redesign test-only trials; Sparrow
+is a deferred nesting proof behind an explicit fabric-constraint model. None
+reopens virtual try-on, 3D drape, photo reconstruction, cloud accounts, or an
+external garment-engine rewrite. See `OPEN-SOURCE-REPOSITORY-AUDIT.md`.
+
 ---
 
 ## 8. Immediate next actions
