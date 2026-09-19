@@ -30,7 +30,30 @@ body { margin: 0; }
   min-height: 38px; padding: 6px 14px; border: 1px solid #34506a;
   border-radius: 7px; background: #162c42; color: #d9e6ef; cursor: pointer;
 }
+#workspace-actions button:disabled { opacity: .4; cursor: not-allowed; }
 #persist-status { font-size: 12px; max-width: 300px; }
+#recovery-host:empty { display: none; }
+#recovery-host {
+  position: fixed; inset: 0; z-index: 19; display: grid; place-items: center;
+  padding: 18px; background: rgba(5, 12, 22, .72);
+}
+.workspace-recovery-card {
+  width: min(500px, 100%); box-sizing: border-box; padding: 18px;
+  border: 1px solid #5e7d96; border-radius: 10px; background: #112237;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, .45);
+}
+.workspace-recovery-card h2 { margin: 0 0 8px; font-size: 16px; }
+.workspace-recovery-card p { margin: 0; color: #b5cad8; font-size: 13px; line-height: 1.45; }
+.workspace-recovery-actions {
+  display: flex; justify-content: flex-end; gap: 8px; flex-wrap: wrap; margin-top: 16px;
+}
+.workspace-recovery-actions button {
+  min-height: 38px; padding: 7px 12px; border: 1px solid #34506a;
+  border-radius: 7px; background: #162c42; color: #d9e6ef; cursor: pointer;
+}
+.workspace-recovery-actions button:last-child {
+  border-color: #65b7a1; background: #183d46; color: #aee8e5;
+}
 #workspace-confirm {
   position: fixed; inset: 0; z-index: 20; display: grid; place-items: center;
   padding: 18px; background: rgba(5, 12, 22, .72);

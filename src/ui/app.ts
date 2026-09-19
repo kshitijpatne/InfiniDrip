@@ -15,8 +15,9 @@ import { garmentReport, implausibleFields } from "../guidance";
 import { matchStyle, styleNames } from "../style";
 import { FIELDS, applyChange, inputError, numericRangePosition, numericRangeState, stepNumericValue } from "./controls";
 import { appShellMarkup, controlsMarkup, guidanceMarkup, styleMarkup, specTableMarkup, checkMarkup, editorHintMarkup, editorHandleControlsMarkup, dartControlsMarkup, inspectionMarkup, BodyCroquisView } from "./view";
-import { saveToStorage, loadFromStorage, readFromStorage, serialize, deserialize, DEFAULT_WORKSPACE, defaultStretchFabricForGarment, Workspace, SaveFile } from "./persist";
+import { saveToStorage, loadFromStorage, readFromStorage, serialize, deserialize, DEFAULT_WORKSPACE, defaultStretchFabricForGarment, Workspace, SaveFile, RecoveryFile, readRecoveryFromStorage, saveRecoveryToStorage, clearRecoveryFromStorage } from "./persist";
 import { Appearance, APPEARANCE_TEXTURES, DEFAULT_APPEARANCE, applyAppearanceToSvg, hexToHsl, hslToHex, normalizeHex } from "./appearance";
+import { emptyHistory, recordHistory, redoHistory, undoHistory, HistoryState } from "./history";
 import {
   JourneyStep, ViewName, StageReadiness, StageBlocker, COACHED_STEPS, disclosureFor, stepView, journeyChecklist,
   journeyBarMarkup, checklistMarkup, welcomeMarkup, celebrationMarkup,
@@ -34,7 +35,29 @@ declare global {
   }
 }
 
+interface DraftSnapshot {
+  readonly measurements: Measurements;
+  readonly rawMeasurements: Partial<Record<keyof Measurements, string>>;
+  readonly fabric: string;
+  readonly appearance: Appearance;
+  readonly garmentOptions: GarmentOptionsByRecipe;
+  readonly rawOptions: Record<string, Record<string, string>>;
+  readonly garment: string;
+  readonly targetStyle: string;
+  readonly stretchFabric: string;
+  readonly materialSelectionExplicit: boolean;
+  readonly view: ViewName;
+  readonly bodyCroquisView: BodyCroquisView;
+  readonly exportStep: number;
+  readonly fabricWidth: number;
+  readonly nestScope: "single" | "marker";
+}
+
+const HISTORY_LIMIT = 30;
+let activeMountRoot: HTMLElement | null = null;
+
 export function mountApp(root: HTMLElement): void {
+  activeMountRoot = root;
   const saved = loadFromStorage();
   let measurements: Measurements = saved ? saved.measurements : STANDARD_M;
   let fabric = saved ? saved.fabric : DEFAULT_FABRIC;
@@ -53,6 +76,9 @@ export function mountApp(root: HTMLElement): void {
   const styleHost = root.querySelector<HTMLDivElement>("#style-host")!;
   const fabricWidthHost = root.querySelector<HTMLDivElement>("#fabric-width-host")!;
   const journeyHost = root.querySelector<HTMLDivElement>("#journey-host")!;
+  const recoveryHost = root.querySelector<HTMLDivElement>("#recovery-host")!;
+  const undoButton = root.querySelector<HTMLButtonElement>("#undo-pattern")!;
+  const redoButton = root.querySelector<HTMLButtonElement>("#redo-pattern")!;
 
   // The guided journey (F2): a coached Start→Output path over the existing views.
   // Its state is presentation-only and persisted separately from the pattern.
@@ -63,6 +89,13 @@ export function mountApp(root: HTMLElement): void {
   let checkReviewed = false;
   let outputRevision = 0;
   let savedRevision = 0;
+  let history: HistoryState<DraftSnapshot> = emptyHistory();
+  let historyPresent: DraftSnapshot | null = null;
+  let historyRestoring = false;
+  let recoveryTrackingEnabled = false;
+  let pendingRecovery: Omit<RecoveryFile, "v"> | null = null;
+  const recoveryRead = readRecoveryFromStorage();
+  if (recoveryRead.ok) pendingRecovery = recoveryRead;
   let pendingLoad: Omit<SaveFile, "v"> | null = null;
   let pendingLoadFocus: HTMLElement | null = null;
   let currentNotes: readonly Note[] = [];
@@ -86,6 +119,74 @@ export function mountApp(root: HTMLElement): void {
   let inspectionZoom = 1;
   let previewActive = false;
   let inactiveInspection = { zoom: 1, left: 0, top: 0 };
+
+  const currentWorkspace = (): Workspace => ({ garment: recipe.name, targetStyle, stretchFabric: stretchFabric.name,
+    view, bodyCroquisView, exportStep, fabricWidth, nestScope });
+  const copyOptions = (options: GarmentOptionsByRecipe): GarmentOptionsByRecipe =>
+    Object.fromEntries(Object.entries(options).map(([name, values]) => [name, { ...values }])) as GarmentOptionsByRecipe;
+  const currentRawMeasurements = (): Partial<Record<keyof Measurements, string>> =>
+    Object.fromEntries([...root.querySelectorAll<HTMLInputElement>("input[data-field]")]
+      .map((input) => [input.dataset.field, input.value])) as Partial<Record<keyof Measurements, string>>;
+  const currentRawOptions = (): Record<string, Record<string, string>> => ({
+    [recipe.name]: Object.fromEntries([...root.querySelectorAll<HTMLInputElement>("input[data-option]")]
+      .map((input) => [input.dataset.option, input.value])),
+  });
+  const captureDraftSnapshot = (): DraftSnapshot => ({
+    measurements: { ...measurements },
+    rawMeasurements: currentRawMeasurements(),
+    fabric,
+    appearance: { ...appearance },
+    garmentOptions: copyOptions(garmentOptions),
+    rawOptions: currentRawOptions(),
+    garment: recipe.name,
+    targetStyle,
+    stretchFabric: stretchFabric.name,
+    materialSelectionExplicit,
+    view,
+    bodyCroquisView,
+    exportStep,
+    fabricWidth,
+    nestScope,
+  });
+  const captureRecoveryFile = (): Omit<RecoveryFile, "v"> => ({
+    savedAt: Date.now(),
+    measurements: Object.fromEntries(FIELDS.map((field) => [field.id,
+      Number.isFinite(measurements[field.id]) ? measurements[field.id] : null])) as RecoveryFile["measurements"],
+    rawMeasurements: currentRawMeasurements(),
+    fabric,
+    appearance: { ...appearance },
+    garmentOptions: Object.fromEntries(Object.entries(garmentOptions).map(([name, values]) => [name,
+      Object.fromEntries(Object.entries(values).map(([id, value]) => [id, Number.isFinite(value) ? value : null]))])),
+    rawOptions: currentRawOptions(),
+    workspace: currentWorkspace(),
+    materialSelectionExplicit,
+  });
+  const sameSnapshot = (left: DraftSnapshot, right: DraftSnapshot): boolean =>
+    JSON.stringify(left) === JSON.stringify(right);
+  const syncHistoryControls = (): void => {
+    undoButton.disabled = history.past.length === 0;
+    redoButton.disabled = history.future.length === 0;
+  };
+  const renderRecoveryPrompt = (): void => {
+    if (!pendingRecovery) {
+      recoveryHost.replaceChildren();
+      return;
+    }
+    recoveryHost.innerHTML = `<div class="workspace-recovery-card" role="dialog" aria-modal="true" aria-labelledby="workspace-recovery-title">` +
+      `<h2 id="workspace-recovery-title">Unfinished draft found</h2>` +
+      `<p>Recover the last local edit? It may contain incomplete values; drafting and export stay paused until they are corrected.</p>` +
+      `<div class="workspace-recovery-actions"><button id="recovery-discard" type="button">Discard draft</button>` +
+      `<button id="recovery-accept" type="button">Recover draft</button></div></div>`;
+    recoveryHost.querySelector<HTMLButtonElement>("#recovery-discard")!.addEventListener("click", () => {
+      pendingRecovery = null;
+      clearRecoveryFromStorage();
+      renderRecoveryPrompt();
+    });
+    recoveryHost.querySelector<HTMLButtonElement>("#recovery-accept")!.addEventListener("click", () => {
+      if (pendingRecovery) acceptRecovery(pendingRecovery);
+    });
+    recoveryHost.querySelector<HTMLButtonElement>("#recovery-accept")!.focus();
+  };
 
   /** Design options live per recipe, never in body measurements. Existing saved
    * values stay verbatim so guidance can explain an invalid combination. */
@@ -190,7 +291,7 @@ export function mountApp(root: HTMLElement): void {
       if (cue) cue.hidden = true;
       return;
     }
-    const visibleTarget = hasTarget(previewActive ? assembledHost : analysisHost);
+    const visibleTarget = hasTarget(analysisHost);
     const assembledTarget = hasTarget(assembledHost);
     const label = field.startsWith("option-")
       ? field.slice("option-".length).replace(/([A-Z])/g, " $1").toLowerCase()
@@ -243,6 +344,7 @@ export function mountApp(root: HTMLElement): void {
     if (journey.step === "start" && !journey.familiar) root.querySelector<HTMLElement>("#journey-next")!.hidden = true;
   };
   const markOutputDirty = (designChanged = true): void => {
+    if (historyRestoring) return;
     outputRevision++;
     if (designChanged) {
       ignoredGuidance.clear();
@@ -253,6 +355,15 @@ export function mountApp(root: HTMLElement): void {
     journey = { ...journey, exported: false };
     celebrating = false;
     saveJourney(journey);
+    if (historyPresent) {
+      const next = captureDraftSnapshot();
+      if (!sameSnapshot(historyPresent, next)) {
+        history = recordHistory(history, historyPresent, HISTORY_LIMIT);
+        historyPresent = next;
+      }
+    }
+    if (recoveryTrackingEnabled) saveRecoveryToStorage(captureRecoveryFile());
+    syncHistoryControls();
   };
   const renderGuidance = (notes: readonly Note[]): void => {
     currentNotes = notes;
@@ -427,10 +538,10 @@ export function mountApp(root: HTMLElement): void {
       connector.style.transform = `rotate(${Math.atan2(dy, dx)}rad)`;
       host.append(connector);
     });
-    if (targeted.length > visible.length) {
+    if (candidates.length > visible.length) {
       const more = document.createElement("span");
       more.className = "spatial-guidance-more";
-      more.textContent = `+${targeted.length - visible.length} more in Guidance`;
+      more.textContent = `+${candidates.length - visible.length} more in Guidance`;
       host.append(more);
     }
   };
@@ -711,8 +822,7 @@ export function mountApp(root: HTMLElement): void {
     context.textContent = journey.step === "output"
       ? "Choose a size, then a cutting or reference file. Digital checks are not physical fit validation."
       : "Review the current draft and any guidance before exporting. Digital checks do not replace a sewn sample.";
-    root.querySelector<HTMLElement>("#view-toggle-host")!.style.display =
-      d.views.length > 0 ? "flex" : "none";
+    root.querySelector<HTMLElement>("#view-toggle-host")!.style.display = "flex";
     bodyCroquisHost.style.display = view === "body" && !previewActive && d.views.includes("body") ? "flex" : "none";
     root.querySelector<HTMLElement>("#advanced-views")!.hidden = journey.step === "start";
     syncControlPages();
@@ -931,7 +1041,6 @@ export function mountApp(root: HTMLElement): void {
   });
 
   const setGarment = (name: string): void => {
-    markOutputDirty();
     recipe = garmentByName(name);
     if (!materialSelectionExplicit) {
       const defaultMaterial = defaultStretchFabricForGarment(recipe.name);
@@ -965,6 +1074,7 @@ export function mountApp(root: HTMLElement): void {
     syncExportSizes();
     if (view === "edit" && inputErrors().size === 0) editedFront = rolePiece(draftCurrent(), recipe.editRole ?? "front");
     applyDisclosure();
+    markOutputDirty();
     draw();
   };
   GARMENTS.forEach((g) => {
@@ -1125,7 +1235,7 @@ export function mountApp(root: HTMLElement): void {
   const swatchHost = root.querySelector<HTMLElement>("#swatch-host")!;
   const swatches = swatchHost.querySelectorAll<HTMLButtonElement>("button[data-fabric]");
   const syncAppearanceControls = (): void => {
-    const hsl = hexToHsl(fabric) ?? { h: 0, s: 0, l: 0.5 };
+    const hsl = hexToHsl(fabric)!;
     const hex = swatchHost.querySelector<HTMLInputElement>("#appearance-hex")!;
     const native = swatchHost.querySelector<HTMLInputElement>("#appearance-color-native")!;
     const lightness = swatchHost.querySelector<HTMLInputElement>("#appearance-lightness")!;
@@ -1192,7 +1302,7 @@ export function mountApp(root: HTMLElement): void {
     const dy = clientY - (rect.top + rect.height / 2);
     const hue = (Math.atan2(dy, dx) * 180 / Math.PI + 90 + 360) % 360;
     const saturation = Math.min(1, Math.hypot(dx, dy) / radius);
-    const hsl = hexToHsl(fabric) ?? { h: 0, s: 0, l: 0.5 };
+    const hsl = hexToHsl(fabric)!;
     commitColor(hslToHex(hue, saturation, hsl.l));
   };
   swatchHost.addEventListener("click", (e) => {
@@ -1339,6 +1449,7 @@ export function mountApp(root: HTMLElement): void {
     focus?.focus();
   };
   const applyLoaded = (loaded: Omit<SaveFile, "v">): void => {
+    historyRestoring = true;
     measurements = loaded.measurements;
     fabric = loaded.fabric;
     garmentOptions = loaded.garmentOptions;
@@ -1352,9 +1463,20 @@ export function mountApp(root: HTMLElement): void {
     exportStep = loaded.workspace.exportStep;
     fabricWidth = loaded.workspace.fabricWidth;
     nestScope = loaded.workspace.nestScope;
-    markOutputDirty();
+    styleReviewed = false;
+    checkReviewed = false;
+    journey = { ...journey, exported: false };
+    celebrating = false;
+    saveJourney(journey);
     syncWorkspace(true);
+    historyRestoring = false;
     savedRevision = outputRevision;
+    history = emptyHistory();
+    historyPresent = captureDraftSnapshot();
+    pendingRecovery = null;
+    clearRecoveryFromStorage();
+    renderRecoveryPrompt();
+    syncHistoryControls();
     flash("Loaded ✓", "#2E9B63");
   };
   const requestLoad = (loaded: Omit<SaveFile, "v">): void => {
@@ -1470,12 +1592,14 @@ export function mountApp(root: HTMLElement): void {
   });
 
   root.querySelector<HTMLButtonElement>("#save-pattern")!.addEventListener("click", () => {
-    const workspace: Workspace = { garment: recipe.name, targetStyle, stretchFabric: stretchFabric.name,
-      view, bodyCroquisView, exportStep, fabricWidth, nestScope };
+    const workspace = currentWorkspace();
     const validation = deserialize(serialize(measurements, fabric, garmentOptions, workspace, appearance));
     if (!validation.ok) { flash(`Save failed: ${validation.error}`, BLUEPRINT.lineActive); return; }
     if (saveToStorage(measurements, fabric, garmentOptions, workspace, appearance)) {
       savedRevision = outputRevision;
+      pendingRecovery = null;
+      clearRecoveryFromStorage();
+      renderRecoveryPrompt();
       flash("Saved ✓", "#2E9B63");
     } else flash("Save failed", BLUEPRINT.lineActive);
   });
@@ -1520,8 +1644,128 @@ export function mountApp(root: HTMLElement): void {
     setView(view);
     applyDisclosure();
   };
+
+  const applyRawDraft = (
+    rawMeasurements: Partial<Record<keyof Measurements, string>>,
+    rawOptions: Record<string, Record<string, string>>
+  ): void => {
+    root.querySelectorAll<HTMLInputElement>("input[data-field]").forEach((input) => {
+      const raw = rawMeasurements[input.dataset.field as keyof Measurements];
+      if (raw !== undefined) input.value = raw;
+    });
+    const options = rawOptions[recipe.name] ?? {};
+    root.querySelectorAll<HTMLInputElement>("input[data-option]").forEach((input) => {
+      const raw = options[input.dataset.option!];
+      if (raw !== undefined) input.value = raw;
+    });
+  };
+
+  function acceptRecovery(file: Omit<RecoveryFile, "v">): void {
+    historyRestoring = true;
+    const nextMeasurements = { ...STANDARD_M };
+    FIELDS.forEach((field) => {
+      const value = file.measurements[field.id];
+      nextMeasurements[field.id] = value === null ? NaN : value;
+    });
+    measurements = nextMeasurements;
+    garmentOptions = Object.fromEntries(Object.entries(file.garmentOptions).map(([name, values]) => [name,
+      Object.fromEntries(Object.entries(values).map(([id, value]) => [id, value === null ? NaN : value]))])) as GarmentOptionsByRecipe;
+    fabric = file.fabric;
+    appearance = { ...file.appearance };
+    recipe = garmentByName(file.workspace.garment);
+    targetStyle = file.workspace.targetStyle;
+    stretchFabric = STRETCH_FABRICS.find((candidate) => candidate.name === file.workspace.stretchFabric)!;
+    materialSelectionExplicit = file.materialSelectionExplicit;
+    view = file.workspace.view;
+    bodyCroquisView = file.workspace.bodyCroquisView;
+    exportStep = file.workspace.exportStep;
+    fabricWidth = file.workspace.fabricWidth;
+    nestScope = file.workspace.nestScope;
+    styleReviewed = false;
+    checkReviewed = false;
+    journey = { ...journey, exported: false };
+    celebrating = false;
+    saveJourney(journey);
+    syncWorkspace(true);
+    applyRawDraft(file.rawMeasurements, file.rawOptions);
+    historyRestoring = false;
+    pendingRecovery = null;
+    clearRecoveryFromStorage();
+    renderRecoveryPrompt();
+    history = emptyHistory();
+    historyPresent = captureDraftSnapshot();
+    markOutputDirty(true);
+    draw();
+  }
+
+  function applyHistorySnapshot(snapshot: DraftSnapshot): void {
+    historyRestoring = true;
+    measurements = { ...snapshot.measurements };
+    garmentOptions = copyOptions(snapshot.garmentOptions);
+    fabric = snapshot.fabric;
+    appearance = { ...snapshot.appearance };
+    recipe = garmentByName(snapshot.garment);
+    targetStyle = snapshot.targetStyle;
+    stretchFabric = STRETCH_FABRICS.find((candidate) => candidate.name === snapshot.stretchFabric)!;
+    materialSelectionExplicit = snapshot.materialSelectionExplicit;
+    view = snapshot.view;
+    bodyCroquisView = snapshot.bodyCroquisView;
+    exportStep = snapshot.exportStep;
+    fabricWidth = snapshot.fabricWidth;
+    nestScope = snapshot.nestScope;
+    syncWorkspace(true);
+    applyRawDraft(snapshot.rawMeasurements, snapshot.rawOptions);
+    historyRestoring = false;
+    historyPresent = captureDraftSnapshot();
+    markOutputDirty(true);
+    draw();
+  }
+
+  const performUndo = (): boolean => {
+    const current = historyPresent!;
+    const transition = undoHistory(history, current);
+    if (!transition) return false;
+    history = transition.history;
+    applyHistorySnapshot(transition.current);
+    return true;
+  };
+  const performRedo = (): boolean => {
+    const current = historyPresent!;
+    const transition = redoHistory(history, current);
+    if (!transition) return false;
+    history = transition.history;
+    applyHistorySnapshot(transition.current);
+    return true;
+  };
+
+  const nativeEditingTarget = (target: EventTarget | null): boolean => {
+    const element = target as HTMLElement | null;
+    return element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement
+      || element instanceof HTMLSelectElement || element?.isContentEditable === true;
+  };
+  window.addEventListener("keydown", (event) => {
+    if (activeMountRoot !== root) return;
+    if (!(event.ctrlKey || event.metaKey) || event.altKey || nativeEditingTarget(event.target)) return;
+    const key = event.key.toLowerCase();
+    const handled = key === "z" ? (event.shiftKey ? performRedo() : performUndo())
+      : key === "y" ? performRedo() : false;
+    if (handled) event.preventDefault();
+  });
+  window.addEventListener("beforeunload", (event) => {
+    if (activeMountRoot !== root) return;
+    if (outputRevision === savedRevision) return;
+    event.preventDefault();
+    event.returnValue = "";
+  });
+
   syncWorkspace(saved !== null);
   savedRevision = outputRevision;
+  historyPresent = captureDraftSnapshot();
+  recoveryTrackingEnabled = true;
+  undoButton.addEventListener("click", () => { performUndo(); });
+  redoButton.addEventListener("click", () => { performRedo(); });
+  syncHistoryControls();
+  renderRecoveryPrompt();
 }
 
 /** Geometry checks remain owned by their recipe, but a failed fact still needs

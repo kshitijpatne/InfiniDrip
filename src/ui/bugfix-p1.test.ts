@@ -13,6 +13,10 @@ function mount(): HTMLElement {
 function click(root: HTMLElement, id: string): void {
   root.querySelector<HTMLButtonElement>(`#${id}`)!.click();
 }
+function loadSavedWorkspace(root: HTMLElement): void {
+  click(root, "load-pattern");
+  root.querySelector<HTMLButtonElement>("#workspace-confirm-accept")?.click();
+}
 function input(root: HTMLElement, selector: string, value: string): HTMLInputElement {
   const field = root.querySelector<HTMLInputElement>(selector)!;
   field.value = value;
@@ -52,7 +56,7 @@ describe("P1 input truth", () => {
     input(root, '[data-option="buttonCount"]', "7");
     click(root, "garment-tee");
     root.querySelectorAll<HTMLButtonElement>("[data-fabric]")[1].click();
-    click(root, "load-pattern");
+    loadSavedWorkspace(root);
     const verify = (page: HTMLElement) => {
       expect(page.querySelector<HTMLInputElement>('[data-option="buttonCount"]')!.value).toBe("6");
       expect(page.querySelector<HTMLSelectElement>("#style-target")!.value).toBe("Relaxed woven shirt");
@@ -74,7 +78,7 @@ describe("P1 input truth", () => {
     const saved = localStorage.getItem("patternworks_save_v1");
     input(root, '[data-field="length"]', "110");
     click(root, "save-pattern");
-    click(root, "load-pattern");
+    loadSavedWorkspace(root);
     expect(root.querySelector<HTMLInputElement>('[data-field="length"]')!.value).toBe("70");
     input(root, '[data-field="chest"]', "");
     click(root, "save-pattern");
@@ -185,6 +189,22 @@ describe("P1 input truth", () => {
     expect(root.querySelector("#journey-host")!.textContent).toContain("✓ Files exported");
     input(root, '[data-field="chest"]', "120");
     expect(root.querySelector("#readiness-host")!.textContent).not.toContain("✓Files exported");
+  });
+
+  it("does not celebrate an Electron export that finishes after a later edit", async () => {
+    let finish: ((result: { saved: boolean }) => void) | undefined;
+    window.electronAPI = {
+      saveFile: vi.fn(() => new Promise<{ saved: boolean }>((resolve) => { finish = resolve; })),
+    };
+    const root = mount();
+    reachExportStage(root);
+    click(root, "export-svg");
+    input(root, '[data-field="chest"]', "120");
+    finish!({ saved: true });
+    await Promise.resolve();
+    await Promise.resolve();
+    expect(root.querySelector("#persist-status")!.textContent).toContain("earlier design");
+    expect(root.querySelector("#journey-host")!.textContent).not.toContain("✓ Files exported");
   });
 
   it("allows the confirmed-export celebration to be dismissed", async () => {

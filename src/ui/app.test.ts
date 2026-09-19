@@ -280,6 +280,46 @@ describe("mountApp", () => {
     expect(root.querySelector<HTMLElement>("#appearance-readout")!.textContent).not.toBe(beforeWheel);
   });
 
+  it("covers native appearance controls, wheel pointer input, and ignored keys", () => {
+    localStorage.clear();
+    const scrollIntoView = vi.fn();
+    Object.defineProperty(HTMLElement.prototype, "scrollIntoView", { configurable: true, value: scrollIntoView });
+    try {
+      const root = mount();
+      clickId(root, "welcome-skip");
+      clickId(root, "journey-step-fit");
+      clickId(root, "appearance-toggle");
+      expect(scrollIntoView).toHaveBeenCalled();
+      const hex = root.querySelector<HTMLInputElement>("#appearance-hex")!;
+      hex.value = "#1234";
+      hex.dispatchEvent(new Event("input", { bubbles: true }));
+      hex.value = "#ABCDEF";
+      hex.dispatchEvent(new Event("input", { bubbles: true }));
+      const native = root.querySelector<HTMLInputElement>("#appearance-color-native")!;
+      native.value = "#224466";
+      native.dispatchEvent(new Event("input", { bubbles: true }));
+      const lightness = root.querySelector<HTMLInputElement>("#appearance-lightness")!;
+      lightness.value = "65";
+      lightness.dispatchEvent(new Event("input", { bubbles: true }));
+      const shine = root.querySelector<HTMLInputElement>("#appearance-shine")!;
+      shine.value = "bad";
+      shine.dispatchEvent(new Event("input", { bubbles: true }));
+      const wheel = root.querySelector<HTMLElement>("#appearance-wheel")!;
+      wheel.dispatchEvent(new MouseEvent("pointerdown", { bubbles: true, clientX: 0, clientY: 0 }));
+      vi.spyOn(wheel, "getBoundingClientRect").mockReturnValue({ left: 10, top: 10, right: 210, bottom: 210, width: 200, height: 200, x: 10, y: 10, toJSON: () => ({}) } as DOMRect);
+      wheel.dispatchEvent(new MouseEvent("pointerdown", { bubbles: true, clientX: 180, clientY: 100 }));
+      wheel.dispatchEvent(new MouseEvent("pointermove", { bubbles: true, buttons: 1, clientX: 160, clientY: 120 }));
+      for (const key of ["ArrowLeft", "ArrowUp", "ArrowDown", "Escape"]) {
+        wheel.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true }));
+      }
+      hex.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true }));
+      expect(root.querySelector<HTMLInputElement>("#appearance-hex")!.value).toMatch(/^#[0-9A-F]{6}$/);
+    } finally {
+      delete (HTMLElement.prototype as unknown as { scrollIntoView?: unknown }).scrollIntoView;
+      vi.restoreAllMocks();
+    }
+  });
+
   it("rejects an incomplete exact color without changing the live preview", () => {
     localStorage.clear();
     const root = mount();
@@ -342,6 +382,65 @@ describe("mountApp", () => {
     guidanceHost.append(emptyFocus);
     emptyFocus.dispatchEvent(new Event("click", { bubbles: true }));
     root.remove();
+  });
+
+  it("handles inspector menus, missing guidance targets, and preview spotlights safely", () => {
+    localStorage.clear();
+    const root = mount();
+    const row = root.querySelector<HTMLElement>('[data-dim-row="chest"]')!;
+    row.dispatchEvent(new Event("mouseenter"));
+    clickId(root, "assembled-preview-toggle");
+    row.dispatchEvent(new Event("mouseenter"));
+    clickId(root, "assembled-preview-toggle");
+    const unknownRow = document.createElement("div");
+    unknownRow.dataset.dimRow = "mystery";
+    root.append(unknownRow);
+    clickId(root, "garment-tee");
+    unknownRow.dispatchEvent(new Event("mouseenter"));
+
+    const advanced = root.querySelector<HTMLDetailsElement>("#advanced-views")!;
+    advanced.open = true;
+    clickId(root, "view-nest");
+    advanced.open = true;
+    root.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+    root.querySelector<HTMLElement>("#style-host")!.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    root.querySelector<HTMLButtonElement>('[data-style-target="Classic tee"]')!.click();
+    root.querySelector<HTMLElement>("#stretch-host")!.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    root.querySelector<HTMLButtonElement>('[data-material-option="Cotton jersey"]')!.click();
+
+    const missingFocus = document.createElement("button");
+    missingFocus.dataset.guidanceFocus = "missing";
+    root.querySelector("#guidance-host")!.append(missingFocus);
+    missingFocus.click();
+    const missingCorrection = document.createElement("button");
+    missingCorrection.id = "journey-correction";
+    missingCorrection.dataset.correctionStep = "measure";
+    root.append(missingCorrection);
+    missingCorrection.click();
+    const outsideMenu = document.createElement("button");
+    outsideMenu.id = "outside-menu";
+    root.append(outsideMenu);
+    advanced.open = true;
+    outsideMenu.click();
+    const emptyIgnore = document.createElement("button");
+    emptyIgnore.dataset.ignoreGuidance = "";
+    root.querySelector("#canvas-host")!.append(emptyIgnore);
+    emptyIgnore.click();
+    const emptyRestore = document.createElement("button");
+    emptyRestore.dataset.restoreGuidance = "";
+    root.querySelector("#canvas-host")!.append(emptyRestore);
+    emptyRestore.click();
+    root.querySelector<HTMLButtonElement>("#journey-step-output")!.dispatchEvent(new Event("click", { bubbles: true }));
+
+    const invalid = mount();
+    clickIfPresent(invalid, "welcome-skip");
+    clickId(invalid, "garment-woven-shirt");
+    const option = invalid.querySelector<HTMLInputElement>('[data-option="buttonCount"]')!;
+    option.value = "6.5";
+    option.dispatchEvent(new Event("input"));
+    clickId(invalid, "journey-step-fit");
+    clickId(invalid, "journey-next");
+    expect(invalid.querySelector("#journey-host")!.textContent).toContain("Current stage: 4 Check");
   });
 
   it("supports readable single-figure body focus and bounded zoom", () => {
@@ -618,10 +717,13 @@ describe("mountApp", () => {
     chest.dispatchEvent(new Event("input"));
     const savedCanvas = root.querySelector("#canvas-host svg")!.getAttribute("viewBox");
     root.querySelector<HTMLButtonElement>("#save-pattern")!.dispatchEvent(new Event("click"));
+    root.querySelector<HTMLButtonElement>("#load-pattern")!.dispatchEvent(new Event("click"));
+    expect(root.querySelector<HTMLInputElement>('input[data-field="chest"]')!.value).toBe("120");
 
     // Reset to default and verify it's different
-    chest.value = "100";
-    chest.dispatchEvent(new Event("input"));
+    const currentChest = root.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+    currentChest.value = "100";
+    currentChest.dispatchEvent(new Event("input"));
     const resetCanvas = root.querySelector("#canvas-host svg")!.getAttribute("viewBox");
     expect(resetCanvas).not.toBe(savedCanvas);
 
@@ -659,6 +761,116 @@ describe("mountApp", () => {
     root.remove();
   });
 
+  it("closes a load confirmation safely when its pending request is gone", () => {
+    localStorage.clear();
+    const root = mount();
+    const confirmation = root.querySelector<HTMLElement>("#workspace-confirm")!;
+    confirmation.hidden = false;
+    root.querySelector<HTMLButtonElement>("#workspace-confirm-accept")!.click();
+    expect(confirmation.hidden).toBe(true);
+  });
+
+  it("recovers an unfinished input without allowing drafting or Save to accept it", () => {
+    localStorage.clear();
+    const first = mount();
+    clickIfPresent(first, "welcome-skip");
+    clickId(first, "garment-woven-shirt");
+    const buttonCount = first.querySelector<HTMLInputElement>('[data-option="buttonCount"]')!;
+    buttonCount.value = "6";
+    buttonCount.dispatchEvent(new Event("input"));
+    const firstChest = first.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+    firstChest.value = "";
+    firstChest.dispatchEvent(new Event("input"));
+
+    const recovered = mount();
+    expect(recovered.querySelector("#recovery-host")!.textContent).toContain("Unfinished draft found");
+    recovered.querySelector<HTMLButtonElement>("#recovery-accept")!.click();
+    expect(recovered.querySelector<HTMLInputElement>('input[data-field="chest"]')!.value).toBe("");
+    expect(recovered.querySelector<HTMLInputElement>('[data-option="buttonCount"]')!.value).toBe("6");
+    expect(recovered.querySelector("#canvas-host")!.textContent).toContain("Draft paused");
+    recovered.querySelector<HTMLButtonElement>("#save-pattern")!.click();
+    expect(recovered.querySelector("#persist-status")!.textContent).toContain("Save failed");
+  });
+
+  it("discards an unfinished recovery draft explicitly", () => {
+    localStorage.clear();
+    const first = mount();
+    const chest = first.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+    chest.value = "";
+    chest.dispatchEvent(new Event("input"));
+    const recovered = mount();
+    recovered.querySelector<HTMLButtonElement>("#recovery-discard")!.click();
+    expect(recovered.querySelector("#recovery-host")!.textContent).toBe("");
+    expect(localStorage.getItem("patternworks_recovery_v1")).toBeNull();
+  });
+
+  it("recovers when the local option map predates the active recipe", () => {
+    localStorage.clear();
+    const first = mount();
+    const chest = first.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+    chest.value = "";
+    chest.dispatchEvent(new Event("input"));
+    const recovery = JSON.parse(localStorage.getItem("patternworks_recovery_v1")!);
+    delete recovery.rawOptions.tee;
+    localStorage.setItem("patternworks_recovery_v1", JSON.stringify(recovery));
+    const recovered = mount();
+    recovered.querySelector<HTMLButtonElement>("#recovery-accept")!.click();
+    expect(recovered.querySelector<HTMLInputElement>('input[data-field="chest"]')!.value).toBe("");
+  });
+
+  it("preserves an incomplete recipe option through recovery", () => {
+    localStorage.clear();
+    const first = mount();
+    clickIfPresent(first, "welcome-skip");
+    clickId(first, "garment-woven-shirt");
+    const option = first.querySelector<HTMLInputElement>('[data-option="buttonCount"]')!;
+    option.value = "";
+    option.dispatchEvent(new Event("input"));
+    const recovered = mount();
+    recovered.querySelector<HTMLButtonElement>("#recovery-accept")!.click();
+    expect(recovered.querySelector<HTMLInputElement>('[data-option="buttonCount"]')!.value).toBe("");
+  });
+
+  it("guards navigation while dirty and clears the guard after a valid Save", () => {
+    localStorage.clear();
+    const root = mount();
+    const cleanEvent = new Event("beforeunload", { cancelable: true });
+    window.dispatchEvent(cleanEvent);
+    expect(cleanEvent.defaultPrevented).toBe(false);
+    const chest = root.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+    chest.value = "120";
+    chest.dispatchEvent(new Event("input"));
+    const dirtyEvent = new Event("beforeunload", { cancelable: true });
+    window.dispatchEvent(dirtyEvent);
+    expect(dirtyEvent.defaultPrevented).toBe(true);
+    root.querySelector<HTMLButtonElement>("#save-pattern")!.click();
+    const savedEvent = new Event("beforeunload", { cancelable: true });
+    window.dispatchEvent(savedEvent);
+    expect(savedEvent.defaultPrevented).toBe(false);
+  });
+
+  it("keeps bounded Undo/Redo separate from native text editing", () => {
+    localStorage.clear();
+    const root = mount();
+    const chest = root.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+    chest.value = "101";
+    chest.dispatchEvent(new Event("input"));
+    chest.value = "102";
+    chest.dispatchEvent(new Event("input"));
+    root.querySelector<HTMLButtonElement>("#undo-pattern")!.click();
+    expect(root.querySelector<HTMLInputElement>('input[data-field="chest"]')!.value).toBe("101");
+    window.dispatchEvent(new KeyboardEvent("keydown", { key: "y", ctrlKey: true, bubbles: true }));
+    expect(root.querySelector<HTMLInputElement>('input[data-field="chest"]')!.value).toBe("102");
+    root.querySelector<HTMLButtonElement>("#undo-pattern")!.click();
+    window.dispatchEvent(new KeyboardEvent("keydown", { key: "z", ctrlKey: true, shiftKey: true, bubbles: true }));
+    expect(root.querySelector<HTMLInputElement>('input[data-field="chest"]')!.value).toBe("102");
+    root.querySelector<HTMLButtonElement>("#redo-pattern")!.click();
+    expect(root.querySelector<HTMLInputElement>('input[data-field="chest"]')!.value).toBe("102");
+    chest.focus();
+    window.dispatchEvent(new KeyboardEvent("keydown", { key: "z", ctrlKey: true, bubbles: true }));
+    expect(chest.value).toBe("102");
+  });
+
   it("Save shows a failure message when localStorage throws", () => {
     const originalWindowStorage = window.localStorage;
     const originalGlobalStorage = globalThis.localStorage;
@@ -679,6 +891,22 @@ describe("mountApp", () => {
     } finally {
       Object.defineProperty(window, "localStorage", { configurable: true, value: originalWindowStorage });
       Object.defineProperty(globalThis, "localStorage", { configurable: true, value: originalGlobalStorage });
+    }
+  });
+
+  it("routes an unready menu export back to the current review stage", () => {
+    let registered: ((kind: string) => void) | undefined;
+    window.electronAPI = {
+      saveFile: vi.fn(),
+      onExportRequested: (cb) => { registered = cb; },
+    };
+    try {
+      const root = mount();
+      registered!("svg");
+      registered!("unknown");
+      expect(root.querySelector("#persist-status")!.textContent).toContain("Review Style and the current digital checks");
+    } finally {
+      delete window.electronAPI;
     }
   });
 
@@ -707,6 +935,7 @@ describe("mountApp", () => {
     const root = mount();
     clickId(root, "welcome-skip");
     clickId(root, "journey-step-fit");
+    root.querySelector<HTMLButtonElement>('[data-style-target="Classic tee"]')!.click();
     root.querySelector<HTMLButtonElement>('[data-style-target="Oversized tee"]')!.click();
     expect(root.querySelector<HTMLSelectElement>("#style-target")!.value).toBe("Oversized tee");
     expect(root.querySelector<HTMLButtonElement>('[data-style-target="Oversized tee"]')!.getAttribute("aria-pressed")).toBe("true");
@@ -1184,6 +1413,12 @@ describe("body-view measurement linking", () => {
     root.querySelector<HTMLButtonElement>('[data-ignore-guidance="chest"]')!.click();
     expect(root.querySelector('.spatial-guidance-note[data-guidance-field="chest"]')).toBeNull();
     expect(root.querySelector('[data-guidance-field="chest"][data-guidance-ignored]')).not.toBeNull();
+    const canvasRestore = document.createElement("button");
+    canvasRestore.dataset.restoreGuidance = "chest";
+    root.querySelector("#canvas-host")!.append(canvasRestore);
+    canvasRestore.click();
+    expect(root.querySelector<HTMLElement>('.spatial-guidance-note[data-guidance-field="chest"]')).not.toBeNull();
+    root.querySelector<HTMLButtonElement>('[data-ignore-guidance="chest"]')!.click();
     clickId(root, "view-check");
     expect(root.querySelector('[data-ignored-guidance-field="chest"]')).not.toBeNull();
     root.querySelector<HTMLButtonElement>('[data-restore-guidance="chest"]')!.click();
@@ -1191,6 +1426,89 @@ describe("body-view measurement linking", () => {
     chest.value = "100";
     chest.dispatchEvent(new Event("input"));
     expect(root.querySelector('[data-guidance-field="chest"][data-guidance-ignored]')).toBeNull();
+  });
+
+  it("handles spatial guidance geometry fallbacks and missing overlay hosts", () => {
+    localStorage.clear();
+    const missingHost = mount();
+    missingHost.querySelector("#spatial-guidance-host")!.remove();
+    const missingChest = missingHost.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+    missingChest.value = "150";
+    missingChest.dispatchEvent(new Event("input"));
+
+    const root = mount();
+    clickIfPresent(root, "welcome-skip");
+    clickId(root, "garment-woven-shirt");
+    clickId(root, "journey-step-fit");
+    const setInput = (selector: string, value: number): void => {
+      const input = root.querySelector<HTMLInputElement>(selector)!;
+      input.value = String(value);
+      input.dispatchEvent(new Event("input", { bubbles: true }));
+    };
+    setInput('input[data-field="neck"]', 70);
+    setInput('input[data-field="shoulderWidth"]', 30);
+    setInput('input[data-field="length"]', 60);
+    setInput('input[data-field="armholeDepth"]', 12);
+    setInput('input[data-field="ease"]', 4);
+    setInput('[data-option="buttonSpacing"]', 9);
+    setInput('[data-option="buttonCount"]', 6.5);
+    setInput('[data-option="frontOverlap"]', 3);
+    setInput('[data-option="placketWidth"]', 2);
+    setInput('[data-option="standHeight"]', 3.5);
+    setInput('[data-option="collarLeafDepth"]', 4);
+    setInput('[data-option="yokeDepth"]', 12);
+    const stretch = root.querySelector<HTMLSelectElement>("#stretch-select")!;
+    stretch.value = "Cotton jersey";
+
+    const box = (left: number, top: number, width: number, height: number): DOMRect =>
+      ({ left, top, right: left + width, bottom: top + height, width, height, x: left, y: top, toJSON: () => ({}) } as DOMRect);
+    let mode: "normal" | "zero-target" | "zero-viewport" = "normal";
+    const htmlRect = vi.spyOn(HTMLElement.prototype, "getBoundingClientRect").mockImplementation(function (this: HTMLElement) {
+      if (this.id === "canvas-inspection") return box(0, 0, 900, 700);
+      if (this.id === "inspection-viewport") {
+        return mode === "zero-viewport" ? box(30, 40, 0, 0) : box(10, 40, 880, 640);
+      }
+      if (this.classList.contains("spatial-guidance-note")) {
+        const left = Number.parseFloat(this.style.left) || 0;
+        const top = Number.parseFloat(this.style.top) || 0;
+        return mode === "zero-viewport" ? box(left, top, 0, 0) : box(left, top, 230, 92);
+      }
+      return box(0, 0, 0, 0);
+    });
+    const svgRect = vi.spyOn(SVGElement.prototype, "getBoundingClientRect").mockImplementation(() =>
+      mode === "zero-target" ? box(0, 0, 0, 0)
+        : mode === "zero-viewport" ? box(30, 40, 10, 20)
+          : box(420, 250, 24, 180));
+    try {
+      stretch.dispatchEvent(new Event("change", { bubbles: true }));
+      clickId(root, "assembled-preview-toggle");
+      expect(root.querySelector<HTMLElement>(".spatial-guidance-more")?.textContent).toContain("more in Guidance");
+      mode = "zero-target";
+      stretch.dispatchEvent(new Event("change", { bubbles: true }));
+      expect(root.querySelectorAll(".spatial-guidance-note")).toHaveLength(0);
+      mode = "zero-viewport";
+      stretch.dispatchEvent(new Event("change", { bubbles: true }));
+      expect(root.querySelectorAll(".spatial-guidance-note").length).toBeGreaterThan(0);
+    } finally {
+      htmlRect.mockRestore();
+      svgRect.mockRestore();
+    }
+  });
+
+  it("blocks Check-to-Export when a reviewed style has a material warning", () => {
+    localStorage.clear();
+    const root = mount();
+    clickIfPresent(root, "welcome-skip");
+    clickId(root, "garment-woven-shirt");
+    clickId(root, "journey-step-fit");
+    const stretch = root.querySelector<HTMLSelectElement>("#stretch-select")!;
+    stretch.value = "Cotton jersey";
+    stretch.dispatchEvent(new Event("change", { bubbles: true }));
+    clickId(root, "journey-next");
+    expect(root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("refine");
+    expect(root.querySelector("#journey-blocker")!.textContent).toContain("stable woven material");
+    clickId(root, "journey-next");
+    expect(root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("refine");
   });
 
   it("switches to the woven-shirt recipe and renders its live design details", () => {

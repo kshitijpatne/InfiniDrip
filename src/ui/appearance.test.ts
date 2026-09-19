@@ -21,6 +21,7 @@ describe("appearance color math", () => {
     expect(hexToHsl("#FF0000")).toEqual({ h: 0, s: 1, l: 0.5 });
     expect(hexToHsl("#00FF00")!.h).toBe(120);
     expect(hexToHsl("#0000FF")!.h).toBe(240);
+    expect(hexToHsl("#FF00FF")!.h).toBe(300);
     expect(hexToHsl("#12345")).toBeNull();
     expect(hslToHex(0, 0, 1)).toBe("#FFFFFF");
     expect(hslToHex(0, 1, 0.5)).toBe("#FF0000");

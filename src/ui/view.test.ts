@@ -103,6 +103,12 @@ describe("fabricSwatchesMarkup", () => {
     expect(html).toContain('data-texture="woven"');
     expect(html).toContain('id="appearance-hex"');
   });
+
+  it("falls back safely for an invalid swatch color and unknown garment label", () => {
+    expect(fabricSwatchesMarkup("not-a-color")).toContain(`data-fabric="${DEFAULT_FABRIC}"`);
+    expect(appShellMarkup(STANDARD_M, DEFAULT_FABRIC, TSHIRT_SIZES, TEE.fields, undefined, "future-garment"))
+      .toContain('<span id="current-garment">future-garment</span>');
+  });
 });
 
 describe("appShellMarkup", () => {
@@ -123,6 +129,9 @@ describe("appShellMarkup", () => {
     expect(html).toContain("Parametric garment design workspace");
     expect(html).toContain('<p id="product-subtitle">Parametric garment design workspace</p>');
     expect(html).toContain('id="workspace-actions"');
+    expect(html).toContain('id="undo-pattern"');
+    expect(html).toContain('id="redo-pattern"');
+    expect(html).toContain('id="recovery-host"');
     expect(html).toContain('id="workspace-confirm"');
     expect(html).toContain('id="workspace-confirm-cancel"');
     expect(html).toContain('id="workspace-confirm-accept"');

@@ -10,8 +10,14 @@ import {
   DEFAULT_WORKSPACE,
   defaultStretchFabricForGarment,
   readFromStorage,
+  serializeRecovery,
+  deserializeRecovery,
+  saveRecoveryToStorage,
+  readRecoveryFromStorage,
+  clearRecoveryFromStorage,
 } from "./persist";
 import { DEFAULT_APPEARANCE } from "./appearance";
+import { FIELDS } from "./controls";
 
 const FABRIC = "#3A4150";
 
@@ -83,6 +89,61 @@ describe("v4 workspace validation", () => {
     expect(readFromStorage()).toEqual({ ok: false, error: "Nothing saved" });
     localStorage.setItem("patternworks_save_v1", "broken");
     expect(readFromStorage()).toEqual({ ok: false, error: "Not valid JSON." });
+  });
+
+  it("round-trips an unfinished recovery draft without making it a valid save", () => {
+    const recovery = {
+      savedAt: 123,
+      measurements: Object.fromEntries(FIELDS.map((field) => [field.id, field.id === "chest" ? null : STANDARD_M[field.id]])),
+      rawMeasurements: { chest: "" },
+      fabric: FABRIC,
+      appearance: DEFAULT_APPEARANCE,
+      garmentOptions: { tee: {} },
+      rawOptions: { tee: {} },
+      workspace: DEFAULT_WORKSPACE,
+      materialSelectionExplicit: false,
+    } as const;
+    const result = deserializeRecovery(serializeRecovery(recovery));
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.measurements.chest).toBeNull();
+      expect(result.rawMeasurements.chest).toBe("");
+    }
+    expect(saveRecoveryToStorage(recovery)).toBe(true);
+    expect(readRecoveryFromStorage().ok).toBe(true);
+    expect(clearRecoveryFromStorage()).toBe(true);
+    expect(readRecoveryFromStorage()).toEqual({ ok: false, error: "Nothing to recover" });
+  });
+
+  it("rejects malformed recovery data without weakening current-save validation", () => {
+    const recovery = {
+      savedAt: 123,
+      measurements: Object.fromEntries(FIELDS.map((field) => [field.id, STANDARD_M[field.id]])),
+      rawMeasurements: {}, fabric: FABRIC, appearance: DEFAULT_APPEARANCE,
+      garmentOptions: { tee: {} }, rawOptions: { tee: {} },
+      workspace: DEFAULT_WORKSPACE, materialSelectionExplicit: false,
+    };
+    const valid = JSON.parse(serializeRecovery(recovery));
+    expect(deserializeRecovery("[]").ok).toBe(false);
+    expect(deserializeRecovery("null").ok).toBe(false);
+    for (const change of [
+      { v: 99 }, { measurements: [] }, { rawMeasurements: { chest: 1 } },
+      { fabric: "bad" }, { garmentOptions: { tee: [] } },
+      { rawOptions: { tee: { ease: 1 } } }, { appearance: { texture: "missing", shine: 50 } },
+      { workspace: { ...DEFAULT_WORKSPACE, garment: "missing" } }, { materialSelectionExplicit: "no" },
+    ]) expect(deserializeRecovery(JSON.stringify({ ...valid, ...change })).ok).toBe(false);
+    localStorage.setItem("patternworks_recovery_v1", "broken");
+    expect(readRecoveryFromStorage()).toEqual({ ok: false, error: "Recovery data is not valid JSON." });
+    expect(saveRecoveryToStorage({ ...recovery, fabric: "bad" })).toBe(false);
+    vi.spyOn(Storage.prototype, "setItem").mockImplementationOnce(() => { throw new Error("quota"); });
+    expect(saveRecoveryToStorage(recovery)).toBe(false);
+    vi.restoreAllMocks();
+    vi.spyOn(Storage.prototype, "getItem").mockImplementationOnce(() => { throw new Error("unavailable"); });
+    expect(readRecoveryFromStorage()).toEqual({ ok: false, error: "Recovery data is unavailable. Check storage access and retry." });
+    vi.restoreAllMocks();
+    vi.spyOn(Storage.prototype, "removeItem").mockImplementationOnce(() => { throw new Error("unavailable"); });
+    expect(clearRecoveryFromStorage()).toBe(false);
+    vi.restoreAllMocks();
   });
 });
 

@@ -198,7 +198,7 @@ export function guidanceMarkup(notes: readonly Note[], ignored: ReadonlySet<stri
 /** Compact palette plus an on-demand screen appearance editor. */
 export function fabricSwatchesMarkup(current: string, appearance: Appearance = DEFAULT_APPEARANCE): string {
   const color = normalizeHex(current) ?? FABRICS[0].color;
-  const hsl = hexToHsl(color) ?? { h: 0, s: 0, l: 0.5 };
+  const hsl = hexToHsl(color)!;
   const angle = (hsl.h - 90) * Math.PI / 180;
   const wheelX = 50 + Math.cos(angle) * hsl.s * 42;
   const wheelY = 50 + Math.sin(angle) * hsl.s * 42;
@@ -605,8 +605,11 @@ export function appShellMarkup(
     `<p id="product-subtitle">Parametric garment design workspace</p></div>` +
     `<div id="workspace-actions" role="group" aria-label="Local workspace">` +
     `<span id="persist-status" role="status"></span>` +
+    `<button id="undo-pattern" type="button" title="Undo the last design change" aria-label="Undo the last design change" disabled>Undo</button>` +
+    `<button id="redo-pattern" type="button" title="Redo the last design change" aria-label="Redo the last design change" disabled>Redo</button>` +
     `<button id="save-pattern" type="button" title="Save this workspace locally on this device">Save</button>` +
     `<button id="load-pattern" type="button" title="Replace this workspace with your last local save">Load</button></div></header>` +
+    `<div id="recovery-host"></div>` +
     `<div id="workspace-confirm" hidden role="dialog" aria-modal="true" aria-labelledby="workspace-confirm-title">` +
     `<div class="workspace-confirm-card"><h2 id="workspace-confirm-title">Replace this workspace?</h2>` +
     `<p>Your current unsaved changes will be replaced by the last local save.</p>` +
