@@ -1,6 +1,7 @@
 // @vitest-environment jsdom
 import { describe, it, expect } from "vitest";
 import { point } from "../geometry/point";
+import { artworkCorners } from "../surface/transform";
 import { surfaceOverlay, type OverlayItem } from "./surface-overlay";
 
 const item = (overrides: Partial<OverlayItem> = {}): OverlayItem => ({
@@ -58,6 +59,12 @@ describe("surfaceOverlay", () => {
       item({ polygon: [point(1 / 3, 2 / 3), point(1, 1), point(2, 2)] }),
     ]));
     expect(doc.querySelector("polygon")!.getAttribute("points")).toBe("0.333,0.667 1,1 2,2");
+  });
+
+  it("renders the polygon produced by placement transform math", () => {
+    const polygon = artworkCorners(20, 10, { dx: 5, dy: -3, scale: 2, rotationDeg: 0 });
+    const doc = parse(surfaceOverlay([item({ polygon })]));
+    expect(doc.querySelector("polygon")!.getAttribute("points")).toBe("-15,-13 25,-13 25,7 -15,7");
   });
 
   it("emits an empty tagged group for no artwork", () => {

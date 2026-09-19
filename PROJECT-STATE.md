@@ -1,8 +1,33 @@
 # InfiniDrip — Project State
 
-_Last updated: Epic 5 / Slice 121 exit gate, 2026-09-19; Epic 3 and Epic 4 remain closed and the beginner-facing redesign is complete pending the authorized merge to `origin/main`._
+_Last updated: Epic 6 / Slice 125 integration gate, 2026-09-19; Epic 3, Epic 4, and Epic 5 are closed, and the additive surface foundation is integrated pending the authorized push._
 
-## Current work — Epic 5 beginner-facing workspace redesign
+## Current work — Epic 6 surface design foundation
+
+### Slices 122–125 integration checkpoint — reviewed and passing
+
+OpenCode PRs #1–#4 map to Slices 122–125 and their remote heads are
+`bd6894b`, `90fde73`, `b374159`, and `a9a168d`. Each branch was accessible,
+reviewed against its actual diff, and merged locally on top of the Epic 5 exit
+`13d7195`. The changes are additive: two research/planning documents, a pure
+placement model, headless transform math, and a pure SVG overlay renderer.
+
+Codex corrected one contract gap during integration: effective resolution now
+rejects non-positive source-pixel dimensions, and the overlay test consumes the
+actual transform module output. Persistence, Fabric.js fidelity, UI wiring,
+tech-pack placement output, guidance warnings, and print-ready output remain
+explicit future Slice 126–128 work; no surface behavior is exposed in the app
+yet. No drafting, grading, checks, nesting, export writers, or legacy bytes
+changed.
+
+The complete gate for this checkpoint passed: 88 files / 1,139 tests, 100%
+statements/branches/functions/lines, typecheck, production build, and parsed
+SVG/DXF/tiled PDF/A0/projector/tech-pack plus eight unchanged legacy hashes.
+The new modules have focused cross-module coverage; they are headless and do
+not add a new live UI path. Physical fit, manufacturing, and production
+readiness remain unverified and must not be claimed.
+
+### Epic 5 beginner-facing workspace redesign — completed
 
 ### Open-source audit checkpoint — current sequence unchanged
 

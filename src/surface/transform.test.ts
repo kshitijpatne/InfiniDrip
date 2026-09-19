@@ -82,6 +82,8 @@ describe("effectiveResolution", () => {
     expect(effectiveResolution("1200" as unknown as number, 1500, 20, 25, 1)).toBeNull();
   });
   it("returns null for non-positive geometry", () => {
+    expect(effectiveResolution(0, 1500, 20, 25, 1)).toBeNull();
+    expect(effectiveResolution(1200, -1, 20, 25, 1)).toBeNull();
     expect(effectiveResolution(1200, 1500, 0, 25, 1)).toBeNull();
     expect(effectiveResolution(1200, 1500, 20, -25, 1)).toBeNull();
     expect(effectiveResolution(1200, 1500, 20, 25, 0)).toBeNull();

@@ -62,6 +62,8 @@ snapshots; they are not current status.
   redesign, Slices 114–121, acceptance criteria, pacing and final exit record.
 - `docs/planning/UX-REDESIGN-HANDOFFS.md` — isolated OpenCode research and Claude
   Code audit packets for Slice 114; Codex owns implementation and acceptance.
+- `docs/planning/EPIC-6-EXECUTION.md` — Epic 6 surface-design execution plan,
+  additive Slice 122–125 foundation, deferred wiring slices, and exit gate.
 
 ## Research documents
 
@@ -91,6 +93,8 @@ snapshots; they are not current status.
   product-owner-supplied GitHub repositories/topics plus adjacent candidates.
   Its accept/reject decisions are the current open-source due-diligence record;
   re-check exact licenses and dependency trees before implementation.
+- `docs/research/SURFACE-DESIGN-RESEARCH.md` — Epic 6 surface-layer contract,
+  library decision boundary, source conflicts, and unresolved placement questions.
 
 ## Historical archive
 

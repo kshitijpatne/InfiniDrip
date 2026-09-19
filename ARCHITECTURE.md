@@ -151,6 +151,26 @@ and the rendered/live seven-garment plus responsive matrix is recorded in the
 Epic 5 exit report. This remains digital evidence only; physical fit, sewn
 validation and production readiness are deferred.
 
+## Epic 6 surface foundation — Slices 122–125 integration checkpoint
+
+Surface design is an additive layer above existing pattern pieces. The current
+foundation has no app wiring and therefore cannot change drafting, grading,
+checks, nesting, persistence, tech-pack output, cutting files, or legacy export
+bytes. `src/surface/placement.ts` owns plain placement data and actionable
+validation; `src/surface/transform.ts` owns true-scale rectangle corners,
+bounding boxes, overlap measurement, and effective-resolution measurement;
+`src/render/surface-overlay.ts` serializes supplied polygons into an escaped,
+z-ordered SVG group. The overlay test consumes `artworkCorners` directly so the
+headless math and renderer have a checked integration seam.
+
+Placement validation reports invalid input rather than clamping it. Effective
+resolution rejects non-finite or non-positive pixel/geometry values and returns
+unknown for unratable input. Persistence, Fabric.js fidelity, UI controls,
+piece clipping, guidance warnings, tech-pack placement specification, and
+opt-in print-ready output remain deferred to later Epic 6 slices. The surface
+preview is a flat placement visualization, not a drape, fit, sewability, or
+production-readiness simulation.
+
 ### Prior Slice 115A presentation notes
 
 The newly authorized UI/UX work is research/audit-first. The implemented

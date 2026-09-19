@@ -1,15 +1,13 @@
 # Epic 6 — Surface Design Execution
 
-_Started from `main` at `816b9ff` (Epic 4 exit). Slice 122 is the foundation._
+_Started from the Epic 4 exit at `816b9ff`; rebased onto the Epic 5 exit at `13d7195` for the Slice 122–125 integration review._
 
 ## Numbering note
 
-Epic 4 closed at Slice 113 on `origin/main`. Slices 114–121 are reserved for the
-Codex UI/UX redesign workstream, which lives on a separate local branch and has not
-landed on `origin/main` at the time of writing. This Epic therefore assumes that
-workstream is **EPIC-5**, making surface design **EPIC-6**, running **Slices 122–129**.
-If the maintainer names the redesign differently, this file gets renumbered before
-Slice 123; no code depends on the number.
+Epic 4 closed at Slice 113 on `origin/main`. Slices 114–121 are the separately
+completed Codex UI/UX redesign workstream, confirmed as **EPIC-5** and landed at
+`13d7195`. Surface design is therefore **EPIC-6**, running Slices 122–129. No
+code depends on the number.
 
 ## Objective
 
@@ -34,19 +32,17 @@ byte-identical.
 - No embroidery machine formats (DST/PES). No photo-to-pattern work.
 - No physical-fit or production-readiness claims. No signing/packaging work.
 
-## Collision rule (binding until the EPIC-5 rebase)
+## Collision rule (binding through the additive foundation)
 
-Codex owns Slices 114–121, expected to touch UI surfaces and durable state. To keep
-this Epic cleanly rebaseable, EPIC-6 Slice 122 modifies **zero** tracked files: it
-adds only the two new documents in this commit. Later EPIC-6 slices stay additive
-(new `src/surface/*`, new test files) until EPIC-5 lands on `origin/main`, at which
-point EPIC-6 rebases and only then touches shared wiring (`app.ts`, views, tech-pack
-composition) plus the deferred `PROJECT-STATE.md`/`ARCHITECTURE.md` updates.
+Codex owns Slices 114–121, which now land on `origin/main`. To keep this Epic
+cleanly reviewable, Slice 122 adds only its two research/planning documents and
+Slices 123–125 remain additive (new surface modules and tests). Shared wiring
+(`app.ts`, views, tech-pack composition) and the deferred `PROJECT-STATE.md` /
+`ARCHITECTURE.md` updates wait for the post-125 rebase checkpoint and Slice 126.
 
-This deliberately defers the standing "update durable state in the same commit"
-rule for Slice 122, with the product owner's direct authorization, to avoid a
-guaranteed merge conflict with the in-flight EPIC-5 state updates. The deferred
-state update lands with the rebase checkpoint, not silently dropped.
+The original Slice 122 packet deliberately deferred the standing "update durable
+state in the same commit" rule while Epic 5 was in flight. That state update is
+recorded at the Codex integration checkpoint below; it is not silently dropped.
 
 ## Slice plan (8 slices, 8 PRs — one branch and one PR per slice)
 
@@ -60,13 +56,14 @@ Slice 94 precedent for research-only slices).
 Non-goals: dependencies, code, UI, exports, state-doc edits.
 PR: `opencode/slice-122-surface-research` → `main`.
 
-### Slice 123 — placement data model + persistence (after EPIC-5 lands or additive-only)
+### Slice 123 — placement data model + validation (additive foundation)
 
-Scope: new `src/surface/model.ts` (placement types, per-style sharing decision),
-new versioned save section with migration, new unit tests. Prove-or-stop Fabric.js
-SVG round-trip for our piece paths.
-Acceptance: focused tests pass; full gate (`npm test`, coverage 100%,
-`npx tsc --noEmit`, `npm run build`) passes; empty placement round-trips old saves.
+Scope: new `src/surface/placement.ts` (placement types and actionable validation)
+and unit tests. Persistence wiring and the prove-or-stop Fabric.js SVG round-trip
+are explicitly deferred to Slice 126, when the shared UI/save seam is wired.
+Acceptance for this additive foundation: focused tests pass; full gate (`npm test`,
+coverage 100%, `npx tsc --noEmit`, `npm run build`) passes; no existing save,
+drafting, or export behavior changes.
 PR: `opencode/slice-123-surface-model` → `main`.
 
 ### Slice 124 — placement math
@@ -85,9 +82,9 @@ PR: `opencode/slice-125-surface-preview` → `main`.
 
 ### Checkpoint A — integration (after Slice 125)
 
-Model + math + headless preview proven without touching shared UI. Decision point:
-rebase onto EPIC-5 merge before any wiring slice. If EPIC-5 has not landed, EPIC-6
-pauses rather than writing over in-flight UI files.
+Model + math + headless preview are proven without touching shared UI. The current
+decision point is the Codex review on top of the landed EPIC-5 merge; no wiring is
+accepted until the full additive gate and durable-context update pass.
 
 ### Slice 126 — UI wiring (post-rebase only)
 
@@ -129,3 +126,12 @@ PR: `opencode/slice-129-surface-exit` → `main`.
 - Total: **8 slices (122–129), 8 PRs**, each merged only after product-owner approval
   (and Codex review once EPIC-5 has landed). No direct pushes to `main`. No merges by
   the contributor.
+
+## Codex integration checkpoint — Slices 122–125
+
+PRs #1–#4 map to the four OpenCode branches and are additive-only. Their original
+base was the Epic 4 exit, so Codex reviewed and integrated them on top of the
+Epic 5 exit. Slice 123 intentionally delivers the pure placement model and
+validation boundary; persistence and Fabric.js fidelity remain explicit Slice 126
+stop conditions. Effective-resolution math rejects non-positive source dimensions,
+and the overlay test consumes the transform module's actual polygon output.

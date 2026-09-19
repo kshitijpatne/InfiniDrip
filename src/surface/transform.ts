@@ -74,6 +74,6 @@ export function effectiveResolution(
 ): Resolution | null {
   const inputs = [sourcePxWidth, sourcePxHeight, widthCm, heightCm, scale];
   if (!inputs.every((v) => typeof v === "number" && Number.isFinite(v))) return null;
-  if (widthCm <= 0 || heightCm <= 0 || scale <= 0) return null;
+  if (sourcePxWidth <= 0 || sourcePxHeight <= 0 || widthCm <= 0 || heightCm <= 0 || scale <= 0) return null;
   return { xPxPerCm: sourcePxWidth / (widthCm * scale), yPxPerCm: sourcePxHeight / (heightCm * scale) };
 }

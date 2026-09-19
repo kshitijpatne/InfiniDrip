@@ -237,3 +237,28 @@ garment matrix, responsive evidence, and durable records pass. The final
 accessibility trial uses `axe-core` only in development tests; jsdom's
 layout-dependent color contrast is reviewed manually in the live browser. No
 physical-fit or production-readiness claim is permitted.
+
+## Epic 6 — Surface design foundation — confirmed 2026-09-19
+
+Surface design is an additive layer for prints, patches, colour blocking, and
+fabric-preview decoration. It must sit above existing pattern pieces and never
+modify drafting geometry, grading, POM checks, nesting, cutting files, or legacy
+export bytes when placement is empty. The first foundation remains headless:
+placement data and validation, true-scale transform/bounds/resolution math, and
+an escaped SVG overlay renderer are separate pure modules with no app wiring.
+
+OpenCode PRs #1–#4 are the reviewed Slices 122–125 batch. Their original base
+was the Epic 4 exit, so they are integrated only after review on top of the Epic
+5 exit. Slice 123 is intentionally narrowed to the pure placement model and
+validation boundary; persistence and Fabric.js SVG-fidelity proof are explicit
+Slice 126 stop conditions, not silently assumed complete. Invalid placement data
+stays visible to future guidance rather than being clamped. Non-finite or
+non-positive resolution inputs are unratable. Surface preview is flat artwork
+placement and makes no physical-fit, drape, sewability, manufacturing, or
+production-readiness claim.
+
+Future UI wiring, piece clipping, actionable out-of-bounds/low-resolution/
+ink-coverage guidance, tech-pack placement specification, print-ready output,
+and the cross-garment Epic 6 exit gate remain unimplemented and separately
+gated. Fabric.js may be used only after exact version/license/import fidelity
+are proven in-repo or the Epic records a stop.
