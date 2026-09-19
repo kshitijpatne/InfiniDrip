@@ -1,8 +1,22 @@
 # InfiniDrip — Project State
 
-_Last updated: Epic 6 / Slice 125 integration gate, 2026-09-19; Epic 3, Epic 4, and Epic 5 are closed, and the additive surface foundation is integrated and pushed to `origin/main` at `065561c`._
+_Last updated: Epic 6 / Slice 125 integration gate with Slices 126–129 active under OpenCode, 2026-09-19; Epic 3, Epic 4, and Epic 5 are closed, and the additive surface foundation is on origin/main at f7f2dba._
 
 ## Current work — Epic 6 surface design foundation
+
+### Current coordination status — maintainer update 2026-09-19
+
+Epic 5 is complete and merged to origin/main. Epic 6 remains in progress under
+OpenCode through Slice 129. Slices 122–125 are the committed and reviewed
+foundation on origin/main; Slices 126–128 are the remaining implementation
+work, and Slice 129 is the planned cross-garment exit gate. Codex should not
+duplicate shared UI/save/export work while that external workstream is active.
+The next Codex action is to receive and review the completed Slice 129 diff,
+run the actual full gate, and either integrate it or fix only evidenced failures.
+
+No Slice 126–129 commit is currently present in this checkout, so their status
+is recorded here as an active maintainer-provided coordination state rather than
+as completed repository evidence. The committed baseline remains f7f2dba.
 
 ### Slices 122–125 integration checkpoint — reviewed and passing
 

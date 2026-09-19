@@ -171,6 +171,11 @@ opt-in print-ready output remain deferred to later Epic 6 slices. The surface
 preview is a flat placement visualization, not a drape, fit, sewability, or
 production-readiness simulation.
 
+As of the 2026-09-19 coordination checkpoint, OpenCode is continuing those
+deferred slices through Slice 129. The committed architecture still has no app
+wiring for surface placement; Codex reviews the actual Slice 129 diff and full
+gate before accepting any shared UI/save/export boundary.
+
 ### Prior Slice 115A presentation notes
 
 The newly authorized UI/UX work is research/audit-first. The implemented

@@ -86,6 +86,15 @@ Model + math + headless preview are proven without touching shared UI. The curre
 decision point is the Codex review on top of the landed EPIC-5 merge; no wiring is
 accepted until the full additive gate and durable-context update pass.
 
+### Current coordination status — 2026-09-19
+
+The maintainer confirms EPIC-5 is complete and merged to origin/main. OpenCode is
+continuing EPIC-6 through Slice 129. Slices 122–125 are the committed foundation
+reviewed at Checkpoint A; the remaining 126–128 implementation and the 129 exit
+gate are not yet repository evidence in this checkout. Codex owns the eventual
+diff review, full verification gate, durable-context reconciliation, and merge
+decision. Do not start overlapping UI/save/export implementation in parallel.
+
 ### Slice 126 — UI wiring (post-rebase only)
 
 Scope: controls + canvas integration on the rebased tree, placement persisted via
