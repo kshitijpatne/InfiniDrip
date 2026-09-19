@@ -33,7 +33,7 @@ The detailed license/evidence/pressure-test record is
 `docs/research/OPEN-SOURCE-REPOSITORY-AUDIT.md`. These boundaries add no current
 runtime dependency and do not change the Slice 119B -> 120 -> 121 sequence.
 
-## Current workspace redesign boundary — Slice 119B implementation checkpoint
+## Current workspace redesign boundary — Slice 120 implementation checkpoint
 
 The current beginner-facing workspace uses five actual stages: Garment,
 Measure, Style, Check, and Export. Stage completion is readiness-derived, not
@@ -93,6 +93,20 @@ and contenteditable editing untouched. History is a UI editing aid, not a
 second geometry or persistence truth. Spatial guidance overflow counts all
 additional warnings when the active lens cannot display every note, including
 warnings without a direct target.
+
+Slice 120 makes the Check-to-Export boundary explicit in the UI layer. The
+selected-size picker appears before the output actions and drives only the four
+selected-size files plus Single size nesting; each format carries visible
+purpose/scope metadata and an accessible description. Tech Pack and Projector
+remain whole graded-run outputs. The existing button IDs and export writers are
+the stable integration seam, so format copy and layout do not create a second
+export path.
+
+The Single size nesting renderer now obtains its block from `draftAtSize` with
+the active export step. The graded marker continues to use `gradedMarker` for
+all sizes. The selected-size label and canvas are synchronized on picker change;
+the nesting change does not alter drafting geometry, export bytes, or legacy
+baselines.
 
 No drafting geometry, export writers, or export baselines changed. The
 workspace save payload gained an optional appearance extension with a legacy

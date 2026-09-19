@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 119B implementation checkpoint, 2026-09-19; the UI/UX redesign full gate remains open, and Epic 3 and Epic 4 remain closed._
+_Last updated: Slice 120 implementation checkpoint, 2026-09-19; the UI/UX redesign full gate remains open, and Epic 3 and Epic 4 remain closed._
 
 ## Current work — beginner-facing workspace redesign
 
@@ -25,10 +25,36 @@ reference-only for future stitch orientation, projected ease/correspondence,
 and option-compatibility metadata with real consumers. None authorizes 3D,
 photo/CV, silent correction, output-baseline movement, or physical-fit claims.
 
-The next implementation action is a fresh usage check followed by the remaining
-Slice 120–121 work. The research work changed documentation only. Current
-branch checkpoint is `codex/ux-studio` at the Slice 119B implementation plus
-its documentation checkpoint; preserve the existing untracked logs and `tmp/`.
+Slice 120 is implemented and committed as `330acb9`; the next implementation
+action is a fresh usage check followed by Slice 121 and the final integration
+gate. The research work changed documentation only. Preserve the existing
+untracked logs and `tmp/`.
+
+### Slice 120 checkpoint — Check-to-Export context and selected-size nesting; full gate pending
+
+Slice 120 is committed in `330acb9` on `codex/ux-studio`. The Export stage now
+places the selected-size picker before the format actions, states that it drives
+the four selected-size files and Single size nesting, and gives every SVG, DXF,
+tiled PDF, A0, Tech Pack, and Projector action a visible purpose/scope
+description plus an accessible description. Existing export button IDs and
+writers are unchanged.
+
+Single size nesting now drafts from `draftAtSize` using the selected export step;
+the visible nesting label and canvas redraw when that size changes. The graded
+marker remains an all-size output and remains independent of the picker.
+
+Changed paths: `src/ui/app.ts`, `src/ui/app.test.ts`, `src/ui/view.ts`,
+`src/ui/view.test.ts`, and `src/ui/studio.css`.
+
+Bounded verification passed: `npm run coverage` ran 84 files / 1,100 tests with
+100% statements, branches, functions, and lines; `git diff --check` passed.
+The TypeScript, production build, parsed-consumer, legacy-hash, and rendered
+live matrix remain part of the final gate rather than being claimed here.
+
+Exact remaining work: complete Slice 121's beginner/accessibility/responsive
+audit, run the full project gate, inspect the final actual diff and documentation
+history, verify Epic naming, write the exit report, and only then merge to
+`origin/main`. No push has occurred.
 
 ### Slice 119B checkpoint — unfinished-draft recovery and bounded Undo/Redo; full gate pending
 
@@ -168,9 +194,10 @@ usage pacing/full verification gates. Active branch: `codex/ux-studio`, based
 on approved `main`/`origin/main` at `816b9ff`. The live execution record is
 `docs/planning/UX-REDESIGN-EXECUTION.md`; research and exact baseline evidence
 are in `docs/research/UX-REDESIGN-RESEARCH.md`. Slices 114–121 are reserved.
-After the Slice 119B checkpoint, the exact next action is a fresh usage check,
-then the focused app run and full project gate. Do not start another expensive
-slice if the weekly meter reaches the conservative 15% remaining threshold.
+Slice 120 is committed as `330acb9`; after a fresh usage check, the exact next
+action is Slice 121's focused audit followed by the full project gate. Do not
+start another expensive slice if the weekly meter reaches the conservative 15%
+remaining threshold.
 
 Slice 114 has reproduced the long-control/off-screen-canvas loop, missing Ease
 and Woven Body highlights, immediate destructive Load, misleading tour-complete

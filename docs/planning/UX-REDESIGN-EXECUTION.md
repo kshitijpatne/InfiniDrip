@@ -1,7 +1,7 @@
 # UI/UX redesign execution — Slices 114–121
 
-Status: Slice 119B implementation checkpoint, 2026-09-19; bounded recovery and
-history checks are green, but the full redesign gate remains.
+Status: Slice 120 implementation checkpoint, 2026-09-19; export-context and
+selected-nesting checks are green, but the full redesign gate remains.
 Epic 4 remains closed.
 This is the newly authorized workspace redesign, not a reopened garment-grammar
 migration. Branch: `codex/ux-studio`; approved baseline: `816b9ff`.
@@ -104,6 +104,33 @@ during every CSS or focused-test iteration:
 The previous 81-file/1,031-test pass is a baseline, not a test run for this work.
 
 ## Current checkpoint / exact next actions
+
+### Slice 120 — Check-to-Export context and selected-size nesting
+
+Slice 120 is implemented and committed in `330acb9` on `codex/ux-studio`. The
+Export stage now leads with the selected-size picker, explains that it drives
+the four selected-size files and Single size nesting, and gives each output a
+concise visible purpose/scope description with an accessible description. The
+existing export IDs, writers, cancellation paths, desktop menu route, and
+whole-run semantics remain intact.
+
+Single size nesting now uses the selected export step as the source for
+`draftAtSize`; changing the picker updates the visible selected-size label and
+redraws the nest. The graded marker remains all-size and independent of that
+picker.
+
+Changed paths: `src/ui/app.ts`, `src/ui/app.test.ts`, `src/ui/view.ts`,
+`src/ui/view.test.ts`, and `src/ui/studio.css`.
+
+Bounded verification: `npm run coverage` passed 84 files / 1,100 tests at 100%
+for statements, branches, functions, and lines; `git diff --check` passed.
+The separate TypeScript, production-build, parsed-output, legacy-hash, and
+rendered/live matrix are still required by the final gate.
+
+Exact remaining work: run Slice 121's beginner/accessibility/responsive audit;
+complete the final project gate; audit documentation history and verify whether
+the redesign should be named EPIC-5 after Epic 4; update the exit report; then
+merge only after all evidence agrees. No push has occurred.
 
 ### Slice 119B — unfinished-draft recovery and bounded Undo/Redo
 

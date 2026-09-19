@@ -68,6 +68,22 @@ current slice and is not a final closure claim.
   warning, including warnings without a target in the active lens; final
   closure still requires the full matrix.
 
+## Current implementation evidence — Slice 120
+
+The following records remain `In progress`; Slice 120 is a bounded checkpoint and
+does not claim the final redesign closure.
+
+- `BUG-UI-044`: `330acb9` places the selected-size picker before the export
+  actions, explains its effect on selected-size files and Single size nesting,
+  and gives all six output actions visible purpose/scope text plus accessible
+  descriptions. Existing IDs and writers remain unchanged. Final stage-gating,
+  cancellation/failure, responsive, and live export verification remain open.
+- `BUG-UI-047`: `330acb9` makes Single size nesting draft from `draftAtSize` at
+  the selected export step, synchronizes the visible size label, and redraws the
+  canvas when the picker changes. The app regression changes M to L and observes
+  both the label and nest viewBox change. Parsed consumers, legacy hashes, and
+  the final rendered matrix remain required before closure.
+
 ## Current implementation evidence — Slice 119A
 
 The following records remain `In progress`; this checkpoint closes only the
