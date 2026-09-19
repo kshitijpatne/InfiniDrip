@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: Epic 6 / Slice 125 integration gate, 2026-09-19; Epic 3, Epic 4, and Epic 5 are closed, and the additive surface foundation is integrated pending the authorized push._
+_Last updated: Epic 6 / Slice 125 integration gate, 2026-09-19; Epic 3, Epic 4, and Epic 5 are closed, and the additive surface foundation is integrated and pushed to `origin/main` at `065561c`._
 
 ## Current work — Epic 6 surface design foundation
 
@@ -8,8 +8,8 @@ _Last updated: Epic 6 / Slice 125 integration gate, 2026-09-19; Epic 3, Epic 4, 
 
 OpenCode PRs #1–#4 map to Slices 122–125 and their remote heads are
 `bd6894b`, `90fde73`, `b374159`, and `a9a168d`. Each branch was accessible,
-reviewed against its actual diff, and merged locally on top of the Epic 5 exit
-`13d7195`. The changes are additive: two research/planning documents, a pure
+reviewed against its actual diff, and merged and pushed on top of the Epic 5 exit
+`13d7195` (integration commit `065561c`). The changes are additive: two research/planning documents, a pure
 placement model, headless transform math, and a pure SVG overlay renderer.
 
 Codex corrected one contract gap during integration: effective resolution now
