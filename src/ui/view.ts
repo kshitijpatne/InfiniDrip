@@ -217,7 +217,7 @@ export function fabricSwatchesMarkup(current: string, appearance: Appearance = D
   return `<section id="swatch-host" role="group" aria-labelledby="color-title" class="appearance-host">` +
     `<div class="appearance-summary">` +
     `<span id="color-title" class="appearance-label">Color</span>` +
-    `<span class="appearance-current-chip" style="background:${color}" aria-label="Current color ${color}"></span>` +
+    `<span class="appearance-current-chip" role="img" style="background:${color}" aria-label="Current color ${color}"></span>` +
     `<span id="appearance-readout" class="appearance-readout">${color}</span>` +
     `<button id="appearance-toggle" type="button" class="appearance-toggle" aria-expanded="false" aria-controls="appearance-editor">Adjust appearance</button>` +
     `</div><div class="appearance-palette">${sw}</div>` +
@@ -443,7 +443,7 @@ export function inspectionMarkup(content: string, view: string): string {
     `<button type="button" data-inspection-zoom="in" aria-label="Zoom in" style="padding:3px 8px;cursor:pointer;background:${T.background};color:${T.line};border:1px solid ${BORDER};border-radius:5px">+</button>` +
     `<output id="inspection-zoom" aria-live="polite" style="min-width:38px;text-align:right;font-size:11px;color:${T.label}">100%</output>` +
     `</div>` +
-    `<div id="inspection-viewport" role="region" aria-labelledby="inspection-title" tabindex="0">` +
+    `<div id="inspection-viewport" role="region" aria-label="Scrollable ${title}" tabindex="0">` +
     `<div id="inspection-content">${content}</div></div>` +
     `<div id="spatial-guidance-host" aria-live="polite"></div></section>`;
 }

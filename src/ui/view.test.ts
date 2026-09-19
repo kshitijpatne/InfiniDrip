@@ -233,6 +233,7 @@ describe("inspectionMarkup", () => {
     expect(html).toContain('data-inspection-view="body"');
     expect(html).toContain("Body figure inspection");
     expect(html).toContain('id="inspection-viewport"');
+    expect(html).toContain('aria-label="Scrollable Body figure inspection"');
     expect(html).toContain('id="spatial-guidance-host"');
     expect(html).toContain('data-inspection-zoom="fit"');
     expect(html).toContain('aria-label="Zoom in"');
