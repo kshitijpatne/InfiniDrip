@@ -56,6 +56,15 @@ interface DraftSnapshot {
 const HISTORY_LIMIT = 30;
 let activeMountRoot: HTMLElement | null = null;
 
+const correctionStepForField = (field: string): JourneyStep =>
+  field === "ease" || field === "stretchFabric" || field.startsWith("option-") ? "fit" : "measure";
+
+export function stageBlockerFromNote(note: Note | undefined): StageBlocker {
+  if (!note) return { message: "Review the flagged digital checks.", step: "refine" };
+  if (!note.field) return { message: note.text, step: "refine" };
+  return { message: note.text, step: correctionStepForField(note.field), field: note.field };
+}
+
 export function mountApp(root: HTMLElement): void {
   activeMountRoot = root;
   const saved = loadFromStorage();
@@ -310,25 +319,20 @@ export function mountApp(root: HTMLElement): void {
     checkReviewed,
     exported: journey.exported,
   });
-  const correctionStep = (field: string): JourneyStep =>
-    field === "ease" || field === "stretchFabric" || field.startsWith("option-") ? "fit" : "measure";
   const canExport = (): boolean => styleReviewed && checkReviewed && designValid();
   const stageBlocker = (): StageBlocker | undefined => {
     if (journey.step === "start") return undefined;
     const error = inputErrors().entries().next().value;
     const implausible = implausibleFields(measurements, recipe.fields)[0];
-    if (error) return { message: error[1], field: error[0], step: correctionStep(error[0]) };
+    if (error) return { message: error[1], field: error[0], step: correctionStepForField(error[0]) };
     if (implausible) return {
       message: "Review the highlighted measurement before continuing.", field: implausible, step: "measure",
     };
     if (journey.step === "refine" || journey.step === "output") {
       if (!styleReviewed) return { message: "Review your current fit and construction choices in Style.", step: "fit" };
       if (!designValid()) {
-        const note = currentNotes.find((candidate) => candidate.level === "warn");
-        return { message: note?.text ?? "Review the flagged digital checks.",
-          step: note?.field ? correctionStep(note.field) : "refine", field: note?.field };
+        return stageBlockerFromNote(currentNotes.find((candidate) => candidate.level === "warn"));
       }
-      if (!checkReviewed) return { message: "Inspect the current digital checks before exporting.", step: "refine" };
     }
     return undefined;
   };
@@ -436,19 +440,21 @@ export function mountApp(root: HTMLElement): void {
   /** Put actionable warnings beside the rendered seam or dimension they name.
    * The note is a screen overlay only: it never enters an SVG or an export. */
   const renderSpatialGuidance = (): void => {
-    const host = root.querySelector<HTMLElement>("#spatial-guidance-host");
+    const host = root.querySelector<HTMLElement>("#spatial-guidance-host")!;
     const section = root.querySelector<HTMLElement>("#canvas-inspection");
     const viewport = root.querySelector<HTMLElement>("#inspection-viewport");
     const targetHost = root.querySelector<HTMLElement>(previewActive ? "#garment-host" : "#analysis-host");
-    if (!host || !section || !viewport || !targetHost) return;
+    const requiredSection = section!;
+    const requiredViewport = viewport!;
+    const requiredTargetHost = targetHost!;
     host.replaceChildren();
     const candidates = [...new Map(currentNotes
       .filter((note) => note.level === "warn" && note.field !== undefined && !ignoredGuidance.has(note.field))
       .map((note) => [note.field!, note])).values()];
     if (candidates.length === 0) return;
-    const sectionRect = section.getBoundingClientRect();
-    const viewportRect = viewport.getBoundingClientRect();
-    const targetElements = [...targetHost.querySelectorAll<SVGElement>("[data-dim], [data-edge]")];
+    const sectionRect = requiredSection.getBoundingClientRect();
+    const viewportRect = requiredViewport.getBoundingClientRect();
+    const targetElements = [...requiredTargetHost.querySelectorAll<SVGElement>("[data-dim], [data-edge]")];
     const clamp = (value: number, min: number, max: number): number => Math.max(min, Math.min(max, value));
     const targeted = candidates.map((note) => {
       const target = targetElements.find((element) => {
@@ -648,7 +654,9 @@ export function mountApp(root: HTMLElement): void {
     } else if (view === "fabric") {
       const nest = nestScope === "marker"
         ? gradedMarker(recipe, measurements, fabricWidth, recipeOptions())
-        : nestPieces(blockPieces(draftCurrent()).map((p) => flattenPiece(p, recipe.allowances)), fabricWidth);
+        : nestPieces(blockPieces(draftAtSize(
+          measurements, recipe.grade, exportStep, recipe.draft, recipeOptions()
+        )).map((p) => flattenPiece(p, recipe.allowances)), fabricWidth);
       canvasContent = renderFabricNest(
         nest.placed, nest.fabricWidth, nest.fabricLength, nest.utilization, nest.fits);
     } else if (view === "check") {
@@ -840,7 +848,7 @@ export function mountApp(root: HTMLElement): void {
   };
 
   const focusGuidanceField = (field: string): void => {
-    setStep(correctionStep(field));
+    setStep(correctionStepForField(field));
     const control = root.querySelector<HTMLElement>(`[data-guidance-control="${field}"]`);
     if (!control) return;
     const page = control.closest<HTMLElement>("[data-control-page]");
@@ -1405,15 +1413,22 @@ export function mountApp(root: HTMLElement): void {
   // Export-local state: which size the download buttons emit. Defaults to base (M);
   // it scopes ONLY the exports, never the other views.
   const exportSizeEl = root.querySelector<HTMLSelectElement>("#export-size")!;
+  const syncNestSelectedSize = (): void => {
+    const selected = recipe.sizes.find((size) => size.step === exportStep)!;
+    const label = root.querySelector<HTMLElement>("#nest-selected-size");
+    label!.textContent = selected.label;
+  };
   const syncExportSizes = (): void => {
     if (!recipe.sizes.some((s) => s.step === exportStep)) exportStep = 0;
     exportSizeEl.replaceChildren(...recipe.sizes.map((size) => new Option(size.label, String(size.step))));
     exportSizeEl.value = String(exportStep);
+    syncNestSelectedSize();
   };
   exportSizeEl.addEventListener("change", () => {
     exportStep = Number(exportSizeEl.value);
     markOutputDirty(false);
-    renderJourney();
+    syncNestSelectedSize();
+    draw();
   });
   // exportStep always comes from the picker, which is populated from recipe.sizes,
   // so the step is guaranteed to resolve to a real size.

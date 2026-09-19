@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { mountApp } from "./app";
+import { mountApp, stageBlockerFromNote } from "./app";
 import { STANDARD_M, draftTshirt, rolePiece } from "../drafting";
 import { pieceHandles, editorViewBox } from "../edit";
 
@@ -26,6 +26,18 @@ const reachExportStage = (root: HTMLElement): void => {
 };
 
 describe("mountApp", () => {
+  it("routes warning notes through explicit stage blocker fallbacks", () => {
+    expect(stageBlockerFromNote(undefined)).toEqual({
+      message: "Review the flagged digital checks.", step: "refine",
+    });
+    expect(stageBlockerFromNote({ level: "warn", text: "Review the style." })).toEqual({
+      message: "Review the style.", step: "refine",
+    });
+    expect(stageBlockerFromNote({ level: "warn", text: "Adjust ease.", field: "ease" })).toEqual({
+      message: "Adjust ease.", step: "fit", field: "ease",
+    });
+  });
+
   it("draws the canvas and the garment on mount", () => {
     const root = mount();
     expect(root.querySelector("h1#product-title")!.textContent).toBe("InfiniDrip");
@@ -441,6 +453,20 @@ describe("mountApp", () => {
     clickId(invalid, "journey-step-fit");
     clickId(invalid, "journey-next");
     expect(invalid.querySelector("#journey-host")!.textContent).toContain("Current stage: 4 Check");
+  });
+
+  it("routes a field-backed journey correction to its input", () => {
+    localStorage.clear();
+    const root = mount();
+    document.body.append(root);
+    clickIfPresent(root, "welcome-skip");
+    const chest = root.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+    chest.value = "";
+    chest.dispatchEvent(new Event("input"));
+    clickId(root, "journey-step-fit");
+    root.querySelector<HTMLButtonElement>("#journey-correction")!.click();
+    expect(document.activeElement).toBe(root.querySelector('input[data-field="chest"]'));
+    root.remove();
   });
 
   it("supports readable single-figure body focus and bounded zoom", () => {
@@ -871,6 +897,26 @@ describe("mountApp", () => {
     expect(chest.value).toBe("102");
   });
 
+  it("keeps empty history and unrelated shortcuts as no-ops", () => {
+    localStorage.clear();
+    const root = mount();
+    const shortcut = (key: string): void => {
+      window.dispatchEvent(new KeyboardEvent("keydown", { key, ctrlKey: true, bubbles: true }));
+    };
+    shortcut("z");
+    shortcut("y");
+    shortcut("x");
+
+    const chest = root.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+    chest.value = "101";
+    chest.dispatchEvent(new Event("input"));
+    shortcut("z");
+    shortcut("z");
+    shortcut("y");
+    shortcut("y");
+    expect(chest.value).toBe("101");
+  });
+
   it("Save shows a failure message when localStorage throws", () => {
     const originalWindowStorage = window.localStorage;
     const originalGlobalStorage = globalThis.localStorage;
@@ -917,6 +963,26 @@ describe("mountApp", () => {
     root.querySelector<HTMLButtonElement>("#load-pattern")!.dispatchEvent(new Event("click"));
     expect(root.querySelector("#canvas-host svg")!.getAttribute("viewBox")).toBe(before);
     expect(root.querySelector<HTMLSpanElement>("#persist-status")!.textContent).toContain("Nothing");
+  });
+
+  it("keeps dirty Load safe when no HTMLElement owns focus", () => {
+    localStorage.clear();
+    const root = mount();
+    const chest = root.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+    chest.value = "120";
+    chest.dispatchEvent(new Event("input"));
+    root.querySelector<HTMLButtonElement>("#save-pattern")!.click();
+    chest.value = "121";
+    chest.dispatchEvent(new Event("input"));
+    const descriptor = Object.getOwnPropertyDescriptor(document, "activeElement");
+    try {
+      Object.defineProperty(document, "activeElement", { configurable: true, value: null });
+      root.querySelector<HTMLButtonElement>("#load-pattern")!.click();
+      expect(root.querySelector<HTMLElement>("#workspace-confirm")!.hidden).toBe(false);
+    } finally {
+      if (descriptor) Object.defineProperty(document, "activeElement", descriptor);
+    }
+    root.querySelector<HTMLButtonElement>("#workspace-confirm-cancel")!.click();
   });
 
   it("changing the target style updates the style panel gap, not the measurements", () => {
@@ -1304,10 +1370,21 @@ describe("dart tools in the Edit view", () => {
 });
 
 describe("nesting scope toggle", () => {
+  it("uses the selected export size for the Single size nest", () => {
+    const root = mount();
+    root.querySelector<HTMLButtonElement>("#view-fabric")!.dispatchEvent(new Event("click"));
+    const before = viewBox(root);
+    const size = root.querySelector<HTMLSelectElement>("#export-size")!;
+    size.value = "1";
+    size.dispatchEvent(new Event("change"));
+    expect(root.querySelector("#nest-selected-size")!.textContent).toBe("L");
+    expect(viewBox(root)).not.toBe(before);
+  });
+
   it("switches the fabric view to a graded marker when Marker is clicked", () => {
     const root = mount();
     root.querySelector<HTMLButtonElement>("#view-fabric")!.dispatchEvent(new Event("click"));
-    expect(root.querySelector("#fabric-width-host")!.textContent).toContain("Single size uses the selected size");
+    expect(root.querySelector("#fabric-width-host")!.textContent).toContain("Single size uses M");
     const single = root.querySelector("#canvas-host svg")!.innerHTML;
     root.querySelector<HTMLButtonElement>("#nest-marker")!.dispatchEvent(new Event("click"));
     const marker = root.querySelector("#canvas-host svg")!.innerHTML;

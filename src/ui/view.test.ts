@@ -149,6 +149,21 @@ describe("appShellMarkup", () => {
   });
 });
 
+describe("exportButtonsMarkup", () => {
+  it("explains each file's purpose and keeps size scope explicit", () => {
+    const html = exportButtonsMarkup(TSHIRT_SIZES);
+    expect(html.indexOf("Selected size")).toBeLessThan(html.indexOf('id="export-svg"'));
+    expect(html).toContain("Vector cutting outline · selected size");
+    expect(html).toContain("CAD exchange file · selected size");
+    expect(html).toContain("Tiled paper print · selected size");
+    expect(html).toContain("Full-sheet print · selected size");
+    expect(html).toContain("Specs and construction reference · all sizes");
+    expect(html).toContain("Layered projection SVG · all sizes");
+    expect(html).toContain("Drives the four selected-size files and Single size nesting.");
+    expect(html).toContain('aria-describedby="export-svg-description"');
+  });
+});
+
 describe("viewToggleMarkup", () => {
   it("offers a Nesting view and highlights the active one", () => {
     const html = viewToggleMarkup("fabric");
@@ -572,7 +587,7 @@ describe("fabricWidthMarkup — nest scope toggle", () => {
     expect(html).toContain(">Graded marker<");
     expect(html).toContain('aria-label="Nest the selected size only"');
     expect(html).toContain('aria-label="Nest every graded size"');
-    expect(html).toContain("Single size uses the selected size");
+    expect(html).toContain("Single size uses");
     expect(html).toContain("Graded marker includes every graded size");
   });
 });

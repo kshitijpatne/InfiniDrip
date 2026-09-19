@@ -317,30 +317,50 @@ export function styleMarkup(
   return panel("Style", label + select + cards + body);
 }
 
+interface ExportFormat {
+  readonly id: string;
+  readonly label: string;
+  readonly description: string;
+}
+
+const PER_SIZE_EXPORTS: readonly ExportFormat[] = [
+  { id: "export-svg", label: "SVG", description: "Vector cutting outline · selected size" },
+  { id: "export-dxf", label: "DXF", description: "CAD exchange file · selected size" },
+  { id: "export-pdf", label: "PDF", description: "Tiled paper print · selected size" },
+  { id: "export-a0", label: "A0", description: "Full-sheet print · selected size" },
+];
+
+const WHOLE_RUN_EXPORTS: readonly ExportFormat[] = [
+  { id: "export-techpack", label: "Tech Pack", description: "Specs and construction reference · all sizes" },
+  { id: "export-projector", label: "Projector", description: "Layered projection SVG · all sizes" },
+];
+
+const exportFormatMarkup = (format: ExportFormat): string =>
+  `<div class="export-format" data-export-format="${format.id}">` +
+  `<button id="${format.id}" type="button" aria-describedby="${format.id}-description" ` +
+  `title="${format.description}" class="export-format-button">${format.label}</button>` +
+  `<span id="${format.id}-description" class="export-format-description">${format.description}</span></div>`;
+
 /** Download buttons for the export files, a size picker, plus Save/Load pattern state.
- *  The size picker scopes ONLY what the export buttons emit — every other view keeps
- *  its own job (Pattern = base draft, Nest/Spec = the whole run). */
+ *  The size picker drives every selected-size export and the Single size nesting
+ *  scope; whole-run documents deliberately remain independent of that choice. */
 export function exportButtonsMarkup(sizes: readonly SizeStep[]): string {
-  const btn = (id: string, label: string): string =>
-    `<button id="${id}" type="button" style="padding:5px 10px;font-size:12px;cursor:pointer;` +
-    `background:${T.background};color:${T.line};border:1px solid ${BORDER};border-radius:5px">` +
-    `${label}</button>`;
   const options = sizes
     .map((s) => `<option value="${s.step}" ${s.step === 0 ? "selected" : ""}>${s.label}</option>`)
     .join("");
   const sizePicker =
-    `<label style="display:inline-flex;gap:5px;align-items:center;font-size:11px;color:${T.label}">` +
+    `<label class="export-size-picker">` +
     `Selected size <select id="export-size" aria-label="Selected size for per-size exports" style="padding:4px 8px;font-size:12px;background:${T.background};` +
     `color:${T.line};border:1px solid ${BORDER};border-radius:5px">${options}</select></label>`;
-  const scope = (name: string, consequence: string, buttons: string): string =>
-    `<div data-export-scope="${name}" style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;` +
-    `padding:7px 0;border-top:1px solid ${BORDER}">` +
-    `<strong style="font-size:11px;color:${T.line};white-space:nowrap">${name === "selected-size" ? "Selected size exports" : "Whole graded run exports"}</strong>` +
-    `<span style="font-size:11px;color:${T.label};margin-right:3px">${consequence}</span>${buttons}</div>`;
+  const scope = (name: string, title: string, consequence: string, formats: readonly ExportFormat[]): string =>
+    `<div data-export-scope="${name}" class="export-scope">` +
+    `<div class="export-scope-heading"><strong>${title}</strong><span>${consequence}</span></div>` +
+    `<div class="export-format-grid">${formats.map(exportFormatMarkup).join("")}</div></div>`;
   return `<div id="export-host" style="display:flex;flex-direction:column;gap:2px;align-items:stretch;flex-wrap:wrap;margin:4px 0">` +
     `<div style="font-size:11px;color:${T.label};text-transform:uppercase;letter-spacing:0.04em">Export</div>` +
-    scope("selected-size", "One selected size", `${sizePicker}${btn("export-svg", "SVG")}${btn("export-dxf", "DXF")}${btn("export-pdf", "PDF")}${btn("export-a0", "A0")}`) +
-    scope("whole-run", "All graded sizes; ignores Selected size", `${btn("export-techpack", "Tech Pack")}${btn("export-projector", "Projector")}`) +
+    `<div class="export-size-context">${sizePicker}<span>Drives the four selected-size files and Single size nesting.</span></div>` +
+    scope("selected-size", "Selected size files", "One size for cutting or CAD", PER_SIZE_EXPORTS) +
+    scope("whole-run", "Whole graded run", "All graded sizes; ignores Selected size", WHOLE_RUN_EXPORTS) +
     `</div>`;
 }
 
@@ -517,7 +537,7 @@ export function fabricWidthMarkup(width: number): string {
     `${scopeBtn("nest-single", "Single size", "Nest the selected size only", true)}` +
     `${scopeBtn("nest-marker", "Graded marker", "Nest every graded size", false)}` +
     `<span id="nest-scope-help" style="font-size:11px;color:${T.label};flex-basis:100%">` +
-    `Single size uses the selected size; Graded marker includes every graded size.</span></div>`;
+    `Single size uses <strong id="nest-selected-size">M</strong>; Graded marker includes every graded size.</span></div>`;
 }
 
 /** The auto-measured spec sheet: POM rows × size columns, base column highlighted. */
