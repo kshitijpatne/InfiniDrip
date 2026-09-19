@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: open-source research integration, 2026-09-17; UI/UX redesign remains at Slice 119A, and Epic 3 and Epic 4 remain closed._
+_Last updated: Slice 119B implementation checkpoint, 2026-09-19; the UI/UX redesign full gate remains open, and Epic 3 and Epic 4 remain closed._
 
 ## Current work — beginner-facing workspace redesign
 
@@ -25,10 +25,50 @@ reference-only for future stitch orientation, projected ease/correspondence,
 and option-compatibility metadata with real consumers. None authorizes 3D,
 photo/CV, silent correction, output-baseline movement, or physical-fit claims.
 
-The next implementation action is still a fresh usage check followed by Slice
-119B unfinished-draft recovery and bounded Undo/Redo, then Slices 120–121. The
-research work changed documentation only. Current branch checkpoint is
-`codex/ux-studio` at `58ebd9c`; preserve the existing untracked logs and `tmp/`.
+The next implementation action is a fresh usage check followed by the remaining
+Slice 120–121 work. The research work changed documentation only. Current
+branch checkpoint is `codex/ux-studio` at the Slice 119B implementation plus
+its documentation checkpoint; preserve the existing untracked logs and `tmp/`.
+
+### Slice 119B checkpoint — unfinished-draft recovery and bounded Undo/Redo; full gate pending
+
+Slice 119B implementation is committed as `bd08991` on `codex/ux-studio`.
+It adds a separate `patternworks_recovery_v1` local safety envelope: every
+dirty draft can retain raw incomplete measurement/option strings, and a reload
+or navigation attempt offers `Recover the last local edit?` with explicit
+`Recover draft` and `Discard draft` choices. Recovered invalid values keep the
+draft paused; formal Save, drafting, and export still reject invalid input.
+The existing dirty replacement dialog remains separate for a validated saved
+workspace, and `beforeunload` protects a dirty browser document.
+
+The same slice adds a bounded 30-snapshot UI history. Visible Undo/Redo actions
+and Ctrl/Cmd+Z, Shift+Z, and Y operate on workspace snapshots; native text,
+textarea, select, and contenteditable editing is left to the browser. Redo is
+cleared after a new edit. Spatial guidance now reports every additional warning
+when the active lens cannot show all notes, including warnings without a direct
+target, so the overflow cue is truthful.
+
+Changed paths: `src/ui/app.ts`, `src/ui/app.test.ts`,
+`src/ui/appearance.test.ts`, `src/ui/bugfix-p1.test.ts`, `src/ui/history.ts`,
+`src/ui/history.test.ts`, `src/ui/persist.ts`, `src/ui/persist.test.ts`,
+`src/ui/studio.css`, `src/ui/view.ts`, and `src/ui/view.test.ts`.
+
+Bounded verification passed: `npx vitest run
+src/ui/history.test.ts src/ui/persist.test.ts src/ui/view.test.ts` at 106/106;
+`npx vitest run src/ui/app.test.ts -t "handles spatial guidance geometry
+fallbacks" --reporter=verbose` at 1/1; `npx tsc --noEmit`; and
+`git diff --check`. Live browser evidence recovered an unfinished blank Waist
+draft without allowing drafting/export, discarded the recovery prompt, and
+round-tripped an accidental `9192` edit through Undo and Redo before saving a
+valid `92`; the recovery modal and `Draft paused` state were visually
+inspected. This is bounded evidence, not the final redesign gate.
+
+The full `npm test`, `npm run coverage`, production build, parsed SVG/DXF/PDF/
+projector/tech-pack consumers, eight unchanged legacy export hashes, complete
+seven-garment live matrix, and responsive/accessibility matrix remain pending.
+No push or usage-credit reset was performed. Resume after a fresh usage check
+with the focused app run, then the full gate; inspect the actual diff and
+rendered/export evidence before accepting Slice 119B.
 
 ### Slice 119A checkpoint — dirty workspace replacement safety; full redesign gate pending
 
@@ -115,11 +155,11 @@ artifacts.
 This is still not the final redesign gate. Full per-control live interaction
 coverage across every garment, options/material/appearance, persistence and
 export path; zoom/text-size checks; `npm test`; 100% coverage; build; parsed
-consumer checks; and the eight-hash legacy gate remain. Slices 119B–121 remain.
+consumer checks; and the eight-hash legacy gate remain. Slices 120–121 remain.
 No export writers, geometry, or export baselines changed. The workspace save
-payload gained an optional appearance extension with a legacy default. Slice
-119A changed only persistence orchestration, modal markup/style, and focused
-tests.
+payload gained an optional appearance extension with a legacy default. Slices
+119A and 119B changed persistence orchestration, recovery/history UI, modal
+markup/style, and focused tests only.
 Preserve user logs/tmp; no push or credits.
 
 The maintainer has authorized a comprehensive UI/UX audit and redesign from
@@ -128,10 +168,9 @@ usage pacing/full verification gates. Active branch: `codex/ux-studio`, based
 on approved `main`/`origin/main` at `816b9ff`. The live execution record is
 `docs/planning/UX-REDESIGN-EXECUTION.md`; research and exact baseline evidence
 are in `docs/research/UX-REDESIGN-RESEARCH.md`. Slices 114–121 are reserved.
-After the Slice 119A checkpoint commit, the exact next action is a fresh usage
-check followed by Slice 119B unfinished-draft recovery and bounded Undo/Redo;
-do not start that expensive slice if the weekly meter reaches the conservative
-15% remaining threshold.
+After the Slice 119B checkpoint, the exact next action is a fresh usage check,
+then the focused app run and full project gate. Do not start another expensive
+slice if the weekly meter reaches the conservative 15% remaining threshold.
 
 Slice 114 has reproduced the long-control/off-screen-canvas loop, missing Ease
 and Woven Body highlights, immediate destructive Load, misleading tour-complete

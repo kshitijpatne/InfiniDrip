@@ -33,7 +33,7 @@ The detailed license/evidence/pressure-test record is
 `docs/research/OPEN-SOURCE-REPOSITORY-AUDIT.md`. These boundaries add no current
 runtime dependency and do not change the Slice 119B -> 120 -> 121 sequence.
 
-## Current workspace redesign boundary — Slice 119A focused/live checkpoint
+## Current workspace redesign boundary — Slice 119B implementation checkpoint
 
 The current beginner-facing workspace uses five actual stages: Garment,
 Measure, Style, Check, and Export. Stage completion is readiness-derived, not
@@ -81,12 +81,25 @@ when clean or opening a modal replacement decision when dirty. Keep editing and
 Escape preserve the current draft and restore the initiating control's focus;
 accepting the replacement runs the existing synchronized restore path and marks
 that loaded revision clean. This is orchestration around the existing v5
-payload, not a schema change. Unfinished-draft recovery and bounded Undo/Redo
-remain Slice 119B work.
+payload, not a schema change.
+
+Slice 119B adds a separate `patternworks_recovery_v1` envelope for unfinished
+local drafts. It retains raw invalid strings, offers explicit Recover/Discard
+choices, and keeps recovered invalid work paused so the existing Save, drafting,
+and export validity contracts cannot be bypassed. The `beforeunload` guard
+protects dirty browser work. A bounded 30-snapshot UI history powers visible
+Undo/Redo and keyboard shortcuts while leaving native text, textarea, select,
+and contenteditable editing untouched. History is a UI editing aid, not a
+second geometry or persistence truth. Spatial guidance overflow counts all
+additional warnings when the active lens cannot display every note, including
+warnings without a direct target.
 
 No drafting geometry, export writers, or export baselines changed. The
 workspace save payload gained an optional appearance extension with a legacy
-default. Slice 119A focused checks recorded UI app/view 157/157, clean TypeScript,
+default. Slice 119B is committed as `bd08991`; focused history/persistence/view
+checks passed 106/106, the spatial geometry fallback passed 1/1, TypeScript and
+diff checks passed, and live rendered recovery plus Undo/Redo evidence was
+inspected. Slice 119A focused checks recorded UI app/view 157/157, clean TypeScript,
 and live rendered dirty-load protection at the desktop viewport. Slice 118
 focused checks recorded UI app/view 156/156 before the final placement
 refinement, targeted app 2/2 afterward, renderer contracts 55/55,

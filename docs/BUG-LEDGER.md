@@ -64,7 +64,9 @@ current slice and is not a final closure claim.
   the dismissal, and cleared warnings remove the card. Live browser evidence
   showed four non-overlapping cards/four arrows in Body and the dismissed chest
   advisory in Check. Renderer contracts passed 55/55; no export or save payload
-  changed.
+  changed. Slice 119B also makes the overflow count include every additional
+  warning, including warnings without a target in the active lens; final
+  closure still requires the full matrix.
 
 ## Current implementation evidence — Slice 119A
 
@@ -81,8 +83,13 @@ redesign gate.
   restore at the desktop viewport. Edit-snapshot loss on garment switch remains
   a separate recovery concern.
 - `BUG-UI-046`: Save continues to reject incomplete drafts rather than relaxing
-  validity. Unfinished-draft recovery and a navigation guard remain Slice 119B
-  work; no recovery claim is made here.
+  validity. Slice 119B implementation `bd08991` adds `patternworks_recovery_v1`
+  with raw-value retention, explicit Recover/Discard choices, a paused invalid
+  recovery state, and a dirty `beforeunload` guard. Live browser verification
+  recovered a blank Waist edit without enabling drafting/export, discarded the
+  prompt, and visually inspected the recovery modal. Focused recovery/history
+  evidence is recorded below; final closure still requires reload/navigation,
+  responsive, and full project-gate verification.
 - `BUG-UI-044`: Save/Load remains persistently reachable in the header, and
   dirty replacement now states its consequence with an explicit choice. Format
   purpose guidance and final export-stage treatment remain planned for Slice
@@ -91,6 +98,32 @@ redesign gate.
 Responsive audit note: the narrow-viewport request did not change measured
 dimensions in this session. No new responsive pass is claimed. Actual viewport
 dimensions and field/canvas co-visibility are required in the final gate.
+
+## Current implementation evidence — Slice 119B
+
+The following records remain `In progress`; this is a bounded implementation
+checkpoint, not a final redesign closure.
+
+- `BUG-UI-038`: the Slice 119A dirty replacement dialog remains the validated
+  saved-workspace path. Slice 119B adds a separate unfinished-draft recovery
+  envelope rather than treating incomplete local state as a valid saved
+  workspace. Bounded browser evidence recovered and discarded an invalid draft;
+  the original dirty Load behavior remains covered separately.
+- `BUG-UI-046`: `bd08991` stores raw incomplete measurements/options locally,
+  offers Recover/Discard, keeps recovered invalid work paused, and adds the
+  browser dirty-document guard. The bounded pure history/persistence/view run
+  passed 106/106, the spatial fallback regression passed 1/1, and TypeScript
+  plus diff checks passed. A live browser round-trip of accidental `9192` →
+  Undo `91` → Redo `9192` → corrected `92` → Save verified the visible history
+  path without changing export contracts.
+- `BUG-UI-043`: the spatial overflow cue now counts all warnings omitted from
+  the active lens, not only warnings that have a target. This makes the cue
+  truthful when guidance must be routed to another view; final closure still
+  requires all supported lenses, widths, and guidance lifecycles.
+
+Full `npm test`, 100% coverage, production build, parsed output consumers,
+unchanged legacy hashes, and the complete rendered/live responsive matrix are
+intentionally pending at this usage checkpoint.
 
 ## `EPIC-BUGFIX-P1`
 
