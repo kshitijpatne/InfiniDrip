@@ -1,8 +1,12 @@
 # InfiniDrip — Project State
 
-_Last updated: Epic 6 / Slice 125 integration gate, 2026-09-19; Epic 3, Epic 4, and Epic 5 are closed, and the additive surface foundation is integrated and pushed to `origin/main` at `065561c`._
+_Last updated: Epic 6 / Slice 126 review-ready, 2026-09-19; Epic 3, Epic 4, and Epic 5 are closed, and the additive surface foundation is integrated and pushed to `origin/main` at `065561c`. Slice 126 is implemented on its contributor branch and awaits Codex review — it is not merged._
 
 ## Current work — Epic 6 surface design foundation
+
+### Slice 126 — UI wiring (review-ready, not merged)
+
+Slice 126 wires the headless surface foundation into the Style experience on branch `opencode/slice-126-surface-ui`. One canonical transform type remains (`PlacementTransform`; the `TransformInput` mirror is deleted), rows are identified by position so duplicate or hostile ids cannot confuse them, and placements persist per garment/style through an optional save/recovery section with no format-version bump — pre-surface saves and recovery payloads load with empty artwork, malformed sections are rejected, and raw invalid values round-trip verbatim for lazy validation. The panel offers add/edit/remove with numeric controls, Boundary Rails, and steppers reused from the shared primitives; validation is warn-only with per-row errors and aria-invalid sync; the preview is a true-scale artwork-space SVG that lists unplaceable entries instead of drawing them. Drafting, grading, checks, nesting, export writers, export gating, and legacy bytes are unchanged. Fabric.js 7.4.0 (MIT, zero runtime dependencies) passed the scratch prove-or-stop round-trip with byte-identical cubic path data, but no dependency was added: numeric editing plus the string-based preview needs none, and direct canvas manipulation stays a deferred, explicitly re-verifiable decision. No physical-fit, drape, sewability, manufacturing, or production-readiness claim is made.
 
 ### Slices 122–125 integration checkpoint — reviewed and passing
 

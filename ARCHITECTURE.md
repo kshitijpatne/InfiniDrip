@@ -165,11 +165,23 @@ headless math and renderer have a checked integration seam.
 
 Placement validation reports invalid input rather than clamping it. Effective
 resolution rejects non-finite or non-positive pixel/geometry values and returns
-unknown for unratable input. Persistence, Fabric.js fidelity, UI controls,
-piece clipping, guidance warnings, tech-pack placement specification, and
-opt-in print-ready output remain deferred to later Epic 6 slices. The surface
-preview is a flat placement visualization, not a drape, fit, sewability, or
-production-readiness simulation.
+unknown for unratable input. Piece clipping, guidance warnings, tech-pack
+placement specification, and opt-in print-ready output remain deferred to later
+Epic 6 slices. The surface preview is a flat placement visualization, not a
+drape, fit, sewability, or production-readiness simulation.
+
+Slice 126 wires that foundation into the app without widening its authority.
+`src/surface/store.ts` owns the per-garment/style book (sizes never enter the
+key), raw-preserving parsing, index-addressed edits, and lazy problem lists;
+`PlacementTransform` is the single canonical transform type across model, math,
+and UI. Persistence carries artwork as an optional save/recovery section with
+no format-version bump: absent means empty, malformed in a current file is
+rejected, and raw invalid values survive round-trips for lazy validation. The
+Style panel hosts add/edit/remove with the shared numeric controls, rails, and
+steppers; rows are addressed by position so duplicate or hostile ids cannot
+drift; unplaceable entries are listed with their error and skipped by the
+true-scale artwork-space preview. Surface state never reaches drafting,
+grading, checks, nesting, export gating, or cutting-file writers.
 
 ### Prior Slice 115A presentation notes
 

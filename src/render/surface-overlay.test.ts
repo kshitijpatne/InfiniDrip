@@ -2,7 +2,8 @@
 import { describe, it, expect } from "vitest";
 import { point } from "../geometry/point";
 import { artworkCorners } from "../surface/transform";
-import { surfaceOverlay, type OverlayItem } from "./surface-overlay";
+import { surfaceOverlay, overlayItem, type OverlayItem } from "./surface-overlay";
+import { EMPTY_TRANSFORM } from "../surface/placement";
 
 const item = (overrides: Partial<OverlayItem> = {}): OverlayItem => ({
   id: "chest-print",
@@ -72,5 +73,17 @@ describe("surfaceOverlay", () => {
     expect(doc.querySelector("parsererror")).toBeNull();
     expect(doc.querySelector('g[data-surface="overlay"]')!.getAttribute("data-count")).toBe("0");
     expect(doc.querySelectorAll("polygon")).toHaveLength(0);
+  });
+
+  it("adapts a placement plus its polygon without touching either", () => {
+    const placement = {
+      id: "chest-print", kind: "print" as const, pieceRole: "front",
+      widthCm: 20, heightCm: 25, transform: EMPTY_TRANSFORM, zOrder: 3, sourceName: "",
+    };
+    const polygon = artworkCorners(20, 25, EMPTY_TRANSFORM);
+    const adapted = overlayItem(placement, polygon);
+    expect(adapted).toEqual({ id: "chest-print", pieceRole: "front", kind: "print", polygon, zOrder: 3 });
+    const doc = parse(surfaceOverlay([adapted]));
+    expect(doc.querySelector("polygon")!.getAttribute("data-placement")).toBe("chest-print");
   });
 });

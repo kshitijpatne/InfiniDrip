@@ -14,10 +14,17 @@ import { guide, Note } from "../guidance";
 import { garmentReport, implausibleFields } from "../guidance";
 import { matchStyle, styleNames } from "../style";
 import { FIELDS, applyChange, inputError, numericRangePosition, numericRangeState, stepNumericValue } from "./controls";
-import { appShellMarkup, controlsMarkup, guidanceMarkup, styleMarkup, specTableMarkup, checkMarkup, editorHintMarkup, editorHandleControlsMarkup, dartControlsMarkup, inspectionMarkup, BodyCroquisView } from "./view";
+import { appShellMarkup, controlsMarkup, guidanceMarkup, styleMarkup, surfaceMarkup, specTableMarkup, checkMarkup, editorHintMarkup, editorHandleControlsMarkup, dartControlsMarkup, inspectionMarkup, BodyCroquisView } from "./view";
 import { saveToStorage, loadFromStorage, readFromStorage, serialize, deserialize, DEFAULT_WORKSPACE, defaultStretchFabricForGarment, Workspace, SaveFile, RecoveryFile, readRecoveryFromStorage, saveRecoveryToStorage, clearRecoveryFromStorage } from "./persist";
 import { Appearance, APPEARANCE_TEXTURES, DEFAULT_APPEARANCE, applyAppearanceToSvg, hexToHsl, hslToHex, normalizeHex } from "./appearance";
 import { emptyHistory, recordHistory, redoHistory, undoHistory, HistoryState } from "./history";
+import { EMPTY_TRANSFORM, placementError, type ArtworkPlacement } from "../surface/placement";
+import { artworkCorners, boundingBox } from "../surface/transform";
+import { overlayItem, surfaceOverlay } from "../render/surface-overlay";
+import {
+  nextZOrder, surfaceAdd, surfaceKey, surfaceList, surfacePlaceable, surfaceRemoveAt, surfaceSetAt,
+  type SurfaceBook,
+} from "../surface/store";
 import {
   JourneyStep, ViewName, StageReadiness, StageBlocker, COACHED_STEPS, disclosureFor, stepView, journeyChecklist,
   journeyBarMarkup, checklistMarkup, welcomeMarkup, celebrationMarkup,
@@ -77,6 +84,7 @@ export function mountApp(root: HTMLElement): void {
   };
   let recipe: GarmentRecipe = garmentByName(initialWorkspace.garment);
   let appearance: Appearance = saved?.appearance ?? DEFAULT_APPEARANCE;
+  let surfaceBook: SurfaceBook = saved?.surface ?? {};
   let appearanceOpen = false;
   root.innerHTML = appShellMarkup(measurements, fabric, recipe.sizes, recipe.fields, initialWorkspace.stretchFabric, recipe.name, appearance);
 
@@ -169,6 +177,7 @@ export function mountApp(root: HTMLElement): void {
     rawOptions: currentRawOptions(),
     workspace: currentWorkspace(),
     materialSelectionExplicit,
+    surface: surfaceBook,
   });
   const sameSnapshot = (left: DraftSnapshot, right: DraftSnapshot): boolean =>
     JSON.stringify(left) === JSON.stringify(right);
@@ -204,6 +213,59 @@ export function mountApp(root: HTMLElement): void {
     ...(garmentOptions[forRecipe.name] ?? {}),
   });
   const draftCurrent = (): ReturnType<GarmentRecipe["draft"]> => recipe.draft(measurements, recipeOptions());
+
+  /** Surface artwork sets live per garment/style pair, shared across graded
+   * sizes by construction (sizes never enter the key). Drafting, checks, and
+   * exports never read this state; cutting files cannot change under it. */
+  const surfaceKeyNow = (): string => surfaceKey(recipe.name, targetStyle);
+  const surfacePlacementsNow = (): readonly ArtworkPlacement[] =>
+    surfaceList(surfaceBook, surfaceKeyNow());
+  const round3 = (n: number): number => Math.round(n * 1000) / 1000;
+  /** True-scale artwork-space preview. Unplaceable entries are listed with
+   * their error and skipped here; positions on pieces arrive with print output. */
+  const surfacePreviewSvg = (): string => {
+    const items = surfacePlacementsNow().flatMap((p) =>
+      surfacePlaceable(p) ? [overlayItem(p, artworkCorners(p.widthCm, p.heightCm, p.transform))] : []);
+    if (items.length === 0) return "";
+    const points = items.flatMap((item) => [...item.polygon]);
+    // Non-empty by construction above: at least one four-corner polygon exists.
+    const box = boundingBox(points)!;
+    const pad = 2;
+    const shifted = items.map((item) => ({ ...item,
+      polygon: item.polygon.map((pt) => ({ x: pt.x - box.minX + pad, y: pt.y - box.minY + pad })) }));
+    const width = box.maxX - box.minX + pad * 2;
+    const height = box.maxY - box.minY + pad * 2;
+    return `<svg viewBox="0 0 ${round3(width)} ${round3(height)}" width="100%" ` +
+      `xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Surface artwork preview">` +
+      surfaceOverlay(shifted) + `</svg>`;
+  };
+  /** Placement index → actionable error. Rows are identified by position so
+   * duplicate or hostile ids can never confuse one row for another. */
+  const surfaceErrorMap = (): Map<number, string> => {
+    const errors = new Map<number, string>();
+    surfacePlacementsNow().forEach((p, index) => {
+      const error = placementError(p);
+      if (error) errors.set(index, error);
+    });
+    return errors;
+  };
+  /** Surface inputs are rebuilt with the panel every draw, so validity syncs
+   * here — right after the panel markup lands — mirroring the measurement loop. */
+  const syncSurfaceValidity = (): void => {
+    const errors = surfaceErrorMap();
+    styleHost.querySelectorAll<HTMLInputElement | HTMLSelectElement>(
+      "input[data-surface-index], select[data-surface-index]").forEach((input) => {
+      const error = errors.get(Number(input.dataset.surfaceIndex));
+      input.setAttribute("aria-invalid", String(error !== undefined));
+      input.setCustomValidity(error ?? "");
+    });
+  };
+  const renderSurface = (): string => surfaceMarkup({
+    style: targetStyle,
+    placements: surfacePlacementsNow(),
+    errors: surfaceErrorMap(),
+    preview: surfacePreviewSvg(),
+  });
   const inputErrors = (): Map<string, string> => {
     const errors = new Map<string, string>();
     for (const field of FIELDS.filter((f) => recipe.fields.includes(f.id))) {
@@ -622,7 +684,8 @@ export function mountApp(root: HTMLElement): void {
     if (errors.size > 0) {
       canvasHost.innerHTML = inspectionMarkup("<p role=\"status\">Draft paused — correct the flagged inputs to render your current design.</p>", previewActive ? "assembled" : view);
       renderGuidance([...errors.entries()].map(([field, text]) => ({ level: "warn", field, text })));
-      styleHost.innerHTML = styleMarkup(targetStyle, matchStyle(measurements, targetStyle, recipe.styles), styleNames(recipe.styles), false);
+      styleHost.innerHTML = styleMarkup(targetStyle, matchStyle(measurements, targetStyle, recipe.styles), styleNames(recipe.styles), false) + renderSurface();
+      syncSurfaceValidity();
       renderJourney();
       return;
     }
@@ -731,7 +794,8 @@ export function mountApp(root: HTMLElement): void {
     const plausible = valid;
     renderGuidance(guidanceNotes);
     // Style = prescriptive: the gap from current measurements to the chosen target.
-    styleHost.innerHTML = styleMarkup(targetStyle, matchStyle(measurements, targetStyle, recipe.styles), styleNames(recipe.styles), plausible);
+    styleHost.innerHTML = styleMarkup(targetStyle, matchStyle(measurements, targetStyle, recipe.styles), styleNames(recipe.styles), plausible) + renderSurface();
+    syncSurfaceValidity();
     // Amber-outline any measurement input whose value is out of plausible range
     // (same outline convention as the fabric swatches). Controls aren't re-rendered
     // per draw, so this is applied imperatively.
@@ -1387,6 +1451,82 @@ export function mountApp(root: HTMLElement): void {
     select.dispatchEvent(new Event("change", { bubbles: true }));
   });
 
+  // Surface artwork rows are rebuilt every draw, so the stable style host
+  // delegates their edits. Raw values stay verbatim (NaN included); the panel
+  // re-renders with the actionable placementError for anything unusable.
+  const TRANSFORM_FIELDS = new Set(["dx", "dy", "scale", "rotationDeg"]);
+  const TEXT_FIELDS = new Set(["kind", "pieceRole", "sourceName"]);
+  const isRecord = (value: unknown): value is Record<string, unknown> =>
+    typeof value === "object" && value !== null && !Array.isArray(value);
+  const applySurfaceField = (index: number, field: string, raw: string): void => {
+    const key = surfaceKeyNow();
+    const placements = surfaceList(surfaceBook, key);
+    const current = placements[index];
+    if (!current) return;
+    const value: unknown = TEXT_FIELDS.has(field) ? raw : raw.trim() === "" ? NaN : Number(raw);
+    const base = isRecord(current.transform) ? current.transform : { ...EMPTY_TRANSFORM };
+    const next = (TRANSFORM_FIELDS.has(field)
+      ? { ...current, transform: { ...base, [field]: value } }
+      : { ...current, [field]: value }) as ArtworkPlacement;
+    surfaceBook = surfaceSetAt(surfaceBook, key, index, next);
+    markOutputDirty(false);
+    draw();
+  };
+  const removeSurfacePlacement = (index: number): void => {
+    surfaceBook = surfaceRemoveAt(surfaceBook, surfaceKeyNow(), index);
+    markOutputDirty(false);
+    draw();
+  };
+  const addSurfacePlacement = (): void => {
+    const idInput = styleHost.querySelector<HTMLInputElement>("#surface-new-id")!;
+    const kindSelect = styleHost.querySelector<HTMLSelectElement>("#surface-new-kind")!;
+    const roleInput = styleHost.querySelector<HTMLInputElement>("#surface-new-role")!;
+    const formError = styleHost.querySelector<HTMLElement>("#surface-form-error")!;
+    const fail = (message: string, focus: HTMLElement): void => {
+      formError.textContent = message;
+      focus.focus();
+    };
+    const id = idInput.value.trim();
+    if (id === "") { fail("Name the artwork before adding.", idInput); return; }
+    if (surfacePlacementsNow().some((p) => p.id === id)) {
+      fail(`"${id}" already exists on ${targetStyle}; pick another name.`, idInput);
+      return;
+    }
+    const role = roleInput.value.trim();
+    if (role === "") { fail("Name the piece role the artwork belongs to.", roleInput); return; }
+    surfaceBook = surfaceAdd(surfaceBook, surfaceKeyNow(), targetStyle, {
+      id,
+      kind: kindSelect.value as ArtworkPlacement["kind"],
+      pieceRole: role,
+      widthCm: 20,
+      heightCm: 25,
+      transform: { ...EMPTY_TRANSFORM },
+      zOrder: nextZOrder(surfacePlacementsNow()),
+      sourceName: "",
+    });
+    markOutputDirty(false);
+    draw();
+    styleHost.querySelector<HTMLInputElement>("#surface-new-id")?.focus();
+  };
+  styleHost.addEventListener("input", (e) => {
+    const input = (e.target as HTMLElement).closest<HTMLInputElement>("input[data-surface-index]");
+    if (!input) return;
+    applySurfaceField(Number(input.dataset.surfaceIndex), input.dataset.surfaceField!, input.value);
+  });
+  styleHost.addEventListener("change", (e) => {
+    const sel = (e.target as HTMLElement).closest<HTMLSelectElement>("select[data-surface-index]");
+    if (!sel) return;
+    applySurfaceField(Number(sel.dataset.surfaceIndex), sel.dataset.surfaceField!, sel.value);
+  });
+  styleHost.addEventListener("click", (e) => {
+    const remove = (e.target as HTMLElement).closest<HTMLButtonElement>("button[data-surface-remove-index]");
+    if (remove) {
+      removeSurfacePlacement(Number(remove.dataset.surfaceRemoveIndex));
+      return;
+    }
+    if ((e.target as HTMLElement).closest<HTMLButtonElement>("#surface-add")) addSurfacePlacement();
+  });
+
   const stretchSelect = root.querySelector<HTMLSelectElement>("#stretch-select")!;
   const stretchHost = root.querySelector<HTMLElement>("#stretch-host")!;
   const syncMaterialCards = (): void => {
@@ -1472,6 +1612,7 @@ export function mountApp(root: HTMLElement): void {
     targetStyle = loaded.workspace.targetStyle;
     stretchFabric = STRETCH_FABRICS.find((f) => f.name === loaded.workspace.stretchFabric)!;
     appearance = loaded.appearance;
+    surfaceBook = loaded.surface;
     materialSelectionExplicit = true;
     view = loaded.workspace.view;
     bodyCroquisView = loaded.workspace.bodyCroquisView;
@@ -1608,9 +1749,9 @@ export function mountApp(root: HTMLElement): void {
 
   root.querySelector<HTMLButtonElement>("#save-pattern")!.addEventListener("click", () => {
     const workspace = currentWorkspace();
-    const validation = deserialize(serialize(measurements, fabric, garmentOptions, workspace, appearance));
+    const validation = deserialize(serialize(measurements, fabric, garmentOptions, workspace, appearance, surfaceBook));
     if (!validation.ok) { flash(`Save failed: ${validation.error}`, BLUEPRINT.lineActive); return; }
-    if (saveToStorage(measurements, fabric, garmentOptions, workspace, appearance)) {
+    if (saveToStorage(measurements, fabric, garmentOptions, workspace, appearance, surfaceBook)) {
       savedRevision = outputRevision;
       pendingRecovery = null;
       clearRecoveryFromStorage();
@@ -1687,6 +1828,7 @@ export function mountApp(root: HTMLElement): void {
       Object.fromEntries(Object.entries(values).map(([id, value]) => [id, value === null ? NaN : value]))])) as GarmentOptionsByRecipe;
     fabric = file.fabric;
     appearance = { ...file.appearance };
+    surfaceBook = file.surface;
     recipe = garmentByName(file.workspace.garment);
     targetStyle = file.workspace.targetStyle;
     stretchFabric = STRETCH_FABRICS.find((candidate) => candidate.name === file.workspace.stretchFabric)!;

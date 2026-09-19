@@ -135,3 +135,33 @@ Epic 5 exit. Slice 123 intentionally delivers the pure placement model and
 validation boundary; persistence and Fabric.js fidelity remain explicit Slice 126
 stop conditions. Effective-resolution math rejects non-positive source dimensions,
 and the overlay test consumes the transform module's actual polygon output.
+
+## Slice 126 — UI wiring (review-ready, not merged)
+
+Branch `opencode/slice-126-surface-ui` from `origin/main` at `f7f2dba`.
+
+Delivered: one canonical transform type (`PlacementTransform`; the
+`TransformInput` mirror is deleted and `overlayItem` adapts placements to
+polygons through a type-only link); `src/surface/store.ts` with the
+per-garment/style book, raw-preserving parser, index-addressed set/remove,
+next stacking order, placeability guard, and lazy problem lists; artwork as an
+optional save/recovery section with no version bump (absent means empty,
+malformed current files rejected, raw invalid values preserved); a Style-panel
+section with add/edit/remove, shared numeric controls/rails/steppers, per-row
+warn-only errors with aria-invalid sync, and a true-scale artwork-space
+preview that lists unplaceable entries instead of drawing them; save/load,
+recovery, style-switch isolation, seven-garment rendering, assembled-preview
+integrity, and jsdom width rendering at 1280/900/700/560/390.
+
+Explicitly recorded deviations and deferrals: no save-format version bump
+(optional additive section, same leniency pattern as appearance); export
+gating unchanged (surface validity does not gate cutting files — print gating
+is Slice 127 scope); Fabric.js proven but not added (no consumer needs it
+yet); piece-space anchoring left open for Slice 127 (preview is artwork-space
+by design, captioned as such); live-browser responsive/console proof stays
+with the Codex-side exit gate in Slice 129 (jsdom evidence only here); review
+history snapshots exclude surface state (pattern undo semantics untouched).
+
+Stop conditions not triggered: fidelity proven, empty placement changes no
+legacy byte (no export writer touched), coverage held at 100% across all four
+metrics, no geometry/grading/export-truth change was required.

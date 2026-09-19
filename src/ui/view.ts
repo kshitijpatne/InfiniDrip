@@ -8,6 +8,8 @@ import { Note, SEVERITY_ICON } from "../guidance";
 import { Report } from "../guidance";
 import { StyleMatch, Delta } from "../style";
 import { FIELDS, Field, numericRangeState } from "./controls";
+import type { ArtworkPlacement } from "../surface/placement";
+import { escapeAttr } from "../render/surface-overlay";
 import { APPEARANCE_TEXTURES, Appearance, DEFAULT_APPEARANCE, hexToHsl, normalizeHex } from "./appearance";
 import type { Handle } from "../edit";
 import "./studio.css";
@@ -315,6 +317,101 @@ export function styleMarkup(
     `Enter the numeric inputs to make each change; the preview updates immediately.</div>`;
   }
   return panel("Style", label + select + cards + body);
+}
+
+/** Surface artwork panel data. Placements, problems, and preview are precomputed
+ * by the app; this module only translates them into markup. */
+export interface SurfacePanelData {
+  readonly style: string;
+  readonly placements: readonly ArtworkPlacement[];
+  /** Placement index → actionable placementError text. */
+  readonly errors: ReadonlyMap<number, string>;
+  /** Precomputed true-scale artwork-space preview SVG (empty when no artwork). */
+  readonly preview: string;
+}
+
+const SURFACE_NUMERIC: readonly {
+  readonly id: "widthCm" | "heightCm" | "dx" | "dy" | "scale" | "rotationDeg" | "zOrder";
+  readonly label: string;
+  readonly step: number;
+  readonly unit: string;
+}[] = [
+  { id: "widthCm", label: "Width", step: 0.5, unit: "cm" },
+  { id: "heightCm", label: "Height", step: 0.5, unit: "cm" },
+  { id: "dx", label: "Shift X", step: 0.5, unit: "cm" },
+  { id: "dy", label: "Shift Y", step: 0.5, unit: "cm" },
+  { id: "scale", label: "Scale", step: 0.1, unit: "×" },
+  { id: "rotationDeg", label: "Rotation", step: 1, unit: "°" },
+  { id: "zOrder", label: "Stack order", step: 1, unit: "" },
+];
+
+const surfaceRecord = (value: unknown): Record<string, unknown> | null =>
+  typeof value === "object" && value !== null && !Array.isArray(value)
+    ? (value as Record<string, unknown>) : null;
+
+/** Row values stay display-safe for hostile saves: non-numbers become NaN,
+ * which the numeric control renders as an empty, explicitly invalid value. */
+const surfaceNumber = (p: ArtworkPlacement, id: (typeof SURFACE_NUMERIC)[number]["id"]): number => {
+  const source = id === "widthCm" ? p.widthCm
+    : id === "heightCm" ? p.heightCm
+    : id === "zOrder" ? p.zOrder
+    : surfaceRecord(p.transform)?.[id];
+  return typeof source === "number" ? source : NaN;
+};
+
+const surfaceKindOptions = (kind: string): string =>
+  (["print", "patch", "color-block"] as const)
+    .map((option) => `<option value="${option}"${option === kind ? " selected" : ""}>${option}</option>`)
+    .join("");
+
+const surfaceRow = (p: ArtworkPlacement, index: number, error: string | undefined): string => {
+  const safeId = escapeAttr(typeof p.id === "string" ? p.id : "");
+  const label = `artwork ${index + 1}`;
+  const numeric = SURFACE_NUMERIC.map((field) => {
+    const controlId = `surface-${index}-${field.id}`;
+    return `<div style="margin-bottom:6px"><label for="input-${controlId}" style="font-size:11.5px;color:${T.label};display:block;margin-bottom:2px">${field.label}</label>` +
+      numericControlMarkup(controlId, `input-${controlId}`, `${field.label} ${label}`,
+        surfaceNumber(p, field.id), undefined, undefined, field.step,
+        `data-surface-index="${index}" data-surface-field="${field.id}" aria-label="${field.label} ${label}" aria-describedby="error-surface-${index}"`,
+        field.unit) + `</div>`;
+  }).join("");
+  return `<div data-surface-row="${index}" style="border:1px solid ${BORDER};border-radius:8px;padding:10px;margin-bottom:10px">` +
+    `<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">` +
+    `<strong style="font-size:12.5px;color:${T.line}">#${index + 1} ${safeId}</strong>` +
+    `<button type="button" data-surface-remove-index="${index}" aria-label="Remove ${label}">Remove</button></div>` +
+    `<div style="margin-bottom:6px"><label for="surface-kind-${index}" style="font-size:11.5px;color:${T.label};display:block;margin-bottom:2px">Kind</label>` +
+    `<select id="surface-kind-${index}" data-surface-index="${index}" data-surface-field="kind" aria-label="Kind ${label}">${surfaceKindOptions(typeof p.kind === "string" ? p.kind : "")}</select></div>` +
+    `<div style="margin-bottom:6px"><label for="surface-role-${index}" style="font-size:11.5px;color:${T.label};display:block;margin-bottom:2px">Piece role</label>` +
+    `<input id="surface-role-${index}" type="text" data-surface-index="${index}" data-surface-field="pieceRole" value="${escapeAttr(typeof p.pieceRole === "string" ? p.pieceRole : "")}" aria-label="Piece role ${label}" aria-describedby="error-surface-${index}"/></div>` +
+    `<div style="margin-bottom:6px"><label for="surface-source-${index}" style="font-size:11.5px;color:${T.label};display:block;margin-bottom:2px">Artwork source</label>` +
+    `<input id="surface-source-${index}" type="text" data-surface-index="${index}" data-surface-field="sourceName" value="${escapeAttr(typeof p.sourceName === "string" ? p.sourceName : "")}" aria-label="Artwork source ${label}" aria-describedby="error-surface-${index}"/></div>` +
+    numeric +
+    `<p id="error-surface-${index}" role="status" style="font-size:12px;color:${T.lineActive};margin:6px 0 0;min-height:16px">${error ?? ""}</p></div>`;
+};
+
+/** Artwork sets for one style: add/edit/remove with warn-only validation plus a
+ * true-scale artwork-space preview. Positions on pieces arrive with print output. */
+export function surfaceMarkup(data: SurfacePanelData): string {
+  const rows = data.placements.map((p, index) => surfaceRow(p, index, data.errors.get(index))).join("");
+  const list = rows === ""
+    ? `<p style="font-size:12.5px;color:${T.label}">No artwork on ${escapeAttr(data.style)} yet.</p>`
+    : rows;
+  const preview = data.preview === ""
+    ? ""
+    : `<div style="margin-top:10px"><div style="font-size:11px;color:${T.label};text-transform:uppercase;letter-spacing:0.04em;margin-bottom:7px">Artwork preview · true scale</div>` +
+      `<div id="surface-preview">${data.preview}</div>` +
+      `<div style="font-size:11.5px;color:${T.label};margin-top:6px">Artwork space, not positioned on pieces yet. Piece placement arrives with print output.</div></div>`;
+  const form = `<div style="border:1px dashed ${BORDER};border-radius:8px;padding:10px;margin-top:4px">` +
+    `<div style="font-size:11px;color:${T.label};text-transform:uppercase;letter-spacing:0.04em;margin-bottom:7px">Add artwork</div>` +
+    `<div style="margin-bottom:6px"><label for="surface-new-id" style="font-size:11.5px;color:${T.label};display:block;margin-bottom:2px">Name</label>` +
+    `<input id="surface-new-id" type="text" aria-label="New artwork name"/></div>` +
+    `<div style="margin-bottom:6px"><label for="surface-new-kind" style="font-size:11.5px;color:${T.label};display:block;margin-bottom:2px">Kind</label>` +
+    `<select id="surface-new-kind" aria-label="New artwork kind">${surfaceKindOptions("print")}</select></div>` +
+    `<div style="margin-bottom:8px"><label for="surface-new-role" style="font-size:11.5px;color:${T.label};display:block;margin-bottom:2px">Piece role</label>` +
+    `<input id="surface-new-role" type="text" value="front" aria-label="New artwork piece role"/></div>` +
+    `<button id="surface-add" type="button">Add artwork</button>` +
+    `<p id="surface-form-error" role="status" style="font-size:12px;color:${T.lineActive};margin:6px 0 0;min-height:16px"></p></div>`;
+  return panel("Surface", list + form + preview);
 }
 
 interface ExportFormat {

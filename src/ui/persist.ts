@@ -4,6 +4,7 @@ import { Measurements, STANDARD_M, GarmentOptionsByRecipe, GARMENTS, STRETCH_FAB
 import { DEFAULT_FABRIC } from "../render";
 import { FIELDS, inputError } from "./controls";
 import { Appearance, DEFAULT_APPEARANCE, parseAppearance } from "./appearance";
+import { parseSurfaceBook, type SurfaceBook } from "../surface/store";
 import type { ViewName } from "./journey";
 
 export const SAVE_VERSION = 5;
@@ -45,6 +46,9 @@ export interface SaveFile {
   readonly appearance: Appearance;
   readonly garmentOptions: GarmentOptionsByRecipe;
   readonly workspace: Workspace;
+  /** Optional artwork state (Slice 126). Absent means empty; malformed in a
+   * current-version save is rejected, never silently repaired. */
+  readonly surface: SurfaceBook;
 }
 type LoadResult = ({ ok: true } & Omit<SaveFile, "v">) | { ok: false; error: string };
 const object = (v: unknown): v is Record<string, unknown> => typeof v === "object" && v !== null && !Array.isArray(v);
@@ -61,6 +65,8 @@ export interface RecoveryFile {
   readonly rawOptions: Record<string, Record<string, string>>;
   readonly workspace: Workspace;
   readonly materialSelectionExplicit: boolean;
+  /** Crash-restore artwork. Absent in older recovery payloads means empty. */
+  readonly surface: SurfaceBook;
 }
 type RecoveryResult = ({ ok: true } & Omit<RecoveryFile, "v">) | { ok: false; error: string };
 const RECOVERY_STORAGE_KEY = "patternworks_recovery_v1";
@@ -90,8 +96,8 @@ function validWorkspace(value: unknown): value is Workspace {
     && ["single", "marker"].includes(value.nestScope);
 }
 
-export function serialize(m: Measurements, fabric: string, garmentOptions: GarmentOptionsByRecipe = {}, workspace: Workspace = DEFAULT_WORKSPACE, appearance: Appearance = DEFAULT_APPEARANCE): string {
-  return JSON.stringify({ v: SAVE_VERSION, measurements: m, fabric, appearance, garmentOptions, workspace }, null, 2);
+export function serialize(m: Measurements, fabric: string, garmentOptions: GarmentOptionsByRecipe = {}, workspace: Workspace = DEFAULT_WORKSPACE, appearance: Appearance = DEFAULT_APPEARANCE, surface: SurfaceBook = {}): string {
+  return JSON.stringify({ v: SAVE_VERSION, measurements: m, fabric, appearance, garmentOptions, workspace, surface }, null, 2);
 }
 
 const LEGACY_REQUIRED = ["chest", "shoulderWidth", "bicep", "length", "armholeDepth", "sleeveLength", "ease"];
@@ -146,6 +152,10 @@ export function deserialize(json: string): LoadResult {
   if (!legacy && fabric !== p.fabric) return { ok: false, error: "Invalid fabric color." };
   const appearance = parseAppearance(p.appearance);
   if (!appearance) return { ok: false, error: "Invalid appearance settings." };
+  const surface = parseSurfaceBook(p.surface);
+  if (!surface) {
+    if (!legacy) return { ok: false, error: "Invalid surface artwork." };
+  }
   let workspace = DEFAULT_WORKSPACE;
   if (!legacy) {
     const w = p.workspace;
@@ -154,13 +164,13 @@ export function deserialize(json: string): LoadResult {
     }
     workspace = w;
   }
-  return { ok: true, measurements, fabric, appearance, garmentOptions, workspace };
+  return { ok: true, measurements, fabric, appearance, garmentOptions, workspace, surface: surface ?? {} };
 }
 
 const STORAGE_KEY = "patternworks_save_v1";
-export function saveToStorage(m: Measurements, fabric: string, garmentOptions: GarmentOptionsByRecipe = {}, workspace: Workspace = DEFAULT_WORKSPACE, appearance: Appearance = DEFAULT_APPEARANCE): boolean {
+export function saveToStorage(m: Measurements, fabric: string, garmentOptions: GarmentOptionsByRecipe = {}, workspace: Workspace = DEFAULT_WORKSPACE, appearance: Appearance = DEFAULT_APPEARANCE, surface: SurfaceBook = {}): boolean {
   try {
-    const json = serialize(m, fabric, garmentOptions, workspace, appearance);
+    const json = serialize(m, fabric, garmentOptions, workspace, appearance, surface);
     if (!deserialize(json).ok) return false;
     localStorage.setItem(STORAGE_KEY, json);
     return true;
@@ -193,6 +203,8 @@ export function deserializeRecovery(json: string): RecoveryResult {
   }
   const appearance = parseAppearance(p.appearance);
   if (!appearance) return { ok: false, error: "Recovery appearance settings are invalid." };
+  const surface = parseSurfaceBook(p.surface);
+  if (!surface) return { ok: false, error: "Recovery surface artwork is invalid." };
   return {
     ok: true,
     savedAt: p.savedAt,
@@ -204,6 +216,7 @@ export function deserializeRecovery(json: string): RecoveryResult {
     rawOptions: p.rawOptions,
     workspace: p.workspace,
     materialSelectionExplicit: p.materialSelectionExplicit,
+    surface,
   };
 }
 

@@ -3,19 +3,10 @@
 // Operates on plain data only: no drafting, render, or export imports. Callers
 // pass validated placements (see placementError in ./placement); this module
 // measures, it never judges. Thresholds and warnings belong to guidance.
-// TransformInput mirrors PlacementTransform structurally so this slice stays
-// independently mergeable; Slice 126 unifies the two spellings at wiring time.
 
 import { Point, point } from "../geometry/point";
 import { rotatePoint } from "../geometry/rotate";
-
-/** Minimal transform view: centimetres in, degrees clockwise-positive. */
-export interface TransformInput {
-  readonly dx: number;
-  readonly dy: number;
-  readonly scale: number;
-  readonly rotationDeg: number;
-}
+import type { PlacementTransform } from "./placement";
 
 export interface BoundingBox {
   readonly minX: number;
@@ -29,7 +20,7 @@ export interface BoundingBox {
  * translation — in centimetres on the drafting plane. Order stays cyclic, so
  * the result is always a simple quadrilateral for well-formed input.
  */
-export function artworkCorners(widthCm: number, heightCm: number, t: TransformInput): Point[] {
+export function artworkCorners(widthCm: number, heightCm: number, t: PlacementTransform): Point[] {
   const hw = (widthCm * t.scale) / 2;
   const hh = (heightCm * t.scale) / 2;
   const centre = point(t.dx, t.dy);

@@ -102,6 +102,7 @@ describe("v4 workspace validation", () => {
       rawOptions: { tee: {} },
       workspace: DEFAULT_WORKSPACE,
       materialSelectionExplicit: false,
+      surface: {},
     } as const;
     const result = deserializeRecovery(serializeRecovery(recovery));
     expect(result.ok).toBe(true);
@@ -121,7 +122,7 @@ describe("v4 workspace validation", () => {
       measurements: Object.fromEntries(FIELDS.map((field) => [field.id, STANDARD_M[field.id]])),
       rawMeasurements: {}, fabric: FABRIC, appearance: DEFAULT_APPEARANCE,
       garmentOptions: { tee: {} }, rawOptions: { tee: {} },
-      workspace: DEFAULT_WORKSPACE, materialSelectionExplicit: false,
+      workspace: DEFAULT_WORKSPACE, materialSelectionExplicit: false, surface: {},
     };
     const valid = JSON.parse(serializeRecovery(recovery));
     expect(deserializeRecovery("[]").ok).toBe(false);
@@ -467,5 +468,85 @@ describe("deserialize (missing fabric fallback)", () => {
     expect(r.ok).toBe(true);
     if (!r.ok) return;
     expect(typeof r.fabric).toBe("string");
+  });
+});
+
+// ── surface artwork section (Slice 126) ───────────────────────────────────────
+describe("deserialize (surface artwork section)", () => {
+  const artwork = {
+    id: "chest-print",
+    kind: "print",
+    pieceRole: "front",
+    widthCm: 20,
+    heightCm: 25,
+    transform: { dx: 1, dy: 2, scale: 1, rotationDeg: 0 },
+    zOrder: 0,
+    sourceName: "tiger.svg",
+  };
+  const book = { "tee/Classic tee": { styleName: "Classic tee", placements: [artwork] } };
+
+  it("round-trips artwork through serialize and localStorage", () => {
+    const result = deserialize(serialize(STANDARD_M, FABRIC, {}, DEFAULT_WORKSPACE, DEFAULT_APPEARANCE, book));
+    expect(result.ok).toBe(true);
+    if (!result.ok) return;
+    expect(result.surface).toEqual(book);
+    expect(saveToStorage(STANDARD_M, FABRIC, {}, DEFAULT_WORKSPACE, DEFAULT_APPEARANCE, book)).toBe(true);
+    expect(loadFromStorage()!.surface).toEqual(book);
+  });
+
+  it("loads pre-surface saves with an empty book", () => {
+    const result = deserialize(serialize(STANDARD_M, FABRIC));
+    expect(result.ok).toBe(true);
+    if (!result.ok) return;
+    expect(result.surface).toEqual({});
+    const legacy = deserialize(JSON.stringify({ v: 3, measurements: STANDARD_M, fabric: FABRIC }));
+    expect(legacy.ok).toBe(true);
+    if (!legacy.ok) return;
+    expect(legacy.surface).toEqual({});
+  });
+
+  it("preserves raw invalid placement values instead of rejecting the save", () => {
+    const raw = { "tee/A": { styleName: "A", placements: [{ ...artwork, widthCm: "huge" }] } };
+    const result = deserialize(serialize(STANDARD_M, FABRIC, {}, DEFAULT_WORKSPACE, DEFAULT_APPEARANCE, raw));
+    expect(result.ok).toBe(true);
+    if (!result.ok) return;
+    expect(result.surface).toEqual(raw);
+  });
+
+  it("rejects a malformed section in a current-version save", () => {
+    const raw = JSON.parse(serialize(STANDARD_M, FABRIC));
+    expect(deserialize(JSON.stringify({ ...raw, surface: [] })).ok).toBe(false);
+    expect(deserialize(JSON.stringify({ ...raw, surface: { key: null } })).ok).toBe(false);
+    expect(deserialize(JSON.stringify({
+      ...raw, surface: { key: { styleName: "A", placements: [null] } },
+    })).ok).toBe(false);
+  });
+
+  it("tolerates a malformed section in a legacy save", () => {
+    const legacy = deserialize(JSON.stringify({
+      v: 3, measurements: STANDARD_M, fabric: FABRIC, surface: { key: null },
+    }));
+    expect(legacy.ok).toBe(true);
+    if (!legacy.ok) return;
+    expect(legacy.surface).toEqual({});
+  });
+
+  it("round-trips artwork through recovery storage and rejects a bad section", () => {
+    const recovery = {
+      savedAt: 7,
+      measurements: Object.fromEntries(FIELDS.map((field) => [field.id, STANDARD_M[field.id]])),
+      rawMeasurements: {}, fabric: FABRIC, appearance: DEFAULT_APPEARANCE,
+      garmentOptions: { tee: {} }, rawOptions: { tee: {} },
+      workspace: DEFAULT_WORKSPACE, materialSelectionExplicit: false, surface: book,
+    };
+    expect(deserializeRecovery(serializeRecovery(recovery)).ok).toBe(true);
+    const valid = JSON.parse(serializeRecovery(recovery));
+    expect(deserializeRecovery(JSON.stringify({ ...valid, surface: [] })).ok).toBe(false);
+    const without = JSON.parse(JSON.stringify(valid));
+    delete without.surface;
+    const migrated = deserializeRecovery(JSON.stringify(without));
+    expect(migrated.ok).toBe(true);
+    if (!migrated.ok) return;
+    expect(migrated.surface).toEqual({});
   });
 });
