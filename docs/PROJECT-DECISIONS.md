@@ -205,7 +205,7 @@ grading, persistence, exports, or physical-validation status.
 - Edit remains preview-only through Phase 5; surface design, physical
   validation, and production-readiness claims remain outside this Epic.
 
-## Beginner-facing UI/UX redesign — authorized 2026-09-13
+## Epic 5 — Beginner-facing UI/UX redesign — authorized 2026-09-13; exit confirmed 2026-09-19
 
 The maintainer requests research before implementation and a thorough redesign
 from first launch to final export, not isolated cosmetic fixes. The supplied
@@ -228,3 +228,12 @@ Usage-limit pacing and supported quiet autonomous continuation remain required;
 no reset credit/account-allowance changes are authorized. No physical sampling
 or physical-fit/manufacturing guarantee is authorized. Exact researched design
 choices and their verification live in the new UX execution/research records.
+
+The actual history confirms that Epic 4 closed at `816b9ff` (Slice 113) before
+Slice 114 began this separate workstream. Slices 114–121 are therefore Epic 5,
+not a reopened Epic 4 migration. Epic 5 exits only after the full project gate,
+parsed output consumers, eight unchanged legacy hashes, rendered/live seven-
+garment matrix, responsive evidence, and durable records pass. The final
+accessibility trial uses `axe-core` only in development tests; jsdom's
+layout-dependent color contrast is reviewed manually in the live browser. No
+physical-fit or production-readiness claim is permitted.

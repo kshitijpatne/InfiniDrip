@@ -1,8 +1,8 @@
-# UI/UX redesign execution — Slices 114–121
+# Epic 5 (EPIC-5) — Beginner-facing workspace redesign — Slices 114–121
 
-Status: Slice 120 implementation checkpoint, 2026-09-19; export-context and
-selected-nesting checks are green, but the full redesign gate remains.
-Epic 4 remains closed.
+Status: **PASS — Epic 5 exit, Slice 121, 2026-09-19.** The full project gate,
+parsed-output gate, legacy-hash gate, accessibility audit, and rendered/live
+matrix passed. Epic 4 remains closed.
 This is the newly authorized workspace redesign, not a reopened garment-grammar
 migration. Branch: `codex/ux-studio`; approved baseline: `816b9ff`.
 
@@ -19,7 +19,8 @@ Contributor packets: `docs/planning/UX-REDESIGN-HANDOFFS.md`.
 
 No new garment family, final-design freeform Edit model, physical sampling,
 drape simulation, proprietary color-library import, signing/release work,
-dependency upgrade, export baseline rewrite or production-readiness claim.
+production dependency upgrade, export baseline rewrite or production-readiness
+claim. The final gate adds `axe-core` as a dev-only audit dependency.
 Appearance scope is screen color and honest schematic texture/shine, not a
 full surface-design/artwork system.
 
@@ -103,9 +104,79 @@ during every CSS or focused-test iteration:
 
 The previous 81-file/1,031-test pass is a baseline, not a test run for this work.
 
-## Current checkpoint / exact next actions
+## Current checkpoint / final state
 
-### Slice 120 — Check-to-Export context and selected-size nesting
+### Epic 5 exit — Slice 121 final integration gate — PASS — 2026-09-19
+
+The history audit confirmed that Epic 4 closed at `816b9ff` (Slice 113) and that
+the beginner-facing redesign starts afterward at Slice 114. The redesign is
+therefore recorded as Epic 5; historical Epic 4 files and decisions are not
+renamed or rewritten. The descriptive filename
+`UX-REDESIGN-EXECUTION.md` remains stable, while its title and current status
+identify the work as Epic 5.
+
+Implementation commits, in order, are `9fb9e7e`, `c2c3bc0`, `022feac`,
+`dac3980`, `b970861`, `1fc20cc`, `a3e7104`, `84ee51f`, `58ebd9c`, `0dc1507`,
+`bd08991`, `2fe9a32`, `330acb9`, `b2781a9`, and `52ee690`. They cover the
+research-backed workspace redesign, bounded stage/inspector shell, reversible
+Assembled lens, garment/fit/material hierarchy, contextual appearance editor,
+cross-garment highlights and spatial guidance, persistent recovery/history,
+Check-to-Export context, selected-size nesting, and the final ARIA audit fixes.
+
+Final automated gate:
+
+- `npm test`: 85 files, 1,102 tests passed.
+- `npm run coverage`: 85 files, 1,102 tests passed; statements, branches,
+  functions, and lines are each 100%.
+- `npx tsc --noEmit`: passed.
+- `npm run build`: passed; Vite transformed 96 modules.
+- Parsed output suite: 4 files, 18 tests passed for SVG, DXF, tiled PDF, A0
+  PDF, projector SVG, tech-pack consumers, and the eight legacy regression
+  cases. The eight unchanged SHA-256 hashes are the four Tee baselines
+  (`3fbf2e3215af5bdfc66398b9b16714e8ee8139f5edc10dab527bc4c8378f2b9d`,
+  `0b6cba95c9afd4cc6f17a2171f67303e0891babb94828816c149767935165fc9`,
+  `1256ccf60abedeed40b01915ea9a2df4d063b224d01a39dfbf8730136a128523`,
+  `6691a28a6cae0baccfe271887c6d4d00a968867fe0628a8e1d1eacd2b8b047d1`)
+  and four Fitted/Darted tee baselines
+  (`cd16df87d100a40866e20738f858d3f11fdc3238ba0db88d99ca3a46f981a09c`,
+  `e2dd0a36ea6d834a0aec470918f4ba2b823136c13998966a8f04ddeda085a8a6`,
+  `184dcd975bb8067b452370c78748045384bb18fa8f89f7ca1d4a583b9d0190ff`,
+  `8e89320bfa235c44ebb481b01012a43c7c1614ce27608ccbb49df31369bca8d2`).
+- Slice 121 `axe-core` audit: 2 stateful tests passed across welcome, Measure,
+  Style, assembled, Check, Export, More Views, and the dirty Load dialog. The
+  jsdom color-contrast rule is excluded because it has no layout engine; color
+  and focus/zoom contrast were reviewed in the live browser matrix.
+
+Rendered/live evidence:
+
+- All seven garments — Tee, Darted tee, Tank, Polo, Woven shirt, Skirt, and
+  Trouser — traversed Garment → Measure → Style → Check → Export and exposed a
+  working export action. Every Pattern, Body, Size run, Spec, Nesting, Check,
+  and Edit view round-tripped through Assembled and returned to its prior view.
+- Measurements, +/- click/hold, Boundary Rail endpoints, manual entry,
+  appearance controls, guidance correction/ignore/recall, Save/Load recovery,
+  selected-size nesting, and a real browser SVG download were exercised.
+- Responsive checks at 1280×900, 900×900, 700×900, 560×844, and 390×844 found
+  no page horizontal overflow; the inspector and inspection viewport retained
+  bounded internal scrolling and a focused narrow-screen field stayed visible.
+- The rebuilt final app smoke test confirmed the unique scroll-region label,
+  Assembled toggle, Check copy, Export visibility, More Views menu, and a clean
+  browser console (`[]`).
+
+Limitations are explicit: digital checks and schematic previews do not prove
+physical fit, sewn construction, drape, manufacturing readiness, or production
+readiness. No garment has been physically sewn and validated; no such claim is
+made by this exit.
+
+Documentation/history audit before merge found only intended Markdown additions
+and modifications versus `origin/main` and no documentation deletions. The
+parallel OpenCode/Claude open-source research is included through `0dc1507`;
+the Desktop Release research packet was already present in the approved
+baseline and its blob matches the parallel OpenCode packet. The separate Claude
+Electron shell-hardening result was reviewed but remains outside Epic 5 and is
+not merged as an unverified platform change.
+
+### Slice 120 — Check-to-Export context and selected-size nesting (historical checkpoint)
 
 Slice 120 is implemented and committed in `330acb9` on `codex/ux-studio`. The
 Export stage now leads with the selected-size picker, explains that it drives
@@ -127,10 +198,8 @@ for statements, branches, functions, and lines; `git diff --check` passed.
 The separate TypeScript, production-build, parsed-output, legacy-hash, and
 rendered/live matrix are still required by the final gate.
 
-Exact remaining work: run Slice 121's beginner/accessibility/responsive audit;
-complete the final project gate; audit documentation history and verify whether
-the redesign should be named EPIC-5 after Epic 4; update the exit report; then
-merge only after all evidence agrees. No push has occurred.
+The remaining work recorded at this checkpoint was completed by Slice 121 and is
+superseded by the Epic 5 exit report above.
 
 ### Slice 119B — unfinished-draft recovery and bounded Undo/Redo
 
@@ -445,5 +514,6 @@ purchase credits, or alter account allowance without explicit authorization.
 
 ## Exit report
 
-PENDING. Slice 115A is a partial implementation checkpoint, not a passed Slice
-115 or final redesign. No full-gate or physical-validation claim is made.
+PASS. Epic 5 comprises Slices 114–121 and is complete on the actual branch after
+the final gate above. The push/remote verification is recorded in the final
+merge checkpoint and does not change the physical-validation limitation.

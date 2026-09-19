@@ -58,8 +58,8 @@ snapshots; they are not current status.
   verification, and Epic 3 exit record.
 - `docs/planning/EPIC-4-EXECUTION.md` — live Component Architecture and Garment
   Grammar execution, acceptance criteria, delegation boundary, and exit report.
-- `docs/planning/UX-REDESIGN-EXECUTION.md` — current beginner-facing workspace
-  redesign, Slices 114–121, acceptance criteria, pacing and exact resume state.
+- `docs/planning/UX-REDESIGN-EXECUTION.md` — Epic 5 beginner-facing workspace
+  redesign, Slices 114–121, acceptance criteria, pacing and final exit record.
 - `docs/planning/UX-REDESIGN-HANDOFFS.md` — isolated OpenCode research and Claude
   Code audit packets for Slice 114; Codex owns implementation and acceptance.
 

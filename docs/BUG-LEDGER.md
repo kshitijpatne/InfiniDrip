@@ -26,10 +26,10 @@ No console runtime errors were observed during that audit.
 ## Workspace redesign audit — Slice 114, 2026-09-13
 
 These new records preserve the historical closure scope of BUG-UI-001–034 while
-tracking current failures under the new maintainer request. All are **Open**;
-fix commits and post-fix tests/rendered evidence are pending. Reproduction and
-source details: `docs/research/UX-REDESIGN-RESEARCH.md`. Execution and acceptance:
-`docs/planning/UX-REDESIGN-EXECUTION.md`. Epic/workstream: `UX-REDESIGN`.
+tracking the failures found under the new maintainer request. They were all
+**Open** at intake; final Epic 5 closure is recorded below. Reproduction and
+source details: `docs/research/UX-REDESIGN-RESEARCH.md`. Execution and
+acceptance: `docs/planning/UX-REDESIGN-EXECUTION.md`. Epic/workstream: `EPIC-5`.
 
 | ID | Severity / priority | Observed problem and root cause | Planned fix slice |
 |---|---|---|---|
@@ -47,7 +47,24 @@ source details: `docs/research/UX-REDESIGN-RESEARCH.md`. Execution and acceptanc
 | BUG-UI-046 | S2 / P1 | No unfinished-draft recovery or navigation guard; validated Save rejects incomplete input. Safety needs a separate recovery contract, not relaxed export validity. | 119 |
 | BUG-UI-047 | S2 / P1 | Single size nesting ignores selected size despite explicit UI claim; source drafts base measurements. M→L live canvas remains identical. | 120 |
 
-## Current implementation evidence — Slice 118
+## Epic 5 final closure — Slice 121 — PASS — 2026-09-19
+
+BUG-UI-035 through BUG-UI-047 are **Closed**. The implementation commits are
+recorded in `docs/planning/UX-REDESIGN-EXECUTION.md`; the final integration
+checkpoint is `52ee690`. Closure uses the actual full gate rather than JSON or
+unit assertions alone: 85 test files / 1,102 tests passed, all four coverage
+metrics are 100%, TypeScript and production build passed, parsed SVG/DXF/tiled
+PDF/A0/projector/tech-pack consumers passed, and all eight legacy hashes stayed
+unchanged. Live evidence covered all seven garments, all seven views, Assembled
+round-trips, responsive widths 1280/900/700/560/390×844, persistence/recovery,
+guidance, appearance, selected-size nesting and export. The final `axe-core`
+audit passed 2/2 stateful tests; color contrast remained a manual live check
+because jsdom has no layout engine.
+
+The closure is digital UX and output-contract evidence only. No sewn sample,
+physical fit, drape, manufacturing, or production-readiness claim is made.
+
+## Historical bounded evidence — Slice 118
 
 The following records remain `In progress`; this evidence is bounded to the
 current slice and is not a final closure claim.
@@ -68,7 +85,7 @@ current slice and is not a final closure claim.
   warning, including warnings without a target in the active lens; final
   closure still requires the full matrix.
 
-## Current implementation evidence — Slice 120
+## Historical bounded evidence — Slice 120
 
 The following records remain `In progress`; Slice 120 is a bounded checkpoint and
 does not claim the final redesign closure.
@@ -84,7 +101,7 @@ does not claim the final redesign closure.
   both the label and nest viewBox change. Parsed consumers, legacy hashes, and
   the final rendered matrix remain required before closure.
 
-## Current implementation evidence — Slice 119A
+## Historical bounded evidence — Slice 119A
 
 The following records remain `In progress`; this checkpoint closes only the
 bounded dirty-replacement behavior and does not claim the full Slice 119 or
@@ -115,7 +132,7 @@ Responsive audit note: the narrow-viewport request did not change measured
 dimensions in this session. No new responsive pass is claimed. Actual viewport
 dimensions and field/canvas co-visibility are required in the final gate.
 
-## Current implementation evidence — Slice 119B
+## Historical bounded evidence — Slice 119B
 
 The following records remain `In progress`; this is a bounded implementation
 checkpoint, not a final redesign closure.

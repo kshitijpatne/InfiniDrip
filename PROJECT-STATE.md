@@ -1,8 +1,8 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 120 implementation checkpoint, 2026-09-19; the UI/UX redesign full gate remains open, and Epic 3 and Epic 4 remain closed._
+_Last updated: Epic 5 / Slice 121 exit gate, 2026-09-19; Epic 3 and Epic 4 remain closed and the beginner-facing redesign is complete pending the authorized merge to `origin/main`._
 
-## Current work — beginner-facing workspace redesign
+## Current work — Epic 5 beginner-facing workspace redesign
 
 ### Open-source audit checkpoint — current sequence unchanged
 
@@ -25,12 +25,47 @@ reference-only for future stitch orientation, projected ease/correspondence,
 and option-compatibility metadata with real consumers. None authorizes 3D,
 photo/CV, silent correction, output-baseline movement, or physical-fit claims.
 
-Slice 120 is implemented and committed as `330acb9`; the next implementation
-action is a fresh usage check followed by Slice 121 and the final integration
-gate. The research work changed documentation only. Preserve the existing
-untracked logs and `tmp/`.
+Epic 5 / Slice 121 is complete on `codex/ux-studio`. The final code checkpoint
+is `52ee690`; it adds the dev-only `axe-core` audit and fixes the two ARIA
+violations it found without changing drafting, exports, or legacy bytes. The
+research work changed documentation only. Preserve the existing untracked logs
+and `tmp/`.
 
-### Slice 120 checkpoint — Check-to-Export context and selected-size nesting; full gate pending
+### Epic 5 exit — Slice 121 final integration gate — PASS — 2026-09-19
+
+The actual history shows Epic 4 closed at `816b9ff` (Slice 113), followed by
+the separately authorized redesign at Slice 114. This work is therefore named
+Epic 5; historical Epic 4 documents remain unchanged. The stable execution
+record is `docs/planning/UX-REDESIGN-EXECUTION.md`, titled and governed as
+Epic 5.
+
+Final gate evidence: `npm test` passed 85 files / 1,102 tests; `npm run coverage`
+passed 85 files / 1,102 tests at 100% statements, branches, functions, and
+lines; `npx tsc --noEmit` passed; `npm run build` passed after transforming 96
+modules; the parsed SVG, DXF, tiled PDF, A0 PDF, projector SVG, and tech-pack
+suite passed 18/18, including all eight unchanged legacy hashes. The separate
+`axe-core` audit passed 2/2 stateful tests across the major stages and dirty
+Load dialog; jsdom color contrast was intentionally excluded and reviewed in
+the live browser matrix.
+
+Live evidence covered all seven garments, all seven views and Assembled
+round-trips, field +/-/rails/manual entry, appearance, guidance correction and
+recall, recovery/history, Save/Load, selected-size nesting and a browser SVG
+download. Responsive checks at 1280/900/700/560/390×844 found no page-level
+horizontal overflow; the final rebuilt browser smoke had a clean console.
+No physical-fit, sewn-sample, manufacturing, or production-readiness claim is
+made. The full commit list is in the Epic 5 execution exit report.
+
+Documentation/history audit before merge: `git diff origin/main...HEAD -- '*.md'`
+contains only the intended current-context modifications and research additions;
+it contains no documentation deletions. The parallel OpenCode/Claude
+open-source research packet is present through `0dc1507`, and the Desktop
+Release research blob matches the approved baseline byte-for-byte
+(`e1c36989483f7a3c39ace14207114d97c7c743a8`). The separate Claude shell-
+hardening branch was reviewed as a platform workstream and is intentionally not
+mixed into Epic 5; its unverified Electron changes remain outside this merge.
+
+### Slice 120 checkpoint — Check-to-Export context and selected-size nesting (historical checkpoint)
 
 Slice 120 is committed in `330acb9` on `codex/ux-studio`. The Export stage now
 places the selected-size picker before the format actions, states that it drives
@@ -51,10 +86,8 @@ Bounded verification passed: `npm run coverage` ran 84 files / 1,100 tests with
 The TypeScript, production build, parsed-consumer, legacy-hash, and rendered
 live matrix remain part of the final gate rather than being claimed here.
 
-Exact remaining work: complete Slice 121's beginner/accessibility/responsive
-audit, run the full project gate, inspect the final actual diff and documentation
-history, verify Epic naming, write the exit report, and only then merge to
-`origin/main`. No push has occurred.
+The remaining work recorded at this checkpoint was completed by Slice 121 and is
+superseded by the Epic 5 exit report above.
 
 ### Slice 119B checkpoint — unfinished-draft recovery and bounded Undo/Redo; full gate pending
 

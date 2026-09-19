@@ -33,7 +33,7 @@ The detailed license/evidence/pressure-test record is
 `docs/research/OPEN-SOURCE-REPOSITORY-AUDIT.md`. These boundaries add no current
 runtime dependency and do not change the Slice 119B -> 120 -> 121 sequence.
 
-## Current workspace redesign boundary — Slice 120 implementation checkpoint
+## Current workspace redesign boundary — Epic 5 / Slice 121 final checkpoint
 
 The current beginner-facing workspace uses five actual stages: Garment,
 Measure, Style, Check, and Export. Stage completion is readiness-derived, not
@@ -108,6 +108,15 @@ all sizes. The selected-size label and canvas are synchronized on picker change;
 the nesting change does not alter drafting geometry, export bytes, or legacy
 baselines.
 
+Slice 121 closes the Epic 5 UI boundary with a structural accessibility audit.
+The inspection section and its scrollable viewport now have distinct landmark
+names, and the current appearance chip uses an explicit image role for its
+screen-only color label. The dev-only `axe-core` audit covers the welcome,
+Measure, Style, Assembled, Check, Export, More Views, and dirty Load states;
+jsdom's layout-dependent color contrast rule is excluded there and is reviewed
+in the live browser matrix. These semantics do not alter geometry, drafting,
+persistence, or export consumers.
+
 No drafting geometry, export writers, or export baselines changed. The
 workspace save payload gained an optional appearance extension with a legacy
 default. Slice 119B is committed as `bd08991`; focused history/persistence/view
@@ -135,16 +144,19 @@ selected the wheel with pointer and keyboard, enabled Fine weave and 60% shine,
 and kept the editor visible beside the body canvas; the assembled preview
 contained the expected texture and sheen definitions. Screenshots were inline
 only, not durable artifacts.
-This checkpoint is not the final redesign gate: full per-control live
-coverage, zoom/text-size, persistence/export paths, full suite, 100% coverage,
-build, parsed consumers, and eight-hash legacy verification remain. Slices
-119B–121 remain.
+Epic 5 / Slice 121 is now the final redesign gate: 85 test files / 1,102 tests
+pass, coverage is 100% across statements/branches/functions/lines, TypeScript
+and production build pass, parsed consumers and all eight legacy hashes pass,
+and the rendered/live seven-garment plus responsive matrix is recorded in the
+Epic 5 exit report. This remains digital evidence only; physical fit, sewn
+validation and production readiness are deferred.
 
 ### Prior Slice 115A presentation notes
 
 The newly authorized UI/UX work is research/audit-first. The implemented
 seven-recipe grammar and `GarmentRecipe` → composed `Block` → consumer boundary
-remain unchanged. `docs/planning/UX-REDESIGN-EXECUTION.md` defines Slices 114–121;
+remain unchanged. `docs/planning/UX-REDESIGN-EXECUTION.md` defines Epic 5 and
+Slices 114–121;
 `docs/research/UX-REDESIGN-RESEARCH.md` records actual defects and source evidence.
 
 The planned presentation boundary is a stable analytical canvas with a
