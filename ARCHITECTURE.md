@@ -183,7 +183,7 @@ drift; unplaceable entries are listed with their error and skipped by the
 true-scale artwork-space preview. Surface state never reaches drafting,
 grading, checks, nesting, export gating, or cutting-file writers.
 
-Slice 126 is now integrated locally after Codex review. The shared architecture
+Slice 126 is now integrated and pushed at `139dbd1` after Codex review. The shared architecture
 still keeps surface state outside drafting, grading, checks, nesting, export
 gating, and cutting-file writers: native surface text/number edits commit on
 focusout without replacing the active control, selects commit on change, and

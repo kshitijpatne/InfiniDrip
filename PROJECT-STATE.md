@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: Epic 6 / Slice 126 accepted after Codex review, 2026-09-19; Epic 3, Epic 4, and Epic 5 are closed, and Slice 126 is integrated locally pending the final push to origin/main._
+_Last updated: Epic 6 / Slice 126 accepted and pushed after Codex review, 2026-09-19; Epic 3, Epic 4, and Epic 5 are closed, and origin/main is current at `139dbd1`._
 
 ## Current work — Epic 6 surface design foundation
 
@@ -15,12 +15,11 @@ Slice 126 has completed its review and full gate. The next Codex action is to
 receive and review the completed Slice 129 diff, run the actual full gate, and
 either integrate it or fix only evidenced failures.
 
-Slice 126 is present in the local integration merge and remains unpushed until
-the final documentation and ancestry checks complete. The contributor baseline
-for PR #5 was `f7f2dba`; the reviewed contributor head was
-`7c1348c06e9cedf73750518e955c44e2825d41b5`.
+Slice 126 is accepted and pushed to `origin/main` at `139dbd1`; PR #5 is closed
+and merged. The contributor baseline was `f7f2dba`, and the reviewed contributor
+head was `7c1348c06e9cedf73750518e955c44e2825d41b5`.
 
-### Slice 126 — UI wiring (accepted; local integration pending push)
+### Slice 126 — UI wiring (accepted and pushed)
 
 Slice 126 wires the headless surface foundation into the Style experience on branch `opencode/slice-126-surface-ui`. One canonical transform type remains (`PlacementTransform`; the `TransformInput` mirror is deleted), rows are identified by position so duplicate or hostile ids cannot confuse them, and placements persist per garment/style through an optional save/recovery section with no format-version bump — pre-surface saves and recovery payloads load with empty artwork, malformed sections are rejected, and raw invalid values round-trip verbatim for lazy validation. The panel offers add/edit/remove with numeric controls, Boundary Rails, and steppers reused from the shared primitives; validation is warn-only with per-row errors and aria-invalid sync; the preview is a true-scale artwork-space SVG that lists unplaceable entries instead of drawing them. Drafting, grading, checks, nesting, export writers, export gating, and legacy bytes are unchanged. Codex corrected two integration defects: `surfacePlaceable` now delegates to the full `placementError` contract, and native surface text/number inputs stay mounted while typing, committing on focusout; selects commit on change and steppers through a private step event. Fabric.js 7.4.0 (MIT, zero runtime dependencies) passed the scratch prove-or-stop round-trip with byte-identical cubic path data, but no dependency was added: numeric editing plus the string-based preview needs none, and direct canvas manipulation stays a deferred, explicitly re-verifiable decision. No physical-fit, drape, sewability, manufacturing, or production-readiness claim is made.
 

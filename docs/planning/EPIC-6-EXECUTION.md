@@ -146,7 +146,7 @@ validation boundary; persistence and Fabric.js fidelity remain explicit Slice 12
 stop conditions. Effective-resolution math rejects non-positive source dimensions,
 and the overlay test consumes the transform module's actual polygon output.
 
-## Slice 126 — UI wiring (accepted; local integration pending push)
+## Slice 126 — UI wiring (accepted and pushed)
 
 Branch `opencode/slice-126-surface-ui` from `origin/main` at `f7f2dba`.
 
@@ -185,3 +185,8 @@ held at 100% across all four metrics, typecheck and production build passed,
 the explicit parsed consumer suite passed 18/18 including all eight legacy
 hashes, and no geometry/grading/export-truth change was required. No
 physical-fit, manufacturing, or production-readiness claim is made.
+
+Integration record: PR #5 was merged by Codex from contributor head
+`7c1348c06e9cedf73750518e955c44e2825d41b5` with review corrections in merge
+commit `139dbd1e86b045ca54cb1a6a07f6d3d315fa67ba`, and `origin/main` now points
+to that commit. Slices 127–129 remain unmerged external work.
