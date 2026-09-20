@@ -18,10 +18,11 @@ machine formats (DST/PES) out as a v2 file-writer.
 
 ROADMAP §3.1 records the decision: **Fabric.js** (MIT, TypeScript-native, built-in
 SVG↔canvas parser, drag/scale/rotate/clip). It was verified in
-`docs/research/ASSET-RESOURCES.md` as the artwork-placement layer. Slice 122 does not
-re-verify the API; Slice 123 must confirm the exact Fabric.js version, its SVG import
-fidelity for our piece paths, and its license file before any dependency is added.
-No dependency is added in this slice.
+`docs/research/ASSET-RESOURCES.md` as the artwork-placement layer. The Slice 126
+scratch probe confirmed Fabric.js 7.4.0, its MIT license, and the representative
+piece-path SVG round trip, but no dependency was added because the accepted UI
+uses numeric controls and string-rendered SVG. Direct canvas manipulation remains
+deferred and must re-verify the then-current version before a dependency lands.
 
 ## Contract (fixed for EPIC-6)
 
@@ -45,9 +46,10 @@ No dependency is added in this slice.
 
 ## Conflicts and open questions
 
-- Fabric.js SVG import fidelity for our exact piece-path output (curves, folds,
-  marks) is assumed from the catalogue, not yet proven in-repo. Slice 123 proves it
-  with a parsed round-trip test or records the failure and stops the Epic.
+- The Slice 126 probe covers the representative `M`/`L`/`C`/`Z` path grammar, not
+  the full interactive canvas stack or every future piece-path feature. Any later
+  direct-manipulation consumer must repeat the prove-or-stop check before adding
+  Fabric.js.
 - Whether placement belongs per size or per style (shared across the graded run) is
   decided in Slice 123: default is per style, shared across sizes, recorded explicitly.
 - Print-vendor file requirements beyond the tech-pack spec page are out of scope;
@@ -59,3 +61,22 @@ No dependency is added in this slice.
 - The Fabric.js choice is a prior maintainer-visible decision, not a Slice 122
   invention. Anything it cannot do becomes a recorded Epic stop, not a silent
   substitution.
+
+## Fabric.js verification verdict (Slice 126, scratch probe — repo untouched)
+
+- Exact version probed: **7.4.0** (npm registry latest at probe time).
+- License: **MIT**, `LICENSE` file present in the published package.
+- Types: bundled (`dist/index.d.ts`); no `@types` package needed.
+- Runtime footprint: **zero** runtime dependencies (`canvas` and `jsdom` are
+  optional peers only).
+- SVG fidelity: a representative piece-path-grammar SVG (`M`/`L`/`C`/`Z` with
+  millimetre-rounded centimetre numbers) round-tripped through
+  `loadSVGFromString` → `toSVG` with an **identical command sequence and
+  maxDelta 0** on all 18 coordinates.
+- Decision: **proven but not added.** Slice 126 editing is numeric-control
+  based and the preview is string-rendered SVG, so no canvas library is
+  needed; adding the dependency would be lockfile churn with no consumer.
+  Direct canvas manipulation (drag/scale artwork on the piece) remains
+  deferred and must re-verify against the then-current Fabric.js version
+  before any dependency lands, since the proof above covers the SVG
+  path grammar only, not the interactive canvas stack.

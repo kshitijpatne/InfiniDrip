@@ -3,11 +3,12 @@
 // Pure translation, no decisions: the caller supplies precomputed true-scale
 // polygons and this module draws them in centimetre coordinates, using the same
 // millimetre rounding as pieceToPath. Items render in ascending z-order so
-// stacking is explicit in the markup. No app, view, or surface-model imports;
-// wiring lands post-rebase in Slice 126, which also unifies the item shape
-// with the placement contract.
+// stacking is explicit in the markup. The placement contract lives in
+// surface/placement; this module takes caller-computed polygons so preview
+// stays a pure translation with an acyclic, type-only model link.
 
 import type { Point } from "../geometry/point";
+import type { ArtworkPlacement } from "../surface/placement";
 
 /** One drawable artwork polygon. Polygons come from placement math. */
 export interface OverlayItem {
@@ -18,10 +19,25 @@ export interface OverlayItem {
   readonly zOrder: number;
 }
 
+/** Adapt a placement plus its computed polygon for the overlay. */
+export function overlayItem(placement: ArtworkPlacement, polygon: readonly Point[]): OverlayItem {
+  return {
+    id: placement.id,
+    pieceRole: placement.pieceRole,
+    kind: placement.kind,
+    polygon,
+    zOrder: placement.zOrder,
+  };
+}
+
 const round = (n: number): number => Math.round(n * 1000) / 1000;
 
 const ESCAPES: Record<string, string> = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" };
-const escapeAttr = (s: string): string => s.replace(/&|<|>|"/g, (ch) => ESCAPES[ch]);
+
+/** Escape user-controlled text for SVG attribute interpolation. */
+export function escapeAttr(s: string): string {
+  return s.replace(/&|<|>|"/g, (ch) => ESCAPES[ch]);
+}
 
 /** One SVG group holding every artwork polygon, tagged for inspection. */
 export function surfaceOverlay(items: readonly OverlayItem[]): string {

@@ -3,7 +3,7 @@ import { STANDARD_M, GARMENTS, TSHIRT_SIZES, TEE, WOVEN_SHIRT, WOVEN_SHIRT_OPTIO
 import { garmentToggleMarkup, dartControlsMarkup, exportButtonsMarkup } from "./view";
 import { DEFAULT_FABRIC, BLUEPRINT } from "../render";
 import { matchStyle, styleNames, TEE_STYLES } from "../style";
-import { controlsMarkup, appShellMarkup, guidanceMarkup, styleMarkup, fabricSwatchesMarkup, fabricStretchMarkup, specTableMarkup, viewToggleMarkup, bodyCroquisToggleMarkup, fabricWidthMarkup, checkMarkup, editorHintMarkup, editorHandleControlsMarkup, inspectionMarkup } from "./view";
+import { controlsMarkup, appShellMarkup, guidanceMarkup, styleMarkup, surfaceMarkup, fabricSwatchesMarkup, fabricStretchMarkup, specTableMarkup, viewToggleMarkup, bodyCroquisToggleMarkup, fabricWidthMarkup, checkMarkup, editorHintMarkup, editorHandleControlsMarkup, inspectionMarkup } from "./view";
 import { pieceHandles } from "../edit";
 import { buildReport, present } from "../guidance";
 
@@ -598,6 +598,84 @@ describe("controlsMarkup — body-link tags", () => {
   it("tags each measurement row with its field for the body-view link", () => {
     expect(html).toContain('data-dim-row="chest"');
     expect(html).toContain('data-dim-row="length"');
+  });
+});
+
+describe("surfaceMarkup — artwork sets per style", () => {
+  const data = {
+    style: "Classic tee",
+    placements: [{
+      id: "chest-print", kind: "print" as const, pieceRole: "front",
+      widthCm: 20, heightCm: 25,
+      transform: { dx: 1, dy: 2, scale: 1, rotationDeg: 0 },
+      zOrder: 0, sourceName: "tiger.svg",
+    }],
+    errors: new Map<number, string>([[0, "Placement widthCm: enter a number above 0."]]),
+    preview: "<svg></svg>",
+  };
+  it("renders rows, numeric controls, kind options, and remove actions", () => {
+    const html = surfaceMarkup(data);
+    expect(html).toContain("Surface");
+    expect(html).toContain("chest-print");
+    expect(html).toContain('data-surface-index="0"');
+    expect(html).toContain('data-surface-field="widthCm"');
+    expect(html).toContain('data-surface-field="rotationDeg"');
+    expect(html).toContain('<option value="print" selected>');
+    expect(html).toContain('data-surface-remove-index="0"');
+    expect(html).toContain("tiger.svg");
+  });
+  it("shows each placement error against its row", () => {
+    const html = surfaceMarkup(data);
+    expect(html).toContain('id="error-surface-0"');
+    expect(html).toContain("Placement widthCm: enter a number above 0.");
+  });
+  it("offers an add form and a true-scale preview with its honesty note", () => {
+    const html = surfaceMarkup(data);
+    expect(html).toContain('id="surface-add"');
+    expect(html).toContain('id="surface-new-id"');
+    expect(html).toContain('id="surface-preview"');
+    expect(html).toContain("not positioned on pieces yet");
+  });
+  it("states the empty set without a preview", () => {
+    const html = surfaceMarkup({ style: "Scoop", placements: [], errors: new Map(), preview: "" });
+    expect(html).toContain("No artwork on Scoop yet.");
+    expect(html).toContain('id="surface-preview"');
+    expect(html).toContain("data-surface-preview-shell hidden");
+    expect(html).toContain('id="surface-add"');
+  });
+  it("escapes hostile placement text so markup stays valid", () => {
+    const html = surfaceMarkup({
+      ...data,
+      placements: [{ ...data.placements[0], id: 'a"b&<c>', pieceRole: "<front>" }],
+    });
+    expect(html).toContain("a&quot;b&amp;&lt;c&gt;");
+    expect(html).not.toContain("<front>");
+  });
+  it("falls back gracefully for non-string placement text", () => {
+    const html = surfaceMarkup({
+      ...data,
+      placements: [{
+        ...data.placements[0],
+        id: 7 as unknown as string,
+        kind: 9 as unknown as "print",
+        pieceRole: null as unknown as string,
+        sourceName: {} as unknown as string,
+      }],
+    });
+    expect(html).toContain('data-surface-index="0"');
+    expect(html).toContain('value=""');
+  });
+  it("renders hostile geometry as explicitly invalid instead of throwing", () => {
+    const html = surfaceMarkup({
+      ...data,
+      placements: [{
+        ...data.placements[0],
+        widthCm: "big" as unknown as number,
+        transform: null as unknown as { dx: number; dy: number; scale: number; rotationDeg: number },
+      }],
+    });
+    expect(html).toContain('value="NaN"');
+    expect(html).toContain('data-range-state="empty"');
   });
 });
 

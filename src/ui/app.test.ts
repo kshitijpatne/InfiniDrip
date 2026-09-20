@@ -2132,3 +2132,297 @@ describe("switching to the trouser recipe (Slice 100)", () => {
     expect(root.querySelector<HTMLInputElement>('input[data-option="pocketDrop"]')!.value).toBe("5");
   });
 });
+
+describe("surface artwork panel (Slice 126)", () => {
+  const toFitStep = (root: HTMLElement): void => {
+    clickIfPresent(root, "welcome-skip");
+    clickId(root, "journey-step-fit");
+  };
+  const addArtwork = (root: HTMLElement, id: string, role = "front"): void => {
+    root.querySelector<HTMLInputElement>("#surface-new-id")!.value = id;
+    root.querySelector<HTMLInputElement>("#surface-new-role")!.value = role;
+    root.querySelector<HTMLButtonElement>("#surface-add")!.click();
+  };
+  const widthInput = (root: HTMLElement): HTMLInputElement =>
+    root.querySelector<HTMLInputElement>('input[data-surface-index="0"][data-surface-field="widthCm"]')!;
+
+  it("renders the panel with an add form on the fit step", () => {
+    localStorage.clear();
+    const root = mount();
+    toFitStep(root);
+    expect(root.querySelector("#style-host")!.textContent).toContain("Surface");
+    expect(root.querySelector("#surface-add")).not.toBeNull();
+    expect(root.querySelector("#style-host")!.textContent).toContain("No artwork on");
+  });
+
+  it("rejects empty and duplicate names without adding anything", () => {
+    localStorage.clear();
+    const root = mount();
+    toFitStep(root);
+    root.querySelector<HTMLButtonElement>("#surface-add")!.click();
+    expect(root.querySelector("#surface-form-error")!.textContent).toContain("Name the artwork");
+    addArtwork(root, "chest-print");
+    addArtwork(root, "chest-print");
+    expect(root.querySelector("#surface-form-error")!.textContent).toContain("already exists");
+    expect(root.querySelectorAll("[data-surface-row]")).toHaveLength(1);
+    root.querySelector<HTMLInputElement>("#surface-new-id")!.value = "ok";
+    root.querySelector<HTMLInputElement>("#surface-new-role")!.value = "";
+    root.querySelector<HTMLButtonElement>("#surface-add")!.click();
+    expect(root.querySelector("#surface-form-error")!.textContent).toContain("piece role");
+  });
+
+  it("adds a placement with a true-scale preview polygon", () => {
+    localStorage.clear();
+    const root = mount();
+    toFitStep(root);
+    addArtwork(root, "chest-print");
+    expect(root.querySelectorAll("[data-surface-row]")).toHaveLength(1);
+    const polygon = root.querySelector('#surface-preview polygon[data-placement="chest-print"]')!;
+    expect(polygon.getAttribute("points")).toBe("2,2 22,2 22,27 2,27");
+    expect(polygon.getAttribute("data-piece")).toBe("front");
+  });
+
+  it("keeps invalid values visible with an actionable error while drafting continues", () => {
+    localStorage.clear();
+    const root = mount();
+    toFitStep(root);
+    addArtwork(root, "chest-print");
+    const gateBefore = root.querySelector<HTMLButtonElement>("#export-svg")!.disabled;
+    const width = widthInput(root);
+    width.value = "0";
+    width.dispatchEvent(new Event("focusout", { bubbles: true }));
+    expect(widthInput(root).getAttribute("aria-invalid")).toBe("true");
+    expect(root.querySelector("#error-surface-0")!.textContent).toContain("widthCm");
+    expect(widthInput(root).value).toBe("0");
+    expect(root.querySelector("#canvas-host svg")).not.toBeNull();
+    expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(gateBefore);
+    expect(root.querySelector("#surface-preview polygon")).toBeNull();
+    expect(root.querySelector<HTMLElement>("[data-surface-preview-shell]")!.hidden).toBe(true);
+    const retry = widthInput(root);
+    retry.value = "abc";
+    retry.dispatchEvent(new Event("focusout", { bubbles: true }));
+    expect(widthInput(root).getAttribute("aria-invalid")).toBe("true");
+    expect(root.querySelector("#error-surface-0")!.textContent).toContain("widthCm");
+  });
+
+  it("recovers through the stepper and the kind select", () => {
+    localStorage.clear();
+    const root = mount();
+    toFitStep(root);
+    addArtwork(root, "chest-print");
+    const broken = widthInput(root);
+    broken.value = "abc";
+    broken.dispatchEvent(new Event("focusout", { bubbles: true }));
+    expect(widthInput(root).getAttribute("aria-invalid")).toBe("true");
+    const control = widthInput(root).closest<HTMLElement>("[data-range-control]")!;
+    control.querySelector<HTMLButtonElement>('button[data-step-direction="1"]')!.click();
+    expect(widthInput(root).getAttribute("aria-invalid")).toBe("false");
+    expect(root.querySelector("#surface-preview polygon")).not.toBeNull();
+    const kind = root.querySelector<HTMLSelectElement>('select[data-surface-index="0"]')!;
+    kind.value = "patch";
+    kind.dispatchEvent(new Event("change", { bubbles: true }));
+    expect(root.querySelector('#surface-preview polygon[data-placement="chest-print"]')!.getAttribute("data-kind")).toBe("patch");
+  });
+
+  it("edits transform fields into the nested transform", () => {
+    localStorage.clear();
+    const root = mount();
+    toFitStep(root);
+    addArtwork(root, "chest-print");
+    const dx = root.querySelector<HTMLInputElement>('input[data-surface-index="0"][data-surface-field="dx"]')!;
+    dx.value = "5";
+    dx.dispatchEvent(new Event("focusout", { bubbles: true }));
+    expect(root.querySelector<HTMLInputElement>('input[data-surface-index="0"][data-surface-field="dx"]')!.value).toBe("5");
+    expect(root.querySelector("#error-surface-0")!.textContent).toBe("");
+    const rotation = root.querySelector<HTMLInputElement>('input[data-surface-index="0"][data-surface-field="rotationDeg"]')!;
+    rotation.value = "90";
+    rotation.dispatchEvent(new Event("focusout", { bubbles: true }));
+    expect(root.querySelector('#surface-preview polygon[data-placement="chest-print"]')!.getAttribute("points"))
+      .toBe("27,2 27,22 2,22 2,2");
+    expect(root.querySelector("#error-surface-0")!.textContent).toBe("");
+  });
+
+  it("does not replace a manually edited numeric field while capturing raw input", () => {
+    localStorage.clear();
+    const root = mount();
+    document.body.appendChild(root);
+    toFitStep(root);
+    addArtwork(root, "chest-print");
+    const width = widthInput(root);
+    width.focus();
+    width.value = "3";
+    width.dispatchEvent(new Event("input", { bubbles: true }));
+    expect(widthInput(root)).toBe(width);
+    widthInput(root).value = "37";
+    widthInput(root).dispatchEvent(new Event("input", { bubbles: true }));
+    expect(widthInput(root).value).toBe("37");
+    expect(widthInput(root)).toBe(width);
+    width.dispatchEvent(new Event("focusout", { bubbles: true }));
+    expect(root.querySelector("#error-surface-0")!.textContent).toBe("");
+    root.remove();
+  });
+
+  it("removes a placement explicitly", () => {
+    localStorage.clear();
+    const root = mount();
+    toFitStep(root);
+    addArtwork(root, "chest-print");
+    root.querySelector<HTMLButtonElement>('button[data-surface-remove-index="0"]')!.click();
+    expect(root.querySelectorAll("[data-surface-row]")).toHaveLength(0);
+    expect(root.querySelector("#style-host")!.textContent).toContain("No artwork on");
+  });
+
+  it("round-trips artwork, including raw invalid values, through save and load", () => {
+    localStorage.clear();
+    const root = mount();
+    toFitStep(root);
+    addArtwork(root, "chest-print");
+    const width = widthInput(root);
+    width.value = "0";
+    width.dispatchEvent(new Event("focusout", { bubbles: true }));
+    clickId(root, "save-pattern");
+    expect(localStorage.getItem("patternworks_save_v1")).toContain("chest-print");
+    widthInput(root).value = "10";
+    widthInput(root).dispatchEvent(new Event("focusout", { bubbles: true }));
+    root.querySelector<HTMLButtonElement>('button[data-surface-remove-index="0"]')!.click();
+    clickId(root, "load-pattern");
+    clickId(root, "workspace-confirm-accept");
+    expect(widthInput(root).value).toBe("0");
+    expect(root.querySelector("#error-surface-0")!.textContent).toContain("widthCm");
+  });
+
+  it("loads pre-surface saves with an empty set", () => {
+    localStorage.clear();
+    const root = mount();
+    toFitStep(root);
+    addArtwork(root, "chest-print");
+    clickId(root, "save-pattern");
+    const raw = JSON.parse(localStorage.getItem("patternworks_save_v1")!);
+    delete raw.surface;
+    localStorage.setItem("patternworks_save_v1", JSON.stringify(raw));
+    const reloaded = mount();
+    toFitStep(reloaded);
+    expect(reloaded.querySelectorAll("[data-surface-row]")).toHaveLength(0);
+    expect(reloaded.querySelector("#style-host")!.textContent).toContain("No artwork on");
+  });
+
+  it("isolates artwork sets per style and shares them across sizes", () => {
+    localStorage.clear();
+    const root = mount();
+    toFitStep(root);
+    const styles = [...root.querySelectorAll<HTMLButtonElement>("[data-style-target]")]
+      .map((card) => card.dataset.styleTarget!);
+    expect(styles.length).toBeGreaterThan(1);
+    addArtwork(root, "chest-print");
+    const current = root.querySelector<HTMLSelectElement>("#style-target")!.value;
+    const other = styles.find((name) => name !== current)!;
+    root.querySelector<HTMLButtonElement>(`[data-style-target="${other}"]`)!.click();
+    expect(root.querySelectorAll("[data-surface-row]")).toHaveLength(0);
+    root.querySelector<HTMLButtonElement>(`[data-style-target="${current}"]`)!.click();
+    expect(root.querySelectorAll("[data-surface-row]")).toHaveLength(1);
+  });
+
+  it("renders the panel for all seven garments with the assembled preview intact", () => {
+    localStorage.clear();
+    const root = mount();
+    toFitStep(root);
+    addArtwork(root, "chest-print");
+    for (const garment of ["tee", "fitted", "tank", "polo", "woven-shirt", "skirt", "trouser"]) {
+      root.querySelector<HTMLButtonElement>(`#garment-${garment}`)!.dispatchEvent(new Event("click"));
+      expect(root.querySelector("#surface-add")).not.toBeNull();
+      expect(root.querySelector("#garment-host svg")).not.toBeNull();
+    }
+    root.querySelector<HTMLButtonElement>("#assembled-preview-toggle")!
+      .dispatchEvent(new Event("click", { bubbles: true }));
+    expect(root.querySelector<HTMLElement>("#garment-host")!.hidden).toBe(false);
+    expect(root.querySelector("#garment-host svg")).not.toBeNull();
+  });
+
+  it("renders at narrow and wide widths without errors", () => {
+    localStorage.clear();
+    const root = mount();
+    document.body.appendChild(root);
+    toFitStep(root);
+    addArtwork(root, "chest-print");
+    const viewport = root.querySelector<HTMLElement>("#inspection-viewport")!;
+    for (const width of [1280, 900, 700, 560, 390]) {
+      Object.defineProperty(viewport, "clientWidth", { configurable: true, value: width });
+      window.dispatchEvent(new Event("resize"));
+      expect(root.querySelector("#surface-add")).not.toBeNull();
+      expect(root.querySelector('#surface-preview polygon[data-placement="chest-print"]')).not.toBeNull();
+    }
+    root.remove();
+  });
+
+  it("treats a cleared field as explicitly incomplete", () => {
+    localStorage.clear();
+    const root = mount();
+    toFitStep(root);
+    addArtwork(root, "chest-print");
+    const width = root.querySelector<HTMLInputElement>('input[data-surface-index="0"][data-surface-field="widthCm"]')!;
+    width.value = "";
+    width.dispatchEvent(new Event("focusout", { bubbles: true }));
+    expect(root.querySelector("#error-surface-0")!.textContent).toContain("widthCm");
+    expect(root.querySelector("#surface-preview polygon")).toBeNull();
+    expect(root.querySelector<HTMLElement>("[data-surface-preview-shell]")!.hidden).toBe(true);
+  });
+
+  it("ignores stray surface controls that name no row", () => {
+    localStorage.clear();
+    const root = mount();
+    toFitStep(root);
+    addArtwork(root, "chest-print");
+    const ghost = document.createElement("input");
+    ghost.setAttribute("data-surface-index", "99");
+    ghost.setAttribute("data-surface-field", "widthCm");
+    root.querySelector("#style-host")!.appendChild(ghost);
+    root.querySelector("#style-host")!.dispatchEvent(new Event("surface-step", { bubbles: true }));
+    ghost.dispatchEvent(new Event("surface-step", { bubbles: true }));
+    ghost.value = "5";
+    ghost.dispatchEvent(new Event("input", { bubbles: true }));
+    const ghostRemove = document.createElement("button");
+    ghostRemove.setAttribute("data-surface-remove-index", "99");
+    root.querySelector("#style-host")!.appendChild(ghostRemove);
+    ghostRemove.click();
+    const ghostNaN = document.createElement("button");
+    ghostNaN.setAttribute("data-surface-remove-index", "abc");
+    root.querySelector("#style-host")!.appendChild(ghostNaN);
+    ghostNaN.click();
+    expect(root.querySelectorAll("[data-surface-row]")).toHaveLength(1);
+    expect(root.querySelector('#surface-preview polygon[data-placement="chest-print"]')).not.toBeNull();
+  });
+
+  it("ignores typing in the add form until Add is pressed", () => {
+    localStorage.clear();
+    const root = mount();
+    toFitStep(root);
+    const name = root.querySelector<HTMLInputElement>("#surface-new-id")!;
+    name.value = "draft";
+    name.dispatchEvent(new Event("input", { bubbles: true }));
+    expect(root.querySelectorAll("[data-surface-row]")).toHaveLength(0);
+  });
+
+  it("survives a hostile save and recovers through explicit edits", () => {
+    localStorage.clear();
+    const root = mount();
+    toFitStep(root);
+    addArtwork(root, "chest-print");
+    clickId(root, "save-pattern");
+    const raw = JSON.parse(localStorage.getItem("patternworks_save_v1")!);
+    const key = Object.keys(raw.surface)[0];
+    raw.surface[key].placements.push({
+      id: "hostile", kind: "print", pieceRole: "front", widthCm: 20, heightCm: 25,
+      transform: null, zOrder: 1, sourceName: "",
+    });
+    localStorage.setItem("patternworks_save_v1", JSON.stringify(raw));
+    const reloaded = mount();
+    toFitStep(reloaded);
+    expect(reloaded.querySelectorAll("[data-surface-row]")).toHaveLength(2);
+    expect(reloaded.querySelector("#error-surface-1")!.textContent).toContain("Transform");
+    const dx = reloaded.querySelector<HTMLInputElement>('input[data-surface-index="1"][data-surface-field="dx"]')!;
+    dx.value = "2";
+    dx.dispatchEvent(new Event("focusout", { bubbles: true }));
+    expect(reloaded.querySelector("#error-surface-1")!.textContent).toBe("");
+    expect(reloaded.querySelectorAll('#surface-preview polygon')).toHaveLength(2);
+  });
+});

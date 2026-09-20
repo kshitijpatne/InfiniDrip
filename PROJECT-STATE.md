@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: Epic 6 / Slice 125 integration gate with Slices 126–129 active under OpenCode, 2026-09-19; Epic 3, Epic 4, and Epic 5 are closed, and the additive surface foundation is on origin/main at f7f2dba._
+_Last updated: Epic 6 / Slice 126 accepted after Codex review, 2026-09-19; Epic 3, Epic 4, and Epic 5 are closed, and Slice 126 is integrated locally pending the final push to origin/main._
 
 ## Current work — Epic 6 surface design foundation
 
@@ -11,12 +11,29 @@ OpenCode through Slice 129. Slices 122–125 are the committed and reviewed
 foundation on origin/main; Slices 126–128 are the remaining implementation
 work, and Slice 129 is the planned cross-garment exit gate. Codex should not
 duplicate shared UI/save/export work while that external workstream is active.
-The next Codex action is to receive and review the completed Slice 129 diff,
-run the actual full gate, and either integrate it or fix only evidenced failures.
+Slice 126 has completed its review and full gate. The next Codex action is to
+receive and review the completed Slice 129 diff, run the actual full gate, and
+either integrate it or fix only evidenced failures.
 
-No Slice 126–129 commit is currently present in this checkout, so their status
-is recorded here as an active maintainer-provided coordination state rather than
-as completed repository evidence. The committed baseline remains f7f2dba.
+Slice 126 is present in the local integration merge and remains unpushed until
+the final documentation and ancestry checks complete. The contributor baseline
+for PR #5 was `f7f2dba`; the reviewed contributor head was
+`7c1348c06e9cedf73750518e955c44e2825d41b5`.
+
+### Slice 126 — UI wiring (accepted; local integration pending push)
+
+Slice 126 wires the headless surface foundation into the Style experience on branch `opencode/slice-126-surface-ui`. One canonical transform type remains (`PlacementTransform`; the `TransformInput` mirror is deleted), rows are identified by position so duplicate or hostile ids cannot confuse them, and placements persist per garment/style through an optional save/recovery section with no format-version bump — pre-surface saves and recovery payloads load with empty artwork, malformed sections are rejected, and raw invalid values round-trip verbatim for lazy validation. The panel offers add/edit/remove with numeric controls, Boundary Rails, and steppers reused from the shared primitives; validation is warn-only with per-row errors and aria-invalid sync; the preview is a true-scale artwork-space SVG that lists unplaceable entries instead of drawing them. Drafting, grading, checks, nesting, export writers, export gating, and legacy bytes are unchanged. Codex corrected two integration defects: `surfacePlaceable` now delegates to the full `placementError` contract, and native surface text/number inputs stay mounted while typing, committing on focusout; selects commit on change and steppers through a private step event. Fabric.js 7.4.0 (MIT, zero runtime dependencies) passed the scratch prove-or-stop round-trip with byte-identical cubic path data, but no dependency was added: numeric editing plus the string-based preview needs none, and direct canvas manipulation stays a deferred, explicitly re-verifiable decision. No physical-fit, drape, sewability, manufacturing, or production-readiness claim is made.
+
+Acceptance evidence: `npm test` passed 89 files / 1,196 tests; `npm run coverage`
+passed 100% statements, branches, functions, and lines; `npx tsc --noEmit` and
+`npm run build` passed; the explicit parsed consumer suite passed 18/18 across
+SVG, DXF, tiled PDF, A0 PDF, projector SVG, and tech pack, including all eight
+unchanged legacy hashes. Live review covered Style wiring, direct field entry
+and blur commit, invalid-value/no-preview behavior, +/- recovery, save/load,
+style isolation, all seven garments, assembled preview, responsive widths
+1280/900/700/560/390×844, and a clean browser console. This is digital evidence
+only; physical fit, sewn validation, manufacturing, and production readiness
+remain unverified.
 
 ### Slices 122–125 integration checkpoint — reviewed and passing
 
@@ -28,11 +45,11 @@ placement model, headless transform math, and a pure SVG overlay renderer.
 
 Codex corrected one contract gap during integration: effective resolution now
 rejects non-positive source-pixel dimensions, and the overlay test consumes the
-actual transform module output. Persistence, Fabric.js fidelity, UI wiring,
-tech-pack placement output, guidance warnings, and print-ready output remain
-explicit future Slice 126–128 work; no surface behavior is exposed in the app
-yet. No drafting, grading, checks, nesting, export writers, or legacy bytes
-changed.
+actual transform module output. At that historical checkpoint, persistence,
+Fabric.js fidelity, UI wiring, tech-pack placement output, guidance warnings,
+and print-ready output remained explicit future Slice 126–128 work; Slice 126
+has since delivered and passed the UI/persistence boundary recorded above. No
+drafting, grading, checks, nesting, export writers, or legacy bytes changed.
 
 The complete gate for this checkpoint passed: 88 files / 1,139 tests, 100%
 statements/branches/functions/lines, typecheck, production build, and parsed
