@@ -493,6 +493,41 @@ Sparrow/irregular nesting, rotation/interlocking, physical validation, and
 production claims remain outside this Epic. Codex owns review, repairs, merge,
 and push.
 
+### Epic 11 planned boundary — Polo V2 fidelity
+
+Slice 148 is documentation/research only. The binding research and execution
+records are `docs/research/garments/POLO-V2-RESEARCH.md` and
+`docs/planning/EPIC-11-EXECUTION.md`. Implementation waits until Epic 7 is
+merged and reviewed, then starts from that verified main; Epic 11 never changes
+the nesting estimator or its planning-state semantics.
+
+Polo V2 remains the existing `polo` recipe and the ordinary composed `Block`
+pipeline. Its redesign replaces the V1 rectangular stand/collar with shaped
+curves derived from each size's actual front/back neckline interfaces. One pure
+geometry contract must provide lower/upper stand seams, collar bases and
+CB/shoulder/CF landmarks to both drafting and front/back schematic rendering.
+The stand lower seam must equal the body neckline; the collar bases must equal
+the measured stand upper seam. Endpoint spans are never accepted as arc-length
+proof.
+
+The nine physical Polo roles remain unchanged. The front retains its on-fold
+slit and named placket attachment interfaces; V2 adds internal diagonal base
+clip lines and reinforcement/box cues rather than an exterior centre-front seam
+or extra piece. The body side edge becomes a sewn interface ending at aligned
+vent-top marks, followed by open vent edges. Only the back hem extends by the
+selected drop. Zero vent depth restores the uninterrupted V1 side/hem topology
+instead of emitting zero-length edges.
+
+Four recipe-owned numeric options extend the existing recipe-option map
+(introduced in save v3 and carried by the current v4 format) without a
+save-version bump: `standFrontRise`, `collarPointExtension`,
+`sideVentDepth`, and `backHemDrop`. Invalid combinations remain verbatim and
+visible to actionable guidance. Sleeve-rib negative ease and upper-collar
+turn-of-cloth remain outside the draft until material stretch/recovery is an
+explicit geometry input or physical evidence supports a bounded contract.
+Grading continues to re-draft from each size's measurements; no second manual
+point-grade system is introduced.
+
 Epic 3 is closed at the integrated straight-leg trouser plus shared numeric
 editing boundary. Shorts and joggers remain documented derivatives only;
 surface design, physical validation, and production-readiness work are outside

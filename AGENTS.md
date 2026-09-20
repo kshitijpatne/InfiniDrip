@@ -7,11 +7,13 @@ is authoritative for maintainer decisions that are not derivable from code.
 
 ## Current direction
 
-- The sequence is: Slice 64 reality-check, fix any real-world failures it finds,
-  build the polo end-to-end, then complete Phase C3.
+- Epic 7 Nesting Intelligence is the active isolated OpenCode workstream under
+  Codex review. Epic 8 remains on hold until Epic 7 is merged.
+- Epic 11 Polo V2 research and execution scoping is complete in Slice 148.
+  Implementation Slices 149–155 must wait for the reviewed Epic 7 merge, then
+  remain Codex-owned because they change garment geometry and shared outputs.
 - No InfiniDrip garment has been physically sewn and validated yet. Do not claim
   physical fit until evidence is recorded.
-- Tank neckline width must become user-adjustable.
 - Every garment aspect should be adjustable where meaningful. Guidance must
   detect invalid combinations and provide actionable corrections; do not hide
   invalid combinations by silently clamping inputs.
