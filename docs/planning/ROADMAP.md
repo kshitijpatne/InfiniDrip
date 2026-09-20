@@ -11,8 +11,9 @@ and nothing is marked done that isn't. Estimates are marked as estimates.**
 
 ## 0. Where we actually are (honest baseline)
 
-**Current committed baseline:** origin/main contains the Codex-reviewed Epic 6
-exit (2026-09-20); Slice 130's code integration is recorded at `f92e28f`.
+**Current committed baseline:** origin/main contains the Codex-reviewed Slice
+130 exit (2026-09-20) at `241732e`; its code integration parent is recorded at
+`f92e28f`. The earlier Slice 129 commit is `bc7ae73`, not the active baseline.
 Epic 5 and Epic 6 are complete; the next work is post-Epic 6 quality, release,
 or deliberately selected product expansion.
 
@@ -61,8 +62,9 @@ planning surface for Codex after the completed Epic 6 integration.
 | Horizon | Initiative | Status / owner | Dependencies and exit |
 |---|---|---|---|
 | **Done** | **Epic 6 Slices 122–130** — surface placement, preview, persistence, tech-pack/print output, measured warn-only guidance, and cross-garment exit | **Complete — Codex reviewed and pushed** | 94 files / 1,255 tests, 100% coverage, typecheck, build, parsed consumers, 8/8 legacy hashes; no physical-fit claim |
-| **Now** | **Quality hardening** — bounded fast-check properties plus a test-only @flatten-js/core oracle, including surface-placement invariants | **Codex candidate** | Seeded/bounded CI, permanent regression fixtures, no production geometry replacement; start only as an explicit Epic |
-| **Now / parallel-safe** | **Desktop release readiness** — package verification, offline/native save checks, signing procurement and packaged smoke | **Codex candidate** | Explicit release decision, platform ownership, and a separate gate from product work; no unverified Electron changes are merged |
+| **Now** | **EPIC 9 — Desktop release readiness (Slices 135–139)** | **Codex-owned and scoped** | Offline packaged launch, native save, six exports, fresh/stale state, menu/window lifecycle, realistic failures, and current-host package integrity; no signing, updater, installer, or cross-OS claim |
+| **Now / after EPIC 9** | **EPIC 10 — Quality and adversarial hardening (Slices 140–144)** | **Claude Code CLI contributor; Codex integrates** | Test/developer-only seeded properties, justified test-only oracle, seven recipes, old-save compatibility, surface invariants, permanent fixtures; no production geometry or baseline movement |
+| **Parallel / independent** | **EPIC 7 — Post-Epic-6 evidence audit (Slices 132–134)** | **OpenCode-owned under Codex review** | Separate worktree and report only; no edits to the Codex checkout and no implementation authority |
 | **Next** | **Surface v1 stabilization** — follow-up only for a reproducible defect or real user evidence | **Conditional** | Epic 6 exit evidence plus a concrete failure; no speculative polish |
 | **Later** | **Garment expansion/refinement** — e.g. Polo V2 fidelity or shorts/jogger relationship | **Directional** | New garment research record, scoped construction decisions, and physical-validation policy; do not start merely because the engine can render it |
 | **Later / blocked** | **Physical fit validation** | **Blocked by maintainer constraint** | No manufacturer/printer is available; no sewn-fit claim or schedule until explicitly reopened |
@@ -70,20 +72,16 @@ planning surface for Codex after the completed Epic 6 integration.
 
 ### Codex next-work options
 
-After Epic 6, Codex should choose one primary lane rather than
-parallelizing across shared contracts:
+After Epic 6, the maintainer has selected the explicitly scoped EPIC 9 → EPIC
+10 lane rather than parallelizing across shared contracts:
 
-1. **Quality hardening.** Add property-based tests for placement, invalid-input
-   guidance, grading, geometry finiteness, deterministic serialization, and
-   empty-placement export identity. This turns the open-source research into a
-   small, reversible engineering gain without changing production behavior.
-2. **Desktop release readiness.** Convert the existing Electron research into a
-   bounded package/installer verification slice, then begin signing procurement
-   only after a maintainer decision. This is valuable for distribution but has
-   platform and signing dependencies.
-3. **Garment refinement.** Start a new research/contract slice for one chosen
-   garment refinement only after the owner selects it and physical-validation
-   limitations are explicit. This is the largest geometry/product-risk option.
+1. **EPIC 9.** Convert the existing Electron research into a bounded,
+   current-host package-readiness gate. Signing procurement remains a separate
+   maintainer decision.
+2. **EPIC 10.** Add reversible, test-only adversarial coverage without changing
+   production geometry, output baselines, or truthful invalid-state behavior.
+3. **Garment refinement.** Remains a later option requiring a new research and
+   contract slice plus explicit physical-validation limitations.
 
 These options must be separately scoped before implementation. The open-source audit does not
 authorize direct reuse of a drafting engine, VTO/3D stack, or linter as a

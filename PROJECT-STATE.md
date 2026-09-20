@@ -1,8 +1,37 @@
 # InfiniDrip — Project State
 
-_Last updated: Epic 6 / Slice 130 integrated and pushed, 2026-09-20; Epic 3, Epic 4, Epic 5, and Epic 6 are closed. Physical validation and production readiness remain unverified._
+_Last updated: Slice 131 execution scope checkpoint, 2026-09-20; the verified
+Slice 130 tip is `241732e` and the earlier Slice 129 commit is `bc7ae73`.
+Epic 3, Epic 4, Epic 5, and Epic 6 are closed. Physical validation and
+production readiness remain unverified._
 
 ## Current work — post-Epic 6 planning
+
+### Slice 131 — EPIC 7/9/10 execution scopes recorded
+
+Codex has recorded the durable execution packets before implementation:
+
+- `docs/planning/EPIC-7-EXECUTION.md` is an independent, read-only OpenCode
+  evidence audit. It has its own worktree/branch and handoff prompt; it is not
+  part of the active EPIC 9–10 completion goal.
+- `docs/planning/EPIC-9-EXECUTION.md` is Codex-owned desktop release readiness
+  for the current host-supported unpacked Electron package. Its bounded scope
+  covers offline launch, native save, six exports, fresh/stale state, menu and
+  window lifecycle, realistic failure handling, and package integrity. It does
+  not authorize signing, updater feeds, installer claims, or cross-OS claims.
+- `docs/planning/EPIC-10-EXECUTION.md` assigns isolated test/developer-only
+  hardening to Claude Code CLI under Codex control. Seeded/bounded properties,
+  a test-only geometry oracle, seven-recipe coverage, old-save compatibility,
+  surface invariants, and permanent fixtures are in scope; production geometry
+  and all baselines remain protected.
+
+The active durable goal is to complete EPIC 9 and EPIC 10 end-to-end, with
+Codex as final reviewer, integrator, and sole pusher to `origin/main`. The goal
+cannot close until implementation, realistic-failure pressure testing,
+documentation, review, merge, and push are all evidenced. Planned execution
+order is: Codex EPIC 9 Slices 135–139, then isolated Claude EPIC 10 Slices
+140–144, then Codex integration and the complete final gate. EPIC 7 remains
+independent and must not edit this checkout.
 
 ### Epic 6 — complete and pushed (Slices 122–130)
 

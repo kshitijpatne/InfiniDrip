@@ -64,6 +64,13 @@ snapshots; they are not current status.
   Code audit packets for Slice 114; Codex owns implementation and acceptance.
 - `docs/planning/EPIC-6-EXECUTION.md` — Epic 6 surface-design execution plan,
   additive Slice 122–125 foundation, deferred wiring slices, and exit gate.
+- `docs/planning/EPIC-7-EXECUTION.md` — independent OpenCode evidence-audit
+  scope, handoff packet, safe boundary, and return contract.
+- `docs/planning/EPIC-9-EXECUTION.md` — Codex-owned bounded desktop release
+  readiness scope, failure matrix, package evidence, and exit gate.
+- `docs/planning/EPIC-10-EXECUTION.md` — Claude Code test-only adversarial
+  hardening scope, seeded-property/oracle boundary, handoff prompt, and exit
+  gate.
 
 ## Research documents
 

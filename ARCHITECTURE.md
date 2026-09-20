@@ -447,6 +447,26 @@ architecture and remaining signed/offline packaging work are recorded in
 `docs/research/DESKTOP-RELEASE-RESEARCH.md`; the shell hardening in `electron/`
 does not alter drafting, exports, or the composed `Block` contract.
 
+### Post-Epic-6 execution boundary — EPIC 7, EPIC 9, and EPIC 10
+
+The durable execution packets are `docs/planning/EPIC-7-EXECUTION.md`,
+`docs/planning/EPIC-9-EXECUTION.md`, and
+`docs/planning/EPIC-10-EXECUTION.md`. EPIC 9 may harden the Electron shell,
+native-save boundary, menu/window lifecycle, and developer-only packaged
+verification, but it must continue to consume the existing export and
+persistence contracts. Offline packaged evidence is host/package-specific;
+signing, updater feeds, installers, and cross-OS claims remain outside the
+architecture until separately authorized and evidenced.
+
+EPIC 10's property generators, fixtures, and `@flatten-js/core` comparisons
+are test-only. They inspect existing flattened geometry and serialization
+contracts; they are not alternate drafting truth and cannot enter production
+imports. All seven recipes, parsed outputs, eight legacy hashes, truthful
+invalid-state behavior, and the prohibition on physical-fit or
+production-readiness claims remain standing invariants. EPIC 7 is a separate
+OpenCode evidence workstream and cannot introduce implementation changes into
+the Codex checkout.
+
 Epic 3 is closed at the integrated straight-leg trouser plus shared numeric
 editing boundary. Shorts and joggers remain documented derivatives only;
 surface design, physical validation, and production-readiness work are outside
