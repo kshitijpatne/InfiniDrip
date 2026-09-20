@@ -1,35 +1,49 @@
 # InfiniDrip — Project State
 
-_Last updated: Epic 6 / Slices 127–129 review-ready, 2026-09-20; Epic 3, Epic 4, and Epic 5 are closed, Slice 126 is merged, and origin/main is current at `6f21ccb`. Slices 127–129 are implemented on their stacked contributor branches and await Codex review — none is merged._
+_Last updated: Epic 6 exit accepted and pushed, 2026-09-20; Epic 3, Epic 4, Epic 5, and Epic 6 are closed, and origin/main is current at the Codex Epic 6 integration commit. Physical validation and production readiness remain unverified._
 
-## Current work — Epic 6 surface design foundation
+## Current work — post-Epic 6 planning
 
-### Slice 129 — EPIC-6 exit gate (review-ready, not merged)
+### Epic 6 — complete and pushed
 
-Slice 129 closes the Epic on branch `opencode/slice-129-surface-exit`, stacked on the Slice 128 branch: a cross-garment audit proving one style's artwork end to end (panel, preview, print sheet, tech pack, save/load) on all seven garments through the real mounted app, plus the Epic exit report and final durable updates. The chain merges bottom-up (127, then 128, then 129) with no direct pushes to `main` and no contributor merges. Blocked warnings, unbuilt positioning, and all cut-list items from prior Epics carry over unchanged. No physical-fit, drape, sewability, manufacturing, or production-readiness claim is made.
+Slices 122–129 are accepted on `origin/main`. The completed Epic provides a
+headless placement contract, per-garment/style artwork sets with optional
+save/recovery persistence, true-scale artwork-space preview, opt-in calibrated
+print-sheet output, artwork placement in the tech pack, warn-only invalid-entry
+guidance with Review/Set-aside/Show-again behavior, and a seven-garment mounted
+app exit audit. Surface state remains outside drafting, grading, POM checks,
+nesting, cutting writers, and export gating. Empty artwork preserves the eight
+legacy export hashes. The implementation makes no physical-fit, drape,
+sewability, manufacturing, or production-readiness claim.
 
-### Slice 127 — tech-pack spec plus opt-in print output (review-ready, not merged)
+### Slice 127 — tech-pack spec plus opt-in print output (accepted)
 
 Slice 127 adds the output boundary on branch `opencode/slice-127-surface-output`: a fifth tech-pack page naming every artwork entry with true-scale geometry and INVALID flags (empty sets stay byte-identical), a true-scale print-sheet SVG writer carrying the locked 10 cm calibration square, and a Current-style-artwork export scope with an opt-in Print sheet button that stays disabled with an artwork reason while the style is empty. Whole-style semantics match tech pack and projector: the per-size picker is ignored and the copy says so. Artwork-space centimetres are the print specification and piece association is by role name; no on-piece anchor is invented. Cutting writers are untouched and placement never enters them — all eight legacy hashes stay green with artwork present in state. No physical-fit, drape, sewability, manufacturing, or production-readiness claim is made.
 
-### Slice 128 — guidance warnings (review-ready, not merged)
+### Slice 128 — guidance warnings (accepted)
 
 Slice 128 surfaces invalid placements as warn-only guidance on branch `opencode/slice-128-surface-guidance`: one note per invalid entry with its actionable correction and a Review action focusing the failing control, Set-aside/Show-again dismissal matching existing ignored-guidance behavior (persists across surface edits, clears on pattern change), visibility on the Check view, and no export gating. Panel rows gained the same Set-aside affordance canvas cues offer, since artwork warnings have no canvas target. Out-of-bounds, resolution-floor, and ink-coverage warnings are explicitly deferred as blocked: they need anchor semantics, source dimensions, and researched thresholds that do not exist, and no threshold was invented in their place. No physical-fit, drape, sewability, manufacturing, or production-readiness claim is made.
 
-### Current coordination status — maintainer update 2026-09-19
+### Final Codex review and integration — 2026-09-20
 
-Epic 5 is complete and merged to origin/main. Epic 6 remains in progress under
-OpenCode through Slice 129. Slices 122–125 are the committed and reviewed
-foundation on origin/main; Slices 126–128 are the remaining implementation
-work, and Slice 129 is the planned cross-garment exit gate. Codex should not
-duplicate shared UI/save/export work while that external workstream is active.
-Slice 126 has completed its review and full gate. The next Codex action is to
-receive and review the completed Slice 129 diff, run the actual full gate, and
-either integrate it or fix only evidenced failures.
+OpenCode's stacked Slice 127–129 branches were reviewed against their actual
+diffs and fast-forward integrated by Codex in order. The resulting Epic 6 tree
+is now the GitHub `origin/main` baseline; no contributor branch pushed directly
+to `main`.
 
-Slice 126 is accepted and pushed to `origin/main` at `139dbd1`; PR #5 is closed
-and merged. The contributor baseline was `f7f2dba`, and the reviewed contributor
-head was `7c1348c06e9cedf73750518e955c44e2825d41b5`.
+The review gate passed in bounded serial mode on this Windows checkout:
+`npx vitest run --maxWorkers=1 --minWorkers=1` passed 93 files / 1,226 tests;
+`npm run coverage -- --maxWorkers=1 --minWorkers=1` passed 100% statements,
+branches, functions, and lines; `npx tsc --noEmit` and `npm run build` passed.
+The default parallel run had one accessibility timeout under host contention;
+the same test passed in isolation and in the complete serial gate. This is
+recorded as an execution-environment constraint, not a product failure.
+
+The explicit parsed consumer suite passed 18/18 across SVG, DXF, tiled PDF, A0
+PDF, projector SVG, and tech pack, including all eight unchanged legacy hashes.
+The Slice 129 mounted-app audit covered all seven garments, artwork panel,
+preview, print sheet, tech pack, save/load, warning dismissal/reappearance, and
+responsive widths 1280/900/700/560/390. No live physical or sewn evidence exists.
 
 ### Slice 126 — UI wiring (accepted and pushed)
 

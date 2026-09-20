@@ -11,10 +11,9 @@ and nothing is marked done that isn't. Estimates are marked as estimates.**
 
 ## 0. Where we actually are (honest baseline)
 
-**Current committed baseline:** origin/main at f7f2dba (2026-09-19), recording the
-Epic 6 foundation push. Epic 5 is complete; Epic 6 is in progress outside this
-checkout through OpenCode and remains subject to Codex review at Slice 129 before
-its remaining work is merged.
+**Current committed baseline:** origin/main contains the Codex-reviewed Epic 6
+exit (2026-09-20). Epic 5 and Epic 6 are complete; the next work is post-Epic 6
+quality, release, or deliberately selected product expansion.
 
 **Built and proven on the committed baseline:**
 
@@ -27,10 +26,12 @@ its remaining work is merged.
   and the full parsed-output/legacy-hash gate.
 - SVG, DXF, tiled PDF, A0 PDF, projector SVG, and tech-pack outputs with the
   eight unchanged legacy hashes and true-scale calibration contracts.
-- Epic 6 Slices 122–125: surface placement data/validation, transform math, and
-  a headless SVG preview overlay. The integration checkpoint passed 88 files /
-  1,139 tests, 100% coverage, typecheck, production build, parsed consumers,
-  and the eight legacy hashes. No surface behavior is wired into the app yet.
+- Epic 6 Slices 122–129: surface placement data/validation, transform math,
+  Style-panel/save wiring, true-scale preview, tech-pack placement, opt-in
+  calibrated print sheet, warn-only invalid-entry guidance, and the
+  cross-garment exit audit. The bounded serial gate passed 93 files / 1,226
+  tests, 100% coverage, typecheck, production build, parsed consumers, and the
+  eight legacy hashes. Surface state remains outside geometry and cutting.
 - The open-source audit is durable in
   docs/research/OPEN-SOURCE-REPOSITORY-AUDIT.md; its accepted candidates remain
   bounded test/accessibility/nesting options, not engine replacements.
@@ -44,47 +45,45 @@ drape simulation. Nesting is an estimator. Every one of those boundaries was
 documented honestly — but together they mean the tool's core promise ("drafts a
 real, cuttable garment") is **untested against physical reality**.
 
-This matters more than any feature on the wish list. If the tee doesn't fit a
-real body, then 12 more garment types are 12 more things that don't fit. Every
-roadmap item below is sequenced behind this.
+This matters more than any geometry or garment-expansion feature on the wish
+list. If the tee doesn't fit a real body, then 12 more garment types are 12
+more things that don't fit. Test hardening and desktop distribution work can
+continue independently, but no physical-fit or production-readiness claim may
+be made until this constraint is reopened.
 
 ### Current Now / Next / Later decision view
 
 This view supersedes the historical Slice 45 timeline below. It is the current
-planning surface for Codex after Epic 5 and while OpenCode completes Epic 6.
+planning surface for Codex after the completed Epic 6 integration.
 
 | Horizon | Initiative | Status / owner | Dependencies and exit |
 |---|---|---|---|
-| **Now** | **Epic 6 Slices 126–129** — wire placement into the shared UI/save seam, add tech-pack/print-ready output, add warn-only guidance, then run the cross-garment exit gate | **In progress — OpenCode**; Codex is the reviewer/integrator | Slice 129 handoff/PR, actual diff review, full 100%/build/parsed/8-hash/live gate; do not duplicate shared-file work |
-| **Now, Codex-ready when handed off** | **Epic 6 exit review and defect closure** | **Must — Codex** | Begins only when Slice 129 is complete enough to review; fixes are limited to evidenced failures and must preserve empty-placement byte identity |
-| **Next** | **Surface v1 stabilization** — follow-up only for defects found by Slice 129 or real user evidence | **Conditional** | Epic 6 exit report, rendered output evidence, and a reproducible failure; no speculative polish |
-| **Next** | **Quality hardening** — bounded fast-check properties plus a test-only @flatten-js/core oracle, including surface-placement invariants | **Not started — Codex candidate** | After Epic 6 exit; seeded/bounded CI, permanent regression fixtures, no production geometry replacement |
-| **Next** | **Desktop release readiness** — package verification, offline/native save checks, signing procurement and packaged smoke | **Research exists; implementation not started** | Explicit release decision, platform ownership, and a separate gate from surface work; no unverified Electron changes are merged |
+| **Done** | **Epic 6 Slices 122–129** — surface placement, preview, persistence, tech-pack/print output, warn-only guidance, and cross-garment exit | **Complete — Codex reviewed and pushed** | 93 files / 1,226 tests, 100% coverage, typecheck, build, parsed consumers, 8/8 legacy hashes; no physical-fit claim |
+| **Now** | **Quality hardening** — bounded fast-check properties plus a test-only @flatten-js/core oracle, including surface-placement invariants | **Codex candidate** | Seeded/bounded CI, permanent regression fixtures, no production geometry replacement; start only as an explicit Epic |
+| **Now / parallel-safe** | **Desktop release readiness** — package verification, offline/native save checks, signing procurement and packaged smoke | **Codex candidate** | Explicit release decision, platform ownership, and a separate gate from product work; no unverified Electron changes are merged |
+| **Next** | **Surface v1 stabilization** — follow-up only for a reproducible defect or real user evidence | **Conditional** | Epic 6 exit evidence plus a concrete failure; no speculative polish |
 | **Later** | **Garment expansion/refinement** — e.g. Polo V2 fidelity or shorts/jogger relationship | **Directional** | New garment research record, scoped construction decisions, and physical-validation policy; do not start merely because the engine can render it |
 | **Later / blocked** | **Physical fit validation** | **Blocked by maintainer constraint** | No manufacturer/printer is available; no sewn-fit claim or schedule until explicitly reopened |
 | **Deferred** | **Sparrow irregular nesting redesign** | **Research-approved, not scheduled** | Fabric-width, grain, nap, fold, pair/mirror and clearance semantics plus deterministic fallback and benchmark proof |
 
 ### Codex next-work options
 
-Once Slice 129 is handed off, Codex should choose one primary lane rather than
+After Epic 6, Codex should choose one primary lane rather than
 parallelizing across shared contracts:
 
-1. **Recommended: Epic 6 exit review → targeted fixes.** Highest sequencing
-   value and lowest coordination risk. It closes the active commitment and
-   establishes whether surface design is actually usable across all seven recipes.
-2. **Quality hardening.** Add property-based tests for placement, invalid-input
+1. **Quality hardening.** Add property-based tests for placement, invalid-input
    guidance, grading, geometry finiteness, deterministic serialization, and
    empty-placement export identity. This turns the open-source research into a
    small, reversible engineering gain without changing production behavior.
-3. **Desktop release readiness.** Convert the existing Electron research into a
+2. **Desktop release readiness.** Convert the existing Electron research into a
    bounded package/installer verification slice, then begin signing procurement
    only after a maintainer decision. This is valuable for distribution but has
    platform and signing dependencies.
-4. **Garment refinement.** Start a new research/contract slice for one chosen
+3. **Garment refinement.** Start a new research/contract slice for one chosen
    garment refinement only after the owner selects it and physical-validation
    limitations are explicit. This is the largest geometry/product-risk option.
 
-Options 2–4 must not preempt the Slice 129 review. The open-source audit does not
+These options must be separately scoped before implementation. The open-source audit does not
 authorize direct reuse of a drafting engine, VTO/3D stack, or linter as a
 replacement for InfiniDrip's own contracts.
 
@@ -415,8 +414,8 @@ single curve in patternmaking and should be expected to take longer than it look
 
 | # | Item | Est. | Current status |
 |---|---|---|---|
-| 3.1 | Artwork placement layer (prints, patches, colour blocking) on existing SVG pieces — **library decision made: Fabric.js** (MIT, TypeScript-native, built-in SVG↔canvas parser, drag/scale/rotate/clip out of the box; originally built for exactly this — apparel artwork placement. Verified in ASSET-RESOURCES.md.) | 6–10 slices | **Epic 6 in progress:** additive foundation Slices 122–125 committed; UI wiring remains Slice 126 and exit review remains Slice 129 |
-| 3.2 | Print/embroidery-ready output + placement spec in tech pack | 4–8 slices | **Planned inside Epic 6:** Slice 127; embroidery machine formats remain out of scope |
+| 3.1 | Artwork placement layer (prints, patches, colour blocking) on existing SVG pieces — Fabric.js remains a verified but unneeded optional proof, not a runtime dependency | 6–10 slices | **Complete in Epic 6:** Slices 122–129 provide the model/UI/preview/output/guidance/exit; surface remains geometry-independent |
+| 3.2 | Print/embroidery-ready output + placement spec in tech pack | 4–8 slices | **Complete in Epic 6:** Slice 127 shipped calibrated print sheet and tech-pack placement; embroidery machine formats remain out of scope |
 
 Can run in parallel with Priority 2 because it doesn't touch geometry.
 

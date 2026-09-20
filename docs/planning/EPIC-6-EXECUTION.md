@@ -86,15 +86,13 @@ Model + math + headless preview are proven without touching shared UI. The curre
 decision point is the Codex review on top of the landed EPIC-5 merge; no wiring is
 accepted until the full additive gate and durable-context update pass.
 
-### Current coordination status — 2026-09-19
+### Final coordination status — 2026-09-20
 
-The maintainer confirms EPIC-5 is complete and merged to origin/main. OpenCode is
-continuing EPIC-6 through Slice 129. Slices 122–125 are the committed foundation
-reviewed at Checkpoint A, and Slice 126 has now passed Codex review and the full
-gate in the local integration merge. Slices 127–128 and the 129 exit gate remain
-external work to review; Codex owns the eventual diff review, full verification
-gate, durable-context reconciliation, and merge decision. Do not start
-overlapping UI/save/export implementation in parallel.
+EPIC-5 and EPIC-6 are complete and merged to `origin/main`. OpenCode delivered
+the stacked Slice 127–129 contributors; Codex reviewed the actual diffs,
+fast-forward integrated them in order, ran the complete bounded serial gate,
+reconciled durable context, and pushed the final baseline. No contributor branch
+pushed directly to `main`, and no overlapping implementation remains active.
 
 ### Slice 126 — UI wiring (post-rebase only)
 
@@ -186,18 +184,18 @@ the explicit parsed consumer suite passed 18/18 including all eight legacy
 hashes, and no geometry/grading/export-truth change was required. No
 physical-fit, manufacturing, or production-readiness claim is made.
 
-Integration record: PR #5 was merged by Codex from contributor head
+Historical integration record: PR #5 was merged by Codex from contributor head
 `7c1348c06e9cedf73750518e955c44e2825d41b5` with review corrections in merge
-commit `139dbd1e86b045ca54cb1a6a07f6d3d315fa67ba`, and `origin/main` now points
-to that commit. Slices 127–129 remain unmerged external work.
+commit `139dbd1e86b045ca54cb1a6a07f6d3d315fa67ba`. Slices 127–129 were then
+reviewed and integrated in the final Epic 6 push.
 
-## Slice 129 — EPIC-6 exit gate (review-ready, not merged)
+## Slice 129 — EPIC-6 exit gate (accepted and merged)
 
 Branch `opencode/slice-129-surface-exit`, stacked on the Slice 128 branch.
-Slice 127 → Slice 128 → Slice 129 merge bottom-up; no branch in the chain
-touches `main` directly.
+Slice 127 → Slice 128 → Slice 129 were reviewed and integrated bottom-up by
+Codex; no branch in the chain touched `main` directly.
 
-## Slice 127 — tech-pack spec plus opt-in print output (review-ready, not merged)
+## Slice 127 — tech-pack spec plus opt-in print output (accepted and merged)
 
 Branch `opencode/slice-127-surface-output` from clean `origin/main` at
 `6f21ccb` (Slice 126 already merged, so no stacking was needed).
@@ -221,7 +219,7 @@ them), coverage held at 100% across all four metrics, no geometry/grading/
 export-truth change was required. No physical-fit, manufacturing, or
 production-readiness claim is made.
 
-## Slice 128 — guidance warnings (review-ready, not merged)
+## Slice 128 — guidance warnings (accepted and merged)
 
 Branch `opencode/slice-128-surface-guidance`, stacked on the Slice 127
 branch (shared doc regions resolved here; code regions were disjoint).
@@ -250,7 +248,7 @@ across all four metrics, no geometry/grading/export-truth change was
 required, no baseline moved. No physical-fit, manufacturing, or
 production-readiness claim is made.
 
-## Epic 6 exit report — review-ready, not merged
+## Epic 6 exit report — complete and merged
 
 Delivered across Slices 122–129: a headless placement contract (model,
 validation, math, overlay renderer), Style-panel artwork sets per
@@ -269,14 +267,18 @@ machine formats, photo workflows, 3D, vendor, signing, and packaging work;
 any physical-fit, drape, sewability, manufacturing, or production-readiness
 claim.
 
-Evidence on the stacked chain: full suite green with 100% statements,
-branches, functions, and lines; typecheck and production build green;
+Evidence on the stacked chain: bounded serial full suite green at 93 files /
+1,226 tests with 100% statements, branches, functions, and lines; typecheck
+and production build green;
 parsed SVG/DXF/tiled-PDF/A0/projector/tech-pack consumers green including
 all eight legacy hashes with artwork present in state; cross-garment
 panel/preview/sheet/tech-pack/save/load audit green; jsdom width rendering
-at 1280/900/700/560/390 without errors. Live-browser responsive and console
-proof remains Codex-side before any merge.
+at 1280/900/700/560/390 without errors. The final review recorded the mounted
+app audit and serial full gate; no physical or sewn validation is implied.
 
-`docs/PROJECT-DECISIONS.md` is intentionally untouched by this Epic: no new
-maintainer decision was made here, and the three blocked-warning questions
-await the maintainer rather than answering themselves.
+The default parallel test run hit one accessibility timeout under host
+contention; the same test passed in isolation and in the complete serial gate.
+This is recorded as an execution-environment constraint, not a product failure.
+`docs/PROJECT-DECISIONS.md` records the shipped additive save-section and the
+remaining blocked-warning questions; no new product decision was invented for
+those questions.

@@ -238,14 +238,16 @@ accessibility trial uses `axe-core` only in development tests; jsdom's
 layout-dependent color contrast is reviewed manually in the live browser. No
 physical-fit or production-readiness claim is permitted.
 
-## Epic 6 — Surface design foundation — confirmed 2026-09-19
+## Epic 6 — Surface design — completed 2026-09-20 (originally confirmed 2026-09-19)
 
 Surface design is an additive layer for prints, patches, colour blocking, and
-fabric-preview decoration. It must sit above existing pattern pieces and never
-modify drafting geometry, grading, POM checks, nesting, cutting files, or legacy
-export bytes when placement is empty. The first foundation remains headless:
-placement data and validation, true-scale transform/bounds/resolution math, and
-an escaped SVG overlay renderer are separate pure modules with no app wiring.
+fabric-preview decoration. It sits above existing pattern pieces and never
+modifies drafting geometry, grading, POM checks, nesting, cutting files, or
+legacy export bytes when placement is empty. Epic 6 is complete: the headless
+contract, Style-panel wiring, optional save/recovery section, true-scale
+artwork-space preview, opt-in calibrated print sheet, tech-pack placement
+specification, warn-only invalid-entry guidance, and seven-garment exit audit
+are merged to `origin/main`.
 
 OpenCode PRs #1–#4 are the reviewed Slices 122–125 batch. Their original base
 was the Epic 4 exit, so they are integrated only after review on top of the Epic
@@ -257,8 +259,12 @@ non-positive resolution inputs are unratable. Surface preview is flat artwork
 placement and makes no physical-fit, drape, sewability, manufacturing, or
 production-readiness claim.
 
-Future UI wiring, piece clipping, actionable out-of-bounds/low-resolution/
-ink-coverage guidance, tech-pack placement specification, print-ready output,
-and the cross-garment Epic 6 exit gate remain unimplemented and separately
-gated. Fabric.js may be used only after exact version/license/import fidelity
-are proven in-repo or the Epic records a stop.
+Piece clipping/on-piece anchoring and actionable out-of-bounds, low-resolution,
+and ink-coverage warnings remain explicitly blocked: the product has no anchor
+semantics, source-dimension field, or researched production thresholds. No
+threshold or silent correction was invented. Fabric.js was proven in a scratch
+round-trip but not added because the shipped numeric-control/string-SVG
+consumer needs no canvas dependency; any future direct manipulation must
+re-verify the then-current version and license before adoption. Embroidery
+machine formats, 3D/VTO, signing, packaging, and physical validation remain
+outside this Epic.

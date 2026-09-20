@@ -151,7 +151,27 @@ and the rendered/live seven-garment plus responsive matrix is recorded in the
 Epic 5 exit report. This remains digital evidence only; physical fit, sewn
 validation and production readiness are deferred.
 
-## Epic 6 surface foundation — Slices 122–125 integration checkpoint
+## Epic 6 surface design — completed Slices 122–129
+
+Epic 6 is complete and merged to `origin/main`. Surface design is an additive
+layer above existing pattern pieces: it owns artwork placement, preview,
+optional save/recovery state, print-sheet output, tech-pack placement
+specification, and warn-only invalid-entry guidance. It does not modify
+drafting, grading, POM checks, nesting, cutting writers, or export gating.
+Empty artwork preserves the eight legacy export hashes. The shipped preview and
+print sheet are artwork-space, true-scale digital outputs; they are not drape,
+fit, sewability, manufacturing, or production-readiness simulations.
+
+The final Slice 129 mounted-app audit covers all seven recipes and one style's
+artwork through the panel, preview, print sheet, tech pack, save/load,
+warning dismissal/reappearance, and responsive widths. Out-of-bounds,
+resolution-floor, and ink-coverage warnings remain blocked because anchor
+semantics, source dimensions, and researched thresholds were not defined; no
+threshold was invented. On-piece anchoring/clipping, embroidery machine
+formats, 3D/VTO, signing, packaging, and physical validation remain out of
+scope.
+
+### Epic 6 foundation checkpoint — Slices 122–125 (historical)
 
 Surface design is an additive layer above existing pattern pieces. The current
 foundation has no app wiring and therefore cannot change drafting, grading,
@@ -204,16 +224,15 @@ canvas target to anchor a cue to. Out-of-bounds, resolution-floor, and
 ink-coverage warnings stay explicitly unbuilt: no anchor semantics, no
 source dimensions, no researched thresholds, no invented numbers.
 
-Slice 126 is now integrated and pushed at `139dbd1` after Codex review. The shared architecture
-still keeps surface state outside drafting, grading, checks, nesting, export
-gating, and cutting-file writers: native surface text/number edits commit on
-focusout without replacing the active control, selects commit on change, and
-steppers use a private surface-step event. Codex live-checked direct entry,
-invalid placement recovery, persistence, style isolation, all seven garments,
-assembled preview, responsive widths 1280/900/700/560/390×844, and a clean
-console. Slices 127–129 remain the tech-pack/print-ready, guidance, and
-cross-garment exit boundary; no physical-fit, manufacturing, or
-production-readiness claim is implied.
+Slices 126–129 are now integrated and pushed after Codex review. The shared
+architecture still keeps surface state outside drafting, grading, checks,
+nesting, export gating, and cutting-file writers: native surface text/number
+edits commit on focusout without replacing the active control, selects commit
+on change, and steppers use a private surface-step event. The mounted-app exit
+audit covers direct entry, invalid placement recovery, persistence, style
+isolation, all seven garments, assembled preview, print sheet, tech pack,
+warning dismissal/reappearance, and responsive widths 1280/900/700/560/390.
+No physical-fit, manufacturing, or production-readiness claim is implied.
 
 Slice 129 closes the Epic with a cross-garment exit audit and no new product
 surface: one style's artwork end to end on all seven garments through the

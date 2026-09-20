@@ -1,6 +1,7 @@
 # Surface Design — Research Record
 
-_Slice 122, EPIC-6 foundation. Docs-only. No code, geometry, or export behavior changes in this slice._
+_Slice 122 foundation record; Epic 6 exit reconciled 2026-09-20. The research
+record remains the source for shipped boundaries and deferred questions._
 
 ## Why this Epic exists
 
@@ -9,8 +10,8 @@ details that change pattern geometry (pockets, darts, plackets, collars — deep
 work, already covered by Epics 1–4), and (b) surface design that does not change
 geometry (prints, patches, colour blocking, fabric preview). This Epic is (b) only.
 
-PROJECT-DECISIONS records surface design as a separate later Epic after the trouser
-block, explicitly independent from unfinished garment geometry. MVP-PLAN §3.3 keeps
+PROJECT-DECISIONS originally recorded surface design as a separate later Epic after
+the trouser block, explicitly independent from unfinished garment geometry. MVP-PLAN §3.3 keeps
 prints, patches, colour blocking, and fabric preview in scope, and keeps embroidery
 machine formats (DST/PES) out as a v2 file-writer.
 
@@ -33,9 +34,10 @@ deferred and must re-verify the then-current version before a dependency lands.
    explicit z-order. Nothing in `Piece`, `Block`, `Stitch`, or the grammar changes.
 3. Preview is honest: a flat placement preview, never a drape simulation. No fit or
    sewability claim comes from artwork.
-4. Persistence is versioned. Placement state rides the existing save format as a new
-   versioned section; old saves load with empty placement. Raw invalid placement
-   values stay visible and get guidance; nothing silently clamps.
+4. Persistence is additive. Placement state rides the existing save/recovery format
+   as an optional section with no format-version bump; old saves load with empty
+   placement. Raw invalid placement values stay visible and get guidance; nothing
+   silently clamps.
 5. Exports keep true scale. Cutting files (SVG/DXF/tiled PDF/A0/projector) are
    byte-identical when placement is empty. Print/embroidery placement appears only
    as a placement spec addition to the tech pack plus an opt-in print-ready output;
@@ -54,6 +56,18 @@ deferred and must re-verify the then-current version before a dependency lands.
   decided in Slice 123: default is per style, shared across sizes, recorded explicitly.
 - Print-vendor file requirements beyond the tech-pack spec page are out of scope;
   Slice 127 records what the spec page carries and what it does not promise.
+
+## Epic 6 exit reconciliation (2026-09-20)
+
+Slices 122–129 are merged to `origin/main`. The shipped scope includes the
+headless model/math/overlay, Style-panel placement sets per garment/style,
+optional persistence, true-scale artwork-space preview, opt-in calibrated print
+sheet, tech-pack placement page, and warn-only invalid-entry guidance. The
+cross-garment mounted-app audit covers all seven recipes. Piece clipping and
+on-piece anchoring, out-of-bounds/resolution-floor/ink-coverage thresholds,
+embroidery machine formats, 3D/VTO, and physical validation remain deferred or
+blocked exactly as recorded below; no production-readiness claim follows from
+this digital evidence.
 
 ## Estimates vs decisions
 
