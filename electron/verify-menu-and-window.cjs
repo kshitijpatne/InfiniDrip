@@ -8,26 +8,21 @@
 //      close (triggers the real synchronous save), relaunch with the SAME
 //      profile, and the new window opens at the saved bounds — not a fresh
 //      profile, on purpose, since persistence is exactly what's under test.
-const { _electron: electron } = require("playwright");
 const path = require("path");
 const fs = require("fs");
 const os = require("os");
+const {
+  launch: launchApp,
+  startPreviewServer,
+} = require("./verify-common.cjs");
 
-const ROOT = __dirname.endsWith("electron") ? path.join(__dirname, "..") : __dirname;
 const OUT = path.join(os.tmpdir(), "infinidrip-verify-menu.svg");
 
 const PACKAGED = process.argv.includes("--packaged");
+let devServer;
 
 async function launch(userDataDir) {
-  return PACKAGED
-    ? electron.launch({
-        executablePath: path.join(ROOT, "release/linux-unpacked/InfiniDrip"),
-        args: ["--no-sandbox", `--user-data-dir=${userDataDir}`],
-      })
-    : electron.launch({
-        args: [path.join(ROOT, "dist-electron/main.cjs"), "--no-sandbox", `--user-data-dir=${userDataDir}`],
-        executablePath: require("electron"),
-      });
+  return launchApp({ packaged: PACKAGED, userDataDir, devServerUrl: devServer?.url });
 }
 
 async function reachApp(win) {
@@ -42,11 +37,26 @@ async function reachApp(win) {
   } catch {
     // Already past the welcome step on this profile — nothing to skip.
   }
+  if (await win.locator("#export-svg").isVisible()) return;
+  const fit = win.locator("#journey-step-fit");
+  if (await fit.count() && await fit.isVisible()) {
+    await fit.click();
+    await new Promise((resolve) => setTimeout(resolve, 150));
+  }
+  for (let step = 0; step < 2; step += 1) {
+    if (await win.locator("#export-svg").isVisible()) return;
+    const next = win.locator("#journey-next");
+    if (!await next.isVisible()) break;
+    if (await next.isDisabled()) throw new Error(`Journey blocked before export: ${await win.locator("#journey-blocker").textContent()}`);
+    await next.click();
+    await new Promise((resolve) => setTimeout(resolve, 150));
+  }
   await win.waitForSelector("#export-svg", { timeout: 15000, state: "visible" });
 }
 
 async function main() {
   let allOk = true;
+  if (!PACKAGED) devServer = await startPreviewServer();
   const userDataDir = fs.mkdtempSync(path.join(os.tmpdir(), "infinidrip-verify-menu-"));
 
   // ── 1 & 2: identity + menu-triggered export ──────────────────────────────
@@ -164,11 +174,13 @@ async function main() {
   }
 
   fs.rmSync(userDataDir, { recursive: true, force: true });
+  devServer?.stop();
   console.log(allOk ? "ALL PASS" : "SOME FAILED");
   process.exit(allOk ? 0 : 1);
 }
 
 main().catch((e) => {
+  devServer?.stop();
   console.error("VERIFY FAILED:", e);
   process.exit(1);
 });

@@ -33,6 +33,22 @@ order is: Codex EPIC 9 Slices 135–139, then isolated Claude EPIC 10 Slices
 140–144, then Codex integration and the complete final gate. EPIC 7 remains
 independent and must not edit this checkout.
 
+### EPIC 9 — implementation complete on the supported host
+
+The Codex-owned Electron readiness scope is implemented. The self-contained
+developer harness covers offline unpacked launch, fresh and malformed state,
+native-save success/cancel/write failure, all six exports through button and
+menu routes, activation, close/relaunch, malformed window state, package
+inventory, parsed output structure, and rendered screenshots. The Windows x64
+unpacked artifact passed twice with the same package manifest hash. The
+durable evidence is `docs/release/EPIC-9-EXIT-REPORT.md`; raw evidence remains
+under `tmp/epic9-release/`. Signing, updater, installer, and unsupported-OS
+claims remain explicitly unverified.
+
+EPIC 10 is the remaining active implementation lane. It must start from the
+Codex-reviewed EPIC 9 result in an isolated Claude Code worktree and remain
+test/developer-only.
+
 ### Epic 6 — complete and pushed (Slices 122–130)
 
 Slice 130 completes the previously blocked surface guidance boundary. It adds

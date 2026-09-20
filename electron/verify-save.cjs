@@ -1,89 +1,87 @@
-// electron/verify-save.cjs — Slice 46's end-to-end proof that native save
-// actually works, not just that the code compiles.
+// Developer-only end-to-end proof of the native save bridge.
 //
-// This is NOT part of `npm run coverage`. It can't be: jsdom (what the
-// Vitest suite runs under) has no real IPC, no real save dialog, and no real
-// filesystem. Everything in src/ui/app.test.ts about the electronAPI branch
-// proves the RENDERER calls the bridge correctly — it necessarily mocks the
-// bridge itself. This script is the other half: it launches the REAL
-// Electron app (main process + preload + the real built renderer), stubs
-// only the one piece that can't be automated (a human clicking a native OS
-// file picker), and confirms a real file lands on disk with real content.
-//
-// Run it after `npm run build && npm run electron:build-main`:
-//   node electron/verify-save.cjs            (dev mode: point --dev's
-//                                              VITE_DEV_SERVER_URL at a
-//                                              `npm run dev` you already have
-//                                              running in another terminal)
-//   node electron/verify-save.cjs --packaged (against a real `npm run
-//                                              electron:pack` output —
-//                                              defaults to the Linux
-//                                              "release/linux-unpacked"
-//                                              layout; edit PACKAGED_EXE
-//                                              below for macOS/Windows)
-//
-// In CI or a headless container, run under xvfb-run (Electron needs a
-// display even to boot the renderer): `xvfb-run -a node electron/verify-save.cjs`
-const { _electron: electron } = require("playwright");
-const path = require("path");
-const fs = require("fs");
-const os = require("os");
+// This launches the real Electron main process, preload, and built renderer.
+// Only the native OS picker is stubbed; the IPC call, renderer export, main
+// process write, and file inspection remain real. The dev mode starts a local
+// Vite preview itself so the verification command is reproducible from a
+// clean checkout. `--packaged` selects the host-supported unpacked artifact.
+const fs = require("node:fs");
+const path = require("node:path");
+const {
+  closeApp,
+  launch,
+  makeTempDir,
+  removeTempDir,
+  startPreviewServer,
+} = require("./verify-common.cjs");
 
-const ROOT = path.join(__dirname, "..");
 const PACKAGED = process.argv.includes("--packaged");
-const OUT = path.join(os.tmpdir(), "infinidrip-verify-save.svg");
 
-// Electron persists localStorage across launches by default — the same
-// journey-progress persistence that makes the app usable is why a SECOND run
-// against a REUSED profile would silently skip the welcome card (this was
-// chased down as a real, reproducible false alarm while building this
-// script: the app was working the whole time). A fresh profile per run keeps
-// this script's own repeated invocations from confusing each other; a real
-// installed app correctly keeps one profile forever.
-const userDataDir = fs.mkdtempSync(path.join(os.tmpdir(), "infinidrip-verify-"));
+async function reachExportStage(win) {
+  await win.waitForSelector("#infini-shell", { state: "attached", timeout: 15000 });
+  for (const id of ["#welcome-skip", "#welcome-start"]) {
+    const button = win.locator(id);
+    if (await button.count() && await button.first().isVisible()) {
+      await button.first().click();
+      break;
+    }
+  }
+  if (await win.locator("#export-svg").isVisible()) return;
+  const fit = win.locator("#journey-step-fit");
+  if (await fit.count() && await fit.isVisible()) {
+    await fit.click();
+    await new Promise((resolve) => setTimeout(resolve, 150));
+  }
+  for (let step = 0; step < 2; step += 1) {
+    if (await win.locator("#export-svg").isVisible()) return;
+    const next = win.locator("#journey-next");
+    if (!await next.isVisible()) break;
+    if (await next.isDisabled()) throw new Error(`Journey blocked before export: ${await win.locator("#journey-blocker").textContent()}`);
+    await next.click();
+    await new Promise((resolve) => setTimeout(resolve, 150));
+  }
+  await win.waitForSelector("#export-svg", { state: "visible", timeout: 20000 });
+}
 
 async function main() {
-  if (fs.existsSync(OUT)) fs.unlinkSync(OUT);
+  const userDataDir = makeTempDir("infinidrip-verify-save-");
+  const outputDir = makeTempDir("infinidrip-verify-save-output-");
+  let server;
+  let app;
+  let ok = false;
+  try {
+    if (!PACKAGED) server = await startPreviewServer();
+    app = await launch({
+      packaged: PACKAGED,
+      userDataDir,
+      devServerUrl: server?.url,
+    });
+    const outputPath = path.join(outputDir, "saved.svg");
+    await app.evaluate(({ dialog }, config) => {
+      dialog.showSaveDialog = async () => ({ canceled: false, filePath: config.outputPath });
+    }, { outputPath });
 
-  const app = PACKAGED
-    ? await electron.launch({
-        executablePath: path.join(ROOT, "release/linux-unpacked/InfiniDrip"),
-        args: ["--no-sandbox", `--user-data-dir=${userDataDir}`],
-      })
-    : await electron.launch({
-        args: [path.join(ROOT, "dist-electron/main.cjs"), "--no-sandbox", `--user-data-dir=${userDataDir}`],
-        executablePath: require("electron"),
-      });
-
-  // Stub dialog.showSaveDialog in the REAL main process — the one piece a
-  // script can't click. Everything downstream (the IPC channel, the actual
-  // fs.writeFile in electron/main.cts) is the real, unmodified code.
-  await app.evaluate(async ({ dialog }, outPath) => {
-    dialog.showSaveDialog = async () => ({ canceled: false, filePath: outPath });
-  }, OUT);
-
-  const win = await app.firstWindow();
-  await win.waitForSelector("#welcome-start, #export-svg", { timeout: 15000 });
-  const skip = win.locator("#welcome-skip");
-  if (await skip.count()) await skip.first().click();
-  await win.waitForSelector("#export-svg", { timeout: 15000, state: "visible" });
-  await win.click("#export-svg");
-
-  await new Promise((r) => setTimeout(r, 500)); // the save is async (ipcRenderer.invoke)
-
-  const written = fs.existsSync(OUT);
-  const content = written ? fs.readFileSync(OUT, "utf-8") : "";
-  const ok = written && content.includes("<svg");
-
-  console.log(`[${PACKAGED ? "packaged" : "dev"}] file written: ${written}, real SVG content: ${content.includes("<svg")}, ${content.length} bytes`);
-  console.log(ok ? "PASS" : "FAIL");
-
-  await app.close();
-  fs.rmSync(userDataDir, { recursive: true, force: true });
+    const win = await app.firstWindow();
+    await reachExportStage(win);
+    await win.click("#export-svg");
+    // The renderer completes the IPC asynchronously. The filesystem is the
+    // authoritative assertion for this bridge, not the transient status copy.
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    const written = fs.existsSync(outputPath);
+    const content = written ? fs.readFileSync(outputPath, "utf8") : "";
+    const hasSvg = /<svg(?:\s|>)/i.test(content);
+    ok = written && hasSvg;
+    console.log(`[${PACKAGED ? "packaged" : "dev"}] file written: ${written}, real SVG content: ${hasSvg}, ${content.length} bytes`);
+    console.log(ok ? "PASS" : "FAIL");
+  } catch (error) {
+    console.error("VERIFY FAILED:", error);
+  } finally {
+    await closeApp(app);
+    server?.stop();
+    removeTempDir(userDataDir);
+    removeTempDir(outputDir);
+  }
   process.exit(ok ? 0 : 1);
 }
 
-main().catch((e) => {
-  console.error("VERIFY FAILED:", e);
-  process.exit(1);
-});
+void main();

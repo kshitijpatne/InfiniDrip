@@ -1,6 +1,6 @@
 # EPIC 9 — Desktop Release Readiness
 
-Status: **SCOPED — Codex-owned; implementation starts only after this packet is committed**
+Status: **IMPLEMENTED — Codex-owned; final overall EPIC 9–10 gate remains open**
 
 ## Baseline and objective
 
@@ -218,6 +218,34 @@ artifact-manifest hashes belong in `docs/release/EPIC-9-EXIT-REPORT.md`.
   point, but it must not edit Electron files or release behavior.
 - No two agents share a checkout or edit the same package manifest, lockfile,
   export contract, or durable state file concurrently.
+
+## Implementation checkpoint — 2026-09-20
+
+Slices 135–139 are implemented on the Slice 130 descendant. The bounded
+developer harness now resolves the current host's unpacked artifact instead of
+assuming Linux, starts its own local preview for the dev-shell check, isolates
+profiles, captures rendered screenshots, and records parsed output/package
+hashes. The Electron shell now rejects malformed finite/window-state fields
+instead of spreading stale types into `BrowserWindow`, and a profile write
+failure cannot turn a normal close into an application crash. Packaging is
+explicitly `electron-builder --dir --publish never`; no signing or updater
+behavior was added.
+
+The durable evidence report is
+`docs/release/EPIC-9-EXIT-REPORT.md`. Raw output and rendered evidence from the
+current Windows host are under `tmp/epic9-release/` and are intentionally not
+part of the product package. The report records the exact supported artifact,
+commands, output hashes, failure injections, window-state tolerance, and the
+unsupported-platform boundary.
+
+The implementation gate passed serially: 94 files / 1,255 tests, 100%
+statements/branches/functions/lines, typecheck, production build, Electron
+main build, dev and packaged save checks, dev and packaged menu/window checks,
+the complete packaged release harness, and two consecutive package builds with
+the same 72-file package manifest SHA-256. The Windows Authenticode check was
+`NotSigned`; this is recorded as an expected release boundary, never as a
+signed-release claim. The eight legacy hashes and parsed-output gate remain
+unchanged.
 
 ## Final exit criteria
 

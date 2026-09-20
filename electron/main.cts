@@ -51,9 +51,17 @@ function loadWindowState(): WindowState {
     const parsed = JSON.parse(readFileSync(stateFile(), "utf-8")) as Partial<WindowState>;
     // A corrupted or ancient file must never be able to open an unusably
     // small window — fall back to the default rather than trust it blindly.
-    if (typeof parsed.width === "number" && parsed.width >= 400 &&
-        typeof parsed.height === "number" && parsed.height >= 300) {
-      return { ...DEFAULT_STATE, ...parsed };
+    if (typeof parsed.width === "number" && Number.isFinite(parsed.width) && parsed.width >= 400 &&
+        typeof parsed.height === "number" && Number.isFinite(parsed.height) && parsed.height >= 300) {
+      const x = typeof parsed.x === "number" && Number.isFinite(parsed.x) ? parsed.x : undefined;
+      const y = typeof parsed.y === "number" && Number.isFinite(parsed.y) ? parsed.y : undefined;
+      return {
+        width: parsed.width,
+        height: parsed.height,
+        ...(x === undefined ? {} : { x }),
+        ...(y === undefined ? {} : { y }),
+        isMaximized: parsed.isMaximized === true,
+      };
     }
   } catch {
     // No saved state yet, or it's unreadable — the default is the honest fallback.
@@ -62,14 +70,19 @@ function loadWindowState(): WindowState {
 }
 
 function saveWindowState(win: BrowserWindow): void {
-  const isMaximized = win.isMaximized();
-  // getNormalBounds(), not getBounds(), when maximized — saving the maximized
-  // (screen-filling) size as the "restored" size would grow the window every
-  // launch on a smaller second monitor.
-  const bounds = isMaximized ? win.getNormalBounds() : win.getBounds();
-  const state: WindowState = { ...bounds, isMaximized };
-  mkdirSync(path.dirname(stateFile()), { recursive: true });
-  writeFileSync(stateFile(), JSON.stringify(state), "utf-8");
+  try {
+    const isMaximized = win.isMaximized();
+    // getNormalBounds(), not getBounds(), when maximized — saving the maximized
+    // (screen-filling) size as the "restored" size would grow the window every
+    // launch on a smaller second monitor.
+    const bounds = isMaximized ? win.getNormalBounds() : win.getBounds();
+    const state: WindowState = { ...bounds, isMaximized };
+    mkdirSync(path.dirname(stateFile()), { recursive: true });
+    writeFileSync(stateFile(), JSON.stringify(state), "utf-8");
+  } catch {
+    // A read-only profile must not turn an ordinary close into an app crash.
+    // The next launch will use the safe default state.
+  }
 }
 
 // ── menu ──────────────────────────────────────────────────────────────────────

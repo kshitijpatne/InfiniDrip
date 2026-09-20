@@ -458,6 +458,13 @@ persistence contracts. Offline packaged evidence is host/package-specific;
 signing, updater feeds, installers, and cross-OS claims remain outside the
 architecture until separately authorized and evidenced.
 
+The current EPIC 9 evidence is recorded in
+`docs/release/EPIC-9-EXIT-REPORT.md`: the supported result is a Windows x64
+unpacked package with native-save and menu/window checks. The package is not
+signed, and no installer, update feed, or other operating-system result is
+implied. Release verification is a developer harness boundary; it does not
+become a second export or persistence implementation.
+
 EPIC 10's property generators, fixtures, and `@flatten-js/core` comparisons
 are test-only. They inspect existing flattened geometry and serialization
 contracts; they are not alternate drafting truth and cannot enter production

@@ -71,6 +71,9 @@ snapshots; they are not current status.
 - `docs/planning/EPIC-10-EXECUTION.md` — Claude Code test-only adversarial
   hardening scope, seeded-property/oracle boundary, handoff prompt, and exit
   gate.
+- `docs/release/EPIC-9-EXIT-REPORT.md` — current-host packaged release
+  evidence, failure matrix, artifact hashes, and explicit signing/platform
+  limitations.
 
 ## Research documents
 
