@@ -362,10 +362,10 @@ ready-to-pull backlog. EPIC 7 is the explicit conscious decision to implement
 
 | # | Item | Rides | Natural attach point | Status |
 |---|---|---|---|---|
-| 0.5.1 | **Waste-% readout** on the nesting view | nesting (shipped) | anywhere — fully independent | **EPIC 7 / Slice 132–133** — exact utilization-derived readout |
-| 0.5.2 | **Fabric-first "will it fit?"** — enter fabric on hand, get fits/short-by-X + layout | nesting (shipped) | same as 0.5.1 | **EPIC 7 / Slice 132–133** — optional positive length, blank means unknown |
-| 0.5.3 | **Nap / directional-print flag** in nesting | nesting (shipped) | bundle with 0.5.1 | **EPIC 7 / Slice 132–133** — truthful advisory, no rotation |
-| 0.5.4 | **Cutting-buffer setting** (default ~10–15%, editable) | fabric estimate | bundle with 0.5.1 | **EPIC 7 / Slice 132–133** — 10% default, 0–50% bounds |
+| 0.5.1 | **Waste-% readout** on the nesting view | nesting (shipped) | anywhere — fully independent | **EPIC 7 / Slices 132–134 (review-ready, not merged)** — exact utilization-derived readout |
+| 0.5.2 | **Fabric-first "will it fit?"** — enter fabric on hand, get fits/short-by-X + layout | nesting (shipped) | same as 0.5.1 | **EPIC 7 / Slices 132–134 (review-ready, not merged)** — optional positive length, blank means unknown |
+| 0.5.3 | **Nap / directional-print flag** in nesting | nesting (shipped) | bundle with 0.5.1 | **EPIC 7 / Slices 132–134 (review-ready, not merged)** — truthful advisory, no rotation |
+| 0.5.4 | **Cutting-buffer setting** (default ~10–15%, editable) | fabric estimate | bundle with 0.5.1 | **EPIC 7 / Slices 132–134 (review-ready, not merged)** — 10% default, 0–50% bounds |
 | 0.5.5 | **Per-edge variable seam allowance** (hem ≠ fly ≠ waistband) | seam-allowance engine | Priority 2.3 trouser (fly/waistband need it anyway) | Backlog |
 | 0.5.6 | **Checker rule: new seamline has seam allowance** | checker (shipped) | Priority 1.1/1.2 (components create new seamlines) | Backlog |
 | 0.5.7 | **Seam & stitch type notation** on pattern + tech pack (original artwork only — do not copy Fashion Design Central's assets) | tech pack, named edges | anywhere | Backlog |

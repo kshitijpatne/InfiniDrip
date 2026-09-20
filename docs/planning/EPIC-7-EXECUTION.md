@@ -204,8 +204,18 @@ planned, waste %, on-hand state, fits/short-by-X verdict, nap notice) to the
 fabric view, plus an optional additive save/recovery section with no version
 bump: valid values round-trip, missing sections load defaults, malformed
 current sections reject visibly, and raw invalid recovery entries restore
-verbatim. Invalid inputs stay visible with field-linked guidance that never
-pauses the draft or gates exports. Cutting buffer, on-hand, and nap state
+verbatim. Invalid inputs stay visible with field-linked guidance and never
+pause the draft or gate exports. Cutting buffer, on-hand, and nap state
 are global like fabric width; metrics recompute per draft so garment/style
 switches cannot leak stale values. Difficulty rating stays deferred; no
 rotation, interlocking, geometry, grain, export, or legacy-byte change.
+
+### Slice 134 — seven-garment exit audit and release report (review-ready, not merged)
+
+Same branch. Exit audit proving empty, valid, invalid, too-short, and
+too-narrow planning states plus deterministic scope round-trips, per-garment
+save/load, and responsive rendering on all seven garments through the real
+mounted app; `docs/release/EPIC-7-EXIT-REPORT.md` records commands, evidence,
+limitations, and defects. Parsed SVG/DXF/tiled-PDF/A0/projector/tech-pack
+consumers and all eight legacy hashes verified with artwork-style planning
+state present. No physical cutting, fit, cross-OS, signing, or geometry work.

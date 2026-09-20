@@ -510,6 +510,12 @@ invalid inputs stay visible with field-linked warn-only guidance and never
 pause the draft or gate exports. Planning state is global like fabric width;
 single-size versus marker scope stays truthful per draw.
 
+Slice 134 closes the Epic with a seven-garment exit audit and a release
+report, adding no product behavior beyond the audit itself. The planning
+layer, panel, persistence, and guidance boundaries above stand as the
+shipped contract; parsed output consumers and legacy hashes are verified
+with planning state present.
+
 Epic 3 is closed at the integrated straight-leg trouser plus shared numeric
 editing boundary. Shorts and joggers remain documented derivatives only;
 surface design, physical validation, and production-readiness work are outside
