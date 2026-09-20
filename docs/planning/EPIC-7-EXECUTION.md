@@ -1,117 +1,131 @@
-# EPIC 7 — Independent Post-Epic-6 Evidence Audit
+# EPIC 7 — Nesting Intelligence Pack
 
-_Status: scoped by Codex on the Slice 130 baseline. This is a separate,
-OpenCode-owned workstream. It is not part of the active Epic 9–10 completion
-goal and it must not edit the Codex checkout._
+_Status: Codex-scoped and ready for OpenCode implementation from the current
+`origin/main` baseline. This is an additive enhancement to the existing nesting
+estimator; it is not a nesting-engine rewrite._
 
-## Purpose and starting point
+## Objective and product value
 
-Epic 6 closed at Slice 130. The current approved baseline is
-`origin/main` at `241732e` (`Slice 130: record verified origin baseline`). The
-older `bc7ae73` reference is superseded by that accepted Slice 130 tip and is
-not an Epic 7 base.
+Make the existing Nesting/Fabric experience answer the practical questions a
+maker has before cutting: how much cloth is actually used, whether the cloth
+on hand is enough, how much is short, and what directional-print and cutting
+buffer assumptions apply. The feature must make the estimator more useful
+without pretending that shelf packing is production-grade irregular nesting.
 
-The repository has no earlier durable definition of Epic 7. To avoid inventing
-product behavior, this Epic is deliberately an independent evidence and
-decision packet: OpenCode audits the current product against its durable
-contracts, reports reproducible findings, and proposes bounded follow-up work.
-It does not implement those follow-ups.
+The existing `nestPieces` algorithm remains the source of placement truth. Epic
+7 adds transparent derived metrics, user-entered planning inputs, persistence,
+guidance, and UI presentation around that result. It does not change drafted
+geometry, grading, piece outlines, grainline rules, placement order, export
+writers, or legacy output bytes.
 
-## Ownership and model assignment
+## Ownership, baseline, and model
 
 - **Owner:** OpenCode CLI, controlled by Codex under `docs/OPENCODE-WORKFLOW.md`.
-- **Codex authority:** Codex owns the handoff, branch/worktree setup, review of
-  the actual diff and evidence, acceptance/rejection, and any later fix or merge.
-- **Recommended model:** `opencode/muse-spark-1.3-contributor-free`, or the
-  maintainer-approved current OpenCode equivalent if that identifier is no
-  longer available.
-- **Reasoning:** default/low-intensity for inspection and evidence collection;
-  no speculative design work.
-- **Branch/worktree:** `opencode/epic-7-evidence-audit` in its own worktree,
-  created from the immutable Slice 130 baseline.
-- **Push/merge:** OpenCode must not push, merge, or modify `main`.
+- **Model:** `muse-spark-1.3`, high or extra-high reasoning as requested by the
+  maintainer; use short, deliberate turns and avoid speculative work.
+- **Baseline:** latest `origin/main` at handoff time. The Codex packet was
+  authored against `9b0b630`; re-check the remote ref before creating the branch.
+- **Branch/worktree:** `opencode/epic-7-nesting-intelligence`, isolated from
+  Codex's checkout.
+- **Merge authority:** OpenCode must not merge or push `main`. Codex reviews the
+  actual diff, runs the full gate, fixes defects, and alone merges/pushes.
+- **Files:** implementation may touch only the nesting/UI/persistence tests and
+  source required by this packet, plus this execution record and the affected
+  durable context requested by Codex. No unrelated refactor or dependency.
 
-## Scope
+## Binding product decisions
 
-OpenCode must perform a read-only, evidence-backed audit of:
+These values are decisions for this Epic, not suggestions for the contributor:
 
-1. The seven registered recipes (`tee`, `fitted`, `tank`, `polo`,
-   `woven-shirt`, `skirt`, and `trouser`) across the existing Pattern, Body,
-   Style, Check, Export, save/recovery, and responsive surfaces.
-2. The six existing export paths (SVG, DXF, tiled PDF, A0 PDF, Projector SVG,
-   and Tech Pack), including parsed output and the eight legacy hashes.
-3. The Slice 130 surface-placement boundary: valid entries, invalid entries,
-   warn-only guidance, correction targets, save/recovery behavior, and the
-   documented digital cut-box-centre anchor.
-4. The durable context for stale claims, missing acceptance evidence, scope
-   collisions, and prohibited physical-fit or production-readiness language.
-5. The open-source audit's accepted boundaries for developer-only testing and
-   geometry oracles. Do not recommend a runtime geometry replacement.
+1. **Cutting buffer:** default `10%`; valid range `0–50%`; step `1%`. The
+   buffer is applied only to the displayed/planned fabric requirement:
+   `plannedLength = requiredLength × (1 + bufferPercent / 100)`. The raw
+   `nestPieces.fabricLength` remains unchanged and remains the unbuffered
+   estimator result.
+2. **Fabric on hand:** add an optional available-length input in centimetres.
+   Blank means “not supplied” and must not show a false fit verdict. A finite
+   positive value enables `fits / short by X` against `plannedLength`.
+3. **Directional/nap flag:** default `true` because the current estimator keeps
+   grain upright and never rotates pieces. The UI must state that this is an
+   assumption/notice; toggling it must not silently rotate, interlock, or change
+   the existing shelf-pack placements.
+4. **Waste readout:** expose `wastePercent = (1 - utilization) × 100`, clamped
+   only for display rounding after validating the finite estimator result. Keep
+   the underlying utilization unchanged.
+5. **Difficulty rating:** explicitly deferred. Do not bundle roadmap item 0.5.8
+   into Epic 7; it remains a separate per-garment metadata addition.
+6. **Sparrow/irregular nesting:** explicitly deferred. No external nesting
+   worker, polygon no-fit algorithm, or runtime geometry dependency is allowed.
 
-Every finding must be classified as one of:
+## Persistence and invalid-state contract
 
-- **reproducible defect** — a minimal reproduction and observed output exist;
-- **evidence gap** — a required check has not been run or recorded;
-- **documentation drift** — a durable claim no longer matches code or evidence;
-- **deferred/product decision** — not actionable without maintainer authority;
-- **no finding** — the current contract is supported by inspected evidence.
-
-The report must distinguish sourced facts, repository observations, estimates,
-and recommendations. It must not turn a digital check into a physical-fit,
-sewability, manufacturing, or production-readiness claim.
+- Add the new planning values as an optional additive `nestingIntelligence`
+  section in save/recovery payloads, preserving old saves without a format bump.
+- Valid saved values round-trip. Missing section loads defaults. Malformed current
+  sections are rejected visibly, consistent with existing persistence rules.
+- During direct editing, blank, non-finite, non-positive, or out-of-range raw
+  values remain visible and receive actionable guidance; do not silently clamp
+  or replace them. Explicit +/- recovery may use the declared boundaries.
+- Directional flag is boolean and defaults to `true` when absent.
+- Existing `fabricWidth` remains the bolt-width input and keeps its current
+  validation and persistence behavior.
 
 ## Slice plan
 
-These slices are reserved for the independent workstream. Codex may reorder or
-stop them after review, but OpenCode must keep each return packet bounded.
+### Slice 132 — Pure contract and metrics
 
-### Slice 132 — Baseline and audit matrix
+**Scope:** define the additive nesting-intelligence model and pure helpers around
+the existing `NestResult`: buffer validation, planned-length calculation,
+waste-percent calculation, optional fabric-on-hand fit/shortage result, and the
+directional-print assumption. Add focused tests for finite/invalid/empty,
+borderline, too-short, and too-narrow cases.
 
-**Scope:** record the exact base commit and create a matrix of the seven
-recipes, six exports, surface states, persistence states, responsive widths, and
-required evidence. Inspect the current code and durable documents before making
-any recommendation.
+**Acceptance:** helpers are deterministic and side-effect free; `nestPieces`
+placement and raw result are unchanged; all declared bounds and units are
+covered; no UI, geometry, export, or save schema change is required in this
+slice. Full project tests, coverage, typecheck, build, and legacy hashes pass.
 
-**Owner/model:** OpenCode / `opencode/muse-spark-1.3-contributor-free`.
+**Non-goals:** no Sparrow, no irregular nesting, no rotation/interlocking, no
+difficulty rating, no production marker claim.
 
-**Acceptance criteria:** the matrix names the exact command or live action,
-expected result, actual result, and evidence path; no implementation change is
-made; no test or baseline is weakened.
+### Slice 133 — UI, persistence, and actionable guidance
 
-**Non-goals:** no source, test, package manifest, lockfile, Electron, export,
-geometry, or durable-context edits.
+**Scope:** add the available-length, buffer, and directional controls to the
+existing Nesting/Fabric surface using the shared numeric-control/Boundary Rail
+contract; show required length, planned buffered length, waste percentage,
+available length, fits/short-by-X state, and the honest directional assumption.
+Persist valid values through save/recovery using the additive section above;
+keep invalid raw values visible and route guidance to the exact control.
 
-### Slice 133 — Independent rendered and parsed audit
+**Acceptance:** all seven recipes render the metrics; switching selected-size
+versus marker remains truthful; style/garment changes do not leak values;
+save/load and unfinished recovery round-trip valid and invalid states; narrow
+responsive widths remain usable; existing export controls and bytes are
+unchanged. Focused UI/persistence tests pass at 100% coverage.
 
-**Scope:** run the audit matrix against the real mounted app and real generated
-outputs. Exercise valid and invalid surface placements, save/load and recovery,
-all seven recipes, all six export kinds, and the existing responsive matrix.
+**Non-goals:** no changes to drafted pieces, `nestPieces` shelf order, cutting
+files, print-sheet/artwork output, or export gating beyond existing checks.
 
-**Acceptance criteria:** findings contain exact reproduction steps, screenshots
-or parsed measurements where relevant, console diagnostics, output filenames,
-and hashes/counts; an empty-placement run records all eight legacy hashes.
+### Slice 134 — Cross-garment exit and Epic 7 report
 
-**Non-goals:** no fixes, no output-baseline movement, no package/build changes,
-no cross-OS claim, and no physical validation.
+**Scope:** run the complete seven-garment audit for empty, valid, invalid,
+too-short, and too-narrow planning states; verify deterministic metrics,
+save/recovery, responsive rendering, parsed outputs, and unchanged legacy
+hashes. Record `docs/release/EPIC-7-EXIT-REPORT.md` with exact commands,
+fixtures, output evidence, limitations, and any reproducible defects.
 
-### Slice 134 — Return packet and bounded recommendations
+**Acceptance:** `npm test`, coverage at 100% across all four metrics, typecheck,
+production build, parsed SVG/DXF/tiled PDF/A0/projector/tech-pack suite, all
+eight legacy hashes, and the real mounted-app matrix pass. Any host-contention
+timeout must be rerun in bounded serial mode and recorded, not hidden.
 
-**Scope:** write one report at `docs/research/EPIC-7-AUDIT.md` containing the
-matrix, findings, evidence inventory, limitations, and at most five prioritized
-follow-up recommendations. Recommendations must name the affected contract,
-owner, dependency, and a stop condition.
+**Non-goals:** no physical fabric cutting, no fit/sewability/manufacturing
+claim, no cross-OS claim, no signing/packaging work, no geometry rewrite.
 
-**Acceptance criteria:** the report is internally consistent with the actual
-checkout; every claimed pass has a command or rendered/output artifact; every
-unverified item is labelled unknown; `git diff --check` passes.
+## Required verification and evidence
 
-**Non-goals:** no implementation of recommendations and no edits to the Epic 9
-or Epic 10 execution documents.
-
-## Required verification commands
-
-Run from the isolated worktree, using serial Vitest execution when host
-contention makes the parallel run unreliable:
+Run from the isolated worktree, using serial Vitest when host contention makes
+parallel execution unreliable:
 
 ```powershell
 git rev-parse HEAD
@@ -123,62 +137,28 @@ npm run build
 git diff --check
 ```
 
-The report must also name the exact focused parsed-output and live-browser
-commands used. OpenCode must not claim a command was run when it only inspected
-an older execution record.
+Also run the existing parsed consumer/legacy-hash suites and the mounted-app
+responsive matrix at 1280, 900, 700, 560, and 390 px. Pressure-test blank,
+NaN, non-finite, zero, negative, under-range, over-range, exactly-boundary,
+too-short, too-narrow, empty-piece, selected-size, marker, garment-switch,
+style-switch, save/load, and recovery cases. Record exact artifact paths and
+hashes; tests alone are not visual evidence.
 
-## Required rendered/output evidence
+## Safe boundary and return packet
 
-- Real mounted-app observations for all seven recipes, including a valid and an
-  invalid surface-placement case.
-- Parsed SVG, DXF, tiled PDF, A0 PDF, Projector SVG, and Tech Pack evidence.
-- Eight unchanged legacy hashes with empty placement state.
-- Save/load and unfinished-recovery evidence, including invalid raw values and
-  explicit discard/recovery behavior.
-- Responsive checks at 1280, 900, 700, 560, and 390 px where the current
-  contract applies, plus a clean browser console.
-- A report of unsupported platform checks rather than an inferred cross-OS pass.
+OpenCode must not modify Epic 9/10 execution documents, release reports,
+Electron files, unrelated garment geometry, export baselines, coverage
+thresholds, or governance rules. If a requirement needs an architectural or
+product decision outside this packet, stop at that boundary and report it.
 
-## Safe parallel boundary
-
-Epic 7 is safe to run in parallel with Codex work only from its own worktree.
-OpenCode may add only `docs/research/EPIC-7-AUDIT.md` after Slice 132's matrix
-is accepted. It must not modify:
-
-- `src/**`, `electron/**`, `package.json`, `package-lock.json`, `vite.config.ts`,
-  or any generated release artifact;
-- `docs/planning/EPIC-9-EXECUTION.md`, `docs/planning/EPIC-10-EXECUTION.md`,
-  `PROJECT-STATE.md`, `ARCHITECTURE.md`, `ROADMAP.md`, or `CONTEXT-INDEX.md`;
-- export baselines, coverage thresholds, test commands, or governance rules.
-
-Codex integrates only the report, after inspecting its actual diff and evidence.
-If the audit discovers a product defect, OpenCode reports it and stops at the
-boundary; Codex decides whether a separately scoped fix belongs in Epic 9,
-Epic 10, or a later Epic.
-
-## Exact OpenCode handoff prompt
-
-> Work only in a new worktree from `origin/main` at `241732e`, on branch
-> `opencode/epic-7-evidence-audit`. Read `AGENTS.md`, `CONTEXT-INDEX.md`,
-> `PROJECT-STATE.md`, `docs/PROJECT-DECISIONS.md`, `ARCHITECTURE.md`,
-> `docs/OPENCODE-WORKFLOW.md`, `docs/planning/ROADMAP.md`,
-> `docs/research/DESKTOP-RELEASE-RESEARCH.md`, and this execution document.
-> Perform the three bounded slices exactly as written. Inspect actual code,
-> rendered UI, and parsed outputs. Do not implement fixes. Do not modify source,
-> tests, Electron, package manifests, lockfiles, baselines, or Codex planning
-> documents. Add only `docs/research/EPIC-7-AUDIT.md` after the matrix is
-> complete. Report uncertainty instead of inferring evidence. Return the JSON
-> packet below and include the exact commands, artifact paths, hashes, and live
-> observations used.
-
-## Required return JSON
+Return valid JSON (or a clearly delimited JSON block):
 
 ```json
 {
   "status": "complete|blocked|needs_follow_up",
   "summary": "...",
-  "branch": "opencode/epic-7-evidence-audit",
-  "changed_files": ["docs/research/EPIC-7-AUDIT.md"],
+  "branch": "opencode/epic-7-nesting-intelligence",
+  "changed_files": [],
   "tests_run": [],
   "coverage": "...",
   "build_and_typecheck": "...",
@@ -188,5 +168,19 @@ Epic 10, or a later Epic.
 }
 ```
 
-The JSON is a report, not acceptance. Codex must verify the actual worktree,
-diff, commands, artifacts, and every finding before promoting anything.
+The return packet is not acceptance. Codex must inspect the actual branch diff,
+run the gate, review all evidence, fix any confirmed issue, and be the only
+actor to merge and push `origin/main`.
+
+## Exact OpenCode continuation prompt
+
+> Fetch the latest `origin/main` before starting; the earlier `241732e` view is
+> stale. Read `AGENTS.md`, `CONTEXT-INDEX.md`, `PROJECT-STATE.md`,
+> `docs/PROJECT-DECISIONS.md`, `ARCHITECTURE.md`, `docs/OPENCODE-WORKFLOW.md`,
+> `docs/planning/ROADMAP.md`, and this `docs/planning/EPIC-7-EXECUTION.md`.
+> Work on branch `opencode/epic-7-nesting-intelligence` in a separate
+> worktree. Execute Slices 132, 133, and 134 exactly as written. Use
+> muse-spark-1.3 with high/extra-high reasoning. Do not invent difficulty
+> rating, Sparrow, irregular nesting, rotation, physical validation, or
+> production claims. Do not push or merge `main`; return the required JSON and
+> all evidence so Codex can review and integrate each slice.

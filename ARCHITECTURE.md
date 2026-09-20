@@ -481,9 +481,17 @@ compatibility, finite/deterministic geometry across all seven recipes, and
 empty-placement export identity. The evidence is recorded in
 `docs/release/EPIC-10-EXIT-REPORT.md`. All parsed outputs, truthful
 invalid-state behavior, and the prohibition on physical-fit or
-production-readiness claims remain standing invariants. EPIC 7 is a separate
-OpenCode evidence workstream and cannot introduce implementation changes into
-the Codex checkout.
+production-readiness claims remain standing invariants.
+
+EPIC 7 is a separate OpenCode implementation workstream for the additive
+Nesting Intelligence Pack. It may derive waste percentage, buffered planned
+length, optional fabric-on-hand fit/shortage, and a truthful directional-print
+notice around `nestPieces`, but it may not alter drafted geometry, shelf-pack
+placement truth, grainline behavior, export writers, or legacy hashes. The
+buffer is 10% by default with a 0–50% editable range. Difficulty ratings,
+Sparrow/irregular nesting, rotation/interlocking, physical validation, and
+production claims remain outside this Epic. Codex owns review, repairs, merge,
+and push.
 
 Epic 3 is closed at the integrated straight-leg trouser plus shared numeric
 editing boundary. Shorts and joggers remain documented derivatives only;

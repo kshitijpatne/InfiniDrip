@@ -218,8 +218,8 @@ return packet must include:
   reviewing a failing test. Any resulting behavior change gets its own
   bounded slice and full regression gate; Claude does not amend that fix. The
   Slice 145 concave-offset repair is the recorded example.
-- EPIC 7’s OpenCode audit remains independent and cannot be used to smuggle
-  implementation changes into this branch.
+- EPIC 7’s OpenCode nesting-intelligence implementation remains independent and
+  cannot be used to smuggle implementation changes into this branch.
 
 ## Exact Claude handoff prompt
 

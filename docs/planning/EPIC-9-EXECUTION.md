@@ -69,8 +69,8 @@ contributor edits the Codex checkout while this epic is active.
 - Required context: `electron/main.cts`, `electron/preload.cts`, the existing
   Electron verification scripts, `DESKTOP-RELEASE-RESEARCH.md`, and the
   current export/persistence contracts.
-- EPIC 7 is an independent OpenCode evidence audit. Its report may inform
-  findings but is not permission to edit this epic’s production code.
+- EPIC 7 is an independent OpenCode Nesting Intelligence implementation. Its
+  slices may not edit this epic’s Electron, package, or release boundary.
 - EPIC 10 is test/developer-only and starts after EPIC 9’s package/lockfile
   changes are integrated. This ordering prevents package-manifest collisions.
 - Codex is the only owner of production source, Electron behavior, shared
@@ -211,7 +211,7 @@ artifact-manifest hashes belong in `docs/release/EPIC-9-EXIT-REPORT.md`.
 ## Safe parallel boundaries
 
 - EPIC 7 may work in its own OpenCode worktree, but only on its explicitly
-  scoped audit report and evidence. It must not edit this checkout, Electron
+  scoped nesting-intelligence slices. It must not edit this checkout, Electron
   source, package files, baselines, or current-state docs.
 - EPIC 10 waits until this epic’s package scripts and lockfile are integrated.
   Its Claude worktree may add test-only dependencies and tests after that

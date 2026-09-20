@@ -284,3 +284,28 @@ outside this Epic.
 4. Source pixel dimensions are optional persisted placement fields. Missing
    dimensions remain unknown rather than failing validation, with no save-format
    version change.
+
+## Epic 7 — Nesting Intelligence Pack — authorized 2026-09-20
+
+Epic 7 is an additive enhancement around the existing deterministic
+`nestPieces` shelf estimator. It may expose utilization-derived waste percent,
+optional fabric-on-hand fit/shortage, a cutting buffer, and a truthful
+directional/nap assumption. It must not change drafted geometry, shelf-pack
+placement truth, grainline behavior, export writers, or the eight legacy hashes.
+
+- Cutting buffer: default `10%`, editable `0–50%`, step `1%`; it changes only
+  the displayed/planned required length, not the raw estimator result.
+- Fabric-on-hand length: optional positive centimetres; blank means unknown and
+  must not display a false fit verdict.
+- Directional/nap flag: default `true`; advisory only because the current
+  estimator already keeps grain upright and never rotates or interlocks.
+- Difficulty rating (roadmap 0.5.8), Sparrow/irregular nesting, rotation,
+  interlocking, physical validation, and production claims are explicitly out
+  of scope.
+- New planning values use an optional additive save/recovery section so old
+  payloads remain loadable without a format-version bump. Raw invalid direct
+  entries remain visible and receive actionable guidance; no silent clamping.
+
+OpenCode owns isolated implementation Slices 132–134 under a Codex-authored
+execution packet. Codex owns the actual diff review, defect fixes, full gate,
+merge, and push to `origin/main`.

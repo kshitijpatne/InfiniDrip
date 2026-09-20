@@ -64,7 +64,7 @@ planning surface for Codex after the completed Epic 6 integration.
 | **Done** | **Epic 6 Slices 122–130** — surface placement, preview, persistence, tech-pack/print output, measured warn-only guidance, and cross-garment exit | **Complete — Codex reviewed and pushed** | 94 files / 1,255 tests, 100% coverage, typecheck, build, parsed consumers, 8/8 legacy hashes; no physical-fit claim |
 | **Done / gate recorded** | **EPIC 9 — Desktop release readiness (Slices 135–139)** | **Complete — Codex reviewed and pushed** | Windows x64 unpacked package passed offline/native-save/six-export/menu-window/fresh-stale/failure/integrity checks; repeated manifest hash; no signing, updater, installer, or cross-OS claim |
 | **Done / gate recorded** | **EPIC 10 — Quality and adversarial hardening (Slices 140–146)** | **Complete — Claude contributed; Codex repaired, reviewed, and pushed** | 99 files / 1,330 tests, 100% coverage, seeded properties, test-only oracle, seven recipes, old-save compatibility, permanent fixtures, bounded concave-offset repair; no baseline movement |
-| **Parallel / independent** | **EPIC 7 — Post-Epic-6 evidence audit (Slices 132–134)** | **OpenCode-owned under Codex review** | Separate worktree and report only; no edits to the Codex checkout and no implementation authority |
+| **Now / parallel-safe** | **EPIC 7 — Nesting Intelligence Pack (Slices 132–134)** | **OpenCode-owned under Codex review** | Additive metrics/UI/persistence around `nestPieces`; exact 10% buffer, 0–50% bounds, optional fabric-on-hand, truthful directional flag; no geometry or export changes |
 | **Next** | **Surface v1 stabilization** — follow-up only for a reproducible defect or real user evidence | **Conditional** | Epic 6 exit evidence plus a concrete failure; no speculative polish |
 | **Later** | **Garment expansion/refinement** — e.g. Polo V2 fidelity or shorts/jogger relationship | **Directional** | New garment research record, scoped construction decisions, and physical-validation policy; do not start merely because the engine can render it |
 | **Later / blocked** | **Physical fit validation** | **Blocked by maintainer constraint** | No manufacturer/printer is available; no sewn-fit claim or schedule until explicitly reopened |
@@ -73,7 +73,7 @@ planning surface for Codex after the completed Epic 6 integration.
 ### Codex next-work options
 
 After Epic 6, the maintainer selected and completed the explicitly scoped EPIC
-9 → EPIC 10 lane rather than parallelizing across shared contracts:
+9 → EPIC 10 lane. EPIC 7 is now the next independent product-enhancement lane:
 
 1. **EPIC 9.** Convert the existing Electron research into a bounded,
    current-host package-readiness gate. Signing procurement remains a separate
@@ -83,6 +83,9 @@ After Epic 6, the maintainer selected and completed the explicitly scoped EPIC
    truthful invalid-state behavior.
 3. **Garment refinement.** Remains a later option requiring a new research and
    contract slice plus explicit physical-validation limitations.
+4. **EPIC 7.** Implement the additive Nesting Intelligence Pack around the
+   existing deterministic shelf estimator; do not pull in Sparrow or a runtime
+   irregular-nesting engine.
 
 These options must be separately scoped before implementation. The open-source audit does not
 authorize direct reuse of a drafting engine, VTO/3D stack, or linter as a
@@ -354,15 +357,15 @@ allowance, checker, tech pack), independent of Priority 1, and small enough that
 none should block or displace it. **Per MVP-PLAN.md's own rule ("scope is fixed
 … anything not in §3 does not get built before launch"), none of these are
 scheduled into the fixed 6-month plan by default** — logged here as a vetted,
-ready-to-pull backlog, to be pulled in only by conscious decision, ideally
-piggybacked onto a month that's already touching the same file.
+ready-to-pull backlog. EPIC 7 is the explicit conscious decision to implement
+0.5.1–0.5.4 now without changing the underlying nesting algorithm.
 
 | # | Item | Rides | Natural attach point | Status |
 |---|---|---|---|---|
-| 0.5.1 | **Waste-% readout** on the nesting view | nesting (shipped) | anywhere — fully independent | **Approved** — explicit go-ahead; pull in whenever convenient, e.g. alongside a Slice 45+ export touch |
-| 0.5.2 | **Fabric-first "will it fit?"** — enter fabric on hand, get fits/short-by-X + layout | nesting (shipped) | same as 0.5.1 | Backlog |
-| 0.5.3 | **Nap / directional-print flag** in nesting | nesting (shipped) | bundle with 0.5.1 | Backlog |
-| 0.5.4 | **Cutting-buffer setting** (default ~10–15%, editable) | fabric estimate | bundle with 0.5.1 | Backlog |
+| 0.5.1 | **Waste-% readout** on the nesting view | nesting (shipped) | anywhere — fully independent | **EPIC 7 / Slice 132–133** — exact utilization-derived readout |
+| 0.5.2 | **Fabric-first "will it fit?"** — enter fabric on hand, get fits/short-by-X + layout | nesting (shipped) | same as 0.5.1 | **EPIC 7 / Slice 132–133** — optional positive length, blank means unknown |
+| 0.5.3 | **Nap / directional-print flag** in nesting | nesting (shipped) | bundle with 0.5.1 | **EPIC 7 / Slice 132–133** — truthful advisory, no rotation |
+| 0.5.4 | **Cutting-buffer setting** (default ~10–15%, editable) | fabric estimate | bundle with 0.5.1 | **EPIC 7 / Slice 132–133** — 10% default, 0–50% bounds |
 | 0.5.5 | **Per-edge variable seam allowance** (hem ≠ fly ≠ waistband) | seam-allowance engine | Priority 2.3 trouser (fly/waistband need it anyway) | Backlog |
 | 0.5.6 | **Checker rule: new seamline has seam allowance** | checker (shipped) | Priority 1.1/1.2 (components create new seamlines) | Backlog |
 | 0.5.7 | **Seam & stitch type notation** on pattern + tech pack (original artwork only — do not copy Fashion Design Central's assets) | tech pack, named edges | anywhere | Backlog |

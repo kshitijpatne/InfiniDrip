@@ -8,13 +8,15 @@ unverified._
 
 ## Current work — post-Epic 6 planning
 
-### Slice 131 — EPIC 7/9/10 execution scopes recorded
+### Slice 131 — EPIC 7/9/10 execution scopes recorded; Epic 7 re-scoped for implementation
 
 Codex has recorded the durable execution packets before implementation:
 
-- `docs/planning/EPIC-7-EXECUTION.md` is an independent, read-only OpenCode
-  evidence audit. It has its own worktree/branch and handoff prompt; it is not
-  part of the active EPIC 9–10 completion goal.
+- `docs/planning/EPIC-7-EXECUTION.md` is the Codex-owned Nesting Intelligence
+  Pack implementation packet for OpenCode. It replaces the stale evidence-audit
+  wording that had not reached the contributor's `241732e` checkout. It defines
+  Slices 132–134, exact buffer/on-hand/directional decisions, file boundaries,
+  gates, and the return contract.
 - `docs/planning/EPIC-9-EXECUTION.md` is Codex-owned desktop release readiness
   for the current host-supported unpacked Electron package. Its bounded scope
   covers offline launch, native save, six exports, fresh/stale state, menu and
@@ -31,8 +33,9 @@ was the final reviewer, integrator, and sole pusher to `origin/main`; the
 remote ref was verified at the integrated commit `c627ac5` before the final
 documentation record. The execution order was Codex EPIC 9 Slices 135–139,
 isolated Claude EPIC 10 Slices 140–144, Codex Slice 145 repair, Codex Slice
-146 integration, and Slice 147 push verification. EPIC 7 remains independent
-and must not edit this checkout.
+146 integration, and Slice 147 push verification. EPIC 7 is independent and
+must work in its own OpenCode branch/worktree; it may implement only the
+nesting-intelligence scope in its packet and must not push `main`.
 
 ### EPIC 9 — implementation complete on the supported host
 
@@ -68,9 +71,9 @@ all eight legacy export hashes remain unchanged.
 The durable evidence is `docs/release/EPIC-10-EXIT-REPORT.md`; raw packaged
 EPIC 9 evidence remains under `tmp/epic9-release/`. The integrated checkout
 has passed the serial full suite, 100% coverage, typecheck, production build,
-parsed-output checks, and the complete packaged Electron gate. EPIC 7 remains
-an independent OpenCode evidence audit and has no implementation authority in
-this checkout.
+parsed-output checks, and the complete packaged Electron gate. EPIC 7 is an
+independent OpenCode implementation workstream; Codex retains all review,
+repair, merge, and push authority.
 
 ### Slice 147 — EPIC 9/10 goal closed after Codex-only push
 
