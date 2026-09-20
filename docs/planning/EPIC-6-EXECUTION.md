@@ -308,4 +308,5 @@ all seven garments. Live checks covered valid role resolution, invalid role
 guidance and correction, low-resolution, out-of-bounds, coverage, invalid-ID
 focus, both new exports, four responsive widths, and a clean console. No
 physical-fit, drape, sewability, manufacturing, or production-readiness claim
-is made.
+is made. Codex's verified code integration commit is `f92e28f`, and all Slice
+127–130 contributor heads are ancestors of the pushed `origin/main`.

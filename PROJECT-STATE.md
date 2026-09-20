@@ -39,7 +39,8 @@ OpenCode's stacked Slice 127–130 branches were reviewed against their actual
 diffs. Slices 127–129 had already been reconciled into the local `origin/main`
 baseline while Slice 130 was in progress; Codex then integrated Slice 130 after
 reviewing its actual code, tests, and live behavior. No contributor branch
-pushed directly to `main`.
+pushed directly to `main`. The verified Slice 130 code integration commit is
+`f92e28f`; the remote `origin/main` ref was checked against the pushed result.
 
 The review gate passed in bounded serial mode on this Windows checkout:
 `npm test -- --maxWorkers=1 --minWorkers=1` passed 94 files / 1,255 tests;

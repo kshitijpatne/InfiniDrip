@@ -12,8 +12,9 @@ and nothing is marked done that isn't. Estimates are marked as estimates.**
 ## 0. Where we actually are (honest baseline)
 
 **Current committed baseline:** origin/main contains the Codex-reviewed Epic 6
-exit (2026-09-20). Epic 5 and Epic 6 are complete; the next work is post-Epic 6
-quality, release, or deliberately selected product expansion.
+exit (2026-09-20); Slice 130's code integration is recorded at `f92e28f`.
+Epic 5 and Epic 6 are complete; the next work is post-Epic 6 quality, release,
+or deliberately selected product expansion.
 
 **Built and proven on the committed baseline:**
 
