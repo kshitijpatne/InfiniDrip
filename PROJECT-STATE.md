@@ -1,9 +1,10 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 131 execution scope checkpoint, 2026-09-20; the verified
+_Last updated: Slice 146 integration checkpoint, 2026-09-20; the verified
 Slice 130 tip is `241732e` and the earlier Slice 129 commit is `bc7ae73`.
-Epic 3, Epic 4, Epic 5, and Epic 6 are closed. Physical validation and
-production readiness remain unverified._
+EPIC 9 and EPIC 10 are implemented and locally verified; the durable goal
+remains open until Codex verifies the final push to `origin/main`. Physical
+validation and production readiness remain unverified._
 
 ## Current work — post-Epic 6 planning
 
@@ -28,10 +29,10 @@ Codex has recorded the durable execution packets before implementation:
 The active durable goal is to complete EPIC 9 and EPIC 10 end-to-end, with
 Codex as final reviewer, integrator, and sole pusher to `origin/main`. The goal
 cannot close until implementation, realistic-failure pressure testing,
-documentation, review, merge, and push are all evidenced. Planned execution
-order is: Codex EPIC 9 Slices 135–139, then isolated Claude EPIC 10 Slices
-140–144, then Codex integration and the complete final gate. EPIC 7 remains
-independent and must not edit this checkout.
+documentation, review, merge, and push are all evidenced. The completed local
+execution order is Codex EPIC 9 Slices 135–139, isolated Claude EPIC 10 Slices
+140–144, Codex Slice 145 repair, and Codex Slice 146 integration. EPIC 7
+remains independent and must not edit this checkout.
 
 ### EPIC 9 — implementation complete on the supported host
 
@@ -45,9 +46,31 @@ durable evidence is `docs/release/EPIC-9-EXIT-REPORT.md`; raw evidence remains
 under `tmp/epic9-release/`. Signing, updater, installer, and unsupported-OS
 claims remain explicitly unverified.
 
-EPIC 10 is the remaining active implementation lane. It must start from the
-Codex-reviewed EPIC 9 result in an isolated Claude Code worktree and remain
-test/developer-only.
+### EPIC 10 — implementation and adversarial hardening complete
+
+The isolated Claude Code CLI contribution was reviewed from branch
+`claude/epic-10-adversarial-hardening` at the EPIC 9 integration commit. It
+added only the approved dev-only `fast-check` and `@flatten-js/core`
+dependencies plus five bounded quality test files; no production module
+imports either library. Fixed seeds and run bounds cover surface-placement
+invariants, actionable invalid guidance, deterministic persistence and v1–v4
+save compatibility, finite/deterministic geometry for all seven recipes, and
+empty-placement export identity.
+
+The independent oracle found a real concave seam-allowance CUT-loop defect in
+the shipped trouser back and a replayed woven-shirt edge fixture. Codex
+inspected the actual diff, added a local crossing-loop trim in
+`src/render/allowance.ts`, added a focused regression test, and converted the
+two permanent fixtures to ordinary assertions. This is a bounded shipped
+defect repair, not a replacement geometry engine or changed source of truth;
+all eight legacy export hashes remain unchanged.
+
+The durable evidence is `docs/release/EPIC-10-EXIT-REPORT.md`; raw packaged
+EPIC 9 evidence remains under `tmp/epic9-release/`. The integrated checkout
+has passed the serial full suite, 100% coverage, typecheck, production build,
+parsed-output checks, and the complete packaged Electron gate. EPIC 7 remains
+an independent OpenCode evidence audit and has no implementation authority in
+this checkout.
 
 ### Epic 6 — complete and pushed (Slices 122–130)
 

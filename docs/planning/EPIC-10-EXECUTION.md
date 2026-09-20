@@ -1,6 +1,6 @@
 # EPIC 10 — Quality and Adversarial Hardening
 
-Status: **SCOPED — Claude Code CLI contributor under Codex control; implementation starts after EPIC 9 integration**
+Status: **IMPLEMENTED — Claude contribution reviewed; Codex repair and integration complete; final push gate remains open**
 
 ## Baseline and objective
 
@@ -12,9 +12,16 @@ and recipe regressions reproducible without changing the drafting baseline.
 
 Codex owns the scope, prompt, worktree, dependency decision, review of every
 actual diff, any production fix, durable documentation, integration, merge,
-and push. Claude Code CLI is an individual contributor only. It works in a
-separate branch/worktree, never pushes, never merges `main`, and never edits
+and push. Claude Code CLI is an individual contributor only. It worked in a
+separate branch/worktree, did not push or merge `main`, and did not edit
 production geometry or release behavior.
+
+The bounded oracle found a real self-intersecting seam-allowance CUT loop in
+the default trouser back and in one extreme woven-shirt input. Codex separately
+repaired that defect with a local concave-offset loop trim in
+`src/render/allowance.ts`, added a production regression test, and reran the
+legacy hash gate. This is a narrowly bounded defect repair, not a replacement
+drafting engine or a new geometry source of truth.
 
 ## In scope
 
@@ -42,8 +49,11 @@ production geometry or release behavior.
 
 ## Explicit non-goals
 
-- No production geometry replacement, algorithm rewrite, tolerance change, or
-  change to the current drafting baseline.
+- No production geometry replacement, broad algorithm rewrite, tolerance change,
+  or change to the current drafting baseline. A narrowly bounded Codex-owned
+  repair discovered by the independent oracle is allowed only when it removes
+  a real shipped defect, leaves the drafting source of truth intact, and passes
+  the complete legacy/output gate.
 - No production import of `fast-check` or `@flatten-js/core`.
 - No weakened assertions, skipped tests, reduced coverage threshold, changed
   snapshot/hash baseline, or “fix” that merely clamps invalid inputs.
@@ -123,7 +133,9 @@ fixtures where the existing flattened-loop contract makes them meaningful.
 
 Acceptance: invariant failures identify the input and seed; oracle cases are
 small, bounded, and independently interpreted; disagreements are investigated
-and recorded rather than hidden; production modules have no oracle import.
+and recorded rather than hidden; the two discovered concave-offset defects were
+fixed in the Codex checkout and converted to ordinary permanent regression
+assertions; production modules have no oracle import.
 
 ### Slice 144 — Permanent fixtures and final audit
 
@@ -140,6 +152,26 @@ Acceptance: the final suite is bounded and deterministic, every property
 reports seed/run information, all seven recipes and old-save fixtures are
 represented, empty-placement identity remains byte-for-byte unchanged, and
 coverage/typecheck/build/parsed-output gates pass.
+
+### Slice 145 — Codex repair of oracle-discovered CUT-loop defects
+
+Owner: Codex. The independent oracle showed that the existing line-offset
+construction could fold an outward concave offset back across itself. Codex
+added a local segment-intersection cleanup that removes only the inward loop
+between crossing offset segments. It does not replace drafting, sampling,
+export writers, or the oracle, and it leaves the eight legacy hashes unchanged.
+
+Acceptance: the shipped default trouser back and the replayed woven-shirt
+fixture are simple polygons under the test-only oracle; finite geometry,
+parsed outputs, all existing tests, and coverage remain green.
+
+### Slice 146 — Codex final integration gate
+
+Owner: Codex. Inspect the full Claude diff and Codex repair, integrate only the
+reviewed test/developer additions and the bounded repair, update durable state,
+run the complete serial/coverage/build/package/release gate, and push the
+result to `origin/main`. This slice is not complete until the remote ref is
+verified at the pushed commit.
 
 ## Verification commands and required evidence
 
@@ -170,7 +202,8 @@ return packet must include:
 - `git diff --check`, coverage, typecheck, production build, and parsed-output
   results;
 - a statement that no production geometry, baseline, release behavior, or
-  unsupported physical claim changed.
+  unsupported physical claim changed, except for the separately documented
+  bounded concave-offset defect repair that preserves all eight legacy hashes.
 
 ## Safe parallel boundaries
 
@@ -183,7 +216,8 @@ return packet must include:
   hashes, or unrelated docs.
 - Codex may implement a production fix only in the Codex checkout after
   reviewing a failing test. Any resulting behavior change gets its own
-  bounded slice and full regression gate; Claude does not amend that fix.
+  bounded slice and full regression gate; Claude does not amend that fix. The
+  Slice 145 concave-offset repair is the recorded example.
 - EPIC 7’s OpenCode audit remains independent and cannot be used to smuggle
   implementation changes into this branch.
 

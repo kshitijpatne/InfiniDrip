@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { point } from "../geometry";
-import { Piece, STANDARD_M, draftFront, AllowanceSpec } from "../drafting";
+import { Piece, STANDARD_M, TROUSER, draftAtSize, draftFront, AllowanceSpec } from "../drafting";
 import { seamAllowance, seamAllowancePath, outlineSamples, outlinePoints } from "./allowance";
 
 const UNIFORM: AllowanceSpec = { default: 1 };
@@ -28,6 +28,27 @@ function area(pts: { x: number; y: number }[]): number {
 function distToLine(p: { x: number; y: number }, a: { x: number; y: number }, b: { x: number; y: number }): number {
   const dx = b.x - a.x, dy = b.y - a.y;
   return Math.abs(dy * p.x - dx * p.y + b.x * a.y - b.y * a.x) / Math.hypot(dx, dy);
+}
+
+function properCrossings(pts: readonly { x: number; y: number }[]): number {
+  const cross = (a: { x: number; y: number }, b: { x: number; y: number }) => a.x * b.y - a.y * b.x;
+  let count = 0;
+  for (let i = 0; i < pts.length; i++) {
+    const a = pts[i], b = pts[(i + 1) % pts.length];
+    const ab = { x: b.x - a.x, y: b.y - a.y };
+    for (let j = i + 2; j < pts.length; j++) {
+      if (i === 0 && j === pts.length - 1) continue;
+      const c = pts[j], d = pts[(j + 1) % pts.length];
+      const cd = { x: d.x - c.x, y: d.y - c.y };
+      const denominator = cross(ab, cd);
+      if (Math.abs(denominator) < 1e-9) continue;
+      const ca = { x: c.x - a.x, y: c.y - a.y };
+      const t = cross(ca, cd) / denominator;
+      const u = cross(ca, ab) / denominator;
+      if (t > 1e-9 && t < 1 - 1e-9 && u > 1e-9 && u < 1 - 1e-9) count++;
+    }
+  }
+  return count;
 }
 
 describe("outlineSamples", () => {
@@ -137,5 +158,12 @@ describe("seamAllowancePath", () => {
     const d = seamAllowancePath(squarePiece(true), UNIFORM);
     expect(d.startsWith("M ")).toBe(true);
     expect(d.endsWith("Z")).toBe(true);
+  });
+});
+
+describe("seamAllowance — concave-offset regression", () => {
+  it("trims the default trouser back's inward offset loop into a simple CUT walk", () => {
+    const piece = draftAtSize(STANDARD_M, TROUSER.grade, 0, TROUSER.draft).roles.backLeft;
+    expect(properCrossings(seamAllowance(piece, TROUSER.allowances))).toBe(0);
   });
 });

@@ -74,6 +74,9 @@ snapshots; they are not current status.
 - `docs/release/EPIC-9-EXIT-REPORT.md` — current-host packaged release
   evidence, failure matrix, artifact hashes, and explicit signing/platform
   limitations.
+- `docs/release/EPIC-10-EXIT-REPORT.md` — seeded property/oracle evidence,
+  seven-recipe hardening, permanent fixtures, the bounded Codex repair, and
+  the final quality/release gate.
 
 ## Research documents
 

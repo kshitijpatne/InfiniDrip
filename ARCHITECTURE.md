@@ -468,7 +468,18 @@ become a second export or persistence implementation.
 EPIC 10's property generators, fixtures, and `@flatten-js/core` comparisons
 are test-only. They inspect existing flattened geometry and serialization
 contracts; they are not alternate drafting truth and cannot enter production
-imports. All seven recipes, parsed outputs, eight legacy hashes, truthful
+imports. The oracle exposed a real concave seam-allowance offset loop in the
+default trouser back and one extreme woven-shirt input. Codex repaired that
+specific production defect with a local crossing-loop trim in
+`src/render/allowance.ts`; it is not a replacement geometry engine, and all
+eight legacy hashes remain unchanged. The repair is covered by ordinary
+permanent assertions and a focused allowance regression test.
+
+The integrated quality boundary now includes bounded seeded properties for
+surface placement, invalid guidance, deterministic persistence and old-save
+compatibility, finite/deterministic geometry across all seven recipes, and
+empty-placement export identity. The evidence is recorded in
+`docs/release/EPIC-10-EXIT-REPORT.md`. All parsed outputs, truthful
 invalid-state behavior, and the prohibition on physical-fit or
 production-readiness claims remain standing invariants. EPIC 7 is a separate
 OpenCode evidence workstream and cannot introduce implementation changes into

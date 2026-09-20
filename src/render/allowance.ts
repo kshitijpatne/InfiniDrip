@@ -71,6 +71,65 @@ function normal(dx: number, dy: number): Point {
   return { x: dy / l, y: -dx / l };
 }
 
+const INTERSECTION_EPS = 1e-9;
+
+function cross(a: Point, b: Point): number {
+  return a.x * b.y - a.y * b.x;
+}
+
+/**
+ * Return the proper crossing of two non-parallel segments, if they cross away
+ * from both endpoints.  Offset lines at a concave corner can cross again later
+ * in the sampled outline; endpoint touches are intentional joins and must not
+ * be treated as loops.
+ */
+function segmentIntersection(a: Point, b: Point, c: Point, d: Point): Point | null {
+  const ab = { x: b.x - a.x, y: b.y - a.y };
+  const cd = { x: d.x - c.x, y: d.y - c.y };
+  const denominator = cross(ab, cd);
+  if (Math.abs(denominator) < INTERSECTION_EPS) return null;
+  const ca = { x: c.x - a.x, y: c.y - a.y };
+  const t = cross(ca, cd) / denominator;
+  const u = cross(ca, ab) / denominator;
+  if (t <= INTERSECTION_EPS || t >= 1 - INTERSECTION_EPS ||
+      u <= INTERSECTION_EPS || u >= 1 - INTERSECTION_EPS) return null;
+  return { x: a.x + t * ab.x, y: a.y + t * ab.y };
+}
+
+/**
+ * Remove loops produced when an outward offset folds back through a concave
+ * corner.  The offset of a concave outline is allowed to meet itself; the
+ * cutting boundary is the outer walk, which skips the loop between the two
+ * crossing segments.  This is deliberately a small, local cleanup rather than
+ * a replacement geometry engine: ordinary outlines and all existing baselines
+ * remain byte-identical, while a real CUT polyline can no longer self-cross at
+ * a tight concavity.
+ */
+function trimOffsetLoops(points: Point[]): Point[] {
+  let current = points;
+  // Every trim removes at least one sampled vertex, so this loop is bounded by
+  // the original point count without needing a defensive early return that
+  // would leave a known self-crossing CUT line behind.
+  for (;;) {
+    let trimmed: Point[] | null = null;
+    const n = current.length;
+    for (let i = 0; i < n && trimmed === null; i++) {
+      const nextI = (i + 1) % n;
+      for (let j = i + 2; j < n; j++) {
+        if (i === 0 && j === n - 1) continue;
+        const hit = segmentIntersection(
+          current[i], current[nextI], current[j], current[(j + 1) % n],
+        );
+        if (hit === null) continue;
+        trimmed = [...current.slice(0, i + 1), hit, ...current.slice(j + 1)];
+        break;
+      }
+    }
+    if (trimmed === null) return current;
+    current = trimmed;
+  }
+}
+
 /** Push the outline out (or in, for a negative sign) by each edge's own allowance. */
 function offsetOutline(samples: OutlineSample[], spec: AllowanceSpec, sign: number): Point[] {
   const n = samples.length;
@@ -97,8 +156,8 @@ function offsetOutline(samples: OutlineSample[], spec: AllowanceSpec, sign: numb
 /** The cutting line: the sewing outline pushed outward by each edge's allowance. */
 export function seamAllowance(piece: Piece, spec: AllowanceSpec): Point[] {
   const samples = outlineSamples(piece);
-  const out = offsetOutline(samples, spec, 1);
-  const inn = offsetOutline(samples, spec, -1);
+  const out = trimOffsetLoops(offsetOutline(samples, spec, 1));
+  const inn = trimOffsetLoops(offsetOutline(samples, spec, -1));
   return area(out) > area(inn) ? out : inn; // the outward loop is the larger one
 }
 
