@@ -11,6 +11,14 @@ import { FIELDS, Field, numericRangeState } from "./controls";
 import type { ArtworkPlacement } from "../surface/placement";
 import { escapeAttr } from "../render/surface-overlay";
 import { APPEARANCE_TEXTURES, Appearance, DEFAULT_APPEARANCE, hexToHsl, normalizeHex } from "./appearance";
+import {
+  availableLengthError,
+  bufferError,
+  fitResult,
+  napNoticeText,
+  plannedLength,
+  wastePercent,
+} from "../export/nesting-intelligence";
 import type { Handle } from "../edit";
 import "./studio.css";
 
@@ -649,6 +657,86 @@ export function fabricWidthMarkup(width: number): string {
     `Single size uses <strong id="nest-selected-size">M</strong>; Graded marker includes every graded size.</span></div>`;
 }
 
+/** Nesting-intelligence planning controls and readouts. Rendered once per
+ * mount inside #nest-intel-host (fabric view only); draw() syncs values,
+ * errors, and readouts imperatively so typing never loses focus. */
+export function nestIntelMarkup(bufferRaw: string, availableRaw: string, napAware: boolean): string {  const bufferValue = bufferRaw.trim() === "" ? NaN : Number(bufferRaw);
+  const availableValue = availableRaw.trim() === "" ? NaN : Number(availableRaw);
+  const bufferInput = numericControlMarkup(
+    "nest-buffer", "nest-buffer", "Cutting buffer", bufferValue, 0, 50, 1,
+    `data-guidance-control="nesting-buffer" aria-label="Cutting buffer" aria-describedby="error-nest-buffer"`,
+    "%",
+  );
+  const availableInput = numericControlMarkup(
+    "nest-available", "nest-available", "Fabric on hand", availableValue, undefined, undefined, 0.5,
+    `data-guidance-control="nesting-available" aria-label="Fabric on hand" aria-describedby="error-nest-available"`,
+    "cm",
+  );
+  return `<div id="nest-intel-host" role="group" aria-label="Nesting intelligence" style="display:none;gap:8px;align-items:flex-start;flex-wrap:wrap;margin:4px 0">` +
+    `<span style="font-size:11px;color:${T.label};text-transform:uppercase;letter-spacing:0.04em;margin-right:4px">Planning</span>` +
+    `<div><div style="font-size:11.5px;color:${T.label};margin-bottom:2px">Cutting buffer</div>${bufferInput}` +
+    `<p id="error-nest-buffer" role="status" style="font-size:12px;color:${T.lineActive};margin:4px 0 0;min-height:16px"></p></div>` +
+    `<div><div style="font-size:11.5px;color:${T.label};margin-bottom:2px">Fabric on hand (optional)</div>${availableInput}` +
+    `<p id="error-nest-available" role="status" style="font-size:12px;color:${T.label};margin:4px 0 0;min-height:16px"></p></div>` +
+    `<label style="font-size:12px;color:${T.line};display:inline-flex;gap:6px;align-items:center">` +
+    `<input id="nest-nap" type="checkbox"${napAware ? " checked" : ""} aria-label="Directional print"/>Directional print</label>` +
+    `<div id="nest-readout" role="status" aria-label="Nesting estimate" style="font-size:12px;color:${T.line};flex-basis:100%;line-height:1.6">` +
+    `<span id="nest-intel-scope"></span><span id="nest-required"></span><span id="nest-planned"></span>` +
+    `<span id="nest-waste"></span><span id="nest-available-state"></span><span id="nest-verdict"></span>` +
+    `<span id="nest-nap-notice"></span></div></div>`;
+}
+
+/** Precomputed Nesting-intelligence readout lines. Pure so every
+ * display/null arm is unit-testable; the app only assigns the strings. */
+export interface NestIntelReadout {
+  readonly scope: string;
+  readonly required: string;
+  readonly planned: string;
+  readonly waste: string;
+  readonly available: string;
+  readonly verdict: string;
+  readonly nap: string;
+  readonly bufferError: string;
+  readonly availableError: string;
+}
+
+export function nestIntelReadout(
+  requiredLengthCm: number,
+  utilization: number,
+  bufferRaw: string,
+  availableRaw: string,
+  napAware: boolean,
+  scopeLabel: string,
+): NestIntelReadout {
+  const buffer = bufferRaw.trim() === "" ? NaN : Number(bufferRaw);
+  const planned = plannedLength(requiredLengthCm, buffer);
+  const waste = wastePercent(utilization);
+  const verdict = fitResult(availableRaw, planned);
+  const bufferProblem = bufferError(buffer);
+  const availableProblem = availableLengthError(availableRaw);
+  return {
+    scope: `${scopeLabel} · `,
+    required: `Requires ${requiredLengthCm.toFixed(1)} cm of cloth · `,
+    planned: planned === null
+      ? "Planned: unavailable — fix the cutting buffer · "
+      : `Planned with buffer: ${planned.toFixed(1)} cm · `,
+    waste: waste === null
+      ? "Waste: unavailable · "
+      : `Waste: ${waste.toFixed(1)}% of cloth · `,
+    available: availableRaw.trim() === ""
+      ? "On hand: not entered · "
+      : `On hand: ${availableRaw.trim()} cm · `,
+    verdict: verdict.verdict === "fits"
+      ? "Fit: fits the fabric on hand."
+      : verdict.verdict === "short"
+        ? `Fit: short by ${verdict.shortByCm.toFixed(1)} cm.`
+        : "Fit: unknown — enter fabric on hand for a fits/short verdict.",
+    nap: napNoticeText(napAware),
+    bufferError: bufferProblem ?? "",
+    availableError: availableProblem ?? "",
+  };
+}
+
 /** The auto-measured spec sheet: POM rows × size columns, base column highlighted. */
 export function specTableMarkup(
   rows: readonly SpecRow[],
@@ -756,6 +844,6 @@ export function appShellMarkup(
     `<button id="assembled-preview-toggle" type="button" aria-pressed="false" aria-controls="canvas-host">Assembled</button></div>` +
     `${bodyCroquisToggleMarkup("front-back")}<div id="spatial-cue" role="status" hidden>` +
     `<span id="spatial-cue-text"></span><button id="spatial-cue-action" type="button">Show in Assembled</button></div>` +
-    `${fabricWidthMarkup(150)}<div id="canvas-host"></div>` +
+    `${fabricWidthMarkup(150)}${nestIntelMarkup("10", "", true)}<div id="canvas-host"></div>` +
     `</div></div></main>`;
 }

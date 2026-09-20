@@ -48,6 +48,19 @@ null, never a fabricated number. No UI, geometry, export, or save-schema
 change. Difficulty rating stays deferred; Sparrow, rotation, interlocking,
 physical validation, and production claims stay out of scope.
 
+### Slice 133 — UI, persistence, and actionable guidance (review-ready, not merged)
+
+Same branch. Fabric-view planning controls (buffer with rail/steppers,
+optional on-hand length, directional checkbox) with live readouts for
+required length, buffered plan, waste %, on-hand state, fits/short-by-X
+verdict, and the nap notice. Save/recovery carry an optional additive
+section with no version bump: valid values round-trip, missing sections load
+defaults, malformed current sections reject visibly, raw invalid recovery
+entries restore verbatim. Invalid inputs stay visible with field-linked
+guidance and never pause the draft or gate exports. Planning state is global
+like fabric width; metrics recompute per draft across garment/style/scope
+switches.
+
 ### EPIC 9 — implementation complete on the supported host
 
 The Codex-owned Electron readiness scope is implemented. The self-contained

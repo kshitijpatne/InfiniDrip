@@ -195,3 +195,17 @@ validation and planned-length math, waste share, optional fabric-on-hand
 fits/short-by verdicts, and the no-rotation nap notice. Unratable input
 yields null. No UI, geometry, export, or save-schema change. Stop conditions
 not triggered; no baseline moved.
+
+### Slice 133 — UI, persistence, and actionable guidance (review-ready, not merged)
+
+Same branch. Adds the planning controls (buffer 0–50% with rail/steppers,
+optional on-hand length, directional checkbox) and live readouts (required,
+planned, waste %, on-hand state, fits/short-by-X verdict, nap notice) to the
+fabric view, plus an optional additive save/recovery section with no version
+bump: valid values round-trip, missing sections load defaults, malformed
+current sections reject visibly, and raw invalid recovery entries restore
+verbatim. Invalid inputs stay visible with field-linked guidance that never
+pauses the draft or gates exports. Cutting buffer, on-hand, and nap state
+are global like fabric width; metrics recompute per draft so garment/style
+switches cannot leak stale values. Difficulty rating stays deferred; no
+rotation, interlocking, geometry, grain, export, or legacy-byte change.

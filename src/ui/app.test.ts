@@ -2701,3 +2701,246 @@ describe("surface frame guidance (Slice 130)", () => {
     expect(root.querySelector<HTMLInputElement>('input[data-surface-index="0"][data-surface-field="sourcePxWidth"]')!.value).toBe("2400");
   });
 });
+
+describe("nesting intelligence (Slice 133)", () => {
+  const toFabricView = (root: HTMLElement): void => {
+    clickIfPresent(root, "welcome-skip");
+    clickId(root, "journey-step-fit");
+    clickId(root, "journey-next");
+    clickId(root, "journey-next");
+    root.querySelector<HTMLButtonElement>("#view-fabric")!.dispatchEvent(new Event("click"));
+  };
+  const bufferInput = (root: HTMLElement): HTMLInputElement =>
+    root.querySelector<HTMLInputElement>("#nest-buffer")!;
+  const availableInput = (root: HTMLElement): HTMLInputElement =>
+    root.querySelector<HTMLInputElement>("#nest-available")!;
+
+  it("routes nesting fields to the output step for correction", () => {
+    expect(stageBlockerFromNote({ level: "warn", text: "x", field: "nesting-buffer" })).toEqual({
+      message: "x", step: "output", field: "nesting-buffer",
+    });
+  });
+
+  it("renders planning controls and estimate readouts on the fabric view", () => {
+    localStorage.clear();
+    const root = mount();
+    toFabricView(root);
+    expect(root.querySelector("#nest-intel-host")).not.toBeNull();
+    expect(bufferInput(root).value).toBe("10");
+    expect(availableInput(root).value).toBe("");
+    expect(root.querySelector("#nest-required")!.textContent).toContain("Requires");
+    expect(root.querySelector("#nest-required")!.textContent).toContain("cm of cloth");
+    expect(root.querySelector("#nest-planned")!.textContent).toContain("Planned with buffer:");
+    expect(root.querySelector("#nest-waste")!.textContent).toContain("Waste:");
+    expect(root.querySelector("#nest-waste")!.textContent).toContain("% of cloth");
+    expect(root.querySelector("#nest-verdict")!.textContent).toContain("unknown");
+    expect(root.querySelector("#nest-nap-notice")!.textContent).toContain("never rotate");
+  });
+
+  it("renders the estimate for all seven garments without leaking values", () => {
+    localStorage.clear();
+    const root = mount();
+    toFabricView(root);
+    const buffer = bufferInput(root);
+    buffer.value = "25";
+    buffer.dispatchEvent(new Event("input", { bubbles: true }));
+    for (const garment of ["tee", "fitted", "tank", "polo", "woven-shirt", "skirt", "trouser"]) {
+      root.querySelector<HTMLButtonElement>(`#garment-${garment}`)!.dispatchEvent(new Event("click"));
+      expect(root.querySelector("#nest-required")!.textContent).toContain("Requires");
+      expect(root.querySelector("#nest-planned")!.textContent).toContain("Planned with buffer:");
+      expect(root.querySelector("#nest-waste")!.textContent).toContain("% of cloth");
+      expect(bufferInput(root).value).toBe("25");
+    }
+    expect(root.querySelector("#garment-host svg")).not.toBeNull();
+  });
+
+  it("recomputes truthfully across single-size and marker scopes", () => {
+    localStorage.clear();
+    const root = mount();
+    toFabricView(root);
+    const singleRequired = root.querySelector("#nest-required")!.textContent;
+    const singleScope = root.querySelector("#nest-intel-scope")!.textContent;
+    expect(singleScope).toContain("Single size");
+    root.querySelector<HTMLButtonElement>("#nest-marker")!.click();
+    expect(root.querySelector("#nest-intel-scope")!.textContent).toContain("Graded marker");
+    expect(root.querySelector("#nest-required")!.textContent).not.toBe(singleRequired);
+    root.querySelector<HTMLButtonElement>("#nest-single")!.click();
+    expect(root.querySelector("#nest-required")!.textContent).toBe(singleRequired);
+  });
+
+  it("keeps invalid buffer visible with guidance while drafting continues", () => {
+    localStorage.clear();
+    const root = mount();
+    toFabricView(root);
+    const buffer = bufferInput(root);
+    buffer.value = "60";
+    buffer.dispatchEvent(new Event("input", { bubbles: true }));
+    expect(bufferInput(root).getAttribute("aria-invalid")).toBe("true");
+    expect(root.querySelector("#error-nest-buffer")!.textContent).toContain("0–50");
+    expect(root.querySelector("#guidance-host")!.textContent).toContain("Cutting buffer");
+    expect(root.querySelector("#canvas-host svg")).not.toBeNull();
+    expect(root.querySelector("#nest-planned")!.textContent).toContain("unavailable");
+    buffer.value = "";
+    buffer.dispatchEvent(new Event("input", { bubbles: true }));
+    expect(root.querySelector("#error-nest-buffer")!.textContent).toContain("finite");
+  });
+
+  it("judges fits and shortage against fabric on hand", () => {
+    localStorage.clear();
+    const root = mount();
+    toFabricView(root);
+    const available = availableInput(root);
+    available.value = "10000";
+    available.dispatchEvent(new Event("input", { bubbles: true }));
+    expect(root.querySelector("#nest-verdict")!.textContent).toBe("Fit: fits the fabric on hand.");
+    available.value = "1";
+    available.dispatchEvent(new Event("input", { bubbles: true }));
+    expect(root.querySelector("#nest-verdict")!.textContent).toContain("short by");
+    expect(root.querySelector("#nest-verdict")!.textContent).toContain("cm.");
+    available.value = "0";
+    available.dispatchEvent(new Event("input", { bubbles: true }));
+    expect(availableInput(root).getAttribute("aria-invalid")).toBe("true");
+    expect(root.querySelector("#guidance-host")!.textContent).toContain("Fabric on hand");
+  });
+
+  it("toggles the directional notice without changing placements", () => {
+    localStorage.clear();
+    const root = mount();
+    toFabricView(root);
+    const before = root.querySelector("#canvas-host")!.innerHTML;
+    const nap = root.querySelector<HTMLInputElement>("#nest-nap")!;
+    expect(nap.checked).toBe(true);
+    nap.checked = false;
+    nap.dispatchEvent(new Event("change", { bubbles: true }));
+    expect(root.querySelector("#nest-nap-notice")!.textContent).toContain("no rotation");
+    expect(root.querySelector("#canvas-host")!.innerHTML).toBe(before);
+  });
+
+  it("focuses the failing control from the Review action", () => {
+    localStorage.clear();
+    const root = mount();
+    document.body.appendChild(root);
+    try {
+      toFabricView(root);
+      bufferInput(root).value = "60";
+      bufferInput(root).dispatchEvent(new Event("input", { bubbles: true }));
+      const focused: Element[] = [];
+      const spy = vi.spyOn(HTMLInputElement.prototype, "focus").mockImplementation(
+        function (this: HTMLInputElement) { focused.push(this); });
+      try {
+        root.querySelector<HTMLButtonElement>('button[data-guidance-focus="nesting-buffer"]')!.click();
+        const fresh = root.querySelector('input[data-guidance-control="nesting-buffer"]')!;
+        expect(focused).toContain(fresh);
+      } finally {
+        spy.mockRestore();
+      }
+    } finally {
+      root.remove();
+    }
+  });
+
+  it("round-trips planning values through save and load", () => {
+    localStorage.clear();
+    const root = mount();
+    toFabricView(root);
+    bufferInput(root).value = "25";
+    bufferInput(root).dispatchEvent(new Event("input", { bubbles: true }));
+    availableInput(root).value = "300";
+    availableInput(root).dispatchEvent(new Event("input", { bubbles: true }));
+    const napBox = root.querySelector<HTMLInputElement>("#nest-nap")!;
+    napBox.checked = false;
+    napBox.dispatchEvent(new Event("change", { bubbles: true }));
+    clickId(root, "save-pattern");
+    bufferInput(root).value = "10";
+    bufferInput(root).dispatchEvent(new Event("input", { bubbles: true }));
+    clickId(root, "load-pattern");
+    clickId(root, "workspace-confirm-accept");
+    expect(bufferInput(root).value).toBe("25");
+    expect(availableInput(root).value).toBe("300");
+    expect(root.querySelector<HTMLInputElement>("#nest-nap")!.checked).toBe(false);
+    expect(root.querySelector("#nest-verdict")!.textContent).toContain("Fit:");
+  });
+
+  it("rejects an invalid buffer visibly at save time", () => {
+    localStorage.clear();
+    const root = mount();
+    toFabricView(root);
+    bufferInput(root).value = "60";
+    bufferInput(root).dispatchEvent(new Event("input", { bubbles: true }));
+    clickId(root, "save-pattern");
+    expect(root.querySelector("#persist-status")!.textContent).toContain("Save failed");
+    expect(root.querySelector("#persist-status")!.textContent).toContain("nesting intelligence");
+    bufferInput(root).value = "";
+    bufferInput(root).dispatchEvent(new Event("input", { bubbles: true }));
+    clickId(root, "save-pattern");
+    expect(root.querySelector("#persist-status")!.textContent).toContain("Save failed");
+  });
+
+  it("loads a null on-hand value as a blank input", () => {
+    localStorage.clear();
+    const root = mount();
+    toFabricView(root);
+    clickId(root, "save-pattern");
+    const raw = JSON.parse(localStorage.getItem("patternworks_save_v1")!);
+    raw.nestingIntelligence.availableLengthCm = null;
+    raw.nestingIntelligence.bufferPct = 25;
+    localStorage.setItem("patternworks_save_v1", JSON.stringify(raw));
+    const reloaded = mount();
+    toFabricView(reloaded);
+    expect(bufferInput(reloaded).value).toBe("25");
+    expect(availableInput(reloaded).value).toBe("");
+    expect(reloaded.querySelector("#nest-verdict")!.textContent).toContain("unknown");
+    raw.nestingIntelligence.availableLengthCm = 300;
+    localStorage.setItem("patternworks_save_v1", JSON.stringify(raw));
+    const valued = mount();
+    toFabricView(valued);
+    expect(availableInput(valued).value).toBe("300");
+    expect(valued.querySelector("#nest-verdict")!.textContent).toContain("Fit:");
+  });
+
+  it("loads pre-intelligence saves with planning defaults", () => {
+    localStorage.clear();
+    const root = mount();
+    toFabricView(root);
+    clickId(root, "save-pattern");
+    const raw = JSON.parse(localStorage.getItem("patternworks_save_v1")!);
+    delete raw.nestingIntelligence;
+    localStorage.setItem("patternworks_save_v1", JSON.stringify(raw));
+    const reloaded = mount();
+    toFabricView(reloaded);
+    expect(bufferInput(reloaded).value).toBe("10");
+    expect(availableInput(reloaded).value).toBe("");
+    expect(reloaded.querySelector<HTMLInputElement>("#nest-nap")!.checked).toBe(true);
+  });
+
+  it("restores raw invalid planning values through recovery", () => {
+    localStorage.clear();
+    const first = mount();
+    toFabricView(first);
+    bufferInput(first).value = "60";
+    bufferInput(first).dispatchEvent(new Event("input", { bubbles: true }));
+    const recovered = mount();
+    expect(recovered.querySelector("#recovery-host")!.textContent).toContain("Unfinished draft found");
+    recovered.querySelector<HTMLButtonElement>("#recovery-accept")!.click();
+    expect(recovered.querySelector<HTMLInputElement>("#nest-buffer")!.value).toBe("60");
+    expect(recovered.querySelector("#error-nest-buffer")!.textContent).toContain("0–50");
+  });
+
+  it("renders planning readouts at narrow and wide widths without errors", () => {
+    localStorage.clear();
+    const root = mount();
+    document.body.appendChild(root);
+    try {
+      toFabricView(root);
+      const viewport = root.querySelector<HTMLElement>("#inspection-viewport")!;
+      for (const width of [1280, 900, 700, 560, 390]) {
+        Object.defineProperty(viewport, "clientWidth", { configurable: true, value: width });
+        window.dispatchEvent(new Event("resize"));
+        expect(root.querySelector("#nest-intel-host")).not.toBeNull();
+        expect(root.querySelector("#nest-required")!.textContent).toContain("Requires");
+      }
+    } finally {
+      root.remove();
+    }
+  });
+});

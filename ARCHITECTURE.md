@@ -500,6 +500,16 @@ invalid input, and the truthful no-rotation nap notice. Unratable input yields
 null, never a fabricated number. `nestPieces` placement truth, geometry, grain
 rules, exports, and save schemas are untouched by this slice.
 
+Slice 133 wires those metrics into the fabric view without widening engine
+authority. Planning controls (buffer with shared rail/steppers, optional
+on-hand length, directional checkbox) and live readouts (required, planned,
+waste %, on-hand state, fits/short-by-X, nap notice) live in a stable panel
+that draw() syncs imperatively, reusing the generic rail/stepper machinery.
+Save/recovery carry an optional additive section with no version bump;
+invalid inputs stay visible with field-linked warn-only guidance and never
+pause the draft or gate exports. Planning state is global like fabric width;
+single-size versus marker scope stays truthful per draw.
+
 Epic 3 is closed at the integrated straight-leg trouser plus shared numeric
 editing boundary. Shorts and joggers remain documented derivatives only;
 surface design, physical validation, and production-readiness work are outside
