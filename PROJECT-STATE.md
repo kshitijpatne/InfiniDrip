@@ -1,8 +1,12 @@
 # InfiniDrip — Project State
 
-_Last updated: Epic 6 / Slices 127–129 review-ready, 2026-09-20; Epic 3, Epic 4, and Epic 5 are closed, Slice 126 is merged, and origin/main is current at `6f21ccb`. Slices 127–129 are implemented on their stacked contributor branches and await Codex review — none is merged._
+_Last updated: Epic 6 / Slice 130 review-ready, 2026-09-20; Epic 3, Epic 4, and Epic 5 are closed, Slice 126 is merged, and origin/main is current at `6f21ccb`. Slices 127–130 are implemented on their stacked contributor branches and await Codex review — none is merged._
 
 ## Current work — Epic 6 surface design foundation
+
+### Slice 130 — blocked guidance scope, complete (review-ready, not merged)
+
+Slice 130 implements the previously blocked warnings on branch `opencode/slice-130-surface-guidance-complete`, stacked on the Slice 129 branch: an explicit piece-space anchor contract (artwork centres on the piece cut-box centre plus offset, base size), out-of-bounds containment warnings, low-resolution warnings from persisted optional source dimensions against the documented 59 px/cm floor, full-coverage warnings at area ratio >= 1 from real shoelace measurements, and an editable Name input so invalid-ID guidance always focuses a real control. Thresholds and contracts are recorded as contributor proposals pending maintainer confirmation; no save-format version change, no export gating change, no physical-fit or production claim.
 
 ### Slice 129 — EPIC-6 exit gate (review-ready, not merged)
 

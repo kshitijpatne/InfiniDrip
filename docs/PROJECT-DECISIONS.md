@@ -262,3 +262,20 @@ ink-coverage guidance, tech-pack placement specification, print-ready output,
 and the cross-garment Epic 6 exit gate remain unimplemented and separately
 gated. Fabric.js may be used only after exact version/license/import fidelity
 are proven in-repo or the Epic records a stop.
+
+### Epic 6 Slice 130 proposals — contributor-defined, pending maintainer confirmation
+
+The following are engineering proposals implemented in Slice 130, not confirmed
+maintainer decisions. Each is deterministic, documented, and cheap to change;
+the maintainer confirms, adjusts, or rejects them at review:
+
+1. Piece-space anchor: artwork centres sit on the piece cut-box centre plus
+   the placement offset, evaluated at base size. Out-of-bounds means any
+   artwork corner outside the piece cut box (edge-touching counts as inside).
+2. Print floor: 59 px/cm, derived as floor(150 / 2.54) from the widely
+   published 150 DPI textile-print minimum. Warn-only; unknown sources never
+   warn.
+3. Full-coverage warn at artwork-to-piece area ratio >= 1, a physical
+   containment boundary rather than a production budget.
+4. Optional persisted source pixel dimensions per placement; absent means
+   unratable, never a failure. No save-format version change.

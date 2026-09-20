@@ -204,6 +204,19 @@ canvas target to anchor a cue to. Out-of-bounds, resolution-floor, and
 ink-coverage warnings stay explicitly unbuilt: no anchor semantics, no
 source dimensions, no researched thresholds, no invented numbers.
 
+Slice 130 completes that guidance boundary. `src/surface/piece-frames.ts`
+owns the anchor contract: per-role true-scale cut frames at base size,
+artwork corners centred on the piece-box centre plus the placement offset,
+containment checks, area ratios, and source-dimension resolution — all
+measured from the live draft, never stored. `src/guidance/surface-notes.ts`
+adds bounds, resolution-floor (59 px/cm, derivation recorded), and
+full-coverage (ratio >= 1) warnings beside the validity notes, with
+control-resolution keys for Review focus; rows gained an editable Name input
+so invalid-ID guidance always lands on a focusable control. Source pixel
+dimensions are optional persisted fields; absent means unratable, never a
+failure. No save-format version change, no export gating change, no
+threshold beyond the two documented deterministic boundaries.
+
 Slice 126 is now integrated and pushed at `139dbd1` after Codex review. The shared architecture
 still keeps surface state outside drafting, grading, checks, nesting, export
 gating, and cutting-file writers: native surface text/number edits commit on

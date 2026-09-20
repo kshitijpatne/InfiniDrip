@@ -277,6 +277,33 @@ panel/preview/sheet/tech-pack/save/load audit green; jsdom width rendering
 at 1280/900/700/560/390 without errors. Live-browser responsive and console
 proof remains Codex-side before any merge.
 
-`docs/PROJECT-DECISIONS.md` is intentionally untouched by this Epic: no new
-maintainer decision was made here, and the three blocked-warning questions
-await the maintainer rather than answering themselves.
+`docs/PROJECT-DECISIONS.md` is intentionally untouched by Slices 122–129: no new
+maintainer decision was made there, and the three blocked-warning questions
+awaited the maintainer rather than answering themselves. Slice 130 answers
+them as explicitly pending contributor proposals (see below), which the
+maintainer confirms, adjusts, or rejects at review.
+
+## Slice 130 — blocked guidance scope, complete (review-ready, not merged)
+
+Branch `opencode/slice-130-surface-guidance-complete`, stacked on the Slice
+129 branch. Implements the scope Slice 128 explicitly deferred: an explicit
+piece-space anchor contract, out-of-bounds containment warnings, persisted
+optional source dimensions with low-resolution warnings against the
+documented 59 px/cm floor, full-coverage warnings from real shoelace area
+measurements at ratio >= 1, and an editable Name input so invalid-ID
+guidance always focuses a real control. No save-format version change, no
+export gating change, no invented production claim.
+
+Delivered: `ArtworkPlacement.sourcePxWidth/sourcePxHeight` (optional,
+validated when present); `src/surface/piece-frames.ts` (frames, anchor
+corners, containment, coverage, resolution); extended
+`src/guidance/surface-notes.ts` (bounds/resolution/coverage notes with
+control-resolution keys); row Name input plus source-dimension inputs with
+focus keys; anchor caption in the preview panel; full unit/integration
+coverage of every new branch including hostile saves.
+
+Stop conditions not triggered: coverage held at 100% across all four
+metrics, no geometry/grading/export-truth change was required, empty
+placement leaves every legacy byte unchanged, no baseline moved. No
+physical-fit, drape, sewability, manufacturing, or production-readiness
+claim is made.

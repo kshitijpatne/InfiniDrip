@@ -334,7 +334,7 @@ export interface SurfacePanelData {
 }
 
 const SURFACE_NUMERIC: readonly {
-  readonly id: "widthCm" | "heightCm" | "dx" | "dy" | "scale" | "rotationDeg" | "zOrder";
+  readonly id: "widthCm" | "heightCm" | "dx" | "dy" | "scale" | "rotationDeg" | "zOrder" | "sourcePxWidth" | "sourcePxHeight";
   readonly label: string;
   readonly step: number;
   readonly unit: string;
@@ -346,6 +346,8 @@ const SURFACE_NUMERIC: readonly {
   { id: "scale", label: "Scale", step: 0.1, unit: "×" },
   { id: "rotationDeg", label: "Rotation", step: 1, unit: "°" },
   { id: "zOrder", label: "Stack order", step: 1, unit: "" },
+  { id: "sourcePxWidth", label: "Source width", step: 1, unit: "px" },
+  { id: "sourcePxHeight", label: "Source height", step: 1, unit: "px" },
 ];
 
 const surfaceRecord = (value: unknown): Record<string, unknown> | null =>
@@ -358,6 +360,8 @@ const surfaceNumber = (p: ArtworkPlacement, id: (typeof SURFACE_NUMERIC)[number]
   const source = id === "widthCm" ? p.widthCm
     : id === "heightCm" ? p.heightCm
     : id === "zOrder" ? p.zOrder
+    : id === "sourcePxWidth" ? p.sourcePxWidth
+    : id === "sourcePxHeight" ? p.sourcePxHeight
     : surfaceRecord(p.transform)?.[id];
   return typeof source === "number" ? source : NaN;
 };
@@ -382,6 +386,8 @@ const surfaceRow = (p: ArtworkPlacement, index: number, error: string | undefine
     `<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">` +
     `<strong style="font-size:12.5px;color:${T.line}">#${index + 1} ${safeId}</strong>` +
     `<button type="button" data-surface-remove-index="${index}" aria-label="Remove ${label}">Remove</button></div>` +
+    `<div style="margin-bottom:6px"><label for="surface-id-${index}" style="font-size:11.5px;color:${T.label};display:block;margin-bottom:2px">Name</label>` +
+    `<input id="surface-id-${index}" type="text" data-surface-index="${index}" data-surface-field="id" data-guidance-control="surface-${index}-id" value="${safeId}" aria-label="Name ${label}" aria-describedby="error-surface-${index}"/></div>` +
     `<div style="margin-bottom:6px"><label for="surface-kind-${index}" style="font-size:11.5px;color:${T.label};display:block;margin-bottom:2px">Kind</label>` +
     `<select id="surface-kind-${index}" data-surface-index="${index}" data-surface-field="kind" data-guidance-control="surface-${index}-kind" aria-label="Kind ${label}">${surfaceKindOptions(typeof p.kind === "string" ? p.kind : "")}</select></div>` +
     `<div style="margin-bottom:6px"><label for="surface-role-${index}" style="font-size:11.5px;color:${T.label};display:block;margin-bottom:2px">Piece role</label>` +
@@ -401,7 +407,7 @@ export function surfaceMarkup(data: SurfacePanelData): string {
     : rows;
   const preview = `<div data-surface-preview-shell${data.preview === "" ? " hidden" : ""} style="margin-top:10px"><div style="font-size:11px;color:${T.label};text-transform:uppercase;letter-spacing:0.04em;margin-bottom:7px">Artwork preview · true scale</div>` +
     `<div id="surface-preview">${data.preview}</div>` +
-    `<div style="font-size:11.5px;color:${T.label};margin-top:6px">Artwork space, not positioned on pieces yet. Piece placement arrives with print output.</div></div>`;
+    `<div style="font-size:11.5px;color:${T.label};margin-top:6px">Artwork space, true scale. Shift offsets measure from the piece bounding-box centre.</div></div>`;
   const form = `<div style="border:1px dashed ${BORDER};border-radius:8px;padding:10px;margin-top:4px">` +
     `<div style="font-size:11px;color:${T.label};text-transform:uppercase;letter-spacing:0.04em;margin-bottom:7px">Add artwork</div>` +
     `<div style="margin-bottom:6px"><label for="surface-new-id" style="font-size:11.5px;color:${T.label};display:block;margin-bottom:2px">Name</label>` +

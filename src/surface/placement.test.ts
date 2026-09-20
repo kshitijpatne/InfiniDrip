@@ -78,6 +78,15 @@ describe("placementError", () => {
     expect(placementError({ ...valid(), zOrder: NaN })).toContain("zOrder");
     expect(placementError({ ...valid(), sourceName: 9 })).toContain("sourceName");
   });
+  it("leaves absent source dimensions alone and validates present ones", () => {
+    expect(placementError(valid())).toBeNull();
+    expect(placementError({ ...valid(), sourcePxWidth: 1200, sourcePxHeight: 1500 })).toBeNull();
+    expect(placementError({ ...valid(), sourcePxWidth: 0 })).toContain("sourcePxWidth");
+    expect(placementError({ ...valid(), sourcePxWidth: -4 })).toContain("sourcePxWidth");
+    expect(placementError({ ...valid(), sourcePxWidth: "wide" })).toContain("sourcePxWidth");
+    expect(placementError({ ...valid(), sourcePxHeight: 0 })).toContain("sourcePxHeight");
+    expect(placementError({ ...valid(), sourcePxHeight: NaN })).toContain("sourcePxHeight");
+  });
   it("prefixes transform problems with the transform path", () => {
     const bad = { ...valid(), transform: { ...EMPTY_TRANSFORM, scale: 0 } };
     const message = placementError(bad);

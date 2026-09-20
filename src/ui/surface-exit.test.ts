@@ -6,6 +6,8 @@ import { describe, it, expect, vi } from "vitest";
 import { mountApp } from "./app";
 
 const GARMENTS = ["tee", "fitted", "tank", "polo", "woven-shirt", "skirt", "trouser"];
+/** A role every garment family actually drafts (the trouser splits fronts). */
+const ROLE_FOR: Record<string, string> = { trouser: "frontLeft" };
 
 const clickId = (root: HTMLElement, id: string): void => {
   root.querySelector<HTMLElement>(`#${id}`)!.click();
@@ -29,9 +31,19 @@ describe("EPIC-6 exit audit", () => {
         clickId(root, "welcome-skip");
         root.querySelector<HTMLButtonElement>(`#garment-${garment}`)!.click();
         clickId(root, "journey-step-fit");
+        const role = ROLE_FOR[garment] ?? "front";
         root.querySelector<HTMLInputElement>("#surface-new-id")!.value = "exit-print";
-        root.querySelector<HTMLInputElement>("#surface-new-role")!.value = "front";
+        root.querySelector<HTMLInputElement>("#surface-new-role")!.value = role;
         root.querySelector<HTMLButtonElement>("#surface-add")!.click();
+        if (garment === "trouser") {
+          // Quarter leg panels are narrow; fit the audit artwork inside them.
+          for (const [field, value] of [["widthCm", "5"], ["heightCm", "5"]] as const) {
+            const input = root.querySelector<HTMLInputElement>(
+              `input[data-surface-index="0"][data-surface-field="${field}"]`)!;
+            input.value = value;
+            input.dispatchEvent(new Event("focusout", { bubbles: true }));
+          }
+        }
         expect(root.querySelectorAll("[data-surface-row]")).toHaveLength(1);
         expect(root.querySelector('#surface-preview polygon[data-placement="exit-print"]')).not.toBeNull();
         expect(root.querySelector("#guidance-host")!.textContent).not.toContain("exit-print");

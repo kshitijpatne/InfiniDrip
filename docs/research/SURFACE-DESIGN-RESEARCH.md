@@ -110,3 +110,43 @@ not implemented. Each needs a product decision this Epic does not contain:
 
 Until these are answered, validity warnings are the complete, honest
 guidance boundary. No invented threshold ships in their place.
+
+## Slice 130 resolutions
+
+Slice 130 answers the three blocked questions with explicit, bounded
+contracts instead of deferring them again:
+
+### Anchor contract
+
+Artwork offsets measure from the centre of the named piece's true-scale cut
+bounding box at base size (the same size the tech-pack sketch draws). Both
+the box and the artwork corners derive from real drafted geometry, so
+out-of-bounds is a measured containment fact: any artwork corner outside the
+piece box warns, edge-touching counts as inside (matching the existing
+overlap convention). Piece roles resolve exactly: block role first, then
+piece name; anything else warns with the available role list. Frames rebuild
+per draw from the live draft, so measurement edits move the boundary and the
+warnings follow without stored state. The panel caption states the anchor.
+
+### Print floor derivation
+
+150 DPI is the widely published minimum for textile print reproduction.
+150 / 2.54 = 59.055… px/cm; the contract floors to 59 and warns below it.
+Warn-only; placements without persisted source dimensions are unratable and
+never warn. Source dimensions are optional persisted fields, so old saves
+load silently and no version bump was needed.
+
+### Coverage formula
+
+Coverage = (width × height × scale²) / (cut-outline shoelace area). Both
+areas are real measurements, not estimates. The warn threshold is a ratio of
+1 — artwork at or above piece area cannot print without full-bleed intent —
+which is a physical containment boundary, not a production budget. Below 1
+the ratio stays silent; no ink-hand or curing claim is made.
+
+### Artwork IDs stay editable
+
+The row Name input keeps ids user-editable, so invalid-ID guidance always
+has a focusable correction target. Rows are addressed by position, so two
+rows may transiently share an id without collapsing into each other; the
+add form still rejects duplicates for new entries.
