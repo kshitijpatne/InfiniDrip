@@ -6,8 +6,8 @@ Contributor: Claude Code CLI, headless `sonnet` model (`claude-sonnet-5`)
 Contributor branch: `claude/epic-10-adversarial-hardening`
 Integrated baseline: Slice 130 `241732e`; EPIC 9 integration `516fd5a`
 
-Status: integrated and locally verified; Codex remains the sole actor allowed
-to push the final result to `origin/main`.
+Status: complete; Codex reviewed, integrated, and solely pushed the result to
+`origin/main` at `c627ac5`.
 
 ## Scope and review
 
@@ -119,3 +119,12 @@ This is digital evidence only. It does not establish physical fit, drape,
 sewability, manufacturing readiness, or production readiness. The package is
 unsigned; signing procurement, an updater feed, installer claims, and
 unsupported cross-OS guarantees remain separate maintainer decisions.
+
+## Final push verification
+
+Codex pushed the Slice 146 integration commit `c627ac5` with
+`git push origin HEAD:main`, then verified
+`git ls-remote origin refs/heads/main` returned
+`c627ac5c72f58717235ec73995837ea0daffb024`. Slice 147 is a documentation-only
+follow-up to make this remote verification durable; no contributor branch
+pushed or merged `main`.

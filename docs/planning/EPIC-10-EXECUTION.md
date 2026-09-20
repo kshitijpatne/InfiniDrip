@@ -1,6 +1,6 @@
 # EPIC 10 — Quality and Adversarial Hardening
 
-Status: **IMPLEMENTED — Claude contribution reviewed; Codex repair and integration complete; final push gate remains open**
+Status: **COMPLETE — Claude contribution reviewed; Codex repair, integration, and push verified at `c627ac5`**
 
 ## Baseline and objective
 
@@ -170,8 +170,8 @@ parsed outputs, all existing tests, and coverage remain green.
 Owner: Codex. Inspect the full Claude diff and Codex repair, integrate only the
 reviewed test/developer additions and the bounded repair, update durable state,
 run the complete serial/coverage/build/package/release gate, and push the
-result to `origin/main`. This slice is not complete until the remote ref is
-verified at the pushed commit.
+result to `origin/main`. This slice completed when Codex verified the remote
+ref at `c627ac5`; Slice 147 records the final documentation-only state.
 
 ## Verification commands and required evidence
 
@@ -254,9 +254,9 @@ Codex will inspect the actual diff and rerun every gate before integration.
 
 ## Final exit criteria
 
-EPIC 10 is complete only when Codex has inspected and accepted the isolated
-Claude diff, any production issue has been fixed separately and reviewed,
-all required test-only coverage and permanent fixtures are integrated, the
-full repository and EPIC 9 release gates pass, all eight legacy hashes remain
-unchanged, durable docs report the evidence, and Codex alone has merged and
-pushed the integrated result to `origin/main`.
+EPIC 10 is complete: Codex inspected and accepted the isolated Claude diff,
+fixed and reviewed the oracle-discovered production issue separately, integrated
+all required test-only coverage and permanent fixtures, passed the full
+repository and EPIC 9 release gates, preserved all eight legacy hashes,
+recorded the evidence in durable docs, and alone merged and pushed the
+integrated result to `origin/main` at `c627ac5`.

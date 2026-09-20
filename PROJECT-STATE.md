@@ -1,10 +1,10 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 146 integration checkpoint, 2026-09-20; the verified
+_Last updated: Slice 147 final push verification, 2026-09-20; the verified
 Slice 130 tip is `241732e` and the earlier Slice 129 commit is `bc7ae73`.
-EPIC 9 and EPIC 10 are implemented and locally verified; the durable goal
-remains open until Codex verifies the final push to `origin/main`. Physical
-validation and production readiness remain unverified._
+EPIC 9 and EPIC 10 are implemented, reviewed, documented, and pushed by
+Codex to `origin/main`. Physical validation and production readiness remain
+unverified._
 
 ## Current work — post-Epic 6 planning
 
@@ -26,13 +26,13 @@ Codex has recorded the durable execution packets before implementation:
   surface invariants, and permanent fixtures are in scope; production geometry
   and all baselines remain protected.
 
-The active durable goal is to complete EPIC 9 and EPIC 10 end-to-end, with
-Codex as final reviewer, integrator, and sole pusher to `origin/main`. The goal
-cannot close until implementation, realistic-failure pressure testing,
-documentation, review, merge, and push are all evidenced. The completed local
-execution order is Codex EPIC 9 Slices 135–139, isolated Claude EPIC 10 Slices
-140–144, Codex Slice 145 repair, and Codex Slice 146 integration. EPIC 7
-remains independent and must not edit this checkout.
+The durable goal to complete EPIC 9 and EPIC 10 end-to-end is complete. Codex
+was the final reviewer, integrator, and sole pusher to `origin/main`; the
+remote ref was verified at the integrated commit `c627ac5` before the final
+documentation record. The execution order was Codex EPIC 9 Slices 135–139,
+isolated Claude EPIC 10 Slices 140–144, Codex Slice 145 repair, Codex Slice
+146 integration, and Slice 147 push verification. EPIC 7 remains independent
+and must not edit this checkout.
 
 ### EPIC 9 — implementation complete on the supported host
 
@@ -71,6 +71,14 @@ has passed the serial full suite, 100% coverage, typecheck, production build,
 parsed-output checks, and the complete packaged Electron gate. EPIC 7 remains
 an independent OpenCode evidence audit and has no implementation authority in
 this checkout.
+
+### Slice 147 — EPIC 9/10 goal closed after Codex-only push
+
+Codex pushed the reviewed Slice 146 integration commit `c627ac5` to
+`origin/main`; `git ls-remote origin refs/heads/main` returned the same commit
+before this documentation-only record was prepared. The final documentation
+update is also Codex-owned and preserves the user’s untracked logs and
+`tmp/` evidence.
 
 ### Epic 6 — complete and pushed (Slices 122–130)
 
