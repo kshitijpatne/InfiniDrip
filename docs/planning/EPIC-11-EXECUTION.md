@@ -8,6 +8,10 @@ documentation work after Codex has supplied a slice packet. Codex owns geometry,
 drafting, data contracts, review, repairs, integration and any push to
 `origin/main`.
 
+Scheduling note: the garment-expansion research wave now occupies Slices
+149-154. Epic 11's unchanged implementation plan is renumbered to Slices
+155-161; no scope, acceptance criterion or start-gate change is implied.
+
 Research authority: `docs/research/garments/POLO-V2-RESEARCH.md`.
 
 ## Outcome
@@ -21,7 +25,7 @@ shared output contract and legacy export hash.
 ## Start gate and parallel boundary
 
 Epic 11 research may coexist with the isolated Epic 7 workstream. Implementation
-Slices 149-155 must not start until all of the following are true:
+Slices 155-161 must not start until all of the following are true:
 
 1. Epic 7 Slices 132-134 are returned, reviewed by Codex, repaired if needed,
    merged and pushed to `origin/main`.
@@ -104,7 +108,7 @@ implementation-start claim.
 
 Owner/model: Codex, Sol high. Result: complete in this documentation change.
 
-### Slice 149 - Pure shaped collar and stand geometry contract
+### Slice 155 - Pure shaped collar and stand geometry contract
 
 Scope: add a pure deterministic geometry helper that consumes neckline
 interface lengths/landmarks and the resolved collar options, returning shaped
@@ -125,9 +129,9 @@ exports.
 Owner/model: Codex, Sol high for curve construction and numeric pressure tests.
 Gate: focused geometry properties plus the complete unchanged project gate.
 
-### Slice 150 - Replace V1 collar and stand pieces
+### Slice 156 - Replace V1 collar and stand pieces
 
-Scope: use Slice 149 geometry for the four physical Polo collar/stand roles;
+Scope: use Slice 155 geometry for the four physical Polo collar/stand roles;
 add the two new collar options, seam interfaces, allowances and landmarks.
 
 Acceptance:
@@ -143,7 +147,7 @@ Non-goals: previews, placket, vents, UI, physical collar-roll claims.
 Owner/model: Codex, Sol high. Gate: curve/allowance validation, stitch checks,
 parsed Polo SVG/DXF and full regression.
 
-### Slice 151 - Placket-base construction truth
+### Slice 157 - Placket-base construction truth
 
 Scope: add two diagonal clip/cut marks and the named base reinforcement/box cue
 derived from the live placket and its 1 cm attachment allowance.
@@ -161,7 +165,7 @@ or adding a gusset.
 Owner/model: Codex; Luna max is sufficient after a short Sol-high contract
 review. Gate: pattern-mark writer matrix, parsed outputs and full regression.
 
-### Slice 152 - Side vents and dropped back hem
+### Slice 158 - Side vents and dropped back hem
 
 Scope: implement the vent/open-edge topology and back-drop options while
 preserving matched sewn side interfaces.
@@ -180,7 +184,7 @@ Non-goals: curved Polo hem, sleeve band, new material model or nesting changes.
 Owner/model: Codex, Sol high for topology and seam ownership. Gate: focused
 topology/allowance tests, cross-size stitches, parsed exports and full regression.
 
-### Slice 153 - Preview, controls, persistence and reports
+### Slice 159 - Preview, controls, persistence and reports
 
 Scope: route all four V2 options through the existing recipe UI/save contract;
 render the same collar/stand facts on front and back; update POMs, guidance,
@@ -200,7 +204,7 @@ Owner/model: Codex; Sol high for contract review, Luna max for mechanical
 wiring/tests. Gate: persistence migration, mounted UI/accessibility, render DOM
 and full regression.
 
-### Slice 154 - Cross-size, surface, nesting and export pressure matrix
+### Slice 160 - Cross-size, surface, nesting and export pressure matrix
 
 Scope: run the complete research edge-case matrix through every downstream
 consumer after Epic 7 is present.
@@ -222,7 +226,7 @@ Owner/model: Codex; Luna max executes the matrix, Sol high investigates any
 geometry/export anomaly. Gate: 100% coverage, typecheck, production build,
 property/oracle suite, rendered evidence and parsed outputs.
 
-### Slice 155 - Epic 11 exit and durable handoff
+### Slice 161 - Epic 11 exit and durable handoff
 
 Scope: review the total Epic diff, fix every defect, run the full gate from a
 clean checkout, create `docs/release/EPIC-11-EXIT-REPORT.md`, synchronize all

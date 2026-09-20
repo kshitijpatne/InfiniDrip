@@ -528,6 +528,26 @@ explicit geometry input or physical evidence supports a bounded contract.
 Grading continues to re-draft from each size's measurements; no second manual
 point-grade system is introduced.
 
+### Slices 149–154 research boundary — next garment families
+
+`docs/planning/GARMENT-EXPANSION-RESEARCH-WAVE.md` defines a documentation-only
+dependency audit for casual shorts, joggers, cut-and-sew sweatshirt/pullover
+hoodie, and jeans. No new recipe, draft input, component or persistence field is
+architecturally accepted merely because it appears in a research packet.
+
+The research classification is: reuse unchanged, parameterized derivative, new
+component contract, new engine input, or physical unknown. Existing block reuse
+must be construction-correct for the target garment and every curved interface
+must be validated by its real seam path, not endpoint span. Material stretch,
+recovery, rib reduction, elastic behavior, denim shrinkage and hardware bulk
+remain explicit inputs/unknowns; research must not replace them with universal
+fixed values.
+
+The wave can run beside Epic 7 because it changes documentation only. Claude's
+two isolated files do not own architecture. Codex reconciles all findings in
+Slice 154 before any future epic can be authorized. Epic 11 implementation is
+renumbered to Slices 155–161 without changing its geometry or start gate.
+
 Epic 3 is closed at the integrated straight-leg trouser plus shared numeric
 editing boundary. Shorts and joggers remain documented derivatives only;
 surface design, physical validation, and production-readiness work are outside

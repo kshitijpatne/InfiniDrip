@@ -65,7 +65,8 @@ planning surface for Codex after the completed Epic 6 integration.
 | **Done / gate recorded** | **EPIC 9 — Desktop release readiness (Slices 135–139)** | **Complete — Codex reviewed and pushed** | Windows x64 unpacked package passed offline/native-save/six-export/menu-window/fresh-stale/failure/integrity checks; repeated manifest hash; no signing, updater, installer, or cross-OS claim |
 | **Done / gate recorded** | **EPIC 10 — Quality and adversarial hardening (Slices 140–146)** | **Complete — Claude contributed; Codex repaired, reviewed, and pushed** | 99 files / 1,330 tests, 100% coverage, seeded properties, test-only oracle, seven recipes, old-save compatibility, permanent fixtures, bounded concave-offset repair; no baseline movement |
 | **Now / parallel-safe** | **EPIC 7 — Nesting Intelligence Pack (Slices 132–134)** | **OpenCode-owned under Codex review** | Additive metrics/UI/persistence around `nestPieces`; exact 10% buffer, 0–50% bounds, optional fabric-on-hand, truthful directional flag; no geometry or export changes |
-| **Next / packet complete** | **EPIC 11 — Polo V2 fidelity refinement (Slices 148–155)** | **Codex-owned; research complete, implementation waiting** | Shaped neckline-derived collar/stand, back preview, placket-base marks, side vents and adjustable back drop; implementation starts only after Epic 7 is merged/reviewed |
+| **Now / research-only** | **Garment-expansion research wave (Slices 149–154)** | **Codex-owned; Claude contributes two isolated packets** | Shorts → joggers → cut-and-sew sweatshirt/pullover hoodie → jeans; implementation remains unauthorized; final synthesis must resolve material/component prerequisites |
+| **Next / packet complete** | **EPIC 11 — Polo V2 fidelity refinement (Slice 148, implementation Slices 155–161)** | **Codex-owned; research complete, implementation waiting** | Shaped neckline-derived collar/stand, back preview, placket-base marks, side vents and adjustable back drop; implementation starts only after Epic 7 is merged/reviewed |
 | **Next** | **Surface v1 stabilization** — follow-up only for a reproducible defect or real user evidence | **Conditional** | Epic 6 exit evidence plus a concrete failure; no speculative polish |
 | **Later** | **Further garment expansion** — e.g. shorts/jogger relationship | **Directional** | New garment research record, scoped construction decisions, and physical-validation policy; do not start merely because the engine can render it |
 | **Later / blocked** | **Physical fit validation** | **Blocked by maintainer constraint** | No manufacturer/printer is available; no sewn-fit claim or schedule until explicitly reopened |
@@ -82,10 +83,12 @@ After Epic 6, the maintainer selected and completed the explicitly scoped EPIC
 2. **EPIC 10.** Add bounded adversarial coverage and repair only the
    oracle-confirmed concave-offset defect without changing output baselines or
    truthful invalid-state behavior.
-3. **EPIC 11 garment refinement.** The Polo V2 research and execution packet is
-   complete. Slices 149–155 wait for the reviewed Epic 7 merge, then remain
+3. **Garment-expansion research.** Complete the Slices 149–154 evidence wave;
+   do not treat it as implementation authority.
+4. **EPIC 11 garment refinement.** The Polo V2 research and execution packet is
+   complete. Slices 155–161 wait for the reviewed Epic 7 merge, then remain
    Codex-owned because they change garment geometry and shared outputs.
-4. **EPIC 7.** Implement the additive Nesting Intelligence Pack around the
+5. **EPIC 7.** Implement the additive Nesting Intelligence Pack around the
    existing deterministic shelf estimator; do not pull in Sparrow or a runtime
    irregular-nesting engine.
 
@@ -405,7 +408,7 @@ Ordered so each block unlocks several garments:
 |---|---|---|---|
 | 2.1 | **Woven shirt block** (collar + stand, placket, cuff, yoke) | Button-up (long/short sleeve), blouse, overshirt | 15–25 slices |
 | 2.2 | **Knit top variants** (extends existing tee) | Polo (needs placket+collar from 2.1), tank, women's tops | 8–12 slices |
-| 2.2a | **EPIC 11 Polo V2 fidelity refinement** — shaped neckline-derived collar/stand, truthful back-neck representation, placket-base clip/reinforcement marks, side vents and adjustable dropped back hem. Sleeve rib, material-dependent turn-of-cloth and manual point grading are explicitly deferred. | Polo V2 / upgraded Polo | Research/packet complete in Slice 148; Slices 149–155 start only after Epic 7 is merged and reviewed |
+| 2.2a | **EPIC 11 Polo V2 fidelity refinement** — shaped neckline-derived collar/stand, truthful back-neck representation, placket-base clip/reinforcement marks, side vents and adjustable dropped back hem. Sleeve rib, material-dependent turn-of-cloth and manual point grading are explicitly deferred. | Polo V2 / upgraded Polo | Research/packet complete in Slice 148; Slices 155–161 start only after Epic 7 is merged and reviewed |
 | 2.2b | **Edit-view final-design contract** — if exploratory front editing is promoted to a final-design override, add a durable design-state model, define persistence and size/grading semantics, route validation/nesting/preview/export through it, and verify every output; otherwise retain the explicit preview-only contract | Edit workflow | Decision gate after Phase C3; model change is mandatory before claiming edits affect final outputs |
 | 2.3 | **Trouser block** (crotch curve, rise, seat angle) | Casual pants, joggers, shorts, formal trousers | 15–25 slices |
 | 2.4 | **Denim variant** of 2.3 | Jeans | 6–10 slices |

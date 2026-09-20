@@ -73,8 +73,12 @@ snapshots; they are not current status.
   hardening scope, seeded-property/oracle boundary, handoff prompt, and exit
   gate.
 - `docs/planning/EPIC-11-EXECUTION.md` — Codex-owned Polo V2 fidelity redesign
-  packet, exact scope/options, Epic 7 start gate, Slices 148–155, pressure
+  packet, exact scope/options, Epic 7 start gate, Slice 148 plus Slices 155–161,
+  pressure
   matrix, and return contract.
+- `docs/planning/GARMENT-EXPANSION-RESEARCH-WAVE.md` — active Slices 149–154
+  research-only contract, evidence standard, Codex/Claude ownership boundaries,
+  stop conditions and future-family synthesis gate.
 - `docs/release/EPIC-9-EXIT-REPORT.md` — current-host packaged release
   evidence, failure matrix, artifact hashes, and explicit signing/platform
   limitations.

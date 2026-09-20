@@ -9,8 +9,11 @@ is authoritative for maintainer decisions that are not derivable from code.
 
 - Epic 7 Nesting Intelligence is the active isolated OpenCode workstream under
   Codex review. Epic 8 remains on hold until Epic 7 is merged.
+- Slices 149–154 are the active documentation-only garment-expansion research
+  wave: casual shorts, joggers, cut-and-sew sweatshirt/pullover hoodie, and
+  jeans. It may run beside Epic 7 but cannot authorize garment implementation.
 - Epic 11 Polo V2 research and execution scoping is complete in Slice 148.
-  Implementation Slices 149–155 must wait for the reviewed Epic 7 merge, then
+  Implementation Slices 155–161 must wait for the reviewed Epic 7 merge, then
   remain Codex-owned because they change garment geometry and shared outputs.
 - No InfiniDrip garment has been physically sewn and validated yet. Do not claim
   physical fit until evidence is recorded.

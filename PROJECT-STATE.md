@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 148 Polo V2 research/packet completion, 2026-09-20.
+_Last updated: Slice 149 garment-expansion research-wave start, 2026-09-20.
 EPIC 9 and EPIC 10 are implemented, reviewed, documented, and pushed by
 Codex to `origin/main`. Epic 7 remains the isolated OpenCode implementation
 workstream. Epic 11 implementation is deliberately waiting for the reviewed
@@ -8,11 +8,29 @@ Epic 7 merge. Physical validation and production readiness remain unverified._
 
 ## Current work — post-Epic 6 planning
 
+### Slice 149 — garment-expansion research wave active
+
+The product owner authorized a parallel documentation-only research wave for
+casual shorts, joggers, cut-and-sew crewneck sweatshirt/pullover hoodie, and
+jeans. The binding scope, evidence standard, ownership and stop conditions are
+recorded in `docs/planning/GARMENT-EXPANSION-RESEARCH-WAVE.md`.
+
+Codex owns the family dependency contract, shorts, jeans, cross-family
+synthesis, final decisions and integration. Claude Code CLI may edit only the
+jogger and sweatshirt/hoodie research records in an isolated worktree; Codex
+must independently review every source, conclusion and diff. This work does
+not authorize production code, new recipe IDs, material-contract changes,
+baselines or physical-fit claims and does not touch Epic 7.
+
+The research wave occupies Slices 149–154. Epic 11's implementation scope is
+unchanged and renumbered to Slices 155–161; its reviewed-Epic-7 start gate
+remains binding.
+
 ### Slice 148 — EPIC 11 Polo V2 research and execution packet complete
 
 Codex completed the cross-vetted Polo V2 record in
-`docs/research/garments/POLO-V2-RESEARCH.md` and the binding Slices 148–155
-packet in `docs/planning/EPIC-11-EXECUTION.md`. The review covered the shipped
+`docs/research/garments/POLO-V2-RESEARCH.md` and the binding Slice 148 plus
+Slices 155–161 packet in `docs/planning/EPIC-11-EXECUTION.md`. The review covered the shipped
 V1 draft/render/export contracts, the supplied 22-page Polo CAD assignment,
 independent collar/stand, placket, vent, band and grading sources, the existing
 woven-shirt component evidence, and the active Epic 7 boundary.
@@ -32,7 +50,7 @@ complete grade specification. V2 continues the existing grade-by-redraft model
 and proves every size from the actual neckline and stand seams.
 
 This is an execution-ready documentation result, not an implementation-start or
-physical-validation claim. Slices 149–155 begin only after Epic 7 Slices
+physical-validation claim. Slices 155–161 begin only after Epic 7 Slices
 132–134 are returned, Codex-reviewed, repaired if needed, merged and pushed.
 No application code, export baseline or Epic 7 file changes are part of Slice
 148.

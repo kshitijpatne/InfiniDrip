@@ -332,9 +332,32 @@ research-backed execution contract is:
 - Polo grading remains measurement-driven re-drafting. The supplied CAD
   assignment's isolated point shifts are not a complete grade and will not be
   layered onto the engine.
-- Slice 148 completes research and scoping only. Slices 149–155 must wait until
+- Slice 148 completes research and scoping only. Slices 155–161 must wait until
   Epic 7 is Codex-reviewed, merged and pushed. Epic 11 must not modify Epic 7,
   `nestPieces`, Electron release work or protected export baselines.
 - Physical sampling remains paused. Digital seam/output evidence cannot be
   described as proof of fit, collar roll, recovery, wash behavior or production
   readiness.
+
+## Garment-expansion research wave — authorized 2026-09-20
+
+- Slices 149–154 are a research-only wave in this order: casual shorts,
+  joggers, cut-and-sew crewneck sweatshirt/pullover hoodie, then jeans, followed
+  by cross-family synthesis. Parallel evidence gathering may finish out of
+  sequence, but the dependency and eventual implementation order must remain
+  explicit.
+- Codex owns the shared family contract, shorts, jeans, roadmap decisions,
+  contributor review and integration. Claude Code CLI may contribute only the
+  two isolated knit-family research files under the binding wave packet.
+- Shorts and joggers are evaluated as derivatives of the shipped straight-leg
+  trouser, not assumed to be mere length/style toggles. A sweatshirt precedes a
+  pullover hood. Jeans require their own denim/construction record.
+- A true knitted sweater, zip-up hoodie/lightweight zip jacket, woven chore
+  jacket/overshirt and tailored jacket are not part of this wave. They retain
+  separate engine or complexity gates.
+- Any proposal needing new draft-time material/hardware state, shared source-of-
+  truth changes, save migration, baseline movement or physical-performance
+  claims is recorded as a future decision, not hidden behind a constant.
+- The wave does not authorize implementation. Polo V2 remains the next
+  implementation-ready garment geometry epic after its unchanged Epic 7 gate,
+  now numbered Slices 155–161.
