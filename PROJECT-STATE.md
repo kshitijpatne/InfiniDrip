@@ -1,8 +1,12 @@
 # InfiniDrip — Project State
 
-_Last updated: Epic 6 / Slice 126 accepted and pushed after Codex review, 2026-09-19; Epic 3, Epic 4, and Epic 5 are closed, and origin/main is current at `139dbd1`._
+_Last updated: Epic 6 / Slice 127 review-ready, 2026-09-20; Epic 3, Epic 4, and Epic 5 are closed, Slice 126 is merged, and origin/main is current at `6f21ccb`. Slice 127 is implemented on its contributor branch and awaits Codex review — it is not merged._
 
 ## Current work — Epic 6 surface design foundation
+
+### Slice 127 — tech-pack spec plus opt-in print output (review-ready, not merged)
+
+Slice 127 adds the output boundary on branch `opencode/slice-127-surface-output`: a fifth tech-pack page naming every artwork entry with true-scale geometry and INVALID flags (empty sets stay byte-identical), a true-scale print-sheet SVG writer carrying the locked 10 cm calibration square, and a Current-style-artwork export scope with an opt-in Print sheet button that stays disabled with an artwork reason while the style is empty. Whole-style semantics match tech pack and projector: the per-size picker is ignored and the copy says so. Artwork-space centimetres are the print specification and piece association is by role name; no on-piece anchor is invented. Cutting writers are untouched and placement never enters them — all eight legacy hashes stay green with artwork present in state. No physical-fit, drape, sewability, manufacturing, or production-readiness claim is made.
 
 ### Current coordination status — maintainer update 2026-09-19
 

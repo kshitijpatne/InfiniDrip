@@ -165,10 +165,9 @@ headless math and renderer have a checked integration seam.
 
 Placement validation reports invalid input rather than clamping it. Effective
 resolution rejects non-finite or non-positive pixel/geometry values and returns
-unknown for unratable input. Piece clipping, guidance warnings, tech-pack
-placement specification, and opt-in print-ready output remain deferred to later
-Epic 6 slices. The surface preview is a flat placement visualization, not a
-drape, fit, sewability, or production-readiness simulation.
+unknown for unratable input. Piece clipping and guidance warnings remain
+deferred to Slice 128. The surface preview is a flat placement visualization,
+not a drape, fit, sewability, or production-readiness simulation.
 
 Slice 126 wires that foundation into the app without widening its authority.
 `src/surface/store.ts` owns the per-garment/style book (sizes never enter the
@@ -182,6 +181,17 @@ steppers; rows are addressed by position so duplicate or hostile ids cannot
 drift; unplaceable entries are listed with their error and skipped by the
 true-scale artwork-space preview. Surface state never reaches drafting,
 grading, checks, nesting, export gating, or cutting-file writers.
+
+Slice 127 adds the output boundary, still without touching geometry. The
+tech-pack writer appends an artwork-placement page only for non-empty sets, so
+empty artwork leaves the four-page document byte-identical. The new
+`src/export/surface-sheet.ts` renders one style's artwork at true scale with
+the locked 10 cm calibration square; unplaceable entries are named with their
+error, never silently dropped. A Current-style-artwork export scope carries
+the opt-in Print sheet button, disabled with an artwork reason while the
+style is empty. Artwork-space centimetres are the print specification and
+piece association is by role name — no on-piece anchor is invented. Cutting
+files never include placement, with or without artwork in state.
 
 Slice 126 is now integrated and pushed at `139dbd1` after Codex review. The shared architecture
 still keeps surface state outside drafting, grading, checks, nesting, export

@@ -190,3 +190,31 @@ Integration record: PR #5 was merged by Codex from contributor head
 `7c1348c06e9cedf73750518e955c44e2825d41b5` with review corrections in merge
 commit `139dbd1e86b045ca54cb1a6a07f6d3d315fa67ba`, and `origin/main` now points
 to that commit. Slices 127–129 remain unmerged external work.
+
+## Slice 128 — guidance warnings (pending)
+
+## Slice 129 — EPIC-6 exit gate (pending)
+
+## Slice 127 — tech-pack spec plus opt-in print output (review-ready, not merged)
+
+Branch `opencode/slice-127-surface-output` from clean `origin/main` at
+`6f21ccb` (Slice 126 already merged, so no stacking was needed).
+
+Delivered: a fifth tech-pack page naming every artwork entry with true-scale
+geometry and INVALID flags, appended only for non-empty sets (empty sets stay
+byte-identical); a new true-scale print-sheet SVG writer with the locked 10 cm
+calibration square, artwork polygons, and a header that names unplaceable
+entries instead of dropping them; a Current-style-artwork export scope with an
+opt-in Print sheet button that stays disabled with an artwork reason while the
+style is empty; whole-style download semantics shared with tech pack and
+projector (per-size picker ignored, stated in the UI copy).
+
+Anchor decision recorded: artwork-space centimetres are the print
+specification and piece association is by role name. No on-piece anchor point
+is invented; positioning artwork on pieces stays explicitly out of scope.
+
+Stop conditions not triggered: all eight legacy hashes green with artwork
+present in state (cutting writers untouched and placement never included in
+them), coverage held at 100% across all four metrics, no geometry/grading/
+export-truth change was required. No physical-fit, manufacturing, or
+production-readiness claim is made.

@@ -43,6 +43,9 @@ import {
 } from "../drafting";
 import { flattenPiece, layoutPieces, polylineBounds } from "./layout";
 import { assemblePdf, pt, PAGE_A4, PageSize } from "./pdf";
+import type { ArtworkPlacement } from "../surface/placement";
+import { effectiveSize, placementError } from "../surface/placement";
+import { surfacePlaceable } from "../surface/store";
 
 const M = 1.5; // cm page margin, all four sides
 
@@ -264,19 +267,65 @@ function fitRecordStream(predicted: readonly PredictedPom[], label: string, page
   return lines.join("\n");
 }
 
+// ── Page 5 (opt-in): artwork placement specification ──────────────────────────
+
+// Present only when the style carries artwork. Coordinates are artwork-space
+// centimetres (the same frame as the print sheet); piece association is by
+// role name, with no invented on-piece anchor. Invalid entries are listed with
+// their error so the handoff never hides a correction.
+function surfaceSpecStreams(
+  surface: readonly ArtworkPlacement[],
+  styleLabel: string,
+  page: PageSize
+): string[] {
+  const rows = surface.map((p, index) => {
+    const error = placementError(p);
+    const raw = p as unknown as Record<string, unknown>;
+    const dims = surfacePlaceable(p)
+      ? (() => { const s = effectiveSize(p); return `${s.widthCm.toFixed(1)} x ${s.heightCm.toFixed(1)} cm`; })()
+      : `${String(raw.widthCm)} x ${String(raw.heightCm)} cm`;
+    const t = p.transform as unknown as { dx: unknown; dy: unknown; scale: unknown; rotationDeg: unknown } | null;
+    const pose = t !== null && typeof t === "object" && !Array.isArray(t)
+      ? `at (${String(t.dx)}, ${String(t.dy)}) scale ${String(t.scale)} rot ${String(t.rotationDeg)} deg`
+      : "unmeasurable pose";
+    const source = typeof p.sourceName === "string" && p.sourceName !== "" ? ` - ${p.sourceName}` : "";
+    return `#${index + 1} ${String(p.id)} (${String(p.kind)}) - piece ${String(p.pieceRole)} - ` +
+      `${dims} ${pose} stack ${String(p.zOrder)}${source}` + (error ? ` INVALID: ${error}` : "");
+  });
+  const perPage = Math.max(1, Math.floor((page.height - M - 1.5 - 3.5) / 0.62));
+  const pages: string[] = [];
+  for (let start = 0; start < rows.length; start += perPage) {
+    const lines: string[] = [
+      text(M, M + 1, 13, `Artwork placement - ${styleLabel}`, page),
+      text(M, M + 2.2, 9, "True scale artwork space. Shared across graded sizes.", page),
+    ];
+    let y = M + 3.5;
+    for (const row of rows.slice(start, start + perPage)) {
+      lines.push(text(M, y, 9, row, page));
+      y += 0.62;
+    }
+    pages.push(lines.join("\n"));
+  }
+  return pages;
+}
+
 // ── Public API ────────────────────────────────────────────────────────────────
 
 /**
  * Export the garment as a four-page tech-pack PDF: flat sketch (sample size),
  * graded POM spec table, the recipe's BOM + construction stubs, and a Fit
  * Record page to validate the sample size against a real sewn garment.
+ * A fifth artwork-placement section is appended only when the style carries
+ * artwork; an empty set leaves the four-page document byte-identical.
  */
 export function exportTechPack(
   recipe: GarmentRecipe,
   m: Measurements,
   page: PageSize = PAGE_A4,
   fabric?: StretchFabric,
-  options: GarmentOptions = {}
+  options: GarmentOptions = {},
+  surface: readonly ArtworkPlacement[] = [],
+  styleLabel = ""
 ): string {
   const graded = gradeRun(m, recipe.grade, recipe.sizes, recipe.draft, options);
   const rows = specSheet(graded, recipe.poms);
@@ -294,6 +343,7 @@ export function exportTechPack(
         page
       ),
       fitRecordStream(sampleSpec(recipe, m, options), recipe.label, page),
+      ...surfaceSpecStreams(surface, styleLabel, page),
     ],
     page
   );

@@ -80,3 +80,15 @@ deferred and must re-verify the then-current version before a dependency lands.
   deferred and must re-verify against the then-current Fabric.js version
   before any dependency lands, since the proof above covers the SVG
   path grammar only, not the interactive canvas stack.
+
+## Print anchor decision (Slice 127)
+
+Artwork-space centimetres are the print specification: the print sheet and
+the tech-pack page describe each entry by id, kind, piece role, true-scale
+size, transform, stack order, and source. Piece association is by role name
+only. No on-piece anchor point (relative to a piece landmark, fold, or
+grainline) is invented, because the placement model carries no anchor field
+and inventing one would silently decide positioning the user never entered.
+Positioning artwork on pieces — and any clipping of artwork to piece
+boundaries — stays explicitly out of scope until a slice adds a real,
+user-visible anchor control with its own research, validation, and tests.

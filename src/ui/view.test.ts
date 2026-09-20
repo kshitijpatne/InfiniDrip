@@ -560,6 +560,13 @@ describe("exportButtonsMarkup", () => {
     expect(html).toContain("All graded sizes; ignores Selected size");
     expect(html).toContain("Selected size for per-size exports");
   });
+
+  it("declares the print sheet as current-style output, ignoring Selected size", () => {
+    const html = exportButtonsMarkup(TSHIRT_SIZES);
+    expect(html).toContain('data-export-scope="current-style"');
+    expect(html).toContain('id="export-surface-sheet"');
+    expect(html).toContain("One style's artwork; ignores Selected size");
+  });
 });
 
 describe("specTableMarkup — tolerance column", () => {

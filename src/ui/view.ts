@@ -430,6 +430,10 @@ const WHOLE_RUN_EXPORTS: readonly ExportFormat[] = [
   { id: "export-projector", label: "Projector", description: "Layered projection SVG · all sizes" },
 ];
 
+const SURFACE_EXPORTS: readonly ExportFormat[] = [
+  { id: "export-surface-sheet", label: "Print sheet", description: "Artwork print sheet, true scale · current style" },
+];
+
 const exportFormatMarkup = (format: ExportFormat): string =>
   `<div class="export-format" data-export-format="${format.id}">` +
   `<button id="${format.id}" type="button" aria-describedby="${format.id}-description" ` +
@@ -456,6 +460,7 @@ export function exportButtonsMarkup(sizes: readonly SizeStep[]): string {
     `<div class="export-size-context">${sizePicker}<span>Drives the four selected-size files and Single size nesting.</span></div>` +
     scope("selected-size", "Selected size files", "One size for cutting or CAD", PER_SIZE_EXPORTS) +
     scope("whole-run", "Whole graded run", "All graded sizes; ignores Selected size", WHOLE_RUN_EXPORTS) +
+    scope("current-style", "Current style artwork", "One style's artwork; ignores Selected size", SURFACE_EXPORTS) +
     `</div>`;
 }
 

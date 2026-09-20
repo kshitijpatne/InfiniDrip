@@ -10,4 +10,5 @@ export * from "./unfold";
 export * from "./calibration";
 export * from "./projector";
 export * from "./a0";
+export * from "./surface-sheet";
 export * from "./pattern-mark";

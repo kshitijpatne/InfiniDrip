@@ -2426,3 +2426,72 @@ describe("surface artwork panel (Slice 126)", () => {
     expect(reloaded.querySelectorAll('#surface-preview polygon')).toHaveLength(2);
   });
 });
+
+describe("surface output (Slice 127)", () => {
+  const toFitStep = (root: HTMLElement): void => {
+    clickIfPresent(root, "welcome-skip");
+    clickId(root, "journey-step-fit");
+  };
+  const addArtwork = (root: HTMLElement, id: string, role = "front"): void => {
+    root.querySelector<HTMLInputElement>("#surface-new-id")!.value = id;
+    root.querySelector<HTMLInputElement>("#surface-new-role")!.value = role;
+    root.querySelector<HTMLButtonElement>("#surface-add")!.click();
+  };
+  const captureDownloads = (): string[] => {
+    const created: string[] = [];
+    URL.createObjectURL = vi.fn(() => "blob:test");
+    URL.revokeObjectURL = vi.fn();
+    HTMLAnchorElement.prototype.click = vi.fn(function (this: HTMLAnchorElement) {
+      created.push(this.download);
+    });
+    return created;
+  };
+
+  it("disables the print sheet with an artwork reason when the style is empty", () => {
+    localStorage.clear();
+    const root = mount();
+    captureDownloads();
+    reachExportStage(root);
+    const button = root.querySelector<HTMLButtonElement>("#export-surface-sheet")!;
+    expect(button.disabled).toBe(true);
+    expect(button.title).toBe("Add artwork on the Style panel first.");
+  });
+
+  it("downloads the print sheet for the current style, ignoring the size picker", () => {
+    localStorage.clear();
+    const root = mount();
+    const created = captureDownloads();
+    toFitStep(root);
+    addArtwork(root, "chest-print");
+    reachExportStage(root);
+    const button = root.querySelector<HTMLButtonElement>("#export-surface-sheet")!;
+    expect(button.disabled).toBe(false);
+    const size = root.querySelector<HTMLSelectElement>("#export-size")!;
+    const opts = [...root.querySelectorAll<HTMLOptionElement>("#export-size option")];
+    size.value = opts[opts.length - 1].value;
+    size.dispatchEvent(new Event("change"));
+    button.dispatchEvent(new Event("click"));
+    expect(created).toEqual(["tee-surface-sheet.svg"]);
+  });
+
+  it("downloads the tech pack with the artwork section for the current style", () => {
+    localStorage.clear();
+    const root = mount();
+    const created = captureDownloads();
+    toFitStep(root);
+    addArtwork(root, "chest-print");
+    reachExportStage(root);
+    root.querySelector<HTMLButtonElement>("#export-techpack")!.dispatchEvent(new Event("click"));
+    expect(created).toEqual(["tee-techpack.pdf"]);
+  });
+
+  it("leaves export filenames stable when the style is empty", () => {
+    localStorage.clear();
+    const root = mount();
+    const created = captureDownloads();
+    reachExportStage(root);
+    root.querySelector<HTMLButtonElement>("#export-svg")!.dispatchEvent(new Event("click"));
+    root.querySelector<HTMLButtonElement>("#export-techpack")!.dispatchEvent(new Event("click"));
+    expect(created).toEqual(["tee-M.svg", "tee-techpack.pdf"]);
+  });
+});

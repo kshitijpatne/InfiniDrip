@@ -5,7 +5,7 @@
 import { Measurements, STANDARD_M, Piece, STRETCH_FABRICS, fabricEaseNote, GarmentOptionsByRecipe, GarmentOptions, defaultGarmentOptions } from "../drafting";
 import { gradeRun, draftAtSize, specSheet, GARMENTS, GarmentRecipe, garmentByName } from "../drafting";
 import { blockPieces, rolePiece } from "../drafting";
-import { exportSvg, exportDxf, exportPdf, exportTechPack, exportProjectorSvg, exportA0Pdf, flattenPiece, nestPieces, gradedMarker } from "../export";
+import { exportSvg, exportDxf, exportPdf, exportTechPack, exportProjectorSvg, exportA0Pdf, exportSurfaceSheet, flattenPiece, nestPieces, gradedMarker } from "../export";
 import { renderBlueprint, renderGarment, renderNest, renderFabricNest, renderEditor, renderBody, renderBodyPair, renderSkirtGarment, renderSkirtBody, renderTrouserGarment, renderTrouserBody, renderTrouserBodyPair, renderTrouserSide, renderSideCroquis, DEFAULT_FABRIC } from "../render";
 import { pieceHandles, moveHandle, nearestHandle, editorViewBox, viewboxPointToCm, Handle } from "../edit";
 import { dartOf, transferDart, trueSeam, edgesMeet } from "../drafting";
@@ -678,8 +678,11 @@ export function mountApp(root: HTMLElement): void {
     });
     syncRangeIndicators();
     root.querySelectorAll<HTMLButtonElement>('#export-host button[id^="export-"]').forEach((button) => {
-      button.disabled = !canExport();
-      button.title = button.disabled ? "Review Style and the current digital checks before exporting." : "";
+      const needsArtwork = button.id === "export-surface-sheet" && surfacePlacementsNow().length === 0;
+      button.disabled = !canExport() || needsArtwork;
+      button.title = !canExport()
+        ? "Review Style and the current digital checks before exporting."
+        : needsArtwork ? "Add artwork on the Style panel first." : "";
     });
     if (errors.size > 0) {
       canvasHost.innerHTML = inspectionMarkup("<p role=\"status\">Draft paused — correct the flagged inputs to render your current design.</p>", previewActive ? "assembled" : view);
@@ -1719,13 +1722,21 @@ export function mountApp(root: HTMLElement): void {
   });
   // The tech pack is a whole-style document (sample-size sketch + graded table),
   // so it uses the live measurements directly and ignores the per-size picker.
+  // The current style's artwork rides along as a fifth section when present.
   onExport("#export-techpack", () => {
-    download(`${recipe.name}-techpack.pdf`, exportTechPack(recipe, measurements, undefined, stretchFabric, recipeOptions()), "application/pdf");
+    download(`${recipe.name}-techpack.pdf`, exportTechPack(
+      recipe, measurements, undefined, stretchFabric, recipeOptions(), surfacePlacementsNow(), targetStyle
+    ), "application/pdf");
   });
   // The projector file carries EVERY graded size as a toggleable layer, so it too
   // is a whole-style file and ignores the per-size picker.
   onExport("#export-projector", () => {
     download(`${recipe.name}-projector.svg`, exportProjectorSvg(recipe, measurements, recipeOptions()), "image/svg+xml");
+  });
+  // The print sheet carries one style's artwork at true scale, so like the
+  // tech pack and projector it is a whole-style file and ignores the picker.
+  onExport("#export-surface-sheet", () => {
+    download(`${recipe.name}-surface-sheet.svg`, exportSurfaceSheet(surfacePlacementsNow(), targetStyle), "image/svg+xml");
   });
   onExport("#export-a0", () => {
     download(`${recipe.name}-${exportSizeLabel()}-A0.pdf`, exportA0Pdf(
