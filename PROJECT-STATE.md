@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: Epic 6 exit accepted and pushed, 2026-09-20; Epic 3, Epic 4, Epic 5, and Epic 6 are closed, and origin/main is current at the Codex Epic 6 integration commit. Physical validation and production readiness remain unverified._
+_Last updated: Epic 6 exit accepted and pushed, 2026-09-20; Epic 3, Epic 4, Epic 5, and Epic 6 are closed, and origin/main is current at `b030d27`. Physical validation and production readiness remain unverified._
 
 ## Current work — post-Epic 6 planning
 
