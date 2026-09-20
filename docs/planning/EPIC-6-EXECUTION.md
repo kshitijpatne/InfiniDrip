@@ -191,8 +191,6 @@ Integration record: PR #5 was merged by Codex from contributor head
 commit `139dbd1e86b045ca54cb1a6a07f6d3d315fa67ba`, and `origin/main` now points
 to that commit. Slices 127–129 remain unmerged external work.
 
-## Slice 128 — guidance warnings (pending)
-
 ## Slice 129 — EPIC-6 exit gate (pending)
 
 ## Slice 127 — tech-pack spec plus opt-in print output (review-ready, not merged)
@@ -217,4 +215,33 @@ Stop conditions not triggered: all eight legacy hashes green with artwork
 present in state (cutting writers untouched and placement never included in
 them), coverage held at 100% across all four metrics, no geometry/grading/
 export-truth change was required. No physical-fit, manufacturing, or
+production-readiness claim is made.
+
+## Slice 128 — guidance warnings (review-ready, not merged)
+
+Branch `opencode/slice-128-surface-guidance`, stacked on the Slice 127
+branch (shared doc regions resolved here; code regions were disjoint).
+
+Delivered: `src/guidance/surface-notes.ts` emits one warn-only note per
+invalid placement with the placementError text as its actionable correction
+and a field key resolving to the failing control (row fallback when the
+error names no aspect); notes ride the shared guidance panel with Review,
+Set-aside, and Show-again affordances, stay visible on the Check view, and
+never gate exports. Panel rows gained the same Set-aside affordance canvas
+spatial cues already offer, so warnings without a canvas target can be
+dismissed; dismissal persists across surface edits and clears on pattern
+change, matching existing ignored-guidance behavior. Correction routing
+sends surface fields to the fit step.
+
+Explicitly NOT implemented (blocked, not substituted): out-of-bounds,
+resolution-floor, and ink-coverage warnings. They need three things that do
+not exist — piece-space anchor semantics (decided against invention in Slice
+127), source artwork dimensions (no model field; adding one is an
+undocumented schema migration), and researched production thresholds. No
+threshold was invented and no silent clamping or deletion was added. Unblock
+questions for the maintainer are recorded in SURFACE-DESIGN-RESEARCH.md.
+
+Stop conditions not triggered for the shipped subset: coverage held at 100%
+across all four metrics, no geometry/grading/export-truth change was
+required, no baseline moved. No physical-fit, manufacturing, or
 production-readiness claim is made.

@@ -12,6 +12,7 @@ import { dartOf, transferDart, trueSeam, edgesMeet } from "../drafting";
 import { BLUEPRINT } from "../render";
 import { guide, Note } from "../guidance";
 import { garmentReport, implausibleFields } from "../guidance";
+import { surfaceGuidance } from "../guidance/surface-notes";
 import { matchStyle, styleNames } from "../style";
 import { FIELDS, applyChange, inputError, numericRangePosition, numericRangeState, stepNumericValue } from "./controls";
 import { appShellMarkup, controlsMarkup, guidanceMarkup, styleMarkup, surfaceMarkup, specTableMarkup, checkMarkup, editorHintMarkup, editorHandleControlsMarkup, dartControlsMarkup, inspectionMarkup, BodyCroquisView } from "./view";
@@ -64,7 +65,8 @@ const HISTORY_LIMIT = 30;
 let activeMountRoot: HTMLElement | null = null;
 
 const correctionStepForField = (field: string): JourneyStep =>
-  field === "ease" || field === "stretchFabric" || field.startsWith("option-") ? "fit" : "measure";
+  field === "ease" || field === "stretchFabric" || field.startsWith("option-") ||
+  field.startsWith("surface-") ? "fit" : "measure";
 
 export function stageBlockerFromNote(note: Note | undefined): StageBlocker {
   if (!note) return { message: "Review the flagged digital checks.", step: "refine" };
@@ -710,6 +712,9 @@ export function mountApp(root: HTMLElement): void {
       ...failedChecks,
       fabricNote,
       ...(materialNote ? [materialNote] : []),
+      // Surface artwork warnings ride the same panel: same warn-only contract,
+      // same dismissal, same Review-to-control path. They never gate exports.
+      ...surfaceGuidance(surfaceBook, surfaceKey(recipe.name, targetStyle), targetStyle),
     ];
     fabricWidthHost.style.display = view === "fabric" && !previewActive ? "flex" : "none";
     bodyCroquisHost.style.display = view === "body" && !previewActive ? "flex" : "none";
@@ -1029,6 +1034,17 @@ export function mountApp(root: HTMLElement): void {
       const field = restore.dataset.restoreGuidance;
       if (field) {
         ignoredGuidance.delete(field);
+        draw();
+      }
+      return;
+    }
+    // Panel rows carry the same Set-aside affordance as canvas spatial cues,
+    // so warnings without a canvas target (surface artwork) can be dismissed too.
+    const ignore = element.closest<HTMLButtonElement>("button[data-ignore-guidance]");
+    if (ignore) {
+      const field = ignore.dataset.ignoreGuidance;
+      if (field) {
+        ignoredGuidance.add(field);
         draw();
       }
       return;

@@ -396,6 +396,14 @@ describe("guidanceMarkup", () => {
     expect(html).toContain('aria-controls="stretch-select"');
   });
 
+  it("offers Set-aside beside Review so warnings without a canvas target can be dismissed", () => {
+    const html = guidanceMarkup([
+      { level: "warn", field: "surface-0-widthCm", text: "Artwork 'x' on A: bad width" },
+    ]);
+    expect(html).toContain('data-ignore-guidance="surface-0-widthCm"');
+    expect(html).toContain(">Set aside<");
+  });
+
   it("marks a dismissed advisory and offers a restore action", () => {
     const html = guidanceMarkup(
       [{ level: "warn", field: "chest", text: "Check chest" }],

@@ -92,3 +92,21 @@ and inventing one would silently decide positioning the user never entered.
 Positioning artwork on pieces — and any clipping of artwork to piece
 boundaries — stays explicitly out of scope until a slice adds a real,
 user-visible anchor control with its own research, validation, and tests.
+
+## Blocked warnings and their unblock questions (Slice 128)
+
+Out-of-bounds, resolution-floor, and ink-coverage warnings are explicitly
+not implemented. Each needs a product decision this Epic does not contain:
+
+1. Out-of-bounds: define the anchor. Is artwork positioned relative to a
+   piece landmark, the piece bounding box, or the fold/grainline — and which
+   control captures that anchor from the user?
+2. Resolution floor: capture source dimensions. Should placements record
+   source pixel dimensions (a schema addition), or is effective size checked
+   against a declared print-process minimum? What minimum, sourced from
+   where?
+3. Ink coverage: define the budget. Coverage of what area (piece, marker,
+   garment), measured how, with what researched threshold?
+
+Until these are answered, validity warnings are the complete, honest
+guidance boundary. No invented threshold ships in their place.

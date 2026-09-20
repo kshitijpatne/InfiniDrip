@@ -1487,7 +1487,7 @@ describe("body-view measurement linking", () => {
     chest.value = "150";
     chest.dispatchEvent(new Event("input"));
     expect(root.querySelector<HTMLElement>('.spatial-guidance-note[data-guidance-field="chest"]')).not.toBeNull();
-    root.querySelector<HTMLButtonElement>('[data-ignore-guidance="chest"]')!.click();
+    root.querySelector<HTMLButtonElement>('#spatial-guidance-host [data-ignore-guidance="chest"]')!.click();
     expect(root.querySelector('.spatial-guidance-note[data-guidance-field="chest"]')).toBeNull();
     expect(root.querySelector('[data-guidance-field="chest"][data-guidance-ignored]')).not.toBeNull();
     const canvasRestore = document.createElement("button");
@@ -1495,7 +1495,7 @@ describe("body-view measurement linking", () => {
     root.querySelector("#canvas-host")!.append(canvasRestore);
     canvasRestore.click();
     expect(root.querySelector<HTMLElement>('.spatial-guidance-note[data-guidance-field="chest"]')).not.toBeNull();
-    root.querySelector<HTMLButtonElement>('[data-ignore-guidance="chest"]')!.click();
+    root.querySelector<HTMLButtonElement>('#spatial-guidance-host [data-ignore-guidance="chest"]')!.click();
     clickId(root, "view-check");
     expect(root.querySelector('[data-ignored-guidance-field="chest"]')).not.toBeNull();
     root.querySelector<HTMLButtonElement>('[data-restore-guidance="chest"]')!.click();
@@ -2493,5 +2493,116 @@ describe("surface output (Slice 127)", () => {
     root.querySelector<HTMLButtonElement>("#export-svg")!.dispatchEvent(new Event("click"));
     root.querySelector<HTMLButtonElement>("#export-techpack")!.dispatchEvent(new Event("click"));
     expect(created).toEqual(["tee-M.svg", "tee-techpack.pdf"]);
+  });
+});
+
+describe("surface guidance (Slice 128)", () => {
+  const toFitStep = (root: HTMLElement): void => {
+    clickIfPresent(root, "welcome-skip");
+    clickId(root, "journey-step-fit");
+  };
+  const addArtwork = (root: HTMLElement, id: string, role = "front"): void => {
+    root.querySelector<HTMLInputElement>("#surface-new-id")!.value = id;
+    root.querySelector<HTMLInputElement>("#surface-new-role")!.value = role;
+    root.querySelector<HTMLButtonElement>("#surface-add")!.click();
+  };
+  const breakWidth = (root: HTMLElement): void => {
+    const width = root.querySelector<HTMLInputElement>(
+      'input[data-surface-index="0"][data-surface-field="widthCm"]')!;
+    width.value = "0";
+    width.dispatchEvent(new Event("focusout", { bubbles: true }));
+  };
+
+  it("routes surface fields to the fit step for correction", () => {
+    expect(stageBlockerFromNote({ level: "warn", text: "x", field: "surface-0-widthCm" })).toEqual({
+      message: "x", step: "fit", field: "surface-0-widthCm",
+    });
+  });
+
+  it("shows artwork warnings in guidance with a Review action", () => {
+    localStorage.clear();
+    const root = mount();
+    toFitStep(root);
+    addArtwork(root, "chest-print");
+    breakWidth(root);
+    const host = root.querySelector("#guidance-host")!;
+    expect(host.textContent).toContain("Artwork 'chest-print'");
+    expect(host.textContent).toContain("widthCm");
+    const review = host.querySelector<HTMLButtonElement>('button[data-guidance-focus="surface-0-widthCm"]')!;
+    expect(review).not.toBeNull();
+  });
+
+  it("focuses the failing control from the Review action", () => {
+    localStorage.clear();
+    const root = mount();
+    document.body.appendChild(root);
+    try {
+      toFitStep(root);
+      addArtwork(root, "chest-print");
+      breakWidth(root);
+      const focused: Element[] = [];
+      const spy = vi.spyOn(HTMLInputElement.prototype, "focus").mockImplementation(
+        function (this: HTMLInputElement) { focused.push(this); });
+      try {
+        root.querySelector<HTMLButtonElement>('button[data-guidance-focus="surface-0-widthCm"]')!.click();
+        // Review navigates (setView redraws), so resolve the control post-click.
+        const fresh = root.querySelector('input[data-guidance-control="surface-0-widthCm"]')!;
+        expect(focused).toContain(fresh);
+      } finally {
+        spy.mockRestore();
+      }
+    } finally {
+      root.remove();
+    }
+  });
+
+  it("dismisses the warning until a pattern change brings it back", () => {
+    localStorage.clear();
+    const root = mount();
+    toFitStep(root);
+    addArtwork(root, "chest-print");
+    breakWidth(root);
+    const host = (): string => root.querySelector("#guidance-host")!.textContent ?? "";
+    const ignoredRow = (): string | null =>
+      root.querySelector('[data-guidance-field="surface-0-widthCm"][data-guidance-ignored]')?.textContent ?? null;
+    root.querySelector<HTMLButtonElement>('button[data-ignore-guidance="surface-0-widthCm"]')!.click();
+    expect(ignoredRow()).toContain("Set aside for this draft");
+    root.querySelector<HTMLButtonElement>('button[data-restore-guidance="surface-0-widthCm"]')!.click();
+    expect(host()).toContain("Artwork 'chest-print'");
+    expect(ignoredRow()).toBeNull();
+    root.querySelector<HTMLButtonElement>('button[data-ignore-guidance="surface-0-widthCm"]')!.click();
+    const ghost = document.createElement("button");
+    ghost.setAttribute("data-ignore-guidance", "");
+    root.querySelector("#guidance-host")!.append(ghost);
+    ghost.click();
+    const dx = root.querySelector<HTMLInputElement>('input[data-surface-index="0"][data-surface-field="dx"]')!;
+    dx.value = "3";
+    dx.dispatchEvent(new Event("focusout", { bubbles: true }));
+    expect(ignoredRow()).toContain("Set aside for this draft");
+    const chest = root.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+    chest.value = "101";
+    chest.dispatchEvent(new Event("input"));
+    expect(ignoredRow()).toBeNull();
+    expect(host()).toContain("Artwork 'chest-print'");
+  });
+
+  it("keeps artwork warnings visible on the Check view without gating exports", () => {
+    localStorage.clear();
+    const root = mount();
+    const created: string[] = [];
+    URL.createObjectURL = vi.fn(() => "blob:test");
+    URL.revokeObjectURL = vi.fn();
+    HTMLAnchorElement.prototype.click = vi.fn(function (this: HTMLAnchorElement) {
+      created.push(this.download);
+    });
+    toFitStep(root);
+    addArtwork(root, "chest-print");
+    breakWidth(root);
+    root.querySelector<HTMLButtonElement>("#view-check")!.dispatchEvent(new Event("click"));
+    expect(root.querySelector<HTMLButtonElement>("#view-check")!.getAttribute("aria-pressed")).toBe("true");
+    expect(root.querySelector("#guidance-host")!.textContent).toContain("Artwork 'chest-print'");
+    reachExportStage(root);
+    root.querySelector<HTMLButtonElement>("#export-svg")!.dispatchEvent(new Event("click"));
+    expect(created).toEqual(["tee-M.svg"]);
   });
 });

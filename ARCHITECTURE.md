@@ -193,6 +193,17 @@ style is empty. Artwork-space centimetres are the print specification and
 piece association is by role name — no on-piece anchor is invented. Cutting
 files never include placement, with or without artwork in state.
 
+Slice 128 reports invalid placements through the shared guidance panel
+without widening its authority. `src/guidance/surface-notes.ts` owns the
+pure validity-to-note mapping with control-resolution keys; the app appends
+those notes beside (never inside) the geometry guidance, routes surface
+fields to the fit step for correction, and reuses dismissal, persistence,
+and reappearance behavior unchanged. Panel rows carry the same Set-aside
+affordance canvas spatial cues offer, because artwork warnings have no
+canvas target to anchor a cue to. Out-of-bounds, resolution-floor, and
+ink-coverage warnings stay explicitly unbuilt: no anchor semantics, no
+source dimensions, no researched thresholds, no invented numbers.
+
 Slice 126 is now integrated and pushed at `139dbd1` after Codex review. The shared architecture
 still keeps surface state outside drafting, grading, checks, nesting, export
 gating, and cutting-file writers: native surface text/number edits commit on

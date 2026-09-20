@@ -186,7 +186,10 @@ export function guidanceMarkup(notes: readonly Note[], ignored: ReadonlySet<stri
           `color:${T.line};border:1px solid ${BORDER};border-radius:4px">Show again</button>`
         : `<button type="button" data-guidance-focus="${fieldName}" aria-controls="${controlId}" ` +
           `style="flex:0 0 auto;padding:3px 6px;font-size:11px;cursor:pointer;background:${T.background};` +
-          `color:${T.line};border:1px solid ${BORDER};border-radius:4px">Review ${fieldLabel}</button>`
+          `color:${T.line};border:1px solid ${BORDER};border-radius:4px">Review ${fieldLabel}</button>` +
+          `<button type="button" data-ignore-guidance="${fieldName}" aria-label="Set aside ${fieldLabel} guidance" ` +
+          `style="flex:0 0 auto;padding:3px 6px;font-size:11px;cursor:pointer;background:${T.background};` +
+          `color:${T.label};border:1px solid ${BORDER};border-radius:4px">Set aside</button>`
       : "";
     const ignoredState = isIgnored ? `<span class="guidance-ignored-state">Set aside for this draft</span>` : "";
     return `<div data-guidance-row="${index}"${fieldName ? ` data-guidance-field="${fieldName}"` : ""}${isIgnored ? " data-guidance-ignored" : ""} ` +
@@ -372,7 +375,7 @@ const surfaceRow = (p: ArtworkPlacement, index: number, error: string | undefine
     return `<div style="margin-bottom:6px"><label for="input-${controlId}" style="font-size:11.5px;color:${T.label};display:block;margin-bottom:2px">${field.label}</label>` +
       numericControlMarkup(controlId, `input-${controlId}`, `${field.label} ${label}`,
         surfaceNumber(p, field.id), undefined, undefined, field.step,
-        `data-surface-index="${index}" data-surface-field="${field.id}" aria-label="${field.label} ${label}" aria-describedby="error-surface-${index}"`,
+        `data-surface-index="${index}" data-surface-field="${field.id}" data-guidance-control="surface-${index}-${field.id}" aria-label="${field.label} ${label}" aria-describedby="error-surface-${index}"`,
         field.unit) + `</div>`;
   }).join("");
   return `<div data-surface-row="${index}" style="border:1px solid ${BORDER};border-radius:8px;padding:10px;margin-bottom:10px">` +
@@ -380,11 +383,11 @@ const surfaceRow = (p: ArtworkPlacement, index: number, error: string | undefine
     `<strong style="font-size:12.5px;color:${T.line}">#${index + 1} ${safeId}</strong>` +
     `<button type="button" data-surface-remove-index="${index}" aria-label="Remove ${label}">Remove</button></div>` +
     `<div style="margin-bottom:6px"><label for="surface-kind-${index}" style="font-size:11.5px;color:${T.label};display:block;margin-bottom:2px">Kind</label>` +
-    `<select id="surface-kind-${index}" data-surface-index="${index}" data-surface-field="kind" aria-label="Kind ${label}">${surfaceKindOptions(typeof p.kind === "string" ? p.kind : "")}</select></div>` +
+    `<select id="surface-kind-${index}" data-surface-index="${index}" data-surface-field="kind" data-guidance-control="surface-${index}-kind" aria-label="Kind ${label}">${surfaceKindOptions(typeof p.kind === "string" ? p.kind : "")}</select></div>` +
     `<div style="margin-bottom:6px"><label for="surface-role-${index}" style="font-size:11.5px;color:${T.label};display:block;margin-bottom:2px">Piece role</label>` +
-    `<input id="surface-role-${index}" type="text" data-surface-index="${index}" data-surface-field="pieceRole" value="${escapeAttr(typeof p.pieceRole === "string" ? p.pieceRole : "")}" aria-label="Piece role ${label}" aria-describedby="error-surface-${index}"/></div>` +
+    `<input id="surface-role-${index}" type="text" data-surface-index="${index}" data-surface-field="pieceRole" data-guidance-control="surface-${index}-pieceRole" value="${escapeAttr(typeof p.pieceRole === "string" ? p.pieceRole : "")}" aria-label="Piece role ${label}" aria-describedby="error-surface-${index}"/></div>` +
     `<div style="margin-bottom:6px"><label for="surface-source-${index}" style="font-size:11.5px;color:${T.label};display:block;margin-bottom:2px">Artwork source</label>` +
-    `<input id="surface-source-${index}" type="text" data-surface-index="${index}" data-surface-field="sourceName" value="${escapeAttr(typeof p.sourceName === "string" ? p.sourceName : "")}" aria-label="Artwork source ${label}" aria-describedby="error-surface-${index}"/></div>` +
+    `<input id="surface-source-${index}" type="text" data-surface-index="${index}" data-surface-field="sourceName" data-guidance-control="surface-${index}-sourceName" value="${escapeAttr(typeof p.sourceName === "string" ? p.sourceName : "")}" aria-label="Artwork source ${label}" aria-describedby="error-surface-${index}"/></div>` +
     numeric +
     `<p id="error-surface-${index}" role="status" style="font-size:12px;color:${T.lineActive};margin:6px 0 0;min-height:16px">${error ?? ""}</p></div>`;
 };

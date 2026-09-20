@@ -1,12 +1,16 @@
 # InfiniDrip — Project State
 
-_Last updated: Epic 6 / Slice 127 review-ready, 2026-09-20; Epic 3, Epic 4, and Epic 5 are closed, Slice 126 is merged, and origin/main is current at `6f21ccb`. Slice 127 is implemented on its contributor branch and awaits Codex review — it is not merged._
+_Last updated: Epic 6 / Slices 127–128 review-ready, 2026-09-20; Epic 3, Epic 4, and Epic 5 are closed, Slice 126 is merged, and origin/main is current at `6f21ccb`. Slices 127–128 are implemented on their stacked contributor branches and await Codex review — neither is merged._
 
 ## Current work — Epic 6 surface design foundation
 
 ### Slice 127 — tech-pack spec plus opt-in print output (review-ready, not merged)
 
 Slice 127 adds the output boundary on branch `opencode/slice-127-surface-output`: a fifth tech-pack page naming every artwork entry with true-scale geometry and INVALID flags (empty sets stay byte-identical), a true-scale print-sheet SVG writer carrying the locked 10 cm calibration square, and a Current-style-artwork export scope with an opt-in Print sheet button that stays disabled with an artwork reason while the style is empty. Whole-style semantics match tech pack and projector: the per-size picker is ignored and the copy says so. Artwork-space centimetres are the print specification and piece association is by role name; no on-piece anchor is invented. Cutting writers are untouched and placement never enters them — all eight legacy hashes stay green with artwork present in state. No physical-fit, drape, sewability, manufacturing, or production-readiness claim is made.
+
+### Slice 128 — guidance warnings (review-ready, not merged)
+
+Slice 128 surfaces invalid placements as warn-only guidance on branch `opencode/slice-128-surface-guidance`: one note per invalid entry with its actionable correction and a Review action focusing the failing control, Set-aside/Show-again dismissal matching existing ignored-guidance behavior (persists across surface edits, clears on pattern change), visibility on the Check view, and no export gating. Panel rows gained the same Set-aside affordance canvas cues offer, since artwork warnings have no canvas target. Out-of-bounds, resolution-floor, and ink-coverage warnings are explicitly deferred as blocked: they need anchor semantics, source dimensions, and researched thresholds that do not exist, and no threshold was invented in their place. No physical-fit, drape, sewability, manufacturing, or production-readiness claim is made.
 
 ### Current coordination status — maintainer update 2026-09-19
 
