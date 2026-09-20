@@ -493,6 +493,13 @@ Sparrow/irregular nesting, rotation/interlocking, physical validation, and
 production claims remain outside this Epic. Codex owns review, repairs, merge,
 and push.
 
+Slice 132 delivers the pure planning layer as `src/export/nesting-intelligence.ts`:
+buffer validation and planned-length math, waste share from utilization, an
+optional fabric-on-hand fits/short-by verdict that stays unknown for blank or
+invalid input, and the truthful no-rotation nap notice. Unratable input yields
+null, never a fabricated number. `nestPieces` placement truth, geometry, grain
+rules, exports, and save schemas are untouched by this slice.
+
 Epic 3 is closed at the integrated straight-leg trouser plus shared numeric
 editing boundary. Shorts and joggers remain documented derivatives only;
 surface design, physical validation, and production-readiness work are outside

@@ -184,3 +184,14 @@ actor to merge and push `origin/main`.
 > rating, Sparrow, irregular nesting, rotation, physical validation, or
 > production claims. Do not push or merge `main`; return the required JSON and
 > all evidence so Codex can review and integrate each slice.
+
+## Slice records (contributor-appended; plan above is Codex-owned)
+
+### Slice 132 — pure contract and metrics (review-ready, not merged)
+
+Branch `opencode/epic-7-nesting-intelligence` from `origin/main` at `a9cab78`.
+Adds `src/export/nesting-intelligence.ts` plus focused tests: buffer
+validation and planned-length math, waste share, optional fabric-on-hand
+fits/short-by verdicts, and the no-rotation nap notice. Unratable input
+yields null. No UI, geometry, export, or save-schema change. Stop conditions
+not triggered; no baseline moved.

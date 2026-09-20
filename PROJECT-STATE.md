@@ -37,6 +37,17 @@ isolated Claude EPIC 10 Slices 140–144, Codex Slice 145 repair, Codex Slice
 must work in its own OpenCode branch/worktree; it may implement only the
 nesting-intelligence scope in its packet and must not push `main`.
 
+### Slice 132 — pure nesting metrics and contracts (review-ready, not merged)
+
+Slice 132 adds `src/export/nesting-intelligence.ts` on branch
+`opencode/epic-7-nesting-intelligence`: buffer validation and planned-length
+math (default 10%, range 0–50%, step 1%), waste share from utilization,
+optional fabric-on-hand fits/short-by verdicts that stay unknown for blank or
+invalid input, and the truthful no-rotation nap notice. Unratable input yields
+null, never a fabricated number. No UI, geometry, export, or save-schema
+change. Difficulty rating stays deferred; Sparrow, rotation, interlocking,
+physical validation, and production claims stay out of scope.
+
 ### EPIC 9 — implementation complete on the supported host
 
 The Codex-owned Electron readiness scope is implemented. The self-contained
