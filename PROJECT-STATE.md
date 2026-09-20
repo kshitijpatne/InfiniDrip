@@ -1,12 +1,21 @@
 # InfiniDrip — Project State
 
-_Last updated: Epic 6 exit accepted and pushed, 2026-09-20; Epic 3, Epic 4, Epic 5, and Epic 6 are closed, and origin/main is current at `b030d27`. Physical validation and production readiness remain unverified._
+_Last updated: Epic 6 / Slice 130 integrated and pushed, 2026-09-20; Epic 3, Epic 4, Epic 5, and Epic 6 are closed. Physical validation and production readiness remain unverified._
 
 ## Current work — post-Epic 6 planning
 
-### Epic 6 — complete and pushed
+### Epic 6 — complete and pushed (Slices 122–130)
 
-Slices 122–129 are accepted on `origin/main`. The completed Epic provides a
+Slice 130 completes the previously blocked surface guidance boundary. It adds
+an explicit piece-space anchor contract (artwork centred on the named piece's
+true-scale cut-box centre plus offset at base size), measured containment
+warnings, optional source-pixel dimensions with the documented 59 px/cm floor,
+full-coverage warnings from real cut-outline area ratios, and an editable Name
+control so invalid-ID guidance always has a focusable correction target. These
+are digital, warn-only contracts: no save-format version change, export gating
+change, physical-fit claim, or production-readiness claim is introduced.
+
+Slices 122–130 are accepted on `origin/main`. The completed Epic provides a
 headless placement contract, per-garment/style artwork sets with optional
 save/recovery persistence, true-scale artwork-space preview, opt-in calibrated
 print-sheet output, artwork placement in the tech pack, warn-only invalid-entry
@@ -22,28 +31,32 @@ Slice 127 adds the output boundary on branch `opencode/slice-127-surface-output`
 
 ### Slice 128 — guidance warnings (accepted)
 
-Slice 128 surfaces invalid placements as warn-only guidance on branch `opencode/slice-128-surface-guidance`: one note per invalid entry with its actionable correction and a Review action focusing the failing control, Set-aside/Show-again dismissal matching existing ignored-guidance behavior (persists across surface edits, clears on pattern change), visibility on the Check view, and no export gating. Panel rows gained the same Set-aside affordance canvas cues offer, since artwork warnings have no canvas target. Out-of-bounds, resolution-floor, and ink-coverage warnings are explicitly deferred as blocked: they need anchor semantics, source dimensions, and researched thresholds that do not exist, and no threshold was invented in their place. No physical-fit, drape, sewability, manufacturing, or production-readiness claim is made.
+Slice 128 surfaces invalid placements as warn-only guidance on branch `opencode/slice-128-surface-guidance`: one note per invalid entry with its actionable correction and a Review action focusing the failing control, Set-aside/Show-again dismissal matching existing ignored-guidance behavior (persists across surface edits, clears on pattern change), visibility on the Check view, and no export gating. Panel rows gained the same Set-aside affordance canvas cues offer, since artwork warnings have no canvas target. Slice 130 later supplied the explicit digital anchor, optional source dimensions, and deterministic bounds/resolution/coverage thresholds that complete this guidance boundary. No physical-fit, drape, sewability, manufacturing, or production-readiness claim is made.
 
 ### Final Codex review and integration — 2026-09-20
 
-OpenCode's stacked Slice 127–129 branches were reviewed against their actual
-diffs and fast-forward integrated by Codex in order. The resulting Epic 6 tree
-is now the GitHub `origin/main` baseline; no contributor branch pushed directly
-to `main`.
+OpenCode's stacked Slice 127–130 branches were reviewed against their actual
+diffs. Slices 127–129 had already been reconciled into the local `origin/main`
+baseline while Slice 130 was in progress; Codex then integrated Slice 130 after
+reviewing its actual code, tests, and live behavior. No contributor branch
+pushed directly to `main`.
 
 The review gate passed in bounded serial mode on this Windows checkout:
-`npx vitest run --maxWorkers=1 --minWorkers=1` passed 93 files / 1,226 tests;
+`npm test -- --maxWorkers=1 --minWorkers=1` passed 94 files / 1,255 tests;
 `npm run coverage -- --maxWorkers=1 --minWorkers=1` passed 100% statements,
 branches, functions, and lines; `npx tsc --noEmit` and `npm run build` passed.
 The default parallel run had one accessibility timeout under host contention;
 the same test passed in isolation and in the complete serial gate. This is
 recorded as an execution-environment constraint, not a product failure.
 
-The explicit parsed consumer suite passed 18/18 across SVG, DXF, tiled PDF, A0
-PDF, projector SVG, and tech pack, including all eight unchanged legacy hashes.
-The Slice 129 mounted-app audit covered all seven garments, artwork panel,
-preview, print sheet, tech pack, save/load, warning dismissal/reappearance, and
-responsive widths 1280/900/700/560/390. No live physical or sewn evidence exists.
+The explicit parsed consumer suite passed 30/30 across SVG, DXF, tiled PDF, A0
+PDF, projector SVG, tech pack, and the surface outputs, including all eight
+unchanged legacy hashes. The mounted-app audit covered all seven garments,
+valid and invalid piece-role guidance, low-resolution, out-of-bounds,
+full-coverage, invalid-ID focus, artwork panel, preview, print sheet, tech
+pack, save/load, warning dismissal/reappearance, responsive widths
+1440/1024/768/390, and a clean browser console. No live physical or sewn
+evidence exists.
 
 ### Slice 126 — UI wiring (accepted and pushed)
 

@@ -46,6 +46,13 @@ export function boxesOverlap(a: BoundingBox, b: BoundingBox): boolean {
   return a.minX <= b.maxX && b.minX <= a.maxX && a.minY <= b.maxY && b.minY <= a.maxY;
 }
 
+/** True when every edge of `inner` sits inside or exactly on `outer`.
+ * Edge-touching counts as contained, matching the overlap convention. */
+export function boxContains(outer: BoundingBox, inner: BoundingBox): boolean {
+  return outer.minX <= inner.minX && inner.maxX <= outer.maxX &&
+    outer.minY <= inner.minY && inner.maxY <= outer.maxY;
+}
+
 export interface Resolution {
   readonly xPxPerCm: number;
   readonly yPxPerCm: number;

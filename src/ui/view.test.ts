@@ -639,6 +639,24 @@ describe("surfaceMarkup — artwork sets per style", () => {
     expect(html).toContain('data-surface-remove-index="0"');
     expect(html).toContain("tiger.svg");
   });
+  it("renders an editable Name input and optional source-dimension inputs", () => {
+    const html = surfaceMarkup({
+      style: "Scoop",
+      placements: [{
+        id: "a", kind: "print", pieceRole: "front", widthCm: 20, heightCm: 25,
+        transform: { dx: 0, dy: 0, scale: 1, rotationDeg: 0 },
+        zOrder: 0, sourceName: "", sourcePxWidth: 1200, sourcePxHeight: 1500,
+      }],
+      errors: new Map(),
+      preview: "",
+    });
+    expect(html).toContain('data-surface-field="id"');
+    expect(html).toContain('data-guidance-control="surface-0-id"');
+    expect(html).toContain('data-surface-field="sourcePxWidth"');
+    expect(html).toContain('data-surface-field="sourcePxHeight"');
+    expect(html).toContain('value="1200"');
+    expect(html).toContain('value="1500"');
+  });
   it("shows each placement error against its row", () => {
     const html = surfaceMarkup(data);
     expect(html).toContain('id="error-surface-0"');
@@ -649,7 +667,7 @@ describe("surfaceMarkup — artwork sets per style", () => {
     expect(html).toContain('id="surface-add"');
     expect(html).toContain('id="surface-new-id"');
     expect(html).toContain('id="surface-preview"');
-    expect(html).toContain("not positioned on pieces yet");
+    expect(html).toContain("bounding-box centre");
   });
   it("states the empty set without a preview", () => {
     const html = surfaceMarkup({ style: "Scoop", placements: [], errors: new Map(), preview: "" });

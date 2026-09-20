@@ -17,7 +17,10 @@ export interface PlacementTransform {
   readonly rotationDeg: number;
 }
 
-/** One artwork rectangle placed on one piece role, at true scale before transform. */
+/** One artwork rectangle placed on one piece role, at true scale before transform.
+ * `sourcePxWidth`/`sourcePxHeight` are optional source-artwork pixel dimensions
+ * (Slice 130): present means print resolution is ratable, absent means unknown
+ * and never a failure. */
 export interface ArtworkPlacement {
   readonly id: string;
   readonly kind: ArtworkKind;
@@ -27,6 +30,8 @@ export interface ArtworkPlacement {
   readonly transform: PlacementTransform;
   readonly zOrder: number;
   readonly sourceName: string;
+  readonly sourcePxWidth?: number;
+  readonly sourcePxHeight?: number;
 }
 
 /** A style's full artwork set. Shared across graded sizes by design. */
@@ -76,6 +81,12 @@ export function placementError(p: unknown): string | null {
   if (badTransform) return `Placement transform: ${badTransform}`;
   if (!finite(p.zOrder) || !Number.isInteger(p.zOrder)) return "Placement zOrder: enter a whole number.";
   if (typeof p.sourceName !== "string") return "Placement sourceName: enter text.";
+  if (p.sourcePxWidth !== undefined && (!finite(p.sourcePxWidth) || p.sourcePxWidth <= 0)) {
+    return "Placement sourcePxWidth: enter a number above 0, or leave it empty.";
+  }
+  if (p.sourcePxHeight !== undefined && (!finite(p.sourcePxHeight) || p.sourcePxHeight <= 0)) {
+    return "Placement sourcePxHeight: enter a number above 0, or leave it empty.";
+  }
   return null;
 }
 

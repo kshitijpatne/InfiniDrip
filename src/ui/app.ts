@@ -26,6 +26,7 @@ import {
   nextZOrder, surfaceAdd, surfaceKey, surfaceList, surfacePlaceable, surfaceRemoveAt, surfaceSetAt,
   type SurfaceBook,
 } from "../surface/store";
+import { pieceFrames } from "../surface/piece-frames";
 import {
   JourneyStep, ViewName, StageReadiness, StageBlocker, COACHED_STEPS, disclosureFor, stepView, journeyChecklist,
   journeyBarMarkup, checklistMarkup, welcomeMarkup, celebrationMarkup,
@@ -707,6 +708,11 @@ export function mountApp(root: HTMLElement): void {
     const failedChecks: Note[] = garmentReport(recipe, measurements, recipeOptions()).checks
       .filter((check) => !check.ok).map((check) => ({ field: CHECK_FIELDS[check.name], level: "warn", text: `${check.name}: ${check.detail}` }));
     const materialNote = materialCompatibilityNote();
+    // Piece frames for surface bounds/coverage checks, at base size. Built
+    // only when artwork exists, so empty styles cost nothing extra here.
+    const surfaceFrames = surfacePlacementsNow().length === 0
+      ? null
+      : pieceFrames(draftCurrent(), recipe.allowances);
     const guidanceNotes: Note[] = [
       ...guide(recipe, measurements, recipeOptions()),
       ...failedChecks,
@@ -714,7 +720,8 @@ export function mountApp(root: HTMLElement): void {
       ...(materialNote ? [materialNote] : []),
       // Surface artwork warnings ride the same panel: same warn-only contract,
       // same dismissal, same Review-to-control path. They never gate exports.
-      ...surfaceGuidance(surfaceBook, surfaceKey(recipe.name, targetStyle), targetStyle),
+      ...surfaceGuidance(surfaceBook, surfaceKey(recipe.name, targetStyle), targetStyle,
+        surfaceFrames ?? undefined),
     ];
     fabricWidthHost.style.display = view === "fabric" && !previewActive ? "flex" : "none";
     bodyCroquisHost.style.display = view === "body" && !previewActive ? "flex" : "none";
@@ -1475,7 +1482,7 @@ export function mountApp(root: HTMLElement): void {
   // delegates their edits. Native controls retain keystrokes; change/blur
   // commits the preview and validation redraw.
   const TRANSFORM_FIELDS = new Set(["dx", "dy", "scale", "rotationDeg"]);
-  const TEXT_FIELDS = new Set(["kind", "pieceRole", "sourceName"]);
+  const TEXT_FIELDS = new Set(["id", "kind", "pieceRole", "sourceName"]);
   const isRecord = (value: unknown): value is Record<string, unknown> =>
     typeof value === "object" && value !== null && !Array.isArray(value);
   const applySurfaceField = (index: number, field: string, raw: string): void => {

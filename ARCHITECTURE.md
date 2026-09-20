@@ -151,7 +151,7 @@ and the rendered/live seven-garment plus responsive matrix is recorded in the
 Epic 5 exit report. This remains digital evidence only; physical fit, sewn
 validation and production readiness are deferred.
 
-## Epic 6 surface design — completed Slices 122–129
+## Epic 6 surface design — completed Slices 122–130
 
 Epic 6 is complete and merged to `origin/main`. Surface design is an additive
 layer above existing pattern pieces: it owns artwork placement, preview,
@@ -162,14 +162,13 @@ Empty artwork preserves the eight legacy export hashes. The shipped preview and
 print sheet are artwork-space, true-scale digital outputs; they are not drape,
 fit, sewability, manufacturing, or production-readiness simulations.
 
-The final Slice 129 mounted-app audit covers all seven recipes and one style's
+The final Slice 130 mounted-app audit covers all seven recipes and one style's
 artwork through the panel, preview, print sheet, tech pack, save/load,
-warning dismissal/reappearance, and responsive widths. Out-of-bounds,
-resolution-floor, and ink-coverage warnings remain blocked because anchor
-semantics, source dimensions, and researched thresholds were not defined; no
-threshold was invented. On-piece anchoring/clipping, embroidery machine
-formats, 3D/VTO, signing, packaging, and physical validation remain out of
-scope.
+warning dismissal/reappearance, role correction, measured bounds/resolution/
+coverage guidance, and responsive widths. The digital anchor is a true-scale
+cut-box-centre contract for warn-only guidance; it does not clip or reposition
+artwork on the garment. On-piece clipping, embroidery machine formats, 3D/VTO,
+signing, packaging, and physical validation remain out of scope.
 
 ### Epic 6 foundation checkpoint — Slices 122–125 (historical)
 
@@ -185,9 +184,10 @@ headless math and renderer have a checked integration seam.
 
 Placement validation reports invalid input rather than clamping it. Effective
 resolution rejects non-finite or non-positive pixel/geometry values and returns
-unknown for unratable input. Piece clipping and guidance warnings remain
-deferred to Slice 128. The surface preview is a flat placement visualization,
-not a drape, fit, sewability, or production-readiness simulation.
+unknown for unratable input. Piece clipping remains deferred; Slice 130's
+guidance adds measured warn-only checks without changing the flat placement
+visualization; it is not a drape, fit, sewability, or production-readiness
+simulation.
 
 Slice 126 wires that foundation into the app without widening its authority.
 `src/surface/store.ts` owns the per-garment/style book (sizes never enter the
@@ -220,24 +220,37 @@ those notes beside (never inside) the geometry guidance, routes surface
 fields to the fit step for correction, and reuses dismissal, persistence,
 and reappearance behavior unchanged. Panel rows carry the same Set-aside
 affordance canvas spatial cues offer, because artwork warnings have no
-canvas target to anchor a cue to. Out-of-bounds, resolution-floor, and
-ink-coverage warnings stay explicitly unbuilt: no anchor semantics, no
-source dimensions, no researched thresholds, no invented numbers.
+canvas target to anchor a cue to. Slice 130 extends this mapping with
+true-scale cut-box frames, optional source dimensions, and deterministic
+warn-only bounds, resolution-floor, and coverage notes; it does not widen
+surface authority into drafting or export gating.
 
-Slices 126–129 are now integrated and pushed after Codex review. The shared
+Slices 126–130 are now integrated and pushed after Codex review. The shared
 architecture still keeps surface state outside drafting, grading, checks,
 nesting, export gating, and cutting-file writers: native surface text/number
 edits commit on focusout without replacing the active control, selects commit
 on change, and steppers use a private surface-step event. The mounted-app exit
 audit covers direct entry, invalid placement recovery, persistence, style
 isolation, all seven garments, assembled preview, print sheet, tech pack,
-warning dismissal/reappearance, and responsive widths 1280/900/700/560/390.
-No physical-fit, manufacturing, or production-readiness claim is implied.
+surface warnings and correction focus, and responsive widths
+1280/900/700/560/390. No physical-fit, manufacturing, or
+production-readiness claim is implied.
 
-Slice 129 closes the Epic with a cross-garment exit audit and no new product
-surface: one style's artwork end to end on all seven garments through the
-real mounted app. The architecture is unchanged by this slice; the boundary
-statements above stand as the shipped contract.
+Slice 130 adds `src/surface/piece-frames.ts`, which owns the digital anchor
+contract: per-role true-scale cut frames at base size, artwork corners centred
+on the piece-box centre plus placement offset, containment checks, area ratios,
+and source-dimension resolution. These values are measured from the live draft,
+never stored. `src/guidance/surface-notes.ts` adds bounds, resolution-floor
+(59 px/cm), and full-coverage (ratio >= 1) warnings beside validity notes,
+with control-resolution keys for Review focus. Source pixel dimensions remain
+optional persisted fields; absent means unratable, never a failure. No
+save-format version change or export gating change was introduced.
+
+Slice 130 closes the Epic with the completed guidance boundary after Slice
+129's cross-garment exit audit. One style's artwork is exercised end to end on
+all seven garments through the real mounted app; the surface architecture
+remains additive and the boundary statements above stand as the shipped
+contract.
 
 ### Prior Slice 115A presentation notes
 

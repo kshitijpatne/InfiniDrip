@@ -26,12 +26,13 @@ quality, release, or deliberately selected product expansion.
   and the full parsed-output/legacy-hash gate.
 - SVG, DXF, tiled PDF, A0 PDF, projector SVG, and tech-pack outputs with the
   eight unchanged legacy hashes and true-scale calibration contracts.
-- Epic 6 Slices 122–129: surface placement data/validation, transform math,
+- Epic 6 Slices 122–130: surface placement data/validation, transform math,
   Style-panel/save wiring, true-scale preview, tech-pack placement, opt-in
-  calibrated print sheet, warn-only invalid-entry guidance, and the
-  cross-garment exit audit. The bounded serial gate passed 93 files / 1,226
-  tests, 100% coverage, typecheck, production build, parsed consumers, and the
-  eight legacy hashes. Surface state remains outside geometry and cutting.
+  calibrated print sheet, warn-only invalid-entry guidance, measured
+  bounds/resolution/coverage guidance, and the cross-garment exit audit. The
+  bounded serial gate passed 94 files / 1,255 tests, 100% coverage, typecheck,
+  production build, parsed consumers, and the eight legacy hashes. Surface
+  state remains outside geometry and cutting.
 - The open-source audit is durable in
   docs/research/OPEN-SOURCE-REPOSITORY-AUDIT.md; its accepted candidates remain
   bounded test/accessibility/nesting options, not engine replacements.
@@ -58,7 +59,7 @@ planning surface for Codex after the completed Epic 6 integration.
 
 | Horizon | Initiative | Status / owner | Dependencies and exit |
 |---|---|---|---|
-| **Done** | **Epic 6 Slices 122–129** — surface placement, preview, persistence, tech-pack/print output, warn-only guidance, and cross-garment exit | **Complete — Codex reviewed and pushed** | 93 files / 1,226 tests, 100% coverage, typecheck, build, parsed consumers, 8/8 legacy hashes; no physical-fit claim |
+| **Done** | **Epic 6 Slices 122–130** — surface placement, preview, persistence, tech-pack/print output, measured warn-only guidance, and cross-garment exit | **Complete — Codex reviewed and pushed** | 94 files / 1,255 tests, 100% coverage, typecheck, build, parsed consumers, 8/8 legacy hashes; no physical-fit claim |
 | **Now** | **Quality hardening** — bounded fast-check properties plus a test-only @flatten-js/core oracle, including surface-placement invariants | **Codex candidate** | Seeded/bounded CI, permanent regression fixtures, no production geometry replacement; start only as an explicit Epic |
 | **Now / parallel-safe** | **Desktop release readiness** — package verification, offline/native save checks, signing procurement and packaged smoke | **Codex candidate** | Explicit release decision, platform ownership, and a separate gate from product work; no unverified Electron changes are merged |
 | **Next** | **Surface v1 stabilization** — follow-up only for a reproducible defect or real user evidence | **Conditional** | Epic 6 exit evidence plus a concrete failure; no speculative polish |
@@ -414,7 +415,7 @@ single curve in patternmaking and should be expected to take longer than it look
 
 | # | Item | Est. | Current status |
 |---|---|---|---|
-| 3.1 | Artwork placement layer (prints, patches, colour blocking) on existing SVG pieces — Fabric.js remains a verified but unneeded optional proof, not a runtime dependency | 6–10 slices | **Complete in Epic 6:** Slices 122–129 provide the model/UI/preview/output/guidance/exit; surface remains geometry-independent |
+| 3.1 | Artwork placement layer (prints, patches, colour blocking) on existing SVG pieces — Fabric.js remains a verified but unneeded optional proof, not a runtime dependency | 6–10 slices | **Complete in Epic 6:** Slices 122–130 provide the model/UI/preview/output/guidance/exit; surface remains geometry-independent |
 | 3.2 | Print/embroidery-ready output + placement spec in tech pack | 4–8 slices | **Complete in Epic 6:** Slice 127 shipped calibrated print sheet and tech-pack placement; embroidery machine formats remain out of scope |
 
 Can run in parallel with Priority 2 because it doesn't touch geometry.

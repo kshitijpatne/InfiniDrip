@@ -59,15 +59,16 @@ deferred and must re-verify the then-current version before a dependency lands.
 
 ## Epic 6 exit reconciliation (2026-09-20)
 
-Slices 122–129 are merged to `origin/main`. The shipped scope includes the
+Slices 122–130 are merged to `origin/main`. The shipped scope includes the
 headless model/math/overlay, Style-panel placement sets per garment/style,
 optional persistence, true-scale artwork-space preview, opt-in calibrated print
 sheet, tech-pack placement page, and warn-only invalid-entry guidance. The
-cross-garment mounted-app audit covers all seven recipes. Piece clipping and
-on-piece anchoring, out-of-bounds/resolution-floor/ink-coverage thresholds,
-embroidery machine formats, 3D/VTO, and physical validation remain deferred or
-blocked exactly as recorded below; no production-readiness claim follows from
-this digital evidence.
+cross-garment mounted-app audit covers all seven recipes, and Slice 130 adds
+measured warn-only bounds, resolution-floor, and coverage guidance using the
+accepted digital contracts below. Piece clipping and on-piece artwork
+repositioning, embroidery machine formats, 3D/VTO, and physical validation
+remain deferred; no production-readiness claim follows from this digital
+evidence.
 
 ## Estimates vs decisions
 
@@ -107,10 +108,10 @@ Positioning artwork on pieces — and any clipping of artwork to piece
 boundaries — stays explicitly out of scope until a slice adds a real,
 user-visible anchor control with its own research, validation, and tests.
 
-## Blocked warnings and their unblock questions (Slice 128)
+## Blocked warnings and their resolution (Slices 128–130)
 
-Out-of-bounds, resolution-floor, and ink-coverage warnings are explicitly
-not implemented. Each needs a product decision this Epic does not contain:
+Slice 128 recorded three missing decisions. Slice 130 resolves them as
+warn-only digital checks:
 
 1. Out-of-bounds: define the anchor. Is artwork positioned relative to a
    piece landmark, the piece bounding box, or the fold/grainline — and which
@@ -122,5 +123,46 @@ not implemented. Each needs a product decision this Epic does not contain:
 3. Ink coverage: define the budget. Coverage of what area (piece, marker,
    garment), measured how, with what researched threshold?
 
-Until these are answered, validity warnings are the complete, honest
-guidance boundary. No invented threshold ships in their place.
+The implementation does not clip, reposition, gate exports, or make a physical
+fit/print-quality claim. Unknown source dimensions remain unratable rather than
+being guessed.
+
+## Slice 130 resolutions
+
+Slice 130 answers the three blocked questions with explicit, bounded
+contracts instead of deferring them again:
+
+### Anchor contract
+
+Artwork offsets measure from the centre of the named piece's true-scale cut
+bounding box at base size (the same size the tech-pack sketch draws). Both
+the box and the artwork corners derive from real drafted geometry, so
+out-of-bounds is a measured containment fact: any artwork corner outside the
+piece box warns, edge-touching counts as inside (matching the existing
+overlap convention). Piece roles resolve exactly: block role first, then
+piece name; anything else warns with the available role list. Frames rebuild
+per draw from the live draft, so measurement edits move the boundary and the
+warnings follow without stored state. The panel caption states the anchor.
+
+### Print floor derivation
+
+150 DPI is the widely published minimum for textile print reproduction.
+150 / 2.54 = 59.055… px/cm; the contract floors to 59 and warns below it.
+Warn-only; placements without persisted source dimensions are unratable and
+never warn. Source dimensions are optional persisted fields, so old saves
+load silently and no version bump was needed.
+
+### Coverage formula
+
+Coverage = (width × height × scale²) / (cut-outline shoelace area). Both
+areas are real measurements, not estimates. The warn threshold is a ratio of
+1 — artwork at or above piece area cannot print without full-bleed intent —
+which is a physical containment boundary, not a production budget. Below 1
+the ratio stays silent; no ink-hand or curing claim is made.
+
+### Artwork IDs stay editable
+
+The row Name input keeps ids user-editable, so invalid-ID guidance always
+has a focusable correction target. Rows are addressed by position, so two
+rows may transiently share an id without collapsing into each other; the
+add form still rejects duplicates for new entries.

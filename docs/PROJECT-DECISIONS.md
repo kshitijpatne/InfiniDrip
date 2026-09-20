@@ -259,12 +259,28 @@ non-positive resolution inputs are unratable. Surface preview is flat artwork
 placement and makes no physical-fit, drape, sewability, manufacturing, or
 production-readiness claim.
 
-Piece clipping/on-piece anchoring and actionable out-of-bounds, low-resolution,
-and ink-coverage warnings remain explicitly blocked: the product has no anchor
-semantics, source-dimension field, or researched production thresholds. No
-threshold or silent correction was invented. Fabric.js was proven in a scratch
+Piece clipping/on-piece anchoring remains explicitly blocked: Slice 130 defines
+a digital cut-box-centre anchor for measured guidance, but it does not clip or
+reposition artwork on the garment. Actionable out-of-bounds, low-resolution,
+and full-coverage warnings are now implemented as warn-only digital checks;
+they do not gate exports or assert physical fit, print quality, sewability,
+manufacturing, or production readiness. Fabric.js was proven in a scratch
 round-trip but not added because the shipped numeric-control/string-SVG
 consumer needs no canvas dependency; any future direct manipulation must
 re-verify the then-current version and license before adoption. Embroidery
 machine formats, 3D/VTO, signing, packaging, and physical validation remain
 outside this Epic.
+
+### Epic 6 Slice 130 — accepted digital contracts
+
+1. Piece-space anchor: artwork centres sit on the named piece's true-scale
+   cut-box centre plus the placement offset, evaluated at base size. Any
+   artwork corner outside that box warns; edge-touching counts as inside.
+2. Print floor: 59 px/cm, derived as `floor(150 / 2.54)`. It is a warn-only
+   digital floor; placements without source dimensions are unratable and never
+   warn.
+3. Full-coverage warning: artwork-to-piece cut-outline area ratio `>= 1`.
+   This is a containment/intent cue, not a production ink budget.
+4. Source pixel dimensions are optional persisted placement fields. Missing
+   dimensions remain unknown rather than failing validation, with no save-format
+   version change.

@@ -6,7 +6,7 @@ _Started from the Epic 4 exit at `816b9ff`; rebased onto the Epic 5 exit at `13d
 
 Epic 4 closed at Slice 113 on `origin/main`. Slices 114–121 are the separately
 completed Codex UI/UX redesign workstream, confirmed as **EPIC-5** and landed at
-`13d7195`. Surface design is therefore **EPIC-6**, running Slices 122–129. No
+`13d7195`. Surface design is therefore **EPIC-6**, running Slices 122–130. No
 code depends on the number.
 
 ## Objective
@@ -250,19 +250,18 @@ production-readiness claim is made.
 
 ## Epic 6 exit report — complete and merged
 
-Delivered across Slices 122–129: a headless placement contract (model,
+Delivered across Slices 122–130: a headless placement contract (model,
 validation, math, overlay renderer), Style-panel artwork sets per
 garment/style with add/edit/remove and warn-only validation, optional
 save/recovery persistence with no version bump, a true-scale artwork-space
 preview, a fifth tech-pack page plus an opt-in calibrated print sheet for
 non-empty sets, invalid-placement guidance with Review/Set-aside/Show-again
-and Check-view visibility, and a cross-garment exit audit proving one style's
-artwork end to end on all seven garments.
+and Check-view visibility, measured bounds/resolution/coverage guidance with
+focusable correction controls, and a cross-garment exit audit proving one
+style's artwork end to end on all seven garments.
 
-Explicitly out of the Epic as shipped: out-of-bounds, resolution-floor, and
-ink-coverage warnings (blocked on anchor semantics, source dimensions, and
-researched thresholds — unblock questions recorded, no threshold invented);
-on-piece artwork positioning and clipping (no anchor invented); embroidery
+Explicitly out of the Epic as shipped: on-piece artwork positioning and
+clipping (the digital anchor is for measured guidance only); embroidery
 machine formats, photo workflows, 3D, vendor, signing, and packaging work;
 any physical-fit, drape, sewability, manufacturing, or production-readiness
 claim.
@@ -280,5 +279,33 @@ The default parallel test run hit one accessibility timeout under host
 contention; the same test passed in isolation and in the complete serial gate.
 This is recorded as an execution-environment constraint, not a product failure.
 `docs/PROJECT-DECISIONS.md` records the shipped additive save-section and the
-remaining blocked-warning questions; no new product decision was invented for
-those questions.
+remaining Slice 130 contracts are now recorded as accepted digital decisions;
+no physical or sewn validation is implied.
+
+## Slice 130 — blocked guidance scope, accepted and merged
+
+Branch `opencode/slice-130-surface-guidance-complete`, stacked on the Slice
+129 branch. Implements the scope Slice 128 deferred: an explicit piece-space
+anchor contract, out-of-bounds containment warnings, optional source
+dimensions with low-resolution warnings against the documented 59 px/cm floor,
+full-coverage warnings from real shoelace area measurements at ratio >= 1, and
+an editable Name input so invalid-ID guidance always focuses a real control.
+The warnings remain warn-only; there is no save-format version change, export
+gating change, or physical/production claim.
+
+Delivered: `ArtworkPlacement.sourcePxWidth/sourcePxHeight` (optional,
+validated when present); `src/surface/piece-frames.ts` (frames, anchor
+corners, containment, coverage, resolution); extended
+`src/guidance/surface-notes.ts` (bounds/resolution/coverage notes with
+control-resolution keys); row Name input plus source-dimension inputs with
+focus keys; anchor caption in the preview panel; and full unit/integration
+coverage of every new branch including hostile saves.
+
+The Slice 130 gate passed 94 files / 1,255 tests, 100% statements, branches,
+functions, and lines, typecheck, production build, 30 parsed export/legacy
+tests including all eight unchanged hashes, and the mounted browser audit on
+all seven garments. Live checks covered valid role resolution, invalid role
+guidance and correction, low-resolution, out-of-bounds, coverage, invalid-ID
+focus, both new exports, four responsive widths, and a clean console. No
+physical-fit, drape, sewability, manufacturing, or production-readiness claim
+is made.

@@ -2606,3 +2606,98 @@ describe("surface guidance (Slice 128)", () => {
     expect(created).toEqual(["tee-M.svg"]);
   });
 });
+
+describe("surface frame guidance (Slice 130)", () => {
+  const toFitStep = (root: HTMLElement): void => {
+    clickIfPresent(root, "welcome-skip");
+    clickId(root, "journey-step-fit");
+  };
+  const addArtwork = (root: HTMLElement, id: string, role = "front"): void => {
+    root.querySelector<HTMLInputElement>("#surface-new-id")!.value = id;
+    root.querySelector<HTMLInputElement>("#surface-new-role")!.value = role;
+    root.querySelector<HTMLButtonElement>("#surface-add")!.click();
+  };
+  const setNumeric = (root: HTMLElement, index: number, field: string, value: string): void => {
+    const input = root.querySelector<HTMLInputElement>(
+      `input[data-surface-index="${index}"][data-surface-field="${field}"]`)!;
+    input.value = value;
+    input.dispatchEvent(new Event("focusout", { bubbles: true }));
+  };
+
+  it("repairs an empty name through Review focus on the Name input", () => {
+    localStorage.clear();
+    const root = mount();
+    toFitStep(root);
+    addArtwork(root, "chest-print");
+    clickId(root, "save-pattern");
+    const raw = JSON.parse(localStorage.getItem("patternworks_save_v1")!);
+    const key = Object.keys(raw.surface)[0];
+    raw.surface[key].placements[0].id = "";
+    localStorage.setItem("patternworks_save_v1", JSON.stringify(raw));
+    const reloaded = mount();
+    toFitStep(reloaded);
+    expect(reloaded.querySelector("#guidance-host")!.textContent).toContain("Placement id");
+    const focused: Element[] = [];
+    const spy = vi.spyOn(HTMLInputElement.prototype, "focus").mockImplementation(
+      function (this: HTMLInputElement) { focused.push(this); });
+    try {
+      reloaded.querySelector<HTMLButtonElement>('button[data-guidance-focus="surface-0-id"]')!.click();
+      const fresh = reloaded.querySelector('input[data-guidance-control="surface-0-id"]')!;
+      expect(focused).toContain(fresh);
+    } finally {
+      spy.mockRestore();
+    }
+    const name = reloaded.querySelector<HTMLInputElement>('input[data-surface-index="0"][data-surface-field="id"]')!;
+    name.value = "chest-print";
+    name.dispatchEvent(new Event("focusout", { bubbles: true }));
+    expect(reloaded.querySelector("#error-surface-0")!.textContent).toBe("");
+    expect(reloaded.querySelector("#guidance-host")!.textContent).not.toContain("Placement id");
+  });
+
+  it("warns when artwork leaves its piece and when it covers the whole piece", () => {
+    localStorage.clear();
+    const root = mount();
+    toFitStep(root);
+    addArtwork(root, "chest-print");
+    setNumeric(root, 0, "scale", "10");
+    const host = root.querySelector("#guidance-host")!.textContent ?? "";
+    expect(host).toContain("extends beyond the front piece");
+    expect(host).toContain("covers about");
+    expect(host).toContain("full-coverage print intent");
+  });
+
+  it("names unknown piece roles with the available choices", () => {
+    localStorage.clear();
+    const root = mount();
+    toFitStep(root);
+    addArtwork(root, "chest-print", "hood");
+    expect(root.querySelector("#guidance-host")!.textContent).toContain("not in the current block");
+  });
+
+  it("warns below the print floor for rated sources and stays silent otherwise", () => {
+    localStorage.clear();
+    const root = mount();
+    toFitStep(root);
+    addArtwork(root, "chest-print");
+    expect(root.querySelector("#guidance-host")!.textContent).not.toContain("px/cm");
+    setNumeric(root, 0, "sourcePxWidth", "200");
+    setNumeric(root, 0, "sourcePxHeight", "200");
+    const host = root.querySelector("#guidance-host")!.textContent ?? "";
+    expect(host).toContain("about 8 px/cm");
+    expect(host).toContain("59 px/cm floor");
+  });
+
+  it("round-trips source dimensions through save and load", () => {
+    localStorage.clear();
+    const root = mount();
+    toFitStep(root);
+    addArtwork(root, "chest-print");
+    setNumeric(root, 0, "sourcePxWidth", "2400");
+    clickId(root, "save-pattern");
+    expect(localStorage.getItem("patternworks_save_v1")).toContain("2400");
+    setNumeric(root, 0, "sourcePxWidth", "100");
+    clickId(root, "load-pattern");
+    clickId(root, "workspace-confirm-accept");
+    expect(root.querySelector<HTMLInputElement>('input[data-surface-index="0"][data-surface-field="sourcePxWidth"]')!.value).toBe("2400");
+  });
+});

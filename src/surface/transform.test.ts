@@ -3,6 +3,7 @@ import { point } from "../geometry/point";
 import {
   artworkCorners,
   boundingBox,
+  boxContains,
   boxesOverlap,
   effectiveResolution,
   type BoundingBox,
@@ -56,8 +57,7 @@ describe("boundingBox", () => {
   });
 });
 
-describe("boxesOverlap", () => {
-  it("detects shared area", () => {
+describe("boxesOverlap", () => {  it("detects shared area", () => {
     expect(boxesOverlap(box(0, 0, 4, 4), box(2, 2, 6, 6))).toBe(true);
   });
   it("counts touching edges as overlap", () => {
@@ -87,5 +87,18 @@ describe("effectiveResolution", () => {
     expect(effectiveResolution(1200, 1500, 0, 25, 1)).toBeNull();
     expect(effectiveResolution(1200, 1500, 20, -25, 1)).toBeNull();
     expect(effectiveResolution(1200, 1500, 20, 25, 0)).toBeNull();
+  });
+});
+
+describe("boxContains", () => {
+  it("accepts inside and edge-touching boxes", () => {
+    expect(boxContains(box(0, 0, 10, 10), box(2, 2, 8, 8))).toBe(true);
+    expect(boxContains(box(0, 0, 10, 10), box(0, 0, 10, 10))).toBe(true);
+  });
+  it("rejects any overhang on any side", () => {
+    expect(boxContains(box(0, 0, 10, 10), box(-1, 2, 8, 8))).toBe(false);
+    expect(boxContains(box(0, 0, 10, 10), box(2, 2, 11, 8))).toBe(false);
+    expect(boxContains(box(0, 0, 10, 10), box(2, -1, 8, 8))).toBe(false);
+    expect(boxContains(box(0, 0, 10, 10), box(2, 2, 8, 11))).toBe(false);
   });
 });
