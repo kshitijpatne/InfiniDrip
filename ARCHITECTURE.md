@@ -215,6 +215,11 @@ console. Slices 127–129 remain the tech-pack/print-ready, guidance, and
 cross-garment exit boundary; no physical-fit, manufacturing, or
 production-readiness claim is implied.
 
+Slice 129 closes the Epic with a cross-garment exit audit and no new product
+surface: one style's artwork end to end on all seven garments through the
+real mounted app. The architecture is unchanged by this slice; the boundary
+statements above stand as the shipped contract.
+
 ### Prior Slice 115A presentation notes
 
 The newly authorized UI/UX work is research/audit-first. The implemented

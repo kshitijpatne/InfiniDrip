@@ -191,7 +191,11 @@ Integration record: PR #5 was merged by Codex from contributor head
 commit `139dbd1e86b045ca54cb1a6a07f6d3d315fa67ba`, and `origin/main` now points
 to that commit. Slices 127–129 remain unmerged external work.
 
-## Slice 129 — EPIC-6 exit gate (pending)
+## Slice 129 — EPIC-6 exit gate (review-ready, not merged)
+
+Branch `opencode/slice-129-surface-exit`, stacked on the Slice 128 branch.
+Slice 127 → Slice 128 → Slice 129 merge bottom-up; no branch in the chain
+touches `main` directly.
 
 ## Slice 127 — tech-pack spec plus opt-in print output (review-ready, not merged)
 
@@ -245,3 +249,34 @@ Stop conditions not triggered for the shipped subset: coverage held at 100%
 across all four metrics, no geometry/grading/export-truth change was
 required, no baseline moved. No physical-fit, manufacturing, or
 production-readiness claim is made.
+
+## Epic 6 exit report — review-ready, not merged
+
+Delivered across Slices 122–129: a headless placement contract (model,
+validation, math, overlay renderer), Style-panel artwork sets per
+garment/style with add/edit/remove and warn-only validation, optional
+save/recovery persistence with no version bump, a true-scale artwork-space
+preview, a fifth tech-pack page plus an opt-in calibrated print sheet for
+non-empty sets, invalid-placement guidance with Review/Set-aside/Show-again
+and Check-view visibility, and a cross-garment exit audit proving one style's
+artwork end to end on all seven garments.
+
+Explicitly out of the Epic as shipped: out-of-bounds, resolution-floor, and
+ink-coverage warnings (blocked on anchor semantics, source dimensions, and
+researched thresholds — unblock questions recorded, no threshold invented);
+on-piece artwork positioning and clipping (no anchor invented); embroidery
+machine formats, photo workflows, 3D, vendor, signing, and packaging work;
+any physical-fit, drape, sewability, manufacturing, or production-readiness
+claim.
+
+Evidence on the stacked chain: full suite green with 100% statements,
+branches, functions, and lines; typecheck and production build green;
+parsed SVG/DXF/tiled-PDF/A0/projector/tech-pack consumers green including
+all eight legacy hashes with artwork present in state; cross-garment
+panel/preview/sheet/tech-pack/save/load audit green; jsdom width rendering
+at 1280/900/700/560/390 without errors. Live-browser responsive and console
+proof remains Codex-side before any merge.
+
+`docs/PROJECT-DECISIONS.md` is intentionally untouched by this Epic: no new
+maintainer decision was made here, and the three blocked-warning questions
+await the maintainer rather than answering themselves.

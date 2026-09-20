@@ -1,8 +1,12 @@
 # InfiniDrip — Project State
 
-_Last updated: Epic 6 / Slices 127–128 review-ready, 2026-09-20; Epic 3, Epic 4, and Epic 5 are closed, Slice 126 is merged, and origin/main is current at `6f21ccb`. Slices 127–128 are implemented on their stacked contributor branches and await Codex review — neither is merged._
+_Last updated: Epic 6 / Slices 127–129 review-ready, 2026-09-20; Epic 3, Epic 4, and Epic 5 are closed, Slice 126 is merged, and origin/main is current at `6f21ccb`. Slices 127–129 are implemented on their stacked contributor branches and await Codex review — none is merged._
 
 ## Current work — Epic 6 surface design foundation
+
+### Slice 129 — EPIC-6 exit gate (review-ready, not merged)
+
+Slice 129 closes the Epic on branch `opencode/slice-129-surface-exit`, stacked on the Slice 128 branch: a cross-garment audit proving one style's artwork end to end (panel, preview, print sheet, tech pack, save/load) on all seven garments through the real mounted app, plus the Epic exit report and final durable updates. The chain merges bottom-up (127, then 128, then 129) with no direct pushes to `main` and no contributor merges. Blocked warnings, unbuilt positioning, and all cut-list items from prior Epics carry over unchanged. No physical-fit, drape, sewability, manufacturing, or production-readiness claim is made.
 
 ### Slice 127 — tech-pack spec plus opt-in print output (review-ready, not merged)
 
