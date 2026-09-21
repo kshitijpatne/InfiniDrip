@@ -84,6 +84,9 @@ snapshots; they are not current status.
   packet, exact scope/options, Epic 7 start gate, Slice 148 plus Slices 155–161,
   pressure
   matrix, and return contract.
+- `docs/planning/EPIC-12-EXECUTION.md` — authorized Web Platform Epic packet:
+  threat/data admission, static delivery, identity/sync, feature flags,
+  blue/green governance, local Control Center, slice gates and ownership.
 - `docs/planning/GARMENT-EXPANSION-RESEARCH-WAVE.md` — completed Slices 149–154
   research-only contract, evidence standard, Codex/Claude ownership boundaries,
   stop conditions and completed future-family synthesis gate.
@@ -152,8 +155,11 @@ snapshots; they are not current status.
   packet.
 - `docs/research/PUBLIC-WEB-PLATFORM-COST-RESEARCH.md` — costed web-launch,
   identity, feature-flag, delivery-governance and local Control Center proposal;
-  research-only until a maintainer decision authorizes individual execution
-  packets.
+  provider/account choices and cost envelope. Epic 12 now authorizes execution
+  planning, but no account, purchase, deployment or personal-data collection.
+- `docs/research/WEB-PLATFORM-THREAT-MODEL.md` — Epic 12 trust boundaries,
+  data classes, threats, controls, retention/deletion questions and incident
+  rules; blocking before identity/cloud implementation.
 - `docs/research/SURFACE-DESIGN-RESEARCH.md` — Epic 6 surface-layer contract,
   library decision boundary, source conflicts, and unresolved placement questions.
 

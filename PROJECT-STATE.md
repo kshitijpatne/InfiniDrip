@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: Epic 11 Slice 161, 2026-09-21.
+_Last updated: Epic 12 Slice 171, 2026-09-21.
 Epics 7, 9 and 10 are implemented, Codex-reviewed, documented and pushed to
 `origin/main`. Epic 11 implementation has completed the shaped collar/stand,
 placket-base, vent/drop, front/back preview/control/report and downstream
@@ -22,7 +22,7 @@ selects the vertical offset when only Y leaves the frame and selects whichever
 source dimension is actually resolution-limiting. The repair preserves the
 warn-only, no-gating contract and all export baselines.
 
-## Current work — Epic 11 implementation
+## Completed work — Epic 11 implementation
 
 ### Slice 155 — pure shaped collar and stand geometry contract complete
 
@@ -129,6 +129,34 @@ is made. Slice 161 changes documentation/evidence only; the next work is
 the reviewed handoff is pushed to `origin/main` at `3057c6c`, followed by any
 separately authorized promotion.
 
+## Current work — Epic 12 Web Platform
+
+### Slice 171 — platform admission, threat model and release contract complete
+
+The maintainer authorized the Public Web Platform and Delivery Governance
+Epic after Epic 11. The execution packet is
+`docs/planning/EPIC-12-EXECUTION.md`; the threat/data boundary is
+`docs/research/WEB-PLATFORM-THREAT-MODEL.md`; the cost envelope remains in
+`docs/research/PUBLIC-WEB-PLATFORM-COST-RESEARCH.md`.
+
+Slice 171 is planning and admission work only. It defines the local-first
+boundary, staged identity/cloud-sync contract, immutable preview/staging/
+production artifact lineage, logical Blue/Green aliases, two-week Tuesday
+release train, two-business-day freeze, expedited patch route, owned feature
+flags, and repository-local Control Center. It records the recommended
+approximately $59/month authenticated-beta envelope as a planning estimate.
+
+No domain, provider account, subscription, deployment, SDK, database schema,
+email sender, telemetry stream or personal-data collection has been created.
+Before identity/cloud work, jurisdiction, privacy/terms, retention/deletion,
+consent, RLS and data-region decisions remain blocking. No drafting, export,
+legacy hash or physical-fit boundary changed.
+
+Next safe slices are 172 (local Control Center v1) and 173 (provider-independent
+static artifact/release proof), which may run in parallel. Slice 174 identity
+and cloud workspace follows those contracts and requires the explicit external
+approval gates in the packet.
+
 ## Current work — post-Epic 6 planning
 
 ### Epic 8 — true-shape nesting proof admission contract complete; runtime blocked
@@ -180,9 +208,9 @@ multi-material nesting limitations. The current material record still lacks
 recovery, weight, shrinkage and direction-specific stretch.
 
 Epic 7 is reviewed, merged and pushed at `origin/main` commit `db14b63`, so the
-Epic 11 Slices 155–161 start gate is satisfied. Epic 11 remains the next
-implementation-ready geometry packet if the product owner schedules it; Epic 8
-is now scoped but remains implementation-gated.
+Epic 11 Slices 155–161 start gate was satisfied. Epic 11 is complete; Epic 12
+is now the active platform lane. Epic 8 remains runtime-gated by its artifact,
+license and worker-admission conditions.
 
 ### Slice 149 — garment-expansion research wave started
 

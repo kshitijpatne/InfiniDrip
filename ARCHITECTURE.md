@@ -601,6 +601,32 @@ Epic 7 planning contract or protected legacy bytes. Option-aware tech-pack
 construction text and guidance now follow the live vent/drop topology. No
 physical-fit or production-readiness claim is implied.
 
+### Epic 12 platform boundary — public web and delivery governance
+
+Epic 12 begins with a provider-independent execution contract in
+`docs/planning/EPIC-12-EXECUTION.md` and the threat/data record in
+`docs/research/WEB-PLATFORM-THREAT-MODEL.md`. The current Vite/Electron app
+remains local-first: drafting, guidance, persistence and exports work without
+login or network. No provider SDK, account, cloud schema, deployment alias or
+feature-flag fetch is present or authorized by Slice 171.
+
+The future web layer is additive. A static immutable Vite artifact may be
+served publicly without changing drafting or export truth. Auth/profile/cloud
+workspace data are separate owner-scoped records with deny-by-default RLS and
+opt-in, conflict-safe sync; they never replace the local save path. Body
+measurements and pattern/workspace contents are not telemetry. Feature flags
+control reversible UI/behavior rollout only and never authorization, invalid
+state suppression or physical-fit claims.
+
+Blue and Green are immutable production deployment aliases pointing at the
+same approved artifact lineage, not long-lived divergent branches. Preview and
+staging are separate; production aliases share a transition-safe production
+database. Promotion, rollback, code freeze, migration and evidence rules are
+defined in the Epic 12 packet. Any future hosted or auth implementation must
+preserve the existing full coverage, parsed-output and export-byte identity
+gates and receive a separate provider/cost/privacy approval before collecting
+personal data.
+
 The Epic 11 exit gate is complete. The six Slice 155–160 commits and the
 current output evidence are summarized in the durable exit report, and the
 reviewed handoff is pushed to `origin/main` at `3057c6c`; no physical

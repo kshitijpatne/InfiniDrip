@@ -417,6 +417,45 @@ research-backed execution contract is:
 - A banded or lined garment may not describe a combined main/rib/lining nest as
   one truthful fabric estimate. Its execution packet must add role/material
   grouping with separate estimates or leave secondary-material yardage unknown.
+
+## Epic 12 — Public Web Platform and Delivery Governance — authorized 2026-09-21
+
+The maintainer authorized the Web Platform Epic to begin after Epic 11. The
+approved cost research is the planning baseline, not a purchase order. The
+first slice is provider-independent execution planning and threat modeling;
+accounts, domains, subscriptions, deployments and personal-data collection
+still require their own explicit gate.
+
+- The recommended low-volume authenticated-beta envelope is approximately
+  $59/month plus a normal domain, using Vercel Pro, Supabase Pro with separate
+  staging/production projects, Resend, owned Supabase-backed feature flags,
+  Sentry Developer and Better Stack Free. Spend limits and alerts are required
+  before accepting public traffic.
+- Local-first drafting/export remains available without login or network.
+  Cloud sync is opt-in, owner-scoped and conflict-safe; body measurements and
+  workspace contents are not analytics or flag-audience data.
+- The public web path uses immutable preview/staging/production artifacts.
+  Blue and Green are deployment aliases, not diverging source branches. The
+  previous healthy production artifact remains the rollback target. Database
+  changes use expand → migrate → contract because both production aliases share
+  the production database.
+- The planned release train is biweekly on Tuesday at 2 PM Eastern, with a
+  one-week scope cut and two-business-day code freeze. Security, outage,
+  data-loss and user-blocking defects may use an expedited patch record with
+  focused evidence and rollback.
+- Feature flags control reversible UI/behavior rollout only. They never replace
+  authorization/RLS or hide invalid geometry. Every flag declares owner,
+  audience, default, expiry, ON/OFF behavior, tests and removal release. A
+  `polo_v2` kill switch cannot be shipped until a compatible V1 fallback is
+  actually present.
+- The repository-local Control Center is the source of delivery truth. A
+  contributor may move a work item only to `In Review`; Codex independently
+  closes it after evidence. Missing historical evidence remains explicitly
+  incomplete rather than invented.
+- The standing platform threat model is
+  `docs/research/WEB-PLATFORM-THREAT-MODEL.md`; no identity/cloud slice may
+  collect data until its jurisdiction, retention, deletion, consent and RLS
+  decisions are recorded.
 - Shorts and sweatshirt geometry may run in parallel after Polo in isolated
   worktrees. Shared registry/UI/persistence/render/nesting/export integration
   is serialized and Codex-owned. Shorts, joggers and jeans may not concurrently

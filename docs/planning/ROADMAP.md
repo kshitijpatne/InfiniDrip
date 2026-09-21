@@ -73,7 +73,7 @@ planning surface for Codex after the completed Epic 6 integration.
 | **Later / researched** | **Garment candidates** — shorts → sweatshirt → jogger → pullover hoodie → rigid jeans | **Packets researched; execution packets still required** | Shared stretched-join and lower-body boundaries in `GARMENT-EXPANSION-SYNTHESIS.md`; do not start from the research record alone |
 | **Later / blocked** | **Physical fit validation** | **Blocked by maintainer constraint** | No manufacturer/printer is available; no sewn-fit claim or schedule until explicitly reopened |
 | **Scoped / implementation-gated** | **Sparrow irregular nesting redesign** | **Captured by EPIC 8; not authorized** | Fabric-width, grain, nap, fold, pair/mirror and clearance semantics plus deterministic fallback and benchmark proof |
-| **Proposed / research only** | **Public Web Platform and Delivery Governance** | **Costed recommendation recorded; no implementation authorized** | Separate web host, Auth/RLS cloud workspace, release governance, feature flags and local Control Center; must not interrupt Epic 11 or change drafting/export contracts |
+| **In progress / Slice 171 complete** | **EPIC 12 — Public Web Platform and Delivery Governance** | **Codex-owned execution packet and threat model; external mutation still gated** | Static web delivery, Auth/RLS workspace, release governance, feature flags and local Control Center; no provider account or personal-data collection yet |
 
 ### Codex next-work options
 
@@ -87,6 +87,9 @@ choices:
 2. **Future garment execution packet.** If work after Polo is selected, scope
    casual shorts first. A separate upper-body sweatshirt geometry track may run
    in parallel only with disjoint files and serialized shared integration.
+3. **EPIC 12 Web Platform.** Slice 171 is complete as the admission contract.
+   Build the local Control Center and provider-independent artifact proof next;
+   identity/cloud work waits for privacy, retention, jurisdiction and RLS gates.
 4. **Conditional stabilization.** Act only on a reproducible Epic 6/7 defect or
    real user evidence; no speculative polish.
 
