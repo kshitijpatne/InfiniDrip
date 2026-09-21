@@ -234,6 +234,6 @@
     { "id": "E-HISTORIC-INCOMPLETE", "kind": "incomplete", "uri": "ops/control-center/README.md#historical-import", "commit": null, "sha256": null, "verified": false, "note": "Historical dates/evidence not present in the imported source records; no values were invented." },
     { "id": "E-S172-S173", "kind": "test", "uri": "ops/control-center/data/evidence/SLICES-172-173.md", "commit": "23d7715", "sha256": null, "verified": true, "note": "Focused board/importer, artifact manifest, full test/build and browser/HTTP smoke evidence for this release." },
     { "id": "E-EPIC12-S174", "kind": "decision", "uri": "docs/research/IDENTITY-CLOUD-WORKSPACE-RESEARCH.md", "commit": null, "sha256": null, "verified": true, "note": "Provider-independent identity/cloud contract and blocking legal/product decision record; no provider mutation." },
-    { "id": "E-EPIC12-S175", "kind": "decision", "uri": "docs/planning/EPIC-12-SLICE-175-ADMISSION.md", "commit": null, "sha256": null, "verified": true, "note": "Slice 175 admission audit; implementation is blocked until the named maintainer/legal/product decisions are recorded." }
+    { "id": "E-EPIC12-S175", "kind": "decision", "uri": "docs/planning/EPIC-12-SLICE-175-ADMISSION.md", "commit": "1967b2d", "sha256": null, "verified": true, "note": "Slice 175 admission audit; implementation is blocked until the named maintainer/legal/product decisions are recorded." }
   ]
 }
