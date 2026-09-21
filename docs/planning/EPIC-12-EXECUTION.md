@@ -1,7 +1,7 @@
 # EPIC 12 — Public Web Platform and Delivery Governance
 
-Status: **SLICE 171 — EXECUTION CONTRACT AND THREAT MODEL COMPLETE; NO
-EXTERNAL ACCOUNT, PURCHASE OR PUBLIC DEPLOYMENT AUTHORIZED**
+Status: **SLICES 171–173 — FOUNDATION, CONTROL CENTER AND DELIVERY PROOF
+COMPLETE; NO EXTERNAL ACCOUNT, PURCHASE OR PUBLIC DEPLOYMENT AUTHORIZED**
 
 Owner: **Codex**. Claude Code and OpenCode may contribute only bounded,
 isolated audits or mechanical work under `docs/OPENCODE-WORKFLOW.md`. Codex
@@ -98,7 +98,7 @@ Center runtime code.
 Owner/model: Codex; Sol-high review for security/data/release boundaries,
 Luna-max for document reconciliation and mechanical consistency checks.
 
-### Slice 172 — repository-local Control Center v1
+### Slice 172 — repository-local Control Center v1 — complete
 
 Add a dependency-light local board under `ops/control-center/` with a versioned
 work-item schema, Epic/release/evidence records, a read-only visual dashboard,
@@ -118,21 +118,34 @@ Non-goals: Jira replacement with remote collaboration, automatic status guesses,
 provider integration, modifying application drafting UI, or a new runtime
 dependency without an explicit license/size review.
 
+Verified: the canonical board, JSON schemas, validator, importer and dashboard
+are covered by nine focused Node tests; a fresh Playwright browser loaded the
+dashboard and displayed the board title and `SLICE-173`. The importer rejects
+unknown evidence, URI/kind changes, duplicate facts and facts without a
+commit/hash proof.
+
 Owner/model: Codex contract; OpenCode may implement an isolated read-only
 dashboard and fixtures; Codex reviews and integrates.
 
-### Slice 173 — static web preview and immutable delivery proof
+### Slice 173 — static web preview and immutable delivery proof — complete
 
 Prove that the existing Vite build serves correctly over HTTP(S), keeps
 Electron's relative asset contract, emits a repeatable candidate artifact, and
-can be promoted/rolled back by immutable deployment identity. Add repository
-configuration and CI checks only after provider-independent local proof. No
-account or secret is needed for the first artifact rehearsal.
+can be promoted/rolled back by immutable deployment identity. Add only
+repository-local scripts/configuration and CI checks after provider-independent
+local proof; no provider routing file is admitted before a hosting choice and
+deployment rehearsal are approved. No account or secret is needed for the
+first artifact rehearsal.
 
 Acceptance: a fresh browser loads the real app; all existing render/export
 tests, legacy hashes and build gates pass; the artifact manifest is repeatable;
 a candidate and rollback alias can be described without source-branch mutation;
 secrets are absent from output. Public deployment remains a separate approval.
+
+Verified: `npm test` passes 104 files / 1,415 tests, TypeScript and the Vite
+production build pass, the manifest is byte-for-byte repeatable across two
+generations, and HTTP smoke checks load the built index plus both referenced
+assets. No provider account, secret, domain or deployment was used.
 
 ### Slice 174 — identity and cloud-workspace contract
 

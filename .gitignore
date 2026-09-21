@@ -4,3 +4,4 @@ dist-electron/
 release/
 coverage/
 .vite/
+ops/web/artifact-manifest.json

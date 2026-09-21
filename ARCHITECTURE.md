@@ -608,7 +608,17 @@ Epic 12 begins with a provider-independent execution contract in
 `docs/research/WEB-PLATFORM-THREAT-MODEL.md`. The current Vite/Electron app
 remains local-first: drafting, guidance, persistence and exports work without
 login or network. No provider SDK, account, cloud schema, deployment alias or
-feature-flag fetch is present or authorized by Slice 171.
+feature-flag fetch is present. Slices 172–173 add only repository-local
+operations artifacts; they do not change the product runtime or authorize
+external mutation.
+
+The repository-local Control Center under `ops/control-center/` is a separate,
+read-only operations surface. Its versioned board schema, validator, evidence
+importer and dashboard record work-item state without guessing missing history;
+contributors can submit review, but only an independent reviewer can close an
+item. The `ops/web/` manifest utility records a sorted SHA-256 inventory of a
+Vite `dist/` directory. These artifacts are provider-neutral and are never a
+source of drafting, persistence or authorization truth.
 
 The future web layer is additive. A static immutable Vite artifact may be
 served publicly without changing drafting or export truth. Auth/profile/cloud

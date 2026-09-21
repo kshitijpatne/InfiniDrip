@@ -7,6 +7,11 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "web:manifest": "node ops/web/create-artifact-manifest.mjs dist ops/web/artifact-manifest.json",
+    "web:serve": "vite preview --host 127.0.0.1 --port 4173",
+    "control-center:serve": "vite ops/control-center --host 127.0.0.1 --port 4174",
+    "control-center:test": "node --test ops/control-center/app/board.test.mjs ops/control-center/import-facts.test.mjs",
+    "web:proof:test": "node --test ops/web/create-artifact-manifest.test.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
     "coverage": "vitest run --coverage",

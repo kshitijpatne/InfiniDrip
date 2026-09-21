@@ -421,10 +421,10 @@ research-backed execution contract is:
 ## Epic 12 — Public Web Platform and Delivery Governance — authorized 2026-09-21
 
 The maintainer authorized the Web Platform Epic to begin after Epic 11. The
-approved cost research is the planning baseline, not a purchase order. The
-first slice is provider-independent execution planning and threat modeling;
-accounts, domains, subscriptions, deployments and personal-data collection
-still require their own explicit gate.
+approved cost research is the planning baseline, not a purchase order. Slices
+171–173 establish the provider-independent execution, local board and static
+delivery proof; accounts, domains, subscriptions, deployments and personal-
+data collection still require their own explicit gate.
 
 - The recommended low-volume authenticated-beta envelope is approximately
   $59/month plus a normal domain, using Vercel Pro, Supabase Pro with separate
@@ -452,6 +452,12 @@ still require their own explicit gate.
   contributor may move a work item only to `In Review`; Codex independently
   closes it after evidence. Missing historical evidence remains explicitly
   incomplete rather than invented.
+- Slices 172–173 are complete without changing product drafting/export code:
+  `ops/control-center/` contains the versioned board, validator, evidence-only
+  importer and read-only dashboard; `ops/web/` contains the deterministic
+  SHA-256 artifact manifest utility and provider-neutral delivery descriptor.
+  The importer requires an existing evidence identity plus a verifiable
+  commit/hash and cannot infer dates, owners, status or delivery.
 - The standing platform threat model is
   `docs/research/WEB-PLATFORM-THREAT-MODEL.md`; no identity/cloud slice may
   collect data until its jurisdiction, retention, deletion, consent and RLS

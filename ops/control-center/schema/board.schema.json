@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://infinidrip.local/schemas/control-center/board.v1.json",
+  "title": "InfiniDrip local Control Center board",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "generatedFrom", "epics", "releases", "workItems", "evidence"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "generatedFrom": { "type": "string", "minLength": 1 },
+    "epics": { "type": "array", "items": { "$ref": "#/$defs/epic" } },
+    "releases": { "type": "array", "items": { "$ref": "#/$defs/release" } },
+    "workItems": { "type": "array", "items": { "$ref": "work-item.schema.json" } },
+    "evidence": { "type": "array", "items": { "$ref": "#/$defs/evidence" } }
+  },
+  "$defs": {
+    "epic": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "title", "status", "owner", "description", "evidenceRefs"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 1 },
+        "status": { "type": "string", "minLength": 1 },
+        "owner": { "type": "string", "minLength": 1 },
+        "description": { "type": "string", "minLength": 1 },
+        "evidenceRefs": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "release": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "title", "status", "evidenceRefs"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 1 },
+        "status": { "type": "string", "minLength": 1 },
+        "evidenceRefs": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind", "uri", "verified", "note"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "kind": { "enum": ["commit", "exit-report", "test", "build", "browser", "decision", "incomplete"] },
+        "uri": { "type": "string", "minLength": 1 },
+        "commit": { "type": ["string", "null"] },
+        "sha256": { "type": ["string", "null"] },
+        "verified": { "type": "boolean" },
+        "note": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

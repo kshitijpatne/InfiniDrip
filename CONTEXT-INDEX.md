@@ -45,6 +45,12 @@ snapshots; they are not current status.
   current provider costs, assumptions, risks and approval gates. It is not an
   authorization to purchase a service, collect user data, deploy publicly or
   change the current local-first product boundary.
+- `ops/control-center/` — completed Slice 172 repository-local board schema,
+  truthful baseline data, reviewer-only close rules, evidence importer and
+  read-only dashboard. It is operational evidence, not the hosted workspace.
+- `ops/web/` — completed Slice 173 provider-neutral artifact manifest utility,
+  delivery descriptor and local preview instructions; it does not deploy or
+  create a provider account.
 
 ## Planning documents
 
