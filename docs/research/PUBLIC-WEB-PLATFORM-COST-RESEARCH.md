@@ -195,4 +195,3 @@ historical evidence is labelled incomplete, never reconstructed or invented.
 - Azure Artifact Signing: https://azure.microsoft.com/en-us/products/artifact-signing
 - Windows code-signing options: https://learn.microsoft.com/en-us/windows/apps/package-and-deploy/code-signing-options
 - Apple Developer Program: https://developer.apple.com/programs/
-
