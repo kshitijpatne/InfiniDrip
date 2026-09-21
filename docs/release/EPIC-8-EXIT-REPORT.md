@@ -4,7 +4,7 @@ Status: **complete as a rigorously documented proof-only/no-go exit**
 Date: **2026-09-21**  
 Owner: **Codex**  
 Slice 162 baseline: **`aa93154`**, verified as an ancestor of `origin/main` before this work  
-Slice 163 packet commit: **`f06031e`** (`Slice 163: record artifact admission no-go`)
+Slice 163 packet commit: **`d079467`** (`Slice 163: record artifact admission no-go`)
 
 ## Decision
 
