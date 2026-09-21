@@ -147,6 +147,27 @@ production build pass, the manifest is byte-for-byte repeatable across two
 generations, and HTTP smoke checks load the built index plus both referenced
 assets. No provider account, secret, domain or deployment was used.
 
+#### Approved interim preview boundary
+
+The maintainer subsequently approved a zero-cost friend/family preview without
+opening the authenticated platform gates. The preview may deploy only the
+immutable `dist/` artifact from `main` to Cloudflare Pages Free at a
+`*.pages.dev` URL, with `noindex, nofollow, noarchive` and URL-only access.
+It remains local-first: no login, database, cloud sync, telemetry, email
+sender or measurement egress is admitted, and each user's saved workspace
+remains in that browser's local storage. Cloudflare account OAuth and Pages
+project creation are the only external deployment actions in this interim
+track; Access allowlisting, custom domains, paid services and launch
+infrastructure remain deferred. The noindex hardening is on `origin/main` at
+`ae1afe8`. The `infinidrip-preview` Direct Upload project is now live at
+`https://infinidrip-preview.pages.dev/`; deployment ID, artifact source,
+browser/network evidence and limitations are recorded in
+`docs/release/WEB-PREVIEW-DEPLOYMENT.md`. Because Cloudflare does not permit
+converting Direct Upload to Git integration, the repository's bounded
+`.github/workflows/pages-deployment.yml` workflow is the approved automatic
+delivery path. It remains inactive until the two narrowly scoped GitHub
+Actions secrets are created.
+
 ### Slice 174 — identity and cloud-workspace contract — contract complete; provider gated
 
 Define the Supabase-compatible schema and migration contract for `profiles`,
@@ -256,9 +277,11 @@ full gates and `origin/main`.
 
 - Existing 100% coverage, TypeScript, production build, parsed-output and
   protected export-byte identity gates remain mandatory.
-- No public URL, auth account, database, email service, domain, analytics,
-  monitoring subscription or personal-data collection is activated without a
-  separate explicit approval and current cost/terms check.
+- No authenticated public platform, database, email service, domain,
+  analytics, monitoring subscription or personal-data collection is activated
+  without a separate explicit approval and current cost/terms check. The
+  approved static friend/family preview is the sole interim public-URL
+  exception and must remain artifact-only, noindex, URL-only and local-first.
 - No cloud data path may make local drafting unavailable during provider outage.
 - No flag may weaken authorization or conceal invalid application state.
 - No release may promote an unreviewed or rebuilt artifact.

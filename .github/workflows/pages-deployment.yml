@@ -1,0 +1,52 @@
+name: Deploy web preview to Cloudflare Pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: cloudflare-pages-production
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  deployments: write
+
+jobs:
+  deploy:
+    name: Verify and deploy main
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run full test suite
+        run: npm test
+
+      - name: Build production artifact
+        run: npm run build
+
+      - name: Verify deterministic web artifact
+        run: |
+          npm run web:manifest
+          npm run web:proof:test
+
+      - name: Deploy production artifact
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=infinidrip-preview --branch=main --commit-dirty=false
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}

@@ -440,6 +440,18 @@ approved cost research is the planning baseline, not a purchase order. Slices
 delivery proof; accounts, domains, subscriptions, deployments and personal-
 data collection still require their own explicit gate.
 
+- The maintainer separately approved a zero-cost friend/family preview. It may
+  serve only the built Vite `dist/` artifact from `main` through Cloudflare
+  Pages Free at a `*.pages.dev` URL, with `noindex, nofollow, noarchive` and
+  URL-only access initially. It must remain local-first: no login, database,
+  cloud sync, telemetry, email sender or measurement egress. Browser storage
+  is per device. The `infinidrip-preview` Direct Upload project and first
+  production artifact are now created; the bounded GitHub Actions uploader is
+  the approved path for subsequent `main` pushes. Its two protected GitHub
+  secrets must be created before automatic deployment is enabled. Paid
+  services, custom domain, Access allowlisting and launch infrastructure remain
+  deferred.
+
 - The recommended low-volume authenticated-beta envelope is approximately
   $59/month plus a normal domain, using Vercel Pro, Supabase Pro with separate
   staging/production projects, Resend, owned Supabase-backed feature flags,

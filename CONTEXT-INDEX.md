@@ -112,6 +112,9 @@ snapshots; they are not current status.
   the final quality/release gate.
 - `docs/release/EPIC-11-EXIT-REPORT.md` — Polo V2 implementation, downstream
   pressure matrix, parsed/rendered evidence, protected hashes and limitations.
+- `docs/release/WEB-PREVIEW-DEPLOYMENT.md` — current Cloudflare Pages Free
+  friend/family preview URL, artifact/deployment evidence, and the direct-upload
+  versus automatic-Git-delivery decision gate.
 
 ## Research documents
 

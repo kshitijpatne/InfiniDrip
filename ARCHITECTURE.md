@@ -624,6 +624,17 @@ item. The `ops/web/` manifest utility records a sorted SHA-256 inventory of a
 Vite `dist/` directory. These artifacts are provider-neutral and are never a
 source of drafting, persistence or authorization truth.
 
+The approved interim friend/family preview is a static exception to the
+provider-independent planning gate: only the built `dist/` artifact may be
+served from Cloudflare Pages Free, with `noindex, nofollow, noarchive` in the
+HTML and URL-only access. It remains local-first; browser storage is the only
+user-data store, and the preview must not add auth, cloud sync, telemetry,
+email, measurement egress or a database. The repository-side noindex hardening
+is recorded on `origin/main` at `ae1afe8`. The first direct-upload deployment
+is recorded in `docs/release/WEB-PREVIEW-DEPLOYMENT.md`; future production
+uploads are constrained to the verified `main` workflow and its protected
+GitHub secrets, not application runtime state.
+
 Slice 174's provider-independent identity/cloud contract is recorded in
 `docs/research/IDENTITY-CLOUD-WORKSPACE-RESEARCH.md`. It defines owner-only
 workspaces, separate profile/identity rows, explicit sync consent, append-only

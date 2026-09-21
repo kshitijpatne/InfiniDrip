@@ -1,6 +1,7 @@
 # InfiniDrip — Project State
 
-_Last updated: Epic 12 Slice 175 admission audit, 2026-09-21.
+_Last updated: free friend/family web-preview deployment and automation setup,
+2026-09-21.
 Epics 7, 9 and 10 are implemented, Codex-reviewed, documented and pushed to
 `origin/main`. Epic 11 implementation has completed the shaped collar/stand,
 placket-base, vent/drop, front/back preview/control/report and downstream
@@ -130,6 +131,35 @@ the reviewed handoff is pushed to `origin/main` at `3057c6c`, followed by any
 separately authorized promotion.
 
 ## Current work — Epic 12 Web Platform
+
+### Approved interim static preview — deployed; automatic delivery pending
+
+The maintainer approved a zero-cost, local-first friend/family preview before
+login, profiles, cloud sync, custom-domain or paid launch infrastructure. The
+preview serves only the Vite `dist/` artifact from `main` at a Cloudflare Pages
+`*.pages.dev` URL, keeps `noindex, nofollow, noarchive` in the HTML, and uses
+URL-only access initially. It does not add a database, auth SDK, telemetry,
+email sender or measurement egress; each user's saved work remains in that
+browser's local storage.
+
+Repository-side gates passed after the noindex hardening: `npm test` (104 files
+/ 1,415 tests), strict TypeScript, production build, deterministic web
+manifest, local HTTP asset smoke, and a fresh Playwright network capture with
+only same-origin HTML/CSS/JS requests. Fresh desktop and mobile viewport checks
+mounted InfiniDrip with no page errors. The noindex change is on
+`origin/main` at `ae1afe8`.
+
+The first production deployment is live at
+`https://infinidrip-preview.pages.dev/` (immutable deployment
+`9bb80a6b-41c2-4689-9e31-2efa653d1ff9`; evidence is recorded in
+`docs/release/WEB-PREVIEW-DEPLOYMENT.md`). The project is Direct Upload, so
+Cloudflare does not allow retrofitting Git integration. Its production branch
+label is `main`, but future push-to-deploy automation still requires either a
+new Git-integrated project or a narrowly scoped GitHub Action/API-token route.
+The repository now contains the recommended bounded workflow at
+`.github/workflows/pages-deployment.yml`; it will become active after the
+`CLOUDFLARE_ACCOUNT_ID` and `CLOUDFLARE_API_TOKEN` GitHub Actions secrets are
+created.
 
 ### Slices 171–174 complete; Slice 175 admission audit blocked
 
