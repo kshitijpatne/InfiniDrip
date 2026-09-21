@@ -174,6 +174,6 @@
     { "id": "E-GARMENT-WAVE", "kind": "decision", "uri": "docs/planning/GARMENT-EXPANSION-SYNTHESIS.md", "commit": null, "sha256": null, "verified": false, "note": "Research synthesis is retained; implementation remains separate." },
     { "id": "E-EPIC12-S171", "kind": "decision", "uri": "docs/planning/EPIC-12-EXECUTION.md", "commit": "5dde836", "sha256": null, "verified": true, "note": "Web Platform admission packet and threat model." },
     { "id": "E-HISTORIC-INCOMPLETE", "kind": "incomplete", "uri": "ops/control-center/README.md#historical-import", "commit": null, "sha256": null, "verified": false, "note": "Historical dates/evidence not present in the imported source records; no values were invented." },
-    { "id": "E-S172-S173", "kind": "test", "uri": "ops/control-center/data/evidence/SLICES-172-173.md", "commit": null, "sha256": null, "verified": true, "note": "Focused board/importer, artifact manifest, full test/build and browser/HTTP smoke evidence for this release." }
+    { "id": "E-S172-S173", "kind": "test", "uri": "ops/control-center/data/evidence/SLICES-172-173.md", "commit": "23d7715", "sha256": null, "verified": true, "note": "Focused board/importer, artifact manifest, full test/build and browser/HTTP smoke evidence for this release." }
   ]
 }

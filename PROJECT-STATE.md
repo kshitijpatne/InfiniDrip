@@ -163,6 +163,9 @@ provider account, subscription, deployment, domain, secret, database schema,
 email sender, telemetry stream or personal-data collection has been created.
 No drafting, export, legacy hash or physical-fit boundary changed.
 
+The reviewed Slice 172–173 implementation is pushed to `origin/main` at
+`23d7715`.
+
 Next safe work is Slice 174's identity/cloud-workspace contract only after the
 explicit jurisdiction, privacy/terms, retention/deletion, consent, RLS and
 data-region decisions in the execution packet are approved. Public deployment
