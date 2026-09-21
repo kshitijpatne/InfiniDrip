@@ -73,6 +73,7 @@ planning surface for Codex after the completed Epic 6 integration.
 | **Later / researched** | **Garment candidates** — shorts → sweatshirt → jogger → pullover hoodie → rigid jeans | **Packets researched; execution packets still required** | Shared stretched-join and lower-body boundaries in `GARMENT-EXPANSION-SYNTHESIS.md`; do not start from the research record alone |
 | **Later / blocked** | **Physical fit validation** | **Blocked by maintainer constraint** | No manufacturer/printer is available; no sewn-fit claim or schedule until explicitly reopened |
 | **Scoped / implementation-gated** | **Sparrow irregular nesting redesign** | **Captured by EPIC 8; not authorized** | Fabric-width, grain, nap, fold, pair/mirror and clearance semantics plus deterministic fallback and benchmark proof |
+| **Proposed / research only** | **Public Web Platform and Delivery Governance** | **Costed recommendation recorded; no implementation authorized** | Separate web host, Auth/RLS cloud workspace, release governance, feature flags and local Control Center; must not interrupt Epic 11 or change drafting/export contracts |
 
 ### Codex next-work options
 

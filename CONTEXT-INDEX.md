@@ -40,6 +40,11 @@ snapshots; they are not current status.
 - `docs/PROJECT-DECISIONS.md` — decisions confirmed directly by the maintainer.
 - `docs/OPENCODE-WORKFLOW.md` — required delegation, branch, PR, review, and
   feedback policy for using OpenCode alongside Codex.
+- `docs/research/PUBLIC-WEB-PLATFORM-COST-RESEARCH.md` — proposed public-web,
+  identity, delivery-governance, feature-flag and local-control-center stack;
+  current provider costs, assumptions, risks and approval gates. It is not an
+  authorization to purchase a service, collect user data, deploy publicly or
+  change the current local-first product boundary.
 
 ## Planning documents
 
@@ -141,6 +146,10 @@ snapshots; they are not current status.
 - `docs/research/NESTING-REDESIGN-RESEARCH.md` — Epic 8's 2026-09-21
   Sparrow/Jagua live recheck, apparel-constraint boundary, legal/runtime
   posture, pressure-tested alternatives and proof admission hypothesis.
+- `docs/research/PUBLIC-WEB-PLATFORM-COST-RESEARCH.md` — costed web-launch,
+  identity, feature-flag, delivery-governance and local Control Center proposal;
+  research-only until a maintainer decision authorizes individual execution
+  packets.
 - `docs/research/SURFACE-DESIGN-RESEARCH.md` — Epic 6 surface-layer contract,
   library decision boundary, source conflicts, and unresolved placement questions.
 
