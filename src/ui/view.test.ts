@@ -3,7 +3,7 @@ import { STANDARD_M, GARMENTS, TSHIRT_SIZES, TEE, WOVEN_SHIRT, WOVEN_SHIRT_OPTIO
 import { garmentToggleMarkup, dartControlsMarkup, exportButtonsMarkup } from "./view";
 import { DEFAULT_FABRIC, BLUEPRINT } from "../render";
 import { matchStyle, styleNames, TEE_STYLES } from "../style";
-import { controlsMarkup, appShellMarkup, guidanceMarkup, styleMarkup, surfaceMarkup, fabricSwatchesMarkup, fabricStretchMarkup, specTableMarkup, viewToggleMarkup, bodyCroquisToggleMarkup, fabricWidthMarkup, checkMarkup, editorHintMarkup, editorHandleControlsMarkup, inspectionMarkup } from "./view";
+import { controlsMarkup, appShellMarkup, guidanceMarkup, styleMarkup, surfaceMarkup, nestIntelMarkup, nestIntelReadout, fabricSwatchesMarkup, fabricStretchMarkup, specTableMarkup, viewToggleMarkup, bodyCroquisToggleMarkup, fabricWidthMarkup, checkMarkup, editorHintMarkup, editorHandleControlsMarkup, inspectionMarkup } from "./view";
 import { pieceHandles } from "../edit";
 import { buildReport, present } from "../guidance";
 
@@ -709,6 +709,67 @@ describe("surfaceMarkup — artwork sets per style", () => {
     });
     expect(html).toContain('value="NaN"');
     expect(html).toContain('data-range-state="empty"');
+  });
+});
+
+describe("nestIntelMarkup — planning controls", () => {
+  it("renders buffer, on-hand, nap, readout, and error spots with stable ids", () => {
+    const html = nestIntelMarkup("10", "", true);
+    expect(html).toContain('id="nest-intel-host"');
+    expect(html).toContain('id="nest-buffer"');
+    expect(html).toContain('data-guidance-control="nesting-buffer"');
+    expect(html).toContain('id="nest-available"');
+    expect(html).toContain('data-guidance-control="nesting-available"');
+    expect(html).toContain('id="nest-nap"');
+    expect(html).toContain('id="nest-readout"');
+    expect(html).toContain('id="error-nest-buffer"');
+    expect(html).toContain('id="error-nest-available"');
+    expect(html).toContain('data-range-min="0"');
+    expect(html).toContain('data-range-max="50"');
+  });
+  it("checks the nap box only when directional", () => {
+    expect(nestIntelMarkup("10", "", true)).toContain('id="nest-nap" type="checkbox" checked');
+    expect(nestIntelMarkup("10", "", false)).not.toContain("checked");
+  });
+  it("renders blank raws as empty numeric controls", () => {
+    const html = nestIntelMarkup("", "", true);
+    expect(html).toContain('id="nest-buffer"');
+    expect(html).toContain('id="nest-available"');
+    const filled = nestIntelMarkup("10", "150", false);
+    expect(filled).toContain('value="150"');
+  });
+});
+
+describe("nestIntelReadout — planning lines", () => {
+  it("reports required, planned, waste, unknown fit, and the nap notice", () => {
+    const readout = nestIntelReadout(100, 0.44, "10", "", true, "Single size");
+    expect(readout.scope).toBe("Single size · ");
+    expect(readout.required).toBe("Requires 100.0 cm of cloth · ");
+    expect(readout.planned).toBe("Planned with buffer: 110.0 cm · ");
+    expect(readout.waste).toBe("Waste: 56.0% of cloth · ");
+    expect(readout.available).toBe("On hand: not entered · ");
+    expect(readout.verdict).toContain("unknown");
+    expect(readout.nap).toContain("never rotate");
+    expect(readout.bufferError).toBe("");
+    expect(readout.availableError).toBe("");
+  });
+  it("names the marker scope and judges fits against plan", () => {
+    const readout = nestIntelReadout(200, 0.5, "10", "300", false, "Graded marker");
+    expect(readout.scope).toBe("Graded marker · ");
+    expect(readout.verdict).toBe("Fit: fits the fabric on hand.");
+    expect(readout.nap).toContain("no rotation");
+  });
+  it("measures shortage and invalid entries without inventing numbers", () => {
+    const short = nestIntelReadout(100, 0.5, "10", "100", true, "Single size");
+    expect(short.verdict).toBe("Fit: short by 10.0 cm.");
+    const badBuffer = nestIntelReadout(100, 0.5, "abc", "100", true, "Single size");
+    expect(badBuffer.planned).toContain("unavailable");
+    expect(badBuffer.bufferError).toContain("finite");
+    expect(badBuffer.verdict).toContain("unknown");
+    const badAvailable = nestIntelReadout(100, 0.5, "10", "0", true, "Single size");
+    expect(badAvailable.availableError).toContain("above 0");
+    const badWaste = nestIntelReadout(100, 2, "10", "", true, "Single size");
+    expect(badWaste.waste).toContain("unavailable");
   });
 });
 

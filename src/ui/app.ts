@@ -13,9 +13,10 @@ import { BLUEPRINT } from "../render";
 import { guide, Note } from "../guidance";
 import { garmentReport, implausibleFields } from "../guidance";
 import { surfaceGuidance } from "../guidance/surface-notes";
+import { availableLengthError, bufferError } from "../export/nesting-intelligence";
 import { matchStyle, styleNames } from "../style";
 import { FIELDS, applyChange, inputError, numericRangePosition, numericRangeState, stepNumericValue } from "./controls";
-import { appShellMarkup, controlsMarkup, guidanceMarkup, styleMarkup, surfaceMarkup, specTableMarkup, checkMarkup, editorHintMarkup, editorHandleControlsMarkup, dartControlsMarkup, inspectionMarkup, BodyCroquisView } from "./view";
+import { appShellMarkup, controlsMarkup, guidanceMarkup, styleMarkup, surfaceMarkup, nestIntelReadout, specTableMarkup, checkMarkup, editorHintMarkup, editorHandleControlsMarkup, dartControlsMarkup, inspectionMarkup, BodyCroquisView } from "./view";
 import { saveToStorage, loadFromStorage, readFromStorage, serialize, deserialize, DEFAULT_WORKSPACE, defaultStretchFabricForGarment, Workspace, SaveFile, RecoveryFile, readRecoveryFromStorage, saveRecoveryToStorage, clearRecoveryFromStorage } from "./persist";
 import { Appearance, APPEARANCE_TEXTURES, DEFAULT_APPEARANCE, applyAppearanceToSvg, hexToHsl, hslToHex, normalizeHex } from "./appearance";
 import { emptyHistory, recordHistory, redoHistory, undoHistory, HistoryState } from "./history";
@@ -67,7 +68,7 @@ let activeMountRoot: HTMLElement | null = null;
 
 const correctionStepForField = (field: string): JourneyStep =>
   field === "ease" || field === "stretchFabric" || field.startsWith("option-") ||
-  field.startsWith("surface-") ? "fit" : "measure";
+  field.startsWith("surface-") ? "fit" : field.startsWith("nesting-") ? "output" : "measure";
 
 export function stageBlockerFromNote(note: Note | undefined): StageBlocker {
   if (!note) return { message: "Review the flagged digital checks.", step: "refine" };
@@ -132,6 +133,52 @@ export function mountApp(root: HTMLElement): void {
   let selectedId: string | null = null; // handle highlighted in the editor
   let fabricWidth = initialWorkspace.fabricWidth;
   let nestScope: "single" | "marker" = initialWorkspace.nestScope;
+  // Nesting-intelligence planning state. Raw strings stay verbatim (invalid
+  // included) like measurement inputs; the section persists validated values.
+  let nestBufferRaw = "10";
+  let nestAvailableRaw = "";
+  let nestNap = true;
+  const savedIntel = saved?.nestingIntelligence;
+  if (savedIntel !== undefined) {
+    nestBufferRaw = String(savedIntel.bufferPct);
+    nestAvailableRaw = savedIntel.availableLengthCm === null ? "" : String(savedIntel.availableLengthCm);
+    nestNap = savedIntel.napAware;
+  }
+  /** Nesting-intelligence planning state as validated numbers. Raw strings
+   * stay in the inputs; only finite usable values reach the estimators. */
+  const parseNestBuffer = (): number =>
+    nestBufferRaw.trim() === "" ? NaN : Number(nestBufferRaw);
+  const nestIntelErrors = (): Map<string, string> => {
+    const errors = new Map<string, string>();
+    const bufferProblem = bufferError(parseNestBuffer());
+    if (bufferProblem) errors.set("nesting-buffer", bufferProblem);
+    const availableProblem = availableLengthError(nestAvailableRaw);
+    if (availableProblem) errors.set("nesting-available", availableProblem);
+    return errors;
+  };
+  /** Push the current nest result through the planning readout into the panel. */
+  const renderNestIntel = (requiredLengthCm: number, utilization: number): void => {
+    const readout = nestIntelReadout(requiredLengthCm, utilization, nestBufferRaw,
+      nestAvailableRaw, nestNap, nestScope === "marker" ? "Graded marker" : "Single size");
+    const set = (id: string, text: string): void => {
+      root.querySelector<HTMLElement>(`#${id}`)!.textContent = text;
+    };
+    set("nest-intel-scope", readout.scope);
+    set("nest-required", readout.required);
+    set("nest-planned", readout.planned);
+    set("nest-waste", readout.waste);
+    set("nest-available-state", readout.available);
+    set("nest-verdict", readout.verdict);
+    set("nest-nap-notice", readout.nap);
+    set("error-nest-buffer", readout.bufferError);
+    set("error-nest-available", readout.availableError);
+    const bufferInput = root.querySelector<HTMLInputElement>("#nest-buffer")!;
+    bufferInput.setAttribute("aria-invalid", String(readout.bufferError !== ""));
+    bufferInput.setCustomValidity(readout.bufferError);
+    const availableInput = root.querySelector<HTMLInputElement>("#nest-available")!;
+    availableInput.setAttribute("aria-invalid", String(readout.availableError !== ""));
+    availableInput.setCustomValidity(readout.availableError);
+  };
   let exportStep = initialWorkspace.exportStep;
   let activeDim: string | null = null; // the measurement field spotlighted on the body view
   let hoveredDim: string | null = null;
@@ -181,6 +228,7 @@ export function mountApp(root: HTMLElement): void {
     workspace: currentWorkspace(),
     materialSelectionExplicit,
     surface: surfaceBook,
+    rawNestingIntelligence: { buffer: nestBufferRaw, available: nestAvailableRaw, napAware: nestNap },
   });
   const sameSnapshot = (left: DraftSnapshot, right: DraftSnapshot): boolean =>
     JSON.stringify(left) === JSON.stringify(right);
@@ -722,8 +770,13 @@ export function mountApp(root: HTMLElement): void {
       // same dismissal, same Review-to-control path. They never gate exports.
       ...surfaceGuidance(surfaceBook, surfaceKey(recipe.name, targetStyle), targetStyle,
         surfaceFrames ?? undefined),
+      // Nesting-intelligence warnings are planning advice with the same
+      // contract. They never pause the draft or gate exports.
+      ...[...nestIntelErrors()].map(([field, text]) => ({ field, level: "warn" as const, text })),
     ];
     fabricWidthHost.style.display = view === "fabric" && !previewActive ? "flex" : "none";
+    root.querySelector<HTMLElement>("#nest-intel-host")!.style.display =
+      view === "fabric" && !previewActive ? "flex" : "none";
     bodyCroquisHost.style.display = view === "body" && !previewActive ? "flex" : "none";
     let canvasContent: string;
     if (view === "nest") {
@@ -737,6 +790,7 @@ export function mountApp(root: HTMLElement): void {
         )).map((p) => flattenPiece(p, recipe.allowances)), fabricWidth);
       canvasContent = renderFabricNest(
         nest.placed, nest.fabricWidth, nest.fabricLength, nest.utilization, nest.fits);
+      renderNestIntel(nest.fabricLength, nest.utilization);
     } else if (view === "check") {
       const dismissedGuidance = guidanceNotes.filter((note) =>
         note.level === "warn" && note.field !== undefined && ignoredGuidance.has(note.field));
@@ -1191,8 +1245,7 @@ export function mountApp(root: HTMLElement): void {
   });
 
   const single = root.querySelector<HTMLButtonElement>("#nest-single")!;
-  const marker = root.querySelector<HTMLButtonElement>("#nest-marker")!;
-  const setScope = (s: "single" | "marker"): void => {
+  const marker = root.querySelector<HTMLButtonElement>("#nest-marker")!;  const setScope = (s: "single" | "marker"): void => {
     nestScope = s;
     markOutputDirty(false);
     single.style.background = s === "single" ? BLUEPRINT.lineActive : "transparent";
@@ -1206,6 +1259,32 @@ export function mountApp(root: HTMLElement): void {
   single.addEventListener("click", () => setScope("single"));
   marker.addEventListener("click", () => setScope("marker"));
 
+  // Nesting-intelligence planning inputs. Raw strings stay verbatim (invalid
+  // included); the estimators only ever see validated numbers. Planning edits
+  // never pause the draft — they mark output dirty like fabric-width edits.
+  const bufferInput = root.querySelector<HTMLInputElement>("#nest-buffer")!;
+  bufferInput.addEventListener("input", () => {
+    nestBufferRaw = bufferInput.value;
+    markOutputDirty(false);
+    draw();
+  });
+  const availableInput = root.querySelector<HTMLInputElement>("#nest-available")!;
+  availableInput.addEventListener("input", () => {
+    nestAvailableRaw = availableInput.value;
+    markOutputDirty(false);
+    draw();
+  });
+  const napInput = root.querySelector<HTMLInputElement>("#nest-nap")!;
+  napInput.addEventListener("change", () => {
+    nestNap = napInput.checked;
+    markOutputDirty(false);
+    draw();
+  });
+  const syncNestIntelInputs = (): void => {
+    bufferInput.value = nestBufferRaw;
+    availableInput.value = nestAvailableRaw;
+    napInput.checked = nestNap;
+  };
   // Wire the measurement rows: value inputs + body-view hover linking. Extracted
   // so it can re-run after the controls panel is re-rendered on a garment switch
   // (a garment with different fields renders different inputs).
@@ -1651,6 +1730,10 @@ export function mountApp(root: HTMLElement): void {
     exportStep = loaded.workspace.exportStep;
     fabricWidth = loaded.workspace.fabricWidth;
     nestScope = loaded.workspace.nestScope;
+    nestBufferRaw = String(loaded.nestingIntelligence.bufferPct);
+    nestAvailableRaw = loaded.nestingIntelligence.availableLengthCm === null
+      ? "" : String(loaded.nestingIntelligence.availableLengthCm);
+    nestNap = loaded.nestingIntelligence.napAware;
     styleReviewed = false;
     checkReviewed = false;
     journey = { ...journey, exported: false };
@@ -1789,9 +1872,12 @@ export function mountApp(root: HTMLElement): void {
 
   root.querySelector<HTMLButtonElement>("#save-pattern")!.addEventListener("click", () => {
     const workspace = currentWorkspace();
-    const validation = deserialize(serialize(measurements, fabric, garmentOptions, workspace, appearance, surfaceBook));
+    const bufferValue = nestBufferRaw.trim() === "" ? NaN : Number(nestBufferRaw);
+    const availableValue = nestAvailableRaw.trim() === "" ? null : Number(nestAvailableRaw);
+    const nestingIntelligence = { bufferPct: bufferValue, availableLengthCm: availableValue, napAware: nestNap };
+    const validation = deserialize(serialize(measurements, fabric, garmentOptions, workspace, appearance, surfaceBook, nestingIntelligence));
     if (!validation.ok) { flash(`Save failed: ${validation.error}`, BLUEPRINT.lineActive); return; }
-    if (saveToStorage(measurements, fabric, garmentOptions, workspace, appearance, surfaceBook)) {
+    if (saveToStorage(measurements, fabric, garmentOptions, workspace, appearance, surfaceBook, nestingIntelligence)) {
       savedRevision = outputRevision;
       pendingRecovery = null;
       clearRecoveryFromStorage();
@@ -1833,6 +1919,7 @@ export function mountApp(root: HTMLElement): void {
     syncMaterialCards();
     syncAppearanceControls();
     widthInput.value = String(fabricWidth);
+    syncNestIntelInputs();
     syncExportSizes();
     if (restoring && journey.step === "start") journey = { ...journey, step: "measure", familiar: true };
     setBodyCroquisView(bodyCroquisView);
@@ -1869,6 +1956,9 @@ export function mountApp(root: HTMLElement): void {
     fabric = file.fabric;
     appearance = { ...file.appearance };
     surfaceBook = file.surface;
+    nestBufferRaw = file.rawNestingIntelligence.buffer;
+    nestAvailableRaw = file.rawNestingIntelligence.available;
+    nestNap = file.rawNestingIntelligence.napAware;
     recipe = garmentByName(file.workspace.garment);
     targetStyle = file.workspace.targetStyle;
     stretchFabric = STRETCH_FABRICS.find((candidate) => candidate.name === file.workspace.stretchFabric)!;
