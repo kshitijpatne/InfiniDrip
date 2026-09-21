@@ -514,7 +514,10 @@ export function poloGuidance(block: Block, m: Measurements, rawOptions: Partial<
       const stitch = block.stitches[index];
       const measuredA = interfaceLength(block, stitch.a);
       const measuredB = interfaceLength(block, stitch.b);
-      notes.push({ field: stitch.label === "Side seam (front ↔ back)" ? "option-sideVentDepth" : "option-placketLength", level: "warn", text: `${stitch.label} measures ${measuredA.toFixed(1)} cm versus ${measuredB.toFixed(1)} cm — correct the named interface before sewing.` });
+      const sideSeamField = options.sideVentDepth === 0 && options.backHemDrop > 0
+        ? "option-backHemDrop"
+        : "option-sideVentDepth";
+      notes.push({ field: stitch.label === "Side seam (front ↔ back)" ? sideSeamField : "option-placketLength", level: "warn", text: `${stitch.label} measures ${measuredA.toFixed(1)} cm versus ${measuredB.toFixed(1)} cm — correct the named interface before sewing.` });
     }
   }
   return notes;

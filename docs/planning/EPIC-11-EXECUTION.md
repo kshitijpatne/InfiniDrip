@@ -1,6 +1,6 @@
 # EPIC 11 - Polo V2 Fidelity Refinement
 
-Status: **IMPLEMENTATION IN PROGRESS - SLICES 155–159 COMPLETE; EPIC 7 GATE
+Status: **IMPLEMENTATION IN PROGRESS - SLICES 155–160 COMPLETE; EPIC 7 GATE
 SATISFIED**
 
 Owner: **Codex**. External coding agents may assist only with bounded test or
@@ -9,8 +9,8 @@ drafting, data contracts, review, repairs, integration and any push to
 `origin/main`.
 
 Scheduling note: the garment-expansion research wave completed Slices 149-154.
-Epic 11's unchanged implementation plan is Slices 155-161. Slices 155–159
-are complete; Slice 160 is next. No scope or acceptance criterion changed.
+Epic 11's unchanged implementation plan is Slices 155-161. Slices 155–160
+are complete; Slice 161 is next. No scope or acceptance criterion changed.
 
 Research authority: `docs/research/garments/POLO-V2-RESEARCH.md`.
 
@@ -263,6 +263,19 @@ physical correctness.
 Owner/model: Codex; Luna max executes the matrix, Sol high investigates any
 geometry/export anomaly. Gate: 100% coverage, typecheck, production build,
 property/oracle suite, rendered evidence and parsed outputs.
+
+Status: complete. The matrix covers XS/M/XL, endpoint and crossed-risk values,
+short-body maximum placket/vent combinations, finite and simple cut geometry,
+actionable guidance, incomplete recovery, undo/redo, narrow/wide marker
+determinism, populated surface placement, and every downstream output. The
+recipe-owned A0 path uses the existing whole-piece overflow mode for true-scale
+Polo pieces that exceed one portrait sheet, with parsed page-local coordinate
+checks proving on-sheet output. Tech-pack construction text follows live
+vent/drop options and seam-mismatch guidance targets the active option. The
+complete gate is 103 files / 1,412 tests with 100% statements, branches,
+functions and lines; strict TypeScript, the production build, export identity,
+rendered evidence and parsed outputs pass. No protected baseline moved and no
+physical-fit claim is made.
 
 ### Slice 161 - Epic 11 exit and durable handoff
 

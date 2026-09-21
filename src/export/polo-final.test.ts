@@ -23,6 +23,10 @@ const OPTIONS = {
   placketWidth: 3.5,
   standHeight: 2.5,
   collarLeafDepth: 6,
+  standFrontRise: 1.25,
+  collarPointExtension: 2.25,
+  sideVentDepth: 3,
+  backHemDrop: 2,
 } as const;
 
 describe("Slice 73 — Polo cross-size readiness", () => {

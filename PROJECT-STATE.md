@@ -1,11 +1,11 @@
 # InfiniDrip — Project State
 
-_Last updated: Epic 11 Slice 159, 2026-09-21.
+_Last updated: Epic 11 Slice 160, 2026-09-21.
 Epics 7, 9 and 10 are implemented, Codex-reviewed, documented and pushed to
 `origin/main`. Epic 11 implementation has completed the shaped collar/stand,
-placket-base, vent/drop and front/back preview/control/report slices; cross-
-surface pressure verification, physical validation and production readiness
-remain unverified._
+placket-base, vent/drop, front/back preview/control/report and downstream
+pressure-matrix slices; Slice 161 remains the final exit handoff. Physical
+validation and production readiness remain unverified._
 
 ### Post-merge PR audit — 2026-09-21
 
@@ -95,6 +95,25 @@ SVG paths. The complete gate is 102 files / 1,406 tests with 100% statements,
 branches, functions and lines; strict TypeScript, the production build,
 export-identity coverage and `git diff --check` pass. No physical-fit claim is
 made.
+
+### Slice 160 — cross-size, surface, nesting and export pressure matrix complete
+
+The Polo V2 pressure matrix now covers XS, M and XL redrafts; endpoint and
+crossed-risk options; shortest-body maximum placket/vent combinations; finite
+cut loops and independent polygon simplicity; actionable guidance; incomplete
+recovery; undo/redo; narrow/wide deterministic markers; populated surface
+placements; and SVG, DXF, tiled PDF, A0, projector and tech-pack consumers.
+The matrix is a downstream safety net and does not modify Epic 7 nesting
+semantics or any protected export baseline.
+
+The recipe-owned A0 path now opts into the existing whole-piece overflow mode
+because true-scale default Polo pieces can exceed one portrait A0 sheet; parsed
+page-local bounds prove that the resulting pages remain on-sheet without
+silently shrinking geometry. Tech-pack construction text now follows the live
+vent and back-drop options, and seam-mismatch guidance targets the active
+option. The full gate is 103 files / 1,412 tests with 100% statements,
+branches, functions and lines; strict TypeScript, production build, export
+identity and rendered/parsed output checks pass. No physical-fit claim is made.
 
 ## Current work — post-Epic 6 planning
 

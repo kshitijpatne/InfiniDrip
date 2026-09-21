@@ -857,6 +857,36 @@ describe("mountApp", () => {
     expect(recovered.querySelector<HTMLInputElement>('[data-option="buttonCount"]')!.value).toBe("");
   });
 
+  it("preserves an incomplete Polo V2 option through recovery", () => {
+    localStorage.clear();
+    const first = mount();
+    clickIfPresent(first, "welcome-skip");
+    clickId(first, "garment-polo");
+    const option = first.querySelector<HTMLInputElement>('[data-option="sideVentDepth"]')!;
+    option.value = "";
+    option.dispatchEvent(new Event("input"));
+    const recovered = mount();
+    recovered.querySelector<HTMLButtonElement>("#recovery-accept")!.click();
+    expect(recovered.querySelector<HTMLInputElement>('[data-option="sideVentDepth"]')!.value).toBe("");
+  });
+
+  it("undoes and redoes a Polo V2 option without changing body measurements", () => {
+    localStorage.clear();
+    const root = mount();
+    clickIfPresent(root, "welcome-skip");
+    clickId(root, "garment-polo");
+    const option = root.querySelector<HTMLInputElement>('[data-option="backHemDrop"]')!;
+    const chest = root.querySelector<HTMLInputElement>('[data-field="chest"]')!;
+    option.value = "5";
+    option.dispatchEvent(new Event("input"));
+    expect(option.value).toBe("5");
+    clickId(root, "undo-pattern");
+    expect(root.querySelector<HTMLInputElement>('[data-option="backHemDrop"]')!.value).toBe("1.5");
+    expect(root.querySelector<HTMLInputElement>('[data-field="chest"]')!.value).toBe(chest.value);
+    clickId(root, "redo-pattern");
+    expect(root.querySelector<HTMLInputElement>('[data-option="backHemDrop"]')!.value).toBe("5");
+  });
+
   it("guards navigation while dirty and clears the guard after a valid Save", () => {
     localStorage.clear();
     const root = mount();

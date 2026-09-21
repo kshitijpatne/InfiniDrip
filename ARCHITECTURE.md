@@ -554,12 +554,13 @@ sewability or guaranteed material savings.
 The binding research and execution records are
 `docs/research/garments/POLO-V2-RESEARCH.md` and
 `docs/planning/EPIC-11-EXECUTION.md`. Epic 7 is merged and reviewed, so that
-gate is satisfied. Slices 155–159 now wire the shaped collar/stand,
+gate is satisfied. Slices 155–160 now wire the shaped collar/stand,
 placket-base marks, vent topology, dropped back hem, POMs, actionable
 guidance, front/back previews, option metadata, persistence compatibility and
-report construction details into Polo. Slices 160–161 remain for the
-cross-surface/export pressure matrix and the final exit handoff. Epic 11 never
-changes the nesting estimator or planning-state semantics.
+report construction details into Polo. Slice 160 closes the downstream
+cross-size, surface, nesting and export pressure matrix; Slice 161 remains for
+the final exit handoff. Epic 11 never changes the nesting estimator or
+planning-state semantics.
 
 Polo V2 remains the existing `polo` recipe and the ordinary composed `Block`
 pipeline. Its redesign replaces the V1 rectangular stand/collar with shaped
@@ -585,6 +586,15 @@ fabricated fallback. Slice 159 maps the same pure collar facts into front/back
 Body and assembled schematics, keeps optional croquis presentation fields inert
 for other garments, and routes all eight option owners through UI, persistence
 and guidance without changing the save version or export writers.
+
+Slice 160 verifies the complete V2 option matrix across XS/M/XL, boundary and
+crossed-risk inputs, recovery and undo/redo, narrow/wide marker determinism,
+surface placement, and every output consumer. The Polo recipe uses the
+existing whole-piece A0 overflow writer when true-scale pieces cannot fit one
+portrait sheet; this is recipe-scoped and does not alter `nestPieces`, the
+Epic 7 planning contract or protected legacy bytes. Option-aware tech-pack
+construction text and guidance now follow the live vent/drop topology. No
+physical-fit or production-readiness claim is implied.
 
 The nine physical Polo roles remain unchanged. The front retains its on-fold
 slit and named placket attachment interfaces; V2 adds the internal

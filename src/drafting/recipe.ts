@@ -27,7 +27,7 @@ import { TSHIRT_POMS } from "./tshirt-pom";
 import { TSHIRT_GRADE, TSHIRT_SIZES } from "./tshirt-grade";
 import { FITTED_NOTCHES, FITTED_POMS } from "./fitted-tables";
 import { GarmentOption, GarmentOptions } from "./options";
-import { draftPolo, POLO_GRAMMAR, poloGuidance, POLO_ALLOWANCES, POLO_NOTCHES, POLO_OPTION_DEFINITIONS, POLO_POMS } from "./polo";
+import { draftPolo, POLO_GRAMMAR, poloGuidance, POLO_ALLOWANCES, POLO_NOTCHES, POLO_OPTION_DEFINITIONS, POLO_POMS, resolvePoloOptions } from "./polo";
 import { draftWovenShirt, WOVEN_SHIRT_GRAMMAR, wovenShirtGuidance, WOVEN_SHIRT_ALLOWANCES, WOVEN_SHIRT_GRADE, WOVEN_SHIRT_NOTCHES, WOVEN_SHIRT_POMS } from "./shirt";
 import { WOVEN_SHIRT_FIELDS, WOVEN_SHIRT_OPTION_DEFINITIONS } from "./shirt-contract";
 import { edgeLength, pieceEdge } from "./piece";
@@ -301,6 +301,28 @@ const POLO_TECH_PACK: TechPack = {
   ],
 };
 
+const POLO_TECH_PACK_FOR_OPTIONS = (rawOptions: GarmentOptions): TechPack => {
+  const options = resolvePoloOptions(rawOptions);
+  const ventOpen = options.sideVentDepth > 0;
+  const ventClosed = options.sideVentDepth === 0;
+  const backDrop = options.backHemDrop > 0;
+  const levelBack = options.backHemDrop === 0;
+  const ventSteps = ventOpen
+    ? [
+        "Join shoulder seams, set sleeves flat, then close side and underarm seams only to the marked vent tops.",
+        "Finish and bar-tack the open side vents; press the sewn-to-open transitions before hemming.",
+      ]
+    : ventClosed
+      ? ["Join shoulder seams, set sleeves flat, then close the side and underarm seams continuously."]
+      : ["Resolve the side-vent value before cutting; do not assume an open or closed vent topology."];
+  const hemStep = backDrop
+    ? "Hem front and back body edges separately to preserve the selected back drop; hem sleeves and inspect placket flatness, collar roll, and neckline recovery."
+    : levelBack
+      ? "Hem the front and back body edges level with each other; hem sleeves and inspect placket flatness, collar roll, and neckline recovery."
+      : "Resolve the back-hem value before cutting; do not assume a level or dropped back hem.";
+  return { ...POLO_TECH_PACK, construction: [...POLO_TECH_PACK.construction.slice(0, 6), ...ventSteps, hemStep] };
+};
+
 export const POLO: GarmentRecipe = {
   name: "polo",
   label: "Polo",
@@ -318,8 +340,10 @@ export const POLO: GarmentRecipe = {
   guidance: (block, m, options = {}) => poloGuidance(block, m, options),
   sizeMetric: frontHemWidth,
   techPack: POLO_TECH_PACK,
+  techPackForOptions: POLO_TECH_PACK_FOR_OPTIONS,
   options: POLO_OPTION_DEFINITIONS,
   allowances: POLO_ALLOWANCES,
+  a0Overflow: true,
   frontNeckline: () => NECKLINE_DEFAULT,
   backNeckline: () => NECKLINE_DEFAULT,
 };
