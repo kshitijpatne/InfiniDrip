@@ -1,7 +1,7 @@
 # EPIC 8 — True-Shape Nesting Proof and Controlled Redesign
 
-Status: **SLICE 163 ARTIFACT/WORKER PACKET COMPLETE AS A PROOF-ONLY/NO-GO
-DECISION. SOLVER, WASM AND RUNTIME ADMISSION FAILED.**
+Status: **SLICE 163 PACKET AND SLICE 169 PROOF-ONLY/NO-GO EXIT COMPLETE.
+SOLVER, WASM AND RUNTIME ADMISSION FAILED.**
 
 Owner: **Codex**. OpenCode or Claude Code may assist only with isolated,
 bounded benchmark/documentation work under `docs/OPENCODE-WORKFLOW.md`.
@@ -223,13 +223,14 @@ or cross-OS performance claim.
 
 Owner/model: Codex; Sol-high for the contract and output review.
 
-### Slice 169 — Epic 8 exit and durable handoff
+### Slice 169 — Epic 8 proof-only/no-go exit (complete)
 
-Choose exactly one outcome: proof-only/no-go, opt-in planning mode, or approved
-downstream integration. Record the evidence, exact revisions/licenses, corpus,
-seeds, timings, failure matrix, limitations and the next safe roadmap lane.
-Update the state, architecture, decisions and roadmap records. Codex alone may
-commit and push a promoted result.
+The selected outcome is proof-only/no-go. The durable exit report is
+`docs/release/EPIC-8-EXIT-REPORT.md`; it records the Slice 162 contract, the
+Slice 163 packet, exact revisions/licenses, hashes and provenance, build flags,
+worker pressure matrix, verification gates, limitations and the next safe
+roadmap lane. State, architecture, decisions, roadmap and context records now
+point to the same result. Codex alone reviewed and integrated the evidence.
 
 Acceptance: no unresolved P0 defect, stale status or contradictory scope;
 100%-coverage/typecheck/build gates pass for any repository code; parsed-output

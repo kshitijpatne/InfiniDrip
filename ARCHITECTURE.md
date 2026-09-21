@@ -530,7 +530,8 @@ are complete, but no solver runtime is admitted. The execution packet is
 `docs/planning/EPIC-8-EXECUTION.md`; the research record is
 `docs/research/NESTING-REDESIGN-RESEARCH.md`; the admission records are
 `docs/research/EPIC-8-SLICE-162-ADMISSION.md` and
-`docs/research/EPIC-8-SLICE-163-ADMISSION.md`. The additive
+`docs/research/EPIC-8-SLICE-163-ADMISSION.md`; the final exit record is
+`docs/release/EPIC-8-EXIT-REPORT.md`. The additive
 `nesting-proof-contract.ts` represents only an explicit single-material,
 non-fold, non-mirrored, finite-loop subset and rejects unknown facts.
 

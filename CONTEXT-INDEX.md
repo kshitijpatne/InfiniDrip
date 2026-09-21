@@ -166,6 +166,9 @@ snapshots; they are not current status.
 - `docs/research/epic8/sparrow-wasm/` — InfiniDrip-owned evidence copies of the
   exact WASM Cargo manifest/lock, reference package lock, toolchain/build script,
   full transitive notices and dataset notice, plus the checked manifest JSON.
+- `docs/release/EPIC-8-EXIT-REPORT.md` — completed Slice 169 proof-only/no-go
+  exit with verification results, exact provenance, worker pressure outcomes,
+  fallback boundary and reopen conditions.
 - `docs/research/PUBLIC-WEB-PLATFORM-COST-RESEARCH.md` — costed web-launch,
   identity, feature-flag, delivery-governance and local Control Center proposal;
   provider/account choices and cost envelope. Epic 12 now authorizes execution

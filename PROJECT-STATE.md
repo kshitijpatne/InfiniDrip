@@ -207,7 +207,8 @@ Epic 8 is on the proof-only/no-go exit lane; `nestPieces` remains the only
 runtime nesting behavior and unconditional fallback. No solver, WASM, UI,
 persistence, export, benchmark or legacy baseline changes are allowed without
 a new maintainer-authorized packet that closes every failed gate. Provisional
-later slices remain historical scope only.
+later slices remain historical scope only. The completed durable exit is
+`docs/release/EPIC-8-EXIT-REPORT.md`.
 
 ### Slice 154 — garment-expansion research wave complete
 

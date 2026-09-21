@@ -347,6 +347,8 @@ license/runtime record is `docs/research/NESTING-REDESIGN-RESEARCH.md`.
   behavior. Reopening requires a new maintainer-authorized packet that closes
   every failed gate. This is not a legal opinion and does not reject MPL-2.0 in
   principle; release counsel must review any future executable distribution.
+  The completed Slice 169 exit report is
+  `docs/release/EPIC-8-EXIT-REPORT.md`.
 
 ## Epic 11 — Polo V2 fidelity packet — authorized 2026-09-20
 
