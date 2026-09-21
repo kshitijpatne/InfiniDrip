@@ -19,7 +19,7 @@ import { PieceNotches } from "./tshirt-notches";
 import { TSHIRT_NOTCHES } from "./tshirt-notches";
 import type { ComponentResult } from "./component";
 import { componentNode, composeBlock, garmentGrammar } from "./grammar";
-import { buildPoloCollarGeometry, PoloCollarGeometry, PoloNecklineInputs, reversePoloEdge } from "./polo-collar";
+import { buildPoloCollarGeometry, PoloCollarGeometry, PoloCollarIssueCode, PoloNecklineInputs, reversePoloEdge } from "./polo-collar";
 
 export interface PoloOptions {
   readonly placketLength: number;
@@ -33,14 +33,14 @@ export interface PoloOptions {
 }
 
 export const POLO_OPTION_DEFINITIONS: readonly GarmentOption[] = [
-  { id: "placketLength", label: "Finished placket length", defaultValue: 14, min: 14, max: 30, step: 0.5 },
-  { id: "placketWidth", label: "Finished placket width", defaultValue: 3, min: 2, max: 4, step: 0.5 },
-  { id: "standHeight", label: "Finished stand height", defaultValue: 2, min: 1, max: 3, step: 0.5 },
-  { id: "collarLeafDepth", label: "Finished pointed collar leaf", defaultValue: 5, min: 4, max: 7, step: 0.5 },
-  { id: "standFrontRise", label: "Stand front rise", defaultValue: 0.75, min: 0, max: 2, step: 0.25 },
-  { id: "collarPointExtension", label: "Collar point extension", defaultValue: 1.5, min: 0.5, max: 3, step: 0.25 },
-  { id: "sideVentDepth", label: "Side vent depth", defaultValue: 6, min: 0, max: 15, step: 0.5 },
-  { id: "backHemDrop", label: "Back hem drop", defaultValue: 1.5, min: 0, max: 5, step: 0.5 },
+  { id: "placketLength", label: "Finished placket length", unit: "cm", group: "Front closure", help: "Sets the finished slit length; shorten it if the placket reaches the vent or hem allowance.", defaultValue: 14, min: 14, max: 30, step: 0.5 },
+  { id: "placketWidth", label: "Finished placket width", unit: "cm", group: "Front closure", help: "Sets the finished folded placket face; keep it inside the declared 2–4 cm range.", defaultValue: 3, min: 2, max: 4, step: 0.5 },
+  { id: "standHeight", label: "Finished stand height", unit: "cm", group: "Neck & collar", help: "Raises the collar stand above the neckline; reduce it if it exceeds the collar leaf.", defaultValue: 2, min: 1, max: 3, step: 0.5 },
+  { id: "collarLeafDepth", label: "Finished pointed collar leaf", unit: "cm", group: "Neck & collar", help: "Sets the collar leaf depth from the stand; increase it when the point extension dominates.", defaultValue: 5, min: 4, max: 7, step: 0.5 },
+  { id: "standFrontRise", label: "Stand front rise", unit: "cm", group: "Neck & collar", help: "Lifts the front stand toward the centre front; reduce it if the shaped seam reverses or cannot preserve length.", defaultValue: 0.75, min: 0, max: 2, step: 0.25 },
+  { id: "collarPointExtension", label: "Collar point extension", unit: "cm", group: "Neck & collar", help: "Extends the collar point beyond the centre-front base; reduce it if the outline self-intersects.", defaultValue: 1.5, min: 0.5, max: 3, step: 0.25 },
+  { id: "sideVentDepth", label: "Side vent depth", unit: "cm", group: "Hem & vents", help: "Opens the side seam from the hem; set to 0 cm to close the vent, or increase it when the sewn reserve is too short.", defaultValue: 6, min: 0, max: 15, step: 0.5 },
+  { id: "backHemDrop", label: "Back hem drop", unit: "cm", group: "Hem & vents", help: "Extends only the back hem below the front; reduce it when it exceeds the vent depth or when vents are disabled.", defaultValue: 1.5, min: 0, max: 5, step: 0.5 },
 ];
 
 export const DEFAULT_POLO_OPTIONS: PoloOptions = {
@@ -445,6 +445,21 @@ export function draftPolo(m: Measurements, rawOptions: Partial<PoloOptions> = {}
   return composeBlock(POLO_GRAMMAR, m, rawOptions);
 }
 
+// Guidance must point to a visible, recoverable control. The pure collar
+// solver uses a semantic source field such as "polo-collar" for geometry
+// diagnostics, but the UI can only route option-* fields to a control row.
+const POLO_COLLAR_ISSUE_FIELDS: Readonly<Record<PoloCollarIssueCode, string>> = {
+  "non-finite-input": "option-standHeight",
+  "empty-neckline": "option-standHeight",
+  "negative-dimension": "option-standHeight",
+  "stand-rise-exceeds-height": "option-standFrontRise",
+  "front-rise-unsolved": "option-standFrontRise",
+  "seam-reverses": "option-standFrontRise",
+  "collar-point-dominates": "option-collarPointExtension",
+  "collar-outline-self-intersects": "option-collarPointExtension",
+  "non-finite-output": "option-standHeight",
+};
+
 /** Polo-specific warnings. Every value stays drafted exactly as supplied; a
  * warning names the correction rather than altering it behind the maker's back. */
 export function poloGuidance(block: Block, m: Measurements, rawOptions: Partial<PoloOptions> = {}): Note[] {
@@ -476,7 +491,7 @@ export function poloGuidance(block: Block, m: Measurements, rawOptions: Partial<
   }, options);
   for (const issue of collarResult.issues) {
     notes.push({
-      field: issue.field === "polo-collar" ? "polo-collar" : `option-${issue.field}`,
+      field: POLO_COLLAR_ISSUE_FIELDS[issue.code],
       level: "warn",
       text: issue.text,
     });
@@ -499,7 +514,7 @@ export function poloGuidance(block: Block, m: Measurements, rawOptions: Partial<
       const stitch = block.stitches[index];
       const measuredA = interfaceLength(block, stitch.a);
       const measuredB = interfaceLength(block, stitch.b);
-      notes.push({ field: "polo-seam", level: "warn", text: `${stitch.label} measures ${measuredA.toFixed(1)} cm versus ${measuredB.toFixed(1)} cm — correct the named interface before sewing.` });
+      notes.push({ field: stitch.label === "Side seam (front ↔ back)" ? "option-sideVentDepth" : "option-placketLength", level: "warn", text: `${stitch.label} measures ${measuredA.toFixed(1)} cm versus ${measuredB.toFixed(1)} cm — correct the named interface before sewing.` });
     }
   }
   return notes;
@@ -575,6 +590,14 @@ export const POLO_POMS: readonly Pom[] = [
     tolerance: 0.3,
     measure: (block) => {
       const vent = rolePiece(block, "front").edges.find((edge) => edge.name === "vent");
+      return vent ? edgeLength(vent) : 0;
+    },
+  },
+  {
+    label: "Back side-vent depth",
+    tolerance: 0.3,
+    measure: (block) => {
+      const vent = rolePiece(block, "back").edges.find((edge) => edge.name === "vent");
       return vent ? edgeLength(vent) : 0;
     },
   },

@@ -37,6 +37,11 @@ export interface UpperCroquisOptions {
   readonly neckline?: UpperCroquisNeckline;
   readonly strapWidth?: number;
   readonly lowerShape?: UpperCroquisLowerShape;
+  /** Optional finished-garment length used by a presentation overlay. */
+  readonly lengthOverride?: number;
+  /** Optional open side-vent span used only by a garment preview. */
+  readonly ventDepth?: number;
+  readonly ventBaseLength?: number;
 }
 
 export interface UpperCroquisAnchors {
@@ -98,7 +103,9 @@ export function upperCroquisFigure(
   // from the figure contract while the drafting slope stays independent.
   const slope = m.shoulderWidth * 0.07;
   const ad = m.armholeDepth;
-  const len = m.length;
+  const len = options.lengthOverride ?? m.length;
+  const ventDepth = options.ventDepth ?? 0;
+  const ventTop = (options.ventBaseLength ?? len) - ventDepth;
   const neckline = options.neckline ?? defaultUpperNeckline(m, view, d);
   const neckHalf = neckline.hps.x;
   const strapX = options.strapWidth === undefined ? shoulder : neckHalf + options.strapWidth;
@@ -132,6 +139,11 @@ export function upperCroquisFigure(
         `L ${round(lowerShape.hipHalf)} ${round(lowerShape.hipY)}`,
         `L ${round(lowerShape.hipHalf)} ${round(len)}`,
       ]
+    : ventDepth > 0
+      ? [
+          `L ${round(half)} ${round(ventTop)}`,
+          `L ${round(half)} ${round(len)}`,
+        ]
     : [`L ${round(half)} ${round(len)}`];
   const leftLowerTorso = lowerShape
     ? [
@@ -140,6 +152,12 @@ export function upperCroquisFigure(
         `L ${round(-lowerShape.waistHalf)} ${round(lowerShape.waistY)}`,
         `L ${round(-half)} ${round(ad)}`,
       ]
+    : ventDepth > 0
+      ? [
+          `L ${round(-half)} ${round(len)}`,
+          `L ${round(-half)} ${round(ventTop)}`,
+          `L ${round(-half)} ${round(ad)}`,
+        ]
     : [`L ${round(-half)} ${round(len)}`, `L ${round(-half)} ${round(ad)}`];
   const torsoPath = [
     `M ${round(neckHalf)} 0`,

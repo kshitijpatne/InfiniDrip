@@ -1,6 +1,6 @@
 # EPIC 11 - Polo V2 Fidelity Refinement
 
-Status: **IMPLEMENTATION IN PROGRESS - SLICES 155–158 COMPLETE; EPIC 7 GATE
+Status: **IMPLEMENTATION IN PROGRESS - SLICES 155–159 COMPLETE; EPIC 7 GATE
 SATISFIED**
 
 Owner: **Codex**. External coding agents may assist only with bounded test or
@@ -9,8 +9,8 @@ drafting, data contracts, review, repairs, integration and any push to
 `origin/main`.
 
 Scheduling note: the garment-expansion research wave completed Slices 149-154.
-Epic 11's unchanged implementation plan is Slices 155-161. Slices 155–158
-are complete; Slice 159 is next. No scope or acceptance criterion changed.
+Epic 11's unchanged implementation plan is Slices 155-161. Slices 155–159
+are complete; Slice 160 is next. No scope or acceptance criterion changed.
 
 Research authority: `docs/research/garments/POLO-V2-RESEARCH.md`.
 
@@ -231,6 +231,16 @@ Non-goals: final-design Edit behavior, new workspace flow or global redesign.
 Owner/model: Codex; Sol high for contract review, Luna max for mechanical
 wiring/tests. Gate: persistence migration, mounted UI/accessibility, render DOM
 and full regression.
+
+Status: complete. All eight Polo option controls now have grouped metadata,
+units and actionable help; pre-Epic-11 saves resolve V2 defaults without a
+version bump and retain raw saved values. Front/back assembled and Body
+schematics consume the shared neckline-derived collar facts and expose vent,
+back-drop and option-owner metadata. POMs, guidance, UI copy and the Polo tech
+pack/construction sequence are synchronized. The full gate is 102 files / 1,406
+tests with 100% statements, branches, functions and lines; strict TypeScript,
+the production build, export-identity coverage and fresh-origin rendered QA
+pass. No physical-fit claim is made.
 
 ### Slice 160 - Cross-size, surface, nesting and export pressure matrix
 

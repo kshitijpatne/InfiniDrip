@@ -24,6 +24,12 @@ export interface PoloBodyVisual {
   readonly placketWidth: number;
   readonly standHeight: number;
   readonly collarLeafDepth: number;
+  readonly standFrontRise?: number;
+  readonly collarPointExtension?: number;
+  readonly sideVentDepth?: number;
+  readonly backHemDrop?: number;
+  readonly frontNeckline?: NecklineParams;
+  readonly backNeckline?: NecklineParams;
 }
 
 /** Optional recipe-owned neckline geometry for a body preview whose neck is
@@ -100,6 +106,9 @@ export function renderBody(
   necklineVisual?: BodyNecklineVisual, lowerShape?: UpperCroquisLowerShape
 ): string {
   const d = derive(m);
+  const poloV2 = polo !== undefined && (polo.standFrontRise !== undefined || polo.collarPointExtension !== undefined || polo.sideVentDepth !== undefined || polo.backHemDrop !== undefined);
+  const poloDrop = poloV2 && position === "back" ? polo?.backHemDrop ?? 0 : 0;
+  const poloVentDepth = poloV2 ? polo?.sideVentDepth ?? 0 : 0;
 
   // The real front collar geometry — the same necklineEdge() the actual
   // bodice draft calls, so this view can't silently diverge from it again.
@@ -111,6 +120,9 @@ export function renderBody(
       d.shoulderHalf, m.armholeDepth, frontNeckline);
   const croquis = upperCroquisFigure(m, position, {
     hasSleeve, strapWidth, neckline: { cNeck, hps, edge: neckEdge }, lowerShape,
+    lengthOverride: poloV2 ? m.length + poloDrop : undefined,
+    ventDepth: poloV2 ? poloVentDepth : undefined,
+    ventBaseLength: poloV2 ? m.length : undefined,
   });
   const { bodyHalf, shoulderHalf, neckHalf, strapX, slope, armholeDepth: ad, length: len,
     headR, headCy, headTop, neckLen, rightDimX, leftDimX, a1, a2, a3, bOut, bIn } = croquis.anchors;
@@ -185,14 +197,23 @@ export function renderBody(
     `fill="none" stroke="${T.line}" stroke-width="1.4" stroke-linecap="round" ` +
     `vector-effect="non-scaling-stroke"/>`;
   const bothArms = (fn: (sx: number) => string): string => fn(1) + fn(-1);
+  const poloVentTop = m.length - poloVentDepth;
   const lowerEdges = lowerShape
     ? edge("chest", bothArms((sx) => seg(sx * bodyHalf, ad, sx * lowerShape.waistHalf, lowerShape.waistY, 1.4))) +
       edge("waist", bothArms((sx) => seg(sx * lowerShape.waistHalf, lowerShape.waistY, sx * lowerShape.hipHalf, lowerShape.hipY, 1.4))) +
       edge("hip", bothArms((sx) => seg(sx * lowerShape.hipHalf, lowerShape.hipY, sx * lowerShape.hipHalf, len, 1.4))) +
       edge("hipDepth", seg(-lowerShape.hipHalf, lowerShape.hipY, lowerShape.hipHalf, lowerShape.hipY, 1.4) +
         bothArms((sx) => seg(sx * lowerShape.waistHalf, lowerShape.waistY, sx * lowerShape.hipHalf, lowerShape.hipY, 1.4)))
+    : poloV2 && poloVentDepth > 0
+      ? edge("chest", bothArms((sx) => seg(sx * bodyHalf, ad, sx * bodyHalf, poloVentTop, 1.4))) +
+        edge("option-sideVentDepth", bothArms((sx) => seg(sx * bodyHalf, poloVentTop, sx * bodyHalf, len, 1.4)))
     : edge("chest", bothArms((sx) => seg(sx * bodyHalf, ad, sx * bodyHalf, len, 1.4)));
   const hemHalf = lowerShape?.hipHalf ?? bodyHalf;
+  const poloDropEdges = poloV2
+    ? edge("option-backHemDrop", position === "back" && poloDrop !== 0
+      ? bothArms((sx) => seg(sx * hemHalf, m.length, sx * hemHalf, len, 1.4))
+      : "")
+    : "";
   const edges =
     edge("shoulderWidth", bothArms((sx) => seg(sx * neckHalf, 0, sx * strapX, slope, 1.4))) +
     edge("armholeDepth", tankArmhole
@@ -205,7 +226,8 @@ export function renderBody(
     (!hasSleeve ? edge("neckWidthEase", neckHighlight()) : "") +
     (necklineVisual ? edge("neck", neckHighlight()) : "") +
     (hasSleeve ? edge("sleeveLength", bothArms((sx) => seg(sx * a1.x, a1.y, sx * a2.x, a2.y, 1.2))) : "") +
-    (hasSleeve ? edge("bicep", bothArms((sx) => seg(sx * a2.x, a2.y, sx * a3.x, a3.y, 1.2))) : "");
+    (hasSleeve ? edge("bicep", bothArms((sx) => seg(sx * a2.x, a2.y, sx * a3.x, a3.y, 1.2))) : "") +
+    poloDropEdges;
 
   const minX = leftDimX - 22;
   const maxX = rightDimX + 26;
@@ -217,9 +239,12 @@ export function renderBody(
   const arms = croquis.armPaths.map((path) =>
     `<path d="${path}" fill="${T.fill}" stroke="${T.line}" stroke-width="1.2" stroke-linejoin="round" ` +
     `vector-effect="non-scaling-stroke"/>`).join("");
-  const poloDetails = position === "front" && polo ? poloDetailsSvg({
-    neckWidthHalf: d.neckWidthHalf, frontNeckDepth: d.frontNeckDepth,
+  const poloDetails = polo && (position === "front" || poloV2) ? poloDetailsSvg({
+    neckWidthHalf: d.neckWidthHalf, frontNeckDepth: d.frontNeckDepth, backNeckDepth: d.backNeckDepth,
     shoulderHalf, armholeDepth: ad, neckline: frontNeckline, ...polo,
+    frontNeckline: polo.frontNeckline ?? (position === "front" ? frontNeckline : NECKLINE_DEFAULT),
+    backNeckline: polo.backNeckline ?? (position === "back" ? frontNeckline : NECKLINE_DEFAULT),
+    position, bodyHalf, baseLength: m.length, bodyLength: len,
   }).split("currentColor").join(T.line) : "";
 
   return `<svg viewBox="${round(minX)} ${round(minY)} ${round(width)} ${round(height)}" ` +
@@ -243,9 +268,10 @@ export function renderBodyPair(
   strapWidth?: number, polo?: PoloBodyVisual, necklineVisual?: BodyNecklineVisual,
   lowerShape?: UpperCroquisLowerShape
 ): string {
+  const pairPolo = polo ? { ...polo, frontNeckline, backNeckline } : polo;
   return `<div style="display:flex;gap:8px;width:100%">` +
     `<div style="flex:1;min-width:0"><div style="font-size:11px;color:${T.label};text-transform:uppercase;text-align:center;margin-bottom:4px">Front</div>` +
-    renderBody(m, hasSleeve, frontNeckline, strapWidth, "front", polo, necklineVisual, lowerShape) + `</div>` +
+    renderBody(m, hasSleeve, frontNeckline, strapWidth, "front", pairPolo, necklineVisual, lowerShape) + `</div>` +
     `<div style="flex:1;min-width:0"><div style="font-size:11px;color:${T.label};text-transform:uppercase;text-align:center;margin-bottom:4px">Back</div>` +
-    renderBody(m, hasSleeve, backNeckline, strapWidth, "back", polo, necklineVisual, lowerShape) + `</div></div>`;
+    renderBody(m, hasSleeve, backNeckline, strapWidth, "back", pairPolo, necklineVisual, lowerShape) + `</div></div>`;
 }

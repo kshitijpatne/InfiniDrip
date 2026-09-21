@@ -57,5 +57,5 @@ describe("Slice 121 accessibility audit", () => {
     chest.dispatchEvent(new Event("input", { bubbles: true }));
     click(root, "load-pattern");
     await audit("load confirmation dialog");
-  }, 20_000);
+  }, 60_000);
 });

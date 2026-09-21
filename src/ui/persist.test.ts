@@ -20,6 +20,8 @@ import {
 } from "./persist";
 import { DEFAULT_APPEARANCE } from "./appearance";
 import { FIELDS } from "./controls";
+import { POLO } from "../drafting/recipe";
+import { defaultGarmentOptions } from "../drafting/options";
 
 const FABRIC = "#3A4150";
 
@@ -194,6 +196,19 @@ describe("serialize", () => {
     const result = deserialize(serialize(STANDARD_M, FABRIC, { polo: { standHeight: 2, leafDepth: 5 } }));
     expect(result.ok).toBe(true);
     if (result.ok) expect(result.garmentOptions).toEqual({ polo: { standHeight: 2, leafDepth: 5 } });
+  });
+
+  it("loads pre-Epic-11 Polo options and fills V2 defaults without a save-version bump", () => {
+    const legacyOptions = { polo: { placketLength: 14, placketWidth: 3, standHeight: 2, collarLeafDepth: 5 } };
+    const poloWorkspace = { ...DEFAULT_WORKSPACE, garment: "polo", targetStyle: "Classic polo" };
+    const result = deserialize(serialize(STANDARD_M, FABRIC, legacyOptions, poloWorkspace));
+    expect(result.ok).toBe(true);
+    expect(JSON.parse(serialize(STANDARD_M, FABRIC, legacyOptions, poloWorkspace)).v).toBe(SAVE_VERSION);
+    if (result.ok) {
+      const merged = { ...defaultGarmentOptions(POLO.options ?? []), ...result.garmentOptions.polo };
+      expect(merged).toMatchObject({ standFrontRise: 0.75, collarPointExtension: 1.5, sideVentDepth: 6, backHemDrop: 1.5 });
+      expect(result.garmentOptions.polo).toEqual(legacyOptions.polo);
+    }
   });
 
   it("preserves options for a future recipe without a local definition", () => {

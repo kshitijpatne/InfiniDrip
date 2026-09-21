@@ -346,6 +346,10 @@ export function mountApp(root: HTMLElement): void {
       placketWidth: options.placketWidth,
       standHeight: options.standHeight,
       collarLeafDepth: options.collarLeafDepth,
+      standFrontRise: options.standFrontRise,
+      collarPointExtension: options.collarPointExtension,
+      sideVentDepth: options.sideVentDepth,
+      backHemDrop: options.backHemDrop,
     };
   };
   const wovenShirtVisual = () => {

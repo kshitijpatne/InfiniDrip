@@ -150,6 +150,7 @@ describe("Polo shell (Slice 69)", () => {
       expect.objectContaining({ id: "sideVentDepth", defaultValue: 6, min: 0, max: 15, step: 0.5 }),
       expect.objectContaining({ id: "backHemDrop", defaultValue: 1.5, min: 0, max: 5, step: 0.5 }),
     ]));
+    expect(POLO_OPTION_DEFINITIONS.every((option) => option.unit === "cm" && option.group && option.help)).toBe(true);
     expect(resolvePoloOptions()).toMatchObject({
       standFrontRise: 0.75, collarPointExtension: 1.5, sideVentDepth: 6, backHemDrop: 1.5,
     });
@@ -211,6 +212,11 @@ describe("Polo shell (Slice 69)", () => {
       .map((note) => note.text).join("\n");
     expect(noVentText).toContain("vent is disabled");
     expect(noVentText).toContain("Side seam (front ↔ back) measures");
+    const noVentFields = poloGuidance(draftPolo(STANDARD_M, noVent), STANDARD_M, noVent)
+      .filter((note) => note.level === "warn").map((note) => note.field);
+    expect(noVentFields).toContain("option-backHemDrop");
+    expect(noVentFields).not.toContain("polo-collar");
+    expect(noVentFields).not.toContain("polo-seam");
   });
 
   it("reports live V2 POMs for rise, point, vent, separate lengths, and drop", () => {
@@ -224,12 +230,14 @@ describe("Polo shell (Slice 69)", () => {
     expect(value("Stand front rise")).toBeCloseTo(0.75, 3);
     expect(value("Collar point extension")).toBeCloseTo(1.5, 3);
     expect(value("Front side-vent depth")).toBeCloseTo(6, 3);
+    expect(value("Back side-vent depth")).toBeCloseTo(7.5, 3);
     expect(value("Front body length (HPS–hem)")).toBeCloseTo(70, 3);
     expect(value("Back body length (HPS–hem)")).toBeCloseTo(71.5, 3);
     expect(value("Back hem drop")).toBeCloseTo(1.5, 3);
 
     const closed = draftPolo(STANDARD_M, { sideVentDepth: 0, backHemDrop: 0 });
     expect(POLO_POMS.find((pom) => pom.label === "Front side-vent depth")!.measure(closed)).toBe(0);
+    expect(POLO_POMS.find((pom) => pom.label === "Back side-vent depth")!.measure(closed)).toBe(0);
   });
 
   it("declares no allowance on folds and real allowance on stand, collar, and placket edges", () => {

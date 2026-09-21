@@ -1430,12 +1430,16 @@ describe("body-view measurement linking", () => {
     const root = mount();
     root.querySelector<HTMLButtonElement>("#garment-polo")!.dispatchEvent(new Event("click"));
     root.querySelector<HTMLButtonElement>("#view-body")!.dispatchEvent(new Event("click"));
-    for (const field of ["placketLength", "placketWidth", "standHeight", "collarLeafDepth"]) {
+    for (const field of ["placketLength", "placketWidth", "standHeight", "collarLeafDepth", "standFrontRise", "collarPointExtension", "sideVentDepth", "backHemDrop"]) {
       const row = root.querySelector<HTMLElement>(`[data-dim-row="option-${field}"]`)!;
       row.dispatchEvent(new Event("mouseenter"));
       expect(root.querySelector<SVGGElement>(`#canvas-host [data-edge="option-${field}"]`)!.style.opacity).toBe("1");
       row.dispatchEvent(new Event("mouseleave"));
     }
+    expect(root.querySelectorAll('#garment-host [data-garment-detail="polo"][data-position="front"]').length).toBe(1);
+    expect(root.querySelectorAll('#garment-host [data-garment-detail="polo"][data-position="back"]').length).toBe(1);
+    expect(root.querySelector('#garment-host [data-edge="option-sideVentDepth"]')).not.toBeNull();
+    expect(root.querySelector('#garment-host [data-edge="option-backHemDrop"]')).not.toBeNull();
   });
 
   it("spotlights Woven options on matching assembled features", () => {

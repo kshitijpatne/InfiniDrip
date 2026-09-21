@@ -554,12 +554,12 @@ sewability or guaranteed material savings.
 The binding research and execution records are
 `docs/research/garments/POLO-V2-RESEARCH.md` and
 `docs/planning/EPIC-11-EXECUTION.md`. Epic 7 is merged and reviewed, so that
-gate is satisfied. Slices 155–158 now wire the shaped collar/stand,
-placket-base marks, vent topology, dropped back hem, POMs and actionable
-guidance into Polo drafting. Slices 159–161 remain for preview/UI/persistence
-and report integration, the cross-surface/export pressure matrix and the final
-exit handoff. Epic 11 never changes the nesting estimator or planning-state
-semantics.
+gate is satisfied. Slices 155–159 now wire the shaped collar/stand,
+placket-base marks, vent topology, dropped back hem, POMs, actionable
+guidance, front/back previews, option metadata, persistence compatibility and
+report construction details into Polo. Slices 160–161 remain for the
+cross-surface/export pressure matrix and the final exit handoff. Epic 11 never
+changes the nesting estimator or planning-state semantics.
 
 Polo V2 remains the existing `polo` recipe and the ordinary composed `Block`
 pipeline. Its redesign replaces the V1 rectangular stand/collar with shaped
@@ -581,8 +581,10 @@ original bodice topology; nonzero vents end the sewn `side` edge at aligned
 `ventTop` marks, add an open `vent` edge with its own allowance, and move only
 the back hem by `backHemDrop`. Finite invalid combinations remain visible
 through issue records and guidance; non-finite source geometry has no
-fabricated fallback. Preview, persistence and front/back schematic routing
-remain Slice 159 work.
+fabricated fallback. Slice 159 maps the same pure collar facts into front/back
+Body and assembled schematics, keeps optional croquis presentation fields inert
+for other garments, and routes all eight option owners through UI, persistence
+and guidance without changing the save version or export writers.
 
 The nine physical Polo roles remain unchanged. The front retains its on-fold
 slit and named placket attachment interfaces; V2 adds the internal

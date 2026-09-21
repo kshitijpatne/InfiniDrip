@@ -290,13 +290,14 @@ const POLO_TECH_PACK: TechPack = {
   ],
   construction: [
     "Apply lightweight knit-compatible stabilizer to placket, collar, and stand layers.",
-    "Reinforce and cut the centre-front slit; sew and fold both plackets at their marked lines.",
+    "Reinforce the marked placket base, clip the two diagonal corners, and cut the centre-front slit; sew and fold both plackets at their marked lines.",
     "Make buttonholes and attach three buttons at the marked 3.5 cm centres.",
     "Join upper and under collar around the outer edge; turn and press the points.",
     "Sew collar layers into outer and inner stands, matching centre-back folds and front ends.",
     "Attach the outer stand to the neckline; turn inner stand inside and finish securely.",
-    "Join shoulder seams, set sleeves flat, then close side and underarm seams.",
-    "Hem sleeves and body; inspect placket flatness, collar roll, and neckline recovery.",
+    "Join shoulder seams, set sleeves flat, then close side and underarm seams only to the marked vent tops.",
+    "Finish and bar-tack the open side vents; press the sewn-to-open transitions before hemming.",
+    "Hem front and back body edges separately to preserve the selected back drop; hem sleeves and inspect placket flatness, collar roll, and neckline recovery.",
   ],
 };
 
@@ -310,7 +311,7 @@ export const POLO: GarmentRecipe = {
   draft: (m, options = {}) => draftPolo(m, options),
   grammar: POLO_GRAMMAR,
   notches: POLO_NOTCHES,
-  poms: [...TSHIRT_POMS, ...POLO_POMS],
+  poms: [...TSHIRT_POMS.filter((pom) => pom.label !== "Body length (HPS–hem)"), ...POLO_POMS],
   grade: TSHIRT_GRADE,
   sizes: TSHIRT_SIZES,
   checks: sleevedTopPanelChecks(true),

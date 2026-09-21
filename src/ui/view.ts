@@ -262,7 +262,7 @@ const GARMENT_UI: Readonly<Record<string, { region: string; summary: string; det
   tee: { region: "Upper body", summary: "Everyday knit top", detail: "Short sleeve · crew neck" },
   fitted: { region: "Upper body", summary: "Shaped knit top", detail: "Darted fit · short sleeve" },
   tank: { region: "Upper body", summary: "Sleeveless knit top", detail: "Strap and neckline controls" },
-  polo: { region: "Upper body", summary: "Collared knit top", detail: "Placket and collar controls" },
+  polo: { region: "Upper body", summary: "Collared knit top", detail: "Placket, collar, vents & hem controls" },
   "woven-shirt": { region: "Upper body", summary: "Stable woven shirt", detail: "Yoke, placket and pocket" },
   skirt: { region: "Lower body", summary: "Simple woven skirt", detail: "Waist and hem controls" },
   trouser: { region: "Lower body", summary: "Straight-leg trouser", detail: "Rise, leg and pocket controls" },

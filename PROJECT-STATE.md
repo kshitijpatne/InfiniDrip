@@ -1,10 +1,11 @@
 # InfiniDrip — Project State
 
-_Last updated: Epic 11 Slice 158, 2026-09-21.
+_Last updated: Epic 11 Slice 159, 2026-09-21.
 Epics 7, 9 and 10 are implemented, Codex-reviewed, documented and pushed to
 `origin/main`. Epic 11 implementation has completed the shaped collar/stand,
-placket-base and vent/drop drafting slices; preview integration, physical
-validation and production readiness remain unverified._
+placket-base, vent/drop and front/back preview/control/report slices; cross-
+surface pressure verification, physical validation and production readiness
+remain unverified._
 
 ### Post-merge PR audit — 2026-09-21
 
@@ -75,6 +76,25 @@ conflicts, placket proximity and seam-length mismatches without changing raw
 values. The woven-shirt vent code was not modified. The full gate is 102 files
 / 1,396 tests with 100% statements, branches, functions and lines. Strict
 TypeScript and the production build also pass. No physical-fit claim is made.
+
+### Slice 159 — front/back preview, controls, persistence and reports complete
+
+All eight Polo option rows now carry units, grouping and actionable help, and
+the existing option/persistence contract routes the four V2 values without a
+save-version bump. Pre-Epic-11 Polo saves keep their raw option map and receive
+the V2 defaults when resolved; invalid collar and seam guidance now targets
+visible `option-*` controls. POMs no longer duplicate generic body length and
+now measure the back vent separately; the tech pack records placket-base
+reinforcement, vent finishing and separate front/back hemming.
+
+The assembled and Body renderers now share the neckline-derived collar/stand
+facts on front and back, with live vent and back-drop silhouette cues and all
+eight option owners. Fresh-origin browser QA inspected both Body figures and
+the assembled preview, and confirmed that vent/drop cues are emitted as actual
+SVG paths. The complete gate is 102 files / 1,406 tests with 100% statements,
+branches, functions and lines; strict TypeScript, the production build,
+export-identity coverage and `git diff --check` pass. No physical-fit claim is
+made.
 
 ## Current work — post-Epic 6 planning
 

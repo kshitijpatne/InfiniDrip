@@ -254,6 +254,46 @@ describe("renderBody — Polo V1", () => {
   });
 });
 
+describe("renderBody — Polo V2", () => {
+  const POLO_V2 = {
+    placketLength: 14, placketWidth: 3, standHeight: 2, collarLeafDepth: 5,
+    standFrontRise: 0.75, collarPointExtension: 1.5, sideVentDepth: 6, backHemDrop: 1.5,
+  };
+
+  it("keeps the shaped stand, collar, vent and drop linked on both Body views", () => {
+    const pair = renderBodyPair(STANDARD_M, true, NECKLINE_DEFAULT, NECKLINE_DEFAULT, undefined, POLO_V2);
+    expect((pair.match(/data-garment-detail="polo"/g) ?? []).length).toBe(2);
+    expect(pair).toContain('data-position="front"');
+    expect(pair).toContain('data-position="back"');
+    for (const option of ["placketLength", "placketWidth", "standHeight", "collarLeafDepth", "standFrontRise", "collarPointExtension", "sideVentDepth", "backHemDrop"]) {
+      expect(pair).toContain(`data-edge="option-${option}"`);
+    }
+    expect(pair).toContain("Length 70");
+  });
+
+  it("keeps a closed-vent, level-hem V2 body valid", () => {
+    const svg = renderBody(STANDARD_M, true, NECKLINE_DEFAULT, undefined, "back", {
+      placketLength: 14, placketWidth: 3, standHeight: 2, collarLeafDepth: 5,
+      standFrontRise: 0, collarPointExtension: 0.5, sideVentDepth: 0, backHemDrop: 0,
+    });
+    expect(svg).toContain('data-edge="option-sideVentDepth"');
+    expect(svg).toContain('data-edge="option-backHemDrop"');
+    expect(svg).toContain('data-garment-detail="polo" data-position="back"');
+  });
+
+  it("uses safe defaults when a saved V2 Body option map is incomplete", () => {
+    const options = {
+      placketLength: 14, placketWidth: 3, standHeight: 2, collarLeafDepth: 5,
+      standFrontRise: 0.75, collarPointExtension: 1.5,
+    };
+    const svg = renderBody(STANDARD_M, true, NECKLINE_DEFAULT, undefined, "back", options);
+    const front = renderBody(STANDARD_M, true, NECKLINE_DEFAULT, undefined, "front", options);
+    expect(svg).toContain('data-garment-detail="polo" data-position="back"');
+    expect(svg).toContain('data-edge="option-backHemDrop"');
+    expect(front).toContain('data-garment-detail="polo" data-position="front"');
+  });
+});
+
 describe("renderBody — woven-shirt independent neck", () => {
   it("uses the recipe-owned neck geometry and exposes the neck measurement", () => {
     const svg = renderBody(STANDARD_M, true, NECKLINE_DEFAULT, undefined, "front", undefined, {

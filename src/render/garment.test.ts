@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import { STANDARD_M, derive, necklineEdge, NECKLINE_DEFAULT } from "../drafting";
 import { tankFrontNeckline, tankBackNeckline } from "../drafting/tank";
 import { renderGarment, FABRICS, DEFAULT_FABRIC } from "./garment";
+import { poloDetailsSvg } from "./polo-details";
 
 describe("FABRICS", () => {
   it("offers a few fabric colours", () => {
@@ -143,6 +144,76 @@ describe("renderGarment — Polo V1", () => {
       { shape: "v", widthEase: 0, frontDrop: 0 }, NECKLINE_DEFAULT, undefined, POLO);
     expect(svg).toContain("L 0");
     expect(svg).toContain('data-edge="option-standHeight"');
+  });
+});
+
+describe("renderGarment — Polo V2", () => {
+  const POLO_V2 = {
+    placketLength: 14, placketWidth: 3, standHeight: 2, collarLeafDepth: 5,
+    standFrontRise: 0.75, collarPointExtension: 1.5, sideVentDepth: 6, backHemDrop: 1.5,
+  };
+
+  it("renders neckline-derived collar details on both front and back with all option owners", () => {
+    const svg = renderGarment(STANDARD_M, "#123456", true, NECKLINE_DEFAULT, NECKLINE_DEFAULT, undefined, POLO_V2);
+    expect((svg.match(/data-garment-detail="polo"/g) ?? []).length).toBe(2);
+    expect(svg).toContain('data-garment-detail="polo" data-position="front"');
+    expect(svg).toContain('data-garment-detail="polo" data-position="back"');
+    for (const option of ["placketLength", "placketWidth", "standHeight", "collarLeafDepth", "standFrontRise", "collarPointExtension", "sideVentDepth", "backHemDrop"]) {
+      expect(svg).toContain(`data-edge="option-${option}"`);
+    }
+    expect(svg).toContain('data-edge="option-sideVentDepth"><path');
+    expect(svg).toContain('stroke-dasharray="2 1"');
+    expect(svg).toContain('data-edge="option-backHemDrop"><path');
+    expect(svg).toContain("71.5");
+  });
+
+  it("moves the finished silhouette and details when V2 values change", () => {
+    const base = renderGarment(STANDARD_M, "#123456", true, NECKLINE_DEFAULT, NECKLINE_DEFAULT, undefined, POLO_V2);
+    const changed = renderGarment(STANDARD_M, "#123456", true, NECKLINE_DEFAULT, NECKLINE_DEFAULT, undefined, {
+      ...POLO_V2, standFrontRise: 1.5, collarPointExtension: 2.5, sideVentDepth: 9, backHemDrop: 3,
+    });
+    expect(changed).not.toBe(base);
+    expect(changed).toContain('height="89"');
+  });
+
+  it("supports a closed vent and a level back hem without inventing open-edge cues", () => {
+    const closed = renderGarment(STANDARD_M, "#123456", true, NECKLINE_DEFAULT, NECKLINE_DEFAULT, undefined, {
+      ...POLO_V2, sideVentDepth: 0, backHemDrop: 0,
+    });
+    expect(closed).toContain('data-edge="option-sideVentDepth"');
+    expect(closed).toContain('data-edge="option-backHemDrop"');
+    expect(closed).toContain('height="86"');
+  });
+
+  it("keeps the V2 detail fallback visible when the collar solver rejects non-finite input", () => {
+    const svg = poloDetailsSvg({
+      neckWidthHalf: 7, frontNeckDepth: 8, backNeckDepth: 3, shoulderHalf: 22.5,
+      armholeDepth: 24, neckline: NECKLINE_DEFAULT,
+      placketLength: 14, placketWidth: 3, standHeight: Number.NaN, collarLeafDepth: 5,
+      standFrontRise: 0.75, collarPointExtension: 1.5, sideVentDepth: 6, backHemDrop: 1.5,
+    });
+    expect(svg).toContain('data-edge="option-standHeight"');
+  });
+
+  it("keeps partially specified V2 detail calls deterministic through their documented defaults", () => {
+    const common = {
+      neckWidthHalf: 7, frontNeckDepth: 8, shoulderHalf: 22.5, armholeDepth: 24,
+      neckline: NECKLINE_DEFAULT, placketLength: 14, placketWidth: 3,
+      standHeight: 2, collarLeafDepth: 5,
+    };
+    const front = poloDetailsSvg({ ...common, standFrontRise: 0.75, sideVentDepth: 0, backHemDrop: 0 });
+    const back = poloDetailsSvg({ ...common, standFrontRise: 0.75, collarPointExtension: 1.5, position: "back", sideVentDepth: 0 });
+    const flat = poloDetailsSvg({ ...common, collarPointExtension: 1.5 });
+    expect(front).toContain('data-position="front"');
+    expect(back).toContain('data-position="back"');
+    expect(flat).toContain('data-position="front"');
+    expect(front).not.toContain('data-edge="option-sideVentDepth">M');
+  });
+
+  it("keeps the back view renderable when the optional drop is not yet present", () => {
+    const { backHemDrop: _backHemDrop, ...partial } = POLO_V2;
+    const svg = renderGarment(STANDARD_M, "#123456", true, NECKLINE_DEFAULT, NECKLINE_DEFAULT, undefined, partial);
+    expect(svg).toContain('data-position="back"');
   });
 });
 

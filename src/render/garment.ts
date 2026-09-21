@@ -28,6 +28,10 @@ export interface PoloVisual {
   readonly placketWidth: number;
   readonly standHeight: number;
   readonly collarLeafDepth: number;
+  readonly standFrontRise?: number;
+  readonly collarPointExtension?: number;
+  readonly sideVentDepth?: number;
+  readonly backHemDrop?: number;
 }
 
 /** Finished woven-shirt details used only by the assembled schematic. */
@@ -59,7 +63,7 @@ export interface WovenShirtVisual {
 // declared shape (crew/v/scoop), the same function the actual draft calls.
 function silhouettePath(
   m: Measurements, position: "front" | "back", hasSleeve: boolean, neckline: NecklineParams,
-  strapWidth?: number, shirt?: WovenShirtVisual
+  strapWidth?: number, polo?: PoloVisual, shirt?: WovenShirtVisual
 ): string {
   const d = derive(m);
   const half = d.chestWidthHalf;        // half the body width
@@ -72,6 +76,8 @@ function silhouettePath(
   const waistY = ad + (len - ad) * 0.35;
   const hipY = waistY + m.hipDepth;
   const ventTop = len - (shirt?.sideVentDepth ?? 0);
+  const poloVentDepth = polo?.sideVentDepth ?? 0;
+  const poloHemY = len + (position === "back" ? polo?.backHemDrop ?? 0 : 0);
   const neckWidthHalf = shirt?.neckWidthHalf ?? d.neckWidthHalf;
   const baseDepth = shirt
     ? (position === "front" ? shirt.frontNeckDepth : shirt.backNeckDepth)
@@ -108,6 +114,11 @@ function silhouettePath(
         `L ${round(-hipHalf)} ${round(len)} ` +
         `C ${round(-hipHalf * 0.33)} ${round(len + shirt.hemTurn)} ${round(-hipHalf * 0.66)} ${round(len + shirt.hemTurn)} ${round(-hipHalf)} ${round(len)} ` +
         `L ${round(-hipHalf)} ${round(ventTop)} L ${round(-hipHalf)} ${round(hipY)} L ${round(-waistHalf)} ${round(waistY)} L ${round(-half)} ${round(ad)}`
+      : polo
+        ? poloVentDepth > 0
+          ? `L ${round(half)} ${round(len - poloVentDepth)} L ${round(half)} ${round(poloHemY)} ` +
+            `L ${round(-half)} ${round(poloHemY)} L ${round(-half)} ${round(len - poloVentDepth)} L ${round(-half)} ${round(ad)}`
+          : `L ${round(half)} ${round(poloHemY)} L ${round(-half)} ${round(poloHemY)} L ${round(-half)} ${round(ad)}`
       : `L ${round(half)} ${round(len)} L ${round(-half)} ${round(len)} L ${round(-half)} ${round(ad)}`,
     ...sleeveIn,                                  // left sleeve (if any)
     tankArmhole ? armholePathCommand(tankArmhole, true) : `L ${round(-strapX)} ${round(slope)}`, // mirrored tank armhole
@@ -133,27 +144,32 @@ function armholeSeams(m: Measurements): string {
 function renderOne(m: Measurements, position: "front" | "back", fabric: string,
                    cx: number, top: number, label: string, hasSleeve: boolean,
                    neckline: NecklineParams, strapWidth?: number, polo?: PoloVisual,
-                   shirt?: WovenShirtVisual): string {
-  const path = `<path d="${silhouettePath(m, position, hasSleeve, neckline, strapWidth, shirt)}" data-edge="ease" fill="${fabric}" ` +
+                   shirt?: WovenShirtVisual, frontNeckline: NecklineParams = neckline,
+                   backNeckline: NecklineParams = neckline): string {
+  const path = `<path d="${silhouettePath(m, position, hasSleeve, neckline, strapWidth, polo, shirt)}" data-edge="ease" fill="${fabric}" ` +
     `stroke="${T.line}" stroke-width="1.4" stroke-linejoin="round" ` +
     `vector-effect="non-scaling-stroke"/>`;
   const seams = hasSleeve ? armholeSeams(m) : "";
+  const poloV2 = polo !== undefined && (polo.standFrontRise !== undefined || polo.collarPointExtension !== undefined || polo.sideVentDepth !== undefined || polo.backHemDrop !== undefined);
   const group = `<g transform="translate(${round(cx)} ${round(top)})">${path}${seams}` +
-    (position === "front" && polo ? poloFrontDetails(m, neckline, polo) : "") +
+    (polo && (position === "front" || poloV2) ? poloDetails(m, position, frontNeckline, backNeckline, polo) : "") +
     (shirt ? wovenShirtDetails(m, position, shirt) : "") + `</g>`;
   const tag = `<text x="${round(cx)}" y="${round(top - 3)}" fill="${T.label}" ` +
     `font-size="2.6" font-family="system-ui, sans-serif" text-anchor="middle">${label}</text>`;
   return group + tag;
 }
 
-/** Flat front view only: visible finished placket, fixed three buttons, and
- * collar/stand silhouette at the exact selected dimensions. No drape claim. */
-function poloFrontDetails(m: Measurements, neckline: NecklineParams, polo: PoloVisual): string {
+/** Flat finished details use the same collar contract on both Polo V2 views. */
+function poloDetails(m: Measurements, position: "front" | "back", frontNeckline: NecklineParams,
+                     backNeckline: NecklineParams, polo: PoloVisual): string {
   const d = derive(m);
+  const bodyLength = m.length + (position === "back" ? polo.backHemDrop ?? 0 : 0);
   return `<g color="rgba(0,0,0,0.5)">${poloDetailsSvg({
-    neckWidthHalf: d.neckWidthHalf, frontNeckDepth: d.frontNeckDepth,
+    neckWidthHalf: d.neckWidthHalf, frontNeckDepth: d.frontNeckDepth, backNeckDepth: d.backNeckDepth,
     shoulderHalf: d.shoulderHalf, armholeDepth: m.armholeDepth,
-    neckline, ...polo,
+    neckline: position === "front" ? frontNeckline : backNeckline,
+    frontNeckline, backNeckline, position, bodyHalf: d.chestWidthHalf,
+    baseLength: m.length, bodyLength, ...polo,
   })}</g>`;
 }
 
@@ -230,12 +246,12 @@ export function renderGarment(
   const frontCx = margin + halfW;
   const backCx = frontCx + 2 * halfW + gap;
   const width = backCx + halfW + margin;
-  const height = top + m.length + margin;
+  const height = top + m.length + (polo?.backHemDrop ?? 0) + margin;
 
   return `<svg viewBox="0 0 ${round(width)} ${round(height)}" width="100%" ` +
     `xmlns="http://www.w3.org/2000/svg" style="background:${T.background};border-radius:8px">` +
     `<rect x="0" y="0" width="${round(width)}" height="${round(height)}" fill="${T.background}"/>` +
-    renderOne(m, "front", fabric, frontCx, top, "FRONT", hasSleeve, frontNeckline, strapWidth, polo, shirt) +
-    renderOne(m, "back", fabric, backCx, top, "BACK", hasSleeve, backNeckline, strapWidth, polo, shirt) +
+    renderOne(m, "front", fabric, frontCx, top, "FRONT", hasSleeve, frontNeckline, strapWidth, polo, shirt, frontNeckline, backNeckline) +
+    renderOne(m, "back", fabric, backCx, top, "BACK", hasSleeve, backNeckline, strapWidth, polo, shirt, frontNeckline, backNeckline) +
     `</svg>`;
 }

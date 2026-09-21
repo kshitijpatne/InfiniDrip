@@ -34,11 +34,15 @@ describe("Polo recipe pipeline", () => {
     expect(POLO.poms.map((pom) => pom.label)).toEqual(expect.arrayContaining([
       "Finished placket length", "Finished placket width", "Button spacing",
       "Finished collar stand height", "Finished pointed collar leaf", "Stand front rise",
-      "Collar point extension", "Front side-vent depth", "Front body length (HPS–hem)",
+      "Collar point extension", "Front side-vent depth", "Back side-vent depth", "Front body length (HPS–hem)",
       "Back body length (HPS–hem)", "Back hem drop",
     ]));
+    expect(POLO.poms.filter((pom) => pom.label === "Body length (HPS–hem)")).toHaveLength(0);
     expect(POLO.techPack.bom.find((row) => row.material === "Buttons")?.qty).toBe("3");
     expect(POLO.techPack.construction.join(" ")).toContain("knit-compatible stabilizer");
+    expect(POLO.techPack.construction.join(" ")).toContain("diagonal corners");
+    expect(POLO.techPack.construction.join(" ")).toContain("open side vents");
+    expect(POLO.techPack.construction.join(" ")).toContain("front and back body edges separately");
   });
 
   it("passes generic production checks across its real, nine-piece block", () => {
