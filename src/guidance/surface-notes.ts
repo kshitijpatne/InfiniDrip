@@ -106,12 +106,12 @@ function surfaceFrameNotes(
   const box = artworkBounds(corners);
   const centreX = (box.minX + box.maxX) / 2;
   const centreY = (box.minY + box.maxY) / 2;
-  const centred = frame.minX <= centreX && centreX <= frame.maxX &&
-    frame.minY <= centreY && centreY <= frame.maxY;
+  const centreInsideX = frame.minX <= centreX && centreX <= frame.maxX;
+  const centreInsideY = frame.minY <= centreY && centreY <= frame.maxY;
   if (!artworkInsidePiece(item, frame)) {
     notes.push({
       level: "warn",
-      field: `surface-${index}-${centred ? "scale" : "dx"}`,
+      field: `surface-${index}-${!centreInsideX ? "dx" : !centreInsideY ? "dy" : "scale"}`,
       text: `Artwork '${displayId(item, index)}' on ${styleLabel} extends beyond ` +
         `the ${frame.role} piece. Shrink it or move it toward the piece centre.`,
     });
@@ -120,9 +120,11 @@ function surfaceFrameNotes(
   if (resolution) {
     const floor = Math.min(resolution.xPxPerCm, resolution.yPxPerCm);
     if (floor < MIN_PRINT_PX_PER_CM) {
+      const resolutionField = resolution.xPxPerCm <= resolution.yPxPerCm
+        ? "sourcePxWidth" : "sourcePxHeight";
       notes.push({
         level: "warn",
-        field: `surface-${index}-sourcePxWidth`,
+        field: `surface-${index}-${resolutionField}`,
         text: `Artwork '${displayId(item, index)}' on ${styleLabel} prints at ` +
           `about ${Math.floor(floor)} px/cm, below the ${MIN_PRINT_PX_PER_CM} px/cm ` +
           `floor for clean print. Use a higher-resolution source.`,

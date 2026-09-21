@@ -1562,6 +1562,7 @@ export function mountApp(root: HTMLElement): void {
   // commits the preview and validation redraw.
   const TRANSFORM_FIELDS = new Set(["dx", "dy", "scale", "rotationDeg"]);
   const TEXT_FIELDS = new Set(["id", "kind", "pieceRole", "sourceName"]);
+  const OPTIONAL_NUMERIC_FIELDS = new Set(["sourcePxWidth", "sourcePxHeight"]);
   const isRecord = (value: unknown): value is Record<string, unknown> =>
     typeof value === "object" && value !== null && !Array.isArray(value);
   const applySurfaceField = (index: number, field: string, raw: string): void => {
@@ -1569,7 +1570,9 @@ export function mountApp(root: HTMLElement): void {
     const placements = surfaceList(surfaceBook, key);
     const current = placements[index];
     if (!current) return;
-    const value: unknown = TEXT_FIELDS.has(field) ? raw : raw.trim() === "" ? NaN : Number(raw);
+    const value: unknown = TEXT_FIELDS.has(field) ? raw
+      : OPTIONAL_NUMERIC_FIELDS.has(field) && raw.trim() === "" ? undefined
+      : raw.trim() === "" ? NaN : Number(raw);
     const base = isRecord(current.transform) ? current.transform : { ...EMPTY_TRANSFORM };
     const next = (TRANSFORM_FIELDS.has(field)
       ? { ...current, transform: { ...base, [field]: value } }

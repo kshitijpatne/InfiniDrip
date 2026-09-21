@@ -2687,6 +2687,17 @@ describe("surface frame guidance (Slice 130)", () => {
     expect(host).toContain("59 px/cm floor");
   });
 
+  it("treats cleared optional source dimensions as unknown, not invalid", () => {
+    localStorage.clear();
+    const root = mount();
+    toFitStep(root);
+    addArtwork(root, "chest-print");
+    setNumeric(root, 0, "sourcePxWidth", "2400");
+    setNumeric(root, 0, "sourcePxWidth", "");
+    expect(root.querySelector("#error-surface-0")!.textContent).toBe("");
+    expect(root.querySelector("#guidance-host")!.textContent).not.toContain("px/cm");
+  });
+
   it("round-trips source dimensions through save and load", () => {
     localStorage.clear();
     const root = mount();

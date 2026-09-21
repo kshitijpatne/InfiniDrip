@@ -108,6 +108,16 @@ describe("surfaceGuidance with piece frames", () => {
       text: expect.stringContaining("extends beyond the front piece"),
     }]);
   });
+  it("targets the vertical offset when only the centre leaves vertically", () => {
+    const book = surfaceAdd(EMPTY_BOOK, "tee/A", "A", placement({
+      transform: { ...EMPTY_TRANSFORM, dy: 500 },
+    }));
+    expect(surfaceGuidance(book, "tee/A", "A", frames)).toEqual([{
+      level: "warn",
+      field: "surface-0-dy",
+      text: expect.stringContaining("extends beyond the front piece"),
+    }]);
+  });
   it("targets scale when an oversized artwork overhangs from inside", () => {
     const book = surfaceAdd(EMPTY_BOOK, "tee/A", "A", placement({
       transform: { ...EMPTY_TRANSFORM, scale: 10 },
@@ -121,12 +131,22 @@ describe("surfaceGuidance with piece frames", () => {
       placement({ sourcePxWidth: 200, sourcePxHeight: 200 }));
     expect(surfaceGuidance(low, "tee/A", "A", frames)).toEqual([{
       level: "warn",
-      field: "surface-0-sourcePxWidth",
+      field: "surface-0-sourcePxHeight",
       text: expect.stringContaining("about 8 px/cm"),
     }]);
     const fine = surfaceAdd(EMPTY_BOOK, "tee/A", "A",
       placement({ sourcePxWidth: 1200, sourcePxHeight: 1500 }));
     expect(surfaceGuidance(fine, "tee/A", "A", frames)).toEqual([]);
+  });
+  it("focuses the lower-resolution source dimension", () => {
+    const lowHeight = surfaceAdd(EMPTY_BOOK, "tee/A", "A",
+      placement({ sourcePxWidth: 1200, sourcePxHeight: 200 }));
+    expect(surfaceGuidance(lowHeight, "tee/A", "A", frames)[0].field)
+      .toBe("surface-0-sourcePxHeight");
+    const lowWidth = surfaceAdd(EMPTY_BOOK, "tee/A", "A",
+      placement({ widthCm: 25, heightCm: 20, sourcePxWidth: 200, sourcePxHeight: 1200 }));
+    expect(surfaceGuidance(lowWidth, "tee/A", "A", frames)[0].field)
+      .toBe("surface-0-sourcePxWidth");
   });
   it("warns at full coverage and stays silent below it", () => {
     const full = surfaceAdd(EMPTY_BOOK, "tee/A", "A",

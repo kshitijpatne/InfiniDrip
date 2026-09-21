@@ -1,10 +1,25 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 154 garment-expansion research synthesis, 2026-09-20.
+_Last updated: post-merge PR audit and surface-guidance repair, 2026-09-21.
 Epics 7, 9 and 10 are implemented, Codex-reviewed, documented and pushed to
 `origin/main`. The Epic 11 merge gate is therefore satisfied, but implementation
 has not started. Physical validation and production readiness remain
 unverified._
+
+### Post-merge PR audit — 2026-09-21
+
+GitHub PRs #7, #8 and #9 were reviewed as one stacked chain: Slice 128
+guidance, Slice 129's cross-garment exit audit, and Slice 130's measured
+surface guidance. Their heads were already ancestors of `origin/main` through
+Codex's reviewed Epic 6 integration at `f92e28f`; merging them now would be an
+empty duplicate. They were closed as superseded after the final audit.
+
+The audit repaired one real edge case from Slice 130: clearing an optional
+source-pixel field now removes the optional value and returns to unknown,
+rather than storing `NaN` and showing a false error. Guidance Review focus now
+selects the vertical offset when only Y leaves the frame and selects whichever
+source dimension is actually resolution-limiting. The repair preserves the
+warn-only, no-gating contract and all export baselines.
 
 ## Current work — post-Epic 6 planning
 

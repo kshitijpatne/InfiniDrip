@@ -246,6 +246,13 @@ with control-resolution keys for Review focus. Source pixel dimensions remain
 optional persisted fields; absent means unratable, never a failure. No
 save-format version change or export gating change was introduced.
 
+The 2026-09-21 post-merge audit preserves that optional-field contract at the
+UI boundary: clearing a source-dimension control removes the field instead of
+creating `NaN`. Review focus chooses `dy` when only the artwork centre is
+vertically out of frame and chooses the lower-resolution source axis when the
+resolution warning is asymmetric. These are guidance/input repairs only; the
+surface layer remains warn-only and additive.
+
 Slice 130 closes the Epic with the completed guidance boundary after Slice
 129's cross-garment exit audit. One style's artwork is exercised end to end on
 all seven garments through the real mounted app; the surface architecture

@@ -310,3 +310,14 @@ focus, both new exports, four responsive widths, and a clean console. No
 physical-fit, drape, sewability, manufacturing, or production-readiness claim
 is made. Codex's verified code integration commit is `f92e28f`, and all Slice
 127–130 contributor heads are ancestors of the pushed `origin/main`.
+
+### Post-merge PR audit — 2026-09-21
+
+GitHub PRs #7, #8 and #9 are the already-integrated stacked Slice 128–130
+heads; each is an ancestor of the reviewed `origin/main` integration and none
+has a remaining diff to merge. Codex closed them as superseded rather than
+creating duplicate merge commits. The audit repaired optional source-dimension
+clearing (`""` returns to absent/unknown instead of `NaN`) and made guidance
+focus the actual vertical offset or resolution-limiting axis. The full current
+gate passes 101 files / 1,378 tests, 100% statements, branches, functions and
+lines, typecheck and build; export baselines remain unchanged.
