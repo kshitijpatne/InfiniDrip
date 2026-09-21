@@ -1,7 +1,7 @@
 # EPIC 8 — True-Shape Nesting Proof and Controlled Redesign
 
-Status: **SCOPED RESEARCH RECOMMENDATION - IMPLEMENTATION AWAITING
-MAINTAINER SCHEDULING AND ADMISSION DECISIONS**
+Status: **SLICE 162 COMPLETE AS A PROOF-CONTRACT / NO-RUNTIME-ADMISSION
+DECISION. A SOLVER, WASM OR RUNTIME DEPENDENCY REMAINS UNAUTHORIZED.**
 
 Owner: **Codex**. OpenCode or Claude Code may assist only with isolated,
 bounded benchmark/documentation work under `docs/OPENCODE-WORKFLOW.md`.
@@ -90,6 +90,11 @@ Owner/model: Codex; Sol-high for contract/legal-boundary review, Luna-max for
 mechanical fixture work.
 
 ### Slice 163 — owned flattening and solver adapter proof
+
+**Blocked by Slice 162 runtime-admission gates.** The original scope cannot
+start until a separate artifact-and-worker reproducibility packet supplies the
+owned lockfile, full notice/source plan, offline build provenance and contained
+worker evidence recorded in `docs/research/EPIC-8-SLICE-162-ADMISSION.md`.
 
 Convert eligible `FlatPiece` cut/sew loops into the pinned solver input without
 mutating source pieces. Preserve role/name/size identity and explicit grain,

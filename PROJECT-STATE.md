@@ -131,9 +131,9 @@ separately authorized promotion.
 
 ## Current work — post-Epic 6 planning
 
-### Epic 8 — true-shape nesting proof scoped, implementation not authorized
+### Epic 8 — true-shape nesting proof admission contract complete; runtime blocked
 
-The reserved Epic 8 slot now has a bounded Codex-authored recommendation in
+The reserved Epic 8 slot has a bounded Codex-authored recommendation in
 `docs/planning/EPIC-8-EXECUTION.md`, supported by
 `docs/research/NESTING-REDESIGN-RESEARCH.md`. It evaluates an isolated,
 fixed-seed Sparrow/Jagua Rust/WASM worker against the completed Epic 7 nesting
@@ -142,12 +142,19 @@ and unconditional fallback. The candidate may return transforms only; owned
 InfiniDrip validation must enforce finite geometry, overlap, clearance, width,
 grain, fold, nap, pair/mirror, quantity and identity rules.
 
-The packet is a research/scoping result, not an implementation start. Exact
-upstream revisions, transitive license/notice obligations, truthful current
-recipe fold/quantity semantics, worker packaging and benchmark thresholds must
-pass before a runtime dependency or export/UI path is admitted. A proof-only or
-no-go exit is acceptable. Provisional slices are 162–169 after the reserved
-Epic 11 range 155–161; scheduling remains the product owner's decision.
+Slice 162 is complete at `src/export/nesting-proof-contract.ts` with focused
+100%-covered contract tests and the durable record
+`docs/research/EPIC-8-SLICE-162-ADMISSION.md`. It records exact candidate
+revisions and confirms Sparrow's MIT / Jagua-RS's MPL-2.0 posture. The contract
+only admits explicit one-material, non-fold, non-mirrored physical pieces and
+rejects unknown facts. It changes no current behavior.
+
+No runtime dependency, exported artifact, solver adapter, worker, UI or export
+path is admitted: the selected source lacks an owned locked artifact tree and
+the project has not yet supplied full notices, MPL source availability,
+reproducible offline build provenance, or worker failure containment. Slice 163
+is therefore blocked pending a separately scoped artifact-and-worker packet;
+a proof-only/no-go exit remains valid. Provisional later slices stay 163–169.
 
 ### Slice 154 — garment-expansion research wave complete
 

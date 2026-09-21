@@ -525,13 +525,18 @@ with planning state present.
 
 ### Epic 8 planned boundary — true-shape nesting proof
 
-Epic 8 is scoped, not implemented. Its packet is
+Epic 8 has an implemented, isolated Slice 162 proof contract but no solver
+runtime. Its packet is
 `docs/planning/EPIC-8-EXECUTION.md` and its research record is
-`docs/research/NESTING-REDESIGN-RESEARCH.md`. The only admissible first step is
-an isolated proof around the completed Epic 7 contract: a pinned Sparrow/Jagua
-Rust/WASM worker may receive an InfiniDrip-owned flattened instance and return
-candidate transforms, seed and diagnostics. It may not become drafting truth,
-replace `nestPieces`, mutate pieces, or bypass export validation.
+`docs/research/NESTING-REDESIGN-RESEARCH.md`; the completed admission record is
+`docs/research/EPIC-8-SLICE-162-ADMISSION.md`. The additive
+`nesting-proof-contract.ts` represents only an explicit single-material,
+non-fold, non-mirrored, finite-loop subset and rejects unknown facts. A pinned
+Sparrow/Jagua Rust/WASM worker remains conditional on the later owned artifact,
+notices, source-availability and offline-build packet. If ever admitted, it
+may receive an InfiniDrip-owned flattened instance and return candidate
+transforms, seed and diagnostics. It may not become drafting truth, replace
+`nestPieces`, mutate pieces, or bypass export validation.
 
 InfiniDrip remains authoritative for cut/sew loops, piece identity, marks,
 folds, quantities, grain, nap, mirrored pairs, clearance, bounds and overlap.

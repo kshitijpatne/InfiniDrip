@@ -67,8 +67,8 @@ planning surface for Codex after the completed Epic 6 integration.
 | **Done / gate recorded** | **EPIC 10 — Quality and adversarial hardening (Slices 140–146)** | **Complete — Claude contributed; Codex repaired, reviewed, and pushed** | 99 files / 1,330 tests, 100% coverage, seeded properties, test-only oracle, seven recipes, old-save compatibility, permanent fixtures, bounded concave-offset repair; no baseline movement |
 | **Done / gate recorded** | **EPIC 7 — Nesting Intelligence Pack (Slices 132–134)** | **Complete — OpenCode contributed; Codex reviewed and pushed** | Additive metrics/UI/persistence around `nestPieces`; exact 10% buffer, 0–50% bounds, optional fabric-on-hand, truthful directional flag; `origin/main` `db14b63`; no geometry or export changes |
 | **Done / research-only** | **Garment-expansion research wave (Slices 149–154)** | **Complete — Codex-owned; Claude contributed two isolated packets** | Four garment records plus binding synthesis; no implementation authorized |
-| **Next / packet ready** | **EPIC 11 — Polo V2 fidelity refinement (Slice 148, implementation Slices 155–161)** | **Codex-owned; Epic 7 gate satisfied; awaiting scheduling** | Shaped neckline-derived collar/stand, back preview, placket-base marks, side vents and adjustable back drop |
-| **Scoped / reserved** | **EPIC 8 — True-shape nesting proof and controlled redesign (provisional Slices 162–169)** | **Codex-owned packet; implementation not authorized** | Isolated Sparrow/Jagua proof, owned apparel validator, deterministic shelf fallback, benchmark and conditional promotion gates |
+| **Done / gate recorded** | **EPIC 11 — Polo V2 fidelity refinement (Slices 155–161)** | **Complete — Codex reviewed and pushed** | Shaped neckline-derived collar/stand, back preview, placket-base marks, side vents and adjustable back drop; see `docs/release/EPIC-11-EXIT-REPORT.md` |
+| **In progress / runtime blocked** | **EPIC 8 — True-shape nesting proof and controlled redesign (Slice 162 done; provisional 163–169)** | **Codex-owned; contract admitted, external runtime withheld** | One-material/non-fold/non-mirrored proof contract; an owned artifact, MPL notice/source and offline-worker packet must precede any Sparrow/Jagua invocation |
 | **Next** | **Surface v1 stabilization** — follow-up only for a reproducible defect or real user evidence | **Conditional** | Epic 6 exit evidence plus a concrete failure; no speculative polish |
 | **Later / researched** | **Garment candidates** — shorts → sweatshirt → jogger → pullover hoodie → rigid jeans | **Packets researched; execution packets still required** | Shared stretched-join and lower-body boundaries in `GARMENT-EXPANSION-SYNTHESIS.md`; do not start from the research record alone |
 | **Later / blocked** | **Physical fit validation** | **Blocked by maintainer constraint** | No manufacturer/printer is available; no sewn-fit claim or schedule until explicitly reopened |
@@ -77,14 +77,14 @@ planning surface for Codex after the completed Epic 6 integration.
 
 ### Codex next-work options
 
-Epics 7, 9 and 10 and the garment research wave are complete. Current choices:
+Epics 7, 9, 10 and 11 and the garment research wave are complete. Current
+choices:
 
-1. **EPIC 11 garment refinement.** The Polo V2 execution packet is ready and
-   its Epic 7 gate is satisfied. Slices 155–161 remain Codex-owned.
-2. **Epic 8 true-shape nesting proof.** Its reservation is now scoped as a
-   Sparrow/Jagua proof and controlled redesign, but implementation still waits
-   for license/artifact, fold/quantity, benchmark and promotion decisions.
-3. **Future garment execution packet.** If work after Polo is selected, scope
+1. **Epic 8 artifact/worker admission packet.** Slice 162 has established its owned
+   reject-by-default contract and withheld runtime admission. A separate
+   artifact/worker reproducibility packet is required before any Sparrow/Jagua
+   invocation; current nesting stays the product behavior.
+2. **Future garment execution packet.** If work after Polo is selected, scope
    casual shorts first. A separate upper-body sweatshirt geometry track may run
    in parallel only with disjoint files and serialized shared integration.
 4. **Conditional stabilization.** Act only on a reproducible Epic 6/7 defect or

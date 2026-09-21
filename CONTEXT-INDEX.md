@@ -146,6 +146,10 @@ snapshots; they are not current status.
 - `docs/research/NESTING-REDESIGN-RESEARCH.md` — Epic 8's 2026-09-21
   Sparrow/Jagua live recheck, apparel-constraint boundary, legal/runtime
   posture, pressure-tested alternatives and proof admission hypothesis.
+- `docs/research/EPIC-8-SLICE-162-ADMISSION.md` — completed proof-contract,
+  pinned-upstream and legal/runtime-admission record. It explicitly withholds
+  runtime/WASM admission pending an owned artifact, notice and offline-build
+  packet.
 - `docs/research/PUBLIC-WEB-PLATFORM-COST-RESEARCH.md` — costed web-launch,
   identity, feature-flag, delivery-governance and local Control Center proposal;
   research-only until a maintainer decision authorizes individual execution
