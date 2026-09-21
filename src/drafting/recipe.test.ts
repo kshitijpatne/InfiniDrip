@@ -29,11 +29,13 @@ describe("Polo recipe pipeline", () => {
     expect(POLO.styles.map((style) => style.name)).toEqual(["Classic polo", "Relaxed polo", "Longline polo"]);
     expect(POLO.options?.map((option) => option.id)).toEqual([
       "placketLength", "placketWidth", "standHeight", "collarLeafDepth",
-      "standFrontRise", "collarPointExtension",
+      "standFrontRise", "collarPointExtension", "sideVentDepth", "backHemDrop",
     ]);
     expect(POLO.poms.map((pom) => pom.label)).toEqual(expect.arrayContaining([
       "Finished placket length", "Finished placket width", "Button spacing",
-      "Finished collar stand height", "Finished pointed collar leaf",
+      "Finished collar stand height", "Finished pointed collar leaf", "Stand front rise",
+      "Collar point extension", "Front side-vent depth", "Front body length (HPS–hem)",
+      "Back body length (HPS–hem)", "Back hem drop",
     ]));
     expect(POLO.techPack.bom.find((row) => row.material === "Buttons")?.qty).toBe("3");
     expect(POLO.techPack.construction.join(" ")).toContain("knit-compatible stabilizer");

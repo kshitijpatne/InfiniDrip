@@ -1,7 +1,7 @@
 # EPIC 11 - Polo V2 Fidelity Refinement
 
-Status: **RESEARCH AND EXECUTION PACKET COMPLETE - EPIC 7 GATE SATISFIED;
-IMPLEMENTATION AWAITING SCHEDULING**
+Status: **IMPLEMENTATION IN PROGRESS - SLICES 155–158 COMPLETE; EPIC 7 GATE
+SATISFIED**
 
 Owner: **Codex**. External coding agents may assist only with bounded test or
 documentation work after Codex has supplied a slice packet. Codex owns geometry,
@@ -9,8 +9,8 @@ drafting, data contracts, review, repairs, integration and any push to
 `origin/main`.
 
 Scheduling note: the garment-expansion research wave completed Slices 149-154.
-Epic 11's unchanged implementation plan is Slices 155-161; no scope or
-acceptance criterion changed.
+Epic 11's unchanged implementation plan is Slices 155-161. Slices 155–158
+are complete; Slice 159 is next. No scope or acceptance criterion changed.
 
 Research authority: `docs/research/garments/POLO-V2-RESEARCH.md`.
 
@@ -25,8 +25,7 @@ shared output contract and legacy export hash.
 ## Start gate and parallel boundary
 
 Epic 7 completed and was pushed to `origin/main` at `db14b63`, satisfying item
-1 below. Implementation Slices 155-161 must not start until all of the
-following remain true at start time:
+1 below. Codex enforced the following start gate before Slice 155:
 
 1. Epic 7 Slices 132-134 are reviewed, merged and present on `origin/main`
    (**satisfied at `db14b63`**).
@@ -180,7 +179,7 @@ Status: complete. The existing slit and
 attachment interfaces remain exact, and the three new base marks are parsed in
 SVG, DXF, tiled PDF, A0 and projector outputs. Full project verification is
 102 files / 1,393 tests with 100% statements, branches, functions and lines.
-Vent-aware guidance remains coupled to Slice 158/159.
+Vent-aware guidance is implemented in Slice 158.
 
 ### Slice 158 - Side vents and dropped back hem
 
@@ -200,6 +199,18 @@ Non-goals: curved Polo hem, sleeve band, new material model or nesting changes.
 
 Owner/model: Codex, Sol high for topology and seam ownership. Gate: focused
 topology/allowance tests, cross-size stitches, parsed exports and full regression.
+
+Status: complete. `sideVentDepth` and `backHemDrop` are live Polo recipe
+options with the packet defaults and bounds. Zero vent/zero drop preserves the
+uninterrupted V1 edge topology; enabled vents stop the sewn `side` interfaces
+at aligned `ventTop` marks, expose open `vent` edges with a dedicated
+allowance, and extend only the back hem. Front/back body lengths and back drop
+are measured from the resulting pieces. Guidance covers collar issues, vent
+finishing and armhole reserve, placket proximity, back-drop relationships and
+seam mismatches without clamping. The focused Slice 158 suite is green; the
+full project gate is 102 files / 1,396 tests with 100% statements, branches,
+functions and lines. The woven-shirt vent path and all protected export hashes
+are unchanged.
 
 ### Slice 159 - Preview, controls, persistence and reports
 

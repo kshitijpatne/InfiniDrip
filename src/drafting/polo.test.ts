@@ -68,6 +68,34 @@ describe("Polo shell (Slice 69)", () => {
     expect(edgeLength(pieceEdge(rolePiece(draftPoloShell(STANDARD_M, { placketWidth: 4 }), "buttonPlacket"), "top"))).toBeCloseTo(10);
   });
 
+  it("keeps zero vent topology uninterrupted and splits enabled vents at aligned tops", () => {
+    const closed = draftPolo(STANDARD_M, { sideVentDepth: 0, backHemDrop: 0 });
+    expect(rolePiece(closed, "front").edges.map((edge) => edge.name)).toEqual([
+      "neckline", "shoulder", "armhole", "side", "hem", "centerFront",
+    ]);
+    expect(rolePiece(closed, "back").edges.map((edge) => edge.name)).toEqual([
+      "neckline", "shoulder", "armhole", "side", "hem", "centerBack",
+    ]);
+    expect(rolePiece(closed, "front").marks?.some((mark) => mark.name === "ventTop")).toBe(false);
+
+    const open = draftPolo(STANDARD_M);
+    const front = rolePiece(open, "front");
+    const back = rolePiece(open, "back");
+    expect(front.edges.map((edge) => edge.name)).toEqual([
+      "neckline", "shoulder", "armhole", "side", "vent", "hem", "centerFront",
+    ]);
+    expect(edgeEnd(pieceEdge(front, "side")).y).toBeCloseTo(64);
+    expect(edgeStart(pieceEdge(front, "vent")).y).toBeCloseTo(64);
+    expect(edgeEnd(pieceEdge(front, "vent")).y).toBeCloseTo(70);
+    expect(edgeStart(pieceEdge(back, "vent")).y).toBeCloseTo(64);
+    expect(edgeEnd(pieceEdge(back, "vent")).y).toBeCloseTo(71.5);
+    expect(edgeStart(pieceEdge(back, "hem")).y).toBeCloseTo(71.5);
+    expect(front.marks?.some((mark) => mark.name === "ventTop")).toBe(true);
+    expect(back.marks?.some((mark) => mark.name === "ventTop")).toBe(true);
+    expect(edgeLength(pieceEdge(front, "side"))).toBeCloseTo(edgeLength(pieceEdge(back, "side")));
+    expect(stitchChecks(open, open.stitches).every((result) => result.ok)).toBe(true);
+  });
+
   it("adds two collar layers and two stand layers, cut on fold, with every interface measured", () => {
     const block = draftPolo(STANDARD_M);
     expect(Object.keys(block.roles)).toEqual([
@@ -119,8 +147,12 @@ describe("Polo shell (Slice 69)", () => {
     expect(POLO_OPTION_DEFINITIONS).toEqual(expect.arrayContaining([
       expect.objectContaining({ id: "standFrontRise", defaultValue: 0.75, min: 0, max: 2, step: 0.25 }),
       expect.objectContaining({ id: "collarPointExtension", defaultValue: 1.5, min: 0.5, max: 3, step: 0.25 }),
+      expect.objectContaining({ id: "sideVentDepth", defaultValue: 6, min: 0, max: 15, step: 0.5 }),
+      expect.objectContaining({ id: "backHemDrop", defaultValue: 1.5, min: 0, max: 5, step: 0.5 }),
     ]));
-    expect(resolvePoloOptions()).toMatchObject({ standFrontRise: 0.75, collarPointExtension: 1.5 });
+    expect(resolvePoloOptions()).toMatchObject({
+      standFrontRise: 0.75, collarPointExtension: 1.5, sideVentDepth: 6, backHemDrop: 1.5,
+    });
 
     const low = draftPolo(STANDARD_M, { standFrontRise: 0, collarPointExtension: 0.5 });
     const high = draftPolo(STANDARD_M, { standFrontRise: 2, collarPointExtension: 3 });
@@ -142,23 +174,69 @@ describe("Polo shell (Slice 69)", () => {
     const block = draftPolo(STANDARD_M, invalid);
     expect(edgeLength(pieceEdge(rolePiece(block, "buttonPlacket"), "bottom"))).toBeCloseTo(12);
     const text = poloGuidance(block, STANDARD_M, invalid).map((note) => note.text).join("\n");
-    expect(text).toContain("outside V1's 2–4 cm range");
+    expect(text).toContain("outside the declared 2–4 cm range");
     expect(text).toContain("increase it to at least 14 cm");
     expect(text).toContain("Stand is deeper than the collar leaf");
   });
 
   it("warns before a long placket runs into the hem allowance", () => {
     const m = { ...STANDARD_M, length: 30 };
-    const text = poloGuidance(draftPolo(m, { placketLength: 21 }), m, { placketLength: 21 })
+    const options = { placketLength: 21, sideVentDepth: 0, backHemDrop: 0 };
+    const text = poloGuidance(draftPolo(m, options), m, options)
       .map((note) => note.text).join("\n");
     expect(text).toContain("reaches the hem allowance");
+  });
+
+  it("reports every crossed Polo collar, vent, drop, and seam risk with a correction", () => {
+    const short = { ...STANDARD_M, length: 26 };
+    const crossed = {
+      placketLength: 30, placketWidth: 5, standHeight: 1, collarLeafDepth: 4,
+      standFrontRise: 2, collarPointExtension: 3, sideVentDepth: 2, backHemDrop: 5,
+    };
+    const text = poloGuidance(draftPolo(short, crossed), short, crossed).map((note) => note.text).join("\n");
+    expect(text).toContain("exceeds stand height");
+    expect(text).toContain("overwhelms the leaf depth");
+    expect(text).toContain("too shallow to finish");
+    expect(text).toContain("reaches the upper body");
+    expect(text).toContain("exceeds the side vent depth");
+    expect(text).toContain("front vent region");
+
+    const negativeCollar = { standHeight: -1 };
+    const negativeText = poloGuidance(draftPolo(STANDARD_M, negativeCollar), STANDARD_M, negativeCollar)
+      .map((note) => note.text).join("\n");
+    expect(negativeText).toContain("must be non-negative");
+
+    const noVent = { sideVentDepth: 0, backHemDrop: 1.5 };
+    const noVentText = poloGuidance(draftPolo(STANDARD_M, noVent), STANDARD_M, noVent)
+      .map((note) => note.text).join("\n");
+    expect(noVentText).toContain("vent is disabled");
+    expect(noVentText).toContain("Side seam (front ↔ back) measures");
+  });
+
+  it("reports live V2 POMs for rise, point, vent, separate lengths, and drop", () => {
+    const block = draftPolo(STANDARD_M);
+    const value = (label: string) => POLO_POMS.find((pom) => pom.label === label)!.measure(block);
+    expect(value("Finished placket length")).toBeCloseTo(14, 3);
+    expect(value("Finished placket width")).toBeCloseTo(3, 3);
+    expect(value("Button spacing")).toBeCloseTo(3.5, 3);
+    expect(value("Finished collar stand height")).toBeCloseTo(2, 3);
+    expect(value("Finished pointed collar leaf")).toBeCloseTo(5, 3);
+    expect(value("Stand front rise")).toBeCloseTo(0.75, 3);
+    expect(value("Collar point extension")).toBeCloseTo(1.5, 3);
+    expect(value("Front side-vent depth")).toBeCloseTo(6, 3);
+    expect(value("Front body length (HPS–hem)")).toBeCloseTo(70, 3);
+    expect(value("Back body length (HPS–hem)")).toBeCloseTo(71.5, 3);
+    expect(value("Back hem drop")).toBeCloseTo(1.5, 3);
+
+    const closed = draftPolo(STANDARD_M, { sideVentDepth: 0, backHemDrop: 0 });
+    expect(POLO_POMS.find((pom) => pom.label === "Front side-vent depth")!.measure(closed)).toBe(0);
   });
 
   it("declares no allowance on folds and real allowance on stand, collar, and placket edges", () => {
     expect(POLO_ALLOWANCES.byEdge).toMatchObject({
       centerFront: 0, centerBack: 0, attachmentRaw: 1, neckline: 1, collar: 1,
       backNeckline: 1, frontNeckline: 1, backCollar: 1, frontCollar: 1,
-      backCollarBase: 1, frontCollarBase: 1, frontTip: 1,
+      backCollarBase: 1, frontCollarBase: 1, vent: 1, frontTip: 1,
     });
     expect(POLO_NOTCHES.filter(({ pieceName }) => pieceName.includes("collar") || pieceName.includes("stand")))
       .toHaveLength(4);

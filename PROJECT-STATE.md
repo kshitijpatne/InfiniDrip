@@ -1,10 +1,10 @@
 # InfiniDrip — Project State
 
-_Last updated: Epic 11 Slice 157, 2026-09-21.
+_Last updated: Epic 11 Slice 158, 2026-09-21.
 Epics 7, 9 and 10 are implemented, Codex-reviewed, documented and pushed to
-`origin/main`. Epic 11 implementation has now started with the additive pure
-collar/stand geometry contract; physical validation and production readiness
-remain unverified._
+`origin/main`. Epic 11 implementation has completed the shaped collar/stand,
+placket-base and vent/drop drafting slices; preview integration, physical
+validation and production readiness remain unverified._
 
 ### Post-merge PR audit — 2026-09-21
 
@@ -61,6 +61,20 @@ attachment stitches, while its live slit base now emits two diagonal
 change was introduced. Focused drafting and parsed SVG/DXF/PDF/projector tests
 pass. The complete gate is 102 files / 1,393 tests with 100% statements,
 branches, functions and lines. No physical-fit claim is made.
+
+### Slice 158 — side vents and dropped back hem complete
+
+Polo now exposes `sideVentDepth` (default 6 cm, 0–15 cm) and `backHemDrop`
+(default 1.5 cm, 0–5 cm) as live recipe options. Zero vent plus zero drop
+returns the original uninterrupted side/hem topology; an enabled vent splits
+each body at an aligned `ventTop` mark, leaves the open `vent` edge out of the
+sewn side interface, and extends only the back hem by the selected drop.
+Separate front/back body-length and back-drop POMs read the drafted geometry.
+Polo guidance now reports collar-curve issues, vent finishing/armhole/drop
+conflicts, placket proximity and seam-length mismatches without changing raw
+values. The woven-shirt vent code was not modified. The full gate is 102 files
+/ 1,396 tests with 100% statements, branches, functions and lines. Strict
+TypeScript and the production build also pass. No physical-fit claim is made.
 
 ## Current work — post-Epic 6 planning
 

@@ -549,15 +549,17 @@ evidence, bounded runtime/memory, offline packaging and exact dependency
 notices. This boundary does not claim physical fit, production-marker quality,
 sewability or guaranteed material savings.
 
-### Epic 11 planned boundary — Polo V2 fidelity
+### Epic 11 implementation boundary — Polo V2 fidelity
 
 The binding research and execution records are
 `docs/research/garments/POLO-V2-RESEARCH.md` and
 `docs/planning/EPIC-11-EXECUTION.md`. Epic 7 is merged and reviewed, so that
-gate is satisfied. Slice 155 now provides the additive pure geometry contract;
-the remaining slices may wire it into Polo drafting, rendering, guidance,
-persistence and outputs. Epic 11 never changes the nesting estimator or
-planning-state semantics.
+gate is satisfied. Slices 155–158 now wire the shaped collar/stand,
+placket-base marks, vent topology, dropped back hem, POMs and actionable
+guidance into Polo drafting. Slices 159–161 remain for preview/UI/persistence
+and report integration, the cross-surface/export pressure matrix and the final
+exit handoff. Epic 11 never changes the nesting estimator or planning-state
+semantics.
 
 Polo V2 remains the existing `polo` recipe and the ordinary composed `Block`
 pipeline. Its redesign replaces the V1 rectangular stand/collar with shaped
@@ -570,12 +572,17 @@ proof.
 
 The Slice 155 contract consumes the real front/back neckline `Edge` values,
 returns measured lower/upper stand paths and equal collar bases, and records
-CB/shoulder/CF landmarks on every path. Slice 156 now maps those paths into
-the four physical cut-on-fold stand/collar roles and uses multi-edge interfaces
-for the real front/back and upper-stand seams. Finite invalid combinations
-remain visible through issue records; non-finite source geometry has no
-fabricated fallback. Preview, persistence, vents and placket-base marks remain
-later slice boundaries.
+CB/shoulder/CF landmarks on every path. Slice 156 maps those paths into the
+four physical cut-on-fold stand/collar roles and uses multi-edge interfaces
+for the real front/back and upper-stand seams. Slice 157 adds the two diagonal
+placket-base clips and named reinforcement line. Slice 158 keeps the Polo
+lower-body transform local to `polo.ts`: zero vent/zero drop returns the
+original bodice topology; nonzero vents end the sewn `side` edge at aligned
+`ventTop` marks, add an open `vent` edge with its own allowance, and move only
+the back hem by `backHemDrop`. Finite invalid combinations remain visible
+through issue records and guidance; non-finite source geometry has no
+fabricated fallback. Preview, persistence and front/back schematic routing
+remain Slice 159 work.
 
 The nine physical Polo roles remain unchanged. The front retains its on-fold
 slit and named placket attachment interfaces; V2 adds the internal

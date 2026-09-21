@@ -9,12 +9,12 @@ import { GarmentOption } from "./options";
 import { Edge, Piece, edgeEnd, edgeLength, edgeStart, pieceEdge } from "./piece";
 import { lineMark, pointMark } from "./pattern-mark";
 import { sleeve as sleeveComponent } from "./sleeve";
-import { edgeRef, iface, markRef, Stitch } from "./stitch";
+import { edgeRef, iface, interfaceLength, markRef, stitchChecks, Stitch } from "./stitch";
 import { sleevedTopStitches } from "./tshirt-checks";
 import { AllowanceSpec } from "./allowance";
 import { Note } from "../guidance/note";
 import { sleevedTopGuidance } from "./tshirt-guidance";
-import { Pom, seam } from "./pom";
+import { Pom, seam, spanY } from "./pom";
 import { PieceNotches } from "./tshirt-notches";
 import { TSHIRT_NOTCHES } from "./tshirt-notches";
 import type { ComponentResult } from "./component";
@@ -28,6 +28,8 @@ export interface PoloOptions {
   readonly collarLeafDepth: number;
   readonly standFrontRise: number;
   readonly collarPointExtension: number;
+  readonly sideVentDepth: number;
+  readonly backHemDrop: number;
 }
 
 export const POLO_OPTION_DEFINITIONS: readonly GarmentOption[] = [
@@ -37,6 +39,8 @@ export const POLO_OPTION_DEFINITIONS: readonly GarmentOption[] = [
   { id: "collarLeafDepth", label: "Finished pointed collar leaf", defaultValue: 5, min: 4, max: 7, step: 0.5 },
   { id: "standFrontRise", label: "Stand front rise", defaultValue: 0.75, min: 0, max: 2, step: 0.25 },
   { id: "collarPointExtension", label: "Collar point extension", defaultValue: 1.5, min: 0.5, max: 3, step: 0.25 },
+  { id: "sideVentDepth", label: "Side vent depth", defaultValue: 6, min: 0, max: 15, step: 0.5 },
+  { id: "backHemDrop", label: "Back hem drop", defaultValue: 1.5, min: 0, max: 5, step: 0.5 },
 ];
 
 export const DEFAULT_POLO_OPTIONS: PoloOptions = {
@@ -46,6 +50,8 @@ export const DEFAULT_POLO_OPTIONS: PoloOptions = {
   collarLeafDepth: 5,
   standFrontRise: 0.75,
   collarPointExtension: 1.5,
+  sideVentDepth: 6,
+  backHemDrop: 1.5,
 };
 
 /** Uses a supplied live value verbatim. Guardrails report bad values; they do
@@ -58,6 +64,8 @@ export function resolvePoloOptions(values: Partial<PoloOptions> = {}): PoloOptio
     collarLeafDepth: finiteOr(values.collarLeafDepth, DEFAULT_POLO_OPTIONS.collarLeafDepth),
     standFrontRise: finiteOr(values.standFrontRise, DEFAULT_POLO_OPTIONS.standFrontRise),
     collarPointExtension: finiteOr(values.collarPointExtension, DEFAULT_POLO_OPTIONS.collarPointExtension),
+    sideVentDepth: finiteOr(values.sideVentDepth, DEFAULT_POLO_OPTIONS.sideVentDepth),
+    backHemDrop: finiteOr(values.backHemDrop, DEFAULT_POLO_OPTIONS.backHemDrop),
   };
 }
 
@@ -87,6 +95,7 @@ export const POLO_ALLOWANCES: AllowanceSpec = {
     frontCollar: 1,
     backCollarBase: 1,
     frontCollarBase: 1,
+    vent: 1,
     frontEnd: 1,
     frontTip: 1,
     outer: 1,
@@ -125,8 +134,47 @@ function placketPiece(
   };
 }
 
+/** Keep the Polo's lower-body topology local to the recipe. The woven shirt
+ * has its own curved-hem/vent contract; changing that shared-looking helper
+ * would silently alter its export bytes. With zero vent and zero drop this
+ * returns the original bodice object and therefore the original uninterrupted
+ * side/hem topology. */
+function poloBodyPiece(m: Measurements, position: "front" | "back", options: PoloOptions): Piece {
+  const drafted = bodice(m, { position }).pieces[position];
+  const backDrop = position === "back" ? options.backHemDrop : 0;
+  if (options.sideVentDepth === 0 && backDrop === 0) return drafted;
+
+  const side = pieceEdge(drafted, "side");
+  const hem = pieceEdge(drafted, "hem");
+  const center = pieceEdge(drafted, position === "front" ? "centerFront" : "centerBack");
+  const sideHem = point(edgeStart(hem).x, edgeStart(hem).y + backDrop);
+  const centerHem = point(edgeEnd(hem).x, edgeEnd(hem).y + backDrop);
+  const ventTop = point(edgeEnd(side).x, edgeEnd(side).y - options.sideVentDepth);
+  const ventEnabled = options.sideVentDepth !== 0;
+  const edges = drafted.edges.flatMap((edge): Edge[] => {
+    if (edge.name === "side") {
+      const sewnSide: Edge = { kind: "line", name: "side", start: edgeStart(edge), end: ventEnabled ? ventTop : sideHem };
+      return ventEnabled ? [sewnSide, { kind: "line", name: "vent", start: ventTop, end: sideHem }] : [sewnSide];
+    }
+    if (edge.name === "hem") {
+      return [{ kind: "line", name: "hem", start: sideHem, end: centerHem }];
+    }
+    if (edge.name === center.name) {
+      return [{ kind: "line", name: edge.name, start: centerHem, end: edgeEnd(edge) }];
+    }
+    return [edge];
+  });
+  return {
+    ...drafted,
+    edges,
+    marks: ventEnabled
+      ? [...(drafted.marks ?? []), pointMark("placementPoint", "ventTop", ventTop, "VENT TOP")]
+      : drafted.marks,
+  };
+}
+
 function poloFront(m: Measurements, options: PoloOptions): Piece {
-  const drafted = bodice(m, { position: "front" }).pieces.front;
+  const drafted = poloBodyPiece(m, "front", options);
   const neckline = pieceEdge(drafted, "neckline");
   const slitStart = edgeStart(neckline);
   const slitEnd = point(slitStart.x, slitStart.y + options.placketLength);
@@ -136,6 +184,7 @@ function poloFront(m: Measurements, options: PoloOptions): Piece {
   return {
     ...drafted,
     marks: [
+      ...(drafted.marks ?? []),
       pointMark("placementPoint", "centerFront", edgeStart(neckline), "CENTER FRONT"),
       pointMark("placementPoint", "shoulder", edgeEnd(neckline), "SHOULDER"),
       lineMark("cutLine", "placketOpening", slitStart, slitEnd, "CUT FRONT SLIT"),
@@ -146,12 +195,13 @@ function poloFront(m: Measurements, options: PoloOptions): Piece {
   };
 }
 
-function poloBack(m: Measurements): Piece {
-  const drafted = bodice(m, { position: "back" }).pieces.back;
+function poloBack(m: Measurements, options: PoloOptions): Piece {
+  const drafted = poloBodyPiece(m, "back", options);
   const neckline = pieceEdge(drafted, "neckline");
   return {
     ...drafted,
     marks: [
+      ...(drafted.marks ?? []),
       pointMark("placementPoint", "centerBack", edgeStart(neckline), "CENTER BACK"),
       pointMark("placementPoint", "shoulder", edgeEnd(neckline), "SHOULDER"),
     ],
@@ -177,7 +227,7 @@ export const POLO_SHELL_STITCHES = (): readonly Stitch[] => [
 export function draftPoloShell(m: Measurements, rawOptions: Partial<PoloOptions> = {}): Block {
   const options = resolvePoloOptions(rawOptions);
   const front = poloFront(m, options);
-  const back = poloBack(m);
+  const back = poloBack(m, options);
   const armhole = edgeLength(pieceEdge(front, "armhole")) + edgeLength(pieceEdge(back, "armhole"));
   const sleeve = sleeveComponent(m, { targetArmhole: armhole }).pieces.sleeve;
   return block({
@@ -292,24 +342,13 @@ const poloFrontComponent = (m: Measurements, options: PoloOptions): ComponentRes
   };
 };
 
-const poloBackComponent = (m: Measurements): ComponentResult => {
-  const back = bodice(m, { position: "back" });
-  const piece = back.pieces.back;
-  const neckline = pieceEdge(piece, "neckline");
+const poloBackComponent = (m: Measurements, options: PoloOptions): ComponentResult => {
+  const piece = poloBack(m, options);
   return {
-    ...back,
-    pieces: {
-      ...back.pieces,
-      back: {
-        ...piece,
-        marks: [
-          pointMark("placementPoint", "centerBack", edgeStart(neckline), "CENTER BACK"),
-          pointMark("placementPoint", "shoulder", edgeEnd(neckline), "SHOULDER"),
-        ],
-      },
-    },
+    pieces: { back: piece },
+    stitches: [],
     interfaces: {
-      ...back.interfaces,
+      armhole: iface(edgeRef("back", "armhole")),
       neckline: iface(edgeRef("back", "neckline")),
     },
   };
@@ -364,7 +403,7 @@ export const POLO_GRAMMAR = garmentGrammar(
   "polo",
   [
     componentNode("front", "polo-front", poloFrontComponent, (context) => resolvePoloOptions(context.options)),
-    componentNode("back", "bodice", poloBackComponent, () => ({})),
+    componentNode("back", "bodice", poloBackComponent, (context) => resolvePoloOptions(context.options)),
     componentNode(
       "sleeve",
       "sleeve",
@@ -414,7 +453,7 @@ export function poloGuidance(block: Block, m: Measurements, rawOptions: Partial<
   for (const definition of POLO_OPTION_DEFINITIONS) {
     const value = options[definition.id as keyof PoloOptions];
     if (value < definition.min || value > definition.max) {
-      notes.push({ field: `option-${definition.id}`, level: "warn", text: `${definition.label} (${value} cm) is outside V1's ${definition.min}–${definition.max} cm range — adjust it into that range.` });
+      notes.push({ field: `option-${definition.id}`, level: "warn", text: `${definition.label} (${value} cm) is outside the declared ${definition.min}–${definition.max} cm range — adjust it into that range.` });
     }
   }
   const minimumLength = BUTTON_CENTRES[BUTTON_CENTRES.length - 1] + MIN_BUTTON_END_CLEARANCE;
@@ -422,11 +461,46 @@ export function poloGuidance(block: Block, m: Measurements, rawOptions: Partial<
     notes.push({ field: "option-placketLength", level: "warn", text: `Placket (${options.placketLength} cm) is too short for the fixed button group — increase it to at least ${minimumLength} cm.` });
   }
   const frontNeckline = edgeStart(pieceEdge(block.roles.front, "neckline"));
-  if (frontNeckline.y + options.placketLength > m.length - 2) {
-    notes.push({ field: "option-placketLength", level: "warn", text: `Placket reaches the hem allowance — shorten it to ${Math.max(0, m.length - 2 - frontNeckline.y)} cm or less.` });
+  const frontVentTopY = edgeEnd(pieceEdge(block.roles.front, "side")).y;
+  if (frontNeckline.y + options.placketLength > frontVentTopY - 2) {
+    const target = Math.max(0, frontVentTopY - 2 - frontNeckline.y);
+    const region = options.sideVentDepth === 0 ? "hem allowance" : "front vent region";
+    notes.push({ field: "option-placketLength", level: "warn", text: `Placket reaches the ${region} — shorten it to ${target.toFixed(1)} cm or less.` });
   }
   if (options.standHeight > options.collarLeafDepth) {
     notes.push({ field: "option-standHeight", level: "warn", text: "Stand is deeper than the collar leaf — reduce stand height or increase collar leaf depth." });
+  }
+  const collarResult = buildPoloCollarGeometry({
+    front: pieceEdge(block.roles.front, "neckline"),
+    back: pieceEdge(block.roles.back, "neckline"),
+  }, options);
+  for (const issue of collarResult.issues) {
+    notes.push({
+      field: issue.field === "polo-collar" ? "polo-collar" : `option-${issue.field}`,
+      level: "warn",
+      text: issue.text,
+    });
+  }
+  if (options.sideVentDepth === 0 && options.backHemDrop > 0) {
+    notes.push({ field: "option-backHemDrop", level: "warn", text: "Back hem drop is positive while the vent is disabled — set back hem drop to 0 cm or enable a side vent." });
+  }
+  if (options.sideVentDepth > 0 && options.sideVentDepth < 3) {
+    notes.push({ field: "option-sideVentDepth", level: "warn", text: "Side vent is too shallow to finish cleanly — increase it to at least 3 cm or set it to 0 cm." });
+  }
+  const maximumVentDepth = Math.max(0, m.length - (m.armholeDepth + 4));
+  if (options.sideVentDepth > maximumVentDepth) {
+    notes.push({ field: "option-sideVentDepth", level: "warn", text: `Side vent reaches the upper body — reduce it to ${maximumVentDepth.toFixed(1)} cm or less so ${m.armholeDepth + 4} cm remains sewn below the armhole.` });
+  }
+  if (options.sideVentDepth > 0 && options.backHemDrop > options.sideVentDepth) {
+    notes.push({ field: "option-backHemDrop", level: "warn", text: `Back hem drop (${options.backHemDrop} cm) exceeds the side vent depth (${options.sideVentDepth} cm) — reduce the drop or increase the vent.` });
+  }
+  for (const [index, result] of stitchChecks(block, block.stitches).entries()) {
+    if (!result.ok) {
+      const stitch = block.stitches[index];
+      const measuredA = interfaceLength(block, stitch.a);
+      const measuredB = interfaceLength(block, stitch.b);
+      notes.push({ field: "polo-seam", level: "warn", text: `${stitch.label} measures ${measuredA.toFixed(1)} cm versus ${measuredB.toFixed(1)} cm — correct the named interface before sewing.` });
+    }
   }
   return notes;
 }
@@ -437,7 +511,7 @@ function markedPoint(block: Block, pieceRole: string, name: string): { readonly 
   return mark.at;
 }
 
-/** Polo keeps the tee's body/sleeve POMs and adds every new finished V1 fact. */
+/** Polo keeps the tee's body/sleeve POMs and adds every new finished V2 fact. */
 export const POLO_POMS: readonly Pom[] = [
   // Kept local rather than sharing the exported array by reference: a Polo
   // tech pack must remain self-contained if the tee later gains a tee-only POM.
@@ -476,6 +550,49 @@ export const POLO_POMS: readonly Pom[] = [
     label: "Finished pointed collar leaf",
     tolerance: 0.3,
     measure: (block) => seam(rolePiece(block, "upperCollar"), "centerBack"),
+  },
+  {
+    label: "Stand front rise",
+    tolerance: 0.2,
+    measure: (block) => {
+      const front = rolePiece(block, "front");
+      const back = rolePiece(block, "back");
+      const stand = rolePiece(block, "outerStand");
+      return edgeStart(pieceEdge(front, "neckline")).y - edgeStart(pieceEdge(back, "neckline")).y -
+        edgeStart(pieceEdge(stand, "frontNeckline")).y;
+    },
+  },
+  {
+    label: "Collar point extension",
+    tolerance: 0.2,
+    measure: (block) => {
+      const tip = pieceEdge(rolePiece(block, "upperCollar"), "frontTip");
+      return edgeEnd(tip).x - edgeStart(tip).x;
+    },
+  },
+  {
+    label: "Front side-vent depth",
+    tolerance: 0.3,
+    measure: (block) => {
+      const vent = rolePiece(block, "front").edges.find((edge) => edge.name === "vent");
+      return vent ? edgeLength(vent) : 0;
+    },
+  },
+  {
+    label: "Front body length (HPS–hem)",
+    tolerance: 1.3,
+    measure: (block) => spanY(rolePiece(block, "front"), { edge: "shoulder", at: "start" }, { edge: "hem", at: "start" }),
+  },
+  {
+    label: "Back body length (HPS–hem)",
+    tolerance: 1.3,
+    measure: (block) => spanY(rolePiece(block, "back"), { edge: "shoulder", at: "start" }, { edge: "hem", at: "start" }),
+  },
+  {
+    label: "Back hem drop",
+    tolerance: 0.2,
+    measure: (block) => edgeStart(pieceEdge(rolePiece(block, "back"), "hem")).y -
+      edgeStart(pieceEdge(rolePiece(block, "front"), "hem")).y,
   },
 ];
 
