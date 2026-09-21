@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: Epic 11 Slice 156, 2026-09-21.
+_Last updated: Epic 11 Slice 157, 2026-09-21.
 Epics 7, 9 and 10 are implemented, Codex-reviewed, documented and pushed to
 `origin/main`. Epic 11 implementation has now started with the additive pure
 collar/stand geometry contract; physical validation and production readiness
@@ -49,6 +49,17 @@ recipe options with the packet's defaults and bounds; existing placket seams,
 POMs and non-Polo paths remain unchanged. Preview, persistence, vents and
 placket-base marks remain in later slices. Focused drafting coverage is 25/25;
 the full project gate is 102 files / 1,392 tests with 100% statements,
+branches, functions and lines. No physical-fit claim is made.
+
+### Slice 157 — placket-base construction marks complete
+
+The on-fold Polo front retains the measured `placketOpening` and both exact
+attachment stitches, while its live slit base now emits two diagonal
+`placketBaseClipLeft` / `placketBaseClipRight` cut marks and a named
+`placketBaseReinforcement` box line. All three are derived from the existing
+1 cm attachment allowance; no exterior centre-front seam, gusset or button
+change was introduced. Focused drafting and parsed SVG/DXF/PDF/projector tests
+pass. The complete gate is 102 files / 1,393 tests with 100% statements,
 branches, functions and lines. No physical-fit claim is made.
 
 ## Current work — post-Epic 6 planning

@@ -27,6 +27,8 @@ describe("Slice 73 — Polo PDF readiness", () => {
     const doc = await parsePdf(text);
     expect(doc.getPageCount()).toBeGreaterThan(0);
     expect(streamText(doc)).toContain("CUT FRONT SLIT");
+    expect(streamText(doc)).toContain("CLIP PLACKET BASE LEFT");
+    expect(streamText(doc)).toContain("REINFORCE PLACKET BASE BOX");
   });
 
   it("keeps every Polo piece and calibration evidence in parsed A0", async () => {
@@ -37,6 +39,8 @@ describe("Slice 73 — Polo PDF readiness", () => {
     expect(text).toContain("(10 cm) Tj");
     for (const piece of pieces) expect(text).toContain(`(${piece.name.toUpperCase()}) Tj`);
     expect(text).toContain("CUT FRONT SLIT");
+    expect(text).toContain("CLIP PLACKET BASE RIGHT");
+    expect(text).toContain("REINFORCE PLACKET BASE BOX");
   });
 
   it("keeps Polo POM/BOM evidence in the four-page parsed tech pack", async () => {

@@ -578,9 +578,11 @@ fabricated fallback. Preview, persistence, vents and placket-base marks remain
 later slice boundaries.
 
 The nine physical Polo roles remain unchanged. The front retains its on-fold
-slit and named placket attachment interfaces; V2 adds internal diagonal base
-clip lines and reinforcement/box cues rather than an exterior centre-front seam
-or extra piece. The body side edge becomes a sewn interface ending at aligned
+slit and named placket attachment interfaces; V2 adds the internal
+`placketBaseClipLeft`, `placketBaseClipRight` and
+`placketBaseReinforcement` marks derived from the existing 1 cm attachment
+allowance rather than an exterior centre-front seam or extra piece. The body
+side edge becomes a sewn interface ending at aligned
 vent-top marks, followed by open vent edges. Only the back hem extends by the
 selected drop. Zero vent depth restores the uninterrupted V1 side/hem topology
 instead of emitting zero-length edges.

@@ -176,6 +176,12 @@ or adding a gusset.
 Owner/model: Codex; Luna max is sufficient after a short Sol-high contract
 review. Gate: pattern-mark writer matrix, parsed outputs and full regression.
 
+Status: complete. The existing slit and
+attachment interfaces remain exact, and the three new base marks are parsed in
+SVG, DXF, tiled PDF, A0 and projector outputs. Full project verification is
+102 files / 1,393 tests with 100% statements, branches, functions and lines.
+Vent-aware guidance remains coupled to Slice 158/159.
+
 ### Slice 158 - Side vents and dropped back hem
 
 Scope: implement the vent/open-edge topology and back-drop options while

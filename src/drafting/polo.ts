@@ -69,7 +69,7 @@ const BUTTON_CENTRES = [3.5, 7, 10.5] as const;
 const PLACKET_SEAM_ALLOWANCE = 1;
 const MIN_BUTTON_END_CLEARANCE = 3.5;
 
-/** V1 Polo's production allowances. Internal fold/attachment marks have no
+/** Polo's production allowances. Internal fold/attachment marks have no
  * allowance themselves: their surrounding sew-outline edges own it. */
 export const POLO_ALLOWANCES: AllowanceSpec = {
   default: 1,
@@ -130,13 +130,18 @@ function poloFront(m: Measurements, options: PoloOptions): Piece {
   const neckline = pieceEdge(drafted, "neckline");
   const slitStart = edgeStart(neckline);
   const slitEnd = point(slitStart.x, slitStart.y + options.placketLength);
+  const clipSpan = PLACKET_SEAM_ALLOWANCE;
+  const clipUpper = point(slitEnd.x + clipSpan, slitEnd.y - clipSpan);
+  const clipLower = point(slitEnd.x + clipSpan, slitEnd.y + clipSpan);
   return {
     ...drafted,
     marks: [
       pointMark("placementPoint", "centerFront", edgeStart(neckline), "CENTER FRONT"),
       pointMark("placementPoint", "shoulder", edgeEnd(neckline), "SHOULDER"),
       lineMark("cutLine", "placketOpening", slitStart, slitEnd, "CUT FRONT SLIT"),
-      lineMark("placementLine", "placketReinforcement", point(slitStart.x, slitEnd.y), point(slitStart.x + 1.5, slitEnd.y), "REINFORCE SLIT BASE"),
+      lineMark("cutLine", "placketBaseClipLeft", slitEnd, clipUpper, "CLIP PLACKET BASE LEFT"),
+      lineMark("cutLine", "placketBaseClipRight", slitEnd, clipLower, "CLIP PLACKET BASE RIGHT"),
+      lineMark("placementLine", "placketBaseReinforcement", clipUpper, clipLower, "REINFORCE PLACKET BASE BOX"),
     ],
   };
 }

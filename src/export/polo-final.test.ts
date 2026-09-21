@@ -56,6 +56,9 @@ describe("Slice 73 — Polo cross-size readiness", () => {
     expect(svgDoc.querySelectorAll("polygon")).toHaveLength(pieces.length * 2);
     expect(svgDoc.querySelectorAll('[data-pattern-mark="button"]').length).toBe(3);
     expect(svgDoc.querySelectorAll('[data-pattern-mark="buttonhole"]').length).toBe(3);
+    for (const name of ["placketBaseClipLeft", "placketBaseClipRight", "placketBaseReinforcement"]) {
+      expect(svgDoc.querySelector(`[data-pattern-mark-name="${name}"]`)).not.toBeNull();
+    }
 
     const dxf = exportDxf(pieces, POLO.allowances);
     expect(dxf).toContain("MARK_CUTLINE");
@@ -75,6 +78,9 @@ describe("Slice 73 — Polo cross-size readiness", () => {
         .filter((text) => text.textContent?.startsWith(`${size.label} `));
       expect(pieceLabels).toHaveLength(9);
       expect(layer.querySelector('[data-pattern-mark-name="placketOpening"]')).not.toBeNull();
+      for (const name of ["placketBaseClipLeft", "placketBaseClipRight", "placketBaseReinforcement"]) {
+        expect(layer.querySelector(`[data-pattern-mark-name="${name}"]`)).not.toBeNull();
+      }
     }
     expect(doc.querySelectorAll('[data-pattern-mark="button"]')).toHaveLength(POLO.sizes.length * 3);
     expect(doc.querySelectorAll('[data-pattern-mark="buttonhole"]')).toHaveLength(POLO.sizes.length * 3);

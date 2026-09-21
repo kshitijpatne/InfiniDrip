@@ -29,6 +29,21 @@ describe("Polo shell (Slice 69)", () => {
     expect(slit).toMatchObject({ kind: "cutLine", start: { x: 0, y: 8 }, end: { x: 0, y: 22 } });
   });
 
+  it("derives two diagonal base clips and a named reinforcement box from the attachment allowance", () => {
+    const front = rolePiece(draftPoloShell(STANDARD_M), "front");
+    const mark = (name: string) => front.marks?.find((candidate) => candidate.name === name);
+    expect(mark("placketBaseClipLeft")).toMatchObject({
+      kind: "cutLine", start: { x: 0, y: 22 }, end: { x: 1, y: 21 },
+    });
+    expect(mark("placketBaseClipRight")).toMatchObject({
+      kind: "cutLine", start: { x: 0, y: 22 }, end: { x: 1, y: 23 },
+    });
+    expect(mark("placketBaseReinforcement")).toMatchObject({
+      kind: "placementLine", start: { x: 1, y: 21 }, end: { x: 1, y: 23 },
+    });
+    expect(front.marks?.some((candidate) => candidate.name === "placketReinforcement")).toBe(false);
+  });
+
   it("uses 3 cm finished faces, 14 cm attachment lines, and fixed button centres", () => {
     const placket = rolePiece(draftPoloShell(STANDARD_M), "buttonPlacket");
     expect(edgeLength(pieceEdge(placket, "top"))).toBeCloseTo(8);
