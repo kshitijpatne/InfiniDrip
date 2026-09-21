@@ -119,7 +119,7 @@ function mapEdge(edge: Edge, map: (value: Point) => Point, name = edge.name): Ed
   };
 }
 
-function reverseEdge(edge: Edge, name = edge.name): Edge {
+export function reversePoloEdge(edge: Edge, name = edge.name): Edge {
   if (edge.kind === "line") {
     return { kind: "line", name, start: edge.end, end: edge.start };
   }
@@ -165,9 +165,9 @@ function frontRiseEdge(edge: Edge, rise: number, name: string): Edge {
   };
 }
 
-/** Undo the front rise while lifting the upper seam by the chosen stand depth.
- * At centre-front the vertical gap is standHeight - standFrontRise, which is
- * the compatibility condition checked below. */
+/** Lift the upper seam by the chosen stand depth while retaining a subtle
+ * front-rise blend. Endpoints remain exactly standHeight apart; the interior
+ * control point is allowed to change the measured upper seam length. */
 function upperFrontEdge(edge: Edge, height: number, rise: number, name: string): Edge {
   if (edge.kind === "line") return translateEdge(edge, 0, -height, name);
   const curve = edge.curve;
@@ -178,7 +178,7 @@ function upperFrontEdge(edge: Edge, height: number, rise: number, name: string):
       start: point(curve.start.x, curve.start.y - height),
       control1: point(curve.control1.x, curve.control1.y - height),
       control2: point(curve.control2.x, curve.control2.y - height + rise),
-      end: point(curve.end.x, curve.end.y - height + rise),
+      end: point(curve.end.x, curve.end.y - height),
     },
   };
 }
@@ -338,7 +338,7 @@ export function buildPoloCollarGeometry(
     backEnd.x - backStart.x + (frontEnd.x - value.x),
     backEnd.y - backStart.y + (value.y - frontEnd.y),
   ), "frontNeckline");
-  const normalizedFront = reverseEdge(normalizedFrontForward, "frontNeckline");
+  const normalizedFront = reversePoloEdge(normalizedFrontForward, "frontNeckline");
   const frontRisen = frontRiseEdge(normalizedFront, options.standFrontRise, "frontNeckline");
   const frontTarget = edgeLength(neckline.front);
   const anchorX = edgeStart(frontRisen).x;

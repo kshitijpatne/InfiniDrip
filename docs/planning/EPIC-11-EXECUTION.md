@@ -152,6 +152,12 @@ Non-goals: previews, placket, vents, UI, physical collar-roll claims.
 Owner/model: Codex, Sol high. Gate: curve/allowance validation, stitch checks,
 parsed Polo SVG/DXF and full regression.
 
+Status: complete. The focused drafting gate is 25/25; the serial full project
+gate is 102 files / 1,392 tests with 100% statements, branches, functions and
+lines. The recipe remains nine roles, the four physical collar/stand roles
+remain cut on fold, and no export baseline or non-Polo path was intentionally
+changed.
+
 ### Slice 157 - Placket-base construction truth
 
 Scope: add two diagonal clip/cut marks and the named base reinforcement/box cue

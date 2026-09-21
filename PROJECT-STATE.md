@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: Epic 11 Slice 155, 2026-09-21.
+_Last updated: Epic 11 Slice 156, 2026-09-21.
 Epics 7, 9 and 10 are implemented, Codex-reviewed, documented and pushed to
 `origin/main`. Epic 11 implementation has now started with the additive pure
 collar/stand geometry contract; physical validation and production readiness
@@ -37,6 +37,19 @@ suite), strict TypeScript passes, and the
 unchanged full baseline gate is 101 files / 1,378 tests with 100% statements,
 branches, functions and lines. Slice 156 is next. No physical-fit claim is
 made.
+
+### Slice 156 — shaped collar and stand pieces complete
+
+The existing nine-role Polo recipe now consumes the actual front/back neckline
+edges through the Slice 155 contract. Outer/inner stands and upper/under collars
+are four real cut-on-fold pieces with measured curved seams, CB/shoulder/CF
+placement marks, explicit seam allowances, and collar bases copied from the
+measured upper stand. `standFrontRise` and `collarPointExtension` are live
+recipe options with the packet's defaults and bounds; existing placket seams,
+POMs and non-Polo paths remain unchanged. Preview, persistence, vents and
+placket-base marks remain in later slices. Focused drafting coverage is 25/25;
+the full project gate is 102 files / 1,392 tests with 100% statements,
+branches, functions and lines. No physical-fit claim is made.
 
 ## Current work — post-Epic 6 planning
 

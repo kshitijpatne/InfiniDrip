@@ -25,10 +25,11 @@ describe("the garment registry", () => {
 });
 
 describe("Polo recipe pipeline", () => {
-  it("is a loose polo with V1 controls, full POMs, and complete production data", () => {
+  it("is a loose polo with V2 collar controls, full POMs, and complete production data", () => {
     expect(POLO.styles.map((style) => style.name)).toEqual(["Classic polo", "Relaxed polo", "Longline polo"]);
     expect(POLO.options?.map((option) => option.id)).toEqual([
       "placketLength", "placketWidth", "standHeight", "collarLeafDepth",
+      "standFrontRise", "collarPointExtension",
     ]);
     expect(POLO.poms.map((pom) => pom.label)).toEqual(expect.arrayContaining([
       "Finished placket length", "Finished placket width", "Button spacing",

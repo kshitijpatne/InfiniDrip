@@ -6,7 +6,7 @@ import { Block, block, rolePiece } from "./block";
 import { bodice } from "./bodice";
 import { Measurements } from "./measurements";
 import { GarmentOption } from "./options";
-import { Piece, edgeLength, edgeStart, pieceEdge } from "./piece";
+import { Edge, Piece, edgeEnd, edgeLength, edgeStart, pieceEdge } from "./piece";
 import { lineMark, pointMark } from "./pattern-mark";
 import { sleeve as sleeveComponent } from "./sleeve";
 import { edgeRef, iface, markRef, Stitch } from "./stitch";
@@ -19,12 +19,15 @@ import { PieceNotches } from "./tshirt-notches";
 import { TSHIRT_NOTCHES } from "./tshirt-notches";
 import type { ComponentResult } from "./component";
 import { componentNode, composeBlock, garmentGrammar } from "./grammar";
+import { buildPoloCollarGeometry, PoloCollarGeometry, PoloNecklineInputs, reversePoloEdge } from "./polo-collar";
 
 export interface PoloOptions {
   readonly placketLength: number;
   readonly placketWidth: number;
   readonly standHeight: number;
   readonly collarLeafDepth: number;
+  readonly standFrontRise: number;
+  readonly collarPointExtension: number;
 }
 
 export const POLO_OPTION_DEFINITIONS: readonly GarmentOption[] = [
@@ -32,6 +35,8 @@ export const POLO_OPTION_DEFINITIONS: readonly GarmentOption[] = [
   { id: "placketWidth", label: "Finished placket width", defaultValue: 3, min: 2, max: 4, step: 0.5 },
   { id: "standHeight", label: "Finished stand height", defaultValue: 2, min: 1, max: 3, step: 0.5 },
   { id: "collarLeafDepth", label: "Finished pointed collar leaf", defaultValue: 5, min: 4, max: 7, step: 0.5 },
+  { id: "standFrontRise", label: "Stand front rise", defaultValue: 0.75, min: 0, max: 2, step: 0.25 },
+  { id: "collarPointExtension", label: "Collar point extension", defaultValue: 1.5, min: 0.5, max: 3, step: 0.25 },
 ];
 
 export const DEFAULT_POLO_OPTIONS: PoloOptions = {
@@ -39,6 +44,8 @@ export const DEFAULT_POLO_OPTIONS: PoloOptions = {
   placketWidth: 3,
   standHeight: 2,
   collarLeafDepth: 5,
+  standFrontRise: 0.75,
+  collarPointExtension: 1.5,
 };
 
 /** Uses a supplied live value verbatim. Guardrails report bad values; they do
@@ -49,6 +56,8 @@ export function resolvePoloOptions(values: Partial<PoloOptions> = {}): PoloOptio
     placketWidth: finiteOr(values.placketWidth, DEFAULT_POLO_OPTIONS.placketWidth),
     standHeight: finiteOr(values.standHeight, DEFAULT_POLO_OPTIONS.standHeight),
     collarLeafDepth: finiteOr(values.collarLeafDepth, DEFAULT_POLO_OPTIONS.collarLeafDepth),
+    standFrontRise: finiteOr(values.standFrontRise, DEFAULT_POLO_OPTIONS.standFrontRise),
+    collarPointExtension: finiteOr(values.collarPointExtension, DEFAULT_POLO_OPTIONS.collarPointExtension),
   };
 }
 
@@ -59,7 +68,6 @@ function finiteOr(value: number | undefined, fallback: number): number {
 const BUTTON_CENTRES = [3.5, 7, 10.5] as const;
 const PLACKET_SEAM_ALLOWANCE = 1;
 const MIN_BUTTON_END_CLEARANCE = 3.5;
-const COLLAR_TIP_FLARE = 1.5;
 
 /** V1 Polo's production allowances. Internal fold/attachment marks have no
  * allowance themselves: their surrounding sew-outline edges own it. */
@@ -73,6 +81,12 @@ export const POLO_ALLOWANCES: AllowanceSpec = {
     outerRaw: 1,
     neckline: 1,
     collar: 1,
+    backNeckline: 1,
+    frontNeckline: 1,
+    backCollar: 1,
+    frontCollar: 1,
+    backCollarBase: 1,
+    frontCollarBase: 1,
     frontEnd: 1,
     frontTip: 1,
     outer: 1,
@@ -119,8 +133,22 @@ function poloFront(m: Measurements, options: PoloOptions): Piece {
   return {
     ...drafted,
     marks: [
+      pointMark("placementPoint", "centerFront", edgeStart(neckline), "CENTER FRONT"),
+      pointMark("placementPoint", "shoulder", edgeEnd(neckline), "SHOULDER"),
       lineMark("cutLine", "placketOpening", slitStart, slitEnd, "CUT FRONT SLIT"),
       lineMark("placementLine", "placketReinforcement", point(slitStart.x, slitEnd.y), point(slitStart.x + 1.5, slitEnd.y), "REINFORCE SLIT BASE"),
+    ],
+  };
+}
+
+function poloBack(m: Measurements): Piece {
+  const drafted = bodice(m, { position: "back" }).pieces.back;
+  const neckline = pieceEdge(drafted, "neckline");
+  return {
+    ...drafted,
+    marks: [
+      pointMark("placementPoint", "centerBack", edgeStart(neckline), "CENTER BACK"),
+      pointMark("placementPoint", "shoulder", edgeEnd(neckline), "SHOULDER"),
     ],
   };
 }
@@ -144,7 +172,7 @@ export const POLO_SHELL_STITCHES = (): readonly Stitch[] => [
 export function draftPoloShell(m: Measurements, rawOptions: Partial<PoloOptions> = {}): Block {
   const options = resolvePoloOptions(rawOptions);
   const front = poloFront(m, options);
-  const back = bodice(m, { position: "back" }).pieces.back;
+  const back = poloBack(m);
   const armhole = edgeLength(pieceEdge(front, "armhole")) + edgeLength(pieceEdge(back, "armhole"));
   const sleeve = sleeveComponent(m, { targetArmhole: armhole }).pieces.sleeve;
   return block({
@@ -156,37 +184,67 @@ export function draftPoloShell(m: Measurements, rawOptions: Partial<PoloOptions>
   }, POLO_SHELL_STITCHES());
 }
 
-/** One half of a stand, cut on the centre-back fold. Its neckline edge is the
- * real front+back half-neckline length; unfolding produces one continuous
- * stand without an invented centre-back seam. */
-function standPiece(name: string, necklineLength: number, height: number): Piece {
+function namedEdge(edge: Edge, name: string): Edge {
+  return { ...edge, name };
+}
+
+function collarLandmarkMarks(geometry: PoloCollarGeometry, path: "lowerStand" | "collarBase"): readonly ReturnType<typeof pointMark>[] {
+  const labels = { centerBack: "CENTER BACK", shoulder: "SHOULDER", centerFront: "CENTER FRONT" } as const;
+  return geometry[path].landmarks.map((landmark) =>
+    pointMark("placementPoint", landmark.name, landmark.point, labels[landmark.name]));
+}
+
+/** One shaped stand half, cut on the centre-back fold. The lower seam is the
+ * actual body neckline; its two measured segments are reversed at the end of
+ * the outline so the piece remains a closed physical pattern. */
+function standPiece(name: string, geometry: PoloCollarGeometry): Piece {
+  const lower = geometry.lowerStand;
+  const upper = geometry.upperStand;
+  const lowerCenterBack = lower.landmarks[0].point;
+  const lowerCenterFront = lower.landmarks[2].point;
+  const upperCenterBack = upper.landmarks[0].point;
+  const upperCenterFront = upper.landmarks[2].point;
+  const upperBack = namedEdge(upper.segments[0], "backCollar");
+  const upperFront = namedEdge(upper.segments[1], "frontCollar");
+  const lowerFront = reversePoloEdge(lower.segments[1], "frontNeckline");
+  const lowerBack = reversePoloEdge(lower.segments[0], "backNeckline");
   return {
     name,
     onFold: true,
     edges: [
-      { kind: "line", name: "centerBack", start: point(0, height), end: point(0, 0) },
-      { kind: "line", name: "collar", start: point(0, 0), end: point(necklineLength, 0) },
-      { kind: "line", name: "frontEnd", start: point(necklineLength, 0), end: point(necklineLength, height) },
-      { kind: "line", name: "neckline", start: point(necklineLength, height), end: point(0, height) },
+      { kind: "line", name: "centerBack", start: lowerCenterBack, end: upperCenterBack },
+      upperBack,
+      upperFront,
+      { kind: "line", name: "frontEnd", start: upperCenterFront, end: lowerCenterFront },
+      lowerFront,
+      lowerBack,
     ],
-    marks: [lineMark("placementLine", "centerMatch", point(0, 0), point(0, height), "PLACE ON FOLD")],
+    marks: [
+      lineMark("placementLine", "centerMatch", lowerCenterBack, upperCenterBack, "PLACE ON FOLD"),
+      ...collarLandmarkMarks(geometry, "lowerStand"),
+    ],
   };
 }
 
-/** One half of a pointed collar leaf, also cut on the centre-back fold. The
- * base intentionally equals the stand's collar edge; only the outer edge
- * flares to make the two front tips. */
-function collarPiece(name: string, necklineLength: number, depth: number): Piece {
+/** One shaped pointed collar leaf, also cut on the centre-back fold. The
+ * measured upper stand seam is copied as the collar base; only its outer
+ * edges use the leaf-depth and point-extension options. */
+function collarPiece(name: string, geometry: PoloCollarGeometry): Piece {
+  const base = geometry.collarBase;
   return {
     name,
     onFold: true,
     edges: [
-      { kind: "line", name: "centerBack", start: point(0, depth), end: point(0, 0) },
-      { kind: "line", name: "stand", start: point(0, 0), end: point(necklineLength, 0) },
-      { kind: "line", name: "frontTip", start: point(necklineLength, 0), end: point(necklineLength + COLLAR_TIP_FLARE, depth) },
-      { kind: "line", name: "outer", start: point(necklineLength + COLLAR_TIP_FLARE, depth), end: point(0, depth) },
+      namedEdge(geometry.collar.centerBack, "centerBack"),
+      namedEdge(base.segments[0], "backCollarBase"),
+      namedEdge(base.segments[1], "frontCollarBase"),
+      namedEdge(geometry.collar.frontTip, "frontTip"),
+      namedEdge(geometry.collar.outer, "outer"),
     ],
-    marks: [lineMark("placementLine", "centerMatch", point(0, 0), point(0, depth), "PLACE ON FOLD")],
+    marks: [
+      lineMark("placementLine", "centerMatch", edgeEnd(geometry.collar.centerBack), edgeStart(geometry.collar.centerBack), "PLACE ON FOLD"),
+      ...collarLandmarkMarks(geometry, "collarBase"),
+    ],
   };
 }
 
@@ -194,18 +252,18 @@ function poloCollarStitches(): readonly Stitch[] {
   return [
     {
       label: "Outer stand ↔ polo neckline",
-      a: iface(edgeRef("outerStand", "neckline")),
+      a: iface(edgeRef("outerStand", "frontNeckline"), edgeRef("outerStand", "backNeckline")),
       b: iface(edgeRef("front", "neckline"), edgeRef("back", "neckline")),
     },
     {
       label: "Under collar ↔ outer stand",
-      a: iface(edgeRef("underCollar", "stand")),
-      b: iface(edgeRef("outerStand", "collar")),
+      a: iface(edgeRef("underCollar", "backCollarBase"), edgeRef("underCollar", "frontCollarBase")),
+      b: iface(edgeRef("outerStand", "backCollar"), edgeRef("outerStand", "frontCollar")),
     },
     {
       label: "Upper collar ↔ inner stand",
-      a: iface(edgeRef("upperCollar", "stand")),
-      b: iface(edgeRef("innerStand", "collar")),
+      a: iface(edgeRef("upperCollar", "backCollarBase"), edgeRef("upperCollar", "frontCollarBase")),
+      b: iface(edgeRef("innerStand", "backCollar"), edgeRef("innerStand", "frontCollar")),
     },
     {
       label: "Collar outer seam (upper ↔ under)",
@@ -231,8 +289,20 @@ const poloFrontComponent = (m: Measurements, options: PoloOptions): ComponentRes
 
 const poloBackComponent = (m: Measurements): ComponentResult => {
   const back = bodice(m, { position: "back" });
+  const piece = back.pieces.back;
+  const neckline = pieceEdge(piece, "neckline");
   return {
     ...back,
+    pieces: {
+      ...back.pieces,
+      back: {
+        ...piece,
+        marks: [
+          pointMark("placementPoint", "centerBack", edgeStart(neckline), "CENTER BACK"),
+          pointMark("placementPoint", "shoulder", edgeEnd(neckline), "SHOULDER"),
+        ],
+      },
+    },
     interfaces: {
       ...back.interfaces,
       neckline: iface(edgeRef("back", "neckline")),
@@ -254,20 +324,33 @@ const poloPlacketsComponent = (_m: Measurements, options: PoloOptions): Componen
 
 const poloCollarComponent = (
   _m: Measurements,
-  params: { readonly options: PoloOptions; readonly necklineLength: number },
-): ComponentResult => ({
-  pieces: {
-    outerStand: standPiece("outer collar stand", params.necklineLength, params.options.standHeight),
-    innerStand: standPiece("inner collar stand", params.necklineLength, params.options.standHeight),
-    upperCollar: collarPiece("upper pointed collar", params.necklineLength, params.options.collarLeafDepth),
-    underCollar: collarPiece("under pointed collar", params.necklineLength, params.options.collarLeafDepth),
-  },
-  stitches: [],
-  interfaces: {
-    neckline: iface(edgeRef("outerStand", "neckline")),
-    collar: iface(edgeRef("underCollar", "stand")),
-  },
-});
+  params: { readonly options: PoloOptions; readonly neckline: PoloNecklineInputs },
+): ComponentResult => {
+  const result = buildPoloCollarGeometry(params.neckline, params.options);
+  if (!result.geometry) {
+    throw new Error(result.issues.map((entry) => entry.text).join(" "));
+  }
+  const geometry = result.geometry;
+  return {
+    pieces: {
+      outerStand: standPiece("outer collar stand", geometry),
+      innerStand: standPiece("inner collar stand", geometry),
+      upperCollar: collarPiece("upper pointed collar", geometry),
+      underCollar: collarPiece("under pointed collar", geometry),
+    },
+    stitches: [],
+    interfaces: {
+      neckline: iface(
+        edgeRef("outerStand", "frontNeckline"),
+        edgeRef("outerStand", "backNeckline"),
+      ),
+      collar: iface(
+        edgeRef("underCollar", "backCollarBase"),
+        edgeRef("underCollar", "frontCollarBase"),
+      ),
+    },
+  };
+};
 
 /** The complete Polo grammar keeps the existing role order while making the
  * sleeve and collar lengths depend on the actual preceding interfaces. The
@@ -301,9 +384,10 @@ export const POLO_GRAMMAR = garmentGrammar(
       poloCollarComponent,
       (context) => ({
         options: resolvePoloOptions(context.options),
-        necklineLength:
-          context.interfaceLength("front", "neckline") +
-          context.interfaceLength("back", "neckline"),
+        neckline: {
+          front: pieceEdge(context.block.roles.front, "neckline"),
+          back: pieceEdge(context.block.roles.back, "neckline"),
+        },
       }),
       ["front", "back"],
     ),
@@ -406,12 +490,20 @@ export const POLO_NOTCHES: readonly PieceNotches[] = [
   },
   ...["outer collar stand", "inner collar stand"].map((pieceName) => ({
     pieceName,
-    notches: [{ edgeName: "frontEnd", t: 0.5 }],
-    grainline: { topEdge: "collar", topT: 0.5, bottomEdge: "neckline", bottomT: 0.5 },
+    notches: [
+      { edgeName: "backCollar", t: 0 },
+      { edgeName: "backCollar", t: 1 },
+      { edgeName: "frontCollar", t: 1 },
+    ],
+    grainline: { topEdge: "backCollar", topT: 0.5, bottomEdge: "backNeckline", bottomT: 0.5 },
   })),
   ...["upper pointed collar", "under pointed collar"].map((pieceName) => ({
     pieceName,
-    notches: [{ edgeName: "frontTip", t: 0.5 }],
-    grainline: { topEdge: "stand", topT: 0.5, bottomEdge: "outer", bottomT: 0.5 },
+    notches: [
+      { edgeName: "backCollarBase", t: 0 },
+      { edgeName: "backCollarBase", t: 1 },
+      { edgeName: "frontCollarBase", t: 1 },
+    ],
+    grainline: { topEdge: "backCollarBase", topT: 0.5, bottomEdge: "outer", bottomT: 0.5 },
   })),
 ];

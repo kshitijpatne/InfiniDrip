@@ -570,10 +570,12 @@ proof.
 
 The Slice 155 contract consumes the real front/back neckline `Edge` values,
 returns measured lower/upper stand paths and equal collar bases, and records
-CB/shoulder/CF landmarks on every path. Finite invalid combinations remain
-visible through issue records; non-finite source geometry has no fabricated
-fallback. Recipe, UI and export behavior remain unchanged until the later
-implementation slices.
+CB/shoulder/CF landmarks on every path. Slice 156 now maps those paths into
+the four physical cut-on-fold stand/collar roles and uses multi-edge interfaces
+for the real front/back and upper-stand seams. Finite invalid combinations
+remain visible through issue records; non-finite source geometry has no
+fabricated fallback. Preview, persistence, vents and placket-base marks remain
+later slice boundaries.
 
 The nine physical Polo roles remain unchanged. The front retains its on-fold
 slit and named placket attachment interfaces; V2 adds internal diagonal base
