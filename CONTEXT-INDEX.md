@@ -93,6 +93,9 @@ snapshots; they are not current status.
 - `docs/planning/EPIC-12-EXECUTION.md` — authorized Web Platform Epic packet:
   threat/data admission, static delivery, identity/sync, feature flags,
   blue/green governance, local Control Center, slice gates and ownership.
+- `docs/planning/EPIC-12-SLICE-175-ADMISSION.md` — current Slice 175
+  admission audit, explicit blocker decisions, authorized interim work and
+  re-entry gate; it does not authorize login UI or provider mutation.
 - `docs/planning/GARMENT-EXPANSION-RESEARCH-WAVE.md` — completed Slices 149–154
   research-only contract, evidence standard, Codex/Claude ownership boundaries,
   stop conditions and completed future-family synthesis gate.

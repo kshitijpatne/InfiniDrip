@@ -480,6 +480,13 @@ data collection still require their own explicit gate.
   personal-data collection remain blocked until the named jurisdiction,
   privacy/terms, consent, retention, auth-method, data-region, subprocessor,
   RLS and support decisions are recorded.
+- Slice 175's admission audit is recorded in
+  `docs/planning/EPIC-12-SLICE-175-ADMISSION.md`. No authoritative record yet
+  answers the required launch entity/jurisdiction, data sensitivity, lawful
+  basis/consent, data-region/subprocessor, retention/deletion, P0 auth/session,
+  anonymous-sharing or operating-ceiling decisions. The welcome/login/profile
+  implementation is therefore blocked; only provider-neutral fixtures, local
+  evidence and decision documentation are authorized.
 - The standing platform threat model is
   `docs/research/WEB-PLATFORM-THREAT-MODEL.md`; no identity/cloud slice may
   collect data until its jurisdiction, retention, deletion, consent and RLS

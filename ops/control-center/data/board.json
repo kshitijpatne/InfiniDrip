@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedFrom": "Codex-authored baseline at Slice 174; historical entries are explicitly incomplete where source evidence is absent.",
+  "generatedFrom": "Codex-authored baseline at Slice 175 admission audit; historical entries are explicitly incomplete where source evidence is absent.",
   "epics": [
     { "id": "EPIC-5", "title": "Beginner-facing UI/UX redesign", "status": "Closed", "owner": "Codex", "description": "Workspace redesign and journey improvements.", "evidenceRefs": ["E-EPIC5-EXIT", "E-HISTORIC-INCOMPLETE"] },
     { "id": "EPIC-6", "title": "Surface design", "status": "Closed", "owner": "Codex", "description": "Surface placement, preview, persistence and print specification.", "evidenceRefs": ["E-EPIC6-EXIT", "E-HISTORIC-INCOMPLETE"] },
@@ -10,7 +10,7 @@
     { "id": "EPIC-10", "title": "Quality and adversarial hardening", "status": "Closed", "owner": "Codex", "description": "Seeded properties, geometry oracle and hostile-input hardening.", "evidenceRefs": ["E-EPIC10-EXIT"] },
     { "id": "EPIC-11", "title": "Polo V2 fidelity refinement", "status": "Closed", "owner": "Codex", "description": "Shaped collar/stand, vents, dropped hem and downstream pressure matrix.", "evidenceRefs": ["E-EPIC11-EXIT"] },
     { "id": "EPIC-GARMENT-RESEARCH", "title": "Garment expansion research wave", "status": "Closed", "owner": "Codex", "description": "Shorts, sweatshirt/hoodie, jogger and jeans research records.", "evidenceRefs": ["E-GARMENT-WAVE", "E-HISTORIC-INCOMPLETE"] },
-    { "id": "EPIC-12", "title": "Public Web Platform and Delivery Governance", "status": "In Progress", "owner": "Codex", "description": "Public delivery, identity, sync, feature flags, release governance and local Control Center.", "evidenceRefs": ["E-EPIC12-S171", "E-S172-S173", "E-EPIC12-S174"] }
+    { "id": "EPIC-12", "title": "Public Web Platform and Delivery Governance", "status": "In Progress", "owner": "Codex", "description": "Public delivery, identity, sync, feature flags, release governance and local Control Center.", "evidenceRefs": ["E-EPIC12-S171", "E-S172-S173", "E-EPIC12-S174", "E-EPIC12-S175"] }
   ],
   "releases": [
     { "id": "REL-EPIC-11", "title": "Polo V2 digital release", "status": "Accepted", "evidenceRefs": ["E-EPIC11-EXIT"] },
@@ -190,6 +190,35 @@
       "comments": [{ "at": "2026-09-21T00:00:00Z", "actor": "Codex", "text": "Slice 175 and any provider implementation require explicit jurisdiction, privacy/terms, consent, retention, auth-method, data-region, subprocessor, RLS and support decisions." }],
       "evidenceRefs": ["E-EPIC12-S174"],
       "flagKey": null
+    },
+    {
+      "id": "SLICE-175",
+      "type": "slice",
+      "title": "Welcome, login and profile admission audit",
+      "epicId": "EPIC-12",
+      "releaseId": "REL-PLATFORM-FOUNDATION",
+      "status": "Blocked",
+      "openedAt": "2026-09-21",
+      "targetAt": null,
+      "deliveredAt": null,
+      "priority": "P0",
+      "risk": "critical",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": ["SLICE-174"],
+      "protectedSurfaces": ["authentication", "privacy", "consent", "local-first", "persistence"],
+      "description": "Audit Slice 175 admission and preserve the hard gate until launch, privacy, consent, retention, auth, region, subprocessor, RLS and support decisions are authoritative.",
+      "expectation": "The team cannot accidentally ship login UI or a personal-data path while required legal/product decisions are unresolved.",
+      "acceptanceCriteria": ["Current origin/main and Slice 174 contract are reconciled", "All unresolved decisions are enumerated with owners and re-entry evidence", "Authorized interim work and prohibited implementation are explicit", "No provider, account, migration, login UI or personal-data flow is added", "Durable context and Control Center evidence identify the blocker"],
+      "statusHistory": [
+        { "status": "In Progress", "at": "2026-09-21T00:00:00Z", "actor": "Codex", "note": "Slice 175 admission review started from the current origin/main." },
+        { "status": "In Review", "at": "2026-09-21T00:00:00Z", "actor": "Codex", "note": "Decision audit and re-entry packet assembled; implementation remains withheld." },
+        { "status": "Blocked", "at": "2026-09-21T00:00:00Z", "actor": "Codex", "note": "Required maintainer/legal/product decisions are not recorded; only provider-neutral fixtures, local evidence and decision documentation are authorized." }
+      ],
+      "comments": [{ "at": "2026-09-21T00:00:00Z", "actor": "Codex", "text": "Do not infer a jurisdiction, lawful basis, consent copy, retention period, auth method, data region, subprocessor approval or support policy. Reopen only after the authoritative decision record is committed and reviewed." }],
+      "evidenceRefs": ["E-EPIC12-S175"],
+      "flagKey": null
     }
   ],
   "evidence": [
@@ -204,6 +233,7 @@
     { "id": "E-EPIC12-S171", "kind": "decision", "uri": "docs/planning/EPIC-12-EXECUTION.md", "commit": "5dde836", "sha256": null, "verified": true, "note": "Web Platform admission packet and threat model." },
     { "id": "E-HISTORIC-INCOMPLETE", "kind": "incomplete", "uri": "ops/control-center/README.md#historical-import", "commit": null, "sha256": null, "verified": false, "note": "Historical dates/evidence not present in the imported source records; no values were invented." },
     { "id": "E-S172-S173", "kind": "test", "uri": "ops/control-center/data/evidence/SLICES-172-173.md", "commit": "23d7715", "sha256": null, "verified": true, "note": "Focused board/importer, artifact manifest, full test/build and browser/HTTP smoke evidence for this release." },
-    { "id": "E-EPIC12-S174", "kind": "decision", "uri": "docs/research/IDENTITY-CLOUD-WORKSPACE-RESEARCH.md", "commit": null, "sha256": null, "verified": true, "note": "Provider-independent identity/cloud contract and blocking legal/product decision record; no provider mutation." }
+    { "id": "E-EPIC12-S174", "kind": "decision", "uri": "docs/research/IDENTITY-CLOUD-WORKSPACE-RESEARCH.md", "commit": null, "sha256": null, "verified": true, "note": "Provider-independent identity/cloud contract and blocking legal/product decision record; no provider mutation." },
+    { "id": "E-EPIC12-S175", "kind": "decision", "uri": "docs/planning/EPIC-12-SLICE-175-ADMISSION.md", "commit": null, "sha256": null, "verified": true, "note": "Slice 175 admission audit; implementation is blocked until the named maintainer/legal/product decisions are recorded." }
   ]
 }

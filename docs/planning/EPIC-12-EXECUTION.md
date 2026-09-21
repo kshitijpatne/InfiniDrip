@@ -1,7 +1,7 @@
 # EPIC 12 — Public Web Platform and Delivery Governance
 
 Status: **SLICES 171–174 — FOUNDATION, CONTROL CENTER, DELIVERY PROOF AND
-IDENTITY/CLOUD CONTRACT COMPLETE; PROVIDER IMPLEMENTATION GATED**
+IDENTITY/CLOUD CONTRACT COMPLETE; SLICE 175 ADMISSION AUDIT BLOCKED**
 
 Owner: **Codex**. Claude Code and OpenCode may contribute only bounded,
 isolated audits or mechanical work under `docs/OPENCODE-WORKFLOW.md`. Codex
@@ -175,6 +175,15 @@ document reconciliation. Claude/OpenCode may audit the matrix or produce
 provider-neutral fixtures only after Codex issues a bounded handoff.
 
 ### Slice 175 — welcome, login and profile flow
+
+**Current status: BLOCKED at admission.** The implementation is not admitted
+until the decision record in
+`docs/planning/EPIC-12-SLICE-175-ADMISSION.md` is approved and the named
+jurisdiction, privacy/terms, consent, retention/deletion, auth-method,
+data-region, subprocessor, RLS and support decisions are recorded. While this
+gate is open, only provider-neutral fixtures, local evidence and documentation
+may change. No login UI, auth SDK, SQL/RLS migration, provider account, email
+sender or personal-data flow may be added.
 
 Add the first-run welcome state, login/logout/session recovery and minimal
 profile settings as an additive shell around the existing journey. Existing

@@ -1,7 +1,7 @@
 # Web Platform Epic — threat model and data-boundary record
 
-Status: **Slice 171 threat boundary + Slice 174 contract reviewed; provider
-implementation gated**
+Status: **Slice 171 threat boundary + Slice 174 contract reviewed; Slice 175
+admission audit blocked; provider implementation gated**
 Date: 2026-09-21  
 Owner: Codex
 
@@ -12,8 +12,10 @@ email sender, telemetry stream or user data collection is authorized by this
 record.
 
 Slice 174 applies this boundary in the provider-independent contract at
-`docs/research/IDENTITY-CLOUD-WORKSPACE-RESEARCH.md`; the unresolved legal and
-product decisions below remain blocking before any provider implementation.
+`docs/research/IDENTITY-CLOUD-WORKSPACE-RESEARCH.md`; the Slice 175 admission
+audit at `docs/planning/EPIC-12-SLICE-175-ADMISSION.md` confirms that the
+unresolved legal and product decisions below remain blocking before any auth
+UI, provider implementation or personal-data flow.
 
 ## System and trust boundaries
 

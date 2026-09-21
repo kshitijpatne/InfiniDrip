@@ -73,7 +73,7 @@ planning surface for Codex after the completed Epic 6 integration.
 | **Later / researched** | **Garment candidates** — shorts → sweatshirt → jogger → pullover hoodie → rigid jeans | **Packets researched; execution packets still required** | Shared stretched-join and lower-body boundaries in `GARMENT-EXPANSION-SYNTHESIS.md`; do not start from the research record alone |
 | **Later / blocked** | **Physical fit validation** | **Blocked by maintainer constraint** | No manufacturer/printer is available; no sewn-fit claim or schedule until explicitly reopened |
 | **Proof-only / reopen-only** | **Sparrow irregular nesting redesign** | **Epic 8 no-go recorded; not authorized** | Reopen only with a new packet closing pinned-toolchain, offline-build, worker-isolation, replay, validator and fallback gates |
-| **In progress / Slices 171–174 contract complete** | **EPIC 12 — Public Web Platform and Delivery Governance** | **Codex-owned; identity/cloud contract reviewed, provider implementation gated** | Repository-local Control Center, deterministic static artifact proof, owner-only Auth/RLS workspace contract, release governance and feature flags; no provider account or personal-data collection |
+| **In progress / Slices 171–174 complete; Slice 175 blocked at admission** | **EPIC 12 — Public Web Platform and Delivery Governance** | **Codex-owned; identity/cloud contract reviewed, welcome/login/profile implementation gated** | Repository-local Control Center, deterministic static artifact proof, owner-only Auth/RLS workspace contract, release governance and feature flags; no provider account or personal-data collection until the Slice 175 decision record is approved |
 
 ### Codex next-work options
 

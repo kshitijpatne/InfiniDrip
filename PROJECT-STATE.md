@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: Epic 12 Slice 174, 2026-09-21.
+_Last updated: Epic 12 Slice 175 admission audit, 2026-09-21.
 Epics 7, 9 and 10 are implemented, Codex-reviewed, documented and pushed to
 `origin/main`. Epic 11 implementation has completed the shaped collar/stand,
 placket-base, vent/drop, front/back preview/control/report and downstream
@@ -131,7 +131,7 @@ separately authorized promotion.
 
 ## Current work — Epic 12 Web Platform
 
-### Slices 171–174 — platform foundation, delivery proof and identity contract complete
+### Slices 171–174 complete; Slice 175 admission audit blocked
 
 The maintainer authorized the Public Web Platform and Delivery Governance
 Epic after Epic 11. The execution packet is
@@ -161,6 +161,16 @@ Before identity/cloud implementation, jurisdiction, privacy/terms, retention/del
 consent, RLS and data-region decisions remain blocking. No drafting, export,
 legacy hash or physical-fit boundary changed.
 
+The Slice 175 admission audit is recorded in
+`docs/planning/EPIC-12-SLICE-175-ADMISSION.md`. The repository still contains no
+authoritative answers for the required launch entity/jurisdiction, data
+sensitivity, lawful basis/consent, data region/subprocessors, retention and
+deletion targets, P0 auth/session policy, anonymous-sharing boundary, or
+operating ceiling. Therefore the welcome/login/profile implementation is
+blocked by an explicit safety gate rather than silently inferred. Only
+provider-neutral fixtures, local evidence and decision documentation are
+authorized while it is blocked.
+
 `npm test` passes 104 files / 1,415 tests; strict TypeScript, the production
 build, focused Node tests and the deterministic manifest gate pass. No
 provider account, subscription, deployment, domain, secret, database schema,
@@ -168,14 +178,13 @@ email sender, telemetry stream or personal-data collection has been created.
 No drafting, export, legacy hash or physical-fit boundary changed.
 
 The reviewed Slice 172–173 implementation is pushed to `origin/main` at
-`23d7715`; Slice 174 is documentation-only until its blocking legal/product
-decisions are resolved.
+`23d7715`; Slice 174 and the Slice 175 admission audit are documentation-only
+until the blocking legal/product decisions are resolved.
 
-Next safe work is Slice 175's welcome/login/profile implementation only after
-the explicit jurisdiction, privacy/terms, retention/deletion, consent, RLS,
-auth-method and data-region decisions in the Slice 174 record are approved.
-Provider account creation, migrations, public deployment and personal-data
-collection remain separate maintainer gates.
+Next safe work is the maintainer decision record and Codex re-entry review for
+Slice 175. Welcome/login/profile implementation, provider account creation,
+migrations, public deployment and personal-data collection remain separate
+approval gates.
 
 ## Current work — post-Epic 6 planning
 

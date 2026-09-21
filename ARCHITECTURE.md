@@ -633,6 +633,14 @@ design boundary only: no provider SDK, SQL migration, login UI, account or
 personal-data collection is present. Local persistence remains usable if
 identity, cloud sync or flags are unavailable.
 
+Slice 175's admission audit is recorded in
+`docs/planning/EPIC-12-SLICE-175-ADMISSION.md`. Its welcome/login/profile shell
+is blocked until the maintainer records the required jurisdiction, privacy,
+consent, retention, auth/session, data-region, subprocessor, RLS and support
+decisions. No UI, provider SDK, SQL/RLS migration or personal-data flow may be
+inferred while that gate is open; provider-neutral fixtures and local evidence
+remain the only authorized continuation.
+
 The future web layer is additive. A static immutable Vite artifact may be
 served publicly without changing drafting or export truth. Auth/profile/cloud
 workspace data are separate owner-scoped records with deny-by-default RLS and
