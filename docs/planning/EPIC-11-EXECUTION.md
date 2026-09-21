@@ -1,6 +1,6 @@
 # EPIC 11 - Polo V2 Fidelity Refinement
 
-Status: **IMPLEMENTATION IN PROGRESS - SLICES 155–160 COMPLETE; EPIC 7 GATE
+Status: **IMPLEMENTATION COMPLETE - SLICES 155–161 COMPLETE; EPIC 7 GATE
 SATISFIED**
 
 Owner: **Codex**. External coding agents may assist only with bounded test or
@@ -9,8 +9,9 @@ drafting, data contracts, review, repairs, integration and any push to
 `origin/main`.
 
 Scheduling note: the garment-expansion research wave completed Slices 149-154.
-Epic 11's unchanged implementation plan is Slices 155-161. Slices 155–160
-are complete; Slice 161 is next. No scope or acceptance criterion changed.
+Epic 11's unchanged implementation plan is Slices 155-161. Slices 155–161
+are complete. The durable exit evidence is recorded in
+`docs/release/EPIC-11-EXIT-REPORT.md`.
 
 Research authority: `docs/research/garments/POLO-V2-RESEARCH.md`.
 
@@ -291,6 +292,12 @@ Acceptance:
 - only Codex pushes the reviewed result to `origin/main`.
 
 Owner/model: Codex, Sol high for final review; Luna max for repetitive gates.
+
+Status: complete. The complete implementation review, exact gate results,
+protected hashes, live rendered routes, parsed output evidence, delegated
+audit findings and limitations are recorded in
+`docs/release/EPIC-11-EXIT-REPORT.md`. No physical-fit or production-readiness
+claim is made; maintainer review is the next safe action.
 
 ## Mandatory edge-case matrix
 

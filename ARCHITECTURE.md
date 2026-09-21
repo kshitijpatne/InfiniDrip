@@ -554,13 +554,13 @@ sewability or guaranteed material savings.
 The binding research and execution records are
 `docs/research/garments/POLO-V2-RESEARCH.md` and
 `docs/planning/EPIC-11-EXECUTION.md`. Epic 7 is merged and reviewed, so that
-gate is satisfied. Slices 155–160 now wire the shaped collar/stand,
+gate is satisfied. Slices 155–161 now wire the shaped collar/stand,
 placket-base marks, vent topology, dropped back hem, POMs, actionable
 guidance, front/back previews, option metadata, persistence compatibility and
 report construction details into Polo. Slice 160 closes the downstream
-cross-size, surface, nesting and export pressure matrix; Slice 161 remains for
-the final exit handoff. Epic 11 never changes the nesting estimator or
-planning-state semantics.
+cross-size, surface, nesting and export pressure matrix. Slice 161 records the
+reviewed exit evidence in `docs/release/EPIC-11-EXIT-REPORT.md`. Epic 11 never
+changes the nesting estimator or planning-state semantics.
 
 Polo V2 remains the existing `polo` recipe and the ordinary composed `Block`
 pipeline. Its redesign replaces the V1 rectangular stand/collar with shaped
@@ -595,6 +595,11 @@ portrait sheet; this is recipe-scoped and does not alter `nestPieces`, the
 Epic 7 planning contract or protected legacy bytes. Option-aware tech-pack
 construction text and guidance now follow the live vent/drop topology. No
 physical-fit or production-readiness claim is implied.
+
+The Epic 11 exit gate is complete. The six Slice 155–160 commits and the
+current output evidence are summarized in the durable exit report; no physical
+validation, material-performance, sewability or production claim follows from
+the digital pipeline.
 
 The nine physical Polo roles remain unchanged. The front retains its on-fold
 slit and named placket attachment interfaces; V2 adds the internal

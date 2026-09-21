@@ -93,6 +93,8 @@ snapshots; they are not current status.
 - `docs/release/EPIC-10-EXIT-REPORT.md` — seeded property/oracle evidence,
   seven-recipe hardening, permanent fixtures, the bounded Codex repair, and
   the final quality/release gate.
+- `docs/release/EPIC-11-EXIT-REPORT.md` — Polo V2 implementation, downstream
+  pressure matrix, parsed/rendered evidence, protected hashes and limitations.
 
 ## Research documents
 

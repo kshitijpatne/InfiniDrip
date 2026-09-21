@@ -1,11 +1,11 @@
 # InfiniDrip — Project State
 
-_Last updated: Epic 11 Slice 160, 2026-09-21.
+_Last updated: Epic 11 Slice 161, 2026-09-21.
 Epics 7, 9 and 10 are implemented, Codex-reviewed, documented and pushed to
 `origin/main`. Epic 11 implementation has completed the shaped collar/stand,
 placket-base, vent/drop, front/back preview/control/report and downstream
-pressure-matrix slices; Slice 161 remains the final exit handoff. Physical
-validation and production readiness remain unverified._
+pressure-matrix slices and the durable exit handoff. Physical validation and
+production readiness remain unverified._
 
 ### Post-merge PR audit — 2026-09-21
 
@@ -114,6 +114,19 @@ vent and back-drop options, and seam-mismatch guidance targets the active
 option. The full gate is 103 files / 1,412 tests with 100% statements,
 branches, functions and lines; strict TypeScript, production build, export
 identity and rendered/parsed output checks pass. No physical-fit claim is made.
+
+### Slice 161 — Epic 11 exit and durable handoff complete
+
+The complete Epic 11 review is recorded in
+`docs/release/EPIC-11-EXIT-REPORT.md`. Codex reviewed the six implementation
+commits from Slices 155–160, independently assessed the bounded Claude Opus 5
+audit, repaired its three real downstream findings, and completed the live
+Pattern/Body/assembled/Size run/Spec/Nesting/Check/Edit/Style review. The full
+gate remains 103 files / 1,412 tests with 100% statements, branches,
+functions and lines; TypeScript, production build, parsed output checks and
+protected export identity pass. No physical-fit or production-readiness claim
+is made. Slice 161 changes documentation/evidence only; the next work is
+maintainer review and any separately authorized promotion.
 
 ## Current work — post-Epic 6 planning
 
