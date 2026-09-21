@@ -309,3 +309,32 @@ placement truth, grainline behavior, export writers, or the eight legacy hashes.
 OpenCode owns isolated implementation Slices 132–134 under a Codex-authored
 execution packet. Codex owns the actual diff review, defect fixes, full gate,
 merge, and push to `origin/main`.
+
+## Epic 11 — Polo V2 fidelity packet — authorized 2026-09-20
+
+The product owner authorized Codex to complete the garment-expansion/refinement
+research packet and to continue until the goal was complete. The resulting
+research-backed execution contract is:
+
+- Epic 11 upgrades the existing stable `polo` recipe; it does not create a
+  parallel Polo recipe or new garment family.
+- P0 includes a shaped collar/stand derived from the real neckline, shared
+  front/back representation, CB/shoulder/CF landmarks, true placket-base clip
+  and reinforcement marks, side vents, and an adjustable dropped back hem.
+- New defaults are 0.75 cm stand-front rise, 1.5 cm collar-point extension,
+  6 cm vent depth and 1.5 cm back drop. Exact bounds and dynamic guidance live
+  in `docs/research/garments/POLO-V2-RESEARCH.md`; values remain verbatim and
+  are never silently clamped.
+- Sleeve rib/band is deferred because no universal reduction was established
+  and the draft graph does not receive the selected material's stretch and
+  recovery. Upper-collar turn-of-cloth remains deferred to material/physical
+  evidence.
+- Polo grading remains measurement-driven re-drafting. The supplied CAD
+  assignment's isolated point shifts are not a complete grade and will not be
+  layered onto the engine.
+- Slice 148 completes research and scoping only. Slices 149–155 must wait until
+  Epic 7 is Codex-reviewed, merged and pushed. Epic 11 must not modify Epic 7,
+  `nestPieces`, Electron release work or protected export baselines.
+- Physical sampling remains paused. Digital seam/output evidence cannot be
+  described as proof of fit, collar roll, recovery, wash behavior or production
+  readiness.

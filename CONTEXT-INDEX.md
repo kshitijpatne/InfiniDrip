@@ -72,6 +72,9 @@ snapshots; they are not current status.
 - `docs/planning/EPIC-10-EXECUTION.md` — Claude Code test-only adversarial
   hardening scope, seeded-property/oracle boundary, handoff prompt, and exit
   gate.
+- `docs/planning/EPIC-11-EXECUTION.md` — Codex-owned Polo V2 fidelity redesign
+  packet, exact scope/options, Epic 7 start gate, Slices 148–155, pressure
+  matrix, and return contract.
 - `docs/release/EPIC-9-EXIT-REPORT.md` — current-host packaged release
   evidence, failure matrix, artifact hashes, and explicit signing/platform
   limitations.
@@ -92,6 +95,9 @@ snapshots; they are not current status.
   directory before implementation.
 - `docs/research/garments/TEMPLATE.md` — required starting structure for each
   future garment's research record.
+- `docs/research/garments/POLO-V2-RESEARCH.md` — Epic 11 cross-vetted Polo V2
+  collar/stand, placket-base, vent, back-drop and grading decisions; records
+  the sleeve-rib/material boundary and physical unknowns.
 - `docs/research/garments/WOVEN-SHIRT-RESEARCH.md` — Slice 85 evidence, source
   conflicts, measurements/construction proposals and digital verification scope
   for the relaxed button-up. Read before Slices 86-93.

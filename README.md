@@ -71,16 +71,14 @@ TypeScript · SVG · Vite · Vitest
 
 ## Status
 
-In active development through numbered slices. Current through Slice 63:
-measurement-driven
-drafting, live render, a 2D body view linked to the measurement controls, guidance
-(geometric checks plus plausibility and proportional-coherence warnings),
-target-fit styles, an assembled garment view, seam allowances, notches + grainlines,
-save/load, parametric grading + spec sheet, a three-page tech-pack PDF, true-scale
-SVG/DXF/PDF export at any size, a fabric-nesting estimator and whole-run marker, a
-production-readiness checker, freeform piece editing, and a second fitted/darted
-garment with dart manipulation. Four recipes ship: tee, fitted, skirt, and tank.
-The tank now has independently reasoned neckline and sleeveless armhole/strap
-geometry, with user-adjustable strap width and neck drop. Next: the Slice 64 Tank
-reality-check, any fixes it reveals, polo end-to-end, then Phase C3. No garment has
-yet completed physical cut/sew/fit validation.
+In active development through numbered slices. Seven recipes ship through the
+shared component grammar: Tee, Darted tee, Tank, Polo, Woven shirt, Skirt and
+Trouser. The app includes measurement-driven drafting, front/back/side schematic
+views, actionable guidance, target-fit styles, grading and POM/spec output,
+deterministic nesting, surface artwork placement, production checks, versioned
+save/load, and true-scale SVG, DXF, tiled PDF, A0, projector and tech-pack output.
+Epic 6 surface design and Epics 9-10 release/adversarial hardening are complete.
+Epic 7 nesting intelligence is the active isolated implementation lane. The Epic
+11 Polo V2 research and execution packet is complete, but its geometry work waits
+for Epic 7 to be reviewed and merged. No garment has completed physical
+cut/sew/fit validation; digital checks are not a physical-fit claim.

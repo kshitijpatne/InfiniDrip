@@ -1,12 +1,41 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 147 final push verification, 2026-09-20; the verified
-Slice 130 tip is `241732e` and the earlier Slice 129 commit is `bc7ae73`.
+_Last updated: Slice 148 Polo V2 research/packet completion, 2026-09-20.
 EPIC 9 and EPIC 10 are implemented, reviewed, documented, and pushed by
-Codex to `origin/main`. Physical validation and production readiness remain
-unverified._
+Codex to `origin/main`. Epic 7 remains the isolated OpenCode implementation
+workstream. Epic 11 implementation is deliberately waiting for the reviewed
+Epic 7 merge. Physical validation and production readiness remain unverified._
 
 ## Current work — post-Epic 6 planning
+
+### Slice 148 — EPIC 11 Polo V2 research and execution packet complete
+
+Codex completed the cross-vetted Polo V2 record in
+`docs/research/garments/POLO-V2-RESEARCH.md` and the binding Slices 148–155
+packet in `docs/planning/EPIC-11-EXECUTION.md`. The review covered the shipped
+V1 draft/render/export contracts, the supplied 22-page Polo CAD assignment,
+independent collar/stand, placket, vent, band and grading sources, the existing
+woven-shirt component evidence, and the active Epic 7 boundary.
+
+Epic 11 P0 is now fixed: replace the rectangular stand/collar with shaped
+neckline-derived curves; expose CB/shoulder/CF landmarks; render the same
+collar/stand on front and back; add true placket-base clip/reinforcement marks;
+and add adjustable side vents and a dropped back hem. `standFrontRise` defaults
+to 0.75 cm, `collarPointExtension` to 1.5 cm, `sideVentDepth` to 6 cm, and
+`backHemDrop` to 1.5 cm, with exact bounds and incompatibility guidance in the
+research record.
+
+Sleeve rib/band, material-dependent upper-collar turn-of-cloth and isolated
+manual grade offsets are explicitly excluded: the current draft graph does not
+receive fabric stretch/recovery, and the supplied CAD point movements are not a
+complete grade specification. V2 continues the existing grade-by-redraft model
+and proves every size from the actual neckline and stand seams.
+
+This is an execution-ready documentation result, not an implementation-start or
+physical-validation claim. Slices 149–155 begin only after Epic 7 Slices
+132–134 are returned, Codex-reviewed, repaired if needed, merged and pushed.
+No application code, export baseline or Epic 7 file changes are part of Slice
+148.
 
 ### Slice 131 — EPIC 7/9/10 execution scopes recorded; Epic 7 re-scoped for implementation
 

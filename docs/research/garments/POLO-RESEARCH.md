@@ -135,7 +135,15 @@ not as an active next step.
   strain, neckline recovery, and wash behaviour. Do not mark validated before
   a cut/sew/fit record exists.
 
-## Committed Polo V2 fidelity workstream — standby backlog
+## Committed Polo V2 fidelity workstream — historical V1 backlog
+
+**Resolved 2026-09-20:** the refreshed cross-vetted research, exact include/
+defer decisions, V2 option contract and pressure-test matrix now live in
+`docs/research/garments/POLO-V2-RESEARCH.md`. The binding implementation plan is
+`docs/planning/EPIC-11-EXECUTION.md`. This historical V1 record remains the
+authority for why the shipped geometry exists; the V2 record is the authority
+for the approved refinement. Implementation waits until Epic 7 is merged and
+reviewed.
 
 This is a committed roadmap item for the next Polo refinement or version
 upgrade. It is not part of the current V1 implementation and must not be
