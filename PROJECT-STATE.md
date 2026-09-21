@@ -1,10 +1,10 @@
 # InfiniDrip — Project State
 
-_Last updated: Epic 8 nesting-redesign scoping, 2026-09-21.
+_Last updated: Epic 11 Slice 155, 2026-09-21.
 Epics 7, 9 and 10 are implemented, Codex-reviewed, documented and pushed to
-`origin/main`. The Epic 11 merge gate is therefore satisfied, but implementation
-has not started. Physical validation and production readiness remain
-unverified._
+`origin/main`. Epic 11 implementation has now started with the additive pure
+collar/stand geometry contract; physical validation and production readiness
+remain unverified._
 
 ### Post-merge PR audit — 2026-09-21
 
@@ -20,6 +20,23 @@ rather than storing `NaN` and showing a false error. Guidance Review focus now
 selects the vertical offset when only Y leaves the frame and selects whichever
 source dimension is actually resolution-limiting. The repair preserves the
 warn-only, no-gating contract and all export baselines.
+
+## Current work — Epic 11 implementation
+
+### Slice 155 — pure shaped collar and stand geometry contract complete
+
+`src/drafting/polo-collar.ts` now unwraps the actual drafted front and back
+neckline edges into measured CB/shoulder/CF seam facts, shapes the front rise
+without silently clamping the requested value, derives the measured upper
+stand and equal collar bases, and reports finite invalid choices as actionable
+issues. The module is pure drafting geometry and is exported from the drafting
+barrel; it does not yet change the Polo recipe, UI, renders or export bytes.
+
+The focused collar contract suite is 11/11 (23/23 with the existing Polo
+suite), strict TypeScript passes, and the
+unchanged full baseline gate is 101 files / 1,378 tests with 100% statements,
+branches, functions and lines. Slice 156 is next. No physical-fit claim is
+made.
 
 ## Current work — post-Epic 6 planning
 

@@ -130,6 +130,10 @@ exports.
 Owner/model: Codex, Sol high for curve construction and numeric pressure tests.
 Gate: focused geometry properties plus the complete unchanged project gate.
 
+Status: complete. The pure helper and 11-test focused contract suite preserve
+the current recipe and output surface; strict TypeScript and the unchanged
+100%-coverage baseline pass.
+
 ### Slice 156 - Replace V1 collar and stand pieces
 
 Scope: use Slice 155 geometry for the four physical Polo collar/stand roles;

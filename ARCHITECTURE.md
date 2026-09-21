@@ -551,11 +551,13 @@ sewability or guaranteed material savings.
 
 ### Epic 11 planned boundary — Polo V2 fidelity
 
-Slice 148 is documentation/research only. The binding research and execution
-records are `docs/research/garments/POLO-V2-RESEARCH.md` and
+The binding research and execution records are
+`docs/research/garments/POLO-V2-RESEARCH.md` and
 `docs/planning/EPIC-11-EXECUTION.md`. Epic 7 is merged and reviewed, so that
-gate is satisfied; implementation starts only when scheduled from verified
-main. Epic 11 never changes the nesting estimator or planning-state semantics.
+gate is satisfied. Slice 155 now provides the additive pure geometry contract;
+the remaining slices may wire it into Polo drafting, rendering, guidance,
+persistence and outputs. Epic 11 never changes the nesting estimator or
+planning-state semantics.
 
 Polo V2 remains the existing `polo` recipe and the ordinary composed `Block`
 pipeline. Its redesign replaces the V1 rectangular stand/collar with shaped
@@ -565,6 +567,13 @@ CB/shoulder/CF landmarks to both drafting and front/back schematic rendering.
 The stand lower seam must equal the body neckline; the collar bases must equal
 the measured stand upper seam. Endpoint spans are never accepted as arc-length
 proof.
+
+The Slice 155 contract consumes the real front/back neckline `Edge` values,
+returns measured lower/upper stand paths and equal collar bases, and records
+CB/shoulder/CF landmarks on every path. Finite invalid combinations remain
+visible through issue records; non-finite source geometry has no fabricated
+fallback. Recipe, UI and export behavior remain unchanged until the later
+implementation slices.
 
 The nine physical Polo roles remain unchanged. The front retains its on-fold
 slit and named placket attachment interfaces; V2 adds internal diagonal base

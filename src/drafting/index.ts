@@ -31,6 +31,7 @@ export * from "./tank";
 export * from "./pattern-mark";
 export * from "./options";
 export * from "./polo";
+export * from "./polo-collar";
 export * from "./shirt-contract";
 export * from "./shirt";
 export * from "./trouser-contract";
