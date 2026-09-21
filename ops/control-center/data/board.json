@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedFrom": "Codex-authored baseline at Slice 172/173; historical entries are explicitly incomplete where source evidence is absent.",
+  "generatedFrom": "Codex-authored baseline at Slice 174; historical entries are explicitly incomplete where source evidence is absent.",
   "epics": [
     { "id": "EPIC-5", "title": "Beginner-facing UI/UX redesign", "status": "Closed", "owner": "Codex", "description": "Workspace redesign and journey improvements.", "evidenceRefs": ["E-EPIC5-EXIT", "E-HISTORIC-INCOMPLETE"] },
     { "id": "EPIC-6", "title": "Surface design", "status": "Closed", "owner": "Codex", "description": "Surface placement, preview, persistence and print specification.", "evidenceRefs": ["E-EPIC6-EXIT", "E-HISTORIC-INCOMPLETE"] },
@@ -10,7 +10,7 @@
     { "id": "EPIC-10", "title": "Quality and adversarial hardening", "status": "Closed", "owner": "Codex", "description": "Seeded properties, geometry oracle and hostile-input hardening.", "evidenceRefs": ["E-EPIC10-EXIT"] },
     { "id": "EPIC-11", "title": "Polo V2 fidelity refinement", "status": "Closed", "owner": "Codex", "description": "Shaped collar/stand, vents, dropped hem and downstream pressure matrix.", "evidenceRefs": ["E-EPIC11-EXIT"] },
     { "id": "EPIC-GARMENT-RESEARCH", "title": "Garment expansion research wave", "status": "Closed", "owner": "Codex", "description": "Shorts, sweatshirt/hoodie, jogger and jeans research records.", "evidenceRefs": ["E-GARMENT-WAVE", "E-HISTORIC-INCOMPLETE"] },
-    { "id": "EPIC-12", "title": "Public Web Platform and Delivery Governance", "status": "In Progress", "owner": "Codex", "description": "Public delivery, identity, sync, feature flags, release governance and local Control Center.", "evidenceRefs": ["E-EPIC12-S171", "E-S172-S173"] }
+    { "id": "EPIC-12", "title": "Public Web Platform and Delivery Governance", "status": "In Progress", "owner": "Codex", "description": "Public delivery, identity, sync, feature flags, release governance and local Control Center.", "evidenceRefs": ["E-EPIC12-S171", "E-S172-S173", "E-EPIC12-S174"] }
   ],
   "releases": [
     { "id": "REL-EPIC-11", "title": "Polo V2 digital release", "status": "Accepted", "evidenceRefs": ["E-EPIC11-EXIT"] },
@@ -161,6 +161,35 @@
       "comments": [{ "at": "2026-09-21T00:00:00Z", "actor": "Codex", "text": "Public deployment remains a later explicit approval gate." }],
       "evidenceRefs": ["E-S172-S173"],
       "flagKey": null
+    },
+    {
+      "id": "SLICE-174",
+      "type": "slice",
+      "title": "Identity and cloud-workspace contract",
+      "epicId": "EPIC-12",
+      "releaseId": "REL-PLATFORM-FOUNDATION",
+      "status": "Closed",
+      "openedAt": "2026-09-21",
+      "targetAt": null,
+      "deliveredAt": "2026-09-21",
+      "priority": "P0",
+      "risk": "critical",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": ["SLICE-172", "SLICE-173"],
+      "protectedSurfaces": ["identity", "RLS", "workspace-sync", "deletion", "privacy"],
+      "description": "Define the provider-independent identity, owner-only workspace, RLS, migration, sync, export and deletion contract without provider mutation.",
+      "expectation": "A future implementation cannot guess authorization, consent, conflict or retention behavior and cannot replace local-first work.",
+      "acceptanceCriteria": ["Logical schema and data classes are explicit", "RLS/grant matrix covers anon, owner, non-owner and service workflow", "Expand/migrate/contract and separate environment rules are explicit", "Revision/idempotency/conflict and outage behavior never silently loses local work", "Export/deletion/backup outcomes and blocking legal decisions are recorded", "No provider account, migration, login UI or personal-data collection is performed"],
+      "statusHistory": [
+        { "status": "In Progress", "at": "2026-09-21T00:00:00Z", "actor": "Codex", "note": "Provider-independent identity/cloud contract research started." },
+        { "status": "In Review", "at": "2026-09-21T00:00:00Z", "actor": "Codex", "note": "Security, RLS, privacy, sync, deletion and migration matrix assembled." },
+        { "status": "Closed", "at": "2026-09-21T00:00:00Z", "actor": "Codex", "note": "Contract accepted; provider implementation remains gated." }
+      ],
+      "comments": [{ "at": "2026-09-21T00:00:00Z", "actor": "Codex", "text": "Slice 175 and any provider implementation require explicit jurisdiction, privacy/terms, consent, retention, auth-method, data-region, subprocessor, RLS and support decisions." }],
+      "evidenceRefs": ["E-EPIC12-S174"],
+      "flagKey": null
     }
   ],
   "evidence": [
@@ -174,6 +203,7 @@
     { "id": "E-GARMENT-WAVE", "kind": "decision", "uri": "docs/planning/GARMENT-EXPANSION-SYNTHESIS.md", "commit": null, "sha256": null, "verified": false, "note": "Research synthesis is retained; implementation remains separate." },
     { "id": "E-EPIC12-S171", "kind": "decision", "uri": "docs/planning/EPIC-12-EXECUTION.md", "commit": "5dde836", "sha256": null, "verified": true, "note": "Web Platform admission packet and threat model." },
     { "id": "E-HISTORIC-INCOMPLETE", "kind": "incomplete", "uri": "ops/control-center/README.md#historical-import", "commit": null, "sha256": null, "verified": false, "note": "Historical dates/evidence not present in the imported source records; no values were invented." },
-    { "id": "E-S172-S173", "kind": "test", "uri": "ops/control-center/data/evidence/SLICES-172-173.md", "commit": "23d7715", "sha256": null, "verified": true, "note": "Focused board/importer, artifact manifest, full test/build and browser/HTTP smoke evidence for this release." }
+    { "id": "E-S172-S173", "kind": "test", "uri": "ops/control-center/data/evidence/SLICES-172-173.md", "commit": "23d7715", "sha256": null, "verified": true, "note": "Focused board/importer, artifact manifest, full test/build and browser/HTTP smoke evidence for this release." },
+    { "id": "E-EPIC12-S174", "kind": "decision", "uri": "docs/research/IDENTITY-CLOUD-WORKSPACE-RESEARCH.md", "commit": null, "sha256": null, "verified": true, "note": "Provider-independent identity/cloud contract and blocking legal/product decision record; no provider mutation." }
   ]
 }

@@ -472,6 +472,14 @@ data collection still require their own explicit gate.
   SHA-256 artifact manifest utility and provider-neutral delivery descriptor.
   The importer requires an existing evidence identity plus a verifiable
   commit/hash and cannot infer dates, owners, status or delivery.
+- Slice 174's identity/cloud contract is complete in
+  `docs/research/IDENTITY-CLOUD-WORKSPACE-RESEARCH.md`. P0 is guest/local mode
+  plus explicit-consent, single-owner cloud sync with revision/idempotency
+  conflict handling, deny-by-default RLS, expand/migrate/contract migrations,
+  export and deletion semantics. SQL, provider SDKs, login UI, accounts and
+  personal-data collection remain blocked until the named jurisdiction,
+  privacy/terms, consent, retention, auth-method, data-region, subprocessor,
+  RLS and support decisions are recorded.
 - The standing platform threat model is
   `docs/research/WEB-PLATFORM-THREAT-MODEL.md`; no identity/cloud slice may
   collect data until its jurisdiction, retention, deletion, consent and RLS

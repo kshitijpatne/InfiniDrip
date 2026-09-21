@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: Epic 12 Slices 172–173, 2026-09-21.
+_Last updated: Epic 12 Slice 174, 2026-09-21.
 Epics 7, 9 and 10 are implemented, Codex-reviewed, documented and pushed to
 `origin/main`. Epic 11 implementation has completed the shaped collar/stand,
 placket-base, vent/drop, front/back preview/control/report and downstream
@@ -131,7 +131,7 @@ separately authorized promotion.
 
 ## Current work — Epic 12 Web Platform
 
-### Slices 171–173 — platform foundation, Control Center and delivery proof complete
+### Slices 171–174 — platform foundation, delivery proof and identity contract complete
 
 The maintainer authorized the Public Web Platform and Delivery Governance
 Epic after Epic 11. The execution packet is
@@ -143,17 +143,21 @@ Slice 171 defined the local-first boundary, staged identity/cloud-sync
 contract, immutable preview/staging/production artifact lineage, logical
 Blue/Green aliases, two-week Tuesday release train, two-business-day freeze,
 expedited patch route, owned feature flags and repository-local Control Center.
-Slices 172–173 now implement the local board and the provider-independent web
+Slices 172–173 implemented the local board and provider-independent web
 delivery proof. The board is schema-validated, read-only, truthful about
 missing history, and includes an explicit evidence importer that cannot infer
 dates, owners, status or delivery. The web proof emits a sorted, repeatable
 SHA-256 manifest and rehearses the built app over HTTP plus a fresh browser.
-The cost envelope remains the recommended approximately $59/month
-authenticated-beta planning estimate.
+Slice 174 now records the provider-independent identity/cloud-workspace
+contract: owner-only P0 workspaces, explicit sync consent, revision/idempotency
+conflicts, RLS/grant matrix, expand/migrate/contract sequencing, export,
+deletion and backup-retention outcomes, and pressure-tested failure paths. The
+cost envelope remains the recommended approximately $59/month authenticated-
+beta planning estimate.
 
 No domain, provider account, subscription, deployment, SDK, database schema,
 email sender, telemetry stream or personal-data collection has been created.
-Before identity/cloud work, jurisdiction, privacy/terms, retention/deletion,
+Before identity/cloud implementation, jurisdiction, privacy/terms, retention/deletion,
 consent, RLS and data-region decisions remain blocking. No drafting, export,
 legacy hash or physical-fit boundary changed.
 
@@ -164,12 +168,14 @@ email sender, telemetry stream or personal-data collection has been created.
 No drafting, export, legacy hash or physical-fit boundary changed.
 
 The reviewed Slice 172–173 implementation is pushed to `origin/main` at
-`23d7715`.
+`23d7715`; Slice 174 is documentation-only until its blocking legal/product
+decisions are resolved.
 
-Next safe work is Slice 174's identity/cloud-workspace contract only after the
-explicit jurisdiction, privacy/terms, retention/deletion, consent, RLS and
-data-region decisions in the execution packet are approved. Public deployment
-remains a separate maintainer gate.
+Next safe work is Slice 175's welcome/login/profile implementation only after
+the explicit jurisdiction, privacy/terms, retention/deletion, consent, RLS,
+auth-method and data-region decisions in the Slice 174 record are approved.
+Provider account creation, migrations, public deployment and personal-data
+collection remain separate maintainer gates.
 
 ## Current work — post-Epic 6 planning
 

@@ -73,7 +73,7 @@ planning surface for Codex after the completed Epic 6 integration.
 | **Later / researched** | **Garment candidates** — shorts → sweatshirt → jogger → pullover hoodie → rigid jeans | **Packets researched; execution packets still required** | Shared stretched-join and lower-body boundaries in `GARMENT-EXPANSION-SYNTHESIS.md`; do not start from the research record alone |
 | **Later / blocked** | **Physical fit validation** | **Blocked by maintainer constraint** | No manufacturer/printer is available; no sewn-fit claim or schedule until explicitly reopened |
 | **Proof-only / reopen-only** | **Sparrow irregular nesting redesign** | **Epic 8 no-go recorded; not authorized** | Reopen only with a new packet closing pinned-toolchain, offline-build, worker-isolation, replay, validator and fallback gates |
-| **In progress / Slices 171–173 complete** | **EPIC 12 — Public Web Platform and Delivery Governance** | **Codex-owned; local board and delivery proof reviewed, external mutation still gated** | Repository-local Control Center, deterministic static artifact proof, planned Auth/RLS workspace, release governance and feature flags; no provider account or personal-data collection |
+| **In progress / Slices 171–174 contract complete** | **EPIC 12 — Public Web Platform and Delivery Governance** | **Codex-owned; identity/cloud contract reviewed, provider implementation gated** | Repository-local Control Center, deterministic static artifact proof, owner-only Auth/RLS workspace contract, release governance and feature flags; no provider account or personal-data collection |
 
 ### Codex next-work options
 
@@ -88,10 +88,10 @@ choices:
 2. **Future garment execution packet.** If work after Polo is selected, scope
    casual shorts first. A separate upper-body sweatshirt geometry track may run
    in parallel only with disjoint files and serialized shared integration.
-3. **EPIC 12 Web Platform.** Slices 171–173 are complete: the local Control
-   Center and provider-independent artifact proof are reviewed and repeatable.
-   Slice 174 identity/cloud work waits for privacy, retention, jurisdiction and
-   RLS gates.
+3. **EPIC 12 Web Platform.** Slices 171–174 are complete as provider-neutral
+   contracts and local proofs. Slice 175 welcome/login/profile work waits for
+   privacy, retention, jurisdiction, consent, auth-method, data-region and RLS
+   gates; no account or migration is authorized yet.
 4. **Conditional stabilization.** Act only on a reproducible Epic 6/7 defect or
    real user evidence; no speculative polish.
 

@@ -176,6 +176,10 @@ snapshots; they are not current status.
 - `docs/research/WEB-PLATFORM-THREAT-MODEL.md` — Epic 12 trust boundaries,
   data classes, threats, controls, retention/deletion questions and incident
   rules; blocking before identity/cloud implementation.
+- `docs/research/IDENTITY-CLOUD-WORKSPACE-RESEARCH.md` — Slice 174's
+  provider-independent identity, owner-only workspace, RLS/grant, migration,
+  conflict-safe sync, export/deletion and blocking legal/product contract;
+  provider implementation is not authorized by this record.
 - `docs/research/SURFACE-DESIGN-RESEARCH.md` — Epic 6 surface-layer contract,
   library decision boundary, source conflicts, and unresolved placement questions.
 

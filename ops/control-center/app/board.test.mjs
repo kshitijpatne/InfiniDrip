@@ -8,10 +8,11 @@ test("canonical board validates and summarizes its tracked work", () => {
   assert.deepEqual(result, { valid: true, errors: [] });
   const summary = summarizeBoard(board);
   assert.equal(summary.epics, 9);
-  assert.equal(summary.workItems, 5);
-  assert.equal(summary.statusCounts.Closed, 5);
+  assert.equal(summary.workItems, 6);
+  assert.equal(summary.statusCounts.Closed, 6);
   assert.match(renderBoard(board), /InfiniDrip delivery board/);
   assert.match(renderBoard(board), /incomplete/);
+  assert.match(renderBoard(board), /SLICE-174/);
 });
 
 test("malformed board data is rejected instead of repaired", () => {

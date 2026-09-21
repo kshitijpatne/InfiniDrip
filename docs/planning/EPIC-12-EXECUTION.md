@@ -1,7 +1,7 @@
 # EPIC 12 — Public Web Platform and Delivery Governance
 
-Status: **SLICES 171–173 — FOUNDATION, CONTROL CENTER AND DELIVERY PROOF
-COMPLETE; NO EXTERNAL ACCOUNT, PURCHASE OR PUBLIC DEPLOYMENT AUTHORIZED**
+Status: **SLICES 171–174 — FOUNDATION, CONTROL CENTER, DELIVERY PROOF AND
+IDENTITY/CLOUD CONTRACT COMPLETE; PROVIDER IMPLEMENTATION GATED**
 
 Owner: **Codex**. Claude Code and OpenCode may contribute only bounded,
 isolated audits or mechanical work under `docs/OPENCODE-WORKFLOW.md`. Codex
@@ -147,18 +147,32 @@ production build pass, the manifest is byte-for-byte repeatable across two
 generations, and HTTP smoke checks load the built index plus both referenced
 assets. No provider account, secret, domain or deployment was used.
 
-### Slice 174 — identity and cloud-workspace contract
+### Slice 174 — identity and cloud-workspace contract — contract complete; provider gated
 
 Define the Supabase-compatible schema and migration contract for `profiles`,
 private `workspaces`, revisions/sync metadata, and deletion/export operations.
-Implement migrations and deny/allow RLS tests only after domain, jurisdiction,
-privacy/terms, retention and support decisions are recorded. Keep design data
-separate from auth identity and never log measurements or workspace contents.
+The provider-independent contract is recorded in
+`docs/research/IDENTITY-CLOUD-WORKSPACE-RESEARCH.md`. Implement migrations and
+deny/allow RLS tests only after domain, jurisdiction, privacy/terms,
+retention, consent, data-region and support decisions are recorded. Keep
+design data separate from auth identity and never log measurements or
+workspace contents.
 
 Acceptance: cross-user reads/writes are denied; owner access is allowed;
 anonymous/local mode remains usable; migration is expand/migrate/contract safe;
 export and deletion are testable; conflicts never silently discard a local or
 remote revision.
+
+Contract evidence: the logical schema, data classification, owner-only RLS and
+grant matrix, migration sequence, local-first sync/idempotency/conflict rules,
+export/deletion/backup-retention contract and pressure-test matrix are complete.
+No SQL migration, provider SDK, login UI, account, public URL or personal-data
+collection is included. Slice 175 cannot start until the blocking decisions in
+the Slice 174 research record are explicitly resolved.
+
+Owner/model: Codex; Sol-high for security/privacy/RLS review, Luna-max for
+document reconciliation. Claude/OpenCode may audit the matrix or produce
+provider-neutral fixtures only after Codex issues a bounded handoff.
 
 ### Slice 175 — welcome, login and profile flow
 

@@ -9,10 +9,10 @@ Last checked: 2026-09-21. Currency: USD, before tax unless stated otherwise.
 ## Purpose and current boundary
 
 InfiniDrip is currently a local-first Vite/TypeScript drafting application with
-an Electron shell and local workspace persistence. Epic 11 is in progress and
-must remain isolated from this work. It is not currently a hosted account
-product. Existing first-run journey copy is local tutorial state, not account
-onboarding.
+an Electron shell and local workspace persistence. Epic 11 is complete and
+remains isolated from this platform planning work. It is not currently a
+hosted account product. Existing first-run journey copy is local tutorial
+state, not account onboarding.
 
 This packet records the researched route to a public, globally reachable web
 application with authenticated profiles, cross-device workspace sync, reversible
