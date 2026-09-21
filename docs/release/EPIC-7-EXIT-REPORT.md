@@ -1,8 +1,26 @@
 # EPIC 7 — Nesting Intelligence Pack exit report
 
-_Status: contributor-complete on branch `opencode/epic-7-nesting-intelligence`;
-review, repair, merge, and push are Codex-owned. No physical cutting, fit,
-cross-OS, signing, or geometry claim is made anywhere in this record._
+_Status: complete on `origin/main` at `598c0b9` after Codex review and
+integration of `opencode/epic-7-nesting-intelligence`. No physical cutting,
+fit, cross-OS, signing, or geometry claim is made anywhere in this record._
+
+## Codex review and integration record
+
+Codex reviewed contributor commits `9c951c3` (Slice 132), `22c4946` (Slice
+133), `4c75338` and `c85a115` (Slice 134), then integrated them with the
+current main baseline `eaae2af`. No production defect or scope violation was
+found; the only integration repair retained both the Epic 7 contract and the
+Slice 148 Polo V2 architecture boundary. The reviewed branch was merged by
+`598c0b9` and pushed by Codex to `origin/main`.
+
+The mounted app was also checked in a live local browser: a fresh launch
+allowed the unfinished draft to be discarded; the Nesting view rendered the
+planning controls; buffer `51` stayed visible with actionable invalid-input
+guidance; on-hand values `50` and `100` produced the expected short and fits
+verdicts; Single size versus Graded marker changed the estimate and marker;
+Save/reload restored scope, buffer, and on-hand state; and the browser
+reported no warnings or errors. This is local mounted-app evidence only and
+does not widen the cross-OS or physical-validation boundary.
 
 ## Implemented boundary
 
@@ -64,8 +82,9 @@ switches, and Review-to-control focus.
 
 ## Limitations
 
-- jsdom provides render evidence, not a live browser: responsive and console
-  proof remain Codex-side before any merge.
+- The seven-garment responsive matrix is jsdom evidence; the additional live
+  browser check above covered the mounted nesting flow and console state at
+  the review viewport. No cross-OS guarantee is inferred.
 - `type=number` controls sanitize non-numeric typing to blank (shared
   Slice-104 control behavior); zero/negative entries stay visible as invalid.
 - Review-to-control for nesting fields navigates to the output step; the
