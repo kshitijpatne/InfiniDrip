@@ -184,3 +184,38 @@ actor to merge and push `origin/main`.
 > rating, Sparrow, irregular nesting, rotation, physical validation, or
 > production claims. Do not push or merge `main`; return the required JSON and
 > all evidence so Codex can review and integrate each slice.
+
+## Slice records (contributor-appended; plan above is Codex-owned)
+
+### Slice 132 — pure contract and metrics (review-ready, not merged)
+
+Branch `opencode/epic-7-nesting-intelligence` from `origin/main` at `a9cab78`.
+Adds `src/export/nesting-intelligence.ts` plus focused tests: buffer
+validation and planned-length math, waste share, optional fabric-on-hand
+fits/short-by verdicts, and the no-rotation nap notice. Unratable input
+yields null. No UI, geometry, export, or save-schema change. Stop conditions
+not triggered; no baseline moved.
+
+### Slice 133 — UI, persistence, and actionable guidance (review-ready, not merged)
+
+Same branch. Adds the planning controls (buffer 0–50% with rail/steppers,
+optional on-hand length, directional checkbox) and live readouts (required,
+planned, waste %, on-hand state, fits/short-by-X verdict, nap notice) to the
+fabric view, plus an optional additive save/recovery section with no version
+bump: valid values round-trip, missing sections load defaults, malformed
+current sections reject visibly, and raw invalid recovery entries restore
+verbatim. Invalid inputs stay visible with field-linked guidance and never
+pause the draft or gate exports. Cutting buffer, on-hand, and nap state
+are global like fabric width; metrics recompute per draft so garment/style
+switches cannot leak stale values. Difficulty rating stays deferred; no
+rotation, interlocking, geometry, grain, export, or legacy-byte change.
+
+### Slice 134 — seven-garment exit audit and release report (review-ready, not merged)
+
+Same branch. Exit audit proving empty, valid, invalid, too-short, and
+too-narrow planning states plus deterministic scope round-trips, per-garment
+save/load, and responsive rendering on all seven garments through the real
+mounted app; `docs/release/EPIC-7-EXIT-REPORT.md` records commands, evidence,
+limitations, and defects. Parsed SVG/DXF/tiled-PDF/A0/projector/tech-pack
+consumers and all eight legacy hashes verified with artwork-style planning
+state present. No physical cutting, fit, cross-OS, signing, or geometry work.

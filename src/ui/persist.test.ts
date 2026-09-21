@@ -15,6 +15,8 @@ import {
   saveRecoveryToStorage,
   readRecoveryFromStorage,
   clearRecoveryFromStorage,
+  parseNestingIntelligence,
+  parseRawNestingIntelligence,
 } from "./persist";
 import { DEFAULT_APPEARANCE } from "./appearance";
 import { FIELDS } from "./controls";
@@ -103,6 +105,7 @@ describe("v4 workspace validation", () => {
       workspace: DEFAULT_WORKSPACE,
       materialSelectionExplicit: false,
       surface: {},
+      rawNestingIntelligence: { buffer: "10", available: "", napAware: true },
     } as const;
     const result = deserializeRecovery(serializeRecovery(recovery));
     expect(result.ok).toBe(true);
@@ -123,6 +126,7 @@ describe("v4 workspace validation", () => {
       rawMeasurements: {}, fabric: FABRIC, appearance: DEFAULT_APPEARANCE,
       garmentOptions: { tee: {} }, rawOptions: { tee: {} },
       workspace: DEFAULT_WORKSPACE, materialSelectionExplicit: false, surface: {},
+      rawNestingIntelligence: { buffer: "10", available: "", napAware: true },
     };
     const valid = JSON.parse(serializeRecovery(recovery));
     expect(deserializeRecovery("[]").ok).toBe(false);
@@ -132,6 +136,9 @@ describe("v4 workspace validation", () => {
       { fabric: "bad" }, { garmentOptions: { tee: [] } },
       { rawOptions: { tee: { ease: 1 } } }, { appearance: { texture: "missing", shine: 50 } },
       { workspace: { ...DEFAULT_WORKSPACE, garment: "missing" } }, { materialSelectionExplicit: "no" },
+      { rawNestingIntelligence: { buffer: 1 } }, { rawNestingIntelligence: null },
+      { rawNestingIntelligence: { buffer: "10", available: 1, napAware: true } },
+      { rawNestingIntelligence: { buffer: "10", available: "", napAware: "yes" } },
     ]) expect(deserializeRecovery(JSON.stringify({ ...valid, ...change })).ok).toBe(false);
     localStorage.setItem("patternworks_recovery_v1", "broken");
     expect(readRecoveryFromStorage()).toEqual({ ok: false, error: "Recovery data is not valid JSON." });
@@ -538,6 +545,7 @@ describe("deserialize (surface artwork section)", () => {
       rawMeasurements: {}, fabric: FABRIC, appearance: DEFAULT_APPEARANCE,
       garmentOptions: { tee: {} }, rawOptions: { tee: {} },
       workspace: DEFAULT_WORKSPACE, materialSelectionExplicit: false, surface: book,
+      rawNestingIntelligence: { buffer: "10", available: "", napAware: true },
     };
     expect(deserializeRecovery(serializeRecovery(recovery)).ok).toBe(true);
     const valid = JSON.parse(serializeRecovery(recovery));
@@ -548,5 +556,90 @@ describe("deserialize (surface artwork section)", () => {
     expect(migrated.ok).toBe(true);
     if (!migrated.ok) return;
     expect(migrated.surface).toEqual({});
+  });
+});
+
+// ── nesting-intelligence section (Slice 133) ────────────────────────────────
+describe("deserialize (nesting-intelligence section)", () => {
+  const section = { bufferPct: 10, availableLengthCm: 150, napAware: false };
+
+  it("round-trips planning values through serialize and localStorage", () => {
+    const result = deserialize(serialize(
+      STANDARD_M, FABRIC, {}, DEFAULT_WORKSPACE, DEFAULT_APPEARANCE, {}, section));
+    expect(result.ok).toBe(true);
+    if (!result.ok) return;
+    expect(result.nestingIntelligence).toEqual(section);
+    expect(saveToStorage(
+      STANDARD_M, FABRIC, {}, DEFAULT_WORKSPACE, DEFAULT_APPEARANCE, {}, section)).toBe(true);
+    expect(loadFromStorage()!.nestingIntelligence).toEqual(section);
+  });
+
+  it("loads old saves without the section as defaults", () => {
+    const result = deserialize(serialize(STANDARD_M, FABRIC));
+    expect(result.ok).toBe(true);
+    if (!result.ok) return;
+    expect(result.nestingIntelligence).toEqual({ bufferPct: 10, availableLengthCm: null, napAware: true });
+    const legacy = deserialize(JSON.stringify({ v: 3, measurements: STANDARD_M, fabric: FABRIC }));
+    expect(legacy.ok).toBe(true);
+    if (!legacy.ok) return;
+    expect(legacy.nestingIntelligence).toEqual({ bufferPct: 10, availableLengthCm: null, napAware: true });
+  });
+
+  it("rejects malformed sections in current saves but tolerates legacy ones", () => {
+    const raw = JSON.parse(serialize(STANDARD_M, FABRIC));
+    expect(deserialize(JSON.stringify({ ...raw, nestingIntelligence: null })).ok).toBe(false);
+    expect(deserialize(JSON.stringify({ ...raw, nestingIntelligence: [] })).ok).toBe(false);
+    expect(deserialize(JSON.stringify({
+      ...raw, nestingIntelligence: { bufferPct: 60, availableLengthCm: null, napAware: true },
+    })).ok).toBe(false);
+    expect(deserialize(JSON.stringify({
+      ...raw, nestingIntelligence: { bufferPct: 10, availableLengthCm: 0, napAware: true },
+    })).ok).toBe(false);
+    expect(deserialize(JSON.stringify({
+      ...raw, nestingIntelligence: { bufferPct: 10, availableLengthCm: null, napAware: "yes" },
+    })).ok).toBe(false);
+    expect(deserialize(JSON.stringify({
+      ...raw, nestingIntelligence: { bufferPct: NaN, availableLengthCm: null, napAware: true },
+    })).ok).toBe(false);
+    expect(deserialize(JSON.stringify({
+      ...raw, nestingIntelligence: { bufferPct: 10, availableLengthCm: "many", napAware: true },
+    })).ok).toBe(false);
+    expect(deserialize(JSON.stringify({
+      ...raw, nestingIntelligence: { bufferPct: 10, availableLengthCm: null },
+    })).ok).toBe(false);
+    expect(deserialize(JSON.stringify({
+      ...raw, nestingIntelligence: { bufferPct: 10, napAware: true },
+    })).ok).toBe(false);
+    expect(parseNestingIntelligence({ bufferPct: 10, availableLengthCm: NaN, napAware: true })).toBeNull();
+    expect(parseNestingIntelligence({ bufferPct: Infinity, availableLengthCm: null, napAware: true })).toBeNull();
+    expect(parseRawNestingIntelligence({ buffer: "10", available: "", napAware: "yes" })).toBeNull();
+    const legacy = deserialize(JSON.stringify({
+      v: 3, measurements: STANDARD_M, fabric: FABRIC, nestingIntelligence: { bufferPct: 60 },
+    }));
+    expect(legacy.ok).toBe(true);
+    if (!legacy.ok) return;
+    expect(legacy.nestingIntelligence).toEqual({ bufferPct: 10, availableLengthCm: null, napAware: true });
+  });
+
+  it("round-trips raw planning values through recovery and migrates absent ones", () => {
+    const recovery = {
+      savedAt: 9,
+      measurements: Object.fromEntries(FIELDS.map((field) => [field.id, STANDARD_M[field.id]])),
+      rawMeasurements: {}, fabric: FABRIC, appearance: DEFAULT_APPEARANCE,
+      garmentOptions: { tee: {} }, rawOptions: { tee: {} },
+      workspace: DEFAULT_WORKSPACE, materialSelectionExplicit: false, surface: {},
+      rawNestingIntelligence: { buffer: "abc", available: "150", napAware: false },
+    };
+    const result = deserializeRecovery(serializeRecovery(recovery));
+    expect(result.ok).toBe(true);
+    if (!result.ok) return;
+    expect(result.rawNestingIntelligence).toEqual({ buffer: "abc", available: "150", napAware: false });
+    expect(saveRecoveryToStorage(recovery)).toBe(true);
+    const without = JSON.parse(serializeRecovery({ ...recovery, savedAt: 10 }));
+    delete without.rawNestingIntelligence;
+    const migrated = deserializeRecovery(JSON.stringify(without));
+    expect(migrated.ok).toBe(true);
+    if (!migrated.ok) return;
+    expect(migrated.rawNestingIntelligence).toEqual({ buffer: "10", available: "", napAware: true });
   });
 });

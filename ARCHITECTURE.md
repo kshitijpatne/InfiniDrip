@@ -493,6 +493,29 @@ Sparrow/irregular nesting, rotation/interlocking, physical validation, and
 production claims remain outside this Epic. Codex owns review, repairs, merge,
 and push.
 
+Slice 132 delivers the pure planning layer as `src/export/nesting-intelligence.ts`:
+buffer validation and planned-length math, waste share from utilization, an
+optional fabric-on-hand fits/short-by verdict that stays unknown for blank or
+invalid input, and the truthful no-rotation nap notice. Unratable input yields
+null, never a fabricated number. `nestPieces` placement truth, geometry, grain
+rules, exports, and save schemas are untouched by this slice.
+
+Slice 133 wires those metrics into the fabric view without widening engine
+authority. Planning controls (buffer with shared rail/steppers, optional
+on-hand length, directional checkbox) and live readouts (required, planned,
+waste %, on-hand state, fits/short-by-X, nap notice) live in a stable panel
+that draw() syncs imperatively, reusing the generic rail/stepper machinery.
+Save/recovery carry an optional additive section with no version bump;
+invalid inputs stay visible with field-linked warn-only guidance and never
+pause the draft or gate exports. Planning state is global like fabric width;
+single-size versus marker scope stays truthful per draw.
+
+Slice 134 closes the Epic with a seven-garment exit audit and a release
+report, adding no product behavior beyond the audit itself. The planning
+layer, panel, persistence, and guidance boundaries above stand as the
+shipped contract; parsed output consumers and legacy hashes are verified
+with planning state present.
+
 ### Epic 11 planned boundary — Polo V2 fidelity
 
 Slice 148 is documentation/research only. The binding research and execution

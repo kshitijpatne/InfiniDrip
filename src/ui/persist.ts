@@ -5,6 +5,11 @@ import { DEFAULT_FABRIC } from "../render";
 import { FIELDS, inputError } from "./controls";
 import { Appearance, DEFAULT_APPEARANCE, parseAppearance } from "./appearance";
 import { parseSurfaceBook, type SurfaceBook } from "../surface/store";
+import {
+  BUFFER_DEFAULT_PCT,
+  BUFFER_MAX_PCT,
+  BUFFER_MIN_PCT,
+} from "../export/nesting-intelligence";
 import type { ViewName } from "./journey";
 
 export const SAVE_VERSION = 5;
@@ -49,6 +54,40 @@ export interface SaveFile {
   /** Optional artwork state (Slice 126). Absent means empty; malformed in a
    * current-version save is rejected, never silently repaired. */
   readonly surface: SurfaceBook;
+  /** Optional nesting-intelligence planning values (Slice 133). Absent means
+   * defaults; malformed in a current-version save is rejected. */
+  readonly nestingIntelligence: NestingIntelligence;
+}
+
+/** Planning values for the nesting estimator. fabricWidth stays in Workspace;
+ * these ride beside it so old payloads load without a format-version bump. */
+export interface NestingIntelligence {
+  readonly bufferPct: number;
+  readonly availableLengthCm: number | null;
+  readonly napAware: boolean;
+}
+
+export const DEFAULT_NESTING_INTELLIGENCE: NestingIntelligence = {
+  bufferPct: BUFFER_DEFAULT_PCT, availableLengthCm: null, napAware: true,
+};
+
+/** Lenient section parser: absent means defaults, malformed means rejected. */
+export function parseNestingIntelligence(value: unknown): NestingIntelligence | null {
+  if (value === undefined) return { ...DEFAULT_NESTING_INTELLIGENCE };
+  if (typeof value !== "object" || value === null || Array.isArray(value)) return null;
+  const section = value as Record<string, unknown>;
+  const buffer = section.bufferPct;
+  if (typeof buffer !== "number" || !Number.isFinite(buffer) ||
+    buffer < BUFFER_MIN_PCT || buffer > BUFFER_MAX_PCT) return null;
+  const available: unknown = section.availableLengthCm;
+  if (available !== null &&
+    (typeof available !== "number" || !Number.isFinite(available) || available <= 0)) return null;
+  if (typeof section.napAware !== "boolean") return null;
+  return {
+    bufferPct: buffer,
+    availableLengthCm: available as number | null,
+    napAware: section.napAware,
+  };
 }
 type LoadResult = ({ ok: true } & Omit<SaveFile, "v">) | { ok: false; error: string };
 const object = (v: unknown): v is Record<string, unknown> => typeof v === "object" && v !== null && !Array.isArray(v);
@@ -67,6 +106,29 @@ export interface RecoveryFile {
   readonly materialSelectionExplicit: boolean;
   /** Crash-restore artwork. Absent in older recovery payloads means empty. */
   readonly surface: SurfaceBook;
+  /** Crash-restore nesting planning raws. Absent means canonical defaults. */
+  readonly rawNestingIntelligence: RawNestingIntelligence;
+}
+
+/** Raw nesting planning values, preserved verbatim so invalid unfinished
+ * entries survive crash restore exactly as typed. */
+export interface RawNestingIntelligence {
+  readonly buffer: string;
+  readonly available: string;
+  readonly napAware: boolean;
+}
+
+export const DEFAULT_RAW_NESTING_INTELLIGENCE: RawNestingIntelligence = {
+  buffer: String(BUFFER_DEFAULT_PCT), available: "", napAware: true,
+};
+
+/** Lenient raw parser: absent means canonical defaults, malformed rejects. */
+export function parseRawNestingIntelligence(value: unknown): RawNestingIntelligence | null {
+  if (value === undefined) return { ...DEFAULT_RAW_NESTING_INTELLIGENCE };
+  if (!object(value)) return null;
+  if (typeof value.buffer !== "string" || typeof value.available !== "string" ||
+    typeof value.napAware !== "boolean") return null;
+  return { buffer: value.buffer, available: value.available, napAware: value.napAware };
 }
 type RecoveryResult = ({ ok: true } & Omit<RecoveryFile, "v">) | { ok: false; error: string };
 const RECOVERY_STORAGE_KEY = "patternworks_recovery_v1";
@@ -96,8 +158,8 @@ function validWorkspace(value: unknown): value is Workspace {
     && ["single", "marker"].includes(value.nestScope);
 }
 
-export function serialize(m: Measurements, fabric: string, garmentOptions: GarmentOptionsByRecipe = {}, workspace: Workspace = DEFAULT_WORKSPACE, appearance: Appearance = DEFAULT_APPEARANCE, surface: SurfaceBook = {}): string {
-  return JSON.stringify({ v: SAVE_VERSION, measurements: m, fabric, appearance, garmentOptions, workspace, surface }, null, 2);
+export function serialize(m: Measurements, fabric: string, garmentOptions: GarmentOptionsByRecipe = {}, workspace: Workspace = DEFAULT_WORKSPACE, appearance: Appearance = DEFAULT_APPEARANCE, surface: SurfaceBook = {}, nestingIntelligence: NestingIntelligence = { ...DEFAULT_NESTING_INTELLIGENCE }): string {
+  return JSON.stringify({ v: SAVE_VERSION, measurements: m, fabric, appearance, garmentOptions, workspace, surface, nestingIntelligence }, null, 2);
 }
 
 const LEGACY_REQUIRED = ["chest", "shoulderWidth", "bicep", "length", "armholeDepth", "sleeveLength", "ease"];
@@ -156,6 +218,10 @@ export function deserialize(json: string): LoadResult {
   if (!surface) {
     if (!legacy) return { ok: false, error: "Invalid surface artwork." };
   }
+  const nestingIntelligence = parseNestingIntelligence(p.nestingIntelligence);
+  if (!nestingIntelligence) {
+    if (!legacy) return { ok: false, error: "Invalid nesting intelligence." };
+  }
   let workspace = DEFAULT_WORKSPACE;
   if (!legacy) {
     const w = p.workspace;
@@ -164,13 +230,13 @@ export function deserialize(json: string): LoadResult {
     }
     workspace = w;
   }
-  return { ok: true, measurements, fabric, appearance, garmentOptions, workspace, surface: surface ?? {} };
+  return { ok: true, measurements, fabric, appearance, garmentOptions, workspace, surface: surface ?? {}, nestingIntelligence: nestingIntelligence ?? { ...DEFAULT_NESTING_INTELLIGENCE } };
 }
 
 const STORAGE_KEY = "patternworks_save_v1";
-export function saveToStorage(m: Measurements, fabric: string, garmentOptions: GarmentOptionsByRecipe = {}, workspace: Workspace = DEFAULT_WORKSPACE, appearance: Appearance = DEFAULT_APPEARANCE, surface: SurfaceBook = {}): boolean {
+export function saveToStorage(m: Measurements, fabric: string, garmentOptions: GarmentOptionsByRecipe = {}, workspace: Workspace = DEFAULT_WORKSPACE, appearance: Appearance = DEFAULT_APPEARANCE, surface: SurfaceBook = {}, nestingIntelligence: NestingIntelligence = { ...DEFAULT_NESTING_INTELLIGENCE }): boolean {
   try {
-    const json = serialize(m, fabric, garmentOptions, workspace, appearance, surface);
+    const json = serialize(m, fabric, garmentOptions, workspace, appearance, surface, nestingIntelligence);
     if (!deserialize(json).ok) return false;
     localStorage.setItem(STORAGE_KEY, json);
     return true;
@@ -205,6 +271,8 @@ export function deserializeRecovery(json: string): RecoveryResult {
   if (!appearance) return { ok: false, error: "Recovery appearance settings are invalid." };
   const surface = parseSurfaceBook(p.surface);
   if (!surface) return { ok: false, error: "Recovery surface artwork is invalid." };
+  const rawNestingIntelligence = parseRawNestingIntelligence(p.rawNestingIntelligence);
+  if (!rawNestingIntelligence) return { ok: false, error: "Recovery nesting values are invalid." };
   return {
     ok: true,
     savedAt: p.savedAt,
@@ -217,6 +285,7 @@ export function deserializeRecovery(json: string): RecoveryResult {
     workspace: p.workspace,
     materialSelectionExplicit: p.materialSelectionExplicit,
     surface,
+    rawNestingIntelligence,
   };
 }
 
