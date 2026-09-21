@@ -597,7 +597,8 @@ construction text and guidance now follow the live vent/drop topology. No
 physical-fit or production-readiness claim is implied.
 
 The Epic 11 exit gate is complete. The six Slice 155–160 commits and the
-current output evidence are summarized in the durable exit report; no physical
+current output evidence are summarized in the durable exit report, and the
+reviewed handoff is pushed to `origin/main` at `3057c6c`; no physical
 validation, material-performance, sewability or production claim follows from
 the digital pipeline.
 

@@ -297,7 +297,7 @@ Status: complete. The complete implementation review, exact gate results,
 protected hashes, live rendered routes, parsed output evidence, delegated
 audit findings and limitations are recorded in
 `docs/release/EPIC-11-EXIT-REPORT.md`. No physical-fit or production-readiness
-claim is made; maintainer review is the next safe action.
+claim is made; Codex pushed the reviewed handoff to `origin/main` at `3057c6c`.
 
 ## Mandatory edge-case matrix
 

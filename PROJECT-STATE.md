@@ -126,7 +126,8 @@ gate remains 103 files / 1,412 tests with 100% statements, branches,
 functions and lines; TypeScript, production build, parsed output checks and
 protected export identity pass. No physical-fit or production-readiness claim
 is made. Slice 161 changes documentation/evidence only; the next work is
-maintainer review and any separately authorized promotion.
+the reviewed handoff is pushed to `origin/main` at `3057c6c`, followed by any
+separately authorized promotion.
 
 ## Current work — post-Epic 6 planning
 

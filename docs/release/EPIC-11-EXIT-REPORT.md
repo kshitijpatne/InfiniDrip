@@ -9,9 +9,9 @@ Epic 11 implementation commits: `b47177a`, `2f22d6a`, `c8914fb`, `db89666`,
 `180ef54`, `f9c2ae8`
 
 Status: complete. Codex reviewed the complete implementation, repaired the
-independent exit-audit findings, ran the full digital gate, and recorded the
-durable handoff below. This report does not claim physical fit or production
-readiness.
+independent exit-audit findings, ran the full digital gate, and pushed the
+reviewed handoff commit `3057c6c` to `origin/main`. This report does not claim
+physical fit or production readiness.
 
 ## Implemented boundary
 
