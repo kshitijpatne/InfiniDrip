@@ -159,6 +159,13 @@ snapshots; they are not current status.
   pinned-upstream and legal/runtime-admission record. It explicitly withholds
   runtime/WASM admission pending an owned artifact, notice and offline-build
   packet.
+- `docs/research/EPIC-8-SLICE-163-ADMISSION.md` — completed artifact, legal,
+  reproducibility and worker-containment packet. It records the exact source
+  revisions, MPL-2.0 duties, notice/lock hashes, build flags and the durable
+  proof-only/no-go decision after offline-build and worker-isolation gates fail.
+- `docs/research/epic8/sparrow-wasm/` — InfiniDrip-owned evidence copies of the
+  exact WASM Cargo manifest/lock, reference package lock, toolchain/build script,
+  full transitive notices and dataset notice, plus the checked manifest JSON.
 - `docs/research/PUBLIC-WEB-PLATFORM-COST-RESEARCH.md` — costed web-launch,
   identity, feature-flag, delivery-governance and local Control Center proposal;
   provider/account choices and cost envelope. Epic 12 now authorizes execution

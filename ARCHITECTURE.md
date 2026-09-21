@@ -523,20 +523,24 @@ layer, panel, persistence, and guidance boundaries above stand as the
 shipped contract; parsed output consumers and legacy hashes are verified
 with planning state present.
 
-### Epic 8 planned boundary — true-shape nesting proof
+### Epic 8 proof-only boundary — true-shape nesting no-go
 
-Epic 8 has an implemented, isolated Slice 162 proof contract but no solver
-runtime. Its packet is
-`docs/planning/EPIC-8-EXECUTION.md` and its research record is
-`docs/research/NESTING-REDESIGN-RESEARCH.md`; the completed admission record is
-`docs/research/EPIC-8-SLICE-162-ADMISSION.md`. The additive
+Epic 8's Slice 162 proof contract and Slice 163 artifact/legal/worker packet
+are complete, but no solver runtime is admitted. The execution packet is
+`docs/planning/EPIC-8-EXECUTION.md`; the research record is
+`docs/research/NESTING-REDESIGN-RESEARCH.md`; the admission records are
+`docs/research/EPIC-8-SLICE-162-ADMISSION.md` and
+`docs/research/EPIC-8-SLICE-163-ADMISSION.md`. The additive
 `nesting-proof-contract.ts` represents only an explicit single-material,
-non-fold, non-mirrored, finite-loop subset and rejects unknown facts. A pinned
-Sparrow/Jagua Rust/WASM worker remains conditional on the later owned artifact,
-notices, source-availability and offline-build packet. If ever admitted, it
-may receive an InfiniDrip-owned flattened instance and return candidate
-transforms, seed and diagnostics. It may not become drafting truth, replace
-`nestPieces`, mutate pieces, or bypass export validation.
+non-fold, non-mirrored, finite-loop subset and rejects unknown facts.
+
+The InfiniDrip-owned evidence captures exact Sparrow/Jagua/Sparrow Studio
+revisions, a locked Cargo graph, full transitive notices, source/license
+hashes, build flags and MPL-2.0 obligations. Admission still fails because no
+offline vendor/source-replacement build, pinned `wasm-pack`, generated WASM
+hashes, local Rust replay, hard memory/watchdog proof, runtime message
+validation, deterministic replay or unconditional shelf-result adapter exists.
+This is a durable proof-only/no-go boundary, not a license rejection.
 
 InfiniDrip remains authoritative for cut/sew loops, piece identity, marks,
 folds, quantities, grain, nap, mirrored pairs, clearance, bounds and overlap.
@@ -547,12 +551,11 @@ malformed output, cancellation, license/artifact failure or any validation
 failure returns the deterministic shelf result visibly. The current packer is
 the default and unconditional fallback.
 
-The proof initially leaves UI, persistence, writers, Electron packaging and
-legacy bytes untouched. Any later opt-in mode or downstream export path needs a
-separate promotion decision after fixed-seed replay, all-seven-recipe benchmark
-evidence, bounded runtime/memory, offline packaging and exact dependency
-notices. This boundary does not claim physical fit, production-marker quality,
-sewability or guaranteed material savings.
+The current proof leaves UI, persistence, writers, Electron packaging and
+legacy bytes untouched. A later re-open would need a new maintainer-authorized
+packet closing every failed gate before any adapter, worker, validator,
+benchmark or opt-in mode is implemented. This boundary does not claim physical
+fit, production-marker quality, sewability or guaranteed material savings.
 
 ### Epic 11 implementation boundary — Polo V2 fidelity
 

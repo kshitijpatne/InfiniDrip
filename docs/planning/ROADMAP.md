@@ -68,11 +68,11 @@ planning surface for Codex after the completed Epic 6 integration.
 | **Done / gate recorded** | **EPIC 7 — Nesting Intelligence Pack (Slices 132–134)** | **Complete — OpenCode contributed; Codex reviewed and pushed** | Additive metrics/UI/persistence around `nestPieces`; exact 10% buffer, 0–50% bounds, optional fabric-on-hand, truthful directional flag; `origin/main` `db14b63`; no geometry or export changes |
 | **Done / research-only** | **Garment-expansion research wave (Slices 149–154)** | **Complete — Codex-owned; Claude contributed two isolated packets** | Four garment records plus binding synthesis; no implementation authorized |
 | **Done / gate recorded** | **EPIC 11 — Polo V2 fidelity refinement (Slices 155–161)** | **Complete — Codex reviewed and pushed** | Shaped neckline-derived collar/stand, back preview, placket-base marks, side vents and adjustable back drop; see `docs/release/EPIC-11-EXIT-REPORT.md` |
-| **In progress / runtime blocked** | **EPIC 8 — True-shape nesting proof and controlled redesign (Slice 162 done; provisional 163–169)** | **Codex-owned; contract admitted, external runtime withheld** | One-material/non-fold/non-mirrored proof contract; an owned artifact, MPL notice/source and offline-worker packet must precede any Sparrow/Jagua invocation |
+| **Done / proof-only no-go** | **EPIC 8 — True-shape nesting proof and controlled redesign (Slices 162–163 admission packet)** | **Codex-owned; runtime deliberately withheld** | Exact source/lock/notices/hashes recorded; offline build and worker-containment gates failed; `nestPieces` remains the only runtime behavior |
 | **Next** | **Surface v1 stabilization** — follow-up only for a reproducible defect or real user evidence | **Conditional** | Epic 6 exit evidence plus a concrete failure; no speculative polish |
 | **Later / researched** | **Garment candidates** — shorts → sweatshirt → jogger → pullover hoodie → rigid jeans | **Packets researched; execution packets still required** | Shared stretched-join and lower-body boundaries in `GARMENT-EXPANSION-SYNTHESIS.md`; do not start from the research record alone |
 | **Later / blocked** | **Physical fit validation** | **Blocked by maintainer constraint** | No manufacturer/printer is available; no sewn-fit claim or schedule until explicitly reopened |
-| **Scoped / implementation-gated** | **Sparrow irregular nesting redesign** | **Captured by EPIC 8; not authorized** | Fabric-width, grain, nap, fold, pair/mirror and clearance semantics plus deterministic fallback and benchmark proof |
+| **Proof-only / reopen-only** | **Sparrow irregular nesting redesign** | **Epic 8 no-go recorded; not authorized** | Reopen only with a new packet closing pinned-toolchain, offline-build, worker-isolation, replay, validator and fallback gates |
 | **In progress / Slices 171–173 complete** | **EPIC 12 — Public Web Platform and Delivery Governance** | **Codex-owned; local board and delivery proof reviewed, external mutation still gated** | Repository-local Control Center, deterministic static artifact proof, planned Auth/RLS workspace, release governance and feature flags; no provider account or personal-data collection |
 
 ### Codex next-work options
@@ -80,10 +80,11 @@ planning surface for Codex after the completed Epic 6 integration.
 Epics 7, 9, 10 and 11 and the garment research wave are complete. Current
 choices:
 
-1. **Epic 8 artifact/worker admission packet.** Slice 162 has established its owned
-   reject-by-default contract and withheld runtime admission. A separate
-   artifact/worker reproducibility packet is required before any Sparrow/Jagua
-   invocation; current nesting stays the product behavior.
+1. **Epic 8 proof-only/no-go exit.** Slice 162 established the owned
+   reject-by-default contract and Slice 163 recorded the exact artifact/legal/
+   worker evidence. Offline reproducibility and containment failed, so no
+   Sparrow/Jagua invocation is admitted; current nesting stays the product
+   behavior.
 2. **Future garment execution packet.** If work after Polo is selected, scope
    casual shorts first. A separate upper-body sweatshirt geometry track may run
    in parallel only with disjoint files and serialized shared integration.
@@ -96,10 +97,10 @@ choices:
 
 Future garment work must be separately scoped before implementation. The
 open-source audit does not authorize direct reuse of a drafting engine, VTO/3D
-stack, or linter as a replacement for InfiniDrip's own contracts. The Epic 8
-packet likewise does not authorize a Sparrow/Jagua runtime dependency until its
-exact revisions, notices, apparel constraints, deterministic fallback and
-benchmark gates pass.
+stack, or linter as a replacement for InfiniDrip's own contracts. Epic 8's
+packet is now a proof-only/no-go record; its runtime may be reopened only after
+the exact revisions, notices, offline artifact provenance, worker containment,
+apparel constraints, deterministic fallback and benchmark gates pass.
 
 ---
 
@@ -386,7 +387,7 @@ ready-to-pull backlog. EPIC 7 is the explicit conscious decision to implement
 | 0.5.12 | **Automated accessibility evidence** — trial `axe-core` in the existing Playwright harness, without treating automation as complete accessibility | Slice 121 final gate | existing manual keyboard/focus/zoom/viewport audit | **Accepted trial** — dev-only; triage findings and retain manual evidence |
 | 0.5.13 | **Property-based drafting/guidance regression** — bounded, seeded `fast-check` generators whose failures become permanent fixtures | test harness only | first separately scoped post-Epic-6 quality slice | **Accepted trial** — no production import; remove if it only duplicates fixtures |
 | 0.5.14 | **Independent flattened-geometry oracle** — `@flatten-js/core` intersections/containment/validity in tests, never as drafting truth | test harness only | with 0.5.13 or a later demonstrated geometry defect after Epic 6 | **Accepted trial** — flattened loops only; no output-byte changes |
-| 0.5.15 | **Irregular fabric nesting proof** — optional deterministic Sparrow worker returning seed + transforms, followed by owned constraint validation and shelf-packer fallback | current nesting/export boundary | only after 0.5.2–0.5.4 define grain/nap/fold/pair/clearance semantics | **Scoped in EPIC 8** — benchmark all recipes; no production adoption yet |
+| 0.5.15 | **Irregular fabric nesting proof** — optional deterministic Sparrow worker returning seed + transforms, followed by owned constraint validation and shelf-packer fallback | current nesting/export boundary | only after 0.5.2–0.5.4 define grain/nap/fold/pair/clearance semantics | **Epic 8 proof-only/no-go** — artifact/offline-worker gates failed; reopen only with a new admission packet |
 | 0.5.16 | **Richer seam-interface semantics** — first add a ratio-aware stretch-to-fit join for user-owned band/cuff lengths; later optional stitch side/orientation, per-section correspondence/projected ease and option compatibility only when consumed | completed component grammar | first banded sweatshirt execution packet; also serves jogger cuff and later Polo sleeve band | **Triggered, not implemented** — reports path ratio, never invents recovery or reuses absolute-cm `Stitch.ease`; independently specified TypeScript, not a GarmentCode port |
 
 ### Priority 1 — The multiplier (architecture before library)

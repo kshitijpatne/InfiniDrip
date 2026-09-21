@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 1,
+  "status": "evidence-only; runtime admission is not granted",
+  "capturedAt": "2026-09-21",
+  "owner": "InfiniDrip",
+  "purpose": "Lock and identify the candidate Sparrow/Jagua WASM source tree, build inputs, notices, and reproducibility gaps before any adapter or worker is admitted.",
+  "components": {
+    "sparrow": {
+      "repository": "https://github.com/JeroenGar/sparrow.git",
+      "revision": "7f0e10f946f70a86138d3938548a13ee46464f39",
+      "gitTreeSha1": "6bd8c81d4a377226dc54a75b1b533e2ce67ab749",
+      "sourceArchive": {
+        "format": "git archive tar",
+        "sha256": "075142a73de7dad8481032fc157c877d628999a047c315899ead3d67e83cfd69"
+      },
+      "license": "MIT",
+      "licenseSha256": "d0f0dbde5eaf88ee689c4c5f8a758b5923867a19984e577c09650803d2c62a81",
+      "licenseTextSha256Normalized": "c6346d0c202b8d0df06e5794cebbe030b93d7997a6339b3855cd7c9515bf62ec",
+      "lockfileStatus": "No Cargo.lock at this repository revision; only the downstream WASM lock pins this git revision."
+    },
+    "jagua-rs": {
+      "repository": "https://github.com/JeroenGar/jagua-rs.git",
+      "crateVersion": "0.8.3",
+      "sourceRevision": "a15ddd4909c5bd4d619c1878342c7b71ab27ac4a",
+      "gitTreeSha1": "6dbfd7b514beee8ee2bc3ff2103af7d00fc0d63b",
+      "sourceArchive": {
+        "format": "git archive tar, jagua-rs/ subtree",
+        "sha256": "0fd7b3f067586a017f65cabaa91d521383d96f164f63f0277d0c253446e3034f"
+      },
+      "license": "MPL-2.0",
+      "licenseSha256": "2684de17300e0a434686f1ec7f8af6045207a4b457a3fe04b2b9ce655e7c5d50",
+      "licenseTextSha256Normalized": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
+      "registrySource": "https://crates.io/api/v1/crates/jagua-rs/0.8.3/download",
+      "registryChecksumFromCargoLock": "f86db7f872ee10076adcbf44cbc9b68efb21dcbd8b0fd003994fca5a350d4f57",
+      "publishedCrateSha256": "f86db7f872ee10076adcbf44cbc9b68efb21dcbd8b0fd003994fca5a350d4f57",
+      "publishedCrateVcsInfo": {
+        "sha1": "a15ddd4909c5bd4d619c1878342c7b71ab27ac4a",
+        "pathInVcs": "jagua-rs"
+      },
+      "distributionNote": "The WASM lock resolves the unmodified published crate; the exact upstream source revision is retained for source availability and license evidence."
+    },
+    "sparrowStudioBuildWrapper": {
+      "repository": "https://github.com/JeroenGar/sparrow-studio.git",
+      "revision": "2eabe10698e899ce2c59124ff97ca28479484bf6",
+      "gitTreeSha1": "7cda10a3b6034a6ec9ccb1aa17dec91fa6b8b45e",
+      "sourceArchive": {
+        "format": "git archive tar, selected WASM/build/notice inputs",
+        "sha256": "1efd1614b574b7dd9777c3563d5bad990165ac2f01d756624f045fe805357877"
+      },
+      "license": "MIT",
+      "licenseSha256": "4c33178ca3294511b4e2aa754e3653a2da67d0496227ee182ca5993ca852b6c6",
+      "adoptionStatus": "Reference build wrapper only; no Studio UI, source, generated WASM, dataset, or npm dependency is imported into InfiniDrip."
+    }
+  },
+  "lockedInputs": [
+    {
+      "path": "Cargo.lock",
+      "source": "sparrow-studio/web/wasm/Cargo.lock",
+      "sha256": "70b6e4e976ecc0dec09436846e32c0841cebca7ba58d515120008b0c6fccca1a",
+      "packageEntries": 150,
+      "uniquePackageNames": 147,
+      "lockfileVersion": 4,
+      "note": "Includes platform/optional lock entries; the notice generator resolves the wasm32 target with threads."
+    },
+    {
+      "path": "Cargo.toml",
+      "source": "sparrow-studio/web/wasm/Cargo.toml",
+      "sha256": "83193d22e5537685fa09e6564b7b9572d06fd571040a23baf3a381c2e39ba3fb"
+    },
+    {
+      "path": "rust-toolchain.toml",
+      "source": "sparrow-studio/web/wasm/rust-toolchain.toml",
+      "sha256": "8eb73dd2eea0566eca52f6ecd2f5fc36d70adf67b3ace5a824cec23550d7965a"
+    },
+    {
+      "path": "build-wasm.mjs",
+      "source": "sparrow-studio/web/scripts/build-wasm.mjs",
+      "sha256": "17a6f56d315466efceaa04a454c16149078a330b3db7d41fe1e1376e37fab37f"
+    },
+    {
+      "path": "package-lock.json",
+      "source": "sparrow-studio/web/package-lock.json",
+      "sha256": "13fd5f28f354f3ead6c96450994f24ac8e5ee6f8b74d14dc686fa84af3cc9ee8",
+      "scope": "Reference web wrapper only; not an InfiniDrip runtime dependency."
+    }
+  ],
+  "notices": {
+    "path": "THIRD_PARTY_NOTICES.txt",
+    "sha256": "66794d049640b12f1a8fb226c789950b1d90d25a0a740693772197f64aa3d9c5",
+    "source": "sparrow-studio/web/public/THIRD_PARTY_NOTICES.txt",
+    "rustPackageCountDeclaredByGenerator": 132,
+    "npmProductionPackageCountDeclaredByGenerator": 41,
+    "distinctLicenseTextBlocks": 129,
+    "includesFullLicenseText": true,
+    "includesMplSourceReferences": true,
+    "scope": "Conservative notices for the locked wasm32 + threads graph and the reference web wrapper. It is retained as InfiniDrip-owned evidence, not yet exposed in a product package."
+  },
+  "buildMatrix": [
+    {
+      "name": "serial-simd",
+      "features": ["sparrow/simd"],
+      "rustToolchain": "stable",
+      "target": "wasm32-unknown-unknown",
+      "flags": ["-Ctarget-feature=+simd128"],
+      "wasmOpt": false,
+      "artifactSha256": null
+    },
+    {
+      "name": "serial-nosimd",
+      "features": [],
+      "rustToolchain": "stable",
+      "target": "wasm32-unknown-unknown",
+      "flags": ["-Ctarget-feature=-simd128"],
+      "wasmOpt": false,
+      "artifactSha256": null
+    },
+    {
+      "name": "threaded-simd",
+      "features": ["threads", "sparrow/simd"],
+      "rustToolchain": "nightly-2026-08-30",
+      "target": "wasm32-unknown-unknown",
+      "flags": ["-Zbuild-std=panic_abort,std", "-Ctarget-feature=+simd128,+atomics,+bulk-memory,+mutable-globals", "--shared-memory", "--max-memory=1073741824", "--import-memory", "--export=__wasm_init_tls", "--export=__tls_size", "--export=__tls_align", "--export=__tls_base"],
+      "wasmOpt": false,
+      "artifactSha256": null
+    },
+    {
+      "name": "threaded-nosimd",
+      "features": ["threads"],
+      "rustToolchain": "nightly-2026-08-30",
+      "target": "wasm32-unknown-unknown",
+      "flags": ["-Zbuild-std=panic_abort,std", "-Ctarget-feature=-simd128,+atomics,+bulk-memory,+mutable-globals", "--shared-memory", "--max-memory=1073741824", "--import-memory", "--export=__wasm_init_tls", "--export=__tls_size", "--export=__tls_align", "--export=__tls_base"],
+      "wasmOpt": false,
+      "artifactSha256": null
+    }
+  ],
+  "rebuild": {
+    "referenceCommand": "npm ci && npm run wasm:build",
+    "offlineCommand": null,
+    "requiredTools": ["node/npm", "rustup", "cargo", "rustc", "wasm-pack", "wasm-bindgen"],
+    "requiredCaches": ["crates.io registry and crate archives", "sparrow git revision", "rust standard library sources", "wasm-pack toolchain"],
+    "networkRequiredByReferenceScript": true,
+    "gaps": [
+      "wasm-pack version is not pinned by the captured package lock or build script.",
+      "No cargo-vendor directory or Cargo source-replacement configuration is captured.",
+      "No generated WASM artifact is committed or hashable at the selected Studio revision.",
+      "The local supported-host audit has no cargo, rustc, rustup, wasm-pack, or wasm-bindgen executable.",
+      "The threaded build uses a 1 GiB linker maximum but does not prove a runtime memory budget or host kill policy."
+    ]
+  },
+  "admission": {
+    "artifactLockGate": "evidence captured; InfiniDrip offline lock/vendor build still missing",
+    "licenseNoticeGate": "provisional evidence captured; release counsel/source-offer review still required",
+    "offlineBuildGate": "failed",
+    "supplyChainGate": "not proven; cargo audit/deny and generated-artifact provenance were not runnable on this host",
+    "workerContainmentGate": "failed by source audit; no hard memory cap and no post-start parent watchdog are proven",
+    "decision": "Do not implement or admit the solver adapter, worker, validator, benchmark promotion, UI, or export path from this packet. Preserve nestPieces as the only runtime behavior."
+  }
+}

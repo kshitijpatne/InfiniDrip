@@ -332,9 +332,21 @@ license/runtime record is `docs/research/NESTING-REDESIGN-RESEARCH.md`.
   hashes. Any later opt-in mode or downstream export use requires a separate
   promotion decision based on deterministic replay, owned validation, benchmark
   improvement, bounded runtime/memory, offline packaging and visible fallback.
-- Provisional slices are 162–169 after Epic 11's reserved 155–161 range. This
-  is a scope recommendation only; implementation remains unscheduled until the
-  product owner accepts the admission gates.
+- Slice 162 is complete as a contract-only admission decision. Slice 163's safe
+  artifact/legal/worker packet is now recorded in
+  `docs/research/EPIC-8-SLICE-163-ADMISSION.md`, with InfiniDrip-owned locked
+  evidence under `docs/research/epic8/sparrow-wasm/`.
+- The packet captures exact revisions, the full locked Rust graph, notices and
+  MPL-2.0 obligations, but fails offline reproducibility and worker-containment
+  admission: there is no pinned `wasm-pack`, vendored Cargo source, generated
+  WASM hash or replay; the inspected worker has no proven hard memory/watchdog
+  boundary, runtime candidate schema validation, fixed-seed replay or
+  unconditional `nestPieces` fallback.
+- Epic 8 therefore takes the proof-only/no-go lane. The original adapter and
+  Slices 164–168 are not admitted; `nestPieces` remains the only runtime
+  behavior. Reopening requires a new maintainer-authorized packet that closes
+  every failed gate. This is not a legal opinion and does not reject MPL-2.0 in
+  principle; release counsel must review any future executable distribution.
 
 ## Epic 11 — Polo V2 fidelity packet — authorized 2026-09-20
 

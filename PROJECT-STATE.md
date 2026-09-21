@@ -191,12 +191,23 @@ revisions and confirms Sparrow's MIT / Jagua-RS's MPL-2.0 posture. The contract
 only admits explicit one-material, non-fold, non-mirrored physical pieces and
 rejects unknown facts. It changes no current behavior.
 
-No runtime dependency, exported artifact, solver adapter, worker, UI or export
-path is admitted: the selected source lacks an owned locked artifact tree and
-the project has not yet supplied full notices, MPL source availability,
-reproducible offline build provenance, or worker failure containment. Slice 163
-is therefore blocked pending a separately scoped artifact-and-worker packet;
-a proof-only/no-go exit remains valid. Provisional later slices stay 163–169.
+The safe Slice 163 artifact/legal/worker packet is complete in
+`docs/research/EPIC-8-SLICE-163-ADMISSION.md`, with the InfiniDrip-owned locked
+evidence under `docs/research/epic8/sparrow-wasm/`. It records the exact
+Sparrow/Jagua/Sparrow Studio revisions, Cargo graph, full notices, hashes,
+MPL-2.0 source/modification duties, build flags and offline rebuild gaps. The
+evidence is not runtime admission: no pinned `wasm-pack`, Cargo vendor/source
+replacement, generated WASM hash, local Rust build or offline replay exists.
+The inspected upstream worker also fails InfiniDrip's hard memory/watchdog,
+runtime malformed-output, deterministic-replay and unconditional shelf-fallback
+requirements.
+
+The original Slice 163 adapter and Slices 164–168 are therefore not admitted.
+Epic 8 is on the proof-only/no-go exit lane; `nestPieces` remains the only
+runtime nesting behavior and unconditional fallback. No solver, WASM, UI,
+persistence, export, benchmark or legacy baseline changes are allowed without
+a new maintainer-authorized packet that closes every failed gate. Provisional
+later slices remain historical scope only.
 
 ### Slice 154 — garment-expansion research wave complete
 

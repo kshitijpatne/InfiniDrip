@@ -1,7 +1,7 @@
 # EPIC 8 — True-Shape Nesting Proof and Controlled Redesign
 
-Status: **SLICE 162 COMPLETE AS A PROOF-CONTRACT / NO-RUNTIME-ADMISSION
-DECISION. A SOLVER, WASM OR RUNTIME DEPENDENCY REMAINS UNAUTHORIZED.**
+Status: **SLICE 163 ARTIFACT/WORKER PACKET COMPLETE AS A PROOF-ONLY/NO-GO
+DECISION. SOLVER, WASM AND RUNTIME ADMISSION FAILED.**
 
 Owner: **Codex**. OpenCode or Claude Code may assist only with isolated,
 bounded benchmark/documentation work under `docs/OPENCODE-WORKFLOW.md`.
@@ -89,12 +89,39 @@ new recipe metadata without a consumer.
 Owner/model: Codex; Sol-high for contract/legal-boundary review, Luna-max for
 mechanical fixture work.
 
-### Slice 163 — owned flattening and solver adapter proof
+### Slice 163 — artifact, legal, and worker admission packet
 
-**Blocked by Slice 162 runtime-admission gates.** The original scope cannot
-start until a separate artifact-and-worker reproducibility packet supplies the
-owned lockfile, full notice/source plan, offline build provenance and contained
-worker evidence recorded in `docs/research/EPIC-8-SLICE-162-ADMISSION.md`.
+The safe Slice 163 successor was executed before the original adapter scope.
+The complete packet is `docs/research/EPIC-8-SLICE-163-ADMISSION.md`, with an
+InfiniDrip-owned evidence directory at
+`docs/research/epic8/sparrow-wasm/`. It captures exact Sparrow, Jagua-RS and
+Sparrow Studio revisions; a locked Cargo graph; full generated notices;
+license/source hashes; build flags; and the MPL-2.0 source/modification
+obligations.
+
+The packet does not pass runtime admission. There is no pinned `wasm-pack`,
+offline Cargo vendor/source replacement, generated WASM hash, local Rust build,
+or artifact replay. The inspected upstream worker also lacks InfiniDrip's hard
+memory budget, post-start parent watchdog, runtime schema validation, fixed-seed
+replay evidence and unconditional `nestPieces` result path. The adapter and all
+later implementation slices remain blocked. This is a deliberate proof-only /
+no-go result, not a claim that MPL-2.0 is unusable.
+
+Acceptance: exact revisions, lock, notices, provenance hashes, legal duties,
+offline rebuild gaps and the worker failure matrix are durable and checkable;
+the current shelf packer remains unchanged and unconditional.
+
+Non-goals: no solver invocation, adapter, worker, validator, benchmark, UI,
+persistence, export or baseline change.
+
+Owner/model: Codex; Sol-high for legal/artifact and worker-isolation review,
+Luna-max for inventory and repeatable verification.
+
+### Original Slice 163 — owned flattening and solver adapter proof (not admitted)
+
+**Blocked by the Slice 163 admission packet's failed offline-build and worker-
+containment gates.** Do not start this scope without a new maintainer-authorized
+packet that closes every failure in `docs/research/EPIC-8-SLICE-163-ADMISSION.md`.
 
 Convert eligible `FlatPiece` cut/sew loops into the pinned solver input without
 mutating source pieces. Preserve role/name/size identity and explicit grain,
