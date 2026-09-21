@@ -1,14 +1,41 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 149 garment-expansion research-wave start, 2026-09-20.
-EPIC 9 and EPIC 10 are implemented, reviewed, documented, and pushed by
-Codex to `origin/main`. Epic 7 remains the isolated OpenCode implementation
-workstream. Epic 11 implementation is deliberately waiting for the reviewed
-Epic 7 merge. Physical validation and production readiness remain unverified._
+_Last updated: Slice 154 garment-expansion research synthesis, 2026-09-20.
+Epics 7, 9 and 10 are implemented, Codex-reviewed, documented and pushed to
+`origin/main`. The Epic 11 merge gate is therefore satisfied, but implementation
+has not started. Physical validation and production readiness remain
+unverified._
 
 ## Current work — post-Epic 6 planning
 
-### Slice 149 — garment-expansion research wave active
+### Slice 154 — garment-expansion research wave complete
+
+Slices 149–154 now provide a shared dependency contract, four pressure-tested
+garment records and the binding cross-family synthesis in
+`docs/planning/GARMENT-EXPANSION-SYNTHESIS.md`. Codex authored shorts and jeans,
+reviewed and corrected Claude's isolated jogger and sweatshirt/hoodie packets,
+and reconciled the findings against current code and authoritative sources.
+
+All four garment families belong in the future library, but implementation
+remains unauthorized. The recommended order after the already-packeted Polo V2
+is casual shorts, adult crewneck sweatshirt, adult jogger, pullover-hoodie
+extension, then rigid five-pocket jeans. Exact estimates are 7–9, 6–9, 5–7,
+5–8 additional and 11–14 slices respectively. Numbers are deliberately not assigned to
+future epics because Epic 8 remains reserved and the product owner owns
+scheduling.
+
+The binding shared decisions are: no automatic material-derived rib/elastic/
+shrinkage constants; no new global body field or save bump; user-owned finished
+band/cuff lengths with a ratio-aware stretched-join interface; buttonhole marks
+plus BOM text for P0 eyelets; adult-only jogger/hoodie P0; and explicit
+multi-material nesting limitations. The current material record still lacks
+recovery, weight, shrinkage and direction-specific stretch.
+
+Epic 7 is reviewed, merged and pushed at `origin/main` commit `db14b63`, so the
+Epic 11 Slices 155–161 start gate is satisfied. Epic 11 is now the next
+implementation-ready geometry packet if the product owner schedules it.
+
+### Slice 149 — garment-expansion research wave started
 
 The product owner authorized a parallel documentation-only research wave for
 casual shorts, joggers, cut-and-sew crewneck sweatshirt/pullover hoodie, and
@@ -22,9 +49,9 @@ must independently review every source, conclusion and diff. This work does
 not authorize production code, new recipe IDs, material-contract changes,
 baselines or physical-fit claims and does not touch Epic 7.
 
-The research wave occupies Slices 149–154. Epic 11's implementation scope is
-unchanged and renumbered to Slices 155–161; its reviewed-Epic-7 start gate
-remains binding.
+The research wave occupied Slices 149–154. Epic 11's implementation scope is
+unchanged and renumbered to Slices 155–161; its reviewed-Epic-7 start gate is
+now satisfied.
 
 ### Slice 148 — EPIC 11 Polo V2 research and execution packet complete
 
@@ -50,10 +77,10 @@ complete grade specification. V2 continues the existing grade-by-redraft model
 and proves every size from the actual neckline and stand seams.
 
 This is an execution-ready documentation result, not an implementation-start or
-physical-validation claim. Slices 155–161 begin only after Epic 7 Slices
-132–134 are returned, Codex-reviewed, repaired if needed, merged and pushed.
-No application code, export baseline or Epic 7 file changes are part of Slice
-148.
+physical-validation claim. Its Epic 7 prerequisite is now satisfied by the
+reviewed `origin/main` integration at `db14b63`; Slices 155–161 still begin only
+when the product owner schedules Epic 11. No application code or export
+baseline changed in Slice 148.
 
 ### Slice 131 — EPIC 7/9/10 execution scopes recorded; Epic 7 re-scoped for implementation
 
@@ -80,14 +107,13 @@ was the final reviewer, integrator, and sole pusher to `origin/main`; the
 remote ref was verified at the integrated commit `c627ac5` before the final
 documentation record. The execution order was Codex EPIC 9 Slices 135–139,
 isolated Claude EPIC 10 Slices 140–144, Codex Slice 145 repair, Codex Slice
-146 integration, and Slice 147 push verification. EPIC 7 is independent and
-must work in its own OpenCode branch/worktree; it may implement only the
-nesting-intelligence scope in its packet and must not push `main`.
+146 integration, and Slice 147 push verification. Epic 7 subsequently completed
+in its isolated OpenCode branch/worktree and reached `origin/main` only through
+Codex review and integration.
 
-### Slice 132 — pure nesting metrics and contracts (review-ready, not merged)
+### Slice 132 — pure nesting metrics and contracts complete
 
-Slice 132 adds `src/export/nesting-intelligence.ts` on branch
-`opencode/epic-7-nesting-intelligence`: buffer validation and planned-length
+Slice 132 added `src/export/nesting-intelligence.ts`: buffer validation and planned-length
 math (default 10%, range 0–50%, step 1%), waste share from utilization,
 optional fabric-on-hand fits/short-by verdicts that stay unknown for blank or
 invalid input, and the truthful no-rotation nap notice. Unratable input yields
@@ -95,9 +121,9 @@ null, never a fabricated number. No UI, geometry, export, or save-schema
 change. Difficulty rating stays deferred; Sparrow, rotation, interlocking,
 physical validation, and production claims stay out of scope.
 
-### Slice 133 — UI, persistence, and actionable guidance (review-ready, not merged)
+### Slice 133 — UI, persistence, and actionable guidance complete
 
-Same branch. Fabric-view planning controls (buffer with rail/steppers,
+Fabric-view planning controls (buffer with rail/steppers,
 optional on-hand length, directional checkbox) with live readouts for
 required length, buffered plan, waste %, on-hand state, fits/short-by-X
 verdict, and the nap notice. Save/recovery carry an optional additive
@@ -108,15 +134,18 @@ guidance and never pause the draft or gate exports. Planning state is global
 like fabric width; metrics recompute per draft across garment/style/scope
 switches.
 
-### Slice 134 — seven-garment exit audit and release report (review-ready, not merged)
+### Slice 134 — Epic 7 reviewed, merged and pushed
 
-Same branch. Exit audit proving empty, valid, invalid, too-short, and
+The exit audit proves empty, valid, invalid, too-short, and
 too-narrow planning states plus deterministic scope round-trips, per-garment
 save/load, and responsive rendering on all seven garments through the real
 mounted app; `docs/release/EPIC-7-EXIT-REPORT.md` records commands, evidence,
 limitations, and defects. Parsed SVG/DXF/tiled-PDF/A0/projector/tech-pack
 consumers and all eight legacy hashes verified with planning state present.
-No physical cutting, fit, cross-OS, signing, or geometry work.
+No physical cutting, fit, cross-OS, signing, or geometry work. Codex reviewed
+the contributor commits, integrated current `main`, ran the full gate and live
+mounted-app checks, and pushed `db14b63` to `origin/main`; see
+`docs/release/EPIC-7-EXIT-REPORT.md`.
 
 ### EPIC 9 — implementation complete on the supported host
 
@@ -152,9 +181,9 @@ all eight legacy export hashes remain unchanged.
 The durable evidence is `docs/release/EPIC-10-EXIT-REPORT.md`; raw packaged
 EPIC 9 evidence remains under `tmp/epic9-release/`. The integrated checkout
 has passed the serial full suite, 100% coverage, typecheck, production build,
-parsed-output checks, and the complete packaged Electron gate. EPIC 7 is an
-independent OpenCode implementation workstream; Codex retains all review,
-repair, merge, and push authority.
+parsed-output checks, and the complete packaged Electron gate. Epic 7 remained
+an independent OpenCode workstream at that point and has since completed under
+Codex review, merge and push authority.
 
 ### Slice 147 — EPIC 9/10 goal closed after Codex-only push
 

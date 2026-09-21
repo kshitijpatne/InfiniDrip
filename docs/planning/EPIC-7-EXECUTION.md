@@ -1,8 +1,8 @@
 # EPIC 7 — Nesting Intelligence Pack
 
-_Status: Codex-scoped and ready for OpenCode implementation from the current
-`origin/main` baseline. This is an additive enhancement to the existing nesting
-estimator; it is not a nesting-engine rewrite._
+_Status: complete, Codex-reviewed and pushed to `origin/main` at `db14b63`.
+This is an additive enhancement to the existing nesting estimator; it is not a
+nesting-engine rewrite. See `docs/release/EPIC-7-EXIT-REPORT.md`._
 
 ## Objective and product value
 
@@ -187,7 +187,7 @@ actor to merge and push `origin/main`.
 
 ## Slice records (contributor-appended; plan above is Codex-owned)
 
-### Slice 132 — pure contract and metrics (review-ready, not merged)
+### Slice 132 — pure contract and metrics complete
 
 Branch `opencode/epic-7-nesting-intelligence` from `origin/main` at `a9cab78`.
 Adds `src/export/nesting-intelligence.ts` plus focused tests: buffer
@@ -196,7 +196,7 @@ fits/short-by verdicts, and the no-rotation nap notice. Unratable input
 yields null. No UI, geometry, export, or save-schema change. Stop conditions
 not triggered; no baseline moved.
 
-### Slice 133 — UI, persistence, and actionable guidance (review-ready, not merged)
+### Slice 133 — UI, persistence, and actionable guidance complete
 
 Same branch. Adds the planning controls (buffer 0–50% with rail/steppers,
 optional on-hand length, directional checkbox) and live readouts (required,
@@ -210,7 +210,7 @@ are global like fabric width; metrics recompute per draft so garment/style
 switches cannot leak stale values. Difficulty rating stays deferred; no
 rotation, interlocking, geometry, grain, export, or legacy-byte change.
 
-### Slice 134 — seven-garment exit audit and release report (review-ready, not merged)
+### Slice 134 — seven-garment exit audit and release report complete
 
 Same branch. Exit audit proving empty, valid, invalid, too-short, and
 too-narrow planning states plus deterministic scope round-trips, per-garment
@@ -219,3 +219,5 @@ mounted app; `docs/release/EPIC-7-EXIT-REPORT.md` records commands, evidence,
 limitations, and defects. Parsed SVG/DXF/tiled-PDF/A0/projector/tech-pack
 consumers and all eight legacy hashes verified with artwork-style planning
 state present. No physical cutting, fit, cross-OS, signing, or geometry work.
+Codex reviewed the actual diff and live mounted behavior, preserved every
+boundary, merged the work and pushed the final review record at `db14b63`.

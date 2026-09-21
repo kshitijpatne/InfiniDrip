@@ -76,9 +76,14 @@ snapshots; they are not current status.
   packet, exact scope/options, Epic 7 start gate, Slice 148 plus Slices 155–161,
   pressure
   matrix, and return contract.
-- `docs/planning/GARMENT-EXPANSION-RESEARCH-WAVE.md` — active Slices 149–154
+- `docs/planning/GARMENT-EXPANSION-RESEARCH-WAVE.md` — completed Slices 149–154
   research-only contract, evidence standard, Codex/Claude ownership boundaries,
-  stop conditions and future-family synthesis gate.
+  stop conditions and completed future-family synthesis gate.
+- `docs/planning/GARMENT-EXPANSION-SYNTHESIS.md` — binding Slice 154
+  cross-family decisions, shared knit/material gates, estimates, recommended
+  order and safe parallel-development boundaries. It does not authorize code.
+- `docs/release/EPIC-7-EXIT-REPORT.md` — reviewed nesting-intelligence scope,
+  full-gate and live mounted-app evidence, origin commit and limitations.
 - `docs/release/EPIC-9-EXIT-REPORT.md` — current-host packaged release
   evidence, failure matrix, artifact hashes, and explicit signing/platform
   limitations.
@@ -102,6 +107,17 @@ snapshots; they are not current status.
 - `docs/research/garments/POLO-V2-RESEARCH.md` — Epic 11 cross-vetted Polo V2
   collar/stand, placket-base, vent, back-drop and grading decisions; records
   the sleeve-rib/material boundary and physical unknowns.
+- `docs/research/garments/CASUAL-SHORTS-RESEARCH.md` — Slice 150 lower-body
+  derivative audit, short-length station contract, collision matrix and future
+  7–9-slice boundary.
+- `docs/research/garments/JOGGERS-RESEARCH.md` — Slice 151 adult knit-jogger
+  evidence, elastic/casing/cuff decisions, material limits and future 5–7-slice
+  P0 boundary.
+- `docs/research/garments/SWEATSHIRT-HOODIE-RESEARCH.md` — Slice 152
+  cut-and-sew sweatshirt band contract plus staged adult pullover hood and
+  kangaroo-pocket research.
+- `docs/research/garments/JEANS-RESEARCH.md` — Slice 153 rigid five-pocket
+  component, fly, yoke, waistband, material and 11–14-slice scope audit.
 - `docs/research/garments/WOVEN-SHIRT-RESEARCH.md` — Slice 85 evidence, source
   conflicts, measurements/construction proposals and digital verification scope
   for the relaxed button-up. Read before Slices 86-93.

@@ -1,6 +1,6 @@
 # Garment Expansion Research Wave
 
-Status: **ACTIVE - RESEARCH ONLY**
+Status: **COMPLETE - RESEARCH ONLY**
 
 Owner: **Codex**. Claude Code CLI may contribute the isolated jogger and
 sweatshirt/pullover-hoodie research records under this packet. Codex owns all
@@ -191,3 +191,11 @@ an export-baseline move, a change to Epic 7 behavior, or a physical-production
 claim. Record the requirement and the smallest future decision that could
 unblock it; do not paper over it with a fixed constant.
 
+## Slice 154 completion
+
+All four garment records passed Codex review and are reconciled in
+`docs/planning/GARMENT-EXPANSION-SYNTHESIS.md`. The synthesis resolves the six
+shared knit/material gates, records product-complete P0 boundaries, ranks the
+future candidates, identifies safe geometry-only parallelism, and preserves
+Epic 8, Epic 11, save, baseline and Epic 7 boundaries. No garment
+implementation is authorized by this completed research wave.

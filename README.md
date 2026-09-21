@@ -77,8 +77,10 @@ Trouser. The app includes measurement-driven drafting, front/back/side schematic
 views, actionable guidance, target-fit styles, grading and POM/spec output,
 deterministic nesting, surface artwork placement, production checks, versioned
 save/load, and true-scale SVG, DXF, tiled PDF, A0, projector and tech-pack output.
-Epic 6 surface design and Epics 9-10 release/adversarial hardening are complete.
-Epic 7 nesting intelligence is the active isolated implementation lane. The Epic
-11 Polo V2 research and execution packet is complete, but its geometry work waits
-for Epic 7 to be reviewed and merged. No garment has completed physical
-cut/sew/fit validation; digital checks are not a physical-fit claim.
+Epic 6 surface design and Epics 7, 9 and 10 nesting/release/adversarial work are
+complete. The Epic 11 Polo V2 packet is implementation-ready and its Epic 7
+gate is satisfied, but work has not started. Slices 149–154 also completed
+research for casual shorts, adult joggers, an adult sweatshirt/pullover hoodie,
+and rigid five-pocket jeans; those candidates still require separate execution
+packets. No garment has completed physical cut/sew/fit validation; digital
+checks are not a physical-fit claim.

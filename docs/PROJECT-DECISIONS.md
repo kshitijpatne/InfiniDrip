@@ -332,8 +332,9 @@ research-backed execution contract is:
 - Polo grading remains measurement-driven re-drafting. The supplied CAD
   assignment's isolated point shifts are not a complete grade and will not be
   layered onto the engine.
-- Slice 148 completes research and scoping only. Slices 155–161 must wait until
-  Epic 7 is Codex-reviewed, merged and pushed. Epic 11 must not modify Epic 7,
+- Slice 148 completes research and scoping only. Slices 155–161 required Epic 7
+  to be Codex-reviewed, merged and pushed; that prerequisite is now satisfied
+  at `db14b63`. Epic 11 must not modify Epic 7,
   `nestPieces`, Electron release work or protected export baselines.
 - Physical sampling remains paused. Digital seam/output evidence cannot be
   described as proof of fit, collar roll, recovery, wash behavior or production
@@ -361,3 +362,36 @@ research-backed execution contract is:
 - The wave does not authorize implementation. Polo V2 remains the next
   implementation-ready garment geometry epic after its unchanged Epic 7 gate,
   now numbered Slices 155–161.
+
+## Epic 7 and garment-wave closure — decided 2026-09-20
+
+- Epic 7 is complete, Codex-reviewed and pushed to `origin/main` at `db14b63`.
+  Epic 11's merge prerequisite is satisfied; this does not itself start Epic
+  11 or remove the product owner's scheduling authority.
+- Slices 149–154 are complete research, not implementation authority. The
+  binding synthesis is `docs/planning/GARMENT-EXPANSION-SYNTHESIS.md`; where a
+  contributor proposal differs, the Slice 154 synthesis controls.
+- Future implementation order after Polo is casual woven shorts, adult
+  crewneck sweatshirt, adult knit jogger, pullover-hoodie extension, then rigid
+  five-pocket jeans. Epic numbers remain unassigned because Epic 8 is reserved.
+- Automatic geometry derived from nominal fabric stretch/recovery is deferred.
+  The first banded garment instead uses explicit user-owned finished band/cuff
+  lengths and a ratio-aware stretch-to-fit interface that reports the real
+  opening/band relationship without using absolute-centimetre `Stitch.ease`.
+- No new ankle/head global measurement or save-version bump is accepted for
+  these P0 garments. Hood/cuff dimensions remain recipe options and carry no
+  body-fit claim.
+- Adult-only P0 resolves drawcord scope for jogger/hoodie. Child sizing, age
+  mapping and covered-size behavior require a later explicit legal/product
+  decision.
+- Buttonhole marks plus BOM/construction text represent eyelet exits in P0.
+  A new shared mark kind waits for a consumer that needs distinct geometry.
+- Elastic cut length is user-measured/test-fit and recorded; the app does not
+  calculate a universal elastic reduction.
+- A banded or lined garment may not describe a combined main/rib/lining nest as
+  one truthful fabric estimate. Its execution packet must add role/material
+  grouping with separate estimates or leave secondary-material yardage unknown.
+- Shorts and sweatshirt geometry may run in parallel after Polo in isolated
+  worktrees. Shared registry/UI/persistence/render/nesting/export integration
+  is serialized and Codex-owned. Shorts, joggers and jeans may not concurrently
+  change the lower-body source of truth.

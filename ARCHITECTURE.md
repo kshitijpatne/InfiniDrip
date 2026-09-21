@@ -483,15 +483,15 @@ empty-placement export identity. The evidence is recorded in
 invalid-state behavior, and the prohibition on physical-fit or
 production-readiness claims remain standing invariants.
 
-EPIC 7 is a separate OpenCode implementation workstream for the additive
-Nesting Intelligence Pack. It may derive waste percentage, buffered planned
+Epic 7 is the completed additive Nesting Intelligence Pack, contributed in an
+isolated OpenCode workstream and integrated through Codex at `db14b63`. It
+derives waste percentage, buffered planned
 length, optional fabric-on-hand fit/shortage, and a truthful directional-print
 notice around `nestPieces`, but it may not alter drafted geometry, shelf-pack
 placement truth, grainline behavior, export writers, or legacy hashes. The
 buffer is 10% by default with a 0–50% editable range. Difficulty ratings,
 Sparrow/irregular nesting, rotation/interlocking, physical validation, and
-production claims remain outside this Epic. Codex owns review, repairs, merge,
-and push.
+production claims remain outside this Epic. Codex owned review, merge and push.
 
 Slice 132 delivers the pure planning layer as `src/export/nesting-intelligence.ts`:
 buffer validation and planned-length math, waste share from utilization, an
@@ -520,9 +520,9 @@ with planning state present.
 
 Slice 148 is documentation/research only. The binding research and execution
 records are `docs/research/garments/POLO-V2-RESEARCH.md` and
-`docs/planning/EPIC-11-EXECUTION.md`. Implementation waits until Epic 7 is
-merged and reviewed, then starts from that verified main; Epic 11 never changes
-the nesting estimator or its planning-state semantics.
+`docs/planning/EPIC-11-EXECUTION.md`. Epic 7 is merged and reviewed, so that
+gate is satisfied; implementation starts only when scheduled from verified
+main. Epic 11 never changes the nesting estimator or planning-state semantics.
 
 Polo V2 remains the existing `polo` recipe and the ordinary composed `Block`
 pipeline. Its redesign replaces the V1 rectangular stand/collar with shaped
@@ -542,7 +542,7 @@ selected drop. Zero vent depth restores the uninterrupted V1 side/hem topology
 instead of emitting zero-length edges.
 
 Four recipe-owned numeric options extend the existing recipe-option map
-(introduced in save v3 and carried by the current v4 format) without a
+(introduced in save v3 and carried by the current v5 format) without a
 save-version bump: `standFrontRise`, `collarPointExtension`,
 `sideVentDepth`, and `backHemDrop`. Invalid combinations remain verbatim and
 visible to actionable guidance. Sleeve-rib negative ease and upper-collar
@@ -551,7 +551,7 @@ explicit geometry input or physical evidence supports a bounded contract.
 Grading continues to re-draft from each size's measurements; no second manual
 point-grade system is introduced.
 
-### Slices 149–154 research boundary — next garment families
+### Slices 149–154 completed research boundary — next garment families
 
 `docs/planning/GARMENT-EXPANSION-RESEARCH-WAVE.md` defines a documentation-only
 dependency audit for casual shorts, joggers, cut-and-sew sweatshirt/pullover
@@ -566,10 +566,30 @@ recovery, rib reduction, elastic behavior, denim shrinkage and hardware bulk
 remain explicit inputs/unknowns; research must not replace them with universal
 fixed values.
 
-The wave can run beside Epic 7 because it changes documentation only. Claude's
-two isolated files do not own architecture. Codex reconciles all findings in
-Slice 154 before any future epic can be authorized. Epic 11 implementation is
-renumbered to Slices 155–161 without changing its geometry or start gate.
+Claude's two isolated files did not own architecture. Codex reviewed them and
+reconciled all findings in
+`docs/planning/GARMENT-EXPANSION-SYNTHESIS.md`. No garment implementation is
+authorized by the research wave. Epic 11 implementation remains Slices
+155–161; its Epic 7 gate is now satisfied.
+
+The accepted cross-family seam is a ratio-aware stretch-to-fit interface for
+explicit user-owned band/cuff lengths. It reports actual opening and band path
+lengths and their ratio; it does not reuse absolute-centimetre `Stitch.ease`,
+derive geometry from nominal stretch, or assert recovery. Automatic material
+geometry, new ankle/head body fields, a save bump and universal elastic/rib/
+shrinkage constants are deferred.
+
+Shorts require a lower-body upper-block result with separate trouser and short
+continuations so the anatomical knee is never relocated. Joggers use the same
+lower-body foundation but own their pull-on waist and pocket containment.
+Sweatshirt P0 requires real neck/cuff/hem bands; its hood addition changes the
+body neckline and walks its live seam. Rigid jeans reuse only the base lower-
+body balance and require new yoke, pocket, fly and waistband components.
+
+Multi-material garments expose a current truth boundary: `nestPieces` accepts
+one width and all pieces. Their execution packets must add role/material
+grouping with separate estimates or leave secondary-material yardage explicitly
+unknown; they may not call a combined main/rib/lining nest a truthful bolt.
 
 Epic 3 is closed at the integrated straight-leg trouser plus shared numeric
 editing boundary. Shorts and joggers remain documented derivatives only;
@@ -583,7 +603,7 @@ export handlers share this gate; failed geometric checks also reach Guidance.
 Geometry-only reports/writers remain stable. Finished totals update in place,
 and status copy identifies digital checks without physical/production claims.
 
-BF-P1-03: version-4 persistence stores intentional workspace state alongside
+BF-P1-03: current persistence stores intentional workspace state alongside
 measurements, color and recipe options: garment, style, stretch material, view,
 Body projection, export size, fabric width and nesting scope. `FIELDS` and
 `inputError` are the shared edit/save/load contract; invalid current saves are

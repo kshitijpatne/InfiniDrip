@@ -1,16 +1,16 @@
 # EPIC 11 - Polo V2 Fidelity Refinement
 
-Status: **RESEARCH AND EXECUTION PACKET COMPLETE - IMPLEMENTATION WAITING FOR
-EPIC 7 MERGE**
+Status: **RESEARCH AND EXECUTION PACKET COMPLETE - EPIC 7 GATE SATISFIED;
+IMPLEMENTATION AWAITING SCHEDULING**
 
 Owner: **Codex**. External coding agents may assist only with bounded test or
 documentation work after Codex has supplied a slice packet. Codex owns geometry,
 drafting, data contracts, review, repairs, integration and any push to
 `origin/main`.
 
-Scheduling note: the garment-expansion research wave now occupies Slices
-149-154. Epic 11's unchanged implementation plan is renumbered to Slices
-155-161; no scope, acceptance criterion or start-gate change is implied.
+Scheduling note: the garment-expansion research wave completed Slices 149-154.
+Epic 11's unchanged implementation plan is Slices 155-161; no scope or
+acceptance criterion changed.
 
 Research authority: `docs/research/garments/POLO-V2-RESEARCH.md`.
 
@@ -24,11 +24,12 @@ shared output contract and legacy export hash.
 
 ## Start gate and parallel boundary
 
-Epic 11 research may coexist with the isolated Epic 7 workstream. Implementation
-Slices 155-161 must not start until all of the following are true:
+Epic 7 completed and was pushed to `origin/main` at `db14b63`, satisfying item
+1 below. Implementation Slices 155-161 must not start until all of the
+following remain true at start time:
 
-1. Epic 7 Slices 132-134 are returned, reviewed by Codex, repaired if needed,
-   merged and pushed to `origin/main`.
+1. Epic 7 Slices 132-134 are reviewed, merged and present on `origin/main`
+   (**satisfied at `db14b63`**).
 2. Codex rebases or recreates the Epic 11 branch from that verified main.
 3. The full gate passes at the new base and the checkout contains no unrelated
    user changes in Epic 11's intended files.

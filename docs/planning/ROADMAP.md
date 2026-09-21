@@ -64,35 +64,29 @@ planning surface for Codex after the completed Epic 6 integration.
 | **Done** | **Epic 6 Slices 122–130** — surface placement, preview, persistence, tech-pack/print output, measured warn-only guidance, and cross-garment exit | **Complete — Codex reviewed and pushed** | 94 files / 1,255 tests, 100% coverage, typecheck, build, parsed consumers, 8/8 legacy hashes; no physical-fit claim |
 | **Done / gate recorded** | **EPIC 9 — Desktop release readiness (Slices 135–139)** | **Complete — Codex reviewed and pushed** | Windows x64 unpacked package passed offline/native-save/six-export/menu-window/fresh-stale/failure/integrity checks; repeated manifest hash; no signing, updater, installer, or cross-OS claim |
 | **Done / gate recorded** | **EPIC 10 — Quality and adversarial hardening (Slices 140–146)** | **Complete — Claude contributed; Codex repaired, reviewed, and pushed** | 99 files / 1,330 tests, 100% coverage, seeded properties, test-only oracle, seven recipes, old-save compatibility, permanent fixtures, bounded concave-offset repair; no baseline movement |
-| **Now / parallel-safe** | **EPIC 7 — Nesting Intelligence Pack (Slices 132–134)** | **OpenCode-owned under Codex review** | Additive metrics/UI/persistence around `nestPieces`; exact 10% buffer, 0–50% bounds, optional fabric-on-hand, truthful directional flag; no geometry or export changes |
-| **Now / research-only** | **Garment-expansion research wave (Slices 149–154)** | **Codex-owned; Claude contributes two isolated packets** | Shorts → joggers → cut-and-sew sweatshirt/pullover hoodie → jeans; implementation remains unauthorized; final synthesis must resolve material/component prerequisites |
-| **Next / packet complete** | **EPIC 11 — Polo V2 fidelity refinement (Slice 148, implementation Slices 155–161)** | **Codex-owned; research complete, implementation waiting** | Shaped neckline-derived collar/stand, back preview, placket-base marks, side vents and adjustable back drop; implementation starts only after Epic 7 is merged/reviewed |
+| **Done / gate recorded** | **EPIC 7 — Nesting Intelligence Pack (Slices 132–134)** | **Complete — OpenCode contributed; Codex reviewed and pushed** | Additive metrics/UI/persistence around `nestPieces`; exact 10% buffer, 0–50% bounds, optional fabric-on-hand, truthful directional flag; `origin/main` `db14b63`; no geometry or export changes |
+| **Done / research-only** | **Garment-expansion research wave (Slices 149–154)** | **Complete — Codex-owned; Claude contributed two isolated packets** | Four garment records plus binding synthesis; no implementation authorized |
+| **Next / packet ready** | **EPIC 11 — Polo V2 fidelity refinement (Slice 148, implementation Slices 155–161)** | **Codex-owned; Epic 7 gate satisfied; awaiting scheduling** | Shaped neckline-derived collar/stand, back preview, placket-base marks, side vents and adjustable back drop |
 | **Next** | **Surface v1 stabilization** — follow-up only for a reproducible defect or real user evidence | **Conditional** | Epic 6 exit evidence plus a concrete failure; no speculative polish |
-| **Later** | **Further garment expansion** — e.g. shorts/jogger relationship | **Directional** | New garment research record, scoped construction decisions, and physical-validation policy; do not start merely because the engine can render it |
+| **Later / researched** | **Garment candidates** — shorts → sweatshirt → jogger → pullover hoodie → rigid jeans | **Packets researched; execution packets still required** | Shared stretched-join and lower-body boundaries in `GARMENT-EXPANSION-SYNTHESIS.md`; do not start from the research record alone |
 | **Later / blocked** | **Physical fit validation** | **Blocked by maintainer constraint** | No manufacturer/printer is available; no sewn-fit claim or schedule until explicitly reopened |
 | **Deferred** | **Sparrow irregular nesting redesign** | **Research-approved, not scheduled** | Fabric-width, grain, nap, fold, pair/mirror and clearance semantics plus deterministic fallback and benchmark proof |
 
 ### Codex next-work options
 
-After Epic 6, the maintainer selected and completed the explicitly scoped EPIC
-9 → EPIC 10 lane. EPIC 7 is now the next independent product-enhancement lane:
+Epics 7, 9 and 10 and the garment research wave are complete. Current choices:
 
-1. **EPIC 9.** Convert the existing Electron research into a bounded,
-   current-host package-readiness gate. Signing procurement remains a separate
-   maintainer decision.
-2. **EPIC 10.** Add bounded adversarial coverage and repair only the
-   oracle-confirmed concave-offset defect without changing output baselines or
-   truthful invalid-state behavior.
-3. **Garment-expansion research.** Complete the Slices 149–154 evidence wave;
-   do not treat it as implementation authority.
-4. **EPIC 11 garment refinement.** The Polo V2 research and execution packet is
-   complete. Slices 155–161 wait for the reviewed Epic 7 merge, then remain
-   Codex-owned because they change garment geometry and shared outputs.
-5. **EPIC 7.** Implement the additive Nesting Intelligence Pack around the
-   existing deterministic shelf estimator; do not pull in Sparrow or a runtime
-   irregular-nesting engine.
+1. **EPIC 11 garment refinement.** The Polo V2 execution packet is ready and
+   its Epic 7 gate is satisfied. Slices 155–161 remain Codex-owned.
+2. **Epic 8.** Retain its existing reservation/hold; this research wave does
+   not rename or repurpose it.
+3. **Future garment execution packet.** If work after Polo is selected, scope
+   casual shorts first. A separate upper-body sweatshirt geometry track may run
+   in parallel only with disjoint files and serialized shared integration.
+4. **Conditional stabilization.** Act only on a reproducible Epic 6/7 defect or
+   real user evidence; no speculative polish.
 
-These options must be separately scoped before implementation. The open-source audit does not
+Future garment work must be separately scoped before implementation. The open-source audit does not
 authorize direct reuse of a drafting engine, VTO/3D stack, or linter as a
 replacement for InfiniDrip's own contracts.
 
@@ -367,10 +361,10 @@ ready-to-pull backlog. EPIC 7 is the explicit conscious decision to implement
 
 | # | Item | Rides | Natural attach point | Status |
 |---|---|---|---|---|
-| 0.5.1 | **Waste-% readout** on the nesting view | nesting (shipped) | anywhere — fully independent | **EPIC 7 / Slices 132–134 (review-ready, not merged)** — exact utilization-derived readout |
-| 0.5.2 | **Fabric-first "will it fit?"** — enter fabric on hand, get fits/short-by-X + layout | nesting (shipped) | same as 0.5.1 | **EPIC 7 / Slices 132–134 (review-ready, not merged)** — optional positive length, blank means unknown |
-| 0.5.3 | **Nap / directional-print flag** in nesting | nesting (shipped) | bundle with 0.5.1 | **EPIC 7 / Slices 132–134 (review-ready, not merged)** — truthful advisory, no rotation |
-| 0.5.4 | **Cutting-buffer setting** (default ~10–15%, editable) | fabric estimate | bundle with 0.5.1 | **EPIC 7 / Slices 132–134 (review-ready, not merged)** — 10% default, 0–50% bounds |
+| 0.5.1 | **Waste-% readout** on the nesting view | nesting (shipped) | anywhere — fully independent | **Complete in Epic 7 / Slices 132–134** — exact utilization-derived readout |
+| 0.5.2 | **Fabric-first "will it fit?"** — enter fabric on hand, get fits/short-by-X + layout | nesting (shipped) | same as 0.5.1 | **Complete in Epic 7** — optional positive length, blank means unknown |
+| 0.5.3 | **Nap / directional-print flag** in nesting | nesting (shipped) | bundle with 0.5.1 | **Complete in Epic 7** — truthful advisory, no rotation |
+| 0.5.4 | **Cutting-buffer setting** (default ~10–15%, editable) | fabric estimate | bundle with 0.5.1 | **Complete in Epic 7** — 10% default, 0–50% bounds |
 | 0.5.5 | **Per-edge variable seam allowance** (hem ≠ fly ≠ waistband) | seam-allowance engine | Priority 2.3 trouser (fly/waistband need it anyway) | Backlog |
 | 0.5.6 | **Checker rule: new seamline has seam allowance** | checker (shipped) | Priority 1.1/1.2 (components create new seamlines) | Backlog |
 | 0.5.7 | **Seam & stitch type notation** on pattern + tech pack (original artwork only — do not copy Fashion Design Central's assets) | tech pack, named edges | anywhere | Backlog |
@@ -382,7 +376,7 @@ ready-to-pull backlog. EPIC 7 is the explicit conscious decision to implement
 | 0.5.13 | **Property-based drafting/guidance regression** — bounded, seeded `fast-check` generators whose failures become permanent fixtures | test harness only | first separately scoped post-Epic-6 quality slice | **Accepted trial** — no production import; remove if it only duplicates fixtures |
 | 0.5.14 | **Independent flattened-geometry oracle** — `@flatten-js/core` intersections/containment/validity in tests, never as drafting truth | test harness only | with 0.5.13 or a later demonstrated geometry defect after Epic 6 | **Accepted trial** — flattened loops only; no output-byte changes |
 | 0.5.15 | **Irregular fabric nesting proof** — optional deterministic Sparrow worker returning seed + transforms, followed by owned constraint validation and shelf-packer fallback | current nesting/export boundary | only after 0.5.2–0.5.4 define grain/nap/fold/pair/clearance semantics | **Deferred redesign candidate** — benchmark all recipes; no production adoption yet |
-| 0.5.16 | **Richer seam-interface semantics** — optional stitch side/orientation, per-section correspondence/projected ease and option compatibility when a real garment consumes them | completed component grammar | first future gather/directional join/incompatible-option case | **Trigger-based addition** — independently specified TypeScript, not a GarmentCode port |
+| 0.5.16 | **Richer seam-interface semantics** — first add a ratio-aware stretch-to-fit join for user-owned band/cuff lengths; later optional stitch side/orientation, per-section correspondence/projected ease and option compatibility only when consumed | completed component grammar | first banded sweatshirt execution packet; also serves jogger cuff and later Polo sleeve band | **Triggered, not implemented** — reports path ratio, never invents recovery or reuses absolute-cm `Stitch.ease`; independently specified TypeScript, not a GarmentCode port |
 
 ### Priority 1 — The multiplier (architecture before library)
 
@@ -408,11 +402,11 @@ Ordered so each block unlocks several garments:
 |---|---|---|---|
 | 2.1 | **Woven shirt block** (collar + stand, placket, cuff, yoke) | Button-up (long/short sleeve), blouse, overshirt | 15–25 slices |
 | 2.2 | **Knit top variants** (extends existing tee) | Polo (needs placket+collar from 2.1), tank, women's tops | 8–12 slices |
-| 2.2a | **EPIC 11 Polo V2 fidelity refinement** — shaped neckline-derived collar/stand, truthful back-neck representation, placket-base clip/reinforcement marks, side vents and adjustable dropped back hem. Sleeve rib, material-dependent turn-of-cloth and manual point grading are explicitly deferred. | Polo V2 / upgraded Polo | Research/packet complete in Slice 148; Slices 155–161 start only after Epic 7 is merged and reviewed |
+| 2.2a | **EPIC 11 Polo V2 fidelity refinement** — shaped neckline-derived collar/stand, truthful back-neck representation, placket-base clip/reinforcement marks, side vents and adjustable dropped back hem. Sleeve rib, material-dependent turn-of-cloth and manual point grading are explicitly deferred. | Polo V2 / upgraded Polo | Research/packet complete in Slice 148; Epic 7 gate satisfied; Slices 155–161 await scheduling |
 | 2.2b | **Edit-view final-design contract** — if exploratory front editing is promoted to a final-design override, add a durable design-state model, define persistence and size/grading semantics, route validation/nesting/preview/export through it, and verify every output; otherwise retain the explicit preview-only contract | Edit workflow | Decision gate after Phase C3; model change is mandatory before claiming edits affect final outputs |
-| 2.3 | **Trouser block** (crotch curve, rise, seat angle) | Casual pants, joggers, shorts, formal trousers | 15–25 slices |
-| 2.4 | **Denim variant** of 2.3 | Jeans | 6–10 slices |
-| 2.5 | **Hoodie / zip jacket** (hood, zip, raglan or set-in) | Hoodie, zip-up, sweatshirt | 10–15 slices |
+| 2.3 | **Shipped trouser block plus researched derivatives.** Casual woven shorts require an upper-block/short-continuation split (7–9 slices). Adult knit joggers require a pull-on casing, user-fit elastic, pockets and taper (5–7; rib cuff +2–3). Do not develop both lower-body sources of truth concurrently. | Casual pants, shorts, joggers, formal-trouser base | shipped base; researched derivatives |
+| 2.4 | **Rigid five-pocket denim variant** — relaxed straight leg, real back yoke, scoop pockets/facings/linings/coin pocket, asymmetric zipper fly, back pockets, two-layer straight waistband, loops and marks. Stretch, shrinkage automation and washes are deferred. | Jeans | research complete; 11–14 slices after lower-body derivatives stabilize |
+| 2.5 | **Cut-and-sew sweatshirt then pullover hoodie** — adult set-in crewneck with real user-sized rib bands and ratio-aware stretched joins (6–9), then two-piece lined hood plus kangaroo pocket (+5–8). Zip front, raglan and fully-fashioned knitting are separate later domains. | Sweatshirt, pullover hoodie | research complete; execution packet required |
 | 2.6 | **Tailored jacket** (2- or 3-piece sleeve, lapel roll line, welt pockets, canvas) | Blazer, jacket | 25–40 slices |
 
 **Note on 2.6:** tailoring is a master-craft domain. It is correctly *last*, and
