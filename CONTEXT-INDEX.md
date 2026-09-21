@@ -67,6 +67,9 @@ snapshots; they are not current status.
 - `docs/planning/EPIC-7-EXECUTION.md` — OpenCode Nesting Intelligence Pack
   scope, exact buffer/on-hand/directional decisions, slice gates, safe boundary,
   and return contract.
+- `docs/planning/EPIC-8-EXECUTION.md` — scoped true-shape nesting proof and
+  controlled-redesign packet; Sparrow/Jagua adapter boundary, apparel
+  constraints, fallback, benchmark and conditional promotion gates.
 - `docs/planning/EPIC-9-EXECUTION.md` — Codex-owned bounded desktop release
   readiness scope, failure matrix, package evidence, and exit gate.
 - `docs/planning/EPIC-10-EXECUTION.md` — Claude Code test-only adversarial
@@ -133,6 +136,9 @@ snapshots; they are not current status.
   product-owner-supplied GitHub repositories/topics plus adjacent candidates.
   Its accept/reject decisions are the current open-source due-diligence record;
   re-check exact licenses and dependency trees before implementation.
+- `docs/research/NESTING-REDESIGN-RESEARCH.md` — Epic 8's 2026-09-21
+  Sparrow/Jagua live recheck, apparel-constraint boundary, legal/runtime
+  posture, pressure-tested alternatives and proof admission hypothesis.
 - `docs/research/SURFACE-DESIGN-RESEARCH.md` — Epic 6 surface-layer contract,
   library decision boundary, source conflicts, and unresolved placement questions.
 

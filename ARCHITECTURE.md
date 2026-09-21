@@ -523,6 +523,32 @@ layer, panel, persistence, and guidance boundaries above stand as the
 shipped contract; parsed output consumers and legacy hashes are verified
 with planning state present.
 
+### Epic 8 planned boundary — true-shape nesting proof
+
+Epic 8 is scoped, not implemented. Its packet is
+`docs/planning/EPIC-8-EXECUTION.md` and its research record is
+`docs/research/NESTING-REDESIGN-RESEARCH.md`. The only admissible first step is
+an isolated proof around the completed Epic 7 contract: a pinned Sparrow/Jagua
+Rust/WASM worker may receive an InfiniDrip-owned flattened instance and return
+candidate transforms, seed and diagnostics. It may not become drafting truth,
+replace `nestPieces`, mutate pieces, or bypass export validation.
+
+InfiniDrip remains authoritative for cut/sew loops, piece identity, marks,
+folds, quantities, grain, nap, mirrored pairs, clearance, bounds and overlap.
+The adapter must reject unknown or unsupported apparel semantics rather than
+silently rotate, unfold, duplicate, omit or clamp them. Candidate transforms
+are applied to the original typed loops and revalidated by owned code; timeout,
+malformed output, cancellation, license/artifact failure or any validation
+failure returns the deterministic shelf result visibly. The current packer is
+the default and unconditional fallback.
+
+The proof initially leaves UI, persistence, writers, Electron packaging and
+legacy bytes untouched. Any later opt-in mode or downstream export path needs a
+separate promotion decision after fixed-seed replay, all-seven-recipe benchmark
+evidence, bounded runtime/memory, offline packaging and exact dependency
+notices. This boundary does not claim physical fit, production-marker quality,
+sewability or guaranteed material savings.
+
 ### Epic 11 planned boundary — Polo V2 fidelity
 
 Slice 148 is documentation/research only. The binding research and execution

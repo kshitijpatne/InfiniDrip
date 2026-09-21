@@ -310,6 +310,32 @@ OpenCode owns isolated implementation Slices 132–134 under a Codex-authored
 execution packet. Codex owns the actual diff review, defect fixes, full gate,
 merge, and push to `origin/main`.
 
+## Epic 8 — true-shape nesting proof — scoped 2026-09-21
+
+The reserved Epic 8 slot is scoped as a **true-shape nesting proof and
+controlled redesign**, not as a default replacement of `nestPieces`. The
+Codex-authored packet is `docs/planning/EPIC-8-EXECUTION.md`; the research and
+license/runtime record is `docs/research/NESTING-REDESIGN-RESEARCH.md`.
+
+- The current deterministic shelf packer remains the default and unconditional
+  fallback. A candidate solver may return transforms only; InfiniDrip owns the
+  original loops, marks, identities and post-solver validation.
+- Sparrow/Jagua is an isolated proof candidate. Top-level Sparrow and
+  Sparrow Studio are MIT, while the Jagua-RS collision dependency is MPL-2.0;
+  exact revisions, generated WASM artifacts, notices and source/modification
+  obligations must be pinned and reviewed before any runtime dependency ships.
+- The instance contract must explicitly represent or reject unknown bolt,
+  clearance, grain, nap, fold, mirror/pair, quantity, identity and
+  multi-material semantics. No silent rotation, unfolding, duplication,
+  omission, clamping or fallback is permitted.
+- Proof slices do not change UI, persistence, export writers or protected
+  hashes. Any later opt-in mode or downstream export use requires a separate
+  promotion decision based on deterministic replay, owned validation, benchmark
+  improvement, bounded runtime/memory, offline packaging and visible fallback.
+- Provisional slices are 162–169 after Epic 11's reserved 155–161 range. This
+  is a scope recommendation only; implementation remains unscheduled until the
+  product owner accepts the admission gates.
+
 ## Epic 11 — Polo V2 fidelity packet — authorized 2026-09-20
 
 The product owner authorized Codex to complete the garment-expansion/refinement

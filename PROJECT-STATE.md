@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: post-merge PR audit and surface-guidance repair, 2026-09-21.
+_Last updated: Epic 8 nesting-redesign scoping, 2026-09-21.
 Epics 7, 9 and 10 are implemented, Codex-reviewed, documented and pushed to
 `origin/main`. The Epic 11 merge gate is therefore satisfied, but implementation
 has not started. Physical validation and production readiness remain
@@ -22,6 +22,24 @@ source dimension is actually resolution-limiting. The repair preserves the
 warn-only, no-gating contract and all export baselines.
 
 ## Current work — post-Epic 6 planning
+
+### Epic 8 — true-shape nesting proof scoped, implementation not authorized
+
+The reserved Epic 8 slot now has a bounded Codex-authored recommendation in
+`docs/planning/EPIC-8-EXECUTION.md`, supported by
+`docs/research/NESTING-REDESIGN-RESEARCH.md`. It evaluates an isolated,
+fixed-seed Sparrow/Jagua Rust/WASM worker against the completed Epic 7 nesting
+contract while keeping the current deterministic shelf packer as the default
+and unconditional fallback. The candidate may return transforms only; owned
+InfiniDrip validation must enforce finite geometry, overlap, clearance, width,
+grain, fold, nap, pair/mirror, quantity and identity rules.
+
+The packet is a research/scoping result, not an implementation start. Exact
+upstream revisions, transitive license/notice obligations, truthful current
+recipe fold/quantity semantics, worker packaging and benchmark thresholds must
+pass before a runtime dependency or export/UI path is admitted. A proof-only or
+no-go exit is acceptable. Provisional slices are 162–169 after the reserved
+Epic 11 range 155–161; scheduling remains the product owner's decision.
 
 ### Slice 154 — garment-expansion research wave complete
 
@@ -47,8 +65,9 @@ multi-material nesting limitations. The current material record still lacks
 recovery, weight, shrinkage and direction-specific stretch.
 
 Epic 7 is reviewed, merged and pushed at `origin/main` commit `db14b63`, so the
-Epic 11 Slices 155–161 start gate is satisfied. Epic 11 is now the next
-implementation-ready geometry packet if the product owner schedules it.
+Epic 11 Slices 155–161 start gate is satisfied. Epic 11 remains the next
+implementation-ready geometry packet if the product owner schedules it; Epic 8
+is now scoped but remains implementation-gated.
 
 ### Slice 149 — garment-expansion research wave started
 
@@ -318,11 +337,12 @@ No garment engine, 3D/virtual-try-on stack, or external geometry implementation
 is approved for direct product integration. The bounded survivors are: an
 `axe-core` dev-only trial inside Slice 121's existing accessibility gate;
 post-121 `fast-check` property-test and `@flatten-js/core` test-oracle trials;
-and a deferred opt-in Sparrow irregular-nesting proof only after grain, nap,
-fold, pair/mirror and clearance constraints are explicit. GarmentCode remains
-reference-only for future stitch orientation, projected ease/correspondence,
-and option-compatibility metadata with real consumers. None authorizes 3D,
-photo/CV, silent correction, output-baseline movement, or physical-fit claims.
+and the now-scoped but implementation-gated Epic 8 opt-in Sparrow
+irregular-nesting proof, which still requires explicit grain, nap, fold,
+pair/mirror and clearance constraints. GarmentCode remains reference-only for
+future stitch orientation, projected ease/correspondence, and
+option-compatibility metadata with real consumers. None authorizes 3D, photo/CV,
+silent correction, output-baseline movement, or physical-fit claims.
 
 Epic 5 / Slice 121 is complete on `codex/ux-studio`. The final code checkpoint
 is `52ee690`; it adds the dev-only `axe-core` audit and fixes the two ARIA
