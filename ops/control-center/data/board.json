@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 31,
-  "updatedAt": "2026-09-22T22:55:25.372Z",
+  "revision": 36,
+  "updatedAt": "2026-09-22T23:20:59.462Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -1660,10 +1660,10 @@
       "title": "First-load tutorial implementation and live verification",
       "epicId": null,
       "releaseId": null,
-      "status": "In Progress",
+      "status": "Done",
       "openedAt": "2026-09-22",
       "targetAt": null,
-      "deliveredAt": null,
+      "deliveredAt": "2026-09-22",
       "priority": "P1",
       "risk": "medium",
       "owner": "Codex",
@@ -1710,10 +1710,32 @@
           "role": "contributor",
           "note": "Begin the accepted Phase 4 implementation in Slice 191; preserve the tutorial specification and existing export/readiness gates.",
           "evidenceRefs": []
+        },
+        {
+          "status": "Review",
+          "at": "2026-09-22T23:20:59.199Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "Slice 191 implementation and local verification are complete; independent static reviews found no blocker; exit report is linked.",
+          "evidenceRefs": [
+            "E-PREQUEUE-PHASE4-EXIT"
+          ]
+        },
+        {
+          "status": "Done",
+          "at": "2026-09-22T23:20:59.306Z",
+          "actor": "Codex",
+          "role": "reviewer",
+          "note": "Reviewed and accepted against Phase 4 criteria; full test/coverage and rendered evidence are recorded in the exit report.",
+          "evidenceRefs": [
+            "E-PREQUEUE-PHASE4-EXIT"
+          ]
         }
       ],
       "comments": [],
-      "evidenceRefs": [],
+      "evidenceRefs": [
+        "E-PREQUEUE-PHASE4-EXIT"
+      ],
       "flagKey": null
     },
     {
@@ -1722,7 +1744,7 @@
       "title": "README and ARCHITECTURE newcomer refinement",
       "epicId": null,
       "releaseId": null,
-      "status": "Backlog",
+      "status": "In Progress",
       "openedAt": "2026-09-22",
       "targetAt": null,
       "deliveredAt": null,
@@ -1754,6 +1776,22 @@
           "actor": "Local maintainer",
           "role": "maintainer",
           "note": "Add the maintainer-approved pre-garment sequence in its approved order.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "Ready",
+          "at": "2026-09-22T23:20:59.408Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "Phase 4 is accepted; the next approved README and ARCHITECTURE newcomer-refinement phase is ready.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-09-22T23:20:59.462Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "Begin the accepted Phase 5 newcomer documentation refinement after Phase 4 acceptance.",
           "evidenceRefs": []
         }
       ],
@@ -2201,6 +2239,15 @@
       "sha256": null,
       "verified": true,
       "note": "Phase 3 research-backed, independently pressure-tested tutorial specification: exact plain-language copy, five counted steps with Check/Export subviews, real targets, local v1/v2 state migration, accessibility, readiness boundaries, and Phase 4 acceptance matrix."
+    },
+    {
+      "id": "E-PREQUEUE-PHASE4-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/planning/PRE-GARMENT-PHASE4-EXIT.md",
+      "commit": "cc8b735",
+      "sha256": null,
+      "verified": true,
+      "note": "Slice 191 tutorial implementation; 100% coverage, production build, export identity, responsive browser verification, and two independent static reviews. See exit report."
     }
   ]
 }

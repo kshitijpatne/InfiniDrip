@@ -1,7 +1,8 @@
 # InfiniDrip — Project State
 
 _Last updated: Slice 191 implements and verifies the first-load tutorial;
-independent static reviews are complete and board acceptance is pending, 2026-09-22.
+independent static reviews are complete, Phase 4 is accepted, and Phase 5 is in
+progress, 2026-09-22.
 Epics 7, 9 and 10 are implemented, Codex-reviewed, documented and pushed to
 `origin/main`. Epic 11 implementation has completed the shaped collar/stand,
 placket-base, vent/drop, front/back preview/control/report and downstream
@@ -196,8 +197,8 @@ saved workspace with no tutorial decision, covered saved-workspace resume, and
 kept the live announcement distinct from the focused heading. Reviewer limits
 and remaining screen-reader verification are recorded in
 `docs/planning/PRE-GARMENT-PHASE4-EXIT.md`. The canonical board's Review → Done
-acceptance remains pending; Phase 5 follows that acceptance. No physical sewing
-or fit validation is claimed.
+acceptance is complete with evidence `E-PREQUEUE-PHASE4-EXIT`; Phase 5 is now
+the active board item. No physical sewing or fit validation is claimed.
 
 ### Post-merge PR audit — 2026-09-21
 

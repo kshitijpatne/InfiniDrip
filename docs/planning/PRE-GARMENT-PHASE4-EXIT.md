@@ -1,7 +1,8 @@
 # Pre-garment Phase 4 — first-load tutorial verification
 
 **State:** implementation and local verification complete; two independent
-static reviews complete; canonical board acceptance pending. **Date:** 2026-09-22.
+static reviews complete; accepted on the canonical board with evidence
+`E-PREQUEUE-PHASE4-EXIT`. **Date:** 2026-09-22.
 
 ## Delivered
 
