@@ -1,12 +1,14 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://infinidrip.local/schemas/control-center/board.v1.json",
+  "$id": "https://infinidrip.local/schemas/control-center/board.v2.json",
   "title": "InfiniDrip local Control Center board",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schemaVersion", "generatedFrom", "epics", "releases", "workItems", "evidence"],
+  "required": ["schemaVersion", "revision", "updatedAt", "generatedFrom", "epics", "releases", "workItems", "evidence"],
   "properties": {
-    "schemaVersion": { "const": 1 },
+    "schemaVersion": { "const": 2 },
+    "revision": { "type": "integer", "minimum": 0 },
+    "updatedAt": { "type": "string", "format": "date-time" },
     "generatedFrom": { "type": "string", "minLength": 1 },
     "epics": { "type": "array", "items": { "$ref": "#/$defs/epic" } },
     "releases": { "type": "array", "items": { "$ref": "#/$defs/release" } },
@@ -24,7 +26,7 @@
         "status": { "type": "string", "minLength": 1 },
         "owner": { "type": "string", "minLength": 1 },
         "description": { "type": "string", "minLength": 1 },
-        "evidenceRefs": { "type": "array", "items": { "type": "string" } }
+        "evidenceRefs": { "type": "array", "items": { "type": "string", "minLength": 1 } }
       }
     },
     "release": {
@@ -35,19 +37,19 @@
         "id": { "type": "string", "minLength": 1 },
         "title": { "type": "string", "minLength": 1 },
         "status": { "type": "string", "minLength": 1 },
-        "evidenceRefs": { "type": "array", "items": { "type": "string" } }
+        "evidenceRefs": { "type": "array", "items": { "type": "string", "minLength": 1 } }
       }
     },
     "evidence": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "kind", "uri", "verified", "note"],
+      "required": ["id", "kind", "uri", "commit", "sha256", "verified", "note"],
       "properties": {
-        "id": { "type": "string", "minLength": 1 },
-        "kind": { "enum": ["commit", "exit-report", "test", "build", "browser", "decision", "incomplete"] },
+        "id": { "type": "string", "pattern": "^[A-Z0-9][A-Z0-9._-]{2,80}$" },
+        "kind": { "enum": ["commit", "exit-report", "test", "build", "browser", "decision", "document", "rendered-output", "incomplete"] },
         "uri": { "type": "string", "minLength": 1 },
-        "commit": { "type": ["string", "null"] },
-        "sha256": { "type": ["string", "null"] },
+        "commit": { "type": ["string", "null"], "pattern": "^[0-9a-fA-F]{7,40}$" },
+        "sha256": { "type": ["string", "null"], "pattern": "^[0-9a-fA-F]{64}$" },
         "verified": { "type": "boolean" },
         "note": { "type": "string", "minLength": 1 }
       }

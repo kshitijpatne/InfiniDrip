@@ -47,9 +47,10 @@ snapshots; they are not current status.
   current provider costs, assumptions, risks and approval gates. It is not an
   authorization to purchase a service, collect user data, deploy publicly or
   change the current local-first product boundary.
-- `ops/control-center/` — completed Slice 172 repository-local board schema,
-  truthful baseline data, reviewer-only close rules, evidence importer and
-  read-only dashboard. It is operational evidence, not the hosted workspace.
+- `ops/control-center/` — Slice 184 schema-v2 canonical board, shared validated
+  command/atomic persistence layer, evidence importer and current read-only
+  dashboard. Browser authoring follows in Slice 185. It is operational
+  evidence, not the hosted workspace.
 - `ops/web/` — completed Slice 173 provider-neutral artifact manifest utility
   and Slice 179 local candidate/rollback rehearsal; delivery descriptors and
   preview instructions do not deploy or create a provider account.
@@ -59,9 +60,11 @@ snapshots; they are not current status.
   preview-only/no-cost exit, final verification, launch re-entry boundary and
   maintainer discussion gate; it does not claim authenticated beta or
   production readiness.
-- Slice 183's documentation pass is complete. The next work boundary is the
-  local Control Center v2 decision gate; its canonical authoring/write path and
-  contributor/reviewer transition workflow are not yet fixed.
+- Slice 183's documentation pass and Slice 184's Control Center v2 schema and
+  shared command layer are complete. The maintainer fixed `board.json` as the
+  sole canonical state, approved local UI writes through the same validated
+  command layer, and defined role-guided transitions. Slice 185 browser
+  authoring is the immediate next work.
 
 ## Planning documents
 
@@ -109,6 +112,9 @@ snapshots; they are not current status.
 - `docs/planning/EPIC-12-SLICE-175-ADMISSION.md` — current Slice 175
   deferral audit, future launch re-entry decisions, authorized no-cost interim
   work and re-entry gate; it does not authorize login UI or provider mutation.
+- `docs/planning/CONTROL-CENTER-V2-EXECUTION.md` — binding no-cost Slices
+  184–186 packet for canonical local authoring, role-guided transitions,
+  atomic persistence, usable browser controls and the v2 exit gate.
 - `docs/planning/GARMENT-EXPANSION-RESEARCH-WAVE.md` — completed Slices 149–154
   research-only contract, evidence standard, Codex/Claude ownership boundaries,
   stop conditions and completed future-family synthesis gate.

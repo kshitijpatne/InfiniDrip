@@ -1,4 +1,4 @@
-import { readFile, writeFile } from "node:fs/promises";
+import { readFile } from "node:fs/promises";
 import { pathToFileURL } from "node:url";
 
 const COMMIT_PATTERN = /^[0-9a-f]{7,40}$/i;
@@ -61,15 +61,14 @@ export function importFacts(board, facts) {
 }
 
 async function main() {
-  const [boardPath, factsPath, outputPath] = process.argv.slice(2);
-  if (!boardPath || !factsPath || !outputPath) {
-    throw new Error("usage: node ops/control-center/import-facts.mjs <board.json> <facts.json> <output.json>");
+  const [factsPath, boardPath] = process.argv.slice(2);
+  if (!factsPath) {
+    throw new Error("usage: node ops/control-center/import-facts.mjs <facts.json> [board.json]");
   }
-  const board = JSON.parse(await readFile(boardPath, "utf8"));
   const facts = JSON.parse(await readFile(factsPath, "utf8"));
-  const imported = importFacts(board, facts);
-  await writeFile(outputPath, `${JSON.stringify(imported, null, 2)}\n`, "utf8");
-  console.log(`Imported ${facts.length} verified evidence record(s) into ${outputPath}`);
+  const { DEFAULT_BOARD_PATH, executeBoardCommand } = await import("./board-store.mjs");
+  const saved = await executeBoardCommand({ type: "importFacts", facts }, { boardPath: boardPath ?? DEFAULT_BOARD_PATH });
+  console.log(`Imported ${facts.length} verified evidence record(s) at board revision ${saved.revision}.`);
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) await main();

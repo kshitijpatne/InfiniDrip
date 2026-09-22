@@ -114,14 +114,24 @@ interaction contract before implementation.
 ## Operations and delivery evidence
 
 The local Control Center lives under `ops/control-center/`. Its canonical
-`data/board.json` is schema-validated and rendered read-only. The evidence
-importer may attach explicit, verifiable facts to existing evidence records; it
-does not infer missing dates, owners, status, acceptance, or delivery.
+`data/board.json` is schema-validated and remains the sole current-state file.
+Schema v2 adds a revision, current workflow labels, and a shared command layer
+for CLI and browser-initiated edits. Commands validate the complete input and
+result, reject stale revisions, acquire a short-lived local lock, and replace
+the board through a flushed same-directory temporary file and atomic rename.
+The evidence importer uses the same command path and still cannot infer missing
+dates, owners, status, acceptance, or delivery.
 
-The board is an operational evidence surface, not a hosted system. Any future
-authoring or status-transition workflow must preserve versioned, auditable
-state, contributor/reviewer boundaries, explicit incomplete history, and the
-no-cost local-first boundary.
+The workflow is `Backlog → Ready → In Progress → Review → Done`, with
+`Blocked` for unfinished work and maintainer-controlled archival/reopening.
+Contributor, reviewer, and maintainer roles are local guidance rather than an
+authorization boundary. Per-item history remains inside `board.json`; there is
+no event store, hosted system, account, authentication, or remote collaboration
+path. Legacy v1 history labels remain readable rather than being rewritten.
+
+Slice 184 establishes the schema and shared persistence boundary. Slice 185
+adds browser authoring and the full search/filter/detail experience; until it
+lands, the served dashboard remains read-only.
 
 The provider-neutral web manifest and local delivery/readiness rehearsals under
 `ops/web/` and `ops/readiness/` prove local behavior only. They do not create a

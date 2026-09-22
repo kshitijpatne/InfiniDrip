@@ -1,7 +1,8 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 183 documentation and architecture orientation pass
-complete; launch-backed Epic 12 work remains deferred, 2026-09-22.
+_Last updated: Slice 184 Control Center v2 schema and shared command layer
+complete; browser authoring follows in Slice 185 while launch-backed Epic 12
+work remains deferred, 2026-09-22.
 Epics 7, 9 and 10 are implemented, Codex-reviewed, documented and pushed to
 `origin/main`. Epic 11 implementation has completed the shaped collar/stand,
 placket-base, vent/drop, front/back preview/control/report and downstream
@@ -28,10 +29,36 @@ research, archive, and local tooling evidence was not removed. Historical
 duplicate Slice subjects remain unchanged because normalizing them requires a
 commit-history rewrite and explicit maintainer authorization.
 
-The next boundary is Control Center v2. Its display improvements are
-no-cost, but the canonical authoring/write path and contributor/reviewer
-transition workflow still require maintainer clarification before
-implementation.
+The maintainer subsequently resolved the Control Center v2 authoring,
+canonical-state, transition-role, persistence, and minimum-scope decisions.
+The implementation packet is
+`docs/planning/CONTROL-CENTER-V2-EXECUTION.md`.
+
+### Slice 184 — Control Center v2 schema and command layer complete
+
+`ops/control-center/data/board.json` is now schema v2 with an explicit revision
+and update time. It remains the sole canonical current-state file. Current
+work-item state uses `Backlog → Ready → In Progress → Review → Done`, plus
+`Blocked` and maintainer-controlled `Archived`; the original v1 labels remain
+inside historical entries rather than being rewritten.
+
+`ops/control-center/commands.mjs` is the pure mutation boundary for item edits,
+status transitions, comments, evidence, and retained evidence-fact imports.
+Role selection is workflow guidance rather than authentication. Every status
+change records actor, role, time and reason; `Done` requires linked
+non-incomplete evidence.
+
+`ops/control-center/board-store.mjs` validates complete input/output, checks an
+optional expected revision, obtains a short-lived local lock, flushes a
+same-directory temporary file and atomically replaces the board. Invalid,
+stale, busy and rename-failure paths leave the existing board intact. The CLI
+and evidence importer use this same path. Focused tests cover the command,
+schema, stale-write, lock and atomic-failure boundaries.
+
+Slice 185 is next: a localhost-only service and browser UI will use the shared
+command layer for editing, transitions, history, search, filters, detail,
+evidence and visible save state. No account, auth, cloud, event log, provider,
+notification, monitoring, garment, drafting or export behavior is included.
 
 ### Post-merge PR audit — 2026-09-21
 

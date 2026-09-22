@@ -8,14 +8,16 @@ test("canonical board validates and summarizes its tracked work", () => {
   assert.deepEqual(result, { valid: true, errors: [] });
   const summary = summarizeBoard(board);
   assert.equal(summary.epics, 9);
-  assert.equal(summary.workItems, 13);
-  assert.equal(summary.statusCounts.Closed, 12);
+  assert.equal(summary.workItems, 16);
+  assert.equal(summary.evidence, 22);
+  assert.equal(summary.statusCounts.Done, 15);
   assert.equal(summary.statusCounts.Backlog, 1);
   assert.equal(summary.statusCounts.Ready ?? 0, 0);
   assert.match(renderBoard(board), /InfiniDrip delivery board/);
   assert.match(renderBoard(board), /incomplete/);
   assert.match(renderBoard(board), /SLICE-174/);
   assert.match(renderBoard(board), /SLICE-175/);
+  assert.match(renderBoard(board), /SLICE-184/);
 });
 
 test("malformed board data is rejected instead of repaired", () => {
@@ -31,7 +33,7 @@ test("malformed board data is rejected instead of repaired", () => {
 test("invalid top-level and duplicate records are reported", () => {
   assert.equal(validateBoard(null).valid, false);
   const malformed = structuredClone(board);
-  malformed.schemaVersion = 2;
+  malformed.schemaVersion = 3;
   malformed.epics.push(malformed.epics[0]);
   const result = validateBoard(malformed);
   assert.ok(result.errors.some((error) => error.includes("schemaVersion")));
@@ -43,12 +45,12 @@ test("invalid calendar dates are rejected instead of normalized", () => {
   malformed.workItems[0].openedAt = "2026-02-30";
   const result = validateBoard(malformed);
   assert.equal(result.valid, false);
-  assert.ok(result.errors.some((error) => error.includes("invalid ISO date")));
+  assert.ok(result.errors.some((error) => error.includes("must be null or an ISO date")));
 });
 
-test("contributors can submit review but cannot close work", () => {
-  assert.equal(canTransition("In Progress", "In Review", "contributor"), true);
-  assert.equal(canTransition("In Review", "Closed", "contributor"), false);
-  assert.equal(canTransition("Accepted", "Closed", "reviewer"), true);
-  assert.equal(canTransition("Closed", "In Progress", "reviewer"), false);
+test("contributors can submit review but cannot complete work", () => {
+  assert.equal(canTransition("In Progress", "Review", "contributor"), true);
+  assert.equal(canTransition("Review", "Done", "contributor"), false);
+  assert.equal(canTransition("Review", "Done", "reviewer"), true);
+  assert.equal(canTransition("Done", "In Progress", "reviewer"), false);
 });

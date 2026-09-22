@@ -635,3 +635,34 @@ data collection still require their own explicit gate.
   canonical persistent source, and how contributor/reviewer transitions are
   authorized. Display-only filtering, search, details, history, and evidence
   navigation remain no-cost candidates but must respect that boundary.
+
+## Control Center v2 local-authoring contract — confirmed 2026-09-22
+
+- The local UI may edit and transition board items. The browser and CLI both
+  use one validated command layer; neither writes JSON directly.
+- `ops/control-center/data/board.json` remains the sole canonical current-state
+  file. Full event sourcing and a separate event log are deferred. A board
+  revision detects stale saves, and each item retains status history in the
+  canonical file.
+- Every save validates the complete board and uses a same-directory temporary
+  file plus atomic replacement. Busy, stale, invalid, or failed writes must be
+  visible and must leave the previous board intact.
+- The current workflow is `Backlog → Ready → In Progress → Review → Done`.
+  `Blocked` is available from any unfinished state. `Archived` is a
+  maintainer-only administrative state. Legacy v1 history labels remain
+  preserved as historical evidence rather than being rewritten.
+- Contributors may claim ready work, submit review, and unblock work.
+  Reviewers may approve `Review → Done` or return it to `In Progress` with a
+  reason. Maintainers may override, reopen, archive, or change policy.
+  Role selection is workflow guidance, not security enforcement; there is no
+  account or authentication boundary.
+- Status transitions record actor, selected role, time, and reason. Completion
+  requires linked non-incomplete evidence. Item details, notes, dependencies,
+  evidence, and history remain visible in the local dashboard.
+- Minimum v2 includes local edit/save, persistent transitions, history,
+  literal search, status/owner/priority/type filters, detail/evidence views,
+  explicit unsaved/saving/saved/error state, and reload persistence.
+- Accounts, profiles, multi-user permissions, event sourcing, cloud sync,
+  notifications, hosted monitoring, automation, and collaboration features
+  remain deferred. The execution record is
+  `docs/planning/CONTROL-CENTER-V2-EXECUTION.md`.
