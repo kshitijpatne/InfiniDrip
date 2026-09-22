@@ -630,10 +630,17 @@ served from Cloudflare Pages Free, with `noindex, nofollow, noarchive` in the
 HTML and URL-only access. It remains local-first; browser storage is the only
 user-data store, and the preview must not add auth, cloud sync, telemetry,
 email, measurement egress or a database. The repository-side noindex hardening
-is recorded on `origin/main` at `ae1afe8`. The first direct-upload deployment
-is recorded in `docs/release/WEB-PREVIEW-DEPLOYMENT.md`; future production
-uploads are constrained to the verified `main` workflow and its protected
-GitHub secrets, not application runtime state.
+is recorded on `origin/main` at `ae1afe8`. The first successful automated
+direct-upload deployment is recorded in
+`docs/release/WEB-PREVIEW-DEPLOYMENT.md` for `main` commit `6ac4edd`; the
+stable share URL is `https://infinidrip-preview.pages.dev/` and the immutable
+evidence URL is `https://9160f7f6.infinidrip-preview.pages.dev`. The verified
+`.github/workflows/pages-deployment.yml` workflow runs the full gates on every
+`main` push (or manual dispatch) and uploads only the resulting `dist/`
+artifact. Its Cloudflare token is CI-only in protected GitHub secrets and is
+never application runtime state or repository content; the current user-owned
+token expires 2027-03-20 and must be rotated before expiry. A failed workflow
+does not replace the last healthy production artifact.
 
 Slice 174's provider-independent identity/cloud contract is recorded in
 `docs/research/IDENTITY-CLOUD-WORKSPACE-RESEARCH.md`. It defines owner-only

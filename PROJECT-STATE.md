@@ -132,7 +132,7 @@ separately authorized promotion.
 
 ## Current work — Epic 12 Web Platform
 
-### Approved interim static preview — deployed; automatic delivery pending
+### Approved interim static preview — deployed; automatic delivery active
 
 The maintainer approved a zero-cost, local-first friend/family preview before
 login, profiles, cloud sync, custom-domain or paid launch infrastructure. The
@@ -149,17 +149,22 @@ only same-origin HTML/CSS/JS requests. Fresh desktop and mobile viewport checks
 mounted InfiniDrip with no page errors. The noindex change is on
 `origin/main` at `ae1afe8`.
 
-The first production deployment is live at
-`https://infinidrip-preview.pages.dev/` (immutable deployment
-`9bb80a6b-41c2-4689-9e31-2efa653d1ff9`; evidence is recorded in
-`docs/release/WEB-PREVIEW-DEPLOYMENT.md`). The project is Direct Upload, so
-Cloudflare does not allow retrofitting Git integration. Its production branch
-label is `main`, but future push-to-deploy automation still requires either a
-new Git-integrated project or a narrowly scoped GitHub Action/API-token route.
-The repository now contains the recommended bounded workflow at
-`.github/workflows/pages-deployment.yml`; it will become active after the
-`CLOUDFLARE_ACCOUNT_ID` and `CLOUDFLARE_API_TOKEN` GitHub Actions secrets are
-created.
+The canonical production preview is live at
+`https://infinidrip-preview.pages.dev/`. The successful GitHub Actions run #6
+(`https://github.com/kshitijpatne/InfiniDrip/actions/runs/35680723851`) built
+and deployed `main` commit `6ac4eddf83d8fa9c21860f4e21326dcd17b79d7f` to the
+immutable URL `https://9160f7f6.infinidrip-preview.pages.dev`. Fresh-browser
+checks and the maintainer's phone smoke test loaded the shared URL successfully.
+
+The project remains Cloudflare Direct Upload; it cannot be converted to Git
+integration. The bounded `.github/workflows/pages-deployment.yml` workflow is
+now active: every push to `main` and an explicitly requested manual dispatch
+run the full test/build/deterministic-artifact gates before uploading `dist/`
+to the `infinidrip-preview` project. A failed gate leaves the last healthy
+production deployment unchanged. The workflow uses the protected
+`CLOUDFLARE_ACCOUNT_ID` and `CLOUDFLARE_API_TOKEN` GitHub secrets; the current
+user-owned Pages token is not stored in the repository and is scheduled to
+expire on 2027-03-20, so it must be rotated before then.
 
 ### Slices 171–174 complete; Slice 175 admission audit blocked
 
@@ -185,11 +190,13 @@ deletion and backup-retention outcomes, and pressure-tested failure paths. The
 cost envelope remains the recommended approximately $59/month authenticated-
 beta planning estimate.
 
-No domain, provider account, subscription, deployment, SDK, database schema,
-email sender, telemetry stream or personal-data collection has been created.
-Before identity/cloud implementation, jurisdiction, privacy/terms, retention/deletion,
-consent, RLS and data-region decisions remain blocking. No drafting, export,
-legacy hash or physical-fit boundary changed.
+The only external deployment exception is the free Cloudflare account/project
+and its protected CI secrets used by this URL-only preview. No launch domain,
+paid subscription, identity provider, database schema, email sender, telemetry
+stream or personal-data collection has been created. Before identity/cloud
+implementation, jurisdiction, privacy/terms, retention/deletion, consent, RLS
+and data-region decisions remain blocking. No drafting, export, legacy hash or
+physical-fit boundary changed.
 
 The Slice 175 admission audit is recorded in
 `docs/planning/EPIC-12-SLICE-175-ADMISSION.md`. The repository still contains no
@@ -202,19 +209,21 @@ provider-neutral fixtures, local evidence and decision documentation are
 authorized while it is blocked.
 
 `npm test` passes 104 files / 1,415 tests; strict TypeScript, the production
-build, focused Node tests and the deterministic manifest gate pass. No
-provider account, subscription, deployment, domain, secret, database schema,
-email sender, telemetry stream or personal-data collection has been created.
-No drafting, export, legacy hash or physical-fit boundary changed.
+build, focused Node tests and the deterministic manifest gate pass. The web
+delivery workflow repeats these gates on every production push. No launch
+domain, paid subscription, identity provider, database schema, email sender,
+telemetry stream or personal-data collection has been created. No drafting,
+export, legacy hash or physical-fit boundary changed.
 
-The reviewed Slice 172–173 implementation is pushed to `origin/main` at
-`23d7715`; Slice 174 and the Slice 175 admission audit are documentation-only
-until the blocking legal/product decisions are resolved.
+The reviewed Slice 172–173 implementation and automated delivery workflow are
+pushed to `origin/main` at `6ac4edd`; Slice 174 and the Slice 175 admission
+audit remain documentation-only until the blocking legal/product decisions are
+resolved.
 
 Next safe work is the maintainer decision record and Codex re-entry review for
-Slice 175. Welcome/login/profile implementation, provider account creation,
-migrations, public deployment and personal-data collection remain separate
-approval gates.
+Slice 175. Welcome/login/profile implementation, migrations, cloud data and
+personal-data collection remain separate approval gates; the already-approved
+static preview may continue receiving only verified `main` artifacts.
 
 ## Current work — post-Epic 6 planning
 

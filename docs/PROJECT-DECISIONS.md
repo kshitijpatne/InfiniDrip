@@ -447,8 +447,9 @@ data collection still require their own explicit gate.
   cloud sync, telemetry, email sender or measurement egress. Browser storage
   is per device. The `infinidrip-preview` Direct Upload project and first
   production artifact are now created; the bounded GitHub Actions uploader is
-  the approved path for subsequent `main` pushes. Its two protected GitHub
-  secrets must be created before automatic deployment is enabled. Paid
+  the active path for subsequent `main` pushes and explicit manual dispatches.
+  Its two protected GitHub secrets are configured, and the successful run-6
+  deployment is recorded in `docs/release/WEB-PREVIEW-DEPLOYMENT.md`. Paid
   services, custom domain, Access allowlisting and launch infrastructure remain
   deferred.
 

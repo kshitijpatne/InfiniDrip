@@ -156,17 +156,17 @@ immutable `dist/` artifact from `main` to Cloudflare Pages Free at a
 It remains local-first: no login, database, cloud sync, telemetry, email
 sender or measurement egress is admitted, and each user's saved workspace
 remains in that browser's local storage. Cloudflare account OAuth and Pages
-project creation are the only external deployment actions in this interim
+project creation were the only external deployment actions in this interim
 track; Access allowlisting, custom domains, paid services and launch
 infrastructure remain deferred. The noindex hardening is on `origin/main` at
-`ae1afe8`. The `infinidrip-preview` Direct Upload project is now live at
+`ae1afe8`. The `infinidrip-preview` Direct Upload project is live at
 `https://infinidrip-preview.pages.dev/`; deployment ID, artifact source,
 browser/network evidence and limitations are recorded in
 `docs/release/WEB-PREVIEW-DEPLOYMENT.md`. Because Cloudflare does not permit
 converting Direct Upload to Git integration, the repository's bounded
-`.github/workflows/pages-deployment.yml` workflow is the approved automatic
-delivery path. It remains inactive until the two narrowly scoped GitHub
-Actions secrets are created.
+`.github/workflows/pages-deployment.yml` workflow is the active automatic
+delivery path. It runs on every `main` push (and explicit manual dispatch)
+after the two protected GitHub Actions secrets are configured.
 
 ### Slice 174 — identity and cloud-workspace contract — contract complete; provider gated
 
