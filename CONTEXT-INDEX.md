@@ -64,6 +64,10 @@ snapshots; they are not current status.
   remains canonical. The approved Phases 1–9 pre-garment sequence is active in
   `docs/planning/PRE-GARMENT-EXECUTION.md` and the board. Do not start a garment
   queue before its final gate and explicit maintainer approval.
+- Phase 2's first-pass repository and newcomer audit is recorded in
+  `docs/planning/REPOSITORY-AND-NEWCOMER-AUDIT.md`. No files or history were
+  removed or rewritten; it is awaiting the maintainer's decision on the one
+  possible de-tracking candidate before Phase 3 tutorial research begins.
 
 ## Planning documents
 
@@ -117,6 +121,9 @@ snapshots; they are not current status.
 - `docs/planning/PRE-GARMENT-EXECUTION.md` — maintainer-approved nine-phase
   no-cost sequence, acceptance criteria, durable work boundaries, and final
   approval gate before the next garment queue.
+- `docs/planning/REPOSITORY-AND-NEWCOMER-AUDIT.md` — Phase 2's read-only
+  inventory, historical duplicate-number feasibility check, and newcomer
+  misunderstanding record; no cleanup or history rewrite was performed.
 - `docs/planning/GARMENT-EXPANSION-RESEARCH-WAVE.md` — completed Slices 149–154
   research-only contract, evidence standard, Codex/Claude ownership boundaries,
   stop conditions and completed future-family synthesis gate.

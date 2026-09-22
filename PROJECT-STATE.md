@@ -1,7 +1,7 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 187 Control Center creation and pre-garment planning setup;
-Phases 1–9 precede explicit review of the next garment queue, 2026-09-22.
+_Last updated: Slice 188 repository and newcomer audit; Phase 2 is awaiting
+maintainer review of one possible cleanup target before Phase 3, 2026-09-22.
 Epics 7, 9 and 10 are implemented, Codex-reviewed, documented and pushed to
 `origin/main`. Epic 11 implementation has completed the shaped collar/stand,
 placket-base, vent/drop, front/back preview/control/report and downstream
@@ -98,9 +98,38 @@ those records through revision 9. The sequence stays local and no-cost; no
 account, hosted service, paid feature, remote asset fetch, or new garment
 recipe is authorized. Phase 1 completed through the board's In Progress →
 Review → Done flow at revision 14 with a linked exit report and completion
-note. Phase 2 is next and depends on Phase 1. Each completed slice must update
-its phase status, add evidence, and leave a concise completion note. The next
-garment queue is gated on Phase 9 and explicit maintainer approval.
+note. Phase 2 follows Phase 1 as a separately tracked audit item. Each completed
+slice must update its phase status, add evidence, and leave a concise completion
+note. The next garment queue is gated on Phase 9 and explicit maintainer
+approval.
+
+### Slice 188 — pre-garment repository and newcomer audit
+
+The read-only first pass is recorded in
+`docs/planning/REPOSITORY-AND-NEWCOMER-AUDIT.md`. The inventory found no
+tracked build outputs, logs, temporary files, or artwork binaries. Existing
+untracked coverage logs and `tmp/` were preserved. The superseded apparel
+resource list is explicitly retained for provenance; the local launch presets
+are optional tooling rather than build inputs.
+
+The only possible de-tracking candidate is `docs/archive/RESUME-LOG.md`, a
+personal proof/resume staging record that is referenced by older planning and
+handoff documents. No deletion or reference change is authorized by this
+first-pass audit. Phase 2 is awaiting the maintainer's choice; the next
+sequence item after review is the tutorial research/specification in Phase 3.
+
+The newcomer review found that the five-stage flow, local boundary, outputs,
+and physical-validation disclaimer are understandable at a high level. The
+intended audience remains unconfirmed in the older MVP plan; later newcomer
+copy must not present its implied indie-maker/home-sewer audience as a settled
+decision. The review also records terminology, Epic 8 visibility, next-work
+link, maintainer-role, and welcome-versus-tutorial clarity gaps. README and
+ARCHITECTURE were not changed in this audit.
+
+The full available history has 24 groups of duplicate numeric slice subjects.
+Commit-message-only renumbering could preserve per-commit file trees, but
+would change commit and descendant IDs and invalidate signatures. No rewrite
+was made. New work continues with unique, monotonic slice numbers.
 
 Current usage policy: pause when the primary usage window is exhausted and
 resume automatically after reset; the weekly meter is informational. No
