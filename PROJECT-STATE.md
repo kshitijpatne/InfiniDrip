@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: free friend/family web-preview deployment and automation setup,
+_Last updated: launch-cost hold and no-cost Epic 12 interim re-scope,
 2026-09-21.
 Epics 7, 9 and 10 are implemented, Codex-reviewed, documented and pushed to
 `origin/main`. Epic 11 implementation has completed the shaped collar/stand,
@@ -166,7 +166,24 @@ production deployment unchanged. The workflow uses the protected
 user-owned Pages token is not stored in the repository and is scheduled to
 expire on 2027-03-20, so it must be rotated before then.
 
-### Slices 171–174 complete; Slice 175 admission audit blocked
+### Slice 176 — static preview noindex hardening complete
+
+The approved friend/family preview now emits `noindex, nofollow, noarchive` in
+its static HTML. This changed no drafting, persistence, export, account, data
+or provider-runtime behavior. The hardening is on `origin/main` at `ae1afe8`,
+and the existing fresh-browser, network-capture and static-artifact evidence
+continues to cover the URL-only preview. Slice 176 is already assigned and
+must not be reused for a later feature.
+
+Slice 177 records the maintainer's launch-cost hold, verifies the no-cost
+static-preview and public-repository CI boundaries, corrects the future slice
+sequence from the next unused number, and adds the unique monotonically
+increasing commit rule. It is documentation and delivery-governance work only;
+no provider, account, database, auth path, personal-data flow or application
+runtime behavior changed. Slice 177 is now assigned to this decision and must
+not be reused.
+
+### Slices 171–174 and 176–177 complete; Slice 175 deferred; no-cost interim 178–181 scoped
 
 The maintainer authorized the Public Web Platform and Delivery Governance
 Epic after Epic 11. The execution packet is
@@ -193,20 +210,20 @@ beta planning estimate.
 The only external deployment exception is the free Cloudflare account/project
 and its protected CI secrets used by this URL-only preview. No launch domain,
 paid subscription, identity provider, database schema, email sender, telemetry
-stream or personal-data collection has been created. Before identity/cloud
-implementation, jurisdiction, privacy/terms, retention/deletion, consent, RLS
-and data-region decisions remain blocking. No drafting, export, legacy hash or
-physical-fit boundary changed.
+stream or personal-data collection has been created. The maintainer has now
+confirmed that every one-time or recurring launch cost is held until launch
+readiness is explicitly reopened. This includes paid plans, domains, profiles,
+cloud sync, email, hosted monitoring, paid repository governance, code signing
+and provider-backed operations. No drafting, export, legacy hash or physical-fit
+boundary changed.
 
 The Slice 175 admission audit is recorded in
-`docs/planning/EPIC-12-SLICE-175-ADMISSION.md`. The repository still contains no
-authoritative answers for the required launch entity/jurisdiction, data
-sensitivity, lawful basis/consent, data region/subprocessors, retention and
-deletion targets, P0 auth/session policy, anonymous-sharing boundary, or
-operating ceiling. Therefore the welcome/login/profile implementation is
-blocked by an explicit safety gate rather than silently inferred. Only
-provider-neutral fixtures, local evidence and decision documentation are
-authorized while it is blocked.
+`docs/planning/EPIC-12-SLICE-175-ADMISSION.md`. Its unresolved entity,
+jurisdiction, privacy, data sensitivity, consent, data-region, retention,
+authentication and support questions are retained as a future launch re-entry
+checklist. Slice 175 is deferred by the cost hold, not treated as a current
+engineering blocker. Login/profile UI, auth, database, cloud sync and
+personal-data work remain out of scope.
 
 `npm test` passes 104 files / 1,415 tests; strict TypeScript, the production
 build, focused Node tests and the deterministic manifest gate pass. The web
@@ -217,13 +234,15 @@ export, legacy hash or physical-fit boundary changed.
 
 The reviewed Slice 172–173 implementation and automated delivery workflow are
 pushed to `origin/main` at `6ac4edd`; Slice 174 and the Slice 175 admission
-audit remain documentation-only until the blocking legal/product decisions are
-resolved.
+audit remain documentation-only until launch is explicitly reopened.
 
-Next safe work is the maintainer decision record and Codex re-entry review for
-Slice 175. Welcome/login/profile implementation, migrations, cloud data and
-personal-data collection remain separate approval gates; the already-approved
-static preview may continue receiving only verified `main` artifacts.
+The next safe work is the no-cost interim track: Slice 178's embedded flag
+contract and Polo rollout readiness, Slice 179's repository/local delivery and
+rollback rehearsal, Slice 180's provider-neutral synthetic readiness drill,
+and Slice 181's preview-only/no-cost exit. Remote flags, provider promotion,
+hosted monitoring, auth, database, email, cloud data and personal-data
+collection remain deferred. The garment queue begins only after this interim
+track is complete and separately scheduled.
 
 ## Current work — post-Epic 6 planning
 
@@ -263,6 +282,11 @@ persistence, export, benchmark or legacy baseline changes are allowed without
 a new maintainer-authorized packet that closes every failed gate. Provisional
 later slices remain historical scope only. The completed durable exit is
 `docs/release/EPIC-8-EXIT-REPORT.md`.
+
+The retained future scope is a bounded helper/adapter proof around an external
+candidate solver, not a clone or fork of Sparrow/Jagua and not a replacement
+nesting engine. InfiniDrip would continue to own garment semantics, geometry
+validation, export identity and unconditional shelf fallback.
 
 ### Slice 154 — garment-expansion research wave complete
 

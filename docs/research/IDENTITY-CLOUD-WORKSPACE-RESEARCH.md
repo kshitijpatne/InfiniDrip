@@ -1,7 +1,7 @@
 # Epic 12 Slice 174 — Identity and cloud-workspace contract
 
 Status: **provider-independent contract complete; provider implementation
-blocked on maintainer/legal decisions**
+deferred by the launch-cost hold and future maintainer/legal decisions**
 Reviewed: 2026-09-21
 Owner: Codex
 
@@ -294,10 +294,11 @@ owner before Slice 175 UI auth or any SQL/RLS implementation:
 8. Operating ceiling and shutdown owner for provider usage, email abuse and
    storage growth.
 
-Until these are resolved, the only authorized work is this contract, local
-fixtures/contract tests, the Control Center and static artifact proof. No
-provider account, migration, login UI, public URL or personal-data collection
-is admitted.
+Until these are resolved, this identity/cloud track may add only contract
+fixtures, local tests and evidence. No provider account, migration, login UI,
+public URL or personal-data collection is admitted under the launch-cost hold.
+Separate repository-local and provider-neutral Epic 12 interim work remains
+authorized by `docs/planning/EPIC-12-EXECUTION.md`.
 
 ## Slice 174 acceptance and handoff
 

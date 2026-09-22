@@ -1,8 +1,9 @@
 # Public Web Platform and Delivery Governance — Cost Research
 
-Status: **research and recommendation only — no provider account, purchase,
-deployment, application code, or current product decision is authorized by this
-record.**
+Status: **research and recommendation only — no launch-backed provider
+account, purchase, deployment or application code is authorized by this
+record; the existing static preview is governed by the current project
+decision, not by this research packet.**
 
 Last checked: 2026-09-21. Currency: USD, before tax unless stated otherwise.
 
@@ -19,6 +20,21 @@ application with authenticated profiles, cross-device workspace sync, reversible
 feature releases, blue/green delivery, and a local delivery-control board. It
 does not alter the pure drafting/export contracts, the eight protected legacy
 hashes, or the honesty boundary around physical fit.
+
+## Current maintainer decision — launch-cost hold
+
+All one-time and recurring launch costs are deferred until the maintainer
+explicitly says the project is ready for launch. The cost stages below remain
+planning estimates only; they do not authorize a domain, paid plan, database,
+auth/profile system, cloud sync, email, hosted monitoring, paid repository
+governance, code signing or another provider-backed service.
+
+The only current external exception is the already-approved zero-cost,
+URL-only Cloudflare Pages static preview and its verified artifact-delivery
+workflow. Interim development may use repository-local, test-only and
+provider-neutral contracts and drills. A free-tier database or other hosted
+service is still deferred because it creates a provider/data dependency even if
+its current invoice would be zero.
 
 ## Recommended initial stack
 
@@ -42,7 +58,7 @@ providers and must not be invented.
 
 | Stage | Required services and assumptions | Monthly recurring | Annual / one-time | Notes |
 | --- | --- | ---: | ---: | --- |
-| A — private planning/development | GitHub Free; no public commercial URL; local board; Sentry/Better Stack free; Supabase Free only for a disposable development proof | $0 | $0 | Supabase Free may pause after one inactive week. Vercel Hobby is non-commercial only, so it is not a public-beta option. |
+| A — no-cost interim development | GitHub Free; existing URL-only static preview; local board; local synthetic drills; no database, auth, email, monitoring or cloud workspace | $0 | $0 | This stage deliberately avoids even free-tier hosted data/services. Vercel Hobby, Supabase Free and hosted monitoring are future options, not current scope. |
 | A+ — protected private workflow | GitHub Team, one maintainer seat, for protected branches/CODEOWNERS on a private repository | $4 | $0 | Recommended as soon as multiple agents or reviewers regularly contribute. |
 | B — public web preview, no account sync | GitHub Team $4 + Vercel Pro $20; free monitoring; a standard domain | $24 | approximately $8–$15/year for a non-premium domain | This publishes a stable V1 app but does not meet cross-device profile requirements. |
 | C — authenticated public beta, recommended minimum | Stage B + Supabase Pro $25, with production Micro covered by its included $10 compute credit and an additional staging Micro at $10; Resend/Sentry/Better Stack free tiers | **about $59** | domain above | The $35 Supabase line keeps two active environments rather than accepting a paused staging database. |

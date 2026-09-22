@@ -2,17 +2,18 @@
 
 **Reviewed:** 2026-09-21
 **Owner:** Codex
-**Status:** **BLOCKED — implementation not admitted**
+**Status:** **DEFERRED — launch-cost hold; implementation not scheduled**
 
 ## Decision
 
 Slice 175's planned welcome, login, logout, session-recovery and profile UI is
-not authorized to start yet. The Slice 174 identity/cloud contract explicitly
-requires maintainer, legal and product decisions before any auth UI or SQL/RLS
-implementation. No decision record answering those questions exists in the
-current repository, so this audit stops at the admission boundary.
+deferred because the maintainer has placed every one-time and recurring launch
+cost on hold until launch readiness is explicitly reopened. The unresolved
+identity, legal and product questions are retained as a future re-entry
+checklist, but they are not a current engineering blocker and do not need to
+be answered to continue no-cost local development and testing.
 
-This is an intentional safety stop, not an implementation failure. Local
+This is an intentional product deferral, not an implementation failure. Local
 drafting, local persistence and exports remain available without an account or
 network. Nothing in this slice creates an account, provider project, public
 URL, migration, browser credential path, email sender or personal-data flow.
@@ -25,16 +26,19 @@ URL, migration, browser credential path, email sender or personal-data flow.
 - `docs/planning/EPIC-12-EXECUTION.md` makes the same gate part of the Slice
   175 acceptance boundary.
 - `docs/research/WEB-PLATFORM-THREAT-MODEL.md` continues to prohibit provider
-  mutation and personal-data collection before the admission decisions.
+  mutation and personal-data collection before launch is explicitly reopened.
 - The current `origin/main` includes the latest Epic 8 packet correction at
   `18b8bac`; this audit was reconciled on top of that ref.
-- No current `docs/PROJECT-DECISIONS.md` entry records the required answers.
+- The current maintainer decision records a launch-cost hold; the required
+  answers remain a future re-entry checklist rather than a current blocker.
 
-## Decisions required before implementation
+## Decisions required before launch-backed re-entry
 
-The maintainer/legal/product owner must add an authoritative decision record
-covering each item below. A statement of intent is not enough; the record
-needs an owner, date, scope, and evidence or rationale.
+When launch work is reopened, the maintainer/legal/product owner must add an
+authoritative decision record covering each item below. A statement of intent
+is not enough; the record needs an owner, date, scope, and evidence or
+rationale. No one needs to resolve these questions for the no-cost interim
+track.
 
 1. Launch entity, initial jurisdictions, privacy notice, terms, support
    contact, and age/parental-consent policy.
@@ -55,14 +59,16 @@ needs an owner, date, scope, and evidence or rationale.
 8. Operating ceiling, abuse controls and shutdown owner for provider usage,
    email and storage growth.
 
-## Authorized work while blocked
+## Authorized work while deferred
 
 Only the following remains in scope:
 
 - provider-neutral contract fixtures and tests that collect no real data;
 - repository-local Control Center/evidence updates;
 - static artifact and local-first outage/recovery proofs; and
-- documentation needed to capture the decisions and re-admit Slice 175.
+- documentation needed to capture the decisions and re-admit Slice 175; and
+- the no-cost portions of Slices 178–181 defined in
+  `docs/planning/EPIC-12-EXECUTION.md`.
 
 The following are explicitly out of scope until the decision record is
 approved: welcome/login/profile UI, auth SDKs, database migrations, RLS SQL,
@@ -71,8 +77,9 @@ collection.
 
 ## Re-entry gate
 
-Codex may reopen Slice 175 only after the decision record is committed and
-reviewed. The re-entry packet must then freeze the selected auth/session
+Codex may reopen Slice 175 only after the maintainer explicitly reopens launch
+readiness, approves the cost envelope, and the decision record is committed
+and reviewed. The re-entry packet must then freeze the selected auth/session
 contract, consent copy, data-region/subprocessor list, retention/deletion
 targets, and provider-neutral test fixtures before any provider or UI code is
 added. The first implementation must preserve guest/local drafting and must

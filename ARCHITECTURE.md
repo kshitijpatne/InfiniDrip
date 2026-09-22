@@ -653,11 +653,14 @@ identity, cloud sync or flags are unavailable.
 
 Slice 175's admission audit is recorded in
 `docs/planning/EPIC-12-SLICE-175-ADMISSION.md`. Its welcome/login/profile shell
-is blocked until the maintainer records the required jurisdiction, privacy,
-consent, retention, auth/session, data-region, subprocessor, RLS and support
-decisions. No UI, provider SDK, SQL/RLS migration or personal-data flow may be
-inferred while that gate is open; provider-neutral fixtures and local evidence
-remain the only authorized continuation.
+is deferred by the maintainer's launch-cost hold. The required jurisdiction,
+privacy, consent, retention, auth/session, data-region, subprocessor, RLS and
+support decisions remain a future re-entry checklist, not a current blocker.
+No UI, provider SDK, SQL/RLS migration or personal-data flow may be inferred
+while the hold is open; provider-neutral fixtures, local evidence and the
+no-cost portions of Slices 178–181 remain authorized. Slice 176 is already
+assigned to the preview noindex hardening, Slice 177 is assigned to the
+no-cost hold/re-sequencing decision, and neither number may be reused.
 
 The future web layer is additive. A static immutable Vite artifact may be
 served publicly without changing drafting or export truth. Auth/profile/cloud
@@ -667,14 +670,16 @@ measurements and pattern/workspace contents are not telemetry. Feature flags
 control reversible UI/behavior rollout only and never authorization, invalid
 state suppression or physical-fit claims.
 
-Blue and Green are immutable production deployment aliases pointing at the
-same approved artifact lineage, not long-lived divergent branches. Preview and
-staging are separate; production aliases share a transition-safe production
-database. Promotion, rollback, code freeze, migration and evidence rules are
-defined in the Epic 12 packet. Any future hosted or auth implementation must
-preserve the existing full coverage, parsed-output and export-byte identity
-gates and receive a separate provider/cost/privacy approval before collecting
-personal data.
+Blue and Green are future immutable production deployment aliases pointing at
+the same approved artifact lineage, not long-lived divergent branches. Preview
+and staging are separate; production aliases would share a transition-safe
+production database. The no-cost interim may rehearse artifact identity,
+freeze, smoke and rollback locally, but may not create those launch aliases or
+the database. Promotion, rollback, code freeze, migration and evidence rules
+are defined in the Epic 12 packet. Any future hosted or auth implementation
+must preserve the existing full coverage, parsed-output and export-byte
+identity gates and receive explicit launch/cost/privacy approval before
+collecting personal data.
 
 The Epic 11 exit gate is complete. The six Slice 155–160 commits and the
 current output evidence are summarized in the durable exit report, and the

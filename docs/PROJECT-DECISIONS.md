@@ -490,16 +490,18 @@ data collection still require their own explicit gate.
   plus explicit-consent, single-owner cloud sync with revision/idempotency
   conflict handling, deny-by-default RLS, expand/migrate/contract migrations,
   export and deletion semantics. SQL, provider SDKs, login UI, accounts and
-  personal-data collection remain blocked until the named jurisdiction,
-  privacy/terms, consent, retention, auth-method, data-region, subprocessor,
-  RLS and support decisions are recorded.
+  personal-data collection remain deferred under the launch-cost hold; the
+  named jurisdiction, privacy/terms, consent, retention, auth-method,
+  data-region, subprocessor, RLS and support decisions remain a future
+  launch re-entry checklist.
 - Slice 175's admission audit is recorded in
   `docs/planning/EPIC-12-SLICE-175-ADMISSION.md`. No authoritative record yet
   answers the required launch entity/jurisdiction, data sensitivity, lawful
   basis/consent, data-region/subprocessor, retention/deletion, P0 auth/session,
   anonymous-sharing or operating-ceiling decisions. The welcome/login/profile
-  implementation is therefore blocked; only provider-neutral fixtures, local
-  evidence and decision documentation are authorized.
+  implementation is deferred by the explicit launch-cost hold, not a current
+  blocker; provider-neutral fixtures, local evidence and decision
+  documentation remain authorized.
 - The standing platform threat model is
   `docs/research/WEB-PLATFORM-THREAT-MODEL.md`; no identity/cloud slice may
   collect data until its jurisdiction, retention, deletion, consent and RLS
@@ -508,3 +510,34 @@ data collection still require their own explicit gate.
   worktrees. Shared registry/UI/persistence/render/nesting/export integration
   is serialized and Codex-owned. Shorts, joggers and jeans may not concurrently
   change the lower-body source of truth.
+
+## Launch-cost hold and no-cost interim platform work — confirmed 2026-09-21
+
+- All work that creates a one-time or recurring launch cost is held until the
+  maintainer explicitly says the project is ready for launch. This includes a
+  paid hosting or database plan, domain registration, authenticated profiles,
+  cloud sync, email delivery, hosted monitoring, paid repository governance,
+  code-signing procurement, and any provider-backed operational service.
+- The existing zero-cost, URL-only Cloudflare Pages preview and its verified
+  GitHub Actions artifact delivery may continue. No new account, plan,
+  domain, provider integration, secret, or external data path may be added
+  under this hold.
+- The unresolved jurisdiction, entity, privacy, data-region, personal-data,
+  schema, authentication and support questions are deferred launch decisions,
+  not current engineering blockers. They remain the re-entry checklist for
+  the held identity/cloud work and must not be inferred during interim work.
+- Slice 176 is already assigned to the preview noindex hardening recorded on
+  `origin/main` at `ae1afe8`; it must not be reused for a later feature.
+- Slice 177 is assigned to this launch-cost hold, no-cost interim re-scope and
+  unique slice-sequence correction; it must not be reused for a feature.
+- Epic 12's no-cost interim track may prepare local, repository and
+  provider-neutral work only: Slice 178's embedded flag contract and rollout
+  readiness, Slice 179's local delivery/governance rehearsal, Slice 180's
+  synthetic failure/readiness drill, and Slice 181's preview-only/no-go
+  handoff. Remote flags, a real Polo V2 rollout, provider promotion, hosted
+  monitoring, backup services, email, auth, database, and public-beta claims
+  remain deferred.
+- The garment implementation queue begins only after this no-cost interim
+  track is complete and the maintainer schedules the next family. Its order
+  remains casual woven shorts, adult crewneck sweatshirt, adult knit jogger,
+  pullover-hoodie extension, then rigid five-pocket jeans.

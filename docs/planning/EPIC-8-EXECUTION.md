@@ -27,6 +27,11 @@ candidate transform set, and is then checked by InfiniDrip's own validator. The
 current shelf packer remains the default and fallback unless every admission
 gate passes and the maintainer explicitly promotes the result.
 
+This is a bounded helper/adapter proof, not a clone or fork of Sparrow/Jagua
+and not a replacement nesting engine. External solver code may propose
+transforms, but InfiniDrip retains ownership of garment semantics, geometry,
+validation, export identity and failure fallback.
+
 ## Classification
 
 - **Primary:** redesign of the existing nesting strategy behind a compatibility

@@ -105,6 +105,19 @@ Codex does not need to transfer previous context files as a separate bundle.
 - Every contributor change returns through a PR or an equivalent Codex-reviewed
   branch diff before integration.
 
+### Unique slice-number commit rule
+
+- A landed slice receives exactly one unique, monotonically increasing slice
+  number. Before creating a branch or commit, inspect `origin/main` and the
+  active branches for the highest assigned number and reserve the next unused
+  number.
+- The landed commit subject must be `Slice N: <description>`. Do not reuse a
+  number for a documentation follow-up, audit, fixup, merge, or second commit;
+  give follow-up work the next slice number. Do not use range or compound slice
+  subjects for new commits.
+- Existing duplicate slice subjects in repository history are historical
+  evidence and are not rewritten without explicit maintainer authorization.
+
 ## Required contributor return packet
 
 The contributor must return valid JSON, or a clearly delimited JSON block if

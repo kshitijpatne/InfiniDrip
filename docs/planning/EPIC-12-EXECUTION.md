@@ -1,7 +1,7 @@
 # EPIC 12 — Public Web Platform and Delivery Governance
 
-Status: **SLICES 171–174 — FOUNDATION, CONTROL CENTER, DELIVERY PROOF AND
-IDENTITY/CLOUD CONTRACT COMPLETE; SLICE 175 ADMISSION AUDIT BLOCKED**
+Status: **SLICES 171–174 AND 176–177 COMPLETE; SLICE 175 DEFERRED BY THE
+LAUNCH-COST HOLD; NO-COST INTERIM SLICES 178–181 SCOPED**
 
 Owner: **Codex**. Claude Code and OpenCode may contribute only bounded,
 isolated audits or mechanical work under `docs/OPENCODE-WORKFLOW.md`. Codex
@@ -43,9 +43,33 @@ made by this packet.
 - No service key, database credential or privileged token may enter the browser
   bundle, repository, screenshots, Control Center data, or test fixture.
 
+## Current maintainer boundary — no-cost interim track
+
+All work that creates a one-time or recurring launch cost is held until the
+maintainer explicitly says the project is ready for launch. This includes paid
+hosting or database plans, domains, profiles, cloud sync, email delivery,
+hosted monitoring, paid repository governance, code signing and provider-backed
+operational services. The recommended launch stack and its approximately
+$59/month planning envelope remain future research, not an implementation
+target.
+
+The existing zero-cost, URL-only Cloudflare Pages preview and its verified
+GitHub Actions artifact delivery may continue. No new account, plan, domain,
+provider integration, secret, or external data path may be added under this
+hold. “No-cost” means repository-local, test-only, provider-neutral work plus
+the already-approved static preview; it does not mean that a free-tier account
+for a database, auth, email, monitoring or cloud workspace is admitted.
+
+Slice 175 is deferred rather than an active engineering blocker. Its unresolved
+jurisdiction, entity, privacy, data-region, personal-data, schema,
+authentication and support questions remain the re-entry checklist for launch
+work, but do not need to be resolved for the interim track. Login UI, auth SDK,
+SQL/RLS migration, profiles, cloud sync and personal-data flow remain out of
+scope.
+
 ## Recommended operating model
 
-The cost research recommends Cloudflare Registrar/DNS, Vercel Pro, Supabase
+The future launch model recommends Cloudflare Registrar/DNS, Vercel Pro, Supabase
 Auth/Postgres with separate staging and production projects, Resend through
 Supabase custom SMTP, an owned Supabase-backed flag interface with local
 defaults, Sentry Developer plus Better Stack Free, and a repository-local
@@ -188,23 +212,23 @@ Contract evidence: the logical schema, data classification, owner-only RLS and
 grant matrix, migration sequence, local-first sync/idempotency/conflict rules,
 export/deletion/backup-retention contract and pressure-test matrix are complete.
 No SQL migration, provider SDK, login UI, account, public URL or personal-data
-collection is included. Slice 175 cannot start until the blocking decisions in
-the Slice 174 research record are explicitly resolved.
+collection is included. Slice 175 is held by the launch-cost decision; the
+decisions in the Slice 174 research record are retained for later re-entry and
+are not a current prerequisite for no-cost work.
 
 Owner/model: Codex; Sol-high for security/privacy/RLS review, Luna-max for
 document reconciliation. Claude/OpenCode may audit the matrix or produce
 provider-neutral fixtures only after Codex issues a bounded handoff.
 
-### Slice 175 — welcome, login and profile flow
+### Slice 175 — welcome, login and profile flow — deferred
 
-**Current status: BLOCKED at admission.** The implementation is not admitted
-until the decision record in
-`docs/planning/EPIC-12-SLICE-175-ADMISSION.md` is approved and the named
-jurisdiction, privacy/terms, consent, retention/deletion, auth-method,
-data-region, subprocessor, RLS and support decisions are recorded. While this
-gate is open, only provider-neutral fixtures, local evidence and documentation
-may change. No login UI, auth SDK, SQL/RLS migration, provider account, email
-sender or personal-data flow may be added.
+**Current status: DEFERRED by the launch-cost hold.** The implementation is
+not scheduled until the maintainer explicitly reopens launch work and approves
+the required provider/cost/data decisions. The record in
+`docs/planning/EPIC-12-SLICE-175-ADMISSION.md` is a future re-entry checklist,
+not a current blocker for local development. No login UI, auth SDK, SQL/RLS
+migration, provider account, email sender or personal-data flow may be added
+under the hold.
 
 Add the first-run welcome state, login/logout/session recovery and minimal
 profile settings as an additive shell around the existing journey. Existing
@@ -216,57 +240,103 @@ offline and account-deletion states are visible and actionable; no measurement
 is sent before explicit sync consent; focus/accessibility and responsive gates
 match Epic 5.
 
-### Slice 176 — owned feature lifecycle and Polo rollout
+### Slice 176 — static preview noindex hardening — complete
 
-Implement a typed flag interface with embedded safe defaults, optional remote
-configuration, cache/staleness rules, owner, audience, expiry, ON/OFF behavior,
-test evidence and removal release. `polo_v2` may only offer V2/V1 fallback if
-both compatible paths actually exist; a flag cannot pretend a missing V1 path
-is a rollback.
+Keep the approved friend/family preview out of search and archival indexes by
+emitting `noindex, nofollow, noarchive` in the static HTML. This slice changed
+no drafting, persistence, export, account, data or provider-runtime behavior.
 
-Acceptance: remote failure uses the declared default; stale/unknown flags are
-visible in diagnostics; authorization/RLS do not depend on the client flag;
-flagged and unflagged paths preserve save compatibility; every flag has an
-expiry/removal owner.
+Verified: the noindex hardening is on `origin/main` at `ae1afe8`, and the
+existing fresh-browser, network-capture and static artifact checks remain the
+evidence for the URL-only preview. Slice 176 is already assigned and must not
+be reused for a later feature.
 
-### Slice 177 — protected delivery, freeze and blue/green rehearsal
+### Slice 177 — no-cost launch hold and slice-sequence correction — complete
 
-Add branch protection/CODEOWNERS/required checks where the selected GitHub plan
-supports them, candidate promotion records, freeze checklist, migration
-compatibility check, smoke matrix, rollback rehearsal, incident patch route,
-and deployment evidence. The inactive slot receives the exact candidate artifact
-that passed staging; no manual rebuild occurs during promotion.
+Record the maintainer's explicit hold on all one-time and recurring launch
+costs, verify the free static-preview and public-repository CI boundaries, and
+re-sequence future work from the next unused slice number. This slice changes
+planning and delivery governance only; it does not add a provider, account,
+database, auth path, personal-data flow or application runtime behavior.
 
-Acceptance: a failed check cannot promote; a failed smoke test returns traffic
-to the previous alias; rollback is documented and rehearsed; database changes
-are transition-safe; the Control Center records commit, artifact hash,
-approvals, timestamps, flags and rollback result.
+Verified: the no-cost interim boundary, the deferred Slice 175 re-entry path,
+the unique monotonically increasing commit rule, and the corrected future
+sequence are recorded in durable context and the local Control Center. Slice
+177 is now assigned to this planning decision and must not be reused.
 
-### Slice 178 — public beta readiness and operating drill
+### Slice 178 — embedded feature lifecycle and Polo rollout readiness — no-cost scope
 
-Run a bounded pre-launch exercise against the chosen providers: uptime/error
-signals, backup/restore, auth abuse, rate limits, email failure, provider
-outage, cost alerts, data deletion/export, stale flag, and blue/green rollback.
-No real user invitation occurs during the exercise.
+Implement and test the repository-local portion of the flag contract: typed
+flag metadata, embedded safe defaults, explicit owner/audience/expiry,
+ON/OFF behavior, unknown/stale diagnostics, and removal-release evidence.
+Remote configuration, cache invalidation against a provider, hosted flag
+storage, cohort targeting and any auth/RLS integration are deferred.
 
-Acceptance: P0 failure paths have owner/runbook/rollback; spend ceiling and
-alerts are active; privacy/terms/support links are present; no secret or
-personal-measurement leak appears in logs or artifacts; explicit maintainer
-approval is recorded before production traffic.
+The slice may audit and prepare the `polo_v2` rollout contract, but it may not
+ship a public toggle unless a compatible V1 fallback actually exists. If that
+fallback is absent, the accepted result is a readiness record and safe local
+flag infrastructure with no live Polo switch. No flag may hide invalid
+geometry or act as authorization.
 
-### Slice 179 — Epic 12 exit and durable handoff
+Acceptance: all local default/unknown/stale/expiry paths are covered; the
+flagged and unflagged contracts preserve save compatibility; diagnostics are
+truthful; no network, provider account, database, profile or personal data is
+required; and a missing Polo V1 fallback is reported rather than fabricated.
 
-Record whether the result is preview-only, authenticated beta-ready, or
-blocked/no-go. Update release evidence, context, architecture, roadmap and the
-Control Center. Codex alone may close the Epic and push a production-capable
-result.
+### Slice 179 — repository/local delivery and rollback rehearsal — no-cost scope
+
+Add or verify repository-owned governance artifacts: CODEOWNERS/required-check
+configuration where the current public GitHub Free repository supports it,
+candidate promotion records, freeze checklist, static migration-compatibility
+placeholders, smoke matrix, local rollback rehearsal, incident patch route and
+artifact evidence. Rehearse immutable candidate identity using the existing
+manifest and static preview contract; do not create a paid plan, domain,
+production alias, database, or new provider workflow.
+
+Acceptance: a failed local check cannot be recorded as promotable; a failed
+smoke rehearsal selects the previous known-good artifact; rollback is
+documented and repeatable; future database changes are explicitly marked
+deferred; and the Control Center records commit, artifact hash, approvals,
+timestamps and rehearsal result without contacting a new provider.
+
+### Slice 180 — provider-neutral readiness dry-run — partial no-cost scope
+
+Run a synthetic, local-only operating drill for the failure matrix: static
+preview outage, artifact rollback, local-save backup/restore, stale flag,
+malformed input, export/deletion behavior, and unavailable future providers.
+Use fixtures and runbooks only; do not create monitoring, backup, auth, email,
+database or alerting services, and do not exercise real personal data or invite
+users.
+
+This does not complete the provider-backed public-beta readiness slice. The
+real uptime/error, backup/restore, auth-abuse, rate-limit, email, provider
+outage, cost-alert and hosted data-deletion exercise remains deferred until
+launch is explicitly reopened.
+
+Acceptance: every no-cost failure path has an owner, runbook and fallback;
+synthetic evidence contains no secrets or personal measurements; deferred
+provider-backed checks are listed as deferred rather than marked passed; and
+the result makes no authenticated-beta or production-readiness claim.
+
+### Slice 181 — preview-only/no-cost exit and durable handoff
+
+Record the no-cost interim result as preview-only, with launch-backed identity,
+cloud workspace and public-beta work explicitly deferred. Update release
+evidence, context, architecture, roadmap and the Control Center. This exit may
+close the interim track, but it must not claim authenticated beta readiness or
+production readiness. Codex alone may close the Epic and push the reviewed
+documentation/evidence result.
 
 ## Parallel tracks and ownership
 
-Tracks 172 (local board) and 173 (provider-independent delivery proof) can run
-in parallel. Track 174 must precede 175 and 176. Slice 177 depends on 173 and
-the transition-safe portion of 174. Slice 178 depends on all production-facing
-work. None of these tracks may modify drafting geometry or export writers.
+Tracks 172 (local board), 173 (provider-independent delivery proof), 176
+(preview noindex hardening) and 177 (the no-cost decision/re-sequencing record)
+are complete. No-cost Slice 178 depends on the existing flag and Polo
+contracts, Slice 179 depends on 173, and the Slice 180 dry-run depends on the
+local portions of 178 and 179. Slice 181 follows those dry-runs. Slice 175 and
+all provider-backed portions of 178–180 remain a separate launch track and are
+not dependencies for the no-cost interim. None of these tracks may modify
+drafting geometry or export writers.
 
 Claude Code may perform a bounded threat-model or RLS adversarial review.
 OpenCode may perform isolated Control Center rendering, fixture and CI-mechanical
@@ -277,6 +347,11 @@ full gates and `origin/main`.
 
 - Existing 100% coverage, TypeScript, production build, parsed-output and
   protected export-byte identity gates remain mandatory.
+- No one-time or recurring cost, account, plan upgrade, domain, provider-backed
+  feature, hosted monitoring path, database, auth/profile flow, cloud sync,
+  email service or personal-data path may be added until the maintainer
+  explicitly reopens launch readiness. The existing free static preview is the
+  only external-service exception.
 - No authenticated public platform, database, email service, domain,
   analytics, monitoring subscription or personal-data collection is activated
   without a separate explicit approval and current cost/terms check. The

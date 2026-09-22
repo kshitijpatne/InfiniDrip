@@ -8,9 +8,10 @@ test("canonical board validates and summarizes its tracked work", () => {
   assert.deepEqual(result, { valid: true, errors: [] });
   const summary = summarizeBoard(board);
   assert.equal(summary.epics, 9);
-  assert.equal(summary.workItems, 7);
-  assert.equal(summary.statusCounts.Closed, 6);
-  assert.equal(summary.statusCounts.Blocked, 1);
+  assert.equal(summary.workItems, 13);
+  assert.equal(summary.statusCounts.Closed, 8);
+  assert.equal(summary.statusCounts.Backlog, 4);
+  assert.equal(summary.statusCounts.Ready, 1);
   assert.match(renderBoard(board), /InfiniDrip delivery board/);
   assert.match(renderBoard(board), /incomplete/);
   assert.match(renderBoard(board), /SLICE-174/);

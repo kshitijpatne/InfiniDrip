@@ -13,10 +13,17 @@ is authoritative for maintainer decisions that are not derivable from code.
   wave. Read `docs/planning/GARMENT-EXPANSION-SYNTHESIS.md` plus the relevant
   garment record before scoping any implementation. The wave itself authorizes
   no garment code.
-- Epic 11 Polo V2 research and execution scoping is complete in Slice 148.
-  Its Epic 7 gate is satisfied; implementation Slices 155–161 are the next
-  packet-ready geometry work if scheduled and remain Codex-owned because they
-  change garment geometry and shared outputs.
+- Epic 11 Polo V2 implementation is complete through Slice 161. Epic 12 is the
+  active lane; Slice 176 is already assigned to static-preview noindex
+  hardening, Slice 177 is assigned to the no-cost hold/re-sequencing decision,
+  and the next unused no-cost implementation slice is Slice 178.
+- All one-time and recurring launch costs are held until the maintainer
+  explicitly reopens launch readiness. Login, profiles, cloud sync, databases,
+  email, hosted monitoring, paid governance, code signing and provider-backed
+  features remain deferred.
+- Epic 8 is closed as a proof-only/no-go result. Its retained future scope is
+  a bounded external-solver helper/adapter proof, not a clone or replacement
+  nesting engine; `nestPieces` remains the default and fallback.
 - No InfiniDrip garment has been physically sewn and validated yet. Do not claim
   physical fit until evidence is recorded.
 - Every garment aspect should be adjustable where meaningful. Guidance must
@@ -28,6 +35,13 @@ is authoritative for maintainer decisions that are not derivable from code.
 
 - Work in numbered slices and keep scope, acceptance criteria, and non-goals
   explicit.
+- Assign each landed slice exactly one unique, monotonically increasing slice
+  number. Before committing, inspect `origin/main` and active branch history
+  for the highest assigned number; reserve the next unused number. Use one
+  landed commit subject beginning `Slice N:` per slice—no repeated slice
+  numbers, range/compound slice subjects, or same-slice fixup commits. Give a
+  follow-up its own next slice number. Existing duplicate history is preserved
+  unless the maintainer explicitly authorizes a history rewrite.
 - Preserve 100% test coverage and the export byte-identity regression gate.
 - Do not move an export baseline without an explicit, documented reason and
   maintainer approval.

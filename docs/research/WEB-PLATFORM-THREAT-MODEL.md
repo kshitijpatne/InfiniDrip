@@ -1,7 +1,7 @@
 # Web Platform Epic — threat model and data-boundary record
 
 Status: **Slice 171 threat boundary + Slice 174 contract reviewed; Slice 175
-admission audit blocked; provider implementation gated**
+deferred by the launch-cost hold; launch-backed provider implementation gated**
 Date: 2026-09-21  
 Owner: Codex
 
@@ -12,10 +12,11 @@ email sender, telemetry stream or user data collection is authorized by this
 record.
 
 Slice 174 applies this boundary in the provider-independent contract at
-`docs/research/IDENTITY-CLOUD-WORKSPACE-RESEARCH.md`; the Slice 175 admission
+`docs/research/IDENTITY-CLOUD-WORKSPACE-RESEARCH.md`; the Slice 175 deferral
 audit at `docs/planning/EPIC-12-SLICE-175-ADMISSION.md` confirms that the
-unresolved legal and product decisions below remain blocking before any auth
-UI, provider implementation or personal-data flow.
+unresolved legal and product decisions below remain required before any
+launch-backed auth UI, provider implementation or personal-data flow. They do
+not block the current repository-local, provider-neutral interim work.
 
 ## System and trust boundaries
 
@@ -103,8 +104,8 @@ UI, provider implementation or personal-data flow.
 
 ## Retention and deletion questions
 
-These are blocking product/legal decisions before Slice 175/provider
-implementation or any collection of personal data:
+These are future launch product/legal decisions required before Slice
+175/provider implementation or any collection of personal data:
 
 1. Entity/jurisdiction, privacy notice, terms, support contact and applicable
    age/consent policy — maintainer/legal.
@@ -118,5 +119,7 @@ implementation or any collection of personal data:
 6. Auth methods for P0 (email magic link/passwordless only, or password/OAuth)
    — product/security; default is the smallest tested method.
 
-Until these decisions are recorded, development may proceed only on provider-
-independent contracts, local Control Center work and static artifact proofs.
+Until these decisions are recorded, launch-backed development may not add
+provider or personal-data behavior. Repository-local, provider-neutral work,
+the local Control Center and the approved static artifact proof may continue
+under the current launch-cost hold.

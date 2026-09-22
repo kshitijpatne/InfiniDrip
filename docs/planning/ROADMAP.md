@@ -58,7 +58,8 @@ be made until this constraint is reopened.
 ### Current Now / Next / Later decision view
 
 This view supersedes the historical Slice 45 timeline below. It is the current
-planning surface for Codex after the completed Epic 6 integration.
+planning surface for Codex after the completed Epic 11 work and Epic 12
+foundation.
 
 | Horizon | Initiative | Status / owner | Dependencies and exit |
 |---|---|---|---|
@@ -69,11 +70,12 @@ planning surface for Codex after the completed Epic 6 integration.
 | **Done / research-only** | **Garment-expansion research wave (Slices 149–154)** | **Complete — Codex-owned; Claude contributed two isolated packets** | Four garment records plus binding synthesis; no implementation authorized |
 | **Done / gate recorded** | **EPIC 11 — Polo V2 fidelity refinement (Slices 155–161)** | **Complete — Codex reviewed and pushed** | Shaped neckline-derived collar/stand, back preview, placket-base marks, side vents and adjustable back drop; see `docs/release/EPIC-11-EXIT-REPORT.md` |
 | **Done / proof-only no-go** | **EPIC 8 — True-shape nesting proof and controlled redesign (Slices 162–163 admission packet, 169 exit)** | **Codex-owned; runtime deliberately withheld** | Exact source/lock/notices/hashes recorded in the [exit report](../release/EPIC-8-EXIT-REPORT.md); offline build and worker-containment gates failed; `nestPieces` remains the only runtime behavior |
-| **Next** | **Surface v1 stabilization** — follow-up only for a reproducible defect or real user evidence | **Conditional** | Epic 6 exit evidence plus a concrete failure; no speculative polish |
+| **Conditional** | **Surface v1 stabilization** — follow-up only for a reproducible defect or real user evidence | **Conditional** | Epic 6 exit evidence plus a concrete failure; no speculative polish |
 | **Later / researched** | **Garment candidates** — shorts → sweatshirt → jogger → pullover hoodie → rigid jeans | **Packets researched; execution packets still required** | Shared stretched-join and lower-body boundaries in `GARMENT-EXPANSION-SYNTHESIS.md`; do not start from the research record alone |
 | **Later / blocked** | **Physical fit validation** | **Blocked by maintainer constraint** | No manufacturer/printer is available; no sewn-fit claim or schedule until explicitly reopened |
-| **Proof-only / reopen-only** | **Sparrow irregular nesting redesign** | **Epic 8 no-go recorded; not authorized** | Reopen only with a new packet closing pinned-toolchain, offline-build, worker-isolation, replay, validator and fallback gates |
-| **In progress / Slices 171–174 complete; Slice 175 blocked at admission** | **EPIC 12 — Public Web Platform and Delivery Governance** | **Codex-owned; identity/cloud contract reviewed, welcome/login/profile implementation gated** | Repository-local Control Center, deterministic static artifact proof, owner-only Auth/RLS workspace contract, release governance and feature flags; no provider account or personal-data collection until the Slice 175 decision record is approved |
+| **Proof-only / reopen-only** | **Sparrow irregular nesting helper/adapter proof** | **Epic 8 no-go recorded; not authorized; not a clone or replacement engine** | Reopen only with a new packet closing pinned-toolchain, offline-build, worker-isolation, replay, validator and fallback gates |
+| **In progress / no-cost interim next** | **EPIC 12 — local feature lifecycle, delivery rehearsal and readiness dry-run (Slices 178–181)** | **Codex-owned; Slice 178 ready; Slices 179–181 queued** | Repository/local and provider-neutral work only; existing static preview may continue; no new account, plan, domain, database, auth, email, monitoring or personal-data path |
+| **Deferred until launch is explicitly reopened** | **EPIC 12 launch-backed identity, cloud workspace and public beta (Slice 175 plus provider portions of 176–178)** | **Not a current blocker; future re-entry track** | Cost approval plus the retained privacy, jurisdiction, data-region, retention, auth and support decisions are required before implementation |
 
 ### Codex next-work options
 
@@ -88,10 +90,12 @@ choices:
 2. **Future garment execution packet.** If work after Polo is selected, scope
    casual shorts first. A separate upper-body sweatshirt geometry track may run
    in parallel only with disjoint files and serialized shared integration.
-3. **EPIC 12 Web Platform.** Slices 171–174 are complete as provider-neutral
-   contracts and local proofs. Slice 175 welcome/login/profile work waits for
-   privacy, retention, jurisdiction, consent, auth-method, data-region and RLS
-   gates; no account or migration is authorized yet.
+3. **EPIC 12 no-cost interim.** Slices 171–174 and 176–177 are complete as
+   provider-neutral contracts, local proofs and the explicit cost/re-sequencing
+   decision. Begin Slice 178's embedded flag contract and rehearse delivery and
+   synthetic readiness through Slices 179–181. Slice 175, remote flags, cloud
+   sync and provider-backed beta work remain deferred until launch readiness and
+   cost approval are explicitly reopened.
 4. **Conditional stabilization.** Act only on a reproducible Epic 6/7 defect or
    real user evidence; no speculative polish.
 

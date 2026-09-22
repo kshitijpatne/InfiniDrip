@@ -20,6 +20,11 @@ garment, drafting, guidance, writer, or export behavior was changed. No
 physical fit, sewability, production-marker quality, or material-savings claim
 follows from this packet.
 
+The defined future scope is a bounded helper/adapter proof around an external
+candidate solver, not a clone or fork of Sparrow/Jagua. The candidate may
+propose transforms only; InfiniDrip must continue to own garment semantics,
+geometry validation, export identity and unconditional shelf fallback.
+
 ## Slice lineage and evidence
 
 Slice 162 admitted only the additive reject-by-default contract in
