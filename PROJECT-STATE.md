@@ -1,7 +1,7 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 189 accepted Phase 2 and activated Phase 3 tutorial
-research/specification, 2026-09-22.
+_Last updated: Slice 190 accepted the Phase 3 tutorial specification; Phase 4
+implementation is Ready, 2026-09-22.
 Epics 7, 9 and 10 are implemented, Codex-reviewed, documented and pushed to
 `origin/main`. Epic 11 implementation has completed the shaped collar/stand,
 placket-base, vent/drop, front/back preview/control/report and downstream
@@ -144,6 +144,25 @@ records `PREQUEUE-PHASE-02` as `Done` and `PREQUEUE-PHASE-03` as `In Progress`;
 the latter follows the approved order and implementation remains gated on the
 Phase 3 specification. Board revision 24 includes separate closure evidence
 `E-PREQUEUE-PHASE2-CLOSURE`. `npm run control-center:test` passed 25/25.
+
+### Slice 190 — specify the first-load tutorial
+
+`docs/planning/FIRST-LOAD-TUTORIAL-SPEC.md` records the research, beginner
+copy, five-step model (with Check and Export as two views of step five), actual
+UI targets, one-primary-action rule, stage/navigation behavior, local-only
+state and v1/v2 migration, accessible focus behavior, and Phase 4 acceptance
+matrix. Claude's newcomer copy review and OpenCode's code/state map were
+read-only and incorporated. Neither review performed live rendering; Phase 4
+still requires browser verification. The stable tutorial host, real readiness
+gate, no-clamp rule, and “no physical fit or production validation” wording are
+explicit.
+
+The Phase 3 work item is Done with `E-PREQUEUE-PHASE3-SPEC`; Phase 4 is Ready
+after its dependency was satisfied at board revision 28. No tutorial source
+code changed in Slice 190; Phase 4 is the next implementation slice. The
+canonical-board test now checks the Ready count against the board rather than
+assuming zero; this sequence legitimately has a prepared Ready item.
+`npm run control-center:test` passes 25/25.
 
 ### Post-merge PR audit — 2026-09-21
 

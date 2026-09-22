@@ -67,8 +67,9 @@ snapshots; they are not current status.
 - Phase 2's read-only repository and newcomer audit is complete and recorded in
   `docs/planning/REPOSITORY-AND-NEWCOMER-AUDIT.md`. No files or history were
   removed or rewritten; the personal resume-staging archive remains tracked
-  under the non-destructive default. Phase 3 tutorial research/specification is
-  now in progress; implementation waits for its implementation-ready spec.
+  under the non-destructive default. Phase 3's accepted tutorial specification
+  is `docs/planning/FIRST-LOAD-TUTORIAL-SPEC.md`; Phase 4 implementation is
+  Ready and must follow that contract.
 
 ## Planning documents
 
@@ -122,6 +123,9 @@ snapshots; they are not current status.
 - `docs/planning/PRE-GARMENT-EXECUTION.md` — maintainer-approved nine-phase
   no-cost sequence, acceptance criteria, durable work boundaries, and final
   approval gate before the next garment queue.
+- `docs/planning/FIRST-LOAD-TUTORIAL-SPEC.md` — Phase 3 research-backed,
+  implementation-ready copy, tour-state, local-persistence, accessibility,
+  and verification contract. Read before any Phase 4 tutorial code.
 - `docs/planning/REPOSITORY-AND-NEWCOMER-AUDIT.md` — Phase 2's read-only
   inventory, historical duplicate-number feasibility check, and newcomer
   misunderstanding record; no cleanup or history rewrite was performed.

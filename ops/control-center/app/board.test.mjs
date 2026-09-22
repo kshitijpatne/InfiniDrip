@@ -12,7 +12,7 @@ test("canonical board validates and summarizes its tracked work", () => {
   assert.equal(summary.evidence, board.evidence.length);
   assert.equal(summary.statusCounts.Done, board.workItems.filter((item) => item.status === "Done").length);
   assert.equal(summary.statusCounts.Backlog, board.workItems.filter((item) => item.status === "Backlog").length);
-  assert.equal(summary.statusCounts.Ready ?? 0, 0);
+  assert.equal(summary.statusCounts.Ready ?? 0, board.workItems.filter((item) => item.status === "Ready").length);
   assert.match(renderSummary(board), new RegExp(String(board.workItems.length)));
   assert.match(renderItemList(board.workItems, "SLICE-184"), /SLICE-184/);
 });
