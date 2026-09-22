@@ -16,8 +16,9 @@ is authoritative for maintainer decisions that are not derivable from code.
 - Epic 11 Polo V2 implementation is complete through Slice 161. Epic 12 is the
   active lane; Slice 176 is already assigned to static-preview noindex
   hardening, Slice 177 records the no-cost hold/re-sequencing decision, Slice
-  178 records the local feature-flag contract, and the next no-cost
-  implementation slice is Slice 179.
+  178 records the local feature-flag contract, Slice 179 records the local
+  delivery/rollback rehearsal, and the next no-cost implementation slice is
+  Slice 180.
 - All one-time and recurring launch costs are held until the maintainer
   explicitly reopens launch readiness. Login, profiles, cloud sync, databases,
   email, hosted monitoring, paid governance, code signing and provider-backed

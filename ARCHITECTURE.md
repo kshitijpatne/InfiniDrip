@@ -621,8 +621,14 @@ read-only operations surface. Its versioned board schema, validator, evidence
 importer and dashboard record work-item state without guessing missing history;
 contributors can submit review, but only an independent reviewer can close an
 item. The `ops/web/` manifest utility records a sorted SHA-256 inventory of a
-Vite `dist/` directory. These artifacts are provider-neutral and are never a
-source of drafting, persistence or authorization truth.
+Vite `dist/` directory. Slice 179's `release-rehearsal.mjs` derives a stable
+whole-manifest digest and validates a local candidate record containing source
+identity, explicit gates, approval/timestamp and a previous known-good
+candidate. A failed smoke-only rehearsal selects that validated prior record;
+malformed or otherwise failed candidates are rejected. The helper returns
+descriptive results only and performs no provider operation. These artifacts
+are provider-neutral and are never a source of drafting, persistence or
+authorization truth.
 
 The approved interim friend/family preview is a static exception to the
 provider-independent planning gate: only the built `dist/` artifact may be
@@ -658,7 +664,7 @@ privacy, consent, retention, auth/session, data-region, subprocessor, RLS and
 support decisions remain a future re-entry checklist, not a current blocker.
 No UI, provider SDK, SQL/RLS migration or personal-data flow may be inferred
 while the hold is open; provider-neutral fixtures, local evidence and the
-no-cost portions of Slices 178–181 remain authorized. Slice 176 is already
+remaining no-cost portions of Slices 180–181 remain authorized. Slice 176 is already
 assigned to the preview noindex hardening, Slice 177 is assigned to the
 no-cost hold/re-sequencing decision, and neither number may be reused.
 
@@ -667,8 +673,14 @@ Slice 178 adds only the repository-local feature-flag contract at
 with an embedded safe default and no compatible V1 fallback; it is not wired to
 runtime geometry and cannot act as authorization or hide invalid state. Legacy
 Polo saves continue through the existing V2 pipeline without a save-version
-bump. Slice 178's full 105-file / 1,421-test, 100%-coverage gate passed, and
-Slice 179 is the next no-cost delivery-rehearsal boundary.
+bump. Slice 178's full 105-file / 1,421-test, 100%-coverage gate passed.
+
+Slice 179 completes the no-cost delivery-rehearsal boundary. Its freeze,
+smoke, incident and migration-defer rules are versioned in
+`docs/release/SLICE-179-LOCAL-DELIVERY-REHEARSAL.md`, and the local Control
+Center records the evidence reference. This does not create a hosted rollback
+alias, branch-protection setting, CODEOWNERS policy, database or migration.
+Slice 180 is the next no-cost boundary.
 
 The future web layer is additive. A static immutable Vite artifact may be
 served publicly without changing drafting or export truth. Auth/profile/cloud

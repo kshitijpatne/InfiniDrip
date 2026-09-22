@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 178 local feature lifecycle complete; Slice 179 next,
+_Last updated: Slice 179 local delivery rehearsal complete; Slice 180 next,
 2026-09-22.
 Epics 7, 9 and 10 are implemented, Codex-reviewed, documented and pushed to
 `origin/main`. Epic 11 implementation has completed the shaped collar/stand,
@@ -204,9 +204,30 @@ changed.
 The full gate passes 105 files / 1,421 tests with 100% statements, branches,
 functions and lines; strict TypeScript, production build, focused flag tests,
 deterministic export identity and parsed/rendered consumer coverage pass. Slice
-179 is now the next no-cost implementation slice.
+179 followed as the next no-cost implementation slice.
 
-### Slices 171–174 and 176–178 complete; Slice 175 deferred; no-cost interim 179–181 scoped
+### Slice 179 — local delivery and rollback rehearsal complete
+
+The provider-neutral `ops/web/release-rehearsal.mjs` contract binds a commit/ref
+identity to a stable whole-manifest SHA-256, explicit tests/build/manifest/
+smoke booleans, reviewer approval and a timestamp. Invalid or failed checks
+cannot be promoted. A smoke-only failure selects a fully validated previous
+known-good candidate; malformed candidates and invalid rollback targets are
+rejected, and every result records `operation: "none"`.
+
+The versioned record in
+`docs/release/SLICE-179-LOCAL-DELIVERY-REHEARSAL.md` supplies the freeze
+checklist, smoke/incident matrix, no-CODEOWNERS/branch-protection assumption
+boundary and explicit future migration deferral. The Control Center now
+references the record and its evidence-file hash. No provider, account, cost,
+database, auth/profile, personal-data or application-runtime behavior changed.
+
+The focused release proof is `npm run web:release:test`; the full application,
+coverage, build, Control Center and existing manifest gates remain the exit
+requirements recorded below. Slice 180 is now the next no-cost implementation
+slice.
+
+### Slices 171–174 and 176–179 complete; Slice 175 deferred; no-cost interim 180–181 scoped
 
 The maintainer authorized the Public Web Platform and Delivery Governance
 Epic after Epic 11. The execution packet is
@@ -259,9 +280,8 @@ The reviewed Slice 172–173 implementation and automated delivery workflow are
 pushed to `origin/main` at `6ac4edd`; Slice 174 and the Slice 175 admission
 audit remain documentation-only until launch is explicitly reopened.
 
-The next safe work is Slice 179's repository/local delivery and rollback
-rehearsal, followed by Slice 180's provider-neutral synthetic readiness drill
-and Slice 181's preview-only/no-cost exit. Remote flags, provider promotion,
+The next safe work is Slice 180's provider-neutral synthetic readiness drill,
+followed by Slice 181's preview-only/no-cost exit. Remote flags, provider promotion,
 hosted monitoring, auth, database, email, cloud data and personal-data
 collection remain deferred. The garment queue begins only after this interim
 track is complete and separately scheduled.

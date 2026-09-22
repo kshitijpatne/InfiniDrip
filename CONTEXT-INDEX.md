@@ -48,9 +48,9 @@ snapshots; they are not current status.
 - `ops/control-center/` — completed Slice 172 repository-local board schema,
   truthful baseline data, reviewer-only close rules, evidence importer and
   read-only dashboard. It is operational evidence, not the hosted workspace.
-- `ops/web/` — completed Slice 173 provider-neutral artifact manifest utility,
-  delivery descriptor and local preview instructions; it does not deploy or
-  create a provider account.
+- `ops/web/` — completed Slice 173 provider-neutral artifact manifest utility
+  and Slice 179 local candidate/rollback rehearsal; delivery descriptors and
+  preview instructions do not deploy or create a provider account.
 
 ## Planning documents
 
@@ -94,7 +94,7 @@ snapshots; they are not current status.
   threat/data admission, static delivery, identity/sync, feature flags,
   blue/green governance, local Control Center, slice gates and ownership;
   current work is limited by the launch-cost hold to the no-cost interim lane;
-  Slice 178 is complete and Slice 179 is next.
+  Slices 178–179 are complete and Slice 180 is next.
 - `docs/planning/EPIC-12-SLICE-175-ADMISSION.md` — current Slice 175
   deferral audit, future launch re-entry decisions, authorized no-cost interim
   work and re-entry gate; it does not authorize login UI or provider mutation.

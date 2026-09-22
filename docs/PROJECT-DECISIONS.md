@@ -559,6 +559,27 @@ data collection still require their own explicit gate.
   persistence, export or authorization behavior was added. Full application
   tests and 100% coverage pass at 105 files / 1,421 tests, with strict
   TypeScript and the production build passing.
-- Slice 179 is the next no-cost boundary: repository/local delivery identity,
-  freeze, smoke, rollback and incident rehearsal. Remote flags and the real
-  Polo rollout remain deferred until launch is explicitly reopened.
+- Slice 179 completed the no-cost repository/local delivery boundary. Its
+  candidate identity, explicit gates, approval/timestamp, failed-smoke
+  selection, freeze checklist, incident route and deferred migration placeholder
+  are recorded in `docs/release/SLICE-179-LOCAL-DELIVERY-REHEARSAL.md`. No
+  CODEOWNERS or branch-protection setting was invented because ownership and
+  required-check settings are external maintainer configuration; no provider
+  mutation or cost was introduced.
+
+## Slice 179 local delivery and rollback rehearsal — complete 2026-09-22
+
+- `ops/web/release-rehearsal.mjs` computes a canonical whole-manifest digest
+  and strictly validates candidate identity, four explicit gate booleans,
+  reviewer approval/timestamp and a previous known-good record.
+- Only an all-green, approved candidate is `promotable`. A smoke-only failure
+  returns the validated previous candidate as `rolled-back` with
+  `operation: "none"`; malformed candidates, missing/failed checks and invalid
+  rollback targets are rejected without coercion.
+- The freeze/smoke/incident matrix and the explicit no-SQL/no-database
+  migration deferral are versioned in the Slice 179 release record. The local
+  Control Center references that record and its evidence-file hash.
+- The focused, application, coverage, build, manifest and Control Center gates
+  are required for acceptance. No auth, profile, cloud sync, database,
+  personal-data, hosted monitoring, domain, paid plan or runtime feature flag
+  was added. Slice 180 is the next no-cost boundary.

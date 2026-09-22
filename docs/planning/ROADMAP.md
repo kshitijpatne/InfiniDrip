@@ -74,7 +74,7 @@ foundation.
 | **Later / researched** | **Garment candidates** — shorts → sweatshirt → jogger → pullover hoodie → rigid jeans | **Packets researched; execution packets still required** | Shared stretched-join and lower-body boundaries in `GARMENT-EXPANSION-SYNTHESIS.md`; do not start from the research record alone |
 | **Later / blocked** | **Physical fit validation** | **Blocked by maintainer constraint** | No manufacturer/printer is available; no sewn-fit claim or schedule until explicitly reopened |
 | **Proof-only / reopen-only** | **Sparrow irregular nesting helper/adapter proof** | **Epic 8 no-go recorded; not authorized; not a clone or replacement engine** | Reopen only with a new packet closing pinned-toolchain, offline-build, worker-isolation, replay, validator and fallback gates |
-| **In progress / no-cost interim next** | **EPIC 12 — local feature lifecycle, delivery rehearsal and readiness dry-run (Slices 178–181)** | **Codex-owned; Slice 178 complete; Slice 179 next; Slices 180–181 queued** | Repository/local and provider-neutral work only; existing static preview may continue; no new account, plan, domain, database, auth, email, monitoring or personal-data path |
+| **In progress / no-cost interim next** | **EPIC 12 — local feature lifecycle, delivery rehearsal and readiness dry-run (Slices 178–181)** | **Codex-owned; Slices 178–179 complete; Slice 180 next; Slice 181 queued** | Repository/local and provider-neutral work only; existing static preview may continue; no new account, plan, domain, database, auth, email, monitoring or personal-data path |
 | **Deferred until launch is explicitly reopened** | **EPIC 12 launch-backed identity, cloud workspace and public beta (Slice 175 plus provider portions of 176–178)** | **Not a current blocker; future re-entry track** | Cost approval plus the retained privacy, jurisdiction, data-region, retention, auth and support decisions are required before implementation |
 
 ### Codex next-work options
@@ -92,8 +92,8 @@ choices:
    in parallel only with disjoint files and serialized shared integration.
 3. **EPIC 12 no-cost interim.** Slices 171–174 and 176–178 are complete as
    provider-neutral contracts, local proofs, the explicit cost/re-sequencing
-   decision and the readiness-only flag catalog. Continue with Slice 179's
-   delivery rehearsal and synthetic readiness through Slices 180–181. Slice
+   decision, readiness-only flag catalog and local delivery rehearsal. Continue
+   with Slice 180's synthetic readiness and Slice 181's preview-only exit. Slice
    175, remote flags, cloud sync and provider-backed beta work remain deferred
    until launch readiness and cost approval are explicitly reopened.
 4. **Conditional stabilization.** Act only on a reproducible Epic 6/7 defect or

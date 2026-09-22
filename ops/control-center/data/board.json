@@ -10,7 +10,7 @@
     { "id": "EPIC-10", "title": "Quality and adversarial hardening", "status": "Closed", "owner": "Codex", "description": "Seeded properties, geometry oracle and hostile-input hardening.", "evidenceRefs": ["E-EPIC10-EXIT"] },
     { "id": "EPIC-11", "title": "Polo V2 fidelity refinement", "status": "Closed", "owner": "Codex", "description": "Shaped collar/stand, vents, dropped hem and downstream pressure matrix.", "evidenceRefs": ["E-EPIC11-EXIT"] },
     { "id": "EPIC-GARMENT-RESEARCH", "title": "Garment expansion research wave", "status": "Closed", "owner": "Codex", "description": "Shorts, sweatshirt/hoodie, jogger and jeans research records.", "evidenceRefs": ["E-GARMENT-WAVE", "E-HISTORIC-INCOMPLETE"] },
-    { "id": "EPIC-12", "title": "Public Web Platform and Delivery Governance", "status": "In Progress", "owner": "Codex", "description": "No-cost local delivery, feature-lifecycle and readiness work; launch-backed identity, sync and public-beta operations remain deferred.", "evidenceRefs": ["E-EPIC12-S171", "E-S172-S173", "E-EPIC12-S174", "E-EPIC12-S175", "E-EPIC12-S178"] }
+    { "id": "EPIC-12", "title": "Public Web Platform and Delivery Governance", "status": "In Progress", "owner": "Codex", "description": "No-cost local delivery, feature-lifecycle and readiness work; launch-backed identity, sync and public-beta operations remain deferred.", "evidenceRefs": ["E-EPIC12-S171", "E-S172-S173", "E-EPIC12-S174", "E-EPIC12-S175", "E-EPIC12-S178", "E-EPIC12-S179"] }
   ],
   "releases": [
     { "id": "REL-EPIC-11", "title": "Polo V2 digital release", "status": "Accepted", "evidenceRefs": ["E-EPIC11-EXIT"] },
@@ -314,10 +314,10 @@
       "title": "Repository/local delivery and rollback rehearsal",
       "epicId": "EPIC-12",
       "releaseId": "REL-PLATFORM-FOUNDATION",
-      "status": "Backlog",
+      "status": "Closed",
       "openedAt": "2026-09-21",
       "targetAt": null,
-      "deliveredAt": null,
+      "deliveredAt": "2026-09-22",
       "priority": "P1",
       "risk": "high",
       "owner": "Codex",
@@ -329,10 +329,14 @@
       "expectation": "A candidate can be rejected or rolled back using repeatable local evidence without a new paid plan, domain or provider workflow.",
       "acceptanceCriteria": ["Candidate identity is tied to a deterministic manifest", "Failed local smoke selects the previous known-good artifact", "Freeze and incident records are versioned", "Future database migration work is marked deferred", "No new provider mutation or cost is introduced"],
       "statusHistory": [
-        { "status": "Backlog", "at": "2026-09-21T00:00:00Z", "actor": "Codex", "note": "Queued behind Slice 178 and the existing Slice 173 delivery proof." }
+        { "status": "Backlog", "at": "2026-09-21T00:00:00Z", "actor": "Codex", "note": "Queued behind Slice 178 and the existing Slice 173 delivery proof." },
+        { "status": "Ready", "at": "2026-09-22T00:00:00Z", "actor": "Codex", "note": "Local candidate, freeze, rollback and evidence contract selected; provider mutation remains prohibited." },
+        { "status": "In Progress", "at": "2026-09-22T00:00:00Z", "actor": "Codex", "note": "Pure release rehearsal helper and versioned local governance record implemented." },
+        { "status": "In Review", "at": "2026-09-22T00:00:00Z", "actor": "Codex", "note": "Contributor implementation and adversarial boundary audit returned WORK FINISHED; Codex review and full gates pending." },
+        { "status": "Closed", "at": "2026-09-22T00:00:00Z", "actor": "Codex", "note": "Candidate identity, explicit gates, failed-smoke fallback, freeze/incident/migration records and Control Center evidence verified locally." }
       ],
-      "comments": [],
-      "evidenceRefs": [],
+      "comments": [{ "at": "2026-09-22T00:00:00Z", "actor": "Codex", "text": "The rehearsal is provider-neutral; GitHub branch protection and CODEOWNERS ownership mapping remain external/deferred rather than invented." }],
+      "evidenceRefs": ["E-EPIC12-S179"],
       "flagKey": null
     },
     {
@@ -406,6 +410,7 @@
     { "id": "E-EPIC12-S175", "kind": "decision", "uri": "docs/planning/EPIC-12-SLICE-175-ADMISSION.md", "commit": "1967b2d", "sha256": null, "verified": true, "note": "Slice 175 admission audit; implementation is deferred by the launch-cost hold until launch is explicitly reopened." },
     { "id": "E-EPIC12-S176", "kind": "commit", "uri": "index.html", "commit": "ae1afe8", "sha256": null, "verified": true, "note": "Static preview noindex hardening; no drafting, persistence, export, account or data behavior changed." },
     { "id": "E-EPIC12-S177", "kind": "decision", "uri": "ops/control-center/data/evidence/SLICES-177.md", "commit": null, "sha256": "68796fd6c862028fe552d43e9fac6bfcccf8d375c345cdabbf3976eb8af81f09", "verified": true, "note": "No-cost hold, future sequence correction and unique slice-number workflow; verified by the evidence-file SHA-256 so the containing commit need not self-reference." },
-    { "id": "E-EPIC12-S178", "kind": "test", "uri": "ops/control-center/data/evidence/SLICES-178.md", "commit": null, "sha256": "944e30a645933ce79e851af41d8271255dc9247b074cd6268f02e254d7b647f3", "verified": true, "note": "Slice 178 local flag/readiness evidence; verified by evidence-file SHA-256 so the containing commit need not self-reference." }
+    { "id": "E-EPIC12-S178", "kind": "test", "uri": "ops/control-center/data/evidence/SLICES-178.md", "commit": null, "sha256": "944e30a645933ce79e851af41d8271255dc9247b074cd6268f02e254d7b647f3", "verified": true, "note": "Slice 178 local flag/readiness evidence; verified by evidence-file SHA-256 so the containing commit need not self-reference." },
+    { "id": "E-EPIC12-S179", "kind": "test", "uri": "docs/release/SLICE-179-LOCAL-DELIVERY-REHEARSAL.md", "commit": null, "sha256": "a7c3328b34a90ac39445eb9bc784a0f47d5a4c5fa593b2e687411f08ea19456f", "verified": true, "note": "Candidate 4b9e393 / artifact c32903622ada18a1109b48b2104d773242aa9ee85a34f82167039bb483aa8458; approved by Codex at 2026-09-22T14:00:00.000Z; failed smoke selected known-good 52b36a6 with operation none; freeze, incident and deferred migration evidence are in the record." }
   ]
 }

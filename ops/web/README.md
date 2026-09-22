@@ -22,3 +22,25 @@ machine path, secret, deployment URL or mutable provider state. Re-running it
 against the same `dist/` tree must produce byte-identical JSON. Vite preview is
 used so the rehearsal uses the repository-managed Node toolchain on Windows,
 macOS and Linux.
+
+## Slice 179 candidate rehearsal
+
+`release-rehearsal.mjs` adds the repository-local candidate contract around that
+manifest. `manifestDigest()` produces one stable SHA-256 for the complete
+manifest; `createCandidate()` binds it to a commit/ref identity, four explicit
+gate results (`tests`, `build`, `manifest`, `smoke`) and a reviewer/timestamp;
+`rehearseRelease()` returns only `promotable`, `rejected` or `rolled-back`
+descriptive results. It performs no deployment, alias, account or provider
+operation. Missing, malformed or false gates cannot be promoted, and a
+smoke-only failure can select a fully validated `previousKnownGood` record.
+
+Run the focused local proof with:
+
+```text
+npm run web:release:test
+```
+
+The helper deliberately does not run a server or manufacture a smoke result.
+The caller records the observed local preview result as an explicit boolean;
+the versioned freeze, smoke, incident and migration-defer rules are recorded
+in `docs/release/SLICE-179-LOCAL-DELIVERY-REHEARSAL.md`.

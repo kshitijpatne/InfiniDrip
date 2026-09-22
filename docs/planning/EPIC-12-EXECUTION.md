@@ -1,7 +1,7 @@
 # EPIC 12 — Public Web Platform and Delivery Governance
 
 Status: **SLICES 171–174 AND 176–178 COMPLETE; SLICE 175 DEFERRED BY THE
-LAUNCH-COST HOLD; NO-COST INTERIM SLICES 179–181 SCOPED**
+LAUNCH-COST HOLD; NO-COST INTERIM SLICES 180–181 SCOPED**
 
 Owner: **Codex**. Claude Code and OpenCode may contribute only bounded,
 isolated audits or mechanical work under `docs/OPENCODE-WORKFLOW.md`. Codex
@@ -289,7 +289,8 @@ behavior changed.
 Verified: the full suite passes 105 files / 1,421 tests with 100% statements,
 branches, functions and lines; strict TypeScript and the production build
 pass. Claude's read-only audit confirmed that a Polo V1 renderer does not
-exist, so a kill switch would have been dishonest. Slice 179 is next.
+exist, so a kill switch would have been dishonest. Slice 179 follows as the
+next no-cost delivery boundary.
 
 ### Slice 179 — repository/local delivery and rollback rehearsal — no-cost scope
 
@@ -306,6 +307,12 @@ smoke rehearsal selects the previous known-good artifact; rollback is
 documented and repeatable; future database changes are explicitly marked
 deferred; and the Control Center records commit, artifact hash, approvals,
 timestamps and rehearsal result without contacting a new provider.
+
+Implemented in `ops/web/release-rehearsal.mjs` and recorded in
+`docs/release/SLICE-179-LOCAL-DELIVERY-REHEARSAL.md`. The repository verifies
+the candidate/manifest/approval contract locally. CODEOWNERS and required-check
+settings remain external maintainer configuration and were not invented or
+mutated; no new provider workflow, account, plan or cost was introduced.
 
 ### Slice 180 — provider-neutral readiness dry-run — partial no-cost scope
 
@@ -338,9 +345,10 @@ documentation/evidence result.
 ## Parallel tracks and ownership
 
 Tracks 172 (local board), 173 (provider-independent delivery proof), 176
-(preview noindex hardening), 177 (the no-cost decision/re-sequencing record)
-and 178 (the local flag/readiness contract) are complete. Slice 179 depends on
-173 and 178, and the Slice 180 dry-run depends on the local portions of 179.
+(preview noindex hardening), 177 (the no-cost decision/re-sequencing record),
+178 (the local flag/readiness contract) and 179 (local delivery/rollback
+rehearsal) are complete. Slice 179 depended on 173 and 178, and the Slice 180
+dry-run depends on the local portions of 179.
 Slice 181 follows those dry-runs. Slice 175 and all provider-backed portions
 of 179–180 remain a separate launch track and are not dependencies for the
 no-cost interim. None of these tracks may modify drafting geometry or export

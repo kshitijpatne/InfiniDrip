@@ -9,8 +9,8 @@ test("canonical board validates and summarizes its tracked work", () => {
   const summary = summarizeBoard(board);
   assert.equal(summary.epics, 9);
   assert.equal(summary.workItems, 13);
-  assert.equal(summary.statusCounts.Closed, 9);
-  assert.equal(summary.statusCounts.Backlog, 4);
+  assert.equal(summary.statusCounts.Closed, 10);
+  assert.equal(summary.statusCounts.Backlog, 3);
   assert.equal(summary.statusCounts.Ready ?? 0, 0);
   assert.match(renderBoard(board), /InfiniDrip delivery board/);
   assert.match(renderBoard(board), /incomplete/);
