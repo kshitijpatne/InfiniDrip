@@ -4,22 +4,22 @@ This is the repository-local delivery board. `data/board.json` is its sole
 canonical current-state file. It is not the hosted user workspace, does not
 collect personal measurements, and does not contact a provider.
 
-Schema v2 introduces the shared validated command layer used by local CLI
-mutations. Browser authoring is scheduled for Slice 185; until that slice
-lands, the current dashboard remains read-only.
+Schema v2 uses one shared validated command layer for local CLI and browser
+mutations. The dashboard can edit details, transition status, add notes and
+create or link evidence without writing JSON directly.
 
 ## Run it
 
-From the repository root, serve this directory over the repository-managed
-Vite toolchain:
+From the repository root, start the localhost-only service:
 
 ```text
-npx vite ops/control-center --host 127.0.0.1 --port 4174
+npm run control-center:serve
 ```
 
-Then open `http://127.0.0.1:4174/app/`. The dashboard loads `data/board.json`,
-validates it before rendering, and visibly reports malformed records instead
-of repairing or hiding them.
+Then open `http://127.0.0.1:4174/app/`. The service binds to `127.0.0.1`, loads
+and validates `data/board.json`, and routes every save through the same atomic
+command executor as the CLI. Search, filters and detail views are client-side;
+refresh reads the persisted canonical file again.
 
 ## Validated local commands
 

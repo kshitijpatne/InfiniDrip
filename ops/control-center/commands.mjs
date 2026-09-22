@@ -1,4 +1,5 @@
 import {
+  canTransition,
   assertValidBoard,
   isActorRole,
   isCurrentStatus,
@@ -26,21 +27,6 @@ const EDITABLE_FIELDS = new Set([
   "expectation",
   "acceptanceCriteria",
   "flagKey",
-]);
-
-const UNFINISHED = new Set(["Backlog", "Ready", "In Progress", "Review", "Blocked"]);
-const CONTRIBUTOR_TRANSITIONS = new Set([
-  "Ready->In Progress",
-  "In Progress->Review",
-  "Blocked->Ready",
-  "Blocked->In Progress",
-]);
-const REVIEWER_TRANSITIONS = new Set([
-  "Backlog->Ready",
-  "Review->Done",
-  "Review->In Progress",
-  "Blocked->Ready",
-  "Blocked->In Progress",
 ]);
 
 function clone(value) {
@@ -84,20 +70,6 @@ function linkedEvidence(board, refs) {
     if (!evidenceIds.has(ref)) throw new Error(`Unknown evidence ${ref}`);
   }
   return [...new Set(normalized)];
-}
-
-export function canTransition(from, to, role) {
-  if (!isCurrentStatus(from) || !isCurrentStatus(to) || !isActorRole(role) || from === to) return false;
-  if (role === "maintainer") return true;
-  if (to === "Blocked" && UNFINISHED.has(from) && from !== "Blocked") return true;
-  const key = `${from}->${to}`;
-  if (role === "contributor") return CONTRIBUTOR_TRANSITIONS.has(key);
-  return REVIEWER_TRANSITIONS.has(key);
-}
-
-export function allowedTransitions(from, role) {
-  return ["Backlog", "Ready", "In Progress", "Review", "Done", "Blocked", "Archived"]
-    .filter((to) => canTransition(from, to, role));
 }
 
 function applyEditItem(board, command) {

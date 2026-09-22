@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "revision": 0,
-  "updatedAt": "2026-09-22T14:15:47.303Z",
-  "generatedFrom": "Codex-authored local Control Center v2 baseline at Slice 184; board.json remains canonical, legacy history labels are preserved, and launch-backed Epic 12 work remains deferred.",
+  "updatedAt": "2026-09-22T15:15:00.000Z",
+  "generatedFrom": "Codex-authored local Control Center v2 state through Slice 185; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     { "id": "EPIC-5", "title": "Beginner-facing UI/UX redesign", "status": "Closed", "owner": "Codex", "description": "Workspace redesign and journey improvements.", "evidenceRefs": ["E-EPIC5-EXIT", "E-HISTORIC-INCOMPLETE"] },
     { "id": "EPIC-6", "title": "Surface design", "status": "Closed", "owner": "Codex", "description": "Surface placement, preview, persistence and print specification.", "evidenceRefs": ["E-EPIC6-EXIT", "E-HISTORIC-INCOMPLETE"] },
@@ -12,11 +12,11 @@
     { "id": "EPIC-10", "title": "Quality and adversarial hardening", "status": "Closed", "owner": "Codex", "description": "Seeded properties, geometry oracle and hostile-input hardening.", "evidenceRefs": ["E-EPIC10-EXIT"] },
     { "id": "EPIC-11", "title": "Polo V2 fidelity refinement", "status": "Closed", "owner": "Codex", "description": "Shaped collar/stand, vents, dropped hem and downstream pressure matrix.", "evidenceRefs": ["E-EPIC11-EXIT"] },
     { "id": "EPIC-GARMENT-RESEARCH", "title": "Garment expansion research wave", "status": "Closed", "owner": "Codex", "description": "Shorts, sweatshirt/hoodie, jogger and jeans research records.", "evidenceRefs": ["E-GARMENT-WAVE", "E-HISTORIC-INCOMPLETE"] },
-    { "id": "EPIC-12", "title": "Public Web Platform and Delivery Governance", "status": "In Progress", "owner": "Codex", "description": "No-cost interim delivery, feature-lifecycle and readiness work is complete; local Control Center v2 is active while launch-backed identity, sync and public-beta operations remain deferred.", "evidenceRefs": ["E-EPIC12-S171", "E-S172-S173", "E-EPIC12-S174", "E-EPIC12-S175", "E-EPIC12-S178", "E-EPIC12-S179", "E-EPIC12-S180", "E-EPIC12-S181", "E-SLICE184"] }
+    { "id": "EPIC-12", "title": "Public Web Platform and Delivery Governance", "status": "In Progress", "owner": "Codex", "description": "No-cost interim delivery, feature-lifecycle and readiness work is complete; local Control Center v2 is active while launch-backed identity, sync and public-beta operations remain deferred.", "evidenceRefs": ["E-EPIC12-S171", "E-S172-S173", "E-EPIC12-S174", "E-EPIC12-S175", "E-EPIC12-S178", "E-EPIC12-S179", "E-EPIC12-S180", "E-EPIC12-S181", "E-SLICE184", "E-SLICE185"] }
   ],
   "releases": [
     { "id": "REL-EPIC-11", "title": "Polo V2 digital release", "status": "Accepted", "evidenceRefs": ["E-EPIC11-EXIT"] },
-    { "id": "REL-PLATFORM-FOUNDATION", "title": "Web platform foundation", "status": "In Progress", "evidenceRefs": ["E-S172-S173", "E-EPIC12-S181", "E-SLICE184"] }
+    { "id": "REL-PLATFORM-FOUNDATION", "title": "Web platform foundation", "status": "In Progress", "evidenceRefs": ["E-S172-S173", "E-EPIC12-S181", "E-SLICE184", "E-SLICE185"] }
   ],
   "workItems": [
     {
@@ -490,6 +490,36 @@
       "comments": [{ "at": "2026-09-22T14:15:47.303Z", "actor": "Codex", "text": "Browser authoring remains Slice 185; no account, cloud, provider, event log, garment or export behavior was added." }],
       "evidenceRefs": ["E-SLICE184"],
       "flagKey": null
+    },
+    {
+      "id": "SLICE-185",
+      "type": "slice",
+      "title": "Control Center v2 local authoring",
+      "epicId": "EPIC-12",
+      "releaseId": "REL-PLATFORM-FOUNDATION",
+      "status": "Done",
+      "openedAt": "2026-09-22",
+      "targetAt": null,
+      "deliveredAt": "2026-09-22",
+      "priority": "P0",
+      "risk": "high",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": ["SLICE-184"],
+      "protectedSurfaces": ["control-center", "local-persistence", "release-evidence"],
+      "description": "Add localhost-only browser authoring, search, filters, details, history, notes and evidence through the shared validated command layer.",
+      "expectation": "Maintainers can use the local board without direct JSON edits while stale, invalid and failed saves remain visible and non-destructive.",
+      "acceptanceCriteria": ["UI saves use commands with expected revision", "Item details, transitions, notes and evidence persist atomically", "Search and four filters work together", "History, dependencies and evidence remain visible", "Save and failure states are explicit", "Desktop and narrow live verification passes"],
+      "statusHistory": [
+        { "status": "Ready", "at": "2026-09-22T15:15:00.000Z", "actor": "Maintainer", "role": "maintainer", "note": "The local UI write and minimum v2 scope were explicitly approved.", "evidenceRefs": [] },
+        { "status": "In Progress", "at": "2026-09-22T15:15:00.000Z", "actor": "Codex", "role": "contributor", "note": "Local service and browser authoring implementation started.", "evidenceRefs": [] },
+        { "status": "Review", "at": "2026-09-22T15:15:00.000Z", "actor": "Codex", "role": "contributor", "note": "Focused API/UI tests, live browser review and full protected gates passed.", "evidenceRefs": ["E-SLICE185"] },
+        { "status": "Done", "at": "2026-09-22T15:15:00.000Z", "actor": "Codex", "role": "reviewer", "note": "Local authoring was accepted with the no-cost and no-auth boundaries intact.", "evidenceRefs": ["E-SLICE185"] }
+      ],
+      "comments": [{ "at": "2026-09-22T15:15:00.000Z", "actor": "Codex", "text": "Slice 186 remains the final v2 pressure/reload exit; launch-backed and garment work remain deferred." }],
+      "evidenceRefs": ["E-SLICE185"],
+      "flagKey": null
     }
   ],
   "evidence": [
@@ -514,6 +544,7 @@
     { "id": "E-EPIC12-S181", "kind": "exit-report", "uri": "docs/release/EPIC-12-NO-COST-INTERIM-EXIT.md", "commit": null, "sha256": "dc44572a40bb6e1d6635710103385e0cc9e7d157d262718afdcf15502a6347fb", "verified": true, "note": "Slice 181 closes the no-cost interim only; launch-backed Epic 12 remains In Progress, all final gates are recorded, and the garment queue remains separately scheduled. Evidence-file SHA-256 avoids a self-referential containing commit." },
     { "id": "E-SLICE182", "kind": "commit", "uri": "AGENTS.md", "commit": "3e79d7e", "sha256": null, "verified": true, "note": "Slice 182 persists the weekly-remaining threshold and explicit-resume rule in the repository agent guidance." },
     { "id": "E-SLICE183", "kind": "commit", "uri": "ARCHITECTURE.md", "commit": "eac8e24", "sha256": null, "verified": true, "note": "Slice 183 rewrites current project orientation and preserves the former architecture in the historical archive." },
-    { "id": "E-SLICE184", "kind": "test", "uri": "ops/control-center/data/evidence/SLICE-184.md", "commit": null, "sha256": "615f1bd76ad91379bfae6bbd58d7641ca877543f19878a736c9688c131c84927", "verified": true, "note": "Slice 184 schema-v2 command/persistence evidence: 16 focused tests, 1,421 application tests, 100% coverage, protected export identity and production build passed. Evidence-file SHA-256 avoids a self-referential containing commit." }
+    { "id": "E-SLICE184", "kind": "test", "uri": "ops/control-center/data/evidence/SLICE-184.md", "commit": null, "sha256": "615f1bd76ad91379bfae6bbd58d7641ca877543f19878a736c9688c131c84927", "verified": true, "note": "Slice 184 schema-v2 command/persistence evidence: 16 focused tests, 1,421 application tests, 100% coverage, protected export identity and production build passed. Evidence-file SHA-256 avoids a self-referential containing commit." },
+    { "id": "E-SLICE185", "kind": "test", "uri": "ops/control-center/data/evidence/SLICE-185.md", "commit": null, "sha256": "ddae9debe3860ad21709b463852991449df318d07ab1de1d3f08adc9e763e29d", "verified": true, "note": "Slice 185 localhost authoring evidence: 21 focused tests, live desktop/narrow browser review, 1,421 application tests, 100% coverage, protected export identity and production build passed. Evidence-file SHA-256 avoids a self-referential containing commit." }
   ]
 }

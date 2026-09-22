@@ -1,7 +1,8 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import board from "./data/board.json" with { type: "json" };
-import { allowedTransitions, applyBoardCommand, canTransition } from "./commands.mjs";
+import { allowedTransitions, canTransition } from "./board-core.mjs";
+import { applyBoardCommand } from "./commands.mjs";
 
 const NOW = "2026-09-22T18:00:00.000Z";
 

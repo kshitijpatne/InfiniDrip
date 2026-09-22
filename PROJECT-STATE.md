@@ -1,7 +1,7 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 184 Control Center v2 schema and shared command layer
-complete; browser authoring follows in Slice 185 while launch-backed Epic 12
+_Last updated: Slice 185 Control Center v2 local authoring complete; live exit
+verification follows in Slice 186 while launch-backed Epic 12
 work remains deferred, 2026-09-22.
 Epics 7, 9 and 10 are implemented, Codex-reviewed, documented and pushed to
 `origin/main`. Epic 11 implementation has completed the shaped collar/stand,
@@ -55,10 +55,22 @@ stale, busy and rename-failure paths leave the existing board intact. The CLI
 and evidence importer use this same path. Focused tests cover the command,
 schema, stale-write, lock and atomic-failure boundaries.
 
-Slice 185 is next: a localhost-only service and browser UI will use the shared
-command layer for editing, transitions, history, search, filters, detail,
-evidence and visible save state. No account, auth, cloud, event log, provider,
-notification, monitoring, garment, drafting or export behavior is included.
+### Slice 185 — Control Center v2 local authoring complete
+
+The Control Center now runs through a dependency-free Node service bound only
+to `127.0.0.1`. `GET /api/board` validates and returns canonical state;
+`POST /api/commands` invokes the Slice 184 executor with stale-revision
+conflicts; referenced evidence is served through a repository-root and
+realpath-constrained route. Static routing exposes only the dashboard assets.
+
+The browser can edit item details, apply role-guided status transitions, add
+notes, create or link evidence, inspect dependencies/evidence/history, search
+literal title/slice/body text, and combine status/owner/priority/type filters.
+Clean, unsaved, saving, saved, stale and error states are visible. Failed
+saves retain the form. The responsive 375px layout has no horizontal overflow.
+No account, auth, cloud, event log, provider, notification, monitoring,
+garment, drafting or export behavior was added. Slice 186 is next for the v2
+exit pressure test, final live reload proof and complete project gates.
 
 ### Post-merge PR audit — 2026-09-21
 

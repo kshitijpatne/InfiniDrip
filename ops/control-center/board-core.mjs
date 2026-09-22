@@ -38,6 +38,20 @@ const PRIORITY_SET = new Set(PRIORITIES);
 const RISK_SET = new Set(RISKS);
 const EVIDENCE_KIND_SET = new Set(EVIDENCE_KINDS);
 const ROLE_SET = new Set(ACTOR_ROLES);
+const UNFINISHED_STATUS_SET = new Set(["Backlog", "Ready", "In Progress", "Review", "Blocked"]);
+const CONTRIBUTOR_TRANSITIONS = new Set([
+  "Ready->In Progress",
+  "In Progress->Review",
+  "Blocked->Ready",
+  "Blocked->In Progress",
+]);
+const REVIEWER_TRANSITIONS = new Set([
+  "Backlog->Ready",
+  "Review->Done",
+  "Review->In Progress",
+  "Blocked->Ready",
+  "Blocked->In Progress",
+]);
 const ID_PATTERN = /^[A-Z0-9][A-Z0-9._-]{2,80}$/;
 const COMMIT_PATTERN = /^[0-9a-f]{7,40}$/i;
 const SHA256_PATTERN = /^[0-9a-f]{64}$/i;
@@ -334,4 +348,17 @@ export function isEvidenceKind(value) {
 
 export function isRepositoryRelativeUri(value) {
   return isRepoRelativeUri(value);
+}
+
+export function canTransition(from, to, role) {
+  if (!CURRENT_STATUS_SET.has(from) || !CURRENT_STATUS_SET.has(to) || !ROLE_SET.has(role) || from === to) return false;
+  if (role === "maintainer") return true;
+  if (to === "Blocked" && UNFINISHED_STATUS_SET.has(from) && from !== "Blocked") return true;
+  const key = `${from}->${to}`;
+  if (role === "contributor") return CONTRIBUTOR_TRANSITIONS.has(key);
+  return REVIEWER_TRANSITIONS.has(key);
+}
+
+export function allowedTransitions(from, role) {
+  return CURRENT_STATUSES.filter((to) => canTransition(from, to, role));
 }

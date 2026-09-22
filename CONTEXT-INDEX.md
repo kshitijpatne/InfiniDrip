@@ -47,10 +47,9 @@ snapshots; they are not current status.
   current provider costs, assumptions, risks and approval gates. It is not an
   authorization to purchase a service, collect user data, deploy publicly or
   change the current local-first product boundary.
-- `ops/control-center/` — Slice 184 schema-v2 canonical board, shared validated
-  command/atomic persistence layer, evidence importer and current read-only
-  dashboard. Browser authoring follows in Slice 185. It is operational
-  evidence, not the hosted workspace.
+- `ops/control-center/` — Slice 184 schema-v2 canonical board and shared atomic
+  command layer plus Slice 185 localhost-only authoring service and responsive
+  dashboard. It is operational evidence, not the hosted workspace.
 - `ops/web/` — completed Slice 173 provider-neutral artifact manifest utility
   and Slice 179 local candidate/rollback rehearsal; delivery descriptors and
   preview instructions do not deploy or create a provider account.
@@ -60,11 +59,9 @@ snapshots; they are not current status.
   preview-only/no-cost exit, final verification, launch re-entry boundary and
   maintainer discussion gate; it does not claim authenticated beta or
   production readiness.
-- Slice 183's documentation pass and Slice 184's Control Center v2 schema and
-  shared command layer are complete. The maintainer fixed `board.json` as the
-  sole canonical state, approved local UI writes through the same validated
-  command layer, and defined role-guided transitions. Slice 185 browser
-  authoring is the immediate next work.
+- Slices 183–185 complete the documentation pass, Control Center v2 schema and
+  command layer, and local browser authoring. `board.json` remains canonical;
+  Slice 186 live exit verification is the immediate next work.
 
 ## Planning documents
 

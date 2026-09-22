@@ -1,0 +1,50 @@
+:root { color-scheme: dark; font-family: Inter, ui-sans-serif, system-ui, sans-serif; background: #0b1018; color: #eef3fb; }
+* { box-sizing: border-box; }
+body { margin: 0; background: radial-gradient(circle at 90% 0, #172945, #0b1018 44rem); }
+button, input, select, textarea { font: inherit; border: 1px solid #34445d; border-radius: 8px; background: #121a27; color: #eef3fb; padding: .65rem .75rem; }
+button { cursor: pointer; }
+button:hover { border-color: #6ba9d8; }
+:focus-visible { outline: 3px solid #8fdac3; outline-offset: 2px; }
+.topbar { min-height: 140px; padding: 24px clamp(18px, 4vw, 54px); display: flex; align-items: end; justify-content: space-between; gap: 24px; border-bottom: 1px solid #263248; }
+h1 { margin: .15rem 0; font-size: clamp(1.8rem, 4vw, 3rem); letter-spacing: -.04em; }
+h2, h3 { margin-top: 0; }
+p { color: #aebbd0; line-height: 1.5; }
+.eyebrow { color: #79d6b6; font-size: .72rem; font-weight: 800; letter-spacing: .16em; margin: 0; }
+.save-panel { display: flex; align-items: center; gap: 10px; }
+.save-state { border: 1px solid #34445d; border-radius: 999px; padding: .5rem .75rem; font-size: .8rem; }
+.save-state[data-state="dirty"] { border-color: #b78c4b; color: #ffd391; }
+.save-state[data-state="saved"] { border-color: #327d68; color: #9ae2c9; }
+.save-state[data-state="error"], .save-state[data-state="stale"] { border-color: #b85f66; color: #ffb1b7; }
+.workspace { min-height: calc(100vh - 140px); display: grid; grid-template-columns: minmax(300px, 380px) 1fr; }
+.queue { padding: 20px; border-right: 1px solid #263248; }
+.filters, .form-grid, .inline-form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+label { display: grid; gap: 5px; color: #aebbd0; font-size: .78rem; }
+.wide { grid-column: 1 / -1; }
+.item-list { display: grid; gap: 8px; margin-top: 18px; }
+.item-card { width: 100%; text-align: left; display: grid; grid-template-columns: 1fr auto; gap: 6px 10px; padding: 13px; }
+.item-card.selected { border-color: #79d6b6; background: #172431; }
+.item-card span:first-child { display: grid; gap: 4px; }
+.item-card small { grid-column: 1 / -1; color: #91a1b9; }
+code, a { color: #79d6b6; }
+.badge { align-self: start; border: 1px solid #44536a; border-radius: 999px; padding: .3rem .55rem; font-size: .72rem; }
+.status-done { border-color: #327d68; color: #9ae2c9; }
+.status-blocked { border-color: #a96e45; color: #ffc18f; }
+.detail { min-width: 0; padding: clamp(20px, 4vw, 48px); max-width: 1100px; }
+.detail-heading { display: flex; justify-content: space-between; gap: 20px; margin-bottom: 24px; }
+.form-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+textarea { resize: vertical; min-height: 88px; }
+.actions { display: flex; justify-content: flex-end; }
+.primary { background: #226b59; border-color: #5bb99b; }
+section { margin-top: 34px; padding-top: 24px; border-top: 1px solid #263248; }
+.inline-form { grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: end; }
+.timeline, .evidence-list { list-style: none; padding: 0; display: grid; gap: 10px; }
+.nested-form { margin-top: 12px; }
+details { margin-top: 14px; color: #aebbd0; }
+.check { display: flex; grid-auto-flow: column; grid-template-columns: auto 1fr; align-items: center; justify-content: start; }
+.check input { width: auto; }
+.timeline li, .evidence-list li, .empty, .error { padding: 13px; border: 1px solid #2c3a50; border-radius: 9px; background: #101824; }
+.timeline time, .evidence-list span { display: block; color: #8292aa; font-size: .72rem; }
+.timeline p, .evidence-list p { margin: .25rem 0 0; }
+.error { border-color: #b85f66; color: #ffb1b7; }
+@media (max-width: 900px) { .workspace { grid-template-columns: 300px 1fr; } .form-grid, .inline-form { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 760px) { .topbar { align-items: start; flex-direction: column; } .workspace { display: block; } .queue { border-right: 0; border-bottom: 1px solid #263248; } .form-grid, .inline-form { grid-template-columns: 1fr; } .wide { grid-column: auto; } .save-panel { flex-wrap: wrap; } }

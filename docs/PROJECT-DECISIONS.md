@@ -666,3 +666,8 @@ data collection still require their own explicit gate.
   notifications, hosted monitoring, automation, and collaboration features
   remain deferred. The execution record is
   `docs/planning/CONTROL-CENTER-V2-EXECUTION.md`.
+- Slice 185 implements this contract with a `127.0.0.1`-only Node service. Its
+  browser, CLI, and evidence importer share the validated command executor;
+  the browser has no direct filesystem path and the service exposes only
+  allowlisted assets, the canonical board API, commands, and referenced
+  repository-local evidence.

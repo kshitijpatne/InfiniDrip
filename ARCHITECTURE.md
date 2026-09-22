@@ -130,8 +130,10 @@ no event store, hosted system, account, authentication, or remote collaboration
 path. Legacy v1 history labels remain readable rather than being rewritten.
 
 Slice 184 establishes the schema and shared persistence boundary. Slice 185
-adds browser authoring and the full search/filter/detail experience; until it
-lands, the served dashboard remains read-only.
+adds a localhost-only Node service and browser authoring through that boundary,
+including item detail editing, workflow actions, evidence/notes/history,
+search, filters and explicit save states. Static and evidence routes are
+allowlisted; evidence resolution rejects paths outside the repository.
 
 The provider-neutral web manifest and local delivery/readiness rehearsals under
 `ops/web/` and `ops/readiness/` prove local behavior only. They do not create a

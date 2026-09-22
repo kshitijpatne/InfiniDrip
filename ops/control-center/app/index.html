@@ -1,42 +1,29 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>InfiniDrip Control Center</title>
-    <style>
-      :root { color-scheme: dark; font-family: Inter, ui-sans-serif, system-ui, sans-serif; background: #10131a; color: #edf1f7; }
-      body { margin: 0; padding: 32px; background: radial-gradient(circle at top right, #1a2940, #10131a 55%); }
-      header, main { max-width: 1220px; margin: 0 auto; }
-      header { padding: 22px 0 28px; }
-      h1 { margin: 4px 0 8px; font-size: clamp(28px, 5vw, 52px); letter-spacing: -0.04em; }
-      h2 { margin: 30px 0 10px; font-size: 20px; }
-      p { color: #aebbd0; line-height: 1.5; }
-      .eyebrow { color: #75d1b2; font-size: 12px; font-weight: 700; letter-spacing: .16em; }
-      .summary, .statuses { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 18px; }
-      .summary b { color: #fff; font-size: 20px; margin-right: -7px; }
-      .status { border: 1px solid #33425a; border-radius: 999px; padding: 6px 10px; color: #c7d4e8; font-size: 12px; }
-      .status-closed, .status-accepted { border-color: #317b66; color: #9be1c7; }
-      .status-blocked { border-color: #a16945; color: #ffc18f; }
-      .status-in-progress { border-color: #4b72b1; color: #b7d0ff; }
-      table { width: 100%; border-collapse: collapse; background: #171c26e8; border: 1px solid #2a3548; border-radius: 12px; overflow: hidden; }
-      th, td { text-align: left; padding: 14px 12px; border-bottom: 1px solid #273144; vertical-align: top; }
-      th { color: #9eb0c9; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; }
-      td { color: #e6edf8; font-size: 14px; }
-      code { color: #75d1b2; }
-      tr:last-child td { border-bottom: 0; }
-      .error { border: 1px solid #b65f5f; background: #391e28; padding: 16px; white-space: pre-wrap; }
-      @media (max-width: 760px) { body { padding: 18px 10px; } table { display: block; overflow-x: auto; } th, td { white-space: nowrap; } }
-    </style>
+    <link rel="stylesheet" href="./styles.css">
   </head>
   <body>
-    <div id="board"><p>Loading the canonical board…</p></div>
-    <script type="module">
-      import { loadBoard, renderBoard } from "./board.mjs";
-      const root = document.querySelector("#board");
-      loadBoard().then((board) => { root.innerHTML = renderBoard(board); }).catch((error) => {
-        root.innerHTML = `<div class="error"><strong>Control Center could not load its board.</strong>\n${String(error.message).replaceAll("<", "&lt;")}</div>`;
-      });
-    </script>
+    <header class="topbar">
+      <div><p class="eyebrow">LOCAL · CANONICAL BOARD.JSON</p><h1>Delivery Control Center</h1><p id="summary">Loading the board…</p></div>
+      <div class="save-panel"><span id="save-state" class="save-state" role="status" aria-live="polite">Loading</span><button id="reload-button" type="button">Reload saved board</button></div>
+    </header>
+    <main class="workspace">
+      <aside class="queue" aria-label="Delivery queue">
+        <form id="filters" class="filters">
+          <label class="wide">Search<input name="query" type="search" placeholder="Title, slice, text…"></label>
+          <label>Status<select name="status"><option value="">All</option></select></label>
+          <label>Owner<select name="owner"><option value="">All</option></select></label>
+          <label>Priority<select name="priority"><option value="">All</option></select></label>
+          <label>Type<select name="type"><option value="">All</option></select></label>
+        </form>
+        <div id="item-list" class="item-list"></div>
+      </aside>
+      <article id="detail" class="detail" aria-live="polite"></article>
+    </main>
+    <script type="module" src="./client.mjs"></script>
   </body>
 </html>
