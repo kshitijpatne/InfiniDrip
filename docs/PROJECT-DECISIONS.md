@@ -582,7 +582,8 @@ data collection still require their own explicit gate.
 - The focused, application, coverage, build, manifest and Control Center gates
   are required for acceptance. No auth, profile, cloud sync, database,
   personal-data, hosted monitoring, domain, paid plan or runtime feature flag
-  was added. Slice 180 completed the no-cost boundary; Slice 181 is next.
+  was added. Slice 180 completed the readiness drill; Slice 181 closes the
+  no-cost interim without a beta or production claim.
 
 ## Slice 180 provider-neutral readiness dry-run — complete 2026-09-22
 
@@ -597,4 +598,22 @@ data collection still require their own explicit gate.
   are rejected from fixture records.
 - The result is `preview-only` with authenticated-beta and production readiness
   false. No provider, database, auth, monitoring, backup service, garment or
-  personal-data behavior was added. Slice 181 is the next no-cost boundary.
+  personal-data behavior was added. Slice 181 closes the no-cost interim.
+
+## Slice 181 preview-only/no-cost exit — complete 2026-09-22
+
+- Slice 181 records the completed repository/local interim in
+  `docs/release/EPIC-12-NO-COST-INTERIM-EXIT.md` and synchronizes the local
+  Control Center evidence, status history and durable context.
+- The exit is preview-only. Epic 12 and `REL-PLATFORM-FOUNDATION` remain
+  `In Progress` because profiles, database/schema/RLS, cloud sync, provider
+  promotion, hosted operations and the retained launch decision record remain
+  deferred until the maintainer explicitly reopens launch readiness and cost
+  approval.
+- The exact Slice 178, 179, 180 and 181 commit subjects are unique and
+  monotonically ordered within the interim. Older duplicate or compound slice
+  subjects remain historical evidence; they were not rewritten.
+- The garment queue does not begin automatically. Before any new garment
+  packet, the maintainer will discuss the first-load tutorial, repository
+  cleanup/history question, local delivery board, garment UI/artwork work and
+  README/ARCHITECTURE rewrite.

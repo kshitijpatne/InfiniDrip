@@ -1,7 +1,7 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 180 provider-neutral readiness drill complete; Slice 181 next,
-2026-09-22.
+_Last updated: Slice 181 no-cost interim exit complete; launch-backed Epic 12
+work remains deferred, 2026-09-22.
 Epics 7, 9 and 10 are implemented, Codex-reviewed, documented and pushed to
 `origin/main`. Epic 11 implementation has completed the shaped collar/stand,
 placket-base, vent/drop, front/back preview/control/report and downstream
@@ -243,9 +243,26 @@ the stale-flag drill to use a throwaway definition without mutating the real
 catalog. The summary is preview-only with six local passes, two provider
 deferrals, and both authenticated-beta and production readiness false. No
 application runtime, provider, database, auth, monitoring, garment or personal-
-data behavior changed. Slice 181 is now the next no-cost implementation slice.
+data behavior changed. Slice 181 closes the no-cost interim; launch-backed work
+remains deferred.
 
-### Slices 171–174 and 176–180 complete; Slice 175 deferred; no-cost interim 181 scoped
+### Slice 181 — preview-only/no-cost exit complete
+
+Slice 181 closes the repository/local no-cost interim only. The exit record is
+`docs/release/EPIC-12-NO-COST-INTERIM-EXIT.md`; the Control Center records the
+full `Backlog → Ready → In Progress → In Review → Accepted → Closed` history
+and verified evidence reference. The final application, coverage, build,
+focused web/readiness and board gates pass at the recorded counts. This does
+not claim authenticated-beta, public-production or production readiness.
+
+Epic 12 and `REL-PLATFORM-FOUNDATION` remain `In Progress` because identity,
+profiles, database/schema/RLS, cloud sync, hosted operations, provider-backed
+delivery and the retained launch decision record remain deferred until the
+maintainer explicitly reopens launch readiness and cost approval. No garment
+implementation starts automatically; the maintainer discussion gate comes
+first.
+
+### Slices 171–174 and 176–181 complete; Slice 175 deferred; no-cost interim complete
 
 The maintainer authorized the Public Web Platform and Delivery Governance
 Epic after Epic 11. The execution packet is
@@ -298,10 +315,12 @@ The reviewed Slice 172–173 implementation and automated delivery workflow are
 pushed to `origin/main` at `6ac4edd`; Slice 174 and the Slice 175 admission
 audit remain documentation-only until launch is explicitly reopened.
 
-The next safe work is Slice 181's preview-only/no-cost exit. Remote flags, provider promotion,
-hosted monitoring, auth, database, email, cloud data and personal-data
-collection remain deferred. The garment queue begins only after this interim
-track is complete and separately scheduled.
+The no-cost interim is complete. Remote flags, provider promotion, hosted
+monitoring, auth, database, email, cloud data and personal-data collection
+remain deferred. Before the garment queue, the maintainer will discuss and
+refine the tutorial, repository cleanup/history question, delivery board,
+garment UI/artwork work and README/ARCHITECTURE rewrite; garment work then
+requires a separately scheduled execution packet.
 
 ## Current work — post-Epic 6 planning
 

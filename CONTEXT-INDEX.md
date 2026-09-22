@@ -53,6 +53,10 @@ snapshots; they are not current status.
   preview instructions do not deploy or create a provider account.
 - `ops/readiness/` — completed Slice 180 deterministic synthetic readiness
   fixture and strict validator; provider-backed scenarios remain deferred.
+- `docs/release/EPIC-12-NO-COST-INTERIM-EXIT.md` — completed Slice 181
+  preview-only/no-cost exit, final verification, launch re-entry boundary and
+  maintainer discussion gate; it does not claim authenticated beta or
+  production readiness.
 
 ## Planning documents
 
@@ -95,8 +99,8 @@ snapshots; they are not current status.
 - `docs/planning/EPIC-12-EXECUTION.md` — authorized Web Platform Epic packet:
   threat/data admission, static delivery, identity/sync, feature flags,
   blue/green governance, local Control Center, slice gates and ownership;
-  current work is limited by the launch-cost hold to the no-cost interim lane;
-  Slices 178–180 are complete and Slice 181 is next.
+  current work was limited by the launch-cost hold to the no-cost interim lane;
+  Slices 178–181 are complete and the launch-backed lane remains deferred.
 - `docs/planning/EPIC-12-SLICE-175-ADMISSION.md` — current Slice 175
   deferral audit, future launch re-entry decisions, authorized no-cost interim
   work and re-entry gate; it does not authorize login UI or provider mutation.

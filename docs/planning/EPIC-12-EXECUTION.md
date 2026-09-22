@@ -1,7 +1,7 @@
 # EPIC 12 — Public Web Platform and Delivery Governance
 
-Status: **SLICES 171–174 AND 176–180 COMPLETE; SLICE 175 DEFERRED BY THE
-LAUNCH-COST HOLD; NO-COST INTERIM SLICE 181 SCOPED**
+Status: **SLICES 171–174 AND 176–181 COMPLETE; SLICE 175 DEFERRED BY THE
+LAUNCH-COST HOLD; NO-COST INTERIM COMPLETE; LAUNCH-BACKED WORK DEFERRED**
 
 Owner: **Codex**. Claude Code and OpenCode may contribute only bounded,
 isolated audits or mechanical work under `docs/OPENCODE-WORKFLOW.md`. Codex
@@ -347,17 +347,25 @@ Record the no-cost interim result as preview-only, with launch-backed identity,
 cloud workspace and public-beta work explicitly deferred. Update release
 evidence, context, architecture, roadmap and the Control Center. This exit may
 close the interim track, but it must not claim authenticated beta readiness or
-production readiness. Codex alone may close the Epic and push the reviewed
+production readiness. Codex alone may close the interim track and push the reviewed
 documentation/evidence result.
+
+Implemented in `docs/release/EPIC-12-NO-COST-INTERIM-EXIT.md`. Slice 181 is
+closed with the full status history and verified Control Center evidence. Epic
+12 and `REL-PLATFORM-FOUNDATION` remain `In Progress` because launch-backed
+identity, data, provider and operational work is still deferred. The garment
+queue is not started by this exit; the maintainer discussion gate precedes any
+new garment packet.
 
 ## Parallel tracks and ownership
 
 Tracks 172 (local board), 173 (provider-independent delivery proof), 176
 (preview noindex hardening), 177 (the no-cost decision/re-sequencing record),
 178 (the local flag/readiness contract), 179 (local delivery/rollback
-rehearsal) and 180 (synthetic readiness drill) are complete. Slice 179
+rehearsal), 180 (synthetic readiness drill) and 181 (preview-only exit) are
+complete. Slice 179
 depended on 173 and 178; Slice 180 depended on the local portions of 179.
-Slice 181 follows those dry-runs. Slice 175 and all provider-backed portions
+Slice 181 closes the no-cost interim after those dry-runs. Slice 175 and all provider-backed portions
 of 179–180 remain a separate launch track and are not dependencies for the
 no-cost interim. None of these tracks may modify drafting geometry or export
 writers.

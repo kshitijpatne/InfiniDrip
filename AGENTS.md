@@ -13,12 +13,15 @@ is authoritative for maintainer decisions that are not derivable from code.
   wave. Read `docs/planning/GARMENT-EXPANSION-SYNTHESIS.md` plus the relevant
   garment record before scoping any implementation. The wave itself authorizes
   no garment code.
-- Epic 11 Polo V2 implementation is complete through Slice 161. Epic 12 is the
-  active lane; Slice 176 is already assigned to static-preview noindex
-  hardening, Slice 177 records the no-cost hold/re-sequencing decision, Slice
-  178 records the local feature-flag contract, Slice 179 records the local
-  delivery/rollback rehearsal, Slice 180 records the synthetic readiness drill,
-  and the next no-cost implementation slice is Slice 181.
+- Epic 11 Polo V2 implementation is complete through Slice 161. Epic 12's
+  no-cost interim is complete through Slice 181: Slice 176 is assigned to
+  static-preview noindex hardening, Slice 177 records the no-cost
+  hold/re-sequencing decision, Slice 178 records the local feature-flag
+  contract, Slice 179 records the local delivery/rollback rehearsal, Slice 180
+  records the synthetic readiness drill, and Slice 181 records the
+  preview-only exit. Before any garment queue begins, the maintainer must
+  discuss and schedule the next work. Launch-backed Epic 12 work remains
+  deferred.
 - All one-time and recurring launch costs are held until the maintainer
   explicitly reopens launch readiness. Login, profiles, cloud sync, databases,
   email, hosted monitoring, paid governance, code signing and provider-backed

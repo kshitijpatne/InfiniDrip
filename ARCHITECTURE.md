@@ -663,8 +663,8 @@ is deferred by the maintainer's launch-cost hold. The required jurisdiction,
 privacy, consent, retention, auth/session, data-region, subprocessor, RLS and
 support decisions remain a future re-entry checklist, not a current blocker.
 No UI, provider SDK, SQL/RLS migration or personal-data flow may be inferred
-while the hold is open; provider-neutral fixtures, local evidence and the
-remaining no-cost portion of Slice 181 remains authorized. Slice 176 is already
+while the hold is open; provider-neutral fixtures and local evidence remain
+authorized, and the no-cost interim is now complete. Slice 176 is already
 assigned to the preview noindex hardening, Slice 177 is assigned to the
 no-cost hold/re-sequencing decision, and neither number may be reused.
 
@@ -687,7 +687,17 @@ owner/runbook/fallback/evidence records; hosted provider outage and hosted data
 deletion remain explicitly deferred. Validation rejects secret-like or
 personal-measurement fixture strings and forbids provider scenarios from being
 marked passed. The summary is preview-only and cannot claim authenticated-beta
-or production readiness. Slice 181 is the next no-cost boundary.
+or production readiness. Slice 181 closes the no-cost interim boundary.
+
+Slice 181 records the preview-only/no-cost exit in
+`docs/release/EPIC-12-NO-COST-INTERIM-EXIT.md` and synchronizes the Control
+Center and durable context. The full local application, coverage, build,
+focused web/readiness and board gates are recorded there. This is not an
+authenticated-beta, public-production or production-readiness claim. Epic 12
+and the platform release remain in progress for the explicitly deferred
+launch-backed identity, data, provider and operational work. The next product
+decision is the maintainer discussion before any garment queue is scheduled;
+no drafting or export runtime behavior changed in the exit.
 
 The future web layer is additive. A static immutable Vite artifact may be
 served publicly without changing drafting or export truth. Auth/profile/cloud

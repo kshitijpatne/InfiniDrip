@@ -61,14 +61,17 @@ track.
 
 ## Authorized work while deferred
 
-Only the following remains in scope:
+The following no-cost work was authorized during the hold and is now complete:
 
 - provider-neutral contract fixtures and tests that collect no real data;
 - repository-local Control Center/evidence updates;
 - static artifact and local-first outage/recovery proofs; and
 - documentation needed to capture the decisions and re-admit Slice 175; and
-- the remaining no-cost portion of Slice 181 defined in
-  `docs/planning/EPIC-12-EXECUTION.md`.
+- Slices 178–181 no-cost interim work. Any further work must be separately
+  admitted after the maintainer discussion and launch-cost gate.
+
+No additional implementation is admitted by this audit while the hold remains
+open.
 
 The following are explicitly out of scope until the decision record is
 approved: welcome/login/profile UI, auth SDKs, database migrations, RLS SQL,

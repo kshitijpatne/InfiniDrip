@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedFrom": "Codex-authored baseline at the 2026-09-21 launch-cost hold and no-cost interim re-scope; historical entries are explicitly incomplete where source evidence is absent.",
+  "generatedFrom": "Codex-authored baseline at the 2026-09-22 Slice 181 no-cost interim exit; launch-backed Epic 12 work remains In Progress and historical entries are explicitly incomplete where source evidence is absent.",
   "epics": [
     { "id": "EPIC-5", "title": "Beginner-facing UI/UX redesign", "status": "Closed", "owner": "Codex", "description": "Workspace redesign and journey improvements.", "evidenceRefs": ["E-EPIC5-EXIT", "E-HISTORIC-INCOMPLETE"] },
     { "id": "EPIC-6", "title": "Surface design", "status": "Closed", "owner": "Codex", "description": "Surface placement, preview, persistence and print specification.", "evidenceRefs": ["E-EPIC6-EXIT", "E-HISTORIC-INCOMPLETE"] },
@@ -10,11 +10,11 @@
     { "id": "EPIC-10", "title": "Quality and adversarial hardening", "status": "Closed", "owner": "Codex", "description": "Seeded properties, geometry oracle and hostile-input hardening.", "evidenceRefs": ["E-EPIC10-EXIT"] },
     { "id": "EPIC-11", "title": "Polo V2 fidelity refinement", "status": "Closed", "owner": "Codex", "description": "Shaped collar/stand, vents, dropped hem and downstream pressure matrix.", "evidenceRefs": ["E-EPIC11-EXIT"] },
     { "id": "EPIC-GARMENT-RESEARCH", "title": "Garment expansion research wave", "status": "Closed", "owner": "Codex", "description": "Shorts, sweatshirt/hoodie, jogger and jeans research records.", "evidenceRefs": ["E-GARMENT-WAVE", "E-HISTORIC-INCOMPLETE"] },
-    { "id": "EPIC-12", "title": "Public Web Platform and Delivery Governance", "status": "In Progress", "owner": "Codex", "description": "No-cost local delivery, feature-lifecycle and readiness work; launch-backed identity, sync and public-beta operations remain deferred.", "evidenceRefs": ["E-EPIC12-S171", "E-S172-S173", "E-EPIC12-S174", "E-EPIC12-S175", "E-EPIC12-S178", "E-EPIC12-S179", "E-EPIC12-S180"] }
+    { "id": "EPIC-12", "title": "Public Web Platform and Delivery Governance", "status": "In Progress", "owner": "Codex", "description": "No-cost interim delivery, feature-lifecycle and readiness work is complete; launch-backed identity, sync and public-beta operations remain deferred.", "evidenceRefs": ["E-EPIC12-S171", "E-S172-S173", "E-EPIC12-S174", "E-EPIC12-S175", "E-EPIC12-S178", "E-EPIC12-S179", "E-EPIC12-S180", "E-EPIC12-S181"] }
   ],
   "releases": [
     { "id": "REL-EPIC-11", "title": "Polo V2 digital release", "status": "Accepted", "evidenceRefs": ["E-EPIC11-EXIT"] },
-    { "id": "REL-PLATFORM-FOUNDATION", "title": "Web platform foundation", "status": "In Progress", "evidenceRefs": ["E-S172-S173"] }
+    { "id": "REL-PLATFORM-FOUNDATION", "title": "Web platform foundation", "status": "In Progress", "evidenceRefs": ["E-S172-S173", "E-EPIC12-S181"] }
   ],
   "workItems": [
     {
@@ -376,10 +376,10 @@
       "title": "Preview-only/no-cost exit and durable handoff",
       "epicId": "EPIC-12",
       "releaseId": "REL-PLATFORM-FOUNDATION",
-      "status": "Backlog",
+      "status": "Closed",
       "openedAt": "2026-09-21",
       "targetAt": null,
-      "deliveredAt": null,
+      "deliveredAt": "2026-09-22",
       "priority": "P1",
       "risk": "medium",
       "owner": "Codex",
@@ -391,10 +391,15 @@
       "expectation": "The next garment queue can be scheduled from a truthful handoff without implying authenticated beta or production readiness.",
       "acceptanceCriteria": ["Preview-only result is recorded", "Launch-backed work is explicitly deferred", "No authenticated-beta or production-readiness claim is made", "Durable context and Control Center are synchronized", "Garment queue remains separately scheduled"],
       "statusHistory": [
-        { "status": "Backlog", "at": "2026-09-21T00:00:00Z", "actor": "Codex", "note": "Queued after the three no-cost implementation/rehearsal slices." }
+        { "status": "Backlog", "at": "2026-09-21T00:00:00Z", "actor": "Codex", "note": "Queued after the three no-cost implementation/rehearsal slices." },
+        { "status": "Ready", "at": "2026-09-22T00:00:00Z", "actor": "Codex", "note": "Slices 178–180 are complete; the no-cost interim exit and launch-backed deferral handoff are ready." },
+        { "status": "In Progress", "at": "2026-09-22T00:00:00Z", "actor": "Codex", "note": "Exit record, durable context and Control Center handoff assembled." },
+        { "status": "In Review", "at": "2026-09-22T00:00:00Z", "actor": "Codex", "note": "Independent exit and board audits returned WORK FINISHED; full application and coverage gates pending." },
+        { "status": "Accepted", "at": "2026-09-22T00:00:00Z", "actor": "Codex", "note": "Codex accepted the preview-only exit evidence; launch-backed scope remains deferred and Epic 12 stays In Progress." },
+        { "status": "Closed", "at": "2026-09-22T00:00:00Z", "actor": "Codex", "note": "No-cost interim closed with no authenticated-beta or production-readiness claim; garment work remains separately scheduled." }
       ],
-      "comments": [],
-      "evidenceRefs": [],
+      "comments": [{ "at": "2026-09-22T00:00:00Z", "actor": "Codex", "text": "Before the garment queue, the maintainer will discuss and refine the deferred tutorial, repository, board, garment UI/artwork and documentation items." }],
+      "evidenceRefs": ["E-EPIC12-S181"],
       "flagKey": null
     }
   ],
@@ -416,6 +421,7 @@
     { "id": "E-EPIC12-S177", "kind": "decision", "uri": "ops/control-center/data/evidence/SLICES-177.md", "commit": null, "sha256": "68796fd6c862028fe552d43e9fac6bfcccf8d375c345cdabbf3976eb8af81f09", "verified": true, "note": "No-cost hold, future sequence correction and unique slice-number workflow; verified by the evidence-file SHA-256 so the containing commit need not self-reference." },
     { "id": "E-EPIC12-S178", "kind": "test", "uri": "ops/control-center/data/evidence/SLICES-178.md", "commit": null, "sha256": "944e30a645933ce79e851af41d8271255dc9247b074cd6268f02e254d7b647f3", "verified": true, "note": "Slice 178 local flag/readiness evidence; verified by evidence-file SHA-256 so the containing commit need not self-reference." },
     { "id": "E-EPIC12-S179", "kind": "test", "uri": "docs/release/SLICE-179-LOCAL-DELIVERY-REHEARSAL.md", "commit": null, "sha256": "a7c3328b34a90ac39445eb9bc784a0f47d5a4c5fa593b2e687411f08ea19456f", "verified": true, "note": "Candidate 4b9e393 / artifact c32903622ada18a1109b48b2104d773242aa9ee85a34f82167039bb483aa8458; approved by Codex at 2026-09-22T14:00:00.000Z; failed smoke selected known-good 52b36a6 with operation none; freeze, incident and deferred migration evidence are in the record." },
-    { "id": "E-EPIC12-S180", "kind": "test", "uri": "docs/release/SLICE-180-READINESS-DRILL.md", "commit": null, "sha256": "a7b84e900622afefb5cf6b08dab05dff7e961ae18ec7e7bfcc856e70058b910d", "verified": true, "note": "Slice 180 synthetic local readiness drill: six local paths passed with owner/runbook/fallback/evidence, two provider-backed paths remained deferred, and the preview-only summary kept beta/production readiness false. Evidence-file SHA-256 avoids a self-referential containing commit." }
+    { "id": "E-EPIC12-S180", "kind": "test", "uri": "docs/release/SLICE-180-READINESS-DRILL.md", "commit": null, "sha256": "a7b84e900622afefb5cf6b08dab05dff7e961ae18ec7e7bfcc856e70058b910d", "verified": true, "note": "Slice 180 synthetic local readiness drill: six local paths passed with owner/runbook/fallback/evidence, two provider-backed paths remained deferred, and the preview-only summary kept beta/production readiness false. Evidence-file SHA-256 avoids a self-referential containing commit." },
+    { "id": "E-EPIC12-S181", "kind": "exit-report", "uri": "docs/release/EPIC-12-NO-COST-INTERIM-EXIT.md", "commit": null, "sha256": "dc44572a40bb6e1d6635710103385e0cc9e7d157d262718afdcf15502a6347fb", "verified": true, "note": "Slice 181 closes the no-cost interim only; launch-backed Epic 12 remains In Progress, all final gates are recorded, and the garment queue remains separately scheduled. Evidence-file SHA-256 avoids a self-referential containing commit." }
   ]
 }
