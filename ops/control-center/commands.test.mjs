@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import board from "./data/board.json" with { type: "json" };
-import { allowedTransitions, canTransition } from "./board-core.mjs";
+import { allowedTransitions, canTransition, validateBoard } from "./board-core.mjs";
 import { applyBoardCommand } from "./commands.mjs";
 
 const NOW = "2026-09-22T18:00:00.000Z";
@@ -40,6 +40,55 @@ test("editItem changes only editable details and increments the revision", () =>
   assert.notEqual(edited, board);
   assert.throws(() => applyBoardCommand(board, { type: "editItem", itemId: "SLICE-175", patch: {} }, { now: NOW }), /at least one/);
   assert.throws(() => applyBoardCommand(board, { type: "editItem", itemId: "SLICE-175", patch: { status: "Done" } }, { now: NOW }), /cannot be edited directly/);
+});
+
+test("createItem validates a new backlog record and records its creation in transition history", () => {
+  const created = applyBoardCommand(board, {
+    type: "createItem",
+    actor: "Maintainer",
+    role: "maintainer",
+    reason: "Add the approved pre-garment sequence to the queue.",
+    workItem: {
+      id: "NEW-ITEM-CREATE-COMMAND",
+      title: "Dogfood and improve Control Center",
+      type: "task",
+      priority: "P1",
+      risk: "low",
+      owner: "Codex",
+      description: "Use the local board to track the approved development sequence.",
+      expectation: "Phase work is visible, ordered, and auditable in board.json.",
+      acceptanceCriteria: ["All nine approved phases have board records"],
+      dependencies: [],
+      protectedSurfaces: ["local Control Center", "board.json"],
+    },
+  }, { now: NOW });
+  const item = created.workItems.find((candidate) => candidate.id === "NEW-ITEM-CREATE-COMMAND");
+  assert.ok(item);
+  assert.equal(item.status, "Backlog");
+  assert.equal(item.openedAt, "2026-09-22");
+  assert.equal(item.contributor, "Codex");
+  assert.equal(item.reviewer, "Codex");
+  assert.deepEqual(item.statusHistory, [{
+    status: "Backlog", at: NOW, actor: "Maintainer", role: "maintainer",
+    note: "Add the approved pre-garment sequence to the queue.", evidenceRefs: [],
+  }]);
+  assert.equal(created.revision, board.revision + 1);
+  assert.deepEqual(validateBoard(created), { valid: true, errors: [] });
+});
+
+test("createItem rejects missing rationale, invalid fields, and duplicate identifiers", () => {
+  const command = {
+    type: "createItem", actor: "Maintainer", role: "maintainer", reason: "Added for planning.",
+    workItem: {
+      id: "NEW-ITEM", title: "A planned task", type: "task", priority: "P1", risk: "low", owner: "Codex",
+      description: "Describe the work.", expectation: "Describe the result.", acceptanceCriteria: ["Pass the criteria"],
+      dependencies: [], protectedSurfaces: [],
+    },
+  };
+  assert.throws(() => applyBoardCommand(board, { ...command, reason: "  " }, { now: NOW }), /reason is required/);
+  assert.throws(() => applyBoardCommand(board, { ...command, workItem: { ...command.workItem, type: "invented" } }, { now: NOW }), /Unknown workItem.type/);
+  assert.throws(() => applyBoardCommand(board, { ...command, workItem: { ...command.workItem, invented: true } }, { now: NOW }), /cannot be set at creation/);
+  assert.throws(() => applyBoardCommand(board, { ...command, workItem: { ...command.workItem, id: "SLICE-175" } }, { now: NOW }), /duplicates SLICE-175/);
 });
 
 test("status transitions persist actor guidance, reason, evidence, and delivery date", () => {

@@ -136,6 +136,11 @@ search, filters and explicit save states. Static and evidence routes are
 allowlisted; evidence resolution rejects paths outside the repository.
 Slice 186 verified UI save/reload persistence on an isolated local board and
 closed the v2 exit without changing application drafting or export behavior.
+Slice 187 adds validated `createItem` through the same command layer; its local
+UI form initializes workflow history and persists through the atomic board
+store. The approved nine-phase pre-garment sequence is documented in
+`docs/planning/PRE-GARMENT-EXECUTION.md` and tracked in `board.json` as
+`PREQUEUE-PHASE-01` through `PREQUEUE-PHASE-09`.
 
 The provider-neutral web manifest and local delivery/readiness rehearsals under
 `ops/web/` and `ops/readiness/` prove local behavior only. They do not create a
@@ -147,8 +152,10 @@ provider account, paid service, production deployment, or authenticated beta.
 - Epic 8 is complete as a proof-only/no-go bounded helper/adapter result.
 - Epic 11 Polo V2 is complete through Slice 161.
 - The no-cost Epic 12 interim is complete through Slice 181.
-- Slice 182 records the rule to pause below 20% weekly usage remaining and
-  resume only after explicit maintainer approval.
+- The active development goal pauses when the primary usage window is exhausted
+  and resumes automatically after reset; the weekly meter is informational.
+- Phases 1–9 of `docs/planning/PRE-GARMENT-EXECUTION.md` must finish and receive
+  explicit maintainer approval before another garment queue begins.
 - No garment has completed physical cut, sew, or fit validation.
 - The next garment queue requires a separately scheduled maintainer decision;
   it does not begin automatically.

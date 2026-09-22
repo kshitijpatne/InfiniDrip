@@ -1,8 +1,7 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 186 Control Center v2 exit complete; maintainer discussion
-precedes the garment queue while launch-backed Epic 12 work remains deferred,
-2026-09-22.
+_Last updated: Slice 187 Control Center creation and pre-garment planning setup;
+Phases 1–9 precede explicit review of the next garment queue, 2026-09-22.
 Epics 7, 9 and 10 are implemented, Codex-reviewed, documented and pushed to
 `origin/main`. Epic 11 implementation has completed the shaped collar/stand,
 placket-base, vent/drop, front/back preview/control/report and downstream
@@ -81,10 +80,31 @@ focused Control Center suite remains 21/21; the full application gate is
 and protected export regression/identity gates remain 8/8 and 9/9 with no
 baseline movement. The no-cost local Control Center v2 is complete.
 
-Before garment queue work, the maintainer discussion gate remains open for the
-first-load tutorial, conservative repository cleanup, delivery-board follow-up,
-garment/artwork refinement, and README/ARCHITECTURE pressure testing. No
-launch-backed identity, database, cloud, hosted service or recurring cost is
+### Slice 187 — Control Center item creation and pre-garment planning setup
+
+Real board use exposed a v2 gap: existing items could be edited but new work
+could not be recorded from the local UI. The shared command layer now provides
+validated `createItem`; the browser form collects schema-required fields,
+starts items in `Backlog`, records actor/role/reason in transition history, and
+uses the existing atomic save path. Invalid saves remain visible; cancel and
+unsaved-state handling are available. The CLI and UI continue to share the
+same command executor.
+
+The maintainer-approved nine-phase sequence is documented in
+`docs/planning/PRE-GARMENT-EXECUTION.md` and recorded as
+`PREQUEUE-PHASE-01` through `PREQUEUE-PHASE-09` in canonical `board.json`, with
+ordered dependencies and explicit acceptance criteria. The live UI created
+those records through revision 9. The sequence stays local and no-cost; no
+account, hosted service, paid feature, remote asset fetch, or new garment
+recipe is authorized. Phase 1 completed through the board's In Progress →
+Review → Done flow at revision 14 with a linked exit report and completion
+note. Phase 2 is next and depends on Phase 1. Each completed slice must update
+its phase status, add evidence, and leave a concise completion note. The next
+garment queue is gated on Phase 9 and explicit maintainer approval.
+
+Current usage policy: pause when the primary usage window is exhausted and
+resume automatically after reset; the weekly meter is informational. No
+launch-backed identity, database, cloud, hosted service, or recurring cost is
 authorized.
 
 ### Post-merge PR audit — 2026-09-21

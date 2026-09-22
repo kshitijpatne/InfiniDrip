@@ -19,15 +19,18 @@ is authoritative for maintainer decisions that are not derivable from code.
   hold/re-sequencing decision, Slice 178 records the local feature-flag
   contract, Slice 179 records the local delivery/rollback rehearsal, Slice 180
   records the synthetic readiness drill, and Slice 181 records the
-  preview-only exit. Before any garment queue begins, the maintainer must
-  discuss and schedule the next work. Launch-backed Epic 12 work remains
-  deferred.
+  preview-only exit. The maintainer approved the no-cost pre-garment sequence
+  in `docs/planning/PRE-GARMENT-EXECUTION.md`; complete Phases 1–9 and receive
+  explicit maintainer approval before starting a garment queue. Launch-backed
+  Epic 12 work remains deferred.
 - All one-time and recurring launch costs are held until the maintainer
   explicitly reopens launch readiness. Login, profiles, cloud sync, databases,
   email, hosted monitoring, paid governance, code signing and provider-backed
   features remain deferred.
-- Slices 184–186 complete the no-cost local Control Center v2. Before any
-  garment queue begins, the maintainer must discuss and schedule the next work.
+- Slices 184–186 complete the no-cost local Control Center v2. Slice 187 adds
+  validated UI and command-layer work-item creation so the approved sequence
+  can be tracked in canonical `board.json`. Follow the pre-garment execution
+  packet; no garment recipe is authorized by it.
 - Epic 8 is closed as a proof-only/no-go result. Its retained future scope is
   a bounded external-solver helper/adapter proof, not a clone or replacement
   nesting engine; `nestPieces` remains the default and fallback.

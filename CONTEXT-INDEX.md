@@ -60,9 +60,10 @@ snapshots; they are not current status.
   maintainer discussion gate; it does not claim authenticated beta or
   production readiness.
 - Slices 183–186 complete the documentation pass and no-cost local Control
-  Center v2: schema, shared command layer, browser authoring, and isolated
-  save/reload exit verification. `board.json` remains canonical. The next
-  action is a maintainer discussion before the garment queue.
+  Center v2. Slice 187 adds validated local UI item creation; `board.json`
+  remains canonical. The approved Phases 1–9 pre-garment sequence is active in
+  `docs/planning/PRE-GARMENT-EXECUTION.md` and the board. Do not start a garment
+  queue before its final gate and explicit maintainer approval.
 
 ## Planning documents
 
@@ -113,6 +114,9 @@ snapshots; they are not current status.
 - `docs/planning/CONTROL-CENTER-V2-EXECUTION.md` — binding no-cost Slices
   184–186 packet for canonical local authoring, role-guided transitions,
   atomic persistence, usable browser controls and the v2 exit gate.
+- `docs/planning/PRE-GARMENT-EXECUTION.md` — maintainer-approved nine-phase
+  no-cost sequence, acceptance criteria, durable work boundaries, and final
+  approval gate before the next garment queue.
 - `docs/planning/GARMENT-EXPANSION-RESEARCH-WAVE.md` — completed Slices 149–154
   research-only contract, evidence standard, Codex/Claude ownership boundaries,
   stop conditions and completed future-family synthesis gate.

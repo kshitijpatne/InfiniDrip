@@ -80,12 +80,14 @@ Requires Node.js. No other setup is required for local development.
 InfiniDrip is developed in numbered slices. Epic 6 surface design and Epics 7,
 9, and 10 are complete. Epic 11 Polo V2 implementation is complete through
 Slice 161. The no-cost local/preview interim of Epic 12 is complete through
-Slice 181; Slice 182 records the weekly usage-limit pause rule.
+Slice 181. Development pauses when the primary usage window is exhausted and
+resumes automatically after reset; the weekly meter is informational.
 
-The next garment queue does not start automatically. The existing garment UI,
-first-load tutorial, local delivery board, artwork workflow, repository cleanup,
-and documentation are being refined before another garment family is scheduled.
-No garment has completed physical cut, sew, or fit validation.
+The approved no-cost pre-garment sequence is tracked in the local delivery
+board. Its tutorial, repository audit, existing garment UI, artwork workflow,
+and newcomer documentation work must finish before the maintainer reviews and
+explicitly approves another garment family. No garment has completed physical
+cut, sew, or fit validation.
 
 ## Read next
 

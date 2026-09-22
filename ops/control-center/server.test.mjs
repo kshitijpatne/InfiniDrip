@@ -42,6 +42,31 @@ test("localhost API persists commands and rejects stale writers", async () => {
   });
 });
 
+test("localhost API creates a schema-valid work item through the shared command layer", async () => {
+  await withServer(async ({ base, fixture }) => {
+    const response = await fetch(`${base}/api/commands`, {
+      method: "POST", headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        type: "createItem", expectedRevision: fixture.revision, actor: "Local maintainer", role: "maintainer",
+        reason: "Record a newly approved local task.",
+        workItem: {
+          id: "LOCAL-CREATE-TEST", title: "Exercise local item creation", type: "task", priority: "P1", risk: "low",
+          owner: "Codex", description: "Create this item through the API.", expectation: "The record is validated and persisted.",
+          acceptanceCriteria: ["The item survives a board reload"], dependencies: [], protectedSurfaces: [],
+        },
+      }),
+    });
+    assert.equal(response.status, 200);
+    const saved = await response.json();
+    assert.equal(saved.revision, fixture.revision + 1);
+    const item = saved.workItems.find((entry) => entry.id === "LOCAL-CREATE-TEST");
+    assert.equal(item.status, "Backlog");
+    assert.equal(item.statusHistory[0].note, "Record a newly approved local task.");
+    const reloaded = await (await fetch(`${base}/api/board`)).json();
+    assert.deepEqual(reloaded.workItems.find((entry) => entry.id === item.id), item);
+  });
+});
+
 test("service exposes only intended static and referenced evidence routes", async () => {
   await withServer(async ({ base, fixture }) => {
     const redirect = await fetch(base, { redirect: "manual" });

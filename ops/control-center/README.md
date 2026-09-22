@@ -5,8 +5,8 @@ canonical current-state file. It is not the hosted user workspace, does not
 collect personal measurements, and does not contact a provider.
 
 Schema v2 uses one shared validated command layer for local CLI and browser
-mutations. The dashboard can edit details, transition status, add notes and
-create or link evidence without writing JSON directly.
+mutations. The dashboard can create and edit items, transition status, add
+notes, and create or link evidence without writing JSON directly.
 
 ## Run it
 
@@ -35,10 +35,12 @@ The command layer validates the complete input and result, checks an optional
 temporary file, flushes it, and atomically renames it over the canonical file.
 An invalid, stale, busy, or failed save leaves the original board intact.
 
-Supported commands are `editItem`, `updateStatus`, `addEvidence`, and
-`addComment`. Status edits cannot be smuggled through `editItem`. Every status
-transition requires an actor, selected workflow role, and reason; moving to
-`Done` also requires linked non-incomplete evidence.
+Supported commands are `createItem`, `editItem`, `updateStatus`, `addEvidence`,
+and `addComment`. New items begin in `Backlog`; their initial history entry
+records the actor, role, time and reason. Status edits cannot be smuggled
+through `editItem`. Every status transition requires an actor, selected
+workflow role, and reason; moving to `Done` also requires linked
+non-incomplete evidence.
 
 ## Historical import rule
 

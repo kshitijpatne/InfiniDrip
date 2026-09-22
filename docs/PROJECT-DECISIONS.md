@@ -671,3 +671,24 @@ data collection still require their own explicit gate.
   the browser has no direct filesystem path and the service exposes only
   allowlisted assets, the canonical board API, commands, and referenced
   repository-local evidence.
+
+## No-cost pre-garment sequence — approved 2026-09-22
+
+- Complete the nine phases in `docs/planning/PRE-GARMENT-EXECUTION.md` before
+  beginning another garment queue: board dogfooding and planning; read-only
+  repository/documentation audit; tutorial research/spec; tutorial
+  implementation; README/ARCHITECTURE refinement; existing garment UI/artwork
+  refinement; safe local asset import; curated, provenance-verified artwork V1;
+  and V1 practice plus an expansion decision.
+- Keep the work local and no-cost. Login, profiles, hosted database, cloud
+  sync, notifications, hosted monitoring, paid/recurring services and remote
+  asset fetching remain deferred until the maintainer explicitly reopens
+  launch readiness. The sequence does not authorize a new garment recipe.
+- Track the phases in canonical `ops/control-center/data/board.json` with
+  distinct ordered items and explicit acceptance criteria. For each completed
+  implementation slice, update the relevant phase status, link evidence, and
+  leave a concise completion note.
+- The next garment queue remains gated on the Phase 9 review and explicit
+  maintainer approval of its direction.
+- Active development pauses on exhaustion of the primary usage window and
+  resumes automatically after reset; the weekly meter is informational.

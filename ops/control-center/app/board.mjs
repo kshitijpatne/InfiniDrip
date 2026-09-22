@@ -39,9 +39,9 @@ function options(values, selected, includeBlank = false) {
   return `${includeBlank ? '<option value="">None</option>' : ""}${values.map((value) => `<option${value === selected ? " selected" : ""}>${safeText(value)}</option>`).join("")}`;
 }
 
-function field(label, name, value, kind = "text") {
-  if (kind === "textarea") return `<label>${safeText(label)}<textarea name="${name}" rows="4">${safeText(value)}</textarea></label>`;
-  return `<label>${safeText(label)}<input name="${name}" type="${kind}" value="${safeText(value)}"></label>`;
+function field(label, name, value, kind = "text", attributes = "") {
+  if (kind === "textarea") return `<label>${safeText(label)}<textarea name="${name}" ${attributes} rows="4">${safeText(value)}</textarea></label>`;
+  return `<label>${safeText(label)}<input name="${name}" type="${kind}" value="${safeText(value)}" ${attributes}></label>`;
 }
 
 export function renderItemList(items, selectedId) {
@@ -84,6 +84,34 @@ export function renderDetail(item, board, role = "contributor") {
     <details><summary>Create and link evidence</summary><form id="create-evidence-form" class="inline-form nested-form"><label>Evidence ID<input name="id" required placeholder="E-SLICE185"></label><label>Kind<select name="kind">${options(EVIDENCE_KINDS, "document")}</select></label><label>Repository path<input name="uri" required placeholder="docs/example.md"></label><label class="wide">Note<input name="note" required></label><label class="check"><input name="verified" type="checkbox"> Verified</label><button type="submit">Create evidence</button></form></details>
     <ul class="evidence-list">${evidence.map((entry) => `<li><a href="/api/evidence/${encodeURIComponent(entry.id)}" target="_blank" rel="noreferrer">${safeText(entry.id)}</a><span>${safeText(entry.kind)} · ${entry.verified ? "verified" : "incomplete"}</span><p>${safeText(entry.note)}</p></li>`).join("") || "<li>No evidence linked.</li>"}</ul></section>
     <section><h3>Transition history</h3><ol class="timeline">${item.statusHistory.map((entry) => `<li><time>${safeText(entry.at)}</time><b>${safeText(entry.status)}</b><p>${safeText(entry.actor)}${entry.role ? ` · ${safeText(entry.role)}` : ""} — ${safeText(entry.note)}</p></li>`).join("")}</ol></section>`;
+}
+
+export function renderCreateForm(board) {
+  return `<header class="detail-heading"><div><p class="eyebrow">NEW WORK ITEM</p><h2>Add to the delivery queue</h2></div></header>
+    <p>New items start in Backlog. Their initial history entry records who added them and why.</p>
+    <form id="create-item-form" class="form-grid">
+      ${field("Item ID", "id", "", "text", 'required pattern="[A-Z0-9][A-Z0-9._-]{2,80}" title="Use 3–81 uppercase letters, numbers, dots, underscores, or hyphens. For example: PREQUEUE-PHASE-01" placeholder="PREQUEUE-PHASE-01"')}
+      ${field("Title", "title", "", "text", "required")}
+      <label>Type<select name="type" required>${options(ITEM_TYPES, "task")}</select></label>
+      <label>Priority<select name="priority" required>${options(PRIORITIES, "P1")}</select></label>
+      <label>Risk<select name="risk" required>${options(RISKS, "low")}</select></label>
+      ${field("Owner", "owner", "Codex", "text", "required")}
+      ${field("Contributor (defaults to owner)", "contributor", "")}
+      ${field("Reviewer (defaults to owner)", "reviewer", "")}
+      <label>Epic<select name="epicId">${options(board.epics.map((entry) => entry.id), "", true)}</select></label>
+      <label>Release<select name="releaseId">${options(board.releases.map((entry) => entry.id), "", true)}</select></label>
+      ${field("Target date", "targetAt", "", "date")}
+      ${field("Flag key", "flagKey", "")}
+      <div class="wide">${field("Description", "description", "", "textarea", "required")}</div>
+      <div class="wide">${field("Expected outcome", "expectation", "", "textarea", "required")}</div>
+      <div class="wide">${field("Acceptance criteria (one per line)", "acceptanceCriteria", "", "textarea", "required")}</div>
+      ${field("Dependencies (one per line)", "dependencies", "", "textarea")}
+      ${field("Protected surfaces (one per line)", "protectedSurfaces", "", "textarea")}
+      ${field("Added by", "actor", "Local maintainer", "text", "required")}
+      <label>Recorded role<select name="role">${options(ACTOR_ROLES, "maintainer")}</select></label>
+      <div class="wide">${field("Why is this item being added?", "reason", "", "textarea", "required")}</div>
+      <div class="wide actions"><button type="submit" class="primary">Create work item</button><button type="button" id="cancel-create-button">Cancel</button></div>
+    </form>`;
 }
 
 export function renderSummary(board) {

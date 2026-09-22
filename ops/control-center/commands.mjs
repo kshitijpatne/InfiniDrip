@@ -1,4 +1,7 @@
 import {
+  ITEM_TYPES,
+  PRIORITIES,
+  RISKS,
   canTransition,
   assertValidBoard,
   isActorRole,
@@ -26,6 +29,13 @@ const EDITABLE_FIELDS = new Set([
   "description",
   "expectation",
   "acceptanceCriteria",
+  "flagKey",
+]);
+
+const NEW_WORK_ITEM_FIELDS = new Set([
+  "id", "type", "title", "epicId", "releaseId", "priority", "risk",
+  "owner", "contributor", "reviewer", "targetAt", "dependencies",
+  "protectedSurfaces", "description", "expectation", "acceptanceCriteria",
   "flagKey",
 ]);
 
@@ -81,6 +91,45 @@ function applyEditItem(board, command) {
     if (!EDITABLE_FIELDS.has(field)) throw new Error(`${field} cannot be edited directly`);
   }
   Object.assign(item, clone(patch));
+}
+
+function applyCreateItem(board, command, now) {
+  const input = requireRecord(command.workItem, "workItem");
+  for (const field of Object.keys(input)) {
+    if (!NEW_WORK_ITEM_FIELDS.has(field)) throw new Error(`workItem.${field} cannot be set at creation`);
+  }
+  const { actor, role } = actorFrom(command);
+  const reason = requireText(command.reason, "reason");
+  const owner = requireText(input.owner, "workItem.owner");
+  const item = {
+    id: requireText(input.id, "workItem.id"),
+    type: input.type,
+    title: requireText(input.title, "workItem.title"),
+    epicId: input.epicId ?? null,
+    releaseId: input.releaseId ?? null,
+    status: "Backlog",
+    openedAt: now.slice(0, 10),
+    targetAt: input.targetAt ?? null,
+    deliveredAt: null,
+    priority: input.priority,
+    risk: input.risk,
+    owner,
+    contributor: input.contributor ?? owner,
+    reviewer: input.reviewer ?? owner,
+    dependencies: input.dependencies ?? [],
+    protectedSurfaces: input.protectedSurfaces ?? [],
+    description: requireText(input.description, "workItem.description"),
+    expectation: requireText(input.expectation, "workItem.expectation"),
+    acceptanceCriteria: input.acceptanceCriteria,
+    statusHistory: [{ status: "Backlog", at: now, actor, role, note: reason, evidenceRefs: [] }],
+    comments: [],
+    evidenceRefs: [],
+    flagKey: input.flagKey ?? null,
+  };
+  if (!ITEM_TYPES.includes(item.type)) throw new Error(`Unknown workItem.type ${String(item.type)}`);
+  if (!PRIORITIES.includes(item.priority)) throw new Error(`Unknown workItem.priority ${String(item.priority)}`);
+  if (!RISKS.includes(item.risk)) throw new Error(`Unknown workItem.risk ${String(item.risk)}`);
+  board.workItems.push(item);
 }
 
 function applyUpdateStatus(board, command, now) {
@@ -175,6 +224,9 @@ export function applyBoardCommand(inputBoard, inputCommand, options = {}) {
   const now = commandMoment(options);
   const board = clone(inputBoard);
   switch (command.type) {
+    case "createItem":
+      applyCreateItem(board, command, now);
+      break;
     case "editItem":
       applyEditItem(board, command);
       break;
