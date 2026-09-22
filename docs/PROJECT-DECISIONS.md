@@ -582,4 +582,19 @@ data collection still require their own explicit gate.
 - The focused, application, coverage, build, manifest and Control Center gates
   are required for acceptance. No auth, profile, cloud sync, database,
   personal-data, hosted monitoring, domain, paid plan or runtime feature flag
-  was added. Slice 180 is the next no-cost boundary.
+  was added. Slice 180 completed the no-cost boundary; Slice 181 is next.
+
+## Slice 180 provider-neutral readiness dry-run — complete 2026-09-22
+
+- The local-only readiness fixture in `ops/readiness/readiness-drill.mjs`
+  covers six synthetic local scenarios and two provider-backed scenarios.
+  Every scenario must name an owner, runbook, fallback and evidence.
+- Provider outage and hosted data deletion are structurally `deferred`, never
+  passed. Local export/copy removal is synthetic only; it does not imply a
+  primary saved-workspace deletion affordance or hosted deletion behavior.
+- The stale-flag case uses a throwaway definition and cannot mutate the real
+  catalog or create a live switch. Secret-like and personal-measurement values
+  are rejected from fixture records.
+- The result is `preview-only` with authenticated-beta and production readiness
+  false. No provider, database, auth, monitoring, backup service, garment or
+  personal-data behavior was added. Slice 181 is the next no-cost boundary.

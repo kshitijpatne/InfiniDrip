@@ -1,7 +1,7 @@
 # EPIC 12 — Public Web Platform and Delivery Governance
 
-Status: **SLICES 171–174 AND 176–178 COMPLETE; SLICE 175 DEFERRED BY THE
-LAUNCH-COST HOLD; NO-COST INTERIM SLICES 180–181 SCOPED**
+Status: **SLICES 171–174 AND 176–180 COMPLETE; SLICE 175 DEFERRED BY THE
+LAUNCH-COST HOLD; NO-COST INTERIM SLICE 181 SCOPED**
 
 Owner: **Codex**. Claude Code and OpenCode may contribute only bounded,
 isolated audits or mechanical work under `docs/OPENCODE-WORKFLOW.md`. Codex
@@ -333,6 +333,14 @@ synthetic evidence contains no secrets or personal measurements; deferred
 provider-backed checks are listed as deferred rather than marked passed; and
 the result makes no authenticated-beta or production-readiness claim.
 
+Implemented in `ops/readiness/readiness-drill.mjs` and recorded in
+`docs/release/SLICE-180-READINESS-DRILL.md`. The local export/delete row covers
+only a synthetic exported copy; hosted deletion remains deferred because the
+current app has no hosted data path. The stale-flag row uses a throwaway
+definition and does not mutate the real catalog. The deterministic summary is
+preview-only: six local passes, two provider deferrals, and no beta/production
+readiness claim.
+
 ### Slice 181 — preview-only/no-cost exit and durable handoff
 
 Record the no-cost interim result as preview-only, with launch-backed identity,
@@ -346,9 +354,9 @@ documentation/evidence result.
 
 Tracks 172 (local board), 173 (provider-independent delivery proof), 176
 (preview noindex hardening), 177 (the no-cost decision/re-sequencing record),
-178 (the local flag/readiness contract) and 179 (local delivery/rollback
-rehearsal) are complete. Slice 179 depended on 173 and 178, and the Slice 180
-dry-run depends on the local portions of 179.
+178 (the local flag/readiness contract), 179 (local delivery/rollback
+rehearsal) and 180 (synthetic readiness drill) are complete. Slice 179
+depended on 173 and 178; Slice 180 depended on the local portions of 179.
 Slice 181 follows those dry-runs. Slice 175 and all provider-backed portions
 of 179–180 remain a separate launch track and are not dependencies for the
 no-cost interim. None of these tracks may modify drafting geometry or export

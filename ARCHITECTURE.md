@@ -664,7 +664,7 @@ privacy, consent, retention, auth/session, data-region, subprocessor, RLS and
 support decisions remain a future re-entry checklist, not a current blocker.
 No UI, provider SDK, SQL/RLS migration or personal-data flow may be inferred
 while the hold is open; provider-neutral fixtures, local evidence and the
-remaining no-cost portions of Slices 180–181 remain authorized. Slice 176 is already
+remaining no-cost portion of Slice 181 remains authorized. Slice 176 is already
 assigned to the preview noindex hardening, Slice 177 is assigned to the
 no-cost hold/re-sequencing decision, and neither number may be reused.
 
@@ -680,7 +680,14 @@ smoke, incident and migration-defer rules are versioned in
 `docs/release/SLICE-179-LOCAL-DELIVERY-REHEARSAL.md`, and the local Control
 Center records the evidence reference. This does not create a hosted rollback
 alias, branch-protection setting, CODEOWNERS policy, database or migration.
-Slice 180 is the next no-cost boundary.
+
+Slice 180 completes the provider-neutral readiness dry-run in
+`ops/readiness/readiness-drill.mjs`. Its six local synthetic scenarios have
+owner/runbook/fallback/evidence records; hosted provider outage and hosted data
+deletion remain explicitly deferred. Validation rejects secret-like or
+personal-measurement fixture strings and forbids provider scenarios from being
+marked passed. The summary is preview-only and cannot claim authenticated-beta
+or production readiness. Slice 181 is the next no-cost boundary.
 
 The future web layer is additive. A static immutable Vite artifact may be
 served publicly without changing drafting or export truth. Auth/profile/cloud

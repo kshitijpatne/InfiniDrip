@@ -67,7 +67,7 @@ Only the following remains in scope:
 - repository-local Control Center/evidence updates;
 - static artifact and local-first outage/recovery proofs; and
 - documentation needed to capture the decisions and re-admit Slice 175; and
-- the remaining no-cost portions of Slices 180–181 defined in
+- the remaining no-cost portion of Slice 181 defined in
   `docs/planning/EPIC-12-EXECUTION.md`.
 
 The following are explicitly out of scope until the decision record is

@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 179 local delivery rehearsal complete; Slice 180 next,
+_Last updated: Slice 180 provider-neutral readiness drill complete; Slice 181 next,
 2026-09-22.
 Epics 7, 9 and 10 are implemented, Codex-reviewed, documented and pushed to
 `origin/main`. Epic 11 implementation has completed the shaped collar/stand,
@@ -223,11 +223,29 @@ references the record and its evidence-file hash. No provider, account, cost,
 database, auth/profile, personal-data or application-runtime behavior changed.
 
 The focused release proof is `npm run web:release:test`; the full application,
-coverage, build, Control Center and existing manifest gates remain the exit
-requirements recorded below. Slice 180 is now the next no-cost implementation
-slice.
+coverage, build, Control Center and existing manifest gates pass. Slice 180 is
+now the completed synthetic readiness boundary.
 
-### Slices 171–174 and 176–179 complete; Slice 175 deferred; no-cost interim 180–181 scoped
+### Slice 180 — provider-neutral readiness dry-run complete
+
+The deterministic fixture in `ops/readiness/readiness-drill.mjs` covers six
+local-only synthetic scenarios—preview outage, artifact rollback, local-save
+backup/restore, stale throwaway flag, malformed input and synthetic export/copy
+removal—and two provider-backed scenarios that are structurally deferred.
+Every scenario names an owner, runbook, fallback and evidence. Secret-like and
+personal-measurement strings, missing/duplicate/unknown scenarios and any
+provider scenario marked passed are rejected.
+
+The durable record is
+`docs/release/SLICE-180-READINESS-DRILL.md`. It explicitly separates local
+export/copy removal from the unavailable hosted deletion feature, and requires
+the stale-flag drill to use a throwaway definition without mutating the real
+catalog. The summary is preview-only with six local passes, two provider
+deferrals, and both authenticated-beta and production readiness false. No
+application runtime, provider, database, auth, monitoring, garment or personal-
+data behavior changed. Slice 181 is now the next no-cost implementation slice.
+
+### Slices 171–174 and 176–180 complete; Slice 175 deferred; no-cost interim 181 scoped
 
 The maintainer authorized the Public Web Platform and Delivery Governance
 Epic after Epic 11. The execution packet is
@@ -280,8 +298,7 @@ The reviewed Slice 172–173 implementation and automated delivery workflow are
 pushed to `origin/main` at `6ac4edd`; Slice 174 and the Slice 175 admission
 audit remain documentation-only until launch is explicitly reopened.
 
-The next safe work is Slice 180's provider-neutral synthetic readiness drill,
-followed by Slice 181's preview-only/no-cost exit. Remote flags, provider promotion,
+The next safe work is Slice 181's preview-only/no-cost exit. Remote flags, provider promotion,
 hosted monitoring, auth, database, email, cloud data and personal-data
 collection remain deferred. The garment queue begins only after this interim
 track is complete and separately scheduled.
