@@ -114,6 +114,43 @@ silently clamping; and verify desktop and narrow layouts.
 **Exit:** existing artwork authoring is clear and reliable before file-import
 complexity is introduced.
 
+### Phase 6 amendment — pattern legibility and pattern-to-measurement navigation
+
+Added 2026-09-22 at the maintainer's direction. This remains inside Phase 6's
+existing-garment UI-refinement boundary. It does not add a garment recipe,
+local asset import (Phase 7), or a curated artwork library (Phase 8).
+
+Add these as two distinct acceptance criteria:
+
+1. **Pattern-block legibility:** In every existing garment's Pattern view, make
+   each block heading, label, and instruction readable and visually distinct.
+   Prevent text collisions with other text or pattern geometry using deliberate
+   positioning, wrapping, or leader lines as needed. Give headings, labels, and
+   instructions distinct, high-contrast color roles, reinforced by typography
+   or other cues so their meaning does not depend on color alone. Verify at
+   desktop and narrow widths.
+2. **Pattern-to-measurement navigation:** Activating a pattern block opens the
+   measurement page containing its related editable field or fields, brings
+   that page into view, and highlights the relevant field or fields. Preserve
+   existing hover correlation. Provide equivalent keyboard operation and
+   visible focus. Navigation must not change a measurement or other design
+   value.
+
+Before implementing this navigation, prepare and review a compact inventory
+with one row per pattern block:
+
+`pattern block → related editable measurement field(s) → measurement page`
+
+For a block without a meaningful measurement relationship, record that
+explicitly; do not route it to an unrelated field. Blocks that relate to fields
+on multiple measurement pages require a maintainer decision about which page
+to open and how to present the cross-page relationship. That behavior remains
+unresolved and must not be guessed in implementation. The navigation criterion
+is not ready for implementation until the inventory is reviewed and the
+multi-page behavior is decided. This unresolved sub-scope does not block other
+independently scoped Phase 6 work, including pattern-block legibility. This
+amendment does not itself change Phase 6's backlog status.
+
 ## Phase 7 — Drag-and-drop local asset workflow
 
 Accept PNG, JPEG, WebP and sanitized SVG, with a normal file-picker fallback.

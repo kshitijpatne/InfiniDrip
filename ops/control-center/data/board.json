@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 28,
-  "updatedAt": "2026-09-22T21:01:20.932Z",
+  "revision": 31,
+  "updatedAt": "2026-09-22T22:55:25.372Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -1660,7 +1660,7 @@
       "title": "First-load tutorial implementation and live verification",
       "epicId": null,
       "releaseId": null,
-      "status": "Ready",
+      "status": "In Progress",
       "openedAt": "2026-09-22",
       "targetAt": null,
       "deliveredAt": null,
@@ -1701,6 +1701,14 @@
           "actor": "Codex",
           "role": "maintainer",
           "note": "Phase 3 specification is accepted; proceed with the separately numbered local tutorial implementation and verification.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-09-22T21:12:39.328Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "Begin the accepted Phase 4 implementation in Slice 191; preserve the tutorial specification and existing export/readiness gates.",
           "evidenceRefs": []
         }
       ],
@@ -1784,7 +1792,9 @@
         "Artwork source is explained as provenance or local asset identity.",
         "Validation and placement/transform/scale/rotation/piece-role behavior are clear.",
         "Invalid values stay visible instead of being silently clamped.",
-        "The integrated form is verified at desktop and narrow widths."
+        "The integrated form is verified at desktop and narrow widths.",
+        "Pattern-block legibility: In every existing garment Pattern view, block headings, labels, and instructions are readable and visually distinct; text does not collide with other text or pattern geometry; high-contrast color roles are reinforced by typography or other cues; verify desktop and narrow widths.",
+        "Pattern-to-measurement navigation: Activating a pattern block opens the page containing its related editable field(s), brings that page into view, and highlights those fields; preserve hover correlation; support keyboard operation with visible focus; do not change measurements or design values. Before implementation, review an inventory mapping every pattern block to its related field(s) and measurement page, explicitly marking blocks without a meaningful mapping. Cross-page mappings require a maintainer decision and must not be guessed. This unresolved navigation detail does not block pattern-block legibility or other independently scoped Phase 6 work."
       ],
       "statusHistory": [
         {
