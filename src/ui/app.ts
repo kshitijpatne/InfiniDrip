@@ -29,9 +29,9 @@ import {
 } from "../surface/store";
 import { pieceFrames } from "../surface/piece-frames";
 import {
-  JourneyStep, ViewName, StageReadiness, StageBlocker, COACHED_STEPS, disclosureFor, stepView, journeyChecklist,
-  journeyBarMarkup, checklistMarkup, welcomeMarkup, celebrationMarkup,
-  loadJourney, saveJourney,
+  JourneyStep, ViewName, StageReadiness, StageBlocker, TutorialStep, COACHED_STEPS, disclosureFor, stepView, journeyChecklist,
+  journeyBarMarkup, checklistMarkup, tutorialMarkup, tutorialAnnouncement,
+  tutorialStepForJourneyStep, celebrationMarkup, loadJourneyWithStatus, saveJourney,
 } from "./journey";
 
 // The desktop shell's bridge (Slice 46) — see electron/preload.cts for the
@@ -97,14 +97,16 @@ export function mountApp(root: HTMLElement): void {
   const styleHost = root.querySelector<HTMLDivElement>("#style-host")!;
   const fabricWidthHost = root.querySelector<HTMLDivElement>("#fabric-width-host")!;
   const journeyHost = root.querySelector<HTMLDivElement>("#journey-host")!;
+  const tutorialHost = root.querySelector<HTMLDivElement>("#tutorial-host")!;
   const recoveryHost = root.querySelector<HTMLDivElement>("#recovery-host")!;
   const undoButton = root.querySelector<HTMLButtonElement>("#undo-pattern")!;
   const redoButton = root.querySelector<HTMLButtonElement>("#redo-pattern")!;
 
   // The guided journey (F2): a coached Start→Output path over the existing views.
   // Its state is presentation-only and persisted separately from the pattern.
-  let journey = loadJourney();
-  if (saved && journey.step === "start" && !journey.familiar) journey = { ...journey, step: "measure", familiar: true };
+  const journeyLoad = loadJourneyWithStatus(Boolean(saved));
+  let tutorialStorageUnavailable = !journeyLoad.storageAvailable;
+  let journey = journeyLoad.state;
   let celebrating = false; // the light, dismissible export confirmation
   let styleReviewed = false;
   let checkReviewed = false;
@@ -454,15 +456,86 @@ export function mountApp(root: HTMLElement): void {
     return undefined;
   };
 
+  const tutorialTargets: Readonly<Record<TutorialStep, readonly string[]>> = {
+    welcome: [],
+    garment: ["#garment-toggle-host"],
+    measure: ["#controls-panel"],
+    style: ["#style-host", "#stretch-host", "#swatch-host", "#controls-panel"],
+    check: ["#canvas-inspection", "#guidance-details", "#readiness-details", "#guidance-host", "#readiness-host"],
+    export: ["#export-host", "#readiness-details", "#readiness-host"],
+  };
+  let renderedTutorialMarkup = "";
+  const syncTutorialTargets = (): void => {
+    root.querySelectorAll<HTMLElement>(".tutorial-target").forEach((target) => target.classList.remove("tutorial-target"));
+    if (journey.tutorial.status !== "in_progress") return;
+    tutorialTargets[journey.tutorial.step].forEach((selector) => {
+      root.querySelector<HTMLElement>(selector)?.classList.add("tutorial-target");
+    });
+  };
+  const renderTutorial = (announce = false): void => {
+    const previousFocusId = tutorialHost.contains(document.activeElement)
+      ? (document.activeElement as HTMLElement).id
+      : "";
+    const markup = tutorialMarkup(journey.tutorial, tutorialStorageUnavailable);
+    if (renderedTutorialMarkup !== markup) {
+      tutorialHost.innerHTML = markup;
+      renderedTutorialMarkup = markup;
+    }
+    syncTutorialTargets();
+    if (announce) {
+      const status = tutorialHost.querySelector<HTMLElement>("#tutorial-announcement");
+      if (status) status.textContent = tutorialAnnouncement(journey.tutorial);
+      tutorialHost.querySelector<HTMLElement>("#tutorial-title")?.focus();
+    } else if (previousFocusId) {
+      tutorialHost.querySelector<HTMLElement>(`#${previousFocusId}`)?.focus();
+    }
+  };
+  const persistJourney = (): boolean => {
+    const savedJourney = saveJourney(journey);
+    tutorialStorageUnavailable = !savedJourney;
+    renderTutorial();
+    return savedJourney;
+  };
+
   const renderJourney = (): void => {
     const status = readiness();
     const parts: string[] = [];
-    root.querySelector<HTMLElement>("#welcome-host")!.innerHTML = journey.step === "start" && !journey.familiar ? welcomeMarkup() : "";
-    parts.push(journeyBarMarkup(journey.step, status, stageBlocker()));
+    const tutorialActive = journey.tutorial.status === "in_progress";
+    const mayReviewLaterStages = tutorialActive && ["start", "measure", "fit"].includes(journey.step);
+    const blocker = mayReviewLaterStages ? undefined : stageBlocker();
+    const previousFocusId = journeyHost.contains(document.activeElement)
+      ? (document.activeElement as HTMLElement).id
+      : "";
+    const nextLabel: Partial<Record<JourneyStep, string>> = {
+      start: "Continue to Measure",
+      measure: "Continue to Style",
+      fit: "Continue to Check",
+      refine: "Continue to Export",
+    };
+    parts.push(journeyBarMarkup(journey.step, status, blocker, {
+      tutorialActive,
+      nextLabel: tutorialActive ? nextLabel[journey.step] : undefined,
+      correctionLabel: tutorialActive && journey.step === "refine" && blocker
+        ? "Review the first flagged item"
+        : undefined,
+      hideNextWhenBlocked: tutorialActive && journey.step === "refine",
+    }));
     if (celebrating) parts.push(celebrationMarkup(status.checksOk));
     root.querySelector<HTMLElement>("#readiness-host")!.innerHTML = checklistMarkup(journeyChecklist(status));
     journeyHost.innerHTML = parts.join("");
-    if (journey.step === "start" && !journey.familiar) root.querySelector<HTMLElement>("#journey-next")!.hidden = true;
+    if ((journey.tutorial.status === "unseen" || journey.tutorial.status === "in_progress") &&
+      journey.tutorial.step === "welcome") {
+      const next = root.querySelector<HTMLButtonElement>("#journey-next");
+      if (next) next.hidden = true;
+    }
+    if (previousFocusId) {
+      const replacement = journeyHost.querySelector<HTMLElement>(`#${previousFocusId}`);
+      if (replacement && !replacement.hidden) replacement.focus();
+      else if (tutorialActive && journey.step === "refine") {
+        journeyHost.querySelector<HTMLElement>("#journey-correction")?.focus();
+      }
+    }
+    renderTutorial();
   };
   const markOutputDirty = (designChanged = true): void => {
     if (historyRestoring) return;
@@ -474,8 +547,11 @@ export function mountApp(root: HTMLElement): void {
       if (journey.step === "output") journey = { ...journey, step: "refine" };
     }
     journey = { ...journey, exported: false };
+    if (journey.tutorial.status === "in_progress" && journey.tutorial.step !== "welcome") {
+      journey = { ...journey, tutorial: { ...journey.tutorial, step: tutorialStepForJourneyStep(journey.step) } };
+    }
     celebrating = false;
-    saveJourney(journey);
+    persistJourney();
     if (historyPresent) {
       const next = captureDraftSnapshot();
       if (!sameSnapshot(historyPresent, next)) {
@@ -962,6 +1038,10 @@ export function mountApp(root: HTMLElement): void {
     guidanceHost.style.display = d.guidance ? "" : "none";
     root.querySelector<HTMLElement>("#guidance-details")!.hidden = !d.guidance;
     root.querySelector<HTMLElement>("#readiness-details")!.hidden = journey.step !== "refine" && journey.step !== "output";
+    if (journey.tutorial.status === "in_progress" && journey.tutorial.step === "check") {
+      root.querySelector<HTMLDetailsElement>("#guidance-details")!.open = true;
+      root.querySelector<HTMLDetailsElement>("#readiness-details")!.open = true;
+    }
     const context = root.querySelector<HTMLElement>("#review-context")!;
     context.hidden = journey.step !== "refine" && journey.step !== "output";
     context.textContent = journey.step === "output"
@@ -971,17 +1051,28 @@ export function mountApp(root: HTMLElement): void {
     bodyCroquisHost.style.display = view === "body" && !previewActive && d.views.includes("body") ? "flex" : "none";
     root.querySelector<HTMLElement>("#advanced-views")!.hidden = journey.step === "start";
     syncControlPages();
+    syncTutorialTargets();
   };
 
-  const setStep = (s: JourneyStep): void => {
+  const setStep = (s: JourneyStep, tutorialStatus?: "in_progress"): void => {
     if (s === "output" && !canExport()) return;
-    journey = { ...journey, step: s, familiar: true };
-    saveJourney(journey);
+    let tutorial = journey.tutorial;
+    if (tutorialStatus === "in_progress" || tutorial.status === "in_progress") {
+      tutorial = { status: "in_progress", step: tutorialStepForJourneyStep(s) };
+    } else if (tutorial.status === "unseen" && s !== "start") {
+      tutorial = { status: "suppressed", step: tutorialStepForJourneyStep(s) };
+    }
+    journey = { ...journey, step: s, familiar: tutorial.status !== "unseen", tutorial };
+    persistJourney();
     celebrating = false;
     applyDisclosure();
     root.querySelector<HTMLElement>("#studio-inspector")!.scrollTop = 0;
     setView(stepView(s));
-    root.querySelector<HTMLElement>('#journey-host [aria-current="step"]')!.focus();
+    if (journey.tutorial.status === "in_progress" || journey.tutorial.status === "unseen") {
+      renderTutorial(true);
+    } else {
+      root.querySelector<HTMLElement>('#journey-host [aria-current="step"]')?.focus();
+    }
   };
 
   const focusGuidanceField = (field: string): void => {
@@ -1002,9 +1093,26 @@ export function mountApp(root: HTMLElement): void {
     if (!target) return;
     const id = target.id;
     const idx = COACHED_STEPS.findIndex((st) => st.id === journey.step);
-    if (id === "welcome-start" || id === "welcome-skip") {
-      setStep("measure");
-    } else if (id === "journey-next" && !stageBlocker()) {
+    if (id === "welcome-start") {
+      setStep("start", "in_progress");
+    } else if (id === "welcome-skip" || id === "tutorial-skip") {
+      journey = { ...journey, familiar: true, tutorial: { ...journey.tutorial, status: "skipped" } };
+      persistJourney();
+      renderJourney();
+      tutorialHost.querySelector<HTMLButtonElement>("#tutorial-replay")?.focus();
+    } else if (id === "tutorial-replay") {
+      journey = { ...journey, step: "start", familiar: true, tutorial: { status: "in_progress", step: "welcome" } };
+      persistJourney();
+      applyDisclosure();
+      setView("pattern");
+      renderTutorial(true);
+    } else if (id === "tutorial-finish") {
+      journey = { ...journey, familiar: true, tutorial: { status: "completed", step: "export" } };
+      persistJourney();
+      renderJourney();
+      tutorialHost.querySelector<HTMLButtonElement>("#tutorial-replay")?.focus();
+    } else if (id === "journey-next" &&
+      (!stageBlocker() || (journey.tutorial.status === "in_progress" && ["start", "measure", "fit"].includes(journey.step)))) {
       if (journey.step === "fit") styleReviewed = true;
       setStep(COACHED_STEPS[Math.min(idx + 1, COACHED_STEPS.length - 1)].id);
     } else if (id === "journey-back") {
@@ -1745,7 +1853,7 @@ export function mountApp(root: HTMLElement): void {
     checkReviewed = false;
     journey = { ...journey, exported: false };
     celebrating = false;
-    saveJourney(journey);
+    persistJourney();
     syncWorkspace(true);
     historyRestoring = false;
     savedRevision = outputRevision;
@@ -1784,7 +1892,10 @@ export function mountApp(root: HTMLElement): void {
   });
   const completeExport = (): void => {
     journey = { ...journey, step: "output", exported: true };
-    saveJourney(journey);
+    if (journey.tutorial.status === "in_progress") {
+      journey = { ...journey, tutorial: { ...journey.tutorial, step: "export" } };
+    }
+    persistJourney();
     celebrating = true;
     renderJourney();
   };
@@ -1928,7 +2039,15 @@ export function mountApp(root: HTMLElement): void {
     widthInput.value = String(fabricWidth);
     syncNestIntelInputs();
     syncExportSizes();
-    if (restoring && journey.step === "start") journey = { ...journey, step: "measure", familiar: true };
+    if (restoring && journey.tutorial.status === "unseen") {
+      journey = {
+        ...journey,
+        step: "measure",
+        familiar: true,
+        tutorial: { status: "suppressed", step: "measure" },
+      };
+      persistJourney();
+    }
     setBodyCroquisView(bodyCroquisView);
     setScope(nestScope);
     setView(view);
@@ -1979,7 +2098,7 @@ export function mountApp(root: HTMLElement): void {
     checkReviewed = false;
     journey = { ...journey, exported: false };
     celebrating = false;
-    saveJourney(journey);
+    persistJourney();
     syncWorkspace(true);
     applyRawDraft(file.rawMeasurements, file.rawOptions);
     historyRestoring = false;

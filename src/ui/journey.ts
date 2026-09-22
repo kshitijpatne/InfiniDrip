@@ -187,6 +187,21 @@ export interface StageBlocker {
   readonly field?: string;
 }
 
+export type TutorialStatus = "unseen" | "in_progress" | "skipped" | "suppressed" | "completed";
+export type TutorialStep = "welcome" | "garment" | "measure" | "style" | "check" | "export";
+
+export interface TutorialState {
+  readonly status: TutorialStatus;
+  readonly step: TutorialStep;
+}
+
+export interface JourneyBarOptions {
+  readonly nextLabel?: string;
+  readonly correctionLabel?: string;
+  readonly hideNextWhenBlocked?: boolean;
+  readonly tutorialActive?: boolean;
+}
+
 const STEP_IDS: readonly JourneyStep[] = [
   "start", "measure", "fit", "refine", "output", "done",
 ];
@@ -216,7 +231,8 @@ const friendlyStage = (step: JourneyStep): string => {
 export function journeyBarMarkup(
   step: JourneyStep,
   readiness: StageReadiness,
-  blocker?: StageBlocker
+  blocker?: StageBlocker,
+  options: JourneyBarOptions = {},
 ): string {
   const displayStep = step === "done" ? "output" : step;
   const currentIndex = COACHED_STEPS.findIndex((candidate) => candidate.id === displayStep);
@@ -241,16 +257,17 @@ export function journeyBarMarkup(
   const back = currentIndex > 0
     ? `<button class="journey-nav-button journey-back" id="journey-back" type="button">← Back</button>`
     : "";
-  const next = currentIndex < COACHED_STEPS.length - 1
+  const next = currentIndex < COACHED_STEPS.length - 1 &&
+    !(options.hideNextWhenBlocked && blocker)
     ? `<button class="journey-nav-button journey-next" id="journey-next" type="button"` +
-      `${blocker ? ' disabled aria-describedby="journey-blocker"' : ""}>Next →</button>`
+      `${blocker ? ' disabled aria-describedby="journey-blocker"' : ""}>${escapeHtml(options.nextLabel ?? "Next →")}</button>`
     : "";
   const blockerMarkup = blocker
     ? `<div id="journey-blocker" class="journey-blocker" role="alert">${escapeHtml(blocker.message)}</div>` +
-      `<button class="journey-correction" id="journey-correction" type="button"` +
+      `<button class="journey-correction${options.tutorialActive ? " tutorial-primary-action" : ""}" id="journey-correction" type="button"` +
       ` data-correction-step="${escapeHtml(blocker.step)}"` +
       `${blocker.field ? ` data-correction-field="${escapeHtml(blocker.field)}"` : ""}>` +
-      `Review in ${friendlyStage(blocker.step)}</button>`
+      `${escapeHtml(options.correctionLabel ?? `Review in ${friendlyStage(blocker.step)}`)}</button>`
     : "";
 
   return `<nav class="journey-bar" aria-label="Design stages">` +
@@ -280,18 +297,101 @@ export function checklistMarkup(items: readonly ChecklistItem[]): string {
     rows + `</section>`;
 }
 
-/** The compact first-run welcome. Its actions only communicate familiarity. */
-export function welcomeMarkup(): string {
-  return `<section id="journey-welcome" class="journey-welcome"` +
-    ` aria-labelledby="journey-welcome-title">` +
-    `<h2 id="journey-welcome-title">Design a garment in five stages</h2>` +
-    `<p>Choose a garment, add measurements, set a style intent, review the digital checks,` +
-    ` then export when the design is ready. You can revisit any stage; physical fit still` +
-    ` needs separate validation.</p>` +
-    `<div class="journey-welcome-actions">` +
-    `<button id="welcome-start" type="button" class="journey-primary-action">Start designing</button>` +
-    `<button id="welcome-skip" type="button" class="journey-secondary-action">Skip introduction</button>` +
-    `</div></section>`;
+const TUTORIAL_STEPS: readonly TutorialStep[] = ["welcome", "garment", "measure", "style", "check", "export"];
+const TUTORIAL_STATUSES: readonly TutorialStatus[] = ["unseen", "in_progress", "skipped", "suppressed", "completed"];
+
+const isTutorialStep = (value: unknown): value is TutorialStep =>
+  typeof value === "string" && TUTORIAL_STEPS.includes(value as TutorialStep);
+const isTutorialStatus = (value: unknown): value is TutorialStatus =>
+  typeof value === "string" && TUTORIAL_STATUSES.includes(value as TutorialStatus);
+
+export const FRESH_TUTORIAL: TutorialState = { status: "unseen", step: "welcome" };
+
+export function tutorialStepForJourneyStep(step: JourneyStep): TutorialStep {
+  switch (step) {
+    case "start": return "garment";
+    case "measure": return "measure";
+    case "fit": return "style";
+    case "refine": return "check";
+    case "output":
+    case "done": return "export";
+  }
+}
+
+const TUTORIAL_COPY: Readonly<Record<Exclude<TutorialStep, "welcome">, {
+  readonly title: string;
+  readonly body: string;
+}>> = {
+  garment: {
+    title: "Choose what to design.",
+    body: "Choose what you want to design. The app will show its measurements and design choices. You can change this choice later.",
+  },
+  measure: {
+    title: "Review measurements.",
+    body: "Enter or adjust the listed body measurements. Values that need review stay visible with guidance. You can change them later.",
+  },
+  style: {
+    title: "Shape the design.",
+    body: "Choose how close or relaxed the digital pattern should be. Change the fabric, color, details, or add a graphic. These editable choices do not test how a sewn garment will fit.",
+  },
+  check: {
+    title: "Check the digital draft.",
+    body: "Review the drawing and guidance. If something needs attention, the app identifies it and points to a correction. These checks are not a physical fitting.",
+  },
+  export: {
+    title: "Choose digital files.",
+    body: "Choose a size, then choose an outline or a file for printing. A reference file can show measurements and notes about putting the garment together. Some downloads cover one size; others include all sizes. A file does not prove physical fit or production readiness.",
+  },
+};
+
+export function tutorialProgressLabel(step: TutorialStep): string {
+  if (step === "welcome") return "Step 1 of 5";
+  if (step === "garment") return "Step 2 of 5";
+  if (step === "measure") return "Step 3 of 5";
+  if (step === "style") return "Step 4 of 5";
+  return "Step 5 of 5";
+}
+
+export function tutorialAnnouncement(tutorial: TutorialState): string {
+  return tutorialProgressLabel(tutorial.step);
+}
+
+/** A non-modal coach panel; the stage bar retains the primary transition action. */
+export function tutorialMarkup(
+  tutorial: TutorialState,
+  storageUnavailable = false,
+): string {
+  const notice = storageUnavailable
+    ? `<p class="tutorial-storage-notice" role="status">Tour progress may not survive a reload because local storage is unavailable.</p>`
+    : "";
+  if (tutorial.status !== "unseen" && tutorial.status !== "in_progress") {
+    return `<section id="tutorial-panel" class="tutorial-panel tutorial-replay" role="region" aria-labelledby="tutorial-title">` +
+      `<h2 id="tutorial-title" tabindex="-1">Need a quick guide?</h2>` +
+      `<button id="tutorial-replay" type="button" class="journey-secondary-action">Take the tour</button>${notice}</section>`;
+  }
+
+  const step: TutorialStep = tutorial.status === "unseen" || tutorial.step === "welcome"
+    ? "welcome"
+    : tutorial.step;
+  const progress = tutorialProgressLabel(step);
+  const title = step === "welcome" ? "Welcome" : TUTORIAL_COPY[step].title;
+  const body = step === "welcome"
+    ? `<p class="tutorial-lead">Create a digital sewing pattern that fits your design intent.</p>` +
+      `<p>Your measurements and choices make an editable digital outline of garment pieces and files you can save. Nothing has been sewn or fit-tested, so the files do not confirm physical fit or production readiness.</p>`
+    : `<p>${escapeHtml(TUTORIAL_COPY[step].body)}</p>`;
+  const actions = step === "welcome"
+    ? `<button id="welcome-start" type="button" class="journey-primary-action">Start the tour</button>` +
+      `<button id="welcome-skip" type="button" class="journey-secondary-action">Skip for now</button>`
+    : step === "export"
+      ? `<button id="tutorial-finish" type="button" class="journey-primary-action">Finish the tour</button>` +
+        `<button id="tutorial-skip" type="button" class="journey-secondary-action">Skip tour</button>`
+      : `<button id="tutorial-skip" type="button" class="journey-secondary-action">Skip tour</button>`;
+  return `<section id="tutorial-panel" class="tutorial-panel" role="region" aria-labelledby="tutorial-title">` +
+    `<p class="tutorial-progress">${progress}</p>` +
+    `<h2 id="tutorial-title" tabindex="-1">${escapeHtml(title)}</h2>` + body +
+    `<div class="tutorial-actions">${actions}</div>${notice}` +
+    `<span id="tutorial-announcement" class="studio-visually-hidden" role="status" aria-live="polite" aria-atomic="true"></span>` +
+    `</section>`;
 }
 
 /** Export confirmation stays digital and does not claim physical validation. */
@@ -307,13 +407,14 @@ export function celebrationMarkup(plausible: boolean): string {
 
 // ── Persistence ──────────────────────────────────────────────────────────────
 
-export const JOURNEY_VERSION = 2;
+export const JOURNEY_VERSION = 3;
 
 export interface JourneyState {
   readonly v: number;
   readonly step: JourneyStep;
   readonly exported: boolean;
   readonly familiar?: boolean;
+  readonly tutorial: TutorialState;
 }
 
 export const FRESH_JOURNEY: JourneyState = {
@@ -321,6 +422,7 @@ export const FRESH_JOURNEY: JourneyState = {
   step: "start",
   exported: false,
   familiar: false,
+  tutorial: FRESH_TUTORIAL,
 };
 
 const JOURNEY_KEY = "patternworks_journey_v1";
@@ -339,9 +441,98 @@ const normalizedForSave = (state: JourneyState): JourneyState => ({
   step: isJourneyStep(state.step) ? state.step : "start",
   exported: state.exported === true,
   familiar: state.familiar === true,
+  tutorial: isTutorialState(state.tutorial) ? state.tutorial : FRESH_TUTORIAL,
 });
 
-/** Persist the journey in the legacy storage slot using the v2 shape. */
+export interface JourneyLoadResult {
+  readonly state: JourneyState;
+  readonly storageAvailable: boolean;
+}
+
+const isTutorialState = (value: unknown): value is TutorialState =>
+  isRecord(value) && isTutorialStatus(value.status) && isTutorialStep(value.step);
+
+const normalizedStage = (step: JourneyStep): JourneyStep =>
+  step === "output" || step === "done" ? "refine" : step;
+
+const returningRecord = (value: unknown): boolean => {
+  if (!isRecord(value)) return false;
+  return value.familiar === true || (isJourneyStep(value.step) && value.step !== "start");
+};
+
+const fallbackJourney = (hasSavedWorkspace: boolean, parsed?: unknown): JourneyState => {
+  const returning = hasSavedWorkspace || returningRecord(parsed);
+  const parsedStep = isRecord(parsed) && isJourneyStep(parsed.step) ? normalizedStage(parsed.step) : "start";
+  const step = hasSavedWorkspace && parsedStep === "start" ? "measure" : parsedStep;
+  return {
+    ...FRESH_JOURNEY,
+    step,
+    familiar: returning,
+    tutorial: returning
+      ? { status: "suppressed", step: tutorialStepForJourneyStep(step) }
+      : FRESH_TUTORIAL,
+  };
+};
+
+function migrateJourney(parsed: Record<string, unknown>, hasSavedWorkspace: boolean): JourneyState {
+  if (parsed.v !== 1 && parsed.v !== 2 && parsed.v !== JOURNEY_VERSION) {
+    return fallbackJourney(hasSavedWorkspace, parsed);
+  }
+  if (!isJourneyStep(parsed.step) ||
+    (hasOwn(parsed, "exported") && typeof parsed.exported !== "boolean") ||
+    (hasOwn(parsed, "familiar") && typeof parsed.familiar !== "boolean")) {
+    return fallbackJourney(hasSavedWorkspace, parsed);
+  }
+
+  const legacyStep = parsed.step;
+  const legacyStage = parsed.v === 1 && legacyStep === "done"
+    ? "measure"
+    : normalizedStage(legacyStep);
+  const legacyFamiliar = parsed.v === 1 ? legacyStep !== "start" : parsed.familiar === true;
+
+  if (parsed.v === 1 || parsed.v === 2) {
+    const suppressed = hasSavedWorkspace || legacyFamiliar || legacyStep !== "start";
+    const step = hasSavedWorkspace && legacyStage === "start" && !legacyFamiliar
+      ? "measure"
+      : legacyStage;
+    return {
+      v: JOURNEY_VERSION,
+      step,
+      exported: false,
+      familiar: suppressed,
+      tutorial: suppressed
+        ? { status: "suppressed", step: tutorialStepForJourneyStep(step) }
+        : FRESH_TUTORIAL,
+    };
+  }
+
+  if (!isTutorialState(parsed.tutorial)) return fallbackJourney(hasSavedWorkspace, parsed);
+  const step = normalizedStage(legacyStep);
+  const tutorialStatus = parsed.tutorial.status === "unseen" &&
+    (hasSavedWorkspace || parsed.familiar === true || legacyStep !== "start")
+    ? "suppressed"
+    : parsed.tutorial.status;
+  const savedWorkspaceStage = hasSavedWorkspace &&
+    parsed.tutorial.status === "unseen" &&
+    parsed.familiar !== true &&
+    step === "start"
+    ? "measure"
+    : step;
+  const tutorialStep = tutorialStatus === "in_progress"
+    ? parsed.tutorial.step === "export" ? "check"
+      : parsed.tutorial.step === "welcome" ? "welcome" : tutorialStepForJourneyStep(savedWorkspaceStage)
+    : tutorialStatus === "unseen" ? "welcome"
+      : parsed.tutorial.status === "unseen" ? tutorialStepForJourneyStep(savedWorkspaceStage) : parsed.tutorial.step;
+  return {
+    v: JOURNEY_VERSION,
+    step: tutorialStatus === "in_progress" && parsed.tutorial.step === "export" ? "refine" : savedWorkspaceStage,
+    exported: false,
+    familiar: parsed.familiar === true || tutorialStatus !== "unseen",
+    tutorial: { status: tutorialStatus, step: tutorialStep },
+  };
+}
+
+/** Persist the journey in the legacy storage slot using the v3 shape. */
 export function saveJourney(state: JourneyState): boolean {
   try {
     localStorage.setItem(JOURNEY_KEY, JSON.stringify(normalizedForSave(state)));
@@ -351,41 +542,26 @@ export function saveJourney(state: JourneyState): boolean {
   }
 }
 
-/** Load v1/v2 journey state without carrying stale export confirmation forward. */
-export function loadJourney(): JourneyState {
+/** Load and migrate tutorial state without carrying stale export confirmation forward. */
+export function loadJourneyWithStatus(hasSavedWorkspace = false): JourneyLoadResult {
   try {
     const raw = localStorage.getItem(JOURNEY_KEY);
-    if (raw === null) return FRESH_JOURNEY;
-    const parsed: unknown = JSON.parse(raw);
-    if (!isRecord(parsed)) return FRESH_JOURNEY;
-    if (parsed.v !== 1 && parsed.v !== JOURNEY_VERSION) return FRESH_JOURNEY;
-    if (!isJourneyStep(parsed.step)) return FRESH_JOURNEY;
-    if (hasOwn(parsed, "exported") && typeof parsed.exported !== "boolean") return FRESH_JOURNEY;
-    if (hasOwn(parsed, "familiar") && typeof parsed.familiar !== "boolean") return FRESH_JOURNEY;
-
-    if (parsed.v === 1) {
-      const legacyStep = parsed.step;
-      const step = legacyStep === "done"
-        ? "measure"
-        : legacyStep === "output" ? "refine" : legacyStep;
-      return {
-        v: JOURNEY_VERSION,
-        step,
-        exported: false,
-        familiar: legacyStep !== "start",
-      };
+    if (raw === null) return { state: fallbackJourney(hasSavedWorkspace), storageAvailable: true };
+    let parsed: unknown;
+    try {
+      parsed = JSON.parse(raw);
+    } catch {
+      return { state: fallbackJourney(hasSavedWorkspace), storageAvailable: true };
     }
-
-    const step = parsed.step === "output" || parsed.step === "done"
-      ? "refine"
-      : parsed.step;
     return {
-      v: JOURNEY_VERSION,
-      step,
-      exported: false,
-      familiar: parsed.familiar === true,
+      state: isRecord(parsed) ? migrateJourney(parsed, hasSavedWorkspace) : fallbackJourney(hasSavedWorkspace, parsed),
+      storageAvailable: true,
     };
   } catch {
-    return FRESH_JOURNEY;
+    return { state: fallbackJourney(hasSavedWorkspace), storageAvailable: false };
   }
+}
+
+export function loadJourney(hasSavedWorkspace = false): JourneyState {
+  return loadJourneyWithStatus(hasSavedWorkspace).state;
 }

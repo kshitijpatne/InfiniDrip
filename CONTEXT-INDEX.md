@@ -68,8 +68,8 @@ snapshots; they are not current status.
   `docs/planning/REPOSITORY-AND-NEWCOMER-AUDIT.md`. No files or history were
   removed or rewritten; the personal resume-staging archive remains tracked
   under the non-destructive default. Phase 3's accepted tutorial specification
-  is `docs/planning/FIRST-LOAD-TUTORIAL-SPEC.md`; Phase 4 implementation is
-  Ready and must follow that contract.
+  is `docs/planning/FIRST-LOAD-TUTORIAL-SPEC.md`; Phase 4 implements and
+  verifies that contract. See `PROJECT-STATE.md` for the latest phase result.
 
 ## Planning documents
 

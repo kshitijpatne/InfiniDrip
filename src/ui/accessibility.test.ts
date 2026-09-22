@@ -29,12 +29,15 @@ describe("Slice 121 accessibility audit", () => {
     localStorage.clear();
   });
 
-  it("keeps the welcome and Measure stages free of axe violations", async () => {
+  it("keeps the Welcome, Garment, and Measure stages free of axe violations", async () => {
     const root = mount();
     await audit("welcome");
     click(root, "welcome-start");
+    await audit("Garment");
+    click(root, "journey-next");
     await audit("measure");
-  }, 20_000);
+  // Three whole-app axe runs need more wall time when the full suite is busy.
+  }, 60_000);
 
   it("covers Style, Check, Export, assembled, view-menu, and load-dialog states", async () => {
     const root = mount();

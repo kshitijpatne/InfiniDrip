@@ -1,7 +1,7 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 190 accepted the Phase 3 tutorial specification; Phase 4
-implementation is Ready, 2026-09-22.
+_Last updated: Slice 191 implements and verifies the first-load tutorial;
+independent static reviews are complete and board acceptance is pending, 2026-09-22.
 Epics 7, 9 and 10 are implemented, Codex-reviewed, documented and pushed to
 `origin/main`. Epic 11 implementation has completed the shaped collar/stand,
 placket-base, vent/drop, front/back preview/control/report and downstream
@@ -163,6 +163,41 @@ code changed in Slice 190; Phase 4 is the next implementation slice. The
 canonical-board test now checks the Ready count against the board rather than
 assuming zero; this sequence legitimately has a prepared Ready item.
 `npm run control-center:test` passes 25/25.
+
+### Slice 191 — first-load tutorial implementation and verification
+
+The accepted Phase 3 specification is implemented. First-time users see an
+optional non-modal Welcome and can take the five-step Garment → Measure → Style
+→ Check/Export tour. Version-3 local journey state migrates prior records,
+resumes or replays safely, and stays separate from saved design values. The
+existing readiness predicate still gates Export; invalid values remain visible
+with an actionable correction, and finishing the tour does not export a file.
+
+The tour uses a stable host beside the rebuilt journey bar, one primary action,
+keyboard-operable controls, visible focus, and a polite screen-reader status
+region. A live render caught the status text appearing visually; it now uses
+the existing screen-reader-only class. `ARCHITECTURE.md` and `CONTEXT-INDEX.md`
+reflect the shipped behavior. No dependency, account, service, cost, export
+baseline, or physical-fit claim was introduced.
+
+Verification: `npm run build` passes; `npm run coverage -- --reporter=dot`
+passes all 105 test files and 1,434 tests with 100% line, statement, branch,
+and function coverage. The protected export regression and byte-identity suites
+pass 8/8 and 9/9. `npm run control-center:test` passes 25/25 and
+`npm run web:release:test` passes 10/10. Live browser checks at 1280×720 and
+600×838 show no horizontal overflow; keyboard traversal, invalid chest value
+160 through Check and back to Measure, Skip/replay, and reload at Welcome all
+preserve the intended state. See
+`docs/planning/PRE-GARMENT-PHASE4-EXIT.md` for the evidence record.
+
+Two independent static reviews found no blocking defects. Follow-up addressed
+the stale replay assertion, preserved the established Measure entry for a
+saved workspace with no tutorial decision, covered saved-workspace resume, and
+kept the live announcement distinct from the focused heading. Reviewer limits
+and remaining screen-reader verification are recorded in
+`docs/planning/PRE-GARMENT-PHASE4-EXIT.md`. The canonical board's Review → Done
+acceptance remains pending; Phase 5 follows that acceptance. No physical sewing
+or fit validation is claimed.
 
 ### Post-merge PR audit — 2026-09-21
 

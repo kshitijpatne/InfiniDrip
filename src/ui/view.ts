@@ -832,9 +832,9 @@ export function appShellMarkup(
     `<p>Your current unsaved changes will be replaced by the last local save.</p>` +
     `<div class="workspace-confirm-actions"><button id="workspace-confirm-cancel" type="button">Keep editing</button>` +
     `<button id="workspace-confirm-accept" type="button">Load saved workspace</button></div></div></div>` +
-    `<div id="journey-host"></div><div id="studio-body">` +
+    `<div id="journey-area"><div id="journey-host"></div><div id="tutorial-host"></div></div><div id="studio-body">` +
     `<aside id="studio-inspector" aria-label="Design controls">` +
-    `<div id="welcome-host"></div>${garmentToggleMarkup(activeGarment)}<div id="review-context"></div>` +
+    `${garmentToggleMarkup(activeGarment)}<div id="review-context"></div>` +
     `<details id="readiness-details"><summary>Design readiness</summary><div id="readiness-host"></div></details>` +
     `<div id="style-host"></div>${fabricStretchMarkup(stretchFabric)}${fabricSwatchesMarkup(fabric, appearance)}` +
     `${controlsMarkup(m, fields)}` +

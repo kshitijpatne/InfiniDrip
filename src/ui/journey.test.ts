@@ -2,9 +2,9 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import {
   COACHED_STEPS, disclosureFor, stepView, journeyChecklist,
-  journeyBarMarkup, checklistMarkup, welcomeMarkup, celebrationMarkup,
-  loadJourney, saveJourney, FRESH_JOURNEY, JOURNEY_VERSION,
-  StageReadiness,
+  journeyBarMarkup, checklistMarkup, tutorialMarkup, celebrationMarkup,
+  loadJourney, loadJourneyWithStatus, saveJourney, FRESH_JOURNEY, FRESH_TUTORIAL, JOURNEY_VERSION,
+  StageReadiness, JourneyState, TutorialState,
 } from "./journey";
 
 const readiness = (overrides: Partial<StageReadiness> = {}): StageReadiness => ({
@@ -231,6 +231,26 @@ describe("journeyBarMarkup", () => {
     expect(clear.querySelector<HTMLButtonElement>("#journey-next")?.disabled).toBe(false);
     expect(clear.querySelector("#journey-next")?.hasAttribute("aria-describedby")).toBe(false);
   });
+
+  it("lets the active tutorial label its single primary transition and replace blocked Next", () => {
+    const style = stageDocument(journeyBarMarkup("fit", readiness(), undefined, {
+      tutorialActive: true,
+      nextLabel: "Continue to Check",
+    }));
+    expect(style.querySelector("#journey-next")?.textContent).toBe("Continue to Check");
+
+    const blocker = stageDocument(journeyBarMarkup("refine", readiness(), {
+      message: "A measurement needs review.", step: "measure", field: "chest",
+    }, {
+      tutorialActive: true,
+      correctionLabel: "Review the first flagged item",
+      hideNextWhenBlocked: true,
+    }));
+    expect(blocker.querySelector("#journey-next")).toBeNull();
+    expect(blocker.querySelector<HTMLButtonElement>("#journey-correction")?.textContent)
+      .toBe("Review the first flagged item");
+    expect(blocker.querySelector("#journey-correction")?.classList.contains("tutorial-primary-action")).toBe(true);
+  });
 });
 
 describe("checklistMarkup", () => {
@@ -253,16 +273,41 @@ describe("checklistMarkup", () => {
   });
 });
 
-describe("welcomeMarkup", () => {
-  it("keeps compact beginner copy and both familiarity actions", () => {
-    const document = stageDocument(welcomeMarkup());
-    expect(document.querySelector("#welcome-start")?.textContent).toBe("Start designing");
-    expect(document.querySelector("#welcome-skip")?.textContent).toBe("Skip introduction");
+describe("tutorialMarkup", () => {
+  it("presents the approved non-modal Welcome and its two actions", () => {
+    const document = stageDocument(tutorialMarkup(FRESH_TUTORIAL));
+    expect(document.querySelector("#tutorial-panel")?.getAttribute("role")).toBe("region");
+    expect(document.querySelector("#tutorial-title")?.textContent).toBe("Welcome");
+    expect(document.body.textContent).toContain("Create a digital sewing pattern that fits your design intent.");
+    expect(document.querySelector("#welcome-start")?.textContent).toBe("Start the tour");
+    expect(document.querySelector("#welcome-skip")?.textContent).toBe("Skip for now");
+    expect(document.querySelector("#tutorial-announcement")?.classList.contains("studio-visually-hidden")).toBe(true);
+    expect(document.querySelector("#tutorial-announcement")?.getAttribute("role")).toBe("status");
     expect(document.querySelectorAll("button")).toHaveLength(2);
     expect([...document.querySelectorAll<HTMLButtonElement>("button")].every((button) => button.type === "button")).toBe(true);
-    expect(document.body.textContent).toContain("five stages");
-    expect(document.body.textContent).toContain("physical fit");
-    expect(document.body.textContent).not.toContain("unlock");
+    expect(document.body.textContent).toContain("not confirm physical fit or production readiness");
+    expect(document.querySelector('[role="dialog"]')).toBeNull();
+  });
+
+  it("keeps stage transitions in the journey bar and offers Finish without an export", () => {
+    const measure = stageDocument(tutorialMarkup({ status: "in_progress", step: "measure" }));
+    expect(measure.body.textContent).toContain("Step 3 of 5");
+    expect(measure.body.textContent).toContain("Values that need review stay visible");
+    expect(measure.querySelectorAll("button")).toHaveLength(1);
+    expect(measure.querySelector("#tutorial-skip")?.textContent).toBe("Skip tour");
+
+    const output = stageDocument(tutorialMarkup({ status: "in_progress", step: "export" }));
+    expect(output.body.textContent).toContain("Step 5 of 5");
+    expect(output.querySelector("#tutorial-finish")?.textContent).toBe("Finish the tour");
+    expect(output.body.textContent).toContain("does not prove physical fit or production readiness");
+    expect(output.body.textContent).not.toContain("download started");
+  });
+
+  it("keeps replay visible after the decision and reports unavailable local storage", () => {
+    const replay = stageDocument(tutorialMarkup({ status: "skipped", step: "measure" }, true));
+    expect(replay.querySelector("#tutorial-replay")?.textContent).toBe("Take the tour");
+    expect(replay.body.textContent).toContain("progress may not survive a reload");
+    expect(replay.querySelector('[role="dialog"]')).toBeNull();
   });
 });
 
@@ -287,37 +332,57 @@ describe("journey persistence", () => {
   beforeEach(() => localStorage.clear());
   afterEach(() => vi.restoreAllMocks());
 
+  const state = (step: JourneyState["step"], status: TutorialState["status"], tutorialStep: TutorialState["step"]) => ({
+    v: JOURNEY_VERSION,
+    step,
+    exported: false,
+    familiar: status !== "unseen",
+    tutorial: { status, step: tutorialStep },
+  });
+
   it("starts fresh when nothing is stored", () => {
     expect(loadJourney()).toEqual(FRESH_JOURNEY);
   });
 
-  it("normalizes every saved state to v2 while keeping the storage key", () => {
-    expect(saveJourney({ v: 1, step: "refine", exported: true })).toBe(true);
+  it("normalizes saved state to v3 while keeping the storage key", () => {
+    expect(saveJourney({ v: 1, step: "refine", exported: true, tutorial: FRESH_TUTORIAL })).toBe(true);
     expect(JSON.parse(localStorage.getItem("patternworks_journey_v1")!)).toEqual({
-      v: JOURNEY_VERSION, step: "refine", exported: true, familiar: false,
+      v: JOURNEY_VERSION, step: "refine", exported: true, familiar: false, tutorial: FRESH_TUTORIAL,
     });
     expect(loadJourney()).toEqual({
-      v: JOURNEY_VERSION, step: "refine", exported: false, familiar: false,
+      ...state("refine", "suppressed", "check"),
     });
-    expect(saveJourney({ v: 99, step: "done", exported: false, familiar: true })).toBe(true);
+    expect(saveJourney({ v: 99, step: "done", exported: false, familiar: true, tutorial: { status: "completed", step: "export" } })).toBe(true);
     expect(JSON.parse(localStorage.getItem("patternworks_journey_v1")!)).toEqual({
-      v: JOURNEY_VERSION, step: "done", exported: false, familiar: true,
+      v: JOURNEY_VERSION, step: "done", exported: false, familiar: true, tutorial: { status: "completed", step: "export" },
     });
   });
 
-  it("normalizes malformed runtime state without treating it as familiar", () => {
-    expect(saveJourney({ v: JOURNEY_VERSION, step: "teleport" as never, exported: true })).toBe(true);
+  it("normalizes malformed runtime stage without losing the nested tutorial", () => {
+    expect(saveJourney({ v: JOURNEY_VERSION, step: "teleport" as never, exported: true, tutorial: FRESH_TUTORIAL })).toBe(true);
     expect(JSON.parse(localStorage.getItem("patternworks_journey_v1")!)).toEqual({
-      v: JOURNEY_VERSION, step: "start", exported: true, familiar: false,
+      v: JOURNEY_VERSION, step: "start", exported: true, familiar: false, tutorial: FRESH_TUTORIAL,
     });
   });
 
-  it("migrates v1 done/output and preserves other steps", () => {
+  it("replaces a malformed runtime tutorial record with the fresh tutorial", () => {
+    const malformed = { status: "unknown", step: "welcome" } as never;
+    expect(saveJourney({
+      v: JOURNEY_VERSION, step: "measure", exported: false, familiar: true,
+      tutorial: malformed,
+    })).toBe(true);
+    expect(JSON.parse(localStorage.getItem("patternworks_journey_v1")!).tutorial)
+      .toEqual(FRESH_TUTORIAL);
+  });
+
+  it("migrates v1/v2 stage records and suppresses onboarding for established users", () => {
     const cases = [
-      [{ v: 1, step: "done", exported: true }, { v: 2, step: "measure", exported: false, familiar: true }],
-      [{ v: 1, step: "output", exported: true }, { v: 2, step: "refine", exported: false, familiar: true }],
-      [{ v: 1, step: "start", exported: true }, { v: 2, step: "start", exported: false, familiar: false }],
-      [{ v: 1, step: "fit", exported: true }, { v: 2, step: "fit", exported: false, familiar: true }],
+      [{ v: 1, step: "done", exported: true }, state("measure", "suppressed", "measure")],
+      [{ v: 1, step: "output", exported: true }, state("refine", "suppressed", "check")],
+      [{ v: 1, step: "start", exported: true }, FRESH_JOURNEY],
+      [{ v: 1, step: "fit", exported: true }, state("fit", "suppressed", "style")],
+      [{ v: 2, step: "start", exported: false, familiar: true }, state("start", "suppressed", "garment")],
+      [{ v: 2, step: "measure", exported: false, familiar: false }, state("measure", "suppressed", "measure")],
     ] as const;
     for (const [stored, expected] of cases) {
       localStorage.setItem("patternworks_journey_v1", JSON.stringify(stored));
@@ -325,27 +390,49 @@ describe("journey persistence", () => {
     }
   });
 
-  it("reloads v2 output/done at Check and retains v2 familiarity elsewhere", () => {
+  it("migrates v2 stage records with stale output reset and returning-user suppression", () => {
     for (const step of ["output", "done"] as const) {
       localStorage.setItem("patternworks_journey_v1", JSON.stringify({
         v: 2, step, exported: true, familiar: true,
       }));
-      expect(loadJourney()).toEqual({ v: 2, step: "refine", exported: false, familiar: true });
+      expect(loadJourney()).toEqual(state("refine", "suppressed", "check"));
     }
     localStorage.setItem("patternworks_journey_v1", JSON.stringify({
       v: 2, step: "fit", exported: true, familiar: false,
     }));
-    expect(loadJourney()).toEqual({ v: 2, step: "fit", exported: false, familiar: false });
+    expect(loadJourney()).toEqual(state("fit", "suppressed", "style"));
     localStorage.setItem("patternworks_journey_v1", JSON.stringify({
       v: 2, step: "measure", exported: false, familiar: true,
     }));
-    expect(loadJourney()).toEqual({ v: 2, step: "measure", exported: false, familiar: true });
+    expect(loadJourney()).toEqual(state("measure", "suppressed", "measure"));
+  });
+
+  it("resumes active v3 tutorial stages and returns an export substep to Check", () => {
+    localStorage.setItem("patternworks_journey_v1", JSON.stringify(state("measure", "in_progress", "measure")));
+    expect(loadJourney()).toEqual(state("measure", "in_progress", "measure"));
+    localStorage.setItem("patternworks_journey_v1", JSON.stringify(state("output", "in_progress", "export")));
+    expect(loadJourney()).toEqual(state("refine", "in_progress", "check"));
+    expect(loadJourney(true)).toEqual(state("refine", "in_progress", "check"));
+  });
+
+  it("suppresses an undecided Welcome and preserves the returning-user Measure entry", () => {
+    expect(loadJourney(true)).toEqual(state("measure", "suppressed", "measure"));
+    localStorage.setItem("patternworks_journey_v1", JSON.stringify(FRESH_JOURNEY));
+    expect(loadJourney(true)).toEqual(state("measure", "suppressed", "measure"));
+    localStorage.setItem("patternworks_journey_v1", JSON.stringify({
+      v: 2, step: "start", exported: false, familiar: false,
+    }));
+    expect(loadJourney(true)).toEqual(state("measure", "suppressed", "measure"));
+    localStorage.setItem("patternworks_journey_v1", JSON.stringify({
+      v: 2, step: "start", exported: false, familiar: true,
+    }));
+    expect(loadJourney(true)).toEqual(state("start", "suppressed", "garment"));
   });
 
   it("always clears historical export confirmation on load", () => {
-    for (const v of [1, 2] as const) {
+    for (const v of [1, 2, 3] as const) {
       localStorage.setItem("patternworks_journey_v1", JSON.stringify({
-        v, step: "refine", exported: true, familiar: true,
+        ...state("refine", "suppressed", "check"), v, exported: true,
       }));
       expect(loadJourney().exported).toBe(false);
     }
@@ -362,10 +449,14 @@ describe("journey persistence", () => {
       JSON.stringify({ v: 2, step: "teleport" }),
       JSON.stringify({ v: 2, step: "fit", exported: "yes" }),
       JSON.stringify({ v: 2, step: "fit", familiar: "yes" }),
+      JSON.stringify({ v: 3, step: "start", familiar: false, tutorial: { status: "new", step: "welcome" } }),
     ];
     for (const value of invalidValues) {
       localStorage.setItem("patternworks_journey_v1", String(value));
-      expect(loadJourney()).toEqual(FRESH_JOURNEY);
+      const loaded = loadJourney();
+      expect(loaded.tutorial.status).toBe(
+        typeof value === "string" && value.includes('"step":"fit"') ? "suppressed" : "unseen",
+      );
     }
   });
 
@@ -385,5 +476,12 @@ describe("journey persistence", () => {
       throw new Error("unavailable");
     });
     expect(loadJourney()).toEqual(FRESH_JOURNEY);
+    vi.spyOn(Storage.prototype, "getItem").mockImplementationOnce(() => {
+      throw new Error("unavailable");
+    });
+    expect(loadJourneyWithStatus(true)).toEqual({
+      state: state("measure", "suppressed", "measure"),
+      storageAvailable: false,
+    });
   });
 });

@@ -295,19 +295,33 @@ body { margin: 0; }
   margin-top: 6px; border: 1px solid #d49c48; background: transparent;
   color: #f5d9a3;
 }
-.journey-welcome,
+.journey-correction.tutorial-primary-action {
+  border: 1px solid #88d7ef; background: #88d7ef; color: #0a1422; font-weight: 700;
+}
+.tutorial-panel,
 .journey-checklist,
 .journey-celebration {
   box-sizing: border-box; min-width: 0; padding: 10px 12px; background: #13233a;
   border: 1px solid #1e3450; border-radius: 10px;
 }
-.journey-welcome h2 {
-  margin: 0 0 5px; color: #d9e6ef; font-size: 14px; line-height: 1.3;
+.tutorial-panel { overflow-wrap: anywhere; }
+.tutorial-panel h2 {
+  margin: 0 0 5px; color: #f0f6fb; font-size: 15px; line-height: 1.3;
 }
-.journey-welcome p {
+.tutorial-panel p {
   margin: 0 0 10px; color: #9bb8cc; font-size: 12px; line-height: 1.45;
 }
-.journey-welcome-actions { display: flex; flex-wrap: wrap; gap: 7px; }
+.tutorial-panel .tutorial-lead { color: #d9e6ef; font-size: 13px; font-weight: 700; }
+.tutorial-progress {
+  color: #8fdbb4 !important; font-size: 10px !important; font-weight: 700;
+  letter-spacing: .06em; text-transform: uppercase;
+}
+.tutorial-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; }
+.tutorial-actions button, #tutorial-host > .tutorial-panel > button { min-height: 34px; padding: 6px 10px; border-radius: 6px; cursor: pointer; }
+.tutorial-storage-notice { margin: 8px 0 0 !important; color: #f5d9a3 !important; }
+.tutorial-target {
+  outline: 2px solid #8fdbb4 !important; outline-offset: 3px; border-radius: 5px;
+}
 .journey-secondary-action {
   border: 1px solid #34506a; background: transparent; color: #9bb8cc;
 }
@@ -333,7 +347,9 @@ body { margin: 0; }
 .journey-celebration > span { flex: 1 1 auto; min-width: 0; }
 
 /* The advanced view disclosure is anchored to the compact primary view row. */
-#journey-host, #studio-body, #canvas-host { min-width: 0; }
+#journey-area { display: grid; align-content: start; gap: 8px; min-width: 0; }
+#journey-host, #tutorial-host, #studio-body, #canvas-host { min-width: 0; }
+#tutorial-host:empty { display: none; }
 #canvas-tools { position: relative; z-index: 3; min-width: 0; overflow: visible; }
 #view-toggle-host {
   position: relative; width: auto; min-width: 0; overflow: visible;
@@ -365,6 +381,8 @@ body { margin: 0; }
 }
 #advanced-view-label:focus-visible,
 .journey-bar button:focus-visible,
+.tutorial-panel button:focus-visible,
+#tutorial-title:focus-visible,
 .advanced-view-menu button:focus-visible {
   outline: 2px solid #88d7ef; outline-offset: 2px;
 }

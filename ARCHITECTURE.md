@@ -32,8 +32,14 @@ a page number.
 | Check | Reviews warnings and digital construction checks | Actionable guidance tied to the relevant stage or field |
 | Export | Chooses output settings and generates files | True-scale SVG, DXF, PDF, A0, projector, and tech-pack outputs |
 
-The current first-load welcome is a compact introduction to these stages. It is
-not yet a complete replayable tutorial or field-by-field walkthrough.
+On a first visit, an optional non-modal Welcome introduces a replayable,
+five-step tour through Garment, Measure, Style, Check, and Export. Check and
+Export are sequential parts of the final counted step, and the existing
+readiness checks—not tour progress—control access to export. The tour stores
+only its own progress in local journey state; it does not change design values
+or trigger an export. People can skip it and replay it later. Flagged values
+remain visible with their existing correction guidance, and the walkthrough
+does not claim physical fit or production validation.
 
 ## The system map
 

@@ -3,6 +3,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { mountApp, stageBlockerFromNote } from "./app";
 import { STANDARD_M, draftTshirt, rolePiece } from "../drafting";
 import { pieceHandles, editorViewBox } from "../edit";
+import { loadJourney } from "./journey";
 
 function mount(): HTMLDivElement {
   const root = document.createElement("div");
@@ -1011,6 +1012,7 @@ describe("mountApp", () => {
       expect(root.querySelector<HTMLElement>("#workspace-confirm")!.hidden).toBe(false);
     } finally {
       if (descriptor) Object.defineProperty(document, "activeElement", descriptor);
+      else Reflect.deleteProperty(document, "activeElement");
     }
     root.querySelector<HTMLButtonElement>("#workspace-confirm-cancel")!.click();
   });
@@ -1847,9 +1849,13 @@ describe("guided journey", () => {
     HTMLAnchorElement.prototype.click = vi.fn();
   };
 
-  it("opens the first run on a welcome card with design controls tucked away", () => {
+  it("opens the first run on the approved non-modal Welcome without hiding Garment", () => {
     const root = mount();
-    expect(root.querySelector("#journey-welcome")).not.toBeNull();
+    expect(root.querySelector("#tutorial-panel")?.textContent).toContain("fits your design intent");
+    expect(root.querySelector("#tutorial-panel")?.getAttribute("role")).toBe("region");
+    expect(root.querySelector("#tutorial-host")).not.toBeNull();
+    expect(root.querySelector<HTMLButtonElement>("#journey-next")!.hidden).toBe(true);
+    expect(hidden(root, "#garment-toggle-host")).toBe(false);
     expect(hidden(root, "#controls-panel")).toBe(true);
     expect(hidden(root, "#export-host")).toBe(true);
     expect(hidden(root, "#view-toggle-host")).toBe(false);
@@ -1857,15 +1863,69 @@ describe("guided journey", () => {
     expect(hidden(root, "#style-host")).toBe(true);
   });
 
-  it("starts the tour on Measure: controls appear and the body view teaches", () => {
+  it("starts on Garment, then advances to Measure without choosing a garment", () => {
     const root = mount();
     jclick(root, "welcome-start");
+    expect(root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("start");
+    expect(root.querySelector("#tutorial-title")!.textContent).toContain("Choose what to design");
+    expect(root.querySelector("#garment-toggle-host")!.classList.contains("tutorial-target")).toBe(true);
+    expect(hidden(root, "#controls-panel")).toBe(true);
+    expect(root.querySelector<HTMLButtonElement>("#garment-tee")!.getAttribute("aria-pressed")).toBe("true");
+    expect(root.querySelector<HTMLHeadingElement>("#tutorial-title")!.getAttribute("tabindex")).toBe("-1");
+    expect(root.querySelector("#tutorial-announcement")!.textContent).toBe("Step 2 of 5");
+    expect(root.querySelector<HTMLButtonElement>("#journey-next")!.textContent).toBe("Continue to Measure");
+    jclick(root, "journey-next");
     expect(hidden(root, "#controls-panel")).toBe(false);
-    expect(root.querySelector("#canvas-host")!.innerHTML).toContain("(circ)"); // body view
+    expect(root.querySelector("#canvas-host")!.innerHTML).toContain("(circ)");
     expect(hidden(root, "#view-body")).toBe(false);
     expect(root.querySelector<HTMLElement>("#advanced-views")!.hidden).toBe(false);
     expect(hidden(root, "#export-host")).toBe(true);
     expect(root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("measure");
+  });
+
+  it("suppresses the undecided Welcome when someone navigates directly to another stage", () => {
+    const root = mount();
+    jclick(root, "journey-step-measure");
+    expect(root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("measure");
+    expect(root.querySelector("#tutorial-title")!.textContent).toBe("Need a quick guide?");
+    expect(root.querySelector("#tutorial-replay")!.textContent).toBe("Take the tour");
+    expect(loadJourney().tutorial).toEqual({ status: "suppressed", step: "measure" });
+  });
+
+  it("opens an older saved workspace at Measure without auto-opening the tour", () => {
+    const original = mount();
+    clickId(original, "save-pattern");
+    localStorage.removeItem("patternworks_journey_v1");
+
+    const restored = mount();
+    expect(restored.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("measure");
+    expect(restored.querySelector("#tutorial-replay")?.textContent).toBe("Take the tour");
+    expect(restored.querySelector("#tutorial-title")?.textContent).toBe("Need a quick guide?");
+  });
+
+  it("restores the active tour step and target after a reload", () => {
+    const root = mount();
+    jclick(root, "welcome-start");
+    jclick(root, "journey-next");
+    expect(JSON.parse(localStorage.getItem("patternworks_journey_v1")!).tutorial).toEqual({
+      status: "in_progress", step: "measure",
+    });
+    const reloaded = mount();
+    expect(reloaded.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("measure");
+    expect(reloaded.querySelector("#tutorial-title")!.textContent).toContain("Review measurements");
+    expect(reloaded.querySelector("#controls-panel")!.classList.contains("tutorial-target")).toBe(true);
+  });
+
+  it("keeps the workspace usable and warns when tutorial persistence fails", () => {
+    const root = mount();
+    vi.spyOn(Storage.prototype, "setItem").mockImplementationOnce(() => {
+      throw new Error("storage unavailable");
+    });
+    jclick(root, "welcome-start");
+    expect(root.querySelector(".tutorial-storage-notice")?.textContent)
+      .toContain("progress may not survive a reload");
+    expect(root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("start");
+    expect(root.querySelector("#tutorial-title")!.textContent).toContain("Choose what to design");
   });
 
   it("reaches Export through the reviewed stage path, with exports finally revealed", () => {
@@ -1901,15 +1961,88 @@ describe("guided journey", () => {
     expect(URL.createObjectURL).not.toHaveBeenCalled();
   });
 
-  it("moves Skip to Measure without completing design readiness", () => {
+  it("skips without changing the current stage or design and retains replay", () => {
     const root = mount();
+    const before = root.querySelector<HTMLButtonElement>("#garment-tee")!.getAttribute("aria-pressed");
     jclick(root, "welcome-skip");
-    expect(root.querySelector("#journey-welcome")).toBeNull();
-    expect(hidden(root, "#controls-panel")).toBe(false);
+    expect(root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("start");
+    expect(root.querySelector("#tutorial-replay")!.textContent).toBe("Take the tour");
+    expect(hidden(root, "#controls-panel")).toBe(true);
     expect(hidden(root, "#export-host")).toBe(true);
-    expect(root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("measure");
+    expect(root.querySelector<HTMLButtonElement>("#garment-tee")!.getAttribute("aria-pressed")).toBe(before);
+    expect(JSON.parse(localStorage.getItem("patternworks_journey_v1")!).tutorial.status).toBe("skipped");
     expect(root.querySelector("#journey-host")!.textContent).not.toContain("Tour complete");
     expect(root.querySelector("#readiness-host")!.textContent).not.toContain("5 of 5");
+    clickId(root, "save-pattern");
+    clickId(root, "tutorial-replay");
+    expect(root.querySelector("#tutorial-title")!.textContent).toBe("Welcome");
+    expect(JSON.parse(localStorage.getItem("patternworks_journey_v1")!).tutorial).toEqual({
+      status: "in_progress", step: "welcome",
+    });
+    expect(loadJourney(true).tutorial).toEqual({ status: "in_progress", step: "welcome" });
+    const reloaded = mount();
+    expect(loadJourney(true).tutorial).toEqual({ status: "in_progress", step: "welcome" });
+    expect(reloaded.querySelector("#tutorial-title")!.textContent).toBe("Welcome");
+    expect(reloaded.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("start");
+  });
+
+  it("lets the active tour explain later stages while preserving invalid measurements and the Export gate", () => {
+    const root = mount();
+    jclick(root, "welcome-start");
+    jclick(root, "journey-next"); // Measure
+    setChest(root, "160");
+    const chest = root.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+    expect(chest.value).toBe("160");
+    expect(root.querySelector("#guidance-host")!.textContent).toContain("Chest");
+    jclick(root, "journey-next"); // invalid values stay visible; Style is still explained
+    expect(root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("fit");
+    expect(root.querySelector("#tutorial-title")!.textContent).toContain("Shape the design");
+    expect(chest.value).toBe("160");
+    jclick(root, "journey-next"); // Check is visible, Export remains gated
+    expect(root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("refine");
+    expect(root.querySelector("#canvas-inspection")!.getAttribute("data-inspection-view")).toBe("check");
+    expect(root.querySelector<HTMLDetailsElement>("#guidance-details")!.open).toBe(true);
+    expect(root.querySelector<HTMLDetailsElement>("#readiness-details")!.open).toBe(true);
+    expect(hidden(root, "#export-host")).toBe(true);
+    expect(root.querySelector<HTMLButtonElement>("#journey-next")).toBeNull();
+    expect(root.querySelector<HTMLButtonElement>("#journey-correction")!.textContent).toBe("Review the first flagged item");
+    expect(root.querySelector("#controls-panel input[data-field='chest']")!.getAttribute("value")).not.toBe("160");
+    expect(chest.value).toBe("160");
+    jclick(root, "journey-correction");
+    expect(root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("measure");
+    expect(root.querySelector("#tutorial-title")!.textContent).toContain("Review measurements");
+    expect(root.querySelector<HTMLInputElement>('input[data-field="chest"]')!.value).toBe("160");
+  });
+
+  it("moves focus to the Check correction when a newly flagged value removes Next", () => {
+    const root = mount();
+    document.body.append(root);
+    jclick(root, "welcome-start");
+    jclick(root, "journey-next"); // Measure
+    jclick(root, "journey-next"); // Style
+    jclick(root, "journey-next"); // Check
+    const next = root.querySelector<HTMLButtonElement>("#journey-next")!;
+    next.focus();
+    expect(document.activeElement).toBe(next);
+
+    setChest(root, "160");
+    const correction = root.querySelector<HTMLButtonElement>("#journey-correction")!;
+    expect(root.querySelector("#journey-next")).toBeNull();
+    expect(document.activeElement).toBe(correction);
+  });
+
+  it("finishes without exporting and keeps a replay action", () => {
+    mockDownloads();
+    const root = mount();
+    walkToOutput(root);
+    jclick(root, "tutorial-finish");
+    expect(JSON.parse(localStorage.getItem("patternworks_journey_v1")!).tutorial).toEqual({
+      status: "completed", step: "export",
+    });
+    expect(root.querySelector("#tutorial-replay")!.textContent).toBe("Take the tour");
+    expect(root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("output");
+    expect(URL.createObjectURL).not.toHaveBeenCalled();
+    expect(HTMLAnchorElement.prototype.click).not.toHaveBeenCalled();
   });
 
   it("returns the inspector to the new stage context when navigation changes stage", () => {
@@ -1925,7 +2058,9 @@ describe("guided journey", () => {
     localStorage.setItem("patternworks_journey_v1",
       JSON.stringify({ v: 1, step: "refine", exported: false }));
     const root = mount();
-    expect(root.querySelector("#journey-welcome")).toBeNull();
+    expect(root.querySelector("#tutorial-panel")).not.toBeNull();
+    expect(root.querySelector("#tutorial-replay")?.textContent).toBe("Take the tour");
+    expect(root.querySelector("#tutorial-title")?.textContent).toBe("Need a quick guide?");
     expect(root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("refine");
     expect(root.querySelector("#canvas-inspection")!.getAttribute("data-inspection-view")).toBe("check");
     expect(hidden(root, "#export-host")).toBe(true);
@@ -1933,10 +2068,11 @@ describe("guided journey", () => {
 
   it("steps back with the Back button", () => {
     const root = mount();
-    jclick(root, "welcome-start"); // → measure
-    jclick(root, "journey-next"); // → fit
+    jclick(root, "welcome-start"); // → Garment
+    jclick(root, "journey-next"); // → Measure
+    jclick(root, "journey-next"); // → Style
     expect(hidden(root, "#style-host")).toBe(false);
-    jclick(root, "journey-back"); // → measure again
+    jclick(root, "journey-back"); // → Measure again
     expect(hidden(root, "#style-host")).toBe(true);
     expect(hidden(root, "#controls-panel")).toBe(false);
   });
@@ -1974,7 +2110,8 @@ describe("guided journey", () => {
 
   it("keeps the Slice-30 hover spotlight alive inside the journey", () => {
     const root = mount();
-    jclick(root, "welcome-start"); // measure step renders the body view
+    jclick(root, "welcome-start");
+    jclick(root, "journey-next"); // Measure renders the body view
     root.querySelector<HTMLElement>('[data-dim-row="chest"]')!
       .dispatchEvent(new Event("mouseenter"));
     const groups = [...root.querySelectorAll<SVGGElement>("#canvas-host [data-edge]")];
