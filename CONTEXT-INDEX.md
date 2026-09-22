@@ -93,7 +93,8 @@ snapshots; they are not current status.
 - `docs/planning/EPIC-12-EXECUTION.md` — authorized Web Platform Epic packet:
   threat/data admission, static delivery, identity/sync, feature flags,
   blue/green governance, local Control Center, slice gates and ownership;
-  current work is limited by the launch-cost hold to the no-cost interim lane.
+  current work is limited by the launch-cost hold to the no-cost interim lane;
+  Slice 178 is complete and Slice 179 is next.
 - `docs/planning/EPIC-12-SLICE-175-ADMISSION.md` — current Slice 175
   deferral audit, future launch re-entry decisions, authorized no-cost interim
   work and re-entry gate; it does not authorize login UI or provider mutation.

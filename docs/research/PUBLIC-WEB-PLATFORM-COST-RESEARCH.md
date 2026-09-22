@@ -147,10 +147,12 @@ reversible redesigns—not every pure helper. Every flag must declare owner,
 default, audience, expiry date, OFF behavior, ON behavior, test evidence, and
 removal release. Server authorization and RLS never depend on a client flag.
 
-For Polo V2, `polo_v2` initially defaults off for the public audience, can be
-enabled for explicit testers, then expanded by cohort. The disabled path uses
-Polo V1. The flag does not conceal a migration incompatibility; both paths must
-remain save/data compatible throughout its lifetime.
+For a future launch-backed Polo V2 rollout, `polo_v2` may eventually default
+off for a defined audience only after a compatible V1 fallback exists. Slice
+178 records the current no-cost truth: no V1 renderer remains, so the catalog
+is readiness-only and no public or tester toggle is enabled. A future flag
+must not conceal a migration incompatibility; both paths must remain save/data
+compatible throughout its lifetime.
 
 ## Local Control Center contract
 

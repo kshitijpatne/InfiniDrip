@@ -34,17 +34,24 @@ require MCP wrappers, API-key integrations, or direct model-provider bridging.
 ## Standard operating sequence
 
 1. Codex reads the required repository context and assesses the upcoming work.
-2. Codex decides whether delegation is safe and whether Claude Code or OpenCode
+2. Codex creates or updates a durable goal with the slice boundaries and exit
+   gates, then checks the current usage windows before starting.
+3. Codex decides whether delegation is safe and whether Claude Code or OpenCode
    is the better contributor for the task.
-3. Codex creates a complete handoff packet.
-4. The contributor works in a separate branch and worktree.
-5. The contributor returns machine-readable JSON plus the diff, tests, and
-   evidence requested by the packet.
-6. Codex reviews the result against the full project checklist.
+4. Codex creates a complete handoff packet with disjoint file ownership.
+5. The contributor works in a separate branch and worktree and returns an
+   explicit `WORK FINISHED` signal only after its assigned work is complete.
+6. Codex waits for that signal before checking in, then reviews the actual diff,
+   tests and rendered/output evidence against the full project checklist.
 7. Codex either fixes confirmed issues in a separate Codex branch or sends
    precise follow-up instructions to the contributor.
-8. Only Codex-approved work reaches `main`.
-9. Codex reports the outcome to the product owner and records useful lessons.
+8. Codex paces expensive gates and model use against the usage windows. Luna-max
+   is the default; Terra/Sol are short, high/extra-high-only exceptions, Astra
+   and max reasoning are not used for routine development. If a limit is near
+   exhaustion, Codex stops at a verified boundary, records the handoff state
+   and resumes after capacity returns.
+9. Only Codex-approved work reaches `main`.
+10. Codex reports the outcome to the product owner and records useful lessons.
 
 ## Delegation decision
 

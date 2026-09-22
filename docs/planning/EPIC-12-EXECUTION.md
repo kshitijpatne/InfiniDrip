@@ -1,7 +1,7 @@
 # EPIC 12 — Public Web Platform and Delivery Governance
 
-Status: **SLICES 171–174 AND 176–177 COMPLETE; SLICE 175 DEFERRED BY THE
-LAUNCH-COST HOLD; NO-COST INTERIM SLICES 178–181 SCOPED**
+Status: **SLICES 171–174 AND 176–178 COMPLETE; SLICE 175 DEFERRED BY THE
+LAUNCH-COST HOLD; NO-COST INTERIM SLICES 179–181 SCOPED**
 
 Owner: **Codex**. Claude Code and OpenCode may contribute only bounded,
 isolated audits or mechanical work under `docs/OPENCODE-WORKFLOW.md`. Codex
@@ -264,7 +264,7 @@ the unique monotonically increasing commit rule, and the corrected future
 sequence are recorded in durable context and the local Control Center. Slice
 177 is now assigned to this planning decision and must not be reused.
 
-### Slice 178 — embedded feature lifecycle and Polo rollout readiness — no-cost scope
+### Slice 178 — embedded feature lifecycle and Polo rollout readiness — complete
 
 Implement and test the repository-local portion of the flag contract: typed
 flag metadata, embedded safe defaults, explicit owner/audience/expiry,
@@ -278,10 +278,18 @@ fallback is absent, the accepted result is a readiness record and safe local
 flag infrastructure with no live Polo switch. No flag may hide invalid
 geometry or act as authorization.
 
-Acceptance: all local default/unknown/stale/expiry paths are covered; the
-flagged and unflagged contracts preserve save compatibility; diagnostics are
-truthful; no network, provider account, database, profile or personal data is
-required; and a missing Polo V1 fallback is reported rather than fabricated.
+Implementation: `src/platform/feature-flags.ts` and its focused test suite
+provide typed metadata, embedded defaults, deterministic local overrides,
+unknown/stale/expiry diagnostics and explicit readiness-only handling. The
+catalog records `polo_v2` with no compatible V1 fallback, so no runtime toggle
+was wired. Existing legacy-save compatibility remains covered by
+`src/ui/persist.test.ts` and no save-version, drafting, export or geometry
+behavior changed.
+
+Verified: the full suite passes 105 files / 1,421 tests with 100% statements,
+branches, functions and lines; strict TypeScript and the production build
+pass. Claude's read-only audit confirmed that a Polo V1 renderer does not
+exist, so a kill switch would have been dishonest. Slice 179 is next.
 
 ### Slice 179 — repository/local delivery and rollback rehearsal — no-cost scope
 
@@ -330,13 +338,13 @@ documentation/evidence result.
 ## Parallel tracks and ownership
 
 Tracks 172 (local board), 173 (provider-independent delivery proof), 176
-(preview noindex hardening) and 177 (the no-cost decision/re-sequencing record)
-are complete. No-cost Slice 178 depends on the existing flag and Polo
-contracts, Slice 179 depends on 173, and the Slice 180 dry-run depends on the
-local portions of 178 and 179. Slice 181 follows those dry-runs. Slice 175 and
-all provider-backed portions of 178–180 remain a separate launch track and are
-not dependencies for the no-cost interim. None of these tracks may modify
-drafting geometry or export writers.
+(preview noindex hardening), 177 (the no-cost decision/re-sequencing record)
+and 178 (the local flag/readiness contract) are complete. Slice 179 depends on
+173 and 178, and the Slice 180 dry-run depends on the local portions of 179.
+Slice 181 follows those dry-runs. Slice 175 and all provider-backed portions
+of 179–180 remain a separate launch track and are not dependencies for the
+no-cost interim. None of these tracks may modify drafting geometry or export
+writers.
 
 Claude Code may perform a bounded threat-model or RLS adversarial review.
 OpenCode may perform isolated Control Center rendering, fixture and CI-mechanical

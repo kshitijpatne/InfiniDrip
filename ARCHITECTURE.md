@@ -662,6 +662,14 @@ no-cost portions of Slices 178–181 remain authorized. Slice 176 is already
 assigned to the preview noindex hardening, Slice 177 is assigned to the
 no-cost hold/re-sequencing decision, and neither number may be reused.
 
+Slice 178 adds only the repository-local feature-flag contract at
+`src/platform/feature-flags.ts`. Its `polo_v2` entry is a readiness-only record
+with an embedded safe default and no compatible V1 fallback; it is not wired to
+runtime geometry and cannot act as authorization or hide invalid state. Legacy
+Polo saves continue through the existing V2 pipeline without a save-version
+bump. Slice 178's full 105-file / 1,421-test, 100%-coverage gate passed, and
+Slice 179 is the next no-cost delivery-rehearsal boundary.
+
 The future web layer is additive. A static immutable Vite artifact may be
 served publicly without changing drafting or export truth. Auth/profile/cloud
 workspace data are separate owner-scoped records with deny-by-default RLS and

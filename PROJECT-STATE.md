@@ -1,7 +1,7 @@
 # InfiniDrip — Project State
 
-_Last updated: launch-cost hold and no-cost Epic 12 interim re-scope,
-2026-09-21.
+_Last updated: Slice 178 local feature lifecycle complete; Slice 179 next,
+2026-09-22.
 Epics 7, 9 and 10 are implemented, Codex-reviewed, documented and pushed to
 `origin/main`. Epic 11 implementation has completed the shaped collar/stand,
 placket-base, vent/drop, front/back preview/control/report and downstream
@@ -183,7 +183,30 @@ no provider, account, database, auth path, personal-data flow or application
 runtime behavior changed. Slice 177 is now assigned to this decision and must
 not be reused.
 
-### Slices 171–174 and 176–177 complete; Slice 175 deferred; no-cost interim 178–181 scoped
+### Slice 178 — local feature lifecycle and Polo rollout readiness complete
+
+The repository-local flag contract is implemented in
+`src/platform/feature-flags.ts` with typed metadata for owner, audience,
+default, expiry, ON/OFF behavior, removal release, rollout mode and fallback
+availability. Unknown keys, stale/invalid expiry metadata, embedded defaults,
+deterministic local overrides and readiness-only flags return explicit,
+truthful diagnostics. The catalog records `polo_v2` as readiness-only with no
+compatible V1 fallback; no live toggle is wired and no V1 renderer was
+invented.
+
+Claude's read-only source audit confirmed that Polo V1 geometry was replaced
+in place and that legacy saves feed the current V2 pipeline rather than a
+parallel V1 renderer. Existing persistence coverage continues to prove that
+pre-Epic-11 option maps load without a save-version bump. No drafting,
+persistence, export, provider, network, account or personal-data behavior
+changed.
+
+The full gate passes 105 files / 1,421 tests with 100% statements, branches,
+functions and lines; strict TypeScript, production build, focused flag tests,
+deterministic export identity and parsed/rendered consumer coverage pass. Slice
+179 is now the next no-cost implementation slice.
+
+### Slices 171–174 and 176–178 complete; Slice 175 deferred; no-cost interim 179–181 scoped
 
 The maintainer authorized the Public Web Platform and Delivery Governance
 Epic after Epic 11. The execution packet is
@@ -225,7 +248,7 @@ checklist. Slice 175 is deferred by the cost hold, not treated as a current
 engineering blocker. Login/profile UI, auth, database, cloud sync and
 personal-data work remain out of scope.
 
-`npm test` passes 104 files / 1,415 tests; strict TypeScript, the production
+`npm test` passes 105 files / 1,421 tests; strict TypeScript, the production
 build, focused Node tests and the deterministic manifest gate pass. The web
 delivery workflow repeats these gates on every production push. No launch
 domain, paid subscription, identity provider, database schema, email sender,
@@ -236,9 +259,8 @@ The reviewed Slice 172–173 implementation and automated delivery workflow are
 pushed to `origin/main` at `6ac4edd`; Slice 174 and the Slice 175 admission
 audit remain documentation-only until launch is explicitly reopened.
 
-The next safe work is the no-cost interim track: Slice 178's embedded flag
-contract and Polo rollout readiness, Slice 179's repository/local delivery and
-rollback rehearsal, Slice 180's provider-neutral synthetic readiness drill,
+The next safe work is Slice 179's repository/local delivery and rollback
+rehearsal, followed by Slice 180's provider-neutral synthetic readiness drill
 and Slice 181's preview-only/no-cost exit. Remote flags, provider promotion,
 hosted monitoring, auth, database, email, cloud data and personal-data
 collection remain deferred. The garment queue begins only after this interim

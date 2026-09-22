@@ -541,3 +541,24 @@ data collection still require their own explicit gate.
   track is complete and the maintainer schedules the next family. Its order
   remains casual woven shorts, adult crewneck sweatshirt, adult knit jogger,
   pullover-hoodie extension, then rigid five-pocket jeans.
+
+## Slice 178 local feature lifecycle and Polo readiness — complete 2026-09-22
+
+- The no-cost local flag contract is implemented in
+  `src/platform/feature-flags.ts`. Definitions declare owner, audience,
+  embedded default, expiry, ON/OFF behavior, removal release, rollout mode and
+  fallback availability. Unknown, stale/invalid-expiry and readiness-only
+  outcomes are disabled and return explicit diagnostics; deterministic local
+  overrides exist only as a contract/test input, not as a hosted control plane.
+- The catalog records `polo_v2` as readiness-only with `fallback: none` and no
+  live switch. A read-only source audit verified that no Polo V1 renderer or
+  parallel recipe remains; the former V1 path was replaced in place. Existing
+  legacy-save compatibility remains the current V2 pipeline and was not
+  changed.
+- No provider, network, account, database, profile, personal-data, drafting,
+  persistence, export or authorization behavior was added. Full application
+  tests and 100% coverage pass at 105 files / 1,421 tests, with strict
+  TypeScript and the production build passing.
+- Slice 179 is the next no-cost boundary: repository/local delivery identity,
+  freeze, smoke, rollback and incident rehearsal. Remote flags and the real
+  Polo rollout remain deferred until launch is explicitly reopened.

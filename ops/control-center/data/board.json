@@ -10,7 +10,7 @@
     { "id": "EPIC-10", "title": "Quality and adversarial hardening", "status": "Closed", "owner": "Codex", "description": "Seeded properties, geometry oracle and hostile-input hardening.", "evidenceRefs": ["E-EPIC10-EXIT"] },
     { "id": "EPIC-11", "title": "Polo V2 fidelity refinement", "status": "Closed", "owner": "Codex", "description": "Shaped collar/stand, vents, dropped hem and downstream pressure matrix.", "evidenceRefs": ["E-EPIC11-EXIT"] },
     { "id": "EPIC-GARMENT-RESEARCH", "title": "Garment expansion research wave", "status": "Closed", "owner": "Codex", "description": "Shorts, sweatshirt/hoodie, jogger and jeans research records.", "evidenceRefs": ["E-GARMENT-WAVE", "E-HISTORIC-INCOMPLETE"] },
-    { "id": "EPIC-12", "title": "Public Web Platform and Delivery Governance", "status": "In Progress", "owner": "Codex", "description": "No-cost local delivery, feature-lifecycle and readiness work; launch-backed identity, sync and public-beta operations remain deferred.", "evidenceRefs": ["E-EPIC12-S171", "E-S172-S173", "E-EPIC12-S174", "E-EPIC12-S175"] }
+    { "id": "EPIC-12", "title": "Public Web Platform and Delivery Governance", "status": "In Progress", "owner": "Codex", "description": "No-cost local delivery, feature-lifecycle and readiness work; launch-backed identity, sync and public-beta operations remain deferred.", "evidenceRefs": ["E-EPIC12-S171", "E-S172-S173", "E-EPIC12-S174", "E-EPIC12-S175", "E-EPIC12-S178"] }
   ],
   "releases": [
     { "id": "REL-EPIC-11", "title": "Polo V2 digital release", "status": "Accepted", "evidenceRefs": ["E-EPIC11-EXIT"] },
@@ -284,10 +284,10 @@
       "title": "Embedded feature lifecycle and Polo rollout readiness",
       "epicId": "EPIC-12",
       "releaseId": "REL-PLATFORM-FOUNDATION",
-      "status": "Ready",
+      "status": "Closed",
       "openedAt": "2026-09-21",
       "targetAt": null,
-      "deliveredAt": null,
+      "deliveredAt": "2026-09-22",
       "priority": "P1",
       "risk": "high",
       "owner": "Codex",
@@ -299,10 +299,13 @@
       "expectation": "Flags are typed, truthful and reversible locally, while a missing compatible Polo V1 fallback prevents a fabricated public kill switch.",
       "acceptanceCriteria": ["Embedded defaults and flag metadata are typed", "Unknown, stale and expiry paths are visible and covered", "No network, provider, database, profile or personal-data path is required", "Save compatibility is preserved", "Polo V1 fallback availability is explicitly proved or the live toggle remains withheld"],
       "statusHistory": [
-        { "status": "Ready", "at": "2026-09-21T00:00:00Z", "actor": "Codex", "note": "No-cost feature work is ready after the Slice 177 planning/re-sequencing record." }
+        { "status": "Ready", "at": "2026-09-21T00:00:00Z", "actor": "Codex", "note": "No-cost feature work is ready after the Slice 177 planning/re-sequencing record." },
+        { "status": "In Progress", "at": "2026-09-22T00:00:00Z", "actor": "Codex", "note": "Local flag contract and Polo fallback audit started; provider-backed rollout remains deferred." },
+        { "status": "In Review", "at": "2026-09-22T00:00:00Z", "actor": "Codex", "note": "Focused flag tests, full application gates and read-only Polo source audit assembled." },
+        { "status": "Closed", "at": "2026-09-22T00:00:00Z", "actor": "Codex", "note": "Local contract accepted; polo_v2 remains readiness-only because no compatible V1 renderer exists." }
       ],
       "comments": [{ "at": "2026-09-21T00:00:00Z", "actor": "Codex", "text": "Remote flags, cohort targeting and provider-backed rollout remain deferred." }],
-      "evidenceRefs": [],
+      "evidenceRefs": ["E-EPIC12-S178"],
       "flagKey": null
     },
     {
@@ -402,6 +405,7 @@
     { "id": "E-EPIC12-S174", "kind": "decision", "uri": "docs/research/IDENTITY-CLOUD-WORKSPACE-RESEARCH.md", "commit": null, "sha256": null, "verified": true, "note": "Provider-independent identity/cloud contract and blocking legal/product decision record; no provider mutation." },
     { "id": "E-EPIC12-S175", "kind": "decision", "uri": "docs/planning/EPIC-12-SLICE-175-ADMISSION.md", "commit": "1967b2d", "sha256": null, "verified": true, "note": "Slice 175 admission audit; implementation is deferred by the launch-cost hold until launch is explicitly reopened." },
     { "id": "E-EPIC12-S176", "kind": "commit", "uri": "index.html", "commit": "ae1afe8", "sha256": null, "verified": true, "note": "Static preview noindex hardening; no drafting, persistence, export, account or data behavior changed." },
-    { "id": "E-EPIC12-S177", "kind": "decision", "uri": "ops/control-center/data/evidence/SLICES-177.md", "commit": null, "sha256": "68796fd6c862028fe552d43e9fac6bfcccf8d375c345cdabbf3976eb8af81f09", "verified": true, "note": "No-cost hold, future sequence correction and unique slice-number workflow; verified by the evidence-file SHA-256 so the containing commit need not self-reference." }
+    { "id": "E-EPIC12-S177", "kind": "decision", "uri": "ops/control-center/data/evidence/SLICES-177.md", "commit": null, "sha256": "68796fd6c862028fe552d43e9fac6bfcccf8d375c345cdabbf3976eb8af81f09", "verified": true, "note": "No-cost hold, future sequence correction and unique slice-number workflow; verified by the evidence-file SHA-256 so the containing commit need not self-reference." },
+    { "id": "E-EPIC12-S178", "kind": "test", "uri": "ops/control-center/data/evidence/SLICES-178.md", "commit": null, "sha256": "944e30a645933ce79e851af41d8271255dc9247b074cd6268f02e254d7b647f3", "verified": true, "note": "Slice 178 local flag/readiness evidence; verified by evidence-file SHA-256 so the containing commit need not self-reference." }
   ]
 }
