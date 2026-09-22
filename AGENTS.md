@@ -52,7 +52,9 @@ is authoritative for maintainer decisions that are not derivable from code.
   when the task genuinely needs them; never use Astra or max reasoning for
   routine development. If a limit is near exhaustion, stop at the last
   verified boundary without committing partial work and resume when capacity
-  returns.
+  returns. If weekly remaining capacity falls below 20% before the goal is
+  complete, pause the goal immediately and resume only after explicit
+  maintainer approval.
 - For every slice, identify independent, low-risk work that can be delegated
   to Claude Code or OpenCode. Use a separate worktree, a precise handoff and
   disjoint file ownership; require the contributor's explicit `WORK FINISHED`
