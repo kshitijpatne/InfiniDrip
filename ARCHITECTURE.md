@@ -134,6 +134,8 @@ adds a localhost-only Node service and browser authoring through that boundary,
 including item detail editing, workflow actions, evidence/notes/history,
 search, filters and explicit save states. Static and evidence routes are
 allowlisted; evidence resolution rejects paths outside the repository.
+Slice 186 verified UI save/reload persistence on an isolated local board and
+closed the v2 exit without changing application drafting or export behavior.
 
 The provider-neutral web manifest and local delivery/readiness rehearsals under
 `ops/web/` and `ops/readiness/` prove local behavior only. They do not create a

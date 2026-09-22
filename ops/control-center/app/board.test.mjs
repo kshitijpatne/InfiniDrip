@@ -8,12 +8,12 @@ test("canonical board validates and summarizes its tracked work", () => {
   assert.deepEqual(result, { valid: true, errors: [] });
   const summary = summarizeBoard(board);
   assert.equal(summary.epics, 9);
-  assert.equal(summary.workItems, 17);
-  assert.equal(summary.evidence, 23);
-  assert.equal(summary.statusCounts.Done, 16);
+  assert.equal(summary.workItems, 18);
+  assert.equal(summary.evidence, 24);
+  assert.equal(summary.statusCounts.Done, 17);
   assert.equal(summary.statusCounts.Backlog, 1);
   assert.equal(summary.statusCounts.Ready ?? 0, 0);
-  assert.match(renderSummary(board), /17/);
+  assert.match(renderSummary(board), /18/);
   assert.match(renderItemList(board.workItems, "SLICE-184"), /SLICE-184/);
 });
 

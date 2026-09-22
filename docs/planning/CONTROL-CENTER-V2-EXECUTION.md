@@ -1,6 +1,6 @@
 # Control Center v2 — local authoring execution packet
 
-Status: **AUTHORIZED; SLICES 184–186 ACTIVE**
+Status: **COMPLETE; SLICES 184–186 ACCEPTED**
 
 Owner: **Codex**. Claude Code and OpenCode may perform bounded read-only audits
 or isolated UI polish under `docs/OPENCODE-WORKFLOW.md`; Codex owns the shared
@@ -116,7 +116,7 @@ Acceptance:
 
 ## Roadmap position
 
-- **Now:** Control Center v2, Slices 184–186.
-- **Next:** first-load tutorial refinement, after the v2 exit discussion.
+- **Complete:** Control Center v2, Slices 184–186.
+- **Next:** maintainer discussion, then first-load tutorial refinement.
 - **Later:** garment/artwork workflow, cross-garment quality matrix, then the
   separately discussed garment queue.

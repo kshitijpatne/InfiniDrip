@@ -1,8 +1,8 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 185 Control Center v2 local authoring complete; live exit
-verification follows in Slice 186 while launch-backed Epic 12
-work remains deferred, 2026-09-22.
+_Last updated: Slice 186 Control Center v2 exit complete; maintainer discussion
+precedes the garment queue while launch-backed Epic 12 work remains deferred,
+2026-09-22.
 Epics 7, 9 and 10 are implemented, Codex-reviewed, documented and pushed to
 `origin/main`. Epic 11 implementation has completed the shaped collar/stand,
 placket-base, vent/drop, front/back preview/control/report and downstream
@@ -69,8 +69,23 @@ literal title/slice/body text, and combine status/owner/priority/type filters.
 Clean, unsaved, saving, saved, stale and error states are visible. Failed
 saves retain the form. The responsive 375px layout has no horizontal overflow.
 No account, auth, cloud, event log, provider, notification, monitoring,
-garment, drafting or export behavior was added. Slice 186 is next for the v2
-exit pressure test, final live reload proof and complete project gates.
+garment, drafting or export behavior was added.
+
+### Slice 186 — Control Center v2 exit and durable verification complete
+
+An isolated local browser run saved an item through the UI, reloaded the page,
+reselected the item and confirmed the edit persisted without console warnings
+or errors. The canonical board was not used as the mutation fixture. The
+focused Control Center suite remains 21/21; the full application gate is
+105/105 files and 1,421/1,421 tests, coverage is 100%, the strict build passes,
+and protected export regression/identity gates remain 8/8 and 9/9 with no
+baseline movement. The no-cost local Control Center v2 is complete.
+
+Before garment queue work, the maintainer discussion gate remains open for the
+first-load tutorial, conservative repository cleanup, delivery-board follow-up,
+garment/artwork refinement, and README/ARCHITECTURE pressure testing. No
+launch-backed identity, database, cloud, hosted service or recurring cost is
+authorized.
 
 ### Post-merge PR audit — 2026-09-21
 

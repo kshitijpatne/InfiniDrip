@@ -26,6 +26,8 @@ is authoritative for maintainer decisions that are not derivable from code.
   explicitly reopens launch readiness. Login, profiles, cloud sync, databases,
   email, hosted monitoring, paid governance, code signing and provider-backed
   features remain deferred.
+- Slices 184–186 complete the no-cost local Control Center v2. Before any
+  garment queue begins, the maintainer must discuss and schedule the next work.
 - Epic 8 is closed as a proof-only/no-go result. Its retained future scope is
   a bounded external-solver helper/adapter proof, not a clone or replacement
   nesting engine; `nestPieces` remains the default and fallback.

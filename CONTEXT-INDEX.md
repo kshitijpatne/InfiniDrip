@@ -59,9 +59,10 @@ snapshots; they are not current status.
   preview-only/no-cost exit, final verification, launch re-entry boundary and
   maintainer discussion gate; it does not claim authenticated beta or
   production readiness.
-- Slices 183–185 complete the documentation pass, Control Center v2 schema and
-  command layer, and local browser authoring. `board.json` remains canonical;
-  Slice 186 live exit verification is the immediate next work.
+- Slices 183–186 complete the documentation pass and no-cost local Control
+  Center v2: schema, shared command layer, browser authoring, and isolated
+  save/reload exit verification. `board.json` remains canonical. The next
+  action is a maintainer discussion before the garment queue.
 
 ## Planning documents
 
