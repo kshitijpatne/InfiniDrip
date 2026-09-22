@@ -64,10 +64,11 @@ snapshots; they are not current status.
   remains canonical. The approved Phases 1–9 pre-garment sequence is active in
   `docs/planning/PRE-GARMENT-EXECUTION.md` and the board. Do not start a garment
   queue before its final gate and explicit maintainer approval.
-- Phase 2's first-pass repository and newcomer audit is recorded in
+- Phase 2's read-only repository and newcomer audit is complete and recorded in
   `docs/planning/REPOSITORY-AND-NEWCOMER-AUDIT.md`. No files or history were
-  removed or rewritten; it is awaiting the maintainer's decision on the one
-  possible de-tracking candidate before Phase 3 tutorial research begins.
+  removed or rewritten; the personal resume-staging archive remains tracked
+  under the non-destructive default. Phase 3 tutorial research/specification is
+  now in progress; implementation waits for its implementation-ready spec.
 
 ## Planning documents
 

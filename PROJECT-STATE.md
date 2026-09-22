@@ -1,7 +1,7 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 188 repository and newcomer audit; Phase 2 is awaiting
-maintainer review of one possible cleanup target before Phase 3, 2026-09-22.
+_Last updated: Slice 189 accepted Phase 2 and activated Phase 3 tutorial
+research/specification, 2026-09-22.
 Epics 7, 9 and 10 are implemented, Codex-reviewed, documented and pushed to
 `origin/main`. Epic 11 implementation has completed the shaped collar/stand,
 placket-base, vent/drop, front/back preview/control/report and downstream
@@ -112,11 +112,12 @@ untracked coverage logs and `tmp/` were preserved. The superseded apparel
 resource list is explicitly retained for provenance; the local launch presets
 are optional tooling rather than build inputs.
 
-The only possible de-tracking candidate is `docs/archive/RESUME-LOG.md`, a
-personal proof/resume staging record that is referenced by older planning and
-handoff documents. No deletion or reference change is authorized by this
-first-pass audit. Phase 2 is awaiting the maintainer's choice; the next
-sequence item after review is the tutorial research/specification in Phase 3.
+The audit identified `docs/archive/RESUME-LOG.md` as a possible de-tracking
+candidate because it is personal resume staging rather than current project
+status. It remains tracked under the non-destructive default; removing it later
+would require explicit authorization and repair of older references. Phase 2
+was accepted without deletion or history rewrite; Phase 3 is now the active
+tutorial research/specification item.
 
 The newcomer review found that the five-stage flow, local boundary, outputs,
 and physical-validation disclaimer are understandable at a high level. The
@@ -135,6 +136,14 @@ Current usage policy: pause when the primary usage window is exhausted and
 resume automatically after reset; the weekly meter is informational. No
 launch-backed identity, database, cloud, hosted service, or recurring cost is
 authorized.
+
+### Slice 189 — accept Phase 2 and activate tutorial specification
+
+Phase 2 is accepted without deletion or history rewriting. The canonical board
+records `PREQUEUE-PHASE-02` as `Done` and `PREQUEUE-PHASE-03` as `In Progress`;
+the latter follows the approved order and implementation remains gated on the
+Phase 3 specification. Board revision 24 includes separate closure evidence
+`E-PREQUEUE-PHASE2-CLOSURE`. `npm run control-center:test` passed 25/25.
 
 ### Post-merge PR audit — 2026-09-21
 

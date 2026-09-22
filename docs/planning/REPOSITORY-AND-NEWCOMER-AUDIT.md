@@ -30,10 +30,11 @@ primary checkout are user-owned and were left untouched.
 | Possible de-tracking candidate | `docs/archive/RESUME-LOG.md` is described by `CONTEXT-INDEX.md` as a personal proof/resume staging record, not current project status or implementation instructions. It is referenced by `PROJECT-STATE.md`, `docs/planning/ROADMAP.md`, `docs/planning/SLICES-BRIEF.md`, and the archived handoff. | Do not remove in this first pass. If the maintainer wants it out of the current tree, first decide how to repair those references; the Git history would remain unless separately authorized. |
 | Optional local-tooling configuration | `.claude/launch.json` contains local Vite attach/run launch presets. Its adding commit explicitly describes it as a dev-server preview config; the presets are not required by build or tests. | No removal proposed: it is an intentional convenience, and its use by local tooling outside the repository is unknown. |
 
-No high-confidence accidental or generated tracked file was found. The only
-cleanup decision surfaced for the maintainer is whether the personal
-`RESUME-LOG.md` belongs in the current repository tree. No removal is part of
-this audit.
+No high-confidence accidental or generated tracked file was found. The
+personal `RESUME-LOG.md` is retained as historical supporting documentation;
+no exact removal was authorized, so no files were deleted. A later request to
+de-track it should repair its current references in the same change; this would
+not erase its content from earlier Git history.
 
 ## Historical slice-number check
 
@@ -93,13 +94,15 @@ facts during Phase 5, after the tutorial matches the product. No edits to
 
 ## Review boundary
 
-The first-pass audit is recorded; cleanup remains non-destructive. The board
-item stays in review until the maintainer decides whether to de-track
-`docs/archive/RESUME-LOG.md` and approves any reference updates. The next
-planned development item, once Phase 2 is accepted, is Phase 3: research and
-specify the first-load tutorial before implementation.
+The read-only audit is complete and accepted without cleanup or history
+rewrites. The `RESUME-LOG.md` candidate remains tracked under the
+non-destructive default; no later removal is implied. Phase 3 is now active:
+research and specify the first-load tutorial before implementation.
 
-The review packet was linked to the Phase 2 board item and the UI transition to
-`Review` persisted at board revision 19. `npm run control-center:test` passed
-25/25 tests, and `git diff --check` passed. No application source or export
-baseline was changed.
+The review packet was linked to the Phase 2 board item at board revision 19;
+the item was subsequently accepted as `Done` at revision 20 with closure
+transition evidence. Separate closure evidence `E-PREQUEUE-PHASE2-CLOSURE`
+records the non-destructive disposition at revision 24. The Phase 3 item
+reached `In Progress` at revision 23.
+`npm run control-center:test` passed 25/25 tests, and `git diff --check`
+passed. No application source or export baseline was changed.
