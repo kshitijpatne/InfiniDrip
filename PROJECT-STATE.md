@@ -1,12 +1,37 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 181 no-cost interim exit complete; launch-backed Epic 12
-work remains deferred, 2026-09-22.
+_Last updated: Slice 183 documentation and architecture orientation pass
+complete; launch-backed Epic 12 work remains deferred, 2026-09-22.
 Epics 7, 9 and 10 are implemented, Codex-reviewed, documented and pushed to
 `origin/main`. Epic 11 implementation has completed the shaped collar/stand,
 placket-base, vent/drop, front/back preview/control/report and downstream
 pressure-matrix slices and the durable exit handoff. Physical validation and
 production readiness remain unverified._
+
+### Slice 183 — documentation and repository-truth pass
+
+Slice 183 rewrites `README.md` as the current newcomer-facing product
+overview and replaces the mixed current/history `ARCHITECTURE.md` with a
+short orientation guide. The complete pre-Slice-183 architecture document is
+preserved in `docs/archive/ARCHITECTURE-HISTORY.md` as historical evidence;
+the archive is not current instruction.
+
+The rewrite records the current seven-recipe local-first boundary, five-stage
+journey, digital-only validation boundary, surface-artwork limitation, Epic 8
+proof-only/no-go scope, Epic 11 completion, Slice 181 no-cost exit, and Slice
+182 usage-pause rule. No implementation code, export baseline, dependency, or
+launch-backed service changed.
+
+Repository cleanup remains conservative: the known untracked `coverage-p1.log`,
+`p1-focused.log`, and `tmp/` artifacts were preserved; tracked release,
+research, archive, and local tooling evidence was not removed. Historical
+duplicate Slice subjects remain unchanged because normalizing them requires a
+commit-history rewrite and explicit maintainer authorization.
+
+The next boundary is Control Center v2. Its display improvements are
+no-cost, but the canonical authoring/write path and contributor/reviewer
+transition workflow still require maintainer clarification before
+implementation.
 
 ### Post-merge PR audit — 2026-09-21
 

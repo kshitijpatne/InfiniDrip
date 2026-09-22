@@ -32,7 +32,9 @@ snapshots; they are not current status.
 ## Current status documents
 
 - `PROJECT-STATE.md` — engineering status log and immediate roadmap.
-- `ARCHITECTURE.md` — implemented architecture and standing principles.
+- `ARCHITECTURE.md` — newcomer-readable current architecture and standing
+  principles. Its former mixed current/history narrative is preserved in
+  `docs/archive/ARCHITECTURE-HISTORY.md`.
 - `docs/BUG-LEDGER.md` — durable UI/UX bug IDs, severity, priority, root cause,
   fix, and verification history.
 - `README.md` — user-facing project overview; useful but less authoritative than
@@ -57,6 +59,9 @@ snapshots; they are not current status.
   preview-only/no-cost exit, final verification, launch re-entry boundary and
   maintainer discussion gate; it does not claim authenticated beta or
   production readiness.
+- Slice 183's documentation pass is complete. The next work boundary is the
+  local Control Center v2 decision gate; its canonical authoring/write path and
+  contributor/reviewer transition workflow are not yet fixed.
 
 ## Planning documents
 
@@ -204,6 +209,8 @@ snapshots; they are not current status.
 - `docs/archive/FABLE-BRIEF.md` — completed Fable F1/F2 epic specification.
 - `docs/archive/RESUME-LOG.md` — personal proof/resume staging record, not project
   status or implementation instructions.
+- `docs/archive/ARCHITECTURE-HISTORY.md` — complete pre-Slice-183 architecture
+  snapshot; historical evidence only, not current instructions.
 
 ## Superseded material
 

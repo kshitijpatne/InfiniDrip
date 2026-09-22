@@ -617,3 +617,21 @@ data collection still require their own explicit gate.
   packet, the maintainer will discuss the first-load tutorial, repository
   cleanup/history question, local delivery board, garment UI/artwork work and
   README/ARCHITECTURE rewrite.
+
+## Slice 183 documentation and next decision gate — complete 2026-09-22
+
+- `README.md` is now the concise newcomer-facing overview of the current
+  seven-recipe, local-first product. It does not claim physical fit,
+  production readiness, an authenticated beta, or a hosted user workspace.
+- `ARCHITECTURE.md` is now a current orientation guide. Its former mixed
+  current/history contents are preserved verbatim in
+  `docs/archive/ARCHITECTURE-HISTORY.md`, which is historical evidence only.
+- Repository cleanup is non-destructive: known local logs and `tmp/` remain
+  untouched; tracked release, research, archive, and tooling evidence remains
+  in place. Existing duplicate Slice subjects are not rewritten.
+- The next implementation boundary is the local Control Center. Before its
+  v2 authoring work begins, the maintainer must clarify whether board writes
+  are CLI-only or may be initiated in the local UI, which file/event is the
+  canonical persistent source, and how contributor/reviewer transitions are
+  authorized. Display-only filtering, search, details, history, and evidence
+  navigation remain no-cost candidates but must respect that boundary.
