@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 63,
-  "updatedAt": "2026-09-23T19:16:23.846Z",
+  "revision": 83,
+  "updatedAt": "2026-09-23T20:08:21.174Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -2125,6 +2125,649 @@
           "actor": "Local maintainer",
           "role": "maintainer",
           "note": "Add the maintainer-approved pre-garment sequence in its approved order.",
+          "evidenceRefs": []
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [],
+      "flagKey": null
+    },
+    {
+      "id": "CAPABILITY-G01",
+      "type": "epic",
+      "title": "G01 Admission and professional baseline",
+      "epicId": null,
+      "releaseId": null,
+      "status": "Backlog",
+      "openedAt": "2026-09-23",
+      "targetAt": "2026-11-13",
+      "deliveredAt": null,
+      "priority": "P0",
+      "risk": "medium",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": [
+        "PREQUEUE-PHASE-09"
+      ],
+      "protectedSurfaces": [
+        "local-first product",
+        "export byte identity",
+        "100% coverage",
+        "maintainer gates"
+      ],
+      "description": "Future capability goal G01. Detailed planned packets and evidence: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md. Baseline start: 2026-10-05. Planned work: 5–8 landed slices. Context: Immediately parallel: research/parity, measurement, tech-pack, 3D evidence and garment packet lanes. Target dates are conditional; no Phase 9, garment, launch-cost, supplier-contact, or physical-sampling gate is overridden.",
+      "expectation": "A-01–A-12 ownership, acceptance thresholds and unresolved facts recorded; professional parity matrix and scope decisions accepted.",
+      "acceptanceCriteria": [
+        "Complete every G01 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
+        "A-01–A-12 ownership, acceptance thresholds and unresolved facts recorded; professional parity matrix and scope decisions accepted.",
+        "Record reviewed code/output evidence, residual limitations, actual completion date, and downstream reforecast before Done."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-09-23T20:05:05.519Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "Register maintainer-directed, conditional post-Phase-9 roadmap without opening its gated work.",
+          "evidenceRefs": []
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [],
+      "flagKey": null
+    },
+    {
+      "id": "CAPABILITY-G02",
+      "type": "epic",
+      "title": "G02 Versioned style foundation",
+      "epicId": null,
+      "releaseId": null,
+      "status": "Backlog",
+      "openedAt": "2026-09-23",
+      "targetAt": "2027-02-12",
+      "deliveredAt": null,
+      "priority": "P0",
+      "risk": "high",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": [
+        "CAPABILITY-G01"
+      ],
+      "protectedSurfaces": [
+        "local-first product",
+        "export byte identity",
+        "100% coverage",
+        "maintainer gates"
+      ],
+      "description": "Future capability goal G02. Detailed planned packets and evidence: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md. Baseline start: 2026-11-16. Planned work: 7–10 landed slices. Context: G01; integration lane. Target dates are conditional; no Phase 9, garment, launch-cost, supplier-contact, or physical-sampling gate is overridden.",
+      "expectation": "Multi-style local record, final edits, revisions and dependency invalidation proven without breaking legacy saves/exports.",
+      "acceptanceCriteria": [
+        "Complete every G02 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
+        "Multi-style local record, final edits, revisions and dependency invalidation proven without breaking legacy saves/exports.",
+        "Record reviewed code/output evidence, residual limitations, actual completion date, and downstream reforecast before Done."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-09-23T20:05:05.567Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "Register maintainer-directed, conditional post-Phase-9 roadmap without opening its gated work.",
+          "evidenceRefs": []
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [],
+      "flagKey": null
+    },
+    {
+      "id": "CAPABILITY-G03",
+      "type": "epic",
+      "title": "G03 Measurement-first creation",
+      "epicId": null,
+      "releaseId": null,
+      "status": "Backlog",
+      "openedAt": "2026-09-23",
+      "targetAt": "2027-05-14",
+      "deliveredAt": null,
+      "priority": "P0",
+      "risk": "high",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": [
+        "CAPABILITY-G02"
+      ],
+      "protectedSurfaces": [
+        "local-first product",
+        "export byte identity",
+        "100% coverage",
+        "maintainer gates"
+      ],
+      "description": "Future capability goal G03. Detailed planned packets and evidence: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md. Baseline start: 2027-02-15. Planned work: 6–9 landed slices. Context: G02; can parallel with technical-flat specialist research. Target dates are conditional; no Phase 9, garment, launch-cost, supplier-contact, or physical-sampling gate is overridden.",
+      "expectation": "One measured size, coach, editable continuation and separately approved grading work for all supported recipes.",
+      "acceptanceCriteria": [
+        "Complete every G03 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
+        "One measured size, coach, editable continuation and separately approved grading work for all supported recipes.",
+        "Record reviewed code/output evidence, residual limitations, actual completion date, and downstream reforecast before Done."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-09-23T20:05:05.609Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "Register maintainer-directed, conditional post-Phase-9 roadmap without opening its gated work.",
+          "evidenceRefs": []
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [],
+      "flagKey": null
+    },
+    {
+      "id": "CAPABILITY-G04",
+      "type": "epic",
+      "title": "G04 Professional flats and CAD interchange",
+      "epicId": null,
+      "releaseId": null,
+      "status": "Backlog",
+      "openedAt": "2026-09-23",
+      "targetAt": "2027-07-16",
+      "deliveredAt": null,
+      "priority": "P0",
+      "risk": "high",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": [
+        "CAPABILITY-G02"
+      ],
+      "protectedSurfaces": [
+        "local-first product",
+        "export byte identity",
+        "100% coverage",
+        "maintainer gates"
+      ],
+      "description": "Future capability goal G04. Detailed planned packets and evidence: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md. Baseline start: Research 2026-10-05; code 2027-02-15. Planned work: 9–14 landed slices. Context: G01/G02; integration serialized with G03. Target dates are conditional; no Phase 9, garment, launch-cost, supplier-contact, or physical-sampling gate is overridden.",
+      "expectation": "Front/back technical flats for every supported recipe/variant and proven CAD interchange. Pattern-linked side/oblique views are explicitly owned by G09/D04, so the complete view set is accepted only there.",
+      "acceptanceCriteria": [
+        "Complete every G04 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
+        "Front/back technical flats for every supported recipe/variant and proven CAD interchange. Pattern-linked side/oblique views are explicitly owned by G09/D04, so the complete view set is accepted only there.",
+        "Record reviewed code/output evidence, residual limitations, actual completion date, and downstream reforecast before Done."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-09-23T20:05:05.644Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "Register maintainer-directed, conditional post-Phase-9 roadmap without opening its gated work.",
+          "evidenceRefs": []
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [],
+      "flagKey": null
+    },
+    {
+      "id": "CAPABILITY-G05",
+      "type": "epic",
+      "title": "G05 Living production tech pack",
+      "epicId": null,
+      "releaseId": null,
+      "status": "Backlog",
+      "openedAt": "2026-09-23",
+      "targetAt": "2027-10-15",
+      "deliveredAt": null,
+      "priority": "P0",
+      "risk": "high",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": [
+        "CAPABILITY-G02"
+      ],
+      "protectedSurfaces": [
+        "local-first product",
+        "export byte identity",
+        "100% coverage",
+        "maintainer gates"
+      ],
+      "description": "Future capability goal G05. Detailed planned packets and evidence: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md. Baseline start: Research 2026-10-05; code 2027-04-05. Planned work: 12–18 landed slices. Context: G02/G04 and record fields from G03. Target dates are conditional; no Phase 9, garment, launch-cost, supplier-contact, or physical-sampling gate is overridden.",
+      "expectation": "Editable source, full configurable sections, provenance, approvals, QA fields and frozen exports across all supported recipes.",
+      "acceptanceCriteria": [
+        "Complete every G05 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
+        "Editable source, full configurable sections, provenance, approvals, QA fields and frozen exports across all supported recipes.",
+        "Record reviewed code/output evidence, residual limitations, actual completion date, and downstream reforecast before Done."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-09-23T20:05:05.675Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "Register maintainer-directed, conditional post-Phase-9 roadmap without opening its gated work.",
+          "evidenceRefs": []
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [],
+      "flagKey": null
+    },
+    {
+      "id": "CAPABILITY-G06",
+      "type": "epic",
+      "title": "G06 Professionally vetted starting designs",
+      "epicId": null,
+      "releaseId": null,
+      "status": "Backlog",
+      "openedAt": "2026-09-23",
+      "targetAt": "2027-12-17",
+      "deliveredAt": null,
+      "priority": "P1",
+      "risk": "medium",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": [
+        "CAPABILITY-G02"
+      ],
+      "protectedSurfaces": [
+        "local-first product",
+        "export byte identity",
+        "100% coverage",
+        "maintainer gates"
+      ],
+      "description": "Future capability goal G06. Detailed planned packets and evidence: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md. Baseline start: Research 2026-10-05; implementation 2027-05-17. Planned work: 10–16 plus recipe expansion below landed slices. Context: G01/G02/G04/G05; garment-family work can run in disjoint geometry lane. Target dates are conditional; no Phase 9, garment, launch-cost, supplier-contact, or physical-sampling gate is overridden.",
+      "expectation": "Curated, independently reviewed starter register; no counted item lacks B1 evidence.",
+      "acceptanceCriteria": [
+        "Complete every G06 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
+        "Curated, independently reviewed starter register; no counted item lacks B1 evidence.",
+        "Record reviewed code/output evidence, residual limitations, actual completion date, and downstream reforecast before Done."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-09-23T20:05:05.711Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "Register maintainer-directed, conditional post-Phase-9 roadmap without opening its gated work.",
+          "evidenceRefs": []
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [],
+      "flagKey": null
+    },
+    {
+      "id": "CAPABILITY-G07",
+      "type": "epic",
+      "title": "G07 Researched garment expansion",
+      "epicId": null,
+      "releaseId": null,
+      "status": "Backlog",
+      "openedAt": "2026-09-23",
+      "targetAt": "2027-12-17",
+      "deliveredAt": null,
+      "priority": "P1",
+      "risk": "high",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": [
+        "PREQUEUE-PHASE-09",
+        "CAPABILITY-G01"
+      ],
+      "protectedSurfaces": [
+        "local-first product",
+        "export byte identity",
+        "100% coverage",
+        "maintainer gates"
+      ],
+      "description": "Future capability goal G07. Detailed planned packets and evidence: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md. Baseline start: 2026-10-05 earliest. Planned work: 34–47, plus jogger cuff 2–3 if included landed slices. Context: Existing garment synthesis; shorts and upper-body foundation may run concurrently only in disjoint worktrees. Target dates are conditional; no Phase 9, garment, launch-cost, supplier-contact, or physical-sampling gate is overridden.",
+      "expectation": "Each new recipe passes its own researched geometry/grade/POM/BOM/output matrix and B1 digital review; no physical-fit claim.",
+      "acceptanceCriteria": [
+        "Complete every G07 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
+        "Each new recipe passes its own researched geometry/grade/POM/BOM/output matrix and B1 digital review; no physical-fit claim.",
+        "Record reviewed code/output evidence, residual limitations, actual completion date, and downstream reforecast before Done."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-09-23T20:05:05.746Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "Register maintainer-directed, conditional post-Phase-9 roadmap without opening its gated work.",
+          "evidenceRefs": []
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [],
+      "flagKey": null
+    },
+    {
+      "id": "CAPABILITY-G08",
+      "type": "epic",
+      "title": "G08 Brand and collection planning",
+      "epicId": null,
+      "releaseId": null,
+      "status": "Backlog",
+      "openedAt": "2026-09-23",
+      "targetAt": "2028-02-18",
+      "deliveredAt": null,
+      "priority": "P1",
+      "risk": "medium",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": [
+        "CAPABILITY-G02"
+      ],
+      "protectedSurfaces": [
+        "local-first product",
+        "export byte identity",
+        "100% coverage",
+        "maintainer gates"
+      ],
+      "description": "Future capability goal G08. Detailed planned packets and evidence: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md. Baseline start: Research 2026-10-05; code 2027-07-19. Planned work: 11–16 landed slices. Context: G02/G05/G06; research parallel with G01. Target dates are conditional; no Phase 9, garment, launch-cost, supplier-contact, or physical-sampling gate is overridden.",
+      "expectation": "Brand rules and user-approved defaults; linked assortment/SKU/quantity/cost/MOQ scenarios without invented data.",
+      "acceptanceCriteria": [
+        "Complete every G08 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
+        "Brand rules and user-approved defaults; linked assortment/SKU/quantity/cost/MOQ scenarios without invented data.",
+        "Record reviewed code/output evidence, residual limitations, actual completion date, and downstream reforecast before Done."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-09-23T20:05:05.781Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "Register maintainer-directed, conditional post-Phase-9 roadmap without opening its gated work.",
+          "evidenceRefs": []
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [],
+      "flagKey": null
+    },
+    {
+      "id": "CAPABILITY-G09",
+      "type": "epic",
+      "title": "G09 Measurement-driven mannequin and 3D",
+      "epicId": null,
+      "releaseId": null,
+      "status": "Backlog",
+      "openedAt": "2026-09-23",
+      "targetAt": "2029-03-16",
+      "deliveredAt": null,
+      "priority": "P1",
+      "risk": "critical",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": [
+        "CAPABILITY-G02"
+      ],
+      "protectedSurfaces": [
+        "local-first product",
+        "export byte identity",
+        "100% coverage",
+        "maintainer gates"
+      ],
+      "description": "Future capability goal G09. Detailed planned packets and evidence: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md. Baseline start: Research 2026-10-05; code 2027-05-17. Planned work: 35–55, re-estimate after proof landed slices. Context: G01/G02/G03/G04; asset/research work parallel, shared UI/export integration serial. Target dates are conditional; no Phase 9, garment, launch-cost, supplier-contact, or physical-sampling gate is overridden.",
+      "expectation": "Avatar, all supported pattern-linked garments/variants, material-aware solver, editing, visualizations and performance pass B3 matrix; no stopping at mannequin/basic preview.",
+      "acceptanceCriteria": [
+        "Complete every G09 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
+        "Avatar, all supported pattern-linked garments/variants, material-aware solver, editing, visualizations and performance pass B3 matrix; no stopping at mannequin/basic preview.",
+        "Record reviewed code/output evidence, residual limitations, actual completion date, and downstream reforecast before Done."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-09-23T20:05:05.811Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "Register maintainer-directed, conditional post-Phase-9 roadmap without opening its gated work.",
+          "evidenceRefs": []
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [],
+      "flagKey": null
+    },
+    {
+      "id": "CAPABILITY-G10",
+      "type": "epic",
+      "title": "G10 Reference and upcycling",
+      "epicId": null,
+      "releaseId": null,
+      "status": "Backlog",
+      "openedAt": "2026-09-23",
+      "targetAt": "2028-08-18",
+      "deliveredAt": null,
+      "priority": "P2",
+      "risk": "high",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": [
+        "CAPABILITY-G02",
+        "CAPABILITY-G03"
+      ],
+      "protectedSurfaces": [
+        "local-first product",
+        "export byte identity",
+        "100% coverage",
+        "maintainer gates"
+      ],
+      "description": "Future capability goal G10. Detailed planned packets and evidence: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md. Baseline start: Research 2026-10-05; code 2027-08-23. Planned work: 10–16 landed slices. Context: G02/G03/G06; irregular-panel proof after source-measure contract. Target dates are conditional; no Phase 9, garment, launch-cost, supplier-contact, or physical-sampling gate is overridden.",
+      "expectation": "Photo-first exploratory design, measurement coach, source inventory, conservative feasibility and end-to-end transformation guide.",
+      "acceptanceCriteria": [
+        "Complete every G10 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
+        "Photo-first exploratory design, measurement coach, source inventory, conservative feasibility and end-to-end transformation guide.",
+        "Record reviewed code/output evidence, residual limitations, actual completion date, and downstream reforecast before Done."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-09-23T20:05:05.844Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "Register maintainer-directed, conditional post-Phase-9 roadmap without opening its gated work.",
+          "evidenceRefs": []
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [],
+      "flagKey": null
+    },
+    {
+      "id": "CAPABILITY-G11",
+      "type": "epic",
+      "title": "G11 Local supplier-ready workflow",
+      "epicId": null,
+      "releaseId": null,
+      "status": "Backlog",
+      "openedAt": "2026-09-23",
+      "targetAt": "2028-01-19",
+      "deliveredAt": null,
+      "priority": "P1",
+      "risk": "high",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": [
+        "CAPABILITY-G05"
+      ],
+      "protectedSurfaces": [
+        "local-first product",
+        "export byte identity",
+        "100% coverage",
+        "maintainer gates"
+      ],
+      "description": "Future capability goal G11. Detailed planned packets and evidence: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md. Baseline start: Research 2026-10-05; code 2027-10-18. Planned work: 5–8 landed slices. Context: G05 B2; supplier research parallel, no external contact without authorization. Target dates are conditional; no Phase 9, garment, launch-cost, supplier-contact, or physical-sampling gate is overridden.",
+      "expectation": "Frozen packet, RFQ/quote/sample/revision workflow simulated locally; no live transaction claim.",
+      "acceptanceCriteria": [
+        "Complete every G11 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
+        "Frozen packet, RFQ/quote/sample/revision workflow simulated locally; no live transaction claim.",
+        "Record reviewed code/output evidence, residual limitations, actual completion date, and downstream reforecast before Done."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-09-23T20:05:05.876Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "Register maintainer-directed, conditional post-Phase-9 roadmap without opening its gated work.",
+          "evidenceRefs": []
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [],
+      "flagKey": null
+    },
+    {
+      "id": "CAPABILITY-G12",
+      "type": "epic",
+      "title": "G12 Live marketplace and operations",
+      "epicId": null,
+      "releaseId": null,
+      "status": "Backlog",
+      "openedAt": "2026-09-23",
+      "targetAt": "2029-06-15",
+      "deliveredAt": null,
+      "priority": "P2",
+      "risk": "critical",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": [
+        "CAPABILITY-G11"
+      ],
+      "protectedSurfaces": [
+        "local-first product",
+        "export byte identity",
+        "100% coverage",
+        "maintainer gates"
+      ],
+      "description": "Future capability goal G12. Detailed planned packets and evidence: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md. Baseline start: Research 2026-10-05; code no earlier than launch re-entry. Planned work: 12–20 software, separate unknown operations landed slices. Context: G11 plus approved identity, privacy, legal/commercial role, operating costs and actual supply. Target dates are conditional; no Phase 9, garment, launch-cost, supplier-contact, or physical-sampling gate is overridden.",
+      "expectation": "Live validated supplier directory, messaging, RFQ, sample/order/quality/shipping workflow with incident/support/rollback plan. Cost/approval hold may shift date indefinitely.",
+      "acceptanceCriteria": [
+        "Complete every G12 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
+        "Live validated supplier directory, messaging, RFQ, sample/order/quality/shipping workflow with incident/support/rollback plan. Cost/approval hold may shift date indefinitely.",
+        "Record reviewed code/output evidence, residual limitations, actual completion date, and downstream reforecast before Done."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-09-23T20:05:05.912Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "Register maintainer-directed, conditional post-Phase-9 roadmap without opening its gated work.",
+          "evidenceRefs": []
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [],
+      "flagKey": null
+    },
+    {
+      "id": "CAPABILITY-G13",
+      "type": "epic",
+      "title": "G13 Launch and line-sheet outputs",
+      "epicId": null,
+      "releaseId": null,
+      "status": "Backlog",
+      "openedAt": "2026-09-23",
+      "targetAt": "2029-05-18",
+      "deliveredAt": null,
+      "priority": "P2",
+      "risk": "medium",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": [
+        "CAPABILITY-G05",
+        "CAPABILITY-G08"
+      ],
+      "protectedSurfaces": [
+        "local-first product",
+        "export byte identity",
+        "100% coverage",
+        "maintainer gates"
+      ],
+      "description": "Future capability goal G13. Detailed planned packets and evidence: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md. Baseline start: 2028-02-21. Planned work: 5–8 landed slices. Context: G05/G08/G09; live inventory/terms only with G12. Target dates are conditional; no Phase 9, garment, launch-cost, supplier-contact, or physical-sampling gate is overridden.",
+      "expectation": "Version-bound listings, size guide, line sheets and truthful renders; price/material/delivery claims verified.",
+      "acceptanceCriteria": [
+        "Complete every G13 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
+        "Version-bound listings, size guide, line sheets and truthful renders; price/material/delivery claims verified.",
+        "Record reviewed code/output evidence, residual limitations, actual completion date, and downstream reforecast before Done."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-09-23T20:05:05.952Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "Register maintainer-directed, conditional post-Phase-9 roadmap without opening its gated work.",
+          "evidenceRefs": []
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [],
+      "flagKey": null
+    },
+    {
+      "id": "CAPABILITY-G14",
+      "type": "epic",
+      "title": "G14 Cross-system digital exit",
+      "epicId": null,
+      "releaseId": null,
+      "status": "Backlog",
+      "openedAt": "2026-09-23",
+      "targetAt": "2029-07-27",
+      "deliveredAt": null,
+      "priority": "P0",
+      "risk": "critical",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": [
+        "CAPABILITY-G02",
+        "CAPABILITY-G03",
+        "CAPABILITY-G04",
+        "CAPABILITY-G05",
+        "CAPABILITY-G06",
+        "CAPABILITY-G07",
+        "CAPABILITY-G08",
+        "CAPABILITY-G09",
+        "CAPABILITY-G10",
+        "CAPABILITY-G11",
+        "CAPABILITY-G13"
+      ],
+      "protectedSurfaces": [
+        "local-first product",
+        "export byte identity",
+        "100% coverage",
+        "maintainer gates"
+      ],
+      "description": "Future capability goal G14. Detailed planned packets and evidence: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md. Baseline start: 2029-03-19 earliest. Planned work: 6–10 landed slices. Context: G02–G13; live G12 separately gate-controlled. Target dates are conditional; no Phase 9, garment, launch-cost, supplier-contact, or physical-sampling gate is overridden.",
+      "expectation": "Two-style adversarial change trace through every output, independent designer/factory document review, digital limitations published; B4 remains on hold.",
+      "acceptanceCriteria": [
+        "Complete every G14 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
+        "Two-style adversarial change trace through every output, independent designer/factory document review, digital limitations published; B4 remains on hold.",
+        "Record reviewed code/output evidence, residual limitations, actual completion date, and downstream reforecast before Done."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-09-23T20:05:05.993Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "Register maintainer-directed, conditional post-Phase-9 roadmap without opening its gated work.",
           "evidenceRefs": []
         }
       ],

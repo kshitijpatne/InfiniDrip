@@ -714,3 +714,33 @@ data collection still require their own explicit gate.
   navigate to an unrelated measurement.
 - Slice 198 implements this behavior locally in the existing UI; it adds no
   account, remote service, database, or paid dependency.
+
+## Post-Phase-9 digital capability direction — confirmed 2026-09-23
+
+- After the approved nine-phase pre-garment sequence, pursue the complete
+  capability program in `docs/planning/END-TO-END-CAPABILITY-ROADMAP.md` in
+  dependency order. Keep each goal and its unfinished packets visible in the
+  canonical Control Center backlog; target dates prompt review and reforecast,
+  never bypass a gate. The existing Phase 9 garment-queue approval remains
+  required.
+- Keep the product user-led. Do not add a user-facing AI designer or prompt
+  shortcut. Deterministic pattern, measurement, construction and guidance
+  logic may support manual decisions; development agents are separate from
+  product functionality.
+- The measurement-first route creates one size for a measured person by
+  default, with a separately specified and approved grading plan for a size
+  run. A measurement-driven mannequin may offer male/female starting presets,
+  but its final body shape must follow entered measurements and expose any
+  unresolved shape assumptions.
+- Reference and upcycling may start with photos for exploratory design.
+  Source-garment measurements are recommended and taught in the app; cutting
+  feasibility may be asserted only when the necessary panel, material and
+  layout evidence is recorded.
+- Treat each starter as a separately vetted, editable, industry-relevant
+  design. Finish the full view, professional tech-pack, CAD, 3D and change-
+  propagation work with explicit evidence; do not close the 3D program after
+  a mannequin or first garment demo.
+- Keep physical sampling on hold until the maintainer explicitly reopens it
+  after the digital capability program. Digital checks and professional
+  document review do not establish physical fit, drape, factory acceptance or
+  production readiness.

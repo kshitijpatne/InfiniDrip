@@ -5,6 +5,9 @@ suitability guidance; Phase 8 continues, 2026-09-23._
 Next: expose the catalog through the local artwork UI and verify the rendered
 workflow. The garment queue remains closed until Phase 9 review and explicit
 approval.
+The maintainer's requested post-Phase-9 capability sequence is planned in
+`docs/planning/END-TO-END-CAPABILITY-ROADMAP.md`; its dates and work packets
+are conditional future backlog, not a change to the current Phase 8/9 gate.
 Epics 7, 9 and 10 are implemented, Codex-reviewed, documented and pushed to
 `origin/main`. Epic 11 implementation has completed the shaped collar/stand,
 placket-base, vent/drop, front/back preview/control/report and downstream

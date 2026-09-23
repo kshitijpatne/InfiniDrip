@@ -4,6 +4,12 @@ _Created after Slice 44. This document holds the competitive analysis, the
 feature prioritisation, and the timeline to a commercial product. It is the
 strategic companion to SLICES-BRIEF.md (which holds the tactical slice plan)._
 
+_For the current maintainer-directed sequence after the active nine-phase
+pre-garment program, including evidence gates, stable work-packet IDs,
+conditional dates, and the complete digital capability path, use
+[END-TO-END-CAPABILITY-ROADMAP.md](END-TO-END-CAPABILITY-ROADMAP.md).
+`PROJECT-STATE.md` and the pre-garment packet still control what may start now._
+
 **Rule this document inherits from RESUME-LOG.md: every claim carries an anchor,
 and nothing is marked done that isn't. Estimates are marked as estimates.**
 
