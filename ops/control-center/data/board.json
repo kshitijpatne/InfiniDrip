@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 36,
-  "updatedAt": "2026-09-22T23:20:59.462Z",
+  "revision": 37,
+  "updatedAt": "2026-09-23T00:01:35.385Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -1744,7 +1744,7 @@
       "title": "README and ARCHITECTURE newcomer refinement",
       "epicId": null,
       "releaseId": null,
-      "status": "In Progress",
+      "status": "Review",
       "openedAt": "2026-09-22",
       "targetAt": null,
       "deliveredAt": null,
@@ -1792,6 +1792,14 @@
           "actor": "Codex",
           "role": "contributor",
           "note": "Begin the accepted Phase 5 newcomer documentation refinement after Phase 4 acceptance.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "Review",
+          "at": "2026-09-23T00:01:35.385Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "README and architecture guide revisions are complete; two independent cold-reader reviews are addressed and Phase 5 exit evidence is prepared for final review.",
           "evidenceRefs": []
         }
       ],

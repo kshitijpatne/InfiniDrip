@@ -1,25 +1,35 @@
 # InfiniDrip
 
-InfiniDrip is a local-first 2D sewing-pattern design workspace. It turns body
-measurements and design choices into editable digital pattern pieces, checks,
-and true-scale outputs. It is not a 3D drape simulator, a physical fitting
-service, production CAD, or a hosted account application.
+InfiniDrip turns garment measurements and design choices into a two-dimensional
+sewing-pattern draft that can be refined through the app's measurement and
+style controls. It runs locally in a browser or desktop app and creates digital
+files that can be reviewed, printed, or used in other design tools.
 
-## The five-stage journey
+A sewing pattern is a set of shapes cut from fabric and joined to make a
+garment. InfiniDrip helps prepare and inspect those shapes; it does not drape
+cloth on a body or prove that a sewn garment will fit.
 
-1. **Garment** — choose the kind of garment to draft.
-2. **Measure** — enter the body and length measurements that shape the draft.
-3. **Style** — choose fit intent, material, appearance, options, and surface
-   artwork placement.
-4. **Check** — review digital guidance and correct warnings before export.
-5. **Export** — produce the selected true-scale pattern and technical outputs.
+It is intended for both home sewists and DIY makers, and independent designers
+and patternmakers who want a local workspace for drafting and inspecting digital
+garment patterns.
 
-The stages are a guided workspace, not a claim that a digital pattern has been
-physically cut, sewn, or fit-tested.
+## The five stages
 
-## What it currently does
+1. **Garment** — choose one of the garment types currently in the app.
+2. **Measure** — enter body and length measurements.
+3. **Style** — choose how roomy or close-fitting the garment should be, fabric
+   and its stretch, color, garment options, and where a design image would go.
+   The current version records geometric placement but does not load an image.
+4. **Check** — review digital warnings and correct issues that affect the
+   draft or readiness. Some warnings block Export; others are advisory.
+5. **Export** — choose settings and save the files you need.
 
-Seven garment recipes use the shared drafting system:
+An optional first-visit tour explains the controls. It can be skipped or
+replayed and never changes design values or starts an export.
+
+## What you can make
+
+The app currently supports these seven garment types:
 
 - Tee
 - Darted tee
@@ -29,77 +39,91 @@ Seven garment recipes use the shared drafting system:
 - Skirt
 - Trouser
 
-Across those recipes, the workspace provides:
+The same design feeds the app's views, guidance, Size run, Nesting, and
+exported files. The Edit view is a temporary preview and does not change that
+saved design. Depending on the garment, available outputs include:
 
-- measurement-driven digital drafting and schematic front, back, side, and
-  assembled views;
-- plain-language guidance for invalid or implausible combinations, with
-  actionable corrections and no silent clamping;
-- target-fit styles, grading, points-of-measure/specification output, and
-  deterministic nesting;
-- surface artwork placement with numeric geometry and a true-scale placement
-  preview. The current surface layer stores placement geometry and source text;
-  it is not yet an image-upload or bitmap artwork library;
-- local save/load for the workspace;
-- SVG, DXF, tiled PDF, A0, projector, and tech-pack outputs;
-- digital construction checks. These checks do not prove physical fit,
-  sewability in fabric, manufacturing readiness, or production readiness.
+- **SVG and DXF** — outline files made of lines and curves that stay crisp when
+  zoomed or resized.
+- **Tiled PDF** — a full-size pattern split across regular printer pages.
+- **A0 PDF** — a full-size pattern on A0-size pages; A0 is a large standard
+  paper size.
+- **Projector file** — layered pattern lines designed to project at full size
+  onto fabric.
+- **Technical pack** — a reference with measurements, material information,
+  and construction notes.
+- **Size run** — compare the garment's supported sizes. **Nesting** estimates
+  how its pieces may fit within a chosen fabric width.
 
-## How it works
+“Full-size” means the pattern is intended to print at its measured dimensions;
+printer scaling still needs to be set and checked. Digital checks and planning
+views do not prove physical fit or factory readiness.
 
-The user’s measurements and choices feed a declared garment recipe. The recipe
-is assembled from shared components and blocks, then the same owned geometry is
-used by the views, guidance, grading, nesting, surface layer, and exporters.
-This keeps garment-specific rules in recipes while shared behavior stays in the
-engine.
+## Current limits
 
-## Local-first boundary
+- The assembled view is a diagram, not a three-dimensional cloth simulation.
+- The rules built into Guidance can find certain problems and point to
+  corrections, but cannot replace cutting, sewing, or fitting a physical
+  sample. No garment has yet been physically cut, sewn, and fit-tested.
+- Artwork currently means geometric placement data. The app does not yet import
+  image files or include an artwork library.
+- The **Edit** view is an exploratory preview of one pattern piece (the Trouser
+  uses its left-front piece). Its changes do not update measurements, the
+  assembled view, checks, other sizes, fabric layout, saved designs, or exports.
+- **Nesting** is a planning estimate, not a guarantee of material savings or
+  a finished cutting plan for factory production.
 
-The browser and Electron app work locally. The current workflow does not
-require login, profiles, a database, cloud sync, email, hosted monitoring, paid
-operational services, or personal-data collection. Those launch-backed items,
-along with code-signing procurement, remain deferred until launch readiness and
-cost approval are explicitly reopened.
+## Local use and saved work
 
-A repository-local Control Center records delivery evidence for the project. It
-is an operations dashboard, not a hosted user workspace or a user-profile
-database.
+The browser and desktop versions work locally. Saved designs, recovery data,
+and tour progress are kept in separate on-device records. The browser version
+stores them with that site's data, so clearing it can remove local saves; the
+desktop version stores them in local app data. There is no account, user
+profile, hosted database, or cloud sync.
 
-## Run it
+Exporting in a browser uses its normal download flow. In the desktop app, a
+local save dialog lets you choose where an export file is written. The current
+workflow needs no paid hosting or online service.
+
+## Run locally
+
+Install [Node.js](https://nodejs.org/), then from the repository directory run:
 
 ```bash
-npm install      # one time
-npm run dev      # open the local URL it prints
-npm run coverage # run the test suite with a coverage report
+npm install
+npm run dev
 ```
 
-Requires Node.js. No other setup is required for local development.
+Open the local address printed by the development server. To run the full test
+suite with its coverage report:
 
-## Development status
+```bash
+npm run coverage
+```
 
-InfiniDrip is developed in numbered slices. Epic 6 surface design and Epics 7,
-9, and 10 are complete. Epic 11 Polo V2 implementation is complete through
-Slice 161. The no-cost local/preview interim of Epic 12 is complete through
-Slice 181. Development pauses when the primary usage window is exhausted and
-resumes automatically after reset; the weekly meter is informational.
+To run the desktop app during development, leave `npm run dev` running, open a
+second terminal in the repository, and run:
 
-The approved no-cost pre-garment sequence is tracked in the local delivery
-board. Its tutorial, repository audit, existing garment UI, artwork workflow,
-and newcomer documentation work must finish before the maintainer reviews and
-explicitly approves another garment family. No garment has completed physical
-cut, sew, or fit validation.
+```bash
+npm run electron:dev
+```
+
+## Development boundary
+
+The project is completing an approved nine-phase, local-only refinement of the
+existing product before another garment type is scheduled. Research, planning,
+and local tooling do not by themselves authorize a new garment. The next
+garment queue requires completion of that sequence and explicit approval from
+the maintainer—the person responsible for project scope and approvals.
 
 ## Read next
 
-- [Architecture guide](ARCHITECTURE.md) — how the product fits together.
-- [Project state](PROJECT-STATE.md) — current engineering status and gates.
-- [Project decisions](docs/PROJECT-DECISIONS.md) — maintainer-confirmed scope
-  and boundaries.
-- [Planning documents](docs/planning/) — execution packets and roadmap
-  context.
-- [Research records](docs/research/) — evidence behind garment, surface, and
-  platform decisions.
-
-## Tech
-
-TypeScript · SVG · Vite · Vitest
+- [Architecture guide](ARCHITECTURE.md) — how the app turns choices into
+  patterns, checks, and outputs.
+- [Project state](PROJECT-STATE.md) — current work and verification status.
+- [Project decisions](docs/PROJECT-DECISIONS.md) — approved scope and deferred
+  decisions.
+- [Pre-garment sequence](docs/planning/PRE-GARMENT-EXECUTION.md) — the ordered
+  local development work before another garment family.
+- [Control Center guide](ops/control-center/README.md) — the separate local
+  project-delivery board.

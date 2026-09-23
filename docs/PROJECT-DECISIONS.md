@@ -3,6 +3,12 @@
 _Confirmed directly by Kshitij on 2026-09-10 after the Slice 63 handoff. These
 decisions resolve the open questions recorded in that handoff._
 
+## Intended audience — confirmed 2026-09-22
+
+InfiniDrip is intended for both home sewists and DIY makers, and independent
+designers and patternmakers. This is the approved audience framing; it is not
+evidence of a user study, physical fit, or production validation.
+
 ## Development sequence
 
 The required sequence is:

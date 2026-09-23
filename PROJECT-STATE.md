@@ -1,8 +1,8 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 191 implements and verifies the first-load tutorial;
-independent static reviews are complete, Phase 4 is accepted, and Phase 5 is in
-progress, 2026-09-22.
+_Last updated: Slice 194 completes the README and architecture-guide revision;
+Phase 4 is accepted, Phase 5 is in Review, and Phase 6 remains in Backlog,
+2026-09-22.
 Epics 7, 9 and 10 are implemented, Codex-reviewed, documented and pushed to
 `origin/main`. Epic 11 implementation has completed the shaped collar/stand,
 placket-base, vent/drop, front/back preview/control/report and downstream
@@ -121,12 +121,13 @@ was accepted without deletion or history rewrite; Phase 3 is now the active
 tutorial research/specification item.
 
 The newcomer review found that the five-stage flow, local boundary, outputs,
-and physical-validation disclaimer are understandable at a high level. The
-intended audience remains unconfirmed in the older MVP plan; later newcomer
-copy must not present its implied indie-maker/home-sewer audience as a settled
-decision. The review also records terminology, Epic 8 visibility, next-work
-link, maintainer-role, and welcome-versus-tutorial clarity gaps. README and
-ARCHITECTURE were not changed in this audit.
+and physical-validation disclaimer are understandable at a high level. At the
+time, the intended audience was unconfirmed; on 2026-09-22 the maintainer
+resolved that ambiguity by confirming both home sewists/DIY makers and
+independent designers/patternmakers. The decision is recorded in
+`docs/PROJECT-DECISIONS.md`. The review also records terminology, Epic 8
+visibility, next-work link, maintainer-role, and welcome-versus-tutorial
+clarity gaps. README and ARCHITECTURE were not changed in that audit.
 
 The full available history has 24 groups of duplicate numeric slice subjects.
 Commit-message-only renumbering could preserve per-commit file trees, but
@@ -199,6 +200,51 @@ and remaining screen-reader verification are recorded in
 `docs/planning/PRE-GARMENT-PHASE4-EXIT.md`. The canonical board's Review → Done
 acceptance is complete with evidence `E-PREQUEUE-PHASE4-EXIT`; Phase 5 is now
 the active board item. No physical sewing or fit validation is claimed.
+
+### Slice 192 — Phase 6 pattern-view acceptance amendment
+
+Phase 6 now has separate criteria for readable, non-colliding pattern-block
+headings/labels/instructions and for keyboard-accessible navigation from a
+pattern block to its related editable measurement field. Before implementing
+the navigation, prepare one reviewed mapping row per block and explicitly mark
+blocks without a meaningful measurement link. A block mapped across pages
+requires a maintainer decision; that behavior must not be guessed. The
+navigation sub-scope is not ready, but it does not block independently scoped
+Phase 6 work such as pattern-block legibility. Phase 6 remained Backlog.
+
+### Slice 193 — Phase 4 tutorial exit accepted
+
+The canonical board accepted the Slice 191 tutorial work against
+`E-PREQUEUE-PHASE4-EXIT`. The evidence and limitations remain in
+`docs/planning/PRE-GARMENT-PHASE4-EXIT.md`; Phase 5 became the active work item.
+
+### Slice 194 — README and architecture guide revision submitted
+
+`README.md` now describes InfiniDrip for both home sewists/DIY makers and
+independent designers/patternmakers, explains the five stages and outputs,
+documents browser and desktop local development, and distinguishes the
+temporary Edit preview from saved design changes. The confirmed audience is
+also recorded in `docs/PROJECT-DECISIONS.md`; the older newcomer audit now
+records that its audience ambiguity was resolved.
+
+`ARCHITECTURE.md` is a plain-language guide to the measurement-to-pattern flow,
+shared views and checks, local storage, the separate Control Center, and Epic
+8's completed bounded-helper/no-go decision. The views use their current UI
+names consistently; sewing and software terms are explained where they first
+matter.
+
+Claude Code and OpenCode completed separate read-only cold-reader simulations.
+Codex verified and addressed their factual and clarity findings, including the
+desktop startup steps, Electron file-write boundary, Trouser's left-front Edit
+piece, and size/nesting terminology. This was not a live human user study. The
+exit evidence is `docs/planning/PRE-GARMENT-PHASE5-EXIT.md`.
+
+`git diff --check` and the relative Markdown-link check passed. No application
+code, tests, dependencies, export baselines, accounts, or services changed;
+the full app/build/export gates were not rerun for this documentation-only
+slice. The canonical board moved Phase 5 to Review at revision 37; Phase 6
+remains Backlog. Phase 6 navigation still requires the pattern-block mapping
+inventory and maintainer choice for cross-page mappings before implementation.
 
 ### Post-merge PR audit — 2026-09-21
 

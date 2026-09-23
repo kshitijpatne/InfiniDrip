@@ -92,6 +92,14 @@ remaining findings can be resolved with plain language and verified product
 facts during Phase 5, after the tutorial matches the product. No edits to
 `README.md` or `ARCHITECTURE.md` were made during this audit.
 
+### Audience finding resolution — 2026-09-22
+
+The maintainer later confirmed that the intended audience includes both home
+sewists and DIY makers, and independent designers and patternmakers. This
+decision is recorded in `docs/PROJECT-DECISIONS.md` and reflected in the
+newcomer-facing guides. It resolves the audience ambiguity without claiming
+that either group has completed a user study.
+
 ## Review boundary
 
 The read-only audit is complete and accepted without cleanup or history
