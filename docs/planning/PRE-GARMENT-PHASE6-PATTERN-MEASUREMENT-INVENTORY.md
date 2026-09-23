@@ -1,7 +1,7 @@
 # Phase 6 pattern-block → measurement-page inventory
 
-_Draft for maintainer review. Do not implement pattern-to-measurement
-navigation until the mapping and multi-page behavior below are approved._
+_Prepared in Slice 197. The multi-page navigation behavior was approved on
+2026-09-22; Slice 198 implements it against this default-options inventory._
 
 This inventory covers the 40 pattern blocks produced by the seven current
 garment recipes under their default design options. A block is linked to a
@@ -69,7 +69,7 @@ these measurement groups.
 | Trouser — TROUSER POCKET BAG LEFT | B: `waist`; F: `ease` |
 | Trouser — TROUSER POCKET BAG RIGHT | B: `waist`; F: `ease` |
 
-## Review required before implementation
+## Mapping scope and approved multi-page behavior
 
 Of the 40 blocks, 36 have a measurement link and four are option-only. Twenty-
 eight of the 36 measurement-linked blocks span multiple groups: 21 link to B,
@@ -78,17 +78,20 @@ measurement group. In particular, the `ease` control belongs to the Fit stage,
 not the Measure stage. A block click therefore cannot reveal every listed
 field by opening one existing page.
 
-**Maintainer decision:** for a block linked to multiple groups, should
-activation (a) open the first linked group and offer one-click navigation to
-the other linked groups, highlighting the relevant fields on each; (b) open a
-single primary group only; or (c) show the related fields together in a new
-combined focus view? The current pages should otherwise remain intact; moving
-measurements between groups is not assumed. **Recommendation:** (a), ordered
-Body measurements → Lengths & shape → Fit allowance. It preserves the existing
-groups, exposes every mapped field with one click, and does not duplicate or
-move inputs.
+**Maintainer decision (approved 2026-09-22):** activating a block opens its
+first linked group and offers navigation links to every other linked group,
+highlighting that page's related fields. The order is Body measurements →
+Lengths & shape → Fit allowance. Keep the existing pages and inputs in place;
+do not duplicate or move measurements. Keyboard activation follows the same
+path, focuses the first related field on each destination, and changes no
+measurement or design value.
 
-For the four option-only blocks, the proposed behavior is no measurement
-navigation or unrelated-field highlight. Other blocks may also respond to
-design options; those controls are outside this measurement-specific
-inventory and are not silently treated as measurements.
+For the four option-only blocks, explain which design-option group controls
+the piece; do not navigate to or highlight an unrelated measurement. Other
+blocks may also respond to design options; those controls are outside this
+measurement-specific inventory and are not silently treated as measurements.
+
+This is a code-derived baseline for default design options, not a claim that
+every non-default option combination has been exhaustively tested. The
+implementation uses the existing field IDs and group labels, resolving page
+indices from the live controls.

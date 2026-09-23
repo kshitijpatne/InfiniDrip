@@ -55,11 +55,10 @@ is authoritative for maintainer decisions that are not derivable from code.
   Luna-max is the default model for routine work where model selection is
   available. Terra or Sol may be used only for short, high/extra-high reviews
   when the task genuinely needs them; never use Astra or max reasoning for
-  routine development. If a limit is near exhaustion, stop at the last
-  verified boundary without committing partial work and resume when capacity
-  returns. The current maintainer rule is to use the short primary usage
-  window as the pause trigger: when that window is exhausted, pause at the last
-  verified boundary and resume automatically after its reset; the weekly meter
+  routine development. Keep working while the primary usage window remains
+  available; do not pause solely because of a percentage threshold or the
+  weekly meter. When the primary window is exhausted, pause at the last
+  verified boundary and resume automatically after its reset. The weekly meter
   is informational only.
 - For every slice, identify independent, low-risk work that can be delegated
   to Claude Code or OpenCode. Use a separate worktree, a precise handoff and
@@ -95,6 +94,10 @@ is authoritative for maintainer decisions that are not derivable from code.
   what reaches `main`.
 - No MCP wrapper or API-key integration is required for this workflow. Agents
   are invoked as headless CLIs from Codex-controlled terminal sessions.
+- OpenCode must use Muse Spark 1.3 with extra-high (`xhigh`) reasoning in
+  normal mode only; never use fast mode or an OpenAI model. If that exact
+  configuration is unavailable, stop and ask the maintainer rather than
+  substituting another model.
 - Codex must classify the work, preserve the full verification gate, inspect the
   actual diff and rendered/output evidence, and report progress and decisions
   to the product owner.

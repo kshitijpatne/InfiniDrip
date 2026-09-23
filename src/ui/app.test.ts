@@ -4,6 +4,10 @@ import { mountApp, stageBlockerFromNote } from "./app";
 import { STANDARD_M, draftTshirt, rolePiece } from "../drafting";
 import { pieceHandles, editorViewBox } from "../edit";
 import { loadJourney } from "./journey";
+import { PATTERN_MEASUREMENT_MAP, type PatternMeasurementDefinition, type PatternMeasurementField } from "./pattern-measurements";
+
+const mutablePatternMeasurementMap = PATTERN_MEASUREMENT_MAP as unknown as
+  Record<string, Record<string, PatternMeasurementDefinition>>;
 
 function mount(): HTMLDivElement {
   const root = document.createElement("div");
@@ -57,6 +61,12 @@ describe("mountApp", () => {
       const key = root.querySelector<HTMLElement>("#pattern-annotation-key")!;
       expect(key.querySelectorAll(".pattern-piece-key-item").length).toBeGreaterThan(0);
       expect(key.querySelector(".pattern-piece-key-heading")!.textContent).toContain("01");
+      expect(key.querySelectorAll("button[data-pattern-piece-index]")).toHaveLength(
+        key.querySelectorAll(".pattern-piece-key-item").length,
+      );
+      expect(root.querySelectorAll("#analysis-host svg g.pattern-block-control")).toHaveLength(
+        key.querySelectorAll(".pattern-piece-key-item").length,
+      );
       expect(root.querySelector("#analysis-host svg text")).toBeNull();
     }
     clickId(root, "view-body");
@@ -893,6 +903,164 @@ describe("mountApp", () => {
     const recovered = mount();
     recovered.querySelector<HTMLButtonElement>("#recovery-accept")!.click();
     expect(recovered.querySelector<HTMLInputElement>('[data-option="buttonCount"]')!.value).toBe("");
+  });
+
+  it("opens linked pages in inventory order and highlights only the mapped fields without editing values", () => {
+    localStorage.clear();
+    const root = mount();
+    document.body.append(root);
+    clickId(root, "welcome-skip");
+    const valuesBefore = [...root.querySelectorAll<HTMLInputElement>("input[data-field], input[data-option]")]
+      .map((input) => [input.dataset.field ?? input.dataset.option, input.value]);
+
+    root.querySelector<HTMLButtonElement>('#pattern-annotation-key [data-pattern-piece-name="front"]')!.click();
+    expect(root.querySelector("#journey-step-measure")!.getAttribute("aria-current")).toBe("step");
+    expect(root.querySelector<HTMLElement>('[data-control-page][data-control-label="Body measurements"]')!.hidden).toBe(false);
+    expect(root.querySelector<HTMLElement>('[data-dim-row="chest"]')!.classList.contains("pattern-measurement-match")).toBe(true);
+    expect(root.querySelector<HTMLElement>('[data-dim-row="shoulderWidth"]')!.classList.contains("pattern-measurement-match")).toBe(true);
+    expect(root.querySelector<HTMLElement>('[data-dim-row="length"]')!.classList.contains("pattern-measurement-match")).toBe(false);
+    expect(root.querySelectorAll("#pattern-measurement-navigation [data-pattern-measurement-page]")).toHaveLength(3);
+    expect(document.activeElement).toBe(root.querySelector('input[data-field="chest"]'));
+    root.querySelector<HTMLButtonElement>('#pattern-measurement-navigation [data-pattern-measurement-page="0"]')!.click();
+
+    clickId(root, "view-pattern");
+    expect(root.querySelector<HTMLButtonElement>('#pattern-annotation-key [data-pattern-piece-name="front"]')!.getAttribute("aria-pressed")).toBe("true");
+    expect(root.querySelector<HTMLButtonElement>('#pattern-annotation-key [data-pattern-piece-name="back"]')!.getAttribute("aria-pressed")).toBe("false");
+    expect(root.querySelector<SVGGElement>('#analysis-host svg g.pattern-block-control[data-pattern-piece-index="0"]')!.getAttribute("aria-pressed")).toBe("true");
+    root.querySelector<HTMLButtonElement>('#pattern-measurement-navigation [data-pattern-measurement-page="1"]')!.click();
+    expect(root.querySelector<HTMLElement>('[data-control-page][data-control-label="Lengths & shape"]')!.hidden).toBe(false);
+    expect(root.querySelector<HTMLElement>('[data-dim-row="chest"]')!.classList.contains("pattern-measurement-match")).toBe(false);
+    expect(root.querySelector<HTMLElement>('[data-dim-row="length"]')!.classList.contains("pattern-measurement-match")).toBe(true);
+    expect(root.querySelector<HTMLElement>('[data-dim-row="armholeDepth"]')!.classList.contains("pattern-measurement-match")).toBe(true);
+
+    root.querySelector<HTMLButtonElement>('#pattern-measurement-navigation [data-pattern-measurement-page="2"]')!.click();
+    expect(root.querySelector("#journey-step-fit")!.getAttribute("aria-current")).toBe("step");
+    expect(root.querySelector<HTMLElement>('[data-control-page][data-control-label="Fit allowance"]')!.hidden).toBe(false);
+    expect(root.querySelector<HTMLElement>('[data-dim-row="ease"]')!.classList.contains("pattern-measurement-match")).toBe(true);
+    expect(document.activeElement).toBe(root.querySelector('input[data-field="ease"]'));
+    expect([...root.querySelectorAll<HTMLInputElement>("input[data-field], input[data-option]")]
+      .map((input) => [input.dataset.field ?? input.dataset.option, input.value])).toEqual(valuesBefore);
+  });
+
+  it("opens the first linked page from a keyboard-activated SVG piece", () => {
+    localStorage.clear();
+    const root = mount();
+    document.body.append(root);
+    clickId(root, "welcome-skip");
+    const piece = root.querySelector<SVGGElement>("#analysis-host svg g.pattern-block-control[data-pattern-piece-index='2']")!;
+    expect(piece.getAttribute("role")).toBe("button");
+    expect(piece.getAttribute("tabindex")).toBe("0");
+    root.querySelector("#canvas-host")!.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", bubbles: true }));
+    piece.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true, cancelable: true }));
+    expect(root.querySelector<HTMLElement>("#pattern-measurement-navigation")!.hidden).toBe(true);
+    piece.focus();
+    piece.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", bubbles: true, cancelable: true }));
+    expect(root.querySelector("#journey-step-measure")!.getAttribute("aria-current")).toBe("step");
+    expect(document.activeElement).toBe(root.querySelector('input[data-field="chest"]'));
+    clickId(root, "view-pattern");
+    expect(root.querySelector<HTMLButtonElement>('#pattern-annotation-key [data-pattern-piece-name="sleeve"]')!.getAttribute("aria-pressed")).toBe("true");
+    expect(root.querySelector<SVGGElement>('#analysis-host svg g.pattern-block-control[data-pattern-piece-index="2"]')!.getAttribute("aria-pressed")).toBe("true");
+    expect(root.querySelector<HTMLElement>('[data-dim-row="bicep"]')!.classList.contains("pattern-measurement-match")).toBe(true);
+    root.querySelector<SVGGElement>('#analysis-host svg g.pattern-block-control[data-pattern-piece-index="1"]')!
+      .dispatchEvent(new KeyboardEvent("keydown", { key: " ", bubbles: true, cancelable: true }));
+    expect(root.querySelector<HTMLButtonElement>('#pattern-annotation-key [data-pattern-piece-name="back"]')!.getAttribute("aria-pressed")).toBe("true");
+  });
+
+  it("explains option-only blocks without navigating to an unrelated measurement", () => {
+    localStorage.clear();
+    const root = mount();
+    clickId(root, "welcome-skip");
+    clickId(root, "garment-polo");
+    const valuesBefore = [...root.querySelectorAll<HTMLInputElement>("input[data-field], input[data-option]")]
+      .map((input) => [input.dataset.field ?? input.dataset.option, input.value]);
+    root.querySelector<HTMLButtonElement>('#pattern-annotation-key [data-pattern-piece-name="front"]')!.click();
+    expect(root.querySelector("#journey-step-measure")!.getAttribute("aria-current")).toBe("step");
+    expect(root.querySelectorAll(".pattern-measurement-match-badge").length).toBeGreaterThan(0);
+    clickId(root, "view-pattern");
+    root.querySelector<HTMLButtonElement>('#pattern-annotation-key [data-pattern-piece-name="button placket"]')!.click();
+    expect(root.querySelector("#journey-step-measure")!.getAttribute("aria-current")).toBe("step");
+    expect(root.querySelector<HTMLElement>("#pattern-measurement-feedback")!.textContent).toContain("Front closure options");
+    expect(root.querySelector<HTMLElement>("#pattern-measurement-navigation")!.hidden).toBe(true);
+    expect(root.querySelectorAll(".pattern-measurement-match")).toHaveLength(0);
+    expect(root.querySelectorAll(".pattern-measurement-match-badge")).toHaveLength(0);
+    expect([...root.querySelectorAll<HTMLInputElement>("input[data-field], input[data-option]")]
+      .map((input) => [input.dataset.field ?? input.dataset.option, input.value])).toEqual(valuesBefore);
+  });
+
+  it("explains when a live pattern block has no reviewed mapping", () => {
+    const original = mutablePatternMeasurementMap.tee.front;
+    mutablePatternMeasurementMap.tee.front = undefined as unknown as PatternMeasurementDefinition;
+    try {
+      localStorage.clear();
+      const root = mount();
+      clickId(root, "welcome-skip");
+      root.querySelector<HTMLButtonElement>('#pattern-annotation-key [data-pattern-piece-name="front"]')!.click();
+      expect(root.querySelector<HTMLElement>("#pattern-measurement-feedback")!.textContent)
+        .toContain("No reviewed measurement mapping is recorded for front.");
+      expect(root.querySelector<HTMLElement>("#pattern-measurement-navigation")!.hidden).toBe(true);
+    } finally {
+      mutablePatternMeasurementMap.tee.front = original;
+    }
+  });
+
+  it("clears highlights on an unrelated page and ignores a stale page link", () => {
+    localStorage.clear();
+    const root = mount();
+    document.body.append(root);
+    clickId(root, "welcome-skip");
+    clickId(root, "garment-polo");
+    root.querySelector<HTMLButtonElement>('#pattern-annotation-key [data-pattern-piece-name="outer collar stand"]')!.click();
+    expect(root.querySelector("#journey-step-measure")!.getAttribute("aria-current")).toBe("step");
+
+    clickId(root, "view-body");
+    root.querySelector<HTMLButtonElement>('#pattern-measurement-navigation [data-pattern-measurement-page="0"]')!.click();
+    const pageSelect = root.querySelector<HTMLSelectElement>("#control-page-select")!;
+    const unrelatedPage = [...pageSelect.options].find((option) => option.textContent?.includes("Lengths & shape"))!;
+    pageSelect.value = unrelatedPage.value;
+    pageSelect.dispatchEvent(new Event("change", { bubbles: true }));
+    expect(root.querySelectorAll(".pattern-measurement-match")).toHaveLength(0);
+    expect(root.querySelector<HTMLElement>(".pattern-measurement-nav-detail")!.textContent)
+      .toContain("Choose a linked page below");
+    expect(root.querySelector('[data-pattern-measurement-page="0"]')!.getAttribute("aria-current")).toBeNull();
+
+    const stalePageLink = root.querySelector<HTMLButtonElement>('[data-pattern-measurement-page="0"]')!;
+    const currentPage = pageSelect.value;
+    stalePageLink.dataset.patternMeasurementPage = "99";
+    stalePageLink.click();
+    expect(pageSelect.value).toBe(currentPage);
+  });
+
+  it("uses an explicit fallback when an option-only mapping has no explanatory text", () => {
+    const original = mutablePatternMeasurementMap.polo["button placket"];
+    mutablePatternMeasurementMap.polo["button placket"] = { fields: [] };
+    try {
+      localStorage.clear();
+      const root = mount();
+      clickId(root, "welcome-skip");
+      clickId(root, "garment-polo");
+      root.querySelector<HTMLButtonElement>('#pattern-annotation-key [data-pattern-piece-name="button placket"]')!.click();
+      expect(root.querySelector<HTMLElement>("#pattern-measurement-feedback")!.textContent)
+        .toContain("No related editable measurements are recorded for button placket.");
+      expect(root.querySelector<HTMLElement>("#pattern-measurement-navigation")!.hidden).toBe(true);
+    } finally {
+      mutablePatternMeasurementMap.polo["button placket"] = original;
+    }
+  });
+
+  it("explains when a mapped field has no page in the active garment", () => {
+    const original = mutablePatternMeasurementMap.tee.front;
+    mutablePatternMeasurementMap.tee.front = { fields: ["waist" as PatternMeasurementField] };
+    try {
+      localStorage.clear();
+      const root = mount();
+      clickId(root, "welcome-skip");
+      root.querySelector<HTMLButtonElement>('#pattern-annotation-key [data-pattern-piece-name="front"]')!.click();
+      expect(root.querySelector<HTMLElement>("#pattern-measurement-feedback")!.textContent)
+        .toContain("No editable measurement page is available for front in this garment.");
+      expect(root.querySelector<HTMLElement>("#pattern-measurement-navigation")!.hidden).toBe(true);
+    } finally {
+      mutablePatternMeasurementMap.tee.front = original;
+    }
   });
 
   it("preserves an incomplete Polo V2 option through recovery", () => {

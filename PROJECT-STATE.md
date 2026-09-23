@@ -1,8 +1,11 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 197 records the draft Phase 6 Pattern-block mapping for
-maintainer review; Phases 4 and 5 are accepted, and Phase 6 remains In Progress,
-2026-09-22.
+_Last updated: Slice 198 implements the maintainer-approved Pattern-to-
+measurement navigation; Phases 4 and 5 are accepted, and Phase 6 remains In
+Progress, 2026-09-22._
+Next: continue Phase 6 by auditing measurement editability/correlation and
+refining the existing artwork form. Safe local asset import (Phase 7), the
+curated artwork library (Phase 8), and a garment queue remain later gates.
 Epics 7, 9 and 10 are implemented, Codex-reviewed, documented and pushed to
 `origin/main`. Epic 11 implementation has completed the shaped collar/stand,
 placket-base, vent/drop, front/back preview/control/report and downstream
@@ -303,6 +306,40 @@ not authorization to implement navigation. A decision is still needed on how
 click/keyboard activation should expose fields spread across multiple groups;
 no application code changed, and app tests/build were not rerun in this
 documentation-only slice.
+
+### Slice 198 — Pattern-block measurement navigation
+
+The maintainer approved opening the first linked measurement page in the order
+Body measurements → Lengths & shape → Fit allowance, with links to each other
+linked page. The Pattern key and SVG blocks now support mouse, Enter, and Space
+activation. Activation selects the matching block, opens the first page,
+brings it into view, focuses its first related field, and highlights only the
+fields mapped to that page. The other page links do the same for their fields.
+Four option-only blocks explain their controlling option group; an unreviewed
+block reports the missing mapping rather than being misclassified as
+option-only. Existing hover correlation remains intact, and navigation does
+not modify measurements or design options.
+
+The inventory and mapping cover the 40 blocks in the current default-option
+drafts: 36 have measurement links and four are option-only. Non-default option
+combinations were not exhaustively inventoried; any block without a reviewed
+entry fails safely with an explanatory message. The implementation resolves
+group indices from the live controls rather than hard-coding page positions.
+
+Verification: the full coverage suite passes at 100% statements, branches,
+functions, and lines; all eight existing export-hash regressions and nine
+export-identity checks pass without baseline changes. `npm run build` passes.
+Browser checks confirmed the linked-page path and unchanged values at desktop,
+and at 375 px the Pattern-key action and all page links wrap without
+horizontal overflow while the selected fields are highlighted and focused;
+no browser errors appeared. The page selector changes as navigation requires;
+measurement and design inputs remain unchanged.
+
+This completes the pattern-to-measurement behavior for the reviewed inventory,
+not Phase 6. General measurement editability/hover correlation and the artwork
+form refinement remain in progress. The canonical Phase 6 board item remains
+In Progress at revision 47; it now records the approved navigation behavior
+and links this verification evidence, superseding the Slice 197 blocker note.
 
 ### Post-merge PR audit — 2026-09-21
 

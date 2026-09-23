@@ -31,6 +31,13 @@ review.
 This workflow intentionally uses direct CLI invocation only. It does not
 require MCP wrappers, API-key integrations, or direct model-provider bridging.
 
+## OpenCode model constraint
+
+Every OpenCode contribution must use Muse Spark 1.3 with extra-high (`xhigh`)
+reasoning in normal mode only. Fast mode and OpenAI models are prohibited. If
+this exact configuration is unavailable, stop and ask the product owner rather
+than silently substituting another model.
+
 ## Standard operating sequence
 
 1. Codex reads the required repository context and assesses the upcoming work.
@@ -47,11 +54,13 @@ require MCP wrappers, API-key integrations, or direct model-provider bridging.
    precise follow-up instructions to the contributor.
 8. Codex paces expensive gates and model use against the usage windows. Luna-max
    is the default; Terra/Sol are short, high/extra-high-only exceptions, Astra
-   and max reasoning are not used for routine development. If a limit is near
-   exhaustion, Codex stops at a verified boundary, records the handoff state
-   and resumes after capacity returns.
-9. Only Codex-approved work reaches `main`.
-10. Codex reports the outcome to the product owner and records useful lessons.
+   and max reasoning are not used for routine development.
+9. Continue while the primary usage window remains available; do not pause at a
+   percentage threshold or because of the weekly meter. When the primary window
+   is exhausted, stop at a verified boundary, record the handoff state, and
+   resume automatically after reset. The weekly meter is informational only.
+10. Only Codex-approved work reaches `main`.
+11. Codex reports the outcome to the product owner and records useful lessons.
 
 ## Delegation decision
 

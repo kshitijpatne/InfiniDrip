@@ -698,3 +698,19 @@ data collection still require their own explicit gate.
   maintainer approval of its direction.
 - Active development pauses on exhaustion of the primary usage window and
   resumes automatically after reset; the weekly meter is informational.
+
+## Phase 6 Pattern-to-measurement navigation — confirmed 2026-09-22
+
+- Keep the pattern-block legibility and navigation requirements as separate
+  acceptance criteria. Use the Slice 197 inventory as the default-options
+  mapping baseline and keep option-only blocks distinct from missing links.
+- Activating a mapped block opens its first linked measurement group in this
+  order: Body measurements, Lengths & shape, Fit allowance. Offer links to all
+  other linked groups; each destination highlights the mapped fields and
+  focuses the first one.
+- Support mouse, Enter, and Space activation with visible keyboard focus.
+  Navigation is read-only with respect to measurements and design choices.
+  For an option-only block, identify its controlling option group and do not
+  navigate to an unrelated measurement.
+- Slice 198 implements this behavior locally in the existing UI; it adds no
+  account, remote service, database, or paid dependency.

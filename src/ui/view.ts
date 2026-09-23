@@ -161,6 +161,7 @@ export function controlsMarkup(
     `<legend>${page.label}</legend>${page.body}</fieldset>`).join("");
   return `<section id="controls-panel" role="region" aria-labelledby="measurements-title">` +
     `${panelTitle("Measurements & construction (cm)", "measurements-title")}` +
+    `<div id="pattern-measurement-navigation" hidden></div>` +
     `<nav class="control-pages" aria-label="Measurement groups">` +
     `<button type="button" data-control-page-step="-1" aria-label="Previous measurement group" disabled>←</button>` +
     `<select id="control-page-select" aria-label="Measurement group">${selector}</select>` +
@@ -565,7 +566,11 @@ interface PatternKeyEntry {
 }
 
 /** Keep piece names and construction text out of the scaled pattern geometry. */
-export function patternAnnotationKeyMarkup(pieces: readonly Piece[]): string {
+export function patternAnnotationKeyMarkup(
+  pieces: readonly Piece[],
+  selectedPieceName: string | null = null,
+  feedback = "",
+): string {
   const pieceItems = pieces.map((piece, index) => {
     const entries = new Map<string, PatternKeyEntry>();
     const addEntry = (entry: PatternKeyEntry): void => {
@@ -599,15 +604,24 @@ export function patternAnnotationKeyMarkup(pieces: readonly Piece[]): string {
     const noAnnotations = annotations ? "" :
       `<li class="pattern-annotation-empty">No written construction marks.</li>`;
     const name = escapeAttr(piece.name.toUpperCase());
+    const selected = piece.name === selectedPieceName;
     return `<li class="pattern-piece-key-item"><h4 class="pattern-piece-key-heading">` +
-      `<span class="pattern-piece-key-index" aria-label="Piece ${index + 1}">${String(index + 1).padStart(2, "0")}</span>` +
-      `<span>${name}</span></h4><ul class="pattern-piece-key-annotations">${annotations}${noAnnotations}</ul></li>`;
+      `<button type="button" class="pattern-piece-key-select" data-pattern-piece-index="${index}" ` +
+      `data-pattern-piece-name="${escapeAttr(piece.name)}" aria-pressed="${selected}" ` +
+      `aria-label="Open related measurements for ${name} pattern block">` +
+      `<span class="pattern-piece-key-index" aria-hidden="true">${String(index + 1).padStart(2, "0")}</span>` +
+      `<span class="pattern-piece-key-name">${name}</span>` +
+      `<span class="pattern-piece-key-action" aria-hidden="true">Measurements ↗</span></button></h4>` +
+      `<ul class="pattern-piece-key-annotations">${annotations}${noAnnotations}</ul></li>`;
   }).join("");
+  const feedbackMarkup = `<p id="pattern-measurement-feedback" class="pattern-measurement-feedback" ` +
+    `role="status" aria-live="polite"${feedback === "" ? " hidden" : ""}>${escapeAttr(feedback)}</p>`;
   return `<aside id="pattern-annotation-key" aria-labelledby="pattern-annotation-title" ` +
     `style="--pattern-heading-color:${T.patternHeading};--pattern-label-color:${T.patternLabel};` +
     `--pattern-instruction-color:${T.patternInstruction};--pattern-key-background:${T.background}">` +
     `<header class="pattern-annotation-key-header"><h3 id="pattern-annotation-title">Pattern key</h3>` +
-    `<p>Names, labels, and instructions follow the pattern-piece order. Scroll the key to see every piece; text stays outside the cut shapes.</p></header>` +
+    `<p>Activate a piece or its name to open related measurements. Names, labels, and instructions follow piece order; text stays outside the cut shapes.</p></header>` +
+    feedbackMarkup +
     `<ol class="pattern-piece-key">${pieceItems}</ol></aside>`;
 }
 

@@ -136,29 +136,25 @@ Add these as two distinct acceptance criteria:
    visible focus. Navigation must not change a measurement or other design
    value.
 
-Before implementing this navigation, prepare and review a compact inventory
-with one row per pattern block:
+The inventory has one row per pattern block:
 
 `pattern block → related editable measurement field(s) → measurement page`
 
 For a block without a meaningful measurement relationship, record that
-explicitly; do not route it to an unrelated field. Blocks that relate to fields
-on multiple measurement pages require a maintainer decision about which page
-to open and how to present the cross-page relationship. That behavior remains
-unresolved and must not be guessed in implementation. The navigation criterion
-is not ready for implementation until the inventory is reviewed and the
-multi-page behavior is decided. This unresolved sub-scope does not block other
-independently scoped Phase 6 work, including pattern-block legibility. This
-amendment does not itself change Phase 6's backlog status.
+explicitly; do not route it to an unrelated field. The maintainer approved
+opening the first linked page in the order Body measurements → Lengths & shape
+→ Fit allowance and offering links to the other related pages. Each link
+highlights and focuses that page's mapped fields without changing any design
+value. This amendment does not itself change Phase 6's backlog status.
 
 **Progress:** Slice 196 completes the pattern-block legibility criterion. The
 Pattern view keeps piece geometry free of text and presents headings, labels,
-and construction instructions in an ordered, responsive key. A 40-block
-candidate field/group mapping is recorded in the
-[Phase 6 inventory](PRE-GARMENT-PHASE6-PATTERN-MEASUREMENT-INVENTORY.md). It
-identifies 28 blocks that span multiple groups; navigation remains
-unimplemented pending maintainer review and a cross-page behavior decision.
-Other Phase 6 measurement and artwork-form criteria remain in progress.
+and construction instructions in an ordered, responsive key. Slice 197 records
+the 40-block field/group inventory; 28 linked blocks span multiple groups.
+Slice 198 implements pattern-to-measurement navigation using the approved
+first-page-plus-links behavior. Its regression, mapping-review, and export
+identity gates are recorded in `PROJECT-STATE.md`. Other Phase 6 measurement
+and artwork-form criteria remain in progress.
 
 ## Phase 7 — Drag-and-drop local asset workflow
 

@@ -28,6 +28,7 @@ import {
   type SurfaceBook,
 } from "../surface/store";
 import { pieceFrames } from "../surface/piece-frames";
+import { patternMeasurementDefinition, type PatternMeasurementField } from "./pattern-measurements";
 import {
   JourneyStep, ViewName, StageReadiness, StageBlocker, TutorialStep, COACHED_STEPS, disclosureFor, stepView, journeyChecklist,
   journeyBarMarkup, checklistMarkup, tutorialMarkup, tutorialAnnouncement,
@@ -61,6 +62,19 @@ interface DraftSnapshot {
   readonly exportStep: number;
   readonly fabricWidth: number;
   readonly nestScope: "single" | "marker";
+}
+
+interface PatternMeasurementDestination {
+  readonly stage: "measure" | "fit";
+  readonly pageIndex: number;
+  readonly label: string;
+  readonly fields: readonly PatternMeasurementField[];
+}
+
+interface PatternMeasurementNavigation {
+  readonly garment: string;
+  readonly pieceName: string;
+  readonly destinations: readonly PatternMeasurementDestination[];
 }
 
 const HISTORY_LIMIT = 30;
@@ -124,6 +138,8 @@ export function mountApp(root: HTMLElement): void {
   let currentNotes: readonly Note[] = [];
   const ignoredGuidance = new Set<string>();
   const selectedControlPages = new Map<JourneyStep, number>();
+  let patternMeasurementNavigation: PatternMeasurementNavigation | null = null;
+  let patternMeasurementFeedback = "";
 
   let targetStyle = initialWorkspace.targetStyle;
   let stretchFabric = STRETCH_FABRICS.find((f) => f.name === initialWorkspace.stretchFabric)!;
@@ -592,6 +608,22 @@ export function mountApp(root: HTMLElement): void {
         svg.setAttribute("aria-label", label);
       }
     });
+    if (view === "pattern" && !previewActive && patternKey && svgs.length > 0) {
+      const svg = svgs[0];
+      svg.setAttribute("role", "group");
+      svg.setAttribute("aria-label", "Pattern pieces. Activate a piece to open its related measurements.");
+      const keyButtons = [...patternKey.querySelectorAll<HTMLButtonElement>(".pattern-piece-key-select")];
+      [...svg.querySelectorAll<SVGGElement>(":scope > g[transform]")].forEach((group, index) => {
+        const keyButton = keyButtons[index]!;
+        const pieceName = keyButton.dataset.patternPieceName!;
+        group.dataset.patternPieceIndex = String(index);
+        group.classList.add("pattern-block-control");
+        group.setAttribute("tabindex", "0");
+        group.setAttribute("role", "button");
+        group.setAttribute("aria-label", `Open related measurements for ${pieceName.toUpperCase()} pattern block`);
+        group.setAttribute("aria-pressed", String(keyButton.getAttribute("aria-pressed") === "true"));
+      });
+    }
     const viewportWidth = Math.max(260, viewport.clientWidth - 16 || 560);
     const zoomOutput = root.querySelector<HTMLOutputElement>("#inspection-zoom");
     if (svgs.length === 0) {
@@ -953,7 +985,11 @@ export function mountApp(root: HTMLElement): void {
         pieces,
         { active: pieces[0].name, notches: recipe.notches, allowances: recipe.allowances,
           layout: recipe.name === "polo" ? "polo" : "linear", annotationMode: "external" });
-      canvasContent += patternAnnotationKeyMarkup(pieces);
+      canvasContent += patternAnnotationKeyMarkup(
+        pieces,
+        patternMeasurementNavigation?.garment === recipe.name ? patternMeasurementNavigation.pieceName : null,
+        patternMeasurementFeedback,
+      );
     }
     const assembled = isTop
       ? renderGarment(measurements, fabric, hasSleeve,
@@ -969,6 +1005,7 @@ export function mountApp(root: HTMLElement): void {
     );
     syncRangeIndicators();
     applyInspectionPresentation();
+    syncPatternMeasurementNavigation();
     // One sanity read for the whole frame: are the numbers a real body? It gates
     // every green "validated" signal — the check banner, the style ✓ — and flags
     // the offending fields, so geometry passing can never masquerade as "ready".
@@ -1123,6 +1160,13 @@ export function mountApp(root: HTMLElement): void {
     if (menu.open && !menu.contains(element)) menu.open = false;
     const target = element.closest<HTMLElement>("button");
     if (!target) return;
+    const patternPage = target.closest<HTMLButtonElement>("button[data-pattern-measurement-page]");
+    if (patternPage) {
+      e.preventDefault();
+      e.stopPropagation();
+      navigateToPatternMeasurementPage(Number(patternPage.dataset.patternMeasurementPage));
+      return;
+    }
     const id = target.id;
     const idx = COACHED_STEPS.findIndex((st) => st.id === journey.step);
     if (id === "welcome-start") {
@@ -1216,7 +1260,186 @@ export function mountApp(root: HTMLElement): void {
   const setControlPage = (index: number): void => {
     selectedControlPages.set(journey.step === "fit" ? "fit" : "measure", index);
     syncControlPages();
+    syncPatternMeasurementNavigation();
   };
+  const patternMeasurementDestinations = (
+    fields: readonly PatternMeasurementField[],
+  ): readonly PatternMeasurementDestination[] | null => {
+    const pages = new Map<string, {
+      stage: "measure" | "fit";
+      pageIndex: number;
+      label: string;
+      fields: PatternMeasurementField[];
+    }>();
+    for (const field of fields) {
+      const input = root.querySelector<HTMLInputElement>(`input[data-field="${field}"]`);
+      const page = input?.closest<HTMLElement>("[data-control-page]");
+      const stage = page?.dataset.controlStage;
+      const label = page?.dataset.controlLabel;
+      const pageIndex = Number(page?.dataset.controlPage);
+      if (!input || !page || (stage !== "measure" && stage !== "fit") || !label || !Number.isInteger(pageIndex)) {
+        return null;
+      }
+      const key = `${stage}:${pageIndex}`;
+      const destination = pages.get(key) ?? { stage, pageIndex, label, fields: [] };
+      if (!destination.fields.includes(field)) destination.fields.push(field);
+      pages.set(key, destination);
+    }
+    const order: Readonly<Record<string, number>> = {
+      "Body measurements": 0,
+      "Lengths & shape": 1,
+      "Fit allowance": 2,
+    };
+    return [...pages.values()].sort((left, right) =>
+      order[left.label] - order[right.label]);
+  };
+  const patternMeasurementFieldLabel = (field: PatternMeasurementField): string =>
+    FIELDS.find((item) => item.id === field)!.label;
+  const syncPatternMeasurementNavigation = (): void => {
+    const host = root.querySelector<HTMLElement>("#pattern-measurement-navigation")!;
+    const navigation = patternMeasurementNavigation;
+    if (!navigation) {
+      host.hidden = true;
+      host.replaceChildren();
+      delete host.dataset.navigationSignature;
+      root.querySelectorAll<HTMLElement>("[data-dim-row]").forEach((row) => {
+        row.classList.remove("pattern-measurement-match");
+        row.querySelector(".pattern-measurement-match-badge")?.remove();
+      });
+      return;
+    }
+
+    const currentPage = [...root.querySelectorAll<HTMLElement>("[data-control-page]")]
+      .find((page) => !page.hidden)!;
+    const active = navigation.destinations.find((destination) =>
+      destination.stage === currentPage.dataset.controlStage &&
+      destination.pageIndex === Number(currentPage.dataset.controlPage));
+    root.querySelectorAll<HTMLElement>("[data-dim-row]").forEach((row) => {
+      row.classList.remove("pattern-measurement-match");
+      row.querySelector(".pattern-measurement-match-badge")?.remove();
+      const field = row.dataset.dimRow as PatternMeasurementField | undefined;
+      if (!active || !field || !active.fields.includes(field)) return;
+      row.classList.add("pattern-measurement-match");
+      const label = row.querySelector<HTMLElement>(":scope > span");
+      if (label) {
+        const badge = document.createElement("span");
+        badge.className = "pattern-measurement-match-badge";
+        badge.textContent = "Linked from pattern";
+        label.append(badge);
+      }
+    });
+
+    const activeIndex = active ? navigation.destinations.indexOf(active) : -1;
+    const signature = `${navigation.garment}:${navigation.pieceName}:${activeIndex}`;
+    if (host.dataset.navigationSignature !== signature) {
+      const section = document.createElement("section");
+      section.className = "pattern-measurement-nav";
+      section.setAttribute("aria-label", "Pattern block measurement links");
+      const title = document.createElement("p");
+      title.className = "pattern-measurement-nav-title";
+      title.textContent = `Pattern block: ${navigation.pieceName}`;
+      const detail = document.createElement("p");
+      detail.className = "pattern-measurement-nav-detail";
+      detail.textContent = active
+        ? `Related fields on this page: ${active.fields.map(patternMeasurementFieldLabel).join(", ")}.`
+        : "Choose a linked page below to show and highlight its related fields.";
+      const links = document.createElement("nav");
+      links.className = "pattern-measurement-nav-links";
+      links.setAttribute("aria-label", `Measurement pages for ${navigation.pieceName}`);
+      navigation.destinations.forEach((destination, index) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.dataset.patternMeasurementPage = String(index);
+        button.textContent = destination.label;
+        const fieldLabels = destination.fields.map(patternMeasurementFieldLabel);
+        button.setAttribute("aria-label", `Open ${destination.label}; related fields: ${fieldLabels.join(", ")}`);
+        if (index === activeIndex) button.setAttribute("aria-current", "page");
+        links.append(button);
+      });
+      section.append(title, detail, links);
+      host.replaceChildren(section);
+      host.dataset.navigationSignature = signature;
+    }
+    host.hidden = false;
+  };
+  const syncPatternMeasurementFeedback = (): void => {
+    const feedback = root.querySelector<HTMLElement>("#pattern-measurement-feedback");
+    if (!feedback) return;
+    feedback.textContent = patternMeasurementFeedback;
+    feedback.hidden = patternMeasurementFeedback === "";
+  };
+  const focusPatternMeasurementDestination = (destination: PatternMeasurementDestination): void => {
+    if (journey.step !== destination.stage) setStep(destination.stage);
+    setControlPage(destination.pageIndex);
+    syncPatternMeasurementNavigation();
+    root.querySelector<HTMLInputElement>(`input[data-field="${destination.fields[0]}"]`)?.focus();
+  };
+  const syncPatternPieceSelection = (selectedIndex: number): void => {
+    root.querySelectorAll<HTMLElement>("[data-pattern-piece-index]").forEach((piece) => {
+      piece.setAttribute("aria-pressed", String(Number(piece.dataset.patternPieceIndex) === selectedIndex));
+    });
+  };
+  const activatePatternPiece = (index: number): void => {
+    const keyButton = root.querySelector<HTMLButtonElement>(
+      `#pattern-annotation-key button[data-pattern-piece-index="${index}"]`,
+    )!;
+    const pieceName = keyButton.dataset.patternPieceName!;
+    syncPatternPieceSelection(index);
+    const definition = patternMeasurementDefinition(recipe.name, pieceName);
+    if (!definition) {
+      patternMeasurementNavigation = null;
+      patternMeasurementFeedback = `No reviewed measurement mapping is recorded for ${pieceName}.`;
+      syncPatternMeasurementFeedback();
+      syncPatternMeasurementNavigation();
+      return;
+    }
+    if (definition.fields.length === 0) {
+      patternMeasurementNavigation = null;
+      patternMeasurementFeedback = definition.noMeasurementReason ??
+        `No related editable measurements are recorded for ${pieceName}.`;
+      syncPatternMeasurementFeedback();
+      syncPatternMeasurementNavigation();
+      return;
+    }
+    const destinations = patternMeasurementDestinations(definition.fields);
+    if (!destinations) {
+      patternMeasurementNavigation = null;
+      patternMeasurementFeedback = `No editable measurement page is available for ${pieceName} in this garment.`;
+      syncPatternMeasurementFeedback();
+      syncPatternMeasurementNavigation();
+      return;
+    }
+    patternMeasurementNavigation = { garment: recipe.name, pieceName, destinations };
+    patternMeasurementFeedback = `Related measurements for ${pieceName} are highlighted.`;
+    syncPatternMeasurementFeedback();
+    focusPatternMeasurementDestination(destinations[0]);
+  };
+  const navigateToPatternMeasurementPage = (index: number): void => {
+    const navigation = patternMeasurementNavigation!;
+    const destination = navigation.destinations[index];
+    if (!destination) return;
+    patternMeasurementFeedback = `Showing ${destination.label} fields for ${navigation.pieceName}.`;
+    syncPatternMeasurementFeedback();
+    focusPatternMeasurementDestination(destination);
+  };
+  canvasHost.addEventListener("click", (event) => {
+    const target = (event.target as Element | null)?.closest<SVGElement | HTMLButtonElement>(
+      "[data-pattern-piece-index]",
+    );
+    if (!target) return;
+    event.preventDefault();
+    event.stopPropagation();
+    activatePatternPiece(Number(target.dataset.patternPieceIndex));
+  });
+  canvasHost.addEventListener("keydown", (event) => {
+    const target = (event.target as Element | null)?.closest<SVGElement>(
+      "g.pattern-block-control[data-pattern-piece-index]",
+    );
+    if (!target || (event.key !== "Enter" && event.key !== " ")) return;
+    event.preventDefault();
+    event.stopPropagation();
+    activatePatternPiece(Number(target.dataset.patternPieceIndex));
+  });
   root.addEventListener("change", (event) => {
     const target = event.target as HTMLSelectElement;
     if (target.id === "control-page-select") setControlPage(Number(target.value));
@@ -1337,6 +1560,8 @@ export function mountApp(root: HTMLElement): void {
   });
 
   const setGarment = (name: string): void => {
+    patternMeasurementNavigation = null;
+    patternMeasurementFeedback = "";
     recipe = garmentByName(name);
     if (!materialSelectionExplicit) {
       const defaultMaterial = defaultStretchFabricForGarment(recipe.name);
@@ -2043,6 +2268,8 @@ export function mountApp(root: HTMLElement): void {
   });
 
   const syncWorkspace = (restoring: boolean): void => {
+    patternMeasurementNavigation = null;
+    patternMeasurementFeedback = "";
     selectedControlPages.clear();
     editedFront = null;
     selectedId = null;

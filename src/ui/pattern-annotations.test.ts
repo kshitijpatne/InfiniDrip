@@ -49,6 +49,17 @@ describe("Pattern annotation key", () => {
     expect(html.match(/pattern-annotation-row /g)).toHaveLength(1);
   });
 
+  it("offers a keyboard-operable block action with a selected state and feedback region", () => {
+    const source = rolePiece(draftPolo(STANDARD_M), "front");
+    const html = patternAnnotationKeyMarkup([source], source.name, "Related measurements are highlighted.");
+    expect(html).toContain('data-pattern-piece-index="0"');
+    expect(html).toContain('aria-pressed="true"');
+    expect(html).toContain('aria-label="Open related measurements for FRONT pattern block"');
+    expect(html).toContain('id="pattern-measurement-feedback"');
+    expect(html).toContain("Related measurements are highlighted.");
+    expect(html).toContain("Activate a piece or its name to open related measurements.");
+  });
+
   it("uses three high-contrast colors whose meaning is reinforced by text and shape", () => {
     for (const color of [BLUEPRINT.patternHeading, BLUEPRINT.patternLabel, BLUEPRINT.patternInstruction]) {
       expect(contrastRatio(color, BLUEPRINT.background)).toBeGreaterThanOrEqual(4.5);

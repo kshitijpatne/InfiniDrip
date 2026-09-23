@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 43,
-  "updatedAt": "2026-09-23T01:40:21.182Z",
+  "revision": 47,
+  "updatedAt": "2026-09-23T03:46:25.931Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -1852,7 +1852,7 @@
         "Invalid values stay visible instead of being silently clamped.",
         "The integrated form is verified at desktop and narrow widths.",
         "Pattern-block legibility: In every existing garment Pattern view, block headings, labels, and instructions are readable and visually distinct; text does not collide with other text or pattern geometry; high-contrast color roles are reinforced by typography or other cues; verify desktop and narrow widths.",
-        "Pattern-to-measurement navigation: Activating a pattern block opens the page containing its related editable field(s), brings that page into view, and highlights those fields; preserve hover correlation; support keyboard operation with visible focus; do not change measurements or design values. Before implementation, review an inventory mapping every pattern block to its related field(s) and measurement page, explicitly marking blocks without a meaningful mapping. Cross-page mappings require a maintainer decision and must not be guessed. This unresolved navigation detail does not block pattern-block legibility or other independently scoped Phase 6 work."
+        "Pattern-to-measurement navigation: Activating a pattern block opens its related editable measurement fields, brings their page into view, and highlights them; preserve hover correlation and support keyboard use with visible focus, without changing measurement or design values. The inventory covers the 40 blocks emitted by current default-option designs and distinguishes option-only from unreviewed blocks. For cross-page links, open the first group in the order Body measurements, Lengths & shape, Fit allowance, and offer links to every other linked group; each link focuses and highlights its fields. The maintainer approved this behavior on 2026-09-22. An unreviewed live block must report the missing mapping rather than route to an unrelated field."
       ],
       "statusHistory": [
         {
@@ -1885,10 +1885,16 @@
           "at": "2026-09-23T01:40:21.182Z",
           "actor": "Codex",
           "text": "Slice 197 drafted the 40-block pattern-to-measurement inventory in docs/planning/PRE-GARMENT-PHASE6-PATTERN-MEASUREMENT-INVENTORY.md. It identifies 28 blocks spanning multiple control groups (including Fit-stage Fit allowance); no navigation implementation until maintainer review and a cross-page behavior decision."
+        },
+        {
+          "at": "2026-09-23T03:45:41.161Z",
+          "actor": "Codex",
+          "text": "Slice 198 implements the approved Pattern-to-measurement navigation. This supersedes the Slice 197 comment: the first linked group opens in the approved order, links navigate to other mapped groups, and each destination highlights/focuses its fields. The default-options inventory covers 40 blocks (36 measurement-linked, 4 option-only); unreviewed blocks fail visibly. Phase 6 remains In Progress while measurement/artwork-form work continues."
         }
       ],
       "evidenceRefs": [
-        "E-PREQUEUE-PHASE6-PATTERN-LEGIBILITY"
+        "E-PREQUEUE-PHASE6-PATTERN-LEGIBILITY",
+        "E-PREQUEUE-PHASE6-PATTERN-NAV-S198"
       ],
       "flagKey": null
     },
@@ -2310,6 +2316,15 @@
       "sha256": null,
       "verified": true,
       "note": "Slice 196 completed Pattern-view legibility; 100% coverage, production build, seven-garment desktop/narrow render matrix, and unchanged export regression/identity gates passed."
+    },
+    {
+      "id": "E-PREQUEUE-PHASE6-PATTERN-NAV-S198",
+      "kind": "document",
+      "uri": "PROJECT-STATE.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Slice 198 implements the approved first-page-plus-links Pattern-to-measurement behavior. Full coverage is 100% across statements, branches, functions, and lines; 8 legacy export-hash checks and 9 export-identity checks pass unchanged; build and desktop/narrow browser checks pass. Details are in the Slice 198 PROJECT-STATE entry."
     }
   ]
 }

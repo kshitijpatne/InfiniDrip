@@ -66,7 +66,11 @@ show or check the same current draft:
   construction instructions appear in a separate, ordered key beside the
   drawing on wide screens and above it on narrow screens. Different text
   styles distinguish labels from instructions without placing text over the
-  pattern shapes.
+  pattern shapes. Activate a piece by mouse or keyboard to open its related
+  measurement page. When fields span pages, links open the other groups; each
+  destination highlights and focuses the related fields without changing their
+  values. A piece controlled only by design options explains that instead of
+  jumping to an unrelated measurement.
 - **Body:** A simplified front, back, or side drawing that shows where
   measurements apply. It is not a body scan or photo.
 - **Assembled:** A flat diagram of how the cut pieces relate when joined. It is
