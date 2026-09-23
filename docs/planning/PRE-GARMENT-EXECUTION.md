@@ -277,6 +277,16 @@ useful asset.
 **Exit:** the local V1 pack has verified provenance and is categorized,
 searchable and useful for garment design rather than a generic image gallery.
 
+**Progress — Slice 201:** a typed, local-only catalog and eight visually
+reviewed, byte-verified Met textile references are recorded in
+`docs/planning/ARTWORK-LIBRARY-V1-EXECUTION.md`. Item pages and API records were
+rechecked on 2026-09-23; all eight show the Public Domain label and
+`isPublicDomain: true`. The seed spans seven of ten taxonomy categories; it
+intentionally leaves dot/spot, abstract, and typography/logo empty. The catalog
+is not yet browseable. Slices 202–203 add search/guidance and the authoring UI;
+Phase 9 must assess whether this starter collection is varied enough and record
+the maintainer's decision before the garment queue can reopen.
+
 ## Phase 9 — V1 practice and expansion decision
 
 Use the first curated library and local import flow. Qualitatively assess whether

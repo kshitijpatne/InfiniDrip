@@ -1,9 +1,10 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 200 completes the Phase 7 local artwork-import workflow and
-verification; Phase 8 has begun, 2026-09-23._
-Next: research and build the approved provenance-verified local artwork library
-V1. The garment queue remains closed until Phase 9 review and explicit approval.
+_Last updated: Slice 201 seeds and verifies the Phase 8 local artwork catalog;
+Phase 8 continues, 2026-09-23._
+Next: implement fully tested local search and suitability guidance, then expose
+the catalog through the artwork UI. The garment queue remains closed until
+Phase 9 review and explicit approval.
 Epics 7, 9 and 10 are implemented, Codex-reviewed, documented and pushed to
 `origin/main`. Epic 11 implementation has completed the shaped collar/stand,
 placket-base, vent/drop, front/back preview/control/report and downstream
@@ -398,6 +399,41 @@ rejection, and active-SVG rejection. The in-app browser profile also retained
 its imported SVG after reload; its 64×64 preview loaded at 375px with no
 horizontal overflow and no browser-console errors. No account, database,
 provider, network fetch, or paid service was introduced.
+
+### Slice 201 — Seed the source-verified local artwork catalog
+
+Slice 201 adds a typed catalog and eight original Met textile-reference JPEGs
+under `src/surface/artwork-library/`. The image files total 27,505,499 bytes.
+Each record stores a stable `builtin-met-<objectID>` ID, source-page and API
+URLs, the Public Domain item label, the API rights flag, credit line, retrieval
+and verification date, exact image dimensions/byte length/SHA-256, categories,
+tags, repeat/direction observations, garment/piece-role suggestions, and a
+clearly qualified placement-width range. `localImageUrl` resolves from the
+catalog module to a build-time local asset; museum URLs are provenance text,
+not rendering sources.
+
+The Met item pages and API records were checked on 2026-09-23 for all eight
+items; all pages displayed Public Domain and Download Image, all API records
+reported `isPublicDomain: true`, and all had the exact `primaryImage` used for
+the corresponding downloaded file. The original images were visually reviewed
+and not edited. They are textile photographs or paper design studies, not
+seamless production tiles. The collection currently covers seven of ten
+approved taxonomy categories; dot/spot, abstract, and typography/logo remain
+empty rather than being filled with unrelated images. In particular, the
+632-pixel-wide pheasant reference is tagged for small focal use and may trigger
+resolution guidance.
+
+The focused catalog test verifies unique IDs, required metadata, local-only
+render URLs, JPEG signatures and dimensions, and exact byte lengths and
+SHA-256 values. The complete Vitest coverage run passed across 110 test files
+and 100 source files at 100% statements, branches, functions, and lines; the
+production TypeScript/Vite build and export byte-identity regressions also pass.
+The catalog is seeded but not yet browseable in the application;
+search/guidance and UI work follow in Slices 202 and 203. This seed does not
+claim broad category coverage or production-print suitability. Phase 9 must
+evaluate whether its variety is sufficient and record the maintainer's explicit
+V1/expansion decision. No user artwork store, design schema, geometry, or
+export was changed.
 
 ### Post-merge PR audit — 2026-09-21
 

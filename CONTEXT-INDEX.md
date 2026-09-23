@@ -123,6 +123,9 @@ snapshots; they are not current status.
 - `docs/planning/PRE-GARMENT-EXECUTION.md` — maintainer-approved nine-phase
   no-cost sequence, acceptance criteria, durable work boundaries, and final
   approval gate before the next garment queue.
+- `docs/planning/ARTWORK-LIBRARY-V1-EXECUTION.md` — Phase 8's local asset
+  provenance, catalog contract, search/filter and recommendation semantics,
+  bounded slice sequence, and Phase 9 maintainer gate.
 - `docs/planning/PRE-GARMENT-PHASE6-PATTERN-MEASUREMENT-INVENTORY.md` — the
   40-block default-options mapping to measurement fields and groups, with the
   approved first-page-plus-links behavior used by Slice 198. Option-only

@@ -120,7 +120,10 @@ preview are temporary; it is not a general pattern editor.
   local asset ID and optional source-pixel dimensions. Missing local files can
   be restored or replaced. The placement preview still shows only its
   rectangle, not artwork on a garment. Import does not change garment geometry
-  or exports; a curated artwork library remains future work.
+  or exports. A small source-verified catalog of textile references is now
+  recorded in the repository, but is not yet browseable in the app. Its next
+  steps add local search, explained guidance, and the authoring UI; museum
+  links remain attribution text and are never fetched at runtime.
 - **Exports** use the same pattern data. SVG and DXF are outline files used by
   pattern and drawing programs; their lines and curves stay crisp when resized.
   A tiled PDF splits a full-size pattern across regular printer pages; an A0

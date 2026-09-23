@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 57,
-  "updatedAt": "2026-09-23T17:30:24.021Z",
+  "revision": 60,
+  "updatedAt": "2026-09-23T18:39:21.364Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -2066,9 +2066,17 @@
           ]
         }
       ],
-      "comments": [],
+      "comments": [
+        {
+          "at": "2026-09-23T18:39:21.364Z",
+          "actor": "Codex",
+          "text": "Slice 201 complete: seeded eight provenance-verified local textile references across seven taxonomy categories. Catalog verifier, full 100% coverage gate, production build, and export byte-identity regressions pass. Phase 8 remains In Progress; continue with search/guidance and local UI, then assess whether V1 variety is sufficient in Phase 9."
+        }
+      ],
       "evidenceRefs": [
-        "E-PREQUEUE-PHASE7-S200"
+        "E-PREQUEUE-PHASE7-S200",
+        "E-PREQUEUE-PHASE8-S201-SOURCES",
+        "E-PREQUEUE-PHASE8-S201-TEST"
       ],
       "flagKey": null
     },
@@ -2424,6 +2432,24 @@
       "sha256": null,
       "verified": true,
       "note": "Slice 200 passed full 100% coverage and export identity gates, browser reload/narrow-width review, desktop picker/reload/restart and IPC safety verification, production/Electron builds, and local Control Center/release/readiness tests. Details and verifier path are recorded in PROJECT-STATE.md."
+    },
+    {
+      "id": "E-PREQUEUE-PHASE8-S201-SOURCES",
+      "kind": "document",
+      "uri": "docs/planning/ARTWORK-LIBRARY-V1-EXECUTION.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Slice 201: eight item-level source records, rights checks, and local artwork catalog provenance are documented."
+    },
+    {
+      "id": "E-PREQUEUE-PHASE8-S201-TEST",
+      "kind": "test",
+      "uri": "src/surface/artwork-library/catalog.test.ts",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Slice 201: unique IDs, local paths, metadata, JPEG signatures/dimensions, byte sizes, and SHA-256 all verified."
     }
   ]
 }
