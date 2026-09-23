@@ -1,6 +1,7 @@
 # Pre-garment Phase 5 — README and architecture guide
 
-**Status:** documentation revised and independently cold-reader reviewed.
+**Status:** accepted on the canonical Control Center board at revision 39 with
+evidence `E-PREQUEUE-PHASE5-EXIT`.
 **Date:** 2026-09-22.
 
 ## Delivered

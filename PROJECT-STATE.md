@@ -1,8 +1,7 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 194 completes the README and architecture-guide revision;
-Phase 4 is accepted, Phase 5 is in Review, and Phase 6 remains in Backlog,
-2026-09-22.
+_Last updated: Slice 195 accepts the README and architecture-guide revision;
+Phases 4 and 5 are accepted, and Phase 6 remains in Backlog, 2026-09-22.
 Epics 7, 9 and 10 are implemented, Codex-reviewed, documented and pushed to
 `origin/main`. Epic 11 implementation has completed the shaped collar/stand,
 placket-base, vent/drop, front/back preview/control/report and downstream
@@ -245,6 +244,16 @@ the full app/build/export gates were not rerun for this documentation-only
 slice. The canonical board moved Phase 5 to Review at revision 37; Phase 6
 remains Backlog. Phase 6 navigation still requires the pattern-block mapping
 inventory and maintainer choice for cross-page mappings before implementation.
+
+### Slice 195 — accept Phase 5 documentation exit
+
+The canonical board moved Phase 5 from Review to Done at revision 39 with
+verified evidence `E-PREQUEUE-PHASE5-EXIT`, linked to
+`docs/planning/PRE-GARMENT-PHASE5-EXIT.md` and Slice 194 (`27186f1`). Phase 5
+is accepted. Phase 6 remains the next planned item; its pattern-to-measurement
+navigation is still blocked on the inventory and explicit maintainer choice
+for blocks linked across measurement pages. No implementation from Phase 6
+began in this acceptance slice.
 
 ### Post-merge PR audit — 2026-09-21
 
