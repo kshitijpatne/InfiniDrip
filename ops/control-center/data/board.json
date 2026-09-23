@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 83,
-  "updatedAt": "2026-09-23T20:08:21.174Z",
+  "revision": 86,
+  "updatedAt": "2026-09-23T20:14:06.938Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -2632,7 +2632,7 @@
     {
       "id": "CAPABILITY-G12",
       "type": "epic",
-      "title": "G12 Live marketplace and operations",
+      "title": "G12 Live marketplace infrastructure",
       "epicId": null,
       "releaseId": null,
       "status": "Backlog",
@@ -2653,12 +2653,12 @@
         "100% coverage",
         "maintainer gates"
       ],
-      "description": "Future capability goal G12. Detailed planned packets and evidence: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md. Baseline start: Research 2026-10-05; code no earlier than launch re-entry. Planned work: 12–20 software, separate unknown operations landed slices. Context: G11 plus approved identity, privacy, legal/commercial role, operating costs and actual supply. Target dates are conditional; no Phase 9, garment, launch-cost, supplier-contact, or physical-sampling gate is overridden.",
-      "expectation": "Live validated supplier directory, messaging, RFQ, sample/order/quality/shipping workflow with incident/support/rollback plan. Cost/approval hold may shift date indefinitely.",
+      "description": "Future launch-gated G12, detailed in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md. Validated supplier identity, revision-bound RFQ and communications, audit/support foundation. No real sample, payment, production or shipping acceptance before G15/G16. Conditional target 2029-06-15 and 9–15 software slices; no launch-cost hold is lifted.",
+      "expectation": "Supplier directory, messages and quotes are evidence-backed and revision-bound; operational fulfilment remains G16 after approved physical evidence.",
       "acceptanceCriteria": [
-        "Complete every G12 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
-        "Live validated supplier directory, messaging, RFQ, sample/order/quality/shipping workflow with incident/support/rollback plan. Cost/approval hold may shift date indefinitely.",
-        "Record reviewed code/output evidence, residual limitations, actual completion date, and downstream reforecast before Done."
+        "Complete G12 S03–S05 planned packets and reviewed evidence under explicit launch authorization.",
+        "No physical sample, payment, production, QC or shipping claim is closed by this infrastructure goal.",
+        "Record actual completion, limitations and downstream G15/G16 reforecast before Done."
       ],
       "statusHistory": [
         {
@@ -2768,6 +2768,99 @@
           "actor": "Codex",
           "role": "maintainer",
           "note": "Register maintainer-directed, conditional post-Phase-9 roadmap without opening its gated work.",
+          "evidenceRefs": []
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [],
+      "flagKey": null
+    },
+    {
+      "id": "CAPABILITY-G15",
+      "type": "epic",
+      "title": "G15 Physical validation",
+      "epicId": null,
+      "releaseId": null,
+      "status": "Backlog",
+      "openedAt": "2026-09-23",
+      "targetAt": "2029-11-16",
+      "deliveredAt": null,
+      "priority": "P0",
+      "risk": "critical",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": [
+        "CAPABILITY-G14"
+      ],
+      "protectedSurfaces": [
+        "physical-sampling hold",
+        "launch-cost hold",
+        "revision truth",
+        "100% coverage",
+        "export byte identity"
+      ],
+      "description": "Held until G14 digital exit and explicit maintainer reopening. H01–H04 in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md are a conditional future protocol, not current sample authorization; forecast review 2029-11-16, 4–8 coordination/revision slices plus unknown fabrication lead time.",
+      "expectation": "Real cut-and-sewn samples, actual POM and fit/drape evidence, revision corrections and representative cases earn B4 only where proven.",
+      "acceptanceCriteria": [
+        "Explicit maintainer gate recorded before any real sampling or commercial operation.",
+        "Real cut-and-sewn samples, actual POM and fit/drape evidence, revision corrections and representative cases earn B4 only where proven.",
+        "Review actual evidence, limitations, follow-up work and downstream dates before Done."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-09-23T20:14:06.890Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "Keep physically validated and real fulfilment outcomes distinct from the digital exit and gated until explicit approval.",
+          "evidenceRefs": []
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [],
+      "flagKey": null
+    },
+    {
+      "id": "CAPABILITY-G16",
+      "type": "epic",
+      "title": "G16 Operational manufacturing and fulfilment",
+      "epicId": null,
+      "releaseId": null,
+      "status": "Backlog",
+      "openedAt": "2026-09-23",
+      "targetAt": "2030-06-28",
+      "deliveredAt": null,
+      "priority": "P2",
+      "risk": "critical",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": [
+        "CAPABILITY-G12",
+        "CAPABILITY-G15"
+      ],
+      "protectedSurfaces": [
+        "physical-sampling hold",
+        "launch-cost hold",
+        "revision truth",
+        "100% coverage",
+        "export byte identity"
+      ],
+      "description": "Held until G12/G15 and explicit commercial approval. O01–O03 in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md define the conditional pilot and rollback, forecast review 2030-06-28, 8–14 software/operations slices plus external lead time.",
+      "expectation": "A controlled live order ties accepted sample and revision to payment, production, QC, shipping, support and dispute evidence.",
+      "acceptanceCriteria": [
+        "Explicit maintainer gate recorded before any real sampling or commercial operation.",
+        "A controlled live order ties accepted sample and revision to payment, production, QC, shipping, support and dispute evidence.",
+        "Review actual evidence, limitations, follow-up work and downstream dates before Done."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-09-23T20:14:06.938Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "Keep physically validated and real fulfilment outcomes distinct from the digital exit and gated until explicit approval.",
           "evidenceRefs": []
         }
       ],

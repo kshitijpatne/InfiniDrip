@@ -743,4 +743,7 @@ data collection still require their own explicit gate.
 - Keep physical sampling on hold until the maintainer explicitly reopens it
   after the digital capability program. Digital checks and professional
   document review do not establish physical fit, drape, factory acceptance or
-  production readiness.
+  production readiness. The roadmap therefore keeps separate future gates for
+  physical sample validation (G15) and live order/quality/shipping operations
+  (G16) after the cross-system digital exit (G14); their dates are conditional
+  forecasts, not permission to start.
