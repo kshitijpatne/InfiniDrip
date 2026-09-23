@@ -94,6 +94,18 @@ describe("renderBlueprint with non-tshirt pieces", () => {
     expect(svg).toContain("CUT SLIT");
   });
 
+  it("can leave annotation text outside screen geometry while retaining its construction marks", () => {
+    const marked = {
+      ...pieces[0],
+      marks: [lineMark("cutLine", "placket-slit", point(0, 0), point(0, 14), "CUT SLIT")],
+    };
+    const svg = renderBlueprint([marked], { annotationMode: "external" });
+    expect(svg).toContain('aria-label="Pattern shapes. Piece names, construction labels, and instructions are listed in the pattern key."');
+    expect(svg).toContain('data-pattern-mark="cutLine"');
+    expect(svg).not.toContain("<text");
+    expect(svg).not.toContain("CUT SLIT");
+  });
+
   it("wraps a component-heavy linear set into readable shelves", () => {
     const many = Array.from({ length: 8 }, (_, index) => ({
       ...pieces[index % pieces.length], name: `component-${index + 1}`,

@@ -16,7 +16,7 @@ import { surfaceGuidance } from "../guidance/surface-notes";
 import { availableLengthError, bufferError } from "../export/nesting-intelligence";
 import { matchStyle, styleNames } from "../style";
 import { FIELDS, applyChange, inputError, numericRangePosition, numericRangeState, stepNumericValue } from "./controls";
-import { appShellMarkup, controlsMarkup, guidanceMarkup, styleMarkup, surfaceMarkup, nestIntelReadout, specTableMarkup, checkMarkup, editorHintMarkup, editorHandleControlsMarkup, dartControlsMarkup, inspectionMarkup, BodyCroquisView } from "./view";
+import { appShellMarkup, controlsMarkup, guidanceMarkup, styleMarkup, surfaceMarkup, nestIntelReadout, specTableMarkup, checkMarkup, editorHintMarkup, editorHandleControlsMarkup, dartControlsMarkup, inspectionMarkup, patternAnnotationKeyMarkup, BodyCroquisView } from "./view";
 import { saveToStorage, loadFromStorage, readFromStorage, serialize, deserialize, DEFAULT_WORKSPACE, defaultStretchFabricForGarment, Workspace, SaveFile, RecoveryFile, readRecoveryFromStorage, saveRecoveryToStorage, clearRecoveryFromStorage } from "./persist";
 import { Appearance, APPEARANCE_TEXTURES, DEFAULT_APPEARANCE, applyAppearanceToSvg, hexToHsl, hslToHex, normalizeHex } from "./appearance";
 import { emptyHistory, recordHistory, redoHistory, undoHistory, HistoryState } from "./history";
@@ -580,6 +580,7 @@ export function mountApp(root: HTMLElement): void {
     const content = root.querySelector<HTMLElement>(previewActive ? "#garment-host" : "#analysis-host");
     if (!section || !viewport || !content) return;
     const svgs = [...content.querySelectorAll<SVGSVGElement>("svg")];
+    const patternKey = content.querySelector<HTMLElement>("#pattern-annotation-key");
     const title = section.querySelector<HTMLElement>("#inspection-title")?.textContent ?? "Canvas";
     svgs.forEach((svg, index) => {
       svg.classList.add("inspection-svg");
@@ -615,6 +616,36 @@ export function mountApp(root: HTMLElement): void {
       .trim().split(/[ ,]+/).map(Number);
     const ratio = values.length === 4 && values[2] > 0 && values[3] > 0 ? values[2] / values[3] : 1;
     const maxHeight = Math.max(80, (viewport.clientHeight || 536) - 16);
+    if (patternKey) {
+      const compact = viewportWidth < 700;
+      const gap = 12;
+      if (compact) content.insertBefore(patternKey, svg);
+      else if (svg.nextElementSibling !== patternKey) content.insertBefore(svg, patternKey);
+      const keyWidth = compact ? 0 : Math.min(350, Math.max(270, Math.round(viewportWidth * 0.38)));
+      const graphicColumnWidth = compact ? viewportWidth : Math.max(180, viewportWidth - keyWidth - gap);
+      let height = Math.min(maxHeight, graphicColumnWidth / ratio);
+      let width = height * ratio;
+      width *= inspectionZoom;
+      height *= inspectionZoom;
+      svg.style.width = `${Math.round(width)}px`;
+      svg.style.height = `${Math.round(height)}px`;
+      svg.style.maxWidth = "none";
+      svg.style.display = "block";
+      svg.style.justifySelf = "center";
+      content.style.display = "grid";
+      content.style.alignItems = "start";
+      content.style.gap = `${gap}px`;
+      content.style.gridTemplateColumns = compact
+        ? "minmax(0, 1fr)"
+        : `${Math.max(Math.ceil(graphicColumnWidth), Math.ceil(width))}px ${keyWidth}px`;
+      content.style.gridTemplateRows = compact ? "auto auto" : "minmax(0, 1fr)";
+      content.style.width = `${Math.max(viewportWidth, Math.ceil(width) + keyWidth + gap)}px`;
+      patternKey.style.width = compact ? "100%" : `${keyWidth}px`;
+      patternKey.style.maxHeight = compact ? "none" : `${Math.max(200, maxHeight)}px`;
+      patternKey.style.overflowY = compact ? "visible" : "auto";
+      if (zoomOutput) zoomOutput.textContent = `${Math.round(inspectionZoom * 100)}%`;
+      return;
+    }
     let height = Math.min(maxHeight, viewportWidth / ratio);
     let width = height * ratio;
     width *= inspectionZoom;
@@ -921,7 +952,8 @@ export function mountApp(root: HTMLElement): void {
       canvasContent = renderBlueprint(
         pieces,
         { active: pieces[0].name, notches: recipe.notches, allowances: recipe.allowances,
-          layout: recipe.name === "polo" ? "polo" : "linear" });
+          layout: recipe.name === "polo" ? "polo" : "linear", annotationMode: "external" });
+      canvasContent += patternAnnotationKeyMarkup(pieces);
     }
     const assembled = isTop
       ? renderGarment(measurements, fabric, hasSleeve,

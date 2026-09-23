@@ -123,9 +123,9 @@ function placketPiece(
       { kind: "line", name: "attachmentRaw", start: point(0, options.placketLength), end: point(0, 0) },
     ],
     marks: [
-      lineMark("placementLine", "attachmentLine", point(faceStart, 0), point(faceStart, options.placketLength), "SEW TO FRONT SLIT"),
-      lineMark("foldLine", "placketFold", point(foldX, 0), point(foldX, options.placketLength), "FOLD"),
-      lineMark("foldLine", "turnUnder", point(turnX, 0), point(turnX, options.placketLength), "TURN UNDER"),
+      lineMark("placementLine", "attachmentLine", point(faceStart, 0), point(faceStart, options.placketLength), "SEW TO FRONT SLIT", "instruction"),
+      lineMark("foldLine", "placketFold", point(foldX, 0), point(foldX, options.placketLength), "FOLD", "instruction"),
+      lineMark("foldLine", "turnUnder", point(turnX, 0), point(turnX, options.placketLength), "TURN UNDER", "instruction"),
       ...BUTTON_CENTRES.map((y, index) => pointMark(
         markKind, `${markKind}-${index + 1}`, point(faceStart + options.placketWidth / 2, y),
         markKind === "button" ? "BUTTON" : "BUTTONHOLE"
@@ -187,10 +187,10 @@ function poloFront(m: Measurements, options: PoloOptions): Piece {
       ...(drafted.marks ?? []),
       pointMark("placementPoint", "centerFront", edgeStart(neckline), "CENTER FRONT"),
       pointMark("placementPoint", "shoulder", edgeEnd(neckline), "SHOULDER"),
-      lineMark("cutLine", "placketOpening", slitStart, slitEnd, "CUT FRONT SLIT"),
-      lineMark("cutLine", "placketBaseClipLeft", slitEnd, clipUpper, "CLIP PLACKET BASE LEFT"),
-      lineMark("cutLine", "placketBaseClipRight", slitEnd, clipLower, "CLIP PLACKET BASE RIGHT"),
-      lineMark("placementLine", "placketBaseReinforcement", clipUpper, clipLower, "REINFORCE PLACKET BASE BOX"),
+      lineMark("cutLine", "placketOpening", slitStart, slitEnd, "CUT FRONT SLIT", "instruction"),
+      lineMark("cutLine", "placketBaseClipLeft", slitEnd, clipUpper, "CLIP PLACKET BASE LEFT", "instruction"),
+      lineMark("cutLine", "placketBaseClipRight", slitEnd, clipLower, "CLIP PLACKET BASE RIGHT", "instruction"),
+      lineMark("placementLine", "placketBaseReinforcement", clipUpper, clipLower, "REINFORCE PLACKET BASE BOX", "instruction"),
     ],
   };
 }
@@ -275,7 +275,7 @@ function standPiece(name: string, geometry: PoloCollarGeometry): Piece {
       lowerBack,
     ],
     marks: [
-      lineMark("placementLine", "centerMatch", lowerCenterBack, upperCenterBack, "PLACE ON FOLD"),
+      lineMark("placementLine", "centerMatch", lowerCenterBack, upperCenterBack, "PLACE ON FOLD", "instruction"),
       ...collarLandmarkMarks(geometry, "lowerStand"),
     ],
   };
@@ -297,7 +297,7 @@ function collarPiece(name: string, geometry: PoloCollarGeometry): Piece {
       namedEdge(geometry.collar.outer, "outer"),
     ],
     marks: [
-      lineMark("placementLine", "centerMatch", edgeEnd(geometry.collar.centerBack), edgeStart(geometry.collar.centerBack), "PLACE ON FOLD"),
+      lineMark("placementLine", "centerMatch", edgeEnd(geometry.collar.centerBack), edgeStart(geometry.collar.centerBack), "PLACE ON FOLD", "instruction"),
       ...collarLandmarkMarks(geometry, "collarBase"),
     ],
   };

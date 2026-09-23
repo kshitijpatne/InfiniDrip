@@ -109,12 +109,18 @@ function placePolo(pieces: readonly Piece[]): { placed: Placed[]; width: number;
 }
 
 // --- per-piece decorations --------------------------------------------------
-function foldMark(x: number, top: number, height: number): string {
+function foldMark(x: number, top: number, height: number, showLabel: boolean): string {
   return svgLine(x, top, x, top + height, T.gridStrong, 1.4, "1.4 1.2") +
-         svgText(x + 1.6, top + height / 2, "FOLD", T.marker, 2.2);
+         (showLabel ? svgText(x + 1.6, top + height / 2, "FOLD", T.marker, 2.2) : "");
 }
 
-function renderPiece(p: Placed, isActive: boolean, notchTable: readonly PieceNotches[], allowances: AllowanceSpec): string {
+function renderPiece(
+  p: Placed,
+  isActive: boolean,
+  notchTable: readonly PieceNotches[],
+  allowances: AllowanceSpec,
+  annotationMode: "inline" | "external",
+): string {
   const stroke = isActive ? T.lineActive : T.line;
   const fill = isActive ? T.fillActive : T.fill;
   const path = `<path d="${pieceToPath(p.piece)}" fill="${fill}" stroke="${stroke}" ` +
@@ -140,12 +146,17 @@ function renderPiece(p: Placed, isActive: boolean, notchTable: readonly PieceNot
     ? `<circle cx="${round(dart.apex.x)}" cy="${round(dart.apex.y)}" r="0.9" fill="none" ` +
       `stroke="${T.marker}" stroke-width="1" vector-effect="non-scaling-stroke"/>`
     : "";
-  const marks = patternMarksSvg(p.piece.marks, {
+  const visibleMarks = annotationMode === "inline"
+    ? p.piece.marks
+    : p.piece.marks?.map((mark) => ({ ...mark, label: undefined }));
+  const marks = patternMarksSvg(visibleMarks, {
     stroke: T.marker, width: 0.9, pointSize: 0.7, labelSize: 1.5, labelPlacement: "offset",
   });
   const group = `<g transform="translate(${round(p.tx)} ${round(p.ty)})">${cut}${path}${notches}${grain}${dartMark}${marks}</g>`;
-  const label = svgText(p.vx + p.w / 2, p.vy - 2.5, p.piece.name.toUpperCase(), T.label, 2.6);
-  const fold = p.piece.onFold ? foldMark(p.vx, p.vy, p.h) : "";
+  const label = annotationMode === "inline"
+    ? svgText(p.vx + p.w / 2, p.vy - 2.5, p.piece.name.toUpperCase(), T.label, 2.6)
+    : "";
+  const fold = p.piece.onFold ? foldMark(p.vx, p.vy, p.h, annotationMode === "inline") : "";
   return group + fold + label;
 }
 
@@ -168,6 +179,8 @@ export interface RenderOptions {
   readonly notches?: readonly PieceNotches[]; // the garment's notch/grain rules
   readonly allowances?: AllowanceSpec; // the garment's cutting allowances
   readonly layout?: "linear" | "polo";
+  /** Screen views can move all text outside the pattern geometry into a responsive key. */
+  readonly annotationMode?: "inline" | "external";
 }
 
 // Only used when a caller draws pieces with no garment behind them (a bare piece
@@ -179,10 +192,15 @@ export function renderBlueprint(pieces: readonly Piece[], options: RenderOptions
   const active = options.active ?? (pieces.length > 0 ? pieces[0].name : "");
   const notchTable = options.notches ?? [];
   const allowances = options.allowances ?? PLAIN_ALLOWANCE;
+  const annotationMode = options.annotationMode ?? "inline";
   const { placed, width, height } = place(pieces, options.layout);
-  const body = placed.map((p) => renderPiece(p, p.piece.name === active, notchTable, allowances)).join("");
+  const body = placed.map((p) => renderPiece(p, p.piece.name === active, notchTable, allowances, annotationMode)).join("");
+  const label = annotationMode === "external"
+    ? "Pattern shapes. Piece names, construction labels, and instructions are listed in the pattern key."
+    : "";
   return `<svg viewBox="0 0 ${round(width)} ${round(height)}" width="100%" ` +
-    `xmlns="http://www.w3.org/2000/svg" style="background:${T.background};border-radius:8px">` +
+    `xmlns="http://www.w3.org/2000/svg"${label ? ` aria-label="${label}"` : ""} ` +
+    `style="background:${T.background};border-radius:8px">` +
     `<rect x="0" y="0" width="${round(width)}" height="${round(height)}" fill="${T.background}"/>` +
     buildGrid(width, height) + body + `</svg>`;
 }

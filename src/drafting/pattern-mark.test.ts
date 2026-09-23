@@ -10,5 +10,8 @@ describe("pattern marks", () => {
     expect(pointMark("button", "button-1", point(2, 3))).toEqual({
       kind: "button", name: "button-1", at: point(2, 3), label: undefined,
     });
+    expect(pointMark("button", "button-2", point(4, 5), "BUTTON", "instruction")).toEqual({
+      kind: "button", name: "button-2", at: point(4, 5), label: "BUTTON", labelRole: "instruction",
+    });
   });
 });

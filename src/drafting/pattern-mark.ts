@@ -4,6 +4,8 @@
 
 import { Point } from "../geometry";
 
+export type PatternAnnotationRole = "label" | "instruction";
+
 export type PatternMark =
   | {
       readonly kind: "cutLine" | "foldLine" | "placementLine";
@@ -11,20 +13,22 @@ export type PatternMark =
       readonly start: Point;
       readonly end: Point;
       readonly label?: string;
+      readonly labelRole?: PatternAnnotationRole;
     }
   | {
       readonly kind: "button" | "buttonhole" | "placementPoint";
       readonly name: string;
       readonly at: Point;
       readonly label?: string;
+      readonly labelRole?: PatternAnnotationRole;
     };
 
 export const lineMark = (
   kind: "cutLine" | "foldLine" | "placementLine", name: string,
-  start: Point, end: Point, label?: string
-): PatternMark => ({ kind, name, start, end, label });
+  start: Point, end: Point, label?: string, labelRole?: PatternAnnotationRole
+): PatternMark => ({ kind, name, start, end, label, ...(labelRole ? { labelRole } : {}) });
 
 export const pointMark = (
   kind: "button" | "buttonhole" | "placementPoint", name: string,
-  at: Point, label?: string
-): PatternMark => ({ kind, name, at, label });
+  at: Point, label?: string, labelRole?: PatternAnnotationRole
+): PatternMark => ({ kind, name, at, label, ...(labelRole ? { labelRole } : {}) });

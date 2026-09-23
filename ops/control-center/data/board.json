@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 39,
-  "updatedAt": "2026-09-23T00:04:40.664Z",
+  "revision": 42,
+  "updatedAt": "2026-09-23T01:28:22.527Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -1825,7 +1825,7 @@
       "title": "Existing garment measurement and artwork UI refinement",
       "epicId": null,
       "releaseId": null,
-      "status": "Backlog",
+      "status": "In Progress",
       "openedAt": "2026-09-22",
       "targetAt": null,
       "deliveredAt": null,
@@ -1862,10 +1862,28 @@
           "role": "maintainer",
           "note": "Add the maintainer-approved pre-garment sequence in its approved order.",
           "evidenceRefs": []
+        },
+        {
+          "status": "Ready",
+          "at": "2026-09-23T00:11:04.014Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "Phase 5 documentation exit was accepted with E-PREQUEUE-PHASE5-EXIT; approved Phase 6 refinement is now eligible to begin.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-09-23T00:11:04.046Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "Begin the no-cost existing-garment UI refinement. Pattern-block legibility is the first independent acceptance criterion; pattern-to-measurement navigation remains deferred pending its mapping inventory and cross-page decision.",
+          "evidenceRefs": []
         }
       ],
       "comments": [],
-      "evidenceRefs": [],
+      "evidenceRefs": [
+        "E-PREQUEUE-PHASE6-PATTERN-LEGIBILITY"
+      ],
       "flagKey": null
     },
     {
@@ -2277,6 +2295,15 @@
       "sha256": null,
       "verified": true,
       "note": "Slice 194 README and architecture rewrite; independent read-only cold-reader reviews addressed; source and Markdown-link checks recorded. The exit report states that this was not a human user study and that application test/build gates were not rerun because no code changed."
+    },
+    {
+      "id": "E-PREQUEUE-PHASE6-PATTERN-LEGIBILITY",
+      "kind": "document",
+      "uri": "PROJECT-STATE.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Slice 196 completed Pattern-view legibility; 100% coverage, production build, seven-garment desktop/narrow render matrix, and unchanged export regression/identity gates passed."
     }
   ]
 }

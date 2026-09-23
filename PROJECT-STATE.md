@@ -1,7 +1,7 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 195 accepts the README and architecture-guide revision;
-Phases 4 and 5 are accepted, and Phase 6 remains in Backlog, 2026-09-22.
+_Last updated: Slice 196 completes Phase 6's Pattern-view legibility criterion;
+Phases 4 and 5 are accepted, and Phase 6 remains In Progress, 2026-09-22.
 Epics 7, 9 and 10 are implemented, Codex-reviewed, documented and pushed to
 `origin/main`. Epic 11 implementation has completed the shaped collar/stand,
 placket-base, vent/drop, front/back preview/control/report and downstream
@@ -254,6 +254,33 @@ is accepted. Phase 6 remains the next planned item; its pattern-to-measurement
 navigation is still blocked on the inventory and explicit maintainer choice
 for blocks linked across measurement pages. No implementation from Phase 6
 began in this acceptance slice.
+
+### Slice 196 — Phase 6 Pattern-block legibility
+
+The Pattern view now renders piece geometry without overlaid text and places
+piece headings, construction labels, and instructions in a separate ordered
+key. Wide layouts place the key beside the drawing; narrow layouts stack it
+above the drawing. High-contrast heading, label, and instruction roles use
+typography and solid/dashed cues as well as color. Imperative construction
+marks receive explicit instruction roles; other marks remain labels. Shared
+SVG rendering keeps its existing inline-text default, so this app-only
+presentation change does not alter export serialization.
+
+Rendered behavior was checked with Playwright for every existing garment at
+1280×720, 600×800, and 375×800. All 21 renders retained the key, had no text in
+the pattern SVG, no horizontally overflowing annotation rows, and no browser
+page errors; the dense Polo, Woven shirt, and Trouser keys were visually
+inspected at each width. Focused renderer/key tests and the two narrow/wide
+layout integration tests pass; `npm run build` passes. The full Vitest coverage
+suite passes at 100% for statements, branches, functions, and lines. All eight
+legacy export-hash regressions and nine export-identity checks pass unchanged;
+no export baseline was moved.
+
+This completes only the pattern-block legibility acceptance criterion, not
+Phase 6. Pattern-to-measurement navigation remains gated on the compact
+pattern-block → editable measurement field(s) → page inventory and the
+maintainer's decision for blocks associated with multiple pages. The other
+Phase 6 measurement and artwork-form refinements remain in progress.
 
 ### Post-merge PR audit — 2026-09-21
 

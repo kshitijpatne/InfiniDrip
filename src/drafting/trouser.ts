@@ -383,7 +383,7 @@ function pocketBagPiece(
       { kind: "line", name: "bagClose", start: bottomStart, end: opening.start },
     ],
     marks: [
-      lineMark("placementLine", "bagOpeningMatch", opening.start, opening.end, "MATCH FRONT OPENING"),
+      lineMark("placementLine", "bagOpeningMatch", opening.start, opening.end, "MATCH FRONT OPENING", "instruction"),
       pointMark("placementPoint", "bagBottom", point((bottomStart.x + bottomEnd.x) / 2, bottomY), "bag bottom"),
     ],
   };

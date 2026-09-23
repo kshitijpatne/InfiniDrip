@@ -10,6 +10,7 @@ import { StyleMatch, Delta } from "../style";
 import { FIELDS, Field, numericRangeState } from "./controls";
 import type { ArtworkPlacement } from "../surface/placement";
 import { escapeAttr } from "../render/surface-overlay";
+import type { Piece, PatternMark, PatternAnnotationRole } from "../drafting";
 import { APPEARANCE_TEXTURES, Appearance, DEFAULT_APPEARANCE, hexToHsl, normalizeHex } from "./appearance";
 import {
   availableLengthError,
@@ -547,12 +548,76 @@ const INSPECTION_TITLES: Record<string, string> = {
   assembled: "Assembled preview · schematic, not a fit simulation",
 };
 
+const PATTERN_MARK_KIND_LABELS: Record<PatternMark["kind"], string> = {
+  cutLine: "Cut line",
+  foldLine: "Fold line",
+  placementLine: "Placement line",
+  button: "Button mark",
+  buttonhole: "Buttonhole mark",
+  placementPoint: "Placement point",
+};
+
+interface PatternKeyEntry {
+  readonly role: PatternAnnotationRole;
+  readonly kind: string;
+  readonly label: string;
+  count: number;
+}
+
+/** Keep piece names and construction text out of the scaled pattern geometry. */
+export function patternAnnotationKeyMarkup(pieces: readonly Piece[]): string {
+  const pieceItems = pieces.map((piece, index) => {
+    const entries = new Map<string, PatternKeyEntry>();
+    const addEntry = (entry: PatternKeyEntry): void => {
+      const key = `${entry.role}\u0000${entry.kind}\u0000${entry.label}`;
+      const existing = entries.get(key);
+      if (existing) existing.count += 1;
+      else entries.set(key, { ...entry });
+    };
+    if (piece.onFold) {
+      addEntry({ role: "instruction", kind: "Cutting", label: "Cut on fold", count: 1 });
+    }
+    for (const mark of piece.marks ?? []) {
+      const label = mark.label?.trim();
+      if (!label) continue;
+      addEntry({
+        role: mark.labelRole ?? "label",
+        kind: PATTERN_MARK_KIND_LABELS[mark.kind],
+        label,
+        count: 1,
+      });
+    }
+    const annotations = [...entries.values()].map((entry) => {
+      const role = entry.role === "instruction" ? "Instruction" : "Label";
+      const roleClass = entry.role === "instruction" ? "instruction" : "label";
+      const count = entry.count > 1 ? ` <span class="pattern-annotation-count">(${entry.count} marks)</span>` : "";
+      return `<li class="pattern-annotation-row pattern-annotation-row--${roleClass}">` +
+        `<span class="pattern-annotation-role">${role}</span>` +
+        `<span class="pattern-annotation-kind">${entry.kind}</span>` +
+        `<span class="pattern-annotation-text">${escapeAttr(entry.label)}${count}</span></li>`;
+    }).join("");
+    const noAnnotations = annotations ? "" :
+      `<li class="pattern-annotation-empty">No written construction marks.</li>`;
+    const name = escapeAttr(piece.name.toUpperCase());
+    return `<li class="pattern-piece-key-item"><h4 class="pattern-piece-key-heading">` +
+      `<span class="pattern-piece-key-index" aria-label="Piece ${index + 1}">${String(index + 1).padStart(2, "0")}</span>` +
+      `<span>${name}</span></h4><ul class="pattern-piece-key-annotations">${annotations}${noAnnotations}</ul></li>`;
+  }).join("");
+  return `<aside id="pattern-annotation-key" aria-labelledby="pattern-annotation-title" ` +
+    `style="--pattern-heading-color:${T.patternHeading};--pattern-label-color:${T.patternLabel};` +
+    `--pattern-instruction-color:${T.patternInstruction};--pattern-key-background:${T.background}">` +
+    `<header class="pattern-annotation-key-header"><h3 id="pattern-annotation-title">Pattern key</h3>` +
+    `<p>Names, labels, and instructions follow the pattern-piece order. Scroll the key to see every piece; text stays outside the cut shapes.</p></header>` +
+    `<ol class="pattern-piece-key">${pieceItems}</ol></aside>`;
+}
+
 /** A bounded inspection frame for every main canvas. SVGs are deliberately
  * labelled and live inside a scrollable viewport so a narrow/portrait drawing
  * cannot make the whole page unusably tall or disappear at intrinsic size. */
 export function inspectionMarkup(content: string, view: string): string {
   const title = INSPECTION_TITLES[view] ?? "Canvas inspection";
-  return `<section id="canvas-inspection" data-inspection-view="${view}" aria-labelledby="inspection-title">` +
+  const patternClass = view === "pattern" ? " pattern-inspection" : "";
+  return `<section id="canvas-inspection" class="inspection-frame${patternClass}" data-inspection-view="${view}" aria-labelledby="inspection-title">` +
     `<div id="inspection-toolbar" role="group" aria-label="${title} controls">` +
     `<h2 id="inspection-title">${title}</h2>` +
     `<button type="button" data-inspection-zoom="out" aria-label="Zoom out" style="padding:3px 8px;cursor:pointer;background:${T.background};color:${T.line};border:1px solid ${BORDER};border-radius:5px">−</button>` +

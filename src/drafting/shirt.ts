@@ -95,7 +95,7 @@ function standPiece(name: string, necklineLength: number, height: number): Piece
       { kind: "line", name: "frontEnd", start: point(necklineLength, 0), end: point(necklineLength, height) },
       { kind: "line", name: "neckline", start: point(necklineLength, height), end: point(0, height) },
     ],
-    marks: [lineMark("placementLine", "centerMatch", point(0, 0), point(0, height), "PLACE ON FOLD")],
+    marks: [lineMark("placementLine", "centerMatch", point(0, 0), point(0, height), "PLACE ON FOLD", "instruction")],
   };
 }
 
@@ -109,7 +109,7 @@ function collarPiece(name: string, necklineLength: number, depth: number): Piece
       { kind: "line", name: "frontTip", start: point(necklineLength, 0), end: point(necklineLength + COLLAR_TIP_FLARE, depth) },
       { kind: "line", name: "outer", start: point(necklineLength + COLLAR_TIP_FLARE, depth), end: point(0, depth) },
     ],
-    marks: [lineMark("placementLine", "centerMatch", point(0, 0), point(0, depth), "PLACE ON FOLD")],
+    marks: [lineMark("placementLine", "centerMatch", point(0, 0), point(0, depth), "PLACE ON FOLD", "instruction")],
   };
 }
 
@@ -270,7 +270,7 @@ function patchPocket(width: number, height: number): Piece {
       { kind: "line", name: "bottom", start: point(width, height), end: point(0, height) },
       { kind: "line", name: "sideLeft", start: point(0, height), end: point(0, 0) },
     ],
-    marks: [lineMark("foldLine", "pocketTopTurn", point(0, 1), point(width, 1), "TURN UNDER")],
+    marks: [lineMark("foldLine", "pocketTopTurn", point(0, 1), point(width, 1), "TURN UNDER", "instruction")],
   };
 }
 
@@ -413,7 +413,7 @@ function sleeveBand(width: number, depth: number): Piece {
       { kind: "line", name: "bottom", start: point(width, depth), end: point(0, depth) },
       { kind: "line", name: "sideLeft", start: point(0, depth), end: point(0, 0) },
     ],
-    marks: [lineMark("foldLine", "bandFold", point(0, depth / 2), point(width, depth / 2), "FOLD")],
+    marks: [lineMark("foldLine", "bandFold", point(0, depth / 2), point(width, depth / 2), "FOLD", "instruction")],
   };
 }
 
@@ -628,8 +628,8 @@ function placketPiece(
       { kind: "line", name: "attachmentRaw", start: point(0, length), end: point(0, 0) },
     ],
     marks: [
-      lineMark("placementLine", "placketFace", point(faceStart, 0), point(faceStart, length), "FOLD"),
-      lineMark("foldLine", "placketFold", point(faceEnd, 0), point(faceEnd, length), "FOLD"),
+      lineMark("placementLine", "placketFace", point(faceStart, 0), point(faceStart, length), "FOLD", "instruction"),
+      lineMark("foldLine", "placketFold", point(faceEnd, 0), point(faceEnd, length), "FOLD", "instruction"),
       lineMark("placementLine", "closureLine", point(closureX, 0), point(closureX, length), "CLOSURE"),
       ...buttonMarks,
     ],

@@ -43,8 +43,45 @@ describe("mountApp", () => {
     const root = mount();
     expect(root.querySelector("h1#product-title")!.textContent).toBe("InfiniDrip");
     expect(root.querySelector("#canvas-host svg")).not.toBeNull();
+    expect(root.querySelector("#pattern-annotation-key")).not.toBeNull();
+    expect(root.querySelector("#analysis-host svg text")).toBeNull();
     expect(root.querySelector("#garment-host svg")).not.toBeNull();
     expect(root.querySelector<HTMLElement>("#garment-host")!.hidden).toBe(true);
+  });
+
+  it("keeps every garment's Pattern labels and instructions in a piece-grouped key", () => {
+    localStorage.clear();
+    const root = mount();
+    for (let index = 0; index < 7; index += 1) {
+      root.querySelectorAll<HTMLButtonElement>(".garment-card")[index].click();
+      const key = root.querySelector<HTMLElement>("#pattern-annotation-key")!;
+      expect(key.querySelectorAll(".pattern-piece-key-item").length).toBeGreaterThan(0);
+      expect(key.querySelector(".pattern-piece-key-heading")!.textContent).toContain("01");
+      expect(root.querySelector("#analysis-host svg text")).toBeNull();
+    }
+    clickId(root, "view-body");
+    expect(root.querySelector("#pattern-annotation-key")).toBeNull();
+  });
+
+  it("lays out the Pattern key beside wide canvases and below narrow canvases", () => {
+    localStorage.clear();
+    const root = mount();
+    const viewport = root.querySelector<HTMLElement>("#inspection-viewport")!;
+    Object.defineProperty(viewport, "clientWidth", { configurable: true, value: 1000 });
+    Object.defineProperty(viewport, "clientHeight", { configurable: true, value: 360 });
+    root.querySelector<HTMLButtonElement>('button[data-inspection-zoom="fit"]')!.click();
+    expect(root.querySelector<HTMLElement>("#analysis-host")!.style.display).toBe("grid");
+    expect(root.querySelector<HTMLElement>("#analysis-host")!.style.gridTemplateColumns).toContain("350px");
+    expect(root.querySelector<HTMLElement>("#pattern-annotation-key")!.style.overflowY).toBe("auto");
+
+    Object.defineProperty(viewport, "clientWidth", { configurable: true, value: 600 });
+    root.querySelector<HTMLButtonElement>('button[data-inspection-zoom="fit"]')!.click();
+    expect(root.querySelector<HTMLElement>("#analysis-host")!.style.gridTemplateColumns).toContain("1fr");
+    expect(root.querySelector<HTMLElement>("#pattern-annotation-key")!.style.overflowY).toBe("visible");
+
+    Object.defineProperty(viewport, "clientWidth", { configurable: true, value: 480 });
+    root.querySelector<HTMLButtonElement>('button[data-inspection-zoom="fit"]')!.click();
+    expect(root.querySelector<HTMLElement>("#analysis-host")!.style.gridTemplateColumns).toContain("1fr");
   });
 
   it("starts a fresh Tee workspace with a knit-appropriate material", () => {

@@ -151,6 +151,13 @@ multi-page behavior is decided. This unresolved sub-scope does not block other
 independently scoped Phase 6 work, including pattern-block legibility. This
 amendment does not itself change Phase 6's backlog status.
 
+**Progress:** Slice 196 completes the pattern-block legibility criterion. The
+Pattern view keeps piece geometry free of text and presents headings, labels,
+and construction instructions in an ordered, responsive key. Pattern-to-
+measurement navigation remains unimplemented until its block-to-field/page
+inventory is reviewed and the cross-page behavior is decided. Other Phase 6
+measurement and artwork-form criteria remain in progress.
+
 ## Phase 7 — Drag-and-drop local asset workflow
 
 Accept PNG, JPEG, WebP and sanitized SVG, with a normal file-picker fallback.

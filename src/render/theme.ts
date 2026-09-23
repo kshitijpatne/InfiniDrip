@@ -13,4 +13,7 @@ export const BLUEPRINT = {
   cloth: "rgba(92,122,156,0.16)", // garment drawn OVER a body figure (the body view)
   marker: "#5C7A9C",      // fold lines, grainlines, labels
   label: "#8EA3BC",
+  patternHeading: "#F2F6FC",
+  patternLabel: "#73E4F5",
+  patternInstruction: "#FFD166",
 } as const;

@@ -62,7 +62,11 @@ Pattern pieces are created from measurements and selected options. The app
 does not draw a separate, unrelated design for each screen or file. Most areas
 show or check the same current draft:
 
-- **Pattern:** Flat outlines of the garment's pieces.
+- **Pattern:** Flat outlines of the garment's pieces. Piece names, labels, and
+  construction instructions appear in a separate, ordered key beside the
+  drawing on wide screens and above it on narrow screens. Different text
+  styles distinguish labels from instructions without placing text over the
+  pattern shapes.
 - **Body:** A simplified front, back, or side drawing that shows where
   measurements apply. It is not a body scan or photo.
 - **Assembled:** A flat diagram of how the cut pieces relate when joined. It is
