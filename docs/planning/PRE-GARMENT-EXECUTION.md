@@ -153,8 +153,58 @@ and construction instructions in an ordered, responsive key. Slice 197 records
 the 40-block field/group inventory; 28 linked blocks span multiple groups.
 Slice 198 implements pattern-to-measurement navigation using the approved
 first-page-plus-links behavior. Its regression, mapping-review, and export
-identity gates are recorded in `PROJECT-STATE.md`. Other Phase 6 measurement
-and artwork-form criteria remain in progress.
+identity gates are recorded in `PROJECT-STATE.md`. Slice 199 implements the
+full-recipe measurement reachability/correlation matrix and clarified artwork-
+placement form. Its production build, focused tests, and rendered desktop/narrow
+checks plus all 100% coverage results are recorded in `PROJECT-STATE.md`. Codex
+review accepted Phase 6; the board item is Done.
+
+### Phase 6 implementation contract — measurement and artwork-form refinement
+
+Slice 199 completes the remaining Phase 6 UI work without changing the saved
+placement schema or introducing file import. Its goal is to make every current
+garment measurement demonstrably editable and correlated to the right visible
+diagram, and to make existing artwork placements understandable to create and
+edit.
+
+**Measurement acceptance:** for each of the seven current recipes, every
+recipe-declared measurement appears exactly once as an enabled, labeled numeric
+input with its explicit decrement/increment controls, remains reachable through
+its measurement group, and updates the draft when edited. Hover and keyboard
+focus must highlight a matching measurement dimension or the geometry it
+changes wherever the active Body/Assembled view contains that target. If the
+active view has no truthful target, do not dim the unrelated diagram; show an
+honest cue or route to the relevant view. Do not invent a measurement link.
+Verify the complete recipe-field matrix, including view-specific fallback
+behavior.
+
+**Artwork-form acceptance:**
+
+- Group identity/target, placement size and position, transform/layering, and
+  optional source-pixel information so users can find settings without
+  interpreting model field names.
+- Explain that “Source / asset reference” is optional provenance text: for
+  example a creator, citation/source URL, local filename, or asset ID. It does
+  not load a file, and a URL is recorded only as text, never fetched.
+- Explain that width/height describe the placement rectangle in centimetres
+  before uniform scale; X/Y are offsets from the selected piece's cut-box
+  centre; rotation is in degrees; and larger stack-order values render above
+  smaller values.
+- Explain that optional source pixel width and height are used together only
+  for print-resolution guidance; blank dimensions mean unknown, not invalid.
+- Offer exact role suggestions from the current garment draft. Keep an
+  unmatched saved role visible and preserve the existing actionable guidance.
+- Make new placement name, kind, piece role, and base width/height explicit at
+  creation. Invalid values remain visible with field-specific feedback; no
+  numeric value is silently clamped or replaced.
+- State that the preview is the placement rectangle, not a loaded artwork
+  image or a garment rendering. Verify mouse/keyboard use and desktop/narrow
+  layout.
+
+**Non-goals:** new recipe or geometry, asset import/drag-and-drop, a curated
+library, remote loading, new dependencies, account/service/cost, or changes to
+drafting, save schema, or export geometry/bytes. Phase 7 owns local file import;
+Phase 8 owns the curated library.
 
 ## Phase 7 — Drag-and-drop local asset workflow
 

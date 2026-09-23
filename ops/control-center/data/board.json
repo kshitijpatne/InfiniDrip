@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 47,
-  "updatedAt": "2026-09-23T03:46:25.931Z",
+  "revision": 50,
+  "updatedAt": "2026-09-23T05:35:26.647Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -1825,10 +1825,10 @@
       "title": "Existing garment measurement and artwork UI refinement",
       "epicId": null,
       "releaseId": null,
-      "status": "In Progress",
+      "status": "Done",
       "openedAt": "2026-09-22",
       "targetAt": null,
-      "deliveredAt": null,
+      "deliveredAt": "2026-09-23",
       "priority": "P1",
       "risk": "medium",
       "owner": "Codex",
@@ -1878,6 +1878,26 @@
           "role": "contributor",
           "note": "Begin the no-cost existing-garment UI refinement. Pattern-block legibility is the first independent acceptance criterion; pattern-to-measurement navigation remains deferred pending its mapping inventory and cross-page decision.",
           "evidenceRefs": []
+        },
+        {
+          "status": "Review",
+          "at": "2026-09-23T05:27:56.436Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "Slice 199 completes the remaining Phase 6 UI criteria; full coverage, build, and desktop/narrow rendered checks pass.",
+          "evidenceRefs": [
+            "E-PREQUEUE-PHASE6-MEASUREMENTS-ARTWORK-S199"
+          ]
+        },
+        {
+          "status": "Done",
+          "at": "2026-09-23T05:35:26.647Z",
+          "actor": "Codex",
+          "role": "reviewer",
+          "note": "Codex review verified all Phase 6 criteria, full coverage, export identity, and rendered desktop/narrow behavior.",
+          "evidenceRefs": [
+            "E-PREQUEUE-PHASE6-MEASUREMENTS-ARTWORK-S199"
+          ]
         }
       ],
       "comments": [
@@ -1894,7 +1914,8 @@
       ],
       "evidenceRefs": [
         "E-PREQUEUE-PHASE6-PATTERN-LEGIBILITY",
-        "E-PREQUEUE-PHASE6-PATTERN-NAV-S198"
+        "E-PREQUEUE-PHASE6-PATTERN-NAV-S198",
+        "E-PREQUEUE-PHASE6-MEASUREMENTS-ARTWORK-S199"
       ],
       "flagKey": null
     },
@@ -2325,6 +2346,15 @@
       "sha256": null,
       "verified": true,
       "note": "Slice 198 implements the approved first-page-plus-links Pattern-to-measurement behavior. Full coverage is 100% across statements, branches, functions, and lines; 8 legacy export-hash checks and 9 export-identity checks pass unchanged; build and desktop/narrow browser checks pass. Details are in the Slice 198 PROJECT-STATE entry."
+    },
+    {
+      "id": "E-PREQUEUE-PHASE6-MEASUREMENTS-ARTWORK-S199",
+      "kind": "test",
+      "uri": "PROJECT-STATE.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Slice 199: build passes; all 107 test files and 1,456 tests pass at 100% statements, branches, functions, and lines; export baselines remain unchanged."
     }
   ]
 }

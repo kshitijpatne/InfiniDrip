@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { mountApp, stageBlockerFromNote } from "./app";
-import { STANDARD_M, draftTshirt, rolePiece } from "../drafting";
+import { GARMENTS, STANDARD_M, draftTshirt, rolePiece } from "../drafting";
 import { pieceHandles, editorViewBox } from "../edit";
 import { loadJourney } from "./journey";
 import { PATTERN_MEASUREMENT_MAP, type PatternMeasurementDefinition, type PatternMeasurementField } from "./pattern-measurements";
@@ -2528,7 +2528,7 @@ describe("surface artwork panel (Slice 126)", () => {
     toFitStep(root);
     expect(root.querySelector("#style-host")!.textContent).toContain("Surface");
     expect(root.querySelector("#surface-add")).not.toBeNull();
-    expect(root.querySelector("#style-host")!.textContent).toContain("No artwork on");
+    expect(root.querySelector("#style-host")!.textContent).toContain("No artwork placements on");
   });
 
   it("rejects empty and duplicate names without adding anything", () => {
@@ -2556,6 +2556,98 @@ describe("surface artwork panel (Slice 126)", () => {
     const polygon = root.querySelector('#surface-preview polygon[data-placement="chest-print"]')!;
     expect(polygon.getAttribute("points")).toBe("2,2 22,2 22,27 2,27");
     expect(polygon.getAttribute("data-piece")).toBe("front");
+  });
+
+  it("creates a placement with its entered size and optional provenance reference", () => {
+    localStorage.clear();
+    const root = mount();
+    toFitStep(root);
+    root.querySelector<HTMLInputElement>("#surface-new-id")!.value = "hem-print";
+    root.querySelector<HTMLInputElement>("#surface-new-role")!.value = "front";
+    root.querySelector<HTMLInputElement>("#surface-new-width")!.value = "12";
+    root.querySelector<HTMLInputElement>("#surface-new-height")!.value = "15";
+    root.querySelector<HTMLInputElement>("#surface-new-source")!.value = "Studio archive · https://example.test/art";
+    root.querySelector<HTMLButtonElement>("#surface-add")!.click();
+
+    expect(root.querySelector<HTMLInputElement>('input[data-surface-index="0"][data-surface-field="widthCm"]')!.value).toBe("12");
+    expect(root.querySelector<HTMLInputElement>('input[data-surface-index="0"][data-surface-field="heightCm"]')!.value).toBe("15");
+    expect(root.querySelector<HTMLInputElement>('input[data-surface-index="0"][data-surface-field="sourceName"]')!.value)
+      .toBe("Studio archive · https://example.test/art");
+    expect(root.querySelector('#surface-preview polygon[data-placement="hem-print"]')!.getAttribute("points"))
+      .toBe("2,2 14,2 14,17 2,17");
+  });
+
+  it("suggests the current garment's exact piece roles, including lower-body roles", () => {
+    localStorage.clear();
+    const root = mount();
+    clickId(root, "garment-trouser");
+    toFitStep(root);
+    const roles = [...root.querySelectorAll<HTMLOptionElement>("#surface-piece-role-options option")]
+      .map((option) => option.value);
+    expect(roles).toContain("frontLeft");
+    expect(roles).toContain("backRight");
+
+    root.querySelector<HTMLInputElement>("#surface-new-id")!.value = "front-panel-print";
+    root.querySelector<HTMLInputElement>("#surface-new-role")!.value = "frontLeft";
+    root.querySelector<HTMLButtonElement>("#surface-add")!.click();
+    expect(root.querySelector<HTMLInputElement>('input[data-surface-index="0"][data-surface-field="pieceRole"]')!.value)
+      .toBe("frontLeft");
+    expect(root.querySelector("#guidance-host")!.textContent).not.toContain("is not in the current block");
+  });
+
+  it("falls back to manual role entry when the current draft cannot supply roles", () => {
+    localStorage.clear();
+    const root = mount();
+    const chest = root.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+    chest.value = "101";
+    chest.dispatchEvent(new Event("input", { bubbles: true }));
+
+    const trouser = GARMENTS.find((recipe) => recipe.name === "trouser")!;
+    const draft = trouser.draft;
+    const unavailable = vi.spyOn(trouser, "draft").mockImplementation((measurements, options) => {
+      if (measurements === STANDARD_M) throw new Error("Role structure unavailable");
+      return draft(measurements, options);
+    });
+    try {
+      clickId(root, "garment-trouser");
+      expect(root.querySelectorAll<HTMLOptionElement>("#surface-piece-role-options option")).toHaveLength(0);
+      expect(root.querySelector("#surface-new-role-help")!.textContent)
+        .toContain("Role suggestions are unavailable");
+    } finally {
+      unavailable.mockRestore();
+    }
+  });
+
+  it("keeps an invalid creation dimension visible and gives field-specific feedback", () => {
+    localStorage.clear();
+    const root = mount();
+    toFitStep(root);
+    root.querySelector<HTMLInputElement>("#surface-new-id")!.value = "invalid-size";
+    root.querySelector<HTMLInputElement>("#surface-new-role")!.value = "front";
+    const width = root.querySelector<HTMLInputElement>("#surface-new-width")!;
+    width.value = "0";
+    root.querySelector<HTMLButtonElement>("#surface-add")!.click();
+    expect(root.querySelectorAll("[data-surface-row]")).toHaveLength(0);
+    expect(width.value).toBe("0");
+    expect(width.getAttribute("aria-invalid")).toBe("true");
+    expect(root.querySelector("#surface-form-error")!.textContent).toBe("Enter a placement width above 0 cm.");
+  });
+
+  it("rejects a blank placement height without filling or hiding the input", () => {
+    localStorage.clear();
+    const root = mount();
+    document.body.appendChild(root);
+    toFitStep(root);
+    root.querySelector<HTMLInputElement>("#surface-new-id")!.value = "blank-height";
+    root.querySelector<HTMLInputElement>("#surface-new-role")!.value = "front";
+    const height = root.querySelector<HTMLInputElement>("#surface-new-height")!;
+    height.value = "";
+    root.querySelector<HTMLButtonElement>("#surface-add")!.click();
+    expect(root.querySelectorAll("[data-surface-row]")).toHaveLength(0);
+    expect(height.value).toBe("");
+    expect(height.getAttribute("aria-invalid")).toBe("true");
+    expect(document.activeElement).toBe(height);
+    expect(root.querySelector("#surface-form-error")!.textContent).toBe("Enter a placement height above 0 cm.");
   });
 
   it("keeps invalid values visible with an actionable error while drafting continues", () => {
@@ -2645,7 +2737,7 @@ describe("surface artwork panel (Slice 126)", () => {
     addArtwork(root, "chest-print");
     root.querySelector<HTMLButtonElement>('button[data-surface-remove-index="0"]')!.click();
     expect(root.querySelectorAll("[data-surface-row]")).toHaveLength(0);
-    expect(root.querySelector("#style-host")!.textContent).toContain("No artwork on");
+    expect(root.querySelector("#style-host")!.textContent).toContain("No artwork placements on");
   });
 
   it("round-trips artwork, including raw invalid values, through save and load", () => {
@@ -2679,7 +2771,7 @@ describe("surface artwork panel (Slice 126)", () => {
     const reloaded = mount();
     toFitStep(reloaded);
     expect(reloaded.querySelectorAll("[data-surface-row]")).toHaveLength(0);
-    expect(reloaded.querySelector("#style-host")!.textContent).toContain("No artwork on");
+    expect(reloaded.querySelector("#style-host")!.textContent).toContain("No artwork placements on");
   });
 
   it("isolates artwork sets per style and shares them across sizes", () => {

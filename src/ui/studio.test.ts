@@ -28,6 +28,9 @@ describe("bounded measurement groups", () => {
     const inputs = [...root.querySelectorAll<HTMLInputElement>("#controls-panel input")];
     expect(inputs).toHaveLength(recipe.fields.length + (recipe.options?.length ?? 0));
     expect(new Set(inputs.map((input) => input.id)).size).toBe(inputs.length);
+    expect(inputs.filter((input) => input.dataset.field !== undefined)
+      .map((input) => input.dataset.field).sort())
+      .toEqual([...recipe.fields].map(String).sort());
     const checkStagePages = (stage: "measure" | "fit"): HTMLFieldSetElement[] => {
       click(`#journey-step-${stage === "measure" ? "measure" : "fit"}`);
       const stagePages = pages.filter((page) => page.dataset.controlStage === stage);
@@ -53,6 +56,64 @@ describe("bounded measurement groups", () => {
     };
     checkStagePages("measure");
     checkStagePages("fit");
+    click("#view-body");
+    click("#body-front-back");
+
+    const matching = (host: string, field: string): SVGElement[] =>
+      [...root.querySelectorAll<SVGElement>(
+        `${host} [data-dim="${field}"], ${host} [data-edge="${field}"]`,
+      )];
+    const assertCorrelation = (field: string): void => {
+      const bodyTargets = matching("#analysis-host", field);
+      const assembledTargets = matching("#garment-host", field);
+      expect(bodyTargets.length + assembledTargets.length, `${recipe.name}/${field} has a truthful diagram target`)
+        .toBeGreaterThan(0);
+      expect([...bodyTargets, ...assembledTargets].every((target) => target.style.opacity === "1")).toBe(true);
+      const cue = root.querySelector<HTMLElement>("#spatial-cue")!;
+      if (bodyTargets.length > 0) {
+        expect(cue.hidden).toBe(true);
+      } else {
+        expect(cue.hidden).toBe(false);
+        expect(root.querySelector<HTMLElement>("#spatial-cue-text")!.textContent)
+          .toContain("highlighted in Assembled");
+        expect(root.querySelector<HTMLButtonElement>("#spatial-cue-action")!.hidden).toBe(false);
+      }
+    };
+
+    for (const id of recipe.fields) {
+      const input = root.querySelector<HTMLInputElement>(`input[data-field="${id}"]`)!;
+      const page = input.closest<HTMLFieldSetElement>("[data-control-page]")!;
+      click(page.dataset.controlStage === "fit" ? "#journey-step-fit" : "#journey-step-measure");
+      changeGroup(Number(page.dataset.controlPage));
+      expect(page.hidden).toBe(false);
+      expect(input.type).toBe("number");
+      expect(input.disabled).toBe(false);
+      expect(input.getAttribute("aria-label")).toBeTruthy();
+
+      const control = input.closest<HTMLElement>("[data-range-control]")!;
+      expect(control.querySelector<HTMLButtonElement>('button[data-step-direction="-1"]')).not.toBeNull();
+      expect(control.querySelector<HTMLButtonElement>('button[data-step-direction="1"]')).not.toBeNull();
+
+      input.focus();
+      assertCorrelation(String(id));
+      const row = input.closest<HTMLElement>("[data-dim-row]")!;
+      row.dispatchEvent(new Event("mouseenter"));
+      assertCorrelation(String(id));
+      row.dispatchEvent(new Event("mouseleave"));
+      input.blur();
+    }
+
+    const representative = root.querySelector<HTMLInputElement>(`input[data-field="${recipe.fields[0]}"]`)!;
+    const representativePage = representative.closest<HTMLFieldSetElement>("[data-control-page]")!;
+    click(representativePage.dataset.controlStage === "fit" ? "#journey-step-fit" : "#journey-step-measure");
+    changeGroup(Number(representativePage.dataset.controlPage));
+    const representativeControl = representative.closest<HTMLElement>("[data-range-control]")!;
+    const increment = representativeControl.querySelector<HTMLButtonElement>('button[data-step-direction="1"]')!;
+    const step = Number(representativeControl.dataset.rangeStep);
+    const before = Number(representative.value);
+    increment.click();
+    expect(Number(representative.value)).toBeCloseTo(before + step, 8);
+    expect(representative.getAttribute("aria-invalid")).toBe("false");
   });
 
   it("reveals a guidance target in its group before focusing the named input", () => {

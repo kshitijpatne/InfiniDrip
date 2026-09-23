@@ -107,10 +107,16 @@ preview are temporary; it is not a general pattern editor.
 - **Nesting** estimates how pieces might fit within a chosen fabric width. This
   is a planning estimate—not guaranteed fabric savings or a factory cutting
   plan. “Fabric layout” is another way this guide describes the Nesting view.
-- **Artwork placement** records a rectangular area on a piece: its position,
-  size, rotation, and which piece it belongs to (such as a front or sleeve).
-  The app does not yet import an image for that area or include an artwork
-  library.
+- **Artwork placement** records a named print, patch, or colour-block area on a
+  pattern piece. Its width and height define the rectangle before uniform
+  scaling; X/Y offsets are measured from that piece's cut-box centre; rotation
+  is in degrees; and a larger stack-order value draws above a smaller one. An
+  optional source/asset reference is provenance text only (such as a creator,
+  citation, URL, filename, or asset ID); the app does not fetch a URL or load an
+  image through this form. Optional original pixel dimensions support print-
+  resolution guidance only. The preview shows the placement rectangle, not the
+  artwork image or a garment rendering. File import and the artwork library
+  remain separate future work.
 - **Exports** use the same pattern data. SVG and DXF are outline files used by
   pattern and drawing programs; their lines and curves stay crisp when resized.
   A tiled PDF splits a full-size pattern across regular printer pages; an A0

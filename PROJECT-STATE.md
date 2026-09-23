@@ -1,11 +1,9 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 198 implements the maintainer-approved Pattern-to-
-measurement navigation; Phases 4 and 5 are accepted, and Phase 6 remains In
-Progress, 2026-09-22._
-Next: continue Phase 6 by auditing measurement editability/correlation and
-refining the existing artwork form. Safe local asset import (Phase 7), the
-curated artwork library (Phase 8), and a garment queue remain later gates.
+_Last updated: Slice 199 implements and passes review for the Phase 6 measurement
+and artwork-form refinement; the full coverage gate passes, 2026-09-23._
+Next: begin the approved no-cost local artwork import (Phase 7). The curated
+artwork library (Phase 8) and a garment queue remain later gates.
 Epics 7, 9 and 10 are implemented, Codex-reviewed, documented and pushed to
 `origin/main`. Epic 11 implementation has completed the shaped collar/stand,
 placket-base, vent/drop, front/back preview/control/report and downstream
@@ -337,9 +335,41 @@ measurement and design inputs remain unchanged.
 
 This completes the pattern-to-measurement behavior for the reviewed inventory,
 not Phase 6. General measurement editability/hover correlation and the artwork
-form refinement remain in progress. The canonical Phase 6 board item remains
-In Progress at revision 47; it now records the approved navigation behavior
-and links this verification evidence, superseding the Slice 197 blocker note.
+form refinement remained in progress until Slice 199. The canonical Phase 6
+board item then received the approved navigation evidence; its latest status
+and revision are recorded below.
+
+### Slice 199 — Phase 6 measurement and artwork-form refinement
+
+Codex review confirms the seven-recipe test matrix: every declared measurement
+appears exactly once as an enabled, labeled numeric field with decrement/increment
+controls, is reachable in its measurement group, and has a truthful Body or
+Assembled correlation on hover and keyboard focus. When Body has no matching
+target, the UI leaves unrelated geometry undimmed and offers the Assembled
+route. The matrix also edits one representative measurement per recipe through
+its stepper and confirms that the value updates.
+
+The artwork placement panel now groups identity/target, size, position and
+transform, and optional source-pixel dimensions. Its optional source/asset
+reference is explained as provenance text only; placement dimensions, centre-
+relative offsets, uniform scale, rotation, layer ordering, and pixel-resolution
+guidance are explained in the form. Current exact piece roles are suggested,
+new placements take explicit base width/height, and invalid dimensions remain
+visible with field-specific feedback. The preview is explicitly identified as
+the placement rectangle rather than an imported image or garment rendering.
+No image import, remote fetch, saved-schema, geometry, or export change is part
+of this slice.
+
+Verification: `npm run build` passes. All 107 test files and 1,456 tests pass;
+statements, branches, functions, and lines are each 100%. The eight export-hash
+regressions and nine export-identity checks pass without baseline changes. A
+1280px in-app browser render and isolated 375×800 Chromium render show no
+horizontal overflow. At 375px, keyboard Tab moves from name to type; invalid
+width stays visible, is marked invalid and receives focus with a specific
+message; a valid 12×16 cm placement and provenance URL string create the
+expected rectangle without fetching the URL or changing the current
+measurement. The Phase 6 board item is Done at revision 50, with evidence
+`E-PREQUEUE-PHASE6-MEASUREMENTS-ARTWORK-S199`.
 
 ### Post-merge PR audit — 2026-09-21
 

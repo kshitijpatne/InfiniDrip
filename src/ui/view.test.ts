@@ -620,6 +620,7 @@ describe("controlsMarkup — body-link tags", () => {
 describe("surfaceMarkup — artwork sets per style", () => {
   const data = {
     style: "Classic tee",
+    pieceRoles: ["front", "sleeve"],
     placements: [{
       id: "chest-print", kind: "print" as const, pieceRole: "front",
       widthCm: 20, heightCm: 25,
@@ -657,6 +658,19 @@ describe("surfaceMarkup — artwork sets per style", () => {
     expect(html).toContain('data-surface-field="sourcePxHeight"');
     expect(html).toContain('value="1200"');
     expect(html).toContain('value="1500"');
+    expect(html).toContain("Enter both original image dimensions in pixels to estimate print resolution.");
+  });
+  it("explains source references, piece-role choices, placement geometry, and layer order", () => {
+    const html = surfaceMarkup(data);
+    expect(html).toContain('list="surface-piece-role-options"');
+    expect(html).toContain('<option value="front"></option>');
+    expect(html).toContain('<option value="sleeve"></option>');
+    expect(html).toContain("creator, citation/source URL, local filename, or asset ID");
+    expect(html).toContain("URLs are never fetched");
+    expect(html).toContain("before scale");
+    expect(html).toContain("cut-box centre");
+    expect(html).toContain("larger stack-order numbers render above smaller ones");
+    expect(html).toContain("placement rectangle, not the artwork image");
   });
   it("shows each placement error against its row", () => {
     const html = surfaceMarkup(data);
@@ -667,12 +681,15 @@ describe("surfaceMarkup — artwork sets per style", () => {
     const html = surfaceMarkup(data);
     expect(html).toContain('id="surface-add"');
     expect(html).toContain('id="surface-new-id"');
+    expect(html).toContain('id="surface-new-source"');
+    expect(html).toContain('id="surface-new-width"');
+    expect(html).toContain('id="surface-new-height"');
     expect(html).toContain('id="surface-preview"');
-    expect(html).toContain("bounding-box centre");
+    expect(html).toContain("placement area for this style");
   });
   it("states the empty set without a preview", () => {
     const html = surfaceMarkup({ style: "Scoop", placements: [], errors: new Map(), preview: "" });
-    expect(html).toContain("No artwork on Scoop yet.");
+    expect(html).toContain("No artwork placements on Scoop yet. Add one below.");
     expect(html).toContain('id="surface-preview"');
     expect(html).toContain("data-surface-preview-shell hidden");
     expect(html).toContain('id="surface-add"');

@@ -282,6 +282,24 @@ export function mountApp(root: HTMLElement): void {
     ...(garmentOptions[forRecipe.name] ?? {}),
   });
   const draftCurrent = (): ReturnType<GarmentRecipe["draft"]> => recipe.draft(measurements, recipeOptions());
+  let surfaceRoleCacheKey = "";
+  let surfaceRoleCache: readonly string[] = [];
+  const surfaceRoleSuggestions = (): readonly string[] => {
+    const options = recipeOptions();
+    const key = `${recipe.name}:${JSON.stringify(options)}`;
+    if (key !== surfaceRoleCacheKey) {
+      surfaceRoleCacheKey = key;
+      try {
+        // Piece roles are structural for a recipe/options combination, so use
+        // the standard profile even when the user's current measurements are
+        // incomplete or temporarily invalid.
+        surfaceRoleCache = Object.keys(recipe.draft(STANDARD_M, options).roles);
+      } catch {
+        surfaceRoleCache = [];
+      }
+    }
+    return surfaceRoleCache;
+  };
 
   /** Surface artwork sets live per garment/style pair, shared across graded
    * sizes by construction (sizes never enter the key). Drafting, checks, and
@@ -332,6 +350,7 @@ export function mountApp(root: HTMLElement): void {
   const renderSurface = (): string => surfaceMarkup({
     style: targetStyle,
     placements: surfacePlacementsNow(),
+    pieceRoles: surfaceRoleSuggestions(),
     errors: surfaceErrorMap(),
     preview: surfacePreviewSvg(),
   });
@@ -1959,9 +1978,20 @@ export function mountApp(root: HTMLElement): void {
     const idInput = styleHost.querySelector<HTMLInputElement>("#surface-new-id")!;
     const kindSelect = styleHost.querySelector<HTMLSelectElement>("#surface-new-kind")!;
     const roleInput = styleHost.querySelector<HTMLInputElement>("#surface-new-role")!;
+    const sourceInput = styleHost.querySelector<HTMLInputElement>("#surface-new-source")!;
+    const widthInput = styleHost.querySelector<HTMLInputElement>("#surface-new-width")!;
+    const heightInput = styleHost.querySelector<HTMLInputElement>("#surface-new-height")!;
     const formError = styleHost.querySelector<HTMLElement>("#surface-form-error")!;
-    const fail = (message: string, focus: HTMLElement): void => {
+    styleHost.querySelectorAll<HTMLInputElement | HTMLSelectElement>(
+      ".surface-add-form input, .surface-add-form select",
+    ).forEach((input) => {
+      input.removeAttribute("aria-invalid");
+      input.setCustomValidity("");
+    });
+    const fail = (message: string, focus: HTMLInputElement): void => {
       formError.textContent = message;
+      focus.setAttribute("aria-invalid", "true");
+      focus.setCustomValidity(message);
       focus.focus();
     };
     const id = idInput.value.trim();
@@ -1972,15 +2002,27 @@ export function mountApp(root: HTMLElement): void {
     }
     const role = roleInput.value.trim();
     if (role === "") { fail("Name the piece role the artwork belongs to.", roleInput); return; }
+    const positiveCentimetres = (input: HTMLInputElement, label: string): number | null => {
+      const value = input.value.trim() === "" ? NaN : Number(input.value);
+      if (!Number.isFinite(value) || value <= 0) {
+        fail(`Enter a placement ${label} above 0 cm.`, input);
+        return null;
+      }
+      return value;
+    };
+    const widthCm = positiveCentimetres(widthInput, "width");
+    if (widthCm === null) return;
+    const heightCm = positiveCentimetres(heightInput, "height");
+    if (heightCm === null) return;
     surfaceBook = surfaceAdd(surfaceBook, surfaceKeyNow(), targetStyle, {
       id,
       kind: kindSelect.value as ArtworkPlacement["kind"],
       pieceRole: role,
-      widthCm: 20,
-      heightCm: 25,
+      widthCm,
+      heightCm,
       transform: { ...EMPTY_TRANSFORM },
       zOrder: nextZOrder(surfacePlacementsNow()),
-      sourceName: "",
+      sourceName: sourceInput.value,
     });
     markOutputDirty(false);
     draw();

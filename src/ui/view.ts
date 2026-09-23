@@ -337,6 +337,8 @@ export function styleMarkup(
 export interface SurfacePanelData {
   readonly style: string;
   readonly placements: readonly ArtworkPlacement[];
+  /** Exact structural roles in the current garment draft. */
+  readonly pieceRoles?: readonly string[];
   /** Placement index → actionable placementError text. */
   readonly errors: ReadonlyMap<number, string>;
   /** Precomputed true-scale artwork-space preview SVG (empty when no artwork). */
@@ -381,54 +383,97 @@ const surfaceKindOptions = (kind: string): string =>
     .map((option) => `<option value="${option}"${option === kind ? " selected" : ""}>${option}</option>`)
     .join("");
 
-const surfaceRow = (p: ArtworkPlacement, index: number, error: string | undefined): string => {
+const SURFACE_SOURCE_HELP = "Optional provenance: creator, citation/source URL, local filename, or asset ID. Text only—no file is loaded and URLs are never fetched.";
+
+const surfaceRoleOptions = (roles: readonly string[]): string =>
+  `<datalist id="surface-piece-role-options">${roles.map((role) => `<option value="${escapeAttr(role)}"></option>`).join("")}</datalist>`;
+
+const surfaceRoleHelp = (id: string, roles: readonly string[]): string =>
+  `<p class="surface-help" id="${id}">${roles.length > 0
+    ? "Choose an exact piece role from this garment's current draft."
+    : "Role suggestions are unavailable for this option set; enter an exact role from the Pattern view."}</p>`;
+
+const surfaceNumericFields = (
+  p: ArtworkPlacement,
+  index: number,
+  ids: readonly (typeof SURFACE_NUMERIC)[number]["id"][],
+): string => SURFACE_NUMERIC.filter((field) => ids.includes(field.id)).map((field) => {
+  const controlId = `surface-${index}-${field.id}`;
+  const describedBy = field.id === "widthCm" || field.id === "heightCm"
+    ? `error-surface-${index} surface-size-help-${index}`
+    : field.id === "dx" || field.id === "dy" || field.id === "scale" || field.id === "rotationDeg" || field.id === "zOrder"
+      ? `error-surface-${index} surface-position-help-${index}`
+      : `error-surface-${index} surface-source-pixels-help-${index}`;
+  return `<div class="surface-field"><label for="input-${controlId}">${field.label}${field.unit ? ` (${field.unit})` : ""}</label>` +
+    numericControlMarkup(controlId, `input-${controlId}`, `${field.label} artwork ${index + 1}`,
+      surfaceNumber(p, field.id), undefined, undefined, field.step,
+      `data-surface-index="${index}" data-surface-field="${field.id}" data-guidance-control="surface-${index}-${field.id}" aria-label="${field.label} artwork ${index + 1}" aria-describedby="${describedBy}"`,
+      field.unit) + `</div>`;
+}).join("");
+
+const surfaceRow = (
+  p: ArtworkPlacement,
+  index: number,
+  error: string | undefined,
+  roles: readonly string[],
+): string => {
   const safeId = escapeAttr(typeof p.id === "string" ? p.id : "");
-  const label = `artwork ${index + 1}`;
-  const numeric = SURFACE_NUMERIC.map((field) => {
-    const controlId = `surface-${index}-${field.id}`;
-    return `<div style="margin-bottom:6px"><label for="input-${controlId}" style="font-size:11.5px;color:${T.label};display:block;margin-bottom:2px">${field.label}</label>` +
-      numericControlMarkup(controlId, `input-${controlId}`, `${field.label} ${label}`,
-        surfaceNumber(p, field.id), undefined, undefined, field.step,
-        `data-surface-index="${index}" data-surface-field="${field.id}" data-guidance-control="surface-${index}-${field.id}" aria-label="${field.label} ${label}" aria-describedby="error-surface-${index}"`,
-        field.unit) + `</div>`;
-  }).join("");
-  return `<div data-surface-row="${index}" style="border:1px solid ${BORDER};border-radius:8px;padding:10px;margin-bottom:10px">` +
-    `<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">` +
-    `<strong style="font-size:12.5px;color:${T.line}">#${index + 1} ${safeId}</strong>` +
-    `<button type="button" data-surface-remove-index="${index}" aria-label="Remove ${label}">Remove</button></div>` +
-    `<div style="margin-bottom:6px"><label for="surface-id-${index}" style="font-size:11.5px;color:${T.label};display:block;margin-bottom:2px">Name</label>` +
-    `<input id="surface-id-${index}" type="text" data-surface-index="${index}" data-surface-field="id" data-guidance-control="surface-${index}-id" value="${safeId}" aria-label="Name ${label}" aria-describedby="error-surface-${index}"/></div>` +
-    `<div style="margin-bottom:6px"><label for="surface-kind-${index}" style="font-size:11.5px;color:${T.label};display:block;margin-bottom:2px">Kind</label>` +
-    `<select id="surface-kind-${index}" data-surface-index="${index}" data-surface-field="kind" data-guidance-control="surface-${index}-kind" aria-label="Kind ${label}">${surfaceKindOptions(typeof p.kind === "string" ? p.kind : "")}</select></div>` +
-    `<div style="margin-bottom:6px"><label for="surface-role-${index}" style="font-size:11.5px;color:${T.label};display:block;margin-bottom:2px">Piece role</label>` +
-    `<input id="surface-role-${index}" type="text" data-surface-index="${index}" data-surface-field="pieceRole" data-guidance-control="surface-${index}-pieceRole" value="${escapeAttr(typeof p.pieceRole === "string" ? p.pieceRole : "")}" aria-label="Piece role ${label}" aria-describedby="error-surface-${index}"/></div>` +
-    `<div style="margin-bottom:6px"><label for="surface-source-${index}" style="font-size:11.5px;color:${T.label};display:block;margin-bottom:2px">Artwork source</label>` +
-    `<input id="surface-source-${index}" type="text" data-surface-index="${index}" data-surface-field="sourceName" data-guidance-control="surface-${index}-sourceName" value="${escapeAttr(typeof p.sourceName === "string" ? p.sourceName : "")}" aria-label="Artwork source ${label}" aria-describedby="error-surface-${index}"/></div>` +
-    numeric +
-    `<p id="error-surface-${index}" role="status" style="font-size:12px;color:${T.lineActive};margin:6px 0 0;min-height:16px">${error ?? ""}</p></div>`;
+  const rowLabel = `artwork ${index + 1}`;
+  const sourceHelpId = `surface-source-help-${index}`;
+  return `<article class="surface-placement-card" data-surface-row="${index}" aria-labelledby="surface-title-${index}">` +
+    `<header class="surface-placement-header"><h3 id="surface-title-${index}">#${index + 1} · ${safeId || "Unnamed placement"}</h3>` +
+    `<button type="button" data-surface-remove-index="${index}" aria-label="Remove ${rowLabel}${safeId ? ` ${safeId}` : ""}">Remove</button></header>` +
+    `<fieldset class="surface-fieldset"><legend>Identity and target</legend>` +
+    `<div class="surface-field"><label for="surface-id-${index}">Placement name</label>` +
+    `<input id="surface-id-${index}" type="text" data-surface-index="${index}" data-surface-field="id" data-guidance-control="surface-${index}-id" value="${safeId}" aria-label="Placement name ${rowLabel}" aria-describedby="error-surface-${index}"/></div>` +
+    `<div class="surface-field"><label for="surface-kind-${index}">Artwork type</label>` +
+    `<select id="surface-kind-${index}" data-surface-index="${index}" data-surface-field="kind" data-guidance-control="surface-${index}-kind" aria-label="Artwork type ${rowLabel}" aria-describedby="error-surface-${index}">${surfaceKindOptions(typeof p.kind === "string" ? p.kind : "")}</select></div>` +
+    `<div class="surface-field"><label for="surface-role-${index}">Pattern piece role</label>` +
+    `<input id="surface-role-${index}" type="text" list="surface-piece-role-options" data-surface-index="${index}" data-surface-field="pieceRole" data-guidance-control="surface-${index}-pieceRole" value="${escapeAttr(typeof p.pieceRole === "string" ? p.pieceRole : "")}" aria-label="Pattern piece role ${rowLabel}" aria-describedby="error-surface-${index} surface-role-help-${index}"/>` +
+    `${surfaceRoleHelp(`surface-role-help-${index}`, roles)}</div>` +
+    `<div class="surface-field"><label for="surface-source-${index}">Source / asset reference (optional)</label>` +
+    `<input id="surface-source-${index}" type="text" data-surface-index="${index}" data-surface-field="sourceName" data-guidance-control="surface-${index}-sourceName" value="${escapeAttr(typeof p.sourceName === "string" ? p.sourceName : "")}" aria-label="Source or asset reference ${rowLabel}" aria-describedby="error-surface-${index} ${sourceHelpId}"/>` +
+    `<p class="surface-help" id="${sourceHelpId}">${SURFACE_SOURCE_HELP}</p></div></fieldset>` +
+    `<fieldset class="surface-fieldset"><legend>Placement size</legend>` +
+    `<p class="surface-help" id="surface-size-help-${index}">Width and height are the placement rectangle in centimetres before scale.</p>` +
+    `<div class="surface-numeric-stack">${surfaceNumericFields(p, index, ["widthCm", "heightCm"])}</div></fieldset>` +
+    `<fieldset class="surface-fieldset"><legend>Position and appearance</legend>` +
+    `<p class="surface-help" id="surface-position-help-${index}">X/Y offsets start at the selected piece's cut-box centre. Scale multiplies both dimensions evenly; rotation is in degrees; larger stack-order numbers render above smaller ones.</p>` +
+    `<div class="surface-numeric-stack">${surfaceNumericFields(p, index, ["dx", "dy", "scale", "rotationDeg", "zOrder"])}</div></fieldset>` +
+    `<fieldset class="surface-fieldset"><legend>Source image size (optional)</legend>` +
+    `<p class="surface-help" id="surface-source-pixels-help-${index}">Enter both original image dimensions in pixels to estimate print resolution. Leave blank when unknown; these values do not load an image.</p>` +
+    `<div class="surface-numeric-stack">${surfaceNumericFields(p, index, ["sourcePxWidth", "sourcePxHeight"])}</div></fieldset>` +
+    `<p id="error-surface-${index}" class="surface-error" role="status" aria-live="polite">${error ?? ""}</p></article>`;
 };
 
 /** Artwork sets for one style: add/edit/remove with warn-only validation plus a
  * true-scale artwork-space preview. Positions on pieces arrive with print output. */
 export function surfaceMarkup(data: SurfacePanelData): string {
-  const rows = data.placements.map((p, index) => surfaceRow(p, index, data.errors.get(index))).join("");
+  const roles = data.pieceRoles ?? [];
+  const rows = data.placements.map((p, index) => surfaceRow(p, index, data.errors.get(index), roles)).join("");
   const list = rows === ""
-    ? `<p style="font-size:12.5px;color:${T.label}">No artwork on ${escapeAttr(data.style)} yet.</p>`
-    : rows;
-  const preview = `<div data-surface-preview-shell${data.preview === "" ? " hidden" : ""} style="margin-top:10px"><div style="font-size:11px;color:${T.label};text-transform:uppercase;letter-spacing:0.04em;margin-bottom:7px">Artwork preview · true scale</div>` +
+    ? `<p class="surface-empty">No artwork placements on ${escapeAttr(data.style)} yet. Add one below.</p>`
+    : `<div class="surface-placement-list">${rows}</div>`;
+  const preview = `<div data-surface-preview-shell${data.preview === "" ? " hidden" : ""} class="surface-preview-shell"><h3>Placement preview · true scale</h3>` +
     `<div id="surface-preview">${data.preview}</div>` +
-    `<div style="font-size:11.5px;color:${T.label};margin-top:6px">Artwork space, true scale. Shift offsets measure from the piece bounding-box centre.</div></div>`;
-  const form = `<div style="border:1px dashed ${BORDER};border-radius:8px;padding:10px;margin-top:4px">` +
-    `<div style="font-size:11px;color:${T.label};text-transform:uppercase;letter-spacing:0.04em;margin-bottom:7px">Add artwork</div>` +
-    `<div style="margin-bottom:6px"><label for="surface-new-id" style="font-size:11.5px;color:${T.label};display:block;margin-bottom:2px">Name</label>` +
-    `<input id="surface-new-id" type="text" aria-label="New artwork name"/></div>` +
-    `<div style="margin-bottom:6px"><label for="surface-new-kind" style="font-size:11.5px;color:${T.label};display:block;margin-bottom:2px">Kind</label>` +
-    `<select id="surface-new-kind" aria-label="New artwork kind">${surfaceKindOptions("print")}</select></div>` +
-    `<div style="margin-bottom:8px"><label for="surface-new-role" style="font-size:11.5px;color:${T.label};display:block;margin-bottom:2px">Piece role</label>` +
-    `<input id="surface-new-role" type="text" value="front" aria-label="New artwork piece role"/></div>` +
-    `<button id="surface-add" type="button">Add artwork</button>` +
-    `<p id="surface-form-error" role="status" style="font-size:12px;color:${T.lineActive};margin:6px 0 0;min-height:16px"></p></div>`;
-  return panel("Surface", list + form + preview);
+    `<p class="surface-help">This is the placement rectangle, not the artwork image or a garment rendering. X/Y offsets are measured from the selected piece's cut-box centre.</p></div>`;
+  const newDimension = (id: "width" | "height", label: string, value: number): string =>
+    `<div class="surface-field"><label for="surface-new-${id}">Placement ${label.toLowerCase()} (cm)</label>` +
+    `<input id="surface-new-${id}" type="number" min="0" step="0.5" value="${value}" inputmode="decimal" aria-describedby="surface-new-size-help surface-form-error" aria-label="New placement ${label.toLowerCase()} in centimetres"/></div>`;
+  const form = `<section class="surface-add-form" aria-labelledby="surface-add-title">` +
+    `<h3 id="surface-add-title">Add artwork placement</h3>` +
+    `<p class="surface-help">Creates a local placement area for this style. It does not import or display an image.</p>` +
+    `<fieldset class="surface-fieldset"><legend>Identity and target</legend>` +
+    `<div class="surface-field"><label for="surface-new-id">Placement name</label><input id="surface-new-id" type="text" aria-label="New placement name" aria-describedby="surface-form-error"/></div>` +
+    `<div class="surface-field"><label for="surface-new-kind">Artwork type</label><select id="surface-new-kind" aria-label="New artwork type" aria-describedby="surface-form-error">${surfaceKindOptions("print")}</select></div>` +
+    `<div class="surface-field"><label for="surface-new-role">Pattern piece role</label><input id="surface-new-role" type="text" list="surface-piece-role-options" placeholder="Choose a role from the list" aria-label="New placement pattern piece role" aria-describedby="surface-new-role-help surface-form-error"/>${surfaceRoleHelp("surface-new-role-help", roles)}</div>` +
+    `<div class="surface-field"><label for="surface-new-source">Source / asset reference (optional)</label><input id="surface-new-source" type="text" aria-label="New placement source or asset reference" aria-describedby="surface-new-source-help surface-form-error"/><p class="surface-help" id="surface-new-source-help">${SURFACE_SOURCE_HELP}</p></div></fieldset>` +
+    `<fieldset class="surface-fieldset"><legend>Placement size</legend>` +
+    `<p class="surface-help" id="surface-new-size-help">Width and height are the placement rectangle in centimetres before scale.</p>` +
+    `<div class="surface-numeric-stack">${newDimension("width", "Width", 20)}${newDimension("height", "Height", 25)}</div></fieldset>` +
+    `<button id="surface-add" type="button">Add placement</button>` +
+    `<p id="surface-form-error" class="surface-error" role="status" aria-live="polite"></p></section>`;
+  return panel("Surface", `<div class="surface-panel-content">${surfaceRoleOptions(roles)}<p class="surface-intro">Record where a print, patch, or colour block belongs. Artwork files are not loaded in this Phase 6 form.</p>${list}${form}${preview}</div>`);
 }
 
 interface ExportFormat {
