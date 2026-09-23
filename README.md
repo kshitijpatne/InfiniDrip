@@ -65,8 +65,10 @@ views do not prove physical fit or factory readiness.
 - The rules built into Guidance can find certain problems and point to
   corrections, but cannot replace cutting, sewing, or fitting a physical
   sample. No garment has yet been physically cut, sewn, and fit-tested.
-- Artwork currently means geometric placement data. The app does not yet import
-  image files or include an artwork library.
+- Artwork placements can attach local PNG, JPEG, WebP, or sanitized SVG files
+  and preview them in the Style panel. Images stay on this device; the app does
+  not fetch source URLs or place the image onto garment geometry. The curated
+  artwork library is still future work.
 - The **Edit** view is an exploratory preview of one pattern piece (the Trouser
   uses its left-front piece). Its changes do not update measurements, the
   assembled view, checks, other sizes, fabric layout, saved designs, or exports.
@@ -76,10 +78,11 @@ views do not prove physical fit or factory readiness.
 ## Local use and saved work
 
 The browser and desktop versions work locally. Saved designs, recovery data,
-and tour progress are kept in separate on-device records. The browser version
-stores them with that site's data, so clearing it can remove local saves; the
-desktop version stores them in local app data. There is no account, user
-profile, hosted database, or cloud sync.
+and tour progress are kept in separate on-device records. Imported image bytes
+are stored separately from saved-design JSON: in the browser's site data or
+the desktop app's local data folder. Clearing browser site data can remove
+those local records and images. There is no account, user profile, hosted
+database, or cloud sync.
 
 Exporting in a browser uses its normal download flow. In the desktop app, a
 local save dialog lets you choose where an export file is written. The current

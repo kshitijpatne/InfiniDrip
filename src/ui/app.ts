@@ -29,6 +29,13 @@ import {
 } from "../surface/store";
 import { pieceFrames } from "../surface/piece-frames";
 import { patternMeasurementDefinition, type PatternMeasurementField } from "./pattern-measurements";
+import { inspectArtworkFile, type InspectedArtworkFile } from "../surface/artwork-file";
+import {
+  createElectronArtworkStore, createIndexedDbArtworkStore, createUnavailableArtworkStore,
+  loadArtworkAsset, storeArtworkFile,
+  type ArtworkAssetBridge, type ArtworkAssetWireRecord,
+  type ArtworkAssetStore, type StoredArtworkAsset,
+} from "../surface/artwork-store";
 import {
   JourneyStep, ViewName, StageReadiness, StageBlocker, TutorialStep, COACHED_STEPS, disclosureFor, stepView, journeyChecklist,
   journeyBarMarkup, checklistMarkup, tutorialMarkup, tutorialAnnouncement,
@@ -41,6 +48,9 @@ declare global {
   interface Window {
     electronAPI?: {
       saveFile(filename: string, content: string): Promise<{ saved: boolean; filePath?: string }>;
+      putArtworkAsset?(asset: ArtworkAssetWireRecord): Promise<void>;
+      getArtworkAsset?(assetId: string): Promise<ArtworkAssetWireRecord | null>;
+      removeArtworkAsset?(assetId: string): Promise<void>;
       onExportRequested?(callback: (kind: string) => void): void;
     };
   }
@@ -90,7 +100,27 @@ export function stageBlockerFromNote(note: Note | undefined): StageBlocker {
   return { message: note.text, step: correctionStepForField(note.field), field: note.field };
 }
 
-export function mountApp(root: HTMLElement): void {
+export interface MountAppOptions {
+  /** Injectable only to verify local asset behavior without a real browser DB. */
+  readonly artworkAssetStore?: ArtworkAssetStore;
+  readonly inspectArtworkFile?: (file: File) => Promise<InspectedArtworkFile>;
+}
+
+function defaultArtworkAssetStore(): ArtworkAssetStore {
+  const desktop = window.electronAPI;
+  if (!desktop) return createIndexedDbArtworkStore(globalThis.indexedDB);
+  if (!desktop.putArtworkAsset || !desktop.getArtworkAsset || !desktop.removeArtworkAsset) {
+    return createUnavailableArtworkStore("Desktop artwork storage is unavailable. Restart or update the app, then try again.");
+  }
+  const bridge: ArtworkAssetBridge = {
+    putArtworkAsset: desktop.putArtworkAsset!,
+    getArtworkAsset: desktop.getArtworkAsset!,
+    removeArtworkAsset: desktop.removeArtworkAsset!,
+  };
+  return createElectronArtworkStore(bridge);
+}
+
+export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void {
   activeMountRoot = root;
   const saved = loadFromStorage();
   let measurements: Measurements = saved ? saved.measurements : STANDARD_M;
@@ -103,6 +133,11 @@ export function mountApp(root: HTMLElement): void {
   let recipe: GarmentRecipe = garmentByName(initialWorkspace.garment);
   let appearance: Appearance = saved?.appearance ?? DEFAULT_APPEARANCE;
   let surfaceBook: SurfaceBook = saved?.surface ?? {};
+  let pendingArtwork: InspectedArtworkFile | null = null;
+  let pendingArtworkRejected = false;
+  let pendingArtworkMessage = "Image optional — you can add a placement without a file.";
+  const artworkAssetStore = options.artworkAssetStore ?? defaultArtworkAssetStore();
+  const artworkInspector = options.inspectArtworkFile ?? inspectArtworkFile;
   let appearanceOpen = false;
   root.innerHTML = appShellMarkup(measurements, fabric, recipe.sizes, recipe.fields, initialWorkspace.stretchFabric, recipe.name, appearance);
 
@@ -353,7 +388,66 @@ export function mountApp(root: HTMLElement): void {
     pieceRoles: surfaceRoleSuggestions(),
     errors: surfaceErrorMap(),
     preview: surfacePreviewSvg(),
+    pendingAssetMessage: pendingArtworkMessage,
   });
+  const assetPreviewCache = new Map<string, {
+    readonly promise: Promise<StoredArtworkAsset | null>;
+    objectUrl?: string;
+  }>();
+  const syncSurfaceAssetPreviews = (): void => {
+    const referenced = new Set<string>();
+    for (const surface of Object.values(surfaceBook)) {
+      for (const placement of surface.placements) {
+        if (typeof placement === "object" && placement !== null &&
+            typeof (placement as { assetId?: unknown }).assetId === "string") {
+          referenced.add((placement as { assetId: string }).assetId);
+        }
+      }
+    }
+    for (const [assetId, state] of assetPreviewCache) {
+      if (referenced.has(assetId)) continue;
+      if (state.objectUrl && typeof URL.revokeObjectURL === "function") URL.revokeObjectURL(state.objectUrl);
+      assetPreviewCache.delete(assetId);
+    }
+    styleHost.querySelectorAll<HTMLImageElement>("[data-surface-asset-preview]").forEach((image) => {
+      // surfaceAssetMarkup always provides both the stable-id attribute and
+      // status region alongside every preview image.
+      const assetId = image.dataset.assetId!;
+      const status = image.closest<HTMLElement>("[data-surface-asset-row]")!.querySelector<HTMLElement>("[data-surface-asset-status]")!;
+      if (assetId === "") {
+        status.textContent = "No image attached to this placement.";
+        image.hidden = true;
+        return;
+      }
+      let state = assetPreviewCache.get(assetId);
+      if (!state) {
+        state = { promise: loadArtworkAsset(assetId, artworkAssetStore) };
+        assetPreviewCache.set(assetId, state);
+      }
+      const currentState = state;
+      void currentState.promise.then((asset) => {
+        if (!styleHost.contains(image) || !styleHost.contains(status)) return;
+        if (!asset) {
+          image.hidden = true;
+          status.textContent = "Local image is missing. Choose or drop a replacement to restore it.";
+          return;
+        }
+        if (typeof URL.createObjectURL !== "function") {
+          status.textContent = `Stored locally: ${asset.name}. Image preview is unavailable in this browser.`;
+          return;
+        }
+        if (!currentState.objectUrl) currentState.objectUrl = URL.createObjectURL(asset.blob);
+        image.src = currentState.objectUrl;
+        image.alt = `Artwork image preview: ${asset.name}`;
+        image.hidden = false;
+        status.textContent = `Stored locally: ${asset.name} (${Math.ceil(asset.blob.size / 1024)} KB).`;
+      }).catch((error: unknown) => {
+        if (!styleHost.contains(image) || !styleHost.contains(status)) return;
+        image.hidden = true;
+        status.textContent = `Could not access local artwork storage: ${error instanceof Error ? error.message : "unknown error"} Choose a replacement or retry.`;
+      });
+    });
+  };
   const inputErrors = (): Map<string, string> => {
     const errors = new Map<string, string>();
     for (const field of FIELDS.filter((f) => recipe.fields.includes(f.id))) {
@@ -902,6 +996,7 @@ export function mountApp(root: HTMLElement): void {
       renderGuidance([...errors.entries()].map(([field, text]) => ({ level: "warn", field, text })));
       styleHost.innerHTML = styleMarkup(targetStyle, matchStyle(measurements, targetStyle, recipe.styles), styleNames(recipe.styles), false) + renderSurface();
       syncSurfaceValidity();
+      syncSurfaceAssetPreviews();
       renderJourney();
       return;
     }
@@ -1033,6 +1128,7 @@ export function mountApp(root: HTMLElement): void {
     // Style = prescriptive: the gap from current measurements to the chosen target.
     styleHost.innerHTML = styleMarkup(targetStyle, matchStyle(measurements, targetStyle, recipe.styles), styleNames(recipe.styles), plausible) + renderSurface();
     syncSurfaceValidity();
+    syncSurfaceAssetPreviews();
     // Amber-outline any measurement input whose value is out of plausible range
     // (same outline convention as the fabric swatches). Controls aren't re-rendered
     // per draw, so this is applied imperatively.
@@ -1974,7 +2070,88 @@ export function mountApp(root: HTMLElement): void {
     markOutputDirty(false);
     draw();
   };
-  const addSurfacePlacement = (): void => {
+  let pendingArtworkChecking = false;
+  let surfaceAssetWriteInProgress = false;
+  let newFileCheck = 0;
+  const replacementChecks = new Map<number, number>();
+  const updateNewArtworkStatus = (message: string, rejected: boolean): void => {
+    pendingArtworkMessage = message;
+    pendingArtworkRejected = rejected;
+    const status = styleHost.querySelector<HTMLElement>("#surface-new-file-status");
+    if (status) status.textContent = message;
+    const clear = styleHost.querySelector<HTMLButtonElement>("#surface-new-clear-file");
+    if (clear) clear.hidden = pendingArtwork === null && !pendingArtworkChecking && !rejected;
+    const choose = styleHost.querySelector<HTMLButtonElement>("#surface-new-choose-file");
+    if (choose) choose.setAttribute("aria-invalid", String(rejected));
+  };
+  const fileReadyMessage = (file: InspectedArtworkFile): string =>
+    `Ready: ${file.name} · ${file.mimeType}${file.widthPx && file.heightPx ? ` · ${file.widthPx}×${file.heightPx} px` : " · pixel size unknown"}. Add the placement to store it locally.`;
+  const inspectNewArtworkFile = async (file: File): Promise<void> => {
+    const check = ++newFileCheck;
+    pendingArtwork = null;
+    pendingArtworkChecking = true;
+    updateNewArtworkStatus(`Checking ${file.name}…`, false);
+    try {
+      const inspected = await artworkInspector(file);
+      if (check !== newFileCheck) return;
+      pendingArtwork = inspected;
+      pendingArtworkChecking = false;
+      updateNewArtworkStatus(fileReadyMessage(inspected), false);
+    } catch (error) {
+      if (check !== newFileCheck) return;
+      pendingArtwork = null;
+      pendingArtworkChecking = false;
+      updateNewArtworkStatus(`File rejected: ${error instanceof Error ? error.message : "Artwork could not be checked."}`, true);
+    }
+  };
+  const inspectReplacementFile = async (index: number, file: File): Promise<void> => {
+    const check = (replacementChecks.get(index) ?? 0) + 1;
+    replacementChecks.set(index, check);
+    const key = surfaceKeyNow();
+    const original = surfaceList(surfaceBook, key)[index];
+    if (!original) return;
+    const originalSnapshot = JSON.stringify(original);
+    const row = styleHost.querySelector<HTMLElement>(`[data-surface-asset-row="${index}"]`);
+    const status = row?.querySelector<HTMLElement>("[data-surface-asset-status]");
+    if (status) status.textContent = `Checking ${file.name}…`;
+    try {
+      const inspected = await artworkInspector(file);
+      if (replacementChecks.get(index) !== check) return;
+      if (status) status.textContent = `Saving ${inspected.name} in this app profile…`;
+      const assetId = await storeArtworkFile(inspected, artworkAssetStore);
+      const latest = surfaceList(surfaceBook, key)[index];
+      if (!latest || JSON.stringify(latest) !== originalSnapshot) {
+        const currentStatus = styleHost.querySelector<HTMLElement>(`[data-surface-asset-row="${index}"] [data-surface-asset-status]`);
+        if (currentStatus) currentStatus.textContent = "The placement changed while the file was being checked. The image is stored locally; choose it again to attach it.";
+        return;
+      }
+      const replacement: ArtworkPlacement = {
+        ...latest,
+        assetId,
+        sourceName: latest.sourceName || inspected.name,
+        sourcePxWidth: inspected.widthPx,
+        sourcePxHeight: inspected.heightPx,
+      };
+      surfaceBook = surfaceSetAt(surfaceBook, key, index, replacement);
+      assetPreviewCache.set(assetId, { promise: Promise.resolve({
+        assetId, name: inspected.name, mimeType: inspected.mimeType, blob: inspected.blob,
+      }) });
+      markOutputDirty(false);
+      draw();
+      flash("Artwork image stored locally and attached. Save the design to retain its reference.", "#2E9B63");
+    } catch (error) {
+      if (replacementChecks.get(index) === check && status && styleHost.contains(status)) {
+        status.textContent = `Could not attach image: ${error instanceof Error ? error.message : "local save failed"} The previous placement is unchanged.`;
+      }
+    }
+  };
+  const singleDroppedFile = (files: FileList | null): { file?: File; error?: string } => {
+    if (!files || files.length === 0) return { error: "No file found. Choose one PNG, JPEG, WebP, or SVG image." };
+    if (files.length !== 1) return { error: "Choose one artwork file at a time." };
+    const file = files[0];
+    return file ? { file } : { error: "The selected artwork file could not be read." };
+  };
+  const addSurfacePlacement = async (): Promise<void> => {
     const idInput = styleHost.querySelector<HTMLInputElement>("#surface-new-id")!;
     const kindSelect = styleHost.querySelector<HTMLSelectElement>("#surface-new-kind")!;
     const roleInput = styleHost.querySelector<HTMLInputElement>("#surface-new-role")!;
@@ -1982,6 +2159,7 @@ export function mountApp(root: HTMLElement): void {
     const widthInput = styleHost.querySelector<HTMLInputElement>("#surface-new-width")!;
     const heightInput = styleHost.querySelector<HTMLInputElement>("#surface-new-height")!;
     const formError = styleHost.querySelector<HTMLElement>("#surface-form-error")!;
+    const chooseFile = styleHost.querySelector<HTMLButtonElement>("#surface-new-choose-file")!;
     styleHost.querySelectorAll<HTMLInputElement | HTMLSelectElement>(
       ".surface-add-form input, .surface-add-form select",
     ).forEach((input) => {
@@ -2014,7 +2192,19 @@ export function mountApp(root: HTMLElement): void {
     if (widthCm === null) return;
     const heightCm = positiveCentimetres(heightInput, "height");
     if (heightCm === null) return;
-    surfaceBook = surfaceAdd(surfaceBook, surfaceKeyNow(), targetStyle, {
+    if (pendingArtworkChecking) {
+      formError.textContent = "Wait for the selected image to finish checking.";
+      chooseFile.focus();
+      return;
+    }
+    if (pendingArtworkRejected) {
+      formError.textContent = "The selected image was rejected. Choose another file or clear the selection.";
+      chooseFile.focus();
+      return;
+    }
+    const key = surfaceKeyNow();
+    const styleName = targetStyle;
+    const basePlacement: ArtworkPlacement = {
       id,
       kind: kindSelect.value as ArtworkPlacement["kind"],
       pieceRole: role,
@@ -2022,16 +2212,62 @@ export function mountApp(root: HTMLElement): void {
       heightCm,
       transform: { ...EMPTY_TRANSFORM },
       zOrder: nextZOrder(surfacePlacementsNow()),
-      sourceName: sourceInput.value,
-    });
+      sourceName: sourceInput.value.trim() || pendingArtwork?.name || "",
+      ...(pendingArtwork?.widthPx === undefined ? {} : { sourcePxWidth: pendingArtwork.widthPx }),
+      ...(pendingArtwork?.heightPx === undefined ? {} : { sourcePxHeight: pendingArtwork.heightPx }),
+    };
+    const pending = pendingArtwork;
+    if (pending && surfaceAssetWriteInProgress) return;
+    surfaceAssetWriteInProgress = true;
+    const addButton = styleHost.querySelector<HTMLButtonElement>("#surface-add")!;
+    addButton.disabled = true;
+    if (pending) formError.textContent = "Saving the validated image locally…";
+    try {
+      let assetId: string | undefined;
+      if (pending) assetId = await storeArtworkFile(pending, artworkAssetStore);
+      const placement: ArtworkPlacement = assetId ? { ...basePlacement, assetId } : basePlacement;
+      surfaceBook = surfaceAdd(surfaceBook, key, styleName, placement);
+      if (pending && assetId) {
+        assetPreviewCache.set(assetId, { promise: Promise.resolve({
+          assetId, name: pending.name, mimeType: pending.mimeType, blob: pending.blob,
+        }) });
+        pendingArtwork = null;
+        pendingArtworkRejected = false;
+        pendingArtworkMessage = "Image optional — you can add a placement without a file.";
+      }
+    } catch (error) {
+      formError.textContent = `Could not store the image locally: ${error instanceof Error ? error.message : "save failed"} The placement was not added; choose retry or use another file.`;
+      return;
+    } finally {
+      surfaceAssetWriteInProgress = false;
+      const currentAddButton = styleHost.querySelector<HTMLButtonElement>("#surface-add");
+      if (currentAddButton) currentAddButton.disabled = false;
+    }
     markOutputDirty(false);
     draw();
     styleHost.querySelector<HTMLInputElement>("#surface-new-id")?.focus();
+    if (pending) flash("Placement and artwork image added. Use Save to retain the design reference.", "#2E9B63");
   };
   styleHost.addEventListener("change", (e) => {
-    const control = (e.target as HTMLElement).closest<HTMLSelectElement>("select[data-surface-index]");
-    if (!control) return;
-    applySurfaceField(Number(control.dataset.surfaceIndex), control.dataset.surfaceField!, control.value);
+    const target = e.target as HTMLInputElement | HTMLSelectElement;
+    if (target instanceof HTMLInputElement && target.id === "surface-new-file") {
+      const selection = singleDroppedFile(target.files);
+      target.value = "";
+      if (selection.error) updateNewArtworkStatus(selection.error, true);
+      else if (selection.file) void inspectNewArtworkFile(selection.file);
+      return;
+    }
+    if (target instanceof HTMLInputElement && target.dataset.surfaceAssetFile !== undefined) {
+      const index = Number(target.dataset.surfaceAssetFile);
+      const selection = singleDroppedFile(target.files);
+      target.value = "";
+      const status = styleHost.querySelector<HTMLElement>(`[data-surface-asset-row="${index}"] [data-surface-asset-status]`);
+      if (selection.error) { if (status) status.textContent = selection.error; }
+      else if (selection.file) void inspectReplacementFile(index, selection.file);
+      return;
+    }
+    const control = target.closest<HTMLSelectElement>("select[data-surface-index]");
+    if (control) applySurfaceField(Number(control.dataset.surfaceIndex), control.dataset.surfaceField!, control.value);
   });
   styleHost.addEventListener("surface-step", (e) => {
     const input = (e.target as HTMLElement).closest<HTMLInputElement>("input[data-surface-index]");
@@ -2044,12 +2280,63 @@ export function mountApp(root: HTMLElement): void {
     applySurfaceField(Number(input.dataset.surfaceIndex), input.dataset.surfaceField!, input.value);
   });
   styleHost.addEventListener("click", (e) => {
-    const remove = (e.target as HTMLElement).closest<HTMLButtonElement>("button[data-surface-remove-index]");
+    const target = e.target as HTMLElement;
+    const newFile = target.closest<HTMLButtonElement>("#surface-new-choose-file");
+    if (newFile) {
+      if (!surfaceAssetWriteInProgress) styleHost.querySelector<HTMLInputElement>("#surface-new-file")?.click();
+      return;
+    }
+    const clearFile = target.closest<HTMLButtonElement>("#surface-new-clear-file");
+    if (clearFile) {
+      newFileCheck++;
+      pendingArtwork = null;
+      pendingArtworkChecking = false;
+      updateNewArtworkStatus("Image optional — you can add a placement without a file.", false);
+      styleHost.querySelector<HTMLElement>("#surface-form-error")!.textContent = "";
+      return;
+    }
+    const chooseAsset = target.closest<HTMLButtonElement>("button[data-surface-asset-choose]");
+    if (chooseAsset) {
+      const index = Number(chooseAsset.dataset.surfaceAssetChoose);
+      styleHost.querySelector<HTMLInputElement>(`input[data-surface-asset-file="${index}"]`)?.click();
+      return;
+    }
+    const remove = target.closest<HTMLButtonElement>("button[data-surface-remove-index]");
     if (remove) {
       removeSurfacePlacement(Number(remove.dataset.surfaceRemoveIndex));
       return;
     }
-    if ((e.target as HTMLElement).closest<HTMLButtonElement>("#surface-add")) addSurfacePlacement();
+    if (target.closest<HTMLButtonElement>("#surface-add")) void addSurfacePlacement();
+  });
+  const dropTarget = (target: EventTarget | null): HTMLElement | null => {
+    if (!(target instanceof HTMLElement)) return null;
+    return target.closest<HTMLElement>("[data-surface-new-dropzone], [data-surface-row]");
+  };
+  styleHost.addEventListener("dragover", (e) => {
+    const target = dropTarget(e.target);
+    if (!target) return;
+    e.preventDefault();
+    target.classList.add("is-dragging");
+  });
+  styleHost.addEventListener("dragleave", (e) => {
+    const target = dropTarget(e.target);
+    if (target && (!e.relatedTarget || !target.contains(e.relatedTarget as Node))) target.classList.remove("is-dragging");
+  });
+  styleHost.addEventListener("drop", (e) => {
+    const target = dropTarget(e.target);
+    if (!target) return;
+    e.preventDefault();
+    target.classList.remove("is-dragging");
+    const selection = singleDroppedFile(e.dataTransfer?.files ?? null);
+    if (target.matches("[data-surface-new-dropzone]")) {
+      if (selection.error) updateNewArtworkStatus(selection.error, true);
+      else if (selection.file) void inspectNewArtworkFile(selection.file);
+    } else {
+      const index = Number(target.dataset.surfaceRow);
+      const status = target.querySelector<HTMLElement>("[data-surface-asset-status]");
+      if (selection.error) { if (status) status.textContent = selection.error; }
+      else if (selection.file) void inspectReplacementFile(index, selection.file);
+    }
   });
 
   const stretchSelect = root.querySelector<HTMLSelectElement>("#stretch-select")!;

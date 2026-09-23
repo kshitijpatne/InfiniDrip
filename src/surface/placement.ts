@@ -30,6 +30,8 @@ export interface ArtworkPlacement {
   readonly transform: PlacementTransform;
   readonly zOrder: number;
   readonly sourceName: string;
+  /** Stable local/bundled image reference; bytes live outside the design JSON. */
+  readonly assetId?: string;
   readonly sourcePxWidth?: number;
   readonly sourcePxHeight?: number;
 }
@@ -81,6 +83,10 @@ export function placementError(p: unknown): string | null {
   if (badTransform) return `Placement transform: ${badTransform}`;
   if (!finite(p.zOrder) || !Number.isInteger(p.zOrder)) return "Placement zOrder: enter a whole number.";
   if (typeof p.sourceName !== "string") return "Placement sourceName: enter text.";
+  if (p.assetId !== undefined && (typeof p.assetId !== "string" ||
+      !/^(?:local-[0-9a-f]{32}-(?:png|jpg|webp|svg)|builtin-[a-z0-9][a-z0-9-]{0,80})$/i.test(p.assetId))) {
+    return "Placement assetId: choose a valid local or bundled artwork reference.";
+  }
   if (p.sourcePxWidth !== undefined && (!finite(p.sourcePxWidth) || p.sourcePxWidth <= 0)) {
     return "Placement sourcePxWidth: enter a number above 0, or leave it empty.";
   }

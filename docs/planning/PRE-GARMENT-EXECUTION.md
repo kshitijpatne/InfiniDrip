@@ -223,6 +223,36 @@ animation and unsupported formats.
 placement persists; unsupported/unsafe files fail clearly; missing-asset
 recovery is understandable.
 
+### Slice 200 implementation contract
+
+Use IndexedDB for a browser run and a fixed app-managed directory under
+Electron's user-data location for the desktop build. Keep file bytes out of
+localStorage and save files; design metadata stores only a validated stable
+`assetId`. Never persist a source path. A local source filename may remain as
+human-readable provenance text.
+
+Offer both file-picker and drag/drop paths when creating a placement and when
+attaching or replacing an image on an existing placement. Validate before
+storage, store bytes before linking the ID, and preserve the prior placement if
+validation or storage fails. Save imported source pixel dimensions for
+resolution guidance. Render a local preview in the artwork panel; do not alter
+garment geometry, construction output, print-sheet bytes, or other exports.
+
+For raster files, require matching supported type/signature, successful image
+decoding, non-zero dimensions, the 10 MB per-file cap, and maximum 4096 px in
+either dimension. For SVG, reject files above 2 MB, malformed XML, scripts,
+event-handler attributes, links or external references, CSS/style blocks,
+animation, and elements/attributes outside a small static vector allowlist;
+store and preview only the sanitized result. Never resolve a URL.
+
+On reload, resolve each saved asset ID from the local store. Distinguish a
+missing record from storage-access failure, explain that the design still has
+its metadata, and offer a picker/drop target to restore or replace the image.
+Replacing an image must not lose the previous usable reference until the new
+file has passed validation and storage. Browser and desktop backends must both
+be exercised; reload/persistence checks use a real browser profile, not only
+mocked tests.
+
 ## Phase 8 — Curated artwork library V1
 
 Research fashion/design-oriented sources and select only assets whose license

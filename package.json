@@ -22,6 +22,7 @@
     "electron:dev": "npm run electron:build-main && electron .",
     "electron:pack": "npm run build && npm run electron:build-main && electron-builder --dir --publish never",
     "electron:verify": "node electron/verify-save.cjs",
+    "electron:verify-artwork-store": "node electron/verify-artwork-store.cjs",
     "electron:verify-packaged": "node electron/verify-save.cjs --packaged",
     "electron:verify-menu": "node electron/verify-menu-and-window.cjs",
     "electron:verify-menu-packaged": "node electron/verify-menu-and-window.cjs --packaged",

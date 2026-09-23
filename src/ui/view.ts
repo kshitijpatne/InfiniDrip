@@ -339,6 +339,8 @@ export interface SurfacePanelData {
   readonly placements: readonly ArtworkPlacement[];
   /** Exact structural roles in the current garment draft. */
   readonly pieceRoles?: readonly string[];
+  /** Pending, already-validated local file selection feedback. */
+  readonly pendingAssetMessage?: string;
   /** Placement index → actionable placementError text. */
   readonly errors: ReadonlyMap<number, string>;
   /** Precomputed true-scale artwork-space preview SVG (empty when no artwork). */
@@ -383,7 +385,8 @@ const surfaceKindOptions = (kind: string): string =>
     .map((option) => `<option value="${option}"${option === kind ? " selected" : ""}>${option}</option>`)
     .join("");
 
-const SURFACE_SOURCE_HELP = "Optional provenance: creator, citation/source URL, local filename, or asset ID. Text only—no file is loaded and URLs are never fetched.";
+const SURFACE_SOURCE_HELP = "Optional provenance text: creator, citation/source URL, local filename, or asset ID. This field does not load a file; attach an image with the separate local artwork control. URLs are never fetched.";
+const SURFACE_FILE_ACCEPT = ".png,.jpg,.jpeg,.webp,.svg,image/png,image/jpeg,image/webp,image/svg+xml";
 
 const surfaceRoleOptions = (roles: readonly string[]): string =>
   `<datalist id="surface-piece-role-options">${roles.map((role) => `<option value="${escapeAttr(role)}"></option>`).join("")}</datalist>`;
@@ -392,6 +395,17 @@ const surfaceRoleHelp = (id: string, roles: readonly string[]): string =>
   `<p class="surface-help" id="${id}">${roles.length > 0
     ? "Choose an exact piece role from this garment's current draft."
     : "Role suggestions are unavailable for this option set; enter an exact role from the Pattern view."}</p>`;
+
+const surfaceAssetMarkup = (placement: ArtworkPlacement, index: number): string => {
+  const assetId = typeof placement.assetId === "string" ? placement.assetId : "";
+  const name = typeof placement.id === "string" ? placement.id : `artwork ${index + 1}`;
+  return `<section class="surface-asset" data-surface-asset-row="${index}" aria-label="Local artwork image for ${escapeAttr(name)}">` +
+    `<p class="surface-asset-status" data-surface-asset-status role="status">${assetId ? "Checking local artwork store…" : "No image attached to this placement."}</p>` +
+    `<img class="surface-asset-preview" data-surface-asset-preview data-asset-id="${escapeAttr(assetId)}" alt="" hidden/>` +
+    `<button type="button" data-surface-asset-choose="${index}">${assetId ? "Replace image" : "Attach image"}</button>` +
+    `<input type="file" data-surface-asset-file="${index}" accept="${SURFACE_FILE_ACCEPT}" aria-label="Choose an image for ${escapeAttr(name)}" hidden/>` +
+    `<p class="surface-help">Stored only in this app profile. Drop one supported file onto this card or choose it.</p></section>`;
+};
 
 const surfaceNumericFields = (
   p: ArtworkPlacement,
@@ -434,6 +448,7 @@ const surfaceRow = (
     `<div class="surface-field"><label for="surface-source-${index}">Source / asset reference (optional)</label>` +
     `<input id="surface-source-${index}" type="text" data-surface-index="${index}" data-surface-field="sourceName" data-guidance-control="surface-${index}-sourceName" value="${escapeAttr(typeof p.sourceName === "string" ? p.sourceName : "")}" aria-label="Source or asset reference ${rowLabel}" aria-describedby="error-surface-${index} ${sourceHelpId}"/>` +
     `<p class="surface-help" id="${sourceHelpId}">${SURFACE_SOURCE_HELP}</p></div></fieldset>` +
+    `${surfaceAssetMarkup(p, index)}` +
     `<fieldset class="surface-fieldset"><legend>Placement size</legend>` +
     `<p class="surface-help" id="surface-size-help-${index}">Width and height are the placement rectangle in centimetres before scale.</p>` +
     `<div class="surface-numeric-stack">${surfaceNumericFields(p, index, ["widthCm", "heightCm"])}</div></fieldset>` +
@@ -462,7 +477,7 @@ export function surfaceMarkup(data: SurfacePanelData): string {
     `<input id="surface-new-${id}" type="number" min="0" step="0.5" value="${value}" inputmode="decimal" aria-describedby="surface-new-size-help surface-form-error" aria-label="New placement ${label.toLowerCase()} in centimetres"/></div>`;
   const form = `<section class="surface-add-form" aria-labelledby="surface-add-title">` +
     `<h3 id="surface-add-title">Add artwork placement</h3>` +
-    `<p class="surface-help">Creates a local placement area for this style. It does not import or display an image.</p>` +
+    `<p class="surface-help">Creates a placement area for this style. A selected file is stored locally and previewed here; the form does not change garment geometry.</p>` +
     `<fieldset class="surface-fieldset"><legend>Identity and target</legend>` +
     `<div class="surface-field"><label for="surface-new-id">Placement name</label><input id="surface-new-id" type="text" aria-label="New placement name" aria-describedby="surface-form-error"/></div>` +
     `<div class="surface-field"><label for="surface-new-kind">Artwork type</label><select id="surface-new-kind" aria-label="New artwork type" aria-describedby="surface-form-error">${surfaceKindOptions("print")}</select></div>` +
@@ -471,9 +486,15 @@ export function surfaceMarkup(data: SurfacePanelData): string {
     `<fieldset class="surface-fieldset"><legend>Placement size</legend>` +
     `<p class="surface-help" id="surface-new-size-help">Width and height are the placement rectangle in centimetres before scale.</p>` +
     `<div class="surface-numeric-stack">${newDimension("width", "Width", 20)}${newDimension("height", "Height", 25)}</div></fieldset>` +
+    `<div class="surface-dropzone" data-surface-new-dropzone>` +
+    `<p>Drop one PNG, JPEG, WebP, or SVG file here. Files stay on this device.</p>` +
+    `<button id="surface-new-choose-file" type="button">Choose artwork file</button>` +
+    `<input id="surface-new-file" type="file" accept="${SURFACE_FILE_ACCEPT}" aria-label="Choose local artwork image" hidden/>` +
+    `<p id="surface-new-file-status" class="surface-asset-status" role="status" aria-live="polite">${escapeAttr(data.pendingAssetMessage ?? "Image optional — you can add a placement without a file.")}</p>` +
+    `<button id="surface-new-clear-file" type="button" hidden>Clear selected file</button></div>` +
     `<button id="surface-add" type="button">Add placement</button>` +
     `<p id="surface-form-error" class="surface-error" role="status" aria-live="polite"></p></section>`;
-  return panel("Surface", `<div class="surface-panel-content">${surfaceRoleOptions(roles)}<p class="surface-intro">Record where a print, patch, or colour block belongs. Artwork files are not loaded in this Phase 6 form.</p>${list}${form}${preview}</div>`);
+  return panel("Surface", `<div class="surface-panel-content">${surfaceRoleOptions(roles)}<p class="surface-intro">Record where a print, patch, or colour block belongs. Imported files stay local to this app profile and never change pattern geometry.</p>${list}${form}${preview}</div>`);
 }
 
 interface ExportFormat {

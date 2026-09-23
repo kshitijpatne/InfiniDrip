@@ -504,6 +504,7 @@ describe("deserialize (surface artwork section)", () => {
     transform: { dx: 1, dy: 2, scale: 1, rotationDeg: 0 },
     zOrder: 0,
     sourceName: "tiger.svg",
+    assetId: "local-11111111111141118111111111111111-svg",
   };
   const book = { "tee/Classic tee": { styleName: "Classic tee", placements: [artwork] } };
 

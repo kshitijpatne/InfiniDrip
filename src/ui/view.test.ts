@@ -672,6 +672,21 @@ describe("surfaceMarkup — artwork sets per style", () => {
     expect(html).toContain("larger stack-order numbers render above smaller ones");
     expect(html).toContain("placement rectangle, not the artwork image");
   });
+  it("offers a local drop/picker path and recovery controls for a saved asset ID", () => {
+    const html = surfaceMarkup({
+      ...data,
+      placements: [{ ...data.placements[0]!, assetId: "local-11111111111141118111111111111111-png" }],
+      pendingAssetMessage: "Ready: floral.png",
+    });
+    expect(html).toContain("data-surface-new-dropzone");
+    expect(html).toContain('id="surface-new-file"');
+    expect(html).toContain(".png,.jpg,.jpeg,.webp,.svg");
+    expect(html).toContain("Ready: floral.png");
+    expect(html).toContain("data-asset-id=\"local-11111111111141118111111111111111-png\"");
+    expect(html).toContain("data-surface-asset-file=\"0\"");
+    expect(html).toContain("Replace image");
+    expect(html).not.toContain("src=\"C:\\");
+  });
   it("shows each placement error against its row", () => {
     const html = surfaceMarkup(data);
     expect(html).toContain('id="error-surface-0"');

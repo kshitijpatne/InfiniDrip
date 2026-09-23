@@ -59,6 +59,12 @@ describe("placementError", () => {
   it("passes a usable placement", () => {
     expect(placementError(valid())).toBeNull();
   });
+  it("accepts local and bundled artwork references and rejects path-like references", () => {
+    expect(placementError({ ...valid(), assetId: "local-11111111111141118111111111111111-png" })).toBeNull();
+    expect(placementError({ ...valid(), assetId: "builtin-leaf-print" })).toBeNull();
+    expect(placementError({ ...valid(), assetId: "../outside.png" })).toContain("assetId");
+    expect(placementError({ ...valid(), assetId: 7 })).toContain("assetId");
+  });
   it("rejects non-objects", () => {
     expect(placementError(null)).toContain("object");
     expect(placementError("print")).toContain("object");

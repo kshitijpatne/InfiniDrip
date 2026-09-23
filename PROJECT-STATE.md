@@ -1,9 +1,9 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 199 implements and passes review for the Phase 6 measurement
-and artwork-form refinement; the full coverage gate passes, 2026-09-23._
-Next: begin the approved no-cost local artwork import (Phase 7). The curated
-artwork library (Phase 8) and a garment queue remain later gates.
+_Last updated: Slice 200 completes the Phase 7 local artwork-import workflow and
+verification; Phase 8 has begun, 2026-09-23._
+Next: research and build the approved provenance-verified local artwork library
+V1. The garment queue remains closed until Phase 9 review and explicit approval.
 Epics 7, 9 and 10 are implemented, Codex-reviewed, documented and pushed to
 `origin/main`. Epic 11 implementation has completed the shaped collar/stand,
 placket-base, vent/drop, front/back preview/control/report and downstream
@@ -370,6 +370,34 @@ message; a valid 12×16 cm placement and provenance URL string create the
 expected rectangle without fetching the URL or changing the current
 measurement. The Phase 6 board item is Done at revision 50, with evidence
 `E-PREQUEUE-PHASE6-MEASUREMENTS-ARTWORK-S199`.
+
+Slice 199 was committed as `b4ab9eb` (`Slice 199: refine measurement and
+artwork placement UI`).
+
+### Slice 200 — Safe local artwork import and persistence
+
+Slice 200 completes Phase 7: the browser stores validated artwork bytes in
+IndexedDB, and the desktop stores them in a fixed folder under Electron's
+user-data directory. The saved design holds only a stable local asset ID and
+optional source-pixel dimensions; imported bytes stay outside the design JSON.
+PNG, JPEG, WebP, and sanitized static SVG are supported through the file picker
+and drop targets for new or existing placements. Missing assets can be restored
+or replaced, and a failed replacement leaves the previous reference unchanged.
+The workflow remains local-only and does not change pattern geometry or
+exports. Phase 7 is Done at board revision 55 with evidence
+`E-PREQUEUE-PHASE7-S200`; Phase 8 is In Progress at revision 57.
+
+Verification: the full Vitest coverage gate passes across 99 source files at
+100% statements, branches, functions, and lines. `npm run build`,
+`npm run electron:build-main`, the Control Center suite (25 tests), web release
+suite (10 tests), and readiness drill (5 tests) pass. Existing export
+byte-identity and regression checks pass with no baseline changes. The desktop
+artwork verifier exercised picker import, reload, narrow layout, exact IPC byte
+round-trip, app-data persistence across restart, cleanup, path-traversal
+rejection, and active-SVG rejection. The in-app browser profile also retained
+its imported SVG after reload; its 64×64 preview loaded at 375px with no
+horizontal overflow and no browser-console errors. No account, database,
+provider, network fetch, or paid service was introduced.
 
 ### Post-merge PR audit — 2026-09-21
 

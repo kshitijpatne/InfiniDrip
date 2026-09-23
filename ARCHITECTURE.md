@@ -112,11 +112,15 @@ preview are temporary; it is not a general pattern editor.
   scaling; X/Y offsets are measured from that piece's cut-box centre; rotation
   is in degrees; and a larger stack-order value draws above a smaller one. An
   optional source/asset reference is provenance text only (such as a creator,
-  citation, URL, filename, or asset ID); the app does not fetch a URL or load an
-  image through this form. Optional original pixel dimensions support print-
-  resolution guidance only. The preview shows the placement rectangle, not the
-  artwork image or a garment rendering. File import and the artwork library
-  remain separate future work.
+  citation, URL, filename, or asset ID); the app does not fetch a URL from that
+  field. A separate local file control can attach PNG, JPEG, WebP, or sanitized
+  SVG artwork, which is previewed in the Style panel. The image bytes are kept
+  outside the saved-design JSON—in browser-local storage for the web app and
+  the app's data folder for the desktop app—while the design stores a stable
+  local asset ID and optional source-pixel dimensions. Missing local files can
+  be restored or replaced. The placement preview still shows only its
+  rectangle, not artwork on a garment. Import does not change garment geometry
+  or exports; a curated artwork library remains future work.
 - **Exports** use the same pattern data. SVG and DXF are outline files used by
   pattern and drawing programs; their lines and curves stay crisp when resized.
   A tiled PDF splits a full-size pattern across regular printer pages; an A0
@@ -133,15 +137,16 @@ unrelated files.
 
 The browser and desktop versions run on the person's own device. The browser
 version stores saved design, recovery, and tour progress with that site's local
-data; clearing the site's data can remove them. The desktop version stores
-those records locally with the app. In both versions the three records are
-separate. Neither version has a user account, hosted database, or cloud
-workspace.
+data; clearing the site's data can remove them. Imported artwork bytes are kept
+separately in the browser's IndexedDB site data. The desktop version stores
+those records and imported artwork in the app's local data folder. Neither
+version has a user account, hosted database, or cloud workspace.
 
 When someone exports in a browser, the browser handles the download. The
 desktop app asks where to save each export and writes that selected file. It
-also keeps a small local record of the window size. The app does not scan or
-read other files on the computer.
+also keeps a small local record of the window size. The app does not scan other
+files on the computer; an artwork file is read only after the person chooses or
+drops it for import, and its stored copy stays in the app's local data.
 
 The **Control Center** is a separate project-delivery board for the project
 maintainer—the person who decides scope and approvals. It is not an account
