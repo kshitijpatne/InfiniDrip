@@ -153,10 +153,12 @@ amendment does not itself change Phase 6's backlog status.
 
 **Progress:** Slice 196 completes the pattern-block legibility criterion. The
 Pattern view keeps piece geometry free of text and presents headings, labels,
-and construction instructions in an ordered, responsive key. Pattern-to-
-measurement navigation remains unimplemented until its block-to-field/page
-inventory is reviewed and the cross-page behavior is decided. Other Phase 6
-measurement and artwork-form criteria remain in progress.
+and construction instructions in an ordered, responsive key. A 40-block
+candidate field/group mapping is recorded in the
+[Phase 6 inventory](PRE-GARMENT-PHASE6-PATTERN-MEASUREMENT-INVENTORY.md). It
+identifies 28 blocks that span multiple groups; navigation remains
+unimplemented pending maintainer review and a cross-page behavior decision.
+Other Phase 6 measurement and artwork-form criteria remain in progress.
 
 ## Phase 7 — Drag-and-drop local asset workflow
 

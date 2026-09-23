@@ -1,7 +1,8 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 196 completes Phase 6's Pattern-view legibility criterion;
-Phases 4 and 5 are accepted, and Phase 6 remains In Progress, 2026-09-22.
+_Last updated: Slice 197 records the draft Phase 6 Pattern-block mapping for
+maintainer review; Phases 4 and 5 are accepted, and Phase 6 remains In Progress,
+2026-09-22.
 Epics 7, 9 and 10 are implemented, Codex-reviewed, documented and pushed to
 `origin/main`. Epic 11 implementation has completed the shaped collar/stand,
 placket-base, vent/drop, front/back preview/control/report and downstream
@@ -281,6 +282,27 @@ Phase 6. Pattern-to-measurement navigation remains gated on the compact
 pattern-block → editable measurement field(s) → page inventory and the
 maintainer's decision for blocks associated with multiple pages. The other
 Phase 6 measurement and artwork-form refinements remain in progress.
+
+### Slice 197 — draft Pattern-block measurement inventory
+
+The draft
+`docs/planning/PRE-GARMENT-PHASE6-PATTERN-MEASUREMENT-INVENTORY.md` maps all
+40 current Pattern blocks to measurement fields and the existing control
+groups they affect. It identifies 36 blocks with measurement links and four
+with no meaningful measurement link; those four are explicitly documented as
+option-only rather than routed to an unrelated measurement. Twenty-eight
+measurement-linked blocks span multiple groups, including 21 spanning Body
+measurements, Lengths & shape, and Fit allowance. The Fit allowance page is
+part of the Fit stage, which matters to the navigation decision.
+
+Mappings were checked by changing each recipe-declared measurement around
+`STANDARD_M` and a second shifted profile while holding default options, then
+comparing the drafted pieces. Option-only blocks were checked against their
+design-option controls. This is a candidate inventory for maintainer review,
+not authorization to implement navigation. A decision is still needed on how
+click/keyboard activation should expose fields spread across multiple groups;
+no application code changed, and app tests/build were not rerun in this
+documentation-only slice.
 
 ### Post-merge PR audit — 2026-09-21
 

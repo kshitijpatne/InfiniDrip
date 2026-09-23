@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 42,
-  "updatedAt": "2026-09-23T01:28:22.527Z",
+  "revision": 43,
+  "updatedAt": "2026-09-23T01:40:21.182Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -1880,7 +1880,13 @@
           "evidenceRefs": []
         }
       ],
-      "comments": [],
+      "comments": [
+        {
+          "at": "2026-09-23T01:40:21.182Z",
+          "actor": "Codex",
+          "text": "Slice 197 drafted the 40-block pattern-to-measurement inventory in docs/planning/PRE-GARMENT-PHASE6-PATTERN-MEASUREMENT-INVENTORY.md. It identifies 28 blocks spanning multiple control groups (including Fit-stage Fit allowance); no navigation implementation until maintainer review and a cross-page behavior decision."
+        }
+      ],
       "evidenceRefs": [
         "E-PREQUEUE-PHASE6-PATTERN-LEGIBILITY"
       ],

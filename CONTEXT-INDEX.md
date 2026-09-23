@@ -123,6 +123,10 @@ snapshots; they are not current status.
 - `docs/planning/PRE-GARMENT-EXECUTION.md` — maintainer-approved nine-phase
   no-cost sequence, acceptance criteria, durable work boundaries, and final
   approval gate before the next garment queue.
+- `docs/planning/PRE-GARMENT-PHASE6-PATTERN-MEASUREMENT-INVENTORY.md` — draft
+  mapping of all current Pattern blocks to responsive measurement fields and
+  groups; maintainer review and a cross-page behavior decision are required
+  before navigation implementation.
 - `docs/planning/FIRST-LOAD-TUTORIAL-SPEC.md` — Phase 3 research-backed,
   implementation-ready copy, tour-state, local-persistence, accessibility,
   and verification contract. Read before any Phase 4 tutorial code.
