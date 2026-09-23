@@ -1,10 +1,10 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 201 seeds and verifies the Phase 8 local artwork catalog;
-Phase 8 continues, 2026-09-23._
-Next: implement fully tested local search and suitability guidance, then expose
-the catalog through the artwork UI. The garment queue remains closed until
-Phase 9 review and explicit approval.
+_Last updated: Slice 202 implements tested local artwork search and advisory
+suitability guidance; Phase 8 continues, 2026-09-23._
+Next: expose the catalog through the local artwork UI and verify the rendered
+workflow. The garment queue remains closed until Phase 9 review and explicit
+approval.
 Epics 7, 9 and 10 are implemented, Codex-reviewed, documented and pushed to
 `origin/main`. Epic 11 implementation has completed the shaped collar/stand,
 placket-base, vent/drop, front/back preview/control/report and downstream
@@ -434,6 +434,32 @@ claim broad category coverage or production-print suitability. Phase 9 must
 evaluate whether its variety is sufficient and record the maintainer's explicit
 V1/expansion decision. No user artwork store, design schema, geometry, or
 export was changed.
+
+### Slice 202 — Local artwork search and suitability guidance
+
+`src/surface/artwork-library/search.ts` adds pure catalog search/filter and
+per-use suitability functions. Search uses case-insensitive NFKC-normalized
+literal phrases with trimmed/collapsed whitespace across documented catalog
+and human-readable source fields. Filters combine with AND across dimensions
+and OR within each dimension, preserve catalog order, and never mutate or
+remove catalog entries. All ten category values remain usable, including
+currently empty categories.
+
+The advisory evaluator covers all five print uses, including unsupported uses.
+It keeps every item selectable, names the reason, and disclaims production,
+physical-fit, and sewability validation. It evaluates both source-pixel axes
+against explicit placement width/height, or defaults to the suggested maximum
+width while preserving the source aspect ratio, using the existing 59 px/cm
+guidance floor. Only all-over use requires a verified seamless tile; uncertain
+direction/repeat and source photographs or paper studies remain visible as
+caveats rather than positive claims.
+
+Verification: the focused search suite passes 24 tests at 100% statements,
+branches, functions, and lines for `search.ts`; `npm run build` passes. The full
+`npm run coverage` gate passes 111 test files / 1,546 tests at 100% across all
+four coverage metrics. Export regression and byte-identity tests pass. The UI,
+runtime network behavior, saved-design schema, geometry, and export bytes were
+not changed; rendered library verification belongs to Slice 203.
 
 ### Post-merge PR audit — 2026-09-21
 

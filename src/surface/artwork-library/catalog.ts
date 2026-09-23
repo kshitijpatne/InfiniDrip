@@ -53,8 +53,8 @@ export interface ArtworkCatalogRecord {
     readonly apiRecordUrl: string;
     /** Provenance only; never use as an image source at runtime. */
     readonly originalImageUrl: string;
-    readonly rightsLabel: "Public Domain";
-    readonly apiIsPublicDomain: true;
+    readonly rightsLabel: string;
+    readonly apiIsPublicDomain: boolean;
     readonly creditLine: string;
     readonly reusePolicyUrl: string;
     readonly checkedOn: "2026-09-23";
@@ -78,8 +78,8 @@ export interface ArtworkCatalogRecord {
   readonly technical: {
     readonly repeatMotif: "visible" | "unconfirmed";
     readonly repeatEvidence: string;
-    /** All V1 records are source photographs or paper studies, not seamless tiles. */
-    readonly imageIsSeamlessTile: false;
+    readonly presentation: "textile-photograph" | "paper-study" | "clean-artwork" | "unconfirmed";
+    readonly imageIsSeamlessTile: boolean;
     readonly seamlessEvidence: string;
     readonly directionality: "upright" | "vertical-bands" | "unconfirmed";
     readonly directionEvidence: string;
@@ -158,6 +158,7 @@ export const ARTWORK_CATALOG: readonly ArtworkCatalogRecord[] = [
     technical: {
       repeatMotif: "visible",
       repeatEvidence: "The photograph shows the bird-and-foliage motif in multiple rows; exact repeat boundaries are not identified.",
+      presentation: "textile-photograph",
       imageIsSeamlessTile: false,
       seamlessEvidence: "This is a photograph of a rectangular textile specimen, not a prepared repeat tile.",
       directionality: "upright",
@@ -205,6 +206,7 @@ export const ARTWORK_CATALOG: readonly ArtworkCatalogRecord[] = [
     technical: {
       repeatMotif: "visible",
       repeatEvidence: "Multiple flower-and-branch arrangements appear across the photographed fabric; repeat interval is not identified.",
+      presentation: "textile-photograph",
       imageIsSeamlessTile: false,
       seamlessEvidence: "The bundled file is a museum photograph of a textile specimen with visible ground and specimen boundaries.",
       directionality: "unconfirmed",
@@ -252,6 +254,7 @@ export const ARTWORK_CATALOG: readonly ArtworkCatalogRecord[] = [
     technical: {
       repeatMotif: "visible",
       repeatEvidence: "A repeated branching floral field is visible on the textile; the source does not mark a repeat unit.",
+      presentation: "textile-photograph",
       imageIsSeamlessTile: false,
       seamlessEvidence: "The original is a photograph of a long textile specimen; its edges and surface are not a seamless digital tile.",
       directionality: "upright",
@@ -263,8 +266,8 @@ export const ARTWORK_CATALOG: readonly ArtworkCatalogRecord[] = [
       pieceRoleGroups: ALL_OVER_ROLES,
       suggestedPlacementWidthCm: {
         minimum: 12,
-        maximum: 30,
-        basis: "Editorial starting range for the larger, upright floral motif, informed by the 1,673 px source width; review resolution and specimen edges after placement.",
+        maximum: 28,
+        basis: "Editorial starting range for the larger, upright floral motif, informed by the 1,673 px source width and the app's existing 59 px/cm resolution floor; review specimen edges after placement.",
       },
     },
   },
@@ -299,6 +302,7 @@ export const ARTWORK_CATALOG: readonly ArtworkCatalogRecord[] = [
     technical: {
       repeatMotif: "unconfirmed",
       repeatEvidence: "The image shows a scenic design, but the photographed section does not establish how the scene repeats on the full textile.",
+      presentation: "textile-photograph",
       imageIsSeamlessTile: false,
       seamlessEvidence: "This is a museum photograph of printed cotton, not a prepared repeat tile; the photograph includes specimen ground and edges.",
       directionality: "upright",
@@ -346,6 +350,7 @@ export const ARTWORK_CATALOG: readonly ArtworkCatalogRecord[] = [
     technical: {
       repeatMotif: "visible",
       repeatEvidence: "Several vertically arranged bird-and-branch motifs are visible in the photographed textile piece; repeat boundaries are not identified.",
+      presentation: "textile-photograph",
       imageIsSeamlessTile: false,
       seamlessEvidence: "The bundled image is a narrow photograph of a textile piece, not a repeat tile.",
       directionality: "upright",
@@ -393,6 +398,7 @@ export const ARTWORK_CATALOG: readonly ArtworkCatalogRecord[] = [
     technical: {
       repeatMotif: "visible",
       repeatEvidence: "The design sheet shows multiple lozenges and repeating vertical lines; the sheet is a study, not a marked production repeat.",
+      presentation: "paper-study",
       imageIsSeamlessTile: false,
       seamlessEvidence: "The source is a photographed rectangular sheet of paper with visible margins.",
       directionality: "vertical-bands",
@@ -440,6 +446,7 @@ export const ARTWORK_CATALOG: readonly ArtworkCatalogRecord[] = [
     technical: {
       repeatMotif: "visible",
       repeatEvidence: "The study shows repeated vertical bands and recurring forms; the paper sheet does not identify production repeat boundaries.",
+      presentation: "paper-study",
       imageIsSeamlessTile: false,
       seamlessEvidence: "The original is a photographed paper design with sheet edges, not a seamless textile tile.",
       directionality: "vertical-bands",
@@ -487,6 +494,7 @@ export const ARTWORK_CATALOG: readonly ArtworkCatalogRecord[] = [
     technical: {
       repeatMotif: "visible",
       repeatEvidence: "The photographed fragment shows recurring geometric motifs; its cut edges do not establish the full repeat unit.",
+      presentation: "textile-photograph",
       imageIsSeamlessTile: false,
       seamlessEvidence: "The source is a museum photograph of a woven textile fragment, with its specimen boundary visible.",
       directionality: "unconfirmed",

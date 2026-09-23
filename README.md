@@ -69,8 +69,9 @@ views do not prove physical fit or factory readiness.
   and preview them in the Style panel. Images stay on this device; the app does
   not fetch source URLs or place the image onto garment geometry. The curated
   artwork library now has a small, source-verified textile-reference catalog
-  in progress. It is not yet browseable in the app; the next work adds local
-  search, guidance, and the library UI without fetching source images online.
+  with local search/filter and advisory suitability rules. It is not yet
+  browseable in the app; the next work adds the library UI without fetching
+  source images online.
 - The **Edit** view is an exploratory preview of one pattern piece (the Trouser
   uses its left-front piece). Its changes do not update measurements, the
   assembled view, checks, other sizes, fabric layout, saved designs, or exports.

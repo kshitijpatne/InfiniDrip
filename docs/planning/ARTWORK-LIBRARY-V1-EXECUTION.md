@@ -1,8 +1,9 @@
 # Artwork Library V1 — execution contract
 
-_Phase 8 of the approved no-cost pre-garment sequence. Slice 201 has curated and
-verified the initial local corpus. Slices 202–203 add search/guidance and UI;
-Phase 9 evaluates the result with the maintainer before any garment queue._
+_Phase 8 of the approved no-cost pre-garment sequence. Slice 201 curated the
+initial local corpus; Slice 202 completed pure search/guidance. Slice 203 adds
+the local UI; Phase 9 evaluates the working result with the maintainer before
+any garment queue._
 
 ## Goal and boundary
 
@@ -61,11 +62,18 @@ specification, print-quality guarantee, or physical-fit claim.
 
 ## Search, filters, and recommendations
 
-Search title, description, tags, creator and source as literal, normalized
-text. Filters cover category, garment family, piece-role group and print use.
-Different active filter fields combine with AND; multiple values selected
-within a single field combine with OR. Filtering must not remove entries from
-the underlying catalog or permanently hide a potentially useful asset.
+Search is case-insensitive literal substring matching after Unicode NFKC
+normalization, trimming, and collapsing consecutive whitespace. It matches a
+single normalized phrase (not independent tokens); punctuation and accents are
+preserved. Searchable fields are title, description, tags, creator, culture,
+date, medium, source institution, item-record URL, credit line, and rights
+label. It does not search API/image/policy URLs, local file paths, or hashes. A
+blank query matches every record. Filters cover category, garment family,
+piece-role group, and print use. Different active filter fields combine with
+AND; multiple values within one field combine with OR; an empty selection adds
+no constraint. Results preserve catalog order and do not mutate the catalog.
+An unknown selected value does not match. Filtering must not remove entries
+from the underlying catalog or permanently hide a potentially useful asset.
 
 Every recommendation must display a plain-language reason and remain advisory:
 
@@ -77,9 +85,28 @@ Every recommendation must display a plain-language reason and remain advisory:
   important suitability property is incomplete or conflicts with the proposed
   use.
 
-Evaluate guidance per print use (all-over, border/trim, panel, focal graphic or
-placement); never present the result as a physical, fit, print-production or
-sewability validation. Every result remains selectable regardless of guidance.
+Evaluate guidance independently for all five print uses (all-over, border/trim,
+panel, focal graphic, and placement), including uses not listed for a record;
+an uncurated use is Needs review with its name in the reason. Guidance uses an
+explicit placement width/height when supplied; otherwise it uses the suggested
+maximum width and derives height at the source image's aspect ratio. Compare
+both source-pixel axes to their corresponding placement dimensions and use the
+existing 59 px/cm print-guidance floor. A below-floor result is Needs review;
+an adequate-resolution scale outside the editorial range is Possible.
+
+A non-seamless image is a Needs review blocker only for all-over use; it does
+not require a seamless tile for panel, focal, or placement. Border/trim does not
+require a seamless tile either, but an unverified production repeat/trim unit
+is a Possible caveat. Unconfirmed, missing, or unrecognized source presentation
+is Needs review. Textile photographs and paper studies remain Possible because
+specimen edges, background, or paper may show. Unknown direction is a Possible
+caveat for any use; unknown repeat status is a Possible caveat for all-over and
+border/trim. Repeated motifs do not establish production repeat boundaries.
+Recommended requires complete provenance, a curated use, clean artwork
+presentation, usable resolution, and no relevant unresolved technical caveat.
+Every result remains selectable and states that the advisory does not validate
+production printing, physical fit, or sewability; guidance never changes design
+values.
 
 ## Approved slice sequence
 
@@ -106,9 +133,18 @@ new garment recipe.
 filter behavior and explained per-use guidance in isolated, fully tested
 functions.
 
-**Acceptance:** every record remains discoverable; exact matching inputs are
-covered; each guidance level has a visible reason; unknown properties do not
-silently become positive claims; all nine categories remain filterable.
+**Acceptance:** every record remains discoverable; normalization, phrase
+matching, field coverage, empty-query behavior, filter composition, stable
+ordering, and non-mutation are tested; each guidance level has a visible
+reason; unknown properties do not silently become positive claims; all ten
+categories remain filterable, including categories with no current entries.
+
+**Verification — 2026-09-23:** `src/surface/artwork-library/search.ts` and its
+24 focused tests pass at 100% statements, branches, functions, and lines. The
+full application gate passes 111 test files / 1,546 tests at 100% across all
+four coverage metrics; `npm run build` passes; export regression and
+byte-identity checks remain green. Search/guidance are pure functions only;
+the rendered local catalog UI and no-network behavior remain Slice 203 gates.
 
 ### Slice 203 — local library authoring UI
 

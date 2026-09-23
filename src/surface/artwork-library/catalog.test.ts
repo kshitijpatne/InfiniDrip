@@ -75,6 +75,7 @@ describe("bundled artwork catalog", () => {
       expect(record.categories.every((category) => ARTWORK_CATEGORIES.includes(category))).toBe(true);
       expect(record.tags.length).toBeGreaterThan(0);
       expect(record.technical.repeatEvidence.length).toBeGreaterThan(0);
+      expect(["textile-photograph", "paper-study"].includes(record.technical.presentation)).toBe(true);
       expect(record.technical.imageIsSeamlessTile).toBe(false);
       expect(record.technical.seamlessEvidence.length).toBeGreaterThan(0);
       expect(record.technical.directionEvidence.length).toBeGreaterThan(0);

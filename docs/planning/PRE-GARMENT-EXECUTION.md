@@ -287,6 +287,20 @@ is not yet browseable. Slices 202–203 add search/guidance and the authoring UI
 Phase 9 must assess whether this starter collection is varied enough and record
 the maintainer's decision before the garment queue can reopen.
 
+**Progress — Slice 202:** the pure catalog search/filter and per-use suitability
+functions are implemented and covered. Search is normalized literal phrase
+matching; category, garment-family, piece-role, and print-use filters preserve
+catalog order and combine with AND across fields / OR within a field. All ten
+taxonomy values remain available, including empty categories. Guidance checks
+both source-resolution axes at actual or aspect-ratio-preserving placement
+dimensions, follows the existing 59 px/cm floor, keeps every item selectable,
+and distinguishes blockers from uncertainty. Full coverage passes at 100% over
+111 test files / 1,546 tests, the production build passes, and export identity
+regressions pass. Slice 203 adds the local browse/inspect/select UI and its
+rendered, keyboard, narrow-width, no-network, and save/reload verification.
+Phase 9 must then assess whether this starter collection is varied enough and
+record the maintainer's decision before the garment queue can reopen.
+
 ## Phase 9 — V1 practice and expansion decision
 
 Use the first curated library and local import flow. Qualitatively assess whether
