@@ -138,9 +138,14 @@ preview are temporary; it is not a general pattern editor.
   pattern and drawing programs; their lines and curves stay crisp when resized.
   A tiled PDF splits a full-size pattern across regular printer pages; an A0
   PDF uses A0-sized pages, a large standard paper size. A projector file has
-  layers to project the pattern at full size onto fabric. A technical pack
-  summarizes measurements, materials, and construction notes. None of these files proves
-  physical fit, successful sewing, or factory production readiness.
+  layers to project the pattern at full size onto fabric. The draft Tech Pack
+  PDF gives each pattern piece its own labeled, independently scaled overview
+  cell; the overview is not to scale and must not be used to cut fabric. The
+  PDF also includes calculated size measurements, recipe material/construction
+  notes, and a blank fit-record sheet. Long labels and instructions wrap or
+  paginate. It is a draft reference, not a finished technical-flat set,
+  factory-approved specification, or production release. None of these files
+  proves physical fit or successful sewing.
 
 The project also keeps reference export files. Tests compare new exports with
 those references so a change to one view or tool does not silently alter
@@ -176,7 +181,8 @@ supports a work item's status.
 The future G01–G17 goals are numbered Epic 14–30 in the board. Each has a
 numbered Epic record and a matching work card, so the dashboard shows both the
 Epic number and its G goal. Epic 14 and its research packets C01, C02, C05,
-and C06 are admitted and active; its shared-contract lane A is queued. The
+and C06 evidence packets are accepted; its shared-contract lane A is active.
+C03 and C04 are accepted, and G01 final review is in progress. The
 conditional shorts packet E remains held in Epic 20. A maintainer-only
 rename command updates dependent work-item links and leaves an audit note;
 past evidence text is not rewritten. Planning records do not start product

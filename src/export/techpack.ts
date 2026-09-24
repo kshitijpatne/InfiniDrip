@@ -1,6 +1,6 @@
-// The tech-pack document — the pattern packaged as one PDF a maker could hand to
-// a factory. It rides the SAME PDF spine as the tiled export (assemblePdf / pt),
-// but composes a *document* instead of print-at-home tiles:
+// Legacy tech-pack draft writer retained for export byte-identity compatibility.
+// It rides the SAME PDF spine as the tiled export (assemblePdf / pt), but
+// composes a multi-page document rather than print-at-home tiles:
 //
 //   Page 1  Flat sketch   — the real drafted front/back/sleeve outlines (sample
 //                           size), scaled to fit, each piece labelled. (Callout
@@ -81,7 +81,7 @@ function rule(yTopCm: number, page: PageSize): string {
   return `0 0 0 RG 0.4 w ${pt(M)} ${y} m ${pt(page.width - M)} ${y} l S`;
 }
 
-// ── Page 1: the flat sketch ───────────────────────────────────────────────────
+// ── Legacy page 1: all-piece pattern overview ────────────────────────────────
 
 function sketchStream(
   block: Block,
@@ -148,6 +148,73 @@ function sketchStream(
   return lines.join("\n");
 }
 
+// ── Readable pattern-piece overview (additive digital remediation) ───────────
+
+/**
+ * Lay out independent fit-to-cell pattern-piece illustrations for the current
+ * UI export. These are reference illustrations only: pieces are individually
+ * scaled, are not a finished-garment technical flat, and must never be cut
+ * from this page. The old sketchStream remains byte-compatible for the
+ * protected legacy export contract.
+ */
+function overviewSketchStreams(block: Block, label: string, page: PageSize): string[] {
+  const pieces = blockPieces(block).map((piece) => ({
+    name: piece.name.toUpperCase(),
+    outline: flattenPiece(piece, NO_ALLOWANCE).sew,
+  }));
+  const columns = 2;
+  const rows = 2;
+  const perPage = columns * rows;
+  const pageCount = Math.max(1, Math.ceil(pieces.length / perPage));
+  const gap = 0.55;
+  const gridTop = M + 2.65;
+  const gridBottom = page.height - M;
+  const cellW = (page.width - 2 * M - gap) / columns;
+  const cellH = (gridBottom - gridTop - gap) / rows;
+  const pages: string[] = [];
+
+  for (let sheet = 0; sheet < pageCount; sheet++) {
+    const first = sheet * perPage;
+    const current = pieces.slice(first, first + perPage);
+    const lines: string[] = [
+      text(M, M + 1, 13, `${label} - Pattern Piece Overview (${sheet + 1}/${pageCount})`, page),
+      text(M, M + 1.8, 8, "Each piece is fitted independently. NOT TO SCALE - never cut from this overview.", page),
+      text(M, M + 2.25, 8, "POM names and size values are listed on the Measurement Spec page.", page),
+    ];
+
+    current.forEach((piece, localIndex) => {
+      const slot = localIndex;
+      const column = slot % columns;
+      const row = Math.floor(slot / columns);
+      const cellX = M + column * (cellW + gap);
+      const cellY = gridTop + row * (cellH + gap);
+      const xPt = pt(cellX);
+      const yPt = pt(page.height - cellY - cellH);
+      lines.push(`0.6 w ${xPt} ${yPt} ${pt(cellW)} ${pt(cellH)} re S`);
+      lines.push(text(cellX + 0.3, cellY + 0.55, 8, `${String(first + slot + 1).padStart(2, "0")} - ${piece.name}`, page));
+
+      const bounds = polylineBounds(piece.outline);
+      const drawingLeft = cellX + 0.4;
+      const drawingRight = cellX + cellW - 0.4;
+      const drawingTop = cellY + 1.0;
+      const drawingBottom = cellY + cellH - 0.4;
+      const scale = Math.min(
+        (drawingRight - drawingLeft) / bounds.width,
+        (drawingBottom - drawingTop) / bounds.height,
+      );
+      const left = drawingLeft + ((drawingRight - drawingLeft) - bounds.width * scale) / 2;
+      const top = drawingTop + ((drawingBottom - drawingTop) - bounds.height * scale) / 2;
+      const mx = (x: number): number => pt(left + (x - bounds.minX) * scale);
+      const my = (y: number): number => pt(page.height - (top + (y - bounds.minY) * scale));
+      const head = `${mx(piece.outline[0].x)} ${my(piece.outline[0].y)} m`;
+      const rest = piece.outline.slice(1).map((point) => `${mx(point.x)} ${my(point.y)} l`).join(" ");
+      lines.push(`0.6 w ${head} ${rest} h S`);
+    });
+    pages.push(lines.join("\n"));
+  }
+  return pages;
+}
+
 // ── Page 2: the graded spec table ─────────────────────────────────────────────
 
 function tableStream(sizes: readonly string[], rows: readonly SpecRow[], page: PageSize): string {
@@ -198,6 +265,105 @@ function bomStream(tp: GarmentRecipe["techPack"], page: PageSize): string {
     y += 0.62;
   });
   return lines.join("\n");
+}
+
+/** Wrap text at word boundaries using a conservative Helvetica width estimate. */
+function wrapPackText(value: string, maxWidthCm: number, fontSize: number): string[] {
+  const maxChars = Math.max(1, Math.floor((maxWidthCm * pt(1)) / (fontSize * 0.55)));
+  const words = value.trim().split(/\s+/).filter(Boolean);
+  const result: string[] = [];
+  let current = "";
+  for (const word of words) {
+    if (word.length > maxChars) {
+      if (current) result.push(current);
+      current = "";
+      for (let offset = 0; offset < word.length; offset += maxChars) {
+        result.push(word.slice(offset, offset + maxChars));
+      }
+    } else if (!current) {
+      current = word;
+    } else if (current.length + 1 + word.length <= maxChars) {
+      current += ` ${word}`;
+    } else {
+      result.push(current);
+      current = word;
+    }
+  }
+  if (current) result.push(current);
+  return result.length ? result : [""];
+}
+
+/** Readable, wrapping BOM/construction pages for the additive current export. */
+function bomStreamsV2(tp: GarmentRecipe["techPack"], label: string, page: PageSize): string[] {
+  const c1 = M;
+  const c2 = M + 6.5;
+  const c3 = page.width - M - 2.5;
+  const colX = [c1, c2, c3];
+  const colW = [c2 - c1 - 0.35, c3 - c2 - 0.35, page.width - M - c3 - 0.35];
+  const fontSize = 9;
+  const lineHeight = 0.48;
+  const bottom = page.height - M;
+  const pages: string[] = [];
+  let lines: string[] = [];
+  let y = 0;
+
+  const startMaterials = (continued: boolean): void => {
+    lines = [text(M, M + 1, 13, `Bill of Materials${continued ? " (continued)" : ""}`, page)];
+    y = M + 2.4;
+    lines.push(
+      text(c1, y, fontSize, "Material", page),
+      text(c2, y, fontSize, "Placement", page),
+      text(c3, y, fontSize, "Qty", page),
+    );
+    y += 0.5;
+    lines.push(rule(y, page));
+    y += 0.6;
+  };
+  const startConstruction = (continued: boolean): void => {
+    lines = [text(M, M + 1, 13, `${label} - Construction${continued ? " (continued)" : ""}`, page)];
+    y = M + 2.2;
+  };
+  const nextMaterialsPage = (): void => {
+    pages.push(lines.join("\n"));
+    startMaterials(true);
+  };
+  const nextConstructionPage = (): void => {
+    pages.push(lines.join("\n"));
+    startConstruction(true);
+  };
+
+  startMaterials(false);
+  for (const row of tp.bom) {
+    const cells = [row.material, row.placement, row.qty].map((value, index) =>
+      wrapPackText(value, colW[index], fontSize)
+    );
+    const rowLines = Math.max(...cells.map((cell) => cell.length));
+    for (let line = 0; line < rowLines; line++) {
+      if (y + lineHeight > bottom) nextMaterialsPage();
+      cells.forEach((cell, index) => {
+        if (cell[line]) lines.push(text(colX[index], y, fontSize, cell[line], page));
+      });
+      y += lineHeight;
+    }
+    y += 0.14;
+  }
+
+  if (y + 1.25 > bottom) nextConstructionPage();
+  lines.push(text(M, y + 0.35, 13, "Construction", page));
+  y += 1.25;
+  const constructionWidth = page.width - 2 * M - 1.2;
+  tp.construction.forEach((step, index) => {
+    const wrapped = wrapPackText(step, constructionWidth, fontSize);
+    wrapped.forEach((line, lineIndex) => {
+      if (y + lineHeight > bottom) nextConstructionPage();
+      const prefix = lineIndex === 0 ? `${index + 1}. ` : "   ";
+      lines.push(text(M, y, fontSize, `${prefix}${line}`, page));
+      y += lineHeight;
+    });
+    y += 0.14;
+  });
+  pages.push(lines.join("\n"));
+  return pages;
 }
 
 // ── Page 4: the Fit Record ────────────────────────────────────────────────────
@@ -312,7 +478,8 @@ function surfaceSpecStreams(
 // ── Public API ────────────────────────────────────────────────────────────────
 
 /**
- * Export the garment as a four-page tech-pack PDF: flat sketch (sample size),
+ * Export the garment as the unchanged legacy four-page draft PDF: pattern-piece
+ * overview (sample size),
  * graded POM spec table, the recipe's BOM + construction stubs, and a Fit
  * Record page to validate the sample size against a real sewn garment.
  * A fifth artwork-placement section is appended only when the style carries
@@ -341,6 +508,45 @@ export function exportTechPack(
             ? recipe.techPackForOptions(options)
             : recipe.techPack,
         page
+      ),
+      fitRecordStream(sampleSpec(recipe, m, options), recipe.label, page),
+      ...surfaceSpecStreams(surface, styleLabel, page),
+    ],
+    page
+  );
+}
+
+/**
+ * Current readable draft-pack export. Its pattern overview paginates at four
+ * independently scaled pieces per page, removing cross-piece label collisions
+ * and long POM leaders. `exportTechPack` remains available as the unchanged
+ * legacy byte-identity fixture; the UI uses this additive readable route.
+ */
+export function exportTechPackV2(
+  recipe: GarmentRecipe,
+  m: Measurements,
+  page: PageSize = PAGE_A4,
+  fabric?: StretchFabric,
+  options: GarmentOptions = {},
+  surface: readonly ArtworkPlacement[] = [],
+  styleLabel = ""
+): string {
+  const block = recipe.draft(m, options);
+  const graded = gradeRun(m, recipe.grade, recipe.sizes, recipe.draft, options);
+  const rows = specSheet(graded, recipe.poms);
+  const sizes = graded.map((g) => g.label);
+  return assemblePdf(
+    [
+      ...overviewSketchStreams(block, recipe.label, page),
+      tableStream(sizes, rows, page),
+      ...bomStreamsV2(
+        fabric && recipe.techPackForFabric
+          ? recipe.techPackForFabric(fabric)
+          : recipe.techPackForOptions
+            ? recipe.techPackForOptions(options)
+            : recipe.techPack,
+        recipe.label,
+        page,
       ),
       fitRecordStream(sampleSpec(recipe, m, options), recipe.label, page),
       ...surfaceSpecStreams(surface, styleLabel, page),

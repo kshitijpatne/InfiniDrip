@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 226 accepts the C04 contract and activates final G01 review,
+_Last updated: Slice 227 remediates readable draft-pack output; G01 final gates remain,
 2026-09-24._
 Current directive: C01, C02, C05 and C06 and evidence lanes B–D are Done. C03
 and C04 are Done with verified SHA-256 contract evidence. C03 defines the
@@ -8,10 +8,13 @@ measurement, one-size/grade, capture and donor tiers. C04 defines the tech-pack
 record/provenance/revision contract, finished-view and layout rules, exact
 current DXF limitations, the no-target-CAD decision, and its future fixture and
 acceptance matrix. Slice 226 reconciles all six C04 criteria and records the
-downstream A-04/A-05/A-06 proof gates. The G01 final review is active; it must
-reconcile A-01–A-12, replay actual digital output, complete any distinct
-remediation, run all full gates and produce the exit report. Current board
-board revision is 241 after the Slice 226 transitions.
+downstream A-04/A-05/A-06 proof gates. Slice 227 adds the current UI's readable
+draft-pack route: paginated pattern-piece overview cells and wrapping BOM and
+construction pages. The byte-identical legacy writer remains unchanged. The
+seven default recipe outputs were rerendered and their text bounds/overlaps
+checked. The G01 final review is active; full test/coverage/build and export
+identity gates, the A-01–A-12 ledger, final exit evidence and board closure
+remain. Control Center revision is 241 before S227 exit evidence.
 Detailed records and the sequence map
 are in `ops/control-center/data/board.json`,
 `docs/planning/EPIC-14-ADMISSION.md`, and
@@ -902,6 +905,22 @@ round-trip proof. C04 is Done with a SHA-256-verified contract snapshot;
 Control Center revision 241 has activated the serial G01 final review. The
 Control Center suite passes (33 tests), all 34 local C04 Markdown links resolve,
 and no product or export code changed in this slice.
+
+### Slice 227 — remediate current draft-pack readability
+
+The active UI now downloads an additive readable draft-pack variant. Instead
+of placing every pattern piece and callout on one scaled row, the overview
+places at most four individually fitted, explicitly non-scale pieces on each
+page, with stable piece numbers and readable names. POM names and values stay
+on the existing Measurement Spec page; the overview warns that it is not for
+cutting and does not present itself as a finished technical-flat set. The BOM
+and construction section now wraps long values and instructions and paginates
+dense content. A forced-density fixture checks both section-continuation paths
+and preservation of the final instruction. The old four-page writer remains
+byte-identical for the eight protected fixtures. This remedies observed
+digital legibility failures only; it does not add CAD compatibility, expert
+approval, factory readiness or physical-fit evidence. Full G01 gates and the
+exit report remain pending.
 
 ### Post-merge PR audit — 2026-09-21
 

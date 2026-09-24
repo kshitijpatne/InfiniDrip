@@ -671,7 +671,7 @@ const PER_SIZE_EXPORTS: readonly ExportFormat[] = [
 ];
 
 const WHOLE_RUN_EXPORTS: readonly ExportFormat[] = [
-  { id: "export-techpack", label: "Tech Pack", description: "Specs and construction reference · all sizes" },
+  { id: "export-techpack", label: "Tech Pack", description: "Draft specs and construction reference · all sizes · overview not to scale" },
   { id: "export-projector", label: "Projector", description: "Layered projection SVG · all sizes" },
 ];
 

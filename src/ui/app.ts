@@ -5,7 +5,7 @@
 import { Measurements, STANDARD_M, Piece, STRETCH_FABRICS, fabricEaseNote, GarmentOptionsByRecipe, GarmentOptions, defaultGarmentOptions } from "../drafting";
 import { gradeRun, draftAtSize, specSheet, GARMENTS, GarmentRecipe, garmentByName } from "../drafting";
 import { blockPieces, rolePiece } from "../drafting";
-import { exportSvg, exportDxf, exportPdf, exportTechPack, exportProjectorSvg, exportA0Pdf, exportSurfaceSheet, flattenPiece, nestPieces, gradedMarker } from "../export";
+import { exportSvg, exportDxf, exportPdf, exportTechPackV2, exportProjectorSvg, exportA0Pdf, exportSurfaceSheet, flattenPiece, nestPieces, gradedMarker } from "../export";
 import { renderBlueprint, renderGarment, renderNest, renderFabricNest, renderEditor, renderBody, renderBodyPair, renderSkirtGarment, renderSkirtBody, renderTrouserGarment, renderTrouserBody, renderTrouserBodyPair, renderTrouserSide, renderSideCroquis, DEFAULT_FABRIC } from "../render";
 import { pieceHandles, moveHandle, nearestHandle, editorViewBox, viewboxPointToCm, Handle } from "../edit";
 import { dartOf, transferDart, trueSeam, edgesMeet } from "../drafting";
@@ -2747,11 +2747,11 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       exportPieces(), recipe.allowances, undefined, 1.0, recipe.tiledPdfLocalCoordinates === true
     ), "application/pdf");
   });
-  // The tech pack is a whole-style document (sample-size sketch + graded table),
-  // so it uses the live measurements directly and ignores the per-size picker.
-  // The current style's artwork rides along as a fifth section when present.
+  // The draft tech pack is a whole-style document (paginated piece overview +
+  // graded table), so it uses live measurements and ignores the size picker.
+  // The overview is explicitly not to scale; cutting files remain separate.
   onExport("#export-techpack", () => {
-    download(`${recipe.name}-techpack.pdf`, exportTechPack(
+    download(`${recipe.name}-techpack.pdf`, exportTechPackV2(
       recipe, measurements, undefined, stretchFabric, recipeOptions(), surfacePlacementsNow(), targetStyle
     ), "application/pdf");
   });
