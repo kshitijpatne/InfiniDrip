@@ -1,57 +1,63 @@
 # Artwork library V1 — Phase 9 review
 
-_Review date: 2026-09-23. The maintainer approved the expansion recommendation
-on 2026-09-23. Phase 9 remains active through the bounded follow-up work and
-practice gate. No garment queue is authorized by this review._
+_Review date: 2026-09-24. The maintainer accepted the bounded 12-item local
+reference V1 exit on this date. Phase 9 is complete; this decision does not
+authorize a garment queue._
 
-## Boundary
+## Boundary and evidence
 
-This is a no-cost, local-only review of the existing Phase 8 V1. It does not
-add, remove, or transform artwork, change taxonomy or guidance, fetch artwork
-at runtime, or approve a garment queue. The supporting execution contract is
-`ARTWORK-LIBRARY-V1-EXECUTION.md`; Phase 9's required review topics are in
-`PRE-GARMENT-EXECUTION.md`.
-
-## Findings
+This is a no-cost, local-only review of the expanded Phase 8 V1. Slice 208
+added only the four Cleveland Museum of Art references approved in Slice 207;
+Slice 209 added rendered drop-persistence verification without changing the
+catalog scope. This review authorizes no additional artwork, spending,
+runtime fetching, or garment work. The binding implementation and practice
+record is [`ARTWORK-LIBRARY-V1-EXECUTION.md`](ARTWORK-LIBRARY-V1-EXECUTION.md);
+the exact rights-checked CMA shortlist and asset evidence is
+[`ARTWORK-EXPANSION-PHASE9-SCOPE.md`](../research/ARTWORK-EXPANSION-PHASE9-SCOPE.md).
 
 | Review question | Evidence | Assessment |
 |---|---|---|
-| Can someone find artwork? | Slice 203's recorded browser run found the expected single result for `birds`; keyboard Enter opened the library with visible focus. The interface has literal search and combined category, garment-family, piece-role, and print-use filters. | The interaction is discoverable in the recorded run. The search is phrase-based, not token-based; keep that distinction visible in help if users expect multiword token search. |
-| Do the categories make sense? | The catalog exposes all ten approved categories and assigns relevant multi-category tags. The eight-item seed covers seven categories; `dot/spot`, `abstract`, and `typography/logo` have no entries. | The taxonomy is coherent as a starting point, but the small seed leaves visible gaps. Empty categories should remain empty until a genuinely relevant, rights-verified item is found. |
-| Are provenance, filename, and asset ID distinct? | Each catalog item has a stable `builtin-met-*` ID, local filename and hash, source institution/item/API/policy references, rights label, credit line, retrieval date, and modification statement. Source URLs are attribution text; the render URL is a separate build-time local asset URL. | The data model separates identity, local file, and provenance. They must remain separately labeled in the UI; a source URL is not an image-fetch instruction. |
-| Does selection survive reload? | Slice 203's recorded manual run selected `builtin-met-221932`, saved and reloaded it, and confirmed the local preview and stable ID. It also recorded that the user-import store remains separate and replacing a placement preserves unrelated fields. | The existing evidence supports local persistence and path separation. The combined import-and-library workflow was not independently repeated in this review. |
-| Are recommendations useful without restricting choice? | Phase 8 defines explained `Recommended`, `Possible`, and `Needs review` guidance across five print uses. Every item remains selectable; the guidance is advisory and does not change design values. Textile photographs and paper studies are not represented as clean production tiles. | The model preserves user choice and communicates uncertainty. Resolution and specimen-edge caveats are important because these are reference images, not validated production artwork. |
-| Are formats sufficient? | All eight bundled items are raster JPEGs without transparency. The separate local-import workflow accepts PNG, JPEG, WebP, and sanitized SVG. | JPEG is sufficient for browsing these references, but the bundled set does not offer vector, transparency, or a clean print-ready repeat. These are different needs from reference imagery and should be labeled, not conflated. |
-| Is the library meaningfully varied? | Visual inspection of all eight bundled files found five primarily floral/botanical works, including bird/scenic motifs, plus three geometric/stripe-oriented works. Six are textile specimen photographs and two are paper studies; all come from The Met's historical textile/design collection. | There is useful motif and scale contrast, but the source, era, format, and subject range are narrow. This is a curated reference starter, not the dense, broad artwork library originally envisioned. |
+| Can someone find artwork? | Slice 203 recorded `birds` search and keyboard Enter/focus. Slice 208 practiced `Sparrows` and `CC0` searches and the Dot/spot filter against the expanded 12-item catalog. | Search/filter behavior is evidenced. Search is phrase-based, not token-based; that distinction should remain visible in help. Keyboard search was not repeated against the expanded catalog. |
+| Do the categories make sense? | All ten approved categories are represented across twelve records. Slice 208 filled the previous gaps with four item-level reviewed CMA references. | Taxonomy coverage is complete but thin. Some categories rely on one reference; the woodblock snow-spot study is not a polka-dot print. Tags must not overstate subject or production suitability. |
+| Are provenance, filename, and asset ID distinct? | Catalog records distinguish stable Met/CMA asset IDs, local file and hash, source institution/item/API/policy references, rights evidence, credit and retrieval information. Source URLs are attribution, not image-fetch instructions. | The data model separates identity, local file, and provenance. Keep those values separately labeled in the UI. |
+| Does selection survive reload? | Slice 203 recorded a bundled-reference save/reload. Slice 208 staged a CMA reference and separately imported local Met image, saved and reloaded both stable IDs. Slice 209 verifies actual browser/Electron drop, replacement, and reload/restart persistence. | Local persistence and separation of bundled versus imported IDs are evidenced. The combined practice was run by Codex, not an independent user trial. |
+| Are recommendations useful without restricting choice? | Phase 8 explains `Recommended`, `Possible`, and `Needs review` guidance across five print uses. Every item remains selectable; guidance is advisory and does not change design values. | The model preserves user choice and communicates uncertainty. Resolution, specimen-edge, folds, sheen, and paper-study caveats matter because these are references, not validated production artwork. |
+| Are formats sufficient? | All twelve bundled items are raster JPEGs without transparency. The separate local-import flow accepts PNG, JPEG, WebP, and sanitized SVG. | V1 has no bundled vector, transparency, clean production artwork, or verified seamless repeat. These are distinct future needs, not claims satisfied by this reference set. |
+| Is the library meaningfully varied? | Twelve references now come from The Met and Cleveland Museum of Art, cover all ten taxonomy categories, and include textile photographs and paper/design studies. Slice 208 practiced the expanded catalog in a local preview. | Source and category variety improved, but subject, format, and production-readiness coverage remain narrow. This is a useful local reference V1—not the dense production-art library originally envisioned. |
 
-### Rendered-evidence limitation
+### Rendered-evidence limits
 
-The Slice 203 verification record contains the prior rendered-browser checks
-for search, keyboard operation, narrow width, local preview, save/reload, and
-no remote catalog/image request. During this review the in-app browser could
-not connect to the available local loopback server, so those interaction
-checks were not independently repeated. This record does not claim a fresh
-end-to-end user trial of importing and selecting bundled artwork in one
-session.
+Slice 208's recorded practice used a separate local preview at 1280×720 and
+covered the 12-item count, searches, category filtering, CMA staging, combined
+bundled-plus-imported save/reload, and browser-console status. Slice 209 used
+real Chromium and Electron renderers for drop/replacement, unsafe-SVG
+rejection, stable-ID reload/restart, a 375px viewport, and remote-request
+checks. Slice 203 remains the recorded evidence for library keyboard
+search/focus and narrow-width browse behavior on the original eight-item
+catalog; those specific library interactions were not repeated against the
+expanded catalog. Catalog tests verify that all ten categories have records,
+but rendered practice sampled the Dot/spot filter rather than cycling every
+category. The documented practice was run by Codex and is not an independent
+maintainer or end-user usability trial. These limits are disclosed, not
+treated as production-readiness evidence.
 
-## Recommendation and maintainer decision
+## Maintainer decision
 
-Recommend expanding V1 before calling the artwork workflow finished. That
-better matches the earlier request for a broad, fashion-oriented, searchable
-collection. Keep the boundary local and no-cost: add only individually
-provenanced and rights-verified assets that serve garment print uses; cover
-underrepresented categories only when suitable works exist; distinguish
-reference photographs/paper studies from clean artwork and verified repeat
-tiles; retain advisory suitability guidance; and make no runtime network
-requests. Any expansion should account for bundled file size and must not
-silently treat a museum image as print-ready artwork.
+The maintainer accepted the bounded twelve-item collection on 2026-09-24 as the
+completed local reference V1 for Phase 9, with the limitations above. This is acceptance
+of the stated pre-garment scope, not a claim that the library is dense,
+production-ready, or independently usability-tested.
 
-The maintainer approved this expansion direction on 2026-09-23. Slice 207
-completed the bounded scope before any image files were added. The selected
-four-image CMA set, item-level provenance/rights checks, visual curation notes,
-projected byte budget, exclusions and Slice 208 acceptance criteria are in
-[`ARTWORK-EXPANSION-PHASE9-SCOPE.md`](../research/ARTWORK-EXPANSION-PHASE9-SCOPE.md).
-The next slice may add only those four unchanged print JPEGs; it must not claim
-that museum reference photos or paper studies are production-ready. Phase 9
-still requires a rendered practice run and final review. No garment queue starts
-from this review; a separate explicit garment direction remains required.
+The denser fashion-oriented production-art library is queued as future
+`CAPABILITY-G17`, after completion of all already-scoped G01–G16 work. It is
+backlog only: its detailed scope must be refined before execution; the future
+scope checkpoint is recorded in [`ARTWORK-LIBRARY-G17-QUEUE.md`](ARTWORK-LIBRARY-G17-QUEUE.md). This does
+not authorize paid licenses, services, acquisitions, remote runtime fetching,
+or work on a garment queue. Any future assets must have item-level provenance
+and rights evidence, be relevant to garment-design use, and distinguish
+reference photos/studies from clean artwork and repeat-verified production
+tiles. Local/no-cost and no-runtime-network constraints remain in force unless
+the maintainer explicitly reopens them.
+
+Closing Phase 9 is not approval of the next garment direction. The garment
+queue remains closed until a separate explicit maintainer decision.

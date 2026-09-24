@@ -1,11 +1,13 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 209 adds real browser and desktop drag/drop persistence
-verification; Phase 8 is complete and Phase 9 awaits its exit review,
-2026-09-23._
-Next: maintainer review of the Phase 9 exit recommendation. The garment queue
-remains closed until Phase 9 is complete and a separate explicit garment
-direction is approved.
+_Last updated: Slice 210 records the maintainer's acceptance of the bounded
+12-item artwork reference V1 and closes Phase 9, 2026-09-24._
+Next: verify the nine completed pre-garment work items and organize them under
+Epic 13 in a separate reviewed slice before any branch merge. Do not start a
+future-roadmap item or garment queue without explicit maintainer instruction.
+The maintainer's requested post-Phase-9 capability sequence is planned in
+`docs/planning/END-TO-END-CAPABILITY-ROADMAP.md`; its dates and work packets
+are conditional future backlog, not a change to the current Phase 8/9 gate.
 Epics 7, 9 and 10 are implemented, Codex-reviewed, documented and pushed to
 `origin/main`. Epic 11 implementation has completed the shaped collar/stand,
 placket-base, vent/drop, front/back preview/control/report and downstream
@@ -469,8 +471,8 @@ Eight source-verified textile references can be inspected and staged for a new
 placement or attached to an existing one. Stable built-in IDs resolve through
 local bundled assets, separately from user-imported artwork; museum source URLs
 remain attribution text. Replacing a reference preserves unrelated placement
-and design values. Phase 8 is complete; Phase 9 now awaits the maintainer's V1
-review and explicit choice before any garment queue.
+and design values. At the Slice 203 cutoff, Phase 8 was complete and Phase 9
+awaited the maintainer's V1 review before any garment queue.
 
 Verification: `npm run build` passes; full coverage passes 111 files / 1,555
 tests at 100% statements, branches, functions, and lines. Manual local-browser
@@ -489,8 +491,9 @@ seven of ten categories are represented, and the source/era/subject range is
 concentrated. The review recommends expanding with rights-verified, use-case-
 relevant assets while clearly distinguishing reference images from clean or
 repeat-verified artwork. The maintainer approved this direction on 2026-09-23.
-Phase 9 remains In Progress while the expansion is scoped, researched,
-implemented and practiced; this decision does not authorize a garment queue.
+At the Slice 206 cutoff, Phase 9 remained In Progress while the expansion was
+scoped, researched, implemented and practiced; this did not authorize a
+garment queue.
 
 The prior Slice 203 rendered-browser record remains the evidence for keyboard,
 narrow-width, search, local preview, save/reload and no-runtime-network checks.
@@ -546,12 +549,11 @@ the separate local-import ID remained after reload; there were no browser
 console errors. The practice and evidence limitations are recorded in
 `docs/planning/ARTWORK-LIBRARY-V1-EXECUTION.md`.
 
-The bounded expansion and practice are complete, but Phase 9 remains In
-Progress for maintainer exit review. Codex recommends accepting this as a
-small, useful local reference V1 that fills the approved taxonomy gaps, while
-recording that it is not the dense production-art library envisioned for a
-later phase. No garment queue, paid service, runtime museum request or physical
-fit claim is authorized by this slice.
+At the Slice 208 cutoff, the bounded expansion and practice were complete and
+Phase 9 still awaited maintainer exit review. Slice 210 records the later
+acceptance of this small, useful local reference V1, while explicitly keeping
+the denser production-art library as future backlog. No garment queue, paid
+service, runtime museum request or physical-fit claim is authorized.
 
 ### Slice 209 — Verify real browser and desktop artwork drops
 
@@ -576,6 +578,27 @@ Electron reports the same narrow-layout result. No production source, schema,
 dependency, export byte, artwork asset, account or service changed. Phase 7
 remains Done; this supplemental test closes its real drag/drop evidence gap
 without changing the acceptance scope.
+
+### Slice 210 — accept bounded artwork reference V1 and close Phase 9
+
+The maintainer accepted the twelve-item local reference catalog as the Phase 9
+exit. The review records the actual scope and evidence: ten represented
+categories, the limitations in subject/format/production readiness, Codex-run
+practice rather than an independent user trial, and the remaining expanded-
+catalog keyboard/narrow-width evidence gap. This does not call the catalog a
+dense production-art library.
+
+`CAPABILITY-G17` queues the denser fashion-oriented production-art library
+after the already-scoped G01–G16 work. It remains Backlog, unestimated and
+unstarted; refine its acceptance details later, and do not incur any one-time
+or recurring cost without the maintainer reopening that boundary. This queue
+does not open a garment queue or authorize other future-roadmap work.
+
+The Phase 9 board item is transitioned to Done through the shared validated
+Control Center command layer with exit-decision evidence. The other eight
+pre-garment phase items were already Done with linked exit evidence. Slice 211
+will make the separately requested Epic 13 grouping only after rechecking all
+nine items and their evidence; the branch is not merged by this goal.
 
 ### Post-merge PR audit — 2026-09-21
 

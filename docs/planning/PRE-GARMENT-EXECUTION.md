@@ -311,23 +311,30 @@ rendered, keyboard, narrow-width, no-network, and save/reload verification.
 Phase 9 must then assess whether this starter collection is varied enough and
 record the maintainer's decision before the garment queue can reopen.
 
-## Phase 9 — V1 practice and expansion decision
+## Phase 9 — V1 practice and expansion decision (complete)
 
-Use the first curated library and local import flow. Qualitatively assess whether
+Use the curated library and local import flow. Qualitatively assess whether
 users can find artwork; whether categories make sense; whether provenance,
 filename and asset ID are distinct; whether assets persist after reload;
 whether recommendations are useful without limiting freedom; whether formats
-are sufficient; and whether the library feels meaningfully varied.
+are sufficient; and whether the library feels meaningfully varied. The
+maintainer accepted the resulting bounded 12-item local reference V1 on
+2026-09-24. The practice was performed by Codex, not an independent user trial;
+the evidence limitations are recorded in
+`ARTWORK-LIBRARY-PHASE9-REVIEW.md`.
 
-**Exit:** record the maintainer's decision to expand, revise taxonomy/formats,
-change placement behavior, or keep V1. Do not infer approval of the next
-garment from V1 completion.
+**Exit:** record the maintainer's decision to accept this V1 and retain the
+dense production-art library as a later capability, `CAPABILITY-G17`, after
+the already-scoped G01–G16 program. G17 is backlog only and requires refined
+scope before execution; no cost or remote service is authorized. Do not infer
+approval of the next garment from V1 completion.
 
 ## Final gate
 
-The next garment queue remains closed until the tutorial is implemented and
-verified; README and ARCHITECTURE pass newcomer review; cleanup has been audited
-and any removals separately approved; existing artwork authoring is refined;
-local drag/drop persistence is stable; the curated library is licensed,
-categorized, searchable and tested; and the maintainer has reviewed V1 and
-explicitly approved the next garment direction.
+The tutorial, README/ARCHITECTURE newcomer review, repository-cleanup audit,
+artwork-authoring refinement, local drag/drop verification, and curated V1
+library are the completed pre-garment deliverables recorded under Phases 1–9.
+The maintainer's Phase 9 acceptance closes that readiness sequence only. The
+next garment queue remains closed until a separate explicit garment direction
+is approved; neither closing Phase 9 nor organizing its board items under
+Epic 13 grants that approval.

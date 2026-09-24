@@ -715,6 +715,39 @@ data collection still require their own explicit gate.
 - Slice 198 implements this behavior locally in the existing UI; it adds no
   account, remote service, database, or paid dependency.
 
+## Post-Phase-9 digital capability direction — confirmed 2026-09-23
+
+- After the approved nine-phase pre-garment sequence, pursue the complete
+  capability program in `docs/planning/END-TO-END-CAPABILITY-ROADMAP.md` in
+  dependency order. Keep each goal and its unfinished packets visible in the
+  canonical Control Center backlog; target dates prompt review and reforecast,
+  never bypass a gate. The existing Phase 9 garment-queue approval remains
+  required.
+- Keep the product user-led. Do not add a user-facing AI designer or prompt
+  shortcut. Deterministic pattern, measurement, construction and guidance
+  logic may support manual decisions; development agents are separate from
+  product functionality.
+- The measurement-first route creates one size for a measured person by
+  default, with a separately specified and approved grading plan for a size
+  run. A measurement-driven mannequin may offer male/female starting presets,
+  but its final body shape must follow entered measurements and expose any
+  unresolved shape assumptions.
+- Reference and upcycling may start with photos for exploratory design.
+  Source-garment measurements are recommended and taught in the app; cutting
+  feasibility may be asserted only when the necessary panel, material and
+  layout evidence is recorded.
+- Treat each starter as a separately vetted, editable, industry-relevant
+  design. Finish the full view, professional tech-pack, CAD, 3D and change-
+  propagation work with explicit evidence; do not close the 3D program after
+  a mannequin or first garment demo.
+- Keep physical sampling on hold until the maintainer explicitly reopens it
+  after the digital capability program. Digital checks and professional
+  document review do not establish physical fit, drape, factory acceptance or
+  production readiness. The roadmap therefore keeps separate future gates for
+  physical sample validation (G15) and live order/quality/shipping operations
+  (G16) after the cross-system digital exit (G14); their dates are conditional
+  forecasts, not permission to start.
+
 ## Artwork library expansion — approved 2026-09-23
 
 - Expand the local artwork-library V1 before closing Phase 9, following the
@@ -731,3 +764,22 @@ data collection still require their own explicit gate.
 - Reassess Phase 9 after the expanded library has been practiced and reviewed.
   A separate explicit garment direction remains required before any garment
   queue begins.
+
+## Phase 9 exit and future artwork-library queue — approved 2026-09-24
+
+- Accept the completed 12-item, ten-category local artwork catalog as a
+  bounded reference V1 and close Phase 9. The acceptance includes its recorded
+  evidence limitations; it is not a claim of independent user validation,
+  dense category coverage, clean production artwork, or verified repeats.
+- Queue the denser fashion-oriented production-art library as
+  `CAPABILITY-G17`, after completion of the already-scoped G01–G16 program.
+  Keep G17 in Backlog; refine its detailed scope at the appropriate future
+  gate using `docs/planning/ARTWORK-LIBRARY-G17-QUEUE.md`. This records future
+  intent only and authorizes no implementation now.
+- Preserve the launch-cost hold: no paid license, service, acquisition, or
+  recurring spend without the maintainer explicitly reopening that boundary.
+  Any future catalog work remains local and makes no runtime remote requests
+  unless separately approved.
+- Closing Phase 9, and later organizing its nine readiness items under Epic
+  13, does not authorize a garment queue. A separate explicit garment
+  direction is still required.

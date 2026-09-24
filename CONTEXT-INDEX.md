@@ -79,6 +79,11 @@ snapshots; they are not current status.
   today's next slice.
 - `docs/planning/ROADMAP.md` — strategic competitive analysis, prioritization,
   long-term scope, and cut list.
+- `docs/planning/END-TO-END-CAPABILITY-ROADMAP.md` — maintainer-directed
+  post-Phase-9 capability sequence, evidence and ambiguity ledger, planned work
+  packets, conditional target dates, dependencies, and digital exit gates. It
+  does not supersede the active pre-garment sequence or authorize a garment
+  queue, launch spending, supplier contact, or physical sampling.
 - `docs/planning/COMPONENT-ARCHITECTURE.md` — design rationale and migration plan.
   Use `PROJECT-STATE.md` for which phases are actually complete.
 - `docs/planning/SLICES-BRIEF.md` — reusable slice-planning brief. It is a
@@ -122,13 +127,18 @@ snapshots; they are not current status.
   184–186 packet for canonical local authoring, role-guided transitions,
   atomic persistence, usable browser controls and the v2 exit gate.
 - `docs/planning/PRE-GARMENT-EXECUTION.md` — maintainer-approved nine-phase
-  no-cost sequence, acceptance criteria, durable work boundaries, and final
-  approval gate before the next garment queue.
+  no-cost sequence and acceptance criteria. Phase 9 is accepted; a separate
+  explicit garment-direction decision remains required before any garment
+  queue.
 - `docs/planning/ARTWORK-LIBRARY-V1-EXECUTION.md` — Phase 8's local asset
   provenance, catalog contract, search/filter and recommendation semantics,
-  bounded slice sequence, and Phase 9 maintainer gate.
+  bounded slice sequence, and the accepted Phase 9 reference-V1 exit.
 - `docs/planning/ARTWORK-LIBRARY-PHASE9-REVIEW.md` — current V1 review findings,
-  evidence limitations, approved expansion direction, and bounded next work.
+  evidence limitations, maintainer acceptance, and the future G17 production-
+  art library queue; it does not authorize garment work or spending.
+- `docs/planning/ARTWORK-LIBRARY-G17-QUEUE.md` — deferred acceptance boundary
+  for the dense production-art library; G17 follows the already-scoped G01–G16
+  work and stays Backlog until explicitly opened by the maintainer.
 - `docs/research/ARTWORK-EXPANSION-PHASE9-SCOPE.md` — Slice 207's exact
   four-image CMA shortlist, item-level rights/visual checks, asset-size budget,
   held-out candidates, and Slice 208 acceptance boundary.

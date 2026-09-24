@@ -4,6 +4,12 @@ _Created after Slice 44. This document holds the competitive analysis, the
 feature prioritisation, and the timeline to a commercial product. It is the
 strategic companion to SLICES-BRIEF.md (which holds the tactical slice plan)._
 
+_For the current maintainer-directed sequence after the active nine-phase
+pre-garment program, including evidence gates, stable work-packet IDs,
+conditional dates, and the complete digital capability path, use
+[END-TO-END-CAPABILITY-ROADMAP.md](END-TO-END-CAPABILITY-ROADMAP.md).
+`PROJECT-STATE.md` and the pre-garment packet still control what may start now._
+
 **Rule this document inherits from RESUME-LOG.md: every claim carries an anchor,
 and nothing is marked done that isn't. Estimates are marked as estimates.**
 
@@ -448,6 +454,7 @@ Can run in parallel with Priority 2 because it doesn't touch geometry.
 | 4.2a | **Upcycle helper — honest version, build first.** A guided "clone your favourite garment" flow: the app coaches which flat measurements to take off a garment the user already owns (fold flat, measure armhole, etc.), takes those as the `measurements` object, drafts parametrically, runs existing plausibility checks. No photo/scan input. | 5–8 slices |
 | 4.2b | **Upcycle helper — nuanced version, later.** Photo/CV-based garment reconstruction. Confirmed to come *after* 4.2a, not in parallel — same "cannot honestly replicate without real capability" boundary as §1.5. | — (research-grade; see §1.5) |
 | 4.3 | **Zero-waste garment recipe** — a recipe drafted from rectangles/geometry, parameterised by measurements *and* fabric width, with a waste-% target. **Tracked, not scheduled.** Blocked on an architectural decision, not a feature decision: fabric width would need to become a first-class *draft-time* input (today it's export/nesting-time only). Flagged in §5 so it isn't rediscovered mid-slice. Reference point for honesty: practitioners report <2% scrap vs a 15–20% industry average — a real number to hold ourselves to if this is ever built. | untracked — architecture question first |
+| 4.4 | **Dense production-art library (G17)** — a curated, fashion-use-specific, rights-verified and searchable asset collection; keep reference images distinct from clean production art and verified repeat tiles. Sequenced after all already-scoped G01–G16 work; backlog only, with scope and cost gates to be reopened before implementation. | future backlog — see `ARTWORK-LIBRARY-G17-QUEUE.md` |
 
 ### Cut from v1
 

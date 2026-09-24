@@ -270,12 +270,15 @@ taxonomy categories and every bundled image's dimensions, source identity,
 byte length, SHA-256 and local build path. These items remain local reference
 photos/studies, not verified print-ready artwork or seamless tiles.
 
-Codex's exit recommendation is to accept the bounded 12-item collection as a
-useful local reference V1 for the approved pre-garment scope, while explicitly
-recording that it is not the dense production-art library envisioned for a
-later phase. Phase 9 remains in review until the maintainer accepts or revises
-that recommendation. This recommendation does not approve or start a garment
-queue; a separate explicit garment direction remains required.
+The maintainer accepted Codex's exit recommendation on 2026-09-24: close Phase
+9 with the bounded 12-item collection as local reference V1, while explicitly
+recording that it is not the dense production-art library envisioned for later
+work. The denser library is queued as `CAPABILITY-G17` after the existing
+G01–G16 program; its detailed scope must be refined before execution and no
+spending is authorized. This acceptance does not approve or start a garment
+queue; a separate explicit garment direction remains required. Evidence limits
+and the full decision are recorded in
+[`ARTWORK-LIBRARY-PHASE9-REVIEW.md`](ARTWORK-LIBRARY-PHASE9-REVIEW.md).
 
 ## Authoritative source references
 
