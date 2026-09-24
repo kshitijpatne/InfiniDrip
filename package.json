@@ -14,6 +14,7 @@
     "control-center:test": "node --test ops/control-center/app/board.test.mjs ops/control-center/commands.test.mjs ops/control-center/board-store.test.mjs ops/control-center/import-facts.test.mjs ops/control-center/server.test.mjs",
     "web:proof:test": "node --test ops/web/create-artifact-manifest.test.mjs",
     "web:release:test": "node --test ops/web/create-artifact-manifest.test.mjs ops/web/release-rehearsal.test.mjs",
+    "web:verify-artwork-store": "node ops/web/verify-browser-artwork-store.mjs",
     "readiness:drill:test": "node --test ops/readiness/readiness-drill.test.mjs",
     "test": "vitest run",
     "test:watch": "vitest",

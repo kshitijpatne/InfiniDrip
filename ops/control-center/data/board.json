@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 73,
-  "updatedAt": "2026-09-24T02:45:40.000Z",
+  "revision": 75,
+  "updatedAt": "2026-09-24T03:41:30.875Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -1997,9 +1997,16 @@
           ]
         }
       ],
-      "comments": [],
+      "comments": [
+        {
+          "at": "2026-09-24T03:41:30.875Z",
+          "actor": "Codex",
+          "text": "Slice 209 supplemental Phase 7 drag/drop verification is complete and linked as E-PREQUEUE-PHASE7-S209-DROP. Phase 7 remains Done; this closes a rendered-evidence gap without expanding its product scope."
+        }
+      ],
       "evidenceRefs": [
-        "E-PREQUEUE-PHASE7-S200"
+        "E-PREQUEUE-PHASE7-S200",
+        "E-PREQUEUE-PHASE7-S209-DROP"
       ],
       "flagKey": null
     },
@@ -2569,6 +2576,15 @@
       "sha256": null,
       "verified": true,
       "note": "Slice 208: four scoped CMA references implemented; local combined library/import save-reload practiced; npm run coverage is 100% across all four metrics and production build/source image hashes match."
+    },
+    {
+      "id": "E-PREQUEUE-PHASE7-S209-DROP",
+      "kind": "browser",
+      "uri": "PROJECT-STATE.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Slice 209: real Chromium and Electron dropped-new/replacement flows; unsafe SVG replacement rejected without changing prior ID; stable IDs survive browser reload and desktop restart; 375px layouts fit; 111 files / 1,558 tests pass at 100% coverage and production build passes."
     }
   ]
 }

@@ -3657,11 +3657,16 @@ describe("safe local artwork import and persistence (Slice 200)", () => {
     });
     row.dispatchEvent(drop);
     await vi.waitFor(() => expect(root.querySelector<HTMLImageElement>("[data-surface-asset-preview]")?.dataset.assetId).toMatch(/^local-/));
-    const previousAssetId = root.querySelector<HTMLImageElement>("[data-surface-asset-preview]")!.dataset.assetId;
+    const previousAssetId = root.querySelector<HTMLImageElement>("[data-surface-asset-preview]")!.dataset.assetId!;
+    const previousStoredAsset = assets.records.get(previousAssetId);
+    expect(previousStoredAsset?.name).toBe("badge.png");
     assets.setFailWrites(true);
-    setFileInput(root.querySelector<HTMLInputElement>('[data-surface-asset-file="0"]')!, newFile("replacement.png"));
+    const refreshedRow = root.querySelector<HTMLElement>('[data-surface-row="0"]')!;
+    dispatchArtworkDrop(refreshedRow, [newFile("replacement.png")]);
     await vi.waitFor(() => expect(root.querySelector("[data-surface-asset-status]")!.textContent).toContain("previous placement is unchanged"));
     expect(root.querySelector<HTMLImageElement>("[data-surface-asset-preview]")!.dataset.assetId).toBe(previousAssetId);
+    const preservedAsset = await assets.store.get(previousAssetId);
+    expect(preservedAsset).toBe(previousStoredAsset);
   });
 
   it("shows a missing asset distinctly and restores it with the file picker", async () => {

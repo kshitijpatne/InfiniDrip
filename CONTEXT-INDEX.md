@@ -50,9 +50,10 @@ snapshots; they are not current status.
 - `ops/control-center/` — Slice 184 schema-v2 canonical board and shared atomic
   command layer plus Slice 185 localhost-only authoring service and responsive
   dashboard. It is operational evidence, not the hosted workspace.
-- `ops/web/` — completed Slice 173 provider-neutral artifact manifest utility
-  and Slice 179 local candidate/rollback rehearsal; delivery descriptors and
-  preview instructions do not deploy or create a provider account.
+- `ops/web/` — completed Slice 173 provider-neutral artifact manifest utility,
+  Slice 179 local candidate/rollback rehearsal, and Slice 209 rendered-browser
+  verifier for safe local artwork drag/drop persistence; delivery descriptors
+  and preview instructions do not deploy or create a provider account.
 - `ops/readiness/` — completed Slice 180 deterministic synthetic readiness
   fixture and strict validator; provider-backed scenarios remain deferred.
 - `docs/release/EPIC-12-NO-COST-INTERIM-EXIT.md` — completed Slice 181

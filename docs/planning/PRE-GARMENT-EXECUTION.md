@@ -253,6 +253,16 @@ file has passed validation and storage. Browser and desktop backends must both
 be exercised; reload/persistence checks use a real browser profile, not only
 mocked tests.
 
+**Supplemental verification — Slice 209:** the browser and Electron verifiers
+now create real renderer-side file drops for new placements and replacements,
+reject an unsafe SVG replacement without changing the prior asset reference,
+and confirm stable IDs across browser reload and desktop app restart. The
+browser checks 375px layout, console/page errors, and absence of remote
+requests. The focused failure-path unit test confirms that a storage error
+after a dropped replacement leaves the exact prior stored record intact. This
+is additional verification of the completed Phase 7 behavior, not a new
+product requirement or scope expansion.
+
 ## Phase 8 — Curated artwork library V1
 
 Research fashion/design-oriented sources and select only assets whose license

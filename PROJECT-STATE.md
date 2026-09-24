@@ -1,8 +1,8 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 208 implements and practices the maintainer-approved
-Phase 9 artwork expansion; Phase 8 is complete and Phase 9 awaits its exit
-review, 2026-09-23._
+_Last updated: Slice 209 adds real browser and desktop drag/drop persistence
+verification; Phase 8 is complete and Phase 9 awaits its exit review,
+2026-09-23._
 Next: maintainer review of the Phase 9 exit recommendation. The garment queue
 remains closed until Phase 9 is complete and a separate explicit garment
 direction is approved.
@@ -552,6 +552,30 @@ small, useful local reference V1 that fills the approved taxonomy gaps, while
 recording that it is not the dense production-art library envisioned for a
 later phase. No garment queue, paid service, runtime museum request or physical
 fit claim is authorized by this slice.
+
+### Slice 209 — Verify real browser and desktop artwork drops
+
+The Slice 200 unit test now exercises a failed replacement through drag/drop
+(not the file picker) and confirms the prior stored asset record remains
+unchanged. A new Chromium verifier creates real browser-realm `File`,
+`DataTransfer` and `DragEvent` objects, then checks picker import, dropped new
+placement, dropped replacement, unsafe-SVG replacement rejection, save/reload
+with stable IDs, 375px layout, zero console/page errors and zero remote
+requests. The Electron verifier performs the equivalent drop workflow in the
+actual renderer and confirms both successful drops survive app restart with
+stable IDs in the isolated user-data store. An unsafe dropped replacement is
+rejected without changing the prior ID. Existing IPC byte-round-trip,
+traversal-rejection and SVG-safety checks remain in place.
+
+Verification: the focused unit test passes; the full gate passes all 111 test
+files / 1,558 tests with 100% statements, branches, functions and lines,
+including the 8 export regression and 9 export identity checks. `npm run build`,
+`npm run web:verify-artwork-store`, and `npm run electron:verify-artwork-store`
+pass. The browser viewport is exactly 375px wide with no horizontal overflow;
+Electron reports the same narrow-layout result. No production source, schema,
+dependency, export byte, artwork asset, account or service changed. Phase 7
+remains Done; this supplemental test closes its real drag/drop evidence gap
+without changing the acceptance scope.
 
 ### Post-merge PR audit — 2026-09-21
 

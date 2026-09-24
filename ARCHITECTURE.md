@@ -118,7 +118,9 @@ preview are temporary; it is not a general pattern editor.
   outside the saved-design JSON—in browser-local storage for the web app and
   the app's data folder for the desktop app—while the design stores a stable
   local asset ID and optional source-pixel dimensions. Missing local files can
-  be restored or replaced. The placement preview still shows only its
+  be restored or replaced. Both picker and drag/drop imports are validated
+  before storage; an unsafe or failed replacement leaves the prior asset
+  reference intact. The placement preview still shows only its
   rectangle, not artwork on a garment. Import does not change garment geometry
   or exports. The repository also contains twelve source-verified bundled
   textile and print references: eight from The Met and four from the Cleveland
