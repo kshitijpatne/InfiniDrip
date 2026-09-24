@@ -32,12 +32,12 @@ are reconciled after all four packet exits.
   outside this evidence wave; shared measurement and technical-pack/CAD
   decisions are not made here.
 - Slice 220 created individual child records for C03, C04, and G01 final
-  review. C03 is In Progress; C04 and final review remain Backlog. Execute
-  them serially in that order without another start prompt. C03 consumes the
-  four accepted packets; C04 depends on C03; final review depends on C04 and
-  every accepted packet. Resolve or assign all A-01–A-12 facts, perform any
-  required digital remediation, and close G01 only after its exit criteria
-  pass.
+  review. Slice 222 accepted C03 with verified contract evidence and moved C04
+  to In Progress; final review remains Backlog. Execute them serially in that
+  order without another start prompt. C03 consumes the four accepted packets;
+  C04 depends on C03; final review depends on C04 and every accepted packet.
+  Resolve or assign all A-01–A-12 facts, perform any required digital
+  remediation, and close G01 only after its exit criteria pass.
 
 ## Preserved boundaries
 

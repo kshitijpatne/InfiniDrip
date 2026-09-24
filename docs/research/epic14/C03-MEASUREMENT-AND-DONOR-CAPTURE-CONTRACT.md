@@ -1,6 +1,7 @@
 # C03 — Canonical body, garment, size, and donor-measurement contract
 
-**Status:** Draft for Slice 221 review; not yet the accepted C03 exit.  
+**Status:** Current C03 contract snapshot. Acceptance state and verified hash
+are tracked on `EPIC-14-C03` in the canonical Control Center board.
 **Snapshot:** 2026-09-24.  
 **Scope:** Contract and evidence only. No garment code, recipe, supplier contact,
 paid standard, hosted service, or physical sampling is authorized here.
@@ -42,6 +43,11 @@ product rationale, range, review and user approval. The existing XS–XL/M run
 is a repository-owned digital rule set, not an approved population chart or a
 proof that a custom base is size M. This resolves the maintainer's one-size
 first decision; it does not make the existing drafts physically fit-validated.
+At this contract boundary, no recipe is cleared for a fit-qualified quick-start:
+each recipe needs its capture definitions and body-to-pattern transformations
+reviewed. A future implementation may offer an explicitly labeled digital
+draft route while those gates remain open, but it must not describe that result
+as body-fit or physically fitted.
 
 Photos may begin reference or concept exploration. A photo without a calibrated
 scale cannot become a measurement. An assembled donor can be screened with
@@ -75,7 +81,7 @@ record therefore needs orthogonal `semanticKind` and `provenance` fields:
 | `semanticKind` | `BODY_MEASURE`, `GARMENT_MEASURE`, `FINISHED_POM`, `PATTERN_PARAMETER`, `STYLE_CONTROL`, `GRADE_RULE`, `MATERIAL_PROPERTY`, `DONOR_MEASURE`, `PANEL_GEOMETRY`, `VISUAL_OBSERVATION`. | Defines reference frame and units. A value's label alone never determines its kind. |
 | `provenance` | `USER_CAPTURED`, `USER_SELECTED`, `PRESET`, `INHERITED`, `CALCULATED`, `SUPPLIER`, `SAMPLE_ACTUAL`, `IMAGE_OBSERVED`, `UNRESOLVED`. | Includes source/revision/date/method as applicable. `UNRESOLVED` is a state, not a source. |
 | `evidenceStatus` | `UNCONFIRMED`, `USER_CONFIRMED`, `SOURCE_CONFIRMED`, `SAMPLE_MEASURED`, `CONFLICT`. | No generic green “verified” state. Confirmation does not establish fit or manufacturing readiness. |
-| `confidence` | A method-backed assessment only when a validation basis exists. | Store method, validation population/domain and uncertainty basis. Do not invent a percentage, universal threshold, or “high confidence” badge before validation. |
+| `confidence` | A method-backed assessment only when a validation basis exists. | Every unvalidated manual or image-derived value starts `NOT_ASSESSED`. Store the validation method, population/domain and uncertainty basis before exposing any score. Repeats, tape resolution, numeric plausibility, or user confirmation do not create a confidence score. Do not invent a percentage, universal threshold, or “high confidence” badge. |
 
 For example, an entered chest girth is `BODY_MEASURE` + `USER_CAPTURED` +
 `UNCONFIRMED`; after the user reviews it, only its evidence status changes.
@@ -83,6 +89,20 @@ A POM from draft geometry is `FINISHED_POM` + `CALCULATED`, tied to the exact
 pattern and formula revision. A tape-measured sample POM is `FINISHED_POM` +
 `SAMPLE_ACTUAL`, tied to sample size, material and round. These are not
 interchangeable records.
+
+The later data model must store a versioned **field definition** separately
+from each **observation**. A definition owns the semantic ID/kind, unit,
+reference frame, required landmarks or path, posture/state, method, source and
+license or explicit product decision, technical limits, warning band,
+dependencies, confidence method, and missing/invalid/conflict action. An
+observation owns the raw entered value/unit/precision, canonical value and
+conversion, source/method/date/tool, posture/clothing state, repeats, user
+selection, evidence status, revision, and validation messages. A calculated
+value additionally points to exact input IDs, formula/rule version, and
+resulting pattern revision. A sample value is a separate observation tied to a
+sample, material, size, and round. A current UI minimum/maximum belongs to the
+software guardrail set; it cannot be copied into a population-validity or
+measurement-confidence field.
 
 ## Canonical field taxonomy: current code facts and required contract
 
@@ -99,7 +119,7 @@ body-fit acceptance limits, or measurement-error tolerances.
 | `shoulderWidth` | Shoulder point to shoulder point, as described in the source comment. | Pattern shoulder endpoint is `shoulderWidth / 2`; across-shoulder POM is generated from that block. | UI 30–70, step 1; advisory 30–60. | Define endpoint landmarks and whether the path is a straight span or surface path. A surface-following tape is not interchangeable with the current horizontal pattern span. Shoulder slope remains a fixed formula value, not a captured body fact. |
 | `bicep` | Upper-arm circumference; source says “upper-arm” but does not name the level or arm posture. | Sleeved tops use `bicep + ease/2` to set sleeve width; woven sleeve uses the same relation. | UI 20–60, step 1; advisory 20–55. | Define measured level, arm posture, tape plane and side. The POM is a pattern-derived sleeve-width value, not a measured sewn sleeve or a fit result. |
 | `length` | **Not one concept.** Tops use the desired finished HPS-to-hem pattern length; skirt uses a finished waist-to-hem length. | Top body hem station is `y=length`; skirt hem station is also `y=length` but starts from its waist reference. Woven shirt uses the same top length to interpolate a waist station. | UI 40–100, step 1; advisory 45–95. Skirt style metadata includes a 95–120 range, so the style table can promise values the shared UI/warning range does not admit. | Replace with garment-specific semantic IDs (`targetTopHpsToHem`, `targetSkirtWaistToHem`, or a named POM). The user may choose the target directly. A body landmark-to-hem measurement can inform the choice but is a different fact. Resolve the current skirt style/UI-range contradiction before implementing that route. |
-| `armholeDepth` | Conflicted meaning. `measurements.ts` calls it vertical HPS-to-underarm body depth, but `facets.ts` classifies it as `finished`; drafting uses it directly as the pattern's y-coordinate. | HPS is the pattern origin at `y=0`; the underarm station uses this value directly in the top blocks and it constrains some other geometry. | UI 12–40, step 1; advisory 15–35. | **Do not silently select either meaning.** Rename into a body landmark measurement and a separate garment underarm-depth target if both are needed. A technical designer must specify the exact landmarks, posture and body-to-pattern/ease transform before custom fit can be claimed. |
+| `armholeDepth` | Legacy conflict: `measurements.ts` comment calls it a body HPS-to-underarm depth; `facets.ts` classifies it as `finished`; drafting consumes it directly as the pattern underarm y-coordinate. | HPS is pattern `y=0`; this number directly positions the underarm station and constrains other geometry. | UI 12–40, step 1; advisory 15–35. | **C03 future-schema decision:** treat the current direct input as a user-selected `TARGET_UNDERARM_DROP` / `PATTERN_PARAMETER`, never as a captured body fact. A distinct `BODY_HPS_TO_UNDERARM` may be captured only after its named landmarks, posture and body-to-pattern transform are accepted. Migration of the stale source comment is an implementation follow-up; current output is not body-fit evidence. |
 | `sleeveLength` | Finished sleeve pattern length from cap top to hem, per source comment; it is not currently a body-arm measurement. | Sleeve hem station is cap height plus this value; default tee grade changes it. | UI 8–70, step 1; advisory 5–70. | Keep as a user-selected finished target. If a body-arm path is captured, store it separately (shoulder point, arm posture/bend, and desired cuff point) and use only a visible, reviewed mapping. |
 | `waist` | Wearer waist circumference; the code does not say natural waist vs intended waistband level. | Woven shirt uses it at a body waist station; skirt and trouser use it to draft waist circumference, with shared ease. | UI 50–140, step 1; advisory 50–140. | Record the landmark at which the garment is intended to sit. Natural waist and a lower garment's selected waistband line are not interchangeable; include the worn rise/waistline reference. |
 | `hip` | Wearer hip circumference; current comment does not name the full girth path. | Woven shirt, skirt and trouser use it to place the hip/seat width; skirt/trouser add shared ease. | UI 60–150, step 1; advisory 60–150. | Define the fullest-hip/seat path, level, posture and relation to the chosen waistline. A single circumference does not specify front/back distribution or body surface shape. |
@@ -171,11 +191,11 @@ made explicit before a new measurement-first path can use them.
 
 | Recipe | Current input fields with body use / actual use | Non-body fields and option controls | Current grade rule | Current POM output names | Fit-contract consequence |
 | --- | --- | --- | --- | --- | --- |
-| **Tee** | `chest`, `shoulderWidth`, `bicep`; `armholeDepth` is required by code but has body-comment/finished-facet conflict. No `neck` input. | `length` = desired HPS–hem; `sleeveLength` = desired cap-top-to-hem; `ease` = shared style control. No recipe options. | Tee rule: chest +5, shoulder +1.2, bicep +1.5, length +2, armholeDepth +0.6, sleeveLength +0.8 cm per step; XS/S/M/L/XL steps −2…+2. | Body chest (finished); Body length (HPS–hem); Across shoulder; Shoulder seam; Armhole (front + back); Neck width; Front neck drop; Sleeve length (cap–hem); Sleeve bicep width; Sleeve hem. | Neck width/depth are chest formulas, shoulder slope is fixed, and sleeve/armhole ease is not body-fit evidence. Need a neck input or explicit reviewed style target before an individualized neckline claim. Resolve `armholeDepth` before using this route. |
-| **Darted tee** | Same body fields and unresolved `armholeDepth` as Tee. | Same three target/control fields as Tee; the front adds a fixed 4 cm dart intake. The apex is positioned from draft proportions (`55%` of half panel width and a fixed fraction of underarm-to-hem distance), not wearer bust-point/shape data. | Same Tee grade rule; fixed dart controls are not independently graded from a body shape record. | Body chest (finished); Body length (HPS–hem); Across shoulder; Shoulder seam; Armhole (front + back); Side seam (dart closed); Bust dart intake; Neck width; Front neck drop; Sleeve length (cap–hem); Sleeve hem. | A dart makes this a shaped pattern, not a bust-fitted body block. Bust point/shape and dart intake/position are not measured or personalized. Keep those facts as later garment-specific contract work. |
-| **Tank** | `chest`, `shoulderWidth`; `armholeDepth` is required by code but unresolved. No wearer neck circumference. | `length` = HPS–hem target; `ease` = shared style control. `strapWidth`, `neckDrop`, and `neckWidthEase` are design controls stored in `Measurements`. | Tee grade keys are reused; body fields present in the rule change; neckline/strap controls remain constant. XS–XL is not user-approved for this custom size. | Body chest (finished); Body length (HPS–hem); Across shoulder; Shoulder seam; Armhole (front + back); Neck width; Front neck drop. | No strap-width POM is generated. Chest-derived neck and unsourced default scoop are not body fit. Require separate explicit choices and later add a strap POM before pack verification. |
-| **Polo** | Same body inputs and unresolved `armholeDepth` as Tee; no wearer neck circumference. | `length`, `sleeveLength`, shared `ease`; eight options in the ledger above. | Tee grade rule. Polo options remain constant over sizes. | Tee POMs except the generic body-length row, plus: Finished placket length; Finished placket width; Button spacing; Finished collar stand height; Finished pointed collar leaf; Stand front rise; Collar point extension; Front side-vent depth; Back side-vent depth; Front body length (HPS–hem); Back body length (HPS–hem); Back hem drop. | Neck/collar geometry is currently based on chest-derived opening rather than wearer neck. 21 POMs are computed draft values, not approved body specs or sewn-sample values. |
-| **Woven shirt** | `neck`, `chest`, `shoulderWidth`, `bicep`, `waist`, `hip`, `hipDepth`; `armholeDepth` is required by code but unresolved. Exact capture landmarks still need review. | `length` = desired body HPS–hem; `sleeveLength` = desired pattern length; `ease` = shared control. Thirteen options in the ledger above. | Woven rule: neck +1.5, chest +5, shoulder +1.2, bicep +1.5, length +2, armholeDepth +0.6, sleeveLength +0.8, waist +5, hip +5, hipDepth +0.5 cm per step. Controls/ease are not graded. | Body chest (finished); Body length (HPS–hem); Neck circumference (pattern); Back yoke depth; Finished placket width; Front button spacing; Patch pocket width; Patch pocket height; Finished sleeve band depth; Side vent depth. | Its neck is a pattern-derived circumference (`neck + neckEase`), not an actual sewn garment measurement. Waist reference must match where it is worn. No POM exists for several body/control inputs; ten POMs do not prove complete measurement coverage. Resolve `armholeDepth` before using this route. |
+| **Tee** | `chest`, `shoulderWidth`, `bicep`; `armholeDepth` is the direct target underarm pattern control; the legacy body comment conflicts with its consumer semantics. No `neck` input. | `length` = desired HPS–hem; `sleeveLength` = desired cap-top-to-hem; `ease` = shared style control. No recipe options. | Tee rule: chest +5, shoulder +1.2, bicep +1.5, length +2, armholeDepth +0.6, sleeveLength +0.8 cm per step; XS/S/M/L/XL steps −2…+2. | Body chest (finished); Body length (HPS–hem); Across shoulder; Shoulder seam; Armhole (front + back); Neck width; Front neck drop; Sleeve length (cap–hem); Sleeve bicep width; Sleeve hem. | Neck width/depth are chest formulas, shoulder slope is fixed, and sleeve/armhole ease is not body-fit evidence. Need a neck input or explicit reviewed style target before an individualized neckline claim. Expose `armholeDepth` as an editable target or visibly accepted block preset; never present it as a body measurement. |
+| **Darted tee** | Same body fields and target underarm control as Tee; no body HPS-to-underarm transform. | Same three target/control fields as Tee; the front adds a fixed 4 cm dart intake. The apex is positioned from draft proportions (`55%` of half panel width and a fixed fraction of underarm-to-hem distance), not wearer bust-point/shape data. | Same Tee grade rule; fixed dart controls are not independently graded from a body shape record. | Body chest (finished); Body length (HPS–hem); Across shoulder; Shoulder seam; Armhole (front + back); Side seam (dart closed); Bust dart intake; Neck width; Front neck drop; Sleeve length (cap–hem); Sleeve hem. | A dart makes this a shaped pattern, not a bust-fitted body block. Bust point/shape and dart intake/position are not measured or personalized. Keep those facts as later garment-specific contract work. |
+| **Tank** | `chest`, `shoulderWidth`; `armholeDepth` is a target pattern coordinate, not a body input. No wearer neck circumference. | `length` = HPS–hem target; `ease` = shared style control. `strapWidth`, `neckDrop`, and `neckWidthEase` are design controls stored in `Measurements`. | Tee grade keys are reused; body fields present in the rule change; neckline/strap controls remain constant. XS–XL is not user-approved for this custom size. | Body chest (finished); Body length (HPS–hem); Across shoulder; Shoulder seam; Armhole (front + back); Neck width; Front neck drop. | No strap-width POM is generated. Chest-derived neck and unsourced default scoop are not body fit. Require separate explicit choices and later add a strap POM before pack verification. |
+| **Polo** | Same body inputs and target underarm control as Tee; no wearer neck circumference. | `length`, `sleeveLength`, shared `ease`; eight options in the ledger above. | Tee grade rule. Polo options remain constant over sizes. | Tee POMs except the generic body-length row, plus: Finished placket length; Finished placket width; Button spacing; Finished collar stand height; Finished pointed collar leaf; Stand front rise; Collar point extension; Front side-vent depth; Back side-vent depth; Front body length (HPS–hem); Back body length (HPS–hem); Back hem drop. | Neck/collar geometry is currently based on chest-derived opening rather than wearer neck. 21 POMs are computed draft values, not approved body specs or sewn-sample values. |
+| **Woven shirt** | `neck`, `chest`, `shoulderWidth`, `bicep`, `waist`, `hip`, `hipDepth`; `armholeDepth` is a target pattern coordinate, not a body input. Exact capture landmarks still need review. | `length` = desired body HPS–hem; `sleeveLength` = desired pattern length; `ease` = shared control. Thirteen options in the ledger above. | Woven rule: neck +1.5, chest +5, shoulder +1.2, bicep +1.5, length +2, armholeDepth +0.6, sleeveLength +0.8, waist +5, hip +5, hipDepth +0.5 cm per step. Controls/ease are not graded. | Body chest (finished); Body length (HPS–hem); Neck circumference (pattern); Back yoke depth; Finished placket width; Front button spacing; Patch pocket width; Patch pocket height; Finished sleeve band depth; Side vent depth. | Its neck is a pattern-derived circumference (`neck + neckEase`), not an actual sewn garment measurement. Waist reference must match where it is worn. No POM exists for several body/control inputs; ten POMs do not prove complete measurement coverage. Expose `armholeDepth` as an editable target or visibly accepted block preset; never present it as a body measurement. |
 | **Skirt** | `waist`, `hip`, `hipDepth`. | `length` = desired waistline-to-hem garment length; `ease` = shared style control. No recipe options. | Skirt rule: waist +4, hip +4, length +1.5 cm per step; hipDepth and ease remain fixed. Same size labels are reused. | Waist (finished); Hip (finished); Length (waist–hem). | This is a straight, dartless skirt block; body waistline reference, target hem length and style are user choices. Hip depth affects geometry but has no output POM. Style “Maxi” reaches 120 cm while the shared UI max is 100 and plausibility warning max is 95. |
 | **Trouser** | `waist`, `hip`, `hipDepth`, `crotchDepth`, `thigh`, `knee`. | `inseam` = desired finished crotch-to-hem seam length; `ease` = shared waist/seat control. Options: front/back rise ease, waistband depth, thigh/knee ease, leg opening, fly length, pocket opening/angle/bag depth/drop. | Trouser rule: waist +4, hip +4, hipDepth +1, crotchDepth +1, thigh +2, knee +1.5, inseam +1.5 cm per step; ease/options remain constant. | Waist (finished); Waistband depth (finished); Seat / hip (finished); Hip depth (body reference); Front rise (finished incl. waistband); Back rise (finished incl. waistband); Thigh (finished); Knee (finished); Inseam (finished seam); Outseam (finished incl. waistband); Leg opening (finished); Front fly length (finished); Left/Right pocket opening (finished); Pocket bag depth/width (finished); Pocket drop (finished placement). | Body thigh and knee capture stations do not have verified mappings: pattern stations use fixed offsets and 52% of inseam. The current finished inseam is not wearer inseam. Do not label the XS–XL run as a personalized approved trouser grade. |
 
@@ -300,11 +320,11 @@ an implicit `STANDARD_M` value may not.
 
 | Recipe | Body facts needed by current draft | Finished targets / style choices also needed | Dependencies that must stay visible or block an individualized claim |
 | --- | --- | --- | --- |
-| Tee | `chest`, `shoulderWidth`, `bicep`; `armholeDepth` is unresolved because source comment and app facet disagree. | HPS-to-hem length, cap-to-hem sleeve length, shared ease. | No neck measurement enters the recipe; neckline comes from chest formula. Shoulder slope is fixed at 4 cm. Current code needs a resolved underarm-depth input before it can draft. |
+| Tee | `chest`, `shoulderWidth`, `bicep`; `armholeDepth` is a target pattern coordinate in this route; only the legacy source comment remains to be migrated. | HPS-to-hem length, cap-to-hem sleeve length, shared ease. | No neck measurement enters the recipe; neckline comes from chest formula. Shoulder slope is fixed at 4 cm. Current code needs a target underarm drop; show it as a user-selected value or visibly accepted block preset, not as a body measure. |
 | Darted tee | Same as Tee. | Same targets and ease; current bust dart is a fixed 4 cm intake with proportion-derived apex. | No bust-point, front/back distribution, or dart-intake user input. The label “fitted” does not prove an individualized bust fit. |
-| Tank | `chest`, `shoulderWidth`; `armholeDepth` meaning unresolved. | HPS-to-hem; `strapWidth`, scoop depth, neckline width per side, and ease. | Neckline is chest-derived; no neck or bicep capture. Fixed armhole curve factor and neckline assumptions remain recipe decisions, not measured facts. |
-| Polo | Same body set as Tee plus unresolved `armholeDepth`. | HPS-to-hem, cap-to-hem sleeve length, ease, and all 8 collar/placket/vent controls. | Neck opening is chest-derived; the three-button positions are fixed. Options remain constant across sizes in current grading. |
-| Woven shirt | `neck`, `chest`, `shoulderWidth`, `bicep`, `waist`, `hip`, `hipDepth`; resolve `armholeDepth` classification. | HPS-to-hem, cap-to-hem sleeve length, site-coupled ease, and all 13 construction controls. | Neck/body path, waistline, hip station and armhole mapping need review. Current code applies one ease scalar at chest/waist/hip and half at bicep. |
+| Tank | `chest`, `shoulderWidth`; `armholeDepth` is a target pattern value, not a body measure. | HPS-to-hem; `strapWidth`, scoop depth, neckline width per side, and ease. | Neckline is chest-derived; no neck or bicep capture. Fixed armhole curve factor and neckline assumptions remain recipe decisions, not measured facts. |
+| Polo | Same body set as Tee plus the target underarm control. | HPS-to-hem, cap-to-hem sleeve length, ease, and all 8 collar/placket/vent controls. | Neck opening is chest-derived; the three-button positions are fixed. Options remain constant across sizes in current grading. |
+| Woven shirt | `neck`, `chest`, `shoulderWidth`, `bicep`, `waist`, `hip`, `hipDepth`; use `armholeDepth` only as the visible target underarm drop. | HPS-to-hem, cap-to-hem sleeve length, site-coupled ease, and all 13 construction controls. | Neck/body path, waistline and hip station need review; underarm drop is a user-selected pattern target, not a body mapping. Current code applies one ease scalar at chest/waist/hip and half at bicep. |
 | Skirt | `waist`, `hip`, `hipDepth`. | Waistline-to-hem target and ease. | Waist reference and fullest-hip path must agree. Current silhouette remains the same straight dartless pattern for every style label. |
 | Trouser | `waist`, `hip`, `hipDepth`, `crotchDepth`, `thigh`, `knee`; thigh/knee level mapping is unresolved. | Finished crotch-seam-to-hem inseam target, shared waist/seat ease, and all 11 construction controls. | Waist/rise level and seated posture need exact guide; thigh station is a fixed 2.5 cm offset, knee is 52% of inseam. Current geometry has not demonstrated that these pattern stations match the captured anatomy. |
 
@@ -329,22 +349,76 @@ blocking behavior:
 | `INVALID` | Non-finite input, a violated structural invariant, self-intersecting pattern, unmatched seam, or unresolvable component geometry. | Preserve entered value and draft state; show the actual failing dependency and correction options. Block downstream pattern/CAD export if geometry is not valid. Do not clamp or silently redraw a different design. |
 
 The user-facing response must name the missing dependency rather than show a
-generic “incomplete” badge:
+generic “incomplete” badge. The actions below describe behavior while a
+qualified capture guide is not yet accepted; they must not imply the proposed
+instructions already passed that review:
 
 | Missing or conflicting value | Exact next action and dependent result |
 | --- | --- |
-| Chest/bust girth | Open the reviewed circumference guide, ask for a repeat or helper reading, and explain which body panel widths and chest-derived neckline formulas depend on it. Do not import the preset. |
-| Shoulder breadth | Show the reviewed endpoint/path illustration and straight-span convention; until supplied, hold shoulder endpoint and corresponding armhole geometry. |
-| Upper-arm girth | Guide a relaxed-arm circumference at an approved level; hold sleeve width/POM personalization while allowing a user-chosen exploratory sleeve target only if labeled as such. |
-| Neck girth for woven shirt | Guide the named neck-base path; show its effect on neckline pattern seam. If the user instead enters a finished neckline target, retain it separately and do not convert it to body neck. Tee, Tank and Polo must state that this body value is not consumed by their current recipe. |
-| `armholeDepth` | Present a two-way semantic conflict (“body HPS-to-underarm depth” vs “finished pattern underarm depth”) with separate storage. Do not preselect or transform either value. Hold measurement-driven fit claim until a qualified designer approves the mapping. |
-| Waist girth / intended wear line | Ask the intended garment waistline first, then measure that body circumference with its capture guide. If this is a finished donor/target waist instead, route to `GARMENT_MEASURE` and record garment state. |
-| Hip/seat girth and hip depth | Guide both values against the same named waist and fullest-hip references. If references differ or are unknown, mark conflict; hold the lower-body hip station and finished circumference result. |
-| Seated crotch depth | Ask/confirm selected waistband line and sitting protocol, then capture the vertical body depth; preserve it separately from finished front/back rise. |
+| Chest/bust girth | Until a qualified guide defines the path, allow it only as an explicitly user-entered, unconfirmed draft parameter; retain the selected path/label and explain that it controls panel widths and a chest-derived neckline formula. Do not import a preset or report fit. |
+| Shoulder breadth | Until the endpoints and straight-span method are reviewed, allow a user-entered draft parameter with its chosen method shown; do not call the shoulder endpoint or armhole fit-personalized. |
+| Upper-arm girth | Until the recipe block names and validates a body station, hold fit-critical sleeve-width personalization. Allow a separately named finished sleeve-width target or accepted preset for exploratory geometry. |
+| Neck girth for woven shirt | Until the neck-base path is reviewed, do not accept it as fit-critical body input. A user may enter a separately named finished neckline target for draft exploration; retain it separately and do not convert it to body neck. Tee, Tank and Polo must state that this body value is not consumed by their current recipe. |
+| `armholeDepth` | Show the current `armholeDepth` only as the user-selected target underarm drop or a visibly accepted named preset. Do not collect it as a body measure. A separate body HPS-to-underarm measurement remains unavailable until its landmarks and transform receive a qualified review. |
+| Waist girth / intended wear line | Ask the intended garment waistline first. Until the circumference path is reviewed, keep any entered value unconfirmed and block fit-oriented status. If this is a finished donor/target waist instead, route to `GARMENT_MEASURE` and record garment state. |
+| Hip/seat girth and hip depth | Until the method-specific path is reviewed, keep both values unconfirmed and block fit-oriented status. Future capture must use the same named wear line, hip level, posture and method; otherwise mark conflict. |
+| Seated crotch depth | Until the waistband reference and seated protocol are reviewed, keep the value unconfirmed and block fit-oriented trouser status; preserve it separately from finished front/back rise. |
 | Thigh/knee girth | Do not ask as fit-critical body measurements until body landmarks align with pattern stations. The present 2.5 cm / 52%-inseam pattern heuristics cannot justify that mapping. A later exploratory design target must be labeled separately. |
 | Desired garment length, sleeve length or inseam | Ask the desired finished target directly or let the user measure/choose from a named reference garment. Identify start/end points and garment state. Never substitute body stature/limb length or a preset silently. |
 | Ease / option / neckline / strap control | Ask the user to choose the intended finished behavior and show the related POM/geometry preview. Any preset or inherited value must be labeled with source and require visible confirmation. |
 | Repeat values disagree | Display each reading and delta with capture method/date; offer remeasure or choose one. No averaging or default substitution. No universal numeric discrepancy threshold is adopted. |
+
+### Measurement-first creation route: deterministic contract
+
+The later UI implements this as a guided route through the existing
+deterministic drafting engine, not a prompt-driven design assistant. The
+requested measurement-first route is fit-oriented and stays unavailable for a
+recipe until its capture and body-to-pattern gates pass. An unconfirmed legacy
+parameter may still be edited in the existing customization workflow for
+exploratory drafting, but that does not qualify the measurement-first route.
+
+1. The user selects a recipe, then chooses either “Build from body
+   measurements” or the existing “Customize all measurements” path. The
+   second path remains unchanged. The first path starts one custom size only.
+2. A recipe dependency table loads its required body fields, finished targets,
+   style controls and construction options. Each field is labeled by semantic
+   kind; the wizard asks only relevant questions. A target such as
+   `TARGET_UNDERARM_DROP` is never presented as a body measurement.
+3. For each body field, the screen shows the accepted, versioned capture guide
+   and records definition ID, units, posture/state, method, precision,
+   provenance, separate repeat observations and user selection. If any
+   required guide or body-to-pattern rule is unaccepted, disable this route for
+   that recipe and name the missing decision. Do not silently fall through to
+   the customization route or present an unconfirmed value as fit input. The
+   existing customization workflow may retain exploratory legacy values only
+   with explicit `UNCONFIRMED` status and a visible warning; a missing value is
+   never filled from `STANDARD_M`.
+4. The deterministic recipe calculates pattern coordinates and calculated
+   POMs using a pinned formula/rule version. It records every input ID and
+   formula dependency. Hard geometry failures block the affected draft/export;
+   advisory warnings remain visible and actionable. No input is silently
+   clamped, averaged, or inferred from sex, gender, a photo, or a nominal size.
+5. The result is one stable custom-size record with a visible input-to-pattern
+   trace, body-input versus finished-target comparison, unresolved dimensions,
+   warnings and editable controls. A passing digital invariant is not fit
+   evidence. The user may continue editing without losing the originating
+   measurements or calculation history.
+6. A separate “Create graded run” operation requires a named and versioned
+   grade rule, source/rationale, base size, labels, sizes/range, per-field and
+   per-POM increments, exceptions, cross-field validation, user review and
+   explicit approval. It may not inherit the current default XS–XL run merely
+   because that rule exists in code. Regrading invalidates dependent outputs
+   and approvals.
+7. Preview and export surfaces carry the same custom-size identity and
+   evidence state. While gates are open, they may say “digital draft from
+   user-entered values”; only accepted fit evidence can authorize a
+   fit-oriented label. C04 owns exact pack/view/export status propagation.
+
+No recipe currently passes the fit-qualified quick-start gate. Future work
+must record a per-recipe qualification matrix rather than enable one global
+switch. G03 owns capture-guide usability and review; G07 owns recipe-specific
+body-to-pattern rules; G09 D02 owns mannequin shape residuals. Passing one gate
+does not imply that the other two passed.
 
 Advisory ranges (including current code guidance bands) must remain distinguishable
 from hard mathematical impossibility, expert-validated technical bounds, and
@@ -433,9 +507,11 @@ existing run as a brand/personal fit grade.
 ## Measurement capture contract and guided flow
 
 The full standards are not licensed into this app. The following is a
-**proposed product protocol**, not a claim of ISO/ASTM conformity; each exact
-landmark illustration and procedure must be reviewed by a qualified technical
-designer before it is called industry-standard.
+**proposed product protocol**, not a claim of ISO/ASTM conformity. It defines
+what the future UI must ask or block; it does not certify a body-to-pattern
+transform or physical fit. The exact guide illustration and each candidate
+landmark method must pass qualified apparel measurement review before the app
+calls that input a fit-critical body measurement.
 
 ### Wearer body measurements
 
@@ -466,29 +542,50 @@ The guided flow should:
    exact missing field and action; preserve the entered value and never clamp
    it. A successful digital check says only that its coded invariant passed.
 
-The proposed measurement session should use a consistent, close-fitting
-clothing state; neutral posture; relaxed muscles; and tape placement that follows
-the named body path without intentional compression. Circumference paths should
-state whether the tape is level/horizontal; straight spans/depths must not be
-silently measured by a curved tape path. These are app-protocol proposals that
-need technical-designer validation against licensed source definitions. They
-must not be copied from a protected standard by guessing.
+The proposed measurement session records a consistent clothing state, posture,
+relaxed/held body state, tape or tool type, self/helper/imported method, date,
+units, entered precision, each repeat and the user's selected reading. Tape
+pressure, path, and arm/leg position are displayed for the selected field.
+The UI does not make every circumference horizontal: the selected definition
+must say which plane/path applies, and the saved record retains that method.
+Straight spans and vertical depths use an explicitly straight reference rather
+than a surface-following tape path. These are product protocol proposals; a
+qualified reviewer must approve each fit-critical guide. Protected figures and
+definitions are neither copied nor guessed.
+
+Two statuses must stay separate. **Digital draft from entered parameters** means
+the deterministic recipe accepted its inputs and built geometry. **Fit-oriented
+measurement capture** additionally requires an accepted capture guide and a
+reviewed body-to-pattern rule for every field that influences that claim. On
+the current evidence, none of the seven recipes earns a body-fit or physical-fit
+claim. A missing guide or transform blocks only that fit-oriented status; it
+must not be hidden by `STANDARD_M`, a nominal size, or a silent default. A
+visibly selected starting preset may supply design targets only after the user
+sees and accepts the preset and can edit it.
 
 ### Body-field capture checklist (proposed guide content)
 
-| Field | Guide must explicitly show | Current gap / precondition |
+| Legacy field / recipe | Future field meaning and user instruction | State and actionable behavior |
 | --- | --- | --- |
-| Neck | Neck-base endpoints/path, head posture and tape level. | Current comment gives “neck base” only; full accepted standard definition unavailable. Woven shirt only currently consumes it. |
-| Chest/bust | Named chest/bust level and horizontal path; tape relation to shoulders/back. | Current comment says “full circumference” only. A neutral label must not imply population or gender. |
-| Shoulder breadth | Exact left/right shoulder landmarks and straight-span vs surface route. | Current UI gives only “shoulder width”; the drafted shoulder slope is hard-coded. |
-| Upper arm | Side/level to measure and arm relaxed state. | “At documented point” is not actually documented in the current app. |
-| HPS-to-underarm depth | HPS and underarm level; vertical direction; arm position. | Numeric geometry maps this to a vertical station, but no body capture illustration is present. |
-| Waist girth | Natural waist or the selected garment waistband line; record which. | Lower garment rise/waist position can change the relevant body contour. |
-| Hip/seat girth | Named fullest hip/seat level and horizontal path. | One girth does not record front/back distribution or shape. |
-| Waist-to-hip depth | Chosen waist reference to the same fullest-hip level; vertical direction. | Must use the same waistline context as waist girth. |
-| Seated crotch depth | Chosen waist reference, seat plane, sitting posture and measurement axis. | Current `crotchDepth` comment does not specify these. |
-| Thigh girth | Exact leg level relative to named anatomical landmarks and stance. | Current draft's thigh station is a code offset, not demonstrated as this body level. |
-| Knee girth | Knee level and leg posture, with left/right policy if asymmetric. | Current draft station is 52% of inseam; no validated body mapping. |
+| `neck` / Woven shirt | Candidate `BODY_NECK_BASE_GIRTH`: full circumference on one named neck-base path; guide must show front, side and back reference points, head state, tape route and tool. Do not substitute neck girth at another level. | **Guide blocked.** Current source says only “neck base”; the exact path is not in our licensed evidence. Keep it unresolved or use an explicitly selected `PRESET` target; never infer it from chest or gender. |
+| `chest` / Tee family, Tank, Polo, Woven shirt | Split the generic future input into a named upper-body girth definition (for example, chest-path vs bust-path) chosen by the user, with the chosen path shown in a front/back diagram. Store the definition ID with the value; do not infer a path from sex/gender, body appearance, or a size label. | **Guide blocked for fit claims.** Current scalar omits level and front/back shape. If manually entered for a digital draft, display its unverified path and preserve it as user supplied. A scalar girth cannot reconstruct bust projection or torso cross-section. |
+| `shoulderWidth` / sleeved tops, Tank | Candidate `BODY_SHOULDER_BREADTH`: straight left-to-right span between the two shoulder-point landmarks, body upright and arms relaxed; measure as a straight breadth, not as a tape following the shoulder surface. Save whether a helper, straightedge or other method was used. | **Proposed method; technical review required.** The source says shoulder point to shoulder point; it does not define exact endpoint localization or validate posture repeatability. Shoulder slope remains a separate unsourced draft constant. |
+| `bicep` / sleeved tops | Candidate `BODY_UPPER_ARM_GIRTH`: full circumference at the explicitly marked level used by the selected sleeve block, arm relaxed and not flexed; mark which arm and method. Do not silently use “largest upper arm” if the block uses another station. | **Station unresolved.** The current sleeve relation uses one circumference but does not store its vertical body station. Until the block names it, ask for a user-selected finished sleeve width or show an accepted named preset, not a fit-critical body value. |
+| `armholeDepth` / all upper recipes | `TARGET_UNDERARM_DROP`: vertical pattern distance from HPS origin to the drafted underarm station. Show the target on the block; let the user edit it. | **Target only.** This is not a measurement-wizard question. A separate HPS-to-underarm body record and conversion rule are future work. |
+| `waist` / Woven shirt, Skirt, Trouser | `BODY_GIRTH_AT_WEAR_LINE`: the user first positions and confirms the intended garment waistband line; record its front/side/back location, then take the full girth following the named contour at that line in a relaxed standing state. Do not substitute natural waist unless the user selects that wear line. | **Product choice; capture guide still needs expert review.** This avoids an implicit natural-waist assumption. If the selected line or path is unclear, retain `UNRESOLVED` and block fit-oriented status. |
+| `hip` / Woven shirt, Skirt, Trouser | Candidate `BODY_GIRTH_AT_SELECTED_SEAT_LEVEL`: mark the selected fullest hip/seat path in the required posture, record the tape plane/path and user's selected level. Do not treat one girth as front/back body shape. | **Method-dependent.** Gill & Parker and Veitch document definition/posture sensitivity. The guide must explain how this path was selected; no universal “largest” or horizontal plane is assumed without that rule. |
+| `hipDepth` / Woven shirt, Skirt, Trouser | Candidate `BODY_WEAR_LINE_TO_HIP_LEVEL`: vertical distance from the same selected wear line to the same hip/seat level used for `hip`; use a straight vertical reference and save both endpoints. | **Proposed method; technical review required.** Never combine a waist from one wear line with a hip depth from another. A computed pattern POM is not a second body reading. |
+| `crotchDepth` / Trouser | Candidate `BODY_SEATED_WAIST_TO_SEAT_DEPTH`: user confirms the waistband line, then sits upright on a hard, level seat with feet supported and thighs in the guide's shown position; record the vertical waist-line-to-seat-plane distance and method. | **Not sufficient for fitted trousers.** Current drafting applies one scalar to front and back rise; it does not capture front/back balance, abdomen/seat projection, or crotch curve. Keep digital draft status separate and require later trouser-block review. |
+| `thigh` / Trouser | No body-capture instruction is approved until the pattern thigh station has a named anatomical mapping. If the user edits current geometry, name the control `TARGET_FINISHED_THIGH_GIRTH` and show its station on the pattern. | **Fit-critical input blocked.** Current `thighY = backCrotchY + 2.5 cm` is a pattern heuristic, not a body landmark. Do not call the legacy value an exact body thigh circumference in the new route. |
+| `knee` / Trouser | No body-capture instruction is approved until the pattern knee station has a named anatomical mapping and side/asymmetry policy. If the user edits current geometry, name the control `TARGET_FINISHED_KNEE_GIRTH` and show its station. | **Fit-critical input blocked.** Current `kneeY = backCrotchY + 0.52 × inseam` is a pattern heuristic, not a body knee landmark. |
+
+All candidate capture instructions above are first-party product policy, not
+claims that current software implements them or that they match a paid standard.
+`NOT_ASSESSED` is the confidence state until a repeatability and validity study
+establishes a method-specific model. Keep self, helper and imported values as
+distinct provenance; if two readings disagree, show both and ask the user to
+remeasure or choose one. No auto-average, tolerance or confidence score is
+supported by the sources reviewed here.
 
 Finished targets need separate edit controls and labels: HPS-to-hem body
 length; waistline-to-hem skirt length; sleeve cap-to-hem length; finished trouser
@@ -573,7 +670,7 @@ above are cross-checkable in the source modules and C01 PDF/render inventory.
 | --- | --- | --- | --- |
 | Tee | Recipe fields listed above; all finite. | User-selected length/ease/sleeve length; neck opening from chest formula; fixed shoulder slope; default fabric-ease guidance does not alter ease. | Three named pieces with stitches/allowances/marks; 10 geometry-derived POMs; digital seam/shape checks; style intervals; code grade run; static BOM/steps; schematic views and exports. |
 | Darted tee | Tee inputs. | Fixed 4 cm dart intake and proportion-derived apex; no wearer bust-point or body-shape input. | Darted front plus shared tee back/sleeve; 11 geometry-derived POMs including dart intake; same source/status limits as Tee. |
-| Tank | Chest, shoulder, HPS-to-underarm depth, body/design fields, and three current design controls. | Neck comes from chest formula; front scoop drop/width and strap span are design values. No output strap POM. | Two named panels; 7 geometry-derived POMs; tank-specific guardrails; shared upper-body grade; binding/material BOM variant; no sleeve. |
+| Tank | Chest, shoulder, target underarm drop, body/design fields, and three current design controls. | Neck comes from chest formula; front scoop drop/width and strap span are design values. No output strap POM. | Two named panels; 7 geometry-derived POMs; tank-specific guardrails; shared upper-body grade; binding/material BOM variant; no sleeve. |
 | Polo | Tee body set plus eight options. | Neck opening derived from chest; all collar/placket/vent values are style/construction values; options remain fixed across sizes. | Nine-piece block; 21 geometry-derived POMs; construction guidance; option-aware steps; shared tee grade; visual/PDF output remains governed by C01/C04 legibility findings. |
 | Woven shirt | Neck, chest, shoulder, bicep, length, armhole depth, sleeve length, waist, hip, hip depth, ease, plus thirteen options. | Body length and sleeve length are target specs; `neckEase` is a design control; defaults are not material or population evidence. | Twelve named pieces; 10 geometry-derived POMs; 14 current digital checks from C01; woven body grade; option-aware BOM/construction text. |
 | Skirt | Waist, hip, hip depth, desired waistline-to-hem length, ease. | Straight dartless block only; silhouette presets do not create other skirt geometries. | Three pieces; 3 POMs; six digital checks from C01; rule changes waist/hip/length only; static material/construction basis. |
@@ -583,14 +680,17 @@ above are cross-checkable in the source modules and C01 PDF/render inventory.
 
 | Topic | Established fact / product decision | Unresolved fact and owner/gate |
 | --- | --- | --- |
-| Standard terminology | ASTM D5219-25's public scope identifies it as apparel-sizing body-dimension terminology; ASTM D5585-21 and D6240/D6240M-24a are examples of population- and range-specific body tables. NISTIR 5411 (1994) compiled 91 dimensions from five sources and describes differences in methods, reference systems and populations. C02 records licensed-text limits. | InfiniDrip's target population, exact independently authored capture definitions, and expert-approved guide diagrams remain unselected. C03/measurement specialist; no standards-compliance label. |
+| Standard terminology | ASTM D5219-25's public scope identifies it as apparel-sizing body-dimension terminology; ISO 8559-1:2017 is the apparel-specific anthropometric reference for later capture-guide work. D5585/D6240 are population/range-specific; NISTIR 5411 (1994) compared five sources and documents method/reference/population differences. C02 records the licensing boundary. | C03 defines product semantics but does not reproduce protected text/figures or claim conformity. A qualified apparel-measurement reviewer must approve fit-critical diagrams/methods in G03; body-shape residuals belong to G09 D02; recipe station/body-shape mapping remains with G07 garment packets. |
 | Consumer measurement error | Yoon & Radwin's 1994 controlled study of 103 women found dimension-dependent consumer errors from −4.54 to +6.15 cm; self-measures had greater absolute error than partner measures, and hip circumference was under-measured on average. | It is an older, limited sample, not a current universal error model. It justifies visible method/repeats and honest confidence, not a numeric pass threshold. Usability/measurement study must set any future thresholds. |
+| Online clothing measurement guidance | Wren (2024) compared retailer instructions with anthropometric guidance and observed 30 participants taking measurements; unclear visuals/text led to differing interpretations and significant participant-technician differences for bust/chest and hip in this exploratory sample. | It is a small, exploratory study, not a validated design template or universal error model. It supports field-specific landmarks, accessible wording, realistic posture illustrations and usability testing before a guide is called accepted. |
+| Self-measurement after instruction | Barrios et al. (2016) studied 41 participants using a paper tape and brief online video for waist, hip and neck circumferences; reported high repeatability and agreement with technician measures in that protocol. | This was a clinical/body-composition context and selected sample, not garment fit validation. It shows instructions can improve a specific self-measure method; it does not establish transfer to apparel measurement paths, fit, or universal confidence thresholds. |
+| Waist/hip path and posture | Veitch (2012) reports discrepancies between two waist definitions and between tape/software in a scoped 90-woman sample; a subgroup's waist path was not horizontal. Gill & Parker (2017) report hip girth changes with scan posture in 64 participants. | Keep a user-confirmed wear line, named path, posture and method with each record. The studies do not prove one preferred path for every body or recipe; no universal horizontal-curve assumption is adopted. |
 | Body shape | A finite measurement vector does not uniquely define a 3D surface; C05 records statistical shape priors, fitting residuals and hidden dimensions. | Body preset basis, fit residual threshold and commercial mesh rights are C05/G09 gates; no “exact body” claim from a few circumferences. |
 | Default values | `STANDARD_M` seeds tests and the app control panel; `Measurements` has no source/provenance attributes. | User input/preset import and privacy model need a future profile/storage slice; do not treat defaults as measured or approved. |
-| One-size path | Maintainer selected one custom size first; grading needs separate rules. | Current app always has a default grade run. Future quick route must bypass it unless a profile and explicit user approval are present. Implementation belongs to later measurement/grading work, not this contract. |
-| Ease | Current code uses one shared scalar at multiple body sites; fabric family produces advice only. | Approved site-specific ease and material-property mapping need garment/fabric expert input and later recipe work. |
-| Lower-body stations | Code uses hipDepth, a 2.5 cm thigh offset, 52%-inseam knee station, seated depth and finished inseam. | Exact anatomical mappings for thigh/knee and rise/waist position need a trouser specialist and later G09/G06-specific recipe work. |
-| Donor tiers | C06 supports photo exploration, assembled-garment screening and confirmed-panel cut feasibility as separate levels. | Recipe-specific Tier-2 dependency maps and Tier-3 tracing/nesting acceptance belong to later G10/upcycling and pattern/CAD work. |
+| One-size path | Maintainer selected one custom size first; grading needs a separately named and approved rule. | G03 must bypass the current default XS–XL run unless the user selects a grade contract with source, size labels, per-value changes and approval. No custom base is silently called “M.” |
+| Ease | Current code uses one shared scalar at multiple body sites; fabric family produces advice only. | G03 separates body measurements from site-specific finished targets; G07 recipe work and material-source evidence must validate per-location ease before fit claims. |
+| Lower-body stations | Code uses hipDepth, a 2.5 cm thigh offset, 52%-inseam knee station, one seated depth and finished inseam. | G07 trouser-block work must define front/back balance, crotch shape, thigh/knee landmarks and station mapping. G09 D02 may display a measurement-constrained avatar but cannot cure missing pattern correspondence. |
+| Donor tiers | C06 supports photo exploration, assembled-garment screening and confirmed-panel cut feasibility as separate levels. | G10 U02 owns source-specific measurement instructions; U03 owns source-to-target mapping; U04 owns panel cut feasibility. Photo-only input remains exploratory and never silently supplies dimensions. |
 | Physical verification | No InfiniDrip garment is recorded as sewn/fit-validated. | Physical sample, material, wash, population and factory acceptance remain held for the maintainer's separate reopening. |
 
 ## Sources and evidence
@@ -652,11 +752,36 @@ above are cross-checkable in the source modules and C01 PDF/render inventory.
   body circumference. This supports preserving named path, posture and source
   method as part of a measurement record; it does not supply a universal
   InfiniDrip hip definition or an error threshold.
+- Veitch, D. (2012), “Where is the human waist? Definitions, manual compared to
+  scanner measurements,” *Work*, 41(Suppl. 1), 4018–4024,
+  [DOI 10.3233/WOR-2012-0065-4018](https://doi.org/10.3233/WOR-2012-0065-4018).
+  The paper compared two waist definitions and tape vs software-extracted
+  measurements in 90 adult women drawn from a breast-reduction study; it
+  reports substantial definition/instrument discrepancies and that waist was
+  not horizontal for a significant subgroup. The author was affiliated with
+  SHARP Dummies. Treat it as evidence that “waist” needs a named path and tool,
+  not as a universal protocol or representative population model.
 - Yoon, J. C. & Radwin, R. G. (1994), “The Accuracy of Consumer-Made Body
   Measurements for Women's Mail-Order Clothing,” *Human Factors*, 36(3),
   [DOI 10.1177/001872089403600311](https://doi.org/10.1177/001872089403600311).
   The study's 103-woman sample and method/error limits are summarized above;
   do not extrapolate it into modern population-wide measurement tolerances.
+- Wren, P. (2024), “Consumers' interaction with online fashion retailers'
+  body measurement guidance,” *Journal of Fashion Marketing and Management*,
+  28(6), [DOI 10.1108/JFMM-05-2023-0137](https://doi.org/10.1108/JFMM-05-2023-0137).
+  In an exploratory study with 30 participants, retailer guidance was less
+  detailed than anthropometric guidance; differing interpretation produced
+  significant bust/chest and hip differences between participant and technician
+  measurements. Use this to require explicit visuals, endpoints and usability
+  testing, not as a universal accuracy estimate.
+- Barrios, P., Martin-Biggers, J., Quick, V. & Byrd-Bredbenner, C. (2016),
+  “Reliability and criterion validity of self-measured waist, hip, and neck
+  circumferences,” *BMC Medical Research Methodology*, 16, 49,
+  [DOI 10.1186/s12874-016-0150-2](https://doi.org/10.1186/s12874-016-0150-2).
+  The 41-participant study found high repeatability and technician agreement
+  after a brief video protocol for those circumferences in its research
+  context. Its clinical purpose and selected sample do not validate clothing
+  fit measurements or InfiniDrip's capture instructions.
 - Lee, Y. T. T. (1994), [NISTIR 5411, *Body Dimensions for
   Apparel*](https://doi.org/10.6028/NIST.IR.5411), a historical compilation
   comparing five different sources and organizing 91 apparel body dimensions;
@@ -694,22 +819,38 @@ above are cross-checkable in the source modules and C01 PDF/render inventory.
 - Korosteleva et al. (2025), [Rags2Riches project and paper](https://korosteleva.com/publication/rags2riches/),
   panel/pattern-based reuse, not uncalibrated photo-only conversion.
 
-## Slice 221 review checklist (still pending)
+## Slice 222 review record and exit boundary
 
-- Review the 18-field ledger, seven recipe dictionaries, 32 `GarmentOptions`
-  rows plus the 3 Tank controls stored in `Measurements` (35 adjustable
-  controls total), style intervals, grade rules, POM lists and cross-field
-  checks directly against their source declarations; the current packet has
-  a first pass, not a second-person accepted audit.
-- Confirm every landmark/path, posture/state and fit-critical meaning with an
-  appropriately qualified apparel measurement reviewer. The standards text is
-  not licensed, and armhole/thigh/knee mappings remain explicit blockers; do
-  not label this packet ready for implementation until those owners decide or
-  retain the fields as non-fit-claim targets.
-- Review exact donor Tier-2 dependency generation against C06 and the later
-  G10 upcycling contract; review mesh residual and body-shape evidence against
-  C05/G09.
-- Run the reproducible option/range/source cross-check and inspect all local
-  links; run `git diff --check` and required Control Center tests.
-- Keep C03 In Progress and C04/final review Backlog until the reviewed packet,
-  owner decisions, board evidence hash and C03 exit criteria are all accepted.
+- The source/code review rechecked the 18 numeric legacy fields, seven recipe
+  input and output maps, 32 `GarmentOptions` plus 3 Tank controls (35
+  adjustable controls), style intervals, grade inputs, POM names, UI ranges,
+  advisory bounds and cross-field rules against the current drafting/UI
+  declarations. These are code facts; this review does not call them validated
+  apparel standards or fit rules.
+- The review reconciles C01's actual draft/pack evidence, C02's terminology and
+  rights boundary, C05's measurement-to-shape residual limits, and C06's three
+  donor evidence tiers. Body-measure fields without accepted paths or
+  body-to-pattern rules are expressly blocked from fit qualification, with an
+  actionable draft-only behavior and a downstream owner recorded above.
+- Public research was extended with Wren (2024), a clothing-specific exploratory
+  study of retailer measurement guidance (30 participants), and Barrios et al.
+  (2016), a small self-measurement study following a brief video protocol.
+  These support field-specific, clear instructions and validation; neither
+  transfers a universal accuracy threshold to InfiniDrip.
+- Codex performed the source/code re-read and reconciled the contract. No
+  independent external apparel measurement practitioner reviewed this packet.
+  That is not represented as completed: qualified review of fit-critical
+  illustrations/protocols is a G03 gate, recipe/body-to-pattern validation is
+  a G07 gate, and mannequin residual limits are a G09 D02 gate.
+- The field/route contract intentionally remains non-fit-qualified. A missing
+  paid-standard license or third-party review is not silently treated as
+  approval; the app may not expose a fit claim for a blocked field/recipe.
+- C03's deliverable is the source-aware contract and complete behavior for
+  known and unresolved cases. It does not accept any unreviewed field guide,
+  certify a body-to-pattern mapping, enable the measurement-first feature, or
+  claim measured fit. Those are later implementation/validation gates, not
+  hidden prerequisites to documenting this contract boundary.
+- This review supports C03 closure only when its complete contract is linked
+  as verified SHA-256 board evidence and all acceptance criteria pass. C04
+  remains blocked until that recorded transition; final review remains blocked
+  until C04 and the four parallel evidence exits are Done.

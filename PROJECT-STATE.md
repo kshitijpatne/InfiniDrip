@@ -1,13 +1,13 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 221 drafts the C03 measurement and donor-capture contract,
+_Last updated: Slice 222 accepts the C03 contract and starts C04,
 2026-09-24._
-Current directive: C01, C02, C05, and C06 and their evidence lanes B–D are
-reviewed and Done. Slice 221 records the first source-cross-checked C03 draft;
-C03 remains In Progress pending a second review and explicit disposition of
-measurement-definition blockers. C04 depends on accepted C03; final review
-depends on the four accepted packets and C04. Continue in that strict order
-without another start prompt. Current board revision is 231.
+Current directive: C01, C02, C05 and C06 and evidence lanes B–D are Done. C03
+is Done with verified SHA-256 contract evidence; it defines the measurement,
+one-size/grade, capture and donor tiers while explicitly withholding unearned
+fit claims. C04 is In Progress; G01 final review remains Backlog behind C04 and
+the four accepted packets. Continue in that strict order without another start
+prompt. Current board revision is 236.
 Detailed records and the sequence map
 are in `ops/control-center/data/board.json`,
 `docs/planning/EPIC-14-ADMISSION.md`, and
@@ -805,6 +805,37 @@ criteria are not yet complete. Slice 222 must independently audit the packet,
 re-run code-to-contract checks and links, and determine whether the exact
 capture contract can be accepted with the identified gates or requires another
 bounded research/decision slice first.
+
+### Slice 222 — accept the C03 measurement/donor contract and activate C04
+
+The source/code review closed the C03 contract against its six board criteria.
+It reconciles all 18 legacy measurement fields, seven recipe input/output and
+grade maps, 32 `GarmentOptions` plus three Tank controls, style intervals,
+POMs, range guardrails, cross-field checks, provenance, and the C01/C02/C05/C06
+evidence. It now specifies the deterministic one-size route, separate grade
+approval, per-field unresolved behavior, and three upcycling evidence tiers.
+No user-facing AI, product code, paid standard, supplier contact or physical
+sampling was introduced.
+
+The review added clothing-specific evidence from Wren (2024) on how users
+interpret retailer measurement guidance and Barrios et al. (2016) on a specific
+self-measurement protocol. Neither study validates InfiniDrip fit. No external
+apparel measurement practitioner reviewed this packet; fit-critical guide
+approval remains G03, recipe/body-to-pattern validation G07, and avatar
+residual validation G09 D02. The accepted C03 artifact is a complete contract,
+not a claim that any current recipe has an accurate fit-qualified quick-start.
+Unaccepted measurement paths keep that route unavailable, and the later
+physical-fit boundary remains held.
+
+The C03 document's local links and `git diff --check` pass. The Control Center
+suite exposed and then fixed a stale current-state assertion; it now checks
+C03 Done, C04 In Progress, final review Backlog, plus the exact SHA-256 of the
+C03 document referenced by the board. The post-fix suite passed 33/33. Board
+revision 236 records `EPIC-14-C03` Done with evidence
+`E-EPIC14-C03-S222` (SHA-256
+`5892e55d070498153c3c4176889ad9cce1fed0e91ef897d508bca7d1c7c5a95e`) and
+`EPIC-14-C04` In Progress; final G01 review remains Backlog. Slice 223 is C04's
+first contract/research slice.
 
 ### Post-merge PR audit — 2026-09-21
 

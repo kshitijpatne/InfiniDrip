@@ -93,7 +93,7 @@ _The G01–G16 ranges sum to approximately 176–272 landed slices, including th
 
 ### Canonical Epic numbering and board ownership
 
-Epic 13 is the last completed numbered Epic and groups the nine accepted pre-garment phases. Epic 12 remains open for deferred launch-backed work. The future capability goals were initially tracked as `CAPABILITY-G01` through `CAPABILITY-G17`; the canonical Control Center now gives them numbered Epic records and goal cards. Existing dependency references were migrated through the validated command layer; old IDs in historical decisions, evidence and notes remain historical aliases. On 2026-09-24 the maintainer admitted Epic 14 for the four immediate evidence packets below; the other numbered Epics remain **Backlog**. C01/C02/C05/C06 and lanes B–D are Done; Lane A is In Progress with C03 active. Lane E stays held under Epic 20. Admission authorizes only the recorded evidence and contract work; it does not authorize garment code, spending, supplier contact or physical sampling.
+Epic 13 is the last completed numbered Epic and groups the nine accepted pre-garment phases. Epic 12 remains open for deferred launch-backed work. The future capability goals were initially tracked as `CAPABILITY-G01` through `CAPABILITY-G17`; the canonical Control Center now gives them numbered Epic records and goal cards. Existing dependency references were migrated through the validated command layer; old IDs in historical decisions, evidence and notes remain historical aliases. On 2026-09-24 the maintainer admitted Epic 14 for the four immediate evidence packets below; the other numbered Epics remain **Backlog**. C01/C02/C05/C06 and lanes B–D are Done; Lane A is In Progress with C03 Done and C04 active. Lane E stays held under Epic 20. Admission authorizes only the recorded evidence and contract work; it does not authorize garment code, spending, supplier contact or physical sampling.
 
 | Goal | Numbered Epic | Goal | Numbered Epic | Goal | Numbered Epic |
 | --- | --- | --- | --- | --- | --- |
@@ -106,13 +106,13 @@ Epic 13 is the last completed numbered Epic and groups the nine accepted pre-gar
 
 | Lane | Control Center item | Type / status | Owning Epic | Packet scope and later destination |
 | --- | --- | --- | --- | --- |
-| A | `EPIC-14-LANE-A` | task / In Progress | EPIC-14 · G01 | C03 is active; C04 waits on C03. Together they define shared measurement, pack and CAD contracts for later goals. |
+| A | `EPIC-14-LANE-A` | task / In Progress | EPIC-14 · G01 | C03 was accepted in Slice 222; C04 is active and final G01 review waits on C04. Together they define shared measurement, pack and CAD contracts for later goals. |
 | B | `EPIC-14-LANE-B` | research / Done | EPIC-14 · G01 | C01–C02 seven-recipe and professional parity evidence; informs A and the garment lane. |
 | C | `EPIC-14-LANE-C` | research / Done | EPIC-14 · G01 | C05 3D feasibility and proof thresholds; later implementation belongs to EPIC-22 · G09. |
 | D | `EPIC-14-LANE-D` | research / Done | EPIC-14 · G01 | C06 starter, assortment, upcycling and supplier evidence; later work belongs to G06/G08/G10/G11. |
 | E | `EPIC-20-LANE-E` | task / Backlog | EPIC-20 · G07 | G01S casual shorts; executable only after explicit garment-direction approval and relevant C01/C03 findings. |
 
-The lanes are child work packets, not five additional Epics. The maintainer admitted C01/C02/C05/C06 on 2026-09-24; all four are now accepted in disjoint evidence work. Slice 220 activated Lane A and C03 after those exits. E has the stronger garment-direction gate. Board dependencies point to completed Phase 9 as the earliest entry point, while each lane retains its stronger decision and integration gates.
+The lanes are child work packets, not five additional Epics. The maintainer admitted C01/C02/C05/C06 on 2026-09-24; all four are accepted in disjoint evidence work. Slice 220 activated Lane A and C03 after those exits; Slice 222 accepted C03 and started C04. E has the stronger garment-direction gate. Board dependencies point to completed Phase 9 as the earliest entry point, while each lane retains its stronger decision and integration gates.
 
 _A work lane may research ahead of its code dependency; its output cannot change the live product until the dependency and maintainer gates pass. This is the admitted first post-Phase-9 evidence allocation. These are parallel work packets, not concurrent writes to shared contracts._
 
@@ -151,7 +151,7 @@ _No entire G01–G16 epic is fully outsourced: each crosses the common design re
 
 ### Epic 14 execution order and parallel boundaries
 
-The sequence diagram was shown and its live dependencies were confirmed before the first Epic 14 slice on 2026-09-24. C01, C02, C05, and C06 passed review and were accepted in Slices 216–219. Slice 220 created individual C03, C04, and G01 final-review records and activated C03; C04 and final review remain queued behind their dependencies. They execute serially in that order without another start prompt. C03 consumes all four accepted packets; C04 waits for C03; final review waits for C04 and all four packet exits. The diagram remains the execution map for stable packet IDs and does not reserve landed slice numbers. G01's 5–8-slice estimate is a conditional forecast and will be re-estimated from actual work. Codex reserves each unique `Slice N` at execution, integrates one change at a time, and keeps shared contracts and the Epic exit in one review path. Read-only research and asset/proof evidence may proceed in parallel only with disjoint ownership.
+The sequence diagram was shown and its live dependencies were confirmed before the first Epic 14 slice on 2026-09-24. C01, C02, C05 and C06 passed review in Slices 216–219; Slice 220 created individual C03, C04 and G01 final-review records and activated C03. Slice 222 accepted C03 and activated C04; final review remains queued behind C04. The tasks execute serially in that order without another start prompt. C03 consumes all four accepted packets; C04 depends on C03; final review depends on C04 and all four packet exits. The diagram remains the execution map for stable packet IDs and does not reserve landed slice numbers. G01's 5–8-slice estimate is a conditional forecast and will be re-estimated from actual work. Codex reserves each unique `Slice N` at execution, integrates one change at a time, and keeps shared contracts and the Epic exit in one review path. Read-only research and asset/proof evidence may proceed in parallel only with disjoint ownership.
 
 ```mermaid
 flowchart TD

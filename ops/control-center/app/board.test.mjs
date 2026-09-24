@@ -1,7 +1,13 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
+import { readFileSync } from "node:fs";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import board from "../data/board.json" with { type: "json" };
 import { canTransition, filterItems, filterOptions, renderCreateForm, renderDetail, renderItemList, renderSummary, safeText, summarizeBoard, validateBoard } from "./board.mjs";
+
+const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../../..");
 
 test("canonical board validates and summarizes its tracked work", () => {
   const result = validateBoard(board);
@@ -88,12 +94,19 @@ test("admitted Epic 14 and its active research lanes match the future backlog", 
   const c03 = board.workItems.find((entry) => entry.id === "EPIC-14-C03");
   const c04 = board.workItems.find((entry) => entry.id === "EPIC-14-C04");
   const finalReview = board.workItems.find((entry) => entry.id === "EPIC-14-G01-FINAL-REVIEW");
-  assert.equal(c03?.status, "In Progress");
-  assert.equal(c04?.status, "Backlog");
+  assert.equal(c03?.status, "Done");
+  assert.equal(c04?.status, "In Progress");
   assert.equal(finalReview?.status, "Backlog");
   assert.deepEqual(c03?.dependencies, ["PREQUEUE-PHASE-09", "EPIC-14-C01", "EPIC-14-C02", "EPIC-14-C05", "EPIC-14-C06"]);
   assert.deepEqual(c04?.dependencies, ["PREQUEUE-PHASE-09", "EPIC-14-C03"]);
   assert.deepEqual(finalReview?.dependencies, ["PREQUEUE-PHASE-09", "EPIC-14-C01", "EPIC-14-C02", "EPIC-14-C05", "EPIC-14-C06", "EPIC-14-C03", "EPIC-14-C04"]);
+  const c03Evidence = board.evidence.find((entry) => entry.id === "E-EPIC14-C03-S222");
+  assert.ok(c03?.evidenceRefs.includes(c03Evidence?.id));
+  assert.equal(c03Evidence?.verified, true);
+  assert.equal(c03Evidence?.kind, "document");
+  assert.match(c03Evidence?.sha256 ?? "", /^[a-f\d]{64}$/);
+  const c03Document = readFileSync(resolve(projectRoot, c03Evidence.uri));
+  assert.equal(createHash("sha256").update(c03Document).digest("hex"), c03Evidence.sha256);
   const shorts = board.workItems.find((entry) => entry.id === "EPIC-20-LANE-E");
   assert.equal(shorts?.epicId, "EPIC-20");
   assert.equal(shorts?.status, "Backlog");

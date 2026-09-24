@@ -95,11 +95,12 @@ snapshots; they are not current status.
 - `docs/planning/EPIC-14-ADMISSION.md` — the maintainer-admitted C01/C02/C05/C06
   evidence wave, its individual exits, conditional targets, and preserved
   product/supplier/sampling boundaries.
-- `docs/research/epic14/` — reviewed evidence packets for C01 recipe baseline,
-  C02 standards and tools, C05 3D feasibility, and C06 starter/assortment/
-  upcycling/supplier evidence, plus the active C03 measurement/donor-contract
-  draft. Read packet evidence before downstream C03/C04 contracts or any later
-  feature implementation; `PROJECT-STATE.md` records which packet is accepted.
+- `docs/research/epic14/` — accepted evidence packets for C01 recipe baseline,
+  C02 standards and tools, C05 3D feasibility, C06 starter/assortment/upcycling/
+  supplier evidence, and C03 measurement/donor contract. C04 is the active
+  technical-pack/CAD contract; final G01 review follows it. Read accepted
+  packets before downstream contract work or feature implementation;
+  `PROJECT-STATE.md` and the canonical board record current status.
 - `docs/planning/COMPONENT-ARCHITECTURE.md` — design rationale and migration plan.
   Use `PROJECT-STATE.md` for which phases are actually complete.
 - `docs/planning/SLICES-BRIEF.md` — reusable slice-planning brief. It is a
