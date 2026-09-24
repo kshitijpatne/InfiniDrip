@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 220,
-  "updatedAt": "2026-09-24T08:47:58.565Z",
+  "revision": 229,
+  "updatedAt": "2026-09-24T08:53:03.729Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -123,7 +123,7 @@
       "title": "EPIC-14: G01 — Admission and professional baseline",
       "status": "In Progress",
       "owner": "Codex",
-      "description": "Admitted 2026-09-24 for C01, C02, C05, and C06 parallel evidence packets. After all four are accepted, create and execute C03, C04, and G01 final review serially in that order. Full sequence and exit gates: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md and docs/planning/EPIC-14-ADMISSION.md. No new garment, user-facing AI designer, spend, supplier contact, hosted service, physical sampling, or production-readiness claim is admitted.",
+      "description": "Active G01 admission and professional baseline. C01/C02/C05/C06 parallel evidence is accepted. Separate child records EPIC-14-C03, EPIC-14-C04, and EPIC-14-G01-FINAL-REVIEW are queued in dependency order; C03 is active, C04 waits on C03, final review waits on all four packets and C04. See docs/planning/END-TO-END-CAPABILITY-ROADMAP.md and docs/planning/EPIC-14-ADMISSION.md. No new garment, user-facing AI designer, spend, supplier contact, hosted service, physical sampling, or production-readiness claim is admitted.",
       "evidenceRefs": [
         "E-EPIC14-ADMISSION"
       ]
@@ -2382,7 +2382,7 @@
         "100% coverage",
         "maintainer gates"
       ],
-      "description": "Active G01 admission and professional baseline. Four immediate parallel research packets are C01, C02, C05, and C06. After their individual exits are accepted, C03, C04, and G01 final review are executed serially in that order. C03 consumes all four packets; C04 depends on C03; final review depends on C04 and all packet exits. Scope, sources, and gates: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md and docs/planning/EPIC-14-ADMISSION.md.",
+      "description": "Active G01 admission and professional baseline. The C01/C02/C05/C06 parallel evidence wave is accepted. Child tasks EPIC-14-C03, EPIC-14-C04, and EPIC-14-G01-FINAL-REVIEW are tracked individually in sequence; C03 is active, C04 waits for C03, and final review waits for C04 plus all four evidence exits. Scope and gates: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md and docs/planning/EPIC-14-ADMISSION.md.",
       "expectation": "A-01–A-12 ownership, acceptance thresholds and unresolved facts recorded; professional parity matrix and scope decisions accepted.",
       "acceptanceCriteria": [
         "Complete every G01 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
@@ -2436,6 +2436,11 @@
           "at": "2026-09-24T08:39:38.156Z",
           "actor": "Codex",
           "text": "Updated Epic metadata (description: Admitted 2026-09-24 for C01, C02, C05, and C06 parallel evidence packets. After all four are accepted, create and execute C03, C04, and G01 final review serially in that order. Full sequence and exit gates: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md and docs/planning/EPIC-14-ADMISSION.md. No new garment, user-facing AI designer, spend, supplier contact, hosted service, physical sampling, or production-readiness claim is admitted.). Update the durable G01 continuation gate per the 2026-09-24 maintainer instruction."
+        },
+        {
+          "at": "2026-09-24T08:53:03.396Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: Active G01 admission and professional baseline. C01/C02/C05/C06 parallel evidence is accepted. Separate child records EPIC-14-C03, EPIC-14-C04, and EPIC-14-G01-FINAL-REVIEW are queued in dependency order; C03 is active, C04 waits on C03, final review waits on all four packets and C04. See docs/planning/END-TO-END-CAPABILITY-ROADMAP.md and docs/planning/EPIC-14-ADMISSION.md. No new garment, user-facing AI designer, spend, supplier contact, hosted service, physical sampling, or production-readiness claim is admitted.). Reflect that the parallel wave is complete and the serial C03 contract task has started."
         }
       ],
       "evidenceRefs": [
@@ -3287,7 +3292,7 @@
       "title": "Lane A — measurement, tech-pack and CAD contracts (C03–C04)",
       "epicId": "EPIC-14",
       "releaseId": null,
-      "status": "Backlog",
+      "status": "In Progress",
       "openedAt": "2026-09-24",
       "targetAt": "2026-11-13",
       "deliveredAt": null,
@@ -3324,6 +3329,22 @@
           "actor": "Maintainer (via Codex)",
           "role": "maintainer",
           "note": "Make the previously untracked post-Phase-9 parallel work packet visible in Backlog without opening its gate.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "Ready",
+          "at": "2026-09-24T08:53:02.045Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "All four admitted evidence packet dependencies are Done; activate the shared-contract lane for its serialized C03 then C04 children.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-09-24T08:53:02.377Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "The C03/C04 child records are queued and the lane is active; only C03 is started, while C04 and final review remain behind explicit dependencies.",
           "evidenceRefs": []
         }
       ],
@@ -3950,6 +3971,179 @@
       "evidenceRefs": [
         "E-EPIC14-C06-STARTER-UPCYCLE-SUPPLIER"
       ],
+      "flagKey": null
+    },
+    {
+      "id": "EPIC-14-C03",
+      "type": "task",
+      "title": "C03 — Canonical body, garment, size, and donor-measurement contract",
+      "epicId": "EPIC-14",
+      "releaseId": null,
+      "status": "In Progress",
+      "openedAt": "2026-09-24",
+      "targetAt": "2026-10-30",
+      "deliveredAt": null,
+      "priority": "P0",
+      "risk": "high",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": [
+        "PREQUEUE-PHASE-09",
+        "EPIC-14-C01",
+        "EPIC-14-C02",
+        "EPIC-14-C05",
+        "EPIC-14-C06"
+      ],
+      "protectedSurfaces": [
+        "measurement taxonomy",
+        "seven existing recipes",
+        "single-size versus graded run",
+        "photo-first upcycling evidence",
+        "local-first privacy"
+      ],
+      "description": "Define the accepted measurement and size contract from C01/C02/C05/C06: body inputs, finished POMs, pattern values, ease/style controls, derived values, grade rules, provenance and unresolved inputs; include seven recipe dictionaries and the user-led donor garment capture guide. This is a G01 contract packet, not product code.",
+      "expectation": "A source-aware, recipe-specific dictionary and capture policy with exact required/recommended fields, user instructions, missing/contradiction behavior, single-size-first semantics, separate grade approval and explicit limits on photo-only feasibility.",
+      "acceptanceCriteria": [
+        "Map every input and output for the seven current recipes to a typed meaning: body measure, finished garment POM, pattern value, style/ease control, derived/calculated, inherited, supplier/sample sourced, or unresolved.",
+        "For every required value record definition, named landmarks/path, units, capture posture/state, method, provenance/source/license, confidence, allowed range/invariants, and actionable missing/contradiction behavior; no silent clamping or inferred approval.",
+        "Specify user-facing body measurement instructions and the two creation routes: one measurement-driven custom size first; graded runs require separately named and approved grade rules.",
+        "Specify upcycling tiers: photos can start concept exploration without measurements; assembled-garment measurements are coached and explicitly screening-only; cut feasibility requires user-confirmed recovered-panel geometry, defects, grain/stretch and target-piece constraints. Required fields are derived from the selected source-to-target dependency map, not a universal list.",
+        "Cross-check all seven dictionaries against C01 and standards terminology/limitations in C02; consume C05 avatar residual/uncertainty needs and C06 source-garment capture requirements. Record sourced facts, product decisions, unresolved facts, owners and downstream goals separately.",
+        "Keep user-led editing; no prompt-to-design agent, garment code, physical-sample claim, supplier contact or paid standards use is introduced by this packet."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-09-24T08:53:01.117Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "Create the first serialized shared-contract child after all four admitted evidence packets reached verified Done status; start C03 before C04.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "Ready",
+          "at": "2026-09-24T08:53:02.724Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "C01, C02, C05 and C06 are all Done with verified evidence; C03 is the first task in the serialized lane.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-09-24T08:53:03.069Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "Begin C03 contract research and synthesis. C04 and final G01 review remain queued until their stated predecessors are Done.",
+          "evidenceRefs": []
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [],
+      "flagKey": null
+    },
+    {
+      "id": "EPIC-14-C04",
+      "type": "task",
+      "title": "C04 — Professional technical-pack, views, revision, and CAD contract",
+      "epicId": "EPIC-14",
+      "releaseId": null,
+      "status": "Backlog",
+      "openedAt": "2026-09-24",
+      "targetAt": "2026-11-06",
+      "deliveredAt": null,
+      "priority": "P0",
+      "risk": "high",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": [
+        "PREQUEUE-PHASE-09",
+        "EPIC-14-C03"
+      ],
+      "protectedSurfaces": [
+        "tech-pack and POM outputs",
+        "pattern and DXF export byte identity",
+        "rendered technical flats",
+        "revision/freeze semantics"
+      ],
+      "description": "Define the accepted cross-output tech-pack and CAD specification using C01 gaps, C02 professional-tool/standard evidence, C03 measurement semantics and C05/C06 panel, seam and RFQ evidence. Contract and fixtures only; implementation is later roadmap work.",
+      "expectation": "A versioned, provenance-aware production-spec schema and view/export contract that distinguishes a finished-garment flat from pattern layout and identifies exactly what each supported export can prove.",
+      "acceptanceCriteria": [
+        "Define style identity, revision/approval/freeze, colorway, BOM/material/trim/artwork/label/packaging, construction operations, POM/tolerances, size/grade, QA/sample records, costs and unresolved fields with source/provenance and units.",
+        "Define finished technical-view inventory and mapping to named pattern/components, seams, stitch/marks, closures, callouts, colors and POMs; define overflow/legibility rules and distinguish front/back flats from pattern-piece layouts and schematic side views.",
+        "Specify field dependencies, revision invalidation, approval, immutable supplier handoff/hash and edit propagation; predicted specifications stay separate from actual sample records.",
+        "Specify exact current R12 DXF semantics and limitations; name a target apparel CAD exchange format only with test fixtures, rights review and a receiving-app or independent-parser round trip. Preserve existing export byte-identity baselines.",
+        "Provide representative simple and difficult fixture requirements, negative cases, renderer/page-bound checks and traceability from a pack field to its user, calculation or source. Record standards/vendor facts separately from proposed InfiniDrip policy.",
+        "Keep this as a G01 contract and evidence packet; no exporter implementation, paid license, supplier handoff, factory-ready claim or physical sample is implied."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-09-24T08:53:01.431Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "Queue the next shared-contract child behind C03 so it cannot overlap or outrun the canonical measurement decision.",
+          "evidenceRefs": []
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [],
+      "flagKey": null
+    },
+    {
+      "id": "EPIC-14-G01-FINAL-REVIEW",
+      "type": "task",
+      "title": "G01 final review — integration, remediation, and exit",
+      "epicId": "EPIC-14",
+      "releaseId": null,
+      "status": "Backlog",
+      "openedAt": "2026-09-24",
+      "targetAt": "2026-11-13",
+      "deliveredAt": null,
+      "priority": "P0",
+      "risk": "high",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": [
+        "PREQUEUE-PHASE-09",
+        "EPIC-14-C01",
+        "EPIC-14-C02",
+        "EPIC-14-C05",
+        "EPIC-14-C06",
+        "EPIC-14-C03",
+        "EPIC-14-C04"
+      ],
+      "protectedSurfaces": [
+        "all G01 evidence and decisions",
+        "100% test coverage",
+        "export byte identity",
+        "actual rendered/drafted output",
+        "physical-sampling hold"
+      ],
+      "description": "Integrate and pressure-test all C01-C06 evidence and the accepted C03/C04 contracts; reconcile A-01-A-12; perform and verify any required digital remediation; record the final G01 decision and exit report. This is the last task in EPIC-14 before closing the Epic.",
+      "expectation": "A complete, source-linked G01 decision ledger, verified exit packet, honest residual limitations and downstream handoff; EPIC-14 closes only when every linked child is Done with verified evidence and a verified exit report.",
+      "acceptanceCriteria": [
+        "Review the accepted and SHA-256-verified C01/C02/C05/C06 evidence and completed C03/C04 records; verify scope/status, source age, contradictions and cross-packet dependencies.",
+        "For each A-01-A-12 record status, owner, evidence, threshold, verification method, unresolved facts and downstream Epic/task; no fact is silently converted into a resolved claim.",
+        "Replay representative simple and difficult digital paths from measurement/reference through current design, rendering, tech-pack and export; inspect actual rendered/drafted output, not tests alone. Do not use unimplemented future outputs as passing evidence.",
+        "Run the required full test, typecheck, production-build, 100% coverage and unchanged export byte-identity gates; if a digital failure exists, create and complete a distinct remediation slice before closure.",
+        "Keep external standards access, commercial asset rights, population coverage, supplier facts, physical fit and factory readiness explicitly bounded; physical validation remains unverified and held.",
+        "Produce a verified G01 exit report and link it to EPIC-14. Close EPIC-14 only after every linked work item is Done with verified evidence; do not start G02 as part of this task."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-09-24T08:53:01.725Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "Create the final G01 review as the last dependent child; it cannot start until C03 and C04 and every parallel evidence packet are Done.",
+          "evidenceRefs": []
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [],
       "flagKey": null
     }
   ],

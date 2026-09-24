@@ -845,11 +845,12 @@ data collection still require their own explicit gate.
 - Finish and review C01, C02, C05, and C06 as the admitted parallel evidence
   wave; do not stop at C01. C01, C02, C05, and C06 are now accepted and the
   parallel wave is complete.
-- After all four exits, create separate durable board work items for C03, C04,
-  and G01 final review, then run them in the strict order C03 → C04 → final
-  review. C03 consumes C01/C02/C05/C06; C04 depends on C03; final review
-  depends on C04 and all four evidence exits. Continue until G01 is closed and
-  merged, without requiring another maintainer reminder.
+- Slice 220 created separate durable board work items for C03, C04, and G01
+  final review. C03 is active; C04 and final review remain queued behind their
+  explicit dependencies. Run them in the strict order C03 → C04 → final review.
+  C03 consumes C01/C02/C05/C06; C04 depends on C03; final review depends on
+  C04 and all four evidence exits. Continue until G01 is closed and merged,
+  without requiring another maintainer reminder.
 - This sequence authorizes the admitted G01 research/contracts and exit work
   only. It does not reopen physical sampling, supplier contact, paid sources,
   hosted services, or downstream garment implementation.

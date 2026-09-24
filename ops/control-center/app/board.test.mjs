@@ -66,7 +66,7 @@ test("admitted Epic 14 and its active research lanes match the future backlog", 
     assert.match(card.title, new RegExp(`^${id}: ${goal}`));
     assert.equal(card.dependencies.includes(`CAPABILITY-${goal}`), false);
   }
-  const expectedLaneStatus = { A: "Backlog", B: "Done", C: "Done", D: "Done" };
+  const expectedLaneStatus = { A: "In Progress", B: "Done", C: "Done", D: "Done" };
   for (const letter of ["A", "B", "C", "D"]) {
     const lane = board.workItems.find((entry) => entry.id === `EPIC-14-LANE-${letter}`);
     assert.equal(lane?.epicId, "EPIC-14");
@@ -85,6 +85,15 @@ test("admitted Epic 14 and its active research lanes match the future backlog", 
   assert.ok(laneC.evidenceRefs.includes("E-EPIC14-C05-3D-FEASIBILITY"));
   const laneD = board.workItems.find((entry) => entry.id === "EPIC-14-LANE-D");
   assert.ok(laneD.evidenceRefs.includes("E-EPIC14-C06-STARTER-UPCYCLE-SUPPLIER"));
+  const c03 = board.workItems.find((entry) => entry.id === "EPIC-14-C03");
+  const c04 = board.workItems.find((entry) => entry.id === "EPIC-14-C04");
+  const finalReview = board.workItems.find((entry) => entry.id === "EPIC-14-G01-FINAL-REVIEW");
+  assert.equal(c03?.status, "In Progress");
+  assert.equal(c04?.status, "Backlog");
+  assert.equal(finalReview?.status, "Backlog");
+  assert.deepEqual(c03?.dependencies, ["PREQUEUE-PHASE-09", "EPIC-14-C01", "EPIC-14-C02", "EPIC-14-C05", "EPIC-14-C06"]);
+  assert.deepEqual(c04?.dependencies, ["PREQUEUE-PHASE-09", "EPIC-14-C03"]);
+  assert.deepEqual(finalReview?.dependencies, ["PREQUEUE-PHASE-09", "EPIC-14-C01", "EPIC-14-C02", "EPIC-14-C05", "EPIC-14-C06", "EPIC-14-C03", "EPIC-14-C04"]);
   const shorts = board.workItems.find((entry) => entry.id === "EPIC-20-LANE-E");
   assert.equal(shorts?.epicId, "EPIC-20");
   assert.equal(shorts?.status, "Backlog");

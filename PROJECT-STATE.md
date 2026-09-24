@@ -1,12 +1,13 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 217 accepts C02 of Epic 14's immediate evidence wave,
+_Last updated: Slice 220 queues and starts the G01 contract sequence,
 2026-09-24._
-Current directive: C01, C02, C05, and C06 are reviewed and Done. The parallel
-evidence wave is complete. Create separate durable board records for C03, C04,
-and G01 final review, then execute them serially in that order without another
-start prompt. C03 consumes C01, C02, C05, and C06; C04 depends on C03; final
-review depends on all four packets and C04. Current board revision is 220.
+Current directive: C01, C02, C05, and C06 and their evidence lanes B–D are
+reviewed and Done. Slice 220 created separate durable records for C03, C04,
+and G01 final review and activated only C03. C03 consumes the four accepted
+packets; C04 depends on C03; final review depends on the four packets and C04.
+Continue in that strict order without another start prompt. Current board
+revision is 229.
 Detailed records and the sequence map
 are in `ops/control-center/data/board.json`,
 `docs/planning/EPIC-14-ADMISSION.md`, and
@@ -753,6 +754,26 @@ unchanged product code: 101 files and 100% statements, branches, functions and
 lines; export byte-identity regressions passed. The research exit does not
 approve remediation code, a new garment, CAD compatibility, physical fit,
 supplier handoff, or production readiness. C02, C05, and C06 remain In Progress.
+
+### Slices 217–220 — accept the evidence wave and activate C03
+
+Slices 217–219 accepted C02 standards/tool parity, C05 3D feasibility, and C06
+starter/upcycling/supplier evidence after independent source and artifact
+review. The four admitted packets C01, C02, C05, and C06 and lanes B–D are now
+Done. Their reports retain source age, claim limitations, conflicts, and
+unresolved legal/commercial facts. No product implementation, purchase,
+supplier outreach, or physical sampling was admitted.
+
+Slice 220 used the validated Control Center command layer to create durable
+records for `EPIC-14-C03`, `EPIC-14-C04`, and
+`EPIC-14-G01-FINAL-REVIEW`, activate C03, and retain C04/final review in
+Backlog behind explicit dependencies. Lane A is In Progress; C03 is its only
+active child. Board revision 229 links C03 to Phase 9 and all four accepted
+packets, C04 to C03, and final review to C04 plus the four packet exits.
+Roadmap, admission, decisions, and Control Center guidance now state the same
+order. Control Center tests pass 33/33, including board-schema validation and
+the child status/dependency assertions. `git diff --check` passes. C03 is the
+next work item; C04 and final review must not start before their dependencies.
 
 ### Post-merge PR audit — 2026-09-21
 
