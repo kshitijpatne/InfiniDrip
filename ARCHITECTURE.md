@@ -202,6 +202,9 @@ order. The detailed packet, accepted contract, and gates are in
 [`docs/planning/EPIC-15-ADMISSION.md`](docs/planning/EPIC-15-ADMISSION.md).
 The Slice 230 contract is at
 [`docs/research/epic15/F01-STORAGE-CONTRACT-S230.md`](docs/research/epic15/F01-STORAGE-CONTRACT-S230.md).
+Slice 231 adds strict versioned project/style/recovery records and a pure
+SaveFile v1–v5 conversion; the app still uses its legacy storage path until the
+transactional repository lands.
 This work remains deterministic and user-led and does not open new garment,
 physical sampling, supplier, paid-service, or production-readiness scope.
 

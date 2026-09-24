@@ -152,6 +152,7 @@ test("admitted Epic 14 and its active research lanes match the future backlog", 
   assert.deepEqual(g02FinalReview?.dependencies, ["EPIC-15-F03"]);
   const g02AdmissionEvidence = board.evidence.find((entry) => entry.id === "E-EPIC15-G02-ADMISSION-S229");
   const f01StorageContractEvidence = board.evidence.find((entry) => entry.id === "E-EPIC15-F01-STORAGE-S230");
+  const f01RecordModelEvidence = board.evidence.find((entry) => entry.id === "E-EPIC15-F01-MODEL-S231");
   assert.ok(g02Admission?.evidenceRefs.includes(g02AdmissionEvidence?.id));
   assert.ok(board.epics.find((entry) => entry.id === "EPIC-15")?.evidenceRefs.includes(g02AdmissionEvidence?.id));
   assert.equal(g02AdmissionEvidence?.verified, true);
@@ -163,6 +164,11 @@ test("admitted Epic 14 and its active research lanes match the future backlog", 
   assert.equal(f01StorageContractEvidence?.kind, "document");
   const storageContract = readFileSync(resolve(projectRoot, f01StorageContractEvidence.uri));
   assert.equal(createHash("sha256").update(storageContract).digest("hex"), f01StorageContractEvidence.sha256);
+  assert.ok(f01?.evidenceRefs.includes(f01RecordModelEvidence?.id));
+  assert.equal(f01RecordModelEvidence?.verified, true);
+  assert.equal(f01RecordModelEvidence?.kind, "document");
+  const recordModel = readFileSync(resolve(projectRoot, f01RecordModelEvidence.uri));
+  assert.equal(createHash("sha256").update(recordModel).digest("hex"), f01RecordModelEvidence.sha256);
   const epic14Items = board.workItems.filter((entry) => entry.epicId === "EPIC-14");
   assert.ok(epic14Items.length > 1);
   for (const item of epic14Items) {

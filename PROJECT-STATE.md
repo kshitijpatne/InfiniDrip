@@ -1,13 +1,15 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 230 accepts the F01 storage contract, 2026-09-24._
+_Last updated: Slice 231 adds versioned project records and pure migration, 2026-09-24._
 Current directive: EPIC-14/G01 is Closed. C01, C02, C05 and C06, C03 and C04,
 lanes B–D, Lane A, and the final G01 review are Done with verified evidence.
 EPIC-15/G02 is admitted and In Progress. Slice 229 is complete with verified
 admission evidence; Slice 230 accepted F01's local storage and migration
-contract; F01 remains In Progress for schema, implementation, UI, package and
-exit work; F02, F03, and final review remain queued in strict dependency order.
-Continue at Slice 231, the F01 schema and migration implementation. The goal and
+contract; Slice 231 added strict project/style/recovery/migration records and
+pure SaveFile conversion tests. F01 remains In Progress for repository, UI,
+package and exit work; F02, F03, and final review remain queued in strict
+dependency order. Continue at Slice 232, the transactional IndexedDB
+repository. The goal and
 all slice gates are recorded in `docs/planning/EPIC-15-ADMISSION.md` and the
 accepted contract in `docs/research/epic15/F01-STORAGE-CONTRACT-S230.md`.
 EPIC-16 through
@@ -20,8 +22,8 @@ layout results. The byte-identical legacy writer remains unchanged. At the
 G01 exit, full coverage, build and protected export identities passed. Physical
 sampling, live supplier work, paid sources, hosted services and
 production-readiness claims remain held.
-The canonical Control Center is at revision 270 after verified EPIC-15/G02
-admission and Slice 230 storage-contract evidence.
+The canonical Control Center is at revision 271 after verified EPIC-15/G02
+admission and F01 Slice 230–231 evidence.
 Detailed records and the sequence map
 are in `ops/control-center/data/board.json`,
 `docs/planning/EPIC-14-ADMISSION.md`,
@@ -4014,3 +4016,24 @@ passed. `npm run control-center:test` passed 33/33 after adding a SHA-256 check
 for the contract evidence. The live browser shows board revision 270, EPIC-15
 and F01 In Progress, with S230 evidence attached. No Save/Load product behavior
 or recipe/export output changed. Existing user artifacts remain untouched.
+
+### Slice 231 — F01 versioned records and pure legacy conversion
+
+Added strict schema-v1 `ProjectRecord`, `StyleRecord`, `RecoveryRecord`, and
+`MigrationRecord` validators; stable UUID and timestamp rules; exact canonical
+record-field checks; project/style graph validation; and pure conversion from
+SaveFile v1–v5 into a first local project and style. The conversion reuses the
+existing deserializer as the source of historical meaning, returns the source
+version for a later migration marker, keeps recipe and preset IDs distinct
+from user style identity, and never writes or clears legacy data. Recovery v1
+converts to a style-keyed record with raw user input retained.
+
+The focused record tests pass 6/6, with 100% statement, branch, function, and
+line coverage for `project-records.ts`. The full `npm run coverage` gate passed
+1,569/1,569 tests at 100% statements, branches, functions, and lines, including
+the protected export-identity tests. `npm run build` passed and
+`npm run control-center:test` passed 33/33. Slice 231's document is
+hash-verified evidence on the canonical board at revision 271; the live browser
+shows the F01 card and both evidence records. The app still uses the legacy
+localStorage path; IndexedDB, UI, and storage migration remain for Slice 232
+onward. No recipe, export output, or physical/supplier/hosted scope changed.

@@ -882,3 +882,9 @@ data collection still require their own explicit gate.
   persistence behavior is implemented or that browser-local storage is a
   guaranteed backup. Keep existing artwork byte stores separate and stage/hash
   bytes before publishing style references.
+- Slice 231 defines strict record schema version 1 separately from legacy
+  SaveFile `v`; stable project/style UUIDs and their names remain distinct from
+  recipe and preset IDs. Pure migration delegates historic interpretation to
+  the existing SaveFile v1–v5 parser, preserves recovery raw values, and writes
+  nothing. The app continues using its legacy store until Slice 232's
+  transactional repository is verified.

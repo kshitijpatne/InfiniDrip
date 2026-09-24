@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 270,
-  "updatedAt": "2026-09-24T15:31:25.054Z",
+  "revision": 271,
+  "updatedAt": "2026-09-24T15:47:08.058Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -4466,7 +4466,8 @@
       ],
       "comments": [],
       "evidenceRefs": [
-        "E-EPIC15-F01-STORAGE-S230"
+        "E-EPIC15-F01-STORAGE-S230",
+        "E-EPIC15-F01-MODEL-S231"
       ],
       "flagKey": null
     },
@@ -5135,6 +5136,15 @@
       "sha256": "16f2b58df85dd7c909522fe4ed5d4728ac3fee88b3d1fc7a5b1796062d3b5066",
       "verified": true,
       "note": "Slice 230 accepted the local project/style IndexedDB, migration, recovery, artwork-reference, and portable-package contract; the Electron file-origin proof is narrowly scoped and does not claim implementation."
+    },
+    {
+      "id": "E-EPIC15-F01-MODEL-S231",
+      "kind": "document",
+      "uri": "docs/research/epic15/F01-RECORD-MODEL-S231.md",
+      "commit": null,
+      "sha256": "d457bd203dbc490a86071855f2c431f072fde7d1d8d9963db343a7d657e275e2",
+      "verified": true,
+      "note": "Slice 231 adds strict versioned project/style/recovery/migration records and pure SaveFile v1-v5 conversion with raw recovery preservation and complete focused coverage."
     }
   ]
 }

@@ -103,6 +103,9 @@ snapshots; they are not current status.
   IndexedDB repository, non-destructive legacy migration, per-style recovery,
   artwork two-store, portable package, failure and test contracts. Its Electron
   `file://` proof is narrow; it does not claim shipped persistence behavior.
+- `docs/research/epic15/F01-RECORD-MODEL-S231.md` — Slice 231's strict
+  versioned project/style/recovery/migration records and pure SaveFile v1–v5
+  conversion; it does not claim that IndexedDB or app migration is wired.
 - `docs/research/epic14/` — accepted evidence packets for C01 recipe baseline,
   C02 standards and tools, C05 3D feasibility, C06 starter/assortment/upcycling/
   supplier evidence, and C03 measurement/donor contract. C04's accepted
