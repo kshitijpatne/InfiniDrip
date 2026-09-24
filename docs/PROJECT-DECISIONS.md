@@ -888,3 +888,10 @@ data collection still require their own explicit gate.
   the existing SaveFile v1–v5 parser, preserves recovery raw values, and writes
   nothing. The app continues using its legacy store until Slice 232's
   transactional repository is verified.
+- Slice 232 implements the shared IndexedDB repository API and migration
+  transaction, including strict durability where supported, revision CAS,
+  per-style recovery, source-pair SHA-256 idempotency, rollback and the
+  Electron `file://` restart/path-change proof. This proves the repository API
+  in the tested Electron/Chromium profile; it does not prove browser quota or
+  eviction resistance and does not wire app boot or current Save/Load. Keep
+  that UI integration in Slice 233 and package import/export in Slice 234.

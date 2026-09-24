@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 271,
-  "updatedAt": "2026-09-24T15:47:08.058Z",
+  "revision": 272,
+  "updatedAt": "2026-09-24T16:52:17.302Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -4467,7 +4467,8 @@
       "comments": [],
       "evidenceRefs": [
         "E-EPIC15-F01-STORAGE-S230",
-        "E-EPIC15-F01-MODEL-S231"
+        "E-EPIC15-F01-MODEL-S231",
+        "E-EPIC15-F01-REPO-S232"
       ],
       "flagKey": null
     },
@@ -5145,6 +5146,15 @@
       "sha256": "d457bd203dbc490a86071855f2c431f072fde7d1d8d9963db343a7d657e275e2",
       "verified": true,
       "note": "Slice 231 adds strict versioned project/style/recovery/migration records and pure SaveFile v1-v5 conversion with raw recovery preservation and complete focused coverage."
+    },
+    {
+      "id": "E-EPIC15-F01-REPO-S232",
+      "kind": "document",
+      "uri": "docs/research/epic15/F01-TRANSACTIONAL-REPOSITORY-S232.md",
+      "commit": null,
+      "sha256": "c8c1c90deda108b4f2a42854fa96e58937482320ee031388da7831662fcebc73",
+      "verified": true,
+      "note": "Slice 232 implements the versioned IndexedDB repository, revision-checked atomic project/style/recovery writes, non-destructive idempotent SaveFile migration, strict durability, fault rollback, and Chromium/Electron restart and path-change proofs."
     }
   ]
 }

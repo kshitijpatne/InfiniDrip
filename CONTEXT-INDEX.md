@@ -106,6 +106,11 @@ snapshots; they are not current status.
 - `docs/research/epic15/F01-RECORD-MODEL-S231.md` — Slice 231's strict
   versioned project/style/recovery/migration records and pure SaveFile v1–v5
   conversion; it does not claim that IndexedDB or app migration is wired.
+- `docs/research/epic15/F01-TRANSACTIONAL-REPOSITORY-S232.md` — Slice 232's
+  exact IndexedDB schema checks, atomic project/style/recovery operations,
+  source-fingerprinted migration, fault rollback tests, and Electron
+  restart/path-change proof. The repository API is not yet wired to Save/Load;
+  Slice 233 owns that user-facing integration.
 - `docs/research/epic14/` — accepted evidence packets for C01 recipe baseline,
   C02 standards and tools, C05 3D feasibility, C06 starter/assortment/upcycling/
   supplier evidence, and C03 measurement/donor contract. C04's accepted

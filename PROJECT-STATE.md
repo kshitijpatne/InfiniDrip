@@ -1,15 +1,17 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 231 adds versioned project records and pure migration, 2026-09-24._
+_Last updated: Slice 232 adds the transactional IndexedDB project repository, 2026-09-24._
 Current directive: EPIC-14/G01 is Closed. C01, C02, C05 and C06, C03 and C04,
 lanes B–D, Lane A, and the final G01 review are Done with verified evidence.
 EPIC-15/G02 is admitted and In Progress. Slice 229 is complete with verified
 admission evidence; Slice 230 accepted F01's local storage and migration
 contract; Slice 231 added strict project/style/recovery/migration records and
-pure SaveFile conversion tests. F01 remains In Progress for repository, UI,
-package and exit work; F02, F03, and final review remain queued in strict
-dependency order. Continue at Slice 232, the transactional IndexedDB
-repository. The goal and
+pure SaveFile conversion tests; Slice 232 added the transactional repository
+API and real Electron restart/path-change migration proof. F01 remains In
+Progress for app workflow integration, package import/export and exit work;
+F02, F03, and final review remain queued in strict dependency order. Continue
+at Slice 233, the user-led project/style workflow. The repository API is not yet
+wired to the current Save/Load controls. The goal and
 all slice gates are recorded in `docs/planning/EPIC-15-ADMISSION.md` and the
 accepted contract in `docs/research/epic15/F01-STORAGE-CONTRACT-S230.md`.
 EPIC-16 through
@@ -22,8 +24,8 @@ layout results. The byte-identical legacy writer remains unchanged. At the
 G01 exit, full coverage, build and protected export identities passed. Physical
 sampling, live supplier work, paid sources, hosted services and
 production-readiness claims remain held.
-The canonical Control Center is at revision 271 after verified EPIC-15/G02
-admission and F01 Slice 230–231 evidence.
+The canonical Control Center is at revision 272 after verified EPIC-15/G02
+admission and F01 Slice 230–232 evidence.
 Detailed records and the sequence map
 are in `ops/control-center/data/board.json`,
 `docs/planning/EPIC-14-ADMISSION.md`,
@@ -4037,3 +4039,33 @@ hash-verified evidence on the canonical board at revision 271; the live browser
 shows the F01 card and both evidence records. The app still uses the legacy
 localStorage path; IndexedDB, UI, and storage migration remain for Slice 232
 onward. No recipe, export output, or physical/supplier/hosted scope changed.
+
+### Slice 232 — F01 transactional project repository
+
+Implemented `src/ui/project-repository.ts` over the schema-v1 IndexedDB model:
+exact schema validation, strict-durability read/write transactions with a
+TypeError-only default-mode fallback, revision-checked project/style saves,
+active-style switching, per-style recovery replacement/clearing, and
+non-destructive SaveFile v1–v5 plus Recovery v1 migration. Migration fingerprints
+the exact source pair, atomically commits project/style/recovery/selection and
+marker, and is idempotent. An injected failure at the final marker write proved
+that earlier writes roll back and the unchanged source can be retried.
+
+The 21 focused repository tests pass with 100% statement, branch, function, and
+line coverage. `npm run electron:verify-project-repository` passed on Electron
+44.1.0 / Chromium 152.0.7977.65: migration and raw recovery survived process
+restart and a changed `file://` app path under one isolated profile, the second
+migration was idempotent, and both legacy strings remained unchanged.
+`npm run build` passed. Full repository coverage passed with 100% statements,
+branches, functions, and lines; the new report is hash-verified on the
+canonical Control Center at revision 272. `npm run control-center:test` passed
+33/33, and `git diff --check` passed. Slice 232 is committed as
+`Slice 232: implement transactional project repository`; the next ordered
+slice is 233, which integrates the API into the user-led project/style flow.
+
+The repository API is not yet wired into application boot, Save/Load controls,
+style-management UI, or the current recovery prompt; those are Slice 233. The
+app still uses its legacy single-style path. Artwork byte stores remain
+separate, and portable package import/export remains Slice 234. No garment,
+physical, supplier, paid, hosted, AI-designer, production-readiness, or export
+behavior changed. Existing user artifacts were preserved.
