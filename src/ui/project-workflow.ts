@@ -162,6 +162,15 @@ export class ProjectWorkflow {
     });
   }
 
+  async switchProject(projectId: string): Promise<LoadedProject> {
+    return this.enqueue(async () => {
+      if (projectId === this.loaded.project.id) return this.loaded;
+      const loaded = await this.repository.selectActiveProject(projectId);
+      this.loaded = loaded;
+      return loaded;
+    });
+  }
+
   async createStyle(nameInput: string, design: SavedDesign): Promise<LoadedProject> {
     return this.enqueue(async () => {
       const current = this.loaded;

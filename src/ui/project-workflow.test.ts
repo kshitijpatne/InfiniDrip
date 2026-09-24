@@ -218,6 +218,10 @@ describe("local project/style workflow", () => {
     expect(second.activeStyle.name).toBe("Summer polo");
     expect(second.activeStyle.design.fabric).toBe(original.design.fabric);
     expect(second.project.styleIds).toEqual([STYLE_ID, STYLE_TWO_ID]);
+    const editedSecond = await workflow.saveActiveDesign({ ...second.activeStyle.design, fabric: "#204060" });
+    expect(editedSecond.styles.find((style) => style.id === STYLE_TWO_ID)?.design.fabric).toBe("#204060");
+    expect(editedSecond.styles.find((style) => style.id === STYLE_ID)?.design.fabric).toBe("#204060");
+    expect(await workflow.switchProject(PROJECT_ID)).toBe(editedSecond);
     await workflow.saveRecovery(STYLE_TWO_ID, recoveryPayload());
 
     const switched = await workflow.switchStyle(STYLE_ID);

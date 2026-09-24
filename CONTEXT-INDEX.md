@@ -112,6 +112,12 @@ snapshots; they are not current status.
   restart/path-change proof. Slice 233 integrates the repository at startup and
   in Save/Load, recovery, and project/style UI; actual-browser and Electron
   evidence is in `docs/research/epic15/F01-PROJECT-STYLE-WORKFLOW-S233.md`.
+  Slice 234 completes F01's portable ZIP backup/import with strict validation,
+  artwork and recovery remapping, rollback behavior, stress limits, and a
+  browser/Electron restart proof in
+  `docs/research/epic15/F01-PACKAGE-EXPORT-IMPORT-S234.md`. Consult
+  `PROJECT-STATE.md` and the canonical Control Center for F01/F02's current
+  status and next numbered slice.
 - `docs/research/epic14/` — accepted evidence packets for C01 recipe baseline,
   C02 standards and tools, C05 3D feasibility, C06 starter/assortment/upcycling/
   supplier evidence, and C03 measurement/donor contract. C04's accepted

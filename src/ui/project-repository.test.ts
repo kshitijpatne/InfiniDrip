@@ -25,6 +25,7 @@ const FABRIC = "#3A4150";
 const PROJECT_ID = "a02b8322-8f57-46bb-9d16-16ac1fcf6811";
 const STYLE_ID = "b53a1a03-ea2e-4c4f-82dc-14ac86a29895";
 const OTHER_STYLE_ID = "e8ff457f-982e-4b50-a12b-74bc5cc8fdd4";
+const SECOND_STYLE_ID = "5d4f7fb2-fb7e-4ed1-85bc-4899ebd9a129";
 const OTHER_PROJECT_ID = "1f8eafbf-9f75-4d82-9a43-3557ae359de8";
 let nextDatabase = 0;
 const names: string[] = [];
@@ -122,6 +123,33 @@ afterEach(() => {
 });
 
 describe("transactional project repository", () => {
+  it("fails closed if a listed project disappears inside the read transaction", async () => {
+    const project = newBundle().project;
+    type FakeRequest<T> = { result: T; onsuccess: ((event: Event) => void) | null; onerror: ((event: Event) => void) | null };
+    const request = <T>(result: T): IDBRequest<T> => {
+      const item: FakeRequest<T> = { result, onsuccess: null, onerror: null };
+      queueMicrotask(() => item.onsuccess?.(new Event("success")));
+      return item as unknown as IDBRequest<T>;
+    };
+    const transaction = {
+      oncomplete: null as (() => void) | null,
+      onabort: null as (() => void) | null,
+      onerror: null as (() => void) | null,
+      objectStore: (name: string) => name === PROJECT_STORES.projects
+        ? { getAll: () => request([project]), get: () => request(undefined) }
+        : {},
+      abort() { queueMicrotask(() => this.onabort?.()); },
+    };
+    const database = {
+      transaction: () => transaction,
+      close: vi.fn(),
+      onversionchange: null,
+    } as unknown as IDBDatabase;
+    const repository = new ProjectRepository(database, webcrypto);
+    await rejectionCode(repository.listProjects(), "invalid-data");
+    repository.close();
+  });
+
   it("creates and reopens the exact supported schema, persists active selection, and rejects use after close", async () => {
     const factory = newFactory();
     const name = databaseName();
@@ -215,6 +243,8 @@ describe("transactional project repository", () => {
     const bundle = newBundle();
     const legacyStyle: Record<string, unknown> = { ...bundle.style, schemaVersion: 1 };
     delete legacyStyle.archivedAt;
+    const legacyProject: Record<string, unknown> = { ...bundle.project, schemaVersion: 1 };
+    delete legacyProject.importedFrom;
     const versionOne = await new Promise<IDBDatabase>((resolve, reject) => {
       const request = factory.open(name, 1);
       request.onupgradeneeded = () => {
@@ -224,7 +254,7 @@ describe("transactional project repository", () => {
         request.result.createObjectStore(PROJECT_STORES.recoveries, { keyPath: "styleId" });
         request.result.createObjectStore(PROJECT_STORES.migrations, { keyPath: "sourceSha256" });
         const transaction = request.transaction!;
-        transaction.objectStore(PROJECT_STORES.projects).put(bundle.project);
+        transaction.objectStore(PROJECT_STORES.projects).put(legacyProject);
         transaction.objectStore(PROJECT_STORES.styles).put(legacyStyle);
         transaction.objectStore(PROJECT_STORES.meta).put({ key: "activeSelection", projectId: PROJECT_ID, styleId: STYLE_ID });
       };
@@ -236,6 +266,7 @@ describe("transactional project repository", () => {
     expect((await upgraded.readActiveProject())?.activeStyle).toMatchObject({
       id: STYLE_ID, schemaVersion: 2, archivedAt: null, design: bundle.style.design,
     });
+    expect((await upgraded.readActiveProject())?.project).toMatchObject({ schemaVersion: 2, importedFrom: null });
     upgraded.close();
 
     const malformedName = databaseName();
@@ -829,13 +860,28 @@ describe("transactional project repository", () => {
     });
     await rejectionCode(openProjectRepository({ name: databaseName(), factory: rejectedUpgrade }), "unavailable");
 
-    const unexpectedUpgrade = controlledFactory((request) => {
+    const upgradeCursor = { result: null as unknown, onsuccess: null as ((event: Event) => void) | null, onerror: null as ((event: Event) => void) | null };
+    const upgradeAbort = vi.fn();
+    const upgradeCreateStore = vi.fn();
+    const expectedUpgrade = controlledFactory((request) => {
+      request.result = {
+        version: PROJECT_DATABASE_VERSION,
+        close: vi.fn(),
+        objectStoreNames: { contains: (name: string) => name !== PROJECT_STORES.imports },
+        createObjectStore: upgradeCreateStore,
+      } as unknown as IDBDatabase;
+      request.transaction = {
+        abort: upgradeAbort,
+        objectStore: () => ({ openCursor: () => upgradeCursor }),
+      } as unknown as IDBTransaction;
       request.onupgradeneeded?.({ oldVersion: 2, newVersion: 3 } as IDBVersionChangeEvent);
-      expect(request.transaction?.abort).toHaveBeenCalledOnce();
+      upgradeCursor.onsuccess?.(new Event("success"));
+      expect(upgradeAbort).not.toHaveBeenCalled();
+      expect(upgradeCreateStore).toHaveBeenCalledWith(PROJECT_STORES.imports, { keyPath: "packageSha256" });
       Object.defineProperty(request, "error", { value: { name: "AbortError" } });
       request.onerror?.(new Event("error"));
     });
-    await rejectionCode(openProjectRepository({ name: databaseName(), factory: unexpectedUpgrade }), "unavailable");
+    await rejectionCode(openProjectRepository({ name: databaseName(), factory: expectedUpgrade }), "unavailable");
 
     const cursorErrorRequest = { result: null, onsuccess: null as ((event: Event) => void) | null, onerror: null as ((event: Event) => void) | null };
     const cursorErrorTransaction = {
@@ -844,7 +890,12 @@ describe("transactional project repository", () => {
     };
     const cursorError = controlledFactory((request) => {
       request.transaction = cursorErrorTransaction as unknown as IDBTransaction;
-      request.onupgradeneeded?.({ oldVersion: 1, newVersion: 2 } as IDBVersionChangeEvent);
+      request.result = {
+        version: PROJECT_DATABASE_VERSION,
+        objectStoreNames: { contains: () => true },
+        createObjectStore: vi.fn(),
+      } as unknown as IDBDatabase;
+      request.onupgradeneeded?.({ oldVersion: 2, newVersion: PROJECT_DATABASE_VERSION } as IDBVersionChangeEvent);
       cursorErrorRequest.onerror?.(new Event("error"));
       expect(cursorErrorTransaction.abort).toHaveBeenCalledOnce();
       Object.defineProperty(request, "error", { value: { name: "AbortError" } });
@@ -860,7 +911,12 @@ describe("transactional project repository", () => {
     const invalidCursorTransaction = { abort: vi.fn(), objectStore: () => ({ openCursor: () => invalidCursorRequest }) };
     const invalidCursor = controlledFactory((request) => {
       request.transaction = invalidCursorTransaction as unknown as IDBTransaction;
-      request.onupgradeneeded?.({ oldVersion: 1, newVersion: 2 } as IDBVersionChangeEvent);
+      request.result = {
+        version: PROJECT_DATABASE_VERSION,
+        objectStoreNames: { contains: () => true },
+        createObjectStore: vi.fn(),
+      } as unknown as IDBDatabase;
+      request.onupgradeneeded?.({ oldVersion: 2, newVersion: PROJECT_DATABASE_VERSION } as IDBVersionChangeEvent);
       invalidCursorRequest.onsuccess?.(new Event("success"));
       expect(invalidCursorTransaction.abort).toHaveBeenCalledOnce();
       Object.defineProperty(request, "error", { value: { name: "AbortError" } });
@@ -882,7 +938,12 @@ describe("transactional project repository", () => {
     const throwingCursorTransaction = { abort: vi.fn(), objectStore: () => ({ openCursor: () => throwingCursorRequest }) };
     const throwingCursor = controlledFactory((request) => {
       request.transaction = throwingCursorTransaction as unknown as IDBTransaction;
-      request.onupgradeneeded?.({ oldVersion: 1, newVersion: 2 } as IDBVersionChangeEvent);
+      request.result = {
+        version: PROJECT_DATABASE_VERSION,
+        objectStoreNames: { contains: () => true },
+        createObjectStore: vi.fn(),
+      } as unknown as IDBDatabase;
+      request.onupgradeneeded?.({ oldVersion: 2, newVersion: PROJECT_DATABASE_VERSION } as IDBVersionChangeEvent);
       throwingCursorRequest.onsuccess?.(new Event("success"));
       expect(throwingCursorTransaction.abort).toHaveBeenCalledOnce();
       Object.defineProperty(request, "error", { value: { name: "AbortError" } });
@@ -891,8 +952,13 @@ describe("transactional project repository", () => {
     await rejectionCode(openProjectRepository({ name: databaseName(), factory: throwingCursor }), "unavailable");
 
     const missingTransaction = controlledFactory((request) => {
+      request.result = {
+        version: PROJECT_DATABASE_VERSION,
+        objectStoreNames: { contains: () => true },
+        createObjectStore: vi.fn(),
+      } as unknown as IDBDatabase;
       request.transaction = null;
-      request.onupgradeneeded?.({ oldVersion: 1, newVersion: 2 } as IDBVersionChangeEvent);
+      request.onupgradeneeded?.({ oldVersion: 2, newVersion: PROJECT_DATABASE_VERSION } as IDBVersionChangeEvent);
       Object.defineProperty(request, "error", { value: { name: "AbortError" } });
       request.onerror?.(new Event("error"));
     });
@@ -904,6 +970,141 @@ describe("transactional project repository", () => {
       expect((request.result as unknown as { close: ReturnType<typeof vi.fn> }).close).toHaveBeenCalledOnce();
     });
     await rejectionCode(openProjectRepository({ name: databaseName(), factory: lateSuccess }), "blocked");
+  });
+
+  it("aborts every malformed or unavailable version-one project and style record upgrade", async () => {
+    const triggerUpgrade = async (
+      oldVersion: number,
+      transaction: IDBTransaction | null,
+      triggerRequests: () => void,
+    ): Promise<void> => {
+      const factory = controlledFactory((request) => {
+        request.result = {
+          version: PROJECT_DATABASE_VERSION,
+          objectStoreNames: { contains: () => true },
+          createObjectStore: vi.fn(),
+        } as unknown as IDBDatabase;
+        request.transaction = transaction;
+        request.onupgradeneeded?.({ oldVersion, newVersion: PROJECT_DATABASE_VERSION } as IDBVersionChangeEvent);
+        triggerRequests();
+        Object.defineProperty(request, "error", { value: { name: "AbortError" } });
+        request.onerror?.(new Event("error"));
+      });
+      await rejectionCode(openProjectRepository({ name: databaseName(), factory }), "unavailable");
+    };
+
+    // A missing IndexedDB upgrade transaction must be handled without throwing.
+    await triggerUpgrade(1, null, () => undefined);
+    await triggerUpgrade(2, null, () => undefined);
+
+    const assertAbortedCursor = async (
+      oldVersion: number,
+      value: unknown,
+      update: () => void = vi.fn(),
+    ): Promise<void> => {
+      const request = {
+        result: { value, update, continue: vi.fn() },
+        onsuccess: null as ((event: Event) => void) | null,
+        onerror: null as ((event: Event) => void) | null,
+      };
+      const transaction = {
+        abort: vi.fn(),
+        objectStore: () => ({ openCursor: () => request }),
+      } as unknown as IDBTransaction;
+      await triggerUpgrade(oldVersion, transaction, () => {
+        request.onsuccess?.(new Event("success"));
+        expect(transaction.abort).toHaveBeenCalledOnce();
+      });
+    };
+
+    await assertAbortedCursor(2, []);
+    await assertAbortedCursor(2, { id: PROJECT_ID, schemaVersion: 99 });
+    await assertAbortedCursor(2, { ...newBundle().project, schemaVersion: 1, unexpected: true });
+    const legacyProject: Record<string, unknown> = { ...newBundle().project, schemaVersion: 1 };
+    delete legacyProject.importedFrom;
+    await assertAbortedCursor(2, legacyProject, () => {
+      throw new Error("project cursor update failed");
+    });
+
+    const projectOpenCursorThrows = controlledFactory((request) => {
+      const transaction = { abort: vi.fn(), objectStore: () => { throw new Error("project store is unavailable"); } };
+      request.result = {
+        version: PROJECT_DATABASE_VERSION,
+        objectStoreNames: { contains: () => true },
+        createObjectStore: vi.fn(),
+      } as unknown as IDBDatabase;
+      request.transaction = transaction as unknown as IDBTransaction;
+      request.onupgradeneeded?.({ oldVersion: 2, newVersion: PROJECT_DATABASE_VERSION } as IDBVersionChangeEvent);
+      expect(transaction.abort).toHaveBeenCalledOnce();
+      Object.defineProperty(request, "error", { value: { name: "AbortError" } });
+      request.onerror?.(new Event("error"));
+    });
+    await rejectionCode(openProjectRepository({ name: databaseName(), factory: projectOpenCursorThrows }), "unavailable");
+
+    const styleOpenCursorThrows = controlledFactory((request) => {
+      const transaction = { abort: vi.fn(), objectStore: () => { throw new Error("style store is unavailable"); } };
+      request.result = {
+        version: PROJECT_DATABASE_VERSION,
+        objectStoreNames: { contains: () => true },
+        createObjectStore: vi.fn(),
+      } as unknown as IDBDatabase;
+      request.transaction = transaction as unknown as IDBTransaction;
+      request.onupgradeneeded?.({ oldVersion: 1, newVersion: PROJECT_DATABASE_VERSION } as IDBVersionChangeEvent);
+      expect(transaction.abort).toHaveBeenCalledTimes(2);
+      Object.defineProperty(request, "error", { value: { name: "AbortError" } });
+      request.onerror?.(new Event("error"));
+    });
+    await rejectionCode(openProjectRepository({ name: databaseName(), factory: styleOpenCursorThrows }), "unavailable");
+
+    const styleRequest = {
+      result: { value: [], update: vi.fn(), continue: vi.fn() },
+      onsuccess: null as ((event: Event) => void) | null,
+      onerror: null as ((event: Event) => void) | null,
+    };
+    const projectRequest = {
+      result: null,
+      onsuccess: null as ((event: Event) => void) | null,
+      onerror: null as ((event: Event) => void) | null,
+    };
+    const styleTransaction = {
+      abort: vi.fn(),
+      objectStore: (name: string) => ({ openCursor: () => name === PROJECT_STORES.styles ? styleRequest : projectRequest }),
+    } as unknown as IDBTransaction;
+    await triggerUpgrade(1, styleTransaction, () => {
+      styleRequest.onsuccess?.(new Event("success"));
+      projectRequest.onsuccess?.(new Event("success"));
+      expect(styleTransaction.abort).toHaveBeenCalledOnce();
+    });
+
+    const styleErrorRequest = { result: null, onsuccess: null as ((event: Event) => void) | null, onerror: null as ((event: Event) => void) | null };
+    const projectAfterStyleErrorRequest = { result: null, onsuccess: null as ((event: Event) => void) | null, onerror: null as ((event: Event) => void) | null };
+    const styleErrorTransaction = {
+      abort: vi.fn(),
+      objectStore: (name: string) => ({ openCursor: () => name === PROJECT_STORES.styles ? styleErrorRequest : projectAfterStyleErrorRequest }),
+    } as unknown as IDBTransaction;
+    await triggerUpgrade(1, styleErrorTransaction, () => {
+      styleErrorRequest.onerror?.(new Event("error"));
+      projectAfterStyleErrorRequest.onsuccess?.(new Event("success"));
+      expect(styleErrorTransaction.abort).toHaveBeenCalledOnce();
+    });
+
+    const legacyStyle: Record<string, unknown> = { ...newBundle().style, schemaVersion: 1 };
+    delete legacyStyle.archivedAt;
+    const styleUpdateRequest = {
+      result: { value: legacyStyle, update: () => { throw new Error("style cursor update failed"); }, continue: vi.fn() },
+      onsuccess: null as ((event: Event) => void) | null,
+      onerror: null as ((event: Event) => void) | null,
+    };
+    const emptyProjectRequest = { result: null, onsuccess: null as ((event: Event) => void) | null, onerror: null as ((event: Event) => void) | null };
+    const styleUpdateTransaction = {
+      abort: vi.fn(),
+      objectStore: (name: string) => ({ openCursor: () => name === PROJECT_STORES.styles ? styleUpdateRequest : emptyProjectRequest }),
+    } as unknown as IDBTransaction;
+    await triggerUpgrade(1, styleUpdateTransaction, () => {
+      styleUpdateRequest.onsuccess?.(new Event("success"));
+      emptyProjectRequest.onsuccess?.(new Event("success"));
+      expect(styleUpdateTransaction.abort).toHaveBeenCalledOnce();
+    });
   });
 
   it("rolls back when an IndexedDB write aborts and rejects factories or transactions that fail", async () => {
@@ -978,5 +1179,148 @@ describe("transactional project repository", () => {
     await rejectionCode(repository.loadProject(PROJECT_ID), "transaction");
     requestSpy.mockRestore();
     repository.close();
+  });
+
+  it("validates project switching, collision checks, package receipts, imported bundles, and recovery reads", async () => {
+    const factory = newFactory();
+    const name = databaseName();
+    const repository = await openProjectRepository({ name, factory, crypto: webcrypto });
+    try {
+      await repository.initializeFirstRun(PROJECT_ID, STYLE_ID, TIME);
+      const incoming = newBundle(OTHER_PROJECT_ID, OTHER_STYLE_ID);
+      const receipt = {
+        packageSha256: "a".repeat(64),
+        projectId: OTHER_PROJECT_ID,
+        importedAt: TIME,
+        importedAsCopy: false,
+      };
+      expect(await repository.hasStyleIdCollision([OTHER_STYLE_ID])).toBe(false);
+      expect(await repository.hasStyleIdCollision([STYLE_ID])).toBe(true);
+      await rejectionCode(repository.hasStyleIdCollision([""]), "invalid-data");
+      await rejectionCode(repository.selectActiveProject(""), "invalid-data");
+      await rejectionCode(repository.selectActiveProject("77777777-7777-4777-8777-777777777777"), "not-found");
+      await expect(repository.readProjectBundle("77777777-7777-4777-8777-777777777777")).resolves.toBeNull();
+      await rejectionCode(repository.readProjectImportReceipt("not-a-digest"), "invalid-data");
+      await rejectionCode(repository.importProjectBundle({
+        project: incoming.project,
+        styles: [incoming.style],
+        recoveries: [],
+        receipt: { ...receipt, projectId: PROJECT_ID },
+      }), "invalid-data");
+      await rejectionCode(repository.importProjectBundle({
+        project: { ...incoming.project, name: "" },
+        styles: [incoming.style],
+        recoveries: [],
+        receipt,
+      }), "invalid-data");
+      await rejectionCode(repository.importProjectBundle({
+        project: incoming.project,
+        styles: [incoming.style],
+        recoveries: [],
+        receipt: null as unknown as typeof receipt,
+      }), "invalid-data");
+      await rejectionCode(repository.importProjectBundle({
+        project: incoming.project,
+        styles: [incoming.style],
+        recoveries: [],
+        receipt: { ...receipt, importedAsCopy: true },
+      }), "invalid-data");
+      await rejectionCode(repository.importProjectBundle({
+        project: incoming.project,
+        styles: [incoming.style],
+        recoveries: [recovery(STYLE_ID)],
+        receipt,
+      }), "invalid-data");
+
+      expect(await repository.importProjectBundle({
+        project: incoming.project,
+        styles: [incoming.style],
+        recoveries: [recovery(OTHER_STYLE_ID)],
+        receipt,
+      })).toMatchObject({ status: "imported", project: { id: OTHER_PROJECT_ID } });
+      expect(await repository.importProjectBundle({
+        project: incoming.project,
+        styles: [incoming.style],
+        recoveries: [],
+        receipt,
+      })).toMatchObject({ status: "already-imported", receipt });
+      expect(await repository.readProjectImportReceipt(receipt.packageSha256)).toEqual(receipt);
+      expect((await repository.readProjectBundle(OTHER_PROJECT_ID))?.recoveries).toEqual([recovery(OTHER_STYLE_ID)]);
+      expect(await repository.listProjects()).toHaveLength(2);
+      expect((await repository.selectActiveProject(OTHER_PROJECT_ID)).project.id).toBe(OTHER_PROJECT_ID);
+      expect(await repository.selectActiveProject(OTHER_PROJECT_ID)).toMatchObject({ project: { id: OTHER_PROJECT_ID } });
+      await rejectionCode(repository.importProjectBundle({
+        project: incoming.project,
+        styles: [incoming.style],
+        recoveries: [],
+        receipt: { ...receipt, packageSha256: "b".repeat(64) },
+      }), "conflict");
+
+      await rawPut(factory, name, PROJECT_STORES.imports, {
+        packageSha256: receipt.packageSha256, projectId: "invalid", importedAt: "yesterday", importedAsCopy: false,
+      });
+      await rejectionCode(repository.importProjectBundle({
+        project: incoming.project, styles: [incoming.style], recoveries: [], receipt,
+      }), "invalid-data");
+
+      const styleCollision = newBundle("77777777-7777-4777-8777-777777777777", STYLE_ID);
+      await rejectionCode(repository.importProjectBundle({
+        project: styleCollision.project,
+        styles: [styleCollision.style],
+        recoveries: [],
+        receipt: {
+          packageSha256: "c".repeat(64),
+          projectId: styleCollision.project.id,
+          importedAt: TIME,
+          importedAsCopy: false,
+        },
+      }), "conflict");
+
+      const copy = newBundle("88888888-8888-4888-8888-888888888888", "99999999-9999-4999-8999-999999999999");
+      const copiedProject = {
+        ...copy.project,
+        importedFrom: { projectId: PROJECT_ID, styleIds: [STYLE_ID], packageSha256: "d".repeat(64) },
+      };
+      expect(await repository.importProjectBundle({
+        project: copiedProject,
+        styles: [copy.style],
+        recoveries: [],
+        receipt: {
+          packageSha256: "e".repeat(64),
+          projectId: copiedProject.id,
+          importedAt: TIME,
+          importedAsCopy: true,
+        },
+      })).toMatchObject({ status: "imported" });
+
+      await rawPut(factory, name, PROJECT_STORES.imports, {
+        packageSha256: "f".repeat(64), projectId: "invalid", importedAt: "yesterday", importedAsCopy: false,
+      });
+      await rejectionCode(repository.readProjectImportReceipt("f".repeat(64)), "invalid-data");
+
+      const current = await repository.readProjectBundle(OTHER_PROJECT_ID);
+      if (!current) throw new Error("Imported project unexpectedly disappeared.");
+      const second = newBundle(OTHER_PROJECT_ID, SECOND_STYLE_ID);
+      await repository.saveProjectBundle({
+        project: {
+          ...current.project,
+          styleIds: [...current.project.styleIds, SECOND_STYLE_ID],
+          revision: current.project.revision + 1,
+          updatedAt: NEXT_TIME,
+        },
+        styles: [...current.styles, second.style],
+        recoveries: current.recoveries,
+        expectedProjectRevision: current.project.revision,
+      });
+      await rawPut(factory, name, PROJECT_STORES.recoveries, { styleId: SECOND_STYLE_ID, payload: null });
+      await rejectionCode(repository.readProjectBundle(OTHER_PROJECT_ID), "invalid-data");
+      const archived = { ...incoming.style, archivedAt: TIME };
+      await rawPut(factory, name, PROJECT_STORES.styles, archived);
+      await rejectionCode(repository.selectActiveProject(OTHER_PROJECT_ID), "invalid-data");
+      await rawPut(factory, name, PROJECT_STORES.projects, { id: "77777777-7777-4777-8777-777777777777" });
+      await rejectionCode(repository.listProjects(), "invalid-data");
+    } finally {
+      repository.close();
+    }
   });
 });

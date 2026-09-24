@@ -191,14 +191,17 @@ past evidence text is not rewritten. Planning records do not start product
 work or change the app's local-first boundary.
 
 After that verified closure, the maintainer admitted EPIC-15/G02 for a local,
-versioned style foundation. Slice 229 records its admission and Slice 230
-accepts the F01 storage/migration contract: shared IndexedDB project/style
-records, non-destructive SaveFile migration, per-style recovery, and portable
-backup/import. A narrow Electron `file://` restart/path-change proof passed;
-this is not yet shipped persistence behavior or a cross-browser durability
-claim. F01 implementation and UI work continue; F02 provenance/dependency work,
-F03 durable constrained edits/revisions, and final review remain queued in
-order. The detailed packet, accepted contract, and gates are in
+versioned style foundation. Slices 229–234 completed F01: a shared IndexedDB
+project/style repository, non-destructive SaveFile migration, per-style
+recovery, user-led project/style workflow, and versioned portable package
+import/export with referenced artwork. The narrow Electron restart proofs and
+the browser/Electron package validation are recorded in the S230–S234 reports;
+they do not establish permanent browser storage or physical fit. F01 is Done
+with hash-verified evidence at Control Center revision 278. F02 Slice 235 is
+active for C03-aligned field provenance and value history across all seven
+existing recipes; Slice 236 will add the complete dependency/invalidation
+matrix. F03 constrained edits/revisions and final review remain queued in
+order. The detailed packet and gates are in
 [`docs/planning/EPIC-15-ADMISSION.md`](docs/planning/EPIC-15-ADMISSION.md).
 The Slice 230 contract is at
 [`docs/research/epic15/F01-STORAGE-CONTRACT-S230.md`](docs/research/epic15/F01-STORAGE-CONTRACT-S230.md).
@@ -210,12 +213,14 @@ restart-and-app-file-path-change proof. Slice 233 connects that repository to
 application startup, Save/Load, per-style recovery, and an accessible local
 project/style manager. The app fails closed with a retryable startup error if
 storage or migration fails rather than mounting editing controls over
-replacement defaults. The workflow passed rendered persistent-browser and
-Electron restart checks. Portable project package import/export, quota/eviction
-guarantees, and package failure pressure tests remain for Slice 234; the tested
-runtimes do not establish broader durability guarantees. Details are in
+replacement defaults. Slice 234 adds strict portable package import/export,
+collision-safe ID/artwork remapping, staged artwork verification, atomic
+record commit, failure rollback, and a browser/Electron restart proof. It
+documents its memory ceiling and does not claim bounded-memory streaming,
+permanent browser storage, or broader durability. Details are in
 [`docs/research/epic15/F01-TRANSACTIONAL-REPOSITORY-S232.md`](docs/research/epic15/F01-TRANSACTIONAL-REPOSITORY-S232.md) and
-[`docs/research/epic15/F01-PROJECT-STYLE-WORKFLOW-S233.md`](docs/research/epic15/F01-PROJECT-STYLE-WORKFLOW-S233.md).
+[`docs/research/epic15/F01-PROJECT-STYLE-WORKFLOW-S233.md`](docs/research/epic15/F01-PROJECT-STYLE-WORKFLOW-S233.md), plus
+[`docs/research/epic15/F01-PACKAGE-EXPORT-IMPORT-S234.md`](docs/research/epic15/F01-PACKAGE-EXPORT-IMPORT-S234.md).
 This work remains deterministic and user-led and does not open new garment,
 physical sampling, supplier, paid-service, or production-readiness scope.
 

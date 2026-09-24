@@ -141,8 +141,8 @@ test("admitted Epic 14 and its active research lanes match the future backlog", 
   const f03 = board.workItems.find((entry) => entry.id === "EPIC-15-F03");
   const g02FinalReview = board.workItems.find((entry) => entry.id === "EPIC-15-G02-FINAL-REVIEW");
   assert.equal(g02Admission?.status, "Done");
-  assert.equal(f01?.status, "In Progress");
-  assert.equal(f02?.status, "Backlog");
+  assert.equal(f01?.status, "Done");
+  assert.equal(f02?.status, "In Progress");
   assert.equal(f03?.status, "Backlog");
   assert.equal(g02FinalReview?.status, "Backlog");
   assert.deepEqual(g02Admission?.dependencies, ["EPIC-14"]);
@@ -154,6 +154,7 @@ test("admitted Epic 14 and its active research lanes match the future backlog", 
   const f01StorageContractEvidence = board.evidence.find((entry) => entry.id === "E-EPIC15-F01-STORAGE-S230");
   const f01RecordModelEvidence = board.evidence.find((entry) => entry.id === "E-EPIC15-F01-MODEL-S231");
   const f01RepositoryEvidence = board.evidence.find((entry) => entry.id === "E-EPIC15-F01-REPO-S232");
+  const f01PackageEvidence = board.evidence.find((entry) => entry.id === "E-EPIC15-F01-PACKAGE-S234");
   assert.ok(g02Admission?.evidenceRefs.includes(g02AdmissionEvidence?.id));
   assert.ok(board.epics.find((entry) => entry.id === "EPIC-15")?.evidenceRefs.includes(g02AdmissionEvidence?.id));
   assert.equal(g02AdmissionEvidence?.verified, true);
@@ -175,6 +176,12 @@ test("admitted Epic 14 and its active research lanes match the future backlog", 
   assert.equal(f01RepositoryEvidence?.kind, "document");
   const repositoryEvidence = readFileSync(resolve(projectRoot, f01RepositoryEvidence.uri));
   assert.equal(createHash("sha256").update(repositoryEvidence).digest("hex"), f01RepositoryEvidence.sha256);
+  assert.ok(f01?.evidenceRefs.includes(f01PackageEvidence?.id));
+  assert.ok(f02?.evidenceRefs.includes(f01PackageEvidence?.id));
+  assert.equal(f01PackageEvidence?.verified, true);
+  assert.equal(f01PackageEvidence?.kind, "exit-report");
+  const packageReport = readFileSync(resolve(projectRoot, f01PackageEvidence.uri));
+  assert.equal(createHash("sha256").update(packageReport).digest("hex"), f01PackageEvidence.sha256);
   const epic14Items = board.workItems.filter((entry) => entry.epicId === "EPIC-14");
   assert.ok(epic14Items.length > 1);
   for (const item of epic14Items) {

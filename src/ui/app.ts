@@ -62,6 +62,7 @@ declare global {
   interface Window {
     electronAPI?: {
       saveFile(filename: string, content: string): Promise<{ saved: boolean; filePath?: string }>;
+      saveProjectPackage?(filename: string, bytes: Uint8Array): Promise<{ saved: boolean; filePath?: string }>;
       putArtworkAsset?(asset: ArtworkAssetWireRecord): Promise<void>;
       getArtworkAsset?(assetId: string): Promise<ArtworkAssetWireRecord | null>;
       removeArtworkAsset?(assetId: string): Promise<void>;
@@ -3121,6 +3122,15 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         projectPersistenceState.dataset.state = recovery ? "unsaved" : "saved";
       },
       setBusy: (busy) => { root.inert = busy; },
+      artworkStore: artworkAssetStore,
+      inspectAsset: artworkInspector,
+      ...(window.electronAPI?.saveProjectPackage ? {
+        savePackage: async (filename: string, blob: Blob): Promise<boolean> => {
+          const bytes = new Uint8Array(await blob.arrayBuffer());
+          const result = await window.electronAPI!.saveProjectPackage!(filename, bytes);
+          return result.saved;
+        },
+      } : {}),
     });
   }
   renderRecoveryPrompt();

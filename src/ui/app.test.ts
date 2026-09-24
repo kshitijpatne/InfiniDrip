@@ -1,6 +1,10 @@
 // @vitest-environment jsdom
 import { describe, it, expect, vi, beforeEach } from "vitest";
+import { Blob as NodeBlob } from "node:buffer";
+import { webcrypto } from "node:crypto";
+import { IDBFactory } from "fake-indexeddb";
 import { mountApp, stageBlockerFromNote } from "./app";
+import { openProjectWorkflow } from "./project-workflow";
 import type { ArtworkAssetStore, StoredArtworkAsset } from "../surface/artwork-store";
 import type { InspectedArtworkFile } from "../surface/artwork-file";
 import { ARTWORK_CATALOG } from "../surface/artwork-library/catalog";
@@ -4297,5 +4301,47 @@ describe("bundled local artwork library (Slice 203)", () => {
       zOrder: 5, sourceName: expect.stringContaining(record.title),
       transform: { dx: 3.25, dy: -2.5, scale: 1.4, rotationDeg: 37 },
     });
+  });
+
+  it("routes project backup bytes through the optional Electron binary-save bridge", async () => {
+    localStorage.clear();
+    vi.stubGlobal("Blob", NodeBlob);
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const ids = ["a12b39ab-4b40-48a9-9499-59583010c112", "b23c40bc-5c51-49ba-a59a-60694121d223"];
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: {
+        name: `app-project-package-${Date.now()}`,
+        factory: new IDBFactory(),
+        crypto: webcrypto as unknown as Crypto,
+      },
+      storage: localStorage,
+      idFactory: () => ids.shift()!,
+      now: () => "2026-09-24T16:00:00.000Z",
+    });
+    const saved: Array<{ filename: string; bytes: Uint8Array }> = [];
+    const saveProjectPackage = vi.fn(async (filename: string, bytes: Uint8Array) => {
+      saved.push({ filename, bytes });
+      return { saved: true, filePath: "C:/test/project.infinidrip.zip" };
+    });
+    window.electronAPI = {
+      saveFile: vi.fn(async () => ({ saved: true })),
+      saveProjectPackage,
+    };
+    const root = document.createElement("div");
+    document.body.append(root);
+    try {
+      mountApp(root, { projectWorkflow: workflow });
+      root.querySelector<HTMLDetailsElement>(".project-manager-details")!.open = true;
+      root.querySelector<HTMLButtonElement>("[data-project-action='export-package']")!.click();
+      await vi.waitFor(() => expect(root.querySelector("#project-manager-status")?.textContent).toBe("Project backup exported."));
+      await vi.waitFor(() => expect(saveProjectPackage).toHaveBeenCalledOnce());
+      expect(saved[0]!.filename).toMatch(/\.infinidrip\.zip$/);
+      expect(saved[0]!.bytes.slice(0, 4)).toEqual(new Uint8Array([0x50, 0x4b, 0x03, 0x04]));
+    } finally {
+      workflow.close();
+      root.remove();
+      delete window.electronAPI;
+      vi.unstubAllGlobals();
+    }
   });
 });

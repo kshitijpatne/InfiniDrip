@@ -10,7 +10,7 @@ import {
 } from "./persist";
 import { FIELDS } from "./controls";
 
-export const PROJECT_RECORD_VERSION = 1;
+export const PROJECT_RECORD_VERSION = 2;
 export const STYLE_RECORD_VERSION = 2;
 export const RECOVERY_RECORD_VERSION = 1;
 export const MIGRATION_RECORD_VERSION = 1;
@@ -24,6 +24,14 @@ export interface ProjectRecord {
   readonly revision: number;
   readonly styleIds: readonly string[];
   readonly activeStyleId: string;
+  /** Source IDs and verified source-package digest when a project was imported as a copy. */
+  readonly importedFrom: ImportedFrom | null;
+}
+
+export interface ImportedFrom {
+  readonly projectId: string;
+  readonly styleIds: readonly string[];
+  readonly packageSha256: string;
 }
 
 export type SavedDesign = Omit<SaveFile, "v">;
@@ -77,7 +85,8 @@ export interface LegacySaveMigration {
   readonly sourceVersion: number;
 }
 
-const PROJECT_KEYS = ["schemaVersion", "id", "name", "createdAt", "updatedAt", "revision", "styleIds", "activeStyleId"];
+const PROJECT_KEYS = ["schemaVersion", "id", "name", "createdAt", "updatedAt", "revision", "styleIds", "activeStyleId", "importedFrom"];
+export const LEGACY_PROJECT_RECORD_KEYS = Object.freeze(["schemaVersion", "id", "name", "createdAt", "updatedAt", "revision", "styleIds", "activeStyleId"]);
 const STYLE_KEYS = ["schemaVersion", "id", "projectId", "name", "recipeId", "recipePresetId", "createdAt", "updatedAt", "revision", "archivedAt", "design"];
 export const LEGACY_STYLE_RECORD_KEYS = Object.freeze(["schemaVersion", "id", "projectId", "name", "recipeId", "recipePresetId", "createdAt", "updatedAt", "revision", "design"]);
 const RECOVERY_KEYS = ["schemaVersion", "styleId", "payload"];
@@ -156,6 +165,18 @@ export function parseProjectRecord(value: unknown): RecordResult<ProjectRecord> 
   }
   if (!validUuid(value.activeStyleId) || !value.styleIds.includes(value.activeStyleId)) {
     return fail("Project activeStyleId must reference a listed style.");
+  }
+  if (value.importedFrom !== null) {
+    const importedFrom = value.importedFrom;
+    if (!hasExactKeys(importedFrom, ["projectId", "styleIds", "packageSha256"])
+      || !validUuid(importedFrom.projectId)
+      || !Array.isArray(importedFrom.styleIds) || importedFrom.styleIds.length === 0
+      || importedFrom.projectId === value.id
+      || importedFrom.styleIds.length !== value.styleIds.length
+      || !importedFrom.styleIds.every(validUuid) || new Set(importedFrom.styleIds).size !== importedFrom.styleIds.length
+      || typeof importedFrom.packageSha256 !== "string" || !SHA256.test(importedFrom.packageSha256)) {
+      return fail("Project import lineage is malformed.");
+    }
   }
   return { ok: true, value: value as unknown as ProjectRecord };
 }
@@ -265,6 +286,7 @@ export function migrateLegacySaveFile(input: LegacySaveMigrationInput): RecordRe
     revision: 1,
     styleIds: [styleId],
     activeStyleId: styleId,
+    importedFrom: null,
   };
   const style: StyleRecord = {
     schemaVersion: STYLE_RECORD_VERSION,

@@ -10,6 +10,11 @@ contextBridge.exposeInMainWorld("electronAPI", {
       saved: boolean;
       filePath?: string;
     }>,
+  saveProjectPackage: (filename: string, bytes: Uint8Array) =>
+    ipcRenderer.invoke("save-project-package", filename, bytes) as Promise<{
+      saved: boolean;
+      filePath?: string;
+    }>,
   putArtworkAsset: (asset: {
     assetId: string;
     name: string;

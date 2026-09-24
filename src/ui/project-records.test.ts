@@ -16,6 +16,7 @@ import {
 } from "./project-records";
 
 const PROJECT_ID = "a02b8322-8f57-46bb-9d16-16ac1fcf6811";
+const OTHER_PROJECT_ID = "c502163f-10be-4dce-89c9-35de897e9814";
 const STYLE_ID = "b53a1a03-ea2e-4c4f-82dc-14ac86a29895";
 const OTHER_STYLE_ID = "e8ff457f-982e-4b50-a12b-74bc5cc8fdd4";
 const TIME = "2026-09-24T16:00:00.000Z";
@@ -149,6 +150,17 @@ describe("strict project and style records", () => {
     expect(parseProjectRecord({ ...project, styleIds: [STYLE_ID, STYLE_ID] }).ok).toBe(false);
     expect(parseProjectRecord({ ...project, activeStyleId: OTHER_STYLE_ID }).ok).toBe(false);
     expect(parseProjectRecord({ ...project, activeStyleId: "bad" }).ok).toBe(false);
+    const imported = {
+      ...project,
+      id: OTHER_PROJECT_ID,
+      name: "Imported copy",
+      styleIds: [OTHER_STYLE_ID],
+      activeStyleId: OTHER_STYLE_ID,
+      importedFrom: { projectId: PROJECT_ID, styleIds: [STYLE_ID], packageSha256: "a".repeat(64) },
+    };
+    expect(parseProjectRecord(imported).ok).toBe(true);
+    expect(parseProjectRecord({ ...imported, importedFrom: { ...imported.importedFrom, projectId: OTHER_PROJECT_ID } }).ok).toBe(false);
+    expect(parseProjectRecord({ ...imported, importedFrom: { ...imported.importedFrom, styleIds: [STYLE_ID, OTHER_STYLE_ID] } }).ok).toBe(false);
     expect(validateProjectBundle(project, []).ok).toBe(false);
     expect(validateProjectBundle(project, [null]).ok).toBe(false);
     expect(validateProjectBundle(project, [style, style]).ok).toBe(false);

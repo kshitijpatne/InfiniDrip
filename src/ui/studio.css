@@ -46,6 +46,13 @@ body { margin: 0; }
 .project-manager button { min-width: 0; min-height: 34px; padding: 5px 7px; border: 1px solid #34506a; border-radius: 6px; background: #162c42; color: #d9e6ef; cursor: pointer; text-align: left; font-size: 11px; }
 .project-manager button:hover:not(:disabled) { border-color: #88d7ef; }
 .project-manager button:disabled { opacity: .45; cursor: not-allowed; }
+.project-backup-controls { display: grid; gap: 6px; padding: 8px; border: 1px solid #294158; border-radius: 7px; background: #0a1725; }
+.project-backup-controls > label { color: #9bb8cc; font-size: 11px; }
+.project-backup-controls > select { box-sizing: border-box; min-width: 0; min-height: 34px; padding: 5px 7px; border: 1px solid #34506a; border-radius: 6px; background: #13233a; color: #d9e6ef; }
+.project-package-progress-label { margin: 0; color: #b8dbe9; font-size: 11px; }
+.project-operation-cancel { position: fixed; z-index: 10000; top: 12px; right: 12px; display: flex; align-items: center; gap: 12px; max-width: min(600px, calc(100vw - 24px)); padding: 9px 12px; border: 1px solid #7ca4bd; border-radius: 8px; background: #11273b; color: #edf5fa; box-shadow: 0 8px 28px #0009; font-size: 12px; }
+.project-operation-cancel[hidden] { display: none; }
+.project-operation-cancel button { border: 1px solid #9bb8cc; border-radius: 5px; padding: 5px 9px; background: #203e56; color: inherit; cursor: pointer; }
 .project-style-list h3 { margin: 5px 0; color: #8cd5df; font-size: 11px; }
 .project-style-list ul { display: flex; flex-direction: column; gap: 5px; margin: 0; padding: 0; list-style: none; }
 .project-style-list li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 5px; align-items: center; }

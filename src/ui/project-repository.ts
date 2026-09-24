@@ -9,6 +9,7 @@ import { STANDARD_M } from "../drafting";
 import {
   MIGRATION_RECORD_VERSION,
   LEGACY_STYLE_RECORD_KEYS,
+  LEGACY_PROJECT_RECORD_KEYS,
   migrateLegacySaveFile,
   migrateLegacyRecovery,
   parseMigrationRecord,
@@ -23,13 +24,14 @@ import {
 } from "./project-records";
 
 export const PROJECT_DATABASE_NAME = "infinidrip-projects";
-export const PROJECT_DATABASE_VERSION = 2;
+export const PROJECT_DATABASE_VERSION = 3;
 export const PROJECT_STORES = Object.freeze({
   meta: "meta",
   projects: "projects",
   styles: "styles",
   recoveries: "recoveries",
   migrations: "migrations",
+  imports: "imports",
 });
 const ACTIVE_SELECTION_KEY = "activeSelection";
 const ALL_STORES = Object.values(PROJECT_STORES);
@@ -40,6 +42,7 @@ const STORE_KEY_PATHS: Readonly<Record<string, string>> = Object.freeze({
   [PROJECT_STORES.styles]: "id",
   [PROJECT_STORES.recoveries]: "styleId",
   [PROJECT_STORES.migrations]: "sourceSha256",
+  [PROJECT_STORES.imports]: "packageSha256",
 });
 
 export type RepositoryErrorCode =
@@ -50,6 +53,7 @@ export type RepositoryErrorCode =
   | "not-found"
   | "conflict"
   | "invalid-data"
+  | "quota-exceeded"
   | "no-legacy-data"
   | "already-initialized"
   | "transaction";
@@ -80,6 +84,12 @@ export interface LoadedProject {
   readonly activeRecovery: RecoveryRecord | null;
 }
 
+export interface ProjectBundleSnapshot {
+  readonly project: ProjectRecord;
+  readonly styles: readonly StyleRecord[];
+  readonly recoveries: readonly RecoveryRecord[];
+}
+
 export interface SaveProjectBundleInput {
   readonly project: ProjectRecord;
   readonly styles: readonly StyleRecord[];
@@ -89,6 +99,24 @@ export interface SaveProjectBundleInput {
   /** null creates a project; a number is a compare-and-swap revision. */
   readonly expectedProjectRevision: number | null;
 }
+
+export interface ProjectImportReceipt {
+  readonly packageSha256: string;
+  readonly projectId: string;
+  readonly importedAt: string;
+  readonly importedAsCopy: boolean;
+}
+
+export interface ImportProjectBundleInput {
+  readonly project: ProjectRecord;
+  readonly styles: readonly StyleRecord[];
+  readonly recoveries: readonly RecoveryRecord[];
+  readonly receipt: ProjectImportReceipt;
+}
+
+export type ImportProjectBundleOutcome =
+  | { readonly status: "imported"; readonly project: ProjectRecord }
+  | { readonly status: "already-imported"; readonly receipt: ProjectImportReceipt };
 
 export interface LegacyMigrationInput {
   readonly saveJson: string | null;
@@ -111,6 +139,9 @@ interface ActiveSelection {
 function asRepositoryError(error: unknown): ProjectRepositoryError {
   if (error instanceof ProjectRepositoryError) return error;
   const message = error instanceof Error ? error.message : "Unknown IndexedDB error.";
+  if (typeof error === "object" && error !== null && "name" in error && error.name === "QuotaExceededError") {
+    return new ProjectRepositoryError("quota-exceeded", `Local project storage is full; the previous saved version is intact. Export a project backup or free local space, then retry. ${message}`);
+  }
   return new ProjectRepositoryError("transaction", `Project storage transaction failed: ${message}`);
 }
 
@@ -176,6 +207,41 @@ function createSchema(database: IDBDatabase): void {
   }
   if (!database.objectStoreNames.contains(PROJECT_STORES.migrations)) {
     database.createObjectStore(PROJECT_STORES.migrations, { keyPath: "sourceSha256" });
+  }
+  if (!database.objectStoreNames.contains(PROJECT_STORES.imports)) {
+    database.createObjectStore(PROJECT_STORES.imports, { keyPath: "packageSha256" });
+  }
+}
+
+function upgradeProjectRecordsV1(transaction: IDBTransaction | null): void {
+  if (!transaction) return;
+  try {
+    const request = transaction.objectStore(PROJECT_STORES.projects).openCursor();
+    request.onerror = () => transaction.abort();
+    request.onsuccess = () => {
+      try {
+        const cursor = request.result;
+        if (!cursor) return;
+        const value = cursor.value;
+        if (typeof value !== "object" || value === null || Array.isArray(value)) {
+          transaction.abort();
+          return;
+        }
+        const keys = Object.keys(value);
+        if (keys.length !== LEGACY_PROJECT_RECORD_KEYS.length
+          || !LEGACY_PROJECT_RECORD_KEYS.every((key) => Object.prototype.hasOwnProperty.call(value, key))
+          || (value as { schemaVersion?: unknown }).schemaVersion !== 1) {
+          transaction.abort();
+          return;
+        }
+        cursor.update({ ...value, schemaVersion: 2, importedFrom: null });
+        cursor.continue();
+      } catch {
+        transaction.abort();
+      }
+    };
+  } catch {
+    transaction.abort();
   }
 }
 
@@ -298,6 +364,19 @@ function validExpectedRevision(value: number | null): boolean {
   return value === null || (Number.isSafeInteger(value) && value >= 1);
 }
 
+function parseProjectImportReceipt(value: unknown): ProjectImportReceipt | null {
+  if (typeof value !== "object" || value === null || Array.isArray(value)) return null;
+  const record = value as Record<string, unknown>;
+  const keys = ["packageSha256", "projectId", "importedAt", "importedAsCopy"];
+  if (Object.keys(record).length !== keys.length || !keys.every((key) => Object.prototype.hasOwnProperty.call(record, key))
+    || typeof record.packageSha256 !== "string" || !/^[0-9a-f]{64}$/.test(record.packageSha256)
+    || typeof record.projectId !== "string" || !/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(record.projectId)
+    || typeof record.importedAt !== "string" || !Number.isFinite(Date.parse(record.importedAt))
+    || new Date(Date.parse(record.importedAt)).toISOString() !== record.importedAt
+    || typeof record.importedAsCopy !== "boolean") return null;
+  return record as unknown as ProjectImportReceipt;
+}
+
 function buildDefaultSaveJson(): string {
   return serialize(STANDARD_M, DEFAULT_FABRIC, {}, DEFAULT_WORKSPACE, DEFAULT_APPEARANCE);
 }
@@ -323,7 +402,16 @@ export async function openProjectRepository(options: ProjectRepositoryOptions = 
       if (event.oldVersion === 0 && event.newVersion === PROJECT_DATABASE_VERSION) {
         createSchema(request.result);
       } else if (event.oldVersion === 1 && event.newVersion === PROJECT_DATABASE_VERSION) {
+        if (!request.result.objectStoreNames.contains(PROJECT_STORES.imports)) {
+          request.result.createObjectStore(PROJECT_STORES.imports, { keyPath: "packageSha256" });
+        }
         upgradeStyleRecordsV1(request.transaction);
+        upgradeProjectRecordsV1(request.transaction);
+      } else if (event.oldVersion === 2 && event.newVersion === PROJECT_DATABASE_VERSION) {
+        if (!request.result.objectStoreNames.contains(PROJECT_STORES.imports)) {
+          request.result.createObjectStore(PROJECT_STORES.imports, { keyPath: "packageSha256" });
+        }
+        upgradeProjectRecordsV1(request.transaction);
       } else {
         request.transaction?.abort();
       }
@@ -390,6 +478,27 @@ export class ProjectRepository {
       (transaction) => bundleInTransaction(transaction, projectId));
   }
 
+  async readProjectBundle(projectId: string): Promise<ProjectBundleSnapshot | null> {
+    this.ensureOpen();
+    return inTransaction(this.database,
+      [PROJECT_STORES.projects, PROJECT_STORES.styles, PROJECT_STORES.recoveries], "readonly",
+      async (transaction) => {
+        const loaded = await bundleInTransaction(transaction, projectId);
+        if (!loaded) return null;
+        const recoveries: RecoveryRecord[] = [];
+        for (const style of loaded.styles) {
+          const input = await requestValue<RecoveryRecord | undefined>(
+            transaction.objectStore(PROJECT_STORES.recoveries).get(style.id),
+          );
+          if (input === undefined) continue;
+          const parsed = parseRecoveryRecord(input);
+          if (!parsed.ok) throw new ProjectRepositoryError("invalid-data", parsed.error);
+          recoveries.push(parsed.value);
+        }
+        return { project: loaded.project, styles: loaded.styles, recoveries };
+      });
+  }
+
   async readActiveProject(): Promise<LoadedProject | null> {
     this.ensureOpen();
     return inTransaction(this.database, ALL_STORES.slice(0, 4), "readonly", async (transaction) => {
@@ -401,6 +510,112 @@ export class ProjectRepository {
       const loaded = await bundleInTransaction(transaction, stored.projectId, stored.styleId);
       if (!loaded) throw new ProjectRepositoryError("invalid-data", "Active project selection points to a missing project.");
       return loaded;
+    });
+  }
+
+  async listProjects(): Promise<readonly LoadedProject[]> {
+    this.ensureOpen();
+    return inTransaction(this.database, ALL_STORES, "readonly", async (transaction) => {
+      const inputs = await requestValue<ProjectRecord[]>(transaction.objectStore(PROJECT_STORES.projects).getAll());
+      const projects = inputs.map((input) => {
+        const parsed = parseProjectRecord(input);
+        if (!parsed.ok) throw new ProjectRepositoryError("invalid-data", parsed.error);
+        return parsed.value;
+      }).sort((left, right) => left.name.localeCompare(right.name) || left.id.localeCompare(right.id));
+      const loaded: LoadedProject[] = [];
+      for (const project of projects) {
+        const entry = await bundleInTransaction(transaction, project.id);
+        if (!entry) throw new ProjectRepositoryError("invalid-data", "A listed project disappeared during its read transaction.");
+        loaded.push(entry);
+      }
+      return loaded;
+    });
+  }
+
+  async selectActiveProject(projectId: string): Promise<LoadedProject> {
+    this.ensureOpen();
+    if (typeof projectId !== "string" || projectId.trim().length === 0) {
+      throw new ProjectRepositoryError("invalid-data", "Project ID is invalid.");
+    }
+    return inTransaction(this.database, ALL_STORES, "readwrite", async (transaction) => {
+      const loaded = await bundleInTransaction(transaction, projectId);
+      if (!loaded) throw new ProjectRepositoryError("not-found", "Project does not exist.");
+      transaction.objectStore(PROJECT_STORES.meta).put(selection(projectId, loaded.activeStyle.id));
+      return loaded;
+    });
+  }
+
+  async hasStyleIdCollision(styleIds: readonly string[]): Promise<boolean> {
+    this.ensureOpen();
+    if (!Array.isArray(styleIds) || styleIds.some((id) => typeof id !== "string" || id.trim().length === 0)) {
+      throw new ProjectRepositoryError("invalid-data", "Style collision check requires valid IDs.");
+    }
+    return inTransaction(this.database, [PROJECT_STORES.styles], "readonly", async (transaction) => {
+      const store = transaction.objectStore(PROJECT_STORES.styles);
+      for (const id of styleIds) {
+        if (await requestValue<StyleRecord | undefined>(store.get(id)) !== undefined) return true;
+      }
+      return false;
+    });
+  }
+
+  async readProjectImportReceipt(packageSha256: string): Promise<ProjectImportReceipt | null> {
+    this.ensureOpen();
+    if (typeof packageSha256 !== "string" || !/^[0-9a-f]{64}$/.test(packageSha256)) {
+      throw new ProjectRepositoryError("invalid-data", "Project package SHA-256 is invalid.");
+    }
+    return inTransaction(this.database, [PROJECT_STORES.imports], "readonly", async (transaction) => {
+      const receipt = await requestValue<ProjectImportReceipt | undefined>(
+        transaction.objectStore(PROJECT_STORES.imports).get(packageSha256),
+      );
+      if (receipt === undefined) return null;
+      const parsed = parseProjectImportReceipt(receipt);
+      if (!parsed) throw new ProjectRepositoryError("invalid-data", "Project package import receipt is malformed.");
+      return parsed;
+    });
+  }
+
+  async importProjectBundle(input: ImportProjectBundleInput): Promise<ImportProjectBundleOutcome> {
+    this.ensureOpen();
+    const bundle = validateProjectBundle(input.project, input.styles);
+    if (!bundle.ok) throw new ProjectRepositoryError("invalid-data", bundle.error);
+    const recoveries = parseRecoveryInputs(input.recoveries, bundle.value.project.styleIds);
+    const receipt = parseProjectImportReceipt(input.receipt);
+    if (!receipt || receipt.projectId !== bundle.value.project.id) {
+      throw new ProjectRepositoryError("invalid-data", "Project package import receipt does not match the imported project.");
+    }
+    if (input.receipt.importedAsCopy && bundle.value.project.importedFrom === null) {
+      throw new ProjectRepositoryError("invalid-data", "An imported copy must retain its source project lineage.");
+    }
+    return inTransaction(this.database, ALL_STORES, "readwrite", async (transaction) => {
+      const imports = transaction.objectStore(PROJECT_STORES.imports);
+      const existingReceipt = await requestValue<ProjectImportReceipt | undefined>(
+        imports.get(receipt.packageSha256),
+      );
+      if (existingReceipt !== undefined) {
+        const parsed = parseProjectImportReceipt(existingReceipt);
+        if (!parsed) throw new ProjectRepositoryError("invalid-data", "Project package import receipt is malformed.");
+        return { status: "already-imported", receipt: parsed };
+      }
+      const projects = transaction.objectStore(PROJECT_STORES.projects);
+      if (await requestValue<ProjectRecord | undefined>(projects.get(bundle.value.project.id)) !== undefined) {
+        throw new ProjectRepositoryError("conflict", "A project with this ID already exists; import this package as a copy.");
+      }
+      const styles = transaction.objectStore(PROJECT_STORES.styles);
+      for (const style of bundle.value.styles) {
+        if (await requestValue<StyleRecord | undefined>(styles.get(style.id)) !== undefined) {
+          throw new ProjectRepositoryError("conflict", "A style ID already exists; import this package as a copy.");
+        }
+      }
+      projects.add(bundle.value.project);
+      for (const style of bundle.value.styles) styles.add(style);
+      for (const recovery of recoveries) transaction.objectStore(PROJECT_STORES.recoveries).add(recovery);
+      transaction.objectStore(PROJECT_STORES.meta).put(selection(
+        bundle.value.project.id,
+        bundle.value.project.activeStyleId,
+      ));
+      imports.add(receipt);
+      return { status: "imported", project: bundle.value.project };
     });
   }
 

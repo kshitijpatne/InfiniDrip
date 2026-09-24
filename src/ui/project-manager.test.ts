@@ -1,11 +1,17 @@
 // @vitest-environment jsdom
 import { describe, expect, it, vi } from "vitest";
+import { Blob as NodeBlob, File as NodeFile } from "node:buffer";
+import { webcrypto } from "node:crypto";
+import { IDBFactory } from "fake-indexeddb";
 import { STANDARD_M } from "../drafting";
 import { migrateLegacySaveFile, type SavedDesign } from "./project-records";
 import { serialize } from "./persist";
-import { ProjectManager } from "./project-manager";
+import { ProjectManager, recoveryPayloadOrNull } from "./project-manager";
 import type { LoadedProject } from "./project-repository";
 import type { ProjectWorkflow } from "./project-workflow";
+import { openProjectWorkflow } from "./project-workflow";
+import type { ArtworkAssetStore, StoredArtworkAsset } from "../surface/artwork-store";
+import { createProjectPackage, readProjectPackage } from "./project-package";
 
 const TIME = "2026-09-24T16:00:00.000Z";
 const PROJECT_ID = "a02b8322-8f57-46bb-9d16-16ac1fcf6811";
@@ -84,6 +90,15 @@ async function clickAndSettle(host: HTMLElement, selector: string): Promise<void
 }
 
 describe("accessible project and style manager", () => {
+  it("maps absent and present style recovery to the runtime payload consistently", () => {
+    const loaded = loadedProject();
+    expect(recoveryPayloadOrNull(loaded)).toBeNull();
+    expect(recoveryPayloadOrNull({
+      ...loaded,
+      activeRecovery: { schemaVersion: 1, styleId: STYLE_ID, payload: { fabric: "#123456" } } as NonNullable<LoadedProject["activeRecovery"]>,
+    })).toEqual({ fabric: "#123456" });
+  });
+
   it("creates, duplicates, renames, switches, archives, and restores styles", async () => {
     const { host, workflow, setBusy, onStyleLoaded, setUnsavedChanges, setSnapshot, manager } = harness();
     expect(host.textContent).toContain("Current style: Untitled tee");
@@ -156,6 +171,308 @@ describe("accessible project and style manager", () => {
     await clickAndSettle(host, `[data-project-action='archive'][data-style-id='${STYLE_TWO_ID}']`);
     expect(host.textContent).toContain("Archived Second style.");
     expect(onStyleLoaded).toHaveBeenCalledTimes(8);
+  });
+
+  it("exports, imports a clean-profile package, handles idempotency/copy conflicts, and switches projects", async () => {
+    vi.stubGlobal("Blob", NodeBlob);
+    vi.stubGlobal("File", NodeFile);
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const localProjectId = "11111111-1111-4111-8111-111111111111";
+    const localStyleId = "22222222-2222-4222-8222-222222222222";
+    const sourceProjectId = "33333333-3333-4333-8333-333333333333";
+    const sourceStyleId = "44444444-4444-4444-8444-444444444444";
+    const copiedProjectId = "55555555-5555-4555-8555-555555555555";
+    const copiedStyleId = "66666666-6666-4666-8666-666666666666";
+    const assetId = "local-1234567890abcdef1234567890abcdef-svg";
+    const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"><rect width="10" height="10"/></svg>';
+    const surface = { "tee/Untitled tee": { styleName: "Untitled tee", placements: [{
+      id: "front-mark", kind: "print", pieceRole: "body-front", widthCm: 4, heightCm: 3,
+      transform: { dx: 0, dy: 0, scale: 1, rotationDeg: 0 }, zOrder: 1, sourceName: "Studio mark", assetId,
+    }] } };
+    const source = migrateLegacySaveFile({
+      json: serialize(STANDARD_M, "#3A4150", {}, undefined, undefined, surface),
+      projectId: sourceProjectId, styleId: sourceStyleId, migratedAt: TIME, projectName: "Imported / Source",
+    });
+    if (!source.ok) throw new Error(source.error);
+    const sourceAssets = new Map<string, StoredArtworkAsset>([[assetId, {
+      assetId, name: "mark.svg", mimeType: "image/svg+xml", blob: new NodeBlob([svg], { type: "image/svg+xml" }),
+    } as unknown as StoredArtworkAsset]]);
+    const artworkStore: ArtworkAssetStore = {
+      async put(asset) { if (sourceAssets.has(asset.assetId)) throw new Error("Artwork already exists."); sourceAssets.set(asset.assetId, asset); },
+      async get(id) { return sourceAssets.get(id) ?? null; },
+      async remove(id) { sourceAssets.delete(id); },
+    };
+    const sourcePackage = await createProjectPackage({ project: source.value.project, styles: [source.value.style], recoveries: [] }, artworkStore, {
+      crypto: webcrypto as unknown as Crypto,
+    });
+    const inputFile = async (blob: Blob, name: string): Promise<File> => new NodeFile([await blob.arrayBuffer()], name, { type: "application/zip" }) as unknown as File;
+    const setFile = (host: HTMLElement, file: File): void => {
+      const input = host.querySelector<HTMLInputElement>("#project-package-file")!;
+      Object.defineProperty(input, "files", { configurable: true, value: [file] });
+      input.dispatchEvent(new Event("change", { bubbles: true }));
+    };
+
+    const idValues = [localProjectId, localStyleId];
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: { name: `project-manager-package-${Date.now()}`, factory: new IDBFactory(), crypto: webcrypto as unknown as Crypto },
+      storage: localStorage,
+      idFactory: () => idValues.shift() ?? "77777777-7777-4777-8777-777777777777",
+      now: () => TIME,
+    });
+    const host = document.createElement("div");
+    document.body.append(host);
+    const savedPackages: Array<{ filename: string; blob: Blob }> = [];
+    const copyIds = ["77777777-7777-4777-8777-777777777777", copiedProjectId, copiedStyleId];
+    let permitCopy = false;
+    let unsaved = false;
+    const onStyleLoaded = vi.fn();
+    const manager = new ProjectManager({
+      host, workflow, artworkStore,
+      inspectAsset: async (file) => ({ name: file.name, mimeType: "image/svg+xml", blob: file }),
+      savePackage: async (filename, blob) => { savedPackages.push({ filename, blob }); return savedPackages.length > 1; },
+      confirm: () => permitCopy,
+      packageOptions: { now: () => TIME, idFactory: () => copyIds.shift() ?? "77777777-7777-4777-8777-777777777777" },
+      getCurrentDesign: () => workflow.snapshot.activeStyle.design,
+      getBlankDesign: () => workflow.snapshot.activeStyle.design,
+      hasUnsavedChanges: () => unsaved,
+      onStyleLoaded,
+      setBusy: vi.fn(),
+    });
+    try {
+      setFile(host, await inputFile(sourcePackage, "source.infinidrip.zip"));
+      await vi.waitFor(() => expect(host.querySelector("#project-manager-status")?.textContent).toContain("Imported project: Imported / Source"));
+      expect(workflow.snapshot.project.id).toBe(sourceProjectId);
+      expect(onStyleLoaded).toHaveBeenLastCalledWith(
+        expect.objectContaining({ project: expect.objectContaining({ id: sourceProjectId }), activeRecovery: null }), null,
+      );
+      expect(sourceAssets.has(assetId)).toBe(true);
+
+      setFile(host, await inputFile(sourcePackage, "source.infinidrip.zip"));
+      await vi.waitFor(() => expect(host.querySelector("#project-manager-status")?.textContent).toContain("already imported"));
+
+      await workflow.renameActiveStyle("Revised source style");
+      manager.refresh();
+      host.querySelector<HTMLButtonElement>("[data-project-action='export-package']")!.click();
+      await vi.waitFor(() => expect(host.querySelector("#project-manager-status")?.textContent).toContain("Backup export canceled"));
+      expect(savedPackages[0]!.filename).toMatch(/\.infinidrip\.zip$/);
+      host.querySelector<HTMLButtonElement>("[data-project-action='export-package']")!.click();
+      await vi.waitFor(() => expect(host.querySelector("#project-manager-status")?.textContent).toContain("Project backup exported"));
+      const conflictPackage = savedPackages[1]!.blob;
+      const validArchive = await readProjectPackage(conflictPackage, { crypto: webcrypto as unknown as Crypto });
+      expect(validArchive.manifest.styles[0]?.name).toBe("Revised source style");
+
+      permitCopy = false;
+      setFile(host, await inputFile(conflictPackage, "conflict.infinidrip.zip"));
+      await vi.waitFor(() => expect(host.querySelector("#project-manager-status")?.textContent).toContain("import canceled"));
+      expect(workflow.snapshot.project.id).toBe(sourceProjectId);
+
+      permitCopy = true;
+      setFile(host, await inputFile(conflictPackage, "conflict.infinidrip.zip"));
+      await vi.waitFor(() => expect(host.querySelector("#project-manager-status")?.textContent).toContain("Imported a separate copy"));
+      expect(workflow.snapshot.project.id).toBe(copiedProjectId);
+      expect(workflow.snapshot.project.importedFrom).toMatchObject({ projectId: sourceProjectId, styleIds: [sourceStyleId] });
+      expect(await workflow.repository.listProjects()).toHaveLength(3);
+
+      setFile(host, await inputFile(conflictPackage, "conflict.infinidrip.zip"));
+      await vi.waitFor(() => expect(host.querySelector("#project-manager-status")?.textContent).toContain("already imported"));
+
+      const select = host.querySelector<HTMLSelectElement>("#project-select")!;
+      unsaved = true;
+      permitCopy = false;
+      select.value = localProjectId;
+      host.querySelector<HTMLButtonElement>("[data-project-action='switch-project']")!.click();
+      await vi.waitFor(() => expect(host.querySelector("#project-manager-status")?.textContent).not.toContain("Opening project"));
+      expect(workflow.snapshot.project.id).toBe(copiedProjectId);
+      permitCopy = true;
+      host.querySelector<HTMLButtonElement>("[data-project-action='switch-project']")!.click();
+      await vi.waitFor(() => expect(host.querySelector("#project-manager-status")?.textContent).toContain("Opened My designs"));
+      expect(workflow.snapshot.project.id).toBe(localProjectId);
+
+      select.value = localProjectId;
+      host.querySelector<HTMLButtonElement>("[data-project-action='switch-project']")!.click();
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("already open");
+    } finally {
+      workflow.close();
+      host.remove();
+      document.body.querySelectorAll("#project-operation-cancel").forEach((element) => element.remove());
+      vi.unstubAllGlobals();
+      vi.restoreAllMocks();
+    }
+  });
+
+  it("shows storage, oversize, malformed, and cancel feedback for package actions", async () => {
+    const { workflow } = harness();
+    vi.stubGlobal("Blob", NodeBlob);
+    vi.stubGlobal("File", NodeFile);
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const noStoreHost = document.createElement("div");
+    document.body.append(noStoreHost);
+    const noStore = new ProjectManager({
+      host: noStoreHost,
+      workflow,
+      getCurrentDesign: () => workflow.snapshot.activeStyle.design,
+      getBlankDesign: () => workflow.snapshot.activeStyle.design,
+      hasUnsavedChanges: () => false,
+      onStyleLoaded: vi.fn(),
+      setBusy: vi.fn(),
+    });
+    const exportAction = document.createElement("button");
+    exportAction.dataset.projectAction = "export-package";
+    noStoreHost.append(exportAction);
+    exportAction.click();
+    expect(noStoreHost.textContent).toContain("local artwork storage is not connected");
+    const importAction = document.createElement("button");
+    importAction.dataset.projectAction = "import-package";
+    noStoreHost.append(importAction);
+    importAction.click();
+    expect(noStoreHost.textContent).toContain("local artwork storage is not connected");
+    await (noStore as unknown as { importPackage(file: File): Promise<void> }).importPackage(
+      new NodeFile(["unused"], "unused.zip", { type: "application/zip" }) as unknown as File,
+    );
+    expect(noStoreHost.textContent).toContain("local artwork storage is not connected");
+    noStore.refresh("Reset");
+
+    const assetStore: ArtworkAssetStore = { put: vi.fn(), get: vi.fn(async () => null), remove: vi.fn() };
+    const host2 = document.createElement("div");
+    document.body.append(host2);
+    const manager = new ProjectManager({
+      host: host2, workflow, artworkStore: assetStore,
+      getCurrentDesign: () => workflow.snapshot.activeStyle.design,
+      getBlankDesign: () => workflow.snapshot.activeStyle.design,
+      hasUnsavedChanges: () => false,
+      onStyleLoaded: vi.fn(),
+      setBusy: vi.fn(),
+      savePackage: async () => false,
+    });
+    const large = { size: 256 * 1024 * 1024 + 1 } as File;
+    const fileInput = host2.querySelector<HTMLInputElement>("#project-package-file")!;
+    Object.defineProperty(fileInput, "files", { configurable: true, value: [large] });
+    fileInput.dispatchEvent(new Event("change", { bubbles: true }));
+    await vi.waitFor(() => expect(host2.textContent).toContain("no larger than 256 MiB"));
+    await vi.waitFor(() => expect(host2.querySelector(".project-manager")?.getAttribute("aria-busy")).toBe("false"));
+
+    const invalid = new NodeFile(["not a ZIP archive; this content is not valid."], "bad.zip", { type: "application/zip" }) as unknown as File;
+    await (manager as unknown as { importPackage(file: File): Promise<void> }).importPackage(invalid);
+    expect(host2.querySelector("#project-manager-status")?.textContent).toContain("complete supported ZIP");
+    noStoreHost.remove();
+    host2.remove();
+    document.querySelector("#project-operation-cancel")?.remove();
+    manager.refresh("done");
+    vi.unstubAllGlobals();
+  });
+
+  it("uses the browser download fallback and accepts an empty local-project selection", async () => {
+    vi.stubGlobal("Blob", NodeBlob);
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const projectId = "11111111-1111-4111-8111-111111111111";
+    const styleId = "22222222-2222-4222-8222-222222222222";
+    const generatedIds = [projectId, styleId];
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: { name: "project-manager-download-" + Date.now(), factory: new IDBFactory(), crypto: webcrypto as unknown as Crypto },
+      storage: { getItem: () => null },
+      idFactory: () => generatedIds.shift() ?? "33333333-3333-4333-8333-333333333333",
+      now: () => TIME,
+    });
+    const savedBundle = await workflow.repository.readProjectBundle(projectId);
+    if (!savedBundle) throw new Error("Initial project bundle is missing.");
+    await workflow.repository.saveProjectBundle({
+      project: {
+        ...savedBundle.project,
+        name: "🧵",
+        revision: savedBundle.project.revision + 1,
+        updatedAt: "2026-09-24T16:00:01.000Z",
+      },
+      styles: savedBundle.styles,
+      expectedProjectRevision: savedBundle.project.revision,
+    });
+    const host = document.createElement("div");
+    document.body.append(host);
+    const urlApi = { createObjectURL: vi.fn(() => "blob:backup"), revokeObjectURL: vi.fn() };
+    vi.stubGlobal("URL", urlApi);
+    let downloadedName = "";
+    const click = vi.spyOn(HTMLAnchorElement.prototype, "click").mockImplementation(function (this: HTMLAnchorElement) {
+      downloadedName = this.download;
+    });
+    const downloadManager = new ProjectManager({
+      host,
+      workflow,
+      artworkStore: { put: async () => undefined, get: async () => null, remove: async () => undefined },
+      getCurrentDesign: () => workflow.snapshot.activeStyle.design,
+      getBlankDesign: () => workflow.snapshot.activeStyle.design,
+      hasUnsavedChanges: () => false,
+      onStyleLoaded: vi.fn(),
+      setBusy: vi.fn(),
+    });
+    try {
+      const progress = (downloadManager as unknown as {
+        packageOptions(signal: AbortSignal): {
+          onProgress(value: { phase: "commit"; completedBytes: number; totalBytes: number }): void;
+        };
+      }).packageOptions(new AbortController().signal);
+      progress.onProgress({ phase: "commit", completedBytes: 0, totalBytes: 0 });
+      expect(host.querySelector(".project-package-progress-label")?.textContent).toContain("100%");
+      downloadManager.refresh();
+      host.dispatchEvent(new Event("change", { bubbles: true }));
+      host.querySelector<HTMLInputElement>("#project-package-file")!.dispatchEvent(new Event("change", { bubbles: true }));
+      host.querySelector<HTMLSelectElement>("#project-select")!.value = "";
+      host.querySelector<HTMLButtonElement>("[data-project-action='switch-project']")!.click();
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("Choose a local project first");
+
+      host.querySelector<HTMLButtonElement>("[data-project-action='export-package']")!.click();
+      await vi.waitFor(() => expect(host.querySelector("#project-manager-status")?.textContent).toContain("Project backup exported"));
+      expect(urlApi.createObjectURL).toHaveBeenCalledOnce();
+      expect(click).toHaveBeenCalledOnce();
+      await vi.waitFor(() => expect(urlApi.revokeObjectURL).toHaveBeenCalledWith("blob:backup"));
+      expect(downloadedName).toBe("project.infinidrip.zip");
+      expect(workflow.snapshot.project.id).toBe(projectId);
+
+      const missingHost = document.createElement("div");
+      document.body.append(missingHost);
+      vi.spyOn(workflow.repository, "readProjectBundle").mockResolvedValueOnce(null);
+      new ProjectManager({
+        host: missingHost,
+        workflow,
+        artworkStore: { put: async () => undefined, get: async () => null, remove: async () => undefined },
+        getCurrentDesign: () => workflow.snapshot.activeStyle.design,
+        getBlankDesign: () => workflow.snapshot.activeStyle.design,
+        hasUnsavedChanges: () => false,
+        onStyleLoaded: vi.fn(),
+        setBusy: vi.fn(),
+      });
+      missingHost.querySelector<HTMLButtonElement>("[data-project-action='export-package']")!.click();
+      await vi.waitFor(() => expect(missingHost.querySelector("#project-manager-status")?.textContent).toContain("disappeared before its backup"));
+      missingHost.remove();
+
+      const cancelHost = document.createElement("div");
+      document.body.append(cancelHost);
+      let finishSave!: (saved: boolean) => void;
+      const cancelManager = new ProjectManager({
+        host: cancelHost,
+        workflow,
+        artworkStore: { put: async () => undefined, get: async () => null, remove: async () => undefined },
+        getCurrentDesign: () => workflow.snapshot.activeStyle.design,
+        getBlankDesign: () => workflow.snapshot.activeStyle.design,
+        hasUnsavedChanges: () => false,
+        onStyleLoaded: vi.fn(),
+        setBusy: vi.fn(),
+        savePackage: () => new Promise<boolean>((resolve) => { finishSave = resolve; }),
+      });
+      cancelHost.querySelector<HTMLButtonElement>("[data-project-action='export-package']")!.click();
+      await vi.waitFor(() => expect(finishSave).toBeTypeOf("function"));
+      document.querySelector<HTMLButtonElement>("#project-operation-cancel button")!.click();
+      finishSave(false);
+      await vi.waitFor(() => expect(cancelHost.querySelector("#project-manager-status")?.textContent).toContain("Backup export canceled"));
+      const confirm = vi.spyOn(window, "confirm").mockReturnValue(false);
+      expect((cancelManager as unknown as { confirm(message: string): boolean }).confirm("fallback")).toBe(false);
+      confirm.mockReturnValue(true);
+      expect((cancelManager as unknown as { confirm(message: string): boolean }).confirm("fallback")).toBe(true);
+      cancelHost.remove();
+    } finally {
+      workflow.close();
+      host.remove();
+      document.querySelector("#project-operation-cancel")?.remove();
+      vi.unstubAllGlobals();
+    }
   });
 
   it("keeps invalid duplicates visible and reports conflicts, generic failures, and missing style IDs", async () => {

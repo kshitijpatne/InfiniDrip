@@ -19,13 +19,15 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "coverage": "vitest run --coverage",
-    "electron:build-main": "tsc -p electron/tsconfig.json",
+    "electron:build-main": "tsc -p electron/runtime-tsconfig.json && tsc -p electron/tsconfig.json --noEmit",
     "electron:dev": "npm run electron:build-main && electron .",
     "electron:pack": "npm run build && npm run electron:build-main && electron-builder --dir --publish never",
     "electron:verify-idb-file-origin": "node electron/verify-idb-file-origin.cjs",
     "electron:verify-project-repository": "node electron/verify-project-repository.cjs",
     "preelectron:verify-project-workflow": "npm run build && npm run electron:build-main",
     "electron:verify-project-workflow": "node electron/verify-project-workflow.cjs",
+    "preelectron:verify-project-package": "npm run build && npm run electron:build-main",
+    "electron:verify-project-package": "node electron/verify-project-package.cjs",
     "electron:verify": "node electron/verify-save.cjs",
     "electron:verify-artwork-store": "node electron/verify-artwork-store.cjs",
     "electron:verify-packaged": "node electron/verify-save.cjs --packaged",
@@ -52,10 +54,26 @@
   "build": {
     "appId": "com.infinidrip.app",
     "productName": "InfiniDrip",
-    "files": ["dist/**/*", "dist-electron/**/*"],
-    "directories": { "output": "release" },
-    "mac": { "target": "dir", "identity": null },
-    "win": { "target": "dir" },
-    "linux": { "target": "dir", "executableName": "InfiniDrip" }
+    "files": [
+      "dist/**/*",
+      "dist-electron/**/*"
+    ],
+    "directories": {
+      "output": "release"
+    },
+    "mac": {
+      "target": "dir",
+      "identity": null
+    },
+    "win": {
+      "target": "dir"
+    },
+    "linux": {
+      "target": "dir",
+      "executableName": "InfiniDrip"
+    }
+  },
+  "dependencies": {
+    "fflate": "0.8.3"
   }
 }

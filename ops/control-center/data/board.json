@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 273,
-  "updatedAt": "2026-09-24T19:24:19.726Z",
+  "revision": 278,
+  "updatedAt": "2026-09-24T22:43:52.023Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -4411,10 +4411,10 @@
       "title": "F01 — Local versioned project and style foundation",
       "epicId": "EPIC-15",
       "releaseId": null,
-      "status": "In Progress",
+      "status": "Done",
       "openedAt": "2026-09-24",
       "targetAt": "2026-10-30",
-      "deliveredAt": null,
+      "deliveredAt": "2026-09-24",
       "priority": "P0",
       "risk": "high",
       "owner": "Codex",
@@ -4462,6 +4462,24 @@
           "role": "maintainer",
           "note": "Start Slice 230 storage, migration, record, recovery and backup contract research.",
           "evidenceRefs": []
+        },
+        {
+          "status": "Review",
+          "at": "2026-09-24T22:43:51.456Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "Slice 234 evidence is linked; submit the complete F01 foundation for its evidence-gated exit review.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "Done",
+          "at": "2026-09-24T22:43:51.609Z",
+          "actor": "Codex",
+          "role": "reviewer",
+          "note": "Accepted F01 against S230–S234 contracts and runtime evidence; portability, recovery, rollback, limits and residual risks are recorded.",
+          "evidenceRefs": [
+            "E-EPIC15-F01-PACKAGE-S234"
+          ]
         }
       ],
       "comments": [],
@@ -4469,7 +4487,8 @@
         "E-EPIC15-F01-STORAGE-S230",
         "E-EPIC15-F01-MODEL-S231",
         "E-EPIC15-F01-REPO-S232",
-        "E-EPIC15-F01-WORKFLOW-S233"
+        "E-EPIC15-F01-WORKFLOW-S233",
+        "E-EPIC15-F01-PACKAGE-S234"
       ],
       "flagKey": null
     },
@@ -4479,7 +4498,7 @@
       "title": "F02 — Field provenance and dependency invalidation",
       "epicId": "EPIC-15",
       "releaseId": null,
-      "status": "Backlog",
+      "status": "In Progress",
       "openedAt": "2026-09-24",
       "targetAt": "2026-11-13",
       "deliveredAt": null,
@@ -4514,10 +4533,30 @@
           "role": "maintainer",
           "note": "Create the admitted EPIC-15/G02 packet and preserve the dependency order in the canonical Control Center.",
           "evidenceRefs": []
+        },
+        {
+          "status": "Ready",
+          "at": "2026-09-24T22:43:51.785Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "F01 is Done with verified exit evidence; the admitted dependency order now permits F02.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-09-24T22:43:52.023Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "Start Slice 235: map C03-aligned field definitions and source-aware value observations across all seven current recipes.",
+          "evidenceRefs": [
+            "E-EPIC15-F01-PACKAGE-S234"
+          ]
         }
       ],
       "comments": [],
-      "evidenceRefs": [],
+      "evidenceRefs": [
+        "E-EPIC15-F01-PACKAGE-S234"
+      ],
       "flagKey": null
     },
     {
@@ -5165,6 +5204,15 @@
       "sha256": "d28264bba17a639ac23763896ecc0fe7824a18df6fac4b1b9a49ed9d402d75e8",
       "verified": true,
       "note": "Slice 233 connects migration, per-style Save/Load and recovery, and accessible local project/style management; full 100% coverage plus rendered persistent Chromium and Electron restart/save/recovery proof passed."
+    },
+    {
+      "id": "E-EPIC15-F01-PACKAGE-S234",
+      "kind": "exit-report",
+      "uri": "docs/research/epic15/F01-PACKAGE-EXPORT-IMPORT-S234.md",
+      "commit": null,
+      "sha256": "564d7afa464d74b0a3bd2f48d53667eaf917febabad9970f16a0a9fad4521de6",
+      "verified": true,
+      "note": "Slice 234 portable project-package import/export passed full-suite, global coverage, protected export identity, build, dependency audit, browser and Electron restart verification. See the report for measured package limits and memory costs."
     }
   ]
 }
