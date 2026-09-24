@@ -131,7 +131,8 @@ export function parseRawNestingIntelligence(value: unknown): RawNestingIntellige
   return { buffer: value.buffer, available: value.available, napAware: value.napAware };
 }
 type RecoveryResult = ({ ok: true } & Omit<RecoveryFile, "v">) | { ok: false; error: string };
-const RECOVERY_STORAGE_KEY = "patternworks_recovery_v1";
+export const LEGACY_RECOVERY_STORAGE_KEY = "patternworks_recovery_v1";
+const RECOVERY_STORAGE_KEY = LEGACY_RECOVERY_STORAGE_KEY;
 
 const finiteNumberMap = (value: unknown): value is Record<string, number | null> =>
   object(value) && Object.values(value).every((entry) => entry === null || (typeof entry === "number" && Number.isFinite(entry)));
@@ -233,7 +234,8 @@ export function deserialize(json: string): LoadResult {
   return { ok: true, measurements, fabric, appearance, garmentOptions, workspace, surface: surface ?? {}, nestingIntelligence: nestingIntelligence ?? { ...DEFAULT_NESTING_INTELLIGENCE } };
 }
 
-const STORAGE_KEY = "patternworks_save_v1";
+export const LEGACY_SAVE_STORAGE_KEY = "patternworks_save_v1";
+const STORAGE_KEY = LEGACY_SAVE_STORAGE_KEY;
 export function saveToStorage(m: Measurements, fabric: string, garmentOptions: GarmentOptionsByRecipe = {}, workspace: Workspace = DEFAULT_WORKSPACE, appearance: Appearance = DEFAULT_APPEARANCE, surface: SurfaceBook = {}, nestingIntelligence: NestingIntelligence = { ...DEFAULT_NESTING_INTELLIGENCE }): boolean {
   try {
     const json = serialize(m, fabric, garmentOptions, workspace, appearance, surface, nestingIntelligence);

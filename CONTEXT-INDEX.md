@@ -109,8 +109,9 @@ snapshots; they are not current status.
 - `docs/research/epic15/F01-TRANSACTIONAL-REPOSITORY-S232.md` — Slice 232's
   exact IndexedDB schema checks, atomic project/style/recovery operations,
   source-fingerprinted migration, fault rollback tests, and Electron
-  restart/path-change proof. The repository API is not yet wired to Save/Load;
-  Slice 233 owns that user-facing integration.
+  restart/path-change proof. Slice 233 integrates the repository at startup and
+  in Save/Load, recovery, and project/style UI; actual-browser and Electron
+  evidence is in `docs/research/epic15/F01-PROJECT-STYLE-WORKFLOW-S233.md`.
 - `docs/research/epic14/` — accepted evidence packets for C01 recipe baseline,
   C02 standards and tools, C05 3D feasibility, C06 starter/assortment/upcycling/
   supplier evidence, and C03 measurement/donor contract. C04's accepted

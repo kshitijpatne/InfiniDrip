@@ -24,6 +24,8 @@
     "electron:pack": "npm run build && npm run electron:build-main && electron-builder --dir --publish never",
     "electron:verify-idb-file-origin": "node electron/verify-idb-file-origin.cjs",
     "electron:verify-project-repository": "node electron/verify-project-repository.cjs",
+    "preelectron:verify-project-workflow": "npm run build && npm run electron:build-main",
+    "electron:verify-project-workflow": "node electron/verify-project-workflow.cjs",
     "electron:verify": "node electron/verify-save.cjs",
     "electron:verify-artwork-store": "node electron/verify-artwork-store.cjs",
     "electron:verify-packaged": "node electron/verify-save.cjs --packaged",

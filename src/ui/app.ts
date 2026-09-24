@@ -51,6 +51,10 @@ import {
   journeyBarMarkup, checklistMarkup, tutorialMarkup, tutorialAnnouncement,
   tutorialStepForJourneyStep, celebrationMarkup, loadJourneyWithStatus, saveJourney,
 } from "./journey";
+import { ProjectWorkflow } from "./project-workflow";
+import { ProjectManager } from "./project-manager";
+import type { LoadedProject } from "./project-repository";
+import type { RecoveryPayload, SavedDesign } from "./project-records";
 
 // The desktop shell's bridge (Slice 46) — see electron/preload.cts for the
 // other end. Optional: undefined everywhere this app runs as a plain web page.
@@ -114,6 +118,8 @@ export interface MountAppOptions {
   /** Injectable only to verify local asset behavior without a real browser DB. */
   readonly artworkAssetStore?: ArtworkAssetStore;
   readonly inspectArtworkFile?: (file: File) => Promise<InspectedArtworkFile>;
+  /** The browser entry opens/migrates this local project before mount. */
+  readonly projectWorkflow?: ProjectWorkflow;
 }
 
 function defaultArtworkAssetStore(): ArtworkAssetStore {
@@ -132,7 +138,8 @@ function defaultArtworkAssetStore(): ArtworkAssetStore {
 
 export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void {
   activeMountRoot = root;
-  const saved = loadFromStorage();
+  const projectWorkflow = options.projectWorkflow;
+  const saved = projectWorkflow?.snapshot.activeStyle.design ?? loadFromStorage();
   let measurements: Measurements = saved ? saved.measurements : STANDARD_M;
   let fabric = saved ? saved.fabric : DEFAULT_FABRIC;
   let garmentOptions: GarmentOptionsByRecipe = saved ? saved.garmentOptions : {};
@@ -159,6 +166,14 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   const journeyHost = root.querySelector<HTMLDivElement>("#journey-host")!;
   const tutorialHost = root.querySelector<HTMLDivElement>("#tutorial-host")!;
   const recoveryHost = root.querySelector<HTMLDivElement>("#recovery-host")!;
+  const projectManagerHost = root.querySelector<HTMLDivElement>("#project-manager-host")!;
+  const projectPersistenceState = root.querySelector<HTMLSpanElement>("#project-persistence-state")!;
+  projectManagerHost.hidden = !projectWorkflow;
+  projectPersistenceState.hidden = !projectWorkflow;
+  if (projectWorkflow) {
+    projectPersistenceState.textContent = "Saved in this style";
+    projectPersistenceState.dataset.state = "saved";
+  }
   const undoButton = root.querySelector<HTMLButtonElement>("#undo-pattern")!;
   const redoButton = root.querySelector<HTMLButtonElement>("#redo-pattern")!;
 
@@ -176,9 +191,11 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   let historyPresent: DraftSnapshot | null = null;
   let historyRestoring = false;
   let recoveryTrackingEnabled = false;
-  let pendingRecovery: Omit<RecoveryFile, "v"> | null = null;
-  const recoveryRead = readRecoveryFromStorage();
-  if (recoveryRead.ok) pendingRecovery = recoveryRead;
+  let pendingRecovery: Omit<RecoveryFile, "v"> | null = projectWorkflow?.snapshot.activeRecovery?.payload ?? null;
+  if (!projectWorkflow) {
+    const recoveryRead = readRecoveryFromStorage();
+    if (recoveryRead.ok) pendingRecovery = recoveryRead;
+  }
   let pendingLoad: Omit<SaveFile, "v"> | null = null;
   let pendingLoadFocus: HTMLElement | null = null;
   let currentNotes: readonly Note[] = [];
@@ -263,6 +280,26 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
 
   const currentWorkspace = (): Workspace => ({ garment: recipe.name, targetStyle, stretchFabric: stretchFabric.name,
     view, bodyCroquisView, exportStep, fabricWidth, nestScope });
+  const currentSavedDesign = (): SavedDesign | null => {
+    const result = deserialize(serialize(measurements, fabric, garmentOptions, currentWorkspace(), appearance, surfaceBook, {
+      bufferPct: nestBufferRaw.trim() === "" ? NaN : Number(nestBufferRaw),
+      availableLengthCm: nestAvailableRaw.trim() === "" ? null : Number(nestAvailableRaw),
+      napAware: nestNap,
+    }));
+    if (!result.ok) return null;
+    const { ok: _ok, ...design } = result;
+    return design;
+  };
+  const blankSavedDesign = (): SavedDesign => {
+    const workspace = {
+      ...DEFAULT_WORKSPACE,
+      stretchFabric: defaultStretchFabricForGarment(DEFAULT_WORKSPACE.garment),
+    };
+    const result = deserialize(serialize(STANDARD_M, DEFAULT_FABRIC, {}, workspace, DEFAULT_APPEARANCE));
+    if (!result.ok) throw new Error(`Default style is invalid: ${result.error}`);
+    const { ok: _ok, ...design } = result;
+    return design;
+  };
   const copyOptions = (options: GarmentOptionsByRecipe): GarmentOptionsByRecipe =>
     Object.fromEntries(Object.entries(options).map(([name, values]) => [name, { ...values }])) as GarmentOptionsByRecipe;
   const currentRawMeasurements = (): Partial<Record<keyof Measurements, string>> =>
@@ -322,7 +359,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       `<button id="recovery-accept" type="button">Recover draft</button></div></div>`;
     recoveryHost.querySelector<HTMLButtonElement>("#recovery-discard")!.addEventListener("click", () => {
       pendingRecovery = null;
-      clearRecoveryFromStorage();
+      clearStoredRecovery();
       renderRecoveryPrompt();
     });
     recoveryHost.querySelector<HTMLButtonElement>("#recovery-accept")!.addEventListener("click", () => {
@@ -330,6 +367,24 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     });
     recoveryHost.querySelector<HTMLButtonElement>("#recovery-accept")!.focus();
   };
+
+  function clearStoredRecovery(styleId?: string): void {
+    if (projectWorkflow) {
+      const recoveryStyleId = styleId ?? projectWorkflow.snapshot.activeStyle.id;
+      void projectWorkflow.clearRecovery(recoveryStyleId).then(() => {
+        if (projectWorkflow.snapshot.activeStyle.id === recoveryStyleId && outputRevision === savedRevision) {
+          projectPersistenceState.textContent = "Saved in this style";
+          projectPersistenceState.dataset.state = "saved";
+        }
+      }).catch((error: unknown) => {
+        if (projectWorkflow.snapshot.activeStyle.id !== recoveryStyleId) return;
+        projectPersistenceState.textContent = `Recovery clear failed: ${error instanceof Error ? error.message : "storage error"}`;
+        projectPersistenceState.dataset.state = "failed";
+      });
+      return;
+    }
+    clearRecoveryFromStorage();
+  }
 
   /** Design options live per recipe, never in body measurements. Existing saved
    * values stay verbatim so guidance can explain an invalid combination. */
@@ -771,7 +826,28 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         historyPresent = next;
       }
     }
-    if (recoveryTrackingEnabled) saveRecoveryToStorage(captureRecoveryFile());
+    if (recoveryTrackingEnabled) {
+      if (projectWorkflow) {
+        const styleId = projectWorkflow.snapshot.activeStyle.id;
+        projectPersistenceState.textContent = "Unsaved changes · saving style recovery…";
+        projectPersistenceState.dataset.state = "unsaved";
+        void projectWorkflow.saveRecovery(styleId, captureRecoveryFile()).then(() => {
+          if (projectWorkflow.snapshot.activeStyle.id === styleId) {
+            projectPersistenceState.textContent = "Unsaved changes · style recovery saved";
+            projectPersistenceState.dataset.state = "unsaved";
+          }
+        }).catch((error: unknown) => {
+          if (projectWorkflow.snapshot.activeStyle.id !== styleId) return;
+          const code = (error as { code?: unknown } | null)?.code;
+          projectPersistenceState.textContent = code === "conflict"
+            ? "Stale project · reload before continuing to save."
+            : "Recovery save failed · the latest unsaved edits may be lost if the app closes.";
+          projectPersistenceState.dataset.state = code === "conflict" ? "stale" : "failed";
+        });
+      } else {
+        saveRecoveryToStorage(captureRecoveryFile());
+      }
+    }
     syncHistoryControls();
   };
   const renderGuidance = (notes: readonly Note[]): void => {
@@ -2615,6 +2691,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   // this slice. Additive, not a fork: every export button, every test of
   // this function's browser path, is unchanged.
   const statusEl = root.querySelector<HTMLSpanElement>("#persist-status")!;
+  let projectManager: ProjectManager | null = null;
   let statusTimer = 0;
   const flash = (msg: string, color: string): void => {
     statusEl.textContent = msg;
@@ -2632,7 +2709,11 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     pendingLoadFocus = null;
     focus?.focus();
   };
-  const applyLoaded = (loaded: Omit<SaveFile, "v">): void => {
+  const applyLoaded = (
+    loaded: Omit<SaveFile, "v">,
+    recovery: RecoveryPayload | null = null,
+    clearRecovery = true,
+  ): void => {
     historyRestoring = true;
     measurements = loaded.measurements;
     fabric = loaded.fabric;
@@ -2662,8 +2743,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     savedRevision = outputRevision;
     history = emptyHistory();
     historyPresent = captureDraftSnapshot();
-    pendingRecovery = null;
-    clearRecoveryFromStorage();
+    pendingRecovery = recovery;
+    if (clearRecovery) clearStoredRecovery();
     renderRecoveryPrompt();
     syncHistoryControls();
     flash("Loaded ✓", "#2E9B63");
@@ -2798,16 +2879,58 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     const nestingIntelligence = { bufferPct: bufferValue, availableLengthCm: availableValue, napAware: nestNap };
     const validation = deserialize(serialize(measurements, fabric, garmentOptions, workspace, appearance, surfaceBook, nestingIntelligence));
     if (!validation.ok) { flash(`Save failed: ${validation.error}`, BLUEPRINT.lineActive); return; }
+    const { ok: _ok, ...design } = validation;
+    const saveRevision = outputRevision;
+    if (projectWorkflow) {
+      projectPersistenceState.textContent = "Saving this style…";
+      projectPersistenceState.dataset.state = "unsaved";
+      void projectWorkflow.saveActiveDesign(design).then(() => {
+        const legacyProjectionSaved = saveToStorage(
+          design.measurements,
+          design.fabric,
+          design.garmentOptions,
+          design.workspace,
+          design.appearance,
+          design.surface,
+          design.nestingIntelligence,
+        );
+        pendingRecovery = null;
+        renderRecoveryPrompt();
+        if (outputRevision === saveRevision) {
+          savedRevision = saveRevision;
+          projectPersistenceState.textContent = legacyProjectionSaved
+            ? "Saved in this style"
+            : "Saved in this style · older single-style copy unavailable";
+          projectPersistenceState.dataset.state = "saved";
+        }
+        projectManager?.refresh("This style is saved on this device.");
+        flash(legacyProjectionSaved ? "Saved ✓" : "Saved in project; legacy copy unavailable.", "#2E9B63");
+      }).catch((error: unknown) => {
+        const code = (error as { code?: unknown } | null)?.code;
+        const message = code === "conflict"
+          ? "Stale project · reload the project before saving these edits."
+          : `Save failed: ${error instanceof Error ? error.message : "project storage error"}`;
+        projectPersistenceState.textContent = message;
+        projectPersistenceState.dataset.state = code === "conflict" ? "stale" : "failed";
+        projectManager?.refresh(message);
+        flash(message, BLUEPRINT.lineActive);
+      });
+      return;
+    }
     if (saveToStorage(measurements, fabric, garmentOptions, workspace, appearance, surfaceBook, nestingIntelligence)) {
       savedRevision = outputRevision;
       pendingRecovery = null;
-      clearRecoveryFromStorage();
+      clearStoredRecovery();
       renderRecoveryPrompt();
       flash("Saved ✓", "#2E9B63");
     } else flash("Save failed", BLUEPRINT.lineActive);
   });
 
   root.querySelector<HTMLButtonElement>("#load-pattern")!.addEventListener("click", () => {
+    if (projectWorkflow) {
+      requestLoad(projectWorkflow.snapshot.activeStyle.design);
+      return;
+    }
     const loaded = readFromStorage();
     if (!loaded.ok) { flash(loaded.error, BLUEPRINT.label); return; }
     requestLoad(loaded);
@@ -2908,7 +3031,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     applyRawDraft(file.rawMeasurements, file.rawOptions);
     historyRestoring = false;
     pendingRecovery = null;
-    clearRecoveryFromStorage();
+    clearStoredRecovery();
     renderRecoveryPrompt();
     history = emptyHistory();
     historyPresent = captureDraftSnapshot();
@@ -2983,6 +3106,23 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   undoButton.addEventListener("click", () => { performUndo(); });
   redoButton.addEventListener("click", () => { performRedo(); });
   syncHistoryControls();
+  if (projectWorkflow) {
+    projectManager = new ProjectManager({
+      host: projectManagerHost,
+      workflow: projectWorkflow,
+      getCurrentDesign: currentSavedDesign,
+      getBlankDesign: blankSavedDesign,
+      hasUnsavedChanges: () => outputRevision !== savedRevision,
+      onStyleLoaded: (loaded: LoadedProject, recovery: RecoveryPayload | null) => {
+        applyLoaded(loaded.activeStyle.design, recovery, false);
+        projectPersistenceState.textContent = recovery
+          ? "Style loaded · unfinished recovery is available below"
+          : "Saved in this style";
+        projectPersistenceState.dataset.state = recovery ? "unsaved" : "saved";
+      },
+      setBusy: (busy) => { root.inert = busy; },
+    });
+  }
   renderRecoveryPrompt();
 }
 

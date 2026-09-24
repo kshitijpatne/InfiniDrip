@@ -8,6 +8,7 @@ import { DEFAULT_FABRIC } from "../render";
 import { STANDARD_M } from "../drafting";
 import {
   MIGRATION_RECORD_VERSION,
+  LEGACY_STYLE_RECORD_KEYS,
   migrateLegacySaveFile,
   migrateLegacyRecovery,
   parseMigrationRecord,
@@ -22,7 +23,7 @@ import {
 } from "./project-records";
 
 export const PROJECT_DATABASE_NAME = "infinidrip-projects";
-export const PROJECT_DATABASE_VERSION = 1;
+export const PROJECT_DATABASE_VERSION = 2;
 export const PROJECT_STORES = Object.freeze({
   meta: "meta",
   projects: "projects",
@@ -178,10 +179,43 @@ function createSchema(database: IDBDatabase): void {
   }
 }
 
-function hasSupportedSchema(database: IDBDatabase): boolean {
-  if (database.objectStoreNames.length !== ALL_STORES.length
-    || !ALL_STORES.every((name) => database.objectStoreNames.contains(name))) return false;
+function upgradeStyleRecordsV1(transaction: IDBTransaction | null): void {
+  if (!transaction) return;
   try {
+    const store = transaction.objectStore(PROJECT_STORES.styles);
+    const request = store.openCursor();
+    request.onerror = () => transaction.abort();
+    request.onsuccess = () => {
+      try {
+        const cursor = request.result;
+        if (!cursor) return;
+        const value = cursor.value;
+        if (typeof value !== "object" || value === null || Array.isArray(value)) {
+          transaction.abort();
+          return;
+        }
+        const keys = Object.keys(value);
+        if (keys.length !== LEGACY_STYLE_RECORD_KEYS.length
+          || !LEGACY_STYLE_RECORD_KEYS.every((key) => Object.prototype.hasOwnProperty.call(value, key))
+          || (value as { schemaVersion?: unknown }).schemaVersion !== 1) {
+          transaction.abort();
+          return;
+        }
+        cursor.update({ ...value, schemaVersion: 2, archivedAt: null });
+        cursor.continue();
+      } catch {
+        transaction.abort();
+      }
+    };
+  } catch {
+    transaction.abort();
+  }
+}
+
+function hasSupportedSchema(database: IDBDatabase): boolean {
+  try {
+    if (database.objectStoreNames.length !== ALL_STORES.length
+      || !ALL_STORES.every((name) => database.objectStoreNames.contains(name))) return false;
     const transaction = database.transaction([...ALL_STORES], "readonly");
     return ALL_STORES.every((name) => transaction.objectStore(name).keyPath === STORE_KEY_PATHS[name]);
   } catch {
@@ -280,7 +314,7 @@ export async function openProjectRepository(options: ProjectRepositoryOptions = 
     throw new ProjectRepositoryError("invalid-data", "Project database name or requested version is invalid.");
   }
   if (requestedVersion !== PROJECT_DATABASE_VERSION) {
-    throw new ProjectRepositoryError("unsupported-version", "This application supports project storage schema version 1 only.");
+    throw new ProjectRepositoryError("unsupported-version", `This application supports project storage schema version ${PROJECT_DATABASE_VERSION} only.`);
   }
   return new Promise((resolve, reject) => {
     let settled = false;
@@ -288,6 +322,8 @@ export async function openProjectRepository(options: ProjectRepositoryOptions = 
     request.onupgradeneeded = (event) => {
       if (event.oldVersion === 0 && event.newVersion === PROJECT_DATABASE_VERSION) {
         createSchema(request.result);
+      } else if (event.oldVersion === 1 && event.newVersion === PROJECT_DATABASE_VERSION) {
+        upgradeStyleRecordsV1(request.transaction);
       } else {
         request.transaction?.abort();
       }
@@ -369,6 +405,10 @@ export class ProjectRepository {
   }
 
   async saveProjectBundle(input: SaveProjectBundleInput): Promise<ProjectRecord> {
+    return this.writeProjectBundle(input, false);
+  }
+
+  private async writeProjectBundle(input: SaveProjectBundleInput, requireEmptyRepository: boolean): Promise<ProjectRecord> {
     this.ensureOpen();
     const bundle = validateProjectBundle(input.project, input.styles);
     if (!bundle.ok) throw new ProjectRepositoryError("invalid-data", bundle.error);
@@ -388,6 +428,15 @@ export class ProjectRepository {
     return inTransaction(this.database, ALL_STORES, "readwrite", async (transaction) => {
       const projects = transaction.objectStore(PROJECT_STORES.projects);
       const styles = transaction.objectStore(PROJECT_STORES.styles);
+      if (requireEmptyRepository) {
+        const [activeSelection, existingProjects] = await Promise.all([
+          requestValue(transaction.objectStore(PROJECT_STORES.meta).get(ACTIVE_SELECTION_KEY)),
+          requestValue<ProjectRecord[]>(projects.getAll()),
+        ]);
+        if (activeSelection !== undefined || existingProjects.length > 0) {
+          throw new ProjectRepositoryError("already-initialized", "A local project already exists; first-run setup was not repeated.");
+        }
+      }
       const current = await requestValue<ProjectRecord | undefined>(projects.get(bundle.value.project.id));
       let currentProject: ProjectRecord | undefined;
       if (current !== undefined) {
@@ -429,6 +478,94 @@ export class ProjectRepository {
     });
   }
 
+  async saveRecovery(recordInput: RecoveryRecord, expectedProjectRevision: number, updatedAt: string): Promise<ProjectRecord> {
+    this.ensureOpen();
+    const parsedRecovery = parseRecoveryRecord(recordInput);
+    if (!parsedRecovery.ok) throw new ProjectRepositoryError("invalid-data", parsedRecovery.error);
+    if (!Number.isSafeInteger(expectedProjectRevision) || expectedProjectRevision < 1) {
+      throw new ProjectRepositoryError("invalid-data", "Expected project revision is invalid.");
+    }
+    const timestamp = Date.parse(updatedAt);
+    if (!Number.isFinite(timestamp) || new Date(timestamp).toISOString() !== updatedAt) {
+      throw new ProjectRepositoryError("invalid-data", "Updated timestamp must be canonical UTC ISO time.");
+    }
+    return inTransaction(this.database,
+      [PROJECT_STORES.projects, PROJECT_STORES.styles, PROJECT_STORES.recoveries], "readwrite", async (transaction) => {
+      const storedRecovery = parsedRecovery.value;
+      const styleId = storedRecovery.styleId;
+      const storedStyle = await requestValue<StyleRecord | undefined>(transaction.objectStore(PROJECT_STORES.styles).get(styleId));
+      if (storedStyle === undefined) throw new ProjectRepositoryError("not-found", "Recovery style does not exist.");
+      const style = parseStyleRecord(storedStyle);
+      if (!style.ok) throw new ProjectRepositoryError("invalid-data", style.error);
+      const projectInput = await requestValue<ProjectRecord | undefined>(transaction.objectStore(PROJECT_STORES.projects).get(style.value.projectId));
+      if (projectInput === undefined) throw new ProjectRepositoryError("not-found", "Recovery project does not exist.");
+      const project = parseProjectRecord(projectInput);
+      if (!project.ok) throw new ProjectRepositoryError("invalid-data", project.error);
+      if (style.value.projectId !== project.value.id || !project.value.styleIds.includes(styleId)) {
+        throw new ProjectRepositoryError("invalid-data", "Recovery style does not belong to this project.");
+      }
+      if (project.value.revision !== expectedProjectRevision) {
+        throw new ProjectRepositoryError("conflict", "Project changed in another tab; reload before saving recovery.");
+      }
+      const updatedProject: ProjectRecord = {
+        ...project.value,
+        revision: project.value.revision + 1,
+        updatedAt,
+      };
+      const validatedProject = parseProjectRecord(updatedProject);
+      if (!validatedProject.ok) throw new ProjectRepositoryError("invalid-data", validatedProject.error);
+      transaction.objectStore(PROJECT_STORES.projects).put(validatedProject.value);
+      transaction.objectStore(PROJECT_STORES.recoveries).put(parsedRecovery.value);
+      return validatedProject.value;
+    });
+  }
+
+  async clearRecovery(styleId: string, expectedProjectRevision: number, updatedAt: string): Promise<ProjectRecord> {
+    this.ensureOpen();
+    if (typeof styleId !== "string" || styleId.trim().length === 0) {
+      throw new ProjectRepositoryError("invalid-data", "Recovery style ID is invalid.");
+    }
+    if (!Number.isSafeInteger(expectedProjectRevision) || expectedProjectRevision < 1) {
+      throw new ProjectRepositoryError("invalid-data", "Expected project revision is invalid.");
+    }
+    const timestamp = Date.parse(updatedAt);
+    if (!Number.isFinite(timestamp) || new Date(timestamp).toISOString() !== updatedAt) {
+      throw new ProjectRepositoryError("invalid-data", "Updated timestamp must be canonical UTC ISO time.");
+    }
+    return inTransaction(this.database,
+      [PROJECT_STORES.projects, PROJECT_STORES.styles, PROJECT_STORES.recoveries], "readwrite", async (transaction) => {
+      const stored = await requestValue<StyleRecord | undefined>(transaction.objectStore(PROJECT_STORES.styles).get(styleId));
+      if (stored === undefined) throw new ProjectRepositoryError("not-found", "Recovery style does not exist.");
+      const style = parseStyleRecord(stored);
+      if (!style.ok) throw new ProjectRepositoryError("invalid-data", style.error);
+      const projectInput = await requestValue<ProjectRecord | undefined>(transaction.objectStore(PROJECT_STORES.projects).get(style.value.projectId));
+      if (projectInput === undefined) throw new ProjectRepositoryError("not-found", "Recovery project does not exist.");
+      const project = parseProjectRecord(projectInput);
+      if (!project.ok) throw new ProjectRepositoryError("invalid-data", project.error);
+      if (!project.value.styleIds.includes(styleId)) {
+        throw new ProjectRepositoryError("invalid-data", "Recovery style does not belong to this project.");
+      }
+      if (project.value.revision !== expectedProjectRevision) {
+        throw new ProjectRepositoryError("conflict", "Project changed in another tab; reload before clearing recovery.");
+      }
+      const recoveries = transaction.objectStore(PROJECT_STORES.recoveries);
+      const existingRecovery = await requestValue<RecoveryRecord | undefined>(recoveries.get(styleId));
+      if (existingRecovery === undefined) return project.value;
+      const parsedExistingRecovery = parseRecoveryRecord(existingRecovery);
+      if (!parsedExistingRecovery.ok) throw new ProjectRepositoryError("invalid-data", parsedExistingRecovery.error);
+      const updatedProject: ProjectRecord = {
+        ...project.value,
+        revision: project.value.revision + 1,
+        updatedAt,
+      };
+      const validatedProject = parseProjectRecord(updatedProject);
+      if (!validatedProject.ok) throw new ProjectRepositoryError("invalid-data", validatedProject.error);
+      recoveries.delete(styleId);
+      transaction.objectStore(PROJECT_STORES.projects).put(validatedProject.value);
+      return validatedProject.value;
+    });
+  }
+
   async selectActiveStyle(projectId: string, styleId: string, expectedProjectRevision: number, updatedAt: string): Promise<ProjectRecord> {
     this.ensureOpen();
     if (!Number.isSafeInteger(expectedProjectRevision) || expectedProjectRevision < 1) {
@@ -456,6 +593,9 @@ export class ProjectRepository {
         if (style.value.projectId !== project.value.id || !project.value.styleIds.includes(style.value.id)) {
           throw new ProjectRepositoryError("invalid-data", "Selected style does not belong to this project.");
         }
+        if (style.value.archivedAt !== null) {
+          throw new ProjectRepositoryError("invalid-data", "An archived style cannot become active; restore it first.");
+        }
         const updated: ProjectRecord = {
           ...project.value,
           activeStyleId: style.value.id,
@@ -476,11 +616,11 @@ export class ProjectRepository {
       json: buildDefaultSaveJson(), projectId, styleId, migratedAt: now,
     });
     if (!migration.ok) throw new ProjectRepositoryError("invalid-data", migration.error);
-    return this.saveProjectBundle({
+    return this.writeProjectBundle({
       project: migration.value.project,
       styles: [migration.value.style],
       expectedProjectRevision: null,
-    });
+    }, true);
   }
 
   async migrateLegacy(input: LegacyMigrationInput): Promise<LegacyMigrationOutcome> {

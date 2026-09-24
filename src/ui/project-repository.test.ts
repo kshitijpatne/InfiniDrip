@@ -198,7 +198,7 @@ describe("transactional project repository", () => {
     const repository = await openProjectRepository({ name: databaseName(), factory, crypto: webcrypto });
     const initialized = await repository.initializeFirstRun(PROJECT_ID, STYLE_ID, TIME);
     expect(initialized.revision).toBe(1);
-    await rejectionCode(repository.initializeFirstRun(PROJECT_ID, STYLE_ID, TIME), "conflict");
+    await rejectionCode(repository.initializeFirstRun(PROJECT_ID, STYLE_ID, TIME), "already-initialized");
     await rejectionCode(repository.initializeFirstRun("bad", STYLE_ID, TIME), "invalid-data");
     await expect(repository.selectActiveStyle("missing", STYLE_ID, 1, NEXT_TIME)).rejects.toMatchObject({ code: "not-found" });
     await rejectionCode(repository.selectActiveStyle(PROJECT_ID, OTHER_STYLE_ID, 1, NEXT_TIME), "not-found");
@@ -206,6 +206,178 @@ describe("transactional project repository", () => {
     await repository.saveProjectBundle({ project: second.project, styles: [second.style], expectedProjectRevision: null });
     await rejectionCode(repository.selectActiveStyle(PROJECT_ID, OTHER_STYLE_ID, 1, NEXT_TIME), "invalid-data");
     await rejectionCode(repository.selectActiveStyle(PROJECT_ID, STYLE_ID, 99, NEXT_TIME), "conflict");
+    repository.close();
+  });
+
+  it("upgrades version-one style records transactionally and leaves malformed version-one data intact", async () => {
+    const factory = newFactory();
+    const name = databaseName();
+    const bundle = newBundle();
+    const legacyStyle: Record<string, unknown> = { ...bundle.style, schemaVersion: 1 };
+    delete legacyStyle.archivedAt;
+    const versionOne = await new Promise<IDBDatabase>((resolve, reject) => {
+      const request = factory.open(name, 1);
+      request.onupgradeneeded = () => {
+        request.result.createObjectStore(PROJECT_STORES.meta, { keyPath: "key" });
+        request.result.createObjectStore(PROJECT_STORES.projects, { keyPath: "id" });
+        request.result.createObjectStore(PROJECT_STORES.styles, { keyPath: "id" });
+        request.result.createObjectStore(PROJECT_STORES.recoveries, { keyPath: "styleId" });
+        request.result.createObjectStore(PROJECT_STORES.migrations, { keyPath: "sourceSha256" });
+        const transaction = request.transaction!;
+        transaction.objectStore(PROJECT_STORES.projects).put(bundle.project);
+        transaction.objectStore(PROJECT_STORES.styles).put(legacyStyle);
+        transaction.objectStore(PROJECT_STORES.meta).put({ key: "activeSelection", projectId: PROJECT_ID, styleId: STYLE_ID });
+      };
+      request.onerror = () => reject(request.error);
+      request.onsuccess = () => resolve(request.result);
+    });
+    versionOne.close();
+    const upgraded = await openProjectRepository({ name, factory, crypto: webcrypto });
+    expect((await upgraded.readActiveProject())?.activeStyle).toMatchObject({
+      id: STYLE_ID, schemaVersion: 2, archivedAt: null, design: bundle.style.design,
+    });
+    upgraded.close();
+
+    const malformedName = databaseName();
+    const malformed = await new Promise<IDBDatabase>((resolve, reject) => {
+      const request = factory.open(malformedName, 1);
+      request.onupgradeneeded = () => {
+        request.result.createObjectStore(PROJECT_STORES.meta, { keyPath: "key" });
+        request.result.createObjectStore(PROJECT_STORES.projects, { keyPath: "id" });
+        request.result.createObjectStore(PROJECT_STORES.styles, { keyPath: "id" });
+        request.result.createObjectStore(PROJECT_STORES.recoveries, { keyPath: "styleId" });
+        request.result.createObjectStore(PROJECT_STORES.migrations, { keyPath: "sourceSha256" });
+        request.transaction!.objectStore(PROJECT_STORES.styles).put({ id: STYLE_ID, schemaVersion: 1 });
+      };
+      request.onerror = () => reject(request.error);
+      request.onsuccess = () => resolve(request.result);
+    });
+    malformed.close();
+    await rejectionCode(openProjectRepository({ name: malformedName, factory, crypto: webcrypto }), "unavailable");
+    const preserved = await rawDatabase(factory, malformedName);
+    expect(preserved.version).toBe(1);
+    const malformedStyle = await new Promise<unknown>((resolve, reject) => {
+      const transaction = preserved.transaction(PROJECT_STORES.styles, "readonly");
+      const request = transaction.objectStore(PROJECT_STORES.styles).get(STYLE_ID);
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+    expect(malformedStyle).toEqual({ id: STYLE_ID, schemaVersion: 1 });
+    preserved.close();
+  });
+
+  it("writes and clears style recovery independently while rejecting missing or malformed targets", async () => {
+    const factory = newFactory();
+    const repository = await openProjectRepository({ name: databaseName(), factory, crypto: webcrypto });
+    const bundle = newBundle();
+    await repository.saveProjectBundle({ project: bundle.project, styles: [bundle.style], expectedProjectRevision: null });
+    const recoverySavedProject = await repository.saveRecovery(recovery(), bundle.project.revision, NEXT_TIME);
+    expect(recoverySavedProject.revision).toBe(bundle.project.revision + 1);
+    expect((await repository.loadProject(PROJECT_ID))?.activeRecovery?.payload.rawMeasurements).toEqual({ chest: "", neck: "40" });
+    await rejectionCode(repository.saveRecovery({} as RecoveryRecord, 2, TIME), "invalid-data");
+    await rejectionCode(repository.saveRecovery(recovery(), 0, TIME), "invalid-data");
+    await rejectionCode(repository.saveRecovery(recovery(), 2, "not-a-time"), "invalid-data");
+    await rejectionCode(repository.saveRecovery(recovery(OTHER_STYLE_ID), 2, TIME), "not-found");
+    await repository.clearRecovery(STYLE_ID, recoverySavedProject.revision, "2026-09-24T16:00:02.000Z");
+    expect((await repository.loadProject(PROJECT_ID))?.activeRecovery).toBeNull();
+    const unchangedProject = await repository.clearRecovery(STYLE_ID, 3, "2026-09-24T16:00:02.000Z");
+    expect(unchangedProject.revision).toBe(3);
+    await rejectionCode(repository.clearRecovery(" ", 3, TIME), "invalid-data");
+    await rejectionCode(repository.clearRecovery(OTHER_STYLE_ID, 3, TIME), "not-found");
+    await rejectionCode(repository.clearRecovery(STYLE_ID, 0, TIME), "invalid-data");
+    await rejectionCode(repository.clearRecovery(STYLE_ID, 3, "not-a-time"), "invalid-data");
+    repository.close();
+  });
+
+  it("uses project revision compare-and-swap to prevent cross-tab recovery overwrites and stale clears", async () => {
+    const factory = newFactory();
+    const name = databaseName();
+    const first = await openProjectRepository({ name, factory, crypto: webcrypto });
+    const second = await openProjectRepository({ name, factory, crypto: webcrypto });
+    const bundle = newBundle();
+    await first.saveProjectBundle({ project: bundle.project, styles: [bundle.style], expectedProjectRevision: null });
+    expect((await first.loadProject(PROJECT_ID))?.project.revision).toBe(1);
+    expect((await second.loadProject(PROJECT_ID))?.project.revision).toBe(1);
+
+    const original = recovery();
+    const winningRecovery: RecoveryRecord = {
+      ...original,
+      payload: { ...original.payload, rawMeasurements: { chest: "98", neck: "44" } },
+    };
+    await first.saveRecovery(winningRecovery, 1, NEXT_TIME);
+    await rejectionCode(second.saveRecovery(recovery(), 1, "2026-09-24T16:00:02.000Z"), "conflict");
+    const afterConflict = await second.loadProject(PROJECT_ID);
+    expect(afterConflict?.project.revision).toBe(2);
+    expect(afterConflict?.activeRecovery?.payload.rawMeasurements).toEqual({ chest: "98", neck: "44" });
+
+    await rejectionCode(second.clearRecovery(STYLE_ID, 1, "2026-09-24T16:00:03.000Z"), "conflict");
+    await second.clearRecovery(STYLE_ID, 2, "2026-09-24T16:00:03.000Z");
+    expect((await first.loadProject(PROJECT_ID))?.activeRecovery).toBeNull();
+    first.close();
+    second.close();
+  });
+
+  it("rejects recovery records for stored styles that are no longer listed by their project", async () => {
+    const factory = newFactory();
+    const name = databaseName();
+    const repository = await openProjectRepository({ name, factory, crypto: webcrypto });
+    const first = newBundle();
+    const second = newBundle(PROJECT_ID, OTHER_STYLE_ID);
+    const project = { ...first.project, styleIds: [STYLE_ID, OTHER_STYLE_ID] };
+    await repository.saveProjectBundle({
+      project,
+      styles: [first.style, second.style],
+      expectedProjectRevision: null,
+    });
+    await rawPut(factory, name, PROJECT_STORES.projects, {
+      ...project,
+      styleIds: [STYLE_ID],
+    });
+    await rejectionCode(repository.saveRecovery(recovery(OTHER_STYLE_ID), 1, NEXT_TIME), "invalid-data");
+    await rejectionCode(repository.clearRecovery(OTHER_STYLE_ID, 1, NEXT_TIME), "invalid-data");
+    repository.close();
+  });
+
+  it("preserves recovery validation for orphaned, malformed, and exhausted project records", async () => {
+    const factory = newFactory();
+    const name = databaseName();
+    const repository = await openProjectRepository({ name, factory, crypto: webcrypto });
+    const bundle = newBundle();
+    await repository.saveProjectBundle({ project: bundle.project, styles: [bundle.style], expectedProjectRevision: null });
+
+    const orphan = newBundle(OTHER_PROJECT_ID, OTHER_STYLE_ID).style;
+    await rawPut(factory, name, PROJECT_STORES.styles, orphan);
+    await rejectionCode(repository.saveRecovery(recovery(OTHER_STYLE_ID), 1, NEXT_TIME), "not-found");
+    await rejectionCode(repository.clearRecovery(OTHER_STYLE_ID, 1, NEXT_TIME), "not-found");
+
+    await rawPut(factory, name, PROJECT_STORES.projects, { ...bundle.project, revision: 0 });
+    await rejectionCode(repository.saveRecovery(recovery(), 1, NEXT_TIME), "invalid-data");
+    await rejectionCode(repository.clearRecovery(STYLE_ID, 1, NEXT_TIME), "invalid-data");
+
+    const exhausted = { ...bundle.project, revision: Number.MAX_SAFE_INTEGER, updatedAt: NEXT_TIME };
+    await rawPut(factory, name, PROJECT_STORES.projects, exhausted);
+    await rejectionCode(repository.saveRecovery(recovery(), Number.MAX_SAFE_INTEGER, "2026-09-24T16:00:02.000Z"), "invalid-data");
+    await rawPut(factory, name, PROJECT_STORES.recoveries, { styleId: STYLE_ID, schemaVersion: -1 });
+    await rejectionCode(repository.clearRecovery(STYLE_ID, Number.MAX_SAFE_INTEGER, "2026-09-24T16:00:02.000Z"), "invalid-data");
+    await rawPut(factory, name, PROJECT_STORES.recoveries, recovery());
+    await rejectionCode(repository.clearRecovery(STYLE_ID, Number.MAX_SAFE_INTEGER, "2026-09-24T16:00:02.000Z"), "invalid-data");
+    repository.close();
+  });
+
+  it("cannot make an archived style active through the repository boundary", async () => {
+    const factory = newFactory();
+    const repository = await openProjectRepository({ name: databaseName(), factory, crypto: webcrypto });
+    const first = newBundle();
+    const second = newBundle(PROJECT_ID, OTHER_STYLE_ID);
+    const project = { ...first.project, styleIds: [STYLE_ID, OTHER_STYLE_ID] };
+    await repository.saveProjectBundle({ project, styles: [first.style, second.style], expectedProjectRevision: null });
+    await repository.saveProjectBundle({
+      project: { ...project, revision: 2, updatedAt: NEXT_TIME },
+      styles: [first.style, { ...second.style, archivedAt: NEXT_TIME, revision: 2, updatedAt: NEXT_TIME }],
+      expectedProjectRevision: 1,
+    });
+    await rejectionCode(repository.selectActiveStyle(PROJECT_ID, OTHER_STYLE_ID, 2, "2026-09-24T16:00:02.000Z"), "invalid-data");
+    expect((await repository.readActiveProject())?.activeStyle.id).toBe(STYLE_ID);
     repository.close();
   });
 
@@ -383,6 +555,8 @@ describe("transactional project repository", () => {
     const badStyleRepo = await openProjectRepository({ name: malformedStyleName, factory, crypto: webcrypto });
     await rejectionCode(badStyleRepo.loadProject(PROJECT_ID), "invalid-data");
     await rejectionCode(badStyleRepo.selectActiveStyle(PROJECT_ID, STYLE_ID, 1, NEXT_TIME), "invalid-data");
+    await rejectionCode(badStyleRepo.saveRecovery(recovery(), 1, NEXT_TIME), "invalid-data");
+    await rejectionCode(badStyleRepo.clearRecovery(STYLE_ID, 1, NEXT_TIME), "invalid-data");
     await rejectionCode(badStyleRepo.saveProjectBundle({
       project: { ...bundle.project, revision: 2, updatedAt: NEXT_TIME },
       styles: [bundle.style], expectedProjectRevision: 1,
@@ -430,7 +604,7 @@ describe("transactional project repository", () => {
     await rejectionCode(openProjectRepository({ name: unsupportedName, factory, crypto: webcrypto }), "unsupported-version");
     const wrongPathName = databaseName();
     const wrongPath = await new Promise<IDBDatabase>((resolve, reject) => {
-      const request = factory.open(wrongPathName, 1);
+      const request = factory.open(wrongPathName, PROJECT_DATABASE_VERSION);
       request.onupgradeneeded = () => {
         for (const store of Object.values(PROJECT_STORES)) request.result.createObjectStore(store, { keyPath: "wrong" });
       };
@@ -441,7 +615,7 @@ describe("transactional project repository", () => {
     await rejectionCode(openProjectRepository({ name: wrongPathName, factory, crypto: webcrypto }), "unsupported-version");
     const missingStoreName = databaseName();
     const missingStore = await new Promise<IDBDatabase>((resolve, reject) => {
-      const request = factory.open(missingStoreName, 1);
+      const request = factory.open(missingStoreName, PROJECT_DATABASE_VERSION);
       request.onupgradeneeded = () => {
         for (const store of [...Object.values(PROJECT_STORES).slice(0, 4), "wrong"]) {
           request.result.createObjectStore(store, { keyPath: "key" });
@@ -452,7 +626,7 @@ describe("transactional project repository", () => {
     });
     missingStore.close();
     await rejectionCode(openProjectRepository({ name: missingStoreName, factory }), "unsupported-version");
-    await rejectionCode(openProjectRepository({ name: databaseName(), factory, requestedVersion: 2 }), "unsupported-version");
+    await rejectionCode(openProjectRepository({ name: databaseName(), factory, requestedVersion: 1 }), "unsupported-version");
     await rejectionCode(openProjectRepository({ name: databaseName(), factory, requestedVersion: 0 }), "invalid-data");
   });
 
@@ -627,7 +801,7 @@ describe("transactional project repository", () => {
     const names: string[] = [...Object.values(PROJECT_STORES)];
     const wrongKeyPath = controlledFactory((request) => {
       request.result = {
-        version: 1,
+        version: PROJECT_DATABASE_VERSION,
         close: vi.fn(),
         objectStoreNames: { length: names.length, contains: (name: string) => names.includes(name) },
         transaction: () => ({ objectStore: () => ({ keyPath: "wrong" }) }),
@@ -638,7 +812,7 @@ describe("transactional project repository", () => {
 
     const schemaReadThrows = controlledFactory((request) => {
       request.result = {
-        version: 1,
+        version: PROJECT_DATABASE_VERSION,
         close: vi.fn(),
         objectStoreNames: { length: names.length, contains: (name: string) => names.includes(name) },
         transaction: () => { throw new Error("schema read unavailable"); },
@@ -654,6 +828,75 @@ describe("transactional project repository", () => {
       request.onerror?.(new Event("error"));
     });
     await rejectionCode(openProjectRepository({ name: databaseName(), factory: rejectedUpgrade }), "unavailable");
+
+    const unexpectedUpgrade = controlledFactory((request) => {
+      request.onupgradeneeded?.({ oldVersion: 2, newVersion: 3 } as IDBVersionChangeEvent);
+      expect(request.transaction?.abort).toHaveBeenCalledOnce();
+      Object.defineProperty(request, "error", { value: { name: "AbortError" } });
+      request.onerror?.(new Event("error"));
+    });
+    await rejectionCode(openProjectRepository({ name: databaseName(), factory: unexpectedUpgrade }), "unavailable");
+
+    const cursorErrorRequest = { result: null, onsuccess: null as ((event: Event) => void) | null, onerror: null as ((event: Event) => void) | null };
+    const cursorErrorTransaction = {
+      abort: vi.fn(),
+      objectStore: () => ({ openCursor: () => cursorErrorRequest }),
+    };
+    const cursorError = controlledFactory((request) => {
+      request.transaction = cursorErrorTransaction as unknown as IDBTransaction;
+      request.onupgradeneeded?.({ oldVersion: 1, newVersion: 2 } as IDBVersionChangeEvent);
+      cursorErrorRequest.onerror?.(new Event("error"));
+      expect(cursorErrorTransaction.abort).toHaveBeenCalledOnce();
+      Object.defineProperty(request, "error", { value: { name: "AbortError" } });
+      request.onerror?.(new Event("error"));
+    });
+    await rejectionCode(openProjectRepository({ name: databaseName(), factory: cursorError }), "unavailable");
+
+    const invalidCursorRequest = {
+      result: { value: [] as unknown[], update: vi.fn(), continue: vi.fn() },
+      onsuccess: null as ((event: Event) => void) | null,
+      onerror: null as ((event: Event) => void) | null,
+    };
+    const invalidCursorTransaction = { abort: vi.fn(), objectStore: () => ({ openCursor: () => invalidCursorRequest }) };
+    const invalidCursor = controlledFactory((request) => {
+      request.transaction = invalidCursorTransaction as unknown as IDBTransaction;
+      request.onupgradeneeded?.({ oldVersion: 1, newVersion: 2 } as IDBVersionChangeEvent);
+      invalidCursorRequest.onsuccess?.(new Event("success"));
+      expect(invalidCursorTransaction.abort).toHaveBeenCalledOnce();
+      Object.defineProperty(request, "error", { value: { name: "AbortError" } });
+      request.onerror?.(new Event("error"));
+    });
+    await rejectionCode(openProjectRepository({ name: databaseName(), factory: invalidCursor }), "unavailable");
+
+    const legacyValue: Record<string, unknown> = { ...newBundle().style, schemaVersion: 1 };
+    delete legacyValue.archivedAt;
+    const throwingCursorRequest = {
+      result: {
+        value: legacyValue,
+        update: () => { throw new Error("cursor update failed"); },
+        continue: vi.fn(),
+      },
+      onsuccess: null as ((event: Event) => void) | null,
+      onerror: null as ((event: Event) => void) | null,
+    };
+    const throwingCursorTransaction = { abort: vi.fn(), objectStore: () => ({ openCursor: () => throwingCursorRequest }) };
+    const throwingCursor = controlledFactory((request) => {
+      request.transaction = throwingCursorTransaction as unknown as IDBTransaction;
+      request.onupgradeneeded?.({ oldVersion: 1, newVersion: 2 } as IDBVersionChangeEvent);
+      throwingCursorRequest.onsuccess?.(new Event("success"));
+      expect(throwingCursorTransaction.abort).toHaveBeenCalledOnce();
+      Object.defineProperty(request, "error", { value: { name: "AbortError" } });
+      request.onerror?.(new Event("error"));
+    });
+    await rejectionCode(openProjectRepository({ name: databaseName(), factory: throwingCursor }), "unavailable");
+
+    const missingTransaction = controlledFactory((request) => {
+      request.transaction = null;
+      request.onupgradeneeded?.({ oldVersion: 1, newVersion: 2 } as IDBVersionChangeEvent);
+      Object.defineProperty(request, "error", { value: { name: "AbortError" } });
+      request.onerror?.(new Event("error"));
+    });
+    await rejectionCode(openProjectRepository({ name: databaseName(), factory: missingTransaction }), "unavailable");
 
     const lateSuccess = controlledFactory((request) => {
       request.onblocked?.(new Event("blocked"));

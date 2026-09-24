@@ -1127,6 +1127,7 @@ export function appShellMarkup(
     `<p id="product-subtitle">Parametric garment design workspace</p></div>` +
     `<div id="workspace-actions" role="group" aria-label="Local workspace">` +
     `<span id="persist-status" role="status"></span>` +
+    `<span id="project-persistence-state" role="status" aria-live="polite" hidden></span>` +
     `<button id="undo-pattern" type="button" title="Undo the last design change" aria-label="Undo the last design change" disabled>Undo</button>` +
     `<button id="redo-pattern" type="button" title="Redo the last design change" aria-label="Redo the last design change" disabled>Redo</button>` +
     `<button id="save-pattern" type="button" title="Save this workspace locally on this device">Save</button>` +
@@ -1139,7 +1140,7 @@ export function appShellMarkup(
     `<button id="workspace-confirm-accept" type="button">Load saved workspace</button></div></div></div>` +
     `<div id="journey-area"><div id="journey-host"></div><div id="tutorial-host"></div></div><div id="studio-body">` +
     `<aside id="studio-inspector" aria-label="Design controls">` +
-    `${garmentToggleMarkup(activeGarment)}<div id="review-context"></div>` +
+    `<div id="project-manager-host"></div>${garmentToggleMarkup(activeGarment)}<div id="review-context"></div>` +
     `<details id="readiness-details"><summary>Design readiness</summary><div id="readiness-host"></div></details>` +
     `<div id="style-host"></div>${fabricStretchMarkup(stretchFabric)}${fabricSwatchesMarkup(fabric, appearance)}` +
     `${controlsMarkup(m, fields)}` +

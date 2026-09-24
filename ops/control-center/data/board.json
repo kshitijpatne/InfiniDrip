@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 272,
-  "updatedAt": "2026-09-24T16:52:17.302Z",
+  "revision": 273,
+  "updatedAt": "2026-09-24T19:24:19.726Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -4468,7 +4468,8 @@
       "evidenceRefs": [
         "E-EPIC15-F01-STORAGE-S230",
         "E-EPIC15-F01-MODEL-S231",
-        "E-EPIC15-F01-REPO-S232"
+        "E-EPIC15-F01-REPO-S232",
+        "E-EPIC15-F01-WORKFLOW-S233"
       ],
       "flagKey": null
     },
@@ -5155,6 +5156,15 @@
       "sha256": "c8c1c90deda108b4f2a42854fa96e58937482320ee031388da7831662fcebc73",
       "verified": true,
       "note": "Slice 232 implements the versioned IndexedDB repository, revision-checked atomic project/style/recovery writes, non-destructive idempotent SaveFile migration, strict durability, fault rollback, and Chromium/Electron restart and path-change proofs."
+    },
+    {
+      "id": "E-EPIC15-F01-WORKFLOW-S233",
+      "kind": "document",
+      "uri": "docs/research/epic15/F01-PROJECT-STYLE-WORKFLOW-S233.md",
+      "commit": null,
+      "sha256": "d28264bba17a639ac23763896ecc0fe7824a18df6fac4b1b9a49ed9d402d75e8",
+      "verified": true,
+      "note": "Slice 233 connects migration, per-style Save/Load and recovery, and accessible local project/style management; full 100% coverage plus rendered persistent Chromium and Electron restart/save/recovery proof passed."
     }
   ]
 }

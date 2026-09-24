@@ -65,9 +65,10 @@ Slice 227 digital readability remediation, and the verified final exit report.
 Every linked work item is Done with verified evidence. The report records the
 A-01–A-12 downstream gates and explicitly does not claim fit, factory
 readiness, CAD interoperability, 3D simulation, or a live supplier marketplace.
-EPIC-15/G02 and later goals remain Backlog; Lane E under Epic 20 remains held
-for explicit garment-direction approval. Backlog registration alone is not
-work admission.
+EPIC-15/G02 is In Progress, with F01 In Progress through Slice 234; F02, F03,
+and final review remain Backlog in dependency order. EPIC-16 through EPIC-30
+remain Backlog; Lane E under Epic 20 remains held for explicit garment-direction
+approval. Backlog registration alone is not work admission.
 
 ## Historical import rule
 

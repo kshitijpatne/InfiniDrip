@@ -1,19 +1,17 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 232 adds the transactional IndexedDB project repository, 2026-09-24._
+_Last updated: Slice 233 connects the versioned project/style workflow, 2026-09-24._
 Current directive: EPIC-14/G01 is Closed. C01, C02, C05 and C06, C03 and C04,
 lanes B–D, Lane A, and the final G01 review are Done with verified evidence.
-EPIC-15/G02 is admitted and In Progress. Slice 229 is complete with verified
-admission evidence; Slice 230 accepted F01's local storage and migration
-contract; Slice 231 added strict project/style/recovery/migration records and
-pure SaveFile conversion tests; Slice 232 added the transactional repository
-API and real Electron restart/path-change migration proof. F01 remains In
-Progress for app workflow integration, package import/export and exit work;
-F02, F03, and final review remain queued in strict dependency order. Continue
-at Slice 233, the user-led project/style workflow. The repository API is not yet
-wired to the current Save/Load controls. The goal and
-all slice gates are recorded in `docs/planning/EPIC-15-ADMISSION.md` and the
-accepted contract in `docs/research/epic15/F01-STORAGE-CONTRACT-S230.md`.
+EPIC-15/G02 is admitted and In Progress. Slices 229–232 completed admission,
+storage contract, versioned records, and transactional IndexedDB repository.
+Slice 233 connected migration, Save/Load, recovery, and the user-led local
+project/style workflow, then passed full coverage and rendered browser/Electron
+restart verification. F01 remains In Progress for portable package import /
+export and its exit gate in Slice 234; F02, F03, and final review remain queued
+in strict dependency order. Continue at Slice 234. The goal and gates are in
+`docs/planning/EPIC-15-ADMISSION.md`; implementation evidence is in
+`docs/research/epic15/F01-PROJECT-STYLE-WORKFLOW-S233.md`.
 EPIC-16 through
 EPIC-30 remain Backlog. The A-01–A-12 disposition, output replay and remaining
 downstream thresholds are recorded in `docs/research/epic14/G01-FINAL-REVIEW-EXIT.md`. Slice 227 adds
@@ -24,8 +22,8 @@ layout results. The byte-identical legacy writer remains unchanged. At the
 G01 exit, full coverage, build and protected export identities passed. Physical
 sampling, live supplier work, paid sources, hosted services and
 production-readiness claims remain held.
-The canonical Control Center is at revision 272 after verified EPIC-15/G02
-admission and F01 Slice 230–232 evidence.
+The canonical Control Center is at revision 273 after verified EPIC-15/G02
+admission and F01 Slice 230–233 evidence.
 Detailed records and the sequence map
 are in `ops/control-center/data/board.json`,
 `docs/planning/EPIC-14-ADMISSION.md`,

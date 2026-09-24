@@ -206,11 +206,16 @@ Slice 231 adds strict versioned project/style/recovery records and a pure
 SaveFile v1–v5 conversion. Slice 232 implements the IndexedDB repository,
 revision-checked atomic writes, style switching, recovery, and non-destructive
 legacy migration; Electron 44.1.0 / Chromium 152.0.7977.65 passed a real
-restart-and-app-file-path-change proof. The API is not yet connected to the
-current Save/Load controls or project/style UI, so the app still uses its
-legacy storage path until Slice 233 completes that workflow. The repository
-proof does not establish browser quota or eviction guarantees. Its details are
-in [`docs/research/epic15/F01-TRANSACTIONAL-REPOSITORY-S232.md`](docs/research/epic15/F01-TRANSACTIONAL-REPOSITORY-S232.md).
+restart-and-app-file-path-change proof. Slice 233 connects that repository to
+application startup, Save/Load, per-style recovery, and an accessible local
+project/style manager. The app fails closed with a retryable startup error if
+storage or migration fails rather than mounting editing controls over
+replacement defaults. The workflow passed rendered persistent-browser and
+Electron restart checks. Portable project package import/export, quota/eviction
+guarantees, and package failure pressure tests remain for Slice 234; the tested
+runtimes do not establish broader durability guarantees. Details are in
+[`docs/research/epic15/F01-TRANSACTIONAL-REPOSITORY-S232.md`](docs/research/epic15/F01-TRANSACTIONAL-REPOSITORY-S232.md) and
+[`docs/research/epic15/F01-PROJECT-STYLE-WORKFLOW-S233.md`](docs/research/epic15/F01-PROJECT-STYLE-WORKFLOW-S233.md).
 This work remains deterministic and user-led and does not open new garment,
 physical sampling, supplier, paid-service, or production-readiness scope.
 

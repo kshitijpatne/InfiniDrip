@@ -157,16 +157,20 @@ describe("strict project and style records", () => {
     const twoStyleProject = { ...project, styleIds: [STYLE_ID, OTHER_STYLE_ID] };
     expect(validateProjectBundle(twoStyleProject, [style, { ...style, id: OTHER_STYLE_ID }]).ok).toBe(true);
     expect(validateProjectBundle(twoStyleProject, [style, style]).ok).toBe(false);
+    expect(validateProjectBundle(project, [{ ...style, archivedAt: TIME }]).ok).toBe(false);
   });
 
   it("validates style schema, timestamps, recipe identity, and nested canonical design", () => {
     const style = validStyle();
     expect(parseStyleRecord(undefined).ok).toBe(false);
     expect(parseStyleRecord({ ...style, extra: 1 }).ok).toBe(false);
-    expect(parseStyleRecord({ ...style, schemaVersion: 2 }).ok).toBe(false);
+    expect(parseStyleRecord({ ...style, schemaVersion: 1 }).ok).toBe(false);
     expect(parseStyleRecord({ ...style, projectId: "bad" }).ok).toBe(false);
     expect(parseStyleRecord({ ...style, name: "" }).ok).toBe(false);
     expect(parseStyleRecord({ ...style, updatedAt: "2026-09-24T15:00:00.000Z" }).ok).toBe(false);
+    expect(parseStyleRecord({ ...style, archivedAt: "not-a-time" }).ok).toBe(false);
+    const { archivedAt: _archivedAt, ...missingArchiveState } = style;
+    expect(parseStyleRecord(missingArchiveState).ok).toBe(false);
     expect(parseStyleRecord({ ...style, recipeId: "polo" }).ok).toBe(false);
     expect(parseStyleRecord({ ...style, design: { ...style.design, added: true } }).ok).toBe(false);
     expect(parseStyleRecord({ ...style, design: { ...style.design, measurements: { ...STANDARD_M, unknown: 2 } } }).ok).toBe(false);
@@ -178,6 +182,7 @@ describe("strict project and style records", () => {
     cyclicMeasurements.chest = cyclicMeasurements;
     expect(parseStyleRecord({ ...style, design: { ...style.design, measurements: cyclicMeasurements } }).ok).toBe(false);
     expect(parseStyleRecord(style).ok).toBe(true);
+    expect(parseStyleRecord({ ...style, archivedAt: TIME }).ok).toBe(true);
   });
 
   it("validates per-style recovery records and legacy recovery without altering unfinished raw input", () => {

@@ -11,7 +11,7 @@ import {
 import { FIELDS } from "./controls";
 
 export const PROJECT_RECORD_VERSION = 1;
-export const STYLE_RECORD_VERSION = 1;
+export const STYLE_RECORD_VERSION = 2;
 export const RECOVERY_RECORD_VERSION = 1;
 export const MIGRATION_RECORD_VERSION = 1;
 
@@ -38,6 +38,8 @@ export interface StyleRecord {
   readonly createdAt: string;
   readonly updatedAt: string;
   readonly revision: number;
+  /** Null while available; an ISO timestamp while retained in the archive. */
+  readonly archivedAt: string | null;
   readonly design: SavedDesign;
 }
 
@@ -76,7 +78,8 @@ export interface LegacySaveMigration {
 }
 
 const PROJECT_KEYS = ["schemaVersion", "id", "name", "createdAt", "updatedAt", "revision", "styleIds", "activeStyleId"];
-const STYLE_KEYS = ["schemaVersion", "id", "projectId", "name", "recipeId", "recipePresetId", "createdAt", "updatedAt", "revision", "design"];
+const STYLE_KEYS = ["schemaVersion", "id", "projectId", "name", "recipeId", "recipePresetId", "createdAt", "updatedAt", "revision", "archivedAt", "design"];
+export const LEGACY_STYLE_RECORD_KEYS = Object.freeze(["schemaVersion", "id", "projectId", "name", "recipeId", "recipePresetId", "createdAt", "updatedAt", "revision", "design"]);
 const RECOVERY_KEYS = ["schemaVersion", "styleId", "payload"];
 const MIGRATION_KEYS = ["schemaVersion", "sourceKeys", "sourceSaveVersion", "sourceSha256", "migratedAt", "projectId", "styleId"];
 const DESIGN_KEYS = ["measurements", "fabric", "appearance", "garmentOptions", "workspace", "surface", "nestingIntelligence"];
@@ -164,7 +167,8 @@ export function parseStyleRecord(value: unknown): RecordResult<StyleRecord> {
     || typeof value.recipeId !== "string" || value.recipeId.length === 0
     || typeof value.recipePresetId !== "string" || value.recipePresetId.length === 0
     || !validTimestamp(value.createdAt) || !validTimestamp(value.updatedAt)
-    || !validRevision(value.revision)) {
+    || !validRevision(value.revision)
+    || (value.archivedAt !== null && !validTimestamp(value.archivedAt))) {
     return fail("Style identity, name, recipe, timestamps, or revision are invalid.");
   }
   if (Date.parse(value.updatedAt) < Date.parse(value.createdAt)) return fail("Style updatedAt precedes createdAt.");
@@ -234,6 +238,8 @@ export function validateProjectBundle(
   if (new Set(styles.map((style) => style.id)).size !== styles.length) {
     return fail("Project style records contain duplicate IDs.");
   }
+  const active = styles.find((style) => style.id === project.value.activeStyleId);
+  if (!active || active.archivedAt !== null) return fail("The active style must exist and cannot be archived.");
   return { ok: true, value: { project: project.value, styles } };
 }
 
@@ -270,6 +276,7 @@ export function migrateLegacySaveFile(input: LegacySaveMigrationInput): RecordRe
     createdAt: input.migratedAt,
     updatedAt: input.migratedAt,
     revision: 1,
+    archivedAt: null,
     design,
   };
   const bundle = validateProjectBundle(project, [style]);
