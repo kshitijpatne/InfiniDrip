@@ -738,6 +738,22 @@ describe("surfaceMarkup — artwork sets per style", () => {
     expect(html).not.toContain(`src="${record.source.originalImageUrl}"`);
     expect(html).toContain("the app does not fetch them");
   });
+  it("renders CMA source identity and CC0 API evidence without Met-only labels", () => {
+    const record = ARTWORK_CATALOG.find((item) => item.assetId === "builtin-cma-109638")!;
+    const html = surfaceMarkup({
+      style: "Scoop", placements: [], errors: new Map(), preview: "",
+      artworkLibrary: {
+        query: "", category: "", garmentFamily: "", pieceRoleGroup: "",
+        printUseFilter: "", assessmentUse: "panel", selectedPlacementIndex: "",
+        actionMessage: "Choose a reference.", isOpen: true, totalCount: ARTWORK_CATALOG.length,
+        items: [{ record, assessment: assessArtworkUse(record, "panel") }],
+      },
+    });
+    expect(html).toContain("Cleveland Museum of Art record 1928.269");
+    expect(html).toContain("CMA API: share_license_status = CC0; copyright = null");
+    expect(html).toContain("1928.269_print.jpg");
+    expect(html).not.toContain("The Met object");
+  });
   it("keeps presentation, tile, suitability and unavailable-resolution states distinct", () => {
     const base = ARTWORK_CATALOG[0]!;
     const record = (id: number, presentation: string, imageIsSeamlessTile: boolean): ArtworkCatalogRecord => ({
@@ -749,7 +765,7 @@ describe("surfaceMarkup — artwork sets per style", () => {
     const unknown = record(999992, "unconfirmed", false);
     const unverifiedRights: ArtworkCatalogRecord = {
       ...clean,
-      source: { ...clean.source, apiIsPublicDomain: false },
+      source: { ...clean.source, rightsLabel: "CC BY" as ArtworkCatalogRecord["source"]["rightsLabel"] },
     };
     const assessment = (
       item: ArtworkCatalogRecord,
@@ -781,7 +797,8 @@ describe("surfaceMarkup — artwork sets per style", () => {
     expect(html).toContain("Recommended");
     expect(html).toContain("Resolution estimate unavailable.");
     expect(html).toContain("resolution estimate unavailable.");
-    expect(html).toContain("API public-domain flag: false");
+    expect(html).toContain("The Met API: isPublicDomain = true");
+    expect(html).toContain("CC BY");
   });
   it("keeps the optional catalog collapsed until the user opens it", () => {
     const html = surfaceMarkup({

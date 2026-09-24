@@ -120,10 +120,13 @@ preview are temporary; it is not a general pattern editor.
   local asset ID and optional source-pixel dimensions. Missing local files can
   be restored or replaced. The placement preview still shows only its
   rectangle, not artwork on a garment. Import does not change garment geometry
-  or exports. The repository also contains eight source-verified bundled
-  textile references. In the Style panel's **Local artwork library**, people
-  can search, filter, inspect provenance and technical notes, then attach a
-  stable `builtin-met-*` reference to a new or existing placement. The preview
+  or exports. The repository also contains twelve source-verified bundled
+  textile and print references: eight from The Met and four from the Cleveland
+  Museum of Art. In the Style panel's **Local artwork library**, people can
+  search, filter, inspect provenance and technical notes, then attach a stable
+  `builtin-met-*` or `builtin-cma-*` reference to a new or existing placement.
+  The catalog records each institution's API rights evidence separately: The
+  Met's public-domain flag is not conflated with CMA's CC0 status. The preview
   resolves from a build-time local asset URL; it does not use the separate
   user-import store, and museum addresses are attribution text rather than
   runtime requests. Per-use suitability guidance is advisory. The collection

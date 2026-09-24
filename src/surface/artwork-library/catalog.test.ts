@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 import { ARTWORK_CATALOG, ARTWORK_CATEGORIES, GARMENT_FAMILIES, PIECE_ROLE_GROUPS, PRINT_USES } from "./catalog";
+import { assessArtworkUse } from "./search";
 
 function readJpegDimensions(bytes: Buffer): { width: number; height: number } {
   if (bytes[0] !== 0xff || bytes[1] !== 0xd8) throw new Error("Not a JPEG image.");
@@ -31,7 +32,12 @@ describe("bundled artwork catalog", () => {
   it("uses unique stable built-in IDs and the approved searchable vocabularies", () => {
     const ids = ARTWORK_CATALOG.map((record) => record.assetId);
     expect(new Set(ids).size).toBe(ids.length);
-    expect(ids.every((id) => /^builtin-met-\d+$/.test(id))).toBe(true);
+    expect(ids.every((id) => /^builtin-(?:met|cma)-\d+$/u.test(id))).toBe(true);
+    expect(ARTWORK_CATALOG).toHaveLength(12);
+    expect(ARTWORK_CATALOG.filter((record) => record.assetId.startsWith("builtin-cma-"))
+      .map((record) => record.assetId))
+      .toEqual(["builtin-cma-109638", "builtin-cma-167454", "builtin-cma-95605", "builtin-cma-111658"]);
+    expect(new Set(ARTWORK_CATALOG.flatMap((record) => record.categories))).toEqual(new Set(ARTWORK_CATEGORIES));
     expect(ARTWORK_CATEGORIES).toEqual([
       "geometric",
       "stripe/check/grid",
@@ -57,17 +63,34 @@ describe("bundled artwork catalog", () => {
       expect(record.culture.length).toBeGreaterThan(0);
       expect(record.date.length).toBeGreaterThan(0);
       expect(record.medium.length).toBeGreaterThan(0);
-      expect(record.source.institution).toBe("The Metropolitan Museum of Art");
+      const isMet = record.assetId.startsWith("builtin-met-");
+      expect(record.source.institution).toBe(isMet ? "The Metropolitan Museum of Art" : "Cleveland Museum of Art");
       expect(record.source.rightsLabel).toBe("Public Domain");
-      expect(record.source.apiIsPublicDomain).toBe(true);
+      expect(record.source.apiInternalId).toBe(Number(record.assetId.substring(record.assetId.lastIndexOf("-") + 1)));
+      if (isMet) {
+        expect(record.source.apiRightsEvidence).toEqual({
+          kind: "met-public-domain-flag", field: "isPublicDomain", value: true,
+        });
+      } else {
+        expect(record.source.apiRightsEvidence).toEqual({
+          kind: "cma-cc0-share-status", field: "share_license_status", value: "CC0", copyright: null,
+        });
+      }
       expect(record.source.creditLine.length).toBeGreaterThan(0);
-      expect(new URL(record.source.itemRecordUrl).hostname).toBe("www.metmuseum.org");
-      expect(new URL(record.source.apiRecordUrl).hostname).toBe("collectionapi.metmuseum.org");
-      expect(new URL(record.source.originalImageUrl).hostname).toBe("images.metmuseum.org");
-      expect(record.source.reusePolicyUrl).toContain("metmuseum.org");
-      expect(record.source.checkedOn).toBe("2026-09-23");
-      expect(record.retrievedOn).toBe("2026-09-23");
-      expect(record.modification).toBe("Unmodified Met primaryImage JPEG bytes.");
+      const sourcePathParts = new URL(record.source.originalImageUrl).pathname.split("/");
+      expect(record.source.originalImageFilename).toBe(sourcePathParts[sourcePathParts.length - 1]);
+      const expectedHosts = isMet
+        ? ["www.metmuseum.org", "collectionapi.metmuseum.org", "images.metmuseum.org"]
+        : ["www.clevelandart.org", "openaccess-api.clevelandart.org", "openaccess-cdn.clevelandart.org"];
+      expect(new URL(record.source.itemRecordUrl).hostname).toBe(expectedHosts[0]);
+      expect(new URL(record.source.apiRecordUrl).hostname).toBe(expectedHosts[1]);
+      expect(new URL(record.source.originalImageUrl).hostname).toBe(expectedHosts[2]);
+      expect(record.source.reusePolicyUrl).toContain(isMet ? "metmuseum.org" : "clevelandart.org");
+      expect(record.source.checkedOn).toMatch(/^\d{4}-\d{2}-\d{2}$/u);
+      expect(record.retrievedOn).toMatch(/^\d{4}-\d{2}-\d{2}$/u);
+      expect(record.modification).toBe(isMet
+        ? "Unmodified Met primaryImage JPEG bytes."
+        : "Unmodified CMA print rendition JPEG bytes.");
       expect(record.image.mimeType).toBe("image/jpeg");
       expect(record.image.format).toBe("raster");
       expect(record.image.hasTransparency).toBe(false);
@@ -101,5 +124,21 @@ describe("bundled artwork catalog", () => {
       expect(bytes.subarray(0, 3)).toEqual(Buffer.from([0xff, 0xd8, 0xff]));
       expect(readJpegDimensions(bytes)).toEqual({ width: record.image.widthPx, height: record.image.heightPx });
     }
+  });
+
+  it("uses the real CMA CC0 evidence in advisory checks and fills the selected taxonomy gaps", () => {
+    const cmaRecords = ARTWORK_CATALOG.filter((record) => record.assetId.startsWith("builtin-cma-"));
+    for (const record of cmaRecords) {
+      const result = assessArtworkUse(record, "panel");
+      expect(result.level).toBe("possible");
+      expect(result.selectable).toBe(true);
+      expect(result.reason).toContain("This reference remains selectable.");
+    }
+    expect(cmaRecords.find((record) => record.assetId === "builtin-cma-109638")?.categories)
+      .toContain("typography/logo");
+    expect(cmaRecords.find((record) => record.assetId === "builtin-cma-109638")?.categories)
+      .toContain("abstract");
+    expect(cmaRecords.find((record) => record.assetId === "builtin-cma-111658")?.categories)
+      .toContain("dot/spot");
   });
 });

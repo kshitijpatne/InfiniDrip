@@ -9,17 +9,19 @@ any garment queue._
 
 Ship a small, useful, fashion-oriented local artwork collection that can be
 searched, filtered, inspected and used as a reference while authoring a surface
-placement. The initial V1 corpus is eight public-domain textile designs from
-The Metropolitan Museum of Art (The Met), selected for floral, scenic, bird,
-geometric, stripe and ornamental variety. This is a curated starter collection,
-not a claim to cover every category or style.
+placement. The original V1 seed was eight public-domain textile references
+from The Metropolitan Museum of Art (The Met). Slice 208 expands the local
+catalog to twelve items with four CC0 records from the Cleveland Museum of Art
+(CMA), adding printed lettering, ikat, embroidery and a paper print study. It
+is a curated starter collection, not a claim to cover every category or style.
 
 Everything stays on-device or in the application bundle. The library must not
 call an image host, museum API, account service, database, or other remote
 service at runtime. User-imported artwork remains in the separate Slice 200
 local store. Bundled items are read-only application assets and use stable IDs
-of the form `builtin-met-<Met object ID>`; a saved design refers to the bundled
-item by that ID and does not copy its bytes into browser or desktop storage.
+of the form `builtin-met-<Met object ID>` or `builtin-cma-<CMA API ID>`; a saved
+design refers to the bundled item by that ID and does not copy its bytes into
+browser or desktop storage.
 Existing `assetId`, `sourceName`, and source-pixel-dimension fields are enough;
 do not add a design schema version just for the library.
 
@@ -196,11 +198,11 @@ cropped or edited. The full application coverage gate passes at 100% across all
 four metrics, the production TypeScript/Vite build passes, and the export
 byte-identity regressions remain green.
 
-The current seed has eight entries and covers seven of the ten category values:
+At Slice 201, the eight-entry Met seed covered seven of the ten category values:
 geometric, stripe/check/grid, botanical/floral, organic/natural,
 ornamental/traditional, texture/material, and novelty/illustrative. Dot/spot,
-abstract, and typography/logo have no matching seed entry and stay empty. This
-is not yet the broader, dense library implied by the long-term product idea;
+abstract, and typography/logo had no matching seed entry at that time. This
+was not yet the broader, dense library implied by the long-term product idea;
 Phase 9 specifically requires trying the working V1 and asking the maintainer
 whether to expand or revise it. The UI must identify each file as a museum
 reference photograph or paper study—not a seamless, print-ready tile—and retain
@@ -241,13 +243,39 @@ No additional source candidates or image files are authorized by that scope.
 
 ## Phase 9 maintainer gate
 
-After Slice 208 adds the scoped local references, practice the catalog together
-with Slice 200 import; review search, filters, all ten taxonomy categories,
-provenance/IDs/filenames, save/reload, suitability guidance, formats and variety.
-Record what is directly observed versus sourced, estimated or assumed, then
-make the Phase 9 exit recommendation. The expansion direction is approved, but
-Phase 9 completion does not approve or start a garment queue; a separate
-explicit garment direction remains required.
+Slice 208 adds exactly the four scoped CMA references. The expanded catalog has
+twelve items across all ten taxonomy categories. Exact source filenames, byte
+lengths, SHA-256 digests, category assignments and the upstream API-size
+discrepancy are recorded in
+[`ARTWORK-EXPANSION-PHASE9-SCOPE.md`](../research/ARTWORK-EXPANSION-PHASE9-SCOPE.md).
+The item-page Public Domain label remains distinct from CMA's API `CC0` and
+`copyright: null` evidence. Existing Met IDs and image bytes are unchanged.
+
+### Slice 208 implementation and practice record
+
+The production build contains twelve bundled JPEGs totaling 46,897,731 bytes;
+their SHA-256 set matches the twelve source assets exactly. The complete
+coverage gate passes at 100% for statements, branches, functions and lines,
+including export byte-identity checks. The build and exact CMA byte evidence
+are described above and in the research record.
+
+Practice used a separate local preview origin at a 1280×720 desktop viewport.
+The library reported twelve bundled references. Searching `Sparrows` returned
+the intended CMA record, `CC0` returned the four CMA records, and the Dot/spot
+filter found the woodblock-print study. A CMA reference was staged and attached
+to a placement; a separately imported local Met image was also added. Saving
+and reloading retained both the stable CMA catalog ID and the separate local
+import ID. The browser console had no errors. Catalog tests verify all ten
+taxonomy categories and every bundled image's dimensions, source identity,
+byte length, SHA-256 and local build path. These items remain local reference
+photos/studies, not verified print-ready artwork or seamless tiles.
+
+Codex's exit recommendation is to accept the bounded 12-item collection as a
+useful local reference V1 for the approved pre-garment scope, while explicitly
+recording that it is not the dense production-art library envisioned for a
+later phase. Phase 9 remains in review until the maintainer accepts or revises
+that recommendation. This recommendation does not approve or start a garment
+queue; a separate explicit garment direction remains required.
 
 ## Authoritative source references
 

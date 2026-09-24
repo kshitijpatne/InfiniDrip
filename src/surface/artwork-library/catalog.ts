@@ -39,8 +39,27 @@ export const PIECE_ROLE_GROUPS = [
 ] as const;
 export type ArtworkPieceRoleGroup = typeof PIECE_ROLE_GROUPS[number];
 
+export type ArtworkApiRightsEvidence =
+  | {
+    readonly kind: "met-public-domain-flag";
+    readonly field: "isPublicDomain";
+    readonly value: true;
+  }
+  | {
+    readonly kind: "cma-cc0-share-status";
+    readonly field: "share_license_status";
+    readonly value: "CC0";
+    readonly copyright: null;
+  };
+
+export function describeArtworkApiRightsEvidence(evidence: ArtworkApiRightsEvidence): string {
+  return evidence.kind === "met-public-domain-flag"
+    ? "The Met API: isPublicDomain = true"
+    : "CMA API: share_license_status = CC0; copyright = null";
+}
+
 export interface ArtworkCatalogRecord {
-  readonly assetId: `builtin-met-${number}`;
+  readonly assetId: `builtin-met-${number}` | `builtin-cma-${number}`;
   readonly title: string;
   readonly description: string;
   readonly creator: string;
@@ -48,19 +67,23 @@ export interface ArtworkCatalogRecord {
   readonly date: string;
   readonly medium: string;
   readonly source: {
-    readonly institution: "The Metropolitan Museum of Art";
+    readonly institution: "The Metropolitan Museum of Art" | "Cleveland Museum of Art";
+    readonly itemIdentifier: string;
+    readonly apiInternalId: number;
     readonly itemRecordUrl: string;
     readonly apiRecordUrl: string;
     /** Provenance only; never use as an image source at runtime. */
     readonly originalImageUrl: string;
-    readonly rightsLabel: string;
-    readonly apiIsPublicDomain: boolean;
+    readonly originalImageFilename: string;
+    /** Item-page label; API evidence is captured separately without conflating rights mechanisms. */
+    readonly rightsLabel: "Public Domain";
+    readonly apiRightsEvidence: ArtworkApiRightsEvidence;
     readonly creditLine: string;
     readonly reusePolicyUrl: string;
-    readonly checkedOn: "2026-09-23";
+    readonly checkedOn: string;
   };
-  readonly retrievedOn: "2026-09-23";
-  readonly modification: "Unmodified Met primaryImage JPEG bytes.";
+  readonly retrievedOn: string;
+  readonly modification: "Unmodified Met primaryImage JPEG bytes." | "Unmodified CMA print rendition JPEG bytes.";
   readonly image: {
     readonly filename: string;
     readonly mimeType: "image/jpeg";
@@ -96,6 +119,10 @@ export interface ArtworkCatalogRecord {
   };
 }
 
+export function artworkSourceReferenceText(record: ArtworkCatalogRecord): string {
+  return `${record.title} — ${record.source.institution} record ${record.source.itemIdentifier} (${record.source.rightsLabel})`;
+}
+
 const metApiUrl = (objectId: number): string =>
   `https://collectionapi.metmuseum.org/public/collection/v1/objects/${objectId}`;
 
@@ -109,15 +136,47 @@ function metSource(
   originalImageUrl: string,
   creditLine: string,
 ): ArtworkCatalogRecord["source"] {
+  const imagePath = new URL(originalImageUrl).pathname;
   return {
     institution: "The Metropolitan Museum of Art",
+    itemIdentifier: String(objectId),
+    apiInternalId: objectId,
     itemRecordUrl: metItemUrl(objectId),
     apiRecordUrl: metApiUrl(objectId),
     originalImageUrl,
+    originalImageFilename: imagePath.slice(imagePath.lastIndexOf("/") + 1),
     rightsLabel: "Public Domain",
-    apiIsPublicDomain: true,
+    apiRightsEvidence: { kind: "met-public-domain-flag", field: "isPublicDomain", value: true },
     creditLine,
     reusePolicyUrl: metReusePolicyUrl,
+    checkedOn: "2026-09-23",
+  };
+}
+
+function cmaSource(
+  itemIdentifier: string,
+  apiId: number,
+  originalImageUrl: string,
+  originalImageFilename: string,
+  creditLine: string,
+): ArtworkCatalogRecord["source"] {
+  return {
+    institution: "Cleveland Museum of Art",
+    itemIdentifier,
+    apiInternalId: apiId,
+    itemRecordUrl: `https://www.clevelandart.org/art/${itemIdentifier}`,
+    apiRecordUrl: `https://openaccess-api.clevelandart.org/api/artworks/${itemIdentifier}`,
+    originalImageUrl,
+    originalImageFilename,
+    rightsLabel: "Public Domain",
+    apiRightsEvidence: {
+      kind: "cma-cc0-share-status",
+      field: "share_license_status",
+      value: "CC0",
+      copyright: null,
+    },
+    creditLine,
+    reusePolicyUrl: "https://www.clevelandart.org/open-access",
     checkedOn: "2026-09-23",
   };
 }
@@ -508,6 +567,206 @@ export const ARTWORK_CATALOG: readonly ArtworkCatalogRecord[] = [
         minimum: 10,
         maximum: 30,
         basis: "Editorial starting range for the visible woven motif, informed by the 5,229 px source width; the photo border and fragment scale are not production repeat or print specifications.",
+      },
+    },
+  },
+  {
+    assetId: "builtin-cma-109638",
+    title: "Je T'aime (No. 632)",
+    description: "A roller-printed silk with repeated angular lettering designed for Stehli Silks Corporation.",
+    creator: "Kneeland (Ruzzie) Green",
+    culture: "America, New York",
+    date: "1927",
+    medium: "Silk crepe: plain weave, roller printed",
+    source: cmaSource(
+      "1928.269",
+      109638,
+      "https://openaccess-cdn.clevelandart.org/1928.269/1928.269_print.jpg",
+      "1928.269_print.jpg",
+      "Gift of the Stehli Silks Corporation",
+    ),
+    retrievedOn: "2026-09-23",
+    modification: "Unmodified CMA print rendition JPEG bytes.",
+    image: {
+      filename: "cma-1928-269.jpg",
+      mimeType: "image/jpeg",
+      format: "raster",
+      widthPx: 1843,
+      heightPx: 3400,
+      byteLength: 6266281,
+      sha256: "1f7c5eaef97874bb8d994dded1257cc8e82deae9f7d858e6f29463b7d6ff2495",
+      hasTransparency: false,
+      localImageUrl: new URL("./assets/cma-1928-269.jpg", import.meta.url).href,
+    },
+    categories: ["typography/logo", "abstract"],
+    tags: ["roller printed", "silk", "lettering", "angular motif", "Stehli Silks", "textile design"],
+    technical: {
+      repeatMotif: "visible",
+      repeatEvidence: "Repeated angular lettering appears in rows across the photographed silk; exact repeat boundaries are not marked.",
+      presentation: "textile-photograph",
+      imageIsSeamlessTile: false,
+      seamlessEvidence: "This is a photograph of a silk specimen, not a prepared repeat tile; its photographed edges and surface remain part of the image.",
+      directionality: "upright",
+      directionEvidence: "The lettering has a visible reading orientation in the photographed print; review orientation before using it as a garment-scale reference.",
+    },
+    use: {
+      printUses: ["all-over", "panel", "focal graphic", "placement"],
+      garmentFamilies: ALL_GARMENTS,
+      pieceRoleGroups: PANEL_ROLES,
+      suggestedPlacementWidthCm: {
+        minimum: 8,
+        maximum: 20,
+        basis: "Curator estimate informed by the 1,843 px source width; preserve the photographed specimen context and inspect lettering scale after placement.",
+      },
+    },
+  },
+  {
+    assetId: "builtin-cma-167454",
+    title: "Woman’s Robe (munisak)",
+    description: "A Bukhara silk velvet robe with a richly varied ikat surface shown in its garment context.",
+    creator: "Not identified in the item record",
+    culture: "Uzbekistan, Bukhara",
+    date: "1850–75",
+    medium: "Silk: velvet ikat",
+    source: cmaSource(
+      "2009.267",
+      167454,
+      "https://openaccess-cdn.clevelandart.org/2009.267/2009.267_print.jpg",
+      "2009.267_print.jpg",
+      "Gift of Arlene C. Cooper",
+    ),
+    retrievedOn: "2026-09-23",
+    modification: "Unmodified CMA print rendition JPEG bytes.",
+    image: {
+      filename: "cma-2009-267.jpg",
+      mimeType: "image/jpeg",
+      format: "raster",
+      widthPx: 3400,
+      heightPx: 2294,
+      byteLength: 6572081,
+      sha256: "750370536cd8e7e208e4f4dbd6cb8d13fedaf38f6f0fc527c41538b8c668d59c",
+      hasTransparency: false,
+      localImageUrl: new URL("./assets/cma-2009-267.jpg", import.meta.url).href,
+    },
+    categories: ["abstract", "ornamental/traditional", "texture/material"],
+    tags: ["Bukhara", "silk velvet", "ikat", "robe", "garment photograph", "textile surface"],
+    technical: {
+      repeatMotif: "visible",
+      repeatEvidence: "The robe shows repeated ikat patterning; a photograph of the garment does not establish a repeat unit or exact repeat boundary.",
+      presentation: "textile-photograph",
+      imageIsSeamlessTile: false,
+      seamlessEvidence: "The robe silhouette, folds, seams, sheen and lighting are part of the source photograph; this is not a clean textile swatch or repeat tile.",
+      directionality: "upright",
+      directionEvidence: "The robe is shown upright as a garment; the photograph does not specify a production print-up direction.",
+    },
+    use: {
+      printUses: ["all-over", "panel", "placement"],
+      garmentFamilies: ALL_GARMENTS,
+      pieceRoleGroups: ALL_OVER_ROLES,
+      suggestedPlacementWidthCm: {
+        minimum: 12,
+        maximum: 32,
+        basis: "Curator estimate informed by the 3,400 px source width; the robe silhouette, folds, seams, sheen and lighting remain visible, so inspect crop and scale after placement.",
+      },
+    },
+  },
+  {
+    assetId: "builtin-cma-95605",
+    title: "Gift Cover (Fukusa) with Carp in Waves",
+    description: "A silk gift cover with a centered embroidered carp-and-wave composition and metallic thread.",
+    creator: "Not identified in the item record",
+    culture: "Japan, Meiji period (1868–1912)",
+    date: "1868–1912",
+    medium: "Silk: embroidered; metallic thread",
+    source: cmaSource(
+      "1916.1324",
+      95605,
+      "https://openaccess-cdn.clevelandart.org/1916.1324/1916.1324_print.jpg",
+      "1916.1324_print.jpg",
+      "Gift of Mr. and Mrs. J. H. Wade",
+    ),
+    retrievedOn: "2026-09-23",
+    modification: "Unmodified CMA print rendition JPEG bytes.",
+    image: {
+      filename: "cma-1916-1324.jpg",
+      mimeType: "image/jpeg",
+      format: "raster",
+      widthPx: 2905,
+      heightPx: 3400,
+      byteLength: 3683248,
+      sha256: "e1383bb2d3bfeee4254122d98a59f4e863774bd5b664cafea30d11b4ee4ab9c4",
+      hasTransparency: false,
+      localImageUrl: new URL("./assets/cma-1916-1324.jpg", import.meta.url).href,
+    },
+    categories: ["organic/natural", "novelty/illustrative", "texture/material"],
+    tags: ["carp", "waves", "embroidered", "metallic thread", "silk", "focal composition"],
+    technical: {
+      repeatMotif: "unconfirmed",
+      repeatEvidence: "The image shows one centered carp-and-wave scene; no repeating motif unit is established.",
+      presentation: "textile-photograph",
+      imageIsSeamlessTile: false,
+      seamlessEvidence: "Thread relief, metallic sheen, photographed textile edges and surface are retained; the centered composition is not a repeat tile.",
+      directionality: "upright",
+      directionEvidence: "The carp and wave composition has a visible upright orientation in the source image.",
+    },
+    use: {
+      printUses: ["panel", "focal graphic", "placement"],
+      garmentFamilies: ALL_GARMENTS,
+      pieceRoleGroups: PANEL_ROLES,
+      suggestedPlacementWidthCm: {
+        minimum: 10,
+        maximum: 25,
+        basis: "Curator estimate informed by the 2,905 px source width; metallic thread and embroidery relief are photographic surface details, not a production-print specification.",
+      },
+    },
+  },
+  {
+    assetId: "builtin-cma-111658",
+    title: "Sparrows, Bamboo and Falling Snow",
+    description: "A Japanese color woodblock print depicting sparrows, bamboo and scattered falling snow.",
+    creator: "Keisai Eisen",
+    culture: "Japan, Edo period (1615–1868)",
+    date: "c. late 1820s",
+    medium: "Color woodblock print",
+    source: cmaSource(
+      "1930.192",
+      111658,
+      "https://openaccess-cdn.clevelandart.org/1930.192/1930.192_print.jpg",
+      "1930.192_print.jpg",
+      "Bequest of Edward L. Whittemore",
+    ),
+    retrievedOn: "2026-09-23",
+    modification: "Unmodified CMA print rendition JPEG bytes.",
+    image: {
+      filename: "cma-1930-192.jpg",
+      mimeType: "image/jpeg",
+      format: "raster",
+      widthPx: 2583,
+      heightPx: 3400,
+      byteLength: 2870622,
+      sha256: "15392fa7c4ea9467bd09d06b610bf6a53ae30e3f4ecea970ead3bc554d76d958",
+      hasTransparency: false,
+      localImageUrl: new URL("./assets/cma-1930-192.jpg", import.meta.url).href,
+    },
+    categories: ["dot/spot", "organic/natural", "novelty/illustrative"],
+    tags: ["sparrows", "bamboo", "falling snow", "woodblock print", "spot motif", "paper study"],
+    technical: {
+      repeatMotif: "unconfirmed",
+      repeatEvidence: "Scattered snow marks are visible within a single scene; they are not a regular polka-dot or repeat unit.",
+      presentation: "paper-study",
+      imageIsSeamlessTile: false,
+      seamlessEvidence: "The paper margins and single-scene composition remain in this photographed print; no repeating boundary is claimed.",
+      directionality: "upright",
+      directionEvidence: "The print depicts upright bamboo and birds; review orientation and paper margins when adapting the reference.",
+    },
+    use: {
+      printUses: ["panel", "focal graphic", "placement"],
+      garmentFamilies: ALL_GARMENTS,
+      pieceRoleGroups: PANEL_ROLES,
+      suggestedPlacementWidthCm: {
+        minimum: 8,
+        maximum: 20,
+        basis: "Curator estimate informed by the 2,583 px source width; the paper margins and single-scene composition remain visible and are not print specifications.",
       },
     },
   },

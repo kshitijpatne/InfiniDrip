@@ -19,7 +19,8 @@ garment patterns.
 2. **Measure** — enter body and length measurements.
 3. **Style** — choose how roomy or close-fitting the garment should be, fabric
    and its stretch, color, garment options, and where a design image would go.
-   The current version records geometric placement but does not load an image.
+   A local artwork image can be added to a placement and previewed in the Style
+   panel; the current version does not apply the artwork to garment geometry.
 4. **Check** — review digital warnings and correct issues that affect the
    draft or readiness. Some warnings block Export; others are advisory.
 5. **Export** — choose settings and save the files you need.
@@ -68,11 +69,12 @@ views do not prove physical fit or factory readiness.
 - Artwork placements can attach local PNG, JPEG, WebP, or sanitized SVG files
   and preview them in the Style panel. Images stay on this device; the app does
   not fetch source URLs or place the image onto garment geometry. The curated
-  artwork library has eight source-verified textile references. In the Style
-  panel, open **Local artwork library** to search, filter, inspect provenance
-  and technical notes, and stage a bundled reference for a new or existing
-  placement. Images resolve from the app bundle; museum addresses are shown
-  only as attribution and are not fetched. Suitability guidance is advisory.
+  artwork library has twelve source-verified local references: eight Met
+  textile studies and four CMA textile/print studies. In the Style panel, open
+  **Local artwork library** to search, filter, inspect provenance and technical
+  notes, and stage a bundled reference for a new or existing placement. Images
+  resolve from the app bundle; museum addresses are shown only as attribution
+  and are not fetched. Suitability guidance is advisory.
   This is a small V1 reference collection, not a dense production-art library;
   its museum photos and studies are not necessarily clean or seamless print
   tiles.

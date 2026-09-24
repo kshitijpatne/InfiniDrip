@@ -36,7 +36,7 @@ source evidence, not an independent legal opinion. Recheck item status and
 current terms before any future change that redistributes these bytes. No paid
 image service was used or requested.
 
-| Stable ID (planned) | CMA work / creator / credit | API internal ID | Item page / API record | Official print JPEG | Planned discovery categories | Curatorial role and limitations |
+| Stable ID (planned) | CMA work / creator / credit | API internal ID | Item page / API record | Official print JPEG (API-reported at selection) | Planned discovery categories | Curatorial role and limitations |
 |---|---|---:|---|---|---|---|
 | `builtin-cma-109638` | *Je T'aime (No. 632)*, 1927; designed by Kneeland (Ruzzie) Green for Stehli Silks Corporation; credit: Gift of the Stehli Silks Corporation | 109638 | [item](https://www.clevelandart.org/art/1928.269) · [API](https://openaccess-api.clevelandart.org/api/artworks/1928.269) | `1928.269_print.jpg`; 1843 × 3400; 6,262,868 bytes | typography/logo; abstract | Actual roller-printed silk with repeated angular lettering visible in rows. The object title supplies the phrase “Je T'aime” (“I love you”); retain the title/text context. The photo is not a clean repeat tile. |
 | `builtin-cma-167454` | *Woman's Robe (munisak)*, 1850–75; maker not identified; credit: Gift of Arlene C. Cooper | 167454 | [item](https://www.clevelandart.org/art/2009.267) · [API](https://openaccess-api.clevelandart.org/api/artworks/2009.267) | `2009.267_print.jpg`; 3400 × 2294; 6,568,666 bytes | abstract; ornamental/traditional; texture/material | Bukhara silk velvet ikat. The rendered garment visibly carries a varied, repeating ikat surface; folds, seams, sheen, robe silhouette and lighting are part of the photograph, so it is a study rather than clean artwork or a tile. |
@@ -54,15 +54,49 @@ design.
 
 ## Bundle impact
 
-The existing eight JPEGs total 27,505,499 bytes. The four selected CMA print
-JPEGs total 19,405,468 bytes (about 18.50 MiB), a projected total of
-46,910,967 bytes (about 44.74 MiB), before any build/container overhead. This
-is roughly a 70.5% increase in bundled source-image bytes. Slice 208 must
-record the actual production-build asset total and verify that no original Met
-image changed. The image set is deliberately limited to the official print
-renditions rather than the much larger TIFFs. Do not silently substitute
-lower-resolution web thumbnails or recompress/crop the source images to hide
-the cost of this choice.
+At selection time, the CMA API's reported JPEG sizes totaled 19,405,468 bytes;
+with the existing 27,505,499-byte Met set, the projected source total was
+46,910,967 bytes (about 44.74 MiB), before build/container overhead. Slice 208
+rechecked the image responses and found that the API `filesize` values do not
+match the bytes currently served at those same `images.print.url` addresses.
+The selection-time projection is retained as historical evidence and is
+superseded by the measured values below. No image was resized, recompressed or
+cropped to hide the bundle cost.
+
+### Slice 208 source-byte resolution and implementation record
+
+On 2026-09-23 local time, Codex fetched each current API record and then fetched
+the exact returned `images.print.url` directly. Every image response returned
+HTTP 200 and `image/jpeg`; `Content-Length` matched both the received byte
+count and the committed local file. Fresh response bytes matched the local
+SHA-256 exactly. The downloaded JPEGs decode to the API's reported dimensions.
+The CMA API metadata remains correct for `CC0`, `copyright: null`, URL,
+filename, and dimensions, but its `filesize` field was stale in all four
+records: it under-reported the received bytes by 3,413 and 3,415 bytes for the
+first two images, and over-reported them by 10,097 and 9,967 bytes for the
+other two. Catalog byte lengths below describe the
+exact source JPEG bytes, not the stale API field. These observations are not a
+claim about why the upstream values differ.
+
+| Stable ID | Local file | Official source filename | Dimensions | Exact bytes | SHA-256 | Categories |
+|---|---|---|---:|---:|---|---|
+| `builtin-cma-109638` | `cma-1928-269.jpg` | `1928.269_print.jpg` | 1843 × 3400 | 6,266,281 | `1f7c5eaef97874bb8d994dded1257cc8e82deae9f7d858e6f29463b7d6ff2495` | typography/logo; abstract |
+| `builtin-cma-167454` | `cma-2009-267.jpg` | `2009.267_print.jpg` | 3400 × 2294 | 6,572,081 | `750370536cd8e7e208e4f4dbd6cb8d13fedaf38f6f0fc527c41538b8c668d59c` | abstract; ornamental/traditional; texture/material |
+| `builtin-cma-95605` | `cma-1916-1324.jpg` | `1916.1324_print.jpg` | 2905 × 3400 | 3,683,248 | `e1383bb2d3bfeee4254122d98a59f4e863774bd5b664cafea30d11b4ee4ab9c4` | organic/natural; novelty/illustrative; texture/material |
+| `builtin-cma-111658` | `cma-1930-192.jpg` | `1930.192_print.jpg` | 2583 × 3400 | 2,870,622 | `15392fa7c4ea9467bd09d06b610bf6a53ae30e3f4ecea970ead3bc554d76d958` | dot/spot; organic/natural; novelty/illustrative |
+
+The four files total 19,392,232 bytes. With the unchanged Met images the source
+assets total 46,897,731 bytes (about 44.73 MiB), a 70.5% increase over the
+original Met set before build overhead. Met item IDs and bytes are unchanged.
+The original source photographs remain unchanged and all four entries are
+marked as textile photographs or a paper study, never clean artwork or a
+seamless tile. The source page displays Public Domain; catalog evidence keeps
+that item-page label separate from the CMA API's CC0 status. The UI describes
+each source by institution and accession number, not by a Met-only label.
+The production build contains all twelve source images at the same combined
+46,897,731 bytes, and the built JPEG SHA-256 set matches the source assets
+exactly. The full project coverage gate passes at 100% across statements,
+branches, functions and lines; the export byte-identity checks remain green.
 
 ## Candidates held out
 

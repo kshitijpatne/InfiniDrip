@@ -3981,14 +3981,14 @@ describe("bundled local artwork library (Slice 203)", () => {
     const search = root.querySelector<HTMLInputElement>("#surface-library-search")!;
     search.value = "  GAME   BIRDS ";
     search.dispatchEvent(new Event("input", { bubbles: true }));
-    expect(root.querySelector(".artwork-library-result-count")!.textContent).toContain("1 of 8");
+    expect(root.querySelector(".artwork-library-result-count")!.textContent).toContain(`1 of ${ARTWORK_CATALOG.length}`);
     expect(root.querySelectorAll("[data-artwork-card]")).toHaveLength(1);
     expect(root.querySelector("[data-artwork-card]")!.textContent).toContain("Textile printed with game birds");
 
     const category = root.querySelector<HTMLSelectElement>("#surface-library-category")!;
     category.value = "dot/spot";
     category.dispatchEvent(new Event("change", { bubbles: true }));
-    expect(root.querySelector(".artwork-library-result-count")!.textContent).toContain("0 of 8");
+    expect(root.querySelector(".artwork-library-result-count")!.textContent).toContain(`0 of ${ARTWORK_CATALOG.length}`);
     expect(root.querySelector("#surface-library-results")!.textContent).toContain("Clear or broaden");
 
     search.value = "";
@@ -4045,6 +4045,10 @@ describe("bundled local artwork library (Slice 203)", () => {
     unknownStage.dataset.artworkStageId = "builtin-met-999999";
     root.querySelector("#style-host")!.append(unknownStage);
     unknownStage.click();
+    const unknownCmaStage = document.createElement("button");
+    unknownCmaStage.dataset.artworkStageId = "builtin-cma-999999";
+    root.querySelector("#style-host")!.append(unknownCmaStage);
+    unknownCmaStage.click();
     const unknownApply = document.createElement("button");
     unknownApply.dataset.artworkApplyId = "builtin-met-999999";
     root.querySelector("#style-host")!.append(unknownApply);
@@ -4123,6 +4127,38 @@ describe("bundled local artwork library (Slice 203)", () => {
     mountApp(missingReference, { artworkAssetStore: assets.store });
     await vi.waitFor(() => expect(missingReference.querySelector("[data-surface-asset-status]")!.textContent).toContain("no longer available"));
     expect(missingReference.querySelector<HTMLImageElement>("[data-surface-asset-preview]")!.hidden).toBe(true);
+    expect(assets.store.get).not.toHaveBeenCalled();
+  });
+
+  it("stages and reloads a CMA reference using its institution and accession number", async () => {
+    localStorage.clear();
+    const assets = memoryArtworkStore();
+    const root = document.createElement("div");
+    mountApp(root, { artworkAssetStore: assets.store });
+    toStyleStep(root);
+    const record = ARTWORK_CATALOG.find((item) => item.assetId === "builtin-cma-109638")!;
+    root.querySelector<HTMLButtonElement>(`[data-artwork-stage-id="${record.assetId}"]`)!.click();
+    expect(root.querySelector<HTMLInputElement>("#surface-new-source")!.value)
+      .toContain("Cleveland Museum of Art record 1928.269");
+    root.querySelector<HTMLInputElement>("#surface-new-role")!.value = "front";
+    clickId(root, "surface-add");
+    await vi.waitFor(() => expect(root.querySelector<HTMLImageElement>("[data-surface-asset-preview]")?.dataset.assetId)
+      .toBe(record.assetId));
+    clickId(root, "save-pattern");
+    const saved = savedDesign();
+    const savedSurface = (saved.surface as Record<string, { placements: Array<Record<string, unknown>> }>)
+      ["tee/Classic tee"]!;
+    expect(savedSurface.placements[0]!.assetId).toBe("builtin-cma-109638");
+    expect(savedSurface.placements[0]!.sourceName).toContain("Cleveland Museum of Art record 1928.269");
+    expect(JSON.stringify(savedSurface)).not.toContain("openaccess-cdn.clevelandart.org");
+
+    const reloaded = document.createElement("div");
+    mountApp(reloaded, { artworkAssetStore: assets.store });
+    await vi.waitFor(() => expect(reloaded.querySelector<HTMLImageElement>("[data-surface-asset-preview]")?.dataset.assetId)
+      .toBe(record.assetId));
+    expect(reloaded.querySelector<HTMLImageElement>("[data-surface-asset-preview]")!.src)
+      .toBe(record.image.localImageUrl);
+    expect(assets.store.put).not.toHaveBeenCalled();
     expect(assets.store.get).not.toHaveBeenCalled();
   });
 

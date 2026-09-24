@@ -1,11 +1,11 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 207 scopes the maintainer-approved Phase 9 artwork
-expansion; Phase 8 is complete and Phase 9 is In Progress, 2026-09-23._
-Next: implement the four-item local CMA addition in Slice 208, then practice the
-expanded catalog together with local import and finish the Phase 9 review. The
-garment queue remains closed until Phase 9 is complete and a separate explicit
-garment direction is approved.
+_Last updated: Slice 208 implements and practices the maintainer-approved
+Phase 9 artwork expansion; Phase 8 is complete and Phase 9 awaits its exit
+review, 2026-09-23._
+Next: maintainer review of the Phase 9 exit recommendation. The garment queue
+remains closed until Phase 9 is complete and a separate explicit garment
+direction is approved.
 Epics 7, 9 and 10 are implemented, Codex-reviewed, documented and pushed to
 `origin/main`. Epic 11 implementation has completed the shaped collar/stand,
 placket-base, vent/drop, front/back preview/control/report and downstream
@@ -512,8 +512,46 @@ The selected print JPEGs total 19,405,468 bytes; with the unchanged eight-item
 Met seed, source assets are projected to total 46,910,967 bytes before build
 overhead. No image bytes or application behavior changed in this research
 slice. Slice 208 implements exactly these four records, records the actual
-build delta and preserves the existing asset IDs/bytes; rendered practice and
-the Phase 9 exit review remain afterward.
+build delta and preserves the existing asset IDs/bytes. The API-reported JPEG
+sizes did not match the bytes currently served; the exact response lengths and
+hashes supersede the selection-time projection in
+`docs/research/ARTWORK-EXPANSION-PHASE9-SCOPE.md`.
+
+### Slice 208 — implement and practice the scoped local artwork expansion
+
+The catalog now has twelve stable bundled references: the eight unchanged Met
+items plus exactly four approved CMA records. CMA records retain their own
+item identifiers, API IDs, official source filenames, credit lines and exact
+image hashes. The item-page Public Domain label is shown separately from the
+CMA API's `CC0` status and null copyright field. The reference photographs and
+paper study are not represented as clean standalone artwork or verified
+seamless tiles. Met IDs and bytes are unchanged; source assets total
+46,897,731 bytes, about 44.73 MiB.
+
+Search includes the museum item identifier and source-specific API-rights
+evidence. Provenance completeness checks validate the appropriate rights
+evidence shape for each museum, and the UI describes the source by institution
+and accession/record number. All ten taxonomy categories are represented.
+Catalog image previews resolve from the local application bundle; museum
+source addresses remain provenance text, not runtime image URLs.
+
+Verification: `npm run coverage` passes at 100% for statements, branches,
+functions and lines, including the export byte-identity regressions;
+`npm run build` passes. The production build contains twelve JPEG assets
+totaling 46,897,731 bytes, with every built image SHA-256 matching its source
+file. In a separate local preview at 1280×720, the expanded catalog search,
+CC0 search, Dot/spot filter, CMA staging and placement, and combined bundled-
+plus-imported artwork save/reload were exercised. Both the stable CMA ID and
+the separate local-import ID remained after reload; there were no browser
+console errors. The practice and evidence limitations are recorded in
+`docs/planning/ARTWORK-LIBRARY-V1-EXECUTION.md`.
+
+The bounded expansion and practice are complete, but Phase 9 remains In
+Progress for maintainer exit review. Codex recommends accepting this as a
+small, useful local reference V1 that fills the approved taxonomy gaps, while
+recording that it is not the dense production-art library envisioned for a
+later phase. No garment queue, paid service, runtime museum request or physical
+fit claim is authorized by this slice.
 
 ### Post-merge PR audit — 2026-09-21
 

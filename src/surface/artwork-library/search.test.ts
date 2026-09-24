@@ -94,6 +94,14 @@ describe("artwork catalog search and filters", () => {
       ["record-4921", makeRecord({ source: { itemRecordUrl: "https://example.test/record-4921" } })],
       ["creditneedle", makeRecord({ source: { creditLine: "Creditneedle" } })],
       ["public domain", makeRecord({ source: { rightsLabel: "Public Domain" } })],
+      ["share_license_status = cc0", makeRecord({
+        source: {
+          institution: "Cleveland Museum of Art",
+          apiRightsEvidence: {
+            kind: "cma-cc0-share-status", field: "share_license_status", value: "CC0", copyright: null,
+          },
+        },
+      })],
     ];
     for (const [query, candidate] of cases) {
       expect(searchArtworkCatalog({ query }, [candidate]), query).toEqual([candidate]);
@@ -169,15 +177,18 @@ describe("artwork catalog search and filters", () => {
     expect(searchArtworkCatalog({ query: "floral", filters: { categories: ["geometric"] } }, catalog)).toEqual([second]);
   });
 
-  it("keeps all ten taxonomy filters usable, including empty categories", () => {
+  it("keeps all ten taxonomy filters usable and discovers the newly populated categories", () => {
     for (const category of ARTWORK_CATEGORIES) {
       const result = searchArtworkCatalog({ filters: { categories: [category] } });
       expect(result.every((item) => item.categories.includes(category))).toBe(true);
     }
     expect(ARTWORK_CATEGORIES).toHaveLength(10);
-    expect(searchArtworkCatalog({ filters: { categories: ["dot/spot"] } })).toEqual([]);
-    expect(searchArtworkCatalog({ filters: { categories: ["abstract"] } })).toEqual([]);
-    expect(searchArtworkCatalog({ filters: { categories: ["typography/logo"] } })).toEqual([]);
+    expect(searchArtworkCatalog({ filters: { categories: ["dot/spot"] } }).map((item) => item.assetId))
+      .toEqual(["builtin-cma-111658"]);
+    expect(searchArtworkCatalog({ filters: { categories: ["abstract"] } }).map((item) => item.assetId))
+      .toEqual(["builtin-cma-109638", "builtin-cma-167454"]);
+    expect(searchArtworkCatalog({ filters: { categories: ["typography/logo"] } }).map((item) => item.assetId))
+      .toEqual(["builtin-cma-109638"]);
   });
 
   it("accepts an injected empty catalog", () => {
@@ -316,9 +327,10 @@ describe("artwork use guidance", () => {
   it("requires complete rights and provenance evidence", () => {
     const incompleteSource = cleanArtwork({ source: { creditLine: " " } });
     const wrongRights = cleanArtwork({ source: { rightsLabel: "CC BY" } });
-    const apiDisagrees = cleanArtwork({ source: { apiIsPublicDomain: false } });
+    const missingApiEvidence = cleanArtwork({ source: { apiRightsEvidence: null } });
+    const missingInternalId = cleanArtwork({ source: { apiInternalId: 0 } });
     const invalidHash = cleanArtwork({ image: { sha256: "z".repeat(64) } });
-    for (const candidate of [incompleteSource, wrongRights, apiDisagrees, invalidHash]) {
+    for (const candidate of [incompleteSource, wrongRights, missingApiEvidence, missingInternalId, invalidHash]) {
       const result = assessArtworkUse(candidate, "placement");
       expect(result.level).toBe("needs-review");
       expect(result.reason).toContain("source, rights, or local asset record is incomplete");

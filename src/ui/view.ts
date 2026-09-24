@@ -11,6 +11,8 @@ import { FIELDS, Field, numericRangeState } from "./controls";
 import type { ArtworkPlacement } from "../surface/placement";
 import {
   ARTWORK_CATEGORIES,
+  artworkSourceReferenceText,
+  describeArtworkApiRightsEvidence,
   GARMENT_FAMILIES,
   PIECE_ROLE_GROUPS,
   PRINT_USES,
@@ -403,8 +405,7 @@ const artworkLibraryCardMarkup = (
   const tileStatus = record.technical.imageIsSeamlessTile
     ? "Verified seamless tile"
     : "Not a verified seamless tile";
-  const objectId = record.assetId.replace("builtin-met-", "");
-  const sourceReference = `${record.title} — The Met object ${objectId} (${record.source.rightsLabel})`;
+  const sourceReference = artworkSourceReferenceText(record);
   const categories = record.categories.map(escapeAttr).join(", ");
   const tags = record.tags.map(escapeAttr).join(", ");
   const disabled = selectedPlacementIndex === "" ? " disabled" : "";
@@ -436,12 +437,14 @@ const artworkLibraryCardMarkup = (
     `<dt>Culture and date</dt><dd>${escapeAttr(record.culture)} · ${escapeAttr(record.date)}</dd>` +
     `<dt>Medium</dt><dd>${escapeAttr(record.medium)}</dd>` +
     `<dt>Institution</dt><dd>${escapeAttr(record.source.institution)}</dd>` +
-    `<dt>Rights</dt><dd>${escapeAttr(record.source.rightsLabel)} · API public-domain flag: ${record.source.apiIsPublicDomain ? "true" : "false"}</dd>` +
+    `<dt>Rights</dt><dd>${escapeAttr(record.source.rightsLabel)} · ${escapeAttr(describeArtworkApiRightsEvidence(record.source.apiRightsEvidence))}</dd>` +
     `<dt>Credit line</dt><dd>${escapeAttr(record.source.creditLine)}</dd>` +
     `<dt>Item record URL</dt><dd><code>${escapeAttr(record.source.itemRecordUrl)}</code></dd>` +
     `<dt>Reuse policy URL</dt><dd><code>${escapeAttr(record.source.reusePolicyUrl)}</code></dd>` +
     `<dt>API record URL</dt><dd><code>${escapeAttr(record.source.apiRecordUrl)}</code></dd>` +
     `<dt>Original image URL (provenance only)</dt><dd><code>${escapeAttr(record.source.originalImageUrl)}</code></dd>` +
+    `<dt>Official source image filename</dt><dd>${escapeAttr(record.source.originalImageFilename)}</dd>` +
+    `<dt>Source record identifiers</dt><dd>${escapeAttr(record.source.itemIdentifier)} · API ID ${record.source.apiInternalId}</dd>` +
     `<dt>Rights checked / file retrieved</dt><dd>${escapeAttr(record.source.checkedOn)} / ${escapeAttr(record.retrievedOn)}</dd>` +
     `<dt>Local file</dt><dd>${escapeAttr(record.image.filename)} · ${escapeAttr(record.image.mimeType)} · ${escapeAttr(dimensions)} · ${record.image.byteLength.toLocaleString("en-US")} bytes</dd>` +
     `<dt>Modification</dt><dd>${escapeAttr(record.modification)}</dd>` +

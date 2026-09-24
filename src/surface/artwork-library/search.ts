@@ -1,6 +1,7 @@
 import { MIN_PRINT_PX_PER_CM } from "../../guidance/surface-notes";
 import {
   ARTWORK_CATALOG,
+  describeArtworkApiRightsEvidence,
   type ArtworkCatalogRecord,
   type ArtworkCategory,
   type ArtworkGarmentFamily,
@@ -55,8 +56,10 @@ function searchableValues(record: ArtworkCatalogRecord): readonly string[] {
     record.medium,
     record.source.institution,
     record.source.itemRecordUrl,
+    record.source.itemIdentifier,
     record.source.creditLine,
     record.source.rightsLabel,
+    describeArtworkApiRightsEvidence(record.source.apiRightsEvidence),
   ];
 }
 
@@ -122,6 +125,8 @@ function hasCompleteProvenance(record: ArtworkCatalogRecord): boolean {
     source.itemRecordUrl,
     source.apiRecordUrl,
     source.originalImageUrl,
+    source.originalImageFilename,
+    String(source.apiInternalId),
     source.creditLine,
     source.reusePolicyUrl,
     source.checkedOn,
@@ -135,10 +140,20 @@ function hasCompleteProvenance(record: ArtworkCatalogRecord): boolean {
     record.technical.seamlessEvidence,
     record.technical.directionEvidence,
   ];
+  const evidence = source.apiRightsEvidence;
+  const apiRightsVerified = evidence?.kind === "met-public-domain-flag"
+    ? evidence.field === "isPublicDomain" && evidence.value === true
+    : evidence?.kind === "cma-cc0-share-status" &&
+      evidence.field === "share_license_status" &&
+      evidence.value === "CC0" &&
+      evidence.copyright === null;
   return requiredText.every((value) => value.trim().length > 0) &&
     /^[\da-f]{64}$/iu.test(record.image.sha256) &&
     source.rightsLabel === "Public Domain" &&
-    source.apiIsPublicDomain;
+    Number.isInteger(source.apiInternalId) && source.apiInternalId > 0 &&
+    /^\d{4}-\d{2}-\d{2}$/u.test(source.checkedOn) &&
+    /^\d{4}-\d{2}-\d{2}$/u.test(record.retrievedOn) &&
+    apiRightsVerified;
 }
 
 /** Explain one print-use decision without filtering, disabling, or editing the asset. */

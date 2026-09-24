@@ -23,6 +23,7 @@ import { emptyHistory, recordHistory, redoHistory, undoHistory, HistoryState } f
 import { EMPTY_TRANSFORM, placementError, type ArtworkPlacement } from "../surface/placement";
 import {
   ARTWORK_CATALOG,
+  artworkSourceReferenceText,
   type ArtworkCatalogRecord,
   type ArtworkCategory,
   type ArtworkGarmentFamily,
@@ -2178,8 +2179,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     if (choose) choose.setAttribute("aria-invalid", String(rejected));
   };
   const artworkSourceReference = (record: ArtworkCatalogRecord): string => {
-    const objectId = record.assetId.replace("builtin-met-", "");
-    return `${record.title} — The Met object ${objectId} (${record.source.rightsLabel})`;
+    return artworkSourceReferenceText(record);
   };
   const suggestedPlacementId = (record: ArtworkCatalogRecord): string => {
     const base = record.title.normalize("NFKD").replace(/[\u0300-\u036f]/gu, "")
