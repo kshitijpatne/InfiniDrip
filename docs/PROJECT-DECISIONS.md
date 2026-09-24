@@ -783,3 +783,17 @@ data collection still require their own explicit gate.
 - Closing Phase 9, and later organizing its nine readiness items under Epic
   13, does not authorize a garment queue. A separate explicit garment
   direction is still required.
+
+## Epic 13 — Pre-Garment Readiness — approved 2026-09-24
+
+- After refreshing `origin/main` and checking branch history, confirm
+  `EPIC-13` is unused before creating it as **Pre-Garment Readiness**.
+- Link exactly `PREQUEUE-PHASE-01` through `PREQUEUE-PHASE-09`, in that order,
+  only after each is Done and its linked exit evidence is verified. Preserve
+  item IDs, phase order, evidence, status history, and historical commits.
+- Close Epic 13 only after all nine phases and a verified epic exit report have
+  been checked. The close organizes readiness evidence; it does not approve a
+  garment direction or start any garment or future-roadmap work.
+- Update durable documentation and validate the board/schema and required
+  checks. Use one new, unique slice commit; do not rewrite history or merge the
+  branch as part of this work.

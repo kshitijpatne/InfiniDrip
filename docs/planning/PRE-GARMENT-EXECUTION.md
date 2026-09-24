@@ -334,7 +334,8 @@ approval of the next garment from V1 completion.
 The tutorial, README/ARCHITECTURE newcomer review, repository-cleanup audit,
 artwork-authoring refinement, local drag/drop verification, and curated V1
 library are the completed pre-garment deliverables recorded under Phases 1–9.
-The maintainer's Phase 9 acceptance closes that readiness sequence only. The
-next garment queue remains closed until a separate explicit garment direction
-is approved; neither closing Phase 9 nor organizing its board items under
-Epic 13 grants that approval.
+All nine Done phase items are now grouped, without changing their IDs, order,
+status histories, or evidence references, under closed `EPIC-13` (**Pre-Garment
+Readiness**); see `docs/release/EPIC-13-PRE-GARMENT-READINESS-EXIT.md`. The
+readiness close does not grant garment approval: the next garment queue remains
+closed until a separate explicit garment direction is approved.

@@ -1,10 +1,10 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 210 records the maintainer's acceptance of the bounded
-12-item artwork reference V1 and closes Phase 9, 2026-09-24._
-Next: verify the nine completed pre-garment work items and organize them under
-Epic 13 in a separate reviewed slice before any branch merge. Do not start a
-future-roadmap item or garment queue without explicit maintainer instruction.
+_Last updated: Slice 211 verifies and closes Epic 13 after grouping the nine
+completed pre-garment phases, 2026-09-24._
+Next: no future-roadmap work or garment queue is authorized until the maintainer
+explicitly instructs otherwise. This development branch remains unmerged, and
+the separate garment-direction approval gate remains in force.
 The maintainer's requested post-Phase-9 capability sequence is planned in
 `docs/planning/END-TO-END-CAPABILITY-ROADMAP.md`; its dates and work packets
 are conditional future backlog, not a change to the current Phase 8/9 gate.
@@ -597,8 +597,37 @@ does not open a garment queue or authorize other future-roadmap work.
 The Phase 9 board item is transitioned to Done through the shared validated
 Control Center command layer with exit-decision evidence. The other eight
 pre-garment phase items were already Done with linked exit evidence. Slice 211
-will make the separately requested Epic 13 grouping only after rechecking all
-nine items and their evidence; the branch is not merged by this goal.
+made the separately requested Epic 13 grouping after rechecking all nine items
+and their evidence; the branch is not merged by this goal.
+
+### Slice 211 — organize and close Epic 13: Pre-Garment Readiness
+
+After refreshing `origin/main`, its ref remained `52b36a6`; branch history and
+the canonical board contained no `EPIC-13`, and Slice 210 was the highest
+assigned slice. The board audit confirmed `PREQUEUE-PHASE-01` through
+`PREQUEUE-PHASE-09` were already `Done` in order, with delivery dates and
+verified linked evidence whose source paths exist.
+
+The shared validated command layer now supports maintainer-only epic creation,
+ordered item linking, epic-level evidence, and guarded closure. For EPIC-13 it
+requires exactly the nine phase IDs in order, all Done with verified,
+non-incomplete evidence, and a verified exit-report reference. Ordinary item
+creation or editing cannot bypass the EPIC-13 membership boundary. The detail
+form renders the linked epic as a locked selection.
+
+`EPIC-13` — **Pre-Garment Readiness** — is closed at board revision 110. Exactly
+the nine phase items are linked; only their `epicId` field changed. Their IDs,
+order, Done status, transition histories, and existing evidence references are
+preserved. `E-EPIC13-EXIT` points to
+`docs/release/EPIC-13-PRE-GARMENT-READINESS-EXIT.md`. This organization is not
+garment-direction approval: no garment queue or future-roadmap item is started,
+G17 remains Backlog, launch costs remain held, and no merge is performed.
+
+The Control Center command suite passes 29/29 tests. The full application gate
+passes at 111/111 test files and 1,558/1,558 tests with 100% statements,
+branches, functions, and lines; export regression passes 8/8 and byte-identity
+passes 9/9. `npm run build` passes. No application geometry, export writer,
+baseline, dependency, or artwork asset changed.
 
 ### Post-merge PR audit — 2026-09-21
 

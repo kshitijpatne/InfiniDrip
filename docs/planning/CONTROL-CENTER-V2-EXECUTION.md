@@ -23,7 +23,9 @@ provider integration or personal-data path.
 - `board.json` is the sole canonical current-state file.
 - Commands, not direct object/file writes, are the mutation interface. The v2
   command set is `editItem`, `updateStatus`, `addEvidence`, `addComment`, plus
-  the retained evidence-fact importer routed through the same layer.
+  the retained evidence-fact importer routed through the same layer. Slice 211
+  extends this layer with maintainer-only epic creation, ordered work-item
+  linking, epic evidence, and guarded closure; see `ops/control-center/README.md`.
 - The current workflow is `Backlog → Ready → In Progress → Review → Done`.
   `Blocked` can be entered from any unfinished state. `Archived` is a
   maintainer-only terminal/administrative state.

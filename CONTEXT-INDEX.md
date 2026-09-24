@@ -48,8 +48,9 @@ snapshots; they are not current status.
   authorization to purchase a service, collect user data, deploy publicly or
   change the current local-first product boundary.
 - `ops/control-center/` — Slice 184 schema-v2 canonical board and shared atomic
-  command layer plus Slice 185 localhost-only authoring service and responsive
-  dashboard. It is operational evidence, not the hosted workspace.
+  command layer, Slice 185 localhost-only authoring service and responsive
+  dashboard, and Slice 211's guarded maintainer-only epic organization. It is
+  operational evidence, not the hosted workspace.
 - `ops/web/` — completed Slice 173 provider-neutral artifact manifest utility,
   Slice 179 local candidate/rollback rehearsal, and Slice 209 rendered-browser
   verifier for safe local artwork drag/drop persistence; delivery descriptors
@@ -60,11 +61,16 @@ snapshots; they are not current status.
   preview-only/no-cost exit, final verification, launch re-entry boundary and
   maintainer discussion gate; it does not claim authenticated beta or
   production readiness.
+- `docs/release/EPIC-13-PRE-GARMENT-READINESS-EXIT.md` — Slice 211's verified
+  grouping and closure of the nine completed pre-garment phases. Epic 13 does
+  not authorize a garment queue; explicit garment-direction approval remains
+  separate.
 - Slices 183–186 complete the documentation pass and no-cost local Control
   Center v2. Slice 187 adds validated local UI item creation; `board.json`
-  remains canonical. The approved Phases 1–9 pre-garment sequence is active in
-  `docs/planning/PRE-GARMENT-EXECUTION.md` and the board. Do not start a garment
-  queue before its final gate and explicit maintainer approval.
+  remains canonical. The approved Phases 1–9 pre-garment sequence is complete
+  and grouped under closed EPIC-13 in `board.json`; see the exit report and
+  `docs/planning/PRE-GARMENT-EXECUTION.md`. Do not start a garment queue before
+  separate explicit maintainer approval.
 - Phase 2's read-only repository and newcomer audit is complete and recorded in
   `docs/planning/REPOSITORY-AND-NEWCOMER-AUDIT.md`. No files or history were
   removed or rewritten; the personal resume-staging archive remains tracked

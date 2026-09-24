@@ -166,8 +166,12 @@ maintainer—the person who decides scope and approvals. It is not an account
 role inside InfiniDrip, and it does not store user profiles or garment designs.
 The board is available only on the same computer and stores its current state
 in `ops/control-center/data/board.json`. Both its dashboard and command-line
-tool use the same checks before saving. “Evidence” means a linked commit, test
-result, document, or other record that supports a work item's status.
+tool use the same checks before saving. The command-line interface lets
+maintainers create and close epics, link work items, and attach epic-level
+evidence through validated commands. The closed Epic 13 groups the nine
+completed pre-garment phases but does not approve a garment direction.
+“Evidence” means a linked commit, test result, document, or other record that
+supports a work item's status.
 
 ## Epic 8: a small helper test, not a clone
 

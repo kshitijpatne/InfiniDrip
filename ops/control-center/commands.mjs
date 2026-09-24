@@ -39,6 +39,11 @@ const NEW_WORK_ITEM_FIELDS = new Set([
   "flagKey",
 ]);
 
+const NEW_EPIC_FIELDS = new Set(["id", "title", "owner", "description"]);
+const EPIC_STATUSES = new Set(["In Progress", "Blocked", "Closed"]);
+const PRE_GARMENT_PHASE_IDS = Array.from({ length: 9 }, (_, index) =>
+  `PREQUEUE-PHASE-${String(index + 1).padStart(2, "0")}`);
+
 function clone(value) {
   return structuredClone(value);
 }
@@ -58,6 +63,19 @@ function findItem(board, itemId) {
   const item = board.workItems.find((candidate) => candidate.id === itemId);
   if (!item) throw new Error(`Unknown work item ${itemId}`);
   return item;
+}
+
+function findEpic(board, epicId) {
+  requireText(epicId, "epicId");
+  const epic = board.epics.find((candidate) => candidate.id === epicId);
+  if (!epic) throw new Error(`Unknown epic ${epicId}`);
+  return epic;
+}
+
+function requireMaintainer(command, action) {
+  const actor = actorFrom(command);
+  if (actor.role !== "maintainer") throw new Error(`Only a maintainer can ${action}`);
+  return actor;
 }
 
 function commandMoment(options) {
@@ -90,6 +108,10 @@ function applyEditItem(board, command) {
   for (const [field] of entries) {
     if (!EDITABLE_FIELDS.has(field)) throw new Error(`${field} cannot be edited directly`);
   }
+  if (entries.some(([field]) => field === "epicId") &&
+      (item.epicId === "EPIC-13" || patch.epicId === "EPIC-13")) {
+    throw new Error("EPIC-13 membership must be changed through linkItemsToEpic");
+  }
   Object.assign(item, clone(patch));
 }
 
@@ -97,6 +119,9 @@ function applyCreateItem(board, command, now) {
   const input = requireRecord(command.workItem, "workItem");
   for (const field of Object.keys(input)) {
     if (!NEW_WORK_ITEM_FIELDS.has(field)) throw new Error(`workItem.${field} cannot be set at creation`);
+  }
+  if (input.epicId === "EPIC-13") {
+    throw new Error("EPIC-13 membership must be changed through linkItemsToEpic");
   }
   const { actor, role } = actorFrom(command);
   const reason = requireText(command.reason, "reason");
@@ -130,6 +155,74 @@ function applyCreateItem(board, command, now) {
   if (!PRIORITIES.includes(item.priority)) throw new Error(`Unknown workItem.priority ${String(item.priority)}`);
   if (!RISKS.includes(item.risk)) throw new Error(`Unknown workItem.risk ${String(item.risk)}`);
   board.workItems.push(item);
+}
+
+function applyCreateEpic(board, command) {
+  const input = requireRecord(command.epic, "epic");
+  for (const field of Object.keys(input)) {
+    if (!NEW_EPIC_FIELDS.has(field)) throw new Error(`epic.${field} cannot be set at creation`);
+  }
+  requireMaintainer(command, "create an epic");
+  requireText(command.reason, "reason");
+  const epic = {
+    id: requireText(input.id, "epic.id"),
+    title: requireText(input.title, "epic.title"),
+    status: "In Progress",
+    owner: requireText(input.owner, "epic.owner"),
+    description: requireText(input.description, "epic.description"),
+    evidenceRefs: [],
+  };
+  if (board.epics.some((existing) => existing.id === epic.id)) {
+    throw new Error(`board duplicates ${epic.id}`);
+  }
+  if (epic.id === "EPIC-13" && epic.title !== "Pre-Garment Readiness") {
+    throw new Error("EPIC-13 title must be Pre-Garment Readiness");
+  }
+  board.epics.push(epic);
+}
+
+function hasVerifiedEvidence(board, evidenceRefs) {
+  return evidenceRefs.some((ref) => {
+    const evidence = board.evidence.find((entry) => entry.id === ref);
+    return evidence?.verified === true && evidence.kind !== "incomplete";
+  });
+}
+
+function assertPreGarmentPhaseIds(board, itemIds) {
+  if (JSON.stringify(itemIds) !== JSON.stringify(PRE_GARMENT_PHASE_IDS)) {
+    throw new Error("EPIC-13 must link exactly PREQUEUE-PHASE-01 through PREQUEUE-PHASE-09 in order");
+  }
+  const boardPhaseIds = board.workItems
+    .filter((item) => /^PREQUEUE-PHASE-\d+$/.test(item.id))
+    .map((item) => item.id);
+  if (JSON.stringify(boardPhaseIds) !== JSON.stringify(PRE_GARMENT_PHASE_IDS)) {
+    throw new Error("Board pre-garment phases must remain exactly nine items in phase order");
+  }
+}
+
+function applyLinkItemsToEpic(board, command) {
+  requireMaintainer(command, "link work to an epic");
+  requireText(command.reason, "reason");
+  const epic = findEpic(board, command.epicId);
+  if (!Array.isArray(command.itemIds) || command.itemIds.length === 0) {
+    throw new Error("itemIds must be a non-empty array");
+  }
+  if (new Set(command.itemIds).size !== command.itemIds.length) {
+    throw new Error("itemIds must be unique");
+  }
+  if (epic.id === "EPIC-13") assertPreGarmentPhaseIds(board, command.itemIds);
+  const items = command.itemIds.map((itemId) => findItem(board, itemId));
+  if (epic.id === "EPIC-13" && board.workItems.some((item) => item.epicId === epic.id)) {
+    throw new Error("EPIC-13 already has linked work; refusing to alter its membership");
+  }
+  for (const item of items) {
+    if (item.status !== "Done") throw new Error(`${item.id} must be Done before epic linkage`);
+    if (!hasVerifiedEvidence(board, item.evidenceRefs)) {
+      throw new Error(`${item.id} needs verified, non-incomplete exit evidence before epic linkage`);
+    }
+    if (item.epicId !== null) throw new Error(`${item.id} already belongs to ${item.epicId}`);
+  }
+  for (const item of items) item.epicId = epic.id;
 }
 
 function applyUpdateStatus(board, command, now) {
@@ -202,6 +295,53 @@ function applyAddEvidence(board, command) {
   item.evidenceRefs = [...new Set([...item.evidenceRefs, evidenceId])];
 }
 
+function applyAddEpicEvidence(board, command) {
+  requireMaintainer(command, "add epic evidence");
+  const epic = findEpic(board, command.epicId);
+  const hasNewEvidence = command.evidence !== undefined;
+  const hasExistingId = command.evidenceId !== undefined;
+  if (hasNewEvidence === hasExistingId) throw new Error("addEpicEvidence requires exactly one of evidence or evidenceId");
+  let evidenceId;
+  if (hasNewEvidence) {
+    const evidence = normalizeNewEvidence(command.evidence);
+    if (board.evidence.some((entry) => entry.id === evidence.id)) throw new Error(`Evidence ${evidence.id} already exists`);
+    board.evidence.push(evidence);
+    evidenceId = evidence.id;
+  } else {
+    evidenceId = requireText(command.evidenceId, "evidenceId");
+    if (!board.evidence.some((entry) => entry.id === evidenceId)) throw new Error(`Unknown evidence ${evidenceId}`);
+  }
+  epic.evidenceRefs = [...new Set([...epic.evidenceRefs, evidenceId])];
+}
+
+function applyUpdateEpicStatus(board, command) {
+  requireMaintainer(command, "change epic status");
+  requireText(command.reason, "reason");
+  const epic = findEpic(board, command.epicId);
+  if (!EPIC_STATUSES.has(command.status)) throw new Error(`Unknown epic status ${String(command.status)}`);
+  const refs = linkedEvidence(board, command.evidenceRefs);
+  epic.evidenceRefs = [...new Set([...epic.evidenceRefs, ...refs])];
+  if (command.status === "Closed") {
+    const items = board.workItems.filter((item) => item.epicId === epic.id);
+    if (items.length === 0) throw new Error(`${epic.id} cannot close without linked work items`);
+    if (epic.id === "EPIC-13") {
+      assertPreGarmentPhaseIds(board, items.map((item) => item.id));
+    }
+    for (const item of items) {
+      if (item.status !== "Done") throw new Error(`${item.id} must be Done before ${epic.id} can close`);
+      if (!hasVerifiedEvidence(board, item.evidenceRefs)) {
+        throw new Error(`${item.id} needs verified, non-incomplete exit evidence before ${epic.id} can close`);
+      }
+    }
+    const hasExitReport = epic.evidenceRefs.some((ref) => {
+      const evidence = board.evidence.find((entry) => entry.id === ref);
+      return evidence?.kind === "exit-report" && evidence.verified === true;
+    });
+    if (!hasExitReport) throw new Error(`${epic.id} requires verified exit-report evidence before closing`);
+  }
+  epic.status = command.status;
+}
+
 function applyAddComment(board, command, now) {
   const item = findItem(board, command.itemId);
   const actor = requireText(command.actor, "actor");
@@ -224,6 +364,9 @@ export function applyBoardCommand(inputBoard, inputCommand, options = {}) {
   const now = commandMoment(options);
   const board = clone(inputBoard);
   switch (command.type) {
+    case "createEpic":
+      applyCreateEpic(board, command);
+      break;
     case "createItem":
       applyCreateItem(board, command, now);
       break;
@@ -235,6 +378,15 @@ export function applyBoardCommand(inputBoard, inputCommand, options = {}) {
       break;
     case "addEvidence":
       applyAddEvidence(board, command);
+      break;
+    case "addEpicEvidence":
+      applyAddEpicEvidence(board, command);
+      break;
+    case "linkItemsToEpic":
+      applyLinkItemsToEpic(board, command);
+      break;
+    case "updateEpicStatus":
+      applyUpdateEpicStatus(board, command);
       break;
     case "addComment":
       applyAddComment(board, command, now);

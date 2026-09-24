@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 106,
-  "updatedAt": "2026-09-24T04:17:30.477Z",
+  "revision": 110,
+  "updatedAt": "2026-09-24T04:54:42.713Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -106,6 +106,16 @@
         "E-SLICE184",
         "E-SLICE185",
         "E-SLICE186"
+      ]
+    },
+    {
+      "id": "EPIC-13",
+      "title": "Pre-Garment Readiness",
+      "status": "Closed",
+      "owner": "Codex",
+      "description": "Verified organization and closure of the nine completed pre-garment phases; this epic does not approve garment direction or begin future work.",
+      "evidenceRefs": [
+        "E-EPIC13-EXIT"
       ]
     }
   ],
@@ -1406,7 +1416,7 @@
       "id": "PREQUEUE-PHASE-01",
       "type": "task",
       "title": "Delivery board dogfooding and planning setup",
-      "epicId": null,
+      "epicId": "EPIC-13",
       "releaseId": null,
       "status": "Done",
       "openedAt": "2026-09-22",
@@ -1481,7 +1491,7 @@
       "id": "PREQUEUE-PHASE-02",
       "type": "research",
       "title": "Read-only repository and documentation audit",
-      "epicId": null,
+      "epicId": "EPIC-13",
       "releaseId": null,
       "status": "Done",
       "openedAt": "2026-09-22",
@@ -1574,7 +1584,7 @@
       "id": "PREQUEUE-PHASE-03",
       "type": "research",
       "title": "First-load tutorial research and specification",
-      "epicId": null,
+      "epicId": "EPIC-13",
       "releaseId": null,
       "status": "Done",
       "openedAt": "2026-09-22",
@@ -1658,7 +1668,7 @@
       "id": "PREQUEUE-PHASE-04",
       "type": "task",
       "title": "First-load tutorial implementation and live verification",
-      "epicId": null,
+      "epicId": "EPIC-13",
       "releaseId": null,
       "status": "Done",
       "openedAt": "2026-09-22",
@@ -1742,7 +1752,7 @@
       "id": "PREQUEUE-PHASE-05",
       "type": "task",
       "title": "README and ARCHITECTURE newcomer refinement",
-      "epicId": null,
+      "epicId": "EPIC-13",
       "releaseId": null,
       "status": "Done",
       "openedAt": "2026-09-22",
@@ -1823,7 +1833,7 @@
       "id": "PREQUEUE-PHASE-06",
       "type": "task",
       "title": "Existing garment measurement and artwork UI refinement",
-      "epicId": null,
+      "epicId": "EPIC-13",
       "releaseId": null,
       "status": "Done",
       "openedAt": "2026-09-22",
@@ -1923,7 +1933,7 @@
       "id": "PREQUEUE-PHASE-07",
       "type": "task",
       "title": "Safe local artwork import and persistence",
-      "epicId": null,
+      "epicId": "EPIC-13",
       "releaseId": null,
       "status": "Done",
       "openedAt": "2026-09-22",
@@ -2014,7 +2024,7 @@
       "id": "PREQUEUE-PHASE-08",
       "type": "research",
       "title": "Provenance-verified local artwork library V1",
-      "epicId": null,
+      "epicId": "EPIC-13",
       "releaseId": null,
       "status": "Done",
       "openedAt": "2026-09-22",
@@ -2119,7 +2129,7 @@
       "id": "PREQUEUE-PHASE-09",
       "type": "research",
       "title": "Expand and practice the V1 artwork library",
-      "epicId": null,
+      "epicId": "EPIC-13",
       "releaseId": null,
       "status": "Done",
       "openedAt": "2026-09-22",
@@ -3403,6 +3413,15 @@
       "sha256": null,
       "verified": true,
       "note": "Maintainer accepted the bounded 12-item local reference V1 on 2026-09-24. Dense production-art work is queued after G01–G16 only; this does not authorize a garment queue or spending."
+    },
+    {
+      "id": "E-EPIC13-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/release/EPIC-13-PRE-GARMENT-READINESS-EXIT.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Verifies the latest origin/branch namespace audit, all nine ordered Done phase records and their existing verified evidence, required checks, and separate garment-direction gate."
     }
   ]
 }

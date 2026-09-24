@@ -39,6 +39,10 @@ function options(values, selected, includeBlank = false) {
   return `${includeBlank ? '<option value="">None</option>' : ""}${values.map((value) => `<option${value === selected ? " selected" : ""}>${safeText(value)}</option>`).join("")}`;
 }
 
+function epicOptions(board, selected) {
+  return `<option value="">None</option>${board.epics.map((entry) => `<option${entry.id === selected ? " selected" : ""}${entry.id === "EPIC-13" ? " disabled" : ""}>${safeText(entry.id)}</option>`).join("")}`;
+}
+
 function field(label, name, value, kind = "text", attributes = "") {
   if (kind === "textarea") return `<label>${safeText(label)}<textarea name="${name}" ${attributes} rows="4">${safeText(value)}</textarea></label>`;
   return `<label>${safeText(label)}<input name="${name}" type="${kind}" value="${safeText(value)}" ${attributes}></label>`;
@@ -60,7 +64,7 @@ export function renderDetail(item, board, role = "contributor") {
       <label>Priority<select name="priority">${options(PRIORITIES, item.priority)}</select></label>
       <label>Risk<select name="risk">${options(RISKS, item.risk)}</select></label>
       ${field("Owner", "owner", item.owner)}${field("Contributor", "contributor", item.contributor)}${field("Reviewer", "reviewer", item.reviewer)}
-      <label>Epic<select name="epicId">${options(board.epics.map((entry) => entry.id), item.epicId, true)}</select></label>
+      <label>Epic<select name="epicId"${item.epicId === "EPIC-13" ? " disabled" : ""}>${epicOptions(board, item.epicId)}</select></label>
       <label>Release<select name="releaseId">${options(board.releases.map((entry) => entry.id), item.releaseId, true)}</select></label>
       ${field("Opened", "openedAt", item.openedAt ?? "", "date")}${field("Target", "targetAt", item.targetAt ?? "", "date")}${field("Delivered", "deliveredAt", item.deliveredAt ?? "", "date")}
       <div class="wide">${field("Description", "description", item.description, "textarea")}</div>
@@ -98,7 +102,7 @@ export function renderCreateForm(board) {
       ${field("Owner", "owner", "Codex", "text", "required")}
       ${field("Contributor (defaults to owner)", "contributor", "")}
       ${field("Reviewer (defaults to owner)", "reviewer", "")}
-      <label>Epic<select name="epicId">${options(board.epics.map((entry) => entry.id), "", true)}</select></label>
+      <label>Epic<select name="epicId">${epicOptions(board, null)}</select></label>
       <label>Release<select name="releaseId">${options(board.releases.map((entry) => entry.id), "", true)}</select></label>
       ${field("Target date", "targetAt", "", "date")}
       ${field("Flag key", "flagKey", "")}

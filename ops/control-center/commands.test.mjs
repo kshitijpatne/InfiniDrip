@@ -88,6 +88,7 @@ test("createItem rejects missing rationale, invalid fields, and duplicate identi
   assert.throws(() => applyBoardCommand(board, { ...command, reason: "  " }, { now: NOW }), /reason is required/);
   assert.throws(() => applyBoardCommand(board, { ...command, workItem: { ...command.workItem, type: "invented" } }, { now: NOW }), /Unknown workItem.type/);
   assert.throws(() => applyBoardCommand(board, { ...command, workItem: { ...command.workItem, invented: true } }, { now: NOW }), /cannot be set at creation/);
+  assert.throws(() => applyBoardCommand(board, { ...command, workItem: { ...command.workItem, epicId: "EPIC-13" } }, { now: NOW }), /EPIC-13 membership must be changed through linkItemsToEpic/);
   assert.throws(() => applyBoardCommand(board, { ...command, workItem: { ...command.workItem, id: "SLICE-175" } }, { now: NOW }), /duplicates SLICE-175/);
 });
 
@@ -195,4 +196,198 @@ test("addEvidence can create or link evidence and addComment records notes", () 
     },
   }, { now: NOW }), /evidence.invented is not allowed/);
   assert.throws(() => applyBoardCommand(board, { type: "notACommand" }, { now: NOW }), /Unknown board command/);
+});
+
+const PRE_GARMENT_IDS = Array.from({ length: 9 }, (_, index) =>
+  `PREQUEUE-PHASE-${String(index + 1).padStart(2, "0")}`);
+
+function epic13TestBoard() {
+  const fixture = structuredClone(board);
+  fixture.epics = fixture.epics.filter((epic) => epic.id !== "EPIC-13");
+  fixture.evidence = fixture.evidence.filter((entry) => entry.id !== "E-EPIC13-EXIT");
+  for (const item of fixture.workItems) {
+    if (PRE_GARMENT_IDS.includes(item.id)) item.epicId = null;
+  }
+  return fixture;
+}
+
+function createEpic13(inputBoard = epic13TestBoard(), role = "maintainer") {
+  return applyBoardCommand(inputBoard, {
+    type: "createEpic",
+    actor: "Maintainer",
+    role,
+    reason: "Group the nine completed pre-garment readiness phases.",
+    epic: {
+      id: "EPIC-13",
+      title: "Pre-Garment Readiness",
+      owner: "Codex",
+      description: "Verified completion of the approved nine-phase pre-garment sequence.",
+    },
+  }, { now: NOW });
+}
+
+function linkEpic13(inputBoard, itemIds = PRE_GARMENT_IDS) {
+  return applyBoardCommand(inputBoard, {
+    type: "linkItemsToEpic",
+    epicId: "EPIC-13",
+    itemIds,
+    actor: "Maintainer",
+    role: "maintainer",
+    reason: "Associate only the nine completed phase records, in their approved order.",
+  }, { now: NOW });
+}
+
+test("Epic 13 links and closes only the nine evidence-backed phases without rewriting their history", () => {
+  const base = epic13TestBoard();
+  const phaseSnapshot = base.workItems
+    .filter((item) => PRE_GARMENT_IDS.includes(item.id))
+    .map((item) => structuredClone(item));
+  let result = createEpic13(base);
+  assert.equal(result.epics.find((epic) => epic.id === "EPIC-13").status, "In Progress");
+  result = linkEpic13(result);
+  assert.deepEqual(result.workItems.filter((item) => item.epicId === "EPIC-13").map((item) => item.id), PRE_GARMENT_IDS);
+  for (const prior of phaseSnapshot) {
+    const current = result.workItems.find((item) => item.id === prior.id);
+    assert.deepEqual(current, { ...prior, epicId: "EPIC-13" });
+  }
+  result = applyBoardCommand(result, {
+    type: "addEpicEvidence",
+    epicId: "EPIC-13",
+    actor: "Maintainer",
+    role: "maintainer",
+    evidence: {
+      id: "E-EPIC13-EXIT",
+      kind: "exit-report",
+      uri: "docs/release/EPIC-13-PRE-GARMENT-READINESS-EXIT.md",
+      verified: true,
+      note: "Exit report verifies all nine Done phases, their existing evidence, and the separate garment approval gate.",
+    },
+  }, { now: NOW });
+  result = applyBoardCommand(result, {
+    type: "updateEpicStatus",
+    epicId: "EPIC-13",
+    actor: "Maintainer",
+    role: "maintainer",
+    status: "Closed",
+    reason: "All nine phases and the verified Epic 13 exit report are complete.",
+    evidenceRefs: ["E-EPIC13-EXIT"],
+  }, { now: NOW });
+  assert.equal(result.epics.find((epic) => epic.id === "EPIC-13").status, "Closed");
+  assert.deepEqual(result.epics.find((epic) => epic.id === "EPIC-13").evidenceRefs, ["E-EPIC13-EXIT"]);
+  assert.deepEqual(validateBoard(result), { valid: true, errors: [] });
+});
+
+test("ordinary item edits cannot bypass Epic 13's exact membership boundary", () => {
+  const grouped = linkEpic13(createEpic13());
+  assert.throws(() => applyBoardCommand(grouped, {
+    type: "editItem", itemId: PRE_GARMENT_IDS[0], patch: { epicId: null },
+  }, { now: NOW }), /EPIC-13 membership must be changed through linkItemsToEpic/);
+  assert.throws(() => applyBoardCommand(grouped, {
+    type: "editItem", itemId: "CAPABILITY-G17", patch: { epicId: "EPIC-13" },
+  }, { now: NOW }), /EPIC-13 membership must be changed through linkItemsToEpic/);
+  assert.throws(() => applyBoardCommand(epic13TestBoard(), {
+    type: "createEpic", actor: "Maintainer", role: "maintainer", reason: "Use the approved epic name.",
+    epic: { id: "EPIC-13", title: "Different title", owner: "Codex", description: "Not the approved Epic 13." },
+  }, { now: NOW }), /EPIC-13 title must be Pre-Garment Readiness/);
+});
+
+test("Epic 13 rejects wrong membership, unverified phase evidence, incomplete phases, and evidence-free closure", () => {
+  const created = createEpic13();
+  assert.throws(() => linkEpic13(created, [...PRE_GARMENT_IDS].reverse()), /exactly PREQUEUE-PHASE-01 through PREQUEUE-PHASE-09 in order/);
+  assert.throws(() => linkEpic13(created, [...PRE_GARMENT_IDS, "CAPABILITY-G17"]), /exactly PREQUEUE-PHASE-01 through PREQUEUE-PHASE-09 in order/);
+  assert.throws(() => linkEpic13(created, [...PRE_GARMENT_IDS, PRE_GARMENT_IDS[0]]), /itemIds must be unique/);
+  assert.throws(() => applyBoardCommand(created, {
+    type: "linkItemsToEpic", epicId: "EPIC-13", itemIds: [],
+    actor: "Maintainer", role: "maintainer", reason: "Empty group is invalid.",
+  }, { now: NOW }), /itemIds must be a non-empty array/);
+
+  const reordered = epic13TestBoard();
+  const firstPhaseIndex = reordered.workItems.findIndex((item) => item.id === PRE_GARMENT_IDS[0]);
+  [reordered.workItems[firstPhaseIndex], reordered.workItems[firstPhaseIndex + 1]] =
+    [reordered.workItems[firstPhaseIndex + 1], reordered.workItems[firstPhaseIndex]];
+  assert.throws(() => linkEpic13(createEpic13(reordered)), /Board pre-garment phases must remain exactly nine items in phase order/);
+
+  const unverified = epic13TestBoard();
+  unverified.evidence.find((entry) => entry.id === "E-SLICE187-EXIT").verified = false;
+  assert.throws(() => linkEpic13(createEpic13(unverified)), /needs verified, non-incomplete exit evidence/);
+
+  const reopened = applyBoardCommand(epic13TestBoard(), {
+    type: "updateStatus",
+    itemId: PRE_GARMENT_IDS[0],
+    actor: "Maintainer",
+    role: "maintainer",
+    status: "In Progress",
+    reason: "Fixture for an incomplete readiness phase.",
+    evidenceRefs: [],
+  }, { now: NOW });
+  assert.throws(() => linkEpic13(createEpic13(reopened)), /must be Done before epic linkage/);
+
+  const linked = linkEpic13(created);
+  assert.throws(() => linkEpic13(linked), /already has linked work/);
+  assert.throws(() => applyBoardCommand(linked, {
+    type: "updateEpicStatus",
+    epicId: "EPIC-13",
+    actor: "Maintainer",
+    role: "maintainer",
+    status: "Closed",
+    reason: "Try closing without the required exit report.",
+    evidenceRefs: [],
+  }, { now: NOW }), /requires verified exit-report evidence/);
+
+  const linkedWithExit = applyBoardCommand(linked, {
+    type: "addEpicEvidence", epicId: "EPIC-13", actor: "Maintainer", role: "maintainer",
+    evidence: {
+      id: "E-EPIC13-NEGATIVE-EXIT", kind: "exit-report",
+      uri: "docs/release/EPIC-13-PRE-GARMENT-READINESS-EXIT.md", verified: true,
+      note: "Negative fixture for phase evidence revalidation.",
+    },
+  }, { now: NOW });
+  const invalidatedEvidence = structuredClone(linkedWithExit);
+  invalidatedEvidence.evidence.find((entry) => entry.id === "E-SLICE187-EXIT").verified = false;
+  assert.throws(() => applyBoardCommand(invalidatedEvidence, {
+    type: "updateEpicStatus", epicId: "EPIC-13", actor: "Maintainer", role: "maintainer",
+    status: "Closed", reason: "A phase evidence item is no longer verified.", evidenceRefs: ["E-EPIC13-NEGATIVE-EXIT"],
+  }, { now: NOW }), /needs verified, non-incomplete exit evidence/);
+});
+
+test("epic creation, evidence, and closure commands require maintainer authority", () => {
+  assert.throws(() => createEpic13(epic13TestBoard(), "reviewer"), /Only a maintainer can create an epic/);
+  const created = createEpic13();
+  const blocked = applyBoardCommand(created, {
+    type: "updateEpicStatus", epicId: "EPIC-13", actor: "Maintainer", role: "maintainer",
+    status: "Blocked", reason: "Temporary review hold.", evidenceRefs: [],
+  }, { now: NOW });
+  assert.equal(blocked.epics.find((epic) => epic.id === "EPIC-13").status, "Blocked");
+  assert.throws(() => applyBoardCommand(created, {
+    type: "updateEpicStatus", epicId: "EPIC-13", actor: "Maintainer", role: "maintainer",
+    status: "Archived", reason: "Unknown epic status.", evidenceRefs: [],
+  }, { now: NOW }), /Unknown epic status/);
+  assert.throws(() => applyBoardCommand(created, {
+    type: "addEpicEvidence",
+    epicId: "EPIC-13",
+    actor: "Reviewer",
+    role: "reviewer",
+    evidenceId: "E-PREQUEUE-PHASE9-REVIEW",
+  }, { now: NOW }), /Only a maintainer can add epic evidence/);
+  const linkedExisting = applyBoardCommand(created, {
+    type: "addEpicEvidence", epicId: "EPIC-13", actor: "Maintainer", role: "maintainer",
+    evidenceId: "E-PREQUEUE-PHASE9-S210-EXIT",
+  }, { now: NOW });
+  assert.ok(linkedExisting.epics.find((epic) => epic.id === "EPIC-13").evidenceRefs.includes("E-PREQUEUE-PHASE9-S210-EXIT"));
+  assert.throws(() => applyBoardCommand(created, {
+    type: "updateEpicStatus",
+    epicId: "EPIC-13",
+    actor: "Reviewer",
+    role: "reviewer",
+    status: "Closed",
+    reason: "Reviewer cannot close a planning epic.",
+    evidenceRefs: [],
+  }, { now: NOW }), /Only a maintainer can change epic status/);
+  assert.throws(() => applyBoardCommand(created, {
+    type: "createEpic",
+    actor: "Maintainer",
+    role: "maintainer",
+    reason: "Duplicate epic ID must be rejected.",
+    epic: { id: "EPIC-13", title: "Duplicate", owner: "Codex", description: "Invalid duplicate." },
+  }, { now: NOW }), /duplicates EPIC-13/);
 });

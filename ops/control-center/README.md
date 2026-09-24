@@ -35,12 +35,22 @@ The command layer validates the complete input and result, checks an optional
 temporary file, flushes it, and atomically renames it over the canonical file.
 An invalid, stale, busy, or failed save leaves the original board intact.
 
-Supported commands are `createItem`, `editItem`, `updateStatus`, `addEvidence`,
-and `addComment`. New items begin in `Backlog`; their initial history entry
-records the actor, role, time and reason. Status edits cannot be smuggled
+The CLI and local UI support `createItem`, `editItem`, `updateStatus`,
+`addEvidence`, and `addComment`. The maintainer CLI also supports `createEpic`,
+`linkItemsToEpic`, `addEpicEvidence`, and `updateEpicStatus`. Epic closure
+requires every linked work item to be Done with verified, non-incomplete
+evidence and a verified exit-report reference. For EPIC-13 specifically, the
+validated linker and closer require exactly PREQUEUE-PHASE-01 through
+PREQUEUE-PHASE-09 in order. New items begin in `Backlog`; their initial history
+entry records the actor, role, time and reason. Status edits cannot be smuggled
 through `editItem`. Every status transition requires an actor, selected
 workflow role, and reason; moving to `Done` also requires linked
 non-incomplete evidence.
+
+EPIC-13 membership cannot be assigned or removed through single-item creation
+or editing. Its reviewed membership is applied only by the maintainer batch
+link command; the UI keeps the reserved option unavailable for ordinary item
+edits.
 
 ## Historical import rule
 

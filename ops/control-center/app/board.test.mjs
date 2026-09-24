@@ -75,6 +75,20 @@ test("detail rendering exposes editing, evidence, history, and escapes board tex
   assert.match(html, /Transition history/);
   assert.match(html, /E-SLICE184/);
   assert.equal(safeText("<&'\""), "&lt;&amp;&#39;&quot;");
+
+  const epicLinkedFixture = structuredClone(board);
+  epicLinkedFixture.epics.push({
+    id: "EPIC-13", title: "Pre-Garment Readiness", status: "Closed", owner: "Codex",
+    description: "Verified nine-phase exit.", evidenceRefs: [],
+  });
+  const phaseItem = epicLinkedFixture.workItems.find((entry) => entry.id === "PREQUEUE-PHASE-01");
+  phaseItem.epicId = "EPIC-13";
+  const phaseHtml = renderDetail(phaseItem, epicLinkedFixture, "maintainer");
+  assert.match(phaseHtml, /<select name="epicId" disabled>/);
+  assert.match(phaseHtml, /<option selected disabled>EPIC-13<\/option>/);
+  const unrelated = epicLinkedFixture.workItems.find((entry) => entry.id === "CAPABILITY-G17");
+  assert.match(renderDetail(unrelated, epicLinkedFixture, "maintainer"), /<option disabled>EPIC-13<\/option>/);
+  assert.match(renderCreateForm(epicLinkedFixture), /<option disabled>EPIC-13<\/option>/);
 });
 
 test("new work item form captures schema-required fields and starts with Backlog workflow guidance", () => {
