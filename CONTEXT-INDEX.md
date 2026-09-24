@@ -98,7 +98,10 @@ snapshots; they are not current status.
 - `docs/research/epic14/` — accepted evidence packets for C01 recipe baseline,
   C02 standards and tools, C05 3D feasibility, C06 starter/assortment/upcycling/
   supplier evidence, and C03 measurement/donor contract. C04 is the active
-  technical-pack/CAD contract; final G01 review follows it. Read accepted
+  technical-pack/CAD contract at
+  `C04-TECHPACK-VIEW-REVISION-CAD-CONTRACT.md`; Slice 223 audits the current
+  output and records the no-interoperability-claim boundary. Final G01 review
+  follows C04. Read accepted
   packets before downstream contract work or feature implementation;
   `PROJECT-STATE.md` and the canonical board record current status.
 - `docs/planning/COMPONENT-ARCHITECTURE.md` — design rationale and migration plan.

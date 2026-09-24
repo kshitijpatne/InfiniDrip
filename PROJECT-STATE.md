@@ -1,13 +1,16 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 222 accepts the C03 contract and starts C04,
+_Last updated: Slice 223 audits current tech-pack, POM and DXF behavior for C04,
 2026-09-24._
 Current directive: C01, C02, C05 and C06 and evidence lanes B–D are Done. C03
 is Done with verified SHA-256 contract evidence; it defines the measurement,
 one-size/grade, capture and donor tiers while explicitly withholding unearned
-fit claims. C04 is In Progress; G01 final review remains Backlog behind C04 and
-the four accepted packets. Continue in that strict order without another start
-prompt. Current board revision is 236.
+fit claims. C04 is In Progress; Slice 223 documented the source-verified
+current tech-pack/POM/DXF baseline and the no-interoperability-claim boundary.
+Continue C04 through its record/revision contract, views/CAD contract, and
+integrated acceptance before activating the G01 final review. Final review
+remains Backlog behind C04 and the four accepted packets. Current board
+revision is 236.
 Detailed records and the sequence map
 are in `ops/control-center/data/board.json`,
 `docs/planning/EPIC-14-ADMISSION.md`, and
@@ -836,6 +839,25 @@ revision 236 records `EPIC-14-C03` Done with evidence
 `5892e55d070498153c3c4176889ad9cce1fed0e91ef897d508bca7d1c7c5a95e`) and
 `EPIC-14-C04` In Progress; final G01 review remains Backlog. Slice 223 is C04's
 first contract/research slice.
+
+### Slice 223 — audit current outputs and establish the C04 evidence boundary
+
+The initial C04 packet traces the current four-page tech-pack and optional
+artwork pages to `techpack.ts`, the geometry-derived POM model, recipe-owned
+three-field BOM rows, the blank printable Fit Record, pattern layout, DXF
+writer and construction-mark serializer. It distinguishes finished-garment
+flats from current cut-piece layouts, calculated POMs from physical sample
+readings, and DXF syntax/geometry from apparel-CAD interoperability. The exact
+current limitations and Autodesk/ASTM primary-source links are recorded in
+`docs/research/epic14/C04-TECHPACK-VIEW-REVISION-CAD-CONTRACT.md`.
+
+Visual inspection re-opened the C01 rendered Polo and woven-shirt tech-pack
+pages: both show component-label collisions; the leader labels are crowded at
+the top/right while most of the page remains empty. This confirms C01's P1
+finding against the exported artifact. C04 remains contract-only; exporter
+remediation, a CAD receiver/license, supplier handoff and physical sample stay
+outside this child. Slice 224 continues with the canonical pack-record,
+provenance, revision, approval, freeze and dependency contract.
 
 ### Post-merge PR audit — 2026-09-21
 
