@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 229,
-  "updatedAt": "2026-09-24T08:53:03.729Z",
+  "revision": 231,
+  "updatedAt": "2026-09-24T09:42:00.458Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -4038,8 +4038,16 @@
           "evidenceRefs": []
         }
       ],
-      "comments": [],
-      "evidenceRefs": [],
+      "comments": [
+        {
+          "at": "2026-09-24T09:42:00.458Z",
+          "actor": "Codex",
+          "text": "Slice 221 produced the first C03 contract draft and reconciled the 32 GarmentOptions plus 3 Tank controls count. The draft is explicitly incomplete: field-level capture/landmark review, armhole-depth semantics, and thigh/knee mappings remain unresolved. C04 stays queued until C03 acceptance."
+        }
+      ],
+      "evidenceRefs": [
+        "E-EPIC14-C03-DRAFT-S221"
+      ],
       "flagKey": null
     },
     {
@@ -4606,6 +4614,15 @@
       "sha256": "ff2b5af10c9174152a54d6253b1f447a236ac77bd63faabb79e27a15d96771bd",
       "verified": true,
       "note": "Codex reviewed current supplier-platform pricing/workflow sources, assortment and upcycling research, and the photo-first measurement guidance. Distinguishes photo exploration from measured screening and panel-confirmed feasibility; records supplier/price/legal unknowns. No contact, spend, transaction or sampling."
+    },
+    {
+      "id": "E-EPIC14-C03-DRAFT-S221",
+      "kind": "document",
+      "uri": "docs/research/epic14/C03-MEASUREMENT-AND-DONOR-CAPTURE-CONTRACT.md",
+      "commit": null,
+      "sha256": "89589f1c96d5c17c193c6bff743a3893afdaa4e7c9f93560b9f9bb81d7c7716c",
+      "verified": false,
+      "note": "Slice 221 source-cross-checked draft only; C03 remains In Progress. Hash identifies the document bytes, not an accepted C03 exit. Exact landmark/protocol review and unresolved measurement mappings remain open."
     }
   ]
 }

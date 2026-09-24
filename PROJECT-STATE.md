@@ -1,13 +1,13 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 220 queues and starts the G01 contract sequence,
+_Last updated: Slice 221 drafts the C03 measurement and donor-capture contract,
 2026-09-24._
 Current directive: C01, C02, C05, and C06 and their evidence lanes B–D are
-reviewed and Done. Slice 220 created separate durable records for C03, C04,
-and G01 final review and activated only C03. C03 consumes the four accepted
-packets; C04 depends on C03; final review depends on the four packets and C04.
-Continue in that strict order without another start prompt. Current board
-revision is 229.
+reviewed and Done. Slice 221 records the first source-cross-checked C03 draft;
+C03 remains In Progress pending a second review and explicit disposition of
+measurement-definition blockers. C04 depends on accepted C03; final review
+depends on the four accepted packets and C04. Continue in that strict order
+without another start prompt. Current board revision is 231.
 Detailed records and the sequence map
 are in `ops/control-center/data/board.json`,
 `docs/planning/EPIC-14-ADMISSION.md`, and
@@ -774,6 +774,37 @@ Roadmap, admission, decisions, and Control Center guidance now state the same
 order. Control Center tests pass 33/33, including board-schema validation and
 the child status/dependency assertions. `git diff --check` passes. C03 is the
 next work item; C04 and final review must not start before their dependencies.
+
+### Slice 221 — draft the C03 measurement and donor-capture contract
+
+Created `docs/research/epic14/C03-MEASUREMENT-AND-DONOR-CAPTURE-CONTRACT.md`
+as the first canonical cross-packet contract draft. It reconciles the 18 legacy
+measurement fields, seven recipe input/grade/POM dictionaries, 32 typed
+`GarmentOptions` plus three Tank controls stored in the legacy measurement
+object, style presets, cross-field rules, one-size-first semantics, and the
+three photo/assembled/panel upcycling evidence tiers against source and C01,
+C02, C05 and C06. It records provenance and confidence rules, current source
+defaults/bounds, a user-led capture flow, and the consequences of missing,
+invalid or contradictory facts.
+
+The draft adds ISO 8559-1's official apparel-specific public scope and research
+on consumer-measurement error, body-to-trouser mapping, scan posture/hip-girth
+variation and shape-fitting limits. Full standard definitions and figures were
+not copied. Current body landmarks and body-to-pattern transforms for several
+fields remain unverified; the contract explicitly withholds fit claims and
+records their expert/source gates. The armhole-depth semantic conflict,
+skirt-length control mismatch, and trouser thigh/knee station mismatch remain
+visible. This is not an accepted C03 exit or an implementation-ready capture
+guide. It adds no product code and changes no export output.
+
+The 32-option count was reconciled: it refers to fields in recipe
+`GarmentOptions` (Polo, Woven shirt and Trouser); three Tank controls remain in
+the legacy `Measurements` type, for 35 total adjustable controls. C03 remains
+In Progress, and C04/final review remain Backlog. The board's C03 acceptance
+criteria are not yet complete. Slice 222 must independently audit the packet,
+re-run code-to-contract checks and links, and determine whether the exact
+capture contract can be accepted with the identified gates or requires another
+bounded research/decision slice first.
 
 ### Post-merge PR audit — 2026-09-21
 

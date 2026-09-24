@@ -97,8 +97,9 @@ snapshots; they are not current status.
   product/supplier/sampling boundaries.
 - `docs/research/epic14/` — reviewed evidence packets for C01 recipe baseline,
   C02 standards and tools, C05 3D feasibility, and C06 starter/assortment/
-  upcycling/supplier evidence. Read packet evidence before downstream C03/C04
-  contracts or any later feature implementation.
+  upcycling/supplier evidence, plus the active C03 measurement/donor-contract
+  draft. Read packet evidence before downstream C03/C04 contracts or any later
+  feature implementation; `PROJECT-STATE.md` records which packet is accepted.
 - `docs/planning/COMPONENT-ARCHITECTURE.md` — design rationale and migration plan.
   Use `PROJECT-STATE.md` for which phases are actually complete.
 - `docs/planning/SLICES-BRIEF.md` — reusable slice-planning brief. It is a
