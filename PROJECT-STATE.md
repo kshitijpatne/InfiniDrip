@@ -1,10 +1,10 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 203 delivers the local artwork library UI and rendered
-verification; Phase 8 is complete, 2026-09-23._
-Next: Phase 9 V1 review and maintainer choice—to expand the collection, revise
-its taxonomy/guidance or placement behavior, or keep V1. The garment queue
-remains closed until that review and explicit approval.
+_Last updated: Slice 206 records the Phase 9 V1 review and approved expansion;
+Phase 8 is complete and Phase 9 is In Progress, 2026-09-23._
+Next: complete the maintainer-approved Phase 9 artwork-library expansion and
+practice/review gate. The garment queue remains closed until Phase 9 is complete
+and a separate explicit garment direction is approved.
 Epics 7, 9 and 10 are implemented, Codex-reviewed, documented and pushed to
 `origin/main`. Epic 11 implementation has completed the shaped collar/stand,
 placket-base, vent/drop, front/back preview/control/report and downstream
@@ -477,6 +477,25 @@ checks confirmed local asset preview through save/reload, stable IDs, safe
 replacement, keyboard access, narrow viewport without horizontal overflow,
 search, and no remote catalog/image request. Detailed evidence is in
 `docs/planning/ARTWORK-LIBRARY-V1-EXECUTION.md`.
+
+### Slice 206 — Phase 9 V1 review and expansion direction approved
+
+The evidence-based review is recorded in
+`docs/planning/ARTWORK-LIBRARY-PHASE9-REVIEW.md`. It finds the eight-item
+Met collection useful as a locally bundled textile-reference starter, but
+narrower than the requested dense artwork library: all items are raster JPEGs,
+seven of ten categories are represented, and the source/era/subject range is
+concentrated. The review recommends expanding with rights-verified, use-case-
+relevant assets while clearly distinguishing reference images from clean or
+repeat-verified artwork. The maintainer approved this direction on 2026-09-23.
+Phase 9 remains In Progress while the expansion is scoped, researched,
+implemented and practiced; this decision does not authorize a garment queue.
+
+The prior Slice 203 rendered-browser record remains the evidence for keyboard,
+narrow-width, search, local preview, save/reload and no-runtime-network checks.
+Those interactions could not be repeated in this turn because the in-app
+browser could not connect to the local loopback server; the combined
+import-plus-library flow remains an explicit evidence limitation.
 
 ### Post-merge PR audit — 2026-09-21
 

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 66,
-  "updatedAt": "2026-09-23T23:56:58.018Z",
+  "revision": 70,
+  "updatedAt": "2026-09-24T00:36:12.153Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -2111,10 +2111,10 @@
     {
       "id": "PREQUEUE-PHASE-09",
       "type": "research",
-      "title": "V1 artwork workflow review and expansion decision",
+      "title": "Expand and practice the V1 artwork library",
       "epicId": null,
       "releaseId": null,
-      "status": "Backlog",
+      "status": "In Progress",
       "openedAt": "2026-09-22",
       "targetAt": null,
       "deliveredAt": null,
@@ -2131,13 +2131,16 @@
         "no-cost boundary",
         "project context"
       ],
-      "description": "Use the local import flow and curated library in practice, assess discoverability and persistence, and record a maintainer decision on any V1 expansion.",
-      "expectation": "Observed strengths, gaps, and the next-step decision are documented; garment work remains gated until explicit approval.",
+      "description": "After the maintainer-approved Phase 9 review, expand the local artwork library with individually provenanced, rights-verified, garment-print-relevant assets. Keep the existing catalog stable, label reference photos/studies separately from clean artwork and repeat-verified tiles, and measure bundle impact. Then practice search, filters, selection, save/reload and record the outcome. No runtime fetching or garment queue.",
+      "expectation": "A bounded, rights-verified local expansion is implemented and reviewed in the working app; useful category gaps are filled only where suitable works exist; every added item has accurate provenance, technical/suitability caveats and stable local asset metadata; bundle impact is measured; practice evidence and remaining gaps are recorded.",
       "acceptanceCriteria": [
-        "Practice review covers findability, taxonomy, provenance versus filename versus asset ID, reload persistence, suitability guidance, formats, and variety.",
-        "Findings distinguish observed behavior from assumptions.",
-        "The maintainer explicitly records whether to expand, revise, or retain V1.",
-        "No next garment queue begins without a separate explicit direction."
+        "Add only individually provenance- and rights-verified assets relevant to garment print design; do not force unsuitable assets into empty categories.",
+        "Preserve existing asset IDs and bytes; new assets have unique stable IDs, exact-byte integrity metadata and complete item-level source/rights records.",
+        "Clearly classify each asset as reference photo/study, clean artwork, or repeat-verified tile; do not imply production readiness or verified repeat without evidence.",
+        "Retain advisory per-use guidance and disclose image presentation, resolution, repeat and direction uncertainty.",
+        "Keep assets bundled/local with no runtime remote request; measure and document added bundle size.",
+        "Practice search, filters, selection, and save/reload using the expanded catalog in the rendered app; record evidence, limitations, and Phase 9 exit recommendation.",
+        "Do not start a garment queue or add paid, hosted, account, database, or remote-fetching functionality."
       ],
       "statusHistory": [
         {
@@ -2147,10 +2150,32 @@
           "role": "maintainer",
           "note": "Add the maintainer-approved pre-garment sequence in its approved order.",
           "evidenceRefs": []
+        },
+        {
+          "status": "Ready",
+          "at": "2026-09-24T00:36:12.111Z",
+          "actor": "Codex",
+          "role": "reviewer",
+          "note": "Maintainer approved the bounded local artwork-library expansion direction; review evidence is linked.",
+          "evidenceRefs": [
+            "E-PREQUEUE-PHASE9-REVIEW"
+          ]
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-09-24T00:36:12.153Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "Begin scoped Phase 9 expansion research and implementation; garment work remains gated.",
+          "evidenceRefs": [
+            "E-PREQUEUE-PHASE9-REVIEW"
+          ]
         }
       ],
       "comments": [],
-      "evidenceRefs": [],
+      "evidenceRefs": [
+        "E-PREQUEUE-PHASE9-REVIEW"
+      ],
       "flagKey": null
     }
   ],
@@ -2505,6 +2530,15 @@
       "sha256": null,
       "verified": true,
       "note": "Slice 203: full gate passed 111 test files / 1,555 tests at 100% statements, branches, functions, and lines; production build passed. Local browser verified bundled-image preview through save/reload, stable-ID replacement preserving unrelated placement fields, search, visible keyboard focus, no overflow at 375 px, and no remote catalog/image requests. Detailed verification is in the cited plan."
+    },
+    {
+      "id": "E-PREQUEUE-PHASE9-REVIEW",
+      "kind": "decision",
+      "uri": "docs/planning/ARTWORK-LIBRARY-PHASE9-REVIEW.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Phase 9 V1 review and maintainer-approved local artwork-library expansion direction, 2026-09-23."
     }
   ]
 }

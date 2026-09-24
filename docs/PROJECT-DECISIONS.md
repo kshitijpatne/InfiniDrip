@@ -714,3 +714,20 @@ data collection still require their own explicit gate.
   navigate to an unrelated measurement.
 - Slice 198 implements this behavior locally in the existing UI; it adds no
   account, remote service, database, or paid dependency.
+
+## Artwork library expansion — approved 2026-09-23
+
+- Expand the local artwork-library V1 before closing Phase 9, following the
+  recommendation in `docs/planning/ARTWORK-LIBRARY-PHASE9-REVIEW.md`.
+- Add only individually provenance- and rights-verified assets that serve
+  garment print-design use. Fill underrepresented categories only when a
+  suitable asset exists; do not force unrelated work into taxonomy gaps.
+- Distinguish source reference photographs and paper studies from clean
+  artwork and repeat-verified tiles. Never imply museum reference imagery is
+  production-ready; retain advisory suitability guidance and its caveats.
+- Keep assets local and bundled, make no runtime network requests, and measure
+  bundle impact. This approval authorizes bounded Phase 9 expansion work, not a
+  new garment queue, paid service, or remote asset-fetching feature.
+- Reassess Phase 9 after the expanded library has been practiced and reviewed.
+  A separate explicit garment direction remains required before any garment
+  queue begins.

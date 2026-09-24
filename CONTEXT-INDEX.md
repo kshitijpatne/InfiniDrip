@@ -126,6 +126,8 @@ snapshots; they are not current status.
 - `docs/planning/ARTWORK-LIBRARY-V1-EXECUTION.md` — Phase 8's local asset
   provenance, catalog contract, search/filter and recommendation semantics,
   bounded slice sequence, and Phase 9 maintainer gate.
+- `docs/planning/ARTWORK-LIBRARY-PHASE9-REVIEW.md` — current V1 review findings,
+  evidence limitations, approved expansion direction, and bounded next work.
 - `docs/planning/PRE-GARMENT-PHASE6-PATTERN-MEASUREMENT-INVENTORY.md` — the
   40-block default-options mapping to measurement fields and groups, with the
   approved first-page-plus-links behavior used by Slice 198. Option-only
