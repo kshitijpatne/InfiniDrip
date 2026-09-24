@@ -42,6 +42,44 @@ test("editItem changes only editable details and increments the revision", () =>
   assert.throws(() => applyBoardCommand(board, { type: "editItem", itemId: "SLICE-175", patch: { status: "Done" } }, { now: NOW }), /cannot be edited directly/);
 });
 
+test("maintainer editEpic updates metadata and records the reason on its summary card", () => {
+  const edited = applyBoardCommand(board, {
+    type: "editEpic", epicId: "EPIC-14", actor: "Maintainer", role: "maintainer",
+    reason: "Record the explicit admission and current parallel packet boundary.",
+    patch: { description: "Epic 14 is admitted; C01, C02, C05 and C06 are active." },
+  }, { now: NOW });
+  assert.equal(edited.epics.find((epic) => epic.id === "EPIC-14").description,
+    "Epic 14 is admitted; C01, C02, C05 and C06 are active.");
+  assert.match(edited.workItems.find((item) => item.id === "EPIC-14").comments.at(-1).text,
+    /explicit admission and current parallel packet boundary/);
+  assert.equal(edited.revision, board.revision + 1);
+  assert.deepEqual(validateBoard(edited), { valid: true, errors: [] });
+  assert.throws(() => applyBoardCommand(board, {
+    type: "editEpic", epicId: "EPIC-14", actor: "Contributor", role: "contributor",
+    reason: "No authority.", patch: { description: "Changed." },
+  }, { now: NOW }), /Only a maintainer/);
+  assert.throws(() => applyBoardCommand(board, {
+    type: "editEpic", epicId: "EPIC-14", actor: "Maintainer", role: "maintainer",
+    reason: "Empty patch.", patch: {},
+  }, { now: NOW }), /at least one editable Epic field/);
+  assert.throws(() => applyBoardCommand(board, {
+    type: "editEpic", epicId: "EPIC-14", actor: "Maintainer", role: "maintainer",
+    reason: "Status uses its own command.", patch: { status: "In Progress" },
+  }, { now: NOW }), /cannot be edited directly/);
+  assert.throws(() => applyBoardCommand(board, {
+    type: "editEpic", epicId: "EPIC-14", actor: "Maintainer", role: "maintainer",
+    reason: "Title stays linked to its numbered card.", patch: { title: "Unlinked title" },
+  }, { now: NOW }), /cannot be edited directly/);
+  assert.throws(() => applyBoardCommand(board, {
+    type: "editEpic", epicId: "EPIC-14", actor: "Maintainer", role: "maintainer",
+    reason: "Blank metadata is invalid.", patch: { description: " " },
+  }, { now: NOW }), /patch.description is required/);
+  assert.throws(() => applyBoardCommand(board, {
+    type: "editEpic", epicId: "UNKNOWN-EPIC", actor: "Maintainer", role: "maintainer",
+    reason: "Unknown Epic.", patch: { description: "Changed." },
+  }, { now: NOW }), /Unknown epic/);
+});
+
 test("maintainer rename keeps dependent work linked and records the old identifier", () => {
   const fixture = structuredClone(board);
   fixture.workItems.find((item) => item.id === "EPIC-14-LANE-B").dependencies = ["EPIC-14-LANE-A"];

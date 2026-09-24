@@ -1,19 +1,18 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 214 records the Epic 14 execution map and pre-start
-presentation gate, 2026-09-24._
-Next: no future-roadmap work or garment queue is authorized until the maintainer
-explicitly instructs otherwise. The separate garment-direction approval gate
-remains in force.
-The maintainer's requested post-Phase-9 capability sequence is planned in
-`docs/planning/END-TO-END-CAPABILITY-ROADMAP.md`; its dates and work packets
-are conditional future backlog, not authorization to begin the next phase.
-The canonical Control Center now labels G01–G17 as Epic 14–30; all are Backlog.
-Lanes A–D are Backlog packets within Epic 14 and conditional lane E is a
-Backlog packet within Epic 20. These records organize future work only.
-Before the first Epic 14 slice, show the maintainer the ordered map in the
-roadmap and confirm live dependencies; C01–C06 are planning IDs, not landed
-slice numbers.
+_Last updated: Slice 215 admits Epic 14's immediate parallel evidence wave,
+2026-09-24._
+Current directive: Epic 14 is admitted. Complete and review C01, C02, C05, and
+C06 before stopping this work wave; do not stop at C01. Their detailed board
+records and the sequence map are in `ops/control-center/data/board.json` and
+`docs/planning/END-TO-END-CAPABILITY-ROADMAP.md`.
+The four active packets are research and read-only product audits. C03/C04
+remain queued behind C01/C02; do not start them in this wave. No new garment
+recipe, user-facing AI designer, paid source, supplier contact, physical sample,
+hosted feature, or production-readiness claim is admitted. Lane E remains held.
+The sequence diagram was shown and live dependencies were confirmed before
+Slice 215. C01–C06 are stable packet IDs, not landed slice numbers. Target dates
+remain conditional forecasts and must be rechecked at each packet exit.
 Epics 7, 9 and 10 are implemented, Codex-reviewed, documented and pushed to
 `origin/main`. Epic 11 implementation has completed the shaped collar/stand,
 placket-base, vent/drop, front/back preview/control/report and downstream
@@ -699,6 +698,32 @@ landed slice numbers are reserved at execution. No implementation or other
 future-roadmap work was started. No safe independent delegation was available:
 the diagram and board gate encode one shared ordering decision. The validated
 board command advanced the revision from 166 to 167; `git diff --check` passes.
+
+### Slice 215 — admit Epic 14 parallel evidence wave
+
+On 2026-09-24, after the sequence diagram was shown and dependencies confirmed,
+the maintainer explicitly admitted Epic 14 and directed that all immediately
+parallel packets complete before stopping: C01 seven-recipe audit, C02
+standards/tool comparison, C05 3D admission dossier, and C06 starter/assortment/
+upcycling/supplier evidence. Canonical board revision 197 now records Epic 14
+In Progress, its relevant lanes, and four individually scoped child packets
+with acceptance criteria and conditional targets. Lane A remains Backlog and
+is dependency-linked to C01/C02; lane E remains in Epic 20 and held.
+
+The board previously had no validated command for correcting an Epic record's
+description after admission. Slice 215 adds maintainer-only `editEpic` through
+the shared command layer, keeps status changes on `updateEpicStatus`, and
+records the reason on the matching summary card. It also updates Control Center
+expectations to match the admitted state. No garment-product code, provider,
+spend, supplier outreach, or physical sampling was added.
+
+The four packet exits are separate: each needs its own reviewed source-backed
+artifact, recorded evidence, and board completion. Their shared claims and
+conflicts will be reconciled only after all four finish. C03/C04 and the G01
+integration/exit are outside this work wave. Slice 215 verification: focused
+Control Center tests pass (33/33); full product gates are recorded at the
+appropriate packet or code-change boundary. The G01 execution estimate remains
+subject to reforecast after actual evidence review.
 
 ### Post-merge PR audit — 2026-09-21
 

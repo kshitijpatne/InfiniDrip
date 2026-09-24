@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 167,
-  "updatedAt": "2026-09-24T06:43:45.948Z",
+  "revision": 197,
+  "updatedAt": "2026-09-24T07:04:01.072Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -121,10 +121,12 @@
     {
       "id": "EPIC-14",
       "title": "EPIC-14: G01 — Admission and professional baseline",
-      "status": "Backlog",
+      "status": "In Progress",
       "owner": "Codex",
-      "description": "G01 future capability. Scope, gates, dates and work packets: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md. Epic remains Backlog until separately admitted.",
-      "evidenceRefs": []
+      "description": "Admitted 2026-09-24 for C01, C02, C05, and C06 parallel evidence packets. C03/C04 remain queued until C01/C02 are accepted. Full sequence and exit gates: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md and docs/planning/EPIC-14-ADMISSION.md. No new garment, user-facing AI designer, spend, supplier contact, hosted service, physical sampling, or production-readiness claim is admitted.",
+      "evidenceRefs": [
+        "E-EPIC14-ADMISSION"
+      ]
     },
     {
       "id": "EPIC-15",
@@ -2362,7 +2364,7 @@
       "title": "EPIC-14: G01 — Admission and professional baseline",
       "epicId": "EPIC-14",
       "releaseId": null,
-      "status": "Backlog",
+      "status": "In Progress",
       "openedAt": "2026-09-23",
       "targetAt": "2026-11-13",
       "deliveredAt": null,
@@ -2380,7 +2382,7 @@
         "100% coverage",
         "maintainer gates"
       ],
-      "description": "Future capability goal G01. Detailed planned packets and evidence: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md. Baseline start: 2026-10-05. Planned work: 5–8 landed slices. Context: Immediately parallel: research/parity, measurement, tech-pack, 3D evidence and garment packet lanes. Target dates are conditional; no Phase 9, garment, launch-cost, supplier-contact, or physical-sampling gate is overridden.",
+      "description": "Active G01 admission and professional baseline. Four immediate parallel research packets are active: EPIC-14-C01, EPIC-14-C02, EPIC-14-C05, and EPIC-14-C06. C03/C04 wait for accepted C01/C02 evidence. Scope, sources, and gates: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md and docs/planning/EPIC-14-ADMISSION.md.",
       "expectation": "A-01–A-12 ownership, acceptance thresholds and unresolved facts recorded; professional parity matrix and scope decisions accepted.",
       "acceptanceCriteria": [
         "Complete every G01 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
@@ -2396,6 +2398,22 @@
           "role": "maintainer",
           "note": "Register maintainer-directed, conditional post-Phase-9 roadmap without opening its gated work.",
           "evidenceRefs": []
+        },
+        {
+          "status": "Ready",
+          "at": "2026-09-24T06:56:53.454Z",
+          "actor": "Codex",
+          "role": "reviewer",
+          "note": "Epic 14 was explicitly admitted by the maintainer; Phase 9 and the displayed sequence/dependencies are confirmed.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-09-24T06:56:53.481Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "Begin the admitted parallel evidence packet(s); preserve no-supplier-contact, no-spend, no-physical-sampling, and no-user-facing-AI boundaries.",
+          "evidenceRefs": []
         }
       ],
       "comments": [
@@ -2403,9 +2421,21 @@
           "at": "2026-09-24T06:03:46.228Z",
           "actor": "Maintainer (via Codex)",
           "text": "Renamed CAPABILITY-G01 to EPIC-14. G01 is now the numbered epic work card; dependent item links were updated atomically."
+        },
+        {
+          "at": "2026-09-24T06:56:53.904Z",
+          "actor": "Codex",
+          "text": "Maintainer explicitly admitted Epic 14 on 2026-09-24 and directed completion of all immediate parallel packets C01, C02, C05, and C06 before stopping. C03/C04 and Epic 14 closure remain downstream. Existing no-cost, no-supplier-contact, no-physical-sampling, and user-led design boundaries remain."
+        },
+        {
+          "at": "2026-09-24T07:04:00.798Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: Admitted 2026-09-24 for C01, C02, C05, and C06 parallel evidence packets. C03/C04 remain queued until C01/C02 are accepted. Full sequence and exit gates: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md and docs/planning/EPIC-14-ADMISSION.md. No new garment, user-facing AI designer, spend, supplier contact, hosted service, physical sampling, or production-readiness claim is admitted.). Replace the future-only description with the admitted 2026-09-24 packet scope."
         }
       ],
-      "evidenceRefs": [],
+      "evidenceRefs": [
+        "E-EPIC14-ADMISSION"
+      ],
       "flagKey": null
     },
     {
@@ -3262,7 +3292,9 @@
       "contributor": "Codex",
       "reviewer": "Codex",
       "dependencies": [
-        "PREQUEUE-PHASE-09"
+        "PREQUEUE-PHASE-09",
+        "EPIC-14-C01",
+        "EPIC-14-C02"
       ],
       "protectedSurfaces": [
         "local-first product",
@@ -3275,7 +3307,7 @@
       "acceptanceCriteria": [
         "C03 and C04 source/proposal/decision records are complete and reviewed against C01 findings.",
         "Shared schema and acceptance thresholds are recorded before G02/F02 integration; no feature code or supplier claim is implied.",
-        "Future-roadmap admission remains subject to a separate maintainer instruction."
+        "C03/C04 remain queued until C01/C02 are accepted; they are outside the admitted parallel evidence wave."
       ],
       "statusHistory": [
         {
@@ -3297,7 +3329,7 @@
       "title": "Lane B — recipe and professional parity evidence (C01–C02)",
       "epicId": "EPIC-14",
       "releaseId": null,
-      "status": "Backlog",
+      "status": "In Progress",
       "openedAt": "2026-09-24",
       "targetAt": "2026-11-13",
       "deliveredAt": null,
@@ -3318,9 +3350,9 @@
       "description": "Read-only recipe audit and professional tool/standard comparison. Source packet: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md. Research can be delegated in a disjoint worktree; Codex verifies primary references and selected rendered outputs.",
       "expectation": "Source-dated seven-recipe parity and discrepancy matrix distinguishing vendor claims from observed trials.",
       "acceptanceCriteria": [
-        "C01 and C02 cover each supported recipe's measurements, controls, topology, construction, POM, grade, flats, BOM and exports.",
-        "Discrepancies, sources, actual trial status and professional review gaps are explicit; unsupported compliance claims are excluded.",
-        "Future-roadmap admission remains subject to a separate maintainer instruction."
+        "C01 and C02 cover each supported recipe’s measurements, controls, topology, construction, POM, grade, flats, BOM, and exports.",
+        "Discrepancies, sources, actual trial status, and professional review gaps are explicit; unsupported compliance claims are excluded.",
+        "The four evidence packets are individually reviewed before stopping; no code or new recipe is implied by this research lane."
       ],
       "statusHistory": [
         {
@@ -3329,6 +3361,22 @@
           "actor": "Maintainer (via Codex)",
           "role": "maintainer",
           "note": "Make the previously untracked post-Phase-9 parallel work packet visible in Backlog without opening its gate.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "Ready",
+          "at": "2026-09-24T06:56:53.508Z",
+          "actor": "Codex",
+          "role": "reviewer",
+          "note": "Epic 14 was explicitly admitted by the maintainer; Phase 9 and the displayed sequence/dependencies are confirmed.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-09-24T06:56:53.534Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "Begin the admitted parallel evidence packet(s); preserve no-supplier-contact, no-spend, no-physical-sampling, and no-user-facing-AI boundaries.",
           "evidenceRefs": []
         }
       ],
@@ -3342,7 +3390,7 @@
       "title": "Lane C — 3D feasibility and acceptance research (C05)",
       "epicId": "EPIC-14",
       "releaseId": null,
-      "status": "Backlog",
+      "status": "In Progress",
       "openedAt": "2026-09-24",
       "targetAt": "2026-11-13",
       "deliveredAt": null,
@@ -3363,9 +3411,9 @@
       "description": "C05 anthropometry, Blender/GLB asset rights, pattern rest mesh, seam map, fabric/solver protocol and device metrics. This is the admission work for G09/EPIC-22, not 3D implementation. Source packet: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md.",
       "expectation": "Falsifiable proof specification with numeric, visual, performance and licensing thresholds.",
       "acceptanceCriteria": [
-        "C05 resolves or explicitly owns A-07/A-08 and records fixture, license, measurement-error and material-data requirements.",
+        "C05 resolves or explicitly owns A-07/A-08 and records fixture, license, measurement-error, and material-data requirements.",
         "No app-level 3D implementation starts before C05 admission and later Epic 22 dependencies.",
-        "Future-roadmap admission remains subject to a separate maintainer instruction."
+        "C05 is research/admission only; a mannequin or image try-on is not accepted as evidence of garment fit or drape."
       ],
       "statusHistory": [
         {
@@ -3374,6 +3422,22 @@
           "actor": "Maintainer (via Codex)",
           "role": "maintainer",
           "note": "Make the previously untracked post-Phase-9 parallel work packet visible in Backlog without opening its gate.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "Ready",
+          "at": "2026-09-24T06:56:53.559Z",
+          "actor": "Codex",
+          "role": "reviewer",
+          "note": "Epic 14 was explicitly admitted by the maintainer; Phase 9 and the displayed sequence/dependencies are confirmed.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-09-24T06:56:53.586Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "Begin the admitted parallel evidence packet(s); preserve no-supplier-contact, no-spend, no-physical-sampling, and no-user-facing-AI boundaries.",
           "evidenceRefs": []
         }
       ],
@@ -3387,7 +3451,7 @@
       "title": "Lane D — starter, assortment, upcycling and supplier evidence (C06)",
       "epicId": "EPIC-14",
       "releaseId": null,
-      "status": "Backlog",
+      "status": "In Progress",
       "openedAt": "2026-09-24",
       "targetAt": "2026-11-13",
       "deliveredAt": null,
@@ -3408,9 +3472,9 @@
       "description": "C06 resolves A-09–A-12 with starter vetting, material/MOQ/price source and expiry, photo confidence, upcycling measurement, and supplier evidence. Feeds later G06/G08/G10/G11. Source packet: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md.",
       "expectation": "Decision ledger and measurement/verification checklists with unresolved external facts left explicit.",
       "acceptanceCriteria": [
-        "C06 records each research decision, source, confidence, owner and downstream schema implication.",
-        "No supplier outreach, paid source, live market assertion or unverified value enters F02.",
-        "Future-roadmap admission remains subject to a separate maintainer instruction."
+        "C06 records each research decision, source, confidence, owner, and downstream schema implication.",
+        "No supplier outreach, paid source, live market assertion, or unverified value enters F02.",
+        "No trusted-supplier, upcycling-feasibility, or production-readiness claim is made without its required evidence."
       ],
       "statusHistory": [
         {
@@ -3419,6 +3483,22 @@
           "actor": "Maintainer (via Codex)",
           "role": "maintainer",
           "note": "Make the previously untracked post-Phase-9 parallel work packet visible in Backlog without opening its gate.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "Ready",
+          "at": "2026-09-24T06:56:53.611Z",
+          "actor": "Codex",
+          "role": "reviewer",
+          "note": "Epic 14 was explicitly admitted by the maintainer; Phase 9 and the displayed sequence/dependencies are confirmed.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-09-24T06:56:53.635Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "Begin the admitted parallel evidence packet(s); preserve no-supplier-contact, no-spend, no-physical-sampling, and no-user-facing-AI boundaries.",
           "evidenceRefs": []
         }
       ],
@@ -3464,6 +3544,263 @@
           "actor": "Maintainer (via Codex)",
           "role": "maintainer",
           "note": "Make the previously untracked post-Phase-9 parallel work packet visible in Backlog without opening its gate.",
+          "evidenceRefs": []
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [],
+      "flagKey": null
+    },
+    {
+      "id": "EPIC-14-C01",
+      "type": "research",
+      "title": "C01 — Seven-recipe professional baseline audit",
+      "epicId": "EPIC-14",
+      "releaseId": null,
+      "status": "In Progress",
+      "openedAt": "2026-09-24",
+      "targetAt": "2026-10-16",
+      "deliveredAt": null,
+      "priority": "P0",
+      "risk": "high",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": [
+        "PREQUEUE-PHASE-09"
+      ],
+      "protectedSurfaces": [
+        "local-first product",
+        "no user-facing AI designer",
+        "no physical sampling",
+        "no supplier outreach or spend",
+        "evidence provenance"
+      ],
+      "description": "Audit all seven existing recipes in code and rendered/exported outputs against professional product-development expectations. Inspect measurements, controls, topology, seams/marks/construction, POMs, grading, technical flats, BOM, and exports. Distinguish implemented behavior from tests, claims, estimates, and unverified physical performance. Source packet: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md.",
+      "expectation": "Source-backed, per-recipe gap matrix with risk ranking, verified output evidence, and explicit limits; no unsupported industry-compliance or factory-readiness claim.",
+      "acceptanceCriteria": [
+        "Inspect all seven current recipes and map actual code paths for inputs, recipe rules, pattern pieces, checks, POM, grading, render/flat, BOM/tech pack, and file exports.",
+        "Record which properties are directly asserted by tests, which are observed in actual rendered or exported outputs, and which remain unverified or physically unvalidated.",
+        "For every recipe, list known gaps, severity, affected files/surfaces, downstream consequence, source evidence, and proposed remediation or owner.",
+        "Compare construction and technical-document expectations to authoritative standards and professional-tool evidence from C02 without claiming conformance to paid standards not inspected.",
+        "Codex reviews sources, selected actual outputs, and the final gap matrix; add verified exit evidence and complete the board status gate."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-09-24T06:56:53.328Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "Admit Epic 14 parallel evidence packet after maintainer direction; Phase 9 is complete and the presented dependency map was confirmed.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "Ready",
+          "at": "2026-09-24T06:56:53.660Z",
+          "actor": "Codex",
+          "role": "reviewer",
+          "note": "Epic 14 was explicitly admitted by the maintainer; Phase 9 and the displayed sequence/dependencies are confirmed.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-09-24T06:56:53.686Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "Begin the admitted parallel evidence packet(s); preserve no-supplier-contact, no-spend, no-physical-sampling, and no-user-facing-AI boundaries.",
+          "evidenceRefs": []
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [],
+      "flagKey": null
+    },
+    {
+      "id": "EPIC-14-C02",
+      "type": "research",
+      "title": "C02 — Standards and professional-tool comparison",
+      "epicId": "EPIC-14",
+      "releaseId": null,
+      "status": "In Progress",
+      "openedAt": "2026-09-24",
+      "targetAt": "2026-10-23",
+      "deliveredAt": null,
+      "priority": "P0",
+      "risk": "medium",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": [
+        "PREQUEUE-PHASE-09"
+      ],
+      "protectedSurfaces": [
+        "local-first product",
+        "no user-facing AI designer",
+        "no physical sampling",
+        "no supplier outreach or spend",
+        "evidence provenance"
+      ],
+      "description": "Build a source-dated comparison of authoritative garment measurement/construction vocabulary and Tailornova, CLO, Browzwear, Techpacker, and Genpire. Separate public feature claims from direct observed trials; record exact formats, data models, limitations, and evidence confidence. No paid dependency or supplier contact. Source packet: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md.",
+      "expectation": "A comparable evidence matrix with primary sources, review date, applicability, demonstrated behavior, inference, confidence, and implications for InfiniDrip.",
+      "acceptanceCriteria": [
+        "Use current official standard catalogs and vendor docs first; cite research papers and expert sources where they substantiate technical methods or limitations.",
+        "Compare each tool across drafting, editable geometry, 2D/3D linkage, technical flats, measurement/spec tables, BOM/colorway/construction, grading, CAD formats, versioning, image tools, supplier/RFQ, and launch workflow.",
+        "For each assertion mark source type, publication/access date, trial status, and whether a feature was actually exercised; do not repeat unsupported marketing language as fact.",
+        "Record costs only from current public pricing/terms; mark quote-only, uncertain, or unavailable rather than estimating as fact.",
+        "Codex verifies cited primary evidence and accepts the parity matrix; add verified exit evidence and complete the board status gate."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-09-24T06:56:53.363Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "Admit Epic 14 parallel evidence packet after maintainer direction; Phase 9 is complete and the presented dependency map was confirmed.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "Ready",
+          "at": "2026-09-24T06:56:53.711Z",
+          "actor": "Codex",
+          "role": "reviewer",
+          "note": "Epic 14 was explicitly admitted by the maintainer; Phase 9 and the displayed sequence/dependencies are confirmed.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-09-24T06:56:53.736Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "Begin the admitted parallel evidence packet(s); preserve no-supplier-contact, no-spend, no-physical-sampling, and no-user-facing-AI boundaries.",
+          "evidenceRefs": []
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [],
+      "flagKey": null
+    },
+    {
+      "id": "EPIC-14-C05",
+      "type": "research",
+      "title": "C05 — 3D avatar and garment-simulation admission dossier",
+      "epicId": "EPIC-14",
+      "releaseId": null,
+      "status": "In Progress",
+      "openedAt": "2026-09-24",
+      "targetAt": "2026-11-13",
+      "deliveredAt": null,
+      "priority": "P1",
+      "risk": "high",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": [
+        "PREQUEUE-PHASE-09"
+      ],
+      "protectedSurfaces": [
+        "local-first product",
+        "no user-facing AI designer",
+        "no physical sampling",
+        "no supplier outreach or spend",
+        "evidence provenance"
+      ],
+      "description": "Resolve 3D feasibility admission for measurement-driven avatars and pattern-linked garment visualization: mesh provenance/licensing, anthropometric underdetermination, rest meshes and seam maps, fabric test inputs, solver alternatives, validation fixtures, objective/visual acceptance thresholds, and target-device performance. Research only; no app 3D implementation. Source packet: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md.",
+      "expectation": "A falsifiable, research-backed decision dossier and staged test protocol that states what can be promised, what cannot, and the go/no-go threshold for later implementation.",
+      "acceptanceCriteria": [
+        "Compare Blender-authored measurement-driven avatar assets and runtime glTF morph targets with statistical body models and parametric approaches; identify licenses and unresolved shape assumptions.",
+        "Specify pattern-to-garment pipeline requirements: 2D pattern topology, seam correspondence, rest mesh, sewing constraints, body collision, fabric mechanical inputs, and solver evaluation.",
+        "Define a tiered validation fixture: known input measurements, reference body scans/mannequins, pattern geometry, fabric specimens, benchmark poses, expert judgments, and repeatable renders.",
+        "Set proposed numerical error, visual comparison, stability, export fidelity, runtime, memory, and device-class thresholds with sourced rationale; do not infer numeric guarantees from papers that use different fixtures.",
+        "Record asset/data rights, privacy, size/shape coverage, and no-go/remediation decisions; Codex reviews and closes the evidence gate before any Epic 22 implementation."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-09-24T06:56:53.396Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "Admit Epic 14 parallel evidence packet after maintainer direction; Phase 9 is complete and the presented dependency map was confirmed.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "Ready",
+          "at": "2026-09-24T06:56:53.763Z",
+          "actor": "Codex",
+          "role": "reviewer",
+          "note": "Epic 14 was explicitly admitted by the maintainer; Phase 9 and the displayed sequence/dependencies are confirmed.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-09-24T06:56:53.788Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "Begin the admitted parallel evidence packet(s); preserve no-supplier-contact, no-spend, no-physical-sampling, and no-user-facing-AI boundaries.",
+          "evidenceRefs": []
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [],
+      "flagKey": null
+    },
+    {
+      "id": "EPIC-14-C06",
+      "type": "research",
+      "title": "C06 — Starter, assortment, upcycling, and supplier evidence",
+      "epicId": "EPIC-14",
+      "releaseId": null,
+      "status": "In Progress",
+      "openedAt": "2026-09-24",
+      "targetAt": "2026-11-13",
+      "deliveredAt": null,
+      "priority": "P1",
+      "risk": "medium",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": [
+        "PREQUEUE-PHASE-09"
+      ],
+      "protectedSurfaces": [
+        "local-first product",
+        "no user-facing AI designer",
+        "no physical sampling",
+        "no supplier outreach or spend",
+        "evidence provenance"
+      ],
+      "description": "Resolve decision evidence for vetted starter recipes, assortment inputs, image-reference/upcycling confidence, measurement capture, and supplier evidence needed by later style and marketplace work. Photos may start exploration; measurements improve cutting feasibility. No live supplier outreach, paid sources, or production claims. Source packet: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md.",
+      "expectation": "An uncertainty and provenance ledger, starter-vetting rubric, photo/measurement capture protocol, and supplier-data schema implications with unresolved external facts assigned to the right future gate.",
+      "acceptanceCriteria": [
+        "Define evidence and acceptance rubric for each starter: construction completeness, control coverage, POM/grade/flat/BOM/export parity, usability, provenance, maintenance, and expert review.",
+        "For image-based reference and upcycling, distinguish visual-design confidence from cut-feasibility confidence; specify required versus recommended measurements by source garment/panel/reuse objective, capture instructions, and missing-data behavior.",
+        "Identify assortment variables and freshness metadata for size/color/style demand, material availability, MOQ basis (style/color/material), pricing, lead time, location, and size demand; mark the source and expiry of every dynamic field.",
+        "Specify supplier evidence fields for capability, certifications, equipment/material limits, MOQ/quote validity, sample policy, lead time, region, communication SLA, and verification status; do not create trusted-supplier claims without corroboration.",
+        "Record privacy, licensing, commercial-role, source-age, and unknowns; no supplier contact, purchases, live matching, payment, or order flow is authorized in this packet.",
+        "Codex reviews sources and decision ledger; add verified exit evidence and complete the board status gate."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-09-24T06:56:53.427Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "Admit Epic 14 parallel evidence packet after maintainer direction; Phase 9 is complete and the presented dependency map was confirmed.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "Ready",
+          "at": "2026-09-24T06:56:53.813Z",
+          "actor": "Codex",
+          "role": "reviewer",
+          "note": "Epic 14 was explicitly admitted by the maintainer; Phase 9 and the displayed sequence/dependencies are confirmed.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-09-24T06:56:53.843Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "Begin the admitted parallel evidence packet(s); preserve no-supplier-contact, no-spend, no-physical-sampling, and no-user-facing-AI boundaries.",
           "evidenceRefs": []
         }
       ],
@@ -3886,6 +4223,15 @@
       "sha256": null,
       "verified": true,
       "note": "Verifies the latest origin/branch namespace audit, all nine ordered Done phase records and their existing verified evidence, required checks, and separate garment-direction gate."
+    },
+    {
+      "id": "E-EPIC14-ADMISSION",
+      "kind": "decision",
+      "uri": "docs/planning/EPIC-14-ADMISSION.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Maintainer explicitly admitted Epic 14 and the C01/C02/C05/C06 parallel evidence wave on 2026-09-24 after the sequence map was shown and dependencies confirmed."
     }
   ]
 }

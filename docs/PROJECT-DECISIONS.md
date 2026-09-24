@@ -818,3 +818,24 @@ data collection still require their own explicit gate.
   parallel-boundary diagram in `docs/planning/END-TO-END-CAPABILITY-ROADMAP.md`.
   Reconfirm live dependencies and reserve unique landed slice numbers at
   execution; the C01–C06 IDs remain stable planning packet IDs, not Slice IDs.
+
+## Epic 14 immediate evidence wave — admitted 2026-09-24
+
+- The maintainer saw the ordered Epic 14 diagram, confirmed live dependencies,
+  and explicitly admitted Epic 14 after Phase 9. The pre-start diagram gate is
+  satisfied.
+- Start the immediate disjoint evidence packets together: C01 (seven-recipe
+  baseline), C02 (standards and tool comparison), C05 (3D feasibility and
+  thresholds), and C06 (starter, assortment, upcycling and supplier evidence).
+  Complete and review all four packet exits before stopping this wave; C01 is
+  not a stop boundary by itself.
+- C03/C04 remain queued until C01/C02 evidence is accepted. Do not start those
+  packets as part of this parallel wave. Reconcile conflicts and revise targets
+  after the four packet exits.
+- This admission does not approve a new garment recipe, supplier contact,
+  purchase, hosted service, user-facing AI designer, physical sampling,
+  factory-ready claim, or live market/supplier assertion. Lane E remains held
+  under Epic 20. The product remains user-led and deterministic for garment
+  construction.
+- Record observations, source dates, confidence, and unresolved external facts
+  separately. Target dates are forecasts, not quality or approval shortcuts.

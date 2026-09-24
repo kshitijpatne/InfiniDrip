@@ -37,7 +37,10 @@ An invalid, stale, busy, or failed save leaves the original board intact.
 
 The CLI and local UI support `createItem`, `editItem`, `updateStatus`,
 `addEvidence`, and `addComment`. The maintainer CLI also supports `createEpic`,
-`renameItem`, `linkItemsToEpic`, `addEpicEvidence`, and `updateEpicStatus`.
+`editEpic`, `renameItem`, `linkItemsToEpic`, `addEpicEvidence`, and
+`updateEpicStatus`. `editEpic` changes the Epic description only; status stays
+on the evidence-gated status command. Its reason is recorded on the matching
+Epic summary card when one exists.
 `renameItem` changes dependent work-item references and records the old ID in
 an audit note; it cannot rename the protected Epic 13 phases or a numbered
 Epic summary card separately from its Epic record. Future Epic
@@ -56,11 +59,13 @@ or editing. Its reviewed membership is applied only by the maintainer batch
 link command; the UI keeps the reserved option unavailable for ordinary item
 edits.
 
-Future G01–G17 goals have numbered Epic 14–30 records and matching backlog
-goal cards. The five immediate lanes are child backlog items:
-`EPIC-14-LANE-A` through `EPIC-14-LANE-D`, and `EPIC-20-LANE-E`. Their
-ownership, scope and stronger approval gates are recorded in the
-end-to-end capability roadmap. Backlog registration is not work admission.
+G01–G17 have numbered Epic 14–30 records and matching work cards. Epic 14 is
+admitted for its C01/C02/C05/C06 evidence wave; those four child packets and
+lanes B–D are In Progress, while shared-contract lane A and the remaining
+future Epics stay in Backlog. Lane E under Epic 20 remains held
+for explicit garment-direction approval. Their ownership, scope and gates are
+recorded in the end-to-end capability roadmap. Backlog registration alone is
+not work admission.
 
 ## Historical import rule
 

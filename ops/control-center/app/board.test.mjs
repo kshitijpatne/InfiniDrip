@@ -52,14 +52,15 @@ test("contributors can submit review but cannot complete work", () => {
   assert.equal(canTransition("Done", "In Progress", "reviewer"), false);
 });
 
-test("future numbered epic cards and immediate lane packets remain in Backlog", () => {
+test("admitted Epic 14 and its active research lanes match the future backlog", () => {
   for (let index = 1; index <= 17; index += 1) {
     const id = `EPIC-${index + 13}`;
     const goal = `G${String(index).padStart(2, "0")}`;
     const epic = board.epics.find((entry) => entry.id === id);
     const card = board.workItems.find((entry) => entry.id === id);
-    assert.equal(epic?.status, "Backlog");
-    assert.equal(card?.status, "Backlog");
+    const expectedStatus = id === "EPIC-14" ? "In Progress" : "Backlog";
+    assert.equal(epic?.status, expectedStatus);
+    assert.equal(card?.status, expectedStatus);
     assert.equal(card?.type, "epic");
     assert.equal(card?.epicId, id);
     assert.match(card.title, new RegExp(`^${id}: ${goal}`));
@@ -68,7 +69,13 @@ test("future numbered epic cards and immediate lane packets remain in Backlog", 
   for (const letter of ["A", "B", "C", "D"]) {
     const lane = board.workItems.find((entry) => entry.id === `EPIC-14-LANE-${letter}`);
     assert.equal(lane?.epicId, "EPIC-14");
-    assert.equal(lane?.status, "Backlog");
+    assert.equal(lane?.status, letter === "A" ? "Backlog" : "In Progress");
+  }
+  for (const id of ["EPIC-14-C01", "EPIC-14-C02", "EPIC-14-C05", "EPIC-14-C06"]) {
+    const packet = board.workItems.find((entry) => entry.id === id);
+    assert.equal(packet?.epicId, "EPIC-14");
+    assert.equal(packet?.status, "In Progress");
+    assert.ok(packet.acceptanceCriteria.length >= 5);
   }
   const shorts = board.workItems.find((entry) => entry.id === "EPIC-20-LANE-E");
   assert.equal(shorts?.epicId, "EPIC-20");

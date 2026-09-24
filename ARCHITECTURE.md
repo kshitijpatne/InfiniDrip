@@ -167,16 +167,17 @@ role inside InfiniDrip, and it does not store user profiles or garment designs.
 The board is available only on the same computer and stores its current state
 in `ops/control-center/data/board.json`. Both its dashboard and command-line
 tool use the same checks before saving. The command-line interface lets
-maintainers create and close epics, link work items, and attach epic-level
-evidence through validated commands. The closed Epic 13 groups the nine
+maintainers edit an epic description, transition epic status, link work items,
+and attach epic-level evidence through validated commands. The closed Epic 13 groups the nine
 completed pre-garment phases but does not approve a garment direction.
 “Evidence” means a linked commit, test result, document, or other record that
 supports a work item's status.
 
 The future G01–G17 goals are numbered Epic 14–30 in the board. Each has a
-Backlog Epic record and a matching Backlog work card, so the dashboard shows
-both the Epic number and its G goal. A–D are separate Backlog packets within
-Epic 14; the conditional shorts packet E is in Epic 20. A maintainer-only
+numbered Epic record and a matching work card, so the dashboard shows both the
+Epic number and its G goal. Epic 14 and its research packets C01, C02, C05,
+and C06 are admitted and active; its shared-contract lane A is queued. The
+conditional shorts packet E remains held in Epic 20. A maintainer-only
 rename command updates dependent work-item links and leaves an audit note;
 past evidence text is not rewritten. Planning records do not start product
 work or change the app's local-first boundary.

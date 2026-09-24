@@ -6,7 +6,7 @@ _Planning baseline: 2026-09-23. Maintainer direction recorded in the conversatio
 
 | ID | Decision / rule | Operational consequence |
 | --- | --- | --- |
-| R-01 | Phase 8 and Phase 9 are complete; the maintainer accepted bounded local reference V1 on 2026-09-24. A separate explicit garment-direction approval is still required. | Phase 9 closure does not authorize G01/G07 garment work. Do not auto-start roadmap work; wait for explicit maintainer instruction and retain every existing gate. |
+| R-01 | Phase 8 and Phase 9 are complete; the maintainer accepted bounded local reference V1 on 2026-09-24. Epic 14 evidence-only admission was separately granted on 2026-09-24 for C01/C02/C05/C06. A garment-direction approval is still required for garment implementation. | Phase 9 closure alone does not authorize roadmap work. The four admitted packets may produce reviewed evidence only; retain all other gates, including the separate garment-direction gate. |
 | R-02 | The product is a user-led design and learning tool. No user-facing AI agent, prompt-to-garment shortcut, or silent auto-edit belongs in these goals. | Deterministic drafting, explicit choices, measurement coaching, visible invalid states, and user-approved suggestions are the product path. Development agents remain subject to `docs/OPENCODE-WORKFLOW.md`. |
 | R-03 | Physical sampling stays on hold until the maintainer reopens it after the agreed digital capability work. | A complete digital feature can be marked digitally verified; physical fit, drape, factory acceptance, and production readiness stay unverified. Digital work cannot logically guarantee these real-world outcomes before physical evidence exists. Do not schedule physical sampling. |
 | R-04 | Each garment starter is an independently vetted design, not a cosmetic blank. | Count a starter only after the complete pattern/view/spec/grade/export/construction pressure matrix and a qualified technical review; disclose any untested physical claim. No target of 500 arbitrary variants. |
@@ -64,12 +64,12 @@ _Planning baseline: 2026-09-23. Maintainer direction recorded in the conversatio
 
 ## Baseline schedule and parallel lanes
 
-_Calendar targets assume one Codex-owned integration lane, independent bounded research/asset contributions where safe, roughly 2–4 focused engineering days per landed slice, no new paid service, and Phase 9 closure/decision by 2026-10-02. Dates shift with gates. These are target review dates, not permission to spend, contact suppliers, or start physical work._
+_Targets were reforecast at Epic 14's limited evidence admission on 2026-09-24. They assume one Codex-owned integration lane, bounded research kept in separate artifacts, roughly 2–4 focused engineering days per landed slice, and no new paid service. Dates shift with evidence and review gates. These are target review dates, not permission to spend, contact suppliers, or start physical work._
 
 | Goal | Priority / target | Start if gates pass | Target exit | Dependencies / parallel lane | Estimated landed slices | Whole-goal completion condition |
 | --- | --- | --- | --- | --- | ---: | --- |
 | G00 Phase 8/9 closure | P0 | Complete 2026-09-24 | Closed 2026-09-24 | Existing binding sequence | Slice 203 plus S207–S210 evidence | Phase 9 evidence and bounded V1 acceptance recorded. This does not include or imply explicit garment-direction approval. |
-| G01 Admission and professional baseline | P0 | 2026-10-05 | 2026-11-13 | Immediately parallel: research/parity, measurement, tech-pack, 3D evidence and garment packet lanes | 5–8 | A-01–A-12 ownership, acceptance thresholds and unresolved facts recorded; professional parity matrix and scope decisions accepted. |
+| G01 Admission and professional baseline | P0 | 2026-09-24 | 2026-11-13 | Admitted C01/C02/C05/C06 evidence wave; C03/C04 and G01 integration remain downstream | 8 base slices plus separately numbered remediation if needed | A-01–A-12 ownership, acceptance thresholds and unresolved facts recorded; professional parity matrix and scope decisions accepted. |
 | G02 Versioned style foundation | P0 | 2026-11-16 | 2027-02-12 | G01; integration lane | 7–10 | Multi-style local record, final edits, revisions and dependency invalidation proven without breaking legacy saves/exports. |
 | G03 Measurement-first creation | P0 | 2027-02-15 | 2027-05-14 | G02; can parallel with technical-flat specialist research | 6–9 | One measured size, coach, editable continuation and separately approved grading work for all supported recipes. |
 | G04 Professional flats and CAD interchange | P0 | Research 2026-10-05; code 2027-02-15 | 2027-07-16 | G01/G02; integration serialized with G03 | 9–14 | Front/back technical flats for every supported recipe/variant and proven CAD interchange. Pattern-linked side/oblique views are explicitly owned by G09/D04, so the complete view set is accepted only there. |
@@ -93,7 +93,7 @@ _The G01–G16 ranges sum to approximately 176–272 landed slices, including th
 
 ### Canonical Epic numbering and board ownership
 
-Epic 13 is the last completed numbered Epic and groups the nine accepted pre-garment phases. Epic 12 remains open for deferred launch-backed work. The future capability goals were initially tracked as `CAPABILITY-G01` through `CAPABILITY-G17`; the canonical Control Center now gives them numbered Epic records and goal cards. Existing dependency references were migrated through the validated command layer; old IDs in historical decisions, evidence and notes remain historical aliases. All 17 numbered Epics and goal cards are **Backlog**, as are the five lane packets below. Numbering does not authorize execution, garment code, spending, supplier contact or physical sampling.
+Epic 13 is the last completed numbered Epic and groups the nine accepted pre-garment phases. Epic 12 remains open for deferred launch-backed work. The future capability goals were initially tracked as `CAPABILITY-G01` through `CAPABILITY-G17`; the canonical Control Center now gives them numbered Epic records and goal cards. Existing dependency references were migrated through the validated command layer; old IDs in historical decisions, evidence and notes remain historical aliases. On 2026-09-24 the maintainer admitted Epic 14 for the four immediate evidence packets below; the other numbered Epics remain **Backlog**. Lane A remains queued, lanes B–D are active, and lane E stays held under Epic 20. Admission authorizes only the recorded evidence wave; it does not authorize garment code, spending, supplier contact or physical sampling.
 
 | Goal | Numbered Epic | Goal | Numbered Epic | Goal | Numbered Epic |
 | --- | --- | --- | --- | --- | --- |
@@ -106,15 +106,15 @@ Epic 13 is the last completed numbered Epic and groups the nine accepted pre-gar
 
 | Lane | Control Center item | Type / status | Owning Epic | Packet scope and later destination |
 | --- | --- | --- | --- | --- |
-| A | `EPIC-14-LANE-A` | task / Backlog | EPIC-14 · G01 | C03–C04 shared measurement, pack and CAD contracts; feeds G02 and later outputs. |
-| B | `EPIC-14-LANE-B` | research / Backlog | EPIC-14 · G01 | C01–C02 seven-recipe and professional parity evidence; informs A and the garment lane. |
-| C | `EPIC-14-LANE-C` | research / Backlog | EPIC-14 · G01 | C05 3D feasibility and proof thresholds; later implementation belongs to EPIC-22 · G09. |
-| D | `EPIC-14-LANE-D` | research / Backlog | EPIC-14 · G01 | C06 starter, assortment, upcycling and supplier evidence; later work belongs to G06/G08/G10/G11. |
+| A | `EPIC-14-LANE-A` | task / Backlog | EPIC-14 · G01 | C03–C04 shared measurement, pack and CAD contracts; waits on C01/C02; feeds G02 and later outputs. |
+| B | `EPIC-14-LANE-B` | research / In Progress | EPIC-14 · G01 | C01–C02 seven-recipe and professional parity evidence; informs A and the garment lane. |
+| C | `EPIC-14-LANE-C` | research / In Progress | EPIC-14 · G01 | C05 3D feasibility and proof thresholds; later implementation belongs to EPIC-22 · G09. |
+| D | `EPIC-14-LANE-D` | research / In Progress | EPIC-14 · G01 | C06 starter, assortment, upcycling and supplier evidence; later work belongs to G06/G08/G10/G11. |
 | E | `EPIC-20-LANE-E` | task / Backlog | EPIC-20 · G07 | G01S casual shorts; executable only after explicit garment-direction approval and relevant C01/C03 findings. |
 
-The lanes are child work packets, not five additional Epics. A–D can progress as disjoint research or contract work after separate roadmap admission; E has the stronger garment gate. Their Control Center dependencies point to completed Phase 9 as the earliest entry point, while their acceptance criteria and this packet retain the stronger decision and integration gates.
+The lanes are child work packets, not five additional Epics. The maintainer admitted C01/C02/C05/C06 on 2026-09-24; they are active in disjoint work. Lane A remains Backlog until C01/C02 are accepted. E has the stronger garment-direction gate. Board dependencies point to completed Phase 9 as the earliest entry point, while each lane retains its stronger decision and integration gates.
 
-_A work lane may research ahead of its code dependency; its output cannot change the live product until the dependency and maintainer gates pass. The table below is the first post-Phase-9 allocation, assuming the review and necessary direction are recorded. These are parallel work packets, not concurrent writes to shared contracts._
+_A work lane may research ahead of its code dependency; its output cannot change the live product until the dependency and maintainer gates pass. This is the admitted first post-Phase-9 evidence allocation. These are parallel work packets, not concurrent writes to shared contracts._
 
 _A Control Center goal dependency marks the earliest engineering entry gate. Later packets within that goal retain their stronger dependencies in this document, so early research or a local module can proceed without falsely declaring the whole goal complete._
 
@@ -151,7 +151,7 @@ _No entire G01–G16 epic is fully outsourced: each crosses the common design re
 
 ### Epic 14 execution order and parallel boundaries
 
-Before the first Epic 14 slice starts, show this sequence to the maintainer and confirm the active dependencies, any newly resolved facts, and the then-current slice number. The diagram is an execution map for the stable packet IDs; it does not reserve landed slice numbers. G01 is estimated at 5–8 landed slices. Codex reserves each unique `Slice N` at execution, integrates one change at a time, and keeps shared contracts and the Epic exit in one review path. Read-only research and asset/proof evidence may proceed in parallel only with disjoint ownership.
+The sequence diagram was shown and its live dependencies were confirmed before the first Epic 14 slice on 2026-09-24. Epic 14 is admitted for C01, C02, C05, and C06; this wave must finish and pass review before stopping. The diagram remains the execution map for stable packet IDs and does not reserve landed slice numbers. G01's 5–8-slice estimate is a conditional forecast and will be re-estimated from actual work. Codex reserves each unique `Slice N` at execution, integrates one change at a time, and keeps shared contracts and the Epic exit in one review path. Read-only research and asset/proof evidence may proceed in parallel only with disjoint ownership.
 
 ```mermaid
 flowchart TD
@@ -210,7 +210,7 @@ flowchart TD
 | 3 | C04 (Lane A) | Uses C01/C02 gaps and C03 taxonomy to set tech-pack sections and CAD compatibility tests. | Codex owns shared interfaces; expert review can run separately. |
 | 4 | G01 integration and exit | Combine accepted C01–C06 evidence; resolve or assign each A-01–A-12 fact, run remediation if needed, and record the exit evidence. | One Codex integration/review lane; only then can G02 be considered. |
 
-The visual's parallel branches represent separate packets, not multiple agents editing the same shared files. Lanes B–D can work alongside Lane A's integration when ownership is disjoint; Lane A itself is serialized at the shared-contract boundary. Every landed change still receives a unique slice number and a Codex-reviewed integration. These are planning packets, not a promise that all work executes concurrently or an authorization to begin it.
+The visual's parallel branches represent separate packets, not multiple agents editing the same shared files. The maintainer admitted C01/C02/C05/C06 for evidence work on 2026-09-24; C03/C04, any garment implementation, and the G01 integration remain queued behind their stated gates. Lane A's shared-contract work is serialized. Every landed change still receives a unique slice number and a Codex-reviewed integration. Admission of these four evidence packets does not imply concurrent writes or authorize the other queued work.
 | F01 | G02 · 2026-12-11 | Local project/style entities, stable IDs, export/import/backup and migration from `SaveFile`; preserve artwork IDs. | Multiple styles survive reload and recovery; malformed data rejects visibly; old files migrate. | Codex persistence owner; UI mockups parallel only. |
 | F02 | G02 · 2027-01-15 | Source-aware field model and dependency graph: measured/chosen/calculated/inherited/supplier/unresolved; value history and affected-output invalidation. | A changed field marks exact dependent artifacts stale, not unrelated fields. | Codex shared-model owner. |
 | F03 | G02 · 2027-02-12 | Promote Edit to durable final edits only through recipe-owned constraints, size semantics, conflict handling, undo and re-draft/export propagation; immutable revision snapshots and hashes. | Edit once and compare 2D pattern, POM, grade, nest, flat, pack, save/reload and frozen revision. | Codex core; high-review gate. |
