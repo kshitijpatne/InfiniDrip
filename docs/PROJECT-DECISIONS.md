@@ -814,3 +814,7 @@ data collection still require their own explicit gate.
   do not themselves authorize roadmap execution. Lane E requires separate
   explicit garment-direction approval and the relevant C01/C03 evidence.
   All existing launch-cost, supplier-contact and physical-sampling holds stand.
+- Before the first Epic 14 slice begins, show the maintainer the sequence and
+  parallel-boundary diagram in `docs/planning/END-TO-END-CAPABILITY-ROADMAP.md`.
+  Reconfirm live dependencies and reserve unique landed slice numbers at
+  execution; the C01–C06 IDs remain stable planning packet IDs, not Slice IDs.

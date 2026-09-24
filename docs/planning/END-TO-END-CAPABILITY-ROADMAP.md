@@ -148,6 +148,69 @@ _No entire G01–G16 epic is fully outsourced: each crosses the common design re
 | C04 | G01 · 2026-11-06 | Resolve A-04/A-05 technical-pack and CAD route, section schema, optional vs required fields, DXF compatibility targets and tests. | Accepted technical design and CAD import/export test fixtures; old R12 path retained. | Codex owns interfaces; expert/research review disjoint. |
 | C05 | G01 · 2026-11-13 | Resolve A-07/A-08 3D admission: mesh rights, anthropometric fitting, pattern rest mesh, seam map, material test protocol, objective numeric and visual metrics, performance devices. | Evidence dossier and go/no-go test thresholds before app code. A no-go creates remediation scope, not feature closure. | Research can run alongside C01–C04; Codex acceptance. |
 | C06 | G01 · 2026-11-13 | Resolve A-09/A-10/A-11/A-12: starter rubric, assortment source/expiry fields, photo confidence levels, supplier evidence. | Decision ledger; unresolved external facts remain explicit user/supplier inputs. | Independent research lanes; shared schema decision serialized. |
+
+### Epic 14 execution order and parallel boundaries
+
+Before the first Epic 14 slice starts, show this sequence to the maintainer and confirm the active dependencies, any newly resolved facts, and the then-current slice number. The diagram is an execution map for the stable packet IDs; it does not reserve landed slice numbers. G01 is estimated at 5–8 landed slices. Codex reserves each unique `Slice N` at execution, integrates one change at a time, and keeps shared contracts and the Epic exit in one review path. Read-only research and asset/proof evidence may proceed in parallel only with disjoint ownership.
+
+```mermaid
+flowchart TD
+  P9[Phase 9 accepted; Epic 13 closed] --> AUTH{Maintainer explicitly admits Epic 14}
+  AUTH -->|No| HOLD[Keep Epic 14 and lanes A-D in Backlog]
+  AUTH -->|Yes| START[Codex checks gates, refreshes origin/main, reserves next unique slice]
+
+  START --> B1
+  START --> B2
+  START --> C5
+  START --> D6
+
+  subgraph LANE_B[Lane B · comparative evidence]
+    B1[C01 · audit seven recipes<br/>target 2026-10-16]
+    B2[C02 · standards and tool comparison<br/>target 2026-10-23]
+  end
+
+  subgraph LANE_C[Lane C · 3D admission research]
+    C5[C05 · avatar, pattern, fabric, solver and device thresholds<br/>target 2026-11-13]
+  end
+
+  subgraph LANE_D[Lane D · commercial and reference evidence]
+    D6[C06 · starter rubric, assortment, photo confidence, supplier evidence<br/>target 2026-11-13]
+  end
+
+  subgraph LANE_A[Lane A · Codex-owned shared contracts]
+    M3[C03 · body-measurement taxonomy<br/>target 2026-10-30]
+    T4[C04 · tech-pack and CAD route<br/>target 2026-11-06]
+    M3 --> T4
+  end
+
+  B1 --> M3
+  B2 --> M3
+  B1 --> T4
+  B2 --> T4
+
+  B1 --> REVIEW[Codex checks C01-C06 evidence and resolves A-01–A-12 ownership, thresholds and unknowns]
+  B2 --> REVIEW
+  T4 --> REVIEW
+  C5 --> REVIEW
+  D6 --> REVIEW
+  REVIEW --> GAPS{Evidence complete and conflicts resolved?}
+  GAPS -->|No| REM[Create scoped remediation packet with new slice number and revised target]
+  REM --> REVIEW
+  GAPS -->|Yes| EXIT[Record G01 decision ledger, verified evidence and Epic 14 exit]
+  EXIT --> NEXT[EPIC-15 · G02 becomes eligible for its own admission and plan]
+```
+
+| Order | Work packet | Dependency and overlap | Owner / integration rule |
+| ---: | --- | --- | --- |
+| 0 | Admission and slice reservation | Phase 9 is complete, but future roadmap work remains held until explicit instruction. | Codex confirms the gate, checks current history and assigns actual slice numbers only when work starts. |
+| 1 | C01 + C02 (Lane B) | Independent evidence collection can overlap. Their accepted findings feed C03/C04; avoid duplicate recipe or vendor audits. | Bounded research may be delegated read-only; Codex verifies evidence and rendered examples. |
+| 1 | C05 (Lane C) | Research can overlap C01–C04. Its feasibility thresholds must be accepted before any later G09/EPIC-22 3D implementation. | Research/assets can be disjoint deliverables; Codex owns go/no-go and product claims. |
+| 1 | C06 (Lane D) | Research can overlap the other lanes. Shared schema decisions wait for Lane A; supplier outreach and paid sources remain held. | Independent evidence gathering; Codex reconciles decisions. |
+| 2 | C03 (Lane A) | Starts from recipe needs in C01 and uses C02 vocabulary/standards evidence; defines body measures separately from finished POMs and style options. | Codex owns the accepted dictionary and missing-value policy. |
+| 3 | C04 (Lane A) | Uses C01/C02 gaps and C03 taxonomy to set tech-pack sections and CAD compatibility tests. | Codex owns shared interfaces; expert review can run separately. |
+| 4 | G01 integration and exit | Combine accepted C01–C06 evidence; resolve or assign each A-01–A-12 fact, run remediation if needed, and record the exit evidence. | One Codex integration/review lane; only then can G02 be considered. |
+
+The visual's parallel branches represent separate packets, not multiple agents editing the same shared files. Lanes B–D can work alongside Lane A's integration when ownership is disjoint; Lane A itself is serialized at the shared-contract boundary. Every landed change still receives a unique slice number and a Codex-reviewed integration. These are planning packets, not a promise that all work executes concurrently or an authorization to begin it.
 | F01 | G02 · 2026-12-11 | Local project/style entities, stable IDs, export/import/backup and migration from `SaveFile`; preserve artwork IDs. | Multiple styles survive reload and recovery; malformed data rejects visibly; old files migrate. | Codex persistence owner; UI mockups parallel only. |
 | F02 | G02 · 2027-01-15 | Source-aware field model and dependency graph: measured/chosen/calculated/inherited/supplier/unresolved; value history and affected-output invalidation. | A changed field marks exact dependent artifacts stale, not unrelated fields. | Codex shared-model owner. |
 | F03 | G02 · 2027-02-12 | Promote Edit to durable final edits only through recipe-owned constraints, size semantics, conflict handling, undo and re-draft/export propagation; immutable revision snapshots and hashes. | Edit once and compare 2D pattern, POM, grade, nest, flat, pack, save/reload and frozen revision. | Codex core; high-review gate. |

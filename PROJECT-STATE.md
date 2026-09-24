@@ -1,7 +1,7 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 213 numbers the future capability backlog and tracks the
-five immediate parallel packets, 2026-09-24._
+_Last updated: Slice 214 records the Epic 14 execution map and pre-start
+presentation gate, 2026-09-24._
 Next: no future-roadmap work or garment queue is authorized until the maintainer
 explicitly instructs otherwise. The separate garment-direction approval gate
 remains in force.
@@ -11,6 +11,9 @@ are conditional future backlog, not authorization to begin the next phase.
 The canonical Control Center now labels G01–G17 as Epic 14–30; all are Backlog.
 Lanes A–D are Backlog packets within Epic 14 and conditional lane E is a
 Backlog packet within Epic 20. These records organize future work only.
+Before the first Epic 14 slice, show the maintainer the ordered map in the
+roadmap and confirm live dependencies; C01–C06 are planning IDs, not landed
+slice numbers.
 Epics 7, 9 and 10 are implemented, Codex-reviewed, documented and pushed to
 `origin/main`. Epic 11 implementation has completed the shaped collar/stand,
 placket-base, vent/drop, front/back preview/control/report and downstream
@@ -678,6 +681,24 @@ including the 8/8 protected export regression and 9/9 byte-identity checks;
 Epic 14, Epic 30 and the new lane cards. A comparison against the pre-migration
 board found all nine completed Phase records unchanged and no mismatch in the
 17 goals' status, target date or evidence count. No export baseline moved.
+
+### Slice 214 — record Epic 14 execution map and presentation gate
+
+The maintainer asked to see the order of all Epic 14 work and which tasks may
+run in parallel before implementation begins. The roadmap now has a Mermaid
+execution map plus a packet-order table for the admission gate, C01–C06,
+Lane A's shared-contract sequence, cross-lane review, remediation loop and
+Epic 14 exit. It distinguishes concurrent disjoint research from the single
+Codex-owned integration path and keeps E/G01S outside Epic 14 under Epic 20.
+
+The roadmap and project decisions require the map to be shown and live
+dependencies confirmed before the first Epic 14 slice. EPIC-14 now includes
+that pre-start acceptance criterion at board revision 167. C01–C06 remain
+stable planning packet IDs; G01 retains its 5–8-slice estimate, and unique
+landed slice numbers are reserved at execution. No implementation or other
+future-roadmap work was started. No safe independent delegation was available:
+the diagram and board gate encode one shared ordering decision. The validated
+board command advanced the revision from 166 to 167; `git diff --check` passes.
 
 ### Post-merge PR audit — 2026-09-21
 

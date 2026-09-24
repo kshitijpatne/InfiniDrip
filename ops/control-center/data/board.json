@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 166,
-  "updatedAt": "2026-09-24T06:03:47.138Z",
+  "revision": 167,
+  "updatedAt": "2026-09-24T06:43:45.948Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -2385,7 +2385,8 @@
       "acceptanceCriteria": [
         "Complete every G01 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
         "A-01–A-12 ownership, acceptance thresholds and unresolved facts recorded; professional parity matrix and scope decisions accepted.",
-        "Record reviewed code/output evidence, residual limitations, actual completion date, and downstream reforecast before Done."
+        "Record reviewed code/output evidence, residual limitations, actual completion date, and downstream reforecast before Done.",
+        "Before the first Epic 14 slice starts, show the maintainer the ordered execution and parallel-boundary diagram in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md and confirm live dependencies."
       ],
       "statusHistory": [
         {
