@@ -410,3 +410,362 @@ explicit user selection. This contract does not create or send a handoff.
 Slice 224 exits with the conceptual record/revision contract defined. It does
 not finish C04; Slice 225 still owns drawings/layout/CAD semantics and fixtures,
 and Slice 226 owns integrated challenge and final acceptance.
+
+## Slice 225 — technical views, document layout and CAD contract
+
+### What InfiniDrip has now
+
+There are three different visual/export surfaces and they must not be
+conflated:
+
+| Surface | Current state | What it can evidence |
+| --- | --- | --- |
+| **Assembled screen preview** | `src/render/garment.ts` draws front/back SVG silhouettes from `Measurements` and shared derived values, with selected garment detail formulas for Polo and woven shirt. The UI labels it “schematic, not a fit simulation.” It does not consume `Block.roles`, `Block.stitches`, full piece outlines or a cloth solver. C01's [`woven shirt`](evidence/C01/woven-shirt-assembled-reviewed.png) and [`Polo`](evidence/C01/polo-assembled-reviewed.png) captures show the current shape. | A helpful 2D design preview of the declared inputs/options. It is not the current pattern geometry, a tech-pack set, a cut file or a fit simulation. |
+| **Tech-pack first page** | `src/export/techpack.ts` lays flat pattern pieces side by side, fits the result to a page, and adds piece labels/POM leaders. Actual complex pages have overlapping labels. | A non-true-scale pattern-piece overview with the observed legibility defect. It is not an assembled-garment front/back technical-flat set. |
+| **SVG/DXF pattern output** | Flattens true-scale cut/sew geometry and marks for the pieces passed to the writer; DXF uses a minimal entity stream. | The writer's coordinate geometry and explicit line/mark entities, subject to absent DXF unit/grade/semantic interchange data. It is not a visually complete tech pack or validated apparel-CAD exchange. |
+
+This distinction is a principal technical design decision. A useful, accurate
+front/back technical flat does not require a prompt model or cloth physics. It
+does require a durable, deterministic view definition that reads the same
+approved style inputs and component rules, with a traceable relation to the
+pattern and construction graph. Merely placing cut pattern pieces beside each
+other cannot create a finished-garment flat; inferring a sewn 3D assembly from
+unpaired outlines is also not justified. C05/G09 own the later pattern-linked
+side/oblique/inside 3D view work.
+
+### View inventory and source/claim classes
+
+**Product decisions:**
+
+1. A supported style revision has distinct `FRONT_FLAT` and `BACK_FLAT`
+   technical views. They are orthographic garment-design diagrams, not
+   perspective renders. G04 owns their implementation for every supported
+   recipe/variant. A side view is included in the tech pack whenever a
+   side-specific feature cannot be fully explained in the front/back/detail
+   set; its 2D role is explicit. Pattern-linked side/oblique/inside views that
+   depend on an assembled 3D garment remain G09/D04 scope.
+2. A `DETAIL_VIEW` is required for any closure, seam, pocket, collar, placket,
+   hem/vent, label or finish that is too small/occluded to interpret in the
+   overview. A detail has a stable `detailId`, source components/edge/marks and
+   a reference back to the view/callout that introduced it.
+3. `POM_MAP` view(s) show how each production-relevant finished-garment POM is
+   measured. A callout resolves to one `pomId` and its method, garment state,
+   landmarks/path, units, size scope and tolerance status from Slice 224.
+   POMs may be distributed across front/back/side/details to stay legible. A
+   table-only POM is permitted only when its measurement method is fully
+   written and the record explicitly states that it has no diagram anchor;
+   never let a label imply a missing route.
+4. `COMPONENT_LAYOUT` is a cut-pattern overview, kept separate from technical
+   flats. It identifies every stable component/pattern-piece ID, display name,
+   size/revision, cut quantity/layers, cut-on-fold/orientation, grain/stretch
+   direction when known, seam allowance state, and every supported notch,
+   drill, dart, fold/cut/placement mark. It may be a page overview labeled
+   `NTS`; the corresponding actual cutting pattern file must state units/scale
+   and retain a calibration check. It is not a marker plan or cutter file.
+5. `CONSTRUCTION_DETAIL` maps ordered operations to component and seam IDs,
+   the selected construction method, closure/artwork/label and any known
+   critical checkpoint. Stitch/seam vocabulary is sourced where available;
+   unknown factory settings remain unresolved rather than “standard”.
+6. `COLORWAY_AND_ARTWORK` views bind each approved colorway to exact material
+   and artwork/label placements, target piece/landmark, dimensions/units,
+   transform, file digest and rights state. A render or color swatch is not a
+   material composition or Pantone/source fact unless that value has its own
+   provenance.
+7. `SAMPLE_QA` appears only for recorded sample rounds. It places predicted
+   specification and actual reading in separate columns, naming exact style
+   revision, size, material/lot, method, tolerance authority and disposition.
+   No sample does not produce a fabricated blank “fit complete” section.
+
+Each view declares its source class: `PATTERN_DERIVED`, `PARAMETRIC_TECHNICAL`,
+`USER_REFERENCE`, `SCHEMATIC`, or `3D_SIMULATION`. Every visible construction
+line/detail has source references and a status. Only actual linked geometry may
+be labeled `PATTERN_DERIVED`; a formula-driven stylized view stays
+`PARAMETRIC_TECHNICAL`/`SCHEMATIC`. A user photo or illustration is a reference,
+not the source of measured geometry. A later 3D simulation label requires G09's
+own solver/material/avatar criteria and must not be added to a flat just because
+it is rendered in perspective. All drawing generation is deterministic and
+editable; this product does not use an AI agent to author or silently revise a
+user's garment.
+
+#### Parametric technical-view implementation path
+
+The bounded implementation route for G04 is a recipe-owned, vector
+`GarmentViewDefinition`, not independent exported artwork and not a guessed
+panel assembly:
+
+```text
+approved style revision + recipe/options
+        ↓
+current deterministic draft Block (stable pieces, edges, marks, Stitch links)
+        ↓
+recipe-owned front/back parametric view definitions
+        ↓
+stable component/seam/POM/operation callout bindings
+        ↓
+page-independent view scenes + traceability report
+        ↓
+page layout / PDF / SVG with rendered-output QA
+```
+
+The existing `renderGarment` is a useful 2D starting point because it already
+reacts to the measurement-driven neckline and some option values, but its
+current output is not pattern-driven. G04 must replace or formalize those
+drawings so that the outer profile, structural lines and construction details
+are each tied to the exact revision/recipe rule and relevant `componentId`,
+`seamId`, `edgeId`, `markId` or control. Where the drawing uses a separate
+parametric equation rather than the drafted geometry, tests must compare the
+shared values/endpoints and the product must label its source class. Unsupported
+detail blocks the dependent callout/claim; the renderer must not guess a part,
+seam or physical shape.
+
+This is sufficient to produce useful technical flats without claiming cloth
+drape. A 3D view later provides additional cross-sections and occlusion checks
+under the G09 contract. Even a visually coherent digital view is not evidence
+of a sewn garment's fit, material behavior, production quality or factory
+acceptance; those require separate evidence and the held physical gate.
+
+### Callout, POM and component trace contract
+
+Each callout is a record, not just drawn text: `calloutId`, `viewId`,
+`targetRecordId`, target kind, displayed label, leader/anchor geometry, source
+revision, and page/display order. Target kinds are one of the declared
+component/piece, named edge, seam relationship, operation, POM, artwork/label,
+or unresolved fact. A generated callout must resolve to exactly one target in
+the same revision. Edits update the same ID or explicitly create a new record;
+no index-derived ID may change when list order changes.
+
+For a POM, the diagram must show its method path/landmarks rather than a generic
+line that could be interpreted another way. If a measure is across a closed or
+open garment, relaxed or stretched, full or half width, or taken at a named
+construction state, that state appears in the POM record and nearby label. One
+table row maps to one stable POM ID and one unit; the spec value, dimension line,
+and `SAMPLE_ACTUAL` record must share that ID. A tolerance disposition is
+computed only with the specified method and authority from Slice 224.
+
+The complete trace test for each supported recipe/variant is:
+
+```text
+user field / preset / cited source / unresolved item
+  → rule and rule version
+  → pattern component + named edge/seam/mark (where it applies)
+  → technical view/callout/POM/operation or explicit no-view reason
+  → table/section and exact exported page/artifact
+  → rendered and parsed evidence bound to revision digest
+```
+
+Every required pattern component appears in the component inventory or has a
+documented non-cut/optional status. Every production-relevant POM and operation
+is either mapped to a view/record or remains visibly unresolved. Deleted or
+renamed source targets cause a validation error and block the affected export;
+they never leave a dangling callout or stale spec that looks approved.
+
+### Page and print-layout rules
+
+No universal tech-pack page layout was found in the reviewed standards. The
+following are InfiniDrip product rules, informed by C01's actual collision and
+the vendor's documented per-card/page layouts and callout views, not a claim of
+an ISO/ASTM layout standard:
+
+- Default technical-pack paper is A4 portrait; the user can select another
+  supported page (including Letter). The cover/manifest names actual page size,
+  unit system, style/revision, size mode, generation rule/exporter version and
+  whether each drawing is `NTS` or true-scale. No undocumented auto-scaling.
+- Keep critical text, table values and drawing labels at least 8 pt at 100%
+  physical output; headings are at least 12 pt. These are testable InfiniDrip
+  readability floors, not a standards claim. Do not shrink text below the floor
+  to fit. Tables/diagrams reflow, paginate or use a separately selected larger
+  sheet and preserve linked IDs.
+- Keep printable content within a 10 mm safe margin. Bounds are calculated for
+  full glyph extents and line strokes, not only text start points. No clipping,
+  overlapping text boxes or missing pages. Critical target lines cannot cross
+  unrelated labels or terminate at the wrong component; leaders may touch only
+  their own target and may be routed through drawing whitespace.
+- Any overview that is not a cut-scale view is labeled `NTS`. Any output used
+  as a cutting pattern must explicitly state `1:1`, units and calibration
+  instructions and pass a known-length/square test. Do not scale a cutting file
+  to a page to avoid pagination.
+- Layout density follows content: a complex Polo/woven shirt gets additional
+  component/detail sheets rather than crowded micro-labels. Page IDs and
+  callout IDs remain stable across reflow; page number alone is not an ID.
+- The PDF must be structurally parsed, every page rendered from the actual
+  generated bytes at 300 dpi for visual QA, and a human reviewer inspects each
+  page at 100% print size. Automated checks cover page count, bounds, font floor,
+  duplicate/dangling IDs, table/view reconciliation and text collisions. The
+  rendered evidence is retained with its manifest/hash. Parsed PDF success
+  without visual inspection does not pass this gate.
+
+Techpacker's public documentation shows that component/detail cards can carry
+annotations; the official guide also describes POM tables with size values and
+tolerances, and multiple page-density settings (one card per page or denser
+layouts). It demonstrates a useful workflow pattern, not proof its documents
+are universally accepted. InfiniDrip adopts the principle that dense details
+get their own readable page, while preserving deterministic field/view links.
+
+### Output package order and page requirements
+
+This is a logical order; a section paginates when needed and is omitted only
+when the manifest explicitly says why it is absent:
+
+1. **Cover/revision summary:** style identity, recipe/version, revision/hash,
+   author/date, explicit size mode/base size/grade source, chosen colorways,
+   approval scope, units, change summary, release purpose and unresolved list.
+2. **Technical design:** front/back technical flats; needed side and detail
+   views; component/operation/POM callouts. Every drawing is classed and
+   version-bound.
+3. **Spec and size:** separate body-input record (only if its intended audience
+   needs it), finished POM method and target table, single-size/grade rule
+   source, per-size target and tolerance status. Never mix body dimensions and
+   finished-garment POM values in the same unlabeled row.
+4. **Component/pattern inventory:** piece role/ID/count/cut direction/fold,
+   grain/stretch, allowance and mark data; drawing overview is separate from
+   actual-scale pattern files.
+5. **Materials/colorway/artwork:** one BOM record per material/trim/label/
+   packaging/article with quantity basis/source/status/cost when known, plus
+   colorway and placement views; unresolved alternatives remain explicit.
+6. **Construction and quality:** ordered operations mapped to seam/component,
+   seam/stitch/finish and known equipment details, critical checks and source;
+   no “industry standard” shortcut without an exact source/method.
+7. **Sample/QA evidence:** only real sample-round records, with predicted vs
+   actual measurements, variance, issues, actions and disposition; never
+   auto-pass an empty sample section.
+8. **File/approval manifest:** exact revision, included artifact list and
+   digests, current approval references, CAD profile/version if one is proven,
+   and every omission/unresolved/blocked item. The manifest describes files;
+   only later authorized workflow may transmit them.
+
+No version of the package may call its output “factory-ready” unless all
+route-specific required fields are supported and the independent evidence
+gates are met. G01 can accept this contract while explicitly withholding a
+factory-ready claim.
+
+### CAD decision and round-trip acceptance boundary
+
+#### Current file profile (exact observed boundary)
+
+The current writer is an **entities-only DXF stream using R12-era
+`POLYLINE`/`VERTEX`/`SEQEND` and mark entity syntax**. It starts at `SECTION`,
+contains an `ENTITIES` section and ends at `EOF`; it does not declare a header
+`$ACADVER`, unit variable, tables or product metadata. Its geometry is laid out
+in the app's centimeter coordinate convention, cut/sew lines are polylines on
+`CUT`/`SEW`, Y is flipped to CAD-up, and internal marks use `MARK_*` layers.
+Piece vertices are rounded to 0.001 cm (0.01 mm); curves have already been
+flattened to polylines. The input is the exact piece set passed by the current
+single-size export flow. The DXF has no piece names/IDs, grade rules or
+size-to-size correspondence, paired-seam graph, dimensional annotations,
+marker/cutter data, material/BOM/operation record or explicit unit declaration.
+
+The code's old comment describes a “minimal R12 file” and tests assert the
+minimal section/entity shape. Because the writer emits no version header and
+has not been checked against a DXF implementation or apparel CAD receiver, the
+responsible user-facing label is “generic DXF geometry export (cm coordinate
+convention; no declared units or grade metadata)”. Do not claim full DXF R12
+conformance solely from its local structural tests, or professional apparel
+CAD, AAMA/ASTM, grade, cutter, plotter or factory compatibility.
+
+#### Target decision
+
+**No future apparel CAD profile is selected in C04.** Autodesk's public DXF
+documentation defines generic tagged drawing data and header/group-code
+semantics; it does not establish garment-pattern interchange. ASTM D6673-10
+was withdrawn in 2019 with no replacement; its former scope used DXF pattern
+piece data plus a separate grade-rule file, and it excluded product
+specifications and pattern-piece relationships. No public evidence reviewed
+here establishes a current universal apparel CAD exchange standard. Tailornova
+and other vendor exports are product features, not an available standard or
+tested InfiniDrip round trip. A receiver and external tool/license have not
+been selected or authorized; naming one now would turn a guess into a claim.
+
+The current generic DXF export remains available as-is and protected by the
+byte-identity regression. A later G04 profile must be additive and versioned.
+Before its implementation, the owner must choose a receiving CAD application
+and exact version/market workflow, document the permitted profile/format and
+third-party terms, then pass the receiver or independent-parser fixture below.
+If a format cannot carry grade, piece identity or seam relations, package those
+records in a version-matched sidecar with explicit limits rather than
+mislabeling layers. Until this exists, its profile state is
+`NOT_SELECTED_NOT_PROVEN` and no production-interchange button/claim is shown.
+
+#### Future CAD fixture and pass criteria
+
+| Fixture | Required property |
+| --- | --- |
+| Simple tee, one selected size | Closed cut/sew contours; correct piece count; curve approximation; units/orientation; no overlap from layout. |
+| Polo, nine pieces and construction marks | Collar/stand/placket pieces remain distinct; buttons/buttonholes, cut/fold/placement marks retain their documented entity/layer type; no semantic promotion based only on layer name. |
+| Woven shirt, multi-piece with yoke, pocket, collar, sleeve band and side vent | Stable IDs/roles in sidecar; piece/size count; matching seam graph in sidecar; marks not lost; no flattening into one unidentifiable outline. |
+| Multi-size/grade package | Each size output is explicitly named and revision-bound; grade-rule table and size mapping are present in the chosen format/sidecar or marked unsupported. One-size DXF is never described as a graded nest. |
+| Negative/unsupported content | Missing units, unsupported curves/marks, invalid/open outline, unresolved cut quantity/allowance, or absent grade rule causes a visible error or blocked status; never silently drops features. |
+
+For every chosen receiver/version, acceptance requires a clean import with no
+loss warning; each pattern piece remains separately selectable; cut/sew/mark
+classes, units, up-axis, scale, closed loops, notches/internal marks and
+selected size match the source contract. An independent parse/import/export
+round trip compares per-entity type/layer, piece count, bounds and coordinates
+against the original quantized geometry (per-coordinate error no greater than
+the writer's 0.001 cm serialization quantum), while retaining a screenshot or
+native application inspection of the received file. If the receiving app
+rounds or changes geometry beyond that digital acceptance threshold, adjust
+the profile or fail it; do not substitute a generic “DXF opened” check. Exact
+format/profile/version, source/license/rights decision, fixtures and parser
+version go into the evidence packet.
+
+This digital coordinate threshold is a proposed InfiniDrip compatibility
+acceptance rule tied to the present writer's output precision; it is not a
+sewing tolerance, apparel standard or physical-fit threshold. A parser-only
+pass proves parsing/round-trip semantics under that parser, not that an
+unspecified factory's CAD accepts the file.
+
+### C04 fixture and pressure-test matrix
+
+| Test layer | Fixtures/negative cases | Required result and evidence |
+| --- | --- | --- |
+| All current recipes | Tee, fitted tee, Tank, Polo, woven shirt, skirt and trouser at documented baseline inputs; actual PDF/SVG/DXF/preview files from the exact recipe revision. | Every emitted field traces to user/preset/rule/source/unresolved; all required pages/views exist; no missing callout or mistaken current claim. Rendered output for every recipe class retained. |
+| Simple output | Tee base size, no artwork, minimal components; separate selected single-size and explicitly declared legacy size-run examples. | Front/back flats are visibly distinct from actual-scale component layout; POM labels reconcile with table values; page/scale/units are stated. Legacy XS–XL output remains labeled unvalidated until grade authority exists. |
+| Difficult outputs | Polo with full collar/stand, placket, vents/buttons; woven shirt with all components, button run, yoke, pocket, sleeve bands, artwork/colorway and long labels; trouser with complex length/POM rows. | Reflow/paginate; no collision/clipping; every detail remains readable at the selected 100% print view and reaches its record. |
+| Long/dense data | Long component, material, operation and artwork names; many BOM rows/POMs/notes; two or more colorways; large image assets. | No silently truncated strings, page spill, overprinted text or unlisted asset; dynamic page count and stable reference IDs. |
+| Provenance/revision | One user measurement edit, option/seam edit, fabric/trim change, grade-rule change, artwork placement change, tolerance change, renderer change, restore of old revision. | Slice 224 dependency matrix accurately marks stale outputs/approvals; actual sample/quote (when future evidence exists) remains pinned; packet digest changes for changed exact artifact bytes/content. |
+| Missing/conflict | No source, unresolved material/quantity, absent tolerance/method, conflicting POM units, missing view target, unsupported side view, no grade authority, unlicensed artwork, wrong revision reference. | Explicit `Not specified`/`Unresolved` label and next action; dependent approval/export is blocked or documented as not applicable; no fabricated value/zero/default. |
+| Render/layout faults | Force narrow page, long leader, high component density, labels at bounds, oversized font/string, empty rows, page break near heading, missing glyph, landscape/Letter page. | Automated bounds/collision checks plus raster review; layout reflows or reports a blocking error rather than clipping or shrinking below policy. |
+| CAD | Named receiver/version only after chosen; tee + Polo + woven fixtures with curve, cut/fold, grade and internal marks. | Exact parser/app round-trip, dimensions/orientation/count/identity diff and receiving-app screenshot; no profile claim without a completed proof. |
+| Compatibility regression | Existing eight protected export fixtures including no-artwork tech-pack identity. | All legacy bytes remain identical. No baseline movement without a separately documented reason and maintainer approval; future V2 is explicit/additive. |
+
+Acceptance also requires output reproducibility for the same revision, recipe
+and renderer version; a changed template produces a new artifact digest but
+does not rewrite the style inputs, sample records or prior packet. Every
+required-but-missing output is represented in the manifest with a reason and
+owner. The complete matrix is digital only; it cannot qualify physical fit,
+sewn construction, fabric performance, colorfastness or factory approval.
+
+### Slice 225 source record and exit boundary
+
+- Rechecked `renderGarment`, the view toggle's “schematic” label, the actual
+  assembled-preview captures, `Block.roles`/`Block.stitches`, pattern-piece
+  data, current PDF first-page renders and the DXF writer. The current assembled
+  preview is not connected to pattern-piece topology; the pack first page is a
+  flattened pattern overview with observed collisions.
+- Researched Techpacker's official help on sketch/material/measurement/custom
+  cards, callouts, POM tolerances and page-density/layout choices; used only as
+  a comparator for workflow and reflow, not as an industrial standard. Sources
+  (accessed 2026-09-24): [card/view categories](https://helpcenter.techpacker.com/hc/en-us/articles/360017614474-How-to-add-cards-in-a-Techpack),
+  [sketch annotations](https://helpcenter.techpacker.com/hc/en-us/articles/360001316014-How-to-Annotate-on-a-Card-Sketch),
+  [POM/tolerance table](https://helpcenter.techpacker.com/hc/en-us/articles/360035467954-How-to-create-measurements-table),
+  and [PDF layout choices](https://helpcenter.techpacker.com/hc/en-us/articles/360013556753-How-to-edit-Tech-Pack-layout).
+- Reconciled the view ownership with the roadmap: G04 owns front/back
+  technical flats and CAD proof; pattern-linked side/oblique/inside is a G09/D04
+  output; G05 consumes the field/revision/view contracts for the living pack.
+- Rechecked the ISO 18890 measurement scope, ASTM D6193 seam/stitch scope,
+  withdrawn ASTM D6673 exchange boundary and Autodesk generic DXF semantics.
+  Primary-source references: [ISO 18890](https://www.iso.org/standard/63693.html),
+  [ASTM D6193-16(2025)](https://store.astm.org/d6193-16r25.html),
+  [withdrawn ASTM D6673-10](https://store.astm.org/d6673-10.html), and
+  Autodesk's [DXF group-code overview](https://help.autodesk.com/cloudhelp/2025/ENU/AutoCAD-DXF/files/GUID-89CB823D-614D-4D1E-8204-568EC72DF869.htm)
+  and [DXF header variables](https://help.autodesk.com/cloudhelp/2021/ENU/AutoCAD-DXF/files/GUID-A85E8E67-27CD-4C59-BE61-4DC9FADBE74A.htm).
+  No target CAD application/format was selected; no tool license, external
+  parser dependency or supplier interaction was added.
+- This slice remains documentation-only. No PDF/DXF/SVG bytes, baselines,
+  renderer or product code changed.
+
+Slice 225 closes the intended view taxonomy, implementation route, page rules,
+CAD no-go boundary and fixture matrix. It does not accept C04 by itself. Slice
+226 must run the complete criteria/source/contradiction audit, verify that the
+fixtures and implementation gates are coherent, link/hash the packet evidence
+on the canonical board, and only then activate the final G01 review.

@@ -1,17 +1,17 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 224 defines the C04 production-record and revision contract,
+_Last updated: Slice 225 defines C04 technical views, layout and CAD boundaries,
 2026-09-24._
 Current directive: C01, C02, C05 and C06 and evidence lanes B–D are Done. C03
 is Done with verified SHA-256 contract evidence; it defines the measurement,
 one-size/grade, capture and donor tiers while explicitly withholding unearned
 fit claims. C04 is In Progress; Slice 223 documented the source-verified
-current tech-pack/POM/DXF baseline and no-interoperability-claim boundary;
-Slice 224 defines the typed production-record, provenance, readiness, revision,
-approval, freeze and dependency-invalidation contract. Continue C04 through
-views/CAD and integrated acceptance before activating G01 final review. Final
-review remains Backlog behind C04 and the four accepted packets. Current board
-revision is 236.
+current tech-pack/POM/DXF baseline; Slice 224 defined the typed production
+record, provenance, readiness and immutable revision/freeze contract; Slice 225
+defined deterministic front/back technical views, page-layout rules, exact
+current DXF limitations, the no-target-CAD decision and future fixtures.
+Continue to C04 integrated review; G01 final review remains Backlog behind C04
+and the four accepted packets. Current board revision is 236.
 Detailed records and the sequence map
 are in `ops/control-center/data/board.json`,
 `docs/planning/EPIC-14-ADMISSION.md`, and
@@ -871,6 +871,22 @@ checks/derived outputs without moving old sample or supplier evidence. Stage
 readiness is separate from physical-fit and production status. C04 remains a
 documentation contract; the next slice defines complete views/page layout and
 CAD boundaries, including the receiver-dependent no-go rule.
+
+### Slice 225 — define technical views, page layout and CAD boundaries
+
+The contract now distinguishes the current measurement-formula assembled
+preview, the tech-pack's fitted cut-piece overview and true-scale pattern
+outputs. It defines front/back parametric technical flats, conditional 2D side
+and detail views, POM diagrams, cut-component layouts, operation/colorway views
+and actual-only sample records; pattern-linked side/oblique/inside views remain
+G09/D04 scope. Each callout binds to a stable record ID and source class. The
+layout contract sets print-size text/bounds/reflow checks and requires both
+parsed PDFs and visual inspection of the actual rendered pages. The current
+entities-only R12-era DXF is scoped as generic ununitized geometry; C04 selects
+no apparel CAD profile without a receiver, rights review and round-trip proof.
+Fixtures and failure cases are recorded in the C04 packet. This slice changed
+no product code or export bytes. Slice 226 is the integrated C04 criterion,
+source and contradiction audit before final G01 review activation.
 
 ### Post-merge PR audit — 2026-09-21
 
