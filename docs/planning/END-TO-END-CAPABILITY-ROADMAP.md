@@ -106,13 +106,13 @@ Epic 13 is the last completed numbered Epic and groups the nine accepted pre-gar
 
 | Lane | Control Center item | Type / status | Owning Epic | Packet scope and later destination |
 | --- | --- | --- | --- | --- |
-| A | `EPIC-14-LANE-A` | task / Backlog | EPIC-14 · G01 | C03–C04 shared measurement, pack and CAD contracts; waits on C01/C02; feeds G02 and later outputs. |
-| B | `EPIC-14-LANE-B` | research / In Progress | EPIC-14 · G01 | C01–C02 seven-recipe and professional parity evidence; informs A and the garment lane. |
+| A | `EPIC-14-LANE-A` | task / Backlog | EPIC-14 · G01 | C03–C04 shared measurement, pack and CAD contracts; starts after C01/C02/C05/C06 are accepted; feeds G02 and later outputs. |
+| B | `EPIC-14-LANE-B` | research / Done | EPIC-14 · G01 | C01–C02 seven-recipe and professional parity evidence; informs A and the garment lane. |
 | C | `EPIC-14-LANE-C` | research / In Progress | EPIC-14 · G01 | C05 3D feasibility and proof thresholds; later implementation belongs to EPIC-22 · G09. |
 | D | `EPIC-14-LANE-D` | research / In Progress | EPIC-14 · G01 | C06 starter, assortment, upcycling and supplier evidence; later work belongs to G06/G08/G10/G11. |
 | E | `EPIC-20-LANE-E` | task / Backlog | EPIC-20 · G07 | G01S casual shorts; executable only after explicit garment-direction approval and relevant C01/C03 findings. |
 
-The lanes are child work packets, not five additional Epics. The maintainer admitted C01/C02/C05/C06 on 2026-09-24; they are active in disjoint work. Lane A remains Backlog until C01/C02 are accepted. E has the stronger garment-direction gate. Board dependencies point to completed Phase 9 as the earliest entry point, while each lane retains its stronger decision and integration gates.
+The lanes are child work packets, not five additional Epics. The maintainer admitted C01/C02/C05/C06 on 2026-09-24; they are reviewed in disjoint work. Lane A remains Backlog until all four packets are accepted. E has the stronger garment-direction gate. Board dependencies point to completed Phase 9 as the earliest entry point, while each lane retains its stronger decision and integration gates.
 
 _A work lane may research ahead of its code dependency; its output cannot change the live product until the dependency and maintainer gates pass. This is the admitted first post-Phase-9 evidence allocation. These are parallel work packets, not concurrent writes to shared contracts._
 
@@ -144,14 +144,14 @@ _No entire G01–G16 epic is fully outsourced: each crosses the common design re
 | --- | --- | --- | --- | --- |
 | C01 | G01 · 2026-10-16 | Audit all seven recipes against professional baseline: measurement method, editable controls, pattern topology, seam/mark and construction map, POM, grade, flat, BOM, file formats. | Per-recipe gap matrix, sources and risk rank; no unsupported “industry compliant” claim. | Independent research packet; Codex decides. |
 | C02 | G01 · 2026-10-23 | Obtain primary standard/industry vocabulary and compare Tailornova, CLO, Browzwear, Techpacker, Genpire using live trial where possible; separate marketing from observed behavior. | Feature/format parity matrix with evidence URL, date, trial status and category applicability. | Delegable read-only research; no dependency purchases. |
-| C03 | G01 · 2026-10-30 | Resolve A-03 measurement taxonomy using ISO-informed landmark definitions; specify body vs desired finished vs garment options vs derived values. | Seven recipe input dictionaries, instructions, missing measurement policy and no silent estimates. | Codex domain decision; independent draft research allowed. |
-| C04 | G01 · 2026-11-06 | Resolve A-04/A-05 technical-pack and CAD route, section schema, optional vs required fields, DXF compatibility targets and tests. | Accepted technical design and CAD import/export test fixtures; old R12 path retained. | Codex owns interfaces; expert/research review disjoint. |
-| C05 | G01 · 2026-11-13 | Resolve A-07/A-08 3D admission: mesh rights, anthropometric fitting, pattern rest mesh, seam map, material test protocol, objective numeric and visual metrics, performance devices. | Evidence dossier and go/no-go test thresholds before app code. A no-go creates remediation scope, not feature closure. | Research can run alongside C01–C04; Codex acceptance. |
+| C03 | G01 · 2026-10-30 | Starts after C01/C02/C05/C06 are accepted; resolve A-03 measurement taxonomy using ISO-informed landmark definitions; specify body vs desired finished vs garment options vs derived values and donor-capture semantics. | Seven recipe input dictionaries, capture instructions, required/recommended/missing-value policies, measurement provenance and no silent estimates. | Codex domain decision; consume accepted evidence, then work serially. |
+| C04 | G01 · 2026-11-06 | Starts only after C03 is accepted; resolve A-04/A-05 technical-pack, semantic panel/seam/view and CAD route, section schema, optional vs required fields and compatibility targets/tests. | Accepted technical design, source/provenance and revision rules, output/view contract and CAD import/export test fixtures; old R12 path retained. | Codex owns interfaces; expert/research review disjoint. |
+| C05 | G01 · 2026-11-13 | Resolve A-07/A-08 3D admission: mesh rights, anthropometric fitting, pattern rest mesh, seam map, material test protocol, objective numeric and visual metrics, performance devices. | Evidence dossier and go/no-go test thresholds before app code. A no-go creates remediation scope, not feature closure. | Research may overlap C01/C02/C06; accept before C03/C04; Codex owns gate. |
 | C06 | G01 · 2026-11-13 | Resolve A-09/A-10/A-11/A-12: starter rubric, assortment source/expiry fields, photo confidence levels, supplier evidence. | Decision ledger; unresolved external facts remain explicit user/supplier inputs. | Independent research lanes; shared schema decision serialized. |
 
 ### Epic 14 execution order and parallel boundaries
 
-The sequence diagram was shown and its live dependencies were confirmed before the first Epic 14 slice on 2026-09-24. Epic 14 is admitted for C01, C02, C05, and C06; this wave must finish and pass review before stopping. The diagram remains the execution map for stable packet IDs and does not reserve landed slice numbers. G01's 5–8-slice estimate is a conditional forecast and will be re-estimated from actual work. Codex reserves each unique `Slice N` at execution, integrates one change at a time, and keeps shared contracts and the Epic exit in one review path. Read-only research and asset/proof evidence may proceed in parallel only with disjoint ownership.
+The sequence diagram was shown and its live dependencies were confirmed before the first Epic 14 slice on 2026-09-24. Epic 14 is admitted for C01, C02, C05, and C06; all four must finish and pass review before stopping this wave. The maintainer directed durable, individual C03, C04, and G01 final-review records, executed serially in that order without another start prompt. C03 waits for all four accepted packets; C04 waits for C03; final review waits for C04 and all four packet exits. The diagram remains the execution map for stable packet IDs and does not reserve landed slice numbers. G01's 5–8-slice estimate is a conditional forecast and will be re-estimated from actual work. Codex reserves each unique `Slice N` at execution, integrates one change at a time, and keeps shared contracts and the Epic exit in one review path. Read-only research and asset/proof evidence may proceed in parallel only with disjoint ownership.
 
 ```mermaid
 flowchart TD
@@ -178,15 +178,16 @@ flowchart TD
   end
 
   subgraph LANE_A[Lane A · Codex-owned shared contracts]
-    M3[C03 · body-measurement taxonomy<br/>target 2026-10-30]
+    M3[C03 · body-measurement and donor-capture taxonomy<br/>target 2026-10-30]
     T4[C04 · tech-pack and CAD route<br/>target 2026-11-06]
     M3 --> T4
   end
 
-  B1 --> M3
-  B2 --> M3
-  B1 --> T4
-  B2 --> T4
+  B1 --> WAVE{C01, C02, C05 and C06 accepted?}
+  B2 --> WAVE
+  C5 --> WAVE
+  D6 --> WAVE
+  WAVE -->|Yes| M3
 
   B1 --> REVIEW[Codex checks C01-C06 evidence and resolves A-01–A-12 ownership, thresholds and unknowns]
   B2 --> REVIEW
@@ -203,14 +204,15 @@ flowchart TD
 | Order | Work packet | Dependency and overlap | Owner / integration rule |
 | ---: | --- | --- | --- |
 | 0 | Admission and slice reservation | Phase 9 is complete, but future roadmap work remains held until explicit instruction. | Codex confirms the gate, checks current history and assigns actual slice numbers only when work starts. |
-| 1 | C01 + C02 (Lane B) | Independent evidence collection can overlap. Their accepted findings feed C03/C04; avoid duplicate recipe or vendor audits. | Bounded research may be delegated read-only; Codex verifies evidence and rendered examples. |
-| 1 | C05 (Lane C) | Research can overlap C01–C04. Its feasibility thresholds must be accepted before any later G09/EPIC-22 3D implementation. | Research/assets can be disjoint deliverables; Codex owns go/no-go and product claims. |
-| 1 | C06 (Lane D) | Research can overlap the other lanes. Shared schema decisions wait for Lane A; supplier outreach and paid sources remain held. | Independent evidence gathering; Codex reconciles decisions. |
-| 2 | C03 (Lane A) | Starts from recipe needs in C01 and uses C02 vocabulary/standards evidence; defines body measures separately from finished POMs and style options. | Codex owns the accepted dictionary and missing-value policy. |
-| 3 | C04 (Lane A) | Uses C01/C02 gaps and C03 taxonomy to set tech-pack sections and CAD compatibility tests. | Codex owns shared interfaces; expert review can run separately. |
-| 4 | G01 integration and exit | Combine accepted C01–C06 evidence; resolve or assign each A-01–A-12 fact, run remediation if needed, and record the exit evidence. | One Codex integration/review lane; only then can G02 be considered. |
+| 1 | C01 + C02 (Lane B) | Independent evidence collection can overlap; cross-check the seven recipes against standards and professional tools. | Codex verifies sources and observed outputs; both exits must be accepted. |
+| 1 | C05 (Lane C) | Independent 3D feasibility evidence may overlap the evidence wave, but shared contracts wait for acceptance. Its thresholds are admission inputs for later G09/EPIC-22 work. | Codex owns go/no-go, rights and product claims. |
+| 1 | C06 (Lane D) | Independent starter, assortment, upcycling and supplier evidence may overlap the evidence wave. Shared schema and user capture rules wait for Lane A; outreach and paid sources remain held. | Codex reconciles decisions and source age. |
+| Gate | Accept all four packets | C01/C02/C05/C06 each need reviewed, hash-verified evidence and Done status before Lane A starts. | No skipping, implicit acceptance, or concurrency with C03. |
+| 2 | C03 (Lane A) | Starts only after the four-packet gate; uses recipe, standards, avatar and photo/upcycling evidence to define body, garment, control and donor-measurement semantics. | Codex owns the accepted dictionary, exact capture dependency rules and missing-value policy. |
+| 3 | C04 (Lane A) | Starts only after C03; uses C01/C02 gaps, C03 taxonomy and C05/C06 panel/RFQ evidence to define tech-pack sections, provenance, views and CAD compatibility. | Codex owns shared interfaces; expert review can run separately. |
+| 4 | G01 final review and exit | After C04, combine all accepted evidence; resolve or assign each A-01–A-12 fact, perform required digital remediation, and record the exit evidence. | One Codex integration/review lane; only then can G02 be considered. |
 
-The visual's parallel branches represent separate packets, not multiple agents editing the same shared files. The maintainer admitted C01/C02/C05/C06 for evidence work on 2026-09-24; C03/C04, any garment implementation, and the G01 integration remain queued behind their stated gates. Lane A's shared-contract work is serialized. Every landed change still receives a unique slice number and a Codex-reviewed integration. Admission of these four evidence packets does not imply concurrent writes or authorize the other queued work.
+The visual's parallel branches represent separate packets, not multiple agents editing the same shared files. The maintainer admitted C01/C02/C05/C06 for evidence work on 2026-09-24 and later directed C03 → C04 → G01 final review after those four exits, without a separate start prompt. Lane A's shared-contract work is serialized. Every landed change still receives a unique slice number and a Codex-reviewed integration. Admission does not authorize garment implementation, physical sampling, supplier contact or paid services.
 | F01 | G02 · 2026-12-11 | Local project/style entities, stable IDs, export/import/backup and migration from `SaveFile`; preserve artwork IDs. | Multiple styles survive reload and recovery; malformed data rejects visibly; old files migrate. | Codex persistence owner; UI mockups parallel only. |
 | F02 | G02 · 2027-01-15 | Source-aware field model and dependency graph: measured/chosen/calculated/inherited/supplier/unresolved; value history and affected-output invalidation. | A changed field marks exact dependent artifacts stale, not unrelated fields. | Codex shared-model owner. |
 | F03 | G02 · 2027-02-12 | Promote Edit to durable final edits only through recipe-owned constraints, size semantics, conflict handling, undo and re-draft/export propagation; immutable revision snapshots and hashes. | Edit once and compare 2D pattern, POM, grade, nest, flat, pack, save/reload and frozen revision. | Codex core; high-review gate. |

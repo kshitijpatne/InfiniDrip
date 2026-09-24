@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 201,
-  "updatedAt": "2026-09-24T08:18:37.563Z",
+  "revision": 210,
+  "updatedAt": "2026-09-24T08:41:53.463Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -123,7 +123,7 @@
       "title": "EPIC-14: G01 — Admission and professional baseline",
       "status": "In Progress",
       "owner": "Codex",
-      "description": "Admitted 2026-09-24 for C01, C02, C05, and C06 parallel evidence packets. C03/C04 remain queued until C01/C02 are accepted. Full sequence and exit gates: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md and docs/planning/EPIC-14-ADMISSION.md. No new garment, user-facing AI designer, spend, supplier contact, hosted service, physical sampling, or production-readiness claim is admitted.",
+      "description": "Admitted 2026-09-24 for C01, C02, C05, and C06 parallel evidence packets. After all four are accepted, create and execute C03, C04, and G01 final review serially in that order. Full sequence and exit gates: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md and docs/planning/EPIC-14-ADMISSION.md. No new garment, user-facing AI designer, spend, supplier contact, hosted service, physical sampling, or production-readiness claim is admitted.",
       "evidenceRefs": [
         "E-EPIC14-ADMISSION"
       ]
@@ -2382,7 +2382,7 @@
         "100% coverage",
         "maintainer gates"
       ],
-      "description": "Active G01 admission and professional baseline. Four immediate parallel research packets are active: EPIC-14-C01, EPIC-14-C02, EPIC-14-C05, and EPIC-14-C06. C03/C04 wait for accepted C01/C02 evidence. Scope, sources, and gates: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md and docs/planning/EPIC-14-ADMISSION.md.",
+      "description": "Active G01 admission and professional baseline. Four immediate parallel research packets are C01, C02, C05, and C06. After their individual exits are accepted, C03, C04, and G01 final review are executed serially in that order. C03 consumes all four packets; C04 depends on C03; final review depends on C04 and all packet exits. Scope, sources, and gates: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md and docs/planning/EPIC-14-ADMISSION.md.",
       "expectation": "A-01–A-12 ownership, acceptance thresholds and unresolved facts recorded; professional parity matrix and scope decisions accepted.",
       "acceptanceCriteria": [
         "Complete every G01 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
@@ -2431,6 +2431,11 @@
           "at": "2026-09-24T07:04:00.798Z",
           "actor": "Codex",
           "text": "Updated Epic metadata (description: Admitted 2026-09-24 for C01, C02, C05, and C06 parallel evidence packets. C03/C04 remain queued until C01/C02 are accepted. Full sequence and exit gates: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md and docs/planning/EPIC-14-ADMISSION.md. No new garment, user-facing AI designer, spend, supplier contact, hosted service, physical sampling, or production-readiness claim is admitted.). Replace the future-only description with the admitted 2026-09-24 packet scope."
+        },
+        {
+          "at": "2026-09-24T08:39:38.156Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: Admitted 2026-09-24 for C01, C02, C05, and C06 parallel evidence packets. After all four are accepted, create and execute C03, C04, and G01 final review serially in that order. Full sequence and exit gates: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md and docs/planning/EPIC-14-ADMISSION.md. No new garment, user-facing AI designer, spend, supplier contact, hosted service, physical sampling, or production-readiness claim is admitted.). Update the durable G01 continuation gate per the 2026-09-24 maintainer instruction."
         }
       ],
       "evidenceRefs": [
@@ -3294,7 +3299,9 @@
       "dependencies": [
         "PREQUEUE-PHASE-09",
         "EPIC-14-C01",
-        "EPIC-14-C02"
+        "EPIC-14-C02",
+        "EPIC-14-C05",
+        "EPIC-14-C06"
       ],
       "protectedSurfaces": [
         "local-first product",
@@ -3302,12 +3309,13 @@
         "100% coverage",
         "maintainer gates"
       ],
-      "description": "Codex owns the shared measurement/control dictionary and cross-output pack/CAD contracts in C03–C04. Incorporate verified C01 findings. Source packet: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md.",
+      "description": "Codex owns the shared measurement/control dictionary and cross-output pack/CAD contracts in C03–C04. Starts after C01/C02/C05/C06 are accepted, then C03 and C04 run serially. Source packet: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md.",
       "expectation": "Accepted body/garment/control dictionary and cross-output schema, with unresolved facts and downstream owners explicit.",
       "acceptanceCriteria": [
-        "C03 and C04 source/proposal/decision records are complete and reviewed against C01 findings.",
+        "C03 and C04 source/proposal/decision records are complete and reviewed against accepted C01, C02, C05 and C06 evidence.",
+        "C03 starts only after all four packets are Done; C04 starts only after C03 is accepted; G01 final review follows C04 and all four evidence exits.",
         "Shared schema and acceptance thresholds are recorded before G02/F02 integration; no feature code or supplier claim is implied.",
-        "C03/C04 remain queued until C01/C02 are accepted; they are outside the admitted parallel evidence wave."
+        "C03/C04 are individually tracked child work items; the combined lane does not authorize concurrent implementation."
       ],
       "statusHistory": [
         {
@@ -3329,10 +3337,10 @@
       "title": "Lane B — recipe and professional parity evidence (C01–C02)",
       "epicId": "EPIC-14",
       "releaseId": null,
-      "status": "In Progress",
+      "status": "Done",
       "openedAt": "2026-09-24",
       "targetAt": "2026-11-13",
-      "deliveredAt": null,
+      "deliveredAt": "2026-09-24",
       "priority": "P0",
       "risk": "medium",
       "owner": "Codex",
@@ -3378,10 +3386,32 @@
           "role": "contributor",
           "note": "Begin the admitted parallel evidence packet(s); preserve no-supplier-contact, no-spend, no-physical-sampling, and no-user-facing-AI boundaries.",
           "evidenceRefs": []
+        },
+        {
+          "status": "Review",
+          "at": "2026-09-24T08:34:55.995Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "Both lane packets C01 and C02 now have individually accepted evidence; submit the combined read-only recipe/parity lane for review.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "Done",
+          "at": "2026-09-24T08:34:56.316Z",
+          "actor": "Codex",
+          "role": "reviewer",
+          "note": "Accepted the C01/C02 lane against its evidence matrix; no physical validation, code change or conformance claim is inferred.",
+          "evidenceRefs": [
+            "E-EPIC14-C01-BASELINE",
+            "E-EPIC14-C02-PARITY"
+          ]
         }
       ],
       "comments": [],
-      "evidenceRefs": [],
+      "evidenceRefs": [
+        "E-EPIC14-C01-BASELINE",
+        "E-EPIC14-C02-PARITY"
+      ],
       "flagKey": null
     },
     {
@@ -3641,10 +3671,10 @@
       "title": "C02 — Standards and professional-tool comparison",
       "epicId": "EPIC-14",
       "releaseId": null,
-      "status": "In Progress",
+      "status": "Done",
       "openedAt": "2026-09-24",
       "targetAt": "2026-10-23",
-      "deliveredAt": null,
+      "deliveredAt": "2026-09-24",
       "priority": "P0",
       "risk": "medium",
       "owner": "Codex",
@@ -3693,10 +3723,28 @@
           "role": "contributor",
           "note": "Begin the admitted parallel evidence packet(s); preserve no-supplier-contact, no-spend, no-physical-sampling, and no-user-facing-AI boundaries.",
           "evidenceRefs": []
+        },
+        {
+          "status": "Review",
+          "at": "2026-09-24T08:34:55.359Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "C02 dossier is complete; primary source links and material scope/price conflicts were rechecked and the review snapshot is pinned by SHA-256 evidence.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "Done",
+          "at": "2026-09-24T08:34:55.654Z",
+          "actor": "Codex",
+          "role": "reviewer",
+          "note": "Accepted the standards and professional-tool comparison against its packet criteria and the C01 baseline; limitations and all unverified trial/physical claims remain explicit.",
+          "evidenceRefs": []
         }
       ],
       "comments": [],
-      "evidenceRefs": [],
+      "evidenceRefs": [
+        "E-EPIC14-C02-PARITY"
+      ],
       "flagKey": null
     },
     {
@@ -4261,6 +4309,15 @@
       "sha256": "caa459a8b6ed7de30b466c69f824d36437419bb2d67b680564412572200c20ea",
       "verified": true,
       "note": "C01 report hash refreshed after replacing Markdown hard-break whitespace with equivalent HTML breaks; report findings are unchanged."
+    },
+    {
+      "id": "E-EPIC14-C02-PARITY",
+      "kind": "document",
+      "uri": "docs/research/epic14/C02-STANDARDS-AND-TOOL-COMPARISON.md",
+      "commit": null,
+      "sha256": "3089595f713e8670bea83546d6d9e043f06fbc7ff9159c41baddaee3fa594278",
+      "verified": true,
+      "note": "Refresh accepted C02 dossier hash after replacing Markdown hard-break whitespace; content remains the reviewed source and parity record."
     }
   ]
 }

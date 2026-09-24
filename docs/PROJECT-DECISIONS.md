@@ -839,3 +839,17 @@ data collection still require their own explicit gate.
   construction.
 - Record observations, source dates, confidence, and unresolved external facts
   separately. Target dates are forecasts, not quality or approval shortcuts.
+
+## EPIC-14 continuation order — directed 2026-09-24
+
+- Finish and review C01, C02, C05, and C06 as the admitted parallel evidence
+  wave; do not stop at C01. C01 and C02 are now accepted; C05 and C06 remain
+  open until their own board evidence gates pass.
+- After all four exits, create separate durable board work items for C03, C04,
+  and G01 final review, then run them in the strict order C03 → C04 → final
+  review. C03 consumes C01/C02/C05/C06; C04 depends on C03; final review
+  depends on C04 and all four evidence exits. Continue until G01 is closed and
+  merged, without requiring another maintainer reminder.
+- This sequence authorizes the admitted G01 research/contracts and exit work
+  only. It does not reopen physical sampling, supplier contact, paid sources,
+  hosted services, or downstream garment implementation.

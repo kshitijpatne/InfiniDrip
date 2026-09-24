@@ -66,17 +66,21 @@ test("admitted Epic 14 and its active research lanes match the future backlog", 
     assert.match(card.title, new RegExp(`^${id}: ${goal}`));
     assert.equal(card.dependencies.includes(`CAPABILITY-${goal}`), false);
   }
+  const expectedLaneStatus = { A: "Backlog", B: "Done", C: "In Progress", D: "In Progress" };
   for (const letter of ["A", "B", "C", "D"]) {
     const lane = board.workItems.find((entry) => entry.id === `EPIC-14-LANE-${letter}`);
     assert.equal(lane?.epicId, "EPIC-14");
-    assert.equal(lane?.status, letter === "A" ? "Backlog" : "In Progress");
+    assert.equal(lane?.status, expectedLaneStatus[letter]);
   }
   for (const id of ["EPIC-14-C01", "EPIC-14-C02", "EPIC-14-C05", "EPIC-14-C06"]) {
     const packet = board.workItems.find((entry) => entry.id === id);
     assert.equal(packet?.epicId, "EPIC-14");
-    assert.equal(packet?.status, "In Progress");
+    assert.equal(packet?.status, ["EPIC-14-C01", "EPIC-14-C02"].includes(id) ? "Done" : "In Progress");
     assert.ok(packet.acceptanceCriteria.length >= 5);
   }
+  const laneB = board.workItems.find((entry) => entry.id === "EPIC-14-LANE-B");
+  assert.ok(laneB.evidenceRefs.includes("E-EPIC14-C01-BASELINE"));
+  assert.ok(laneB.evidenceRefs.includes("E-EPIC14-C02-PARITY"));
   const shorts = board.workItems.find((entry) => entry.id === "EPIC-20-LANE-E");
   assert.equal(shorts?.epicId, "EPIC-20");
   assert.equal(shorts?.status, "Backlog");

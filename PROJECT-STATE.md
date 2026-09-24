@@ -1,19 +1,22 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 216 accepts C01 of Epic 14's immediate evidence wave,
+_Last updated: Slice 217 accepts C02 of Epic 14's immediate evidence wave,
 2026-09-24._
-Current directive: C01 is reviewed and Done at Control Center revision 200.
-Complete and review the remaining parallel packets C02, C05, and C06 before
-stopping this work wave. Their detailed board records and the sequence map are
-in `ops/control-center/data/board.json` and
+Current directive: C01 and C02 are reviewed and Done; C05 and C06 remain in the
+admitted parallel evidence wave. Complete all four packet exits before creating
+the ordered C03, C04, and G01 final-review board records. After that gate, work
+them serially in that order without another start prompt. C03 consumes C01,
+C02, C05, and C06; C04 depends on C03; final review depends on all four packets
+and C04. Current board revision is 210. Detailed records and the sequence map
+are in `ops/control-center/data/board.json`,
+`docs/planning/EPIC-14-ADMISSION.md`, and
 `docs/planning/END-TO-END-CAPABILITY-ROADMAP.md`.
-The four active packets are research and read-only product audits. C03/C04
-remain queued behind C01/C02; do not start them in this wave. No new garment
-recipe, user-facing AI designer, paid source, supplier contact, physical sample,
-hosted feature, or production-readiness claim is admitted. Lane E remains held.
-The sequence diagram was shown and live dependencies were confirmed before
-Slice 215. C01–C06 are stable packet IDs, not landed slice numbers. Target dates
-remain conditional forecasts and must be rechecked at each packet exit.
+No new garment recipe, user-facing AI designer, paid source, supplier contact,
+physical sample, hosted feature, or production-readiness claim is admitted.
+Lane E remains held. The sequence diagram was shown and live dependencies were
+confirmed before Slice 215. C01–C06 are stable packet IDs, not landed slice
+numbers. Target dates remain conditional forecasts and must be rechecked at
+each packet exit.
 Epics 7, 9 and 10 are implemented, Codex-reviewed, documented and pushed to
 `origin/main`. Epic 11 implementation has completed the shaped collar/stand,
 placket-base, vent/drop, front/back preview/control/report and downstream

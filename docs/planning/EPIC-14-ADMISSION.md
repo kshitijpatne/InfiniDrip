@@ -15,7 +15,7 @@ and acceptance criteria are recorded as `EPIC-14-C01`, `EPIC-14-C02`,
 | Packet | Status at current review | Evidence outcome | Conditional target |
 | --- | --- | --- | --- |
 | C01 | **Done — reviewed and accepted 2026-09-24 (Slice 216)** | Seven-recipe professional baseline and risk-ranked gap matrix, grounded in repository behavior and inspected outputs; actual PDFs/renders and SHA-256 inventory retained | 2026-10-16 |
-| C02 | In Progress | Source-dated standard/tool comparison, separating primary documentation, marketing, public user reports and observed trials | 2026-10-23 |
+| C02 | **Done — reviewed and accepted 2026-09-24 (Slice 217)** | Source-dated standard/tool comparison, separating primary documentation, marketing, public user reports and observed trials; cross-checked against C01’s accepted baseline | 2026-10-23 |
 | C05 | In Progress | Measurement-driven avatar and pattern-linked 3D feasibility dossier with rights, validation and performance gates | 2026-11-13 |
 | C06 | In Progress | Starter rubric and uncertainty/provenance ledgers for assortment, reference/upcycling and supplier evidence | 2026-11-13 |
 
@@ -28,11 +28,15 @@ are reconciled after all four packet exits.
 
 - C01, C02, C05, and C06 may proceed in parallel because they collect distinct
   evidence and do not own shared product contracts.
-- C03/C04 remain queued until C01/C02 are accepted. They are outside this
-  wave; shared measurement and technical-pack/CAD decisions are not made here.
-- The Epic 14 integration/exit and any remediation are also outside this
-  bounded wave. The maintainer will receive the four reviewed packet outcomes
-  before any next work is started.
+- C03/C04 remain queued until **all four** packets are accepted. They are
+  outside this evidence wave; shared measurement and technical-pack/CAD
+  decisions are not made here.
+- After all four packet exits, create individual child records for C03, C04,
+  and G01 final review, then execute them serially in that order without
+  another start prompt. C03 consumes the four accepted packets; C04 depends on
+  C03; final review depends on C04 and every accepted packet. Resolve or assign
+  all A-01–A-12 facts, perform any required digital remediation, and close G01
+  only after its exit criteria pass.
 
 ## Preserved boundaries
 
@@ -48,6 +52,9 @@ are reconciled after all four packet exits.
   workflow, physical sampling, or factory-readiness claim is authorized.
 - Unknown external supplier, price, MOQ, license, and performance facts remain
   visibly unresolved and source-dated.
+- The maintainer’s 2026-09-24 continuation instruction authorizes the ordered
+  C03 → C04 → G01 final-review work after the four-packet wave. Physical
+  sampling and downstream garment code remain held.
 
 ## Entry evidence
 

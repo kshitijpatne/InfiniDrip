@@ -60,9 +60,10 @@ link command; the UI keeps the reserved option unavailable for ordinary item
 edits.
 
 G01–G17 have numbered Epic 14–30 records and matching work cards. Epic 14 is
-admitted for its C01/C02/C05/C06 evidence wave; those four child packets and
-lanes B–D are In Progress, while shared-contract lane A and the remaining
-future Epics stay in Backlog. Lane E under Epic 20 remains held
+admitted for its C01/C02/C05/C06 evidence wave; C03, C04 and final review remain
+queued until all four packet exits are accepted, then run in that order. Lane A
+and the remaining future Epics stay in Backlog until the four-packet gate.
+Lane E under Epic 20 remains held
 for explicit garment-direction approval. Their ownership, scope and gates are
 recorded in the end-to-end capability roadmap. Backlog registration alone is
 not work admission.
