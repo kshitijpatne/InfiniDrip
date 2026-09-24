@@ -1,10 +1,11 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 215 admits Epic 14's immediate parallel evidence wave,
+_Last updated: Slice 216 accepts C01 of Epic 14's immediate evidence wave,
 2026-09-24._
-Current directive: Epic 14 is admitted. Complete and review C01, C02, C05, and
-C06 before stopping this work wave; do not stop at C01. Their detailed board
-records and the sequence map are in `ops/control-center/data/board.json` and
+Current directive: C01 is reviewed and Done at Control Center revision 200.
+Complete and review the remaining parallel packets C02, C05, and C06 before
+stopping this work wave. Their detailed board records and the sequence map are
+in `ops/control-center/data/board.json` and
 `docs/planning/END-TO-END-CAPABILITY-ROADMAP.md`.
 The four active packets are research and read-only product audits. C03/C04
 remain queued behind C01/C02; do not start them in this wave. No new garment
@@ -724,6 +725,31 @@ integration/exit are outside this work wave. Slice 215 verification: focused
 Control Center tests pass (33/33); full product gates are recorded at the
 appropriate packet or code-change boundary. The G01 execution estimate remains
 subject to reforecast after actual evidence review.
+
+### Slice 216 — accept C01 seven-recipe professional baseline
+
+The seven existing recipes were traced through their source contracts and
+rendered/exported in the local app using default `STANDARD_M` data. The report
+records per-recipe fields, options, piece/POM/check counts, grade behavior,
+actual pack/layout gaps, downstream owners, and the boundary between digital
+checks and physical evidence. Seven real tech-pack PDFs, seven assembled-view
+captures, two focused complex-page renders, and a 16-file SHA-256 manifest are
+stored under `docs/research/epic14/evidence/C01/`. The Polo and Woven-shirt
+page-one captures demonstrate overlapping labels; the report also records
+static BOM quantities, absent revision-frozen/sample records, and untested
+apparel-CAD round-trip. No garment code was changed.
+
+The report's repository links and every relative Markdown link across the four
+research dossiers were checked. All 16 evidence hashes match the manifest.
+Cross-review against C02 separates standards scope from fit claims and keeps
+vendor marketing distinct from observed InfiniDrip output. The verified C01
+document evidence is attached to `EPIC-14-C01`; the board records the required
+In Progress → Review → Done transition at revision 200. Control Center tests
+pass 33/33. The full coverage/build gate was previously run against the
+unchanged product code: 101 files and 100% statements, branches, functions and
+lines; export byte-identity regressions passed. The research exit does not
+approve remediation code, a new garment, CAD compatibility, physical fit,
+supplier handoff, or production readiness. C02, C05, and C06 remain In Progress.
 
 ### Post-merge PR audit — 2026-09-21
 

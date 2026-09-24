@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "captureDate": "2026-09-24",
+  "observedRepositoryRevision": "4a21b11",
+  "application": "InfiniDrip local browser application",
+  "workflow": "Garment > Measure > Style > Check > Export",
+  "inputs": "Built-in STANDARD_M body; default style and options; selected size M",
+  "evidenceBoundary": "Digital UI and exported files only; no physical fit, factory acceptance, or production readiness is established.",
+  "files": [
+    {
+      "file": "darted-tee-assembled-reviewed.png",
+      "bytes": 80328,
+      "sha256": "fadb5ceda4a4cde1b6f3f5d1d5dd37e225feb46183945e54e4e8e9604f96ba59"
+    },
+    {
+      "file": "darted-tee-techpack.pdf",
+      "bytes": 12731,
+      "sha256": "8e89320bfa235c44ebb481b01012a43c7c1614ce27608ccbb49df31369bca8d2"
+    },
+    {
+      "file": "polo-assembled-reviewed.png",
+      "bytes": 85037,
+      "sha256": "c89f853774481ea1e5ed53d6d71fe321885475254d717a708a1904ae5a13107f"
+    },
+    {
+      "file": "polo-techpack-page-1.png",
+      "bytes": 31705,
+      "sha256": "5afd085a5e0b053ab6d040a0695afd1b76d52033914a3205580a9a1493f1827c"
+    },
+    {
+      "file": "polo-techpack.pdf",
+      "bytes": 23525,
+      "sha256": "0889a10a177ac25ddadfd4c4273befedef10a416adb427dc293296a74c77935d"
+    },
+    {
+      "file": "skirt-assembled-reviewed.png",
+      "bytes": 69869,
+      "sha256": "92723cc71981a07dde5093d49333d27841a51d79dbb403751fca4a6b7df710ce"
+    },
+    {
+      "file": "skirt-techpack.pdf",
+      "bytes": 6392,
+      "sha256": "5250ad30e34476d5567be0dea53e212f1a6e6202fea1c6d7dbc1cf329ba3db28"
+    },
+    {
+      "file": "tank-assembled-reviewed.png",
+      "bytes": 76656,
+      "sha256": "28b60aebba1da36d2d454776965b1b46329c817dff88d45bea50e263ccf1b42c"
+    },
+    {
+      "file": "tank-techpack.pdf",
+      "bytes": 9864,
+      "sha256": "e9f53d95ba2cb745091cea54408b81507d573640a03e9924302c5baf90280e24"
+    },
+    {
+      "file": "tee-assembled-reviewed.png",
+      "bytes": 79887,
+      "sha256": "d3b5d658d2e83b7ace497ab54501b50cf6d04f0e13e6d853a7d7f2bd6cbcab8a"
+    },
+    {
+      "file": "tee-techpack.pdf",
+      "bytes": 12308,
+      "sha256": "6691a28a6cae0baccfe271887c6d4d00a968867fe0628a8e1d1eacd2b8b047d1"
+    },
+    {
+      "file": "trouser-assembled-reviewed.png",
+      "bytes": 91749,
+      "sha256": "bd18224ea1908bf0f4cbff660de75aaa459e3b77ad433983d2d597ac04912146"
+    },
+    {
+      "file": "trouser-techpack.pdf",
+      "bytes": 17812,
+      "sha256": "d822f5beec47bbb74d9923def1b1f64aea152006cdf09082f248b5b3a23242c6"
+    },
+    {
+      "file": "woven-shirt-assembled-reviewed.png",
+      "bytes": 96412,
+      "sha256": "a311fbe9bdac2922ce90be2b803322617e1114ab8053dce8c00ac68cb63c6f16"
+    },
+    {
+      "file": "woven-shirt-techpack-page-1.png",
+      "bytes": 29727,
+      "sha256": "ff48802e682f4f2ba4b794698bd3a6dd215d79bbb87c5251f3724eaa877120ce"
+    },
+    {
+      "file": "woven-shirt-techpack.pdf",
+      "bytes": 14464,
+      "sha256": "b88eda984356d161bb22129dc11ef8b65f73959e2cc0bb355ee337dc640c37bd"
+    }
+  ]
+}

@@ -1,0 +1,2 @@
+# Preserve generated inspection evidence byte-for-byte; PDF xref padding is valid.
+docs/research/epic14/evidence/C01/*.pdf binary

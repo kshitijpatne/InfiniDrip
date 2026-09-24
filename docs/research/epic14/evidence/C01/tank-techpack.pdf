@@ -1,0 +1,215 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [4 0 R 6 0 R 8 0 R 10 0 R ] /Count 4 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Contents 5 0 R /Resources << /Font << /F1 3 0 R >> >> >>
+endobj
+5 0 obj
+<< /Length 2066 >>
+stream
+BT /F1 13 Tf 42.52 771.024 Td (Tank - Tech Pack) Tj ET
+0 0 0 RG 0.6 w
+204.431 652.929 m 209.334 653.455 l 214.07 654.991 l 218.609 657.481 l 222.919 660.865 l 226.968 665.084 l 230.724 670.081 l 234.157 675.796 l 237.235 682.171 l 239.925 689.148 l 242.197 696.667 l 244.019 704.671 l 245.36 713.101 l 246.187 721.897 l 246.47 731.002 l 294.515 706.98 l 293.582 700.108 l 293.946 692.447 l 295.524 684.131 l 298.236 675.288 l 301.997 666.052 l 306.727 656.554 l 312.344 646.924 l 318.765 637.294 l 325.908 627.795 l 333.691 618.559 l 342.033 609.717 l 350.85 601.4 l 360.062 593.74 l 369.585 586.868 l 369.585 310.61 l 204.431 310.61 l h S
+BT /F1 8 Tf 204.431 293.602 Td (FRONT) Tj ET
+381.596 715.988 m 386.499 716.089 l 391.236 716.385 l 395.775 716.864 l 400.084 717.514 l 404.133 718.326 l 407.89 719.287 l 411.323 720.386 l 414.4 721.612 l 417.091 722.953 l 419.363 724.399 l 421.185 725.939 l 422.525 727.56 l 423.353 729.251 l 423.635 731.002 l 471.68 706.98 l 470.747 700.108 l 471.111 692.447 l 472.69 684.131 l 475.401 675.288 l 479.163 666.052 l 483.893 656.554 l 489.509 646.924 l 495.93 637.294 l 503.073 627.795 l 510.857 618.559 l 519.198 609.717 l 528.016 601.4 l 537.227 593.74 l 546.75 586.868 l 546.75 310.61 l 381.596 310.61 l h S
+BT /F1 8 Tf 381.596 293.602 Td (BACK) Tj ET
+0.4 0.4 0.4 RG 0.4 w 189.921 621.26 m 369.585 586.868 l S
+0 0 0 rg 369.585 586.868 5.669 5.669 re f
+BT /F1 7 Tf 42.52 625.512 Td (Body chest \(finished\)) Tj ET
+0.4 0.4 0.4 RG 0.4 w 189.921 505.512 m 369.585 310.61 l S
+0 0 0 rg 369.585 310.61 5.669 5.669 re f
+BT /F1 7 Tf 42.52 509.764 Td (Body length \(HPS-hem\)) Tj ET
+0.4 0.4 0.4 RG 0.4 w 189.921 389.764 m 294.515 706.98 l S
+0 0 0 rg 294.515 706.98 5.669 5.669 re f
+BT /F1 7 Tf 42.52 394.016 Td (Across shoulder) Tj ET
+0.4 0.4 0.4 RG 0.4 w 189.921 274.016 m 246.47 731.002 l S
+0 0 0 rg 246.47 731.002 5.669 5.669 re f
+BT /F1 7 Tf 42.52 278.268 Td (Neck width) Tj ET
+0.4 0.4 0.4 RG 0.4 w 189.921 158.268 m 204.431 652.929 l S
+0 0 0 rg 204.431 652.929 5.669 5.669 re f
+BT /F1 7 Tf 42.52 162.52 Td (Front neck drop) Tj ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Contents 7 0 R /Resources << /Font << /F1 3 0 R >> >> >>
+endobj
+7 0 obj
+<< /Length 2564 >>
+stream
+BT /F1 13 Tf 42.52 771.024 Td (Measurement Spec \(cm\)) Tj ET
+BT /F1 9 Tf 255.118 731.339 Td (Tol +/-) Tj ET
+BT /F1 9 Tf 311.811 731.339 Td (XS) Tj ET
+BT /F1 9 Tf 360 731.339 Td (S) Tj ET
+BT /F1 9 Tf 408.189 731.339 Td (M) Tj ET
+BT /F1 9 Tf 456.378 731.339 Td (L) Tj ET
+BT /F1 9 Tf 504.567 731.339 Td (XL) Tj ET
+0 0 0 RG 0.4 w 42.52 717.165 m 552.756 717.165 l S
+BT /F1 9 Tf 42.52 700.157 Td (Body chest \(finished\)) Tj ET
+BT /F1 9 Tf 255.118 700.157 Td (1.3) Tj ET
+BT /F1 9 Tf 311.811 700.157 Td (100.0) Tj ET
+BT /F1 9 Tf 360 700.157 Td (105.0) Tj ET
+BT /F1 9 Tf 408.189 700.157 Td (110.0) Tj ET
+BT /F1 9 Tf 456.378 700.157 Td (115.0) Tj ET
+BT /F1 9 Tf 504.567 700.157 Td (120.0) Tj ET
+BT /F1 9 Tf 42.52 682.583 Td (Body length \(HPS-hem\)) Tj ET
+BT /F1 9 Tf 255.118 682.583 Td (1.3) Tj ET
+BT /F1 9 Tf 311.811 682.583 Td (66.0) Tj ET
+BT /F1 9 Tf 360 682.583 Td (68.0) Tj ET
+BT /F1 9 Tf 408.189 682.583 Td (70.0) Tj ET
+BT /F1 9 Tf 456.378 682.583 Td (72.0) Tj ET
+BT /F1 9 Tf 504.567 682.583 Td (74.0) Tj ET
+BT /F1 9 Tf 42.52 665.008 Td (Across shoulder) Tj ET
+BT /F1 9 Tf 255.118 665.008 Td (0.6) Tj ET
+BT /F1 9 Tf 311.811 665.008 Td (29.0) Tj ET
+BT /F1 9 Tf 360 665.008 Td (29.5) Tj ET
+BT /F1 9 Tf 408.189 665.008 Td (30.0) Tj ET
+BT /F1 9 Tf 456.378 665.008 Td (30.5) Tj ET
+BT /F1 9 Tf 504.567 665.008 Td (31.0) Tj ET
+BT /F1 9 Tf 42.52 647.433 Td (Shoulder seam) Tj ET
+BT /F1 9 Tf 255.118 647.433 Td (0.3) Tj ET
+BT /F1 9 Tf 311.811 647.433 Td (8.9) Tj ET
+BT /F1 9 Tf 360 647.433 Td (8.9) Tj ET
+BT /F1 9 Tf 408.189 647.433 Td (8.9) Tj ET
+BT /F1 9 Tf 456.378 647.433 Td (8.9) Tj ET
+BT /F1 9 Tf 504.567 647.433 Td (8.9) Tj ET
+BT /F1 9 Tf 42.52 629.858 Td (Armhole \(front + back\)) Tj ET
+BT /F1 9 Tf 255.118 629.858 Td (0.6) Tj ET
+BT /F1 9 Tf 311.811 629.858 Td (44.7) Tj ET
+BT /F1 9 Tf 360 629.858 Td (46.9) Tj ET
+BT /F1 9 Tf 408.189 629.858 Td (49.2) Tj ET
+BT /F1 9 Tf 456.378 629.858 Td (51.4) Tj ET
+BT /F1 9 Tf 504.567 629.858 Td (53.7) Tj ET
+BT /F1 9 Tf 42.52 612.283 Td (Neck width) Tj ET
+BT /F1 9 Tf 255.118 612.283 Td (0.6) Tj ET
+BT /F1 9 Tf 311.811 612.283 Td (13.0) Tj ET
+BT /F1 9 Tf 360 612.283 Td (13.5) Tj ET
+BT /F1 9 Tf 408.189 612.283 Td (14.0) Tj ET
+BT /F1 9 Tf 456.378 612.283 Td (14.5) Tj ET
+BT /F1 9 Tf 504.567 612.283 Td (15.0) Tj ET
+BT /F1 9 Tf 42.52 594.709 Td (Front neck drop) Tj ET
+BT /F1 9 Tf 255.118 594.709 Td (0.3) Tj ET
+BT /F1 9 Tf 311.811 594.709 Td (12.5) Tj ET
+BT /F1 9 Tf 360 594.709 Td (12.8) Tj ET
+BT /F1 9 Tf 408.189 594.709 Td (13.0) Tj ET
+BT /F1 9 Tf 456.378 594.709 Td (13.3) Tj ET
+BT /F1 9 Tf 504.567 594.709 Td (13.5) Tj ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Contents 9 0 R /Resources << /Font << /F1 3 0 R >> >> >>
+endobj
+9 0 obj
+<< /Length 1421 >>
+stream
+BT /F1 13 Tf 42.52 771.024 Td (Bill of Materials) Tj ET
+BT /F1 9 Tf 42.52 731.339 Td (Material) Tj ET
+BT /F1 9 Tf 226.772 731.339 Td (Placement) Tj ET
+BT /F1 9 Tf 481.89 731.339 Td (Qty) Tj ET
+0 0 0 RG 0.4 w 42.52 717.165 m 552.756 717.165 l S
+BT /F1 9 Tf 42.52 700.157 Td (Cotton jersey, main) Tj ET
+BT /F1 9 Tf 226.772 700.157 Td (Body & sleeves) Tj ET
+BT /F1 9 Tf 481.89 700.157 Td (1.2 m) Tj ET
+BT /F1 9 Tf 42.52 682.583 Td (Rib knit) Tj ET
+BT /F1 9 Tf 226.772 682.583 Td (Neckband) Tj ET
+BT /F1 9 Tf 481.89 682.583 Td (0.1 m) Tj ET
+BT /F1 9 Tf 42.52 665.008 Td (Woven brand label) Tj ET
+BT /F1 9 Tf 226.772 665.008 Td (Centre back neck) Tj ET
+BT /F1 9 Tf 481.89 665.008 Td (1) Tj ET
+BT /F1 9 Tf 42.52 647.433 Td (Care/content label) Tj ET
+BT /F1 9 Tf 226.772 647.433 Td (Left side seam) Tj ET
+BT /F1 9 Tf 481.89 647.433 Td (1) Tj ET
+BT /F1 9 Tf 42.52 629.858 Td (Overlock thread) Tj ET
+BT /F1 9 Tf 226.772 629.858 Td (All seams) Tj ET
+BT /F1 9 Tf 481.89 629.858 Td (1 cone) Tj ET
+BT /F1 13 Tf 42.52 572.598 Td (Construction) Tj ET
+BT /F1 9 Tf 42.52 538.583 Td (1. Staystitch the front and back necklines.) Tj ET
+BT /F1 9 Tf 42.52 521.008 Td (2. Join the shoulder seams, front to back.) Tj ET
+BT /F1 9 Tf 42.52 503.433 Td (3. Bind the neckline and both armholes with self-fabric or rib binding.) Tj ET
+BT /F1 9 Tf 42.52 485.858 Td (4. Close the side seams.) Tj ET
+BT /F1 9 Tf 42.52 468.283 Td (5. Hem the body.) Tj ET
+endstream
+endobj
+10 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Contents 11 0 R /Resources << /Font << /F1 3 0 R >> >> >>
+endobj
+11 0 obj
+<< /Length 2561 >>
+stream
+BT /F1 13 Tf 42.52 771.024 Td (Tank - Fit Record) Tj ET
+BT /F1 8 Tf 42.52 745.512 Td (Sew the sample size, measure the finished garment, write the actual value in cm.) Tj ET
+BT /F1 9 Tf 42.52 714.331 Td (Fabric:) Tj ET
+0 0 0 RG 0.4 w 87.874 718.583 m 201.26 718.583 l S
+BT /F1 9 Tf 212.598 714.331 Td (Sewn by:) Tj ET
+0 0 0 RG 0.4 w 266.457 718.583 m 371.339 718.583 l S
+BT /F1 9 Tf 382.677 714.331 Td (Date:) Tj ET
+0 0 0 RG 0.4 w 419.528 718.583 m 541.417 718.583 l S
+0 0 0 RG 0.4 w 42.52 685.984 m 552.756 685.984 l S
+BT /F1 9 Tf 42.52 668.976 Td (Point of measure) Tj ET
+BT /F1 9 Tf 255.118 668.976 Td (Tol +/-) Tj ET
+BT /F1 9 Tf 311.811 668.976 Td (Predicted) Tj ET
+BT /F1 9 Tf 379.843 668.976 Td (Actual) Tj ET
+BT /F1 9 Tf 487.559 668.976 Td (Pass?) Tj ET
+0 0 0 RG 0.4 w 42.52 654.803 m 552.756 654.803 l S
+BT /F1 9 Tf 42.52 636.378 Td (Body chest \(finished\)) Tj ET
+BT /F1 9 Tf 255.118 636.378 Td (1.3) Tj ET
+BT /F1 9 Tf 311.811 636.378 Td (110.0 cm) Tj ET
+0 0 0 RG 0.4 w 379.843 640.63 m 470.551 640.63 l S
+0 0 0 RG 0.4 w 487.559 640.63 m 532.913 640.63 l S
+BT /F1 9 Tf 42.52 616.535 Td (Body length \(HPS-hem\)) Tj ET
+BT /F1 9 Tf 255.118 616.535 Td (1.3) Tj ET
+BT /F1 9 Tf 311.811 616.535 Td (70.0 cm) Tj ET
+0 0 0 RG 0.4 w 379.843 620.787 m 470.551 620.787 l S
+0 0 0 RG 0.4 w 487.559 620.787 m 532.913 620.787 l S
+BT /F1 9 Tf 42.52 596.693 Td (Across shoulder) Tj ET
+BT /F1 9 Tf 255.118 596.693 Td (0.6) Tj ET
+BT /F1 9 Tf 311.811 596.693 Td (30.0 cm) Tj ET
+0 0 0 RG 0.4 w 379.843 600.945 m 470.551 600.945 l S
+0 0 0 RG 0.4 w 487.559 600.945 m 532.913 600.945 l S
+BT /F1 9 Tf 42.52 576.85 Td (Shoulder seam) Tj ET
+BT /F1 9 Tf 255.118 576.85 Td (0.3) Tj ET
+BT /F1 9 Tf 311.811 576.85 Td (8.9 cm) Tj ET
+0 0 0 RG 0.4 w 379.843 581.102 m 470.551 581.102 l S
+0 0 0 RG 0.4 w 487.559 581.102 m 532.913 581.102 l S
+BT /F1 9 Tf 42.52 557.008 Td (Armhole \(front + back\)) Tj ET
+BT /F1 9 Tf 255.118 557.008 Td (0.6) Tj ET
+BT /F1 9 Tf 311.811 557.008 Td (49.2 cm) Tj ET
+0 0 0 RG 0.4 w 379.843 561.26 m 470.551 561.26 l S
+0 0 0 RG 0.4 w 487.559 561.26 m 532.913 561.26 l S
+BT /F1 9 Tf 42.52 537.165 Td (Neck width) Tj ET
+BT /F1 9 Tf 255.118 537.165 Td (0.6) Tj ET
+BT /F1 9 Tf 311.811 537.165 Td (14.0 cm) Tj ET
+0 0 0 RG 0.4 w 379.843 541.417 m 470.551 541.417 l S
+0 0 0 RG 0.4 w 487.559 541.417 m 532.913 541.417 l S
+BT /F1 9 Tf 42.52 517.323 Td (Front neck drop) Tj ET
+BT /F1 9 Tf 255.118 517.323 Td (0.3) Tj ET
+BT /F1 9 Tf 311.811 517.323 Td (13.0 cm) Tj ET
+0 0 0 RG 0.4 w 379.843 521.575 m 470.551 521.575 l S
+0 0 0 RG 0.4 w 487.559 521.575 m 532.913 521.575 l S
+endstream
+endobj
+xref
+0 12
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000135 00000 n 
+0000000232 00000 n 
+0000000358 00000 n 
+0000002476 00000 n 
+0000002602 00000 n 
+0000005218 00000 n 
+0000005344 00000 n 
+0000006817 00000 n 
+0000006945 00000 n 
+trailer
+<< /Size 12 /Root 1 0 R >>
+startxref
+9559
+%%EOF

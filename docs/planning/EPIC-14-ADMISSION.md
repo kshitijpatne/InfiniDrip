@@ -12,12 +12,12 @@ stop condition. Their canonical status, target dates, owners, dependencies,
 and acceptance criteria are recorded as `EPIC-14-C01`, `EPIC-14-C02`,
 `EPIC-14-C05`, and `EPIC-14-C06` in `ops/control-center/data/board.json`.
 
-| Packet | Evidence outcome | Conditional target |
-| --- | --- | --- |
-| C01 | Seven-recipe professional baseline and risk-ranked gap matrix, grounded in repository behavior and inspected outputs | 2026-10-16 |
-| C02 | Source-dated standard/tool comparison, separating primary documentation, marketing, public user reports and observed trials | 2026-10-23 |
-| C05 | Measurement-driven avatar and pattern-linked 3D feasibility dossier with rights, validation and performance gates | 2026-11-13 |
-| C06 | Starter rubric and uncertainty/provenance ledgers for assortment, reference/upcycling and supplier evidence | 2026-11-13 |
+| Packet | Status at current review | Evidence outcome | Conditional target |
+| --- | --- | --- | --- |
+| C01 | **Done — reviewed and accepted 2026-09-24 (Slice 216)** | Seven-recipe professional baseline and risk-ranked gap matrix, grounded in repository behavior and inspected outputs; actual PDFs/renders and SHA-256 inventory retained | 2026-10-16 |
+| C02 | In Progress | Source-dated standard/tool comparison, separating primary documentation, marketing, public user reports and observed trials | 2026-10-23 |
+| C05 | In Progress | Measurement-driven avatar and pattern-linked 3D feasibility dossier with rights, validation and performance gates | 2026-11-13 |
+| C06 | In Progress | Starter rubric and uncertainty/provenance ledgers for assortment, reference/upcycling and supplier evidence | 2026-11-13 |
 
 Targets are planning forecasts, not commitments or substitutes for review.
 Each packet gets an individual durable research artifact, source record,
