@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 241,
-  "updatedAt": "2026-09-24T11:06:20.208Z",
+  "revision": 251,
+  "updatedAt": "2026-09-24T12:25:21.704Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -121,11 +121,12 @@
     {
       "id": "EPIC-14",
       "title": "EPIC-14: G01 — Admission and professional baseline",
-      "status": "In Progress",
+      "status": "Closed",
       "owner": "Codex",
       "description": "Active G01 admission and professional baseline. C01/C02/C05/C06 parallel evidence is accepted. Separate child records EPIC-14-C03, EPIC-14-C04, and EPIC-14-G01-FINAL-REVIEW are queued in dependency order; C03 is active, C04 waits on C03, final review waits on all four packets and C04. See docs/planning/END-TO-END-CAPABILITY-ROADMAP.md and docs/planning/EPIC-14-ADMISSION.md. No new garment, user-facing AI designer, spend, supplier contact, hosted service, physical sampling, or production-readiness claim is admitted.",
       "evidenceRefs": [
-        "E-EPIC14-ADMISSION"
+        "E-EPIC14-ADMISSION",
+        "E-EPIC14-G01-EXIT-S228"
       ]
     },
     {
@@ -2364,10 +2365,10 @@
       "title": "EPIC-14: G01 — Admission and professional baseline",
       "epicId": "EPIC-14",
       "releaseId": null,
-      "status": "In Progress",
+      "status": "Done",
       "openedAt": "2026-09-23",
       "targetAt": "2026-11-13",
-      "deliveredAt": null,
+      "deliveredAt": "2026-09-24",
       "priority": "P0",
       "risk": "medium",
       "owner": "Codex",
@@ -2414,6 +2415,25 @@
           "role": "contributor",
           "note": "Begin the admitted parallel evidence packet(s); preserve no-supplier-contact, no-spend, no-physical-sampling, and no-user-facing-AI boundaries.",
           "evidenceRefs": []
+        },
+        {
+          "status": "Review",
+          "at": "2026-09-24T12:20:07.725Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "All G01 children are complete; final ledger, output manifest and exit evidence are ready for Epic closure.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "Done",
+          "at": "2026-09-24T12:20:07.973Z",
+          "actor": "Codex",
+          "role": "reviewer",
+          "note": "G01 exit report and verified output manifest are linked; all EPIC-14 children have verified evidence.",
+          "evidenceRefs": [
+            "E-EPIC14-G01-EXIT-S228",
+            "E-EPIC14-G01-OUTPUT-S227"
+          ]
         }
       ],
       "comments": [
@@ -2444,7 +2464,9 @@
         }
       ],
       "evidenceRefs": [
-        "E-EPIC14-ADMISSION"
+        "E-EPIC14-ADMISSION",
+        "E-EPIC14-G01-EXIT-S228",
+        "E-EPIC14-G01-OUTPUT-S227"
       ],
       "flagKey": null
     },
@@ -3292,10 +3314,10 @@
       "title": "Lane A — measurement, tech-pack and CAD contracts (C03–C04)",
       "epicId": "EPIC-14",
       "releaseId": null,
-      "status": "In Progress",
+      "status": "Done",
       "openedAt": "2026-09-24",
       "targetAt": "2026-11-13",
-      "deliveredAt": null,
+      "deliveredAt": "2026-09-24",
       "priority": "P0",
       "risk": "high",
       "owner": "Codex",
@@ -3346,10 +3368,32 @@
           "role": "contributor",
           "note": "The C03/C04 child records are queued and the lane is active; only C03 is started, while C04 and final review remain behind explicit dependencies.",
           "evidenceRefs": []
+        },
+        {
+          "status": "Review",
+          "at": "2026-09-24T12:20:07.381Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "C03 and C04 contracts are accepted and the integrated G01 exit evidence is complete.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "Done",
+          "at": "2026-09-24T12:20:07.548Z",
+          "actor": "Codex",
+          "role": "reviewer",
+          "note": "Shared-contract lane is complete with verified final G01 exit and output replay evidence.",
+          "evidenceRefs": [
+            "E-EPIC14-G01-EXIT-S228",
+            "E-EPIC14-G01-OUTPUT-S227"
+          ]
         }
       ],
       "comments": [],
-      "evidenceRefs": [],
+      "evidenceRefs": [
+        "E-EPIC14-G01-EXIT-S228",
+        "E-EPIC14-G01-OUTPUT-S227"
+      ],
       "flagKey": null
     },
     {
@@ -4162,10 +4206,10 @@
       "title": "G01 final review — integration, remediation, and exit",
       "epicId": "EPIC-14",
       "releaseId": null,
-      "status": "In Progress",
+      "status": "Done",
       "openedAt": "2026-09-24",
       "targetAt": "2026-11-13",
-      "deliveredAt": null,
+      "deliveredAt": "2026-09-24",
       "priority": "P0",
       "risk": "high",
       "owner": "Codex",
@@ -4223,11 +4267,32 @@
           "role": "contributor",
           "note": "Start final G01 review: reconcile A-01–A-12, replay actual outputs, remediate confirmed digital defects in distinct slices, run full gates, and prepare a verified exit report.",
           "evidenceRefs": []
+        },
+        {
+          "status": "Review",
+          "at": "2026-09-24T12:20:07.044Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "The A-01–A-12 ledger, representative output replay, S227 remediation and full exit gates are complete for independent review.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "Done",
+          "at": "2026-09-24T12:20:07.211Z",
+          "actor": "Codex",
+          "role": "reviewer",
+          "note": "Final G01 exit report and source-pinned output manifest are verified; all acceptance criteria pass with future limitations explicitly owned.",
+          "evidenceRefs": [
+            "E-EPIC14-G01-EXIT-S228",
+            "E-EPIC14-G01-OUTPUT-S227"
+          ]
         }
       ],
       "comments": [],
       "evidenceRefs": [
-        "E-EPIC14-C04-S226"
+        "E-EPIC14-C04-S226",
+        "E-EPIC14-G01-EXIT-S228",
+        "E-EPIC14-G01-OUTPUT-S227"
       ],
       "flagKey": null
     }
@@ -4718,6 +4783,24 @@
       "sha256": "c1544630718be540069fbc5f106eb56652722be82216dbb3887581ee84bebe02",
       "verified": true,
       "note": "Slice 226 reconciles all six C04 acceptance criteria, clarifies exact DXF mark serialization, records A-04/A-05/A-06 ownership and residual proof gates, and accepts the contract/evidence scope only. SHA-256 verifies this packet snapshot; it does not certify implementation, factory acceptance, CAD interoperability, physical fit, or production readiness."
+    },
+    {
+      "id": "E-EPIC14-G01-EXIT-S228",
+      "kind": "exit-report",
+      "uri": "docs/research/epic14/G01-FINAL-REVIEW-EXIT.md",
+      "commit": null,
+      "sha256": "288116029526715dd1ffc3149a34de9385e8441230bec28527f838dc94915e5e",
+      "verified": true,
+      "note": "Re-hashed the final G01 exit report after removing Markdown trailing whitespace; verified bytes match the report linked to the closed Epic."
+    },
+    {
+      "id": "E-EPIC14-G01-OUTPUT-S227",
+      "kind": "document",
+      "uri": "docs/research/epic14/evidence/G01/techpack-v2/MANIFEST.json",
+      "commit": null,
+      "sha256": "45db0b7da471d65bf4fe765f4d6e06f287dcb506d540b4d248366b5f147544b4",
+      "verified": true,
+      "note": "SHA-256 manifest for the seven S227 readable draft-pack PDFs and all 33 page renders; source-pinned to the S227 implementation commit."
     }
   ]
 }

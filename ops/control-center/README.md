@@ -59,15 +59,15 @@ or editing. Its reviewed membership is applied only by the maintainer batch
 link command; the UI keeps the reserved option unavailable for ordinary item
 edits.
 
-G01–G17 have numbered Epic 14–30 records and matching work cards. Epic 14's
-C01/C02/C05/C06 evidence wave is accepted. C03 and C04 are Done with verified
-contract evidence. Lane A is In Progress on the G01 final review, which owns
-cross-packet reconciliation, actual-output replay and any distinct digital
-remediation. EPIC-14 closes only after its verified exit report and every
-linked item is Done. Lane E under Epic 20 remains held for explicit
-garment-direction approval. Ownership, scope and gates are recorded in the
-end-to-end capability roadmap. Backlog registration alone is not work
-admission.
+G01–G17 have numbered Epic 14–30 records and matching work cards. EPIC-14/G01
+is Closed after the accepted C01/C02/C05/C06 evidence wave, C03/C04 contracts,
+Slice 227 digital readability remediation, and the verified final exit report.
+Every linked work item is Done with verified evidence. The report records the
+A-01–A-12 downstream gates and explicitly does not claim fit, factory
+readiness, CAD interoperability, 3D simulation, or a live supplier marketplace.
+EPIC-15/G02 and later goals remain Backlog; Lane E under Epic 20 remains held
+for explicit garment-direction approval. Backlog registration alone is not
+work admission.
 
 ## Historical import rule
 

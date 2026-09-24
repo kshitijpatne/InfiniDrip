@@ -100,9 +100,12 @@ snapshots; they are not current status.
   supplier evidence, and C03 measurement/donor contract. C04's accepted
   technical-pack/CAD contract is at
   `C04-TECHPACK-VIEW-REVISION-CAD-CONTRACT.md`; Slice 226 records its criteria
-  reconciliation, no-target-CAD decision and downstream proof gates. G01 final
-  review is now active and owns the cross-packet audit, actual-output replay and
-  any distinct remediation. Read the accepted packets before implementation;
+  reconciliation, no-target-CAD decision and downstream proof gates. The
+  completed `G01-FINAL-REVIEW-EXIT.md` records the A-01–A-12 dispositions,
+  actual draft-pack replay, Slice 227 fix, full gate results, downstream owners
+  and limits. `evidence/G01/techpack-v2/` holds seven generated PDFs, all 33
+  raster pages, a layout audit, and SHA-256 manifest. EPIC-14/G01 is closed;
+  read this report and the accepted packets before starting any later Epic.
   `PROJECT-STATE.md` and the canonical board record current status.
 - `docs/planning/COMPONENT-ARCHITECTURE.md` — design rationale and migration plan.
   Use `PROJECT-STATE.md` for which phases are actually complete.

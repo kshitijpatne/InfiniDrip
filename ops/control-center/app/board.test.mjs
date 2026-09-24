@@ -64,20 +64,22 @@ test("admitted Epic 14 and its active research lanes match the future backlog", 
     const goal = `G${String(index).padStart(2, "0")}`;
     const epic = board.epics.find((entry) => entry.id === id);
     const card = board.workItems.find((entry) => entry.id === id);
-    const expectedStatus = id === "EPIC-14" ? "In Progress" : "Backlog";
-    assert.equal(epic?.status, expectedStatus);
-    assert.equal(card?.status, expectedStatus);
+    const expectedEpicStatus = id === "EPIC-14" ? "Closed" : "Backlog";
+    const expectedCardStatus = id === "EPIC-14" ? "Done" : "Backlog";
+    assert.equal(epic?.status, expectedEpicStatus);
+    assert.equal(card?.status, expectedCardStatus);
     assert.equal(card?.type, "epic");
     assert.equal(card?.epicId, id);
     assert.match(card.title, new RegExp(`^${id}: ${goal}`));
     assert.equal(card.dependencies.includes(`CAPABILITY-${goal}`), false);
   }
-  const expectedLaneStatus = { A: "In Progress", B: "Done", C: "Done", D: "Done" };
+  const expectedLaneStatus = { A: "Done", B: "Done", C: "Done", D: "Done" };
   for (const letter of ["A", "B", "C", "D"]) {
     const lane = board.workItems.find((entry) => entry.id === `EPIC-14-LANE-${letter}`);
     assert.equal(lane?.epicId, "EPIC-14");
     assert.equal(lane?.status, expectedLaneStatus[letter]);
   }
+  const laneA = board.workItems.find((entry) => entry.id === "EPIC-14-LANE-A");
   for (const id of ["EPIC-14-C01", "EPIC-14-C02", "EPIC-14-C05", "EPIC-14-C06"]) {
     const packet = board.workItems.find((entry) => entry.id === id);
     assert.equal(packet?.epicId, "EPIC-14");
@@ -96,7 +98,7 @@ test("admitted Epic 14 and its active research lanes match the future backlog", 
   const finalReview = board.workItems.find((entry) => entry.id === "EPIC-14-G01-FINAL-REVIEW");
   assert.equal(c03?.status, "Done");
   assert.equal(c04?.status, "Done");
-  assert.equal(finalReview?.status, "In Progress");
+  assert.equal(finalReview?.status, "Done");
   assert.deepEqual(c03?.dependencies, ["PREQUEUE-PHASE-09", "EPIC-14-C01", "EPIC-14-C02", "EPIC-14-C05", "EPIC-14-C06"]);
   assert.deepEqual(c04?.dependencies, ["PREQUEUE-PHASE-09", "EPIC-14-C03"]);
   assert.deepEqual(finalReview?.dependencies, ["PREQUEUE-PHASE-09", "EPIC-14-C01", "EPIC-14-C02", "EPIC-14-C05", "EPIC-14-C06", "EPIC-14-C03", "EPIC-14-C04"]);
@@ -114,6 +116,31 @@ test("admitted Epic 14 and its active research lanes match the future backlog", 
   assert.match(c04Evidence?.sha256 ?? "", /^[a-f\d]{64}$/);
   const c04Document = readFileSync(resolve(projectRoot, c04Evidence.uri));
   assert.equal(createHash("sha256").update(c04Document).digest("hex"), c04Evidence.sha256);
+  const finalEvidence = board.evidence.find((entry) => entry.id === "E-EPIC14-G01-EXIT-S228");
+  const outputEvidence = board.evidence.find((entry) => entry.id === "E-EPIC14-G01-OUTPUT-S227");
+  assert.ok(finalReview?.evidenceRefs.includes(finalEvidence?.id));
+  assert.ok(laneA.evidenceRefs.includes(finalEvidence?.id));
+  assert.ok(board.workItems.find((entry) => entry.id === "EPIC-14")?.evidenceRefs.includes(finalEvidence?.id));
+  assert.ok(board.epics.find((entry) => entry.id === "EPIC-14")?.evidenceRefs.includes(finalEvidence?.id));
+  assert.equal(finalEvidence?.verified, true);
+  assert.equal(finalEvidence?.kind, "exit-report");
+  assert.match(finalEvidence?.sha256 ?? "", /^[a-f\d]{64}$/);
+  const exitDocument = readFileSync(resolve(projectRoot, finalEvidence.uri));
+  assert.equal(createHash("sha256").update(exitDocument).digest("hex"), finalEvidence.sha256);
+  assert.ok(finalReview?.evidenceRefs.includes(outputEvidence?.id));
+  assert.equal(outputEvidence?.verified, true);
+  assert.equal(outputEvidence?.kind, "document");
+  assert.match(outputEvidence?.sha256 ?? "", /^[a-f\d]{64}$/);
+  const outputManifest = readFileSync(resolve(projectRoot, outputEvidence.uri));
+  assert.equal(createHash("sha256").update(outputManifest).digest("hex"), outputEvidence.sha256);
+  assert.equal(board.epics.find((entry) => entry.id === "EPIC-14")?.status, "Closed");
+  assert.equal(board.epics.find((entry) => entry.id === "EPIC-15")?.status, "Backlog");
+  const epic14Items = board.workItems.filter((entry) => entry.epicId === "EPIC-14");
+  assert.ok(epic14Items.length > 1);
+  for (const item of epic14Items) {
+    assert.equal(item.status, "Done", `${item.id} must be Done before EPIC-14 closes`);
+    assert.ok(item.evidenceRefs.some((ref) => board.evidence.some((evidence) => evidence.id === ref && evidence.verified && evidence.kind !== "incomplete")), `${item.id} needs verified evidence`);
+  }
   const shorts = board.workItems.find((entry) => entry.id === "EPIC-20-LANE-E");
   assert.equal(shorts?.epicId, "EPIC-20");
   assert.equal(shorts?.status, "Backlog");

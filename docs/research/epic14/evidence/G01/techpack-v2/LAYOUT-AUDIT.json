@@ -1,0 +1,112 @@
+{
+  "method": "Poppler pdftotext -bbox-layout; parse XHTML page and word boxes, check every word against page bounds and all same-page word-box intersections greater than 0.2 pt in both axes.",
+  "pageCount": 33,
+  "wordCount": 2953,
+  "outOfBoundsWords": 0,
+  "overlappingWordBoxes": 0,
+  "pdfs": [
+    {
+      "file": "tee.pdf",
+      "pages": 4,
+      "words": 317,
+      "pageWordCounts": [
+        41,
+        97,
+        92,
+        87
+      ],
+      "sha256": "73e1f80e0cf31b61d72360254490eb69aaa7e43825824fe384acfa59135051b8",
+      "outOfBoundsWords": 0,
+      "overlappingWordBoxes": 0
+    },
+    {
+      "file": "darted-tee.pdf",
+      "pages": 4,
+      "words": 347,
+      "pageWordCounts": [
+        43,
+        107,
+        102,
+        95
+      ],
+      "sha256": "ac76adc25b4d3ae8ce6e734923058c0acb074427d7a6bbabeb67acb47942c259",
+      "outOfBoundsWords": 0,
+      "overlappingWordBoxes": 0
+    },
+    {
+      "file": "tank.pdf",
+      "pages": 4,
+      "words": 254,
+      "pageWordCounts": [
+        38,
+        71,
+        75,
+        70
+      ],
+      "sha256": "961e7d95937c6e83beef23fc4d92602571b7cb7d752ebff4b3a1bcf48a597768",
+      "outOfBoundsWords": 0,
+      "overlappingWordBoxes": 0
+    },
+    {
+      "file": "polo.pdf",
+      "pages": 6,
+      "words": 691,
+      "pageWordCounts": [
+        45,
+        51,
+        37,
+        199,
+        203,
+        156
+      ],
+      "sha256": "8a4378d430b959e1cf498274f8c0e4026930e07bda230234870f3dfa23983814",
+      "outOfBoundsWords": 0,
+      "overlappingWordBoxes": 0
+    },
+    {
+      "file": "woven-shirt.pdf",
+      "pages": 6,
+      "words": 552,
+      "pageWordCounts": [
+        52,
+        55,
+        54,
+        101,
+        198,
+        92
+      ],
+      "sha256": "eac01148412047817074180ae1d7e44ec1bb05167de53923e93c15c38038dfad",
+      "outOfBoundsWords": 0,
+      "overlappingWordBoxes": 0
+    },
+    {
+      "file": "skirt.pdf",
+      "pages": 4,
+      "words": 204,
+      "pageWordCounts": [
+        41,
+        34,
+        84,
+        45
+      ],
+      "sha256": "777958d68e0d6c932f05706c51724efaccb636d19e577eaf91e1082125ea92e8",
+      "outOfBoundsWords": 0,
+      "overlappingWordBoxes": 0
+    },
+    {
+      "file": "trouser.pdf",
+      "pages": 5,
+      "words": 588,
+      "pageWordCounts": [
+        52,
+        53,
+        173,
+        168,
+        142
+      ],
+      "sha256": "2b5944b6aba6999a08bb0533b6fea26eced35aecc813fc9cda7ab2a46575da6b",
+      "outOfBoundsWords": 0,
+      "overlappingWordBoxes": 0
+    }
+  ]
+}

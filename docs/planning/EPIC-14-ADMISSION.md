@@ -28,16 +28,17 @@ are reconciled after all four packet exits.
 
 - C01, C02, C05, and C06 may proceed in parallel because they collect distinct
   evidence and do not own shared product contracts.
-- C03/C04 remain queued until **all four** packets are accepted. They are
-  outside this evidence wave; shared measurement and technical-pack/CAD
-  decisions are not made here.
+- C03/C04 were queued until **all four** packets were accepted. They were
+  outside that evidence wave and were completed serially; shared measurement
+  and technical-pack/CAD contracts are recorded in their separate packets.
 - Slice 220 created individual child records for C03, C04, and G01 final
   review. Slice 222 accepted C03; Slice 226 accepted the integrated C04
-  contract with verified evidence and activated final review. Execute C03 →
-  C04 → final review serially without another start prompt. Final review
-  consumes all four packets and both contracts. Resolve or assign all
-  A-01–A-12 facts, perform any required digital remediation as a separate
-  slice, and close G01 only after the full exit criteria pass.
+  contract; Slice 227 completed the distinct readable draft-pack remediation;
+  Slice 228 closed final review after full-suite gates, actual output replay,
+  the A-01–A-12 ledger, and a verified exit report. EPIC-14/G01 is Closed in
+  the canonical board. Read `docs/research/epic14/G01-FINAL-REVIEW-EXIT.md` for
+  detailed dispositions and remaining gates. EPIC-15/G02 remains Backlog and
+  needs its own admission; this sequence does not start it.
 
 ## Preserved boundaries
 

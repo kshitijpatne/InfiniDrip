@@ -1,26 +1,26 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 227 remediates readable draft-pack output; G01 final gates remain,
-2026-09-24._
-Current directive: C01, C02, C05 and C06 and evidence lanes B–D are Done. C03
-and C04 are Done with verified SHA-256 contract evidence. C03 defines the
-measurement, one-size/grade, capture and donor tiers. C04 defines the tech-pack
-record/provenance/revision contract, finished-view and layout rules, exact
-current DXF limitations, the no-target-CAD decision, and its future fixture and
-acceptance matrix. Slice 226 reconciles all six C04 criteria and records the
-downstream A-04/A-05/A-06 proof gates. Slice 227 adds the current UI's readable
-draft-pack route: paginated pattern-piece overview cells and wrapping BOM and
-construction pages. The byte-identical legacy writer remains unchanged. The
-seven default recipe outputs were rerendered and their text bounds/overlaps
-checked. The G01 final review is active; full test/coverage/build and export
-identity gates, the A-01–A-12 ledger, final exit evidence and board closure
-remain. Control Center revision is 241 before S227 exit evidence.
+_Last updated: Slice 228 closes EPIC-14/G01 after final ledger, output replay,
+and verified board exit, 2026-09-24._
+Current directive: EPIC-14/G01 is Closed. C01, C02, C05 and C06, C03 and C04,
+lanes B–D, Lane A, and the final G01 review are Done with verified evidence.
+The A-01–A-12 disposition, output replay and remaining downstream thresholds
+are recorded in `docs/research/epic14/G01-FINAL-REVIEW-EXIT.md`. Slice 227 adds
+the current UI's readable draft-pack route: paginated, explicitly non-scale
+pattern-piece overview cells and wrapping BOM/construction pages. Its seven
+default recipe PDFs and all 33 rendered pages are retained with hashes and
+layout results. The byte-identical legacy writer remains unchanged. Full
+coverage, build and protected export identities pass. EPIC-15/G02 remains in
+Backlog and is not started by this closure. Physical sampling, live supplier
+work, paid sources, hosted services and production-readiness claims remain
+held.
+The canonical Control Center is at revision 251 after verified EPIC-14 closure.
 Detailed records and the sequence map
 are in `ops/control-center/data/board.json`,
 `docs/planning/EPIC-14-ADMISSION.md`, and
 `docs/planning/END-TO-END-CAPABILITY-ROADMAP.md`.
 No new garment recipe, user-facing AI designer, paid source, supplier contact,
-physical sample, hosted feature, or production-readiness claim is admitted.
+physical sample, hosted feature, or production-readiness claim was admitted.
 Lane E remains held. The sequence diagram was shown and live dependencies were
 confirmed before Slice 215. C01–C06 are stable packet IDs, not landed slice
 numbers. Target dates remain conditional forecasts and must be rechecked at
@@ -921,6 +921,22 @@ byte-identical for the eight protected fixtures. This remedies observed
 digital legibility failures only; it does not add CAD compatibility, expert
 approval, factory readiness or physical-fit evidence. Full G01 gates and the
 exit report remain pending.
+
+### Slice 228 — close EPIC-14/G01 final review
+
+Accepted and re-hashed all six C01–C06 research/contract packets; reconciled
+each A-01–A-12 finding to its evidence, status, limit, downstream owner and
+required exit gate. Replayed the simple Tee and difficult Polo/Woven shirt
+outputs through the current readable draft-pack exporter; retained seven PDFs,
+33 150-DPI page renders, a source-pinned artifact manifest, and a layout scan
+covering 2,953 words with no out-of-page boxes or text-box overlaps. The full
+coverage gate passed (1,563 tests; 100% statements, functions and branches),
+the TypeScript/production build passed, and all eight protected legacy export
+hashes remain unchanged. The report explicitly leaves physical fit, complete
+technical flats, factory readiness, CAD receiver acceptance, 3D simulation,
+supplier facts, and future features unverified. The validated Control Center
+command layer links the verified exit report and closes every EPIC-14 child
+and the Epic record. G02 remains Backlog.
 
 ### Post-merge PR audit — 2026-09-21
 

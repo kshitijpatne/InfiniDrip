@@ -180,10 +180,12 @@ supports a work item's status.
 
 The future G01–G17 goals are numbered Epic 14–30 in the board. Each has a
 numbered Epic record and a matching work card, so the dashboard shows both the
-Epic number and its G goal. Epic 14 and its research packets C01, C02, C05,
-and C06 evidence packets are accepted; its shared-contract lane A is active.
-C03 and C04 are accepted, and G01 final review is in progress. The
-conditional shorts packet E remains held in Epic 20. A maintainer-only
+Epic number and its G goal. EPIC-14/G01 is closed with accepted C01/C02/C05/C06
+evidence, C03/C04 contracts, a readable draft-pack remediation, and a verified
+final review. Its exit report lists every A-01–A-12 disposition and future
+gate. This closure does not claim factory readiness, fit, CAD interoperability,
+3D simulation, or marketplace service. The conditional shorts packet E remains
+held in Epic 20. A maintainer-only
 rename command updates dependent work-item links and leaves an audit note;
 past evidence text is not rewritten. Planning records do not start product
 work or change the app's local-first boundary.
