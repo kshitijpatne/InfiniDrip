@@ -95,8 +95,8 @@ test("admitted Epic 14 and its active research lanes match the future backlog", 
   const c04 = board.workItems.find((entry) => entry.id === "EPIC-14-C04");
   const finalReview = board.workItems.find((entry) => entry.id === "EPIC-14-G01-FINAL-REVIEW");
   assert.equal(c03?.status, "Done");
-  assert.equal(c04?.status, "In Progress");
-  assert.equal(finalReview?.status, "Backlog");
+  assert.equal(c04?.status, "Done");
+  assert.equal(finalReview?.status, "In Progress");
   assert.deepEqual(c03?.dependencies, ["PREQUEUE-PHASE-09", "EPIC-14-C01", "EPIC-14-C02", "EPIC-14-C05", "EPIC-14-C06"]);
   assert.deepEqual(c04?.dependencies, ["PREQUEUE-PHASE-09", "EPIC-14-C03"]);
   assert.deepEqual(finalReview?.dependencies, ["PREQUEUE-PHASE-09", "EPIC-14-C01", "EPIC-14-C02", "EPIC-14-C05", "EPIC-14-C06", "EPIC-14-C03", "EPIC-14-C04"]);
@@ -107,6 +107,13 @@ test("admitted Epic 14 and its active research lanes match the future backlog", 
   assert.match(c03Evidence?.sha256 ?? "", /^[a-f\d]{64}$/);
   const c03Document = readFileSync(resolve(projectRoot, c03Evidence.uri));
   assert.equal(createHash("sha256").update(c03Document).digest("hex"), c03Evidence.sha256);
+  const c04Evidence = board.evidence.find((entry) => entry.id === "E-EPIC14-C04-S226");
+  assert.ok(c04?.evidenceRefs.includes(c04Evidence?.id));
+  assert.equal(c04Evidence?.verified, true);
+  assert.equal(c04Evidence?.kind, "document");
+  assert.match(c04Evidence?.sha256 ?? "", /^[a-f\d]{64}$/);
+  const c04Document = readFileSync(resolve(projectRoot, c04Evidence.uri));
+  assert.equal(createHash("sha256").update(c04Document).digest("hex"), c04Evidence.sha256);
   const shorts = board.workItems.find((entry) => entry.id === "EPIC-20-LANE-E");
   assert.equal(shorts?.epicId, "EPIC-20");
   assert.equal(shorts?.status, "Backlog");

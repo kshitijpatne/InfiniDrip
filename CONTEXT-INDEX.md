@@ -97,12 +97,12 @@ snapshots; they are not current status.
   product/supplier/sampling boundaries.
 - `docs/research/epic14/` — accepted evidence packets for C01 recipe baseline,
   C02 standards and tools, C05 3D feasibility, C06 starter/assortment/upcycling/
-  supplier evidence, and C03 measurement/donor contract. C04 is the active
-  technical-pack/CAD contract at
-  `C04-TECHPACK-VIEW-REVISION-CAD-CONTRACT.md`; Slice 223 audits the current
-  output and records the no-interoperability-claim boundary. Final G01 review
-  follows C04. Read accepted
-  packets before downstream contract work or feature implementation;
+  supplier evidence, and C03 measurement/donor contract. C04's accepted
+  technical-pack/CAD contract is at
+  `C04-TECHPACK-VIEW-REVISION-CAD-CONTRACT.md`; Slice 226 records its criteria
+  reconciliation, no-target-CAD decision and downstream proof gates. G01 final
+  review is now active and owns the cross-packet audit, actual-output replay and
+  any distinct remediation. Read the accepted packets before implementation;
   `PROJECT-STATE.md` and the canonical board record current status.
 - `docs/planning/COMPONENT-ARCHITECTURE.md` — design rationale and migration plan.
   Use `PROJECT-STATE.md` for which phases are actually complete.

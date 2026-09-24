@@ -1,17 +1,17 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 225 defines C04 technical views, layout and CAD boundaries,
+_Last updated: Slice 226 accepts the C04 contract and activates final G01 review,
 2026-09-24._
 Current directive: C01, C02, C05 and C06 and evidence lanes B–D are Done. C03
-is Done with verified SHA-256 contract evidence; it defines the measurement,
-one-size/grade, capture and donor tiers while explicitly withholding unearned
-fit claims. C04 is In Progress; Slice 223 documented the source-verified
-current tech-pack/POM/DXF baseline; Slice 224 defined the typed production
-record, provenance, readiness and immutable revision/freeze contract; Slice 225
-defined deterministic front/back technical views, page-layout rules, exact
-current DXF limitations, the no-target-CAD decision and future fixtures.
-Continue to C04 integrated review; G01 final review remains Backlog behind C04
-and the four accepted packets. Current board revision is 236.
+and C04 are Done with verified SHA-256 contract evidence. C03 defines the
+measurement, one-size/grade, capture and donor tiers. C04 defines the tech-pack
+record/provenance/revision contract, finished-view and layout rules, exact
+current DXF limitations, the no-target-CAD decision, and its future fixture and
+acceptance matrix. Slice 226 reconciles all six C04 criteria and records the
+downstream A-04/A-05/A-06 proof gates. The G01 final review is active; it must
+reconcile A-01–A-12, replay actual digital output, complete any distinct
+remediation, run all full gates and produce the exit report. Current board
+board revision is 241 after the Slice 226 transitions.
 Detailed records and the sequence map
 are in `ops/control-center/data/board.json`,
 `docs/planning/EPIC-14-ADMISSION.md`, and
@@ -887,6 +887,21 @@ no apparel CAD profile without a receiver, rights review and round-trip proof.
 Fixtures and failure cases are recorded in the C04 packet. This slice changed
 no product code or export bytes. Slice 226 is the integrated C04 criterion,
 source and contradiction audit before final G01 review activation.
+
+### Slice 226 — accept C04 and activate the final G01 review
+
+Slice 226 maps all six C04 acceptance criteria to the accepted record,
+provenance/revision, view/layout, DXF/CAD, fixture, and scope sections. It
+clarifies exactly which DXF entities the current mark writer emits and records
+that mark names/labels and recipe-level notch semantics are absent. The packet
+separates observed code/output, external source scope, proposed InfiniDrip
+policy, and open external/physical gates. A-04/A-05/A-06 now have explicit
+contract decisions and downstream measurable gates. No target apparel CAD
+profile was selected because there is no named receiver, rights review, or
+round-trip proof. C04 is Done with a SHA-256-verified contract snapshot;
+Control Center revision 241 has activated the serial G01 final review. The
+Control Center suite passes (33 tests), all 34 local C04 Markdown links resolve,
+and no product or export code changed in this slice.
 
 ### Post-merge PR audit — 2026-09-21
 

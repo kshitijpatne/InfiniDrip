@@ -1,7 +1,7 @@
 # C04 — Technical-pack, view, revision, and CAD contract
 
-**Status:** In progress; Slices 223–224 record the current-output audit and
-canonical record/revision contract.<br>
+**Status:** Accepted as the C04 contract/evidence exit in Slice 226; no product
+implementation, factory, CAD receiver, or physical validation is implied.<br>
 **Snapshot:** 2026-09-24.<br>
 **Authority:** G01 contract/evidence only. No exporter implementation, new
 garment, external CAD license, supplier handoff, production-readiness claim,
@@ -83,7 +83,12 @@ and pattern revision. A physical reading is `FINISHED_POM + SAMPLE_ACTUAL`,
 bound to a named sample round, garment size, material/colorway and immutable
 design revision. Predicted values never get overwritten by actual readings.
 An optional tolerance that has no authority remains explicitly unspecified;
-it is never converted into a pass/fail judgment.
+it is never converted into a pass/fail judgment. The proposed pack's
+`toleranceStatus` (`SPECIFIED`, `NOT_SPECIFIED_BY_DECISION`, or `UNRESOLVED`)
+is separate from C03 provenance: a user may explicitly decide that a
+tolerance is not specified, while provenance records that decision's source.
+Do not encode an absent tolerance as numeric zero or as
+`provenance=UNRESOLVED` unless the source fact itself is unknown.
 
 ### Pattern layout and DXF
 
@@ -100,6 +105,11 @@ it is never converted into a pass/fail judgment.
   `POLYLINE`/`VERTEX`/`SEQEND` entities on `CUT` and `SEW` layers. It flips Y
   into the CAD-up direction. Pattern marks emit line, circle or point entities
   on `MARK_*` layers. Coordinates follow the app's centimeter convention.
+- Mark `name` and `label` values are not serialized into DXF; marks are
+  identified only by their entity geometry and `MARK_<KIND>` layer. Button
+  marks are fixed-radius `CIRCLE` entities (0.15 cm radius); other point marks
+  are `POINT`, and segment marks are `LINE`. The writer receives only the
+  piece list and allowance, not recipe-level mark semantics or a notch table.
 - The returned file has an `ENTITIES` section and `EOF`; it does not currently
   emit a header/table/metadata contract, explicit drawing-unit declaration,
   stable pattern-piece record, grade-rule file, size-run package, paired seam
@@ -766,6 +776,82 @@ sewn construction, fabric performance, colorfastness or factory approval.
 
 Slice 225 closes the intended view taxonomy, implementation route, page rules,
 CAD no-go boundary and fixture matrix. It does not accept C04 by itself. Slice
-226 must run the complete criteria/source/contradiction audit, verify that the
-fixtures and implementation gates are coherent, link/hash the packet evidence
-on the canonical board, and only then activate the final G01 review.
+226 records the complete criteria/source/contradiction audit, verifies that
+the fixtures and implementation gates are coherent, links and hashes the
+packet evidence on the canonical board, and activates the final G01 review.
+
+## Slice 226 — integrated acceptance and handoff
+
+### Acceptance trace
+
+| C04 acceptance criterion | Contract location and evidence | Exit result / remaining owner |
+| --- | --- | --- |
+| Style identity, revision/approval/freeze, colorway, BOM/material/trim/artwork/label/packaging, construction operations, POM/tolerances, size/grade, QA/sample, cost, unresolved fields, provenance and units. | Slice 224's typed record graph, stage-aware completeness table, provenance reuse from C03, POM actual/predicted split, revision/dependency matrix, and frozen-manifest contract. Slice 223 identifies current fields that do and do not exist. | **Met as a future contract.** Current product remains a single-design draft/export path. G02/G05 own record and living-pack implementation; G11 owns any later supplier packet. No factory-ready inference. |
+| Technical-view inventory and mapping to pattern/components, seams, stitch/marks, closures, callouts, colors and POMs; overflow rules; distinguish flats, layouts and schematic side views. | Slice 225's view ownership, semantic anchors, print/layout rules, actual current-view audit, and fixture matrix. Pattern-layout page, rendered schematic, future finished flat, and future pattern-linked 3D are explicitly different artifacts. | **Met as a view contract.** G04 owns front/back technical-flat implementation; G09/D04 owns pattern-linked side/oblique/inside views. C04 does not claim those future views exist. |
+| Field dependencies, invalidation, approval, immutable supplier handoff/hash, edit propagation; predictions separate from sample actuals. | Slice 224's immutable child revisions, scoped approvals, dependency matrix, dual digest design, frozen packet, and independent sample/quote references. | **Met as a future contract.** Implementation and outbound supplier use require G02/G05 and later authorized workflow; no supplier handoff is active. |
+| Exact current DXF semantics/limits; choose an apparel CAD target only with fixtures, rights review and receiver/parser round trip; preserve export identity. | Slice 223 source trace and Slice 225 current-writer semantics, per-entity fixtures, round-trip thresholds, and no-target decision. Current labels, entity classes, coordinate convention, rounding and missing metadata are recorded. | **Met by explicit no-go.** No receiver, profile, license or independent parser is selected. Current generic geometry route remains; later G04 must satisfy named receiver/version, rights and round trip before any compatibility claim. |
+| Simple/difficult fixtures, negative cases, page bounds and source traceability; distinguish sourced/vendor facts from proposed policy. | Slice 225 fixture/pressure matrix; throughout the packet, **Observed**, **Sourced**, **Decision**, and **Open gate** labels distinguish evidence classes. ISO/ASTM/Autodesk scopes and Techpacker feature pages are cited with explicit limits. | **Met as a digital test contract.** Future output implementation must execute these fixtures and retain render/import evidence; a fixture list is not proof that implementation passes it. |
+| Contract/evidence only; no exporter code, paid license, supplier handoff, factory-ready claim or physical sample. | Scope statement, stage table, source/rights/CAD boundaries, and this exit record. | **Met.** Documentation and roadmap evidence only. No product code, export bytes, paid source, supplier contact, physical sample or production claim is introduced. |
+
+### Exact DXF serialization limits clarified
+
+Slice 226 rechecked `src/export/pattern-mark.ts` alongside the DXF writer. The
+DXF stores marks as geometric entities only: segment marks are `LINE`, button
+marks are `CIRCLE` at a hard-coded 0.15 cm radius, and other point marks are
+`POINT`; each is placed on `MARK_<kind>` layer. `PatternMark.name` and
+`PatternMark.label` do not survive in the file. The current writer also has no
+recipe-level notch list input. A receiver therefore cannot recover named
+construction intent from a visually plausible line or layer name alone. This
+is an observed limitation, not a statement about generic DXF capabilities.
+
+### A-04/A-05/A-06 ownership and residuals
+
+| Roadmap ambiguity | What C04 settles | Still unresolved and measurable gate | Downstream owner |
+| --- | --- | --- | --- |
+| **A-04 — tech-pack completeness** | Record categories, provenance and units, tolerance authority/status, revision lifecycle, predicted-versus-actual distinction, and stage-specific readiness. Actual C01 PDFs confirm label collisions. | Two qualified technical-design reviews of one simple and one difficult style; implementation of a readable pack; all-recipe required-field audit; selected route's supplier-specific fields. A formatted draft cannot be called production-approved. | G04 view/legibility and output foundation; G05 living pack. External reviewers remain an open gate and have not been engaged. |
+| **A-05 — apparel CAD exchange** | Current generic DXF entities and exclusions are documented. C04 deliberately selects no target profile. A fixture and rights/receiver round trip is required before naming any target. | Named receiver/version and use case; applicable profile/rights; independent parser or receiving-app round trip; multi-size/grade semantics and preservation evidence. | G04. Current output label remains narrow; no universal apparel CAD standard or compatibility claim is inferred. |
+| **A-06 — finished technical views** | Future deterministic, recipe-owned front/back flat model, stable callout identity, semantic mapping, print policy, and separate ownership for pattern-layout and 3D views are defined. | Per-recipe and per-variant view matrix; qualified technician review; collision/occlusion/negative-case proof against rendered output. Side projection remains schematic unless G09 pattern-linked 3D supplies the geometry. | G04 for front/back; G09/D04 for pattern-linked side/oblique/inside. |
+
+### Evidence classification and integration decisions
+
+- **Observed product facts:** Slice 223's source-linked tech-pack, POM,
+  pattern-layout and DXF inventory; C01's rendered PDF and assembled-preview
+  captures; and Slice 226's exact DXF mark serialization check. These describe
+  repository output at the evidence revision only.
+- **Sourced external facts:** ISO 18890's garment-dimension measurement scope;
+  ASTM D6193's seam/stitch vocabulary; ASTM D6673-10's withdrawn historical
+  exchange scope; Autodesk's general DXF representation/units documentation;
+  and Techpacker's public product-help descriptions. These do not certify
+  InfiniDrip output or prescribe a universal factory pack.
+- **InfiniDrip policy proposals:** provenance vocabulary; readiness stages;
+  revision/freeze semantics; minimum print text size and safe area;
+  deterministic hashes; and coordinate round-trip threshold. These are product
+  decisions or proposed acceptance checks, not industry-standard mandates.
+- **Open external/physical gates:** no qualified technical-design reviewer,
+  named CAD receiver, external CAD rights/license review, independent apparel
+  parser, factory review, supplier quotation, material test or physical sample
+  was obtained. Physical sampling remains held by maintainer direction.
+
+### C04 exit evidence and scope
+
+Slice 226 reconciled all six C04 acceptance criteria against the packet and
+confirmed cross-packet dependencies: C01 supplies actual output defects; C02
+supplies standards and comparator boundaries; C03 supplies semantic,
+provenance and measurement-mode vocabulary; C05 supplies later 3D limits; C06
+supplies panel, source-photo, BOM/RFQ and supplier unknowns. The contract is
+accepted as a digital design/evidence contract, not as a claim that the
+proposed system is implemented or externally validated.
+
+The known C01 collision is handed to final G01 review as a separately
+numbered digital-remediation candidate. C04 itself does not alter the exporter
+or move any hash baseline. The final review must choose a byte-compatible or
+additive remedy, or document why a protected baseline change is necessary and
+separately authorized; it may not silently regenerate baselines. G04/G05
+implementation and external-review items remain in the roadmap. No target CAD
+profile is declared just to make this contract appear complete.
+
+The C04 contract exits on 2026-09-24. Its evidence snapshot is attached to
+`EPIC-14-C04` in the canonical board with the verified document SHA-256.
+The final G01 review then owns cross-packet reconciliation, actual
+digital-output replay, any separate remediation, all required full gates and
+the Epic exit report. C04 does not close G01 or authorize G02.
