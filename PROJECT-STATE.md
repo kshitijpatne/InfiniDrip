@@ -2,12 +2,12 @@
 
 _Last updated: Slice 217 accepts C02 of Epic 14's immediate evidence wave,
 2026-09-24._
-Current directive: C01, C02, and C05 are reviewed and Done; C06 remains in the
-admitted parallel evidence wave. Complete all four packet exits before creating
-the ordered C03, C04, and G01 final-review board records. After that gate, work
-them serially in that order without another start prompt. C03 consumes C01,
-C02, C05, and C06; C04 depends on C03; final review depends on all four packets
-and C04. Current board revision is 215. Detailed records and the sequence map
+Current directive: C01, C02, C05, and C06 are reviewed and Done. The parallel
+evidence wave is complete. Create separate durable board records for C03, C04,
+and G01 final review, then execute them serially in that order without another
+start prompt. C03 consumes C01, C02, C05, and C06; C04 depends on C03; final
+review depends on all four packets and C04. Current board revision is 220.
+Detailed records and the sequence map
 are in `ops/control-center/data/board.json`,
 `docs/planning/EPIC-14-ADMISSION.md`, and
 `docs/planning/END-TO-END-CAPABILITY-ROADMAP.md`.

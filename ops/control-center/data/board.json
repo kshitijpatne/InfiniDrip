@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 215,
-  "updatedAt": "2026-09-24T08:44:41.100Z",
+  "revision": 220,
+  "updatedAt": "2026-09-24T08:47:58.565Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -3501,10 +3501,10 @@
       "title": "Lane D — starter, assortment, upcycling and supplier evidence (C06)",
       "epicId": "EPIC-14",
       "releaseId": null,
-      "status": "In Progress",
+      "status": "Done",
       "openedAt": "2026-09-24",
       "targetAt": "2026-11-13",
-      "deliveredAt": null,
+      "deliveredAt": "2026-09-24",
       "priority": "P1",
       "risk": "medium",
       "owner": "Codex",
@@ -3550,10 +3550,30 @@
           "role": "contributor",
           "note": "Begin the admitted parallel evidence packet(s); preserve no-supplier-contact, no-spend, no-physical-sampling, and no-user-facing-AI boundaries.",
           "evidenceRefs": []
+        },
+        {
+          "status": "Review",
+          "at": "2026-09-24T08:47:58.266Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "C06 now has its individually verified exit dossier; submit the starter/assortment/upcycling/supplier research lane for review.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "Done",
+          "at": "2026-09-24T08:47:58.565Z",
+          "actor": "Codex",
+          "role": "reviewer",
+          "note": "Accepted the Lane D evidence outcome with data freshness, commercial, privacy and supplier unknowns preserved; no outreach or transaction authorized.",
+          "evidenceRefs": [
+            "E-EPIC14-C06-STARTER-UPCYCLE-SUPPLIER"
+          ]
         }
       ],
       "comments": [],
-      "evidenceRefs": [],
+      "evidenceRefs": [
+        "E-EPIC14-C06-STARTER-UPCYCLE-SUPPLIER"
+      ],
       "flagKey": null
     },
     {
@@ -3855,10 +3875,10 @@
       "title": "C06 — Starter, assortment, upcycling, and supplier evidence",
       "epicId": "EPIC-14",
       "releaseId": null,
-      "status": "In Progress",
+      "status": "Done",
       "openedAt": "2026-09-24",
       "targetAt": "2026-11-13",
-      "deliveredAt": null,
+      "deliveredAt": "2026-09-24",
       "priority": "P1",
       "risk": "medium",
       "owner": "Codex",
@@ -3908,10 +3928,28 @@
           "role": "contributor",
           "note": "Begin the admitted parallel evidence packet(s); preserve no-supplier-contact, no-spend, no-physical-sampling, and no-user-facing-AI boundaries.",
           "evidenceRefs": []
+        },
+        {
+          "status": "Review",
+          "at": "2026-09-24T08:47:57.709Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "C06 starter, assortment, photo/upcycling, supplier workflow and business-model dossier is complete; current platform pages and research scope were checked, and unknowns remain assigned.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "Done",
+          "at": "2026-09-24T08:47:58.000Z",
+          "actor": "Codex",
+          "role": "reviewer",
+          "note": "Accepted C06 against its evidence criteria. Photo-only concept work, measured screening and recovered-panel feasibility are separate; exact conversion fields remain an explicit C03/G10 contract dependency.",
+          "evidenceRefs": []
         }
       ],
       "comments": [],
-      "evidenceRefs": [],
+      "evidenceRefs": [
+        "E-EPIC14-C06-STARTER-UPCYCLE-SUPPLIER"
+      ],
       "flagKey": null
     }
   ],
@@ -4365,6 +4403,15 @@
       "sha256": "297526a617a1f41b45ef3737f78a42a88997e26f82ab474a3bca2c172731135a",
       "verified": true,
       "note": "Codex cross-checked primary papers, glTF/Blender documentation and rights pages; recorded measurement ambiguity, pattern/seam/solver prerequisites, provisional thresholds, target-device assumptions, sample hold, and unresolved SMPL-X commercial-rights wording. Research/admission only."
+    },
+    {
+      "id": "E-EPIC14-C06-STARTER-UPCYCLE-SUPPLIER",
+      "kind": "document",
+      "uri": "docs/research/epic14/C06-STARTER-ASSORTMENT-UPCYCLE-SUPPLIER-DOSSIER.md",
+      "commit": null,
+      "sha256": "ff2b5af10c9174152a54d6253b1f447a236ac77bd63faabb79e27a15d96771bd",
+      "verified": true,
+      "note": "Codex reviewed current supplier-platform pricing/workflow sources, assortment and upcycling research, and the photo-first measurement guidance. Distinguishes photo exploration from measured screening and panel-confirmed feasibility; records supplier/price/legal unknowns. No contact, spend, transaction or sampling."
     }
   ]
 }
