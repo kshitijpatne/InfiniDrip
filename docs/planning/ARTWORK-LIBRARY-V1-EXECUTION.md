@@ -229,12 +229,25 @@ records and records with contradictory download evidence are also excluded
 from this first bundle; they may be reconsidered only after stronger item-level
 evidence and visual review.
 
+## Phase 9 expansion scope — Slice 207
+
+The maintainer approved local expansion on 2026-09-23. Slice 207 selected four
+item-level CC0 records from the Cleveland Museum of Art and verified their
+object pages, API rights metadata, actual image presentation and bundle-size
+impact before any artwork bytes were added. The binding shortlist and exact
+Slice 208 acceptance criteria are in
+[`ARTWORK-EXPANSION-PHASE9-SCOPE.md`](../research/ARTWORK-EXPANSION-PHASE9-SCOPE.md).
+No additional source candidates or image files are authorized by that scope.
+
 ## Phase 9 maintainer gate
 
-After the local library is built and tried alongside Slice 200 import, record
-the maintainer's explicit choice to expand, revise the taxonomy/formats or
-recommendations, change placement behavior, or keep V1. Completion of this
-phase does not approve or start a garment queue.
+After Slice 208 adds the scoped local references, practice the catalog together
+with Slice 200 import; review search, filters, all ten taxonomy categories,
+provenance/IDs/filenames, save/reload, suitability guidance, formats and variety.
+Record what is directly observed versus sourced, estimated or assumed, then
+make the Phase 9 exit recommendation. The expansion direction is approved, but
+Phase 9 completion does not approve or start a garment queue; a separate
+explicit garment direction remains required.
 
 ## Authoritative source references
 
@@ -242,5 +255,8 @@ phase does not approve or start a garment queue.
   fields, access requirements, and item/image record semantics.
 - [The Met Open Access](https://www.metmuseum.org/about-the-met/policies-and-documents/open-access)
   — reuse policy for public-domain images.
+- [CMA Open Access](https://www.clevelandart.org/open-access) and [CMA Terms](https://www.clevelandart.org/terms-and-conditions)
+  — item-level CC0 image availability and reuse caveats for Slice 207's
+  selected references.
 - Each object-specific page in the table above — current rights label, work
   metadata and downloadable image record.

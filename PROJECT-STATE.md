@@ -1,10 +1,11 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 206 records the Phase 9 V1 review and approved expansion;
-Phase 8 is complete and Phase 9 is In Progress, 2026-09-23._
-Next: complete the maintainer-approved Phase 9 artwork-library expansion and
-practice/review gate. The garment queue remains closed until Phase 9 is complete
-and a separate explicit garment direction is approved.
+_Last updated: Slice 207 scopes the maintainer-approved Phase 9 artwork
+expansion; Phase 8 is complete and Phase 9 is In Progress, 2026-09-23._
+Next: implement the four-item local CMA addition in Slice 208, then practice the
+expanded catalog together with local import and finish the Phase 9 review. The
+garment queue remains closed until Phase 9 is complete and a separate explicit
+garment direction is approved.
 Epics 7, 9 and 10 are implemented, Codex-reviewed, documented and pushed to
 `origin/main`. Epic 11 implementation has completed the shaped collar/stand,
 placket-base, vent/drop, front/back preview/control/report and downstream
@@ -493,9 +494,26 @@ implemented and practiced; this decision does not authorize a garment queue.
 
 The prior Slice 203 rendered-browser record remains the evidence for keyboard,
 narrow-width, search, local preview, save/reload and no-runtime-network checks.
-Those interactions could not be repeated in this turn because the in-app
-browser could not connect to the local loopback server; the combined
+Those interactions could not be repeated in the review turn because the
+in-app browser could not connect to the local loopback server; the combined
 import-plus-library flow remains an explicit evidence limitation.
+
+### Slice 207 — scope the Phase 9 local artwork expansion
+
+`docs/research/ARTWORK-EXPANSION-PHASE9-SCOPE.md` records a bounded four-image
+CMA addition selected after Codex reviewed the independent AIC and CMA research
+and visually inspected the exact object pages. Each selection showed the CMA
+Public Domain reuse label and its live API record reported `CC0` with a null
+copyright field. The images are reference photographs or a paper study, not
+clean production artwork or seamless tiles. AIC items remain held out because
+their official pages/images could not be inspected through ordinary access.
+
+The selected print JPEGs total 19,405,468 bytes; with the unchanged eight-item
+Met seed, source assets are projected to total 46,910,967 bytes before build
+overhead. No image bytes or application behavior changed in this research
+slice. Slice 208 implements exactly these four records, records the actual
+build delta and preserves the existing asset IDs/bytes; rendered practice and
+the Phase 9 exit review remain afterward.
 
 ### Post-merge PR audit — 2026-09-21
 

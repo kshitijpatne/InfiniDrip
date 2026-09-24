@@ -46,11 +46,12 @@ tiles; retain advisory suitability guidance; and make no runtime network
 requests. Any expansion should account for bundled file size and must not
 silently treat a museum image as print-ready artwork.
 
-The maintainer approved this expansion direction on 2026-09-23. The next slice
-must scope a bounded addition before adding files: candidates must be individually
-provenanced and rights-verified; category gaps are filled only with relevant
-works; clean/repeat-ready assets must be distinguished from reference imagery;
-the assets remain bundled with no runtime fetching; and bundle size is measured.
-The expansion must not claim that museum reference images are production-ready.
-No garment queue starts from this review; a separate explicit garment direction
-remains required after the pre-garment gate.
+The maintainer approved this expansion direction on 2026-09-23. Slice 207
+completed the bounded scope before any image files were added. The selected
+four-image CMA set, item-level provenance/rights checks, visual curation notes,
+projected byte budget, exclusions and Slice 208 acceptance criteria are in
+[`ARTWORK-EXPANSION-PHASE9-SCOPE.md`](../research/ARTWORK-EXPANSION-PHASE9-SCOPE.md).
+The next slice may add only those four unchanged print JPEGs; it must not claim
+that museum reference photos or paper studies are production-ready. Phase 9
+still requires a rendered practice run and final review. No garment queue starts
+from this review; a separate explicit garment direction remains required.
