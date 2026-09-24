@@ -191,12 +191,17 @@ past evidence text is not rewritten. Planning records do not start product
 work or change the app's local-first boundary.
 
 After that verified closure, the maintainer admitted EPIC-15/G02 for a local,
-versioned style foundation. Slice 229 records its admission; F01 is now active
-for storage, migration, project/style records, recovery, and portable backup.
-F02 provenance/dependency work, F03 durable constrained edits/revisions, and
-the final review remain queued in order. This is current development scope,
-not yet shipped app behavior. The detailed packet and gates are in
+versioned style foundation. Slice 229 records its admission and Slice 230
+accepts the F01 storage/migration contract: shared IndexedDB project/style
+records, non-destructive SaveFile migration, per-style recovery, and portable
+backup/import. A narrow Electron `file://` restart/path-change proof passed;
+this is not yet shipped persistence behavior or a cross-browser durability
+claim. F01 implementation and UI work continue; F02 provenance/dependency work,
+F03 durable constrained edits/revisions, and final review remain queued in
+order. The detailed packet, accepted contract, and gates are in
 [`docs/planning/EPIC-15-ADMISSION.md`](docs/planning/EPIC-15-ADMISSION.md).
+The Slice 230 contract is at
+[`docs/research/epic15/F01-STORAGE-CONTRACT-S230.md`](docs/research/epic15/F01-STORAGE-CONTRACT-S230.md).
 This work remains deterministic and user-led and does not open new garment,
 physical sampling, supplier, paid-service, or production-readiness scope.
 

@@ -1,13 +1,16 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 229 admits EPIC-15/G02 and starts F01, 2026-09-24._
+_Last updated: Slice 230 accepts the F01 storage contract, 2026-09-24._
 Current directive: EPIC-14/G01 is Closed. C01, C02, C05 and C06, C03 and C04,
 lanes B–D, Lane A, and the final G01 review are Done with verified evidence.
 EPIC-15/G02 is admitted and In Progress. Slice 229 is complete with verified
-admission evidence; F01 is In Progress; F02, F03, and final review are queued
-in strict dependency order. Continue at Slice 230, the F01 storage, migration,
-project/style, recovery and portable-backup contract. The goal and all slice
-gates are recorded in `docs/planning/EPIC-15-ADMISSION.md`. EPIC-16 through
+admission evidence; Slice 230 accepted F01's local storage and migration
+contract; F01 remains In Progress for schema, implementation, UI, package and
+exit work; F02, F03, and final review remain queued in strict dependency order.
+Continue at Slice 231, the F01 schema and migration implementation. The goal and
+all slice gates are recorded in `docs/planning/EPIC-15-ADMISSION.md` and the
+accepted contract in `docs/research/epic15/F01-STORAGE-CONTRACT-S230.md`.
+EPIC-16 through
 EPIC-30 remain Backlog. The A-01–A-12 disposition, output replay and remaining
 downstream thresholds are recorded in `docs/research/epic14/G01-FINAL-REVIEW-EXIT.md`. Slice 227 adds
 the current UI's readable draft-pack route: paginated, explicitly non-scale
@@ -17,8 +20,8 @@ layout results. The byte-identical legacy writer remains unchanged. At the
 G01 exit, full coverage, build and protected export identities passed. Physical
 sampling, live supplier work, paid sources, hosted services and
 production-readiness claims remain held.
-The canonical Control Center is at revision 269 after verified EPIC-15/G02
-admission and F01 start.
+The canonical Control Center is at revision 270 after verified EPIC-15/G02
+admission and Slice 230 storage-contract evidence.
 Detailed records and the sequence map
 are in `ops/control-center/data/board.json`,
 `docs/planning/EPIC-14-ADMISSION.md`,
@@ -3988,3 +3991,26 @@ It preserves the existing untracked `coverage-p1.log`, `p1-focused.log`, and
 `tmp/` artifacts. Verification passed: `npm run control-center:test` (33/33),
 admission-document SHA-256 reconciliation, and live browser reload showing
 board revision 269 with EPIC-15 and F01 In Progress.
+
+### Slice 230 — F01 local storage and migration contract
+
+Accepted IndexedDB as the asynchronous project/style/recovery repository shared
+by the web app and Electron renderer. The contract specifies stable project and
+user-style IDs separate from recipe presets; atomic revision-checked writes;
+preservation and idempotent import of SaveFile v1–v5 plus recovery; visible
+failure rather than silent fallback; compatibility projection for the legacy
+Save/Load path; a two-store artwork commit rule; and a versioned, bounded ZIP
+backup/import package with strict collision and hash rules. It captures the
+failure matrix and implementation tests for Slices 231–234. This is a contract,
+not shipped product behavior.
+
+The storage choice is supported by a focused Electron 44.1.0 / Chromium
+152.0.7977.65 proof. Two isolated app-file paths under one temporary user-data
+profile shared persisted IndexedDB and localStorage values across process
+restart. This justifies the tested runtime path, but does not prove all
+Electron versions, browser-origin behavior, quota resistance, backup quality,
+or crash/power-loss durability. `npm run electron:verify-idb-file-origin`
+passed. `npm run control-center:test` passed 33/33 after adding a SHA-256 check
+for the contract evidence. The live browser shows board revision 270, EPIC-15
+and F01 In Progress, with S230 evidence attached. No Save/Load product behavior
+or recipe/export output changed. Existing user artifacts remain untouched.

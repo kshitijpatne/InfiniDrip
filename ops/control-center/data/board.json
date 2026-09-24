@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 269,
-  "updatedAt": "2026-09-24T14:57:08.587Z",
+  "revision": 270,
+  "updatedAt": "2026-09-24T15:31:25.054Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -4465,7 +4465,9 @@
         }
       ],
       "comments": [],
-      "evidenceRefs": [],
+      "evidenceRefs": [
+        "E-EPIC15-F01-STORAGE-S230"
+      ],
       "flagKey": null
     },
     {
@@ -5124,6 +5126,15 @@
       "sha256": "2e2ee46bb06c2b828920511e0a368e170c420b408a28d887413039a49a2abcbb",
       "verified": true,
       "note": "Slice 229 admission packet: verified post-G01 starting state, explicit G02 decision, boundaries, risks, ordered F01/F02/F03 slices and complete exit gates."
+    },
+    {
+      "id": "E-EPIC15-F01-STORAGE-S230",
+      "kind": "document",
+      "uri": "docs/research/epic15/F01-STORAGE-CONTRACT-S230.md",
+      "commit": null,
+      "sha256": "16f2b58df85dd7c909522fe4ed5d4728ac3fee88b3d1fc7a5b1796062d3b5066",
+      "verified": true,
+      "note": "Slice 230 accepted the local project/style IndexedDB, migration, recovery, artwork-reference, and portable-package contract; the Electron file-origin proof is narrowly scoped and does not claim implementation."
     }
   ]
 }

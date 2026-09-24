@@ -151,12 +151,18 @@ test("admitted Epic 14 and its active research lanes match the future backlog", 
   assert.deepEqual(f03?.dependencies, ["EPIC-15-F02"]);
   assert.deepEqual(g02FinalReview?.dependencies, ["EPIC-15-F03"]);
   const g02AdmissionEvidence = board.evidence.find((entry) => entry.id === "E-EPIC15-G02-ADMISSION-S229");
+  const f01StorageContractEvidence = board.evidence.find((entry) => entry.id === "E-EPIC15-F01-STORAGE-S230");
   assert.ok(g02Admission?.evidenceRefs.includes(g02AdmissionEvidence?.id));
   assert.ok(board.epics.find((entry) => entry.id === "EPIC-15")?.evidenceRefs.includes(g02AdmissionEvidence?.id));
   assert.equal(g02AdmissionEvidence?.verified, true);
   assert.equal(g02AdmissionEvidence?.kind, "document");
   const admissionDocument = readFileSync(resolve(projectRoot, g02AdmissionEvidence.uri));
   assert.equal(createHash("sha256").update(admissionDocument).digest("hex"), g02AdmissionEvidence.sha256);
+  assert.ok(f01?.evidenceRefs.includes(f01StorageContractEvidence?.id));
+  assert.equal(f01StorageContractEvidence?.verified, true);
+  assert.equal(f01StorageContractEvidence?.kind, "document");
+  const storageContract = readFileSync(resolve(projectRoot, f01StorageContractEvidence.uri));
+  assert.equal(createHash("sha256").update(storageContract).digest("hex"), f01StorageContractEvidence.sha256);
   const epic14Items = board.workItems.filter((entry) => entry.epicId === "EPIC-14");
   assert.ok(epic14Items.length > 1);
   for (const item of epic14Items) {

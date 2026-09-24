@@ -875,3 +875,10 @@ data collection still require their own explicit gate.
   Progress; F02, F03, and final review remain queued behind their explicit
   dependencies. Reforecast dates at each packet exit; dates never waive a
   gate.
+- Slice 230 selects IndexedDB as the shared web/Electron renderer repository
+  for project, style, recovery, and migration records, subject to the narrow
+  Electron `file://` proof and contract at
+  `docs/research/epic15/F01-STORAGE-CONTRACT-S230.md`. This does not claim that
+  persistence behavior is implemented or that browser-local storage is a
+  guaranteed backup. Keep existing artwork byte stores separate and stage/hash
+  bytes before publishing style references.

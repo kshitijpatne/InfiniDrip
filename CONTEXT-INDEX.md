@@ -99,6 +99,10 @@ snapshots; they are not current status.
   verified repository starting point, F01/F02/F03 sequence, Slice 229–240
   boundaries, risks, and exit gates. It authorizes only local-first G02 work;
   use `PROJECT-STATE.md` and the canonical Control Center for current status.
+- `docs/research/epic15/F01-STORAGE-CONTRACT-S230.md` — Slice 230's accepted
+  IndexedDB repository, non-destructive legacy migration, per-style recovery,
+  artwork two-store, portable package, failure and test contracts. Its Electron
+  `file://` proof is narrow; it does not claim shipped persistence behavior.
 - `docs/research/epic14/` — accepted evidence packets for C01 recipe baseline,
   C02 standards and tools, C05 3D feasibility, C06 starter/assortment/upcycling/
   supplier evidence, and C03 measurement/donor contract. C04's accepted
