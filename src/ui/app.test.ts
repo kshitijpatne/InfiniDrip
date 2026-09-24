@@ -3,6 +3,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { mountApp, stageBlockerFromNote } from "./app";
 import type { ArtworkAssetStore, StoredArtworkAsset } from "../surface/artwork-store";
 import type { InspectedArtworkFile } from "../surface/artwork-file";
+import { ARTWORK_CATALOG } from "../surface/artwork-library/catalog";
 import { GARMENTS, STANDARD_M, draftTshirt, rolePiece } from "../drafting";
 import { pieceHandles, editorViewBox } from "../edit";
 import { loadJourney } from "./journey";
@@ -3926,6 +3927,9 @@ describe("safe local artwork import and persistence (Slice 200)", () => {
     const root = document.createElement("div");
     mountApp(root, { artworkAssetStore: assets.store, inspectArtworkFile: async (file) => inspectedArtwork(file) });
     toFitStep(root);
+    const library = root.querySelector<HTMLDetailsElement>("details.artwork-library")!;
+    library.open = true;
+    library.dispatchEvent(new Event("toggle", { bubbles: true }));
     root.querySelector<HTMLInputElement>("#surface-new-id")!.value = "graphic";
     root.querySelector<HTMLInputElement>("#surface-new-role")!.value = "front";
     const input = root.querySelector<HTMLInputElement>("#surface-new-file")!;
@@ -3940,7 +3944,317 @@ describe("safe local artwork import and persistence (Slice 200)", () => {
     root.querySelector<HTMLButtonElement>("#surface-new-choose-file")!.click();
     expect(pickerClick).not.toHaveBeenCalled();
     expect(assets.store.put).toHaveBeenCalledOnce();
+    root.querySelector<HTMLButtonElement>("[data-artwork-stage-id]")!.click();
+    expect(root.querySelector<HTMLInputElement>("#surface-new-id")!.value).toBe("graphic");
     write.resolve();
     await vi.waitFor(() => expect(root.querySelectorAll("[data-surface-row]")).toHaveLength(1));
+  });
+});
+
+describe("bundled local artwork library (Slice 203)", () => {
+  const toStyleStep = (root: HTMLElement): void => {
+    clickIfPresent(root, "welcome-skip");
+    clickId(root, "journey-step-fit");
+    const library = root.querySelector<HTMLDetailsElement>("details.artwork-library")!;
+    const styleHost = root.querySelector<HTMLElement>("#style-host")!;
+    const unrelatedToggle = document.createElement("div");
+    styleHost.append(unrelatedToggle);
+    unrelatedToggle.dispatchEvent(new Event("toggle", { bubbles: true }));
+    unrelatedToggle.remove();
+    library.open = true;
+    library.dispatchEvent(new Event("toggle", { bubbles: true }));
+    library.dispatchEvent(new Event("toggle", { bubbles: true }));
+  };
+
+  const savedDesign = (): Record<string, unknown> =>
+    JSON.parse(localStorage.getItem("patternworks_save_v1") ?? "{}") as Record<string, unknown>;
+
+  it("searches, filters, and changes guidance without mutating the design or imported-art store", () => {
+    localStorage.clear();
+    const assets = memoryArtworkStore();
+    const root = document.createElement("div");
+    mountApp(root, { artworkAssetStore: assets.store });
+    toStyleStep(root);
+    clickId(root, "save-pattern");
+    const before = localStorage.getItem("patternworks_save_v1");
+
+    const search = root.querySelector<HTMLInputElement>("#surface-library-search")!;
+    search.value = "  GAME   BIRDS ";
+    search.dispatchEvent(new Event("input", { bubbles: true }));
+    expect(root.querySelector(".artwork-library-result-count")!.textContent).toContain("1 of 8");
+    expect(root.querySelectorAll("[data-artwork-card]")).toHaveLength(1);
+    expect(root.querySelector("[data-artwork-card]")!.textContent).toContain("Textile printed with game birds");
+
+    const category = root.querySelector<HTMLSelectElement>("#surface-library-category")!;
+    category.value = "dot/spot";
+    category.dispatchEvent(new Event("change", { bubbles: true }));
+    expect(root.querySelector(".artwork-library-result-count")!.textContent).toContain("0 of 8");
+    expect(root.querySelector("#surface-library-results")!.textContent).toContain("Clear or broaden");
+
+    search.value = "";
+    search.dispatchEvent(new Event("input", { bubbles: true }));
+    category.value = "";
+    category.dispatchEvent(new Event("change", { bubbles: true }));
+    const printUseFilter = root.querySelector<HTMLSelectElement>("#surface-library-use-filter")!;
+    printUseFilter.value = "panel";
+    printUseFilter.dispatchEvent(new Event("change", { bubbles: true }));
+    const panelCount = ARTWORK_CATALOG.filter((item) => item.use.printUses.includes("panel")).length;
+    expect(panelCount).toBeGreaterThan(0);
+    expect(root.querySelectorAll("[data-artwork-card]")).toHaveLength(panelCount);
+    printUseFilter.value = "";
+    printUseFilter.dispatchEvent(new Event("change", { bubbles: true }));
+
+    const family = root.querySelector<HTMLSelectElement>("#surface-library-family")!;
+    family.value = ARTWORK_CATALOG[0]!.use.garmentFamilies[0]!;
+    family.dispatchEvent(new Event("change", { bubbles: true }));
+    const familyValue = family.value as (typeof ARTWORK_CATALOG)[number]["use"]["garmentFamilies"][number];
+    const familyCount = ARTWORK_CATALOG.filter((item) => item.use.garmentFamilies.includes(familyValue)).length;
+    expect(familyCount).toBeGreaterThan(0);
+    expect(root.querySelectorAll("[data-artwork-card]")).toHaveLength(familyCount);
+    family.value = "";
+    family.dispatchEvent(new Event("change", { bubbles: true }));
+
+    const role = root.querySelector<HTMLSelectElement>("#surface-library-role")!;
+    role.value = ARTWORK_CATALOG[0]!.use.pieceRoleGroups[0]!;
+    role.dispatchEvent(new Event("change", { bubbles: true }));
+    const roleValue = role.value as (typeof ARTWORK_CATALOG)[number]["use"]["pieceRoleGroups"][number];
+    const roleCount = ARTWORK_CATALOG.filter((item) => item.use.pieceRoleGroups.includes(roleValue)).length;
+    expect(roleCount).toBeGreaterThan(0);
+    expect(root.querySelectorAll("[data-artwork-card]")).toHaveLength(roleCount);
+    role.value = "";
+    role.dispatchEvent(new Event("change", { bubbles: true }));
+
+    const use = root.querySelector<HTMLSelectElement>("#surface-library-assess-use")!;
+    use.value = "all-over";
+    use.dispatchEvent(new Event("change", { bubbles: true }));
+    expect(root.querySelectorAll("[data-artwork-card]")).toHaveLength(ARTWORK_CATALOG.length);
+    expect(root.querySelector(".artwork-library-assessment h5")!.textContent).toContain("Needs review");
+    expect(localStorage.getItem("patternworks_save_v1")).toBe(before);
+    expect(assets.store.get).not.toHaveBeenCalled();
+    expect(assets.store.put).not.toHaveBeenCalled();
+
+    const target = root.querySelector<HTMLSelectElement>("#surface-library-target")!;
+    target.dispatchEvent(new Event("change", { bubbles: true }));
+    expect(root.querySelector("#surface-library-action-status")!.textContent).toContain("Choose a reference to stage");
+    const unavailableTarget = root.querySelector<HTMLButtonElement>("[data-artwork-apply-id]")!;
+    unavailableTarget.dispatchEvent(new Event("click", { bubbles: true }));
+    unavailableTarget.disabled = false;
+    unavailableTarget.click();
+    expect(root.querySelector("#surface-library-action-status")!.textContent).toContain("Choose an existing placement");
+    const unknownStage = document.createElement("button");
+    unknownStage.dataset.artworkStageId = "builtin-met-999999";
+    root.querySelector("#style-host")!.append(unknownStage);
+    unknownStage.click();
+    const unknownApply = document.createElement("button");
+    unknownApply.dataset.artworkApplyId = "builtin-met-999999";
+    root.querySelector("#style-host")!.append(unknownApply);
+    unknownApply.click();
+    expect(localStorage.getItem("patternworks_save_v1")).toBe(before);
+  });
+
+  it("stages a bundled item, saves its stable ID, and reloads its preview without imported storage", async () => {
+    localStorage.clear();
+    const assets = memoryArtworkStore();
+    const root = document.createElement("div");
+    mountApp(root, { artworkAssetStore: assets.store });
+    toStyleStep(root);
+    const record = ARTWORK_CATALOG[0]!;
+    root.querySelector<HTMLButtonElement>(`[data-artwork-stage-id="${record.assetId}"]`)!.click();
+
+    expect(root.querySelector<HTMLInputElement>("#surface-new-id")!.value).toContain("textile-printed-with-game-birds");
+    expect(root.querySelector<HTMLInputElement>("#surface-new-role")!.value).toBe("");
+    expect(root.querySelector<HTMLInputElement>("#surface-new-source")!.value).toContain(record.title);
+    expect(Number(root.querySelector<HTMLInputElement>("#surface-new-width")!.value)).toBe(record.use.suggestedPlacementWidthCm.maximum);
+    expect(Number(root.querySelector<HTMLInputElement>("#surface-new-height")!.value)).toBeCloseTo(
+      record.use.suggestedPlacementWidthCm.maximum * record.image.heightPx / record.image.widthPx,
+      2,
+    );
+    expect(root.querySelector("#surface-new-file-status")!.textContent).toContain("bundled reference");
+    expect(root.querySelectorAll("[data-surface-row]")).toHaveLength(0);
+    expect(assets.store.put).not.toHaveBeenCalled();
+    expect(assets.store.get).not.toHaveBeenCalled();
+
+    root.querySelector<HTMLInputElement>("#surface-new-role")!.value = "front";
+    root.querySelector<HTMLInputElement>("#surface-new-source")!.value = "";
+    clickId(root, "surface-add");
+    await vi.waitFor(() => expect(root.querySelector<HTMLImageElement>("[data-surface-asset-preview]")?.dataset.assetId).toBe(record.assetId));
+    const preview = root.querySelector<HTMLImageElement>("[data-surface-asset-preview]")!;
+    expect(preview.src).toBe(record.image.localImageUrl);
+    expect(preview.alt).toBe(`Bundled artwork reference: ${record.title}`);
+    expect(root.querySelector("[data-surface-asset-status]")!.textContent).toContain("not the imported-artwork store");
+    expect(root.querySelector<HTMLInputElement>('[data-surface-field="sourceName"]')!.value).toContain(record.title);
+    expect(assets.store.put).not.toHaveBeenCalled();
+    expect(assets.store.get).not.toHaveBeenCalled();
+
+    const firstPlacementId = root.querySelector<HTMLInputElement>('[data-surface-field="id"]')!.value;
+    root.querySelector<HTMLInputElement>("#surface-new-id")!.value = "";
+    root.querySelector<HTMLButtonElement>(`[data-artwork-stage-id="${record.assetId}"]`)!.click();
+    expect(root.querySelector<HTMLInputElement>("#surface-new-id")!.value).toBe(`${firstPlacementId}-2`);
+
+    clickId(root, "save-pattern");
+    const saved = savedDesign();
+    const savedSurface = (saved.surface as Record<string, { placements: Array<Record<string, unknown>> }>)["tee/Classic tee"]!;
+    expect(savedSurface.placements[0]!.assetId).toBe(record.assetId);
+    expect(savedSurface.placements[0]!.sourcePxWidth).toBe(record.image.widthPx);
+    expect(savedSurface.placements[0]!.sourcePxHeight).toBe(record.image.heightPx);
+    expect(JSON.stringify(savedSurface)).not.toContain(record.source.originalImageUrl);
+
+    const reloaded = document.createElement("div");
+    mountApp(reloaded, { artworkAssetStore: assets.store });
+    await vi.waitFor(() => expect(reloaded.querySelector("[data-surface-asset-status]")!.textContent).toContain("Bundled reference:"));
+    const reloadedPreview = reloaded.querySelector<HTMLImageElement>("[data-surface-asset-preview]")!;
+    expect(reloadedPreview.dataset.assetId).toBe(record.assetId);
+    expect(reloadedPreview.src).toBe(record.image.localImageUrl);
+    expect(assets.store.put).not.toHaveBeenCalled();
+    expect(assets.store.get).not.toHaveBeenCalled();
+
+    reloadedPreview.onerror?.(new Event("error"));
+    expect(reloaded.querySelector("[data-surface-asset-status]")!.textContent).toContain("Bundled preview unavailable");
+    expect(reloadedPreview.hidden).toBe(true);
+    const previewFailure = reloaded.querySelector("[data-surface-asset-status]")!.textContent;
+    reloadedPreview.remove();
+    reloadedPreview.onerror?.(new Event("error"));
+    expect(reloaded.querySelector("[data-surface-asset-status]")!.textContent).toBe(previewFailure);
+
+    const staleDesign = savedDesign() as { surface: Record<string, { placements: Array<Record<string, unknown>> }> };
+    staleDesign.surface["tee/Classic tee"]!.placements[0]!.assetId = "builtin-met-999999";
+    localStorage.setItem("patternworks_save_v1", JSON.stringify(staleDesign));
+    const missingReference = document.createElement("div");
+    mountApp(missingReference, { artworkAssetStore: assets.store });
+    await vi.waitFor(() => expect(missingReference.querySelector("[data-surface-asset-status]")!.textContent).toContain("no longer available"));
+    expect(missingReference.querySelector<HTMLImageElement>("[data-surface-asset-preview]")!.hidden).toBe(true);
+    expect(assets.store.get).not.toHaveBeenCalled();
+  });
+
+  it("keeps manual placement creation working with no artwork or source reference", async () => {
+    localStorage.clear();
+    const root = document.createElement("div");
+    mountApp(root);
+    toStyleStep(root);
+    root.querySelector<HTMLInputElement>("#surface-new-id")!.value = "unlinked-placement";
+    root.querySelector<HTMLInputElement>("#surface-new-role")!.value = "front";
+    root.querySelector<HTMLInputElement>("#surface-new-width")!.value = "10";
+    root.querySelector<HTMLInputElement>("#surface-new-height")!.value = "6";
+
+    clickId(root, "surface-add");
+    await vi.waitFor(() => expect(root.querySelectorAll("[data-surface-row]")).toHaveLength(1));
+
+    expect(root.querySelector<HTMLInputElement>('[data-surface-field="sourceName"]')!.value).toBe("");
+    expect(root.querySelector<HTMLImageElement>("[data-surface-asset-preview]")!.hidden).toBe(true);
+  });
+
+  it("keeps the artwork target aligned when its placement or an earlier placement is removed", async () => {
+    localStorage.clear();
+    const root = document.createElement("div");
+    mountApp(root);
+    toStyleStep(root);
+
+    const addBundledPlacement = async (recordIndex: number): Promise<void> => {
+      const record = ARTWORK_CATALOG[recordIndex]!;
+      const expectedPlacementCount = root.querySelectorAll("[data-surface-row]").length + 1;
+      root.querySelector<HTMLInputElement>("#surface-new-id")!.value = "";
+      root.querySelector<HTMLButtonElement>(`[data-artwork-stage-id="${record.assetId}"]`)!.click();
+      root.querySelector<HTMLInputElement>("#surface-new-role")!.value = "front";
+      clickId(root, "surface-add");
+      await vi.waitFor(() => expect(root.querySelectorAll("[data-surface-row]")).toHaveLength(expectedPlacementCount));
+    };
+
+    await addBundledPlacement(0);
+    await addBundledPlacement(1);
+    let target = root.querySelector<HTMLSelectElement>("#surface-library-target")!;
+    target.value = "0";
+    target.dispatchEvent(new Event("change", { bubbles: true }));
+    root.querySelector<HTMLButtonElement>('button[data-surface-remove-index="0"]')!.click();
+    expect(root.querySelector<HTMLSelectElement>("#surface-library-target")!.value).toBe("");
+
+    await addBundledPlacement(2);
+    const shiftedPlacementId = root.querySelector<HTMLInputElement>('input[data-surface-index="1"][data-surface-field="id"]')!.value;
+    target = root.querySelector<HTMLSelectElement>("#surface-library-target")!;
+    target.value = "1";
+    target.dispatchEvent(new Event("change", { bubbles: true }));
+    root.querySelector<HTMLButtonElement>('button[data-surface-remove-index="0"]')!.click();
+    expect(root.querySelector<HTMLSelectElement>("#surface-library-target")!.value).toBe("0");
+    expect(root.querySelector("#surface-library-action-status")!.textContent).toContain(`Placement ${shiftedPlacementId} selected`);
+  });
+
+  it("uses the stable bundled ID when an artwork title cannot form a placement name", () => {
+    localStorage.clear();
+    const record = ARTWORK_CATALOG[0]!;
+    const titleDescriptor = Object.getOwnPropertyDescriptor(record, "title")!;
+    Object.defineProperty(record, "title", { ...titleDescriptor, value: "--- !!!" });
+    try {
+      const root = document.createElement("div");
+      mountApp(root);
+      toStyleStep(root);
+      root.querySelector<HTMLButtonElement>(`[data-artwork-stage-id="${record.assetId}"]`)!.click();
+      expect(root.querySelector<HTMLInputElement>("#surface-new-id")!.value).toBe(record.assetId);
+    } finally {
+      Object.defineProperty(record, "title", titleDescriptor);
+    }
+  });
+
+  it("replaces an existing placement's artwork metadata without changing its design values", async () => {
+    localStorage.clear();
+    const assets = memoryArtworkStore();
+    const root = document.createElement("div");
+    mountApp(root, { artworkAssetStore: assets.store });
+    toStyleStep(root);
+    root.querySelector<HTMLInputElement>("#surface-new-id")!.value = "existing-placement";
+    root.querySelector<HTMLSelectElement>("#surface-new-kind")!.value = "patch";
+    root.querySelector<HTMLInputElement>("#surface-new-role")!.value = "front";
+    root.querySelector<HTMLInputElement>("#surface-new-width")!.value = "18.75";
+    root.querySelector<HTMLInputElement>("#surface-new-height")!.value = "12.5";
+    root.querySelector<HTMLInputElement>("#surface-new-source")!.value = "Previous source note";
+    clickId(root, "surface-add");
+    await vi.waitFor(() => expect(root.querySelectorAll("[data-surface-row]")).toHaveLength(1));
+
+    const edit = (field: string, value: string): void => {
+      const control = root.querySelector<HTMLInputElement | HTMLSelectElement>(
+        `[data-surface-index="0"][data-surface-field="${field}"]`,
+      )!;
+      control.value = value;
+      control.dispatchEvent(new Event(control instanceof HTMLSelectElement ? "change" : "focusout", { bubbles: true }));
+    };
+    edit("dx", "3.25");
+    edit("dy", "-2.5");
+    edit("scale", "1.4");
+    edit("rotationDeg", "37");
+    edit("zOrder", "5");
+    edit("sourcePxWidth", "900");
+    edit("sourcePxHeight", "600");
+
+    const record = ARTWORK_CATALOG[1]!;
+    const placementTarget = root.querySelector<HTMLSelectElement>("#surface-library-target")!;
+    placementTarget.value = "0";
+    placementTarget.dispatchEvent(new Event("change", { bubbles: true }));
+    root.querySelector<HTMLButtonElement>(`[data-artwork-apply-id="${record.assetId}"]`)!.click();
+    await vi.waitFor(() => expect(root.querySelector<HTMLImageElement>("[data-surface-asset-preview]")?.dataset.assetId).toBe(record.assetId));
+
+    expect(root.querySelector<HTMLInputElement>('[data-surface-field="id"]')!.value).toBe("existing-placement");
+    expect(root.querySelector<HTMLSelectElement>('[data-surface-field="kind"]')!.value).toBe("patch");
+    expect(root.querySelector<HTMLInputElement>('[data-surface-field="pieceRole"]')!.value).toBe("front");
+    expect(root.querySelector<HTMLInputElement>('[data-surface-field="widthCm"]')!.value).toBe("18.75");
+    expect(root.querySelector<HTMLInputElement>('[data-surface-field="heightCm"]')!.value).toBe("12.5");
+    expect(root.querySelector<HTMLInputElement>('[data-surface-field="dx"]')!.value).toBe("3.25");
+    expect(root.querySelector<HTMLInputElement>('[data-surface-field="dy"]')!.value).toBe("-2.5");
+    expect(root.querySelector<HTMLInputElement>('[data-surface-field="scale"]')!.value).toBe("1.4");
+    expect(root.querySelector<HTMLInputElement>('[data-surface-field="rotationDeg"]')!.value).toBe("37");
+    expect(root.querySelector<HTMLInputElement>('[data-surface-field="zOrder"]')!.value).toBe("5");
+    expect(root.querySelector<HTMLInputElement>('[data-surface-field="sourcePxWidth"]')!.value).toBe(String(record.image.widthPx));
+    expect(root.querySelector<HTMLInputElement>('[data-surface-field="sourcePxHeight"]')!.value).toBe(String(record.image.heightPx));
+    expect(root.querySelector<HTMLInputElement>('[data-surface-field="sourceName"]')!.value).toContain(record.title);
+    expect(root.querySelector("#surface-library-action-status")!.textContent).toContain("were preserved");
+    expect(assets.store.get).not.toHaveBeenCalled();
+    expect(assets.store.put).not.toHaveBeenCalled();
+
+    clickId(root, "save-pattern");
+    const saved = savedDesign();
+    const placement = (saved.surface as Record<string, { placements: Array<Record<string, unknown>> }>)["tee/Classic tee"]!.placements[0]!;
+    expect(placement).toMatchObject({
+      id: "existing-placement", kind: "patch", pieceRole: "front", widthCm: 18.75, heightCm: 12.5,
+      assetId: record.assetId, sourcePxWidth: record.image.widthPx, sourcePxHeight: record.image.heightPx,
+      zOrder: 5, sourceName: expect.stringContaining(record.title),
+      transform: { dx: 3.25, dy: -2.5, scale: 1.4, rotationDeg: 37 },
+    });
   });
 });

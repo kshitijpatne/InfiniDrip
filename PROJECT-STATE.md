@@ -1,10 +1,10 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 202 implements tested local artwork search and advisory
-suitability guidance; Phase 8 continues, 2026-09-23._
-Next: expose the catalog through the local artwork UI and verify the rendered
-workflow. The garment queue remains closed until Phase 9 review and explicit
-approval.
+_Last updated: Slice 203 delivers the local artwork library UI and rendered
+verification; Phase 8 is complete, 2026-09-23._
+Next: Phase 9 V1 review and maintainer choice—to expand the collection, revise
+its taxonomy/guidance or placement behavior, or keep V1. The garment queue
+remains closed until that review and explicit approval.
 Epics 7, 9 and 10 are implemented, Codex-reviewed, documented and pushed to
 `origin/main`. Epic 11 implementation has completed the shaped collar/stand,
 placket-base, vent/drop, front/back preview/control/report and downstream
@@ -460,6 +460,23 @@ branches, functions, and lines for `search.ts`; `npm run build` passes. The full
 four coverage metrics. Export regression and byte-identity tests pass. The UI,
 runtime network behavior, saved-design schema, geometry, and export bytes were
 not changed; rendered library verification belongs to Slice 203.
+
+### Slice 203 — local artwork library UI
+
+Added the searchable, filterable Local artwork library to the Style panel.
+Eight source-verified textile references can be inspected and staged for a new
+placement or attached to an existing one. Stable built-in IDs resolve through
+local bundled assets, separately from user-imported artwork; museum source URLs
+remain attribution text. Replacing a reference preserves unrelated placement
+and design values. Phase 8 is complete; Phase 9 now awaits the maintainer's V1
+review and explicit choice before any garment queue.
+
+Verification: `npm run build` passes; full coverage passes 111 files / 1,555
+tests at 100% statements, branches, functions, and lines. Manual local-browser
+checks confirmed local asset preview through save/reload, stable IDs, safe
+replacement, keyboard access, narrow viewport without horizontal overflow,
+search, and no remote catalog/image request. Detailed evidence is in
+`docs/planning/ARTWORK-LIBRARY-V1-EXECUTION.md`.
 
 ### Post-merge PR audit — 2026-09-21
 

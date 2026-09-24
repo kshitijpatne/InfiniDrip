@@ -4,6 +4,10 @@ import { garmentToggleMarkup, dartControlsMarkup, exportButtonsMarkup } from "./
 import { DEFAULT_FABRIC, BLUEPRINT } from "../render";
 import { matchStyle, styleNames, TEE_STYLES } from "../style";
 import { controlsMarkup, appShellMarkup, guidanceMarkup, styleMarkup, surfaceMarkup, nestIntelMarkup, nestIntelReadout, fabricSwatchesMarkup, fabricStretchMarkup, specTableMarkup, viewToggleMarkup, bodyCroquisToggleMarkup, fabricWidthMarkup, checkMarkup, editorHintMarkup, editorHandleControlsMarkup, inspectionMarkup } from "./view";
+import { ARTWORK_CATALOG, ARTWORK_CATEGORIES } from "../surface/artwork-library/catalog";
+import { assessArtworkUse } from "../surface/artwork-library/search";
+import type { ArtworkCatalogRecord } from "../surface/artwork-library/catalog";
+import type { ArtworkUseAssessment } from "../surface/artwork-library/search";
 import { pieceHandles } from "../edit";
 import { buildReport, present } from "../guidance";
 
@@ -701,6 +705,97 @@ describe("surfaceMarkup — artwork sets per style", () => {
     expect(html).toContain('id="surface-new-height"');
     expect(html).toContain('id="surface-preview"');
     expect(html).toContain("placement area for this style");
+  });
+  it("renders the local library, all taxonomy filters, transparent provenance, and local-only actions", () => {
+    const record = ARTWORK_CATALOG[0]!;
+    const html = surfaceMarkup({
+      style: "Scoop", placements: [], errors: new Map(), preview: "",
+      artworkLibrary: {
+        query: "birds", category: "", garmentFamily: "", pieceRoleGroup: "",
+        printUseFilter: "", assessmentUse: "all-over", selectedPlacementIndex: "",
+        actionMessage: "Choose a reference.", isOpen: true, totalCount: ARTWORK_CATALOG.length,
+        items: [{ record, assessment: assessArtworkUse(record, "all-over") }],
+      },
+    });
+    expect(html).toContain('id="surface-library-search"');
+    expect(html).toContain('id="surface-library-category"');
+    expect(html).toContain('id="surface-library-family"');
+    expect(html).toContain('id="surface-library-role"');
+    expect(html).toContain('id="surface-library-use-filter"');
+    expect(html).toContain('id="surface-library-assess-use"');
+    for (const category of ARTWORK_CATEGORIES) expect(html).toContain(`value="${category}"`);
+    expect(html).toContain(`src="${record.image.localImageUrl}"`);
+    expect(html).toContain(`alt="Reference image: ${record.title}"`);
+    expect(html).toContain("Needs review");
+    expect(html).toContain(record.source.rightsLabel);
+    expect(html).toContain(record.source.creditLine);
+    expect(html).toContain(record.source.itemRecordUrl);
+    expect(html).toContain(record.image.sha256);
+    expect(html).toContain("Not a verified seamless tile");
+    expect(html).toContain(`data-artwork-stage-id="${record.assetId}"`);
+    expect(html).toContain(`data-artwork-apply-id="${record.assetId}" disabled`);
+    expect(html).not.toContain(`href="${record.source.itemRecordUrl}"`);
+    expect(html).not.toContain(`src="${record.source.originalImageUrl}"`);
+    expect(html).toContain("the app does not fetch them");
+  });
+  it("keeps presentation, tile, suitability and unavailable-resolution states distinct", () => {
+    const base = ARTWORK_CATALOG[0]!;
+    const record = (id: number, presentation: string, imageIsSeamlessTile: boolean): ArtworkCatalogRecord => ({
+      ...base,
+      assetId: `builtin-met-${id}` as ArtworkCatalogRecord["assetId"],
+      technical: { ...base.technical, presentation, imageIsSeamlessTile },
+    } as ArtworkCatalogRecord);
+    const clean = record(999991, "clean-artwork", true);
+    const unknown = record(999992, "unconfirmed", false);
+    const unverifiedRights: ArtworkCatalogRecord = {
+      ...clean,
+      source: { ...clean.source, apiIsPublicDomain: false },
+    };
+    const assessment = (
+      item: ArtworkCatalogRecord,
+      level: ArtworkUseAssessment["level"],
+      assessedWidthCm: number | null,
+      assessedHeightCm: number | null,
+      estimatedPxPerCm: number | null,
+    ): ArtworkUseAssessment => ({
+      assetId: item.assetId, printUse: "panel", level, reason: "Example advisory.",
+      assessedWidthCm, assessedHeightCm, estimatedPxPerCm, selectable: true,
+    });
+    const html = surfaceMarkup({
+      style: "Scoop", placements: [], errors: new Map(), preview: "",
+      artworkLibrary: {
+        query: "", category: "", garmentFamily: "", pieceRoleGroup: "",
+        printUseFilter: "", assessmentUse: "panel", selectedPlacementIndex: "",
+        actionMessage: "Review the reference.", isOpen: true, totalCount: 2,
+        items: [
+          { record: clean, assessment: assessment(clean, "recommended", 20, 12, 120) },
+          { record: unknown, assessment: assessment(unknown, "needs-review", null, null, null) },
+          { record: unknown, assessment: assessment(unknown, "possible", 20, 10, null) },
+          { record: unverifiedRights, assessment: assessment(unverifiedRights, "needs-review", null, null, null) },
+        ],
+      },
+    });
+    expect(html).toContain("Artwork image");
+    expect(html).toContain("Image presentation unconfirmed");
+    expect(html).toContain("Verified seamless tile");
+    expect(html).toContain("Recommended");
+    expect(html).toContain("Resolution estimate unavailable.");
+    expect(html).toContain("resolution estimate unavailable.");
+    expect(html).toContain("API public-domain flag: false");
+  });
+  it("keeps the optional catalog collapsed until the user opens it", () => {
+    const html = surfaceMarkup({
+      style: "Scoop", placements: [], errors: new Map(), preview: "",
+      artworkLibrary: {
+        query: "", category: "", garmentFamily: "", pieceRoleGroup: "",
+        printUseFilter: "", assessmentUse: "placement", selectedPlacementIndex: "",
+        actionMessage: "Choose a reference.", isOpen: false, totalCount: ARTWORK_CATALOG.length, items: [],
+      },
+    });
+    expect(html).toContain("Local artwork library");
+    expect(html).toContain("Open to browse, search, inspect provenance");
+    expect(html).not.toContain('id="surface-library-search"');
+    expect(html).not.toContain("data-artwork-card");
   });
   it("states the empty set without a preview", () => {
     const html = surfaceMarkup({ style: "Scoop", placements: [], errors: new Map(), preview: "" });

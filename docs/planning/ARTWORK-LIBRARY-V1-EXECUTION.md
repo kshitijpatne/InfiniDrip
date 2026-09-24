@@ -159,6 +159,21 @@ narrow-screen operation work; no network request occurs; save/reload preserves
 the selected ID and local image preview; imported artwork still uses its
 existing separate storage path.
 
+**Verification — 2026-09-23:** `npm run build` passes. The full
+`npm run coverage -- --maxWorkers=1 --minWorkers=1 --testTimeout=30000` gate
+passes 111 test files / 1,555 tests at 100% statements, branches, functions,
+and lines, including export byte-identity regressions.
+
+Manual browser verification against the local Vite app confirmed that the
+221932 image resolves from the app's local asset path, then remains previewable
+after save and reload using its stable `builtin-met-221932` ID. Replacing an
+existing placement preserved its ID, type, role, dimensions, transforms,
+z-order, and unrelated design values. Search for `birds` returned the expected
+single item; Enter opened the library with visible keyboard focus. At a 375 px
+viewport there was no horizontal overflow. Provenance URLs remained attribution
+text; the app loaded the local bundled image and made no remote catalog/image
+request. The existing imported-art path remains separate.
+
 ## Candidate-selection record (2026-09-23)
 
 The Met Open Access API documents `isPublicDomain`, `primaryImage`, and

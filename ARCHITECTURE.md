@@ -120,11 +120,15 @@ preview are temporary; it is not a general pattern editor.
   local asset ID and optional source-pixel dimensions. Missing local files can
   be restored or replaced. The placement preview still shows only its
   rectangle, not artwork on a garment. Import does not change garment geometry
-  or exports. A small source-verified catalog of textile references is recorded
-  in the repository. Pure local search/filter and advisory per-use suitability
-  rules are implemented, but the catalog is not yet browseable in the app. The
-  next step adds its authoring UI; museum links remain attribution text and are
-  never fetched at runtime.
+  or exports. The repository also contains eight source-verified bundled
+  textile references. In the Style panel's **Local artwork library**, people
+  can search, filter, inspect provenance and technical notes, then attach a
+  stable `builtin-met-*` reference to a new or existing placement. The preview
+  resolves from a build-time local asset URL; it does not use the separate
+  user-import store, and museum addresses are attribution text rather than
+  runtime requests. Per-use suitability guidance is advisory. The collection
+  is a small V1 reference set: museum photographs and paper studies are not
+  necessarily clean artwork or seamless production tiles.
 - **Exports** use the same pattern data. SVG and DXF are outline files used by
   pattern and drawing programs; their lines and curves stay crisp when resized.
   A tiled PDF splits a full-size pattern across regular printer pages; an A0

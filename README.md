@@ -68,10 +68,14 @@ views do not prove physical fit or factory readiness.
 - Artwork placements can attach local PNG, JPEG, WebP, or sanitized SVG files
   and preview them in the Style panel. Images stay on this device; the app does
   not fetch source URLs or place the image onto garment geometry. The curated
-  artwork library now has a small, source-verified textile-reference catalog
-  with local search/filter and advisory suitability rules. It is not yet
-  browseable in the app; the next work adds the library UI without fetching
-  source images online.
+  artwork library has eight source-verified textile references. In the Style
+  panel, open **Local artwork library** to search, filter, inspect provenance
+  and technical notes, and stage a bundled reference for a new or existing
+  placement. Images resolve from the app bundle; museum addresses are shown
+  only as attribution and are not fetched. Suitability guidance is advisory.
+  This is a small V1 reference collection, not a dense production-art library;
+  its museum photos and studies are not necessarily clean or seamless print
+  tiles.
 - The **Edit** view is an exploratory preview of one pattern piece (the Trouser
   uses its left-front piece). Its changes do not update measurements, the
   assembled view, checks, other sizes, fabric layout, saved designs, or exports.

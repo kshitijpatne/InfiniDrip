@@ -16,11 +16,20 @@ import { surfaceGuidance } from "../guidance/surface-notes";
 import { availableLengthError, bufferError } from "../export/nesting-intelligence";
 import { matchStyle, styleNames } from "../style";
 import { FIELDS, applyChange, inputError, numericRangePosition, numericRangeState, stepNumericValue } from "./controls";
-import { appShellMarkup, controlsMarkup, guidanceMarkup, styleMarkup, surfaceMarkup, nestIntelReadout, specTableMarkup, checkMarkup, editorHintMarkup, editorHandleControlsMarkup, dartControlsMarkup, inspectionMarkup, patternAnnotationKeyMarkup, BodyCroquisView } from "./view";
+import { appShellMarkup, controlsMarkup, guidanceMarkup, styleMarkup, surfaceMarkup, artworkLibraryResultsMarkup, nestIntelReadout, specTableMarkup, checkMarkup, editorHintMarkup, editorHandleControlsMarkup, dartControlsMarkup, inspectionMarkup, patternAnnotationKeyMarkup, BodyCroquisView, type ArtworkLibraryPanelData } from "./view";
 import { saveToStorage, loadFromStorage, readFromStorage, serialize, deserialize, DEFAULT_WORKSPACE, defaultStretchFabricForGarment, Workspace, SaveFile, RecoveryFile, readRecoveryFromStorage, saveRecoveryToStorage, clearRecoveryFromStorage } from "./persist";
 import { Appearance, APPEARANCE_TEXTURES, DEFAULT_APPEARANCE, applyAppearanceToSvg, hexToHsl, hslToHex, normalizeHex } from "./appearance";
 import { emptyHistory, recordHistory, redoHistory, undoHistory, HistoryState } from "./history";
 import { EMPTY_TRANSFORM, placementError, type ArtworkPlacement } from "../surface/placement";
+import {
+  ARTWORK_CATALOG,
+  type ArtworkCatalogRecord,
+  type ArtworkCategory,
+  type ArtworkGarmentFamily,
+  type ArtworkPieceRoleGroup,
+  type ArtworkPrintUse,
+} from "../surface/artwork-library/catalog";
+import { assessArtworkUse, searchArtworkCatalog, type ArtworkCatalogFilters } from "../surface/artwork-library/search";
 import { artworkCorners, boundingBox } from "../surface/transform";
 import { overlayItem, surfaceOverlay } from "../render/surface-overlay";
 import {
@@ -134,6 +143,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   let appearance: Appearance = saved?.appearance ?? DEFAULT_APPEARANCE;
   let surfaceBook: SurfaceBook = saved?.surface ?? {};
   let pendingArtwork: InspectedArtworkFile | null = null;
+  let pendingBuiltInArtwork: ArtworkCatalogRecord | null = null;
   let pendingArtworkRejected = false;
   let pendingArtworkMessage = "Image optional — you can add a placement without a file.";
   const artworkAssetStore = options.artworkAssetStore ?? defaultArtworkAssetStore();
@@ -177,6 +187,16 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   let patternMeasurementFeedback = "";
 
   let targetStyle = initialWorkspace.targetStyle;
+  let artworkLibraryQuery = "";
+  let artworkLibraryCategory: ArtworkCategory | "" = "";
+  let artworkLibraryGarmentFamily: ArtworkGarmentFamily | "" = "";
+  let artworkLibraryPieceRoleGroup: ArtworkPieceRoleGroup | "" = "";
+  let artworkLibraryPrintUseFilter: ArtworkPrintUse | "" = "";
+  let artworkLibraryAssessmentUse: ArtworkPrintUse = "placement";
+  let artworkLibraryTargetIndex = "";
+  let artworkLibraryTargetStyle = "";
+  let artworkLibraryActionMessage = "Choose a reference to stage a new placement or attach it to a selected placement.";
+  let artworkLibraryOpen = false;
   let stretchFabric = STRETCH_FABRICS.find((f) => f.name === initialWorkspace.stretchFabric)!;
   let materialSelectionExplicit = saved !== null;
   let view: ViewName = saved ? initialWorkspace.view : stepView(journey.step);
@@ -382,14 +402,57 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       input.setCustomValidity(error ?? "");
     });
   };
-  const renderSurface = (): string => surfaceMarkup({
-    style: targetStyle,
-    placements: surfacePlacementsNow(),
-    pieceRoles: surfaceRoleSuggestions(),
-    errors: surfaceErrorMap(),
-    preview: surfacePreviewSvg(),
-    pendingAssetMessage: pendingArtworkMessage,
-  });
+  const artworkLibraryPanelData = (): ArtworkLibraryPanelData => {
+    const styleKey = surfaceKeyNow();
+    if (artworkLibraryTargetStyle !== styleKey) {
+      artworkLibraryTargetStyle = styleKey;
+      artworkLibraryTargetIndex = "";
+    }
+    const filters: ArtworkCatalogFilters = {
+      ...(artworkLibraryCategory ? { categories: [artworkLibraryCategory] } : {}),
+      ...(artworkLibraryGarmentFamily ? { garmentFamilies: [artworkLibraryGarmentFamily] } : {}),
+      ...(artworkLibraryPieceRoleGroup ? { pieceRoleGroups: [artworkLibraryPieceRoleGroup] } : {}),
+      ...(artworkLibraryPrintUseFilter ? { printUses: [artworkLibraryPrintUseFilter] } : {}),
+    };
+    const records = searchArtworkCatalog({ query: artworkLibraryQuery, filters });
+    return {
+      query: artworkLibraryQuery,
+      category: artworkLibraryCategory,
+      garmentFamily: artworkLibraryGarmentFamily,
+      pieceRoleGroup: artworkLibraryPieceRoleGroup,
+      printUseFilter: artworkLibraryPrintUseFilter,
+      assessmentUse: artworkLibraryAssessmentUse,
+      selectedPlacementIndex: artworkLibraryTargetIndex,
+      actionMessage: artworkLibraryActionMessage,
+      isOpen: artworkLibraryOpen,
+      totalCount: ARTWORK_CATALOG.length,
+      items: artworkLibraryOpen ? records.map((record) => ({
+        record,
+        assessment: assessArtworkUse(record, artworkLibraryAssessmentUse),
+      })) : [],
+    };
+  };
+  const updateArtworkLibraryResults = (): void => {
+    const results = styleHost.querySelector<HTMLElement>("#surface-library-results");
+    if (results) results.outerHTML = artworkLibraryResultsMarkup(artworkLibraryPanelData());
+  };
+  const setArtworkLibraryActionMessage = (message: string): void => {
+    artworkLibraryActionMessage = message;
+    const status = styleHost.querySelector<HTMLElement>("#surface-library-action-status");
+    if (status) status.textContent = message;
+  };
+  const renderSurface = (): string => {
+    const placements = surfacePlacementsNow();
+    return surfaceMarkup({
+      style: targetStyle,
+      placements,
+      pieceRoles: surfaceRoleSuggestions(),
+      errors: surfaceErrorMap(),
+      artworkLibrary: artworkLibraryPanelData(),
+      preview: surfacePreviewSvg(),
+      pendingAssetMessage: pendingArtworkMessage,
+    });
+  };
   const assetPreviewCache = new Map<string, {
     readonly promise: Promise<StoredArtworkAsset | null>;
     objectUrl?: string;
@@ -417,6 +480,25 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       if (assetId === "") {
         status.textContent = "No image attached to this placement.";
         image.hidden = true;
+        return;
+      }
+      if (assetId.startsWith("builtin-")) {
+        const record = ARTWORK_CATALOG.find((item) => item.assetId === assetId);
+        if (!record) {
+          image.hidden = true;
+          image.removeAttribute("src");
+          status.textContent = "This bundled artwork reference is no longer available in the app. Choose another reference or a local image.";
+          return;
+        }
+        image.onerror = () => {
+          if (!styleHost.contains(image) || !styleHost.contains(status)) return;
+          image.hidden = true;
+          status.textContent = `Bundled preview unavailable for ${record.image.filename}. The saved reference is unchanged.`;
+        };
+        image.src = record.image.localImageUrl;
+        image.alt = `Bundled artwork reference: ${record.title}`;
+        image.hidden = false;
+        status.textContent = `Bundled reference: ${record.title} · ${record.image.filename} · ${record.source.rightsLabel}. Stored in the app, not the imported-artwork store.`;
         return;
       }
       let state = assetPreviewCache.get(assetId);
@@ -2040,6 +2122,14 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     select.value = card.dataset.styleTarget!;
     select.dispatchEvent(new Event("change", { bubbles: true }));
   });
+  styleHost.addEventListener("toggle", (e) => {
+    const details = e.target;
+    if (!(details instanceof HTMLDetailsElement) || !details.classList.contains("artwork-library")) return;
+    if (artworkLibraryOpen === details.open) return;
+    artworkLibraryOpen = details.open;
+    draw();
+    styleHost.querySelector<HTMLDetailsElement>(".artwork-library > summary")?.focus();
+  }, true);
 
   // Surface artwork rows are rebuilt every draw, so the stable style host
   // delegates their edits. Native controls retain keystrokes; change/blur
@@ -2066,6 +2156,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     draw();
   };
   const removeSurfacePlacement = (index: number): void => {
+    const selectedIndex = Number(artworkLibraryTargetIndex);
+    if (artworkLibraryTargetIndex !== "" && selectedIndex === index) artworkLibraryTargetIndex = "";
+    else if (artworkLibraryTargetIndex !== "" && selectedIndex > index) artworkLibraryTargetIndex = String(selectedIndex - 1);
     surfaceBook = surfaceRemoveAt(surfaceBook, surfaceKeyNow(), index);
     markOutputDirty(false);
     draw();
@@ -2080,15 +2173,74 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     const status = styleHost.querySelector<HTMLElement>("#surface-new-file-status");
     if (status) status.textContent = message;
     const clear = styleHost.querySelector<HTMLButtonElement>("#surface-new-clear-file");
-    if (clear) clear.hidden = pendingArtwork === null && !pendingArtworkChecking && !rejected;
+    if (clear) clear.hidden = pendingArtwork === null && pendingBuiltInArtwork === null && !pendingArtworkChecking && !rejected;
     const choose = styleHost.querySelector<HTMLButtonElement>("#surface-new-choose-file");
     if (choose) choose.setAttribute("aria-invalid", String(rejected));
+  };
+  const artworkSourceReference = (record: ArtworkCatalogRecord): string => {
+    const objectId = record.assetId.replace("builtin-met-", "");
+    return `${record.title} — The Met object ${objectId} (${record.source.rightsLabel})`;
+  };
+  const suggestedPlacementId = (record: ArtworkCatalogRecord): string => {
+    const base = record.title.normalize("NFKD").replace(/[\u0300-\u036f]/gu, "")
+      .toLowerCase().replace(/[^a-z0-9]+/gu, "-").replace(/^-|-$/gu, "") || record.assetId;
+    const existing = new Set(surfacePlacementsNow().map((placement) => placement.id));
+    let candidate = base;
+    let suffix = 2;
+    while (existing.has(candidate)) candidate = `${base}-${suffix++}`;
+    return candidate;
+  };
+  const stageBuiltInArtwork = (record: ArtworkCatalogRecord): void => {
+    if (surfaceAssetWriteInProgress) return;
+    newFileCheck += 1;
+    pendingArtwork = null;
+    pendingArtworkChecking = false;
+    pendingBuiltInArtwork = record;
+    pendingArtworkRejected = false;
+    const name = styleHost.querySelector<HTMLInputElement>("#surface-new-id");
+    const source = styleHost.querySelector<HTMLInputElement>("#surface-new-source");
+    const width = styleHost.querySelector<HTMLInputElement>("#surface-new-width");
+    const height = styleHost.querySelector<HTMLInputElement>("#surface-new-height");
+    const role = styleHost.querySelector<HTMLInputElement>("#surface-new-role");
+    if (name && name.value.trim() === "") name.value = suggestedPlacementId(record);
+    if (source) source.value = artworkSourceReference(record);
+    const suggestedWidth = record.use.suggestedPlacementWidthCm.maximum;
+    const suggestedHeight = suggestedWidth * record.image.heightPx / record.image.widthPx;
+    if (width) width.value = String(suggestedWidth);
+    if (height) height.value = String(Math.round(suggestedHeight * 100) / 100);
+    setArtworkLibraryActionMessage(`${record.title} is staged for a new placement. Review its suggested size, choose a pattern-piece role, then add the placement; this bundled image is not copied into imported-art storage.`);
+    updateNewArtworkStatus(`Selected bundled reference: ${record.title}. Add the placement to attach its stable built-in ID; no file is copied to imported-art storage.`, false);
+    styleHost.querySelector<HTMLElement>("#surface-form-error")?.replaceChildren();
+    updateArtworkLibraryResults();
+    role?.focus();
+  };
+  const attachBuiltInArtworkToExisting = (record: ArtworkCatalogRecord): void => {
+    const index = Number(artworkLibraryTargetIndex);
+    const current = artworkLibraryTargetIndex === "" ? undefined : surfacePlacementsNow()[index];
+    if (!current) {
+      setArtworkLibraryActionMessage("Choose an existing placement above before attaching this reference.");
+      updateArtworkLibraryResults();
+      return;
+    }
+    const next: ArtworkPlacement = {
+      ...current,
+      assetId: record.assetId,
+      sourceName: artworkSourceReference(record),
+      sourcePxWidth: record.image.widthPx,
+      sourcePxHeight: record.image.heightPx,
+    };
+    surfaceBook = surfaceSetAt(surfaceBook, surfaceKeyNow(), index, next);
+    setArtworkLibraryActionMessage(`Attached ${record.title} to ${current.id}. Type, role, size, placement, transform and stack order were preserved. Save the design to retain this reference.`);
+    markOutputDirty(false);
+    draw();
+    flash(`Bundled reference attached to ${current.id}. Save the design to retain it.`, "#2E9B63");
   };
   const fileReadyMessage = (file: InspectedArtworkFile): string =>
     `Ready: ${file.name} · ${file.mimeType}${file.widthPx && file.heightPx ? ` · ${file.widthPx}×${file.heightPx} px` : " · pixel size unknown"}. Add the placement to store it locally.`;
   const inspectNewArtworkFile = async (file: File): Promise<void> => {
     const check = ++newFileCheck;
     pendingArtwork = null;
+    pendingBuiltInArtwork = null;
     pendingArtworkChecking = true;
     updateNewArtworkStatus(`Checking ${file.name}…`, false);
     try {
@@ -2212,18 +2364,22 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       heightCm,
       transform: { ...EMPTY_TRANSFORM },
       zOrder: nextZOrder(surfacePlacementsNow()),
-      sourceName: sourceInput.value.trim() || pendingArtwork?.name || "",
-      ...(pendingArtwork?.widthPx === undefined ? {} : { sourcePxWidth: pendingArtwork.widthPx }),
-      ...(pendingArtwork?.heightPx === undefined ? {} : { sourcePxHeight: pendingArtwork.heightPx }),
+      sourceName: sourceInput.value.trim() || pendingArtwork?.name ||
+        (pendingBuiltInArtwork ? artworkSourceReference(pendingBuiltInArtwork) : ""),
+      ...((pendingBuiltInArtwork?.image.widthPx ?? pendingArtwork?.widthPx) === undefined
+        ? {} : { sourcePxWidth: pendingBuiltInArtwork?.image.widthPx ?? pendingArtwork?.widthPx }),
+      ...((pendingBuiltInArtwork?.image.heightPx ?? pendingArtwork?.heightPx) === undefined
+        ? {} : { sourcePxHeight: pendingBuiltInArtwork?.image.heightPx ?? pendingArtwork?.heightPx }),
     };
     const pending = pendingArtwork;
-    if (pending && surfaceAssetWriteInProgress) return;
+    const pendingBuiltIn = pendingBuiltInArtwork;
+    if ((pending || pendingBuiltIn) && surfaceAssetWriteInProgress) return;
     surfaceAssetWriteInProgress = true;
     const addButton = styleHost.querySelector<HTMLButtonElement>("#surface-add")!;
     addButton.disabled = true;
     if (pending) formError.textContent = "Saving the validated image locally…";
     try {
-      let assetId: string | undefined;
+      let assetId: string | undefined = pendingBuiltIn?.assetId;
       if (pending) assetId = await storeArtworkFile(pending, artworkAssetStore);
       const placement: ArtworkPlacement = assetId ? { ...basePlacement, assetId } : basePlacement;
       surfaceBook = surfaceAdd(surfaceBook, key, styleName, placement);
@@ -2233,6 +2389,11 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         }) });
         pendingArtwork = null;
         pendingArtworkRejected = false;
+        pendingArtworkMessage = "Image optional — you can add a placement without a file.";
+      }
+      if (pendingBuiltIn && assetId) {
+        setArtworkLibraryActionMessage(`${pendingBuiltIn.title} was added as a placement with its bundled ID and source-pixel dimensions. Save the design to retain it.`);
+        pendingBuiltInArtwork = null;
         pendingArtworkMessage = "Image optional — you can add a placement without a file.";
       }
     } catch (error) {
@@ -2246,10 +2407,47 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     markOutputDirty(false);
     draw();
     styleHost.querySelector<HTMLInputElement>("#surface-new-id")?.focus();
-    if (pending) flash("Placement and artwork image added. Use Save to retain the design reference.", "#2E9B63");
+    if (pending) flash("Placement and imported artwork image added. Use Save to retain the design reference.", "#2E9B63");
+    else if (pendingBuiltIn) flash("Placement and bundled reference added. Use Save to retain the design reference.", "#2E9B63");
   };
   styleHost.addEventListener("change", (e) => {
     const target = e.target as HTMLInputElement | HTMLSelectElement;
+    if (target.id === "surface-library-category") {
+      artworkLibraryCategory = target.value as ArtworkCategory | "";
+      updateArtworkLibraryResults();
+      return;
+    }
+    if (target.id === "surface-library-family") {
+      artworkLibraryGarmentFamily = target.value as ArtworkGarmentFamily | "";
+      updateArtworkLibraryResults();
+      return;
+    }
+    if (target.id === "surface-library-role") {
+      artworkLibraryPieceRoleGroup = target.value as ArtworkPieceRoleGroup | "";
+      updateArtworkLibraryResults();
+      return;
+    }
+    if (target.id === "surface-library-use-filter") {
+      artworkLibraryPrintUseFilter = target.value as ArtworkPrintUse | "";
+      updateArtworkLibraryResults();
+      return;
+    }
+    if (target.id === "surface-library-assess-use") {
+      artworkLibraryAssessmentUse = target.value as ArtworkPrintUse;
+      updateArtworkLibraryResults();
+      return;
+    }
+    if (target.id === "surface-library-target") {
+      const index = Number(target.value);
+      const selectedPlacement = target.value !== "" && Number.isInteger(index) &&
+        index >= 0 && index < surfacePlacementsNow().length ? surfacePlacementsNow()[index] : undefined;
+      artworkLibraryTargetIndex = selectedPlacement ? target.value : "";
+      setArtworkLibraryActionMessage(selectedPlacement
+        ? `Placement ${selectedPlacement.id} selected. Choose a reference card to attach it.`
+        : "Choose a reference to stage a new placement or attach it to a selected placement.");
+      updateArtworkLibraryResults();
+      return;
+    }
     if (target instanceof HTMLInputElement && target.id === "surface-new-file") {
       const selection = singleDroppedFile(target.files);
       target.value = "";
@@ -2269,6 +2467,12 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     const control = target.closest<HTMLSelectElement>("select[data-surface-index]");
     if (control) applySurfaceField(Number(control.dataset.surfaceIndex), control.dataset.surfaceField!, control.value);
   });
+  styleHost.addEventListener("input", (e) => {
+    const target = e.target as HTMLInputElement;
+    if (target.id !== "surface-library-search") return;
+    artworkLibraryQuery = target.value;
+    updateArtworkLibraryResults();
+  });
   styleHost.addEventListener("surface-step", (e) => {
     const input = (e.target as HTMLElement).closest<HTMLInputElement>("input[data-surface-index]");
     if (!input) return;
@@ -2281,6 +2485,18 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   });
   styleHost.addEventListener("click", (e) => {
     const target = e.target as HTMLElement;
+    const stageArtwork = target.closest<HTMLButtonElement>("button[data-artwork-stage-id]");
+    if (stageArtwork) {
+      const record = ARTWORK_CATALOG.find((item) => item.assetId === stageArtwork.dataset.artworkStageId);
+      if (record) stageBuiltInArtwork(record);
+      return;
+    }
+    const applyArtwork = target.closest<HTMLButtonElement>("button[data-artwork-apply-id]");
+    if (applyArtwork && !applyArtwork.disabled) {
+      const record = ARTWORK_CATALOG.find((item) => item.assetId === applyArtwork.dataset.artworkApplyId);
+      if (record) attachBuiltInArtworkToExisting(record);
+      return;
+    }
     const newFile = target.closest<HTMLButtonElement>("#surface-new-choose-file");
     if (newFile) {
       if (!surfaceAssetWriteInProgress) styleHost.querySelector<HTMLInputElement>("#surface-new-file")?.click();
@@ -2290,6 +2506,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     if (clearFile) {
       newFileCheck++;
       pendingArtwork = null;
+      pendingBuiltInArtwork = null;
       pendingArtworkChecking = false;
       updateNewArtworkStatus("Image optional — you can add a placement without a file.", false);
       styleHost.querySelector<HTMLElement>("#surface-form-error")!.textContent = "";

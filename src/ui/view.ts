@@ -9,6 +9,18 @@ import { Report } from "../guidance";
 import { StyleMatch, Delta } from "../style";
 import { FIELDS, Field, numericRangeState } from "./controls";
 import type { ArtworkPlacement } from "../surface/placement";
+import {
+  ARTWORK_CATEGORIES,
+  GARMENT_FAMILIES,
+  PIECE_ROLE_GROUPS,
+  PRINT_USES,
+  type ArtworkCatalogRecord,
+  type ArtworkCategory,
+  type ArtworkGarmentFamily,
+  type ArtworkPieceRoleGroup,
+  type ArtworkPrintUse,
+} from "../surface/artwork-library/catalog";
+import type { ArtworkUseAssessment } from "../surface/artwork-library/search";
 import { escapeAttr } from "../render/surface-overlay";
 import type { Piece, PatternMark, PatternAnnotationRole } from "../drafting";
 import { APPEARANCE_TEXTURES, Appearance, DEFAULT_APPEARANCE, hexToHsl, normalizeHex } from "./appearance";
@@ -334,6 +346,23 @@ export function styleMarkup(
 
 /** Surface artwork panel data. Placements, problems, and preview are precomputed
  * by the app; this module only translates them into markup. */
+export interface ArtworkLibraryPanelData {
+  readonly query: string;
+  readonly category: ArtworkCategory | "";
+  readonly garmentFamily: ArtworkGarmentFamily | "";
+  readonly pieceRoleGroup: ArtworkPieceRoleGroup | "";
+  readonly printUseFilter: ArtworkPrintUse | "";
+  readonly assessmentUse: ArtworkPrintUse;
+  readonly selectedPlacementIndex: string;
+  readonly actionMessage: string;
+  readonly isOpen: boolean;
+  readonly totalCount: number;
+  readonly items: readonly {
+    readonly record: ArtworkCatalogRecord;
+    readonly assessment: ArtworkUseAssessment;
+  }[];
+}
+
 export interface SurfacePanelData {
   readonly style: string;
   readonly placements: readonly ArtworkPlacement[];
@@ -343,9 +372,134 @@ export interface SurfacePanelData {
   readonly pendingAssetMessage?: string;
   /** Placement index → actionable placementError text. */
   readonly errors: ReadonlyMap<number, string>;
+  /** Optional for focused view tests; the app supplies its local catalog state. */
+  readonly artworkLibrary?: ArtworkLibraryPanelData;
   /** Precomputed true-scale artwork-space preview SVG (empty when no artwork). */
   readonly preview: string;
 }
+
+const artworkUseLabel = (use: ArtworkPrintUse): string =>
+  use === "all-over" ? "All-over" : use === "border/trim" ? "Border / trim"
+    : use === "focal graphic" ? "Focal graphic" : use === "panel" ? "Panel" : "Placement";
+
+const artworkSuitabilityLabel = (level: ArtworkUseAssessment["level"]): string =>
+  level === "recommended" ? "Recommended" : level === "possible" ? "Possible" : "Needs review";
+
+const selectedOption = (value: string, selected: string): string =>
+  value === selected ? " selected" : "";
+
+const artworkLibraryCardMarkup = (
+  item: ArtworkLibraryPanelData["items"][number],
+  selectedPlacementIndex: string,
+): string => {
+  const { record, assessment } = item;
+  const presentation = record.technical.presentation === "textile-photograph"
+    ? "Museum textile photograph"
+    : record.technical.presentation === "paper-study"
+      ? "Photographed paper study"
+      : record.technical.presentation === "clean-artwork"
+        ? "Artwork image"
+        : "Image presentation unconfirmed";
+  const tileStatus = record.technical.imageIsSeamlessTile
+    ? "Verified seamless tile"
+    : "Not a verified seamless tile";
+  const objectId = record.assetId.replace("builtin-met-", "");
+  const sourceReference = `${record.title} — The Met object ${objectId} (${record.source.rightsLabel})`;
+  const categories = record.categories.map(escapeAttr).join(", ");
+  const tags = record.tags.map(escapeAttr).join(", ");
+  const disabled = selectedPlacementIndex === "" ? " disabled" : "";
+  const dimensions = `${record.image.widthPx} × ${record.image.heightPx} px`;
+  const size = `${record.use.suggestedPlacementWidthCm.minimum}–${record.use.suggestedPlacementWidthCm.maximum} cm wide`;
+  const resolution = assessment.assessedWidthCm === null || assessment.assessedHeightCm === null
+    ? "Resolution estimate unavailable."
+    : `At ${assessment.assessedWidthCm} × ${assessment.assessedHeightCm} cm: ${assessment.estimatedPxPerCm === null
+      ? "resolution estimate unavailable"
+      : `about ${Math.floor(assessment.estimatedPxPerCm)} px/cm on the limiting image axis`}.`;
+  return `<article class="artwork-library-card" data-artwork-card="${escapeAttr(record.assetId)}">` +
+    `<img class="artwork-library-image" src="${escapeAttr(record.image.localImageUrl)}" ` +
+    `alt="Reference image: ${escapeAttr(record.title)}" width="${record.image.widthPx}" height="${record.image.heightPx}" ` +
+    `loading="lazy" decoding="async"/>` +
+    `<div class="artwork-library-card-body"><h4>${escapeAttr(record.title)}</h4>` +
+    `<p class="artwork-library-description">${escapeAttr(record.description)}</p>` +
+    `<p class="artwork-library-badges"><span>${escapeAttr(presentation)}</span><span>${escapeAttr(tileStatus)}</span></p>` +
+    `<p class="artwork-library-taxonomy"><strong>Categories:</strong> ${categories}<br/><strong>Tags:</strong> ${tags}</p>` +
+    `<p class="artwork-library-scale"><strong>Suggested starting width:</strong> ${escapeAttr(size)}. ${escapeAttr(record.use.suggestedPlacementWidthCm.basis)}</p>` +
+    `<section class="artwork-library-assessment" data-level="${assessment.level}" aria-label="${artworkUseLabel(assessment.printUse)} suitability guidance">` +
+    `<h5>${artworkUseLabel(assessment.printUse)} guidance: ${artworkSuitabilityLabel(assessment.level)}</h5>` +
+    `<p>${escapeAttr(assessment.reason)}</p><p class="artwork-library-resolution">${escapeAttr(resolution)}</p></section>` +
+    `<div class="artwork-library-actions"><button type="button" data-artwork-stage-id="${escapeAttr(record.assetId)}" ` +
+    `aria-label="Stage ${escapeAttr(record.title)} for a new placement">Use in new placement</button>` +
+    `<button type="button" data-artwork-apply-id="${escapeAttr(record.assetId)}"${disabled} ` +
+    `aria-label="Attach ${escapeAttr(record.title)} to the selected placement" aria-describedby="surface-library-target-help">Use for selected placement</button></div>` +
+    `<details class="artwork-library-details"><summary>Source, rights and technical record</summary>` +
+    `<dl><dt>Creator</dt><dd>${escapeAttr(record.creator)}</dd>` +
+    `<dt>Culture and date</dt><dd>${escapeAttr(record.culture)} · ${escapeAttr(record.date)}</dd>` +
+    `<dt>Medium</dt><dd>${escapeAttr(record.medium)}</dd>` +
+    `<dt>Institution</dt><dd>${escapeAttr(record.source.institution)}</dd>` +
+    `<dt>Rights</dt><dd>${escapeAttr(record.source.rightsLabel)} · API public-domain flag: ${record.source.apiIsPublicDomain ? "true" : "false"}</dd>` +
+    `<dt>Credit line</dt><dd>${escapeAttr(record.source.creditLine)}</dd>` +
+    `<dt>Item record URL</dt><dd><code>${escapeAttr(record.source.itemRecordUrl)}</code></dd>` +
+    `<dt>Reuse policy URL</dt><dd><code>${escapeAttr(record.source.reusePolicyUrl)}</code></dd>` +
+    `<dt>API record URL</dt><dd><code>${escapeAttr(record.source.apiRecordUrl)}</code></dd>` +
+    `<dt>Original image URL (provenance only)</dt><dd><code>${escapeAttr(record.source.originalImageUrl)}</code></dd>` +
+    `<dt>Rights checked / file retrieved</dt><dd>${escapeAttr(record.source.checkedOn)} / ${escapeAttr(record.retrievedOn)}</dd>` +
+    `<dt>Local file</dt><dd>${escapeAttr(record.image.filename)} · ${escapeAttr(record.image.mimeType)} · ${escapeAttr(dimensions)} · ${record.image.byteLength.toLocaleString("en-US")} bytes</dd>` +
+    `<dt>Modification</dt><dd>${escapeAttr(record.modification)}</dd>` +
+    `<dt>SHA-256</dt><dd><code>${escapeAttr(record.image.sha256)}</code></dd>` +
+    `<dt>Repeat and presentation</dt><dd>${escapeAttr(presentation)}; repeat motif ${escapeAttr(record.technical.repeatMotif)}; ${escapeAttr(tileStatus)}. ${escapeAttr(record.technical.repeatEvidence)} ${escapeAttr(record.technical.seamlessEvidence)}</dd>` +
+    `<dt>Direction</dt><dd>${escapeAttr(record.technical.directionality)}. ${escapeAttr(record.technical.directionEvidence)}</dd>` +
+    `<dt>Curated uses</dt><dd>${record.use.printUses.map((use) => escapeAttr(artworkUseLabel(use))).join(", ")}</dd>` +
+    `<dt>Garment families / piece roles</dt><dd>${record.use.garmentFamilies.map(escapeAttr).join(", ")} / ${record.use.pieceRoleGroups.map(escapeAttr).join(", ")}</dd>` +
+    `<dt>Source notes</dt><dd>Source and policy addresses are displayed as text only; the app does not fetch them.</dd></dl></details>` +
+    `<p class="artwork-library-asset-id">Bundled asset ID: <code>${escapeAttr(record.assetId)}</code> · source reference: ${escapeAttr(sourceReference)}</p></div></article>`;
+};
+
+export function artworkLibraryResultsMarkup(data: ArtworkLibraryPanelData): string {
+  return `<div id="surface-library-results"><p class="artwork-library-result-count" role="status" aria-live="polite">` +
+    `${data.items.length} of ${data.totalCount} bundled references shown.</p>` +
+    (data.items.length === 0
+      ? `<p class="surface-empty">No artwork references match. Clear or broaden a search or filter; the catalog has not been changed.</p>`
+      : `<div class="artwork-library-results">${data.items.map((item) => artworkLibraryCardMarkup(item, data.selectedPlacementIndex)).join("")}</div>`) +
+    `</div>`;
+}
+
+const artworkLibraryMarkup = (
+  data: ArtworkLibraryPanelData,
+  placements: readonly ArtworkPlacement[],
+): string => {
+  if (!data.isOpen) {
+    return `<details class="artwork-library" aria-labelledby="surface-library-title">` +
+      `<summary id="surface-library-title">Local artwork library <span>${data.totalCount} bundled references</span></summary>` +
+      `<p class="artwork-library-collapsed">Open to browse, search, inspect provenance, and choose a bundled reference. Images are local and do not load from source websites.</p></details>`;
+  }
+  const filterOptions = <T extends string>(
+    values: readonly T[],
+    selected: string,
+    label: (value: T) => string = (value) => value,
+  ): string => values.map((value) =>
+    `<option value="${escapeAttr(value)}"${selectedOption(value, selected)}>${escapeAttr(label(value))}</option>`,
+  ).join("");
+  const placementOptions = placements.map((placement, index) =>
+    `<option value="${index}"${selectedOption(String(index), data.selectedPlacementIndex)}>` +
+    `#${index + 1} · ${escapeAttr(placement.id)} · ${escapeAttr(placement.pieceRole)}</option>`,
+  ).join("");
+  return `<details class="artwork-library" open aria-labelledby="surface-library-title">` +
+    `<summary id="surface-library-title">Local artwork library <span>${data.totalCount} bundled references</span></summary>` +
+    `<div class="artwork-library-content"><p class="surface-help">Search and inspect bundled textile/design references. These are local reference photos or studies, not necessarily clean print artwork or seamless tiles. Browsing does not change the design; source pages are never fetched.</p>` +
+    `<div class="artwork-library-search"><label for="surface-library-search">Search title, description, tags, creator or source</label>` +
+    `<input id="surface-library-search" type="search" value="${escapeAttr(data.query)}" autocomplete="off"/>` +
+    `<div class="artwork-library-filters">` +
+    `<div><label for="surface-library-category">Category filter</label><select id="surface-library-category"><option value="">All categories</option>${filterOptions(ARTWORK_CATEGORIES, data.category)}</select></div>` +
+    `<div><label for="surface-library-family">Garment family</label><select id="surface-library-family"><option value="">Any family</option>${filterOptions(GARMENT_FAMILIES, data.garmentFamily)}</select></div>` +
+    `<div><label for="surface-library-role">Piece role group</label><select id="surface-library-role"><option value="">Any piece role</option>${filterOptions(PIECE_ROLE_GROUPS, data.pieceRoleGroup)}</select></div>` +
+    `<div><label for="surface-library-use-filter">Curated print use</label><select id="surface-library-use-filter"><option value="">Any print use</option>${filterOptions(PRINT_USES, data.printUseFilter, artworkUseLabel)}</select></div>` +
+    `<div><label for="surface-library-assess-use">Show guidance for</label><select id="surface-library-assess-use">${filterOptions(PRINT_USES, data.assessmentUse, artworkUseLabel)}</select></div></div></div>` +
+    `<div class="artwork-library-target"><label for="surface-library-target">Existing placement to use</label>` +
+    `<select id="surface-library-target"><option value="">Choose a placement…</option>${placementOptions}</select>` +
+    `<p id="surface-library-target-help" class="surface-help">Choosing a reference changes only the image ID, source text and source-pixel dimensions. The placement type, role, size, position, transform and stack order stay as they are. Save the design to retain the change.</p>` +
+    `<p id="surface-library-action-status" class="surface-help" role="status" aria-live="polite">${escapeAttr(data.actionMessage)}</p></div>` +
+    `${artworkLibraryResultsMarkup(data)}</div></details>`;
+};
 
 const SURFACE_NUMERIC: readonly {
   readonly id: "widthCm" | "heightCm" | "dx" | "dy" | "scale" | "rotationDeg" | "zOrder" | "sourcePxWidth" | "sourcePxHeight";
@@ -469,12 +623,15 @@ export function surfaceMarkup(data: SurfacePanelData): string {
   const list = rows === ""
     ? `<p class="surface-empty">No artwork placements on ${escapeAttr(data.style)} yet. Add one below.</p>`
     : `<div class="surface-placement-list">${rows}</div>`;
+  const library = data.artworkLibrary
+    ? artworkLibraryMarkup(data.artworkLibrary, data.placements)
+    : "";
   const preview = `<div data-surface-preview-shell${data.preview === "" ? " hidden" : ""} class="surface-preview-shell"><h3>Placement preview · true scale</h3>` +
     `<div id="surface-preview">${data.preview}</div>` +
     `<p class="surface-help">This is the placement rectangle, not the artwork image or a garment rendering. X/Y offsets are measured from the selected piece's cut-box centre.</p></div>`;
   const newDimension = (id: "width" | "height", label: string, value: number): string =>
     `<div class="surface-field"><label for="surface-new-${id}">Placement ${label.toLowerCase()} (cm)</label>` +
-    `<input id="surface-new-${id}" type="number" min="0" step="0.5" value="${value}" inputmode="decimal" aria-describedby="surface-new-size-help surface-form-error" aria-label="New placement ${label.toLowerCase()} in centimetres"/></div>`;
+    `<input id="surface-new-${id}" type="number" min="0" step="any" value="${value}" inputmode="decimal" aria-describedby="surface-new-size-help surface-form-error" aria-label="New placement ${label.toLowerCase()} in centimetres"/></div>`;
   const form = `<section class="surface-add-form" aria-labelledby="surface-add-title">` +
     `<h3 id="surface-add-title">Add artwork placement</h3>` +
     `<p class="surface-help">Creates a placement area for this style. A selected file is stored locally and previewed here; the form does not change garment geometry.</p>` +
@@ -491,10 +648,10 @@ export function surfaceMarkup(data: SurfacePanelData): string {
     `<button id="surface-new-choose-file" type="button">Choose artwork file</button>` +
     `<input id="surface-new-file" type="file" accept="${SURFACE_FILE_ACCEPT}" aria-label="Choose local artwork image" hidden/>` +
     `<p id="surface-new-file-status" class="surface-asset-status" role="status" aria-live="polite">${escapeAttr(data.pendingAssetMessage ?? "Image optional — you can add a placement without a file.")}</p>` +
-    `<button id="surface-new-clear-file" type="button" hidden>Clear selected file</button></div>` +
+    `<button id="surface-new-clear-file" type="button" hidden>Clear selected image</button></div>` +
     `<button id="surface-add" type="button">Add placement</button>` +
     `<p id="surface-form-error" class="surface-error" role="status" aria-live="polite"></p></section>`;
-  return panel("Surface", `<div class="surface-panel-content">${surfaceRoleOptions(roles)}<p class="surface-intro">Record where a print, patch, or colour block belongs. Imported files stay local to this app profile and never change pattern geometry.</p>${list}${form}${preview}</div>`);
+  return panel("Surface", `<div class="surface-panel-content">${surfaceRoleOptions(roles)}<p class="surface-intro">Record where a print, patch, or colour block belongs. Imported files stay local to this app profile and never change pattern geometry.</p>${list}${library}${form}${preview}</div>`);
 }
 
 interface ExportFormat {
