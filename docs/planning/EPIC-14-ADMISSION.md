@@ -16,7 +16,7 @@ and acceptance criteria are recorded as `EPIC-14-C01`, `EPIC-14-C02`,
 | --- | --- | --- | --- |
 | C01 | **Done — reviewed and accepted 2026-09-24 (Slice 216)** | Seven-recipe professional baseline and risk-ranked gap matrix, grounded in repository behavior and inspected outputs; actual PDFs/renders and SHA-256 inventory retained | 2026-10-16 |
 | C02 | **Done — reviewed and accepted 2026-09-24 (Slice 217)** | Source-dated standard/tool comparison, separating primary documentation, marketing, public user reports and observed trials; cross-checked against C01’s accepted baseline | 2026-10-23 |
-| C05 | In Progress | Measurement-driven avatar and pattern-linked 3D feasibility dossier with rights, validation and performance gates | 2026-11-13 |
+| C05 | **Done — reviewed and accepted 2026-09-24 (Slice 218)** | Measurement-driven avatar and pattern-linked 3D feasibility dossier with rights, validation and performance gates; SMPL-X commercial-rights wording remains unresolved | 2026-11-13 |
 | C06 | In Progress | Starter rubric and uncertainty/provenance ledgers for assortment, reference/upcycling and supplier evidence | 2026-11-13 |
 
 Targets are planning forecasts, not commitments or substitutes for review.

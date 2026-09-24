@@ -843,8 +843,8 @@ data collection still require their own explicit gate.
 ## EPIC-14 continuation order — directed 2026-09-24
 
 - Finish and review C01, C02, C05, and C06 as the admitted parallel evidence
-  wave; do not stop at C01. C01 and C02 are now accepted; C05 and C06 remain
-  open until their own board evidence gates pass.
+  wave; do not stop at C01. C01, C02 and C05 are accepted; C06 remains open
+  until its own board evidence gate passes.
 - After all four exits, create separate durable board work items for C03, C04,
   and G01 final review, then run them in the strict order C03 → C04 → final
   review. C03 consumes C01/C02/C05/C06; C04 depends on C03; final review

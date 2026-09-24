@@ -108,7 +108,7 @@ Epic 13 is the last completed numbered Epic and groups the nine accepted pre-gar
 | --- | --- | --- | --- | --- |
 | A | `EPIC-14-LANE-A` | task / Backlog | EPIC-14 · G01 | C03–C04 shared measurement, pack and CAD contracts; starts after C01/C02/C05/C06 are accepted; feeds G02 and later outputs. |
 | B | `EPIC-14-LANE-B` | research / Done | EPIC-14 · G01 | C01–C02 seven-recipe and professional parity evidence; informs A and the garment lane. |
-| C | `EPIC-14-LANE-C` | research / In Progress | EPIC-14 · G01 | C05 3D feasibility and proof thresholds; later implementation belongs to EPIC-22 · G09. |
+| C | `EPIC-14-LANE-C` | research / Done | EPIC-14 · G01 | C05 3D feasibility and proof thresholds; later implementation belongs to EPIC-22 · G09. |
 | D | `EPIC-14-LANE-D` | research / In Progress | EPIC-14 · G01 | C06 starter, assortment, upcycling and supplier evidence; later work belongs to G06/G08/G10/G11. |
 | E | `EPIC-20-LANE-E` | task / Backlog | EPIC-20 · G07 | G01S casual shorts; executable only after explicit garment-direction approval and relevant C01/C03 findings. |
 
