@@ -4,7 +4,7 @@ import { describe, it, expect } from "vitest";
 import { PDFDocument, PDFRawStream } from "pdf-lib";
 import { STANDARD_M, TEE } from "../drafting";
 import { EMPTY_TRANSFORM, type ArtworkPlacement } from "../surface/placement";
-import { exportTechPack } from "./techpack";
+import { exportTechPack, exportTechPackV2 } from "./techpack";
 
 const placement = (overrides: Partial<ArtworkPlacement> = {}): ArtworkPlacement => ({
   id: "chest-print",
@@ -36,6 +36,12 @@ describe("exportTechPack artwork section", () => {
     const empty = exportTechPack(TEE, STANDARD_M, undefined, undefined, {}, [], "Classic tee");
     expect(empty).toBe(plain);
     expect((await load(empty)).getPageCount()).toBe(4);
+  });
+
+  it("keeps the full artwork placement appendix after the paginated overview", () => {
+    const pdf = exportTechPackV2(TEE, STANDARD_M, undefined, undefined, {}, [placement()], "Summer");
+    expect(pdf).toContain("(Artwork placement - Summer)");
+    expect(pdf).toContain("(True scale artwork space. Shared across graded sizes.)");
   });
 
   it("appends a parsed placement page naming the artwork", async () => {

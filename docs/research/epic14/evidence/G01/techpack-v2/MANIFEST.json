@@ -1,0 +1,244 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "cf4d35166838ab62bf31e111718fd5ab2c6f3a51",
+  "generator": {
+    "path": "docs/research/epic14/evidence/G01/render-techpack-v2.ts",
+    "sha256": "f2fe5e579e4b4ea0a3d6a92fb2c896e3d45cd7622640eaf4083dfb5b35c98281",
+    "command": "npx vite-node --script docs/research/epic14/evidence/G01/render-techpack-v2.ts"
+  },
+  "inputs": {
+    "measurementPreset": "STANDARD_M",
+    "recipes": [
+      "tee",
+      "darted-tee",
+      "tank",
+      "polo",
+      "woven-shirt",
+      "skirt",
+      "trouser"
+    ],
+    "garmentOptions": "recipe defaults",
+    "fabricOverride": null,
+    "artworkPlacements": [],
+    "pdfPage": "A4"
+  },
+  "rasterization": {
+    "tool": "Poppler pdftoppm",
+    "dpi": 150,
+    "format": "PNG",
+    "rasterPageCount": 33
+  },
+  "layoutAuditPath": "LAYOUT-AUDIT.json",
+  "totalPdfPages": 33,
+  "totalExtractedWords": 2953,
+  "outOfBoundsWords": 0,
+  "overlappingWordBoxes": 0,
+  "claimsBoundary": "Digital layout and readability evidence only. The piece overview is explicitly not to scale and is not a cutting pattern or finished technical-flat set; these outputs do not establish physical fit, drape accuracy, factory acceptance, or production readiness.",
+  "artifacts": [
+    {
+      "path": "docs/research/epic14/evidence/G01/techpack-v2/darted-tee.pdf",
+      "bytes": 12635,
+      "sha256": "ac76adc25b4d3ae8ce6e734923058c0acb074427d7a6bbabeb67acb47942c259"
+    },
+    {
+      "path": "docs/research/epic14/evidence/G01/techpack-v2/LAYOUT-AUDIT.json",
+      "bytes": 2519,
+      "sha256": "22f559624f17a79c63cb79e6177e6fb746d2da632570b820c05b9cb3d561aa86"
+    },
+    {
+      "path": "docs/research/epic14/evidence/G01/techpack-v2/polo.pdf",
+      "bytes": 24710,
+      "sha256": "8a4378d430b959e1cf498274f8c0e4026930e07bda230234870f3dfa23983814"
+    },
+    {
+      "path": "docs/research/epic14/evidence/G01/techpack-v2/renders/darted-tee-1.png",
+      "bytes": 47705,
+      "sha256": "bee42ea2aaec5c50917cc6506a5e4e5f6af85c38e0892f4230d0d379e6d0208e"
+    },
+    {
+      "path": "docs/research/epic14/evidence/G01/techpack-v2/renders/darted-tee-2.png",
+      "bytes": 82631,
+      "sha256": "2e151eadfe233cf3c72fe1d5a6489e0672d0f6c405a57de4bd842e8c0c055d2d"
+    },
+    {
+      "path": "docs/research/epic14/evidence/G01/techpack-v2/renders/darted-tee-3.png",
+      "bytes": 81409,
+      "sha256": "c9dea0627b5ca1cd4a401f99d8ea6a2f0e4c48f69ebdc444d54c2b4232584293"
+    },
+    {
+      "path": "docs/research/epic14/evidence/G01/techpack-v2/renders/darted-tee-4.png",
+      "bytes": 78581,
+      "sha256": "8a91db21c9f1eead99ce96ad58f11663fc61930be45ddf0ea14d6fa61c75ee3c"
+    },
+    {
+      "path": "docs/research/epic14/evidence/G01/techpack-v2/renders/polo-1.png",
+      "bytes": 48532,
+      "sha256": "072907421dc5bbfed4c10aec7b4dea4e81f9b65c1e3d1d2ccb9ad9836ed886e2"
+    },
+    {
+      "path": "docs/research/epic14/evidence/G01/techpack-v2/renders/polo-2.png",
+      "bytes": 69563,
+      "sha256": "2ac8a96ecfb5ab7c71354301ed4e5867e534125924126594e8184463cdffbd42"
+    },
+    {
+      "path": "docs/research/epic14/evidence/G01/techpack-v2/renders/polo-3.png",
+      "bytes": 43240,
+      "sha256": "185258cf759da8ca7b01d75f33353560a97bba83395afe083f3d7c9a894c692f"
+    },
+    {
+      "path": "docs/research/epic14/evidence/G01/techpack-v2/renders/polo-4.png",
+      "bytes": 140056,
+      "sha256": "a091fdb6bf8318679ae0c869c0b9908386e987a22a226d3498585c73ba9811be"
+    },
+    {
+      "path": "docs/research/epic14/evidence/G01/techpack-v2/renders/polo-5.png",
+      "bytes": 141060,
+      "sha256": "760944fcb266efaa8d6873ad2abdd3f307cfd002f9263c85c77fd475bbf475ef"
+    },
+    {
+      "path": "docs/research/epic14/evidence/G01/techpack-v2/renders/polo-6.png",
+      "bytes": 125674,
+      "sha256": "3572e530f0d4562e944511f23c648ecc634e42eff4983deb2cf98d4a98dffd5e"
+    },
+    {
+      "path": "docs/research/epic14/evidence/G01/techpack-v2/renders/skirt-1.png",
+      "bytes": 38418,
+      "sha256": "f779b49f002271fdc76e412027381d5ce18412d36dae64991c61a99189a656b7"
+    },
+    {
+      "path": "docs/research/epic14/evidence/G01/techpack-v2/renders/skirt-2.png",
+      "bytes": 36953,
+      "sha256": "e9fb11383b87ad1cb442f4490d9dc7a64c557af919a410c9c6e528c6ed2db0a9"
+    },
+    {
+      "path": "docs/research/epic14/evidence/G01/techpack-v2/renders/skirt-3.png",
+      "bytes": 72408,
+      "sha256": "04c6f709143dc9a3c22903864817b805e835e38bbb2803917dad398f9ef870e3"
+    },
+    {
+      "path": "docs/research/epic14/evidence/G01/techpack-v2/renders/skirt-4.png",
+      "bytes": 42574,
+      "sha256": "20c22c0f59c748280041d057d73780285487f9c7e22662c31f9805ed5b64534c"
+    },
+    {
+      "path": "docs/research/epic14/evidence/G01/techpack-v2/renders/tank-1.png",
+      "bytes": 39403,
+      "sha256": "17047ab1d5e155132a4794190eca56a339c5a4e111b62c89794333719cdda90d"
+    },
+    {
+      "path": "docs/research/epic14/evidence/G01/techpack-v2/renders/tank-2.png",
+      "bytes": 60888,
+      "sha256": "7ac319544d342bcbeae40fd676680d50c7b7962e35dc8efc3aa4dd6847ae4a29"
+    },
+    {
+      "path": "docs/research/epic14/evidence/G01/techpack-v2/renders/tank-3.png",
+      "bytes": 65385,
+      "sha256": "cdc74c3db1f743a6a23b134f62cc385e459a28fe068672684e10bd2599a7fbab"
+    },
+    {
+      "path": "docs/research/epic14/evidence/G01/techpack-v2/renders/tank-4.png",
+      "bytes": 60044,
+      "sha256": "085c5a1b37ebf907a4bd9567f8ca1999ace8ffa012263796955196103a8c484a"
+    },
+    {
+      "path": "docs/research/epic14/evidence/G01/techpack-v2/renders/tee-1.png",
+      "bytes": 44809,
+      "sha256": "df3b469822fd35a5c72e66147bc1d8b357bc4b78fb39942cd0e3c20dc1daa2ea"
+    },
+    {
+      "path": "docs/research/epic14/evidence/G01/techpack-v2/renders/tee-2.png",
+      "bytes": 78142,
+      "sha256": "3a3458a682594f95e91ed098d1520c86da8d1c9e55e6911909a3923a58e43b15"
+    },
+    {
+      "path": "docs/research/epic14/evidence/G01/techpack-v2/renders/tee-3.png",
+      "bytes": 76429,
+      "sha256": "6e1e62d5cf2b7149bd87bfca9dfdbb6edfd95f8b352178d544765841cceeee84"
+    },
+    {
+      "path": "docs/research/epic14/evidence/G01/techpack-v2/renders/tee-4.png",
+      "bytes": 73612,
+      "sha256": "ddfd231e2febe3066fbd30cf9bf618f5f2d986d4493f662b1cb6b5b295ac789d"
+    },
+    {
+      "path": "docs/research/epic14/evidence/G01/techpack-v2/renders/trouser-1.png",
+      "bytes": 59564,
+      "sha256": "cc21818a5a7108f15be57334ed372f1053e975df4a85a55de3a02b4a59003f21"
+    },
+    {
+      "path": "docs/research/epic14/evidence/G01/techpack-v2/renders/trouser-2.png",
+      "bytes": 47188,
+      "sha256": "8c60b6c29566f5b7822e224f8a53ed1c2a69157b52a9d7f4b196c41c3aab9197"
+    },
+    {
+      "path": "docs/research/epic14/evidence/G01/techpack-v2/renders/trouser-3.png",
+      "bytes": 136546,
+      "sha256": "421a4d19fd28a5fa2e41af9b2d70ebebe11205c1e1cc15b7a58f7aa3e4874b61"
+    },
+    {
+      "path": "docs/research/epic14/evidence/G01/techpack-v2/renders/trouser-4.png",
+      "bytes": 120556,
+      "sha256": "79beed8d405ca151bd4f2cbb70952cfcf8192ab72184e30edb38a7ea3d54ecb2"
+    },
+    {
+      "path": "docs/research/epic14/evidence/G01/techpack-v2/renders/trouser-5.png",
+      "bytes": 122802,
+      "sha256": "b55143c55a61b5d7de6b0c35676fe66f8c031b5215180f24878c7769887e6ffd"
+    },
+    {
+      "path": "docs/research/epic14/evidence/G01/techpack-v2/renders/woven-shirt-1.png",
+      "bytes": 59847,
+      "sha256": "af684bc3d73b96d73e84e28f49aed86679ba6378aa9c2a72ee240895323ba45a"
+    },
+    {
+      "path": "docs/research/epic14/evidence/G01/techpack-v2/renders/woven-shirt-2.png",
+      "bytes": 48631,
+      "sha256": "eb79f27fe94999cf8472879df2e6435ac30ce1dc01d99d8ad5058fc6551e4e9b"
+    },
+    {
+      "path": "docs/research/epic14/evidence/G01/techpack-v2/renders/woven-shirt-3.png",
+      "bytes": 54067,
+      "sha256": "317537c2c3d76f35cef4582c590a7b5fac240f84f2d99977742cf47b20fc2739"
+    },
+    {
+      "path": "docs/research/epic14/evidence/G01/techpack-v2/renders/woven-shirt-4.png",
+      "bytes": 77875,
+      "sha256": "2585d1468fc663475e92540e2bc29024f5529a035df2d8af938de79d84e91bc8"
+    },
+    {
+      "path": "docs/research/epic14/evidence/G01/techpack-v2/renders/woven-shirt-5.png",
+      "bytes": 128119,
+      "sha256": "0e43703c900ee69082e6a249738b412b044f6fced342a42df12a2307282cffae"
+    },
+    {
+      "path": "docs/research/epic14/evidence/G01/techpack-v2/renders/woven-shirt-6.png",
+      "bytes": 78437,
+      "sha256": "a7d6082d263293b8068462765e522e3609266e8d4b5c80e8de7acde3398ce0b7"
+    },
+    {
+      "path": "docs/research/epic14/evidence/G01/techpack-v2/skirt.pdf",
+      "bytes": 6455,
+      "sha256": "777958d68e0d6c932f05706c51724efaccb636d19e577eaf91e1082125ea92e8"
+    },
+    {
+      "path": "docs/research/epic14/evidence/G01/techpack-v2/tank.pdf",
+      "bytes": 9435,
+      "sha256": "961e7d95937c6e83beef23fc4d92602571b7cb7d752ebff4b3a1bcf48a597768"
+    },
+    {
+      "path": "docs/research/epic14/evidence/G01/techpack-v2/tee.pdf",
+      "bytes": 11897,
+      "sha256": "73e1f80e0cf31b61d72360254490eb69aaa7e43825824fe384acfa59135051b8"
+    },
+    {
+      "path": "docs/research/epic14/evidence/G01/techpack-v2/trouser.pdf",
+      "bytes": 18332,
+      "sha256": "2b5944b6aba6999a08bb0533b6fea26eced35aecc813fc9cda7ab2a46575da6b"
+    },
+    {
+      "path": "docs/research/epic14/evidence/G01/techpack-v2/woven-shirt.pdf",
+      "bytes": 16480,
+      "sha256": "eac01148412047817074180ae1d7e44ec1bb05167de53923e93c15c38038dfad"
+    }
+  ]
+}

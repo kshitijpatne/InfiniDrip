@@ -40,6 +40,7 @@ const NEW_WORK_ITEM_FIELDS = new Set([
 ]);
 
 const NEW_EPIC_FIELDS = new Set(["id", "title", "status", "owner", "description"]);
+const EDITABLE_EPIC_FIELDS = new Set(["description"]);
 const EPIC_STATUSES = new Set(["Backlog", "In Progress", "Blocked", "Closed"]);
 const PRE_GARMENT_PHASE_IDS = Array.from({ length: 9 }, (_, index) =>
   `PREQUEUE-PHASE-${String(index + 1).padStart(2, "0")}`);
@@ -113,6 +114,25 @@ function applyEditItem(board, command) {
     throw new Error("EPIC-13 membership must be changed through linkItemsToEpic");
   }
   Object.assign(item, clone(patch));
+}
+
+function applyEditEpic(board, command, now) {
+  const { actor } = requireMaintainer(command, "edit an Epic");
+  const reason = requireText(command.reason, "reason");
+  const epic = findEpic(board, command.epicId);
+  const patch = requireRecord(command.patch, "patch");
+  const entries = Object.entries(patch);
+  if (entries.length === 0) throw new Error("patch must change at least one editable Epic field");
+  for (const [field, value] of entries) {
+    if (!EDITABLE_EPIC_FIELDS.has(field)) throw new Error(`${field} cannot be edited directly on an Epic`);
+    requireText(value, `patch.${field}`);
+  }
+  Object.assign(epic, clone(patch));
+  const card = board.workItems.find((item) => item.id === epic.id);
+  if (card) {
+    const changes = entries.map(([field, value]) => `${field}: ${String(value)}`).join("; ");
+    card.comments.push({ at: now, actor, text: `Updated Epic metadata (${changes}). ${reason}` });
+  }
 }
 
 function applyRenameItem(board, command, now) {
@@ -390,6 +410,9 @@ export function applyBoardCommand(inputBoard, inputCommand, options = {}) {
       break;
     case "editItem":
       applyEditItem(board, command);
+      break;
+    case "editEpic":
+      applyEditEpic(board, command, now);
       break;
     case "renameItem":
       applyRenameItem(board, command, now);

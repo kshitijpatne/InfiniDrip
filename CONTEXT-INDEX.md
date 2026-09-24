@@ -92,6 +92,21 @@ snapshots; they are not current status.
   diagram, and digital exit gates. It
   does not authorize a garment queue, launch spending, supplier contact, or
   physical sampling after the completed pre-garment sequence.
+- `docs/planning/EPIC-14-ADMISSION.md` — the maintainer-admitted C01/C02/C05/C06
+  evidence wave, its individual exits, conditional targets, and preserved
+  product/supplier/sampling boundaries.
+- `docs/research/epic14/` — accepted evidence packets for C01 recipe baseline,
+  C02 standards and tools, C05 3D feasibility, C06 starter/assortment/upcycling/
+  supplier evidence, and C03 measurement/donor contract. C04's accepted
+  technical-pack/CAD contract is at
+  `C04-TECHPACK-VIEW-REVISION-CAD-CONTRACT.md`; Slice 226 records its criteria
+  reconciliation, no-target-CAD decision and downstream proof gates. The
+  completed `G01-FINAL-REVIEW-EXIT.md` records the A-01–A-12 dispositions,
+  actual draft-pack replay, Slice 227 fix, full gate results, downstream owners
+  and limits. `evidence/G01/techpack-v2/` holds seven generated PDFs, all 33
+  raster pages, a layout audit, and SHA-256 manifest. EPIC-14/G01 is closed;
+  read this report and the accepted packets before starting any later Epic.
+  `PROJECT-STATE.md` and the canonical board record current status.
 - `docs/planning/COMPONENT-ARCHITECTURE.md` — design rationale and migration plan.
   Use `PROJECT-STATE.md` for which phases are actually complete.
 - `docs/planning/SLICES-BRIEF.md` — reusable slice-planning brief. It is a

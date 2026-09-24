@@ -138,9 +138,14 @@ preview are temporary; it is not a general pattern editor.
   pattern and drawing programs; their lines and curves stay crisp when resized.
   A tiled PDF splits a full-size pattern across regular printer pages; an A0
   PDF uses A0-sized pages, a large standard paper size. A projector file has
-  layers to project the pattern at full size onto fabric. A technical pack
-  summarizes measurements, materials, and construction notes. None of these files proves
-  physical fit, successful sewing, or factory production readiness.
+  layers to project the pattern at full size onto fabric. The draft Tech Pack
+  PDF gives each pattern piece its own labeled, independently scaled overview
+  cell; the overview is not to scale and must not be used to cut fabric. The
+  PDF also includes calculated size measurements, recipe material/construction
+  notes, and a blank fit-record sheet. Long labels and instructions wrap or
+  paginate. It is a draft reference, not a finished technical-flat set,
+  factory-approved specification, or production release. None of these files
+  proves physical fit or successful sewing.
 
 The project also keeps reference export files. Tests compare new exports with
 those references so a change to one view or tool does not silently alter
@@ -167,16 +172,20 @@ role inside InfiniDrip, and it does not store user profiles or garment designs.
 The board is available only on the same computer and stores its current state
 in `ops/control-center/data/board.json`. Both its dashboard and command-line
 tool use the same checks before saving. The command-line interface lets
-maintainers create and close epics, link work items, and attach epic-level
-evidence through validated commands. The closed Epic 13 groups the nine
+maintainers edit an epic description, transition epic status, link work items,
+and attach epic-level evidence through validated commands. The closed Epic 13 groups the nine
 completed pre-garment phases but does not approve a garment direction.
 “Evidence” means a linked commit, test result, document, or other record that
 supports a work item's status.
 
 The future G01–G17 goals are numbered Epic 14–30 in the board. Each has a
-Backlog Epic record and a matching Backlog work card, so the dashboard shows
-both the Epic number and its G goal. A–D are separate Backlog packets within
-Epic 14; the conditional shorts packet E is in Epic 20. A maintainer-only
+numbered Epic record and a matching work card, so the dashboard shows both the
+Epic number and its G goal. EPIC-14/G01 is closed with accepted C01/C02/C05/C06
+evidence, C03/C04 contracts, a readable draft-pack remediation, and a verified
+final review. Its exit report lists every A-01–A-12 disposition and future
+gate. This closure does not claim factory readiness, fit, CAD interoperability,
+3D simulation, or marketplace service. The conditional shorts packet E remains
+held in Epic 20. A maintainer-only
 rename command updates dependent work-item links and leaves an audit note;
 past evidence text is not rewritten. Planning records do not start product
 work or change the app's local-first boundary.

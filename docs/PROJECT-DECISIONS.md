@@ -818,3 +818,39 @@ data collection still require their own explicit gate.
   parallel-boundary diagram in `docs/planning/END-TO-END-CAPABILITY-ROADMAP.md`.
   Reconfirm live dependencies and reserve unique landed slice numbers at
   execution; the C01–C06 IDs remain stable planning packet IDs, not Slice IDs.
+
+## Epic 14 immediate evidence wave — admitted 2026-09-24
+
+- The maintainer saw the ordered Epic 14 diagram, confirmed live dependencies,
+  and explicitly admitted Epic 14 after Phase 9. The pre-start diagram gate is
+  satisfied.
+- Start the immediate disjoint evidence packets together: C01 (seven-recipe
+  baseline), C02 (standards and tool comparison), C05 (3D feasibility and
+  thresholds), and C06 (starter, assortment, upcycling and supplier evidence).
+  Complete and review all four packet exits before stopping this wave; C01 is
+  not a stop boundary by itself.
+- C03/C04 remain queued until C01/C02 evidence is accepted. Do not start those
+  packets as part of this parallel wave. Reconcile conflicts and revise targets
+  after the four packet exits.
+- This admission does not approve a new garment recipe, supplier contact,
+  purchase, hosted service, user-facing AI designer, physical sampling,
+  factory-ready claim, or live market/supplier assertion. Lane E remains held
+  under Epic 20. The product remains user-led and deterministic for garment
+  construction.
+- Record observations, source dates, confidence, and unresolved external facts
+  separately. Target dates are forecasts, not quality or approval shortcuts.
+
+## EPIC-14 continuation order — directed 2026-09-24
+
+- Finish and review C01, C02, C05, and C06 as the admitted parallel evidence
+  wave; do not stop at C01. C01, C02, C05, and C06 are now accepted and the
+  parallel wave is complete.
+- Slice 220 created separate durable board work items for C03, C04, and G01
+  final review. C03 is active; C04 and final review remain queued behind their
+  explicit dependencies. Run them in the strict order C03 → C04 → final review.
+  C03 consumes C01/C02/C05/C06; C04 depends on C03; final review depends on
+  C04 and all four evidence exits. Continue until G01 is closed and merged,
+  without requiring another maintainer reminder.
+- This sequence authorizes the admitted G01 research/contracts and exit work
+  only. It does not reopen physical sampling, supplier contact, paid sources,
+  hosted services, or downstream garment implementation.

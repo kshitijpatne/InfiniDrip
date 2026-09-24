@@ -1,19 +1,30 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 214 records the Epic 14 execution map and pre-start
-presentation gate, 2026-09-24._
-Next: no future-roadmap work or garment queue is authorized until the maintainer
-explicitly instructs otherwise. The separate garment-direction approval gate
-remains in force.
-The maintainer's requested post-Phase-9 capability sequence is planned in
-`docs/planning/END-TO-END-CAPABILITY-ROADMAP.md`; its dates and work packets
-are conditional future backlog, not authorization to begin the next phase.
-The canonical Control Center now labels G01–G17 as Epic 14–30; all are Backlog.
-Lanes A–D are Backlog packets within Epic 14 and conditional lane E is a
-Backlog packet within Epic 20. These records organize future work only.
-Before the first Epic 14 slice, show the maintainer the ordered map in the
-roadmap and confirm live dependencies; C01–C06 are planning IDs, not landed
-slice numbers.
+_Last updated: Slice 228 closes EPIC-14/G01 after final ledger, output replay,
+and verified board exit, 2026-09-24._
+Current directive: EPIC-14/G01 is Closed. C01, C02, C05 and C06, C03 and C04,
+lanes B–D, Lane A, and the final G01 review are Done with verified evidence.
+The A-01–A-12 disposition, output replay and remaining downstream thresholds
+are recorded in `docs/research/epic14/G01-FINAL-REVIEW-EXIT.md`. Slice 227 adds
+the current UI's readable draft-pack route: paginated, explicitly non-scale
+pattern-piece overview cells and wrapping BOM/construction pages. Its seven
+default recipe PDFs and all 33 rendered pages are retained with hashes and
+layout results. The byte-identical legacy writer remains unchanged. Full
+coverage, build and protected export identities pass. EPIC-15/G02 remains in
+Backlog and is not started by this closure. Physical sampling, live supplier
+work, paid sources, hosted services and production-readiness claims remain
+held.
+The canonical Control Center is at revision 251 after verified EPIC-14 closure.
+Detailed records and the sequence map
+are in `ops/control-center/data/board.json`,
+`docs/planning/EPIC-14-ADMISSION.md`, and
+`docs/planning/END-TO-END-CAPABILITY-ROADMAP.md`.
+No new garment recipe, user-facing AI designer, paid source, supplier contact,
+physical sample, hosted feature, or production-readiness claim was admitted.
+Lane E remains held. The sequence diagram was shown and live dependencies were
+confirmed before Slice 215. C01–C06 are stable packet IDs, not landed slice
+numbers. Target dates remain conditional forecasts and must be rechecked at
+each packet exit.
 Epics 7, 9 and 10 are implemented, Codex-reviewed, documented and pushed to
 `origin/main`. Epic 11 implementation has completed the shaped collar/stand,
 placket-base, vent/drop, front/back preview/control/report and downstream
@@ -699,6 +710,233 @@ landed slice numbers are reserved at execution. No implementation or other
 future-roadmap work was started. No safe independent delegation was available:
 the diagram and board gate encode one shared ordering decision. The validated
 board command advanced the revision from 166 to 167; `git diff --check` passes.
+
+### Slice 215 — admit Epic 14 parallel evidence wave
+
+On 2026-09-24, after the sequence diagram was shown and dependencies confirmed,
+the maintainer explicitly admitted Epic 14 and directed that all immediately
+parallel packets complete before stopping: C01 seven-recipe audit, C02
+standards/tool comparison, C05 3D admission dossier, and C06 starter/assortment/
+upcycling/supplier evidence. Canonical board revision 197 now records Epic 14
+In Progress, its relevant lanes, and four individually scoped child packets
+with acceptance criteria and conditional targets. Lane A remains Backlog and
+is dependency-linked to C01/C02; lane E remains in Epic 20 and held.
+
+The board previously had no validated command for correcting an Epic record's
+description after admission. Slice 215 adds maintainer-only `editEpic` through
+the shared command layer, keeps status changes on `updateEpicStatus`, and
+records the reason on the matching summary card. It also updates Control Center
+expectations to match the admitted state. No garment-product code, provider,
+spend, supplier outreach, or physical sampling was added.
+
+The four packet exits are separate: each needs its own reviewed source-backed
+artifact, recorded evidence, and board completion. Their shared claims and
+conflicts will be reconciled only after all four finish. C03/C04 and the G01
+integration/exit are outside this work wave. Slice 215 verification: focused
+Control Center tests pass (33/33); full product gates are recorded at the
+appropriate packet or code-change boundary. The G01 execution estimate remains
+subject to reforecast after actual evidence review.
+
+### Slice 216 — accept C01 seven-recipe professional baseline
+
+The seven existing recipes were traced through their source contracts and
+rendered/exported in the local app using default `STANDARD_M` data. The report
+records per-recipe fields, options, piece/POM/check counts, grade behavior,
+actual pack/layout gaps, downstream owners, and the boundary between digital
+checks and physical evidence. Seven real tech-pack PDFs, seven assembled-view
+captures, two focused complex-page renders, and a 16-file SHA-256 manifest are
+stored under `docs/research/epic14/evidence/C01/`. The Polo and Woven-shirt
+page-one captures demonstrate overlapping labels; the report also records
+static BOM quantities, absent revision-frozen/sample records, and untested
+apparel-CAD round-trip. No garment code was changed.
+
+The report's repository links and every relative Markdown link across the four
+research dossiers were checked. All 16 evidence hashes match the manifest.
+Cross-review against C02 separates standards scope from fit claims and keeps
+vendor marketing distinct from observed InfiniDrip output. The verified C01
+document evidence is attached to `EPIC-14-C01`; the board records the required
+In Progress → Review → Done transition at revision 200. Control Center tests
+pass 33/33. The full coverage/build gate was previously run against the
+unchanged product code: 101 files and 100% statements, branches, functions and
+lines; export byte-identity regressions passed. The research exit does not
+approve remediation code, a new garment, CAD compatibility, physical fit,
+supplier handoff, or production readiness. C02, C05, and C06 remain In Progress.
+
+### Slices 217–220 — accept the evidence wave and activate C03
+
+Slices 217–219 accepted C02 standards/tool parity, C05 3D feasibility, and C06
+starter/upcycling/supplier evidence after independent source and artifact
+review. The four admitted packets C01, C02, C05, and C06 and lanes B–D are now
+Done. Their reports retain source age, claim limitations, conflicts, and
+unresolved legal/commercial facts. No product implementation, purchase,
+supplier outreach, or physical sampling was admitted.
+
+Slice 220 used the validated Control Center command layer to create durable
+records for `EPIC-14-C03`, `EPIC-14-C04`, and
+`EPIC-14-G01-FINAL-REVIEW`, activate C03, and retain C04/final review in
+Backlog behind explicit dependencies. Lane A is In Progress; C03 is its only
+active child. Board revision 229 links C03 to Phase 9 and all four accepted
+packets, C04 to C03, and final review to C04 plus the four packet exits.
+Roadmap, admission, decisions, and Control Center guidance now state the same
+order. Control Center tests pass 33/33, including board-schema validation and
+the child status/dependency assertions. `git diff --check` passes. C03 is the
+next work item; C04 and final review must not start before their dependencies.
+
+### Slice 221 — draft the C03 measurement and donor-capture contract
+
+Created `docs/research/epic14/C03-MEASUREMENT-AND-DONOR-CAPTURE-CONTRACT.md`
+as the first canonical cross-packet contract draft. It reconciles the 18 legacy
+measurement fields, seven recipe input/grade/POM dictionaries, 32 typed
+`GarmentOptions` plus three Tank controls stored in the legacy measurement
+object, style presets, cross-field rules, one-size-first semantics, and the
+three photo/assembled/panel upcycling evidence tiers against source and C01,
+C02, C05 and C06. It records provenance and confidence rules, current source
+defaults/bounds, a user-led capture flow, and the consequences of missing,
+invalid or contradictory facts.
+
+The draft adds ISO 8559-1's official apparel-specific public scope and research
+on consumer-measurement error, body-to-trouser mapping, scan posture/hip-girth
+variation and shape-fitting limits. Full standard definitions and figures were
+not copied. Current body landmarks and body-to-pattern transforms for several
+fields remain unverified; the contract explicitly withholds fit claims and
+records their expert/source gates. The armhole-depth semantic conflict,
+skirt-length control mismatch, and trouser thigh/knee station mismatch remain
+visible. This is not an accepted C03 exit or an implementation-ready capture
+guide. It adds no product code and changes no export output.
+
+The 32-option count was reconciled: it refers to fields in recipe
+`GarmentOptions` (Polo, Woven shirt and Trouser); three Tank controls remain in
+the legacy `Measurements` type, for 35 total adjustable controls. C03 remains
+In Progress, and C04/final review remain Backlog. The board's C03 acceptance
+criteria are not yet complete. Slice 222 must independently audit the packet,
+re-run code-to-contract checks and links, and determine whether the exact
+capture contract can be accepted with the identified gates or requires another
+bounded research/decision slice first.
+
+### Slice 222 — accept the C03 measurement/donor contract and activate C04
+
+The source/code review closed the C03 contract against its six board criteria.
+It reconciles all 18 legacy measurement fields, seven recipe input/output and
+grade maps, 32 `GarmentOptions` plus three Tank controls, style intervals,
+POMs, range guardrails, cross-field checks, provenance, and the C01/C02/C05/C06
+evidence. It now specifies the deterministic one-size route, separate grade
+approval, per-field unresolved behavior, and three upcycling evidence tiers.
+No user-facing AI, product code, paid standard, supplier contact or physical
+sampling was introduced.
+
+The review added clothing-specific evidence from Wren (2024) on how users
+interpret retailer measurement guidance and Barrios et al. (2016) on a specific
+self-measurement protocol. Neither study validates InfiniDrip fit. No external
+apparel measurement practitioner reviewed this packet; fit-critical guide
+approval remains G03, recipe/body-to-pattern validation G07, and avatar
+residual validation G09 D02. The accepted C03 artifact is a complete contract,
+not a claim that any current recipe has an accurate fit-qualified quick-start.
+Unaccepted measurement paths keep that route unavailable, and the later
+physical-fit boundary remains held.
+
+The C03 document's local links and `git diff --check` pass. The Control Center
+suite exposed and then fixed a stale current-state assertion; it now checks
+C03 Done, C04 In Progress, final review Backlog, plus the exact SHA-256 of the
+C03 document referenced by the board. The post-fix suite passed 33/33. Board
+revision 236 records `EPIC-14-C03` Done with evidence
+`E-EPIC14-C03-S222` (SHA-256
+`5892e55d070498153c3c4176889ad9cce1fed0e91ef897d508bca7d1c7c5a95e`) and
+`EPIC-14-C04` In Progress; final G01 review remains Backlog. Slice 223 is C04's
+first contract/research slice.
+
+### Slice 223 — audit current outputs and establish the C04 evidence boundary
+
+The initial C04 packet traces the current four-page tech-pack and optional
+artwork pages to `techpack.ts`, the geometry-derived POM model, recipe-owned
+three-field BOM rows, the blank printable Fit Record, pattern layout, DXF
+writer and construction-mark serializer. It distinguishes finished-garment
+flats from current cut-piece layouts, calculated POMs from physical sample
+readings, and DXF syntax/geometry from apparel-CAD interoperability. The exact
+current limitations and Autodesk/ASTM primary-source links are recorded in
+`docs/research/epic14/C04-TECHPACK-VIEW-REVISION-CAD-CONTRACT.md`.
+
+Visual inspection re-opened the C01 rendered Polo and woven-shirt tech-pack
+pages: both show component-label collisions; the leader labels are crowded at
+the top/right while most of the page remains empty. This confirms C01's P1
+finding against the exported artifact. C04 remains contract-only; exporter
+remediation, a CAD receiver/license, supplier handoff and physical sample stay
+outside this child. Slice 223 exited with this source-verified capability and
+limitation baseline.
+
+### Slice 224 — define production-record, provenance and revision behavior
+
+Slice 224 additionally defines the typed record graph for style revisions,
+components/seams, POMs, BOM/materials, operations, colorways/artwork,
+costs, QA/sample rounds and export manifests. It reuses C03's established
+provenance enum and keeps unresolved evidence visible. Scoped approvals bind to
+an immutable revision; edits create a child revision and invalidate affected
+checks/derived outputs without moving old sample or supplier evidence. Stage
+readiness is separate from physical-fit and production status. C04 remains a
+documentation contract; the next slice defines complete views/page layout and
+CAD boundaries, including the receiver-dependent no-go rule.
+
+### Slice 225 — define technical views, page layout and CAD boundaries
+
+The contract now distinguishes the current measurement-formula assembled
+preview, the tech-pack's fitted cut-piece overview and true-scale pattern
+outputs. It defines front/back parametric technical flats, conditional 2D side
+and detail views, POM diagrams, cut-component layouts, operation/colorway views
+and actual-only sample records; pattern-linked side/oblique/inside views remain
+G09/D04 scope. Each callout binds to a stable record ID and source class. The
+layout contract sets print-size text/bounds/reflow checks and requires both
+parsed PDFs and visual inspection of the actual rendered pages. The current
+entities-only R12-era DXF is scoped as generic ununitized geometry; C04 selects
+no apparel CAD profile without a receiver, rights review and round-trip proof.
+Fixtures and failure cases are recorded in the C04 packet. This slice changed
+no product code or export bytes. Slice 226 is the integrated C04 criterion,
+source and contradiction audit before final G01 review activation.
+
+### Slice 226 — accept C04 and activate the final G01 review
+
+Slice 226 maps all six C04 acceptance criteria to the accepted record,
+provenance/revision, view/layout, DXF/CAD, fixture, and scope sections. It
+clarifies exactly which DXF entities the current mark writer emits and records
+that mark names/labels and recipe-level notch semantics are absent. The packet
+separates observed code/output, external source scope, proposed InfiniDrip
+policy, and open external/physical gates. A-04/A-05/A-06 now have explicit
+contract decisions and downstream measurable gates. No target apparel CAD
+profile was selected because there is no named receiver, rights review, or
+round-trip proof. C04 is Done with a SHA-256-verified contract snapshot;
+Control Center revision 241 has activated the serial G01 final review. The
+Control Center suite passes (33 tests), all 34 local C04 Markdown links resolve,
+and no product or export code changed in this slice.
+
+### Slice 227 — remediate current draft-pack readability
+
+The active UI now downloads an additive readable draft-pack variant. Instead
+of placing every pattern piece and callout on one scaled row, the overview
+places at most four individually fitted, explicitly non-scale pieces on each
+page, with stable piece numbers and readable names. POM names and values stay
+on the existing Measurement Spec page; the overview warns that it is not for
+cutting and does not present itself as a finished technical-flat set. The BOM
+and construction section now wraps long values and instructions and paginates
+dense content. A forced-density fixture checks both section-continuation paths
+and preservation of the final instruction. The old four-page writer remains
+byte-identical for the eight protected fixtures. This remedies observed
+digital legibility failures only; it does not add CAD compatibility, expert
+approval, factory readiness or physical-fit evidence. Full G01 gates and the
+exit report remain pending.
+
+### Slice 228 — close EPIC-14/G01 final review
+
+Accepted and re-hashed all six C01–C06 research/contract packets; reconciled
+each A-01–A-12 finding to its evidence, status, limit, downstream owner and
+required exit gate. Replayed the simple Tee and difficult Polo/Woven shirt
+outputs through the current readable draft-pack exporter; retained seven PDFs,
+33 150-DPI page renders, a source-pinned artifact manifest, and a layout scan
+covering 2,953 words with no out-of-page boxes or text-box overlaps. The full
+coverage gate passed (1,563 tests; 100% statements, functions and branches),
+the TypeScript/production build passed, and all eight protected legacy export
+hashes remain unchanged. The report explicitly leaves physical fit, complete
+technical flats, factory readiness, CAD receiver acceptance, 3D simulation,
+supplier facts, and future features unverified. The validated Control Center
+command layer links the verified exit report and closes every EPIC-14 child
+and the Epic record. G02 remains Backlog.
 
 ### Post-merge PR audit — 2026-09-21
 

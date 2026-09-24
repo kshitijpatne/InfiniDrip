@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
-import { FITTED, SKIRT, STANDARD_M, TANK, TEE, POLO, WOVEN_SHIRT, STRETCH_FABRICS, rolePiece, sampleSpec } from "../drafting";
+import { FITTED, SKIRT, STANDARD_M, TANK, TEE, POLO, TROUSER, WOVEN_SHIRT, STRETCH_FABRICS, blockPieces, rolePiece, sampleSpec } from "../drafting";
 import { PAGE_A4, PAGE_LETTER, pt } from "./pdf";
-import { exportTechPack, pdfString } from "./techpack";
+import { exportTechPack, exportTechPackV2, pdfString } from "./techpack";
 
 // ── pdfString ─────────────────────────────────────────────────────────────────
 
@@ -117,6 +117,63 @@ describe("exportTechPack", () => {
     expect(pdf).toContain("(6 front + 1 stand)");
     expect(pdf).toContain("(Woven shirt - Tech Pack)");
     expect(pdf).toContain("(WOVEN BUTTON PLACKET)");
+  });
+});
+
+describe("readable draft tech pack", () => {
+  const recipes = [TEE, FITTED, TANK, POLO, WOVEN_SHIRT, SKIRT, TROUSER];
+
+  it("paginates every recipe's named pattern pieces into readable, explicitly non-scale overview cells", () => {
+    for (const recipe of recipes) {
+      const pieces = blockPieces(recipe.draft(STANDARD_M));
+      const pdf = exportTechPackV2(recipe, STANDARD_M);
+      const expectedPages = Math.ceil(pieces.length / 4) + 3;
+      expect(pdf).toContain(`/Count ${expectedPages}`);
+      expect(pdf).toContain(`(${pdfString("Each piece is fitted independently. NOT TO SCALE - never cut from this overview.")})`);
+      expect(pdf).toContain("(POM names and size values are listed on the Measurement Spec page.)");
+      pieces.forEach((piece, index) => {
+        expect(pdf).toContain(`(${String(index + 1).padStart(2, "0")} - ${pdfString(piece.name.toUpperCase())})`);
+      });
+    }
+  });
+
+  it("keeps the original four-page writer available as an unchanged compatibility export", () => {
+    expect(exportTechPack(TEE, STANDARD_M)).toContain("/Count 4");
+    expect(exportTechPackV2(TEE, STANDARD_M)).toContain("/Count 4");
+  });
+
+  it("wraps and paginates dense BOM and construction content without dropping its tail", () => {
+    const denseRecipe = {
+      ...TEE,
+      techPack: {
+        bom: Array.from({ length: 44 }, (_, index) => ({
+          material: `Material ${index + 1}`,
+          placement: "Body, collar, sleeves, and all component panels",
+          qty: `${index + 1} units per finished garment`,
+        })),
+        construction: Array.from({ length: 34 }, (_, index) =>
+          `Operation ${index + 1}: ${"needleandthread".repeat(12)} end-step-${index + 1}`
+        ),
+      },
+    };
+    const pdf = exportTechPackV2(denseRecipe, STANDARD_M);
+    expect(pdf).toContain("Bill of Materials \\(continued\\)");
+    expect(pdf).toContain("Tee - Construction \\(continued\\)");
+    expect(pdf).toContain("end-step-34");
+    expect(Number(pdf.match(/\/Count (\d+)/)?.[1])).toBeGreaterThan(6);
+  });
+
+  it("keeps blank BOM cells safe and starts construction on a continuation page when the BOM fills the page", () => {
+    const boundaryRecipe = {
+      ...TEE,
+      techPack: {
+        bom: [{ material: "X".repeat(35 * 48), placement: "", qty: "" }],
+        construction: [],
+      },
+    };
+    const pdf = exportTechPackV2(boundaryRecipe, STANDARD_M);
+    expect(pdf).toContain("Tee - Construction \\(continued\\)");
+    expect(Number(pdf.match(/\/Count (\d+)/)?.[1])).toBeGreaterThan(4);
   });
 });
 

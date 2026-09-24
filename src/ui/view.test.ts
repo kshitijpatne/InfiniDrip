@@ -162,7 +162,7 @@ describe("exportButtonsMarkup", () => {
     expect(html).toContain("CAD exchange file · selected size");
     expect(html).toContain("Tiled paper print · selected size");
     expect(html).toContain("Full-sheet print · selected size");
-    expect(html).toContain("Specs and construction reference · all sizes");
+    expect(html).toContain("Draft specs and construction reference · all sizes · overview not to scale");
     expect(html).toContain("Layered projection SVG · all sizes");
     expect(html).toContain("Drives the four selected-size files and Single size nesting.");
     expect(html).toContain('aria-describedby="export-svg-description"');
