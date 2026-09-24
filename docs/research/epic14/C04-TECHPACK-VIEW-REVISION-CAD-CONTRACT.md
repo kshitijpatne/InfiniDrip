@@ -1,7 +1,7 @@
 # C04 — Technical-pack, view, revision, and CAD contract
 
-**Status:** In progress; Slice 223 records the current-output audit and the
-contract decisions that bound later C04 work.<br>
+**Status:** In progress; Slices 223–224 record the current-output audit and
+canonical record/revision contract.<br>
 **Snapshot:** 2026-09-24.<br>
 **Authority:** G01 contract/evidence only. No exporter implementation, new
 garment, external CAD license, supplier handoff, production-readiness claim,
@@ -177,3 +177,236 @@ canonical field/provenance and revision/freeze contract; Slice 225 must close
 the technical-view and CAD decision boundary; Slice 226 must run the combined
 traceability/fixture review and attach verified C04 evidence before final G01
 review can start.
+
+## Slice 224 — canonical production-record and revision contract
+
+### Source facts and product decisions
+
+**Sourced:** Techpacker's official documentation describes component/card
+records for sketches, materials and measurements, related attachments and
+annotations, plus saved versions and prior shared versions. Its current help
+center describes saving a version as a snapshot. This is useful workflow
+evidence for linking information to a component and preserving sent versions.
+See Techpacker's public [component/card documentation](https://documentation.techpacker.com/techpack.html),
+[current tech-pack/version guide](https://helpcenter.techpacker.com/hc/en-us/articles/42614589516179-How-to-create-Tech-Packs),
+and [version access/restore guide](https://helpcenter.techpacker.com/hc/en-us/articles/360033521034-How-to-create-a-techpack-version),
+accessed 2026-09-24. These are vendor feature descriptions, not a universal
+industry rule or proof of factory acceptance. C02's Techpacker, CLO-SET and
+Browzwear comparisons remain specialized product evidence; their feature lists
+do not define InfiniDrip's schema. RFC 8785 and [NIST FIPS 180-4](https://csrc.nist.gov/pubs/fips/180-4/upd1/final)
+are used only to support deterministic representation and change-detection
+semantics. NIST's page includes a planning note that FIPS 180-4 is slated for
+revision; the C04 contract does not claim FIPS compliance.
+
+**Decision:** use one typed, linked style revision as the source of truth. A
+PDF, image, DXF or line sheet is a generated view of that revision; edits happen
+to editable records and create a new revision. A page must not become a
+separate source of measurements, BOM or approvals. Component records may be
+edited independently in the interface, but must resolve to one coherent style
+revision before the system calls the record internally approved or freezes a
+shareable packet.
+
+### Canonical record graph
+
+These are logical record types, not a database or API implementation. Every
+entity has a stable ID scoped to its style, schema version and revision
+reference. When the same conceptual entity persists across revisions, its ID
+persists; renamed labels do not change identity, and retired IDs are never
+reused. Each revision snapshots the exact entity versions it references.
+
+| Record | Required contract fields | Why / current gap |
+| --- | --- | --- |
+| **Style** | Stable `styleId`; name/style code; garment family and recipe ID/version; owner; created/updated timestamps; intended use; declared measurement units. | Current app/recipe name and local saved design are not a cross-revision product identity. |
+| **Style revision** | Stable `revisionId`; `styleId`; parent revision; ordered display revision; schema/rule versions; edit reason; author/time; canonical content digest; author/reviewer decisions with scope/time; state. | Every page currently renders live recipe inputs but is not bound to an immutable approved revision. |
+| **Design inputs** | Each input's stable field ID, value, unit, C03 `semanticKind`, C03 `provenance`, capture/source/method, validation state and dependency references. | Recipe measurements/options currently do not consistently retain field-level provenance. |
+| **Size contract** | Explicit mode `single_size` or `graded_run`; base-size label and underlying measurement/spec values; for `graded_run`, approved grade-rule ID/version, ordered size labels, increment/rule per target dimension and scope. | C03 requires one size first; a multi-size run requires separately selected/approved rules and must not be inferred from body measurements. |
+| **Component/pattern piece** | Stable `componentId` and role; geometry/rule revision; displayed name; cut quantity/layers; cut-on-fold and orientation; grain/stretch direction when known; seam-allowance policy; marks/notches; included sizes; view IDs. | Current pieces have display names, fold flags, geometry and optional marks; a printed name is not a durable component identity. |
+| **Seam relationship** | Stable `seamId`; two named component/edge references; seam pairing/match method and measured lengths; allowance/finish; construction operation; revision and validation status. | Current checks may compare named edges, but exports do not give a receiver a semantic paired-seam map. |
+| **Technical view/callout** | Stable `viewId`, view type/state, camera/projection or drawing basis, revision; stable `calloutId`; target component/edge/seam/POM/artwork reference; label/detail/line style; page/layout role. | Current labels are generated from piece names and front-only optional POM anchors; no complete view/callout object graph exists. |
+| **POM specification** | Stable `pomId`; C03 semantic kind; definition/method/garment state; units; geometry or view mapping; target value per included size; tolerance status (`SPECIFIED`, `NOT_SPECIFIED_BY_DECISION`, or `UNRESOLVED`), interval and authority/source when specified, with optional per-size overrides; formula/input/revision references. | Current `Pom` has a label, block function, optional front anchor and one optional symmetric tolerance; `SpecRow` has labels/values/tolerance only. |
+| **BOM/material/trim** | Stable row/article IDs; component/placement; material or trim category; composition/content, construction, weight, width/dimensions, finish, colorway and direction/behavior where relevant; quantity/value/unit and quantity basis; requiredness/status; provenance/source; substitutions; currency/cost type/date when supplied. | Current BOM output is three free-text fields and cannot distinguish a default estimate, marker quantity, supplier quote or order quantity. |
+| **Construction operation** | Stable `operationId`; sequence; affected component/seam references; operation/process; seam/stitch construction fields as known; machine/needle/thread parameters only when specified; critical-to-quality checkpoint and acceptance method/source; unresolved reason. | Current ordered strings are not component-linked or sufficiently structured to establish a factory method. |
+| **Colorway/artwork/labels/packaging** | Stable IDs; approved color/material mapping; placements and dimensions; source file/digest; creator/source/license state; position/scale/rotation and target component; label content/location; packaging specification/source/status. | Artwork placement export exists, but the record is not a colorway approval, label/packaging spec or rights ledger. |
+| **Cost record** | Amount, currency, basis/unit, included/excluded costs, scenario, source/provenance, quote/estimate date, supplier/article or formula references, expiry/status. | No current recipe quantity or default cost is an independently validated quote. Missing cost is unresolved or not provided, never zero. |
+| **Digital validation** | Rule/check ID/version; input revision; pass/fail/warning; affected IDs; time; output/evidence reference. | Existing digital checks validate declared software invariants only; their scope cannot silently grow into physical-fit evidence. |
+| **Sample/QA round** | Exact source `revisionId`; sample/round ID; size, colorway/material/article/lot; made-by/date/source; method/instrument; measured actual per stable POM; variance to that revision's prediction/tolerance; issue/action/disposition; evidence references and reviewer/time. | Current Fit Record is paper-only. No current physical sample or stored actual readings are evidenced. |
+| **Export/packet manifest** | Exact revision and schema/rule versions; selected sizes/colorways; deterministically sorted artifact IDs, media types and byte lengths; per-file SHA-256 digests; generator version; unresolved/blocked list; creation time; packet digest. | Current exports are separate files without one immutable manifest binding their shared design state. |
+
+#### Field envelope and provenance
+
+All measurable or decision-bearing fields use a common envelope, whether
+stored as a scalar or structured value:
+
+```text
+fieldId, semanticKind, value, unit,
+provenance, sourceRef, method, capturedBy, capturedAt,
+inputRefs, ruleId/ruleVersion,
+validationState, unresolvedReason, evidenceRefs
+```
+
+`sourceRef`, `method`, `inputRefs`, `ruleId` or `evidenceRefs` may be absent
+only when they do not apply to that provenance; absence cannot imply approval.
+Use C03's exact provenance values: `USER_CAPTURED`, `USER_SELECTED`, `PRESET`,
+`INHERITED`, `CALCULATED`, `SUPPLIER`, `SAMPLE_ACTUAL`, `IMAGE_OBSERVED` and
+`UNRESOLVED`. `confidence` stays `NOT_ASSESSED` unless a defined method,
+population/domain, uncertainty basis and validation record justify another
+state under C03. Do not create a percentage or a `high confidence` shortcut.
+
+| Value case | Required provenance/trace | Forbidden inference |
+| --- | --- | --- |
+| Manually entered body, garment, BOM or cost value | `USER_CAPTURED` or `USER_SELECTED`; retain unit, method/selection and actor/time. | A user entry is not independently measured, approved or a supplier fact. |
+| Recipe default or chosen library block | `PRESET`, with recipe/block ID and version. | A default is not a user measurement, sourced body population, brand fit or accepted construction. |
+| Geometry/POM/spec calculation | `CALCULATED`, exact input IDs, formula/rule version, geometry/revision and units. | Calculation does not establish physical fit or tolerance authority. |
+| Inherited unchanged value | `INHERITED`, prior revision and original provenance/source. | Inheritance does not upgrade evidence or approval. |
+| Supplier offer/material fact | `SUPPLIER`, supplier identity, article/quote ID, dated evidence, currency/unit/expiry and revision it concerns. | A directory listing or stale quote is not current availability, price, capacity or an order. |
+| Actual physical sample observation | `SAMPLE_ACTUAL`, sample round, exact revision, garment size/material, method, instrument, actor/time and evidence. | A blank form, render or simulated result is not a physical measurement. |
+| Photo-derived observation | `IMAGE_OBSERVED`, source asset/license state, identified feature/region, scale status and observable limits. | An unscaled photo cannot establish exact dimensions, composition, strength, stretch/recovery or cut feasibility. |
+| Required missing/conflicting fact | `UNRESOLVED`, affected field/dependencies, why it matters and next evidence/action/owner. | Empty, zero, dash, default or guessed values cannot make an unresolved field look complete. |
+
+Every target value also states whether it is body input, design choice, pattern
+parameter, calculated finished POM, source fact or actual sample result under
+C03. A tolerance status is `SPECIFIED`, `NOT_SPECIFIED_BY_DECISION` (with the
+decision source/actor/time/reason), or `UNRESOLVED` (with the missing source or
+method and next action). Only `SPECIFIED` carries a sourced interval per POM,
+with optional per-size overrides; asymmetric lower/upper limits are
+representable. The comparison method, garment state and units are bound to
+that interval. A pass/fail result cannot be computed when tolerance or method
+authority is unresolved or intentionally unspecified. Output labels distinguish
+“Not specified” from “Unresolved”; neither is an empty dash. Units are stored
+per quantity; conversions retain source value and the deterministic conversion
+rule. Cost always includes currency and basis.
+Quantities distinguish, for example, `m per garment`, `m per marker/run`,
+`pieces per garment`, supplier pack/MOQ and ordered total.
+
+#### Stage-aware completeness
+
+One global “complete” flag is unsafe because a concept, reviewable drawing,
+quote request and production release have different information needs.
+
+| Stage | Required to enter the stage | Allowed unresolved information | Result label |
+| --- | --- | --- | --- |
+| **Editable draft** | Style/revision identity; selected recipe/version; unit-bearing input records; explicit one-size or separately approved grade mode; valid geometry for any pattern export. | Facts not needed for the operation the user is performing, including source, cost, material article and physical evidence; every unresolved item stays visible. | `Draft` or `Draft with unresolved fields`; never fit-approved. |
+| **Internal digital review** | All draft requirements; deterministic checks run against exact inputs; every view/spec/BOM/operation is traced or visibly unresolved; blocking geometry errors preserved. | Unapproved external methods, material facts, tolerance authority and physical fit may remain unresolved with named follow-up; they block claims/exports that depend on them. | `Digital checks passed/failed` plus separate unresolved and physical-evidence state. |
+| **User-approved design snapshot** | Named user approval against exact revision digest and explicit scope (design/options, size mode, colorways and content). | Qualified technical review, supplier facts, sample, fit and production remain separate; their absence prevents those labels. | `User approved for stated scope`; not factory-ready. |
+| **Supplier quote packet** | A later supplier-workflow decision defines process, sizes/colorways, material/operation facts or explicit questions, quantity/MOQ basis, requested delivery and currency; packet pins one frozen revision and lists quote blockers. | Supplier-dependent prices/availability and explicitly asked supplier questions. | `Quote request` with unresolved questions; not an order or production authorization. |
+| **Production release** | **Not admitted by C04/G01.** Requires a later owner-approved stage policy, exact material and construction, approved required grade, immutable supplier agreement, closed critical unknowns, qualified review and the maintainer-reopened physical-sample gate. | No release-critical field may be silently unknown or guessed. | No current InfiniDrip record may claim production release or factory-ready status. |
+
+Supplier-specific mandatory fields cannot be finalized here without a chosen
+supplier process, geography, delivery terms, order quantity and product
+category. This contract defines the field support and makes facts visible; G05
+and authorized G12 work must define the supplier/quote-specific requiredness
+matrix before outbound use.
+
+### Revision, approval, freeze and dependency semantics
+
+**Decision: revision states are explicit immutable snapshots.**
+
+```text
+DRAFT → REVIEW → APPROVED (scoped) → FROZEN_FOR_SHARE
+  └──────────── corrections create a new child draft revision ──────────────┘
+FROZEN_FOR_SHARE → SUPERSEDED only when a successor exists; old bytes stay
+available and unchanged. Restoring old content creates another new child draft.
+```
+
+- Each edit writes to a draft revision. `APPROVED` records who approved which
+  scope and exact revision digest; approval is not implied by a passed digital
+  check or by the actor who authored it.
+- A frozen revision and its manifest are read-only. A change creates a child
+  revision with a parent pointer and change summary; never overwrite a version
+  already shared or referenced by a quote, sample or approval.
+- Restoring a version copies it into a new draft revision, not mutation in
+  place. It retains original lineage and citations while requiring fresh
+  approval.
+- `FROZEN_FOR_SHARE` means only “these exact records/files were packaged for
+  this stated audience and purpose.” It does not mean production release,
+  supplier acceptance, physical fit, rights clearance or order authorization.
+- Sample, quote, review and communication records refer to an exact revision
+  ID and digest; they never float to “latest”. A later comparison may re-use
+  an old physical reading only through an explicit method/landmark crosswalk;
+  it creates a new evaluation and never rewrites the recorded reading or its
+  original acceptance decision.
+- Digital checks are stateful records, not a revision-level boolean. A change
+  to any input in a check's dependency set marks its result `STALE` until rerun.
+  Failed values remain visible with actionable errors; they are not clamped or
+  replaced.
+- Approval invalidation is scope-specific and conservative. If a changed field
+  is in the approval's dependency graph, the child revision starts unapproved
+  for that scope. Prior evidence is linked as lineage, not copied as fresh
+  approval.
+
+| Changed source record | Dependent outputs/checks to invalidate or regenerate | Evidence that remains pinned to the old revision |
+| --- | --- | --- |
+| Body or desired-measure input | Draft geometry; pattern pieces; seam/mark geometry; derived POMs; size output; views/callouts; pattern/PDF/CAD exports; dependent digital checks. | Prior user approvals, frozen packet, sample actuals and supplier quote. |
+| Recipe/block/formula/options | Affected geometry/components/edges; seams; POM calculations; construction/BOM selections; views; size checks; exports. Use declared graph dependencies; do not mark unrelated fields stale by guess. | Prior revision records and physical observations. |
+| Size mode, base size, grade rule or labels | All affected size geometries, per-size POMs, grade tables, size labels, marker inputs, views/specs and exports. A single-size design does not gain a grade implicitly. | Existing sample actuals retain the size/rule context of their revision. |
+| Material, article, color or quantity basis | Linked BOM/colorway/cost, operations/compatibility, marker consumption if applicable, affected views and packet files. Recalculate pattern geometry only when the named drafting rule consumes a material property. | Unchanged body and geometry inputs; earlier quote/sample remain old-revision evidence. |
+| Artwork, label or packaging placement/content | Linked component/placement, colorway, rights/status review, technical/detail views, artwork/BOM page and packet. Pattern geometry only if an approved rule explicitly depends on it. | Unchanged POM/seam records; prior approved artifact remains pinned. |
+| Operation, stitch/seam or seam allowance | Linked component/seam graph; operation list; construction/detail views; relevant cut outline/allowance and pattern files. Recalculate a finished POM only if its geometry/method dependency changes. | Prior sample readings and supplier decisions remain pinned to the prior method/revision. |
+| POM definition, method, unit, target or tolerance | Corresponding POM values, diagram/callout, size table, sample comparison, relevant check and every spec/packet export. Changing tolerance invalidates pass/fail disposition. | Actual readings remain immutable with original method; remapping needs an explicit crosswalk, never overwrite. |
+| Technical-view/page template or exporter version | Generated view/artifact outputs only; preserve engineering inputs. Record renderer and schema versions in manifest. | Prior emitted bytes and any shared packet remain retrievable. |
+| Supplier quote, MOQ, capacity or delivery term | Supplier/cost record and related quote decision; new quote or explicit delta request against a new frozen digest if style facts changed. | Style revision does not silently mutate; past quotes remain dated evidence only. |
+
+If one edit has a wider dependency than listed, dependency metadata must define
+it before implementation; unknown dependency means the affected approval,
+check or export is marked stale, not assumed unchanged.
+
+### Frozen manifest and cryptographic boundary
+
+**Decision:** use two deterministic digests with separate meanings:
+
+1. `revisionContentDigest = SHA-256(UTF-8(JCS(revisionPayload)))`, where JCS
+   is [RFC 8785](https://www.rfc-editor.org/rfc/rfc8785.html). The payload
+   contains the immutable style/revision identity, parent, schema and rule
+   versions, selected recipe/options/measurements/size mode, all linked
+   component/POM/BOM/operation/colorway/cost records, provenance, validation
+   evidence references, and cryptographic digests of source assets. It excludes
+   the digest field itself, approval/freeze events, view-rendered files and
+   volatile `createdAt`/`lastViewedAt` metadata. Approval events reference the
+   digest and are recorded separately, avoiding a self-referential hash.
+2. `packetDigest = SHA-256(UTF-8(JCS(packetManifestPayload)))`. The manifest
+   contains the exact `revisionContentDigest`, requested audience/purpose,
+   selected sizes/colorways, schema/rule/exporter versions, immutable
+   `approvalRefs`, unresolved list, and each emitted artifact's stable ID,
+   fixed generated path, media type, byte length and SHA-256 of its exact bytes.
+   It excludes its own digest, the later freeze event and volatile generation
+   timestamps. The artifact list is sorted by stable ID; ordered semantic rows
+   and page order retain explicit sequence values.
+
+JCS property ordering and JSON number rules make serialization reproducible.
+The contract requires UTF-8 canonical bytes, unique object keys/record IDs,
+rejection of `NaN`/infinity, explicit units for every quantity and source
+values retained across deterministic unit conversions. Current application
+numbers fit the JavaScript binary64 data model; future values beyond that
+precision must use an explicit decimal-string plus scale/unit representation,
+not a lossy JSON number. Before JCS, every unordered record collection is
+sorted by stable ID; ordered collections use explicit sequence/order fields.
+Unicode strings remain code-point-identical; the serializer does not silently
+normalize design names or source text. Generated paths use safe stable IDs and
+a deterministic extension, never user-supplied filesystem paths.
+
+NIST's [Secure Hash Standard](https://csrc.nist.gov/pubs/fips/180-4/upd1/final)
+describes message digests as a means to detect whether data changed. These
+digests are integrity/change identifiers only. They do not prove source
+authenticity, license rights, a person's identity, data accuracy, approver
+authority or recipient acceptance; those require separate provenance and
+approval records. An external share must show the style/revision, purpose,
+digest, selected size/colorway, included files and unresolved questions for
+explicit user selection. This contract does not create or send a handoff.
+
+### Slice 224 review record and exit boundary
+
+- Compared the contract to C03's exact value/provenance vocabulary and
+  one-size/grade split; it does not introduce a competing enum or imply that
+  any current recipe is fit-qualified.
+- Recorded stage-specific readiness, component/POM/BOM/operation/colorway/
+  sample/cost/export record requirements, conservative dependency invalidation,
+  scoped approval and immutable revision/freeze behavior.
+- Added Techpacker's public card/version documentation as a vendor workflow
+  comparator, and RFC 8785/NIST FIPS 180-4 as primary deterministic-hash
+  references. They support design rationale only, not apparel or production
+  certification.
+- No database, code, serializer, export, supplier message or sample changed.
+
+Slice 224 exits with the conceptual record/revision contract defined. It does
+not finish C04; Slice 225 still owns drawings/layout/CAD semantics and fixtures,
+and Slice 226 owns integrated challenge and final acceptance.

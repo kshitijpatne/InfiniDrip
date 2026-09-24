@@ -1,15 +1,16 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 223 audits current tech-pack, POM and DXF behavior for C04,
+_Last updated: Slice 224 defines the C04 production-record and revision contract,
 2026-09-24._
 Current directive: C01, C02, C05 and C06 and evidence lanes B–D are Done. C03
 is Done with verified SHA-256 contract evidence; it defines the measurement,
 one-size/grade, capture and donor tiers while explicitly withholding unearned
 fit claims. C04 is In Progress; Slice 223 documented the source-verified
-current tech-pack/POM/DXF baseline and the no-interoperability-claim boundary.
-Continue C04 through its record/revision contract, views/CAD contract, and
-integrated acceptance before activating the G01 final review. Final review
-remains Backlog behind C04 and the four accepted packets. Current board
+current tech-pack/POM/DXF baseline and no-interoperability-claim boundary;
+Slice 224 defines the typed production-record, provenance, readiness, revision,
+approval, freeze and dependency-invalidation contract. Continue C04 through
+views/CAD and integrated acceptance before activating G01 final review. Final
+review remains Backlog behind C04 and the four accepted packets. Current board
 revision is 236.
 Detailed records and the sequence map
 are in `ops/control-center/data/board.json`,
@@ -856,8 +857,20 @@ pages: both show component-label collisions; the leader labels are crowded at
 the top/right while most of the page remains empty. This confirms C01's P1
 finding against the exported artifact. C04 remains contract-only; exporter
 remediation, a CAD receiver/license, supplier handoff and physical sample stay
-outside this child. Slice 224 continues with the canonical pack-record,
-provenance, revision, approval, freeze and dependency contract.
+outside this child. Slice 223 exited with this source-verified capability and
+limitation baseline.
+
+### Slice 224 — define production-record, provenance and revision behavior
+
+Slice 224 additionally defines the typed record graph for style revisions,
+components/seams, POMs, BOM/materials, operations, colorways/artwork,
+costs, QA/sample rounds and export manifests. It reuses C03's established
+provenance enum and keeps unresolved evidence visible. Scoped approvals bind to
+an immutable revision; edits create a child revision and invalidate affected
+checks/derived outputs without moving old sample or supplier evidence. Stage
+readiness is separate from physical-fit and production status. C04 remains a
+documentation contract; the next slice defines complete views/page layout and
+CAD boundaries, including the receiver-dependent no-go rule.
 
 ### Post-merge PR audit — 2026-09-21
 
