@@ -52,6 +52,30 @@ test("contributors can submit review but cannot complete work", () => {
   assert.equal(canTransition("Done", "In Progress", "reviewer"), false);
 });
 
+test("future numbered epic cards and immediate lane packets remain in Backlog", () => {
+  for (let index = 1; index <= 17; index += 1) {
+    const id = `EPIC-${index + 13}`;
+    const goal = `G${String(index).padStart(2, "0")}`;
+    const epic = board.epics.find((entry) => entry.id === id);
+    const card = board.workItems.find((entry) => entry.id === id);
+    assert.equal(epic?.status, "Backlog");
+    assert.equal(card?.status, "Backlog");
+    assert.equal(card?.type, "epic");
+    assert.equal(card?.epicId, id);
+    assert.match(card.title, new RegExp(`^${id}: ${goal}`));
+    assert.equal(card.dependencies.includes(`CAPABILITY-${goal}`), false);
+  }
+  for (const letter of ["A", "B", "C", "D"]) {
+    const lane = board.workItems.find((entry) => entry.id === `EPIC-14-LANE-${letter}`);
+    assert.equal(lane?.epicId, "EPIC-14");
+    assert.equal(lane?.status, "Backlog");
+  }
+  const shorts = board.workItems.find((entry) => entry.id === "EPIC-20-LANE-E");
+  assert.equal(shorts?.epicId, "EPIC-20");
+  assert.equal(shorts?.status, "Backlog");
+  assert.ok(shorts.acceptanceCriteria.some((entry) => entry.includes("Explicit maintainer garment-direction approval")));
+});
+
 test("literal search and filters cover title, slice, body, owner, priority, and type", () => {
   assert.deepEqual(filterItems(board.workItems, { query: "schema and command layer" }).map((item) => item.id), ["SLICE-184"]);
   assert.ok(filterItems(board.workItems, { query: "atomic persistence" }).some((item) => item.id === "SLICE-184"));
@@ -77,16 +101,12 @@ test("detail rendering exposes editing, evidence, history, and escapes board tex
   assert.equal(safeText("<&'\""), "&lt;&amp;&#39;&quot;");
 
   const epicLinkedFixture = structuredClone(board);
-  epicLinkedFixture.epics.push({
-    id: "EPIC-13", title: "Pre-Garment Readiness", status: "Closed", owner: "Codex",
-    description: "Verified nine-phase exit.", evidenceRefs: [],
-  });
   const phaseItem = epicLinkedFixture.workItems.find((entry) => entry.id === "PREQUEUE-PHASE-01");
   phaseItem.epicId = "EPIC-13";
   const phaseHtml = renderDetail(phaseItem, epicLinkedFixture, "maintainer");
   assert.match(phaseHtml, /<select name="epicId" disabled>/);
   assert.match(phaseHtml, /<option selected disabled>EPIC-13<\/option>/);
-  const unrelated = epicLinkedFixture.workItems.find((entry) => entry.id === "CAPABILITY-G17");
+  const unrelated = epicLinkedFixture.workItems.find((entry) => entry.id === "EPIC-30");
   assert.match(renderDetail(unrelated, epicLinkedFixture, "maintainer"), /<option disabled>EPIC-13<\/option>/);
   assert.match(renderCreateForm(epicLinkedFixture), /<option disabled>EPIC-13<\/option>/);
 });

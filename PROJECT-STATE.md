@@ -1,13 +1,16 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 212 records the pre-garment development branch's
-fast-forward integration into `origin/main` at `1b24e0f`, 2026-09-24._
+_Last updated: Slice 213 numbers the future capability backlog and tracks the
+five immediate parallel packets, 2026-09-24._
 Next: no future-roadmap work or garment queue is authorized until the maintainer
 explicitly instructs otherwise. The separate garment-direction approval gate
 remains in force.
 The maintainer's requested post-Phase-9 capability sequence is planned in
 `docs/planning/END-TO-END-CAPABILITY-ROADMAP.md`; its dates and work packets
-are conditional future backlog, not a change to the current Phase 8/9 gate.
+are conditional future backlog, not authorization to begin the next phase.
+The canonical Control Center now labels G01–G17 as Epic 14–30; all are Backlog.
+Lanes A–D are Backlog packets within Epic 14 and conditional lane E is a
+Backlog packet within Epic 20. These records organize future work only.
 Epics 7, 9 and 10 are implemented, Codex-reviewed, documented and pushed to
 `origin/main`. Epic 11 implementation has completed the shaped collar/stand,
 placket-base, vent/drop, front/back preview/control/report and downstream
@@ -645,6 +648,36 @@ no future-roadmap implementation was started. The merge gate freshly passed
 the 29/29 Control Center tests, production build, and `git diff --check`. The
 full-coverage result recorded under Slice 211 applies because this integration
 did not change the source tree.
+
+### Slice 213 — number future capability Epics and track parallel packets
+
+The maintainer confirmed that G01–G17 should follow closed Epic 13 as Epic
+14–30. Epic 12 still has deferred launch-backed scope and remains In Progress;
+this does not change the numbering. The canonical board contains 17 matching
+Backlog Epic records and goal cards titled `EPIC-N: Gxx — …`. A validated,
+maintainer-only rename command migrated the old `CAPABILITY-Gxx` work-item IDs
+and all dependent work-item references, retaining old IDs in audit notes and
+historical source text. All 17 goals kept their Backlog status, targets,
+criteria and evidence; G17 is Epic 30.
+
+The five roadmap lanes were previously described only in the planning packet,
+not separately tracked on the Control Center. Board revision 166 now includes
+`EPIC-14-LANE-A` (C03–C04, task), `EPIC-14-LANE-B` (C01–C02, research),
+`EPIC-14-LANE-C` (C05, research), `EPIC-14-LANE-D` (C06, research), and
+`EPIC-20-LANE-E` (G01S shorts, task), each in Backlog and assigned to its
+numbered Epic. Lane C is Epic 14 admission research for later Epic 22 3D
+implementation; lane E requires explicit garment-direction approval before
+recipe work. The roadmap retains all stronger research, cost, supplier and
+physical gates. No future-roadmap feature work, garment recipe, purchase,
+supplier contact or sample was started by this backlog migration.
+
+Verification: the 32/32 Control Center tests pass; the full application
+coverage gate passes with 100% statements, branches, functions and lines,
+including the 8/8 protected export regression and 9/9 byte-identity checks;
+`npm run build` passes. A rendered localhost Control Center session shows
+Epic 14, Epic 30 and the new lane cards. A comparison against the pre-migration
+board found all nine completed Phase records unchanged and no mismatch in the
+17 goals' status, target date or evidence count. No export baseline moved.
 
 ### Post-merge PR audit — 2026-09-21
 

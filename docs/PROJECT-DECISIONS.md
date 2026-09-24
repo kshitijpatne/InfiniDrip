@@ -797,3 +797,20 @@ data collection still require their own explicit gate.
 - Update durable documentation and validate the board/schema and required
   checks. Use one new, unique slice commit; do not rewrite history or merge the
   branch as part of this work.
+
+## Future capability Epic numbering and parallel packets — directed 2026-09-24
+
+- The last completed numbered Epic is Epic 13; Epic 12 remains open for its
+  deferred launch-backed work. Rename the future G01–G17 capability goal cards
+  to Epic 14–30 in order, showing `EPIC-N: Gxx` in the Control Center. Give
+  each a corresponding numbered Epic record and retain Backlog status. Update
+  dependencies through the validated command layer; preserve old names in
+  historical evidence and notes rather than rewriting that history.
+- Track the five post-Phase-9 parallel packets A–E individually. A–D belong
+  to Epic 14 (G01), and E belongs to Epic 20 (G07). Each starts in Backlog.
+  These are packets within existing goals, not extra numbered Epics; C's later
+  3D implementation belongs to Epic 22 (G09).
+- This is backlog organization only. The completed Phase 9 and Epic 13 records
+  do not themselves authorize roadmap execution. Lane E requires separate
+  explicit garment-direction approval and the relevant C01/C03 evidence.
+  All existing launch-cost, supplier-contact and physical-sampling holds stand.

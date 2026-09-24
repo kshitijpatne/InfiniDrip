@@ -173,6 +173,14 @@ completed pre-garment phases but does not approve a garment direction.
 “Evidence” means a linked commit, test result, document, or other record that
 supports a work item's status.
 
+The future G01–G17 goals are numbered Epic 14–30 in the board. Each has a
+Backlog Epic record and a matching Backlog work card, so the dashboard shows
+both the Epic number and its G goal. A–D are separate Backlog packets within
+Epic 14; the conditional shorts packet E is in Epic 20. A maintainer-only
+rename command updates dependent work-item links and leaves an audit note;
+past evidence text is not rewritten. Planning records do not start product
+work or change the app's local-first boundary.
+
 ## Epic 8: a small helper test, not a clone
 
 Epic 8 tested whether a separate helper could suggest a pattern-piece

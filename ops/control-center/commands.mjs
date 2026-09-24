@@ -39,8 +39,8 @@ const NEW_WORK_ITEM_FIELDS = new Set([
   "flagKey",
 ]);
 
-const NEW_EPIC_FIELDS = new Set(["id", "title", "owner", "description"]);
-const EPIC_STATUSES = new Set(["In Progress", "Blocked", "Closed"]);
+const NEW_EPIC_FIELDS = new Set(["id", "title", "status", "owner", "description"]);
+const EPIC_STATUSES = new Set(["Backlog", "In Progress", "Blocked", "Closed"]);
 const PRE_GARMENT_PHASE_IDS = Array.from({ length: 9 }, (_, index) =>
   `PREQUEUE-PHASE-${String(index + 1).padStart(2, "0")}`);
 
@@ -115,6 +115,23 @@ function applyEditItem(board, command) {
   Object.assign(item, clone(patch));
 }
 
+function applyRenameItem(board, command, now) {
+  const { actor } = requireMaintainer(command, "rename a work item");
+  const reason = requireText(command.reason, "reason");
+  const item = findItem(board, command.itemId);
+  if (item.epicId === "EPIC-13") throw new Error("EPIC-13 phase identifiers are protected");
+  if (board.epics.some((epic) => epic.id === item.id)) throw new Error("An Epic summary card cannot be renamed separately from its Epic record");
+  const nextId = requireText(command.newId, "newId");
+  if (nextId === item.id) throw new Error("newId must differ from the current identifier");
+  if (board.workItems.some((existing) => existing.id === nextId)) throw new Error(`board duplicates ${nextId}`);
+  const oldId = item.id;
+  item.id = nextId;
+  for (const dependent of board.workItems) {
+    dependent.dependencies = dependent.dependencies.map((id) => id === oldId ? nextId : id);
+  }
+  item.comments.push({ at: now, actor, text: `Renamed ${oldId} to ${nextId}. ${reason}` });
+}
+
 function applyCreateItem(board, command, now) {
   const input = requireRecord(command.workItem, "workItem");
   for (const field of Object.keys(input)) {
@@ -167,7 +184,7 @@ function applyCreateEpic(board, command) {
   const epic = {
     id: requireText(input.id, "epic.id"),
     title: requireText(input.title, "epic.title"),
-    status: "In Progress",
+    status: input.status ?? "In Progress",
     owner: requireText(input.owner, "epic.owner"),
     description: requireText(input.description, "epic.description"),
     evidenceRefs: [],
@@ -175,6 +192,7 @@ function applyCreateEpic(board, command) {
   if (board.epics.some((existing) => existing.id === epic.id)) {
     throw new Error(`board duplicates ${epic.id}`);
   }
+  if (!EPIC_STATUSES.has(epic.status)) throw new Error(`Unknown epic status ${String(epic.status)}`);
   if (epic.id === "EPIC-13" && epic.title !== "Pre-Garment Readiness") {
     throw new Error("EPIC-13 title must be Pre-Garment Readiness");
   }
@@ -372,6 +390,9 @@ export function applyBoardCommand(inputBoard, inputCommand, options = {}) {
       break;
     case "editItem":
       applyEditItem(board, command);
+      break;
+    case "renameItem":
+      applyRenameItem(board, command, now);
       break;
     case "updateStatus":
       applyUpdateStatus(board, command, now);

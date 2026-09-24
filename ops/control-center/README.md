@@ -37,7 +37,11 @@ An invalid, stale, busy, or failed save leaves the original board intact.
 
 The CLI and local UI support `createItem`, `editItem`, `updateStatus`,
 `addEvidence`, and `addComment`. The maintainer CLI also supports `createEpic`,
-`linkItemsToEpic`, `addEpicEvidence`, and `updateEpicStatus`. Epic closure
+`renameItem`, `linkItemsToEpic`, `addEpicEvidence`, and `updateEpicStatus`.
+`renameItem` changes dependent work-item references and records the old ID in
+an audit note; it cannot rename the protected Epic 13 phases or a numbered
+Epic summary card separately from its Epic record. Future Epic
+records may start in Backlog without implying execution has begun. Epic closure
 requires every linked work item to be Done with verified, non-incomplete
 evidence and a verified exit-report reference. For EPIC-13 specifically, the
 validated linker and closer require exactly PREQUEUE-PHASE-01 through
@@ -51,6 +55,12 @@ EPIC-13 membership cannot be assigned or removed through single-item creation
 or editing. Its reviewed membership is applied only by the maintainer batch
 link command; the UI keeps the reserved option unavailable for ordinary item
 edits.
+
+Future G01–G17 goals have numbered Epic 14–30 records and matching backlog
+goal cards. The five immediate lanes are child backlog items:
+`EPIC-14-LANE-A` through `EPIC-14-LANE-D`, and `EPIC-20-LANE-E`. Their
+ownership, scope and stronger approval gates are recorded in the
+end-to-end capability roadmap. Backlog registration is not work admission.
 
 ## Historical import rule
 

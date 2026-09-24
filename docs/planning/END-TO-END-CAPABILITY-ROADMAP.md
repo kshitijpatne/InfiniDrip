@@ -15,7 +15,7 @@ _Planning baseline: 2026-09-23. Maintainer direction recorded in the conversatio
 | R-07 | Preserve current 100% application coverage, protected export byte identity, visible-invalid guidance, and actual rendered/drafted review. | An additive v2 output or version migration must prove unchanged legacy behavior; no baseline move without the existing explicit documented approval. |
 | R-08 | Only local/no-cost capability may proceed under the launch-cost hold. | Live supplier identities, accounts, messaging, payments, cloud state, provider-backed features, paid tools/standards, hosted operations, and personal-data collection need the existing explicit launch gate. Local simulated end-to-end workflows can be developed first. |
 | R-09 | Dates are planning targets, not time-based permission to cross a gate. Phase 9 closed with V1 acceptance on 2026-09-24; garment direction remains unapproved. | The 2026-10-05 first-start date is not authorization. Reforecast at every epic boundary only after the maintainer explicitly opens the relevant work; keep original target and reason for variance. |
-| R-10 | The Control Center board remains the operational state source; this packet is the detailed future-scope source. | Create one board work item per goal, link this packet, and instantiate individual planned packets only when their dependency is ready. Daily/weekly review selects the earliest ready packet, without waiting for the maintainer to repeat the roadmap. Do not bypass decisions reserved to the maintainer. |
+| R-10 | The Control Center board remains the operational state source; this packet is the detailed future-scope source. | The 17 goals and immediate lanes A–E have Backlog records, without starting execution. Instantiate later packets only when their dependencies are ready. Review selects the earliest eligible packet after the maintainer admits roadmap work; do not bypass decisions reserved to the maintainer. |
 | R-11 | The digital exit must precede the first real garment sample; the live order/quality/shipping pilot follows accepted physical evidence and commercial authorization. | G12 may develop supplier infrastructure conditionally but cannot close the physical sample/fulfilment promise. G15 and G16 remain gated future goals; their dates are forecasts for review, never instructions to buy, sew, contact or ship. |
 
 ## Evidence basis and professional comparison
@@ -90,6 +90,29 @@ _Calendar targets assume one Codex-owned integration lane, independent bounded r
 _The G01–G16 ranges sum to approximately 176–272 landed slices, including the researched garment set, digital exit, and gated physical/operational follow-through. G17 is additional and deliberately unestimated until its scope checkpoint after G16. These are order-of-magnitude planning bounds, not preassigned slice numbers. The total excludes revisiting failed proofs, supplier acquisition, paid standard/tool access, actual fabrication lead time and unbounded launch operations. Calendar overlap is limited to disjoint work; one integrated product release path remains serialized._
 
 ## Immediate parallel work and resource routing
+
+### Canonical Epic numbering and board ownership
+
+Epic 13 is the last completed numbered Epic and groups the nine accepted pre-garment phases. Epic 12 remains open for deferred launch-backed work. The future capability goals were initially tracked as `CAPABILITY-G01` through `CAPABILITY-G17`; the canonical Control Center now gives them numbered Epic records and goal cards. Existing dependency references were migrated through the validated command layer; old IDs in historical decisions, evidence and notes remain historical aliases. All 17 numbered Epics and goal cards are **Backlog**, as are the five lane packets below. Numbering does not authorize execution, garment code, spending, supplier contact or physical sampling.
+
+| Goal | Numbered Epic | Goal | Numbered Epic | Goal | Numbered Epic |
+| --- | --- | --- | --- | --- | --- |
+| G01 | EPIC-14 | G07 | EPIC-20 | G13 | EPIC-26 |
+| G02 | EPIC-15 | G08 | EPIC-21 | G14 | EPIC-27 |
+| G03 | EPIC-16 | G09 | EPIC-22 | G15 | EPIC-28 |
+| G04 | EPIC-17 | G10 | EPIC-23 | G16 | EPIC-29 |
+| G05 | EPIC-18 | G11 | EPIC-24 | G17 | EPIC-30 |
+| G06 | EPIC-19 | G12 | EPIC-25 | — | — |
+
+| Lane | Control Center item | Type / status | Owning Epic | Packet scope and later destination |
+| --- | --- | --- | --- | --- |
+| A | `EPIC-14-LANE-A` | task / Backlog | EPIC-14 · G01 | C03–C04 shared measurement, pack and CAD contracts; feeds G02 and later outputs. |
+| B | `EPIC-14-LANE-B` | research / Backlog | EPIC-14 · G01 | C01–C02 seven-recipe and professional parity evidence; informs A and the garment lane. |
+| C | `EPIC-14-LANE-C` | research / Backlog | EPIC-14 · G01 | C05 3D feasibility and proof thresholds; later implementation belongs to EPIC-22 · G09. |
+| D | `EPIC-14-LANE-D` | research / Backlog | EPIC-14 · G01 | C06 starter, assortment, upcycling and supplier evidence; later work belongs to G06/G08/G10/G11. |
+| E | `EPIC-20-LANE-E` | task / Backlog | EPIC-20 · G07 | G01S casual shorts; executable only after explicit garment-direction approval and relevant C01/C03 findings. |
+
+The lanes are child work packets, not five additional Epics. A–D can progress as disjoint research or contract work after separate roadmap admission; E has the stronger garment gate. Their Control Center dependencies point to completed Phase 9 as the earliest entry point, while their acceptance criteria and this packet retain the stronger decision and integration gates.
 
 _A work lane may research ahead of its code dependency; its output cannot change the live product until the dependency and maintainer gates pass. The table below is the first post-Phase-9 allocation, assuming the review and necessary direction are recorded. These are parallel work packets, not concurrent writes to shared contracts._
 

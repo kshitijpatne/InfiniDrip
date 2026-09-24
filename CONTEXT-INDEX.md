@@ -87,9 +87,10 @@ snapshots; they are not current status.
   long-term scope, and cut list.
 - `docs/planning/END-TO-END-CAPABILITY-ROADMAP.md` — maintainer-directed
   post-Phase-9 capability sequence, evidence and ambiguity ledger, planned work
-  packets, conditional target dates, dependencies, and digital exit gates. It
-  does not supersede the active pre-garment sequence or authorize a garment
-  queue, launch spending, supplier contact, or physical sampling.
+  packets, conditional target dates, dependencies, numbered Epic 14–30 mapping,
+  individually tracked immediate lanes A–E, and digital exit gates. It
+  does not authorize a garment queue, launch spending, supplier contact, or
+  physical sampling after the completed pre-garment sequence.
 - `docs/planning/COMPONENT-ARCHITECTURE.md` — design rationale and migration plan.
   Use `PROJECT-STATE.md` for which phases are actually complete.
 - `docs/planning/SLICES-BRIEF.md` — reusable slice-planning brief. It is a

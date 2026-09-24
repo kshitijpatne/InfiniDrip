@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 110,
-  "updatedAt": "2026-09-24T04:54:42.713Z",
+  "revision": 166,
+  "updatedAt": "2026-09-24T06:03:47.138Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -117,6 +117,142 @@
       "evidenceRefs": [
         "E-EPIC13-EXIT"
       ]
+    },
+    {
+      "id": "EPIC-14",
+      "title": "EPIC-14: G01 — Admission and professional baseline",
+      "status": "Backlog",
+      "owner": "Codex",
+      "description": "G01 future capability. Scope, gates, dates and work packets: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md. Epic remains Backlog until separately admitted.",
+      "evidenceRefs": []
+    },
+    {
+      "id": "EPIC-15",
+      "title": "EPIC-15: G02 — Versioned style foundation",
+      "status": "Backlog",
+      "owner": "Codex",
+      "description": "G02 future capability. Scope, gates, dates and work packets: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md. Epic remains Backlog until separately admitted.",
+      "evidenceRefs": []
+    },
+    {
+      "id": "EPIC-16",
+      "title": "EPIC-16: G03 — Measurement-first creation",
+      "status": "Backlog",
+      "owner": "Codex",
+      "description": "G03 future capability. Scope, gates, dates and work packets: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md. Epic remains Backlog until separately admitted.",
+      "evidenceRefs": []
+    },
+    {
+      "id": "EPIC-17",
+      "title": "EPIC-17: G04 — Professional flats and CAD interchange",
+      "status": "Backlog",
+      "owner": "Codex",
+      "description": "G04 future capability. Scope, gates, dates and work packets: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md. Epic remains Backlog until separately admitted.",
+      "evidenceRefs": []
+    },
+    {
+      "id": "EPIC-18",
+      "title": "EPIC-18: G05 — Living production tech pack",
+      "status": "Backlog",
+      "owner": "Codex",
+      "description": "G05 future capability. Scope, gates, dates and work packets: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md. Epic remains Backlog until separately admitted.",
+      "evidenceRefs": []
+    },
+    {
+      "id": "EPIC-19",
+      "title": "EPIC-19: G06 — Professionally vetted starting designs",
+      "status": "Backlog",
+      "owner": "Codex",
+      "description": "G06 future capability. Scope, gates, dates and work packets: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md. Epic remains Backlog until separately admitted.",
+      "evidenceRefs": []
+    },
+    {
+      "id": "EPIC-20",
+      "title": "EPIC-20: G07 — Researched garment expansion",
+      "status": "Backlog",
+      "owner": "Codex",
+      "description": "G07 future capability. Scope, gates, dates and work packets: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md. Epic remains Backlog until separately admitted.",
+      "evidenceRefs": []
+    },
+    {
+      "id": "EPIC-21",
+      "title": "EPIC-21: G08 — Brand and collection planning",
+      "status": "Backlog",
+      "owner": "Codex",
+      "description": "G08 future capability. Scope, gates, dates and work packets: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md. Epic remains Backlog until separately admitted.",
+      "evidenceRefs": []
+    },
+    {
+      "id": "EPIC-22",
+      "title": "EPIC-22: G09 — Measurement-driven mannequin and 3D",
+      "status": "Backlog",
+      "owner": "Codex",
+      "description": "G09 future capability. Scope, gates, dates and work packets: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md. Epic remains Backlog until separately admitted.",
+      "evidenceRefs": []
+    },
+    {
+      "id": "EPIC-23",
+      "title": "EPIC-23: G10 — Reference and upcycling",
+      "status": "Backlog",
+      "owner": "Codex",
+      "description": "G10 future capability. Scope, gates, dates and work packets: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md. Epic remains Backlog until separately admitted.",
+      "evidenceRefs": []
+    },
+    {
+      "id": "EPIC-24",
+      "title": "EPIC-24: G11 — Local supplier-ready workflow",
+      "status": "Backlog",
+      "owner": "Codex",
+      "description": "G11 future capability. Scope, gates, dates and work packets: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md. Epic remains Backlog until separately admitted.",
+      "evidenceRefs": []
+    },
+    {
+      "id": "EPIC-25",
+      "title": "EPIC-25: G12 — Live marketplace infrastructure",
+      "status": "Backlog",
+      "owner": "Codex",
+      "description": "G12 future capability. Scope, gates, dates and work packets: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md. Epic remains Backlog until separately admitted.",
+      "evidenceRefs": []
+    },
+    {
+      "id": "EPIC-26",
+      "title": "EPIC-26: G13 — Launch and line-sheet outputs",
+      "status": "Backlog",
+      "owner": "Codex",
+      "description": "G13 future capability. Scope, gates, dates and work packets: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md. Epic remains Backlog until separately admitted.",
+      "evidenceRefs": []
+    },
+    {
+      "id": "EPIC-27",
+      "title": "EPIC-27: G14 — Cross-system digital exit",
+      "status": "Backlog",
+      "owner": "Codex",
+      "description": "G14 future capability. Scope, gates, dates and work packets: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md. Epic remains Backlog until separately admitted.",
+      "evidenceRefs": []
+    },
+    {
+      "id": "EPIC-28",
+      "title": "EPIC-28: G15 — Physical validation",
+      "status": "Backlog",
+      "owner": "Codex",
+      "description": "G15 future capability. Scope, gates, dates and work packets: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md. Epic remains Backlog until separately admitted.",
+      "evidenceRefs": []
+    },
+    {
+      "id": "EPIC-29",
+      "title": "EPIC-29: G16 — Operational manufacturing and fulfilment",
+      "status": "Backlog",
+      "owner": "Codex",
+      "description": "G16 future capability. Scope, gates, dates and work packets: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md. Epic remains Backlog until separately admitted.",
+      "evidenceRefs": []
+    },
+    {
+      "id": "EPIC-30",
+      "title": "EPIC-30: G17 — Dense production-art library",
+      "status": "Backlog",
+      "owner": "Codex",
+      "description": "G17 future capability. Scope, gates, dates and work packets: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md. Epic remains Backlog until separately admitted.",
+      "evidenceRefs": []
     }
   ],
   "releases": [
@@ -2221,10 +2357,10 @@
       "flagKey": null
     },
     {
-      "id": "CAPABILITY-G01",
+      "id": "EPIC-14",
       "type": "epic",
-      "title": "G01 Admission and professional baseline",
-      "epicId": null,
+      "title": "EPIC-14: G01 — Admission and professional baseline",
+      "epicId": "EPIC-14",
       "releaseId": null,
       "status": "Backlog",
       "openedAt": "2026-09-23",
@@ -2261,15 +2397,21 @@
           "evidenceRefs": []
         }
       ],
-      "comments": [],
+      "comments": [
+        {
+          "at": "2026-09-24T06:03:46.228Z",
+          "actor": "Maintainer (via Codex)",
+          "text": "Renamed CAPABILITY-G01 to EPIC-14. G01 is now the numbered epic work card; dependent item links were updated atomically."
+        }
+      ],
       "evidenceRefs": [],
       "flagKey": null
     },
     {
-      "id": "CAPABILITY-G02",
+      "id": "EPIC-15",
       "type": "epic",
-      "title": "G02 Versioned style foundation",
-      "epicId": null,
+      "title": "EPIC-15: G02 — Versioned style foundation",
+      "epicId": "EPIC-15",
       "releaseId": null,
       "status": "Backlog",
       "openedAt": "2026-09-23",
@@ -2281,7 +2423,7 @@
       "contributor": "Codex",
       "reviewer": "Codex",
       "dependencies": [
-        "CAPABILITY-G01"
+        "EPIC-14"
       ],
       "protectedSurfaces": [
         "local-first product",
@@ -2306,15 +2448,21 @@
           "evidenceRefs": []
         }
       ],
-      "comments": [],
+      "comments": [
+        {
+          "at": "2026-09-24T06:03:46.281Z",
+          "actor": "Maintainer (via Codex)",
+          "text": "Renamed CAPABILITY-G02 to EPIC-15. G02 is now the numbered epic work card; dependent item links were updated atomically."
+        }
+      ],
       "evidenceRefs": [],
       "flagKey": null
     },
     {
-      "id": "CAPABILITY-G03",
+      "id": "EPIC-16",
       "type": "epic",
-      "title": "G03 Measurement-first creation",
-      "epicId": null,
+      "title": "EPIC-16: G03 — Measurement-first creation",
+      "epicId": "EPIC-16",
       "releaseId": null,
       "status": "Backlog",
       "openedAt": "2026-09-23",
@@ -2326,7 +2474,7 @@
       "contributor": "Codex",
       "reviewer": "Codex",
       "dependencies": [
-        "CAPABILITY-G02"
+        "EPIC-15"
       ],
       "protectedSurfaces": [
         "local-first product",
@@ -2351,15 +2499,21 @@
           "evidenceRefs": []
         }
       ],
-      "comments": [],
+      "comments": [
+        {
+          "at": "2026-09-24T06:03:46.330Z",
+          "actor": "Maintainer (via Codex)",
+          "text": "Renamed CAPABILITY-G03 to EPIC-16. G03 is now the numbered epic work card; dependent item links were updated atomically."
+        }
+      ],
       "evidenceRefs": [],
       "flagKey": null
     },
     {
-      "id": "CAPABILITY-G04",
+      "id": "EPIC-17",
       "type": "epic",
-      "title": "G04 Professional flats and CAD interchange",
-      "epicId": null,
+      "title": "EPIC-17: G04 — Professional flats and CAD interchange",
+      "epicId": "EPIC-17",
       "releaseId": null,
       "status": "Backlog",
       "openedAt": "2026-09-23",
@@ -2371,7 +2525,7 @@
       "contributor": "Codex",
       "reviewer": "Codex",
       "dependencies": [
-        "CAPABILITY-G02"
+        "EPIC-15"
       ],
       "protectedSurfaces": [
         "local-first product",
@@ -2396,15 +2550,21 @@
           "evidenceRefs": []
         }
       ],
-      "comments": [],
+      "comments": [
+        {
+          "at": "2026-09-24T06:03:46.384Z",
+          "actor": "Maintainer (via Codex)",
+          "text": "Renamed CAPABILITY-G04 to EPIC-17. G04 is now the numbered epic work card; dependent item links were updated atomically."
+        }
+      ],
       "evidenceRefs": [],
       "flagKey": null
     },
     {
-      "id": "CAPABILITY-G05",
+      "id": "EPIC-18",
       "type": "epic",
-      "title": "G05 Living production tech pack",
-      "epicId": null,
+      "title": "EPIC-18: G05 — Living production tech pack",
+      "epicId": "EPIC-18",
       "releaseId": null,
       "status": "Backlog",
       "openedAt": "2026-09-23",
@@ -2416,7 +2576,7 @@
       "contributor": "Codex",
       "reviewer": "Codex",
       "dependencies": [
-        "CAPABILITY-G02"
+        "EPIC-15"
       ],
       "protectedSurfaces": [
         "local-first product",
@@ -2441,15 +2601,21 @@
           "evidenceRefs": []
         }
       ],
-      "comments": [],
+      "comments": [
+        {
+          "at": "2026-09-24T06:03:46.432Z",
+          "actor": "Maintainer (via Codex)",
+          "text": "Renamed CAPABILITY-G05 to EPIC-18. G05 is now the numbered epic work card; dependent item links were updated atomically."
+        }
+      ],
       "evidenceRefs": [],
       "flagKey": null
     },
     {
-      "id": "CAPABILITY-G06",
+      "id": "EPIC-19",
       "type": "epic",
-      "title": "G06 Professionally vetted starting designs",
-      "epicId": null,
+      "title": "EPIC-19: G06 — Professionally vetted starting designs",
+      "epicId": "EPIC-19",
       "releaseId": null,
       "status": "Backlog",
       "openedAt": "2026-09-23",
@@ -2461,7 +2627,7 @@
       "contributor": "Codex",
       "reviewer": "Codex",
       "dependencies": [
-        "CAPABILITY-G02"
+        "EPIC-15"
       ],
       "protectedSurfaces": [
         "local-first product",
@@ -2486,15 +2652,21 @@
           "evidenceRefs": []
         }
       ],
-      "comments": [],
+      "comments": [
+        {
+          "at": "2026-09-24T06:03:46.477Z",
+          "actor": "Maintainer (via Codex)",
+          "text": "Renamed CAPABILITY-G06 to EPIC-19. G06 is now the numbered epic work card; dependent item links were updated atomically."
+        }
+      ],
       "evidenceRefs": [],
       "flagKey": null
     },
     {
-      "id": "CAPABILITY-G07",
+      "id": "EPIC-20",
       "type": "epic",
-      "title": "G07 Researched garment expansion",
-      "epicId": null,
+      "title": "EPIC-20: G07 — Researched garment expansion",
+      "epicId": "EPIC-20",
       "releaseId": null,
       "status": "Backlog",
       "openedAt": "2026-09-23",
@@ -2507,7 +2679,7 @@
       "reviewer": "Codex",
       "dependencies": [
         "PREQUEUE-PHASE-09",
-        "CAPABILITY-G01"
+        "EPIC-14"
       ],
       "protectedSurfaces": [
         "local-first product",
@@ -2532,15 +2704,21 @@
           "evidenceRefs": []
         }
       ],
-      "comments": [],
+      "comments": [
+        {
+          "at": "2026-09-24T06:03:46.524Z",
+          "actor": "Maintainer (via Codex)",
+          "text": "Renamed CAPABILITY-G07 to EPIC-20. G07 is now the numbered epic work card; dependent item links were updated atomically."
+        }
+      ],
       "evidenceRefs": [],
       "flagKey": null
     },
     {
-      "id": "CAPABILITY-G08",
+      "id": "EPIC-21",
       "type": "epic",
-      "title": "G08 Brand and collection planning",
-      "epicId": null,
+      "title": "EPIC-21: G08 — Brand and collection planning",
+      "epicId": "EPIC-21",
       "releaseId": null,
       "status": "Backlog",
       "openedAt": "2026-09-23",
@@ -2552,7 +2730,7 @@
       "contributor": "Codex",
       "reviewer": "Codex",
       "dependencies": [
-        "CAPABILITY-G02"
+        "EPIC-15"
       ],
       "protectedSurfaces": [
         "local-first product",
@@ -2577,15 +2755,21 @@
           "evidenceRefs": []
         }
       ],
-      "comments": [],
+      "comments": [
+        {
+          "at": "2026-09-24T06:03:46.573Z",
+          "actor": "Maintainer (via Codex)",
+          "text": "Renamed CAPABILITY-G08 to EPIC-21. G08 is now the numbered epic work card; dependent item links were updated atomically."
+        }
+      ],
       "evidenceRefs": [],
       "flagKey": null
     },
     {
-      "id": "CAPABILITY-G09",
+      "id": "EPIC-22",
       "type": "epic",
-      "title": "G09 Measurement-driven mannequin and 3D",
-      "epicId": null,
+      "title": "EPIC-22: G09 — Measurement-driven mannequin and 3D",
+      "epicId": "EPIC-22",
       "releaseId": null,
       "status": "Backlog",
       "openedAt": "2026-09-23",
@@ -2597,7 +2781,7 @@
       "contributor": "Codex",
       "reviewer": "Codex",
       "dependencies": [
-        "CAPABILITY-G02"
+        "EPIC-15"
       ],
       "protectedSurfaces": [
         "local-first product",
@@ -2622,15 +2806,21 @@
           "evidenceRefs": []
         }
       ],
-      "comments": [],
+      "comments": [
+        {
+          "at": "2026-09-24T06:03:46.621Z",
+          "actor": "Maintainer (via Codex)",
+          "text": "Renamed CAPABILITY-G09 to EPIC-22. G09 is now the numbered epic work card; dependent item links were updated atomically."
+        }
+      ],
       "evidenceRefs": [],
       "flagKey": null
     },
     {
-      "id": "CAPABILITY-G10",
+      "id": "EPIC-23",
       "type": "epic",
-      "title": "G10 Reference and upcycling",
-      "epicId": null,
+      "title": "EPIC-23: G10 — Reference and upcycling",
+      "epicId": "EPIC-23",
       "releaseId": null,
       "status": "Backlog",
       "openedAt": "2026-09-23",
@@ -2642,8 +2832,8 @@
       "contributor": "Codex",
       "reviewer": "Codex",
       "dependencies": [
-        "CAPABILITY-G02",
-        "CAPABILITY-G03"
+        "EPIC-15",
+        "EPIC-16"
       ],
       "protectedSurfaces": [
         "local-first product",
@@ -2668,15 +2858,21 @@
           "evidenceRefs": []
         }
       ],
-      "comments": [],
+      "comments": [
+        {
+          "at": "2026-09-24T06:03:46.668Z",
+          "actor": "Maintainer (via Codex)",
+          "text": "Renamed CAPABILITY-G10 to EPIC-23. G10 is now the numbered epic work card; dependent item links were updated atomically."
+        }
+      ],
       "evidenceRefs": [],
       "flagKey": null
     },
     {
-      "id": "CAPABILITY-G11",
+      "id": "EPIC-24",
       "type": "epic",
-      "title": "G11 Local supplier-ready workflow",
-      "epicId": null,
+      "title": "EPIC-24: G11 — Local supplier-ready workflow",
+      "epicId": "EPIC-24",
       "releaseId": null,
       "status": "Backlog",
       "openedAt": "2026-09-23",
@@ -2688,7 +2884,7 @@
       "contributor": "Codex",
       "reviewer": "Codex",
       "dependencies": [
-        "CAPABILITY-G05"
+        "EPIC-18"
       ],
       "protectedSurfaces": [
         "local-first product",
@@ -2713,15 +2909,21 @@
           "evidenceRefs": []
         }
       ],
-      "comments": [],
+      "comments": [
+        {
+          "at": "2026-09-24T06:03:46.711Z",
+          "actor": "Maintainer (via Codex)",
+          "text": "Renamed CAPABILITY-G11 to EPIC-24. G11 is now the numbered epic work card; dependent item links were updated atomically."
+        }
+      ],
       "evidenceRefs": [],
       "flagKey": null
     },
     {
-      "id": "CAPABILITY-G12",
+      "id": "EPIC-25",
       "type": "epic",
-      "title": "G12 Live marketplace infrastructure",
-      "epicId": null,
+      "title": "EPIC-25: G12 — Live marketplace infrastructure",
+      "epicId": "EPIC-25",
       "releaseId": null,
       "status": "Backlog",
       "openedAt": "2026-09-23",
@@ -2733,7 +2935,7 @@
       "contributor": "Codex",
       "reviewer": "Codex",
       "dependencies": [
-        "CAPABILITY-G11"
+        "EPIC-24"
       ],
       "protectedSurfaces": [
         "local-first product",
@@ -2758,15 +2960,21 @@
           "evidenceRefs": []
         }
       ],
-      "comments": [],
+      "comments": [
+        {
+          "at": "2026-09-24T06:03:46.754Z",
+          "actor": "Maintainer (via Codex)",
+          "text": "Renamed CAPABILITY-G12 to EPIC-25. G12 is now the numbered epic work card; dependent item links were updated atomically."
+        }
+      ],
       "evidenceRefs": [],
       "flagKey": null
     },
     {
-      "id": "CAPABILITY-G13",
+      "id": "EPIC-26",
       "type": "epic",
-      "title": "G13 Launch and line-sheet outputs",
-      "epicId": null,
+      "title": "EPIC-26: G13 — Launch and line-sheet outputs",
+      "epicId": "EPIC-26",
       "releaseId": null,
       "status": "Backlog",
       "openedAt": "2026-09-23",
@@ -2778,8 +2986,8 @@
       "contributor": "Codex",
       "reviewer": "Codex",
       "dependencies": [
-        "CAPABILITY-G05",
-        "CAPABILITY-G08"
+        "EPIC-18",
+        "EPIC-21"
       ],
       "protectedSurfaces": [
         "local-first product",
@@ -2804,15 +3012,21 @@
           "evidenceRefs": []
         }
       ],
-      "comments": [],
+      "comments": [
+        {
+          "at": "2026-09-24T06:03:46.798Z",
+          "actor": "Maintainer (via Codex)",
+          "text": "Renamed CAPABILITY-G13 to EPIC-26. G13 is now the numbered epic work card; dependent item links were updated atomically."
+        }
+      ],
       "evidenceRefs": [],
       "flagKey": null
     },
     {
-      "id": "CAPABILITY-G14",
+      "id": "EPIC-27",
       "type": "epic",
-      "title": "G14 Cross-system digital exit",
-      "epicId": null,
+      "title": "EPIC-27: G14 — Cross-system digital exit",
+      "epicId": "EPIC-27",
       "releaseId": null,
       "status": "Backlog",
       "openedAt": "2026-09-23",
@@ -2824,17 +3038,17 @@
       "contributor": "Codex",
       "reviewer": "Codex",
       "dependencies": [
-        "CAPABILITY-G02",
-        "CAPABILITY-G03",
-        "CAPABILITY-G04",
-        "CAPABILITY-G05",
-        "CAPABILITY-G06",
-        "CAPABILITY-G07",
-        "CAPABILITY-G08",
-        "CAPABILITY-G09",
-        "CAPABILITY-G10",
-        "CAPABILITY-G11",
-        "CAPABILITY-G13"
+        "EPIC-15",
+        "EPIC-16",
+        "EPIC-17",
+        "EPIC-18",
+        "EPIC-19",
+        "EPIC-20",
+        "EPIC-21",
+        "EPIC-22",
+        "EPIC-23",
+        "EPIC-24",
+        "EPIC-26"
       ],
       "protectedSurfaces": [
         "local-first product",
@@ -2859,15 +3073,21 @@
           "evidenceRefs": []
         }
       ],
-      "comments": [],
+      "comments": [
+        {
+          "at": "2026-09-24T06:03:46.847Z",
+          "actor": "Maintainer (via Codex)",
+          "text": "Renamed CAPABILITY-G14 to EPIC-27. G14 is now the numbered epic work card; dependent item links were updated atomically."
+        }
+      ],
       "evidenceRefs": [],
       "flagKey": null
     },
     {
-      "id": "CAPABILITY-G15",
+      "id": "EPIC-28",
       "type": "epic",
-      "title": "G15 Physical validation",
-      "epicId": null,
+      "title": "EPIC-28: G15 — Physical validation",
+      "epicId": "EPIC-28",
       "releaseId": null,
       "status": "Backlog",
       "openedAt": "2026-09-23",
@@ -2879,7 +3099,7 @@
       "contributor": "Codex",
       "reviewer": "Codex",
       "dependencies": [
-        "CAPABILITY-G14"
+        "EPIC-27"
       ],
       "protectedSurfaces": [
         "physical-sampling hold",
@@ -2905,15 +3125,21 @@
           "evidenceRefs": []
         }
       ],
-      "comments": [],
+      "comments": [
+        {
+          "at": "2026-09-24T06:03:46.896Z",
+          "actor": "Maintainer (via Codex)",
+          "text": "Renamed CAPABILITY-G15 to EPIC-28. G15 is now the numbered epic work card; dependent item links were updated atomically."
+        }
+      ],
       "evidenceRefs": [],
       "flagKey": null
     },
     {
-      "id": "CAPABILITY-G16",
+      "id": "EPIC-29",
       "type": "epic",
-      "title": "G16 Operational manufacturing and fulfilment",
-      "epicId": null,
+      "title": "EPIC-29: G16 — Operational manufacturing and fulfilment",
+      "epicId": "EPIC-29",
       "releaseId": null,
       "status": "Backlog",
       "openedAt": "2026-09-23",
@@ -2925,8 +3151,8 @@
       "contributor": "Codex",
       "reviewer": "Codex",
       "dependencies": [
-        "CAPABILITY-G12",
-        "CAPABILITY-G15"
+        "EPIC-25",
+        "EPIC-28"
       ],
       "protectedSurfaces": [
         "physical-sampling hold",
@@ -2952,15 +3178,21 @@
           "evidenceRefs": []
         }
       ],
-      "comments": [],
+      "comments": [
+        {
+          "at": "2026-09-24T06:03:46.947Z",
+          "actor": "Maintainer (via Codex)",
+          "text": "Renamed CAPABILITY-G16 to EPIC-29. G16 is now the numbered epic work card; dependent item links were updated atomically."
+        }
+      ],
       "evidenceRefs": [],
       "flagKey": null
     },
     {
-      "id": "CAPABILITY-G17",
+      "id": "EPIC-30",
       "type": "epic",
-      "title": "G17 Dense production-art library",
-      "epicId": null,
+      "title": "EPIC-30: G17 — Dense production-art library",
+      "epicId": "EPIC-30",
       "releaseId": null,
       "status": "Backlog",
       "openedAt": "2026-09-24",
@@ -2972,7 +3204,7 @@
       "contributor": "Codex",
       "reviewer": "Codex",
       "dependencies": [
-        "CAPABILITY-G16"
+        "EPIC-29"
       ],
       "protectedSurfaces": [
         "launch-cost hold",
@@ -3001,10 +3233,241 @@
           "evidenceRefs": []
         }
       ],
-      "comments": [],
+      "comments": [
+        {
+          "at": "2026-09-24T06:03:46.996Z",
+          "actor": "Maintainer (via Codex)",
+          "text": "Renamed CAPABILITY-G17 to EPIC-30. G17 is now the numbered epic work card; dependent item links were updated atomically."
+        }
+      ],
       "evidenceRefs": [
         "E-CAPABILITY-G17-QUEUE"
       ],
+      "flagKey": null
+    },
+    {
+      "id": "EPIC-14-LANE-A",
+      "type": "task",
+      "title": "Lane A — measurement, tech-pack and CAD contracts (C03–C04)",
+      "epicId": "EPIC-14",
+      "releaseId": null,
+      "status": "Backlog",
+      "openedAt": "2026-09-24",
+      "targetAt": "2026-11-13",
+      "deliveredAt": null,
+      "priority": "P0",
+      "risk": "high",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": [
+        "PREQUEUE-PHASE-09"
+      ],
+      "protectedSurfaces": [
+        "local-first product",
+        "export byte identity",
+        "100% coverage",
+        "maintainer gates"
+      ],
+      "description": "Codex owns the shared measurement/control dictionary and cross-output pack/CAD contracts in C03–C04. Incorporate verified C01 findings. Source packet: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md.",
+      "expectation": "Accepted body/garment/control dictionary and cross-output schema, with unresolved facts and downstream owners explicit.",
+      "acceptanceCriteria": [
+        "C03 and C04 source/proposal/decision records are complete and reviewed against C01 findings.",
+        "Shared schema and acceptance thresholds are recorded before G02/F02 integration; no feature code or supplier claim is implied.",
+        "Future-roadmap admission remains subject to a separate maintainer instruction."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-09-24T06:03:47.046Z",
+          "actor": "Maintainer (via Codex)",
+          "role": "maintainer",
+          "note": "Make the previously untracked post-Phase-9 parallel work packet visible in Backlog without opening its gate.",
+          "evidenceRefs": []
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [],
+      "flagKey": null
+    },
+    {
+      "id": "EPIC-14-LANE-B",
+      "type": "research",
+      "title": "Lane B — recipe and professional parity evidence (C01–C02)",
+      "epicId": "EPIC-14",
+      "releaseId": null,
+      "status": "Backlog",
+      "openedAt": "2026-09-24",
+      "targetAt": "2026-11-13",
+      "deliveredAt": null,
+      "priority": "P0",
+      "risk": "medium",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": [
+        "PREQUEUE-PHASE-09"
+      ],
+      "protectedSurfaces": [
+        "local-first product",
+        "export byte identity",
+        "100% coverage",
+        "maintainer gates"
+      ],
+      "description": "Read-only recipe audit and professional tool/standard comparison. Source packet: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md. Research can be delegated in a disjoint worktree; Codex verifies primary references and selected rendered outputs.",
+      "expectation": "Source-dated seven-recipe parity and discrepancy matrix distinguishing vendor claims from observed trials.",
+      "acceptanceCriteria": [
+        "C01 and C02 cover each supported recipe's measurements, controls, topology, construction, POM, grade, flats, BOM and exports.",
+        "Discrepancies, sources, actual trial status and professional review gaps are explicit; unsupported compliance claims are excluded.",
+        "Future-roadmap admission remains subject to a separate maintainer instruction."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-09-24T06:03:47.069Z",
+          "actor": "Maintainer (via Codex)",
+          "role": "maintainer",
+          "note": "Make the previously untracked post-Phase-9 parallel work packet visible in Backlog without opening its gate.",
+          "evidenceRefs": []
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [],
+      "flagKey": null
+    },
+    {
+      "id": "EPIC-14-LANE-C",
+      "type": "research",
+      "title": "Lane C — 3D feasibility and acceptance research (C05)",
+      "epicId": "EPIC-14",
+      "releaseId": null,
+      "status": "Backlog",
+      "openedAt": "2026-09-24",
+      "targetAt": "2026-11-13",
+      "deliveredAt": null,
+      "priority": "P1",
+      "risk": "high",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": [
+        "PREQUEUE-PHASE-09"
+      ],
+      "protectedSurfaces": [
+        "local-first product",
+        "export byte identity",
+        "100% coverage",
+        "maintainer gates"
+      ],
+      "description": "C05 anthropometry, Blender/GLB asset rights, pattern rest mesh, seam map, fabric/solver protocol and device metrics. This is the admission work for G09/EPIC-22, not 3D implementation. Source packet: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md.",
+      "expectation": "Falsifiable proof specification with numeric, visual, performance and licensing thresholds.",
+      "acceptanceCriteria": [
+        "C05 resolves or explicitly owns A-07/A-08 and records fixture, license, measurement-error and material-data requirements.",
+        "No app-level 3D implementation starts before C05 admission and later Epic 22 dependencies.",
+        "Future-roadmap admission remains subject to a separate maintainer instruction."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-09-24T06:03:47.090Z",
+          "actor": "Maintainer (via Codex)",
+          "role": "maintainer",
+          "note": "Make the previously untracked post-Phase-9 parallel work packet visible in Backlog without opening its gate.",
+          "evidenceRefs": []
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [],
+      "flagKey": null
+    },
+    {
+      "id": "EPIC-14-LANE-D",
+      "type": "research",
+      "title": "Lane D — starter, assortment, upcycling and supplier evidence (C06)",
+      "epicId": "EPIC-14",
+      "releaseId": null,
+      "status": "Backlog",
+      "openedAt": "2026-09-24",
+      "targetAt": "2026-11-13",
+      "deliveredAt": null,
+      "priority": "P1",
+      "risk": "medium",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": [
+        "PREQUEUE-PHASE-09"
+      ],
+      "protectedSurfaces": [
+        "local-first product",
+        "export byte identity",
+        "100% coverage",
+        "maintainer gates"
+      ],
+      "description": "C06 resolves A-09–A-12 with starter vetting, material/MOQ/price source and expiry, photo confidence, upcycling measurement, and supplier evidence. Feeds later G06/G08/G10/G11. Source packet: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md.",
+      "expectation": "Decision ledger and measurement/verification checklists with unresolved external facts left explicit.",
+      "acceptanceCriteria": [
+        "C06 records each research decision, source, confidence, owner and downstream schema implication.",
+        "No supplier outreach, paid source, live market assertion or unverified value enters F02.",
+        "Future-roadmap admission remains subject to a separate maintainer instruction."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-09-24T06:03:47.115Z",
+          "actor": "Maintainer (via Codex)",
+          "role": "maintainer",
+          "note": "Make the previously untracked post-Phase-9 parallel work packet visible in Backlog without opening its gate.",
+          "evidenceRefs": []
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [],
+      "flagKey": null
+    },
+    {
+      "id": "EPIC-20-LANE-E",
+      "type": "task",
+      "title": "Lane E — casual woven shorts execution packet (G01S)",
+      "epicId": "EPIC-20",
+      "releaseId": null,
+      "status": "Backlog",
+      "openedAt": "2026-09-24",
+      "targetAt": "2026-12-18",
+      "deliveredAt": null,
+      "priority": "P1",
+      "risk": "high",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": [
+        "PREQUEUE-PHASE-09"
+      ],
+      "protectedSurfaces": [
+        "local-first product",
+        "export byte identity",
+        "100% coverage",
+        "maintainer gates"
+      ],
+      "description": "Conditional G01S garment packet under G07/EPIC-20. Draw from docs/research/garments/CASUAL-SHORTS-RESEARCH.md and the C01/C03 findings. Source packet: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md.",
+      "expectation": "After explicit garment approval, 7–9 numbered, reviewed slices deliver shorts through the full digital output matrix.",
+      "acceptanceCriteria": [
+        "Explicit maintainer garment-direction approval is recorded before any garment recipe or execution slice starts.",
+        "C01 and C03 findings relevant to shorts are accepted and the garment research record remains current.",
+        "Geometry, grading, construction, POM, BOM and exports pass the existing gates without a physical-fit claim."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-09-24T06:03:47.138Z",
+          "actor": "Maintainer (via Codex)",
+          "role": "maintainer",
+          "note": "Make the previously untracked post-Phase-9 parallel work packet visible in Backlog without opening its gate.",
+          "evidenceRefs": []
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [],
       "flagKey": null
     }
   ],

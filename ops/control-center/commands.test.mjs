@@ -42,6 +42,48 @@ test("editItem changes only editable details and increments the revision", () =>
   assert.throws(() => applyBoardCommand(board, { type: "editItem", itemId: "SLICE-175", patch: { status: "Done" } }, { now: NOW }), /cannot be edited directly/);
 });
 
+test("maintainer rename keeps dependent work linked and records the old identifier", () => {
+  const fixture = structuredClone(board);
+  fixture.workItems.find((item) => item.id === "EPIC-14-LANE-B").dependencies = ["EPIC-14-LANE-A"];
+  const renamed = applyBoardCommand(fixture, {
+    type: "renameItem", itemId: "EPIC-14-LANE-A", newId: "EPIC-14-LANE-A-RENAMED",
+    actor: "Maintainer", role: "maintainer", reason: "Adopt numbered epic sequence.",
+  }, { now: NOW });
+  assert.equal(renamed.workItems.some((item) => item.id === "EPIC-14-LANE-A"), false);
+  const goal = renamed.workItems.find((item) => item.id === "EPIC-14-LANE-A-RENAMED");
+  assert.match(goal.comments.at(-1).text, /EPIC-14-LANE-A to EPIC-14-LANE-A-RENAMED/);
+  assert.deepEqual(renamed.workItems.find((item) => item.id === "EPIC-14-LANE-B").dependencies, ["EPIC-14-LANE-A-RENAMED"]);
+  assert.deepEqual(validateBoard(renamed), { valid: true, errors: [] });
+  assert.throws(() => applyBoardCommand(board, {
+    type: "renameItem", itemId: "EPIC-14-LANE-A", newId: "EPIC-14-LANE-A-RENAMED",
+    actor: "Contributor", role: "contributor", reason: "No authority.",
+  }, { now: NOW }), /Only a maintainer/);
+  assert.throws(() => applyBoardCommand(board, {
+    type: "renameItem", itemId: "EPIC-14-LANE-A", newId: "EPIC-14-LANE-B",
+    actor: "Maintainer", role: "maintainer", reason: "Duplicate.",
+  }, { now: NOW }), /duplicates/);
+  assert.throws(() => applyBoardCommand(board, {
+    type: "renameItem", itemId: "PREQUEUE-PHASE-01", newId: "PHASE-RENAMED",
+    actor: "Maintainer", role: "maintainer", reason: "Protected.",
+  }, { now: NOW }), /protected/);
+  assert.throws(() => applyBoardCommand(board, {
+    type: "renameItem", itemId: "EPIC-14", newId: "EPIC-14-RENAMED",
+    actor: "Maintainer", role: "maintainer", reason: "Would desynchronize the Epic record.",
+  }, { now: NOW }), /cannot be renamed separately/);
+});
+
+test("future epic can be registered in Backlog without implying work has started", () => {
+  const planned = applyBoardCommand(board, {
+    type: "createEpic", actor: "Maintainer", role: "maintainer", reason: "Register future roadmap epic.",
+    epic: { id: "EPIC-31", title: "Future admission", status: "Backlog", owner: "Codex", description: "Held until admitted." },
+  }, { now: NOW });
+  assert.equal(planned.epics.find((epic) => epic.id === "EPIC-31").status, "Backlog");
+  assert.throws(() => applyBoardCommand(board, {
+    type: "createEpic", actor: "Maintainer", role: "maintainer", reason: "Invalid status.",
+    epic: { id: "EPIC-31", title: "Future admission", status: "Done", owner: "Codex", description: "Invalid." },
+  }, { now: NOW }), /Unknown epic status/);
+});
+
 test("createItem validates a new backlog record and records its creation in transition history", () => {
   const created = applyBoardCommand(board, {
     type: "createItem",
@@ -283,7 +325,7 @@ test("ordinary item edits cannot bypass Epic 13's exact membership boundary", ()
     type: "editItem", itemId: PRE_GARMENT_IDS[0], patch: { epicId: null },
   }, { now: NOW }), /EPIC-13 membership must be changed through linkItemsToEpic/);
   assert.throws(() => applyBoardCommand(grouped, {
-    type: "editItem", itemId: "CAPABILITY-G17", patch: { epicId: "EPIC-13" },
+    type: "editItem", itemId: "EPIC-30", patch: { epicId: "EPIC-13" },
   }, { now: NOW }), /EPIC-13 membership must be changed through linkItemsToEpic/);
   assert.throws(() => applyBoardCommand(epic13TestBoard(), {
     type: "createEpic", actor: "Maintainer", role: "maintainer", reason: "Use the approved epic name.",
@@ -294,7 +336,7 @@ test("ordinary item edits cannot bypass Epic 13's exact membership boundary", ()
 test("Epic 13 rejects wrong membership, unverified phase evidence, incomplete phases, and evidence-free closure", () => {
   const created = createEpic13();
   assert.throws(() => linkEpic13(created, [...PRE_GARMENT_IDS].reverse()), /exactly PREQUEUE-PHASE-01 through PREQUEUE-PHASE-09 in order/);
-  assert.throws(() => linkEpic13(created, [...PRE_GARMENT_IDS, "CAPABILITY-G17"]), /exactly PREQUEUE-PHASE-01 through PREQUEUE-PHASE-09 in order/);
+  assert.throws(() => linkEpic13(created, [...PRE_GARMENT_IDS, "EPIC-30"]), /exactly PREQUEUE-PHASE-01 through PREQUEUE-PHASE-09 in order/);
   assert.throws(() => linkEpic13(created, [...PRE_GARMENT_IDS, PRE_GARMENT_IDS[0]]), /itemIds must be unique/);
   assert.throws(() => applyBoardCommand(created, {
     type: "linkItemsToEpic", epicId: "EPIC-13", itemIds: [],

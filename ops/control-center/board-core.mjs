@@ -36,6 +36,7 @@ const HISTORY_STATUS_SET = new Set([
 const ITEM_TYPE_SET = new Set(ITEM_TYPES);
 const PRIORITY_SET = new Set(PRIORITIES);
 const RISK_SET = new Set(RISKS);
+const EPIC_STATUS_SET = new Set(["Backlog", "In Progress", "Blocked", "Closed"]);
 const EVIDENCE_KIND_SET = new Set(EVIDENCE_KINDS);
 const ROLE_SET = new Set(ACTOR_ROLES);
 const UNFINISHED_STATUS_SET = new Set(["Backlog", "Ready", "In Progress", "Review", "Blocked"]);
@@ -168,6 +169,7 @@ function validateEpic(epic, index, evidenceIds, errors) {
   for (const field of ["id", "title", "status", "owner", "description"]) {
     if (!isNonEmptyString(epic[field])) addError(errors, `${path}.${field}`, "must be a non-empty string");
   }
+  if (isNonEmptyString(epic.status) && !EPIC_STATUS_SET.has(epic.status)) addError(errors, `${path}.status`, "is not a known Epic status");
   validateStringArray(epic.evidenceRefs, `${path}.evidenceRefs`, errors);
   for (const ref of epic.evidenceRefs ?? []) {
     if (!evidenceIds.has(ref)) addError(errors, `${path}.evidenceRefs`, `does not reference ${ref}`);
