@@ -190,6 +190,16 @@ rename command updates dependent work-item links and leaves an audit note;
 past evidence text is not rewritten. Planning records do not start product
 work or change the app's local-first boundary.
 
+After that verified closure, the maintainer admitted EPIC-15/G02 for a local,
+versioned style foundation. Slice 229 records its admission; F01 is now active
+for storage, migration, project/style records, recovery, and portable backup.
+F02 provenance/dependency work, F03 durable constrained edits/revisions, and
+the final review remain queued in order. This is current development scope,
+not yet shipped app behavior. The detailed packet and gates are in
+[`docs/planning/EPIC-15-ADMISSION.md`](docs/planning/EPIC-15-ADMISSION.md).
+This work remains deterministic and user-led and does not open new garment,
+physical sampling, supplier, paid-service, or production-readiness scope.
+
 ## Epic 8: a small helper test, not a clone
 
 Epic 8 tested whether a separate helper could suggest a pattern-piece

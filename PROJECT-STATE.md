@@ -1,24 +1,29 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 228 closes EPIC-14/G01 after final ledger, output replay,
-and verified board exit, 2026-09-24._
+_Last updated: Slice 229 admits EPIC-15/G02 and starts F01, 2026-09-24._
 Current directive: EPIC-14/G01 is Closed. C01, C02, C05 and C06, C03 and C04,
 lanes B–D, Lane A, and the final G01 review are Done with verified evidence.
-The A-01–A-12 disposition, output replay and remaining downstream thresholds
-are recorded in `docs/research/epic14/G01-FINAL-REVIEW-EXIT.md`. Slice 227 adds
+EPIC-15/G02 is admitted and In Progress. Slice 229 is complete with verified
+admission evidence; F01 is In Progress; F02, F03, and final review are queued
+in strict dependency order. Continue at Slice 230, the F01 storage, migration,
+project/style, recovery and portable-backup contract. The goal and all slice
+gates are recorded in `docs/planning/EPIC-15-ADMISSION.md`. EPIC-16 through
+EPIC-30 remain Backlog. The A-01–A-12 disposition, output replay and remaining
+downstream thresholds are recorded in `docs/research/epic14/G01-FINAL-REVIEW-EXIT.md`. Slice 227 adds
 the current UI's readable draft-pack route: paginated, explicitly non-scale
 pattern-piece overview cells and wrapping BOM/construction pages. Its seven
 default recipe PDFs and all 33 rendered pages are retained with hashes and
-layout results. The byte-identical legacy writer remains unchanged. Full
-coverage, build and protected export identities pass. EPIC-15/G02 remains in
-Backlog and is not started by this closure. Physical sampling, live supplier
-work, paid sources, hosted services and production-readiness claims remain
-held.
-The canonical Control Center is at revision 251 after verified EPIC-14 closure.
+layout results. The byte-identical legacy writer remains unchanged. At the
+G01 exit, full coverage, build and protected export identities passed. Physical
+sampling, live supplier work, paid sources, hosted services and
+production-readiness claims remain held.
+The canonical Control Center is at revision 269 after verified EPIC-15/G02
+admission and F01 start.
 Detailed records and the sequence map
 are in `ops/control-center/data/board.json`,
-`docs/planning/EPIC-14-ADMISSION.md`, and
-`docs/planning/END-TO-END-CAPABILITY-ROADMAP.md`.
+`docs/planning/EPIC-14-ADMISSION.md`,
+`docs/planning/END-TO-END-CAPABILITY-ROADMAP.md`, and
+`docs/planning/EPIC-15-ADMISSION.md`.
 No new garment recipe, user-facing AI designer, paid source, supplier contact,
 physical sample, hosted feature, or production-readiness claim was admitted.
 Lane E remains held. The sequence diagram was shown and live dependencies were
@@ -936,7 +941,8 @@ hashes remain unchanged. The report explicitly leaves physical fit, complete
 technical flats, factory readiness, CAD receiver acceptance, 3D simulation,
 supplier facts, and future features unverified. The validated Control Center
 command layer links the verified exit report and closes every EPIC-14 child
-and the Epic record. G02 remains Backlog.
+and the Epic record. At that exit, G02 remained Backlog; it was separately
+admitted in Slice 229.
 
 ### Post-merge PR audit — 2026-09-21
 
@@ -3963,3 +3969,22 @@ trouser-renderer checks pass, full test and coverage runs are green at 100% for
 all four metrics, TypeScript/build pass, and the 8/8 legacy regression remains
 unchanged; parsed trouser outputs and live browser verification remain for
 Slices 101–102)
+
+### Slice 229 — EPIC-15/G02 admission and F01 start
+
+After verifying `origin/main` at the EPIC-14/G01 close (Slice 228), the
+maintainer explicitly admitted EPIC-15/G02. The admission packet defines the
+local-first, user-led scope, ordered F01 → F02 → F03 → final-review sequence,
+slice boundaries 229–240, exit gates and residual risks. The validated Control
+Center command layer now records revision 269: the admission task is Done with
+hash-verified document evidence, the EPIC-15 goal and F01 are In Progress, and
+F02/F03/final review remain Backlog with explicit dependencies. The browser
+Control Center was reloaded and showed the active goal at revision 269.
+
+This slice changes planning, decision, state, context and Control Center
+records only; no product code, garment recipe, export implementation, paid or
+hosted service, supplier contact, physical sample, or production claim changed.
+It preserves the existing untracked `coverage-p1.log`, `p1-focused.log`, and
+`tmp/` artifacts. Verification passed: `npm run control-center:test` (33/33),
+admission-document SHA-256 reconciliation, and live browser reload showing
+board revision 269 with EPIC-15 and F01 In Progress.

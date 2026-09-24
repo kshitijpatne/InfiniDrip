@@ -95,6 +95,10 @@ snapshots; they are not current status.
 - `docs/planning/EPIC-14-ADMISSION.md` — the maintainer-admitted C01/C02/C05/C06
   evidence wave, its individual exits, conditional targets, and preserved
   product/supplier/sampling boundaries.
+- `docs/planning/EPIC-15-ADMISSION.md` — the post-G01 maintainer admission,
+  verified repository starting point, F01/F02/F03 sequence, Slice 229–240
+  boundaries, risks, and exit gates. It authorizes only local-first G02 work;
+  use `PROJECT-STATE.md` and the canonical Control Center for current status.
 - `docs/research/epic14/` — accepted evidence packets for C01 recipe baseline,
   C02 standards and tools, C05 3D feasibility, C06 starter/assortment/upcycling/
   supplier evidence, and C03 measurement/donor contract. C04's accepted

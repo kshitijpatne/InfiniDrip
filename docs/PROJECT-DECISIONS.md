@@ -854,3 +854,24 @@ data collection still require their own explicit gate.
 - This sequence authorizes the admitted G01 research/contracts and exit work
   only. It does not reopen physical sampling, supplier contact, paid sources,
   hosted services, or downstream garment implementation.
+
+## EPIC-15 / G02 — Versioned style foundation — admitted 2026-09-24
+
+- After EPIC-14/G01 closed at Slice 228, explicitly admit only EPIC-15/G02.
+  Execute F01 → F02 → F03 → final review in order, with Slice 229 as the
+  admission record and Slices 230–240 as the baseline contract, implementation,
+  and exit sequence. The detailed scope and evidence gates are in
+  `docs/planning/EPIC-15-ADMISSION.md`.
+- Keep the product local-first, deterministic, and user-led. Do not add a
+  user-facing AI design agent, new garment recipe, hosted/cloud feature,
+  purchase, live supplier contact, physical sampling, or production-readiness
+  claim under this admission.
+- Preserve the accepted SaveFile v1–v5 import path, existing artwork IDs and
+  bytes, current legacy save/export behavior, full coverage thresholds, and all
+  eight protected export byte identities. Migration, recovery, and package
+  import must fail visibly and non-destructively.
+- The Control Center is canonical for execution state: the Slice 229 admission
+  item is Done with verified document evidence; EPIC-15 and F01 are In
+  Progress; F02, F03, and final review remain queued behind their explicit
+  dependencies. Reforecast dates at each packet exit; dates never waive a
+  gate.
