@@ -1,10 +1,10 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 211 verifies and closes Epic 13 after grouping the nine
-completed pre-garment phases, 2026-09-24._
+_Last updated: Slice 212 records the pre-garment development branch's
+fast-forward integration into `origin/main` at `1b24e0f`, 2026-09-24._
 Next: no future-roadmap work or garment queue is authorized until the maintainer
-explicitly instructs otherwise. This development branch remains unmerged, and
-the separate garment-direction approval gate remains in force.
+explicitly instructs otherwise. The separate garment-direction approval gate
+remains in force.
 The maintainer's requested post-Phase-9 capability sequence is planned in
 `docs/planning/END-TO-END-CAPABILITY-ROADMAP.md`; its dates and work packets
 are conditional future backlog, not a change to the current Phase 8/9 gate.
@@ -598,7 +598,8 @@ The Phase 9 board item is transitioned to Done through the shared validated
 Control Center command layer with exit-decision evidence. The other eight
 pre-garment phase items were already Done with linked exit evidence. Slice 211
 made the separately requested Epic 13 grouping after rechecking all nine items
-and their evidence; the branch is not merged by this goal.
+and their evidence. At the Slice 211 completion boundary, the development branch
+had not yet been merged.
 
 ### Slice 211 — organize and close Epic 13: Pre-Garment Readiness
 
@@ -628,6 +629,22 @@ passes at 111/111 test files and 1,558/1,558 tests with 100% statements,
 branches, functions, and lines; export regression passes 8/8 and byte-identity
 passes 9/9. `npm run build` passes. No application geometry, export writer,
 baseline, dependency, or artwork asset changed.
+
+### Slice 212 — record pre-garment branch integration
+
+After Slice 211 was reviewed, the development branch was fast-forwarded into
+`origin/main` from `52b36a6` to `1b24e0f` on 2026-09-24. The integration also
+preserved the separately authored Slice 204 and 205 commits as history; their
+older roadmap and board snapshots were not replayed over the later accepted
+state. No history was rewritten.
+
+The published board remains at revision 110: `EPIC-13` is Closed and links
+exactly the nine Done pre-garment phases with verified evidence. The garment-
+direction gate and launch-cost hold remain in force; G17 remains Backlog, and
+no future-roadmap implementation was started. The merge gate freshly passed
+the 29/29 Control Center tests, production build, and `git diff --check`. The
+full-coverage result recorded under Slice 211 applies because this integration
+did not change the source tree.
 
 ### Post-merge PR audit — 2026-09-21
 
