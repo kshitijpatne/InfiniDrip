@@ -29,20 +29,66 @@ async function inspectProject(window) {
       request.onerror = () => reject(request.error);
     });
     try {
-      const transaction = database.transaction(["projects", "styles", "recoveries"], "readonly");
+      const transaction = database.transaction(["projects", "styles", "recoveries", "fieldObservations"], "readonly");
       const read = (store, key) => new Promise((resolve, reject) => {
         const request = transaction.objectStore(store).getAll(key);
         request.onsuccess = () => resolve(request.result);
         request.onerror = () => reject(request.error);
       });
-      const [projects, styles, recoveries] = await Promise.all([
+      const [projects, styles, recoveries, fieldObservations] = await Promise.all([
         read("projects"), read("styles"), read("recoveries"),
+        read("fieldObservations"),
       ]);
-      return { projects, styles, recoveries };
+      return { projects, styles, recoveries, fieldObservations };
     } finally {
       database.close();
     }
   });
+}
+
+async function waitForFieldHistory(window, styleId, rawValue) {
+  await window.waitForFunction(async ({ styleId: expectedStyleId, rawValue: expectedRawValue }) => {
+    const database = await new Promise((resolve, reject) => {
+      const request = indexedDB.open("infinidrip-projects");
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+    try {
+      const transaction = database.transaction("fieldObservations", "readonly");
+      const record = await new Promise((resolve, reject) => {
+        const request = transaction.objectStore("fieldObservations").get(expectedStyleId);
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+      });
+      return record?.observations?.some((entry) => entry.fieldId === "body.chest-girth"
+        && entry.rawValue === expectedRawValue && entry.canonicalValue === Number(expectedRawValue)) ?? false;
+    } finally {
+      database.close();
+    }
+  }, { styleId, rawValue }, { timeout: 20000 });
+}
+
+function assertChestFieldHistory(state, styleId, rawValue) {
+  const record = state.fieldObservations.find((item) => item.styleId === styleId);
+  const entries = record?.observations.filter((item) => item.fieldId === "body.chest-girth") ?? [];
+  const entry = entries.find((item) => item.rawValue === rawValue && item.canonicalValue === Number(rawValue));
+  assert.ok(entry, `style ${styleId} should retain chest field value ${rawValue}`);
+  assert.equal(entry.provenance, "USER_CAPTURED", "the edited chest input is recorded as user-entered");
+  assert.equal(entry.evidenceStatus, "UNCONFIRMED", "editing a value does not claim measurement verification");
+  assert.equal(entry.confidence, "NOT_ASSESSED", "the app does not invent a confidence score");
+  return entry;
+}
+
+async function verifyRenderedChestHistory(window, rawValue) {
+  await window.locator('button[data-open-field-history="body.chest-girth"]').first().click();
+  const dialog = window.locator("#field-history-dialog");
+  await window.waitForFunction(() => document.querySelector("#field-history-dialog")?.open === true);
+  const text = await dialog.textContent();
+  assert.match(text ?? "", new RegExp(`raw “${rawValue}”`));
+  assert.match(text ?? "", /User entered/);
+  assert.match(text ?? "", /UNCONFIRMED/);
+  assert.match(text ?? "", /does not establish fit or production validity/);
+  await dialog.locator("button[data-close-field-history]").click();
 }
 
 async function waitForStatus(window, expression, label) {
@@ -70,7 +116,9 @@ async function verifyBrowserWorkflow(serverUrl) {
     assert.equal(initial.styles.length, 1, "browser first run creates one initial style");
     const originalStyleId = initial.projects[0].activeStyleId;
     await window.locator('input[data-field="chest"]').first().fill("104");
-    await waitForStatus(window, "recovery saved", "browser measurement edit did not reach durable recovery");
+    await waitForStatus(window, "recovery saved|field value history recorded", "browser measurement edit did not reach durable recovery");
+    await waitForFieldHistory(window, originalStyleId, "104");
+    await verifyRenderedChestHistory(window, "104");
 
     const manager = window.locator("#project-manager-host");
     await manager.locator(".project-manager-details summary").click();
@@ -79,6 +127,7 @@ async function verifyBrowserWorkflow(serverUrl) {
     await window.waitForFunction(() => document.querySelector("#project-manager-status")?.textContent?.includes("Created G02 browser style"));
     const created = await inspectProject(window);
     assert.equal(created.styles.length, 2, "browser create adds a distinct style");
+    assertChestFieldHistory(created, originalStyleId, "104");
     assert.notEqual(created.projects[0].activeStyleId, originalStyleId, "browser-created style becomes active");
     assert.ok(created.recoveries.some((recovery) => recovery.styleId === originalStyleId), "browser recovery remains with its original style");
 
@@ -90,6 +139,7 @@ async function verifyBrowserWorkflow(serverUrl) {
     window = await waitForReady({ firstWindow: async () => window });
     const reopened = await inspectProject(window);
     assert.equal(reopened.styles.length, 2, "browser styles survive profile restart");
+    assertChestFieldHistory(reopened, originalStyleId, "104");
     assert.equal(reopened.projects[0].activeStyleId, created.projects[0].activeStyleId, "browser active style survives restart");
 
     await window.locator("#project-manager-host .project-manager-details summary").click();
@@ -113,6 +163,7 @@ async function verifyBrowserWorkflow(serverUrl) {
     const renderedChest = await window.locator('input[data-field="chest"]').first().getAttribute("value");
     assert.equal(final.projects[0].activeStyleId, originalStyleId, "browser selected style survives the second restart");
     assert.equal(final.styles.find((style) => style.id === originalStyleId).design.measurements.chest, 104);
+    assertChestFieldHistory(final, originalStyleId, "104");
     assert.equal(final.recoveries.length, 0, "browser stale recovery was removed after Save");
     assert.equal(Number(renderedChest), 104, "browser renderer shows the committed measurement");
     return {
@@ -122,6 +173,7 @@ async function verifyBrowserWorkflow(serverUrl) {
       activeStyleSurvivedRestart: final.projects[0].activeStyleId === originalStyleId,
       styleScopedRecoveryWasRestored: true,
       savedMeasurementSurvivedRestart: 104,
+      sourceAwareChestHistorySurvivedRestart: true,
       staleRecoveryClearedOnSave: final.recoveries.length === 0,
       renderedMeasurement: Number(renderedChest),
     };
@@ -147,7 +199,9 @@ async function main() {
     const originalStyleId = initial.projects[0].activeStyleId;
     const chestInput = window.locator('input[data-field="chest"]').first();
     await chestInput.fill("104");
-    await waitForStatus(window, "recovery saved", "measurement edit did not reach durable recovery");
+    await waitForStatus(window, "recovery saved|field value history recorded", "measurement edit did not reach durable recovery");
+    await waitForFieldHistory(window, originalStyleId, "104");
+    await verifyRenderedChestHistory(window, "104");
 
     const manager = window.locator("#project-manager-host");
     await manager.locator(".project-manager-details summary").click();
@@ -156,6 +210,7 @@ async function main() {
     await window.waitForFunction(() => document.querySelector("#project-manager-status")?.textContent?.includes("Created G02 runtime style"));
     const firstRestart = await inspectProject(window);
     assert.equal(firstRestart.styles.length, 2, "create adds one independent style");
+    assertChestFieldHistory(firstRestart, originalStyleId, "104");
     assert.notEqual(firstRestart.projects[0].activeStyleId, originalStyleId, "created style becomes active");
     assert.ok(firstRestart.recoveries.some((recovery) => recovery.styleId === originalStyleId), "the prior style's recovery remains scoped to it");
     assert.equal(firstRestart.styles.find((style) => style.id === originalStyleId).design.measurements.chest, 100,
@@ -166,6 +221,7 @@ async function main() {
     window = await waitForReady(app);
     const reopened = await inspectProject(window);
     assert.equal(reopened.styles.length, 2, "both styles survive application restart");
+    assertChestFieldHistory(reopened, originalStyleId, "104");
     assert.equal(reopened.projects[0].activeStyleId, firstRestart.projects[0].activeStyleId, "active style selection survives restart");
 
     await window.locator("#project-manager-host .project-manager-details summary").click();
@@ -180,6 +236,7 @@ async function main() {
     const beforeFinalRestart = await inspectProject(window);
     const savedStyle = beforeFinalRestart.styles.find((style) => style.id === originalStyleId);
     assert.equal(savedStyle.design.measurements.chest, 104, "explicit Save commits the recovered measurement");
+    assertChestFieldHistory(beforeFinalRestart, originalStyleId, "104");
     assert.ok(!beforeFinalRestart.recoveries.some((recovery) => recovery.styleId === originalStyleId),
       "explicit Save clears that style's obsolete recovery atomically");
 
@@ -190,6 +247,7 @@ async function main() {
     assert.equal(final.projects[0].activeStyleId, originalStyleId, "selected style survives the second restart");
     assert.equal(final.styles.find((style) => style.id === originalStyleId).design.measurements.chest, 104,
       "saved measurement survives the second restart");
+    assertChestFieldHistory(final, originalStyleId, "104");
     assert.equal(final.recoveries.length, 0, "no stale recovery remains after the saved style reopens");
     const renderedChest = await window.locator('input[data-field="chest"]').first().getAttribute("value");
     assert.equal(Number(renderedChest), 104, "the actual renderer displays the committed measurement");
@@ -203,6 +261,7 @@ async function main() {
       activeStyleSurvivedRestart: final.projects[0].activeStyleId === originalStyleId,
       styleScopedRecoveryWasRestored: true,
       savedMeasurementSurvivedRestart: 104,
+      sourceAwareChestHistorySurvivedRestart: true,
       staleRecoveryClearedOnSave: final.recoveries.length === 0,
       renderedMeasurement: Number(renderedChest),
       },

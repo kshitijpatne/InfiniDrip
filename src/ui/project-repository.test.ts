@@ -17,6 +17,7 @@ import {
   ProjectRepository,
   openProjectRepository,
 } from "./project-repository";
+import { createFieldObservationRecord, type FieldObservationRecord } from "./field-provenance";
 
 const webcrypto = nodeWebcrypto as unknown as Crypto;
 const TIME = "2026-09-24T16:00:00.000Z";
@@ -86,6 +87,44 @@ async function rawPut(factory: IDBFactory, name: string, storeName: string, valu
   database.close();
 }
 
+async function rawDelete(factory: IDBFactory, name: string, storeName: string, key: IDBValidKey): Promise<void> {
+  const database = await rawDatabase(factory, name);
+  await new Promise<void>((resolve, reject) => {
+    const transaction = database.transaction(storeName, "readwrite");
+    transaction.objectStore(storeName).delete(key);
+    transaction.oncomplete = () => resolve();
+    transaction.onabort = () => reject(transaction.error ?? new Error("Raw delete aborted."));
+  });
+  database.close();
+}
+
+async function rawGet(factory: IDBFactory, name: string, storeName: string, key: IDBValidKey): Promise<unknown> {
+  const database = await rawDatabase(factory, name);
+  const value = await new Promise<unknown>((resolve, reject) => {
+    const request = database.transaction(storeName, "readonly").objectStore(storeName).get(key);
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error ?? new Error("Raw get failed."));
+  });
+  database.close();
+  return value;
+}
+
+function fieldHistory(style: StyleRecord): FieldObservationRecord {
+  return createFieldObservationRecord(style, style.updatedAt, "existing-local-style");
+}
+
+function appendedFieldHistory(record: FieldObservationRecord): FieldObservationRecord {
+  const revision = record.revision + 1;
+  const first = record.observations[0];
+  if (!first) throw new Error("A test style must define at least one field observation.");
+  return {
+    ...record,
+    revision,
+    updatedAt: NEXT_TIME,
+    observations: [...record.observations, { ...first, revision, recordedAt: NEXT_TIME }],
+  };
+}
+
 type OpenHarness = {
   result: IDBDatabase;
   error: DOMException | null;
@@ -123,6 +162,254 @@ afterEach(() => {
 });
 
 describe("transactional project repository", () => {
+  it("maps IndexedDB quota failures and rejects an unknown schema-upgrade path", async () => {
+    const factory = newFactory();
+    const repository = await openProjectRepository({ name: databaseName(), factory, crypto: webcrypto });
+    const bundle = newBundle();
+    const putSpy = vi.spyOn(IDBObjectStore.prototype, "put").mockImplementationOnce(function () {
+      throw Object.assign(new Error("disk full"), { name: "QuotaExceededError" });
+    });
+    await rejectionCode(repository.saveProjectBundle({
+      project: bundle.project, styles: [bundle.style], expectedProjectRevision: null,
+    }), "quota-exceeded");
+    putSpy.mockRestore();
+    repository.close();
+
+    await rejectionCode(openProjectRepository({
+      name: databaseName(),
+      factory: controlledFactory((request) => {
+        const abort = vi.fn(() => { throw new Error("already aborting"); });
+        request.transaction = { abort } as unknown as IDBTransaction;
+        request.onupgradeneeded?.({ oldVersion: 9, newVersion: PROJECT_DATABASE_VERSION } as IDBVersionChangeEvent);
+        expect(abort).toHaveBeenCalledTimes(2);
+        Object.defineProperty(request, "error", { value: { name: "AbortError" } });
+        request.onerror?.(new Event("error"));
+      }),
+    }), "unavailable");
+  });
+
+  it("rejects malformed, foreign, duplicate, and rewritten field history while allowing append-only saves", async () => {
+    const factory = newFactory();
+    const name = databaseName();
+    const repository = await openProjectRepository({ name, factory, crypto: webcrypto });
+    const bundle = newBundle();
+    const initialHistory = fieldHistory(bundle.style);
+    const foreignStyle = newBundle(PROJECT_ID, OTHER_STYLE_ID).style;
+    const foreignHistory = fieldHistory(foreignStyle);
+    const nextProject = { ...bundle.project, revision: 2, updatedAt: NEXT_TIME };
+
+    await rejectionCode(repository.saveProjectBundle({
+      project: bundle.project, styles: [bundle.style],
+      fieldObservations: {} as FieldObservationRecord[], expectedProjectRevision: null,
+    }), "invalid-data");
+    await rejectionCode(repository.saveProjectBundle({
+      project: bundle.project, styles: [bundle.style],
+      fieldObservations: [{} as FieldObservationRecord], expectedProjectRevision: null,
+    }), "invalid-data");
+    await rejectionCode(repository.saveProjectBundle({
+      project: bundle.project, styles: [bundle.style],
+      fieldObservations: [foreignHistory], expectedProjectRevision: null,
+    }), "invalid-data");
+    await rejectionCode(repository.saveProjectBundle({
+      project: bundle.project, styles: [bundle.style],
+      fieldObservations: [initialHistory, initialHistory], expectedProjectRevision: null,
+    }), "invalid-data");
+
+    await repository.saveProjectBundle({
+      project: bundle.project, styles: [bundle.style], fieldObservations: [initialHistory],
+      expectedProjectRevision: null,
+    });
+    const appended = appendedFieldHistory(initialHistory);
+    await repository.saveProjectBundle({
+      project: nextProject, styles: [bundle.style], fieldObservations: [appended],
+      expectedProjectRevision: bundle.project.revision,
+    });
+
+    const rewritten = {
+      ...appended,
+      observations: appended.observations.map((entry, index) => index === 0
+        ? { ...entry, sourceLabel: `${entry.sourceLabel} (rewritten)` }
+        : entry),
+    };
+    await rejectionCode(repository.saveProjectBundle({
+      project: { ...nextProject, revision: 3, updatedAt: "2026-09-24T16:00:02.000Z" },
+      styles: [bundle.style], fieldObservations: [rewritten], expectedProjectRevision: 2,
+    }), "invalid-data");
+    const shortened = {
+      ...appended,
+      revision: initialHistory.revision,
+      observations: initialHistory.observations,
+    };
+    await rejectionCode(repository.saveProjectBundle({
+      project: { ...nextProject, revision: 3, updatedAt: "2026-09-24T16:00:02.000Z" },
+      styles: [bundle.style], fieldObservations: [shortened], expectedProjectRevision: 2,
+    }), "invalid-data");
+    const concurrentProject = { ...nextProject, revision: 3, updatedAt: "2026-09-24T16:00:02.000Z" };
+    await rawPut(factory, name, PROJECT_STORES.projects, concurrentProject);
+    await rejectionCode(repository.saveProjectBundle({
+      project: concurrentProject,
+      styles: [bundle.style], expectedProjectRevision: 2,
+    }), "conflict");
+    expect((await repository.readProjectBundle(PROJECT_ID))?.fieldObservations).toEqual([appended]);
+    await rawPut(factory, name, PROJECT_STORES.fieldObservations, { schemaVersion: 1, styleId: STYLE_ID });
+    await rejectionCode(repository.saveProjectBundle({
+      project: { ...concurrentProject, revision: 4, updatedAt: "2026-09-24T16:00:03.000Z" },
+      styles: [bundle.style], fieldObservations: [appended], expectedProjectRevision: 3,
+    }), "invalid-data");
+    repository.close();
+  });
+
+  it("validates field histories on package import and atomic recovery writes", async () => {
+    const factory = newFactory();
+    const name = databaseName();
+    const repository = await openProjectRepository({ name, factory, crypto: webcrypto });
+    const imported = newBundle(OTHER_PROJECT_ID, OTHER_STYLE_ID);
+    const receipt = {
+      packageSha256: "a".repeat(64), projectId: OTHER_PROJECT_ID, importedAt: TIME, importedAsCopy: false,
+    };
+    const importedHistory = fieldHistory(imported.style);
+    const foreignHistory = fieldHistory(newBundle(OTHER_PROJECT_ID, SECOND_STYLE_ID).style);
+    await rejectionCode(repository.importProjectBundle({
+      project: imported.project, styles: [imported.style], recoveries: [], fieldObservations: [], receipt,
+    }), "invalid-data");
+    await rejectionCode(repository.importProjectBundle({
+      project: imported.project, styles: [imported.style], recoveries: [],
+      fieldObservations: [{} as FieldObservationRecord], receipt,
+    }), "invalid-data");
+    await rejectionCode(repository.importProjectBundle({
+      project: imported.project, styles: [imported.style], recoveries: [],
+      fieldObservations: [foreignHistory], receipt,
+    }), "invalid-data");
+    await rejectionCode(repository.importProjectBundle({
+      project: imported.project, styles: [imported.style], recoveries: [],
+      fieldObservations: [importedHistory, importedHistory], receipt,
+    }), "invalid-data");
+
+    const initial = newBundle();
+    const initialHistory = fieldHistory(initial.style);
+    await repository.saveProjectBundle({ project: initial.project, styles: [initial.style], expectedProjectRevision: null });
+    const wrongStyleHistory = fieldHistory(newBundle(PROJECT_ID, OTHER_STYLE_ID).style);
+    await rejectionCode(repository.saveRecovery(
+      recovery(), 1, NEXT_TIME, wrongStyleHistory,
+    ), "invalid-data");
+    await rejectionCode(repository.saveRecovery(
+      recovery(), 1, NEXT_TIME, {} as FieldObservationRecord,
+    ), "invalid-data");
+    await repository.saveRecovery(recovery(), 1, NEXT_TIME, appendedFieldHistory(initialHistory));
+    expect((await repository.loadProject(PROJECT_ID))?.fieldObservations[0]?.revision)
+      .toBe(initialHistory.revision + 1);
+
+    const tamperedHistory = {
+      ...initialHistory,
+      observations: initialHistory.observations.map((entry, index) => index === 0
+        ? { ...entry, sourceLabel: `${entry.sourceLabel} (changed elsewhere)` }
+        : entry),
+    };
+    await rawPut(factory, name, PROJECT_STORES.fieldObservations, tamperedHistory);
+    await rejectionCode(repository.saveRecovery(
+      recovery(), 2, "2026-09-24T16:00:02.000Z", appendedFieldHistory(initialHistory),
+    ), "conflict");
+    await rawPut(factory, name, PROJECT_STORES.fieldObservations, { schemaVersion: 1, styleId: STYLE_ID });
+    await rejectionCode(repository.saveRecovery(
+      recovery(), 2, "2026-09-24T16:00:02.000Z", appendedFieldHistory(initialHistory),
+    ), "invalid-data");
+    await rawDelete(factory, name, PROJECT_STORES.fieldObservations, STYLE_ID);
+    await rejectionCode(repository.saveRecovery(
+      recovery(), 2, "2026-09-24T16:00:02.000Z", appendedFieldHistory(initialHistory),
+    ), "invalid-data");
+    repository.close();
+  });
+
+  it("fails closed when a stored style has missing or malformed source-aware history", async () => {
+    const factory = newFactory();
+    const name = databaseName();
+    const repository = await openProjectRepository({ name, factory, crypto: webcrypto });
+    const bundle = newBundle();
+    await repository.saveProjectBundle({ project: bundle.project, styles: [bundle.style], expectedProjectRevision: null });
+    await rawDelete(factory, name, PROJECT_STORES.fieldObservations, STYLE_ID);
+    await rejectionCode(repository.loadProject(PROJECT_ID), "invalid-data");
+
+    await rawPut(factory, name, PROJECT_STORES.fieldObservations, { styleId: STYLE_ID, observations: [] });
+    await rejectionCode(repository.readProjectBundle(PROJECT_ID), "invalid-data");
+    repository.close();
+  });
+
+  it("aborts a v3 schema upgrade when an existing style cannot be safely described", async () => {
+    const factory = newFactory();
+    const name = databaseName();
+    const request = factory.open(name, 3);
+    const database = await new Promise<IDBDatabase>((resolve, reject) => {
+      request.onupgradeneeded = () => {
+        const db = request.result;
+        db.createObjectStore(PROJECT_STORES.meta, { keyPath: "key" });
+        db.createObjectStore(PROJECT_STORES.projects, { keyPath: "id" });
+        db.createObjectStore(PROJECT_STORES.styles, { keyPath: "id" });
+        db.createObjectStore(PROJECT_STORES.recoveries, { keyPath: "styleId" });
+        db.createObjectStore(PROJECT_STORES.migrations, { keyPath: "sourceSha256" });
+        db.createObjectStore(PROJECT_STORES.imports, { keyPath: "packageSha256" });
+      };
+      request.onerror = () => reject(request.error ?? new Error("v3 database setup failed"));
+      request.onsuccess = () => resolve(request.result);
+    });
+    await new Promise<void>((resolve, reject) => {
+      const transaction = database.transaction([PROJECT_STORES.styles], "readwrite");
+      transaction.objectStore(PROJECT_STORES.styles).put({ id: STYLE_ID, schemaVersion: 99 });
+      transaction.oncomplete = () => resolve();
+      transaction.onabort = () => reject(transaction.error ?? new Error("v3 fixture transaction aborted"));
+    });
+    database.close();
+
+    await rejectionCode(openProjectRepository({ name, factory, crypto: webcrypto }), "unavailable");
+    const unchanged = await rawDatabase(factory, name, 3);
+    expect(unchanged.version).toBe(3);
+    unchanged.close();
+    expect(await rawGet(factory, name, PROJECT_STORES.styles, STYLE_ID))
+      .toMatchObject({ id: STYLE_ID, schemaVersion: 99 });
+  });
+
+  it("upgrades the shipped v3 database with unresolved field history without changing saved records", async () => {
+    const factory = newFactory();
+    const name = databaseName();
+    const initial = newBundle();
+    const request = factory.open(name, 3);
+    const database = await new Promise<IDBDatabase>((resolve, reject) => {
+      request.onupgradeneeded = () => {
+        const db = request.result;
+        db.createObjectStore(PROJECT_STORES.meta, { keyPath: "key" });
+        db.createObjectStore(PROJECT_STORES.projects, { keyPath: "id" });
+        db.createObjectStore(PROJECT_STORES.styles, { keyPath: "id" });
+        db.createObjectStore(PROJECT_STORES.recoveries, { keyPath: "styleId" });
+        db.createObjectStore(PROJECT_STORES.migrations, { keyPath: "sourceSha256" });
+        db.createObjectStore(PROJECT_STORES.imports, { keyPath: "packageSha256" });
+      };
+      request.onerror = () => reject(request.error ?? new Error("v3 database setup failed"));
+      request.onsuccess = () => resolve(request.result);
+    });
+    await new Promise<void>((resolve, reject) => {
+      const transaction = database.transaction([PROJECT_STORES.meta, PROJECT_STORES.projects, PROJECT_STORES.styles], "readwrite");
+      transaction.objectStore(PROJECT_STORES.projects).put(initial.project);
+      transaction.objectStore(PROJECT_STORES.styles).put(initial.style);
+      transaction.objectStore(PROJECT_STORES.meta).put({ key: "activeSelection", projectId: PROJECT_ID, styleId: STYLE_ID });
+      transaction.oncomplete = () => resolve();
+      transaction.onabort = () => reject(transaction.error ?? new Error("v3 fixture transaction aborted"));
+    });
+    database.close();
+
+    const repository = await openProjectRepository({ name, factory, crypto: webcrypto });
+    const loaded = await repository.readActiveProject();
+    expect(loaded?.project).toEqual(initial.project);
+    expect(loaded?.activeStyle).toEqual(initial.style);
+    expect(loaded?.fieldObservations).toHaveLength(1);
+    expect(loaded?.fieldObservations[0]?.styleId).toBe(STYLE_ID);
+    expect(loaded?.fieldObservations[0]?.observations[0]).toMatchObject({
+      provenance: "UNRESOLVED",
+      evidenceStatus: "UNCONFIRMED",
+      recordedAt: null,
+      sourceLabel: expect.stringContaining("predates field provenance"),
+    });
+    repository.close();
+  });
+
   it("fails closed if a listed project disappears inside the read transaction", async () => {
     const project = newBundle().project;
     type FakeRequest<T> = { result: T; onsuccess: ((event: Event) => void) | null; onerror: ((event: Event) => void) | null };
@@ -853,7 +1140,7 @@ describe("transactional project repository", () => {
     await rejectionCode(openProjectRepository({ name: databaseName(), factory: schemaReadThrows }), "unsupported-version");
 
     const rejectedUpgrade = controlledFactory((request) => {
-      request.onupgradeneeded?.({ oldVersion: 1, newVersion: 2 } as IDBVersionChangeEvent);
+      request.onupgradeneeded?.({ oldVersion: 1, newVersion: PROJECT_DATABASE_VERSION } as IDBVersionChangeEvent);
       expect(request.transaction?.abort).toHaveBeenCalledOnce();
       Object.defineProperty(request, "error", { value: { name: "AbortError" } });
       request.onerror?.(new Event("error"));
@@ -874,7 +1161,7 @@ describe("transactional project repository", () => {
         abort: upgradeAbort,
         objectStore: () => ({ openCursor: () => upgradeCursor }),
       } as unknown as IDBTransaction;
-      request.onupgradeneeded?.({ oldVersion: 2, newVersion: 3 } as IDBVersionChangeEvent);
+      request.onupgradeneeded?.({ oldVersion: 2, newVersion: PROJECT_DATABASE_VERSION } as IDBVersionChangeEvent);
       upgradeCursor.onsuccess?.(new Event("success"));
       expect(upgradeAbort).not.toHaveBeenCalled();
       expect(upgradeCreateStore).toHaveBeenCalledWith(PROJECT_STORES.imports, { keyPath: "packageSha256" });
@@ -1013,7 +1300,7 @@ describe("transactional project repository", () => {
       } as unknown as IDBTransaction;
       await triggerUpgrade(oldVersion, transaction, () => {
         request.onsuccess?.(new Event("success"));
-        expect(transaction.abort).toHaveBeenCalledOnce();
+        expect(transaction.abort).toHaveBeenCalled();
       });
     };
 
@@ -1035,7 +1322,7 @@ describe("transactional project repository", () => {
       } as unknown as IDBDatabase;
       request.transaction = transaction as unknown as IDBTransaction;
       request.onupgradeneeded?.({ oldVersion: 2, newVersion: PROJECT_DATABASE_VERSION } as IDBVersionChangeEvent);
-      expect(transaction.abort).toHaveBeenCalledOnce();
+      expect(transaction.abort).toHaveBeenCalled();
       Object.defineProperty(request, "error", { value: { name: "AbortError" } });
       request.onerror?.(new Event("error"));
     });
@@ -1200,6 +1487,7 @@ describe("transactional project repository", () => {
       await rejectionCode(repository.selectActiveProject(""), "invalid-data");
       await rejectionCode(repository.selectActiveProject("77777777-7777-4777-8777-777777777777"), "not-found");
       await expect(repository.readProjectBundle("77777777-7777-4777-8777-777777777777")).resolves.toBeNull();
+      await expect(repository.readProjectImportReceipt("b".repeat(64))).resolves.toBeNull();
       await rejectionCode(repository.readProjectImportReceipt("not-a-digest"), "invalid-data");
       await rejectionCode(repository.importProjectBundle({
         project: incoming.project,

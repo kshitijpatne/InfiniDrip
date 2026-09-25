@@ -197,11 +197,18 @@ recovery, user-led project/style workflow, and versioned portable package
 import/export with referenced artwork. The narrow Electron restart proofs and
 the browser/Electron package validation are recorded in the S230–S234 reports;
 they do not establish permanent browser storage or physical fit. F01 is Done
-with hash-verified evidence at Control Center revision 278. F02 Slice 235 is
-active for C03-aligned field provenance and value history across all seven
-existing recipes; Slice 236 will add the complete dependency/invalidation
-matrix. F03 constrained edits/revisions and final review remain queued in
-order. The detailed packet and gates are in
+with hash-verified evidence at Control Center revision 278. F02 Slice 235 adds
+C03-aligned field definitions, per-style append-only value observations, and
+an inspectable source/history dialog across all seven existing recipes. Opening
+history flushes pending edits first, so the dialog does not show an older
+snapshot while a write is finishing; persistence failures remain visible.
+Historic values stay unresolved, confidence stays unassessed, and current UI
+bounds are identified as guardrails rather than industry standards. The focused
+10-file suite covers all changed modules at 100% statements, branches,
+functions, and lines; browser and Electron restart proofs are recorded in the
+Slice 235 evidence report. Slice 236 will add the complete dependency/
+invalidation matrix. F03 constrained edits/revisions and final review remain
+queued in order. The detailed packet and gates are in
 [`docs/planning/EPIC-15-ADMISSION.md`](docs/planning/EPIC-15-ADMISSION.md).
 The Slice 230 contract is at
 [`docs/research/epic15/F01-STORAGE-CONTRACT-S230.md`](docs/research/epic15/F01-STORAGE-CONTRACT-S230.md).
@@ -221,6 +228,8 @@ permanent browser storage, or broader durability. Details are in
 [`docs/research/epic15/F01-TRANSACTIONAL-REPOSITORY-S232.md`](docs/research/epic15/F01-TRANSACTIONAL-REPOSITORY-S232.md) and
 [`docs/research/epic15/F01-PROJECT-STYLE-WORKFLOW-S233.md`](docs/research/epic15/F01-PROJECT-STYLE-WORKFLOW-S233.md), plus
 [`docs/research/epic15/F01-PACKAGE-EXPORT-IMPORT-S234.md`](docs/research/epic15/F01-PACKAGE-EXPORT-IMPORT-S234.md).
+Slice 235's field-definition, migration, history, UI and verification record is
+in [`docs/research/epic15/F02-FIELD-PROVENANCE-S235.md`](docs/research/epic15/F02-FIELD-PROVENANCE-S235.md).
 This work remains deterministic and user-led and does not open new garment,
 physical sampling, supplier, paid-service, or production-readiness scope.
 

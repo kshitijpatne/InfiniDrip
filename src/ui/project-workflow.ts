@@ -14,6 +14,13 @@ import {
   type StyleRecord,
 } from "./project-records";
 import { LEGACY_RECOVERY_STORAGE_KEY, LEGACY_SAVE_STORAGE_KEY } from "./persist";
+import {
+  appendRecoveryFieldObservations,
+  createFieldObservationRecord,
+  reconcileDesignFieldObservations,
+  type FieldInputReference,
+  type InitialObservationOrigin,
+} from "./field-provenance";
 
 export interface ProjectWorkflowOptions {
   readonly repositoryOptions?: ProjectRepositoryOptions;
@@ -107,6 +114,25 @@ export class ProjectWorkflow {
     });
   }
 
+  async recordFieldHistory(styleId: string, payload: RecoveryPayload, changedInput: FieldInputReference): Promise<void> {
+    return this.enqueue(async () => {
+      const current = this.loaded;
+      if (styleId !== current.activeStyle.id) throw new ProjectRepositoryError("conflict", "The active style changed before its field edit was recorded.");
+      const previous = current.fieldObservations.find((record) => record.styleId === styleId);
+      if (!previous) throw new ProjectRepositoryError("invalid-data", "The active style has no field history record.");
+      const time = monotonicTimestamp(this.now(), current.project.updatedAt);
+      const next = appendRecoveryFieldObservations(previous, current.activeStyle, payload, time, changedInput);
+      if (next === previous) return;
+      await this.repository.saveRecovery(
+        { schemaVersion: RECOVERY_RECORD_VERSION, styleId, payload },
+        current.project.revision,
+        time,
+        next,
+      );
+      await this.reloadLoaded();
+    });
+  }
+
   async clearRecovery(styleId: string): Promise<void> {
     return this.enqueue(async () => {
       const current = this.loaded;
@@ -131,6 +157,9 @@ export class ProjectWorkflow {
         revision: current.activeStyle.revision + 1,
         updatedAt: time,
       };
+      const previousObservations = current.fieldObservations.find((record) => record.styleId === style.id);
+      if (!previousObservations) throw new ProjectRepositoryError("invalid-data", "The active style has no field history record.");
+      const observations = reconcileDesignFieldObservations(previousObservations, style, design, time);
       const project = {
         ...current.project,
         revision: current.project.revision + 1,
@@ -139,6 +168,7 @@ export class ProjectWorkflow {
       await this.repository.saveProjectBundle({
         project,
         styles: current.styles.map((candidate) => candidate.id === style.id ? style : candidate),
+        fieldObservations: [observations],
         clearRecoveryStyleIds: [style.id],
         expectedProjectRevision: current.project.revision,
       });
@@ -171,7 +201,11 @@ export class ProjectWorkflow {
     });
   }
 
-  async createStyle(nameInput: string, design: SavedDesign): Promise<LoadedProject> {
+  async createStyle(
+    nameInput: string,
+    design: SavedDesign,
+    origin: Extract<InitialObservationOrigin, "first-run-default" | "copied-style"> = "copied-style",
+  ): Promise<LoadedProject> {
     return this.enqueue(async () => {
       const current = this.loaded;
       const name = cleanedName(nameInput);
@@ -191,6 +225,7 @@ export class ProjectWorkflow {
         archivedAt: null,
         design,
       };
+      const observations = createFieldObservationRecord(style, time, origin);
       const project = {
         ...current.project,
         styleIds: [...current.project.styleIds, id],
@@ -201,6 +236,7 @@ export class ProjectWorkflow {
       await this.repository.saveProjectBundle({
         project,
         styles: [...current.styles, style],
+        fieldObservations: [observations],
         expectedProjectRevision: current.project.revision,
       });
       return this.reloadLoaded();

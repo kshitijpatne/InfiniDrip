@@ -66,8 +66,9 @@ Every linked work item is Done with verified evidence. The report records the
 A-01–A-12 downstream gates and explicitly does not claim fit, factory
 readiness, CAD interoperability, 3D simulation, or a live supplier marketplace.
 EPIC-15/G02 is In Progress. F01 is Done with verified S230–S234 evidence;
-F02 is In Progress at Slice 235, and F03 and final review remain Backlog in
-dependency order (canonical board revision 278 at this update). EPIC-16 through EPIC-30
+F02 is In Progress after Slice 235 (verified field-history evidence linked),
+with Slice 236 still required. F03 and final review remain Backlog in
+dependency order (canonical board revision 279 at this update). EPIC-16 through EPIC-30
 remain Backlog; Lane E under Epic 20 remains held for explicit garment-direction
 approval. Backlog registration alone is not work admission.
 

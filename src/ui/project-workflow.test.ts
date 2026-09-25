@@ -7,6 +7,7 @@ import { DEFAULT_WORKSPACE, serialize, serializeRecovery } from "./persist";
 import { migrateLegacyRecovery, type RecoveryPayload } from "./project-records";
 import type { ProjectRepository } from "./project-repository";
 import { openProjectWorkflow, ProjectWorkflow } from "./project-workflow";
+import { currentFieldObservation, getFieldDefinition } from "./field-provenance";
 
 const cryptoApi = webcrypto as unknown as Crypto;
 const TIME = "2026-09-24T16:00:00.000Z";
@@ -198,6 +199,53 @@ describe("local project/style workflow", () => {
     expect(workflow.snapshot.activeRecovery?.payload.rawMeasurements).toEqual({ chest: "", neck: "40" });
     expect(fakeStorage.getItem("patternworks_save_v1")).toBe(saveJson);
     expect(fakeStorage.getItem("patternworks_recovery_v1")).toBe(recoveryJson);
+  });
+
+  it("atomically persists the exact invalid raw field value and append-only observation across reload", async () => {
+    const workflow = await open();
+    const base = recoveryPayload();
+    const payload: RecoveryPayload = {
+      ...base,
+      measurements: { ...base.measurements, chest: 9999 },
+      rawMeasurements: { ...base.rawMeasurements, chest: "9999" },
+    };
+    await workflow.recordFieldHistory(STYLE_ID, payload, {
+      recipeId: "tee", inputKind: "measurement", inputKey: "chest",
+    });
+
+    const definition = getFieldDefinition("tee", "chest")!;
+    const current = currentFieldObservation(
+      workflow.snapshot.fieldObservations.find((record) => record.styleId === STYLE_ID), definition,
+    );
+    expect(current).toMatchObject({
+      rawValue: "9999",
+      canonicalValue: 9999,
+      provenance: "USER_CAPTURED",
+      validationStatus: "INVALID",
+      evidenceStatus: "UNCONFIRMED",
+      confidence: "NOT_ASSESSED",
+    });
+    expect(workflow.snapshot.activeRecovery?.payload.rawMeasurements.chest).toBe("9999");
+
+    const reloaded = await workflow.reload();
+    expect(currentFieldObservation(
+      reloaded.fieldObservations.find((record) => record.styleId === STYLE_ID), definition,
+    )).toMatchObject({ rawValue: "9999", canonicalValue: 9999, validationStatus: "INVALID" });
+    expect(reloaded.activeRecovery?.payload.rawMeasurements.chest).toBe("9999");
+  });
+
+  it("rejects field history and saved-design updates when the active style identity or history is absent", async () => {
+    const workflow = await open();
+    const changedInput = { recipeId: "tee", inputKind: "measurement" as const, inputKey: "chest" };
+    await expect(workflow.recordFieldHistory(STYLE_TWO_ID, recoveryPayload(), changedInput))
+      .rejects.toMatchObject({ code: "conflict" });
+
+    const state = workflow as unknown as { loaded: typeof workflow.snapshot };
+    state.loaded = { ...workflow.snapshot, fieldObservations: [] };
+    await expect(workflow.recordFieldHistory(STYLE_ID, recoveryPayload(), changedInput))
+      .rejects.toMatchObject({ code: "invalid-data" });
+    await expect(workflow.saveActiveDesign(workflow.snapshot.activeStyle.design))
+      .rejects.toMatchObject({ code: "invalid-data" });
   });
 
   it("serializes saves, recovery, switching, naming, duplication, archive and restore without crossing styles", async () => {

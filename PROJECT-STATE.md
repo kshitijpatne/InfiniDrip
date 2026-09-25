@@ -1,14 +1,16 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 234 completes portable project-package import/export; F02 Slice 235 is now active, 2026-09-24._
+_Last updated: Slice 235 adds source-aware field history with 100% focused module coverage and browser/Electron restart proof; F02 continues with dependency invalidation, 2026-09-25._
 Current directive: EPIC-14/G01 is Closed. C01, C02, C05 and C06, C03 and C04,
 lanes B–D, Lane A, and the final G01 review are Done with verified evidence.
 EPIC-15/G02 is admitted and In Progress. Slices 229–234 completed admission,
 the F01 storage contract, versioned records, transactional repository,
 project/style workflow, and portable package import/export. F01 is Done with
-hash-verified evidence at Control Center revision 278. F02 is In Progress at
-Slice 235; implement C03-aligned source-aware field observations for all seven
-current recipes, then Slice 236's complete dependency/invalidation matrix.
+hash-verified evidence. F02 Slice 235 is complete with verified evidence at
+Control Center revision 279 and records
+C03-aligned source-aware field observations and inspectable value history for
+all seven current recipes; Slice 236 is next for the complete dependency/
+invalidation matrix. F02 remains In Progress until both slices pass its exit.
 F03 and final review follow in order. The goal and gates are in
 `docs/planning/EPIC-15-ADMISSION.md`; F01 evidence is in
 `docs/research/epic15/F01-PACKAGE-EXPORT-IMPORT-S234.md` and the preceding
@@ -23,8 +25,9 @@ layout results. The byte-identical legacy writer remains unchanged. At the
 G01 exit, full coverage, build and protected export identities passed. Physical
 sampling, live supplier work, paid sources, hosted services and
 production-readiness claims remain held.
-The canonical Control Center is at revision 278: F01 is Done with verified
-Slice 230–234 evidence and F02 Slice 235 is In Progress.
+The canonical Control Center is at revision 279: F01 is Done with verified
+Slice 230–234 evidence; F02 remains In Progress through Slices 235–236, with
+Slice 235 evidence verified and Slice 236 still required.
 Detailed records and the sequence map
 are in `ops/control-center/data/board.json`,
 `docs/planning/EPIC-14-ADMISSION.md`,
@@ -4090,10 +4093,35 @@ Center tests, zero production dependency audit findings, and rendered browser
 and Electron restart proof passed. Full detail and residual limits are in
 `docs/research/epic15/F01-PACKAGE-EXPORT-IMPORT-S234.md`.
 
-The report's SHA-256 is linked as verified exit evidence. Canonical Control
-Center revision 278 records F01 Done and F02 In Progress; the browser view was
-refreshed to show the dependency transition. Slice 235 is active: implement the
-accepted C03 semantic-kind/provenance/evidence vocabulary and inspectable value
-history for all seven existing recipes, without representing defaults as
-measurements or inventing confidence. No new recipe, physical sample, supplier
-work, paid/hosted service, or production-readiness claim was added.
+The report's SHA-256 is linked as verified evidence. Canonical Control Center
+revision 279 records F01 Done and F02 In Progress, with S235 evidence linked;
+the browser view was refreshed to show the dependency transition. Slice 235 adds the accepted C03
+semantic-kind/provenance/evidence vocabulary and inspectable value history for
+all seven existing recipes. Historic/default values remain explicitly
+unresolved or preset, confidence is not assessed, exact raw input is retained,
+and input/history storage is sequenced before style/project changes; callbacks
+from a replaced app mount cannot rewrite the active style. Evidence and limits
+are in `docs/research/epic15/F02-FIELD-PROVENANCE-S235.md`. Slice 236
+continues F02 with the field-to-output dependency/invalidation graph. No new
+recipe, physical sample, supplier work, paid/hosted service, or
+production-readiness claim was added.
+
+### Slice 235 — C03-aligned field provenance and value history
+
+Slice 235 adds stable semantic definitions and append-only observations for
+every editable measurement and option across the seven existing recipes.
+Current/default legacy values keep their actual provenance and evidence status;
+raw user input remains visible when invalid, and no confidence or fit claim is
+invented. Field history is persisted per style through schema-v4 migration,
+recovery, style operations, and package v2. The dialog flushes pending writes
+before it renders so a just-edited value is not hidden by an older snapshot.
+Persistence errors block misleading transitions and stay visible even if a
+separate recovery write later succeeds.
+
+Verification: TypeScript passed; the 10-file focused suite passed 448/448 with
+100% statements, branches, functions, and lines across all changed production
+modules. The real browser/Electron workflow passed with chest `104`, provenance
+and history surviving style creation and restart, and explicit Save clearing
+recovery. The complete repository coverage and protected-export gate remains
+scheduled for Slice 240. F02 remains In Progress until Slice 236's complete
+field-to-artifact invalidation matrix passes.

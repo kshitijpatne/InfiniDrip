@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { STANDARD_M, GARMENTS, TSHIRT_SIZES, TEE, WOVEN_SHIRT, WOVEN_SHIRT_OPTION_DEFINITIONS, draftTshirt, rolePiece } from "../drafting";
-import { garmentToggleMarkup, dartControlsMarkup, exportButtonsMarkup } from "./view";
+import { STANDARD_M, GARMENTS, TSHIRT_SIZES, TEE, WOVEN_SHIRT, WOVEN_SHIRT_OPTION_DEFINITIONS, draftTshirt, rolePiece, type Piece } from "../drafting";
+import { garmentToggleMarkup, dartControlsMarkup, exportButtonsMarkup, fieldHistoryDialogContent, fieldObservationSummary, patternAnnotationKeyMarkup } from "./view";
 import { DEFAULT_FABRIC, BLUEPRINT } from "../render";
 import { matchStyle, styleNames, TEE_STYLES } from "../style";
 import { controlsMarkup, appShellMarkup, guidanceMarkup, styleMarkup, surfaceMarkup, nestIntelMarkup, nestIntelReadout, fabricSwatchesMarkup, fabricStretchMarkup, specTableMarkup, viewToggleMarkup, bodyCroquisToggleMarkup, fabricWidthMarkup, checkMarkup, editorHintMarkup, editorHandleControlsMarkup, inspectionMarkup } from "./view";
@@ -10,6 +10,7 @@ import type { ArtworkCatalogRecord } from "../surface/artwork-library/catalog";
 import type { ArtworkUseAssessment } from "../surface/artwork-library/search";
 import { pieceHandles } from "../edit";
 import { buildReport, present } from "../guidance";
+import type { FieldObservationRecord } from "./field-provenance";
 
 describe("controlsMarkup", () => {
   it("renders an input for every measurement, showing its value", () => {
@@ -28,6 +29,65 @@ describe("controlsMarkup", () => {
 
   it("does not invent a finished-width summary for unrelated fields", () => {
     expect(controlsMarkup(STANDARD_M, ["length", "ease"])).not.toContain("Finished chest");
+  });
+
+  it("exposes a compact accessible source/history control for each recipe input", () => {
+    const html = controlsMarkup(STANDARD_M, ["chest"], [], {}, "tee");
+    expect(html).toContain('data-open-field-history="body.chest-girth"');
+    expect(html).toContain('aria-haspopup="dialog"');
+    expect(html).toContain("No value history recorded for this recipe field yet.");
+  });
+
+  it("escapes imported observation text and bounds invalid history pagination inputs", () => {
+    const record: FieldObservationRecord = {
+      schemaVersion: 1,
+      definitionVersion: 1,
+      styleId: "b53a1a03-ea2e-4c4f-82dc-14ac86a29895",
+      revision: 2,
+      updatedAt: "2026-09-24T16:00:00.000Z",
+      observations: [1, 2].map((revision) => ({
+        revision,
+        definitionVersion: 1,
+        fieldId: "body.chest-girth",
+        semanticId: "body.chest-girth",
+        recipeId: "tee",
+        inputKey: "chest",
+        rawValue: revision === 1 ? "<script>alert(1)</script>" : "9999",
+        canonicalValue: revision === 1 ? null : 9999,
+        unit: "cm",
+        semanticKind: "BODY_MEASURE",
+        provenance: "UNRESOLVED",
+        evidenceStatus: "UNCONFIRMED",
+        validationStatus: "INVALID",
+        sourceLabel: "<img src=x onerror=alert(1)>",
+        recordedAt: null,
+        styleRevision: 1,
+        confidence: "NOT_ASSESSED",
+      })),
+    };
+    const html = fieldHistoryDialogContent("tee", "measurement", "chest", record, Number.POSITIVE_INFINITY, 0);
+    expect(html).toContain("Page 1 of 1 · 2 total records");
+    expect(html).toContain("&lt;script&gt;alert(1)&lt;/script&gt;");
+    expect(html).toContain("&lt;img src=x onerror=alert(1)&gt;");
+    expect(html).not.toContain("<script>");
+    const laterPage = fieldHistoryDialogContent("tee", "measurement", "chest", record, 1, 1);
+    expect(laterPage).toContain("Page 2 of 2 · 2 total records");
+    expect(laterPage).toContain('data-field-history-page="0"');
+    expect(laterPage).toContain('data-field-history-page="2" disabled');
+    const firstPage = fieldHistoryDialogContent("tee", "measurement", "chest", record, 0, 1);
+    expect(firstPage).toContain('data-field-history-page="1"');
+    expect(firstPage).not.toContain('data-field-history-page="1" disabled');
+  });
+
+  it("reports missing field definitions and absent field history without inventing a source", () => {
+    expect(fieldObservationSummary("missing-recipe", "measurement", "chest", undefined))
+      .toBe("No source-aware definition is available.");
+    expect(fieldObservationSummary("tee", "measurement", "chest", undefined))
+      .toBe("No value history recorded for this recipe field yet.");
+    expect(fieldHistoryDialogContent("tee", "measurement", "not-a-field", undefined))
+      .toContain("This field is not defined for the selected recipe.");
+    expect(fieldHistoryDialogContent("tee", "measurement", "chest", undefined))
+      .toContain("No value history is recorded for this field yet.");
   });
 
   it("tags each measurement as body or finished (chest as a circumference)", () => {
@@ -89,6 +149,22 @@ describe("controlsMarkup", () => {
     expect(html).toContain('data-range-rail');
     expect(html).toContain(">60<");
     expect(html).toContain(">160<");
+  });
+});
+
+describe("patternAnnotationKeyMarkup", () => {
+  it("omits unlabeled marks while retaining labeled construction marks", () => {
+    const piece: Piece = {
+      ...rolePiece(draftTshirt(STANDARD_M), "front"),
+      onFold: false,
+      marks: [
+        { kind: "button", name: "unlabeled-button", at: { x: 1, y: 1 } },
+        { kind: "button", name: "labeled-button", label: "Button placement", at: { x: 2, y: 2 } },
+      ],
+    };
+    const html = patternAnnotationKeyMarkup([piece]);
+    expect(html).not.toContain("unlabeled-button");
+    expect(html).toContain("Button placement");
   });
 });
 

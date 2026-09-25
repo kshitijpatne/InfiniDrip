@@ -8,7 +8,7 @@ import { openProjectWorkflow } from "./project-workflow";
 import type { ArtworkAssetStore, StoredArtworkAsset } from "../surface/artwork-store";
 import type { InspectedArtworkFile } from "../surface/artwork-file";
 import { ARTWORK_CATALOG } from "../surface/artwork-library/catalog";
-import { GARMENTS, STANDARD_M, draftTshirt, rolePiece } from "../drafting";
+import { GARMENTS, STANDARD_M, draftTshirt, rolePiece, type GarmentRecipe } from "../drafting";
 import { pieceHandles, editorViewBox } from "../edit";
 import { loadJourney } from "./journey";
 import { PATTERN_MEASUREMENT_MAP, type PatternMeasurementDefinition, type PatternMeasurementField } from "./pattern-measurements";
@@ -305,6 +305,12 @@ describe("mountApp", () => {
   it("preserves an out-of-range field with an actionable correction on change", () => {
     const root = mount();
     const chest = root.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+    const control = chest.closest<HTMLElement>("[data-range-control]")!;
+    chest.value = "59";
+    chest.dispatchEvent(new Event("input"));
+    expect(control.dataset.rangeState).toBe("under");
+    expect(control.querySelector("[data-range-rail]")!.getAttribute("aria-label"))
+      .toContain("below minimum");
     chest.value = "999";
     chest.dispatchEvent(new Event("input"));
     chest.dispatchEvent(new Event("change"));
@@ -912,6 +918,132 @@ describe("mountApp", () => {
     expect(recovered.querySelector<HTMLInputElement>('[data-option="buttonCount"]')!.value).toBe("");
   });
 
+  it("keeps the assembled inspection frame selected when invalid input pauses the draft", () => {
+    localStorage.clear();
+    const root = mount();
+    clickId(root, "assembled-preview-toggle");
+    const chest = root.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+    chest.value = "9999";
+    chest.dispatchEvent(new Event("input", { bubbles: true }));
+    expect(root.querySelector("#canvas-host")!.textContent).toContain("Draft paused");
+    expect(root.querySelector("#inspection-title")!.textContent).toContain("Assembled preview");
+  });
+
+  it("rebuilds the Edit preview when a recipe option invalidates its prior piece", () => {
+    localStorage.clear();
+    const root = mount();
+    clickId(root, "garment-polo");
+    clickId(root, "view-edit");
+    const option = root.querySelector<HTMLInputElement>('input[data-option="placketLength"]')!;
+    option.value = "15";
+    option.dispatchEvent(new Event("input", { bubbles: true }));
+    expect(root.querySelector("#canvas-host svg")).not.toBeNull();
+    expect(root.querySelectorAll("input[data-editor-coordinate]").length).toBeGreaterThan(0);
+    expect(root.querySelector('[data-editor-contract="preview-only"]')?.textContent).toContain("Exploratory edit");
+  });
+
+  it("opens field history immediately when the app has no project workflow", () => {
+    localStorage.clear();
+    const root = mount();
+    root.querySelector<HTMLButtonElement>('button[data-open-field-history="body.chest-girth"]')!.click();
+    expect(root.querySelector<HTMLDialogElement>("#field-history-dialog")!.open).toBe(true);
+    expect(root.querySelector("#field-history-dialog")?.textContent).toContain("No value history is recorded");
+  });
+
+  it("uses the conventional front role for recipes without an explicit Edit role", () => {
+    localStorage.clear();
+    const root = mount();
+    clickId(root, "garment-tee");
+    clickId(root, "view-edit");
+    expect(root.querySelector("#canvas-host svg")).not.toBeNull();
+    expect(root.querySelector('[data-editor-contract="preview-only"]')?.textContent).toContain("front piece only");
+  });
+
+  it("keeps the reviewed journey incomplete when Electron cancels a file write", async () => {
+    window.electronAPI = { saveFile: vi.fn().mockResolvedValue({ saved: false }) };
+    try {
+      const root = mount();
+      reachExportStage(root);
+      clickId(root, "export-svg");
+      await vi.waitFor(() => expect(root.querySelector("#persist-status")!.textContent)
+        .toContain("Export canceled"));
+      expect(root.querySelector("#journey-celebration")).toBeNull();
+    } finally {
+      delete window.electronAPI;
+    }
+  });
+
+  it("does not mark an older Electron export complete after the design changes", async () => {
+    let finishWrite!: (result: { saved: boolean }) => void;
+    const saveFile = vi.fn(() => new Promise<{ saved: boolean }>((resolve) => { finishWrite = resolve; }));
+    window.electronAPI = { saveFile };
+    try {
+      const root = mount();
+      reachExportStage(root);
+      clickId(root, "export-svg");
+      expect(saveFile).toHaveBeenCalledOnce();
+      const chest = root.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+      chest.value = "101";
+      chest.dispatchEvent(new Event("input", { bubbles: true }));
+      finishWrite({ saved: true });
+      await vi.waitFor(() => expect(root.querySelector("#persist-status")!.textContent)
+        .toContain("earlier design"));
+      expect(root.querySelector("#journey-celebration")).toBeNull();
+    } finally {
+      delete window.electronAPI;
+    }
+  });
+
+  it("reports an Electron export write error without confirming export", async () => {
+    window.electronAPI = { saveFile: vi.fn().mockRejectedValue(new Error("disk unavailable")) };
+    try {
+      const root = mount();
+      reachExportStage(root);
+      clickId(root, "export-svg");
+      await vi.waitFor(() => expect(root.querySelector("#persist-status")!.textContent)
+        .toContain("Export failed"));
+      expect(root.querySelector("#journey-celebration")).toBeNull();
+    } finally {
+      delete window.electronAPI;
+    }
+  });
+
+  it("reports when a browser cannot create the local export download", () => {
+    const previousCreate = URL.createObjectURL;
+    URL.createObjectURL = vi.fn(() => { throw new Error("blob unavailable"); });
+    try {
+      const root = mount();
+      reachExportStage(root);
+      clickId(root, "export-svg");
+      expect(root.querySelector("#persist-status")!.textContent)
+        .toContain("the browser could not start the download");
+      expect(root.querySelector("#journey-celebration")).toBeNull();
+    } finally {
+      URL.createObjectURL = previousCreate;
+    }
+  });
+
+  it("resets a selected export size when the next recipe does not support it", () => {
+    localStorage.clear();
+    const recipes = GARMENTS as unknown as GarmentRecipe[];
+    const index = recipes.findIndex((recipe) => recipe.name === "trouser");
+    const original = recipes[index];
+    if (!original) throw new Error("Trouser recipe fixture is missing.");
+    recipes[index] = { ...original, sizes: original.sizes.filter((size) => size.step !== 2) };
+    try {
+      const root = mount();
+      const size = root.querySelector<HTMLSelectElement>("#export-size")!;
+      size.value = "2";
+      size.dispatchEvent(new Event("change", { bubbles: true }));
+      expect(size.value).toBe("2");
+      clickId(root, "garment-trouser");
+      expect(size.value).toBe("0");
+      expect(root.querySelector("#nest-selected-size")!.textContent).toContain("M");
+    } finally {
+      recipes[index] = original;
+    }
+  });
+
   it("opens linked pages in inventory order and highlights only the mapped fields without editing values", () => {
     localStorage.clear();
     const root = mount();
@@ -947,6 +1079,23 @@ describe("mountApp", () => {
     expect(document.activeElement).toBe(root.querySelector('input[data-field="ease"]'));
     expect([...root.querySelectorAll<HTMLInputElement>("input[data-field], input[data-option]")]
       .map((input) => [input.dataset.field ?? input.dataset.option, input.value])).toEqual(valuesBefore);
+  });
+
+  it("steps through the measurement groups with the control-page buttons", () => {
+    localStorage.clear();
+    const root = mount();
+    clickId(root, "journey-step-measure");
+    const select = root.querySelector<HTMLSelectElement>("#control-page-select")!;
+    const previous = root.querySelector<HTMLButtonElement>('[data-control-page-step="-1"]')!;
+    const next = root.querySelector<HTMLButtonElement>('[data-control-page-step="1"]')!;
+    expect(previous.disabled).toBe(true);
+    previous.dispatchEvent(new Event("click", { bubbles: true }));
+    expect(select.value).toBe("0");
+    next.dispatchEvent(new Event("click", { bubbles: true }));
+    expect(select.value).toBe("1");
+    root.dispatchEvent(new Event("click", { bubbles: true }));
+    previous.dispatchEvent(new Event("click", { bubbles: true }));
+    expect(select.value).toBe("0");
   });
 
   it("opens the first linked page from a keyboard-activated SVG piece", () => {
@@ -1309,6 +1458,8 @@ describe("mountApp", () => {
       expect(root.querySelector("#journey-step-output")!.getAttribute("aria-current")).toBe("step");
       expect(root.querySelector("#readiness-host")!.textContent).toContain("5 of 5");
       expect(root.querySelector("#journey-celebration")!.textContent).toContain("Files exported");
+      clickId(root, "celebrate-dismiss");
+      expect(root.querySelector("#journey-celebration")).toBeNull();
     } finally {
       delete window.electronAPI;
     }

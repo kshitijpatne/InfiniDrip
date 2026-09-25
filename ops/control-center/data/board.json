@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 278,
-  "updatedAt": "2026-09-24T22:43:52.023Z",
+  "revision": 279,
+  "updatedAt": "2026-09-25T08:30:07.447Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -4555,7 +4555,8 @@
       ],
       "comments": [],
       "evidenceRefs": [
-        "E-EPIC15-F01-PACKAGE-S234"
+        "E-EPIC15-F01-PACKAGE-S234",
+        "E-EPIC15-F02-FIELD-HISTORY-S235"
       ],
       "flagKey": null
     },
@@ -5213,6 +5214,15 @@
       "sha256": "564d7afa464d74b0a3bd2f48d53667eaf917febabad9970f16a0a9fad4521de6",
       "verified": true,
       "note": "Slice 234 portable project-package import/export passed full-suite, global coverage, protected export identity, build, dependency audit, browser and Electron restart verification. See the report for measured package limits and memory costs."
+    },
+    {
+      "id": "E-EPIC15-F02-FIELD-HISTORY-S235",
+      "kind": "document",
+      "uri": "docs/research/epic15/F02-FIELD-PROVENANCE-S235.md",
+      "commit": null,
+      "sha256": "3d6d1493110e5262350e3dd8741635829fce8eb43db79c6bb0b60ccc62c167b1",
+      "verified": true,
+      "note": "Slice 235 C03-aligned field provenance and append-only value history for all seven recipes; 448/448 focused tests and 100% coverage across changed production modules; live Chromium and Electron restart proof for rendered chest history, provenance, style-scoped recovery, and Save. F02 remains In Progress pending Slice 236."
     }
   ]
 }

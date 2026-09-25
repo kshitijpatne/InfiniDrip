@@ -8,6 +8,12 @@ import {
   type StoredArtworkAsset,
 } from "../surface/artwork-store";
 import {
+  createFieldObservationRecord,
+  parseFieldObservationRecord,
+  remapFieldObservationStyleId,
+  type FieldObservationRecord,
+} from "./field-provenance";
+import {
   parseProjectRecord,
   parseRecoveryRecord,
   parseStyleRecord,
@@ -24,11 +30,11 @@ import {
 } from "./project-repository";
 
 export const PROJECT_PACKAGE_FORMAT = "infinidrip-project";
-export const PROJECT_PACKAGE_VERSION = 1;
+export const PROJECT_PACKAGE_VERSION = 2;
 export const PROJECT_PACKAGE_MAX_BYTES = 256 * 1024 * 1024;
 export const PROJECT_PACKAGE_MAX_CONTENT_BYTES = 256 * 1024 * 1024;
 export const PROJECT_PACKAGE_MAX_ASSETS = 128;
-export const PROJECT_PACKAGE_MAX_MANIFEST_BYTES = 1024 * 1024;
+export const PROJECT_PACKAGE_MAX_MANIFEST_BYTES = 32 * 1024 * 1024;
 const ZIP_EOCD_BYTES = 22;
 const ZIP_EOCD_MAX_COMMENT = 0xffff;
 const ZIP_LOCAL_HEADER_BYTES = 30;
@@ -90,11 +96,12 @@ export interface ProjectPackageAssetRecord {
 
 export interface ProjectPackageManifest {
   readonly format: typeof PROJECT_PACKAGE_FORMAT;
-  readonly packageVersion: typeof PROJECT_PACKAGE_VERSION;
+  readonly packageVersion: 1 | typeof PROJECT_PACKAGE_VERSION;
   readonly packageSha256: string;
   readonly project: ProjectRecord;
   readonly styles: readonly StyleRecord[];
   readonly recoveries: readonly RecoveryRecord[];
+  readonly fieldObservations: readonly FieldObservationRecord[];
   readonly assets: readonly ProjectPackageAssetRecord[];
 }
 
@@ -271,6 +278,8 @@ export async function createProjectPackage(
     project: snapshot.project,
     styles: snapshot.styles,
     recoveries: snapshot.recoveries,
+    fieldObservations: snapshot.fieldObservations ?? snapshot.styles.map((style) =>
+      createFieldObservationRecord(style, style.updatedAt, "existing-local-style")),
     assets: assetRecords,
   };
   const packageSha256 = await sha256(new TextEncoder().encode(canonical(body)), options);
@@ -564,10 +573,16 @@ async function inflateStoredEntry(
 }
 
 function validateManifestShape(value: unknown): ProjectPackageManifest {
-  if (!exactObject(value, ["format", "packageVersion", "packageSha256", "project", "styles", "recoveries", "assets"])
-    || value.format !== PROJECT_PACKAGE_FORMAT || value.packageVersion !== PROJECT_PACKAGE_VERSION
+  const version = typeof value === "object" && value !== null && !Array.isArray(value)
+    ? (value as Record<string, unknown>).packageVersion : undefined;
+  const expectedKeys = version === 1
+    ? ["format", "packageVersion", "packageSha256", "project", "styles", "recoveries", "assets"]
+    : ["format", "packageVersion", "packageSha256", "project", "styles", "recoveries", "fieldObservations", "assets"];
+  if (!exactObject(value, expectedKeys)
+    || value.format !== PROJECT_PACKAGE_FORMAT || (value.packageVersion !== 1 && value.packageVersion !== PROJECT_PACKAGE_VERSION)
     || typeof value.packageSha256 !== "string" || !/^[0-9a-f]{64}$/.test(value.packageSha256)
-    || !Array.isArray(value.styles) || !Array.isArray(value.recoveries) || !Array.isArray(value.assets)) {
+    || !Array.isArray(value.styles) || !Array.isArray(value.recoveries) || !Array.isArray(value.assets)
+    || (value.packageVersion === PROJECT_PACKAGE_VERSION && !Array.isArray(value.fieldObservations))) {
     throw new ProjectPackageError("invalid-package", "Project package manifest is incomplete, unknown, or unsupported.");
   }
   const project = parseProjectRecord(value.project);
@@ -580,6 +595,7 @@ function validateManifestShape(value: unknown): ProjectPackageManifest {
   const bundle = validateProjectBundle(project.value, styles);
   if (!bundle.ok) throw new ProjectPackageError("invalid-package", bundle.error);
   const styleIds = new Set(styles.map((style) => style.id));
+  const suppliedFieldObservations = Array.isArray(value.fieldObservations) ? value.fieldObservations : [];
   const recoveries = value.recoveries.map((recovery) => {
     const parsed = parseRecoveryRecord(recovery);
     if (!parsed.ok) throw new ProjectPackageError("invalid-package", parsed.error);
@@ -588,6 +604,21 @@ function validateManifestShape(value: unknown): ProjectPackageManifest {
   });
   if (new Set(recoveries.map((recovery) => recovery.styleId)).size !== recoveries.length) {
     throw new ProjectPackageError("invalid-package", "Manifest has multiple recovery records for one style.");
+  }
+  const fieldObservations: FieldObservationRecord[] = value.packageVersion === 1
+    ? bundle.value.styles.map((style) => createFieldObservationRecord(style, style.updatedAt, "package-v1"))
+    : suppliedFieldObservations.map((record) => {
+      const parsed = parseFieldObservationRecord(record);
+      if (!parsed.ok) throw new ProjectPackageError("invalid-package", parsed.error);
+      if (!styleIds.has(parsed.value.styleId)) {
+        throw new ProjectPackageError("invalid-package", "Field history must reference a style in this project.");
+      }
+      return parsed.value;
+    });
+  if (fieldObservations.length !== styles.length
+    || new Set(fieldObservations.map((record) => record.styleId)).size !== fieldObservations.length
+    || styles.some((style) => !fieldObservations.some((record) => record.styleId === style.id))) {
+    throw new ProjectPackageError("invalid-package", "Every style must have exactly one source-aware field history record.");
   }
   if (value.assets.length > PROJECT_PACKAGE_MAX_ASSETS) {
     throw new ProjectPackageError("limit-exceeded", `A package can contain at most ${PROJECT_PACKAGE_MAX_ASSETS} artwork files.`);
@@ -624,11 +655,12 @@ function validateManifestShape(value: unknown): ProjectPackageManifest {
   }
   return {
     format: PROJECT_PACKAGE_FORMAT,
-    packageVersion: PROJECT_PACKAGE_VERSION,
+    packageVersion: value.packageVersion as ProjectPackageManifest["packageVersion"],
     packageSha256: value.packageSha256,
     project: project.value,
     styles: bundle.value.styles,
     recoveries,
+    fieldObservations,
     assets,
   };
 }
@@ -640,7 +672,7 @@ export async function readProjectPackage(
   const entries = await preflightZip(blob);
   const manifestEntry = entries.get("manifest.json")!;
   if (manifestEntry.uncompressedSize > PROJECT_PACKAGE_MAX_MANIFEST_BYTES) {
-    throw new ProjectPackageError("limit-exceeded", "Project package manifest exceeds the 1 MiB limit.");
+    throw new ProjectPackageError("limit-exceeded", "Project package manifest exceeds the 32 MiB limit.");
   }
   const manifestBytes = await inflateStoredEntry(blob, manifestEntry, options, "validate", 0, manifestEntry.uncompressedSize);
   let parsed: unknown;
@@ -662,7 +694,9 @@ export async function readProjectPackage(
       throw new ProjectPackageError("invalid-package", `ZIP member ${entry.path} does not match its manifest record.`);
     }
   }
-  const { packageSha256, ...body } = manifest;
+  const rawManifest = parsed as Record<string, unknown>;
+  const packageSha256 = rawManifest.packageSha256 as string;
+  const { packageSha256: _digest, ...body } = rawManifest;
   const actualDigest = await sha256(new TextEncoder().encode(canonical(body)), options);
   if (actualDigest !== packageSha256) throw new ProjectPackageError("invalid-package", "Project package manifest SHA-256 does not match its contents.");
   return { blob, manifest, entries, packageSha256 };
@@ -741,7 +775,12 @@ function makeCopy(
   assetMap: ReadonlyMap<string, string>,
   now: string,
   idFactory: () => string,
-): { project: ProjectRecord; styles: StyleRecord[]; recoveries: RecoveryRecord[] } {
+): {
+  project: ProjectRecord;
+  styles: StyleRecord[];
+  recoveries: RecoveryRecord[];
+  fieldObservations: FieldObservationRecord[];
+} {
   const usedIds = new Set([manifest.project.id, ...manifest.project.styleIds].map((id) => id.toLowerCase()));
   const projectId = uniqueUuid(idFactory, usedIds);
   const styleIds = new Map(manifest.styles.map((style) => [style.id, uniqueUuid(idFactory, usedIds)]));
@@ -774,7 +813,9 @@ function makeCopy(
     ...recovery,
     styleId: styleIds.get(recovery.styleId)!,
   }));
-  return { project, styles, recoveries };
+  const fieldObservations = manifest.fieldObservations.map((record) =>
+    remapFieldObservationStyleId(record, styleIds.get(record.styleId)!));
+  return { project, styles, recoveries, fieldObservations };
 }
 
 function canonicalNow(): string {
@@ -863,7 +904,12 @@ export async function importProjectPackage(
   }
   const bundle = asCopy
     ? makeCopy(archive.manifest, archive.packageSha256, assetMap, now, uuid)
-    : { project: archive.manifest.project, styles: [...archive.manifest.styles], recoveries: [...archive.manifest.recoveries] };
+    : {
+      project: archive.manifest.project,
+      styles: [...archive.manifest.styles],
+      recoveries: [...archive.manifest.recoveries],
+      fieldObservations: [...archive.manifest.fieldObservations],
+    };
   const stagedIds: string[] = [];
   let completed = 0;
   const total = archive.manifest.assets.reduce((sum, asset) => sum + asset.byteLength, 0);

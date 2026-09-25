@@ -20,6 +20,8 @@ export interface ProjectManagerOptions {
   readonly hasUnsavedChanges: () => boolean;
   readonly onStyleLoaded: (loaded: LoadedProject, recovery: RecoveryPayload | null) => void;
   readonly setBusy: (busy: boolean) => void;
+  readonly flushPendingFieldObservations?: () => Promise<void>;
+  readonly hasPendingFieldObservations?: () => boolean;
   readonly artworkStore?: ArtworkAssetStore;
   readonly inspectAsset?: (file: File) => Promise<InspectedArtworkFile>;
   readonly savePackage?: (filename: string, blob: Blob) => Promise<boolean>;
@@ -70,6 +72,7 @@ export class ProjectManager {
   private controller: AbortController | null = null;
   private progressState: ProjectPackageProgress | null = null;
   private progressPaintedBytes = 0;
+  private styleNameDraft = "";
   private projects: readonly LoadedProject[];
   private readonly cancelPortal: HTMLDivElement;
 
@@ -85,19 +88,40 @@ export class ProjectManager {
     }
     this.cancelPortal = portal;
     this.cancelPortal.querySelector("button")!.onclick = () => this.controller?.abort();
+    options.host.addEventListener("input", (event) => {
+      const target = event.target;
+      if (target instanceof HTMLInputElement && target.id === "project-style-name") {
+        this.styleNameDraft = target.value;
+      }
+    });
     options.host.addEventListener("click", (event) => {
       const target = event.target instanceof Element ? event.target.closest<HTMLElement>("[data-project-action]") : null;
       const action = target?.dataset.projectAction as ProjectAction | undefined;
       if (!action || this.busy) return;
       event.preventDefault();
-      void this.handle(action, target?.dataset.styleId);
+      if (action === "import-package") {
+        void this.handle(action, target?.dataset.styleId);
+        return;
+      }
+      if (!this.options.flushPendingFieldObservations
+        || this.options.hasPendingFieldObservations?.() === false) {
+        void this.handle(action, target?.dataset.styleId);
+        return;
+      }
+      void this.runAfterFieldHistory(() => this.handle(action, target?.dataset.styleId));
     });
     options.host.addEventListener("change", (event) => {
       const target = event.target;
       if (!(target instanceof HTMLInputElement) || target.id !== "project-package-file") return;
       const file = target.files?.[0] ?? null;
       target.value = "";
-      if (file) void this.importPackage(file);
+      if (file) {
+        if (this.options.flushPendingFieldObservations
+          && this.options.hasPendingFieldObservations?.() !== false) {
+          void this.runAfterFieldHistory(() => this.importPackage(file));
+        }
+        else void this.importPackage(file);
+      }
     });
     this.render();
     const repository = options.workflow.repository as ProjectWorkflow["repository"] | undefined;
@@ -150,7 +174,7 @@ export class ProjectManager {
       `<input id="project-package-file" type="file" accept=".zip,application/zip" hidden aria-label="Choose an InfiniDrip project backup"/>` +
       `</section>` +
       `<label for="project-style-name">Style name</label>` +
-      `<input id="project-style-name" type="text" maxlength="80" autocomplete="off" placeholder="Name a new style or rename this one">` +
+      `<input id="project-style-name" type="text" maxlength="80" autocomplete="off" placeholder="Name a new style or rename this one" value="${escapeHtml(this.styleNameDraft)}">` +
       `<div class="project-manager-actions">` +
       `<button type="button" data-project-action="create"${this.busy ? " disabled" : ""}>Create blank style</button>` +
       `<button type="button" data-project-action="duplicate"${this.busy ? " disabled" : ""}>Duplicate current design</button>` +
@@ -177,6 +201,16 @@ export class ProjectManager {
       this.controller = null;
       this.progressState = null;
       this.options.setBusy(false);
+      this.render();
+    }
+  }
+
+  private async runAfterFieldHistory(operation: () => Promise<void>): Promise<void> {
+    try {
+      await this.options.flushPendingFieldObservations?.();
+      await operation();
+    } catch (error) {
+      this.message = errorMessage(error);
       this.render();
     }
   }
@@ -215,7 +249,8 @@ export class ProjectManager {
     if (action === "create") {
       const name = this.nameInput().value;
       return this.run(async () => {
-        const loaded = await this.options.workflow.createStyle(name, this.options.getBlankDesign());
+        const loaded = await this.options.workflow.createStyle(name, this.options.getBlankDesign(), "first-run-default");
+        this.styleNameDraft = "";
         this.options.onStyleLoaded(loaded, loaded.activeRecovery?.payload ?? null);
         this.message = `Created ${loaded.activeStyle.name}.`;
       });
@@ -230,7 +265,7 @@ export class ProjectManager {
       const base = `Copy of ${this.options.workflow.snapshot.activeStyle.name}`;
       const name = base.length <= 80 ? base : `${base.slice(0, 74)}…`;
       return this.run(async () => {
-        const loaded = await this.options.workflow.createStyle(name, design);
+        const loaded = await this.options.workflow.createStyle(name, design, "copied-style");
         this.options.onStyleLoaded(loaded, loaded.activeRecovery?.payload ?? null);
         this.message = `Created a copy named ${loaded.activeStyle.name}.`;
       });
@@ -239,6 +274,7 @@ export class ProjectManager {
       const name = this.nameInput().value;
       return this.run(async () => {
         const loaded = await this.options.workflow.renameActiveStyle(name);
+        this.styleNameDraft = "";
         this.message = `Renamed style to ${loaded.activeStyle.name}.`;
       });
     }

@@ -24,6 +24,12 @@ import {
 } from "../surface/artwork-library/catalog";
 import type { ArtworkUseAssessment } from "../surface/artwork-library/search";
 import { escapeAttr } from "../render/surface-overlay";
+import {
+  currentFieldObservation,
+  getFieldDefinition,
+  type FieldInputKind,
+  type FieldObservationRecord,
+} from "./field-provenance";
 import type { Piece, PatternMark, PatternAnnotationRole } from "../drafting";
 import { APPEARANCE_TEXTURES, Appearance, DEFAULT_APPEARANCE, hexToHsl, normalizeHex } from "./appearance";
 import {
@@ -92,9 +98,58 @@ function numericControlMarkup(
     `<span data-range-endpoint="max" style="min-width:16px;text-align:right">${endpoint("max")}</span></span></span>`;
 }
 
+const provenanceNames = Object.freeze({
+  USER_CAPTURED: "User entered",
+  USER_SELECTED: "User selected",
+  PRESET: "Built-in starting value",
+  INHERITED: "Inherited from another style",
+  CALCULATED: "Calculated from design data",
+  SUPPLIER: "Supplier supplied",
+  SAMPLE_ACTUAL: "Measured from a sample",
+  IMAGE_OBSERVED: "Observed from an image",
+  UNRESOLVED: "Source unresolved",
+});
+
+function fieldSourceMarkup(
+  recipeId: string,
+  inputKind: FieldInputKind,
+  inputKey: string,
+  record: FieldObservationRecord | undefined,
+): string {
+  const definition = getFieldDefinition(recipeId, inputKey, inputKind);
+  if (!definition) return "";
+  const history = record?.observations.filter((observation) =>
+    observation.fieldId === definition.id && observation.recipeId === definition.recipeId) ?? [];
+  const summary = fieldObservationSummary(recipeId, inputKind, inputKey, record);
+  return `<div class="field-source" data-field-source="${escapeAttr(definition.id)}" ` +
+    `style="display:flex;align-items:center;flex-wrap:wrap;gap:3px 7px;margin:-3px 0 9px 0;font-size:10px;line-height:1.35">` +
+    `<button type="button" data-open-field-history="${escapeAttr(definition.id)}" ` +
+    `data-field-history-recipe="${escapeAttr(recipeId)}" data-field-history-kind="${inputKind}" ` +
+    `data-field-history-key="${escapeAttr(inputKey)}" aria-haspopup="dialog" ` +
+    `style="border:0;background:transparent;color:${T.label};font:inherit;text-decoration:underline;cursor:pointer;padding:0">` +
+    `Value source & history (${history.length})</button>` +
+    `<span data-field-source-current="${escapeAttr(definition.id)}" style="color:${T.label}">${escapeAttr(summary)}</span>` +
+    `</div>`;
+}
+
+export function fieldObservationSummary(
+  recipeId: string,
+  inputKind: FieldInputKind,
+  inputKey: string,
+  record: FieldObservationRecord | undefined,
+): string {
+  const definition = getFieldDefinition(recipeId, inputKey, inputKind);
+  if (!definition) return "No source-aware definition is available.";
+  const current = currentFieldObservation(record, definition);
+  return current
+    ? `${provenanceNames[current.provenance]} · ${current.evidenceStatus} · ${current.validationStatus} · ${current.sourceLabel} · confidence not assessed`
+    : "No value history recorded for this recipe field yet.";
+}
+
 function field(id: string, label: string,
                value: number, min: number, max: number, step: number,
-               details: Pick<GarmentOption, "unit" | "help"> = {}): string {
+               details: Pick<GarmentOption, "unit" | "help"> = {},
+               provenance = ""): string {
   const tag = roleTag(id); // "body · circ" / "finished", or null for ease
   const tagSpan = tag === null ? "" :
     `<span style="display:block;color:${T.label};font-size:11px;margin-top:3px">${tag}</span>`;
@@ -115,7 +170,43 @@ function field(id: string, label: string,
     `gap:8px;margin-bottom:8px;font-size:13px">` +
     `<span style="color:${T.label}">${label}${tagSpan}</span>` +
     `<span style="display:inline-flex;align-items:center;white-space:nowrap">${input}${unit}</span></label>` +
-    `<div id="error-${id}" data-input-error="${id}" style="font-size:12px;color:${T.lineActive}" role="status"></div>${help}`;
+    `<div id="error-${id}" data-input-error="${id}" style="font-size:12px;color:${T.lineActive}" role="status"></div>${help}${provenance}`;
+}
+
+export function fieldHistoryDialogContent(
+  recipeId: string,
+  inputKind: FieldInputKind,
+  inputKey: string,
+  record: FieldObservationRecord | undefined,
+  page = 0,
+  pageSize = 25,
+): string {
+  const definition = getFieldDefinition(recipeId, inputKey, inputKind);
+  if (!definition) return `<p role="status">This field is not defined for the selected recipe.</p>`;
+  const history = (record?.observations.filter((observation) =>
+    observation.fieldId === definition.id && observation.recipeId === definition.recipeId) ?? []);
+  const safePageSize = Number.isSafeInteger(pageSize) && pageSize > 0 ? Math.min(pageSize, 100) : 25;
+  const totalPages = Math.max(1, Math.ceil(history.length / safePageSize));
+  const requestedPage = Number.isFinite(page) ? Math.trunc(page) : 0;
+  const currentPage = Math.max(0, Math.min(totalPages - 1, requestedPage));
+  const start = currentPage * safePageSize;
+  const entries = history.slice(start, start + safePageSize);
+  const rows = entries.map((observation) =>
+    `<li><strong>Record ${observation.revision}</strong> · raw “${escapeAttr(observation.rawValue)}” · ` +
+    `canonical ${observation.canonicalValue === null ? "unavailable" : `${observation.canonicalValue} ${escapeAttr(observation.unit)}`} · ` +
+    `${escapeAttr(provenanceNames[observation.provenance])} · ${escapeAttr(observation.evidenceStatus)} · ` +
+    `${escapeAttr(observation.validationStatus)} · ${observation.recordedAt ? escapeAttr(observation.recordedAt) : "capture/edit time not recorded"}` +
+    `<br>${escapeAttr(observation.sourceLabel)}</li>`).join("");
+  return `<h2 id="field-history-title" tabindex="-1">${escapeAttr(definition.label)} — value source and history</h2>` +
+    `<p>${escapeAttr(definition.meaning)} ${escapeAttr(definition.captureBoundary)}</p>` +
+    `<p>Semantic kind: ${escapeAttr(definition.semanticKind)} · unit: ${escapeAttr(definition.unit)} · ` +
+    `confidence: not assessed. This record does not establish fit or production validity.</p>` +
+    (rows ? `<ol start="${start + 1}">${rows}</ol>` : `<p role="status">No value history is recorded for this field yet.</p>`) +
+    `<p>Page ${currentPage + 1} of ${totalPages} · ${history.length} total records</p>` +
+    `<div class="field-history-actions">` +
+    `<button type="button" data-field-history-page="${currentPage - 1}"${currentPage === 0 ? " disabled" : ""}>Older</button>` +
+    `<button type="button" data-field-history-page="${currentPage + 1}"${currentPage + 1 >= totalPages ? " disabled" : ""}>Newer</button>` +
+    `<button type="button" data-close-field-history>Close</button></div>`;
 }
 
 function panelTitle(text: string, id: string): string {
@@ -132,7 +223,8 @@ function panel(title: string, body: string): string {
 /** The grouped measurement and construction controls in the bounded inspector. */
 export function controlsMarkup(
   m: Measurements, fields: readonly (keyof Measurements)[],
-  options: readonly GarmentOption[] = [], values: GarmentOptions = {}
+  options: readonly GarmentOption[] = [], values: GarmentOptions = {},
+  recipeId = "tee", fieldObservations?: FieldObservationRecord,
 ): string {
   const measurementFields = fields
     .map((id) => FIELDS.find((f) => f.id === id))
@@ -146,7 +238,8 @@ export function controlsMarkup(
       : "";
   const optionRows = (option: GarmentOption): string => field(
     `option-${option.id}`, option.label, values[option.id] ?? option.defaultValue,
-    option.min, option.max, option.step, option
+    option.min, option.max, option.step, option,
+    fieldSourceMarkup(recipeId, "option", option.id, fieldObservations),
   ).replace(`data-field="option-${option.id}"`, `data-option="${option.id}"`);
   const groups = new Map<string, GarmentOption[]>();
   options.forEach((option) => {
@@ -162,7 +255,11 @@ export function controlsMarkup(
   const pages = [
     ...[...measurementGroups].map(([label, groupFields]) => ({
       label, option: false, stage: label === "Fit allowance" ? "fit" : "measure",
-      body: groupFields.map((f) => field(f.id, f.label, m[f.id], f.min, f.max, f.step)).join("") +
+      body: groupFields.map((f) => {
+        const definition = getFieldDefinition(recipeId, f.id, "measurement");
+        return field(f.id, definition?.label ?? f.label, m[f.id], f.min, f.max, f.step, {},
+          fieldSourceMarkup(recipeId, "measurement", f.id, fieldObservations));
+      }).join("") +
         (label === "Fit allowance" ? finished : ""),
     })),
     ...[...groups].map(([label, groupOptions]) => ({
@@ -1118,7 +1215,8 @@ export function appShellMarkup(
   fields: readonly (keyof Measurements)[],
   stretchFabric = STRETCH_FABRICS[0].name,
   activeGarment = "tee",
-  appearance: Appearance = DEFAULT_APPEARANCE
+  appearance: Appearance = DEFAULT_APPEARANCE,
+  fieldObservations?: FieldObservationRecord,
 ): string {
   const activeGarmentLabel = GARMENTS.find((g) => g.name === activeGarment)?.label ?? activeGarment;
   return `<main id="infini-shell" aria-labelledby="product-title">` +
@@ -1143,7 +1241,7 @@ export function appShellMarkup(
     `<div id="project-manager-host"></div>${garmentToggleMarkup(activeGarment)}<div id="review-context"></div>` +
     `<details id="readiness-details"><summary>Design readiness</summary><div id="readiness-host"></div></details>` +
     `<div id="style-host"></div>${fabricStretchMarkup(stretchFabric)}${fabricSwatchesMarkup(fabric, appearance)}` +
-    `${controlsMarkup(m, fields)}` +
+    `${controlsMarkup(m, fields, [], {}, activeGarment, fieldObservations)}` +
     `<details id="guidance-details"><summary>Guidance & corrections</summary><div id="guidance-host"></div></details>` +
     `${exportButtonsMarkup(sizes)}</aside>` +
     `<div id="infini-workspace"><div id="canvas-tools">${viewToggleMarkup("pattern")}` +
@@ -1151,5 +1249,9 @@ export function appShellMarkup(
     `${bodyCroquisToggleMarkup("front-back")}<div id="spatial-cue" role="status" hidden>` +
     `<span id="spatial-cue-text"></span><button id="spatial-cue-action" type="button">Show in Assembled</button></div>` +
     `${fabricWidthMarkup(150)}${nestIntelMarkup("10", "", true)}<div id="canvas-host"></div>` +
-    `</div></div></main>`;
+    `</div></div></main>` +
+    `<dialog id="field-history-dialog" aria-modal="true" aria-labelledby="field-history-title" ` +
+    `style="box-sizing:border-box;width:min(680px,calc(100vw - 32px));max-height:calc(100vh - 32px);overflow:auto;` +
+    `border:1px solid ${BORDER};border-radius:10px;padding:22px;background:${PANEL};color:${T.line};` +
+    `font:14px/1.55 system-ui,sans-serif;box-shadow:0 16px 48px rgba(0,0,0,.36)"></dialog>`;
 }

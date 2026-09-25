@@ -12,6 +12,7 @@ import type { ProjectWorkflow } from "./project-workflow";
 import { openProjectWorkflow } from "./project-workflow";
 import type { ArtworkAssetStore, StoredArtworkAsset } from "../surface/artwork-store";
 import { createProjectPackage, readProjectPackage } from "./project-package";
+import { createFieldObservationRecord } from "./field-provenance";
 
 const TIME = "2026-09-24T16:00:00.000Z";
 const PROJECT_ID = "a02b8322-8f57-46bb-9d16-16ac1fcf6811";
@@ -25,7 +26,16 @@ function loadedProject(): LoadedProject {
   if (!result.ok) throw new Error(result.error);
   const second = { ...result.value.style, id: STYLE_TWO_ID, name: "Second style" };
   const project = { ...result.value.project, styleIds: [STYLE_ID, STYLE_TWO_ID] };
-  return { project, styles: [result.value.style, second], activeStyle: result.value.style, activeRecovery: null };
+  return {
+    project,
+    styles: [result.value.style, second],
+    activeStyle: result.value.style,
+    activeRecovery: null,
+    fieldObservations: [
+      createFieldObservationRecord(result.value.style, TIME, "existing-local-style"),
+      createFieldObservationRecord(second, TIME, "existing-local-style"),
+    ],
+  };
 }
 
 function harness() {
@@ -36,6 +46,7 @@ function harness() {
     project: { ...initial.project, activeStyleId: STYLE_TWO_ID },
     styles: [initial.styles[0], second], activeStyle: second,
     activeRecovery: { schemaVersion: 1, styleId: STYLE_TWO_ID, payload: {} } as LoadedProject["activeRecovery"],
+    fieldObservations: initial.fieldObservations,
   };
   const workflow = {
     get snapshot() { return snapshot; },
@@ -107,8 +118,11 @@ describe("accessible project and style manager", () => {
     host.querySelector<HTMLDetailsElement>(".project-manager-details")!.open = true;
 
     host.querySelector<HTMLInputElement>("#project-style-name")!.value = "A <bright> & \"bold\" 'look'";
+    host.querySelector<HTMLInputElement>("#project-style-name")!.dispatchEvent(new Event("input", { bubbles: true }));
+    manager.refresh("Refreshing local project list.");
+    expect(host.querySelector<HTMLInputElement>("#project-style-name")?.value).toBe("A <bright> & \"bold\" 'look'");
     await clickAndSettle(host, "[data-project-action='create']");
-    expect(workflow.createStyle).toHaveBeenCalledWith("A <bright> & \"bold\" 'look'", expect.any(Object));
+    expect(workflow.createStyle).toHaveBeenCalledWith("A <bright> & \"bold\" 'look'", expect.any(Object), "first-run-default");
     const escapedArchiveButtons = [...host.querySelectorAll<HTMLButtonElement>("button[aria-label^='Archive A']")];
     expect(escapedArchiveButtons[escapedArchiveButtons.length - 1]?.getAttribute("aria-label"))
       .toBe(`Archive A <bright> & "bold" 'look'`);
@@ -118,7 +132,7 @@ describe("accessible project and style manager", () => {
     expect(setBusy).toHaveBeenNthCalledWith(2, false);
 
     await clickAndSettle(host, "[data-project-action='duplicate']");
-    expect(workflow.createStyle).toHaveBeenLastCalledWith("Copy of A <bright> & \"bold\" 'look'", expect.any(Object));
+    expect(workflow.createStyle).toHaveBeenLastCalledWith("Copy of A <bright> & \"bold\" 'look'", expect.any(Object), "copied-style");
     host.querySelector<HTMLInputElement>("#project-style-name")!.value = "Renamed";
     await clickAndSettle(host, "[data-project-action='rename']");
     expect(workflow.renameActiveStyle).toHaveBeenCalledWith("Renamed");
@@ -226,6 +240,7 @@ describe("accessible project and style manager", () => {
     let permitCopy = false;
     let unsaved = false;
     const onStyleLoaded = vi.fn();
+    const flushPendingFieldObservations = vi.fn(async () => undefined);
     const manager = new ProjectManager({
       host, workflow, artworkStore,
       inspectAsset: async (file) => ({ name: file.name, mimeType: "image/svg+xml", blob: file }),
@@ -237,10 +252,13 @@ describe("accessible project and style manager", () => {
       hasUnsavedChanges: () => unsaved,
       onStyleLoaded,
       setBusy: vi.fn(),
+      flushPendingFieldObservations,
+      hasPendingFieldObservations: () => true,
     });
     try {
       setFile(host, await inputFile(sourcePackage, "source.infinidrip.zip"));
       await vi.waitFor(() => expect(host.querySelector("#project-manager-status")?.textContent).toContain("Imported project: Imported / Source"));
+      expect(flushPendingFieldObservations).toHaveBeenCalled();
       expect(workflow.snapshot.project.id).toBe(sourceProjectId);
       expect(onStyleLoaded).toHaveBeenLastCalledWith(
         expect.objectContaining({ project: expect.objectContaining({ id: sourceProjectId }), activeRecovery: null }), null,
@@ -276,10 +294,9 @@ describe("accessible project and style manager", () => {
       setFile(host, await inputFile(conflictPackage, "conflict.infinidrip.zip"));
       await vi.waitFor(() => expect(host.querySelector("#project-manager-status")?.textContent).toContain("already imported"));
 
-      const select = host.querySelector<HTMLSelectElement>("#project-select")!;
       unsaved = true;
       permitCopy = false;
-      select.value = localProjectId;
+      host.querySelector<HTMLSelectElement>("#project-select")!.value = localProjectId;
       host.querySelector<HTMLButtonElement>("[data-project-action='switch-project']")!.click();
       await vi.waitFor(() => expect(host.querySelector("#project-manager-status")?.textContent).not.toContain("Opening project"));
       expect(workflow.snapshot.project.id).toBe(copiedProjectId);
@@ -288,9 +305,9 @@ describe("accessible project and style manager", () => {
       await vi.waitFor(() => expect(host.querySelector("#project-manager-status")?.textContent).toContain("Opened My designs"));
       expect(workflow.snapshot.project.id).toBe(localProjectId);
 
-      select.value = localProjectId;
+      host.querySelector<HTMLSelectElement>("#project-select")!.value = localProjectId;
       host.querySelector<HTMLButtonElement>("[data-project-action='switch-project']")!.click();
-      expect(host.querySelector("#project-manager-status")?.textContent).toContain("already open");
+      await vi.waitFor(() => expect(host.querySelector("#project-manager-status")?.textContent).toContain("already open"));
     } finally {
       workflow.close();
       host.remove();
@@ -358,6 +375,35 @@ describe("accessible project and style manager", () => {
     host2.remove();
     document.querySelector("#project-operation-cancel")?.remove();
     manager.refresh("done");
+    vi.unstubAllGlobals();
+  });
+
+  it("keeps a package import behind an unresolved field-history save", async () => {
+    const { host: projectHost, workflow } = harness();
+    vi.stubGlobal("File", NodeFile);
+    const imported = vi.fn();
+    new ProjectManager({
+      host: projectHost,
+      workflow,
+      getCurrentDesign: () => workflow.snapshot.activeStyle.design,
+      getBlankDesign: () => workflow.snapshot.activeStyle.design,
+      hasUnsavedChanges: () => false,
+      onStyleLoaded: imported,
+      setBusy: vi.fn(),
+      flushPendingFieldObservations: async () => { throw new Error("field history is still saving"); },
+      hasPendingFieldObservations: () => true,
+    });
+    const input = projectHost.querySelector<HTMLInputElement>("#project-package-file")!;
+    Object.defineProperty(input, "files", {
+      configurable: true,
+      value: [new NodeFile(["not imported"], "held.zip", { type: "application/zip" })],
+    });
+    input.dispatchEvent(new Event("change", { bubbles: true }));
+    await vi.waitFor(() => expect(projectHost.querySelector("#project-manager-status")?.textContent)
+      .toContain("field history is still saving"));
+    expect(imported).not.toHaveBeenCalled();
+    projectHost.remove();
+    document.querySelector("#project-operation-cancel")?.remove();
     vi.unstubAllGlobals();
   });
 

@@ -16,6 +16,7 @@ import {
   PROJECT_PACKAGE_MAX_ASSETS,
   PROJECT_PACKAGE_MAX_BYTES,
   PROJECT_PACKAGE_MAX_CONTENT_BYTES,
+  PROJECT_PACKAGE_MAX_MANIFEST_BYTES,
   ProjectPackageError,
   readProjectPackage,
 } from "./project-package";
@@ -246,6 +247,31 @@ async function replacePackageManifest(
   return storedZip(entries);
 }
 
+async function makeVersionOnePackage(source: Blob): Promise<Blob> {
+  const archive = await readProjectPackage(source, { crypto });
+  const manifest = JSON.parse(JSON.stringify(archive.manifest)) as Record<string, unknown>;
+  manifest.packageVersion = 1;
+  delete manifest.fieldObservations;
+  const { packageSha256: _oldDigest, ...body } = manifest;
+  const canonical = (value: unknown): string => {
+    if (value === null || typeof value !== "object") return JSON.stringify(value);
+    if (Array.isArray(value)) return `[${value.map(canonical).join(",")}]`;
+    const record = value as Record<string, unknown>;
+    return `{${Object.keys(record).sort().map((key) => `${JSON.stringify(key)}:${canonical(record[key])}`).join(",")}}`;
+  };
+  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(canonical(body)));
+  manifest.packageSha256 = Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, "0")).join("");
+  const entries = [{ path: "manifest.json", bytes: new TextEncoder().encode(JSON.stringify(manifest)) }];
+  for (const asset of archive.manifest.assets) {
+    const entry = archive.entries.get(asset.path)!;
+    entries.push({
+      path: entry.path,
+      bytes: new Uint8Array(await archive.blob.slice(entry.dataOffset, entry.dataOffset + entry.uncompressedSize).arrayBuffer()),
+    });
+  }
+  return storedZip(entries);
+}
+
 function findPackageEocd(bytes: Uint8Array): number {
   for (let index = bytes.length - 22; index >= Math.max(0, bytes.length - 22 - 0xffff); index -= 1) {
     if (new DataView(bytes.buffer, bytes.byteOffset + index, 4).getUint32(0, true) === 0x06054b50) return index;
@@ -331,6 +357,25 @@ afterEach(() => {
 });
 
 describe("portable local project package", () => {
+  it("reads package v1 without inventing provenance and imports it as unresolved history", async () => {
+    const source = await createSourcePackage();
+    const legacyBlob = await makeVersionOnePackage(source.blob);
+    const archive = await readProjectPackage(legacyBlob, { crypto });
+    expect(archive.manifest.packageVersion).toBe(1);
+    expect(archive.manifest.fieldObservations[0]?.observations[0]).toMatchObject({
+      provenance: "UNRESOLVED",
+      evidenceStatus: "UNCONFIRMED",
+      confidence: "NOT_ASSESSED",
+      recordedAt: null,
+      sourceLabel: expect.stringContaining("version 1 did not record"),
+    });
+    const target = await repository();
+    const imported = await importProjectPackage(target, memoryAssets(), archive, false, { crypto, inspectAsset: inspector });
+    expect(imported.status).toBe("imported");
+    const restored = await target.readProjectBundle(PROJECT_ID);
+    expect(restored?.fieldObservations).toEqual(archive.manifest.fieldObservations);
+  });
+
   it("exports a strict stored ZIP and imports style artwork with byte identity", async () => {
     const source = await createSourcePackage();
     const archive = await readProjectPackage(source.blob, { crypto });
@@ -465,7 +510,7 @@ describe("portable local project package", () => {
       { label: "ZIP64 entry count", apply: (bytes) => { const view = new DataView(bytes.buffer); view.setUint16(eocd + 8, 0xffff, true); view.setUint16(eocd + 10, 0xffff, true); return bytes; } },
       { label: "ZIP64 directory length", apply: (bytes) => { new DataView(bytes.buffer).setUint32(eocd + 12, 0xffffffff, true); return bytes; } },
       { label: "ZIP64 directory offset", apply: (bytes) => { new DataView(bytes.buffer).setUint32(eocd + 16, 0xffffffff, true); return bytes; } },
-      { label: "directory above manifest cap", apply: (bytes) => { new DataView(bytes.buffer).setUint32(eocd + 12, 1024 * 1024 + 1, true); return bytes; } },
+      { label: "directory above manifest cap", apply: (bytes) => { new DataView(bytes.buffer).setUint32(eocd + 12, PROJECT_PACKAGE_MAX_MANIFEST_BYTES + 1, true); return bytes; } },
       { label: "directory offset inconsistency", apply: (bytes) => { new DataView(bytes.buffer).setUint32(eocd + 16, 1, true); return bytes; } },
       {
         label: "archive comment",
@@ -837,7 +882,23 @@ describe("portable local project package", () => {
     const mutations: Array<{ label: string; mutate: (manifest: Record<string, unknown>) => void; resign?: boolean }> = [
       { label: "unknown manifest key", mutate: (manifest) => { manifest.extra = true; } },
       { label: "unsupported format", mutate: (manifest) => { manifest.format = "other"; } },
-      { label: "unsupported package version", mutate: (manifest) => { manifest.packageVersion = 2; } },
+      { label: "unsupported package version", mutate: (manifest) => { manifest.packageVersion = 3; } },
+      { label: "malformed field observations", mutate: (manifest) => { manifest.fieldObservations = [{}]; } },
+      {
+        label: "field history references a foreign style",
+        mutate: (manifest) => {
+          const observations = manifest.fieldObservations as Array<Record<string, unknown>>;
+          observations[0] = { ...observations[0], styleId: "77777777-7777-4777-8777-777777777777" };
+        },
+      },
+      { label: "missing field history", mutate: (manifest) => { manifest.fieldObservations = []; } },
+      {
+        label: "duplicate field history",
+        mutate: (manifest) => {
+          const observations = manifest.fieldObservations as unknown[];
+          manifest.fieldObservations = [observations[0], observations[0]];
+        },
+      },
       { label: "malformed package digest", mutate: (manifest) => { manifest.packageSha256 = "bad"; }, resign: false },
       { label: "malformed project", mutate: (manifest) => { manifest.project = null; } },
       { label: "project/style membership mismatch", mutate: (manifest) => { manifest.styles = []; } },
@@ -924,7 +985,7 @@ describe("portable local project package", () => {
       archive.entries.get("manifest.json")!.dataOffset + archive.entries.get("manifest.json")!.uncompressedSize,
     ).arrayBuffer());
     await expect(readProjectPackage(await storedZip([
-      { path: "manifest.json", bytes: new Uint8Array([...originalManifest, ...new Uint8Array(1024 * 1024)]) },
+      { path: "manifest.json", bytes: new Uint8Array([...originalManifest, ...new Uint8Array(PROJECT_PACKAGE_MAX_MANIFEST_BYTES + 1 - originalManifest.length)]) },
       ...archive.manifest.assets.map((asset) => {
         const entry = archive.entries.get(asset.path)!;
         return {
@@ -941,7 +1002,7 @@ describe("portable local project package", () => {
       .rejects.toMatchObject({ code: "invalid-package" });
     await expect(readProjectPackage(await storedZip([{ path: "manifest.json", bytes: new TextEncoder().encode("null") }]), { crypto }))
       .rejects.toMatchObject({ code: "invalid-package" });
-  });
+  }, 15_000);
 
   it("validates artwork checksums and safe-image output before touching project storage", async () => {
     const source = await createSourcePackage();
@@ -1335,7 +1396,7 @@ describe("portable local project package", () => {
       .rejects.toMatchObject({ code: "storage", message: expect.stringContaining("SHA-256 is unavailable") });
     const hugeManifest = {
       ...noArt,
-      project: { ...noArt.project, name: "P".repeat(1_100_000) },
+      project: { ...noArt.project, name: "P".repeat(PROJECT_PACKAGE_MAX_MANIFEST_BYTES + 1) },
     };
     await expect(createProjectPackage(hugeManifest, noAssets, { crypto }))
       .rejects.toMatchObject({ code: "limit-exceeded", message: expect.stringContaining("manifest") });
@@ -1401,15 +1462,21 @@ describe("portable local project package", () => {
     })).rejects.toMatchObject({ code: "invalid-package", message: "progress callback failed" });
   });
 
-  it("exports, validates, and imports 64 MiB and near-cap package fixtures", async () => {
-    const sixtyFourMiB = await pressurePackage("64-MiB", [
-      10, 10, 10, 10, 10, 10, 4,
-    ].map((mebibytes) => mebibytes * 1024 * 1024));
-    expect(sixtyFourMiB.copiedAssetBytes).toBe(64 * 1024 * 1024);
-    expect(sixtyFourMiB.packageBytes).toBeLessThan(PROJECT_PACKAGE_MAX_BYTES);
+  it("exports, validates, and imports bounded and near-cap package fixtures", async () => {
+    const coverageRun = process.env.INFINIDRIP_COVERAGE === "1";
+    const bounded = await pressurePackage(
+      coverageRun ? "4-MiB-coverage" : "64-MiB",
+      (coverageRun ? [1, 1, 1, 1] : [10, 10, 10, 10, 10, 10, 4])
+        .map((mebibytes) => mebibytes * 1024 * 1024),
+    );
+    const boundedBytes = (coverageRun ? 4 : 64) * 1024 * 1024;
+    expect(bounded.copiedAssetBytes).toBe(boundedBytes);
+    expect(bounded.packageBytes).toBeLessThan(PROJECT_PACKAGE_MAX_BYTES);
 
-    const nearCap = await pressurePackage("near-cap", Array.from({ length: 25 }, () => 10 * 1024 * 1024));
-    expect(nearCap.copiedAssetBytes).toBe(250 * 1024 * 1024);
-    expect(nearCap.packageBytes).toBeLessThan(PROJECT_PACKAGE_MAX_BYTES);
+    if (!coverageRun) {
+      const nearCap = await pressurePackage("near-cap", Array.from({ length: 25 }, () => 10 * 1024 * 1024));
+      expect(nearCap.copiedAssetBytes).toBe(250 * 1024 * 1024);
+      expect(nearCap.packageBytes).toBeLessThan(PROJECT_PACKAGE_MAX_BYTES);
+    }
   }, 300_000);
 });

@@ -16,7 +16,7 @@ import { surfaceGuidance } from "../guidance/surface-notes";
 import { availableLengthError, bufferError } from "../export/nesting-intelligence";
 import { matchStyle, styleNames } from "../style";
 import { FIELDS, applyChange, inputError, numericRangePosition, numericRangeState, stepNumericValue } from "./controls";
-import { appShellMarkup, controlsMarkup, guidanceMarkup, styleMarkup, surfaceMarkup, artworkLibraryResultsMarkup, nestIntelReadout, specTableMarkup, checkMarkup, editorHintMarkup, editorHandleControlsMarkup, dartControlsMarkup, inspectionMarkup, patternAnnotationKeyMarkup, BodyCroquisView, type ArtworkLibraryPanelData } from "./view";
+import { appShellMarkup, controlsMarkup, fieldHistoryDialogContent, fieldObservationSummary, guidanceMarkup, styleMarkup, surfaceMarkup, artworkLibraryResultsMarkup, nestIntelReadout, specTableMarkup, checkMarkup, editorHintMarkup, editorHandleControlsMarkup, dartControlsMarkup, inspectionMarkup, patternAnnotationKeyMarkup, BodyCroquisView, type ArtworkLibraryPanelData } from "./view";
 import { saveToStorage, loadFromStorage, readFromStorage, serialize, deserialize, DEFAULT_WORKSPACE, defaultStretchFabricForGarment, Workspace, SaveFile, RecoveryFile, readRecoveryFromStorage, saveRecoveryToStorage, clearRecoveryFromStorage } from "./persist";
 import { Appearance, APPEARANCE_TEXTURES, DEFAULT_APPEARANCE, applyAppearanceToSvg, hexToHsl, hslToHex, normalizeHex } from "./appearance";
 import { emptyHistory, recordHistory, redoHistory, undoHistory, HistoryState } from "./history";
@@ -141,6 +141,11 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   activeMountRoot = root;
   const projectWorkflow = options.projectWorkflow;
   const saved = projectWorkflow?.snapshot.activeStyle.design ?? loadFromStorage();
+  const activeFieldObservations = () => {
+    if (!projectWorkflow) return undefined;
+    const styleId = projectWorkflow.snapshot.activeStyle.id;
+    return projectWorkflow.snapshot.fieldObservations.find((record) => record.styleId === styleId);
+  };
   let measurements: Measurements = saved ? saved.measurements : STANDARD_M;
   let fabric = saved ? saved.fabric : DEFAULT_FABRIC;
   let garmentOptions: GarmentOptionsByRecipe = saved ? saved.garmentOptions : {};
@@ -158,7 +163,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   const artworkAssetStore = options.artworkAssetStore ?? defaultArtworkAssetStore();
   const artworkInspector = options.inspectArtworkFile ?? inspectArtworkFile;
   let appearanceOpen = false;
-  root.innerHTML = appShellMarkup(measurements, fabric, recipe.sizes, recipe.fields, initialWorkspace.stretchFabric, recipe.name, appearance);
+  root.innerHTML = appShellMarkup(measurements, fabric, recipe.sizes, recipe.fields,
+    initialWorkspace.stretchFabric, recipe.name, appearance, activeFieldObservations());
 
   const canvasHost = root.querySelector<HTMLDivElement>("#canvas-host")!;
   const guidanceHost = root.querySelector<HTMLDivElement>("#guidance-host")!;
@@ -833,7 +839,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         projectPersistenceState.textContent = "Unsaved changes · saving style recovery…";
         projectPersistenceState.dataset.state = "unsaved";
         void projectWorkflow.saveRecovery(styleId, captureRecoveryFile()).then(() => {
-          if (projectWorkflow.snapshot.activeStyle.id === styleId) {
+          if (projectWorkflow.snapshot.activeStyle.id === styleId
+            && projectPersistenceState.dataset.state !== "failed"
+            && projectPersistenceState.dataset.state !== "stale") {
             projectPersistenceState.textContent = "Unsaved changes · style recovery saved";
             projectPersistenceState.dataset.state = "unsaved";
           }
@@ -1334,7 +1342,6 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     draw();
   };
   const setView = (v: "pattern" | "body" | "nest" | "spec" | "fabric" | "check" | "edit"): void => {
-    if (v === "edit" && editedFront === null && inputErrors().size === 0) editedFront = rolePiece(draftCurrent(), recipe.editRole ?? "front");
     view = v;
     if (v === "check" && journey.step === "refine") checkReviewed = true;
     previewActive = false;
@@ -1719,6 +1726,87 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     const target = event.target as HTMLSelectElement;
     if (target.id === "control-page-select") setControlPage(Number(target.value));
   });
+  let fieldHistorySelection: { recipeId: string; inputKind: "measurement" | "option"; inputKey: string; page: number } | null = null;
+  const pendingFieldObservationTimers = new Map<string, {
+    readonly timer: number;
+    readonly styleId: string;
+    readonly recipeId: string;
+    readonly inputKind: "measurement" | "option";
+    readonly inputKey: string;
+  }>();
+  const activeFieldObservationWrites = new Set<Promise<string | null>>();
+  let flushPendingFieldObservations: (() => Promise<void>) | undefined;
+  const fieldHistoryDialog = root.querySelector<HTMLDialogElement>("#field-history-dialog")!;
+  const syncFieldSourceSummaries = (): void => {
+    const record = activeFieldObservations();
+    root.querySelectorAll<HTMLButtonElement>("button[data-open-field-history]").forEach((button) => {
+      const recipeId = button.dataset.fieldHistoryRecipe!;
+      const inputKind = button.dataset.fieldHistoryKind as "measurement" | "option";
+      const inputKey = button.dataset.fieldHistoryKey!;
+      const definitionId = button.dataset.openFieldHistory!;
+      const count = record?.observations.filter((observation) =>
+        observation.fieldId === definitionId && observation.recipeId === recipeId).length ?? 0;
+      button.textContent = `Value source & history (${count})`;
+      const current = button.parentElement?.querySelector<HTMLElement>("[data-field-source-current]");
+      if (current) current.textContent = fieldObservationSummary(recipeId, inputKind, inputKey, record);
+    });
+  };
+  const renderFieldHistory = (): void => {
+    // Every caller first selects a field or checks that a selection exists.
+    const selection = fieldHistorySelection!;
+    const record = activeFieldObservations();
+    fieldHistoryDialog.innerHTML = fieldHistoryDialogContent(
+      selection.recipeId,
+      selection.inputKind,
+      selection.inputKey,
+      record,
+      selection.page,
+    );
+    fieldHistoryDialog.setAttribute("aria-labelledby", "field-history-title");
+  };
+  root.addEventListener("click", (event) => {
+    const target = event.target as HTMLElement;
+    const open = target.closest<HTMLButtonElement>("button[data-open-field-history]");
+    if (open) {
+      fieldHistorySelection = {
+        recipeId: open.dataset.fieldHistoryRecipe!,
+        inputKind: open.dataset.fieldHistoryKind as "measurement" | "option",
+        inputKey: open.dataset.fieldHistoryKey!,
+        page: 0,
+      };
+      const showFieldHistory = (): void => {
+        renderFieldHistory();
+        if (!fieldHistoryDialog.open) {
+          if (typeof fieldHistoryDialog.showModal === "function") fieldHistoryDialog.showModal();
+          else fieldHistoryDialog.setAttribute("open", "");
+        }
+        fieldHistoryDialog.querySelector<HTMLElement>("#field-history-title")?.focus();
+      };
+      if (!projectWorkflow) {
+        showFieldHistory();
+      } else {
+        void flushPendingFieldObservations!().then(showFieldHistory).catch((error: unknown) => {
+          const message = error instanceof Error
+            ? error.message
+            : "Pending field history could not be saved; the displayed history is the last saved version.";
+          projectPersistenceState.textContent = message;
+          projectPersistenceState.dataset.state = "failed";
+        });
+      }
+      return;
+    }
+    const page = target.closest<HTMLButtonElement>("button[data-field-history-page]");
+    if (page && fieldHistorySelection) {
+      fieldHistorySelection.page = Number(page.dataset.fieldHistoryPage);
+      renderFieldHistory();
+      return;
+    }
+    if (target.closest("button[data-close-field-history]")) {
+      if (typeof fieldHistoryDialog.close === "function") fieldHistoryDialog.close();
+      else fieldHistoryDialog.removeAttribute("open");
+      fieldHistorySelection = null;
+    }
+  });
   root.addEventListener("click", (event) => {
     const button = (event.target as HTMLElement).closest<HTMLButtonElement>("[data-control-page-step]");
     if (!button || button.disabled) return;
@@ -1835,6 +1923,16 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   });
 
   const setGarment = (name: string): void => {
+    if (projectWorkflow && name !== recipe.name
+      && (pendingFieldObservationTimers.size > 0 || activeFieldObservationWrites.size > 0)) {
+      void flushPendingFieldObservations!().then(() => setGarment(name)).catch((error: unknown) => {
+        const message = error instanceof Error ? error.message : "Pending field history could not be saved.";
+        projectPersistenceState.textContent = message;
+        projectPersistenceState.dataset.state = "failed";
+        flash(message, BLUEPRINT.lineActive);
+      });
+      return;
+    }
     patternMeasurementNavigation = null;
     patternMeasurementFeedback = "";
     recipe = garmentByName(name);
@@ -1865,7 +1963,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     // Re-render the measurement panel to this garment's fields (a skirt shows
     // waist/hip, not chest/sleeve), then re-attach its listeners.
     root.querySelector<HTMLElement>("#controls-panel")!.outerHTML = controlsMarkup(
-      measurements, recipe.fields, recipe.options, recipeOptions());
+      measurements, recipe.fields, recipe.options, recipeOptions(), recipe.name, activeFieldObservations());
     wireMeasurementInputs();
     syncExportSizes();
     if (view === "edit" && inputErrors().size === 0) editedFront = rolePiece(draftCurrent(), recipe.editRole ?? "front");
@@ -1938,16 +2036,104 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   };
   const syncDimSpotlight = (): void => highlightDim(focusedDim ?? hoveredDim);
   const wireMeasurementInputs = (): void => {
+    const recordFieldChange = (recipeId: string, inputKind: "measurement" | "option", inputKey: string): Promise<string | null> => {
+      // The only callers are guarded by the project-aware schedule/commit handlers.
+      const workflow = projectWorkflow!;
+      if (recipe.name !== recipeId) return Promise.resolve(null);
+      const styleId = workflow.snapshot.activeStyle.id;
+      return workflow.recordFieldHistory(styleId, captureRecoveryFile(), {
+        recipeId,
+        inputKind,
+        inputKey,
+      }).then(() => {
+        if (workflow.snapshot.activeStyle.id !== styleId || recipe.name !== recipeId) return null;
+        if (projectPersistenceState.dataset.state === "failed" || projectPersistenceState.dataset.state === "stale") {
+          return null;
+        }
+        syncFieldSourceSummaries();
+        const saved = outputRevision === savedRevision;
+        projectPersistenceState.textContent = saved
+          ? "Saved in this style · field history recorded"
+          : "Unsaved changes · field value history recorded";
+        projectPersistenceState.dataset.state = saved ? "saved" : "unsaved";
+        return null;
+      }).catch((error: unknown) => {
+        if (workflow.snapshot.activeStyle.id !== styleId || recipe.name !== recipeId) return null;
+        const code = (error as { code?: unknown } | null)?.code;
+        const message = code === "conflict"
+          ? "Stale project · reload before recording field history."
+          : "Field history save failed · exact input is unsaved in this window; retry before leaving.";
+        projectPersistenceState.textContent = message;
+        projectPersistenceState.dataset.state = code === "conflict" ? "stale" : "failed";
+        return message;
+      });
+    };
+    const observationTimerKey = (styleId: string, recipeId: string, inputKind: "measurement" | "option", inputKey: string): string =>
+      `${styleId}:${recipeId}:${inputKind}:${inputKey}`;
+    const trackFieldObservationWrite = (write: Promise<string | null>): void => {
+      activeFieldObservationWrites.add(write);
+      void write.finally(() => activeFieldObservationWrites.delete(write));
+    };
+    const scheduleFieldObservation = (recipeId: string, inputKind: "measurement" | "option", inputKey: string): void => {
+      if (!projectWorkflow) return;
+      const styleId = projectWorkflow.snapshot.activeStyle.id;
+      const key = observationTimerKey(styleId, recipeId, inputKind, inputKey);
+      const existing = pendingFieldObservationTimers.get(key);
+      if (existing) window.clearTimeout(existing.timer);
+      const timer = window.setTimeout(() => {
+        pendingFieldObservationTimers.delete(key);
+        // A delayed callback from a detached/replaced app mount must not write
+        // its captured draft after another mount has loaded the current style.
+        if (activeMountRoot === root && root.isConnected
+          && projectWorkflow.snapshot.activeStyle.id === styleId && recipe.name === recipeId) {
+          trackFieldObservationWrite(recordFieldChange(recipeId, inputKind, inputKey));
+        }
+      }, 350);
+      pendingFieldObservationTimers.set(key, { timer, styleId, recipeId, inputKind, inputKey });
+    };
+    const commitFieldObservation = (recipeId: string, inputKind: "measurement" | "option", inputKey: string): void => {
+      if (!projectWorkflow) return;
+      const key = observationTimerKey(projectWorkflow.snapshot.activeStyle.id, recipeId, inputKind, inputKey);
+      const existing = pendingFieldObservationTimers.get(key);
+      if (existing) window.clearTimeout(existing.timer);
+      pendingFieldObservationTimers.delete(key);
+      trackFieldObservationWrite(recordFieldChange(recipeId, inputKind, inputKey));
+    };
+    if (projectWorkflow) {
+      const workflow = projectWorkflow;
+      flushPendingFieldObservations = async (): Promise<void> => {
+      while (true) {
+        const activeStyleId = workflow.snapshot.activeStyle.id;
+        for (const [key, pending] of [...pendingFieldObservationTimers]) {
+          window.clearTimeout(pending.timer);
+          pendingFieldObservationTimers.delete(key);
+          if (pending.styleId === activeStyleId && pending.recipeId === recipe.name) {
+            trackFieldObservationWrite(recordFieldChange(pending.recipeId, pending.inputKind, pending.inputKey));
+          }
+        }
+        const results = await Promise.all([...activeFieldObservationWrites]);
+        const failure = results.find((message) => message !== null);
+        if (failure) throw new Error(failure);
+        if (pendingFieldObservationTimers.size === 0 && activeFieldObservationWrites.size === 0) return;
+      }
+      };
+    }
     root.querySelectorAll<HTMLInputElement>("input[data-field]").forEach((input) => {
       const field = FIELDS.find((f) => f.id === input.dataset.field)!;
+      const recipeId = recipe.name;
       input.addEventListener("input", () => {
         measurements = applyChange(measurements, field, input.value);
         markOutputDirty();
         draw();
+        scheduleFieldObservation(recipeId, "measurement", field.id);
       });
+      const persistMeasurementObservation = (): void => commitFieldObservation(recipeId, "measurement", field.id);
+      input.addEventListener("change", persistMeasurementObservation);
+      input.addEventListener("focusout", persistMeasurementObservation);
     });
     root.querySelectorAll<HTMLInputElement>("input[data-option]").forEach((input) => {
       const id = input.dataset.option!;
+      const recipeId = recipe.name;
       input.addEventListener("input", () => {
         const value = input.value.trim() === "" ? NaN : Number(input.value);
         garmentOptions = {
@@ -1957,7 +2143,11 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         editedFront = null;
         markOutputDirty();
         draw();
+        scheduleFieldObservation(recipeId, "option", id);
       });
+      const persistOptionObservation = (): void => commitFieldObservation(recipeId, "option", id);
+      input.addEventListener("change", persistOptionObservation);
+      input.addEventListener("focusout", persistOptionObservation);
     });
     root.querySelectorAll<HTMLElement>("[data-dim-row]").forEach((row) => {
       const field = row.dataset.dimRow!;
@@ -2011,6 +2201,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     const eventName = input.matches("[data-editor-coordinate]") ? "change"
       : input.matches("[data-surface-index]") ? "surface-step" : "input";
     input.dispatchEvent(new Event(eventName, { bubbles: true }));
+    if (input.matches("[data-field], [data-option]")) {
+      input.dispatchEvent(new Event("change", { bubbles: true }));
+    }
     const nextInput = input.id ? root.querySelector<HTMLInputElement>(`#${input.id}`) : input;
     nextInput?.focus();
     return root.querySelector<HTMLButtonElement>(
@@ -2874,6 +3067,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   });
 
   root.querySelector<HTMLButtonElement>("#save-pattern")!.addEventListener("click", () => {
+    const saveCurrentDesign = (): void => {
     const workspace = currentWorkspace();
     const bufferValue = nestBufferRaw.trim() === "" ? NaN : Number(nestBufferRaw);
     const availableValue = nestAvailableRaw.trim() === "" ? null : Number(nestAvailableRaw);
@@ -2925,16 +3119,42 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       renderRecoveryPrompt();
       flash("Saved ✓", "#2E9B63");
     } else flash("Save failed", BLUEPRINT.lineActive);
+    };
+    const reportFlushFailure = (error: unknown): void => {
+      const message = error instanceof Error ? error.message : "Pending field history could not be saved.";
+      projectPersistenceState.textContent = message;
+      projectPersistenceState.dataset.state = "failed";
+      projectManager?.refresh(message);
+      flash(message, BLUEPRINT.lineActive);
+    };
+    if (!projectWorkflow) {
+      saveCurrentDesign();
+      return;
+    }
+    void flushPendingFieldObservations!().then(saveCurrentDesign).catch(reportFlushFailure);
   });
 
   root.querySelector<HTMLButtonElement>("#load-pattern")!.addEventListener("click", () => {
-    if (projectWorkflow) {
-      requestLoad(projectWorkflow.snapshot.activeStyle.design);
+    const loadCurrentDesign = (): void => {
+      if (projectWorkflow) {
+        requestLoad(projectWorkflow.snapshot.activeStyle.design);
+        return;
+      }
+      const loaded = readFromStorage();
+      if (!loaded.ok) { flash(loaded.error, BLUEPRINT.label); return; }
+      requestLoad(loaded);
+    };
+    const reportFlushFailure = (error: unknown): void => {
+      const message = error instanceof Error ? error.message : "Pending field history could not be saved.";
+      projectPersistenceState.textContent = message;
+      projectPersistenceState.dataset.state = "failed";
+      flash(message, BLUEPRINT.lineActive);
+    };
+    if (!projectWorkflow) {
+      loadCurrentDesign();
       return;
     }
-    const loaded = readFromStorage();
-    if (!loaded.ok) { flash(loaded.error, BLUEPRINT.label); return; }
-    requestLoad(loaded);
+    void flushPendingFieldObservations!().then(loadCurrentDesign).catch(reportFlushFailure);
   });
 
   const syncWorkspace = (restoring: boolean): void => {
@@ -2948,7 +3168,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     hoveredDim = null;
     focusedDim = null;
     root.querySelector<HTMLElement>("#controls-panel")!.outerHTML = controlsMarkup(
-      measurements, recipe.fields, recipe.options, recipeOptions());
+      measurements, recipe.fields, recipe.options, recipeOptions(), recipe.name, activeFieldObservations());
     wireMeasurementInputs();
     GARMENTS.forEach((g) => {
       const button = root.querySelector<HTMLButtonElement>(`#garment-${g.name}`)!;
@@ -3122,6 +3342,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         projectPersistenceState.dataset.state = recovery ? "unsaved" : "saved";
       },
       setBusy: (busy) => { root.inert = busy; },
+      flushPendingFieldObservations,
+      hasPendingFieldObservations: () => pendingFieldObservationTimers.size > 0 || activeFieldObservationWrites.size > 0,
       artworkStore: artworkAssetStore,
       inspectAsset: artworkInspector,
       ...(window.electronAPI?.saveProjectPackage ? {

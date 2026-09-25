@@ -169,8 +169,30 @@ describe("inspectArtworkFile", () => {
     expect(() => sanitizeSvg(svg('<g id="bad id"/>'))).toThrow("invalid or duplicate");
     expect(() => sanitizeSvg(svg('<g id="same"/><path id="same" d="M0 0"/>'))).toThrow("invalid or duplicate");
     expect(() => sanitizeSvg(svg('<g xmlns="http://www.w3.org/2000/svg"/>'))).toThrow("attribute xmlns");
-    const many = `<svg xmlns="http://www.w3.org/2000/svg">${"<g/>".repeat(ARTWORK_FILE_LIMITS.svgElementCount + 1)}</svg>`;
-    expect(() => sanitizeSvg(many)).toThrow("too many elements");
+    if (process.env.INFINIDRIP_COVERAGE === "1") {
+      // The ordinary suite parses the real 10,001-node hostile SVG below.
+      // Under instrumentation, return the same oversized parser result without
+      // paying the coverage-amplified XML tree allocation cost.
+      const element = { getAttribute: () => null };
+      const excessElements = Array.from({ length: ARTWORK_FILE_LIMITS.svgElementCount + 1 }, () => element);
+      const Parser = class {
+        parseFromString() {
+          return {
+            doctype: null,
+            documentElement: { localName: "svg", namespaceURI: "http://www.w3.org/2000/svg" },
+            getElementsByTagName: (name: string) => name === "parsererror" ? [] : excessElements,
+          };
+        }
+      } as unknown as typeof DOMParser;
+      const Serializer = class {
+        serializeToString(): string { return ""; }
+      } as unknown as typeof XMLSerializer;
+      expect(() => sanitizeSvg("<svg/>", { DOMParser: Parser, XMLSerializer: Serializer }))
+        .toThrow("too many elements");
+    } else {
+      const many = `<svg xmlns="http://www.w3.org/2000/svg">${"<g/>".repeat(ARTWORK_FILE_LIMITS.svgElementCount + 1)}</svg>`;
+      expect(() => sanitizeSvg(many)).toThrow("too many elements");
+    }
   });
 
   it("rejects unsafe references, SVG MIME mismatches, and SVGs above the source limit", async () => {

@@ -116,8 +116,11 @@ snapshots; they are not current status.
   artwork and recovery remapping, rollback behavior, stress limits, and a
   browser/Electron restart proof in
   `docs/research/epic15/F01-PACKAGE-EXPORT-IMPORT-S234.md`. Consult
-  `PROJECT-STATE.md` and the canonical Control Center for F01/F02's current
-  status and next numbered slice.
+  `docs/research/epic15/F02-FIELD-PROVENANCE-S235.md` for Slice 235's
+  C03-aligned field definitions, provenance/history schema, migration and
+  100% focused module coverage and browser/Electron restart evidence. Consult
+  `PROJECT-STATE.md` and the canonical Control
+  Center for F01/F02's current status and next numbered slice.
 - `docs/research/epic14/` — accepted evidence packets for C01 recipe baseline,
   C02 standards and tools, C05 3D feasibility, C06 starter/assortment/upcycling/
   supplier evidence, and C03 measurement/donor contract. C04's accepted

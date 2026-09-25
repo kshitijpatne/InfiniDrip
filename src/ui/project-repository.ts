@@ -22,9 +22,14 @@ import {
   type RecoveryRecord,
   type StyleRecord,
 } from "./project-records";
+import {
+  createFieldObservationRecord,
+  parseFieldObservationRecord,
+  type FieldObservationRecord,
+} from "./field-provenance";
 
 export const PROJECT_DATABASE_NAME = "infinidrip-projects";
-export const PROJECT_DATABASE_VERSION = 3;
+export const PROJECT_DATABASE_VERSION = 4;
 export const PROJECT_STORES = Object.freeze({
   meta: "meta",
   projects: "projects",
@@ -32,6 +37,7 @@ export const PROJECT_STORES = Object.freeze({
   recoveries: "recoveries",
   migrations: "migrations",
   imports: "imports",
+  fieldObservations: "fieldObservations",
 });
 const ACTIVE_SELECTION_KEY = "activeSelection";
 const ALL_STORES = Object.values(PROJECT_STORES);
@@ -43,6 +49,7 @@ const STORE_KEY_PATHS: Readonly<Record<string, string>> = Object.freeze({
   [PROJECT_STORES.recoveries]: "styleId",
   [PROJECT_STORES.migrations]: "sourceSha256",
   [PROJECT_STORES.imports]: "packageSha256",
+  [PROJECT_STORES.fieldObservations]: "styleId",
 });
 
 export type RepositoryErrorCode =
@@ -82,18 +89,22 @@ export interface LoadedProject {
   readonly styles: readonly StyleRecord[];
   readonly activeStyle: StyleRecord;
   readonly activeRecovery: RecoveryRecord | null;
+  readonly fieldObservations: readonly FieldObservationRecord[];
 }
 
 export interface ProjectBundleSnapshot {
   readonly project: ProjectRecord;
   readonly styles: readonly StyleRecord[];
   readonly recoveries: readonly RecoveryRecord[];
+  readonly fieldObservations?: readonly FieldObservationRecord[];
 }
 
 export interface SaveProjectBundleInput {
   readonly project: ProjectRecord;
   readonly styles: readonly StyleRecord[];
   readonly recoveries?: readonly RecoveryRecord[];
+  /** Append-only provenance records written atomically with style/project changes. */
+  readonly fieldObservations?: readonly FieldObservationRecord[];
   /** Removes a style's old crash-recovery payload in the same atomic save. */
   readonly clearRecoveryStyleIds?: readonly string[];
   /** null creates a project; a number is a compare-and-swap revision. */
@@ -111,6 +122,7 @@ export interface ImportProjectBundleInput {
   readonly project: ProjectRecord;
   readonly styles: readonly StyleRecord[];
   readonly recoveries: readonly RecoveryRecord[];
+  readonly fieldObservations?: readonly FieldObservationRecord[];
   readonly receipt: ProjectImportReceipt;
 }
 
@@ -211,6 +223,9 @@ function createSchema(database: IDBDatabase): void {
   if (!database.objectStoreNames.contains(PROJECT_STORES.imports)) {
     database.createObjectStore(PROJECT_STORES.imports, { keyPath: "packageSha256" });
   }
+  if (!database.objectStoreNames.contains(PROJECT_STORES.fieldObservations)) {
+    database.createObjectStore(PROJECT_STORES.fieldObservations, { keyPath: "styleId" });
+  }
 }
 
 function upgradeProjectRecordsV1(transaction: IDBTransaction | null): void {
@@ -245,29 +260,45 @@ function upgradeProjectRecordsV1(transaction: IDBTransaction | null): void {
   }
 }
 
-function upgradeStyleRecordsV1(transaction: IDBTransaction | null): void {
+function addFieldObservationStore(database: IDBDatabase): void {
+  if (!database.objectStoreNames.contains(PROJECT_STORES.fieldObservations)) {
+    database.createObjectStore(PROJECT_STORES.fieldObservations, { keyPath: "styleId" });
+  }
+}
+
+function seedFieldObservations(transaction: IDBTransaction | null, upgradeStyleV1 = false): void {
   if (!transaction) return;
   try {
     const store = transaction.objectStore(PROJECT_STORES.styles);
+    const observations = transaction.objectStore(PROJECT_STORES.fieldObservations);
     const request = store.openCursor();
     request.onerror = () => transaction.abort();
     request.onsuccess = () => {
       try {
         const cursor = request.result;
         if (!cursor) return;
-        const value = cursor.value;
-        if (typeof value !== "object" || value === null || Array.isArray(value)) {
+        let styleValue = cursor.value;
+        if (upgradeStyleV1) {
+          if (typeof styleValue !== "object" || styleValue === null || Array.isArray(styleValue)) {
+            transaction.abort();
+            return;
+          }
+          const keys = Object.keys(styleValue);
+          if (keys.length !== LEGACY_STYLE_RECORD_KEYS.length
+            || !LEGACY_STYLE_RECORD_KEYS.every((key) => Object.prototype.hasOwnProperty.call(styleValue, key))
+            || (styleValue as { schemaVersion?: unknown }).schemaVersion !== 1) {
+            transaction.abort();
+            return;
+          }
+          styleValue = { ...styleValue, schemaVersion: 2, archivedAt: null };
+          cursor.update(styleValue);
+        }
+        const parsed = parseStyleRecord(styleValue);
+        if (!parsed.ok) {
           transaction.abort();
           return;
         }
-        const keys = Object.keys(value);
-        if (keys.length !== LEGACY_STYLE_RECORD_KEYS.length
-          || !LEGACY_STYLE_RECORD_KEYS.every((key) => Object.prototype.hasOwnProperty.call(value, key))
-          || (value as { schemaVersion?: unknown }).schemaVersion !== 1) {
-          transaction.abort();
-          return;
-        }
-        cursor.update({ ...value, schemaVersion: 2, archivedAt: null });
+        observations.add(createFieldObservationRecord(parsed.value, parsed.value.updatedAt, "existing-local-style"));
         cursor.continue();
       } catch {
         transaction.abort();
@@ -322,6 +353,34 @@ function parseRecoveryInputs(records: readonly RecoveryRecord[] | undefined, sty
   return parsed;
 }
 
+function parseFieldObservationInputs(
+  records: readonly FieldObservationRecord[] | undefined,
+  styleIds: readonly string[],
+): FieldObservationRecord[] {
+  if (records === undefined) return [];
+  if (!Array.isArray(records)) throw new ProjectRepositoryError("invalid-data", "Field observation records must be a list.");
+  const parsed: FieldObservationRecord[] = [];
+  for (const input of records) {
+    const record = parseFieldObservationRecord(input);
+    if (!record.ok) throw new ProjectRepositoryError("invalid-data", record.error);
+    if (!styleIds.includes(record.value.styleId)) {
+      throw new ProjectRepositoryError("invalid-data", "Field observations must belong to a style in this project.");
+    }
+    if (parsed.some((item) => item.styleId === record.value.styleId)) {
+      throw new ProjectRepositoryError("invalid-data", "A project bundle contains duplicate field observation records.");
+    }
+    parsed.push(record.value);
+  }
+  return parsed;
+}
+
+function isAppendOnlyExtension(previous: FieldObservationRecord, next: FieldObservationRecord): boolean {
+  if (previous.styleId !== next.styleId || previous.definitionVersion !== next.definitionVersion
+    || next.revision < previous.revision || next.observations.length < previous.observations.length) return false;
+  return previous.observations.every((observation, index) =>
+    JSON.stringify(observation) === JSON.stringify(next.observations[index]));
+}
+
 function parseRecoveryClears(ids: readonly string[] | undefined, styleIds: readonly string[]): string[] {
   if (ids === undefined) return [];
   if (!Array.isArray(ids)) throw new ProjectRepositoryError("invalid-data", "Recovery clear IDs must be a list.");
@@ -357,7 +416,15 @@ async function bundleInTransaction(
     if (!recovery.ok) throw new ProjectRepositoryError("invalid-data", recovery.error);
     activeRecovery = recovery.value;
   }
-  return { project: bundle.value.project, styles: bundle.value.styles, activeStyle, activeRecovery };
+  const fieldObservations: FieldObservationRecord[] = [];
+  for (const style of bundle.value.styles) {
+    const input = await requestValue<unknown>(transaction.objectStore(PROJECT_STORES.fieldObservations).get(style.id));
+    if (input === undefined) throw new ProjectRepositoryError("invalid-data", "A style is missing its source-aware field history.");
+    const parsed = parseFieldObservationRecord(input);
+    if (!parsed.ok) throw new ProjectRepositoryError("invalid-data", parsed.error);
+    fieldObservations.push(parsed.value);
+  }
+  return { project: bundle.value.project, styles: bundle.value.styles, activeStyle, activeRecovery, fieldObservations };
 }
 
 function validExpectedRevision(value: number | null): boolean {
@@ -399,21 +466,31 @@ export async function openProjectRepository(options: ProjectRepositoryOptions = 
     let settled = false;
     const request = factory.open(name, requestedVersion);
     request.onupgradeneeded = (event) => {
-      if (event.oldVersion === 0 && event.newVersion === PROJECT_DATABASE_VERSION) {
-        createSchema(request.result);
-      } else if (event.oldVersion === 1 && event.newVersion === PROJECT_DATABASE_VERSION) {
-        if (!request.result.objectStoreNames.contains(PROJECT_STORES.imports)) {
-          request.result.createObjectStore(PROJECT_STORES.imports, { keyPath: "packageSha256" });
+      try {
+        if (event.oldVersion === 0 && event.newVersion === PROJECT_DATABASE_VERSION) {
+          createSchema(request.result);
+        } else if (event.oldVersion === 1 && event.newVersion === PROJECT_DATABASE_VERSION) {
+          if (!request.result.objectStoreNames.contains(PROJECT_STORES.imports)) {
+            request.result.createObjectStore(PROJECT_STORES.imports, { keyPath: "packageSha256" });
+          }
+          addFieldObservationStore(request.result);
+          seedFieldObservations(request.transaction, true);
+          upgradeProjectRecordsV1(request.transaction);
+        } else if (event.oldVersion === 2 && event.newVersion === PROJECT_DATABASE_VERSION) {
+          if (!request.result.objectStoreNames.contains(PROJECT_STORES.imports)) {
+            request.result.createObjectStore(PROJECT_STORES.imports, { keyPath: "packageSha256" });
+          }
+          addFieldObservationStore(request.result);
+          seedFieldObservations(request.transaction);
+          upgradeProjectRecordsV1(request.transaction);
+        } else if (event.oldVersion === 3 && event.newVersion === PROJECT_DATABASE_VERSION) {
+          addFieldObservationStore(request.result);
+          seedFieldObservations(request.transaction);
+        } else {
+          request.transaction?.abort();
         }
-        upgradeStyleRecordsV1(request.transaction);
-        upgradeProjectRecordsV1(request.transaction);
-      } else if (event.oldVersion === 2 && event.newVersion === PROJECT_DATABASE_VERSION) {
-        if (!request.result.objectStoreNames.contains(PROJECT_STORES.imports)) {
-          request.result.createObjectStore(PROJECT_STORES.imports, { keyPath: "packageSha256" });
-        }
-        upgradeProjectRecordsV1(request.transaction);
-      } else {
-        request.transaction?.abort();
+      } catch {
+        try { request.transaction?.abort(); } catch { /* The upgrade transaction may already be aborting. */ }
       }
     };
     request.onblocked = () => {
@@ -474,14 +551,14 @@ export class ProjectRepository {
   async loadProject(projectId: string): Promise<LoadedProject | null> {
     this.ensureOpen();
     return inTransaction(this.database,
-      [PROJECT_STORES.projects, PROJECT_STORES.styles, PROJECT_STORES.recoveries], "readonly",
+      [PROJECT_STORES.projects, PROJECT_STORES.styles, PROJECT_STORES.recoveries, PROJECT_STORES.fieldObservations], "readonly",
       (transaction) => bundleInTransaction(transaction, projectId));
   }
 
   async readProjectBundle(projectId: string): Promise<ProjectBundleSnapshot | null> {
     this.ensureOpen();
     return inTransaction(this.database,
-      [PROJECT_STORES.projects, PROJECT_STORES.styles, PROJECT_STORES.recoveries], "readonly",
+      [PROJECT_STORES.projects, PROJECT_STORES.styles, PROJECT_STORES.recoveries, PROJECT_STORES.fieldObservations], "readonly",
       async (transaction) => {
         const loaded = await bundleInTransaction(transaction, projectId);
         if (!loaded) return null;
@@ -495,13 +572,18 @@ export class ProjectRepository {
           if (!parsed.ok) throw new ProjectRepositoryError("invalid-data", parsed.error);
           recoveries.push(parsed.value);
         }
-        return { project: loaded.project, styles: loaded.styles, recoveries };
+        return {
+          project: loaded.project,
+          styles: loaded.styles,
+          recoveries,
+          fieldObservations: loaded.fieldObservations,
+        };
       });
   }
 
   async readActiveProject(): Promise<LoadedProject | null> {
     this.ensureOpen();
-    return inTransaction(this.database, ALL_STORES.slice(0, 4), "readonly", async (transaction) => {
+    return inTransaction(this.database, ALL_STORES, "readonly", async (transaction) => {
       const stored = await requestValue(transaction.objectStore(PROJECT_STORES.meta).get(ACTIVE_SELECTION_KEY));
       if (stored === undefined) return null;
       if (!validActiveSelection(stored)) {
@@ -580,6 +662,14 @@ export class ProjectRepository {
     const bundle = validateProjectBundle(input.project, input.styles);
     if (!bundle.ok) throw new ProjectRepositoryError("invalid-data", bundle.error);
     const recoveries = parseRecoveryInputs(input.recoveries, bundle.value.project.styleIds);
+    const fieldObservations = parseFieldObservationInputs(
+      input.fieldObservations ?? bundle.value.styles.map((style) =>
+        createFieldObservationRecord(style, style.updatedAt, "package-v1")),
+      bundle.value.project.styleIds,
+    );
+    if (fieldObservations.length !== bundle.value.styles.length) {
+      throw new ProjectRepositoryError("invalid-data", "Every imported style must include its field observation history.");
+    }
     const receipt = parseProjectImportReceipt(input.receipt);
     if (!receipt || receipt.projectId !== bundle.value.project.id) {
       throw new ProjectRepositoryError("invalid-data", "Project package import receipt does not match the imported project.");
@@ -610,6 +700,7 @@ export class ProjectRepository {
       projects.add(bundle.value.project);
       for (const style of bundle.value.styles) styles.add(style);
       for (const recovery of recoveries) transaction.objectStore(PROJECT_STORES.recoveries).add(recovery);
+      for (const record of fieldObservations) transaction.objectStore(PROJECT_STORES.fieldObservations).add(record);
       transaction.objectStore(PROJECT_STORES.meta).put(selection(
         bundle.value.project.id,
         bundle.value.project.activeStyleId,
@@ -636,6 +727,7 @@ export class ProjectRepository {
       throw new ProjectRepositoryError("invalid-data", "Project revision must be 1 for creation or advance exactly once.");
     }
     const recoveries = parseRecoveryInputs(input.recoveries, bundle.value.project.styleIds);
+    const fieldObservations = parseFieldObservationInputs(input.fieldObservations, bundle.value.project.styleIds);
     const clearRecoveryStyleIds = parseRecoveryClears(input.clearRecoveryStyleIds, bundle.value.project.styleIds);
     if (recoveries.some((recovery) => clearRecoveryStyleIds.includes(recovery.styleId))) {
       throw new ProjectRepositoryError("invalid-data", "A recovery record cannot be saved and cleared in the same bundle.");
@@ -664,6 +756,9 @@ export class ProjectRepository {
         throw new ProjectRepositoryError("conflict", "Project changed in another tab; reload or save a separate copy.");
       }
       const allStyles = await requestValue<StyleRecord[]>(styles.getAll());
+      const observationStore = transaction.objectStore(PROJECT_STORES.fieldObservations);
+      const incomingObservations = new Map(fieldObservations.map((record) => [record.styleId, record]));
+      const nextObservations: FieldObservationRecord[] = [];
       const incomingIds = new Set(bundle.value.styles.map((style) => style.id));
       for (const existing of allStyles) {
         const parsed = parseStyleRecord(existing);
@@ -680,9 +775,23 @@ export class ProjectRepository {
         if (existing && style.revision < existing.revision) {
           throw new ProjectRepositoryError("conflict", "A stale style revision cannot replace a newer saved style.");
         }
+        const priorInput = await requestValue<unknown>(observationStore.get(style.id));
+        const incoming = incomingObservations.get(style.id);
+        if (priorInput !== undefined) {
+          const prior = parseFieldObservationRecord(priorInput);
+          if (!prior.ok) throw new ProjectRepositoryError("invalid-data", prior.error);
+          if (incoming && !isAppendOnlyExtension(prior.value, incoming)) {
+            throw new ProjectRepositoryError("invalid-data", "Field value history must preserve every earlier observation.");
+          }
+        } else {
+          nextObservations.push(incoming
+            ?? createFieldObservationRecord(style, style.updatedAt, "existing-local-style"));
+        }
+        if (incoming && priorInput !== undefined) nextObservations.push(incoming);
       }
       projects.put(bundle.value.project);
       for (const style of bundle.value.styles) styles.put(style);
+      for (const record of nextObservations) observationStore.put(record);
       for (const recovery of recoveries) transaction.objectStore(PROJECT_STORES.recoveries).put(recovery);
       for (const styleId of clearRecoveryStyleIds) transaction.objectStore(PROJECT_STORES.recoveries).delete(styleId);
       transaction.objectStore(PROJECT_STORES.meta).put(selection(
@@ -693,7 +802,12 @@ export class ProjectRepository {
     });
   }
 
-  async saveRecovery(recordInput: RecoveryRecord, expectedProjectRevision: number, updatedAt: string): Promise<ProjectRecord> {
+  async saveRecovery(
+    recordInput: RecoveryRecord,
+    expectedProjectRevision: number,
+    updatedAt: string,
+    fieldObservationInput?: FieldObservationRecord,
+  ): Promise<ProjectRecord> {
     this.ensureOpen();
     const parsedRecovery = parseRecoveryRecord(recordInput);
     if (!parsedRecovery.ok) throw new ProjectRepositoryError("invalid-data", parsedRecovery.error);
@@ -704,8 +818,14 @@ export class ProjectRepository {
     if (!Number.isFinite(timestamp) || new Date(timestamp).toISOString() !== updatedAt) {
       throw new ProjectRepositoryError("invalid-data", "Updated timestamp must be canonical UTC ISO time.");
     }
+    const fieldObservation = fieldObservationInput === undefined
+      ? undefined
+      : parseFieldObservationRecord(fieldObservationInput);
+    if (fieldObservationInput !== undefined && !fieldObservation!.ok) {
+      throw new ProjectRepositoryError("invalid-data", fieldObservation!.error);
+    }
     return inTransaction(this.database,
-      [PROJECT_STORES.projects, PROJECT_STORES.styles, PROJECT_STORES.recoveries], "readwrite", async (transaction) => {
+      [PROJECT_STORES.projects, PROJECT_STORES.styles, PROJECT_STORES.recoveries, PROJECT_STORES.fieldObservations], "readwrite", async (transaction) => {
       const storedRecovery = parsedRecovery.value;
       const styleId = storedRecovery.styleId;
       const storedStyle = await requestValue<StyleRecord | undefined>(transaction.objectStore(PROJECT_STORES.styles).get(styleId));
@@ -721,6 +841,19 @@ export class ProjectRepository {
       }
       if (project.value.revision !== expectedProjectRevision) {
         throw new ProjectRepositoryError("conflict", "Project changed in another tab; reload before saving recovery.");
+      }
+      if (fieldObservation?.ok) {
+        const record = fieldObservation.value;
+        if (record.styleId !== styleId) throw new ProjectRepositoryError("invalid-data", "Field history must belong to the recovery style.");
+        const store = transaction.objectStore(PROJECT_STORES.fieldObservations);
+        const priorInput = await requestValue<unknown>(store.get(styleId));
+        if (priorInput === undefined) throw new ProjectRepositoryError("invalid-data", "The style has no initialized field observation history.");
+        const prior = parseFieldObservationRecord(priorInput);
+        if (!prior.ok) throw new ProjectRepositoryError("invalid-data", prior.error);
+        if (!isAppendOnlyExtension(prior.value, record)) {
+          throw new ProjectRepositoryError("conflict", "Field history changed in another tab; reload before recording the edit.");
+        }
+        store.put(record);
       }
       const updatedProject: ProjectRecord = {
         ...project.value,
@@ -834,6 +967,7 @@ export class ProjectRepository {
     return this.writeProjectBundle({
       project: migration.value.project,
       styles: [migration.value.style],
+      fieldObservations: [createFieldObservationRecord(migration.value.style, now, "first-run-default")],
       expectedProjectRevision: null,
     }, true);
   }
@@ -871,6 +1005,7 @@ export class ProjectRepository {
       styleId: migrated.value.style.id,
     };
     const recoveries = recoveryResult?.ok ? [recoveryResult.value] : [];
+    const fieldObservations = [createFieldObservationRecord(migrated.value.style, input.migratedAt, "legacy-save")];
     return inTransaction(this.database, ALL_STORES, "readwrite", async (transaction) => {
       const migrations = transaction.objectStore(PROJECT_STORES.migrations);
       const existingMarker = await requestValue<MigrationRecord | undefined>(migrations.get(sourceSha256));
@@ -893,6 +1028,7 @@ export class ProjectRepository {
       projects.put(migrated.value.project);
       styles.put(migrated.value.style);
       for (const recovery of recoveries) transaction.objectStore(PROJECT_STORES.recoveries).put(recovery);
+      transaction.objectStore(PROJECT_STORES.fieldObservations).put(fieldObservations[0]);
       meta.put(selection(migrated.value.project.id, migrated.value.style.id));
       migrations.put(marker);
       return { status: "migrated", record: marker };
