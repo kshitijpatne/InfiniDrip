@@ -124,6 +124,12 @@ snapshots; they are not current status.
   comparisons, mandatory Slice 238 propagation fixes, and rendered-browser/
   reload evidence. Consult `PROJECT-STATE.md` and the canonical Control
   Center for F01/F02's current status and next numbered slice.
+- `docs/research/epic15/F03-CONSTRAINED-EDIT-S237.md` — the deterministic
+  semantic-anchor, geometry, stitch, graded-measurement and POM contract for
+  Slice 237. `F03-SLICE-237-EXIT.md` records model coverage, the invalid-preview
+  browser proof, byte-identical parametric SVG output, and the explicit
+  S238/S239/S240 boundaries. The current Edit preview remains transient;
+  Slice 238 owns durable style integration.
 - `docs/research/epic14/` — accepted evidence packets for C01 recipe baseline,
   C02 standards and tools, C05 3D feasibility, C06 starter/assortment/upcycling/
   supplier evidence, and C03 measurement/donor contract. C04's accepted

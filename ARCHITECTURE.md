@@ -207,8 +207,19 @@ the active view redraws immediately, while other views and exports regenerate
 when opened. The rendered Chromium save/reload proof, output comparisons,
 complete matrix and residual risks are recorded in
 [`docs/research/epic15/F02-DEPENDENCY-INVALIDATION-S236.md`](docs/research/epic15/F02-DEPENDENCY-INVALIDATION-S236.md).
-F02 is complete; F03 constrained edits/revisions is the next ordered packet.
-The detailed packet and gates are in
+F02 is complete; F03 constrained edits/revisions is the active ordered packet.
+Slice 237 is now complete: it adds the semantic-anchor operation model,
+per-size geometry/stitch/recipe/POM guards, explicit rebase/conflict/undo rules,
+and an accessible warning for invalid edits in the still-exploratory Edit
+preview. That preview remains outside saved styles and exports; a rendered
+Chromium check confirmed the parametric SVG stayed byte-identical before and
+after an invalid preview. Slice 238 is responsible for persisted edit
+operations and real downstream output propagation, and Slice 239 for immutable
+revisions and frozen manifests. The semantic model and preview limits are in
+[`docs/research/epic15/F03-CONSTRAINED-EDIT-S237.md`](docs/research/epic15/F03-CONSTRAINED-EDIT-S237.md)
+and its acceptance evidence is in
+[`docs/research/epic15/F03-SLICE-237-EXIT.md`](docs/research/epic15/F03-SLICE-237-EXIT.md).
+The detailed G02 packet and gates are in
 [`docs/planning/EPIC-15-ADMISSION.md`](docs/planning/EPIC-15-ADMISSION.md).
 The Slice 230 contract is at
 [`docs/research/epic15/F01-STORAGE-CONTRACT-S230.md`](docs/research/epic15/F01-STORAGE-CONTRACT-S230.md).

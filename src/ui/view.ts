@@ -24,6 +24,7 @@ import {
 } from "../surface/artwork-library/catalog";
 import type { ArtworkUseAssessment } from "../surface/artwork-library/search";
 import { escapeAttr } from "../render/surface-overlay";
+import type { SemanticEditIssue } from "../edit/semantic-edit";
 import {
   currentFieldObservation,
   getFieldDefinition,
@@ -999,19 +1000,33 @@ export function dartControlsMarkup(hasDart: boolean, canTrue: boolean): string {
     `${btn("dart-shoulder", "→ Shoulder")}${btn("dart-hem", "→ Hem")}${trueBtn}</div>`;
 }
 
-/** The Edit-view contract + Reset. Edits are intentionally an exploratory
- * front-piece preview until a design-state model exists to carry them through
- * grading, validation, nesting, persistence, and exports. */
-export function editorHintMarkup(): string {
-  return `<div data-editor-contract="preview-only" style="display:flex;gap:10px;align-items:center;` +
-    `margin-top:6px;font-size:12px;color:${T.label}">` +
-    `<span style="flex:1"><strong style="color:${T.line}">Exploratory edit — front piece only.</strong> ` +
+/** The Edit-view contract + reset. The existing freeform editor is still a
+ * preview; deterministic draft checks report problems without suggesting this
+ * preview has become a saved or exportable pattern. */
+export function editorHintMarkup(
+  issues: readonly SemanticEditIssue[] = [],
+  editedRole = "front",
+): string {
+  const validationMarkup = issues.length > 0
+    ? `<div role="alert" aria-live="assertive" data-editor-validation="invalid" ` +
+      `style="margin:6px 0 0;padding:8px;border:1px solid ${T.patternInstruction};color:${T.patternInstruction}">` +
+      `<strong>Preview blocked by ${issues.length} digital check${issues.length === 1 ? "" : "s"}.</strong> ` +
+      `This preview cannot be saved or exported; current outputs still use the parametric draft.` +
+      `<ul style="margin:4px 0 0;padding-left:22px">${issues.map((issue) =>
+        `<li data-editor-issue="${escapeAttr(issue.code)}">${escapeAttr(issue.message)}</li>`).join("")}</ul></div>`
+    : `<p role="status" aria-live="polite" data-editor-validation="valid" ` +
+      `style="margin:6px 0 0;color:${T.label}">This preview passes its current deterministic digital checks. ` +
+      `That does not establish physical fit, drape, or factory acceptance.</p>`;
+  return `<div data-editor-contract="preview-only" style="margin-top:6px;font-size:12px;color:${T.label}">` +
+    `<div style="display:flex;gap:10px;align-items:center">` +
+    `<span style="flex:1"><strong style="color:${T.line}">Exploratory edit — ${escapeAttr(editedRole)} piece only.</strong> ` +
     `Drag the dots, enter their coordinates below, or use dart tools to test a shape. This preview does not change ` +
-    `measurements, the assembled garment, checks, size grading, nesting, saves, or exports. ` +
+    `measurements, the assembled garment, production checks, size grading, nesting, saves, or exports. ` +
+    `The diagnostic below evaluates only the preview and never promotes it into those outputs. ` +
     `Use Reset to return to the current parametric draft.</span>` +
     `<button id="editor-reset" type="button" style="padding:5px 10px;font-size:12px;cursor:pointer;` +
     `background:${T.background};color:${T.line};border:1px solid ${BORDER};border-radius:5px">` +
-    `Reset to draft</button></div>`;
+    `Reset to draft</button></div>` + validationMarkup + `</div>`;
 }
 
 /** Numeric equivalents for every pointer handle. They keep Edit usable with a

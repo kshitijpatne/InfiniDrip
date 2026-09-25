@@ -67,9 +67,11 @@ A-01–A-12 downstream gates and explicitly does not claim fit, factory
 readiness, CAD interoperability, 3D simulation, or a live supplier marketplace.
 EPIC-15/G02 is In Progress. F01 is Done with verified S230–S234 evidence;
 F02 is Done with verified S235–S236 evidence, including the complete
-seven-recipe field-to-output matrix and rendered/reload proof. F03 is Ready
-for Slice 237; final review remains Backlog in dependency order (canonical
-board revision 285 at this update). EPIC-16 through EPIC-30
+seven-recipe field-to-output matrix and rendered/reload proof. F03 remains In
+Progress: Slice 237 is accepted with verified semantic-model and invalid-
+preview evidence; Slice 238 is next, followed by S239 and the final review.
+The G02 final review remains Backlog in dependency order (canonical board
+revision 289 at this update). EPIC-16 through EPIC-30
 remain Backlog; Lane E under Epic 20 remains held for explicit garment-direction
 approval. Backlog registration alone is not work admission.
 

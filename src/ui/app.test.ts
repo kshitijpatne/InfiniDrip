@@ -1571,6 +1571,42 @@ describe("mountApp", () => {
     expect(root.querySelector("#canvas-host")!.innerHTML).not.toContain("editor-reset");
   });
 
+  it("surfaces invalid Edit-preview checks while keeping outputs on the parametric draft", () => {
+    localStorage.clear();
+    const root = mount();
+    clickId(root, "view-edit");
+    const coordinate = root.querySelector<HTMLInputElement>('input[data-editor-coordinate][data-editor-axis="x"]')!;
+    coordinate.value = "1000";
+    coordinate.dispatchEvent(new Event("change", { bubbles: true }));
+
+    const diagnostic = root.querySelector<HTMLElement>('[data-editor-validation="invalid"]');
+    expect(diagnostic).not.toBeNull();
+    expect(diagnostic?.getAttribute("role")).toBe("alert");
+    expect(diagnostic?.textContent).toContain("Preview blocked by");
+    expect(diagnostic?.textContent).toContain("current outputs still use the parametric draft");
+    expect(root.querySelector('[data-editor-contract="preview-only"]')?.textContent)
+      .toContain("The diagnostic below evaluates only the preview");
+
+    root.querySelector<HTMLButtonElement>("#editor-reset")!.click();
+    expect(root.querySelector('[data-editor-validation="invalid"]')).toBeNull();
+    expect(root.querySelector('[data-editor-validation="valid"]')).not.toBeNull();
+  });
+
+  it("does not present preview checks as current when source input is invalid", () => {
+    localStorage.clear();
+    const root = mount();
+    clickId(root, "view-edit");
+    const chest = root.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+    chest.value = "9999";
+    chest.dispatchEvent(new Event("input", { bubbles: true }));
+
+    expect(root.querySelector("#canvas-host")?.textContent)
+      .toContain("correct the flagged inputs before the Edit preview or its geometry checks can be evaluated");
+    expect(root.querySelector<HTMLButtonElement>("#export-svg")?.disabled).toBe(true);
+    expect(root.querySelector('[data-editor-validation="valid"]')).toBeNull();
+    expect(root.querySelector('[data-editor-validation="invalid"]')).toBeNull();
+  });
+
   it("applies keyboard coordinate edits and rejects incomplete or unknown coordinates", () => {
     localStorage.clear();
     const root = mount();

@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 236 completes the seven-recipe dependency matrix and rendered/reload proof; F02 is Done, F03 is Ready, 2026-09-25._
+_Last updated: Slice 237 closes the constrained semantic edit model and invalid-preview browser proof; F03 remains In Progress, 2026-09-25._
 Current directive: EPIC-14/G01 is Closed. C01, C02, C05 and C06, C03 and C04,
 lanes B–D, Lane A, and the final G01 review are Done with verified evidence.
 EPIC-15/G02 is admitted and In Progress. Slices 229–234 completed admission,
@@ -10,8 +10,14 @@ Done with hash-verified evidence. Slices 235–236 cover C03-aligned source-awar
 field history plus all 85 measurement/option inputs and their dependent outputs
 across the seven current recipes. The field dependency status includes verified
 browser and reload proof and exposes the woven hem-turn and tank shoulder-width
-propagation gaps. Canonical Control Center revision 285 records F02 Done and
-F03 Ready. Slice 237 is next; Slices 238–240 follow in order. The goal and gates are in
+propagation gaps; Slice 238 owns those fixes. Slice 237 adds stable semantic
+geometry anchors, exact-centimetre moves, explicit history/rebase/conflict
+rules, per-size geometry/stitch/recipe/POM guards, and an accessible
+invalid-preview warning. The legacy Edit shape still does not persist or feed
+outputs; actual saved-edit wiring is Slice 238, and immutable revisions/hashes
+are Slice 239. Control Center revision 289 records F03 In Progress with S237
+report and rendered evidence. The ordered remaining steps are S238, S239, then
+the whole-repository/browser/Electron final gate at S240. The goal and gates are in
 `docs/planning/EPIC-15-ADMISSION.md`; F01 evidence is in
 `docs/research/epic15/F01-PACKAGE-EXPORT-IMPORT-S234.md` and the preceding
 S230–S233 reports.
@@ -25,8 +31,9 @@ layout results. The byte-identical legacy writer remains unchanged. At the
 G01 exit, full coverage, build and protected export identities passed. Physical
 sampling, live supplier work, paid sources, hosted services and
 production-readiness claims remain held.
-The canonical Control Center is at revision 285: F01 and F02 are Done with
-verified evidence; F03 is Ready and the G02 final review remains Backlog.
+The canonical Control Center is at revision 289: F01 and F02 are Done with
+verified evidence; F03 is In Progress and the G02 final review remains
+Backlog.
 Detailed records and the sequence map
 are in `ops/control-center/data/board.json`,
 `docs/planning/EPIC-14-ADMISSION.md`,
@@ -4144,3 +4151,26 @@ omitted other suites that cover existing app paths; every new app/view
 integration line was hit, and the full repository coverage/build/protected
 export gate remains scheduled for Slice 240. Report and rendered evidence are
 linked to F02 at Control Center revision 285. F03 is Ready; Slice 237 follows.
+
+### Slice 237 — constrained semantic edit model
+
+Slice 237 adds recipe-name-based corner and curve-control anchors; one-anchor
+exact-centimetre operations; grouped atomic undo/redo; source conflict and
+explicit rebase handling; and deterministic replay across each recipe's
+registered sizes. The validation guard checks finite geometry and graded source
+measurements, closure, non-zero area, non-adjacent intersections on the
+exported sewing-outline samples, named fold rules, stitches/ease, recipe
+checks, rounded POM values and optional tech-pack callout coordinates. New
+semantic model tests pass 29/29 with 100% statements, branches, functions and
+lines. The Edit preview now shows actionable digital failures and states that
+it is temporary and separate from saved styles and outputs. A production-build
+Chromium run captured the warning and verified that the 5,997-byte parametric
+SVG hash was identical before and after the invalid preview. Details, limits and
+hashes are in `docs/research/epic15/F03-SLICE-237-EXIT.md` and
+`docs/research/epic15/F03-CONSTRAINED-EDIT-S237.md`.
+
+Slice 237 does not persist semantic operations or assert fit. Slice 238 must
+wire them into style records and dependent outputs, and close or visibly block
+the woven hem-turn and tank shoulder-width gaps. Slice 239 owns immutable
+revisions/hashes; Slice 240 remains responsible for full repository coverage,
+protected export identities and the browser/Electron exit gates.

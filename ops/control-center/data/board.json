@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 285,
-  "updatedAt": "2026-09-25T09:44:11.255Z",
+  "revision": 289,
+  "updatedAt": "2026-09-25T10:55:26.491Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -4590,7 +4590,7 @@
       "title": "F03 — Durable constrained edits and immutable revisions",
       "epicId": "EPIC-15",
       "releaseId": null,
-      "status": "Ready",
+      "status": "In Progress",
       "openedAt": "2026-09-24",
       "targetAt": "2026-12-04",
       "deliveredAt": null,
@@ -4633,10 +4633,27 @@
           "role": "maintainer",
           "note": "F02 is complete with verified evidence; the ordered F03 Slice 237 constrained-edit model is dependency-ready.",
           "evidenceRefs": []
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-09-25T09:49:27.630Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "Slice 236 is complete with verified evidence; begin the ordered F03 constrained-edit contract and engine.",
+          "evidenceRefs": []
         }
       ],
-      "comments": [],
-      "evidenceRefs": [],
+      "comments": [
+        {
+          "at": "2026-09-25T10:55:26.491Z",
+          "actor": "Codex",
+          "text": "Slice 237 is complete with verified exit-report and rendered-output evidence. F03 remains In Progress because S238 saved-edit/output integration, S239 immutable revisions and hashes, and S240 final review remain. Continue with S238 in order."
+        }
+      ],
+      "evidenceRefs": [
+        "E-EPIC15-F03-S237-EXIT",
+        "E-EPIC15-F03-S237-RENDER"
+      ],
       "flagKey": null
     },
     {
@@ -5273,6 +5290,24 @@
       "sha256": "d85b6606caa5f66f75e4c0af36aefc5f393c3a7e2fc836f318567e619b4ae4ff",
       "verified": true,
       "note": "Isolated Chromium 151 rendered field-impact status beside the live pattern after changing chest; screenshot SHA-256 verified."
+    },
+    {
+      "id": "E-EPIC15-F03-S237-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic15/F03-SLICE-237-EXIT.md",
+      "commit": null,
+      "sha256": "67de4ecd69d564f42daee4ffa5645be1a077713ada273f5fca7b1d86a4c5c29c",
+      "verified": true,
+      "note": "Slice 237 constrained semantic edit model, unit guards, model coverage, invalid-preview browser proof, and remaining S238-S240 gates; SHA-256 verified."
+    },
+    {
+      "id": "E-EPIC15-F03-S237-RENDER",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic15/evidence/S237-invalid-edit-preview.png",
+      "commit": null,
+      "sha256": "9578b14a94cac5e10010d945f0b3b3050308fcdb5d9414dd4aae15d7453309f1",
+      "verified": true,
+      "note": "Chromium 151 invalid-edit preview shows three surfaced digital checks; Reset restores valid preview. Parametric SVG before/after remains byte-identical at SHA-256 3fbf2e3215af5bdfc66398b9b16714e8ee8139f5edc10dab527bc4c8378f2b9d. Screenshot SHA-256 verified."
     }
   ]
 }

@@ -148,7 +148,7 @@ test("admitted Epic 14 and its active research lanes match the future backlog", 
   assert.equal(g02Admission?.status, "Done");
   assert.equal(f01?.status, "Done");
   assert.equal(f02?.status, "Done");
-  assert.equal(f03?.status, "Ready");
+  assert.equal(f03?.status, "In Progress");
   assert.equal(g02FinalReview?.status, "Backlog");
   assert.deepEqual(g02Admission?.dependencies, ["EPIC-14"]);
   assert.deepEqual(f01?.dependencies, ["EPIC-15-ADMISSION"]);

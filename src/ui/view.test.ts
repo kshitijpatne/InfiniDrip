@@ -376,6 +376,23 @@ describe("editorHintMarkup", () => {
     expect(html).toContain("assembled garment");
     expect(html).toContain("exports");
   });
+
+  it("shows deterministic invalid-preview issues without claiming that exports use them", () => {
+    const html = editorHintMarkup([
+      { code: "piece-self-intersection", message: "Panel <front> crosses itself." },
+      { code: "fold-edge-invalid", message: "The fold is off center." },
+    ], "Jacket <front>");
+    expect(html).toContain('data-editor-validation="invalid"');
+    expect(html).toContain('role="alert"');
+    expect(html).toContain("Preview blocked by 2 digital checks.");
+    expect(html).toContain("Panel &lt;front&gt; crosses itself.");
+    expect(html).toContain("Jacket &lt;front&gt; piece only.");
+    expect(html).toContain("current outputs still use the parametric draft");
+    expect(html).not.toContain("Panel <front>");
+    const singular = editorHintMarkup([{ code: "piece-open", message: "One edge gap." }]);
+    expect(singular).toContain("Preview blocked by 1 digital check.");
+  });
+
 });
 
 describe("editorHandleControlsMarkup", () => {

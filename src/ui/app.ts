@@ -8,6 +8,7 @@ import { blockPieces, rolePiece } from "../drafting";
 import { exportSvg, exportDxf, exportPdf, exportTechPackV2, exportProjectorSvg, exportA0Pdf, exportSurfaceSheet, flattenPiece, nestPieces, gradedMarker } from "../export";
 import { renderBlueprint, renderGarment, renderNest, renderFabricNest, renderEditor, renderBody, renderBodyPair, renderSkirtGarment, renderSkirtBody, renderTrouserGarment, renderTrouserBody, renderTrouserBodyPair, renderTrouserSide, renderSideCroquis, DEFAULT_FABRIC } from "../render";
 import { pieceHandles, moveHandle, nearestHandle, editorViewBox, viewboxPointToCm, Handle } from "../edit";
+import { inspectSemanticEditCandidate } from "../edit/semantic-edit";
 import { dartOf, transferDart, trueSeam, edgesMeet } from "../drafting";
 import { BLUEPRINT } from "../render";
 import { guide, Note } from "../guidance";
@@ -1161,7 +1162,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         : needsArtwork ? "Add artwork on the Style panel first." : "";
     });
     if (errors.size > 0) {
-      canvasHost.innerHTML = inspectionMarkup("<p role=\"status\">Draft paused — correct the flagged inputs to render your current design.</p>", previewActive ? "assembled" : view);
+      const pausedMessage = view === "edit"
+        ? "Draft paused — correct the flagged inputs before the Edit preview or its geometry checks can be evaluated. Pattern output and exports are paused."
+        : "Draft paused — correct the flagged inputs to render your current design.";
+      canvasHost.innerHTML = inspectionMarkup(`<p role="status">${pausedMessage}</p>`, previewActive ? "assembled" : view);
       renderGuidance([...errors.entries()].map(([field, text]) => ({ level: "warn", field, text })));
       styleHost.innerHTML = styleMarkup(targetStyle, matchStyle(measurements, targetStyle, recipe.styles), styleNames(recipe.styles), false) + renderSurface();
       syncSurfaceValidity();
@@ -1222,8 +1226,12 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         note.level === "warn" && note.field !== undefined && ignoredGuidance.has(note.field));
       canvasContent = checkMarkup(garmentReport(recipe, measurements, recipeOptions()), valid, dismissedGuidance);
     } else if (view === "edit") {
-      const piece = editedFront ?? rolePiece(draftCurrent(), recipe.editRole ?? "front");
+      const draft = draftCurrent();
+      const editRole = recipe.editRole ?? "front";
+      const piece = editedFront ?? rolePiece(draft, editRole);
       editedFront = piece;
+      const previewBlock = { ...draft, roles: { ...draft.roles, [editRole]: piece } };
+      const previewIssues = inspectSemanticEditCandidate(recipe, measurements, previewBlock);
       const vb = editorViewBox(piece);
       const hasDart = dartOf(piece) !== null;
       // Truing consumes `sideLower`, so only offer it while both halves still exist
@@ -1233,7 +1241,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       const canTrue = hasDart && sideSplit && edgesMeet(piece, "sideUpper", "sideLower");
       canvasContent =
         renderEditor(piece, pieceHandles(piece), vb, selectedId) +
-        editorHintMarkup() +
+        editorHintMarkup(previewIssues, editRole) +
         editorHandleControlsMarkup(pieceHandles(piece)) +
         dartControlsMarkup(hasDart, canTrue);
     } else if (view === "spec") {
