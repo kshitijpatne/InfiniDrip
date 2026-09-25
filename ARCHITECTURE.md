@@ -197,18 +197,18 @@ recovery, user-led project/style workflow, and versioned portable package
 import/export with referenced artwork. The narrow Electron restart proofs and
 the browser/Electron package validation are recorded in the S230–S234 reports;
 they do not establish permanent browser storage or physical fit. F01 is Done
-with hash-verified evidence at Control Center revision 278. F02 Slice 235 adds
-C03-aligned field definitions, per-style append-only value observations, and
-an inspectable source/history dialog across all seven existing recipes. Opening
-history flushes pending edits first, so the dialog does not show an older
-snapshot while a write is finishing; persistence failures remain visible.
-Historic values stay unresolved, confidence stays unassessed, and current UI
-bounds are identified as guardrails rather than industry standards. The focused
-10-file suite covers all changed modules at 100% statements, branches,
-functions, and lines; browser and Electron restart proofs are recorded in the
-Slice 235 evidence report. Slice 236 will add the complete dependency/
-invalidation matrix. F03 constrained edits/revisions and final review remain
-queued in order. The detailed packet and gates are in
+with hash-verified evidence. F02 Slices 235–236 add C03-aligned field
+definitions and per-style append-only value observations, plus a tested
+dependency/recomputation map covering all 85 inputs across the seven current
+recipes. The map distinguishes pattern/spec/grade/nesting/views/exports,
+mark-only woven controls, surface-art export independence, and the woven-hem
+and tank-shoulder propagation gaps. A changed field shows which outputs rebuild;
+the active view redraws immediately, while other views and exports regenerate
+when opened. The rendered Chromium save/reload proof, output comparisons,
+complete matrix and residual risks are recorded in
+[`docs/research/epic15/F02-DEPENDENCY-INVALIDATION-S236.md`](docs/research/epic15/F02-DEPENDENCY-INVALIDATION-S236.md).
+F02 is complete; F03 constrained edits/revisions is the next ordered packet.
+The detailed packet and gates are in
 [`docs/planning/EPIC-15-ADMISSION.md`](docs/planning/EPIC-15-ADMISSION.md).
 The Slice 230 contract is at
 [`docs/research/epic15/F01-STORAGE-CONTRACT-S230.md`](docs/research/epic15/F01-STORAGE-CONTRACT-S230.md).

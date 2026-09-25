@@ -39,6 +39,7 @@ import {
 } from "../surface/store";
 import { pieceFrames } from "../surface/piece-frames";
 import { patternMeasurementDefinition, type PatternMeasurementField } from "./pattern-measurements";
+import { describeFieldArtifactImpact, getFieldArtifactDependency } from "./artifact-dependencies";
 import { inspectArtworkFile, type InspectedArtworkFile } from "../surface/artwork-file";
 import {
   createElectronArtworkStore, createIndexedDbArtworkStore, createUnavailableArtworkStore,
@@ -2125,6 +2126,13 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         measurements = applyChange(measurements, field, input.value);
         markOutputDirty();
         draw();
+        const impact = getFieldArtifactDependency(recipeId, "measurement", field.id);
+        const impactStatus = root.querySelector<HTMLElement>("#field-impact-status");
+        if (impact && impactStatus) {
+          impactStatus.hidden = false;
+          impactStatus.dataset.fieldId = impact.fieldId;
+          impactStatus.textContent = describeFieldArtifactImpact(impact);
+        }
         scheduleFieldObservation(recipeId, "measurement", field.id);
       });
       const persistMeasurementObservation = (): void => commitFieldObservation(recipeId, "measurement", field.id);
@@ -2143,6 +2151,13 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         editedFront = null;
         markOutputDirty();
         draw();
+        const impact = getFieldArtifactDependency(recipeId, "option", id);
+        const impactStatus = root.querySelector<HTMLElement>("#field-impact-status");
+        if (impact && impactStatus) {
+          impactStatus.hidden = false;
+          impactStatus.dataset.fieldId = impact.fieldId;
+          impactStatus.textContent = describeFieldArtifactImpact(impact);
+        }
         scheduleFieldObservation(recipeId, "option", id);
       });
       const persistOptionObservation = (): void => commitFieldObservation(recipeId, "option", id);

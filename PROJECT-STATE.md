@@ -1,17 +1,17 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 235 adds source-aware field history with 100% focused module coverage and browser/Electron restart proof; F02 continues with dependency invalidation, 2026-09-25._
+_Last updated: Slice 236 completes the seven-recipe dependency matrix and rendered/reload proof; F02 is Done, F03 is Ready, 2026-09-25._
 Current directive: EPIC-14/G01 is Closed. C01, C02, C05 and C06, C03 and C04,
 lanes B–D, Lane A, and the final G01 review are Done with verified evidence.
 EPIC-15/G02 is admitted and In Progress. Slices 229–234 completed admission,
 the F01 storage contract, versioned records, transactional repository,
-project/style workflow, and portable package import/export. F01 is Done with
-hash-verified evidence. F02 Slice 235 is complete with verified evidence at
-Control Center revision 279 and records
-C03-aligned source-aware field observations and inspectable value history for
-all seven current recipes; Slice 236 is next for the complete dependency/
-invalidation matrix. F02 remains In Progress until both slices pass its exit.
-F03 and final review follow in order. The goal and gates are in
+project/style workflow, and portable package import/export. F01 and F02 are
+Done with hash-verified evidence. Slices 235–236 cover C03-aligned source-aware
+field history plus all 85 measurement/option inputs and their dependent outputs
+across the seven current recipes. The field dependency status includes verified
+browser and reload proof and exposes the woven hem-turn and tank shoulder-width
+propagation gaps. Canonical Control Center revision 285 records F02 Done and
+F03 Ready. Slice 237 is next; Slices 238–240 follow in order. The goal and gates are in
 `docs/planning/EPIC-15-ADMISSION.md`; F01 evidence is in
 `docs/research/epic15/F01-PACKAGE-EXPORT-IMPORT-S234.md` and the preceding
 S230–S233 reports.
@@ -25,9 +25,8 @@ layout results. The byte-identical legacy writer remains unchanged. At the
 G01 exit, full coverage, build and protected export identities passed. Physical
 sampling, live supplier work, paid sources, hosted services and
 production-readiness claims remain held.
-The canonical Control Center is at revision 279: F01 is Done with verified
-Slice 230–234 evidence; F02 remains In Progress through Slices 235–236, with
-Slice 235 evidence verified and Slice 236 still required.
+The canonical Control Center is at revision 285: F01 and F02 are Done with
+verified evidence; F03 is Ready and the G02 final review remains Backlog.
 Detailed records and the sequence map
 are in `ops/control-center/data/board.json`,
 `docs/planning/EPIC-14-ADMISSION.md`,
@@ -4101,8 +4100,9 @@ all seven existing recipes. Historic/default values remain explicitly
 unresolved or preset, confidence is not assessed, exact raw input is retained,
 and input/history storage is sequenced before style/project changes; callbacks
 from a replaced app mount cannot rewrite the active style. Evidence and limits
-are in `docs/research/epic15/F02-FIELD-PROVENANCE-S235.md`. Slice 236
-continues F02 with the field-to-output dependency/invalidation graph. No new
+are in `docs/research/epic15/F02-FIELD-PROVENANCE-S235.md`. Slice 236 completes
+F02 with the field-to-output dependency/recomputation graph; see
+`docs/research/epic15/F02-DEPENDENCY-INVALIDATION-S236.md`. No new
 recipe, physical sample, supplier work, paid/hosted service, or
 production-readiness claim was added.
 
@@ -4123,5 +4123,24 @@ Verification: TypeScript passed; the 10-file focused suite passed 448/448 with
 modules. The real browser/Electron workflow passed with chest `104`, provenance
 and history surviving style creation and restart, and explicit Save clearing
 recovery. The complete repository coverage and protected-export gate remains
-scheduled for Slice 240. F02 remains In Progress until Slice 236's complete
-field-to-artifact invalidation matrix passes.
+scheduled for Slice 240.
+
+### Slice 236 — field-to-output dependency and invalidation map
+
+Slice 236 adds an enumerated, tested field-to-output graph for all 85
+measurement and option inputs across the seven current recipes. It reports
+which outputs must rebuild, identifies surface-art sheet SVG as independent,
+and distinguishes woven button count/spacing behavior. Woven `hemTurn` remains
+absent from the drafted pattern/export path; tank `shoulderWidth` updates the
+body illustration and graded measurement records but not drafted tank pieces
+or garment exports. Both gaps are explicitly assigned to Slice 238.
+
+Verification: all 227 tests in the app and dependency files passed; the
+name-filtered matrix/UI suite passed 9/9; the new dependency module has 100%
+statement, branch, function and line coverage; TypeScript and rendered
+Chromium save/reload checks passed. A source-limited coverage collection over
+only `app.ts`, `view.ts` and the graph reported 94.62% overall because it
+omitted other suites that cover existing app paths; every new app/view
+integration line was hit, and the full repository coverage/build/protected
+export gate remains scheduled for Slice 240. Report and rendered evidence are
+linked to F02 at Control Center revision 285. F03 is Ready; Slice 237 follows.

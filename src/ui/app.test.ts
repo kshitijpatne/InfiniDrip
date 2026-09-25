@@ -38,6 +38,46 @@ const reachExportStage = (root: HTMLElement): void => {
 };
 
 describe("mountApp", () => {
+  it("reports the refreshed and on-demand outputs for a changed measurement", () => {
+    const root = mount();
+    const input = root.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+    input.value = "101";
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+    const status = root.querySelector<HTMLElement>("#field-impact-status")!;
+    expect(status.hidden).toBe(false);
+    expect(status.dataset.fieldId).toBe("body.chest-girth");
+    expect(status.textContent).toContain("Changing Chest invalidates for recomputation: pattern pieces");
+    expect(status.textContent).toContain("The open view updates now; other views and exports rebuild on open/export.");
+    expect(status.textContent).toContain("graded measurements and pattern pieces");
+    expect(status.textContent).toContain("SVG, DXF, tiled PDF");
+    expect(status.textContent).toContain("surface-art sheet SVG");
+  });
+
+  it("warns when woven hem turn is only represented in preview and guidance", () => {
+    const root = mount();
+    clickId(root, "garment-woven-shirt");
+    const input = root.querySelector<HTMLInputElement>('input[data-option="hemTurn"]')!;
+    input.value = "1.2";
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+    const status = root.querySelector<HTMLElement>("#field-impact-status")!;
+    expect(status.textContent).toContain("assembled-garment illustration and hem-turn guidance/check status");
+    expect(status.textContent).toContain("Not represented in current outputs");
+    expect(status.textContent).toContain("POM/spec values");
+    expect(status.textContent).toContain("They omit this input until the propagation gap is fixed");
+  });
+
+  it("warns when tank shoulder width is not consumed by the drafted pattern", () => {
+    const root = mount();
+    clickId(root, "garment-tank");
+    const input = root.querySelector<HTMLInputElement>('input[data-field="shoulderWidth"]')!;
+    input.value = "46";
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+    const status = root.querySelector<HTMLElement>("#field-impact-status")!;
+    expect(status.textContent).toContain("body/assembled illustration and shoulder-width guidance/check status");
+    expect(status.textContent).toContain("Not represented in current outputs");
+    expect(status.textContent).toContain("They omit this input until the propagation gap is fixed");
+  });
+
   it("routes warning notes through explicit stage blocker fallbacks", () => {
     expect(stageBlockerFromNote(undefined)).toEqual({
       message: "Review the flagged digital checks.", step: "refine",

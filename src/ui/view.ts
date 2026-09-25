@@ -272,6 +272,8 @@ export function controlsMarkup(
     `<legend>${page.label}</legend>${page.body}</fieldset>`).join("");
   return `<section id="controls-panel" role="region" aria-labelledby="measurements-title">` +
     `${panelTitle("Measurements & construction (cm)", "measurements-title")}` +
+    `<div id="field-impact-status" role="status" aria-live="polite" hidden ` +
+    `style="margin:0 0 10px;padding:8px;border-left:3px solid ${T.marker};color:${T.label};font-size:11px;line-height:1.45"></div>` +
     `<div id="pattern-measurement-navigation" hidden></div>` +
     `<nav class="control-pages" aria-label="Measurement groups">` +
     `<button type="button" data-control-page-step="-1" aria-label="Previous measurement group" disabled>←</button>` +
