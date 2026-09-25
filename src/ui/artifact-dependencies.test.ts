@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { blockPieces, GARMENTS, gradeRun, specSheet, STANDARD_M, WOVEN_SHIRT as WOVEN_SHIRT_RECIPE, type GarmentOptions } from "../drafting";
 import { exportA0Pdf, exportDxf, exportPdf, exportProjectorSvg, exportSvg, exportTechPackV2, flattenPiece, nestPieces } from "../export";
 import { DEFAULT_WOVEN_SHIRT_OPTIONS } from "../drafting/shirt-contract";
+import { wovenShirtAllowances } from "../drafting/shirt";
 import {
   assertFieldArtifactCoverage,
   describeFieldArtifactImpact,
@@ -65,7 +66,7 @@ describe("field-to-artifact invalidation graph", () => {
     );
   });
 
-  it("probes every field against the real recipe draft and keeps view-only hem turn explicit", () => {
+  it("probes every field against the real recipe draft and records hem-turn cut dependencies", () => {
     for (const recipe of GARMENTS) {
       const options = defaultOptions(recipe.name);
       const baselineBlock = recipe.draft(STANDARD_M, options);
@@ -86,10 +87,10 @@ describe("field-to-artifact invalidation graph", () => {
         const nextBlock = recipe.draft(nextMeasurements, nextOptions);
         if (recipe.name === "woven-shirt" && definition.inputKey === "hemTurn") {
           expect(JSON.stringify(nextBlock)).toBe(JSON.stringify(baselineBlock));
-          expect(dependency.notRepresented.map((artifact) => artifact.id)).toEqual([
-            "pattern", "pom-spec", "nesting", "garment-exports",
+          expect(dependency.notRepresented).toEqual([]);
+          expect(dependency.affected.map((artifact) => artifact.id)).toEqual([
+            "pattern", "grade-run", "nesting", "views", "garment-exports",
           ]);
-          expect(dependency.affected.map((artifact) => artifact.id)).toEqual(["views.assembled-and-check"]);
           continue;
         }
         if (recipe.name === "tank" && definition.inputKey === "shoulderWidth") {
@@ -112,10 +113,25 @@ describe("field-to-artifact invalidation graph", () => {
     }
   });
 
-  it("distinguishes preview-only hem turn from tank shoulder width's per-size measurement records", () => {
+  it("maps woven body hem turn to cut outputs while preserving the sleeve allowance", () => {
     const wovenBase = { ...DEFAULT_WOVEN_SHIRT_OPTIONS };
-    const wovenHem = derivedOutputs("woven-shirt", { ...wovenBase, hemTurn: wovenBase.hemTurn + 0.2 });
-    expect(wovenHem).toEqual(derivedOutputs("woven-shirt", wovenBase));
+    const baseBlock = WOVEN_SHIRT_RECIPE.draft(STANDARD_M, wovenBase);
+    const changedOptions = { ...wovenBase, hemTurn: wovenBase.hemTurn + 0.2 };
+    const changedBlock = WOVEN_SHIRT_RECIPE.draft(STANDARD_M, changedOptions);
+    const cutShapes = (block: typeof baseBlock, turn: number) => blockPieces(block)
+      .map((piece) => flattenPiece(piece, wovenShirtAllowances(turn)));
+    const baselineShapes = cutShapes(baseBlock, wovenBase.hemTurn);
+    const changedShapes = cutShapes(changedBlock, changedOptions.hemTurn);
+    const byName = (shapes: typeof baselineShapes, name: string) => shapes.find((shape) => shape.name === name)!;
+    expect(byName(changedShapes, "woven front")).not.toEqual(byName(baselineShapes, "woven front"));
+    expect(byName(changedShapes, "woven back lower")).not.toEqual(byName(baselineShapes, "woven back lower"));
+    expect(byName(changedShapes, "woven short sleeve")).toEqual(byName(baselineShapes, "woven short sleeve"));
+    expect(derivedOutputs("woven-shirt", changedOptions).pomSpec).toEqual(derivedOutputs("woven-shirt", wovenBase).pomSpec);
+    const hemTurn = getFieldArtifactDependency("woven-shirt", "option", "hemTurn")!;
+    expect(hemTurn.affected.map((artifact) => artifact.id)).toContain("pattern");
+    expect(hemTurn.affected.map((artifact) => artifact.id)).toContain("nesting");
+    expect(hemTurn.affected.map((artifact) => artifact.id)).not.toContain("pom-spec");
+    expect(hemTurn.notRepresented).toEqual([]);
 
     const tankBaseOptions = defaultOptions("tank");
     const tankBase = derivedOutputs("tank", tankBaseOptions);
@@ -174,11 +190,17 @@ describe("field-to-artifact invalidation graph", () => {
 
     const hemTurn = getFieldArtifactDependency("woven-shirt", "option", "hemTurn")!;
     const message = describeFieldArtifactImpact(hemTurn);
-    expect(message).toContain("Not represented in current outputs");
-    expect(message).toContain("They omit this input until the propagation gap is fixed.");
+    expect(message).toContain("pattern pieces");
+    expect(message).not.toContain("Not represented in current outputs");
     expect(message).toContain("does not establish fit or production readiness");
 
     const tankShoulder = getFieldArtifactDependency("tank", "measurement", "shoulderWidth")!;
-    expect(describeFieldArtifactImpact(tankShoulder)).toContain("body/assembled illustration and shoulder-width guidance/check status");
+    const tankMessage = describeFieldArtifactImpact(tankShoulder);
+    expect(tankMessage).toContain("body/assembled illustration and shoulder-width guidance/check status");
+    expect(tankMessage).toContain("Review or change Strap width to change the strap/armhole geometry");
+    expect(tankMessage).toContain("unchanged pattern geometry is not evidence of fit");
+    expect(tankMessage).not.toContain("until the propagation gap is fixed");
+    expect(describeFieldArtifactImpact({ ...tankShoulder, notRepresentedExplanation: undefined }))
+      .toContain("These outputs do not consume this input.");
   });
 });

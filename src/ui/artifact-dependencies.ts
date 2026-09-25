@@ -39,18 +39,18 @@ const BUTTON_COUNT_UNAFFECTED = Object.freeze([
   FIELD_DEPENDENT_ARTIFACTS[1]!,
 ]);
 
-/** The current hem-turn control is a preview/guidance input, not a draft/export input. */
-const PREVIEW_ONLY_NOT_REPRESENTED_OUTPUTS = Object.freeze([
+/** The hem turn affects body cut edges; graded POM values remain sewing-line dimensions. */
+const WOVEN_HEM_TURN_AFFECTED = Object.freeze(FIELD_DEPENDENT_ARTIFACTS.filter((artifact) =>
+  artifact.id !== "pom-spec"));
+const WOVEN_HEM_TURN_UNAFFECTED = Object.freeze([
+  ...FIELD_INDEPENDENT_ARTIFACTS,
+  FIELD_DEPENDENT_ARTIFACTS[1]!,
+]);
+const TANK_SHOULDER_NOT_REPRESENTED = Object.freeze([
   FIELD_DEPENDENT_ARTIFACTS[0]!,
   FIELD_DEPENDENT_ARTIFACTS[1]!,
   FIELD_DEPENDENT_ARTIFACTS[3]!,
   FIELD_DEPENDENT_ARTIFACTS[5]!,
-]);
-const HEM_TURN_CURRENTLY_AFFECTED = Object.freeze([
-  Object.freeze({
-    id: "views.assembled-and-check",
-    label: "the assembled-garment illustration and hem-turn guidance/check status",
-  }),
 ]);
 const TANK_SHOULDER_CURRENTLY_AFFECTED = Object.freeze([
   Object.freeze({
@@ -73,6 +73,8 @@ export interface FieldArtifactDependency {
   readonly unaffected: readonly DerivedArtifactGroup[];
   /** Semantically implied outputs that current code does not encode from this input. */
   readonly notRepresented: readonly DerivedArtifactGroup[];
+  /** Recipe-specific explanation when an input intentionally does not define an output. */
+  readonly notRepresentedExplanation?: string;
 }
 
 export function getFieldArtifactDependency(
@@ -83,13 +85,13 @@ export function getFieldArtifactDependency(
   const definition = getFieldDefinition(recipeId, inputKey, inputKind);
   if (!definition) return undefined;
   const isWovenShirt = recipeId === "woven-shirt";
-  const isPreviewOnlyHemTurn = isWovenShirt && inputKind === "option" && inputKey === "hemTurn";
+  const isWovenHemTurn = isWovenShirt && inputKind === "option" && inputKey === "hemTurn";
   const isTankShoulderWidth = recipeId === "tank" && inputKind === "measurement" && inputKey === "shoulderWidth";
   const isWovenButtonCount = isWovenShirt && inputKind === "option" && inputKey === "buttonCount";
   const isWovenButtonSpacing = isWovenShirt && inputKind === "option" && inputKey === "buttonSpacing";
-  const isPreviewOnlyInput = isPreviewOnlyHemTurn || isTankShoulderWidth;
-  const affected = isPreviewOnlyHemTurn
-    ? HEM_TURN_CURRENTLY_AFFECTED
+  const isPreviewOnlyInput = isTankShoulderWidth;
+  const affected = isWovenHemTurn
+    ? WOVEN_HEM_TURN_AFFECTED
     : isTankShoulderWidth
       ? TANK_SHOULDER_CURRENTLY_AFFECTED
       : isWovenButtonCount
@@ -97,8 +99,10 @@ export function getFieldArtifactDependency(
         : isWovenButtonSpacing
           ? BUTTON_SPACING_AFFECTED
         : FIELD_DEPENDENT_ARTIFACTS;
-  const unaffected = isPreviewOnlyInput
-    ? FIELD_INDEPENDENT_ARTIFACTS
+  const unaffected = isWovenHemTurn
+    ? WOVEN_HEM_TURN_UNAFFECTED
+    : isPreviewOnlyInput
+      ? FIELD_INDEPENDENT_ARTIFACTS
     : isWovenButtonCount
       ? BUTTON_COUNT_UNAFFECTED
       : isWovenButtonSpacing
@@ -112,7 +116,10 @@ export function getFieldArtifactDependency(
     fieldLabel: definition.label,
     affected,
     unaffected,
-    notRepresented: isPreviewOnlyInput ? PREVIEW_ONLY_NOT_REPRESENTED_OUTPUTS : [],
+    notRepresented: isPreviewOnlyInput ? TANK_SHOULDER_NOT_REPRESENTED : [],
+    ...(isTankShoulderWidth ? {
+      notRepresentedExplanation: "Body shoulder width does not determine the tank pattern's strap width. Review or change Strap width to change the strap/armhole geometry; unchanged pattern geometry is not evidence of fit.",
+    } : {}),
   };
 }
 
@@ -142,6 +149,6 @@ export function describeFieldArtifactImpact(dependency: FieldArtifactDependency)
   const unaffected = dependency.unaffected.map((artifact) => artifact.label).join("; ");
   const notRepresented = dependency.notRepresented.length === 0
     ? ""
-    : ` Not represented in current outputs: ${dependency.notRepresented.map((artifact) => artifact.label).join("; ")}. They omit this input until the propagation gap is fixed.`;
+    : ` Not represented in current outputs: ${dependency.notRepresented.map((artifact) => artifact.label).join("; ")}. ${dependency.notRepresentedExplanation ?? "These outputs do not consume this input."}`;
   return `Changing ${dependency.fieldLabel} invalidates for recomputation: ${affected}. The open view updates now; other views and exports rebuild on open/export. Unaffected: ${unaffected}.${notRepresented} This does not establish fit or production readiness.`;
 }

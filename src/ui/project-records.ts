@@ -11,8 +11,8 @@ import {
 import { FIELDS } from "./controls";
 
 export const PROJECT_RECORD_VERSION = 2;
-export const STYLE_RECORD_VERSION = 2;
-export const RECOVERY_RECORD_VERSION = 1;
+export const STYLE_RECORD_VERSION = 3;
+export const RECOVERY_RECORD_VERSION = 2;
 export const MIGRATION_RECORD_VERSION = 1;
 
 export interface ProjectRecord {
@@ -88,17 +88,21 @@ export interface LegacySaveMigration {
 const PROJECT_KEYS = ["schemaVersion", "id", "name", "createdAt", "updatedAt", "revision", "styleIds", "activeStyleId", "importedFrom"];
 export const LEGACY_PROJECT_RECORD_KEYS = Object.freeze(["schemaVersion", "id", "name", "createdAt", "updatedAt", "revision", "styleIds", "activeStyleId"]);
 const STYLE_KEYS = ["schemaVersion", "id", "projectId", "name", "recipeId", "recipePresetId", "createdAt", "updatedAt", "revision", "archivedAt", "design"];
+const STYLE_V2_KEYS = STYLE_KEYS;
 export const LEGACY_STYLE_RECORD_KEYS = Object.freeze(["schemaVersion", "id", "projectId", "name", "recipeId", "recipePresetId", "createdAt", "updatedAt", "revision", "design"]);
 const RECOVERY_KEYS = ["schemaVersion", "styleId", "payload"];
 const MIGRATION_KEYS = ["schemaVersion", "sourceKeys", "sourceSaveVersion", "sourceSha256", "migratedAt", "projectId", "styleId"];
-const DESIGN_KEYS = ["measurements", "fabric", "appearance", "garmentOptions", "workspace", "surface", "nestingIntelligence"];
+const DESIGN_V5_KEYS = ["measurements", "fabric", "appearance", "garmentOptions", "workspace", "surface", "nestingIntelligence"];
+const DESIGN_KEYS = [...DESIGN_V5_KEYS, "semanticEdits"];
 const WORKSPACE_KEYS = ["garment", "targetStyle", "stretchFabric", "view", "bodyCroquisView", "exportStep", "fabricWidth", "nestScope"];
 const APPEARANCE_KEYS = ["texture", "shine"];
 const NESTING_KEYS = ["bufferPct", "availableLengthCm", "napAware"];
 const RECOVERY_PAYLOAD_KEYS = [
   "savedAt", "measurements", "rawMeasurements", "fabric", "appearance", "garmentOptions",
   "rawOptions", "workspace", "materialSelectionExplicit", "surface", "rawNestingIntelligence",
+  "semanticEdits",
 ];
+const LEGACY_RECOVERY_PAYLOAD_KEYS = RECOVERY_PAYLOAD_KEYS.filter((key) => key !== "semanticEdits");
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const SHA256 = /^[0-9a-f]{64}$/i;
 
@@ -133,8 +137,8 @@ function fail<T>(error: string): RecordResult<T> {
   return { ok: false, error };
 }
 
-function parseSavedDesign(value: unknown): RecordResult<SavedDesign> {
-  if (!hasExactKeys(value, DESIGN_KEYS)) return fail("Style design fields are incomplete or unknown.");
+function parseSavedDesign(value: unknown, legacy = false): RecordResult<SavedDesign> {
+  if (!hasExactKeys(value, legacy ? DESIGN_V5_KEYS : DESIGN_KEYS)) return fail("Style design fields are incomplete or unknown.");
   const measurementKeys = FIELDS.map((field) => field.id);
   if (!hasExactKeys(value.measurements, measurementKeys)) return fail("Style measurements do not match this record schema.");
   if (!hasExactKeys(value.workspace, WORKSPACE_KEYS)) return fail("Style workspace fields are incomplete or unknown.");
@@ -142,7 +146,7 @@ function parseSavedDesign(value: unknown): RecordResult<SavedDesign> {
   if (!hasExactKeys(value.nestingIntelligence, NESTING_KEYS)) return fail("Style nesting fields are incomplete or unknown.");
   let parsed: ReturnType<typeof deserialize>;
   try {
-    parsed = deserialize(JSON.stringify({ v: SAVE_VERSION, ...value }));
+    parsed = deserialize(JSON.stringify({ v: SAVE_VERSION, ...value, semanticEdits: legacy ? null : value.semanticEdits }));
   } catch {
     return fail("Style design cannot be serialized.");
   }
@@ -182,35 +186,47 @@ export function parseProjectRecord(value: unknown): RecordResult<ProjectRecord> 
 }
 
 export function parseStyleRecord(value: unknown): RecordResult<StyleRecord> {
-  if (!hasExactKeys(value, STYLE_KEYS)) return fail("Style record fields are incomplete or unknown.");
-  if (value.schemaVersion !== STYLE_RECORD_VERSION) return fail("Unsupported style record schema version.");
+  if (!object(value) || ![1, 2, STYLE_RECORD_VERSION].includes(value.schemaVersion as number)) {
+    return fail("Unsupported style record schema version.");
+  }
+  const version = value.schemaVersion as number;
+  if (version === 1 ? !hasExactKeys(value, LEGACY_STYLE_RECORD_KEYS)
+    : version === 2 ? !hasExactKeys(value, STYLE_V2_KEYS) : !hasExactKeys(value, STYLE_KEYS)) {
+    return fail("Style record fields are incomplete or unknown.");
+  }
   if (!validUuid(value.id) || !validUuid(value.projectId) || !validName(value.name)
     || typeof value.recipeId !== "string" || value.recipeId.length === 0
     || typeof value.recipePresetId !== "string" || value.recipePresetId.length === 0
     || !validTimestamp(value.createdAt) || !validTimestamp(value.updatedAt)
     || !validRevision(value.revision)
-    || (value.archivedAt !== null && !validTimestamp(value.archivedAt))) {
+    || (version > 1 && value.archivedAt !== null && !validTimestamp(value.archivedAt))) {
     return fail("Style identity, name, recipe, timestamps, or revision are invalid.");
   }
   if (Date.parse(value.updatedAt) < Date.parse(value.createdAt)) return fail("Style updatedAt precedes createdAt.");
-  const design = parseSavedDesign(value.design);
+  const design = parseSavedDesign(value.design, version < STYLE_RECORD_VERSION);
   if (!design.ok) return fail(design.error);
   if (design.value.workspace.garment !== value.recipeId
     || design.value.workspace.targetStyle !== value.recipePresetId) {
     return fail("Style recipe identity does not match its saved workspace.");
   }
-  return { ok: true, value: { ...value, design: design.value } as unknown as StyleRecord };
+  return { ok: true, value: {
+    ...value,
+    schemaVersion: STYLE_RECORD_VERSION,
+    archivedAt: version === 1 ? null : value.archivedAt,
+    design: design.value,
+  } as unknown as StyleRecord };
 }
 
 export function parseRecoveryRecord(value: unknown): RecordResult<RecoveryRecord> {
   if (!hasExactKeys(value, RECOVERY_KEYS)) return fail("Recovery record fields are incomplete or unknown.");
-  if (value.schemaVersion !== RECOVERY_RECORD_VERSION) return fail("Unsupported recovery record schema version.");
-  if (!validUuid(value.styleId) || !hasExactKeys(value.payload, RECOVERY_PAYLOAD_KEYS)) {
+  if (value.schemaVersion !== 1 && value.schemaVersion !== RECOVERY_RECORD_VERSION) return fail("Unsupported recovery record schema version.");
+  const legacy = value.schemaVersion === 1;
+  if (!validUuid(value.styleId) || !hasExactKeys(value.payload, legacy ? LEGACY_RECOVERY_PAYLOAD_KEYS : RECOVERY_PAYLOAD_KEYS)) {
     return fail("Recovery identity or payload fields are invalid.");
   }
   let parsed: ReturnType<typeof deserializeRecovery>;
   try {
-    parsed = deserializeRecovery(JSON.stringify({ v: RECOVERY_VERSION, ...value.payload }));
+    parsed = deserializeRecovery(JSON.stringify({ v: RECOVERY_VERSION, ...value.payload, semanticEdits: legacy ? null : value.payload.semanticEdits }));
   } catch {
     return fail("Recovery payload cannot be serialized.");
   }

@@ -45,7 +45,7 @@ function harness() {
   const loadedSecond: LoadedProject = {
     project: { ...initial.project, activeStyleId: STYLE_TWO_ID },
     styles: [initial.styles[0], second], activeStyle: second,
-    activeRecovery: { schemaVersion: 1, styleId: STYLE_TWO_ID, payload: {} } as LoadedProject["activeRecovery"],
+    activeRecovery: { schemaVersion: 2, styleId: STYLE_TWO_ID, payload: {} } as LoadedProject["activeRecovery"],
     fieldObservations: initial.fieldObservations,
   };
   const workflow = {
@@ -106,7 +106,7 @@ describe("accessible project and style manager", () => {
     expect(recoveryPayloadOrNull(loaded)).toBeNull();
     expect(recoveryPayloadOrNull({
       ...loaded,
-      activeRecovery: { schemaVersion: 1, styleId: STYLE_ID, payload: { fabric: "#123456" } } as NonNullable<LoadedProject["activeRecovery"]>,
+      activeRecovery: { schemaVersion: 2, styleId: STYLE_ID, payload: { fabric: "#123456" } } as NonNullable<LoadedProject["activeRecovery"]>,
     })).toEqual({ fabric: "#123456" });
   });
 

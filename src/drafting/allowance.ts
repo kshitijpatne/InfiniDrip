@@ -14,10 +14,14 @@
 export interface AllowanceSpec {
   readonly default: number;
   readonly byEdge?: Readonly<Record<string, number>>;
+  /** Per-piece overrides are applied before the shared edge-name rule. */
+  readonly byPieceEdge?: Readonly<Record<string, Readonly<Record<string, number>>>>;
 }
 
-/** The allowance for one named edge, falling back to the default. */
-export function allowanceFor(spec: AllowanceSpec, edgeName: string): number {
+/** Piece-edge override, then shared edge-name rule, then the default. */
+export function allowanceFor(spec: AllowanceSpec, edgeName: string, pieceName?: string): number {
+  const byPiece = pieceName === undefined ? undefined : spec.byPieceEdge?.[pieceName];
+  if (byPiece && edgeName in byPiece) return byPiece[edgeName];
   const byEdge = spec.byEdge;
   if (byEdge && edgeName in byEdge) return byEdge[edgeName];
   return spec.default;

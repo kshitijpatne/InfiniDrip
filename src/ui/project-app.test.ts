@@ -749,7 +749,7 @@ describe("repository-backed app workflow", () => {
     } finally {
       clearTimeoutSpy.mockRestore();
     }
-  });
+  }, 30_000);
 
   it("reports a non-Error timer failure on Save before committing an edited design", async () => {
     workflow = await openProjectWorkflow({

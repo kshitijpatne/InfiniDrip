@@ -26,6 +26,8 @@
     "electron:verify-project-repository": "node electron/verify-project-repository.cjs",
     "preelectron:verify-project-workflow": "npm run build && npm run electron:build-main",
     "electron:verify-project-workflow": "node electron/verify-project-workflow.cjs",
+    "preelectron:verify-semantic-edit": "npm run build && npm run electron:build-main",
+    "electron:verify-semantic-edit": "node electron/verify-semantic-edit.cjs",
     "preelectron:verify-project-package": "npm run build && npm run electron:build-main",
     "electron:verify-project-package": "node electron/verify-project-package.cjs",
     "electron:verify": "node electron/verify-save.cjs",

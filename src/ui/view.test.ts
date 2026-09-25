@@ -3,7 +3,7 @@ import { STANDARD_M, GARMENTS, TSHIRT_SIZES, TEE, WOVEN_SHIRT, WOVEN_SHIRT_OPTIO
 import { garmentToggleMarkup, dartControlsMarkup, exportButtonsMarkup, fieldHistoryDialogContent, fieldObservationSummary, patternAnnotationKeyMarkup } from "./view";
 import { DEFAULT_FABRIC, BLUEPRINT } from "../render";
 import { matchStyle, styleNames, TEE_STYLES } from "../style";
-import { controlsMarkup, appShellMarkup, guidanceMarkup, styleMarkup, surfaceMarkup, nestIntelMarkup, nestIntelReadout, fabricSwatchesMarkup, fabricStretchMarkup, specTableMarkup, viewToggleMarkup, bodyCroquisToggleMarkup, fabricWidthMarkup, checkMarkup, editorHintMarkup, editorHandleControlsMarkup, inspectionMarkup } from "./view";
+import { controlsMarkup, appShellMarkup, guidanceMarkup, styleMarkup, surfaceMarkup, nestIntelMarkup, nestIntelReadout, fabricSwatchesMarkup, fabricStretchMarkup, specTableMarkup, viewToggleMarkup, bodyCroquisToggleMarkup, fabricWidthMarkup, checkMarkup, editorHintMarkup, semanticEditorHintMarkup, editorHandleControlsMarkup, inspectionMarkup } from "./view";
 import { ARTWORK_CATALOG, ARTWORK_CATEGORIES } from "../surface/artwork-library/catalog";
 import { assessArtworkUse } from "../surface/artwork-library/search";
 import type { ArtworkCatalogRecord } from "../surface/artwork-library/catalog";
@@ -393,6 +393,67 @@ describe("editorHintMarkup", () => {
     expect(singular).toContain("Preview blocked by 1 digital check.");
   });
 
+});
+
+describe("semanticEditorHintMarkup", () => {
+  it("renders every source and edit validation state with escaped details", () => {
+    const common = {
+      roles: ["front", "front", "backSide"],
+      canUndo: true,
+      canRedo: true,
+      canRebase: true,
+      hasEdits: true,
+      feedback: "Review <pattern>",
+    } as const;
+    const checking = semanticEditorHintMarkup([], "front", { ...common, status: "checking" });
+    expect(checking).toContain("Checking source");
+    expect(checking).toContain('data-editor-validation="checking"');
+    expect(checking).toContain('<option value="front" selected>front</option>');
+
+    const failed = semanticEditorHintMarkup([{
+      code: "invalid-source", message: "Source <hash> failed.", sizeLabel: "M",
+    }], "missing-role", { ...common, status: "failed" });
+    expect(failed).toContain("Source unavailable");
+    expect(failed).toContain('data-editor-validation="failed"');
+    expect(failed).toContain('data-editor-size="M"');
+    expect(failed).toContain("M: Source &lt;hash&gt; failed.");
+    expect(failed).toContain('<option value="backSide">back Side</option>');
+    expect(failed).toContain("Review &lt;pattern&gt;");
+
+    const rebase = semanticEditorHintMarkup([{
+      code: "rebase-required", message: "Source changed.",
+    }], "front", { ...common, status: "rebase-required", feedback: undefined });
+    expect(rebase).toContain("Review and rebase required");
+    expect(rebase).toContain('data-editor-validation="rebase-required"');
+    expect(rebase).not.toContain("data-editor-feedback");
+
+    const blocked = semanticEditorHintMarkup([
+      { code: "stitch-invalid", message: "Seam mismatch.", sizeLabel: "S" },
+      { code: "anchor-changed", message: "Anchor moved." },
+    ], "front", { ...common, status: "blocked" });
+    expect(blocked).toContain("Digital checks blocked");
+    expect(blocked).toContain('data-editor-validation="invalid"');
+    expect(blocked).toContain("2 digital checks");
+    expect(blocked).toContain("S: Seam mismatch.");
+    expect(blocked).toContain("Anchor moved.");
+    expect(blocked).toContain('id="editor-undo" type="button">Undo edit</button>');
+    expect(blocked).toContain('id="editor-redo" type="button">Redo edit</button>');
+    expect(blocked).toContain('id="editor-rebase" type="button">Rebase edits</button>');
+    const singular = semanticEditorHintMarkup([{ code: "stitch-invalid", message: "One seam mismatch." }], "front", {
+      ...common, status: "blocked",
+    });
+    expect(singular).toContain("1 digital check.");
+
+    const ready = semanticEditorHintMarkup([], "front", {
+      ...common, status: "ready", canUndo: false, canRedo: false, canRebase: false, hasEdits: false, feedback: undefined,
+    });
+    expect(ready).toContain("Ready for editing");
+    expect(ready).toContain('data-editor-validation="valid"');
+    expect(ready).toContain('id="editor-undo" type="button" disabled>Undo edit</button>');
+    expect(ready).toContain('id="editor-redo" type="button" disabled>Redo edit</button>');
+    expect(ready).toContain('id="editor-rebase" type="button" hidden>Rebase edits</button>');
+    expect(ready).not.toContain("data-editor-feedback");
+  });
 });
 
 describe("editorHandleControlsMarkup", () => {

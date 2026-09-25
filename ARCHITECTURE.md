@@ -83,14 +83,25 @@ show or check the same current draft:
   this is the fabric-layout estimate.
 - **Check:** Digital rules and guidance for the current design. Some issues
   affect Export readiness; not every note blocks it.
-- **Edit:** A temporary preview of one piece at a time, not a full pattern
-  editor.
+- **Edit:** A local semantic pattern editor for named corners and curve
+  controls. A committed movement is stored with the active style, checked
+  across its registered size run, and consumed by its dependent outputs.
 
-The **Edit** view is a deliberate exception to the shared-design flow. It lets
-someone experiment with one piece (the Trouser uses its left-front piece; the
-other garments use a front piece). It does not change measurements, Assembled,
-Check, Size run, Nesting, the saved design, or exported files. Changes in this
-preview are temporary; it is not a general pattern editor.
+The **Edit** view keeps user-authored deltas against stable recipe-owned
+anchors, rather than saving a disconnected picture. Pointer drags and keyboard
+coordinate edits become semantic operations; Undo, Redo, Clear and explicit
+Rebase operate on that history. A source measurement or option change makes
+the edits stale until the user reviews and rebases them. Invalid edits remain
+visible and block dependent outputs, including exports invoked outside the
+normal button state. Pattern, POM/spec, size run, nesting, relevant views, tech
+pack, projector and cutting files read from the same evaluated size block.
+
+Edit remains a 2D pattern editor for representable corner and curve-control
+moves. Topology changes such as dart transfer are not offered as final edits.
+The Body and Assembled views remain schematic; this work does not add cloth
+simulation or prove physical fit, drape, factory acceptance or CAD round-trip
+compatibility. Immutable revision snapshots and frozen manifests are the next
+Slice 239 boundary. See the [Slice 238 cross-output editing evidence](docs/research/epic15/F03-CROSS-OUTPUT-EDITING-S238.md).
 
 ## What the shared tools do
 
@@ -213,9 +224,25 @@ per-size geometry/stitch/recipe/POM guards, explicit rebase/conflict/undo rules,
 and an accessible warning for invalid edits in the still-exploratory Edit
 preview. That preview remains outside saved styles and exports; a rendered
 Chromium check confirmed the parametric SVG stayed byte-identical before and
-after an invalid preview. Slice 238 is responsible for persisted edit
-operations and real downstream output propagation, and Slice 239 for immutable
-revisions and frozen manifests. The semantic model and preview limits are in
+after an invalid preview. Slice 238 now connects semantic operations to each
+style's SaveFile, recovery and portable package; checks every registered size;
+and routes pattern, POM/spec, nesting, relevant views, tech pack, projector and
+cutting outputs through the same evaluated geometry. It also resolves woven
+hem-turn cutting allowances and makes the tank shoulder-width/strap-width
+boundary explicit. The full 1,781-test repository suite passed with 100%
+statement, branch, function and line coverage. A production-built Chromium and
+Electron proof verified six changed Tee outputs, style isolation, Save/reload,
+pending-recovery restart, stale-source blocking and explicit rebase. A second
+rendered Woven-shirt trace changed all six exports after a 1 cm→2 cm hem-turn
+change and again after a semantic curve edit; the retained screenshot and
+hashes cover both steps. The
+controlled process-exit proof is not a power-loss or operating-system crash
+test; none of this establishes physical fit or factory acceptance. Slice 239
+owns immutable revisions and frozen manifests; Slice 240 owns the full
+repository/browser/Electron exit gate and independent-style replay. The S238
+contract and hashes are in
+[`docs/research/epic15/F03-CROSS-OUTPUT-EDITING-S238.md`](docs/research/epic15/F03-CROSS-OUTPUT-EDITING-S238.md).
+The semantic model and Slice 237 preview limits are in
 [`docs/research/epic15/F03-CONSTRAINED-EDIT-S237.md`](docs/research/epic15/F03-CONSTRAINED-EDIT-S237.md)
 and its acceptance evidence is in
 [`docs/research/epic15/F03-SLICE-237-EXIT.md`](docs/research/epic15/F03-SLICE-237-EXIT.md).

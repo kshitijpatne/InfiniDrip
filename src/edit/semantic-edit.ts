@@ -10,7 +10,7 @@ import { stitchChecks } from "../drafting/stitch";
 import { outlinePoints } from "../render/allowance";
 import { gradeRun } from "../drafting/grading";
 
-export const SEMANTIC_EDIT_SCHEMA_VERSION = 1 as const;
+export const SEMANTIC_EDIT_SCHEMA_VERSION = 2 as const;
 export const SEMANTIC_EDIT_HISTORY_LIMIT = 30;
 const JOIN_EPS = 1e-6;
 const AREA_EPS = 1e-6;
@@ -57,10 +57,17 @@ export interface MoveAnchorsOperation {
 
 export type SemanticEditOperation = MoveAnchorsOperation;
 
+/** Values that define the user-visible recipe source against which edits were reviewed. */
+export interface SemanticEditSourceInputs {
+  readonly measurements: Readonly<Record<string, number>>;
+  readonly options: Readonly<Record<string, number>>;
+}
+
 export interface SemanticEditDocument {
   readonly schemaVersion: typeof SEMANTIC_EDIT_SCHEMA_VERSION;
   readonly recipeId: string;
   readonly sourceFingerprint: string;
+  readonly sourceInputs: SemanticEditSourceInputs;
   readonly operations: readonly SemanticEditOperation[];
   readonly past: readonly (readonly SemanticEditOperation[])[];
   readonly future: readonly (readonly SemanticEditOperation[])[];
@@ -117,6 +124,21 @@ export interface SemanticEditEvaluation {
   readonly canExportRun: boolean;
 }
 
+/** Require a validated run before deriving dependent output. */
+export function requireSemanticEditEvaluation(
+  evaluation: SemanticEditEvaluation | null | undefined,
+): SemanticEditEvaluation {
+  if (!evaluation) throw new Error("Semantic edit outputs are paused until their source is verified or rebased.");
+  return evaluation;
+}
+
+/** Resolve only a registered, validated size; never fall back to the base pattern. */
+export function requireSemanticEditSize(evaluation: SemanticEditEvaluation, step: number): Block {
+  const size = evaluation.sizes.find((candidate) => candidate.step === step);
+  if (!size || !size.canExport) throw new Error("The requested size is not present or valid in the semantic edit run.");
+  return size.block;
+}
+
 export type ConflictResolution = "keep-local" | "keep-remote";
 
 export interface EditOperationConflict {
@@ -150,14 +172,78 @@ function canonicalJson(value: unknown): string {
   return `{${Object.keys(record).sort().map((key) => `${JSON.stringify(key)}:${canonicalJson(record[key])}`).join(",")}}`;
 }
 
+const objectRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === "object" && value !== null && !Array.isArray(value);
+
+function exactKeys(value: unknown, keys: readonly string[]): value is Record<string, unknown> {
+  return objectRecord(value) && Object.keys(value).length === keys.length &&
+    keys.every((key) => Object.prototype.hasOwnProperty.call(value, key));
+}
+
+function validInputValues(value: unknown): value is Readonly<Record<string, number>> {
+  return objectRecord(value) && Object.entries(value).every(([key, entry]) =>
+    key.trim().length > 0 && typeof entry === "number" && Number.isFinite(entry));
+}
+
+function validFingerprint(value: unknown): value is string {
+  return typeof value === "string" && /^semantic-edit:v2:sha256:[0-9a-f]{64}$/.test(value);
+}
+
+/** Strict parser for persisted operation state; geometry validity remains an evaluation result. */
+export function parseSemanticEditDocument(value: unknown): SemanticEditDocument | null {
+  if (!exactKeys(value, ["schemaVersion", "recipeId", "sourceFingerprint", "sourceInputs", "operations", "past", "future"])
+    || value.schemaVersion !== SEMANTIC_EDIT_SCHEMA_VERSION
+    || typeof value.recipeId !== "string" || value.recipeId.trim().length === 0
+    || !validFingerprint(value.sourceFingerprint)
+    || !exactKeys(value.sourceInputs, ["measurements", "options"])
+    || !validInputValues(value.sourceInputs.measurements)
+    || !validInputValues(value.sourceInputs.options)
+    || !Array.isArray(value.operations) || !Array.isArray(value.past) || !Array.isArray(value.future)
+    || value.past.length > SEMANTIC_EDIT_HISTORY_LIMIT || value.future.length > SEMANTIC_EDIT_HISTORY_LIMIT) return null;
+  const validOperation = (candidate: unknown): candidate is SemanticEditOperation => {
+    if (!exactKeys(candidate, ["schemaVersion", "id", "kind", "recipeId", "sourceFingerprint", "moves"])
+      || candidate.schemaVersion !== SEMANTIC_EDIT_SCHEMA_VERSION
+      || typeof candidate.id !== "string" || candidate.id.trim().length === 0
+      || candidate.kind !== "move-anchors" || candidate.recipeId !== value.recipeId
+      || candidate.sourceFingerprint !== value.sourceFingerprint
+      || !Array.isArray(candidate.moves) || candidate.moves.length !== 1) return false;
+    const move = candidate.moves[0];
+    return exactKeys(move, ["anchorId", "signature", "deltaCm"])
+      && typeof move.anchorId === "string" && move.anchorId.length > 0
+      && typeof move.signature === "string" && move.signature.length > 0
+      && exactKeys(move.deltaCm, ["x", "y"])
+      && typeof move.deltaCm.x === "number" && Number.isFinite(move.deltaCm.x)
+      && typeof move.deltaCm.y === "number" && Number.isFinite(move.deltaCm.y);
+  };
+  const active = value.operations;
+  const snapshots = [...value.past, ...value.future];
+  if (!active.every(validOperation) || !snapshots.every((snapshot) =>
+    Array.isArray(snapshot) && snapshot.every(validOperation))) return null;
+  for (const stack of [active, ...snapshots]) {
+    if (new Set(stack.map((operation) => operation.id)).size !== stack.length) return null;
+  }
+  const byId = new Map<string, SemanticEditOperation>();
+  for (const operation of [...active, ...snapshots.flat()]) {
+    const previous = byId.get(operation.id);
+    if (previous && !sameOperation(previous, operation)) return null;
+    byId.set(operation.id, operation);
+  }
+  return value as unknown as SemanticEditDocument;
+}
+
 /** Versioned fingerprint of the source pattern. It is conflict metadata, not a revision approval. */
 export async function semanticEditSourceFingerprint(
   recipeId: string,
   block: Block,
   cryptoProvider: Crypto | undefined = globalThis.crypto,
+  sourceInputs: SemanticEditSourceInputs = { measurements: {}, options: {} },
 ): Promise<string> {
   if (!recipeId || !cryptoProvider?.subtle) throw new Error("SHA-256 is unavailable; semantic edits are blocked.");
-  const payload = canonicalJson({ schemaVersion: SEMANTIC_EDIT_SCHEMA_VERSION, recipeId, block });
+  if (!exactKeys(sourceInputs, ["measurements", "options"])
+    || !validInputValues(sourceInputs.measurements) || !validInputValues(sourceInputs.options)) {
+    throw new Error("Semantic edit source inputs must be finite, canonical recipe values.");
+  }
+  const payload = canonicalJson({ schemaVersion: SEMANTIC_EDIT_SCHEMA_VERSION, recipeId, sourceInputs, block });
   const digest = await cryptoProvider.subtle.digest("SHA-256", new TextEncoder().encode(payload));
   const hex = [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, "0")).join("");
   return `semantic-edit:v${SEMANTIC_EDIT_SCHEMA_VERSION}:sha256:${hex}`;
@@ -224,9 +310,17 @@ export function semanticAnchorCatalog(recipeId: string, block: Block): readonly 
   return anchors;
 }
 
-export function emptySemanticEditDocument(recipeId: string, sourceFingerprint: string): SemanticEditDocument {
-  if (!recipeId || !sourceFingerprint) throw new Error("An edit document needs a recipe and source fingerprint.");
-  return { schemaVersion: SEMANTIC_EDIT_SCHEMA_VERSION, recipeId, sourceFingerprint, operations: [], past: [], future: [] };
+export function emptySemanticEditDocument(
+  recipeId: string,
+  sourceFingerprint: string,
+  sourceInputs: SemanticEditSourceInputs = { measurements: {}, options: {} },
+): SemanticEditDocument {
+  if (!recipeId.trim() || !validFingerprint(sourceFingerprint)) throw new Error("An edit document needs a recipe and source fingerprint.");
+  if (!exactKeys(sourceInputs, ["measurements", "options"])
+    || !validInputValues(sourceInputs.measurements) || !validInputValues(sourceInputs.options)) {
+    throw new Error("An edit document needs finite recipe source inputs.");
+  }
+  return { schemaVersion: SEMANTIC_EDIT_SCHEMA_VERSION, recipeId, sourceFingerprint, sourceInputs, operations: [], past: [], future: [] };
 }
 
 /** Build one exact-centimetre movement using an anchor from the source draft. */
@@ -238,6 +332,7 @@ export function createAnchorMoveOperation(
   anchorId: string,
   deltaCm: Point,
 ): MoveAnchorsOperation {
+  if (!recipeId.trim() || !validFingerprint(sourceFingerprint)) throw new Error("An edit operation needs a recipe and current source fingerprint.");
   if (!operationId.trim()) throw new Error("An edit operation needs a stable ID.");
   if (!Number.isFinite(deltaCm.x) || !Number.isFinite(deltaCm.y)) throw new Error("Anchor movement must be finite centimetres.");
   const anchor = semanticAnchorCatalog(recipeId, block).find((item) => item.id === anchorId);
@@ -540,13 +635,29 @@ export function evaluateSemanticEditDocument(
   options: GarmentOptions,
   document: SemanticEditDocument,
   currentSourceFingerprint: string,
+  currentSourceInputs: SemanticEditSourceInputs = document.sourceInputs,
 ) : SemanticEditEvaluation {
   if (document.recipeId !== recipe.name || document.schemaVersion !== SEMANTIC_EDIT_SCHEMA_VERSION) {
     const issue: SemanticEditIssue = { code: "invalid-operation", recipeId: recipe.name, message: "The edit document does not match this recipe or schema." };
     return { status: "blocked", sourceFingerprint: currentSourceFingerprint, sizes: [], issues: [issue], canExportSize: () => false, canExportRun: false };
   }
-  if (document.sourceFingerprint !== currentSourceFingerprint) {
-    const issue: SemanticEditIssue = { code: "rebase-required", recipeId: recipe.name, message: "The source pattern changed. Rebase or remove the edits before using dependent outputs." };
+  let changedInputs: string[] = [];
+  try {
+    if (!exactKeys(currentSourceInputs, ["measurements", "options"])) throw new Error("Malformed source inputs.");
+    changedInputs = ["measurements", "options"].flatMap((group) => {
+      const before = document.sourceInputs[group as keyof SemanticEditSourceInputs];
+      const after = currentSourceInputs[group as keyof SemanticEditSourceInputs];
+      if (!validInputValues(before) || !validInputValues(after)) throw new Error("Malformed source inputs.");
+      return [...new Set([...Object.keys(before), ...Object.keys(after)])]
+        .filter((key) => before[key] !== after[key]).map((key) => `${group}.${key}`);
+    });
+  } catch {
+    const issue: SemanticEditIssue = { code: "invalid-source", recipeId: recipe.name, message: "The current semantic-edit source inputs are invalid." };
+    return { status: "blocked", sourceFingerprint: currentSourceFingerprint, sizes: [], issues: [issue], canExportSize: () => false, canExportRun: false };
+  }
+  if (document.sourceFingerprint !== currentSourceFingerprint || changedInputs.length > 0) {
+    const detail = changedInputs.length > 0 ? ` Changed inputs: ${changedInputs.join(", ")}.` : "";
+    const issue: SemanticEditIssue = { code: "rebase-required", recipeId: recipe.name, message: `The source pattern or its reviewed inputs changed.${detail} Review the values and rebase or remove the edits before using dependent outputs.` };
     return { status: "rebase-required", sourceFingerprint: currentSourceFingerprint, sizes: [], issues: [issue], canExportSize: () => false, canExportRun: false };
   }
   const graded = gradeRun(measurements, recipe.grade, recipe.sizes, recipe.draft, options);
@@ -567,8 +678,11 @@ export function rebaseSemanticEditDocument(
   recipe: GarmentRecipe,
   newBaseBlock: Block,
   nextSourceFingerprint: string,
+  nextSourceInputs: SemanticEditSourceInputs = document.sourceInputs,
 ): { readonly ok: boolean; readonly document: SemanticEditDocument; readonly issues: readonly SemanticEditIssue[] } {
-  if (document.recipeId !== recipe.name || !nextSourceFingerprint) {
+  if (document.recipeId !== recipe.name || !validFingerprint(nextSourceFingerprint)
+    || !exactKeys(nextSourceInputs, ["measurements", "options"])
+    || !validInputValues(nextSourceInputs.measurements) || !validInputValues(nextSourceInputs.options)) {
     return { ok: false, document, issues: [{ code: "invalid-source", recipeId: recipe.name, message: "Rebase requires the matching recipe and a current source fingerprint." }] };
   }
   let anchors: readonly SemanticAnchor[];
@@ -599,6 +713,7 @@ export function rebaseSemanticEditDocument(
     document: {
       ...document,
       sourceFingerprint: nextSourceFingerprint,
+      sourceInputs: nextSourceInputs,
       operations: document.operations.map(update),
       past: document.past.map((snapshot) => snapshot.map(update)),
       future: document.future.map((snapshot) => snapshot.map(update)),

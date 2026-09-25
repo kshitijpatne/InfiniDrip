@@ -127,9 +127,12 @@ snapshots; they are not current status.
 - `docs/research/epic15/F03-CONSTRAINED-EDIT-S237.md` — the deterministic
   semantic-anchor, geometry, stitch, graded-measurement and POM contract for
   Slice 237. `F03-SLICE-237-EXIT.md` records model coverage, the invalid-preview
-  browser proof, byte-identical parametric SVG output, and the explicit
-  S238/S239/S240 boundaries. The current Edit preview remains transient;
-  Slice 238 owns durable style integration.
+  browser proof and byte-identical parametric SVG output. At that slice's exit,
+  the Edit preview was still transient; Slice 238 now owns its style-scoped
+  persistence and dependent-output integration. Its complete implementation,
+  verification digests and rendered Woven-shirt evidence are in
+  `docs/research/epic15/F03-CROSS-OUTPUT-EDITING-S238.md`. Slice 239 still owns
+  immutable revisions/hashes and Slice 240 owns the final G02 exit gate.
 - `docs/research/epic14/` — accepted evidence packets for C01 recipe baseline,
   C02 standards and tools, C05 3D feasibility, C06 starter/assortment/upcycling/
   supplier evidence, and C03 measurement/donor contract. C04's accepted

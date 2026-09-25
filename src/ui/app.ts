@@ -3,13 +3,32 @@
 // logic lives in the pure modules.
 
 import { Measurements, STANDARD_M, Piece, STRETCH_FABRICS, fabricEaseNote, GarmentOptionsByRecipe, GarmentOptions, defaultGarmentOptions } from "../drafting";
-import { gradeRun, draftAtSize, specSheet, GARMENTS, GarmentRecipe, garmentByName } from "../drafting";
-import { blockPieces, rolePiece } from "../drafting";
+import { gradeRun, gradeMeasurements, draftAtSize, specSheet, GARMENTS, GarmentRecipe, garmentByName } from "../drafting";
+import { block, blockPieces } from "../drafting";
+import { wovenShirtAllowances } from "../drafting/shirt";
+import type { AllowanceSpec } from "../drafting/allowance";
 import { exportSvg, exportDxf, exportPdf, exportTechPackV2, exportProjectorSvg, exportA0Pdf, exportSurfaceSheet, flattenPiece, nestPieces, gradedMarker } from "../export";
 import { renderBlueprint, renderGarment, renderNest, renderFabricNest, renderEditor, renderBody, renderBodyPair, renderSkirtGarment, renderSkirtBody, renderTrouserGarment, renderTrouserBody, renderTrouserBodyPair, renderTrouserSide, renderSideCroquis, DEFAULT_FABRIC } from "../render";
-import { pieceHandles, moveHandle, nearestHandle, editorViewBox, viewboxPointToCm, Handle } from "../edit";
-import { inspectSemanticEditCandidate } from "../edit/semantic-edit";
-import { dartOf, transferDart, trueSeam, edgesMeet } from "../drafting";
+import { moveHandle, nearestHandle, editorViewBox, viewboxPointToCm, Handle } from "../edit";
+import {
+  appendSemanticEditOperations,
+  createAnchorMoveOperation,
+  emptySemanticEditDocument,
+  evaluateSemanticEditDocument,
+  inspectSemanticEditCandidate,
+  requireSemanticEditEvaluation,
+  requireSemanticEditSize,
+  rebaseSemanticEditDocument,
+  redoSemanticEdit,
+  semanticAnchorCatalog,
+  semanticEditSourceFingerprint,
+  undoSemanticEdit,
+  type SemanticEditDocument,
+  type SemanticEditEvaluation,
+  type SemanticEditIssue,
+  type SemanticEditSourceInputs,
+} from "../edit/semantic-edit";
+import type { Block } from "../drafting/block";
 import { BLUEPRINT } from "../render";
 import { guide, Note } from "../guidance";
 import { garmentReport, implausibleFields } from "../guidance";
@@ -17,7 +36,7 @@ import { surfaceGuidance } from "../guidance/surface-notes";
 import { availableLengthError, bufferError } from "../export/nesting-intelligence";
 import { matchStyle, styleNames } from "../style";
 import { FIELDS, applyChange, inputError, numericRangePosition, numericRangeState, stepNumericValue } from "./controls";
-import { appShellMarkup, controlsMarkup, fieldHistoryDialogContent, fieldObservationSummary, guidanceMarkup, styleMarkup, surfaceMarkup, artworkLibraryResultsMarkup, nestIntelReadout, specTableMarkup, checkMarkup, editorHintMarkup, editorHandleControlsMarkup, dartControlsMarkup, inspectionMarkup, patternAnnotationKeyMarkup, BodyCroquisView, type ArtworkLibraryPanelData } from "./view";
+import { appShellMarkup, controlsMarkup, fieldHistoryDialogContent, fieldObservationSummary, guidanceMarkup, styleMarkup, surfaceMarkup, artworkLibraryResultsMarkup, nestIntelReadout, specTableMarkup, checkMarkup, semanticEditorHintMarkup, editorHandleControlsMarkup, inspectionMarkup, patternAnnotationKeyMarkup, BodyCroquisView, type ArtworkLibraryPanelData } from "./view";
 import { saveToStorage, loadFromStorage, readFromStorage, serialize, deserialize, DEFAULT_WORKSPACE, defaultStretchFabricForGarment, Workspace, SaveFile, RecoveryFile, readRecoveryFromStorage, saveRecoveryToStorage, clearRecoveryFromStorage } from "./persist";
 import { Appearance, APPEARANCE_TEXTURES, DEFAULT_APPEARANCE, applyAppearanceToSvg, hexToHsl, hslToHex, normalizeHex } from "./appearance";
 import { emptyHistory, recordHistory, redoHistory, undoHistory, HistoryState } from "./history";
@@ -106,6 +125,13 @@ interface PatternMeasurementNavigation {
 
 const HISTORY_LIMIT = 30;
 let activeMountRoot: HTMLElement | null = null;
+let semanticOperationSequence = 0;
+
+function nextSemanticOperationId(): string {
+  semanticOperationSequence++;
+  return globalThis.crypto?.randomUUID?.()
+    ?? `semantic-edit-${Date.now()}-${semanticOperationSequence}`;
+}
 
 const correctionStepForField = (field: string): JourneyStep =>
   field === "ease" || field === "stretchFabric" || field.startsWith("option-") ||
@@ -123,6 +149,99 @@ export interface MountAppOptions {
   readonly inspectArtworkFile?: (file: File) => Promise<InspectedArtworkFile>;
   /** The browser entry opens/migrates this local project before mount. */
   readonly projectWorkflow?: ProjectWorkflow;
+}
+
+/** Fail closed if an export action somehow bypasses its rendered readiness gate. */
+export function exportablePieces(blockAtSize: Block | null, ready: boolean): Piece[] {
+  if (!ready || blockAtSize === null) {
+    throw new Error("This size's pattern export is paused until its semantic edits pass review.");
+  }
+  return [...blockPieces(blockAtSize)];
+}
+
+/** Keep output routing exact: an unknown measurement set cannot borrow a nearby size. */
+export function semanticSizeStepFor<T extends { readonly step: number }>(
+  sizes: readonly T[],
+  matches: (candidate: T) => boolean,
+): number {
+  return sizes.find(matches)?.step ?? Number.NaN;
+}
+
+/** The single-size editor remains named even when a recipe has no size chart. */
+export function selectedSizeLabel<T extends { readonly step: number; readonly label: string }>(
+  sizes: readonly T[],
+  step: number,
+): string {
+  return sizes.find((size) => size.step === step)?.label ?? "Selected size";
+}
+
+export function semanticEditorHandles(recipeId: string, source: Block, roleId: string): Handle[] {
+  const piece = source.roles[roleId];
+  if (!piece) return [];
+  return semanticAnchorCatalog(recipeId, source)
+    .filter((anchor) => anchor.roleId === roleId)
+    .map((anchor): Handle => {
+      if (anchor.kind === "junction") {
+        return {
+          id: anchor.id,
+          kind: "vertex",
+          edge: piece.edges.findIndex((edge) => edge.name === anchor.nextEdge),
+          pos: anchor.pointCm,
+        };
+      }
+      return {
+        id: anchor.id,
+        kind: "control",
+        edge: piece.edges.findIndex((edge) => edge.name === anchor.edge),
+        which: anchor.control,
+        pos: anchor.pointCm,
+      };
+    });
+}
+
+/** Resolve an editable pattern piece without assuming a stale role still exists. */
+export function semanticEditorPieceForRole(
+  source: Block | null | undefined,
+  roleId: string,
+): Piece | null {
+  return source?.roles[roleId] ?? null;
+}
+
+/** Render the safe empty state or delegate the current editable piece. */
+export function renderSemanticEditorPiece(
+  piece: Piece | null | undefined,
+  render: (piece: Piece) => string,
+): string {
+  if (piece === null || piece === undefined) {
+    return '<p role="status">This recipe has no editable pattern pieces.</p>';
+  }
+  return render(piece);
+}
+
+/** Run an edit action only while the requested piece exists in this draft. */
+export function withSemanticEditorPiece<T>(
+  piece: Piece | null | undefined,
+  action: (piece: Piece) => T,
+): T | undefined {
+  return piece === null || piece === undefined ? undefined : action(piece);
+}
+
+/** Retain a valid role, otherwise select the first current piece without inventing one. */
+export function resolveSemanticEditorRole(
+  current: string | undefined,
+  roles: readonly string[],
+): string {
+  const preferred = current ?? "";
+  return roles.includes(preferred) ? preferred : roles[0] ?? "";
+}
+
+interface SemanticSourceRuntime {
+  readonly key: string;
+  readonly sourceInputs: SemanticEditSourceInputs;
+  readonly baseBlock: Block | null;
+  status: "checking" | "ready" | "failed";
+  fingerprint?: string;
+  error?: string;
 }
 
 function defaultArtworkAssetStore(): ArtworkAssetStore {
@@ -151,6 +270,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   let measurements: Measurements = saved ? saved.measurements : STANDARD_M;
   let fabric = saved ? saved.fabric : DEFAULT_FABRIC;
   let garmentOptions: GarmentOptionsByRecipe = saved ? saved.garmentOptions : {};
+  let semanticEdits: SemanticEditDocument | null = saved?.semanticEdits ?? null;
   const initialWorkspace = saved?.workspace ?? {
     ...DEFAULT_WORKSPACE,
     stretchFabric: defaultStretchFabricForGarment(DEFAULT_WORKSPACE.garment),
@@ -228,9 +348,17 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   let materialSelectionExplicit = saved !== null;
   let view: ViewName = saved ? initialWorkspace.view : stepView(journey.step);
   let bodyCroquisView: BodyCroquisView = initialWorkspace.bodyCroquisView;
-  let editedFront: Piece | null = null; // freeform snapshot of the front (override, not parametric)
-  let dragId: string | null = null; // handle being dragged
+  let editRoleId = recipe.editRole ?? "front";
+  let editedFront: Piece | null = null; // transient pointer preview; committed moves live in semanticEdits
+  let dragStart: { readonly handle: Handle; readonly piece: Piece; readonly roleId: string } | null = null;
   let selectedId: string | null = null; // handle highlighted in the editor
+  let semanticSourceCache: SemanticSourceRuntime | null = null;
+  let semanticEvaluationCache: {
+    readonly sourceKey: string;
+    readonly document: SemanticEditDocument;
+    readonly result: SemanticEditEvaluation;
+  } | null = null;
+  let semanticEditFeedback = "";
   let fabricWidth = initialWorkspace.fabricWidth;
   let nestScope: "single" | "marker" = initialWorkspace.nestScope;
   // Nesting-intelligence planning state. Raw strings stay verbatim (invalid
@@ -294,7 +422,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       bufferPct: nestBufferRaw.trim() === "" ? NaN : Number(nestBufferRaw),
       availableLengthCm: nestAvailableRaw.trim() === "" ? null : Number(nestAvailableRaw),
       napAware: nestNap,
-    }));
+    }, semanticEdits));
     if (!result.ok) return null;
     const { ok: _ok, ...design } = result;
     return design;
@@ -349,6 +477,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     materialSelectionExplicit,
     surface: surfaceBook,
     rawNestingIntelligence: { buffer: nestBufferRaw, available: nestAvailableRaw, napAware: nestNap },
+    semanticEdits,
   });
   const sameSnapshot = (left: DraftSnapshot, right: DraftSnapshot): boolean =>
     JSON.stringify(left) === JSON.stringify(right);
@@ -401,7 +530,125 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     ...defaultGarmentOptions(forRecipe.options ?? []),
     ...(garmentOptions[forRecipe.name] ?? {}),
   });
-  const draftCurrent = (): ReturnType<GarmentRecipe["draft"]> => recipe.draft(measurements, recipeOptions());
+  const currentSemanticSourceInputs = (): SemanticEditSourceInputs => {
+    const sourceMeasurements = new Set<string>(recipe.fields);
+    // Tank shoulderWidth is deliberately not converted to strapWidth, but it is
+    // a visible fit input that must still trigger explicit edit review/rebase.
+    if (recipe.name === "tank") sourceMeasurements.add("shoulderWidth");
+    return {
+      measurements: Object.fromEntries([...sourceMeasurements].map((field) =>
+        [field, measurements[field as keyof Measurements]])),
+      options: Object.fromEntries((recipe.options ?? []).map((option) =>
+        [option.id, recipeOptions()[option.id]])),
+    };
+  };
+  const resolveSemanticSource = (): SemanticSourceRuntime => {
+    const sourceInputs = currentSemanticSourceInputs();
+    let baseBlock: Block;
+    try {
+      baseBlock = recipe.draft(measurements, recipeOptions());
+    } catch (error) {
+      const key = JSON.stringify({ recipeId: recipe.name, sourceInputs, error: String(error) });
+      if (semanticSourceCache?.key !== key) {
+        semanticSourceCache = {
+          key, sourceInputs, baseBlock: null, status: "failed",
+          error: error instanceof Error ? error.message : "The current recipe draft could not be generated.",
+        };
+      }
+      return semanticSourceCache;
+    }
+    const key = JSON.stringify({ recipeId: recipe.name, sourceInputs, baseBlock });
+    if (semanticSourceCache?.key === key) return semanticSourceCache;
+    const runtime: SemanticSourceRuntime = { key, sourceInputs, baseBlock, status: "checking" };
+    semanticSourceCache = runtime;
+    void semanticEditSourceFingerprint(recipe.name, baseBlock, globalThis.crypto, sourceInputs).then((fingerprint) => {
+      if (semanticSourceCache !== runtime) return;
+      runtime.fingerprint = fingerprint;
+      runtime.status = "ready";
+      draw();
+    }).catch((error: unknown) => {
+      if (semanticSourceCache !== runtime) return;
+      runtime.error = error instanceof Error ? error.message : "SHA-256 source verification is unavailable.";
+      runtime.status = "failed";
+      draw();
+    });
+    return runtime;
+  };
+  const currentSemanticState = (): {
+    readonly source: SemanticSourceRuntime;
+    readonly evaluation: SemanticEditEvaluation | null;
+  } | null => {
+    if (!semanticEdits && view !== "edit") return null;
+    const source = resolveSemanticSource();
+    if (!semanticEdits || source.status !== "ready" || !source.fingerprint || !source.baseBlock) {
+      return { source, evaluation: null };
+    }
+    if (semanticEvaluationCache?.sourceKey === source.key
+      && semanticEvaluationCache.document === semanticEdits) {
+      return { source, evaluation: semanticEvaluationCache.result };
+    }
+    const result = evaluateSemanticEditDocument(
+      recipe, measurements, recipeOptions(), semanticEdits, source.fingerprint, source.sourceInputs,
+    );
+    semanticEvaluationCache = { sourceKey: source.key, document: semanticEdits, result };
+    return { source, evaluation: result };
+  };
+  const semanticRunReady = (): boolean => {
+    if (!semanticEdits) return true;
+    return currentSemanticState()?.evaluation?.canExportRun === true;
+  };
+  const semanticSizeReady = (step: number): boolean => {
+    if (!semanticEdits) return true;
+    return currentSemanticState()?.evaluation?.canExportSize(step) === true;
+  };
+  const semanticOutputIssues = (): readonly SemanticEditIssue[] => {
+    const state = currentSemanticState();
+    if (!state) return [];
+    if (state.evaluation) return state.evaluation.issues;
+    if (state.source.status === "failed") return [{
+      code: "invalid-source", recipeId: recipe.name,
+      message: state.source.error!,
+    }];
+    return [];
+  };
+  const semanticEditCanMutate = (): boolean => {
+    if (!semanticEdits) return currentSemanticState()?.source.status === "ready";
+    const state = currentSemanticState();
+    return state?.source.status === "ready"
+      && state.evaluation !== null
+      && state.evaluation.sizes.length > 0
+      && state.evaluation.status !== "rebase-required";
+  };
+  const semanticSizeBlock = (step: number): Block | null => {
+    if (!semanticEdits) {
+      const source = view === "edit" ? currentSemanticState()?.source : null;
+      if (source?.status === "failed" && source.baseBlock === null) return null;
+      return draftAtSize(measurements, recipe.grade, step, recipe.draft, recipeOptions());
+    }
+    return currentSemanticState()?.evaluation?.sizes.find((size) => size.step === step)?.block ?? null;
+  };
+  const semanticMeasurementKey = (value: Measurements): string =>
+    FIELDS.map((field) => String(value[field.id])).join("|");
+  const recipeForCurrentOutputs = (): GarmentRecipe => {
+    const allowances = recipe.name === "woven-shirt"
+      ? wovenShirtAllowances(recipeOptions().hemTurn)
+      : recipe.allowances;
+    if (!semanticEdits) return { ...recipe, allowances };
+    const evaluation = requireSemanticEditEvaluation(currentSemanticState()?.evaluation);
+    return {
+      ...recipe,
+      allowances,
+      draft: (value: Measurements): Block => {
+        const step = semanticSizeStepFor(evaluation.sizes, (candidate) =>
+          semanticMeasurementKey(gradeMeasurements(measurements, recipe.grade, candidate.step))
+            === semanticMeasurementKey(value));
+        return requireSemanticEditSize(evaluation, step);
+      },
+    };
+  };
+  const currentAllowances = (): AllowanceSpec => recipe.name === "woven-shirt"
+    ? wovenShirtAllowances(recipeOptions().hemTurn)
+    : recipe.allowances;
   let surfaceRoleCacheKey = "";
   let surfaceRoleCache: readonly string[] = [];
   const surfaceRoleSuggestions = (): readonly string[] => {
@@ -611,11 +858,19 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     (recipe.name === "woven-shirt" || recipe.name === "trouser") && stretchFabric.family === "knit"
       ? { level: "warn", field: "stretchFabric", text: `${recipe.label} is drafted for stable woven material; choose Cotton woven or Linen, or review the construction before using a knit.` }
       : null;
-  // Include recipe warnings without changing the geometry-only export report.
-  const designValid = (): boolean => inputErrors().size === 0
-    && !guide(recipe, measurements, recipeOptions()).some((note) => note.level === "warn")
-    && materialCompatibilityNote() === null
-    && garmentReport(recipe, measurements, recipeOptions()).ok;
+  // The parametric report stays separate; semantic edits have their own
+  // all-size validator and never inherit a green result from the source draft.
+  const baseDesignValid = (): boolean => {
+    if (inputErrors().size > 0) return false;
+    try {
+      return !guide(recipe, measurements, recipeOptions()).some((note) => note.level === "warn")
+        && materialCompatibilityNote() === null
+        && garmentReport(recipe, measurements, recipeOptions()).ok;
+    } catch {
+      return false;
+    }
+  };
+  const designValid = (): boolean => baseDesignValid() && semanticRunReady();
   const poloVisual = () => {
     if (recipe.name !== "polo") return undefined;
     const options = recipeOptions();
@@ -714,7 +969,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     checkReviewed,
     exported: journey.exported,
   });
-  const canExport = (): boolean => styleReviewed && checkReviewed && designValid();
+  const canExport = (): boolean => styleReviewed && checkReviewed
+    && baseDesignValid() && semanticSizeReady(exportStep);
+  const canExportRun = (): boolean => styleReviewed && checkReviewed
+    && baseDesignValid() && semanticRunReady();
   const stageBlocker = (): StageBlocker | undefined => {
     if (journey.step === "start") return undefined;
     const error = inputErrors().entries().next().value;
@@ -1139,9 +1397,30 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   };
 
   const draw = (): void => {
+    try {
+      drawCurrentView();
+    } catch (error) {
+      const alert = document.createElement("p");
+      alert.setAttribute("role", "alert");
+      alert.dataset.renderFailed = "";
+      alert.textContent = error instanceof Error
+        ? `The current design could not be rendered: ${error.message}`
+        : "The current design could not be rendered because a recipe source check failed.";
+      canvasHost.replaceChildren(alert);
+      root.querySelectorAll<HTMLButtonElement>("#export-host button").forEach((button) => {
+        button.disabled = true;
+        button.title = "Exports are paused because the current design could not be rendered.";
+      });
+    }
+  };
+
+  const drawCurrentView = (): void => {
     applyDisclosure();
     const errors = inputErrors();
     const valid = designValid();
+    const semanticState = errors.size === 0 && (semanticEdits !== null || view === "edit")
+      ? currentSemanticState()
+      : null;
     root.querySelectorAll<HTMLElement>("[data-finished]").forEach((total) => {
       const value = measurements[total.dataset.finished as keyof Measurements] + measurements.ease;
       total.textContent = Number.isFinite(value) ? `${value} cm` : "Enter complete measurements";
@@ -1156,8 +1435,13 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     syncRangeIndicators();
     root.querySelectorAll<HTMLButtonElement>('#export-host button[id^="export-"]').forEach((button) => {
       const needsArtwork = button.id === "export-surface-sheet" && surfacePlacementsNow().length === 0;
-      button.disabled = !canExport() || needsArtwork;
-      button.title = !canExport()
+      const allowed = button.id === "export-techpack" || button.id === "export-projector"
+        ? canExportRun()
+        : button.id === "export-surface-sheet"
+          ? styleReviewed && checkReviewed && baseDesignValid()
+          : canExport();
+      button.disabled = !allowed || needsArtwork;
+      button.title = !allowed
         ? "Review Style and the current digital checks before exporting."
         : needsArtwork ? "Add artwork on the Style panel first." : "";
     });
@@ -1183,17 +1467,27 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     // short sleeve regardless (Slice 60).
     const hasSleeve = recipe.fields.includes("sleeveLength");
     const fabricNote: Note = { level: "info", field: "ease", text: fabricEaseNote(stretchFabric, isTop ? measurements.chest : measurements.hip) };
-    const failedChecks: Note[] = garmentReport(recipe, measurements, recipeOptions()).checks
+    const checkRecipe = semanticEdits && semanticState?.evaluation?.canExportSize(0)
+      ? recipeForCurrentOutputs()
+      : recipe;
+    const sourceCannotDraft = semanticState?.source.status === "failed" && !semanticState.source.baseBlock;
+    const failedChecks: Note[] = sourceCannotDraft ? [] : garmentReport(checkRecipe, measurements, recipeOptions()).checks
       .filter((check) => !check.ok).map((check) => ({ field: CHECK_FIELDS[check.name], level: "warn", text: `${check.name}: ${check.detail}` }));
     const materialNote = materialCompatibilityNote();
     // Piece frames for surface bounds/coverage checks, at base size. Built
     // only when artwork exists, so empty styles cost nothing extra here.
-    const surfaceFrames = surfacePlacementsNow().length === 0
+    const surfaceBaseBlock = semanticSizeBlock(0);
+    const surfaceFrames = surfacePlacementsNow().length === 0 || !semanticSizeReady(0) || surfaceBaseBlock === null
       ? null
-      : pieceFrames(draftCurrent(), recipe.allowances);
+      : pieceFrames(surfaceBaseBlock, currentAllowances());
+    const editIssues = semanticOutputIssues();
     const guidanceNotes: Note[] = [
-      ...guide(recipe, measurements, recipeOptions()),
+      ...(sourceCannotDraft ? [] : guide(recipe, measurements, recipeOptions())),
       ...failedChecks,
+      ...(semanticEdits && semanticState?.source.status === "checking"
+        ? [{ level: "info" as const, field: "semantic-edit", text: "Verifying the saved edit against the current source. Dependent outputs are paused." }]
+        : []),
+      ...editIssues.map((issue) => ({ level: "warn" as const, field: "semantic-edit", text: issue.message })),
       fabricNote,
       ...(materialNote ? [materialNote] : []),
       // Surface artwork warnings ride the same panel: same warn-only contract,
@@ -1210,45 +1504,80 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     bodyCroquisHost.style.display = view === "body" && !previewActive ? "flex" : "none";
     let canvasContent: string;
     if (view === "nest") {
-      canvasContent = renderNest(
-        gradeRun(measurements, recipe.grade, recipe.sizes, recipe.draft, recipeOptions()));
+      canvasContent = semanticRunReady()
+        ? renderNest(gradeRun(measurements, recipe.grade, recipe.sizes, recipeForCurrentOutputs().draft, recipeOptions()))
+        : `<p role="status" data-semantic-output-paused>Graded nesting is paused. Review or rebase the saved edits in Edit.</p>`;
     } else if (view === "fabric") {
-      const nest = nestScope === "marker"
-        ? gradedMarker(recipe, measurements, fabricWidth, recipeOptions())
-        : nestPieces(blockPieces(draftAtSize(
-          measurements, recipe.grade, exportStep, recipe.draft, recipeOptions()
-        )).map((p) => flattenPiece(p, recipe.allowances)), fabricWidth);
-      canvasContent = renderFabricNest(
-        nest.placed, nest.fabricWidth, nest.fabricLength, nest.utilization, nest.fits);
-      renderNestIntel(nest.fabricLength, nest.utilization);
+      if (nestScope === "marker" ? !semanticRunReady() : !semanticSizeReady(exportStep)) {
+        canvasContent = `<p role="status" data-semantic-output-paused>Fabric nesting is paused. Review or rebase the saved edits in Edit.</p>`;
+      } else {
+        const outputRecipe = recipeForCurrentOutputs();
+        const nest = nestScope === "marker"
+          ? gradedMarker(outputRecipe, measurements, fabricWidth, recipeOptions())
+          : nestPieces(blockPieces(semanticSizeBlock(exportStep)!).map((p) => flattenPiece(p, outputRecipe.allowances)), fabricWidth);
+        canvasContent = renderFabricNest(
+          nest.placed, nest.fabricWidth, nest.fabricLength, nest.utilization, nest.fits);
+        renderNestIntel(nest.fabricLength, nest.utilization);
+      }
     } else if (view === "check") {
       const dismissedGuidance = guidanceNotes.filter((note) =>
         note.level === "warn" && note.field !== undefined && ignoredGuidance.has(note.field));
-      canvasContent = checkMarkup(garmentReport(recipe, measurements, recipeOptions()), valid, dismissedGuidance);
+      canvasContent = semanticSizeReady(0)
+        ? checkMarkup(garmentReport(recipeForCurrentOutputs(), measurements, recipeOptions()), valid, dismissedGuidance)
+        : `<p role="status" data-semantic-output-paused>Checks are paused until the saved edits are valid or explicitly rebased.</p>`;
     } else if (view === "edit") {
-      const draft = draftCurrent();
-      const editRole = recipe.editRole ?? "front";
-      const piece = editedFront ?? rolePiece(draft, editRole);
-      editedFront = piece;
-      const previewBlock = { ...draft, roles: { ...draft.roles, [editRole]: piece } };
-      const previewIssues = inspectSemanticEditCandidate(recipe, measurements, previewBlock);
-      const vb = editorViewBox(piece);
-      const hasDart = dartOf(piece) !== null;
-      // Truing consumes `sideLower`, so only offer it while both halves still exist
-      // AND the dart has moved off the side (leaving the two halves touching).
-      const sideSplit = ["sideUpper", "sideLower"].every((n) =>
-        piece.edges.some((e) => e.name === n));
-      const canTrue = hasDart && sideSplit && edgesMeet(piece, "sideUpper", "sideLower");
-      canvasContent =
-        renderEditor(piece, pieceHandles(piece), vb, selectedId) +
-        editorHintMarkup(previewIssues, editRole) +
-        editorHandleControlsMarkup(pieceHandles(piece)) +
-        dartControlsMarkup(hasDart, canTrue);
+      const sourceCannotDraft = semanticState?.source.status === "failed" && !semanticState.source.baseBlock;
+      const draft = semanticSizeBlock(exportStep)
+        ?? (sourceCannotDraft ? null : draftAtSize(measurements, recipe.grade, exportStep, recipe.draft, recipeOptions()));
+      if (!draft) {
+        canvasContent = '<p role="alert" data-semantic-source-unavailable>The current recipe pattern could not be generated. Resolve the source issue before editing.</p>' +
+          semanticEditorHintMarkup(semanticOutputIssues(), editRoleId, {
+            status: "failed", roles: [], canUndo: false, canRedo: false,
+            canRebase: false, hasEdits: semanticEdits !== null, feedback: semanticEditFeedback,
+          });
+      } else {
+        const roles = Object.keys(draft.roles);
+        editRoleId = resolveSemanticEditorRole(editRoleId, roles);
+        const editRole = editRoleId;
+        const piece = editedFront ?? draft.roles[editRole];
+        canvasContent = renderSemanticEditorPiece(piece, (editablePiece) => {
+          const previewBlock = { ...draft, roles: { ...draft.roles, [editRole]: editablePiece } };
+          const previewMeasurements = gradeMeasurements(measurements, recipe.grade, exportStep);
+          const sizeLabel = selectedSizeLabel(recipe.sizes, exportStep);
+          const previewIssues = inspectSemanticEditCandidate(recipe, previewMeasurements, previewBlock, sizeLabel);
+          const handles = semanticEditorHandles(recipe.name, previewBlock, editRole);
+          const vb = editorViewBox(editablePiece);
+          const evaluation = semanticState?.evaluation;
+          const editStatus = semanticState?.source.status === "checking" ? "checking"
+            : semanticState?.source.status === "failed" ? "failed"
+              : evaluation?.status === "rebase-required" ? "rebase-required"
+                : evaluation?.status === "blocked" || previewIssues.length > 0 ? "blocked"
+                  : "ready";
+          return renderEditor(editablePiece, handles, vb, selectedId) +
+            semanticEditorHintMarkup(
+              semanticEdits || semanticState?.source.status === "failed" ? semanticOutputIssues() : previewIssues,
+              editRole, {
+              status: editStatus,
+              roles,
+              canUndo: semanticEditCanMutate() && (semanticEdits?.past.length ?? 0) > 0,
+              canRedo: semanticEditCanMutate() && (semanticEdits?.future.length ?? 0) > 0,
+              canRebase: evaluation?.status === "rebase-required" && semanticState?.source.status === "ready",
+              hasEdits: semanticEdits !== null,
+              feedback: semanticEditFeedback,
+            }) +
+            editorHandleControlsMarkup(handles);
+        });
+      }
     } else if (view === "spec") {
-      const graded = gradeRun(measurements, recipe.grade, recipe.sizes, recipe.draft, recipeOptions());
-      const baseIndex = graded.findIndex((g) => g.step === 0);
-      canvasContent = specTableMarkup(
-        specSheet(graded, recipe.poms), graded.map((g) => g.label), baseIndex);
+      if (!semanticRunReady()) {
+        canvasContent = `<p role="status" data-semantic-output-paused>Graded specifications are paused. Review or rebase the saved edits in Edit.</p>`;
+      } else {
+        const outputRecipe = recipeForCurrentOutputs();
+        const graded = gradeRun(measurements, recipe.grade, recipe.sizes, outputRecipe.draft, recipeOptions());
+        const baseIndex = graded.findIndex((g) => g.step === 0);
+        canvasContent = specTableMarkup(
+          specSheet(graded, outputRecipe.poms), graded.map((g) => g.label), baseIndex);
+      }
     } else if (view === "body") {
       if (bodyCroquisView === "side") {
         canvasContent = isTrouser
@@ -1270,17 +1599,22 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         canvasContent = renderBodyPair(measurements, hasSleeve, recipe.frontNeckline?.(measurements), recipe.backNeckline?.(measurements), recipe.strapWidth?.(measurements), poloVisual(), wovenBodyNeckline(), wovenBodyLowerShape());
       }
     } else {
-      const block = draftCurrent();
-      const pieces = blockPieces(block);
-      canvasContent = renderBlueprint(
-        pieces,
-        { active: pieces[0].name, notches: recipe.notches, allowances: recipe.allowances,
-          layout: recipe.name === "polo" ? "polo" : "linear", annotationMode: "external" });
-      canvasContent += patternAnnotationKeyMarkup(
-        pieces,
-        patternMeasurementNavigation?.garment === recipe.name ? patternMeasurementNavigation.pieceName : null,
-        patternMeasurementFeedback,
-      );
+      const block = semanticSizeBlock(exportStep);
+      if (!semanticSizeReady(exportStep) || block === null) {
+        canvasContent = `<p role="status" data-semantic-output-paused>Pattern output is paused for this size. Review or rebase the saved edits in Edit.</p>`;
+      } else {
+        const outputRecipe = recipeForCurrentOutputs();
+        const pieces = blockPieces(block);
+        canvasContent = renderBlueprint(
+          pieces,
+          { active: pieces[0].name, notches: outputRecipe.notches, allowances: outputRecipe.allowances,
+            layout: recipe.name === "polo" ? "polo" : "linear", annotationMode: "external" });
+        canvasContent += patternAnnotationKeyMarkup(
+          pieces,
+          patternMeasurementNavigation?.garment === recipe.name ? patternMeasurementNavigation.pieceName : null,
+          patternMeasurementFeedback,
+        );
+      }
     }
     const assembled = isTop
       ? renderGarment(measurements, fabric, hasSleeve,
@@ -1289,9 +1623,12 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         ? renderTrouserGarment(measurements, fabric, recipeOptions())
         : renderSkirtGarment(measurements, fabric);
     const assembledPreview = applyAppearanceToSvg(assembled, fabric, appearance);
+    const assembledEditNotice = semanticEdits
+      ? '<p class="semantic-edit-preview-notice" role="status">Saved pattern edits are not reflected in this schematic assembled illustration. Pattern-linked 3D simulation is not available.</p>'
+      : "";
     canvasHost.innerHTML = inspectionMarkup(
       `<div id="analysis-host"${previewActive ? " hidden" : ""}>${canvasContent}</div>` +
-      `<div id="garment-host"${previewActive ? "" : " hidden"}>${assembledPreview}</div>`,
+      `<div id="garment-host"${previewActive ? "" : " hidden"}>${assembledEditNotice}${assembledPreview}</div>`,
       previewActive ? "assembled" : view,
     );
     syncRangeIndicators();
@@ -1856,27 +2193,91 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     focusGuidanceField(field);
   });
 
-  // Freeform drag: pointer -> nearest handle -> moveHandle -> redraw. All the
-  // maths is pure (edit engine); these three handlers are the only impure glue.
-  const handleAt = (e: MouseEvent): { handle: Handle | null; at: ReturnType<typeof viewboxPointToCm> } => {
+  // The canvas preview is transient. A completed gesture becomes one durable,
+  // source-fingerprinted semantic operation shared by the selected size and run.
+  const handleAt = (
+    e: MouseEvent,
+    piece: Piece,
+    roleId: string,
+  ): { handle: Handle | null; at: ReturnType<typeof viewboxPointToCm> } => {
     const svg = canvasHost.querySelector("svg")!;
-    const piece = editedFront!;
     const vb = editorViewBox(piece);
     const at = viewboxPointToCm(e.clientX, e.clientY, svg.getBoundingClientRect(), vb);
-    return { handle: nearestHandle(pieceHandles(piece), at, 2), at };
+    const handles = semanticEditorHandles(recipe.name, block({ [roleId]: piece }, []), roleId);
+    return { handle: nearestHandle(handles, at, 2), at };
+  };
+  const commitSemanticMove = (
+    anchorId: string,
+    delta: { readonly x: number; readonly y: number },
+  ): boolean => {
+    if (!Number.isFinite(delta.x) || !Number.isFinite(delta.y)) {
+      editedFront = null;
+      dragStart = null;
+      semanticEditFeedback = "The edit was not saved because its movement was not finite.";
+      draw();
+      return false;
+    }
+    if (Math.hypot(delta.x, delta.y) < 1e-9) return false;
+    if (!semanticEditCanMutate()) {
+      editedFront = null;
+      dragStart = null;
+      semanticEditFeedback = "Editing is paused until the current source is verified or its saved edits are rebased.";
+      draw();
+      return false;
+    }
+    // semanticEditCanMutate resolved these same inputs synchronously, so the
+    // source cannot change between the guard and this read.
+    const source = resolveSemanticSource();
+    try {
+      const document = semanticEdits ?? emptySemanticEditDocument(
+        recipe.name, source.fingerprint!, source.sourceInputs,
+      );
+      const operation = createAnchorMoveOperation(
+        recipe.name, source.fingerprint!, source.baseBlock!, nextSemanticOperationId(), anchorId, delta,
+      );
+      semanticEdits = appendSemanticEditOperations(document, [operation]);
+      semanticEvaluationCache = null;
+      editedFront = null;
+      dragStart = null;
+      selectedId = anchorId;
+      semanticEditFeedback = "Edit saved to this style and checked across its registered sizes.";
+      markOutputDirty();
+      draw();
+      return true;
+    } catch (error) {
+      editedFront = null;
+      dragStart = null;
+      semanticEditFeedback = error instanceof Error ? error.message : "The edit could not be saved.";
+      draw();
+      return false;
+    }
   };
   canvasHost.addEventListener("mousedown", (e) => {
-    if (view !== "edit" || previewActive || inputErrors().size > 0) return;
-    const hit = handleAt(e);
-    if (hit.handle) {
-      dragId = hit.handle.id;
-      selectedId = hit.handle.id;
-      draw();
-    }
+    if (view !== "edit" || previewActive || inputErrors().size > 0 || !semanticEditCanMutate()) return;
+    const piece = editedFront ?? semanticEditorPieceForRole(semanticSizeBlock(exportStep), editRoleId);
+    withSemanticEditorPiece(piece, (currentPiece) => {
+      const hit = handleAt(e, currentPiece, editRoleId);
+      if (hit.handle) {
+        dragStart = { handle: hit.handle, piece: currentPiece, roleId: editRoleId };
+        selectedId = hit.handle.id;
+        draw();
+      }
+    });
   });
   canvasHost.addEventListener("change", (e) => {
-    const input = (e.target as HTMLElement).closest<HTMLInputElement>("input[data-editor-coordinate]");
-    if (!input || !editedFront) return;
+    const target = e.target as HTMLElement;
+    const roleSelect = target.closest<HTMLSelectElement>("#editor-role");
+    if (roleSelect) {
+      if (roleSelect.value !== editRoleId) {
+        editRoleId = roleSelect.value;
+        editedFront = null;
+        selectedId = null;
+        draw();
+      }
+      return;
+    }
+    const input = target.closest<HTMLInputElement>("input[data-editor-coordinate]");
+    if (!input || view !== "edit" || inputErrors().size > 0 || !semanticEditCanMutate()) return;
     const axis = input.dataset.editorAxis;
     const raw = input.value.trim();
     const value = raw === "" ? NaN : Number(raw);
@@ -1887,26 +2288,58 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     }
     input.setAttribute("aria-invalid", "false");
     input.setCustomValidity("");
-    const handle = pieceHandles(editedFront).find((candidate) => candidate.id === input.dataset.editorHandleId);
-    if (!handle) return;
-    editedFront = moveHandle(editedFront, handle, { ...handle.pos, [axis]: value });
-    selectedId = handle.id;
-    draw();
+    const piece = editedFront ?? semanticEditorPieceForRole(semanticSizeBlock(exportStep), editRoleId);
+    withSemanticEditorPiece(piece, (currentPiece) => {
+      const handle = semanticEditorHandles(recipe.name, block({ [editRoleId]: currentPiece }, []), editRoleId)
+        .find((candidate) => candidate.id === input.dataset.editorHandleId);
+      if (!handle) return;
+      commitSemanticMove(handle.id, {
+        x: axis === "x" ? value - handle.pos.x : 0,
+        y: axis === "y" ? value - handle.pos.y : 0,
+      });
+    });
   });
   window.addEventListener("mousemove", (e) => {
-    if (!dragId) return;
-    const piece = editedFront!;
-    const handle = pieceHandles(piece).find((h) => h.id === dragId)!;
-    editedFront = moveHandle(piece, handle, handleAt(e).at);
+    if (!dragStart) return;
+    editedFront = moveHandle(dragStart.piece, dragStart.handle, handleAt(e, dragStart.piece, dragStart.roleId).at);
     draw();
   });
-  window.addEventListener("mouseup", () => { dragId = null; });
-  // The dart tools pivot the snapshot about the apex. Like every edit-view change,
-  // they are a manual override: they never touch `measurements` or the recipe.
-  const DART_TOOLS: Record<string, (p: Piece) => Piece> = {
-    "dart-shoulder": (p) => transferDart(p, "shoulder", 0.5, "centerFront"),
-    "dart-hem": (p) => transferDart(p, "hem", 0.5, "centerFront"),
-    "dart-true": (p) => trueSeam(p, "sideUpper", "sideLower"),
+  window.addEventListener("mouseup", () => {
+    if (!dragStart) return;
+    const start = dragStart;
+    const moved = editedFront;
+    dragStart = null;
+    if (!moved) return;
+    const finalHandle = semanticEditorHandles(recipe.name, block({ [start.roleId]: moved }, []), start.roleId)
+      .find((handle) => handle.id === start.handle.id);
+    // Moving a handle changes only its coordinates. Recipe role, adjacent edge
+    // names, and the semantic ID remain stable across this operation.
+    if (!finalHandle) {
+      editedFront = null;
+      semanticEditFeedback = "The dragged pattern anchor could not be resolved; no edit was saved.";
+      draw();
+      return;
+    }
+    const didMove = Math.hypot(finalHandle.pos.x - start.handle.pos.x, finalHandle.pos.y - start.handle.pos.y) >= 1e-9;
+    if (!didMove) {
+      editedFront = null;
+      draw();
+      return;
+    }
+    commitSemanticMove(start.handle.id, {
+      x: finalHandle.pos.x - start.handle.pos.x,
+      y: finalHandle.pos.y - start.handle.pos.y,
+    });
+  });
+  const clearSemanticEdits = (): void => {
+    semanticEdits = null;
+    semanticEvaluationCache = null;
+    editedFront = null;
+    dragStart = null;
+    selectedId = null;
+    semanticEditFeedback = "All saved pattern edits were cleared from this style.";
+    markOutputDirty();
+    draw();
   };
   canvasHost.addEventListener("click", (e) => {
     const target = e.target as HTMLElement;
@@ -1921,12 +2354,41 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     }
     const id = target.id;
     if (id === "editor-reset") {
-      editedFront = rolePiece(draftCurrent(), recipe.editRole ?? "front");
-      selectedId = null;
+      clearSemanticEdits();
+    } else if (id === "editor-undo" && semanticEdits && semanticEditCanMutate()) {
+      semanticEdits = undoSemanticEdit(semanticEdits);
+      semanticEvaluationCache = null;
+      editedFront = null;
+      semanticEditFeedback = "Last pattern edit undone.";
+      markOutputDirty();
       draw();
-    } else if (DART_TOOLS[id] && editedFront) {
-      editedFront = DART_TOOLS[id](editedFront);
-      selectedId = null;
+    } else if (id === "editor-redo" && semanticEdits && semanticEditCanMutate()) {
+      semanticEdits = redoSemanticEdit(semanticEdits);
+      semanticEvaluationCache = null;
+      editedFront = null;
+      semanticEditFeedback = "Pattern edit restored.";
+      markOutputDirty();
+      draw();
+    } else if (id === "editor-rebase" && semanticEdits) {
+      const source = resolveSemanticSource();
+      if (source.status !== "ready" || !source.baseBlock || !source.fingerprint) {
+        semanticEditFeedback = source.error ?? "Rebase is waiting for source verification.";
+        draw();
+        return;
+      }
+      const result = rebaseSemanticEditDocument(
+        semanticEdits, recipe, source.baseBlock, source.fingerprint, source.sourceInputs,
+      );
+      if (!result.ok) {
+        semanticEditFeedback = result.issues.map((issue) => issue.message).join(" ");
+        draw();
+        return;
+      }
+      semanticEdits = result.document;
+      semanticEvaluationCache = null;
+      editedFront = null;
+      semanticEditFeedback = "Edits rebased to the reviewed current source. Review every size before export.";
+      markOutputDirty();
       draw();
     }
   });
@@ -1967,7 +2429,14 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       btn.style.color = on ? BLUEPRINT.background : BLUEPRINT.line;
       btn.setAttribute("aria-pressed", String(on));
     });
-    editedFront = null; // a new garment invalidates the freeform snapshot
+    editedFront = null; // a new garment invalidates the semantic source and preview
+    dragStart = null;
+    semanticEdits = semanticEdits?.recipeId === recipe.name ? semanticEdits : null;
+    semanticSourceCache = null;
+    semanticEvaluationCache = null;
+    editRoleId = resolveSemanticEditorRole(
+      recipe.editRole, Object.keys(recipe.draft(measurements, recipeOptions()).roles),
+    );
     selectedId = null;
     // Re-render the measurement panel to this garment's fields (a skirt shows
     // waist/hip, not chest/sleeve), then re-attach its listeners.
@@ -1975,7 +2444,6 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       measurements, recipe.fields, recipe.options, recipeOptions(), recipe.name, activeFieldObservations());
     wireMeasurementInputs();
     syncExportSizes();
-    if (view === "edit" && inputErrors().size === 0) editedFront = rolePiece(draftCurrent(), recipe.editRole ?? "front");
     applyDisclosure();
     markOutputDirty();
     draw();
@@ -2227,7 +2695,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     if (input.matches("[data-field], [data-option]")) {
       input.dispatchEvent(new Event("change", { bubbles: true }));
     }
-    const nextInput = input.id ? root.querySelector<HTMLInputElement>(`#${input.id}`) : input;
+    const nextInput = input.id
+      ? [...root.querySelectorAll<HTMLInputElement>("input")].find((candidate) => candidate.id === input.id) ?? input
+      : input;
     nextInput?.focus();
     return root.querySelector<HTMLButtonElement>(
       `button[data-step-target="${control.dataset.rangeControl}"][data-step-direction="${direction}"]`
@@ -2876,9 +3346,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   // it scopes ONLY the exports, never the other views.
   const exportSizeEl = root.querySelector<HTMLSelectElement>("#export-size")!;
   const syncNestSelectedSize = (): void => {
-    const selected = recipe.sizes.find((size) => size.step === exportStep)!;
     const label = root.querySelector<HTMLElement>("#nest-selected-size");
-    label!.textContent = selected.label;
+    label!.textContent = selectedSizeLabel(recipe.sizes, exportStep);
   };
   const syncExportSizes = (): void => {
     if (!recipe.sizes.some((s) => s.step === exportStep)) exportStep = 0;
@@ -2895,10 +3364,12 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   // exportStep always comes from the picker, which is populated from recipe.sizes,
   // so the step is guaranteed to resolve to a real size.
   const exportSizeLabel = (): string =>
-    recipe.sizes.find((s) => s.step === exportStep)!.label;
+    selectedSizeLabel(recipe.sizes, exportStep);
   const exportPieces = (): Piece[] => {
-    const block = draftAtSize(measurements, recipe.grade, exportStep, recipe.draft, recipeOptions());
-    return [...blockPieces(block)];
+    const drafted = semanticEdits === null
+      ? draftAtSize(measurements, recipe.grade, exportStep, recipe.draft, recipeOptions())
+      : semanticSizeBlock(exportStep);
+    return exportablePieces(drafted, semanticSizeReady(exportStep));
   };
   // The desktop shell's only bridge into this app (Slice 46): when running
   // inside Electron, `window.electronAPI` is set by electron/preload.cts via
@@ -2935,6 +3406,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     measurements = loaded.measurements;
     fabric = loaded.fabric;
     garmentOptions = loaded.garmentOptions;
+    semanticEdits = loaded.semanticEdits;
+    semanticSourceCache = null;
+    semanticEvaluationCache = null;
     recipe = garmentByName(loaded.workspace.garment);
     targetStyle = loaded.workspace.targetStyle;
     stretchFabric = STRETCH_FABRICS.find((f) => f.name === loaded.workspace.stretchFabric)!;
@@ -3029,20 +3503,20 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       flash("Export failed — the browser could not start the download.", BLUEPRINT.lineActive);
     }
   };
-  const onExport = (id: string, action: () => void): void => {
+  const onExport = (id: string, action: () => void, allowed: () => boolean = canExport): void => {
     root.querySelector<HTMLButtonElement>(id)!.addEventListener("click", () => {
-      if (canExport()) action();
+      if (allowed()) action();
     });
   };
   onExport("#export-svg", () => {
-    download(`${recipe.name}-${exportSizeLabel()}.svg`, exportSvg(exportPieces(), recipe.allowances, recipe.notches), "image/svg+xml");
+    download(`${recipe.name}-${exportSizeLabel()}.svg`, exportSvg(exportPieces(), currentAllowances(), recipe.notches), "image/svg+xml");
   });
   onExport("#export-dxf", () => {
-    download(`${recipe.name}-${exportSizeLabel()}.dxf`, exportDxf(exportPieces(), recipe.allowances), "image/vnd.dxf");
+    download(`${recipe.name}-${exportSizeLabel()}.dxf`, exportDxf(exportPieces(), currentAllowances()), "image/vnd.dxf");
   });
   onExport("#export-pdf", () => {
     download(`${recipe.name}-${exportSizeLabel()}.pdf`, exportPdf(
-      exportPieces(), recipe.allowances, undefined, 1.0, recipe.tiledPdfLocalCoordinates === true
+      exportPieces(), currentAllowances(), undefined, 1.0, recipe.tiledPdfLocalCoordinates === true
     ), "application/pdf");
   });
   // The draft tech pack is a whole-style document (paginated piece overview +
@@ -3050,22 +3524,22 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   // The overview is explicitly not to scale; cutting files remain separate.
   onExport("#export-techpack", () => {
     download(`${recipe.name}-techpack.pdf`, exportTechPackV2(
-      recipe, measurements, undefined, stretchFabric, recipeOptions(), surfacePlacementsNow(), targetStyle
+      recipeForCurrentOutputs(), measurements, undefined, stretchFabric, recipeOptions(), surfacePlacementsNow(), targetStyle
     ), "application/pdf");
-  });
+  }, canExportRun);
   // The projector file carries EVERY graded size as a toggleable layer, so it too
   // is a whole-style file and ignores the per-size picker.
   onExport("#export-projector", () => {
-    download(`${recipe.name}-projector.svg`, exportProjectorSvg(recipe, measurements, recipeOptions()), "image/svg+xml");
-  });
+    download(`${recipe.name}-projector.svg`, exportProjectorSvg(recipeForCurrentOutputs(), measurements, recipeOptions()), "image/svg+xml");
+  }, canExportRun);
   // The print sheet carries one style's artwork at true scale, so like the
   // tech pack and projector it is a whole-style file and ignores the picker.
   onExport("#export-surface-sheet", () => {
     download(`${recipe.name}-surface-sheet.svg`, exportSurfaceSheet(surfacePlacementsNow(), targetStyle), "image/svg+xml");
-  });
+  }, () => styleReviewed && checkReviewed && baseDesignValid());
   onExport("#export-a0", () => {
     download(`${recipe.name}-${exportSizeLabel()}-A0.pdf`, exportA0Pdf(
-      exportPieces(), recipe.allowances, recipe.notches, undefined, recipe.a0Overflow === true
+      exportPieces(), currentAllowances(), recipe.notches, undefined, recipe.a0Overflow === true
     ), "application/pdf");
   });
 
@@ -3080,7 +3554,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     };
     const id = buttonId[kind];
     if (!id) return;
-    if (!canExport()) {
+    const wholeRun = kind === "techpack" || kind === "projector";
+    if (wholeRun ? !canExportRun() : !canExport()) {
       setStep("refine");
       flash("Review Style and the current digital checks before exporting.", BLUEPRINT.lineActive);
       return;
@@ -3095,7 +3570,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     const bufferValue = nestBufferRaw.trim() === "" ? NaN : Number(nestBufferRaw);
     const availableValue = nestAvailableRaw.trim() === "" ? null : Number(nestAvailableRaw);
     const nestingIntelligence = { bufferPct: bufferValue, availableLengthCm: availableValue, napAware: nestNap };
-    const validation = deserialize(serialize(measurements, fabric, garmentOptions, workspace, appearance, surfaceBook, nestingIntelligence));
+    const validation = deserialize(serialize(measurements, fabric, garmentOptions, workspace, appearance, surfaceBook, nestingIntelligence, semanticEdits));
     if (!validation.ok) { flash(`Save failed: ${validation.error}`, BLUEPRINT.lineActive); return; }
     const { ok: _ok, ...design } = validation;
     const saveRevision = outputRevision;
@@ -3111,6 +3586,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
           design.appearance,
           design.surface,
           design.nestingIntelligence,
+          design.semanticEdits,
         );
         pendingRecovery = null;
         renderRecoveryPrompt();
@@ -3135,7 +3611,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       });
       return;
     }
-    if (saveToStorage(measurements, fabric, garmentOptions, workspace, appearance, surfaceBook, nestingIntelligence)) {
+    if (saveToStorage(measurements, fabric, garmentOptions, workspace, appearance, surfaceBook, nestingIntelligence, semanticEdits)) {
       savedRevision = outputRevision;
       pendingRecovery = null;
       clearStoredRecovery();
@@ -3186,7 +3662,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     selectedControlPages.clear();
     editedFront = null;
     selectedId = null;
-    dragId = null;
+    dragStart = null;
     activeDim = null;
     hoveredDim = null;
     focusedDim = null;
@@ -3257,6 +3733,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     nestBufferRaw = file.rawNestingIntelligence.buffer;
     nestAvailableRaw = file.rawNestingIntelligence.available;
     nestNap = file.rawNestingIntelligence.napAware;
+    semanticEdits = file.semanticEdits ?? null;
+    semanticSourceCache = null;
+    semanticEvaluationCache = null;
     recipe = garmentByName(file.workspace.garment);
     targetStyle = file.workspace.targetStyle;
     stretchFabric = STRETCH_FABRICS.find((candidate) => candidate.name === file.workspace.stretchFabric)!;

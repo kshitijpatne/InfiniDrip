@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 289,
-  "updatedAt": "2026-09-25T10:55:26.491Z",
+  "revision": 292,
+  "updatedAt": "2026-09-25T19:34:04.688Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -4648,11 +4648,18 @@
           "at": "2026-09-25T10:55:26.491Z",
           "actor": "Codex",
           "text": "Slice 237 is complete with verified exit-report and rendered-output evidence. F03 remains In Progress because S238 saved-edit/output integration, S239 immutable revisions and hashes, and S240 final review remain. Continue with S238 in order."
+        },
+        {
+          "at": "2026-09-25T19:34:04.688Z",
+          "actor": "Codex",
+          "text": "Slice 238 implementation and verification are complete. The F03 packet remains In Progress for Slice 239 immutable revisions/hashes and Slice 240 final review; no fit, physical sample, supplier, or factory-acceptance claim is made."
         }
       ],
       "evidenceRefs": [
         "E-EPIC15-F03-S237-EXIT",
-        "E-EPIC15-F03-S237-RENDER"
+        "E-EPIC15-F03-S237-RENDER",
+        "E-EPIC15-F03-S238-EXIT",
+        "E-EPIC15-F03-S238-RENDER"
       ],
       "flagKey": null
     },
@@ -5308,6 +5315,24 @@
       "sha256": "9578b14a94cac5e10010d945f0b3b3050308fcdb5d9414dd4aae15d7453309f1",
       "verified": true,
       "note": "Chromium 151 invalid-edit preview shows three surfaced digital checks; Reset restores valid preview. Parametric SVG before/after remains byte-identical at SHA-256 3fbf2e3215af5bdfc66398b9b16714e8ee8139f5edc10dab527bc4c8378f2b9d. Screenshot SHA-256 verified."
+    },
+    {
+      "id": "E-EPIC15-F03-S238-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic15/F03-CROSS-OUTPUT-EDITING-S238.md",
+      "commit": null,
+      "sha256": "2edf2918e240ddf2613066ceeac072adfb2d436d6aef77eda0ebf7535cec8baa",
+      "verified": true,
+      "note": "Slice 238 durable style-scoped semantic editing, migration, all-size/output wiring, full 100% coverage, Tee and Woven-shirt Chromium replay, Electron recovery/restart, stale-output gate and explicit rebase. The report records hashes, scope limits, and no physical-fit claim."
+    },
+    {
+      "id": "E-EPIC15-F03-S238-RENDER",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic15/evidence/S238-woven-semantic-edit.png",
+      "commit": null,
+      "sha256": "907d65c2abbc5f1254b9011c17d3ea28f16cb322ec4df299361e1697218f5ef5",
+      "verified": true,
+      "note": "Retained production-built Chromium screenshot of the Woven-shirt semantic-edit view; SHA-256 verified. This is a 2D digital pattern view, not drape or fit evidence."
     }
   ]
 }

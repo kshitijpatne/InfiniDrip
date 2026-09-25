@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 237 closes the constrained semantic edit model and invalid-preview browser proof; F03 remains In Progress, 2026-09-25._
+_Last updated: Slice 238 connects style-scoped semantic edits to dependent outputs and passes Tee/Woven-shirt Chromium plus Electron proof; F03 remains In Progress, 2026-09-25._
 Current directive: EPIC-14/G01 is Closed. C01, C02, C05 and C06, C03 and C04,
 lanes B–D, Lane A, and the final G01 review are Done with verified evidence.
 EPIC-15/G02 is admitted and In Progress. Slices 229–234 completed admission,
@@ -8,16 +8,21 @@ the F01 storage contract, versioned records, transactional repository,
 project/style workflow, and portable package import/export. F01 and F02 are
 Done with hash-verified evidence. Slices 235–236 cover C03-aligned source-aware
 field history plus all 85 measurement/option inputs and their dependent outputs
-across the seven current recipes. The field dependency status includes verified
-browser and reload proof and exposes the woven hem-turn and tank shoulder-width
-propagation gaps; Slice 238 owns those fixes. Slice 237 adds stable semantic
-geometry anchors, exact-centimetre moves, explicit history/rebase/conflict
-rules, per-size geometry/stitch/recipe/POM guards, and an accessible
-invalid-preview warning. The legacy Edit shape still does not persist or feed
-outputs; actual saved-edit wiring is Slice 238, and immutable revisions/hashes
-are Slice 239. Control Center revision 289 records F03 In Progress with S237
-report and rendered evidence. The ordered remaining steps are S238, S239, then
-the whole-repository/browser/Electron final gate at S240. The goal and gates are in
+across the seven current recipes. Slice 237 adds stable semantic geometry
+anchors, exact-centimetre operations, explicit history/rebase/conflict rules,
+per-size geometry/stitch/recipe/POM guards, and an accessible invalid-preview
+warning. Slice 238 now stores supported operations with each style, survives
+save/load, project switching, recovery and portable package flows, and feeds
+the evaluated size geometry to dependent views, specs, grades, nesting, tech
+pack, projector and cutting exports. It also resolves woven hem-turn cutting
+allowances and makes the tank shoulder-width/strap-width boundary explicit.
+The 123-file/1,781-test repository suite passed at 100% statement, branch,
+function and line coverage. Production-built Chromium 151 and Electron 44.1.0
+proof covers style isolation, persistence/recovery, stale-source blocking and
+explicit rebase; a real Tee and Woven-shirt trace each changed all six tested
+outputs. The ordered remaining steps are S239 immutable revision snapshots and
+hashes, then S240's full independent-style repository/browser/Electron gate.
+The goal and gates are in
 `docs/planning/EPIC-15-ADMISSION.md`; F01 evidence is in
 `docs/research/epic15/F01-PACKAGE-EXPORT-IMPORT-S234.md` and the preceding
 S230–S233 reports.
@@ -31,9 +36,9 @@ layout results. The byte-identical legacy writer remains unchanged. At the
 G01 exit, full coverage, build and protected export identities passed. Physical
 sampling, live supplier work, paid sources, hosted services and
 production-readiness claims remain held.
-The canonical Control Center is at revision 289: F01 and F02 are Done with
-verified evidence; F03 is In Progress and the G02 final review remains
-Backlog.
+The canonical Control Center is at revision 292: F01 and F02 are Done with
+verified evidence; F03 is In Progress with S237 and S238 exit/render evidence;
+the G02 final review remains Backlog.
 Detailed records and the sequence map
 are in `ops/control-center/data/board.json`,
 `docs/planning/EPIC-14-ADMISSION.md`,
@@ -4169,8 +4174,40 @@ SVG hash was identical before and after the invalid preview. Details, limits and
 hashes are in `docs/research/epic15/F03-SLICE-237-EXIT.md` and
 `docs/research/epic15/F03-CONSTRAINED-EDIT-S237.md`.
 
-Slice 237 does not persist semantic operations or assert fit. Slice 238 must
-wire them into style records and dependent outputs, and close or visibly block
-the woven hem-turn and tank shoulder-width gaps. Slice 239 owns immutable
-revisions/hashes; Slice 240 remains responsible for full repository coverage,
-protected export identities and the browser/Electron exit gates.
+At Slice 237's exit, semantic operations were not yet persisted and its edit
+preview did not assert fit. Slice 238 closes that digital persistence/output
+boundary; it still does not assert physical fit. Slice 239 owns immutable
+revisions/hashes; Slice 240 remains responsible for the final full repository,
+protected-export, browser/Electron and independent-style exit gates.
+
+### Slice 238 — durable semantic edits and cross-output integration
+
+Slice 238 connects semantic operations to style-scoped SaveFile v6 and
+RecoveryFile v2 state, schema-3 style records, schema-2 recovery records and
+the IndexedDB v5 migration. Package envelope v2 remains unchanged; supported
+older saves, records and packages migrate explicitly, and malformed records
+fail closed. Pointer drags commit as one operation; keyboard edits, undo/redo,
+clear, explicit rebase and source-conflict handling operate on the same
+persisted document. Every registered size is checked before dependent outputs
+are current. Invalid or stale states are blocked at both the UI and export
+writer.
+
+Pattern, grade, POM/spec, nesting, relevant views, tech pack, projector and
+cutting files consume the same evaluated size block. Woven-shirt `hemTurn`
+changes the front and lower-back body cutting allowance only; sleeve allowance
+and finished sewing-line POM remain independent. Tank body `shoulderWidth`
+remains separate from pattern `strapWidth`, and guidance points to the field
+that changes the pattern. No protected export baseline moved.
+
+The complete repository gate passed **123 test files / 1,781 tests** with
+**100% statements, branches, functions and lines**. The production-built
+Chromium 151 and Electron 44.1.0 verifier passed Save/reload, style isolation,
+two-operation pending recovery on restart, stale-source download rejection,
+and explicit rebase. The Tee semantic edit changed SVG, DXF, tiled PDF, A0 PDF,
+tech-pack PDF and projector SVG hashes. The Woven-shirt rendered trace changed
+all six after a 1 cm→2 cm hem-turn edit and again after a 0.1 cm semantic edit;
+its screenshot and all output digests are in
+`docs/research/epic15/F03-CROSS-OUTPUT-EDITING-S238.md`. Electron's native SVG
+hash matched before and after restart. The forced process exit is not a test
+of power loss, an operating-system crash, or torn IndexedDB transactions.
+S239 remains next; S240 owns the final independent-style review and full exit.

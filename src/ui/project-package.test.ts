@@ -4,7 +4,15 @@ import { IDBFactory, IDBObjectStore } from "fake-indexeddb";
 import { JSDOM } from "jsdom";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { Zip, ZipPassThrough } from "fflate";
-import { STANDARD_M } from "../drafting";
+import { GARMENTS, STANDARD_M, defaultGarmentOptions } from "../drafting";
+import {
+  appendSemanticEditOperations,
+  createAnchorMoveOperation,
+  emptySemanticEditDocument,
+  semanticAnchorCatalog,
+  semanticEditSourceFingerprint,
+  undoSemanticEdit,
+} from "../edit/semantic-edit";
 import type { ArtworkAssetStore, StoredArtworkAsset } from "../surface/artwork-store";
 import { DEFAULT_APPEARANCE } from "./appearance";
 import { migrateLegacyRecovery, migrateLegacySaveFile, type ProjectRecord, type RecoveryRecord, type StyleRecord } from "./project-records";
@@ -1136,6 +1144,54 @@ describe("portable local project package", () => {
     expect(copied?.styles).toHaveLength(2);
     expect(copied?.styles.find((style) => style.name === "Archived style")?.archivedAt).toBe(TIME);
     expect(copied?.styles.every((style) => style.id !== STYLE_ID && style.id !== SECOND_STYLE_ID)).toBe(true);
+  });
+
+  it("round-trips semantic edit source, operation order, undo/redo history, and recovery in a project package", async () => {
+    const source = bundle("Semantic backup");
+    const recipe = GARMENTS.find((candidate) => candidate.name === "tee")!;
+    const options = defaultGarmentOptions(recipe.options ?? []);
+    const sourceInputs = {
+      measurements: Object.fromEntries(recipe.fields.map((field) => [field, STANDARD_M[field]])),
+      options: Object.fromEntries((recipe.options ?? []).map((option) => [option.id, options[option.id]])),
+    };
+    const base = recipe.draft(STANDARD_M, options);
+    const fingerprint = await semanticEditSourceFingerprint(recipe.name, base, crypto, sourceInputs);
+    const anchors = semanticAnchorCatalog(recipe.name, base).filter((anchor) => anchor.roleId === "front");
+    const first = createAnchorMoveOperation(recipe.name, fingerprint, base, "edit-1", anchors[0]!.id, { x: 0.05, y: 0 });
+    const second = createAnchorMoveOperation(recipe.name, fingerprint, base, "edit-2", anchors[1]!.id, { x: 0, y: 0.05 });
+    const edited = appendSemanticEditOperations(
+      appendSemanticEditOperations(emptySemanticEditDocument(recipe.name, fingerprint, sourceInputs), [first]),
+      [second],
+    );
+    const semanticEdits = undoSemanticEdit(edited);
+    const style: StyleRecord = {
+      ...source.style,
+      design: { ...source.style.design, semanticEdits },
+    };
+    const recovery = recoveryRecord();
+    const recoveries = [{
+      ...recovery,
+      payload: { ...recovery.payload, semanticEdits },
+    }];
+    const assets = memoryAssets();
+    assets.records.set(ASSET_ID, {
+      assetId: ASSET_ID, name: "front.png", mimeType: "image/png",
+      blob: new Blob([PNG], { type: "image/png" }),
+    });
+    const packed = await createProjectPackage({
+      project: source.project, styles: [style], recoveries,
+    }, assets, { crypto });
+    const archive = await readProjectPackage(packed, { crypto });
+    const target = await repository();
+    const targetAssets = memoryAssets();
+    await importProjectPackage(target, targetAssets, archive, false, { crypto, inspectAsset: inspector });
+    const imported = await target.readProjectBundle(PROJECT_ID);
+    expect(imported?.styles[0]?.design.semanticEdits).toEqual(semanticEdits);
+    expect(imported?.recoveries[0]?.payload.semanticEdits).toEqual(semanticEdits);
+    expect((imported?.styles[0]?.design.semanticEdits as typeof semanticEdits).operations.map((operation) => operation.id))
+      .toEqual(["edit-1"]);
+    expect((imported?.styles[0]?.design.semanticEdits as typeof semanticEdits).future[0]?.map((operation) => operation.id))
+      .toEqual(["edit-1", "edit-2"]);
   });
 
   it("rejects non-canonical import clocks and exhausts repeated invalid copy identities without writing", async () => {

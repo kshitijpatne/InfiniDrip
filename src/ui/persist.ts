@@ -11,8 +11,9 @@ import {
   BUFFER_MIN_PCT,
 } from "../export/nesting-intelligence";
 import type { ViewName } from "./journey";
+import { parseSemanticEditDocument, type SemanticEditDocument } from "../edit/semantic-edit";
 
-export const SAVE_VERSION = 5;
+export const SAVE_VERSION = 6;
 export interface Workspace {
   readonly garment: string;
   readonly targetStyle: string;
@@ -57,6 +58,8 @@ export interface SaveFile {
   /** Optional nesting-intelligence planning values (Slice 133). Absent means
    * defaults; malformed in a current-version save is rejected. */
   readonly nestingIntelligence: NestingIntelligence;
+  /** Final, recipe-anchored operations. Null means the style has no semantic edits. */
+  readonly semanticEdits: SemanticEditDocument | null;
 }
 
 /** Planning values for the nesting estimator. fabricWidth stays in Workspace;
@@ -92,7 +95,7 @@ export function parseNestingIntelligence(value: unknown): NestingIntelligence | 
 type LoadResult = ({ ok: true } & Omit<SaveFile, "v">) | { ok: false; error: string };
 const object = (v: unknown): v is Record<string, unknown> => typeof v === "object" && v !== null && !Array.isArray(v);
 
-export const RECOVERY_VERSION = 1;
+export const RECOVERY_VERSION = 2;
 export interface RecoveryFile {
   readonly v: number;
   readonly savedAt: number;
@@ -108,6 +111,8 @@ export interface RecoveryFile {
   readonly surface: SurfaceBook;
   /** Crash-restore nesting planning raws. Absent means canonical defaults. */
   readonly rawNestingIntelligence: RawNestingIntelligence;
+  /** Old recovery callers omit this; current serialization writes null explicitly. */
+  readonly semanticEdits?: SemanticEditDocument | null;
 }
 
 /** Raw nesting planning values, preserved verbatim so invalid unfinished
@@ -159,8 +164,8 @@ function validWorkspace(value: unknown): value is Workspace {
     && ["single", "marker"].includes(value.nestScope);
 }
 
-export function serialize(m: Measurements, fabric: string, garmentOptions: GarmentOptionsByRecipe = {}, workspace: Workspace = DEFAULT_WORKSPACE, appearance: Appearance = DEFAULT_APPEARANCE, surface: SurfaceBook = {}, nestingIntelligence: NestingIntelligence = { ...DEFAULT_NESTING_INTELLIGENCE }): string {
-  return JSON.stringify({ v: SAVE_VERSION, measurements: m, fabric, appearance, garmentOptions, workspace, surface, nestingIntelligence }, null, 2);
+export function serialize(m: Measurements, fabric: string, garmentOptions: GarmentOptionsByRecipe = {}, workspace: Workspace = DEFAULT_WORKSPACE, appearance: Appearance = DEFAULT_APPEARANCE, surface: SurfaceBook = {}, nestingIntelligence: NestingIntelligence = { ...DEFAULT_NESTING_INTELLIGENCE }, semanticEdits: SemanticEditDocument | null = null): string {
+  return JSON.stringify({ v: SAVE_VERSION, measurements: m, fabric, appearance, garmentOptions, workspace, surface, nestingIntelligence, semanticEdits }, null, 2);
 }
 
 const LEGACY_REQUIRED = ["chest", "shoulderWidth", "bicep", "length", "armholeDepth", "sleeveLength", "ease"];
@@ -170,9 +175,9 @@ export function deserialize(json: string): LoadResult {
   let p: unknown;
   try { p = JSON.parse(json); } catch { return { ok: false, error: "Not valid JSON." }; }
   if (!object(p)) return { ok: false, error: "Save file is not an object." };
-  if (![1, 2, 3, 4, SAVE_VERSION].includes(p.v as number)) return { ok: false, error: `Unrecognised save version: ${String(p.v)}.` };
+  if (![1, 2, 3, 4, 5, SAVE_VERSION].includes(p.v as number)) return { ok: false, error: `Unrecognised save version: ${String(p.v)}.` };
   if (!object(p.measurements)) return { ok: false, error: "Missing measurements." };
-  const legacy = p.v !== SAVE_VERSION;
+  const legacy = typeof p.v === "number" && p.v < 5;
   const measurements = { ...STANDARD_M };
   for (const field of FIELDS) {
     let value = p.measurements[field.id];
@@ -231,14 +236,29 @@ export function deserialize(json: string): LoadResult {
     }
     workspace = w;
   }
-  return { ok: true, measurements, fabric, appearance, garmentOptions, workspace, surface: surface ?? {}, nestingIntelligence: nestingIntelligence ?? { ...DEFAULT_NESTING_INTELLIGENCE } };
+  if (p.v !== SAVE_VERSION && Object.prototype.hasOwnProperty.call(p, "semanticEdits")) {
+    return { ok: false, error: "Older SaveFile contains unsupported semantic edit state." };
+  }
+  if (p.v === SAVE_VERSION && !Object.prototype.hasOwnProperty.call(p, "semanticEdits")) {
+    return { ok: false, error: "Current SaveFile is missing semantic edit state." };
+  }
+  const semanticEdits = p.v === SAVE_VERSION
+    ? p.semanticEdits === null ? null : parseSemanticEditDocument(p.semanticEdits)
+    : null;
+  if (p.v === SAVE_VERSION && semanticEdits === null && p.semanticEdits !== null) {
+    return { ok: false, error: "Saved semantic edits are malformed or use an unsupported schema." };
+  }
+  if (semanticEdits && semanticEdits.recipeId !== workspace.garment) {
+    return { ok: false, error: "Saved semantic edits do not match the selected recipe." };
+  }
+  return { ok: true, measurements, fabric, appearance, garmentOptions, workspace, surface: surface ?? {}, nestingIntelligence: nestingIntelligence ?? { ...DEFAULT_NESTING_INTELLIGENCE }, semanticEdits };
 }
 
 export const LEGACY_SAVE_STORAGE_KEY = "patternworks_save_v1";
 const STORAGE_KEY = LEGACY_SAVE_STORAGE_KEY;
-export function saveToStorage(m: Measurements, fabric: string, garmentOptions: GarmentOptionsByRecipe = {}, workspace: Workspace = DEFAULT_WORKSPACE, appearance: Appearance = DEFAULT_APPEARANCE, surface: SurfaceBook = {}, nestingIntelligence: NestingIntelligence = { ...DEFAULT_NESTING_INTELLIGENCE }): boolean {
+export function saveToStorage(m: Measurements, fabric: string, garmentOptions: GarmentOptionsByRecipe = {}, workspace: Workspace = DEFAULT_WORKSPACE, appearance: Appearance = DEFAULT_APPEARANCE, surface: SurfaceBook = {}, nestingIntelligence: NestingIntelligence = { ...DEFAULT_NESTING_INTELLIGENCE }, semanticEdits: SemanticEditDocument | null = null): boolean {
   try {
-    const json = serialize(m, fabric, garmentOptions, workspace, appearance, surface, nestingIntelligence);
+    const json = serialize(m, fabric, garmentOptions, workspace, appearance, surface, nestingIntelligence, semanticEdits);
     if (!deserialize(json).ok) return false;
     localStorage.setItem(STORAGE_KEY, json);
     return true;
@@ -254,14 +274,18 @@ export function readFromStorage(): LoadResult {
 }
 
 export function serializeRecovery(file: Omit<RecoveryFile, "v">): string {
-  return JSON.stringify({ v: RECOVERY_VERSION, ...file }, null, 2);
+  return JSON.stringify({ v: RECOVERY_VERSION, ...file, semanticEdits: file.semanticEdits ?? null }, null, 2);
 }
 
 export function deserializeRecovery(json: string): RecoveryResult {
   let p: unknown;
   try { p = JSON.parse(json); } catch { return { ok: false, error: "Recovery data is not valid JSON." }; }
   if (!object(p)) return { ok: false, error: "Recovery data is not an object." };
-  if (p.v !== RECOVERY_VERSION) return { ok: false, error: `Unrecognised recovery version: ${String(p.v)}.` };
+  if (p.v !== 1 && p.v !== RECOVERY_VERSION) return { ok: false, error: `Unrecognised recovery version: ${String(p.v)}.` };
+  const legacy = p.v === 1;
+  if (legacy && Object.prototype.hasOwnProperty.call(p, "semanticEdits")) {
+    return { ok: false, error: "Legacy recovery contains unsupported semantic edit state." };
+  }
   if (typeof p.savedAt !== "number" || !Number.isFinite(p.savedAt)
     || !finiteNumberMap(p.measurements) || !stringMap(p.rawMeasurements)
     || typeof p.fabric !== "string" || !/^#[0-9a-f]{6}$/i.test(p.fabric)
@@ -275,6 +299,16 @@ export function deserializeRecovery(json: string): RecoveryResult {
   if (!surface) return { ok: false, error: "Recovery surface artwork is invalid." };
   const rawNestingIntelligence = parseRawNestingIntelligence(p.rawNestingIntelligence);
   if (!rawNestingIntelligence) return { ok: false, error: "Recovery nesting values are invalid." };
+  if (!legacy && !Object.prototype.hasOwnProperty.call(p, "semanticEdits")) {
+    return { ok: false, error: "Current recovery data is missing semantic edit state." };
+  }
+  const semanticEdits = legacy ? null : p.semanticEdits === null ? null : parseSemanticEditDocument(p.semanticEdits);
+  if (!legacy && semanticEdits === null && p.semanticEdits !== null) {
+    return { ok: false, error: "Recovery semantic edits are malformed or use an unsupported schema." };
+  }
+  if (semanticEdits && semanticEdits.recipeId !== p.workspace.garment) {
+    return { ok: false, error: "Recovery semantic edits do not match the selected recipe." };
+  }
   return {
     ok: true,
     savedAt: p.savedAt,
@@ -288,6 +322,7 @@ export function deserializeRecovery(json: string): RecoveryResult {
     materialSelectionExplicit: p.materialSelectionExplicit,
     surface,
     rawNestingIntelligence,
+    semanticEdits,
   };
 }
 

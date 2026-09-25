@@ -95,6 +95,38 @@ describe("v4 workspace validation", () => {
     expect(readFromStorage()).toEqual({ ok: false, error: "Not valid JSON." });
   });
 
+  it("migrates the prior SaveFile v5 without losing its design and requires v6 edit state", () => {
+    const previous = JSON.parse(serialize(STANDARD_M, FABRIC, { tee: { ease: 5 } }));
+    previous.v = 5;
+    delete previous.semanticEdits;
+    const migrated = deserialize(JSON.stringify(previous));
+    expect(migrated.ok).toBe(true);
+    if (migrated.ok) {
+      expect(migrated.measurements).toEqual(STANDARD_M);
+      expect(migrated.garmentOptions.tee.ease).toBe(5);
+      expect(migrated.semanticEdits).toBeNull();
+    }
+    expect(deserialize(JSON.stringify({ ...previous, semanticEdits: null })).ok).toBe(false);
+
+    const current = JSON.parse(serialize(STANDARD_M, FABRIC));
+    const missing = { ...current };
+    delete missing.semanticEdits;
+    expect(deserialize(JSON.stringify(missing))).toEqual({
+      ok: false, error: "Current SaveFile is missing semantic edit state.",
+    });
+    expect(deserialize(JSON.stringify({ ...current, semanticEdits: { schemaVersion: 99 } })).ok).toBe(false);
+    const mismatchedEdit = {
+      schemaVersion: 2,
+      recipeId: "fitted",
+      sourceFingerprint: `semantic-edit:v2:sha256:${"0".repeat(64)}`,
+      sourceInputs: { measurements: {}, options: {} },
+      operations: [], past: [], future: [],
+    };
+    expect(deserialize(JSON.stringify({ ...current, semanticEdits: mismatchedEdit }))).toEqual({
+      ok: false, error: "Saved semantic edits do not match the selected recipe.",
+    });
+  });
+
   it("round-trips an unfinished recovery draft without making it a valid save", () => {
     const recovery = {
       savedAt: 123,
@@ -131,6 +163,12 @@ describe("v4 workspace validation", () => {
       rawNestingIntelligence: { buffer: "10", available: "", napAware: true },
     };
     const valid = JSON.parse(serializeRecovery(recovery));
+    const legacyRecovery = { ...valid, v: 1 };
+    delete legacyRecovery.semanticEdits;
+    const migrated = deserializeRecovery(JSON.stringify(legacyRecovery));
+    expect(migrated.ok).toBe(true);
+    if (migrated.ok) expect(migrated.semanticEdits).toBeNull();
+    expect(deserializeRecovery(JSON.stringify({ ...legacyRecovery, semanticEdits: null })).ok).toBe(false);
     expect(deserializeRecovery("[]").ok).toBe(false);
     expect(deserializeRecovery("null").ok).toBe(false);
     for (const change of [
@@ -142,6 +180,21 @@ describe("v4 workspace validation", () => {
       { rawNestingIntelligence: { buffer: "10", available: 1, napAware: true } },
       { rawNestingIntelligence: { buffer: "10", available: "", napAware: "yes" } },
     ]) expect(deserializeRecovery(JSON.stringify({ ...valid, ...change })).ok).toBe(false);
+    const missingEditState = { ...valid };
+    delete missingEditState.semanticEdits;
+    expect(deserializeRecovery(JSON.stringify(missingEditState))).toEqual({
+      ok: false, error: "Current recovery data is missing semantic edit state.",
+    });
+    const mismatchedRecoveryEdit = {
+      schemaVersion: 2,
+      recipeId: "fitted",
+      sourceFingerprint: `semantic-edit:v2:sha256:${"0".repeat(64)}`,
+      sourceInputs: { measurements: {}, options: {} },
+      operations: [], past: [], future: [],
+    };
+    expect(deserializeRecovery(JSON.stringify({ ...valid, semanticEdits: mismatchedRecoveryEdit }))).toEqual({
+      ok: false, error: "Recovery semantic edits do not match the selected recipe.",
+    });
     localStorage.setItem("patternworks_recovery_v1", "broken");
     expect(readRecoveryFromStorage()).toEqual({ ok: false, error: "Recovery data is not valid JSON." });
     expect(saveRecoveryToStorage({ ...recovery, fabric: "bad" })).toBe(false);
@@ -566,6 +619,7 @@ describe("deserialize (surface artwork section)", () => {
     expect(deserializeRecovery(serializeRecovery(recovery)).ok).toBe(true);
     const valid = JSON.parse(serializeRecovery(recovery));
     expect(deserializeRecovery(JSON.stringify({ ...valid, surface: [] })).ok).toBe(false);
+    expect(deserializeRecovery(JSON.stringify({ ...valid, semanticEdits: { schemaVersion: 99 } })).ok).toBe(false);
     const without = JSON.parse(JSON.stringify(valid));
     delete without.surface;
     const migrated = deserializeRecovery(JSON.stringify(without));

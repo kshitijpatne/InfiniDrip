@@ -1029,6 +1029,64 @@ export function editorHintMarkup(
     `Reset to draft</button></div>` + validationMarkup + `</div>`;
 }
 
+export interface SemanticEditorHintState {
+  readonly status: "checking" | "ready" | "blocked" | "rebase-required" | "failed";
+  readonly roles: readonly string[];
+  readonly canUndo: boolean;
+  readonly canRedo: boolean;
+  readonly canRebase: boolean;
+  readonly hasEdits: boolean;
+  readonly feedback?: string;
+}
+
+/** Persisted edit controls and their source/revision limitations. */
+export function semanticEditorHintMarkup(
+  issues: readonly SemanticEditIssue[],
+  editedRole: string,
+  state: SemanticEditorHintState,
+): string {
+  const roleOptions = [...new Set(state.roles)].map((role) =>
+    '<option value="' + escapeAttr(role) + '"' + (role === editedRole ? " selected" : "") + ">" +
+    escapeAttr(role.replace(/([A-Z])/g, " $1").replace(/[-_]/g, " ")) + "</option>").join("");
+  const statusText = state.status === "checking" ? "Checking source"
+    : state.status === "rebase-required" ? "Review and rebase required"
+      : state.status === "failed" ? "Source unavailable"
+        : state.status === "blocked" ? "Digital checks blocked"
+          : "Ready for editing";
+  const issueList = issues.length > 0
+    ? '<ul style="margin:4px 0 0;padding-left:22px">' + issues.map((issue) =>
+      '<li data-editor-issue="' + escapeAttr(issue.code) + '"' +
+      (issue.sizeLabel ? ' data-editor-size="' + escapeAttr(issue.sizeLabel) + '"' : "") + ">" +
+      (issue.sizeLabel ? escapeAttr(issue.sizeLabel) + ": " : "") + escapeAttr(issue.message) + "</li>").join("") + "</ul>"
+    : "";
+  const validation = state.status === "checking"
+    ? '<p role="status" data-editor-validation="checking">Checking this edit against the current source and every registered size. Dependent outputs are paused.</p>'
+    : state.status === "failed"
+      ? '<div role="alert" data-editor-validation="failed">The current source could not be verified. Editing and dependent outputs are paused.' + issueList + "</div>"
+      : state.status === "rebase-required"
+        ? '<div role="alert" data-editor-validation="rebase-required"><strong>Source inputs changed.</strong> Review the updated measurements and options, then rebase these edits or clear them before using dependent outputs.' + issueList + "</div>"
+        : issues.length > 0
+          ? '<div role="alert" aria-live="assertive" data-editor-validation="invalid">' +
+            "<strong>Saved edit is blocked by " + issues.length + " digital check" + (issues.length === 1 ? "" : "s") + ".</strong> " +
+            "The edit stays in this draft for correction; dependent outputs and exports are paused." + issueList + "</div>"
+          : '<p role="status" data-editor-validation="valid">All registered sizes pass the current deterministic edit checks. This is digital evidence only; it does not establish physical fit, drape, or factory acceptance.</p>';
+  const feedback = state.feedback
+    ? '<p role="alert" data-editor-feedback>' + escapeAttr(state.feedback) + "</p>"
+    : "";
+  return '<div data-editor-contract="semantic" style="margin-top:6px;font-size:12px;color:' + T.label + '">' +
+    '<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">' +
+    '<label for="editor-role" style="color:' + T.line + '">Pattern piece</label>' +
+    '<select id="editor-role" aria-label="Pattern piece">' + roleOptions + "</select>" +
+    '<button id="editor-undo" type="button"' + (state.canUndo ? "" : " disabled") + ">Undo edit</button>" +
+    '<button id="editor-redo" type="button"' + (state.canRedo ? "" : " disabled") + ">Redo edit</button>" +
+    '<button id="editor-rebase" type="button"' + (state.canRebase ? "" : " hidden") + ">Rebase edits</button>" +
+    '<button id="editor-reset" type="button"' + (state.hasEdits ? "" : " disabled") + ">Clear all edits</button>" +
+    '<span role="status" data-editor-state>' + statusText + "</span></div>" +
+    "<p>Drag a named corner or curve control, or enter an exact coordinate in centimetres. Each committed movement is recorded in this style draft and replayed across its registered size run. Pattern pieces, POM checks, nesting and garment exports use the same evaluated edits. Dart transfer and seam truing are unavailable here because they change pattern topology.</p>" +
+    "<p>The Body and Assembled illustrations remain schematic measurement views, not pattern-linked simulation. A passing digital check does not prove physical fit.</p>" +
+    feedback + validation + "</div>";
+}
+
 /** Numeric equivalents for every pointer handle. They keep Edit usable with a
  * keyboard or assistive technology while retaining the pointer canvas as a
  * quick exploratory surface. */

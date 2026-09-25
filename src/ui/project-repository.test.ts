@@ -109,6 +109,34 @@ async function rawGet(factory: IDBFactory, name: string, storeName: string, key:
   return value;
 }
 
+async function createVersionFourDatabase(
+  factory: IDBFactory,
+  name: string,
+  rows: readonly { store: keyof typeof PROJECT_STORES; value: unknown }[] = [],
+): Promise<void> {
+  const keyPaths: Readonly<Record<keyof typeof PROJECT_STORES, string>> = {
+    meta: "key",
+    projects: "id",
+    styles: "id",
+    recoveries: "styleId",
+    migrations: "sourceSha256",
+    imports: "packageSha256",
+    fieldObservations: "styleId",
+  };
+  const database = await new Promise<IDBDatabase>((resolve, reject) => {
+    const request = factory.open(name, 4);
+    request.onupgradeneeded = () => {
+      for (const [store, keyPath] of Object.entries(keyPaths)) {
+        request.result.createObjectStore(store, { keyPath });
+      }
+      for (const row of rows) request.transaction!.objectStore(PROJECT_STORES[row.store]).put(row.value);
+    };
+    request.onerror = () => reject(request.error ?? new Error("Version-four fixture open failed."));
+    request.onsuccess = () => resolve(request.result);
+  });
+  database.close();
+}
+
 function fieldHistory(style: StyleRecord): FieldObservationRecord {
   return createFieldObservationRecord(style, style.updatedAt, "existing-local-style");
 }
@@ -530,8 +558,15 @@ describe("transactional project repository", () => {
     const bundle = newBundle();
     const legacyStyle: Record<string, unknown> = { ...bundle.style, schemaVersion: 1 };
     delete legacyStyle.archivedAt;
+    const legacyDesign = { ...bundle.style.design } as Record<string, unknown>;
+    delete legacyDesign.semanticEdits;
+    legacyStyle.design = legacyDesign;
     const legacyProject: Record<string, unknown> = { ...bundle.project, schemaVersion: 1 };
     delete legacyProject.importedFrom;
+    const legacyRecovery = { ...recovery(), schemaVersion: 1 } as unknown as Record<string, unknown>;
+    const legacyRecoveryPayload = { ...(legacyRecovery.payload as Record<string, unknown>) };
+    delete legacyRecoveryPayload.semanticEdits;
+    legacyRecovery.payload = legacyRecoveryPayload;
     const versionOne = await new Promise<IDBDatabase>((resolve, reject) => {
       const request = factory.open(name, 1);
       request.onupgradeneeded = () => {
@@ -543,6 +578,7 @@ describe("transactional project repository", () => {
         const transaction = request.transaction!;
         transaction.objectStore(PROJECT_STORES.projects).put(legacyProject);
         transaction.objectStore(PROJECT_STORES.styles).put(legacyStyle);
+        transaction.objectStore(PROJECT_STORES.recoveries).put(legacyRecovery);
         transaction.objectStore(PROJECT_STORES.meta).put({ key: "activeSelection", projectId: PROJECT_ID, styleId: STYLE_ID });
       };
       request.onerror = () => reject(request.error);
@@ -551,9 +587,13 @@ describe("transactional project repository", () => {
     versionOne.close();
     const upgraded = await openProjectRepository({ name, factory, crypto: webcrypto });
     expect((await upgraded.readActiveProject())?.activeStyle).toMatchObject({
-      id: STYLE_ID, schemaVersion: 2, archivedAt: null, design: bundle.style.design,
+      id: STYLE_ID, schemaVersion: 3, archivedAt: null,
+      design: { ...bundle.style.design, semanticEdits: null },
     });
     expect((await upgraded.readActiveProject())?.project).toMatchObject({ schemaVersion: 2, importedFrom: null });
+    expect((await upgraded.readActiveProject())?.activeRecovery).toMatchObject({
+      schemaVersion: 2, styleId: STYLE_ID, payload: { semanticEdits: null },
+    });
     upgraded.close();
 
     const malformedName = databaseName();
@@ -582,6 +622,164 @@ describe("transactional project repository", () => {
     });
     expect(malformedStyle).toEqual({ id: STYLE_ID, schemaVersion: 1 });
     preserved.close();
+  });
+
+  it("upgrades IndexedDB v4 edit-state records atomically, idempotently, and preserves malformed data on rollback", async () => {
+    const factory = newFactory();
+    const name = databaseName();
+    const legacy = newBundle();
+    const current = newBundle(PROJECT_ID, OTHER_STYLE_ID);
+    const project: ProjectRecord = { ...legacy.project, styleIds: [STYLE_ID, OTHER_STYLE_ID] };
+    const oldDesign = { ...legacy.style.design } as Record<string, unknown>;
+    delete oldDesign.semanticEdits;
+    const oldStyle = { ...legacy.style, schemaVersion: 2, design: oldDesign };
+    const oldRecoveryBase = recovery(STYLE_ID);
+    const oldRecoveryPayload = { ...oldRecoveryBase.payload } as Record<string, unknown>;
+    delete oldRecoveryPayload.semanticEdits;
+    const oldRecovery = { schemaVersion: 1, styleId: STYLE_ID, payload: oldRecoveryPayload };
+    const currentRecovery = recovery(OTHER_STYLE_ID);
+    await createVersionFourDatabase(factory, name, [
+      { store: "projects", value: project },
+      { store: "styles", value: oldStyle },
+      { store: "styles", value: current.style },
+      { store: "recoveries", value: oldRecovery },
+      { store: "recoveries", value: currentRecovery },
+      { store: "meta", value: { key: "activeSelection", projectId: PROJECT_ID, styleId: STYLE_ID } },
+      { store: "fieldObservations", value: fieldHistory(legacy.style) },
+      { store: "fieldObservations", value: fieldHistory(current.style) },
+    ]);
+
+    const upgraded = await openProjectRepository({ name, factory, crypto: webcrypto });
+    const loaded = await upgraded.readActiveProject();
+    expect(loaded?.project).toEqual(project);
+    expect(loaded?.styles).toEqual([
+      { ...legacy.style, schemaVersion: 3, design: { ...legacy.style.design, semanticEdits: null } },
+      current.style,
+    ]);
+    expect(loaded?.activeRecovery).toEqual({
+      ...oldRecoveryBase, schemaVersion: 2, payload: { ...oldRecoveryBase.payload, semanticEdits: null },
+    });
+    expect(loaded?.fieldObservations).toHaveLength(2);
+    upgraded.close();
+
+    const reopened = await openProjectRepository({ name, factory, crypto: webcrypto });
+    expect((await reopened.readActiveProject())?.styles).toEqual(loaded?.styles);
+    reopened.close();
+    const upgradedRaw = await rawDatabase(factory, name);
+    expect(upgradedRaw.version).toBe(5);
+    upgradedRaw.close();
+
+    const emptyName = databaseName();
+    await createVersionFourDatabase(factory, emptyName);
+    const emptyUpgrade = await openProjectRepository({ name: emptyName, factory, crypto: webcrypto });
+    emptyUpgrade.close();
+    const emptyRaw = await rawDatabase(factory, emptyName);
+    expect(emptyRaw.version).toBe(5);
+    emptyRaw.close();
+
+    const malformedName = databaseName();
+    const invalidRecovery = { ...oldRecovery, schemaVersion: 99 };
+    await createVersionFourDatabase(factory, malformedName, [
+      { store: "styles", value: oldStyle },
+      { store: "recoveries", value: invalidRecovery },
+    ]);
+    await rejectionCode(openProjectRepository({ name: malformedName, factory, crypto: webcrypto }), "unavailable");
+    const preserved = await rawDatabase(factory, malformedName);
+    expect(preserved.version).toBe(4);
+    const transaction = preserved.transaction([PROJECT_STORES.styles, PROJECT_STORES.recoveries], "readonly");
+    const preservedStyle = await new Promise<unknown>((resolve, reject) => {
+      const request = transaction.objectStore(PROJECT_STORES.styles).get(STYLE_ID);
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+    const preservedRecovery = await new Promise<unknown>((resolve, reject) => {
+      const request = transaction.objectStore(PROJECT_STORES.recoveries).get(STYLE_ID);
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+    expect(preservedStyle).toEqual(oldStyle);
+    expect(preservedRecovery).toEqual(invalidRecovery);
+    preserved.close();
+
+    const malformedStyleName = databaseName();
+    const invalidStyle = { ...oldStyle, design: { ...oldStyle.design, unexpected: true } };
+    await createVersionFourDatabase(factory, malformedStyleName, [{ store: "styles", value: invalidStyle }]);
+    await rejectionCode(openProjectRepository({ name: malformedStyleName, factory, crypto: webcrypto }), "unavailable");
+    const malformedStyleDb = await rawDatabase(factory, malformedStyleName);
+    expect(malformedStyleDb.version).toBe(4);
+    malformedStyleDb.close();
+    expect(await rawGet(factory, malformedStyleName, PROJECT_STORES.styles, STYLE_ID)).toEqual(invalidStyle);
+  });
+
+  it("aborts each v4 edit-state cursor failure instead of partially upgrading records", async () => {
+    const missingTransaction = controlledFactory((request) => {
+      request.result = {
+        version: PROJECT_DATABASE_VERSION,
+        objectStoreNames: { contains: () => true },
+        createObjectStore: vi.fn(),
+      } as unknown as IDBDatabase;
+      request.transaction = null;
+      request.onupgradeneeded?.({ oldVersion: 4, newVersion: PROJECT_DATABASE_VERSION } as IDBVersionChangeEvent);
+      Object.defineProperty(request, "error", { value: { name: "AbortError" } });
+      request.onerror?.(new Event("error"));
+    });
+    await rejectionCode(openProjectRepository({ name: databaseName(), factory: missingTransaction }), "unavailable");
+
+    const exercise = async (
+      failingStore: typeof PROJECT_STORES.styles | typeof PROJECT_STORES.recoveries,
+      failure: "invalid-record" | "read" | "write" | "open",
+    ): Promise<void> => {
+      const style = failure === "invalid-record" && failingStore === PROJECT_STORES.styles
+        ? [] : newBundle().style;
+      const styleRecovery = recovery();
+      const recoveryRecord = failure === "invalid-record" && failingStore === PROJECT_STORES.recoveries
+        ? { ...styleRecovery, schemaVersion: 99 } : styleRecovery;
+      const makeCursorRequest = (store: string, value: unknown) => {
+        const cursor = {
+          value,
+          update: () => {
+            if (store === failingStore && failure === "write") throw new Error("cursor update failed");
+          },
+          continue: vi.fn(),
+        };
+        if (store === failingStore && failure === "read") {
+          Object.defineProperty(cursor, "value", { get: () => { throw new Error("cursor read failed"); } });
+        }
+        return { result: value === null ? null : cursor, onsuccess: null as ((event: Event) => void) | null, onerror: null as ((event: Event) => void) | null };
+      };
+      const requests = {
+        [PROJECT_STORES.styles]: makeCursorRequest(PROJECT_STORES.styles, style),
+        [PROJECT_STORES.recoveries]: makeCursorRequest(PROJECT_STORES.recoveries, recoveryRecord),
+      };
+      const transaction = {
+        abort: vi.fn(),
+        objectStore: (store: string) => ({
+          openCursor: () => {
+            if (store === failingStore && failure === "open") throw new Error("cursor unavailable");
+            return requests[store as keyof typeof requests];
+          },
+        }),
+      } as unknown as IDBTransaction;
+      const factory = controlledFactory((request) => {
+        request.result = {
+          version: PROJECT_DATABASE_VERSION,
+          objectStoreNames: { contains: () => true },
+          createObjectStore: vi.fn(),
+        } as unknown as IDBDatabase;
+        request.transaction = transaction;
+        request.onupgradeneeded?.({ oldVersion: 4, newVersion: PROJECT_DATABASE_VERSION } as IDBVersionChangeEvent);
+        for (const cursorRequest of Object.values(requests)) cursorRequest.onsuccess?.(new Event("success"));
+        expect(transaction.abort).toHaveBeenCalledOnce();
+        Object.defineProperty(request, "error", { value: { name: "AbortError" } });
+        request.onerror?.(new Event("error"));
+      });
+      await rejectionCode(openProjectRepository({ name: databaseName(), factory }), "unavailable");
+    };
+
+    for (const failure of ["invalid-record", "read", "write", "open"] as const) {
+      await exercise(PROJECT_STORES.styles, failure);
+      await exercise(PROJECT_STORES.recoveries, failure);
+    }
   });
 
   it("writes and clears style recovery independently while rejecting missing or malformed targets", async () => {
@@ -1010,7 +1208,7 @@ describe("transactional project repository", () => {
     failure.mockRestore();
     expect(await repository.readActiveProject()).toBeNull();
     expect(await repository.loadProject(PROJECT_ID)).toBeNull();
-    expect(input.saveJson).toContain('"v": 5');
+    expect(input.saveJson).toContain('"v": 6');
     expect((await repository.migrateLegacy(input)).status).toBe("migrated");
     repository.close();
   });
@@ -1289,17 +1487,22 @@ describe("transactional project repository", () => {
       value: unknown,
       update: () => void = vi.fn(),
     ): Promise<void> => {
-      const request = {
-        result: { value, update, continue: vi.fn() },
+      const cursorRequest = (cursorValue: unknown, cursorUpdate: () => void = vi.fn()) => ({
+        result: cursorValue === null ? null : { value: cursorValue, update: cursorUpdate, continue: vi.fn() },
         onsuccess: null as ((event: Event) => void) | null,
         onerror: null as ((event: Event) => void) | null,
+      });
+      const requests = {
+        [PROJECT_STORES.projects]: cursorRequest(value, update),
+        [PROJECT_STORES.styles]: cursorRequest(null),
+        [PROJECT_STORES.recoveries]: cursorRequest(null),
       };
       const transaction = {
         abort: vi.fn(),
-        objectStore: () => ({ openCursor: () => request }),
+        objectStore: (name: string) => ({ openCursor: () => requests[name as keyof typeof requests] }),
       } as unknown as IDBTransaction;
       await triggerUpgrade(oldVersion, transaction, () => {
-        request.onsuccess?.(new Event("success"));
+        for (const request of Object.values(requests)) request.onsuccess?.(new Event("success"));
         expect(transaction.abort).toHaveBeenCalled();
       });
     };
@@ -1314,7 +1517,14 @@ describe("transactional project repository", () => {
     });
 
     const projectOpenCursorThrows = controlledFactory((request) => {
-      const transaction = { abort: vi.fn(), objectStore: () => { throw new Error("project store is unavailable"); } };
+      const emptyCursor = { result: null, onsuccess: null, onerror: null };
+      const transaction = {
+        abort: vi.fn(),
+        objectStore: (name: string) => {
+          if (name === PROJECT_STORES.projects) throw new Error("project store is unavailable");
+          return { openCursor: () => emptyCursor };
+        },
+      };
       request.result = {
         version: PROJECT_DATABASE_VERSION,
         objectStoreNames: { contains: () => true },
@@ -1329,7 +1539,14 @@ describe("transactional project repository", () => {
     await rejectionCode(openProjectRepository({ name: databaseName(), factory: projectOpenCursorThrows }), "unavailable");
 
     const styleOpenCursorThrows = controlledFactory((request) => {
-      const transaction = { abort: vi.fn(), objectStore: () => { throw new Error("style store is unavailable"); } };
+      const emptyCursor = { result: null, onsuccess: null, onerror: null };
+      const transaction = {
+        abort: vi.fn(),
+        objectStore: (name: string) => {
+          if (name === PROJECT_STORES.styles) throw new Error("style store is unavailable");
+          return { openCursor: () => emptyCursor };
+        },
+      };
       request.result = {
         version: PROJECT_DATABASE_VERSION,
         objectStoreNames: { contains: () => true },
@@ -1337,7 +1554,7 @@ describe("transactional project repository", () => {
       } as unknown as IDBDatabase;
       request.transaction = transaction as unknown as IDBTransaction;
       request.onupgradeneeded?.({ oldVersion: 1, newVersion: PROJECT_DATABASE_VERSION } as IDBVersionChangeEvent);
-      expect(transaction.abort).toHaveBeenCalledTimes(2);
+      expect(transaction.abort).toHaveBeenCalledOnce();
       Object.defineProperty(request, "error", { value: { name: "AbortError" } });
       request.onerror?.(new Event("error"));
     });
@@ -1353,43 +1570,68 @@ describe("transactional project repository", () => {
       onsuccess: null as ((event: Event) => void) | null,
       onerror: null as ((event: Event) => void) | null,
     };
+    const recoveryRequest = {
+      result: null,
+      onsuccess: null as ((event: Event) => void) | null,
+      onerror: null as ((event: Event) => void) | null,
+    };
     const styleTransaction = {
       abort: vi.fn(),
-      objectStore: (name: string) => ({ openCursor: () => name === PROJECT_STORES.styles ? styleRequest : projectRequest }),
+      objectStore: (name: string) => ({ openCursor: () => ({
+        [PROJECT_STORES.styles]: styleRequest,
+        [PROJECT_STORES.projects]: projectRequest,
+        [PROJECT_STORES.recoveries]: recoveryRequest,
+      }[name] ?? projectRequest) }),
     } as unknown as IDBTransaction;
     await triggerUpgrade(1, styleTransaction, () => {
       styleRequest.onsuccess?.(new Event("success"));
       projectRequest.onsuccess?.(new Event("success"));
+      recoveryRequest.onsuccess?.(new Event("success"));
       expect(styleTransaction.abort).toHaveBeenCalledOnce();
     });
 
     const styleErrorRequest = { result: null, onsuccess: null as ((event: Event) => void) | null, onerror: null as ((event: Event) => void) | null };
     const projectAfterStyleErrorRequest = { result: null, onsuccess: null as ((event: Event) => void) | null, onerror: null as ((event: Event) => void) | null };
+    const recoveryAfterStyleErrorRequest = { result: null, onsuccess: null as ((event: Event) => void) | null, onerror: null as ((event: Event) => void) | null };
     const styleErrorTransaction = {
       abort: vi.fn(),
-      objectStore: (name: string) => ({ openCursor: () => name === PROJECT_STORES.styles ? styleErrorRequest : projectAfterStyleErrorRequest }),
+      objectStore: (name: string) => ({ openCursor: () => ({
+        [PROJECT_STORES.styles]: styleErrorRequest,
+        [PROJECT_STORES.projects]: projectAfterStyleErrorRequest,
+        [PROJECT_STORES.recoveries]: recoveryAfterStyleErrorRequest,
+      }[name] ?? projectAfterStyleErrorRequest) }),
     } as unknown as IDBTransaction;
     await triggerUpgrade(1, styleErrorTransaction, () => {
       styleErrorRequest.onerror?.(new Event("error"));
       projectAfterStyleErrorRequest.onsuccess?.(new Event("success"));
+      recoveryAfterStyleErrorRequest.onsuccess?.(new Event("success"));
       expect(styleErrorTransaction.abort).toHaveBeenCalledOnce();
     });
 
     const legacyStyle: Record<string, unknown> = { ...newBundle().style, schemaVersion: 1 };
     delete legacyStyle.archivedAt;
+    const legacyStyleDesign = { ...newBundle().style.design } as Record<string, unknown>;
+    delete legacyStyleDesign.semanticEdits;
+    legacyStyle.design = legacyStyleDesign;
     const styleUpdateRequest = {
       result: { value: legacyStyle, update: () => { throw new Error("style cursor update failed"); }, continue: vi.fn() },
       onsuccess: null as ((event: Event) => void) | null,
       onerror: null as ((event: Event) => void) | null,
     };
     const emptyProjectRequest = { result: null, onsuccess: null as ((event: Event) => void) | null, onerror: null as ((event: Event) => void) | null };
+    const emptyRecoveryRequest = { result: null, onsuccess: null as ((event: Event) => void) | null, onerror: null as ((event: Event) => void) | null };
     const styleUpdateTransaction = {
       abort: vi.fn(),
-      objectStore: (name: string) => ({ openCursor: () => name === PROJECT_STORES.styles ? styleUpdateRequest : emptyProjectRequest }),
+      objectStore: (name: string) => ({ openCursor: () => ({
+        [PROJECT_STORES.styles]: styleUpdateRequest,
+        [PROJECT_STORES.projects]: emptyProjectRequest,
+        [PROJECT_STORES.recoveries]: emptyRecoveryRequest,
+      }[name] ?? emptyProjectRequest) }),
     } as unknown as IDBTransaction;
     await triggerUpgrade(1, styleUpdateTransaction, () => {
       styleUpdateRequest.onsuccess?.(new Event("success"));
       emptyProjectRequest.onsuccess?.(new Event("success"));
+      emptyRecoveryRequest.onsuccess?.(new Event("success"));
       expect(styleUpdateTransaction.abort).toHaveBeenCalledOnce();
     });
   });

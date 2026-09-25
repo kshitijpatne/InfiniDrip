@@ -27,6 +27,7 @@ const migrated = (json = serialize(STANDARD_M, FABRIC)) => migrateLegacySaveFile
 
 function legacySave(version: number): string {
   const current = JSON.parse(serialize(STANDARD_M, FABRIC));
+  delete current.semanticEdits;
   if (version < 5) {
     delete current.workspace;
     delete current.garmentOptions;
@@ -176,7 +177,7 @@ describe("strict project and style records", () => {
     const style = validStyle();
     expect(parseStyleRecord(undefined).ok).toBe(false);
     expect(parseStyleRecord({ ...style, extra: 1 }).ok).toBe(false);
-    expect(parseStyleRecord({ ...style, schemaVersion: 1 }).ok).toBe(false);
+    expect(parseStyleRecord({ ...style, schemaVersion: 99 }).ok).toBe(false);
     expect(parseStyleRecord({ ...style, projectId: "bad" }).ok).toBe(false);
     expect(parseStyleRecord({ ...style, name: "" }).ok).toBe(false);
     expect(parseStyleRecord({ ...style, updatedAt: "2026-09-24T15:00:00.000Z" }).ok).toBe(false);
@@ -195,6 +196,14 @@ describe("strict project and style records", () => {
     expect(parseStyleRecord({ ...style, design: { ...style.design, measurements: cyclicMeasurements } }).ok).toBe(false);
     expect(parseStyleRecord(style).ok).toBe(true);
     expect(parseStyleRecord({ ...style, archivedAt: TIME }).ok).toBe(true);
+    const legacyDesign = { ...style.design } as Record<string, unknown>;
+    delete legacyDesign.semanticEdits;
+    const legacyStyle: Record<string, unknown> = { ...style, schemaVersion: 1, design: legacyDesign };
+    delete legacyStyle.archivedAt;
+    expect(parseStyleRecord(legacyStyle)).toMatchObject({
+      ok: true,
+      value: { schemaVersion: 3, archivedAt: null, design: { semanticEdits: null } },
+    });
   });
 
   it("validates per-style recovery records and legacy recovery without altering unfinished raw input", () => {
@@ -211,6 +220,9 @@ describe("strict project and style records", () => {
     expect(parseRecoveryRecord({ ...recovery, payload: cyclicPayload }).ok).toBe(false);
     const invalidRaw = JSON.stringify({ v: 1, ...recovery.payload, rawMeasurements: { chest: 2 } });
     expect(migrateLegacyRecovery(STYLE_ID, invalidRaw).ok).toBe(false);
+    const invalidCurrentRecovery = JSON.parse(serializeRecovery(recovery.payload));
+    invalidCurrentRecovery.semanticEdits = { schemaVersion: 99 };
+    expect(migrateLegacyRecovery(STYLE_ID, JSON.stringify(invalidCurrentRecovery)).ok).toBe(false);
     expect(migrateLegacyRecovery("bad", serializeRecovery(recovery.payload)).ok).toBe(false);
     expect(migrateLegacyRecovery(STYLE_ID, "[").ok).toBe(false);
     expect(migrateLegacyRecovery(STYLE_ID, JSON.stringify({ v: 99 })).ok).toBe(false);
@@ -233,7 +245,7 @@ describe("strict project and style records", () => {
     expect(parseMigrationRecord({ ...marker, extra: true }).ok).toBe(false);
     expect(parseMigrationRecord({ ...marker, schemaVersion: 2 }).ok).toBe(false);
     expect(parseMigrationRecord({ ...marker, sourceKeys: ["wrong", "wrong"] }).ok).toBe(false);
-    expect(parseMigrationRecord({ ...marker, sourceSaveVersion: 6 }).ok).toBe(false);
+    expect(parseMigrationRecord({ ...marker, sourceSaveVersion: 7 }).ok).toBe(false);
     expect(parseMigrationRecord({ ...marker, sourceSaveVersion: 1.5 }).ok).toBe(false);
     expect(parseMigrationRecord({ ...marker, sourceSaveVersion: null }).ok).toBe(true);
     expect(parseMigrationRecord({ ...marker, sourceSha256: "bad" }).ok).toBe(false);

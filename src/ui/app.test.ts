@@ -3,12 +3,24 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { Blob as NodeBlob } from "node:buffer";
 import { webcrypto } from "node:crypto";
 import { IDBFactory } from "fake-indexeddb";
-import { mountApp, stageBlockerFromNote } from "./app";
+import {
+  exportablePieces,
+  mountApp,
+  renderSemanticEditorPiece,
+  resolveSemanticEditorRole,
+  selectedSizeLabel,
+  semanticEditorHandles,
+  semanticEditorPieceForRole,
+  semanticSizeStepFor,
+  stageBlockerFromNote,
+  withSemanticEditorPiece,
+} from "./app";
 import { openProjectWorkflow } from "./project-workflow";
 import type { ArtworkAssetStore, StoredArtworkAsset } from "../surface/artwork-store";
 import type { InspectedArtworkFile } from "../surface/artwork-file";
 import { ARTWORK_CATALOG } from "../surface/artwork-library/catalog";
 import { GARMENTS, STANDARD_M, draftTshirt, rolePiece, type GarmentRecipe } from "../drafting";
+import * as editEngine from "../edit";
 import { pieceHandles, editorViewBox } from "../edit";
 import { loadJourney } from "./journey";
 import { PATTERN_MEASUREMENT_MAP, type PatternMeasurementDefinition, type PatternMeasurementField } from "./pattern-measurements";
@@ -38,6 +50,31 @@ const reachExportStage = (root: HTMLElement): void => {
 };
 
 describe("mountApp", () => {
+  it("keeps semantic-editor and export helper boundaries safe for missing roles and stale output", () => {
+    expect(semanticEditorHandles("tee", { roles: {}, stitches: [] }, "front")).toEqual([]);
+    const source = { roles: {}, stitches: [] };
+    expect(exportablePieces(source, true)).toEqual([]);
+    expect(() => exportablePieces(source, false)).toThrow(/pattern export is paused/);
+    expect(() => exportablePieces(null, true)).toThrow(/pattern export is paused/);
+  });
+
+  it("shows a render failure and disables exports when the current source throws", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "tee")!;
+    for (const [failure, expected] of [
+      [new Error("render source failure"), "render source failure"],
+      ["non-Error render failure", "could not be rendered because a recipe source check failed"],
+    ] as const) {
+      const draftSpy = vi.spyOn(recipe, "draft").mockImplementation(() => { throw failure; });
+      try {
+        const root = mount();
+        expect(root.querySelector<HTMLElement>("[data-render-failed]")?.textContent).toContain(expected);
+        expect([...root.querySelectorAll<HTMLButtonElement>("#export-host button")].every((button) => button.disabled)).toBe(true);
+      } finally {
+        draftSpy.mockRestore();
+      }
+    }
+  });
+
   it("reports the refreshed and on-demand outputs for a changed measurement", () => {
     const root = mount();
     const input = root.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
@@ -53,17 +90,18 @@ describe("mountApp", () => {
     expect(status.textContent).toContain("surface-art sheet SVG");
   });
 
-  it("warns when woven hem turn is only represented in preview and guidance", () => {
+  it("maps woven hem turn to cutting outputs while keeping finished POMs independent", () => {
     const root = mount();
     clickId(root, "garment-woven-shirt");
     const input = root.querySelector<HTMLInputElement>('input[data-option="hemTurn"]')!;
     input.value = "1.2";
     input.dispatchEvent(new Event("input", { bubbles: true }));
     const status = root.querySelector<HTMLElement>("#field-impact-status")!;
-    expect(status.textContent).toContain("assembled-garment illustration and hem-turn guidance/check status");
-    expect(status.textContent).toContain("Not represented in current outputs");
+    expect(status.textContent).toContain("pattern pieces");
+    expect(status.textContent).toContain("graded measurements and pattern pieces");
+    expect(status.textContent).not.toContain("Not represented in current outputs");
     expect(status.textContent).toContain("POM/spec values");
-    expect(status.textContent).toContain("They omit this input until the propagation gap is fixed");
+    expect(status.textContent).toContain("Unaffected:");
   });
 
   it("warns when tank shoulder width is not consumed by the drafted pattern", () => {
@@ -75,7 +113,9 @@ describe("mountApp", () => {
     const status = root.querySelector<HTMLElement>("#field-impact-status")!;
     expect(status.textContent).toContain("body/assembled illustration and shoulder-width guidance/check status");
     expect(status.textContent).toContain("Not represented in current outputs");
-    expect(status.textContent).toContain("They omit this input until the propagation gap is fixed");
+    expect(status.textContent).toContain("Body shoulder width does not determine the tank pattern's strap width");
+    expect(status.textContent).toContain("Review or change Strap width to change the strap/armhole geometry");
+    expect(status.textContent).toContain("unchanged pattern geometry is not evidence of fit");
   });
 
   it("routes warning notes through explicit stage blocker fallbacks", () => {
@@ -307,8 +347,9 @@ describe("mountApp", () => {
     }
   });
 
-  it("keeps the same +/- and range contract for recipe options, nesting width, and Edit coordinates", () => {
+  it("keeps the same +/- and range contract for recipe options, nesting width, and Edit coordinates", async () => {
     localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
     const root = mount();
     root.querySelector<HTMLButtonElement>("#garment-polo")!.dispatchEvent(new Event("click"));
     const option = root.querySelector<HTMLInputElement>('input[data-option="placketLength"]')!;
@@ -334,12 +375,23 @@ describe("mountApp", () => {
     coordinate.closest<HTMLElement>("[data-range-control]")!
       .querySelector<HTMLButtonElement>('button[data-step-direction="1"]')!
       .dispatchEvent(new Event("click", { bubbles: true }));
-    const after = root.querySelector<HTMLInputElement>(`#${coordinate.id}`)!;
+    const after = [...root.querySelectorAll<HTMLInputElement>("input")]
+      .find((input) => input.id === coordinate.id)!;
     expect(Number(after.value)).toBeCloseTo(before + 0.1, 5);
     expect(after.closest<HTMLElement>("[data-range-control]")!.querySelector("[data-range-rail]")!.getAttribute("aria-label"))
       .toContain("Open range");
     expect(after.closest<HTMLElement>("[data-range-control]")!.querySelector<HTMLElement>("[data-range-marker]")!.style.display)
       .toBe("none");
+  });
+
+  it("falls back to the original control if a stepper event detaches its input", () => {
+    const root = mount();
+    const input = root.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+    input.addEventListener("input", () => input.remove(), { once: true });
+    const plus = input.closest<HTMLElement>("[data-range-control]")!
+      .querySelector<HTMLButtonElement>('button[data-step-direction="1"]')!;
+    expect(() => plus.click()).not.toThrow();
+    expect(input.isConnected).toBe(false);
   });
 
   it("preserves an out-of-range field with an actionable correction on change", () => {
@@ -969,7 +1021,7 @@ describe("mountApp", () => {
     expect(root.querySelector("#inspection-title")!.textContent).toContain("Assembled preview");
   });
 
-  it("rebuilds the Edit preview when a recipe option invalidates its prior piece", () => {
+  it("rebuilds the semantic Edit source when a recipe option changes", () => {
     localStorage.clear();
     const root = mount();
     clickId(root, "garment-polo");
@@ -979,7 +1031,7 @@ describe("mountApp", () => {
     option.dispatchEvent(new Event("input", { bubbles: true }));
     expect(root.querySelector("#canvas-host svg")).not.toBeNull();
     expect(root.querySelectorAll("input[data-editor-coordinate]").length).toBeGreaterThan(0);
-    expect(root.querySelector('[data-editor-contract="preview-only"]')?.textContent).toContain("Exploratory edit");
+    expect(root.querySelector('[data-editor-contract="semantic"]')?.textContent).toContain("registered size run");
   });
 
   it("opens field history immediately when the app has no project workflow", () => {
@@ -990,13 +1042,14 @@ describe("mountApp", () => {
     expect(root.querySelector("#field-history-dialog")?.textContent).toContain("No value history is recorded");
   });
 
-  it("uses the conventional front role for recipes without an explicit Edit role", () => {
+  it("selects the conventional front role for recipes without an explicit Edit role", () => {
     localStorage.clear();
     const root = mount();
     clickId(root, "garment-tee");
     clickId(root, "view-edit");
     expect(root.querySelector("#canvas-host svg")).not.toBeNull();
-    expect(root.querySelector('[data-editor-contract="preview-only"]')?.textContent).toContain("front piece only");
+    expect(root.querySelector<HTMLSelectElement>("#editor-role")?.value).toBe("front");
+    expect(root.querySelector('[data-editor-contract="semantic"]')).not.toBeNull();
   });
 
   it("keeps the reviewed journey incomplete when Electron cancels a file write", async () => {
@@ -1381,6 +1434,7 @@ describe("mountApp", () => {
     try {
       const root = mount();
       registered!("svg");
+      registered!("techpack");
       registered!("unknown");
       expect(root.querySelector("#persist-status")!.textContent).toContain("Review Style and the current digital checks");
     } finally {
@@ -1571,10 +1625,12 @@ describe("mountApp", () => {
     expect(root.querySelector("#canvas-host")!.innerHTML).not.toContain("editor-reset");
   });
 
-  it("surfaces invalid Edit-preview checks while keeping outputs on the parametric draft", () => {
+  it("persists an invalid semantic edit and pauses dependent outputs until correction", async () => {
     localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
     const root = mount();
     clickId(root, "view-edit");
+    await vi.waitFor(() => expect(root.querySelector('[data-editor-validation="valid"]')).not.toBeNull());
     const coordinate = root.querySelector<HTMLInputElement>('input[data-editor-coordinate][data-editor-axis="x"]')!;
     coordinate.value = "1000";
     coordinate.dispatchEvent(new Event("change", { bubbles: true }));
@@ -1582,11 +1638,24 @@ describe("mountApp", () => {
     const diagnostic = root.querySelector<HTMLElement>('[data-editor-validation="invalid"]');
     expect(diagnostic).not.toBeNull();
     expect(diagnostic?.getAttribute("role")).toBe("alert");
-    expect(diagnostic?.textContent).toContain("Preview blocked by");
-    expect(diagnostic?.textContent).toContain("current outputs still use the parametric draft");
-    expect(root.querySelector('[data-editor-contract="preview-only"]')?.textContent)
-      .toContain("The diagnostic below evaluates only the preview");
+    expect(diagnostic?.textContent).toContain("Saved edit is blocked");
+    expect(diagnostic?.textContent).toContain("dependent outputs and exports are paused");
+    expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(true);
 
+    clickId(root, "view-nest");
+    expect(root.querySelector("#canvas-host")?.textContent).toContain("Graded nesting is paused.");
+    clickId(root, "view-fabric");
+    expect(root.querySelector("#canvas-host")?.textContent).toContain("Fabric nesting is paused.");
+    clickId(root, "nest-single");
+    expect(root.querySelector("#canvas-host")?.textContent).toContain("Fabric nesting is paused.");
+    clickId(root, "view-check");
+    expect(root.querySelector("#canvas-host")?.textContent).toContain("Checks are paused");
+    clickId(root, "view-spec");
+    expect(root.querySelector("#canvas-host")?.textContent).toContain("Graded specifications are paused.");
+    clickId(root, "view-pattern");
+    expect(root.querySelector("#canvas-host")?.textContent).toContain("Pattern output is paused for this size.");
+
+    clickId(root, "view-edit");
     root.querySelector<HTMLButtonElement>("#editor-reset")!.click();
     expect(root.querySelector('[data-editor-validation="invalid"]')).toBeNull();
     expect(root.querySelector('[data-editor-validation="valid"]')).not.toBeNull();
@@ -1607,10 +1676,12 @@ describe("mountApp", () => {
     expect(root.querySelector('[data-editor-validation="invalid"]')).toBeNull();
   });
 
-  it("applies keyboard coordinate edits and rejects incomplete or unknown coordinates", () => {
+  it("applies keyboard coordinate edits and rejects incomplete or unknown coordinates", async () => {
     localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
     const root = mount();
     root.querySelector<HTMLButtonElement>("#view-edit")!.dispatchEvent(new Event("click"));
+    await vi.waitFor(() => expect(root.querySelector('[data-editor-validation="valid"]')).not.toBeNull());
     const host = root.querySelector<HTMLDivElement>("#canvas-host")!;
     const coordinate = host.querySelector<HTMLInputElement>('input[data-editor-coordinate][data-editor-axis="x"]')!;
     const before = host.innerHTML;
@@ -1644,8 +1715,9 @@ describe("mountApp", () => {
     expect(badAxis.getAttribute("aria-invalid")).toBe("true");
   });
 
-  it("drags a handle to reshape the front, ignores stray input, and resets", () => {
+  it("commits one durable semantic operation for a drag and clears it on reset", async () => {
     localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
     // 1 cm == 1 px, origin aligned, so screen coords map straight to cm - vb.min
     const vb = editorViewBox(rolePiece(draftTshirt(STANDARD_M), "front"));
     const rect = { left: 0, top: 0, width: vb.w, height: vb.h, right: vb.w, bottom: vb.h, x: 0, y: 0, toJSON() {} };
@@ -1660,6 +1732,7 @@ describe("mountApp", () => {
       window.dispatchEvent(new MouseEvent("mousemove", { clientX: 5, clientY: 5 }));
 
       root.querySelector<HTMLButtonElement>("#view-edit")!.dispatchEvent(new Event("click"));
+      await vi.waitFor(() => expect(root.querySelector('[data-editor-validation="valid"]')).not.toBeNull());
       const vertex = pieceHandles(rolePiece(draftTshirt(STANDARD_M), "front")).find((h) => h.kind === "vertex")!;
       const sx = vertex.pos.x - vb.minX;
       const sy = vertex.pos.y - vb.minY;
@@ -1667,6 +1740,11 @@ describe("mountApp", () => {
       // Miss: click empty margin (>2 cm from any handle) selects nothing.
       host.dispatchEvent(new MouseEvent("mousedown", { clientX: 0.5, clientY: 0.5, bubbles: true }));
       expect(host.innerHTML).not.toContain('stroke="#FFFFFF"');
+
+      // A press and release with no movement remains an explicit no-op.
+      host.dispatchEvent(new MouseEvent("mousedown", { clientX: sx, clientY: sy, bubbles: true }));
+      window.dispatchEvent(new MouseEvent("mouseup", {}));
+      expect(root.querySelector<HTMLButtonElement>("#editor-undo")!.disabled).toBe(true);
 
       const before = host.innerHTML;
       // Hit: grab the vertex, drag it +6 cm, release.
@@ -1677,9 +1755,10 @@ describe("mountApp", () => {
       expect(dragged).not.toBe(before); // the outline changed
       window.dispatchEvent(new MouseEvent("mouseup", {}));
 
-      // Reset re-drafts from measurements, undoing the drag.
+      // Clear removes the durable semantic operation and returns to the source draft.
       host.querySelector<HTMLButtonElement>("#editor-reset")!.dispatchEvent(new MouseEvent("click", { bubbles: true }));
       expect(host.innerHTML).not.toBe(dragged);
+      expect(host.querySelector('[data-editor-validation="valid"]')).not.toBeNull();
     } finally {
       Element.prototype.getBoundingClientRect = orig;
     }
@@ -1786,54 +1865,642 @@ describe("fabric width visibility", () => {
   });
 });
 
-describe("dart tools in the Edit view", () => {
-  const pick = (root: HTMLElement, id: string): void => {
-    root.querySelector<HTMLButtonElement>(id)!.dispatchEvent(new MouseEvent("click", { bubbles: true }));
-  };
-  const enterFittedEditor = (): HTMLElement => {
+describe("woven hem-turn propagation", () => {
+  it("rebuilds all cut-line exports without changing finished POM values", () => {
+    localStorage.clear();
+    const files = new Map<string, string>();
+    window.electronAPI = {
+      saveFile: vi.fn(async (filename, content) => {
+        files.set(filename, content);
+        return { saved: true, filePath: `C:/test/${filename}` };
+      }),
+    };
+    try {
+      const root = mount();
+      clickId(root, "garment-woven-shirt");
+      const input = root.querySelector<HTMLInputElement>('input[data-option="hemTurn"]')!;
+      const exportIds = [
+        "#export-svg", "#export-dxf", "#export-pdf", "#export-techpack",
+        "#export-projector", "#export-a0",
+      ];
+      const exportAtTurn = (turn: number): string => {
+        input.value = String(turn);
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+        reachExportStage(root);
+        for (const id of exportIds) root.querySelector<HTMLButtonElement>(id)!.click();
+        clickId(root, "view-spec");
+        return root.querySelector<HTMLElement>("#canvas-host")!.textContent ?? "";
+      };
+
+      const defaultSpec = exportAtTurn(1);
+      const defaultFiles = new Map(files);
+      files.clear();
+      const changedSpec = exportAtTurn(1.2);
+
+      expect(changedSpec).toBe(defaultSpec);
+      for (const filename of [
+        "woven-shirt-M.svg", "woven-shirt-M.dxf", "woven-shirt-M.pdf",
+        "woven-shirt-techpack.pdf", "woven-shirt-projector.svg", "woven-shirt-M-A0.pdf",
+      ]) {
+        expect(files.get(filename), filename).toBeDefined();
+        expect(files.get(filename), filename).not.toBe(defaultFiles.get(filename));
+      }
+    } finally {
+      delete window.electronAPI;
+    }
+  });
+});
+
+describe("semantic Edit view", () => {
+  beforeEach(() => vi.stubGlobal("crypto", webcrypto as unknown as Crypto));
+
+  const enterFittedEditor = async (): Promise<HTMLElement> => {
     localStorage.clear();
     const root = mount();
     root.querySelector<HTMLButtonElement>("#garment-fitted")!.dispatchEvent(new Event("click"));
     root.querySelector<HTMLButtonElement>("#view-edit")!.dispatchEvent(new Event("click"));
+    await vi.waitFor(() => expect(root.querySelector('[data-editor-validation="valid"]')).not.toBeNull());
     return root;
   };
+  const firstCurveXCoordinate = (root: HTMLElement): HTMLInputElement =>
+    [...root.querySelectorAll<HTMLInputElement>('input[data-editor-coordinate][data-editor-axis="x"]')]
+      .find((input) => input.dataset.editorHandleId?.includes("/control/"))!;
 
-  it("hides the dart tools for the undarted tee", () => {
+  it("does not expose topology-changing dart shortcuts", async () => {
     localStorage.clear();
     const root = mount();
     root.querySelector<HTMLButtonElement>("#view-edit")!.dispatchEvent(new Event("click"));
+    await vi.waitFor(() => expect(root.querySelector('[data-editor-validation="valid"]')).not.toBeNull());
     expect(root.querySelector("#dart-shoulder")).toBeNull();
+    expect(root.querySelector('[data-editor-contract="semantic"]')?.textContent)
+      .toContain("Dart transfer and seam truing are unavailable");
   });
 
-  it("offers transfer targets on the darted front, but truing only after a move", () => {
-    const root = enterFittedEditor();
-    expect(root.querySelector("#dart-shoulder")).not.toBeNull();
-    expect(root.querySelector("#dart-true")).toBeNull(); // dart still splits the side
-    pick(root, "#dart-shoulder");
-    expect(root.querySelector("#dart-true")).not.toBeNull(); // side seam healed
+  it("resolves only pieces present in the current semantic draft", () => {
+    const tee = GARMENTS.find((candidate) => candidate.name === "tee")!;
+    const source = tee.draft(STANDARD_M, {});
+    expect(semanticEditorPieceForRole(source, "front")).toBe(source.roles.front);
+    expect(semanticEditorPieceForRole(source, "stale-role")).toBeNull();
+    expect(semanticEditorPieceForRole(null, "front")).toBeNull();
   });
 
-  it("moves the dart to the hem and reshapes the piece", () => {
-    const root = enterFittedEditor();
-    const before = root.querySelector("#canvas-host")!.innerHTML;
-    pick(root, "#dart-hem");
-    expect(root.querySelector("#canvas-host")!.innerHTML).not.toBe(before);
-    expect(root.querySelector("#dart-true")).not.toBeNull();
+  it("renders an explicit empty state when the editable role has no piece", () => {
+    const tee = GARMENTS.find((candidate) => candidate.name === "tee")!;
+    const piece = tee.draft(STANDARD_M, {}).roles.front;
+    expect(renderSemanticEditorPiece(null, () => "unexpected piece")).toContain("no editable pattern pieces");
+    expect(renderSemanticEditorPiece(piece, (resolved) => resolved.name)).toBe(piece.name);
   });
 
-  it("trues the healed side seam, then Reset restores the drafted front", () => {
-    const root = enterFittedEditor();
-    pick(root, "#dart-shoulder");
-    const moved = root.querySelector("#canvas-host")!.innerHTML;
-    pick(root, "#dart-true");
-    expect(root.querySelector("#canvas-host")!.innerHTML).not.toBe(moved);
-    pick(root, "#editor-reset");
-    // back to the drafted dart: side seam split again, so truing is unavailable
-    expect(root.querySelector("#dart-true")).toBeNull();
+  it("keeps size routing exact and labels a single-size draft without a chart", () => {
+    const sizes = [{ step: 0, label: "Base" }];
+    expect(semanticSizeStepFor(sizes, (candidate) => candidate.step === 0)).toBe(0);
+    expect(Number.isNaN(semanticSizeStepFor(sizes, () => false))).toBe(true);
+    expect(selectedSizeLabel(sizes, 0)).toBe("Base");
+    expect(selectedSizeLabel([], 0)).toBe("Selected size");
   });
 
-  it("ignores clicks that are not a dart tool", () => {
-    const root = enterFittedEditor();
+  it("runs editor actions only while the target role exists", () => {
+    const tee = GARMENTS.find((candidate) => candidate.name === "tee")!;
+    const piece = tee.draft(STANDARD_M, {}).roles.front;
+    const action = vi.fn((current: typeof piece) => current.name);
+    expect(withSemanticEditorPiece(null, action)).toBeUndefined();
+    expect(action).not.toHaveBeenCalled();
+    expect(withSemanticEditorPiece(piece, action)).toBe(piece.name);
+    expect(action).toHaveBeenCalledWith(piece);
+  });
+
+  it("retains or safely selects an available semantic editor role", () => {
+    expect(resolveSemanticEditorRole("back", ["front", "back"])).toBe("back");
+    expect(resolveSemanticEditorRole("stale-role", ["front", "back"])).toBe("front");
+    expect(resolveSemanticEditorRole(undefined, [])).toBe("");
+  });
+
+  it("labels an edit candidate when a recipe has no registered sizes", async () => {
+    const tee = GARMENTS.find((candidate) => candidate.name === "tee")!;
+    const descriptor = Object.getOwnPropertyDescriptor(tee, "sizes")!;
+    Object.defineProperty(tee, "sizes", { ...descriptor, value: [] });
+    try {
+      const root = mount();
+      clickId(root, "view-edit");
+      await vi.waitFor(() => expect(root.querySelector('[data-editor-validation="valid"]')).not.toBeNull());
+      expect(root.querySelector("#nest-selected-size")?.textContent).toBe("Selected size");
+    } finally {
+      Object.defineProperty(tee, "sizes", descriptor);
+    }
+  });
+
+  it("uses the local operation ID fallback when randomUUID is unavailable", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", { subtle: webcrypto.subtle } as unknown as Crypto);
+    try {
+      const root = mount();
+      clickId(root, "view-edit");
+      await vi.waitFor(() => expect(root.querySelector('[data-editor-validation="valid"]')).not.toBeNull());
+      const coordinate = firstCurveXCoordinate(root);
+      coordinate.value = String(Number(coordinate.value) + 0.05);
+      coordinate.dispatchEvent(new Event("change", { bubbles: true }));
+      await vi.waitFor(() => expect(root.querySelector('[data-editor-validation="valid"]')).not.toBeNull());
+      clickId(root, "save-pattern");
+      const saved = JSON.parse(localStorage.getItem("patternworks_save_v1")!) as {
+        semanticEdits?: { operations?: readonly { id: string }[] };
+      };
+      expect(saved.semanticEdits?.operations?.[0]?.id).toMatch(/^semantic-edit-\d+-\d+$/);
+    } finally {
+      vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    }
+  });
+
+  it("keeps Edit usable and outputs paused when source hashing fails", async () => {
+    const checkFailure = async (failure: unknown, expected: string): Promise<void> => {
+      localStorage.clear();
+      vi.stubGlobal("crypto", {
+        subtle: { digest: async () => { throw failure; } },
+      } as unknown as Crypto);
+      const root = mount();
+      clickId(root, "view-edit");
+      await vi.waitFor(() => expect(root.querySelector('[data-editor-validation="failed"]')).not.toBeNull());
+      expect(root.querySelector('[data-editor-validation="failed"]')?.textContent).toContain(expected);
+      expect(root.querySelector("#canvas-host")?.textContent).toContain("Source unavailable");
+      expect(root.querySelector<HTMLButtonElement>("#editor-undo")?.disabled).toBe(true);
+    };
+    try {
+      await checkFailure(new Error("hash provider unavailable"), "hash provider unavailable");
+      await checkFailure("hash provider unavailable", "SHA-256 source verification is unavailable.");
+    } finally {
+      vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    }
+  });
+
+  it("ignores a failed hash result after its source snapshot has been replaced", async () => {
+    localStorage.clear();
+    const requests: Array<{
+      readonly algorithm: AlgorithmIdentifier;
+      readonly data: BufferSource;
+      readonly resolve: (digest: ArrayBuffer) => void;
+      readonly reject: (error: unknown) => void;
+    }> = [];
+    vi.stubGlobal("crypto", {
+      subtle: {
+        digest: (algorithm: AlgorithmIdentifier, data: BufferSource) => new Promise<ArrayBuffer>((resolve, reject) => {
+          requests.push({ algorithm, data, resolve, reject });
+        }),
+      },
+    } as unknown as Crypto);
+    try {
+      const root = mount();
+      clickId(root, "view-edit");
+      await vi.waitFor(() => expect(requests).toHaveLength(1));
+      const chest = root.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+      chest.value = String(Number(chest.value) + 1);
+      chest.dispatchEvent(new Event("input", { bubbles: true }));
+      await vi.waitFor(() => expect(requests).toHaveLength(2));
+
+      requests[0]!.reject(new Error("obsolete hash failure"));
+      await Promise.resolve();
+      expect(root.querySelector("#canvas-host")?.textContent).not.toContain("obsolete hash failure");
+      expect(root.querySelector('[data-editor-validation="checking"]')).not.toBeNull();
+
+      const payload = requests[1]!.data;
+      const digestBytes = ArrayBuffer.isView(payload)
+        ? Buffer.from(payload.buffer as ArrayBuffer, payload.byteOffset, payload.byteLength)
+        : Buffer.from(payload as ArrayBuffer);
+      requests[1]!.resolve(await webcrypto.subtle.digest(requests[1]!.algorithm, digestBytes));
+      await vi.waitFor(() => expect(root.querySelector('[data-editor-validation="valid"]')).not.toBeNull());
+    } finally {
+      vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    }
+  });
+
+  it("keeps the rebase action harmless when source verification fails", async () => {
+    const root = await enterFittedEditor();
+    const coordinate = firstCurveXCoordinate(root);
+    coordinate.value = String(Number(coordinate.value) + 0.05);
+    coordinate.dispatchEvent(new Event("change", { bubbles: true }));
+    await vi.waitFor(() => expect(root.querySelector('[data-editor-validation="valid"]')).not.toBeNull());
+    vi.stubGlobal("crypto", {
+      subtle: { digest: async () => { throw new Error("rebase hash unavailable"); } },
+    } as unknown as Crypto);
+    try {
+      const chest = root.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+      chest.value = String(Number(chest.value) + 1);
+      chest.dispatchEvent(new Event("input", { bubbles: true }));
+      await vi.waitFor(() => expect(root.querySelector('[data-editor-validation="failed"]')).not.toBeNull());
+      const rebase = root.querySelector<HTMLButtonElement>("#editor-rebase")!;
+      expect(rebase.hidden).toBe(true);
+      rebase.click(); // stale or scripted activation must not clear the conflict
+      expect(root.querySelector("[data-editor-feedback]")?.textContent).toContain("rebase hash unavailable");
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(true);
+    } finally {
+      vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    }
+  });
+
+  it("asks the user to wait when rebase is activated during source verification", async () => {
+    const root = await enterFittedEditor();
+    const coordinate = firstCurveXCoordinate(root);
+    coordinate.value = String(Number(coordinate.value) + 0.05);
+    coordinate.dispatchEvent(new Event("change", { bubbles: true }));
+    await vi.waitFor(() => expect(root.querySelector('[data-editor-validation="valid"]')).not.toBeNull());
+    let resolveDigest!: (digest: ArrayBuffer) => void;
+    vi.stubGlobal("crypto", {
+      subtle: { digest: () => new Promise<ArrayBuffer>((resolve) => { resolveDigest = resolve; }) },
+    } as unknown as Crypto);
+    try {
+      const chest = root.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+      chest.value = String(Number(chest.value) + 1);
+      chest.dispatchEvent(new Event("input", { bubbles: true }));
+      await vi.waitFor(() => expect(root.querySelector('[data-editor-validation="checking"]')).not.toBeNull());
+      root.querySelector<HTMLButtonElement>("#editor-rebase")!.click();
+      expect(root.querySelector("[data-editor-feedback]")?.textContent)
+        .toContain("Rebase is waiting for source verification.");
+    } finally {
+      resolveDigest(new ArrayBuffer(32));
+      vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    }
+  });
+
+  it("shows a guarded source failure if a recipe draft cannot be generated", async () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "tee")!;
+    for (const [failure, expected] of [
+      [new Error("test recipe source failure"), "test recipe source failure"],
+      ["non-Error recipe source failure", "could not be generated"],
+    ] as const) {
+      localStorage.clear();
+      const root = mount();
+      const draftSpy = vi.spyOn(recipe, "draft").mockImplementation(() => { throw failure; });
+      try {
+        clickId(root, "view-edit");
+        await vi.waitFor(() => expect(root.querySelector("[data-semantic-source-unavailable]")).not.toBeNull());
+        expect(root.querySelector("#canvas-host")?.textContent).toContain("could not be generated");
+        expect(root.querySelector("#canvas-host")?.textContent).toContain(expected);
+      } finally {
+        draftSpy.mockRestore();
+      }
+    }
+  });
+
+  it("lists the fitted garment's recipe-authored roles for direct editing", async () => {
+    const root = await enterFittedEditor();
+    const select = root.querySelector<HTMLSelectElement>("#editor-role")!;
+    const roles = [...select.options].map((option) => option.value);
+    expect(roles).toContain("front");
+    expect(roles).toContain("back");
+    select.value = "back";
+    select.dispatchEvent(new Event("change", { bubbles: true }));
+    expect(root.querySelector<HTMLSelectElement>("#editor-role")?.value).toBe("back");
+    expect(root.querySelector("[data-editor-handle-controls]")).not.toBeNull();
+  });
+
+  it("preserves edits when reselecting their recipe and clears them on a different recipe", async () => {
+    const root = await enterFittedEditor();
+    const coordinate = firstCurveXCoordinate(root);
+    coordinate.value = String(Number(coordinate.value) + 0.05);
+    coordinate.dispatchEvent(new Event("change", { bubbles: true }));
+    await vi.waitFor(() => expect(root.querySelector('[data-editor-validation="valid"]')).not.toBeNull());
+    expect(root.querySelector<HTMLButtonElement>("#editor-undo")!.disabled).toBe(false);
+
+    clickId(root, "garment-fitted");
+    await vi.waitFor(() => expect(root.querySelector('[data-editor-validation="valid"]')).not.toBeNull());
+    expect(root.querySelector<HTMLButtonElement>("#editor-undo")!.disabled).toBe(false);
+
+    clickId(root, "garment-tee");
+    await vi.waitFor(() => expect(root.querySelector('[data-editor-validation="valid"]')).not.toBeNull());
+    expect(root.querySelector<HTMLButtonElement>("#editor-reset")!.disabled).toBe(true);
+  });
+
+  it("supports durable undo and redo as separate semantic history operations", async () => {
+    const root = await enterFittedEditor();
+    const coordinate = root.querySelector<HTMLInputElement>('input[data-editor-coordinate][data-editor-axis="x"]')!;
+    const initial = Number(coordinate.value);
+    coordinate.value = String(initial + 0.1);
+    coordinate.dispatchEvent(new Event("change", { bubbles: true }));
+    expect(root.querySelector<HTMLButtonElement>("#editor-undo")!.disabled).toBe(false);
+    root.querySelector<HTMLButtonElement>("#editor-undo")!.click();
+    expect(root.querySelector<HTMLButtonElement>("#editor-redo")!.disabled).toBe(false);
+    root.querySelector<HTMLButtonElement>("#editor-redo")!.click();
+    expect(root.querySelector<HTMLButtonElement>("#editor-undo")!.disabled).toBe(false);
+  });
+
+  it("keeps coordinate no-ops empty and commits an exact y-only movement", async () => {
+    const root = await enterFittedEditor();
+    const x = firstCurveXCoordinate(root);
+    const anchorId = x.dataset.editorHandleId!;
+    x.dispatchEvent(new Event("change", { bubbles: true }));
+    expect(root.querySelector<HTMLButtonElement>("#editor-undo")!.disabled).toBe(true);
+    const y = [...root.querySelectorAll<HTMLInputElement>('input[data-editor-coordinate][data-editor-axis="y"]')]
+      .find((input) => input.dataset.editorHandleId === anchorId)!;
+    const initialY = Number(y.value);
+    y.value = String(initialY + 0.05);
+    y.dispatchEvent(new Event("change", { bubbles: true }));
+    await vi.waitFor(() => expect(root.querySelector('[data-editor-validation="valid"]')).not.toBeNull());
+    expect(Number(y.value)).toBeCloseTo(initialY + 0.05, 5);
+    expect(root.querySelector<HTMLButtonElement>("#editor-undo")!.disabled).toBe(false);
+  });
+
+  it("does not persist a non-finite pointer movement", async () => {
+    const root = await enterFittedEditor();
+    const originalMoveHandle = editEngine.moveHandle;
+    const moveSpy = vi.spyOn(editEngine, "moveHandle").mockImplementation((current, handle, to) =>
+      originalMoveHandle(current, handle, { x: Number.POSITIVE_INFINITY, y: to.y }));
+    const recipe = GARMENTS.find((candidate) => candidate.name === "fitted")!;
+    const piece = recipe.draft(STANDARD_M, {}).roles.front;
+    const vb = editorViewBox(piece);
+    const rect = { left: 0, top: 0, width: vb.w, height: vb.h, right: vb.w, bottom: vb.h, x: 0, y: 0, toJSON() {} };
+    const original = Element.prototype.getBoundingClientRect;
+    Element.prototype.getBoundingClientRect = () => rect as DOMRect;
+    try {
+      const vertex = pieceHandles(piece).find((handle) => handle.kind === "vertex")!;
+      const sx = vertex.pos.x - vb.minX;
+      const sy = vertex.pos.y - vb.minY;
+      const host = root.querySelector<HTMLDivElement>("#canvas-host")!;
+      host.dispatchEvent(new MouseEvent("mousedown", { clientX: sx, clientY: sy, bubbles: true }));
+      window.dispatchEvent(new MouseEvent("mousemove", { clientX: sx + 1, clientY: sy + 1 }));
+      window.dispatchEvent(new MouseEvent("mouseup"));
+      expect(root.querySelector("[data-editor-feedback]")?.textContent).toContain("movement was not finite");
+      expect(root.querySelector<HTMLButtonElement>("#editor-undo")!.disabled).toBe(true);
+    } finally {
+      Element.prototype.getBoundingClientRect = original;
+      moveSpy.mockRestore();
+    }
+  });
+
+  it("does not create a semantic edit when a drag returns to its start", async () => {
+    const root = await enterFittedEditor();
+    const recipe = GARMENTS.find((candidate) => candidate.name === "fitted")!;
+    const piece = recipe.draft(STANDARD_M, {}).roles.front;
+    const vb = editorViewBox(piece);
+    const rect = { left: 0, top: 0, width: vb.w, height: vb.h, right: vb.w, bottom: vb.h, x: 0, y: 0, toJSON() {} };
+    const original = Element.prototype.getBoundingClientRect;
+    Element.prototype.getBoundingClientRect = () => rect as DOMRect;
+    try {
+      const vertex = pieceHandles(piece).find((handle) => handle.kind === "vertex")!;
+      const sx = vertex.pos.x - vb.minX;
+      const sy = vertex.pos.y - vb.minY;
+      root.querySelector<HTMLDivElement>("#canvas-host")!.dispatchEvent(
+        new MouseEvent("mousedown", { clientX: sx, clientY: sy, bubbles: true }),
+      );
+      window.dispatchEvent(new MouseEvent("mousemove", { clientX: sx, clientY: sy }));
+      window.dispatchEvent(new MouseEvent("mouseup"));
+      expect(root.querySelector<HTMLButtonElement>("#editor-undo")!.disabled).toBe(true);
+      expect(root.querySelector("[data-editor-feedback]")).toBeNull();
+    } finally {
+      Element.prototype.getBoundingClientRect = original;
+    }
+  });
+
+  it("reports thrown operation-ID failures without losing the style draft", async () => {
+    for (const [failure, message] of [
+      ["operation ID unavailable", "The edit could not be saved."],
+      [new Error("operation ID provider failed"), "operation ID provider failed"],
+    ] as const) {
+      const root = await enterFittedEditor();
+      vi.stubGlobal("crypto", {
+        subtle: webcrypto.subtle,
+        randomUUID: () => { throw failure; },
+      } as unknown as Crypto);
+      const recipe = GARMENTS.find((candidate) => candidate.name === "fitted")!;
+      const piece = recipe.draft(STANDARD_M, {}).roles.front;
+      const vb = editorViewBox(piece);
+      const rect = { left: 0, top: 0, width: vb.w, height: vb.h, right: vb.w, bottom: vb.h, x: 0, y: 0, toJSON() {} };
+      const original = Element.prototype.getBoundingClientRect;
+      Element.prototype.getBoundingClientRect = () => rect as DOMRect;
+      try {
+        const vertex = pieceHandles(piece).find((handle) => handle.kind === "vertex")!;
+        const sx = vertex.pos.x - vb.minX;
+        const sy = vertex.pos.y - vb.minY;
+        const host = root.querySelector<HTMLDivElement>("#canvas-host")!;
+        host.dispatchEvent(new MouseEvent("mousedown", { clientX: sx, clientY: sy, bubbles: true }));
+        window.dispatchEvent(new MouseEvent("mousemove", { clientX: sx + 1, clientY: sy + 1 }));
+        window.dispatchEvent(new MouseEvent("mouseup"));
+        expect(root.querySelector("[data-editor-feedback]")?.textContent).toContain(message);
+        expect(root.querySelector<HTMLButtonElement>("#editor-undo")!.disabled).toBe(true);
+      } finally {
+        Element.prototype.getBoundingClientRect = original;
+        vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+      }
+    }
+  });
+
+  it("blocks a drag whose source changes before release", async () => {
+    const root = await enterFittedEditor();
+    const recipe = GARMENTS.find((candidate) => candidate.name === "fitted")!;
+    const piece = recipe.draft(STANDARD_M, {}).roles.front;
+    const vb = editorViewBox(piece);
+    const rect = { left: 0, top: 0, width: vb.w, height: vb.h, right: vb.w, bottom: vb.h, x: 0, y: 0, toJSON() {} };
+    const original = Element.prototype.getBoundingClientRect;
+    Element.prototype.getBoundingClientRect = () => rect as DOMRect;
+    try {
+      const vertex = pieceHandles(piece).find((handle) => handle.kind === "vertex")!;
+      const sx = vertex.pos.x - vb.minX;
+      const sy = vertex.pos.y - vb.minY;
+      const host = root.querySelector<HTMLDivElement>("#canvas-host")!;
+      host.dispatchEvent(new MouseEvent("mousedown", { clientX: sx, clientY: sy, bubbles: true }));
+      window.dispatchEvent(new MouseEvent("mousemove", { clientX: sx + 1, clientY: sy + 1 }));
+      const chest = root.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+      chest.value = String(Number(chest.value) + 1);
+      chest.dispatchEvent(new Event("input", { bubbles: true }));
+      window.dispatchEvent(new MouseEvent("mouseup"));
+      expect(root.querySelector("[data-editor-feedback]")?.textContent).toContain("Editing is paused");
+      expect(root.querySelector<HTMLButtonElement>("#editor-undo")!.disabled).toBe(true);
+    } finally {
+      Element.prototype.getBoundingClientRect = original;
+    }
+  });
+
+  it("does not commit if a dragged pattern anchor no longer resolves", async () => {
+    const root = await enterFittedEditor();
+    const recipe = GARMENTS.find((candidate) => candidate.name === "fitted")!;
+    const piece = recipe.draft(STANDARD_M, {}).roles.front;
+    const vb = editorViewBox(piece);
+    const rect = { left: 0, top: 0, width: vb.w, height: vb.h, right: vb.w, bottom: vb.h, x: 0, y: 0, toJSON() {} };
+    const originalRect = Element.prototype.getBoundingClientRect;
+    const moveSpy = vi.spyOn(editEngine, "moveHandle").mockImplementation((current) => ({
+      ...current,
+      edges: current.edges.map((edge, index) => ({ ...edge, name: `unresolved-${index}` })),
+    }));
+    Element.prototype.getBoundingClientRect = () => rect as DOMRect;
+    try {
+      const vertex = pieceHandles(piece).find((handle) => handle.kind === "vertex")!;
+      const sx = vertex.pos.x - vb.minX;
+      const sy = vertex.pos.y - vb.minY;
+      const host = root.querySelector<HTMLDivElement>("#canvas-host")!;
+      host.dispatchEvent(new MouseEvent("mousedown", { clientX: sx, clientY: sy, bubbles: true }));
+      window.dispatchEvent(new MouseEvent("mousemove", { clientX: sx + 1, clientY: sy + 1 }));
+      window.dispatchEvent(new MouseEvent("mouseup"));
+      expect(moveSpy).toHaveBeenCalledOnce();
+      expect(root.querySelector("[data-editor-feedback]")?.textContent).toContain("anchor could not be resolved");
+      expect(root.querySelector<HTMLButtonElement>("#editor-undo")!.disabled).toBe(true);
+    } finally {
+      moveSpy.mockRestore();
+      Element.prototype.getBoundingClientRect = originalRect;
+    }
+  });
+
+  it("saves semantic edits across reload and requires an explicit rebase after source changes", async () => {
+    localStorage.clear();
+    const first = mount();
+    clickId(first, "view-edit");
+    await vi.waitFor(() => expect(first.querySelector('[data-editor-validation="valid"]')).not.toBeNull());
+    const coordinate = firstCurveXCoordinate(first);
+    const anchorId = coordinate.dataset.editorHandleId!;
+    coordinate.value = String(Number(coordinate.value) + 0.05);
+    coordinate.dispatchEvent(new Event("change", { bubbles: true }));
+    await vi.waitFor(() => expect(first.querySelector('[data-editor-validation="valid"]')).not.toBeNull());
+    const changedCoordinate = [...first.querySelectorAll<HTMLInputElement>("input[data-editor-coordinate]")]
+      .find((input) => input.dataset.editorHandleId === anchorId && input.dataset.editorAxis === "x")!;
+    const savedX = Number(changedCoordinate.value);
+    clickId(first, "save-pattern");
+    const persisted = JSON.parse(localStorage.getItem("patternworks_save_v1")!) as {
+      semanticEdits?: { operations?: readonly unknown[] } | null;
+    };
+    expect(persisted.semanticEdits?.operations).toHaveLength(1);
+
+    const reloaded = mount();
+    expect(reloaded.querySelector<HTMLButtonElement>("#editor-reset")?.disabled).toBe(false);
+    await vi.waitFor(() => expect(reloaded.querySelector('[data-editor-validation="valid"]')).not.toBeNull());
+    const restoredCoordinate = [...reloaded.querySelectorAll<HTMLInputElement>("input[data-editor-coordinate]")]
+      .find((input) => input.dataset.editorHandleId === anchorId && input.dataset.editorAxis === "x")!;
+    expect(Number(restoredCoordinate.value)).toBeCloseTo(savedX, 5);
+
+    const chest = reloaded.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+    chest.value = String(Number(chest.value) + 2);
+    chest.dispatchEvent(new Event("input", { bubbles: true }));
+    await vi.waitFor(() => expect(reloaded.querySelector('[data-editor-validation="rebase-required"]')).not.toBeNull());
+    expect(reloaded.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(true);
+    const pausedCoordinate = firstCurveXCoordinate(reloaded);
+    pausedCoordinate.value = String(Number(pausedCoordinate.value) + 0.05);
+    pausedCoordinate.dispatchEvent(new Event("change", { bubbles: true }));
+    expect(reloaded.querySelector('[data-editor-validation="rebase-required"]')).not.toBeNull();
+    expect(reloaded.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(true);
+    reloaded.querySelector<HTMLButtonElement>("#editor-rebase")!.click();
+    expect(reloaded.querySelector('[data-editor-validation="valid"]')).not.toBeNull();
+    expect(reloaded.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(true);
+  }, 30_000);
+
+  it("keeps an unresolvable edit blocked when explicit rebase fails", async () => {
+    localStorage.clear();
+    const root = await enterFittedEditor();
+    const coordinate = firstCurveXCoordinate(root);
+    coordinate.value = String(Number(coordinate.value) + 0.05);
+    coordinate.dispatchEvent(new Event("change", { bubbles: true }));
+    await vi.waitFor(() => expect(root.querySelector('[data-editor-validation="valid"]')).not.toBeNull());
+
+    const recipe = GARMENTS.find((candidate) => candidate.name === "fitted")!;
+    const originalDraft = recipe.draft;
+    const draftSpy = vi.spyOn(recipe, "draft").mockImplementation((measurements, options) => {
+      const source = originalDraft(measurements, options);
+      const roles = Object.fromEntries(Object.entries(source.roles).map(([role, piece]) => [role, {
+        ...piece,
+        name: `changed-${piece.name}`,
+      }]));
+      return { ...source, roles };
+    });
+    try {
+      const chest = root.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+      chest.value = String(Number(chest.value) + 2);
+      chest.dispatchEvent(new Event("input", { bubbles: true }));
+      await vi.waitFor(() => expect(root.querySelector('[data-editor-validation="rebase-required"]')).not.toBeNull());
+      root.querySelector<HTMLButtonElement>("#editor-rebase")!.click();
+      expect(root.querySelector('[data-editor-validation="rebase-required"]')).not.toBeNull();
+      expect(root.querySelector("[data-editor-feedback]")?.textContent).toContain("changed meaning");
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(true);
+    } finally {
+      draftSpy.mockRestore();
+    }
+  }, 30_000);
+
+  it("requires explicit edit review when tank shoulder width changes and directs users to strap width", async () => {
+    localStorage.clear();
+    const root = mount();
+    clickId(root, "garment-tank");
+    clickId(root, "view-edit");
+    await vi.waitFor(() => expect(root.querySelector('[data-editor-validation="valid"]')).not.toBeNull());
+
+    const coordinate = firstCurveXCoordinate(root);
+    coordinate.value = String(Number(coordinate.value) + 0.05);
+    coordinate.dispatchEvent(new Event("change", { bubbles: true }));
+    await vi.waitFor(() => expect(root.querySelector('[data-editor-validation="valid"]')).not.toBeNull());
+
+    const shoulderWidth = root.querySelector<HTMLInputElement>('input[data-field="shoulderWidth"]')!;
+    shoulderWidth.value = String(Number(shoulderWidth.value) + 1);
+    shoulderWidth.dispatchEvent(new Event("input", { bubbles: true }));
+    await vi.waitFor(() => expect(root.querySelector('[data-editor-validation="rebase-required"]')).not.toBeNull());
+    expect(root.querySelector('[data-editor-validation="rebase-required"]')?.textContent)
+      .toContain("measurements.shoulderWidth");
+    expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(true);
+
+    root.querySelector<HTMLButtonElement>("#editor-rebase")!.click();
+    expect(root.querySelector('[data-editor-validation="valid"]')).not.toBeNull();
+  });
+
+  it("restores unsaved semantic operations from the versioned recovery record", async () => {
+    localStorage.clear();
+    const first = mount();
+    clickId(first, "view-edit");
+    await vi.waitFor(() => expect(first.querySelector('[data-editor-validation="valid"]')).not.toBeNull());
+    const coordinate = firstCurveXCoordinate(first);
+    const anchorId = coordinate.dataset.editorHandleId!;
+    coordinate.value = String(Number(coordinate.value) + 0.05);
+    coordinate.dispatchEvent(new Event("change", { bubbles: true }));
+    await vi.waitFor(() => expect(first.querySelector('[data-editor-validation="valid"]')).not.toBeNull());
+    const changedCoordinate = [...first.querySelectorAll<HTMLInputElement>("input[data-editor-coordinate]")]
+      .find((input) => input.dataset.editorHandleId === anchorId && input.dataset.editorAxis === "x")!;
+    const recoveredX = Number(changedCoordinate.value);
+    const recovery = JSON.parse(localStorage.getItem("patternworks_recovery_v1")!) as {
+      v: number;
+      semanticEdits?: { operations?: readonly unknown[] } | null;
+    };
+    expect(recovery.v).toBe(2);
+    expect(recovery.semanticEdits?.operations).toHaveLength(1);
+
+    const recovered = mount();
+    expect(recovered.querySelector("#recovery-accept")).not.toBeNull();
+    recovered.querySelector<HTMLButtonElement>("#recovery-accept")!.click();
+    await vi.waitFor(() => expect(recovered.querySelector('[data-editor-validation="valid"]')).not.toBeNull());
+    const restoredCoordinate = [...recovered.querySelectorAll<HTMLInputElement>("input[data-editor-coordinate]")]
+      .find((input) => input.dataset.editorHandleId === anchorId && input.dataset.editorAxis === "x")!;
+    expect(Number(restoredCoordinate.value)).toBeCloseTo(recoveredX, 5);
+  }, 20_000);
+
+  it("feeds saved semantic geometry into single-size and whole-run garment exports", async () => {
+    localStorage.clear();
+    const files = new Map<string, string>();
+    window.electronAPI = {
+      saveFile: vi.fn(async (filename, content) => {
+        files.set(filename, content);
+        return { saved: true, filePath: `C:/test/${filename}` };
+      }),
+    };
+    try {
+      const root = mount();
+      reachExportStage(root);
+      for (const id of ["#export-svg", "#export-techpack", "#export-projector"]) {
+        root.querySelector<HTMLButtonElement>(id)!.click();
+      }
+      const baseline = new Map(files);
+
+      clickId(root, "view-edit");
+      await vi.waitFor(() => expect(root.querySelector('[data-editor-validation="valid"]')).not.toBeNull());
+      const coordinate = firstCurveXCoordinate(root);
+      coordinate.value = String(Number(coordinate.value) + 0.05);
+      coordinate.dispatchEvent(new Event("change", { bubbles: true }));
+      await vi.waitFor(() => expect(root.querySelector('[data-editor-validation="valid"]')).not.toBeNull());
+
+      reachExportStage(root);
+      for (const id of ["#export-svg", "#export-techpack", "#export-projector"]) {
+        expect(root.querySelector<HTMLButtonElement>(id)!.disabled).toBe(false);
+        root.querySelector<HTMLButtonElement>(id)!.click();
+      }
+      expect(files.get("tee-M.svg")).not.toBe(baseline.get("tee-M.svg"));
+      expect(files.get("tee-techpack.pdf")).not.toBe(baseline.get("tee-techpack.pdf"));
+      expect(files.get("tee-projector.svg")).not.toBe(baseline.get("tee-projector.svg"));
+    } finally {
+      delete window.electronAPI;
+    }
+  });
+
+  it("ignores clicks that are not semantic edit actions", async () => {
+    const root = await enterFittedEditor();
     const before = root.querySelector("#canvas-host")!.innerHTML;
     root.querySelector("#canvas-host")!.dispatchEvent(new MouseEvent("click", { bubbles: true }));
     expect(root.querySelector("#canvas-host")!.innerHTML).toBe(before);
@@ -2685,7 +3352,7 @@ describe("switching to the trouser recipe (Slice 100)", () => {
     root.querySelector<HTMLButtonElement>("#view-pattern")!.dispatchEvent(new Event("click"));
     expect(root.querySelector("#canvas-host")!.textContent).toContain("TROUSER FRONT LEFT");
     root.querySelector<HTMLButtonElement>("#view-edit")!.dispatchEvent(new Event("click"));
-    expect(root.querySelector('[data-editor-contract="preview-only"]')).not.toBeNull();
+    expect(root.querySelector('[data-editor-contract="semantic"]')).not.toBeNull();
     root.querySelector<HTMLButtonElement>("#garment-tee")!.dispatchEvent(new Event("click"));
   });
 
@@ -3764,7 +4431,7 @@ describe("safe local artwork import and persistence (Slice 200)", () => {
     await vi.waitFor(() => expect(reloaded.querySelector("[data-surface-asset-status]")!.textContent).toContain("Stored locally: floral.png"));
     expect(reloaded.querySelector("[data-surface-asset-status]")!.textContent).not.toContain("missing");
     expect(inspector).toHaveBeenCalledOnce();
-  });
+  }, 30_000);
 
   it("uses the desktop bridge by default instead of browser storage", async () => {
     localStorage.clear();

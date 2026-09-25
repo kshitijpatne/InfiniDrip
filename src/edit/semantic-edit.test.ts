@@ -9,6 +9,9 @@ import {
   evaluateSemanticEditDocument,
   inspectSemanticEditCandidate,
   mergeConcurrentEditOperations,
+  parseSemanticEditDocument,
+  requireSemanticEditEvaluation,
+  requireSemanticEditSize,
   rebaseSemanticEditDocument,
   redoSemanticEdit,
   SEMANTIC_EDIT_HISTORY_LIMIT,
@@ -17,6 +20,11 @@ import {
   undoSemanticEdit,
   type SemanticEditOperation,
 } from "./semantic-edit";
+
+const testFingerprint = (label: string): string => {
+  const hex = [...label].map((character) => character.charCodeAt(0).toString(16).padStart(2, "0")).join("");
+  return `semantic-edit:v2:sha256:${hex.padEnd(64, "0").slice(0, 64)}`;
+};
 
 function optionsFor(recipe: GarmentRecipe): Record<string, number> {
   return Object.fromEntries((recipe.options ?? []).map((option) => [option.id, option.defaultValue]));
@@ -84,14 +92,21 @@ describe("semantic edit source and operations", () => {
     await expect(semanticEditSourceFingerprint(recipe.name, reordered)).resolves.toBe(await semanticEditSourceFingerprint(recipe.name, block));
     await expect(semanticEditSourceFingerprint(recipe.name, block, {} as Crypto)).rejects.toThrow(/SHA-256 is unavailable/);
     await expect(semanticEditSourceFingerprint("", block)).rejects.toThrow(/SHA-256 is unavailable/);
+    await expect(semanticEditSourceFingerprint(recipe.name, block, globalThis.crypto, {
+      measurements: { chest: Number.NaN }, options: {},
+    })).rejects.toThrow(/finite, canonical recipe values/);
     await expect(semanticEditSourceFingerprint(recipe.name, { ...block, extra: Number.NaN } as never)).rejects.toThrow(/non-finite number/);
     await expect(semanticEditSourceFingerprint(recipe.name, { ...block, extra: () => undefined } as never)).rejects.toThrow(/canonical JSON data/);
-    await expect(semanticEditSourceFingerprint(recipe.name, { ...block, extra: null } as never)).resolves.toContain("semantic-edit:v1:sha256:");
+    await expect(semanticEditSourceFingerprint(recipe.name, { ...block, extra: null } as never)).resolves.toContain("semantic-edit:v2:sha256:");
   });
 
   it("rejects empty recipe or source identity", () => {
-    expect(() => emptySemanticEditDocument("", "source")).toThrow(/recipe and source fingerprint/);
+    expect(() => emptySemanticEditDocument("", testFingerprint("source"))).toThrow(/recipe and source fingerprint/);
     expect(() => emptySemanticEditDocument("tee", "")).toThrow(/recipe and source fingerprint/);
+    expect(() => emptySemanticEditDocument("tee", "unversioned-source")).toThrow(/recipe and source fingerprint/);
+    expect(() => emptySemanticEditDocument("tee", testFingerprint("source"), {
+      measurements: { chest: Number.NaN }, options: {},
+    })).toThrow(/finite recipe source inputs/);
   });
 
   it("creates an exact centimetre move and rejects malformed or unknown requests", async () => {
@@ -104,6 +119,8 @@ describe("semantic edit source and operations", () => {
     expect(() => createAnchorMoveOperation(recipe.name, fingerprint, block, " ", anchor.id, { x: 1, y: 0 })).toThrow(/stable ID/);
     expect(() => createAnchorMoveOperation(recipe.name, fingerprint, block, "op-bad", anchor.id, { x: Number.NaN, y: 0 })).toThrow(/finite centimetres/);
     expect(() => createAnchorMoveOperation(recipe.name, fingerprint, block, "op-missing", "not-an-anchor", { x: 1, y: 0 })).toThrow(/not present/);
+    expect(() => createAnchorMoveOperation(recipe.name, "unversioned-source", block, "op-source", anchor.id, { x: 1, y: 0 }))
+      .toThrow(/current source fingerprint/);
   });
 
   it("appends atomically, bounds undo history, clears redo, and preserves immutable snapshots", async () => {
@@ -146,6 +163,7 @@ describe("semantic edit source and operations", () => {
     const result = evaluateSemanticEditDocument(recipe, STANDARD_M, optionsFor(recipe), edited, fingerprint);
     expect(result.status).toBe("ready");
     expect(result.canExportRun).toBe(true);
+    expect(result.canExportSize(0)).toBe(true);
     expect(result.sizes).toHaveLength(recipe.sizes.length);
     expect(result.sizes.every((size) => size.canExport)).toBe(true);
     expect(result.sizes[0].block.roles.sleeve.edges[0]).not.toEqual(block.roles.sleeve.edges[0]);
@@ -158,6 +176,8 @@ describe("semantic edit source and operations", () => {
       const result = evaluateSemanticEditDocument(recipe, STANDARD_M, optionsFor(recipe), document, fingerprint);
       expect(result.status, recipe.name).toBe("ready");
       expect(result.canExportRun, recipe.name).toBe(true);
+      expect(result.canExportSize(0), recipe.name).toBe(true);
+      expect(result.canExportSize(recipe.sizes[0]!.step), recipe.name).toBe(true);
       expect(result.sizes.map((size) => size.step)).toEqual(recipe.sizes.map((size) => size.step));
     }
   });
@@ -172,6 +192,7 @@ describe("semantic edit source and operations", () => {
     expect(result.status).toBe("blocked");
     expect(result.canExportSize(0)).toBe(false);
     expect(result.canExportRun).toBe(false);
+    expect(() => requireSemanticEditSize(result, 0)).toThrow(/not present or valid/);
     expect(result.issues.some((issue) => issue.code === "stitch-invalid")).toBe(true);
     expect(result.sizes[0].block.roles.front.edges).not.toEqual(block.roles.front.edges);
     expect(result.canExportSize(recipe.sizes[0].step)).toBe(false);
@@ -201,11 +222,12 @@ describe("semantic edit source and operations", () => {
 
     const collapsed: Block = { ...square, roles: { front: { ...square.roles.front, edges: square.roles.front.edges.map((edge) => ({ kind: "line" as const, name: edge.name, start: point(0, 0), end: point(0, 0) })) } } };
     const collapsedRecipe: GarmentRecipe = { ...squareRecipe, name: "collapsed", draft: () => collapsed };
-    const collapsedResult = evaluateSemanticEditDocument(collapsedRecipe, STANDARD_M, {}, emptySemanticEditDocument("collapsed", "collapsed-source"), "collapsed-source");
+    const collapsedFingerprint = testFingerprint("collapsed-source");
+    const collapsedResult = evaluateSemanticEditDocument(collapsedRecipe, STANDARD_M, {}, emptySemanticEditDocument("collapsed", collapsedFingerprint), collapsedFingerprint);
     expect(collapsedResult.issues.some((issue) => issue.code === "piece-degenerate")).toBe(true);
 
     const teeBlock = sourceBlock(TEE);
-    const teeFingerprint = "test-source";
+    const teeFingerprint = testFingerprint("test-source");
     const openFront = { ...teeBlock.roles.front, edges: teeBlock.roles.front.edges.map((edge, index) => index === 0 && edge.kind === "curve" ? { ...edge, curve: { ...edge.curve, start: point(40, 40) } } : edge) };
     const openBlock: Block = { ...teeBlock, roles: { ...teeBlock.roles, front: openFront } };
     const openRecipe: GarmentRecipe = { ...TEE, draft: () => openBlock };
@@ -225,7 +247,8 @@ describe("semantic edit source and operations", () => {
       { kind: "line", name: "d", start: point(0, 10), end: point(0, 0) },
     ] } } };
     const foldedRecipe: GarmentRecipe = { ...squareRecipe, name: "ambiguous-fold", draft: () => foldedSquare };
-    const ambiguousFold = evaluateSemanticEditDocument(foldedRecipe, STANDARD_M, {}, emptySemanticEditDocument(foldedRecipe.name, "fold-source"), "fold-source");
+    const foldFingerprint = testFingerprint("fold-source");
+    const ambiguousFold = evaluateSemanticEditDocument(foldedRecipe, STANDARD_M, {}, emptySemanticEditDocument(foldedRecipe.name, foldFingerprint), foldFingerprint);
     expect(ambiguousFold.issues.some((issue) => issue.code === "fold-edge-ambiguous")).toBe(true);
   });
 
@@ -247,7 +270,8 @@ describe("semantic edit source and operations", () => {
     expect(result.sizes.find((size) => size.label === "M")?.canExport).toBe(true);
     expect(result.canExportRun).toBe(false);
     const brokenStitches: GarmentRecipe = { ...recipe, draft: () => withoutSleeve };
-    const stitchResult = evaluateSemanticEditDocument(brokenStitches, STANDARD_M, optionsFor(recipe), emptySemanticEditDocument(recipe.name, "broken"), "broken");
+    const brokenFingerprint = testFingerprint("broken");
+    const stitchResult = evaluateSemanticEditDocument(brokenStitches, STANDARD_M, optionsFor(recipe), emptySemanticEditDocument(recipe.name, brokenFingerprint), brokenFingerprint);
     expect(stitchResult.issues.some((issue) => issue.code === "stitch-invalid")).toBe(true);
   });
 
@@ -296,7 +320,7 @@ describe("semantic edit source and operations", () => {
     const mismatch = evaluateSemanticEditDocument(GARMENTS[1], STANDARD_M, optionsFor(GARMENTS[1]), document, fingerprint);
     expect(mismatch.status).toBe("blocked");
     expect(mismatch.canExportRun).toBe(false);
-    const unknownVersion = evaluateSemanticEditDocument(recipe, STANDARD_M, optionsFor(recipe), { ...document, schemaVersion: 2 } as never, fingerprint);
+    const unknownVersion = evaluateSemanticEditDocument(recipe, STANDARD_M, optionsFor(recipe), { ...document, schemaVersion: 1 } as never, fingerprint);
     expect(unknownVersion.issues[0].code).toBe("invalid-operation");
     expect(unknownVersion.canExportSize(0)).toBe(false);
     expect(unknownVersion.canExportRun).toBe(false);
@@ -367,7 +391,7 @@ describe("semantic edit source and operations", () => {
     const malformed = [
       { ...valid, recipeId: "other" },
       { ...valid, kind: "unknown" },
-      { ...valid, schemaVersion: 2 },
+      { ...valid, schemaVersion: 1 },
       { ...valid, sourceFingerprint: "stale" },
       { ...valid, moves: [] },
       { ...valid, moves: undefined },
@@ -382,6 +406,27 @@ describe("semantic edit source and operations", () => {
     }
   });
 
+  it("parses semantic edit documents strictly, including one ID occurrence per history stack", async () => {
+    const recipe = TEE;
+    const block = sourceBlock(recipe);
+    const { fingerprint, document } = await emptyDocument(recipe);
+    const anchor = semanticAnchorCatalog(recipe.name, block)[0]!;
+    const operation = moveOperation(recipe, block, fingerprint, "strict-op", anchor.id, 0.1, 0);
+    const valid = appendSemanticEditOperations(document, [operation]);
+    expect(parseSemanticEditDocument(valid)).toEqual(valid);
+    expect(parseSemanticEditDocument({ ...valid, sourceFingerprint: "unversioned-source" })).toBeNull();
+    expect(parseSemanticEditDocument({ ...valid, sourceInputs: { measurements: { chest: Number.NaN }, options: {} } })).toBeNull();
+    expect(parseSemanticEditDocument({ ...valid, past: [null] })).toBeNull();
+    expect(parseSemanticEditDocument({ ...valid, operations: [{ ...operation, moves: null }] })).toBeNull();
+    expect(parseSemanticEditDocument({ ...valid, operations: [{ ...operation, moves: [] }] })).toBeNull();
+    expect(parseSemanticEditDocument({ ...valid, operations: [{ ...operation, moves: [operation.moves[0], operation.moves[0]] }] })).toBeNull();
+    expect(parseSemanticEditDocument({ ...valid, operations: [operation, operation] })).toBeNull();
+    expect(parseSemanticEditDocument({ ...valid, past: [[operation, operation]] })).toBeNull();
+    const conflictingSameId = { ...operation, moves: [{ ...operation.moves[0], deltaCm: { x: 0.2, y: 0 } }] };
+    expect(parseSemanticEditDocument({ ...valid, past: [[conflictingSameId]] })).toBeNull();
+    expect(parseSemanticEditDocument({ ...valid, past: [[operation], [operation]] })).not.toBeNull();
+  });
+
   it("handles triangle and empty outlines deterministically", async () => {
     const triangle: Block = { stitches: [], roles: { front: { name: "triangle", onFold: false, edges: [
       { kind: "line", name: "a", start: point(0, 0), end: point(10, 0) },
@@ -393,7 +438,8 @@ describe("semantic edit source and operations", () => {
     expect(evaluateSemanticEditDocument(triangleRecipe, STANDARD_M, {}, emptySemanticEditDocument(triangleRecipe.name, triangleFingerprint), triangleFingerprint).status).toBe("ready");
     const empty: Block = { stitches: [], roles: { front: { name: "empty", onFold: false, edges: [] } } };
     const emptyRecipe: GarmentRecipe = { ...triangleRecipe, name: "empty", draft: () => empty };
-    const emptyResult = evaluateSemanticEditDocument(emptyRecipe, STANDARD_M, {}, emptySemanticEditDocument("empty", "empty-source"), "empty-source");
+    const emptyFingerprint = testFingerprint("empty-source");
+    const emptyResult = evaluateSemanticEditDocument(emptyRecipe, STANDARD_M, {}, emptySemanticEditDocument("empty", emptyFingerprint), emptyFingerprint);
     expect(emptyResult.issues.some((issue) => issue.code === "piece-degenerate")).toBe(true);
     expect(emptyResult.issues.some((issue) => issue.code === "piece-self-intersection")).toBe(true);
   });
@@ -431,6 +477,45 @@ describe("semantic edit source and operations", () => {
     expect(evaluateSemanticEditDocument(recipe, changedMeasurements, optionsFor(recipe), rebased.document, nextFingerprint).status).toBe("ready");
   });
 
+  it("blocks evaluation when the current recipe input snapshot is malformed", async () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "tee")!;
+    const { fingerprint, document } = await emptyDocument(recipe);
+    const evaluation = evaluateSemanticEditDocument(
+      recipe,
+      STANDARD_M,
+      optionsFor(recipe),
+      document,
+      fingerprint,
+      { measurements: { chest: Number.NaN }, options: {} },
+    );
+    expect(evaluation.status).toBe("blocked");
+    expect(evaluation.issues[0]?.code).toBe("invalid-source");
+    expect(evaluation.canExportRun).toBe(false);
+    expect(evaluation.canExportSize(0)).toBe(false);
+    expect(() => requireSemanticEditEvaluation(evaluation)).not.toThrow();
+    expect(() => requireSemanticEditEvaluation(null)).toThrow(/source is verified or rebased/);
+    expect(() => requireSemanticEditSize(evaluation, 0)).toThrow(/not present or valid/);
+    const changed = evaluateSemanticEditDocument(
+      recipe,
+      STANDARD_M,
+      optionsFor(recipe),
+      document,
+      fingerprint,
+      { measurements: { chest: STANDARD_M.chest + 1 }, options: {} },
+    );
+    expect(changed.status).toBe("rebase-required");
+    expect(changed.issues[0]?.message).toContain("Changed inputs: measurements.chest");
+    const extraSourceKey = evaluateSemanticEditDocument(
+      recipe,
+      STANDARD_M,
+      optionsFor(recipe),
+      document,
+      fingerprint,
+      { measurements: {}, options: {}, unexpected: 1 } as never,
+    );
+    expect(extraSourceKey.issues[0]?.code).toBe("invalid-source");
+  });
+
   it("blocks rebase when a target is missing or its meaning changed", async () => {
     const recipe = GARMENTS.find((candidate) => candidate.name === "tee")!;
     const block = sourceBlock(recipe);
@@ -438,18 +523,19 @@ describe("semantic edit source and operations", () => {
     const anchor = semanticAnchorCatalog(recipe.name, block).find((candidate) => candidate.roleId === "sleeve")!;
     const edited = appendSemanticEditOperations(document, [moveOperation(recipe, block, fingerprint, "sleeve-edit", anchor.id, 0.2, 0)]);
     const withoutSleeve: Block = { ...block, roles: Object.fromEntries(Object.entries(block.roles).filter(([role]) => role !== "sleeve")) };
-    const missing = rebaseSemanticEditDocument(edited, recipe, withoutSleeve, "next-source");
+    const nextSource = `semantic-edit:v2:sha256:${"1".repeat(64)}`;
+    const missing = rebaseSemanticEditDocument(edited, recipe, withoutSleeve, nextSource);
     expect(missing.ok).toBe(false);
     expect(missing.issues[0].code).toBe("anchor-missing");
     const changedRole: Block = { ...block, roles: { ...block.roles, sleeve: { ...block.roles.sleeve, name: "renamed sleeve" } } };
-    const changed = rebaseSemanticEditDocument(edited, recipe, changedRole, "next-source");
+    const changed = rebaseSemanticEditDocument(edited, recipe, changedRole, nextSource);
     expect(changed.ok).toBe(false);
     expect(changed.issues[0].code).toBe("anchor-changed");
     expect(changed.document).toBe(edited);
-    expect(rebaseSemanticEditDocument({ ...edited, recipeId: "wrong" }, recipe, block, "next-source").issues[0].code).toBe("invalid-source");
+    expect(rebaseSemanticEditDocument({ ...edited, recipeId: "wrong" }, recipe, block, nextSource).issues[0].code).toBe("invalid-source");
     expect(rebaseSemanticEditDocument(edited, recipe, block, "").issues[0].code).toBe("invalid-source");
     const duplicate: Block = { ...block, roles: { ...block.roles, sleeve: { ...block.roles.sleeve, edges: block.roles.sleeve.edges.map((edge, index) => index === 1 ? { ...edge, name: block.roles.sleeve.edges[0].name } : edge) } } };
-    expect(rebaseSemanticEditDocument(edited, recipe, duplicate, "next-source").issues[0].code).toBe("anchor-changed");
+    expect(rebaseSemanticEditDocument(edited, recipe, duplicate, nextSource).issues[0].code).toBe("anchor-changed");
     const throwingEdges = new Proxy(block.roles.sleeve.edges, {
       get(target, property, receiver) {
         if (property === "map") throw "non-error catalog failure";
@@ -457,7 +543,7 @@ describe("semantic edit source and operations", () => {
       },
     });
     const throwingBase: Block = { ...block, roles: { ...block.roles, sleeve: { ...block.roles.sleeve, edges: throwingEdges } } };
-    const nonErrorCatalog = rebaseSemanticEditDocument(edited, recipe, throwingBase, "next-source");
+    const nonErrorCatalog = rebaseSemanticEditDocument(edited, recipe, throwingBase, nextSource);
     expect(nonErrorCatalog.ok).toBe(false);
     expect(nonErrorCatalog.issues[0].message).toBe("The new source has ambiguous semantic anchors.");
   });
@@ -509,7 +595,7 @@ describe("semantic edit conflict resolution", () => {
     expect(mergeConcurrentEditOperations([local], [distinctRemote], { [anchor.id]: "guess" as never }).issues[0].code).toBe("target-conflict");
     expect(mergeConcurrentEditOperations([local], [{ ...distinctRemote, sourceFingerprint: "other-source" }]).issues[0].code).toBe("source-conflict");
     expect(mergeConcurrentEditOperations([local], [{ ...distinctRemote, recipeId: "other-recipe" }]).issues[0].code).toBe("source-conflict");
-    expect(mergeConcurrentEditOperations([local], [{ ...distinctRemote, schemaVersion: 2 as never }]).issues[0].code).toBe("source-conflict");
+    expect(mergeConcurrentEditOperations([local], [{ ...distinctRemote, schemaVersion: 1 as never }]).issues[0].code).toBe("source-conflict");
     expect(mergeConcurrentEditOperations([], []).ok).toBe(true);
   });
 });

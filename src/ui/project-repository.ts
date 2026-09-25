@@ -29,7 +29,7 @@ import {
 } from "./field-provenance";
 
 export const PROJECT_DATABASE_NAME = "infinidrip-projects";
-export const PROJECT_DATABASE_VERSION = 4;
+export const PROJECT_DATABASE_VERSION = 5;
 export const PROJECT_STORES = Object.freeze({
   meta: "meta",
   projects: "projects",
@@ -266,7 +266,11 @@ function addFieldObservationStore(database: IDBDatabase): void {
   }
 }
 
-function seedFieldObservations(transaction: IDBTransaction | null, upgradeStyleV1 = false): void {
+function seedFieldObservations(
+  transaction: IDBTransaction | null,
+  upgradeStyleV1 = false,
+  upgradeEditStyles = false,
+): void {
   if (!transaction) return;
   try {
     const store = transaction.objectStore(PROJECT_STORES.styles);
@@ -291,14 +295,67 @@ function seedFieldObservations(transaction: IDBTransaction | null, upgradeStyleV
             return;
           }
           styleValue = { ...styleValue, schemaVersion: 2, archivedAt: null };
-          cursor.update(styleValue);
         }
         const parsed = parseStyleRecord(styleValue);
         if (!parsed.ok) {
           transaction.abort();
           return;
         }
+        if (upgradeEditStyles && parsed.value.schemaVersion === 3
+          && (styleValue as { schemaVersion?: unknown }).schemaVersion !== 3) {
+          cursor.update(parsed.value);
+        }
         observations.add(createFieldObservationRecord(parsed.value, parsed.value.updatedAt, "existing-local-style"));
+        cursor.continue();
+      } catch {
+        transaction.abort();
+      }
+    };
+  } catch {
+    transaction.abort();
+  }
+}
+
+function upgradeEditStateStyles(transaction: IDBTransaction | null): void {
+  if (!transaction) return;
+  try {
+    const request = transaction.objectStore(PROJECT_STORES.styles).openCursor();
+    request.onerror = () => transaction.abort();
+    request.onsuccess = () => {
+      try {
+        const cursor = request.result;
+        if (!cursor) return;
+        const parsed = parseStyleRecord(cursor.value);
+        if (!parsed.ok) {
+          transaction.abort();
+          return;
+        }
+        cursor.update(parsed.value);
+        cursor.continue();
+      } catch {
+        transaction.abort();
+      }
+    };
+  } catch {
+    transaction.abort();
+  }
+}
+
+function upgradeEditStateRecoveries(transaction: IDBTransaction | null): void {
+  if (!transaction) return;
+  try {
+    const request = transaction.objectStore(PROJECT_STORES.recoveries).openCursor();
+    request.onerror = () => transaction.abort();
+    request.onsuccess = () => {
+      try {
+        const cursor = request.result;
+        if (!cursor) return;
+        const parsed = parseRecoveryRecord(cursor.value);
+        if (!parsed.ok) {
+          transaction.abort();
+          return;
+        }
+        cursor.update(parsed.value);
         cursor.continue();
       } catch {
         transaction.abort();
@@ -474,18 +531,24 @@ export async function openProjectRepository(options: ProjectRepositoryOptions = 
             request.result.createObjectStore(PROJECT_STORES.imports, { keyPath: "packageSha256" });
           }
           addFieldObservationStore(request.result);
-          seedFieldObservations(request.transaction, true);
+          seedFieldObservations(request.transaction, true, true);
           upgradeProjectRecordsV1(request.transaction);
+          upgradeEditStateRecoveries(request.transaction);
         } else if (event.oldVersion === 2 && event.newVersion === PROJECT_DATABASE_VERSION) {
           if (!request.result.objectStoreNames.contains(PROJECT_STORES.imports)) {
             request.result.createObjectStore(PROJECT_STORES.imports, { keyPath: "packageSha256" });
           }
           addFieldObservationStore(request.result);
-          seedFieldObservations(request.transaction);
+          seedFieldObservations(request.transaction, false, true);
           upgradeProjectRecordsV1(request.transaction);
+          upgradeEditStateRecoveries(request.transaction);
         } else if (event.oldVersion === 3 && event.newVersion === PROJECT_DATABASE_VERSION) {
           addFieldObservationStore(request.result);
-          seedFieldObservations(request.transaction);
+          seedFieldObservations(request.transaction, false, true);
+          upgradeEditStateRecoveries(request.transaction);
+        } else if (event.oldVersion === 4 && event.newVersion === PROJECT_DATABASE_VERSION) {
+          upgradeEditStateStyles(request.transaction);
+          upgradeEditStateRecoveries(request.transaction);
         } else {
           request.transaction?.abort();
         }
