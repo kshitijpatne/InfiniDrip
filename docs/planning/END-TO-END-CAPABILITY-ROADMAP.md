@@ -266,6 +266,18 @@ The visual's parallel branches represent separate packets, not multiple agents e
 | Q01 | G14 · 2029-05-18 | Designer parity challenge: seven baseline recipes plus newly approved recipes, one ordinary and one difficult style, live edits to measure/seam/material/artwork/grade. | Every dependent output changes together or is invalidated; expert review flags resolved or tracked. | Codex control, independent technical review. |
 | Q02 | G14 · 2029-07-27 | Entire digital chain replay: measurement or reference → editing → views/3D → tech pack → collection → local/live supplier route → listing, with failure/rollback drills. | B0–B3 statuses honest; release packet and long-term maintenance owner recorded; no physical-ready claim. | Codex final gate. |
 
+## G02 completion update — 2026-09-26
+
+EPIC-15/G02 completed through PR #11, merged at
+`e5155e82dbd21cda5b3f537b950eb4c32a22d215`. Slice 241 verifies that Slices 204,
+205, and 240 are ancestors of `origin/main` and records the Control Center
+closure at revision 315. The board's revised conditional S240 target was
+2026-10-02; the merge completed on 2026-09-26. Existing downstream dates remain
+conditional planning estimates because G02 completed ahead of that target; no
+later Epic is admitted by this completion. EPIC-16 through EPIC-30, including
+G17, remain Backlog. The holds on garment direction, supplier contact, launch
+costs, hosted services, and physical sampling remain in force.
+
 ## Automatic work-selection and delegation rule
 
 | Trigger | Next action without another reminder | Stop/ask boundary |

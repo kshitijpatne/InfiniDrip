@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 310,
-  "updatedAt": "2026-09-26T04:09:31.095Z",
+  "revision": 315,
+  "updatedAt": "2026-09-26T05:10:08.918Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -132,11 +132,12 @@
     {
       "id": "EPIC-15",
       "title": "EPIC-15: G02 — Versioned style foundation",
-      "status": "In Progress",
+      "status": "Closed",
       "owner": "Codex",
       "description": "Admitted 2026-09-24 after EPIC-14/G01 closed at Slice 228. Execute F01 → F02 → F03 → final review using docs/planning/EPIC-15-ADMISSION.md. Local-first, deterministic, user-led scope only; preserve SaveFile v1–v5 migration, artwork bytes/IDs, 100% coverage and protected export identities. No new recipe, user-facing AI designer, hosted service, purchase, supplier contact, physical sampling or production-readiness claim.",
       "evidenceRefs": [
-        "E-EPIC15-G02-ADMISSION-S229"
+        "E-EPIC15-G02-ADMISSION-S229",
+        "E-EPIC15-G02-MERGE-S241"
       ]
     },
     {
@@ -2478,10 +2479,10 @@
       "title": "EPIC-15: G02 — Versioned style foundation",
       "epicId": "EPIC-15",
       "releaseId": null,
-      "status": "In Progress",
+      "status": "Done",
       "openedAt": "2026-09-23",
       "targetAt": "2026-10-02",
-      "deliveredAt": null,
+      "deliveredAt": "2026-09-26",
       "priority": "P0",
       "risk": "high",
       "owner": "Codex",
@@ -2530,6 +2531,26 @@
           "role": "maintainer",
           "note": "Begin the admitted F01 sequence.",
           "evidenceRefs": []
+        },
+        {
+          "status": "Review",
+          "at": "2026-09-26T05:08:57.144Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "PR #11 is merged at e5155e82dbd21cda5b3f537b950eb4c32a22d215; Slices 204, 205 and 240 are verified ancestors of origin/main. Submit the completed Epic summary for final board closure review.",
+          "evidenceRefs": [
+            "E-EPIC15-S240-EXIT"
+          ]
+        },
+        {
+          "status": "Done",
+          "at": "2026-09-26T05:09:07.499Z",
+          "actor": "Codex",
+          "role": "reviewer",
+          "note": "The G02 summary review confirms F01, F02, F03 and final review are Done with verified evidence; PR #11 commit e5155e82dbd21cda5b3f537b950eb4c32a22d215 is on origin/main. Close the Epic record through the separate maintainer command using the S241 exit report.",
+          "evidenceRefs": [
+            "E-EPIC15-S240-EXIT"
+          ]
         }
       ],
       "comments": [
@@ -2544,7 +2565,9 @@
           "text": "Updated Epic metadata (description: Admitted 2026-09-24 after EPIC-14/G01 closed at Slice 228. Execute F01 → F02 → F03 → final review using docs/planning/EPIC-15-ADMISSION.md. Local-first, deterministic, user-led scope only; preserve SaveFile v1–v5 migration, artwork bytes/IDs, 100% coverage and protected export identities. No new recipe, user-facing AI designer, hosted service, purchase, supplier contact, physical sampling or production-readiness claim.). Record the maintainer's explicit G02 admission after verified G01 closure."
         }
       ],
-      "evidenceRefs": [],
+      "evidenceRefs": [
+        "E-EPIC15-S240-EXIT"
+      ],
       "flagKey": null
     },
     {
@@ -4693,10 +4716,10 @@
       "title": "G02 final review, digital evidence replay and exit",
       "epicId": "EPIC-15",
       "releaseId": null,
-      "status": "Review",
+      "status": "Done",
       "openedAt": "2026-09-24",
       "targetAt": "2026-10-02",
-      "deliveredAt": null,
+      "deliveredAt": "2026-09-26",
       "priority": "P0",
       "risk": "high",
       "owner": "Codex",
@@ -4763,6 +4786,16 @@
             "E-EPIC15-S240-COVERAGE",
             "E-EPIC15-S240-PACKAGE",
             "E-EPIC15-S240-RESPONSIVE",
+            "E-EPIC15-S240-REVISIONS"
+          ]
+        },
+        {
+          "status": "Done",
+          "at": "2026-09-26T05:05:47.251Z",
+          "actor": "Codex",
+          "role": "reviewer",
+          "note": "PR #11 merged as e5155e82dbd21cda5b3f537b950eb4c32a22d215; verified Slices 204, 205 and 240 are ancestors of origin/main. S240 digital exit report and all linked gates are accepted.",
+          "evidenceRefs": [
             "E-EPIC15-S240-REVISIONS"
           ]
         }
@@ -5470,6 +5503,15 @@
       "sha256": "f47a67ee1e5fd712f2912e0cd3de8da34b11d229ca9dd64c9068f8bd231e472d",
       "verified": true,
       "note": "Fresh Chromium/Electron Tee and Woven-shirt seven-output revision, hash, and relaunch replay."
+    },
+    {
+      "id": "E-EPIC15-G02-MERGE-S241",
+      "kind": "exit-report",
+      "uri": "docs/release/EPIC-15-G02-MERGE-EXIT-S241.md",
+      "commit": "e5155e82dbd21cda5b3f537b950eb4c32a22d215",
+      "sha256": null,
+      "verified": true,
+      "note": "PR #11 merge and origin/main ancestry proof for Slices 204, 205 and 240; confirms the reviewed G02 branch tree and records scope limitations."
     }
   ]
 }

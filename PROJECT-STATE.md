@@ -1,26 +1,26 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 240 final digital review passed; reviewed branch awaits merge verification, 2026-09-26._
-Current directive: EPIC-14/G01 is Closed with its accepted evidence and final
-report. EPIC-15/G02 remains the only admitted future-capability goal. F01, F02
-and F03 are Done with linked evidence. Slice 240's final review gates pass:
-full-repository coverage is 100% for statements, branches, functions and lines;
-the strict app and Electron builds pass; all eight protected legacy export
-identities remain unchanged; browser and Electron package/backup/restart checks
-pass; immutable Tee and Woven-shirt outputs survive successor revisions and
-profile relaunch; responsive/Axe checks pass at 320, 390 and 1440 CSS pixels.
-The exact acceptance record is
-`docs/release/EPIC-15-G02-FINAL-REVIEW-S240.md`; machine evidence is under
-`docs/research/epic15/evidence/S240-`.
+_Last updated: Slice 241 verified the EPIC-15/G02 merge and Control Center closure, 2026-09-26._
+Current directive: EPIC-14/G01 and EPIC-15/G02 are closed with accepted exit
+evidence. G02's F01, F02, F03, and final review are Done. PR #11 merged the
+reviewed Slice 240 head as `e5155e82dbd21cda5b3f537b950eb4c32a22d215`; Slices
+204, 205, and 240 are verified ancestors of `origin/main`. The S240 review
+passed full-repository 100% statement, branch, function, and line coverage;
+strict app and Electron builds; protected legacy-export identities; browser and
+Electron package, backup, restart, and revision/output replay; and responsive
+and Axe checks at 320, 390, and 1440 CSS pixels. The exact review evidence is
+`docs/release/EPIC-15-G02-FINAL-REVIEW-S240.md`; the merged-exit record is
+`docs/release/EPIC-15-G02-MERGE-EXIT-S241.md`.
 
-The canonical Control Center is at revision 310: F01, F02 and F03 are Done and
-S240 final review is Review with verified evidence (conditional target
-2026-10-02). EPIC-15 remains In Progress until the
-reviewed branch is merged and its commit is verified as an ancestor of
-`origin/main`; only then may the final review become Done and EPIC-15 close.
-EPIC-16 through EPIC-30 (G03–G17) remain Backlog. Reforecast dates at the
-verified closure while preserving the separate admission gate; dates never
-authorize downstream work.
+The canonical Control Center is at revision 315: the EPIC-15 summary and final
+review work items are Done, and the EPIC-15 record is Closed with verified
+S241 exit-report evidence. EPIC-16 through EPIC-30 (G03–G17) remain Backlog,
+including G17. Phase 9 remains accepted and closed. G02 completed on
+2026-09-26, ahead of the board's revised conditional S240 target of
+2026-10-02; downstream dates remain conditional forecasts and no later work is
+admitted by G02's closure. The separate holds on garment direction, supplier
+contact, launch costs, physical sampling, hosted features, and production
+readiness remain in force.
 
 EPIC-14/G01's A-01–A-12 disposition, output replay and downstream thresholds
 are in `docs/research/epic14/G01-FINAL-REVIEW-EXIT.md`. Slice 227's readable
@@ -4250,3 +4250,23 @@ force. Restart evidence covers normal close/relaunch only, not power loss, OS
 crash or storage eviction; digital hashes do not prove physical fit, drape,
 factory acceptance or production readiness. The original conditional S240
 target was 2026-12-11; the earlier review date does not relax any gate.
+
+### Slice 241 — verify the G02 merge and close EPIC-15
+
+PR #11 merged Slice 229–240 to `origin/main` at
+`e5155e82dbd21cda5b3f537b950eb4c32a22d215`. Explicit ancestry checks passed for
+Slices 204, 205, and 240, and the merged tree is byte-for-byte identical to the
+reviewed Slice 240 tree. The validated Control Center command layer advanced
+the final-review item to Done, moved the EPIC-15 summary through Review to Done,
+linked verified merge-exit evidence `E-EPIC15-G02-MERGE-S241`, then closed the
+Epic at board revision 315. The summary and Epic records, all six linked work
+items, their evidence, and transition histories were rechecked. G03–G17 remain
+Backlog; the accepted Phase 9 exit and the G17 queue decision are preserved.
+
+The board's last S240 reforecast set a conditional target of 2026-10-02; actual
+merge and closure completed on 2026-09-26. Downstream conditional dates remain
+planning estimates because G02 finished before that revised target. This
+closure does not admit another roadmap item or relax any physical, supplier,
+launch-cost, hosted-service, or production-readiness hold. Full merge and
+ancestry details are in
+`docs/release/EPIC-15-G02-MERGE-EXIT-S241.md`.
