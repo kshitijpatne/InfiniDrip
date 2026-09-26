@@ -15,6 +15,8 @@
     "web:proof:test": "node --test ops/web/create-artifact-manifest.test.mjs",
     "web:release:test": "node --test ops/web/create-artifact-manifest.test.mjs ops/web/release-rehearsal.test.mjs",
     "web:verify-artwork-store": "node ops/web/verify-browser-artwork-store.mjs",
+    "preweb:verify-g02-responsive": "npm run build",
+    "web:verify-g02-responsive": "node electron/verify-g02-responsive.cjs",
     "readiness:drill:test": "node --test ops/readiness/readiness-drill.test.mjs",
     "test": "vitest run",
     "test:watch": "vitest",

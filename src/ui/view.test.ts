@@ -1006,7 +1006,8 @@ describe("surfaceMarkup — artwork sets per style", () => {
         transform: null as unknown as { dx: number; dy: number; scale: number; rotationDeg: number },
       }],
     });
-    expect(html).toContain('value="NaN"');
+    expect(html).toContain('value=""');
+    expect(html).not.toContain('value="NaN"');
     expect(html).toContain('data-range-state="empty"');
   });
 });

@@ -1,61 +1,35 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 239 adds immutable style revisions and frozen digital outputs; Slice 240 G02 final review is next, 2026-09-26._
-Current directive: EPIC-14/G01 is Closed. C01, C02, C05 and C06, C03 and C04,
-lanes B–D, Lane A, and the final G01 review are Done with verified evidence.
-EPIC-15/G02 is admitted and In Progress. Slices 229–234 completed admission,
-the F01 storage contract, versioned records, transactional repository,
-project/style workflow, and portable package import/export. F01 and F02 are
-Done with hash-verified evidence. Slices 235–236 cover C03-aligned source-aware
-field history plus all 85 measurement/option inputs and their dependent outputs
-across the seven current recipes. Slice 237 adds stable semantic geometry
-anchors, exact-centimetre operations, explicit history/rebase/conflict rules,
-per-size geometry/stitch/recipe/POM guards, and an accessible invalid-preview
-warning. Slice 238 now stores supported operations with each style, survives
-save/load, project switching, recovery and portable package flows, and feeds
-the evaluated size geometry to dependent views, specs, grades, nesting, tech
-pack, projector and cutting exports. It also resolves woven hem-turn cutting
-allowances and makes the tank shoulder-width/strap-width boundary explicit.
-The 123-file/1,781-test repository suite passed at 100% statement, branch,
-function and line coverage. Production-built Chromium 151 and Electron 44.1.0
-proof covers style isolation, persistence/recovery, stale-source blocking and
-explicit rebase; a real Tee and Woven-shirt trace each changed all six tested
-outputs. Slice 239 adds immutable RFC 8785/SHA-256 style revisions, validated
-compare/restore-as-new-child, versioned portable manifests, and captures of
-seven exact digital output files. Production-built Chromium 152 and Electron
-44.1.0 Tee/Woven-shirt replay verified successor lineage, unchanged historical
-bytes and hashes, and historical SVG retrieval after profile relaunch. The
-ordered remaining step is S240's full independent-style repository/browser/
-Electron gate and G02 exit.
-The goal and gates are in
-`docs/planning/EPIC-15-ADMISSION.md`; F01 evidence is in
-`docs/research/epic15/F01-PACKAGE-EXPORT-IMPORT-S234.md` and the preceding
-S230–S233 reports.
-EPIC-16 through
-EPIC-30 remain Backlog. The A-01–A-12 disposition, output replay and remaining
-downstream thresholds are recorded in `docs/research/epic14/G01-FINAL-REVIEW-EXIT.md`. Slice 227 adds
-the current UI's readable draft-pack route: paginated, explicitly non-scale
-pattern-piece overview cells and wrapping BOM/construction pages. Its seven
-default recipe PDFs and all 33 rendered pages are retained with hashes and
-layout results. The byte-identical legacy writer remains unchanged. At the
-G01 exit, full coverage, build and protected export identities passed. Physical
-sampling, live supplier work, paid sources, hosted services and
-production-readiness claims remain held.
-The canonical Control Center is at revision 302: F01, F02 and F03 are Done with
-verified evidence; the Slice 240 G02 final review is In Progress with a
-conditional target of 2026-10-02. EPIC-15 remains In Progress until the full
-exit passes and its reviewed branch is merged and verified on `origin/main`.
-Detailed records and the sequence map
-are in `ops/control-center/data/board.json`,
-`docs/planning/EPIC-14-ADMISSION.md`,
-`docs/planning/END-TO-END-CAPABILITY-ROADMAP.md`, and
-`docs/planning/EPIC-15-ADMISSION.md`.
-No new garment recipe, user-facing AI designer, paid source, supplier contact,
-physical sample, hosted feature, or production-readiness claim was admitted.
-Lane E remains held. The sequence diagram was shown and live dependencies were
-confirmed before Slice 215. C01–C06 are stable packet IDs, not landed slice
-numbers. Target dates remain conditional forecasts and must be rechecked at
-each packet exit.
+_Last updated: Slice 240 final digital review passed; reviewed branch awaits merge verification, 2026-09-26._
+Current directive: EPIC-14/G01 is Closed with its accepted evidence and final
+report. EPIC-15/G02 remains the only admitted future-capability goal. F01, F02
+and F03 are Done with linked evidence. Slice 240's final review gates pass:
+full-repository coverage is 100% for statements, branches, functions and lines;
+the strict app and Electron builds pass; all eight protected legacy export
+identities remain unchanged; browser and Electron package/backup/restart checks
+pass; immutable Tee and Woven-shirt outputs survive successor revisions and
+profile relaunch; responsive/Axe checks pass at 320, 390 and 1440 CSS pixels.
+The exact acceptance record is
+`docs/release/EPIC-15-G02-FINAL-REVIEW-S240.md`; machine evidence is under
+`docs/research/epic15/evidence/S240-`.
+
+The canonical Control Center is at revision 310: F01, F02 and F03 are Done and
+S240 final review is Review with verified evidence (conditional target
+2026-10-02). EPIC-15 remains In Progress until the
+reviewed branch is merged and its commit is verified as an ancestor of
+`origin/main`; only then may the final review become Done and EPIC-15 close.
+EPIC-16 through EPIC-30 (G03–G17) remain Backlog. Reforecast dates at the
+verified closure while preserving the separate admission gate; dates never
+authorize downstream work.
+
+EPIC-14/G01's A-01–A-12 disposition, output replay and downstream thresholds
+are in `docs/research/epic14/G01-FINAL-REVIEW-EXIT.md`. Slice 227's readable
+draft-pack route retains seven PDFs, all 33 rendered pages, hashes and layout
+results; the byte-identical legacy writer remains unchanged. No new garment
+recipe, user-facing AI designer, paid source, supplier contact, physical sample,
+hosted feature, or production-readiness claim was admitted. The existing holds
+remain active, including Lane E. C01–C06 are stable packet IDs, not landed slice
+numbers, and all target dates remain conditional forecasts.
 Epics 7, 9 and 10 are implemented, Codex-reviewed, documented and pushed to
 `origin/main`. Epic 11 implementation has completed the shaped collar/stand,
 placket-base, vent/drop, front/back preview/control/report and downstream
@@ -4252,17 +4226,27 @@ physical fit, supplier requirements or factory acceptance. F03 is Done with
 verified evidence. G02's Slice 240 full-suite, protected-export,
 accessibility, responsive and independent final gates are now In Progress.
 
-### Slice 240 — G02 final review and exit (In Progress)
+### Slice 240 — G02 final review and exit (Review; merge pending)
 
-The Control Center places the final review after verified F01, F02 and F03
-completion. Its unchanged exit gates are: reconcile the admission and all
-packet criteria; pass the complete repository suite, strict build and 100%
-statement/branch/function/line thresholds; preserve the eight protected legacy
-export identities; replay browser backup/reload and isolated Electron
-restart/output behavior; inspect accessible/narrow layouts; record residual
-limits and downstream reforecast; and close EPIC-15 only after the reviewed
-branch is merged and verified on `origin/main`. The conditional target was
-reforecast to 2026-10-02 at the F03 exit, assuming four to five focused workdays
-in one integration lane; the date changes no gate. No physical sampling,
-supplier contact, spending, hosted feature, new garment recipe or
-production-readiness claim is included.
+The full Vitest coverage command exited 0 and reports 20,287/20,287 statements,
+8,679/8,679 branches, 1,283/1,283 functions and 20,287/20,287 lines across 110
+instrumented source files. `npm run build`, Electron main build and 33/33
+Control Center tests passed. The eight protected regression identities and
+nine additional export-identity tests passed without moving a baseline.
+Production-built Chromium 151 and Electron 44.1.0/Chromium 152 each imported and
+reopened a package with three styles, one recovery and the same 114-byte SVG.
+Fresh Tee and Woven-shirt revision runs captured seven outputs apiece, saved
+successors, checked old hashes, and downloaded historical SVG bytes after
+relaunch. Responsive checks at 320, 390 and 1440 px reported no horizontal
+overflow, zero Axe WCAG 2.1 A/AA violations, and no browser warnings/errors.
+Evidence and the two verification findings corrected during review are recorded
+in `docs/release/EPIC-15-G02-FINAL-REVIEW-S240.md` and linked JSON reports.
+
+The review candidate is in Control Center Review; EPIC-15 remains In Progress
+until merge to `origin/main` and an actual Git ancestry check. After that check,
+the validated Control Center command layer must mark the final review Done and
+close the Epic. Until closure, G03–G17 remain Backlog and all holds remain in
+force. Restart evidence covers normal close/relaunch only, not power loss, OS
+crash or storage eviction; digital hashes do not prove physical fit, drape,
+factory acceptance or production readiness. The original conditional S240
+target was 2026-12-11; the earlier review date does not relax any gate.

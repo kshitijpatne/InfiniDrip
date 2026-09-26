@@ -148,13 +148,29 @@ test("admitted Epic 14 and its active research lanes match the future backlog", 
   assert.equal(g02Admission?.status, "Done");
   assert.equal(f01?.status, "Done");
   assert.equal(f02?.status, "Done");
-  assert.equal(f03?.status, "In Progress");
-  assert.equal(g02FinalReview?.status, "Backlog");
+  assert.equal(f03?.status, "Done");
+  assert.equal(g02FinalReview?.status, "Review");
   assert.deepEqual(g02Admission?.dependencies, ["EPIC-14"]);
   assert.deepEqual(f01?.dependencies, ["EPIC-15-ADMISSION"]);
   assert.deepEqual(f02?.dependencies, ["EPIC-15-F01"]);
   assert.deepEqual(f03?.dependencies, ["EPIC-15-F02"]);
   assert.deepEqual(g02FinalReview?.dependencies, ["EPIC-15-F03"]);
+  const s240EvidenceIds = [
+    "E-EPIC15-S240-EXIT",
+    "E-EPIC15-S240-COVERAGE",
+    "E-EPIC15-S240-PACKAGE",
+    "E-EPIC15-S240-RESPONSIVE",
+    "E-EPIC15-S240-REVISIONS",
+  ];
+  for (const evidenceId of s240EvidenceIds) {
+    const evidence = board.evidence.find((entry) => entry.id === evidenceId);
+    assert.ok(g02FinalReview?.evidenceRefs.includes(evidenceId), `${evidenceId} is linked to final review`);
+    assert.equal(evidence?.verified, true, `${evidenceId} is verified`);
+    assert.equal(hashEvidenceArtifact(evidence.uri), evidence.sha256, `${evidenceId} matches its stored SHA-256`);
+  }
+  const futureEpics = board.epics.filter((entry) => /^EPIC-(1[6-9]|2\d|30)$/.test(entry.id));
+  assert.equal(futureEpics.length, 15);
+  assert.ok(futureEpics.every((entry) => entry.status === "Backlog"), "later goals remain gated in Backlog");
   const g02AdmissionEvidence = board.evidence.find((entry) => entry.id === "E-EPIC15-G02-ADMISSION-S229");
   const f01StorageContractEvidence = board.evidence.find((entry) => entry.id === "E-EPIC15-F01-STORAGE-S230");
   const f01RecordModelEvidence = board.evidence.find((entry) => entry.id === "E-EPIC15-F01-MODEL-S231");

@@ -1,16 +1,16 @@
 {
   "slice": 239,
   "status": "passed",
-  "createdAt": "2026-09-26T02:24:02.102Z",
+  "createdAt": "2026-09-26T03:48:34.891Z",
   "browser": {
     "environment": "chromium",
     "scenarios": [
       {
         "kind": "tee",
-        "styleId": "ecccbdfb-bba4-4e35-a8f0-9e167d701075",
+        "styleId": "2706ed3b-b49e-4ab5-980c-0d5f052ddcd4",
         "revisionCountAfterSuccessor": 4,
-        "frozenRevisionId": "ebc685f8-7e20-4d57-bb47-a03ea1cbcc09",
-        "packetDigest": "4d8ff7011c3e2e999a0c8e993b0fe92eaa0eefd89c68b671838654dff5ba0309",
+        "frozenRevisionId": "4e3c94c1-b0bc-4e74-a2e9-0878f9dd28b9",
+        "packetDigest": "a68b95d49054a4e5be0b6be1c3822f4a532ad7efb6780c533a06d3f6628d8cb5",
         "artifactDigests": [
           {
             "artifactId": "selected-size-a0-pdf",
@@ -49,22 +49,22 @@
           }
         ],
         "downloadedArtifact": {
-          "file": "frozen-ecccbdfb-bba4-4e35-a8f0-9e167d701075.svg",
+          "file": "frozen-2706ed3b-b49e-4ab5-980c-0d5f052ddcd4.svg",
           "byteLength": 5997,
           "sha256": "3fbf2e3215af5bdfc66398b9b16714e8ee8139f5edc10dab527bc4c8378f2b9d"
         },
         "screenshot": "docs/research/epic15/evidence/S239-chromium-tee.png",
-        "screenshotSha256": "3303883e41db54ad31b23bd053af267576e3e8a4cbbc41c322aeca5b14698f01",
+        "screenshotSha256": "ac51a77fadbf811fe27edf194babb653bbc0628c44003a058c239b927ebc631b",
         "frozenCaptureScreenshot": "docs/research/epic15/evidence/S239-chromium-tee-frozen.png",
-        "frozenCaptureScreenshotSha256": "bf6a9f384878172c9581f239a22d5642ca024605074367db8e45df0f8e5b5b00",
-        "managerText": "Project & styles · Untitled teeMy designsCurrent style: Untitled teeDownloaded stored bytes for tee-M.svg.Local projectMy designsOpen selected projectExport project backupImport project backupStyle nameCreate blank styleDuplicate current designRename current styleReload projectAvailable stylesUntitled tee · tee · Classic tee · CurrentArchiveArchived stylesNo archived styles.Immutable revisionsRevision digests verify saved digital content. They do not establish fit or factory acceptance.r4 · 2026-09-26T02:23:48.188Z · parent ebc685f8ec43e7ef4383449c482e386e42355b935c6349bf3ae5c5d42ac62f32e75843ad · SHA-256 verifiedRestore as new revisionr3 · 2026-09-26T02:23:47.573Z · parent 139688d391dba1b4411b37fa9b0a12a2d43113d9c03076b097b27daaac4253ede1b026ad · SHA-256 verifiedRestore as new revisionr2 · 2026-09-26T02:23:47.275Z · parent 766e2a6845edf3da53b626eb211f08ac3138aafeae28216ee9a0ab03e28ee9daedad004c · SHA-256 verifiedRestore as new revisionr1 · 2026-09-26T02:23:46.840Z · baseline0cbaab2125bc646ff4fd659f1e06add1f749258b72faf28bcde3829bacfe9cc1 · SHA-256 verifiedRestore as new revisionComparer4 · 2026-09-26T02:23:48.188Z · ec43e7ef4383r3 · 2026-09-26T02:23:47.573Z · 91dba1b4411br2 · 2026-09-26T02:23:47.275Z · 45edf3da53b6r1 · 2026-09-26T02:23:46.840Z · 0cbaab2125bcwithr4 · 2026-09-26T02:23:48.188Z · ec43e7ef4383r3 · 2026-09-26T02:23:47.573Z · 91dba1b4411br2 · 2026-09-26T02:23:47.275Z · 45edf3da53b6r1 · 2026-09-26T02:23:46.840Z · 0cbaab2125bcCompare revisionsFreeze seven current digital outputsReview Style and Check, resolve digital blockers, and make sure the current style is saved before freezing outputs.Freezing records the current selected size and whole-run exports. It does not certify physical fit, approval, supplier requirements or factory acceptance.Frozen output capturesCaptured 2026-09-26T02:23:47.974Z · r34d8ff7011c3e2e999a0c8e993b0fe92eaa0eefd89c68b671838654dff5ba0309 · 7 verified filesDownload tee-M-A0.pdf · 5942 bytes · SHA-256 2b4561a1de27Download tee-M.dxf · 6750 bytes · SHA-256 0b6cba95c9afDownload tee-M.svg · 5997 bytes · SHA-256 3fbf2e3215afDownload tee-M.pdf · 92754 bytes · SHA-256 1256ccf60abeDownload tee-projector.svg · 44569 bytes · SHA-256 6e74f535d8feDownload tee-surface-sheet.svg · 741 bytes · SHA-256 c08f27c6f268Download tee-techpack.pdf · 11897 bytes · SHA-256 73e1f80e0cf3"
+        "frozenCaptureScreenshotSha256": "8b65ffc0b5ee54a872ad087c250a58405337391b79315dbd9cdb269eadb7f706",
+        "managerText": "Project & styles · Untitled teeMy designsCurrent style: Untitled teeDownloaded stored bytes for tee-M.svg.Local projectMy designsOpen selected projectExport project backupImport project backupStyle nameCreate blank styleDuplicate current designRename current styleReload projectAvailable stylesUntitled tee · tee · Classic tee · CurrentArchiveArchived stylesNo archived styles.Immutable revisionsRevision digests verify saved digital content. They do not establish fit or factory acceptance.r4 · 2026-09-26T03:48:20.085Z · parent 4e3c94c1d018bd481784d92f3132ab939b4702941f935475c5ff6b27b431f095e31cc541 · SHA-256 verifiedRestore as new revisionr3 · 2026-09-26T03:48:19.450Z · parent 5324c0b64cb72d337ff0198a1075305b8c597f9812251546e603648210dac317b7c5f075 · SHA-256 verifiedRestore as new revisionr2 · 2026-09-26T03:48:19.184Z · parent 021a3ffe569a8229664080161031b12e2aae9ddd810ca526f28c81937181e2d3038e5b67 · SHA-256 verifiedRestore as new revisionr1 · 2026-09-26T03:48:18.751Z · baseline76dddee1f9a8ec315085e64c15dec4a9b6ef4d7b3bdad6a7fe2570ad140b392f · SHA-256 verifiedRestore as new revisionComparer4 · 2026-09-26T03:48:20.085Z · d018bd481784r3 · 2026-09-26T03:48:19.450Z · 4cb72d337ff0r2 · 2026-09-26T03:48:19.184Z · 569a82296640r1 · 2026-09-26T03:48:18.751Z · 76dddee1f9a8withr4 · 2026-09-26T03:48:20.085Z · d018bd481784r3 · 2026-09-26T03:48:19.450Z · 4cb72d337ff0r2 · 2026-09-26T03:48:19.184Z · 569a82296640r1 · 2026-09-26T03:48:18.751Z · 76dddee1f9a8Compare revisionsFreeze seven current digital outputsReview Style and Check, resolve digital blockers, and make sure the current style is saved before freezing outputs.Freezing records the current selected size and whole-run exports. It does not certify physical fit, approval, supplier requirements or factory acceptance.Frozen output capturesCaptured 2026-09-26T03:48:19.844Z · r3a68b95d49054a4e5be0b6be1c3822f4a532ad7efb6780c533a06d3f6628d8cb5 · 7 verified filesDownload tee-M-A0.pdf · 5942 bytes · SHA-256 2b4561a1de27Download tee-M.dxf · 6750 bytes · SHA-256 0b6cba95c9afDownload tee-M.svg · 5997 bytes · SHA-256 3fbf2e3215afDownload tee-M.pdf · 92754 bytes · SHA-256 1256ccf60abeDownload tee-projector.svg · 44569 bytes · SHA-256 6e74f535d8feDownload tee-surface-sheet.svg · 741 bytes · SHA-256 c08f27c6f268Download tee-techpack.pdf · 11897 bytes · SHA-256 73e1f80e0cf3"
       },
       {
         "kind": "woven-shirt",
-        "styleId": "36bdd0cf-81b4-4381-b0ba-a102c39aafe7",
+        "styleId": "22b5149e-6dec-41be-a81b-e44cfe9bd758",
         "revisionCountAfterSuccessor": 5,
-        "frozenRevisionId": "c82b4779-3ca2-44d1-ac2b-f3fc875e9e96",
-        "packetDigest": "a637245f5990047c9c369403ddac92b71eaddd52262b3c5e5162bf1d0d69eece",
+        "frozenRevisionId": "7f4bf26b-55a7-4234-ade9-e4175f6f9bb6",
+        "packetDigest": "e46d6192e7e68d460e2bfa21bfc688f2ccdda11d3808d1795596780b73cf8763",
         "artifactDigests": [
           {
             "artifactId": "selected-size-a0-pdf",
@@ -103,31 +103,31 @@
           }
         ],
         "downloadedArtifact": {
-          "file": "frozen-36bdd0cf-81b4-4381-b0ba-a102c39aafe7.svg",
+          "file": "frozen-22b5149e-6dec-41be-a81b-e44cfe9bd758.svg",
           "byteLength": 23930,
           "sha256": "03a41cee01fcb57934cc2f4342a89dc62bda827a69fb275dc569f37b561ae2de"
         },
         "screenshot": "docs/research/epic15/evidence/S239-chromium-woven-shirt.png",
-        "screenshotSha256": "cc8b510eb6d5e2f2511484108350da24f4941b9f6c8796dde661732eebc94fdb",
+        "screenshotSha256": "f9e5f0ceee9e3cc43983c9a3935077bf68c57cebb689e776daa26a7336b9d808",
         "frozenCaptureScreenshot": "docs/research/epic15/evidence/S239-chromium-woven-shirt-frozen.png",
-        "frozenCaptureScreenshotSha256": "78c9f7851dd1bdbe1446462ef4b565c49f73a45c32c571ce9d77a8f1d8ea8cb4",
-        "managerText": "Project & styles · S239 Woven revision proofMy designsCurrent style: S239 Woven revision proofDownloaded stored bytes for woven-shirt-M.svg.Local projectMy designsOpen selected projectExport project backupImport project backupStyle nameCreate blank styleDuplicate current designRename current styleReload projectAvailable stylesUntitled tee · tee · Classic teeArchiveS239 Woven revision proof · woven-shirt · Classic woven shirt · CurrentArchiveArchived stylesNo archived styles.Immutable revisionsRevision digests verify saved digital content. They do not establish fit or factory acceptance.r5 · 2026-09-26T02:23:50.752Z · parent c82b477922c9fa3cdaa241f694f4561b4d9a39cbae493114cca995561a0f230a2420b6b3 · SHA-256 verifiedRestore as new revisionr4 · 2026-09-26T02:23:49.823Z · parent 378e4516262af1cf130ce481377bb6c3e84823833edc737fade8c9e9b862e686a3be57a8 · SHA-256 verifiedRestore as new revisionr3 · 2026-09-26T02:23:49.585Z · parent a87df31aa28acdaba9c69f080ac31d7ca02a53df46e8871dd665d300aa7801edb4e6ccf5 · SHA-256 verifiedRestore as new revisionr2 · 2026-09-26T02:23:49.185Z · parent 14151b9e0a03883c5db52a43c44109c3875a311f89bc6c7fd9b82a08a0945d2f3ed00a9a · SHA-256 verifiedRestore as new revisionr1 · 2026-09-26T02:23:48.853Z · baseline81d321bd320039658f30098b512124884c5b3892ffae6e229ca41a00f50f7288 · SHA-256 verifiedRestore as new revisionComparer5 · 2026-09-26T02:23:50.752Z · 22c9fa3cdaa2r4 · 2026-09-26T02:23:49.823Z · 262af1cf130cr3 · 2026-09-26T02:23:49.585Z · a28acdaba9c6r2 · 2026-09-26T02:23:49.185Z · 0a03883c5db5r1 · 2026-09-26T02:23:48.853Z · 81d321bd3200withr5 · 2026-09-26T02:23:50.752Z · 22c9fa3cdaa2r4 · 2026-09-26T02:23:49.823Z · 262af1cf130cr3 · 2026-09-26T02:23:49.585Z · a28acdaba9c6r2 · 2026-09-26T02:23:49.185Z · 0a03883c5db5r1 · 2026-09-26T02:23:48.853Z · 81d321bd3200Compare revisionsFreeze seven current digital outputsReview Style and Check, resolve digital blockers, and make sure the current style is saved before freezing outputs.Freezing records the current selected size and whole-run exports. It does not certify physical fit, approval, supplier requirements or factory acceptance.Frozen output capturesCaptured 2026-09-26T02:23:50.461Z · r4a637245f5990047c9c369403ddac92b71eaddd52262b3c5e5162bf1d0d69eece · 7 verified filesDownload woven-shirt-M-A0.pdf · 15609 bytes · SHA-256 38808fdc0e88Download woven-shirt-M.dxf · 14923 bytes · SHA-256 9fe52d808ec9Download woven-shirt-M.svg · 23930 bytes · SHA-256 03a41cee01fcDownload woven-shirt-M.pdf · 624147 bytes · SHA-256 4e65445633ecDownload woven-shirt-projector.svg · 141632 bytes · SHA-256 8d187e40d9d7Download woven-shirt-surface-sheet.svg · 757 bytes · SHA-256 cf8aab4ad8d3Download woven-shirt-techpack.pdf · 16480 bytes · SHA-256 eac011484120"
+        "frozenCaptureScreenshotSha256": "0a7f0be3c4c8d2d04ef612df0507e2662026e7b893d9d7eb704b971d743a4b6d",
+        "managerText": "Project & styles · S239 Woven revision proofMy designsCurrent style: S239 Woven revision proofDownloaded stored bytes for woven-shirt-M.svg.Local projectMy designsOpen selected projectExport project backupImport project backupStyle nameCreate blank styleDuplicate current designRename current styleReload projectAvailable stylesUntitled tee · tee · Classic teeArchiveS239 Woven revision proof · woven-shirt · Classic woven shirt · CurrentArchiveArchived stylesNo archived styles.Immutable revisionsRevision digests verify saved digital content. They do not establish fit or factory acceptance.r5 · 2026-09-26T03:48:22.934Z · parent 7f4bf26bf03da6356713bf56a2f38487e77be7ce745dc1712a690cd661b697a135b8272d · SHA-256 verifiedRestore as new revisionr4 · 2026-09-26T03:48:21.890Z · parent 870e8872d822690d3d51c4153588d6d297e7fc2258ecfdade10805d96be29598a4b8e5b4 · SHA-256 verifiedRestore as new revisionr3 · 2026-09-26T03:48:21.650Z · parent bb8499ccb2775b24323d3a32dbb3805b8ca6b9f95a87965b400bd755c7cb5a578ac6b03a · SHA-256 verifiedRestore as new revisionr2 · 2026-09-26T03:48:21.164Z · parent 83401ec5dae73fce6819ea21ab2873a9ee9bc6512a0eb2b6ce295b989bccfd5a3b2db2cb · SHA-256 verifiedRestore as new revisionr1 · 2026-09-26T03:48:20.801Z · baselinebce2848d3698ec825f37657ce5f660e59e8b6644a95e3e4d82447c5809ffa122 · SHA-256 verifiedRestore as new revisionComparer5 · 2026-09-26T03:48:22.934Z · f03da6356713r4 · 2026-09-26T03:48:21.890Z · d822690d3d51r3 · 2026-09-26T03:48:21.650Z · b2775b24323dr2 · 2026-09-26T03:48:21.164Z · dae73fce6819r1 · 2026-09-26T03:48:20.801Z · bce2848d3698withr5 · 2026-09-26T03:48:22.934Z · f03da6356713r4 · 2026-09-26T03:48:21.890Z · d822690d3d51r3 · 2026-09-26T03:48:21.650Z · b2775b24323dr2 · 2026-09-26T03:48:21.164Z · dae73fce6819r1 · 2026-09-26T03:48:20.801Z · bce2848d3698Compare revisionsFreeze seven current digital outputsReview Style and Check, resolve digital blockers, and make sure the current style is saved before freezing outputs.Freezing records the current selected size and whole-run exports. It does not certify physical fit, approval, supplier requirements or factory acceptance.Frozen output capturesCaptured 2026-09-26T03:48:22.549Z · r4e46d6192e7e68d460e2bfa21bfc688f2ccdda11d3808d1795596780b73cf8763 · 7 verified filesDownload woven-shirt-M-A0.pdf · 15609 bytes · SHA-256 38808fdc0e88Download woven-shirt-M.dxf · 14923 bytes · SHA-256 9fe52d808ec9Download woven-shirt-M.svg · 23930 bytes · SHA-256 03a41cee01fcDownload woven-shirt-M.pdf · 624147 bytes · SHA-256 4e65445633ecDownload woven-shirt-projector.svg · 141632 bytes · SHA-256 8d187e40d9d7Download woven-shirt-surface-sheet.svg · 757 bytes · SHA-256 cf8aab4ad8d3Download woven-shirt-techpack.pdf · 16480 bytes · SHA-256 eac011484120"
       }
     ],
     "restartedStyleIds": [
-      "36bdd0cf-81b4-4381-b0ba-a102c39aafe7",
-      "ecccbdfb-bba4-4e35-a8f0-9e167d701075"
+      "22b5149e-6dec-41be-a81b-e44cfe9bd758",
+      "2706ed3b-b49e-4ab5-980c-0d5f052ddcd4"
     ],
     "historicalDownloadsAfterRestart": [
       {
         "kind": "tee",
-        "file": "frozen-ecccbdfb-bba4-4e35-a8f0-9e167d701075.svg",
+        "file": "frozen-2706ed3b-b49e-4ab5-980c-0d5f052ddcd4.svg",
         "byteLength": 5997,
         "sha256": "3fbf2e3215af5bdfc66398b9b16714e8ee8139f5edc10dab527bc4c8378f2b9d"
       },
       {
         "kind": "woven-shirt",
-        "file": "frozen-36bdd0cf-81b4-4381-b0ba-a102c39aafe7.svg",
+        "file": "frozen-22b5149e-6dec-41be-a81b-e44cfe9bd758.svg",
         "byteLength": 23930,
         "sha256": "03a41cee01fcb57934cc2f4342a89dc62bda827a69fb275dc569f37b561ae2de"
       }
@@ -141,10 +141,10 @@
     "scenarios": [
       {
         "kind": "tee",
-        "styleId": "39a893bc-7357-47e6-a87e-939a6546e6c9",
+        "styleId": "b6fb7c08-56c5-49ef-930f-5dd134aff391",
         "revisionCountAfterSuccessor": 4,
-        "frozenRevisionId": "4a0feaa6-9031-4758-8aa9-c9f5ee71e3ae",
-        "packetDigest": "1ccbca2a2540032a2dd6cef58de1aa5371db93195dc3073a7a4ea942c40c967f",
+        "frozenRevisionId": "c947cc82-ddbd-4247-b923-1acb7b646154",
+        "packetDigest": "7d9d45a3bfde8963ea423583c68603d72a4e8d1e0dc5620b373b541dbc385f2f",
         "artifactDigests": [
           {
             "artifactId": "selected-size-a0-pdf",
@@ -183,22 +183,22 @@
           }
         ],
         "downloadedArtifact": {
-          "file": "frozen-39a893bc-7357-47e6-a87e-939a6546e6c9.svg",
+          "file": "frozen-b6fb7c08-56c5-49ef-930f-5dd134aff391.svg",
           "byteLength": 5997,
           "sha256": "3fbf2e3215af5bdfc66398b9b16714e8ee8139f5edc10dab527bc4c8378f2b9d"
         },
         "screenshot": "docs/research/epic15/evidence/S239-electron-tee.png",
-        "screenshotSha256": "ed878ab4e627616c8e140df52ad64371fd71de2e017b3362fcb294f10a69909a",
+        "screenshotSha256": "274d4284f8b94772780c6eacb44bb3d268dcb81a062ec8ce7400cf75960fa208",
         "frozenCaptureScreenshot": "docs/research/epic15/evidence/S239-electron-tee-frozen.png",
-        "frozenCaptureScreenshotSha256": "0ca94a44b846f1442e912fcdc1409e15ea9de9fee8c3f8eacc39d5201b0ec973",
-        "managerText": "Project & styles · Untitled teeMy designsCurrent style: Untitled teeDownloaded stored bytes for tee-M.svg.Local projectMy designsOpen selected projectExport project backupImport project backupStyle nameCreate blank styleDuplicate current designRename current styleReload projectAvailable stylesUntitled tee · tee · Classic tee · CurrentArchiveArchived stylesNo archived styles.Immutable revisionsRevision digests verify saved digital content. They do not establish fit or factory acceptance.r4 · 2026-09-26T02:23:55.732Z · parent 4a0feaa6849bda054852245a4306765cc65f4ae4bbaea122bf894f1e56cf83e9d8f579e9 · SHA-256 verifiedRestore as new revisionr3 · 2026-09-26T02:23:55.084Z · parent c0e63cbd2a6d16941d23204303a66919b64803e42ee102b8d3d4bb139779a1cb053a1f6e · SHA-256 verifiedRestore as new revisionr2 · 2026-09-26T02:23:54.750Z · parent 849dcb9db278c40ba5b2a2405d59d527d89813745fddbd0a4d40cc45aee05432c078129a · SHA-256 verifiedRestore as new revisionr1 · 2026-09-26T02:23:53.963Z · baselineb6e70fc7ec146d94b685390a64feddf7f59525b7e9d4915ab6e48d97b4d277ad · SHA-256 verifiedRestore as new revisionComparer4 · 2026-09-26T02:23:55.732Z · 849bda054852r3 · 2026-09-26T02:23:55.084Z · 2a6d16941d23r2 · 2026-09-26T02:23:54.750Z · b278c40ba5b2r1 · 2026-09-26T02:23:53.963Z · b6e70fc7ec14withr4 · 2026-09-26T02:23:55.732Z · 849bda054852r3 · 2026-09-26T02:23:55.084Z · 2a6d16941d23r2 · 2026-09-26T02:23:54.750Z · b278c40ba5b2r1 · 2026-09-26T02:23:53.963Z · b6e70fc7ec14Compare revisionsFreeze seven current digital outputsReview Style and Check, resolve digital blockers, and make sure the current style is saved before freezing outputs.Freezing records the current selected size and whole-run exports. It does not certify physical fit, approval, supplier requirements or factory acceptance.Frozen output capturesCaptured 2026-09-26T02:23:55.501Z · r31ccbca2a2540032a2dd6cef58de1aa5371db93195dc3073a7a4ea942c40c967f · 7 verified filesDownload tee-M-A0.pdf · 5942 bytes · SHA-256 2b4561a1de27Download tee-M.dxf · 6750 bytes · SHA-256 0b6cba95c9afDownload tee-M.svg · 5997 bytes · SHA-256 3fbf2e3215afDownload tee-M.pdf · 92754 bytes · SHA-256 1256ccf60abeDownload tee-projector.svg · 44569 bytes · SHA-256 6e74f535d8feDownload tee-surface-sheet.svg · 741 bytes · SHA-256 c08f27c6f268Download tee-techpack.pdf · 11897 bytes · SHA-256 73e1f80e0cf3"
+        "frozenCaptureScreenshotSha256": "596d678d872c094f8e31c299ea4f0c9766622a092032488e56fdca1ccd652e88",
+        "managerText": "Project & styles · Untitled teeMy designsCurrent style: Untitled teeDownloaded stored bytes for tee-M.svg.Local projectMy designsOpen selected projectExport project backupImport project backupStyle nameCreate blank styleDuplicate current designRename current styleReload projectAvailable stylesUntitled tee · tee · Classic tee · CurrentArchiveArchived stylesNo archived styles.Immutable revisionsRevision digests verify saved digital content. They do not establish fit or factory acceptance.r4 · 2026-09-26T03:48:28.265Z · parent c947cc82c9a8f28682b87ba00ae9f49138281577f0945708f69f1001fc9ef0a79d1461c5 · SHA-256 verifiedRestore as new revisionr3 · 2026-09-26T03:48:27.595Z · parent b643b2651d43f95154e0406c53304d06c2eaffc393fda046b0d3d6a3b4930d1dbdf5c4b0 · SHA-256 verifiedRestore as new revisionr2 · 2026-09-26T03:48:27.184Z · parent 3fbe60f4deefb586bc8443941254739514a027386130ba4fa2593ac94c40cf7cd9005576 · SHA-256 verifiedRestore as new revisionr1 · 2026-09-26T03:48:26.471Z · baselinebf3b7ca1b1d453309a61555ac8e3fd071a8b45b47af66515a6e6b0c7c788c584 · SHA-256 verifiedRestore as new revisionComparer4 · 2026-09-26T03:48:28.265Z · c9a8f28682b8r3 · 2026-09-26T03:48:27.595Z · 1d43f95154e0r2 · 2026-09-26T03:48:27.184Z · deefb586bc84r1 · 2026-09-26T03:48:26.471Z · bf3b7ca1b1d4withr4 · 2026-09-26T03:48:28.265Z · c9a8f28682b8r3 · 2026-09-26T03:48:27.595Z · 1d43f95154e0r2 · 2026-09-26T03:48:27.184Z · deefb586bc84r1 · 2026-09-26T03:48:26.471Z · bf3b7ca1b1d4Compare revisionsFreeze seven current digital outputsReview Style and Check, resolve digital blockers, and make sure the current style is saved before freezing outputs.Freezing records the current selected size and whole-run exports. It does not certify physical fit, approval, supplier requirements or factory acceptance.Frozen output capturesCaptured 2026-09-26T03:48:28.024Z · r37d9d45a3bfde8963ea423583c68603d72a4e8d1e0dc5620b373b541dbc385f2f · 7 verified filesDownload tee-M-A0.pdf · 5942 bytes · SHA-256 2b4561a1de27Download tee-M.dxf · 6750 bytes · SHA-256 0b6cba95c9afDownload tee-M.svg · 5997 bytes · SHA-256 3fbf2e3215afDownload tee-M.pdf · 92754 bytes · SHA-256 1256ccf60abeDownload tee-projector.svg · 44569 bytes · SHA-256 6e74f535d8feDownload tee-surface-sheet.svg · 741 bytes · SHA-256 c08f27c6f268Download tee-techpack.pdf · 11897 bytes · SHA-256 73e1f80e0cf3"
       },
       {
         "kind": "woven-shirt",
-        "styleId": "b6e92fc5-635f-494b-996b-a255dcf50020",
+        "styleId": "4950cf06-0628-4923-9127-fd64aa44b6c8",
         "revisionCountAfterSuccessor": 5,
-        "frozenRevisionId": "315e22a1-610c-4c50-9df3-798ab650d846",
-        "packetDigest": "dfb588c89f6936ab91301866796e0398d863df4a493f17329bcfdf69fad56000",
+        "frozenRevisionId": "a79e6be6-3eaa-4f8b-83ca-4d7634dd48a5",
+        "packetDigest": "26821f8c7fcd65051b2d18eabeb323e6c8fba387eaa15cf8de051457fd72a22f",
         "artifactDigests": [
           {
             "artifactId": "selected-size-a0-pdf",
@@ -237,31 +237,31 @@
           }
         ],
         "downloadedArtifact": {
-          "file": "frozen-b6e92fc5-635f-494b-996b-a255dcf50020.svg",
+          "file": "frozen-4950cf06-0628-4923-9127-fd64aa44b6c8.svg",
           "byteLength": 23930,
           "sha256": "03a41cee01fcb57934cc2f4342a89dc62bda827a69fb275dc569f37b561ae2de"
         },
         "screenshot": "docs/research/epic15/evidence/S239-electron-woven-shirt.png",
-        "screenshotSha256": "9b7f7621b07227baf4f5e032e22dd722a8ec65dde368e576024aaa84bb6503d4",
+        "screenshotSha256": "1aa63b10148d8b0699d9cb5b7aef725c6ba1196f1741b514beb7c9c7a43b5f73",
         "frozenCaptureScreenshot": "docs/research/epic15/evidence/S239-electron-woven-shirt-frozen.png",
-        "frozenCaptureScreenshotSha256": "52076364bcd8192ef5f9a7925dbd0aee87cf8a9c71c01fae4019ecaea5427cbb",
-        "managerText": "Project & styles · S239 Woven revision proofMy designsCurrent style: S239 Woven revision proofDownloaded stored bytes for woven-shirt-M.svg.Local projectMy designsOpen selected projectExport project backupImport project backupStyle nameCreate blank styleDuplicate current designRename current styleReload projectAvailable stylesUntitled tee · tee · Classic teeArchiveS239 Woven revision proof · woven-shirt · Classic woven shirt · CurrentArchiveArchived stylesNo archived styles.Immutable revisionsRevision digests verify saved digital content. They do not establish fit or factory acceptance.r5 · 2026-09-26T02:23:58.490Z · parent 315e22a1325d229466bf0f2dee3fdcfcb77562ead7210a7ad1386134485e21f21fbd39d3 · SHA-256 verifiedRestore as new revisionr4 · 2026-09-26T02:23:57.584Z · parent 1b9416fcba15c817c50f00b1d98277c15822bd371eb4c29b48f2b3f4b12847a1adcc1ac8 · SHA-256 verifiedRestore as new revisionr3 · 2026-09-26T02:23:57.357Z · parent 4e9c28bf18d6e45afef81b9157439228feb2323587f240e55c4d665446f38ddcb63f2720 · SHA-256 verifiedRestore as new revisionr2 · 2026-09-26T02:23:56.811Z · parent 5f6b5a7b14bb3e6f9a6f4b5f4a1a8e5eabcaf366ece3d6bf855e00bb480bf541092954b1 · SHA-256 verifiedRestore as new revisionr1 · 2026-09-26T02:23:56.432Z · baseline9609bc58ce66116693cfb12454164b2d40f674e9c16d1ce886db391fb56232c2 · SHA-256 verifiedRestore as new revisionComparer5 · 2026-09-26T02:23:58.490Z · 325d229466bfr4 · 2026-09-26T02:23:57.584Z · ba15c817c50fr3 · 2026-09-26T02:23:57.357Z · 18d6e45afef8r2 · 2026-09-26T02:23:56.811Z · 14bb3e6f9a6fr1 · 2026-09-26T02:23:56.432Z · 9609bc58ce66withr5 · 2026-09-26T02:23:58.490Z · 325d229466bfr4 · 2026-09-26T02:23:57.584Z · ba15c817c50fr3 · 2026-09-26T02:23:57.357Z · 18d6e45afef8r2 · 2026-09-26T02:23:56.811Z · 14bb3e6f9a6fr1 · 2026-09-26T02:23:56.432Z · 9609bc58ce66Compare revisionsFreeze seven current digital outputsReview Style and Check, resolve digital blockers, and make sure the current style is saved before freezing outputs.Freezing records the current selected size and whole-run exports. It does not certify physical fit, approval, supplier requirements or factory acceptance.Frozen output capturesCaptured 2026-09-26T02:23:58.169Z · r4dfb588c89f6936ab91301866796e0398d863df4a493f17329bcfdf69fad56000 · 7 verified filesDownload woven-shirt-M-A0.pdf · 15609 bytes · SHA-256 38808fdc0e88Download woven-shirt-M.dxf · 14923 bytes · SHA-256 9fe52d808ec9Download woven-shirt-M.svg · 23930 bytes · SHA-256 03a41cee01fcDownload woven-shirt-M.pdf · 624147 bytes · SHA-256 4e65445633ecDownload woven-shirt-projector.svg · 141632 bytes · SHA-256 8d187e40d9d7Download woven-shirt-surface-sheet.svg · 757 bytes · SHA-256 cf8aab4ad8d3Download woven-shirt-techpack.pdf · 16480 bytes · SHA-256 eac011484120"
+        "frozenCaptureScreenshotSha256": "6067a5cbc411d2e580ef7816c0df2ef785fa01a0c6173ee188eece0d07261e35",
+        "managerText": "Project & styles · S239 Woven revision proofMy designsCurrent style: S239 Woven revision proofDownloaded stored bytes for woven-shirt-M.svg.Local projectMy designsOpen selected projectExport project backupImport project backupStyle nameCreate blank styleDuplicate current designRename current styleReload projectAvailable stylesUntitled tee · tee · Classic teeArchiveS239 Woven revision proof · woven-shirt · Classic woven shirt · CurrentArchiveArchived stylesNo archived styles.Immutable revisionsRevision digests verify saved digital content. They do not establish fit or factory acceptance.r5 · 2026-09-26T03:48:31.013Z · parent a79e6be614477d2a45241dd9f9273602167853d9ec8e52de68f89d38b53cc7113ba0e379 · SHA-256 verifiedRestore as new revisionr4 · 2026-09-26T03:48:30.084Z · parent f281e755d9628238adfd213b2143964b7e0534e2377c86e637fb35bff9e06602876fa019 · SHA-256 verifiedRestore as new revisionr3 · 2026-09-26T03:48:29.854Z · parent b8a3e7c9c1984e490cc1765408f981b1e385498bb791407ecd9889b830bd785743ca1953 · SHA-256 verifiedRestore as new revisionr2 · 2026-09-26T03:48:29.346Z · parent f7db6e8070180bda45da05d56e80e029622877443ad1631c4f21eac60e7b76b775c2db67 · SHA-256 verifiedRestore as new revisionr1 · 2026-09-26T03:48:28.952Z · baselinedca9c34eaf08f5463abc8b7c8e106a4518a6d2c50187cdcc17efe4ebca8e8959 · SHA-256 verifiedRestore as new revisionComparer5 · 2026-09-26T03:48:31.013Z · 14477d2a4524r4 · 2026-09-26T03:48:30.084Z · d9628238adfdr3 · 2026-09-26T03:48:29.854Z · c1984e490cc1r2 · 2026-09-26T03:48:29.346Z · 70180bda45dar1 · 2026-09-26T03:48:28.952Z · dca9c34eaf08withr5 · 2026-09-26T03:48:31.013Z · 14477d2a4524r4 · 2026-09-26T03:48:30.084Z · d9628238adfdr3 · 2026-09-26T03:48:29.854Z · c1984e490cc1r2 · 2026-09-26T03:48:29.346Z · 70180bda45dar1 · 2026-09-26T03:48:28.952Z · dca9c34eaf08Compare revisionsFreeze seven current digital outputsReview Style and Check, resolve digital blockers, and make sure the current style is saved before freezing outputs.Freezing records the current selected size and whole-run exports. It does not certify physical fit, approval, supplier requirements or factory acceptance.Frozen output capturesCaptured 2026-09-26T03:48:30.654Z · r426821f8c7fcd65051b2d18eabeb323e6c8fba387eaa15cf8de051457fd72a22f · 7 verified filesDownload woven-shirt-M-A0.pdf · 15609 bytes · SHA-256 38808fdc0e88Download woven-shirt-M.dxf · 14923 bytes · SHA-256 9fe52d808ec9Download woven-shirt-M.svg · 23930 bytes · SHA-256 03a41cee01fcDownload woven-shirt-M.pdf · 624147 bytes · SHA-256 4e65445633ecDownload woven-shirt-projector.svg · 141632 bytes · SHA-256 8d187e40d9d7Download woven-shirt-surface-sheet.svg · 757 bytes · SHA-256 cf8aab4ad8d3Download woven-shirt-techpack.pdf · 16480 bytes · SHA-256 eac011484120"
       }
     ],
     "restartedStyleIds": [
-      "39a893bc-7357-47e6-a87e-939a6546e6c9",
-      "b6e92fc5-635f-494b-996b-a255dcf50020"
+      "4950cf06-0628-4923-9127-fd64aa44b6c8",
+      "b6fb7c08-56c5-49ef-930f-5dd134aff391"
     ],
     "historicalDownloadsAfterRestart": [
       {
         "kind": "tee",
-        "file": "frozen-39a893bc-7357-47e6-a87e-939a6546e6c9.svg",
+        "file": "frozen-b6fb7c08-56c5-49ef-930f-5dd134aff391.svg",
         "byteLength": 5997,
         "sha256": "3fbf2e3215af5bdfc66398b9b16714e8ee8139f5edc10dab527bc4c8378f2b9d"
       },
       {
         "kind": "woven-shirt",
-        "file": "frozen-b6e92fc5-635f-494b-996b-a255dcf50020.svg",
+        "file": "frozen-4950cf06-0628-4923-9127-fd64aa44b6c8.svg",
         "byteLength": 23930,
         "sha256": "03a41cee01fcb57934cc2f4342a89dc62bda827a69fb275dc569f37b561ae2de"
       }

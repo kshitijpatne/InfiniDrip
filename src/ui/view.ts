@@ -67,11 +67,12 @@ function numericControlMarkup(
   const inputMaxAttribute = max === undefined ? "" : ` max="${max}" data-range-max="${max}" aria-valuemax="${max}"`;
   const controlMinAttribute = min === undefined ? "" : ` data-range-min="${min}"`;
   const controlMaxAttribute = max === undefined ? "" : ` data-range-max="${max}"`;
-  const state = numericRangeState(String(value), min, max);
+  const inputValue = Number.isFinite(value) ? String(value) : "";
+  const state = numericRangeState(inputValue, min, max);
   const allowed = min === undefined || max === undefined
     ? "Open range"
     : `Allowed range ${min}–${max}${unit}`;
-  const current = state === "empty" ? "current value unavailable" : `current value ${value}${unit}`;
+  const current = state === "empty" ? "current value unavailable" : `current value ${inputValue}${unit}`;
   const endpoint = (edge: "min" | "max"): string => edge === "min"
     ? (min === undefined ? "−∞" : String(min))
     : (max === undefined ? "+∞" : String(max));
@@ -80,7 +81,7 @@ function numericControlMarkup(
     `aria-controls="${inputId}" aria-label="${verb} ${label} by ${step}${unit}" ` +
     `style="flex:0 0 36px;width:36px;height:36px;padding:0;cursor:pointer;touch-action:manipulation;` +
     `background:${T.background};color:${T.line};border:1px solid ${BORDER};font-size:16px;line-height:1">${symbol}</button>`;
-  const input = `<input id="${inputId}" ${inputAttributes} type="number" value="${value}" step="${step}"${inputMinAttribute}${inputMaxAttribute} ` +
+  const input = `<input id="${inputId}" ${inputAttributes} type="number" value="${inputValue}" step="${step}"${inputMinAttribute}${inputMaxAttribute} ` +
     `style="width:58px;height:36px;box-sizing:border-box;padding:4px 5px;text-align:right;background:${T.background};color:${T.line};` +
     `border:1px solid ${BORDER};font-family:ui-monospace,monospace"/>`;
   return `<span class="numeric-control" data-range-control="${controlId}" data-range-label="${label}" ` +

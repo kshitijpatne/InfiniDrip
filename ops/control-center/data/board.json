@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 302,
-  "updatedAt": "2026-09-26T02:35:48.626Z",
+  "revision": 310,
+  "updatedAt": "2026-09-26T04:09:31.095Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -4693,7 +4693,7 @@
       "title": "G02 final review, digital evidence replay and exit",
       "epicId": "EPIC-15",
       "releaseId": null,
-      "status": "In Progress",
+      "status": "Review",
       "openedAt": "2026-09-24",
       "targetAt": "2026-10-02",
       "deliveredAt": null,
@@ -4751,6 +4751,20 @@
             "E-EPIC15-F03-S239-EXIT",
             "E-EPIC15-F03-S239-RENDER"
           ]
+        },
+        {
+          "status": "Review",
+          "at": "2026-09-26T04:01:21.208Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "S240 final digital review gates passed; the reviewed branch must still merge and pass origin/main ancestry verification before completion.",
+          "evidenceRefs": [
+            "E-EPIC15-S240-EXIT",
+            "E-EPIC15-S240-COVERAGE",
+            "E-EPIC15-S240-PACKAGE",
+            "E-EPIC15-S240-RESPONSIVE",
+            "E-EPIC15-S240-REVISIONS"
+          ]
         }
       ],
       "comments": [
@@ -4762,7 +4776,12 @@
       ],
       "evidenceRefs": [
         "E-EPIC15-F03-S239-EXIT",
-        "E-EPIC15-F03-S239-RENDER"
+        "E-EPIC15-F03-S239-RENDER",
+        "E-EPIC15-S240-EXIT",
+        "E-EPIC15-S240-COVERAGE",
+        "E-EPIC15-S240-PACKAGE",
+        "E-EPIC15-S240-RESPONSIVE",
+        "E-EPIC15-S240-REVISIONS"
       ],
       "flagKey": null
     }
@@ -5403,9 +5422,54 @@
       "kind": "rendered-output",
       "uri": "docs/research/epic15/evidence/S239-rendered-verification.json",
       "commit": null,
-      "sha256": "5f1dc7dc5c3cd845895eac9a8381eb6abde5a70969b78511d2156be19b1b0935",
+      "sha256": "f47a67ee1e5fd712f2912e0cd3de8da34b11d229ca9dd64c9068f8bd231e472d",
       "verified": true,
-      "note": "Machine-readable production-built Chromium 152 and Electron 44.1.0 Tee/Woven-shirt replay: four saved revision chains, each complete seven-artifact frozen set with lengths and SHA-256, unchanged history after successor, exact historical SVG bytes after profile relaunch, and paths/digests for eight rendered screenshots."
+      "note": "Refreshed and reverified during S240 final review: production-built Chromium/Electron revision, seven-output, frozen-hash and post-relaunch retrieval replay."
+    },
+    {
+      "id": "E-EPIC15-S240-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/release/EPIC-15-G02-FINAL-REVIEW-S240.md",
+      "commit": null,
+      "sha256": "43963b1e9b967f89a47783dd006caebef9d52ad4bc503c48fc9b56d029ae69a1",
+      "verified": true,
+      "note": "S240 exit report hash reverified after final whitespace cleanup; content and attached machine evidence are unchanged."
+    },
+    {
+      "id": "E-EPIC15-S240-COVERAGE",
+      "kind": "test",
+      "uri": "docs/research/epic15/evidence/S240-coverage-verification.json",
+      "commit": null,
+      "sha256": "c6a395422a2efb60224ffda7ee5c17615f2fdf8933906776e8e45fd5710796ce",
+      "verified": true,
+      "note": "Full Vitest run exited 0; all 100% coverage thresholds met across 110 files."
+    },
+    {
+      "id": "E-EPIC15-S240-PACKAGE",
+      "kind": "browser",
+      "uri": "docs/research/epic15/evidence/S240-project-package-verification.json",
+      "commit": null,
+      "sha256": "b7d47dd3dc6ca2ab124146ef7d607d510aa2cbf1f940f742e46a0e742fcf2b0c",
+      "verified": true,
+      "note": "Clean-profile Chromium and Electron package import, artwork, recovery, and restart proof."
+    },
+    {
+      "id": "E-EPIC15-S240-RESPONSIVE",
+      "kind": "browser",
+      "uri": "docs/research/epic15/evidence/S240-responsive-verification.json",
+      "commit": null,
+      "sha256": "e0b4e6dbce604641348307a210620de366a9d21e66574d4ff633affa8ff66835",
+      "verified": true,
+      "note": "Production-browser 320/390/1440 px, no overflow, no Axe violations or browser messages."
+    },
+    {
+      "id": "E-EPIC15-S240-REVISIONS",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic15/evidence/S239-rendered-verification.json",
+      "commit": null,
+      "sha256": "f47a67ee1e5fd712f2912e0cd3de8da34b11d229ca9dd64c9068f8bd231e472d",
+      "verified": true,
+      "note": "Fresh Chromium/Electron Tee and Woven-shirt seven-output revision, hash, and relaunch replay."
     }
   ]
 }

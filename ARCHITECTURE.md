@@ -222,7 +222,8 @@ the active view redraws immediately, while other views and exports regenerate
 when opened. The rendered Chromium save/reload proof, output comparisons,
 complete matrix and residual risks are recorded in
 [`docs/research/epic15/F02-DEPENDENCY-INVALIDATION-S236.md`](docs/research/epic15/F02-DEPENDENCY-INVALIDATION-S236.md).
-F02 is complete; F03 constrained edits/revisions is the active ordered packet.
+F02 and F03 are complete; the S240 final review is evidence-passing and awaits
+the required merge verification before EPIC-15 can close.
 Slice 237 is now complete: it adds the semantic-anchor operation model,
 per-size geometry/stitch/recipe/POM guards, explicit rebase/conflict/undo rules,
 and an accessible warning for invalid edits in the still-exploratory Edit
@@ -246,8 +247,17 @@ adds immutable revisions, compare/restore-as-new-child and frozen manifests
 with exact output bytes. Production-built Chromium and Electron Tee and
 Woven-shirt traces confirmed that saved successors do not change earlier
 revision or output hashes, and that historical SVG bytes can be retrieved
-after profile relaunch. The full-repository/browser/Electron exit gate and
-independent-style replay remain Slice 240 work. The S238
+after profile relaunch. Slice 240 passed the full-repository 100% coverage and
+build gates, protected export identities, browser/Electron package restore and
+restart, the fresh Tee/Woven-shirt revision replay, and 320/390/1440 px
+responsive/Axe checks. The review corrected an invalid `NaN` value rendered by
+an empty optional numeric control; non-finite values now render blank and keep
+their explicit empty state. The package verifier now creates artwork through
+the UI and checks that its saved design matches the immutable revision head.
+The evidence-linked final report is
+[`docs/release/EPIC-15-G02-FINAL-REVIEW-S240.md`](docs/release/EPIC-15-G02-FINAL-REVIEW-S240.md).
+The review candidate stays open until its merge is verified on `origin/main`.
+The S238
 contract and hashes are in
 [`docs/research/epic15/F03-CROSS-OUTPUT-EDITING-S238.md`](docs/research/epic15/F03-CROSS-OUTPUT-EDITING-S238.md).
 Slice 239's contract, rendered verification, exact artifact digests and limits

@@ -134,9 +134,12 @@ snapshots; they are not current status.
   `docs/research/epic15/F03-CROSS-OUTPUT-EDITING-S238.md`. Slice 239 completes
   immutable revisions and frozen digital-output evidence in
   `docs/research/epic15/F03-IMMUTABLE-REVISIONS-S239.md` and
-  `docs/research/epic15/evidence/S239-rendered-verification.json`; Slice 240
-  owns the full G02 final review and exit gate. Use `PROJECT-STATE.md` and the
-  canonical Control Center for current status.
+  `docs/research/epic15/evidence/S239-rendered-verification.json`. Slice 240's
+  final review evidence and remaining merge gate are in
+  `docs/release/EPIC-15-G02-FINAL-REVIEW-S240.md` and
+  `docs/research/epic15/evidence/S240-*`. Use `PROJECT-STATE.md` and the
+  canonical Control Center for the current status; do not close EPIC-15 until
+  the reviewed branch is verified on `origin/main`.
 - `docs/research/epic14/` — accepted evidence packets for C01 recipe baseline,
   C02 standards and tools, C05 3D feasibility, C06 starter/assortment/upcycling/
   supplier evidence, and C03 measurement/donor contract. C04's accepted
