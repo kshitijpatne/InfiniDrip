@@ -1,8 +1,17 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 243 recorded the maintainer's manual UI quality findings, 2026-09-26._
+_Last updated: EPIC-16/G03 admitted at Slice 244, 2026-09-26._
 Current directive: EPIC-14/G01 and EPIC-15/G02 are closed with accepted exit
-evidence. G02's F01, F02, F03, and final review are Done. PR #11 merged the
+evidence. The maintainer admitted EPIC-16/G03 at Slice 244 from `origin/main`
+Slice 242, preserving the local Slice 243 manual-quality findings in its
+reviewed branch. The linked execution contract is
+`docs/planning/EPIC-16-ADMISSION.md`; M01 → M02 → M03 → final review is the
+ordered scope. G03 is local-first and digital; no body-capture procedure is
+presented as qualified without accepted sourcing/review, and no physical-fit
+claim is authorized. The validated Control Center records EPIC-16 as In
+Progress with M01, M02, M03, and final-review work cards. The current verified
+board revision and branch commits are recorded in the Slice 244 log below.
+G02's F01, F02, F03, and final review are Done. PR #11 merged the
 reviewed Slice 240 head as `e5155e82dbd21cda5b3f537b950eb4c32a22d215`; Slices
 204, 205, and 240 are verified ancestors of `origin/main`. The S240 review
 passed full-repository 100% statement, branch, function, and line coverage;
@@ -4331,3 +4340,25 @@ Control Center item, Epic status, feature code, or external hold changed.
 EPIC-16 remains Backlog pending its linked admission packet and canonical
 admission transition. `CONTEXT-INDEX.md` and `docs/PROJECT-DECISIONS.md` link
 the findings and record the handling decision. `git diff --check` passed.
+
+### Slice 244 — admit EPIC-16 / G03 measurement-first creation
+
+The maintainer explicitly admitted EPIC-16 after verifying EPIC-15/G02 closure
+at PR #11. `docs/planning/EPIC-16-ADMISSION.md` records the start tree, current
+source facts, seven-recipe C03 boundaries, M01→M02→M03 order, acceptance gates,
+source-qualification risks, scoped MQF review checks, delegation boundaries,
+and merge exit. The packet reserves Slices 244–252: admission, seven
+implementation slices, and final review. It preserves Slice 243's manual
+findings without adding them to the roadmap or broadening G03.
+
+The validated Control Center command layer created the M01, M02, M03 and final
+review work cards, recorded their dependencies, and transitioned EPIC-16 and
+its summary card to In Progress. The resulting board revision and command
+evidence are in the canonical `ops/control-center/data/board.json`; the
+admission packet is linked from the context index and the EPIC-16 board card.
+M01 is next. No product runtime behavior changed in this admission; the board
+invariant test now checks the admitted Epic, linked packet and ordered
+children. Verification: `npm run control-center:test` passed 33/33 after the
+invariant update; `git diff --check` passed. The next action is Slice 245's
+versioned capture contract; do not start M02 until M01's all-recipe and source
+gates pass.

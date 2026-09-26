@@ -111,6 +111,10 @@ only through an explicitly admitted, linked Epic packet.
   verified repository starting point, F01/F02/F03 sequence, Slice 229–240
   boundaries, risks, and exit gates. It authorizes only local-first G02 work;
   use `PROJECT-STATE.md` and the canonical Control Center for current status.
+- `docs/planning/EPIC-16-ADMISSION.md` — the maintainer-admitted G03/M01–M03
+  execution contract, verified start, seven-recipe C03 boundaries, ordered
+  Slice 244–252 plan, source qualification and grade approval gates, and merge
+  exit. Use `PROJECT-STATE.md` and the canonical Control Center for live status.
 - `docs/research/epic15/F01-STORAGE-CONTRACT-S230.md` — Slice 230's accepted
   IndexedDB repository, non-destructive legacy migration, per-style recovery,
   artwork two-store, portable package, failure and test contracts. Its Electron
