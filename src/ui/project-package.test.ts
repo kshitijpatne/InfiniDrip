@@ -17,12 +17,23 @@ import type { ArtworkAssetStore, StoredArtworkAsset } from "../surface/artwork-s
 import { DEFAULT_APPEARANCE } from "./appearance";
 import { createFieldObservationRecord } from "./field-provenance";
 import { ARTWORK_CATALOG } from "../surface/artwork-library/catalog";
-import { migrateLegacyRecovery, migrateLegacySaveFile, type ProjectRecord, type RecoveryRecord, type StyleRecord } from "./project-records";
+import {
+  MEASUREMENT_CAPTURE_RECORD_VERSION,
+  migrateLegacyRecovery,
+  migrateLegacySaveFile,
+  type MeasurementCaptureRecord,
+  type ProjectRecord,
+  type RecoveryRecord,
+  type StyleRecord,
+} from "./project-records";
+import { addCaptureReadingForField, createMeasurementCaptureSession } from "./measurement-capture";
 import { DEFAULT_WORKSPACE, serialize, serializeRecovery } from "./persist";
 import { openProjectRepository, type ProjectBundleSnapshot, type ProjectRepository } from "./project-repository";
 import {
   createProjectPackage,
   importProjectPackage,
+  PROJECT_PACKAGE_CAPTURE_VERSION,
+  PROJECT_PACKAGE_VERSION,
   PROJECT_PACKAGE_MAX_ASSETS,
   PROJECT_PACKAGE_MAX_BYTES,
   PROJECT_PACKAGE_MAX_CONTENT_BYTES,
@@ -1970,7 +1981,8 @@ describe("portable local project package", () => {
     const mutations: Array<{ label: string; mutate: (manifest: Record<string, unknown>) => void; resign?: boolean }> = [
       { label: "unknown manifest key", mutate: (manifest) => { manifest.extra = true; } },
       { label: "unsupported format", mutate: (manifest) => { manifest.format = "other"; } },
-      { label: "unsupported package version", mutate: (manifest) => { manifest.packageVersion = 4; } },
+      { label: "unsupported package version", mutate: (manifest) => { manifest.packageVersion = 5; } },
+      { label: "capture package version without capture sessions", mutate: (manifest) => { manifest.packageVersion = 4; } },
       { label: "malformed field observations", mutate: (manifest) => { manifest.fieldObservations = [{}]; } },
       {
         label: "field history references a foreign style",
@@ -2604,4 +2616,161 @@ describe("portable local project package", () => {
       expect(nearCap.packageBytes).toBeLessThan(PROJECT_PACKAGE_MAX_BYTES);
     }
   }, 300_000);
+});
+
+describe("G03 capture sessions in project backups", () => {
+  const CHEST = "body.chest-girth";
+  const CAPTURE_SESSION_ID = "3f0c6a2e-8d1b-4c5e-9a7f-2b6d8e1c4a90";
+  const NEXT_TIME = "2026-09-24T16:00:05.000Z";
+  const V3_KEYS = [
+    "format", "packageVersion", "project", "styles", "recoveries", "fieldObservations",
+    "styleRevisions", "exportManifests", "assets", "packageSha256",
+  ];
+
+  function packageCapture(styleId = STYLE_ID, projectId = PROJECT_ID): MeasurementCaptureRecord {
+    const session = addCaptureReadingForField(createMeasurementCaptureSession(CAPTURE_SESSION_ID, "tee", TIME, styleId), CHEST, {
+      id: "d34a5104-ae25-4b54-9a2b-fcc35237ff71",
+      rawValue: "40.125",
+      enteredUnit: "in",
+      provenance: "USER_CAPTURED",
+      evidenceStatus: "UNCONFIRMED",
+      sourceLabel: "User-entered value; capture method and technique not qualified.",
+      captureMethod: "Tape over a T-shirt",
+      capturedAt: "2026-09-24T00:00:00.000Z",
+      measurer: "HELPER",
+    }, "2026-09-24T16:00:01.000Z");
+    return {
+      schemaVersion: MEASUREMENT_CAPTURE_RECORD_VERSION,
+      styleId,
+      projectId,
+      recipeId: "tee",
+      revision: 1,
+      updatedAt: TIME,
+      session,
+      drafts: [{
+        fieldId: CHEST, rawValue: "40 1/8", enteredUnit: "in", sourceNote: "Second try", captureMethod: "",
+        captureDate: "2026-09-24", measurer: "SELF",
+      }],
+    };
+  }
+
+  function sourceSnapshot(): { snapshot: ProjectBundleSnapshot; assets: ReturnType<typeof memoryAssets> } {
+    const source = bundle();
+    const assets = memoryAssets();
+    assets.records.set(ASSET_ID, {
+      assetId: ASSET_ID, name: "front.png", mimeType: "image/png", blob: new Blob([PNG], { type: "image/png" }),
+    });
+    return { snapshot: { project: source.project, styles: [source.style], recoveries: [] }, assets };
+  }
+
+  async function manifestText(blob: Blob): Promise<string> {
+    const archive = await readProjectPackage(blob, { crypto });
+    const entry = archive.entries.get("manifest.json")!;
+    return new TextDecoder().decode(await blob.slice(entry.dataOffset, entry.dataOffset + entry.uncompressedSize).arrayBuffer());
+  }
+
+  it("keeps capture-free backups at exact v3 and adds captures only as package v4", async () => {
+    const { snapshot, assets } = sourceSnapshot();
+    const plain = await createProjectPackage(snapshot, assets, { crypto, revisionIdFactory: deterministicUuidFactory() });
+    const emptyCaptures = await createProjectPackage({ ...snapshot, measurementCaptures: [] }, assets, {
+      crypto, revisionIdFactory: deterministicUuidFactory(),
+    });
+    const plainText = await manifestText(plain);
+    expect(await manifestText(emptyCaptures)).toBe(plainText);
+    expect(Object.keys(JSON.parse(plainText))).toEqual(V3_KEYS);
+    const plainArchive = await readProjectPackage(plain, { crypto });
+    expect(plainArchive.manifest.packageVersion).toBe(PROJECT_PACKAGE_VERSION);
+    expect(plainArchive.manifest).not.toHaveProperty("measurementCaptures");
+
+    const capture = packageCapture();
+    const packed = await createProjectPackage({ ...snapshot, measurementCaptures: [capture] }, assets, {
+      crypto, revisionIdFactory: deterministicUuidFactory(),
+    });
+    const packedText = JSON.parse(await manifestText(packed)) as Record<string, unknown>;
+    expect(Object.keys(packedText)).toEqual([...V3_KEYS.slice(0, -1), "measurementCaptures", "packageSha256"]);
+    const { packageVersion: _v4, measurementCaptures: _captures, packageSha256: _d4, ...v4Rest } = packedText;
+    const { packageVersion: _v3, packageSha256: _d3, ...v3Rest } = JSON.parse(plainText) as Record<string, unknown>;
+    expect(v4Rest).toEqual(v3Rest);
+    const archive = await readProjectPackage(packed, { crypto });
+    expect(archive.manifest.packageVersion).toBe(PROJECT_PACKAGE_CAPTURE_VERSION);
+    expect(archive.manifest.measurementCaptures).toEqual([capture]);
+    expect(archive.manifest.styles).toEqual(plainArchive.manifest.styles);
+    expect(archive.manifest.styleRevisions).toEqual(plainArchive.manifest.styleRevisions);
+    expect(archive.manifest.assets).toEqual(plainArchive.manifest.assets);
+
+    await expect(createProjectPackage({ ...snapshot, measurementCaptures: [{ ...capture, drafts: "x" } as unknown as MeasurementCaptureRecord] }, assets, { crypto }))
+      .rejects.toMatchObject({ code: "invalid-package" });
+    await expect(createProjectPackage({ ...snapshot, measurementCaptures: [packageCapture(STYLE_ID, SECOND_PROJECT_ID)] }, assets, { crypto }))
+      .rejects.toMatchObject({ code: "invalid-package" });
+  });
+
+  it("restores captured values on import and remaps them only onto copied styles", async () => {
+    const { snapshot, assets } = sourceSnapshot();
+    const capture = packageCapture();
+    const archive = await readProjectPackage(await createProjectPackage({ ...snapshot, measurementCaptures: [capture] }, assets, {
+      crypto, revisionIdFactory: deterministicUuidFactory(),
+    }), { crypto });
+    const target = await repository();
+    const targetAssets = memoryAssets();
+    const imported = await importProjectPackage(target, targetAssets, archive, false, { crypto, now: () => TIME, inspectAsset: inspector });
+    expect(imported).toMatchObject({ status: "imported", projectId: PROJECT_ID, importedAsCopy: false });
+    expect(await target.readMeasurementCapture(STYLE_ID, "tee")).toEqual(capture);
+
+    const updated: MeasurementCaptureRecord = {
+      ...capture,
+      revision: 2,
+      updatedAt: NEXT_TIME,
+      drafts: [{ ...capture.drafts[0]!, rawValue: "40 3/16" }],
+    };
+    await target.saveMeasurementCapture(updated, 1);
+    const backup = await target.readProjectBundle(PROJECT_ID);
+    const reArchive = await readProjectPackage(await createProjectPackage(backup!, targetAssets, { crypto }), { crypto });
+    const options = { crypto, now: () => NEXT_TIME, idFactory: deterministicUuidFactory(), inspectAsset: inspector };
+    expect(await importProjectPackage(target, targetAssets, reArchive, false, options)).toMatchObject({ status: "copy-required" });
+    const copied = await importProjectPackage(target, targetAssets, reArchive, true, options);
+    if (copied.status !== "imported") throw new Error("Capture package copy did not import.");
+    expect(copied.projectId).not.toBe(PROJECT_ID);
+    const copy = await target.readProjectBundle(copied.projectId);
+    const copyStyleId = copy!.project.styleIds[0]!;
+    expect(copyStyleId).not.toBe(STYLE_ID);
+    const copiedCapture = await target.readMeasurementCapture(copyStyleId, "tee");
+    expect(copiedCapture).toMatchObject({
+      styleId: copyStyleId, projectId: copied.projectId, recipeId: "tee", revision: 1, updatedAt: NEXT_TIME, drafts: updated.drafts,
+    });
+    expect(copiedCapture!.session.id).not.toBe(updated.session.id);
+    expect(copiedCapture!.session).toEqual({ ...updated.session, id: copiedCapture!.session.id, styleId: copyStyleId });
+    expect(copy!.measurementCaptures).toEqual([copiedCapture]);
+    // The source project's session is unchanged and still belongs only to the source style.
+    expect(await target.readMeasurementCapture(STYLE_ID, "tee")).toEqual(updated);
+    expect((await target.readProjectBundle(PROJECT_ID))!.measurementCaptures).toEqual([updated]);
+  });
+
+  it("rejects malformed, foreign, duplicate, empty, or misversioned capture data in a package", async () => {
+    const { snapshot, assets } = sourceSnapshot();
+    const packed = await createProjectPackage({ ...snapshot, measurementCaptures: [packageCapture()] }, assets, { crypto });
+    const captureMutations: Array<{ label: string; mutate: (manifest: Record<string, unknown>) => void }> = [
+      { label: "empty capture list", mutate: (manifest) => { manifest.measurementCaptures = []; } },
+      { label: "capture list is not an array", mutate: (manifest) => { manifest.measurementCaptures = "x"; } },
+      { label: "missing capture key", mutate: (manifest) => { delete manifest.measurementCaptures; } },
+      { label: "capture key in a v3 package", mutate: (manifest) => { manifest.packageVersion = 3; } },
+      { label: "malformed capture", mutate: (manifest) => { manifest.measurementCaptures = [{}]; } },
+      {
+        label: "capture for another project",
+        mutate: (manifest) => { manifest.measurementCaptures = [packageCapture(STYLE_ID, SECOND_PROJECT_ID)]; },
+      },
+      {
+        label: "capture for a style outside the project",
+        mutate: (manifest) => { manifest.measurementCaptures = [packageCapture(SECOND_STYLE_ID, PROJECT_ID)]; },
+      },
+      {
+        label: "duplicate style/recipe capture",
+        mutate: (manifest) => { manifest.measurementCaptures = [packageCapture(), packageCapture()]; },
+      },
+    ];
+    for (const candidate of captureMutations) {
+      const malformed = await replacePackageManifest(packed, candidate.mutate);
+      await expect(readProjectPackage(malformed, { crypto }), candidate.label)
+        .rejects.toMatchObject({ code: "invalid-package" });
+    }
+  });
 });

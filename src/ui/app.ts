@@ -2,7 +2,7 @@
 // change re-draft, re-render the canvas, garment, guidance, and style. All real
 // logic lives in the pure modules.
 
-import { Measurements, STANDARD_M, Piece, STRETCH_FABRICS, fabricEaseNote, GarmentOptionsByRecipe, GarmentOptions, defaultGarmentOptions } from "../drafting";
+import { Measurements, STANDARD_M, Piece, STRETCH_FABRICS, fabricEaseNote, GarmentOptionsByRecipe, GarmentOptions, defaultGarmentOptions, wovenHipStationY } from "../drafting";
 import { gradeRun, gradeMeasurements, draftAtSize, specSheet, GARMENTS, GarmentRecipe, garmentByName } from "../drafting";
 import { block, blockPieces } from "../drafting";
 import { wovenShirtAllowances } from "../drafting/shirt";
@@ -75,7 +75,7 @@ import {
 import { ProjectWorkflow } from "./project-workflow";
 import { ProjectManager } from "./project-manager";
 import type { LoadedProject } from "./project-repository";
-import type { RecoveryPayload, SavedDesign } from "./project-records";
+import type { MeasurementCaptureDraft, RecoveryPayload, SavedDesign } from "./project-records";
 import {
   addCaptureReadingForField,
   acceptCapturePreset,
@@ -83,6 +83,7 @@ import {
   createMeasurementCaptureSession,
   measurementCaptureReadiness,
   selectCaptureReading,
+  selectedCaptureValues,
   type CaptureMeasurer,
   type MeasurementCaptureSession,
 } from "./measurement-capture";
@@ -139,7 +140,7 @@ interface PatternMeasurementNavigation {
   readonly destinations: readonly PatternMeasurementDestination[];
 }
 
-interface CaptureDraft {
+export interface CaptureDraft {
   readonly rawValue: string;
   readonly unit: string;
   readonly error: string | null;
@@ -190,13 +191,52 @@ export function guidedCaptureStageBlocker(
     return { message: "Start guided capture for the selected garment before continuing.", step: "measure" };
   }
   const firstUnresolved = measurementCaptureReadiness(session).unresolvedFieldIds[0];
-  if (!firstUnresolved) return null;
-  const help = measurementHelp.measurementHelpFor(recipeId, firstUnresolved);
-  return {
-    message: `${help?.label ?? firstUnresolved} needs an explicit value or a selected digital preset.`,
-    field: firstUnresolved,
-    step: "measure",
-  };
+  if (firstUnresolved) {
+    const help = measurementHelp.measurementHelpFor(recipeId, firstUnresolved);
+    return {
+      message: `${help?.label ?? firstUnresolved} needs an explicit value or a selected digital preset.`,
+      field: firstUnresolved,
+      step: "measure",
+    };
+  }
+  if (recipeId === "woven-shirt") {
+    // Readiness above guarantees each recipe field has one valid selection.
+    const values = selectedCaptureValues(session)!;
+    const length = values.length;
+    const hipStationY = wovenHipStationY(length, values.armholeDepth, values.hipDepth);
+    if (hipStationY > length) {
+      return {
+        message: `Current Woven shirt geometry puts the hip station at y=${hipStationY.toFixed(2)} cm, below the hem at y=${length} cm. Increase top length or reduce underarm drop or hip depth; recorded values stay unchanged.`,
+        field: session.fields.find((candidate) => candidate.inputKey === "hipDepth")!.fieldId,
+        step: "measure",
+      };
+    }
+  }
+  return null;
+}
+
+/** Keep only meaningful, user-entered guided drafts in the style record. */
+export function serializeCaptureDrafts(
+  session: MeasurementCaptureSession,
+  drafts: ReadonlyMap<string, CaptureDraft>,
+): MeasurementCaptureDraft[] {
+  return session.fields.flatMap((field) => {
+    const draft = drafts.get(field.fieldId);
+    if (!draft) return [];
+    const definition = getFieldDefinitions(session.recipeId).find((item) => item.id === field.fieldId)!;
+    const isEmptyDefault = draft.rawValue === "" && draft.unit === definition.unit
+      && draft.sourceNote === "" && draft.method === "" && draft.captureDate === "" && draft.measurer === "";
+    if (isEmptyDefault) return [];
+    return [{
+      fieldId: field.fieldId,
+      rawValue: draft.rawValue,
+      enteredUnit: draft.unit,
+      sourceNote: draft.sourceNote,
+      captureMethod: draft.method,
+      captureDate: draft.captureDate,
+      measurer: draft.measurer,
+    }];
+  });
 }
 
 export function captureSessionMatchesRecipe(
@@ -414,12 +454,84 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     return `00000000-0000-4000-8000-${(time + tail).slice(-12)}`;
   };
   const captureNow = (): string => new Date().toISOString();
-  const ensureCaptureSession = (): MeasurementCaptureSession => {
-    measurementCapture = captureSessionForRecipe(measurementCapture, recipe.name, () => {
-      captureDrafts.clear();
-      return createMeasurementCaptureSession(captureUuid(), recipe.name, captureNow());
+  let captureSaveTimer: number | null = null;
+  let captureWrite = Promise.resolve();
+  let captureWritesPending = 0;
+  let captureSaveError: string | null = null;
+  const saveCaptureNow = async (): Promise<void> => {
+    if (captureSaveTimer !== null) {
+      window.clearTimeout(captureSaveTimer);
+      captureSaveTimer = null;
+    }
+    // A debounce can only be scheduled after these values are present, and all
+    // state transitions flush it before clearing the active capture.
+    const workflow = projectWorkflow!;
+    const session = measurementCapture!;
+    const drafts = serializeCaptureDrafts(session, captureDrafts);
+    captureWritesPending++;
+    const write = captureWrite.then(async () => {
+      projectPersistenceState.textContent = "Saving guided measurements…";
+      projectPersistenceState.dataset.state = "saving";
+      await workflow.saveMeasurementCapture(session, drafts);
+      captureSaveError = null;
+      if (measurementCapture?.id === session.id) {
+        projectPersistenceState.textContent = "Guided measurements saved in this style";
+        projectPersistenceState.dataset.state = "saved";
+      }
     });
-    return measurementCapture;
+    captureWrite = write.catch((error: unknown) => {
+      captureSaveError = error instanceof Error ? error.message : "Guided measurements could not be saved.";
+      projectPersistenceState.textContent = captureSaveError;
+      projectPersistenceState.dataset.state = "failed";
+    }).finally(() => { captureWritesPending--; });
+    await captureWrite;
+    if (captureSaveError) throw new Error(captureSaveError);
+  };
+  const scheduleCaptureSave = (): void => {
+    if (!projectWorkflow || !measurementCapture) return;
+    if (captureSaveTimer !== null) window.clearTimeout(captureSaveTimer);
+    captureSaveTimer = window.setTimeout(() => {
+      captureSaveTimer = null;
+      void saveCaptureNow().catch(() => undefined);
+    }, 250);
+  };
+  const flushCaptureSave = async (): Promise<void> => {
+    if (captureSaveTimer !== null) await saveCaptureNow();
+    await captureWrite;
+    if (captureSaveError) throw new Error(captureSaveError);
+  };
+  const openGuidedCapture = async (): Promise<void> => {
+    try {
+      if (projectWorkflow) {
+        const record = await projectWorkflow.loadMeasurementCapture(recipe.name);
+        captureDrafts.clear();
+        if (record) {
+          measurementCapture = record.session;
+          for (const draft of record.drafts) captureDrafts.set(draft.fieldId, {
+            rawValue: draft.rawValue, unit: draft.enteredUnit, error: null, sourceNote: draft.sourceNote,
+            method: draft.captureMethod, captureDate: draft.captureDate, measurer: draft.measurer,
+          });
+        } else {
+          measurementCapture = createMeasurementCaptureSession(
+            captureUuid(), recipe.name, captureNow(), projectWorkflow.snapshot.activeStyle.id,
+          );
+        }
+      } else {
+        captureDrafts.clear();
+        measurementCapture = createMeasurementCaptureSession(captureUuid(), recipe.name, captureNow());
+      }
+      captureSaveError = null;
+      measurementRoute = "guided";
+      captureAnnouncement = measurementCapture.fields.some((field) => field.readings.length > 0)
+        ? "Your saved guided measurements and unfinished entries are ready to review."
+        : "Guided measurement capture opened. Each field explains its meaning and use.";
+      setStep("measure");
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Saved guided measurements could not be loaded.";
+      projectPersistenceState.textContent = message;
+      projectPersistenceState.dataset.state = "failed";
+      flash(message, BLUEPRINT.lineActive);
+    }
   };
   let celebrating = false; // the light, dismissible export confirmation
   let styleReviewed = false;
@@ -1251,10 +1363,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         : undefined,
       hideNextWhenBlocked: tutorialActive && journey.step === "refine",
     }));
-    if (journey.step === "start") {
+    if (journey.step === "start" || (journey.step === "measure" && measurementRoute === "editor")) {
       parts.push(
         `<section class="g03-route-choice" aria-labelledby="g03-route-title">` +
-        `<h2 id="g03-route-title">Choose how to begin with ${recipe.label}</h2>` +
+        `<h2 id="g03-route-title">${journey.step === "start" ? `Choose how to begin with ${recipe.label}` : `Review ${recipe.label} measurements`}</h2>` +
         `<p>Use the familiar measurement editor, or review each input with source and draft-use explanations first.</p>` +
         `<button class="journey-secondary-action" id="journey-guided" type="button">Guide my measurements</button>` +
         `</section>`,
@@ -2038,12 +2150,14 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
           captureDrafts.set(fieldId, emptyCaptureDraft(draft.unit));
           captureAnnouncement = "Reading recorded. Review its status and select one reading when multiple values are listed.";
           captureValueForField(fieldId);
+          scheduleCaptureSave();
         } else if (target.dataset.action === "capture-select-reading") {
           const readingId = target.dataset.readingId;
           if (!readingId) return;
           measurementCapture = selectCaptureReading(session, fieldId, readingId, captureNow());
           captureAnnouncement = "Selected reading updated for the digital draft.";
           captureValueForField(fieldId);
+          scheduleCaptureSave();
         } else if (target.dataset.action === "capture-accept-preset") {
           measurementCapture = acceptCapturePreset(
             session, fieldId, captureUuid(), captureNow(), "Standard M digital preset; not measured wearer data",
@@ -2057,6 +2171,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
             measurementCapture = selectCaptureReading(measurementCapture, fieldId, selected.id, captureNow());
             captureAnnouncement = "Standard M digital preset selected. It remains labeled as a preset.";
             captureValueForField(fieldId);
+            scheduleCaptureSave();
           }
         }
       } catch (error) {
@@ -2070,10 +2185,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     }
     const idx = COACHED_STEPS.findIndex((st) => st.id === journey.step);
     if (id === "journey-guided") {
-      measurementRoute = "guided";
-      ensureCaptureSession();
-      captureAnnouncement = "Guided measurement capture opened. Each field explains its meaning and use.";
-      setStep("measure");
+      void openGuidedCapture();
     } else if (id === "welcome-start") {
       setStep("start", "in_progress");
     } else if (id === "welcome-skip" || id === "tutorial-skip") {
@@ -2100,7 +2212,17 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         captureDrafts.clear();
       }
       if (journey.step === "fit") styleReviewed = true;
-      setStep(COACHED_STEPS[Math.min(idx + 1, COACHED_STEPS.length - 1)].id);
+      const advance = (): void => setStep(COACHED_STEPS[Math.min(idx + 1, COACHED_STEPS.length - 1)].id);
+      if (journey.step === "measure" && measurementRoute === "guided" && projectWorkflow) {
+        void flushCaptureSave().then(advance).catch((error: Error) => {
+          const message = error.message;
+          projectPersistenceState.textContent = message;
+          projectPersistenceState.dataset.state = "failed";
+          flash(message, BLUEPRINT.lineActive);
+        });
+      } else {
+        advance();
+      }
     } else if (id === "journey-back") {
       setStep(COACHED_STEPS[Math.max(idx - 1, 0)].id);
     } else if (id === "journey-correction") {
@@ -2451,6 +2573,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       case "capture-edit-method": captureDrafts.set(fieldId, { ...previous, method: input.value }); break;
       case "capture-edit-date": captureDrafts.set(fieldId, { ...previous, captureDate: input.value }); break;
     }
+    scheduleCaptureSave();
   });
   root.addEventListener("change", (event) => {
     const select = (event.target as HTMLElement).closest<HTMLSelectElement>('select[data-action^="capture-change-"]');
@@ -2464,6 +2587,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     } else if (select.dataset.action === "capture-change-measurer") {
       captureDrafts.set(fieldId, { ...previous, measurer: select.value as CaptureMeasurer | "" });
     }
+    scheduleCaptureSave();
   });
   root.addEventListener("click", (event) => {
     const button = (event.target as HTMLElement).closest<HTMLButtonElement>("[data-control-page-step]");
@@ -2706,6 +2830,16 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   });
 
   const setGarment = (name: string): void => {
+    if (projectWorkflow && name !== recipe.name && (captureSaveError !== null
+      || captureSaveTimer !== null || captureWritesPending > 0)) {
+      void flushCaptureSave().then(() => setGarment(name)).catch((error: Error) => {
+        const message = error.message;
+        projectPersistenceState.textContent = message;
+        projectPersistenceState.dataset.state = "failed";
+        flash(message, BLUEPRINT.lineActive);
+      });
+      return;
+    }
     if (projectWorkflow && name !== recipe.name
       && (pendingFieldObservationTimers.size > 0 || activeFieldObservationWrites.size > 0)) {
       void flushPendingFieldObservations!().then(() => setGarment(name)).catch((error: unknown) => {
@@ -2909,6 +3043,11 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         if (failure) throw new Error(failure);
         if (pendingFieldObservationTimers.size === 0 && activeFieldObservationWrites.size === 0) return;
       }
+      };
+      const flushProjectEditorState = flushPendingFieldObservations;
+      flushPendingFieldObservations = async (): Promise<void> => {
+        await flushProjectEditorState?.();
+        await flushCaptureSave();
       };
     }
     root.querySelectorAll<HTMLInputElement>("input[data-field]").forEach((input) => {
@@ -4153,6 +4292,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       getBlankDesign: blankSavedDesign,
       hasUnsavedChanges: () => outputRevision !== savedRevision,
       onStyleLoaded: (loaded: LoadedProject, recovery: RecoveryPayload | null) => {
+        measurementCapture = null;
+        captureDrafts.clear();
+        measurementRoute = "editor";
+        captureSaveError = null;
         applyLoaded(loaded.activeStyle.design, recovery, false);
         projectPersistenceState.textContent = recovery
           ? "Style loaded · unfinished recovery is available below"
@@ -4161,7 +4304,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       },
       setBusy: (busy) => { root.inert = busy; },
       flushPendingFieldObservations,
-      hasPendingFieldObservations: () => pendingFieldObservationTimers.size > 0 || activeFieldObservationWrites.size > 0,
+      hasPendingFieldObservations: () => pendingFieldObservationTimers.size > 0 || activeFieldObservationWrites.size > 0
+        || captureSaveTimer !== null || captureWritesPending > 0,
       artworkStore: artworkAssetStore,
       inspectAsset: artworkInspector,
       canFreezeOutputs: () => canExport() && canExportRun() && styleReviewed && checkReviewed && baseDesignValid(),

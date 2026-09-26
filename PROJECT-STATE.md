@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: EPIC-16/G03 Slice 246 complete, 2026-09-26._
+_Last updated: EPIC-16/G03 Slice 247 complete, 2026-09-26._
 Current directive: EPIC-14/G01 and EPIC-15/G02 are closed with accepted exit
 evidence. The maintainer admitted EPIC-16/G03 at Slice 244 from `origin/main`
 Slice 242, preserving the local Slice 243 manual-quality findings in its
@@ -9,11 +9,12 @@ reviewed branch. The linked execution contract is
 ordered scope. G03 is local-first and digital; no body-capture procedure is
 presented as qualified without accepted sourcing/review, and no physical-fit
 claim is authorized. The validated Control Center records EPIC-16 as In
-Progress with M01, M02, M03, and final-review work cards; M01 is In Progress at
-board revision 325. The admission and capture-contract boundaries are recorded
-in the Slice 244 and Slice 245 logs below. Slice 246's guided route and
-full-repository verification are complete; M01 remains In Progress pending
-Slice 247's durable resume, conflict, narrow-layout and all-recipe exits.
+Progress with M01 Done and M02, M03, and final-review work cards still in
+Backlog at board revision 333. Slice 247 completed M01's durable resume,
+conflict, narrow-layout, accessibility, and all-recipe exits. Slice 248 may
+begin M02; its one-size and recipe-parity boundaries remain explicit. The
+admission and implementation boundaries are recorded below and in
+`docs/research/epic16/S247-M01-VALIDATION-EXIT.md`.
 G02's F01, F02, F03, and final review are Done. PR #11 merged the
 reviewed Slice 240 head as `e5155e82dbd21cda5b3f537b950eb4c32a22d215`; Slices
 204, 205, and 240 are verified ancestors of `origin/main`. The S240 review
@@ -24,10 +25,12 @@ and Axe checks at 320, 390, and 1440 CSS pixels. The exact review evidence is
 `docs/release/EPIC-15-G02-FINAL-REVIEW-S240.md`; the merged-exit record is
 `docs/release/EPIC-15-G02-MERGE-EXIT-S241.md`.
 
-The canonical Control Center is at revision 315: the EPIC-15 summary and final
+The canonical Control Center is at revision 333: the EPIC-15 summary and final
 review work items are Done, and the EPIC-15 record is Closed with verified
-S241 exit-report evidence. EPIC-16 through EPIC-30 (G03–G17) remain Backlog,
-including G17. Phase 9 remains accepted and closed. G02 completed on
+S241 exit-report evidence. EPIC-16/G03 is In Progress, its M01 card is Done
+with verified Slice 247 exit evidence, and its M02, M03 and final-review cards
+remain Backlog. EPIC-17 through EPIC-30 (G04–G17) remain Backlog, including
+G17. Phase 9 remains accepted and closed. G02 completed on
 2026-09-26, ahead of the board's revised conditional S240 target of
 2026-10-02; downstream dates remain conditional forecasts and no later work is
 admitted by G02's closure. The separate holds on garment direction, supplier
@@ -4438,3 +4441,36 @@ passed. The mounted-app tests rendered and checked the guided route, field
 relationships and first-run stage state. Standalone in-app browser review was
 not available in this execution, so the route's final browser screenshot review
 is still assigned to Slice 247's rendered QA. No M02 or M03 work has started.
+
+### Slice 247 — M01 validation, persistence and rendered QA (complete)
+
+Guided sessions and unrecorded text drafts now persist per project style and
+recipe through an additive IndexedDB v7 store and a strict capture record.
+Capture compare-and-swap revisions remain independent from project/style
+revisions, field edit history, and recovery records. Stale cross-tab writes and
+storage failures are visible; a settled failure blocks garment switching until
+the capture can be saved. Portable backup packages use format v4 only when
+capture sessions are present; packages without them retain the v3 body and
+digest input. Copy imports remap project, style and capture-session IDs.
+
+The route was validated against all seven recipe field lists. The Woven-shirt
+hip-station blocker reports the selected geometry values without clamping. A
+production Chromium run proved exact invalid-reading/raw-draft separation and
+reload resume at 320, 390 and 1440 CSS pixels, with keyboard route activation,
+screen-reader-facing accessible names/description tree, no horizontal overflow,
+zero WCAG 2.1 A/AA axe violations and no browser warnings or errors. Browser
+metrics, screenshots and SHA-256 digests are retained under
+`docs/research/epic16/evidence/`. MQF-001, MQF-013 and MQF-014 received only
+their scoped G03 review; broader UI questions remain deferred as documented.
+
+Verification: `npm run coverage -- --maxWorkers=1 --minWorkers=1
+--testTimeout=15000` passed 127 files and 1,898 tests at 100% statements,
+branches, functions and lines; `npm run build` and `npm run electron:build-main`
+passed; `npm run control-center:test` passed 33/33; and the production-browser
+verification passed. All eight protected export identity baselines remain
+unchanged. The validated Control Center advanced EPIC16-M01 through Review to
+Done at revision 333 with source, coverage, build, browser and exit-report
+evidence; EPIC16-M02 remains Backlog. No grade rule, new recipe, output baseline,
+physical-fit claim or wider UI redesign was added. Next: Slice 248 begins M02
+one-size creation from explicitly resolved values through the G02 project and
+drafting path.

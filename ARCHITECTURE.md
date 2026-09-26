@@ -81,10 +81,16 @@ record is serializable domain data. Slice 246 adds a garment-stage choice
 between guided capture and the existing full editor, with recipe-specific
 field meaning, current draft use, software limits, source caveats, raw units,
 separate readings, optional provenance details and explicit preset acceptance.
-No anatomical steps are shown. The capture session is still in memory and is
-not yet durable across project reload; Slice 247 owns resume, conflict, narrow
-layout, accessibility and all-recipe validation. A project created by the
-first-run bootstrap does not count as the user's decision to leave Garment.
+No anatomical steps are shown. Slice 247 stores unfinished sessions and text
+drafts in an additive project/style-owned capture store with separate
+compare-and-swap revisions. Reading history and raw drafts survive reload
+without changing design revisions, field-edit history, or recovery records.
+Cross-tab conflicts and failed writes stay visible; failed writes block a
+garment switch until a retry succeeds. Capture packages use a strict additive
+v4 manifest only when needed, while no-capture package v3 bytes remain stable.
+Narrow and desktop browser checks cover the guided route, keyboard activation,
+accessible field semantics, and WCAG 2.1 A/AA axe rules. A project created by
+the first-run bootstrap does not count as the user's decision to leave Garment.
 
 Pattern pieces are created from measurements and selected options. The app
 does not draw a separate, unrelated design for each screen or file. Most areas

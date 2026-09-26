@@ -30,7 +30,7 @@ function shirtPanel(m: Measurements, position: "front" | "back", options: WovenS
   const shoulder = point(shoulderHalf, 2.5);
   const underarm = point(chestHalf, m.armholeDepth);
   const waist = point(waistHalf, m.armholeDepth + (m.length - m.armholeDepth) * 0.35);
-  const hip = point(hipHalf, waist.y + m.hipDepth);
+  const hip = point(hipHalf, wovenHipStationY(m.length, m.armholeDepth, m.hipDepth));
   const sideHem = point(hipHalf, m.length);
   const cHem = point(0, m.length);
   const armhole: Edge = {
@@ -73,6 +73,12 @@ export const WOVEN_SHIRT_BODY_STITCHES: readonly Stitch[] = [
 /** Slice 87's woven-only body component. It deliberately does not reuse
  * `bodice()`: neck circumference, front closure edge, and lower shaping have
  * different semantics from the knit tee block. */
+/** HPS-origin y coordinate used by the current woven-shirt hip station. */
+export function wovenHipStationY(length: number, armholeDepth: number, hipDepth: number): number {
+  const waistY = armholeDepth + (length - armholeDepth) * 0.35;
+  return waistY + hipDepth;
+}
+
 export function draftWovenShirtBody(
   m: Measurements, rawOptions: Partial<WovenShirtOptions> = {}
 ): Block {
@@ -578,6 +584,14 @@ export function wovenShirtGuidance(
 ): Note[] {
   const options = resolveWovenShirtOptions(rawOptions);
   const notes: Note[] = [];
+  const hipStationY = wovenHipStationY(m.length, m.armholeDepth, m.hipDepth);
+  if (hipStationY > m.length) {
+    notes.push({
+      field: "hipDepth",
+      level: "warn",
+      text: `The current woven-shirt hip station is at y=${hipStationY.toFixed(2)} cm, below the hem at y=${m.length} cm — increase top length or reduce the underarm drop or hip depth until the station is at or above the hem. Values stay unchanged.`,
+    });
+  }
   for (const definition of WOVEN_SHIRT_OPTION_DEFINITIONS) {
     const value = options[definition.id as keyof WovenShirtOptions];
     // Every woven option declares a unit in shirt-contract.ts. Keep the

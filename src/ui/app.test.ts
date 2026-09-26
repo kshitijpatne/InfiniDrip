@@ -8,8 +8,10 @@ import {
   applySelectedCaptureValue,
   captureSessionForRecipe,
   captureSessionMatchesRecipe,
+  type CaptureDraft,
   guidedCaptureStageBlocker,
   mountApp,
+  serializeCaptureDrafts,
   renderSemanticEditorPiece,
   resolveSemanticEditorRole,
   selectedSizeLabel,
@@ -62,6 +64,32 @@ const reachExportStage = (root: HTMLElement): void => {
 };
 
 describe("mountApp", () => {
+  it("serializes only meaningful saved drafts and preserves every optional draft field", () => {
+    const session = createMeasurementCaptureSession(
+      "00000000-0000-4000-8000-000000000016", "woven-shirt", "2026-09-26T00:00:00.000Z",
+    );
+    const [raw, unit, source, method, date, measurer, empty] = session.fields;
+    const drafts = new Map<string, CaptureDraft>([
+      [raw!.fieldId, { rawValue: "12", unit: "cm", error: null, sourceNote: "", method: "", captureDate: "", measurer: "" }],
+      [unit!.fieldId, { rawValue: "", unit: "in", error: null, sourceNote: "", method: "", captureDate: "", measurer: "" }],
+      [source!.fieldId, { rawValue: "", unit: source!.unit, error: null, sourceNote: "noted", method: "", captureDate: "", measurer: "" }],
+      [method!.fieldId, { rawValue: "", unit: method!.unit, error: null, sourceNote: "", method: "tape", captureDate: "", measurer: "" }],
+      [date!.fieldId, { rawValue: "", unit: date!.unit, error: null, sourceNote: "", method: "", captureDate: "2026-09-25", measurer: "" }],
+      [measurer!.fieldId, { rawValue: "", unit: measurer!.unit, error: null, sourceNote: "", method: "", captureDate: "", measurer: "HELPER" }],
+      [empty!.fieldId, { rawValue: "", unit: empty!.unit, error: null, sourceNote: "", method: "", captureDate: "", measurer: "" }],
+    ]);
+    const serialized = serializeCaptureDrafts(session, drafts);
+    expect(serialized).toHaveLength(6);
+    expect(serialized.map((draft) => draft.fieldId)).toEqual(session.fields.slice(0, 6).map((field) => field.fieldId));
+    expect(serialized[0]).toMatchObject({ fieldId: raw!.fieldId, rawValue: "12", enteredUnit: "cm" });
+    expect(serialized[1]).toMatchObject({ fieldId: unit!.fieldId, rawValue: "", enteredUnit: "in" });
+    expect(serialized[2]).toMatchObject({ fieldId: source!.fieldId, sourceNote: "noted" });
+    expect(serialized[3]).toMatchObject({ fieldId: method!.fieldId, captureMethod: "tape" });
+    expect(serialized[4]).toMatchObject({ fieldId: date!.fieldId, captureDate: "2026-09-25" });
+    expect(serialized[5]).toMatchObject({ fieldId: measurer!.fieldId, measurer: "HELPER" });
+    expect(serializeCaptureDrafts(session, new Map())).toEqual([]);
+  });
+
   it("keeps semantic-editor and export helper boundaries safe for missing roles and stale output", () => {
     expect(semanticEditorHandles("tee", { roles: {}, stitches: [] }, "front")).toEqual([]);
     const source = { roles: {}, stitches: [] };
@@ -97,6 +125,25 @@ describe("mountApp", () => {
     expect(guidedCaptureStageBlocker(wovenSession, "woven-shirt")).toMatchObject({
       step: "measure", field: getFieldDefinitions("woven-shirt")[0]!.id,
     });
+    const captureTime = "2026-09-26T00:00:00.000Z";
+    const invalidWovenCapture = getFieldDefinitions("woven-shirt").reduce((session, definition, index) =>
+      addCaptureReadingForField(session, definition.id, {
+        id: `00000000-0000-4000-8000-${String(index + 20).padStart(12, "0")}`,
+        rawValue: definition.inputKey === "length" ? "45" : String(definition.defaultValue),
+        enteredUnit: definition.unit,
+        provenance: definition.semanticKind === "BODY_MEASURE" ? "USER_CAPTURED" : "USER_SELECTED",
+        evidenceStatus: "UNCONFIRMED",
+        sourceLabel: "Explicit test value",
+        captureMethod: null,
+        capturedAt: null,
+        measurer: null,
+      }, captureTime), createMeasurementCaptureSession(
+        "00000000-0000-4000-8000-000000000003", "woven-shirt", captureTime,
+      ));
+    expect(guidedCaptureStageBlocker(invalidWovenCapture, "woven-shirt")).toMatchObject({
+      step: "measure", field: "body.wear-line-to-hip-level",
+      message: expect.stringContaining("hip station at y=51.35 cm, below the hem at y=45 cm"),
+    });
   });
 
   it("does not apply a selected reading while its evidence is conflicting", () => {
@@ -116,6 +163,7 @@ describe("mountApp", () => {
       measurer: null,
     }, now);
     const selected = selectCaptureReading(withConflict, field.id, "00000000-0000-4000-8000-000000000004", now);
+    expect(guidedCaptureStageBlocker(selected, recipeId)).toMatchObject({ step: "measure", field: field.id });
     const apply = vi.fn();
     applySelectedCaptureValue(selected, recipeId, field.id, apply);
     expect(apply).not.toHaveBeenCalled();
@@ -469,6 +517,76 @@ describe("mountApp", () => {
     expect(root.querySelector<HTMLElement>("#controls-panel")!.style.display).not.toBe("none");
     expect(root.querySelector<HTMLInputElement>('#controls-panel input[data-field="chest"]')!.value).toBe("100");
     expect(root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("fit");
+  });
+
+  it("renders and gates guided capture against every current recipe field list", () => {
+    const semanticLabels = {
+      BODY_MEASURE: "Body input",
+      GARMENT_MEASURE: "Finished-garment target",
+      FINISHED_POM: "Derived output",
+      PATTERN_PARAMETER: "Pattern target",
+      STYLE_CONTROL: "Style control",
+    } as const;
+    const frameLabels = {
+      body: "the wearer's body",
+      "finished-garment": "the finished garment",
+      pattern: "the flat pattern",
+      "design-control": "a design choice",
+    } as const;
+    for (const recipe of GARMENTS) {
+      localStorage.clear();
+      const root = mount();
+      clickId(root, `garment-${recipe.name}`);
+      clickId(root, "journey-guided");
+
+      const fields = [...root.querySelectorAll<HTMLElement>(".measurement-capture-panel__field")];
+      const definitions = getFieldDefinitions(recipe.name);
+      expect(fields.map((field) => field.dataset.fieldId), recipe.name)
+        .toEqual(definitions.map((definition) => definition.id));
+      for (let index = 0; index < fields.length; index += 1) {
+        expect(fields[index]!.querySelector("legend")?.textContent, recipe.name)
+          .toBe(definitions[index]!.label);
+        expect(fields[index]!.querySelector(".measurement-capture-panel__kind")?.textContent, recipe.name)
+          .toContain(semanticLabels[definitions[index]!.semanticKind]);
+        expect(fields[index]!.querySelector(".measurement-capture-panel__kind")?.textContent, recipe.name)
+          .toContain(frameLabels[definitions[index]!.referenceFrame]);
+      }
+      expect(root.querySelector<HTMLButtonElement>("#journey-next")!.disabled, recipe.name).toBe(true);
+
+      for (const definition of definitions) {
+        const preset = [...root.querySelectorAll<HTMLButtonElement>('[data-action="capture-accept-preset"]')]
+          .find((button) => button.dataset.fieldId === definition.id);
+        expect(preset, recipe.name).toBeDefined();
+        clickId(root, preset!.id);
+      }
+      expect(root.querySelector<HTMLButtonElement>("#journey-next")!.disabled, recipe.name).toBe(false);
+      if (recipe.name === "woven-shirt") {
+        const lengthDefinition = definitions.find((definition) => definition.inputKey === "length")!;
+        const lengthField = root.querySelector<HTMLElement>(`[data-field-id="${lengthDefinition.id}"]`)!;
+        const lengthInput = lengthField.querySelector<HTMLInputElement>('[data-action="capture-edit-raw"]')!;
+        lengthInput.value = "45";
+        lengthInput.dispatchEvent(new Event("input", { bubbles: true }));
+        clickId(root, lengthField.querySelector<HTMLButtonElement>('[data-action="capture-add-reading"]')!.id);
+        expect(root.querySelector<HTMLButtonElement>("#journey-next")!.disabled).toBe(true);
+        const secondLength = [...root.querySelectorAll<HTMLButtonElement>(
+          `[data-field-id="${lengthDefinition.id}"] [data-action="capture-select-reading"]`,
+        )].find((button) => button.textContent?.includes("reading 2"))!;
+        clickId(root, secondLength.id);
+        expect(root.querySelector<HTMLButtonElement>("#journey-next")!.disabled).toBe(true);
+        expect(root.querySelector<HTMLElement>("#journey-blocker")!.textContent)
+          .toContain("hip station at y=51.35 cm, below the hem at y=45 cm");
+        const firstLength = [...root.querySelectorAll<HTMLButtonElement>(
+          `[data-field-id="${lengthDefinition.id}"] [data-action="capture-select-reading"]`,
+        )].find((button) => button.textContent?.includes("reading 1"))!;
+        clickId(root, firstLength.id);
+        expect(root.querySelector("#journey-blocker")).toBeNull();
+        expect(root.querySelector<HTMLButtonElement>("#journey-next")!.disabled).toBe(false);
+      }
+      clickId(root, "journey-next");
+      expect(root.querySelector<HTMLButtonElement>("#journey-step-measure")!.dataset.stageState, recipe.name)
+        .toBe("complete");
+      root.remove();
+    }
   });
 
   it("replaces the active canvas with Assembled, then returns to the same view", () => {
@@ -5524,6 +5642,174 @@ describe("bundled local artwork library (Slice 203)", () => {
       workflow.close();
       root.remove();
       delete window.electronAPI;
+      vi.unstubAllGlobals();
+    }
+  });
+
+  it("resumes guided measurement drafts from the active local style without turning them into readings", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const factory = new IDBFactory();
+    const settings = {
+      repositoryOptions: { name: `app-capture-resume-${Date.now()}`, factory, crypto: webcrypto as unknown as Crypto },
+      storage: localStorage,
+      idFactory: () => "a12b39ab-4b40-48a9-9499-59583010c112",
+      now: () => "2026-09-24T16:00:00.000Z",
+    };
+    let workflow = await openProjectWorkflow(settings);
+    let root = document.createElement("div");
+    document.body.append(root);
+    try {
+      mountApp(root, { projectWorkflow: workflow });
+      root.querySelector<HTMLButtonElement>("#welcome-start")?.click();
+      root.querySelector<HTMLButtonElement>("#journey-guided")!.click();
+      await vi.waitFor(() => expect(root.querySelector(".measurement-capture-panel__field")).not.toBeNull());
+
+      const fieldId = "body.chest-girth";
+      const raw = root.querySelector<HTMLInputElement>(`[data-action="capture-edit-raw"][data-field-id="${fieldId}"]`)!;
+      raw.value = " 40 1/8 ";
+      raw.dispatchEvent(new Event("input", { bubbles: true }));
+      const unit = root.querySelector<HTMLSelectElement>(`[data-action="capture-change-unit"][data-field-id="${fieldId}"]`)!;
+      unit.value = "in";
+      unit.dispatchEvent(new Event("change", { bubbles: true }));
+      const note = root.querySelector<HTMLInputElement>(`[data-action="capture-edit-source"][data-field-id="${fieldId}"]`)!;
+      note.value = "Tape note, unconfirmed";
+      note.dispatchEvent(new Event("input", { bubbles: true }));
+
+      await vi.waitFor(async () => {
+        const record = await workflow.loadMeasurementCapture("tee");
+        expect(record?.drafts).toEqual([{
+          fieldId, rawValue: " 40 1/8 ", enteredUnit: "in", sourceNote: "Tape note, unconfirmed",
+          captureMethod: "", captureDate: "", measurer: "",
+        }]);
+      });
+      const beforeReload = await workflow.loadMeasurementCapture("tee");
+      expect(beforeReload?.session.fields.find((field) => field.fieldId === fieldId)?.readings).toEqual([]);
+      root.remove();
+      workflow.close();
+
+      workflow = await openProjectWorkflow(settings);
+      root = document.createElement("div");
+      document.body.append(root);
+      mountApp(root, { projectWorkflow: workflow });
+      root.querySelector<HTMLButtonElement>("#welcome-start")?.click();
+      root.querySelector<HTMLButtonElement>("#journey-guided")!.click();
+      await vi.waitFor(() => expect(
+        root.querySelector<HTMLInputElement>(`[data-action="capture-edit-raw"][data-field-id="${fieldId}"]`)?.value,
+      ).toBe(" 40 1/8 "));
+      expect(root.querySelector<HTMLSelectElement>(`[data-action="capture-change-unit"][data-field-id="${fieldId}"]`)!.value).toBe("in");
+      expect(root.querySelector<HTMLInputElement>(`[data-action="capture-edit-source"][data-field-id="${fieldId}"]`)!.value)
+        .toBe("Tape note, unconfirmed");
+      const afterReload = await workflow.loadMeasurementCapture("tee");
+      expect(afterReload?.session.id).toBe(beforeReload?.session.id);
+      expect(afterReload?.session.fields.find((field) => field.fieldId === fieldId)?.readings).toEqual([]);
+    } finally {
+      workflow.close();
+      root.remove();
+      vi.unstubAllGlobals();
+    }
+  });
+
+  it("keeps Measure and garment selection in place when a pending guided capture cannot be saved", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const ids = ["a12b39ab-4b40-48a9-9499-59583010c112", "b23c40bc-5c51-49ba-a59a-60694121d223"];
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: {
+        name: `app-capture-save-failure-${Date.now()}`,
+        factory: new IDBFactory(),
+        crypto: webcrypto as unknown as Crypto,
+      },
+      storage: localStorage,
+      idFactory: () => ids.shift() ?? webcrypto.randomUUID(),
+      now: () => "2026-09-24T16:00:00.000Z",
+    });
+    const styleId = workflow.snapshot.activeStyle.id;
+    const session = getFieldDefinitions("tee").reduce((current, definition, index) => addCaptureReadingForField(
+      current,
+      definition.id,
+      {
+        id: webcrypto.randomUUID(),
+        rawValue: String(definition.defaultValue),
+        enteredUnit: definition.unit,
+        provenance: definition.semanticKind === "BODY_MEASURE" ? "USER_CAPTURED" : "USER_SELECTED",
+        evidenceStatus: "UNCONFIRMED",
+        sourceLabel: "Explicit test fixture, not fit-qualified.",
+        captureMethod: null,
+        capturedAt: null,
+        measurer: null,
+      },
+      `2026-09-24T16:00:${String(index + 1).padStart(2, "0")}.000Z`,
+    ), createMeasurementCaptureSession(webcrypto.randomUUID(), "tee", "2026-09-24T16:00:00.000Z", styleId));
+    await workflow.saveMeasurementCapture(session, []);
+    const failingSave = vi.spyOn(workflow, "saveMeasurementCapture")
+      .mockRejectedValueOnce(new Error("synthetic capture persistence failure"))
+      .mockRejectedValueOnce("synthetic non-Error capture persistence failure");
+    const root = document.createElement("div");
+    document.body.append(root);
+    try {
+      mountApp(root, { projectWorkflow: workflow });
+      clickId(root, "journey-guided");
+      await vi.waitFor(() => expect(root.querySelector(".measurement-capture-panel__field")).not.toBeNull());
+      const raw = root.querySelector<HTMLInputElement>('[data-action="capture-edit-raw"][data-field-id="body.chest-girth"]')!;
+      raw.value = "40 1/8";
+      raw.dispatchEvent(new Event("input", { bubbles: true }));
+
+      clickId(root, "journey-next");
+      await vi.waitFor(() => expect(root.querySelector<HTMLElement>("#project-persistence-state")?.dataset.state).toBe("failed"));
+      expect(root.querySelector<HTMLElement>("#infini-shell")?.dataset.stage).toBe("measure");
+      expect(root.querySelector("#project-persistence-state")?.textContent).toContain("synthetic capture persistence failure");
+
+      raw.value = "40 1/8, second attempt";
+      raw.dispatchEvent(new Event("input", { bubbles: true }));
+      await vi.waitFor(() => expect(failingSave).toHaveBeenCalledTimes(2));
+      clickId(root, "journey-step-start");
+      clickId(root, "garment-skirt");
+      await vi.waitFor(() => expect(root.querySelector("#project-persistence-state")?.textContent)
+        .toBe("Guided measurements could not be saved."));
+      expect(root.querySelector("#current-garment")?.textContent).toBe("Tee");
+      expect(root.querySelector<HTMLElement>("#infini-shell")?.dataset.stage).toBe("start");
+      expect(root.querySelector("#project-persistence-state")?.textContent).toBe("Guided measurements could not be saved.");
+    } finally {
+      workflow.close();
+      root.remove();
+      vi.unstubAllGlobals();
+    }
+  });
+
+  it("reports failed guided capture loads, including a non-Error rejection", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: {
+        name: `app-capture-load-failure-${Date.now()}`,
+        factory: new IDBFactory(),
+        crypto: webcrypto as unknown as Crypto,
+      },
+      storage: localStorage,
+      now: () => "2026-09-24T16:00:00.000Z",
+    });
+    vi.spyOn(workflow, "loadMeasurementCapture")
+      .mockRejectedValueOnce(new Error("synthetic capture load failure"))
+      .mockRejectedValueOnce("synthetic non-Error capture load failure");
+    const root = document.createElement("div");
+    document.body.append(root);
+    try {
+      mountApp(root, { projectWorkflow: workflow });
+      clickId(root, "journey-guided");
+      await vi.waitFor(() => expect(root.querySelector("#project-persistence-state")?.textContent)
+        .toBe("synthetic capture load failure"));
+      expect(root.querySelector<HTMLElement>("#project-persistence-state")?.dataset.state).toBe("failed");
+      expect(root.querySelector<HTMLElement>("#infini-shell")?.dataset.stage).toBe("start");
+
+      clickId(root, "journey-guided");
+      await vi.waitFor(() => expect(root.querySelector("#project-persistence-state")?.textContent)
+        .toBe("Saved guided measurements could not be loaded."));
+      expect(root.querySelector<HTMLElement>("#project-persistence-state")?.dataset.state).toBe("failed");
+      expect(root.querySelector<HTMLElement>("#infini-shell")?.dataset.stage).toBe("start");
+    } finally {
+      workflow.close();
+      root.remove();
       vi.unstubAllGlobals();
     }
   });

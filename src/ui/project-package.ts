@@ -29,10 +29,12 @@ import {
 } from "./style-revisions";
 import { ARTWORK_CATALOG } from "../surface/artwork-library/catalog";
 import {
+  parseMeasurementCaptureRecord,
   parseProjectRecord,
   parseRecoveryRecord,
   parseStyleRecord,
   validateProjectBundle,
+  type MeasurementCaptureRecord,
   type ProjectRecord,
   type RecoveryRecord,
   type StyleRecord,
@@ -45,7 +47,10 @@ import {
 } from "./project-repository";
 
 export const PROJECT_PACKAGE_FORMAT = "infinidrip-project";
+/** Written for every package without G03 capture sessions, byte-for-byte as before. */
 export const PROJECT_PACKAGE_VERSION = 3;
+/** Written only when at least one style has a saved G03 capture session. */
+export const PROJECT_PACKAGE_CAPTURE_VERSION = 4;
 export const PROJECT_PACKAGE_MAX_BYTES = 256 * 1024 * 1024;
 export const PROJECT_PACKAGE_MAX_CONTENT_BYTES = 256 * 1024 * 1024;
 export const PROJECT_PACKAGE_MAX_ASSETS = 128;
@@ -115,7 +120,7 @@ export interface ProjectPackageAssetRecord {
 
 export interface ProjectPackageManifest {
   readonly format: typeof PROJECT_PACKAGE_FORMAT;
-  readonly packageVersion: 1 | 2 | typeof PROJECT_PACKAGE_VERSION;
+  readonly packageVersion: 1 | 2 | typeof PROJECT_PACKAGE_VERSION | typeof PROJECT_PACKAGE_CAPTURE_VERSION;
   readonly packageSha256: string;
   readonly project: ProjectRecord;
   readonly styles: readonly StyleRecord[];
@@ -124,6 +129,8 @@ export interface ProjectPackageManifest {
   readonly styleRevisions: readonly StyleRevisionRecord[];
   readonly exportManifests: readonly ProjectPackageFrozenManifest[];
   readonly assets: readonly ProjectPackageAssetRecord[];
+  /** Present, and non-empty, only in package version 4. */
+  readonly measurementCaptures?: readonly MeasurementCaptureRecord[];
 }
 
 export interface ProjectPackageFrozenArtifact extends Omit<RevisionManifestArtifact, "bytes"> {
@@ -359,6 +366,27 @@ async function normalizeSnapshotHistory(
   return { styles, revisions, manifests };
 }
 
+/** Strictly validates capture sessions and their single style/recipe ownership inside one project. */
+function packageMeasurementCaptures(
+  values: readonly unknown[],
+  project: ProjectRecord,
+): MeasurementCaptureRecord[] {
+  const records: MeasurementCaptureRecord[] = [];
+  for (const value of values) {
+    const parsed = parseMeasurementCaptureRecord(value);
+    if (!parsed.ok) throw new ProjectPackageError("invalid-package", parsed.error);
+    const record = parsed.value;
+    if (record.projectId !== project.id || !project.styleIds.includes(record.styleId)) {
+      throw new ProjectPackageError("invalid-package", "A measurement capture session references a style outside this project.");
+    }
+    if (records.some((item) => item.styleId === record.styleId && item.recipeId === record.recipeId)) {
+      throw new ProjectPackageError("invalid-package", "A style has more than one capture session for the same recipe.");
+    }
+    records.push(record);
+  }
+  return records;
+}
+
 function safeAssetMetadata(asset: StoredArtworkAsset): void {
   const suffix = mimeForAssetId(asset.assetId);
   if (!isLocalArtworkAssetId(asset.assetId) || suffix === null || ASSET_MIME_BY_SUFFIX[suffix] !== asset.mimeType
@@ -403,6 +431,7 @@ export async function createProjectPackage(
   options: ProjectPackageOptions = {},
 ): Promise<Blob> {
   const history = await normalizeSnapshotHistory(snapshot, artworkStore, options);
+  const measurementCaptures = packageMeasurementCaptures(snapshot.measurementCaptures ?? [], snapshot.project);
   const refs = historyAssetRefs(history.styles, history.revisions);
   const assetRecords: ProjectPackageAssetRecord[] = [];
   const sourceAssets: StoredArtworkAsset[] = [];
@@ -455,9 +484,10 @@ export async function createProjectPackage(
       throw new ProjectPackageError("limit-exceeded", "Project records, artwork and frozen outputs exceed the 256 MiB uncompressed package limit.");
     }
   }
+  // A package without captures keeps the exact v3 body, key order and digest.
   const body: Omit<ProjectPackageManifest, "packageSha256"> = {
     format: PROJECT_PACKAGE_FORMAT,
-    packageVersion: PROJECT_PACKAGE_VERSION,
+    packageVersion: measurementCaptures.length > 0 ? PROJECT_PACKAGE_CAPTURE_VERSION : PROJECT_PACKAGE_VERSION,
     project: snapshot.project,
     styles: history.styles,
     recoveries: snapshot.recoveries,
@@ -466,6 +496,7 @@ export async function createProjectPackage(
     styleRevisions: history.revisions,
     exportManifests: packageManifests,
     assets: assetRecords,
+    ...(measurementCaptures.length > 0 ? { measurementCaptures } : {}),
   };
   const packageSha256 = await sha256(new TextEncoder().encode(canonical(body)), options);
   const manifest: ProjectPackageManifest = { ...body, packageSha256 };
@@ -824,17 +855,22 @@ function metadataOnlyBlob(size: number): Blob {
 function validateManifestShape(value: unknown): ProjectPackageManifest {
   const version = typeof value === "object" && value !== null && !Array.isArray(value)
     ? (value as Record<string, unknown>).packageVersion : undefined;
+  const historyKeys = ["format", "packageVersion", "packageSha256", "project", "styles", "recoveries", "fieldObservations", "styleRevisions", "exportManifests", "assets"];
   const expectedKeys = version === 1
     ? ["format", "packageVersion", "packageSha256", "project", "styles", "recoveries", "assets"]
     : version === 2
       ? ["format", "packageVersion", "packageSha256", "project", "styles", "recoveries", "fieldObservations", "assets"]
-      : ["format", "packageVersion", "packageSha256", "project", "styles", "recoveries", "fieldObservations", "styleRevisions", "exportManifests", "assets"];
+      : version === PROJECT_PACKAGE_CAPTURE_VERSION ? [...historyKeys, "measurementCaptures"] : historyKeys;
   if (!exactObject(value, expectedKeys)
-    || value.format !== PROJECT_PACKAGE_FORMAT || (value.packageVersion !== 1 && value.packageVersion !== 2 && value.packageVersion !== PROJECT_PACKAGE_VERSION)
+    || value.format !== PROJECT_PACKAGE_FORMAT
+    || (value.packageVersion !== 1 && value.packageVersion !== 2 && value.packageVersion !== PROJECT_PACKAGE_VERSION
+      && value.packageVersion !== PROJECT_PACKAGE_CAPTURE_VERSION)
     || typeof value.packageSha256 !== "string" || !/^[0-9a-f]{64}$/.test(value.packageSha256)
     || !Array.isArray(value.styles) || !Array.isArray(value.recoveries) || !Array.isArray(value.assets)
     || (value.packageVersion >= 2 && !Array.isArray(value.fieldObservations))
-    || (value.packageVersion === PROJECT_PACKAGE_VERSION && (!Array.isArray(value.styleRevisions) || !Array.isArray(value.exportManifests)))) {
+    || (value.packageVersion >= PROJECT_PACKAGE_VERSION && (!Array.isArray(value.styleRevisions) || !Array.isArray(value.exportManifests)))
+    || (value.packageVersion === PROJECT_PACKAGE_CAPTURE_VERSION
+      && (!Array.isArray(value.measurementCaptures) || value.measurementCaptures.length === 0))) {
     throw new ProjectPackageError("invalid-package", "Project package manifest is incomplete, unknown, or unsupported.");
   }
   const project = parseProjectRecord(value.project);
@@ -898,7 +934,7 @@ function validateManifestShape(value: unknown): ProjectPackageManifest {
     const history = styleRevisions.filter((revision) => revision.styleId === style.id)
       .sort((left, right) => left.revisionNumber - right.revisionNumber);
     if (history.length === 0) {
-      if (value.packageVersion === 3 || style.revisionHeadId !== null) {
+      if (value.packageVersion >= 3 || style.revisionHeadId !== null) {
         throw new ProjectPackageError("invalid-package", `Style ${style.id} is missing its immutable revision history.`);
       }
       continue;
@@ -952,6 +988,9 @@ function validateManifestShape(value: unknown): ProjectPackageManifest {
       throw new ProjectPackageError("invalid-package", `Attribution labels for ${asset.assetId} do not match the saved placements.`);
     }
   }
+  const measurementCaptures = value.packageVersion === PROJECT_PACKAGE_CAPTURE_VERSION
+    ? packageMeasurementCaptures(value.measurementCaptures as unknown[], project.value)
+    : [];
   return {
     format: PROJECT_PACKAGE_FORMAT,
     packageVersion: value.packageVersion as ProjectPackageManifest["packageVersion"],
@@ -963,6 +1002,7 @@ function validateManifestShape(value: unknown): ProjectPackageManifest {
     styleRevisions,
     exportManifests,
     assets,
+    ...(measurementCaptures.length > 0 ? { measurementCaptures } : {}),
   };
 }
 
@@ -1127,12 +1167,15 @@ async function makeCopy(
   fieldObservations: FieldObservationRecord[];
   styleRevisions: StyleRevisionRecord[];
   exportManifests: FrozenOutputManifestRecord[];
+  measurementCaptures: MeasurementCaptureRecord[];
 }> {
+  const sourceCaptures = manifest.measurementCaptures ?? [];
   const usedIds = new Set([
     manifest.project.id,
     ...manifest.project.styleIds,
     ...manifest.styleRevisions.map((revision) => revision.revisionId),
     ...frozenManifests.map((record) => record.manifestId),
+    ...sourceCaptures.map((record) => record.session.id),
   ].map((id) => id.toLowerCase()));
   const projectId = uniqueUuid(idFactory, usedIds);
   const styleIds = new Map(manifest.styles.map((style) => [style.id, uniqueUuid(idFactory, usedIds)]));
@@ -1216,7 +1259,20 @@ async function makeCopy(
     }
     exportManifests.push(record);
   }
-  return { project, styles, recoveries, fieldObservations, styleRevisions, exportManifests };
+  // Copied sessions belong only to the copied styles: every style, project and
+  // session identity is replaced, while readings, raw text and drafts stay exact.
+  const measurementCaptures: MeasurementCaptureRecord[] = sourceCaptures.map((record) => {
+    const styleId = styleIds.get(record.styleId)!;
+    return {
+      ...record,
+      styleId,
+      projectId,
+      revision: 1,
+      updatedAt: now,
+      session: { ...record.session, id: uniqueUuid(idFactory, usedIds), styleId },
+    };
+  });
+  return { project, styles, recoveries, fieldObservations, styleRevisions, exportManifests, measurementCaptures };
 }
 
 function canonicalNow(): string {
@@ -1312,6 +1368,7 @@ export async function importProjectPackage(
       fieldObservations: [...archive.manifest.fieldObservations],
       styleRevisions: [...archive.manifest.styleRevisions],
       exportManifests: [...archive.frozenManifests],
+      measurementCaptures: [...archive.manifest.measurementCaptures ?? []],
     };
   const stagedIds: string[] = [];
   let completed = 0;
@@ -1358,11 +1415,13 @@ export async function importProjectPackage(
       styleRevisions: sourceBundle.styleRevisions,
       exportManifests: sourceBundle.exportManifests,
     }, artworkStore, options);
+    const { measurementCaptures, ...sourceRecords } = sourceBundle;
     const bundle = {
-      ...sourceBundle,
+      ...sourceRecords,
       styles: normalizedHistory.styles,
       styleRevisions: normalizedHistory.revisions,
       exportManifests: normalizedHistory.manifests,
+      ...(measurementCaptures.length > 0 ? { measurementCaptures } : {}),
     };
     const receipt: ProjectImportReceipt = {
       packageSha256: archive.packageSha256,

@@ -184,7 +184,7 @@ const LIMITS_SUFFIX: Readonly<Record<string, Readonly<Record<string, string>>>> 
     length: "Values above 100 stay visible and block continuation; no automatic changes. The 100 to 120 band is unavailable until the contradiction is resolved.",
   }),
   "woven-shirt": Object.freeze({
-    length: "D-07: some combinations place the hip station below the hem; a visible check is owned by a later M01 slice; no automatic correction.",
+    length: "D-07: guidance checks the current woven-shirt geometry and blocks continuation when the hip station falls below the hem; increase top length or reduce underarm drop or hip depth. Values are not changed automatically.",
   }),
 });
 

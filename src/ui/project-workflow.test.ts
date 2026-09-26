@@ -5,7 +5,18 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { STANDARD_M } from "../drafting";
 import { DEFAULT_APPEARANCE } from "./appearance";
 import { DEFAULT_WORKSPACE, serialize, serializeRecovery } from "./persist";
-import { migrateLegacyRecovery, migrateLegacySaveFile, type RecoveryPayload } from "./project-records";
+import {
+  migrateLegacyRecovery,
+  migrateLegacySaveFile,
+  type MeasurementCaptureDraft,
+  type RecoveryPayload,
+} from "./project-records";
+import {
+  addCaptureReadingForField,
+  createMeasurementCaptureSession,
+  selectCaptureReading,
+  type NewCaptureReading,
+} from "./measurement-capture";
 import { ProjectRepositoryError, type LoadedProject, type ProjectRepository } from "./project-repository";
 import { changedPaths, openProjectWorkflow, ProjectWorkflow } from "./project-workflow";
 import { createFieldObservationRecord, currentFieldObservation, getFieldDefinition } from "./field-provenance";
@@ -858,5 +869,125 @@ describe("local project/style workflow", () => {
     const duplicateId = new ProjectWorkflow(workflow.repository, workflow.snapshot, () => STYLE_ID, () => NEXT_TIME);
     await expect(duplicateId.createStyle("Second", workflow.snapshot.activeStyle.design)).rejects.toMatchObject({ code: "invalid-data" });
     expect((await workflow.reload()).activeStyle.id).toBe(STYLE_ID);
+  });
+});
+
+describe("G03 capture persistence through the project workflow", () => {
+  const CHEST = "body.chest-girth";
+  const SESSION_ONE = "3f0c6a2e-8d1b-4c5e-9a7f-2b6d8e1c4a90";
+  const SESSION_TWO = "c200916f-baa3-4373-87f8-8d7481fb6053";
+  const READING_ONE = "d34a5104-ae25-4b54-9a2b-fcc35237ff71";
+  const READING_TWO = "e78e0c40-ae1a-4d03-9470-80345f994734";
+  const reading = (id: string, rawValue: string, enteredUnit: string): NewCaptureReading => ({
+    id,
+    rawValue,
+    enteredUnit,
+    provenance: "USER_CAPTURED",
+    evidenceStatus: "UNCONFIRMED",
+    sourceLabel: "User-entered value; capture method and technique not qualified.",
+    captureMethod: "Tape over a T-shirt",
+    capturedAt: "2026-09-24T00:00:00.000Z",
+    measurer: "HELPER",
+  });
+  const draft = (overrides: Partial<MeasurementCaptureDraft> = {}): MeasurementCaptureDraft => ({
+    fieldId: CHEST, rawValue: "", enteredUnit: "cm", sourceNote: "", captureMethod: "", captureDate: "", measurer: "",
+    ...overrides,
+  });
+  const captureSettings = () => ({
+    ...repositoryOptions(),
+    storage: storage(),
+    idFactory: ids(PROJECT_ID, STYLE_ID, STYLE_TWO_ID, STYLE_THREE_ID),
+    now: () => TIME,
+  });
+
+  it("starts empty and reloads readings, explicit selection, and unrecorded drafts without touching design state", async () => {
+    const artworkStore = { put: vi.fn(), get: vi.fn(async () => null), remove: vi.fn() };
+    const settings = { ...captureSettings(), artworkStore };
+    const workflow = await openProjectWorkflow(settings);
+    workflows.push(workflow);
+    const before = await workflow.repository.readProjectBundle(PROJECT_ID);
+    const snapshotBefore = workflow.snapshot;
+    expect(await workflow.loadMeasurementCapture("tee")).toBeNull();
+
+    const empty = createMeasurementCaptureSession(SESSION_ONE, "tee", TIME, STYLE_ID);
+    const later = empty.fields[empty.fields.findIndex((field) => field.fieldId === CHEST) + 1]!;
+    const laterDraft = draft({ fieldId: later.fieldId, rawValue: "abc", enteredUnit: later.unit });
+    const chestDraft = draft({
+      rawValue: "40 1/8", enteredUnit: "in", sourceNote: "Tape note", captureMethod: "Snug", captureDate: "2026-09-24", measurer: "SELF",
+    });
+    const pending = await workflow.saveMeasurementCapture(empty, [laterDraft, chestDraft]);
+    expect(pending).toMatchObject({ revision: 1, styleId: STYLE_ID, projectId: PROJECT_ID, recipeId: "tee" });
+    expect(pending.drafts).toEqual([chestDraft, laterDraft]);
+    expect(pending.session.fields.every((field) => field.readings.length === 0)).toBe(true);
+
+    // Only an explicit Add reading turns entered text into a reading; the other draft stays unrecorded.
+    const recorded = addCaptureReadingForField(empty, CHEST, reading(READING_ONE, "40.125", "in"), "2026-09-24T16:00:01.000Z");
+    const repeated = addCaptureReadingForField(recorded, CHEST, reading(READING_TWO, "102", "cm"), "2026-09-24T16:00:02.000Z");
+    await workflow.saveMeasurementCapture(repeated, [laterDraft]);
+    const selected = selectCaptureReading(repeated, CHEST, READING_TWO, "2026-09-24T16:00:03.000Z");
+    const saved = await workflow.saveMeasurementCapture(selected, [laterDraft]);
+    expect(saved.revision).toBe(3);
+
+    const reopened = await openProjectWorkflow({ ...settings, storage: storage() });
+    workflows.push(reopened);
+    const loaded = await reopened.loadMeasurementCapture("tee");
+    expect(loaded).toEqual(saved);
+    const chest = loaded!.session.fields.find((field) => field.fieldId === CHEST)!;
+    expect(chest.readings.map((item) => [item.rawValue, item.enteredUnit, item.canonicalValue, item.measurer]))
+      .toEqual([["40.125", "in", 101.9175, "HELPER"], ["102", "cm", 102, "HELPER"]]);
+    expect(chest.selectedReadingId).toBe(READING_TWO);
+    expect(loaded!.drafts).toEqual([laterDraft]);
+    expect(loaded!.session.fields.find((field) => field.fieldId === later.fieldId)!.readings).toEqual([]);
+
+    const after = await reopened.repository.readProjectBundle(PROJECT_ID);
+    if (!after) throw new Error("Project disappeared after capture saves.");
+    const { measurementCaptures, ...unchanged } = after;
+    expect(unchanged).toEqual(before);
+    expect(measurementCaptures).toEqual([saved]);
+    expect(reopened.snapshot.project).toEqual(snapshotBefore.project);
+    expect(reopened.snapshot.activeStyle).toEqual(snapshotBefore.activeStyle);
+    expect(reopened.snapshot.activeRecovery).toEqual(snapshotBefore.activeRecovery);
+    expect(reopened.snapshot.fieldObservations).toEqual(snapshotBefore.fieldObservations);
+    expect(reopened.snapshot.styleRevisions).toEqual(snapshotBefore.styleRevisions);
+    expect(reopened.snapshot.exportManifests).toEqual(snapshotBefore.exportManifests);
+    expect(artworkStore.put).not.toHaveBeenCalled();
+    expect(artworkStore.remove).not.toHaveBeenCalled();
+  });
+
+  it("keeps a second style/recipe independent and refuses cross-style, stale, unread, or malformed saves", async () => {
+    const settings = captureSettings();
+    const tabOne = await openProjectWorkflow(settings);
+    workflows.push(tabOne);
+    const tee = createMeasurementCaptureSession(SESSION_ONE, "tee", TIME, STYLE_ID);
+    const teeRecord = await tabOne.saveMeasurementCapture(tee, []);
+    await tabOne.createStyle("Skirt study", tabOne.snapshot.activeStyle.design);
+    expect(tabOne.snapshot.activeStyle.id).toBe(STYLE_TWO_ID);
+    const skirt = createMeasurementCaptureSession(SESSION_TWO, "skirt", TIME, STYLE_TWO_ID);
+    const skirtRecord = await tabOne.saveMeasurementCapture(skirt, [draft({ fieldId: skirt.fields[0]!.fieldId, rawValue: "72" })]);
+    await expect(tabOne.saveMeasurementCapture(tee, [])).rejects.toMatchObject({ code: "conflict" });
+    expect(await tabOne.loadMeasurementCapture("tee")).toBeNull();
+    expect(await tabOne.loadMeasurementCapture("skirt")).toEqual(skirtRecord);
+
+    await tabOne.switchStyle(STYLE_ID);
+    expect(await tabOne.loadMeasurementCapture("skirt")).toBeNull();
+    expect(await tabOne.loadMeasurementCapture("tee")).toEqual(teeRecord);
+    const tabTwo = await openProjectWorkflow({ ...settings, storage: storage() });
+    workflows.push(tabTwo);
+    expect(await tabTwo.loadMeasurementCapture("tee")).toEqual(teeRecord);
+    const withReading = addCaptureReadingForField(tee, CHEST, reading(READING_ONE, "101", "cm"), "2026-09-24T16:00:01.000Z");
+    expect((await tabOne.saveMeasurementCapture(withReading, [])).revision).toBe(2);
+    await expect(tabTwo.saveMeasurementCapture(tee, [draft({ rawValue: "99" })])).rejects.toMatchObject({ code: "conflict" });
+    const refreshed = await tabTwo.loadMeasurementCapture("tee");
+    expect(refreshed?.session).toEqual(withReading);
+    expect((await tabTwo.saveMeasurementCapture(refreshed!.session, [draft({ rawValue: "99" })])).revision).toBe(3);
+
+    const unread = await openProjectWorkflow({ ...settings, storage: storage() });
+    workflows.push(unread);
+    await expect(unread.saveMeasurementCapture(withReading, [])).rejects.toMatchObject({ code: "conflict" });
+    await expect(tabTwo.saveMeasurementCapture(withReading, [draft({ fieldId: "body.unknown" }), draft()]))
+      .rejects.toMatchObject({ code: "invalid-data" });
+    const latest = await unread.loadMeasurementCapture("tee");
+    expect(latest?.revision).toBe(3);
+    expect(latest?.drafts).toEqual([draft({ rawValue: "99" })]);
   });
 });

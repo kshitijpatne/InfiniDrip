@@ -127,6 +127,11 @@ only through an explicitly admitted, linked Epic packet.
   one-size parity risks Codex must resolve before output verification. It is
   evidence for implementation planning, not an approval to change legacy
   drafting or export baselines.
+- `docs/research/epic16/S247-M01-VALIDATION-EXIT.md` and
+  `docs/research/epic16/evidence/` — Slice 247's durable capture/resume,
+  conflict, package-compatibility, all-recipe, production-browser, narrow,
+  accessible-field-tree, and 100% full-coverage evidence. M01 is complete;
+  Slice 248 may start M02 under the unchanged one-size and export boundaries.
 - `docs/research/epic15/F01-STORAGE-CONTRACT-S230.md` — Slice 230's accepted
   IndexedDB repository, non-destructive legacy migration, per-style recovery,
   artwork two-store, portable package, failure and test contracts. Its Electron

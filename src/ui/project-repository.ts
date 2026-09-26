@@ -10,13 +10,16 @@ import {
   MIGRATION_RECORD_VERSION,
   LEGACY_STYLE_RECORD_KEYS,
   LEGACY_PROJECT_RECORD_KEYS,
+  isMeasurementCaptureSessionSuccessor,
   migrateLegacySaveFile,
   migrateLegacyRecovery,
+  parseMeasurementCaptureRecord,
   parseMigrationRecord,
   parseProjectRecord,
   parseRecoveryRecord,
   parseStyleRecord,
   validateProjectBundle,
+  type MeasurementCaptureRecord,
   type MigrationRecord,
   type ProjectRecord,
   type RecoveryRecord,
@@ -39,7 +42,7 @@ import {
 } from "./style-revisions";
 
 export const PROJECT_DATABASE_NAME = "infinidrip-projects";
-export const PROJECT_DATABASE_VERSION = 6;
+export const PROJECT_DATABASE_VERSION = 7;
 export const PROJECT_STORES = Object.freeze({
   meta: "meta",
   projects: "projects",
@@ -50,11 +53,13 @@ export const PROJECT_STORES = Object.freeze({
   fieldObservations: "fieldObservations",
   styleRevisions: "styleRevisions",
   exportManifests: "exportManifests",
+  measurementCaptures: "measurementCaptures",
 });
 const ACTIVE_SELECTION_KEY = "activeSelection";
 const ALL_STORES = Object.values(PROJECT_STORES);
 const OPEN_KEYS = ["key", "projectId", "styleId"];
-const STORE_KEY_PATHS: Readonly<Record<string, string>> = Object.freeze({
+const CAPTURE_KEY_PATH = Object.freeze(["styleId", "recipeId"]);
+const STORE_KEY_PATHS: Readonly<Record<string, string | readonly string[]>> = Object.freeze({
   [PROJECT_STORES.meta]: "key",
   [PROJECT_STORES.projects]: "id",
   [PROJECT_STORES.styles]: "id",
@@ -64,6 +69,7 @@ const STORE_KEY_PATHS: Readonly<Record<string, string>> = Object.freeze({
   [PROJECT_STORES.fieldObservations]: "styleId",
   [PROJECT_STORES.styleRevisions]: "revisionId",
   [PROJECT_STORES.exportManifests]: "manifestId",
+  [PROJECT_STORES.measurementCaptures]: CAPTURE_KEY_PATH,
 });
 
 export type RepositoryErrorCode =
@@ -115,6 +121,8 @@ export interface ProjectBundleSnapshot {
   readonly fieldObservations?: readonly FieldObservationRecord[];
   readonly styleRevisions?: readonly StyleRevisionRecord[];
   readonly exportManifests?: readonly FrozenOutputManifestRecord[];
+  /** Present only when at least one style has a stored G03 capture session. */
+  readonly measurementCaptures?: readonly MeasurementCaptureRecord[];
 }
 
 export interface SaveProjectBundleInput {
@@ -147,6 +155,7 @@ export interface ImportProjectBundleInput {
   readonly fieldObservations?: readonly FieldObservationRecord[];
   readonly styleRevisions?: readonly StyleRevisionRecord[];
   readonly exportManifests?: readonly FrozenOutputManifestRecord[];
+  readonly measurementCaptures?: readonly MeasurementCaptureRecord[];
   readonly receipt: ProjectImportReceipt;
 }
 
@@ -251,6 +260,15 @@ function createSchema(database: IDBDatabase): void {
     database.createObjectStore(PROJECT_STORES.fieldObservations, { keyPath: "styleId" });
   }
   createImmutableHistoryStores(database);
+  createMeasurementCaptureStore(database);
+}
+
+/** Additive v7 store: one capture session per style and recipe, never read by the design save path. */
+function createMeasurementCaptureStore(database: IDBDatabase): void {
+  if (!database.objectStoreNames.contains(PROJECT_STORES.measurementCaptures)) {
+    const captures = database.createObjectStore(PROJECT_STORES.measurementCaptures, { keyPath: [...CAPTURE_KEY_PATH] });
+    captures.createIndex("styleId", "styleId", { unique: false });
+  }
 }
 
 function createImmutableHistoryStores(database: IDBDatabase): void {
@@ -433,11 +451,13 @@ function hasSupportedSchema(database: IDBDatabase): boolean {
     if (database.objectStoreNames.length !== ALL_STORES.length
       || !ALL_STORES.every((name) => database.objectStoreNames.contains(name))) return false;
     const transaction = database.transaction([...ALL_STORES], "readonly");
-    if (!ALL_STORES.every((name) => transaction.objectStore(name).keyPath === STORE_KEY_PATHS[name])) return false;
+    if (!ALL_STORES.every((name) =>
+      JSON.stringify(transaction.objectStore(name).keyPath) === JSON.stringify(STORE_KEY_PATHS[name]))) return false;
     const revisions = transaction.objectStore(PROJECT_STORES.styleRevisions);
     const manifests = transaction.objectStore(PROJECT_STORES.exportManifests);
     return revisions.indexNames.contains("styleId") && revisions.indexNames.contains("styleIdAndNumber")
-      && manifests.indexNames.contains("styleId") && manifests.indexNames.contains("styleIdAndCapturedAt");
+      && manifests.indexNames.contains("styleId") && manifests.indexNames.contains("styleIdAndCapturedAt")
+      && transaction.objectStore(PROJECT_STORES.measurementCaptures).indexNames.contains("styleId");
   } catch {
     return false;
   }
@@ -551,6 +571,56 @@ function parseRecoveryClears(ids: readonly string[] | undefined, styleIds: reado
     throw new ProjectRepositoryError("invalid-data", "Recovery clear IDs must be unique styles in this project.");
   }
   return [...ids];
+}
+
+function parseMeasurementCaptureInputs(
+  records: readonly MeasurementCaptureRecord[] | undefined,
+  projectId: string,
+  styleIds: readonly string[],
+): MeasurementCaptureRecord[] {
+  if (records === undefined) return [];
+  if (!Array.isArray(records)) throw new ProjectRepositoryError("invalid-data", "Measurement capture records must be a list.");
+  const parsed: MeasurementCaptureRecord[] = [];
+  for (const input of records) {
+    const record = parseMeasurementCaptureRecord(input);
+    if (!record.ok) throw new ProjectRepositoryError("invalid-data", record.error);
+    if (record.value.projectId !== projectId || !styleIds.includes(record.value.styleId)) {
+      throw new ProjectRepositoryError("invalid-data", "Measurement capture sessions must belong to a style in this project.");
+    }
+    if (parsed.some((item) => item.styleId === record.value.styleId && item.recipeId === record.value.recipeId)) {
+      throw new ProjectRepositoryError("invalid-data", "A project bundle contains duplicate capture sessions for one style and recipe.");
+    }
+    parsed.push(record.value);
+  }
+  return parsed;
+}
+
+/** Resolves the one existing, available style that owns a capture session. */
+async function captureOwnerInTransaction(transaction: IDBTransaction, styleId: string): Promise<StyleRecord> {
+  const styleInput = await requestValue<unknown>(transaction.objectStore(PROJECT_STORES.styles).get(styleId));
+  if (styleInput === undefined) throw new ProjectRepositoryError("not-found", "The capture session's style does not exist.");
+  const style = parseStyleRecord(styleInput);
+  if (!style.ok) throw new ProjectRepositoryError("invalid-data", style.error);
+  const projectInput = await requestValue<unknown>(transaction.objectStore(PROJECT_STORES.projects).get(style.value.projectId));
+  if (projectInput === undefined) throw new ProjectRepositoryError("not-found", "The capture session's project does not exist.");
+  const project = parseProjectRecord(projectInput);
+  if (!project.ok) throw new ProjectRepositoryError("invalid-data", project.error);
+  if (!project.value.styleIds.includes(styleId)) {
+    throw new ProjectRepositoryError("invalid-data", "The capture session's style is not listed by its project.");
+  }
+  if (style.value.archivedAt !== null) {
+    throw new ProjectRepositoryError("invalid-data", "An archived style's capture session is read-only; restore the style first.");
+  }
+  return style.value;
+}
+
+function storedCapture(input: unknown, styleId: string, recipeId: string, projectId: string): MeasurementCaptureRecord {
+  const parsed = parseMeasurementCaptureRecord(input);
+  if (!parsed.ok) throw new ProjectRepositoryError("invalid-data", parsed.error);
+  if (parsed.value.styleId !== styleId || parsed.value.recipeId !== recipeId || parsed.value.projectId !== projectId) {
+    throw new ProjectRepositoryError("invalid-data", "A stored capture session is linked to a different style, recipe, or project.");
+  }
+  return parsed.value;
 }
 
 async function bundleInTransaction(
@@ -723,11 +793,15 @@ export async function openProjectRepository(options: ProjectRepositoryOptions = 
         } else if (event.oldVersion === 5 && event.newVersion === PROJECT_DATABASE_VERSION) {
           // The v6 transition is additive: store creation and a strict style
           // schema upgrade only. Hashing/seed rows happen after the upgrade.
+        } else if (event.oldVersion === 6 && event.newVersion === PROJECT_DATABASE_VERSION) {
+          // The v7 transition only adds the empty capture-session store; no
+          // existing project, style, history, or output row is rewritten.
         } else {
           request.transaction?.abort();
           return;
         }
         createImmutableHistoryStores(request.result);
+        createMeasurementCaptureStore(request.result);
         if (event.oldVersion === 5) upgradeStyleRevisionHeads(request.transaction);
       } catch {
         try { request.transaction?.abort(); } catch { /* The upgrade transaction may already be aborting. */ }
@@ -814,6 +888,16 @@ export class ProjectRepository {
           if (!parsed.ok) throw new ProjectRepositoryError("invalid-data", parsed.error);
           recoveries.push(parsed.value);
         }
+        const measurementCaptures: MeasurementCaptureRecord[] = [];
+        const captureIndex = transaction.objectStore(PROJECT_STORES.measurementCaptures).index("styleId");
+        for (const style of loaded.styles) {
+          // Index order follows the [styleId, recipeId] primary key, so backups are deterministic.
+          for (const input of await requestValue<unknown[]>(captureIndex.getAll(style.id))) {
+            // The compound key path guarantees an indexed row carries a recipe key; parsing validates it.
+            const recipeId = (input as { readonly recipeId: string }).recipeId;
+            measurementCaptures.push(storedCapture(input, style.id, recipeId, loaded.project.id));
+          }
+        }
         return {
           project: loaded.project,
           styles: loaded.styles,
@@ -821,6 +905,7 @@ export class ProjectRepository {
           fieldObservations: loaded.fieldObservations,
           styleRevisions: loaded.styleRevisions,
           exportManifests: loaded.exportManifests,
+          ...(measurementCaptures.length > 0 ? { measurementCaptures } : {}),
         };
       });
     if (!snapshot) return null;
@@ -952,6 +1037,9 @@ export class ProjectRepository {
       || exportManifests.some((manifest) => !bundle.value.project.styleIds.includes(manifest.styleId))) {
       throw new ProjectRepositoryError("invalid-data", "Imported immutable history must belong to a style in the imported project.");
     }
+    const measurementCaptures = parseMeasurementCaptureInputs(
+      input.measurementCaptures, bundle.value.project.id, bundle.value.project.styleIds,
+    );
     const receipt = parseProjectImportReceipt(input.receipt);
     if (!receipt || receipt.projectId !== bundle.value.project.id) {
       throw new ProjectRepositoryError("invalid-data", "Project package import receipt does not match the imported project.");
@@ -994,6 +1082,7 @@ export class ProjectRepository {
       }
       for (const recovery of recoveries) transaction.objectStore(PROJECT_STORES.recoveries).add(recovery);
       for (const record of fieldObservations) transaction.objectStore(PROJECT_STORES.fieldObservations).add(record);
+      for (const record of measurementCaptures) transaction.objectStore(PROJECT_STORES.measurementCaptures).add(record);
       transaction.objectStore(PROJECT_STORES.meta).put(selection(
         bundle.value.project.id,
         bundle.value.project.activeStyleId,
@@ -1279,6 +1368,64 @@ export class ProjectRepository {
       transaction.objectStore(PROJECT_STORES.projects).put(validatedProject.value);
       return validatedProject.value;
     });
+  }
+
+  /** Reads one style's capture session for one recipe; null when none was saved. */
+  async readMeasurementCapture(styleId: string, recipeId: string): Promise<MeasurementCaptureRecord | null> {
+    this.ensureOpen();
+    if (typeof styleId !== "string" || typeof recipeId !== "string" || recipeId.length === 0) {
+      throw new ProjectRepositoryError("invalid-data", "Capture style or recipe ID is invalid.");
+    }
+    return inTransaction(this.database,
+      [PROJECT_STORES.projects, PROJECT_STORES.styles, PROJECT_STORES.measurementCaptures], "readonly",
+      async (transaction) => {
+        const style = await captureOwnerInTransaction(transaction, styleId);
+        const input = await requestValue<unknown>(
+          transaction.objectStore(PROJECT_STORES.measurementCaptures).get([styleId, recipeId]),
+        );
+        return input === undefined ? null : storedCapture(input, styleId, recipeId, style.projectId);
+      });
+  }
+
+  /**
+   * Writes only the capture store. `expectedRevision` is null to create the
+   * style/recipe session, otherwise the stored capture revision it replaces.
+   * Project, style, recovery, history and output rows are never written here.
+   */
+  async saveMeasurementCapture(
+    recordInput: MeasurementCaptureRecord,
+    expectedRevision: number | null,
+  ): Promise<MeasurementCaptureRecord> {
+    this.ensureOpen();
+    const parsed = parseMeasurementCaptureRecord(recordInput);
+    if (!parsed.ok) throw new ProjectRepositoryError("invalid-data", parsed.error);
+    if (!validExpectedRevision(expectedRevision)) {
+      throw new ProjectRepositoryError("invalid-data", "Expected capture revision is invalid.");
+    }
+    const record = parsed.value;
+    if (record.revision !== (expectedRevision === null ? 1 : expectedRevision + 1)) {
+      throw new ProjectRepositoryError("invalid-data", "Capture revision must be 1 for creation or advance exactly once.");
+    }
+    return inTransaction(this.database,
+      [PROJECT_STORES.projects, PROJECT_STORES.styles, PROJECT_STORES.measurementCaptures], "readwrite",
+      async (transaction) => {
+        const style = await captureOwnerInTransaction(transaction, record.styleId);
+        if (style.projectId !== record.projectId) {
+          throw new ProjectRepositoryError("invalid-data", "The capture session names a different project than its style.");
+        }
+        const store = transaction.objectStore(PROJECT_STORES.measurementCaptures);
+        const priorInput = await requestValue<unknown>(store.get([record.styleId, record.recipeId]));
+        const prior = priorInput === undefined ? null : storedCapture(priorInput, record.styleId, record.recipeId, style.projectId);
+        if ((prior?.revision ?? null) !== expectedRevision) {
+          throw new ProjectRepositoryError("conflict", "This capture session changed in another tab; reload it before saving.");
+        }
+        if (prior && (!isMeasurementCaptureSessionSuccessor(prior.session, record.session)
+          || Date.parse(record.updatedAt) < Date.parse(prior.updatedAt))) {
+          throw new ProjectRepositoryError("conflict", "A stale or different capture session cannot replace the saved readings.");
+        }
+        store.put(record);
+        return record;
+      });
   }
 
   async selectActiveStyle(projectId: string, styleId: string, expectedProjectRevision: number, updatedAt: string): Promise<ProjectRecord> {

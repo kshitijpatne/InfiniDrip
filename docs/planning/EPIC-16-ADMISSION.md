@@ -122,14 +122,19 @@ The first-run project repository creates a starter style to initialize the
 workspace. That generated record is not proof that the user advanced from the
 Garment stage. Slice 246 carries an `initializedFirstRun` signal through both
 journey selection and restoration so Measure remains pending until the user
-advances. Capture sessions are not yet attached to G02 project/style records;
-resume, conflict, narrow-layout, accessibility and all-recipe validation remain
-Slice 247 exits. Slice 246 passed the full 127-file/1,874-test repository suite
-at 100% statement, branch, function and line coverage, protected export
-identity checks, build, Control Center tests (33/33), and `git diff --check`.
-Mounted-app tests rendered and checked the route; standalone browser screenshot
-review remains a Slice 247 rendered-QA item. Slice 247 owns durable resume,
-conflict, narrow-layout, accessibility and all-recipe validation.
+advances. Slice 247 attaches capture sessions and unrecorded text drafts to
+existing G02 style records through a strict additive IndexedDB store and
+package format. It validates stale-write conflicts, persistence failure
+behavior, all seven field routes, the Woven-shirt hip-station blocker, narrow
+layout, accessible field semantics, and reload resume. Its production-browser
+screenshots, Axe results, accessible role tree and layout metrics are recorded
+in `docs/research/epic16/evidence/S247-guided-measurements-verification.json`;
+the review and exit boundaries are in
+`docs/research/epic16/S247-M01-VALIDATION-EXIT.md`. The full 127-file/1,898-test
+suite passed at 100% statement, branch, function and line coverage; strict app
+and Electron builds and Control Center tests passed. M01 is complete after its
+validated Control Center transition. Slice 248 may begin M02; its existing
+one-size, recipe-parity, and protected-output gates remain unchanged.
 
 ## Acceptance gates
 

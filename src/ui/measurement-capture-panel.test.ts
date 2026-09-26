@@ -515,4 +515,127 @@ describe("measurement capture panel", () => {
       .toBe("To resolve: Enter a finite numeric value; the original text stays visible.");
     expect(invalid.querySelector(`[data-reading-id="${R2}"] .measurement-capture-panel__selected`)).not.toBeNull();
   });
+
+  // jsdom has no layout engine, so viewport behavior itself is verified with a
+  // rendered browser check; these tests pin the viewport-independent structural
+  // classes and relationships that the narrow (320/390/700) and wide CSS rules
+  // target, so a markup change cannot silently detach a breakpoint layout.
+  it("keeps every field inside contained structural containers with no inline sizing", () => {
+    const root = mount(allStatesModel());
+    expect(root.querySelector("section.measurement-capture-panel")!.id).toBe("guided-capture");
+    expect(root.querySelectorAll("ol.measurement-capture-panel__fields")).toHaveLength(1);
+    const items = root.querySelectorAll("li.measurement-capture-panel__field");
+    expect(items.length).toBe(4);
+    for (const item of items) {
+      expect(item.querySelector("fieldset.measurement-capture-panel__fieldset")).not.toBeNull();
+      expect(item.querySelector("legend.measurement-capture-panel__legend")).not.toBeNull();
+      expect(item.querySelector(".measurement-capture-panel__entry")).not.toBeNull();
+      expect(item.querySelector(".measurement-capture-panel__readings")).not.toBeNull();
+      expect(item.querySelector(".measurement-capture-panel__optional-details")).not.toBeNull();
+    }
+    expect(root.querySelectorAll("[width], [height]")).toHaveLength(0);
+    const ids = [...root.querySelectorAll("[id]")].map((node) => node.id);
+    expect(new Set(ids).size).toBe(ids.length);
+  });
+
+  it("keeps entry controls usable for single-unit, multi-unit and unitless fields", () => {
+    const root = mount(model({
+      fields: [
+        field({ fieldId: "single", label: "Single", unit: "cm", unitOptions: ["cm"], draftUnit: "cm" }),
+        field({ fieldId: "multi", label: "Multi", unit: "cm", unitOptions: ["cm", "in"], draftUnit: "in" }),
+        field({ fieldId: "unitless", label: `Unitless ${"name ".repeat(20)}`, unit: "", unitOptions: [], draftUnit: "" }),
+      ],
+    }));
+    const items = [...root.querySelectorAll("li.measurement-capture-panel__field")];
+    expect(items).toHaveLength(3);
+    expect(items[0].querySelector("span.measurement-capture-panel__unit")).not.toBeNull();
+    expect(items[0].querySelector(".measurement-capture-panel__entry select")).toBeNull();
+    const unitSelect = items[1].querySelector<HTMLSelectElement>("select.measurement-capture-panel__unit-select")!;
+    expect(unitSelect.labels).toHaveLength(1);
+    expect(unitSelect.value).toBe("in");
+    expect(items[2].querySelector(".measurement-capture-panel__unit")!.textContent).toBe("no unit");
+    for (const item of items) {
+      expect(item.querySelectorAll('.measurement-capture-panel__entry input[type="text"]')).toHaveLength(1);
+      const add = item.querySelector<HTMLButtonElement>('[data-action="capture-add-reading"]')!;
+      expect(add.type).toBe("button");
+      expect(add.textContent).toBe("Add reading");
+    }
+    const ids = [...root.querySelectorAll("[id]")].map((node) => node.id);
+    expect(new Set(ids).size).toBe(ids.length);
+  });
+
+  it("keeps optional source controls grouped and labeled per field", () => {
+    const root = mount(allStatesModel());
+    const items = root.querySelectorAll("li.measurement-capture-panel__field");
+    expect(items.length).toBeGreaterThan(1);
+    for (const item of items) {
+      const details = item.querySelector("details.measurement-capture-panel__optional-details")!;
+      expect(details.querySelector("summary")!.textContent).toBe("Optional source details");
+      const grid = details.querySelector(".measurement-capture-panel__optional-grid")!;
+      expect(grid.querySelectorAll("label")).toHaveLength(4);
+      for (const control of grid.querySelectorAll<HTMLInputElement | HTMLSelectElement>("input, select")) {
+        expect(control.labels).toHaveLength(1);
+      }
+    }
+  });
+
+  it("keeps reading selection, conflict, correction and draft-error states understandable", () => {
+    const root = mount(model({
+      fields: [field({
+        state: "ambiguous", draftRawValue: "12", draftError: "Choose a unit the field accepts.",
+        correction: "Choose one recorded value or add another reading.",
+        readings: [
+          reading({ id: R1, rawValue: "30", canonicalValue: 30 }),
+          reading({ id: R2, rawValue: "odd", canonicalValue: null, evidenceStatus: "CONFLICT" }),
+        ],
+        selectedReadingId: null,
+      })],
+    }));
+    const item = root.querySelector("li.measurement-capture-panel__field")!;
+    expect(item.querySelectorAll("li.measurement-capture-panel__reading")).toHaveLength(2);
+    expect(item.querySelector(".measurement-capture-panel__never-averaged")!.textContent).toContain("never averaged");
+    expect(item.querySelector(`[data-reading-id="${R2}"] .measurement-capture-panel__reading-details`)!.textContent)
+      .toContain("Conflicting evidence");
+    const error = item.querySelector(".measurement-capture-panel__draft-error")!;
+    expect(error.textContent).toBe("Entry problem: Choose a unit the field accepts.");
+    const input = item.querySelector("input")!;
+    expect(input.getAttribute("aria-invalid")).toBe("true");
+    expect(input.getAttribute("aria-describedby")!.split(" ")).toContain(error.id);
+    expect(item.querySelector(".measurement-capture-panel__correction")!.textContent)
+      .toBe("To resolve: Choose one recorded value or add another reading.");
+    for (const button of item.querySelectorAll('[data-action="capture-select-reading"]')) {
+      expect(button.textContent).toMatch(/^Use reading \d+$/);
+      expect(button.getAttribute("aria-pressed")).toBe("false");
+    }
+  });
+
+  it("keeps keyboard interaction on native controls with DOM order and no tabindex overrides", () => {
+    const root = mount(allStatesModel());
+    expect(root.querySelectorAll("[tabindex]")).toHaveLength(0);
+    expect(root.querySelectorAll("div[role='button'], div[role='checkbox'], div[role='radio'], span[role='button']")).toHaveLength(0);
+    const interactive = [...root.querySelectorAll("button, input, select, summary")];
+    expect(interactive.length).toBeGreaterThan(0);
+    for (const tag of interactive.map((node) => node.tagName)) {
+      expect(["BUTTON", "INPUT", "SELECT", "SUMMARY"]).toContain(tag);
+    }
+    for (const control of root.querySelectorAll<HTMLInputElement | HTMLSelectElement>("input, select")) {
+      expect(control.labels).toHaveLength(1);
+    }
+    for (const button of root.querySelectorAll("button")) {
+      expect(button.textContent!.trim().length).toBeGreaterThan(0);
+    }
+  });
+
+  it("announces through exactly one polite live region, including empty and announced states", () => {
+    const announced = mount(model({ announcement: "Reading added to Chest." }));
+    expect(announced.querySelectorAll('[role="status"], [aria-live]')).toHaveLength(1);
+    const status = announced.querySelector('[role="status"]')!;
+    expect(status.getAttribute("aria-live")).toBe("polite");
+    expect(status.textContent).toBe("Reading added to Chest. Ready: 0 of 1 fields. Needing attention: 1 (1 missing).");
+    const empty = mount(model({ fields: [], emptyMessage: null }));
+    expect(empty.querySelectorAll('[role="status"], [aria-live]')).toHaveLength(1);
+    expect(empty.querySelector('[role="status"]')!.textContent)
+      .toBe("No measurement fields are available for this garment.");
+    expect(empty.querySelector("section")!.getAttribute("aria-labelledby")).toBe("guided-capture-title");
+  });
 });

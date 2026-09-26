@@ -7,12 +7,16 @@ import {
   type ProjectRepositoryOptions,
 } from "./project-repository";
 import {
+  MEASUREMENT_CAPTURE_RECORD_VERSION,
   RECOVERY_RECORD_VERSION,
   STYLE_RECORD_VERSION,
+  type MeasurementCaptureDraft,
+  type MeasurementCaptureRecord,
   type RecoveryPayload,
   type SavedDesign,
   type StyleRecord,
 } from "./project-records";
+import type { MeasurementCaptureSession } from "./measurement-capture";
 import { LEGACY_RECOVERY_STORAGE_KEY, LEGACY_SAVE_STORAGE_KEY } from "./persist";
 import {
   appendRecoveryFieldObservations,
@@ -240,8 +244,14 @@ async function seedRevisionHeadsWithRetry(
   }
 }
 
+function captureKey(styleId: string, recipeId: string): string {
+  return JSON.stringify([styleId, recipeId]);
+}
+
 export class ProjectWorkflow {
   private tail: Promise<void> = Promise.resolve();
+  /** Last capture record read or written here, per style and recipe; the CAS base for the next save. */
+  private readonly captureRecords = new Map<string, MeasurementCaptureRecord | null>();
 
   constructor(
     readonly repository: ProjectRepository,
@@ -345,6 +355,55 @@ export class ProjectWorkflow {
         monotonicTimestamp(this.now(), current.project.updatedAt),
       );
       await this.reloadLoaded();
+    });
+  }
+
+  /**
+   * Loads the active style's unfinished capture session and unrecorded drafts
+   * for one recipe, or null. Load before saving an existing session: a save
+   * never replaces a stored session this workflow has not read.
+   */
+  async loadMeasurementCapture(recipeId: string): Promise<MeasurementCaptureRecord | null> {
+    return this.enqueue(async () => {
+      const styleId = this.loaded.activeStyle.id;
+      const record = await this.repository.readMeasurementCapture(styleId, recipeId);
+      this.captureRecords.set(captureKey(styleId, recipeId), record);
+      return record;
+    });
+  }
+
+  /**
+   * Persists a deliberate reading/selection change and the current unrecorded
+   * drafts for the active style. Only the capture store is written; the
+   * design, field history, recovery, revisions and project/style revisions
+   * are untouched. Drafts are stored in recipe field order.
+   */
+  async saveMeasurementCapture(
+    session: MeasurementCaptureSession,
+    drafts: readonly MeasurementCaptureDraft[],
+  ): Promise<MeasurementCaptureRecord> {
+    return this.enqueue(async () => {
+      const current = this.loaded;
+      const styleId = current.activeStyle.id;
+      if (session.styleId !== styleId) {
+        throw new ProjectRepositoryError("conflict", "This capture session belongs to another style; reload the active style's capture before saving.");
+      }
+      const key = captureKey(styleId, session.recipeId);
+      const prior = this.captureRecords.get(key) ?? null;
+      const order = new Map(session.fields.map((field, index) => [field.fieldId, index]));
+      const record: MeasurementCaptureRecord = {
+        schemaVersion: MEASUREMENT_CAPTURE_RECORD_VERSION,
+        styleId,
+        projectId: current.project.id,
+        recipeId: session.recipeId,
+        revision: prior === null ? 1 : prior.revision + 1,
+        updatedAt: prior === null ? monotonicTimestamp(this.now()) : monotonicTimestamp(this.now(), prior.updatedAt),
+        session,
+        drafts: [...drafts].sort((left, right) => (order.get(left.fieldId) ?? -1) - (order.get(right.fieldId) ?? -1)),
+      };
+      const saved = await this.repository.saveMeasurementCapture(record, prior === null ? null : prior.revision);
+      this.captureRecords.set(key, saved);
+      return saved;
     });
   }
 

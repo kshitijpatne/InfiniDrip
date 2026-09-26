@@ -164,6 +164,8 @@ describe("measurement help catalog", () => {
     expect(measurementHelpFor("trouser", "target.finished-thigh-girth")!.draftUse).toContain("33 summed one-leg");
     expect(measurementHelpFor("trouser", "target.trouser-finished-inseam")!.draftUse).toContain("78.42");
     expect(measurementHelpFor("woven-shirt", "body.neck-base-girth")!.draftUse).toContain("51.55");
+    expect(measurementHelpFor("woven-shirt", "target.top-hps-to-hem")!.limits)
+      .toContain("blocks continuation when the hip station falls below the hem");
   });
 
   it("contains no invented procedure, ease, target, or fit-validation copy", () => {

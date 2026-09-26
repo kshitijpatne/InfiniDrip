@@ -21,7 +21,7 @@ performed as part of this intake.
 
 | ID | Browser comment | Priority | Relationship to G03–G17 | Review disposition |
 |---|---:|---|---|---|
-| MQF-001 | 1 | High / P1 | G03 M01 stage and measurement route | **To be reviewed** at G03 exit. |
+| MQF-001 | 1 | High / P1 | G03 M01 stage and measurement route | Reviewed at Slice 247: first-run Measure remains pending until the user explicitly opens the route; integration and reload/browser checks pass. |
 | MQF-002 | 2 | High / P1 | No explicit global selected-card color contract | Defer color-system research and scoping until after G17. |
 | MQF-003 | 3 | High / P1 | G02 project/style workflow is complete; no later onboarding scope identified | Defer broader project/style comprehension review until after G17. |
 | MQF-004 | 4 | High / P1 | G04 V01–V02 construction views; G09 D03–D04 assembled views | **To be reviewed** at those output exits. |
@@ -33,8 +33,8 @@ performed as part of this intake.
 | MQF-010 | 10 | High / P1 | No explicit single-screen / outer-scroll remediation packet | Defer app-wide layout scoping until after G17. |
 | MQF-011 | 11 | High / P1 | Partial overlap: G04 artwork views, G05 tech-pack data/exports, G17 library | **To be reviewed** at each relevant exit; defer unowned interaction/rendering research until after G17. |
 | MQF-012 | 12 | High / P1 | Partial overlap: G04 garment views and G05 T03 construction content | **To be reviewed** at those exits; defer any uncovered collar research/remediation scope until after G17. |
-| MQF-013 | 13 | High / P1 | G03 may touch its measurement route; no global material-control redesign identified | Review G03 route clarity at its exit; defer broader visual redesign until after G17. |
-| MQF-014 | 14 | High / P1 | G03 M01 measurement coaching | **To be reviewed** at G03 M01 exit; defer broader guidance placement redesign until after G17. |
+| MQF-013 | 13 | High / P1 | G03 may touch its measurement route; no global material-control redesign identified | Reviewed at Slice 247 for G03 route clarity; broader Material/Stretch visual redesign remains deferred until after G17. |
+| MQF-014 | 14 | High / P1 | G03 M01 measurement coaching | Reviewed at Slice 247 for inline measurement help and correction visibility; broader Guidance & material advice placement remains deferred until after G17. |
 | MQF-015 | 15 | High / P1 | G03 M02 parity; G04 V03; G05 T02–T05; G13 X01 | **To be reviewed** against each relevant export at its capability exit. |
 
 ## Detailed observations and exit checks
@@ -47,7 +47,10 @@ performed as part of this intake.
   from garment selection. G03 M01 introduces the measurement-first route and
   recipe-specific guidance. At G03 exit, check fresh-profile and resumed-state
   journey indicators: only a stage the user has explicitly completed should
-  show completion. Do not infer the implementation cause from the screenshot.
+  show completion. Slice 246 fixed the first-run state and Slice 247 rechecked
+  fresh and resumed behavior; see
+  `docs/research/epic16/S247-M01-VALIDATION-EXIT.md`. Do not infer the original
+  implementation cause from the screenshot alone.
 - **MQF-003 — project/style panel is hard to understand.** Browser target:
   `div#project-manager-host > details.project-manager-details`. The maintainer
   does not know what the section does, how to use it, or what to expect. EPIC-15
@@ -60,7 +63,9 @@ performed as part of this intake.
   includes measurement help and missing/contradictory-value guidance, so review
   the visibility and correction path at its exit. This does not commit G03 to
   redesigning the entire app's guidance placement; retain that broader question
-  for post-G17 review.
+  for post-G17 review. Slice 247 records that M01's recipe-specific help and
+  correction now appear inline with the capture fields. The global guidance
+  section placement remains deferred.
   The future app-wide review should test whether a complete beginner can tell
   what each stage and control does, what result to expect, and how to proceed,
   using external expert and user evidence rather than relying on internal
@@ -95,10 +100,10 @@ performed as part of this intake.
 - **MQF-013 — material/stretch controls feel outdated.** Browser target:
   Material / Stretch section (`div#style-host > div:nth-of-type(2)`). The selected
   Cotton-woven card and material/stretch controls are described as dull and
-  behind the complexity expected of a design tool. G03 can review clarity of
-  controls on its own measurement-first route; it does not currently specify a
-  global Material/Stretch panel redesign. Keep the wider visual/interaction
-  question for post-G17 research and discussion.
+  behind the complexity expected of a design tool. Slice 247 reviewed the
+  clarity of the G03 measurement route only; it does not specify a global
+  Material/Stretch panel redesign. Keep the wider visual/interaction question
+  for post-G17 research and discussion.
 
 ### Pattern, garment, and artwork fidelity
 

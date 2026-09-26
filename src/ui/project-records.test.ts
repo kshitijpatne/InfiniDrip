@@ -3,18 +3,29 @@ import { STANDARD_M } from "../drafting";
 import { DEFAULT_APPEARANCE } from "./appearance";
 import { DEFAULT_WORKSPACE, serialize, serializeRecovery } from "./persist";
 import {
+  MEASUREMENT_CAPTURE_RECORD_VERSION,
+  isMeasurementCaptureSessionSuccessor,
   migrateLegacyRecovery,
   migrateLegacySaveFile,
+  parseMeasurementCaptureRecord,
   parseMigrationRecord,
   parseProjectRecord,
   parseRecoveryRecord,
   parseSavedDesignRecord,
   parseStyleRecord,
   validateProjectBundle,
+  type MeasurementCaptureDraft,
+  type MeasurementCaptureRecord,
   type ProjectRecord,
   type RecoveryRecord,
   type StyleRecord,
 } from "./project-records";
+import {
+  addCaptureReadingForField,
+  createMeasurementCaptureSession,
+  selectCaptureReading,
+  type MeasurementCaptureSession,
+} from "./measurement-capture";
 
 const PROJECT_ID = "a02b8322-8f57-46bb-9d16-16ac1fcf6811";
 const OTHER_PROJECT_ID = "c502163f-10be-4dce-89c9-35de897e9814";
@@ -271,5 +282,158 @@ describe("strict project and style records", () => {
     expect(parseMigrationRecord({ ...marker, migratedAt: "today" }).ok).toBe(false);
     expect(parseMigrationRecord({ ...marker, projectId: "bad" }).ok).toBe(false);
     expect(parseMigrationRecord({ ...marker, styleId: "bad" }).ok).toBe(false);
+  });
+});
+
+const SESSION_ID = "3f0c6a2e-8d1b-4c5e-9a7f-2b6d8e1c4a90";
+const READING_ID = "d34a5104-ae25-4b54-9a2b-fcc35237ff71";
+const SECOND_READING_ID = "e78e0c40-ae1a-4d03-9470-80345f994734";
+const CHEST = "body.chest-girth";
+const T1 = "2026-09-24T16:00:01.000Z";
+const T2 = "2026-09-24T16:00:02.000Z";
+const T3 = "2026-09-24T16:00:03.000Z";
+
+function captureSession(styleId: string | null = STYLE_ID): MeasurementCaptureSession {
+  return createMeasurementCaptureSession(SESSION_ID, "tee", TIME, styleId);
+}
+
+function withReading(
+  session: MeasurementCaptureSession,
+  id = READING_ID,
+  rawValue = "40.125",
+  enteredUnit = "in",
+  at = T1,
+): MeasurementCaptureSession {
+  return addCaptureReadingForField(session, CHEST, {
+    id,
+    rawValue,
+    enteredUnit,
+    provenance: "USER_CAPTURED",
+    evidenceStatus: "UNCONFIRMED",
+    sourceLabel: "User-entered value; capture method and technique not qualified.",
+    captureMethod: null,
+    capturedAt: null,
+    measurer: null,
+  }, at);
+}
+
+function captureDraft(fieldId = CHEST, overrides: Partial<MeasurementCaptureDraft> = {}): MeasurementCaptureDraft {
+  const unit = captureSession().fields.find((field) => field.fieldId === fieldId)?.unit ?? "cm";
+  return {
+    fieldId, rawValue: "9O.5 typo", enteredUnit: unit, sourceNote: "", captureMethod: "", captureDate: "", measurer: "",
+    ...overrides,
+  };
+}
+
+function captureRecord(overrides: Partial<MeasurementCaptureRecord> = {}): MeasurementCaptureRecord {
+  return {
+    schemaVersion: MEASUREMENT_CAPTURE_RECORD_VERSION,
+    styleId: STYLE_ID,
+    projectId: PROJECT_ID,
+    recipeId: "tee",
+    revision: 1,
+    updatedAt: TIME,
+    session: captureSession(),
+    drafts: [],
+    ...overrides,
+  };
+}
+
+describe("measurement capture records", () => {
+  it("keeps an empty session and exact unrecorded drafts separate from recorded readings", () => {
+    const fieldIds = captureSession().fields.map((field) => field.fieldId);
+    const chestIndex = fieldIds.indexOf(CHEST);
+    const laterField = fieldIds[chestIndex + 1]!;
+    const empty = captureRecord();
+    expect(parseMeasurementCaptureRecord(empty)).toEqual({ ok: true, value: empty });
+    const drafts = [
+      captureDraft(CHEST, {
+        rawValue: " 40 1/8 ", enteredUnit: "in", sourceNote: "Tape note", captureMethod: "Over a T-shirt",
+        captureDate: "2026-09-24", measurer: "HELPER",
+      }),
+      captureDraft(laterField, { rawValue: "" }),
+    ];
+    const record = captureRecord({ session: withReading(captureSession()), drafts });
+    const parsed = parseMeasurementCaptureRecord(record);
+    expect(parsed).toEqual({ ok: true, value: record });
+    if (!parsed.ok) throw new Error(parsed.error);
+    // The recorded reading and the unrecorded draft for the same field stay distinct.
+    expect(parsed.value.session.fields[chestIndex]?.readings.map((reading) => reading.rawValue)).toEqual(["40.125"]);
+    expect(parsed.value.drafts[0]?.rawValue).toBe(" 40 1/8 ");
+  });
+
+  it("fails closed for malformed, foreign, unattached, or reordered capture records", () => {
+    const fieldIds = captureSession().fields.map((field) => field.fieldId);
+    const record = captureRecord();
+    const invalid: readonly unknown[] = [
+      null,
+      { ...record, extra: true },
+      { ...record, schemaVersion: 2 },
+      { ...record, styleId: "bad" },
+      { ...record, projectId: "bad" },
+      { ...record, recipeId: 5 },
+      { ...record, revision: 0 },
+      { ...record, updatedAt: "today" },
+      { ...record, session: { ...record.session, extra: true } },
+      { ...record, session: captureSession(null) },
+      { ...record, session: captureSession(OTHER_STYLE_ID) },
+      { ...record, recipeId: "skirt" },
+      { ...record, drafts: {} },
+      { ...record, drafts: [{ ...captureDraft(), extra: true }] },
+      { ...record, drafts: [captureDraft("body.unknown")] },
+      { ...record, drafts: [captureDraft(), captureDraft()] },
+      { ...record, drafts: [captureDraft(fieldIds[1]!), captureDraft(fieldIds[0]!)] },
+      { ...record, drafts: [captureDraft(CHEST, { rawValue: 5 as unknown as string })] },
+      { ...record, drafts: [captureDraft(CHEST, { rawValue: "1".repeat(4097) })] },
+      { ...record, drafts: [captureDraft(CHEST, { enteredUnit: 5 as unknown as string })] },
+      { ...record, drafts: [captureDraft(CHEST, { enteredUnit: "mm" })] },
+      { ...record, drafts: [captureDraft(CHEST, { sourceNote: null as unknown as string })] },
+      { ...record, drafts: [captureDraft(CHEST, { sourceNote: "s".repeat(501) })] },
+      { ...record, drafts: [captureDraft(CHEST, { captureMethod: null as unknown as string })] },
+      { ...record, drafts: [captureDraft(CHEST, { captureMethod: "m".repeat(257) })] },
+      { ...record, drafts: [captureDraft(CHEST, { captureDate: null as unknown as string })] },
+      { ...record, drafts: [captureDraft(CHEST, { captureDate: "24-09-2026" })] },
+      { ...record, drafts: [captureDraft(CHEST, { captureDate: "2026-13-01" })] },
+      { ...record, drafts: [captureDraft(CHEST, { captureDate: "2026-02-30" })] },
+      { ...record, drafts: [captureDraft(CHEST, { measurer: null as unknown as "" })] },
+      { ...record, drafts: [captureDraft(CHEST, { measurer: "ROBOT" as unknown as "" })] },
+    ];
+    for (const value of invalid) expect(parseMeasurementCaptureRecord(value).ok).toBe(false);
+    expect(parseMeasurementCaptureRecord({ ...record, drafts: [captureDraft(CHEST, { measurer: "IMPORTED" })] }).ok).toBe(true);
+  });
+
+  it("accepts only same-session successors that keep every earlier reading exactly", () => {
+    const prior = withReading(captureSession());
+    const { fields, ...identity } = JSON.parse(JSON.stringify(prior)) as MeasurementCaptureSession;
+    const reordered = { fields, ...identity };
+    expect(isMeasurementCaptureSessionSuccessor(prior, prior)).toBe(true);
+    // Key order from a package or structured clone must not look like a changed reading.
+    expect(isMeasurementCaptureSessionSuccessor(prior, reordered)).toBe(true);
+    const repeated = withReading(prior, SECOND_READING_ID, "102", "cm", T2);
+    expect(isMeasurementCaptureSessionSuccessor(prior, repeated)).toBe(true);
+    const selected = selectCaptureReading(repeated, CHEST, READING_ID, T3);
+    expect(isMeasurementCaptureSessionSuccessor(repeated, selected)).toBe(true);
+    expect(isMeasurementCaptureSessionSuccessor(prior, selected)).toBe(true);
+
+    expect(isMeasurementCaptureSessionSuccessor(prior, { ...repeated, id: "c200916f-baa3-4373-87f8-8d7481fb6053" })).toBe(false);
+    expect(isMeasurementCaptureSessionSuccessor(prior, { ...repeated, styleId: OTHER_STYLE_ID })).toBe(false);
+    expect(isMeasurementCaptureSessionSuccessor(prior, { ...repeated, recipeId: "skirt" })).toBe(false);
+    expect(isMeasurementCaptureSessionSuccessor(prior, { ...repeated, createdAt: T1 })).toBe(false);
+    expect(isMeasurementCaptureSessionSuccessor(repeated, prior)).toBe(false);
+    expect(isMeasurementCaptureSessionSuccessor(prior, { ...repeated, updatedAt: TIME })).toBe(false);
+    const sameRevisionChanged = { ...prior, fields: prior.fields.map((field) => ({ ...field, selectedReadingId: null })) };
+    expect(isMeasurementCaptureSessionSuccessor(prior, sameRevisionChanged)).toBe(false);
+    const rewritten = {
+      ...repeated,
+      fields: repeated.fields.map((field) => field.fieldId !== CHEST ? field : {
+        ...field, readings: field.readings.map((reading, index) => index === 0 ? { ...reading, rawValue: "40" } : reading),
+      }),
+    };
+    expect(isMeasurementCaptureSessionSuccessor(prior, rewritten)).toBe(false);
+    const dropped = {
+      ...repeated,
+      fields: repeated.fields.map((field) => field.fieldId !== CHEST ? field : { ...field, readings: field.readings.slice(1) }),
+    };
+    expect(isMeasurementCaptureSessionSuccessor(prior, dropped)).toBe(false);
   });
 });
