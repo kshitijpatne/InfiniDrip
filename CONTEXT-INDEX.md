@@ -115,6 +115,15 @@ only through an explicitly admitted, linked Epic packet.
   execution contract, verified start, seven-recipe C03 boundaries, ordered
   Slice 244–252 plan, source qualification and grade approval gates, and merge
   exit. Use `PROJECT-STATE.md` and the canonical Control Center for live status.
+- `docs/research/epic16/MEASUREMENT-HELP-SOURCE-AUDIT.md` — OpenCode's
+  source-traced M01 audit of all seven recipe inputs, the limits of public
+  measurement guidance, and the safe explanatory-copy boundary. It does not
+  authorize unsourced measurement procedures or product changes.
+- `docs/research/epic16/ONE-SIZE-RECIPE-MAPPING-AUDIT.md` — Claude Code's
+  read-only M01/M02 audit of recipe inputs, drafting consumers, POMs, and the
+  one-size parity risks Codex must resolve before output verification. It is
+  evidence for implementation planning, not an approval to change legacy
+  drafting or export baselines.
 - `docs/research/epic15/F01-STORAGE-CONTRACT-S230.md` — Slice 230's accepted
   IndexedDB repository, non-destructive legacy migration, per-style recovery,
   artwork two-store, portable package, failure and test contracts. Its Electron

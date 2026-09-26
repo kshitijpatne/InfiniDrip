@@ -60,6 +60,51 @@ The baseline is seven implementation slices, plus this admission and a final rev
 | 251 | M03 approved graded output | Integrate approved plans with existing grade and cutting/export paths; check every size and POM/cutting quantity reconciliation, per-size overrides, unsupported exceptions, stale state, and invalid-state visibility. | Slice 250. No silently inherited XS–XL chart or physical fit claim. |
 | 252 | G03 final review and merge exit | Reconcile all accepted criteria; remediate with new slices; run full coverage, strict builds, protected export identities, Control Center checks, browser/narrow/accessibility checks, actual output replay, PR review and safe merge verification. Close only after the board, `origin/main` ancestry, and exit evidence agree. | M01 → M02 → M03 complete. |
 
+## Slice 245 capture-contract resolutions
+
+`src/ui/measurement-capture.ts` is the versioned, recipe-specific record of
+what the user entered, selected, or explicitly accepted as a digital preset.
+It preserves raw text, entered unit, exact centimetre conversion, source label,
+optional method/date/measurer, evidence state, and append-only reading revision.
+The session starts empty; repeated readings remain separate and require a
+deliberate selection. It rejects unknown recipes and stale/unsupported field
+definitions. It does not attach or rewrite a project until the existing G02
+workflow is used by M02.
+
+The source audit
+(`docs/research/epic16/MEASUREMENT-HELP-SOURCE-AUDIT.md`) found no accepted
+fit-qualified measurement procedure for the seven current recipe mappings.
+M01 may explain the digital meaning, present use, guardrail and uncertainty of
+each input; it may not invent anatomical steps. User-entered body fields remain
+unconfirmed unless supported by the contract's allowed evidence. A preset is
+added only after an explicit user choice and is labeled as a digital starting
+value, not wearer data.
+
+The guided Skirt route uses the existing shared 40–100 cm software range. The
+Maxi style's 100–120 cm extension is unavailable in this route; entries above
+100 cm remain inspectable and block continuation with an explicit explanation.
+No value is clamped and no legacy SaveFile range is changed.
+
+The Claude Code mapping audit's executed findings and Slice 245 dispositions
+are recorded in
+`docs/research/epic16/ONE-SIZE-RECIPE-MAPPING-AUDIT.md` §12. In particular,
+known differences between an entered digital target and a legacy draft/POM
+remain visible facts. Slice 245 does not alter legacy drafting formulas or
+export baselines. M01 help and output review must describe those mappings
+truthfully; geometry correction, option fallback, and output identity decisions
+stay at their assigned M01/M02 gates. Woven hip-station validity is an explicit
+M01 check in Slice 247. Body inputs retained only for the Tank body view must
+be distinguished from values used by its pattern block. Any acceptance failure
+that needs code beyond its assigned slice gets a separately numbered
+remediation slice.
+
+Legacy `Measurements` still has more keys than some recipes use. M02 must keep
+unused values out of the capture record and identify any value required to
+populate a legacy record as an explicit, reviewable digital default. It must
+not copy another recipe's capture or label a schema filler as a body reading.
+One-size filenames and whether whole-run outputs require an approved plan are
+decided and verified in Slices 248–249.
+
 ## Acceptance gates
 
 ### M01 — guided measurements for every existing recipe

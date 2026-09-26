@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: EPIC-16/G03 admitted at Slice 244, 2026-09-26._
+_Last updated: EPIC-16/G03 Slice 245 complete, 2026-09-26._
 Current directive: EPIC-14/G01 and EPIC-15/G02 are closed with accepted exit
 evidence. The maintainer admitted EPIC-16/G03 at Slice 244 from `origin/main`
 Slice 242, preserving the local Slice 243 manual-quality findings in its
@@ -9,8 +9,9 @@ reviewed branch. The linked execution contract is
 ordered scope. G03 is local-first and digital; no body-capture procedure is
 presented as qualified without accepted sourcing/review, and no physical-fit
 claim is authorized. The validated Control Center records EPIC-16 as In
-Progress with M01, M02, M03, and final-review work cards. The current verified
-board revision and branch commits are recorded in the Slice 244 log below.
+Progress with M01, M02, M03, and final-review work cards; M01 is In Progress at
+board revision 325. The admission and capture-contract boundaries are recorded
+in the Slice 244 and Slice 245 logs below.
 G02's F01, F02, F03, and final review are Done. PR #11 merged the
 reviewed Slice 240 head as `e5155e82dbd21cda5b3f537b950eb4c32a22d215`; Slices
 204, 205, and 240 are verified ancestors of `origin/main`. The S240 review
@@ -4362,3 +4363,42 @@ children. Verification: `npm run control-center:test` passed 33/33 after the
 invariant update; `git diff --check` passed. The next action is Slice 245's
 versioned capture contract; do not start M02 until M01's all-recipe and source
 gates pass.
+
+### Slice 245 — versioned G03 capture contract
+
+`src/ui/measurement-capture.ts` now defines a strict versioned session for
+each of the seven existing recipes. It starts empty; preserves raw input text,
+entered units, exact canonical values, provenance, evidence status, source
+labels, optional method/date/measurer and revision history; and keeps repeated
+readings separate until the user deliberately chooses one. Blank, ambiguous,
+conflicting, nonnumeric and out-of-guardrail values remain visible and block
+readiness with a correction. Unknown recipes, stale fields, malformed records
+and invalid ownership are rejected. Presets are only added by an explicit
+action and are labeled as digital starting values, never wearer measurements.
+The contract is serializable domain data; the guided screen and G02-backed
+save/resume are still assigned to Slices 246–247.
+
+The guided skirt route is explicitly capped at the existing shared 100 cm
+control. A 100–120 cm Maxi value remains stored and invalid without clamping,
+with a message that the style label's extended band is currently unavailable.
+The OpenCode source audit and Claude Code recipe mapping audit are linked in
+`CONTEXT-INDEX.md`. The recipe audit's executed findings and slice decisions
+are recorded in its §12. Woven hip-below-hem validation is assigned to Slice
+247, while legacy drafting/POM mismatches remain documented and must be shown
+truthfully in M01/M02 review without moving protected export baselines.
+
+The validated Control Center command layer moved M01 to In Progress at board
+revision 325; its invariant test reflects that current state. Verification:
+`npx vitest run src/ui/measurement-capture.test.ts --coverage
+--coverage.include=src/ui/measurement-capture.ts` passed 11/11 with 100%
+statement, branch, function and line coverage for the new module; `npm run
+coverage -- --testTimeout=30000 --maxWorkers=4 --minWorkers=4` passed 125 test
+files and 1,847 tests with 100% statements, branches, functions and lines;
+`npm run build` passed; `npm run control-center:test` passed 33/33; and
+`git diff --check` passed. The 30-second timeout and four-worker bounds were
+command-line verification settings only. The first default-timeout full run
+had two unrelated package-test timeouts; both passed in the successful full
+rerun. Protected export identity tests passed within the full suite. No route,
+project persistence, grading behavior, user-facing measurement instructions,
+or export baseline changed in Slice 245. Next: Slice 246, the seven-recipe
+guided route, without beginning M02 before M01's gates pass.

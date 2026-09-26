@@ -58,6 +58,28 @@ which measurements, options, pieces, and construction details to use. A tee
 and a skirt use different rules and shapes, but the same app tools display,
 check, compare sizes, estimate fabric layout, and export both drafts.
 
+### Measurement-first capture contract (G03/M01)
+
+The versioned `measurement-capture.ts` model records an empty, recipe-specific
+session before values are entered. A reading keeps the user's original text,
+entered unit, unrounded centimetre conversion, source label, optional method,
+capture date and measurer, evidence status, and revision. Presets are separate
+readings labeled as digital starting values, never wearer measurements. More
+than one reading stays visible and requires an explicit choice; conflicting,
+blank, nonnumeric and out-of-guardrail selections block the draft with a
+field-specific correction. Values outside a software guardrail are retained,
+not silently changed.
+
+The source audit in
+`docs/research/epic16/MEASUREMENT-HELP-SOURCE-AUDIT.md` found no accepted
+apparel procedure for the current recipe-to-pattern mappings. G03/M01 may
+explain each field's reference frame, current use, software limit and unresolved
+mapping, but must not invent landmark or posture steps. In particular, the
+guided skirt route follows the shared 40–100 cm software control and explains
+that the Maxi label's 100–120 cm band is currently unavailable. The capture
+record is serializable domain data; its guided route and durable G02-backed
+save/resume are completed in the subsequent M01 slices.
+
 Pattern pieces are created from measurements and selected options. The app
 does not draw a separate, unrelated design for each screen or file. Most areas
 show or check the same current draft:

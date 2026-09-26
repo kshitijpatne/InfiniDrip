@@ -95,7 +95,7 @@ test("closed Epics 14 and 15 and gated future backlog match their evidence", () 
       assert.deepEqual(admittedWork.map((entry) => entry.id), [
         "EPIC16-M01", "EPIC16-M02", "EPIC16-M03", "EPIC16-FINAL-REVIEW",
       ]);
-      assert.equal(admittedWork[0].status, "Ready");
+      assert.equal(admittedWork[0].status, "In Progress");
       assert.deepEqual(admittedWork.slice(1).map((entry) => entry.status), ["Backlog", "Backlog", "Backlog"]);
       assert.deepEqual(admittedWork.map((entry) => entry.dependencies.at(-1)), [
         "EPIC-15", "EPIC16-M01", "EPIC16-M02", "EPIC16-M03",
