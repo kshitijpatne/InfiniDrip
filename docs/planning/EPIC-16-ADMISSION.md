@@ -105,6 +105,32 @@ not copy another recipe's capture or label a schema filler as a body reading.
 One-size filenames and whether whole-run outputs require an approved plan are
 decided and verified in Slices 248–249.
 
+## Slice 246 route decisions
+
+The Garment stage offers the existing full editor and an optional guided
+measurement route as separate, explicit choices. The guided route uses
+recipe-specific field definitions and the source-audited help catalog. It
+states field kind/reference frame, current digital draft use, known unresolved
+mapping, software guardrail, and source scope. Because no accepted
+fit-qualified capture procedure exists, it does not teach anatomical
+landmarks, posture, or tape paths. It preserves entered raw text and unit,
+optional source/method/date/measurer notes, separate readings and explicit
+selection. It never averages readings or treats a preset as wearer data. The
+existing full editor remains available after garment selection.
+
+The first-run project repository creates a starter style to initialize the
+workspace. That generated record is not proof that the user advanced from the
+Garment stage. Slice 246 carries an `initializedFirstRun` signal through both
+journey selection and restoration so Measure remains pending until the user
+advances. Capture sessions are not yet attached to G02 project/style records;
+resume, conflict, narrow-layout, accessibility and all-recipe validation remain
+Slice 247 exits. Slice 246 passed the full 127-file/1,874-test repository suite
+at 100% statement, branch, function and line coverage, protected export
+identity checks, build, Control Center tests (33/33), and `git diff --check`.
+Mounted-app tests rendered and checked the route; standalone browser screenshot
+review remains a Slice 247 rendered-QA item. Slice 247 owns durable resume,
+conflict, narrow-layout, accessibility and all-recipe validation.
+
 ## Acceptance gates
 
 ### M01 — guided measurements for every existing recipe

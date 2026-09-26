@@ -77,8 +77,14 @@ explain each field's reference frame, current use, software limit and unresolved
 mapping, but must not invent landmark or posture steps. In particular, the
 guided skirt route follows the shared 40–100 cm software control and explains
 that the Maxi label's 100–120 cm band is currently unavailable. The capture
-record is serializable domain data; its guided route and durable G02-backed
-save/resume are completed in the subsequent M01 slices.
+record is serializable domain data. Slice 246 adds a garment-stage choice
+between guided capture and the existing full editor, with recipe-specific
+field meaning, current draft use, software limits, source caveats, raw units,
+separate readings, optional provenance details and explicit preset acceptance.
+No anatomical steps are shown. The capture session is still in memory and is
+not yet durable across project reload; Slice 247 owns resume, conflict, narrow
+layout, accessibility and all-recipe validation. A project created by the
+first-run bootstrap does not count as the user's decision to leave Garment.
 
 Pattern pieces are created from measurements and selected options. The app
 does not draw a separate, unrelated design for each screen or file. Most areas
@@ -247,9 +253,9 @@ complete matrix and residual risks are recorded in
 F02 and F03 are complete. PR #11 merged the reviewed Slice 240 tree to
 `origin/main` at `e5155e82dbd21cda5b3f537b950eb4c32a22d215`; Slice 241 verified
 the S204/S205/S240 ancestry and closed EPIC-15 at Control Center revision 315.
-EPIC-16 through EPIC-30 remain Backlog, and this digital work does not establish
-physical fit, drape, factory acceptance, supplier readiness, or production
-readiness.
+EPIC-16/G03 is admitted and M01 is In Progress; EPIC-17 through EPIC-30 remain
+Backlog. This digital work does not establish physical fit, drape, factory
+acceptance, supplier readiness, or production readiness.
 Slice 237 is now complete: it adds the semantic-anchor operation model,
 per-size geometry/stitch/recipe/POM guards, explicit rebase/conflict/undo rules,
 and an accessible warning for invalid edits in the still-exploratory Edit

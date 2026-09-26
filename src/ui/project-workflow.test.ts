@@ -96,6 +96,7 @@ describe("local project/style workflow", () => {
       ...options, storage: fakeStorage, idFactory: ids(PROJECT_ID, STYLE_ID), now: () => TIME,
     });
     workflows.push(workflow);
+    expect(workflow.initializedFirstRun).toBe(true);
     expect(workflow.snapshot.project.styleIds).toEqual([STYLE_ID]);
     expect(workflow.snapshot.activeStyle.name).toBe("Untitled tee");
     expect(workflow.snapshot.activeStyle.recipeId).toBe("tee");

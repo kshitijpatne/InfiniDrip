@@ -114,7 +114,10 @@ only through an explicitly admitted, linked Epic packet.
 - `docs/planning/EPIC-16-ADMISSION.md` — the maintainer-admitted G03/M01–M03
   execution contract, verified start, seven-recipe C03 boundaries, ordered
   Slice 244–252 plan, source qualification and grade approval gates, and merge
-  exit. Use `PROJECT-STATE.md` and the canonical Control Center for live status.
+  exit. Slice 246 adds the guided capture route and source-qualified factual
+  field help; Slice 247 still owns resume, conflict, narrow-layout,
+  accessibility and all-recipe validation. Use `PROJECT-STATE.md` and the
+  canonical Control Center for live status.
 - `docs/research/epic16/MEASUREMENT-HELP-SOURCE-AUDIT.md` — OpenCode's
   source-traced M01 audit of all seven recipe inputs, the limits of public
   measurement guidance, and the safe explanatory-copy boundary. It does not

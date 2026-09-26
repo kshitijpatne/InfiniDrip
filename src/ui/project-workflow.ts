@@ -251,6 +251,8 @@ export class ProjectWorkflow {
     private readonly revisionIdFactory: () => string = uuid,
     private readonly artworkStore?: ArtworkAssetStore,
     private readonly cryptoProvider?: Crypto,
+    /** True only for the browser session that created the empty first-run workspace. */
+    readonly initializedFirstRun = false,
   ) {}
 
   get snapshot(): LoadedProject {
@@ -602,6 +604,7 @@ export class ProjectWorkflow {
 
 export async function openProjectWorkflow(options: ProjectWorkflowOptions = {}): Promise<ProjectWorkflow> {
   const repository = await (options.openRepository ?? openProjectRepository)(options.repositoryOptions);
+  let initializedFirstRun = false;
   try {
     let loaded = await repository.readActiveProject();
     if (!loaded) {
@@ -629,6 +632,7 @@ export async function openProjectWorkflow(options: ProjectWorkflowOptions = {}):
             (options.idFactory ?? uuid)(),
             (options.now ?? canonicalNow)(),
           );
+          initializedFirstRun = true;
         } catch (error) {
           loaded = await repository.readActiveProject();
           if (!loaded) throw error;
@@ -665,6 +669,7 @@ export async function openProjectWorkflow(options: ProjectWorkflowOptions = {}):
       revisionIdFactory,
       options.artworkStore,
       options.repositoryOptions?.crypto,
+      initializedFirstRun,
     );
   } catch (error) {
     repository.close();

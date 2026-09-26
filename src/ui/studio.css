@@ -585,6 +585,82 @@ label.pattern-measurement-match {
 .journey-secondary-action {
   border: 1px solid #34506a; background: transparent; color: #9bb8cc;
 }
+.g03-route-choice {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 12px; align-items: center;
+  min-width: 0; padding: 10px 12px; border: 1px solid #34506a; border-radius: 8px; background: #102033;
+}
+.g03-route-choice h2 { margin: 0; color: #e8f2f8; font-size: 14px; line-height: 1.3; }
+.g03-route-choice p { grid-column: 1; margin: 0; color: #a9c0d0; font-size: 12px; line-height: 1.4; }
+.g03-route-choice button { grid-column: 2; grid-row: 1 / span 2; }
+.measurement-capture-panel {
+  box-sizing: border-box; min-width: 0; max-height: min(62vh, 640px); overflow: auto;
+  padding: 10px 12px; border: 1px solid #34506a; border-radius: 8px; background: #102033;
+  color: #d9e6ef; scrollbar-gutter: stable;
+}
+.measurement-capture-panel__title { margin: 0 0 5px; color: #f0f6fb; font-size: 15px; line-height: 1.3; }
+.measurement-capture-panel__intro,
+.measurement-capture-panel__status { margin: 5px 0 8px; color: #b8cbd8; font-size: 12px; line-height: 1.45; }
+.measurement-capture-panel__status { padding: 6px 8px; border-left: 3px solid #88d7ef; background: #0d1b2c; }
+.measurement-capture-panel__fields { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.measurement-capture-panel__fieldset { min-width: 0; margin: 0; padding: 8px 10px; border: 1px solid #34506a; border-radius: 7px; }
+.measurement-capture-panel__legend { padding: 0 4px; color: #f0f6fb; font-size: 13px; font-weight: 700; }
+.measurement-capture-panel__kind,
+.measurement-capture-panel__state,
+.measurement-capture-panel__meaning,
+.measurement-capture-panel__use,
+.measurement-capture-panel__caveat,
+.measurement-capture-panel__guardrail,
+.measurement-capture-panel__correction,
+.measurement-capture-panel__draft-error,
+.measurement-capture-panel__reading-details,
+.measurement-capture-panel__never-averaged,
+.measurement-capture-panel__readings-empty,
+.measurement-capture-panel__preset-details { margin: 4px 0; color: #b8cbd8; font-size: 11px; line-height: 1.4; overflow-wrap: anywhere; }
+.measurement-capture-panel__state[data-state="resolved"] { color: #a9e2c4; }
+.measurement-capture-panel__state[data-state="missing"],
+.measurement-capture-panel__state[data-state="ambiguous"],
+.measurement-capture-panel__state[data-state="invalid"] { color: #f3d38f; }
+.measurement-capture-panel__help { margin: 6px 0; padding: 6px 8px; border-left: 2px solid #45627a; background: #0d1b2c; }
+.measurement-capture-panel__entry { display: grid; grid-template-columns: minmax(80px, 1fr) minmax(72px, .3fr) auto; gap: 6px; align-items: end; margin-top: 7px; }
+.measurement-capture-panel__input-label,
+.measurement-capture-panel__unit-label { color: #d9e6ef; font-size: 11px; font-weight: 700; }
+.measurement-capture-panel__input-label { grid-column: 1; grid-row: 1; }
+.measurement-capture-panel__unit-label { grid-column: 2; grid-row: 1; }
+.measurement-capture-panel__input,
+.measurement-capture-panel__unit-select { min-width: 0; min-height: 34px; box-sizing: border-box; padding: 6px 8px; border: 1px solid #45627a; border-radius: 5px; background: #0b1826; color: #f0f6fb; font: inherit; }
+.measurement-capture-panel__input:focus-visible,
+.measurement-capture-panel__unit-select:focus-visible,
+.measurement-capture-panel button:focus-visible { outline: 2px solid #88d7ef; outline-offset: 2px; }
+.measurement-capture-panel__unit { align-self: center; color: #b8cbd8; font-size: 12px; }
+.measurement-capture-panel button { min-height: 34px; padding: 6px 9px; border: 1px solid #45627a; border-radius: 5px; background: #18334a; color: #e6f1f7; font: inherit; font-size: 11px; cursor: pointer; }
+.measurement-capture-panel button:hover { background: #21475e; }
+.measurement-capture-panel__readings { margin-top: 7px; }
+.measurement-capture-panel__readings-title { margin: 0 0 4px; color: #d9e6ef; font-size: 11px; }
+.measurement-capture-panel__reading-list { display: grid; gap: 4px; margin: 0; padding-left: 20px; }
+.measurement-capture-panel__reading { padding: 5px 7px; border: 1px solid #34506a; border-radius: 5px; background: #0d1b2c; }
+.measurement-capture-panel__reading-summary { margin: 0; color: #e0ebf2; font-size: 12px; line-height: 1.4; overflow-wrap: anywhere; }
+.measurement-capture-panel__selected { color: #a9e2c4; }
+.measurement-capture-panel__preset { margin-top: 7px; padding: 6px 8px; border: 1px solid #45627a; border-radius: 5px; }
+.measurement-capture-panel__draft-error,
+.measurement-capture-panel__correction { color: #f3d38f; }
+.measurement-capture-panel__optional-details { margin-top: 7px; border-top: 1px solid #34506a; padding-top: 5px; }
+.measurement-capture-panel__optional-details > summary { min-height: 28px; color: #c3d4df; font-size: 11px; font-weight: 700; cursor: pointer; }
+.measurement-capture-panel__optional-grid { display: grid; grid-template-columns: minmax(105px, .7fr) minmax(0, 1.3fr); gap: 5px 8px; align-items: center; }
+.measurement-capture-panel__optional-grid > label { color: #c3d4df; font-size: 11px; }
+.measurement-capture-panel__optional-grid > input,
+.measurement-capture-panel__optional-grid > select { min-width: 0; min-height: 32px; box-sizing: border-box; padding: 5px 7px; border: 1px solid #45627a; border-radius: 5px; background: #0b1826; color: #f0f6fb; font: inherit; font-size: 12px; }
+.measurement-capture-panel__optional-grid > p { grid-column: 1 / -1; margin: 0; color: #9bb8cc; font-size: 10px; line-height: 1.35; }
+.measurement-capture-panel__unit-select { grid-column: 2; grid-row: 2; }
+.measurement-capture-panel__entry > .measurement-capture-panel__input { grid-column: 1; grid-row: 2; }
+.measurement-capture-panel__entry > .measurement-capture-panel__unit { grid-column: 2; grid-row: 2; }
+.measurement-capture-panel__entry > button { grid-column: 3; grid-row: 2; }
+@media (max-width: 700px) {
+  .g03-route-choice { grid-template-columns: minmax(0, 1fr); }
+  .g03-route-choice p, .g03-route-choice button { grid-column: 1; grid-row: auto; }
+  .measurement-capture-panel { max-height: 55vh; padding: 8px; }
+  .measurement-capture-panel__entry { grid-template-columns: minmax(0, 1fr) minmax(72px, .5fr); }
+  .measurement-capture-panel__entry > button { grid-column: 1 / -1; grid-row: 3; }
+}
 .journey-checklist-summary {
   margin-bottom: 7px; color: #9bb8cc; font-size: 11px; font-weight: 600;
   letter-spacing: .04em; text-transform: uppercase;

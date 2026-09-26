@@ -5,10 +5,15 @@ import { webcrypto } from "node:crypto";
 import { IDBFactory } from "fake-indexeddb";
 import {
   exportablePieces,
+  applySelectedCaptureValue,
+  captureSessionForRecipe,
+  captureSessionMatchesRecipe,
+  guidedCaptureStageBlocker,
   mountApp,
   renderSemanticEditorPiece,
   resolveSemanticEditorRole,
   selectedSizeLabel,
+  renderForCaptureSession,
   semanticEditorHandles,
   semanticEditorPieceForRole,
   semanticSizeStepFor,
@@ -23,6 +28,13 @@ import { GARMENTS, STANDARD_M, draftTshirt, rolePiece, type GarmentRecipe } from
 import * as editEngine from "../edit";
 import { pieceHandles, editorViewBox } from "../edit";
 import { loadJourney } from "./journey";
+import { getFieldDefinitions } from "./field-provenance";
+import {
+  addCaptureReadingForField,
+  createMeasurementCaptureSession,
+  selectCaptureReading,
+} from "./measurement-capture";
+import * as measurementHelp from "./measurement-help";
 import { PATTERN_MEASUREMENT_MAP, type PatternMeasurementDefinition, type PatternMeasurementField } from "./pattern-measurements";
 
 const mutablePatternMeasurementMap = PATTERN_MEASUREMENT_MAP as unknown as
@@ -56,6 +68,57 @@ describe("mountApp", () => {
     expect(exportablePieces(source, true)).toEqual([]);
     expect(() => exportablePieces(source, false)).toThrow(/pattern export is paused/);
     expect(() => exportablePieces(null, true)).toThrow(/pattern export is paused/);
+  });
+
+  it("fails closed when the guided capture session is missing, belongs to another recipe, or is incomplete", () => {
+    expect(guidedCaptureStageBlocker(null, "woven-shirt")).toMatchObject({
+      message: "Start guided capture for the selected garment before continuing.", step: "measure",
+    });
+    const teeSession = createMeasurementCaptureSession("00000000-0000-4000-8000-000000000001", "tee", "2026-09-26T00:00:00.000Z");
+    expect(captureSessionMatchesRecipe(null, "woven-shirt")).toBe(false);
+    expect(captureSessionMatchesRecipe(teeSession, "woven-shirt")).toBe(false);
+    expect(captureSessionMatchesRecipe(teeSession, "tee")).toBe(true);
+    const create = vi.fn(() => createMeasurementCaptureSession(
+      "00000000-0000-4000-8000-000000000005", "woven-shirt", "2026-09-26T00:00:00.000Z",
+    ));
+    expect(captureSessionForRecipe(teeSession, "tee", create)).toBe(teeSession);
+    expect(captureSessionForRecipe(teeSession, "woven-shirt", create)).toBe(create.mock.results[0]!.value);
+    expect(captureSessionForRecipe(null, "woven-shirt", create)).toBe(create.mock.results[1]!.value);
+    expect(create).toHaveBeenCalledTimes(2);
+    const render = vi.fn(() => "rendered panel");
+    expect(renderForCaptureSession(null, "woven-shirt", render)).toBe("");
+    expect(renderForCaptureSession(teeSession, "woven-shirt", render)).toBe("");
+    expect(renderForCaptureSession(teeSession, "tee", render)).toBe("rendered panel");
+    expect(render).toHaveBeenCalledOnce();
+    expect(guidedCaptureStageBlocker(teeSession, "woven-shirt")).toMatchObject({
+      message: "Start guided capture for the selected garment before continuing.", step: "measure",
+    });
+    const wovenSession = createMeasurementCaptureSession("00000000-0000-4000-8000-000000000002", "woven-shirt", "2026-09-26T00:00:00.000Z");
+    expect(guidedCaptureStageBlocker(wovenSession, "woven-shirt")).toMatchObject({
+      step: "measure", field: getFieldDefinitions("woven-shirt")[0]!.id,
+    });
+  });
+
+  it("does not apply a selected reading while its evidence is conflicting", () => {
+    const recipeId = "tee";
+    const field = getFieldDefinitions(recipeId)[0]!;
+    const now = "2026-09-26T00:00:00.000Z";
+    const initial = createMeasurementCaptureSession("00000000-0000-4000-8000-000000000003", recipeId, now);
+    const withConflict = addCaptureReadingForField(initial, field.id, {
+      id: "00000000-0000-4000-8000-000000000004",
+      rawValue: String(field.defaultValue),
+      enteredUnit: field.unit,
+      provenance: "USER_CAPTURED",
+      evidenceStatus: "CONFLICT",
+      sourceLabel: "Conflicting source record",
+      captureMethod: null,
+      capturedAt: null,
+      measurer: null,
+    }, now);
+    const selected = selectCaptureReading(withConflict, field.id, "00000000-0000-4000-8000-000000000004", now);
+    const apply = vi.fn();
+    applySelectedCaptureValue(selected, recipeId, field.id, apply);
+    expect(apply).not.toHaveBeenCalled();
   });
 
   it("shows a render failure and disables exports when the current source throws", () => {
@@ -185,9 +248,231 @@ describe("mountApp", () => {
     localStorage.clear();
     const root = mount();
     expect(root.querySelector<HTMLSelectElement>("#stretch-select")!.value).toBe("Cotton jersey");
+    const measure = root.querySelector<HTMLButtonElement>("#journey-step-measure")!;
+    expect(measure.getAttribute("aria-label")).toBe("2 Measure");
+    expect(measure.dataset.stageState).toBe("pending");
+    clickId(root, "journey-next");
+    expect(root.querySelector<HTMLButtonElement>("#journey-step-measure")!.getAttribute("aria-label"))
+      .toBe("2 Measure — current stage");
+    clickId(root, "journey-next");
+    expect(root.querySelector<HTMLButtonElement>("#journey-step-measure")!.getAttribute("aria-label"))
+      .toBe("2 Measure — complete");
+  });
+
+  it("opens the guided capture route with recipe help and keeps the full editor available", () => {
+    localStorage.clear();
+    const root = mount();
+    clickId(root, "garment-woven-shirt");
+    expect(root.querySelector<HTMLButtonElement>("#journey-step-measure")!.dataset.stageState).toBe("pending");
+    expect(root.querySelector<HTMLButtonElement>("#journey-guided")!.textContent).toBe("Guide my measurements");
+    const captureWithoutSession = document.createElement("button");
+    captureWithoutSession.dataset.action = "capture-add-reading";
+    captureWithoutSession.dataset.fieldId = "body.chest-girth";
+    root.append(captureWithoutSession);
+    captureWithoutSession.click();
+    captureWithoutSession.remove();
+
+    const fallbackDefinition = getFieldDefinitions("woven-shirt")[0]!;
+    const originalHelpLookup = measurementHelp.measurementHelpFor;
+    const missingHelp = vi.spyOn(measurementHelp, "measurementHelpFor").mockImplementation((recipeId, fieldId) =>
+      fieldId === fallbackDefinition.id ? null : originalHelpLookup(recipeId, fieldId));
+    const originalCrypto = globalThis.crypto;
+    const captureFallbackCrypto = new Proxy(originalCrypto, {
+      get(target, property) {
+        if (property === "randomUUID") return undefined;
+        const value = Reflect.get(target, property, target) as unknown;
+        return typeof value === "function" ? value.bind(target) : value;
+      },
+    });
+    try {
+      vi.stubGlobal("crypto", captureFallbackCrypto);
+      clickId(root, "journey-guided");
+      const fallbackCaveat = root.querySelector<HTMLElement>(
+        `[data-field-id="${fallbackDefinition.id}"] .measurement-capture-panel__caveat`,
+      )!;
+      expect(fallbackCaveat.textContent).toContain(fallbackDefinition.captureBoundary);
+    } finally {
+      vi.stubGlobal("crypto", originalCrypto);
+      missingHelp.mockRestore();
+    }
+    expect(root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("measure");
+    expect(root.querySelector<HTMLElement>("#controls-panel")!.style.display).toBe("none");
+    expect(root.querySelectorAll(".measurement-capture-panel__field")).toHaveLength(getFieldDefinitions("woven-shirt").length);
+    expect(root.querySelector(".measurement-capture-panel__field")!.textContent).toContain("How the draft uses it");
+    expect(root.querySelector<HTMLButtonElement>("#journey-next")!.disabled).toBe(true);
+
+    const uninitializedDraftFailure = document.createElement("button");
+    uninitializedDraftFailure.dataset.action = "capture-add-reading";
+    uninitializedDraftFailure.dataset.fieldId = "body.neck-base-girth";
+    root.append(uninitializedDraftFailure);
+    const throwingErrorCrypto = new Proxy(originalCrypto, {
+      get(target, property) {
+        if (property === "randomUUID") return () => { throw new Error("synthetic capture failure"); };
+        const value = Reflect.get(target, property, target) as unknown;
+        return typeof value === "function" ? value.bind(target) : value;
+      },
+    });
+    try {
+      vi.stubGlobal("crypto", throwingErrorCrypto);
+      uninitializedDraftFailure.click();
+    } finally {
+      vi.stubGlobal("crypto", originalCrypto);
+      uninitializedDraftFailure.remove();
+    }
+    expect(root.querySelector<HTMLElement>("#g03-measurement-capture-status")!.textContent)
+      .toContain("synthetic capture failure");
+
+    const initialChestUnit = root.querySelector<HTMLSelectElement>(
+      '[data-action="capture-change-unit"][data-field-id="body.chest-girth"]',
+    )!;
+    initialChestUnit.dispatchEvent(new Event("change", { bubbles: true }));
+    const staleCaptureInput = document.createElement("input");
+    staleCaptureInput.dataset.action = "capture-edit-raw";
+    staleCaptureInput.dataset.fieldId = "stale.capture-field";
+    root.append(staleCaptureInput);
+    staleCaptureInput.dispatchEvent(new Event("input", { bubbles: true }));
+    staleCaptureInput.remove();
+    const unnamedCaptureInput = document.createElement("input");
+    unnamedCaptureInput.dataset.action = "capture-edit-raw";
+    root.append(unnamedCaptureInput);
+    unnamedCaptureInput.dispatchEvent(new Event("input", { bubbles: true }));
+    unnamedCaptureInput.remove();
+    const staleCaptureSelect = document.createElement("select");
+    staleCaptureSelect.dataset.action = "capture-change-unit";
+    staleCaptureSelect.dataset.fieldId = "stale.capture-unit-field";
+    staleCaptureSelect.value = "in";
+    root.append(staleCaptureSelect);
+    staleCaptureSelect.dispatchEvent(new Event("change", { bubbles: true }));
+    staleCaptureSelect.remove();
+    const unnamedCaptureSelect = document.createElement("select");
+    unnamedCaptureSelect.dataset.action = "capture-change-unit";
+    root.append(unnamedCaptureSelect);
+    unnamedCaptureSelect.dispatchEvent(new Event("change", { bubbles: true }));
+    unnamedCaptureSelect.remove();
+    const unnamedCaptureAction = document.createElement("button");
+    unnamedCaptureAction.dataset.action = "capture-add-reading";
+    root.append(unnamedCaptureAction);
+    unnamedCaptureAction.click();
+    unnamedCaptureAction.remove();
+    const missingReadingId = document.createElement("button");
+    missingReadingId.dataset.action = "capture-select-reading";
+    missingReadingId.dataset.fieldId = "body.chest-girth";
+    root.append(missingReadingId);
+    missingReadingId.click();
+    missingReadingId.remove();
+    const nonErrorCaptureFailure = document.createElement("button");
+    nonErrorCaptureFailure.dataset.action = "capture-add-reading";
+    nonErrorCaptureFailure.dataset.fieldId = "stale.capture-error-field";
+    root.append(nonErrorCaptureFailure);
+    const throwingCrypto = new Proxy(originalCrypto, {
+      get(target, property) {
+        if (property === "randomUUID") return () => { throw "synthetic capture failure"; };
+        const value = Reflect.get(target, property, target) as unknown;
+        return typeof value === "function" ? value.bind(target) : value;
+      },
+    });
+    try {
+      vi.stubGlobal("crypto", throwingCrypto);
+      nonErrorCaptureFailure.click();
+    } finally {
+      vi.stubGlobal("crypto", originalCrypto);
+      nonErrorCaptureFailure.remove();
+    }
+    expect(root.querySelector<HTMLElement>("#g03-measurement-capture-status")!.textContent)
+      .toContain("This value could not be recorded.");
+
+    const correction = root.querySelector<HTMLButtonElement>("#journey-correction")!;
+    const correctionInput = root.querySelector<HTMLInputElement>(
+      `[data-action="capture-edit-raw"][data-field-id="${correction.dataset.correctionField}"]`,
+    )!;
+    const focusCorrection = vi.spyOn(correctionInput, "focus");
+    clickId(root, "journey-correction");
+    expect(focusCorrection).toHaveBeenCalledOnce();
+    const chest = root.querySelector<HTMLInputElement>('[data-action="capture-edit-raw"][data-field-id="body.chest-girth"]')!;
+    chest.value = "40.5";
+    chest.dispatchEvent(new Event("input", { bubbles: true }));
+    const unit = root.querySelector<HTMLSelectElement>('[data-action="capture-change-unit"][data-field-id="body.chest-girth"]')!;
+    unit.value = "in";
+    unit.dispatchEvent(new Event("change", { bubbles: true }));
+    const optional = chest.closest("li")!.querySelector<HTMLDetailsElement>(".measurement-capture-panel__optional-details")!;
+    optional.open = true;
+    const sourceNote = optional.querySelector<HTMLInputElement>('[data-action="capture-edit-source"]')!;
+    sourceNote.value = "User's sewing notebook";
+    sourceNote.dispatchEvent(new Event("input", { bubbles: true }));
+    const methodNote = optional.querySelector<HTMLInputElement>('[data-action="capture-edit-method"]')!;
+    methodNote.value = "User supplied method note";
+    methodNote.dispatchEvent(new Event("input", { bubbles: true }));
+    const dateNote = optional.querySelector<HTMLInputElement>('[data-action="capture-edit-date"]')!;
+    dateNote.value = "2026-09-25";
+    dateNote.dispatchEvent(new Event("input", { bubbles: true }));
+    const measurer = optional.querySelector<HTMLSelectElement>('[data-action="capture-change-measurer"]')!;
+    measurer.value = "HELPER";
+    measurer.dispatchEvent(new Event("change", { bubbles: true }));
+    clickId(root, chest.closest("li")!.querySelector<HTMLButtonElement>('[data-action="capture-add-reading"]')!.id);
+    expect(root.querySelector('[data-reading-id] .measurement-capture-panel__reading-summary')!.textContent)
+      .toContain("40.5” in = 102.87 cm");
+    const chestReadingDetails = root.querySelector<HTMLElement>('[data-field-id="body.chest-girth"] .measurement-capture-panel__reading-details')!;
+    expect(chestReadingDetails.textContent).toContain("Source: User's sewing notebook");
+    expect(chestReadingDetails.textContent).toContain("Method: User supplied method note");
+    expect(chestReadingDetails.textContent).toContain("Captured: 2026-09-25 (UTC)");
+    expect(chestReadingDetails.textContent).toContain("Measured by: a helper");
+
+    const firstReading = root.querySelector<HTMLElement>('[data-field-id="body.chest-girth"] [data-reading-id]')!.dataset.readingId!;
+    const repeatedChest = root.querySelector<HTMLInputElement>('[data-action="capture-edit-raw"][data-field-id="body.chest-girth"]')!;
+    repeatedChest.value = "40.75";
+    repeatedChest.dispatchEvent(new Event("input", { bubbles: true }));
+    clickId(root, repeatedChest.closest("li")!.querySelector<HTMLButtonElement>('[data-action="capture-add-reading"]')!.id);
+    expect(root.querySelector<HTMLElement>('[data-field-id="body.chest-girth"]')!.dataset.state).toBe("ambiguous");
+    const chooseFirst = [...root.querySelectorAll<HTMLButtonElement>('[data-action="capture-select-reading"]')]
+      .find((button) => button.dataset.readingId === firstReading)!;
+    clickId(root, chooseFirst.id);
+    expect(root.querySelector<HTMLElement>('[data-field-id="body.chest-girth"]')!.dataset.state).toBe("resolved");
+    expect(root.querySelector<HTMLInputElement>('#controls-panel input[data-field="chest"]')!.value).toBe("102.87");
+
+    const option = getFieldDefinitions("woven-shirt").find((definition) => definition.inputKind === "option")!;
+    const optionPreset = [...root.querySelectorAll<HTMLButtonElement>('[data-action="capture-accept-preset"]')]
+      .find((button) => button.dataset.fieldId === option.id)!;
+    clickId(root, optionPreset.id);
+    const optionInput = [...root.querySelectorAll<HTMLInputElement>("#controls-panel input[data-option]")]
+      .find((input) => input.dataset.option === option.inputKey)!;
+    expect(optionInput.value).toBe(String(option.defaultValue));
+
+    const finishedLength = root.querySelector<HTMLInputElement>(
+      '[data-action="capture-edit-raw"][data-field-id="target.top-hps-to-hem"]',
+    )!;
+    finishedLength.value = "62";
+    finishedLength.dispatchEvent(new Event("input", { bubbles: true }));
+    clickId(root, finishedLength.closest("li")!.querySelector<HTMLButtonElement>('[data-action="capture-add-reading"]')!.id);
+    expect(root.querySelector<HTMLElement>(
+      '[data-field-id="target.top-hps-to-hem"] .measurement-capture-panel__reading-details',
+    )!.textContent).toContain("Source: User-selected digital target or design value.");
+
+    const rejectedField = getFieldDefinitions("woven-shirt").find((definition) =>
+      definition.id !== "body.chest-girth" && definition.id !== option.id)!;
+    const rejectedInput = [...root.querySelectorAll<HTMLInputElement>('[data-action="capture-edit-raw"]')]
+      .find((input) => input.dataset.fieldId === rejectedField.id)!;
+    rejectedInput.value = "1".repeat(4097);
+    rejectedInput.dispatchEvent(new Event("input", { bubbles: true }));
+    clickId(root, rejectedInput.closest("li")!.querySelector<HTMLButtonElement>('[data-action="capture-add-reading"]')!.id);
+    expect(root.querySelector<HTMLElement>(`[data-field-id="${rejectedField.id}"] .measurement-capture-panel__draft-error`)!.textContent)
+      .toContain("raw value is invalid");
+
+    for (const definition of getFieldDefinitions("woven-shirt")) {
+      const preset = [...root.querySelectorAll<HTMLButtonElement>('[data-action="capture-accept-preset"]')]
+        .find((button) => button.dataset.fieldId === definition.id)!;
+      clickId(root, preset.id);
+    }
+    expect(root.querySelector<HTMLButtonElement>("#journey-next")!.disabled).toBe(false);
+
+    clickId(root, "journey-next");
+    expect(root.querySelector<HTMLButtonElement>("#journey-step-measure")!.dataset.stageState).toBe("complete");
+    expect(root.querySelector<HTMLElement>("#controls-panel")!.style.display).not.toBe("none");
+    expect(root.querySelector<HTMLInputElement>('#controls-panel input[data-field="chest"]')!.value).toBe("100");
+    expect(root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("fit");
   });
 
   it("replaces the active canvas with Assembled, then returns to the same view", () => {
+    localStorage.clear();
     const root = mount();
     root.querySelector<HTMLButtonElement>("#assembled-preview-toggle")!
       .dispatchEvent(new Event("click", { bubbles: true }));
@@ -5197,7 +5482,7 @@ describe("bundled local artwork library (Slice 203)", () => {
     });
   });
 
-  it("routes project backup bytes through the optional Electron binary-save bridge", async () => {
+  it("keeps the first-run journey on Garment and routes project backup bytes through the optional Electron binary-save bridge", async () => {
     localStorage.clear();
     vi.stubGlobal("Blob", NodeBlob);
     vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
@@ -5212,6 +5497,7 @@ describe("bundled local artwork library (Slice 203)", () => {
       idFactory: () => ids.shift()!,
       now: () => "2026-09-24T16:00:00.000Z",
     });
+    expect(workflow.initializedFirstRun).toBe(true);
     const saved: Array<{ filename: string; bytes: Uint8Array }> = [];
     const saveProjectPackage = vi.fn(async (filename: string, bytes: Uint8Array) => {
       saved.push({ filename, bytes });
@@ -5224,7 +5510,10 @@ describe("bundled local artwork library (Slice 203)", () => {
     const root = document.createElement("div");
     document.body.append(root);
     try {
+      localStorage.clear();
       mountApp(root, { projectWorkflow: workflow });
+      expect([...root.querySelectorAll<HTMLButtonElement>(".journey-stage")].map((button) => [button.id, button.dataset.stageState]))
+        .toEqual([["journey-step-start", "active"], ["journey-step-measure", "pending"], ["journey-step-fit", "pending"], ["journey-step-refine", "pending"], ["journey-step-output", "pending"]]);
       root.querySelector<HTMLDetailsElement>(".project-manager-details")!.open = true;
       root.querySelector<HTMLButtonElement>("[data-project-action='export-package']")!.click();
       await vi.waitFor(() => expect(root.querySelector("#project-manager-status")?.textContent).toBe("Project backup exported."));

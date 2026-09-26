@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: EPIC-16/G03 Slice 245 complete, 2026-09-26._
+_Last updated: EPIC-16/G03 Slice 246 complete, 2026-09-26._
 Current directive: EPIC-14/G01 and EPIC-15/G02 are closed with accepted exit
 evidence. The maintainer admitted EPIC-16/G03 at Slice 244 from `origin/main`
 Slice 242, preserving the local Slice 243 manual-quality findings in its
@@ -11,7 +11,9 @@ presented as qualified without accepted sourcing/review, and no physical-fit
 claim is authorized. The validated Control Center records EPIC-16 as In
 Progress with M01, M02, M03, and final-review work cards; M01 is In Progress at
 board revision 325. The admission and capture-contract boundaries are recorded
-in the Slice 244 and Slice 245 logs below.
+in the Slice 244 and Slice 245 logs below. Slice 246's guided route and
+full-repository verification are complete; M01 remains In Progress pending
+Slice 247's durable resume, conflict, narrow-layout and all-recipe exits.
 G02's F01, F02, F03, and final review are Done. PR #11 merged the
 reviewed Slice 240 head as `e5155e82dbd21cda5b3f537b950eb4c32a22d215`; Slices
 204, 205, and 240 are verified ancestors of `origin/main`. The S240 review
@@ -4402,3 +4404,37 @@ rerun. Protected export identity tests passed within the full suite. No route,
 project persistence, grading behavior, user-facing measurement instructions,
 or export baseline changed in Slice 245. Next: Slice 246, the seven-recipe
 guided route, without beginning M02 before M01's gates pass.
+
+### Slice 246 — source-aware guided measurement route (complete)
+
+The Garment stage now presents two choices: open the existing full measurement
+editor or guide measurement capture. The guided panel is wired to the Slice 245
+session and C03 field definitions for all seven current recipes. Its factual
+help distinguishes semantic kind and reference frame, describes current draft
+use and known mismatches, states software guardrails, identifies source scope,
+and explicitly withholds unreviewed anatomical capture procedures. Raw text,
+entered units, optional source/method/date/measurer details, separate readings,
+explicit reading selection, and opt-in digital presets are available. Presets
+remain labeled as non-wearer starting values. The route does not silently
+advance after garment choice; the full editor remains available.
+
+The first-run UI review exposed that project bootstrap creates a starter
+style, which the old stage restoration logic mistook for a returning workspace
+and marked Measure complete. `ProjectWorkflow.initializedFirstRun` now preserves
+that distinction through both journey loading and workspace restoration. The
+fresh-start integration assertion verifies Garment is active while Measure is
+pending. Captured sessions are still in-memory; durable resume, conflict and
+all-recipe validation, narrow layout and accessibility remain assigned to
+Slice 247. The OpenCode-owned source-aware help module and Claude-owned
+accessible panel are disjoint contributions; Codex reviewed and integrated
+their actual source and tests after their explicit `WORK FINISHED` signals.
+
+Verification: `npm run coverage -- --testTimeout=30000 --maxWorkers=4
+--minWorkers=4 --reporter=dot` passed all 127 test files and 1,874 tests with
+100% statement, branch, function and line coverage, including protected export
+identity checks. `npm run build` passed; `npm run control-center:test` passed
+33/33; focused journey/help/panel suites passed 62/62; and `git diff --check`
+passed. The mounted-app tests rendered and checked the guided route, field
+relationships and first-run stage state. Standalone in-app browser review was
+not available in this execution, so the route's final browser screenshot review
+is still assigned to Slice 247's rendered QA. No M02 or M03 work has started.

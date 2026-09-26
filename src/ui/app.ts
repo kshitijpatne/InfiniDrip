@@ -76,6 +76,22 @@ import { ProjectWorkflow } from "./project-workflow";
 import { ProjectManager } from "./project-manager";
 import type { LoadedProject } from "./project-repository";
 import type { RecoveryPayload, SavedDesign } from "./project-records";
+import {
+  addCaptureReadingForField,
+  acceptCapturePreset,
+  assessCaptureField,
+  createMeasurementCaptureSession,
+  measurementCaptureReadiness,
+  selectCaptureReading,
+  type CaptureMeasurer,
+  type MeasurementCaptureSession,
+} from "./measurement-capture";
+import { getFieldDefinitions, type FieldDefinition } from "./field-provenance";
+import * as measurementHelp from "./measurement-help";
+import {
+  renderMeasurementCapturePanel,
+  type MeasurementCapturePanelModel,
+} from "./measurement-capture-panel";
 
 // The desktop shell's bridge (Slice 46) — see electron/preload.cts for the
 // other end. Optional: undefined everywhere this app runs as a plain web page.
@@ -123,6 +139,20 @@ interface PatternMeasurementNavigation {
   readonly destinations: readonly PatternMeasurementDestination[];
 }
 
+interface CaptureDraft {
+  readonly rawValue: string;
+  readonly unit: string;
+  readonly error: string | null;
+  readonly sourceNote: string;
+  readonly method: string;
+  readonly captureDate: string;
+  readonly measurer: CaptureMeasurer | "";
+}
+
+const emptyCaptureDraft = (unit = "cm"): CaptureDraft => ({
+  rawValue: "", unit, error: null, sourceNote: "", method: "", captureDate: "", measurer: "",
+});
+
 const HISTORY_LIMIT = 30;
 let activeMountRoot: HTMLElement | null = null;
 let semanticOperationSequence = 0;
@@ -149,6 +179,64 @@ export interface MountAppOptions {
   readonly inspectArtworkFile?: (file: File) => Promise<InspectedArtworkFile>;
   /** The browser entry opens/migrates this local project before mount. */
   readonly projectWorkflow?: ProjectWorkflow;
+}
+
+/** Fail closed when the guided route has no current session for its garment. */
+export function guidedCaptureStageBlocker(
+  session: MeasurementCaptureSession | null,
+  recipeId: string,
+): StageBlocker | null {
+  if (!session || session.recipeId !== recipeId) {
+    return { message: "Start guided capture for the selected garment before continuing.", step: "measure" };
+  }
+  const firstUnresolved = measurementCaptureReadiness(session).unresolvedFieldIds[0];
+  if (!firstUnresolved) return null;
+  const help = measurementHelp.measurementHelpFor(recipeId, firstUnresolved);
+  return {
+    message: `${help?.label ?? firstUnresolved} needs an explicit value or a selected digital preset.`,
+    field: firstUnresolved,
+    step: "measure",
+  };
+}
+
+export function captureSessionMatchesRecipe(
+  session: MeasurementCaptureSession | null,
+  recipeId: string,
+): boolean {
+  return session !== null && session.recipeId === recipeId;
+}
+
+export function captureSessionForRecipe(
+  session: MeasurementCaptureSession | null,
+  recipeId: string,
+  create: () => MeasurementCaptureSession,
+): MeasurementCaptureSession {
+  if (captureSessionMatchesRecipe(session, recipeId)) return session!;
+  return create();
+}
+
+export function renderForCaptureSession(
+  session: MeasurementCaptureSession | null,
+  recipeId: string,
+  render: (session: MeasurementCaptureSession) => string,
+): string {
+  if (!captureSessionMatchesRecipe(session, recipeId)) return "";
+  return render(session!);
+}
+
+/** Apply only an explicitly selected, non-conflicting reading to its digital draft. */
+export function applySelectedCaptureValue(
+  session: MeasurementCaptureSession,
+  recipeId: string,
+  fieldId: string,
+  apply: (definition: FieldDefinition, canonicalValue: number) => void,
+): void {
+  const captureField = session.fields.find((field) => field.fieldId === fieldId);
+  const definition = getFieldDefinitions(recipeId).find((field) => field.id === fieldId);
+  const selected = captureField?.readings.find((reading) => reading.id === captureField.selectedReadingId);
+  if (!captureField || !definition || !selected || selected.canonicalValue === null) return;
+  if (assessCaptureField(captureField, recipeId).issue === "conflicting-evidence") return;
+  apply(definition, selected.canonicalValue);
 }
 
 /** Fail closed if an export action somehow bypasses its rendered readiness gate. */
@@ -308,9 +396,31 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
 
   // The guided journey (F2): a coached Start→Output path over the existing views.
   // Its state is presentation-only and persisted separately from the pattern.
-  const journeyLoad = loadJourneyWithStatus(Boolean(saved));
+  // The first-run repository creates a starter design so the editor has valid
+  // data, but that starter is not evidence that the person has left Garment.
+  const journeyLoad = loadJourneyWithStatus(Boolean(saved && !projectWorkflow?.initializedFirstRun));
   let tutorialStorageUnavailable = !journeyLoad.storageAvailable;
   let journey = journeyLoad.state;
+  let measurementRoute: "guided" | "editor" = "editor";
+  let measurementCapture: MeasurementCaptureSession | null = null;
+  const captureDrafts = new Map<string, CaptureDraft>();
+  let captureAnnouncement: string | null = null;
+  let captureIdSequence = 0;
+  const captureUuid = (): string => {
+    if (globalThis.crypto?.randomUUID) return globalThis.crypto.randomUUID();
+    captureIdSequence += 1;
+    const time = Date.now().toString(16).padStart(12, "0").slice(-12);
+    const tail = captureIdSequence.toString(16).padStart(12, "0").slice(-12);
+    return `00000000-0000-4000-8000-${(time + tail).slice(-12)}`;
+  };
+  const captureNow = (): string => new Date().toISOString();
+  const ensureCaptureSession = (): MeasurementCaptureSession => {
+    measurementCapture = captureSessionForRecipe(measurementCapture, recipe.name, () => {
+      captureDrafts.clear();
+      return createMeasurementCaptureSession(captureUuid(), recipe.name, captureNow());
+    });
+    return measurementCapture;
+  };
   let celebrating = false; // the light, dismissible export confirmation
   let styleReviewed = false;
   let checkReviewed = false;
@@ -962,8 +1072,89 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     action.hidden = !assembledTarget;
   };
 
+  const measurementCapturePanel = (): string => renderForCaptureSession(
+    measurementCapture,
+    recipe.name,
+    (session) => {
+      const definitions = getFieldDefinitions(recipe.name);
+      const panelModel: MeasurementCapturePanelModel = {
+        panelId: "g03-measurement-capture",
+        heading: `${recipe.label} guided measurements and targets`,
+        intro: "Add body values you know, or choose an explicitly labeled digital preset. Target values and design controls stay separate from body measurements. No measuring procedure is qualified here.",
+        emptyMessage: "No input fields are available for this garment.",
+        announcement: captureAnnouncement,
+        fields: session.fields.map((captureField) => {
+          const definition = definitions.find((candidate) => candidate.id === captureField.fieldId)!;
+          const help = measurementHelp.measurementHelpFor(recipe.name, captureField.fieldId);
+          const assessment = assessCaptureField(captureField, recipe.name);
+          const draft = captureDrafts.get(captureField.fieldId);
+          return {
+            fieldId: captureField.fieldId,
+            label: definition.label,
+            semanticKind: captureField.semanticKind,
+            referenceFrame: definition.referenceFrame,
+            unit: definition.unit,
+            unitOptions: definition.unit === "cm" ? ["cm", "in"] : [definition.unit],
+            meaning: help?.meaning ?? definition.meaning,
+            currentUse: help?.draftUse ?? "Current draft use is not described.",
+            sourceCaveat: help
+              ? `${help.qualificationNote} ${help.limits}`
+              : definition.captureBoundary,
+            guardrail: help?.guardrailNote ?? `Existing software guardrail ${definition.min}–${definition.max} ${definition.unit}; not an industry standard.`,
+            draftRawValue: draft?.rawValue ?? "",
+            draftUnit: draft?.unit ?? definition.unit,
+            draftError: draft?.error ?? null,
+            draftSourceNote: draft?.sourceNote ?? "",
+            draftCaptureMethod: draft?.method ?? "",
+            draftCaptureDate: draft?.captureDate ?? "",
+            draftMeasurer: draft?.measurer ?? "",
+            readings: captureField.readings,
+            selectedReadingId: captureField.selectedReadingId,
+            preset: {
+              label: "Standard M digital preset",
+              valueText: `${definition.defaultValue} ${definition.unit}`,
+            },
+            state: assessment.state,
+            correction: assessment.correction,
+          };
+        }),
+      };
+      return renderMeasurementCapturePanel(panelModel);
+    },
+  );
+
+  const captureValueForField = (fieldId: string): void => {
+    // Every caller has just updated a field in this same session.
+    const session = measurementCapture!;
+    applySelectedCaptureValue(session, recipe.name, fieldId, (definition, canonicalValue) => {
+      const rawValue = String(canonicalValue);
+      if (definition.inputKind === "measurement") {
+        // Field definitions are generated from the shared FIELDS catalog.
+        const field = FIELDS.find((candidate) => candidate.id === definition.inputKey)!;
+        measurements = applyChange(measurements, field, rawValue);
+        const input = [...root.querySelectorAll<HTMLInputElement>("#controls-panel input[data-field]")]
+          .find((candidate) => candidate.dataset.field === definition.inputKey);
+        if (input) input.value = rawValue;
+      } else {
+        garmentOptions = {
+          ...garmentOptions,
+          [recipe.name]: { ...recipeOptions(), [definition.inputKey]: canonicalValue },
+        };
+        const input = [...root.querySelectorAll<HTMLInputElement>("#controls-panel input[data-option]")]
+          .find((candidate) => candidate.dataset.option === definition.inputKey);
+        if (input) input.value = rawValue;
+      }
+      markOutputDirty();
+    });
+  };
+
   const readiness = (): StageReadiness => ({
-    inputsOk: inputErrors().size === 0 && implausibleFields(measurements, recipe.fields).length === 0,
+    inputsOk: journey.hasAdvancedFromGarment === true
+      && (measurementRoute !== "guided" || (measurementCapture !== null
+        && measurementCapture.recipeId === recipe.name
+        && measurementCaptureReadiness(measurementCapture).ready))
+      && inputErrors().size === 0
+      && implausibleFields(measurements, recipe.fields).length === 0,
     styleReviewed,
     checksOk: designValid(),
     checkReviewed,
@@ -975,6 +1166,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     && baseDesignValid() && semanticRunReady();
   const stageBlocker = (): StageBlocker | undefined => {
     if (journey.step === "start") return undefined;
+    if (journey.step === "measure" && measurementRoute === "guided") {
+      const captureBlocker = guidedCaptureStageBlocker(measurementCapture, recipe.name);
+      if (captureBlocker) return captureBlocker;
+    }
     const error = inputErrors().entries().next().value;
     const implausible = implausibleFields(measurements, recipe.fields)[0];
     if (error) return { message: error[1], field: error[0], step: correctionStepForField(error[0]) };
@@ -1048,12 +1243,26 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     };
     parts.push(journeyBarMarkup(journey.step, status, blocker, {
       tutorialActive,
-      nextLabel: tutorialActive ? nextLabel[journey.step] : undefined,
+      nextLabel: journey.step === "start" && !tutorialActive
+        ? `Use ${recipe.label} in the full editor →`
+        : tutorialActive ? nextLabel[journey.step] : undefined,
       correctionLabel: tutorialActive && journey.step === "refine" && blocker
         ? "Review the first flagged item"
         : undefined,
       hideNextWhenBlocked: tutorialActive && journey.step === "refine",
     }));
+    if (journey.step === "start") {
+      parts.push(
+        `<section class="g03-route-choice" aria-labelledby="g03-route-title">` +
+        `<h2 id="g03-route-title">Choose how to begin with ${recipe.label}</h2>` +
+        `<p>Use the familiar measurement editor, or review each input with source and draft-use explanations first.</p>` +
+        `<button class="journey-secondary-action" id="journey-guided" type="button">Guide my measurements</button>` +
+        `</section>`,
+      );
+    }
+    if (journey.step === "measure" && measurementRoute === "guided") {
+      parts.push(measurementCapturePanel());
+    }
     if (celebrating) parts.push(celebrationMarkup(status.checksOk));
     root.querySelector<HTMLElement>("#readiness-host")!.innerHTML = checklistMarkup(journeyChecklist(status));
     journeyHost.innerHTML = parts.join("");
@@ -1727,7 +1936,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage = journey.step;
     root.querySelector<HTMLElement>("#current-garment")!.textContent = recipe.label;
     root.querySelector<HTMLElement>("#garment-toggle-host")!.style.display = journey.step === "start" ? "flex" : "none";
-    root.querySelector<HTMLElement>("#controls-panel")!.style.display = d.controls ? "" : "none";
+    root.querySelector<HTMLElement>("#controls-panel")!.style.display =
+      d.controls && !(journey.step === "measure" && measurementRoute === "guided") ? "" : "none";
     root.querySelector<HTMLElement>("#stretch-host")!.style.display = d.stretch ? "flex" : "none";
     root.querySelector<HTMLElement>("#swatch-host")!.style.display = d.swatches ? "flex" : "none";
     root.querySelector<HTMLElement>("#export-host")!.style.display = d.exports ? "flex" : "none";
@@ -1759,7 +1969,13 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     } else if (tutorial.status === "unseen" && s !== "start") {
       tutorial = { status: "suppressed", step: tutorialStepForJourneyStep(s) };
     }
-    journey = { ...journey, step: s, familiar: tutorial.status !== "unseen", tutorial };
+    journey = {
+      ...journey,
+      step: s,
+      hasAdvancedFromGarment: journey.hasAdvancedFromGarment || s !== "start",
+      familiar: tutorial.status !== "unseen",
+      tutorial,
+    };
     persistJourney();
     celebrating = false;
     applyDisclosure();
@@ -1797,8 +2013,68 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       return;
     }
     const id = target.id;
+    if (target.dataset.action?.startsWith("capture-")) {
+      const fieldId = target.dataset.fieldId;
+      const session = measurementCapture;
+      if (!fieldId || !session) return;
+      try {
+        if (target.dataset.action === "capture-add-reading") {
+          const definition = getFieldDefinitions(recipe.name).find((field) => field.id === fieldId);
+          const draft = captureDrafts.get(fieldId) ?? emptyCaptureDraft(definition?.unit ?? "cm");
+          const capturedAt = draft.captureDate === "" ? null : `${draft.captureDate}T00:00:00.000Z`;
+          measurementCapture = addCaptureReadingForField(session, fieldId, {
+            id: captureUuid(),
+            rawValue: draft.rawValue,
+            enteredUnit: draft.unit,
+            provenance: definition?.semanticKind === "BODY_MEASURE" ? "USER_CAPTURED" : "USER_SELECTED",
+            evidenceStatus: "UNCONFIRMED",
+            sourceLabel: draft.sourceNote.trim() || (definition?.semanticKind === "BODY_MEASURE"
+              ? "User-entered value; capture method and technique not qualified."
+              : "User-selected digital target or design value."),
+            captureMethod: draft.method.trim() === "" ? null : draft.method,
+            capturedAt,
+            measurer: draft.measurer === "" ? null : draft.measurer,
+          }, captureNow());
+          captureDrafts.set(fieldId, emptyCaptureDraft(draft.unit));
+          captureAnnouncement = "Reading recorded. Review its status and select one reading when multiple values are listed.";
+          captureValueForField(fieldId);
+        } else if (target.dataset.action === "capture-select-reading") {
+          const readingId = target.dataset.readingId;
+          if (!readingId) return;
+          measurementCapture = selectCaptureReading(session, fieldId, readingId, captureNow());
+          captureAnnouncement = "Selected reading updated for the digital draft.";
+          captureValueForField(fieldId);
+        } else if (target.dataset.action === "capture-accept-preset") {
+          measurementCapture = acceptCapturePreset(
+            session, fieldId, captureUuid(), captureNow(), "Standard M digital preset; not measured wearer data",
+          );
+          // acceptCapturePreset validates the requested field before returning.
+          const readings = measurementCapture.fields.find((field) => field.fieldId === fieldId)!.readings;
+          const selected = readings[readings.length - 1];
+          if (selected) {
+            const previous = captureDrafts.get(fieldId) ?? emptyCaptureDraft();
+            captureDrafts.set(fieldId, emptyCaptureDraft(previous.unit));
+            measurementCapture = selectCaptureReading(measurementCapture, fieldId, selected.id, captureNow());
+            captureAnnouncement = "Standard M digital preset selected. It remains labeled as a preset.";
+            captureValueForField(fieldId);
+          }
+        }
+      } catch (error) {
+        const existing = captureDrafts.get(fieldId) ?? emptyCaptureDraft();
+        const message = error instanceof Error ? error.message : "This value could not be recorded.";
+        captureDrafts.set(fieldId, { ...existing, error: message });
+        captureAnnouncement = message;
+      }
+      draw();
+      return;
+    }
     const idx = COACHED_STEPS.findIndex((st) => st.id === journey.step);
-    if (id === "welcome-start") {
+    if (id === "journey-guided") {
+      measurementRoute = "guided";
+      ensureCaptureSession();
+      captureAnnouncement = "Guided measurement capture opened. Each field explains its meaning and use.";
+      setStep("measure");
+    } else if (id === "welcome-start") {
       setStep("start", "in_progress");
     } else if (id === "welcome-skip" || id === "tutorial-skip") {
       journey = { ...journey, familiar: true, tutorial: { ...journey.tutorial, status: "skipped" } };
@@ -1818,13 +2094,21 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       tutorialHost.querySelector<HTMLButtonElement>("#tutorial-replay")?.focus();
     } else if (id === "journey-next" &&
       (!stageBlocker() || (journey.tutorial.status === "in_progress" && ["start", "measure", "fit"].includes(journey.step)))) {
+      if (journey.step === "start") {
+        measurementRoute = "editor";
+        measurementCapture = null;
+        captureDrafts.clear();
+      }
       if (journey.step === "fit") styleReviewed = true;
       setStep(COACHED_STEPS[Math.min(idx + 1, COACHED_STEPS.length - 1)].id);
     } else if (id === "journey-back") {
       setStep(COACHED_STEPS[Math.max(idx - 1, 0)].id);
     } else if (id === "journey-correction") {
       const field = target.dataset.correctionField;
-      if (field) focusGuidanceField(field);
+      if (field && journey.step === "measure" && measurementRoute === "guided") {
+        [...root.querySelectorAll<HTMLInputElement>('input[data-action="capture-edit-raw"]')]
+          .find((candidate) => candidate.dataset.fieldId === field)?.focus();
+      } else if (field) focusGuidanceField(field);
       else setStep(target.dataset.correctionStep as JourneyStep);
     } else if (id === "celebrate-dismiss") {
       celebrating = false;
@@ -2154,6 +2438,33 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       fieldHistorySelection = null;
     }
   });
+  root.addEventListener("input", (event) => {
+    const input = (event.target as HTMLElement).closest<HTMLInputElement>('input[data-action^="capture-edit-"]');
+    if (!input) return;
+    const fieldId = input.dataset.fieldId;
+    if (!fieldId) return;
+    const definition = getFieldDefinitions(recipe.name).find((field) => field.id === fieldId);
+    const previous = captureDrafts.get(fieldId) ?? emptyCaptureDraft(definition?.unit ?? "cm");
+    switch (input.dataset.action) {
+      case "capture-edit-raw": captureDrafts.set(fieldId, { ...previous, rawValue: input.value, error: null }); break;
+      case "capture-edit-source": captureDrafts.set(fieldId, { ...previous, sourceNote: input.value }); break;
+      case "capture-edit-method": captureDrafts.set(fieldId, { ...previous, method: input.value }); break;
+      case "capture-edit-date": captureDrafts.set(fieldId, { ...previous, captureDate: input.value }); break;
+    }
+  });
+  root.addEventListener("change", (event) => {
+    const select = (event.target as HTMLElement).closest<HTMLSelectElement>('select[data-action^="capture-change-"]');
+    if (!select) return;
+    const fieldId = select.dataset.fieldId;
+    if (!fieldId) return;
+    const definition = getFieldDefinitions(recipe.name).find((field) => field.id === fieldId);
+    const previous = captureDrafts.get(fieldId) ?? emptyCaptureDraft(definition?.unit ?? "cm");
+    if (select.dataset.action === "capture-change-unit") {
+      captureDrafts.set(fieldId, { ...previous, unit: select.value, error: null });
+    } else if (select.dataset.action === "capture-change-measurer") {
+      captureDrafts.set(fieldId, { ...previous, measurer: select.value as CaptureMeasurer | "" });
+    }
+  });
   root.addEventListener("click", (event) => {
     const button = (event.target as HTMLElement).closest<HTMLButtonElement>("[data-control-page-step]");
     if (!button || button.disabled) return;
@@ -2407,6 +2718,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     }
     patternMeasurementNavigation = null;
     patternMeasurementFeedback = "";
+    measurementCapture = null;
+    captureDrafts.clear();
+    captureAnnouncement = null;
+    measurementRoute = "editor";
     recipe = garmentByName(name);
     if (!materialSelectionExplicit) {
       const defaultMaterial = defaultStretchFabricForGarment(recipe.name);
@@ -3823,7 +4138,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     event.returnValue = "";
   });
 
-  syncWorkspace(saved !== null);
+  syncWorkspace(saved !== null && !projectWorkflow?.initializedFirstRun);
   savedRevision = outputRevision;
   historyPresent = captureDraftSnapshot();
   recoveryTrackingEnabled = true;
