@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 251,
-  "updatedAt": "2026-09-24T12:25:21.704Z",
+  "revision": 310,
+  "updatedAt": "2026-09-26T04:09:31.095Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -132,10 +132,12 @@
     {
       "id": "EPIC-15",
       "title": "EPIC-15: G02 — Versioned style foundation",
-      "status": "Backlog",
+      "status": "In Progress",
       "owner": "Codex",
-      "description": "G02 future capability. Scope, gates, dates and work packets: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md. Epic remains Backlog until separately admitted.",
-      "evidenceRefs": []
+      "description": "Admitted 2026-09-24 after EPIC-14/G01 closed at Slice 228. Execute F01 → F02 → F03 → final review using docs/planning/EPIC-15-ADMISSION.md. Local-first, deterministic, user-led scope only; preserve SaveFile v1–v5 migration, artwork bytes/IDs, 100% coverage and protected export identities. No new recipe, user-facing AI designer, hosted service, purchase, supplier contact, physical sampling or production-readiness claim.",
+      "evidenceRefs": [
+        "E-EPIC15-G02-ADMISSION-S229"
+      ]
     },
     {
       "id": "EPIC-16",
@@ -2476,9 +2478,9 @@
       "title": "EPIC-15: G02 — Versioned style foundation",
       "epicId": "EPIC-15",
       "releaseId": null,
-      "status": "Backlog",
+      "status": "In Progress",
       "openedAt": "2026-09-23",
-      "targetAt": "2027-02-12",
+      "targetAt": "2026-10-02",
       "deliveredAt": null,
       "priority": "P0",
       "risk": "high",
@@ -2494,12 +2496,15 @@
         "100% coverage",
         "maintainer gates"
       ],
-      "description": "Future capability goal G02. Detailed planned packets and evidence: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md. Baseline start: 2026-11-16. Planned work: 7–10 landed slices. Context: G01; integration lane. Target dates are conditional; no Phase 9, garment, launch-cost, supplier-contact, or physical-sampling gate is overridden.",
-      "expectation": "Multi-style local record, final edits, revisions and dependency invalidation proven without breaking legacy saves/exports.",
+      "description": "Admitted G02: local multi-style projects, non-destructive migration, per-style recovery, portable backup including referenced artwork, source-aware fields, exact dependency invalidation, deterministic constrained final edits, and immutable revisions/hashes. Detailed scope and all exits: docs/planning/EPIC-15-ADMISSION.md.",
+      "expectation": "A user can create and preserve distinct styles, understand each value and stale dependent output, make supported durable edits, and restore/share exact revisions while legacy saves and exports remain compatible.",
       "acceptanceCriteria": [
-        "Complete every G02 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
-        "Multi-style local record, final edits, revisions and dependency invalidation proven without breaking legacy saves/exports.",
-        "Record reviewed code/output evidence, residual limitations, actual completion date, and downstream reforecast before Done."
+        "Complete F01, F02 and F03 in the ordered packets and satisfy every slice-level gate in docs/planning/EPIC-15-ADMISSION.md; add numbered remediation slices for any failed gate.",
+        "Migrate accepted SaveFile versions 1–5 non-destructively; project/style records, per-style recovery and portable backup including referenced local artwork survive reload and clean-profile restore.",
+        "For all seven current recipes, inspect field provenance/history and prove exact affected/unaffected output invalidation.",
+        "Supported recipe-owned final edits persist, undo/redo, re-draft dependent artifacts, and preserve immutable versioned snapshots with deterministic hashes.",
+        "Retain 100% statement/function/branch/line coverage and all eight protected legacy export byte identities; pass full build and actual browser/Electron output and restart verification.",
+        "Record limitations and verified exit evidence; merge the reviewed branch to origin/main before closing EPIC-15."
       ],
       "statusHistory": [
         {
@@ -2509,6 +2514,22 @@
           "role": "maintainer",
           "note": "Register maintainer-directed, conditional post-Phase-9 roadmap without opening its gated work.",
           "evidenceRefs": []
+        },
+        {
+          "status": "Ready",
+          "at": "2026-09-24T14:57:08.490Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "G01 is closed and G02 was explicitly admitted with verified Slice 229 evidence.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-09-24T14:57:08.515Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "Begin the admitted F01 sequence.",
+          "evidenceRefs": []
         }
       ],
       "comments": [
@@ -2516,6 +2537,11 @@
           "at": "2026-09-24T06:03:46.281Z",
           "actor": "Maintainer (via Codex)",
           "text": "Renamed CAPABILITY-G02 to EPIC-15. G02 is now the numbered epic work card; dependent item links were updated atomically."
+        },
+        {
+          "at": "2026-09-24T14:56:31.429Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: Admitted 2026-09-24 after EPIC-14/G01 closed at Slice 228. Execute F01 → F02 → F03 → final review using docs/planning/EPIC-15-ADMISSION.md. Local-first, deterministic, user-led scope only; preserve SaveFile v1–v5 migration, artwork bytes/IDs, 100% coverage and protected export identities. No new recipe, user-facing AI designer, hosted service, purchase, supplier contact, physical sampling or production-readiness claim.). Record the maintainer's explicit G02 admission after verified G01 closure."
         }
       ],
       "evidenceRefs": [],
@@ -4295,6 +4321,469 @@
         "E-EPIC14-G01-OUTPUT-S227"
       ],
       "flagKey": null
+    },
+    {
+      "id": "EPIC-15-ADMISSION",
+      "type": "task",
+      "title": "G02 admission and ordered execution packet",
+      "epicId": "EPIC-15",
+      "releaseId": null,
+      "status": "Done",
+      "openedAt": "2026-09-24",
+      "targetAt": "2026-09-24",
+      "deliveredAt": "2026-09-24",
+      "priority": "P0",
+      "risk": "high",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": [
+        "EPIC-14"
+      ],
+      "protectedSurfaces": [
+        "local-first persistence",
+        "legacy SaveFile compatibility",
+        "export byte identity",
+        "100% coverage"
+      ],
+      "description": "Slice 229 records the maintainer's admission, exact G02 boundaries, current-state audit, F01/F02/F03 sequence, slice reservation, risks, exit gates and conditional reforecast.",
+      "expectation": "The canonical board and durable project context agree on G02 scope and its ordered implementation plan.",
+      "acceptanceCriteria": [
+        "Admission decision and boundaries are recorded in docs/planning/EPIC-15-ADMISSION.md.",
+        "Unique Slice 229 is reserved after origin/main Slice 228.",
+        "F01, F02, F03 and final review are separately tracked with explicit dependency links.",
+        "The Control Center visibly records G02 In Progress and F01 In Progress.",
+        "No product code, new recipe, supplier/live/paid work, sampling, or production claim is introduced."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-09-24T14:56:31.500Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "Create the admitted EPIC-15/G02 packet and preserve the dependency order in the canonical Control Center.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "Ready",
+          "at": "2026-09-24T14:56:31.700Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "Admission packet is documented and ready for the implementation sequence.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-09-24T14:56:31.725Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "Complete the scope, board and durable-context admission as Slice 229.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "Review",
+          "at": "2026-09-24T14:57:08.430Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "Admission scope and linked evidence are complete; hand off for review.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "Done",
+          "at": "2026-09-24T14:57:08.461Z",
+          "actor": "Codex",
+          "role": "reviewer",
+          "note": "Slice 229 admission and evidence are verified; no product code changed.",
+          "evidenceRefs": [
+            "E-EPIC15-G02-ADMISSION-S229"
+          ]
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [
+        "E-EPIC15-G02-ADMISSION-S229"
+      ],
+      "flagKey": null
+    },
+    {
+      "id": "EPIC-15-F01",
+      "type": "task",
+      "title": "F01 — Local versioned project and style foundation",
+      "epicId": "EPIC-15",
+      "releaseId": null,
+      "status": "Done",
+      "openedAt": "2026-09-24",
+      "targetAt": "2026-10-30",
+      "deliveredAt": "2026-09-24",
+      "priority": "P0",
+      "risk": "high",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": [
+        "EPIC-15-ADMISSION"
+      ],
+      "protectedSurfaces": [
+        "local-first persistence",
+        "legacy SaveFile compatibility",
+        "export byte identity",
+        "100% coverage"
+      ],
+      "description": "Slices 230–234: prove storage and migration contract; model versioned projects/styles; implement transactional persistence, style workflow and per-style recovery; import/export a validated portable package with referenced artwork.",
+      "expectation": "Multiple independent styles and all referenced local assets survive migration, reload, recovery and clean-profile backup restore without partial writes or legacy regression.",
+      "acceptanceCriteria": [
+        "All accepted SaveFile v1–v5 migrate deterministically and preserve old input until new state is verified.",
+        "Two distinct styles have stable IDs and independent recipe, measurements, options, appearance, surface artwork, nesting and recovery state.",
+        "Browser and local/Electron persistence failure, quota, interruption and missing-artwork outcomes are explicit and non-destructive.",
+        "Portable import validates the entire package before atomic commit and includes referenced artwork IDs, bytes, hashes and attribution.",
+        "Legacy save/load and eight protected export identities remain unchanged for unchanged inputs."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-09-24T14:56:31.528Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "Create the admitted EPIC-15/G02 packet and preserve the dependency order in the canonical Control Center.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "Ready",
+          "at": "2026-09-24T14:57:08.539Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "Admission is complete; F01 is next in the dependency order.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-09-24T14:57:08.565Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "Start Slice 230 storage, migration, record, recovery and backup contract research.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "Review",
+          "at": "2026-09-24T22:43:51.456Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "Slice 234 evidence is linked; submit the complete F01 foundation for its evidence-gated exit review.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "Done",
+          "at": "2026-09-24T22:43:51.609Z",
+          "actor": "Codex",
+          "role": "reviewer",
+          "note": "Accepted F01 against S230–S234 contracts and runtime evidence; portability, recovery, rollback, limits and residual risks are recorded.",
+          "evidenceRefs": [
+            "E-EPIC15-F01-PACKAGE-S234"
+          ]
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [
+        "E-EPIC15-F01-STORAGE-S230",
+        "E-EPIC15-F01-MODEL-S231",
+        "E-EPIC15-F01-REPO-S232",
+        "E-EPIC15-F01-WORKFLOW-S233",
+        "E-EPIC15-F01-PACKAGE-S234"
+      ],
+      "flagKey": null
+    },
+    {
+      "id": "EPIC-15-F02",
+      "type": "task",
+      "title": "F02 — Field provenance and dependency invalidation",
+      "epicId": "EPIC-15",
+      "releaseId": null,
+      "status": "Done",
+      "openedAt": "2026-09-24",
+      "targetAt": "2026-11-13",
+      "deliveredAt": "2026-09-25",
+      "priority": "P0",
+      "risk": "high",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": [
+        "EPIC-15-F01"
+      ],
+      "protectedSurfaces": [
+        "local-first persistence",
+        "legacy SaveFile compatibility",
+        "export byte identity",
+        "100% coverage"
+      ],
+      "description": "Slices 235–236: implement C03-aligned stable field definitions and value observations for all seven current recipes, plus a declarative, tested dependency graph for every dependent artifact.",
+      "expectation": "Users can see where values came from and which exact artifacts need recomputation after a change; unrelated outputs remain current.",
+      "acceptanceCriteria": [
+        "All recipe fields separate semantic kind, provenance, status, unit/reference semantics and confidence basis; defaults are not mislabeled measurements.",
+        "Changes and imports preserve versioned value history; old revisions do not mutate.",
+        "A complete seven-recipe field/edit-to-artifact matrix proves affected and unaffected pattern, POM/spec, grade, nest, view and export behavior.",
+        "Missing, conflicting, invalid, inherited and unresolved values remain distinct and actionable.",
+        "No unverified confidence, silent input clamp, invented measurement or false-current output is emitted."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-09-24T14:56:31.557Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "Create the admitted EPIC-15/G02 packet and preserve the dependency order in the canonical Control Center.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "Ready",
+          "at": "2026-09-24T22:43:51.785Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "F01 is Done with verified exit evidence; the admitted dependency order now permits F02.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-09-24T22:43:52.023Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "Start Slice 235: map C03-aligned field definitions and source-aware value observations across all seven current recipes.",
+          "evidenceRefs": [
+            "E-EPIC15-F01-PACKAGE-S234"
+          ]
+        },
+        {
+          "status": "Review",
+          "at": "2026-09-25T09:35:14.764Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "Slices 235–236 implementation is complete; submitting the full F02 matrix and rendered/reload evidence for review.",
+          "evidenceRefs": [
+            "E-EPIC15-F02-DEPENDENCY-S236",
+            "E-EPIC15-F02-DEPENDENCY-S236-RENDER"
+          ]
+        },
+        {
+          "status": "Done",
+          "at": "2026-09-25T09:35:15.023Z",
+          "actor": "Codex",
+          "role": "reviewer",
+          "note": "Reviewed and accepted the source-aware fields, complete seven-recipe dependency matrix, actual output comparisons, and rendered/reload evidence.",
+          "evidenceRefs": [
+            "E-EPIC15-F02-DEPENDENCY-S236",
+            "E-EPIC15-F02-DEPENDENCY-S236-RENDER"
+          ]
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [
+        "E-EPIC15-F01-PACKAGE-S234",
+        "E-EPIC15-F02-FIELD-HISTORY-S235",
+        "E-EPIC15-F02-DEPENDENCY-S236",
+        "E-EPIC15-F02-DEPENDENCY-S236-RENDER"
+      ],
+      "flagKey": null
+    },
+    {
+      "id": "EPIC-15-F03",
+      "type": "task",
+      "title": "F03 — Durable constrained edits and immutable revisions",
+      "epicId": "EPIC-15",
+      "releaseId": null,
+      "status": "Done",
+      "openedAt": "2026-09-24",
+      "targetAt": "2026-12-04",
+      "deliveredAt": "2026-09-26",
+      "priority": "P0",
+      "risk": "high",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": [
+        "EPIC-15-F02"
+      ],
+      "protectedSurfaces": [
+        "local-first persistence",
+        "legacy SaveFile compatibility",
+        "export byte identity",
+        "100% coverage"
+      ],
+      "description": "Slices 237–239: define stable semantic edit anchors and recipe-owned constraints; integrate supported edits through dependent outputs; add immutable parent-linked snapshots, deterministic canonical hashes, compare/restore and frozen export manifests.",
+      "expectation": "A supported edit is deterministic and durable across all declared dependent output paths; invalid or unsupported states are visible, and prior snapshots cannot change.",
+      "acceptanceCriteria": [
+        "Every supported operation declares units, recipe/size scope, preconditions, postconditions, dependencies, conflicts and deterministic undo/rebase behavior.",
+        "Stable semantic anchors replace edge-index identity; no invalid state is silently clamped or exported as current.",
+        "Save/reload, undo/redo, project backup/import and old-revision restore reproduce the same supported edit state.",
+        "A Tee and a complex Polo or Woven-shirt trace reconcile pattern, POM/spec, grade, nesting, views, pack and exports or visibly block unsupported dependents.",
+        "Versioned canonical hashes and frozen manifests remain stable when later edits are made; hashes do not imply authorship or physical fit."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-09-24T14:56:31.585Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "Create the admitted EPIC-15/G02 packet and preserve the dependency order in the canonical Control Center.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "Ready",
+          "at": "2026-09-25T09:35:15.261Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "F02 is complete with verified evidence; the ordered F03 Slice 237 constrained-edit model is dependency-ready.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-09-25T09:49:27.630Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "Slice 236 is complete with verified evidence; begin the ordered F03 constrained-edit contract and engine.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "Review",
+          "at": "2026-09-26T02:30:52.844Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "Slice 239 is complete with hash-verified contract and machine-readable rendered/electronic replay evidence; F03 is submitted for review before starting the G02 final gate.",
+          "evidenceRefs": [
+            "E-EPIC15-F03-S239-EXIT",
+            "E-EPIC15-F03-S239-RENDER"
+          ]
+        },
+        {
+          "status": "Done",
+          "at": "2026-09-26T02:31:02.224Z",
+          "actor": "Codex",
+          "role": "reviewer",
+          "note": "Accepted F03 exit: S237–S239 semantic edits, dependent-output propagation, immutable lineage, exact frozen artifacts, focused coverage and production-built Tee/Woven-shirt browser/Electron restart replay have verified evidence. Limits remain explicit; S240 owns the full repository and G02 exit gates.",
+          "evidenceRefs": [
+            "E-EPIC15-F03-S239-EXIT",
+            "E-EPIC15-F03-S239-RENDER"
+          ]
+        }
+      ],
+      "comments": [
+        {
+          "at": "2026-09-25T10:55:26.491Z",
+          "actor": "Codex",
+          "text": "Slice 237 is complete with verified exit-report and rendered-output evidence. F03 remains In Progress because S238 saved-edit/output integration, S239 immutable revisions and hashes, and S240 final review remain. Continue with S238 in order."
+        },
+        {
+          "at": "2026-09-25T19:34:04.688Z",
+          "actor": "Codex",
+          "text": "Slice 238 implementation and verification are complete. The F03 packet remains In Progress for Slice 239 immutable revisions/hashes and Slice 240 final review; no fit, physical sample, supplier, or factory-acceptance claim is made."
+        }
+      ],
+      "evidenceRefs": [
+        "E-EPIC15-F03-S237-EXIT",
+        "E-EPIC15-F03-S237-RENDER",
+        "E-EPIC15-F03-S238-EXIT",
+        "E-EPIC15-F03-S238-RENDER",
+        "E-EPIC15-F03-S239-EXIT",
+        "E-EPIC15-F03-S239-RENDER"
+      ],
+      "flagKey": null
+    },
+    {
+      "id": "EPIC-15-G02-FINAL-REVIEW",
+      "type": "task",
+      "title": "G02 final review, digital evidence replay and exit",
+      "epicId": "EPIC-15",
+      "releaseId": null,
+      "status": "Review",
+      "openedAt": "2026-09-24",
+      "targetAt": "2026-10-02",
+      "deliveredAt": null,
+      "priority": "P0",
+      "risk": "high",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": [
+        "EPIC-15-F03"
+      ],
+      "protectedSurfaces": [
+        "local-first persistence",
+        "legacy SaveFile compatibility",
+        "export byte identity",
+        "100% coverage"
+      ],
+      "description": "Slice 240: adversarially reconcile the three packet exits, rerun the full verification gate, replay browser and Electron persistence/output behavior, publish verified evidence and close only after all criteria pass.",
+      "expectation": "A clean, reviewed merge to origin/main contains a complete evidence trail for every admitted criterion, with no unsupported production or physical-fit claim.",
+      "acceptanceCriteria": [
+        "All F01, F02 and F03 children are Done with verified non-incomplete evidence.",
+        "Full suite, strict production build and statement/function/branch/line coverage pass at 100%.",
+        "All eight protected legacy export byte identities are unchanged.",
+        "Browser reload/backup restore and isolated Electron restart/output replay pass; accessibility and narrow-layout behavior are inspected.",
+        "Residual limitations, actual completion date, and downstream dependency reforecast are recorded.",
+        "EPIC-15 closes only after its reviewed change is merged and verified on origin/main."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-09-24T14:56:31.612Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "Create the admitted EPIC-15/G02 packet and preserve the dependency order in the canonical Control Center.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "Ready",
+          "at": "2026-09-26T02:31:14.077Z",
+          "actor": "Codex",
+          "role": "reviewer",
+          "note": "F01, F02 and F03 are complete with verified evidence; begin the admitted Slice 240 final-review packet in dependency order.",
+          "evidenceRefs": [
+            "E-EPIC15-F03-S239-EXIT",
+            "E-EPIC15-F03-S239-RENDER"
+          ]
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-09-26T02:31:57.889Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "Start Slice 240 after F01, F02 and F03 completed with verified evidence. Execute the full G02 gate without relaxing coverage, export identity, local-first or no-physical-fit boundaries.",
+          "evidenceRefs": [
+            "E-EPIC15-F03-S239-EXIT",
+            "E-EPIC15-F03-S239-RENDER"
+          ]
+        },
+        {
+          "status": "Review",
+          "at": "2026-09-26T04:01:21.208Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "S240 final digital review gates passed; the reviewed branch must still merge and pass origin/main ancestry verification before completion.",
+          "evidenceRefs": [
+            "E-EPIC15-S240-EXIT",
+            "E-EPIC15-S240-COVERAGE",
+            "E-EPIC15-S240-PACKAGE",
+            "E-EPIC15-S240-RESPONSIVE",
+            "E-EPIC15-S240-REVISIONS"
+          ]
+        }
+      ],
+      "comments": [
+        {
+          "at": "2026-09-26T02:31:48.299Z",
+          "actor": "Codex",
+          "text": "Reforecast at the F03 exit on 2026-09-26: target 2026-10-02, assuming 4–5 focused workdays in one serialized integration lane for the full coverage/build/export-identity gate, actual browser/Electron replay, rendered accessibility/responsive checks, and final review. Scope and acceptance gates are unchanged; the date is a forecast, not a waiver."
+        }
+      ],
+      "evidenceRefs": [
+        "E-EPIC15-F03-S239-EXIT",
+        "E-EPIC15-F03-S239-RENDER",
+        "E-EPIC15-S240-EXIT",
+        "E-EPIC15-S240-COVERAGE",
+        "E-EPIC15-S240-PACKAGE",
+        "E-EPIC15-S240-RESPONSIVE",
+        "E-EPIC15-S240-REVISIONS"
+      ],
+      "flagKey": null
     }
   ],
   "evidence": [
@@ -4801,6 +5290,186 @@
       "sha256": "45db0b7da471d65bf4fe765f4d6e06f287dcb506d540b4d248366b5f147544b4",
       "verified": true,
       "note": "SHA-256 manifest for the seven S227 readable draft-pack PDFs and all 33 page renders; source-pinned to the S227 implementation commit."
+    },
+    {
+      "id": "E-EPIC15-G02-ADMISSION-S229",
+      "kind": "document",
+      "uri": "docs/planning/EPIC-15-ADMISSION.md",
+      "commit": null,
+      "sha256": "2e2ee46bb06c2b828920511e0a368e170c420b408a28d887413039a49a2abcbb",
+      "verified": true,
+      "note": "Slice 229 admission packet: verified post-G01 starting state, explicit G02 decision, boundaries, risks, ordered F01/F02/F03 slices and complete exit gates."
+    },
+    {
+      "id": "E-EPIC15-F01-STORAGE-S230",
+      "kind": "document",
+      "uri": "docs/research/epic15/F01-STORAGE-CONTRACT-S230.md",
+      "commit": null,
+      "sha256": "16f2b58df85dd7c909522fe4ed5d4728ac3fee88b3d1fc7a5b1796062d3b5066",
+      "verified": true,
+      "note": "Slice 230 accepted the local project/style IndexedDB, migration, recovery, artwork-reference, and portable-package contract; the Electron file-origin proof is narrowly scoped and does not claim implementation."
+    },
+    {
+      "id": "E-EPIC15-F01-MODEL-S231",
+      "kind": "document",
+      "uri": "docs/research/epic15/F01-RECORD-MODEL-S231.md",
+      "commit": null,
+      "sha256": "d457bd203dbc490a86071855f2c431f072fde7d1d8d9963db343a7d657e275e2",
+      "verified": true,
+      "note": "Slice 231 adds strict versioned project/style/recovery/migration records and pure SaveFile v1-v5 conversion with raw recovery preservation and complete focused coverage."
+    },
+    {
+      "id": "E-EPIC15-F01-REPO-S232",
+      "kind": "document",
+      "uri": "docs/research/epic15/F01-TRANSACTIONAL-REPOSITORY-S232.md",
+      "commit": null,
+      "sha256": "c8c1c90deda108b4f2a42854fa96e58937482320ee031388da7831662fcebc73",
+      "verified": true,
+      "note": "Slice 232 implements the versioned IndexedDB repository, revision-checked atomic project/style/recovery writes, non-destructive idempotent SaveFile migration, strict durability, fault rollback, and Chromium/Electron restart and path-change proofs."
+    },
+    {
+      "id": "E-EPIC15-F01-WORKFLOW-S233",
+      "kind": "document",
+      "uri": "docs/research/epic15/F01-PROJECT-STYLE-WORKFLOW-S233.md",
+      "commit": null,
+      "sha256": "d28264bba17a639ac23763896ecc0fe7824a18df6fac4b1b9a49ed9d402d75e8",
+      "verified": true,
+      "note": "Slice 233 connects migration, per-style Save/Load and recovery, and accessible local project/style management; full 100% coverage plus rendered persistent Chromium and Electron restart/save/recovery proof passed."
+    },
+    {
+      "id": "E-EPIC15-F01-PACKAGE-S234",
+      "kind": "exit-report",
+      "uri": "docs/research/epic15/F01-PACKAGE-EXPORT-IMPORT-S234.md",
+      "commit": null,
+      "sha256": "564d7afa464d74b0a3bd2f48d53667eaf917febabad9970f16a0a9fad4521de6",
+      "verified": true,
+      "note": "Slice 234 portable project-package import/export passed full-suite, global coverage, protected export identity, build, dependency audit, browser and Electron restart verification. See the report for measured package limits and memory costs."
+    },
+    {
+      "id": "E-EPIC15-F02-FIELD-HISTORY-S235",
+      "kind": "document",
+      "uri": "docs/research/epic15/F02-FIELD-PROVENANCE-S235.md",
+      "commit": null,
+      "sha256": "3d6d1493110e5262350e3dd8741635829fce8eb43db79c6bb0b60ccc62c167b1",
+      "verified": true,
+      "note": "Slice 235 C03-aligned field provenance and append-only value history for all seven recipes; 448/448 focused tests and 100% coverage across changed production modules; live Chromium and Electron restart proof for rendered chest history, provenance, style-scoped recovery, and Save. F02 remains In Progress pending Slice 236."
+    },
+    {
+      "id": "E-EPIC15-F02-DEPENDENCY-S236",
+      "kind": "exit-report",
+      "uri": "docs/research/epic15/F02-DEPENDENCY-INVALIDATION-S236.md",
+      "commit": null,
+      "sha256": "4171cd7387c51358d413f2734da377052403dadc7052f9b195ca6fb9e8b01251",
+      "verified": true,
+      "note": "Slice 236 completion report; hash refreshed after whitespace cleanup with no change to findings. Verified against the seven-recipe dependency matrix and rendered/reload evidence."
+    },
+    {
+      "id": "E-EPIC15-F02-DEPENDENCY-S236-RENDER",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic15/evidence/S236-field-impact-browser.png",
+      "commit": null,
+      "sha256": "d85b6606caa5f66f75e4c0af36aefc5f393c3a7e2fc836f318567e619b4ae4ff",
+      "verified": true,
+      "note": "Isolated Chromium 151 rendered field-impact status beside the live pattern after changing chest; screenshot SHA-256 verified."
+    },
+    {
+      "id": "E-EPIC15-F03-S237-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic15/F03-SLICE-237-EXIT.md",
+      "commit": null,
+      "sha256": "67de4ecd69d564f42daee4ffa5645be1a077713ada273f5fca7b1d86a4c5c29c",
+      "verified": true,
+      "note": "Slice 237 constrained semantic edit model, unit guards, model coverage, invalid-preview browser proof, and remaining S238-S240 gates; SHA-256 verified."
+    },
+    {
+      "id": "E-EPIC15-F03-S237-RENDER",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic15/evidence/S237-invalid-edit-preview.png",
+      "commit": null,
+      "sha256": "9578b14a94cac5e10010d945f0b3b3050308fcdb5d9414dd4aae15d7453309f1",
+      "verified": true,
+      "note": "Chromium 151 invalid-edit preview shows three surfaced digital checks; Reset restores valid preview. Parametric SVG before/after remains byte-identical at SHA-256 3fbf2e3215af5bdfc66398b9b16714e8ee8139f5edc10dab527bc4c8378f2b9d. Screenshot SHA-256 verified."
+    },
+    {
+      "id": "E-EPIC15-F03-S238-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic15/F03-CROSS-OUTPUT-EDITING-S238.md",
+      "commit": null,
+      "sha256": "2edf2918e240ddf2613066ceeac072adfb2d436d6aef77eda0ebf7535cec8baa",
+      "verified": true,
+      "note": "Slice 238 durable style-scoped semantic editing, migration, all-size/output wiring, full 100% coverage, Tee and Woven-shirt Chromium replay, Electron recovery/restart, stale-output gate and explicit rebase. The report records hashes, scope limits, and no physical-fit claim."
+    },
+    {
+      "id": "E-EPIC15-F03-S238-RENDER",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic15/evidence/S238-woven-semantic-edit.png",
+      "commit": null,
+      "sha256": "907d65c2abbc5f1254b9011c17d3ea28f16cb322ec4df299361e1697218f5ef5",
+      "verified": true,
+      "note": "Retained production-built Chromium screenshot of the Woven-shirt semantic-edit view; SHA-256 verified. This is a 2D digital pattern view, not drape or fit evidence."
+    },
+    {
+      "id": "E-EPIC15-F03-S239-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic15/F03-IMMUTABLE-REVISIONS-S239.md",
+      "commit": null,
+      "sha256": "5c8ab082ee8f5cea74074166c4d5805c8efe9f512351027aa9e2b490369083e6",
+      "verified": true,
+      "note": "Slice 239 implementation contract and accepted execution record; 166 focused tests, six dedicated modules at 100% coverage, production build, and Tee/Woven-shirt Chromium/Electron immutable-revision and exact frozen-output restart replay. See the report for partial-app coverage selection and limits."
+    },
+    {
+      "id": "E-EPIC15-F03-S239-RENDER",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic15/evidence/S239-rendered-verification.json",
+      "commit": null,
+      "sha256": "f47a67ee1e5fd712f2912e0cd3de8da34b11d229ca9dd64c9068f8bd231e472d",
+      "verified": true,
+      "note": "Refreshed and reverified during S240 final review: production-built Chromium/Electron revision, seven-output, frozen-hash and post-relaunch retrieval replay."
+    },
+    {
+      "id": "E-EPIC15-S240-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/release/EPIC-15-G02-FINAL-REVIEW-S240.md",
+      "commit": null,
+      "sha256": "43963b1e9b967f89a47783dd006caebef9d52ad4bc503c48fc9b56d029ae69a1",
+      "verified": true,
+      "note": "S240 exit report hash reverified after final whitespace cleanup; content and attached machine evidence are unchanged."
+    },
+    {
+      "id": "E-EPIC15-S240-COVERAGE",
+      "kind": "test",
+      "uri": "docs/research/epic15/evidence/S240-coverage-verification.json",
+      "commit": null,
+      "sha256": "c6a395422a2efb60224ffda7ee5c17615f2fdf8933906776e8e45fd5710796ce",
+      "verified": true,
+      "note": "Full Vitest run exited 0; all 100% coverage thresholds met across 110 files."
+    },
+    {
+      "id": "E-EPIC15-S240-PACKAGE",
+      "kind": "browser",
+      "uri": "docs/research/epic15/evidence/S240-project-package-verification.json",
+      "commit": null,
+      "sha256": "b7d47dd3dc6ca2ab124146ef7d607d510aa2cbf1f940f742e46a0e742fcf2b0c",
+      "verified": true,
+      "note": "Clean-profile Chromium and Electron package import, artwork, recovery, and restart proof."
+    },
+    {
+      "id": "E-EPIC15-S240-RESPONSIVE",
+      "kind": "browser",
+      "uri": "docs/research/epic15/evidence/S240-responsive-verification.json",
+      "commit": null,
+      "sha256": "e0b4e6dbce604641348307a210620de366a9d21e66574d4ff633affa8ff66835",
+      "verified": true,
+      "note": "Production-browser 320/390/1440 px, no overflow, no Axe violations or browser messages."
+    },
+    {
+      "id": "E-EPIC15-S240-REVISIONS",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic15/evidence/S239-rendered-verification.json",
+      "commit": null,
+      "sha256": "f47a67ee1e5fd712f2912e0cd3de8da34b11d229ca9dd64c9068f8bd231e472d",
+      "verified": true,
+      "note": "Fresh Chromium/Electron Tee and Woven-shirt seven-output revision, hash, and relaunch replay."
     }
   ]
 }

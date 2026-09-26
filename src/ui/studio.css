@@ -32,6 +32,43 @@ body { margin: 0; }
 }
 #workspace-actions button:disabled { opacity: .4; cursor: not-allowed; }
 #persist-status { font-size: 12px; max-width: 300px; }
+#project-persistence-state { font-size: 12px; max-width: 300px; color: #b8e6d0; }
+#project-persistence-state[data-state="unsaved"], #project-persistence-state[data-state="stale"],
+#project-persistence-state[data-state="failed"] { color: #f3d69a; }
+.project-manager-details { border: 1px solid #34506a; border-radius: 8px; padding: 8px; background: #0d1b2c; }
+.project-manager-details > summary { cursor: pointer; color: #b8e6d0; font-size: 12px; font-weight: 700; }
+.project-manager { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+.project-current { display: flex; flex-direction: column; gap: 3px; margin: 0; color: #d9e6ef; font-size: 12px; }
+.project-current span, #project-manager-status { margin: 0; color: #9bb8cc; font-size: 11px; line-height: 1.4; }
+.project-manager > label { color: #9bb8cc; font-size: 11px; }
+.project-manager > input { box-sizing: border-box; width: 100%; min-width: 0; min-height: 36px; padding: 6px 8px; border: 1px solid #34506a; border-radius: 6px; background: #13233a; color: #d9e6ef; }
+.project-manager-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+.project-manager button { min-width: 0; min-height: 34px; padding: 5px 7px; border: 1px solid #34506a; border-radius: 6px; background: #162c42; color: #d9e6ef; cursor: pointer; text-align: left; font-size: 11px; }
+.project-manager button:hover:not(:disabled) { border-color: #88d7ef; }
+.project-manager button:disabled { opacity: .45; cursor: not-allowed; }
+.project-revision-history { display: flex; flex-direction: column; gap: 7px; border-top: 1px solid #34506a; padding-top: 10px; }
+.project-revision-history h3, .project-revision-history h4 { margin: 0; color: #b8e6d0; font-size: 12px; }
+.project-revision-history p { margin: 0; color: #9bb8cc; font-size: 10px; line-height: 1.45; }
+.project-revision-history ol, .project-revision-history ul { display: flex; flex-direction: column; gap: 6px; margin: 0; padding-left: 20px; }
+.project-revision-history li { min-width: 0; color: #9bb8cc; font-size: 10px; line-height: 1.4; overflow-wrap: anywhere; }
+.project-revision-history code { color: #d9e6ef; font-size: 9px; }
+.project-revision-compare { display: grid; grid-template-columns: auto minmax(0, 1fr) auto minmax(0, 1fr); gap: 5px; align-items: center; }
+.project-revision-compare label { color: #9bb8cc; font-size: 10px; }
+.project-revision-compare select { min-width: 0; max-width: 100%; }
+.project-revision-comparison { white-space: pre-line; overflow-wrap: anywhere; }
+.project-backup-controls { display: grid; gap: 6px; padding: 8px; border: 1px solid #294158; border-radius: 7px; background: #0a1725; }
+.project-backup-controls > label { color: #9bb8cc; font-size: 11px; }
+.project-backup-controls > select { box-sizing: border-box; min-width: 0; min-height: 34px; padding: 5px 7px; border: 1px solid #34506a; border-radius: 6px; background: #13233a; color: #d9e6ef; }
+.project-package-progress-label { margin: 0; color: #b8dbe9; font-size: 11px; }
+.project-operation-cancel { position: fixed; z-index: 10000; top: 12px; right: 12px; display: flex; align-items: center; gap: 12px; max-width: min(600px, calc(100vw - 24px)); padding: 9px 12px; border: 1px solid #7ca4bd; border-radius: 8px; background: #11273b; color: #edf5fa; box-shadow: 0 8px 28px #0009; font-size: 12px; }
+.project-operation-cancel[hidden] { display: none; }
+.project-operation-cancel button { border: 1px solid #9bb8cc; border-radius: 5px; padding: 5px 9px; background: #203e56; color: inherit; cursor: pointer; }
+.project-style-list h3 { margin: 5px 0; color: #8cd5df; font-size: 11px; }
+.project-style-list ul { display: flex; flex-direction: column; gap: 5px; margin: 0; padding: 0; list-style: none; }
+.project-style-list li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 5px; align-items: center; }
+.project-style-list li > button:first-child, .project-style-list li > span { overflow-wrap: anywhere; }
+.project-style-list li > button[aria-current="true"] { border-color: #65b7a1; color: #b8e6d0; }
+.project-style-list > p { margin: 0; color: #6f96ad; font-size: 11px; }
 #export-host { min-width: 0; }
 .export-size-context {
   display: flex; align-items: center; gap: 8px; flex-wrap: wrap;

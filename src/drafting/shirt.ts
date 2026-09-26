@@ -479,6 +479,24 @@ export const WOVEN_SHIRT_ALLOWANCES: AllowanceSpec = {
   },
 };
 
+/** Apply the user-selected lower-body turn as a cut allowance. The sleeve has a
+ * separately named piece but also an edge named hem, so scope this rule by
+ * the actual body-piece names rather than broadening the shared edge rule. */
+export function wovenShirtAllowances(hemTurn: number): AllowanceSpec {
+  const definition = WOVEN_SHIRT_OPTION_DEFINITIONS.find((option) => option.id === "hemTurn");
+  if (!definition || !Number.isFinite(hemTurn) || hemTurn < definition.min || hemTurn > definition.max) {
+    throw new RangeError("Hem turn is outside its supported range.");
+  }
+  return {
+    ...WOVEN_SHIRT_ALLOWANCES,
+    byPieceEdge: {
+      ...WOVEN_SHIRT_ALLOWANCES.byPieceEdge,
+      "woven front": { hem: hemTurn },
+      "woven back lower": { hem: hemTurn },
+    },
+  };
+}
+
 export const WOVEN_SHIRT_GRADE: GradeRule = {
   neck: 1.5, chest: 5, shoulderWidth: 1.2, bicep: 1.5,
   length: 2, armholeDepth: 0.6, sleeveLength: 0.8,

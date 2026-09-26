@@ -1,30 +1,35 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 228 closes EPIC-14/G01 after final ledger, output replay,
-and verified board exit, 2026-09-24._
-Current directive: EPIC-14/G01 is Closed. C01, C02, C05 and C06, C03 and C04,
-lanes B–D, Lane A, and the final G01 review are Done with verified evidence.
-The A-01–A-12 disposition, output replay and remaining downstream thresholds
-are recorded in `docs/research/epic14/G01-FINAL-REVIEW-EXIT.md`. Slice 227 adds
-the current UI's readable draft-pack route: paginated, explicitly non-scale
-pattern-piece overview cells and wrapping BOM/construction pages. Its seven
-default recipe PDFs and all 33 rendered pages are retained with hashes and
-layout results. The byte-identical legacy writer remains unchanged. Full
-coverage, build and protected export identities pass. EPIC-15/G02 remains in
-Backlog and is not started by this closure. Physical sampling, live supplier
-work, paid sources, hosted services and production-readiness claims remain
-held.
-The canonical Control Center is at revision 251 after verified EPIC-14 closure.
-Detailed records and the sequence map
-are in `ops/control-center/data/board.json`,
-`docs/planning/EPIC-14-ADMISSION.md`, and
-`docs/planning/END-TO-END-CAPABILITY-ROADMAP.md`.
-No new garment recipe, user-facing AI designer, paid source, supplier contact,
-physical sample, hosted feature, or production-readiness claim was admitted.
-Lane E remains held. The sequence diagram was shown and live dependencies were
-confirmed before Slice 215. C01–C06 are stable packet IDs, not landed slice
-numbers. Target dates remain conditional forecasts and must be rechecked at
-each packet exit.
+_Last updated: Slice 240 final digital review passed; reviewed branch awaits merge verification, 2026-09-26._
+Current directive: EPIC-14/G01 is Closed with its accepted evidence and final
+report. EPIC-15/G02 remains the only admitted future-capability goal. F01, F02
+and F03 are Done with linked evidence. Slice 240's final review gates pass:
+full-repository coverage is 100% for statements, branches, functions and lines;
+the strict app and Electron builds pass; all eight protected legacy export
+identities remain unchanged; browser and Electron package/backup/restart checks
+pass; immutable Tee and Woven-shirt outputs survive successor revisions and
+profile relaunch; responsive/Axe checks pass at 320, 390 and 1440 CSS pixels.
+The exact acceptance record is
+`docs/release/EPIC-15-G02-FINAL-REVIEW-S240.md`; machine evidence is under
+`docs/research/epic15/evidence/S240-`.
+
+The canonical Control Center is at revision 310: F01, F02 and F03 are Done and
+S240 final review is Review with verified evidence (conditional target
+2026-10-02). EPIC-15 remains In Progress until the
+reviewed branch is merged and its commit is verified as an ancestor of
+`origin/main`; only then may the final review become Done and EPIC-15 close.
+EPIC-16 through EPIC-30 (G03–G17) remain Backlog. Reforecast dates at the
+verified closure while preserving the separate admission gate; dates never
+authorize downstream work.
+
+EPIC-14/G01's A-01–A-12 disposition, output replay and downstream thresholds
+are in `docs/research/epic14/G01-FINAL-REVIEW-EXIT.md`. Slice 227's readable
+draft-pack route retains seven PDFs, all 33 rendered pages, hashes and layout
+results; the byte-identical legacy writer remains unchanged. No new garment
+recipe, user-facing AI designer, paid source, supplier contact, physical sample,
+hosted feature, or production-readiness claim was admitted. The existing holds
+remain active, including Lane E. C01–C06 are stable packet IDs, not landed slice
+numbers, and all target dates remain conditional forecasts.
 Epics 7, 9 and 10 are implemented, Codex-reviewed, documented and pushed to
 `origin/main`. Epic 11 implementation has completed the shaped collar/stand,
 placket-base, vent/drop, front/back preview/control/report and downstream
@@ -936,7 +941,8 @@ hashes remain unchanged. The report explicitly leaves physical fit, complete
 technical flats, factory readiness, CAD receiver acceptance, 3D simulation,
 supplier facts, and future features unverified. The validated Control Center
 command layer links the verified exit report and closes every EPIC-14 child
-and the Epic record. G02 remains Backlog.
+and the Epic record. At that exit, G02 remained Backlog; it was separately
+admitted in Slice 229.
 
 ### Post-merge PR audit — 2026-09-21
 
@@ -3963,3 +3969,284 @@ trouser-renderer checks pass, full test and coverage runs are green at 100% for
 all four metrics, TypeScript/build pass, and the 8/8 legacy regression remains
 unchanged; parsed trouser outputs and live browser verification remain for
 Slices 101–102)
+
+### Slice 229 — EPIC-15/G02 admission and F01 start
+
+After verifying `origin/main` at the EPIC-14/G01 close (Slice 228), the
+maintainer explicitly admitted EPIC-15/G02. The admission packet defines the
+local-first, user-led scope, ordered F01 → F02 → F03 → final-review sequence,
+slice boundaries 229–240, exit gates and residual risks. The validated Control
+Center command layer now records revision 269: the admission task is Done with
+hash-verified document evidence, the EPIC-15 goal and F01 are In Progress, and
+F02/F03/final review remain Backlog with explicit dependencies. The browser
+Control Center was reloaded and showed the active goal at revision 269.
+
+This slice changes planning, decision, state, context and Control Center
+records only; no product code, garment recipe, export implementation, paid or
+hosted service, supplier contact, physical sample, or production claim changed.
+It preserves the existing untracked `coverage-p1.log`, `p1-focused.log`, and
+`tmp/` artifacts. Verification passed: `npm run control-center:test` (33/33),
+admission-document SHA-256 reconciliation, and live browser reload showing
+board revision 269 with EPIC-15 and F01 In Progress.
+
+### Slice 230 — F01 local storage and migration contract
+
+Accepted IndexedDB as the asynchronous project/style/recovery repository shared
+by the web app and Electron renderer. The contract specifies stable project and
+user-style IDs separate from recipe presets; atomic revision-checked writes;
+preservation and idempotent import of SaveFile v1–v5 plus recovery; visible
+failure rather than silent fallback; compatibility projection for the legacy
+Save/Load path; a two-store artwork commit rule; and a versioned, bounded ZIP
+backup/import package with strict collision and hash rules. It captures the
+failure matrix and implementation tests for Slices 231–234. This is a contract,
+not shipped product behavior.
+
+The storage choice is supported by a focused Electron 44.1.0 / Chromium
+152.0.7977.65 proof. Two isolated app-file paths under one temporary user-data
+profile shared persisted IndexedDB and localStorage values across process
+restart. This justifies the tested runtime path, but does not prove all
+Electron versions, browser-origin behavior, quota resistance, backup quality,
+or crash/power-loss durability. `npm run electron:verify-idb-file-origin`
+passed. `npm run control-center:test` passed 33/33 after adding a SHA-256 check
+for the contract evidence. The live browser shows board revision 270, EPIC-15
+and F01 In Progress, with S230 evidence attached. No Save/Load product behavior
+or recipe/export output changed. Existing user artifacts remain untouched.
+
+### Slice 231 — F01 versioned records and pure legacy conversion
+
+Added strict schema-v1 `ProjectRecord`, `StyleRecord`, `RecoveryRecord`, and
+`MigrationRecord` validators; stable UUID and timestamp rules; exact canonical
+record-field checks; project/style graph validation; and pure conversion from
+SaveFile v1–v5 into a first local project and style. The conversion reuses the
+existing deserializer as the source of historical meaning, returns the source
+version for a later migration marker, keeps recipe and preset IDs distinct
+from user style identity, and never writes or clears legacy data. Recovery v1
+converts to a style-keyed record with raw user input retained.
+
+The focused record tests pass 6/6, with 100% statement, branch, function, and
+line coverage for `project-records.ts`. The full `npm run coverage` gate passed
+1,569/1,569 tests at 100% statements, branches, functions, and lines, including
+the protected export-identity tests. `npm run build` passed and
+`npm run control-center:test` passed 33/33. Slice 231's document is
+hash-verified evidence on the canonical board at revision 271; the live browser
+shows the F01 card and both evidence records. The app still uses the legacy
+localStorage path; IndexedDB, UI, and storage migration remain for Slice 232
+onward. No recipe, export output, or physical/supplier/hosted scope changed.
+
+### Slice 232 — F01 transactional project repository
+
+Implemented `src/ui/project-repository.ts` over the schema-v1 IndexedDB model:
+exact schema validation, strict-durability read/write transactions with a
+TypeError-only default-mode fallback, revision-checked project/style saves,
+active-style switching, per-style recovery replacement/clearing, and
+non-destructive SaveFile v1–v5 plus Recovery v1 migration. Migration fingerprints
+the exact source pair, atomically commits project/style/recovery/selection and
+marker, and is idempotent. An injected failure at the final marker write proved
+that earlier writes roll back and the unchanged source can be retried.
+
+The 21 focused repository tests pass with 100% statement, branch, function, and
+line coverage. `npm run electron:verify-project-repository` passed on Electron
+44.1.0 / Chromium 152.0.7977.65: migration and raw recovery survived process
+restart and a changed `file://` app path under one isolated profile, the second
+migration was idempotent, and both legacy strings remained unchanged.
+`npm run build` passed. Full repository coverage passed with 100% statements,
+branches, functions, and lines; the new report is hash-verified on the
+canonical Control Center at revision 272. `npm run control-center:test` passed
+33/33, and `git diff --check` passed. Slice 232 is committed as
+`Slice 232: implement transactional project repository`; the next ordered
+slice is 233, which integrates the API into the user-led project/style flow.
+
+The repository API is not yet wired into application boot, Save/Load controls,
+style-management UI, or the current recovery prompt; those are Slice 233. The
+app still uses its legacy single-style path. Artwork byte stores remain
+separate, and portable package import/export remains Slice 234. No garment,
+physical, supplier, paid, hosted, AI-designer, production-readiness, or export
+behavior changed. Existing user artifacts were preserved.
+
+### Slice 234 — F01 portable project package and F02 start
+
+Completed the local `.infinidrip.zip` project backup/import route. The strict
+versioned stored-ZIP profile packages project/style records, style recovery,
+and referenced artwork, with digest and CRC checks, explicit collision-copy
+handling, ID remapping, preflight validation, staged artwork readback, atomic
+record commit, and rollback/cleanup errors surfaced. Browser download and the
+isolated Electron binary save-dialog bridge both passed clean-profile
+restart/import verification. The 256 MiB archive ceiling is not a
+bounded-memory guarantee; measured peak process RSS for a 250 MiB fixture was
+about 791 MB in the focused run and is documented as a practical limitation.
+
+Verification: the full ordinary suite passed 118 files / 1,650 tests; the
+repository-wide instrumented gate passed at 100% statements, branches,
+functions, and lines, with only the 250 MiB stress case excluded from coverage
+instrumentation (it passed in the ordinary suite). The eight protected legacy
+export identities remained byte-identical. Build, TypeScript, 33/33 Control
+Center tests, zero production dependency audit findings, and rendered browser
+and Electron restart proof passed. Full detail and residual limits are in
+`docs/research/epic15/F01-PACKAGE-EXPORT-IMPORT-S234.md`.
+
+The report's SHA-256 is linked as verified evidence. Canonical Control Center
+revision 279 records F01 Done and F02 In Progress, with S235 evidence linked;
+the browser view was refreshed to show the dependency transition. Slice 235 adds the accepted C03
+semantic-kind/provenance/evidence vocabulary and inspectable value history for
+all seven existing recipes. Historic/default values remain explicitly
+unresolved or preset, confidence is not assessed, exact raw input is retained,
+and input/history storage is sequenced before style/project changes; callbacks
+from a replaced app mount cannot rewrite the active style. Evidence and limits
+are in `docs/research/epic15/F02-FIELD-PROVENANCE-S235.md`. Slice 236 completes
+F02 with the field-to-output dependency/recomputation graph; see
+`docs/research/epic15/F02-DEPENDENCY-INVALIDATION-S236.md`. No new
+recipe, physical sample, supplier work, paid/hosted service, or
+production-readiness claim was added.
+
+### Slice 235 — C03-aligned field provenance and value history
+
+Slice 235 adds stable semantic definitions and append-only observations for
+every editable measurement and option across the seven existing recipes.
+Current/default legacy values keep their actual provenance and evidence status;
+raw user input remains visible when invalid, and no confidence or fit claim is
+invented. Field history is persisted per style through schema-v4 migration,
+recovery, style operations, and package v2. The dialog flushes pending writes
+before it renders so a just-edited value is not hidden by an older snapshot.
+Persistence errors block misleading transitions and stay visible even if a
+separate recovery write later succeeds.
+
+Verification: TypeScript passed; the 10-file focused suite passed 448/448 with
+100% statements, branches, functions, and lines across all changed production
+modules. The real browser/Electron workflow passed with chest `104`, provenance
+and history surviving style creation and restart, and explicit Save clearing
+recovery. The complete repository coverage and protected-export gate remains
+scheduled for Slice 240.
+
+### Slice 236 — field-to-output dependency and invalidation map
+
+Slice 236 adds an enumerated, tested field-to-output graph for all 85
+measurement and option inputs across the seven current recipes. It reports
+which outputs must rebuild, identifies surface-art sheet SVG as independent,
+and distinguishes woven button count/spacing behavior. Woven `hemTurn` remains
+absent from the drafted pattern/export path; tank `shoulderWidth` updates the
+body illustration and graded measurement records but not drafted tank pieces
+or garment exports. Both gaps are explicitly assigned to Slice 238.
+
+Verification: all 227 tests in the app and dependency files passed; the
+name-filtered matrix/UI suite passed 9/9; the new dependency module has 100%
+statement, branch, function and line coverage; TypeScript and rendered
+Chromium save/reload checks passed. A source-limited coverage collection over
+only `app.ts`, `view.ts` and the graph reported 94.62% overall because it
+omitted other suites that cover existing app paths; every new app/view
+integration line was hit, and the full repository coverage/build/protected
+export gate remains scheduled for Slice 240. Report and rendered evidence are
+linked to F02 at Control Center revision 285. F03 is Ready; Slice 237 follows.
+
+### Slice 237 — constrained semantic edit model
+
+Slice 237 adds recipe-name-based corner and curve-control anchors; one-anchor
+exact-centimetre operations; grouped atomic undo/redo; source conflict and
+explicit rebase handling; and deterministic replay across each recipe's
+registered sizes. The validation guard checks finite geometry and graded source
+measurements, closure, non-zero area, non-adjacent intersections on the
+exported sewing-outline samples, named fold rules, stitches/ease, recipe
+checks, rounded POM values and optional tech-pack callout coordinates. New
+semantic model tests pass 29/29 with 100% statements, branches, functions and
+lines. The Edit preview now shows actionable digital failures and states that
+it is temporary and separate from saved styles and outputs. A production-build
+Chromium run captured the warning and verified that the 5,997-byte parametric
+SVG hash was identical before and after the invalid preview. Details, limits and
+hashes are in `docs/research/epic15/F03-SLICE-237-EXIT.md` and
+`docs/research/epic15/F03-CONSTRAINED-EDIT-S237.md`.
+
+At Slice 237's exit, semantic operations were not yet persisted and its edit
+preview did not assert fit. Slice 238 closes that digital persistence/output
+boundary; it still does not assert physical fit. Slice 239 adds immutable
+revisions/hashes; Slice 240 remains responsible for the final full repository,
+protected-export, browser/Electron and independent-style exit gates.
+
+### Slice 238 — durable semantic edits and cross-output integration
+
+Slice 238 connects semantic operations to style-scoped SaveFile v6 and
+RecoveryFile v2 state, schema-3 style records, schema-2 recovery records and
+the IndexedDB v5 migration. Package envelope v2 remains unchanged; supported
+older saves, records and packages migrate explicitly, and malformed records
+fail closed. Pointer drags commit as one operation; keyboard edits, undo/redo,
+clear, explicit rebase and source-conflict handling operate on the same
+persisted document. Every registered size is checked before dependent outputs
+are current. Invalid or stale states are blocked at both the UI and export
+writer.
+
+Pattern, grade, POM/spec, nesting, relevant views, tech pack, projector and
+cutting files consume the same evaluated size block. Woven-shirt `hemTurn`
+changes the front and lower-back body cutting allowance only; sleeve allowance
+and finished sewing-line POM remain independent. Tank body `shoulderWidth`
+remains separate from pattern `strapWidth`, and guidance points to the field
+that changes the pattern. No protected export baseline moved.
+
+The complete repository gate passed **123 test files / 1,781 tests** with
+**100% statements, branches, functions and lines**. The production-built
+Chromium 151 and Electron 44.1.0 verifier passed Save/reload, style isolation,
+two-operation pending recovery on restart, stale-source download rejection,
+and explicit rebase. The Tee semantic edit changed SVG, DXF, tiled PDF, A0 PDF,
+tech-pack PDF and projector SVG hashes. The Woven-shirt rendered trace changed
+all six after a 1 cm→2 cm hem-turn edit and again after a 0.1 cm semantic edit;
+its screenshot and all output digests are in
+`docs/research/epic15/F03-CROSS-OUTPUT-EDITING-S238.md`. Electron's native SVG
+hash matched before and after restart. The forced process exit is not a test
+of power loss, an operating-system crash, or torn IndexedDB transactions.
+Slice 239 completes immutable revisions and frozen outputs; Slice 240 owns the
+final independent-style review and full exit.
+
+### Slice 239 — immutable revisions and frozen digital outputs
+
+Slice 239 adds schema-v6 immutable parent-linked style revisions with
+RFC-8785/SHA-256 content digests; validated compare and restore-as-new-child;
+versioned portable revision and output-manifest history; and complete,
+all-or-nothing captures of the seven supported digital output files. Captures
+pin the active saved revision and selected size, retain exact generated bytes,
+and state that they establish neither fit nor factory acceptance.
+
+The focused UI suites passed **166/166 tests**. The six dedicated changed
+revision/package/workflow modules reached 100% statement, branch, function and
+line coverage. The selected-suite coverage command reports partial whole-file
+`app.ts` coverage because it omits unrelated app suites; every S239-added app
+statement and branch was hit, and Slice 238's full-repository report covered
+pre-existing app paths at 100%. A fresh full-repo 100% threshold gate remains
+Slice 240 acceptance work. `npm run build` passed.
+
+Production-built Chromium 152 and Electron 44.1.0 traces passed for Tee and
+Woven shirt. They compared and restored revisions, captured all seven outputs,
+saved a successor child, checked that historical revisions/manifests/artifact
+bytes and hashes stayed unchanged, then reopened the same isolated profile and
+downloaded a historical SVG with the exact recorded bytes. The verifier
+requires the successor count, its captured-revision parent, and changed
+measurement before accepting the trace. The report and eight rendered screens
+are in `docs/research/epic15/F03-IMMUTABLE-REVISIONS-S239.md` and
+`docs/research/epic15/evidence/S239-rendered-verification.json`.
+
+Normal profile relaunch does not test sudden power loss, OS crash or browser
+storage eviction. The evidence makes no claim about signatures, approval,
+physical fit, supplier requirements or factory acceptance. F03 is Done with
+verified evidence. G02's Slice 240 full-suite, protected-export,
+accessibility, responsive and independent final gates are now In Progress.
+
+### Slice 240 — G02 final review and exit (Review; merge pending)
+
+The full Vitest coverage command exited 0 and reports 20,287/20,287 statements,
+8,679/8,679 branches, 1,283/1,283 functions and 20,287/20,287 lines across 110
+instrumented source files. `npm run build`, Electron main build and 33/33
+Control Center tests passed. The eight protected regression identities and
+nine additional export-identity tests passed without moving a baseline.
+Production-built Chromium 151 and Electron 44.1.0/Chromium 152 each imported and
+reopened a package with three styles, one recovery and the same 114-byte SVG.
+Fresh Tee and Woven-shirt revision runs captured seven outputs apiece, saved
+successors, checked old hashes, and downloaded historical SVG bytes after
+relaunch. Responsive checks at 320, 390 and 1440 px reported no horizontal
+overflow, zero Axe WCAG 2.1 A/AA violations, and no browser warnings/errors.
+Evidence and the two verification findings corrected during review are recorded
+in `docs/release/EPIC-15-G02-FINAL-REVIEW-S240.md` and linked JSON reports.
+
+The review candidate is in Control Center Review; EPIC-15 remains In Progress
+until merge to `origin/main` and an actual Git ancestry check. After that check,
+the validated Control Center command layer must mark the final review Done and
+close the Epic. Until closure, G03–G17 remain Backlog and all holds remain in
+force. Restart evidence covers normal close/relaunch only, not power loss, OS
+crash or storage eviction; digital hashes do not prove physical fit, drape,
+factory acceptance or production readiness. The original conditional S240
+target was 2026-12-11; the earlier review date does not relax any gate.

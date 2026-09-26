@@ -24,6 +24,13 @@ import {
 } from "../surface/artwork-library/catalog";
 import type { ArtworkUseAssessment } from "../surface/artwork-library/search";
 import { escapeAttr } from "../render/surface-overlay";
+import type { SemanticEditIssue } from "../edit/semantic-edit";
+import {
+  currentFieldObservation,
+  getFieldDefinition,
+  type FieldInputKind,
+  type FieldObservationRecord,
+} from "./field-provenance";
 import type { Piece, PatternMark, PatternAnnotationRole } from "../drafting";
 import { APPEARANCE_TEXTURES, Appearance, DEFAULT_APPEARANCE, hexToHsl, normalizeHex } from "./appearance";
 import {
@@ -60,11 +67,12 @@ function numericControlMarkup(
   const inputMaxAttribute = max === undefined ? "" : ` max="${max}" data-range-max="${max}" aria-valuemax="${max}"`;
   const controlMinAttribute = min === undefined ? "" : ` data-range-min="${min}"`;
   const controlMaxAttribute = max === undefined ? "" : ` data-range-max="${max}"`;
-  const state = numericRangeState(String(value), min, max);
+  const inputValue = Number.isFinite(value) ? String(value) : "";
+  const state = numericRangeState(inputValue, min, max);
   const allowed = min === undefined || max === undefined
     ? "Open range"
     : `Allowed range ${min}–${max}${unit}`;
-  const current = state === "empty" ? "current value unavailable" : `current value ${value}${unit}`;
+  const current = state === "empty" ? "current value unavailable" : `current value ${inputValue}${unit}`;
   const endpoint = (edge: "min" | "max"): string => edge === "min"
     ? (min === undefined ? "−∞" : String(min))
     : (max === undefined ? "+∞" : String(max));
@@ -73,7 +81,7 @@ function numericControlMarkup(
     `aria-controls="${inputId}" aria-label="${verb} ${label} by ${step}${unit}" ` +
     `style="flex:0 0 36px;width:36px;height:36px;padding:0;cursor:pointer;touch-action:manipulation;` +
     `background:${T.background};color:${T.line};border:1px solid ${BORDER};font-size:16px;line-height:1">${symbol}</button>`;
-  const input = `<input id="${inputId}" ${inputAttributes} type="number" value="${value}" step="${step}"${inputMinAttribute}${inputMaxAttribute} ` +
+  const input = `<input id="${inputId}" ${inputAttributes} type="number" value="${inputValue}" step="${step}"${inputMinAttribute}${inputMaxAttribute} ` +
     `style="width:58px;height:36px;box-sizing:border-box;padding:4px 5px;text-align:right;background:${T.background};color:${T.line};` +
     `border:1px solid ${BORDER};font-family:ui-monospace,monospace"/>`;
   return `<span class="numeric-control" data-range-control="${controlId}" data-range-label="${label}" ` +
@@ -92,9 +100,58 @@ function numericControlMarkup(
     `<span data-range-endpoint="max" style="min-width:16px;text-align:right">${endpoint("max")}</span></span></span>`;
 }
 
+const provenanceNames = Object.freeze({
+  USER_CAPTURED: "User entered",
+  USER_SELECTED: "User selected",
+  PRESET: "Built-in starting value",
+  INHERITED: "Inherited from another style",
+  CALCULATED: "Calculated from design data",
+  SUPPLIER: "Supplier supplied",
+  SAMPLE_ACTUAL: "Measured from a sample",
+  IMAGE_OBSERVED: "Observed from an image",
+  UNRESOLVED: "Source unresolved",
+});
+
+function fieldSourceMarkup(
+  recipeId: string,
+  inputKind: FieldInputKind,
+  inputKey: string,
+  record: FieldObservationRecord | undefined,
+): string {
+  const definition = getFieldDefinition(recipeId, inputKey, inputKind);
+  if (!definition) return "";
+  const history = record?.observations.filter((observation) =>
+    observation.fieldId === definition.id && observation.recipeId === definition.recipeId) ?? [];
+  const summary = fieldObservationSummary(recipeId, inputKind, inputKey, record);
+  return `<div class="field-source" data-field-source="${escapeAttr(definition.id)}" ` +
+    `style="display:flex;align-items:center;flex-wrap:wrap;gap:3px 7px;margin:-3px 0 9px 0;font-size:10px;line-height:1.35">` +
+    `<button type="button" data-open-field-history="${escapeAttr(definition.id)}" ` +
+    `data-field-history-recipe="${escapeAttr(recipeId)}" data-field-history-kind="${inputKind}" ` +
+    `data-field-history-key="${escapeAttr(inputKey)}" aria-haspopup="dialog" ` +
+    `style="border:0;background:transparent;color:${T.label};font:inherit;text-decoration:underline;cursor:pointer;padding:0">` +
+    `Value source & history (${history.length})</button>` +
+    `<span data-field-source-current="${escapeAttr(definition.id)}" style="color:${T.label}">${escapeAttr(summary)}</span>` +
+    `</div>`;
+}
+
+export function fieldObservationSummary(
+  recipeId: string,
+  inputKind: FieldInputKind,
+  inputKey: string,
+  record: FieldObservationRecord | undefined,
+): string {
+  const definition = getFieldDefinition(recipeId, inputKey, inputKind);
+  if (!definition) return "No source-aware definition is available.";
+  const current = currentFieldObservation(record, definition);
+  return current
+    ? `${provenanceNames[current.provenance]} · ${current.evidenceStatus} · ${current.validationStatus} · ${current.sourceLabel} · confidence not assessed`
+    : "No value history recorded for this recipe field yet.";
+}
+
 function field(id: string, label: string,
                value: number, min: number, max: number, step: number,
-               details: Pick<GarmentOption, "unit" | "help"> = {}): string {
+               details: Pick<GarmentOption, "unit" | "help"> = {},
+               provenance = ""): string {
   const tag = roleTag(id); // "body · circ" / "finished", or null for ease
   const tagSpan = tag === null ? "" :
     `<span style="display:block;color:${T.label};font-size:11px;margin-top:3px">${tag}</span>`;
@@ -115,7 +172,43 @@ function field(id: string, label: string,
     `gap:8px;margin-bottom:8px;font-size:13px">` +
     `<span style="color:${T.label}">${label}${tagSpan}</span>` +
     `<span style="display:inline-flex;align-items:center;white-space:nowrap">${input}${unit}</span></label>` +
-    `<div id="error-${id}" data-input-error="${id}" style="font-size:12px;color:${T.lineActive}" role="status"></div>${help}`;
+    `<div id="error-${id}" data-input-error="${id}" style="font-size:12px;color:${T.lineActive}" role="status"></div>${help}${provenance}`;
+}
+
+export function fieldHistoryDialogContent(
+  recipeId: string,
+  inputKind: FieldInputKind,
+  inputKey: string,
+  record: FieldObservationRecord | undefined,
+  page = 0,
+  pageSize = 25,
+): string {
+  const definition = getFieldDefinition(recipeId, inputKey, inputKind);
+  if (!definition) return `<p role="status">This field is not defined for the selected recipe.</p>`;
+  const history = (record?.observations.filter((observation) =>
+    observation.fieldId === definition.id && observation.recipeId === definition.recipeId) ?? []);
+  const safePageSize = Number.isSafeInteger(pageSize) && pageSize > 0 ? Math.min(pageSize, 100) : 25;
+  const totalPages = Math.max(1, Math.ceil(history.length / safePageSize));
+  const requestedPage = Number.isFinite(page) ? Math.trunc(page) : 0;
+  const currentPage = Math.max(0, Math.min(totalPages - 1, requestedPage));
+  const start = currentPage * safePageSize;
+  const entries = history.slice(start, start + safePageSize);
+  const rows = entries.map((observation) =>
+    `<li><strong>Record ${observation.revision}</strong> · raw “${escapeAttr(observation.rawValue)}” · ` +
+    `canonical ${observation.canonicalValue === null ? "unavailable" : `${observation.canonicalValue} ${escapeAttr(observation.unit)}`} · ` +
+    `${escapeAttr(provenanceNames[observation.provenance])} · ${escapeAttr(observation.evidenceStatus)} · ` +
+    `${escapeAttr(observation.validationStatus)} · ${observation.recordedAt ? escapeAttr(observation.recordedAt) : "capture/edit time not recorded"}` +
+    `<br>${escapeAttr(observation.sourceLabel)}</li>`).join("");
+  return `<h2 id="field-history-title" tabindex="-1">${escapeAttr(definition.label)} — value source and history</h2>` +
+    `<p>${escapeAttr(definition.meaning)} ${escapeAttr(definition.captureBoundary)}</p>` +
+    `<p>Semantic kind: ${escapeAttr(definition.semanticKind)} · unit: ${escapeAttr(definition.unit)} · ` +
+    `confidence: not assessed. This record does not establish fit or production validity.</p>` +
+    (rows ? `<ol start="${start + 1}">${rows}</ol>` : `<p role="status">No value history is recorded for this field yet.</p>`) +
+    `<p>Page ${currentPage + 1} of ${totalPages} · ${history.length} total records</p>` +
+    `<div class="field-history-actions">` +
+    `<button type="button" data-field-history-page="${currentPage - 1}"${currentPage === 0 ? " disabled" : ""}>Older</button>` +
+    `<button type="button" data-field-history-page="${currentPage + 1}"${currentPage + 1 >= totalPages ? " disabled" : ""}>Newer</button>` +
+    `<button type="button" data-close-field-history>Close</button></div>`;
 }
 
 function panelTitle(text: string, id: string): string {
@@ -132,7 +225,8 @@ function panel(title: string, body: string): string {
 /** The grouped measurement and construction controls in the bounded inspector. */
 export function controlsMarkup(
   m: Measurements, fields: readonly (keyof Measurements)[],
-  options: readonly GarmentOption[] = [], values: GarmentOptions = {}
+  options: readonly GarmentOption[] = [], values: GarmentOptions = {},
+  recipeId = "tee", fieldObservations?: FieldObservationRecord,
 ): string {
   const measurementFields = fields
     .map((id) => FIELDS.find((f) => f.id === id))
@@ -146,7 +240,8 @@ export function controlsMarkup(
       : "";
   const optionRows = (option: GarmentOption): string => field(
     `option-${option.id}`, option.label, values[option.id] ?? option.defaultValue,
-    option.min, option.max, option.step, option
+    option.min, option.max, option.step, option,
+    fieldSourceMarkup(recipeId, "option", option.id, fieldObservations),
   ).replace(`data-field="option-${option.id}"`, `data-option="${option.id}"`);
   const groups = new Map<string, GarmentOption[]>();
   options.forEach((option) => {
@@ -162,7 +257,11 @@ export function controlsMarkup(
   const pages = [
     ...[...measurementGroups].map(([label, groupFields]) => ({
       label, option: false, stage: label === "Fit allowance" ? "fit" : "measure",
-      body: groupFields.map((f) => field(f.id, f.label, m[f.id], f.min, f.max, f.step)).join("") +
+      body: groupFields.map((f) => {
+        const definition = getFieldDefinition(recipeId, f.id, "measurement");
+        return field(f.id, definition?.label ?? f.label, m[f.id], f.min, f.max, f.step, {},
+          fieldSourceMarkup(recipeId, "measurement", f.id, fieldObservations));
+      }).join("") +
         (label === "Fit allowance" ? finished : ""),
     })),
     ...[...groups].map(([label, groupOptions]) => ({
@@ -175,6 +274,8 @@ export function controlsMarkup(
     `<legend>${page.label}</legend>${page.body}</fieldset>`).join("");
   return `<section id="controls-panel" role="region" aria-labelledby="measurements-title">` +
     `${panelTitle("Measurements & construction (cm)", "measurements-title")}` +
+    `<div id="field-impact-status" role="status" aria-live="polite" hidden ` +
+    `style="margin:0 0 10px;padding:8px;border-left:3px solid ${T.marker};color:${T.label};font-size:11px;line-height:1.45"></div>` +
     `<div id="pattern-measurement-navigation" hidden></div>` +
     `<nav class="control-pages" aria-label="Measurement groups">` +
     `<button type="button" data-control-page-step="-1" aria-label="Previous measurement group" disabled>←</button>` +
@@ -900,19 +1001,91 @@ export function dartControlsMarkup(hasDart: boolean, canTrue: boolean): string {
     `${btn("dart-shoulder", "→ Shoulder")}${btn("dart-hem", "→ Hem")}${trueBtn}</div>`;
 }
 
-/** The Edit-view contract + Reset. Edits are intentionally an exploratory
- * front-piece preview until a design-state model exists to carry them through
- * grading, validation, nesting, persistence, and exports. */
-export function editorHintMarkup(): string {
-  return `<div data-editor-contract="preview-only" style="display:flex;gap:10px;align-items:center;` +
-    `margin-top:6px;font-size:12px;color:${T.label}">` +
-    `<span style="flex:1"><strong style="color:${T.line}">Exploratory edit — front piece only.</strong> ` +
+/** The Edit-view contract + reset. The existing freeform editor is still a
+ * preview; deterministic draft checks report problems without suggesting this
+ * preview has become a saved or exportable pattern. */
+export function editorHintMarkup(
+  issues: readonly SemanticEditIssue[] = [],
+  editedRole = "front",
+): string {
+  const validationMarkup = issues.length > 0
+    ? `<div role="alert" aria-live="assertive" data-editor-validation="invalid" ` +
+      `style="margin:6px 0 0;padding:8px;border:1px solid ${T.patternInstruction};color:${T.patternInstruction}">` +
+      `<strong>Preview blocked by ${issues.length} digital check${issues.length === 1 ? "" : "s"}.</strong> ` +
+      `This preview cannot be saved or exported; current outputs still use the parametric draft.` +
+      `<ul style="margin:4px 0 0;padding-left:22px">${issues.map((issue) =>
+        `<li data-editor-issue="${escapeAttr(issue.code)}">${escapeAttr(issue.message)}</li>`).join("")}</ul></div>`
+    : `<p role="status" aria-live="polite" data-editor-validation="valid" ` +
+      `style="margin:6px 0 0;color:${T.label}">This preview passes its current deterministic digital checks. ` +
+      `That does not establish physical fit, drape, or factory acceptance.</p>`;
+  return `<div data-editor-contract="preview-only" style="margin-top:6px;font-size:12px;color:${T.label}">` +
+    `<div style="display:flex;gap:10px;align-items:center">` +
+    `<span style="flex:1"><strong style="color:${T.line}">Exploratory edit — ${escapeAttr(editedRole)} piece only.</strong> ` +
     `Drag the dots, enter their coordinates below, or use dart tools to test a shape. This preview does not change ` +
-    `measurements, the assembled garment, checks, size grading, nesting, saves, or exports. ` +
+    `measurements, the assembled garment, production checks, size grading, nesting, saves, or exports. ` +
+    `The diagnostic below evaluates only the preview and never promotes it into those outputs. ` +
     `Use Reset to return to the current parametric draft.</span>` +
     `<button id="editor-reset" type="button" style="padding:5px 10px;font-size:12px;cursor:pointer;` +
     `background:${T.background};color:${T.line};border:1px solid ${BORDER};border-radius:5px">` +
-    `Reset to draft</button></div>`;
+    `Reset to draft</button></div>` + validationMarkup + `</div>`;
+}
+
+export interface SemanticEditorHintState {
+  readonly status: "checking" | "ready" | "blocked" | "rebase-required" | "failed";
+  readonly roles: readonly string[];
+  readonly canUndo: boolean;
+  readonly canRedo: boolean;
+  readonly canRebase: boolean;
+  readonly hasEdits: boolean;
+  readonly feedback?: string;
+}
+
+/** Persisted edit controls and their source/revision limitations. */
+export function semanticEditorHintMarkup(
+  issues: readonly SemanticEditIssue[],
+  editedRole: string,
+  state: SemanticEditorHintState,
+): string {
+  const roleOptions = [...new Set(state.roles)].map((role) =>
+    '<option value="' + escapeAttr(role) + '"' + (role === editedRole ? " selected" : "") + ">" +
+    escapeAttr(role.replace(/([A-Z])/g, " $1").replace(/[-_]/g, " ")) + "</option>").join("");
+  const statusText = state.status === "checking" ? "Checking source"
+    : state.status === "rebase-required" ? "Review and rebase required"
+      : state.status === "failed" ? "Source unavailable"
+        : state.status === "blocked" ? "Digital checks blocked"
+          : "Ready for editing";
+  const issueList = issues.length > 0
+    ? '<ul style="margin:4px 0 0;padding-left:22px">' + issues.map((issue) =>
+      '<li data-editor-issue="' + escapeAttr(issue.code) + '"' +
+      (issue.sizeLabel ? ' data-editor-size="' + escapeAttr(issue.sizeLabel) + '"' : "") + ">" +
+      (issue.sizeLabel ? escapeAttr(issue.sizeLabel) + ": " : "") + escapeAttr(issue.message) + "</li>").join("") + "</ul>"
+    : "";
+  const validation = state.status === "checking"
+    ? '<p role="status" data-editor-validation="checking">Checking this edit against the current source and every registered size. Dependent outputs are paused.</p>'
+    : state.status === "failed"
+      ? '<div role="alert" data-editor-validation="failed">The current source could not be verified. Editing and dependent outputs are paused.' + issueList + "</div>"
+      : state.status === "rebase-required"
+        ? '<div role="alert" data-editor-validation="rebase-required"><strong>Source inputs changed.</strong> Review the updated measurements and options, then rebase these edits or clear them before using dependent outputs.' + issueList + "</div>"
+        : issues.length > 0
+          ? '<div role="alert" aria-live="assertive" data-editor-validation="invalid">' +
+            "<strong>Saved edit is blocked by " + issues.length + " digital check" + (issues.length === 1 ? "" : "s") + ".</strong> " +
+            "The edit stays in this draft for correction; dependent outputs and exports are paused." + issueList + "</div>"
+          : '<p role="status" data-editor-validation="valid">All registered sizes pass the current deterministic edit checks. This is digital evidence only; it does not establish physical fit, drape, or factory acceptance.</p>';
+  const feedback = state.feedback
+    ? '<p role="alert" data-editor-feedback>' + escapeAttr(state.feedback) + "</p>"
+    : "";
+  return '<div data-editor-contract="semantic" style="margin-top:6px;font-size:12px;color:' + T.label + '">' +
+    '<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">' +
+    '<label for="editor-role" style="color:' + T.line + '">Pattern piece</label>' +
+    '<select id="editor-role" aria-label="Pattern piece">' + roleOptions + "</select>" +
+    '<button id="editor-undo" type="button"' + (state.canUndo ? "" : " disabled") + ">Undo edit</button>" +
+    '<button id="editor-redo" type="button"' + (state.canRedo ? "" : " disabled") + ">Redo edit</button>" +
+    '<button id="editor-rebase" type="button"' + (state.canRebase ? "" : " hidden") + ">Rebase edits</button>" +
+    '<button id="editor-reset" type="button"' + (state.hasEdits ? "" : " disabled") + ">Clear all edits</button>" +
+    '<span role="status" data-editor-state>' + statusText + "</span></div>" +
+    "<p>Drag a named corner or curve control, or enter an exact coordinate in centimetres. Each committed movement is recorded in this style draft and replayed across its registered size run. Pattern pieces, POM checks, nesting and garment exports use the same evaluated edits. Dart transfer and seam truing are unavailable here because they change pattern topology.</p>" +
+    "<p>The Body and Assembled illustrations remain schematic measurement views, not pattern-linked simulation. A passing digital check does not prove physical fit.</p>" +
+    feedback + validation + "</div>";
 }
 
 /** Numeric equivalents for every pointer handle. They keep Edit usable with a
@@ -1118,7 +1291,8 @@ export function appShellMarkup(
   fields: readonly (keyof Measurements)[],
   stretchFabric = STRETCH_FABRICS[0].name,
   activeGarment = "tee",
-  appearance: Appearance = DEFAULT_APPEARANCE
+  appearance: Appearance = DEFAULT_APPEARANCE,
+  fieldObservations?: FieldObservationRecord,
 ): string {
   const activeGarmentLabel = GARMENTS.find((g) => g.name === activeGarment)?.label ?? activeGarment;
   return `<main id="infini-shell" aria-labelledby="product-title">` +
@@ -1127,6 +1301,7 @@ export function appShellMarkup(
     `<p id="product-subtitle">Parametric garment design workspace</p></div>` +
     `<div id="workspace-actions" role="group" aria-label="Local workspace">` +
     `<span id="persist-status" role="status"></span>` +
+    `<span id="project-persistence-state" role="status" aria-live="polite" hidden></span>` +
     `<button id="undo-pattern" type="button" title="Undo the last design change" aria-label="Undo the last design change" disabled>Undo</button>` +
     `<button id="redo-pattern" type="button" title="Redo the last design change" aria-label="Redo the last design change" disabled>Redo</button>` +
     `<button id="save-pattern" type="button" title="Save this workspace locally on this device">Save</button>` +
@@ -1139,10 +1314,10 @@ export function appShellMarkup(
     `<button id="workspace-confirm-accept" type="button">Load saved workspace</button></div></div></div>` +
     `<div id="journey-area"><div id="journey-host"></div><div id="tutorial-host"></div></div><div id="studio-body">` +
     `<aside id="studio-inspector" aria-label="Design controls">` +
-    `${garmentToggleMarkup(activeGarment)}<div id="review-context"></div>` +
+    `<div id="project-manager-host"></div>${garmentToggleMarkup(activeGarment)}<div id="review-context"></div>` +
     `<details id="readiness-details"><summary>Design readiness</summary><div id="readiness-host"></div></details>` +
     `<div id="style-host"></div>${fabricStretchMarkup(stretchFabric)}${fabricSwatchesMarkup(fabric, appearance)}` +
-    `${controlsMarkup(m, fields)}` +
+    `${controlsMarkup(m, fields, [], {}, activeGarment, fieldObservations)}` +
     `<details id="guidance-details"><summary>Guidance & corrections</summary><div id="guidance-host"></div></details>` +
     `${exportButtonsMarkup(sizes)}</aside>` +
     `<div id="infini-workspace"><div id="canvas-tools">${viewToggleMarkup("pattern")}` +
@@ -1150,5 +1325,9 @@ export function appShellMarkup(
     `${bodyCroquisToggleMarkup("front-back")}<div id="spatial-cue" role="status" hidden>` +
     `<span id="spatial-cue-text"></span><button id="spatial-cue-action" type="button">Show in Assembled</button></div>` +
     `${fabricWidthMarkup(150)}${nestIntelMarkup("10", "", true)}<div id="canvas-host"></div>` +
-    `</div></div></main>`;
+    `</div></div></main>` +
+    `<dialog id="field-history-dialog" aria-modal="true" aria-labelledby="field-history-title" ` +
+    `style="box-sizing:border-box;width:min(680px,calc(100vw - 32px));max-height:calc(100vh - 32px);overflow:auto;` +
+    `border:1px solid ${BORDER};border-radius:10px;padding:22px;background:${PANEL};color:${T.line};` +
+    `font:14px/1.55 system-ui,sans-serif;box-shadow:0 16px 48px rgba(0,0,0,.36)"></dialog>`;
 }

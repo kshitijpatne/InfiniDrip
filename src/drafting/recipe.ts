@@ -14,7 +14,7 @@ import { sleevedTopPanelChecks, frontHemWidth } from "./tshirt-checks";
 import { sleevedTopGuidance } from "./tshirt-guidance";
 import { draftSkirt, SKIRT_GRAMMAR, skirtPanelChecks, skirtGuidance, SKIRT_GRADE, SKIRT_POMS, SKIRT_NOTCHES } from "./skirt";
 import { StyleDef, TEE_STYLES, SKIRT_STYLES, TANK_STYLES, POLO_STYLES, WOVEN_SHIRT_STYLES, TROUSER_STYLES } from "../style";
-import { AllowanceSpec } from "./allowance";
+import { allowanceFor, type AllowanceSpec } from "./allowance";
 import { Pom } from "./pom";
 import { GradeRule, SizeStep } from "./grading";
 import { PieceNotches } from "./tshirt-notches";
@@ -348,16 +348,17 @@ export const POLO: GarmentRecipe = {
   backNeckline: () => NECKLINE_DEFAULT,
 };
 
-const WOVEN_SHIRT_TECH_PACK = (buttonCount: number): TechPack => ({
-  bom: [
-    { material: "Lightweight woven fabric", placement: "Body, sleeves, yoke, collar & pocket", qty: "1.5 m" },
-    { material: "Fusible interfacing", placement: "Collar, stand & front plackets", qty: "0.35 m" },
-    { material: "Buttons", placement: "Front placket + collar stand", qty: `${buttonCount} front + 1 stand` },
-    { material: "Woven brand label", placement: "Centre back neck", qty: "1" },
-    { material: "Care/content label", placement: "Left side seam", qty: "1" },
-    { material: "All-purpose thread", placement: "All seams", qty: "1 spool" },
-  ],
-  construction: [
+const WOVEN_HEM_TURN_OPTION = WOVEN_SHIRT_OPTION_DEFINITIONS.find((option) => option.id === "hemTurn")!;
+const WOVEN_DEFAULT_HEM_ALLOWANCE = allowanceFor(WOVEN_SHIRT_ALLOWANCES, "hem");
+
+const WOVEN_SHIRT_TECH_PACK = (
+  buttonCount: number,
+  hemTurn = WOVEN_HEM_TURN_OPTION.defaultValue,
+): TechPack => {
+  if (!Number.isFinite(hemTurn) || hemTurn < WOVEN_HEM_TURN_OPTION.min || hemTurn > WOVEN_HEM_TURN_OPTION.max) {
+    throw new RangeError("Woven-shirt hem turn is outside its supported range.");
+  }
+  const construction = [
     "Fuse the collar, stand, and front placket areas according to the selected fabric and interfacing instructions.",
     "Join the front plackets to the two centre-front edges; press the folds and work the marked buttonholes.",
     `Attach ${buttonCount} front buttons at the marked even spacing, plus one additional button on the collar stand.`,
@@ -366,8 +367,23 @@ const WOVEN_SHIRT_TECH_PACK = (buttonCount: number): TechPack => ({
     "Attach the outer stand to the neckline, turn the inner stand, and secure the inside edge.",
     "Sew the patch pocket to its placement mark, set the sleeves, and attach the folded sleeve bands.",
     "Close side seams above the marked vents, finish the vent edges, and turn the curved hem.",
-  ],
-});
+  ];
+  if (hemTurn !== WOVEN_DEFAULT_HEM_ALLOWANCE) {
+    construction.splice(construction.length - 1, 0,
+      `Apply a ${hemTurn.toFixed(1)} cm turn-under allowance to the front body and lower-back body hems only; the sleeve hem remains at the default ${WOVEN_DEFAULT_HEM_ALLOWANCE.toFixed(1)} cm allowance. This is a cutting allowance, not a finished POM.`);
+  }
+  return {
+    bom: [
+      { material: "Lightweight woven fabric", placement: "Body, sleeves, yoke, collar & pocket", qty: "1.5 m" },
+      { material: "Fusible interfacing", placement: "Collar, stand & front plackets", qty: "0.35 m" },
+      { material: "Buttons", placement: "Front placket + collar stand", qty: `${buttonCount} front + 1 stand` },
+      { material: "Woven brand label", placement: "Centre back neck", qty: "1" },
+      { material: "Care/content label", placement: "Left side seam", qty: "1" },
+      { material: "All-purpose thread", placement: "All seams", qty: "1 spool" },
+    ],
+    construction,
+  };
+};
 
 export const WOVEN_SHIRT: GarmentRecipe = {
   name: "woven-shirt",
@@ -386,7 +402,9 @@ export const WOVEN_SHIRT: GarmentRecipe = {
   guidance: (block, m, options = {}) => wovenShirtGuidance(block, m, options),
   sizeMetric: (block) => edgeLength(pieceEdge(rolePiece(block, "front"), "hem")),
   techPack: WOVEN_SHIRT_TECH_PACK(7),
-  techPackForOptions: (options) => WOVEN_SHIRT_TECH_PACK(Number(options.buttonCount ?? 7)),
+  techPackForOptions: (options) => WOVEN_SHIRT_TECH_PACK(
+    Number(options.buttonCount ?? 7), Number(options.hemTurn ?? WOVEN_HEM_TURN_OPTION.defaultValue),
+  ),
   options: WOVEN_SHIRT_OPTION_DEFINITIONS,
   allowances: WOVEN_SHIRT_ALLOWANCES,
   frontNeckline: () => NECKLINE_DEFAULT,

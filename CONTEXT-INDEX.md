@@ -95,6 +95,51 @@ snapshots; they are not current status.
 - `docs/planning/EPIC-14-ADMISSION.md` — the maintainer-admitted C01/C02/C05/C06
   evidence wave, its individual exits, conditional targets, and preserved
   product/supplier/sampling boundaries.
+- `docs/planning/EPIC-15-ADMISSION.md` — the post-G01 maintainer admission,
+  verified repository starting point, F01/F02/F03 sequence, Slice 229–240
+  boundaries, risks, and exit gates. It authorizes only local-first G02 work;
+  use `PROJECT-STATE.md` and the canonical Control Center for current status.
+- `docs/research/epic15/F01-STORAGE-CONTRACT-S230.md` — Slice 230's accepted
+  IndexedDB repository, non-destructive legacy migration, per-style recovery,
+  artwork two-store, portable package, failure and test contracts. Its Electron
+  `file://` proof is narrow; it does not claim shipped persistence behavior.
+- `docs/research/epic15/F01-RECORD-MODEL-S231.md` — Slice 231's strict
+  versioned project/style/recovery/migration records and pure SaveFile v1–v5
+  conversion; it does not claim that IndexedDB or app migration is wired.
+- `docs/research/epic15/F01-TRANSACTIONAL-REPOSITORY-S232.md` — Slice 232's
+  exact IndexedDB schema checks, atomic project/style/recovery operations,
+  source-fingerprinted migration, fault rollback tests, and Electron
+  restart/path-change proof. Slice 233 integrates the repository at startup and
+  in Save/Load, recovery, and project/style UI; actual-browser and Electron
+  evidence is in `docs/research/epic15/F01-PROJECT-STYLE-WORKFLOW-S233.md`.
+  Slice 234 completes F01's portable ZIP backup/import with strict validation,
+  artwork and recovery remapping, rollback behavior, stress limits, and a
+  browser/Electron restart proof in
+  `docs/research/epic15/F01-PACKAGE-EXPORT-IMPORT-S234.md`. Consult
+  `docs/research/epic15/F02-FIELD-PROVENANCE-S235.md` for Slice 235's
+  C03-aligned field definitions, provenance/history schema, migration and
+  100% focused module coverage and browser/Electron restart evidence. Read
+  `docs/research/epic15/F02-DEPENDENCY-INVALIDATION-S236.md` for the complete
+  85-input seven-recipe matrix, output recomputation semantics, actual output
+  comparisons, mandatory Slice 238 propagation fixes, and rendered-browser/
+  reload evidence. Consult `PROJECT-STATE.md` and the canonical Control
+  Center for F01/F02's current status and next numbered slice.
+- `docs/research/epic15/F03-CONSTRAINED-EDIT-S237.md` — the deterministic
+  semantic-anchor, geometry, stitch, graded-measurement and POM contract for
+  Slice 237. `F03-SLICE-237-EXIT.md` records model coverage, the invalid-preview
+  browser proof and byte-identical parametric SVG output. At that slice's exit,
+  the Edit preview was still transient; Slice 238 now owns its style-scoped
+  persistence and dependent-output integration. Its complete implementation,
+  verification digests and rendered Woven-shirt evidence are in
+  `docs/research/epic15/F03-CROSS-OUTPUT-EDITING-S238.md`. Slice 239 completes
+  immutable revisions and frozen digital-output evidence in
+  `docs/research/epic15/F03-IMMUTABLE-REVISIONS-S239.md` and
+  `docs/research/epic15/evidence/S239-rendered-verification.json`. Slice 240's
+  final review evidence and remaining merge gate are in
+  `docs/release/EPIC-15-G02-FINAL-REVIEW-S240.md` and
+  `docs/research/epic15/evidence/S240-*`. Use `PROJECT-STATE.md` and the
+  canonical Control Center for the current status; do not close EPIC-15 until
+  the reviewed branch is verified on `origin/main`.
 - `docs/research/epic14/` — accepted evidence packets for C01 recipe baseline,
   C02 standards and tools, C05 3D feasibility, C06 starter/assortment/upcycling/
   supplier evidence, and C03 measurement/donor contract. C04's accepted

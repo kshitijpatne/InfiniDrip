@@ -7,6 +7,7 @@ import { pieceEdge } from "./piece";
 import { derive } from "./measurements";
 import { necklineEdge } from "./neckline";
 import { garmentReport } from "../guidance/garment-check";
+import { wovenShirtAllowances } from "./shirt";
 
 describe("the garment registry", () => {
   it("lists every garment with a stable id and a display label", () => {
@@ -119,6 +120,21 @@ describe("Woven shirt recipe integration", () => {
     expect(six.bom.find((row) => row.material === "Buttons")?.qty).toBe("6 front + 1 stand");
     expect(seven.bom.find((row) => row.material === "Buttons")?.qty).toBe("7 front + 1 stand");
     expect(defaults.bom.find((row) => row.material === "Buttons")?.qty).toBe("7 front + 1 stand");
+  });
+
+  it("records non-default body hem-turn allowance without changing the default pack", () => {
+    const defaults = WOVEN_SHIRT.techPackForOptions!({});
+    const edited = WOVEN_SHIRT.techPackForOptions!({ hemTurn: 1.2 });
+    expect(defaults).toEqual(WOVEN_SHIRT.techPack);
+    expect(defaults.construction.some((step) => step.includes("turn-under allowance"))).toBe(false);
+    expect(edited.construction).toContain(
+      "Apply a 1.2 cm turn-under allowance to the front body and lower-back body hems only; the sleeve hem remains at the default 1.0 cm allowance. This is a cutting allowance, not a finished POM.",
+    );
+  });
+
+  it("rejects hem-turn allowances and tech-pack options outside the recipe range", () => {
+    expect(() => wovenShirtAllowances(Number.NaN)).toThrow(/supported range/);
+    expect(() => WOVEN_SHIRT.techPackForOptions!({ hemTurn: 99 })).toThrow(/supported range/);
   });
 
   it("evaluates every woven-shirt POM from the assembled block", () => {

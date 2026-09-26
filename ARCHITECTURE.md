@@ -83,14 +83,29 @@ show or check the same current draft:
   this is the fabric-layout estimate.
 - **Check:** Digital rules and guidance for the current design. Some issues
   affect Export readiness; not every note blocks it.
-- **Edit:** A temporary preview of one piece at a time, not a full pattern
-  editor.
+- **Edit:** A local semantic pattern editor for named corners and curve
+  controls. A committed movement is stored with the active style, checked
+  across its registered size run, and consumed by its dependent outputs.
 
-The **Edit** view is a deliberate exception to the shared-design flow. It lets
-someone experiment with one piece (the Trouser uses its left-front piece; the
-other garments use a front piece). It does not change measurements, Assembled,
-Check, Size run, Nesting, the saved design, or exported files. Changes in this
-preview are temporary; it is not a general pattern editor.
+The **Edit** view keeps user-authored deltas against stable recipe-owned
+anchors, rather than saving a disconnected picture. Pointer drags and keyboard
+coordinate edits become semantic operations; Undo, Redo, Clear and explicit
+Rebase operate on that history. A source measurement or option change makes
+the edits stale until the user reviews and rebases them. Invalid edits remain
+visible and block dependent outputs, including exports invoked outside the
+normal button state. Pattern, POM/spec, size run, nesting, relevant views, tech
+pack, projector and cutting files read from the same evaluated size block.
+
+Edit remains a 2D pattern editor for representable corner and curve-control
+moves. Topology changes such as dart transfer are not offered as final edits.
+The Body and Assembled views remain schematic; this work does not add cloth
+simulation or prove physical fit, drape, factory acceptance or CAD round-trip
+compatibility. Saved styles now have immutable parent-linked revision
+snapshots; the project manager can compare and restore them as new revisions.
+Users can freeze and retrieve exact bytes for the seven supported digital
+outputs after review and Save. These digests do not assert physical fit or
+factory acceptance. See the [Slice 238 cross-output editing evidence](docs/research/epic15/F03-CROSS-OUTPUT-EDITING-S238.md)
+and [Slice 239 revision evidence](docs/research/epic15/F03-IMMUTABLE-REVISIONS-S239.md).
 
 ## What the shared tools do
 
@@ -189,6 +204,94 @@ held in Epic 20. A maintainer-only
 rename command updates dependent work-item links and leaves an audit note;
 past evidence text is not rewritten. Planning records do not start product
 work or change the app's local-first boundary.
+
+After that verified closure, the maintainer admitted EPIC-15/G02 for a local,
+versioned style foundation. Slices 229–234 completed F01: a shared IndexedDB
+project/style repository, non-destructive SaveFile migration, per-style
+recovery, user-led project/style workflow, and versioned portable package
+import/export with referenced artwork. The narrow Electron restart proofs and
+the browser/Electron package validation are recorded in the S230–S234 reports;
+they do not establish permanent browser storage or physical fit. F01 is Done
+with hash-verified evidence. F02 Slices 235–236 add C03-aligned field
+definitions and per-style append-only value observations, plus a tested
+dependency/recomputation map covering all 85 inputs across the seven current
+recipes. The map distinguishes pattern/spec/grade/nesting/views/exports,
+mark-only woven controls, surface-art export independence, and the woven-hem
+and tank-shoulder propagation gaps. A changed field shows which outputs rebuild;
+the active view redraws immediately, while other views and exports regenerate
+when opened. The rendered Chromium save/reload proof, output comparisons,
+complete matrix and residual risks are recorded in
+[`docs/research/epic15/F02-DEPENDENCY-INVALIDATION-S236.md`](docs/research/epic15/F02-DEPENDENCY-INVALIDATION-S236.md).
+F02 and F03 are complete; the S240 final review is evidence-passing and awaits
+the required merge verification before EPIC-15 can close.
+Slice 237 is now complete: it adds the semantic-anchor operation model,
+per-size geometry/stitch/recipe/POM guards, explicit rebase/conflict/undo rules,
+and an accessible warning for invalid edits in the still-exploratory Edit
+preview. That preview remains outside saved styles and exports; a rendered
+Chromium check confirmed the parametric SVG stayed byte-identical before and
+after an invalid preview. Slice 238 now connects semantic operations to each
+style's SaveFile, recovery and portable package; checks every registered size;
+and routes pattern, POM/spec, nesting, relevant views, tech pack, projector and
+cutting outputs through the same evaluated geometry. It also resolves woven
+hem-turn cutting allowances and makes the tank shoulder-width/strap-width
+boundary explicit. The full 1,781-test repository suite passed with 100%
+statement, branch, function and line coverage. A production-built Chromium and
+Electron proof verified six changed Tee outputs, style isolation, Save/reload,
+pending-recovery restart, stale-source blocking and explicit rebase. A second
+rendered Woven-shirt trace changed all six exports after a 1 cm→2 cm hem-turn
+change and again after a semantic curve edit; the retained screenshot and
+hashes cover both steps. The
+controlled process-exit proof is not a power-loss or operating-system crash
+test; none of this establishes physical fit or factory acceptance. Slice 239
+adds immutable revisions, compare/restore-as-new-child and frozen manifests
+with exact output bytes. Production-built Chromium and Electron Tee and
+Woven-shirt traces confirmed that saved successors do not change earlier
+revision or output hashes, and that historical SVG bytes can be retrieved
+after profile relaunch. Slice 240 passed the full-repository 100% coverage and
+build gates, protected export identities, browser/Electron package restore and
+restart, the fresh Tee/Woven-shirt revision replay, and 320/390/1440 px
+responsive/Axe checks. The review corrected an invalid `NaN` value rendered by
+an empty optional numeric control; non-finite values now render blank and keep
+their explicit empty state. The package verifier now creates artwork through
+the UI and checks that its saved design matches the immutable revision head.
+The evidence-linked final report is
+[`docs/release/EPIC-15-G02-FINAL-REVIEW-S240.md`](docs/release/EPIC-15-G02-FINAL-REVIEW-S240.md).
+The review candidate stays open until its merge is verified on `origin/main`.
+The S238
+contract and hashes are in
+[`docs/research/epic15/F03-CROSS-OUTPUT-EDITING-S238.md`](docs/research/epic15/F03-CROSS-OUTPUT-EDITING-S238.md).
+Slice 239's contract, rendered verification, exact artifact digests and limits
+are in
+[`docs/research/epic15/F03-IMMUTABLE-REVISIONS-S239.md`](docs/research/epic15/F03-IMMUTABLE-REVISIONS-S239.md)
+and [`docs/research/epic15/evidence/S239-rendered-verification.json`](docs/research/epic15/evidence/S239-rendered-verification.json).
+The semantic model and Slice 237 preview limits are in
+[`docs/research/epic15/F03-CONSTRAINED-EDIT-S237.md`](docs/research/epic15/F03-CONSTRAINED-EDIT-S237.md)
+and its acceptance evidence is in
+[`docs/research/epic15/F03-SLICE-237-EXIT.md`](docs/research/epic15/F03-SLICE-237-EXIT.md).
+The detailed G02 packet and gates are in
+[`docs/planning/EPIC-15-ADMISSION.md`](docs/planning/EPIC-15-ADMISSION.md).
+The Slice 230 contract is at
+[`docs/research/epic15/F01-STORAGE-CONTRACT-S230.md`](docs/research/epic15/F01-STORAGE-CONTRACT-S230.md).
+Slice 231 adds strict versioned project/style/recovery records and a pure
+SaveFile v1–v5 conversion. Slice 232 implements the IndexedDB repository,
+revision-checked atomic writes, style switching, recovery, and non-destructive
+legacy migration; Electron 44.1.0 / Chromium 152.0.7977.65 passed a real
+restart-and-app-file-path-change proof. Slice 233 connects that repository to
+application startup, Save/Load, per-style recovery, and an accessible local
+project/style manager. The app fails closed with a retryable startup error if
+storage or migration fails rather than mounting editing controls over
+replacement defaults. Slice 234 adds strict portable package import/export,
+collision-safe ID/artwork remapping, staged artwork verification, atomic
+record commit, failure rollback, and a browser/Electron restart proof. It
+documents its memory ceiling and does not claim bounded-memory streaming,
+permanent browser storage, or broader durability. Details are in
+[`docs/research/epic15/F01-TRANSACTIONAL-REPOSITORY-S232.md`](docs/research/epic15/F01-TRANSACTIONAL-REPOSITORY-S232.md) and
+[`docs/research/epic15/F01-PROJECT-STYLE-WORKFLOW-S233.md`](docs/research/epic15/F01-PROJECT-STYLE-WORKFLOW-S233.md), plus
+[`docs/research/epic15/F01-PACKAGE-EXPORT-IMPORT-S234.md`](docs/research/epic15/F01-PACKAGE-EXPORT-IMPORT-S234.md).
+Slice 235's field-definition, migration, history, UI and verification record is
+in [`docs/research/epic15/F02-FIELD-PROVENANCE-S235.md`](docs/research/epic15/F02-FIELD-PROVENANCE-S235.md).
+This work remains deterministic and user-led and does not open new garment,
+physical sampling, supplier, paid-service, or production-readiness scope.
 
 ## Epic 8: a small helper test, not a clone
 

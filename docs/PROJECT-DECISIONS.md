@@ -854,3 +854,44 @@ data collection still require their own explicit gate.
 - This sequence authorizes the admitted G01 research/contracts and exit work
   only. It does not reopen physical sampling, supplier contact, paid sources,
   hosted services, or downstream garment implementation.
+
+## EPIC-15 / G02 — Versioned style foundation — admitted 2026-09-24
+
+- After EPIC-14/G01 closed at Slice 228, explicitly admit only EPIC-15/G02.
+  Execute F01 → F02 → F03 → final review in order, with Slice 229 as the
+  admission record and Slices 230–240 as the baseline contract, implementation,
+  and exit sequence. The detailed scope and evidence gates are in
+  `docs/planning/EPIC-15-ADMISSION.md`.
+- Keep the product local-first, deterministic, and user-led. Do not add a
+  user-facing AI design agent, new garment recipe, hosted/cloud feature,
+  purchase, live supplier contact, physical sampling, or production-readiness
+  claim under this admission.
+- Preserve the accepted SaveFile v1–v5 import path, existing artwork IDs and
+  bytes, current legacy save/export behavior, full coverage thresholds, and all
+  eight protected export byte identities. Migration, recovery, and package
+  import must fail visibly and non-destructively.
+- The Control Center is canonical for execution state: the Slice 229 admission
+  item is Done with verified document evidence; EPIC-15 and F01 are In
+  Progress; F02, F03, and final review remain queued behind their explicit
+  dependencies. Reforecast dates at each packet exit; dates never waive a
+  gate.
+- Slice 230 selects IndexedDB as the shared web/Electron renderer repository
+  for project, style, recovery, and migration records, subject to the narrow
+  Electron `file://` proof and contract at
+  `docs/research/epic15/F01-STORAGE-CONTRACT-S230.md`. This does not claim that
+  persistence behavior is implemented or that browser-local storage is a
+  guaranteed backup. Keep existing artwork byte stores separate and stage/hash
+  bytes before publishing style references.
+- Slice 231 defines strict record schema version 1 separately from legacy
+  SaveFile `v`; stable project/style UUIDs and their names remain distinct from
+  recipe and preset IDs. Pure migration delegates historic interpretation to
+  the existing SaveFile v1–v5 parser, preserves recovery raw values, and writes
+  nothing. The app continues using its legacy store until Slice 232's
+  transactional repository is verified.
+- Slice 232 implements the shared IndexedDB repository API and migration
+  transaction, including strict durability where supported, revision CAS,
+  per-style recovery, source-pair SHA-256 idempotency, rollback and the
+  Electron `file://` restart/path-change proof. This proves the repository API
+  in the tested Electron/Chromium profile; it does not prove browser quota or
+  eviction resistance and does not wire app boot or current Save/Load. Keep
+  that UI integration in Slice 233 and package import/export in Slice 234.

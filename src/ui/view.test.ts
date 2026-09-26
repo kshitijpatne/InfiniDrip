@@ -1,15 +1,16 @@
 import { describe, it, expect } from "vitest";
-import { STANDARD_M, GARMENTS, TSHIRT_SIZES, TEE, WOVEN_SHIRT, WOVEN_SHIRT_OPTION_DEFINITIONS, draftTshirt, rolePiece } from "../drafting";
-import { garmentToggleMarkup, dartControlsMarkup, exportButtonsMarkup } from "./view";
+import { STANDARD_M, GARMENTS, TSHIRT_SIZES, TEE, WOVEN_SHIRT, WOVEN_SHIRT_OPTION_DEFINITIONS, draftTshirt, rolePiece, type Piece } from "../drafting";
+import { garmentToggleMarkup, dartControlsMarkup, exportButtonsMarkup, fieldHistoryDialogContent, fieldObservationSummary, patternAnnotationKeyMarkup } from "./view";
 import { DEFAULT_FABRIC, BLUEPRINT } from "../render";
 import { matchStyle, styleNames, TEE_STYLES } from "../style";
-import { controlsMarkup, appShellMarkup, guidanceMarkup, styleMarkup, surfaceMarkup, nestIntelMarkup, nestIntelReadout, fabricSwatchesMarkup, fabricStretchMarkup, specTableMarkup, viewToggleMarkup, bodyCroquisToggleMarkup, fabricWidthMarkup, checkMarkup, editorHintMarkup, editorHandleControlsMarkup, inspectionMarkup } from "./view";
+import { controlsMarkup, appShellMarkup, guidanceMarkup, styleMarkup, surfaceMarkup, nestIntelMarkup, nestIntelReadout, fabricSwatchesMarkup, fabricStretchMarkup, specTableMarkup, viewToggleMarkup, bodyCroquisToggleMarkup, fabricWidthMarkup, checkMarkup, editorHintMarkup, semanticEditorHintMarkup, editorHandleControlsMarkup, inspectionMarkup } from "./view";
 import { ARTWORK_CATALOG, ARTWORK_CATEGORIES } from "../surface/artwork-library/catalog";
 import { assessArtworkUse } from "../surface/artwork-library/search";
 import type { ArtworkCatalogRecord } from "../surface/artwork-library/catalog";
 import type { ArtworkUseAssessment } from "../surface/artwork-library/search";
 import { pieceHandles } from "../edit";
 import { buildReport, present } from "../guidance";
+import type { FieldObservationRecord } from "./field-provenance";
 
 describe("controlsMarkup", () => {
   it("renders an input for every measurement, showing its value", () => {
@@ -28,6 +29,65 @@ describe("controlsMarkup", () => {
 
   it("does not invent a finished-width summary for unrelated fields", () => {
     expect(controlsMarkup(STANDARD_M, ["length", "ease"])).not.toContain("Finished chest");
+  });
+
+  it("exposes a compact accessible source/history control for each recipe input", () => {
+    const html = controlsMarkup(STANDARD_M, ["chest"], [], {}, "tee");
+    expect(html).toContain('data-open-field-history="body.chest-girth"');
+    expect(html).toContain('aria-haspopup="dialog"');
+    expect(html).toContain("No value history recorded for this recipe field yet.");
+  });
+
+  it("escapes imported observation text and bounds invalid history pagination inputs", () => {
+    const record: FieldObservationRecord = {
+      schemaVersion: 1,
+      definitionVersion: 1,
+      styleId: "b53a1a03-ea2e-4c4f-82dc-14ac86a29895",
+      revision: 2,
+      updatedAt: "2026-09-24T16:00:00.000Z",
+      observations: [1, 2].map((revision) => ({
+        revision,
+        definitionVersion: 1,
+        fieldId: "body.chest-girth",
+        semanticId: "body.chest-girth",
+        recipeId: "tee",
+        inputKey: "chest",
+        rawValue: revision === 1 ? "<script>alert(1)</script>" : "9999",
+        canonicalValue: revision === 1 ? null : 9999,
+        unit: "cm",
+        semanticKind: "BODY_MEASURE",
+        provenance: "UNRESOLVED",
+        evidenceStatus: "UNCONFIRMED",
+        validationStatus: "INVALID",
+        sourceLabel: "<img src=x onerror=alert(1)>",
+        recordedAt: null,
+        styleRevision: 1,
+        confidence: "NOT_ASSESSED",
+      })),
+    };
+    const html = fieldHistoryDialogContent("tee", "measurement", "chest", record, Number.POSITIVE_INFINITY, 0);
+    expect(html).toContain("Page 1 of 1 · 2 total records");
+    expect(html).toContain("&lt;script&gt;alert(1)&lt;/script&gt;");
+    expect(html).toContain("&lt;img src=x onerror=alert(1)&gt;");
+    expect(html).not.toContain("<script>");
+    const laterPage = fieldHistoryDialogContent("tee", "measurement", "chest", record, 1, 1);
+    expect(laterPage).toContain("Page 2 of 2 · 2 total records");
+    expect(laterPage).toContain('data-field-history-page="0"');
+    expect(laterPage).toContain('data-field-history-page="2" disabled');
+    const firstPage = fieldHistoryDialogContent("tee", "measurement", "chest", record, 0, 1);
+    expect(firstPage).toContain('data-field-history-page="1"');
+    expect(firstPage).not.toContain('data-field-history-page="1" disabled');
+  });
+
+  it("reports missing field definitions and absent field history without inventing a source", () => {
+    expect(fieldObservationSummary("missing-recipe", "measurement", "chest", undefined))
+      .toBe("No source-aware definition is available.");
+    expect(fieldObservationSummary("tee", "measurement", "chest", undefined))
+      .toBe("No value history recorded for this recipe field yet.");
+    expect(fieldHistoryDialogContent("tee", "measurement", "not-a-field", undefined))
+      .toContain("This field is not defined for the selected recipe.");
+    expect(fieldHistoryDialogContent("tee", "measurement", "chest", undefined))
+      .toContain("No value history is recorded for this field yet.");
   });
 
   it("tags each measurement as body or finished (chest as a circumference)", () => {
@@ -89,6 +149,22 @@ describe("controlsMarkup", () => {
     expect(html).toContain('data-range-rail');
     expect(html).toContain(">60<");
     expect(html).toContain(">160<");
+  });
+});
+
+describe("patternAnnotationKeyMarkup", () => {
+  it("omits unlabeled marks while retaining labeled construction marks", () => {
+    const piece: Piece = {
+      ...rolePiece(draftTshirt(STANDARD_M), "front"),
+      onFold: false,
+      marks: [
+        { kind: "button", name: "unlabeled-button", at: { x: 1, y: 1 } },
+        { kind: "button", name: "labeled-button", label: "Button placement", at: { x: 2, y: 2 } },
+      ],
+    };
+    const html = patternAnnotationKeyMarkup([piece]);
+    expect(html).not.toContain("unlabeled-button");
+    expect(html).toContain("Button placement");
   });
 });
 
@@ -299,6 +375,84 @@ describe("editorHintMarkup", () => {
     expect(html).toContain("Exploratory edit");
     expect(html).toContain("assembled garment");
     expect(html).toContain("exports");
+  });
+
+  it("shows deterministic invalid-preview issues without claiming that exports use them", () => {
+    const html = editorHintMarkup([
+      { code: "piece-self-intersection", message: "Panel <front> crosses itself." },
+      { code: "fold-edge-invalid", message: "The fold is off center." },
+    ], "Jacket <front>");
+    expect(html).toContain('data-editor-validation="invalid"');
+    expect(html).toContain('role="alert"');
+    expect(html).toContain("Preview blocked by 2 digital checks.");
+    expect(html).toContain("Panel &lt;front&gt; crosses itself.");
+    expect(html).toContain("Jacket &lt;front&gt; piece only.");
+    expect(html).toContain("current outputs still use the parametric draft");
+    expect(html).not.toContain("Panel <front>");
+    const singular = editorHintMarkup([{ code: "piece-open", message: "One edge gap." }]);
+    expect(singular).toContain("Preview blocked by 1 digital check.");
+  });
+
+});
+
+describe("semanticEditorHintMarkup", () => {
+  it("renders every source and edit validation state with escaped details", () => {
+    const common = {
+      roles: ["front", "front", "backSide"],
+      canUndo: true,
+      canRedo: true,
+      canRebase: true,
+      hasEdits: true,
+      feedback: "Review <pattern>",
+    } as const;
+    const checking = semanticEditorHintMarkup([], "front", { ...common, status: "checking" });
+    expect(checking).toContain("Checking source");
+    expect(checking).toContain('data-editor-validation="checking"');
+    expect(checking).toContain('<option value="front" selected>front</option>');
+
+    const failed = semanticEditorHintMarkup([{
+      code: "invalid-source", message: "Source <hash> failed.", sizeLabel: "M",
+    }], "missing-role", { ...common, status: "failed" });
+    expect(failed).toContain("Source unavailable");
+    expect(failed).toContain('data-editor-validation="failed"');
+    expect(failed).toContain('data-editor-size="M"');
+    expect(failed).toContain("M: Source &lt;hash&gt; failed.");
+    expect(failed).toContain('<option value="backSide">back Side</option>');
+    expect(failed).toContain("Review &lt;pattern&gt;");
+
+    const rebase = semanticEditorHintMarkup([{
+      code: "rebase-required", message: "Source changed.",
+    }], "front", { ...common, status: "rebase-required", feedback: undefined });
+    expect(rebase).toContain("Review and rebase required");
+    expect(rebase).toContain('data-editor-validation="rebase-required"');
+    expect(rebase).not.toContain("data-editor-feedback");
+
+    const blocked = semanticEditorHintMarkup([
+      { code: "stitch-invalid", message: "Seam mismatch.", sizeLabel: "S" },
+      { code: "anchor-changed", message: "Anchor moved." },
+    ], "front", { ...common, status: "blocked" });
+    expect(blocked).toContain("Digital checks blocked");
+    expect(blocked).toContain('data-editor-validation="invalid"');
+    expect(blocked).toContain("2 digital checks");
+    expect(blocked).toContain("S: Seam mismatch.");
+    expect(blocked).toContain("Anchor moved.");
+    expect(blocked).toContain('id="editor-undo" type="button">Undo edit</button>');
+    expect(blocked).toContain('id="editor-redo" type="button">Redo edit</button>');
+    expect(blocked).toContain('id="editor-rebase" type="button">Rebase edits</button>');
+    const singular = semanticEditorHintMarkup([{ code: "stitch-invalid", message: "One seam mismatch." }], "front", {
+      ...common, status: "blocked",
+    });
+    expect(singular).toContain("1 digital check.");
+
+    const ready = semanticEditorHintMarkup([], "front", {
+      ...common, status: "ready", canUndo: false, canRedo: false, canRebase: false, hasEdits: false, feedback: undefined,
+    });
+    expect(ready).toContain("Ready for editing");
+    expect(ready).toContain('data-editor-validation="valid"');
+    expect(ready).toContain('id="editor-undo" type="button" disabled>Undo edit</button>');
+    expect(ready).toContain('id="editor-redo" type="button" disabled>Redo edit</button>');
+    expect(ready).toContain('id="editor-rebase" type="button" hidden>Rebase edits</button>');
+    expect(ready).not.toContain("data-editor-feedback");
   });
 });
 
@@ -852,7 +1006,8 @@ describe("surfaceMarkup — artwork sets per style", () => {
         transform: null as unknown as { dx: number; dy: number; scale: number; rotationDeg: number },
       }],
     });
-    expect(html).toContain('value="NaN"');
+    expect(html).toContain('value=""');
+    expect(html).not.toContain('value="NaN"');
     expect(html).toContain('data-range-state="empty"');
   });
 });

@@ -1,0 +1,32 @@
+{
+  "slice": 240,
+  "status": "passed",
+  "createdAt": "2026-09-26T03:55:42.503Z",
+  "browser": {
+    "result": "PASS",
+    "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+    "packageBytes": 27666,
+    "packageSha256": "c4a6b53f70d7cdf93dc3777713fdb7e7b061b77dc0042aaa98bb67887048ef76",
+    "styles": 3,
+    "recoveries": 1,
+    "artworkBytes": 114,
+    "artworkSha256": "d5f71bac55b2f07fb249542aabff0c77cef853dda86523fe18996440484621c9",
+    "survivesRestart": true
+  },
+  "electron": {
+    "result": "PASS",
+    "electronVersion": "44.1.0",
+    "chromiumVersion": "152.0.7977.65",
+    "packageBytes": 27666,
+    "packageSha256": "988aa3cbee9559c220fbef91dce9d700c93820b8d4887b5d9d3c63252682b8d7",
+    "styles": 3,
+    "recoveries": 1,
+    "artworkBytes": 114,
+    "artworkSha256": "d5f71bac55b2f07fb249542aabff0c77cef853dda86523fe18996440484621c9",
+    "survivesRestart": true
+  },
+  "limits": [
+    "The run proves the tested Chromium and Electron versions with isolated clean profiles; it does not guarantee permanent browser storage or survival after OS crash or power loss.",
+    "Digital package integrity and restart persistence do not establish physical fit, supplier acceptance, or factory readiness."
+  ]
+}

@@ -200,6 +200,19 @@ ipcMain.handle("save-file", async (_event, filename: string, content: string) =>
   return { saved: true, filePath };
 });
 
+ipcMain.handle("save-project-package", async (_event, filename: string, input: Uint8Array) => {
+  if (typeof filename !== "string" || !/^[A-Za-z0-9._-]{1,80}\.infinidrip\.zip$/.test(filename)
+    || !(input instanceof Uint8Array) || input.byteLength < 4 || input.byteLength > 256 * 1024 * 1024
+    || input[0] !== 0x50 || input[1] !== 0x4b || input[2] !== 0x03 || input[3] !== 0x04) {
+    throw new Error("Project backup data or file name is invalid.");
+  }
+  const { canceled, filePath } = await dialog.showSaveDialog({ defaultPath: filename });
+  if (canceled || !filePath) return { saved: false };
+  const bytes = Buffer.from(input.buffer, input.byteOffset, input.byteLength);
+  await writeFile(filePath, bytes);
+  return { saved: true, filePath };
+});
+
 // Local artwork bytes live under Electron's app-managed user-data directory.
 // Renderer code supplies only a validated stable ID and bytes: it never gets
 // a filesystem path or a general-purpose file API.

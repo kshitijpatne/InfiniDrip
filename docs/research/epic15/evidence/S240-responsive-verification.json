@@ -1,0 +1,100 @@
+{
+  "slice": 240,
+  "status": "passed",
+  "createdAt": "2026-09-26T03:49:29.998Z",
+  "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+  "axeCoreVersion": "4.13.0",
+  "state": "Style stage with local project and styles panel expanded",
+  "viewports": [
+    {
+      "width": 320,
+      "height": 800,
+      "layout": {
+        "viewportWidth": 320,
+        "documentWidth": 320,
+        "bodyWidth": 320,
+        "app": {
+          "left": 0,
+          "right": 320,
+          "width": 320
+        },
+        "projectManager": {
+          "left": 21,
+          "right": 284,
+          "width": 263
+        },
+        "stylePanel": {
+          "left": 21,
+          "right": 284,
+          "width": 263
+        }
+      },
+      "axeViolations": 0
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "layout": {
+        "viewportWidth": 390,
+        "documentWidth": 390,
+        "bodyWidth": 390,
+        "app": {
+          "left": 0,
+          "right": 390,
+          "width": 390
+        },
+        "projectManager": {
+          "left": 21,
+          "right": 354,
+          "width": 333
+        },
+        "stylePanel": {
+          "left": 21,
+          "right": 354,
+          "width": 333
+        }
+      },
+      "axeViolations": 0
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "layout": {
+        "viewportWidth": 1440,
+        "documentWidth": 1440,
+        "bodyWidth": 1440,
+        "app": {
+          "left": 0,
+          "right": 1440,
+          "width": 1440
+        },
+        "projectManager": {
+          "left": 29,
+          "right": 338,
+          "width": 309
+        },
+        "stylePanel": {
+          "left": 29,
+          "right": 338,
+          "width": 309
+        }
+      },
+      "axeViolations": 0
+    }
+  ],
+  "browserMessages": [],
+  "screenshots": [
+    {
+      "path": "docs/research/epic15/evidence/S240-responsive-320.png",
+      "sha256": "a10925ebafd1aed686837a11af208e7ace112ffcd44d45809a40013be13a6c17"
+    },
+    {
+      "path": "docs/research/epic15/evidence/S240-responsive-1440.png",
+      "sha256": "10a340f3991c4d43f9490ca7c1deabc428aaac2ce7e2872ea77c15dfa8e1aa7a"
+    }
+  ],
+  "scope": [
+    "The captured checks cover the mounted local UI at 320, 390, and 1440 CSS pixels.",
+    "Axe covers WCAG 2.1 A/AA rules; it does not prove usability or manual color/keyboard review."
+  ]
+}

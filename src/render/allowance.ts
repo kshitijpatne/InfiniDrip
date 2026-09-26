@@ -131,7 +131,7 @@ function trimOffsetLoops(points: Point[]): Point[] {
 }
 
 /** Push the outline out (or in, for a negative sign) by each edge's own allowance. */
-function offsetOutline(samples: OutlineSample[], spec: AllowanceSpec, sign: number): Point[] {
+function offsetOutline(samples: OutlineSample[], spec: AllowanceSpec, sign: number, pieceName: string): Point[] {
   const n = samples.length;
   return samples.map((s, i) => {
     const prev = samples[(i - 1 + n) % n];
@@ -139,8 +139,8 @@ function offsetOutline(samples: OutlineSample[], spec: AllowanceSpec, sign: numb
     const p = s.point;
     const nIn = normal(p.x - prev.point.x, p.y - prev.point.y);
     const nOut = normal(next.point.x - p.x, next.point.y - p.y);
-    const dIn = sign * allowanceFor(spec, prev.edgeName); // the segment arriving here
-    const dOut = sign * allowanceFor(spec, s.edgeName); // the segment leaving here
+    const dIn = sign * allowanceFor(spec, prev.edgeName, pieceName); // the segment arriving here
+    const dOut = sign * allowanceFor(spec, s.edgeName, pieceName); // the segment leaving here
 
     const det = nIn.x * nOut.y - nIn.y * nOut.x;
     if (Math.abs(det) < FLAT) {
@@ -156,8 +156,8 @@ function offsetOutline(samples: OutlineSample[], spec: AllowanceSpec, sign: numb
 /** The cutting line: the sewing outline pushed outward by each edge's allowance. */
 export function seamAllowance(piece: Piece, spec: AllowanceSpec): Point[] {
   const samples = outlineSamples(piece);
-  const out = trimOffsetLoops(offsetOutline(samples, spec, 1));
-  const inn = trimOffsetLoops(offsetOutline(samples, spec, -1));
+  const out = trimOffsetLoops(offsetOutline(samples, spec, 1, piece.name));
+  const inn = trimOffsetLoops(offsetOutline(samples, spec, -1, piece.name));
   return area(out) > area(inn) ? out : inn; // the outward loop is the larger one
 }
 

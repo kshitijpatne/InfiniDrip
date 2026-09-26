@@ -1,0 +1,25 @@
+{
+  "slice": 240,
+  "status": "passed",
+  "createdAt": "2026-09-26T03:43:41.212Z",
+  "command": "npm run coverage -- --coverage.reportsDirectory=coverage-s240-postfix-20260926 --maxWorkers=2 --minWorkers=1",
+  "processExitCode": 0,
+  "coverageTool": "Vitest 2.1.9 with V8 coverage",
+  "instrumentedSourceFiles": 110,
+  "metrics": {
+    "statements": { "covered": 20287, "total": 20287, "percent": 100 },
+    "branches": { "covered": 8679, "total": 8679, "percent": 100 },
+    "functions": { "covered": 1283, "total": 1283, "percent": 100 },
+    "lines": { "covered": 20287, "total": 20287, "percent": 100 }
+  },
+  "generatedReport": {
+    "path": "coverage-s240-postfix-20260926/index.html",
+    "bytes": 11305,
+    "sha256": "23541d102272e8b2f3d3f6c88ba5c1f348df2e3e67710655883623e2401e4d66"
+  },
+  "cloverReport": {
+    "path": "coverage-s240-postfix-20260926/clover.xml",
+    "sha256": "be0c6a33baf03d4daa79a0fa708f9f42bbca61fa645b4330182d2c8a33c31936"
+  },
+  "scopeNote": "The full repository coverage command exited successfully after the finite-number UI correction; its generated report remains in the local coverage directory and is not committed."
+}

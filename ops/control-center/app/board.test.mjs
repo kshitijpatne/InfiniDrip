@@ -2,12 +2,21 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
-import { dirname, resolve } from "node:path";
+import { dirname, extname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import board from "../data/board.json" with { type: "json" };
 import { canTransition, filterItems, filterOptions, renderCreateForm, renderDetail, renderItemList, renderSummary, safeText, summarizeBoard, validateBoard } from "./board.mjs";
 
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../../..");
+
+function hashEvidenceArtifact(uri) {
+  const artifact = readFileSync(resolve(projectRoot, uri));
+  const binaryExtensions = new Set([".jpg", ".jpeg", ".pdf", ".png", ".zip"]);
+  const canonical = binaryExtensions.has(extname(uri).toLowerCase())
+    ? artifact
+    : Buffer.from(artifact.toString("utf8").replace(/\r\n/g, "\n"));
+  return createHash("sha256").update(canonical).digest("hex");
+}
 
 test("canonical board validates and summarizes its tracked work", () => {
   const result = validateBoard(board);
@@ -64,8 +73,8 @@ test("admitted Epic 14 and its active research lanes match the future backlog", 
     const goal = `G${String(index).padStart(2, "0")}`;
     const epic = board.epics.find((entry) => entry.id === id);
     const card = board.workItems.find((entry) => entry.id === id);
-    const expectedEpicStatus = id === "EPIC-14" ? "Closed" : "Backlog";
-    const expectedCardStatus = id === "EPIC-14" ? "Done" : "Backlog";
+    const expectedEpicStatus = id === "EPIC-14" ? "Closed" : id === "EPIC-15" ? "In Progress" : "Backlog";
+    const expectedCardStatus = id === "EPIC-14" ? "Done" : id === "EPIC-15" ? "In Progress" : "Backlog";
     assert.equal(epic?.status, expectedEpicStatus);
     assert.equal(card?.status, expectedCardStatus);
     assert.equal(card?.type, "epic");
@@ -107,15 +116,13 @@ test("admitted Epic 14 and its active research lanes match the future backlog", 
   assert.equal(c03Evidence?.verified, true);
   assert.equal(c03Evidence?.kind, "document");
   assert.match(c03Evidence?.sha256 ?? "", /^[a-f\d]{64}$/);
-  const c03Document = readFileSync(resolve(projectRoot, c03Evidence.uri));
-  assert.equal(createHash("sha256").update(c03Document).digest("hex"), c03Evidence.sha256);
+  assert.equal(hashEvidenceArtifact(c03Evidence.uri), c03Evidence.sha256);
   const c04Evidence = board.evidence.find((entry) => entry.id === "E-EPIC14-C04-S226");
   assert.ok(c04?.evidenceRefs.includes(c04Evidence?.id));
   assert.equal(c04Evidence?.verified, true);
   assert.equal(c04Evidence?.kind, "document");
   assert.match(c04Evidence?.sha256 ?? "", /^[a-f\d]{64}$/);
-  const c04Document = readFileSync(resolve(projectRoot, c04Evidence.uri));
-  assert.equal(createHash("sha256").update(c04Document).digest("hex"), c04Evidence.sha256);
+  assert.equal(hashEvidenceArtifact(c04Evidence.uri), c04Evidence.sha256);
   const finalEvidence = board.evidence.find((entry) => entry.id === "E-EPIC14-G01-EXIT-S228");
   const outputEvidence = board.evidence.find((entry) => entry.id === "E-EPIC14-G01-OUTPUT-S227");
   assert.ok(finalReview?.evidenceRefs.includes(finalEvidence?.id));
@@ -125,16 +132,82 @@ test("admitted Epic 14 and its active research lanes match the future backlog", 
   assert.equal(finalEvidence?.verified, true);
   assert.equal(finalEvidence?.kind, "exit-report");
   assert.match(finalEvidence?.sha256 ?? "", /^[a-f\d]{64}$/);
-  const exitDocument = readFileSync(resolve(projectRoot, finalEvidence.uri));
-  assert.equal(createHash("sha256").update(exitDocument).digest("hex"), finalEvidence.sha256);
+  assert.equal(hashEvidenceArtifact(finalEvidence.uri), finalEvidence.sha256);
   assert.ok(finalReview?.evidenceRefs.includes(outputEvidence?.id));
   assert.equal(outputEvidence?.verified, true);
   assert.equal(outputEvidence?.kind, "document");
   assert.match(outputEvidence?.sha256 ?? "", /^[a-f\d]{64}$/);
-  const outputManifest = readFileSync(resolve(projectRoot, outputEvidence.uri));
-  assert.equal(createHash("sha256").update(outputManifest).digest("hex"), outputEvidence.sha256);
+  assert.equal(hashEvidenceArtifact(outputEvidence.uri), outputEvidence.sha256);
   assert.equal(board.epics.find((entry) => entry.id === "EPIC-14")?.status, "Closed");
-  assert.equal(board.epics.find((entry) => entry.id === "EPIC-15")?.status, "Backlog");
+  assert.equal(board.epics.find((entry) => entry.id === "EPIC-15")?.status, "In Progress");
+  const g02Admission = board.workItems.find((entry) => entry.id === "EPIC-15-ADMISSION");
+  const f01 = board.workItems.find((entry) => entry.id === "EPIC-15-F01");
+  const f02 = board.workItems.find((entry) => entry.id === "EPIC-15-F02");
+  const f03 = board.workItems.find((entry) => entry.id === "EPIC-15-F03");
+  const g02FinalReview = board.workItems.find((entry) => entry.id === "EPIC-15-G02-FINAL-REVIEW");
+  assert.equal(g02Admission?.status, "Done");
+  assert.equal(f01?.status, "Done");
+  assert.equal(f02?.status, "Done");
+  assert.equal(f03?.status, "Done");
+  assert.equal(g02FinalReview?.status, "Review");
+  assert.deepEqual(g02Admission?.dependencies, ["EPIC-14"]);
+  assert.deepEqual(f01?.dependencies, ["EPIC-15-ADMISSION"]);
+  assert.deepEqual(f02?.dependencies, ["EPIC-15-F01"]);
+  assert.deepEqual(f03?.dependencies, ["EPIC-15-F02"]);
+  assert.deepEqual(g02FinalReview?.dependencies, ["EPIC-15-F03"]);
+  const s240EvidenceIds = [
+    "E-EPIC15-S240-EXIT",
+    "E-EPIC15-S240-COVERAGE",
+    "E-EPIC15-S240-PACKAGE",
+    "E-EPIC15-S240-RESPONSIVE",
+    "E-EPIC15-S240-REVISIONS",
+  ];
+  for (const evidenceId of s240EvidenceIds) {
+    const evidence = board.evidence.find((entry) => entry.id === evidenceId);
+    assert.ok(g02FinalReview?.evidenceRefs.includes(evidenceId), `${evidenceId} is linked to final review`);
+    assert.equal(evidence?.verified, true, `${evidenceId} is verified`);
+    assert.equal(hashEvidenceArtifact(evidence.uri), evidence.sha256, `${evidenceId} matches its stored SHA-256`);
+  }
+  const futureEpics = board.epics.filter((entry) => /^EPIC-(1[6-9]|2\d|30)$/.test(entry.id));
+  assert.equal(futureEpics.length, 15);
+  assert.ok(futureEpics.every((entry) => entry.status === "Backlog"), "later goals remain gated in Backlog");
+  const g02AdmissionEvidence = board.evidence.find((entry) => entry.id === "E-EPIC15-G02-ADMISSION-S229");
+  const f01StorageContractEvidence = board.evidence.find((entry) => entry.id === "E-EPIC15-F01-STORAGE-S230");
+  const f01RecordModelEvidence = board.evidence.find((entry) => entry.id === "E-EPIC15-F01-MODEL-S231");
+  const f01RepositoryEvidence = board.evidence.find((entry) => entry.id === "E-EPIC15-F01-REPO-S232");
+  const f01PackageEvidence = board.evidence.find((entry) => entry.id === "E-EPIC15-F01-PACKAGE-S234");
+  const f02DependencyEvidence = board.evidence.find((entry) => entry.id === "E-EPIC15-F02-DEPENDENCY-S236");
+  const f02RenderedEvidence = board.evidence.find((entry) => entry.id === "E-EPIC15-F02-DEPENDENCY-S236-RENDER");
+  assert.ok(g02Admission?.evidenceRefs.includes(g02AdmissionEvidence?.id));
+  assert.ok(board.epics.find((entry) => entry.id === "EPIC-15")?.evidenceRefs.includes(g02AdmissionEvidence?.id));
+  assert.equal(g02AdmissionEvidence?.verified, true);
+  assert.equal(g02AdmissionEvidence?.kind, "document");
+  assert.equal(hashEvidenceArtifact(g02AdmissionEvidence.uri), g02AdmissionEvidence.sha256);
+  assert.ok(f01?.evidenceRefs.includes(f01StorageContractEvidence?.id));
+  assert.equal(f01StorageContractEvidence?.verified, true);
+  assert.equal(f01StorageContractEvidence?.kind, "document");
+  assert.equal(hashEvidenceArtifact(f01StorageContractEvidence.uri), f01StorageContractEvidence.sha256);
+  assert.ok(f01?.evidenceRefs.includes(f01RecordModelEvidence?.id));
+  assert.equal(f01RecordModelEvidence?.verified, true);
+  assert.equal(f01RecordModelEvidence?.kind, "document");
+  assert.equal(hashEvidenceArtifact(f01RecordModelEvidence.uri), f01RecordModelEvidence.sha256);
+  assert.ok(f01?.evidenceRefs.includes(f01RepositoryEvidence?.id));
+  assert.equal(f01RepositoryEvidence?.verified, true);
+  assert.equal(f01RepositoryEvidence?.kind, "document");
+  assert.equal(hashEvidenceArtifact(f01RepositoryEvidence.uri), f01RepositoryEvidence.sha256);
+  assert.ok(f01?.evidenceRefs.includes(f01PackageEvidence?.id));
+  assert.ok(f02?.evidenceRefs.includes(f01PackageEvidence?.id));
+  assert.equal(f01PackageEvidence?.verified, true);
+  assert.equal(f01PackageEvidence?.kind, "exit-report");
+  assert.equal(hashEvidenceArtifact(f01PackageEvidence.uri), f01PackageEvidence.sha256);
+  assert.ok(f02?.evidenceRefs.includes(f02DependencyEvidence?.id));
+  assert.ok(f02?.evidenceRefs.includes(f02RenderedEvidence?.id));
+  assert.equal(f02DependencyEvidence?.verified, true);
+  assert.equal(f02DependencyEvidence?.kind, "exit-report");
+  assert.equal(hashEvidenceArtifact(f02DependencyEvidence.uri), f02DependencyEvidence.sha256);
+  assert.equal(f02RenderedEvidence?.verified, true);
+  assert.equal(f02RenderedEvidence?.kind, "rendered-output");
+  assert.equal(hashEvidenceArtifact(f02RenderedEvidence.uri), f02RenderedEvidence.sha256);
   const epic14Items = board.workItems.filter((entry) => entry.epicId === "EPIC-14");
   assert.ok(epic14Items.length > 1);
   for (const item of epic14Items) {

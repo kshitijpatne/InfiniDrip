@@ -1,5 +1,11 @@
 import { defineConfig } from "vitest/config";
 
+// Keep allocation-heavy adversarial scale fixtures in the ordinary test gate;
+// coverage instrumentation uses equivalent bounded fixtures that exercise the
+// same guards without multiplying the fixture's memory cost.
+const coverageEnabled = process.argv.some((argument) => argument === "--coverage" || argument === "--coverage.enabled");
+if (coverageEnabled) process.env.INFINIDRIP_COVERAGE = "1";
+
 export default defineConfig({
   test: {
     // Operational Control Center and delivery-proof tests use Node's built-in

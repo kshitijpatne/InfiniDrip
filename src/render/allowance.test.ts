@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { point } from "../geometry";
 import { Piece, STANDARD_M, TROUSER, draftAtSize, draftFront, AllowanceSpec } from "../drafting";
+import { allowanceFor } from "../drafting/allowance";
 import { seamAllowance, seamAllowancePath, outlineSamples, outlinePoints } from "./allowance";
 
 const UNIFORM: AllowanceSpec = { default: 1 };
@@ -76,6 +77,22 @@ describe("seamAllowance — the cutting line is the right DISTANCE away", () => 
     const cut = seamAllowance(squarePiece(true), UNIFORM);
     const corners = cut.map((p) => `${p.x.toFixed(3)},${p.y.toFixed(3)}`).sort();
     expect(corners).toEqual(["-1.000,-1.000", "-1.000,11.000", "11.000,-1.000", "11.000,11.000"]);
+  });
+
+  it("uses a piece-edge allowance before the shared edge rule without changing another piece", () => {
+    const body: Piece = { ...squarePiece(true), name: "body" };
+    const sleeve: Piece = { ...squarePiece(true), name: "sleeve" };
+    const spec: AllowanceSpec = {
+      default: 1,
+      byEdge: { e2: 0.5 },
+      byPieceEdge: { body: { e2: 2 } },
+    };
+
+    expect(allowanceFor(spec, "e2", "body")).toBe(2);
+    expect(allowanceFor(spec, "e2", "sleeve")).toBe(0.5);
+    expect(allowanceFor(spec, "unlisted", "body")).toBe(1);
+    expect(seamAllowance(body, spec)).not.toEqual(seamAllowance(sleeve, spec));
+    expect(allowanceFor(UNIFORM, "e2", "body")).toBe(1);
   });
 
   it("holds the allowance perpendicular to every edge of a real curved piece", () => {
