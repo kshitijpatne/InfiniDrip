@@ -43,6 +43,10 @@ only through an explicitly admitted, linked Epic packet.
   `docs/archive/ARCHITECTURE-HISTORY.md`.
 - `docs/BUG-LEDGER.md` — durable UI/UX bug IDs, severity, priority, root cause,
   fix, and verification history.
+- `docs/research/UI-MANUAL-QUALITY-FINDINGS-2026-09.md` — 15 maintainer browser
+  annotations captured as high-priority findings, with mapped G03–G17 review
+  checkpoints and post-G17 follow-up. Findings only; they are not roadmap or
+  Control Center work items until the maintainer confirms.
 - `README.md` — user-facing project overview; useful but less authoritative than
   the two files above.
 - `docs/PROJECT-DECISIONS.md` — decisions confirmed directly by the maintainer.

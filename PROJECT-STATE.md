@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 241 verified the EPIC-15/G02 merge and Control Center closure, 2026-09-26._
+_Last updated: Slice 243 recorded the maintainer's manual UI quality findings, 2026-09-26._
 Current directive: EPIC-14/G01 and EPIC-15/G02 are closed with accepted exit
 evidence. G02's F01, F02, F03, and final review are Done. PR #11 merged the
 reviewed Slice 240 head as `e5155e82dbd21cda5b3f537b950eb4c32a22d215`; Slices
@@ -28,6 +28,16 @@ separate gate in `docs/planning/ARTWORK-LIBRARY-G17-QUEUE.md`. These are plans,
 not admission. Every fresh or resumed task must continue from repository
 records alone, under the admission and slice-boundary handoff rules in
 `AGENTS.md`; no chat-specific handoff is required or authoritative.
+
+The maintainer supplied 15 browser annotations as high-priority manual quality
+findings. Their observations, partial overlaps with G03–G17, and deferred
+review rules are in `docs/research/UI-MANUAL-QUALITY-FINDINGS-2026-09.md`.
+They are not implementation-roadmap items or Control Center work items unless
+the maintainer confirms. Review related findings at the named capability exits
+without expanding those scopes; defer unowned research and residual questions
+until after G17. The maintainer directed continuation of the G03–G17 sequence
+without interruption. Individual Epic admission and the existing physical,
+supplier, cost, hosted-service and production-readiness gates still apply.
 
 EPIC-14/G01's A-01–A-12 disposition, output replay and downstream thresholds
 are in `docs/research/epic14/G01-FINAL-REVIEW-EXIT.md`. Slice 227's readable
@@ -4304,3 +4314,20 @@ Verification: `npm run control-center:test` passed 33/33; all 49 stable planning
 packet IDs for G03–G16 were found, the G17 queue file is present, and
 EPIC-17–EPIC-30 each retain Backlog status, scope links and acceptance criteria
 on Control Center board revision 315. `git diff --check` passed.
+
+### Slice 243 — record manual UI quality findings
+
+Recorded all 15 maintainer browser annotations in
+`docs/research/UI-MANUAL-QUALITY-FINDINGS-2026-09.md` as High / P1 candidate
+findings, preserving user-reported observations separately from verified root
+causes. Mapped partial scope overlap to G03 M01–M02, G04 V01–V03, G05 T01–T05,
+G09 D03–D04, and G13 X01; their relevant exits must review the findings without
+automatically expanding scope. The finding register defers unowned UI redesign,
+layout, artwork-interaction, and requested external research until after G17
+and maintainer discussion.
+
+The maintainer directed continuation of G03–G17 uninterrupted. No roadmap row,
+Control Center item, Epic status, feature code, or external hold changed.
+EPIC-16 remains Backlog pending its linked admission packet and canonical
+admission transition. `CONTEXT-INDEX.md` and `docs/PROJECT-DECISIONS.md` link
+the findings and record the handling decision. `git diff --check` passed.
