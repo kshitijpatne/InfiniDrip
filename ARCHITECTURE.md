@@ -222,8 +222,12 @@ the active view redraws immediately, while other views and exports regenerate
 when opened. The rendered Chromium save/reload proof, output comparisons,
 complete matrix and residual risks are recorded in
 [`docs/research/epic15/F02-DEPENDENCY-INVALIDATION-S236.md`](docs/research/epic15/F02-DEPENDENCY-INVALIDATION-S236.md).
-F02 and F03 are complete; the S240 final review is evidence-passing and awaits
-the required merge verification before EPIC-15 can close.
+F02 and F03 are complete. PR #11 merged the reviewed Slice 240 tree to
+`origin/main` at `e5155e82dbd21cda5b3f537b950eb4c32a22d215`; Slice 241 verified
+the S204/S205/S240 ancestry and closed EPIC-15 at Control Center revision 315.
+EPIC-16 through EPIC-30 remain Backlog, and this digital work does not establish
+physical fit, drape, factory acceptance, supplier readiness, or production
+readiness.
 Slice 237 is now complete: it adds the semantic-anchor operation model,
 per-size geometry/stitch/recipe/POM guards, explicit rebase/conflict/undo rules,
 and an accessible warning for invalid edits in the still-exploratory Edit
@@ -256,7 +260,10 @@ their explicit empty state. The package verifier now creates artwork through
 the UI and checks that its saved design matches the immutable revision head.
 The evidence-linked final report is
 [`docs/release/EPIC-15-G02-FINAL-REVIEW-S240.md`](docs/release/EPIC-15-G02-FINAL-REVIEW-S240.md).
-The review candidate stays open until its merge is verified on `origin/main`.
+The S240 review and post-merge closure records are
+[`docs/release/EPIC-15-G02-FINAL-REVIEW-S240.md`](docs/release/EPIC-15-G02-FINAL-REVIEW-S240.md)
+and
+[`docs/release/EPIC-15-G02-MERGE-EXIT-S241.md`](docs/release/EPIC-15-G02-MERGE-EXIT-S241.md).
 The S238
 contract and hashes are in
 [`docs/research/epic15/F03-CROSS-OUTPUT-EDITING-S238.md`](docs/research/epic15/F03-CROSS-OUTPUT-EDITING-S238.md).

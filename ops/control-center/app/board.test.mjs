@@ -67,20 +67,24 @@ test("contributors can submit review but cannot complete work", () => {
   assert.equal(canTransition("Done", "In Progress", "reviewer"), false);
 });
 
-test("admitted Epic 14 and its active research lanes match the future backlog", () => {
+test("closed Epics 14 and 15 and gated future backlog match their evidence", () => {
   for (let index = 1; index <= 17; index += 1) {
     const id = `EPIC-${index + 13}`;
     const goal = `G${String(index).padStart(2, "0")}`;
     const epic = board.epics.find((entry) => entry.id === id);
     const card = board.workItems.find((entry) => entry.id === id);
-    const expectedEpicStatus = id === "EPIC-14" ? "Closed" : id === "EPIC-15" ? "In Progress" : "Backlog";
-    const expectedCardStatus = id === "EPIC-14" ? "Done" : id === "EPIC-15" ? "In Progress" : "Backlog";
+    const expectedEpicStatus = id === "EPIC-14" || id === "EPIC-15" ? "Closed" : "Backlog";
+    const expectedCardStatus = id === "EPIC-14" || id === "EPIC-15" ? "Done" : "Backlog";
     assert.equal(epic?.status, expectedEpicStatus);
     assert.equal(card?.status, expectedCardStatus);
     assert.equal(card?.type, "epic");
     assert.equal(card?.epicId, id);
     assert.match(card.title, new RegExp(`^${id}: ${goal}`));
     assert.equal(card.dependencies.includes(`CAPABILITY-${goal}`), false);
+    if (id === "EPIC-15") {
+      assert.ok(card.evidenceRefs.includes("E-EPIC15-S240-EXIT"));
+      assert.ok(epic.evidenceRefs.includes("E-EPIC15-G02-MERGE-S241"));
+    }
   }
   const expectedLaneStatus = { A: "Done", B: "Done", C: "Done", D: "Done" };
   for (const letter of ["A", "B", "C", "D"]) {
@@ -139,7 +143,7 @@ test("admitted Epic 14 and its active research lanes match the future backlog", 
   assert.match(outputEvidence?.sha256 ?? "", /^[a-f\d]{64}$/);
   assert.equal(hashEvidenceArtifact(outputEvidence.uri), outputEvidence.sha256);
   assert.equal(board.epics.find((entry) => entry.id === "EPIC-14")?.status, "Closed");
-  assert.equal(board.epics.find((entry) => entry.id === "EPIC-15")?.status, "In Progress");
+  assert.equal(board.epics.find((entry) => entry.id === "EPIC-15")?.status, "Closed");
   const g02Admission = board.workItems.find((entry) => entry.id === "EPIC-15-ADMISSION");
   const f01 = board.workItems.find((entry) => entry.id === "EPIC-15-F01");
   const f02 = board.workItems.find((entry) => entry.id === "EPIC-15-F02");
@@ -149,7 +153,7 @@ test("admitted Epic 14 and its active research lanes match the future backlog", 
   assert.equal(f01?.status, "Done");
   assert.equal(f02?.status, "Done");
   assert.equal(f03?.status, "Done");
-  assert.equal(g02FinalReview?.status, "Review");
+  assert.equal(g02FinalReview?.status, "Done");
   assert.deepEqual(g02Admission?.dependencies, ["EPIC-14"]);
   assert.deepEqual(f01?.dependencies, ["EPIC-15-ADMISSION"]);
   assert.deepEqual(f02?.dependencies, ["EPIC-15-F01"]);
@@ -168,6 +172,14 @@ test("admitted Epic 14 and its active research lanes match the future backlog", 
     assert.equal(evidence?.verified, true, `${evidenceId} is verified`);
     assert.equal(hashEvidenceArtifact(evidence.uri), evidence.sha256, `${evidenceId} matches its stored SHA-256`);
   }
+  const g02MergeExitEvidence = board.evidence.find((entry) => entry.id === "E-EPIC15-G02-MERGE-S241");
+  assert.ok(board.epics.find((entry) => entry.id === "EPIC-15")?.evidenceRefs.includes(g02MergeExitEvidence?.id));
+  assert.equal(g02MergeExitEvidence?.verified, true);
+  assert.equal(g02MergeExitEvidence?.kind, "exit-report");
+  const mergeExitReport = readFileSync(resolve(projectRoot, g02MergeExitEvidence.uri), "utf8");
+  assert.match(mergeExitReport, /e5155e82dbd21cda5b3f537b950eb4c32a22d215/);
+  assert.match(mergeExitReport, /94ce7cdfc8faa73c1000343418a3347476f34cff/);
+  assert.match(mergeExitReport, /46b78b76c799e54657c46e6fb0053c042a6b36eb/);
   const futureEpics = board.epics.filter((entry) => /^EPIC-(1[6-9]|2\d|30)$/.test(entry.id));
   assert.equal(futureEpics.length, 15);
   assert.ok(futureEpics.every((entry) => entry.status === "Backlog"), "later goals remain gated in Backlog");
@@ -208,6 +220,12 @@ test("admitted Epic 14 and its active research lanes match the future backlog", 
   assert.equal(f02RenderedEvidence?.verified, true);
   assert.equal(f02RenderedEvidence?.kind, "rendered-output");
   assert.equal(hashEvidenceArtifact(f02RenderedEvidence.uri), f02RenderedEvidence.sha256);
+  const epic15Items = board.workItems.filter((entry) => entry.epicId === "EPIC-15");
+  assert.equal(epic15Items.length, 6);
+  for (const item of epic15Items) {
+    assert.equal(item.status, "Done", `${item.id} must be Done before EPIC-15 closes`);
+    assert.ok(item.evidenceRefs.some((ref) => board.evidence.some((evidence) => evidence.id === ref && evidence.verified && evidence.kind !== "incomplete")), `${item.id} needs verified evidence`);
+  }
   const epic14Items = board.workItems.filter((entry) => entry.epicId === "EPIC-14");
   assert.ok(epic14Items.length > 1);
   for (const item of epic14Items) {

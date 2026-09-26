@@ -65,17 +65,20 @@ Slice 227 digital readability remediation, and the verified final exit report.
 Every linked work item is Done with verified evidence. The report records the
 A-01–A-12 downstream gates and explicitly does not claim fit, factory
 readiness, CAD interoperability, 3D simulation, or a live supplier marketplace.
-EPIC-15/G02 is In Progress. F01 is Done with verified S230–S234 evidence;
-F02 is Done with verified S235–S236 evidence, including the complete
-seven-recipe field-to-output matrix and rendered/reload proof. F03 is Done with
-verified S237–S239 evidence, including the production-built Tee/Woven-shirt
-revision, frozen-output and restart replay. Slice 240's evidence-linked final
-review passed its digital gates on 2026-09-26 and is in Review. The acceptance
-report is `docs/release/EPIC-15-G02-FINAL-REVIEW-S240.md`. EPIC-15 remains open
-until the reviewed branch is merged and verified on `origin/main`; only then
-may the final review become Done and the Epic close. EPIC-16 through EPIC-30
-remain Backlog; Lane E under Epic 20 remains held for explicit garment-direction
-approval. Backlog registration alone is not work admission.
+EPIC-15/G02 is Closed after PR #11 merged the reviewed Slice 240 tree to
+`origin/main` at `e5155e82dbd21cda5b3f537b950eb4c32a22d215`; Slice 241 verified
+S204, S205, and S240 ancestry and recorded the command-layer closure at board
+revision 315. F01 is Done with verified S230–S234 evidence; F02 is Done with
+verified S235–S236 evidence, including the complete seven-recipe field-to-
+output matrix and rendered/reload proof. F03 is Done with verified S237–S239
+evidence, including the production-built Tee/Woven-shirt revision, frozen-
+output and restart replay. Slice 240's digital final-review evidence is in
+`docs/release/EPIC-15-G02-FINAL-REVIEW-S240.md`; the merge and closure record is
+`docs/release/EPIC-15-G02-MERGE-EXIT-S241.md`. The final-review work item and
+EPIC-15 summary item are Done; the Epic record is Closed. EPIC-16 through
+EPIC-30 remain Backlog, including G17. Lane E under Epic 20 remains held for
+explicit garment-direction approval. Backlog registration alone is not work
+admission.
 
 ## Historical import rule
 
