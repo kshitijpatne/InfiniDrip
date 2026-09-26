@@ -11,6 +11,7 @@ import {
   type ProjectPackageOptions,
   type ProjectPackageProgress,
 } from "./project-package";
+import type { FrozenArtifactInput } from "./style-revisions";
 
 export interface ProjectManagerOptions {
   readonly host: HTMLElement;
@@ -25,12 +26,19 @@ export interface ProjectManagerOptions {
   readonly artworkStore?: ArtworkAssetStore;
   readonly inspectAsset?: (file: File) => Promise<InspectedArtworkFile>;
   readonly savePackage?: (filename: string, blob: Blob) => Promise<boolean>;
+  readonly canFreezeOutputs?: () => boolean;
+  readonly getFrozenOutputSet?: () => {
+    readonly artifacts: readonly FrozenArtifactInput[];
+    readonly selectedSizes: readonly { readonly sizeId: string; readonly label: string }[];
+  } | null;
+  readonly saveFrozenArtifact?: (filename: string, bytes: Blob, mediaType: string) => Promise<boolean>;
   readonly confirm?: (message: string) => boolean;
   readonly packageOptions?: Pick<ProjectPackageOptions, "idFactory" | "now">;
 }
 
 type ProjectAction = "create" | "duplicate" | "rename" | "reload" | "switch" | "archive" | "restore"
-  | "switch-project" | "export-package" | "import-package";
+  | "switch-project" | "export-package" | "import-package" | "compare-revisions" | "restore-revision"
+  | "freeze-outputs" | "download-frozen";
 
 function escapeHtml(value: string): string {
   return value.replace(/[&<>"']/g, (character) => ({
@@ -73,6 +81,9 @@ export class ProjectManager {
   private progressState: ProjectPackageProgress | null = null;
   private progressPaintedBytes = 0;
   private styleNameDraft = "";
+  private revisionComparison = "";
+  private compareLeftId = "";
+  private compareRightId = "";
   private projects: readonly LoadedProject[];
   private readonly cancelPortal: HTMLDivElement;
 
@@ -100,18 +111,26 @@ export class ProjectManager {
       if (!action || this.busy) return;
       event.preventDefault();
       if (action === "import-package") {
-        void this.handle(action, target?.dataset.styleId);
+        void this.handle(action, target?.dataset.styleId, target);
         return;
       }
       if (!this.options.flushPendingFieldObservations
         || this.options.hasPendingFieldObservations?.() === false) {
-        void this.handle(action, target?.dataset.styleId);
+        void this.handle(action, target?.dataset.styleId, target);
         return;
       }
-      void this.runAfterFieldHistory(() => this.handle(action, target?.dataset.styleId));
+      void this.runAfterFieldHistory(() => this.handle(action, target?.dataset.styleId, target));
     });
     options.host.addEventListener("change", (event) => {
       const target = event.target;
+      if (target instanceof HTMLSelectElement && target.id === "revision-left") {
+        this.compareLeftId = target.value;
+        return;
+      }
+      if (target instanceof HTMLSelectElement && target.id === "revision-right") {
+        this.compareRightId = target.value;
+        return;
+      }
       if (!(target instanceof HTMLInputElement) || target.id !== "project-package-file") return;
       const file = target.files?.[0] ?? null;
       target.value = "";
@@ -155,6 +174,50 @@ export class ProjectManager {
       ).join("")}</ul>` : `<p>No archived styles.</p>`) + `</section>`;
   }
 
+  private renderRevisionHistory(loaded: LoadedProject): string {
+    const revisions = loaded.styleRevisions.filter((revision) => revision.styleId === loaded.activeStyle.id)
+      .slice().sort((left, right) => right.revisionNumber - left.revisionNumber);
+    const manifests = loaded.exportManifests.filter((manifest) => manifest.styleId === loaded.activeStyle.id)
+      .slice().sort((left, right) => right.capturedAt.localeCompare(left.capturedAt));
+    const leftId = revisions.some((revision) => revision.revisionId === this.compareLeftId)
+      ? this.compareLeftId : revisions[0]?.revisionId ?? "";
+    const rightId = revisions.some((revision) => revision.revisionId === this.compareRightId)
+      ? this.compareRightId : revisions[1]?.revisionId ?? revisions[0]?.revisionId ?? "";
+    const revisionOptions = (selectedId: string): string => revisions.map((revision) =>
+      `<option value="${escapeHtml(revision.revisionId)}"${revision.revisionId === selectedId ? " selected" : ""}>r${revision.revisionNumber} · ${escapeHtml(revision.createdAt)} · ${revision.revisionContentDigest.slice(0, 12)}</option>`).join("");
+    const historyRows = revisions.length ? `<ol>${revisions.map((revision) =>
+      `<li><span>r${revision.revisionNumber} · ${escapeHtml(revision.createdAt)} · ${revision.parentRevisionId ? `parent ${escapeHtml(revision.parentRevisionId.slice(0, 8))}` : "baseline"}` +
+      `<br><code>${escapeHtml(revision.revisionContentDigest)}</code> · SHA-256 verified</span>` +
+      `<button type="button" data-project-action="restore-revision" data-revision-id="${escapeHtml(revision.revisionId)}"` +
+      `${this.busy || revision.revisionId === loaded.activeStyle.revisionHeadId ? " disabled" : ""}>Restore as new revision</button></li>`
+    ).join("")}</ol>` : `<p>No immutable revision history is available.</p>`;
+    const frozenRows = manifests.length ? `<ol>${manifests.map((manifest) =>
+      `<li><span>Captured ${escapeHtml(manifest.capturedAt)} · r${manifest.payload.revisionId === loaded.activeStyle.revisionHeadId
+        ? "current" : escapeHtml(revisions.find((revision) => revision.revisionId === manifest.revisionId)?.revisionNumber?.toString() ?? "historical")}` +
+      `<br><code>${escapeHtml(manifest.packetDigest)}</code> · ${manifest.artifacts.length} verified files</span>` +
+      `<ul>${manifest.artifacts.map((artifact) => `<li><button type="button" data-project-action="download-frozen"` +
+        ` data-manifest-id="${escapeHtml(manifest.manifestId)}" data-artifact-id="${escapeHtml(artifact.artifactId)}"${this.busy ? " disabled" : ""}>Download ${escapeHtml(artifact.displayName)}</button>` +
+        ` · ${artifact.byteLength} bytes · SHA-256 ${escapeHtml(artifact.sha256.slice(0, 12))}</li>`).join("")}</ul></li>`
+    ).join("")}</ol>` : `<p>No frozen output captures.</p>`;
+    const hasUnsavedChanges = this.options.hasUnsavedChanges();
+    const outputsReady = this.options.canFreezeOutputs?.() === true;
+    const canFreeze = !this.busy && !hasUnsavedChanges && outputsReady;
+    const freezeGuidance = this.busy ? "" : hasUnsavedChanges
+      ? "Save the current style before freezing outputs."
+      : outputsReady ? "" : "Review Style and Check, resolve digital blockers, and make sure the current style is saved before freezing outputs.";
+    return `<section class="project-revision-history" aria-labelledby="revision-history-title">` +
+      `<h3 id="revision-history-title">Immutable revisions</h3>` +
+      `<p>Revision digests verify saved digital content. They do not establish fit or factory acceptance.</p>${historyRows}` +
+      `<div class="project-revision-compare"><label for="revision-left">Compare</label><select id="revision-left"${this.busy || revisions.length < 2 ? " disabled" : ""}>${revisionOptions(leftId)}</select>` +
+      `<label for="revision-right">with</label><select id="revision-right"${this.busy || revisions.length < 2 ? " disabled" : ""}>${revisionOptions(rightId)}</select>` +
+      `<button type="button" data-project-action="compare-revisions"${this.busy || revisions.length < 2 ? " disabled" : ""}>Compare revisions</button></div>` +
+      `<p class="project-revision-comparison" role="status" aria-live="polite">${escapeHtml(this.revisionComparison)}</p>` +
+      `<button type="button" data-project-action="freeze-outputs" aria-describedby="project-freeze-guidance"${canFreeze ? "" : " disabled"}>Freeze seven current digital outputs</button>` +
+      `<p id="project-freeze-guidance" class="project-freeze-guidance" role="status" aria-live="polite">${escapeHtml(freezeGuidance)}</p>` +
+      `<p>Freezing records the current selected size and whole-run exports. It does not certify physical fit, approval, supplier requirements or factory acceptance.</p>` +
+      `<h4>Frozen output captures</h4>${frozenRows}</section>`;
+  }
+
   private render(): void {
     const loaded = this.options.workflow.snapshot;
     const open = this.options.host.querySelector<HTMLDetailsElement>(".project-manager-details")?.open ?? false;
@@ -180,7 +243,7 @@ export class ProjectManager {
       `<button type="button" data-project-action="duplicate"${this.busy ? " disabled" : ""}>Duplicate current design</button>` +
       `<button type="button" data-project-action="rename"${this.busy ? " disabled" : ""}>Rename current style</button>` +
       `<button type="button" data-project-action="reload"${this.busy ? " disabled" : ""}>Reload project</button>` +
-      `</div>` + this.renderStyles(loaded.styles, loaded.activeStyle.id) + `</div></details>`;
+      `</div>` + this.renderStyles(loaded.styles, loaded.activeStyle.id) + this.renderRevisionHistory(loaded) + `</div></details>`;
     this.cancelPortal.hidden = !(this.busy && this.controller);
     if (this.busy && this.controller) {
       this.cancelPortal.querySelector("span")!.textContent = this.message;
@@ -219,11 +282,52 @@ export class ProjectManager {
     return this.options.host.querySelector<HTMLInputElement>("#project-style-name")!;
   }
 
-  private async handle(action: ProjectAction, styleId?: string): Promise<void> {
+  private async handle(action: ProjectAction, styleId?: string, target?: HTMLElement | null): Promise<void> {
     if (action === "export-package") return this.exportPackage();
     if (action === "import-package") {
       this.options.host.querySelector<HTMLInputElement>("#project-package-file")?.click();
       return;
+    }
+    if (action === "compare-revisions") {
+      const left = this.options.host.querySelector<HTMLSelectElement>("#revision-left")?.value ?? this.compareLeftId;
+      const right = this.options.host.querySelector<HTMLSelectElement>("#revision-right")?.value ?? this.compareRightId;
+      try {
+        const paths = this.options.workflow.compareStyleRevisions(left, right);
+        this.revisionComparison = paths.length ? paths.map((path) => `• ${path}`).join("\n") : "The saved design and field history are identical.";
+        this.compareLeftId = left;
+        this.compareRightId = right;
+      } catch (error) {
+        this.revisionComparison = errorMessage(error);
+      }
+      this.render();
+      return;
+    }
+    if (action === "restore-revision") {
+      const revisionId = target?.dataset.revisionId;
+      if (!revisionId) {
+        this.message = "The selected revision is missing its identity.";
+        this.render();
+        return;
+      }
+      if (this.options.hasUnsavedChanges() && !this.confirm("Restore this saved revision as a new version? Unsaved editor changes will be replaced.")) return;
+      return this.run(async () => {
+        const loaded = await this.options.workflow.restoreStyleRevision(revisionId);
+        this.options.onStyleLoaded(loaded, loaded.activeRecovery?.payload ?? null);
+        this.revisionComparison = "";
+        const head = loaded.styleRevisions.find((revision) => revision.revisionId === loaded.activeStyle.revisionHeadId);
+        this.message = `Restored revision as r${head?.revisionNumber ?? "new"}.`;
+      }, "Restoring immutable revision…");
+    }
+    if (action === "freeze-outputs") return this.freezeOutputs();
+    if (action === "download-frozen") {
+      const manifestId = target?.dataset.manifestId;
+      const artifactId = target?.dataset.artifactId;
+      if (!manifestId || !artifactId) {
+        this.message = "The selected frozen artifact is missing its identity.";
+        this.render();
+        return;
+      }
+      return this.downloadFrozenArtifact(manifestId, artifactId);
     }
     if (action === "switch-project") {
       const selectedId = this.options.host.querySelector<HTMLSelectElement>("#project-select")?.value;
@@ -320,6 +424,41 @@ export class ProjectManager {
         this.message = `Restored ${loaded.styles.find((style) => style.id === styleId)?.name ?? "style"}.`;
       });
     }
+  }
+
+  private async freezeOutputs(): Promise<void> {
+    if (this.options.hasUnsavedChanges()) {
+      this.message = "Save the current style before freezing outputs.";
+      this.render();
+      return;
+    }
+    const outputSet = this.options.getFrozenOutputSet?.();
+    const revisionId = this.options.workflow.snapshot.activeStyle.revisionHeadId;
+    if (!outputSet || !this.options.canFreezeOutputs?.() || !revisionId) {
+      this.message = "The seven digital outputs are not ready. Review the current style and digital checks first.";
+      this.render();
+      return;
+    }
+    return this.run(async () => {
+      const manifest = await this.options.workflow.freezeOutputs(
+        outputSet.artifacts,
+        outputSet.selectedSizes,
+        ["Physical fit, formal colorway approval, supplier-specific requirements and factory acceptance are not verified by this digital capture."],
+        revisionId,
+      );
+      this.message = `Frozen ${manifest.artifacts.length} outputs for revision ${manifest.revisionId.slice(0, 8)} · SHA-256 ${manifest.packetDigest.slice(0, 12)}.`;
+    }, "Freezing exact digital output bytes…");
+  }
+
+  private async downloadFrozenArtifact(manifestId: string, artifactId: string): Promise<void> {
+    return this.run(async () => {
+      const { artifact } = await this.options.workflow.readFrozenArtifact(manifestId, artifactId);
+      const filename = artifact.displayName.replace(/[\\/:*?"<>|\u0000-\u001f]/g, "-").slice(0, 120) || "frozen-output";
+      const saved = this.options.saveFrozenArtifact
+        ? await this.options.saveFrozenArtifact(filename, artifact.bytes, artifact.mediaType)
+        : await this.downloadPackage(filename, artifact.bytes);
+      this.message = saved ? `Downloaded stored bytes for ${filename}.` : `Download canceled for ${filename}.`;
+    }, "Verifying frozen output bytes…");
   }
 
   private packageOptions(signal: AbortSignal) {

@@ -35,6 +35,8 @@ function loadedProject(): LoadedProject {
       createFieldObservationRecord(result.value.style, TIME, "existing-local-style"),
       createFieldObservationRecord(second, TIME, "existing-local-style"),
     ],
+    styleRevisions: [],
+    exportManifests: [],
   };
 }
 
@@ -47,6 +49,8 @@ function harness() {
     styles: [initial.styles[0], second], activeStyle: second,
     activeRecovery: { schemaVersion: 2, styleId: STYLE_TWO_ID, payload: {} } as LoadedProject["activeRecovery"],
     fieldObservations: initial.fieldObservations,
+    styleRevisions: [],
+    exportManifests: [],
   };
   const workflow = {
     get snapshot() { return snapshot; },
@@ -108,6 +112,303 @@ describe("accessible project and style manager", () => {
       ...loaded,
       activeRecovery: { schemaVersion: 2, styleId: STYLE_ID, payload: { fabric: "#123456" } } as NonNullable<LoadedProject["activeRecovery"]>,
     })).toEqual({ fabric: "#123456" });
+  });
+
+  it("labels unmatched frozen revisions as historical and forwards restore recovery to the editor", async () => {
+    const rendered = harness();
+    try {
+      const snapshot = loadedProject();
+      const knownRevisionId = "77777777-7777-4777-8777-777777777777";
+      rendered.setSnapshot({
+        ...snapshot,
+        styleRevisions: [{
+          revisionId: knownRevisionId,
+          styleId: STYLE_ID,
+          revisionNumber: 7,
+          createdAt: TIME,
+          parentRevisionId: null,
+          revisionContentDigest: "c".repeat(64),
+        } as unknown as LoadedProject["styleRevisions"][number]],
+        exportManifests: [
+          {
+            manifestId: "33333333-3333-4333-8333-333333333333",
+            styleId: STYLE_ID,
+            revisionId: "44444444-4444-4444-8444-444444444444",
+            capturedAt: TIME,
+            packetDigest: "a".repeat(64),
+            payload: { revisionId: "44444444-4444-4444-8444-444444444444" },
+            artifacts: [{ artifactId: "selected-size-svg", displayName: "old.svg", byteLength: 8, sha256: "b".repeat(64) }],
+          } as unknown as LoadedProject["exportManifests"][number],
+          {
+            manifestId: "88888888-8888-4888-8888-888888888888",
+            styleId: STYLE_ID,
+            revisionId: knownRevisionId,
+            capturedAt: TIME,
+            packetDigest: "d".repeat(64),
+            payload: { revisionId: knownRevisionId },
+            artifacts: [{ artifactId: "selected-size-svg", displayName: "captured.svg", byteLength: 10, sha256: "e".repeat(64) }],
+          } as unknown as LoadedProject["exportManifests"][number],
+        ],
+      });
+      rendered.manager.refresh();
+      expect(rendered.host.querySelector(".project-revision-history")?.textContent).toContain("historical");
+    } finally {
+      rendered.host.remove();
+      document.querySelector("#project-operation-cancel")?.remove();
+    }
+
+    const restoredManager = harness();
+    try {
+      restoredManager.setUnsavedChanges(false);
+      const base = loadedProject();
+      const loaded: LoadedProject = {
+        ...base,
+        activeStyle: { ...base.activeStyle, revisionHeadId: "55555555-5555-4555-8555-555555555555" },
+        activeRecovery: {
+          schemaVersion: 2,
+          styleId: STYLE_ID,
+          payload: { fabric: "#123456" },
+        } as LoadedProject["activeRecovery"],
+        styleRevisions: [],
+      };
+      const workflow = restoredManager.workflow as unknown as {
+        restoreStyleRevision: (revisionId: string) => Promise<LoadedProject>;
+      };
+      workflow.restoreStyleRevision = vi.fn(async () => loaded);
+      const target = document.createElement("button");
+      target.dataset.revisionId = "66666666-6666-4666-8666-666666666666";
+      await (restoredManager.manager as unknown as {
+        handle(action: string, styleId?: string, target?: HTMLElement | null): Promise<void>;
+      }).handle("restore-revision", undefined, target);
+      expect(restoredManager.onStyleLoaded).toHaveBeenCalledWith(loaded, { fabric: "#123456" });
+      expect(restoredManager.host.querySelector("#project-manager-status")?.textContent).toContain("Restored revision as rnew.");
+    } finally {
+      restoredManager.host.remove();
+      document.querySelector("#project-operation-cancel")?.remove();
+    }
+  });
+
+  it("compares and restores immutable revisions, freezes all seven exact outputs, and retrieves stored bytes", async () => {
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    vi.stubGlobal("Blob", NodeBlob);
+    const projectId = "11111111-1111-4111-8111-111111111111";
+    const styleId = "22222222-2222-4222-8222-222222222222";
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: { name: `project-revision-ui-${Date.now()}`, factory: new IDBFactory(), crypto: webcrypto as unknown as Crypto },
+      storage: { getItem: () => null },
+      idFactory: (() => {
+        const ids = [projectId, styleId];
+        return () => ids.shift() ?? "33333333-3333-4333-8333-333333333333";
+      })(),
+      now: () => TIME,
+    });
+    const host = document.createElement("div");
+    document.body.append(host);
+    const onStyleLoaded = vi.fn();
+    const downloaded: Array<{ filename: string; content: string }> = [];
+    let unsaved = false;
+    let permitDownload = true;
+    const allArtifacts = [
+      ["selected-size-a0-pdf", "pdf"], ["selected-size-dxf", "dxf"], ["selected-size-svg", "svg"],
+      ["selected-size-tiled-pdf", "pdf"], ["whole-run-projector-svg", "svg"],
+      ["whole-run-surface-sheet-svg", "svg"], ["whole-run-tech-pack-pdf", "pdf"],
+    ] as const;
+    const manager = new ProjectManager({
+      host,
+      workflow,
+      getCurrentDesign: () => workflow.snapshot.activeStyle.design,
+      getBlankDesign: () => workflow.snapshot.activeStyle.design,
+      hasUnsavedChanges: () => unsaved,
+      onStyleLoaded,
+      setBusy: vi.fn(),
+      confirm: () => false,
+      canFreezeOutputs: () => true,
+      getFrozenOutputSet: () => ({
+        selectedSizes: [{ sizeId: "tee-step-1", label: "S" }],
+        artifacts: allArtifacts.map(([artifactId, extension]) => ({
+          artifactId,
+          extension,
+          displayName: artifactId === "selected-size-svg" ? "../unsafe.svg" : `${artifactId}.${extension}`,
+          mediaType: extension === "svg" ? "image/svg+xml" : extension === "dxf" ? "image/vnd.dxf" : "application/pdf",
+          content: `frozen:${artifactId}`,
+        })),
+      }),
+      saveFrozenArtifact: async (filename, bytes) => {
+        downloaded.push({ filename, content: await bytes.text() });
+        return permitDownload;
+      },
+    });
+    try {
+      const firstRevisionId = workflow.snapshot.activeStyle.revisionHeadId!;
+      const changed = {
+        ...workflow.snapshot.activeStyle.design,
+        measurements: { ...workflow.snapshot.activeStyle.design.measurements, chest: workflow.snapshot.activeStyle.design.measurements.chest + 5 },
+      };
+      await workflow.saveActiveDesign(changed);
+      manager.refresh();
+      const secondRevisionId = workflow.snapshot.activeStyle.revisionHeadId!;
+      expect(secondRevisionId).not.toBe(firstRevisionId);
+      expect(workflow.compareStyleRevisions(firstRevisionId, secondRevisionId)).toContain("design.measurements.chest");
+      host.querySelector<HTMLSelectElement>("#revision-left")!.value = firstRevisionId;
+      host.querySelector<HTMLSelectElement>("#revision-left")!.dispatchEvent(new Event("change", { bubbles: true }));
+      host.querySelector<HTMLSelectElement>("#revision-right")!.value = secondRevisionId;
+      host.querySelector<HTMLSelectElement>("#revision-right")!.dispatchEvent(new Event("change", { bubbles: true }));
+      host.querySelector<HTMLButtonElement>("[data-project-action='compare-revisions']")!.click();
+      expect(host.querySelector(".project-revision-comparison")?.textContent).toContain("design.measurements.chest");
+      expect(host.querySelector(".project-revision-comparison")?.textContent).toContain("fieldObservations");
+
+      const restore = host.querySelector<HTMLButtonElement>(`[data-project-action='restore-revision'][data-revision-id='${firstRevisionId}']`)!;
+      restore.click();
+      await vi.waitFor(() => expect(host.querySelector("#project-manager-status")?.textContent).toContain("Restored revision as r3"));
+      expect(workflow.snapshot.activeStyle.design.measurements.chest).toBe(STANDARD_M.chest);
+      expect(workflow.snapshot.activeStyle.revisionHeadId).not.toBe(firstRevisionId);
+      expect(workflow.snapshot.styleRevisions).toHaveLength(3);
+      expect(onStyleLoaded).toHaveBeenCalledOnce();
+
+      host.querySelector<HTMLButtonElement>("[data-project-action='freeze-outputs']")!.click();
+      await vi.waitFor(() => expect(host.querySelector("#project-manager-status")?.textContent).toContain("Frozen 7 outputs"));
+      expect(workflow.snapshot.exportManifests).toHaveLength(1);
+      expect(workflow.snapshot.exportManifests[0]?.artifacts).toHaveLength(7);
+      const frozen = workflow.snapshot.exportManifests[0]!;
+      const selectedSvg = frozen.artifacts.find((artifact) => artifact.artifactId === "selected-size-svg")!;
+      host.querySelector<HTMLButtonElement>(`[data-project-action='download-frozen'][data-manifest-id='${frozen.manifestId}'][data-artifact-id='selected-size-svg']`)!.click();
+      await vi.waitFor(() => expect(host.querySelector("#project-manager-status")?.textContent).toContain("Downloaded stored bytes"));
+      expect(downloaded).toEqual([{ filename: "..-unsafe.svg", content: "frozen:selected-size-svg" }]);
+      expect(selectedSvg.bytes.size).toBe(new TextEncoder().encode("frozen:selected-size-svg").byteLength);
+
+      permitDownload = false;
+      host.querySelector<HTMLButtonElement>(`[data-project-action='download-frozen'][data-manifest-id='${frozen.manifestId}'][data-artifact-id='selected-size-dxf']`)!.click();
+      await vi.waitFor(() => expect(host.querySelector("#project-manager-status")?.textContent).toContain("Download canceled"));
+
+      unsaved = true;
+      manager.refresh();
+      expect(host.querySelector<HTMLButtonElement>("[data-project-action='freeze-outputs']")?.disabled).toBe(true);
+      await (manager as unknown as { freezeOutputs(): Promise<void> }).freezeOutputs();
+      expect(host.querySelector("#project-manager-status")?.textContent).toContain("Save the current style");
+      host.querySelector<HTMLButtonElement>(`[data-project-action='restore-revision'][data-revision-id='${firstRevisionId}']`)!.click();
+      expect(workflow.snapshot.styleRevisions).toHaveLength(3);
+      expect(host.querySelector("#project-manager-status")?.textContent).not.toContain("Restoring immutable revision");
+    } finally {
+      workflow.close();
+      host.remove();
+      document.querySelector("#project-operation-cancel")?.remove();
+      vi.unstubAllGlobals();
+    }
+  });
+
+  it("reports missing revision and frozen-file identities and blocks captures without a ready output set", async () => {
+    const { host, manager, workflow, setUnsavedChanges } = harness();
+    setUnsavedChanges(false);
+    manager.refresh();
+    expect(host.querySelector("#project-freeze-guidance")?.textContent).toContain("Review Style and Check");
+    await (manager as unknown as { freezeOutputs(): Promise<void> }).freezeOutputs();
+    expect(host.querySelector("#project-manager-status")?.textContent).toContain("not ready");
+    expect(workflow.snapshot.activeStyle.revisionHeadId).toBeNull();
+    const missingRevision = document.createElement("button");
+    missingRevision.dataset.projectAction = "restore-revision";
+    host.append(missingRevision);
+    missingRevision.click();
+    expect(host.querySelector("#project-manager-status")?.textContent).toContain("missing its identity");
+    const missingArtifact = document.createElement("button");
+    missingArtifact.dataset.projectAction = "download-frozen";
+    missingArtifact.dataset.manifestId = "missing";
+    host.append(missingArtifact);
+    missingArtifact.click();
+    expect(host.querySelector("#project-manager-status")?.textContent).toContain("missing its identity");
+  });
+
+  it("handles identical and failed comparisons, then browser-downloads the stored frozen bytes", async () => {
+    vi.stubGlobal("Blob", NodeBlob);
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const projectId = "11111111-1111-4111-8111-111111111111";
+    const styleId = "22222222-2222-4222-8222-222222222222";
+    const ids = [projectId, styleId];
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: { name: `project-revision-browser-${Date.now()}`, factory: new IDBFactory(), crypto: webcrypto as unknown as Crypto },
+      storage: { getItem: () => null },
+      idFactory: () => ids.shift() ?? "33333333-3333-4333-8333-333333333333",
+      now: () => TIME,
+    });
+    const host = document.createElement("div");
+    document.body.append(host);
+    const manager = new ProjectManager({
+      host,
+      workflow,
+      getCurrentDesign: () => workflow.snapshot.activeStyle.design,
+      getBlankDesign: () => workflow.snapshot.activeStyle.design,
+      hasUnsavedChanges: () => false,
+      onStyleLoaded: vi.fn(),
+      setBusy: vi.fn(),
+      canFreezeOutputs: () => true,
+      getFrozenOutputSet: () => ({
+        selectedSizes: [{ sizeId: "tee-step-1", label: "M" }],
+        artifacts: [
+          ["selected-size-a0-pdf", "pdf"], ["selected-size-dxf", "dxf"], ["selected-size-svg", "svg"],
+          ["selected-size-tiled-pdf", "pdf"], ["whole-run-projector-svg", "svg"],
+          ["whole-run-surface-sheet-svg", "svg"], ["whole-run-tech-pack-pdf", "pdf"],
+        ].map(([artifactId, extension]) => ({
+          artifactId: artifactId!, extension: extension!, displayName: `${artifactId}.${extension}`,
+          mediaType: extension === "svg" ? "image/svg+xml" : extension === "dxf" ? "image/vnd.dxf" : "application/pdf",
+          content: `frozen:${artifactId}`,
+        })),
+      }),
+    });
+    try {
+      const firstRevisionId = workflow.snapshot.activeStyle.revisionHeadId!;
+      await workflow.saveActiveDesign({
+        ...workflow.snapshot.activeStyle.design,
+        measurements: { ...workflow.snapshot.activeStyle.design.measurements, chest: workflow.snapshot.activeStyle.design.measurements.chest + 1 },
+      });
+      manager.refresh();
+      const left = host.querySelector<HTMLSelectElement>("#revision-left")!;
+      const right = host.querySelector<HTMLSelectElement>("#revision-right")!;
+      left.value = firstRevisionId;
+      right.value = firstRevisionId;
+      const compare = host.querySelector<HTMLButtonElement>("[data-project-action='compare-revisions']")!;
+      compare.disabled = false;
+      compare.click();
+      expect(host.querySelector(".project-revision-comparison")?.textContent)
+        .toBe("The saved design and field history are identical.");
+
+      host.querySelector("#revision-left")?.remove();
+      host.querySelector("#revision-right")?.remove();
+      host.querySelector("[data-project-action='compare-revisions']")?.remove();
+      const fallbackCompare = document.createElement("button");
+      fallbackCompare.dataset.projectAction = "compare-revisions";
+      host.append(fallbackCompare);
+      fallbackCompare.click();
+      expect(host.querySelector(".project-revision-comparison")?.textContent)
+        .toBe("The saved design and field history are identical.");
+
+      vi.spyOn(workflow, "compareStyleRevisions").mockImplementation(() => { throw new Error("comparison source failed"); });
+      host.querySelector("[data-project-action='compare-revisions']")!.dispatchEvent(new Event("click", { bubbles: true, cancelable: true }));
+      expect(host.querySelector(".project-revision-comparison")?.textContent).toBe("comparison source failed");
+
+      await (manager as unknown as { freezeOutputs(): Promise<void> }).freezeOutputs();
+      const manifest = workflow.snapshot.exportManifests[0]!;
+      const artifact = manifest.artifacts[0]!;
+      vi.spyOn(workflow, "readFrozenArtifact").mockResolvedValue({
+        manifest,
+        artifact: { ...artifact, displayName: "", bytes: artifact.bytes },
+      });
+      const urlApi = { createObjectURL: vi.fn(() => "blob:frozen-output"), revokeObjectURL: vi.fn() };
+      vi.stubGlobal("URL", urlApi);
+      const anchorClick = vi.spyOn(HTMLAnchorElement.prototype, "click").mockImplementation(() => undefined);
+      const download = document.createElement("button");
+      download.dataset.projectAction = "download-frozen";
+      download.dataset.manifestId = manifest.manifestId;
+      download.dataset.artifactId = artifact.artifactId;
+      host.append(download);
+      download.click();
+      await vi.waitFor(() => expect(host.querySelector("#project-manager-status")?.textContent).toContain("Downloaded stored bytes for frozen-output"));
+      expect(urlApi.createObjectURL).toHaveBeenCalledOnce();
+      expect(anchorClick).toHaveBeenCalledOnce();
+    } finally {
+      workflow.close();
+      host.remove();
+      document.querySelector("#project-operation-cancel")?.remove();
+      vi.unstubAllGlobals();
+    }
   });
 
   it("creates, duplicates, renames, switches, archives, and restores styles", async () => {
@@ -232,6 +533,7 @@ describe("accessible project and style manager", () => {
       storage: localStorage,
       idFactory: () => idValues.shift() ?? "77777777-7777-4777-8777-777777777777",
       now: () => TIME,
+      artworkStore,
     });
     const host = document.createElement("div");
     document.body.append(host);

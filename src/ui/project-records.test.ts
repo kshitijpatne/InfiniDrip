@@ -8,6 +8,7 @@ import {
   parseMigrationRecord,
   parseProjectRecord,
   parseRecoveryRecord,
+  parseSavedDesignRecord,
   parseStyleRecord,
   validateProjectBundle,
   type ProjectRecord,
@@ -196,13 +197,23 @@ describe("strict project and style records", () => {
     expect(parseStyleRecord({ ...style, design: { ...style.design, measurements: cyclicMeasurements } }).ok).toBe(false);
     expect(parseStyleRecord(style).ok).toBe(true);
     expect(parseStyleRecord({ ...style, archivedAt: TIME }).ok).toBe(true);
+    expect(parseSavedDesignRecord(style.design).ok).toBe(true);
+    expect(parseSavedDesignRecord({ ...style.design, workspace: { ...style.design.workspace, unexpected: true } }).ok).toBe(false);
+    expect(parseStyleRecord({ ...style, revisionHeadId: "not-a-revision-id" }).ok).toBe(false);
     const legacyDesign = { ...style.design } as Record<string, unknown>;
     delete legacyDesign.semanticEdits;
     const legacyStyle: Record<string, unknown> = { ...style, schemaVersion: 1, design: legacyDesign };
     delete legacyStyle.archivedAt;
+    delete legacyStyle.revisionHeadId;
     expect(parseStyleRecord(legacyStyle)).toMatchObject({
       ok: true,
-      value: { schemaVersion: 3, archivedAt: null, design: { semanticEdits: null } },
+      value: { schemaVersion: 4, archivedAt: null, revisionHeadId: null, design: { semanticEdits: null } },
+    });
+    const semanticV3: Record<string, unknown> = { ...style, schemaVersion: 3 };
+    delete semanticV3.revisionHeadId;
+    expect(parseStyleRecord(semanticV3)).toMatchObject({
+      ok: true,
+      value: { schemaVersion: 4, revisionHeadId: null, design: { semanticEdits: style.design.semanticEdits } },
     });
   });
 
@@ -214,6 +225,14 @@ describe("strict project and style records", () => {
     expect(parseRecoveryRecord({ ...recovery, styleId: "bad" }).ok).toBe(false);
     expect(parseRecoveryRecord({ ...recovery, payload: { ...recovery.payload, unknown: true } }).ok).toBe(false);
     expect(parseRecoveryRecord({ ...recovery, payload: { ...recovery.payload, fabric: "bad" } }).ok).toBe(false);
+    expect(parseRecoveryRecord({
+      ...recovery,
+      schemaVersion: 2,
+      payload: { ...recovery.payload, semanticEdits: recovery.payload.semanticEdits ?? null },
+    }).ok).toBe(true);
+    const legacyPayload = { ...recovery.payload } as Record<string, unknown>;
+    delete legacyPayload.semanticEdits;
+    expect(parseRecoveryRecord({ schemaVersion: 1, styleId: STYLE_ID, payload: legacyPayload }).ok).toBe(true);
     const cyclicMeasurements = { ...recovery.payload.measurements, chest: null } as Record<string, unknown>;
     cyclicMeasurements.chest = cyclicMeasurements;
     const cyclicPayload = { ...recovery.payload, measurements: cyclicMeasurements };

@@ -14,6 +14,21 @@ import {
   type FieldObservationRecord,
 } from "./field-provenance";
 import {
+  createStyleRevision,
+  FROZEN_ARTIFACT_LIMIT,
+  FROZEN_ARTIFACT_IDS,
+  jcsSha256Hex,
+  parseFrozenOutputManifestRecord,
+  parseStyleRevisionRecord,
+  verifyFrozenOutputManifest,
+  verifyFrozenOutputManifestMetadata,
+  verifyStyleRevision,
+  type FrozenOutputManifestRecord,
+  type RevisionManifestArtifact,
+  type StyleRevisionRecord,
+} from "./style-revisions";
+import { ARTWORK_CATALOG } from "../surface/artwork-library/catalog";
+import {
   parseProjectRecord,
   parseRecoveryRecord,
   parseStyleRecord,
@@ -30,11 +45,14 @@ import {
 } from "./project-repository";
 
 export const PROJECT_PACKAGE_FORMAT = "infinidrip-project";
-export const PROJECT_PACKAGE_VERSION = 2;
+export const PROJECT_PACKAGE_VERSION = 3;
 export const PROJECT_PACKAGE_MAX_BYTES = 256 * 1024 * 1024;
 export const PROJECT_PACKAGE_MAX_CONTENT_BYTES = 256 * 1024 * 1024;
 export const PROJECT_PACKAGE_MAX_ASSETS = 128;
 export const PROJECT_PACKAGE_MAX_MANIFEST_BYTES = 32 * 1024 * 1024;
+export const PROJECT_PACKAGE_MAX_FROZEN_MANIFESTS = 256;
+export const PROJECT_PACKAGE_MAX_FROZEN_ARTIFACTS = PROJECT_PACKAGE_MAX_FROZEN_MANIFESTS * FROZEN_ARTIFACT_IDS.length;
+export const PROJECT_PACKAGE_MAX_ZIP_ENTRIES = PROJECT_PACKAGE_MAX_ASSETS + PROJECT_PACKAGE_MAX_FROZEN_ARTIFACTS + 1;
 const ZIP_EOCD_BYTES = 22;
 const ZIP_EOCD_MAX_COMMENT = 0xffff;
 const ZIP_LOCAL_HEADER_BYTES = 30;
@@ -80,6 +98,7 @@ export interface ProjectPackageOptions {
   readonly onProgress?: (progress: ProjectPackageProgress) => void;
   readonly now?: () => string;
   readonly idFactory?: () => string;
+  readonly revisionIdFactory?: () => string;
   readonly inspectAsset?: (file: File) => Promise<InspectedArtworkFile>;
 }
 
@@ -96,13 +115,24 @@ export interface ProjectPackageAssetRecord {
 
 export interface ProjectPackageManifest {
   readonly format: typeof PROJECT_PACKAGE_FORMAT;
-  readonly packageVersion: 1 | typeof PROJECT_PACKAGE_VERSION;
+  readonly packageVersion: 1 | 2 | typeof PROJECT_PACKAGE_VERSION;
   readonly packageSha256: string;
   readonly project: ProjectRecord;
   readonly styles: readonly StyleRecord[];
   readonly recoveries: readonly RecoveryRecord[];
   readonly fieldObservations: readonly FieldObservationRecord[];
+  readonly styleRevisions: readonly StyleRevisionRecord[];
+  readonly exportManifests: readonly ProjectPackageFrozenManifest[];
   readonly assets: readonly ProjectPackageAssetRecord[];
+}
+
+export interface ProjectPackageFrozenArtifact extends Omit<RevisionManifestArtifact, "bytes"> {
+  readonly archivePath: string;
+}
+
+/** JSON-only metadata; exact bytes live in separately hashed ZIP members. */
+export interface ProjectPackageFrozenManifest extends Omit<FrozenOutputManifestRecord, "artifacts"> {
+  readonly artifacts: readonly ProjectPackageFrozenArtifact[];
 }
 
 export interface ProjectPackageEntry {
@@ -119,6 +149,7 @@ export interface ProjectPackageArchive {
   readonly blob: Blob;
   readonly manifest: ProjectPackageManifest;
   readonly entries: ReadonlyMap<string, ProjectPackageEntry>;
+  readonly frozenManifests: readonly FrozenOutputManifestRecord[];
   readonly packageSha256: string;
 }
 
@@ -197,6 +228,137 @@ function assetRefs(styles: readonly StyleRecord[]): Map<string, Set<string>> {
   return refs;
 }
 
+function addDesignAssetRefs(refs: Map<string, Set<string>>, design: StyleRecord["design"], revisionId: string): void {
+  for (const surface of Object.values(design.surface)) {
+    for (const placement of surface.placements as readonly import("../surface/placement").ArtworkPlacement[]) {
+      const assetId = placement.assetId;
+      if (!assetId || !isLocalArtworkAssetId(assetId)) continue;
+      const labels = refs.get(assetId) ?? new Set<string>();
+      labels.add(`revision:${revisionId}`);
+      refs.set(assetId, labels);
+    }
+  }
+}
+
+function historyAssetRefs(styles: readonly StyleRecord[], revisions: readonly StyleRevisionRecord[]): Map<string, Set<string>> {
+  const refs = assetRefs(styles);
+  for (const revision of revisions) addDesignAssetRefs(refs, revision.payload.design, revision.revisionId);
+  return refs;
+}
+
+function frozenArchivePath(manifestId: string, artifactPath: string): string {
+  const filename = artifactPath.slice("artifacts/".length);
+  if (!/^[a-z0-9][a-z0-9-]{0,63}\.[a-z0-9]{1,8}$/.test(filename)) {
+    throw new ProjectPackageError("invalid-package", "Frozen output path is not a supported artifact filename.");
+  }
+  return `frozen/${manifestId}/${filename}`;
+}
+
+function packageFrozenManifest(record: FrozenOutputManifestRecord): ProjectPackageFrozenManifest {
+  return {
+    ...record,
+    artifacts: record.artifacts.map(({ bytes: _bytes, ...artifact }) => ({
+      ...artifact,
+      archivePath: frozenArchivePath(record.manifestId, artifact.path),
+    })),
+  };
+}
+
+async function normalizeSnapshotHistory(
+  snapshot: ProjectBundleSnapshot,
+  artworkStore: ArtworkAssetStore,
+  options: ProjectPackageOptions,
+): Promise<{ styles: StyleRecord[]; revisions: StyleRevisionRecord[]; manifests: FrozenOutputManifestRecord[] }> {
+  const idFactory = options.revisionIdFactory ?? freshUuid;
+  const usedIds = new Set<string>();
+  const revisions = [...(snapshot.styleRevisions ?? [])];
+  const manifests = [...(snapshot.exportManifests ?? [])];
+  const styles = [...snapshot.styles];
+  for (const id of [snapshot.project.id, ...styles.map((style) => style.id)]) usedIds.add(id.toLowerCase());
+  const observations = new Map((snapshot.fieldObservations ?? styles.map((style) =>
+    createFieldObservationRecord(style, style.updatedAt, "existing-local-style"))).map((record) => [record.styleId, record]));
+  if (historyAssetRefs(styles, revisions).size > PROJECT_PACKAGE_MAX_ASSETS) {
+    throw new ProjectPackageError("limit-exceeded", `A package can contain at most ${PROJECT_PACKAGE_MAX_ASSETS} referenced artwork files.`);
+  }
+  subtleCrypto(options);
+  if (revisions.some((revision) => !styles.some((style) => style.id === revision.styleId))) {
+    throw new ProjectPackageError("invalid-package", "A style revision references a style outside this project.");
+  }
+  for (const revision of revisions) {
+    if (!parseStyleRevisionRecord(revision) || !await verifyStyleRevision(revision, options.crypto)) {
+      throw new ProjectPackageError("invalid-package", `Style revision ${revision.revisionId} failed integrity validation.`);
+    }
+    usedIds.add(revision.revisionId.toLowerCase());
+  }
+  for (const manifest of manifests) {
+    if (!parseFrozenOutputManifestRecord(manifest) || !await verifyFrozenOutputManifest(manifest, options.crypto)) {
+      throw new ProjectPackageError("invalid-package", `Frozen output manifest ${manifest.manifestId} failed integrity validation.`);
+    }
+    usedIds.add(manifest.manifestId.toLowerCase());
+  }
+  for (let index = 0; index < styles.length; index += 1) {
+    const style = styles[index]!;
+    const history = revisions.filter((revision) => revision.styleId === style.id).sort((a, b) => a.revisionNumber - b.revisionNumber);
+    if (history.length > 0) {
+      if (!style.revisionHeadId || history[history.length - 1]?.revisionId !== style.revisionHeadId
+        || history[0]?.parentRevisionId !== null || history[0]?.revisionNumber !== 1
+        || history.some((revision, at) => revision.revisionNumber !== at + 1
+          || revision.parentRevisionId !== (at === 0 ? null : history[at - 1]!.revisionId))
+        || canonical(history[history.length - 1]!.payload.design) !== canonical(style.design)) {
+        throw new ProjectPackageError("invalid-package", `Style ${style.id} does not point to the latest immutable revision.`);
+      }
+      continue;
+    }
+    if (style.revisionHeadId !== null) {
+      throw new ProjectPackageError("invalid-package", `Style ${style.id} has a revision head but no included history.`);
+    }
+    const revisionId = uniqueUuid(idFactory, usedIds);
+    const fieldObservations = observations.get(style.id);
+    if (!fieldObservations) throw new ProjectPackageError("invalid-package", `Style ${style.id} has no field-history baseline.`);
+    const references = new Set<string>();
+    for (const surface of Object.values(style.design.surface)) {
+      for (const placement of surface.placements as readonly import("../surface/placement").ArtworkPlacement[]) {
+        if (placement.assetId) references.add(placement.assetId);
+      }
+    }
+    const artwork = [];
+    for (const assetId of [...references].sort()) {
+      if (!isLocalArtworkAssetId(assetId)) {
+        const bundled = ARTWORK_CATALOG.find((record) => record.assetId === assetId);
+        if (!bundled) throw new ProjectPackageError("invalid-package", `Baseline revision artwork ${assetId} is not available in the local catalog.`);
+        artwork.push({ assetId, mimeType: bundled.image.mimeType, byteLength: bundled.image.byteLength, sha256: bundled.image.sha256 });
+        continue;
+      }
+      const asset = await artworkStore.get(assetId);
+      if (!asset) throw new ProjectPackageError("missing-asset", `Baseline revision artwork ${assetId} disappeared from local storage during backup preparation.`);
+      artwork.push({ assetId, mimeType: asset.mimeType, byteLength: asset.blob.size, sha256: await hashBlob(asset.blob, options) });
+    }
+    revisions.push(await createStyleRevision({
+      styleId: style.id,
+      revisionId,
+      parentRevisionId: null,
+      revisionNumber: 1,
+      createdAt: style.updatedAt,
+      design: style.design,
+      fieldObservations,
+      artwork,
+    }, options.crypto));
+    styles[index] = { ...style, revisionHeadId: revisionId };
+  }
+  if (manifests.length > PROJECT_PACKAGE_MAX_FROZEN_MANIFESTS) {
+    throw new ProjectPackageError("limit-exceeded", `A package can include at most ${PROJECT_PACKAGE_MAX_FROZEN_MANIFESTS} frozen output captures.`);
+  }
+  const revisionById = new Map(revisions.map((revision) => [revision.revisionId, revision]));
+  for (const manifest of manifests) {
+    const revision = revisionById.get(manifest.revisionId);
+    if (!revision || revision.styleId !== manifest.styleId
+      || revision.revisionContentDigest !== manifest.payload.revisionContentDigest) {
+      throw new ProjectPackageError("invalid-package", `Frozen output manifest ${manifest.manifestId} does not match an included immutable revision.`);
+    }
+  }
+  return { styles, revisions, manifests };
+}
+
 function safeAssetMetadata(asset: StoredArtworkAsset): void {
   const suffix = mimeForAssetId(asset.assetId);
   if (!isLocalArtworkAssetId(asset.assetId) || suffix === null || ASSET_MIME_BY_SUFFIX[suffix] !== asset.mimeType
@@ -223,8 +385,13 @@ function throwZipError(error: unknown): never {
   throw new ProjectPackageError("invalid-package", error instanceof Error ? error.message : "ZIP processing failed.");
 }
 
-async function hashBlob(blob: Blob, options: ProjectPackageOptions): Promise<string> {
-  if (blob.size > 10 * 1024 * 1024) throw new ProjectPackageError("limit-exceeded", "Artwork files must be 10 MiB or smaller.");
+async function hashBlob(
+  blob: Blob,
+  options: ProjectPackageOptions,
+  maxBytes = 10 * 1024 * 1024,
+  limitMessage = "Artwork files must be 10 MiB or smaller.",
+): Promise<string> {
+  if (blob.size > maxBytes) throw new ProjectPackageError("limit-exceeded", limitMessage);
   const bytes = new Uint8Array(await blob.arrayBuffer());
   return sha256(bytes, options);
 }
@@ -235,10 +402,8 @@ export async function createProjectPackage(
   artworkStore: ArtworkAssetStore,
   options: ProjectPackageOptions = {},
 ): Promise<Blob> {
-  const refs = assetRefs(snapshot.styles);
-  if (refs.size > PROJECT_PACKAGE_MAX_ASSETS) {
-    throw new ProjectPackageError("limit-exceeded", `A package can contain at most ${PROJECT_PACKAGE_MAX_ASSETS} referenced artwork files.`);
-  }
+  const history = await normalizeSnapshotHistory(snapshot, artworkStore, options);
+  const refs = historyAssetRefs(history.styles, history.revisions);
   const assetRecords: ProjectPackageAssetRecord[] = [];
   const sourceAssets: StoredArtworkAsset[] = [];
   let assetBytes = 0;
@@ -246,7 +411,7 @@ export async function createProjectPackage(
   for (const assetId of referenced) {
     checkCancelled(options.signal);
     const asset = await artworkStore.get(assetId);
-    if (!asset) throw new ProjectPackageError("missing-asset", `Project backup is blocked because artwork ${assetId} is missing.`);
+    if (!asset) throw new ProjectPackageError("missing-asset", `Project backup is blocked because artwork ${assetId} disappeared from local storage during backup creation.`);
     safeAssetMetadata(asset);
     assetBytes += asset.blob.size;
     if (assetBytes > PROJECT_PACKAGE_MAX_CONTENT_BYTES) {
@@ -272,14 +437,34 @@ export async function createProjectPackage(
     progress(options, "prepare", completed, assetBytes);
   }
 
+  const packageManifests = history.manifests.map(packageFrozenManifest);
+  const frozenArtifacts = history.manifests.flatMap((record) => record.artifacts.map((artifact) => ({
+    path: frozenArchivePath(record.manifestId, artifact.path),
+    blob: artifact.bytes,
+    byteLength: artifact.byteLength,
+    sha256: artifact.sha256,
+    name: artifact.displayName,
+  })));
+  for (const artifact of frozenArtifacts) {
+    if (artifact.blob.size !== artifact.byteLength
+      || await hashBlob(artifact.blob, options, FROZEN_ARTIFACT_LIMIT, "Frozen outputs must be 32 MiB or smaller.") !== artifact.sha256) {
+      throw new ProjectPackageError("invalid-package", `Frozen output ${artifact.name} changed during backup creation.`);
+    }
+    assetBytes += artifact.byteLength;
+    if (assetBytes > PROJECT_PACKAGE_MAX_CONTENT_BYTES) {
+      throw new ProjectPackageError("limit-exceeded", "Project records, artwork and frozen outputs exceed the 256 MiB uncompressed package limit.");
+    }
+  }
   const body: Omit<ProjectPackageManifest, "packageSha256"> = {
     format: PROJECT_PACKAGE_FORMAT,
     packageVersion: PROJECT_PACKAGE_VERSION,
     project: snapshot.project,
-    styles: snapshot.styles,
+    styles: history.styles,
     recoveries: snapshot.recoveries,
     fieldObservations: snapshot.fieldObservations ?? snapshot.styles.map((style) =>
       createFieldObservationRecord(style, style.updatedAt, "existing-local-style")),
+    styleRevisions: history.revisions,
+    exportManifests: packageManifests,
     assets: assetRecords,
   };
   const packageSha256 = await sha256(new TextEncoder().encode(canonical(body)), options);
@@ -288,10 +473,10 @@ export async function createProjectPackage(
   if (manifestBytes.byteLength > PROJECT_PACKAGE_MAX_MANIFEST_BYTES) {
     throw new ProjectPackageError("limit-exceeded", "Project manifest exceeds the 1 MiB package limit.");
   }
-  if (assetBytes + manifestBytes.byteLength > PROJECT_PACKAGE_MAX_CONTENT_BYTES) {
+  const contentBytes = assetBytes;
+  if (contentBytes + manifestBytes.byteLength > PROJECT_PACKAGE_MAX_CONTENT_BYTES) {
     throw new ProjectPackageError("limit-exceeded", "Project package content exceeds the 256 MiB uncompressed limit.");
   }
-
   const parts: BlobPart[] = [];
   let archiveBytes = 0;
   let writeCompleted = 0;
@@ -325,7 +510,7 @@ export async function createProjectPackage(
     zip.add(manifestFile);
     manifestFile.push(manifestBytes, true);
     writeCompleted = manifestBytes.byteLength;
-    progress(options, "write", writeCompleted, manifestBytes.byteLength + assetBytes);
+    progress(options, "write", writeCompleted, manifestBytes.byteLength + contentBytes);
     for (const record of assetRecords) {
       checkCancelled(options.signal);
       const asset = await artworkStore.get(record.assetId);
@@ -347,7 +532,7 @@ export async function createProjectPackage(
           length += chunk.byteLength;
           file.push(chunk);
           writeCompleted += chunk.byteLength;
-          progress(options, "write", writeCompleted, manifestBytes.byteLength + assetBytes);
+          progress(options, "write", writeCompleted, manifestBytes.byteLength + contentBytes);
         }
         file.push(new Uint8Array(0), true);
       } finally {
@@ -355,6 +540,31 @@ export async function createProjectPackage(
       }
       if (length !== record.byteLength) {
         throw new ProjectPackageError("invalid-package", `Artwork ${record.assetId} changed during backup creation; retry the backup.`);
+      }
+    }
+    for (const artifact of frozenArtifacts) {
+      checkCancelled(options.signal);
+      const file = new ZipPassThrough(artifact.path);
+      zip.add(file);
+      let length = 0;
+      const reader = artifact.blob.stream().getReader();
+      try {
+        while (true) {
+          checkCancelled(options.signal);
+          const next = await reader.read();
+          if (next.done) break;
+          const chunk = next.value;
+          length += chunk.byteLength;
+          file.push(chunk);
+          writeCompleted += chunk.byteLength;
+          progress(options, "write", writeCompleted, manifestBytes.byteLength + contentBytes);
+        }
+        file.push(new Uint8Array(0), true);
+      } finally {
+        reader.releaseLock();
+      }
+      if (length !== artifact.byteLength) {
+        throw new ProjectPackageError("invalid-package", `Frozen output ${artifact.name} changed during backup creation.`);
       }
     }
     zip.end();
@@ -402,7 +612,7 @@ async function preflightZip(blob: Blob): Promise<Map<string, ProjectPackageEntry
   const directoryOffset = end.getUint32(eocdInTail + 16, true);
   const commentLength = end.getUint16(eocdInTail + 20, true);
   if (disk !== 0 || directoryDisk !== 0 || diskCount !== count || count < 1
-    || count > PROJECT_PACKAGE_MAX_ASSETS + 1 || count === 0xffff
+    || count > PROJECT_PACKAGE_MAX_ZIP_ENTRIES || count === 0xffff
     || directoryBytes === 0xffffffff || directoryOffset === 0xffffffff
     || commentLength !== 0 || directoryBytes > PROJECT_PACKAGE_MAX_MANIFEST_BYTES
     || directoryOffset + directoryBytes !== eocdOffset) {
@@ -473,8 +683,9 @@ async function preflightZip(blob: Blob): Promise<Map<string, ProjectPackageEntry
   const ordered = [...entries.values()];
   if (ordered[0]?.path !== "manifest.json") throw new ProjectPackageError("invalid-package", "The package manifest must be the first ZIP entry.");
   for (const entry of ordered.slice(1)) {
-    if (!/^assets\/local-[0-9a-f]{32}-(?:png|jpg|webp|svg)$/i.test(entry.path)) {
-      throw new ProjectPackageError("invalid-package", `ZIP entry path ${entry.path} is not a supported local artwork path.`);
+    if (!/^assets\/local-[0-9a-f]{32}-(?:png|jpg|webp|svg)$/i.test(entry.path)
+      && !/^frozen\/[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}\/[a-z0-9][a-z0-9-]{0,63}\.[a-z0-9]{1,8}$/i.test(entry.path)) {
+      throw new ProjectPackageError("invalid-package", `ZIP entry path ${entry.path} is not a supported local artwork or frozen-output path.`);
     }
   }
   return entries;
@@ -572,23 +783,75 @@ async function inflateStoredEntry(
   return concat(chunks, length);
 }
 
+function parsePackageFrozenManifest(value: unknown): ProjectPackageFrozenManifest {
+  if (typeof value !== "object" || value === null || Array.isArray(value)
+    || !Array.isArray((value as Record<string, unknown>).artifacts)) {
+    throw new ProjectPackageError("invalid-package", "Frozen output manifest metadata is malformed.");
+  }
+  const raw = value as Record<string, unknown>;
+  const rawArtifacts = raw.artifacts as unknown[];
+  const artifacts = rawArtifacts.map((entry) => {
+    if (typeof entry !== "object" || entry === null || Array.isArray(entry)) {
+      throw new ProjectPackageError("invalid-package", "Frozen output artifact metadata is malformed.");
+    }
+    const artifact = entry as Record<string, unknown>;
+    if (typeof artifact.byteLength !== "number" || !Number.isSafeInteger(artifact.byteLength)
+      || artifact.byteLength < 1 || typeof artifact.path !== "string"
+      || typeof raw.manifestId !== "string" || artifact.archivePath !== frozenArchivePath(raw.manifestId, artifact.path)) {
+      throw new ProjectPackageError("invalid-package", "Frozen output archive paths or byte limits are invalid.");
+    }
+    return {
+      artifactId: artifact.artifactId,
+      path: artifact.path,
+      displayName: artifact.displayName,
+      mediaType: artifact.mediaType,
+      byteLength: artifact.byteLength,
+      sha256: artifact.sha256,
+      bytes: metadataOnlyBlob(artifact.byteLength),
+    };
+  });
+  const parsed = parseFrozenOutputManifestRecord({ ...raw, artifacts });
+  if (!parsed) throw new ProjectPackageError("invalid-package", "Frozen output manifest metadata failed strict validation.");
+  return { ...parsed, artifacts: rawArtifacts as ProjectPackageFrozenArtifact[] };
+}
+
+function metadataOnlyBlob(size: number): Blob {
+  const placeholder = Object.create(Blob.prototype) as Blob;
+  Object.defineProperty(placeholder, "size", { value: size, enumerable: true });
+  return placeholder;
+}
+
 function validateManifestShape(value: unknown): ProjectPackageManifest {
   const version = typeof value === "object" && value !== null && !Array.isArray(value)
     ? (value as Record<string, unknown>).packageVersion : undefined;
   const expectedKeys = version === 1
     ? ["format", "packageVersion", "packageSha256", "project", "styles", "recoveries", "assets"]
-    : ["format", "packageVersion", "packageSha256", "project", "styles", "recoveries", "fieldObservations", "assets"];
+    : version === 2
+      ? ["format", "packageVersion", "packageSha256", "project", "styles", "recoveries", "fieldObservations", "assets"]
+      : ["format", "packageVersion", "packageSha256", "project", "styles", "recoveries", "fieldObservations", "styleRevisions", "exportManifests", "assets"];
   if (!exactObject(value, expectedKeys)
-    || value.format !== PROJECT_PACKAGE_FORMAT || (value.packageVersion !== 1 && value.packageVersion !== PROJECT_PACKAGE_VERSION)
+    || value.format !== PROJECT_PACKAGE_FORMAT || (value.packageVersion !== 1 && value.packageVersion !== 2 && value.packageVersion !== PROJECT_PACKAGE_VERSION)
     || typeof value.packageSha256 !== "string" || !/^[0-9a-f]{64}$/.test(value.packageSha256)
     || !Array.isArray(value.styles) || !Array.isArray(value.recoveries) || !Array.isArray(value.assets)
-    || (value.packageVersion === PROJECT_PACKAGE_VERSION && !Array.isArray(value.fieldObservations))) {
+    || (value.packageVersion >= 2 && !Array.isArray(value.fieldObservations))
+    || (value.packageVersion === PROJECT_PACKAGE_VERSION && (!Array.isArray(value.styleRevisions) || !Array.isArray(value.exportManifests)))) {
     throw new ProjectPackageError("invalid-package", "Project package manifest is incomplete, unknown, or unsupported.");
   }
   const project = parseProjectRecord(value.project);
   if (!project.ok) throw new ProjectPackageError("invalid-package", project.error);
   const styles = value.styles.map((style) => {
-    const parsed = parseStyleRecord(style);
+    // Package v1 predates semantic edit documents. Its style record used the
+    // prior v2 design shape even when its style schema marker was 3, so map
+    // that exact legacy package case through the existing v2 upgrader.
+    const legacyV1Style = value.packageVersion === 1
+      && typeof style === "object" && style !== null && !Array.isArray(style)
+      && (style as Record<string, unknown>).schemaVersion === 3
+      && typeof (style as Record<string, unknown>).design === "object"
+      && (style as Record<string, unknown>).design !== null
+      && !Object.prototype.hasOwnProperty.call((style as Record<string, unknown>).design, "semanticEdits");
+    const parsed = parseStyleRecord(legacyV1Style
+      ? { ...(style as Record<string, unknown>), schemaVersion: 2 }
+      : style);
     if (!parsed.ok) throw new ProjectPackageError("invalid-package", parsed.error);
     return parsed.value;
   });
@@ -620,6 +883,42 @@ function validateManifestShape(value: unknown): ProjectPackageManifest {
     || styles.some((style) => !fieldObservations.some((record) => record.styleId === style.id))) {
     throw new ProjectPackageError("invalid-package", "Every style must have exactly one source-aware field history record.");
   }
+  const suppliedRevisions = Array.isArray(value.styleRevisions) ? value.styleRevisions : [];
+  const styleRevisions: StyleRevisionRecord[] = value.packageVersion < 3 ? [] : suppliedRevisions.map((revision: unknown) => {
+    const parsed = parseStyleRevisionRecord(revision);
+    if (!parsed || !styleIds.has(parsed.styleId)) {
+      throw new ProjectPackageError("invalid-package", "A style revision is malformed or references a style outside this project.");
+    }
+    return parsed;
+  });
+  if (new Set(styleRevisions.map((revision) => revision.revisionId)).size !== styleRevisions.length) {
+    throw new ProjectPackageError("invalid-package", "Package style revision IDs are duplicated.");
+  }
+  for (const style of styles) {
+    const history = styleRevisions.filter((revision) => revision.styleId === style.id)
+      .sort((left, right) => left.revisionNumber - right.revisionNumber);
+    if (history.length === 0) {
+      if (value.packageVersion === 3 || style.revisionHeadId !== null) {
+        throw new ProjectPackageError("invalid-package", `Style ${style.id} is missing its immutable revision history.`);
+      }
+      continue;
+    }
+    if (history[0]!.revisionNumber !== 1 || history[0]!.parentRevisionId !== null
+      || history.some((revision, index) => revision.revisionNumber !== index + 1
+        || revision.parentRevisionId !== (index === 0 ? null : history[index - 1]!.revisionId))
+      || style.revisionHeadId !== history[history.length - 1]!.revisionId) {
+      throw new ProjectPackageError("invalid-package", `Style ${style.id} revision history is not a complete parent-linked chain.`);
+    }
+  }
+  const suppliedManifests = Array.isArray(value.exportManifests) ? value.exportManifests : [];
+  const exportManifests: ProjectPackageFrozenManifest[] = value.packageVersion < 3 ? [] : suppliedManifests.map(parsePackageFrozenManifest);
+  if (exportManifests.length > PROJECT_PACKAGE_MAX_FROZEN_MANIFESTS) {
+    throw new ProjectPackageError("limit-exceeded", "Package contains too many frozen output captures or artifacts.");
+  }
+  const revisionIds = new Set(styleRevisions.map((revision) => revision.revisionId));
+  if (exportManifests.some((manifest) => !styleIds.has(manifest.styleId) || !revisionIds.has(manifest.revisionId))) {
+    throw new ProjectPackageError("invalid-package", "A frozen output capture references a missing style or revision.");
+  }
   if (value.assets.length > PROJECT_PACKAGE_MAX_ASSETS) {
     throw new ProjectPackageError("limit-exceeded", `A package can contain at most ${PROJECT_PACKAGE_MAX_ASSETS} artwork files.`);
   }
@@ -645,8 +944,8 @@ function validateManifestShape(value: unknown): ProjectPackageManifest {
   if (new Set(assets.map((asset) => asset.assetId)).size !== assets.length) {
     throw new ProjectPackageError("invalid-package", "Project package asset IDs are duplicated.");
   }
-  const refs = assetRefs(styles);
-  if (refs.size !== assets.length) throw new ProjectPackageError("invalid-package", "Manifest artwork does not exactly match the style's local artwork references.");
+  const refs = historyAssetRefs(styles, styleRevisions);
+  if (refs.size !== assets.length) throw new ProjectPackageError("invalid-package", "Manifest artwork does not exactly match the current and historical local artwork references.");
   for (const asset of assets) {
     const labels = [...(refs.get(asset.assetId) ?? [])].sort();
     if (JSON.stringify(labels) !== JSON.stringify([...asset.attribution].sort())) {
@@ -661,6 +960,8 @@ function validateManifestShape(value: unknown): ProjectPackageManifest {
     styles: bundle.value.styles,
     recoveries,
     fieldObservations,
+    styleRevisions,
+    exportManifests,
     assets,
   };
 }
@@ -683,14 +984,17 @@ export async function readProjectPackage(
     throw new ProjectPackageError("invalid-package", "Project package manifest is not valid UTF-8 JSON.");
   }
   const manifest = validateManifestShape(parsed);
-  if (entries.size !== manifest.assets.length + 1) {
-    throw new ProjectPackageError("invalid-package", "ZIP files and manifest asset entries do not match exactly.");
+  const expectedEntries = new Map<string, number>();
+  for (const asset of manifest.assets) expectedEntries.set(asset.path, asset.byteLength);
+  for (const frozen of manifest.exportManifests) {
+    for (const artifact of frozen.artifacts) expectedEntries.set(artifact.archivePath, artifact.byteLength);
   }
-  const inputAssets = new Map(manifest.assets.map((asset) => [asset.assetId, asset]));
+  if (entries.size !== expectedEntries.size + 1) throw new ProjectPackageError("invalid-package", "ZIP files and manifest asset entries do not match exactly.");
+  // Preflight pins the manifest first. Its exact count, unique paths, and this
+  // membership/length pass prove every expected member exists.
   for (const entry of [...entries.values()].slice(1)) {
-    const assetId = entry.path.slice("assets/".length);
-    const record = inputAssets.get(assetId);
-    if (!record || record.path !== entry.path || entry.uncompressedSize !== record.byteLength) {
+    const expectedLength = expectedEntries.get(entry.path);
+    if (expectedLength === undefined || entry.uncompressedSize !== expectedLength) {
       throw new ProjectPackageError("invalid-package", `ZIP member ${entry.path} does not match its manifest record.`);
     }
   }
@@ -699,7 +1003,42 @@ export async function readProjectPackage(
   const { packageSha256: _digest, ...body } = rawManifest;
   const actualDigest = await sha256(new TextEncoder().encode(canonical(body)), options);
   if (actualDigest !== packageSha256) throw new ProjectPackageError("invalid-package", "Project package manifest SHA-256 does not match its contents.");
-  return { blob, manifest, entries, packageSha256 };
+  for (const revision of manifest.styleRevisions) {
+    if (!await verifyStyleRevision(revision, options.crypto)) {
+      throw new ProjectPackageError("invalid-package", `Style revision ${revision.revisionId} failed its content digest.`);
+    }
+  }
+  const frozenManifests: FrozenOutputManifestRecord[] = [];
+  for (const metadata of manifest.exportManifests) {
+    const artifacts: RevisionManifestArtifact[] = [];
+    for (const artifact of metadata.artifacts) {
+      const entry = entries.get(artifact.archivePath)!;
+      // Exact member-set validation above proves this lookup exists.
+      const bytes = await inflateStoredEntry(blob, entry, options, "validate", 0, entry.uncompressedSize);
+      if (bytes.byteLength !== artifact.byteLength || await sha256(bytes, options) !== artifact.sha256) {
+        throw new ProjectPackageError("invalid-package", `Frozen output ${artifact.artifactId} failed its byte digest.`);
+      }
+      artifacts.push({
+        artifactId: artifact.artifactId,
+        path: artifact.path,
+        displayName: artifact.displayName,
+        mediaType: artifact.mediaType,
+        byteLength: artifact.byteLength,
+        sha256: artifact.sha256,
+        bytes: new Blob([blobPart(bytes)], { type: artifact.mediaType }),
+      });
+    }
+    const record = { ...metadata, artifacts } as FrozenOutputManifestRecord;
+    if (!parseFrozenOutputManifestRecord(record) || !await verifyFrozenOutputManifestMetadata(record, options.crypto)) {
+      throw new ProjectPackageError("invalid-package", `Frozen output manifest ${metadata.manifestId} failed its metadata digest.`);
+    }
+    const revision = manifest.styleRevisions.find((candidate) => candidate.revisionId === record.revisionId);
+    if (!revision || revision.revisionContentDigest !== record.payload.revisionContentDigest || revision.styleId !== record.styleId) {
+      throw new ProjectPackageError("invalid-package", `Frozen output manifest ${record.manifestId} does not match its pinned style revision.`);
+    }
+    frozenManifests.push(record);
+  }
+  return { blob, manifest, entries, frozenManifests, packageSha256 };
 }
 
 async function validateArchiveAssets(
@@ -737,14 +1076,18 @@ function copyName(name: string): string {
 }
 
 function remapDesign(style: StyleRecord, assets: ReadonlyMap<string, string>): StyleRecord["design"] {
-  const surface = Object.fromEntries(Object.entries(style.design.surface).map(([key, record]) => [key, {
+  return remapSavedDesign(style.design, assets);
+}
+
+function remapSavedDesign(design: StyleRecord["design"], assets: ReadonlyMap<string, string>): StyleRecord["design"] {
+  const surface = Object.fromEntries(Object.entries(design.surface).map(([key, record]) => [key, {
     ...record,
     placements: (record.placements as readonly import("../surface/placement").ArtworkPlacement[]).map((placement) => {
       const assetId = placement.assetId;
       return assetId && assets.has(assetId) ? { ...placement, assetId: assets.get(assetId)! } : placement;
     }),
   }]));
-  return { ...style.design, surface };
+  return { ...design, surface };
 }
 
 async function verifiedAssetBlob(
@@ -769,21 +1112,32 @@ async function verifiedAssetBlob(
   return inspected.blob;
 }
 
-function makeCopy(
+async function makeCopy(
   manifest: ProjectPackageManifest,
+  frozenManifests: readonly FrozenOutputManifestRecord[],
   packageSha256: string,
   assetMap: ReadonlyMap<string, string>,
   now: string,
   idFactory: () => string,
-): {
+  crypto?: Crypto,
+): Promise<{
   project: ProjectRecord;
   styles: StyleRecord[];
   recoveries: RecoveryRecord[];
   fieldObservations: FieldObservationRecord[];
-} {
-  const usedIds = new Set([manifest.project.id, ...manifest.project.styleIds].map((id) => id.toLowerCase()));
+  styleRevisions: StyleRevisionRecord[];
+  exportManifests: FrozenOutputManifestRecord[];
+}> {
+  const usedIds = new Set([
+    manifest.project.id,
+    ...manifest.project.styleIds,
+    ...manifest.styleRevisions.map((revision) => revision.revisionId),
+    ...frozenManifests.map((record) => record.manifestId),
+  ].map((id) => id.toLowerCase()));
   const projectId = uniqueUuid(idFactory, usedIds);
   const styleIds = new Map(manifest.styles.map((style) => [style.id, uniqueUuid(idFactory, usedIds)]));
+  const revisionIds = new Map(manifest.styleRevisions.map((revision) => [revision.revisionId, uniqueUuid(idFactory, usedIds)]));
+  const manifestIds = new Map(frozenManifests.map((record) => [record.manifestId, uniqueUuid(idFactory, usedIds)]));
   const project: ProjectRecord = {
     ...manifest.project,
     id: projectId,
@@ -806,6 +1160,7 @@ function makeCopy(
     createdAt: now,
     updatedAt: now,
     revision: 1,
+    revisionHeadId: style.revisionHeadId === null ? null : revisionIds.get(style.revisionHeadId)!,
     archivedAt: style.archivedAt === null ? null : now,
     design: remapDesign(style, assetMap),
   }));
@@ -815,7 +1170,53 @@ function makeCopy(
   }));
   const fieldObservations = manifest.fieldObservations.map((record) =>
     remapFieldObservationStyleId(record, styleIds.get(record.styleId)!));
-  return { project, styles, recoveries, fieldObservations };
+  const styleRevisions: StyleRevisionRecord[] = [];
+  for (const revision of manifest.styleRevisions) {
+    const styleId = styleIds.get(revision.styleId)!;
+    const revisionId = revisionIds.get(revision.revisionId)!;
+    const parentRevisionId = revision.parentRevisionId === null ? null : revisionIds.get(revision.parentRevisionId)!;
+    styleRevisions.push(await createStyleRevision({
+      styleId,
+      revisionId,
+      parentRevisionId,
+      revisionNumber: revision.revisionNumber,
+      createdAt: revision.createdAt,
+      design: remapSavedDesign(revision.payload.design, assetMap),
+      fieldObservations: remapFieldObservationStyleId(revision.payload.fieldObservations, styleId),
+      artwork: revision.payload.artwork.map((asset) => ({
+        ...asset,
+        assetId: assetMap.get(asset.assetId) ?? asset.assetId,
+      })),
+    }, crypto));
+  }
+  const revisionById = new Map(styleRevisions.map((revision) => [revision.revisionId, revision]));
+  const exportManifests: FrozenOutputManifestRecord[] = [];
+  for (const frozen of frozenManifests) {
+    const styleId = styleIds.get(frozen.styleId)!;
+    const revisionId = revisionIds.get(frozen.revisionId)!;
+    const revision = revisionById.get(revisionId);
+    if (!revision) throw new ProjectPackageError("invalid-package", `Frozen output ${frozen.manifestId} points to a missing copied revision.`);
+    const payload = {
+      ...frozen.payload,
+      styleId,
+      revisionId,
+      revisionContentDigest: revision.revisionContentDigest,
+    };
+    const record: FrozenOutputManifestRecord = {
+      ...frozen,
+      manifestId: manifestIds.get(frozen.manifestId)!,
+      styleId,
+      revisionId,
+      payload,
+      packetDigest: await jcsSha256Hex(payload, crypto),
+      artifacts: frozen.artifacts,
+    };
+    if (!parseFrozenOutputManifestRecord(record) || !await verifyFrozenOutputManifest(record, crypto)) {
+      throw new ProjectPackageError("invalid-package", `Copied frozen output ${record.manifestId} failed integrity validation.`);
+    }
+    exportManifests.push(record);
+  }
+  return { project, styles, recoveries, fieldObservations, styleRevisions, exportManifests };
 }
 
 function canonicalNow(): string {
@@ -902,13 +1303,15 @@ export async function importProjectPackage(
       ? createLocalArtworkAssetId(ASSET_MIME_BY_SUFFIX[asset.mimeType], uniqueUuid(uuid, usedAssetIds))
       : asset.assetId);
   }
-  const bundle = asCopy
-    ? makeCopy(archive.manifest, archive.packageSha256, assetMap, now, uuid)
+  const sourceBundle = asCopy
+    ? await makeCopy(archive.manifest, archive.frozenManifests, archive.packageSha256, assetMap, now, uuid, options.crypto)
     : {
       project: archive.manifest.project,
       styles: [...archive.manifest.styles],
       recoveries: [...archive.manifest.recoveries],
       fieldObservations: [...archive.manifest.fieldObservations],
+      styleRevisions: [...archive.manifest.styleRevisions],
+      exportManifests: [...archive.frozenManifests],
     };
   const stagedIds: string[] = [];
   let completed = 0;
@@ -947,6 +1350,20 @@ export async function importProjectPackage(
       completed += asset.byteLength;
     }
     progress(options, "commit", completed, total);
+    const normalizedHistory = await normalizeSnapshotHistory({
+      project: sourceBundle.project,
+      styles: sourceBundle.styles,
+      recoveries: sourceBundle.recoveries,
+      fieldObservations: sourceBundle.fieldObservations,
+      styleRevisions: sourceBundle.styleRevisions,
+      exportManifests: sourceBundle.exportManifests,
+    }, artworkStore, options);
+    const bundle = {
+      ...sourceBundle,
+      styles: normalizedHistory.styles,
+      styleRevisions: normalizedHistory.revisions,
+      exportManifests: normalizedHistory.manifests,
+    };
     const receipt: ProjectImportReceipt = {
       packageSha256: archive.packageSha256,
       projectId: bundle.project.id,

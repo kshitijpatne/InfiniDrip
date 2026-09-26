@@ -100,8 +100,12 @@ Edit remains a 2D pattern editor for representable corner and curve-control
 moves. Topology changes such as dart transfer are not offered as final edits.
 The Body and Assembled views remain schematic; this work does not add cloth
 simulation or prove physical fit, drape, factory acceptance or CAD round-trip
-compatibility. Immutable revision snapshots and frozen manifests are the next
-Slice 239 boundary. See the [Slice 238 cross-output editing evidence](docs/research/epic15/F03-CROSS-OUTPUT-EDITING-S238.md).
+compatibility. Saved styles now have immutable parent-linked revision
+snapshots; the project manager can compare and restore them as new revisions.
+Users can freeze and retrieve exact bytes for the seven supported digital
+outputs after review and Save. These digests do not assert physical fit or
+factory acceptance. See the [Slice 238 cross-output editing evidence](docs/research/epic15/F03-CROSS-OUTPUT-EDITING-S238.md)
+and [Slice 239 revision evidence](docs/research/epic15/F03-IMMUTABLE-REVISIONS-S239.md).
 
 ## What the shared tools do
 
@@ -238,10 +242,18 @@ change and again after a semantic curve edit; the retained screenshot and
 hashes cover both steps. The
 controlled process-exit proof is not a power-loss or operating-system crash
 test; none of this establishes physical fit or factory acceptance. Slice 239
-owns immutable revisions and frozen manifests; Slice 240 owns the full
-repository/browser/Electron exit gate and independent-style replay. The S238
+adds immutable revisions, compare/restore-as-new-child and frozen manifests
+with exact output bytes. Production-built Chromium and Electron Tee and
+Woven-shirt traces confirmed that saved successors do not change earlier
+revision or output hashes, and that historical SVG bytes can be retrieved
+after profile relaunch. The full-repository/browser/Electron exit gate and
+independent-style replay remain Slice 240 work. The S238
 contract and hashes are in
 [`docs/research/epic15/F03-CROSS-OUTPUT-EDITING-S238.md`](docs/research/epic15/F03-CROSS-OUTPUT-EDITING-S238.md).
+Slice 239's contract, rendered verification, exact artifact digests and limits
+are in
+[`docs/research/epic15/F03-IMMUTABLE-REVISIONS-S239.md`](docs/research/epic15/F03-IMMUTABLE-REVISIONS-S239.md)
+and [`docs/research/epic15/evidence/S239-rendered-verification.json`](docs/research/epic15/evidence/S239-rendered-verification.json).
 The semantic model and Slice 237 preview limits are in
 [`docs/research/epic15/F03-CONSTRAINED-EDIT-S237.md`](docs/research/epic15/F03-CONSTRAINED-EDIT-S237.md)
 and its acceptance evidence is in

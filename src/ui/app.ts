@@ -244,7 +244,7 @@ interface SemanticSourceRuntime {
   error?: string;
 }
 
-function defaultArtworkAssetStore(): ArtworkAssetStore {
+export function defaultArtworkAssetStore(): ArtworkAssetStore {
   const desktop = window.electronAPI;
   if (!desktop) return createIndexedDbArtworkStore(globalThis.indexedDB);
   if (!desktop.putArtworkAsset || !desktop.getArtworkAsset || !desktop.removeArtworkAsset) {
@@ -1765,6 +1765,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     applyDisclosure();
     root.querySelector<HTMLElement>("#studio-inspector")!.scrollTop = 0;
     setView(stepView(s));
+    projectManager?.refresh();
     if (journey.tutorial.status === "in_progress" || journey.tutorial.status === "unseen") {
       renderTutorial(true);
     } else {
@@ -3848,6 +3849,33 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       hasPendingFieldObservations: () => pendingFieldObservationTimers.size > 0 || activeFieldObservationWrites.size > 0,
       artworkStore: artworkAssetStore,
       inspectAsset: artworkInspector,
+      canFreezeOutputs: () => canExport() && canExportRun() && styleReviewed && checkReviewed && baseDesignValid(),
+      getFrozenOutputSet: () => {
+        if (!canExport() || !canExportRun() || !styleReviewed || !checkReviewed || !baseDesignValid()) return null;
+        const label = exportSizeLabel();
+        const pieces = exportPieces();
+        const allowances = currentAllowances();
+        const currentRecipe = recipeForCurrentOutputs();
+        return {
+          selectedSizes: [{ sizeId: `${recipe.name}-step-${exportStep}`, label }],
+          artifacts: [
+            { artifactId: "selected-size-svg", extension: "svg", displayName: `${recipe.name}-${label}.svg`, mediaType: "image/svg+xml", content: exportSvg(pieces, allowances, recipe.notches) },
+            { artifactId: "selected-size-dxf", extension: "dxf", displayName: `${recipe.name}-${label}.dxf`, mediaType: "image/vnd.dxf", content: exportDxf(pieces, allowances) },
+            { artifactId: "selected-size-tiled-pdf", extension: "pdf", displayName: `${recipe.name}-${label}.pdf`, mediaType: "application/pdf", content: exportPdf(pieces, allowances, undefined, 1.0, recipe.tiledPdfLocalCoordinates === true) },
+            { artifactId: "selected-size-a0-pdf", extension: "pdf", displayName: `${recipe.name}-${label}-A0.pdf`, mediaType: "application/pdf", content: exportA0Pdf(pieces, allowances, recipe.notches, undefined, recipe.a0Overflow === true) },
+            { artifactId: "whole-run-tech-pack-pdf", extension: "pdf", displayName: `${recipe.name}-techpack.pdf`, mediaType: "application/pdf", content: exportTechPackV2(currentRecipe, measurements, undefined, stretchFabric, recipeOptions(), surfacePlacementsNow(), targetStyle) },
+            { artifactId: "whole-run-projector-svg", extension: "svg", displayName: `${recipe.name}-projector.svg`, mediaType: "image/svg+xml", content: exportProjectorSvg(currentRecipe, measurements, recipeOptions()) },
+            { artifactId: "whole-run-surface-sheet-svg", extension: "svg", displayName: `${recipe.name}-surface-sheet.svg`, mediaType: "image/svg+xml", content: exportSurfaceSheet(surfacePlacementsNow(), targetStyle) },
+          ],
+        };
+      },
+      ...(window.electronAPI?.saveFile ? {
+        saveFrozenArtifact: async (filename: string, bytes: Blob): Promise<boolean> => {
+          const text = new TextDecoder("utf-8", { fatal: true }).decode(await bytes.arrayBuffer());
+          const result = await window.electronAPI!.saveFile(filename, text);
+          return result.saved;
+        },
+      } : {}),
       ...(window.electronAPI?.saveProjectPackage ? {
         savePackage: async (filename: string, blob: Blob): Promise<boolean> => {
           const bytes = new Uint8Array(await blob.arrayBuffer());

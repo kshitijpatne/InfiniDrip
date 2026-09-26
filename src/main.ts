@@ -1,5 +1,5 @@
 // Browser entry: open or migrate the local project before mounting editing controls.
-import { mountApp } from "./ui";
+import { defaultArtworkAssetStore, mountApp } from "./ui";
 import { openProjectWorkflow } from "./ui/project-workflow";
 
 const rootCandidate = document.querySelector<HTMLDivElement>("#app");
@@ -9,10 +9,12 @@ const root: HTMLDivElement = rootCandidate;
 async function start(): Promise<void> {
   root.replaceChildren();
   try {
+    const artworkAssetStore = defaultArtworkAssetStore();
     const projectWorkflow = await openProjectWorkflow({
       repositoryOptions: { onVersionChange: () => { root.dataset.projectStorageChanged = "true"; } },
+      artworkStore: artworkAssetStore,
     });
-    mountApp(root, { projectWorkflow });
+    mountApp(root, { projectWorkflow, artworkAssetStore });
   } catch (error) {
     const main = document.createElement("main");
     main.className = "project-startup-error";

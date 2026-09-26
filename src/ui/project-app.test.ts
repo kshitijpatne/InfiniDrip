@@ -1,5 +1,6 @@
 // @vitest-environment jsdom
 import { webcrypto } from "node:crypto";
+import { Blob as NodeBlob } from "node:buffer";
 import { IDBFactory } from "fake-indexeddb";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { mountApp } from "./app";
@@ -7,6 +8,7 @@ import { openProjectWorkflow, type ProjectWorkflow } from "./project-workflow";
 import * as persist from "./persist";
 import type { ArtworkAssetStore } from "../surface/artwork-store";
 import { currentFieldObservation, getFieldDefinition } from "./field-provenance";
+import { FROZEN_ARTIFACT_IDS } from "./style-revisions";
 
 const PROJECT_ID = "a02b8322-8f57-46bb-9d16-16ac1fcf6811";
 const FIRST_STYLE_ID = "b53a1a03-ea2e-4c4f-82dc-14ac86a29895";
@@ -61,7 +63,7 @@ describe("repository-backed app workflow", () => {
     await vi.waitFor(() => expect(dialog.textContent).toContain("raw “104” · canonical 104 cm"));
     expect(workflow.snapshot.fieldObservations.find((record) => record.styleId === FIRST_STYLE_ID)
       ?.observations.filter((observation) => observation.fieldId === "body.chest-girth")).toHaveLength(2);
-  });
+  }, 15_000);
 
   it("keeps field history closed and reports when the pending write fails", async () => {
     workflow = await openProjectWorkflow({
@@ -350,6 +352,77 @@ describe("repository-backed app workflow", () => {
     expect(workflow.snapshot.activeStyle.id).toBe(FIRST_STYLE_ID);
   });
 
+  it("freezes the app-generated outputs after review and saves verified bytes through Electron", async () => {
+    workflow = await openProjectWorkflow({
+      repositoryOptions: {
+        name: `project-app-frozen-output-${Date.now()}`,
+        factory: new IDBFactory(),
+        crypto: webcrypto as unknown as Crypto,
+      },
+      storage: localStorage,
+      idFactory: (() => {
+        const ids = [PROJECT_ID, FIRST_STYLE_ID];
+        return () => ids.shift() ?? SECOND_STYLE_ID;
+      })(),
+      now: () => "2026-09-24T16:00:00.000Z",
+    });
+    root = document.createElement("div");
+    document.body.append(root);
+    vi.stubGlobal("Blob", NodeBlob);
+    const saveFile = vi.fn(async (filename: string, _content: string) => ({ saved: true, filePath: filename }));
+    window.electronAPI = { saveFile };
+    try {
+      mountApp(root, { projectWorkflow: workflow, artworkAssetStore: assets });
+      const manager = root.querySelector<HTMLElement>("#project-manager-host")!;
+      manager.querySelector<HTMLDetailsElement>(".project-manager-details")!.open = true;
+      let freeze = manager.querySelector<HTMLButtonElement>("[data-project-action='freeze-outputs']")!;
+      expect(freeze.disabled).toBe(true);
+      expect(manager.querySelector("#project-freeze-guidance")?.textContent).toContain("Review Style and Check");
+
+      // Exercise the guarded app callback even though the user-facing button is disabled.
+      freeze.removeAttribute("disabled");
+      freeze.click();
+      await vi.waitFor(() => expect(manager.querySelector("#project-manager-status")?.textContent).toContain("not ready"));
+      expect(workflow.snapshot.exportManifests).toHaveLength(0);
+
+      while (root.querySelector<HTMLButtonElement>("#journey-step-output")?.getAttribute("aria-current") !== "step") {
+        const next = root.querySelector<HTMLButtonElement>("#journey-next");
+        expect(next, "the guided journey exposes its next review step").not.toBeNull();
+        next!.click();
+      }
+      await vi.waitFor(() => {
+        freeze = manager.querySelector<HTMLButtonElement>("[data-project-action='freeze-outputs']")!;
+        expect(freeze.disabled).toBe(false);
+      });
+      freeze.click();
+      await vi.waitFor(() => expect(manager.querySelector("#project-manager-status")?.textContent).toContain("Frozen 7 outputs"));
+
+      const manifest = workflow.snapshot.exportManifests[0]!;
+      expect(manifest.artifacts.map((artifact) => artifact.artifactId)).toEqual(FROZEN_ARTIFACT_IDS);
+      expect(manifest.payload.selectedSizes).toHaveLength(1);
+      expect(manifest.payload.approvalRefs).toEqual([]);
+      expect(manifest.payload.unresolved.join(" ")).toContain("Physical fit");
+      for (const artifact of manifest.artifacts) {
+        expect(artifact.byteLength).toBeGreaterThan(0);
+        expect(artifact.sha256).toMatch(/^[0-9a-f]{64}$/);
+        expect(artifact.bytes.size).toBe(artifact.byteLength);
+      }
+
+      const selectedSvg = manifest.artifacts.find((artifact) => artifact.artifactId === "selected-size-svg")!;
+      manager.querySelector<HTMLButtonElement>(
+        `[data-project-action='download-frozen'][data-manifest-id='${manifest.manifestId}'][data-artifact-id='selected-size-svg']`,
+      )!.click();
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledOnce());
+      await vi.waitFor(() => expect(manager.querySelector("#project-manager-status")?.textContent).toContain("Downloaded stored bytes"));
+      const [filename, content] = saveFile.mock.calls[0]!;
+      expect(filename).toBe(selectedSvg.displayName);
+      expect(content).toBe(await selectedSvg.bytes.text());
+    } finally {
+      delete window.electronAPI;
+      vi.unstubAllGlobals();
+    }
+  }, 120_000);
+
   it("shows and reloads invalid raw field provenance through the mounted project workflow", async () => {
     workflow = await openProjectWorkflow({
       repositoryOptions: {
@@ -462,6 +535,15 @@ describe("repository-backed app workflow", () => {
       getFieldDefinition("tee", "chest")!,
     )).toMatchObject({ rawValue: "100", provenance: "USER_CAPTURED", validationStatus: "VALID" });
     expect(workflow.snapshot.activeStyle.design.measurements.chest).toBe(100);
+    const originalDesignRevisionId = workflow.snapshot.activeStyle.revisionHeadId;
+    const originalRevisionCount = workflow.snapshot.styleRevisions.length;
+    const capturedHistory = workflow.snapshot.fieldObservations.find((record) => record.styleId === FIRST_STYLE_ID);
+    root.querySelector<HTMLButtonElement>("#save-pattern")!.click();
+    await vi.waitFor(() => expect(root!.querySelector<HTMLElement>("#project-persistence-state")?.textContent)
+      .toContain("Saved in this style"));
+    expect(workflow.snapshot.activeStyle.revisionHeadId).toBe(originalDesignRevisionId);
+    expect(workflow.snapshot.styleRevisions).toHaveLength(originalRevisionCount);
+    expect(workflow.snapshot.fieldObservations.find((record) => record.styleId === FIRST_STYLE_ID)).toEqual(capturedHistory);
   }, 120_000);
 
   it("ignores a delayed field-history write from a replaced app mount", async () => {

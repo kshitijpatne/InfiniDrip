@@ -11,7 +11,7 @@ import {
 import { FIELDS } from "./controls";
 
 export const PROJECT_RECORD_VERSION = 2;
-export const STYLE_RECORD_VERSION = 3;
+export const STYLE_RECORD_VERSION = 4;
 export const RECOVERY_RECORD_VERSION = 2;
 export const MIGRATION_RECORD_VERSION = 1;
 
@@ -48,6 +48,8 @@ export interface StyleRecord {
   readonly revision: number;
   /** Null while available; an ISO timestamp while retained in the archive. */
   readonly archivedAt: string | null;
+  /** Immutable design-history head; null only until the explicit S239 seed completes. */
+  readonly revisionHeadId: string | null;
   readonly design: SavedDesign;
 }
 
@@ -87,8 +89,9 @@ export interface LegacySaveMigration {
 
 const PROJECT_KEYS = ["schemaVersion", "id", "name", "createdAt", "updatedAt", "revision", "styleIds", "activeStyleId", "importedFrom"];
 export const LEGACY_PROJECT_RECORD_KEYS = Object.freeze(["schemaVersion", "id", "name", "createdAt", "updatedAt", "revision", "styleIds", "activeStyleId"]);
-const STYLE_KEYS = ["schemaVersion", "id", "projectId", "name", "recipeId", "recipePresetId", "createdAt", "updatedAt", "revision", "archivedAt", "design"];
-const STYLE_V2_KEYS = STYLE_KEYS;
+const STYLE_V3_KEYS = ["schemaVersion", "id", "projectId", "name", "recipeId", "recipePresetId", "createdAt", "updatedAt", "revision", "archivedAt", "design"];
+const STYLE_KEYS = [...STYLE_V3_KEYS, "revisionHeadId"];
+const STYLE_V2_KEYS = STYLE_V3_KEYS;
 export const LEGACY_STYLE_RECORD_KEYS = Object.freeze(["schemaVersion", "id", "projectId", "name", "recipeId", "recipePresetId", "createdAt", "updatedAt", "revision", "design"]);
 const RECOVERY_KEYS = ["schemaVersion", "styleId", "payload"];
 const MIGRATION_KEYS = ["schemaVersion", "sourceKeys", "sourceSaveVersion", "sourceSha256", "migratedAt", "projectId", "styleId"];
@@ -155,6 +158,11 @@ function parseSavedDesign(value: unknown, legacy = false): RecordResult<SavedDes
   return { ok: true, value: design };
 }
 
+/** Strict parser for the current persisted design contract used by immutable snapshots. */
+export function parseSavedDesignRecord(value: unknown): RecordResult<SavedDesign> {
+  return parseSavedDesign(value);
+}
+
 export function parseProjectRecord(value: unknown): RecordResult<ProjectRecord> {
   if (!hasExactKeys(value, PROJECT_KEYS)) return fail("Project record fields are incomplete or unknown.");
   if (value.schemaVersion !== PROJECT_RECORD_VERSION) return fail("Unsupported project record schema version.");
@@ -186,12 +194,12 @@ export function parseProjectRecord(value: unknown): RecordResult<ProjectRecord> 
 }
 
 export function parseStyleRecord(value: unknown): RecordResult<StyleRecord> {
-  if (!object(value) || ![1, 2, STYLE_RECORD_VERSION].includes(value.schemaVersion as number)) {
+  if (!object(value) || ![1, 2, 3, STYLE_RECORD_VERSION].includes(value.schemaVersion as number)) {
     return fail("Unsupported style record schema version.");
   }
   const version = value.schemaVersion as number;
   if (version === 1 ? !hasExactKeys(value, LEGACY_STYLE_RECORD_KEYS)
-    : version === 2 ? !hasExactKeys(value, STYLE_V2_KEYS) : !hasExactKeys(value, STYLE_KEYS)) {
+    : version < 4 ? !hasExactKeys(value, STYLE_V2_KEYS) : !hasExactKeys(value, STYLE_KEYS)) {
     return fail("Style record fields are incomplete or unknown.");
   }
   if (!validUuid(value.id) || !validUuid(value.projectId) || !validName(value.name)
@@ -199,11 +207,15 @@ export function parseStyleRecord(value: unknown): RecordResult<StyleRecord> {
     || typeof value.recipePresetId !== "string" || value.recipePresetId.length === 0
     || !validTimestamp(value.createdAt) || !validTimestamp(value.updatedAt)
     || !validRevision(value.revision)
+    || (version === STYLE_RECORD_VERSION && value.revisionHeadId !== null && !validUuid(value.revisionHeadId))
     || (version > 1 && value.archivedAt !== null && !validTimestamp(value.archivedAt))) {
     return fail("Style identity, name, recipe, timestamps, or revision are invalid.");
   }
   if (Date.parse(value.updatedAt) < Date.parse(value.createdAt)) return fail("Style updatedAt precedes createdAt.");
-  const design = parseSavedDesign(value.design, version < STYLE_RECORD_VERSION);
+  // Style schema v3 already persists semantic edits. The v4 bump adds only the
+  // immutable revision head, so v3 designs must retain their edit document
+  // while v1/v2 designs still receive the legacy null default.
+  const design = parseSavedDesign(value.design, version < 3);
   if (!design.ok) return fail(design.error);
   if (design.value.workspace.garment !== value.recipeId
     || design.value.workspace.targetStyle !== value.recipePresetId) {
@@ -213,6 +225,7 @@ export function parseStyleRecord(value: unknown): RecordResult<StyleRecord> {
     ...value,
     schemaVersion: STYLE_RECORD_VERSION,
     archivedAt: version === 1 ? null : value.archivedAt,
+    revisionHeadId: version < STYLE_RECORD_VERSION ? null : value.revisionHeadId,
     design: design.value,
   } as unknown as StyleRecord };
 }
@@ -315,6 +328,7 @@ export function migrateLegacySaveFile(input: LegacySaveMigrationInput): RecordRe
     updatedAt: input.migratedAt,
     revision: 1,
     archivedAt: null,
+    revisionHeadId: null,
     design,
   };
   const bundle = validateProjectBundle(project, [style]);

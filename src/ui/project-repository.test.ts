@@ -7,6 +7,7 @@ import { DEFAULT_WORKSPACE, serialize, serializeRecovery } from "./persist";
 import {
   migrateLegacyRecovery,
   migrateLegacySaveFile,
+  parseStyleRecord,
   type ProjectRecord,
   type RecoveryRecord,
   type StyleRecord,
@@ -18,6 +19,13 @@ import {
   openProjectRepository,
 } from "./project-repository";
 import { createFieldObservationRecord, type FieldObservationRecord } from "./field-provenance";
+import {
+  createFrozenOutputManifest,
+  createStyleRevision,
+  FROZEN_ARTIFACT_IDS,
+  type FrozenOutputManifestRecord,
+  type StyleRevisionRecord,
+} from "./style-revisions";
 
 const webcrypto = nodeWebcrypto as unknown as Crypto;
 const TIME = "2026-09-24T16:00:00.000Z";
@@ -114,7 +122,7 @@ async function createVersionFourDatabase(
   name: string,
   rows: readonly { store: keyof typeof PROJECT_STORES; value: unknown }[] = [],
 ): Promise<void> {
-  const keyPaths: Readonly<Record<keyof typeof PROJECT_STORES, string>> = {
+  const keyPaths: Readonly<Record<Exclude<keyof typeof PROJECT_STORES, "styleRevisions" | "exportManifests">, string>> = {
     meta: "key",
     projects: "id",
     styles: "id",
@@ -137,8 +145,84 @@ async function createVersionFourDatabase(
   database.close();
 }
 
+async function createVersionFiveDatabase(
+  factory: IDBFactory,
+  name: string,
+  rows: readonly { store: keyof typeof PROJECT_STORES; value: unknown }[] = [],
+): Promise<void> {
+  const keyPaths: Readonly<Record<Exclude<keyof typeof PROJECT_STORES, "styleRevisions" | "exportManifests">, string>> = {
+    meta: "key",
+    projects: "id",
+    styles: "id",
+    recoveries: "styleId",
+    migrations: "sourceSha256",
+    imports: "packageSha256",
+    fieldObservations: "styleId",
+  };
+  const database = await new Promise<IDBDatabase>((resolve, reject) => {
+    const request = factory.open(name, 5);
+    request.onupgradeneeded = () => {
+      for (const [store, keyPath] of Object.entries(keyPaths)) {
+        request.result.createObjectStore(store, { keyPath });
+      }
+      for (const row of rows) request.transaction!.objectStore(PROJECT_STORES[row.store]).put(row.value);
+    };
+    request.onerror = () => reject(request.error ?? new Error("Version-five fixture open failed."));
+    request.onsuccess = () => resolve(request.result);
+  });
+  database.close();
+}
+
 function fieldHistory(style: StyleRecord): FieldObservationRecord {
   return createFieldObservationRecord(style, style.updatedAt, "existing-local-style");
+}
+
+function testUuid(value: number): string {
+  return `00000000-0000-4000-8000-${value.toString(16).padStart(12, "0")}`;
+}
+
+async function testRevision(
+  style: StyleRecord,
+  observations: FieldObservationRecord,
+  revisionId: string,
+  revisionNumber = 1,
+  parentRevisionId: string | null = null,
+  design: StyleRecord["design"] = style.design,
+): Promise<StyleRevisionRecord> {
+  return createStyleRevision({
+    styleId: style.id,
+    revisionId,
+    parentRevisionId,
+    revisionNumber,
+    createdAt: TIME,
+    design,
+    fieldObservations: observations,
+    artwork: [],
+  }, webcrypto);
+}
+
+async function testFrozenManifest(
+  revision: StyleRevisionRecord,
+  manifestId: string,
+): Promise<FrozenOutputManifestRecord> {
+  return createFrozenOutputManifest({
+    manifestId,
+    styleId: revision.styleId,
+    revision,
+    capturedAt: TIME,
+    selectedSizes: [{ sizeId: "tee-step-1", label: "M" }],
+    unresolved: ["Physical fit and factory acceptance have not been verified."],
+    artifacts: FROZEN_ARTIFACT_IDS.map((artifactId) => {
+      const extension = artifactId.includes("dxf") ? "dxf" : artifactId.endsWith("svg") ? "svg" : "pdf";
+      return {
+        artifactId,
+        extension,
+        displayName: `${artifactId}.${extension}`,
+        mediaType: extension === "svg" ? "image/svg+xml" : extension === "dxf" ? "image/vnd.dxf" : "application/pdf",
+        content: `stored:${artifactId}`,
+      };
+    }),
+  }, webcrypto);
 }
 
 function appendedFieldHistory(record: FieldObservationRecord): FieldObservationRecord {
@@ -552,12 +636,654 @@ describe("transactional project repository", () => {
     repository.close();
   });
 
+  it("persists immutable style revisions and frozen outputs as one verifiable history", async () => {
+    const factory = newFactory();
+    const repository = await openProjectRepository({ name: databaseName(), factory, crypto: webcrypto });
+    try {
+      await repository.initializeFirstRun(PROJECT_ID, STYLE_ID, TIME);
+      const initial = await repository.readProjectBundle(PROJECT_ID);
+      if (!initial) throw new Error("First-run project was not persisted.");
+      const initialStyle = initial.styles[0]!;
+      const initialObservations = initial.fieldObservations![0]!;
+      const firstRevision = await createStyleRevision({
+        styleId: STYLE_ID,
+        revisionId: "11111111-1111-4111-8111-111111111111",
+        parentRevisionId: null,
+        revisionNumber: 1,
+        createdAt: TIME,
+        design: initialStyle.design,
+        fieldObservations: initialObservations,
+        artwork: [],
+      }, webcrypto);
+      const seededStyle = { ...initialStyle, revision: 2, updatedAt: NEXT_TIME, revisionHeadId: firstRevision.revisionId };
+      const seededProject = { ...initial.project, revision: 2, updatedAt: NEXT_TIME };
+      await repository.saveProjectBundle({
+        project: seededProject,
+        styles: [seededStyle],
+        fieldObservations: [initialObservations],
+        styleRevisions: [firstRevision],
+        expectedProjectRevision: initial.project.revision,
+      });
+
+      const frozen = await createFrozenOutputManifest({
+        manifestId: "22222222-2222-4222-8222-222222222222",
+        styleId: STYLE_ID,
+        revision: firstRevision,
+        capturedAt: TIME,
+        selectedSizes: [{ sizeId: "tee-step-1", label: "M" }],
+        unresolved: ["Physical fit and factory acceptance have not been verified."],
+        artifacts: FROZEN_ARTIFACT_IDS.map((artifactId) => {
+          const extension = artifactId.includes("dxf") ? "dxf" : artifactId.endsWith("svg") ? "svg" : "pdf";
+          return {
+            artifactId,
+            extension,
+            displayName: `${artifactId}.${extension}`,
+            mediaType: extension === "svg" ? "image/svg+xml" : extension === "dxf" ? "image/vnd.dxf" : "application/pdf",
+            content: `stored:${artifactId}`,
+          };
+        }),
+      }, webcrypto);
+      const afterSeed = await repository.readProjectBundle(PROJECT_ID);
+      if (!afterSeed) throw new Error("Seeded project was not readable.");
+      await repository.saveProjectBundle({
+        project: { ...afterSeed.project, revision: afterSeed.project.revision + 1, updatedAt: "2026-09-24T16:00:02.000Z" },
+        styles: afterSeed.styles,
+        fieldObservations: afterSeed.fieldObservations,
+        exportManifests: [frozen],
+        expectedProjectRevision: afterSeed.project.revision,
+      });
+
+      const current = await repository.readProjectBundle(PROJECT_ID);
+      if (!current) throw new Error("Frozen project was not readable.");
+      const currentStyle = current.styles[0]!;
+      const currentObservations = current.fieldObservations![0]!;
+      const editedDesign = {
+        ...currentStyle.design,
+        measurements: { ...currentStyle.design.measurements, chest: currentStyle.design.measurements.chest + 1 },
+      };
+      const nextObservations = appendedFieldHistory(currentObservations);
+      const secondRevision = await createStyleRevision({
+        styleId: STYLE_ID,
+        revisionId: "33333333-3333-4333-8333-333333333333",
+        parentRevisionId: firstRevision.revisionId,
+        revisionNumber: 2,
+        createdAt: "2026-09-24T16:00:03.000Z",
+        design: editedDesign,
+        fieldObservations: nextObservations,
+        artwork: [],
+      }, webcrypto);
+      await repository.saveProjectBundle({
+        project: { ...current.project, revision: current.project.revision + 1, updatedAt: "2026-09-24T16:00:03.000Z" },
+        styles: [{ ...currentStyle, revision: currentStyle.revision + 1, updatedAt: "2026-09-24T16:00:03.000Z", design: editedDesign, revisionHeadId: secondRevision.revisionId }],
+        fieldObservations: [nextObservations],
+        styleRevisions: [secondRevision],
+        expectedProjectRevision: current.project.revision,
+      });
+
+      const loaded = await repository.loadProject(PROJECT_ID);
+      expect(loaded?.styleRevisions.map((revision) => revision.revisionId)).toEqual([
+        firstRevision.revisionId, secondRevision.revisionId,
+      ]);
+      expect(loaded?.activeStyle.revisionHeadId).toBe(secondRevision.revisionId);
+      expect(loaded?.exportManifests).toHaveLength(1);
+      expect(await loaded?.exportManifests?.[0]?.artifacts[0]?.bytes.text()).toBe("stored:selected-size-a0-pdf");
+
+      await expect(repository.saveProjectBundle({
+        project: { ...loaded!.project, revision: loaded!.project.revision + 1, updatedAt: "2026-09-24T16:00:04.000Z" },
+        styles: [{
+          ...loaded!.activeStyle,
+          design: {
+            ...loaded!.activeStyle.design,
+            measurements: {
+              ...loaded!.activeStyle.design.measurements,
+              chest: loaded!.activeStyle.design.measurements.chest + 1,
+            },
+          },
+        }],
+        fieldObservations: loaded!.fieldObservations,
+        expectedProjectRevision: loaded!.project.revision,
+      })).rejects.toMatchObject({ code: "invalid-data", message: expect.stringContaining("must append one immutable revision") });
+    } finally {
+      repository.close();
+    }
+  });
+
+  it("validates immutable inputs and atomically seeds a new style with its frozen outputs", async () => {
+    const repository = await openProjectRepository({ name: databaseName(), factory: newFactory(), crypto: webcrypto });
+    try {
+      const bundle = newBundle();
+      const revisionId = testUuid(101);
+      const style = { ...bundle.style, revisionHeadId: revisionId };
+      const observations = fieldHistory(style);
+      const revision = await testRevision(style, observations, revisionId);
+      const manifest = await testFrozenManifest(revision, testUuid(201));
+      const input = {
+        project: bundle.project,
+        styles: [style],
+        fieldObservations: [observations],
+        styleRevisions: [revision],
+        exportManifests: [manifest],
+        expectedProjectRevision: null,
+      } as const;
+
+      await expect(repository.saveProjectBundle({ ...input, styleRevisions: "not-a-list" as never }))
+        .rejects.toMatchObject({ code: "invalid-data", message: expect.stringContaining("must be a list") });
+      await expect(repository.saveProjectBundle({
+        ...input,
+        styleRevisions: [{ ...revision, revisionContentDigest: "0".repeat(64) }],
+      })).rejects.toMatchObject({ code: "invalid-data", message: expect.stringContaining("SHA-256 validation") });
+      await expect(repository.saveProjectBundle({ ...input, styleRevisions: [revision, revision] }))
+        .rejects.toMatchObject({ code: "invalid-data", message: expect.stringContaining("duplicate revision IDs") });
+
+      await expect(repository.saveProjectBundle({ ...input, exportManifests: "not-a-list" as never }))
+        .rejects.toMatchObject({ code: "invalid-data", message: expect.stringContaining("must be a list") });
+      const corruptedManifest: FrozenOutputManifestRecord = {
+        ...manifest,
+        artifacts: manifest.artifacts.map((artifact, index) => index === 0
+          ? { ...artifact, bytes: new Blob(["tampered bytes"]) }
+          : artifact),
+      };
+      await expect(repository.saveProjectBundle({ ...input, exportManifests: [corruptedManifest] }))
+        .rejects.toMatchObject({ code: "invalid-data", message: expect.stringContaining("integrity validation") });
+      await expect(repository.saveProjectBundle({ ...input, exportManifests: [manifest, manifest] }))
+        .rejects.toMatchObject({ code: "invalid-data", message: expect.stringContaining("duplicate frozen manifest IDs") });
+
+      const foreign = newBundle(OTHER_PROJECT_ID, OTHER_STYLE_ID);
+      const foreignRevision = await testRevision(foreign.style, fieldHistory(foreign.style), testUuid(102));
+      await expect(repository.saveProjectBundle({ ...input, styleRevisions: [foreignRevision] }))
+        .rejects.toMatchObject({ code: "invalid-data", message: expect.stringContaining("must belong to a style") });
+      await expect(repository.saveProjectBundle({ ...input, styleRevisions: [], exportManifests: [] }))
+        .rejects.toMatchObject({ code: "invalid-data", message: expect.stringContaining("not inserted with it") });
+      await expect(repository.readProjectBundle(PROJECT_ID)).resolves.toBeNull();
+
+      await repository.saveProjectBundle(input);
+      const loaded = await repository.readProjectBundle(PROJECT_ID);
+      expect(loaded?.styles[0]?.revisionHeadId).toBe(revisionId);
+      expect(loaded?.styleRevisions).toEqual([revision]);
+      expect(loaded?.exportManifests).toHaveLength(1);
+      expect(await loaded?.exportManifests?.[0]?.artifacts[0]?.bytes.text()).toBe("stored:selected-size-a0-pdf");
+    } finally {
+      repository.close();
+    }
+  });
+
+  it("rejects invalid revision transitions without moving the saved head", async () => {
+    const seedExisting = async () => {
+      const factory = newFactory();
+      const name = databaseName();
+      const repository = await openProjectRepository({ name, factory, crypto: webcrypto });
+      await repository.initializeFirstRun(PROJECT_ID, STYLE_ID, TIME);
+      const initial = await repository.readProjectBundle(PROJECT_ID);
+      if (!initial) throw new Error("First-run project was not persisted.");
+      const observations = initial.fieldObservations![0]!;
+      const firstRevision = await testRevision(initial.styles[0]!, observations, testUuid(701));
+      const style = {
+        ...initial.styles[0]!,
+        revision: initial.styles[0]!.revision + 1,
+        updatedAt: NEXT_TIME,
+        revisionHeadId: firstRevision.revisionId,
+      };
+      const project = { ...initial.project, revision: initial.project.revision + 1, updatedAt: NEXT_TIME };
+      await repository.saveProjectBundle({
+        project,
+        styles: [style],
+        fieldObservations: [observations],
+        styleRevisions: [firstRevision],
+        expectedProjectRevision: initial.project.revision,
+      });
+      return { factory, name, repository, project, style, observations, firstRevision };
+    };
+    const save = (
+      state: Awaited<ReturnType<typeof seedExisting>>,
+      style: StyleRecord,
+      revisions: readonly StyleRevisionRecord[],
+      observations: FieldObservationRecord = state.observations,
+      manifests: readonly FrozenOutputManifestRecord[] = [],
+    ) => state.repository.saveProjectBundle({
+      project: { ...state.project, revision: state.project.revision + 1, updatedAt: "2026-09-24T16:00:02.000Z" },
+      styles: [style],
+      fieldObservations: [observations],
+      styleRevisions: revisions,
+      exportManifests: manifests,
+      expectedProjectRevision: state.project.revision,
+    });
+
+    const movedHead = await seedExisting();
+    try {
+      await expect(save(movedHead, {
+        ...movedHead.style,
+        revision: movedHead.style.revision + 1,
+        updatedAt: "2026-09-24T16:00:02.000Z",
+        revisionHeadId: testUuid(702),
+      }, [])).rejects.toMatchObject({ code: "invalid-data", message: expect.stringContaining("cannot move") });
+      expect((await movedHead.repository.readProjectBundle(PROJECT_ID))?.styles[0]?.revisionHeadId)
+        .toBe(movedHead.firstRevision.revisionId);
+    } finally {
+      movedHead.repository.close();
+    }
+
+    const multipleChildren = await seedExisting();
+    try {
+      const child = await testRevision(multipleChildren.style, multipleChildren.observations, testUuid(703), 2,
+        multipleChildren.firstRevision.revisionId);
+      const grandchild = await testRevision(multipleChildren.style, multipleChildren.observations, testUuid(704), 3,
+        child.revisionId);
+      await expect(save(multipleChildren, {
+        ...multipleChildren.style,
+        revision: multipleChildren.style.revision + 1,
+        updatedAt: "2026-09-24T16:00:02.000Z",
+        revisionHeadId: grandchild.revisionId,
+      }, [child, grandchild])).rejects.toMatchObject({ code: "invalid-data", message: expect.stringContaining("at most one child") });
+    } finally {
+      multipleChildren.repository.close();
+    }
+
+    const wrongParent = await seedExisting();
+    try {
+      const design = {
+        ...wrongParent.style.design,
+        measurements: { ...wrongParent.style.design.measurements, chest: wrongParent.style.design.measurements.chest + 1 },
+      };
+      const child = await testRevision(wrongParent.style, wrongParent.observations, testUuid(705), 2, testUuid(997), design);
+      await expect(save(wrongParent, {
+        ...wrongParent.style,
+        revision: wrongParent.style.revision + 1,
+        updatedAt: "2026-09-24T16:00:02.000Z",
+        design,
+        revisionHeadId: child.revisionId,
+      }, [child])).rejects.toMatchObject({ code: "invalid-data", message: expect.stringContaining("extend its current head") });
+    } finally {
+      wrongParent.repository.close();
+    }
+
+    const staleHead = await seedExisting();
+    try {
+      const child = await testRevision(staleHead.style, staleHead.observations, testUuid(706), 3,
+        staleHead.firstRevision.revisionId);
+      await expect(save(staleHead, {
+        ...staleHead.style,
+        revision: staleHead.style.revision + 1,
+        updatedAt: "2026-09-24T16:00:02.000Z",
+        revisionHeadId: child.revisionId,
+      }, [child])).rejects.toMatchObject({ code: "conflict", message: expect.stringContaining("head changed") });
+    } finally {
+      staleHead.repository.close();
+    }
+
+    const observationMismatch = await seedExisting();
+    try {
+      const design = {
+        ...observationMismatch.style.design,
+        measurements: { ...observationMismatch.style.design.measurements, chest: observationMismatch.style.design.measurements.chest + 1 },
+      };
+      const nextObservations = appendedFieldHistory(observationMismatch.observations);
+      const child = await testRevision(observationMismatch.style, observationMismatch.observations,
+        testUuid(707), 2, observationMismatch.firstRevision.revisionId, design);
+      await expect(save(observationMismatch, {
+        ...observationMismatch.style,
+        revision: observationMismatch.style.revision + 1,
+        updatedAt: "2026-09-24T16:00:02.000Z",
+        design,
+        revisionHeadId: child.revisionId,
+      }, [child], nextObservations)).rejects.toMatchObject({ code: "invalid-data", message: expect.stringContaining("exact current field-observation") });
+    } finally {
+      observationMismatch.repository.close();
+    }
+
+    const unseededFactory = newFactory();
+    const unseededName = databaseName();
+    const unseededRepo = await openProjectRepository({ name: unseededName, factory: unseededFactory, crypto: webcrypto });
+    try {
+      await unseededRepo.initializeFirstRun(PROJECT_ID, STYLE_ID, TIME);
+      const initial = await unseededRepo.readProjectBundle(PROJECT_ID);
+      if (!initial) throw new Error("Unseeded style was not persisted.");
+      const style = initial.styles[0]!;
+      const observations = initial.fieldObservations![0]!;
+      const orphan = await testRevision(style, observations, testUuid(708));
+      await rawPut(unseededFactory, unseededName, PROJECT_STORES.styleRevisions, orphan);
+      const child = await testRevision(style, observations, testUuid(709));
+      await expect(unseededRepo.saveProjectBundle({
+        project: { ...initial.project, revision: initial.project.revision + 1, updatedAt: NEXT_TIME },
+        styles: [{ ...style, revision: style.revision + 1, updatedAt: NEXT_TIME, revisionHeadId: child.revisionId }],
+        fieldObservations: [observations],
+        styleRevisions: [child],
+        expectedProjectRevision: initial.project.revision,
+      })).rejects.toMatchObject({ code: "conflict", message: expect.stringContaining("unseeded style") });
+    } finally {
+      unseededRepo.close();
+    }
+
+    const newProject = newBundle(OTHER_PROJECT_ID, SECOND_STYLE_ID);
+    const newObservations = fieldHistory(newProject.style);
+    const rejectNewStyle = async (
+      style: StyleRecord,
+      revisions: readonly StyleRevisionRecord[],
+      message: string,
+      observations: FieldObservationRecord = newObservations,
+      manifests: readonly FrozenOutputManifestRecord[] = [],
+    ) => {
+      const repo = await openProjectRepository({ name: databaseName(), factory: newFactory(), crypto: webcrypto });
+      try {
+        await expect(repo.saveProjectBundle({
+          project: newProject.project,
+          styles: [style],
+          fieldObservations: [observations],
+          styleRevisions: revisions,
+          exportManifests: manifests,
+          expectedProjectRevision: null,
+        })).rejects.toMatchObject({ code: "invalid-data", message: expect.stringContaining(message) });
+        await expect(repo.readProjectBundle(newProject.project.id)).resolves.toBeNull();
+      } finally {
+        repo.close();
+      }
+    };
+
+    const invalidInitial = await testRevision(newProject.style, newObservations, testUuid(710), 2, testUuid(996));
+    await rejectNewStyle({ ...newProject.style, revisionHeadId: invalidInitial.revisionId }, [invalidInitial], "exactly one parentless revision");
+
+    const editDesign = {
+      ...newProject.style.design,
+      measurements: { ...newProject.style.design.measurements, chest: newProject.style.design.measurements.chest + 1 },
+    };
+    const designMismatch = await testRevision(newProject.style, newObservations, testUuid(711));
+    await rejectNewStyle({ ...newProject.style, revisionHeadId: designMismatch.revisionId, design: editDesign },
+      [designMismatch], "exactly one parentless revision");
+
+    const newerObservations = appendedFieldHistory(newObservations);
+    const observationSnapshot = await testRevision(newProject.style, newObservations, testUuid(712));
+    await rejectNewStyle({
+      ...newProject.style,
+      updatedAt: NEXT_TIME,
+      revisionHeadId: observationSnapshot.revisionId,
+    }, [observationSnapshot], "new style field history", newerObservations);
+
+    const manifestRevision = await testRevision(newProject.style, newObservations, testUuid(713));
+    const alternate = await testRevision(newProject.style, newObservations, manifestRevision.revisionId, 1, null, editDesign);
+    const mismatchedManifest = await testFrozenManifest(alternate, testUuid(714));
+    await rejectNewStyle({ ...newProject.style, revisionHeadId: manifestRevision.revisionId },
+      [manifestRevision], "same digest", newObservations, [mismatchedManifest]);
+  });
+
+  it("fails closed on tampered revision chains and frozen output manifests", async () => {
+    const seed = async () => {
+      const factory = newFactory();
+      const name = databaseName();
+      const repository = await openProjectRepository({ name, factory, crypto: webcrypto });
+      await repository.initializeFirstRun(PROJECT_ID, STYLE_ID, TIME);
+      const initial = await repository.readProjectBundle(PROJECT_ID);
+      if (!initial) throw new Error("First-run project was not persisted.");
+      const style = initial.styles[0]!;
+      const observations = initial.fieldObservations![0]!;
+      const revision = await testRevision(style, observations, testUuid(301));
+      const persistedStyle = { ...style, revision: style.revision + 1, updatedAt: NEXT_TIME, revisionHeadId: revision.revisionId };
+      await repository.saveProjectBundle({
+        project: { ...initial.project, revision: initial.project.revision + 1, updatedAt: NEXT_TIME },
+        styles: [persistedStyle],
+        fieldObservations: [observations],
+        styleRevisions: [revision],
+        expectedProjectRevision: initial.project.revision,
+      });
+      return { factory, name, repository, style: persistedStyle, observations, revision };
+    };
+
+    const corruptedDigest = await seed();
+    try {
+      await rawPut(corruptedDigest.factory, corruptedDigest.name, PROJECT_STORES.styleRevisions, {
+        ...corruptedDigest.revision,
+        revisionContentDigest: "f".repeat(64),
+      });
+      await rejectionCode(corruptedDigest.repository.loadProject(PROJECT_ID), "invalid-data");
+    } finally {
+      corruptedDigest.repository.close();
+    }
+
+    const malformedRevisionRow = await seed();
+    try {
+      await rawPut(malformedRevisionRow.factory, malformedRevisionRow.name, PROJECT_STORES.styleRevisions, {
+        revisionId: testUuid(305),
+        styleId: STYLE_ID,
+      });
+      await rejectionCode(malformedRevisionRow.repository.loadProject(PROJECT_ID), "invalid-data");
+    } finally {
+      malformedRevisionRow.repository.close();
+    }
+
+    const malformedManifestRow = await seed();
+    try {
+      await rawPut(malformedManifestRow.factory, malformedManifestRow.name, PROJECT_STORES.exportManifests, {
+        manifestId: testUuid(404),
+        styleId: STYLE_ID,
+      });
+      await rejectionCode(malformedManifestRow.repository.loadProject(PROJECT_ID), "invalid-data");
+    } finally {
+      malformedManifestRow.repository.close();
+    }
+
+    const unheadedHistory = await seed();
+    try {
+      await rawPut(unheadedHistory.factory, unheadedHistory.name, PROJECT_STORES.styles, {
+        ...unheadedHistory.style,
+        revisionHeadId: null,
+      });
+      await rejectionCode(unheadedHistory.repository.loadProject(PROJECT_ID), "invalid-data");
+    } finally {
+      unheadedHistory.repository.close();
+    }
+
+    const missingHistory = await seed();
+    try {
+      await rawDelete(missingHistory.factory, missingHistory.name, PROJECT_STORES.styleRevisions, missingHistory.revision.revisionId);
+      await rejectionCode(missingHistory.repository.loadProject(PROJECT_ID), "invalid-data");
+    } finally {
+      missingHistory.repository.close();
+    }
+
+    const invalidInitial = await seed();
+    try {
+      const invalid = await testRevision(invalidInitial.style, invalidInitial.observations, testUuid(302), 1, testUuid(999));
+      await rawDelete(invalidInitial.factory, invalidInitial.name, PROJECT_STORES.styleRevisions, invalidInitial.revision.revisionId);
+      await rawPut(invalidInitial.factory, invalidInitial.name, PROJECT_STORES.styleRevisions, invalid);
+      await rawPut(invalidInitial.factory, invalidInitial.name, PROJECT_STORES.styles, {
+        ...invalidInitial.style,
+        revisionHeadId: invalid.revisionId,
+      });
+      await rejectionCode(invalidInitial.repository.loadProject(PROJECT_ID), "invalid-data");
+    } finally {
+      invalidInitial.repository.close();
+    }
+
+    const brokenChain = await seed();
+    try {
+      const design = {
+        ...brokenChain.style.design,
+        measurements: { ...brokenChain.style.design.measurements, chest: brokenChain.style.design.measurements.chest + 1 },
+      };
+      const child = await testRevision(brokenChain.style, brokenChain.observations, testUuid(303), 2, testUuid(998), design);
+      await rawPut(brokenChain.factory, brokenChain.name, PROJECT_STORES.styleRevisions, child);
+      await rawPut(brokenChain.factory, brokenChain.name, PROJECT_STORES.styles, {
+        ...brokenChain.style,
+        revision: brokenChain.style.revision + 1,
+        updatedAt: "2026-09-24T16:00:02.000Z",
+        design,
+        revisionHeadId: child.revisionId,
+      });
+      await rejectionCode(brokenChain.repository.loadProject(PROJECT_ID), "invalid-data");
+    } finally {
+      brokenChain.repository.close();
+    }
+
+    const changedStyle = await seed();
+    try {
+      await rawPut(changedStyle.factory, changedStyle.name, PROJECT_STORES.styles, {
+        ...changedStyle.style,
+        design: {
+          ...changedStyle.style.design,
+          measurements: { ...changedStyle.style.design.measurements, chest: changedStyle.style.design.measurements.chest + 1 },
+        },
+      });
+      await rejectionCode(changedStyle.repository.loadProject(PROJECT_ID), "invalid-data");
+    } finally {
+      changedStyle.repository.close();
+    }
+
+    const badPacketDigest = await seed();
+    try {
+      const manifest = await testFrozenManifest(badPacketDigest.revision, testUuid(401));
+      await rawPut(badPacketDigest.factory, badPacketDigest.name, PROJECT_STORES.exportManifests, {
+        ...manifest,
+        packetDigest: "e".repeat(64),
+      });
+      await rejectionCode(badPacketDigest.repository.loadProject(PROJECT_ID), "invalid-data");
+    } finally {
+      badPacketDigest.repository.close();
+    }
+
+    const missingManifestRevision = await seed();
+    try {
+      const child = await testRevision(
+        missingManifestRevision.style,
+        missingManifestRevision.observations,
+        testUuid(304),
+        2,
+        missingManifestRevision.revision.revisionId,
+      );
+      await rawPut(missingManifestRevision.factory, missingManifestRevision.name, PROJECT_STORES.exportManifests,
+        await testFrozenManifest(child, testUuid(402)));
+      await rejectionCode(missingManifestRevision.repository.loadProject(PROJECT_ID), "invalid-data");
+    } finally {
+      missingManifestRevision.repository.close();
+    }
+
+    const mismatchedManifestRevision = await seed();
+    try {
+      const alternateDesign = {
+        ...mismatchedManifestRevision.style.design,
+        measurements: {
+          ...mismatchedManifestRevision.style.design.measurements,
+          chest: mismatchedManifestRevision.style.design.measurements.chest + 1,
+        },
+      };
+      const alternate = await testRevision(
+        mismatchedManifestRevision.style,
+        mismatchedManifestRevision.observations,
+        mismatchedManifestRevision.revision.revisionId,
+        1,
+        null,
+        alternateDesign,
+      );
+      await rawPut(mismatchedManifestRevision.factory, mismatchedManifestRevision.name, PROJECT_STORES.exportManifests,
+        await testFrozenManifest(alternate, testUuid(403)));
+      await rejectionCode(mismatchedManifestRevision.repository.loadProject(PROJECT_ID), "invalid-data");
+    } finally {
+      mismatchedManifestRevision.repository.close();
+    }
+  });
+
+  it("validates and restores imported revision history with its frozen outputs atomically", async () => {
+    const repository = await openProjectRepository({ name: databaseName(), factory: newFactory(), crypto: webcrypto });
+    try {
+      const bundle = newBundle(OTHER_PROJECT_ID, OTHER_STYLE_ID);
+      const observations = fieldHistory(bundle.style);
+      const revisionId = testUuid(501);
+      const revision = await testRevision(bundle.style, observations, revisionId);
+      const style = { ...bundle.style, revisionHeadId: revisionId };
+      const receipt = (index: number) => ({
+        packageSha256: index.toString(16).padStart(64, "0"),
+        projectId: bundle.project.id,
+        importedAt: TIME,
+        importedAsCopy: false,
+      });
+      const base = {
+        project: bundle.project,
+        styles: [style],
+        recoveries: [],
+        fieldObservations: [observations],
+      } as const;
+
+      await expect(repository.importProjectBundle({ ...base, receipt: receipt(1) }))
+        .rejects.toMatchObject({ code: "invalid-data", message: expect.stringContaining("missing its immutable revision head") });
+
+      const brokenChild = await testRevision(
+        style,
+        observations,
+        testUuid(502),
+        2,
+        testUuid(998),
+        {
+          ...style.design,
+          measurements: { ...style.design.measurements, chest: style.design.measurements.chest + 1 },
+        },
+      );
+      await expect(repository.importProjectBundle({
+        ...base,
+        styles: [{ ...style, revisionHeadId: brokenChild.revisionId }],
+        styleRevisions: [revision, brokenChild],
+        receipt: receipt(2),
+      })).rejects.toMatchObject({ code: "invalid-data", message: expect.stringContaining("invalid sequence or parent chain") });
+
+      await expect(repository.importProjectBundle({
+        ...base,
+        styles: [bundle.style],
+        styleRevisions: [revision],
+        receipt: receipt(3),
+      })).rejects.toMatchObject({ code: "invalid-data", message: expect.stringContaining("unseeded style") });
+
+      const foreign = newBundle(PROJECT_ID, STYLE_ID);
+      const foreignRevision = await testRevision(foreign.style, fieldHistory(foreign.style), testUuid(503));
+      await expect(repository.importProjectBundle({
+        ...base,
+        styles: [bundle.style],
+        styleRevisions: [foreignRevision],
+        receipt: receipt(4),
+      })).rejects.toMatchObject({ code: "invalid-data", message: expect.stringContaining("must belong to a style") });
+
+      const absentRevision = await testRevision(style, observations, testUuid(504), 2, revisionId);
+      const absentManifest = await testFrozenManifest(absentRevision, testUuid(601));
+      await expect(repository.importProjectBundle({
+        ...base,
+        styleRevisions: [revision],
+        exportManifests: [absentManifest],
+        receipt: receipt(5),
+      })).rejects.toMatchObject({ code: "invalid-data", message: expect.stringContaining("missing or mismatched revision") });
+      await expect(repository.readProjectBundle(bundle.project.id)).resolves.toBeNull();
+
+      const alternateDesign = {
+        ...style.design,
+        measurements: { ...style.design.measurements, chest: style.design.measurements.chest + 1 },
+      };
+      const alternateRevision = await testRevision(style, observations, revisionId, 1, null, alternateDesign);
+      const mismatchedManifest = await testFrozenManifest(alternateRevision, testUuid(602));
+      await expect(repository.importProjectBundle({
+        ...base,
+        styleRevisions: [revision],
+        exportManifests: [mismatchedManifest],
+        receipt: receipt(6),
+      })).rejects.toMatchObject({ code: "invalid-data", message: expect.stringContaining("missing or mismatched revision") });
+      await expect(repository.readProjectBundle(bundle.project.id)).resolves.toBeNull();
+
+      const manifest = await testFrozenManifest(revision, testUuid(603));
+      await expect(repository.importProjectBundle({
+        ...base,
+        styleRevisions: [revision],
+        exportManifests: [manifest],
+        receipt: receipt(7),
+      })).resolves.toMatchObject({ status: "imported", project: { id: bundle.project.id } });
+      const restored = await repository.readProjectBundle(bundle.project.id);
+      expect(restored?.styleRevisions).toEqual([revision]);
+      expect(restored?.exportManifests).toHaveLength(1);
+      expect(await restored?.exportManifests?.[0]?.artifacts[0]?.bytes.text()).toBe("stored:selected-size-a0-pdf");
+    } finally {
+      repository.close();
+    }
+  });
+
   it("upgrades version-one style records transactionally and leaves malformed version-one data intact", async () => {
     const factory = newFactory();
     const name = databaseName();
     const bundle = newBundle();
     const legacyStyle: Record<string, unknown> = { ...bundle.style, schemaVersion: 1 };
     delete legacyStyle.archivedAt;
+    delete legacyStyle.revisionHeadId;
     const legacyDesign = { ...bundle.style.design } as Record<string, unknown>;
     delete legacyDesign.semanticEdits;
     legacyStyle.design = legacyDesign;
@@ -587,7 +1313,7 @@ describe("transactional project repository", () => {
     versionOne.close();
     const upgraded = await openProjectRepository({ name, factory, crypto: webcrypto });
     expect((await upgraded.readActiveProject())?.activeStyle).toMatchObject({
-      id: STYLE_ID, schemaVersion: 3, archivedAt: null,
+      id: STYLE_ID, schemaVersion: 4, archivedAt: null, revisionHeadId: null,
       design: { ...bundle.style.design, semanticEdits: null },
     });
     expect((await upgraded.readActiveProject())?.project).toMatchObject({ schemaVersion: 2, importedFrom: null });
@@ -633,6 +1359,7 @@ describe("transactional project repository", () => {
     const oldDesign = { ...legacy.style.design } as Record<string, unknown>;
     delete oldDesign.semanticEdits;
     const oldStyle = { ...legacy.style, schemaVersion: 2, design: oldDesign };
+    delete (oldStyle as { revisionHeadId?: string | null }).revisionHeadId;
     const oldRecoveryBase = recovery(STYLE_ID);
     const oldRecoveryPayload = { ...oldRecoveryBase.payload } as Record<string, unknown>;
     delete oldRecoveryPayload.semanticEdits;
@@ -653,7 +1380,7 @@ describe("transactional project repository", () => {
     const loaded = await upgraded.readActiveProject();
     expect(loaded?.project).toEqual(project);
     expect(loaded?.styles).toEqual([
-      { ...legacy.style, schemaVersion: 3, design: { ...legacy.style.design, semanticEdits: null } },
+      { ...legacy.style, schemaVersion: 4, archivedAt: null, revisionHeadId: null, design: { ...legacy.style.design, semanticEdits: null } },
       current.style,
     ]);
     expect(loaded?.activeRecovery).toEqual({
@@ -666,7 +1393,7 @@ describe("transactional project repository", () => {
     expect((await reopened.readActiveProject())?.styles).toEqual(loaded?.styles);
     reopened.close();
     const upgradedRaw = await rawDatabase(factory, name);
-    expect(upgradedRaw.version).toBe(5);
+    expect(upgradedRaw.version).toBe(6);
     upgradedRaw.close();
 
     const emptyName = databaseName();
@@ -674,7 +1401,7 @@ describe("transactional project repository", () => {
     const emptyUpgrade = await openProjectRepository({ name: emptyName, factory, crypto: webcrypto });
     emptyUpgrade.close();
     const emptyRaw = await rawDatabase(factory, emptyName);
-    expect(emptyRaw.version).toBe(5);
+    expect(emptyRaw.version).toBe(6);
     emptyRaw.close();
 
     const malformedName = databaseName();
@@ -709,6 +1436,108 @@ describe("transactional project repository", () => {
     expect(malformedStyleDb.version).toBe(4);
     malformedStyleDb.close();
     expect(await rawGet(factory, malformedStyleName, PROJECT_STORES.styles, STYLE_ID)).toEqual(invalidStyle);
+  });
+
+  it("upgrades the shipped v5 schema by adding an explicit null revision head without replacing saved data", async () => {
+    const factory = newFactory();
+    const name = databaseName();
+    const bundle = newBundle();
+    const legacyStyle: Record<string, unknown> = { ...bundle.style, schemaVersion: 3 };
+    delete legacyStyle.revisionHeadId;
+    expect(parseStyleRecord(legacyStyle).ok).toBe(true);
+    const observations = fieldHistory(bundle.style);
+    await createVersionFiveDatabase(factory, name, [
+      { store: "meta", value: { key: "activeSelection", projectId: PROJECT_ID, styleId: STYLE_ID } },
+      { store: "projects", value: bundle.project },
+      { store: "styles", value: legacyStyle },
+      { store: "fieldObservations", value: observations },
+    ]);
+
+    const repository = await openProjectRepository({ name, factory, crypto: webcrypto });
+    try {
+      const loaded = await repository.readActiveProject();
+      expect(loaded?.activeStyle).toMatchObject({
+        id: STYLE_ID,
+        schemaVersion: 4,
+        revisionHeadId: null,
+        design: bundle.style.design,
+      });
+      expect(loaded?.project).toEqual(bundle.project);
+      expect(loaded?.fieldObservations).toEqual([observations]);
+    } finally {
+      repository.close();
+    }
+    const upgradedDatabase = await rawDatabase(factory, name);
+    expect(upgradedDatabase.version).toBe(PROJECT_DATABASE_VERSION);
+    const upgradedSchema = upgradedDatabase.transaction(PROJECT_STORES.styleRevisions).objectStore(PROJECT_STORES.styleRevisions);
+    expect(upgradedSchema.indexNames.contains("styleId")).toBe(true);
+    expect(upgradedSchema.indexNames.contains("styleIdAndNumber")).toBe(true);
+    upgradedDatabase.close();
+
+    const malformedName = databaseName();
+    const malformedFutureStyle: Record<string, unknown> = { ...bundle.style, schemaVersion: 4 };
+    delete malformedFutureStyle.revisionHeadId;
+    await createVersionFiveDatabase(factory, malformedName, [
+      { store: "meta", value: { key: "activeSelection", projectId: PROJECT_ID, styleId: STYLE_ID } },
+      { store: "projects", value: bundle.project },
+      { store: "styles", value: malformedFutureStyle },
+      { store: "fieldObservations", value: observations },
+    ]);
+    await rejectionCode(openProjectRepository({ name: malformedName, factory, crypto: webcrypto }), "unavailable");
+    const unchanged = await rawDatabase(factory, malformedName, 5);
+    expect(unchanged.version).toBe(5);
+    expect(await rawGet(factory, malformedName, PROJECT_STORES.styles, STYLE_ID))
+      .toEqual(malformedFutureStyle);
+    unchanged.close();
+  });
+
+  it("aborts every v5 revision-head cursor failure and tolerates a completed or absent upgrade cursor", async () => {
+    const style = { ...newBundle().style, schemaVersion: 3 } as Record<string, unknown>;
+    delete style.revisionHeadId;
+    const exercise = async (
+      failure: "missing-transaction" | "open" | "request-error" | "invalid-record" | "update" | "continue" | "empty" | "valid",
+    ): Promise<void> => {
+      const cursorRequest = {
+        result: failure === "empty" ? null : {
+          value: failure === "invalid-record" ? [] : style,
+          update: () => { if (failure === "update") throw new Error("revision cursor update failed"); },
+          continue: () => { if (failure === "continue") throw new Error("revision cursor continuation failed"); },
+        },
+        onsuccess: null as ((event: Event) => void) | null,
+        onerror: null as ((event: Event) => void) | null,
+      };
+      const transaction = {
+        abort: vi.fn(),
+        objectStore: () => {
+          if (failure === "open") throw new Error("style store unavailable");
+          return { openCursor: () => cursorRequest };
+        },
+      };
+      const fakeFactory = controlledFactory((request) => {
+        request.result = {
+          version: PROJECT_DATABASE_VERSION,
+          objectStoreNames: { contains: () => true },
+          createObjectStore: vi.fn(),
+        } as unknown as IDBDatabase;
+        request.transaction = failure === "missing-transaction" ? null : transaction as unknown as IDBTransaction;
+        request.onupgradeneeded?.({ oldVersion: 5, newVersion: PROJECT_DATABASE_VERSION } as IDBVersionChangeEvent);
+        if (failure === "request-error") cursorRequest.onerror?.(new Event("error"));
+        else if (failure !== "missing-transaction") cursorRequest.onsuccess?.(new Event("success"));
+        try {
+          expect(transaction.abort, failure).toHaveBeenCalledTimes(
+            ["open", "request-error", "invalid-record", "update", "continue"].includes(failure) ? 1 : 0,
+          );
+        } finally {
+          Object.defineProperty(request, "error", { value: { name: "AbortError" } });
+          request.onerror?.(new Event("error"));
+        }
+      });
+      await rejectionCode(openProjectRepository({ name: databaseName(), factory: fakeFactory }), "unavailable");
+    };
+
+    for (const failure of ["missing-transaction", "open", "request-error", "invalid-record", "update", "continue", "empty", "valid"] as const) {
+      await exercise(failure);
+    }
   });
 
   it("aborts each v4 edit-state cursor failure instead of partially upgrading records", async () => {
@@ -1411,6 +2240,7 @@ describe("transactional project repository", () => {
 
     const legacyValue: Record<string, unknown> = { ...newBundle().style, schemaVersion: 1 };
     delete legacyValue.archivedAt;
+    delete legacyValue.revisionHeadId;
     const throwingCursorRequest = {
       result: {
         value: legacyValue,
@@ -1610,6 +2440,7 @@ describe("transactional project repository", () => {
 
     const legacyStyle: Record<string, unknown> = { ...newBundle().style, schemaVersion: 1 };
     delete legacyStyle.archivedAt;
+    delete legacyStyle.revisionHeadId;
     const legacyStyleDesign = { ...newBundle().style.design } as Record<string, unknown>;
     delete legacyStyleDesign.semanticEdits;
     legacyStyle.design = legacyStyleDesign;
@@ -1761,6 +2592,27 @@ describe("transactional project repository", () => {
         recoveries: [recovery(STYLE_ID)],
         receipt,
       }), "invalid-data");
+
+      const orphanRevision = await createStyleRevision({
+        styleId: incoming.style.id,
+        revisionId: "11111111-1111-4111-8111-111111111111",
+        parentRevisionId: null,
+        revisionNumber: 1,
+        design: incoming.style.design,
+        fieldObservations: fieldHistory(incoming.style),
+        artwork: [],
+        createdAt: TIME,
+      }, webcrypto);
+      await rejectionCode(repository.importProjectBundle({
+        project: incoming.project,
+        styles: [incoming.style],
+        recoveries: [],
+        fieldObservations: [fieldHistory(incoming.style)],
+        styleRevisions: [orphanRevision],
+        receipt,
+      }), "invalid-data");
+      expect(await repository.readProjectBundle(incoming.project.id)).toBeNull();
+      expect(await repository.readProjectImportReceipt(receipt.packageSha256)).toBeNull();
 
       expect(await repository.importProjectBundle({
         project: incoming.project,

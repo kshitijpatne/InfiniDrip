@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 292,
-  "updatedAt": "2026-09-25T19:34:04.688Z",
+  "revision": 302,
+  "updatedAt": "2026-09-26T02:35:48.626Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -2480,7 +2480,7 @@
       "releaseId": null,
       "status": "In Progress",
       "openedAt": "2026-09-23",
-      "targetAt": "2026-12-11",
+      "targetAt": "2026-10-02",
       "deliveredAt": null,
       "priority": "P0",
       "risk": "high",
@@ -4590,10 +4590,10 @@
       "title": "F03 — Durable constrained edits and immutable revisions",
       "epicId": "EPIC-15",
       "releaseId": null,
-      "status": "In Progress",
+      "status": "Done",
       "openedAt": "2026-09-24",
       "targetAt": "2026-12-04",
-      "deliveredAt": null,
+      "deliveredAt": "2026-09-26",
       "priority": "P0",
       "risk": "high",
       "owner": "Codex",
@@ -4641,6 +4641,28 @@
           "role": "maintainer",
           "note": "Slice 236 is complete with verified evidence; begin the ordered F03 constrained-edit contract and engine.",
           "evidenceRefs": []
+        },
+        {
+          "status": "Review",
+          "at": "2026-09-26T02:30:52.844Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "Slice 239 is complete with hash-verified contract and machine-readable rendered/electronic replay evidence; F03 is submitted for review before starting the G02 final gate.",
+          "evidenceRefs": [
+            "E-EPIC15-F03-S239-EXIT",
+            "E-EPIC15-F03-S239-RENDER"
+          ]
+        },
+        {
+          "status": "Done",
+          "at": "2026-09-26T02:31:02.224Z",
+          "actor": "Codex",
+          "role": "reviewer",
+          "note": "Accepted F03 exit: S237–S239 semantic edits, dependent-output propagation, immutable lineage, exact frozen artifacts, focused coverage and production-built Tee/Woven-shirt browser/Electron restart replay have verified evidence. Limits remain explicit; S240 owns the full repository and G02 exit gates.",
+          "evidenceRefs": [
+            "E-EPIC15-F03-S239-EXIT",
+            "E-EPIC15-F03-S239-RENDER"
+          ]
         }
       ],
       "comments": [
@@ -4659,7 +4681,9 @@
         "E-EPIC15-F03-S237-EXIT",
         "E-EPIC15-F03-S237-RENDER",
         "E-EPIC15-F03-S238-EXIT",
-        "E-EPIC15-F03-S238-RENDER"
+        "E-EPIC15-F03-S238-RENDER",
+        "E-EPIC15-F03-S239-EXIT",
+        "E-EPIC15-F03-S239-RENDER"
       ],
       "flagKey": null
     },
@@ -4669,9 +4693,9 @@
       "title": "G02 final review, digital evidence replay and exit",
       "epicId": "EPIC-15",
       "releaseId": null,
-      "status": "Backlog",
+      "status": "In Progress",
       "openedAt": "2026-09-24",
-      "targetAt": "2026-12-11",
+      "targetAt": "2026-10-02",
       "deliveredAt": null,
       "priority": "P0",
       "risk": "high",
@@ -4705,10 +4729,41 @@
           "role": "maintainer",
           "note": "Create the admitted EPIC-15/G02 packet and preserve the dependency order in the canonical Control Center.",
           "evidenceRefs": []
+        },
+        {
+          "status": "Ready",
+          "at": "2026-09-26T02:31:14.077Z",
+          "actor": "Codex",
+          "role": "reviewer",
+          "note": "F01, F02 and F03 are complete with verified evidence; begin the admitted Slice 240 final-review packet in dependency order.",
+          "evidenceRefs": [
+            "E-EPIC15-F03-S239-EXIT",
+            "E-EPIC15-F03-S239-RENDER"
+          ]
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-09-26T02:31:57.889Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "Start Slice 240 after F01, F02 and F03 completed with verified evidence. Execute the full G02 gate without relaxing coverage, export identity, local-first or no-physical-fit boundaries.",
+          "evidenceRefs": [
+            "E-EPIC15-F03-S239-EXIT",
+            "E-EPIC15-F03-S239-RENDER"
+          ]
         }
       ],
-      "comments": [],
-      "evidenceRefs": [],
+      "comments": [
+        {
+          "at": "2026-09-26T02:31:48.299Z",
+          "actor": "Codex",
+          "text": "Reforecast at the F03 exit on 2026-09-26: target 2026-10-02, assuming 4–5 focused workdays in one serialized integration lane for the full coverage/build/export-identity gate, actual browser/Electron replay, rendered accessibility/responsive checks, and final review. Scope and acceptance gates are unchanged; the date is a forecast, not a waiver."
+        }
+      ],
+      "evidenceRefs": [
+        "E-EPIC15-F03-S239-EXIT",
+        "E-EPIC15-F03-S239-RENDER"
+      ],
       "flagKey": null
     }
   ],
@@ -5333,6 +5388,24 @@
       "sha256": "907d65c2abbc5f1254b9011c17d3ea28f16cb322ec4df299361e1697218f5ef5",
       "verified": true,
       "note": "Retained production-built Chromium screenshot of the Woven-shirt semantic-edit view; SHA-256 verified. This is a 2D digital pattern view, not drape or fit evidence."
+    },
+    {
+      "id": "E-EPIC15-F03-S239-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic15/F03-IMMUTABLE-REVISIONS-S239.md",
+      "commit": null,
+      "sha256": "5c8ab082ee8f5cea74074166c4d5805c8efe9f512351027aa9e2b490369083e6",
+      "verified": true,
+      "note": "Slice 239 implementation contract and accepted execution record; 166 focused tests, six dedicated modules at 100% coverage, production build, and Tee/Woven-shirt Chromium/Electron immutable-revision and exact frozen-output restart replay. See the report for partial-app coverage selection and limits."
+    },
+    {
+      "id": "E-EPIC15-F03-S239-RENDER",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic15/evidence/S239-rendered-verification.json",
+      "commit": null,
+      "sha256": "5f1dc7dc5c3cd845895eac9a8381eb6abde5a70969b78511d2156be19b1b0935",
+      "verified": true,
+      "note": "Machine-readable production-built Chromium 152 and Electron 44.1.0 Tee/Woven-shirt replay: four saved revision chains, each complete seven-artifact frozen set with lengths and SHA-256, unchanged history after successor, exact historical SVG bytes after profile relaunch, and paths/digests for eight rendered screenshots."
     }
   ]
 }

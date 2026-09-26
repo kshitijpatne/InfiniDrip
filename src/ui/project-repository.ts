@@ -27,9 +27,19 @@ import {
   parseFieldObservationRecord,
   type FieldObservationRecord,
 } from "./field-provenance";
+import {
+  parseFrozenOutputManifestRecord,
+  parseStyleRevisionRecord,
+  canonicalizeJcs,
+  verifyFrozenOutputManifestMetadata,
+  verifyFrozenOutputManifest,
+  verifyStyleRevision,
+  type FrozenOutputManifestRecord,
+  type StyleRevisionRecord,
+} from "./style-revisions";
 
 export const PROJECT_DATABASE_NAME = "infinidrip-projects";
-export const PROJECT_DATABASE_VERSION = 5;
+export const PROJECT_DATABASE_VERSION = 6;
 export const PROJECT_STORES = Object.freeze({
   meta: "meta",
   projects: "projects",
@@ -38,6 +48,8 @@ export const PROJECT_STORES = Object.freeze({
   migrations: "migrations",
   imports: "imports",
   fieldObservations: "fieldObservations",
+  styleRevisions: "styleRevisions",
+  exportManifests: "exportManifests",
 });
 const ACTIVE_SELECTION_KEY = "activeSelection";
 const ALL_STORES = Object.values(PROJECT_STORES);
@@ -50,6 +62,8 @@ const STORE_KEY_PATHS: Readonly<Record<string, string>> = Object.freeze({
   [PROJECT_STORES.migrations]: "sourceSha256",
   [PROJECT_STORES.imports]: "packageSha256",
   [PROJECT_STORES.fieldObservations]: "styleId",
+  [PROJECT_STORES.styleRevisions]: "revisionId",
+  [PROJECT_STORES.exportManifests]: "manifestId",
 });
 
 export type RepositoryErrorCode =
@@ -90,6 +104,8 @@ export interface LoadedProject {
   readonly activeStyle: StyleRecord;
   readonly activeRecovery: RecoveryRecord | null;
   readonly fieldObservations: readonly FieldObservationRecord[];
+  readonly styleRevisions: readonly StyleRevisionRecord[];
+  readonly exportManifests: readonly FrozenOutputManifestRecord[];
 }
 
 export interface ProjectBundleSnapshot {
@@ -97,6 +113,8 @@ export interface ProjectBundleSnapshot {
   readonly styles: readonly StyleRecord[];
   readonly recoveries: readonly RecoveryRecord[];
   readonly fieldObservations?: readonly FieldObservationRecord[];
+  readonly styleRevisions?: readonly StyleRevisionRecord[];
+  readonly exportManifests?: readonly FrozenOutputManifestRecord[];
 }
 
 export interface SaveProjectBundleInput {
@@ -105,6 +123,10 @@ export interface SaveProjectBundleInput {
   readonly recoveries?: readonly RecoveryRecord[];
   /** Append-only provenance records written atomically with style/project changes. */
   readonly fieldObservations?: readonly FieldObservationRecord[];
+  /** New immutable history rows, validated before the transaction and inserted atomically. */
+  readonly styleRevisions?: readonly StyleRevisionRecord[];
+  /** New immutable output captures, validated before the transaction and inserted atomically. */
+  readonly exportManifests?: readonly FrozenOutputManifestRecord[];
   /** Removes a style's old crash-recovery payload in the same atomic save. */
   readonly clearRecoveryStyleIds?: readonly string[];
   /** null creates a project; a number is a compare-and-swap revision. */
@@ -123,6 +145,8 @@ export interface ImportProjectBundleInput {
   readonly styles: readonly StyleRecord[];
   readonly recoveries: readonly RecoveryRecord[];
   readonly fieldObservations?: readonly FieldObservationRecord[];
+  readonly styleRevisions?: readonly StyleRevisionRecord[];
+  readonly exportManifests?: readonly FrozenOutputManifestRecord[];
   readonly receipt: ProjectImportReceipt;
 }
 
@@ -226,6 +250,45 @@ function createSchema(database: IDBDatabase): void {
   if (!database.objectStoreNames.contains(PROJECT_STORES.fieldObservations)) {
     database.createObjectStore(PROJECT_STORES.fieldObservations, { keyPath: "styleId" });
   }
+  createImmutableHistoryStores(database);
+}
+
+function createImmutableHistoryStores(database: IDBDatabase): void {
+  if (!database.objectStoreNames.contains(PROJECT_STORES.styleRevisions)) {
+    const revisions = database.createObjectStore(PROJECT_STORES.styleRevisions, { keyPath: "revisionId" });
+    revisions.createIndex("styleId", "styleId", { unique: false });
+    revisions.createIndex("styleIdAndNumber", ["styleId", "revisionNumber"], { unique: true });
+  }
+  if (!database.objectStoreNames.contains(PROJECT_STORES.exportManifests)) {
+    const manifests = database.createObjectStore(PROJECT_STORES.exportManifests, { keyPath: "manifestId" });
+    manifests.createIndex("styleId", "styleId", { unique: false });
+    manifests.createIndex("styleIdAndCapturedAt", ["styleId", "capturedAt"], { unique: false });
+  }
+}
+
+function upgradeStyleRevisionHeads(transaction: IDBTransaction | null): void {
+  if (!transaction) return;
+  try {
+    const request = transaction.objectStore(PROJECT_STORES.styles).openCursor();
+    request.onerror = () => transaction.abort();
+    request.onsuccess = () => {
+      try {
+        const cursor = request.result;
+        if (!cursor) return;
+        const parsed = parseStyleRecord(cursor.value);
+        if (!parsed.ok) {
+          transaction.abort();
+          return;
+        }
+        cursor.update({ ...parsed.value, revisionHeadId: null });
+        cursor.continue();
+      } catch {
+        transaction.abort();
+      }
+    };
+  } catch {
+    transaction.abort();
+  }
 }
 
 function upgradeProjectRecordsV1(transaction: IDBTransaction | null): void {
@@ -301,8 +364,7 @@ function seedFieldObservations(
           transaction.abort();
           return;
         }
-        if (upgradeEditStyles && parsed.value.schemaVersion === 3
-          && (styleValue as { schemaVersion?: unknown }).schemaVersion !== 3) {
+        if (upgradeEditStyles) {
           cursor.update(parsed.value);
         }
         observations.add(createFieldObservationRecord(parsed.value, parsed.value.updatedAt, "existing-local-style"));
@@ -371,7 +433,11 @@ function hasSupportedSchema(database: IDBDatabase): boolean {
     if (database.objectStoreNames.length !== ALL_STORES.length
       || !ALL_STORES.every((name) => database.objectStoreNames.contains(name))) return false;
     const transaction = database.transaction([...ALL_STORES], "readonly");
-    return ALL_STORES.every((name) => transaction.objectStore(name).keyPath === STORE_KEY_PATHS[name]);
+    if (!ALL_STORES.every((name) => transaction.objectStore(name).keyPath === STORE_KEY_PATHS[name])) return false;
+    const revisions = transaction.objectStore(PROJECT_STORES.styleRevisions);
+    const manifests = transaction.objectStore(PROJECT_STORES.exportManifests);
+    return revisions.indexNames.contains("styleId") && revisions.indexNames.contains("styleIdAndNumber")
+      && manifests.indexNames.contains("styleId") && manifests.indexNames.contains("styleIdAndCapturedAt");
   } catch {
     return false;
   }
@@ -431,6 +497,46 @@ function parseFieldObservationInputs(
   return parsed;
 }
 
+async function parseStyleRevisionInputs(
+  values: readonly StyleRevisionRecord[] | undefined,
+  crypto?: Crypto,
+): Promise<StyleRevisionRecord[]> {
+  if (values === undefined) return [];
+  if (!Array.isArray(values)) throw new ProjectRepositoryError("invalid-data", "Style revisions must be a list.");
+  const parsed: StyleRevisionRecord[] = [];
+  for (const value of values) {
+    const record = parseStyleRevisionRecord(value);
+    if (!record || !await verifyStyleRevision(record, crypto)) {
+      throw new ProjectRepositoryError("invalid-data", "A new immutable style revision failed strict schema or SHA-256 validation.");
+    }
+    if (parsed.some((previous) => previous.revisionId === record.revisionId)) {
+      throw new ProjectRepositoryError("invalid-data", "A style bundle contains duplicate revision IDs.");
+    }
+    parsed.push(record);
+  }
+  return parsed;
+}
+
+async function parseExportManifestInputs(
+  values: readonly FrozenOutputManifestRecord[] | undefined,
+  crypto?: Crypto,
+): Promise<FrozenOutputManifestRecord[]> {
+  if (values === undefined) return [];
+  if (!Array.isArray(values)) throw new ProjectRepositoryError("invalid-data", "Frozen output manifests must be a list.");
+  const parsed: FrozenOutputManifestRecord[] = [];
+  for (const value of values) {
+    const record = parseFrozenOutputManifestRecord(value);
+    if (!record || !await verifyFrozenOutputManifest(record, crypto)) {
+      throw new ProjectRepositoryError("invalid-data", "A frozen output manifest or its stored artifact bytes failed integrity validation.");
+    }
+    if (parsed.some((previous) => previous.manifestId === record.manifestId)) {
+      throw new ProjectRepositoryError("invalid-data", "A style bundle contains duplicate frozen manifest IDs.");
+    }
+    parsed.push(record);
+  }
+  return parsed;
+}
+
 function isAppendOnlyExtension(previous: FieldObservationRecord, next: FieldObservationRecord): boolean {
   if (previous.styleId !== next.styleId || previous.definitionVersion !== next.definitionVersion
     || next.revision < previous.revision || next.observations.length < previous.observations.length) return false;
@@ -474,14 +580,79 @@ async function bundleInTransaction(
     activeRecovery = recovery.value;
   }
   const fieldObservations: FieldObservationRecord[] = [];
+  const styleRevisions: StyleRevisionRecord[] = [];
+  const exportManifests: FrozenOutputManifestRecord[] = [];
+  const revisionStore = transaction.objectStore(PROJECT_STORES.styleRevisions).index("styleId");
+  const manifestStore = transaction.objectStore(PROJECT_STORES.exportManifests).index("styleId");
   for (const style of bundle.value.styles) {
     const input = await requestValue<unknown>(transaction.objectStore(PROJECT_STORES.fieldObservations).get(style.id));
     if (input === undefined) throw new ProjectRepositoryError("invalid-data", "A style is missing its source-aware field history.");
     const parsed = parseFieldObservationRecord(input);
     if (!parsed.ok) throw new ProjectRepositoryError("invalid-data", parsed.error);
     fieldObservations.push(parsed.value);
+    const revisions = await requestValue<unknown[]>(revisionStore.getAll(style.id));
+    for (const input of revisions) {
+      const revision = parseStyleRevisionRecord(input);
+      if (!revision || revision.styleId !== style.id) throw new ProjectRepositoryError("invalid-data", "A style revision record is malformed or belongs to another style.");
+      styleRevisions.push(revision);
+    }
+    const manifests = await requestValue<unknown[]>(manifestStore.getAll(style.id));
+    for (const input of manifests) {
+      const manifest = parseFrozenOutputManifestRecord(input);
+      if (!manifest || manifest.styleId !== style.id) throw new ProjectRepositoryError("invalid-data", "A frozen output manifest is malformed or belongs to another style.");
+      exportManifests.push(manifest);
+    }
   }
-  return { project: bundle.value.project, styles: bundle.value.styles, activeStyle, activeRecovery, fieldObservations };
+  styleRevisions.sort((left, right) => left.styleId.localeCompare(right.styleId) || left.revisionNumber - right.revisionNumber);
+  exportManifests.sort((left, right) => left.styleId.localeCompare(right.styleId)
+    || left.capturedAt.localeCompare(right.capturedAt) || left.manifestId.localeCompare(right.manifestId));
+  return { project: bundle.value.project, styles: bundle.value.styles, activeStyle, activeRecovery, fieldObservations, styleRevisions, exportManifests };
+}
+
+async function verifyLoadedHistory(loaded: LoadedProject, crypto?: Crypto): Promise<LoadedProject> {
+  const revisionsByStyle = new Map<string, StyleRevisionRecord[]>();
+  for (const revision of loaded.styleRevisions) {
+    if (!await verifyStyleRevision(revision, crypto)) {
+      throw new ProjectRepositoryError("invalid-data", `Style revision ${revision.revisionId} failed its SHA-256 integrity check.`);
+    }
+    const list = revisionsByStyle.get(revision.styleId) ?? [];
+    list.push(revision);
+    revisionsByStyle.set(revision.styleId, list);
+  }
+  for (const style of loaded.styles) {
+    const revisions = (revisionsByStyle.get(style.id) ?? []).sort((left, right) => left.revisionNumber - right.revisionNumber);
+    if (style.revisionHeadId === null) {
+      if (revisions.length !== 0) throw new ProjectRepositoryError("invalid-data", "A style has revision rows but no revision head.");
+      continue;
+    }
+    if (revisions.length === 0 || revisions[0]!.revisionNumber !== 1 || revisions[0]!.parentRevisionId !== null) {
+      throw new ProjectRepositoryError("invalid-data", "A style revision history has no valid initial parentless revision.");
+    }
+    for (let index = 0; index < revisions.length; index += 1) {
+      const revision = revisions[index]!;
+      const previous = revisions[index - 1];
+      if (revision.revisionNumber !== index + 1
+        || (index > 0 && (revision.parentRevisionId !== previous!.revisionId
+          || revision.revisionNumber !== previous!.revisionNumber + 1))) {
+        throw new ProjectRepositoryError("invalid-data", "A style revision history has a missing, reordered, or broken parent link.");
+      }
+    }
+    const head = revisions[revisions.length - 1]!;
+    if (head.revisionId !== style.revisionHeadId || canonicalizeJcs(head.payload.design) !== canonicalizeJcs(style.design)) {
+      throw new ProjectRepositoryError("invalid-data", "The saved style does not match its immutable revision head.");
+    }
+  }
+  for (const manifest of loaded.exportManifests) {
+    if (!await verifyFrozenOutputManifestMetadata(manifest, crypto)) {
+      throw new ProjectRepositoryError("invalid-data", `Frozen output manifest ${manifest.manifestId} failed its packet-digest integrity check.`);
+    }
+    const revision = loaded.styleRevisions.find((candidate) => candidate.revisionId === manifest.revisionId);
+    if (!revision || revision.styleId !== manifest.styleId
+      || revision.revisionContentDigest !== manifest.payload.revisionContentDigest) {
+      throw new ProjectRepositoryError("invalid-data", `Frozen output manifest ${manifest.manifestId} points to a missing or mismatched revision.`);
+    }
+  }
+  return loaded;
 }
 
 function validExpectedRevision(value: number | null): boolean {
@@ -549,9 +720,15 @@ export async function openProjectRepository(options: ProjectRepositoryOptions = 
         } else if (event.oldVersion === 4 && event.newVersion === PROJECT_DATABASE_VERSION) {
           upgradeEditStateStyles(request.transaction);
           upgradeEditStateRecoveries(request.transaction);
+        } else if (event.oldVersion === 5 && event.newVersion === PROJECT_DATABASE_VERSION) {
+          // The v6 transition is additive: store creation and a strict style
+          // schema upgrade only. Hashing/seed rows happen after the upgrade.
         } else {
           request.transaction?.abort();
+          return;
         }
+        createImmutableHistoryStores(request.result);
+        if (event.oldVersion === 5) upgradeStyleRevisionHeads(request.transaction);
       } catch {
         try { request.transaction?.abort(); } catch { /* The upgrade transaction may already be aborting. */ }
       }
@@ -567,7 +744,8 @@ export async function openProjectRepository(options: ProjectRepositoryOptions = 
       if (request.error?.name === "VersionError") {
         reject(new ProjectRepositoryError("unsupported-version", "Project storage was created by a newer application version."));
       } else {
-        reject(new ProjectRepositoryError("unavailable", "Project storage could not be opened. Existing saved data was not changed."));
+        const reason = request.error ? ` ${request.error.name}: ${request.error.message}` : "";
+        reject(new ProjectRepositoryError("unavailable", `Project storage could not be opened. Existing saved data was not changed.${reason}`));
       }
     };
     request.onsuccess = () => {
@@ -613,15 +791,16 @@ export class ProjectRepository {
 
   async loadProject(projectId: string): Promise<LoadedProject | null> {
     this.ensureOpen();
-    return inTransaction(this.database,
-      [PROJECT_STORES.projects, PROJECT_STORES.styles, PROJECT_STORES.recoveries, PROJECT_STORES.fieldObservations], "readonly",
+    const loaded = await inTransaction(this.database,
+      ALL_STORES, "readonly",
       (transaction) => bundleInTransaction(transaction, projectId));
+    return loaded ? verifyLoadedHistory(loaded, this.cryptoApi) : null;
   }
 
   async readProjectBundle(projectId: string): Promise<ProjectBundleSnapshot | null> {
     this.ensureOpen();
-    return inTransaction(this.database,
-      [PROJECT_STORES.projects, PROJECT_STORES.styles, PROJECT_STORES.recoveries, PROJECT_STORES.fieldObservations], "readonly",
+    const snapshot = await inTransaction(this.database,
+      ALL_STORES, "readonly",
       async (transaction) => {
         const loaded = await bundleInTransaction(transaction, projectId);
         if (!loaded) return null;
@@ -640,13 +819,26 @@ export class ProjectRepository {
           styles: loaded.styles,
           recoveries,
           fieldObservations: loaded.fieldObservations,
+          styleRevisions: loaded.styleRevisions,
+          exportManifests: loaded.exportManifests,
         };
       });
+    if (!snapshot) return null;
+    await verifyLoadedHistory({
+      project: snapshot.project,
+      styles: snapshot.styles,
+      activeStyle: snapshot.styles.find((style) => style.id === snapshot.project.activeStyleId)!,
+      activeRecovery: snapshot.recoveries.find((recovery) => recovery.styleId === snapshot.project.activeStyleId) ?? null,
+      fieldObservations: snapshot.fieldObservations,
+      styleRevisions: snapshot.styleRevisions,
+      exportManifests: snapshot.exportManifests,
+    }, this.cryptoApi);
+    return snapshot;
   }
 
   async readActiveProject(): Promise<LoadedProject | null> {
     this.ensureOpen();
-    return inTransaction(this.database, ALL_STORES, "readonly", async (transaction) => {
+    const loaded = await inTransaction(this.database, ALL_STORES, "readonly", async (transaction) => {
       const stored = await requestValue(transaction.objectStore(PROJECT_STORES.meta).get(ACTIVE_SELECTION_KEY));
       if (stored === undefined) return null;
       if (!validActiveSelection(stored)) {
@@ -656,11 +848,12 @@ export class ProjectRepository {
       if (!loaded) throw new ProjectRepositoryError("invalid-data", "Active project selection points to a missing project.");
       return loaded;
     });
+    return loaded ? verifyLoadedHistory(loaded, this.cryptoApi) : null;
   }
 
   async listProjects(): Promise<readonly LoadedProject[]> {
     this.ensureOpen();
-    return inTransaction(this.database, ALL_STORES, "readonly", async (transaction) => {
+    const loaded = await inTransaction(this.database, ALL_STORES, "readonly", async (transaction) => {
       const inputs = await requestValue<ProjectRecord[]>(transaction.objectStore(PROJECT_STORES.projects).getAll());
       const projects = inputs.map((input) => {
         const parsed = parseProjectRecord(input);
@@ -675,6 +868,7 @@ export class ProjectRepository {
       }
       return loaded;
     });
+    return Promise.all(loaded.map((project) => verifyLoadedHistory(project, this.cryptoApi)));
   }
 
   async selectActiveProject(projectId: string): Promise<LoadedProject> {
@@ -733,6 +927,31 @@ export class ProjectRepository {
     if (fieldObservations.length !== bundle.value.styles.length) {
       throw new ProjectRepositoryError("invalid-data", "Every imported style must include its field observation history.");
     }
+    const styleRevisions = await parseStyleRevisionInputs(input.styleRevisions, this.cryptoApi);
+    const exportManifests = await parseExportManifestInputs(input.exportManifests, this.cryptoApi);
+    const revisionIds = new Set(styleRevisions.map((revision) => revision.revisionId));
+    for (const style of bundle.value.styles) {
+      if (style.revisionHeadId !== null && !revisionIds.has(style.revisionHeadId)) {
+        throw new ProjectRepositoryError("invalid-data", "An imported style is missing its immutable revision head.");
+      }
+      const history = styleRevisions.filter((revision) => revision.styleId === style.id).sort((left, right) => left.revisionNumber - right.revisionNumber);
+      if (style.revisionHeadId === null) {
+        if (history.length !== 0) {
+          throw new ProjectRepositoryError("invalid-data", "An imported unseeded style cannot contain immutable revision rows.");
+        }
+        continue;
+      }
+      if (style.revisionHeadId !== null && (history.length === 0 || history[history.length - 1]!.revisionId !== style.revisionHeadId
+        || history[0]!.revisionNumber !== 1 || history[0]!.parentRevisionId !== null
+        || history.some((revision, index) => revision.revisionNumber !== index + 1
+          || (index > 0 && revision.parentRevisionId !== history[index - 1]!.revisionId)))) {
+        throw new ProjectRepositoryError("invalid-data", "An imported style revision history has an invalid sequence or parent chain.");
+      }
+    }
+    if (styleRevisions.some((revision) => !bundle.value.project.styleIds.includes(revision.styleId))
+      || exportManifests.some((manifest) => !bundle.value.project.styleIds.includes(manifest.styleId))) {
+      throw new ProjectRepositoryError("invalid-data", "Imported immutable history must belong to a style in the imported project.");
+    }
     const receipt = parseProjectImportReceipt(input.receipt);
     if (!receipt || receipt.projectId !== bundle.value.project.id) {
       throw new ProjectRepositoryError("invalid-data", "Project package import receipt does not match the imported project.");
@@ -762,6 +981,17 @@ export class ProjectRepository {
       }
       projects.add(bundle.value.project);
       for (const style of bundle.value.styles) styles.add(style);
+      const revisionStore = transaction.objectStore(PROJECT_STORES.styleRevisions);
+      const manifestStore = transaction.objectStore(PROJECT_STORES.exportManifests);
+      for (const revision of styleRevisions) revisionStore.add(revision);
+      for (const manifest of exportManifests) {
+        const target = styleRevisions.find((revision) => revision.revisionId === manifest.revisionId);
+        if (!target || target.styleId !== manifest.styleId
+          || target.revisionContentDigest !== manifest.payload.revisionContentDigest) {
+          throw new ProjectRepositoryError("invalid-data", "Imported frozen output manifest references a missing or mismatched revision.");
+        }
+        manifestStore.add(manifest);
+      }
       for (const recovery of recoveries) transaction.objectStore(PROJECT_STORES.recoveries).add(recovery);
       for (const record of fieldObservations) transaction.objectStore(PROJECT_STORES.fieldObservations).add(record);
       transaction.objectStore(PROJECT_STORES.meta).put(selection(
@@ -791,9 +1021,21 @@ export class ProjectRepository {
     }
     const recoveries = parseRecoveryInputs(input.recoveries, bundle.value.project.styleIds);
     const fieldObservations = parseFieldObservationInputs(input.fieldObservations, bundle.value.project.styleIds);
+    const styleRevisions = await parseStyleRevisionInputs(input.styleRevisions, this.cryptoApi);
+    const exportManifests = await parseExportManifestInputs(input.exportManifests, this.cryptoApi);
     const clearRecoveryStyleIds = parseRecoveryClears(input.clearRecoveryStyleIds, bundle.value.project.styleIds);
     if (recoveries.some((recovery) => clearRecoveryStyleIds.includes(recovery.styleId))) {
       throw new ProjectRepositoryError("invalid-data", "A recovery record cannot be saved and cleared in the same bundle.");
+    }
+    const revisionsByStyle = new Map<string, StyleRevisionRecord[]>();
+    for (const revision of styleRevisions) {
+      const rows = revisionsByStyle.get(revision.styleId) ?? [];
+      rows.push(revision);
+      revisionsByStyle.set(revision.styleId, rows);
+    }
+    if (styleRevisions.some((revision) => !bundle.value.project.styleIds.includes(revision.styleId))
+      || exportManifests.some((manifest) => !bundle.value.project.styleIds.includes(manifest.styleId))) {
+      throw new ProjectRepositoryError("invalid-data", "Immutable history must belong to a style in the saved project.");
     }
     return inTransaction(this.database, ALL_STORES, "readwrite", async (transaction) => {
       const projects = transaction.objectStore(PROJECT_STORES.projects);
@@ -820,23 +1062,75 @@ export class ProjectRepository {
       }
       const allStyles = await requestValue<StyleRecord[]>(styles.getAll());
       const observationStore = transaction.objectStore(PROJECT_STORES.fieldObservations);
+      const revisionStore = transaction.objectStore(PROJECT_STORES.styleRevisions);
+      const manifestStore = transaction.objectStore(PROJECT_STORES.exportManifests);
       const incomingObservations = new Map(fieldObservations.map((record) => [record.styleId, record]));
       const nextObservations: FieldObservationRecord[] = [];
       const incomingIds = new Set(bundle.value.styles.map((style) => style.id));
+      const existingStyles = new Map<string, StyleRecord>();
       for (const existing of allStyles) {
         const parsed = parseStyleRecord(existing);
         if (!parsed.ok) throw new ProjectRepositoryError("invalid-data", parsed.error);
+        existingStyles.set(parsed.value.id, parsed.value);
         if (parsed.value.projectId === bundle.value.project.id && !incomingIds.has(parsed.value.id)) {
           throw new ProjectRepositoryError("invalid-data", "A style cannot be removed from a project by a bundle save.");
         }
       }
       for (const style of bundle.value.styles) {
-        const existing = await requestValue<StyleRecord | undefined>(styles.get(style.id));
+        const existing = existingStyles.get(style.id);
         if (existing && existing.projectId !== style.projectId) {
           throw new ProjectRepositoryError("conflict", "A style ID already belongs to another project.");
         }
         if (existing && style.revision < existing.revision) {
           throw new ProjectRepositoryError("conflict", "A stale style revision cannot replace a newer saved style.");
+        }
+        const appended = revisionsByStyle.get(style.id) ?? [];
+        if (appended.length > 1) throw new ProjectRepositoryError("invalid-data", "A single style save may append at most one child revision.");
+        if (existing) {
+          const designChanged = canonicalizeJcs(existing.design) !== canonicalizeJcs(style.design);
+          if (designChanged && appended.length !== 1) {
+            throw new ProjectRepositoryError("invalid-data", "A changed saved design must append one immutable revision.");
+          }
+          if (appended.length === 0 && style.revisionHeadId !== existing.revisionHeadId) {
+            throw new ProjectRepositoryError("invalid-data", "A style revision head cannot move without an appended revision row.");
+          }
+          if (appended.length === 1) {
+            const next = appended[0]!;
+            if (next.styleId !== style.id || next.parentRevisionId !== existing.revisionHeadId
+              || style.revisionHeadId !== next.revisionId
+              || canonicalizeJcs(next.payload.design) !== canonicalizeJcs(style.design)) {
+              throw new ProjectRepositoryError("invalid-data", "A new revision must snapshot this style and extend its current head.");
+            }
+            const priorRows = await requestValue<unknown[]>(revisionStore.index("styleId").getAll(style.id));
+            if (existing.revisionHeadId === null) {
+              if (priorRows.length !== 0 || next.revisionNumber !== 1 || next.parentRevisionId !== null) {
+                throw new ProjectRepositoryError("conflict", "An unseeded style cannot attach a non-initial revision.");
+              }
+            } else {
+              const headInput = await requestValue<unknown>(revisionStore.get(existing.revisionHeadId));
+              const head = parseStyleRevisionRecord(headInput);
+              if (!head || head.revisionNumber + 1 !== next.revisionNumber || next.parentRevisionId !== head.revisionId) {
+                throw new ProjectRepositoryError("conflict", "The immutable style revision head changed; reload before saving.");
+              }
+            }
+            const nextObservations = incomingObservations.get(style.id);
+            if (!nextObservations || canonicalizeJcs(next.payload.fieldObservations) !== canonicalizeJcs(nextObservations)) {
+              throw new ProjectRepositoryError("invalid-data", "A new revision must freeze the exact current field-observation record.");
+            }
+          }
+        } else if (appended.length > 0) {
+          const initial = appended[0]!;
+          if (appended.length !== 1 || initial.parentRevisionId !== null || initial.revisionNumber !== 1
+            || style.revisionHeadId !== initial.revisionId
+            || canonicalizeJcs(initial.payload.design) !== canonicalizeJcs(style.design)) {
+            throw new ProjectRepositoryError("invalid-data", "A newly created style must start with exactly one parentless revision.");
+          }
+          const initialObservations = incomingObservations.get(style.id);
+          if (!initialObservations || canonicalizeJcs(initial.payload.fieldObservations) !== canonicalizeJcs(initialObservations)) {
+            throw new ProjectRepositoryError("invalid-data", "The initial revision must freeze the new style field history.");
+          }
+        } else if (style.revisionHeadId !== null) {
+          throw new ProjectRepositoryError("invalid-data", "A new style cannot point at a revision that was not inserted with it.");
         }
         const priorInput = await requestValue<unknown>(observationStore.get(style.id));
         const incoming = incomingObservations.get(style.id);
@@ -854,6 +1148,16 @@ export class ProjectRepository {
       }
       projects.put(bundle.value.project);
       for (const style of bundle.value.styles) styles.put(style);
+      for (const revision of styleRevisions) revisionStore.add(revision);
+      for (const manifest of exportManifests) {
+        const targetRevision = revisionsByStyle.get(manifest.styleId)?.find((revision) => revision.revisionId === manifest.revisionId)
+          ?? parseStyleRevisionRecord(await requestValue<unknown>(revisionStore.get(manifest.revisionId)));
+        if (!targetRevision || targetRevision.styleId !== manifest.styleId
+          || targetRevision.revisionContentDigest !== manifest.payload.revisionContentDigest) {
+          throw new ProjectRepositoryError("invalid-data", "A frozen manifest must point to an immutable revision with the same digest.");
+        }
+        manifestStore.add(manifest);
+      }
       for (const record of nextObservations) observationStore.put(record);
       for (const recovery of recoveries) transaction.objectStore(PROJECT_STORES.recoveries).put(recovery);
       for (const styleId of clearRecoveryStyleIds) transaction.objectStore(PROJECT_STORES.recoveries).delete(styleId);

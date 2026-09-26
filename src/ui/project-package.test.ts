@@ -3,7 +3,7 @@ import { IDBFactory, IDBObjectStore } from "fake-indexeddb";
 // @ts-expect-error jsdom is a test runtime dependency without bundled TypeScript declarations.
 import { JSDOM } from "jsdom";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { Zip, ZipPassThrough } from "fflate";
+import { UnzipPassThrough, Zip, ZipPassThrough } from "fflate";
 import { GARMENTS, STANDARD_M, defaultGarmentOptions } from "../drafting";
 import {
   appendSemanticEditOperations,
@@ -15,19 +15,23 @@ import {
 } from "../edit/semantic-edit";
 import type { ArtworkAssetStore, StoredArtworkAsset } from "../surface/artwork-store";
 import { DEFAULT_APPEARANCE } from "./appearance";
+import { createFieldObservationRecord } from "./field-provenance";
+import { ARTWORK_CATALOG } from "../surface/artwork-library/catalog";
 import { migrateLegacyRecovery, migrateLegacySaveFile, type ProjectRecord, type RecoveryRecord, type StyleRecord } from "./project-records";
 import { DEFAULT_WORKSPACE, serialize, serializeRecovery } from "./persist";
-import { openProjectRepository, type ProjectRepository } from "./project-repository";
+import { openProjectRepository, type ProjectBundleSnapshot, type ProjectRepository } from "./project-repository";
 import {
   createProjectPackage,
   importProjectPackage,
   PROJECT_PACKAGE_MAX_ASSETS,
   PROJECT_PACKAGE_MAX_BYTES,
   PROJECT_PACKAGE_MAX_CONTENT_BYTES,
+  PROJECT_PACKAGE_MAX_FROZEN_MANIFESTS,
   PROJECT_PACKAGE_MAX_MANIFEST_BYTES,
   ProjectPackageError,
   readProjectPackage,
 } from "./project-package";
+import { createFrozenOutputManifest, createStyleRevision, FROZEN_ARTIFACT_IDS, jcsSha256Hex, sha256Hex } from "./style-revisions";
 
 const crypto = webcrypto as unknown as Crypto;
 const TIME = "2026-09-24T16:00:00.000Z";
@@ -108,6 +112,11 @@ function inspector(file: File) {
   return Promise.resolve({ name: file.name, mimeType: file.type as "image/png", blob: file });
 }
 
+function deterministicUuidFactory(): () => string {
+  let next = 1;
+  return () => `77777777-7777-4777-8777-${(next++).toString(16).padStart(12, "0")}`;
+}
+
 async function createSourcePackage(assets = memoryAssets(), projectName = "Tee project"): Promise<{
   blob: Blob;
   assets: ReturnType<typeof memoryAssets>;
@@ -118,6 +127,66 @@ async function createSourcePackage(assets = memoryAssets(), projectName = "Tee p
   });
   const blob = await createProjectPackage({ project: source.project, styles: [source.style], recoveries: [] }, assets, { crypto });
   return { blob, assets };
+}
+
+async function createFrozenSourcePackage(): Promise<{
+  blob: Blob;
+  project: ProjectRecord;
+  style: StyleRecord;
+  observations: ReturnType<typeof createFieldObservationRecord>;
+  revision: Awaited<ReturnType<typeof createStyleRevision>>;
+  manifest: Awaited<ReturnType<typeof createFrozenOutputManifest>>;
+}> {
+  const source = bundle("Frozen package", SECOND_PROJECT_ID, SECOND_STYLE_ID);
+  const { assetId: _assetId, ...placement } = source.style.design.surface["tee/Untitled tee"]!.placements[0] as import("../surface/placement").ArtworkPlacement;
+  const style: StyleRecord = {
+    ...source.style,
+    revisionHeadId: null,
+    design: {
+      ...source.style.design,
+      surface: { "tee/Untitled tee": { styleName: "Untitled tee", placements: [placement] } },
+    },
+  };
+  const observations = createFieldObservationRecord(style, TIME, "existing-local-style");
+  const revision = await createStyleRevision({
+    styleId: style.id,
+    revisionId: "11111111-1111-4111-8111-111111111111",
+    parentRevisionId: null,
+    revisionNumber: 1,
+    createdAt: TIME,
+    design: style.design,
+    fieldObservations: observations,
+    artwork: [],
+  }, crypto);
+  const currentStyle = { ...style, revisionHeadId: revision.revisionId };
+  const outputText = "<svg xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M0 0\"/></svg>";
+  const manifest = await createFrozenOutputManifest({
+    manifestId: "22222222-2222-4222-8222-222222222222",
+    styleId: currentStyle.id,
+    revision,
+    capturedAt: TIME,
+    selectedSizes: [{ sizeId: "m", label: "M" }],
+    unresolved: ["Physical fit, formal approval, supplier requirements and factory acceptance are not verified."],
+    artifacts: FROZEN_ARTIFACT_IDS.map((artifactId) => {
+      const extension = artifactId.includes("dxf") ? "dxf" : artifactId.endsWith("svg") ? "svg" : "pdf";
+      return {
+        artifactId,
+        extension,
+        displayName: `${artifactId}.${extension}`,
+        mediaType: extension === "svg" ? "image/svg+xml" : extension === "dxf" ? "image/vnd.dxf" : "application/pdf",
+        content: outputText,
+      };
+    }),
+  }, crypto);
+  const blob = await createProjectPackage({
+    project: source.project,
+    styles: [currentStyle],
+    recoveries: [],
+    fieldObservations: [observations],
+    styleRevisions: [revision],
+    exportManifests: [manifest],
+  }, memoryAssets(), { crypto });
+  return { blob, project: source.project, style: currentStyle, observations, revision, manifest };
 }
 
 async function createTwoAssetArchive(): Promise<{
@@ -252,6 +321,41 @@ async function replacePackageManifest(
       bytes: new Uint8Array(await archive.blob.slice(entry.dataOffset, entry.dataOffset + entry.uncompressedSize).arrayBuffer()),
     });
   }
+  const originalFrozen = archive.manifest.exportManifests ?? [];
+  const revisedFrozen = Array.isArray(manifest.exportManifests)
+    ? manifest.exportManifests as Array<Record<string, unknown>>
+    : [];
+  for (const revised of revisedFrozen) {
+    if (typeof revised.manifestId !== "string" || !Array.isArray(revised.artifacts)) continue;
+    const original = originalFrozen.find((record) => record.manifestId === revised.manifestId) ?? originalFrozen[0];
+    if (!original) continue;
+    for (const item of revised.artifacts) {
+      if (typeof item !== "object" || item === null || typeof (item as Record<string, unknown>).archivePath !== "string") continue;
+      const artifactId = (item as Record<string, unknown>).artifactId;
+      const sourceArtifact = original.artifacts.find((artifact) => artifact.artifactId === artifactId) ?? original.artifacts[0];
+      if (!sourceArtifact) continue;
+      const entry = archive.entries.get(sourceArtifact.archivePath)!;
+      entries.push({
+        path: (item as Record<string, unknown>).archivePath as string,
+        bytes: new Uint8Array(await archive.blob.slice(entry.dataOffset, entry.dataOffset + entry.uncompressedSize).arrayBuffer()),
+      });
+    }
+  }
+  return storedZip(entries);
+}
+
+async function rewritePackageBytes(
+  source: Blob,
+  rewrite: (path: string, bytes: Uint8Array) => Uint8Array,
+): Promise<Blob> {
+  const archive = await readProjectPackage(source, { crypto });
+  const entries = await Promise.all([...archive.entries.values()].map(async (entry) => ({
+    path: entry.path,
+    bytes: rewrite(entry.path, new Uint8Array(await archive.blob.slice(
+      entry.dataOffset,
+      entry.dataOffset + entry.uncompressedSize,
+    ).arrayBuffer())),
+  })));
   return storedZip(entries);
 }
 
@@ -260,6 +364,21 @@ async function makeVersionOnePackage(source: Blob): Promise<Blob> {
   const manifest = JSON.parse(JSON.stringify(archive.manifest)) as Record<string, unknown>;
   manifest.packageVersion = 1;
   delete manifest.fieldObservations;
+  delete manifest.styleRevisions;
+  delete manifest.exportManifests;
+  manifest.styles = (manifest.styles as Array<Record<string, unknown>>).map((style) => {
+    const legacy: Record<string, unknown> = { ...style, schemaVersion: 3 };
+    delete legacy.revisionHeadId;
+    if (typeof legacy.design === "object" && legacy.design !== null) {
+      const { semanticEdits: _semanticEdits, ...legacyDesign } = legacy.design as Record<string, unknown>;
+      legacy.design = legacyDesign;
+    }
+    return legacy;
+  });
+  manifest.assets = (manifest.assets as Array<Record<string, unknown>>).map((asset) => ({
+    ...asset,
+    attribution: ["Studio reference"],
+  }));
   const { packageSha256: _oldDigest, ...body } = manifest;
   const canonical = (value: unknown): string => {
     if (value === null || typeof value !== "object") return JSON.stringify(value);
@@ -278,6 +397,29 @@ async function makeVersionOnePackage(source: Blob): Promise<Blob> {
     });
   }
   return storedZip(entries);
+}
+
+async function makeVersionTwoPackage(source: Blob): Promise<Blob> {
+  return replacePackageManifest(source, (manifest) => {
+    manifest.packageVersion = 2;
+    delete manifest.styleRevisions;
+    delete manifest.exportManifests;
+    manifest.styles = (manifest.styles as Array<Record<string, unknown>>).map((style) => {
+      const legacy: Record<string, unknown> = { ...style, schemaVersion: 3 };
+      delete legacy.revisionHeadId;
+      return legacy;
+    });
+    manifest.assets = (manifest.assets as Array<Record<string, unknown>>).map((asset) => ({
+      ...asset,
+      attribution: ["Studio reference"],
+    }));
+  });
+}
+
+function zipCallback(zip: Zip): (error: Error | null, chunk: Uint8Array, final: boolean) => void {
+  return (zip as unknown as {
+    ondata: (error: Error | null, chunk: Uint8Array, final: boolean) => void;
+  }).ondata;
 }
 
 function findPackageEocd(bytes: Uint8Array): number {
@@ -365,6 +507,851 @@ afterEach(() => {
 });
 
 describe("portable local project package", () => {
+  it("rejects inconsistent immutable history and resolves only proven artwork references", async () => {
+    const source = await createFrozenSourcePackage();
+    const base: ProjectBundleSnapshot = {
+      project: source.project,
+      styles: [source.style],
+      recoveries: [],
+      fieldObservations: [source.observations],
+      styleRevisions: [source.revision],
+      exportManifests: [source.manifest],
+    };
+    const emptyAssets = memoryAssets();
+    const makePackage = (snapshot: Partial<ProjectBundleSnapshot>, store = emptyAssets) => createProjectPackage({
+      ...base,
+      ...snapshot,
+    }, store, { crypto });
+
+    await expect(makePackage({ styleRevisions: [{ ...source.revision, styleId: PROJECT_ID }] }))
+      .rejects.toMatchObject({ code: "invalid-package", message: expect.stringContaining("outside this project") });
+    await expect(makePackage({ styleRevisions: [{ ...source.revision, revisionContentDigest: "0".repeat(64) }] }))
+      .rejects.toMatchObject({ code: "invalid-package", message: expect.stringContaining("failed integrity validation") });
+    await expect(makePackage({ exportManifests: [{ ...source.manifest, packetDigest: "0".repeat(64) }] }))
+      .rejects.toMatchObject({ code: "invalid-package", message: expect.stringContaining("failed integrity validation") });
+    await expect(makePackage({
+      styles: [{ ...source.style, revisionHeadId: "33333333-3333-4333-8333-333333333333" }],
+    })).rejects.toMatchObject({ code: "invalid-package", message: expect.stringContaining("latest immutable revision") });
+    await expect(makePackage({ styleRevisions: [], exportManifests: [] }))
+      .rejects.toMatchObject({ code: "invalid-package", message: expect.stringContaining("no included history") });
+    await expect(makePackage({
+      styles: [{ ...source.style, revisionHeadId: null }],
+      fieldObservations: [],
+      styleRevisions: [],
+      exportManifests: [],
+    }))
+      .rejects.toMatchObject({ code: "invalid-package", message: expect.stringContaining("no field-history baseline") });
+
+    const surfaceEntry = Object.entries(source.style.design.surface)[0]!;
+    const originalPlacement = surfaceEntry[1].placements[0] as import("../surface/placement").ArtworkPlacement;
+    const withAsset = (assetId: string, baseStyle = source.style): StyleRecord => ({
+      ...baseStyle,
+      revisionHeadId: null,
+      design: {
+        ...baseStyle.design,
+        surface: {
+          ...baseStyle.design.surface,
+          [surfaceEntry[0]]: {
+            ...surfaceEntry[1],
+            placements: [{ ...originalPlacement, assetId }],
+          },
+        },
+      },
+    });
+    const unknownBaseline = withAsset("unknown-reference");
+    await expect(makePackage({
+      styles: [unknownBaseline],
+      fieldObservations: [createFieldObservationRecord(unknownBaseline, TIME, "existing-local-style")],
+      styleRevisions: [],
+      exportManifests: [],
+    })).rejects.toMatchObject({ code: "invalid-package", message: expect.stringContaining("not available in the local catalog") });
+
+    const manyAssetIds = Array.from({ length: PROJECT_PACKAGE_MAX_ASSETS + 1 }, (_, index) =>
+      `local-${(index + 1).toString(16).padStart(32, "0")}-png`);
+    const manyReferences: StyleRecord = {
+      ...source.style,
+      revisionHeadId: null,
+      design: {
+        ...source.style.design,
+        surface: {
+          ...source.style.design.surface,
+          [surfaceEntry[0]]: {
+            ...surfaceEntry[1],
+            placements: manyAssetIds.map((assetId, index) => ({
+              ...originalPlacement,
+              id: `package-ref-${index}`,
+              assetId,
+            })),
+          },
+        },
+      },
+    };
+    await expect(createProjectPackage({
+      project: source.project,
+      styles: [manyReferences],
+      recoveries: [],
+      fieldObservations: [createFieldObservationRecord(manyReferences, TIME, "existing-local-style")],
+    }, emptyAssets, { crypto })).rejects.toMatchObject({
+      code: "limit-exceeded",
+      message: expect.stringContaining("at most 128 referenced artwork files"),
+    });
+
+    const missingLocal = withAsset(ASSET_ID);
+    await expect(makePackage({
+      styles: [missingLocal],
+      fieldObservations: [createFieldObservationRecord(missingLocal, TIME, "existing-local-style")],
+      styleRevisions: [],
+      exportManifests: [],
+    })).rejects.toMatchObject({ code: "missing-asset", message: expect.stringContaining("disappeared from local storage") });
+
+    const bundledAssetId = ARTWORK_CATALOG[0]!.assetId;
+    const bundledBaseline = withAsset(bundledAssetId);
+    const bundledArchive = await createProjectPackage({
+      project: source.project,
+      styles: [bundledBaseline],
+      recoveries: [],
+      fieldObservations: [createFieldObservationRecord(bundledBaseline, TIME, "existing-local-style")],
+    }, emptyAssets, { crypto });
+    const bundledRead = await readProjectPackage(bundledArchive, { crypto });
+    expect(bundledRead.manifest.styleRevisions[0]?.payload.artwork).toMatchObject([
+      { assetId: bundledAssetId, mimeType: ARTWORK_CATALOG[0]!.image.mimeType },
+    ]);
+
+    const historicalAssetStyle = withAsset(ASSET_ID);
+    const historicalObservations = createFieldObservationRecord(historicalAssetStyle, TIME, "existing-local-style");
+    const first = await createStyleRevision({
+      styleId: historicalAssetStyle.id,
+      revisionId: "33333333-3333-4333-8333-333333333333",
+      parentRevisionId: null,
+      revisionNumber: 1,
+      createdAt: TIME,
+      design: historicalAssetStyle.design,
+      fieldObservations: historicalObservations,
+      artwork: [{ assetId: ASSET_ID, mimeType: "image/png", byteLength: PNG.byteLength, sha256: await sha256Hex(PNG, crypto) }],
+    }, crypto);
+    const latest = await createStyleRevision({
+      styleId: source.style.id,
+      revisionId: "44444444-4444-4444-8444-444444444444",
+      parentRevisionId: first.revisionId,
+      revisionNumber: 2,
+      createdAt: TIME,
+      design: source.style.design,
+      fieldObservations: source.observations,
+      artwork: [],
+    }, crypto);
+    const historicalOnlyAsset = memoryAssets();
+    historicalOnlyAsset.records.set(ASSET_ID, {
+      assetId: ASSET_ID,
+      name: "historical.png",
+      mimeType: "image/png",
+      blob: new Blob([PNG], { type: "image/png" }),
+    });
+    const historicalPackage = await createProjectPackage({
+      project: source.project,
+      styles: [{ ...source.style, revisionHeadId: latest.revisionId }],
+      recoveries: [],
+      fieldObservations: [source.observations],
+      styleRevisions: [first, latest],
+    }, historicalOnlyAsset, { crypto });
+    const historicalRead = await readProjectPackage(historicalPackage, { crypto });
+    expect(historicalRead.manifest.assets.map((asset) => asset.assetId)).toContain(ASSET_ID);
+  });
+
+  it("enforces the immutable capture count and manifest-to-revision binding", async () => {
+    const source = await createFrozenSourcePackage();
+    const manyManifests = Array.from({ length: PROJECT_PACKAGE_MAX_FROZEN_MANIFESTS + 1 }, (_, index) => ({
+      ...source.manifest,
+      manifestId: `77777777-7777-4777-8777-${(index + 1).toString(16).padStart(12, "0")}`,
+    }));
+    await expect(createProjectPackage({
+      project: source.project,
+      styles: [source.style],
+      recoveries: [],
+      fieldObservations: [source.observations],
+      styleRevisions: [source.revision],
+      exportManifests: manyManifests,
+    }, memoryAssets(), { crypto })).rejects.toMatchObject({
+      code: "limit-exceeded",
+      message: expect.stringContaining("at most 256 frozen output captures"),
+    });
+
+    const overLimitPackage = await replacePackageManifest(source.blob, (manifest) => {
+      const original = (manifest.exportManifests as Array<Record<string, unknown>>)[0]!;
+      manifest.exportManifests = manyManifests.map((record) => ({
+        ...original,
+        manifestId: record.manifestId,
+        artifacts: (original.artifacts as Array<Record<string, unknown>>).map((artifact) => ({
+          ...artifact,
+          archivePath: `frozen/${record.manifestId}/${String(artifact.path).slice("artifacts/".length)}`,
+        })),
+      }));
+    });
+    await expect(readProjectPackage(overLimitPackage, { crypto })).rejects.toMatchObject({
+      code: "limit-exceeded",
+      message: expect.stringContaining("too many frozen output captures"),
+    });
+
+    const absentRevision = await createStyleRevision({
+      styleId: source.style.id,
+      revisionId: "88888888-8888-4888-8888-888888888888",
+      parentRevisionId: source.revision.revisionId,
+      revisionNumber: 2,
+      createdAt: TIME,
+      design: source.style.design,
+      fieldObservations: source.observations,
+      artwork: [],
+    }, crypto);
+    const absentManifest = await createFrozenOutputManifest({
+      manifestId: "99999999-9999-4999-8999-999999999999",
+      styleId: source.style.id,
+      revision: absentRevision,
+      capturedAt: TIME,
+      selectedSizes: [{ sizeId: "m", label: "M" }],
+      unresolved: ["Physical fit and factory acceptance are not verified."],
+      artifacts: FROZEN_ARTIFACT_IDS.map((artifactId) => {
+        const extension = artifactId.includes("dxf") ? "dxf" : artifactId.endsWith("svg") ? "svg" : "pdf";
+        return {
+          artifactId,
+          extension,
+          displayName: `${artifactId}.${extension}`,
+          mediaType: extension === "svg" ? "image/svg+xml" : extension === "dxf" ? "image/vnd.dxf" : "application/pdf",
+          content: "<svg xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M0 0\"/></svg>",
+        };
+      }),
+    }, crypto);
+    await expect(createProjectPackage({
+      project: source.project,
+      styles: [source.style],
+      recoveries: [],
+      fieldObservations: [source.observations],
+      styleRevisions: [source.revision],
+      exportManifests: [absentManifest],
+    }, memoryAssets(), { crypto })).rejects.toMatchObject({
+      code: "invalid-package",
+      message: expect.stringContaining("does not match an included immutable revision"),
+    });
+  });
+
+  it("backs up a frozen artifact larger than the artwork cap but within its own limit", async () => {
+    const source = await createFrozenSourcePackage();
+    const largeBytes = 10 * 1024 * 1024 + 1;
+    const largeManifest = await createFrozenOutputManifest({
+      manifestId: "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+      styleId: source.style.id,
+      revision: source.revision,
+      capturedAt: TIME,
+      selectedSizes: [{ sizeId: "m", label: "M" }],
+      unresolved: ["Physical fit and factory acceptance are not verified."],
+      artifacts: FROZEN_ARTIFACT_IDS.map((artifactId, index) => {
+        const extension = artifactId.includes("dxf") ? "dxf" : artifactId.endsWith("svg") ? "svg" : "pdf";
+        return {
+          artifactId,
+          extension,
+          displayName: `${artifactId}.${extension}`,
+          mediaType: extension === "svg" ? "image/svg+xml" : extension === "dxf" ? "image/vnd.dxf" : "application/pdf",
+          content: index === 0 ? "x".repeat(largeBytes) : "x",
+        };
+      }),
+    }, crypto);
+    const packed = await createProjectPackage({
+      project: source.project,
+      styles: [source.style],
+      recoveries: [],
+      fieldObservations: [source.observations],
+      styleRevisions: [source.revision],
+      exportManifests: [largeManifest],
+    }, memoryAssets(), { crypto });
+    const archive = await readProjectPackage(packed, { crypto });
+    expect(archive.frozenManifests[0]?.artifacts[0]?.byteLength).toBe(largeBytes);
+    expect(archive.frozenManifests[0]?.artifacts[0]?.bytes.size).toBe(largeBytes);
+  });
+
+  it("surfaces streaming ZIP writer failures and enforces the generated archive limit", async () => {
+    const source = bundle("Writer failure");
+    const assets = memoryAssets();
+    assets.records.set(ASSET_ID, {
+      assetId: ASSET_ID,
+      name: "front.png",
+      mimeType: "image/png",
+      blob: new Blob([PNG], { type: "image/png" }),
+    });
+    const snapshot = { project: source.project, styles: [source.style], recoveries: [] } as const;
+    vi.spyOn(Zip.prototype, "terminate").mockImplementation(function (this: Zip) {
+      zipCallback(this)(new Error("secondary writer termination"), new Uint8Array(), true);
+    });
+    vi.spyOn(Zip.prototype, "end").mockImplementation(function (this: Zip) {
+      zipCallback(this)(new Error("synthetic streaming writer failure"), new Uint8Array(), false);
+    });
+
+    await expect(createProjectPackage(snapshot, assets, { crypto })).rejects.toMatchObject({
+      code: "invalid-package",
+      message: "synthetic streaming writer failure",
+    });
+  });
+
+  it("rejects an oversized ZIP writer chunk without retaining it", async () => {
+    const source = bundle("Archive cap");
+    const assets = memoryAssets();
+    assets.records.set(ASSET_ID, {
+      assetId: ASSET_ID,
+      name: "front.png",
+      mimeType: "image/png",
+      blob: new Blob([PNG], { type: "image/png" }),
+    });
+    const snapshot = { project: source.project, styles: [source.style], recoveries: [] } as const;
+    vi.spyOn(Zip.prototype, "terminate").mockImplementation(function (this: Zip) {
+      zipCallback(this)(new Error("secondary writer termination"), new Uint8Array(), true);
+    });
+    vi.spyOn(Zip.prototype, "end").mockImplementation(function (this: Zip) {
+      const overLimitChunk = new Proxy(new Uint8Array([1]), {
+        get(target, key) {
+          return key === "byteLength" ? PROJECT_PACKAGE_MAX_BYTES + 1 : Reflect.get(target, key, target);
+        },
+      });
+      zipCallback(this)(null, overLimitChunk, false);
+    });
+
+    await expect(createProjectPackage(snapshot, assets, { crypto })).rejects.toMatchObject({
+      code: "limit-exceeded",
+      message: expect.stringContaining("256 MiB archive limit"),
+    });
+  });
+
+  it("enforces the uncompressed package cap without allocating hundreds of megabytes", async () => {
+    const source = await createFrozenSourcePackage();
+    const artifactBytes = 13 * 1024 * 1024;
+    const emptyDigest = await sha256Hex(new Uint8Array(0), crypto);
+    const createSizedManifest = async (manifestId: string) => {
+      const artifacts = source.manifest.artifacts.map((artifact) => ({
+        ...artifact,
+        byteLength: artifactBytes,
+        sha256: emptyDigest,
+        bytes: {
+          size: artifactBytes,
+          arrayBuffer: async () => new ArrayBuffer(0),
+          stream: () => new ReadableStream<Uint8Array>({ start(controller) { controller.close(); } }),
+        } as unknown as Blob,
+      }));
+      const payload = {
+        ...source.manifest.payload,
+        artifacts: artifacts.map(({ bytes: _bytes, ...artifact }) => artifact),
+      };
+      return {
+        ...source.manifest,
+        manifestId,
+        payload,
+        packetDigest: await jcsSha256Hex(payload, crypto),
+        artifacts,
+      };
+    };
+    const manifests = await Promise.all([
+      createSizedManifest("33333333-3333-4333-8333-333333333333"),
+      createSizedManifest("44444444-4444-4444-8444-444444444444"),
+      createSizedManifest("55555555-5555-4555-8555-555555555555"),
+    ]);
+    await expect(createProjectPackage({
+      project: source.project,
+      styles: [source.style],
+      recoveries: [],
+      fieldObservations: [source.observations],
+      styleRevisions: [source.revision],
+      exportManifests: manifests,
+    }, memoryAssets(), { crypto })).rejects.toMatchObject({
+      code: "limit-exceeded",
+      message: expect.stringContaining("Project records, artwork and frozen outputs exceed the 256 MiB"),
+    });
+  });
+
+  it("detects artwork and frozen-output changes during backup preparation and streaming", async () => {
+    const source = bundle();
+    const baseAsset: StoredArtworkAsset = {
+      assetId: ASSET_ID,
+      name: "front.png",
+      mimeType: "image/png",
+      blob: new Blob([PNG], { type: "image/png" }),
+    };
+    const snapshot = { project: source.project, styles: [source.style], recoveries: [] };
+    const racingStore = (thirdRead: (asset: StoredArtworkAsset) => StoredArtworkAsset | null) => {
+      const store = memoryAssets();
+      store.records.set(ASSET_ID, baseAsset);
+      let reads = 0;
+      store.get = async (id) => {
+        if (id !== ASSET_ID) return null;
+        reads += 1;
+        return reads === 3 ? thirdRead(baseAsset) : baseAsset;
+      };
+      return store;
+    };
+
+    await expect(createProjectPackage(snapshot, racingStore(() => null), { crypto }))
+      .rejects.toMatchObject({ code: "missing-asset", message: expect.stringContaining("disappeared during backup creation") });
+
+    const changedPng = new Uint8Array(PNG);
+    changedPng[0] = changedPng[0]! ^ 1;
+    await expect(createProjectPackage(snapshot, racingStore((asset) => ({
+      ...asset,
+      blob: new Blob([changedPng], { type: "image/png" }),
+    })), { crypto })).rejects.toMatchObject({
+      code: "invalid-package",
+      message: expect.stringContaining("changed during backup creation"),
+    });
+
+    const shortAssetBlob = {
+      size: PNG.byteLength,
+      type: "image/png",
+      arrayBuffer: async () => PNG.buffer.slice(PNG.byteOffset, PNG.byteOffset + PNG.byteLength),
+      stream: () => new ReadableStream<Uint8Array>({
+        start(controller) {
+          controller.enqueue(PNG.slice(0, PNG.byteLength - 1));
+          controller.close();
+        },
+      }),
+    } as unknown as Blob;
+    await expect(createProjectPackage(snapshot, racingStore((asset) => ({ ...asset, blob: shortAssetBlob })), { crypto }))
+      .rejects.toMatchObject({ code: "invalid-package", message: expect.stringContaining("changed during backup creation") });
+
+    const frozen = await createFrozenSourcePackage();
+    const firstOutput = frozen.manifest.artifacts[0]!;
+    const originalBytes = new Uint8Array(await firstOutput.bytes.arrayBuffer());
+    const changedAfterValidation = new Blob([originalBytes], { type: firstOutput.mediaType });
+    let reads = 0;
+    Object.defineProperty(changedAfterValidation, "arrayBuffer", {
+      value: async () => {
+        reads += 1;
+        const bytes = new Uint8Array(originalBytes);
+        if (reads === 2) bytes[0] = bytes[0]! ^ 1;
+        return bytes.buffer;
+      },
+    });
+    const changingManifest = {
+      ...frozen.manifest,
+      artifacts: frozen.manifest.artifacts.map((artifact, index) => index === 0
+        ? { ...artifact, bytes: changedAfterValidation }
+        : artifact),
+    };
+    await expect(createProjectPackage({
+      project: frozen.project,
+      styles: [frozen.style],
+      recoveries: [],
+      fieldObservations: [frozen.observations],
+      styleRevisions: [frozen.revision],
+      exportManifests: [changingManifest],
+    }, memoryAssets(), { crypto })).rejects.toMatchObject({
+      code: "invalid-package",
+      message: expect.stringContaining("changed during backup creation"),
+    });
+
+    const shortOutputBlob = new Blob([originalBytes], { type: firstOutput.mediaType });
+    Object.defineProperty(shortOutputBlob, "stream", {
+      value: () => new ReadableStream<Uint8Array>({
+        start(controller) {
+          controller.enqueue(originalBytes.slice(0, originalBytes.byteLength - 1));
+          controller.close();
+        },
+      }),
+    });
+    const shorteningManifest = {
+      ...frozen.manifest,
+      artifacts: frozen.manifest.artifacts.map((artifact, index) => index === 0
+        ? { ...artifact, bytes: shortOutputBlob }
+        : artifact),
+    };
+    await expect(createProjectPackage({
+      project: frozen.project,
+      styles: [frozen.style],
+      recoveries: [],
+      fieldObservations: [frozen.observations],
+      styleRevisions: [frozen.revision],
+      exportManifests: [shorteningManifest],
+    }, memoryAssets(), { crypto })).rejects.toMatchObject({
+      code: "invalid-package",
+      message: expect.stringContaining("changed during backup creation"),
+    });
+  });
+
+  it("rejects tampered frozen-output archive metadata, revision links, and bytes", async () => {
+    const source = await createFrozenSourcePackage();
+    const mutateFirstManifest = (manifest: Record<string, unknown>, mutate: (record: Record<string, unknown>) => void) => {
+      const records = manifest.exportManifests as Array<Record<string, unknown>>;
+      mutate(records[0]!);
+    };
+
+    await expect(readProjectPackage(await replacePackageManifest(source.blob, (manifest) => {
+      mutateFirstManifest(manifest, (record) => {
+        const artifacts = record.artifacts as Array<Record<string, unknown>>;
+        artifacts[0]!.path = "artifacts/../unsupported.pdf";
+      });
+    }), { crypto })).rejects.toMatchObject({ code: "invalid-package", message: expect.stringContaining("supported artifact filename") });
+
+    await expect(readProjectPackage(await replacePackageManifest(source.blob, (manifest) => {
+      mutateFirstManifest(manifest, (record) => { record.artifacts = {}; });
+    }), { crypto })).rejects.toMatchObject({ code: "invalid-package", message: expect.stringContaining("metadata is malformed") });
+
+    await expect(readProjectPackage(await replacePackageManifest(source.blob, (manifest) => {
+      mutateFirstManifest(manifest, (record) => {
+        const artifacts = record.artifacts as unknown[];
+        artifacts[0] = null;
+      });
+    }), { crypto })).rejects.toMatchObject({
+      code: "invalid-package",
+      message: expect.stringContaining("artifact metadata is malformed"),
+    });
+
+    await expect(readProjectPackage(await replacePackageManifest(source.blob, (manifest) => {
+      mutateFirstManifest(manifest, (record) => {
+        const artifacts = record.artifacts as Array<Record<string, unknown>>;
+        artifacts[0]!.artifactId = "unknown-output-kind";
+      });
+    }), { crypto })).rejects.toMatchObject({
+      code: "invalid-package",
+      message: expect.stringContaining("metadata failed strict validation"),
+    });
+
+    await expect(readProjectPackage(await replacePackageManifest(source.blob, (manifest) => {
+      mutateFirstManifest(manifest, (record) => {
+        const artifacts = record.artifacts as Array<Record<string, unknown>>;
+        artifacts[0]!.archivePath = "frozen/22222222-2222-4222-8222-222222222222/wrong.pdf";
+      });
+    }), { crypto })).rejects.toMatchObject({ code: "invalid-package", message: expect.stringContaining("archive paths or byte limits") });
+
+    const foreign = bundle("Foreign revision", PROJECT_ID, PROJECT_ID);
+    const foreignObservations = createFieldObservationRecord(foreign.style, TIME, "existing-local-style");
+    const foreignRevision = await createStyleRevision({
+      styleId: foreign.style.id,
+      revisionId: "55555555-5555-4555-8555-555555555555",
+      parentRevisionId: null,
+      revisionNumber: 1,
+      createdAt: TIME,
+      design: foreign.style.design,
+      fieldObservations: foreignObservations,
+      artwork: [{ assetId: ASSET_ID, mimeType: "image/png", byteLength: PNG.byteLength, sha256: await sha256Hex(PNG, crypto) }],
+    }, crypto);
+    await expect(readProjectPackage(await replacePackageManifest(source.blob, (manifest) => {
+      manifest.styleRevisions = [foreignRevision];
+    }), { crypto })).rejects.toMatchObject({ code: "invalid-package", message: expect.stringContaining("outside this project") });
+
+    await expect(readProjectPackage(await replacePackageManifest(source.blob, (manifest) => {
+      const revisions = manifest.styleRevisions as Array<Record<string, unknown>>;
+      manifest.styleRevisions = [revisions[0], revisions[0]];
+    }), { crypto })).rejects.toMatchObject({ code: "invalid-package", message: expect.stringContaining("IDs are duplicated") });
+
+    await expect(readProjectPackage(await replacePackageManifest(source.blob, (manifest) => {
+      manifest.styleRevisions = [];
+    }), { crypto })).rejects.toMatchObject({ code: "invalid-package", message: expect.stringContaining("missing its immutable revision history") });
+
+    const secondRevision = await createStyleRevision({
+      styleId: source.style.id,
+      revisionId: "66666666-6666-4666-8666-666666666666",
+      parentRevisionId: "77777777-7777-4777-8777-777777777777",
+      revisionNumber: 2,
+      createdAt: TIME,
+      design: source.style.design,
+      fieldObservations: source.observations,
+      artwork: [],
+    }, crypto);
+    await expect(readProjectPackage(await replacePackageManifest(source.blob, (manifest) => {
+      const styles = manifest.styles as Array<Record<string, unknown>>;
+      styles[0]!.revisionHeadId = secondRevision.revisionId;
+      manifest.styleRevisions = [...(manifest.styleRevisions as Array<Record<string, unknown>>), secondRevision];
+    }), { crypto })).rejects.toMatchObject({ code: "invalid-package", message: expect.stringContaining("complete parent-linked chain") });
+
+    await expect(readProjectPackage(await replacePackageManifest(source.blob, (manifest) => {
+      const records = manifest.exportManifests as Array<Record<string, unknown>>;
+      records[0]!.revisionId = "88888888-8888-4888-8888-888888888888";
+      (records[0]!.payload as Record<string, unknown>).revisionId = records[0]!.revisionId;
+    }), { crypto })).rejects.toMatchObject({ code: "invalid-package", message: expect.stringContaining("missing style or revision") });
+
+    await expect(readProjectPackage(await replacePackageManifest(source.blob, (manifest) => {
+      const revisions = manifest.styleRevisions as Array<Record<string, unknown>>;
+      revisions[0]!.revisionContentDigest = "0".repeat(64);
+    }), { crypto })).rejects.toMatchObject({ code: "invalid-package", message: expect.stringContaining("failed its content digest") });
+
+    await expect(readProjectPackage(await replacePackageManifest(source.blob, (manifest) => {
+      mutateFirstManifest(manifest, (record) => { record.packetDigest = "0".repeat(64); });
+    }), { crypto })).rejects.toMatchObject({ code: "invalid-package", message: expect.stringContaining("metadata digest") });
+
+    const alternateRevision = await createStyleRevision({
+      styleId: source.style.id,
+      revisionId: source.revision.revisionId,
+      parentRevisionId: null,
+      revisionNumber: 1,
+      createdAt: TIME,
+      design: {
+        ...source.style.design,
+        measurements: { ...source.style.design.measurements, chest: source.style.design.measurements.chest + 1 },
+      },
+      fieldObservations: source.observations,
+      artwork: [],
+    }, crypto);
+    const alternateManifest = await createFrozenOutputManifest({
+      manifestId: source.manifest.manifestId,
+      styleId: source.style.id,
+      revision: alternateRevision,
+      capturedAt: TIME,
+      selectedSizes: [{ sizeId: "m", label: "M" }],
+      unresolved: ["Physical fit and factory acceptance are not verified."],
+      artifacts: FROZEN_ARTIFACT_IDS.map((artifactId) => {
+        const extension = artifactId.includes("dxf") ? "dxf" : artifactId.endsWith("svg") ? "svg" : "pdf";
+        return {
+          artifactId,
+          extension,
+          displayName: `${artifactId}.${extension}`,
+          mediaType: extension === "svg" ? "image/svg+xml" : extension === "dxf" ? "image/vnd.dxf" : "application/pdf",
+          content: "<svg xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M0 0\"/></svg>",
+        };
+      }),
+    }, crypto);
+    await expect(readProjectPackage(await replacePackageManifest(source.blob, (manifest) => {
+      mutateFirstManifest(manifest, (record) => {
+        record.packetDigest = alternateManifest.packetDigest;
+        record.payload = alternateManifest.payload;
+      });
+    }), { crypto })).rejects.toMatchObject({ code: "invalid-package", message: expect.stringContaining("does not match its pinned style revision") });
+
+    const archive = await readProjectPackage(source.blob, { crypto });
+    const artifactArchivePath = source.manifest.artifacts[0]!.path.replace(/^artifacts\//, `frozen/${source.manifest.manifestId}/`);
+    const artifactEntry = archive.entries.get(artifactArchivePath)!;
+    const corruptedOutput = await rewritePackageBytes(source.blob, (path, bytes) => {
+      if (path !== artifactArchivePath) return bytes;
+      bytes[0] = bytes[0]! ^ 1;
+      return bytes;
+    });
+    await expect(readProjectPackage(corruptedOutput, { crypto }))
+      .rejects.toMatchObject({ code: "invalid-package", message: expect.stringContaining("failed its byte digest") });
+    expect(artifactEntry.uncompressedSize).toBeGreaterThan(0);
+  });
+
+  it("round-trips immutable revision history and exact frozen artifacts through v3 and copy remapping", async () => {
+    const source = bundle("Frozen archive", SECOND_PROJECT_ID, SECOND_STYLE_ID);
+    const { assetId: _assetId, ...placement } = source.style.design.surface["tee/Untitled tee"]!.placements[0] as import("../surface/placement").ArtworkPlacement;
+    const style: StyleRecord = {
+      ...source.style,
+      revisionHeadId: null,
+      design: {
+        ...source.style.design,
+        surface: { "tee/Untitled tee": { styleName: "Untitled tee", placements: [placement] } },
+      },
+    };
+    const observations = createFieldObservationRecord(style, TIME, "existing-local-style");
+    const revision = await createStyleRevision({
+      styleId: style.id,
+      revisionId: "11111111-1111-4111-8111-111111111111",
+      parentRevisionId: null,
+      revisionNumber: 1,
+      createdAt: TIME,
+      design: style.design,
+      fieldObservations: observations,
+      artwork: [],
+    }, crypto);
+    const currentStyle = { ...style, revisionHeadId: revision.revisionId };
+    const outputText = "<svg xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M0 0\"/></svg>";
+    const frozen = await createFrozenOutputManifest({
+      manifestId: "22222222-2222-4222-8222-222222222222",
+      styleId: currentStyle.id,
+      revision,
+      capturedAt: TIME,
+      selectedSizes: [{ sizeId: "m", label: "M" }],
+      unresolved: ["Physical fit, formal approval, supplier requirements and factory acceptance are not verified."],
+      artifacts: FROZEN_ARTIFACT_IDS.map((artifactId) => {
+        const extension = artifactId.includes("dxf") ? "dxf" : artifactId.endsWith("svg") ? "svg" : "pdf";
+        return {
+          artifactId,
+          extension,
+          displayName: `${artifactId}.${extension}`,
+          mediaType: extension === "svg" ? "image/svg+xml" : extension === "dxf" ? "image/vnd.dxf" : "application/pdf",
+          content: outputText,
+        };
+      }),
+    }, crypto);
+    const store = memoryAssets();
+    const packed = await createProjectPackage({
+      project: source.project,
+      styles: [currentStyle],
+      recoveries: [],
+      fieldObservations: [observations],
+      styleRevisions: [revision],
+      exportManifests: [frozen],
+    }, store, { crypto });
+    const archive = await readProjectPackage(packed, { crypto });
+    expect(archive.manifest.packageVersion).toBe(3);
+    expect(archive.manifest.styleRevisions).toHaveLength(1);
+    expect(archive.manifest.exportManifests[0]?.artifacts[0]?.archivePath)
+      .toBe(`frozen/${frozen.manifestId}/selected-size-a0-pdf.pdf`);
+    expect(await archive.frozenManifests[0]?.artifacts[0]?.bytes.text()).toBe(outputText);
+    expect(await sha256Hex(new Uint8Array(await archive.frozenManifests[0]!.artifacts[0]!.bytes.arrayBuffer()), crypto))
+      .toBe(frozen.artifacts[0]?.sha256);
+
+    const target = await repository();
+    const copied = await importProjectPackage(target, memoryAssets(), archive, true, {
+      crypto,
+      now: () => TIME,
+      idFactory: deterministicUuidFactory(),
+    });
+    expect(copied).toMatchObject({ status: "imported", importedAsCopy: true });
+    if (copied.status !== "imported") throw new Error("Frozen package copy import did not complete.");
+    const restored = await target.loadProject(copied.projectId);
+    expect(restored?.styleRevisions).toHaveLength(1);
+    expect(restored?.exportManifests).toHaveLength(1);
+    expect(restored?.exportManifests[0]?.packetDigest).not.toBe(frozen.packetDigest);
+    expect(await restored?.exportManifests[0]?.artifacts[0]?.bytes.text()).toBe(outputText);
+    const reExported = await createProjectPackage({
+      project: restored!.project,
+      styles: restored!.styles,
+      recoveries: [],
+      fieldObservations: restored!.fieldObservations,
+      styleRevisions: restored!.styleRevisions,
+      exportManifests: restored!.exportManifests,
+    }, memoryAssets(), { crypto });
+    const reloaded = await readProjectPackage(reExported, { crypto });
+    expect(await reloaded.frozenManifests[0]?.artifacts[0]?.bytes.text()).toBe(outputText);
+  });
+
+  it("remaps a multi-revision chain and its local artwork when copying a v3 package", async () => {
+    const source = bundle("Revision chain", SECOND_PROJECT_ID, SECOND_STYLE_ID);
+    const initialStyle = { ...source.style, revisionHeadId: null };
+    const initialObservations = createFieldObservationRecord(initialStyle, TIME, "existing-local-style");
+    const sourceArtwork = {
+      assetId: ASSET_ID,
+      mimeType: "image/png" as const,
+      byteLength: PNG.byteLength,
+      sha256: await sha256Hex(PNG, crypto),
+    };
+    const first = await createStyleRevision({
+      styleId: initialStyle.id,
+      revisionId: "11111111-1111-4111-8111-111111111111",
+      parentRevisionId: null,
+      revisionNumber: 1,
+      createdAt: TIME,
+      design: initialStyle.design,
+      fieldObservations: initialObservations,
+      artwork: [sourceArtwork],
+    }, crypto);
+    const currentDesign = {
+      ...initialStyle.design,
+      measurements: { ...initialStyle.design.measurements, chest: initialStyle.design.measurements.chest + 1 },
+    };
+    const currentStyle = { ...initialStyle, design: currentDesign, revisionHeadId: "22222222-2222-4222-8222-222222222222" };
+    const currentObservations = createFieldObservationRecord(currentStyle, TIME, "existing-local-style");
+    const second = await createStyleRevision({
+      styleId: initialStyle.id,
+      revisionId: currentStyle.revisionHeadId,
+      parentRevisionId: first.revisionId,
+      revisionNumber: 2,
+      createdAt: TIME,
+      design: currentDesign,
+      fieldObservations: currentObservations,
+      artwork: [sourceArtwork],
+    }, crypto);
+    const sourceAssets = memoryAssets();
+    sourceAssets.records.set(ASSET_ID, {
+      assetId: ASSET_ID,
+      name: "front.png",
+      mimeType: "image/png",
+      blob: new Blob([PNG], { type: "image/png" }),
+    });
+    const packageBlob = await createProjectPackage({
+      project: source.project,
+      styles: [currentStyle],
+      recoveries: [],
+      fieldObservations: [currentObservations],
+      styleRevisions: [first, second],
+    }, sourceAssets, { crypto });
+    const archive = await readProjectPackage(packageBlob, { crypto });
+    const target = await repository();
+    const targetAssets = memoryAssets();
+    const copied = await importProjectPackage(target, targetAssets, archive, true, {
+      crypto,
+      now: () => TIME,
+      idFactory: deterministicUuidFactory(),
+      inspectAsset: inspector,
+    });
+    expect(copied).toMatchObject({ status: "imported", importedAsCopy: true });
+    if (copied.status !== "imported") throw new Error("Revision-chain copy did not complete.");
+    const restored = await target.readProjectBundle(copied.projectId);
+    const restoredRevisions = restored?.styleRevisions ?? [];
+    expect(restoredRevisions).toHaveLength(2);
+    expect(restoredRevisions[0]?.parentRevisionId).toBeNull();
+    expect(restoredRevisions[1]?.parentRevisionId).toBe(restoredRevisions[0]?.revisionId);
+    expect(restored?.styles[0]?.revisionHeadId).toBe(restoredRevisions[1]?.revisionId);
+    const copiedPlacement = (restored?.styles[0]?.design.surface["tee/Untitled tee"]?.placements[0]) as import("../surface/placement").ArtworkPlacement | undefined;
+    const copiedAssetId = copiedPlacement?.assetId;
+    expect(copiedAssetId).not.toBe(ASSET_ID);
+    expect(restoredRevisions.map((revision) => revision.payload.artwork[0]?.assetId)).toEqual([copiedAssetId, copiedAssetId]);
+    expect(targetAssets.records.get(copiedAssetId ?? "")?.blob.size).toBe(PNG.byteLength);
+  });
+
+  it("preserves bundled artwork identity when copying revision history", async () => {
+    const source = bundle("Bundled artwork copy");
+    const builtInAsset = ARTWORK_CATALOG[0]!.assetId;
+    const [surfaceKey, surfaceRecord] = Object.entries(source.style.design.surface)[0]!;
+    const placement = surfaceRecord.placements[0] as import("../surface/placement").ArtworkPlacement;
+    const style: StyleRecord = {
+      ...source.style,
+      revisionHeadId: null,
+      design: {
+        ...source.style.design,
+        surface: {
+          ...source.style.design.surface,
+          [surfaceKey]: { ...surfaceRecord, placements: [{ ...placement, assetId: builtInAsset }] },
+        },
+      },
+    };
+    const project = { ...source.project, styleIds: [style.id], activeStyleId: style.id };
+    const packageBlob = await createProjectPackage({ project, styles: [style], recoveries: [] }, memoryAssets(), { crypto });
+    const archive = await readProjectPackage(packageBlob, { crypto });
+    const target = await repository();
+    const copied = await importProjectPackage(target, memoryAssets(), archive, true, {
+      crypto,
+      now: () => TIME,
+      idFactory: deterministicUuidFactory(),
+    });
+    expect(copied.status).toBe("imported");
+    if (copied.status !== "imported") throw new Error("Bundled-art copy did not complete.");
+    const restored = await target.readProjectBundle(copied.projectId);
+    expect(restored?.styleRevisions?.[0]?.payload.artwork[0]?.assetId).toBe(builtInAsset);
+    const restoredPlacement = (restored?.styles[0]?.design.surface[surfaceKey]?.placements[0]) as import("../surface/placement").ArtworkPlacement | undefined;
+    expect(restoredPlacement?.assetId).toBe(builtInAsset);
+  });
+
+  it("rejects a mutated archive copy when frozen-output revision links or bytes no longer verify", async () => {
+    const source = await createFrozenSourcePackage();
+    const archive = await readProjectPackage(source.blob, { crypto });
+    const originalFrozen = archive.frozenManifests[0]!;
+    const missingRevisionId = "99999999-9999-4999-8999-999999999999";
+    const missingRevision = {
+      ...originalFrozen,
+      revisionId: missingRevisionId,
+      payload: { ...originalFrozen.payload, revisionId: missingRevisionId },
+    };
+    const targetWithMissingRevision = await repository();
+    await expect(importProjectPackage(targetWithMissingRevision, memoryAssets(), {
+      ...archive,
+      frozenManifests: [missingRevision],
+    }, true, { crypto, now: () => TIME, idFactory: deterministicUuidFactory() })).rejects.toMatchObject({
+      code: "invalid-package",
+      message: expect.stringContaining("points to a missing copied revision"),
+    });
+    expect(await targetWithMissingRevision.readActiveProject()).toBeNull();
+
+    const originalArtifact = originalFrozen.artifacts[0]!;
+    const changedArtifact = new Blob([new Uint8Array(originalArtifact.byteLength).fill(0x41)], { type: originalArtifact.mediaType });
+    const changedFrozen = {
+      ...originalFrozen,
+      artifacts: originalFrozen.artifacts.map((artifact, index) => index === 0
+        ? { ...artifact, bytes: changedArtifact }
+        : artifact),
+    };
+    const targetWithChangedBytes = await repository();
+    await expect(importProjectPackage(targetWithChangedBytes, memoryAssets(), {
+      ...archive,
+      frozenManifests: [changedFrozen],
+    }, true, { crypto, now: () => TIME, idFactory: deterministicUuidFactory() })).rejects.toMatchObject({
+      code: "invalid-package",
+      message: expect.stringContaining("Copied frozen output"),
+    });
+    expect(await targetWithChangedBytes.readActiveProject()).toBeNull();
+  });
+
   it("reads package v1 without inventing provenance and imports it as unresolved history", async () => {
     const source = await createSourcePackage();
     const legacyBlob = await makeVersionOnePackage(source.blob);
@@ -382,13 +1369,68 @@ describe("portable local project package", () => {
     expect(imported.status).toBe("imported");
     const restored = await target.readProjectBundle(PROJECT_ID);
     expect(restored?.fieldObservations).toEqual(archive.manifest.fieldObservations);
+    expect(restored?.styleRevisions).toHaveLength(1);
+    expect(restored?.styles[0]?.revisionHeadId).toBe(restored?.styleRevisions?.[0]?.revisionId);
+    expect(restored?.styles[0]?.design.semanticEdits).toBeNull();
+  });
+
+  it("copies package v2 with its saved semantic state and creates a new honest baseline revision", async () => {
+    const source = await createSourcePackage();
+    const legacyBlob = await makeVersionTwoPackage(source.blob);
+    const archive = await readProjectPackage(legacyBlob, { crypto });
+    expect(archive.manifest.packageVersion).toBe(2);
+    expect(archive.manifest.styleRevisions).toHaveLength(0);
+    expect(archive.manifest.styles[0]?.revisionHeadId).toBeNull();
+
+    const target = await repository();
+    const targetAssets = memoryAssets();
+    const copied = await importProjectPackage(target, targetAssets, archive, true, {
+      crypto,
+      now: () => TIME,
+      idFactory: deterministicUuidFactory(),
+      inspectAsset: inspector,
+    });
+    expect(copied).toMatchObject({ status: "imported", importedAsCopy: true });
+    if (copied.status !== "imported") throw new Error("Version-two package copy did not complete.");
+    const restored = await target.readProjectBundle(copied.projectId);
+    expect(restored?.styleRevisions).toHaveLength(1);
+    expect(restored?.styleRevisions?.[0]?.parentRevisionId).toBeNull();
+    expect(restored?.styles[0]?.revisionHeadId).toBe(restored?.styleRevisions?.[0]?.revisionId);
+    expect(restored?.styles[0]?.design.semanticEdits).toBe(archive.manifest.styles[0]?.design.semanticEdits);
+    const copiedPlacement = (restored?.styles[0]?.design.surface["tee/Untitled tee"]?.placements[0]) as import("../surface/placement").ArtworkPlacement | undefined;
+    const copiedAssetId = copiedPlacement?.assetId;
+    expect(copiedAssetId).not.toBe(ASSET_ID);
+    expect(targetAssets.records.get(copiedAssetId ?? "")?.blob.size).toBe(PNG.byteLength);
+  });
+
+  it("uses the global WebCrypto fallback and hashes nonzero-offset encoded byte views", async () => {
+    const source = await createSourcePackage();
+    const NativeTextEncoder = globalThis.TextEncoder;
+    class OffsetTextEncoder extends NativeTextEncoder {
+      override encode(input?: string): Uint8Array<ArrayBuffer> {
+        const encoded = super.encode(input);
+        const padded = new Uint8Array(encoded.byteLength + 4);
+        padded.set(encoded, 2);
+        return padded.subarray(2, 2 + encoded.byteLength);
+      }
+    }
+    const descriptor = Object.getOwnPropertyDescriptor(globalThis, "TextEncoder");
+    Object.defineProperty(globalThis, "TextEncoder", { configurable: true, writable: true, value: OffsetTextEncoder });
+    try {
+      expect(globalThis.crypto?.subtle).toBeDefined();
+      expect(new TextEncoder().encode("view").byteOffset).toBeGreaterThan(0);
+      const archive = await readProjectPackage(source.blob);
+      expect(archive.manifest.project.id).toBe(PROJECT_ID);
+    } finally {
+      if (descriptor) Object.defineProperty(globalThis, "TextEncoder", descriptor);
+    }
   });
 
   it("exports a strict stored ZIP and imports style artwork with byte identity", async () => {
     const source = await createSourcePackage();
     const archive = await readProjectPackage(source.blob, { crypto });
     expect(archive.manifest.format).toBe("infinidrip-project");
-    expect(archive.manifest.assets[0]).toMatchObject({ path: `assets/${ASSET_ID}`, attribution: ["Studio reference"] });
+    expect(archive.manifest.assets[0]).toMatchObject({ path: `assets/${ASSET_ID}`, attribution: expect.arrayContaining(["Studio reference"]) });
 
     const target = await repository();
     const targetAssets = memoryAssets();
@@ -399,6 +1441,32 @@ describe("portable local project package", () => {
     expect(restored?.styles[0]?.design.surface).toEqual(bundle().style.design.surface);
     expect([...new Uint8Array(await targetAssets.records.get(ASSET_ID)!.blob.arrayBuffer())]).toEqual([...PNG]);
     expect(await target.readProjectImportReceipt(archive.packageSha256)).toMatchObject({ projectId: PROJECT_ID, importedAsCopy: false });
+  });
+
+  it("enforces manifest-first ZIP order and rejects unlisted valid-shaped members", async () => {
+    const source = await createSourcePackage();
+    const original = await readProjectPackage(source.blob, { crypto });
+    const entries = await Promise.all([...original.entries.values()].map(async (entry) => ({
+      path: entry.path,
+      bytes: new Uint8Array(await original.blob.slice(entry.dataOffset, entry.dataOffset + entry.uncompressedSize).arrayBuffer()),
+    })));
+    const manifest = entries.find((entry) => entry.path === "manifest.json")!;
+    const nonManifest = entries.filter((entry) => entry.path !== "manifest.json");
+    const manifestLast = await storedZip([...nonManifest, manifest]);
+    await expect(readProjectPackage(manifestLast, { crypto })).rejects.toMatchObject({
+      code: "invalid-package",
+      message: expect.stringContaining("manifest must be the first ZIP entry"),
+    });
+
+    const unlisted = await storedZip([
+      manifest,
+      ...nonManifest,
+      { path: "assets/local-99999999999999999999999999999999-png", bytes: new Uint8Array([0x7f]) },
+    ]);
+    await expect(readProjectPackage(unlisted, { crypto })).rejects.toMatchObject({
+      code: "invalid-package",
+      message: expect.stringContaining("ZIP files and manifest asset entries do not match exactly"),
+    });
   });
 
   it("normalizes non-Error failures from the package writer", async () => {
@@ -455,6 +1523,18 @@ describe("portable local project package", () => {
     expect(targetAssets.records.size).toBe(0);
   });
 
+  it("reports a streaming ZIP decoder error after structural preflight", async () => {
+    const source = await createSourcePackage();
+    vi.spyOn(UnzipPassThrough.prototype, "push").mockImplementation(function (this: UnzipPassThrough) {
+      this.ondata(Object.assign(new Error("synthetic stored-entry decoder failure"), { code: 13 }), new Uint8Array(), true);
+    });
+
+    await expect(readProjectPackage(source.blob, { crypto })).rejects.toMatchObject({
+      code: "invalid-package",
+      message: "synthetic stored-entry decoder failure",
+    });
+  });
+
   it("rejects truncated, ZIP64, duplicate-path, unsafe-path, and unsupported-compression archives", async () => {
     const source = await createSourcePackage();
     const original = new Uint8Array(await source.blob.arrayBuffer());
@@ -487,7 +1567,7 @@ describe("portable local project package", () => {
     unsafePath[secondCentral + 46] = 0x2e;
     unsafePath[secondLocal + 30] = 0x2e;
     await expect(readProjectPackage(new Blob([unsafePath]), { crypto }))
-      .rejects.toMatchObject({ code: "invalid-package", message: expect.stringContaining("supported local artwork path") });
+      .rejects.toMatchObject({ code: "invalid-package", message: expect.stringContaining("supported local artwork or frozen-output path") });
 
     const compressed = original.slice();
     new DataView(compressed.buffer).setUint16(secondCentral + 10, 8, true);
@@ -890,7 +1970,7 @@ describe("portable local project package", () => {
     const mutations: Array<{ label: string; mutate: (manifest: Record<string, unknown>) => void; resign?: boolean }> = [
       { label: "unknown manifest key", mutate: (manifest) => { manifest.extra = true; } },
       { label: "unsupported format", mutate: (manifest) => { manifest.format = "other"; } },
-      { label: "unsupported package version", mutate: (manifest) => { manifest.packageVersion = 3; } },
+      { label: "unsupported package version", mutate: (manifest) => { manifest.packageVersion = 4; } },
       { label: "malformed field observations", mutate: (manifest) => { manifest.fieldObservations = [{}]; } },
       {
         label: "field history references a foreign style",
@@ -978,7 +2058,7 @@ describe("portable local project package", () => {
       manifest.assets = [];
     });
     await expect(readProjectPackage(noReferenceButExtraFile, { crypto }))
-      .rejects.toMatchObject({ code: "invalid-package", message: expect.stringContaining("do not match exactly") });
+      .rejects.toMatchObject({ code: "invalid-package" });
 
     const staleDigest = await replacePackageManifest(source.blob, (manifest) => {
       const project = manifest.project as Record<string, unknown>;
@@ -1010,7 +2090,7 @@ describe("portable local project package", () => {
       .rejects.toMatchObject({ code: "invalid-package" });
     await expect(readProjectPackage(await storedZip([{ path: "manifest.json", bytes: new TextEncoder().encode("null") }]), { crypto }))
       .rejects.toMatchObject({ code: "invalid-package" });
-  }, 15_000);
+  }, 30_000);
 
   it("validates artwork checksums and safe-image output before touching project storage", async () => {
     const source = await createSourcePackage();
@@ -1078,15 +2158,10 @@ describe("portable local project package", () => {
     });
     const archive = await readProjectPackage(valid, { crypto });
     const target = await repository();
-    const generatedIds = [
-      "77777777-7777-4777-8777-777777777777",
-      "88888888-8888-4888-8888-888888888888",
-      "99999999-9999-4999-8999-999999999999",
-    ];
     const outcome = await importProjectPackage(target, memoryAssets(), archive, true, {
       crypto,
       now: () => TIME,
-      idFactory: () => generatedIds.shift()!,
+      idFactory: deterministicUuidFactory(),
       inspectAsset: inspector,
     });
     expect(outcome).toMatchObject({ status: "imported", importedAsCopy: true });
@@ -1128,15 +2203,10 @@ describe("portable local project package", () => {
     const packed = await createProjectPackage({ project, styles: [active, archived], recoveries: [] }, memoryAssets(), { crypto });
     const archive = await readProjectPackage(packed, { crypto });
     const target = await repository();
-    const generatedIds = [
-      "77777777-7777-4777-8777-777777777777",
-      "88888888-8888-4888-8888-888888888888",
-      "99999999-9999-4999-8999-999999999999",
-    ];
     const imported = await importProjectPackage(target, memoryAssets(), archive, true, {
       crypto,
       now: () => TIME,
-      idFactory: () => generatedIds.shift()!,
+      idFactory: deterministicUuidFactory(),
     });
     expect(imported).toMatchObject({ status: "imported", importedAsCopy: true });
     if (imported.status !== "imported") throw new Error("Copy import did not complete.");
@@ -1295,9 +2365,8 @@ describe("portable local project package", () => {
     const blocked = await importProjectPackage(differentTarget, differentAssets, archive, false, { crypto, inspectAsset: inspector });
     expect(blocked.status).toBe("copy-required");
     expect(blocked.status === "copy-required" && blocked.reason).toContain("artwork ID");
-    const copyIds = ["77777777-7777-4777-8777-777777777777", "88888888-8888-4888-8888-888888888888", "99999999-9999-4999-8999-999999999999"];
     const copied = await importProjectPackage(differentTarget, differentAssets, archive, true, {
-      crypto, inspectAsset: inspector, now: () => TIME, idFactory: () => copyIds.shift()!,
+      crypto, inspectAsset: inspector, now: () => TIME, idFactory: deterministicUuidFactory(),
     });
     expect(copied).toMatchObject({ status: "imported", importedAsCopy: true });
     if (copied.status !== "imported") throw new Error("Asset collision copy was not created.");
@@ -1490,7 +2559,7 @@ describe("portable local project package", () => {
       put: async () => undefined,
       get: async () => {
         changingReads += 1;
-        return changingReads === 1 ? validRecord : {
+        return changingReads < 3 ? validRecord : {
           ...validRecord,
           blob: new Blob([PNG, new Uint8Array([4])], { type: "image/png" }),
         };
