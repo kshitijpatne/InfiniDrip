@@ -49,6 +49,27 @@ is authoritative for maintainer decisions that are not derivable from code.
   outcome, slice boundaries and exit gates. Keep the goal active until the
   objective is actually complete; record the verified stopping point if the
   usage window requires a pause, then resume from that boundary after reset.
+- Treat the repository as the complete handoff for every fresh or resumed
+  task; never require chat history to recover scope, decisions, or progress.
+  Before work, re-read `CONTEXT-INDEX.md`, `PROJECT-STATE.md`,
+  `docs/PROJECT-DECISIONS.md`, the canonical Control Center board, and the
+  admitted task's linked packet and exit evidence. Verify the actual branch,
+  `origin/main` ancestry, unique next slice, and current dirty state. Do not
+  infer admission from a roadmap date, dependency completion, or a prior chat.
+- Before implementation of an admitted Epic, create/update its durable
+  `docs/planning/EPIC-<N>-ADMISSION.md` packet with the authority for admission,
+  verified starting commit, exact ordered slice boundaries, dependencies,
+  acceptance evidence, non-goals/holds, material risks and unresolved facts,
+  verification gates, bounded delegation/parallel ownership, and conditional
+  effort/date assumptions. Link it from `CONTEXT-INDEX.md`, `PROJECT-STATE.md`,
+  and the validated Control Center item. A roadmap row is planned scope, not an
+  implementation handoff or permission to begin.
+- At each slice boundary, write the durable result before ending the task:
+  landed slice/commit and verification evidence; acceptance criteria passed,
+  failed, or still pending; blockers/decisions; remaining dependencies; and
+  the single next action and its gate. Update `PROJECT-STATE.md` and the
+  canonical board through the validated command layer. A new task must be able
+  to resume from those records without asking the prior task for context.
 - Pace work against the current usage windows. Check limits before a slice,
   before expensive full gates and at each slice boundary; batch inspections,
   read only task-relevant context, and avoid speculative or repeated work.

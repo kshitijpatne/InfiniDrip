@@ -22,6 +22,13 @@ admitted by G02's closure. The separate holds on garment direction, supplier
 contact, launch costs, physical sampling, hosted features, and production
 readiness remain in force.
 
+Future-scope details and dependencies are recorded in
+`docs/planning/END-TO-END-CAPABILITY-ROADMAP.md`; G17 additionally has its
+separate gate in `docs/planning/ARTWORK-LIBRARY-G17-QUEUE.md`. These are plans,
+not admission. Every fresh or resumed task must continue from repository
+records alone, under the admission and slice-boundary handoff rules in
+`AGENTS.md`; no chat-specific handoff is required or authoritative.
+
 EPIC-14/G01's A-01–A-12 disposition, output replay and downstream thresholds
 are in `docs/research/epic14/G01-FINAL-REVIEW-EXIT.md`. Slice 227's readable
 draft-pack route retains seven PDFs, all 33 rendered pages, hashes and layout
@@ -4270,3 +4277,30 @@ closure does not admit another roadmap item or relax any physical, supplier,
 launch-cost, hosted-service, or production-readiness hold. Full merge and
 ancestry details are in
 `docs/release/EPIC-15-G02-MERGE-EXIT-S241.md`.
+
+### Slice 242 — reconcile the roadmap and make task continuity repository-only
+
+Slice 242 updates the capability roadmap's stale G02 and Lane A–D status
+snapshots to match the verified PR #12 merge and Slice 241 closure. The roadmap
+now identifies itself as planned scope, points live state to `PROJECT-STATE.md`
+and the canonical Control Center, and keeps G03–G17 and Lane E in Backlog. The
+future EPIC-17–EPIC-30 packet IDs, scope, dependencies, exit evidence and gate
+references remain intact; G17's separate queue still requires its post-G16
+scope checkpoint and explicit admission.
+
+The roadmap contains two overlapping effort summaries (167–255 for a technical
+work grouping and 176–272 for G01–G16 overall) whose calculation basis is not
+reconciled. Slice 242 labels this explicitly; neither range is an assigned
+slice count. Re-estimate from admitted packets rather than treating either
+range as a delivery commitment.
+
+The cross-task workflow now requires each admitted Epic to have a linked
+admission packet and requires each slice boundary to record its verified
+commit, evidence, passed/pending criteria, blockers, dependencies and next
+gated action. Chat history is explicitly not needed to start or resume work.
+This is a documentation-only continuity correction: no Epic was admitted, no
+board status or feature code changed, and no external hold was reopened.
+Verification: `npm run control-center:test` passed 33/33; all 49 stable planning
+packet IDs for G03–G16 were found, the G17 queue file is present, and
+EPIC-17–EPIC-30 each retain Backlog status, scope links and acceptance criteria
+on Control Center board revision 315. `git diff --check` passed.

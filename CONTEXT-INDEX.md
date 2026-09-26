@@ -29,6 +29,12 @@ When documents conflict, prefer the newest evidence in this order:
 Older test counts, recipe counts, and "next slice" statements remain historical
 snapshots; they are not current status.
 
+Every fresh or resumed task must be self-contained from the repository and may
+not rely on chat history. `AGENTS.md` defines the admission-packet and
+slice-boundary handoff contract; `PROJECT-STATE.md` and the canonical Control
+Center board define current status. Planned roadmap scope becomes executable
+only through an explicitly admitted, linked Epic packet.
+
 ## Current status documents
 
 - `PROJECT-STATE.md` — engineering status log and immediate roadmap.
@@ -88,8 +94,10 @@ snapshots; they are not current status.
 - `docs/planning/END-TO-END-CAPABILITY-ROADMAP.md` — maintainer-directed
   post-Phase-9 capability sequence, evidence and ambiguity ledger, planned work
   packets, conditional target dates, dependencies, numbered Epic 14–30 mapping,
-  individually tracked immediate lanes A–E, the Epic 14 execution-order
-  diagram, and digital exit gates. It
+  initially tracked lanes A–E, the Epic 14 execution-order
+  diagram, and digital exit gates. Slice 242 reconciles its status snapshots
+  with the merged G02 exit; future scope remains planned until separately
+  admitted. It
   does not authorize a garment queue, launch spending, supplier contact, or
   physical sampling after the completed pre-garment sequence.
 - `docs/planning/EPIC-14-ADMISSION.md` — the maintainer-admitted C01/C02/C05/C06
