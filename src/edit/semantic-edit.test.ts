@@ -168,6 +168,15 @@ describe("semantic edit source and operations", () => {
     expect(result.sizes.every((size) => size.canExport)).toBe(true);
     expect(result.sizes[0].block.roles.sleeve.edges[0]).not.toEqual(block.roles.sleeve.edges[0]);
     expect(block.roles.sleeve.edges[0]).toEqual(sourceBlock(recipe).roles.sleeve.edges[0]);
+
+    const oneSize = evaluateSemanticEditDocument(
+      recipe, STANDARD_M, optionsFor(recipe), edited, fingerprint, document.sourceInputs,
+      [{ label: "One size", step: 0 }],
+    );
+    expect(oneSize.status).toBe("ready");
+    expect(oneSize.sizes.map(({ label, step }) => ({ label, step }))).toEqual([{ label: "One size", step: 0 }]);
+    expect(oneSize.canExportSize(0)).toBe(true);
+    expect(oneSize.canExportSize(-1)).toBe(false);
   });
 
   it("reports every unchanged recipe baseline as usable across its declared sizes", async () => {

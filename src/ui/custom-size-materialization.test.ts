@@ -1,4 +1,6 @@
-import { GARMENTS, STANDARD_M, defaultGarmentOptions } from "../drafting";
+import { GARMENTS, STANDARD_M, blockPieces, defaultGarmentOptions, draftAtSize } from "../drafting";
+import { exportA0Pdf, exportDxf, exportPdf, exportSvg } from "../export";
+import { wovenShirtAllowances } from "../drafting/shirt";
 import { DEFAULT_APPEARANCE } from "./appearance";
 import { getFieldDefinitions } from "./field-provenance";
 import { addCaptureReadingForField, createMeasurementCaptureSession } from "./measurement-capture";
@@ -34,13 +36,18 @@ function seedFor(recipeId: string): SavedDesign {
   return design;
 }
 
-function readySession(recipeId: string) {
+function readySession(recipeId: string, varyValues = false) {
   let session = createMeasurementCaptureSession("3f0c6a2e-8d1b-4c5e-9a7f-2b6d8e1c4a90", recipeId, TIME, null);
   getFieldDefinitions(recipeId).forEach((definition, index) => {
     const bodyMeasure = definition.semanticKind === "BODY_MEASURE";
+    const higher = definition.defaultValue + definition.step;
+    const lower = definition.defaultValue - definition.step;
+    const value = !varyValues ? definition.defaultValue
+      : higher <= definition.max ? higher
+        : lower >= definition.min ? lower : definition.defaultValue;
     session = addCaptureReadingForField(session, definition.id, {
       id: `00000000-0000-4000-8000-${String(index + 1).padStart(12, "0")}`,
-      rawValue: String(definition.defaultValue),
+      rawValue: String(value),
       enteredUnit: definition.unit,
       provenance: bodyMeasure ? "USER_CAPTURED" : "USER_SELECTED",
       evidenceStatus: "UNCONFIRMED",
@@ -72,6 +79,41 @@ describe("custom one-size design materialization", () => {
       expect(Object.keys(result.garmentOptions)).toEqual([recipe.name]);
       expect(result.workspace).toMatchObject({ garment: recipe.name, exportStep: 0, nestScope: "single" });
       expect(result.semanticEdits).toBeNull();
+    }
+  });
+
+  it("matches the ordinary step-zero block, POMs, and selected-size file contents for every recipe", () => {
+    for (const recipe of GARMENTS) {
+      const design = materializeCustomSizeDesign(seedFor(recipe.name), readySession(recipe.name, true));
+      const options = design.garmentOptions[recipe.name] ?? {};
+      expect(design.workspace.exportStep, recipe.name).toBe(0);
+      expect(Object.keys(options), recipe.name).toEqual((recipe.options ?? []).map((option) => option.id));
+
+      const customBlock = draftAtSize(
+        design.measurements, recipe.grade, 0, recipe.draft, options,
+      );
+      const ordinaryBlock = recipe.draft(design.measurements, options);
+      expect(customBlock, recipe.name).toEqual(ordinaryBlock);
+      expect(recipe.poms.map((pom) => pom.measure(customBlock)), recipe.name)
+        .toEqual(recipe.poms.map((pom) => pom.measure(ordinaryBlock)));
+
+      const pieces = blockPieces(customBlock);
+      const allowances = recipe.name === "woven-shirt"
+        ? wovenShirtAllowances(options.hemTurn!)
+        : recipe.allowances;
+      const oneSizeOutputs = {
+        svg: exportSvg(pieces, allowances, recipe.notches),
+        dxf: exportDxf(pieces, allowances),
+        pdf: exportPdf(pieces, allowances, undefined, 1.0, recipe.tiledPdfLocalCoordinates === true),
+        a0: exportA0Pdf(pieces, allowances, recipe.notches, undefined, recipe.a0Overflow === true),
+      };
+      const ordinaryOutputs = {
+        svg: exportSvg(blockPieces(ordinaryBlock), allowances, recipe.notches),
+        dxf: exportDxf(blockPieces(ordinaryBlock), allowances),
+        pdf: exportPdf(blockPieces(ordinaryBlock), allowances, undefined, 1.0, recipe.tiledPdfLocalCoordinates === true),
+        a0: exportA0Pdf(blockPieces(ordinaryBlock), allowances, recipe.notches, undefined, recipe.a0Overflow === true),
+      };
+      expect(oneSizeOutputs, recipe.name).toEqual(ordinaryOutputs);
     }
   });
 

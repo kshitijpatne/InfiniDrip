@@ -420,6 +420,9 @@ export class ProjectWorkflow {
       if (isCustomOneSizeStyle(current.activeStyle) && design.workspace.garment !== current.activeStyle.recipeId) {
         throw new ProjectRepositoryError("invalid-data", "A custom one-size style cannot change its recipe.");
       }
+      if (isCustomOneSizeStyle(current.activeStyle) && design.workspace.exportStep !== 0) {
+        throw new ProjectRepositoryError("invalid-data", "A custom one-size style must stay on export step 0.");
+      }
       const time = monotonicTimestamp(this.now(), current.project.updatedAt, current.activeStyle.updatedAt);
       const previousObservations = current.fieldObservations.find((record) => record.styleId === current.activeStyle.id);
       if (!previousObservations) throw new ProjectRepositoryError("invalid-data", "The active style has no field history record.");

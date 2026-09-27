@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { STANDARD_M, GARMENTS, TSHIRT_SIZES, TEE, WOVEN_SHIRT, WOVEN_SHIRT_OPTION_DEFINITIONS, draftTshirt, rolePiece, type Piece } from "../drafting";
-import { garmentToggleMarkup, dartControlsMarkup, exportButtonsMarkup, fieldHistoryDialogContent, fieldObservationSummary, patternAnnotationKeyMarkup } from "./view";
+import { garmentToggleMarkup, dartControlsMarkup, exportButtonsMarkup, fieldHistoryDialogContent, fieldObservationSummary, patternAnnotationKeyMarkup, customOneSizeSpecMarkup } from "./view";
 import { DEFAULT_FABRIC, BLUEPRINT } from "../render";
 import { matchStyle, styleNames, TEE_STYLES } from "../style";
 import { controlsMarkup, appShellMarkup, guidanceMarkup, styleMarkup, surfaceMarkup, nestIntelMarkup, nestIntelReadout, fabricSwatchesMarkup, fabricStretchMarkup, specTableMarkup, viewToggleMarkup, bodyCroquisToggleMarkup, fabricWidthMarkup, checkMarkup, editorHintMarkup, semanticEditorHintMarkup, editorHandleControlsMarkup, inspectionMarkup } from "./view";
@@ -632,6 +632,22 @@ describe("specTableMarkup", () => {
   it("highlights the base column", () => {
     // base index 2 → cells get the gridStrong background
     expect(html).toContain(BLUEPRINT.gridStrong);
+  });
+});
+
+describe("customOneSizeSpecMarkup", () => {
+  it("shows only the custom draft's POM values and pauses when it is not ready", () => {
+    const block = TEE.draft(STANDARD_M);
+    const poms = TEE.poms;
+    const markup = customOneSizeSpecMarkup(block, STANDARD_M, poms, true);
+    expect(markup).toContain(">One size<");
+    expect(markup).toContain(poms[0]!.label);
+    expect(markup).toContain((Math.round(poms[0]!.measure(block) * 10) / 10).toFixed(1));
+    expect(markup).not.toMatch(/\b(?:XS|S|M|L|XL)\b/);
+
+    const paused = customOneSizeSpecMarkup(null, STANDARD_M, poms, false);
+    expect(paused).toContain("Single-size specifications are paused");
+    expect(paused).toContain('role="status"');
   });
 });
 

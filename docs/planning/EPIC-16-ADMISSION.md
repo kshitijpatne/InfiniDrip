@@ -231,3 +231,33 @@ was untouched. Responsive and accessibility cases passed in the full test
 suite; the in-app browser did not expose viewport resizing, so a separate
 narrow-browser screenshot was not recorded. All eight protected legacy export
 identities passed. M02 remains In Progress; S249 owns all-recipe output parity.
+
+## Slice 249 — seven-recipe parity and M02 exit
+
+Slice 249 is complete. With the same resolved recipe inputs, the custom-size
+path matches the existing step-zero drafting path for the complete block,
+recipe options, all unrounded POM values, and exact selected-size SVG, DXF,
+tiled PDF, and A0 PDF writer content for each of the seven recipes. The custom
+editor's POM view shows one `One size` column. Custom-size export selection,
+semantic Edit, history restore, and recovery restore remain on step zero.
+Existing legacy export writers and all eight protected identities remain
+unchanged. Tech Pack, Projector, Marker, graded specifications, and frozen
+whole-run capture remain withheld until an approved grade plan exists.
+
+Slice 249 does not claim fit or change the existing recipe-to-body/POM
+relationships. The independent source audits' unresolved Woven, Skirt and
+Trouser mappings are listed in
+`docs/research/epic16/S249-RECIPE-PARITY-AND-OUTPUT-VERIFICATION.md` for their
+already assigned downstream review; parity proves consistent software paths,
+not that those relationships are physically correct.
+
+Verification: the full coverage run passed 128/128 files and 1,922/1,922 tests
+with 100% statements, branches, functions and lines. The 9 protected export
+identity cases passed. `npm run build`, `npm run electron:build-main`, and
+`npm run control-center:test` (33/33) passed; `npx tsc --noEmit` and
+`git diff --check` passed. The focused all-recipe output comparison and the
+production browser output review are recorded in the S249 evidence report.
+The validated Control Center linked this report as verified evidence and moved
+M02 through Review to Done at board revision 340. Slice 250 may begin M03's strict,
+versioned grade-plan record and review flow; do not infer a grade plan or
+population chart.

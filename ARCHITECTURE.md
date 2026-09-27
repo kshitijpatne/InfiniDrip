@@ -107,13 +107,13 @@ one IndexedDB bundle transaction. Reload and style switching resolve captures
 by both style and recipe.
 
 Without an explicitly approved grade plan, a custom one-size style exposes its
-step-zero pattern files under the label “One size”. Whole-run Tech Pack,
-Projector and Marker outputs, graded specs/nesting, and their frozen capture
-entries remain unavailable. Legacy styles retain their previous output gates
-and protected byte identities. The Check view validates the selected draft,
-omits graded-run checks, and states that whole-run outputs require an approved
-plan; it does not imply an XS–XL run. This is digital customization only; no
-physical fit or population grade is implied.
+step-zero pattern files and a single-column POM specification under the label
+“One size”. Whole-run Tech Pack, Projector and Marker outputs, graded specs and
+nesting, and their frozen capture entries remain unavailable. Legacy styles
+retain their previous output gates and protected byte identities. The Check
+view validates the selected draft, omits graded-run checks, and states that
+whole-run outputs require an approved plan; it does not imply an XS–XL run. This
+is digital customization only; no physical fit or population grade is implied.
 
 Pattern pieces are created from measurements and selected options. The app
 does not draw a separate, unrelated design for each screen or file. Most areas

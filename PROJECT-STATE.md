@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: EPIC-16/G03 Slice 248 complete; Slice 249 next, 2026-09-26._
+_Last updated: EPIC-16/G03 Slice 249 complete; Slice 250 next, 2026-09-27._
 Current directive: EPIC-14/G01 and EPIC-15/G02 are closed with accepted exit
 evidence. The maintainer admitted EPIC-16/G03 at Slice 244 from `origin/main`
 Slice 242, preserving the local Slice 243 manual-quality findings in its
@@ -9,14 +9,16 @@ reviewed branch. The linked execution contract is
 ordered scope. G03 is local-first and digital; no body-capture procedure is
 presented as qualified without accepted sourcing/review, and no physical-fit
 claim is authorized. The validated Control Center records EPIC-16 as In
-Progress with M01 Done, M02 In Progress, and M03 and final-review cards still
-in Backlog at board revision 337. Slice 247 completed M01's durable resume,
-conflict, narrow-layout, accessibility, and all-recipe exits. Slice 248
-completed deterministic custom one-size materialization, persistence, and
-resume through the full editor. Slice 249 owns seven-recipe geometry/options,
-POM, selected-size export parity, and actual-output comparison. The maintainer
-confirmed that whole-run Tech Pack, Projector, and Marker outputs stay withheld
-until a grade plan is approved. The admitted boundaries are recorded in
+Progress with M01 and M02 Done, and M03 and final-review cards still in
+Backlog at board revision 340. Slice 247
+completed M01's durable resume, conflict, narrow-layout, accessibility, and
+all-recipe exits. Slice 248 completed deterministic custom one-size
+materialization, persistence, and resume through the full editor. Slice 249
+completed seven-recipe geometry/options, POM, selected-size export parity, and
+actual-output comparison; the S249 exit report is linked to M02 as verified
+evidence. The maintainer confirmed that whole-run Tech Pack,
+Projector, and Marker outputs stay withheld until a grade plan is approved.
+The admitted boundaries are recorded in
 `docs/planning/EPIC-16-ADMISSION.md` and
 `docs/PROJECT-DECISIONS.md`.
 G02's F01, F02, F03, and final review are Done. PR #11 merged the
@@ -4487,5 +4489,27 @@ Done at revision 333 with source, coverage, build, browser and exit-report
 evidence. Slice 248 completed M02 one-size creation from explicitly resolved
 capture values through the G02 project and drafting path. No grade rule, new
 recipe, output baseline, physical-fit claim or wider UI redesign was added.
-Next: Slice 249 proves geometry, options, POM, and selected-size output parity
-for all seven recipes while preserving the approved whole-run gate.
+Slice 249's completion and verification are recorded below.
+
+### Slice 249 — M02 seven-recipe parity and exit (complete)
+
+For identical resolved inputs, all seven custom one-size recipes now match the
+existing step-zero path in drafted block, recipe options, unrounded POM values,
+and exact selected-size SVG, DXF, tiled-PDF, and A0-PDF writer content. The
+custom-size POM view shows a single `One size` column. Size selection,
+semantic Edit, history restoration, and recovery restoration all remain at
+step zero. Whole-run Tech Pack, Projector, Marker, graded specifications and
+frozen whole-run captures remain blocked until a grade plan is reviewed and
+approved. No legacy export writer or protected output identity changed.
+
+Verification: `npm run coverage -- --maxWorkers=2 --minWorkers=1
+--testTimeout=60000` passed 128/128 test files and 1,922/1,922 tests with 100%
+statement, branch, function and line coverage. The protected export identity
+suite passed 9/9. `npm run build`, `npm run electron:build-main`,
+`npm run control-center:test` (33/33), `npx tsc --noEmit`, and
+`git diff --check` passed. Production-browser behavior and residual source
+mapping limitations are recorded in
+`docs/research/epic16/S249-RECIPE-PARITY-AND-OUTPUT-VERIFICATION.md`. The
+validated Control Center linked the report and moved M02 through Review to
+Done at revision 340. Next: Slice 250 begins the admitted M03 versioned grade-plan
+record and review flow; no chart or fit approval is inferred.

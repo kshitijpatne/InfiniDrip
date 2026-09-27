@@ -2,7 +2,7 @@
 // workspace header, a stable inspection canvas, and a bounded grouped inspector.
 // Pure, so the markup can be checked in tests without a browser.
 
-import { Measurements, STRETCH_FABRICS, SpecRow, GARMENTS, SizeStep, roleTag, GarmentOption, GarmentOptions } from "../drafting";
+import { Measurements, STRETCH_FABRICS, SpecRow, GARMENTS, SizeStep, roleTag, GarmentOption, GarmentOptions, GradedSize, Block, Pom, specSheet } from "../drafting";
 import { BLUEPRINT as T, FABRICS } from "../render";
 import { Note, SEVERITY_ICON } from "../guidance";
 import { Report } from "../guidance";
@@ -1245,6 +1245,20 @@ export function specTableMarkup(
   return `<div style="background:${T.background};border-radius:8px;padding:14px;overflow-x:auto">` +
     `<table style="border-collapse:collapse;font-size:12.5px;font-family:system-ui,sans-serif;` +
     `width:100%">${head}${body}</table></div>`;
+}
+
+/** A custom size can show its own measured POMs without implying a graded run. */
+export function customOneSizeSpecMarkup(
+  block: Block | null,
+  measurements: Measurements,
+  poms: readonly Pom[],
+  ready: boolean,
+): string {
+  if (!ready || !block) {
+    return `<p role="status" data-semantic-output-paused>Single-size specifications are paused until the saved edits are valid or explicitly rebased.</p>`;
+  }
+  const oneSize: GradedSize = { label: "One size", step: 0, measurements, block };
+  return specTableMarkup(specSheet([oneSize], poms), [oneSize.label], 0);
 }
 
 /** The production-readiness report: a pass/fail verdict banner over the check list.

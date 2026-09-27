@@ -279,6 +279,10 @@ describe("strict project and style records", () => {
       { value: { ...custom, sizeMode: null }, error: wrongMode },
       { value: { ...custom, sizeMode: [CUSTOM_ONE_SIZE_MODE] }, error: wrongMode },
       { value: { ...custom, extra: true }, error: "Style record fields are incomplete or unknown." },
+      {
+        value: { ...custom, design: { ...style.design, workspace: { ...style.design.workspace, exportStep: 2 } } },
+        error: "Custom one-size styles must keep export step 0.",
+      },
       { value: { ...custom, revisionHeadId: "not-a-revision-id" } },
       { value: { ...custom, archivedAt: "not-a-time" } },
       { value: { ...custom, recipeId: "polo" } },

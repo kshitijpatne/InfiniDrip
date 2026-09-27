@@ -36,7 +36,7 @@ import { surfaceGuidance } from "../guidance/surface-notes";
 import { availableLengthError, bufferError } from "../export/nesting-intelligence";
 import { matchStyle, styleNames } from "../style";
 import { FIELDS, applyChange, inputError, numericRangePosition, numericRangeState, stepNumericValue } from "./controls";
-import { appShellMarkup, controlsMarkup, fieldHistoryDialogContent, fieldObservationSummary, guidanceMarkup, styleMarkup, surfaceMarkup, artworkLibraryResultsMarkup, nestIntelReadout, specTableMarkup, checkMarkup, semanticEditorHintMarkup, editorHandleControlsMarkup, inspectionMarkup, patternAnnotationKeyMarkup, BodyCroquisView, type ArtworkLibraryPanelData } from "./view";
+import { appShellMarkup, controlsMarkup, fieldHistoryDialogContent, fieldObservationSummary, guidanceMarkup, styleMarkup, surfaceMarkup, artworkLibraryResultsMarkup, nestIntelReadout, specTableMarkup, customOneSizeSpecMarkup, checkMarkup, semanticEditorHintMarkup, editorHandleControlsMarkup, inspectionMarkup, patternAnnotationKeyMarkup, BodyCroquisView, type ArtworkLibraryPanelData } from "./view";
 import { saveToStorage, loadFromStorage, readFromStorage, serialize, deserialize, DEFAULT_WORKSPACE, defaultStretchFabricForGarment, Workspace, SaveFile, RecoveryFile, readRecoveryFromStorage, saveRecoveryToStorage, clearRecoveryFromStorage } from "./persist";
 import { Appearance, APPEARANCE_TEXTURES, DEFAULT_APPEARANCE, applyAppearanceToSvg, hexToHsl, hslToHex, normalizeHex } from "./appearance";
 import { emptyHistory, recordHistory, redoHistory, undoHistory, HistoryState } from "./history";
@@ -637,7 +637,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     availableInput.setAttribute("aria-invalid", String(readout.availableError !== ""));
     availableInput.setCustomValidity(readout.availableError);
   };
-  let exportStep = initialWorkspace.exportStep;
+  let exportStep = projectWorkflow && isCustomOneSizeStyle(projectWorkflow.snapshot.activeStyle)
+    ? 0 : initialWorkspace.exportStep;
   let activeDim: string | null = null; // the measurement field spotlighted on the body view
   let hoveredDim: string | null = null;
   let focusedDim: string | null = null;
@@ -827,6 +828,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     }
     const result = evaluateSemanticEditDocument(
       recipe, measurements, recipeOptions(), semanticEdits, source.fingerprint, source.sourceInputs,
+      customOneSizeStyle() ? [{ label: "One size", step: 0 }] : recipe.sizes,
     );
     semanticEvaluationCache = { sourceKey: source.key, document: semanticEdits, result };
     return { source, evaluation: result };
@@ -1289,10 +1291,11 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     exported: journey.exported,
   });
   const customOneSizeStyle = (): boolean => !!projectWorkflow && isCustomOneSizeStyle(projectWorkflow.snapshot.activeStyle);
+  const selectedOutputStep = (): number => customOneSizeStyle() ? 0 : exportStep;
   const garmentReportForCurrentStyle = (checkRecipe: GarmentRecipe) =>
     garmentReport(checkRecipe, measurements, recipeOptions(), { includeSizeRun: !customOneSizeStyle() });
   const canExport = (): boolean => styleReviewed && checkReviewed
-    && baseDesignValid() && semanticSizeReady(exportStep);
+    && baseDesignValid() && semanticSizeReady(selectedOutputStep());
   const canExportRun = (): boolean => !customOneSizeStyle() && styleReviewed && checkReviewed
     && baseDesignValid() && semanticRunReady();
   const stageBlocker = (): StageBlocker | undefined => {
@@ -1854,13 +1857,13 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     } else if (view === "fabric") {
       if (customOneSizeStyle() && nestScope === "marker") {
         canvasContent = `<p role="status">A graded fabric marker is unavailable until you review and approve a grade plan. Your selected-size nest remains available.</p>`;
-      } else if (nestScope === "marker" ? !semanticRunReady() : !semanticSizeReady(exportStep)) {
+      } else if (nestScope === "marker" ? !semanticRunReady() : !semanticSizeReady(selectedOutputStep())) {
         canvasContent = `<p role="status" data-semantic-output-paused>Fabric nesting is paused. Review or rebase the saved edits in Edit.</p>`;
       } else {
         const outputRecipe = recipeForCurrentOutputs();
         const nest = nestScope === "marker"
           ? gradedMarker(outputRecipe, measurements, fabricWidth, recipeOptions())
-          : nestPieces(blockPieces(semanticSizeBlock(exportStep)!).map((p) => flattenPiece(p, outputRecipe.allowances)), fabricWidth);
+          : nestPieces(blockPieces(semanticSizeBlock(selectedOutputStep())!).map((p) => flattenPiece(p, outputRecipe.allowances)), fabricWidth);
         canvasContent = renderFabricNest(
           nest.placed, nest.fabricWidth, nest.fabricLength, nest.utilization, nest.fits);
         renderNestIntel(nest.fabricLength, nest.utilization);
@@ -1873,8 +1876,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         : `<p role="status" data-semantic-output-paused>Checks are paused until the saved edits are valid or explicitly rebased.</p>`;
     } else if (view === "edit") {
       const sourceCannotDraft = semanticState?.source.status === "failed" && !semanticState.source.baseBlock;
-      const draft = semanticSizeBlock(exportStep)
-        ?? (sourceCannotDraft ? null : draftAtSize(measurements, recipe.grade, exportStep, recipe.draft, recipeOptions()));
+      const draft = semanticSizeBlock(selectedOutputStep())
+        ?? (sourceCannotDraft ? null : draftAtSize(measurements, recipe.grade, selectedOutputStep(), recipe.draft, recipeOptions()));
       if (!draft) {
         canvasContent = '<p role="alert" data-semantic-source-unavailable>The current recipe pattern could not be generated. Resolve the source issue before editing.</p>' +
           semanticEditorHintMarkup(semanticOutputIssues(), editRoleId, {
@@ -1888,8 +1891,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         const piece = editedFront ?? draft.roles[editRole];
         canvasContent = renderSemanticEditorPiece(piece, (editablePiece) => {
           const previewBlock = { ...draft, roles: { ...draft.roles, [editRole]: editablePiece } };
-          const previewMeasurements = gradeMeasurements(measurements, recipe.grade, exportStep);
-          const sizeLabel = selectedSizeLabel(recipe.sizes, exportStep);
+          const previewMeasurements = gradeMeasurements(measurements, recipe.grade, selectedOutputStep());
+          const sizeLabel = customOneSizeStyle() ? "One size" : selectedSizeLabel(recipe.sizes, selectedOutputStep());
           const previewIssues = inspectSemanticEditCandidate(recipe, previewMeasurements, previewBlock, sizeLabel);
           const handles = semanticEditorHandles(recipe.name, previewBlock, editRole);
           const vb = editorViewBox(editablePiece);
@@ -1915,7 +1918,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         });
       }
     } else if (view === "spec" && customOneSizeStyle()) {
-      canvasContent = `<p role="status">A graded specification run is unavailable until you review and approve a grade plan. Your selected-size pattern remains available.</p>`;
+      const outputRecipe = recipeForCurrentOutputs();
+      canvasContent = customOneSizeSpecMarkup(
+        semanticSizeBlock(0), measurements, outputRecipe.poms, semanticSizeReady(0),
+      );
     } else if (view === "spec") {
       if (!semanticRunReady()) {
         canvasContent = `<p role="status" data-semantic-output-paused>Graded specifications are paused. Review or rebase the saved edits in Edit.</p>`;
@@ -1947,8 +1953,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         canvasContent = renderBodyPair(measurements, hasSleeve, recipe.frontNeckline?.(measurements), recipe.backNeckline?.(measurements), recipe.strapWidth?.(measurements), poloVisual(), wovenBodyNeckline(), wovenBodyLowerShape());
       }
     } else {
-      const block = semanticSizeBlock(exportStep);
-      if (!semanticSizeReady(exportStep) || block === null) {
+      const block = semanticSizeBlock(selectedOutputStep());
+      if (!semanticSizeReady(selectedOutputStep()) || block === null) {
         canvasContent = `<p role="status" data-semantic-output-paused>Pattern output is paused for this size. Review or rebase the saved edits in Edit.</p>`;
       } else {
         const outputRecipe = recipeForCurrentOutputs();
@@ -2756,7 +2762,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   };
   canvasHost.addEventListener("mousedown", (e) => {
     if (view !== "edit" || previewActive || inputErrors().size > 0 || !semanticEditCanMutate()) return;
-    const piece = editedFront ?? semanticEditorPieceForRole(semanticSizeBlock(exportStep), editRoleId);
+    const piece = editedFront ?? semanticEditorPieceForRole(semanticSizeBlock(selectedOutputStep()), editRoleId);
     withSemanticEditorPiece(piece, (currentPiece) => {
       const hit = handleAt(e, currentPiece, editRoleId);
       if (hit.handle) {
@@ -2790,7 +2796,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     }
     input.setAttribute("aria-invalid", "false");
     input.setCustomValidity("");
-    const piece = editedFront ?? semanticEditorPieceForRole(semanticSizeBlock(exportStep), editRoleId);
+    const piece = editedFront ?? semanticEditorPieceForRole(semanticSizeBlock(selectedOutputStep()), editRoleId);
     withSemanticEditorPiece(piece, (currentPiece) => {
       const handle = semanticEditorHandles(recipe.name, block({ [editRoleId]: currentPiece }, []), editRoleId)
         .find((candidate) => candidate.id === input.dataset.editorHandleId);
@@ -3890,17 +3896,18 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   const exportSizeEl = root.querySelector<HTMLSelectElement>("#export-size")!;
   const syncNestSelectedSize = (): void => {
     const label = root.querySelector<HTMLElement>("#nest-selected-size");
-    label!.textContent = customOneSizeStyle() ? "One size" : selectedSizeLabel(recipe.sizes, exportStep);
+    label!.textContent = customOneSizeStyle() ? "One size" : selectedSizeLabel(recipe.sizes, selectedOutputStep());
   };
   const syncExportSizes = (): void => {
-    if (!recipe.sizes.some((s) => s.step === exportStep)) exportStep = 0;
+    if (customOneSizeStyle() || !recipe.sizes.some((s) => s.step === exportStep)) exportStep = 0;
     const sizes = customOneSizeStyle() ? [{ step: 0, label: "One size" }] : recipe.sizes;
     exportSizeEl.replaceChildren(...sizes.map((size) => new Option(size.label, String(size.step))));
     exportSizeEl.value = String(exportStep);
     syncNestSelectedSize();
   };
   exportSizeEl.addEventListener("change", () => {
-    exportStep = Number(exportSizeEl.value);
+    exportStep = customOneSizeStyle() ? 0 : Number(exportSizeEl.value);
+    syncExportSizes();
     markOutputDirty(false);
     syncNestSelectedSize();
     draw();
@@ -3908,12 +3915,13 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   // exportStep always comes from the picker, which is populated from recipe.sizes,
   // so the step is guaranteed to resolve to a real size.
   const exportSizeLabel = (): string =>
-    customOneSizeStyle() ? "One size" : selectedSizeLabel(recipe.sizes, exportStep);
+    customOneSizeStyle() ? "One size" : selectedSizeLabel(recipe.sizes, selectedOutputStep());
   const exportPieces = (): Piece[] => {
+    const step = selectedOutputStep();
     const drafted = semanticEdits === null
-      ? draftAtSize(measurements, recipe.grade, exportStep, recipe.draft, recipeOptions())
-      : semanticSizeBlock(exportStep);
-    return exportablePieces(drafted, semanticSizeReady(exportStep));
+      ? draftAtSize(measurements, recipe.grade, step, recipe.draft, recipeOptions())
+      : semanticSizeBlock(step);
+    return exportablePieces(drafted, semanticSizeReady(step));
   };
   // The desktop shell's only bridge into this app (Slice 46): when running
   // inside Electron, `window.electronAPI` is set by electron/preload.cts via
@@ -3961,7 +3969,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     materialSelectionExplicit = true;
     view = loaded.workspace.view;
     bodyCroquisView = loaded.workspace.bodyCroquisView;
-    exportStep = loaded.workspace.exportStep;
+    exportStep = customOneSizeStyle() ? 0 : loaded.workspace.exportStep;
     fabricWidth = loaded.workspace.fabricWidth;
     nestScope = loaded.workspace.nestScope;
     if (customOneSizeStyle()) nestScope = "single";
@@ -4288,7 +4296,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     materialSelectionExplicit = file.materialSelectionExplicit;
     view = file.workspace.view;
     bodyCroquisView = file.workspace.bodyCroquisView;
-    exportStep = file.workspace.exportStep;
+    exportStep = customOneSizeStyle() ? 0 : file.workspace.exportStep;
     fabricWidth = file.workspace.fabricWidth;
     nestScope = file.workspace.nestScope;
     styleReviewed = false;
@@ -4323,7 +4331,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     materialSelectionExplicit = snapshot.materialSelectionExplicit;
     view = snapshot.view;
     bodyCroquisView = snapshot.bodyCroquisView;
-    exportStep = snapshot.exportStep;
+    exportStep = customOneSizeStyle() ? 0 : snapshot.exportStep;
     fabricWidth = snapshot.fabricWidth;
     nestScope = snapshot.nestScope;
     syncWorkspace(true);
@@ -4413,7 +4421,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         const allowances = currentAllowances();
         const currentRecipe = recipeForCurrentOutputs();
         return {
-          selectedSizes: [{ sizeId: `${recipe.name}-step-${exportStep}`, label }],
+          selectedSizes: [{ sizeId: `${recipe.name}-step-${selectedOutputStep()}`, label }],
           artifacts: [
             { artifactId: "selected-size-svg", extension: "svg", displayName: `${recipe.name}-${label}.svg`, mediaType: "image/svg+xml", content: exportSvg(pieces, allowances, recipe.notches) },
             { artifactId: "selected-size-dxf", extension: "dxf", displayName: `${recipe.name}-${label}.dxf`, mediaType: "image/vnd.dxf", content: exportDxf(pieces, allowances) },

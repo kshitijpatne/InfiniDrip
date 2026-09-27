@@ -284,6 +284,9 @@ export function parseStyleRecord(value: unknown): RecordResult<StyleRecord> {
   // while v1/v2 designs still receive the legacy null default.
   const design = parseSavedDesign(value.design, version < 3);
   if (!design.ok) return fail(design.error);
+  if (custom && design.value.workspace.exportStep !== 0) {
+    return fail("Custom one-size styles must keep export step 0.");
+  }
   if (design.value.workspace.garment !== value.recipeId
     || design.value.workspace.targetStyle !== value.recipePresetId) {
     return fail("Style recipe identity does not match its saved workspace.");

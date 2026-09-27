@@ -6,6 +6,7 @@ import type { Block } from "../drafting/block";
 import type { Measurements } from "../drafting/measurements";
 import type { GarmentOptions } from "../drafting/options";
 import type { GarmentRecipe } from "../drafting/recipe";
+import type { SizeStep } from "../drafting/grading";
 import { stitchChecks } from "../drafting/stitch";
 import { outlinePoints } from "../render/allowance";
 import { gradeRun } from "../drafting/grading";
@@ -636,6 +637,7 @@ export function evaluateSemanticEditDocument(
   document: SemanticEditDocument,
   currentSourceFingerprint: string,
   currentSourceInputs: SemanticEditSourceInputs = document.sourceInputs,
+  sizeSteps: readonly SizeStep[] = recipe.sizes,
 ) : SemanticEditEvaluation {
   if (document.recipeId !== recipe.name || document.schemaVersion !== SEMANTIC_EDIT_SCHEMA_VERSION) {
     const issue: SemanticEditIssue = { code: "invalid-operation", recipeId: recipe.name, message: "The edit document does not match this recipe or schema." };
@@ -660,7 +662,7 @@ export function evaluateSemanticEditDocument(
     const issue: SemanticEditIssue = { code: "rebase-required", recipeId: recipe.name, message: `The source pattern or its reviewed inputs changed.${detail} Review the values and rebase or remove the edits before using dependent outputs.` };
     return { status: "rebase-required", sourceFingerprint: currentSourceFingerprint, sizes: [], issues: [issue], canExportSize: () => false, canExportRun: false };
   }
-  const graded = gradeRun(measurements, recipe.grade, recipe.sizes, recipe.draft, options);
+  const graded = gradeRun(measurements, recipe.grade, sizeSteps, recipe.draft, options);
   const sizes = graded.map((size) => {
     const replay = applyOperationsToBlock(recipe, size.measurements, size.block, document.operations, size.label, document.sourceFingerprint);
     const issues = [...replay.issues];

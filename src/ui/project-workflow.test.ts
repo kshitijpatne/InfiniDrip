@@ -1031,6 +1031,11 @@ describe("G03 capture persistence through the project workflow", () => {
       recipePresetId: design.workspace.targetStyle,
       design,
     });
+    await expect(workflow.saveActiveDesign({
+      ...design,
+      workspace: { ...design.workspace, exportStep: 2 },
+    })).rejects.toMatchObject({ code: "invalid-data", message: "A custom one-size style must stay on export step 0." });
+    expect(workflow.snapshot.activeStyle.design.workspace.exportStep).toBe(0);
     const copiedCapture = await workflow.loadMeasurementCapture("tee");
     expect(copiedCapture).toMatchObject({
       styleId: STYLE_TWO_ID,
