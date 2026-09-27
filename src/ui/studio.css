@@ -150,6 +150,33 @@ body { margin: 0; }
   padding: 12px; background: #112237; scroll-padding: 12px;
 }
 #studio-inspector > * + * { margin-top: 12px; }
+#studio-inspector .grade-plan-panel { padding: 14px; border: 1px solid #3b5267; border-radius: 10px; background: #101e2d; color: #ecf2f5; }
+#studio-inspector .grade-plan-panel h3 { margin: 0 0 8px; font-size: 16px; }
+#studio-inspector .grade-plan-panel p { margin: 8px 0; line-height: 1.45; }
+#studio-inspector .grade-plan-boundary { padding: 9px; border-left: 3px solid #79b8a1; background: #172c31; }
+#studio-inspector .grade-plan-basis { display: grid; gap: 8px; margin: 12px 0; padding: 10px; border: 1px solid #40576a; border-radius: 8px; }
+#studio-inspector .grade-plan-basis-fields { display: grid; gap: 8px; }
+#studio-inspector .grade-plan-editor > label,
+#studio-inspector .grade-plan-basis label,
+#studio-inspector .grade-plan-table td > label { display: grid; gap: 4px; margin: 8px 0; font-size: 12px; color: #c5d1da; }
+#studio-inspector .grade-plan-panel input,
+#studio-inspector .grade-plan-panel select,
+#studio-inspector .grade-plan-panel textarea { box-sizing: border-box; width: 100%; min-height: 36px; padding: 7px 9px; border: 1px solid #4a6176; border-radius: 6px; background: #0b1724; color: #f1f4f6; font: inherit; }
+#studio-inspector .grade-plan-panel textarea { min-height: 58px; resize: vertical; }
+#studio-inspector .grade-plan-table-wrap { max-width: 100%; overflow: auto; margin: 12px 0; }
+#studio-inspector .grade-plan-table { min-width: 560px; width: 100%; border-collapse: collapse; font-size: 12px; }
+#studio-inspector .grade-plan-table th,
+#studio-inspector .grade-plan-table td { padding: 8px; border: 1px solid #354b60; text-align: left; vertical-align: top; }
+#studio-inspector .grade-plan-table tbody th span { display: block; margin-top: 5px; color: #afc0cd; font-weight: 400; }
+#studio-inspector .grade-plan-cell-label { min-width: 112px; }
+#studio-inspector .grade-plan-exception { display: flex !important; grid-template-columns: 18px auto; align-items: center; }
+#studio-inspector .grade-plan-exception input[type="checkbox"] { width: 18px; min-height: 18px; }
+#studio-inspector .grade-plan-issues { padding-left: 22px; color: #f2c88b; }
+#studio-inspector .grade-plan-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+#studio-inspector .grade-plan-actions button,
+#studio-inspector .grade-plan-panel > button { min-height: 38px; padding: 7px 11px; border: 1px solid #506a7f; border-radius: 7px; background: #1a3042; color: #f1f4f6; }
+#studio-inspector .grade-plan-actions button:disabled,
+#studio-inspector .grade-plan-panel > button:disabled { opacity: .55; }
 #studio-inspector details > summary { cursor: pointer; padding: 8px 0; font-size: 13px; color: #a8c6da; }
 #controls-panel { min-width: 0; }
 #controls-panel h2 { margin-bottom: 12px; }

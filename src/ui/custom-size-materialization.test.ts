@@ -177,6 +177,8 @@ describe("custom one-size design materialization", () => {
       .toBe("The custom one-size style could not be saved.");
     expect(gradedMarkerAvailabilityTitle(true))
       .toBe("Graded Marker is unavailable until you review and approve a grade plan.");
+    expect(gradedMarkerAvailabilityTitle(true, true))
+      .toBe("The grade plan is approved; graded Marker output will be added in the next step.");
     expect(gradedMarkerAvailabilityTitle(false)).toBe("Nest every graded size");
   });
 });

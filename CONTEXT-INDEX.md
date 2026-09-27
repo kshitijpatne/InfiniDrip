@@ -114,10 +114,19 @@ only through an explicitly admitted, linked Epic packet.
 - `docs/planning/EPIC-16-ADMISSION.md` — the maintainer-admitted G03/M01–M03
   execution contract, verified start, seven-recipe C03 boundaries, ordered
   Slice 244–252 plan, source qualification and grade approval gates, and merge
-  exit. Slice 246 adds the guided capture route and source-qualified factual
-  field help; Slice 247 still owns resume, conflict, narrow-layout,
-  accessibility and all-recipe validation. Use `PROJECT-STATE.md` and the
-  canonical Control Center for live status.
+  exit. Slices 246–247 completed the guided route, source-qualified field help,
+  resume, conflict, narrow-layout, accessibility and all-recipe validation.
+  Slice 248–249 completed M02. Use `PROJECT-STATE.md` and the canonical
+  Control Center for live status.
+- `docs/research/epic16/S250-EXIT.md` — verified S250 completion, test/build/
+  browser evidence, and the remaining S251 integration boundary.
+- `docs/research/epic16/S250-EXPLICIT-GRADE-PLAN-RECORD-AND-REVIEW.md` — Slice
+  250's exact scope, strict grade-plan fields, stale-approval boundary,
+  migration/output non-goals, and exit checks. It does not supply a population,
+  size range, grade rule, or numerical increments.
+- `docs/research/epic16/S250-GRADE-PLAN-DECISION-RECONCILIATION.md` — Codex's
+  source-checked resolutions of the independent Claude/OpenCode M03 audits,
+  the intended record/persistence boundary, and risks held for Slice 251.
 - `docs/research/epic16/MEASUREMENT-HELP-SOURCE-AUDIT.md` — OpenCode's
   source-traced M01 audit of all seven recipe inputs, the limits of public
   measurement guidance, and the safe explanatory-copy boundary. It does not

@@ -20,6 +20,7 @@ import {
   type StyleRecord,
 } from "./project-records";
 import type { MeasurementCaptureSession } from "./measurement-capture";
+import type { GradePlanRecord } from "./grade-plan";
 import { LEGACY_RECOVERY_STORAGE_KEY, LEGACY_SAVE_STORAGE_KEY } from "./persist";
 import {
   appendRecoveryFieldObservations,
@@ -626,6 +627,38 @@ export class ProjectWorkflow {
         expectedProjectRevision: current.project.revision,
       });
       return this.reloadLoaded();
+    });
+  }
+
+  /** Loads the active style's explicit grade-plan record without changing its design revision. */
+  async loadGradePlan(recipeId: string): Promise<GradePlanRecord | null> {
+    return this.enqueue(async () => {
+      const style = this.loaded.activeStyle;
+      const plan = await this.repository.readGradePlan(style.id, recipeId);
+      const otherPlans = (this.loaded.gradePlans ?? []).filter((record) =>
+        record.styleId !== style.id || record.recipeId !== recipeId);
+      this.loaded = {
+        ...this.loaded,
+        ...(plan || otherPlans.length > 0 ? { gradePlans: [...otherPlans, ...(plan ? [plan] : [])] } : { gradePlans: undefined }),
+      };
+      return plan;
+    });
+  }
+
+  /** Saves one plan with compare-and-swap while leaving project/style revisions untouched. */
+  async saveGradePlan(record: GradePlanRecord): Promise<GradePlanRecord> {
+    return this.enqueue(async () => {
+      const current = this.loaded;
+      if (record.projectId !== current.project.id || record.styleId !== current.activeStyle.id) {
+        throw new ProjectRepositoryError("conflict", "The active project or style changed before the grade plan was saved.");
+      }
+      const prior = (current.gradePlans ?? []).find((candidate) =>
+        candidate.styleId === record.styleId && candidate.recipeId === record.recipeId);
+      const saved = await this.repository.saveGradePlan(record, prior?.revision ?? null);
+      const otherPlans = (current.gradePlans ?? []).filter((candidate) =>
+        candidate.styleId !== saved.styleId || candidate.recipeId !== saved.recipeId);
+      this.loaded = { ...current, gradePlans: [...otherPlans, saved] };
+      return saved;
     });
   }
 

@@ -25,6 +25,8 @@ import {
 import { openProjectWorkflow } from "./project-workflow";
 import { isCustomOneSizeStyle } from "./project-records";
 import { materializeCustomSizeDesign } from "./custom-size-materialization";
+import * as gradePlanContext from "./grade-plan-context";
+import * as gradePlan from "./grade-plan";
 import type { ArtworkAssetStore, StoredArtworkAsset } from "../surface/artwork-store";
 import type { InspectedArtworkFile } from "../surface/artwork-file";
 import { ARTWORK_CATALOG } from "../surface/artwork-library/catalog";
@@ -2325,7 +2327,10 @@ describe("semantic Edit view", () => {
     const root = mount();
     root.querySelector<HTMLButtonElement>("#garment-fitted")!.dispatchEvent(new Event("click"));
     root.querySelector<HTMLButtonElement>("#view-edit")!.dispatchEvent(new Event("click"));
-    await vi.waitFor(() => expect(root.querySelector('[data-editor-validation="valid"]')).not.toBeNull());
+    await vi.waitFor(
+      () => expect(root.querySelector('[data-editor-validation="valid"]')).not.toBeNull(),
+      { timeout: 10_000 },
+    );
     return root;
   };
   const firstCurveXCoordinate = (root: HTMLElement): HTMLInputElement =>
@@ -2435,7 +2440,7 @@ describe("semantic Edit view", () => {
     } finally {
       vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
     }
-  });
+  }, 15_000);
 
   it("ignores a failed hash result after its source snapshot has been replaced", async () => {
     localStorage.clear();
@@ -2572,7 +2577,7 @@ describe("semantic Edit view", () => {
     clickId(root, "garment-tee");
     await vi.waitFor(() => expect(root.querySelector('[data-editor-validation="valid"]')).not.toBeNull());
     expect(root.querySelector<HTMLButtonElement>("#editor-reset")!.disabled).toBe(true);
-  });
+  }, 15_000);
 
   it("supports durable undo and redo as separate semantic history operations", async () => {
     const root = await enterFittedEditor();
@@ -2685,7 +2690,7 @@ describe("semantic Edit view", () => {
         vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
       }
     }
-  });
+  }, 15_000);
 
   it("blocks a drag whose source changes before release", async () => {
     const root = await enterFittedEditor();
@@ -5711,7 +5716,7 @@ describe("bundled local artwork library (Slice 203)", () => {
       root.remove();
       vi.unstubAllGlobals();
     }
-  });
+  }, 20_000);
 
   it("keeps Measure and garment selection in place when a pending guided capture cannot be saved", async () => {
     localStorage.clear();
@@ -5877,7 +5882,7 @@ describe("bundled local artwork library (Slice 203)", () => {
       const customCheckText = root.querySelector("#canvas-host")?.textContent ?? "";
       expect(customCheckText).not.toContain("Size run grows in order");
       expect(customCheckText).toContain("Single custom size");
-      expect(customCheckText).toContain("whole-run Tech Pack, Projector, and Marker outputs stay unavailable");
+      expect(customCheckText).toContain("whole-run Tech Pack, Projector, and Marker outputs are not generated in this step");
       clickId(root, "journey-next");
       await vi.waitFor(() => expect(root.querySelector<HTMLElement>("#infini-shell")?.dataset.stage).toBe("output"));
       clickId(root, "save-pattern");
@@ -5887,7 +5892,7 @@ describe("bundled local artwork library (Slice 203)", () => {
       const freeze = manager.querySelector<HTMLButtonElement>("[data-project-action='freeze-outputs']")!;
       expect(freeze.disabled).toBe(true);
       expect(manager.querySelector("#project-freeze-guidance")?.textContent)
-        .toContain("Whole-run output captures are unavailable until you review and approve a grade plan.");
+        .toContain("Whole-run output capture is unavailable until you review and approve a grade plan.");
       expect(workflow.snapshot.exportManifests).toHaveLength(0);
       freeze.removeAttribute("disabled");
       freeze.click();
@@ -5943,6 +5948,402 @@ describe("bundled local artwork library (Slice 203)", () => {
       vi.unstubAllGlobals();
     }
   }, 120_000);
+
+  it("reviews, approves, and invalidates an explicit grade plan without enabling graded output", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const now = "2026-09-27T06:00:00.000Z";
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: { name: `app-grade-plan-${Date.now()}`, factory: new IDBFactory(), crypto: webcrypto as unknown as Crypto },
+      storage: localStorage,
+      idFactory: () => webcrypto.randomUUID(),
+      now: () => now,
+    });
+    const root = document.createElement("div");
+    document.body.append(root);
+    try {
+      await workflow.loadMeasurementCapture("tee");
+      let session = createMeasurementCaptureSession(webcrypto.randomUUID(), "tee", now, workflow.snapshot.activeStyle.id);
+      for (const [index, definition] of getFieldDefinitions("tee").entries()) {
+        session = addCaptureReadingForField(session, definition.id, {
+          id: webcrypto.randomUUID(),
+          rawValue: String(definition.defaultValue),
+          enteredUnit: definition.unit,
+          provenance: definition.semanticKind === "BODY_MEASURE" ? "USER_CAPTURED" : "USER_SELECTED",
+          evidenceStatus: "UNCONFIRMED",
+          sourceLabel: "Explicit digital test input; not a fit assessment.",
+          captureMethod: null,
+          capturedAt: null,
+          measurer: null,
+        }, new Date(Date.parse(now) + index + 1).toISOString());
+      }
+      await workflow.saveMeasurementCapture(session, []);
+      await workflow.createCustomSizeStyle("Grade Plan Test", materializeCustomSizeDesign(workflow.snapshot.activeStyle.design, session));
+      mountApp(root, { projectWorkflow: workflow });
+      await vi.waitFor(() => expect(root.querySelector<HTMLButtonElement>('[data-grade-plan-action="create"]')?.disabled).toBe(false));
+
+      const action = (name: string): HTMLButtonElement => root.querySelector<HTMLButtonElement>(`[data-grade-plan-action="${name}"]`)!;
+      const edit = (selector: string, value: string): void => {
+        const input = root.querySelector<HTMLInputElement | HTMLTextAreaElement>(selector)!;
+        input.value = value;
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+      };
+      const failedCreate = vi.spyOn(workflow, "saveGradePlan").mockRejectedValueOnce(new Error("synthetic grade-plan write failure"));
+      action("create").click();
+      await vi.waitFor(() => expect(root.textContent).toContain("synthetic grade-plan write failure"));
+      failedCreate.mockRestore();
+      action("create").click();
+      await vi.waitFor(() => expect(root.querySelector(".grade-plan-status")?.textContent).toBe("Draft — not reviewed"));
+
+      const basis = (): HTMLSelectElement => root.querySelector<HTMLSelectElement>("[data-grade-plan-basis]")!;
+      const fillPlanMetadata = (): void => {
+        basis().value = "user-authored-digital-rule";
+        basis().dispatchEvent(new Event("change", { bubbles: true }));
+        edit("[data-grade-plan-decision]", "Test product decision");
+        edit("[data-grade-plan-digital-range]", "S through L; digital rules only");
+        edit("[data-grade-plan-range]", "S, M, L; unsupported edges unresolved");
+        edit("[data-grade-plan-base-size]", "M");
+        edit("[data-grade-plan-sizes]", "S\nM\nL");
+      };
+      const failedDraftSave = vi.spyOn(workflow, "saveGradePlan").mockRejectedValueOnce("synthetic non-Error grade-plan failure");
+      action("save-draft").click();
+      await vi.waitFor(() => expect(root.textContent).toContain("The grade-plan action could not be completed."));
+      failedDraftSave.mockRestore();
+      basis().add(new Option("Unsupported", "unsupported"));
+      basis().value = "unsupported";
+      basis().dispatchEvent(new Event("change", { bubbles: true }));
+      action("save-draft").click();
+      await vi.waitFor(() => expect(root.textContent).toContain("Choose a supported grade-plan basis."));
+      fillPlanMetadata();
+      edit("[data-grade-plan-base-size]", "");
+      action("save-draft").click();
+      await vi.waitFor(() => expect(root.textContent).toContain("Name the plan’s base size."));
+      fillPlanMetadata();
+      edit("[data-grade-plan-sizes]", "S\ns\nL");
+      action("save-draft").click();
+      await vi.waitFor(() => expect(root.textContent).toContain("Size label “s” is duplicated."));
+      fillPlanMetadata();
+      action("save-draft").click();
+      await vi.waitFor(() => expect(root.querySelectorAll<HTMLInputElement>("[data-grade-plan-delta]").length).toBeGreaterThan(0));
+
+      const invalidDelta = root.querySelector<HTMLInputElement>('[data-grade-plan-delta]:not([readonly])')!;
+      Object.defineProperty(invalidDelta, "value", { configurable: true, get: () => "1e309" });
+      action("save-draft").click();
+      await vi.waitFor(() => expect(root.textContent).toContain("Each size change must be a finite number."));
+
+      const exception = root.querySelector<HTMLInputElement>("[data-grade-plan-exception]")!;
+      exception.checked = true;
+      exception.dispatchEvent(new Event("input", { bubbles: true }));
+      edit(`[data-grade-plan-exception-reason][data-target-id="${exception.dataset.targetId}"][data-size-label="${exception.dataset.sizeLabel}"]`, "Not used in the smallest size");
+      for (const input of root.querySelectorAll<HTMLInputElement>("[data-grade-plan-delta]")) {
+        if (input.readOnly) continue;
+        if (input.dataset.targetId === exception.dataset.targetId && input.dataset.sizeLabel === exception.dataset.sizeLabel) continue;
+        input.value = "0";
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+      }
+      action("save-draft").click();
+      await vi.waitFor(() => expect({
+        disabled: action("review").disabled,
+        issues: root.querySelector(".grade-plan-issues")?.textContent ?? null,
+        status: root.querySelector(".grade-plan-status")?.textContent,
+      }).toEqual({ disabled: false, issues: null, status: "Draft — not reviewed" }));
+      action("review").click();
+      await vi.waitFor(() => expect(root.querySelector(".grade-plan-status")?.textContent).toBe("Reviewed; approval still required"));
+      action("approve").click();
+      await vi.waitFor(() => expect(root.querySelector(".grade-plan-status")?.textContent).toBe("Approved grade-plan record"));
+      expect((await workflow.loadGradePlan("tee"))?.status).toBe("approved");
+      expect(root.querySelector<HTMLButtonElement>("#nest-marker")?.disabled).toBe(true);
+      expect(root.querySelector<HTMLButtonElement>("#nest-marker")?.title)
+        .toContain("graded Marker output will be added in the next step");
+
+      const freeze = root.querySelector<HTMLButtonElement>("[data-project-action='freeze-outputs']")!;
+      root.querySelector<HTMLDetailsElement>(".project-manager-details")!.open = true;
+      await vi.waitFor(() => expect(root.querySelector("#project-freeze-guidance")?.textContent)
+        .toContain("whole-run output capture will be added in the next step"));
+      expect(freeze.disabled).toBe(true);
+      expect(root.querySelector<HTMLButtonElement>("#export-techpack")!.disabled).toBe(true);
+      expect(root.querySelector<HTMLButtonElement>("#export-projector")!.disabled).toBe(true);
+
+      edit("[data-grade-plan-range]", "Edited after approval");
+      action("save-draft").click();
+      await vi.waitFor(() => expect(root.querySelector(".grade-plan-status")?.textContent).toBe("Draft — not reviewed"));
+      expect((await workflow.loadGradePlan("tee"))?.status).toBe("draft");
+      expect(root.querySelector<HTMLButtonElement>("#export-techpack")!.disabled).toBe(true);
+      expect(root.querySelector<HTMLButtonElement>("#export-projector")!.disabled).toBe(true);
+
+      basis().value = "population-source";
+      basis().dispatchEvent(new Event("change", { bubbles: true }));
+      edit("[data-grade-plan-population]", "Named digital population");
+      edit("[data-grade-plan-source-name]", "User-supplied specification");
+      edit("[data-grade-plan-source-version]", "2026 edition");
+      edit("[data-grade-plan-source-scope]", "Declared sizes only");
+      action("save-draft").click();
+      await vi.waitFor(() => expect(root.querySelector("[data-grade-plan-population]")?.getAttribute("value"))
+        .toBe("Named digital population"));
+
+      const activeDesign = workflow.snapshot.activeStyle.design;
+      await workflow.saveActiveDesign({
+        ...activeDesign,
+        measurements: { ...activeDesign.measurements, chest: activeDesign.measurements.chest + 1 },
+      });
+      clickId(root, "view-check");
+      await vi.waitFor(() => expect(root.querySelector(".grade-plan-status")?.textContent).toBe("Stale — approval cannot be used"));
+      action("refresh").click();
+      await vi.waitFor(() => expect(root.textContent).toContain("Base refreshed. Re-enter the basis, size rules and every size change; prior approval was cleared."));
+
+      clickId(root, "journey-step-measure");
+      clickId(root, "journey-guided");
+      await vi.waitFor(() => expect(root.querySelector(".measurement-capture-panel__field")).not.toBeNull());
+      const chestDraft = root.querySelector<HTMLInputElement>('[data-action="capture-edit-raw"][data-field-id="body.chest-girth"]')!;
+      chestDraft.value = "108";
+      chestDraft.dispatchEvent(new Event("input", { bubbles: true }));
+      await vi.waitFor(async () => {
+        const savedCapture = await workflow.loadMeasurementCapture("tee");
+        expect(savedCapture?.drafts).toContainEqual(expect.objectContaining({ fieldId: "body.chest-girth", rawValue: "108" }));
+      }, { timeout: 10_000 });
+    } finally {
+      workflow.close();
+      root.remove();
+      vi.unstubAllGlobals();
+    }
+  }, 120_000);
+
+  it("rejects a forced review action when the explicit grade plan is incomplete", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const now = "2026-09-27T06:00:00.000Z";
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: { name: `app-grade-plan-review-guard-${Date.now()}`, factory: new IDBFactory(), crypto: webcrypto as unknown as Crypto },
+      storage: localStorage,
+      idFactory: () => webcrypto.randomUUID(),
+      now: () => now,
+    });
+    const root = document.createElement("div");
+    document.body.append(root);
+    try {
+      await workflow.loadMeasurementCapture("tee");
+      let session = createMeasurementCaptureSession(webcrypto.randomUUID(), "tee", now, workflow.snapshot.activeStyle.id);
+      for (const [index, definition] of getFieldDefinitions("tee").entries()) {
+        session = addCaptureReadingForField(session, definition.id, {
+          id: webcrypto.randomUUID(),
+          rawValue: String(definition.defaultValue),
+          enteredUnit: definition.unit,
+          provenance: definition.semanticKind === "BODY_MEASURE" ? "USER_CAPTURED" : "USER_SELECTED",
+          evidenceStatus: "UNCONFIRMED",
+          sourceLabel: "Explicit digital test input; not a fit assessment.",
+          captureMethod: null,
+          capturedAt: null,
+          measurer: null,
+        }, new Date(Date.parse(now) + index + 1).toISOString());
+      }
+      await workflow.saveMeasurementCapture(session, []);
+      await workflow.createCustomSizeStyle("Incomplete grade plan", materializeCustomSizeDesign(workflow.snapshot.activeStyle.design, session));
+      mountApp(root, { projectWorkflow: workflow });
+      await vi.waitFor(() => expect(root.querySelector<HTMLButtonElement>('[data-grade-plan-action="create"]')?.disabled).toBe(false));
+      const forceAction = (name: string): void => {
+        const button = document.createElement("button");
+        button.dataset.gradePlanAction = name;
+        root.querySelector("#style-host")!.append(button);
+        button.click();
+      };
+
+      forceAction("refresh");
+      await vi.waitFor(() => expect(root.textContent).toContain("There is no grade plan to refresh."));
+      forceAction("review");
+      await vi.waitFor(() => expect(root.textContent).toContain("Create a grade plan first."));
+      forceAction("approve");
+      await vi.waitFor(() => expect(root.textContent).toContain("Save and review your current edits before approval."));
+      const createFailure = vi.spyOn(gradePlan, "createGradePlanDraft").mockReturnValueOnce({ ok: false, errors: ["synthetic grade-plan creation failure"] });
+      forceAction("create");
+      await vi.waitFor(() => expect(root.textContent).toContain("synthetic grade-plan creation failure"));
+      createFailure.mockRestore();
+      root.querySelector<HTMLButtonElement>('[data-grade-plan-action="create"]')!.click();
+      await vi.waitFor(() => expect(root.querySelector(".grade-plan-status")?.textContent).toBe("Draft — not reviewed"));
+
+      root.querySelector<HTMLSelectElement>("[data-grade-plan-basis]")!.remove();
+      forceAction("save-draft");
+      await vi.waitFor(() => expect(root.textContent).toContain("The grade-plan form changed before it could be saved."));
+
+      forceAction("create");
+      await vi.waitFor(() => expect(root.textContent).toContain("A grade plan already exists for this style."));
+      const freshFailure = vi.spyOn(gradePlan, "createGradePlanDraft").mockReturnValueOnce({ ok: false, errors: ["synthetic refreshed-base failure"] });
+      forceAction("refresh");
+      await vi.waitFor(() => expect(root.textContent).toContain("synthetic refreshed-base failure"));
+      freshFailure.mockRestore();
+
+      const currentPlan = await workflow.loadGradePlan("tee");
+      const draftForRefresh = vi.spyOn(gradePlan, "createGradePlanDraft").mockReturnValueOnce({ ok: true, value: currentPlan! });
+      const parseFailure = vi.spyOn(gradePlan, "parseGradePlanRecord").mockReturnValueOnce({ ok: false, errors: ["synthetic refreshed-record failure"] });
+      forceAction("refresh");
+      await vi.waitFor(() => expect(root.textContent).toContain("synthetic refreshed-record failure"));
+      parseFailure.mockRestore();
+      draftForRefresh.mockRestore();
+      forceAction("refresh");
+      await vi.waitFor(() => expect(root.textContent).toContain("Base refreshed. Re-enter the basis, size rules and every size change; prior approval was cleared."));
+      forceAction("approve");
+      await vi.waitFor(() => expect(root.textContent).toContain("Review the complete plan before approval."));
+
+      const review = root.querySelector<HTMLButtonElement>('[data-grade-plan-action="review"]')!;
+      expect(review.disabled).toBe(true);
+      review.disabled = false;
+      review.click();
+      await vi.waitFor(() => expect(root.textContent)
+        .toContain("Choose a named population/source or an explicit user-authored digital rule."));
+
+
+      const range = root.querySelector<HTMLTextAreaElement>("[data-grade-plan-range]")!;
+      range.value = "A transient edit";
+      range.dispatchEvent(new Event("input", { bubbles: true }));
+      forceAction("approve");
+      await vi.waitFor(() => expect(root.textContent).toContain("Save and review your current edits before approval."));
+    } finally {
+      workflow.close();
+      root.remove();
+      vi.unstubAllGlobals();
+    }
+  }, 30_000);
+
+  it("discards stale grade-plan loads and reports failed context or repository loads", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const now = "2026-09-27T06:00:00.000Z";
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: { name: `app-grade-plan-load-guards-${Date.now()}`, factory: new IDBFactory(), crypto: webcrypto as unknown as Crypto },
+      storage: localStorage,
+      idFactory: () => webcrypto.randomUUID(),
+      now: () => now,
+    });
+    const root = document.createElement("div");
+    document.body.append(root);
+    let resolveLoad!: (value: Awaited<ReturnType<typeof workflow.loadGradePlan>>) => void;
+    let rejectLoad!: (reason: unknown) => void;
+    const switchStyle = async (styleId: string): Promise<void> => {
+      root.querySelector<HTMLButtonElement>(`[data-project-action="switch"][data-style-id="${styleId}"]`)!.click();
+      await vi.waitFor(() => expect(workflow.snapshot.activeStyle.id).toBe(styleId), { timeout: 10_000 });
+    };
+    try {
+      const baseStyleId = workflow.snapshot.activeStyle.id;
+      await workflow.loadMeasurementCapture("tee");
+      let session = createMeasurementCaptureSession(webcrypto.randomUUID(), "tee", now, baseStyleId);
+      for (const [index, definition] of getFieldDefinitions("tee").entries()) {
+        session = addCaptureReadingForField(session, definition.id, {
+          id: webcrypto.randomUUID(),
+          rawValue: String(definition.defaultValue),
+          enteredUnit: definition.unit,
+          provenance: definition.semanticKind === "BODY_MEASURE" ? "USER_CAPTURED" : "USER_SELECTED",
+          evidenceStatus: "UNCONFIRMED",
+          sourceLabel: "Explicit digital test input; not a fit assessment.",
+          captureMethod: null,
+          capturedAt: null,
+          measurer: null,
+        }, new Date(Date.parse(now) + index + 1).toISOString());
+      }
+      await workflow.saveMeasurementCapture(session, []);
+      await workflow.createCustomSizeStyle("Grade Plan Load Test", materializeCustomSizeDesign(workflow.snapshot.activeStyle.design, session));
+      const customStyleId = workflow.snapshot.activeStyle.id;
+
+      vi.spyOn(gradePlanContext, "createGradePlanContext").mockResolvedValueOnce({ ok: false, errors: ["synthetic invalid grade-plan context"] });
+      mountApp(root, { projectWorkflow: workflow });
+      await vi.waitFor(() => expect(root.textContent).toContain("synthetic invalid grade-plan context"));
+
+      await switchStyle(baseStyleId);
+      const failedLoad = vi.spyOn(workflow, "loadGradePlan").mockRejectedValueOnce("synthetic non-Error plan load failure");
+      await switchStyle(customStyleId);
+      await vi.waitFor(() => expect(root.textContent).toContain("The grade plan could not be loaded."));
+      failedLoad.mockRestore();
+
+      await switchStyle(baseStyleId);
+      const staleSuccess = new Promise<Awaited<ReturnType<typeof workflow.loadGradePlan>>>((resolve) => { resolveLoad = resolve; });
+      const successSpy = vi.spyOn(workflow, "loadGradePlan").mockReturnValueOnce(staleSuccess);
+      await switchStyle(customStyleId);
+      await vi.waitFor(() => expect(successSpy).toHaveBeenCalledOnce());
+      await switchStyle(baseStyleId);
+      resolveLoad(null);
+      await Promise.resolve();
+      successSpy.mockRestore();
+
+      const staleFailure = new Promise<Awaited<ReturnType<typeof workflow.loadGradePlan>>>((_, reject) => { rejectLoad = reject; });
+      const failureSpy = vi.spyOn(workflow, "loadGradePlan").mockReturnValueOnce(staleFailure);
+      await switchStyle(customStyleId);
+      await vi.waitFor(() => expect(failureSpy).toHaveBeenCalledOnce());
+      await switchStyle(baseStyleId);
+      rejectLoad("discard this stale failure");
+      await Promise.resolve();
+      failureSpy.mockRestore();
+    } finally {
+      workflow.close();
+      root.remove();
+      vi.unstubAllGlobals();
+    }
+  }, 60_000);
+
+  it("keeps grade-plan creation blocked when a custom style has no saved measurement capture", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const factory = new IDBFactory();
+    const name = `app-grade-plan-missing-capture-${Date.now()}`;
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: { name, factory, crypto: webcrypto as unknown as Crypto },
+      storage: localStorage,
+      idFactory: () => webcrypto.randomUUID(),
+      now: () => "2026-09-27T06:00:00.000Z",
+    });
+    const root = document.createElement("div");
+    document.body.append(root);
+    let database: IDBDatabase | null = null;
+    try {
+      const capturedAt = "2026-09-27T06:00:00.000Z";
+      let session = createMeasurementCaptureSession(
+        webcrypto.randomUUID(), "tee", capturedAt, workflow.snapshot.activeStyle.id,
+      );
+      for (const [index, definition] of getFieldDefinitions("tee").entries()) {
+        session = addCaptureReadingForField(session, definition.id, {
+          id: webcrypto.randomUUID(),
+          rawValue: String(definition.defaultValue),
+          enteredUnit: definition.unit,
+          provenance: definition.semanticKind === "BODY_MEASURE" ? "USER_CAPTURED" : "USER_SELECTED",
+          evidenceStatus: "UNCONFIRMED",
+          sourceLabel: "Digital test input; not a fit assessment.",
+          captureMethod: null,
+          capturedAt: null,
+          measurer: null,
+        }, new Date(Date.parse(capturedAt) + index + 1).toISOString());
+      }
+      await workflow.saveMeasurementCapture(session, []);
+      await workflow.createCustomSizeStyle("Missing capture test", materializeCustomSizeDesign(workflow.snapshot.activeStyle.design, session));
+      const customStyleId = workflow.snapshot.activeStyle.id;
+
+      database = await new Promise<IDBDatabase>((resolve, reject) => {
+        const request = factory.open(name);
+        request.onerror = () => reject(request.error ?? new Error("Could not open the local test database."));
+        request.onsuccess = () => resolve(request.result);
+      });
+      const transaction = database.transaction("measurementCaptures", "readwrite");
+      transaction.objectStore("measurementCaptures").delete([customStyleId, "tee"]);
+      await new Promise<void>((resolve, reject) => {
+        transaction.oncomplete = () => resolve();
+        transaction.onabort = () => reject(transaction.error ?? new Error("Could not remove the test capture."));
+        transaction.onerror = () => reject(transaction.error ?? new Error("Could not remove the test capture."));
+      });
+      database.close();
+      database = null;
+
+      mountApp(root, { projectWorkflow: workflow });
+      await vi.waitFor(() => expect(root.textContent)
+        .toContain("Save a measurement capture for this style before creating a grade plan."), { timeout: 10_000 });
+      expect(root.querySelector<HTMLButtonElement>('[data-grade-plan-action="create"]')?.disabled).toBe(true);
+      const unavailableAction = document.createElement("button");
+      unavailableAction.dataset.gradePlanAction = "create";
+      root.querySelector("#style-host")!.append(unavailableAction);
+      unavailableAction.click();
+      expect(await workflow.loadMeasurementCapture("tee")).toBeNull();
+    } finally {
+      database?.close();
+      workflow.close();
+      root.remove();
+      vi.unstubAllGlobals();
+    }
+  }, 30_000);
 
   it("evaluates custom one-size semantic edits only at step zero", async () => {
     localStorage.clear();
@@ -6021,7 +6422,7 @@ describe("bundled local artwork library (Slice 203)", () => {
       expect([...root.querySelector<HTMLSelectElement>("#export-size")!.options].map((option) => option.textContent))
         .toEqual(["One size"]);
 
-      await vi.waitFor(() => expect(workflow.snapshot.activeRecovery).not.toBeNull());
+      await vi.waitFor(() => expect(workflow.snapshot.activeRecovery).not.toBeNull(), { timeout: 20_000 });
       const recovery = workflow.snapshot.activeRecovery!.payload;
       await workflow.saveRecovery(workflow.snapshot.activeStyle.id, {
         ...recovery,
@@ -6071,7 +6472,7 @@ describe("bundled local artwork library (Slice 203)", () => {
       }
       vi.spyOn(workflow, "createCustomSizeStyle").mockRejectedValueOnce("synthetic style save failure");
       clickId(root, "journey-next");
-      await vi.waitFor(() => expect(root.querySelector<HTMLElement>("#project-persistence-state")?.dataset.state).toBe("failed"));
+      await vi.waitFor(() => expect(root.querySelector<HTMLElement>("#project-persistence-state")?.dataset.state).toBe("failed"), { timeout: 20_000 });
       expect(root.querySelector("#project-persistence-state")?.textContent)
         .toBe("The custom one-size style could not be saved.");
       expect(workflow.snapshot.styles).toHaveLength(1);

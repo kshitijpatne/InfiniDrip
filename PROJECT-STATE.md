@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: EPIC-16/G03 Slice 249 complete; Slice 250 next, 2026-09-27._
+_Last updated: EPIC-16/G03 Slice 250 complete, 2026-09-27._
 Current directive: EPIC-14/G01 and EPIC-15/G02 are closed with accepted exit
 evidence. The maintainer admitted EPIC-16/G03 at Slice 244 from `origin/main`
 Slice 242, preserving the local Slice 243 manual-quality findings in its
@@ -9,8 +9,11 @@ reviewed branch. The linked execution contract is
 ordered scope. G03 is local-first and digital; no body-capture procedure is
 presented as qualified without accepted sourcing/review, and no physical-fit
 claim is authorized. The validated Control Center records EPIC-16 as In
-Progress with M01 and M02 Done, and M03 and final-review cards still in
-Backlog at board revision 340. Slice 247
+Progress with M01 and M02 Done and M03 In Progress at board revision 345;
+final-review remains Backlog. Slice 250 completed the custom-style grade-plan
+record and review lifecycle; its verified exit is linked to M03. Slice 251 owns
+graded drafting, POM/cutting reconciliation, and whole-run output integration.
+Slice 247
 completed M01's durable resume, conflict, narrow-layout, accessibility, and
 all-recipe exits. Slice 248 completed deterministic custom one-size
 materialization, persistence, and resume through the full editor. Slice 249
@@ -31,11 +34,12 @@ and Axe checks at 320, 390, and 1440 CSS pixels. The exact review evidence is
 `docs/release/EPIC-15-G02-FINAL-REVIEW-S240.md`; the merged-exit record is
 `docs/release/EPIC-15-G02-MERGE-EXIT-S241.md`.
 
-The canonical Control Center is at revision 337: the EPIC-15 summary and final
+The canonical Control Center is at revision 342: the EPIC-15 summary and final
 review work items are Done, and the EPIC-15 record is Closed with verified
-S241 exit-report evidence. EPIC-16/G03 is In Progress, its M01 card is Done
-with verified Slice 247 exit evidence, its M02 card is In Progress, and M03
-and final-review remain Backlog. Slice 248 exit verification passed 546/546
+S241 exit-report evidence. EPIC-16/G03 is In Progress, its M01 and M02 cards
+are Done with verified exit reports, M03 is In Progress with the Slice 250
+scope evidence attached, and final-review remains Backlog. Slice 248 exit
+verification passed 546/546
 test suites and 1,919/1,919 tests at 100% statement, branch, function, and line
 coverage; `npm run build`; and the 33/33 Control Center gate. The built browser
 preview proved custom Check omits the misleading five-size graded-run claim,
@@ -4513,3 +4517,22 @@ mapping limitations are recorded in
 validated Control Center linked the report and moved M02 through Review to
 Done at revision 340. Next: Slice 250 begins the admitted M03 versioned grade-plan
 record and review flow; no chart or fit approval is inferred.
+
+### Slice 250 — explicit grade-plan record and review (complete)
+
+M02 is complete. Slice 250 is scoped by
+`docs/research/epic16/S250-EXPLICIT-GRADE-PLAN-RECORD-AND-REVIEW.md` and the
+M03 gates in `docs/planning/EPIC-16-ADMISSION.md`. It added a strict,
+versioned and custom-style-bound grade-plan record, explicit review/approval,
+and stale-plan invalidation bound to the base style revision. No population,
+size range, grade source, rule or numerical increment is selected or inferred.
+Approved plan metadata alone must not expose generated graded output; applying
+the plan to all recipes and cutting/whole-run exporters remains Slice 251.
+Verified evidence, including full 100% coverage, builds, Control Center, and
+production-browser lifecycle review, is recorded in
+`docs/research/epic16/S250-EXIT.md`. Board M03 remains In Progress for S251.
+
+Claude Code Opus 5.5 High and OpenCode Muse Spark 1.3 Xhigh completed disjoint
+read-only audits and returned explicit `WORK FINISHED` signals. Codex reviewed
+and reconciled them against the source contract. Existing one-size output
+policy and protected legacy identities remain in effect.

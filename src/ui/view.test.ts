@@ -487,11 +487,14 @@ describe("checkMarkup", () => {
     expect(html).toContain("off by 3 cm");
   });
 
-  it("states that one-size grade checks and whole-run files need an approved plan", () => {
+  it("states that one-size outputs need an approved plan and are not generated in this step", () => {
     const html = checkMarkup(buildReport([present("Seam", true, "agree")]), true, [], true);
     expect(html).toContain("Single custom size");
-    expect(html).toContain("Graded-run checks");
-    expect(html).toContain("reviewed and approved");
+    expect(html).toContain("Review and approve a grade plan first");
+    expect(html).toContain("are not generated in this step");
+    const approved = checkMarkup(buildReport([present("Seam", true, "agree")]), true, [], true, true);
+    expect(approved).toContain("Grade plan approved");
+    expect(approved).toContain("are not generated in this step");
   });
 });
 

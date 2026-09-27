@@ -1269,6 +1269,7 @@ export function checkMarkup(
   plausible: boolean,
   ignored: readonly Note[] = [],
   customOneSize = false,
+  gradePlanApproved = false,
 ): string {
   const green = report.ok && plausible;
   const bannerBg = green ? OK : T.lineActive;
@@ -1280,7 +1281,9 @@ export function checkMarkup(
   const banner = `<div style="padding:10px 14px;border-radius:8px;font-weight:600;font-size:14px;` +
     `color:${T.background};background:${bannerBg};margin-bottom:12px">${bannerText}</div>`;
   const gradePlanNotice = customOneSize
-    ? `<p role="status" data-grade-plan-required>Single custom size. Graded-run checks and whole-run Tech Pack, Projector, and Marker outputs stay unavailable until a grade plan is reviewed and approved.</p>`
+    ? `<p role="status" data-grade-plan-required>${gradePlanApproved
+      ? "Single custom size. Grade plan approved. Graded geometry and whole-run Tech Pack, Projector, and Marker outputs are not generated in this step."
+      : "Single custom size. Review and approve a grade plan first. Graded geometry and whole-run Tech Pack, Projector, and Marker outputs are not generated in this step."}</p>`
     : "";
 
   const rows = report.checks.map((c) => {

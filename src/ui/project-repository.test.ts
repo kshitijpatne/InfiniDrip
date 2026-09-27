@@ -22,6 +22,11 @@ import {
   type MeasurementCaptureSession,
 } from "./measurement-capture";
 import {
+  createGradePlanDraft,
+  type GradePlanBaseBinding,
+  type GradePlanRecord,
+} from "./grade-plan";
+import {
   PROJECT_DATABASE_VERSION,
   PROJECT_STORES,
   ProjectRepository,
@@ -151,7 +156,7 @@ async function createVersionFourDatabase(
   name: string,
   rows: readonly { store: keyof typeof PROJECT_STORES; value: unknown }[] = [],
 ): Promise<void> {
-  const keyPaths: Readonly<Record<Exclude<keyof typeof PROJECT_STORES, "styleRevisions" | "exportManifests" | "measurementCaptures">, string>> = {
+  const keyPaths: Readonly<Record<Exclude<keyof typeof PROJECT_STORES, "styleRevisions" | "exportManifests" | "measurementCaptures" | "gradePlans">, string>> = {
     meta: "key",
     projects: "id",
     styles: "id",
@@ -179,7 +184,7 @@ async function createVersionFiveDatabase(
   name: string,
   rows: readonly { store: keyof typeof PROJECT_STORES; value: unknown }[] = [],
 ): Promise<void> {
-  const keyPaths: Readonly<Record<Exclude<keyof typeof PROJECT_STORES, "styleRevisions" | "exportManifests" | "measurementCaptures">, string>> = {
+  const keyPaths: Readonly<Record<Exclude<keyof typeof PROJECT_STORES, "styleRevisions" | "exportManifests" | "measurementCaptures" | "gradePlans">, string>> = {
     meta: "key",
     projects: "id",
     styles: "id",
@@ -3247,6 +3252,720 @@ describe("G03 measurement capture persistence", () => {
       expect(await repository.readMeasurementCapture(STYLE_ID, "tee")).toEqual(created);
     } finally {
       repository.close();
+    }
+  });
+});
+
+const GRADE_FINGERPRINT = "b".repeat(64);
+let nextGradeHead = 1000;
+
+function planBinding(
+  projectId: string,
+  style: StyleRecord,
+  captureRevision: number,
+  revisionHeadId: string,
+): GradePlanBaseBinding {
+  return {
+    projectId,
+    styleId: style.id,
+    recipeId: style.recipeId,
+    revisionHeadId,
+    captureRevision,
+    fingerprint: GRADE_FINGERPRINT,
+  };
+}
+
+function planRecord(binding: GradePlanBaseBinding, overrides: Partial<GradePlanRecord> = {}): GradePlanRecord {
+  const draft = createGradePlanDraft(binding, [], TIME);
+  if (!draft.ok) throw new Error(draft.errors.join("; "));
+  return { ...draft.value, ...overrides };
+}
+
+async function seedCustomStyle(
+  repository: ProjectRepository,
+  styleId = STYLE_ID,
+  projectId = PROJECT_ID,
+  sessionId = CAPTURE_SESSION_ID,
+): Promise<{
+  project: ProjectRecord;
+  style: StyleRecord;
+  observations: FieldObservationRecord;
+  revision: StyleRevisionRecord;
+  capture: MeasurementCaptureRecord;
+}> {
+  const bundle = newBundle(projectId, styleId);
+  const customStyle = customOneSizeStyle(bundle.style);
+  const observations = fieldHistory(customStyle);
+  const headId = testUuid(nextGradeHead++);
+  const revision = await testRevision(customStyle, observations, headId);
+  const style = { ...customStyle, revisionHeadId: headId };
+  const capture = captureRecord({ projectId, styleId, session: captureSession(styleId, "tee", sessionId) });
+  await repository.saveProjectBundle({
+    project: bundle.project,
+    styles: [style],
+    fieldObservations: [observations],
+    styleRevisions: [revision],
+    measurementCaptures: [capture],
+    expectedProjectRevision: null,
+  });
+  return { project: bundle.project, style, observations, revision, capture };
+}
+
+/** Creates the exact shipped v7 schema (every current store except gradePlans) and copies rows into it. */
+async function createVersionSevenDatabase(
+  factory: IDBFactory,
+  name: string,
+  rows: Readonly<Partial<Record<Exclude<keyof typeof PROJECT_STORES, "gradePlans">, readonly unknown[]>>>,
+): Promise<void> {
+  const database = await new Promise<IDBDatabase>((resolve, reject) => {
+    const request = factory.open(name, 7);
+    request.onupgradeneeded = () => {
+      const created = request.result;
+      for (const [store, keyPath] of Object.entries({
+        meta: "key", projects: "id", styles: "id", recoveries: "styleId", migrations: "sourceSha256",
+        imports: "packageSha256", fieldObservations: "styleId", styleRevisions: "revisionId", exportManifests: "manifestId",
+        measurementCaptures: ["styleId", "recipeId"],
+      })) created.createObjectStore(store, { keyPath });
+      const revisions = request.transaction!.objectStore(PROJECT_STORES.styleRevisions);
+      revisions.createIndex("styleId", "styleId", { unique: false });
+      revisions.createIndex("styleIdAndNumber", ["styleId", "revisionNumber"], { unique: true });
+      const manifests = request.transaction!.objectStore(PROJECT_STORES.exportManifests);
+      manifests.createIndex("styleId", "styleId", { unique: false });
+      manifests.createIndex("styleIdAndCapturedAt", ["styleId", "capturedAt"], { unique: false });
+      const captures = request.transaction!.objectStore(PROJECT_STORES.measurementCaptures);
+      captures.createIndex("styleId", "styleId", { unique: false });
+      for (const [store, values] of Object.entries(rows)) {
+        for (const value of values!) request.transaction!.objectStore(store).put(value);
+      }
+    };
+    request.onerror = () => reject(request.error ?? new Error("Version-seven fixture open failed."));
+    request.onsuccess = () => resolve(request.result);
+  });
+  database.close();
+}
+
+async function createVersionEightDatabase(
+  factory: IDBFactory,
+  name: string,
+  gradePlans: "full" | "styleId-only" | "projectId-only" | "missing",
+): Promise<void> {
+  const database = await new Promise<IDBDatabase>((resolve, reject) => {
+    const request = factory.open(name, PROJECT_DATABASE_VERSION);
+    request.onupgradeneeded = () => {
+      const created = request.result;
+      for (const [store, keyPath] of Object.entries({
+        meta: "key", projects: "id", styles: "id", recoveries: "styleId", migrations: "sourceSha256",
+        imports: "packageSha256", fieldObservations: "styleId", styleRevisions: "revisionId", exportManifests: "manifestId",
+        measurementCaptures: ["styleId", "recipeId"],
+      })) created.createObjectStore(store, { keyPath });
+      const revisions = request.transaction!.objectStore(PROJECT_STORES.styleRevisions);
+      revisions.createIndex("styleId", "styleId", { unique: false });
+      revisions.createIndex("styleIdAndNumber", ["styleId", "revisionNumber"], { unique: true });
+      const manifests = request.transaction!.objectStore(PROJECT_STORES.exportManifests);
+      manifests.createIndex("styleId", "styleId", { unique: false });
+      manifests.createIndex("styleIdAndCapturedAt", ["styleId", "capturedAt"], { unique: false });
+      const captures = request.transaction!.objectStore(PROJECT_STORES.measurementCaptures);
+      captures.createIndex("styleId", "styleId", { unique: false });
+      if (gradePlans !== "missing") {
+        const plans = created.createObjectStore(PROJECT_STORES.gradePlans, { keyPath: ["styleId", "recipeId"] });
+        if (gradePlans === "full" || gradePlans === "styleId-only") plans.createIndex("styleId", "styleId", { unique: false });
+        if (gradePlans === "full" || gradePlans === "projectId-only") plans.createIndex("projectId", "projectId", { unique: false });
+      }
+    };
+    request.onerror = () => reject(request.error ?? new Error("Version-eight fixture open failed."));
+    request.onsuccess = () => resolve(request.result);
+  });
+  database.close();
+}
+
+describe("G03 grade-plan persistence", () => {
+  it("imports grade plans atomically and rejects a plan whose recipe differs from its style", async () => {
+    const source = await openProjectRepository({ name: databaseName(), factory: newFactory(), crypto: webcrypto });
+    const destination = await openProjectRepository({ name: databaseName(), factory: newFactory(), crypto: webcrypto });
+    try {
+      const seeded = await seedCustomStyle(source, OTHER_STYLE_ID, OTHER_PROJECT_ID);
+      const plan = planRecord(planBinding(
+        OTHER_PROJECT_ID, seeded.style, seeded.capture.revision, seeded.revision.revisionId,
+      ));
+      const base = {
+        project: seeded.project,
+        styles: [seeded.style],
+        recoveries: [],
+        fieldObservations: [seeded.observations],
+        styleRevisions: [seeded.revision],
+        measurementCaptures: [seeded.capture],
+        receipt: {
+          packageSha256: "b".repeat(64),
+          projectId: OTHER_PROJECT_ID,
+          importedAt: TIME,
+          importedAsCopy: false,
+        },
+      };
+
+      await expect(destination.importProjectBundle({ ...base, gradePlans: [plan] }))
+        .resolves.toMatchObject({ status: "imported", project: { id: OTHER_PROJECT_ID } });
+      await expect(destination.readGradePlan(OTHER_STYLE_ID, "tee")).resolves.toEqual(plan);
+      await expect(destination.readProjectBundle(OTHER_PROJECT_ID)).resolves.toMatchObject({
+        measurementCaptures: [seeded.capture],
+        gradePlans: [plan],
+      });
+
+      const mismatched = {
+        ...plan,
+        recipeId: "skirt",
+      } as GradePlanRecord;
+      const rejectedRepository = await openProjectRepository({ name: databaseName(), factory: newFactory(), crypto: webcrypto });
+      try {
+        const legacy = newBundle(OTHER_PROJECT_ID, OTHER_STYLE_ID);
+        const legacyPlan = planRecord({
+          ...planBinding(OTHER_PROJECT_ID, legacy.style, seeded.capture.revision, testUuid(nextGradeHead++)),
+          revisionHeadId: testUuid(nextGradeHead++),
+        });
+        await expect(rejectedRepository.importProjectBundle({
+          project: legacy.project,
+          styles: [legacy.style],
+          recoveries: [],
+          fieldObservations: [fieldHistory(legacy.style)],
+          gradePlans: [legacyPlan],
+          receipt: { ...base.receipt, packageSha256: "d".repeat(64) },
+        })).rejects.toMatchObject({ code: "invalid-data", message: expect.stringContaining("supported only for custom") });
+        await expect(rejectedRepository.readProjectBundle(OTHER_PROJECT_ID)).resolves.toBeNull();
+
+        await expect(rejectedRepository.importProjectBundle({
+          ...base,
+          receipt: { ...base.receipt, packageSha256: "c".repeat(64) },
+          gradePlans: [mismatched],
+        })).rejects.toMatchObject({ code: "invalid-data", message: expect.stringContaining("recipe must match") });
+        await expect(rejectedRepository.readProjectBundle(OTHER_PROJECT_ID)).resolves.toBeNull();
+      } finally {
+        rejectedRepository.close();
+      }
+    } finally {
+      source.close();
+      destination.close();
+    }
+  });
+
+  it("saves, updates, and reads one grade plan per style without touching other rows", async () => {
+    const factory = newFactory();
+    const name = databaseName();
+    const repository = await openProjectRepository({ name, factory, crypto: webcrypto });
+    try {
+      const first = await seedCustomStyle(repository);
+      const secondBundle = newBundle(PROJECT_ID, OTHER_STYLE_ID);
+      const secondCustom = customOneSizeStyle(secondBundle.style);
+      const secondObservations = fieldHistory(secondCustom);
+      const secondHeadId = testUuid(nextGradeHead++);
+      const secondRevision = await testRevision(secondCustom, secondObservations, secondHeadId);
+      const secondStyle = { ...secondCustom, revisionHeadId: secondHeadId };
+      const secondCapture = captureRecord({
+        projectId: PROJECT_ID,
+        styleId: OTHER_STYLE_ID,
+        session: captureSession(OTHER_STYLE_ID, "tee", testUuid(nextGradeHead++)),
+      });
+      await repository.saveProjectBundle({
+        project: { ...first.project, styleIds: [STYLE_ID, OTHER_STYLE_ID], revision: 2, updatedAt: NEXT_TIME },
+        styles: [first.style, secondStyle],
+        fieldObservations: [first.observations, secondObservations],
+        styleRevisions: [secondRevision],
+        measurementCaptures: [secondCapture],
+        expectedProjectRevision: 1,
+      });
+
+      expect(await repository.readGradePlan(STYLE_ID, "tee")).toBeNull();
+      expect(await repository.readGradePlan(STYLE_ID, "skirt")).toBeNull();
+      expect(await repository.readGradePlan(OTHER_STYLE_ID, "skirt")).toBeNull();
+      const before = await repository.readProjectBundle(PROJECT_ID);
+      expect(before).not.toHaveProperty("gradePlans");
+      const nonGradeStores = (Object.keys(PROJECT_STORES) as (keyof typeof PROJECT_STORES)[])
+        .filter((store) => store !== "gradePlans");
+      const rowsBefore = await Promise.all(nonGradeStores.map((store) => rawGetAll(factory, name, PROJECT_STORES[store])));
+
+      const binding = planBinding(PROJECT_ID, first.style, first.capture.revision, first.revision.revisionId);
+      const created = planRecord(binding);
+      expect(await repository.saveGradePlan(created, null)).toEqual(created);
+      expect(await repository.readGradePlan(STYLE_ID, "tee")).toEqual(created);
+      expect(await repository.readGradePlan(OTHER_STYLE_ID, "tee")).toBeNull();
+
+      const updated = planRecord(binding, { revision: 2, updatedAt: NEXT_TIME });
+      expect(await repository.saveGradePlan(updated, 1)).toEqual(updated);
+      expect(await repository.readGradePlan(STYLE_ID, "tee")).toEqual(updated);
+
+      const after = await repository.readProjectBundle(PROJECT_ID);
+      if (!after) throw new Error("Project disappeared after grade-plan saves.");
+      const { gradePlans, ...unchanged } = after;
+      expect(unchanged).toEqual(before);
+      expect(gradePlans).toEqual([updated]);
+      expect((await repository.loadProject(PROJECT_ID))?.gradePlans).toEqual([updated]);
+      expect(await Promise.all(nonGradeStores.map((store) => rawGetAll(factory, name, PROJECT_STORES[store])))).toEqual(rowsBefore);
+    } finally {
+      repository.close();
+    }
+  });
+
+  it("fails closed for stale, foreign, archived, corrupt, and conflicting grade-plan state", async () => {
+    const factory = newFactory();
+    const name = databaseName();
+    const first = await openProjectRepository({ name, factory, crypto: webcrypto });
+    const second = await openProjectRepository({ name, factory, crypto: webcrypto });
+    try {
+      const seed = await seedCustomStyle(first);
+      const binding = planBinding(PROJECT_ID, seed.style, seed.capture.revision, seed.revision.revisionId);
+      const created = planRecord(binding);
+      await first.saveGradePlan(created, null);
+      // A tab that never read the stored plan cannot create a replacement over it.
+      await rejectionCode(second.saveGradePlan(planRecord(binding), null), "conflict");
+      const recorded = planRecord(binding, { revision: 2, updatedAt: NEXT_TIME });
+      await first.saveGradePlan(recorded, 1);
+      await rejectionCode(second.saveGradePlan(recorded, 1), "conflict");
+      await rejectionCode(first.saveGradePlan(planRecord(binding, { revision: 5, updatedAt: NEXT_TIME }), 2), "invalid-data");
+      await rejectionCode(first.saveGradePlan(planRecord(binding, { revision: 1 }), 0), "invalid-data");
+      await rejectionCode(first.saveGradePlan({} as GradePlanRecord, null), "invalid-data");
+      await rejectionCode(first.saveGradePlan(
+        planRecord({ ...binding, projectId: OTHER_PROJECT_ID }, { revision: 3, updatedAt: NEXT_TIME }), 2,
+      ), "invalid-data");
+
+      const legacyBundle = newBundle(PROJECT_ID, SECOND_STYLE_ID);
+      await first.saveProjectBundle({
+        project: { ...seed.project, styleIds: [STYLE_ID, SECOND_STYLE_ID], revision: 2, updatedAt: NEXT_TIME },
+        styles: [seed.style, legacyBundle.style],
+        fieldObservations: [seed.observations, fieldHistory(legacyBundle.style)],
+        expectedProjectRevision: 1,
+      });
+      const legacyBinding = planBinding(PROJECT_ID, legacyBundle.style, 1, testUuid(nextGradeHead++));
+      await rejectionCode(first.saveGradePlan(planRecord(legacyBinding), null), "invalid-data");
+
+      const skirtCapture = captureRecord({ session: captureSession(STYLE_ID, "skirt", testUuid(nextGradeHead++)) });
+      await first.saveMeasurementCapture(skirtCapture, null);
+      await rejectionCode(first.saveGradePlan(
+        planRecord({ ...binding, recipeId: "skirt" }, { revision: 3, updatedAt: NEXT_TIME }), 2,
+      ), "invalid-data");
+
+      const reread = captureRecord({
+        revision: 2, updatedAt: NEXT_TIME, session: withCaptureReading(seed.capture.session),
+      });
+      await first.saveMeasurementCapture(reread, 1);
+      await rejectionCode(first.saveGradePlan(
+        planRecord(binding, { revision: 3, updatedAt: NEXT_TIME }), 2,
+      ), "invalid-data");
+
+      const current = await first.readProjectBundle(PROJECT_ID);
+      if (!current) throw new Error("Seeded project disappeared.");
+      const currentStyle = current.styles.find((style) => style.id === STYLE_ID)!;
+      const currentObservations = current.fieldObservations!.find((record) => record.styleId === STYLE_ID)!;
+      const editedDesign = {
+        ...currentStyle.design,
+        measurements: { ...currentStyle.design.measurements, chest: currentStyle.design.measurements.chest + 1 },
+      };
+      const childHeadId = testUuid(nextGradeHead++);
+      const child = await testRevision(currentStyle, currentObservations, childHeadId, 2, seed.revision.revisionId, editedDesign);
+      const nextStyle = {
+        ...currentStyle,
+        revision: currentStyle.revision + 1,
+        updatedAt: "2026-09-24T16:00:02.000Z",
+        design: editedDesign,
+        revisionHeadId: childHeadId,
+      };
+      await first.saveProjectBundle({
+        project: { ...current.project, revision: current.project.revision + 1, updatedAt: "2026-09-24T16:00:02.000Z" },
+        styles: current.styles.map((style) => style.id === STYLE_ID ? nextStyle : style),
+        fieldObservations: current.fieldObservations,
+        styleRevisions: [child],
+        expectedProjectRevision: current.project.revision,
+      });
+      await rejectionCode(first.saveGradePlan(
+        planRecord({ ...binding, captureRevision: 2 }, { revision: 3, updatedAt: "2026-09-24T16:00:03.000Z" }), 2,
+      ), "invalid-data");
+      const rebased = planRecord(
+        planBinding(PROJECT_ID, seed.style, reread.revision, childHeadId),
+        { revision: 3, updatedAt: "2026-09-24T16:00:03.000Z" },
+      );
+      expect(await first.saveGradePlan(rebased, 2)).toEqual(rebased);
+
+      await rawPut(factory, name, PROJECT_STORES.gradePlans, { ...rebased, sizes: "corrupt" });
+      await rejectionCode(first.readGradePlan(STYLE_ID, "tee"), "invalid-data");
+      await rejectionCode(first.saveGradePlan(
+        { ...rebased, revision: 4, updatedAt: "2026-09-24T16:00:04.000Z" }, 3,
+      ), "invalid-data");
+      await rejectionCode(first.readProjectBundle(PROJECT_ID), "invalid-data");
+      await rejectionCode(first.loadProject(PROJECT_ID), "invalid-data");
+      await rawPut(factory, name, PROJECT_STORES.gradePlans, { ...rebased, projectId: OTHER_PROJECT_ID });
+      await rejectionCode(first.readGradePlan(STYLE_ID, "tee"), "invalid-data");
+      await rejectionCode(first.readProjectBundle(PROJECT_ID), "invalid-data");
+      await rawPut(factory, name, PROJECT_STORES.gradePlans, rebased);
+      expect(await first.readGradePlan(STYLE_ID, "tee")).toEqual(rebased);
+
+      const archived = await first.readProjectBundle(PROJECT_ID);
+      if (!archived) throw new Error("Rebased project disappeared.");
+      const fallback = newBundle(PROJECT_ID, OTHER_STYLE_ID);
+      await first.saveProjectBundle({
+        project: {
+          ...archived.project,
+          styleIds: [...archived.project.styleIds, OTHER_STYLE_ID],
+          activeStyleId: OTHER_STYLE_ID,
+          revision: archived.project.revision + 1,
+          updatedAt: "2026-09-24T16:00:05.000Z",
+        },
+        styles: [
+          ...archived.styles.map((style) => style.id === STYLE_ID
+            ? { ...style, revision: style.revision + 1, updatedAt: "2026-09-24T16:00:05.000Z", archivedAt: "2026-09-24T16:00:05.000Z" }
+            : style),
+          fallback.style,
+        ],
+        fieldObservations: [...(archived.fieldObservations ?? []), fieldHistory(fallback.style)],
+        expectedProjectRevision: archived.project.revision,
+      });
+      await rejectionCode(first.saveGradePlan(
+        { ...rebased, revision: 4, updatedAt: "2026-09-24T16:00:06.000Z" }, 3,
+      ), "invalid-data");
+      await rejectionCode(first.readGradePlan(STYLE_ID, "tee"), "invalid-data");
+
+      const ghostStyleId = testUuid(nextGradeHead++);
+      const ghost = { ...planRecord(binding), styleId: ghostStyleId };
+      await rejectionCode(first.saveGradePlan(ghost, null), "not-found");
+      await rejectionCode(first.readGradePlan(ghostStyleId, "tee"), "not-found");
+      await rejectionCode(first.readGradePlan(STYLE_ID, ""), "invalid-data");
+    } finally {
+      first.close();
+      second.close();
+    }
+    await rejectionCode(first.readGradePlan(STYLE_ID, "tee"), "closed");
+    await rejectionCode(first.saveGradePlan({} as GradePlanRecord, null), "closed");
+  });
+
+  it("saves a new custom style and its recipe-matched grade plan atomically with the bundle", async () => {
+    const repository = await openProjectRepository({ name: databaseName(), factory: newFactory(), crypto: webcrypto });
+    try {
+      const bundle = newBundle();
+      const customStyle = customOneSizeStyle(bundle.style);
+      const observations = fieldHistory(customStyle);
+      const headId = testUuid(nextGradeHead++);
+      const revision = await testRevision(customStyle, observations, headId);
+      const style = { ...customStyle, revisionHeadId: headId };
+      const capture = captureRecord({ session: withCaptureReading(captureSession()) });
+      const plan = planRecord(planBinding(PROJECT_ID, style, capture.revision, headId));
+      await repository.saveProjectBundle({
+        project: bundle.project,
+        styles: [style],
+        fieldObservations: [observations],
+        styleRevisions: [revision],
+        measurementCaptures: [capture],
+        gradePlans: [plan],
+        expectedProjectRevision: null,
+      });
+      expect(await repository.readGradePlan(STYLE_ID, "tee")).toEqual(plan);
+      const snapshot = await repository.readProjectBundle(PROJECT_ID);
+      expect(snapshot?.gradePlans).toEqual([plan]);
+      expect((await repository.loadProject(PROJECT_ID))?.gradePlans).toEqual([plan]);
+
+      const preserved = await repository.readProjectBundle(PROJECT_ID);
+      if (!preserved) throw new Error("Created project disappeared.");
+      await repository.saveProjectBundle({
+        project: { ...preserved.project, revision: 2, updatedAt: NEXT_TIME },
+        styles: preserved.styles,
+        expectedProjectRevision: 1,
+      });
+      expect((await repository.readProjectBundle(PROJECT_ID))?.gradePlans).toEqual([plan]);
+
+      await expect(repository.saveProjectBundle({
+        project: { ...preserved.project, revision: 3, updatedAt: "2026-09-24T16:00:02.000Z" },
+        styles: preserved.styles,
+        gradePlans: [plan],
+        expectedProjectRevision: 2,
+      })).rejects.toMatchObject({ code: "invalid-data", message: expect.stringContaining("duplicate grade plans") });
+      const unchanged = await repository.readProjectBundle(PROJECT_ID);
+      expect(unchanged?.project.revision).toBe(2);
+      expect(unchanged?.gradePlans).toEqual([plan]);
+      expect(await repository.readGradePlan(STYLE_ID, "tee")).toEqual(plan);
+    } finally {
+      repository.close();
+    }
+  });
+
+  it("rejects invalid, foreign, mismatched, and duplicate bundle plans without saving the bundle", async () => {
+    const bundle = newBundle();
+    const customStyle = customOneSizeStyle(bundle.style);
+    const headId = testUuid(nextGradeHead++);
+    const style = { ...customStyle, revisionHeadId: headId };
+    const observations = fieldHistory(customStyle);
+    const revision = await testRevision(customStyle, observations, headId);
+    const capture = captureRecord({ session: withCaptureReading(captureSession()) });
+    const plan = planRecord(planBinding(PROJECT_ID, style, capture.revision, headId));
+    const unseeded = customOneSizeStyle(bundle.style);
+    const base = {
+      project: bundle.project,
+      styles: [style],
+      fieldObservations: [observations],
+      styleRevisions: [revision],
+      measurementCaptures: [capture],
+    };
+    const cases: Array<{ label: string; input: Record<string, unknown>; message: string }> = [
+      {
+        label: "plan list is not an array",
+        input: { gradePlans: "not-a-list" },
+        message: "must be a list",
+      },
+      {
+        label: "malformed plan record",
+        input: { gradePlans: [{}] },
+        message: "incomplete or unknown",
+      },
+      {
+        label: "foreign project ID",
+        input: { gradePlans: [{ ...plan, projectId: OTHER_PROJECT_ID }] },
+        message: "must belong to a style",
+      },
+      {
+        label: "foreign style ID",
+        input: { gradePlans: [{ ...plan, styleId: SECOND_STYLE_ID }] },
+        message: "must belong to a style",
+      },
+      {
+        label: "duplicate plans in one bundle",
+        input: { gradePlans: [plan, plan] },
+        message: "duplicate grade plans",
+      },
+      {
+        label: "unsupported legacy style",
+        input: {
+          styles: [bundle.style],
+          gradePlans: [planRecord(planBinding(PROJECT_ID, bundle.style, 1, headId))],
+        },
+        message: "supported only for custom",
+      },
+      {
+        label: "recipe mismatch with the style",
+        input: { gradePlans: [{ ...plan, recipeId: "skirt" }] },
+        message: "must match its style recipe",
+      },
+      {
+        label: "non-initial revision for a new plan",
+        input: { gradePlans: [{ ...plan, revision: 2, updatedAt: NEXT_TIME }] },
+        message: "must be 1 for creation",
+      },
+      {
+        label: "stale revision head",
+        input: { gradePlans: [{ ...plan, revisionHeadId: testUuid(nextGradeHead++) }] },
+        message: "revision head",
+      },
+      {
+        label: "stale capture revision",
+        input: { gradePlans: [{ ...plan, captureRevision: 2 }] },
+        message: "capture revision",
+      },
+      {
+        label: "unseeded revision head",
+        input: { styles: [unseeded], styleRevisions: [], gradePlans: [plan] },
+        message: "revision head",
+      },
+      {
+        label: "archived style plan",
+        input: {
+          project: {
+            ...bundle.project,
+            styleIds: [STYLE_ID, SECOND_STYLE_ID],
+            activeStyleId: SECOND_STYLE_ID,
+          },
+          styles: [{ ...style, archivedAt: NEXT_TIME }, newBundle(PROJECT_ID, SECOND_STYLE_ID).style],
+          fieldObservations: [observations, fieldHistory(newBundle(PROJECT_ID, SECOND_STYLE_ID).style)],
+          styleRevisions: [],
+          measurementCaptures: [],
+          gradePlans: [plan],
+        },
+        message: "read-only",
+      },
+    ];
+    for (const { label, input, message } of cases) {
+      const repository = await openProjectRepository({ name: databaseName(), factory: newFactory(), crypto: webcrypto });
+      try {
+        await expect(repository.saveProjectBundle({
+          ...base,
+          ...input as { gradePlans: GradePlanRecord[] },
+          expectedProjectRevision: null,
+        }), label).rejects.toMatchObject({ code: "invalid-data", message: expect.stringContaining(message) });
+        await expect(repository.readProjectBundle(PROJECT_ID), label).resolves.toBeNull();
+        await rejectionCode(repository.readGradePlan(STYLE_ID, "tee"), "not-found");
+      } finally {
+        repository.close();
+      }
+    }
+  });
+
+  it("binds bundle plans to the saved revision head and capture revision", async () => {
+    const factory = newFactory();
+    const name = databaseName();
+    const repository = await openProjectRepository({ name, factory, crypto: webcrypto });
+    try {
+      const seed = await seedCustomStyle(repository);
+      const otherBundle = newBundle(PROJECT_ID, OTHER_STYLE_ID);
+      const otherCustom = customOneSizeStyle(otherBundle.style);
+      const otherObservations = fieldHistory(otherCustom);
+      const otherHeadId = testUuid(nextGradeHead++);
+      const otherRevision = await testRevision(otherCustom, otherObservations, otherHeadId);
+      const otherStyle = { ...otherCustom, revisionHeadId: otherHeadId };
+      const otherCapture = captureRecord({
+        projectId: PROJECT_ID,
+        styleId: OTHER_STYLE_ID,
+        session: captureSession(OTHER_STYLE_ID, "tee", testUuid(nextGradeHead++)),
+      });
+      // An unrelated input capture does not satisfy this style's plan binding.
+      const plan = planRecord(planBinding(PROJECT_ID, seed.style, seed.capture.revision, seed.revision.revisionId));
+      await repository.saveProjectBundle({
+        project: { ...seed.project, styleIds: [STYLE_ID, OTHER_STYLE_ID], revision: 2, updatedAt: NEXT_TIME },
+        styles: [seed.style, otherStyle],
+        fieldObservations: [seed.observations, otherObservations],
+        styleRevisions: [otherRevision],
+        measurementCaptures: [otherCapture],
+        gradePlans: [plan],
+        expectedProjectRevision: 1,
+      });
+      expect(await repository.readGradePlan(STYLE_ID, "tee")).toEqual(plan);
+
+      const reread = captureRecord({
+        revision: 2, updatedAt: "2026-09-24T16:00:02.000Z", session: withCaptureReading(seed.capture.session),
+      });
+      await repository.saveMeasurementCapture(reread, 1);
+      await rawDelete(factory, name, PROJECT_STORES.gradePlans, [STYLE_ID, "tee"]);
+      await expect(repository.saveProjectBundle({
+        project: { ...seed.project, styleIds: [STYLE_ID, OTHER_STYLE_ID], revision: 3, updatedAt: "2026-09-24T16:00:03.000Z" },
+        styles: [seed.style, otherStyle],
+        gradePlans: [plan],
+        expectedProjectRevision: 2,
+      })).rejects.toMatchObject({ code: "invalid-data", message: expect.stringContaining("capture revision") });
+      const current = planRecord(planBinding(PROJECT_ID, seed.style, reread.revision, seed.revision.revisionId));
+      await repository.saveProjectBundle({
+        project: { ...seed.project, styleIds: [STYLE_ID, OTHER_STYLE_ID], revision: 3, updatedAt: "2026-09-24T16:00:03.000Z" },
+        styles: [seed.style, otherStyle],
+        gradePlans: [current],
+        expectedProjectRevision: 2,
+      });
+      expect(await repository.readGradePlan(STYLE_ID, "tee")).toEqual(current);
+
+      const stored = await repository.readProjectBundle(PROJECT_ID);
+      if (!stored) throw new Error("Seeded project disappeared.");
+      const currentStyle = stored.styles.find((style) => style.id === STYLE_ID)!;
+      const currentObservations = stored.fieldObservations!.find((record) => record.styleId === STYLE_ID)!;
+      const editedDesign = {
+        ...currentStyle.design,
+        measurements: { ...currentStyle.design.measurements, chest: currentStyle.design.measurements.chest + 1 },
+      };
+      const childHeadId = testUuid(nextGradeHead++);
+      const child = await testRevision(currentStyle, currentObservations, childHeadId, 2, seed.revision.revisionId, editedDesign);
+      const nextStyle = {
+        ...currentStyle,
+        revision: currentStyle.revision + 1,
+        updatedAt: "2026-09-24T16:00:04.000Z",
+        design: editedDesign,
+        revisionHeadId: childHeadId,
+      };
+      await repository.saveProjectBundle({
+        project: { ...stored.project, revision: stored.project.revision + 1, updatedAt: "2026-09-24T16:00:04.000Z" },
+        styles: stored.styles.map((style) => style.id === STYLE_ID ? nextStyle : style),
+        fieldObservations: stored.fieldObservations,
+        styleRevisions: [child],
+        expectedProjectRevision: stored.project.revision,
+      });
+      // The other style has no stored plan, so its bundle plan reaches the base checks.
+      const staleHead = planRecord(planBinding(PROJECT_ID, otherStyle, otherCapture.revision, testUuid(nextGradeHead++)));
+      await expect(repository.saveProjectBundle({
+        project: { ...stored.project, revision: stored.project.revision + 2, updatedAt: "2026-09-24T16:00:05.000Z" },
+        styles: stored.styles.map((style) => style.id === STYLE_ID ? nextStyle : style),
+        gradePlans: [staleHead],
+        expectedProjectRevision: stored.project.revision + 1,
+      })).rejects.toMatchObject({ code: "invalid-data", message: expect.stringContaining("revision head") });
+
+      await rawDelete(factory, name, PROJECT_STORES.measurementCaptures, [OTHER_STYLE_ID, "tee"]);
+      const orphaned = planRecord(planBinding(PROJECT_ID, otherStyle, otherCapture.revision, otherHeadId));
+      await expect(repository.saveProjectBundle({
+        project: { ...stored.project, revision: stored.project.revision + 2, updatedAt: "2026-09-24T16:00:05.000Z" },
+        styles: stored.styles.map((style) => style.id === STYLE_ID ? nextStyle : style),
+        gradePlans: [orphaned],
+        expectedProjectRevision: stored.project.revision + 1,
+      })).rejects.toMatchObject({ code: "invalid-data", message: expect.stringContaining("matching saved measurement capture") });
+      await rawPut(factory, name, PROJECT_STORES.measurementCaptures, { ...otherCapture, drafts: "corrupt" });
+      await rejectionCode(repository.saveProjectBundle({
+        project: { ...stored.project, revision: stored.project.revision + 2, updatedAt: "2026-09-24T16:00:05.000Z" },
+        styles: stored.styles.map((style) => style.id === STYLE_ID ? nextStyle : style),
+        gradePlans: [orphaned],
+        expectedProjectRevision: stored.project.revision + 1,
+      }), "invalid-data");
+      await rawPut(factory, name, PROJECT_STORES.measurementCaptures, { ...otherCapture, projectId: OTHER_PROJECT_ID });
+      await rejectionCode(repository.saveProjectBundle({
+        project: { ...stored.project, revision: stored.project.revision + 2, updatedAt: "2026-09-24T16:00:05.000Z" },
+        styles: stored.styles.map((style) => style.id === STYLE_ID ? nextStyle : style),
+        gradePlans: [orphaned],
+        expectedProjectRevision: stored.project.revision + 1,
+      }), "invalid-data");
+      await rawPut(factory, name, PROJECT_STORES.measurementCaptures, otherCapture);
+      const snapshot = await repository.readProjectBundle(PROJECT_ID);
+      expect(snapshot?.project.revision).toBe(stored.project.revision + 1);
+      expect(snapshot?.gradePlans).toEqual([current]);
+    } finally {
+      repository.close();
+    }
+  });
+
+  it("adds only an empty grade-plan store when upgrading the shipped v7 database", async () => {
+    const factory = newFactory();
+    const sourceName = databaseName();
+    const source = await openProjectRepository({ name: sourceName, factory, crypto: webcrypto });
+    await source.initializeFirstRun(PROJECT_ID, STYLE_ID, TIME);
+    const initial = await source.readProjectBundle(PROJECT_ID);
+    if (!initial) throw new Error("First-run project was not persisted.");
+    const style = initial.styles[0]!;
+    const observations = initial.fieldObservations![0]!;
+    const revision = await testRevision(style, observations, testUuid(1));
+    await source.saveProjectBundle({
+      project: { ...initial.project, revision: 2, updatedAt: NEXT_TIME },
+      styles: [{ ...style, revision: 2, updatedAt: NEXT_TIME, revisionHeadId: revision.revisionId }],
+      fieldObservations: [observations],
+      styleRevisions: [revision],
+      expectedProjectRevision: 1,
+    });
+    const created = captureRecord();
+    await source.saveMeasurementCapture(created, null);
+    const expected = await source.readProjectBundle(PROJECT_ID);
+    source.close();
+    const nonGradeStores = (Object.keys(PROJECT_STORES) as (keyof typeof PROJECT_STORES)[])
+      .filter((store) => store !== "gradePlans");
+    const rows = Object.fromEntries(await Promise.all(nonGradeStores.map(async (store) =>
+      [store, await rawGetAll(factory, sourceName, PROJECT_STORES[store])] as const)));
+
+    const name = databaseName();
+    await createVersionSevenDatabase(factory, name, rows);
+    const repository = await openProjectRepository({ name, factory, crypto: webcrypto });
+    try {
+      expect(await repository.readProjectBundle(PROJECT_ID)).toEqual(expected);
+      expect(await repository.readGradePlan(STYLE_ID, "tee")).toBeNull();
+      expect(await repository.readMeasurementCapture(STYLE_ID, "tee")).toEqual(created);
+      expect(await repository.loadProject(PROJECT_ID)).not.toHaveProperty("gradePlans");
+    } finally {
+      repository.close();
+    }
+    const upgraded = await rawDatabase(factory, name);
+    expect(upgraded.version).toBe(PROJECT_DATABASE_VERSION);
+    const planStore = upgraded.transaction(PROJECT_STORES.gradePlans).objectStore(PROJECT_STORES.gradePlans);
+    expect(planStore.keyPath).toEqual(["styleId", "recipeId"]);
+    expect(planStore.indexNames.contains("styleId")).toBe(true);
+    expect(planStore.indexNames.contains("projectId")).toBe(true);
+    upgraded.close();
+    expect(await rawGetAll(factory, name, PROJECT_STORES.gradePlans)).toEqual([]);
+    for (const store of nonGradeStores) {
+      expect(await rawGetAll(factory, name, PROJECT_STORES[store])).toEqual(rows[store]);
+    }
+  });
+
+  it("rejects version-eight databases without the grade-plan store or its lookup indexes", async () => {
+    const factory = newFactory();
+    const fullName = databaseName();
+    await createVersionEightDatabase(factory, fullName, "full");
+    const full = await openProjectRepository({ name: fullName, factory, crypto: webcrypto });
+    full.close();
+
+    for (const gradePlans of ["missing", "styleId-only", "projectId-only"] as const) {
+      const name = databaseName();
+      await createVersionEightDatabase(factory, name, gradePlans);
+      await rejectionCode(openProjectRepository({ name, factory, crypto: webcrypto }), "unsupported-version");
     }
   });
 });

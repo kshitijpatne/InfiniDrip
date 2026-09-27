@@ -83,8 +83,9 @@ export function customStyleCreationErrorMessage(error: unknown): string {
   return error instanceof Error ? error.message : "The custom one-size style could not be saved.";
 }
 
-export function gradedMarkerAvailabilityTitle(isCustomOneSize: boolean): string {
-  return isCustomOneSize
-    ? "Graded Marker is unavailable until you review and approve a grade plan."
-    : "Nest every graded size";
+export function gradedMarkerAvailabilityTitle(isCustomOneSize: boolean, gradePlanApproved = false): string {
+  if (!isCustomOneSize) return "Nest every graded size";
+  return gradePlanApproved
+    ? "The grade plan is approved; graded Marker output will be added in the next step."
+    : "Graded Marker is unavailable until you review and approve a grade plan.";
 }

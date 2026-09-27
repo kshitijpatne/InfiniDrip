@@ -100,6 +100,19 @@ import {
   renderMeasurementCapturePanel,
   type MeasurementCapturePanelModel,
 } from "./measurement-capture-panel";
+import {
+  approveGradePlan,
+  createGradePlanDraft,
+  gradePlanIsStale,
+  parseGradePlanRecord,
+  reviewGradePlan,
+  updateGradePlanDraft,
+  type GradePlanBasis,
+  type GradePlanRecord,
+  type GradePlanSize,
+} from "./grade-plan";
+import { createGradePlanContext, type GradePlanContext } from "./grade-plan-context";
+import { gradePlanPanelMarkup } from "./grade-plan-panel";
 
 // The desktop shell's bridge (Slice 46) — see electron/preload.cts for the
 // other end. Optional: undefined everywhere this app runs as a plain web page.
@@ -462,6 +475,17 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     return `00000000-0000-4000-8000-${(time + tail).slice(-12)}`;
   };
   const captureNow = (): string => new Date().toISOString();
+  type GradePlanPanelState = {
+    readonly styleId: string;
+    loading: boolean;
+    plan: GradePlanRecord | null;
+    captureAvailable: boolean;
+    context: GradePlanContext | null;
+    message: string | null;
+    dirty: boolean;
+  };
+  let gradePlanState: GradePlanPanelState | null = null;
+  let gradePlanLoadSequence = 0;
   let captureSaveTimer: number | null = null;
   let captureWrite = Promise.resolve();
   let captureWritesPending = 0;
@@ -494,6 +518,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     }).finally(() => { captureWritesPending--; });
     await captureWrite;
     if (captureSaveError) throw new Error(captureSaveError);
+    if (projectWorkflow && customOneSizeStyle() && projectWorkflow.snapshot.activeStyle.recipeId === session.recipeId) {
+      loadGradePlanPanel(projectWorkflow.snapshot.activeStyle.id);
+    }
   };
   const scheduleCaptureSave = (): void => {
     if (!projectWorkflow || !measurementCapture) return;
@@ -1291,6 +1318,188 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     exported: journey.exported,
   });
   const customOneSizeStyle = (): boolean => !!projectWorkflow && isCustomOneSizeStyle(projectWorkflow.snapshot.activeStyle);
+  const gradePlanApproved = (): boolean => !!projectWorkflow && !!gradePlanState?.plan && !!gradePlanState.context
+    && gradePlanState.styleId === projectWorkflow.snapshot.activeStyle.id
+    && gradePlanState.plan.status === "approved" && !gradePlanIsStale(gradePlanState.plan, gradePlanState.context.binding);
+  const loadGradePlanPanel = (styleId: string): void => {
+    // Callers guard for an active custom style before starting this async load.
+    const workflow = projectWorkflow!;
+    const sequence = ++gradePlanLoadSequence;
+    const style = workflow.snapshot.activeStyle;
+    gradePlanState = {
+      styleId, loading: true, plan: null, captureAvailable: false, context: null, message: null, dirty: false,
+    };
+    void (async () => {
+      try {
+        const [capture, plan] = await Promise.all([
+          workflow.loadMeasurementCapture(style.recipeId),
+          workflow.loadGradePlan(style.recipeId),
+        ]);
+        const context = capture
+          ? await createGradePlanContext(workflow.snapshot.project.id, workflow.snapshot.activeStyle, capture)
+          : null;
+        if (sequence !== gradePlanLoadSequence || workflow.snapshot.activeStyle.id !== styleId) return;
+        gradePlanState = {
+          styleId, loading: false, plan, captureAvailable: capture !== null,
+          context: context?.ok ? context.value : null,
+          message: context && !context.ok ? context.errors.join(" ") : null,
+          dirty: false,
+        };
+        draw();
+      } catch (error) {
+        if (sequence !== gradePlanLoadSequence || workflow.snapshot.activeStyle.id !== styleId) return;
+        gradePlanState = {
+          styleId, loading: false, plan: null, captureAvailable: false, context: null,
+          message: error instanceof Error ? error.message : "The grade plan could not be loaded.", dirty: false,
+        };
+        draw();
+      }
+    })();
+  };
+  const gradePlanPanel = (): string => {
+    if (!projectWorkflow || !customOneSizeStyle()) {
+      if (gradePlanState) { gradePlanState = null; gradePlanLoadSequence++; }
+      return "";
+    }
+    const style = projectWorkflow.snapshot.activeStyle;
+    if (!gradePlanState || gradePlanState.styleId !== style.id) {
+      loadGradePlanPanel(style.id);
+    }
+    else if (gradePlanState.context && gradePlanState.context.binding.revisionHeadId !== style.revisionHeadId) {
+      loadGradePlanPanel(style.id);
+    }
+    const state = gradePlanState!;
+    const context = state.context;
+    const stale = !!state.plan && (!context || gradePlanIsStale(state.plan, context.binding));
+    const blocker = state.loading ? "Loading the saved measurement capture and grade plan…"
+      : !state.captureAvailable ? "Save a measurement capture for this style before creating a grade plan."
+        : !context ? state.message! : null;
+    return gradePlanPanelMarkup({
+      recipeLabel: recipe.label,
+      plan: state.plan,
+      stale,
+      canCreate: !state.loading && !state.plan && !!context,
+      createBlocker: blocker,
+      message: state.message,
+    });
+  };
+  const gradePlanTimestamp = (prior?: string): string => {
+    const now = Date.now();
+    const time = prior ? Math.max(now, Date.parse(prior) + 1) : now;
+    return new Date(time).toISOString();
+  };
+  const requiredGradePlanControl = <T extends Element>(selector: string): T => {
+    const control = styleHost.querySelector<T>(selector);
+    if (!control) throw new Error("The grade-plan form changed before it could be saved. Reopen the panel and try again.");
+    return control;
+  };
+  const collectGradePlanDraft = (plan: GradePlanRecord):
+    | { plan: GradePlanRecord; error: null }
+    | { plan: null; error: string } => {
+    const basisKind = requiredGradePlanControl<HTMLSelectElement>("[data-grade-plan-basis]").value;
+    let basis: GradePlanBasis | null = null;
+    if (basisKind === "population-source") {
+      basis = {
+        kind: "population-source",
+        population: requiredGradePlanControl<HTMLInputElement>("[data-grade-plan-population]").value.trim(),
+        sourceName: requiredGradePlanControl<HTMLInputElement>("[data-grade-plan-source-name]").value.trim(),
+        sourceVersion: requiredGradePlanControl<HTMLInputElement>("[data-grade-plan-source-version]").value.trim(),
+        sourceScope: requiredGradePlanControl<HTMLInputElement>("[data-grade-plan-source-scope]").value.trim(),
+      };
+    } else if (basisKind === "user-authored-digital-rule") {
+      basis = {
+        kind: "user-authored-digital-rule",
+        decision: requiredGradePlanControl<HTMLInputElement>("[data-grade-plan-decision]").value.trim(),
+        digitalRange: requiredGradePlanControl<HTMLInputElement>("[data-grade-plan-digital-range]").value.trim(),
+      };
+    } else if (basisKind !== "") return { plan: null, error: "Choose a supported grade-plan basis." };
+    const labels = requiredGradePlanControl<HTMLTextAreaElement>("[data-grade-plan-sizes]").value
+      .split(/\r?\n/).map((label) => label.trim()).filter(Boolean);
+    const baseSizeLabel = requiredGradePlanControl<HTMLInputElement>("[data-grade-plan-base-size]").value.trim() || null;
+    const baseIndex = labels.findIndex((label) => label.toLocaleLowerCase("en-US") === baseSizeLabel?.toLocaleLowerCase("en-US"));
+    const sizes: GradePlanSize[] = labels.map((label, index) => ({ label, position: index - baseIndex }));
+    const exceptions = [...styleHost.querySelectorAll<HTMLInputElement>("[data-grade-plan-exception]:checked")].map((checkbox) => ({
+      targetId: checkbox.dataset.targetId!,
+      sizeLabel: checkbox.dataset.sizeLabel!,
+      reason: [...styleHost.querySelectorAll<HTMLTextAreaElement>("[data-grade-plan-exception-reason]")]
+        .find((input) => input.dataset.targetId === checkbox.dataset.targetId && input.dataset.sizeLabel === checkbox.dataset.sizeLabel)!.value.trim(),
+    }));
+    const baseChanged = (plan.baseSizeLabel ?? "").toLocaleLowerCase("en-US") !== (baseSizeLabel ?? "").toLocaleLowerCase("en-US");
+    const deltaInputs = [...styleHost.querySelectorAll<HTMLInputElement>("[data-grade-plan-delta]")];
+    const targets = plan.targets.map((target) => ({
+      ...target,
+      deltas: sizes.map((size) => {
+        if (size.label.toLocaleLowerCase("en-US") === (baseSizeLabel ?? "").toLocaleLowerCase("en-US")) {
+          return { sizeLabel: size.label, deltaFromBase: 0 };
+        }
+        if (baseChanged) return { sizeLabel: size.label, deltaFromBase: null };
+        const input = deltaInputs.find((candidate) => candidate.dataset.targetId === target.targetId
+          && candidate.dataset.sizeLabel?.toLocaleLowerCase("en-US") === size.label.toLocaleLowerCase("en-US"));
+        // The panel renders one control from this same target/size pair for every cell.
+        const raw = input!.value.trim();
+        const value = raw === "" ? null : Number(raw);
+        if (value !== null && !Number.isFinite(value)) throw new Error("Each size change must be a finite number.");
+        return { sizeLabel: size.label, deltaFromBase: value };
+      }),
+    }));
+    const updated = updateGradePlanDraft(plan, {
+      basis,
+      declaredRange: requiredGradePlanControl<HTMLTextAreaElement>("[data-grade-plan-range]").value.trim(),
+      baseSizeLabel,
+      sizes,
+      targets,
+      exceptions,
+    }, gradePlanTimestamp(plan.updatedAt));
+    return updated.ok ? { plan: updated.value, error: null } : { plan: null, error: updated.errors.join(" ") };
+  };
+  const saveGradePlanPanelAction = async (action: string): Promise<void> => {
+    if (!projectWorkflow || !gradePlanState || !gradePlanState.context) return;
+    const state = gradePlanState;
+    const context = state.context!;
+    try {
+      if (action === "create") {
+        if (state.plan) throw new Error("A grade plan already exists for this style.");
+        const created = createGradePlanDraft(context.binding, context.targets, gradePlanTimestamp());
+        if (!created.ok) throw new Error(created.errors.join(" "));
+        state.plan = await projectWorkflow.saveGradePlan(created.value);
+        state.message = "Draft saved. Add the basis, size range and explicit changes before review.";
+      } else if (action === "refresh") {
+        if (!state.plan) throw new Error("There is no grade plan to refresh.");
+        const fresh = createGradePlanDraft(context.binding, context.targets, gradePlanTimestamp(state.plan.updatedAt));
+        if (!fresh.ok) throw new Error(fresh.errors.join(" "));
+        const refreshed = parseGradePlanRecord({
+          ...fresh.value, revision: state.plan.revision + 1, createdAt: state.plan.createdAt,
+        });
+        if (!refreshed.ok) throw new Error(refreshed.errors.join(" "));
+        state.plan = await projectWorkflow.saveGradePlan(refreshed.value);
+        state.message = "Base refreshed. Re-enter the basis, size rules and every size change; prior approval was cleared.";
+      } else if (action === "approve") {
+        if (!state.plan || state.dirty) throw new Error("Save and review your current edits before approval.");
+        const approved = approveGradePlan(state.plan, context.targets.map((target) => target.targetId), context.binding,
+          gradePlanTimestamp(state.plan.updatedAt));
+        if (!approved.ok) throw new Error(approved.errors.join(" "));
+        state.plan = await projectWorkflow.saveGradePlan(approved.value);
+        state.message = "Grade plan approved and recorded. Graded geometry and whole-run exports remain unavailable until the next step.";
+      } else if (action === "save-draft" || action === "review") {
+        if (!state.plan) throw new Error("Create a grade plan first.");
+        const collected = collectGradePlanDraft(state.plan);
+        if (!collected.plan) throw new Error(collected.error);
+        state.plan = await projectWorkflow.saveGradePlan(collected.plan);
+        if (action === "review") {
+          const reviewed = reviewGradePlan(state.plan, context.targets.map((target) => target.targetId), context.binding,
+            gradePlanTimestamp(state.plan.updatedAt));
+          if (!reviewed.ok) throw new Error(reviewed.errors.join(" "));
+          state.plan = await projectWorkflow.saveGradePlan(reviewed.value);
+          state.message = "Review recorded. Confirm the plan, then approve it.";
+        } else state.message = "Draft saved. Review becomes available when every required item is complete.";
+      }
+      state.dirty = false;
+    } catch (error) {
+      state.message = error instanceof Error ? error.message : "The grade-plan action could not be completed.";
+    }
+    draw();
+    projectManager?.refresh();
+  };
   const selectedOutputStep = (): number => customOneSizeStyle() ? 0 : exportStep;
   const garmentReportForCurrentStyle = (checkRecipe: GarmentRecipe) =>
     garmentReport(checkRecipe, measurements, recipeOptions(), { includeSizeRun: !customOneSizeStyle() });
@@ -1776,6 +1985,11 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       root.querySelector<HTMLElement>(`#error-${key}`)!.textContent = error ?? "";
     });
     syncRangeIndicators();
+    const markerControl = root.querySelector<HTMLButtonElement>("#nest-marker");
+    if (markerControl) {
+      markerControl.disabled = customOneSizeStyle();
+      markerControl.title = gradedMarkerAvailabilityTitle(customOneSizeStyle(), gradePlanApproved());
+    }
     root.querySelectorAll<HTMLButtonElement>('#export-host button[id^="export-"]').forEach((button) => {
       const needsArtwork = button.id === "export-surface-sheet" && surfacePlacementsNow().length === 0;
       const allowed = button.id === "export-techpack" || button.id === "export-projector"
@@ -1786,7 +2000,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       button.disabled = !allowed || needsArtwork;
       button.title = !allowed
         ? customOneSizeStyle() && (button.id === "export-techpack" || button.id === "export-projector")
-          ? "Whole-run output is unavailable until you review and approve a grade plan."
+          ? gradePlanApproved()
+            ? "The grade plan is approved; graded outputs are not generated in this implementation step."
+            : "Whole-run output is unavailable until you review and approve a grade plan."
           : "Review Style and the current digital checks before exporting."
         : needsArtwork ? "Add artwork on the Style panel first." : "";
     });
@@ -1796,7 +2012,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         : "Draft paused — correct the flagged inputs to render your current design.";
       canvasHost.innerHTML = inspectionMarkup(`<p role="status">${pausedMessage}</p>`, previewActive ? "assembled" : view);
       renderGuidance([...errors.entries()].map(([field, text]) => ({ level: "warn", field, text })));
-      styleHost.innerHTML = styleMarkup(targetStyle, matchStyle(measurements, targetStyle, recipe.styles), styleNames(recipe.styles), false) + renderSurface();
+      styleHost.innerHTML = styleMarkup(targetStyle, matchStyle(measurements, targetStyle, recipe.styles), styleNames(recipe.styles), false) + gradePlanPanel() + renderSurface();
       syncSurfaceValidity();
       syncSurfaceAssetPreviews();
       renderJourney();
@@ -1872,7 +2088,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       const dismissedGuidance = guidanceNotes.filter((note) =>
         note.level === "warn" && note.field !== undefined && ignoredGuidance.has(note.field));
       canvasContent = semanticSizeReady(0)
-        ? checkMarkup(garmentReportForCurrentStyle(recipeForCurrentOutputs()), valid, dismissedGuidance, customOneSizeStyle())
+        ? checkMarkup(garmentReportForCurrentStyle(recipeForCurrentOutputs()), valid, dismissedGuidance, customOneSizeStyle(), gradePlanApproved())
         : `<p role="status" data-semantic-output-paused>Checks are paused until the saved edits are valid or explicitly rebased.</p>`;
     } else if (view === "edit") {
       const sourceCannotDraft = semanticState?.source.status === "failed" && !semanticState.source.baseBlock;
@@ -1994,7 +2210,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     const plausible = valid;
     renderGuidance(guidanceNotes);
     // Style = prescriptive: the gap from current measurements to the chosen target.
-    styleHost.innerHTML = styleMarkup(targetStyle, matchStyle(measurements, targetStyle, recipe.styles), styleNames(recipe.styles), plausible) + renderSurface();
+    styleHost.innerHTML = styleMarkup(targetStyle, matchStyle(measurements, targetStyle, recipe.styles), styleNames(recipe.styles), plausible) + gradePlanPanel() + renderSurface();
     syncSurfaceValidity();
     syncSurfaceAssetPreviews();
     // Amber-outline any measurement input whose value is out of plausible range
@@ -3000,7 +3216,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   const single = root.querySelector<HTMLButtonElement>("#nest-single")!;
   const marker = root.querySelector<HTMLButtonElement>("#nest-marker")!;  const setScope = (s: "single" | "marker"): void => {
     if (s === "marker" && customOneSizeStyle()) {
-      flash("Graded Marker is unavailable until you review and approve a grade plan.", BLUEPRINT.lineActive);
+      flash(gradedMarkerAvailabilityTitle(true, gradePlanApproved()), BLUEPRINT.lineActive);
       return;
     }
     nestScope = s;
@@ -3010,15 +3226,13 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     single.setAttribute("aria-pressed", String(s === "single"));
     marker.style.background = s === "marker" ? BLUEPRINT.lineActive : "transparent";
     marker.disabled = customOneSizeStyle();
-    marker.title = gradedMarkerAvailabilityTitle(customOneSizeStyle());
+    marker.title = gradedMarkerAvailabilityTitle(customOneSizeStyle(), gradePlanApproved());
     marker.style.color = s === "marker" ? BLUEPRINT.background : BLUEPRINT.label;
     marker.setAttribute("aria-pressed", String(s === "marker"));
     draw();
   };
   marker.disabled = customOneSizeStyle();
-  marker.title = customOneSizeStyle()
-    ? "Graded Marker is unavailable until you review and approve a grade plan."
-    : "Nest every graded size";
+  marker.title = gradedMarkerAvailabilityTitle(customOneSizeStyle(), gradePlanApproved());
   single.addEventListener("click", () => setScope("single"));
   marker.addEventListener("click", () => setScope("marker"));
 
@@ -3421,6 +3635,13 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   // delegate the change event from the stable host element.
   styleHost.addEventListener("change", (e) => {
     const sel = e.target as HTMLSelectElement;
+    if (sel.matches("[data-grade-plan-basis]")) {
+      styleHost.querySelectorAll<HTMLElement>("[data-grade-plan-basis-fields]").forEach((group) => {
+        group.hidden = group.dataset.gradePlanBasisFields !== sel.value;
+      });
+      if (gradePlanState) gradePlanState.dirty = true;
+      return;
+    }
     if (sel.id === "style-target") {
       targetStyle = sel.value;
       markOutputDirty();
@@ -3781,6 +4002,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   });
   styleHost.addEventListener("input", (e) => {
     const target = e.target as HTMLInputElement;
+    if (target.matches("[data-grade-plan-population], [data-grade-plan-source-name], [data-grade-plan-source-version], [data-grade-plan-source-scope], [data-grade-plan-decision], [data-grade-plan-digital-range], [data-grade-plan-range], [data-grade-plan-base-size], [data-grade-plan-sizes], [data-grade-plan-delta], [data-grade-plan-exception-reason]")) {
+      if (gradePlanState) gradePlanState.dirty = true;
+      return;
+    }
     if (target.id !== "surface-library-search") return;
     artworkLibraryQuery = target.value;
     updateArtworkLibraryResults();
@@ -3797,6 +4022,11 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   });
   styleHost.addEventListener("click", (e) => {
     const target = e.target as HTMLElement;
+    const gradeAction = target.closest<HTMLButtonElement>("button[data-grade-plan-action]");
+    if (gradeAction && !gradeAction.disabled) {
+      void saveGradePlanPanelAction(gradeAction.getAttribute("data-grade-plan-action")!);
+      return;
+    }
     const stageArtwork = target.closest<HTMLButtonElement>("button[data-artwork-stage-id]");
     if (stageArtwork) {
       const record = ARTWORK_CATALOG.find((item) => item.assetId === stageArtwork.dataset.artworkStageId);
@@ -4412,7 +4642,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       inspectAsset: artworkInspector,
       canFreezeOutputs: () => !customOneSizeStyle() && canExport() && styleReviewed && checkReviewed && baseDesignValid(),
       getFreezeBlocker: () => customOneSizeStyle()
-        ? "Whole-run output captures are unavailable until you review and approve a grade plan."
+        ? gradePlanApproved()
+          ? "The grade plan is approved; whole-run output capture will be added in the next step."
+          : "Whole-run output capture is unavailable until you review and approve a grade plan."
         : null,
       getFrozenOutputSet: () => {
         if (customOneSizeStyle() || !canExport() || !styleReviewed || !checkReviewed || !baseDesignValid()) return null;

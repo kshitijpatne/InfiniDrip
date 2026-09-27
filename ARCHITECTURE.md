@@ -115,6 +115,29 @@ view validates the selected draft, omits graded-run checks, and states that
 whole-run outputs require an approved plan; it does not imply an XS–XL run. This
 is digital customization only; no physical fit or population grade is implied.
 
+### Explicit grade plans (G03/M03)
+
+An approved grade plan is a separate, versioned record authored for one custom
+one-size style. It records an identified source or product decision, declared
+size range, base size, ordered labels, explicit measurement/control/POM changes
+and exceptions. It binds to the project and style identity, locked recipe,
+immutable design revision, capture revision and a digest of the base design.
+Edits return the record to draft; base changes make it stale and require a
+fresh review. Approval records user review of the rule document only. It does
+not certify drafted geometry, POM reconciliation, cutting quantities, physical
+fit or factory readiness.
+
+The local repository's version 8 migration only creates an empty grade-plan
+store keyed by style and recipe; it does not rewrite existing project, style,
+capture or export rows. Full project backups use package version 6 only when a
+grade plan is present. Earlier package versions and SaveFile versions keep
+their existing contents and byte identities. Copy imports rebind a plan to the
+new style and revision identities and clear review and approval. Through Slice
+250, custom styles remain one-size for output: selected-size files remain
+available, while graded geometry, whole-run Tech Pack, Projector and Marker
+outputs and frozen whole-run captures stay withheld even after record approval.
+Slice 251 owns generated-size validation and output integration.
+
 Pattern pieces are created from measurements and selected options. The app
 does not draw a separate, unrelated design for each screen or file. Most areas
 show or check the same current draft:
@@ -282,8 +305,10 @@ complete matrix and residual risks are recorded in
 F02 and F03 are complete. PR #11 merged the reviewed Slice 240 tree to
 `origin/main` at `e5155e82dbd21cda5b3f537b950eb4c32a22d215`; Slice 241 verified
 the S204/S205/S240 ancestry and closed EPIC-15 at Control Center revision 315.
-EPIC-16/G03 is admitted and M01 is In Progress; EPIC-17 through EPIC-30 remain
-Backlog. This digital work does not establish physical fit, drape, factory
+EPIC-16/G03 is admitted; M01 and M02 are complete, and M03 is In Progress for
+Slice 251 approved-grade output integration after Slice 250's grade-plan
+record/review exit. EPIC-17 through EPIC-30 remain Backlog. This digital work
+does not establish physical fit, drape, factory
 acceptance, supplier readiness, or production readiness.
 Slice 237 is now complete: it adds the semantic-anchor operation model,
 per-size geometry/stitch/recipe/POM guards, explicit rebase/conflict/undo rules,

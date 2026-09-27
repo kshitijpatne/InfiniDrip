@@ -31,6 +31,14 @@ import {
   type StyleRecord,
 } from "./project-records";
 import { addCaptureReadingForField, createMeasurementCaptureSession } from "./measurement-capture";
+import {
+  approveGradePlan,
+  configureGradePlan,
+  createGradePlanDraft,
+  reviewGradePlan,
+  type GradePlanBaseBinding,
+  type GradePlanRecord,
+} from "./grade-plan";
 import { DEFAULT_WORKSPACE, serialize, serializeRecovery } from "./persist";
 import { openProjectRepository, type ProjectBundleSnapshot, type ProjectRepository } from "./project-repository";
 import {
@@ -38,6 +46,7 @@ import {
   importProjectPackage,
   PROJECT_PACKAGE_CAPTURE_VERSION,
   PROJECT_PACKAGE_CUSTOM_STYLE_VERSION,
+  PROJECT_PACKAGE_GRADE_PLAN_VERSION,
   PROJECT_PACKAGE_VERSION,
   PROJECT_PACKAGE_MAX_ASSETS,
   PROJECT_PACKAGE_MAX_BYTES,
@@ -46,6 +55,7 @@ import {
   PROJECT_PACKAGE_MAX_MANIFEST_BYTES,
   ProjectPackageError,
   readProjectPackage,
+  type ProjectPackageArchive,
 } from "./project-package";
 import { createFrozenOutputManifest, createStyleRevision, FROZEN_ARTIFACT_IDS, jcsSha256Hex, sha256Hex } from "./style-revisions";
 
@@ -2932,7 +2942,7 @@ describe("G03 capture sessions in project backups", () => {
       const customPackage = await createProjectPackage({ ...snapshot, styles: [style], measurementCaptures: [packageCapture()] }, assets, { crypto });
       const capturePackage = await createProjectPackage({ ...snapshot, measurementCaptures: [packageCapture()] }, assets, { crypto });
       const plainPackage = await createProjectPackage(snapshot, assets, { crypto });
-      const requiresV5 = "Custom one-size styles require project package version 5.";
+      const requiresV5 = "Custom one-size styles require project package version 5 or 6.";
       const requiresCustom = "Project package version 5 must contain a custom one-size style.";
       const markCustom = (manifest: Record<string, unknown>) => {
         Object.assign(firstStyle(manifest), { schemaVersion: CUSTOM_STYLE_RECORD_VERSION, sizeMode: CUSTOM_ONE_SIZE_MODE });
@@ -3002,6 +3012,315 @@ describe("G03 capture sessions in project backups", () => {
           ...(candidate.message ? { message: candidate.message } : {}),
         });
       }
+    });
+  });
+});
+
+describe("G03 grade plans in project backups (package v6)", () => {
+  const FINGERPRINT = "c".repeat(64);
+  const V6_NEXT_TIME = "2026-09-24T16:00:05.000Z";
+  const V6_APPROVE_TIME = "2026-09-24T16:00:06.000Z";
+  const V6_SESSION_ID = "5e9f4c2a-8d1b-4c5e-9a7f-2b6d8e1c4a91";
+  const V3_KEYS = [
+    "format", "packageVersion", "project", "styles", "recoveries", "fieldObservations",
+    "styleRevisions", "exportManifests", "assets", "packageSha256",
+  ];
+  const V6_KEYS = [...V3_KEYS.slice(0, -1), "measurementCaptures", "gradePlans", "packageSha256"];
+
+  function v6Capture(styleId = STYLE_ID, projectId = PROJECT_ID): MeasurementCaptureRecord {
+    const session = addCaptureReadingForField(createMeasurementCaptureSession(V6_SESSION_ID, "tee", TIME, styleId), "body.chest-girth", {
+      id: "d34a5104-ae25-4b54-9a2b-fcc35237ff71",
+      rawValue: "40.125",
+      enteredUnit: "in",
+      provenance: "USER_CAPTURED",
+      evidenceStatus: "UNCONFIRMED",
+      sourceLabel: "User-entered value; capture method and technique not qualified.",
+      captureMethod: "Tape over a T-shirt",
+      capturedAt: "2026-09-24T00:00:00.000Z",
+      measurer: "HELPER",
+    }, "2026-09-24T16:00:01.000Z");
+    return {
+      schemaVersion: MEASUREMENT_CAPTURE_RECORD_VERSION,
+      styleId,
+      projectId,
+      recipeId: "tee",
+      revision: 1,
+      updatedAt: TIME,
+      session,
+      drafts: [{
+        fieldId: "body.chest-girth", rawValue: "40 1/8", enteredUnit: "in", sourceNote: "Second try", captureMethod: "",
+        captureDate: "2026-09-24", measurer: "SELF",
+      }],
+    };
+  }
+
+  function v6CustomStyle(style: StyleRecord): CustomOneSizeStyleRecord {
+    return { ...style, schemaVersion: CUSTOM_STYLE_RECORD_VERSION, sizeMode: CUSTOM_ONE_SIZE_MODE };
+  }
+
+  function v6Binding(headId: string, captureRevision = 1): GradePlanBaseBinding {
+    return {
+      projectId: PROJECT_ID,
+      styleId: STYLE_ID,
+      recipeId: "tee",
+      revisionHeadId: headId,
+      captureRevision,
+      fingerprint: FINGERPRINT,
+    };
+  }
+
+  function v6Draft(headId: string): GradePlanRecord {
+    const draft = createGradePlanDraft(v6Binding(headId), [], TIME);
+    if (!draft.ok) throw new Error(draft.errors.join("; "));
+    return draft.value;
+  }
+
+  function v6Reviewed(headId: string): GradePlanRecord {
+    const draft = v6Draft(headId);
+    const configured = configureGradePlan(draft, {
+      basis: { kind: "population-source", population: "Test wearers", sourceName: "Test chart", sourceVersion: "v1", sourceScope: "Digital range" },
+      declaredRange: "S to M digital range",
+      baseSizeLabel: "M",
+      sizes: [{ label: "S", position: -1 }, { label: "M", position: 0 }],
+      exceptions: [],
+    }, TIME);
+    if (!configured.ok) throw new Error(configured.errors.join("; "));
+    const reviewed = reviewGradePlan(configured.value, [], v6Binding(headId), V6_NEXT_TIME);
+    if (!reviewed.ok) throw new Error(reviewed.errors.join("; "));
+    return reviewed.value;
+  }
+
+  function v6Approved(headId: string): GradePlanRecord {
+    const reviewed = v6Reviewed(headId);
+    const approved = approveGradePlan(reviewed, [], v6Binding(headId), V6_APPROVE_TIME);
+    if (!approved.ok) throw new Error(approved.errors.join("; "));
+    return approved.value;
+  }
+
+  async function v6DraftPackage(): Promise<{ blob: Blob; archive: Awaited<ReturnType<typeof readProjectPackage>>; capture: MeasurementCaptureRecord; plan: GradePlanRecord }> {
+    const source = bundle();
+    const assets = memoryAssets();
+    assets.records.set(ASSET_ID, {
+      assetId: ASSET_ID, name: "front.png", mimeType: "image/png", blob: new Blob([PNG], { type: "image/png" }),
+    });
+    const custom = v6CustomStyle(source.style);
+    const capture = v6Capture();
+    const seed = await createProjectPackage({ project: source.project, styles: [custom], recoveries: [], measurementCaptures: [capture] }, assets, {
+      crypto, revisionIdFactory: deterministicUuidFactory(),
+    });
+    const seedArchive = await readProjectPackage(seed, { crypto });
+    const head = seedArchive.manifest.styles[0]!.revisionHeadId!;
+    const plan = v6Draft(head);
+    const snapshot: ProjectBundleSnapshot = {
+      project: seedArchive.manifest.project,
+      styles: [...seedArchive.manifest.styles],
+      recoveries: [],
+      fieldObservations: [...seedArchive.manifest.fieldObservations],
+      styleRevisions: [...seedArchive.manifest.styleRevisions],
+      exportManifests: [],
+      measurementCaptures: [capture],
+      gradePlans: [plan],
+    };
+    const blob = await createProjectPackage(snapshot, assets, { crypto });
+    const archive = await readProjectPackage(blob, { crypto });
+    return { blob, archive, capture, plan };
+  }
+
+  async function manifestJson(blob: Blob): Promise<Record<string, unknown>> {
+    const archive = await readProjectPackage(blob, { crypto });
+    const entry = archive.entries.get("manifest.json")!;
+    return JSON.parse(new TextDecoder().decode(await blob.slice(entry.dataOffset, entry.dataOffset + entry.uncompressedSize).arrayBuffer()));
+  }
+
+  it("writes grade plans only as package v6 and keeps v3/v4/v5 bodies unchanged", async () => {
+    const source = bundle();
+    const assets = memoryAssets();
+    assets.records.set(ASSET_ID, {
+      assetId: ASSET_ID, name: "front.png", mimeType: "image/png", blob: new Blob([PNG], { type: "image/png" }),
+    });
+    const options = { crypto, revisionIdFactory: deterministicUuidFactory() };
+    const v3Text = JSON.stringify(await manifestJson(await createProjectPackage({ project: source.project, styles: [source.style], recoveries: [] }, assets, options)));
+    expect(Object.keys(JSON.parse(v3Text))).toEqual(V3_KEYS);
+    expect(JSON.parse(v3Text)).toMatchObject({ packageVersion: PROJECT_PACKAGE_VERSION });
+    const capture = v6Capture();
+    const v4Blob = await createProjectPackage({ project: source.project, styles: [source.style], recoveries: [], measurementCaptures: [capture] }, assets, options);
+    const v4Text = JSON.stringify(await manifestJson(v4Blob));
+    expect(Object.keys(JSON.parse(v4Text))).toEqual([...V3_KEYS.slice(0, -1), "measurementCaptures", "packageSha256"]);
+    expect(JSON.parse(v4Text)).toMatchObject({ packageVersion: PROJECT_PACKAGE_CAPTURE_VERSION });
+    const custom = v6CustomStyle(source.style);
+    const v5Blob = await createProjectPackage({ project: source.project, styles: [custom], recoveries: [], measurementCaptures: [capture] }, assets, options);
+    const v5Text = JSON.stringify(await manifestJson(v5Blob));
+    expect(Object.keys(JSON.parse(v5Text))).toEqual([...V3_KEYS.slice(0, -1), "measurementCaptures", "packageSha256"]);
+    expect(JSON.parse(v5Text)).toMatchObject({ packageVersion: PROJECT_PACKAGE_CUSTOM_STYLE_VERSION });
+    expect(v5Text).not.toContain("gradePlans");
+
+    const { blob, archive, plan } = await v6DraftPackage();
+    const v6Json = await manifestJson(blob);
+    expect(Object.keys(v6Json)).toEqual(V6_KEYS);
+    expect(v6Json).toMatchObject({ packageVersion: PROJECT_PACKAGE_GRADE_PLAN_VERSION });
+    expect(archive.manifest.packageVersion).toBe(PROJECT_PACKAGE_GRADE_PLAN_VERSION);
+    expect(archive.manifest.gradePlans).toEqual([plan]);
+    expect(archive.manifest.measurementCaptures).toHaveLength(1);
+    // Custom-style packages without plans remain v5 with identical keys.
+    expect(v5Text).not.toContain("gradePlans");
+  });
+
+  it("round-trips a draft grade plan through export, import, and re-export without enabling outputs", async () => {
+    const { archive, capture, plan } = await v6DraftPackage();
+    expect(archive.manifest.exportManifests).toEqual([]);
+    expect(archive.frozenManifests).toEqual([]);
+    const target = await repository();
+    const targetAssets = memoryAssets();
+    const imported = await importProjectPackage(target, targetAssets, archive, false, { crypto, now: () => TIME, inspectAsset: inspector });
+    expect(imported).toMatchObject({ status: "imported", projectId: PROJECT_ID, importedAsCopy: false });
+    expect(await target.readGradePlan(STYLE_ID, "tee")).toEqual(plan);
+    expect(await target.readMeasurementCapture(STYLE_ID, "tee")).toEqual(capture);
+    const restored = await target.readProjectBundle(PROJECT_ID);
+    expect(restored?.gradePlans).toEqual([plan]);
+    const reExported = await createProjectPackage(restored!, targetAssets, { crypto });
+    const reloaded = await readProjectPackage(reExported, { crypto });
+    expect(reloaded.manifest.packageVersion).toBe(PROJECT_PACKAGE_GRADE_PLAN_VERSION);
+    expect(reloaded.manifest.gradePlans).toEqual([plan]);
+    expect(reloaded.manifest.exportManifests).toEqual([]);
+  });
+
+  it("rejects malformed, duplicate, foreign, and mismatched grade plans", async () => {
+    const { blob } = await v6DraftPackage();
+    const valid = await readProjectPackage(blob, { crypto });
+    const head = valid.manifest.styles[0]!.revisionHeadId!;
+    const good = valid.manifest.gradePlans![0]!;
+    const cases: Array<{ label: string; mutate: (manifest: Record<string, unknown>) => void }> = [
+      { label: "gradePlans is not an array", mutate: (m) => { m.gradePlans = "x"; } },
+      { label: "missing gradePlans key", mutate: (m) => { delete m.gradePlans; } },
+      { label: "empty gradePlans list", mutate: (m) => { m.gradePlans = []; } },
+      { label: "malformed grade plan", mutate: (m) => { m.gradePlans = [{}]; } },
+      { label: "duplicate grade plans", mutate: (m) => { m.gradePlans = [good, good]; } },
+      { label: "foreign project", mutate: (m) => { m.gradePlans = [{ ...good, projectId: SECOND_PROJECT_ID }]; } },
+      { label: "foreign style", mutate: (m) => { m.gradePlans = [{ ...good, styleId: SECOND_STYLE_ID }]; } },
+      { label: "recipe mismatch", mutate: (m) => { m.gradePlans = [{ ...good, recipeId: "skirt" }]; } },
+      { label: "revision head mismatch", mutate: (m) => { m.gradePlans = [{ ...good, revisionHeadId: "77777777-7777-4777-8777-777777777777" }]; } },
+      { label: "capture revision mismatch", mutate: (m) => { m.gradePlans = [{ ...good, captureRevision: 2 }]; } },
+      { label: "missing capture", mutate: (m) => { m.measurementCaptures = []; } },
+      { label: "gradePlans in a v5 package", mutate: (m) => { m.packageVersion = 5; } },
+      { label: "gradePlans in a v4 package", mutate: (m) => { m.packageVersion = 4; } },
+      { label: "gradePlans in a v3 package", mutate: (m) => { m.packageVersion = 3; delete m.measurementCaptures; delete m.gradePlans; m.gradePlans = [good]; } },
+      { label: "v6 without a custom style", mutate: (m) => {
+        const styles = m.styles as Array<Record<string, unknown>>;
+        styles[0] = { ...styles[0], schemaVersion: STYLE_RECORD_VERSION };
+        delete styles[0]!.sizeMode;
+      } },
+      { label: "v6 capture list is not an array", mutate: (m) => { m.measurementCaptures = "x"; } },
+    ];
+    for (const candidate of cases) {
+      const malformed = await replacePackageManifest(blob, candidate.mutate);
+      await expect(readProjectPackage(malformed, { crypto }), candidate.label).rejects.toMatchObject({ code: "invalid-package" });
+    }
+    // Writer rejects a plan for a legacy (non-custom) style without inventing a version.
+    const source = bundle();
+    const assets = memoryAssets();
+    assets.records.set(ASSET_ID, {
+      assetId: ASSET_ID, name: "front.png", mimeType: "image/png", blob: new Blob([PNG], { type: "image/png" }),
+    });
+    const legacyHead = "88888888-8888-4888-8888-888888888888";
+    const legacyPlan = v6Draft(legacyHead);
+    await expect(createProjectPackage({
+      project: source.project, styles: [source.style], recoveries: [], measurementCaptures: [v6Capture()], gradePlans: [{ ...legacyPlan, revisionHeadId: legacyHead }],
+    }, assets, { crypto })).rejects.toMatchObject({ code: "invalid-package" });
+    expect(head).not.toBe(legacyHead);
+  });
+
+  it("remaps a reviewed plan to a draft copy without carrying approval", async () => {
+    const source = bundle();
+    const assets = memoryAssets();
+    assets.records.set(ASSET_ID, {
+      assetId: ASSET_ID, name: "front.png", mimeType: "image/png", blob: new Blob([PNG], { type: "image/png" }),
+    });
+    const custom = v6CustomStyle(source.style);
+    const capture = v6Capture();
+    const seed = await createProjectPackage({ project: source.project, styles: [custom], recoveries: [], measurementCaptures: [capture] }, assets, {
+      crypto, revisionIdFactory: deterministicUuidFactory(),
+    });
+    const seedArchive = await readProjectPackage(seed, { crypto });
+    const head = seedArchive.manifest.styles[0]!.revisionHeadId!;
+    const approved = v6Approved(head);
+    expect(approved.status).toBe("approved");
+    const snapshot: ProjectBundleSnapshot = {
+      project: seedArchive.manifest.project,
+      styles: [...seedArchive.manifest.styles],
+      recoveries: [],
+      fieldObservations: [...seedArchive.manifest.fieldObservations],
+      styleRevisions: [...seedArchive.manifest.styleRevisions],
+      exportManifests: [],
+      measurementCaptures: [capture],
+      gradePlans: [approved],
+    };
+    const blob = await createProjectPackage(snapshot, assets, { crypto });
+    const archive = await readProjectPackage(blob, { crypto });
+    expect(archive.manifest.gradePlans![0]!.status).toBe("approved");
+
+    // A direct restore preserves the exact identity-bound approval.
+    const directTarget = await repository();
+    const direct = await importProjectPackage(directTarget, memoryAssets(), archive, false, {
+      crypto, now: () => TIME, inspectAsset: inspector,
+    });
+    expect(direct).toMatchObject({ status: "imported", projectId: PROJECT_ID, importedAsCopy: false });
+    expect(await directTarget.readGradePlan(STYLE_ID, "tee")).toEqual(approved);
+
+    // Copy import rebinds identities, preserves rules, and resets approval.
+    const target = await repository();
+    const targetAssets = memoryAssets();
+    const copied = await importProjectPackage(target, targetAssets, archive, true, {
+      crypto, now: () => V6_NEXT_TIME, idFactory: deterministicUuidFactory(), inspectAsset: inspector,
+    });
+    expect(copied).toMatchObject({ status: "imported", importedAsCopy: true });
+    if (copied.status !== "imported") throw new Error("Grade-plan copy did not import.");
+    expect(copied.projectId).not.toBe(PROJECT_ID);
+    const copy = await target.readProjectBundle(copied.projectId);
+    const copyStyleId = copy!.project.styleIds[0]!;
+    expect(copyStyleId).not.toBe(STYLE_ID);
+    const restored = copy!.gradePlans![0]!;
+    expect(restored.projectId).toBe(copied.projectId);
+    expect(restored.styleId).toBe(copyStyleId);
+    expect(restored.revisionHeadId).toBe(copy!.styles[0]!.revisionHeadId);
+    expect(restored.captureRevision).toBe(1);
+    expect(restored.status).toBe("draft");
+    expect(restored.reviewedAt).toBeNull();
+    expect(restored.approvedAt).toBeNull();
+    expect(restored.revision).toBe(1);
+    expect(restored.createdAt).toBe(V6_NEXT_TIME);
+    expect(restored.updatedAt).toBe(V6_NEXT_TIME);
+    expect(restored.sizes).toEqual(approved.sizes);
+    expect(restored.targets).toEqual(approved.targets);
+    expect(restored.basis).toEqual(approved.basis);
+    expect(restored.declaredRange).toEqual(approved.declaredRange);
+    // The source project was never created by the failed direct import.
+    expect(await target.readMeasurementCapture(copyStyleId, "tee")).toMatchObject({ styleId: copyStyleId, projectId: copied.projectId });
+  });
+
+  it("fails closed when a copied grade plan cannot establish a safe rebind", async () => {
+    const { archive } = await v6DraftPackage();
+    const copyWith = async (mutate: (manifest: Record<string, unknown>) => void) => {
+      const mutated: ProjectPackageArchive = {
+        ...archive,
+        manifest: JSON.parse(JSON.stringify(archive.manifest)),
+      };
+      mutate(mutated.manifest as unknown as Record<string, unknown>);
+      const target = await repository();
+      await expect(importProjectPackage(target, memoryAssets(), mutated, true, {
+        crypto, now: () => V6_NEXT_TIME, idFactory: deterministicUuidFactory(), inspectAsset: inspector,
+      })).rejects.toMatchObject({ code: "invalid-package" });
+      expect(await target.readActiveProject()).toBeNull();
+    };
+    await copyWith((m) => { m.gradePlans = [{ ...(m.gradePlans as GradePlanRecord[])[0]!, styleId: SECOND_STYLE_ID }]; });
+    await copyWith((m) => { m.gradePlans = [{ ...(m.gradePlans as GradePlanRecord[])[0]!, revisionHeadId: "77777777-7777-4777-8777-777777777777" }]; });
+    await copyWith((m) => { m.gradePlans = [{ ...(m.gradePlans as GradePlanRecord[])[0]!, recipeId: "skirt" }]; });
+    await copyWith((m) => { m.measurementCaptures = []; });
+    await copyWith((m) => { m.gradePlans = [{ ...(m.gradePlans as GradePlanRecord[])[0]!, captureRevision: 2 }]; });
+    await copyWith((m) => { m.gradePlans = [{ ...(m.gradePlans as GradePlanRecord[])[0]!, sizes: "corrupt" } as unknown as GradePlanRecord]; });
+    // A style head that no longer matches the plan's pinned head fails the rebased comparison.
+    await copyWith((m) => {
+      const styles = m.styles as Array<Record<string, unknown>>;
+      styles[0] = { ...styles[0], revisionHeadId: "99999999-9999-4999-8999-999999999999" };
     });
   });
 });

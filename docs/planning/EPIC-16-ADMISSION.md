@@ -261,3 +261,29 @@ The validated Control Center linked this report as verified evidence and moved
 M02 through Review to Done at board revision 340. Slice 250 may begin M03's strict,
 versioned grade-plan record and review flow; do not infer a grade plan or
 population chart.
+
+## Slice 250 — explicit grade-plan record and review (complete)
+
+Slice 250 begins after M02 completed at board revision 340. Its implementation
+packet is
+`docs/research/epic16/S250-EXPLICIT-GRADE-PLAN-RECORD-AND-REVIEW.md`. The
+packet scopes a versioned, style-bound, user-authored plan with explicit basis,
+base revision, size labels/range, per-measure/POM/control rules, exceptions,
+review/approval state, and invalidation when the base or plan changes. No
+source, population, size label, rule, or increment is supplied by the app.
+
+The separate, Codex-reviewed
+`docs/research/epic16/S250-GRADE-PLAN-DECISION-RECONCILIATION.md` records the
+completed Claude Code and OpenCode read-only audits, contract-derived choices,
+storage and approval boundaries, and S251 risks. No contributor code was
+merged; implementation remains Codex-owned.
+
+Slice 250 is complete; verified evidence is in
+`docs/research/epic16/S250-EXIT.md`. It owns persistence and plan review/
+approval. Slice 251 owns applying an
+approved plan to grade every supported size, reconciling POMs and cutting
+quantities, showing the base-to-size diff, and enabling whole-run outputs. Until
+that integration exists, an approved plan record must not make generated
+graded output appear available. Existing legacy grading and bytes stay
+unchanged. No fit, population, standards-conformity, or physical approval claim
+is authorized.
