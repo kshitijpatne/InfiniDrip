@@ -15,6 +15,14 @@ describe("garmentReport — the tee", () => {
     expect(names).not.toContain("Dart legs equal");
   });
 
+  it("omits the graded-run check only when the caller explicitly has a one-size design", () => {
+    const custom = garmentReport(TEE, STANDARD_M, {}, { includeSizeRun: false });
+    const legacy = garmentReport(TEE, STANDARD_M);
+    expect(custom.checks.map((check) => check.name)).not.toContain("Size run grows in order");
+    expect(custom.ok).toBe(true);
+    expect(legacy.checks.map((check) => check.name)).toContain("Size run grows in order");
+  });
+
   it("fails when the sleeve cap can't be eased into the armhole", () => {
     const r = garmentReport(TEE, { ...STANDARD_M, bicep: 60 });
     expect(r.ok).toBe(false);

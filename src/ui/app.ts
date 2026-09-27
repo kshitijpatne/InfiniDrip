@@ -73,9 +73,16 @@ import {
   tutorialStepForJourneyStep, celebrationMarkup, loadJourneyWithStatus, saveJourney,
 } from "./journey";
 import { ProjectWorkflow } from "./project-workflow";
+import {
+  customStyleCreationErrorMessage,
+  gradedMarkerAvailabilityTitle,
+  materializeCustomSizeDesign,
+  requireMatchingCaptureSession,
+  requireSavedCaptureCopy,
+} from "./custom-size-materialization";
 import { ProjectManager } from "./project-manager";
 import type { LoadedProject } from "./project-repository";
-import type { MeasurementCaptureDraft, RecoveryPayload, SavedDesign } from "./project-records";
+import { isCustomOneSizeStyle, type MeasurementCaptureDraft, type RecoveryPayload, type SavedDesign } from "./project-records";
 import {
   addCaptureReadingForField,
   acceptCapturePreset,
@@ -443,6 +450,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   let journey = journeyLoad.state;
   let measurementRoute: "guided" | "editor" = "editor";
   let measurementCapture: MeasurementCaptureSession | null = null;
+  let customStyleCreatePending = false;
   const captureDrafts = new Map<string, CaptureDraft>();
   let captureAnnouncement: string | null = null;
   let captureIdSequence = 0;
@@ -649,16 +657,24 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     const { ok: _ok, ...design } = result;
     return design;
   };
-  const blankSavedDesign = (): SavedDesign => {
+  const blankSavedDesignForGarment = (
+    blankRecipe: GarmentRecipe = garmentByName(DEFAULT_WORKSPACE.garment),
+  ): SavedDesign => {
     const workspace = {
       ...DEFAULT_WORKSPACE,
-      stretchFabric: defaultStretchFabricForGarment(DEFAULT_WORKSPACE.garment),
+      garment: blankRecipe.name,
+      targetStyle: blankRecipe.styles[0]!.name,
+      stretchFabric: defaultStretchFabricForGarment(blankRecipe.name),
+      exportStep: 0,
+      nestScope: "single" as const,
     };
-    const result = deserialize(serialize(STANDARD_M, DEFAULT_FABRIC, {}, workspace, DEFAULT_APPEARANCE));
+    const result = deserialize(serialize(STANDARD_M, DEFAULT_FABRIC,
+      { [blankRecipe.name]: defaultGarmentOptions(blankRecipe.options ?? []) }, workspace, DEFAULT_APPEARANCE));
     if (!result.ok) throw new Error(`Default style is invalid: ${result.error}`);
     const { ok: _ok, ...design } = result;
     return design;
   };
+  const blankSavedDesign = (): SavedDesign => blankSavedDesignForGarment();
   const copyOptions = (options: GarmentOptionsByRecipe): GarmentOptionsByRecipe =>
     Object.fromEntries(Object.entries(options).map(([name, values]) => [name, { ...values }])) as GarmentOptionsByRecipe;
   const currentRawMeasurements = (): Partial<Record<keyof Measurements, string>> =>
@@ -1087,7 +1103,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     try {
       return !guide(recipe, measurements, recipeOptions()).some((note) => note.level === "warn")
         && materialCompatibilityNote() === null
-        && garmentReport(recipe, measurements, recipeOptions()).ok;
+        && garmentReportForCurrentStyle(recipe).ok;
     } catch {
       return false;
     }
@@ -1272,9 +1288,12 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     checkReviewed,
     exported: journey.exported,
   });
+  const customOneSizeStyle = (): boolean => !!projectWorkflow && isCustomOneSizeStyle(projectWorkflow.snapshot.activeStyle);
+  const garmentReportForCurrentStyle = (checkRecipe: GarmentRecipe) =>
+    garmentReport(checkRecipe, measurements, recipeOptions(), { includeSizeRun: !customOneSizeStyle() });
   const canExport = (): boolean => styleReviewed && checkReviewed
     && baseDesignValid() && semanticSizeReady(exportStep);
-  const canExportRun = (): boolean => styleReviewed && checkReviewed
+  const canExportRun = (): boolean => !customOneSizeStyle() && styleReviewed && checkReviewed
     && baseDesignValid() && semanticRunReady();
   const stageBlocker = (): StageBlocker | undefined => {
     if (journey.step === "start") return undefined;
@@ -1763,7 +1782,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
           : canExport();
       button.disabled = !allowed || needsArtwork;
       button.title = !allowed
-        ? "Review Style and the current digital checks before exporting."
+        ? customOneSizeStyle() && (button.id === "export-techpack" || button.id === "export-projector")
+          ? "Whole-run output is unavailable until you review and approve a grade plan."
+          : "Review Style and the current digital checks before exporting."
         : needsArtwork ? "Add artwork on the Style panel first." : "";
     });
     if (errors.size > 0) {
@@ -1792,7 +1813,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       ? recipeForCurrentOutputs()
       : recipe;
     const sourceCannotDraft = semanticState?.source.status === "failed" && !semanticState.source.baseBlock;
-    const failedChecks: Note[] = sourceCannotDraft ? [] : garmentReport(checkRecipe, measurements, recipeOptions()).checks
+    const failedChecks: Note[] = sourceCannotDraft ? [] : garmentReportForCurrentStyle(checkRecipe).checks
       .filter((check) => !check.ok).map((check) => ({ field: CHECK_FIELDS[check.name], level: "warn", text: `${check.name}: ${check.detail}` }));
     const materialNote = materialCompatibilityNote();
     // Piece frames for surface bounds/coverage checks, at base size. Built
@@ -1824,12 +1845,16 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       view === "fabric" && !previewActive ? "flex" : "none";
     bodyCroquisHost.style.display = view === "body" && !previewActive ? "flex" : "none";
     let canvasContent: string;
-    if (view === "nest") {
+    if (view === "nest" && customOneSizeStyle()) {
+      canvasContent = `<p role="status">A graded nest is unavailable until you review and approve a grade plan. Your selected-size pattern remains available.</p>`;
+    } else if (view === "nest") {
       canvasContent = semanticRunReady()
         ? renderNest(gradeRun(measurements, recipe.grade, recipe.sizes, recipeForCurrentOutputs().draft, recipeOptions()))
         : `<p role="status" data-semantic-output-paused>Graded nesting is paused. Review or rebase the saved edits in Edit.</p>`;
     } else if (view === "fabric") {
-      if (nestScope === "marker" ? !semanticRunReady() : !semanticSizeReady(exportStep)) {
+      if (customOneSizeStyle() && nestScope === "marker") {
+        canvasContent = `<p role="status">A graded fabric marker is unavailable until you review and approve a grade plan. Your selected-size nest remains available.</p>`;
+      } else if (nestScope === "marker" ? !semanticRunReady() : !semanticSizeReady(exportStep)) {
         canvasContent = `<p role="status" data-semantic-output-paused>Fabric nesting is paused. Review or rebase the saved edits in Edit.</p>`;
       } else {
         const outputRecipe = recipeForCurrentOutputs();
@@ -1844,7 +1869,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       const dismissedGuidance = guidanceNotes.filter((note) =>
         note.level === "warn" && note.field !== undefined && ignoredGuidance.has(note.field));
       canvasContent = semanticSizeReady(0)
-        ? checkMarkup(garmentReport(recipeForCurrentOutputs(), measurements, recipeOptions()), valid, dismissedGuidance)
+        ? checkMarkup(garmentReportForCurrentStyle(recipeForCurrentOutputs()), valid, dismissedGuidance, customOneSizeStyle())
         : `<p role="status" data-semantic-output-paused>Checks are paused until the saved edits are valid or explicitly rebased.</p>`;
     } else if (view === "edit") {
       const sourceCannotDraft = semanticState?.source.status === "failed" && !semanticState.source.baseBlock;
@@ -1889,6 +1914,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
             editorHandleControlsMarkup(handles);
         });
       }
+    } else if (view === "spec" && customOneSizeStyle()) {
+      canvasContent = `<p role="status">A graded specification run is unavailable until you review and approve a grade plan. Your selected-size pattern remains available.</p>`;
     } else if (view === "spec") {
       if (!semanticRunReady()) {
         canvasContent = `<p role="status" data-semantic-output-paused>Graded specifications are paused. Review or rebase the saved edits in Edit.</p>`;
@@ -2163,10 +2190,11 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
             session, fieldId, captureUuid(), captureNow(), "Standard M digital preset; not measured wearer data",
           );
           // acceptCapturePreset validates the requested field before returning.
-          const readings = measurementCapture.fields.find((field) => field.fieldId === fieldId)!.readings;
+          const captureField = measurementCapture.fields.find((field) => field.fieldId === fieldId)!;
+          const readings = captureField.readings;
           const selected = readings[readings.length - 1];
           if (selected) {
-            const previous = captureDrafts.get(fieldId) ?? emptyCaptureDraft();
+            const previous = captureDrafts.get(fieldId) ?? emptyCaptureDraft(captureField.unit);
             captureDrafts.set(fieldId, emptyCaptureDraft(previous.unit));
             measurementCapture = selectCaptureReading(measurementCapture, fieldId, selected.id, captureNow());
             captureAnnouncement = "Standard M digital preset selected. It remains labeled as a preset.";
@@ -2214,11 +2242,49 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       if (journey.step === "fit") styleReviewed = true;
       const advance = (): void => setStep(COACHED_STEPS[Math.min(idx + 1, COACHED_STEPS.length - 1)].id);
       if (journey.step === "measure" && measurementRoute === "guided" && projectWorkflow) {
-        void flushCaptureSave().then(advance).catch((error: Error) => {
-          const message = error.message;
+        if (customStyleCreatePending) return;
+        customStyleCreatePending = true;
+        const nextButton = root.querySelector<HTMLButtonElement>("#journey-next");
+        if (nextButton) {
+          nextButton.disabled = true;
+          nextButton.setAttribute("aria-busy", "true");
+        }
+        void (async () => {
+          await flushCaptureSave();
+          measurementCapture = requireMatchingCaptureSession(measurementCapture, recipe.name);
+          const seed = blankSavedDesignForGarment(recipe);
+          const design = materializeCustomSizeDesign(seed, measurementCapture);
+          const label = recipe.label;
+          const existingNames = new Set(projectWorkflow.snapshot.styles.map((style) => style.name.toLocaleLowerCase()));
+          let name = `Custom ${label}`;
+          for (let suffix = 2; existingNames.has(name.toLocaleLowerCase()); suffix++) name = `Custom ${label} ${suffix}`;
+          const loaded = await projectWorkflow.createCustomSizeStyle(name, design);
+          const savedCapture = requireSavedCaptureCopy(await projectWorkflow.loadMeasurementCapture(recipe.name));
+          measurementCapture = savedCapture.session;
+          captureDrafts.clear();
+          for (const draft of savedCapture.drafts) captureDrafts.set(draft.fieldId, {
+            rawValue: draft.rawValue, unit: draft.enteredUnit, error: null, sourceNote: draft.sourceNote,
+            method: draft.captureMethod, captureDate: draft.captureDate, measurer: draft.measurer,
+          });
+          measurementRoute = "editor";
+          captureSaveError = null;
+          applyLoaded(loaded.activeStyle.design, null, false);
+          projectManager?.refresh("Custom one-size style created and saved.");
+          projectPersistenceState.textContent = "Custom one-size style saved · selected-size pattern outputs are available";
+          projectPersistenceState.dataset.state = "saved";
+          advance();
+        })().catch((error: unknown) => {
+          const message = customStyleCreationErrorMessage(error);
           projectPersistenceState.textContent = message;
           projectPersistenceState.dataset.state = "failed";
           flash(message, BLUEPRINT.lineActive);
+        }).finally(() => {
+          customStyleCreatePending = false;
+          const currentNext = root.querySelector<HTMLButtonElement>("#journey-next");
+          if (currentNext) {
+            currentNext.disabled = false;
+            currentNext.removeAttribute("aria-busy");
+          }
         });
       } else {
         advance();
@@ -2830,6 +2896,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   });
 
   const setGarment = (name: string): void => {
+    if (customOneSizeStyle() && name !== recipe.name) {
+      flash("This custom one-size style keeps its garment. Create another style to design a different garment.", BLUEPRINT.lineActive);
+      return;
+    }
     if (projectWorkflow && name !== recipe.name && (captureSaveError !== null
       || captureSaveTimer !== null || captureWritesPending > 0)) {
       void flushCaptureSave().then(() => setGarment(name)).catch((error: Error) => {
@@ -2902,6 +2972,14 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     root.querySelector<HTMLButtonElement>(`#garment-${g.name}`)!
       .addEventListener("click", () => setGarment(g.name));
   });
+  const syncGarmentChoices = (): void => {
+    GARMENTS.forEach((g) => {
+      const button = root.querySelector<HTMLButtonElement>(`#garment-${g.name}`)!;
+      button.disabled = customOneSizeStyle() && g.name !== recipe.name;
+      button.title = button.disabled ? "Create another style to design a different garment." : "";
+    });
+  };
+  syncGarmentChoices();
 
   const widthInput = root.querySelector<HTMLInputElement>("#fabric-width")!;
   widthInput.addEventListener("input", () => {
@@ -2915,16 +2993,26 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
 
   const single = root.querySelector<HTMLButtonElement>("#nest-single")!;
   const marker = root.querySelector<HTMLButtonElement>("#nest-marker")!;  const setScope = (s: "single" | "marker"): void => {
+    if (s === "marker" && customOneSizeStyle()) {
+      flash("Graded Marker is unavailable until you review and approve a grade plan.", BLUEPRINT.lineActive);
+      return;
+    }
     nestScope = s;
     markOutputDirty(false);
     single.style.background = s === "single" ? BLUEPRINT.lineActive : "transparent";
     single.style.color = s === "single" ? BLUEPRINT.background : BLUEPRINT.label;
     single.setAttribute("aria-pressed", String(s === "single"));
     marker.style.background = s === "marker" ? BLUEPRINT.lineActive : "transparent";
+    marker.disabled = customOneSizeStyle();
+    marker.title = gradedMarkerAvailabilityTitle(customOneSizeStyle());
     marker.style.color = s === "marker" ? BLUEPRINT.background : BLUEPRINT.label;
     marker.setAttribute("aria-pressed", String(s === "marker"));
     draw();
   };
+  marker.disabled = customOneSizeStyle();
+  marker.title = customOneSizeStyle()
+    ? "Graded Marker is unavailable until you review and approve a grade plan."
+    : "Nest every graded size";
   single.addEventListener("click", () => setScope("single"));
   marker.addEventListener("click", () => setScope("marker"));
 
@@ -3802,11 +3890,12 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   const exportSizeEl = root.querySelector<HTMLSelectElement>("#export-size")!;
   const syncNestSelectedSize = (): void => {
     const label = root.querySelector<HTMLElement>("#nest-selected-size");
-    label!.textContent = selectedSizeLabel(recipe.sizes, exportStep);
+    label!.textContent = customOneSizeStyle() ? "One size" : selectedSizeLabel(recipe.sizes, exportStep);
   };
   const syncExportSizes = (): void => {
     if (!recipe.sizes.some((s) => s.step === exportStep)) exportStep = 0;
-    exportSizeEl.replaceChildren(...recipe.sizes.map((size) => new Option(size.label, String(size.step))));
+    const sizes = customOneSizeStyle() ? [{ step: 0, label: "One size" }] : recipe.sizes;
+    exportSizeEl.replaceChildren(...sizes.map((size) => new Option(size.label, String(size.step))));
     exportSizeEl.value = String(exportStep);
     syncNestSelectedSize();
   };
@@ -3819,7 +3908,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   // exportStep always comes from the picker, which is populated from recipe.sizes,
   // so the step is guaranteed to resolve to a real size.
   const exportSizeLabel = (): string =>
-    selectedSizeLabel(recipe.sizes, exportStep);
+    customOneSizeStyle() ? "One size" : selectedSizeLabel(recipe.sizes, exportStep);
   const exportPieces = (): Piece[] => {
     const drafted = semanticEdits === null
       ? draftAtSize(measurements, recipe.grade, exportStep, recipe.draft, recipeOptions())
@@ -3875,6 +3964,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     exportStep = loaded.workspace.exportStep;
     fabricWidth = loaded.workspace.fabricWidth;
     nestScope = loaded.workspace.nestScope;
+    if (customOneSizeStyle()) nestScope = "single";
     nestBufferRaw = String(loaded.nestingIntelligence.bufferPct);
     nestAvailableRaw = loaded.nestingIntelligence.availableLengthCm === null
       ? "" : String(loaded.nestingIntelligence.availableLengthCm);
@@ -3885,6 +3975,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     celebrating = false;
     persistJourney();
     syncWorkspace(true);
+    syncGarmentChoices();
     historyRestoring = false;
     savedRevision = outputRevision;
     history = emptyHistory();
@@ -4009,7 +4100,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     };
     const id = buttonId[kind];
     if (!id) return;
-    const wholeRun = kind === "techpack" || kind === "projector";
+    const wholeRun = kind === "techpack" || kind === "projector" || kind === "marker";
     if (wholeRun ? !canExportRun() : !canExport()) {
       setStep("refine");
       flash("Review Style and the current digital checks before exporting.", BLUEPRINT.lineActive);
@@ -4206,6 +4297,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     celebrating = false;
     persistJourney();
     syncWorkspace(true);
+    syncGarmentChoices();
+    marker.disabled = customOneSizeStyle();
+    marker.title = gradedMarkerAvailabilityTitle(customOneSizeStyle());
     applyRawDraft(file.rawMeasurements, file.rawOptions);
     historyRestoring = false;
     pendingRecovery = null;
@@ -4308,9 +4402,12 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         || captureSaveTimer !== null || captureWritesPending > 0,
       artworkStore: artworkAssetStore,
       inspectAsset: artworkInspector,
-      canFreezeOutputs: () => canExport() && canExportRun() && styleReviewed && checkReviewed && baseDesignValid(),
+      canFreezeOutputs: () => !customOneSizeStyle() && canExport() && styleReviewed && checkReviewed && baseDesignValid(),
+      getFreezeBlocker: () => customOneSizeStyle()
+        ? "Whole-run output captures are unavailable until you review and approve a grade plan."
+        : null,
       getFrozenOutputSet: () => {
-        if (!canExport() || !canExportRun() || !styleReviewed || !checkReviewed || !baseDesignValid()) return null;
+        if (customOneSizeStyle() || !canExport() || !styleReviewed || !checkReviewed || !baseDesignValid()) return null;
         const label = exportSizeLabel();
         const pieces = exportPieces();
         const allowances = currentAllowances();

@@ -92,6 +92,29 @@ Narrow and desktop browser checks cover the guided route, keyboard activation,
 accessible field semantics, and WCAG 2.1 A/AA axe rules. A project created by
 the first-run bootstrap does not count as the user's decision to leave Garment.
 
+### Custom one-size materialization (G03/M02)
+
+A completed guided session materializes into a separate custom one-size style;
+it does not repurpose the starter style. Creation uses a clean recipe-specific
+seed, overlays exactly the selected measurement and option readings, records
+their existing provenance, and locks the style to that recipe. Because
+SaveFile v6 requires the full shared measurement object, fields outside the
+recipe receive the fixed `STANDARD_M` schema-only baseline. They are not
+capture observations, are not copied from another style, and are not consumed
+by the locked recipe. The source style and capture remain intact; the new style,
+initial field history/revision, and a new capture-session identity are saved in
+one IndexedDB bundle transaction. Reload and style switching resolve captures
+by both style and recipe.
+
+Without an explicitly approved grade plan, a custom one-size style exposes its
+step-zero pattern files under the label “One size”. Whole-run Tech Pack,
+Projector and Marker outputs, graded specs/nesting, and their frozen capture
+entries remain unavailable. Legacy styles retain their previous output gates
+and protected byte identities. The Check view validates the selected draft,
+omits graded-run checks, and states that whole-run outputs require an approved
+plan; it does not imply an XS–XL run. This is digital customization only; no
+physical fit or population grade is implied.
+
 Pattern pieces are created from measurements and selected options. The app
 does not draw a separate, unrelated design for each screen or file. Most areas
 show or check the same current draft:

@@ -3,7 +3,11 @@ import { STANDARD_M } from "../drafting";
 import { DEFAULT_APPEARANCE } from "./appearance";
 import { DEFAULT_WORKSPACE, serialize, serializeRecovery } from "./persist";
 import {
+  CUSTOM_ONE_SIZE_MODE,
+  CUSTOM_STYLE_RECORD_VERSION,
   MEASUREMENT_CAPTURE_RECORD_VERSION,
+  STYLE_RECORD_VERSION,
+  isCustomOneSizeStyle,
   isMeasurementCaptureSessionSuccessor,
   migrateLegacyRecovery,
   migrateLegacySaveFile,
@@ -226,6 +230,70 @@ describe("strict project and style records", () => {
       ok: true,
       value: { schemaVersion: 4, revisionHeadId: null, design: { semanticEdits: style.design.semanticEdits } },
     });
+  });
+
+  it("keeps custom one-size style schema v5 exact and legacy v1–v4 styles free of a size mode", () => {
+    const style = validStyle();
+    expect(style.schemaVersion).toBe(STYLE_RECORD_VERSION);
+    expect(style).not.toHaveProperty("sizeMode");
+    const custom: Record<string, unknown> = { ...style, schemaVersion: CUSTOM_STYLE_RECORD_VERSION, sizeMode: CUSTOM_ONE_SIZE_MODE };
+    const parsed = parseStyleRecord(custom);
+    expect(parsed).toEqual({ ok: true, value: custom });
+    if (!parsed.ok) throw new Error(parsed.error);
+    expect(Object.keys(parsed.value)).toEqual(Object.keys(custom));
+    expect(isCustomOneSizeStyle(parsed.value)).toBe(true);
+    // A JSON round trip keeps the version and size mode exactly.
+    expect(parseStyleRecord(JSON.parse(JSON.stringify(parsed.value)))).toEqual({ ok: true, value: custom });
+    const revisionHeadId = "11111111-1111-4111-8111-111111111111";
+    expect(parseStyleRecord({ ...custom, revisionHeadId, archivedAt: TIME })).toEqual({
+      ok: true, value: { ...custom, revisionHeadId, archivedAt: TIME },
+    });
+    expect(validateProjectBundle(validProject(), [custom])).toMatchObject({ ok: true, value: { styles: [custom] } });
+
+    // Legacy records keep their normalized v4 shape and are never upgraded to a custom style.
+    const legacy = parseStyleRecord(style);
+    expect(legacy).toEqual({ ok: true, value: style });
+    if (!legacy.ok) throw new Error(legacy.error);
+    expect(isCustomOneSizeStyle(legacy.value)).toBe(false);
+    const { semanticEdits: _semanticEdits, ...legacyDesign } = style.design;
+    const { revisionHeadId: _head, archivedAt: _archived, ...v1Fields } = style;
+    const { revisionHeadId: _v3Head, ...v3Fields } = style;
+    for (const input of [
+      { ...v1Fields, schemaVersion: 1, design: legacyDesign },
+      { ...v3Fields, schemaVersion: 2, design: legacyDesign },
+      { ...v3Fields, schemaVersion: 3 },
+    ]) {
+      const upgraded = parseStyleRecord(input);
+      expect(upgraded).toMatchObject({ ok: true, value: { schemaVersion: STYLE_RECORD_VERSION } });
+      expect(upgraded.ok && Object.keys(upgraded.value).sort()).toEqual(Object.keys(style).sort());
+    }
+
+    const { sizeMode: _sizeMode, ...missingMode } = custom;
+    const markerOnLegacy = "Only style schema v5 custom one-size records may declare a size mode.";
+    const wrongMode = `Style schema v5 size mode must be exactly "${CUSTOM_ONE_SIZE_MODE}".`;
+    const invalid: ReadonlyArray<{ value: unknown; error?: string }> = [
+      { value: missingMode, error: "Style record fields are incomplete or unknown." },
+      { value: { ...custom, sizeMode: "graded" }, error: wrongMode },
+      { value: { ...custom, sizeMode: "Custom-One-Size" }, error: wrongMode },
+      { value: { ...custom, sizeMode: "" }, error: wrongMode },
+      { value: { ...custom, sizeMode: null }, error: wrongMode },
+      { value: { ...custom, sizeMode: [CUSTOM_ONE_SIZE_MODE] }, error: wrongMode },
+      { value: { ...custom, extra: true }, error: "Style record fields are incomplete or unknown." },
+      { value: { ...custom, revisionHeadId: "not-a-revision-id" } },
+      { value: { ...custom, archivedAt: "not-a-time" } },
+      { value: { ...custom, recipeId: "polo" } },
+      { value: { ...custom, design: legacyDesign } },
+      { value: { ...style, sizeMode: CUSTOM_ONE_SIZE_MODE }, error: markerOnLegacy },
+      { value: { ...style, sizeMode: undefined }, error: markerOnLegacy },
+      { value: { ...v3Fields, schemaVersion: 3, sizeMode: CUSTOM_ONE_SIZE_MODE }, error: markerOnLegacy },
+      { value: { ...v1Fields, schemaVersion: 1, design: legacyDesign, sizeMode: CUSTOM_ONE_SIZE_MODE }, error: markerOnLegacy },
+      { value: { ...custom, schemaVersion: 6 }, error: "Unsupported style record schema version." },
+    ];
+    for (const candidate of invalid) {
+      const result = parseStyleRecord(candidate.value);
+      expect(result.ok).toBe(false);
+      if (candidate.error && !result.ok) expect(result.error).toBe(candidate.error);
+    }
   });
 
   it("validates per-style recovery records and legacy recovery without altering unfinished raw input", () => {

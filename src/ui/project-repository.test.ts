@@ -1,14 +1,16 @@
 import { webcrypto as nodeWebcrypto } from "node:crypto";
 import { IDBFactory, IDBObjectStore, IDBTransaction } from "fake-indexeddb";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { STANDARD_M } from "../drafting";
+import { GARMENTS, STANDARD_M, defaultGarmentOptions } from "../drafting";
 import { DEFAULT_APPEARANCE } from "./appearance";
 import { DEFAULT_WORKSPACE, serialize, serializeRecovery } from "./persist";
 import {
   MEASUREMENT_CAPTURE_RECORD_VERSION,
+  isCustomOneSizeStyle,
   migrateLegacyRecovery,
   migrateLegacySaveFile,
   parseStyleRecord,
+  type CustomOneSizeStyleRecord,
   type MeasurementCaptureRecord,
   type ProjectRecord,
   type RecoveryRecord,
@@ -62,6 +64,26 @@ function newBundle(projectId = PROJECT_ID, styleId = STYLE_ID): { project: Proje
   });
   if (!result.ok) throw new Error(result.error);
   return result.value;
+}
+
+function newRecipeBundle(recipeId: string, projectId = PROJECT_ID, styleId = STYLE_ID): { project: ProjectRecord; style: StyleRecord } {
+  const recipe = GARMENTS.find((candidate) => candidate.name === recipeId);
+  if (!recipe) throw new Error(`Unknown test recipe: ${recipeId}`);
+  const workspace = { ...DEFAULT_WORKSPACE, garment: recipe.name, targetStyle: recipe.styles[0]!.name };
+  const result = migrateLegacySaveFile({
+    json: serialize(STANDARD_M, FABRIC, { [recipe.name]: defaultGarmentOptions(recipe.options ?? []) }, workspace),
+    projectId,
+    styleId,
+    migratedAt: TIME,
+  });
+  if (!result.ok) throw new Error(result.error);
+  return result.value;
+}
+
+function customOneSizeStyle(style: StyleRecord): CustomOneSizeStyleRecord {
+  const parsed = parseStyleRecord({ ...style, schemaVersion: 5, sizeMode: "custom-one-size" });
+  if (!parsed.ok || !isCustomOneSizeStyle(parsed.value)) throw new Error("Custom style fixture is invalid.");
+  return parsed.value;
 }
 
 function recovery(styleId = STYLE_ID): RecoveryRecord {
@@ -2942,6 +2964,23 @@ describe("G03 measurement capture persistence", () => {
       await repository.importProjectBundle({ ...base, measurementCaptures: [imported] });
       expect(await repository.readMeasurementCapture(OTHER_STYLE_ID, "tee")).toEqual(imported);
       expect((await repository.readProjectBundle(OTHER_PROJECT_ID))?.measurementCaptures).toEqual([imported]);
+
+      const customStyle = customOneSizeStyle(incoming.style);
+      const customBase = { ...base, styles: [customStyle] };
+      await expect(repository.importProjectBundle({ ...customBase, measurementCaptures: [] }))
+        .rejects.toMatchObject({ code: "invalid-data", message: expect.stringContaining("matching measurement capture") });
+      const customCapture = captureRecord({
+        projectId: OTHER_PROJECT_ID,
+        styleId: OTHER_STYLE_ID,
+        session: captureSession(OTHER_STYLE_ID),
+      });
+      await repository.importProjectBundle({ ...customBase, measurementCaptures: [customCapture] });
+      expect(await repository.readMeasurementCapture(OTHER_STYLE_ID, "tee")).toMatchObject({
+        projectId: OTHER_PROJECT_ID,
+        styleId: OTHER_STYLE_ID,
+        recipeId: "tee",
+        session: { styleId: OTHER_STYLE_ID, revision: 1 },
+      });
     } finally {
       repository.close();
     }
@@ -2995,5 +3034,219 @@ describe("G03 measurement capture persistence", () => {
     const incompleteName = databaseName();
     await createVersionSixDatabase(factory, incompleteName, {}, false, PROJECT_DATABASE_VERSION);
     await rejectionCode(openProjectRepository({ name: incompleteName, factory, crypto: webcrypto }), "unsupported-version");
+  });
+
+  it("saves a new style and its recipe-matched capture atomically with the bundle", async () => {
+    const factory = newFactory();
+    const repository = await openProjectRepository({ name: databaseName(), factory, crypto: webcrypto });
+    try {
+      const bundle = newBundle();
+      const created = captureRecord({ session: withCaptureReading(captureSession()) });
+      await repository.saveProjectBundle({
+        project: bundle.project,
+        styles: [bundle.style],
+        measurementCaptures: [created],
+        expectedProjectRevision: null,
+      });
+      expect(await repository.readMeasurementCapture(STYLE_ID, "tee")).toEqual(created);
+      const snapshot = await repository.readProjectBundle(PROJECT_ID);
+      expect(snapshot?.styles).toEqual([bundle.style]);
+      expect(snapshot?.measurementCaptures).toEqual([created]);
+
+      const secondStyle = newBundle(PROJECT_ID, SECOND_STYLE_ID).style;
+      const secondCapture = captureRecord({
+        session: captureSession(SECOND_STYLE_ID),
+        styleId: SECOND_STYLE_ID,
+      });
+      const current = await repository.readProjectBundle(PROJECT_ID);
+      if (!current) throw new Error("Created project disappeared.");
+      await repository.saveProjectBundle({
+        project: { ...current.project, styleIds: [STYLE_ID, SECOND_STYLE_ID], revision: 2, updatedAt: NEXT_TIME },
+        styles: [current.styles[0]!, secondStyle],
+        measurementCaptures: [secondCapture],
+        expectedProjectRevision: 1,
+      });
+      const expanded = await repository.readProjectBundle(PROJECT_ID);
+      expect(expanded?.styles.map((style) => style.id).sort()).toEqual([SECOND_STYLE_ID, STYLE_ID].sort());
+      expect(expanded?.measurementCaptures).toEqual([created, secondCapture]);
+      expect(await repository.readMeasurementCapture(SECOND_STYLE_ID, "tee")).toEqual(secondCapture);
+
+      const preserved = await repository.readProjectBundle(PROJECT_ID);
+      if (!preserved) throw new Error("Expanded project disappeared.");
+      await repository.saveProjectBundle({
+        project: { ...preserved.project, revision: 3, updatedAt: "2026-09-24T16:00:02.000Z" },
+        styles: preserved.styles,
+        expectedProjectRevision: 2,
+      });
+      expect((await repository.readProjectBundle(PROJECT_ID))?.measurementCaptures).toEqual([created, secondCapture]);
+    } finally {
+      repository.close();
+    }
+  });
+
+  it("requires and preserves a custom style's matching capture and locks its recipe", async () => {
+    const factory = newFactory();
+    const repository = await openProjectRepository({ name: databaseName(), factory, crypto: webcrypto });
+    try {
+      const bundle = newBundle();
+      const customStyle = customOneSizeStyle(bundle.style);
+      await rejectionCode(repository.saveProjectBundle({
+        project: bundle.project,
+        styles: [customStyle],
+        expectedProjectRevision: null,
+      }), "invalid-data");
+
+      const matchingCapture = captureRecord({ session: withCaptureReading(captureSession()) });
+      await repository.saveProjectBundle({
+        project: bundle.project,
+        styles: [customStyle],
+        measurementCaptures: [matchingCapture],
+        expectedProjectRevision: null,
+      });
+      const stored = await repository.readProjectBundle(PROJECT_ID);
+      if (!stored) throw new Error("Custom project disappeared after its atomic save.");
+      await repository.saveProjectBundle({
+        project: { ...stored.project, revision: 2, updatedAt: NEXT_TIME },
+        styles: stored.styles,
+        expectedProjectRevision: 1,
+      });
+      expect((await repository.readProjectBundle(PROJECT_ID))?.measurementCaptures).toEqual([matchingCapture]);
+
+      const alternate = newRecipeBundle("skirt");
+      const changedRecipe = {
+        ...customStyle,
+        recipeId: alternate.style.recipeId,
+        recipePresetId: alternate.style.recipePresetId,
+        design: alternate.style.design,
+      };
+      const changedRecipeCapture = captureRecord({
+        recipeId: "skirt",
+        session: captureSession(STYLE_ID, "skirt"),
+      });
+      const recipeChange = repository.saveProjectBundle({
+        project: { ...stored.project, revision: 3, updatedAt: "2026-09-24T16:00:02.000Z" },
+        styles: [changedRecipe],
+        measurementCaptures: [changedRecipeCapture],
+        expectedProjectRevision: 2,
+      });
+      const recipeError = await recipeChange.then(() => null, (error: unknown) => error);
+      expect(recipeError).toMatchObject({ code: "invalid-data" });
+      expect(recipeError).toBeInstanceOf(Error);
+      expect((recipeError as Error).message).toContain("A custom one-size style cannot change its recipe.");
+    } finally {
+      repository.close();
+    }
+  });
+
+  it("rejects invalid, foreign, mismatched, and duplicate captures without saving the bundle", async () => {
+    const bundle = newBundle();
+    const created = captureRecord();
+    const mismatchedSession = { ...created, session: captureSession(OTHER_STYLE_ID) };
+    const skirtCapture = captureRecord({ recipeId: "skirt", session: captureSession(STYLE_ID, "skirt") });
+    const revisedCapture = captureRecord({ revision: 2, updatedAt: NEXT_TIME });
+    const cases: Array<{ label: string; input: Record<string, unknown>; message: string }> = [
+      {
+        label: "capture list is not an array",
+        input: { measurementCaptures: "not-a-list" },
+        message: "must be a list",
+      },
+      {
+        label: "malformed capture record",
+        input: { measurementCaptures: [{}] },
+        message: "incomplete or unknown",
+      },
+      {
+        label: "foreign project ID",
+        input: { measurementCaptures: [{ ...created, projectId: OTHER_PROJECT_ID }] },
+        message: "must belong to a style",
+      },
+      {
+        label: "foreign style ID",
+        input: { measurementCaptures: [captureRecord({ styleId: SECOND_STYLE_ID, session: captureSession(SECOND_STYLE_ID) })] },
+        message: "must belong to a style",
+      },
+      {
+        label: "duplicate captures in one bundle",
+        input: { measurementCaptures: [created, created] },
+        message: "duplicate capture sessions",
+      },
+      {
+        label: "mismatched session identity",
+        input: { measurementCaptures: [mismatchedSession] },
+        message: "does not belong",
+      },
+      {
+        label: "recipe mismatch with the style",
+        input: { measurementCaptures: [skirtCapture] },
+        message: "must match its style recipe",
+      },
+      {
+        label: "non-initial revision for a new session",
+        input: { measurementCaptures: [revisedCapture] },
+        message: "must be 1 for creation",
+      },
+    ];
+    for (const { label, input, message } of cases) {
+      const repository = await openProjectRepository({ name: databaseName(), factory: newFactory(), crypto: webcrypto });
+      try {
+        await expect(repository.saveProjectBundle({
+          project: bundle.project,
+          styles: [bundle.style],
+          ...input as { measurementCaptures: MeasurementCaptureRecord[] },
+          expectedProjectRevision: null,
+        }), label).rejects.toMatchObject({ code: "invalid-data", message: expect.stringContaining(message) });
+        await expect(repository.readProjectBundle(PROJECT_ID), label).resolves.toBeNull();
+        await rejectionCode(repository.readMeasurementCapture(STYLE_ID, "tee"), "not-found");
+      } finally {
+        repository.close();
+      }
+    }
+
+    const archivedMatch = await openProjectRepository({ name: databaseName(), factory: newFactory(), crypto: webcrypto });
+    try {
+      const first = newBundle();
+      const second = newBundle(PROJECT_ID, OTHER_STYLE_ID);
+      const archivedOther = { ...second.style, archivedAt: NEXT_TIME, revision: 2, updatedAt: NEXT_TIME };
+      const archivedOtherCapture = captureRecord({
+        session: captureSession(OTHER_STYLE_ID),
+        styleId: OTHER_STYLE_ID,
+      });
+      await expect(archivedMatch.saveProjectBundle({
+        project: { ...first.project, styleIds: [STYLE_ID, OTHER_STYLE_ID] },
+        styles: [first.style, archivedOther],
+        measurementCaptures: [archivedOtherCapture],
+        expectedProjectRevision: null,
+      })).rejects.toMatchObject({ code: "invalid-data", message: expect.stringContaining("read-only") });
+      await expect(archivedMatch.readProjectBundle(PROJECT_ID)).resolves.toBeNull();
+    } finally {
+      archivedMatch.close();
+    }
+  });
+
+  it("rejects a stored duplicate capture without advancing the saved bundle", async () => {
+    const factory = newFactory();
+    const repository = await openProjectRepository({ name: databaseName(), factory, crypto: webcrypto });
+    try {
+      const bundle = newBundle();
+      const created = captureRecord();
+      await repository.saveProjectBundle({
+        project: bundle.project,
+        styles: [bundle.style],
+        measurementCaptures: [created],
+        expectedProjectRevision: null,
+      });
+      await expect(repository.saveProjectBundle({
+        project: { ...bundle.project, revision: 2, updatedAt: NEXT_TIME },
+        styles: [bundle.style],
+        measurementCaptures: [created],
+        expectedProjectRevision: 1,
+      })).rejects.toMatchObject({ code: "invalid-data", message: expect.stringContaining("duplicate capture sessions") });
+      const snapshot = await repository.readProjectBundle(PROJECT_ID);
+      expect(snapshot?.project.revision).toBe(1);
+      expect(snapshot?.measurementCaptures).toEqual([created]);
+      expect(await repository.readMeasurementCapture(STYLE_ID, "tee")).toEqual(created);
+    } finally {
+      repository.close();
+    }
   });
 });

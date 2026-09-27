@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: EPIC-16/G03 Slice 247 complete, 2026-09-26._
+_Last updated: EPIC-16/G03 Slice 248 complete; Slice 249 next, 2026-09-26._
 Current directive: EPIC-14/G01 and EPIC-15/G02 are closed with accepted exit
 evidence. The maintainer admitted EPIC-16/G03 at Slice 244 from `origin/main`
 Slice 242, preserving the local Slice 243 manual-quality findings in its
@@ -9,12 +9,16 @@ reviewed branch. The linked execution contract is
 ordered scope. G03 is local-first and digital; no body-capture procedure is
 presented as qualified without accepted sourcing/review, and no physical-fit
 claim is authorized. The validated Control Center records EPIC-16 as In
-Progress with M01 Done and M02, M03, and final-review work cards still in
-Backlog at board revision 333. Slice 247 completed M01's durable resume,
-conflict, narrow-layout, accessibility, and all-recipe exits. Slice 248 may
-begin M02; its one-size and recipe-parity boundaries remain explicit. The
-admission and implementation boundaries are recorded below and in
-`docs/research/epic16/S247-M01-VALIDATION-EXIT.md`.
+Progress with M01 Done, M02 In Progress, and M03 and final-review cards still
+in Backlog at board revision 337. Slice 247 completed M01's durable resume,
+conflict, narrow-layout, accessibility, and all-recipe exits. Slice 248
+completed deterministic custom one-size materialization, persistence, and
+resume through the full editor. Slice 249 owns seven-recipe geometry/options,
+POM, selected-size export parity, and actual-output comparison. The maintainer
+confirmed that whole-run Tech Pack, Projector, and Marker outputs stay withheld
+until a grade plan is approved. The admitted boundaries are recorded in
+`docs/planning/EPIC-16-ADMISSION.md` and
+`docs/PROJECT-DECISIONS.md`.
 G02's F01, F02, F03, and final review are Done. PR #11 merged the
 reviewed Slice 240 head as `e5155e82dbd21cda5b3f537b950eb4c32a22d215`; Slices
 204, 205, and 240 are verified ancestors of `origin/main`. The S240 review
@@ -25,11 +29,21 @@ and Axe checks at 320, 390, and 1440 CSS pixels. The exact review evidence is
 `docs/release/EPIC-15-G02-FINAL-REVIEW-S240.md`; the merged-exit record is
 `docs/release/EPIC-15-G02-MERGE-EXIT-S241.md`.
 
-The canonical Control Center is at revision 333: the EPIC-15 summary and final
+The canonical Control Center is at revision 337: the EPIC-15 summary and final
 review work items are Done, and the EPIC-15 record is Closed with verified
 S241 exit-report evidence. EPIC-16/G03 is In Progress, its M01 card is Done
-with verified Slice 247 exit evidence, and its M02, M03 and final-review cards
-remain Backlog. EPIC-17 through EPIC-30 (G04–G17) remain Backlog, including
+with verified Slice 247 exit evidence, its M02 card is In Progress, and M03
+and final-review remain Backlog. Slice 248 exit verification passed 546/546
+test suites and 1,919/1,919 tests at 100% statement, branch, function, and line
+coverage; `npm run build`; and the 33/33 Control Center gate. The built browser
+preview proved custom Check omits the misleading five-size graded-run claim,
+shows the explicit grade-plan gate, offers a single `One size` selector, keeps
+SVG/DXF/PDF/A0 enabled, and disables whole-run Tech Pack and Projector with a
+grade-plan reason. One-size Marker/freeze fail closed; no frozen manifest is
+created. The preview was isolated on `localhost:4176`; the user's `4173` tab
+was left untouched. Narrow-layout and accessibility cases passed in the
+automated suite; the in-app preview did not expose viewport resizing. All eight
+protected export identities passed. EPIC-17 through EPIC-30 (G04–G17) remain Backlog, including
 G17. Phase 9 remains accepted and closed. G02 completed on
 2026-09-26, ahead of the board's revised conditional S240 target of
 2026-10-02; downstream dates remain conditional forecasts and no later work is
@@ -4470,7 +4484,8 @@ passed; `npm run control-center:test` passed 33/33; and the production-browser
 verification passed. All eight protected export identity baselines remain
 unchanged. The validated Control Center advanced EPIC16-M01 through Review to
 Done at revision 333 with source, coverage, build, browser and exit-report
-evidence; EPIC16-M02 remains Backlog. No grade rule, new recipe, output baseline,
-physical-fit claim or wider UI redesign was added. Next: Slice 248 begins M02
-one-size creation from explicitly resolved values through the G02 project and
-drafting path.
+evidence. Slice 248 completed M02 one-size creation from explicitly resolved
+capture values through the G02 project and drafting path. No grade rule, new
+recipe, output baseline, physical-fit claim or wider UI redesign was added.
+Next: Slice 249 proves geometry, options, POM, and selected-size output parity
+for all seven recipes while preserving the approved whole-run gate.

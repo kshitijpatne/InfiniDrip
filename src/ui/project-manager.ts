@@ -27,6 +27,7 @@ export interface ProjectManagerOptions {
   readonly inspectAsset?: (file: File) => Promise<InspectedArtworkFile>;
   readonly savePackage?: (filename: string, blob: Blob) => Promise<boolean>;
   readonly canFreezeOutputs?: () => boolean;
+  readonly getFreezeBlocker?: () => string | null;
   readonly getFrozenOutputSet?: () => {
     readonly artifacts: readonly FrozenArtifactInput[];
     readonly selectedSizes: readonly { readonly sizeId: string; readonly label: string }[];
@@ -201,10 +202,11 @@ export class ProjectManager {
     ).join("")}</ol>` : `<p>No frozen output captures.</p>`;
     const hasUnsavedChanges = this.options.hasUnsavedChanges();
     const outputsReady = this.options.canFreezeOutputs?.() === true;
-    const canFreeze = !this.busy && !hasUnsavedChanges && outputsReady;
+    const freezeBlocker = this.options.getFreezeBlocker?.() ?? null;
+    const canFreeze = !this.busy && !hasUnsavedChanges && outputsReady && freezeBlocker === null;
     const freezeGuidance = this.busy ? "" : hasUnsavedChanges
       ? "Save the current style before freezing outputs."
-      : outputsReady ? "" : "Review Style and Check, resolve digital blockers, and make sure the current style is saved before freezing outputs.";
+      : freezeBlocker ?? (outputsReady ? "" : "Review Style and Check, resolve digital blockers, and make sure the current style is saved before freezing outputs.");
     return `<section class="project-revision-history" aria-labelledby="revision-history-title">` +
       `<h3 id="revision-history-title">Immutable revisions</h3>` +
       `<p>Revision digests verify saved digital content. They do not establish fit or factory acceptance.</p>${historyRows}` +

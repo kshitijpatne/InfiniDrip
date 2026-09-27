@@ -486,6 +486,13 @@ describe("checkMarkup", () => {
     expect(html).toContain("✗");
     expect(html).toContain("off by 3 cm");
   });
+
+  it("states that one-size grade checks and whole-run files need an approved plan", () => {
+    const html = checkMarkup(buildReport([present("Seam", true, "agree")]), true, [], true);
+    expect(html).toContain("Single custom size");
+    expect(html).toContain("Graded-run checks");
+    expect(html).toContain("reviewed and approved");
+  });
 });
 
 describe("fabricWidthMarkup", () => {

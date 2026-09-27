@@ -54,8 +54,8 @@ The baseline is seven implementation slices, plus this admission and a final rev
 | 245 | M01 capture contract | Versioned measurement-first session and field-resolution model over G02 records; exact per-recipe required inputs, targets, controls, explicit preset/default handling, unit/precision/provenance, capture source, and missing/conflict actions. Resolve the skirt range contradiction for this route. | Slice 244. Do not publish unreviewed capture procedures. |
 | 246 | M01 guided route | Garment selection with guided or direct-editor routes; recipe-specific landmarks/help only where source-qualified; accessible capture/edit flow for all seven existing recipes. Clearly distinguish body facts, garment/pattern targets, controls, and calculated outputs. | Slice 245. No forced wizard and no false fit claim. |
 | 247 | M01 validation and rendered QA | Complete missing/invalid/conflict handling without clamping; provenance and resume behavior; narrow viewport and accessibility verification; fresh and resumed stage completion proof. Review MQF-001, MQF-013 and MQF-014 for scoped coverage. | Slice 246. M01 must pass every recipe's source/field matrix. |
-| 248 | M02 deterministic one-size creation | Create and save one custom-size style through the established local project workflow from explicit measurements, targets and accepted defaults; preserve one-size as the first available output. | M01 complete. No grade inheritance. |
-| 249 | M02 editor/output parity | Open the created design in the full editor; prove stable geometry, recipe options, POMs and one-size exports match the existing workflow for identical resolved inputs across all seven recipes. Preserve all protected legacy export identities and record actual output comparisons. | Slice 248. Resolve discrepancies with numbered remediation. |
+| 248 | M02 deterministic one-size creation | Create and save one custom-size style through the established local project workflow from explicit measurements, targets and accepted defaults; retain capture/source distinctions and make selected-size pattern outputs available first. | M01 complete. No grade inheritance or silent schema fillers. |
+| 249 | M02 editor/output parity | Open the created design in the full editor; prove stable geometry, recipe options, POMs and one-size exports match the existing workflow for identical resolved inputs across all seven recipes. Withhold whole-run Tech Pack, Projector and Marker until an approved grade plan exists. Preserve protected legacy export identities and record actual output comparisons. | Slice 248. Resolve discrepancies with numbered remediation. |
 | 250 | M03 explicit grade-plan record and review | Add strict versioned grade-plan data and user review/approval with rule source/decision, base, labels/range, increments, exceptions and provenance. Custom wearer defaults to one size and has no approved run until explicit approval. | M02 complete. Legacy default graded behavior remains byte-identical for unchanged legacy designs. |
 | 251 | M03 approved graded output | Integrate approved plans with existing grade and cutting/export paths; check every size and POM/cutting quantity reconciliation, per-size overrides, unsupported exceptions, stale state, and invalid-state visibility. | Slice 250. No silently inherited XS–XL chart or physical fit claim. |
 | 252 | G03 final review and merge exit | Reconcile all accepted criteria; remediate with new slices; run full coverage, strict builds, protected export identities, Control Center checks, browser/narrow/accessibility checks, actual output replay, PR review and safe merge verification. Close only after the board, `origin/main` ancestry, and exit evidence agree. | M01 → M02 → M03 complete. |
@@ -133,8 +133,9 @@ the review and exit boundaries are in
 `docs/research/epic16/S247-M01-VALIDATION-EXIT.md`. The full 127-file/1,898-test
 suite passed at 100% statement, branch, function and line coverage; strict app
 and Electron builds and Control Center tests passed. M01 is complete after its
-validated Control Center transition. Slice 248 may begin M02; its existing
-one-size, recipe-parity, and protected-output gates remain unchanged.
+validated Control Center transition. Slice 248 began M02 under the existing
+one-size, recipe-parity, and protected-output gates. Its exit evidence is
+recorded in the Slice 248 section below.
 
 ## Acceptance gates
 
@@ -184,3 +185,49 @@ At M01, reassess safe, disjoint contributor tasks under `docs/OPENCODE-WORKFLOW.
 For every implementation slice, run the focused and full gates required by the repository. Preserve 100% statement, function, branch, and line coverage and the eight protected legacy export identities. At every recipe boundary inspect actual drafted/rendered/exported outputs, not tests alone. At M01 and M02 verify the app in the browser at supported narrow and desktop viewports; at M03 replay selected-size and whole-run/cutting outputs. Final review records exact commands, counts, hashes, browser/output evidence, residual limits, and downstream reforecast.
 
 EPIC-16 remains open until every linked work item is Done with verified non-incomplete evidence, its summary card is Done, the Epic is Closed through the validated Control Center command layer, the reviewed pull request is safely merged, and `origin/main` contains the reviewed head in its ancestry. Closure does not admit G04 or any later Epic, approve manual quality findings for broader roadmap work, authorize costs or supplier contact, or establish physical fit.
+
+## Slice 248 — M02 custom one-size materialization
+
+The maintainer confirmed on 2026-09-26 that a custom style without an approved
+grade plan exposes selected-size pattern outputs only. Whole-run Tech Pack,
+Projector and Marker exports stay withheld until a grade plan has been reviewed
+and explicitly approved. Existing legacy-style export behavior remains intact.
+
+Slice 248 turns a ready, recipe-matched M01 capture into one deterministic
+custom-size style using the existing local project/style workflow, and opens
+that saved style in the full editor. Every value consumed by the chosen recipe
+must come from a selected capture reading or a clearly named, inspectable and
+explicitly accepted digital default. Capture provenance remains distinct from
+controls and derived values. The unchanged SaveFile v6 schema requires all
+legacy measurement keys, so fields not consumed by the chosen recipe receive
+`STANDARD_M` as explicit schema-only padding. Those keys are never treated as
+body measurements or recipe inputs, carried from another style, or used to
+claim fit; a custom style remains locked to its recipe. Do not inherit an
+XS–XL chart or change legacy SaveFile schemas or protected export bytes. S248
+establishes the create/save/resume boundary; S249 owns seven-recipe geometry,
+options, POM, selected-size export parity and actual output comparison,
+including the whole-run withholding gate.
+
+S248 acceptance: unresolved or invalid capture cannot create a style; explicit
+accepted defaults are disclosed and retained with the proper provenance; a
+successful action saves exactly one style with recipe, target style, full
+options and resolved measurements, preserves its capture record, and opens the
+full editor. Inactive SaveFile measurement keys are initialized from the
+documented schema-only baseline above and are not part of this style's capture
+history. Repeating with identical resolved values is deterministic. Reload
+and project/style switching do not lose or misattribute the captured source.
+
+S248 exit evidence (2026-09-26): full Vitest coverage passed with 546/546
+suites, 1,919/1,919 tests, and 100% statement/branch/function/line coverage;
+`npm run build` passed; `npm run control-center:test` passed 33/33. The
+production preview on isolated `http://localhost:4176/` created a Woven-shirt
+custom style from 24 explicitly accepted digital presets, resumed it in the
+full editor, and showed selected-size-only Check text without a graded-run
+claim. At Export, the picker read “One size”; SVG, DXF, PDF and A0 remained
+enabled; Tech Pack and Projector were disabled with the approved-grade-plan
+reason. Automated tests proved Marker and whole-run freeze stay blocked and no
+frozen manifest is created. The user's existing `http://127.0.0.1:4173/` tab
+was untouched. Responsive and accessibility cases passed in the full test
+suite; the in-app browser did not expose viewport resizing, so a separate
+narrow-browser screenshot was not recorded. All eight protected legacy export
+identities passed. M02 remains In Progress; S249 owns all-recipe output parity.

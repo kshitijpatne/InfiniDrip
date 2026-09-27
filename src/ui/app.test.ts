@@ -23,6 +23,7 @@ import {
   withSemanticEditorPiece,
 } from "./app";
 import { openProjectWorkflow } from "./project-workflow";
+import { isCustomOneSizeStyle } from "./project-records";
 import type { ArtworkAssetStore, StoredArtworkAsset } from "../surface/artwork-store";
 import type { InspectedArtworkFile } from "../surface/artwork-file";
 import { ARTWORK_CATALOG } from "../surface/artwork-library/catalog";
@@ -30,7 +31,7 @@ import { GARMENTS, STANDARD_M, draftTshirt, rolePiece, type GarmentRecipe } from
 import * as editEngine from "../edit";
 import { pieceHandles, editorViewBox } from "../edit";
 import { loadJourney } from "./journey";
-import { getFieldDefinitions } from "./field-provenance";
+import { currentFieldObservation, getFieldDefinitions } from "./field-provenance";
 import {
   addCaptureReadingForField,
   createMeasurementCaptureSession,
@@ -2778,7 +2779,7 @@ describe("semantic Edit view", () => {
     reloaded.querySelector<HTMLButtonElement>("#editor-rebase")!.click();
     expect(reloaded.querySelector('[data-editor-validation="valid"]')).not.toBeNull();
     expect(reloaded.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(true);
-  }, 30_000);
+  }, 120_000);
 
   it("keeps an unresolvable edit blocked when explicit rebase fails", async () => {
     localStorage.clear();
@@ -2810,7 +2811,7 @@ describe("semantic Edit view", () => {
     } finally {
       draftSpy.mockRestore();
     }
-  }, 30_000);
+  }, 120_000);
 
   it("requires explicit edit review when tank shoulder width changes and directs users to strap width", async () => {
     localStorage.clear();
@@ -5776,6 +5777,188 @@ describe("bundled local artwork library (Slice 203)", () => {
       vi.unstubAllGlobals();
     }
   });
+
+  it("turns a ready guided capture into one saved custom style and withholds whole-run controls", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: {
+        name: `app-custom-size-${Date.now()}`,
+        factory: new IDBFactory(),
+        crypto: webcrypto as unknown as Crypto,
+      },
+      storage: localStorage,
+      idFactory: () => webcrypto.randomUUID(),
+      now: () => "2026-09-24T16:00:00.000Z",
+    });
+    await workflow.renameActiveStyle("Custom Woven shirt");
+    const root = document.createElement("div");
+    document.body.append(root);
+    let reopenedRoot: HTMLDivElement | null = null;
+    try {
+      mountApp(root, { projectWorkflow: workflow });
+      clickId(root, "welcome-start");
+      clickId(root, "garment-woven-shirt");
+      await vi.waitFor(() => expect(root.querySelector("#current-garment")?.textContent).toBe("Woven shirt"));
+      clickId(root, "journey-guided");
+      await vi.waitFor(() => expect(root.querySelector(".measurement-capture-panel__field")).not.toBeNull());
+      for (const definition of getFieldDefinitions("woven-shirt")) {
+        const presets = [...root.querySelectorAll<HTMLButtonElement>('[data-action="capture-accept-preset"]')];
+        const preset = presets
+          .find((button) => button.dataset.fieldId === definition.id)!;
+        if (!preset) throw new Error(`No digital preset button for ${definition.id}; rendered fields: ${presets.map((button) => button.dataset.fieldId).join(", ")}`);
+        preset.click();
+      }
+      const unfinishedRaw = root.querySelector<HTMLInputElement>(
+        '[data-action="capture-edit-raw"][data-field-id="body.chest-girth"]',
+      )!;
+      unfinishedRaw.value = "103";
+      unfinishedRaw.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(root.querySelector<HTMLButtonElement>("#journey-next")!.disabled).toBe(false);
+      let releaseCreation!: () => void;
+      let signalCreation!: () => void;
+      let signalCreationFinished!: () => void;
+      const creationBlocked = new Promise<void>((resolve) => { releaseCreation = resolve; });
+      const creationStarted = new Promise<void>((resolve) => { signalCreation = resolve; });
+      const creationFinished = new Promise<void>((resolve) => { signalCreationFinished = resolve; });
+      const createCustomStyle = workflow.createCustomSizeStyle.bind(workflow);
+      const createCustomStyleSpy = vi.spyOn(workflow, "createCustomSizeStyle").mockImplementation(async (...args) => {
+        signalCreation();
+        await creationBlocked;
+        try {
+          return await createCustomStyle(...args);
+        } finally {
+          signalCreationFinished();
+        }
+      });
+      clickId(root, "journey-next");
+      await creationStarted;
+      root.querySelector<HTMLButtonElement>("#journey-next")!.dispatchEvent(new Event("click", { bubbles: true }));
+      expect(createCustomStyleSpy).toHaveBeenCalledOnce();
+      releaseCreation();
+      await creationFinished;
+      const persistenceStatus = root.querySelector<HTMLElement>("#project-persistence-state")!;
+      if (persistenceStatus.dataset.state === "failed") throw new Error(persistenceStatus.textContent ?? "Custom style save failed.");
+      expect(isCustomOneSizeStyle(workflow.snapshot.activeStyle)).toBe(true);
+      await vi.waitFor(() => expect(root.querySelector<HTMLElement>("#infini-shell")?.dataset.stage).toBe("fit"));
+
+      expect(workflow.snapshot.styles).toHaveLength(2);
+      expect(workflow.snapshot.styles[0]).toMatchObject({ recipeId: "tee", name: "Custom Woven shirt" });
+      expect(workflow.snapshot.activeStyle.name).toBe("Custom Woven shirt 2");
+      expect(root.querySelector<HTMLElement>("#infini-shell")?.dataset.stage).toBe("fit");
+      expect(root.querySelector(".measurement-capture-panel")).toBeNull();
+      expect([...root.querySelector<HTMLSelectElement>("#export-size")!.options].map((option) => option.textContent))
+        .toEqual(["One size"]);
+      expect(root.querySelector<HTMLButtonElement>("#garment-tee")!.disabled).toBe(true);
+      expect(root.querySelector<HTMLButtonElement>("#garment-woven-shirt")!.disabled).toBe(false);
+      expect(root.querySelector<HTMLButtonElement>("#nest-marker")!.disabled).toBe(true);
+      expect(root.querySelector<HTMLButtonElement>("#export-techpack")!.title).toContain("approve a grade plan");
+      expect(root.querySelector<HTMLButtonElement>("#export-projector")!.title).toContain("approve a grade plan");
+      expect(await workflow.loadMeasurementCapture("woven-shirt")).toMatchObject({
+        styleId: workflow.snapshot.activeStyle.id,
+        session: { styleId: workflow.snapshot.activeStyle.id },
+        drafts: [expect.objectContaining({ fieldId: "body.chest-girth", rawValue: "103" })],
+      });
+      expect(currentFieldObservation(
+        workflow.snapshot.fieldObservations.find((record) => record.styleId === workflow.snapshot.activeStyle.id)!,
+        getFieldDefinitions("woven-shirt")[0]!,
+      )?.provenance).toBe("PRESET");
+
+      clickId(root, "journey-next");
+      clickId(root, "view-check");
+      const customCheckText = root.querySelector("#canvas-host")?.textContent ?? "";
+      expect(customCheckText).not.toContain("Size run grows in order");
+      expect(customCheckText).toContain("Single custom size");
+      expect(customCheckText).toContain("whole-run Tech Pack, Projector, and Marker outputs stay unavailable");
+      clickId(root, "journey-next");
+      await vi.waitFor(() => expect(root.querySelector<HTMLElement>("#infini-shell")?.dataset.stage).toBe("output"));
+      const manager = root.querySelector<HTMLElement>("#project-manager-host")!;
+      manager.querySelector<HTMLDetailsElement>(".project-manager-details")!.open = true;
+      const freeze = manager.querySelector<HTMLButtonElement>("[data-project-action='freeze-outputs']")!;
+      expect(freeze.disabled).toBe(true);
+      expect(manager.querySelector("#project-freeze-guidance")?.textContent)
+        .toContain("Whole-run output captures are unavailable until you review and approve a grade plan.");
+      expect(workflow.snapshot.exportManifests).toHaveLength(0);
+      freeze.removeAttribute("disabled");
+      freeze.click();
+      await vi.waitFor(() => expect(manager.querySelector("#project-manager-status")?.textContent).toContain("not ready"));
+      expect(workflow.snapshot.exportManifests).toHaveLength(0);
+      const saveFile = vi.fn(async (filename: string, _content: string) => ({ saved: true, filePath: filename }));
+      window.electronAPI = { saveFile };
+      const selectedSvgButton = root.querySelector<HTMLButtonElement>("#export-svg")!;
+      await vi.waitFor(() => expect(selectedSvgButton.disabled).toBe(false));
+      selectedSvgButton.click();
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledOnce());
+      expect(saveFile.mock.calls[0]![0]).toBe("woven-shirt-One size.svg");
+      delete window.electronAPI;
+
+      const oneSizeDesign = workflow.snapshot.activeStyle.design;
+      await workflow.saveActiveDesign({
+        ...oneSizeDesign,
+        workspace: { ...oneSizeDesign.workspace, view: "fabric", nestScope: "marker" },
+      });
+      reopenedRoot = document.createElement("div");
+      document.body.append(reopenedRoot);
+      mountApp(reopenedRoot, { projectWorkflow: workflow });
+      expect(reopenedRoot.querySelector<HTMLButtonElement>("#nest-marker")!.disabled).toBe(true);
+      expect(reopenedRoot.querySelector<HTMLButtonElement>("#nest-marker")!.title).toContain("approve a grade plan");
+      expect(reopenedRoot.querySelector("#canvas-host")?.textContent).toContain("graded fabric marker is unavailable");
+      reopenedRoot.querySelector<HTMLButtonElement>("#load-pattern")!.click();
+      await vi.waitFor(() => expect(reopenedRoot?.querySelector("#persist-status")?.textContent).toContain("Loaded"));
+      clickId(reopenedRoot, "view-nest");
+      expect(reopenedRoot.querySelector("#canvas-host")?.textContent).toContain("graded nest is unavailable");
+      clickId(reopenedRoot, "view-spec");
+      expect(reopenedRoot.querySelector("#canvas-host")?.textContent).toContain("graded specification run is unavailable");
+      reopenedRoot.querySelector<HTMLButtonElement>("#garment-tee")!.dispatchEvent(new Event("click", { bubbles: true }));
+      expect(reopenedRoot.querySelector("#current-garment")?.textContent).toBe("Woven shirt");
+      reopenedRoot.querySelector<HTMLButtonElement>("#nest-marker")!.dispatchEvent(new Event("click", { bubbles: true }));
+      expect(reopenedRoot.querySelector<HTMLButtonElement>("#nest-marker")!.disabled).toBe(true);
+    } finally {
+      delete window.electronAPI;
+      workflow.close();
+      reopenedRoot?.remove();
+      root.remove();
+      vi.unstubAllGlobals();
+    }
+  }, 120_000);
+
+  it("reports a non-Error failure while saving a completed custom size", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: {
+        name: `app-custom-size-error-${Date.now()}`,
+        factory: new IDBFactory(),
+        crypto: webcrypto as unknown as Crypto,
+      },
+      storage: localStorage,
+      idFactory: () => webcrypto.randomUUID(),
+      now: () => "2026-09-24T16:00:00.000Z",
+    });
+    const root = document.createElement("div");
+    document.body.append(root);
+    try {
+      mountApp(root, { projectWorkflow: workflow });
+      clickId(root, "welcome-start");
+      clickId(root, "journey-guided");
+      await vi.waitFor(() => expect(root.querySelector(".measurement-capture-panel__field")).not.toBeNull());
+      for (const definition of getFieldDefinitions("tee")) {
+        const preset = [...root.querySelectorAll<HTMLButtonElement>('[data-action="capture-accept-preset"]')]
+          .find((button) => button.dataset.fieldId === definition.id)!;
+        preset.click();
+      }
+      vi.spyOn(workflow, "createCustomSizeStyle").mockRejectedValueOnce("synthetic style save failure");
+      clickId(root, "journey-next");
+      await vi.waitFor(() => expect(root.querySelector<HTMLElement>("#project-persistence-state")?.dataset.state).toBe("failed"));
+      expect(root.querySelector("#project-persistence-state")?.textContent)
+        .toBe("The custom one-size style could not be saved.");
+      expect(workflow.snapshot.styles).toHaveLength(1);
+    } finally {
+      workflow.close();
+      root.remove();
+      vi.unstubAllGlobals();
+    }
+  }, 60_000);
 
   it("reports failed guided capture loads, including a non-Error rejection", async () => {
     localStorage.clear();

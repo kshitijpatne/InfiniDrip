@@ -18,9 +18,13 @@ import { DEFAULT_APPEARANCE } from "./appearance";
 import { createFieldObservationRecord } from "./field-provenance";
 import { ARTWORK_CATALOG } from "../surface/artwork-library/catalog";
 import {
+  CUSTOM_ONE_SIZE_MODE,
+  CUSTOM_STYLE_RECORD_VERSION,
   MEASUREMENT_CAPTURE_RECORD_VERSION,
+  STYLE_RECORD_VERSION,
   migrateLegacyRecovery,
   migrateLegacySaveFile,
+  type CustomOneSizeStyleRecord,
   type MeasurementCaptureRecord,
   type ProjectRecord,
   type RecoveryRecord,
@@ -33,6 +37,7 @@ import {
   createProjectPackage,
   importProjectPackage,
   PROJECT_PACKAGE_CAPTURE_VERSION,
+  PROJECT_PACKAGE_CUSTOM_STYLE_VERSION,
   PROJECT_PACKAGE_VERSION,
   PROJECT_PACKAGE_MAX_ASSETS,
   PROJECT_PACKAGE_MAX_BYTES,
@@ -1981,7 +1986,12 @@ describe("portable local project package", () => {
     const mutations: Array<{ label: string; mutate: (manifest: Record<string, unknown>) => void; resign?: boolean }> = [
       { label: "unknown manifest key", mutate: (manifest) => { manifest.extra = true; } },
       { label: "unsupported format", mutate: (manifest) => { manifest.format = "other"; } },
-      { label: "unsupported package version", mutate: (manifest) => { manifest.packageVersion = 5; } },
+      { label: "unsupported package version", mutate: (manifest) => { manifest.packageVersion = 6; } },
+      { label: "custom-style package version without its capture list", mutate: (manifest) => { manifest.packageVersion = 5; } },
+      {
+        label: "custom-style package version without a custom style",
+        mutate: (manifest) => { manifest.packageVersion = 5; manifest.measurementCaptures = []; },
+      },
       { label: "capture package version without capture sessions", mutate: (manifest) => { manifest.packageVersion = 4; } },
       { label: "malformed field observations", mutate: (manifest) => { manifest.fieldObservations = [{}]; } },
       {
@@ -2772,5 +2782,226 @@ describe("G03 capture sessions in project backups", () => {
       await expect(readProjectPackage(malformed, { crypto }), candidate.label)
         .rejects.toMatchObject({ code: "invalid-package" });
     }
+  });
+
+  describe("custom one-size styles (package v5)", () => {
+    const STYLE_KEYS = [
+      "schemaVersion", "id", "projectId", "name", "recipeId", "recipePresetId",
+      "createdAt", "updatedAt", "revision", "archivedAt", "revisionHeadId", "design",
+    ];
+    const CAPTURE_KEYS = [...V3_KEYS.slice(0, -1), "measurementCaptures", "packageSha256"];
+
+    function customStyle(style: StyleRecord): CustomOneSizeStyleRecord {
+      return { ...style, schemaVersion: CUSTOM_STYLE_RECORD_VERSION, sizeMode: CUSTOM_ONE_SIZE_MODE };
+    }
+
+    function firstStyle(manifest: Record<string, unknown>): Record<string, unknown> {
+      return (manifest.styles as Array<Record<string, unknown>>)[0]!;
+    }
+
+    /** Manifest body without the fields that are allowed to differ between v3 and v5. */
+    function sharedBody(text: string): Record<string, unknown> {
+      const manifest = JSON.parse(text) as Record<string, unknown>;
+      delete manifest.packageVersion;
+      delete manifest.packageSha256;
+      delete manifest.measurementCaptures;
+      for (const style of manifest.styles as Array<Record<string, unknown>>) {
+        delete style.schemaVersion;
+        delete style.sizeMode;
+      }
+      return manifest;
+    }
+
+    it("writes custom styles only as package v5 and keeps legacy v3 and capture-only v4 manifests unchanged", async () => {
+      const { snapshot, assets } = sourceSnapshot();
+      const options = () => ({ crypto, revisionIdFactory: deterministicUuidFactory() });
+      const capture = packageCapture();
+      const v3Text = await manifestText(await createProjectPackage(snapshot, assets, options()));
+      const v4Text = await manifestText(await createProjectPackage({ ...snapshot, measurementCaptures: [capture] }, assets, options()));
+      expect(JSON.parse(v3Text)).toMatchObject({ packageVersion: PROJECT_PACKAGE_VERSION });
+      expect(Object.keys(JSON.parse(v3Text))).toEqual(V3_KEYS);
+      expect(JSON.parse(v4Text)).toMatchObject({ packageVersion: PROJECT_PACKAGE_CAPTURE_VERSION, measurementCaptures: [capture] });
+      expect(Object.keys(JSON.parse(v4Text))).toEqual(CAPTURE_KEYS);
+      for (const text of [v3Text, v4Text]) {
+        expect(text).not.toContain("sizeMode");
+        const styles = (JSON.parse(text) as { styles: Array<Record<string, unknown>> }).styles;
+        expect(styles.map((style) => Object.keys(style))).toEqual([STYLE_KEYS]);
+        expect(styles[0]!.schemaVersion).toBe(STYLE_RECORD_VERSION);
+      }
+
+      const style = customStyle(snapshot.styles[0]!);
+      expect(style).toMatchObject({ id: capture.styleId, projectId: capture.projectId, recipeId: capture.recipeId });
+      const customOnly = await createProjectPackage({ ...snapshot, styles: [style], measurementCaptures: [capture] }, assets, options());
+      const customText = await manifestText(customOnly);
+      const customManifest = JSON.parse(customText) as Record<string, unknown>;
+      expect(Object.keys(customManifest)).toEqual(CAPTURE_KEYS);
+      expect(customManifest).toMatchObject({ packageVersion: PROJECT_PACKAGE_CUSTOM_STYLE_VERSION, measurementCaptures: [capture] });
+      expect(Object.keys(firstStyle(customManifest))).toEqual([...STYLE_KEYS, "sizeMode"]);
+      expect(firstStyle(customManifest)).toMatchObject({ schemaVersion: CUSTOM_STYLE_RECORD_VERSION, sizeMode: CUSTOM_ONE_SIZE_MODE });
+      // Only the version, capture list and size marker distinguish it from the legacy v3 body.
+      expect(sharedBody(customText)).toEqual(sharedBody(v3Text));
+      const archive = await readProjectPackage(customOnly, { crypto });
+      expect(archive.manifest.packageVersion).toBe(PROJECT_PACKAGE_CUSTOM_STYLE_VERSION);
+      expect(archive.manifest.measurementCaptures).toEqual([capture]);
+      expect(archive.manifest.styles).toEqual([{ ...style, revisionHeadId: archive.manifest.styleRevisions[0]!.revisionId }]);
+
+      const withCapture = await readProjectPackage(await createProjectPackage({
+        ...snapshot, styles: [style], measurementCaptures: [capture],
+      }, assets, options()), { crypto });
+      expect(withCapture.manifest.packageVersion).toBe(PROJECT_PACKAGE_CUSTOM_STYLE_VERSION);
+      expect(withCapture.manifest.measurementCaptures).toEqual([capture]);
+      expect(withCapture.manifest.styles).toEqual(archive.manifest.styles);
+      expect(withCapture.manifest.styles[0]).toMatchObject({ id: STYLE_ID, projectId: PROJECT_ID, sizeMode: CUSTOM_ONE_SIZE_MODE });
+
+      // A mixed project stays v5 while its legacy style keeps the v4 shape.
+      const legacy = bundle("Tee project", PROJECT_ID, SECOND_STYLE_ID).style;
+      const mixed = await readProjectPackage(await createProjectPackage({
+        project: { ...snapshot.project, styleIds: [STYLE_ID, SECOND_STYLE_ID] },
+        styles: [style, legacy],
+        recoveries: [],
+        measurementCaptures: [capture],
+      }, assets, options()), { crypto });
+      expect(mixed.manifest.packageVersion).toBe(PROJECT_PACKAGE_CUSTOM_STYLE_VERSION);
+      expect(mixed.manifest.measurementCaptures).toEqual([capture]);
+      expect(mixed.manifest.styles.map((record) => record.schemaVersion)).toEqual([CUSTOM_STYLE_RECORD_VERSION, STYLE_RECORD_VERSION]);
+      expect(mixed.manifest.styles[1]).not.toHaveProperty("sizeMode");
+    });
+
+    it("round-trips a custom style through import, re-export, and copy import without losing its size mode", async () => {
+      const { snapshot, assets } = sourceSnapshot();
+      const style = customStyle(snapshot.styles[0]!);
+      const capture = packageCapture();
+      const archive = await readProjectPackage(await createProjectPackage({
+        ...snapshot, styles: [style], measurementCaptures: [capture],
+      }, assets, { crypto, revisionIdFactory: deterministicUuidFactory() }), { crypto });
+
+      const target = await repository();
+      const targetAssets = memoryAssets();
+      expect(await importProjectPackage(target, targetAssets, archive, false, { crypto, now: () => TIME, inspectAsset: inspector }))
+        .toMatchObject({ status: "imported", projectId: PROJECT_ID, importedAsCopy: false });
+      const restored = await target.readProjectBundle(PROJECT_ID);
+      expect(restored!.styles).toEqual(archive.manifest.styles);
+      expect(restored!.styles[0]).toMatchObject({
+        id: STYLE_ID, projectId: PROJECT_ID, schemaVersion: CUSTOM_STYLE_RECORD_VERSION, sizeMode: CUSTOM_ONE_SIZE_MODE,
+      });
+      expect(restored!.measurementCaptures).toEqual([capture]);
+      const reArchive = await readProjectPackage(await createProjectPackage(restored!, targetAssets, { crypto }), { crypto });
+      expect(reArchive.manifest.packageVersion).toBe(PROJECT_PACKAGE_CUSTOM_STYLE_VERSION);
+      expect(reArchive.manifest.styles).toEqual(restored!.styles);
+      expect(reArchive.manifest.measurementCaptures).toEqual([capture]);
+
+      const copyTarget = await repository();
+      const copyAssets = memoryAssets();
+      const copied = await importProjectPackage(copyTarget, copyAssets, archive, true, {
+        crypto, now: () => NEXT_TIME, idFactory: deterministicUuidFactory(), inspectAsset: inspector,
+      });
+      if (copied.status !== "imported") throw new Error("Custom-style package copy did not import.");
+      const copy = await copyTarget.readProjectBundle(copied.projectId);
+      const copiedStyle = copy!.styles[0]!;
+      expect(copied.projectId).not.toBe(PROJECT_ID);
+      expect(copiedStyle.id).not.toBe(STYLE_ID);
+      expect(copiedStyle).toMatchObject({
+        projectId: copied.projectId, recipeId: "tee", schemaVersion: CUSTOM_STYLE_RECORD_VERSION, sizeMode: CUSTOM_ONE_SIZE_MODE,
+      });
+      expect(copy!.measurementCaptures).toMatchObject([{ styleId: copiedStyle.id, projectId: copied.projectId, recipeId: "tee" }]);
+      const copyArchive = await readProjectPackage(await createProjectPackage(copy!, copyAssets, { crypto }), { crypto });
+      expect(copyArchive.manifest.packageVersion).toBe(PROJECT_PACKAGE_CUSTOM_STYLE_VERSION);
+      expect(copyArchive.manifest.styles[0]).toMatchObject({ id: copiedStyle.id, sizeMode: CUSTOM_ONE_SIZE_MODE });
+    });
+
+    it("rejects malformed size markers and package versions that do not match custom styles", async () => {
+      const { snapshot, assets } = sourceSnapshot();
+      const legacy = snapshot.styles[0]!;
+      const style = customStyle(legacy);
+      const { sizeMode: _sizeMode, ...unmarked } = style;
+      const writerCases: ReadonlyArray<{ label: string; style: unknown }> = [
+        { label: "legacy style with a size marker", style: { ...legacy, sizeMode: CUSTOM_ONE_SIZE_MODE } },
+        { label: "custom style with another size mode", style: { ...style, sizeMode: "graded" } },
+        { label: "custom style without a size mode", style: unmarked },
+      ];
+      for (const candidate of writerCases) {
+        await expect(createProjectPackage({ ...snapshot, styles: [candidate.style as StyleRecord] }, assets, { crypto }), candidate.label)
+          .rejects.toMatchObject({ code: "invalid-package" });
+      }
+      await expect(createProjectPackage({ ...snapshot, styles: [style] }, assets, { crypto }))
+        .rejects.toMatchObject({
+          code: "invalid-package",
+          message: expect.stringContaining("requires its matching measurement capture session"),
+        });
+
+      const customPackage = await createProjectPackage({ ...snapshot, styles: [style], measurementCaptures: [packageCapture()] }, assets, { crypto });
+      const capturePackage = await createProjectPackage({ ...snapshot, measurementCaptures: [packageCapture()] }, assets, { crypto });
+      const plainPackage = await createProjectPackage(snapshot, assets, { crypto });
+      const requiresV5 = "Custom one-size styles require project package version 5.";
+      const requiresCustom = "Project package version 5 must contain a custom one-size style.";
+      const markCustom = (manifest: Record<string, unknown>) => {
+        Object.assign(firstStyle(manifest), { schemaVersion: CUSTOM_STYLE_RECORD_VERSION, sizeMode: CUSTOM_ONE_SIZE_MODE });
+      };
+      const readerCases: ReadonlyArray<{
+        label: string;
+        source: Blob;
+        mutate: (manifest: Record<string, unknown>) => void;
+        message?: string;
+      }> = [
+        { label: "custom style in a v4 package", source: customPackage, mutate: (manifest) => { manifest.packageVersion = 4; }, message: requiresV5 },
+        {
+          label: "custom style in a v3 package",
+          source: customPackage,
+          mutate: (manifest) => { manifest.packageVersion = 3; delete manifest.measurementCaptures; },
+          message: requiresV5,
+        },
+        {
+          label: "custom style in a v2 package",
+          source: customPackage,
+          mutate: (manifest) => {
+            manifest.packageVersion = 2;
+            delete manifest.measurementCaptures;
+            delete manifest.styleRevisions;
+            delete manifest.exportManifests;
+          },
+          message: requiresV5,
+        },
+        { label: "custom style added to a capture-only v4 package", source: capturePackage, mutate: markCustom, message: requiresV5 },
+        { label: "custom style added to a v3 package", source: plainPackage, mutate: markCustom, message: requiresV5 },
+        { label: "v5 package without its capture list", source: customPackage, mutate: (manifest) => { delete manifest.measurementCaptures; } },
+        { label: "v5 package without the custom style's matching capture", source: customPackage, mutate: (manifest) => { manifest.measurementCaptures = []; } },
+        { label: "v5 capture list is not an array", source: customPackage, mutate: (manifest) => { manifest.measurementCaptures = "x"; } },
+        { label: "v5 package with a malformed capture", source: customPackage, mutate: (manifest) => { manifest.measurementCaptures = [{}]; } },
+        {
+          label: "v5 capture for a style outside the project",
+          source: customPackage,
+          mutate: (manifest) => { manifest.measurementCaptures = [packageCapture(SECOND_STYLE_ID)]; },
+        },
+        { label: "unsupported size mode", source: customPackage, mutate: (manifest) => { firstStyle(manifest).sizeMode = "graded"; } },
+        { label: "missing size mode", source: customPackage, mutate: (manifest) => { delete firstStyle(manifest).sizeMode; } },
+        {
+          label: "size marker on a legacy style schema",
+          source: customPackage,
+          mutate: (manifest) => { firstStyle(manifest).schemaVersion = STYLE_RECORD_VERSION; },
+        },
+        {
+          label: "v5 package whose styles are all legacy",
+          source: customPackage,
+          mutate: (manifest) => {
+            firstStyle(manifest).schemaVersion = STYLE_RECORD_VERSION;
+            delete firstStyle(manifest).sizeMode;
+          },
+          message: requiresCustom,
+        },
+        {
+          label: "capture-only v4 package relabeled as v5",
+          source: capturePackage,
+          mutate: (manifest) => { manifest.packageVersion = 5; },
+          message: requiresCustom,
+        },
+      ];
+      for (const candidate of readerCases) {
+        const malformed = await replacePackageManifest(candidate.source, candidate.mutate);
+        await expect(readProjectPackage(malformed, { crypto }), candidate.label).rejects.toMatchObject({
+          code: "invalid-package",
+          ...(candidate.message ? { message: candidate.message } : {}),
+        });
+      }
+    });
   });
 });

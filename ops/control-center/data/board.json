@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 333,
-  "updatedAt": "2026-09-26T20:04:40.132Z",
+  "revision": 337,
+  "updatedAt": "2026-09-26T20:17:05.201Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -4940,7 +4940,7 @@
       "title": "EPIC-16 M02 — Deterministic one-size creation",
       "epicId": "EPIC-16",
       "releaseId": null,
-      "status": "Backlog",
+      "status": "In Progress",
       "openedAt": "2026-09-26",
       "targetAt": "2027-04-09",
       "deliveredAt": null,
@@ -4958,13 +4958,14 @@
         "seven recipe outputs",
         "legacy export byte identity"
       ],
-      "description": "Implement and verify M02 under docs/planning/EPIC-16-ADMISSION.md, Slices 248–249. Create one custom-size style from explicit resolved values, persist via G02, continue in the existing editor, and prove recipe/output parity.",
-      "expectation": "The guided route produces the same editable one-size design and outputs as the existing full editor for identical resolved inputs.",
+      "description": "Implement and verify M02 under docs/planning/EPIC-16-ADMISSION.md, Slices 248–249. Create one custom-size style from explicitly resolved values, persist and resume through G02, open it in the full editor, preserve selected-size outputs, and withhold whole-run outputs until an approved grade plan.",
+      "expectation": "Guided creation produces one deterministic, editable one-size digital design through the existing local workflow and exposes no graded run before approval.",
       "acceptanceCriteria": [
-        "One-size custom creation uses explicit captured/selected values and disclosed accepted defaults, and saves/reloads through the existing local project/style workflow.",
-        "All seven recipes produce identical geometry, options, POMs and one-size exports for the same complete resolved inputs through guided and full-editor paths.",
-        "Single-size outputs remain available without grading; no physical fit, population-chart or production claim is made.",
-        "Existing SaveFile v1–v5 behavior and all eight protected export byte identities remain unchanged."
+        "A recipe-matched M01 capture with every required field resolved or a clearly disclosed digital default explicitly accepted creates and reloads one style through the existing local project/style workflow.",
+        "The resulting style keeps capture/source provenance distinct from schema fillers, controls, defaults, and derived outputs; no unrelated recipe input, silent STANDARD_M filler, or XS–XL grade inheritance is allowed.",
+        "One-size pattern outputs remain available without grading. Whole-run Tech Pack, Projector, and Marker remain withheld until a grade plan is reviewed and explicitly approved.",
+        "All seven recipes must preserve geometry, options, POMs and one-size output parity for identical resolved inputs; Slice 249 records actual output comparisons.",
+        "Existing SaveFile v1–v5 behavior and all eight protected legacy export byte identities remain unchanged; no physical fit, population-chart, or production claim is made."
       ],
       "statusHistory": [
         {
@@ -4974,9 +4975,31 @@
           "role": "maintainer",
           "note": "Track the admitted M02 package and its exit evidence.",
           "evidenceRefs": []
+        },
+        {
+          "status": "Ready",
+          "at": "2026-09-26T20:17:04.100Z",
+          "actor": "Maintainer (via Codex)",
+          "role": "maintainer",
+          "note": "M01 completed at Slice 247; M02 scope and the one-size output decision are explicit and implementation is beginning.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-09-26T20:17:04.346Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "Beginning Slice 248 custom one-size materialization under the admitted M02 packet.",
+          "evidenceRefs": []
         }
       ],
-      "comments": [],
+      "comments": [
+        {
+          "at": "2026-09-26T20:17:05.201Z",
+          "actor": "Maintainer (via Codex)",
+          "text": "Maintainer confirmed 2026-09-26: custom styles without an explicitly approved grade plan retain selected-size pattern exports, while whole-run Tech Pack, Projector, and Marker outputs are withheld."
+        }
+      ],
       "evidenceRefs": [],
       "flagKey": null
     },

@@ -19,7 +19,8 @@ import {
 } from "./measurement-capture";
 import { ProjectRepositoryError, type LoadedProject, type ProjectRepository } from "./project-repository";
 import { changedPaths, openProjectWorkflow, ProjectWorkflow } from "./project-workflow";
-import { createFieldObservationRecord, currentFieldObservation, getFieldDefinition } from "./field-provenance";
+import { createFieldObservationRecord, currentFieldObservation, getFieldDefinition, getFieldDefinitions } from "./field-provenance";
+import { materializeCustomSizeDesign } from "./custom-size-materialization";
 import { ARTWORK_CATALOG } from "../surface/artwork-library/catalog";
 import type { ArtworkAssetStore, StoredArtworkAsset } from "../surface/artwork-store";
 
@@ -989,5 +990,133 @@ describe("G03 capture persistence through the project workflow", () => {
     const latest = await unread.loadMeasurementCapture("tee");
     expect(latest?.revision).toBe(3);
     expect(latest?.drafts).toEqual([draft({ rawValue: "99" })]);
+  });
+
+  it("creates and reloads one custom one-size style with an atomic, source-preserving capture copy", async () => {
+    const settings = {
+      ...repositoryOptions(),
+      storage: storage(),
+      idFactory: ids(PROJECT_ID, STYLE_ID, STYLE_TWO_ID, SESSION_TWO),
+      now: () => NEXT_TIME,
+    };
+    const workflow = await openProjectWorkflow(settings);
+    workflows.push(workflow);
+    await workflow.loadMeasurementCapture("tee");
+    let session = createMeasurementCaptureSession(SESSION_ONE, "tee", TIME, STYLE_ID);
+    getFieldDefinitions("tee").forEach((definition, index) => {
+      const isBody = definition.semanticKind === "BODY_MEASURE";
+      session = addCaptureReadingForField(session, definition.id, {
+        id: `00000000-0000-4000-8000-${String(index + 201).padStart(12, "0")}`,
+        rawValue: String(definition.defaultValue),
+        enteredUnit: definition.unit,
+        provenance: isBody ? "USER_CAPTURED" : "USER_SELECTED",
+        evidenceStatus: "UNCONFIRMED",
+        sourceLabel: isBody ? "User reading; method remains unqualified." : "Digital construction target or setting.",
+        captureMethod: isBody ? "Tape; technique unqualified" : null,
+        capturedAt: isBody ? "2026-09-24T00:00:00.000Z" : null,
+        measurer: isBody ? "HELPER" : null,
+      }, NEXT_TIME);
+    });
+    const originalCapture = await workflow.saveMeasurementCapture(session, []);
+    const design = materializeCustomSizeDesign(workflow.snapshot.activeStyle.design, session);
+    const created = await workflow.createCustomSizeStyle("Custom Tee", design);
+
+    expect(created.styles).toHaveLength(2);
+    expect(created.activeStyle).toMatchObject({
+      id: STYLE_TWO_ID,
+      name: "Custom Tee",
+      schemaVersion: 5,
+      sizeMode: "custom-one-size",
+      recipeId: "tee",
+      recipePresetId: design.workspace.targetStyle,
+      design,
+    });
+    const copiedCapture = await workflow.loadMeasurementCapture("tee");
+    expect(copiedCapture).toMatchObject({
+      styleId: STYLE_TWO_ID,
+      projectId: PROJECT_ID,
+      recipeId: "tee",
+      revision: 1,
+      session: { styleId: STYLE_TWO_ID, revision: originalCapture.session.revision + 1 },
+      drafts: [],
+    });
+    expect(copiedCapture?.session.id).not.toBe(originalCapture.session.id);
+    const capturedChest = currentFieldObservation(
+      created.fieldObservations.find((record) => record.styleId === STYLE_TWO_ID)!, getFieldDefinition("tee", "chest")!,
+    );
+    expect(capturedChest).toMatchObject({
+      provenance: "USER_CAPTURED",
+      sourceLabel: "User reading; method remains unqualified.",
+      recordedAt: null,
+    });
+
+    const reopened = await openProjectWorkflow({ ...settings, storage: storage() });
+    workflows.push(reopened);
+    const persistedCapture = await reopened.loadMeasurementCapture("tee");
+    expect(persistedCapture).toEqual(copiedCapture);
+    await reopened.switchStyle(STYLE_ID);
+    expect(await reopened.loadMeasurementCapture("tee")).toEqual(originalCapture);
+  });
+
+  it("duplicates a custom style only with its saved source capture and keeps the recipe", async () => {
+    const settings = {
+      ...repositoryOptions(),
+      storage: storage(),
+      idFactory: ids(PROJECT_ID, STYLE_ID, STYLE_TWO_ID, SESSION_TWO, STYLE_THREE_ID,
+        "33b9700e-33a3-4933-a980-c5301c2c3b29"),
+      now: () => NEXT_TIME,
+    };
+    const workflow = await openProjectWorkflow(settings);
+    workflows.push(workflow);
+    const design = workflow.snapshot.activeStyle.design;
+    await expect(workflow.createCustomSizeStyle("Missing capture", design))
+      .rejects.toMatchObject({ code: "not-found" });
+
+    await workflow.loadMeasurementCapture("tee");
+    let session = createMeasurementCaptureSession(SESSION_ONE, "tee", TIME, STYLE_ID);
+    getFieldDefinitions("tee").forEach((definition, index) => {
+      const isBody = definition.semanticKind === "BODY_MEASURE";
+      session = addCaptureReadingForField(session, definition.id, {
+        id: `00000000-0000-4000-8000-${String(index + 301).padStart(12, "0")}`,
+        rawValue: String(definition.defaultValue),
+        enteredUnit: definition.unit,
+        provenance: isBody ? "USER_CAPTURED" : "USER_SELECTED",
+        evidenceStatus: "UNCONFIRMED",
+        sourceLabel: "Explicit digital capture fixture.",
+        captureMethod: null,
+        capturedAt: null,
+        measurer: null,
+      }, NEXT_TIME);
+    });
+    await workflow.saveMeasurementCapture(session, []);
+    const custom = await workflow.createCustomSizeStyle("Custom Tee", design);
+    const customDesign = custom.activeStyle.design;
+    const sourceCapture = await workflow.loadMeasurementCapture("tee");
+    const changedRecipe = {
+      ...customDesign,
+      workspace: { ...customDesign.workspace, garment: "skirt" },
+    };
+    await expect(workflow.saveActiveDesign(changedRecipe)).rejects.toMatchObject({ code: "invalid-data" });
+    await expect(workflow.createStyle("Invalid recipe copy", changedRecipe)).rejects.toMatchObject({ code: "invalid-data" });
+
+    // A freshly opened workflow has no in-memory capture cache. It must recover
+    // the source capture from the repository before it duplicates the style.
+    const uncached = new ProjectWorkflow(
+      workflow.repository, custom, ids(STYLE_THREE_ID, "33b9700e-33a3-4933-a980-c5301c2c3b29"), () => NEXT_TIME,
+    );
+    const readCapture = vi.spyOn(workflow.repository, "readMeasurementCapture").mockResolvedValueOnce(null);
+    try {
+      await expect(uncached.createStyle("Missing source capture", customDesign))
+        .rejects.toMatchObject({ code: "not-found" });
+    } finally {
+      readCapture.mockRestore();
+    }
+    const duplicate = await uncached.createStyle("Copy of Custom Tee", customDesign);
+
+    expect(duplicate.styles).toHaveLength(3);
+    expect(duplicate.activeStyle).toMatchObject({ name: "Copy of Custom Tee", recipeId: "tee", sizeMode: "custom-one-size" });
+    const copied = await uncached.loadMeasurementCapture("tee");
+    expect(copied).toMatchObject({ styleId: duplicate.activeStyle.id, recipeId: "tee" });
+    expect(copied?.session.id).not.toBe(sourceCapture?.session.id);
   });
 });

@@ -8,6 +8,7 @@ import { DEFAULT_FABRIC } from "../render";
 import { STANDARD_M } from "../drafting";
 import {
   MIGRATION_RECORD_VERSION,
+  isCustomOneSizeStyle,
   LEGACY_STYLE_RECORD_KEYS,
   LEGACY_PROJECT_RECORD_KEYS,
   isMeasurementCaptureSessionSuccessor,
@@ -135,6 +136,13 @@ export interface SaveProjectBundleInput {
   readonly styleRevisions?: readonly StyleRevisionRecord[];
   /** New immutable output captures, validated before the transaction and inserted atomically. */
   readonly exportManifests?: readonly FrozenOutputManifestRecord[];
+  /**
+   * New recipe-matched capture sessions, validated before the transaction and
+   * inserted atomically with the style/project rows. Each entry must name a
+   * style in this bundle with the same project ID and recipe, carry revision 1,
+   * and have no stored session for its style/recipe key.
+   */
+  readonly measurementCaptures?: readonly MeasurementCaptureRecord[];
   /** Removes a style's old crash-recovery payload in the same atomic save. */
   readonly clearRecoveryStyleIds?: readonly string[];
   /** null creates a project; a number is a compare-and-swap revision. */
@@ -1040,6 +1048,12 @@ export class ProjectRepository {
     const measurementCaptures = parseMeasurementCaptureInputs(
       input.measurementCaptures, bundle.value.project.id, bundle.value.project.styleIds,
     );
+    for (const style of bundle.value.styles) {
+      if (isCustomOneSizeStyle(style) && !measurementCaptures.some((record) => record.styleId === style.id
+        && record.projectId === style.projectId && record.recipeId === style.recipeId)) {
+        throw new ProjectRepositoryError("invalid-data", "A custom one-size style must be imported with its matching measurement capture session.");
+      }
+    }
     const receipt = parseProjectImportReceipt(input.receipt);
     if (!receipt || receipt.projectId !== bundle.value.project.id) {
       throw new ProjectRepositoryError("invalid-data", "Project package import receipt does not match the imported project.");
@@ -1112,6 +1126,22 @@ export class ProjectRepository {
     const fieldObservations = parseFieldObservationInputs(input.fieldObservations, bundle.value.project.styleIds);
     const styleRevisions = await parseStyleRevisionInputs(input.styleRevisions, this.cryptoApi);
     const exportManifests = await parseExportManifestInputs(input.exportManifests, this.cryptoApi);
+    const measurementCaptures = parseMeasurementCaptureInputs(
+      input.measurementCaptures, bundle.value.project.id, bundle.value.project.styleIds,
+    );
+    const bundleStylesById = new Map(bundle.value.styles.map((style) => [style.id, style]));
+    for (const record of measurementCaptures) {
+      const style = bundleStylesById.get(record.styleId)!;
+      if (style.recipeId !== record.recipeId) {
+        throw new ProjectRepositoryError("invalid-data", "Measurement capture recipe must match its style recipe.");
+      }
+      if (record.revision !== 1) {
+        throw new ProjectRepositoryError("invalid-data", "Measurement capture revision must be 1 for creation in a project bundle.");
+      }
+      if (style.archivedAt !== null) {
+        throw new ProjectRepositoryError("invalid-data", "An archived style's capture session is read-only; restore the style first.");
+      }
+    }
     const clearRecoveryStyleIds = parseRecoveryClears(input.clearRecoveryStyleIds, bundle.value.project.styleIds);
     if (recoveries.some((recovery) => clearRecoveryStyleIds.includes(recovery.styleId))) {
       throw new ProjectRepositoryError("invalid-data", "A recovery record cannot be saved and cleared in the same bundle.");
@@ -1153,6 +1183,22 @@ export class ProjectRepository {
       const observationStore = transaction.objectStore(PROJECT_STORES.fieldObservations);
       const revisionStore = transaction.objectStore(PROJECT_STORES.styleRevisions);
       const manifestStore = transaction.objectStore(PROJECT_STORES.exportManifests);
+      const captureStore = transaction.objectStore(PROJECT_STORES.measurementCaptures);
+      for (const record of measurementCaptures) {
+        if (await requestValue<unknown>(captureStore.get([record.styleId, record.recipeId])) !== undefined) {
+          throw new ProjectRepositoryError("invalid-data", "A project bundle contains duplicate capture sessions for one style and recipe.");
+        }
+      }
+      for (const style of bundle.value.styles) {
+        if (!isCustomOneSizeStyle(style) || measurementCaptures.some((record) => record.styleId === style.id
+          && record.projectId === style.projectId && record.recipeId === style.recipeId)) continue;
+        const storedInput = await requestValue<unknown>(captureStore.get([style.id, style.recipeId]));
+        const stored = storedInput === undefined ? null : parseMeasurementCaptureRecord(storedInput);
+        if (!stored?.ok || stored.value.projectId !== style.projectId || stored.value.styleId !== style.id
+          || stored.value.recipeId !== style.recipeId) {
+          throw new ProjectRepositoryError("invalid-data", "A custom one-size style requires its matching saved measurement capture session.");
+        }
+      }
       const incomingObservations = new Map(fieldObservations.map((record) => [record.styleId, record]));
       const nextObservations: FieldObservationRecord[] = [];
       const incomingIds = new Set(bundle.value.styles.map((style) => style.id));
@@ -1167,6 +1213,9 @@ export class ProjectRepository {
       }
       for (const style of bundle.value.styles) {
         const existing = existingStyles.get(style.id);
+        if (existing && isCustomOneSizeStyle(existing) && style.recipeId !== existing.recipeId) {
+          throw new ProjectRepositoryError("invalid-data", "A custom one-size style cannot change its recipe.");
+        }
         if (existing && existing.projectId !== style.projectId) {
           throw new ProjectRepositoryError("conflict", "A style ID already belongs to another project.");
         }
@@ -1237,6 +1286,7 @@ export class ProjectRepository {
       }
       projects.put(bundle.value.project);
       for (const style of bundle.value.styles) styles.put(style);
+      for (const record of measurementCaptures) captureStore.add(record);
       for (const revision of styleRevisions) revisionStore.add(revision);
       for (const manifest of exportManifests) {
         const targetRevision = revisionsByStyle.get(manifest.styleId)?.find((revision) => revision.revisionId === manifest.revisionId)

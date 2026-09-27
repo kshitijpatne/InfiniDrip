@@ -914,3 +914,22 @@ data collection still require their own explicit gate.
   It does not establish physical fit, sewn construction, fabric print response,
   factory acceptance, or production readiness. Existing launch-cost, supplier,
   physical-sampling and hosted-service gates remain in force.
+
+## EPIC-16 custom one-size output identity — confirmed 2026-09-26
+
+- A custom style without an explicitly approved grade plan is a single-size
+  design. Its selected-size pattern exports remain available without grading.
+- Whole-run Tech Pack, Projector, and Marker outputs are withheld until the
+  user reviews and explicitly approves a grade plan. Existing legacy styles
+  keep their current export behavior and protected byte identities.
+- This is a digital output policy only; it does not qualify fit or a population
+  chart.
+
+## EPIC-16 custom-style inactive fields — implementation constraint
+
+- SaveFile v6 still requires the shared measurement object. A custom style
+  initializes measurements not consumed by its recipe to `STANDARD_M` as
+  schema-only padding. These values are not capture observations or recipe
+  inputs, are not copied from another style, and the custom style remains
+  locked to its recipe. This constraint preserves the protected legacy
+  SaveFile shape until a separately admitted schema migration.

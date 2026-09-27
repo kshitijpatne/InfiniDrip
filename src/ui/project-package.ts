@@ -29,6 +29,8 @@ import {
 } from "./style-revisions";
 import { ARTWORK_CATALOG } from "../surface/artwork-library/catalog";
 import {
+  CUSTOM_STYLE_RECORD_VERSION,
+  isCustomOneSizeStyle,
   parseMeasurementCaptureRecord,
   parseProjectRecord,
   parseRecoveryRecord,
@@ -51,6 +53,9 @@ export const PROJECT_PACKAGE_FORMAT = "infinidrip-project";
 export const PROJECT_PACKAGE_VERSION = 3;
 /** Written only when at least one style has a saved G03 capture session. */
 export const PROJECT_PACKAGE_CAPTURE_VERSION = 4;
+/** Written only when at least one style is a schema-v5 custom one-size style.
+ * It has the v4 key set; its capture list is always present and may be empty. */
+export const PROJECT_PACKAGE_CUSTOM_STYLE_VERSION = 5;
 export const PROJECT_PACKAGE_MAX_BYTES = 256 * 1024 * 1024;
 export const PROJECT_PACKAGE_MAX_CONTENT_BYTES = 256 * 1024 * 1024;
 export const PROJECT_PACKAGE_MAX_ASSETS = 128;
@@ -120,7 +125,8 @@ export interface ProjectPackageAssetRecord {
 
 export interface ProjectPackageManifest {
   readonly format: typeof PROJECT_PACKAGE_FORMAT;
-  readonly packageVersion: 1 | 2 | typeof PROJECT_PACKAGE_VERSION | typeof PROJECT_PACKAGE_CAPTURE_VERSION;
+  readonly packageVersion: 1 | 2 | typeof PROJECT_PACKAGE_VERSION | typeof PROJECT_PACKAGE_CAPTURE_VERSION
+    | typeof PROJECT_PACKAGE_CUSTOM_STYLE_VERSION;
   readonly packageSha256: string;
   readonly project: ProjectRecord;
   readonly styles: readonly StyleRecord[];
@@ -129,7 +135,7 @@ export interface ProjectPackageManifest {
   readonly styleRevisions: readonly StyleRevisionRecord[];
   readonly exportManifests: readonly ProjectPackageFrozenManifest[];
   readonly assets: readonly ProjectPackageAssetRecord[];
-  /** Present, and non-empty, only in package version 4. */
+  /** Present and non-empty in v4; required with each custom style's matching capture in v5. */
   readonly measurementCaptures?: readonly MeasurementCaptureRecord[];
 }
 
@@ -387,6 +393,39 @@ function packageMeasurementCaptures(
   return records;
 }
 
+/** True when a backup must use package v5. Custom styles are strictly parsed and
+ * a size marker on any other style schema is rejected, never dropped. */
+function snapshotHasCustomStyles(styles: readonly StyleRecord[]): boolean {
+  let custom = false;
+  for (const style of styles) {
+    const raw = style as unknown as Record<string, unknown>;
+    if (raw.schemaVersion !== CUSTOM_STYLE_RECORD_VERSION) {
+      if (hasOwn(raw, "sizeMode")) {
+        throw new ProjectPackageError("invalid-package", "Only style schema v5 custom one-size records may declare a size mode.");
+      }
+      continue;
+    }
+    const parsed = parseStyleRecord(style);
+    if (!parsed.ok) throw new ProjectPackageError("invalid-package", parsed.error);
+    custom = true;
+  }
+  return custom;
+}
+
+/** Every custom style must travel with its original selected/draft capture source. */
+function requireCustomStyleCaptures(
+  styles: readonly StyleRecord[],
+  captures: readonly MeasurementCaptureRecord[],
+): void {
+  for (const style of styles) {
+    if (!isCustomOneSizeStyle(style)) continue;
+    if (!captures.some((capture) => capture.styleId === style.id
+      && capture.projectId === style.projectId && capture.recipeId === style.recipeId)) {
+      throw new ProjectPackageError("invalid-package", "A custom one-size style requires its matching measurement capture session.");
+    }
+  }
+}
+
 function safeAssetMetadata(asset: StoredArtworkAsset): void {
   const suffix = mimeForAssetId(asset.assetId);
   if (!isLocalArtworkAssetId(asset.assetId) || suffix === null || ASSET_MIME_BY_SUFFIX[suffix] !== asset.mimeType
@@ -430,8 +469,12 @@ export async function createProjectPackage(
   artworkStore: ArtworkAssetStore,
   options: ProjectPackageOptions = {},
 ): Promise<Blob> {
+  const customStyles = snapshotHasCustomStyles(snapshot.styles);
   const history = await normalizeSnapshotHistory(snapshot, artworkStore, options);
   const measurementCaptures = packageMeasurementCaptures(snapshot.measurementCaptures ?? [], snapshot.project);
+  requireCustomStyleCaptures(history.styles, measurementCaptures);
+  const packageVersion = customStyles ? PROJECT_PACKAGE_CUSTOM_STYLE_VERSION
+    : measurementCaptures.length > 0 ? PROJECT_PACKAGE_CAPTURE_VERSION : PROJECT_PACKAGE_VERSION;
   const refs = historyAssetRefs(history.styles, history.revisions);
   const assetRecords: ProjectPackageAssetRecord[] = [];
   const sourceAssets: StoredArtworkAsset[] = [];
@@ -484,10 +527,11 @@ export async function createProjectPackage(
       throw new ProjectPackageError("limit-exceeded", "Project records, artwork and frozen outputs exceed the 256 MiB uncompressed package limit.");
     }
   }
-  // A package without captures keeps the exact v3 body, key order and digest.
+  // A package without captures or custom styles keeps the exact v3 body, key
+  // order and digest; a capture-only package keeps the exact v4 body.
   const body: Omit<ProjectPackageManifest, "packageSha256"> = {
     format: PROJECT_PACKAGE_FORMAT,
-    packageVersion: measurementCaptures.length > 0 ? PROJECT_PACKAGE_CAPTURE_VERSION : PROJECT_PACKAGE_VERSION,
+    packageVersion,
     project: snapshot.project,
     styles: history.styles,
     recoveries: snapshot.recoveries,
@@ -496,7 +540,7 @@ export async function createProjectPackage(
     styleRevisions: history.revisions,
     exportManifests: packageManifests,
     assets: assetRecords,
-    ...(measurementCaptures.length > 0 ? { measurementCaptures } : {}),
+    ...(packageVersion !== PROJECT_PACKAGE_VERSION ? { measurementCaptures } : {}),
   };
   const packageSha256 = await sha256(new TextEncoder().encode(canonical(body)), options);
   const manifest: ProjectPackageManifest = { ...body, packageSha256 };
@@ -860,17 +904,18 @@ function validateManifestShape(value: unknown): ProjectPackageManifest {
     ? ["format", "packageVersion", "packageSha256", "project", "styles", "recoveries", "assets"]
     : version === 2
       ? ["format", "packageVersion", "packageSha256", "project", "styles", "recoveries", "fieldObservations", "assets"]
-      : version === PROJECT_PACKAGE_CAPTURE_VERSION ? [...historyKeys, "measurementCaptures"] : historyKeys;
+      : version === PROJECT_PACKAGE_CAPTURE_VERSION || version === PROJECT_PACKAGE_CUSTOM_STYLE_VERSION
+        ? [...historyKeys, "measurementCaptures"] : historyKeys;
   if (!exactObject(value, expectedKeys)
     || value.format !== PROJECT_PACKAGE_FORMAT
     || (value.packageVersion !== 1 && value.packageVersion !== 2 && value.packageVersion !== PROJECT_PACKAGE_VERSION
-      && value.packageVersion !== PROJECT_PACKAGE_CAPTURE_VERSION)
+      && value.packageVersion !== PROJECT_PACKAGE_CAPTURE_VERSION && value.packageVersion !== PROJECT_PACKAGE_CUSTOM_STYLE_VERSION)
     || typeof value.packageSha256 !== "string" || !/^[0-9a-f]{64}$/.test(value.packageSha256)
     || !Array.isArray(value.styles) || !Array.isArray(value.recoveries) || !Array.isArray(value.assets)
     || (value.packageVersion >= 2 && !Array.isArray(value.fieldObservations))
     || (value.packageVersion >= PROJECT_PACKAGE_VERSION && (!Array.isArray(value.styleRevisions) || !Array.isArray(value.exportManifests)))
-    || (value.packageVersion === PROJECT_PACKAGE_CAPTURE_VERSION
-      && (!Array.isArray(value.measurementCaptures) || value.measurementCaptures.length === 0))) {
+    || (value.packageVersion >= PROJECT_PACKAGE_CAPTURE_VERSION && !Array.isArray(value.measurementCaptures))
+    || (value.packageVersion === PROJECT_PACKAGE_CAPTURE_VERSION && (value.measurementCaptures as unknown[]).length === 0)) {
     throw new ProjectPackageError("invalid-package", "Project package manifest is incomplete, unknown, or unsupported.");
   }
   const project = parseProjectRecord(value.project);
@@ -893,6 +938,14 @@ function validateManifestShape(value: unknown): ProjectPackageManifest {
   });
   const bundle = validateProjectBundle(project.value, styles);
   if (!bundle.ok) throw new ProjectPackageError("invalid-package", bundle.error);
+  // Package v5 exists only to carry custom one-size styles; earlier versions never may.
+  const customStyles = bundle.value.styles.some(isCustomOneSizeStyle);
+  if (customStyles && value.packageVersion !== PROJECT_PACKAGE_CUSTOM_STYLE_VERSION) {
+    throw new ProjectPackageError("invalid-package", "Custom one-size styles require project package version 5.");
+  }
+  if (!customStyles && value.packageVersion === PROJECT_PACKAGE_CUSTOM_STYLE_VERSION) {
+    throw new ProjectPackageError("invalid-package", "Project package version 5 must contain a custom one-size style.");
+  }
   const styleIds = new Set(styles.map((style) => style.id));
   const suppliedFieldObservations = Array.isArray(value.fieldObservations) ? value.fieldObservations : [];
   const recoveries = value.recoveries.map((recovery) => {
@@ -988,9 +1041,10 @@ function validateManifestShape(value: unknown): ProjectPackageManifest {
       throw new ProjectPackageError("invalid-package", `Attribution labels for ${asset.assetId} do not match the saved placements.`);
     }
   }
-  const measurementCaptures = value.packageVersion === PROJECT_PACKAGE_CAPTURE_VERSION
+  const measurementCaptures = value.packageVersion >= PROJECT_PACKAGE_CAPTURE_VERSION
     ? packageMeasurementCaptures(value.measurementCaptures as unknown[], project.value)
     : [];
+  requireCustomStyleCaptures(bundle.value.styles, measurementCaptures);
   return {
     format: PROJECT_PACKAGE_FORMAT,
     packageVersion: value.packageVersion as ProjectPackageManifest["packageVersion"],
@@ -1002,7 +1056,7 @@ function validateManifestShape(value: unknown): ProjectPackageManifest {
     styleRevisions,
     exportManifests,
     assets,
-    ...(measurementCaptures.length > 0 ? { measurementCaptures } : {}),
+    ...(value.packageVersion >= PROJECT_PACKAGE_CAPTURE_VERSION ? { measurementCaptures } : {}),
   };
 }
 
