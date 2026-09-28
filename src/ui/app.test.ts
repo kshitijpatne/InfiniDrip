@@ -6145,7 +6145,11 @@ describe("bundled local artwork library (Slice 203)", () => {
         input.dispatchEvent(new Event("input", { bubbles: true }));
       }
       action("save-draft").click();
-      await vi.waitFor(() => expect(root.querySelector(".grade-plan-status")?.textContent).toBe("Draft — not reviewed"));
+      await vi.waitFor(() => expect({
+        disabled: action("review").disabled,
+        issues: root.querySelector(".grade-plan-issues")?.textContent ?? null,
+        status: root.querySelector(".grade-plan-status")?.textContent,
+      }).toEqual({ disabled: false, issues: null, status: "Draft — not reviewed" }));
       action("review").click();
       await vi.waitFor(() => expect(root.querySelector(".grade-plan-status")?.textContent).toBe("Reviewed; approval still required"));
       action("approve").click();
@@ -6427,6 +6431,42 @@ describe("bundled local artwork library (Slice 203)", () => {
       await vi.waitFor(() => expect(root.querySelector(".grade-plan-status")?.textContent).toBe("Stale — approval cannot be used"));
       action("refresh").click();
       await vi.waitFor(() => expect(root.textContent).toContain("Base refreshed. Re-enter the basis, size rules and every size change; prior approval was cleared."));
+
+      fillPlanMetadata();
+      action("save-draft").click();
+      await vi.waitFor(() => expect(root.querySelectorAll<HTMLInputElement>("[data-grade-plan-delta]").length)
+        .toBeGreaterThan(0));
+      for (const input of root.querySelectorAll<HTMLInputElement>("[data-grade-plan-delta]")) {
+        if (input.readOnly) continue;
+        input.value = "0";
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+      }
+      action("save-draft").click();
+      await vi.waitFor(() => expect({
+        disabled: action("review").disabled,
+        issues: root.querySelector(".grade-plan-issues")?.textContent ?? null,
+        status: root.querySelector(".grade-plan-status")?.textContent,
+      }).toEqual({ disabled: false, issues: null, status: "Draft — not reviewed" }));
+      action("review").click();
+      await vi.waitFor(() => expect(root.querySelector(".grade-plan-status")?.textContent)
+        .toBe("Reviewed; approval still required"));
+      action("approve").click();
+      await vi.waitFor(() => expect(root.querySelector(".grade-plan-status")?.textContent)
+        .toBe("Approved grade-plan record"));
+      const styleTarget = root.querySelector<HTMLSelectElement>("#style-target")!;
+      const alternateStyle = [...styleTarget.options].find((option) => option.value !== styleTarget.value)!;
+      styleTarget.value = alternateStyle.value;
+      styleTarget.dispatchEvent(new Event("change", { bubbles: true }));
+      reachExportStage(root);
+      const gradedSize = root.querySelector<HTMLSelectElement>("#export-size")!;
+      expect([...gradedSize.options].map((option) => option.value)).toContain("S");
+      gradedSize.value = "S";
+      gradedSize.dispatchEvent(new Event("change", { bubbles: true }));
+      expect(gradedSize.value).toBe("__one-size__");
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(false);
+      expect(root.querySelector<HTMLButtonElement>("#export-techpack")!.disabled).toBe(true);
+      expect(root.querySelector<HTMLButtonElement>("#export-projector")!.disabled).toBe(true);
+      expect(root.querySelector<HTMLButtonElement>("#nest-marker")!.disabled).toBe(true);
     } finally {
       delete window.electronAPI;
       workflow.close();

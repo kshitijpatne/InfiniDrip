@@ -135,10 +135,12 @@ their existing contents and byte identities. Copy imports rebind a plan to the
 new style and revision identities and clear review and approval. A custom style
 starts with one-size outputs. Its separately approved, current grade plan can
 derive only the explicitly declared sizes from authored changes to the base;
-the plan does not infer a population chart or fill unstated increments. Slice
-251 validates every derived block, recipe option, POM, and cutting quantity
-before enabling size-specific graded outputs or whole-run Tech Pack,
-Projector, and Marker files. Applicable POMs require exact equality in
+the plan does not infer a population chart or fill unstated increments. Slices
+251–252 validate every derived block, supported option, measurement and recipe
+guidance, seam and notch declaration, POM, and cutting quantity before enabling
+size-specific graded outputs or whole-run Tech Pack, Projector, and Marker
+files. A plan-driven export also requires the approved base style to be saved
+and current. Applicable POMs require exact equality in
 unrounded centimetres. A mismatch blocks its size, and any blocked size blocks
 the whole run. An explicit not-applicable POM exception must retain its visible
 reason and is not a numeric match. Stale, invalid, unapproved, or concurrently
@@ -314,9 +316,11 @@ complete matrix and residual risks are recorded in
 F02 and F03 are complete. PR #11 merged the reviewed Slice 240 tree to
 `origin/main` at `e5155e82dbd21cda5b3f537b950eb4c32a22d215`; Slice 241 verified
 the S204/S205/S240 ancestry and closed EPIC-15 at Control Center revision 315.
-EPIC-16/G03 is admitted; M01 and M02 are complete, and M03 is In Progress for
-Slice 251 approved-grade output integration after Slice 250's grade-plan
-record/review exit. EPIC-17 through EPIC-30 remain Backlog. This digital work
+EPIC-16/G03 is admitted; M01 and M02 are complete. M03's Slice 251 output
+integration passed its gates, then independent review required the Slice 252
+per-size validation and saved-base export remediation before final review.
+Slice 253 is the G03 final review and merge exit. EPIC-17 through EPIC-30
+remain Backlog. This digital work
 does not establish physical fit, drape, factory
 acceptance, supplier readiness, or production readiness.
 Slice 237 is now complete: it adds the semantic-anchor operation model,

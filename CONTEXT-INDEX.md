@@ -113,7 +113,7 @@ only through an explicitly admitted, linked Epic packet.
   use `PROJECT-STATE.md` and the canonical Control Center for current status.
 - `docs/planning/EPIC-16-ADMISSION.md` — the maintainer-admitted G03/M01–M03
   execution contract, verified start, seven-recipe C03 boundaries, ordered
-  Slice 244–252 plan, source qualification and grade approval gates, and merge
+  Slice 244–253 plan, source qualification and grade approval gates, and merge
   exit. Slices 246–247 completed the guided route, source-qualified field help,
   resume, conflict, narrow-layout, accessibility and all-recipe validation.
   Slice 248–249 completed M02. Use `PROJECT-STATE.md` and the canonical
@@ -122,9 +122,14 @@ only through an explicitly admitted, linked Epic packet.
   browser evidence, and the remaining S251 integration boundary.
 - `docs/research/epic16/S251-EXIT.md` and
   `docs/research/epic16/evidence/S251-graded-output-verification.json` — Slice
-  251's approved plan-driven graded outputs, exact unrounded POM gate, seven-
-  recipe output parsing and coverage evidence; Slice 252 remains the final
-  review and merge gate.
+  251's approved plan-driven graded outputs, exact unrounded POM gate, output
+  parsing and coverage evidence. Slice 252 records the independent-review
+  safety remediation; Slice 253 is the final review and merge gate.
+- `docs/research/epic16/S252-GRADE-RUN-SAFETY-REMEDIATION.md` and
+  `docs/research/epic16/evidence/S252-safety-verification.json` — accepted
+  independent S251 audit findings, bounded safety-remediation scope, exact
+  acceptance results, full-coverage metrics, build/Control Center results, and
+  rendered grade-plan review for Slice 252.
 - `docs/research/epic16/S250-EXPLICIT-GRADE-PLAN-RECORD-AND-REVIEW.md` — Slice
   250's exact scope, strict grade-plan fields, stale-approval boundary,
   migration/output non-goals, and exit checks. It does not supply a population,

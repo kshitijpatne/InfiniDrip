@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { GARMENTS, STANDARD_M, blockPieces, defaultGarmentOptions } from "../drafting";
+import { GARMENTS, STANDARD_M, blockPieces, defaultGarmentOptions, iface } from "../drafting";
 import { gradedMarkerForRun, exportProjectorSvg, exportTechPackV2ForGradePlan } from "../export";
 import { PDFDocument } from "pdf-lib";
 import { DEFAULT_APPEARANCE } from "./appearance";
@@ -274,6 +274,42 @@ describe("approved grade-plan drafting and exact reconciliation", () => {
     const adjusted = evaluateGradePlanRun(tee.recipe, tee.style.design.measurements, {}, tee.plan, tee.context,
       (_size, _measurements, _options, block) => ({ block, issues: ["anchor missing"] }));
     expect(adjusted.sizes[0]!.issues.join(" ")).toContain("anchor missing");
+  });
+
+  it("blocks each size when recipe guidance, stitches, or notch declarations fail", async () => {
+    const woven = await fixture("woven-shirt");
+    const length = woven.plan.targets.find((target) => target.targetId === "measurement.length")!;
+    const hipDepth = woven.plan.targets.find((target) => target.targetId === "measurement.hipDepth")!;
+    let invalidStationPlan = unwrap(setGradePlanDelta(woven.plan, length.targetId, "S", -30, T4));
+    invalidStationPlan = unwrap(setGradePlanDelta(invalidStationPlan, hipDepth.targetId, "S", 7, T4));
+    invalidStationPlan = unwrap(reviewGradePlan(invalidStationPlan,
+      woven.context.targets.map((target) => target.targetId), woven.context.binding, T4));
+    invalidStationPlan = unwrap(approveGradePlan(invalidStationPlan,
+      woven.context.targets.map((target) => target.targetId), woven.context.binding, T4));
+    const invalidStation = evaluateGradePlanRun(woven.recipe, woven.style.design.measurements,
+      woven.style.design.garmentOptions[woven.recipe.name] ?? {}, invalidStationPlan, woven.context);
+    expect(invalidStation.wholeRunReady).toBe(false);
+    expect(invalidStation.sizes[0]!.issues.join(" ")).toContain("hip station");
+
+    const tee = await fixture();
+    const malformedStitches = {
+      ...tee.recipe,
+      draft: (measurements: typeof STANDARD_M, options: Readonly<Record<string, number>> = {}) => {
+        const block = tee.recipe.draft(measurements, options);
+        const stitch = block.stitches[0]!;
+        return { ...block, stitches: [{ ...stitch, label: "Synthetic invalid seam", b: iface() }] };
+      },
+    };
+    const stitchResult = evaluateGradePlanRun(malformedStitches, tee.style.design.measurements,
+      tee.style.design.garmentOptions.tee ?? {}, tee.plan, tee.context);
+    expect(stitchResult.wholeRunReady).toBe(false);
+    expect(stitchResult.sizes[0]!.issues.join(" ")).toContain("Synthetic invalid seam");
+
+    const missingNotches = { ...tee.recipe, notches: [] };
+    const notchResult = evaluateGradePlanRun(missingNotches, tee.style.design.measurements,
+      tee.style.design.garmentOptions.tee ?? {}, tee.plan, tee.context);
+    expect(notchResult.wholeRunReady).toBe(false);
+    expect(notchResult.sizes[0]!.issues.join(" ")).toContain("missing notches");
   });
 
   it("blocks absent or unsupported target rows and reports POM measurement failures", async () => {

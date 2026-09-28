@@ -2,7 +2,9 @@
 
 **Status:** Slice 251 implementation, post-correction targeted tests, full
 coverage gate, strict builds, Control Center gate, and rendered Tech Pack review
-pass. Slice 252 final review, PR merge, and EPIC-16 closure remain open.
+passed. Independent S252 review found two output-safety gaps and evidence
+wording errors. Slice 252 records their remediation and reruns the gates before
+the separate final-review slice.
 **Verified:** 2026-09-28
 **Scope:** Apply a user's separately approved grade plan to declared sizes and
 release only outputs whose drafting, exact POM, and quantity checks pass.
@@ -21,9 +23,10 @@ release only outputs whose drafting, exact POM, and quantity checks pass.
 - Stale, unapproved, invalid, concurrently changed, or incomplete plans fail
   closed. Plan-driven whole-run Tech Pack, Projector, Marker and frozen output
   captures are available only after all declared sizes pass.
-- Per-size Tech Pack/Projector/Marker output and cut-piece quantities are
-  generated from the same declared run. Existing custom one-size exports and
-  legacy grading/export bytes remain available and unchanged.
+- Selected-size cutting files and whole-run Tech Pack, Projector, and Marker
+  output use the same declared run and its per-size cut-piece quantities.
+  Existing custom one-size exports and legacy grading/export bytes remain
+  available and unchanged.
 - Frozen output manifests bind the approved plan and its output-integrity data;
   repository verification and semantic edit replay retain the same plan state.
 
@@ -36,22 +39,20 @@ methods, and 11,050/11,050 conditionals. `npm run build` and
 `npm run electron:build-main` passed. The Control Center gate passed 33/33
 tests. The build retains its existing non-blocking large-chunk warning.
 
-The plan-run integration test drafts the seven admitted recipes (Tee, Darted
-tee, Tank, Polo, Woven shirt, Skirt, and Trouser) at three declared sizes. It
-uses authored nonzero measurement deltas (chest +3/+8 cm, waist −2/+5 cm, and
-+1/+2 cm for every other measurement), option steps where supported, and an
-off-centre base size. It verifies that the base size reproduces the saved
-block, measurements, and options. Its POM targets are written back from the
-generated geometry, so its zero-mismatch result is a round-trip consistency
-check of the exact comparison, not independent verification of POM output.
-Separately, a 0.01 cm target change is reported as a mismatch and blocks the
-run. Plan Tech Pack PDFs load for all seven recipes with every size title
-present, projector layers identify every size, and Marker quantities match
-every drafted piece across the run. A twelve-size long-label case covers column
-pagination and wrapped not-applicable reasons. Other cases cover invalid inputs
-and options, missing targets, stale approval, a forged plan digest,
-user-controlled XML labels, and freeze gating. The app test also preserves the
-standard graded freeze path.
+The plan-run tests cover the seven admitted recipes (Tee, Darted Tee, Tank,
+Polo, Woven Shirt, Skirt, and Trouser) at three declared sizes. The successful
+Tech Pack/Projector/Marker integration test uses zero deltas, so its generated
+geometries are identical across sizes. The separate test named `blocks exact
+POM mismatches after nonzero inputs and option deltas from an off-center base`
+applies nonzero measurement and supported option changes from an off-centre
+base while keeping POM deltas at zero. The base size passes and changed sizes
+block because their exact POM targets no longer match. This verifies the
+negative release gate; it does not prove successful all-recipe output for
+distinct geometry. A 0.01 cm target change is separately reported as a
+mismatch. A twelve-size long-label case covers column pagination and wrapped
+not-applicable reasons. Other cases cover invalid inputs and options, missing
+targets, stale approval, a forged plan digest, user-controlled XML labels, and
+freeze gating. The app test also preserves the standard graded freeze path.
 
 ### Plan Tech Pack and evidence corrections
 
@@ -105,12 +106,14 @@ remains readable on its exception page. Page images are retained in
 and a conservative text-width bound. The corrected full coverage gate,
 application and Electron builds, and Control Center gate all pass.
 
-The Codex-controlled final review applied the independent Claude Code and
-OpenCode audits. It fixed unsaved persistent-output freeze checks, stale selected
-size handling, selected-size A0 allowances, direct-export plan freshness,
-single-size Fabric Nest geometry and allowances, exact plan-digest verification,
-Tech Pack layout and rounding, and repeated grade-run drafting cost. Ordinary
-safe projector layer IDs and legacy exports remain compatible.
+The Codex-controlled S251 implementation incorporated earlier audit fixes for
+unsaved freeze checks, selected-size state, direct-export freshness,
+Tech Pack layout and rounding, and plan-digest verification. Independent S252
+review later found that plan-run sizes did not repeat the base design's
+guidance, stitch, and notch checks, and direct plan exports did not reject an
+unsaved base design after a fresh UI review. Slice 252 addresses these gaps and
+records the exact test evidence. OpenCode also identified the correction from
+per-size to whole-run Tech Pack/Projector/Marker wording.
 
 The built app was inspected in the browser at `http://127.0.0.1:4177/` in Style
 stage using the existing saved custom Woven shirt workspace. The rendered grade
@@ -130,14 +133,17 @@ readiness. No test yet compares the grade-plan evaluator's generated POMs with
 independently authored POM targets for every recipe. The authored oracle covers
 two Tee POMs in the plan Tech Pack. The rendered review covers representative
 spec, Fit Record, and exception pages from one synthetic Tee run; it is not a
-human-factors review of every recipe's complete Tech Pack. The writer is
-ASCII-only, so non-ASCII characters in user labels or reasons print as `?`.
+human-factors review of every recipe's complete Tech Pack. Standalone Tech Pack
+and Projector files do not embed the plan source/decision or its approval
+digest; the approved plan record and digest are retained in local frozen-output
+manifests. The writer is ASCII-only, so non-ASCII characters in user labels or
+reasons print as `?`.
 The maintainer's 15 high-priority manual
 UI findings remain durable
 findings only; they have not been added to the implementation roadmap or board.
 
-Slice 252 is the next action: independent final review by Codex, Claude Code
-Opus 5.5 at high effort, and OpenCode Muse Spark 1.3 at xhigh; resolve any
-findings, prepare and review the PR, merge it safely into `origin/main`, verify
-ancestry, and close EPIC-16 through the validated Control Center command
-layer.
+Slice 253 is the final action: reconcile the complete admission packet and
+M01–M03 evidence, review actual all-recipe drafted/exported output and rendered
+browser states, run the full gates, prepare and review the PR, merge safely to
+`origin/main`, verify ancestry, and close EPIC-16 through the validated Control
+Center command layer.

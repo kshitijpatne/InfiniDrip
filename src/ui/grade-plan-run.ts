@@ -1,8 +1,10 @@
 /** Plan-driven custom-style drafting. This module never consults legacy grade rules. */
+import { blockPieces, stitchChecks } from "../drafting";
 import type { Block } from "../drafting/block";
 import type { Measurements } from "../drafting/measurements";
 import type { GarmentOptions } from "../drafting/options";
 import type { GarmentRecipe } from "../drafting/recipe";
+import { coherenceChecks, notchGrainCheck, plausibilityChecks } from "../guidance";
 import { FIELDS } from "./controls";
 import {
   gradePlanCompletionIssues,
@@ -160,8 +162,25 @@ export function evaluateGradePlanRun(
           block = adjusted.block;
           issues.push(...adjusted.issues.map((issue) => `${size.label}: ${issue}`));
         }
-        for (const check of recipe.checks(block, measurements)) {
+        // Revalidate the actual per-size block, including semantic replay.
+        // recipe.checks alone omits the shared stitch and notch contracts, and
+        // recipe.guidance plus the measurement sanity tiers are otherwise only
+        // evaluated for the saved base style by the app.
+        const checks = [
+          ...stitchChecks(block, block.stitches),
+          ...recipe.checks(block, measurements),
+          notchGrainCheck(blockPieces(block).map((piece) => piece.name), recipe.notches),
+        ];
+        for (const check of checks) {
           if (!check.ok) issues.push(`${size.label}: ${check.name} — ${check.detail}`);
+        }
+        const warnings = [
+          ...recipe.guidance(block, measurements, options),
+          ...plausibilityChecks(measurements, recipe.fields),
+          ...coherenceChecks(measurements, recipe.fields),
+        ];
+        for (const warning of warnings) {
+          if (warning.level === "warn") issues.push(`${size.label}: ${warning.text}`);
         }
       } catch (error) {
         issues.push(error instanceof Error ? `${size.label}: ${error.message}` : `${size.label}: drafting failed.`);

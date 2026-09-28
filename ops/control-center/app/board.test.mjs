@@ -93,14 +93,14 @@ test("closed Epics 14 and 15 and gated future backlog match their evidence", () 
       assert.match(epic.description, /docs\/planning\/EPIC-16-ADMISSION\.md/);
       const admittedWork = board.workItems.filter((entry) => entry.epicId === id && entry.id !== id);
       assert.deepEqual(admittedWork.map((entry) => entry.id), [
-        "EPIC16-M01", "EPIC16-M02", "EPIC16-M03", "EPIC16-FINAL-REVIEW",
+        "EPIC16-M01", "EPIC16-M02", "EPIC16-M03", "EPIC16-FINAL-REVIEW", "EPIC16-M03-SAFETY",
       ]);
       assert.equal(admittedWork[0].status, "Done");
       assert.deepEqual(admittedWork.slice(1).map((entry) => entry.status), [
-        "Done", "Done", "Ready",
+        "Done", "Done", "In Progress", "In Progress",
       ]);
       assert.deepEqual(admittedWork.map((entry) => entry.dependencies.at(-1)), [
-        "EPIC-15", "EPIC16-M01", "EPIC16-M02", "EPIC16-M03",
+        "EPIC-15", "EPIC16-M01", "EPIC16-M02", "EPIC16-M03-SAFETY", "EPIC16-M03",
       ]);
     }
   }

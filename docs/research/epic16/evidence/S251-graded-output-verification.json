@@ -30,9 +30,9 @@
     },
     {
       "source": "src/ui/grade-plan-run.test.ts",
-      "test": "reconciles nonzero nonlinear authored inputs and option deltas from an off-center base for every recipe",
-      "evidence": "Authored measurement deltas (chest +3/+8 cm, waist -2/+5 cm, every other measurement +1/+2 cm at M/L) and supported option steps draft distinct sizes from an off-centre base S at position zero; S reproduces the saved block, measurements and options; the evaluator passes exact raw comparison once targets are set.",
-      "limitation": "POM targets are written back from the generated geometry (target delta = pom.actual - baseValue, lines 166-172), so zero mismatches is a round-trip consistency result. It does not independently verify generated POM values against authored POM targets."
+      "test": "blocks exact POM mismatches after nonzero inputs and option deltas from an off-center base",
+      "evidence": "For each of the seven recipes, the test applies nonzero measurement deltas (+1/+2 cm) and supported option steps from base size S, while leaving POM deltas at zero. S reproduces the saved block, measurements, and options and passes; changed sizes are blocked by exact POM mismatches. This is negative release-gate evidence.",
+      "limitation": "This test does not demonstrate successful output generation for distinct size geometry. The all-recipe Tech Pack/Projector/Marker integration test uses zero deltas, so its sizes are geometrically identical. Independent authored POM output expectations are covered only by the synthetic Tee oracle in src/export/techpack.test.ts."
     },
     {
       "source": "src/ui/grade-plan-run.test.ts",

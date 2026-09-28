@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "slice": 252,
+  "verifiedDate": "2026-09-28",
+  "scope": "Per-size grade-run validation and saved-base approval gates",
+  "decisions": {
+    "pomComparison": "Exact raw numeric equality; no tolerance or rounding",
+    "wholeRunOutputs": "Withheld until an approved plan exists and every declared size passes current validation",
+    "oneSizeWithoutPlan": "Existing standalone one-size exports remain available under their existing checks"
+  },
+  "remediations": [
+    "Every drafted plan-size block, including semantic replay output, now runs recipe guidance, shared plausibility/coherence checks, stitch integrity, recipe construction checks, and notch declaration checks.",
+    "Plan-driven selected-size and whole-run outputs now require a current approved plan based on the saved active design.",
+    "S251 evidence wording now identifies Tech Pack, Projector, and Marker as whole-run outputs and accurately describes the negative nonzero-delta POM test."
+  ],
+  "verification": {
+    "focusedGradeRun": "npx vitest run src/ui/grade-plan-run.test.ts — 10/10 passed",
+    "savedBaseGate": "npx vitest run src/ui/app.test.ts -t \"gates whole-run outputs on exact plan readiness and invalidates approval after edits\" — 1/1 passed",
+    "coverage": {
+      "command": "npm run coverage",
+      "testFiles": "133/133 passed",
+      "tests": "2024/2024 passed",
+      "statements": "24052/24052",
+      "functions": "1452/1452",
+      "branches": "11054/11054",
+      "lines": "100%"
+    },
+    "build": "npm run build — passed, 129 Vite modules",
+    "electronBuild": "npm run electron:build-main — passed",
+    "controlCenter": "npm run control-center:test — 33/33 passed",
+    "protectedExports": "All eight approved legacy export identities passed the full regression gate; hashes remain as recorded in S251-graded-output-verification.json. No baseline changed.",
+    "renderedReview": {
+      "url": "http://127.0.0.1:4177/",
+      "result": "The Style view visibly presents the explicit Grade plan entry, states that no chart is filled from another size, and explains exact unrounded POM reconciliation before files can be used.",
+      "savedBrowserDataChanged": false
+    }
+  },
+  "limitations": [
+    "Successful seven-recipe Tech Pack, Projector, and Marker parity still uses zero-delta size rules; the positive output case does not independently establish distinct-size geometry.",
+    "The nonzero-delta test proves changed sizes are blocked by exact POM mismatch; it is not positive distinct-size output evidence.",
+    "Digital drafting and output checks do not establish physical fit, population validity, manufacturing tolerance, sample approval, or factory readiness."
+  ],
+  "protectedExportIdentityReference": "docs/research/epic16/evidence/S251-graded-output-verification.json"
+}

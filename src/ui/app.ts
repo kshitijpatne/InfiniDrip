@@ -1601,11 +1601,14 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     garmentReport(checkRecipe, measurements, recipeOptions(), { includeSizeRun: !customOneSizeStyle() });
   const canExport = (): boolean => styleReviewed && checkReviewed && baseDesignValid()
     && (customOneSizeStyle()
-      ? gradePlanSelectedLabel === null ? semanticSizeReady(0) : selectedGradePlanSize()?.ready === true
+      ? gradePlanSelectedLabel === null ? semanticSizeReady(0) : gradePlanApproved()
+        && selectedGradePlanSize()?.ready === true
         && selectedGradePlanSize()?.poms.every((pom) => pom.exceptionReason === null) === true
       : semanticSizeReady(selectedOutputStep()));
   const canExportRun = (): boolean => styleReviewed && checkReviewed && baseDesignValid()
-    && (customOneSizeStyle() ? currentGradePlanRun().wholeRunReady : semanticRunReady());
+    && (customOneSizeStyle()
+      ? gradePlanApproved() && currentGradePlanRun().wholeRunReady
+      : semanticRunReady());
   const markerAvailabilityTitle = (): string => !customOneSizeStyle()
     ? gradedMarkerAvailabilityTitle(false)
     : canExportRun()

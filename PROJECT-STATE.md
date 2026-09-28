@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: EPIC-16/G03 Slice 251 verified, 2026-09-28._
+_Last updated: EPIC-16/G03 Slice 252 remediation verified, 2026-09-28._
 Current directive: EPIC-14/G01 and EPIC-15/G02 are closed with accepted exit
 evidence. The maintainer admitted EPIC-16/G03 at Slice 244 from `origin/main`
 Slice 242, preserving the local Slice 243 manual-quality findings in its
@@ -9,14 +9,17 @@ reviewed branch. The linked execution contract is
 ordered scope. G03 is local-first and digital; no body-capture procedure is
 presented as qualified without accepted sourcing/review, and no physical-fit
 claim is authorized. The validated Control Center records EPIC-16 as In
-Progress with M01 and M02 Done and M03 accepted after Slice 251's plan-driven
-drafting, exact POM/cutting reconciliation, gated graded outputs, final 100%
-coverage run, strict builds, and rendered output review. Slice 251 evidence is
-recorded in `docs/research/epic16/S251-EXIT.md`; the canonical board transitions
-are recorded with this commit. The final-review card is Ready and depends on
-the Slice 251 PR merge. Slice 252 owns independent final review, PR merge,
-ancestry verification, and G03 closure. The current working tree remains
-uncommitted.
+Progress with M01 and M02 Done and M03's Slice 251 plan-driven drafting, exact
+POM/cutting reconciliation, and gated graded outputs verified. Independent
+S251 audits found per-size validation and unsaved-base export gaps; Slice 252
+remediates both and passes the full 100% coverage gate, strict app/Electron
+builds, Control Center tests, and rendered browser review. Slice 252 evidence is
+recorded in `docs/research/epic16/S252-GRADE-RUN-SAFETY-REMEDIATION.md`; its
+board evidence and completion transition remain for final review. The canonical
+board is at revision 354, with the safety-remediation and final-review work
+items In Progress. PR #14 remains draft pending remediation and review. Slice
+253 owns final output/browser verification, PR merge, ancestry verification,
+and G03 closure.
 Slice 247
 completed M01's durable resume, conflict, narrow-layout, accessibility, and
 all-recipe exits. Slice 248 completed deterministic custom one-size
@@ -38,12 +41,14 @@ and Axe checks at 320, 390, and 1440 CSS pixels. The exact review evidence is
 `docs/release/EPIC-15-G02-FINAL-REVIEW-S240.md`; the merged-exit record is
 `docs/release/EPIC-15-G02-MERGE-EXIT-S241.md`.
 
-The canonical Control Center is at revision 349: the EPIC-15 summary and final
+The canonical Control Center is at revision 354: the EPIC-15 summary and final
 review work items are Done, and the EPIC-15 record is Closed with verified
 S241 exit-report evidence. EPIC-16/G03 is In Progress, its M01 and M02 cards
 are Done with verified exit reports, M03 is Done with verified Slice 251 exit
-evidence, and final-review is Ready pending the Slice 251 merge. Slice 251 exit
-evidence was attached using the validated command layer after the full gate
+evidence, the S252 safety-remediation card is In Progress, and final-review is
+In Progress with both M03 and safety remediation as dependencies. The S252 and
+S253 board transitions used the validated command layer. Slice 251 exit
+evidence was attached using the validated command layer after its full gate
 passed. Slice 248 exit
 verification passed 546/546
 test suites and 1,919/1,919 tests at 100% statement, branch, function, and line
