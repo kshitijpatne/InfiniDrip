@@ -60,5 +60,7 @@ describe("Slice 121 accessibility audit", () => {
     chest.dispatchEvent(new Event("input", { bubbles: true }));
     click(root, "load-pattern");
     await audit("load confirmation dialog");
-  }, 60_000);
+  // Six whole-app axe runs span more UI states and can exceed one minute when
+  // the complete coverage suite is running concurrently.
+  }, 120_000);
 });

@@ -64,8 +64,10 @@ function sizeInputsMarkup(recipeId: string, size: GradePlanRunSize): string {
 }
 
 /** Read-only Check panel for output readiness and the exact unrounded POM comparison. */
-export function gradePlanRunMarkup(evaluation: GradePlanRunEvaluation): string {
-  const headline = evaluation.wholeRunReady
+export function gradePlanRunMarkup(evaluation: GradePlanRunEvaluation, outputBaseSaved = true): string {
+  const headline = !outputBaseSaved
+    ? "Save the style. Then refresh, review, and approve its grade plan before exporting."
+    : evaluation.wholeRunReady
     ? "Every declared size passes geometry and exact POM reconciliation."
     : "Graded outputs stay blocked until the listed size checks pass.";
   const blockers = evaluation.sizes.length === 0
@@ -94,5 +96,7 @@ export function gradePlanRunMarkup(evaluation: GradePlanRunEvaluation): string {
     return `<details class="grade-plan-run-size"${size.ready ? "" : " open"}><summary>${escapeHtml(size.label)} — ${size.ready ? "ready" : "blocked"}</summary>${issues}${sizeInputsMarkup(evaluation.recipeId, size)}${table}</details>`;
   }).join("");
   return `<section class="grade-plan-run-review" aria-label="Approved grade-plan output checks">` +
-    `<h3>Declared size run</h3><p>${headline}</p>${blockerMarkup}${sizeMarkup}</section>`;
+    `<h3>Declared size run</h3><p>${headline}</p>` +
+    `${!outputBaseSaved ? '<p role="status">The saved style does not include all current output-affecting changes.</p>' : ""}` +
+    `${blockerMarkup}${sizeMarkup}</section>`;
 }

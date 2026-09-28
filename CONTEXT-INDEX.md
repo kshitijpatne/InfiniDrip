@@ -130,6 +130,12 @@ only through an explicitly admitted, linked Epic packet.
   independent S251 audit findings, bounded safety-remediation scope, exact
   acceptance results, full-coverage metrics, build/Control Center results, and
   rendered grade-plan review for Slice 252.
+- `docs/research/epic16/S253-G03-FINAL-REVIEW.md` and
+  `docs/research/epic16/evidence/S253-final-review-verification.json` — the
+  final-review boundary, pre/post-audit full-gate results, seven-recipe
+  distinct-size output replay, independent audit reconciliation, rendered Grade
+  plan panel screenshot, and current PR/board state. Fresh S253 audits, merge,
+  and G03 closure remain open.
 - `docs/research/epic16/S250-EXPLICIT-GRADE-PLAN-RECORD-AND-REVIEW.md` — Slice
   250's exact scope, strict grade-plan fields, stale-approval boundary,
   migration/output non-goals, and exit checks. It does not supply a population,

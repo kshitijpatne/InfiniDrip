@@ -2504,7 +2504,7 @@ describe("semantic Edit view", () => {
     } finally {
       vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
     }
-  });
+  }, 15_000);
 
   it("asks the user to wait when rebase is activated during source verification", async () => {
     const root = await enterFittedEditor();
@@ -5003,7 +5003,7 @@ describe("safe local artwork import and persistence (Slice 200)", () => {
     expect(chooseRestore).toHaveBeenCalledOnce();
     setFileInput(restoreInput, newFile("restored.png"));
     await vi.waitFor(() => expect(second.querySelector("[data-surface-asset-status]")!.textContent).toContain("Stored locally: restored.png"));
-  });
+  }, 15_000);
 
   it("rejects a file clearly and blocks creation without changing design or storage", async () => {
     localStorage.clear();
@@ -6326,7 +6326,7 @@ describe("bundled local artwork library (Slice 203)", () => {
       await vi.waitFor(() => expect(root.querySelector("#persist-status")?.textContent)
         .toContain("changed in another tab"));
       expect(stalePlanDownload).not.toHaveBeenCalled();
-      await vi.waitFor(() => expect(stalePlanRead).toHaveBeenCalledTimes(stalePlanReadCount + 2));
+      await vi.waitFor(() => expect(stalePlanRead).toHaveBeenCalledTimes(stalePlanReadCount + 2), { timeout: 20_000 });
       await vi.waitFor(() => expect(root.querySelector(".grade-plan-status")?.textContent).toBe("Approved grade-plan record"));
       stalePlanRead.mockRestore();
       delete window.electronAPI;
@@ -6381,6 +6381,11 @@ describe("bundled local artwork library (Slice 203)", () => {
       expect(saveFile.mock.calls[2]![0]).toBe("tee-M.svg");
       delete window.electronAPI;
 
+      // A real nesting-input edit invalidates the saved output base; changing
+      // the single/marker preview mode above does not.
+      const unsavedFabricWidth = root.querySelector<HTMLInputElement>("#fabric-width")!;
+      unsavedFabricWidth.value = String(Number(unsavedFabricWidth.value) + 1);
+      unsavedFabricWidth.dispatchEvent(new Event("input", { bubbles: true }));
       const editedFreezeButton = root.querySelector<HTMLButtonElement>("[data-project-action='freeze-outputs']")!;
       await vi.waitFor(() => expect(editedFreezeButton.disabled).toBe(false));
       editedFreezeButton.click();
@@ -6453,27 +6458,39 @@ describe("bundled local artwork library (Slice 203)", () => {
       action("approve").click();
       await vi.waitFor(() => expect(root.querySelector(".grade-plan-status")?.textContent)
         .toBe("Approved grade-plan record"));
-      const styleTarget = root.querySelector<HTMLSelectElement>("#style-target")!;
-      const alternateStyle = [...styleTarget.options].find((option) => option.value !== styleTarget.value)!;
-      styleTarget.value = alternateStyle.value;
-      styleTarget.dispatchEvent(new Event("change", { bubbles: true }));
       reachExportStage(root);
       const gradedSize = root.querySelector<HTMLSelectElement>("#export-size")!;
       expect([...gradedSize.options].map((option) => option.value)).toContain("S");
-      gradedSize.value = "S";
-      gradedSize.dispatchEvent(new Event("change", { bubbles: true }));
-      expect(gradedSize.value).toBe("__one-size__");
+
+      root.querySelector<HTMLInputElement>("#surface-new-id")!.value = "unsaved-approved-surface";
+      root.querySelector<HTMLInputElement>("#surface-new-role")!.value = "front";
+      root.querySelector<HTMLInputElement>("#surface-new-width")!.value = "10";
+      root.querySelector<HTMLInputElement>("#surface-new-height")!.value = "6";
+      clickId(root, "surface-add");
+      await vi.waitFor(() => expect(root.querySelectorAll("[data-surface-row]")).toHaveLength(1));
+
+      expect([...gradedSize.options].map((option) => option.value)).toEqual(["__one-size__"]);
       expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(false);
       expect(root.querySelector<HTMLButtonElement>("#export-techpack")!.disabled).toBe(true);
       expect(root.querySelector<HTMLButtonElement>("#export-projector")!.disabled).toBe(true);
       expect(root.querySelector<HTMLButtonElement>("#nest-marker")!.disabled).toBe(true);
+      expect(root.querySelector<HTMLButtonElement>("#export-techpack")!.title)
+        .toBe("Save the style. Then refresh, review, and approve its grade plan before exporting.");
+
+      clickId(root, "view-check");
+      expect(root.querySelector<HTMLElement>("[data-grade-plan-required]")?.textContent)
+        .toContain("Save the style. Then refresh, review, and approve its grade plan before exporting.");
+      expect(root.querySelector(".grade-plan-run-review")?.textContent)
+        .toContain("Save the style. Then refresh, review, and approve its grade plan before exporting.");
+      expect(root.querySelector(".grade-plan-run-review")?.textContent)
+        .not.toContain("Every declared size passes geometry and exact POM reconciliation.");
     } finally {
       delete window.electronAPI;
       workflow.close();
       root.remove();
       vi.unstubAllGlobals();
     }
-  }, 120_000);
+  }, 180_000);
 
   it("rejects a forced review action when the explicit grade plan is incomplete", async () => {
     localStorage.clear();

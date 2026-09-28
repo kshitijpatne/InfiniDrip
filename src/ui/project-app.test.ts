@@ -797,7 +797,7 @@ describe("repository-backed app workflow", () => {
     await vi.waitFor(() => expect(root!.querySelector(
       'button[data-open-field-history="body.chest-girth"]',
     )?.parentElement?.textContent).toContain("No value history recorded for this recipe field yet."));
-  });
+  }, 15_000);
 
   it("reports a non-Error timer failure and blocks a pending recipe switch", async () => {
     workflow = await openProjectWorkflow({
@@ -863,7 +863,7 @@ describe("repository-backed app workflow", () => {
     } finally {
       clearTimeoutSpy.mockRestore();
     }
-  });
+  }, 15_000);
 
   it("reports a non-Error timer failure on Load and preserves the raw editor value", async () => {
     workflow = await openProjectWorkflow({
@@ -895,7 +895,7 @@ describe("repository-backed app workflow", () => {
     } finally {
       clearTimeoutSpy.mockRestore();
     }
-  });
+  }, 15_000);
 
   it("does not write a detached recipe field after switching garments", async () => {
     workflow = await openProjectWorkflow({

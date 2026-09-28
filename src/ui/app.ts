@@ -598,7 +598,6 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   let savedPersistentOutputRevision = 0;
   let history: HistoryState<DraftSnapshot> = emptyHistory();
   let historyPresent: DraftSnapshot | null = null;
-  let historyRestoring = false;
   let recoveryTrackingEnabled = false;
   let pendingRecovery: Omit<RecoveryFile, "v"> | null = projectWorkflow?.snapshot.activeRecovery?.payload ?? null;
   if (!projectWorkflow) {
@@ -709,6 +708,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     return design;
   };
   const gradePlanDesignIsSaved = (): boolean => designRevision === savedDesignRevision;
+  const gradePlanOutputBaseIsSaved = (): boolean => gradePlanDesignIsSaved()
+    && persistentOutputRevision === savedPersistentOutputRevision;
+  const gradePlanOutputSaveMessage = "Save the style. Then refresh, review, and approve its grade plan before exporting.";
   const blankSavedDesignForGarment = (
     blankRecipe: GarmentRecipe = garmentByName(DEFAULT_WORKSPACE.garment),
   ): SavedDesign => {
@@ -1601,18 +1603,19 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     garmentReport(checkRecipe, measurements, recipeOptions(), { includeSizeRun: !customOneSizeStyle() });
   const canExport = (): boolean => styleReviewed && checkReviewed && baseDesignValid()
     && (customOneSizeStyle()
-      ? gradePlanSelectedLabel === null ? semanticSizeReady(0) : gradePlanApproved()
+      ? gradePlanSelectedLabel === null ? semanticSizeReady(0) : gradePlanOutputBaseIsSaved() && gradePlanApproved()
         && selectedGradePlanSize()?.ready === true
         && selectedGradePlanSize()?.poms.every((pom) => pom.exceptionReason === null) === true
       : semanticSizeReady(selectedOutputStep()));
   const canExportRun = (): boolean => styleReviewed && checkReviewed && baseDesignValid()
     && (customOneSizeStyle()
-      ? gradePlanApproved() && currentGradePlanRun().wholeRunReady
+      ? gradePlanOutputBaseIsSaved() && gradePlanApproved() && currentGradePlanRun().wholeRunReady
       : semanticRunReady());
   const markerAvailabilityTitle = (): string => !customOneSizeStyle()
     ? gradedMarkerAvailabilityTitle(false)
     : canExportRun()
       ? "Estimate one garment in each approved declared size; this is a digital fabric-layout estimate."
+      : !gradePlanOutputBaseIsSaved() ? gradePlanOutputSaveMessage
       : gradePlanApproved()
         ? "The approved run must pass geometry and exact POM checks at every size before marker estimation."
         : gradedMarkerAvailabilityTitle(true, false);
@@ -1733,7 +1736,6 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     renderTutorial();
   };
   const markOutputDirty = (designChanged = true, persistentOutputChanged = designChanged): void => {
-    if (historyRestoring) return;
     outputRevision++;
     if (designChanged || persistentOutputChanged) persistentOutputRevision++;
     if (designChanged) {
@@ -1747,6 +1749,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     if (journey.tutorial.status === "in_progress" && journey.tutorial.step !== "welcome") {
       journey = { ...journey, tutorial: { ...journey.tutorial, step: tutorialStepForJourneyStep(journey.step) } };
     }
+    if (customOneSizeStyle() && gradePlanState?.plan?.status === "approved"
+      && (gradePlanSelectedLabel !== null || exportSizeEl.options.length > 1)
+      && (designChanged || persistentOutputChanged)) syncExportSizes();
     celebrating = false;
     persistJourney();
     if (historyPresent) {
@@ -2111,10 +2116,13 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       button.disabled = !allowed || needsArtwork;
       button.title = !allowed
         ? customOneSizeStyle() && (button.id === "export-techpack" || button.id === "export-projector")
-          ? gradePlanApproved()
+          ? !gradePlanOutputBaseIsSaved() ? gradePlanOutputSaveMessage
+          : gradePlanApproved()
             ? currentGradePlanRun().issues[0] ?? "Review Style and the current digital checks before exporting."
             : "Whole-run output is unavailable until you review and approve a grade plan."
-          : customOneSizeStyle() && gradePlanSelectedLabel !== null && selectedGradePlanSize()?.ready !== true
+        // An unsaved output base clears any graded-size selection in
+        // syncExportSizes() before the buttons are redrawn.
+        : customOneSizeStyle() && gradePlanSelectedLabel !== null && selectedGradePlanSize()?.ready !== true
             ? selectedGradePlanSize()?.issues[0] ?? "The selected grade-plan size is no longer available. Refresh the plan or choose another size."
           : "Review Style and the current digital checks before exporting."
         : needsArtwork ? "Add artwork on the Style panel first." : "";
@@ -2190,7 +2198,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         : `<p role="status" data-semantic-output-paused>Graded nesting is paused. Review or rebase the saved edits in Edit.</p>`;
     } else if (view === "fabric") {
       if (customOneSizeStyle() && nestScope === "marker" && !canExportRun()) {
-        canvasContent = `<p role="status">${escapeUiText(currentGradePlanRun().issues[0]!)}</p>`;
+        canvasContent = `<p role="status">${escapeUiText(!gradePlanOutputBaseIsSaved()
+          ? gradePlanOutputSaveMessage : currentGradePlanRun().issues[0]!)}</p>`;
       } else if (customOneSizeStyle() && nestScope === "single" && gradePlanSelectedLabel !== null
         && selectedGradePlanSize()?.ready !== true) {
         canvasContent = `<p role="status">${escapeUiText(selectedGradePlanSize()?.issues[0] ?? "The selected grade-plan size is no longer available. Refresh the plan or choose another size.")}</p>`;
@@ -2222,8 +2231,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       const dismissedGuidance = guidanceNotes.filter((note) =>
         note.level === "warn" && note.field !== undefined && ignoredGuidance.has(note.field));
       canvasContent = semanticSizeReady(0)
-        ? checkMarkup(garmentReportForCurrentStyle(recipeForCurrentOutputs()), valid, dismissedGuidance, customOneSizeStyle(), gradePlanApproved())
-          + (customOneSizeStyle() ? gradePlanRunMarkup(currentGradePlanRun()) : "")
+        ? checkMarkup(garmentReportForCurrentStyle(recipeForCurrentOutputs()), valid, dismissedGuidance, customOneSizeStyle(), gradePlanApproved(), gradePlanOutputBaseIsSaved())
+          + (customOneSizeStyle() ? gradePlanRunMarkup(currentGradePlanRun(), gradePlanOutputBaseIsSaved()) : "")
         : `<p role="status" data-semantic-output-paused>Checks are paused until the saved edits are valid or explicitly rebased.</p>`;
     } else if (view === "edit") {
       const sourceCannotDraft = semanticState?.source.status === "failed" && !semanticState.source.baseBlock;
@@ -3356,7 +3365,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       return;
     }
     nestScope = s;
-    markOutputDirty(false, true);
+    // This changes the preview/export mode only. Fabric dimensions and other
+    // nesting inputs are persisted and invalidate a graded approval; switching
+    // between single-size and marker views does not change those inputs.
     single.style.background = s === "single" ? BLUEPRINT.lineActive : "transparent";
     single.style.color = s === "single" ? BLUEPRINT.background : BLUEPRINT.label;
     single.setAttribute("aria-pressed", String(s === "single"));
@@ -4269,7 +4280,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   const syncExportSizes = (): void => {
     if (customOneSizeStyle()) {
       exportStep = 0;
-      const approvedRun = gradePlanApproved() ? currentGradePlanRun() : null;
+      const approvedRun = gradePlanOutputBaseIsSaved() && gradePlanApproved() ? currentGradePlanRun() : null;
       const options = [new Option("One size", "__one-size__")];
       if (approvedRun) options.push(...approvedRun.sizes.map((size) => new Option(size.label, size.label)));
       if (gradePlanSelectedLabel && !approvedRun?.sizes.some((size) =>
@@ -4342,7 +4353,6 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     recovery: RecoveryPayload | null = null,
     clearRecovery = true,
   ): void => {
-    historyRestoring = true;
     measurements = loaded.measurements;
     fabric = loaded.fabric;
     garmentOptions = loaded.garmentOptions;
@@ -4372,7 +4382,6 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     persistJourney();
     syncWorkspace(true);
     syncGarmentChoices();
-    historyRestoring = false;
     savedRevision = outputRevision;
     savedDesignRevision = designRevision;
     savedPersistentOutputRevision = persistentOutputRevision;
@@ -4586,6 +4595,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
           savedRevision = saveRevision;
           savedDesignRevision = designRevision;
           savedPersistentOutputRevision = persistentOutputRevision;
+          syncExportSizes();
+          draw();
           projectPersistenceState.textContent = legacyProjectionSaved
             ? "Saved in this style"
             : "Saved in this style · older single-style copy unavailable";
@@ -4609,6 +4620,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       savedRevision = outputRevision;
       savedDesignRevision = designRevision;
       savedPersistentOutputRevision = persistentOutputRevision;
+      syncExportSizes();
+      draw();
       pendingRecovery = null;
       clearStoredRecovery();
       renderRecoveryPrompt();
@@ -4714,7 +4727,6 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   };
 
   function acceptRecovery(file: Omit<RecoveryFile, "v">): void {
-    historyRestoring = true;
     const nextMeasurements = { ...STANDARD_M };
     FIELDS.forEach((field) => {
       const value = file.measurements[field.id];
@@ -4751,7 +4763,6 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     marker.disabled = customOneSizeStyle();
     marker.title = markerAvailabilityTitle();
     applyRawDraft(file.rawMeasurements, file.rawOptions);
-    historyRestoring = false;
     pendingRecovery = null;
     clearStoredRecovery();
     renderRecoveryPrompt();
@@ -4762,7 +4773,6 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   }
 
   function applyHistorySnapshot(snapshot: DraftSnapshot): void {
-    historyRestoring = true;
     measurements = { ...snapshot.measurements };
     garmentOptions = copyOptions(snapshot.garmentOptions);
     fabric = snapshot.fabric;
@@ -4778,7 +4788,6 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     nestScope = snapshot.nestScope;
     syncWorkspace(true);
     applyRawDraft(snapshot.rawMeasurements, snapshot.rawOptions);
-    historyRestoring = false;
     historyPresent = captureDraftSnapshot();
     markOutputDirty(true);
     draw();

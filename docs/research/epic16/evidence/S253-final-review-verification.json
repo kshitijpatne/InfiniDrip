@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "slice": 253,
+  "verifiedDate": "2026-09-28",
+  "status": "post-audit local gates passed; fresh S253 audits and merge pending",
+  "independentAudits": {
+    "reviewedCommit": "55033838b08be08eb905c4280eb7f83b1fd3074b",
+    "claude": "Opus 5.5 high — WORK FINISHED; three follow-ups reconciled",
+    "opencode": "Muse Spark 1.3 xhigh — WORK FINISHED; evidence precision follow-ups reconciled",
+    "postAuditFullGate": "passed; fresh S253 audits still required"
+  },
+  "postAuditFullGate": {
+    "command": "npm run coverage -- --minWorkers=1 --maxWorkers=6",
+    "testFiles": "133/133 passed",
+    "tests": "2027/2027 passed",
+    "statements": "24063/24063",
+    "functions": "1453/1453",
+    "branches": "11069/11069",
+    "lines": "100%",
+    "durationSeconds": 2251.21
+  },
+  "postAuditBuilds": {
+    "application": "npm run build — passed; 129 Vite modules; non-blocking chunk-size advisory",
+    "electron": "npm run electron:build-main — passed",
+    "controlCenter": "npm run control-center:test — 33/33 passed"
+  },
+  "preAuditFullGate": {
+    "command": "npm run coverage",
+    "testFiles": "133/133 passed",
+    "tests": "2025/2025 passed",
+    "statements": "24052/24052",
+    "functions": "1452/1452",
+    "branches": "11052/11052",
+    "lines": "100%",
+    "durationSeconds": 2186.21
+  },
+  "preAuditBuilds": {
+    "application": "npm run build — passed; 129 Vite modules",
+    "electron": "npm run electron:build-main — passed",
+    "controlCenter": "npm run control-center:test — 33/33 passed"
+  },
+  "distinctGeometryOutputReplay": {
+    "test": "src/ui/grade-plan-run.test.ts — replays nonzero digital size geometry into outputs for all seven recipes",
+    "recipes": ["tee", "fitted", "tank", "polo", "woven-shirt", "skirt", "trouser"],
+    "result": "Each recipe produced three distinct ready digital size blocks from nonzero measurement deltas; Tech Pack PDFs parsed with all size labels, Projector SVGs carried each size label, and Marker placements covered every drafted piece.",
+    "pomOracle": "The synthetic fixture derives POM deltas from generated blocks to exercise positive output flow. It is not an independent authored POM oracle or population chart.",
+      "targetedRun": "1/1 passed before audit follow-ups"
+  },
+  "postAuditTargetedTests": [
+    "src/ui/grade-plan-run.test.ts — coherence warning, semantic replay validation, and all-seven output label/piece assertions passed",
+    "src/ui/app.test.ts — unsaved artwork blocks plan outputs, removes graded sizes, and provides save/refresh/review guidance; passed"
+  ],
+  "renderedReviews": {
+    "application": {
+      "url": "http://127.0.0.1:4177/",
+      "result": "The Style-stage Grade plan entry is visible, no plan is prefilled, and exact unrounded POM reconciliation is explained before output availability.",
+      "artifact": "S253-grade-plan-review.png",
+      "savedBrowserDataChanged": false
+    },
+    "techPack": {
+      "recipe": "tee",
+      "pages": [
+        "S251-techpack-measurement-spec.png",
+        "S251-techpack-fit-record.png",
+        "S251-techpack-pom-exceptions.png"
+      ],
+      "result": "Reviewed for unclipped exact values, readable N/A reason, column separation, and usable Actual/Pass fields."
+    }
+  },
+  "protectedExportIdentities": "All eight approved legacy identities pass the full coverage regression suite. Baseline source and digests are preserved in S251-graded-output-verification.json; none moved.",
+  "board": {
+    "revision": 357,
+    "safetyRemediation": "Review",
+    "finalReview": "In Progress"
+  },
+  "pullRequest": {
+    "number": 14,
+    "branch": "codex/epic16-g03",
+    "state": "open draft",
+    "merge": "not merged; awaiting fresh S253 independent audits and final PR-state review"
+  },
+  "limitations": [
+    "The positive seven-recipe output replay does not independently validate the authored POM increments; independent authored POM output expectations remain limited to the synthetic Tee oracle.",
+    "Rendered Tech Pack pages are visually reviewed for Tee only; the other recipes' output files are parsed and label/quantity checked by integration tests.",
+    "No sewn physical fit, population validity, manufacturing tolerance, sample approval, or factory readiness is established."
+  ]
+}

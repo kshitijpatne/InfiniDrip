@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 354,
-  "updatedAt": "2026-09-28T16:27:36.853Z",
+  "revision": 357,
+  "updatedAt": "2026-09-28T17:21:53.981Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -5180,7 +5180,7 @@
       "title": "EPIC-16 M03 — Grade-run safety remediation",
       "epicId": "EPIC-16",
       "releaseId": null,
-      "status": "In Progress",
+      "status": "Review",
       "openedAt": "2026-09-28",
       "targetAt": null,
       "deliveredAt": null,
@@ -5230,10 +5230,24 @@
           "role": "contributor",
           "note": "Begin the accepted S252 safety remediation while preserving M03's explicit acceptance criteria and the required final-review gate.",
           "evidenceRefs": []
+        },
+        {
+          "status": "Review",
+          "at": "2026-09-28T17:21:53.981Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "Slice 252 implementation, verification evidence, and limitations are submitted for independent final review.",
+          "evidenceRefs": [
+            "E-EPIC16-S252-EXIT",
+            "E-EPIC16-S252-VERIFICATION"
+          ]
         }
       ],
       "comments": [],
-      "evidenceRefs": [],
+      "evidenceRefs": [
+        "E-EPIC16-S252-EXIT",
+        "E-EPIC16-S252-VERIFICATION"
+      ],
       "flagKey": null
     }
   ],
@@ -6020,6 +6034,24 @@
       "sha256": "e46a89e5f808fa3a8bb13449586ff6085bfbd86b5489441c42163363d1bffc6d",
       "verified": true,
       "note": "Slice 251 adds plan-driven sizes and gated whole-run exports with exact raw POM equality, no tolerance or rounding. Verified by all 133 files/2,023 tests at 100% coverage, strict app/Electron builds, 33/33 Control Center tests, and rendered three-size Tee Tech Pack pages 4, 8, and 9."
+    },
+    {
+      "id": "E-EPIC16-S252-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic16/S252-GRADE-RUN-SAFETY-REMEDIATION.md",
+      "commit": "5503383",
+      "sha256": "46cb14b825c311f19aebf1da39b77dd65d216ee17f7686731005ac0fcf24c4e9",
+      "verified": true,
+      "note": "Slice 252 exit report with accepted findings, bounded remediation, full verification and current limitations."
+    },
+    {
+      "id": "E-EPIC16-S252-VERIFICATION",
+      "kind": "document",
+      "uri": "docs/research/epic16/evidence/S252-safety-verification.json",
+      "commit": "5503383",
+      "sha256": "58ab9fbccbaa433551c5078067a42734fa78918df5a82ca13be4842da3129860",
+      "verified": true,
+      "note": "Machine-readable Slice 252 gate results and rendered browser review. Distinct-size output limitation is disclosed."
     }
   ]
 }

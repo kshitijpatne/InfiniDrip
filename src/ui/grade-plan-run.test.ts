@@ -89,7 +89,7 @@ describe("approved grade-plan drafting and exact reconciliation", () => {
     }
   });
 
-  it("parses Tech Pack and Projector outputs and reconciles cutting pieces for all seven declared runs", async () => {
+  it("parses Tech Pack PDFs, checks Projector labels, and reconciles Marker pieces for all seven declared runs", async () => {
     for (const recipe of GARMENTS) {
       const values = await fixture(recipe.name);
       const result = evaluateGradePlanRun(recipe, values.style.design.measurements,
@@ -116,6 +116,75 @@ describe("approved grade-plan drafting and exact reconciliation", () => {
       })), 150);
       const expectedPieceCount = result.sizes.reduce((count, size) => count + blockPieces(size.block!).length, 0);
       expect(marker.placed).toHaveLength(expectedPieceCount);
+      for (const size of result.sizes) {
+        expect(marker.placed.some((piece) => piece.name.startsWith(`${size.label} `))).toBe(true);
+      }
+    }
+  });
+
+  it("replays exact nonzero digital size geometry into outputs for all seven recipes", async () => {
+    for (const recipe of GARMENTS) {
+      const values = await fixture(recipe.name);
+      const required = values.plan.targets;
+      let accepted: { plan: GradePlanRecord; result: ReturnType<typeof evaluateGradePlanRun> } | null = null;
+
+      // Vary an explicitly declared measurement input until the recipe has a
+      // valid, observably distinct S/M/L draft. For this functional round-trip
+      // fixture only, POM increments are copied from those generated blocks;
+      // this exercises output plumbing, not an independent POM oracle.
+      for (const measurement of required.filter((target) => target.kind === "measurement")) {
+        let candidate = unwrap(setGradePlanDelta(values.plan, measurement.targetId, "S", -1, T4));
+        candidate = unwrap(setGradePlanDelta(candidate, measurement.targetId, "L", 1, T4));
+        candidate = unwrap(reviewGradePlan(candidate, required.map((target) => target.targetId), values.context.binding, T4));
+        candidate = unwrap(approveGradePlan(candidate, required.map((target) => target.targetId), values.context.binding, T4));
+        const drafted = evaluateGradePlanRun(recipe, values.style.design.measurements,
+          values.style.design.garmentOptions[recipe.name] ?? {}, candidate, values.context);
+        if (!drafted.sizes.every((size) => size.block !== null)
+          || new Set(drafted.sizes.map((size) => JSON.stringify(size.block))).size !== drafted.sizes.length) continue;
+
+        for (const pomTarget of required.filter((target) => target.kind === "pom")) {
+          for (const size of drafted.sizes) {
+            const pom = size.poms.find((entry) => entry.targetId === pomTarget.targetId)!;
+            if (pom.actual === null) throw new Error(`${recipe.name}/${size.label}: POM ${pomTarget.targetId} did not draft.`);
+            candidate = unwrap(setGradePlanDelta(candidate, pomTarget.targetId, size.label,
+              pom.actual - pomTarget.baseValue, T4));
+          }
+        }
+        candidate = unwrap(reviewGradePlan(candidate, required.map((target) => target.targetId), values.context.binding, T4));
+        candidate = unwrap(approveGradePlan(candidate, required.map((target) => target.targetId), values.context.binding, T4));
+        const result = evaluateGradePlanRun(recipe, values.style.design.measurements,
+          values.style.design.garmentOptions[recipe.name] ?? {}, candidate, values.context);
+        if (result.wholeRunReady && new Set(result.sizes.map((size) => JSON.stringify(size.block))).size === result.sizes.length) {
+          accepted = { plan: candidate, result };
+          break;
+        }
+      }
+
+      expect(accepted, `${recipe.name} needs a valid measurement with three distinct digital drafts`).not.toBeNull();
+      const { plan, result } = accepted!;
+      expect(result.sizes.map((size) => size.ready)).toEqual([true, true, true]);
+      expect(result.sizes.every((size) => size.poms.every((pom) => pom.matches))).toBe(true);
+
+      const run = result.sizes.map((size) => ({
+        label: size.label, measurements: size.measurements!, options: size.options!, block: size.block!,
+      }));
+      const techPack = exportTechPackV2ForGradePlan(recipe, run, undefined, undefined, [],
+        `Distinct digital run ${recipe.name}`, plan.baseSizeLabel!);
+      const parsedTechPack = await PDFDocument.load(new TextEncoder().encode(techPack), { updateMetadata: false });
+      expect(parsedTechPack.getPageCount()).toBeGreaterThan(run.length);
+      for (const size of run) expect(techPack).toContain(`${recipe.label} - ${size.label}`);
+
+      const projectorRun = result.sizes.map((size) => ({
+        label: size.label, step: size.position, block: size.block!, allowances: recipe.allowances,
+      }));
+      const projector = exportProjectorSvg(recipe, values.style.design.measurements,
+        values.style.design.garmentOptions[recipe.name] ?? {}, projectorRun);
+      for (const size of result.sizes) expect(projector).toContain(`inkscape:label="Size ${size.label}"`);
+
+      const marker = gradedMarkerForRun(recipe, result.sizes.map((size) => ({
+        label: size.label, block: size.block!, allowances: recipe.allowances,
+      })), 150);
+      expect(marker.placed).toHaveLength(result.sizes.reduce((count, size) => count + blockPieces(size.block!).length, 0));
       for (const size of result.sizes) {
         expect(marker.placed.some((piece) => piece.name.startsWith(`${size.label} `))).toBe(true);
       }
@@ -210,6 +279,44 @@ describe("approved grade-plan drafting and exact reconciliation", () => {
     const pom = result.sizes[0]!.poms.find((entry) => entry.targetId === firstPom.targetId)!;
     expect(pom).toMatchObject({ expected: firstPom.baseValue + 0.01, difference: expect.any(Number), matches: false });
     expect(result.sizes[0]!.issues.join(" ")).toContain("target");
+  });
+
+  it("blocks a declared size when shared measurement coherence warns", async () => {
+    const { recipe, style, context, plan: original } = await fixture("tee");
+    const pomTargets = original.targets.filter((target) => target.kind === "pom");
+    let plan = unwrap(configureGradePlan(original, {
+      basis: original.basis!, declaredRange: original.declaredRange, baseSizeLabel: original.baseSizeLabel,
+      sizes: original.sizes,
+      exceptions: pomTargets.map((target) => ({
+        targetId: target.targetId, sizeLabel: "S", reason: "Not measured in the shared-coherence gate fixture.",
+      })),
+    }, T4));
+    for (const target of plan.targets) {
+      const delta = target.targetId === "measurement.shoulderWidth" ? 10 : target.kind === "pom" ? null : 0;
+      plan = unwrap(setGradePlanDelta(plan, target.targetId, "S", delta, T4));
+    }
+    plan = unwrap(reviewGradePlan(plan, context.targets.map((target) => target.targetId), context.binding, T4));
+    plan = unwrap(approveGradePlan(plan, context.targets.map((target) => target.targetId), context.binding, T4));
+
+    const result = evaluateGradePlanRun(recipe, style.design.measurements, {}, plan, context);
+    const small = result.sizes.find((size) => size.label === "S")!;
+    expect(small.issues.join(" ")).toContain("Shoulder width and chest look out of proportion");
+    expect(small.ready).toBe(false);
+    expect(result.wholeRunReady).toBe(false);
+  });
+
+  it("rechecks a semantically replayed block for missing piece declarations", async () => {
+    const { recipe, style, context, plan } = await fixture("tee");
+    const result = evaluateGradePlanRun(recipe, style.design.measurements, {}, plan, context,
+      (_size, _measurements, _options, block) => {
+        const [role, piece] = Object.entries(block.roles)[0]!;
+        return {
+          block: { ...block, roles: { ...block.roles, [role]: { ...piece, name: "replayed piece without declarations" } } },
+          issues: [],
+        };
+      });
+    expect(result.sizes[0]!.issues.join(" ")).toContain("Notches + grainline on every piece");
+    expect(result.sizes[0]!.ready).toBe(false);
   });
 
   it("blocks out-of-range inputs and unsupported measurement exceptions without clamping", async () => {
