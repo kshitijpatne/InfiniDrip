@@ -497,6 +497,11 @@ export class ProjectWorkflow {
     selectedSizes: readonly { readonly sizeId: string; readonly label: string }[],
     unresolved: readonly string[],
     expectedRevisionId: string,
+    metadata: {
+      readonly schemaVersion?: 1 | 2;
+      readonly approvalRefs?: readonly string[];
+      readonly gradePlanFreeze?: { readonly record: GradePlanRecord; readonly approvalRef: string };
+    } = {},
   ): Promise<FrozenOutputManifestRecord> {
     return this.enqueue(async () => {
       const current = this.loaded;
@@ -513,6 +518,8 @@ export class ProjectWorkflow {
         selectedSizes,
         unresolved,
         artifacts,
+        schemaVersion: metadata.schemaVersion,
+        approvalRefs: metadata.approvalRefs,
       }, this.cryptoProvider);
       const project = { ...current.project, revision: current.project.revision + 1, updatedAt: capturedAt };
       await this.repository.saveProjectBundle({
@@ -520,6 +527,7 @@ export class ProjectWorkflow {
         styles: current.styles,
         exportManifests: [manifest],
         expectedProjectRevision: current.project.revision,
+        ...(metadata.gradePlanFreeze ? { gradePlanFreeze: metadata.gradePlanFreeze } : {}),
       });
       const loaded = await this.reloadLoaded();
       const saved = loaded.exportManifests.find((candidate) => candidate.manifestId === manifest.manifestId);

@@ -68,7 +68,7 @@ export function gradePlanPanelMarkup(model: GradePlanPanelModel): string {
   const heading = `<section class="grade-plan-panel" aria-labelledby="grade-plan-title">` +
     `<h3 id="grade-plan-title">Grade plan</h3>` +
     `<p>Write the size rules for this style. Nothing is filled in from another size chart.</p>` +
-    `<p class="grade-plan-boundary">Approval records your review of these rules. It does not validate drafted sizes or enable graded exports; those are checked in the next step.</p>`;
+    `<p class="grade-plan-boundary">Approval records your review of these rules. Each declared size must still pass drafting checks and exact, unrounded POM reconciliation before its files can be used.</p>`;
   if (!model.plan) {
     return `${heading}<p>There is no grade plan for this ${escapeHtml(model.recipeLabel)} style yet.</p>` +
       `${model.message ? `<p role="status">${escapeHtml(model.message)}</p>` : ""}` +

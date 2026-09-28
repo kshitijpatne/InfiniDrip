@@ -925,6 +925,23 @@ data collection still require their own explicit gate.
 - This is a digital output policy only; it does not qualify fit or a population
   chart.
 
+## EPIC-16 graded POM reconciliation — confirmed 2026-09-27
+
+- Before any graded per-size or whole-run output is released, each applicable
+  generated POM must exactly equal the corresponding user-authored plan target
+  in unrounded centimetres. No tolerance or display rounding is used to pass a
+  mismatch.
+- A mismatched POM blocks that size's graded output. A whole-run artifact is
+  blocked if any declared size is blocked or unresolved. The UI must show the
+  target, generated value, and raw difference so the user can revise and
+  re-approve the plan.
+- An explicit `not applicable` exception is not a match. It may be honored only
+  where the output can identify the exception and reason; exceptions that
+  remove a required drafting input remain unsupported and block the affected
+  size and whole run.
+- Exact digital correspondence is not a physical measurement tolerance, fit
+  acceptance, or standards-conformance claim.
+
 ## EPIC-16 custom-style inactive fields — implementation constraint
 
 - SaveFile v6 still requires the shared measurement object. A custom style

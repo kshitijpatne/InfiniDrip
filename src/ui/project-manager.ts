@@ -12,6 +12,7 @@ import {
   type ProjectPackageProgress,
 } from "./project-package";
 import type { FrozenArtifactInput } from "./style-revisions";
+import type { GradePlanRecord } from "./grade-plan";
 
 export interface ProjectManagerOptions {
   readonly host: HTMLElement;
@@ -31,7 +32,16 @@ export interface ProjectManagerOptions {
   readonly getFrozenOutputSet?: () => {
     readonly artifacts: readonly FrozenArtifactInput[];
     readonly selectedSizes: readonly { readonly sizeId: string; readonly label: string }[];
-  } | null;
+    readonly schemaVersion?: 1 | 2;
+    readonly approvalRefs?: readonly string[];
+    readonly gradePlanFreeze?: { readonly record: GradePlanRecord; readonly approvalRef: string };
+  } | null | Promise<{
+    readonly artifacts: readonly FrozenArtifactInput[];
+    readonly selectedSizes: readonly { readonly sizeId: string; readonly label: string }[];
+    readonly schemaVersion?: 1 | 2;
+    readonly approvalRefs?: readonly string[];
+    readonly gradePlanFreeze?: { readonly record: GradePlanRecord; readonly approvalRef: string };
+  } | null>;
   readonly saveFrozenArtifact?: (filename: string, bytes: Blob, mediaType: string) => Promise<boolean>;
   readonly confirm?: (message: string) => boolean;
   readonly packageOptions?: Pick<ProjectPackageOptions, "idFactory" | "now">;
@@ -434,7 +444,7 @@ export class ProjectManager {
       this.render();
       return;
     }
-    const outputSet = this.options.getFrozenOutputSet?.();
+    const outputSet = await this.options.getFrozenOutputSet?.();
     const revisionId = this.options.workflow.snapshot.activeStyle.revisionHeadId;
     if (!outputSet || !this.options.canFreezeOutputs?.() || !revisionId) {
       this.message = "The seven digital outputs are not ready. Review the current style and digital checks first.";
@@ -447,6 +457,11 @@ export class ProjectManager {
         outputSet.selectedSizes,
         ["Physical fit, formal colorway approval, supplier-specific requirements and factory acceptance are not verified by this digital capture."],
         revisionId,
+        {
+          schemaVersion: outputSet.schemaVersion,
+          approvalRefs: outputSet.approvalRefs,
+          gradePlanFreeze: outputSet.gradePlanFreeze,
+        },
       );
       this.message = `Frozen ${manifest.artifacts.length} outputs for revision ${manifest.revisionId.slice(0, 8)} · SHA-256 ${manifest.packetDigest.slice(0, 12)}.`;
     }, "Freezing exact digital output bytes…");

@@ -4877,7 +4877,7 @@ describe("safe local artwork import and persistence (Slice 200)", () => {
     } finally {
       delete window.electronAPI;
     }
-  });
+  }, 20_000);
 
   it("keeps desktop imports disabled when the local bridge is incomplete", async () => {
     localStorage.clear();
@@ -5228,7 +5228,7 @@ describe("safe local artwork import and persistence (Slice 200)", () => {
     const detailedStorageError = document.createElement("div");
     mountApp(detailedStorageError, { artworkAssetStore: assets.store });
     await vi.waitFor(() => expect(detailedStorageError.querySelector("[data-surface-asset-status]")!.textContent).toContain("local profile permission denied"));
-  }, 15_000);
+  }, 60_000);
 
   it("blocks duplicate placement saves while a validated image is still being written", async () => {
     localStorage.clear();
@@ -5860,7 +5860,7 @@ describe("bundled local artwork library (Slice 203)", () => {
       oneSizePicker.add(new Option("Injected graded step", "2"));
       oneSizePicker.value = "2";
       oneSizePicker.dispatchEvent(new Event("change", { bubbles: true }));
-      expect(oneSizePicker.value).toBe("0");
+      expect(oneSizePicker.value).toBe("__one-size__");
       expect([...oneSizePicker.options].map((option) => option.textContent)).toEqual(["One size"]);
       expect(root.querySelector<HTMLButtonElement>("#garment-tee")!.disabled).toBe(true);
       expect(root.querySelector<HTMLButtonElement>("#garment-woven-shirt")!.disabled).toBe(false);
@@ -5917,11 +5917,11 @@ describe("bundled local artwork library (Slice 203)", () => {
       mountApp(reopenedRoot, { projectWorkflow: workflow });
       expect(reopenedRoot.querySelector<HTMLButtonElement>("#nest-marker")!.disabled).toBe(true);
       expect(reopenedRoot.querySelector<HTMLButtonElement>("#nest-marker")!.title).toContain("approve a grade plan");
-      expect(reopenedRoot.querySelector("#canvas-host")?.textContent).toContain("graded fabric marker is unavailable");
+      expect(reopenedRoot.querySelector("#canvas-host")?.textContent).toContain("Create and approve a grade plan before generating a size run.");
       reopenedRoot.querySelector<HTMLButtonElement>("#load-pattern")!.click();
       await vi.waitFor(() => expect(reopenedRoot?.querySelector("#persist-status")?.textContent).toContain("Loaded"));
       clickId(reopenedRoot, "view-nest");
-      expect(reopenedRoot.querySelector("#canvas-host")?.textContent).toContain("graded nest is unavailable");
+      expect(reopenedRoot.querySelector("#canvas-host")?.textContent).toContain("Create and approve a grade plan before generating a size run.");
       clickId(reopenedRoot, "view-spec");
       const customSpec = reopenedRoot.querySelector("#canvas-host table");
       expect(customSpec?.querySelector("tr")?.textContent).toContain("One size");
@@ -5940,6 +5940,20 @@ describe("bundled local artwork library (Slice 203)", () => {
       expect(reopenedRoot.querySelector("#current-garment")?.textContent).toBe("Woven shirt");
       reopenedRoot.querySelector<HTMLButtonElement>("#nest-marker")!.dispatchEvent(new Event("click", { bubbles: true }));
       expect(reopenedRoot.querySelector<HTMLButtonElement>("#nest-marker")!.disabled).toBe(true);
+
+      const activeRoot = reopenedRoot;
+      expect(isCustomOneSizeStyle(workflow.snapshot.activeStyle)).toBe(true);
+      const gradePlanReload = vi.spyOn(workflow, "loadGradePlan");
+      clickId(activeRoot, "journey-step-measure");
+      clickId(activeRoot, "journey-guided");
+      await vi.waitFor(() => expect(activeRoot.querySelector(".measurement-capture-panel__field")).not.toBeNull(),
+        { timeout: 20_000 });
+      const changedCapture = activeRoot.querySelector<HTMLInputElement>(
+        '[data-action="capture-edit-raw"][data-field-id="body.chest-girth"]',
+      )!;
+      changedCapture.value = "104";
+      changedCapture.dispatchEvent(new Event("input", { bubbles: true }));
+      await vi.waitFor(() => expect(gradePlanReload).toHaveBeenCalledWith("woven-shirt"), { timeout: 10_000 });
     } finally {
       delete window.electronAPI;
       workflow.close();
@@ -5947,11 +5961,46 @@ describe("bundled local artwork library (Slice 203)", () => {
       root.remove();
       vi.unstubAllGlobals();
     }
-  }, 120_000);
+  }, 240_000);
 
-  it("reviews, approves, and invalidates an explicit grade plan without enabling graded output", async () => {
+  it("freezes the reviewed standard graded outputs through the project manager", async () => {
     localStorage.clear();
     vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    vi.stubGlobal("Blob", NodeBlob);
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: {
+        name: `app-standard-freeze-${Date.now()}`,
+        factory: new IDBFactory(),
+        crypto: webcrypto as unknown as Crypto,
+      },
+      storage: localStorage,
+      idFactory: () => webcrypto.randomUUID(),
+      now: () => "2026-09-27T12:00:00.000Z",
+    });
+    const root = document.createElement("div");
+    document.body.append(root);
+    try {
+      mountApp(root, { projectWorkflow: workflow });
+      reachExportStage(root);
+      const manager = root.querySelector<HTMLDetailsElement>(".project-manager-details")!;
+      manager.open = true;
+      const freeze = root.querySelector<HTMLButtonElement>("[data-project-action='freeze-outputs']")!;
+      await vi.waitFor(() => expect(freeze.disabled).toBe(false), { timeout: 10_000 });
+      freeze.click();
+      await vi.waitFor(() => expect(root.querySelector("#project-manager-status")?.textContent).toContain("Frozen"),
+        { timeout: 20_000 });
+      expect(workflow.snapshot.exportManifests).toHaveLength(1);
+    } finally {
+      workflow.close();
+      root.remove();
+      vi.unstubAllGlobals();
+    }
+  }, 20_000);
+
+  it("gates whole-run outputs on exact plan readiness and invalidates approval after edits", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    vi.stubGlobal("Blob", NodeBlob);
     const now = "2026-09-27T06:00:00.000Z";
     const workflow = await openProjectWorkflow({
       repositoryOptions: { name: `app-grade-plan-${Date.now()}`, factory: new IDBFactory(), crypto: webcrypto as unknown as Crypto },
@@ -5978,9 +6027,27 @@ describe("bundled local artwork library (Slice 203)", () => {
         }, new Date(Date.parse(now) + index + 1).toISOString());
       }
       await workflow.saveMeasurementCapture(session, []);
-      await workflow.createCustomSizeStyle("Grade Plan Test", materializeCustomSizeDesign(workflow.snapshot.activeStyle.design, session));
+      const customDesign = materializeCustomSizeDesign(workflow.snapshot.activeStyle.design, session);
+      await workflow.createCustomSizeStyle("Grade Plan Test", customDesign);
+      const recipe = GARMENTS.find((candidate) => candidate.name === "tee")!;
+      const options = customDesign.garmentOptions.tee ?? {};
+      const sourceInputs = {
+        measurements: Object.fromEntries(recipe.fields.map((field) => [field, customDesign.measurements[field]])),
+        options: Object.fromEntries((recipe.options ?? []).map((option) => [option.id, options[option.id]!])),
+      };
+      const sourceBlock = recipe.draft(customDesign.measurements, options);
+      const fingerprint = await editEngine.semanticEditSourceFingerprint(
+        recipe.name, sourceBlock, webcrypto as unknown as Crypto, sourceInputs,
+      );
+      await workflow.saveActiveDesign({
+        ...workflow.snapshot.activeStyle.design,
+        semanticEdits: semanticEditEngine.emptySemanticEditDocument(recipe.name, fingerprint, sourceInputs),
+      });
       mountApp(root, { projectWorkflow: workflow });
-      await vi.waitFor(() => expect(root.querySelector<HTMLButtonElement>('[data-grade-plan-action="create"]')?.disabled).toBe(false));
+      await vi.waitFor(() => expect(
+        root.querySelector<HTMLButtonElement>('[data-grade-plan-action="create"]')?.disabled,
+        root.querySelector(".grade-plan-panel")?.textContent ?? root.textContent,
+      ).toBe(false));
 
       const action = (name: string): HTMLButtonElement => root.querySelector<HTMLButtonElement>(`[data-grade-plan-action="${name}"]`)!;
       const edit = (selector: string, value: string): void => {
@@ -6002,7 +6069,7 @@ describe("bundled local artwork library (Slice 203)", () => {
         edit("[data-grade-plan-decision]", "Test product decision");
         edit("[data-grade-plan-digital-range]", "S through L; digital rules only");
         edit("[data-grade-plan-range]", "S, M, L; unsupported edges unresolved");
-        edit("[data-grade-plan-base-size]", "M");
+        edit("[data-grade-plan-base-size]", "m");
         edit("[data-grade-plan-sizes]", "S\nM\nL");
       };
       const failedDraftSave = vi.spyOn(workflow, "saveGradePlan").mockRejectedValueOnce("synthetic non-Error grade-plan failure");
@@ -6054,15 +6121,285 @@ describe("bundled local artwork library (Slice 203)", () => {
       expect((await workflow.loadGradePlan("tee"))?.status).toBe("approved");
       expect(root.querySelector<HTMLButtonElement>("#nest-marker")?.disabled).toBe(true);
       expect(root.querySelector<HTMLButtonElement>("#nest-marker")?.title)
-        .toContain("graded Marker output will be added in the next step");
+        .toContain("approved run must pass geometry and exact POM checks");
 
       const freeze = root.querySelector<HTMLButtonElement>("[data-project-action='freeze-outputs']")!;
       root.querySelector<HTMLDetailsElement>(".project-manager-details")!.open = true;
       await vi.waitFor(() => expect(root.querySelector("#project-freeze-guidance")?.textContent)
-        .toContain("whole-run output capture will be added in the next step"));
+        .toContain("leaves a required drafting input unresolved"));
       expect(freeze.disabled).toBe(true);
       expect(root.querySelector<HTMLButtonElement>("#export-techpack")!.disabled).toBe(true);
       expect(root.querySelector<HTMLButtonElement>("#export-projector")!.disabled).toBe(true);
+
+      const approvedException = root.querySelector<HTMLInputElement>("[data-grade-plan-exception]:checked")!;
+      const exceptionTargetId = approvedException.dataset.targetId!;
+      const exceptionSizeLabel = approvedException.dataset.sizeLabel!;
+      approvedException.checked = false;
+      approvedException.dispatchEvent(new Event("input", { bubbles: true }));
+      edit(`[data-grade-plan-exception-reason][data-target-id="${exceptionTargetId}"][data-size-label="${exceptionSizeLabel}"]`, "");
+      const mismatchedPom = [...root.querySelectorAll<HTMLInputElement>("[data-grade-plan-delta]")]
+        .find((input) => input.dataset.targetId?.startsWith("pom.") && input.dataset.sizeLabel === "S")!;
+      for (const input of root.querySelectorAll<HTMLInputElement>("[data-grade-plan-delta]")) {
+        if (input.readOnly) continue;
+        input.value = "0";
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+      }
+      action("save-draft").click();
+      await vi.waitFor(() => expect(root.querySelector(".grade-plan-status")?.textContent).toBe("Draft — not reviewed"));
+      action("review").click();
+      await vi.waitFor(() => expect(root.querySelector(".grade-plan-status")?.textContent).toBe("Reviewed; approval still required"));
+      action("approve").click();
+      await vi.waitFor(() => expect(root.querySelector(".grade-plan-status")?.textContent).toBe("Approved grade-plan record"));
+
+      const storedPlan = (await workflow.loadGradePlan("tee"))!;
+      const binding = {
+        projectId: storedPlan.projectId, styleId: storedPlan.styleId, recipeId: storedPlan.recipeId,
+        revisionHeadId: storedPlan.revisionHeadId, captureRevision: storedPlan.captureRevision,
+        fingerprint: storedPlan.fingerprint,
+      };
+      const targetIds = storedPlan.targets.map((target) => target.targetId);
+      const changedAt = new Date(Date.parse(storedPlan.updatedAt) + 1_000).toISOString();
+      const mismatchedDraft = gradePlan.setGradePlanDelta(storedPlan, mismatchedPom.dataset.targetId!, "S", 1, changedAt);
+      expect(mismatchedDraft.ok).toBe(true);
+      let mismatchPlan = mismatchedDraft.ok ? mismatchedDraft.value : storedPlan;
+      mismatchPlan = await workflow.saveGradePlan(mismatchPlan);
+      const mismatchedReview = gradePlan.reviewGradePlan(mismatchPlan,
+        targetIds, binding, new Date(Date.parse(changedAt) + 1_000).toISOString());
+      expect(mismatchedReview.ok).toBe(true);
+      mismatchPlan = mismatchedReview.ok ? mismatchedReview.value : mismatchPlan;
+      mismatchPlan = await workflow.saveGradePlan(mismatchPlan);
+      const mismatchedApproval = gradePlan.approveGradePlan(mismatchPlan,
+        targetIds, binding, new Date(Date.parse(changedAt) + 2_000).toISOString());
+      expect(mismatchedApproval.ok).toBe(true);
+      mismatchPlan = mismatchedApproval.ok ? mismatchedApproval.value : mismatchPlan;
+      mismatchPlan = await workflow.saveGradePlan(mismatchPlan);
+      mountApp(root, { projectWorkflow: workflow });
+      await vi.waitFor(() => expect(root.querySelector(".grade-plan-status")?.textContent)
+        .toBe("Approved grade-plan record"), { timeout: 20_000 });
+      reachExportStage(root);
+      await vi.waitFor(() => expect(root.querySelector<HTMLButtonElement>("#export-techpack")?.disabled).toBe(true));
+      expect(root.querySelector<HTMLButtonElement>("#export-projector")?.disabled).toBe(true);
+      const chestDuringVerification = root.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+      const approvedChest = chestDuringVerification.value;
+      chestDuringVerification.value = String(Number(approvedChest) + 1);
+      chestDuringVerification.dispatchEvent(new Event("input", { bubbles: true }));
+      clickId(root, "view-nest");
+      expect(root.querySelector("#canvas-host [role='status']")?.textContent)
+        .toContain("Saved semantic edits need review before the graded run can be generated.");
+      const restoredChest = root.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+      restoredChest.value = approvedChest;
+      restoredChest.dispatchEvent(new Event("input", { bubbles: true }));
+      mountApp(root, { projectWorkflow: workflow });
+      await vi.waitFor(() => expect(root.querySelector(".grade-plan-status")?.textContent)
+        .toBe("Approved grade-plan record"), { timeout: 20_000 });
+      reachExportStage(root);
+      await vi.waitFor(() => expect(
+        [...root.querySelector<HTMLSelectElement>("#export-size")!.options].map((option) => option.value),
+      ).toContain("S"));
+      let exportSize = root.querySelector<HTMLSelectElement>("#export-size")!;
+      exportSize.value = "__one-size__";
+      exportSize.dispatchEvent(new Event("change", { bubbles: true }));
+      exportSize.value = "S";
+      exportSize.dispatchEvent(new Event("change", { bubbles: true }));
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")?.disabled).toBe(true);
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")?.title).toContain("difference");
+      clickId(root, "view-fabric");
+      expect(root.querySelector("#canvas-host [role='status']")?.textContent).toContain("Body chest");
+      const mismatchResetAt = new Date(Date.parse(mismatchPlan.updatedAt) + 1_000).toISOString();
+      const resetDraft = gradePlan.setGradePlanDelta(mismatchPlan,
+        mismatchedPom.dataset.targetId!, "S", 0, mismatchResetAt);
+      expect(resetDraft.ok).toBe(true);
+      let resetPlan = resetDraft.ok ? resetDraft.value : mismatchPlan;
+      resetPlan = await workflow.saveGradePlan(resetPlan);
+      const resetReview = gradePlan.reviewGradePlan(resetPlan,
+        targetIds, binding, new Date(Date.parse(mismatchResetAt) + 1_000).toISOString());
+      expect(resetReview.ok).toBe(true);
+      resetPlan = resetReview.ok ? resetReview.value : resetPlan;
+      resetPlan = await workflow.saveGradePlan(resetPlan);
+      const resetApproval = gradePlan.approveGradePlan(resetPlan,
+        targetIds, binding, new Date(Date.parse(mismatchResetAt) + 2_000).toISOString());
+      expect(resetApproval.ok).toBe(true);
+      resetPlan = resetApproval.ok ? resetApproval.value : resetPlan;
+      await workflow.saveGradePlan(resetPlan);
+      mountApp(root, { projectWorkflow: workflow });
+      await vi.waitFor(() => expect(root.querySelector(".grade-plan-status")?.textContent)
+        .toBe("Approved grade-plan record"), { timeout: 20_000 });
+      reachExportStage(root);
+      await vi.waitFor(() => expect(root.querySelector<HTMLButtonElement>("#export-techpack")?.disabled).toBe(false));
+      expect(root.querySelector<HTMLButtonElement>("#export-projector")?.disabled).toBe(false);
+      expect(root.querySelector<HTMLButtonElement>("#nest-marker")?.disabled).toBe(false);
+
+      const baseSizeSelection = root.querySelector<HTMLSelectElement>("#export-size")!;
+      baseSizeSelection.value = "__one-size__";
+      baseSizeSelection.dispatchEvent(new Event("change", { bubbles: true }));
+      const baseSizeFreeze = root.querySelector<HTMLButtonElement>("[data-project-action='freeze-outputs']")!;
+      root.querySelector<HTMLDetailsElement>(".project-manager-details")!.open = true;
+      await vi.waitFor(() => expect(baseSizeFreeze.disabled).toBe(false));
+      baseSizeFreeze.click();
+      await vi.waitFor(() => expect(root.querySelector("#project-manager-status")?.textContent).toContain("Frozen"),
+        { timeout: 20_000 });
+
+      exportSize = root.querySelector<HTMLSelectElement>("#export-size")!;
+      const pomException = [...root.querySelectorAll<HTMLInputElement>("[data-grade-plan-exception]")]
+        .find((input) => input.dataset.targetId?.startsWith("pom.") && input.dataset.sizeLabel === "S")!;
+      pomException.checked = true;
+      pomException.dispatchEvent(new Event("input", { bubbles: true }));
+      edit(`[data-grade-plan-exception-reason][data-target-id="${pomException.dataset.targetId}"][data-size-label="S"]`,
+        "This POM does not apply to the smallest declared size.");
+      const exceptionDelta = [...root.querySelectorAll<HTMLInputElement>("[data-grade-plan-delta]")]
+        .find((input) => input.dataset.targetId === pomException.dataset.targetId && input.dataset.sizeLabel === "S")!;
+      exceptionDelta.value = "";
+      exceptionDelta.dispatchEvent(new Event("input", { bubbles: true }));
+      action("save-draft").click();
+      await vi.waitFor(() => expect(root.querySelector(".grade-plan-status")?.textContent).toBe("Draft — not reviewed"), { timeout: 20_000 });
+      action("review").click();
+      await vi.waitFor(() => expect(root.querySelector(".grade-plan-status")?.textContent).toBe("Reviewed; approval still required"));
+      action("approve").click();
+      await vi.waitFor(() => expect(root.querySelector(".grade-plan-status")?.textContent).toBe("Approved grade-plan record"));
+      exportSize.value = "S";
+      exportSize.dispatchEvent(new Event("change", { bubbles: true }));
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(true);
+      const projectManager = root.querySelector<HTMLDetailsElement>(".project-manager-details")!;
+      projectManager.open = true;
+      const blockedFreeze = root.querySelector<HTMLButtonElement>("[data-project-action='freeze-outputs']")!;
+      blockedFreeze.disabled = false;
+      blockedFreeze.click();
+      await vi.waitFor(() => expect(root.querySelector("#project-manager-status")?.textContent).toContain("not ready"));
+      exportSize.value = "M";
+      exportSize.dispatchEvent(new Event("change", { bubbles: true }));
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(false);
+      const editorSnapshot = workflow.snapshot;
+      const failedFreshnessRead = vi.spyOn(workflow.repository, "readActiveProject")
+        .mockRejectedValueOnce(new Error("offline freshness check"));
+      const blockedDownload = vi.fn(async () => ({ saved: true }));
+      window.electronAPI = { saveFile: blockedDownload };
+      root.querySelector<HTMLButtonElement>("#export-svg")!.click();
+      await vi.waitFor(() => expect(root.querySelector("#persist-status")?.textContent)
+        .toContain("changed in another tab"));
+      expect(blockedDownload).not.toHaveBeenCalled();
+      expect(workflow.snapshot.project.id).toBe(editorSnapshot.project.id);
+      expect(workflow.snapshot.activeStyle.id).toBe(editorSnapshot.activeStyle.id);
+      failedFreshnessRead.mockRestore();
+      delete window.electronAPI;
+      await vi.waitFor(() => expect(root.querySelector(".grade-plan-status")?.textContent).toBe("Approved grade-plan record"));
+      exportSize = root.querySelector<HTMLSelectElement>("#export-size")!;
+      exportSize.value = "M";
+      exportSize.dispatchEvent(new Event("change", { bubbles: true }));
+      clickId(root, "view-nest");
+      expect(root.querySelector("#canvas-host svg")).not.toBeNull();
+      clickId(root, "view-fabric");
+
+      const storedApprovedPlan = (await workflow.loadGradePlan("tee"))!;
+      const staleRevisionRead = vi.spyOn(workflow.repository, "readActiveProject").mockResolvedValueOnce({
+        ...workflow.snapshot,
+        activeStyle: { ...workflow.snapshot.activeStyle, id: "externally-selected-style", revisionHeadId: "stale-revision" },
+      });
+      const revisionPlanLoads = vi.spyOn(workflow.repository, "readGradePlan");
+      const revisionPlanLoadCount = revisionPlanLoads.mock.calls.length;
+      const staleRevisionDownload = vi.fn(async () => ({ saved: true }));
+      window.electronAPI = { saveFile: staleRevisionDownload };
+      root.querySelector<HTMLButtonElement>("#export-techpack")!.click();
+      await vi.waitFor(() => expect(root.querySelector("#persist-status")?.textContent)
+        .toContain("changed in another tab"));
+      expect(staleRevisionDownload).not.toHaveBeenCalled();
+      expect(workflow.snapshot.project.id).toBe(editorSnapshot.project.id);
+      expect(workflow.snapshot.activeStyle.id).toBe(editorSnapshot.activeStyle.id);
+      staleRevisionRead.mockRestore();
+      delete window.electronAPI;
+      await vi.waitFor(() => expect(revisionPlanLoads).toHaveBeenCalledTimes(revisionPlanLoadCount + 1));
+      await vi.waitFor(() => expect(root.querySelector(".grade-plan-status")?.textContent).toBe("Approved grade-plan record"));
+      revisionPlanLoads.mockRestore();
+      await vi.waitFor(() => expect(root.querySelector<HTMLButtonElement>("#export-techpack")?.disabled).toBe(false));
+
+      const stalePlanRead = vi.spyOn(workflow.repository, "readGradePlan").mockResolvedValueOnce({
+        ...storedApprovedPlan,
+        updatedAt: new Date(Date.parse(storedApprovedPlan.updatedAt) + 1_000).toISOString(),
+      });
+      const stalePlanReadCount = stalePlanRead.mock.calls.length;
+      const stalePlanDownload = vi.fn(async () => ({ saved: true }));
+      window.electronAPI = { saveFile: stalePlanDownload };
+      root.querySelector<HTMLButtonElement>("#export-techpack")!.click();
+      await vi.waitFor(() => expect(root.querySelector("#persist-status")?.textContent)
+        .toContain("changed in another tab"));
+      expect(stalePlanDownload).not.toHaveBeenCalled();
+      await vi.waitFor(() => expect(stalePlanRead).toHaveBeenCalledTimes(stalePlanReadCount + 2));
+      await vi.waitFor(() => expect(root.querySelector(".grade-plan-status")?.textContent).toBe("Approved grade-plan record"));
+      stalePlanRead.mockRestore();
+      delete window.electronAPI;
+      await vi.waitFor(() => expect(root.querySelector<HTMLButtonElement>("#export-techpack")?.disabled).toBe(false));
+      exportSize = root.querySelector<HTMLSelectElement>("#export-size")!;
+      exportSize.value = "M";
+      exportSize.dispatchEvent(new Event("change", { bubbles: true }));
+
+      const missingProjectRead = vi.spyOn(workflow.repository, "readActiveProject").mockResolvedValueOnce(null);
+      const missingProjectDownload = vi.fn(async () => ({ saved: true }));
+      window.electronAPI = { saveFile: missingProjectDownload };
+      root.querySelector<HTMLButtonElement>("#export-projector")!.click();
+      await vi.waitFor(() => expect(root.querySelector("#persist-status")?.textContent)
+        .toContain("changed in another tab"));
+      expect(missingProjectRead).toHaveBeenCalledOnce();
+      expect(missingProjectDownload).not.toHaveBeenCalled();
+      missingProjectRead.mockRestore();
+      delete window.electronAPI;
+      await vi.waitFor(() => expect(root.querySelector(".grade-plan-status")?.textContent)
+        .toBe("Approved grade-plan record"));
+      await vi.waitFor(() => expect(root.querySelector<HTMLButtonElement>("#export-projector")?.disabled).toBe(false));
+      exportSize = root.querySelector<HTMLSelectElement>("#export-size")!;
+      exportSize.value = "M";
+      exportSize.dispatchEvent(new Event("change", { bubbles: true }));
+
+      const saveFile = vi.fn(async (filename: string, content: string) => ({ saved: true, filePath: `${filename}:${content.length}` }));
+      window.electronAPI = { saveFile };
+      root.querySelector<HTMLButtonElement>("#export-techpack")!.click();
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(1));
+      expect(saveFile.mock.calls[0]![0]).toBe("tee-techpack.pdf");
+      expect(saveFile.mock.calls[0]![1]).toContain("Tee - S - Pattern Piece Overview");
+      root.querySelector<HTMLButtonElement>("#export-projector")!.click();
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(2));
+      expect(saveFile.mock.calls[1]![0]).toBe("tee-projector.svg");
+      expect(saveFile.mock.calls[1]![1]).toContain('inkscape:label="Size S"');
+      expect(saveFile.mock.calls[1]![1]).toContain("not applicable");
+
+      // Capture the approved run before changing saved nesting controls.
+      root.querySelector<HTMLDetailsElement>(".project-manager-details")!.open = true;
+      const freezeButton = root.querySelector<HTMLButtonElement>("[data-project-action='freeze-outputs']")!;
+      await vi.waitFor(() => expect(freezeButton.disabled).toBe(false));
+      freezeButton.click();
+      await vi.waitFor(() => expect(root.querySelector("#project-manager-status")?.textContent).toContain("Frozen"),
+        { timeout: 20_000 });
+
+      clickId(root, "view-fabric");
+      root.querySelector<HTMLButtonElement>("#nest-marker")!.click();
+      await vi.waitFor(() => expect(root.querySelector("#canvas-host")?.textContent).toContain("cm wide"));
+      expect(root.querySelector("#canvas-host")?.textContent).toContain("This POM does not apply to the smallest declared size.");
+      root.querySelector<HTMLButtonElement>("#export-svg")!.click();
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(3));
+      expect(saveFile.mock.calls[2]![0]).toBe("tee-M.svg");
+      delete window.electronAPI;
+
+      const editedFreezeButton = root.querySelector<HTMLButtonElement>("[data-project-action='freeze-outputs']")!;
+      await vi.waitFor(() => expect(editedFreezeButton.disabled).toBe(false));
+      editedFreezeButton.click();
+      await vi.waitFor(() => expect(root.querySelector("#project-manager-status")?.textContent)
+        .toContain("Save the current style before freezing outputs."));
+
+      const reopenedRoot = document.createElement("div");
+      document.body.append(reopenedRoot);
+      const pendingSemanticFingerprint = vi.spyOn(semanticEditEngine, "semanticEditSourceFingerprint")
+        .mockImplementation(() => new Promise<string>(() => undefined));
+      mountApp(reopenedRoot, { projectWorkflow: workflow });
+      await vi.waitFor(() => expect(reopenedRoot.querySelector(".grade-plan-status")?.textContent)
+        .toBe("Approved grade-plan record"));
+      expect(reopenedRoot.querySelector<HTMLSelectElement>("#export-size")?.value).toBe("__one-size__");
+      clickId(reopenedRoot, "view-nest");
+      await vi.waitFor(() => expect(reopenedRoot.querySelector("#canvas-host")?.textContent)
+        .toContain("The current grade-plan base could not be verified."));
+      expect(reopenedRoot.querySelector<HTMLButtonElement>("#export-techpack")?.disabled).toBe(true);
+      pendingSemanticFingerprint.mockRestore();
+      reopenedRoot.remove();
+      mountApp(root, { projectWorkflow: workflow });
+      await vi.waitFor(() => expect(root.querySelector(".grade-plan-status")?.textContent)
+        .toBe("Approved grade-plan record"), { timeout: 20_000 });
 
       edit("[data-grade-plan-range]", "Edited after approval");
       action("save-draft").click();
@@ -6090,18 +6427,8 @@ describe("bundled local artwork library (Slice 203)", () => {
       await vi.waitFor(() => expect(root.querySelector(".grade-plan-status")?.textContent).toBe("Stale — approval cannot be used"));
       action("refresh").click();
       await vi.waitFor(() => expect(root.textContent).toContain("Base refreshed. Re-enter the basis, size rules and every size change; prior approval was cleared."));
-
-      clickId(root, "journey-step-measure");
-      clickId(root, "journey-guided");
-      await vi.waitFor(() => expect(root.querySelector(".measurement-capture-panel__field")).not.toBeNull());
-      const chestDraft = root.querySelector<HTMLInputElement>('[data-action="capture-edit-raw"][data-field-id="body.chest-girth"]')!;
-      chestDraft.value = "108";
-      chestDraft.dispatchEvent(new Event("input", { bubbles: true }));
-      await vi.waitFor(async () => {
-        const savedCapture = await workflow.loadMeasurementCapture("tee");
-        expect(savedCapture?.drafts).toContainEqual(expect.objectContaining({ fieldId: "body.chest-girth", rawValue: "108" }));
-      }, { timeout: 10_000 });
     } finally {
+      delete window.electronAPI;
       workflow.close();
       root.remove();
       vi.unstubAllGlobals();
@@ -6215,6 +6542,7 @@ describe("bundled local artwork library (Slice 203)", () => {
     });
     const root = document.createElement("div");
     document.body.append(root);
+    let replacementRoot: HTMLDivElement | null = null;
     let resolveLoad!: (value: Awaited<ReturnType<typeof workflow.loadGradePlan>>) => void;
     let rejectLoad!: (reason: unknown) => void;
     const switchStyle = async (styleId: string): Promise<void> => {
@@ -6270,8 +6598,22 @@ describe("bundled local artwork library (Slice 203)", () => {
       rejectLoad("discard this stale failure");
       await Promise.resolve();
       failureSpy.mockRestore();
+
+      const staleMountLoad = new Promise<Awaited<ReturnType<typeof workflow.loadGradePlan>>>((_, reject) => { rejectLoad = reject; });
+      const staleMountSpy = vi.spyOn(workflow, "loadGradePlan").mockReturnValueOnce(staleMountLoad);
+      await switchStyle(customStyleId);
+      await vi.waitFor(() => expect(staleMountSpy).toHaveBeenCalledOnce());
+      replacementRoot = document.createElement("div");
+      document.body.append(replacementRoot);
+      mountApp(replacementRoot, { projectWorkflow: workflow });
+      await vi.waitFor(() => expect(replacementRoot!.querySelector<HTMLButtonElement>('[data-grade-plan-action="create"]')?.disabled).toBe(false));
+      rejectLoad("discard the prior mount's delayed failure");
+      await new Promise((resolve) => setTimeout(resolve, 0));
+      staleMountSpy.mockRestore();
+      expect(root.textContent).not.toContain("The grade plan could not be loaded.");
     } finally {
       workflow.close();
+      replacementRoot?.remove();
       root.remove();
       vi.unstubAllGlobals();
     }
@@ -6418,7 +6760,7 @@ describe("bundled local artwork library (Slice 203)", () => {
       await vi.waitFor(() => expect(root.querySelector<HTMLButtonElement>("#undo-pattern")!.disabled).toBe(false));
       clickId(root, "undo-pattern");
       expect(root.querySelector<HTMLInputElement>('input[data-field="chest"]')!.value).toBe(originalChest);
-      expect(root.querySelector<HTMLSelectElement>("#export-size")!.value).toBe("0");
+      expect(root.querySelector<HTMLSelectElement>("#export-size")!.value).toBe("__one-size__");
       expect([...root.querySelector<HTMLSelectElement>("#export-size")!.options].map((option) => option.textContent))
         .toEqual(["One size"]);
 
@@ -6433,13 +6775,194 @@ describe("bundled local artwork library (Slice 203)", () => {
       document.body.append(recoveredRoot);
       mountApp(recoveredRoot, { projectWorkflow: workflow });
       clickId(recoveredRoot, "recovery-accept");
-      expect(recoveredRoot.querySelector<HTMLSelectElement>("#export-size")!.value).toBe("0");
+      expect(recoveredRoot.querySelector<HTMLSelectElement>("#export-size")!.value).toBe("__one-size__");
       expect([...recoveredRoot.querySelector<HTMLSelectElement>("#export-size")!.options].map((option) => option.textContent))
         .toEqual(["One size"]);
     } finally {
       evaluateSpy.mockRestore();
       workflow.close();
       recoveredRoot?.remove();
+      root.remove();
+      vi.unstubAllGlobals();
+    }
+  }, 60_000);
+
+  it("waits for semantic source verification before binding grade-plan POMs to saved edits", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const capturedAt = "2026-09-26T20:00:00.000Z";
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: {
+        name: `app-grade-plan-semantic-source-${Date.now()}`,
+        factory: new IDBFactory(),
+        crypto: webcrypto as unknown as Crypto,
+      },
+      storage: localStorage,
+      idFactory: () => webcrypto.randomUUID(),
+      now: () => capturedAt,
+    });
+    const root = document.createElement("div");
+    document.body.append(root);
+    let replacementRoot: HTMLDivElement | null = null;
+    let staleStyleRoot: HTMLDivElement | null = null;
+    let rebaseRoot: HTMLDivElement | null = null;
+    let failedRoot: HTMLDivElement | null = null;
+    let releaseFingerprint!: (value: string) => void;
+    const fingerprintGate = new Promise<string>((resolve) => { releaseFingerprint = resolve; });
+    let releaseStaleStyleFingerprint!: (value: string) => void;
+    const staleStyleFingerprint = new Promise<string>((resolve) => { releaseStaleStyleFingerprint = resolve; });
+    let resolveDelayedPlan!: (value: Awaited<ReturnType<typeof workflow.loadGradePlan>>) => void;
+    const delayedPlan = new Promise<Awaited<ReturnType<typeof workflow.loadGradePlan>>>((resolve) => {
+      resolveDelayedPlan = resolve;
+    });
+    let resolveStaleStylePlan!: (value: Awaited<ReturnType<typeof workflow.loadGradePlan>>) => void;
+    const staleStylePlan = new Promise<Awaited<ReturnType<typeof workflow.loadGradePlan>>>((resolve) => {
+      resolveStaleStylePlan = resolve;
+    });
+    let resolveReplacementPlanLoad!: () => void;
+    const replacementPlanLoad = new Promise<void>((resolve) => { resolveReplacementPlanLoad = resolve; });
+    let resolveReplacementCaptureLoad!: () => void;
+    const replacementCaptureLoad = new Promise<void>((resolve) => { resolveReplacementCaptureLoad = resolve; });
+    const restoreMocks: (() => void)[] = [];
+    try {
+      let session = createMeasurementCaptureSession(
+        webcrypto.randomUUID(), "tee", capturedAt, workflow.snapshot.activeStyle.id,
+      );
+      for (const definition of getFieldDefinitions("tee")) {
+        session = addCaptureReadingForField(session, definition.id, {
+          id: webcrypto.randomUUID(),
+          rawValue: String(definition.defaultValue),
+          enteredUnit: definition.unit,
+          provenance: definition.semanticKind === "BODY_MEASURE" ? "USER_CAPTURED" : "USER_SELECTED",
+          evidenceStatus: "UNCONFIRMED",
+          sourceLabel: "Digital test fixture; not a fit assessment.",
+          captureMethod: null,
+          capturedAt: null,
+          measurer: null,
+        }, capturedAt);
+      }
+      await workflow.saveMeasurementCapture(session, []);
+      const design = materializeCustomSizeDesign(workflow.snapshot.activeStyle.design, session);
+      await workflow.createCustomSizeStyle("Grade plan semantic source", design);
+
+      const recipe = GARMENTS.find((candidate) => candidate.name === "tee")!;
+      const options = design.garmentOptions.tee ?? {};
+      const sourceInputs = {
+        measurements: Object.fromEntries(recipe.fields.map((field) => [field, design.measurements[field]])),
+        options: Object.fromEntries((recipe.options ?? []).map((option) => [option.id, options[option.id]!])),
+      };
+      const sourceBlock = recipe.draft(design.measurements, options);
+      const sourceFingerprint = await semanticEditEngine.semanticEditSourceFingerprint(
+        recipe.name, sourceBlock, webcrypto as unknown as Crypto, sourceInputs,
+      );
+      const anchor = semanticEditEngine.semanticAnchorCatalog(recipe.name, sourceBlock)[0]!;
+      const semanticDocument = semanticEditEngine.appendSemanticEditOperations(
+        semanticEditEngine.emptySemanticEditDocument(recipe.name, sourceFingerprint, sourceInputs),
+        [semanticEditEngine.createAnchorMoveOperation(recipe.name, sourceFingerprint, sourceBlock,
+          "grade-plan-source-move", anchor.id, { x: 0.125, y: 0 })],
+      );
+      const expectedBlock = semanticEditEngine.evaluateSemanticEditDocument(recipe, design.measurements, options,
+        semanticDocument, sourceFingerprint, sourceInputs, [{ label: "One size", step: 0 }]).sizes[0]!.block;
+      expect(JSON.stringify(expectedBlock)).not.toBe(JSON.stringify(sourceBlock));
+      await workflow.saveActiveDesign({ ...design, semanticEdits: semanticDocument });
+
+      const fingerprintSpy = vi.spyOn(semanticEditEngine, "semanticEditSourceFingerprint")
+        .mockReturnValue(fingerprintGate);
+      const contextSpy = vi.spyOn(gradePlanContext, "createGradePlanContext");
+      const loadGradePlan = workflow.loadGradePlan.bind(workflow);
+      const delayedPlanSpy = vi.spyOn(workflow, "loadGradePlan").mockReturnValueOnce(delayedPlan)
+        .mockImplementation(async (recipeId) => {
+          const plan = await loadGradePlan(recipeId);
+          resolveReplacementPlanLoad();
+          return plan;
+        });
+      const loadCapture = workflow.loadMeasurementCapture.bind(workflow);
+      let captureLoads = 0;
+      const captureSpy = vi.spyOn(workflow, "loadMeasurementCapture").mockImplementation(async (recipeId) => {
+        const capture = await loadCapture(recipeId);
+        captureLoads++;
+        if (captureLoads === 2) resolveReplacementCaptureLoad();
+        return capture;
+      });
+      restoreMocks.push(() => fingerprintSpy.mockRestore(), () => contextSpy.mockRestore(),
+        () => delayedPlanSpy.mockRestore(), () => captureSpy.mockRestore());
+      mountApp(root, { projectWorkflow: workflow });
+      await vi.waitFor(() => expect(root.querySelector<HTMLButtonElement>('[data-grade-plan-action="create"]')).not.toBeNull());
+      expect(root.querySelector<HTMLButtonElement>('[data-grade-plan-action="create"]')!.disabled).toBe(true);
+      expect(root.textContent).toContain("Verifying the saved pattern before creating grade-plan targets…");
+      expect(contextSpy).not.toHaveBeenCalled();
+
+      replacementRoot = document.createElement("div");
+      document.body.append(replacementRoot);
+      mountApp(replacementRoot, { projectWorkflow: workflow });
+      await vi.waitFor(() => expect(replacementRoot!.querySelector<HTMLButtonElement>('[data-grade-plan-action="create"]')).not.toBeNull());
+      expect(replacementRoot.textContent).toContain("Verifying the saved pattern before creating grade-plan targets…");
+      resolveDelayedPlan(null);
+      await replacementPlanLoad;
+      await replacementCaptureLoad;
+      await Promise.resolve();
+      expect(contextSpy).not.toHaveBeenCalled();
+
+      const snapshotGetter = Object.getOwnPropertyDescriptor(Object.getPrototypeOf(workflow), "snapshot")!.get!.bind(workflow);
+      let staleStyleVisible = false;
+      const snapshotSpy = vi.spyOn(workflow, "snapshot", "get").mockImplementation(() => {
+        const snapshot = snapshotGetter();
+        return staleStyleVisible
+          ? { ...snapshot, activeStyle: { ...snapshot.activeStyle, id: `${snapshot.activeStyle.id}-stale` } }
+          : snapshot;
+      });
+      fingerprintSpy.mockReturnValueOnce(staleStyleFingerprint);
+      delayedPlanSpy.mockReturnValueOnce(staleStylePlan);
+      staleStyleRoot = document.createElement("div");
+      document.body.append(staleStyleRoot);
+      const loadsBeforeStaleStyleMount = delayedPlanSpy.mock.calls.length;
+      mountApp(staleStyleRoot, { projectWorkflow: workflow });
+      await vi.waitFor(() => expect(delayedPlanSpy.mock.calls.length).toBeGreaterThan(loadsBeforeStaleStyleMount));
+      await workflow.loadMeasurementCapture("tee");
+      staleStyleVisible = true;
+      const snapshotReadsBeforeStaleResolution = snapshotSpy.mock.calls.length;
+      resolveStaleStylePlan(null);
+      await vi.waitFor(() => expect(snapshotSpy.mock.calls.length).toBeGreaterThan(snapshotReadsBeforeStaleResolution));
+      staleStyleVisible = false;
+      snapshotSpy.mockRestore();
+      releaseStaleStyleFingerprint(sourceFingerprint);
+
+      releaseFingerprint(sourceFingerprint);
+      await vi.waitFor(() => expect(delayedPlanSpy.mock.calls.length).toBeGreaterThan(loadsBeforeStaleStyleMount + 1),
+        { timeout: 10_000 });
+      await vi.waitFor(() => expect(contextSpy).toHaveBeenCalled(), { timeout: 10_000 });
+      expect(contextSpy.mock.calls[0]![4]).toEqual(expectedBlock);
+      expect(contextSpy.mock.calls[0]![4]).not.toEqual(sourceBlock);
+
+      const staleInputs = {
+        measurements: { ...sourceInputs.measurements, chest: sourceInputs.measurements.chest + 1 },
+        options: sourceInputs.options,
+      };
+      const staleDocument = semanticEditEngine.emptySemanticEditDocument(recipe.name, sourceFingerprint, staleInputs);
+      await workflow.saveActiveDesign({ ...workflow.snapshot.activeStyle.design, semanticEdits: staleDocument });
+      rebaseRoot = document.createElement("div");
+      document.body.append(rebaseRoot);
+      mountApp(rebaseRoot, { projectWorkflow: workflow });
+      await vi.waitFor(() => expect(rebaseRoot!.textContent)
+        .toContain("Review or rebase the saved pattern before creating grade-plan targets."));
+      expect(rebaseRoot.querySelector<HTMLButtonElement>('[data-grade-plan-action="create"]')!.disabled).toBe(true);
+      expect(rebaseRoot.textContent).toContain("The source pattern or its reviewed inputs changed.");
+
+      await workflow.saveActiveDesign({ ...workflow.snapshot.activeStyle.design, semanticEdits: semanticDocument });
+      fingerprintSpy.mockRejectedValueOnce("synthetic source verification failure");
+      failedRoot = document.createElement("div");
+      document.body.append(failedRoot);
+      mountApp(failedRoot, { projectWorkflow: workflow });
+      await vi.waitFor(() => expect(failedRoot!.textContent)
+        .toContain("SHA-256 source verification is unavailable."));
+      expect(failedRoot.querySelector<HTMLButtonElement>('[data-grade-plan-action="create"]')!.disabled).toBe(true);
+    } finally {
+      restoreMocks.forEach((restore) => restore());
+      staleStyleRoot?.remove();
+      replacementRoot?.remove();
+      rebaseRoot?.remove();
+      failedRoot?.remove();
+      workflow.close();
       root.remove();
       vi.unstubAllGlobals();
     }

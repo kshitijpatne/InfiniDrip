@@ -280,10 +280,11 @@ merged; implementation remains Codex-owned.
 
 Slice 250 is complete; verified evidence is in
 `docs/research/epic16/S250-EXIT.md`. It owns persistence and plan review/
-approval. Slice 251 owns applying an
-approved plan to grade every supported size, reconciling POMs and cutting
-quantities, showing the base-to-size diff, and enabling whole-run outputs. Until
-that integration exists, an approved plan record must not make generated
-graded output appear available. Existing legacy grading and bytes stay
-unchanged. No fit, population, standards-conformity, or physical approval claim
-is authorized.
+approval. Slice 251 applies an approved plan to every explicitly declared size,
+reconciles exact POM values and cutting quantities, shows the base-to-size
+review, and enables only the outputs whose checks pass. Its verified exit is
+`docs/research/epic16/S251-EXIT.md`, with machine-readable output and coverage
+evidence in `docs/research/epic16/evidence/S251-graded-output-verification.json`.
+Slice 252 is the independent final review and merge gate. Existing legacy
+grading and protected bytes stay unchanged. No fit, population,
+standards-conformity, or physical approval claim is authorized.

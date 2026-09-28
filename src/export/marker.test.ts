@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { STANDARD_M, TEE, blockPieces } from "../drafting";
-import { markerPieces, gradedMarker } from "./marker";
+import { markerPieces, gradedMarker, gradedMarkerForRun } from "./marker";
 
 describe("markerPieces", () => {
   it("holds every piece of every graded size, labelled with its size", () => {
@@ -29,6 +29,13 @@ describe("markerPieces", () => {
 });
 
 describe("gradedMarker", () => {
+  it("uses recipe allowances when a declared size does not override them", () => {
+    const block = TEE.draft(STANDARD_M);
+    const marker = gradedMarkerForRun(TEE, [{ label: "M", block }], 150);
+    expect(marker.placed).toHaveLength(blockPieces(block).length);
+    expect(marker.fabricWidth).toBe(150);
+  });
+
   it("nests the whole run and needs more cloth than a single garment", () => {
     const width = 150;
     const marker = gradedMarker(TEE, STANDARD_M, width);

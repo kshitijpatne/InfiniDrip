@@ -39,6 +39,7 @@ import {
   parseFrozenOutputManifestRecord,
   parseStyleRevisionRecord,
   canonicalizeJcs,
+  jcsSha256Hex,
   verifyFrozenOutputManifestMetadata,
   verifyFrozenOutputManifest,
   verifyStyleRevision,
@@ -162,6 +163,8 @@ export interface SaveProjectBundleInput {
    * saved capture revision, and have no stored plan for its style/recipe key.
    */
   readonly gradePlans?: readonly GradePlanRecord[];
+  /** Exact approved record required by a schema-v2 custom grade-plan freeze. */
+  readonly gradePlanFreeze?: { readonly record: GradePlanRecord; readonly approvalRef: string };
   /** Removes a style's old crash-recovery payload in the same atomic save. */
   readonly clearRecoveryStyleIds?: readonly string[];
   /** null creates a project; a number is a compare-and-swap revision. */
@@ -1272,6 +1275,18 @@ export class ProjectRepository {
     const gradePlans = parseGradePlanInputs(
       input.gradePlans, bundle.value.project.id, bundle.value.project.styleIds,
     );
+    const expectedFreezePlan = input.gradePlanFreeze
+      ? parseGradePlanRecord(input.gradePlanFreeze.record)
+      : null;
+    if (input.gradePlanFreeze && (!expectedFreezePlan?.ok
+      || expectedFreezePlan.value.status !== "approved"
+      || !/^grade-plan-sha256:[0-9a-f]{64}$/.test(input.gradePlanFreeze.approvalRef))) {
+      throw new ProjectRepositoryError("invalid-data", "A frozen graded run needs the exact approved grade-plan record and digest reference.");
+    }
+    if (input.gradePlanFreeze && expectedFreezePlan?.ok
+      && input.gradePlanFreeze.approvalRef !== `grade-plan-sha256:${await jcsSha256Hex(expectedFreezePlan.value, this.cryptoApi)}`) {
+      throw new ProjectRepositoryError("invalid-data", "A frozen grade-plan approval reference must be the canonical digest of the exact approved plan.");
+    }
     const bundleStylesById = new Map(bundle.value.styles.map((style) => [style.id, style]));
     for (const record of measurementCaptures) {
       const style = bundleStylesById.get(record.styleId)!;
@@ -1338,6 +1353,27 @@ export class ProjectRepository {
         throw new ProjectRepositoryError("conflict", "Project changed in another tab; reload or save a separate copy.");
       }
       const allStyles = await requestValue<StyleRecord[]>(styles.getAll());
+      if (input.gradePlanFreeze && expectedFreezePlan?.ok) {
+        const expectedPlan = expectedFreezePlan.value;
+        const storedInput = await requestValue<unknown>(transaction.objectStore(PROJECT_STORES.gradePlans)
+          .get([expectedPlan.styleId, expectedPlan.recipeId]));
+        const storedPlan = storedInput === undefined
+          ? null : storedGradePlan(storedInput, expectedPlan.styleId, expectedPlan.recipeId, expectedPlan.projectId);
+        const style = allStyles.map((candidate) => parseStyleRecord(candidate))
+          .find((candidate) => candidate.ok && candidate.value.id === expectedPlan.styleId);
+        if (!storedPlan || canonicalizeJcs(storedPlan) !== canonicalizeJcs(expectedPlan)
+          || !style?.ok || style.value.revisionHeadId !== expectedPlan.revisionHeadId) {
+          throw new ProjectRepositoryError("conflict", "The approved grade plan or its saved base changed while outputs were being frozen; reload and recheck the run.");
+        }
+        const capture = await requireStoredPlanCapture(transaction, expectedPlan);
+        assertGradePlanBase(expectedPlan, style.value, capture);
+        const matchingManifest = exportManifests.find((manifest) => manifest.styleId === expectedPlan.styleId);
+        if (!matchingManifest || matchingManifest.schemaVersion !== 2
+          || matchingManifest.payload.approvalRefs.length !== 1
+          || matchingManifest.payload.approvalRefs[0] !== input.gradePlanFreeze.approvalRef) {
+          throw new ProjectRepositoryError("invalid-data", "The frozen output manifest is not bound to the reviewed grade plan.");
+        }
+      }
       const observationStore = transaction.objectStore(PROJECT_STORES.fieldObservations);
       const revisionStore = transaction.objectStore(PROJECT_STORES.styleRevisions);
       const manifestStore = transaction.objectStore(PROJECT_STORES.exportManifests);

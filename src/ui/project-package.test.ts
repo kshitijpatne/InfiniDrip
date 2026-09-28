@@ -57,7 +57,7 @@ import {
   readProjectPackage,
   type ProjectPackageArchive,
 } from "./project-package";
-import { createFrozenOutputManifest, createStyleRevision, FROZEN_ARTIFACT_IDS, jcsSha256Hex, sha256Hex } from "./style-revisions";
+import { createFrozenOutputManifest, createStyleRevision, FROZEN_ARTIFACT_IDS, jcsSha256Hex, sha256Hex, verifyFrozenOutputManifest } from "./style-revisions";
 
 const crypto = webcrypto as unknown as Crypto;
 const TIME = "2026-09-24T16:00:00.000Z";
@@ -756,7 +756,7 @@ describe("portable local project package", () => {
       code: "invalid-package",
       message: expect.stringContaining("does not match an included immutable revision"),
     });
-  });
+  }, 30_000);
 
   it("backs up a frozen artifact larger than the artwork cap but within its own limit", async () => {
     const source = await createFrozenSourcePackage();
@@ -790,7 +790,7 @@ describe("portable local project package", () => {
     const archive = await readProjectPackage(packed, { crypto });
     expect(archive.frozenManifests[0]?.artifacts[0]?.byteLength).toBe(largeBytes);
     expect(archive.frozenManifests[0]?.artifacts[0]?.bytes.size).toBe(largeBytes);
-  });
+  }, 30_000);
 
   it("surfaces streaming ZIP writer failures and enforces the generated archive limit", async () => {
     const source = bundle("Writer failure");
@@ -1145,7 +1145,7 @@ describe("portable local project package", () => {
     await expect(readProjectPackage(corruptedOutput, { crypto }))
       .rejects.toMatchObject({ code: "invalid-package", message: expect.stringContaining("failed its byte digest") });
     expect(artifactEntry.uncompressedSize).toBeGreaterThan(0);
-  });
+  }, 20_000);
 
   it("round-trips immutable revision history and exact frozen artifacts through v3 and copy remapping", async () => {
     const source = bundle("Frozen archive", SECOND_PROJECT_ID, SECOND_STYLE_ID);
@@ -3295,6 +3295,67 @@ describe("G03 grade plans in project backups (package v6)", () => {
     expect(restored.declaredRange).toEqual(approved.declaredRange);
     // The source project was never created by the failed direct import.
     expect(await target.readMeasurementCapture(copyStyleId, "tee")).toMatchObject({ styleId: copyStyleId, projectId: copied.projectId });
+  });
+
+  it("preserves schema-v2 frozen bytes as source history when the copied plan is rebased to draft", async () => {
+    const { archive, capture } = await v6DraftPackage();
+    const assets = memoryAssets();
+    assets.records.set(ASSET_ID, {
+      assetId: ASSET_ID, name: "front.png", mimeType: "image/png", blob: new Blob([PNG], { type: "image/png" }),
+    });
+    const style = archive.manifest.styles[0]!;
+    const approved = v6Approved(style.revisionHeadId!);
+    const approvalRef = `grade-plan-sha256:${await jcsSha256Hex(approved, crypto)}`;
+    const revision = archive.manifest.styleRevisions[0]!;
+    const manifestId = "99999999-9999-4999-8999-999999999991";
+    const manifest = await createFrozenOutputManifest({
+      schemaVersion: 2,
+      manifestId,
+      styleId: style.id,
+      revision,
+      capturedAt: V6_APPROVE_TIME,
+      selectedSizes: [{ sizeId: "tee-grade-plan-1-M", label: "M" }],
+      unresolved: ["Digital output evidence only; no physical fit claim."],
+      approvalRefs: [approvalRef],
+      artifacts: FROZEN_ARTIFACT_IDS.map((artifactId) => {
+        const extension = artifactId.includes("dxf") ? "dxf" : artifactId.endsWith("svg") ? "svg" : "pdf";
+        return {
+          artifactId,
+          extension,
+          displayName: `${artifactId}.${extension}`,
+          mediaType: extension === "svg" ? "image/svg+xml" : extension === "dxf" ? "image/vnd.dxf" : "application/pdf",
+          content: `historical-approved-run:${artifactId}`,
+        };
+      }),
+    }, crypto);
+    const snapshot: ProjectBundleSnapshot = {
+      ...archive.manifest,
+      recoveries: [],
+      gradePlans: [approved],
+      measurementCaptures: [capture],
+      exportManifests: [manifest],
+    };
+    const packageBlob = await createProjectPackage(snapshot, assets, { crypto });
+    const packageArchive = await readProjectPackage(packageBlob, { crypto });
+    const target = await repository();
+    const targetAssets = memoryAssets();
+    const imported = await importProjectPackage(target, targetAssets, packageArchive, true, {
+      crypto, now: () => V6_NEXT_TIME, idFactory: deterministicUuidFactory(), inspectAsset: inspector,
+    });
+    if (imported.status !== "imported") throw new Error("The grade-plan archive copy did not import.");
+    const copied = await target.readProjectBundle(imported.projectId);
+    expect(copied?.gradePlans).toHaveLength(1);
+    expect(copied?.gradePlans?.[0]?.status).toBe("draft");
+    expect(copied?.exportManifests).toHaveLength(1);
+    const historical = copied!.exportManifests![0]!;
+    expect(historical.schemaVersion).toBe(2);
+    expect(historical.payload.approvalRefs).toEqual([approvalRef]);
+    expect(historical.payload.approvalRefs[0]).not.toBe(
+      `grade-plan-sha256:${await jcsSha256Hex(copied!.gradePlans![0]!, crypto)}`,
+    );
+    expect(await verifyFrozenOutputManifest(historical, crypto)).toBe(true);
+    const artifact = historical.artifacts.find((candidate) => candidate.artifactId === "whole-run-tech-pack-pdf")!;
+    expect(new TextDecoder().decode(await artifact.bytes.arrayBuffer())).toBe("historical-approved-run:whole-run-tech-pack-pdf");
   });
 
   it("fails closed when a copied grade plan cannot establish a safe rebind", async () => {

@@ -37,7 +37,6 @@ import {
   blockPieces,
   NO_ALLOWANCE,
   sampleSpec,
-  PredictedPom,
   StretchFabric,
   GarmentOptions,
 } from "../drafting";
@@ -293,8 +292,67 @@ function wrapPackText(value: string, maxWidthCm: number, fontSize: number): stri
   return result.length ? result : [""];
 }
 
+/** A plan spec row: raw cm per declared size, or null for an approved not-applicable POM. */
+interface GradePlanSpecRow {
+  readonly label: string;
+  readonly values: readonly (number | null)[];
+  readonly tolerance?: number;
+}
+
+const NOT_APPLICABLE_NOTE = "N/A = approved not-applicable POM; its full reason is on the Point-of-measure exceptions page.";
+
+/** Exact, paginated plan spec; unlike the legacy one-decimal table it preserves authored cm values. */
+function gradePlanTableStreams(sizes: readonly string[], rows: readonly GradePlanSpecRow[], page: PageSize): string[] {
+  const labelW = 7.5;
+  const tolW = 2;
+  // Three size columns (~2.8 cm on A4) keep a full-precision raw value such as
+  // 16.00781059358212 (~2.6 cm at 8 pt) inside its own column; four overlapped.
+  const sizesPerPage = 3;
+  const maxRows = Math.max(1, Math.floor((page.height - 2 * M - 5) / 0.62));
+  const hasNotApplicable = rows.some((row) => row.values.includes(null));
+  const pages: string[] = [];
+  for (let sizeStart = 0; sizeStart < sizes.length; sizeStart += sizesPerPage) {
+    const labels = sizes.slice(sizeStart, sizeStart + sizesPerPage);
+    const colW = (page.width - 2 * M - labelW - tolW) / labels.length;
+    const labelsWrapped = labels.map((label) => wrapPackText(label, colW - 0.2, 8));
+    const headLines = Math.max(...labelsWrapped.map((lines) => lines.length));
+    const pageRows = rows.length === 0 ? [[]] : Array.from({ length: Math.ceil(rows.length / maxRows) }, (_, i) =>
+      rows.slice(i * maxRows, (i + 1) * maxRows));
+    pageRows.forEach((rowGroup, rowPage) => {
+      const lines = [text(M, M + 1, 13,
+        `Measurement Spec (cm) - size columns ${sizeStart + 1}-${sizeStart + labels.length}${pageRows.length > 1 ? ` - ${rowPage + 1}/${pageRows.length}` : ""}`, page)];
+      if (hasNotApplicable) lines.push(text(M, M + 1.75, 8, NOT_APPLICABLE_NOTE, page));
+      let y = M + 2.4;
+      lines.push(text(M + labelW, y, 8, "Tol +/-", page));
+      labelsWrapped.forEach((wrapped, index) => wrapped.forEach((line, lineIndex) =>
+        lines.push(text(M + labelW + tolW + index * colW, y + lineIndex * 0.34, 8, line, page))));
+      y += Math.max(0.55, headLines * 0.36);
+      lines.push(rule(y, page));
+      y += 0.6;
+      for (const row of rowGroup) {
+        lines.push(text(M, y, 8, row.label, page));
+        lines.push(text(M + labelW, y, 8, row.tolerance === undefined ? "-" : row.tolerance.toFixed(1), page));
+        labels.forEach((_, index) => {
+          const value = row.values[sizeStart + index];
+          const rawValue = value === null ? "N/A" : String(value);
+          // Keep exact raw values legible without letting a full-precision
+          // number intrude into the adjacent size column. A conservative
+          // 0.6-em-per-character bound covers digits, decimal points and an
+          // exponent sign; Number#toString is at most 24 characters.
+          const cellFontSize = value === null ? 8 : Math.max(5,
+            Math.min(8, Math.floor((pt(colW - 0.15) / (rawValue.length * 0.6)) * 10) / 10));
+          lines.push(text(M + labelW + tolW + index * colW, y, cellFontSize, rawValue, page));
+        });
+        y += 0.62;
+      }
+      pages.push(lines.join("\n"));
+    });
+  }
+  return pages;
+}
+
 /** Readable, wrapping BOM/construction pages for the additive current export. */
-function bomStreamsV2(tp: GarmentRecipe["techPack"], label: string, page: PageSize): string[] {
+function bomStreamsV2(tp: GarmentRecipe["techPack"], label: string, page: PageSize, sizeLabel = ""): string[] {
   const c1 = M;
   const c2 = M + 6.5;
   const c3 = page.width - M - 2.5;
@@ -308,7 +366,7 @@ function bomStreamsV2(tp: GarmentRecipe["techPack"], label: string, page: PageSi
   let y = 0;
 
   const startMaterials = (continued: boolean): void => {
-    lines = [text(M, M + 1, 13, `Bill of Materials${continued ? " (continued)" : ""}`, page)];
+    lines = [text(M, M + 1, 13, `Bill of Materials${sizeLabel ? ` - ${sizeLabel}` : ""}${continued ? " (continued)" : ""}`, page)];
     y = M + 2.4;
     lines.push(
       text(c1, y, fontSize, "Material", page),
@@ -373,13 +431,29 @@ function bomStreamsV2(tp: GarmentRecipe["techPack"], label: string, page: PageSi
 // are no AcroForm fields to fill on screen. Blank space + a short rule is the
 // "field": the same honest constraint the rest of this writer already lives
 // under, just applied to a page whose whole job is to be written on by hand.
-function fitRecordStream(predicted: readonly PredictedPom[], label: string, page: PageSize): string {
+//
+// The grade-plan path passes `exactValues`: predicted values print as raw,
+// unrounded cm (so the Predicted column is wider), and a `null` value is an
+// approved not-applicable POM — printed as N/A with no blank to write into.
+interface FitRecordRow {
+  readonly label: string;
+  readonly value: number | null;
+  readonly tolerance?: number;
+}
+
+function fitRecordStream(
+  predicted: readonly FitRecordRow[],
+  label: string,
+  page: PageSize,
+  exactValues = false,
+): string {
   const labelW = 7.5; // cm — matches tableStream's column, same table reads twice
   const tolW = 2.0;
-  const predW = 2.4;
+  const predW = exactValues ? 4.2 : 2.4;
   const actualX = M + labelW + tolW + predW;
-  const actualW = 3.2;
-  const passX = actualX + actualW + 0.6;
+  const actualW = exactValues ? 2.4 : 3.2;
+  const passX = actualX + actualW + (exactValues ? 0.4 : 0.6);
+  const passW = exactValues ? 1.2 : 1.6;
 
   const lines: string[] = [
     text(M, M + 1, 13, `${label} - Fit Record`, page),
@@ -391,6 +465,7 @@ function fitRecordStream(predicted: readonly PredictedPom[], label: string, page
       page
     ),
   ];
+  if (predicted.some((p) => p.value === null)) lines.push(text(M, M + 2.4, 8, NOT_APPLICABLE_NOTE, page));
 
   // A blank-fill header: fabric / who sewed it / when. Free text, ruled to write
   // on. Three EQUAL columns across the actual printable width (page.width, not a
@@ -422,12 +497,17 @@ function fitRecordStream(predicted: readonly PredictedPom[], label: string, page
   for (const p of predicted) {
     lines.push(text(M, y, 9, p.label, page));
     lines.push(text(M + labelW, y, 9, p.tolerance === undefined ? "-" : p.tolerance.toFixed(1), page));
-    lines.push(text(M + labelW + tolW, y, 9, `${p.value.toFixed(1)} cm`, page));
-    // Actual + Pass?: blank ruled space, not a computed value — nothing here is
-    // invented, matching the tolerance column's own "don't guess" rule.
-    const ruleY = pt(page.height - y + 0.15);
-    lines.push(`0 0 0 RG 0.4 w ${pt(actualX)} ${ruleY} m ${pt(actualX + actualW)} ${ruleY} l S`);
-    lines.push(`0 0 0 RG 0.4 w ${pt(passX)} ${ruleY} m ${pt(passX + 1.6)} ${ruleY} l S`);
+    if (p.value === null) {
+      lines.push(text(M + labelW + tolW, y, 9, "N/A", page));
+      lines.push(text(actualX, y, 8, "Not applicable", page));
+    } else {
+      lines.push(text(M + labelW + tolW, y, 9, `${exactValues ? String(p.value) : p.value.toFixed(1)} cm`, page));
+      // Actual + Pass?: blank ruled space, not a computed value — nothing here is
+      // invented, matching the tolerance column's own "don't guess" rule.
+      const ruleY = pt(page.height - y + 0.15);
+      lines.push(`0 0 0 RG 0.4 w ${pt(actualX)} ${ruleY} m ${pt(actualX + actualW)} ${ruleY} l S`);
+      lines.push(`0 0 0 RG 0.4 w ${pt(passX)} ${ruleY} m ${pt(passX + passW)} ${ruleY} l S`);
+    }
     y += 0.7;
   }
   return lines.join("\n");
@@ -552,5 +632,81 @@ export function exportTechPackV2(
       ...surfaceSpecStreams(surface, styleLabel, page),
     ],
     page
+  );
+}
+
+/** Additive Tech Pack writer for a validated custom grade plan. The legacy
+ * V2 writer remains the only path for recipe-owned XS–XL runs. Every value —
+ * spec table and Fit Record alike — is measured raw off the supplied blocks;
+ * an approved not-applicable POM prints N/A and its reason, never a number. */
+export function exportTechPackV2ForGradePlan(
+  recipe: GarmentRecipe,
+  run: readonly {
+    readonly label: string;
+    readonly measurements: Measurements;
+    readonly options: GarmentOptions;
+    readonly block: Block;
+  }[],
+  page: PageSize = PAGE_A4,
+  fabric?: StretchFabric,
+  surface: readonly ArtworkPlacement[] = [],
+  styleLabel = "",
+  baseSizeLabel = "",
+  pomExceptions: readonly { readonly sizeLabel: string; readonly pomLabel: string; readonly reason: string }[] = [],
+): string {
+  if (run.length === 0) throw new Error("A Tech Pack requires a validated non-empty grade-plan run.");
+  const baseIndex = run.findIndex((size) => size.label.toLocaleLowerCase("en-US") === baseSizeLabel.toLocaleLowerCase("en-US"));
+  if (baseIndex < 0) throw new Error("The approved base size is missing from the Tech Pack run.");
+  const base = run[baseIndex];
+  for (const exception of pomExceptions) {
+    if (!run.some((size) => size.label === exception.sizeLabel) || !recipe.poms.some((pom) => pom.label === exception.pomLabel)) {
+      throw new Error(`The not-applicable exception for ${exception.pomLabel} at ${exception.sizeLabel} does not match a declared size and POM.`);
+    }
+  }
+  const notApplicable = (sizeLabel: string, pomLabel: string): boolean =>
+    pomExceptions.some((exception) => exception.sizeLabel === sizeLabel && exception.pomLabel === pomLabel);
+  // Raw, unrounded cm read off each supplied (approved, possibly semantically
+  // edited) block. An approved not-applicable cell is null and its measure
+  // callback is never invoked: the POM may not exist on that size's geometry.
+  const rows: GradePlanSpecRow[] = recipe.poms.map((pom) => ({
+    label: pom.label,
+    values: run.map((size) => notApplicable(size.label, pom.label) ? null : pom.measure(size.block)),
+    tolerance: pom.tolerance,
+  }));
+  // The Fit Record reuses the base column rather than calling sampleSpec():
+  // that would redraft an unedited recipe block and round to 0.1 cm.
+  const fitRecord: FitRecordRow[] = rows.map((row) => ({
+    label: row.label, value: row.values[baseIndex], tolerance: row.tolerance,
+  }));
+  const exceptionLines = pomExceptions.flatMap((exception) => [
+    ...wrapPackText(`${exception.sizeLabel} - ${exception.pomLabel} - NOT APPLICABLE`, page.width - 2 * M, 9)
+      .map((line) => ({ line, indent: 0 })),
+    ...wrapPackText(`Reason: ${exception.reason}`, page.width - 2 * M - 0.4, 8)
+      .map((line) => ({ line, indent: 0.4 })),
+  ]);
+  const exceptionLinesPerPage = Math.max(1, Math.floor((page.height - 2 * M - 3) / 0.42));
+  const exceptionPages = Array.from({ length: Math.ceil(exceptionLines.length / exceptionLinesPerPage) }, (_, pageIndex) => {
+    const entries = exceptionLines.slice(pageIndex * exceptionLinesPerPage, (pageIndex + 1) * exceptionLinesPerPage);
+    return [text(M, M + 1, 13, "Point-of-measure exceptions", page),
+      text(M, M + 2, 9, "Not applicable under the approved digital grade plan.", page),
+      ...entries.map((entry, index) => text(M + entry.indent, M + 3 + index * 0.42, 8, entry.line, page))].join("\n");
+  });
+  return assemblePdf(
+    [
+      ...run.flatMap((size) => overviewSketchStreams(size.block, `${recipe.label} — ${size.label}`, page)),
+      ...gradePlanTableStreams(run.map((size) => size.label), rows, page),
+      ...run.flatMap((size) => {
+        const techPack = fabric && recipe.techPackForFabric
+          ? recipe.techPackForFabric(fabric)
+          : recipe.techPackForOptions
+            ? recipe.techPackForOptions(size.options)
+            : recipe.techPack;
+        return bomStreamsV2(techPack, `${recipe.label} — ${size.label}`, page, size.label);
+      }),
+      fitRecordStream(fitRecord, `${recipe.label} — ${base.label}`, page, true),
+      ...exceptionPages,
+      ...surfaceSpecStreams(surface, styleLabel, page),
+    ],
+    page,
   );
 }

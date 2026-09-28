@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: EPIC-16/G03 Slice 250 complete, 2026-09-27._
+_Last updated: EPIC-16/G03 Slice 251 verified, 2026-09-28._
 Current directive: EPIC-14/G01 and EPIC-15/G02 are closed with accepted exit
 evidence. The maintainer admitted EPIC-16/G03 at Slice 244 from `origin/main`
 Slice 242, preserving the local Slice 243 manual-quality findings in its
@@ -9,10 +9,14 @@ reviewed branch. The linked execution contract is
 ordered scope. G03 is local-first and digital; no body-capture procedure is
 presented as qualified without accepted sourcing/review, and no physical-fit
 claim is authorized. The validated Control Center records EPIC-16 as In
-Progress with M01 and M02 Done and M03 In Progress at board revision 345;
-final-review remains Backlog. Slice 250 completed the custom-style grade-plan
-record and review lifecycle; its verified exit is linked to M03. Slice 251 owns
-graded drafting, POM/cutting reconciliation, and whole-run output integration.
+Progress with M01 and M02 Done and M03 accepted after Slice 251's plan-driven
+drafting, exact POM/cutting reconciliation, gated graded outputs, final 100%
+coverage run, strict builds, and rendered output review. Slice 251 evidence is
+recorded in `docs/research/epic16/S251-EXIT.md`; the canonical board transitions
+are recorded with this commit. The final-review card is Ready and depends on
+the Slice 251 PR merge. Slice 252 owns independent final review, PR merge,
+ancestry verification, and G03 closure. The current working tree remains
+uncommitted.
 Slice 247
 completed M01's durable resume, conflict, narrow-layout, accessibility, and
 all-recipe exits. Slice 248 completed deterministic custom one-size
@@ -34,11 +38,13 @@ and Axe checks at 320, 390, and 1440 CSS pixels. The exact review evidence is
 `docs/release/EPIC-15-G02-FINAL-REVIEW-S240.md`; the merged-exit record is
 `docs/release/EPIC-15-G02-MERGE-EXIT-S241.md`.
 
-The canonical Control Center is at revision 342: the EPIC-15 summary and final
+The canonical Control Center is at revision 349: the EPIC-15 summary and final
 review work items are Done, and the EPIC-15 record is Closed with verified
 S241 exit-report evidence. EPIC-16/G03 is In Progress, its M01 and M02 cards
-are Done with verified exit reports, M03 is In Progress with the Slice 250
-scope evidence attached, and final-review remains Backlog. Slice 248 exit
+are Done with verified exit reports, M03 is Done with verified Slice 251 exit
+evidence, and final-review is Ready pending the Slice 251 merge. Slice 251 exit
+evidence was attached using the validated command layer after the full gate
+passed. Slice 248 exit
 verification passed 546/546
 test suites and 1,919/1,919 tests at 100% statement, branch, function, and line
 coverage; `npm run build`; and the 33/33 Control Center gate. The built browser

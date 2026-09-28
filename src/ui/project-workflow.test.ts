@@ -19,12 +19,13 @@ import {
 } from "./measurement-capture";
 import { ProjectRepositoryError, type LoadedProject, type ProjectRepository } from "./project-repository";
 import { changedPaths, openProjectWorkflow, ProjectWorkflow } from "./project-workflow";
-import { createGradePlanDraft } from "./grade-plan";
+import { approveGradePlan, createGradePlanDraft, reviewGradePlan, updateGradePlanDraft } from "./grade-plan";
 import { createGradePlanContext } from "./grade-plan-context";
 import { createFieldObservationRecord, currentFieldObservation, getFieldDefinition, getFieldDefinitions } from "./field-provenance";
 import { materializeCustomSizeDesign } from "./custom-size-materialization";
 import { ARTWORK_CATALOG } from "../surface/artwork-library/catalog";
 import type { ArtworkAssetStore, StoredArtworkAsset } from "../surface/artwork-store";
+import { GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION, jcsSha256Hex } from "./style-revisions";
 
 const cryptoApi = webcrypto as unknown as Crypto;
 const TIME = "2026-09-24T16:00:00.000Z";
@@ -1112,6 +1113,112 @@ describe("G03 capture persistence through the project workflow", () => {
     await expect(concurrent.saveGradePlan(draftPlan.value)).rejects.toMatchObject({ code: "conflict" });
     expect(await concurrent.loadGradePlan("tee")).toEqual(saved);
     await expect(workflow.saveGradePlan({ ...saved, projectId: OTHER_PROJECT_ID })).rejects.toMatchObject({ code: "conflict" });
+
+    let complete = updateGradePlanDraft(saved, {
+      basis: { kind: "user-authored-digital-rule", decision: "Explicit test plan", digitalRange: "S-L" },
+      declaredRange: "S-L digital only", baseSizeLabel: "M",
+      sizes: [{ label: "S", position: -1 }, { label: "M", position: 0 }, { label: "L", position: 1 }],
+      exceptions: [],
+      targets: saved.targets.map((target) => ({ ...target, deltas: [
+        { sizeLabel: "S", deltaFromBase: 0 }, { sizeLabel: "M", deltaFromBase: 0 }, { sizeLabel: "L", deltaFromBase: 0 },
+      ] })),
+    }, "2026-09-24T16:00:02.000Z");
+    if (!complete.ok) throw new Error(complete.errors.join("; "));
+    let reviewed = reviewGradePlan(complete.value, context.value.targets.map((target) => target.targetId), context.value.binding,
+      "2026-09-24T16:00:03.000Z");
+    if (!reviewed.ok) throw new Error(reviewed.errors.join("; "));
+    const approved = approveGradePlan(reviewed.value, context.value.targets.map((target) => target.targetId), context.value.binding,
+      "2026-09-24T16:00:04.000Z");
+    if (!approved.ok) throw new Error(approved.errors.join("; "));
+    await workflow.saveGradePlan(complete.value);
+    await workflow.saveGradePlan(reviewed.value);
+    const persistedApproval = await workflow.saveGradePlan(approved.value);
+    const approvalRef = `grade-plan-sha256:${await jcsSha256Hex(persistedApproval, cryptoApi)}`;
+    const freezeArtifacts = [
+      ["selected-size-a0-pdf", "pdf"], ["selected-size-dxf", "dxf"], ["selected-size-svg", "svg"],
+      ["selected-size-tiled-pdf", "pdf"], ["whole-run-projector-svg", "svg"],
+      ["whole-run-surface-sheet-svg", "svg"], ["whole-run-tech-pack-pdf", "pdf"],
+    ] as const;
+    const frozen = await workflow.freezeOutputs(freezeArtifacts.map(([artifactId, extension]) => ({
+      artifactId, extension, displayName: `${artifactId}.${extension}`,
+      mediaType: extension === "svg" ? "image/svg+xml" : extension === "dxf" ? "image/vnd.dxf" : "application/pdf",
+      content: `custom:${artifactId}`,
+    })), [{ sizeId: "tee-grade-plan-4-M", label: "M" }], ["Digital only."],
+    workflow.snapshot.activeStyle.revisionHeadId!, {
+      schemaVersion: GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION,
+      approvalRefs: [approvalRef],
+      gradePlanFreeze: { record: persistedApproval, approvalRef },
+    });
+    expect(frozen).toMatchObject({ schemaVersion: 2, payload: { approvalRefs: [approvalRef] } });
+
+    const captureAgain = (suffix: string) => freezeArtifacts.map(([artifactId, extension]) => ({
+      artifactId, extension, displayName: `${artifactId}.${extension}`,
+      mediaType: extension === "svg" ? "image/svg+xml" : extension === "dxf" ? "image/vnd.dxf" : "application/pdf",
+      content: `${suffix}:${artifactId}`,
+    }));
+    await expect(workflow.freezeOutputs(captureAgain("bad-reference"), [{ sizeId: "tee-grade-plan-4-M", label: "M" }],
+      ["Digital only."], workflow.snapshot.activeStyle.revisionHeadId!, {
+        schemaVersion: GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION,
+        approvalRefs: [approvalRef],
+        gradePlanFreeze: { record: persistedApproval, approvalRef: "invalid-digest" },
+      })).rejects.toMatchObject({ code: "invalid-data", message: expect.stringContaining("exact approved grade-plan") });
+    const differentValidRef = `grade-plan-sha256:${"f".repeat(64)}`;
+    await expect(workflow.freezeOutputs(captureAgain("mismatched-reference"), [{ sizeId: "tee-grade-plan-4-M", label: "M" }],
+      ["Digital only."], workflow.snapshot.activeStyle.revisionHeadId!, {
+        schemaVersion: GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION,
+        approvalRefs: [differentValidRef],
+        gradePlanFreeze: { record: persistedApproval, approvalRef: differentValidRef },
+      })).rejects.toMatchObject({ code: "invalid-data", message: expect.stringContaining("canonical digest of the exact approved plan") });
+    await expect(workflow.freezeOutputs(captureAgain("unbound-manifest"), [{ sizeId: "tee-grade-plan-4-M", label: "M" }],
+      ["Digital only."], workflow.snapshot.activeStyle.revisionHeadId!, {
+        schemaVersion: GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION,
+        approvalRefs: [differentValidRef],
+        gradePlanFreeze: { record: persistedApproval, approvalRef },
+      })).rejects.toMatchObject({ code: "invalid-data", message: expect.stringContaining("not bound to the reviewed grade plan") });
+
+    const changedAfterFreeze = updateGradePlanDraft(persistedApproval, {
+      basis: persistedApproval.basis!, declaredRange: persistedApproval.declaredRange,
+      baseSizeLabel: persistedApproval.baseSizeLabel, sizes: persistedApproval.sizes,
+      exceptions: persistedApproval.exceptions,
+      targets: persistedApproval.targets.map((target, index) => index === 0 ? {
+        ...target, deltas: target.deltas.map((delta) => delta.sizeLabel === "S"
+          ? { ...delta, deltaFromBase: 1 } : delta),
+      } : target),
+    }, "2026-09-24T16:00:05.000Z");
+    if (!changedAfterFreeze.ok) throw new Error(changedAfterFreeze.errors.join("; "));
+    await concurrent.loadGradePlan("tee");
+    await concurrent.saveGradePlan(changedAfterFreeze.value);
+    await expect(workflow.freezeOutputs(freezeArtifacts.map(([artifactId, extension]) => ({
+      artifactId, extension, displayName: `${artifactId}.${extension}`,
+      mediaType: extension === "svg" ? "image/svg+xml" : extension === "dxf" ? "image/vnd.dxf" : "application/pdf",
+      content: `stale:${artifactId}`,
+    })), [{ sizeId: "tee-grade-plan-4-M", label: "M" }], ["Digital only."],
+    workflow.snapshot.activeStyle.revisionHeadId!, {
+      schemaVersion: GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION,
+      approvalRefs: [approvalRef],
+      gradePlanFreeze: { record: persistedApproval, approvalRef },
+    })).rejects.toMatchObject({ code: "conflict", message: expect.stringContaining("approved grade plan") });
+
+    const database = await new Promise<IDBDatabase>((resolve, reject) => {
+      const request = base.repositoryOptions.factory.open(base.repositoryOptions.name);
+      request.onerror = () => reject(request.error ?? new Error("Could not open the plan-removal fixture database."));
+      request.onsuccess = () => resolve(request.result);
+    });
+    const removal = database.transaction("gradePlans", "readwrite");
+    removal.objectStore("gradePlans").delete([workflow.snapshot.activeStyle.id, "tee"]);
+    await new Promise<void>((resolve, reject) => {
+      removal.oncomplete = () => resolve();
+      removal.onabort = () => reject(removal.error ?? new Error("Could not remove the stored plan fixture."));
+      removal.onerror = () => reject(removal.error ?? new Error("Could not remove the stored plan fixture."));
+    });
+    database.close();
+    await workflow.reload();
+    await expect(workflow.freezeOutputs(captureAgain("missing-stored-plan"), [{ sizeId: "tee-grade-plan-4-M", label: "M" }],
+      ["Digital only."], workflow.snapshot.activeStyle.revisionHeadId!, {
+        schemaVersion: GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION,
+        approvalRefs: [approvalRef],
+        gradePlanFreeze: { record: persistedApproval, approvalRef },
+      })).rejects.toMatchObject({ code: "conflict", message: expect.stringContaining("approved grade plan or its saved base changed") });
   });
 
   it("duplicates a custom style only with its saved source capture and keeps the recipe", async () => {

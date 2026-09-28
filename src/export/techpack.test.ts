@@ -1,7 +1,8 @@
 import { describe, it, expect } from "vitest";
-import { FITTED, SKIRT, STANDARD_M, TANK, TEE, POLO, TROUSER, WOVEN_SHIRT, STRETCH_FABRICS, blockPieces, rolePiece, sampleSpec } from "../drafting";
+import { PDFDocument } from "pdf-lib";
+import { FITTED, SKIRT, STANDARD_M, TANK, TEE, POLO, TROUSER, WOVEN_SHIRT, STRETCH_FABRICS, blockPieces, rolePiece, sampleSpec, type Block } from "../drafting";
 import { PAGE_A4, PAGE_LETTER, pt } from "./pdf";
-import { exportTechPack, exportTechPackV2, pdfString } from "./techpack";
+import { exportTechPack, exportTechPackV2, exportTechPackV2ForGradePlan, pdfString } from "./techpack";
 
 // ── pdfString ─────────────────────────────────────────────────────────────────
 
@@ -117,6 +118,269 @@ describe("exportTechPack", () => {
     expect(pdf).toContain("(6 front + 1 stand)");
     expect(pdf).toContain("(Woven shirt - Tech Pack)");
     expect(pdf).toContain("(WOVEN BUTTON PLACKET)");
+  });
+});
+
+// ── grade-plan PDF inspection helpers ─────────────────────────────────────────
+
+/** Each page's content stream in page order; this writer never compresses them. */
+function pageStreams(pdf: string): string[] {
+  return [...pdf.matchAll(/>>\nstream\n([\s\S]*?)\nendstream/g)].map((match) => match[1]!);
+}
+
+/** The strings a content stream shows, in drawing order, with PDF escapes removed. */
+function shownText(stream: string): string[] {
+  return [...stream.matchAll(/\(((?:[^()\\]|\\.)*)\) Tj/g)].map((match) => match[1]!.replace(/\\(.)/g, "$1"));
+}
+
+function positionedText(stream: string): { fontSize: number; x: number; y: number; text: string }[] {
+  return [...stream.matchAll(/BT \/F1 ([\d.]+) Tf ([\d.]+) ([\d.]+) Td \(((?:[^()\\]|\\.)*)\) Tj ET/g)]
+    .map((match) => ({
+      fontSize: Number(match[1]), x: Number(match[2]), y: Number(match[3]),
+      text: match[4]!.replace(/\\(.)/g, "$1"),
+    }));
+}
+
+/** A label as the ASCII-only writer shows it (dashes folded, escapes removed). */
+const shown = (value: string): string => pdfString(value).replace(/\\(.)/g, "$1");
+
+async function parsedPageCount(pdf: string): Promise<number> {
+  return (await PDFDocument.load(new TextEncoder().encode(pdf), { updateMetadata: false })).getPageCount();
+}
+
+describe("exportTechPackV2ForGradePlan", () => {
+  it("requires a non-empty run containing its declared base and supports each recipe BOM path", () => {
+    const block = TEE.draft(STANDARD_M, {});
+    const size = { label: "M", measurements: STANDARD_M, options: {}, block };
+    expect(() => exportTechPackV2ForGradePlan(TEE, [])).toThrow("non-empty grade-plan run");
+    expect(() => exportTechPackV2ForGradePlan(TEE, [size], undefined, undefined, [], "", "L"))
+      .toThrow("approved base size is missing");
+    const wovenBlock = WOVEN_SHIRT.draft(STANDARD_M, { buttonCount: 6 });
+    const woven = exportTechPackV2ForGradePlan(WOVEN_SHIRT, [
+      { label: "M", measurements: STANDARD_M, options: { buttonCount: 6 }, block: wovenBlock },
+    ], undefined, STRETCH_FABRICS[0], [], "", "M");
+    expect(woven).toContain("(6 front + 1)");
+    const tankBlock = TANK.draft(STANDARD_M, {});
+    const wovenTank = exportTechPackV2ForGradePlan(TANK, [
+      { label: "M", measurements: STANDARD_M, options: {}, block: tankBlock },
+    ], undefined, STRETCH_FABRICS.find((fabric) => fabric.family === "woven"), [], "", "M");
+    expect(wovenTank).toContain("Self-fabric binding");
+  });
+
+  it("prints each approved not-applicable POM reason in the whole-run document", () => {
+    const block = TEE.draft(STANDARD_M, {});
+    const output = exportTechPackV2ForGradePlan(TEE, [
+      { label: "M", measurements: STANDARD_M, options: {}, block },
+      { label: "L", measurements: STANDARD_M, options: {}, block },
+    ], undefined, undefined, [], "Test style", "M", [
+      { sizeLabel: "L", pomLabel: "Body chest (finished)", reason: "Not included in this product size." },
+    ]);
+    const visibleText = shownText(pageStreams(output).join("\n")).join("\n");
+    expect(output).toContain("Point-of-measure exceptions");
+    expect(visibleText).toContain("L - Body chest (finished)");
+    expect(visibleText).toContain("Reason: Not included in this product size.");
+  });
+
+  it("paginates large plan size ranges and wraps long custom labels and exception reasons", () => {
+    const run = Array.from({ length: 12 }, (_, index) => {
+      const label = `Custom size ${String(index + 1).padStart(2, "0")} Long label`;
+      const measurements = { ...STANDARD_M, chest: 100 + index * 0.125 };
+      return { label, measurements, options: {}, block: TEE.draft(measurements, {}) };
+    });
+    const longReason = "This POM is intentionally not applicable under the documented construction and body-size relationship. ".repeat(3);
+    const output = exportTechPackV2ForGradePlan(TEE, run, undefined, undefined, [], "Test style", run[0]!.label, [
+      { sizeLabel: run[11]!.label, pomLabel: "Body chest (finished)", reason: longReason },
+    ]);
+    expect(output).toContain(pdfString("Measurement Spec (cm)"));
+    expect(output).toContain("Custom size 01");
+    expect(output).toContain("Custom size 12");
+    expect(output).toContain(pdfString("not applicable under the documented construction"));
+    // Size 11's finished chest is authored as 100 + 10 x 0.125 + 10 ease; size
+    // 12's chest is approved not-applicable, so it prints N/A instead of 111.375.
+    expect(output).toContain("(111.25)");
+    expect(output).not.toContain("(111.375)");
+    expect(output).toContain("(N/A)");
+    expect(Number(output.match(/\/Count (\d+)/)?.[1])).toBeGreaterThan(12);
+  });
+
+  it("covers empty POM tables, row pagination, and optional tolerances in the grade-plan spec", () => {
+    const block = TEE.draft(STANDARD_M, {});
+    const size = { label: "S", measurements: STANDARD_M, options: {}, block };
+    const withoutPoms = { ...TEE, poms: [] };
+    const emptyTable = exportTechPackV2ForGradePlan(withoutPoms, [size], undefined, undefined, [], "", "S");
+    expect(emptyTable).toContain("/Count");
+
+    const denseRecipe = {
+      ...TEE,
+      poms: Array.from({ length: 1_400 }, (_, index) => ({
+        label: `Measurement ${index + 1}`,
+        measure: TEE.poms[0]!.measure,
+        ...(index === 0 ? {} : { tolerance: 1.25 }),
+      })),
+    };
+    const paginatedTable = exportTechPackV2ForGradePlan(denseRecipe, [size], undefined, undefined, [], "", "S");
+    const specHeaders = [...paginatedTable.matchAll(/Measurement Spec[^\n]+/g)]
+      .map(([header]) => header!).filter((header) => header.includes("size columns"));
+    expect(specHeaders.some((header) => /1\/\d+/.test(header))).toBe(true);
+    expect(specHeaders.some((header) => /2\/\d+/.test(header))).toBe(true);
+    expect(paginatedTable).toContain("(-)");
+    expect(paginatedTable).toContain("(1.3)");
+  });
+
+  const chestPom = TEE.poms.find((pom) => pom.label === "Body chest (finished)")!;
+  // Stand-in for an approved semantic edit: the supplied base block is NOT what
+  // recipe.draft(measurements, options) produces for the size it is paired with.
+  const editedBlock = TEE.draft({ ...STANDARD_M, chest: 100.123, shoulderWidth: 45.678 }, {});
+  const editedSize = { label: "M", measurements: STANDARD_M, options: {}, block: editedBlock };
+
+  it("prints an approved not-applicable POM as N/A, never measures it, and keeps its full reason", async () => {
+    const run = ["S", "M", "L"].map((label, index) => {
+      const measurements = { ...STANDARD_M, chest: 96 + index * 4 };
+      return { label, measurements, options: {}, block: TEE.draft(measurements, {}) };
+    });
+    const notApplicableBlock = run[0]!.block;
+    const measured: Block[] = [];
+    const guarded = {
+      ...TEE,
+      poms: TEE.poms.map((pom) => pom === chestPom ? {
+        ...pom,
+        measure: (block: Block): number => {
+          measured.push(block);
+          if (block === notApplicableBlock) throw new Error("measured an approved not-applicable POM");
+          return pom.measure(block);
+        },
+      } : pom),
+    };
+    const reason = "At this size the chest point sits on a separate yoke (construction note 4), " +
+      "so the body-panel POM does not exist; measure the yoke seam instead and record it on the yoke spec.";
+    const pdf = exportTechPackV2ForGradePlan(guarded, run, undefined, undefined, [], "Test style", "S", [
+      { sizeLabel: "S", pomLabel: chestPom.label, reason },
+    ]);
+    // Measured once per applicable size; the Fit Record reuses the base column.
+    expect(measured).toHaveLength(2);
+    expect(measured[0]).toBe(run[1]!.block);
+    expect(measured[1]).toBe(run[2]!.block);
+
+    const streams = pageStreams(pdf);
+    expect(await parsedPageCount(pdf)).toBe(streams.length);
+    const note = "N/A = approved not-applicable POM; its full reason is on the Point-of-measure exceptions page.";
+
+    const spec = shownText(streams.find((stream) => stream.includes("size columns 1-3"))!);
+    expect(spec).toContain(note);
+    const specRow = spec.indexOf(chestPom.label);
+    expect(spec.slice(specRow, specRow + 5)).toEqual([
+      chestPom.label, "1.3", "N/A", String(chestPom.measure(run[1]!.block)), String(chestPom.measure(run[2]!.block)),
+    ]);
+
+    const fitStream = streams.find((stream) => stream.includes("(Tee - S - Fit Record)"))!;
+    const fit = shownText(fitStream);
+    expect(fit).toContain(note);
+    const fitRow = fit.indexOf(chestPom.label);
+    expect(fit.slice(fitRow, fitRow + 4)).toEqual([chestPom.label, "1.3", "N/A", "Not applicable"]);
+    // Rules: 3 header blanks + 2 separators + an Actual/Pass pair for each APPLICABLE POM only.
+    expect(ruleEndpoints(fitStream)).toHaveLength(3 + 2 + 2 * (TEE.poms.length - 1));
+
+    const exceptions = shownText(streams.find((stream) => stream.includes("(Point-of-measure exceptions)"))!);
+    expect(exceptions).toContain(`S - ${chestPom.label} - NOT APPLICABLE`);
+    const reasonStart = exceptions.findIndex((line) => line.startsWith("Reason: "));
+    expect(exceptions.length - reasonStart).toBeGreaterThan(1); // wrapped, not truncated
+    expect(exceptions.slice(reasonStart).join(" ")).toBe(`Reason: ${reason}`);
+  });
+
+  it("prints the Fit Record raw from the supplied edited base block instead of a rounded fresh redraft", async () => {
+    const pdf = exportTechPackV2ForGradePlan(TEE, [editedSize], undefined, undefined, [], "", "M");
+    const streams = pageStreams(pdf);
+    expect(await parsedPageCount(pdf)).toBe(streams.length);
+    const fit = shownText(streams.find((stream) => stream.includes("(Tee - M - Fit Record)"))!);
+    const spec = shownText(streams.find((stream) => stream.includes("size columns 1-1"))!);
+    for (const pom of TEE.poms) {
+      const raw = String(pom.measure(editedBlock));
+      expect(fit[fit.indexOf(shown(pom.label)) + 2]).toBe(`${raw} cm`);
+      expect(spec[spec.indexOf(shown(pom.label)) + 2]).toBe(raw);
+    }
+    const printed = (label: string): number => Number(fit[fit.indexOf(label) + 2]!.replace(/ cm$/, ""));
+    // Independent oracle from the authored edit inputs: derive() drafts the
+    // chest half as (chest + ease) / 4 and the shoulder half as width / 2
+    // (asserted for the tee in src/drafting/pom.test.ts).
+    expect(printed("Body chest (finished)")).toBeCloseTo(100.123 + 10, 4);
+    expect(printed("Across shoulder")).toBeCloseTo(45.678, 4);
+    // The previous path, sampleSpec() on a fresh redraft, printed these unedited 0.1 cm values.
+    for (const predicted of sampleSpec(TEE, STANDARD_M)) {
+      if (predicted.label === "Body chest (finished)" || predicted.label === "Across shoulder") {
+        expect(fit).not.toContain(`${predicted.value.toFixed(1)} cm`);
+      }
+    }
+  });
+
+  it("keeps the wider exact-value Fit Record inside both supported page sizes", () => {
+    for (const page of [PAGE_A4, PAGE_LETTER]) {
+      const pdf = exportTechPackV2ForGradePlan(TEE, [editedSize], page, undefined, [], "", "M");
+      const fitStream = pageStreams(pdf).find((stream) => stream.includes("(Tee - M - Fit Record)"))!;
+      const rightEdge = pt(page.width - 1.5);
+      for (const { x1, x2 } of ruleEndpoints(fitStream)) {
+        expect(x1).toBeGreaterThanOrEqual(0);
+        expect(x2).toBeLessThanOrEqual(rightEdge);
+      }
+      // Helvetica digits advance 0.556 em: every raw 9 pt value clears the 4.2 cm Predicted column.
+      for (const pom of TEE.poms) {
+        expect(`${String(pom.measure(editedBlock))} cm`.length * 9 * 0.556).toBeLessThan(pt(4.2));
+      }
+    }
+  });
+
+  it("prints spec values that match an independently authored nonlinear digital fixture", () => {
+    // Synthetic digital fixture only: no population chart, sample, or physical
+    // fit claim. Inputs step nonlinearly (chest +6.125 then +8.375 cm; shoulder
+    // +1.5 then +2.25 cm). Expected POMs are authored by hand from those inputs
+    // via derive() (finished chest = chest + ease; across shoulder = shoulder
+    // width, both asserted in src/drafting/pom.test.ts) — never read back from
+    // the drafted geometry.
+    const authored = [
+      { label: "S", chest: 94, shoulderWidth: 43.5, finishedChest: 104, acrossShoulder: 43.5 },
+      { label: "M", chest: 100.125, shoulderWidth: 45, finishedChest: 110.125, acrossShoulder: 45 },
+      { label: "L", chest: 108.5, shoulderWidth: 47.25, finishedChest: 118.5, acrossShoulder: 47.25 },
+    ];
+    expect(STANDARD_M.ease).toBe(10);
+    const run = authored.map(({ label, chest, shoulderWidth }) => {
+      const measurements = { ...STANDARD_M, chest, shoulderWidth };
+      return { label, measurements, options: {}, block: TEE.draft(measurements, {}) };
+    });
+    const pdf = exportTechPackV2ForGradePlan(TEE, run, undefined, undefined, [], "Synthetic digital fixture", "M");
+    const specStream = pageStreams(pdf).find((stream) => stream.includes("size columns 1-3"))!;
+    const spec = shownText(specStream);
+    const positioned = positionedText(specStream);
+    const printedRow = (label: string): number[] => {
+      const row = spec.indexOf(label);
+      return spec.slice(row + 2, row + 5).map(Number);
+    };
+    const chest = printedRow("Body chest (finished)");
+    const across = printedRow("Across shoulder");
+    expect(chest).toHaveLength(3);
+    expect(across).toHaveLength(3);
+    authored.forEach((size, index) => {
+      expect(chest[index]).toBeCloseTo(size.finishedChest, 4);
+      expect(across[index]).toBeCloseTo(size.acrossShoulder, 4);
+    });
+    const colW = (PAGE_A4.width - 3 - 7.5 - 2) / 3;
+    const colStarts = [0, 1, 2].map((index) => pt(1.5 + 7.5 + 2 + index * colW));
+    for (const [sizeIndex, size] of run.entries()) {
+      for (const pom of TEE.poms) {
+        const rawValue = String(pom.measure(size.block));
+        const cell = positioned.find((entry) => entry.text === rawValue
+          && Math.abs(entry.x - colStarts[sizeIndex]!) < 0.002);
+        expect(cell, `${pom.label} / ${size.label} must be placed in its own column`).toBeDefined();
+        // Includes a safety margin and a conservative Helvetica glyph-width
+        // upper bound, so exact text cannot intrude into the next size column.
+        expect(rawValue.length * cell!.fontSize * 0.6).toBeLessThanOrEqual(pt(colW - 0.15));
+      }
+    }
+  });
+
+  it("rejects a not-applicable exception that names no declared size or recipe POM", () => {
+    const exportWith = (sizeLabel: string, pomLabel: string): string => exportTechPackV2ForGradePlan(TEE, [editedSize],
+      undefined, undefined, [], "", "M", [{ sizeLabel, pomLabel, reason: "Not part of this style." }]);
+    expect(() => exportWith("XL", chestPom.label)).toThrow("does not match a declared size and POM");
+    expect(() => exportWith("M", "Not a recipe POM")).toThrow("does not match a declared size and POM");
   });
 });
 

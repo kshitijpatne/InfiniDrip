@@ -120,6 +120,11 @@ only through an explicitly admitted, linked Epic packet.
   Control Center for live status.
 - `docs/research/epic16/S250-EXIT.md` — verified S250 completion, test/build/
   browser evidence, and the remaining S251 integration boundary.
+- `docs/research/epic16/S251-EXIT.md` and
+  `docs/research/epic16/evidence/S251-graded-output-verification.json` — Slice
+  251's approved plan-driven graded outputs, exact unrounded POM gate, seven-
+  recipe output parsing and coverage evidence; Slice 252 remains the final
+  review and merge gate.
 - `docs/research/epic16/S250-EXPLICIT-GRADE-PLAN-RECORD-AND-REVIEW.md` — Slice
   250's exact scope, strict grade-plan fields, stale-approval boundary,
   migration/output non-goals, and exit checks. It does not supply a population,

@@ -629,6 +629,34 @@ function applyOperationsToBlock(
   return { block, issues };
 }
 
+/** Replay a saved semantic edit sequence over caller-drafted, explicitly
+ * measured sizes. Custom grade plans use this instead of legacy `gradeRun`. */
+export function replaySemanticEditsForDrafts(
+  recipe: GarmentRecipe,
+  document: SemanticEditDocument,
+  currentSourceFingerprint: string,
+  drafts: readonly {
+    readonly label: string;
+    readonly measurements: Measurements;
+    readonly block: Block;
+  }[],
+): readonly { readonly label: string; readonly block: Block; readonly issues: readonly SemanticEditIssue[] }[] {
+  if (document.recipeId !== recipe.name || document.schemaVersion !== SEMANTIC_EDIT_SCHEMA_VERSION
+    || document.sourceFingerprint !== currentSourceFingerprint) {
+    const issue: SemanticEditIssue = {
+      code: "rebase-required", recipeId: recipe.name,
+      message: "The saved semantic edit source does not match this approved grade-plan base.",
+    };
+    return drafts.map((draft) => ({ label: draft.label, block: draft.block, issues: [issue] }));
+  }
+  return drafts.map((draft) => {
+    const replay = applyOperationsToBlock(
+      recipe, draft.measurements, draft.block, document.operations, draft.label, currentSourceFingerprint,
+    );
+    return { label: draft.label, block: replay.block, issues: replay.issues };
+  });
+}
+
 /** Re-draft every registered size, replaying the same operation sequence in exact centimetres. */
 export function evaluateSemanticEditDocument(
   recipe: GarmentRecipe,

@@ -220,6 +220,18 @@ body { margin: 0; }
 #analysis-host, #garment-host { min-width: 0; }
 #inspection-content svg { display: block; }
 #inspection-content table { max-width: none; }
+#inspection-content .grade-plan-run-review { min-width: 0; color: #ecf2f5; }
+#inspection-content .grade-plan-run-review > h3 { margin: 0 0 8px; font-size: 16px; }
+#inspection-content .grade-plan-run-review > p { line-height: 1.45; }
+#inspection-content .grade-plan-run-size { margin: 12px 0; padding: 10px; border: 1px solid #354b60; border-radius: 8px; background: #101e2d; }
+#inspection-content .grade-plan-run-size > summary { cursor: pointer; color: #b8e6d0; font-weight: 700; }
+#inspection-content .grade-plan-pom-table-wrap,
+#inspection-content .grade-plan-inputs-table-wrap { max-width: 100%; overflow: auto; overscroll-behavior-inline: contain; margin: 10px 0; border: 1px solid #354b60; border-radius: 6px; }
+#inspection-content .grade-plan-run-review table { min-width: 560px; width: 100%; border-collapse: collapse; font-size: 12px; }
+#inspection-content .grade-plan-run-review caption { padding: 8px; color: #c5d4e3; font-weight: 700; text-align: left; }
+#inspection-content .grade-plan-run-review th,
+#inspection-content .grade-plan-run-review td { padding: 7px; border: 1px solid #354b60; text-align: left; vertical-align: top; overflow-wrap: anywhere; }
+#inspection-content .grade-plan-run-review ul { color: #f2c88b; }
 #pattern-annotation-key {
   box-sizing: border-box; min-width: 0; padding: 12px;
   border: 1px solid #27517a; border-radius: 8px; background: var(--pattern-key-background);

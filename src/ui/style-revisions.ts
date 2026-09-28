@@ -5,6 +5,7 @@ import { parseSavedDesignRecord, type SavedDesign } from "./project-records";
 export const STYLE_REVISION_SCHEMA_VERSION = 1;
 export const STYLE_REVISION_PAYLOAD_VERSION = 1;
 export const EXPORT_MANIFEST_SCHEMA_VERSION = 1;
+export const GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION = 2;
 export const EXPORTER_CONTRACT_VERSION = "infinidrip-exporters-v1";
 export const STYLE_REVISION_RULE_VERSIONS = Object.freeze({
   designRecord: "savefile-v6",
@@ -56,7 +57,7 @@ export interface RevisionManifestArtifact {
 }
 
 export interface FrozenOutputManifestPayload {
-  readonly schemaVersion: typeof EXPORT_MANIFEST_SCHEMA_VERSION;
+  readonly schemaVersion: typeof EXPORT_MANIFEST_SCHEMA_VERSION | typeof GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION;
   readonly styleId: string;
   readonly revisionId: string;
   readonly revisionContentDigest: string;
@@ -72,7 +73,7 @@ export interface FrozenOutputManifestPayload {
 }
 
 export interface FrozenOutputManifestRecord {
-  readonly schemaVersion: typeof EXPORT_MANIFEST_SCHEMA_VERSION;
+  readonly schemaVersion: typeof EXPORT_MANIFEST_SCHEMA_VERSION | typeof GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION;
   readonly manifestId: string;
   readonly styleId: string;
   readonly revisionId: string;
@@ -166,21 +167,25 @@ export function parseFrozenOutputManifestRecord(value: unknown): FrozenOutputMan
   const recordKeys = ["schemaVersion", "manifestId", "styleId", "revisionId", "capturedAt", "canonicalization", "digestAlgorithm", "packetDigest", "payload", "artifacts"];
   const payloadKeys = ["schemaVersion", "styleId", "revisionId", "revisionContentDigest", "audience", "purpose", "selectedSizes", "selectedColorwayIds", "ruleVersions", "exporterVersion", "approvalRefs", "unresolved", "artifacts"];
   const ruleKeys = Object.keys(STYLE_REVISION_RULE_VERSIONS);
-  if (!exactKeys(value, recordKeys) || value.schemaVersion !== EXPORT_MANIFEST_SCHEMA_VERSION
+  if (!exactKeys(value, recordKeys) || ![EXPORT_MANIFEST_SCHEMA_VERSION, GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION].includes(value.schemaVersion as number)
     || !UUID.test(String(value.manifestId)) || !UUID.test(String(value.styleId)) || !UUID.test(String(value.revisionId))
     || !canonicalTimestamp(value.capturedAt) || value.canonicalization !== "RFC8785"
     || value.digestAlgorithm !== "SHA-256" || !isDigest(value.packetDigest)
     || !exactKeys(value.payload, payloadKeys) || !Array.isArray(value.artifacts)) return null;
   const payload = value.payload as Record<string, unknown>;
   const payloadRules = payload.ruleVersions as Record<string, unknown>;
-  if (payload.schemaVersion !== EXPORT_MANIFEST_SCHEMA_VERSION || payload.styleId !== value.styleId
+  if (payload.schemaVersion !== value.schemaVersion || payload.styleId !== value.styleId
     || payload.revisionId !== value.revisionId || !isDigest(payload.revisionContentDigest)
     || payload.audience !== "local-user" || payload.purpose !== "digital-review-and-export"
     || !Array.isArray(payload.selectedSizes) || payload.selectedSizes.length !== 1 || !Array.isArray(payload.selectedColorwayIds)
     || !exactKeys(payload.ruleVersions, ruleKeys)
     || ruleKeys.some((key) => payloadRules[key] !== (STYLE_REVISION_RULE_VERSIONS as Record<string, string>)[key])
     || payload.exporterVersion !== EXPORTER_CONTRACT_VERSION || !Array.isArray(payload.approvalRefs)
-    || payload.approvalRefs.length !== 0 || !Array.isArray(payload.unresolved) || payload.unresolved.length < 1
+    || (payload.schemaVersion === EXPORT_MANIFEST_SCHEMA_VERSION && payload.approvalRefs.length !== 0)
+    || (payload.schemaVersion === GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION
+      && (payload.approvalRefs.length !== 1 || typeof payload.approvalRefs[0] !== "string"
+        || !/^grade-plan-sha256:[0-9a-f]{64}$/.test(payload.approvalRefs[0])))
+    || !Array.isArray(payload.unresolved) || payload.unresolved.length < 1
     || !Array.isArray(payload.artifacts)) return null;
   for (const size of payload.selectedSizes) {
     if (!exactKeys(size, ["sizeId", "label"]) || typeof size.sizeId !== "string" || !size.sizeId
@@ -327,10 +332,17 @@ export async function createFrozenOutputManifest(input: {
   readonly selectedSizes: readonly { readonly sizeId: string; readonly label: string }[];
   readonly unresolved: readonly string[];
   readonly artifacts: readonly FrozenArtifactInput[];
+  readonly schemaVersion?: typeof EXPORT_MANIFEST_SCHEMA_VERSION | typeof GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION;
+  readonly approvalRefs?: readonly string[];
 }, provider?: Crypto): Promise<FrozenOutputManifestRecord> {
+  const schemaVersion = input.schemaVersion ?? EXPORT_MANIFEST_SCHEMA_VERSION;
+  const approvalRefs = input.approvalRefs ?? [];
   if (!UUID.test(input.manifestId) || input.styleId !== input.revision.styleId
     || !canonicalTimestamp(input.capturedAt) || input.selectedSizes.length !== 1
     || input.unresolved.length < 1 || input.artifacts.length < 1
+    || (schemaVersion === EXPORT_MANIFEST_SCHEMA_VERSION && approvalRefs.length !== 0)
+    || (schemaVersion === GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION
+      && (approvalRefs.length !== 1 || !/^grade-plan-sha256:[0-9a-f]{64}$/.test(approvalRefs[0] ?? "")))
     || input.artifacts.length > FROZEN_MANIFEST_ARTIFACT_LIMIT) {
     throw new Error("Frozen output manifest identity or capture inputs are invalid.");
   }
@@ -363,7 +375,7 @@ export async function createFrozenOutputManifest(input: {
     });
   }
   const payload: FrozenOutputManifestPayload = {
-    schemaVersion: EXPORT_MANIFEST_SCHEMA_VERSION,
+    schemaVersion,
     styleId: input.styleId,
     revisionId: input.revision.revisionId,
     revisionContentDigest: input.revision.revisionContentDigest,
@@ -373,12 +385,12 @@ export async function createFrozenOutputManifest(input: {
     selectedColorwayIds: [],
     ruleVersions: STYLE_REVISION_RULE_VERSIONS,
     exporterVersion: EXPORTER_CONTRACT_VERSION,
-    approvalRefs: [],
+    approvalRefs: [...approvalRefs],
     unresolved: [...input.unresolved],
     artifacts: artifacts.map(({ bytes: _bytes, ...descriptor }) => descriptor),
   };
   const record: FrozenOutputManifestRecord = {
-    schemaVersion: EXPORT_MANIFEST_SCHEMA_VERSION,
+    schemaVersion,
     manifestId: input.manifestId,
     styleId: input.styleId,
     revisionId: input.revision.revisionId,
@@ -448,7 +460,8 @@ export async function verifyFrozenOutputManifest(record: FrozenOutputManifestRec
 }
 
 export async function verifyFrozenOutputManifestMetadata(record: FrozenOutputManifestRecord, provider?: Crypto): Promise<boolean> {
-  if (record.schemaVersion !== EXPORT_MANIFEST_SCHEMA_VERSION || record.canonicalization !== "RFC8785"
+  if (![EXPORT_MANIFEST_SCHEMA_VERSION, GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION].includes(record.schemaVersion)
+    || record.schemaVersion !== record.payload.schemaVersion || record.canonicalization !== "RFC8785"
     || record.digestAlgorithm !== "SHA-256" || record.payload.styleId !== record.styleId
     || record.payload.revisionId !== record.revisionId) return false;
   if (await jcsSha256Hex(packetDigestPayload(record), provider) !== record.packetDigest) return false;

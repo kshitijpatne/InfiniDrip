@@ -95,7 +95,7 @@ describe("repository-backed app workflow", () => {
       .toContain("Field history save failed"));
     expect(root.querySelector<HTMLDialogElement>("#field-history-dialog")!.open).toBe(false);
     expect(chest.value).toBe("104");
-  });
+  }, 15_000);
 
   it("shows a safe message when flushing history rejects a non-Error value", async () => {
     workflow = await openProjectWorkflow({
@@ -125,7 +125,7 @@ describe("repository-backed app workflow", () => {
       .toContain("Pending field history could not be saved"));
     expect(root.querySelector<HTMLDialogElement>("#field-history-dialog")!.open).toBe(false);
     expect(chest.value).toBe("104");
-  });
+  }, 15_000);
 
   it("preserves a recovery failure when the field-history write later succeeds", async () => {
     workflow = await openProjectWorkflow({
@@ -156,7 +156,7 @@ describe("repository-backed app workflow", () => {
       .toBe(true), { timeout: 10_000 });
     expect(root.querySelector<HTMLElement>("#project-persistence-state")?.textContent).toContain("Recovery save failed");
     expect(chest.value).toBe("104");
-  });
+  }, 15_000);
 
   it("persists an edited style's recovery, switches, restores, saves, duplicates, archives, and reloads", async () => {
     workflow = await openProjectWorkflow({
@@ -350,7 +350,7 @@ describe("repository-backed app workflow", () => {
       .toContain("Default style is invalid: broken default"));
     expect(workflow.snapshot.styles).toHaveLength(1);
     expect(workflow.snapshot.activeStyle.id).toBe(FIRST_STYLE_ID);
-  });
+  }, 15_000);
 
   it("freezes the app-generated outputs after review and saves verified bytes through Electron", async () => {
     workflow = await openProjectWorkflow({

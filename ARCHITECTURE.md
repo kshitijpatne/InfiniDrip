@@ -132,11 +132,20 @@ store keyed by style and recipe; it does not rewrite existing project, style,
 capture or export rows. Full project backups use package version 6 only when a
 grade plan is present. Earlier package versions and SaveFile versions keep
 their existing contents and byte identities. Copy imports rebind a plan to the
-new style and revision identities and clear review and approval. Through Slice
-250, custom styles remain one-size for output: selected-size files remain
-available, while graded geometry, whole-run Tech Pack, Projector and Marker
-outputs and frozen whole-run captures stay withheld even after record approval.
-Slice 251 owns generated-size validation and output integration.
+new style and revision identities and clear review and approval. A custom style
+starts with one-size outputs. Its separately approved, current grade plan can
+derive only the explicitly declared sizes from authored changes to the base;
+the plan does not infer a population chart or fill unstated increments. Slice
+251 validates every derived block, recipe option, POM, and cutting quantity
+before enabling size-specific graded outputs or whole-run Tech Pack,
+Projector, and Marker files. Applicable POMs require exact equality in
+unrounded centimetres. A mismatch blocks its size, and any blocked size blocks
+the whole run. An explicit not-applicable POM exception must retain its visible
+reason and is not a numeric match. Stale, invalid, unapproved, or concurrently
+changed plans fail closed. Frozen whole-run captures include the approved plan
+binding and output-integrity metadata. Legacy grading and protected export
+bytes remain unchanged. These digital checks do not establish physical fit,
+sample approval, or factory readiness.
 
 Pattern pieces are created from measurements and selected options. The app
 does not draw a separate, unrelated design for each screen or file. Most areas

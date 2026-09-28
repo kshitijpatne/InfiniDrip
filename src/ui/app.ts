@@ -7,7 +7,7 @@ import { gradeRun, gradeMeasurements, draftAtSize, specSheet, GARMENTS, GarmentR
 import { block, blockPieces } from "../drafting";
 import { wovenShirtAllowances } from "../drafting/shirt";
 import type { AllowanceSpec } from "../drafting/allowance";
-import { exportSvg, exportDxf, exportPdf, exportTechPackV2, exportProjectorSvg, exportA0Pdf, exportSurfaceSheet, flattenPiece, nestPieces, gradedMarker } from "../export";
+import { exportSvg, exportDxf, exportPdf, exportTechPackV2, exportTechPackV2ForGradePlan, exportProjectorSvg, exportA0Pdf, exportSurfaceSheet, flattenPiece, nestPieces, gradedMarker, gradedMarkerForRun } from "../export";
 import { renderBlueprint, renderGarment, renderNest, renderFabricNest, renderEditor, renderBody, renderBodyPair, renderSkirtGarment, renderSkirtBody, renderTrouserGarment, renderTrouserBody, renderTrouserBodyPair, renderTrouserSide, renderSideCroquis, DEFAULT_FABRIC } from "../render";
 import { moveHandle, nearestHandle, editorViewBox, viewboxPointToCm, Handle } from "../edit";
 import {
@@ -19,6 +19,7 @@ import {
   requireSemanticEditEvaluation,
   requireSemanticEditSize,
   rebaseSemanticEditDocument,
+  replaySemanticEditsForDrafts,
   redoSemanticEdit,
   semanticAnchorCatalog,
   semanticEditSourceFingerprint,
@@ -113,6 +114,19 @@ import {
 } from "./grade-plan";
 import { createGradePlanContext, type GradePlanContext } from "./grade-plan-context";
 import { gradePlanPanelMarkup } from "./grade-plan-panel";
+import { evaluateGradePlanRun, type GradePlanRunEvaluation, type GradePlanRunSize } from "./grade-plan-run";
+import { gradePlanRunMarkup } from "./grade-plan-run-panel";
+import { GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION, jcsSha256Hex } from "./style-revisions";
+
+function escapeUiText(value: string): string {
+  return value.replace(/[&<>"']/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[character]!);
+}
+
+function pomExceptionRows(run: readonly GradePlanRunSize[]): { sizeLabel: string; pomLabel: string; reason: string }[] {
+  return run.flatMap((size) => size.poms.flatMap((pom) => pom.exceptionReason
+    ? [{ sizeLabel: size.label, pomLabel: pom.label, reason: pom.exceptionReason }]
+    : []));
+}
 
 // The desktop shell's bridge (Slice 46) — see electron/preload.cts for the
 // other end. Optional: undefined everywhere this app runs as a plain web page.
@@ -176,6 +190,7 @@ const emptyCaptureDraft = (unit = "cm"): CaptureDraft => ({
 
 const HISTORY_LIMIT = 30;
 let activeMountRoot: HTMLElement | null = null;
+let activeMountGeneration = 0;
 let semanticOperationSequence = 0;
 
 function nextSemanticOperationId(): string {
@@ -408,6 +423,8 @@ export function defaultArtworkAssetStore(): ArtworkAssetStore {
 
 export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void {
   activeMountRoot = root;
+  const mountGeneration = ++activeMountGeneration;
+  const isCurrentMount = (): boolean => activeMountRoot === root && activeMountGeneration === mountGeneration;
   const projectWorkflow = options.projectWorkflow;
   const saved = projectWorkflow?.snapshot.activeStyle.design ?? loadFromStorage();
   const activeFieldObservations = () => {
@@ -483,9 +500,11 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     context: GradePlanContext | null;
     message: string | null;
     dirty: boolean;
+    semanticPending?: boolean;
   };
   let gradePlanState: GradePlanPanelState | null = null;
   let gradePlanLoadSequence = 0;
+  let gradePlanSelectedLabel: string | null = null;
   let captureSaveTimer: number | null = null;
   let captureWrite = Promise.resolve();
   let captureWritesPending = 0;
@@ -573,6 +592,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   let checkReviewed = false;
   let outputRevision = 0;
   let savedRevision = 0;
+  let designRevision = 0;
+  let savedDesignRevision = 0;
+  let persistentOutputRevision = 0;
+  let savedPersistentOutputRevision = 0;
   let history: HistoryState<DraftSnapshot> = emptyHistory();
   let historyPresent: DraftSnapshot | null = null;
   let historyRestoring = false;
@@ -685,6 +708,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     const { ok: _ok, ...design } = result;
     return design;
   };
+  const gradePlanDesignIsSaved = (): boolean => designRevision === savedDesignRevision;
   const blankSavedDesignForGarment = (
     blankRecipe: GarmentRecipe = garmentByName(DEFAULT_WORKSPACE.garment),
   ): SavedDesign => {
@@ -913,9 +937,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       },
     };
   };
-  const currentAllowances = (): AllowanceSpec => recipe.name === "woven-shirt"
-    ? wovenShirtAllowances(recipeOptions().hemTurn)
+  const allowancesForOptions = (options: GarmentOptions): AllowanceSpec => recipe.name === "woven-shirt"
+    ? wovenShirtAllowances(options.hemTurn)
     : recipe.allowances;
+  const currentAllowances = (): AllowanceSpec => allowancesForOptions(recipeOptions());
   let surfaceRoleCacheKey = "";
   let surfaceRoleCache: readonly string[] = [];
   const surfaceRoleSuggestions = (): readonly string[] => {
@@ -1320,14 +1345,51 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   const customOneSizeStyle = (): boolean => !!projectWorkflow && isCustomOneSizeStyle(projectWorkflow.snapshot.activeStyle);
   const gradePlanApproved = (): boolean => !!projectWorkflow && !!gradePlanState?.plan && !!gradePlanState.context
     && gradePlanState.styleId === projectWorkflow.snapshot.activeStyle.id
+    && gradePlanDesignIsSaved()
+    && gradePlanState.context.binding.revisionHeadId === projectWorkflow.snapshot.activeStyle.revisionHeadId
     && gradePlanState.plan.status === "approved" && !gradePlanIsStale(gradePlanState.plan, gradePlanState.context.binding);
+  let gradePlanRunCacheKey: string | null = null;
+  let gradePlanRunCache: GradePlanRunEvaluation | null = null;
+  const currentGradePlanRun = (): GradePlanRunEvaluation => {
+    const semantic = semanticEdits ? currentSemanticState() : null;
+    const options = recipeOptions();
+    const cacheKey = JSON.stringify({
+      recipe: recipe.name, measurements, options, designRevision,
+      plan: gradePlanState?.plan ?? null, binding: gradePlanState?.context?.binding ?? null,
+      targets: gradePlanState?.context?.targets ?? null, semanticEdits,
+      semanticSource: semantic ? [semantic.source.status, semantic.source.fingerprint, semantic.source.error] : null,
+    });
+    if (cacheKey === gradePlanRunCacheKey && gradePlanRunCache) return gradePlanRunCache;
+    const adjust = semanticEdits ? (
+      size: { readonly label: string; readonly position: number },
+      sizeMeasurements: Measurements,
+      _sizeOptions: GarmentOptions,
+      blockValue: Block,
+    ) => {
+      if (semantic?.source.status !== "ready" || !semantic.source.fingerprint) {
+        return { block: blockValue, issues: [semantic?.source.error ?? "Saved semantic edits need review before the graded run can be generated."] };
+      }
+      const [replayed] = replaySemanticEditsForDrafts(recipe, semanticEdits!, semantic.source.fingerprint, [{
+        label: size.label, measurements: sizeMeasurements, block: blockValue,
+      }]);
+      return { block: replayed!.block, issues: replayed!.issues.map((issue) => issue.message) };
+    } : undefined;
+    gradePlanRunCache = evaluateGradePlanRun(recipe, measurements, options, gradePlanState?.plan ?? null,
+      gradePlanState?.context ?? null, adjust);
+    gradePlanRunCacheKey = cacheKey;
+    return gradePlanRunCache;
+  };
+  const gradePlanLabelKey = (label: string): string => label.toLocaleLowerCase("en-US");
+  const selectedGradePlanSize = () => gradePlanSelectedLabel === null
+    ? null : currentGradePlanRun().sizes.find((size) => gradePlanLabelKey(size.label) === gradePlanLabelKey(gradePlanSelectedLabel!));
   const loadGradePlanPanel = (styleId: string): void => {
     // Callers guard for an active custom style before starting this async load.
     const workflow = projectWorkflow!;
     const sequence = ++gradePlanLoadSequence;
     const style = workflow.snapshot.activeStyle;
     gradePlanState = {
-      styleId, loading: true, plan: null, captureAvailable: false, context: null, message: null, dirty: false,
+      styleId, loading: true, plan: null, captureAvailable: false, context: null, message: null,
+      dirty: false, semanticPending: false,
     };
     void (async () => {
       try {
@@ -1335,19 +1397,41 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
           workflow.loadMeasurementCapture(style.recipeId),
           workflow.loadGradePlan(style.recipeId),
         ]);
+        const semanticState = semanticEdits ? currentSemanticState() : null;
+        if (semanticState?.source.status === "checking") {
+          if (!isCurrentMount() || sequence !== gradePlanLoadSequence || workflow.snapshot.activeStyle.id !== styleId) return;
+          gradePlanState = {
+            styleId, loading: false, plan, captureAvailable: capture !== null, context: null, message: null,
+            dirty: false, semanticPending: true,
+          };
+          draw();
+          return;
+        }
+        const semanticBlock = semanticEdits ? semanticSizeBlock(0) : null;
+        const semanticUnavailable = semanticEdits
+          && (semanticState?.source.status !== "ready" || semanticBlock === null);
         const context = capture
-          ? await createGradePlanContext(workflow.snapshot.project.id, workflow.snapshot.activeStyle, capture)
+          ? semanticUnavailable
+            ? { ok: false as const, errors: [semanticState?.source.error
+              ?? "Review or rebase the saved pattern before creating grade-plan targets."] }
+            : await createGradePlanContext(workflow.snapshot.project.id, workflow.snapshot.activeStyle, capture,
+              undefined, semanticEdits ? semanticBlock! : undefined)
           : null;
-        if (sequence !== gradePlanLoadSequence || workflow.snapshot.activeStyle.id !== styleId) return;
+        if (!isCurrentMount() || sequence !== gradePlanLoadSequence || workflow.snapshot.activeStyle.id !== styleId) return;
         gradePlanState = {
           styleId, loading: false, plan, captureAvailable: capture !== null,
           context: context?.ok ? context.value : null,
           message: context && !context.ok ? context.errors.join(" ") : null,
           dirty: false,
         };
+        if (plan?.status === "approved" && plan.baseSizeLabel
+          && plan.sizes.some((size) => gradePlanLabelKey(size.label) === gradePlanLabelKey(plan.baseSizeLabel!))) {
+          gradePlanSelectedLabel = null;
+        }
+        syncExportSizes();
         draw();
       } catch (error) {
-        if (sequence !== gradePlanLoadSequence || workflow.snapshot.activeStyle.id !== styleId) return;
+        if (!isCurrentMount() || sequence !== gradePlanLoadSequence || workflow.snapshot.activeStyle.id !== styleId) return;
         gradePlanState = {
           styleId, loading: false, plan: null, captureAvailable: false, context: null,
           message: error instanceof Error ? error.message : "The grade plan could not be loaded.", dirty: false,
@@ -1368,10 +1452,21 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     else if (gradePlanState.context && gradePlanState.context.binding.revisionHeadId !== style.revisionHeadId) {
       loadGradePlanPanel(style.id);
     }
+    else if (gradePlanState.semanticPending && semanticEdits
+      && currentSemanticState()?.source.status !== "checking") {
+      loadGradePlanPanel(style.id);
+    }
     const state = gradePlanState!;
     const context = state.context;
-    const stale = !!state.plan && (!context || gradePlanIsStale(state.plan, context.binding));
-    const blocker = state.loading ? "Loading the saved measurement capture and grade plan…"
+    // The grade-plan repository load and semantic-source verification can
+    // finish in either order. Keep the visible blocker tied to the live
+    // verifier state so the panel never tells the user to verify a pattern
+    // while the app is already doing that work in the background.
+    const semanticPending = state.semanticPending || (!!semanticEdits
+      && currentSemanticState()?.source.status === "checking");
+    const stale = !!state.plan && !state.semanticPending && (!context || gradePlanIsStale(state.plan, context.binding));
+    const blocker = semanticPending ? "Verifying the saved pattern before creating grade-plan targets…"
+      : state.loading ? "Loading the saved measurement capture and grade plan…"
       : !state.captureAvailable ? "Save a measurement capture for this style before creating a grade plan."
         : !context ? state.message! : null;
     return gradePlanPanelMarkup({
@@ -1479,7 +1574,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
           gradePlanTimestamp(state.plan.updatedAt));
         if (!approved.ok) throw new Error(approved.errors.join(" "));
         state.plan = await projectWorkflow.saveGradePlan(approved.value);
-        state.message = "Grade plan approved and recorded. Graded geometry and whole-run exports remain unavailable until the next step.";
+        state.message = "Grade plan approved and recorded. Generating each declared size and reconciling its exact POM targets…";
       } else if (action === "save-draft" || action === "review") {
         if (!state.plan) throw new Error("Create a grade plan first.");
         const collected = collectGradePlanDraft(state.plan);
@@ -1498,15 +1593,26 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       state.message = error instanceof Error ? error.message : "The grade-plan action could not be completed.";
     }
     draw();
+    syncExportSizes();
     projectManager?.refresh();
   };
   const selectedOutputStep = (): number => customOneSizeStyle() ? 0 : exportStep;
   const garmentReportForCurrentStyle = (checkRecipe: GarmentRecipe) =>
     garmentReport(checkRecipe, measurements, recipeOptions(), { includeSizeRun: !customOneSizeStyle() });
-  const canExport = (): boolean => styleReviewed && checkReviewed
-    && baseDesignValid() && semanticSizeReady(selectedOutputStep());
-  const canExportRun = (): boolean => !customOneSizeStyle() && styleReviewed && checkReviewed
-    && baseDesignValid() && semanticRunReady();
+  const canExport = (): boolean => styleReviewed && checkReviewed && baseDesignValid()
+    && (customOneSizeStyle()
+      ? gradePlanSelectedLabel === null ? semanticSizeReady(0) : selectedGradePlanSize()?.ready === true
+        && selectedGradePlanSize()?.poms.every((pom) => pom.exceptionReason === null) === true
+      : semanticSizeReady(selectedOutputStep()));
+  const canExportRun = (): boolean => styleReviewed && checkReviewed && baseDesignValid()
+    && (customOneSizeStyle() ? currentGradePlanRun().wholeRunReady : semanticRunReady());
+  const markerAvailabilityTitle = (): string => !customOneSizeStyle()
+    ? gradedMarkerAvailabilityTitle(false)
+    : canExportRun()
+      ? "Estimate one garment in each approved declared size; this is a digital fabric-layout estimate."
+      : gradePlanApproved()
+        ? "The approved run must pass geometry and exact POM checks at every size before marker estimation."
+        : gradedMarkerAvailabilityTitle(true, false);
   const stageBlocker = (): StageBlocker | undefined => {
     if (journey.step === "start") return undefined;
     if (journey.step === "measure" && measurementRoute === "guided") {
@@ -1623,10 +1729,12 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     }
     renderTutorial();
   };
-  const markOutputDirty = (designChanged = true): void => {
+  const markOutputDirty = (designChanged = true, persistentOutputChanged = designChanged): void => {
     if (historyRestoring) return;
     outputRevision++;
+    if (designChanged || persistentOutputChanged) persistentOutputRevision++;
     if (designChanged) {
+      designRevision++;
       ignoredGuidance.clear();
       styleReviewed = false;
       checkReviewed = false;
@@ -1987,8 +2095,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     syncRangeIndicators();
     const markerControl = root.querySelector<HTMLButtonElement>("#nest-marker");
     if (markerControl) {
-      markerControl.disabled = customOneSizeStyle();
-      markerControl.title = gradedMarkerAvailabilityTitle(customOneSizeStyle(), gradePlanApproved());
+      markerControl.disabled = customOneSizeStyle() && !canExportRun();
+      markerControl.title = markerAvailabilityTitle();
     }
     root.querySelectorAll<HTMLButtonElement>('#export-host button[id^="export-"]').forEach((button) => {
       const needsArtwork = button.id === "export-surface-sheet" && surfacePlacementsNow().length === 0;
@@ -2001,8 +2109,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       button.title = !allowed
         ? customOneSizeStyle() && (button.id === "export-techpack" || button.id === "export-projector")
           ? gradePlanApproved()
-            ? "The grade plan is approved; graded outputs are not generated in this implementation step."
+            ? currentGradePlanRun().issues[0] ?? "Review Style and the current digital checks before exporting."
             : "Whole-run output is unavailable until you review and approve a grade plan."
+          : customOneSizeStyle() && gradePlanSelectedLabel !== null && selectedGradePlanSize()?.ready !== true
+            ? selectedGradePlanSize()?.issues[0] ?? "The selected grade-plan size is no longer available. Refresh the plan or choose another size."
           : "Review Style and the current digital checks before exporting."
         : needsArtwork ? "Add artwork on the Style panel first." : "";
     });
@@ -2065,23 +2175,44 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     bodyCroquisHost.style.display = view === "body" && !previewActive ? "flex" : "none";
     let canvasContent: string;
     if (view === "nest" && customOneSizeStyle()) {
-      canvasContent = `<p role="status">A graded nest is unavailable until you review and approve a grade plan. Your selected-size pattern remains available.</p>`;
+      const run = currentGradePlanRun();
+      canvasContent = run.wholeRunReady
+        ? renderNest(run.sizes.map((size) => ({
+          label: size.label, step: size.position, measurements: size.measurements!, block: size.block!,
+        })))
+        : `<p role="status">${escapeUiText(run.issues[0]!)}</p>`;
     } else if (view === "nest") {
       canvasContent = semanticRunReady()
         ? renderNest(gradeRun(measurements, recipe.grade, recipe.sizes, recipeForCurrentOutputs().draft, recipeOptions()))
         : `<p role="status" data-semantic-output-paused>Graded nesting is paused. Review or rebase the saved edits in Edit.</p>`;
     } else if (view === "fabric") {
-      if (customOneSizeStyle() && nestScope === "marker") {
-        canvasContent = `<p role="status">A graded fabric marker is unavailable until you review and approve a grade plan. Your selected-size nest remains available.</p>`;
+      if (customOneSizeStyle() && nestScope === "marker" && !canExportRun()) {
+        canvasContent = `<p role="status">${escapeUiText(currentGradePlanRun().issues[0]!)}</p>`;
+      } else if (customOneSizeStyle() && nestScope === "single" && gradePlanSelectedLabel !== null
+        && selectedGradePlanSize()?.ready !== true) {
+        canvasContent = `<p role="status">${escapeUiText(selectedGradePlanSize()?.issues[0] ?? "The selected grade-plan size is no longer available. Refresh the plan or choose another size.")}</p>`;
       } else if (nestScope === "marker" ? !semanticRunReady() : !semanticSizeReady(selectedOutputStep())) {
         canvasContent = `<p role="status" data-semantic-output-paused>Fabric nesting is paused. Review or rebase the saved edits in Edit.</p>`;
       } else {
         const outputRecipe = recipeForCurrentOutputs();
-        const nest = nestScope === "marker"
-          ? gradedMarker(outputRecipe, measurements, fabricWidth, recipeOptions())
-          : nestPieces(blockPieces(semanticSizeBlock(selectedOutputStep())!).map((p) => flattenPiece(p, outputRecipe.allowances)), fabricWidth);
+      const nest = nestScope === "marker"
+          ? customOneSizeStyle()
+            ? gradedMarkerForRun(outputRecipe, currentGradePlanRun().sizes.map((size) => ({
+              label: size.label, block: size.block!, allowances: allowancesForOptions(size.options!),
+            })), fabricWidth)
+            : gradedMarker(outputRecipe, measurements, fabricWidth, recipeOptions())
+          : nestPieces(blockPieces(customOneSizeStyle() && gradePlanSelectedLabel !== null
+            ? selectedGradePlanSize()!.block!
+            : semanticSizeBlock(selectedOutputStep())!).map((p) => flattenPiece(p,
+              customOneSizeStyle() && gradePlanSelectedLabel !== null
+                ? allowancesForOptions(selectedGradePlanSize()!.options!) : outputRecipe.allowances)), fabricWidth);
         canvasContent = renderFabricNest(
           nest.placed, nest.fabricWidth, nest.fabricLength, nest.utilization, nest.fits);
+        if (customOneSizeStyle() && nestScope === "marker") {
+          const exceptions = pomExceptionRows(currentGradePlanRun().sizes);
+          if (exceptions.length > 0) canvasContent += `<p class="grade-plan-pom-exceptions" role="note">` +
+            `Not applicable under the approved grade plan: ${exceptions.map((entry) => `${escapeUiText(entry.sizeLabel)} · ${escapeUiText(entry.pomLabel)} — ${escapeUiText(entry.reason)}`).join("; ")}</p>`;
+        }
         renderNestIntel(nest.fabricLength, nest.utilization);
       }
     } else if (view === "check") {
@@ -2089,6 +2220,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         note.level === "warn" && note.field !== undefined && ignoredGuidance.has(note.field));
       canvasContent = semanticSizeReady(0)
         ? checkMarkup(garmentReportForCurrentStyle(recipeForCurrentOutputs()), valid, dismissedGuidance, customOneSizeStyle(), gradePlanApproved())
+          + (customOneSizeStyle() ? gradePlanRunMarkup(currentGradePlanRun()) : "")
         : `<p role="status" data-semantic-output-paused>Checks are paused until the saved edits are valid or explicitly rebased.</p>`;
     } else if (view === "edit") {
       const sourceCannotDraft = semanticState?.source.status === "failed" && !semanticState.source.baseBlock;
@@ -3208,31 +3340,32 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     const v = Number(widthInput.value);
     if (Number.isFinite(v) && v > 0) {
       fabricWidth = v;
-      markOutputDirty(false);
+      markOutputDirty(false, true);
       draw();
     }
   });
 
   const single = root.querySelector<HTMLButtonElement>("#nest-single")!;
-  const marker = root.querySelector<HTMLButtonElement>("#nest-marker")!;  const setScope = (s: "single" | "marker"): void => {
-    if (s === "marker" && customOneSizeStyle()) {
-      flash(gradedMarkerAvailabilityTitle(true, gradePlanApproved()), BLUEPRINT.lineActive);
+  const marker = root.querySelector<HTMLButtonElement>("#nest-marker")!;
+  const setScope = (s: "single" | "marker"): void => {
+    if (s === "marker" && customOneSizeStyle() && !canExportRun()) {
+      flash(markerAvailabilityTitle(), BLUEPRINT.lineActive);
       return;
     }
     nestScope = s;
-    markOutputDirty(false);
+    markOutputDirty(false, true);
     single.style.background = s === "single" ? BLUEPRINT.lineActive : "transparent";
     single.style.color = s === "single" ? BLUEPRINT.background : BLUEPRINT.label;
     single.setAttribute("aria-pressed", String(s === "single"));
     marker.style.background = s === "marker" ? BLUEPRINT.lineActive : "transparent";
-    marker.disabled = customOneSizeStyle();
-    marker.title = gradedMarkerAvailabilityTitle(customOneSizeStyle(), gradePlanApproved());
+    marker.disabled = customOneSizeStyle() && !canExportRun();
+    marker.title = markerAvailabilityTitle();
     marker.style.color = s === "marker" ? BLUEPRINT.background : BLUEPRINT.label;
     marker.setAttribute("aria-pressed", String(s === "marker"));
     draw();
   };
-  marker.disabled = customOneSizeStyle();
-  marker.title = gradedMarkerAvailabilityTitle(customOneSizeStyle(), gradePlanApproved());
+  marker.disabled = customOneSizeStyle() && !canExportRun();
+  marker.title = markerAvailabilityTitle();
   single.addEventListener("click", () => setScope("single"));
   marker.addEventListener("click", () => setScope("marker"));
 
@@ -3242,19 +3375,19 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   const bufferInput = root.querySelector<HTMLInputElement>("#nest-buffer")!;
   bufferInput.addEventListener("input", () => {
     nestBufferRaw = bufferInput.value;
-    markOutputDirty(false);
+    markOutputDirty(false, true);
     draw();
   });
   const availableInput = root.querySelector<HTMLInputElement>("#nest-available")!;
   availableInput.addEventListener("input", () => {
     nestAvailableRaw = availableInput.value;
-    markOutputDirty(false);
+    markOutputDirty(false, true);
     draw();
   });
   const napInput = root.querySelector<HTMLInputElement>("#nest-nap")!;
   napInput.addEventListener("change", () => {
     nestNap = napInput.checked;
-    markOutputDirty(false);
+    markOutputDirty(false, true);
     draw();
   });
   const syncNestIntelInputs = (): void => {
@@ -3319,7 +3452,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         pendingFieldObservationTimers.delete(key);
         // A delayed callback from a detached/replaced app mount must not write
         // its captured draft after another mount has loaded the current style.
-        if (activeMountRoot === root && root.isConnected
+        if (isCurrentMount() && root.isConnected
           && projectWorkflow.snapshot.activeStyle.id === styleId && recipe.name === recipeId) {
           trackFieldObservationWrite(recordFieldChange(recipeId, inputKind, inputKey));
         }
@@ -3552,14 +3685,14 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     status.textContent = "";
     hex.setCustomValidity("");
     fabric = next;
-    markOutputDirty(false);
+    markOutputDirty(false, true);
     syncAppearanceControls();
     draw();
     return true;
   };
   const commitAppearance = (next: Appearance): void => {
     appearance = next;
-    markOutputDirty(false);
+    markOutputDirty(false, true);
     syncAppearanceControls();
     draw();
   };
@@ -3686,7 +3819,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       ? { ...current, transform: { ...base, [field]: value } }
       : { ...current, [field]: value }) as ArtworkPlacement;
     surfaceBook = surfaceSetAt(surfaceBook, key, index, next);
-    markOutputDirty(false);
+    markOutputDirty(false, true);
     draw();
   };
   const removeSurfacePlacement = (index: number): void => {
@@ -3694,7 +3827,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     if (artworkLibraryTargetIndex !== "" && selectedIndex === index) artworkLibraryTargetIndex = "";
     else if (artworkLibraryTargetIndex !== "" && selectedIndex > index) artworkLibraryTargetIndex = String(selectedIndex - 1);
     surfaceBook = surfaceRemoveAt(surfaceBook, surfaceKeyNow(), index);
-    markOutputDirty(false);
+    markOutputDirty(false, true);
     draw();
   };
   let pendingArtworkChecking = false;
@@ -3764,7 +3897,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     };
     surfaceBook = surfaceSetAt(surfaceBook, surfaceKeyNow(), index, next);
     setArtworkLibraryActionMessage(`Attached ${record.title} to ${current.id}. Type, role, size, placement, transform and stack order were preserved. Save the design to retain this reference.`);
-    markOutputDirty(false);
+    markOutputDirty(false, true);
     draw();
     flash(`Bundled reference attached to ${current.id}. Save the design to retain it.`, "#2E9B63");
   };
@@ -3821,7 +3954,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       assetPreviewCache.set(assetId, { promise: Promise.resolve({
         assetId, name: inspected.name, mimeType: inspected.mimeType, blob: inspected.blob,
       }) });
-      markOutputDirty(false);
+      markOutputDirty(false, true);
       draw();
       flash("Artwork image stored locally and attached. Save the design to retain its reference.", "#2E9B63");
     } catch (error) {
@@ -3937,7 +4070,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       const currentAddButton = styleHost.querySelector<HTMLButtonElement>("#surface-add");
       if (currentAddButton) currentAddButton.disabled = false;
     }
-    markOutputDirty(false);
+    markOutputDirty(false, true);
     draw();
     styleHost.querySelector<HTMLInputElement>("#surface-new-id")?.focus();
     if (pending) flash("Placement and imported artwork image added. Use Save to retain the design reference.", "#2E9B63");
@@ -4126,32 +4259,54 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   const exportSizeEl = root.querySelector<HTMLSelectElement>("#export-size")!;
   const syncNestSelectedSize = (): void => {
     const label = root.querySelector<HTMLElement>("#nest-selected-size");
-    label!.textContent = customOneSizeStyle() ? "One size" : selectedSizeLabel(recipe.sizes, selectedOutputStep());
+    label!.textContent = customOneSizeStyle()
+      ? gradePlanSelectedLabel ?? "One size"
+      : selectedSizeLabel(recipe.sizes, selectedOutputStep());
   };
   const syncExportSizes = (): void => {
-    if (customOneSizeStyle() || !recipe.sizes.some((s) => s.step === exportStep)) exportStep = 0;
-    const sizes = customOneSizeStyle() ? [{ step: 0, label: "One size" }] : recipe.sizes;
-    exportSizeEl.replaceChildren(...sizes.map((size) => new Option(size.label, String(size.step))));
-    exportSizeEl.value = String(exportStep);
+    if (customOneSizeStyle()) {
+      exportStep = 0;
+      const approvedRun = gradePlanApproved() ? currentGradePlanRun() : null;
+      const options = [new Option("One size", "__one-size__")];
+      if (approvedRun) options.push(...approvedRun.sizes.map((size) => new Option(size.label, size.label)));
+      if (gradePlanSelectedLabel && !approvedRun?.sizes.some((size) =>
+        gradePlanLabelKey(size.label) === gradePlanLabelKey(gradePlanSelectedLabel!))) {
+        gradePlanSelectedLabel = null;
+      }
+      exportSizeEl.replaceChildren(...options);
+      exportSizeEl.value = gradePlanSelectedLabel ?? "__one-size__";
+    } else {
+      if (!recipe.sizes.some((s) => s.step === exportStep)) exportStep = 0;
+      exportSizeEl.replaceChildren(...recipe.sizes.map((size) => new Option(size.label, String(size.step))));
+      exportSizeEl.value = String(exportStep);
+    }
     syncNestSelectedSize();
   };
   exportSizeEl.addEventListener("change", () => {
-    exportStep = customOneSizeStyle() ? 0 : Number(exportSizeEl.value);
+    if (customOneSizeStyle()) {
+      gradePlanSelectedLabel = exportSizeEl.value === "__one-size__" ? null : exportSizeEl.value;
+    } else exportStep = Number(exportSizeEl.value);
     syncExportSizes();
-    markOutputDirty(false);
+    markOutputDirty(false, false);
     syncNestSelectedSize();
     draw();
+    projectManager?.refresh();
   });
   // exportStep always comes from the picker, which is populated from recipe.sizes,
   // so the step is guaranteed to resolve to a real size.
   const exportSizeLabel = (): string =>
-    customOneSizeStyle() ? "One size" : selectedSizeLabel(recipe.sizes, selectedOutputStep());
+    customOneSizeStyle() ? gradePlanSelectedLabel ?? "One size" : selectedSizeLabel(recipe.sizes, selectedOutputStep());
   const exportPieces = (): Piece[] => {
     const step = selectedOutputStep();
-    const drafted = semanticEdits === null
+    const customPlanSize = customOneSizeStyle() ? selectedGradePlanSize() : null;
+    const drafted = customPlanSize?.block ?? (semanticEdits === null
       ? draftAtSize(measurements, recipe.grade, step, recipe.draft, recipeOptions())
-      : semanticSizeBlock(step);
-    return exportablePieces(drafted, semanticSizeReady(step));
+      : semanticSizeBlock(step));
+    return exportablePieces(drafted, customPlanSize ? customPlanSize.ready : semanticSizeReady(step));
+  };
+  const exportAllowances = (): AllowanceSpec => {
+    const planned = customOneSizeStyle() ? selectedGradePlanSize() : null;
+    return planned?.options ? allowancesForOptions(planned.options) : currentAllowances();
   };
   // The desktop shell's only bridge into this app (Slice 46): when running
   // inside Electron, `window.electronAPI` is set by electron/preload.cts via
@@ -4216,6 +4371,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     syncGarmentChoices();
     historyRestoring = false;
     savedRevision = outputRevision;
+    savedDesignRevision = designRevision;
+    savedPersistentOutputRevision = persistentOutputRevision;
     history = emptyHistory();
     historyPresent = captureDraftSnapshot();
     pendingRecovery = recovery;
@@ -4287,35 +4444,83 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       flash("Export failed — the browser could not start the download.", BLUEPRINT.lineActive);
     }
   };
-  const onExport = (id: string, action: () => void, allowed: () => boolean = canExport): void => {
-    root.querySelector<HTMLButtonElement>(id)!.addEventListener("click", () => {
+  const approvedPlanStillCurrent = async (): Promise<boolean> => {
+    const state = gradePlanState!;
+    const workflow = projectWorkflow!;
+    try {
+      // Freshness probes must be read-only. ProjectWorkflow.reload() replaces
+      // its editor snapshot with the globally active project, which may have
+      // changed in another tab while this editor still holds unsaved inputs.
+      const loaded = await workflow.repository.readActiveProject();
+      if (!loaded) return false;
+      const style = loaded.activeStyle;
+      const binding = state.context!.binding;
+      if (loaded.project.id !== binding.projectId || style.id !== state.styleId || style.id !== binding.styleId
+        || style.recipeId !== binding.recipeId || style.revisionHeadId !== binding.revisionHeadId) return false;
+      const [capture, plan] = await Promise.all([
+        workflow.repository.readMeasurementCapture(style.id, style.recipeId),
+        workflow.repository.readGradePlan(style.id, style.recipeId),
+      ]);
+      if (!capture || !plan || plan.status !== "approved"
+        || await jcsSha256Hex(plan) !== await jcsSha256Hex(state.plan!)) return false;
+      const fresh = await createGradePlanContext(loaded.project.id, style, capture);
+      return fresh.ok && !gradePlanIsStale(plan, fresh.value.binding)
+        && fresh.value.binding.fingerprint === state.context!.binding.fingerprint
+        && fresh.value.binding.captureRevision === state.context!.binding.captureRevision;
+    } catch {
+      return false;
+    }
+  };
+  const onExport = (id: string, action: () => void, allowed: () => boolean = canExport,
+    requireApprovedPlan = false): void => {
+    root.querySelector<HTMLButtonElement>(id)!.addEventListener("click", async () => {
+      if (!allowed()) return;
+      if (customOneSizeStyle() && (requireApprovedPlan || gradePlanSelectedLabel !== null)
+        && !await approvedPlanStillCurrent()) {
+        flash("The approved grade plan changed in another tab. Reload it before exporting.", BLUEPRINT.lineActive);
+        if (projectWorkflow) loadGradePlanPanel(projectWorkflow.snapshot.activeStyle.id);
+        draw();
+        return;
+      }
       if (allowed()) action();
     });
   };
   onExport("#export-svg", () => {
-    download(`${recipe.name}-${exportSizeLabel()}.svg`, exportSvg(exportPieces(), currentAllowances(), recipe.notches), "image/svg+xml");
+    download(`${recipe.name}-${exportSizeLabel()}.svg`, exportSvg(exportPieces(), exportAllowances(), recipe.notches), "image/svg+xml");
   });
   onExport("#export-dxf", () => {
-    download(`${recipe.name}-${exportSizeLabel()}.dxf`, exportDxf(exportPieces(), currentAllowances()), "image/vnd.dxf");
+    download(`${recipe.name}-${exportSizeLabel()}.dxf`, exportDxf(exportPieces(), exportAllowances()), "image/vnd.dxf");
   });
   onExport("#export-pdf", () => {
     download(`${recipe.name}-${exportSizeLabel()}.pdf`, exportPdf(
-      exportPieces(), currentAllowances(), undefined, 1.0, recipe.tiledPdfLocalCoordinates === true
+      exportPieces(), exportAllowances(), undefined, 1.0, recipe.tiledPdfLocalCoordinates === true
     ), "application/pdf");
   });
   // The draft tech pack is a whole-style document (paginated piece overview +
   // graded table), so it uses live measurements and ignores the size picker.
   // The overview is explicitly not to scale; cutting files remain separate.
   onExport("#export-techpack", () => {
-    download(`${recipe.name}-techpack.pdf`, exportTechPackV2(
-      recipeForCurrentOutputs(), measurements, undefined, stretchFabric, recipeOptions(), surfacePlacementsNow(), targetStyle
-    ), "application/pdf");
-  }, canExportRun);
+    const planRun = customOneSizeStyle() ? currentGradePlanRun().sizes : null;
+    const output = planRun
+      ? exportTechPackV2ForGradePlan(recipeForCurrentOutputs(), planRun.map((size) => ({
+        label: size.label, measurements: size.measurements!, options: size.options!, block: size.block!,
+      })), undefined, stretchFabric, surfacePlacementsNow(), targetStyle, gradePlanState!.plan!.baseSizeLabel!,
+        pomExceptionRows(planRun))
+      : exportTechPackV2(recipeForCurrentOutputs(), measurements, undefined, stretchFabric, recipeOptions(), surfacePlacementsNow(), targetStyle);
+    download(`${recipe.name}-techpack.pdf`, output, "application/pdf");
+  }, canExportRun, true);
   // The projector file carries EVERY graded size as a toggleable layer, so it too
   // is a whole-style file and ignores the per-size picker.
   onExport("#export-projector", () => {
-    download(`${recipe.name}-projector.svg`, exportProjectorSvg(recipeForCurrentOutputs(), measurements, recipeOptions()), "image/svg+xml");
-  }, canExportRun);
+    const planRun = customOneSizeStyle() ? currentGradePlanRun().sizes : null;
+    const projectorRun = planRun?.map((size) => ({
+      label: size.label, step: size.position, block: size.block!,
+      allowances: allowancesForOptions(size.options!),
+    }));
+    download(`${recipe.name}-projector.svg`, exportProjectorSvg(
+      recipeForCurrentOutputs(), measurements, recipeOptions(), projectorRun, planRun ? pomExceptionRows(planRun) : [],
+    ), "image/svg+xml");
+  }, canExportRun, true);
   // The print sheet carries one style's artwork at true scale, so like the
   // tech pack and projector it is a whole-style file and ignores the picker.
   onExport("#export-surface-sheet", () => {
@@ -4323,7 +4528,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   }, () => styleReviewed && checkReviewed && baseDesignValid());
   onExport("#export-a0", () => {
     download(`${recipe.name}-${exportSizeLabel()}-A0.pdf`, exportA0Pdf(
-      exportPieces(), currentAllowances(), recipe.notches, undefined, recipe.a0Overflow === true
+      exportPieces(), exportAllowances(), recipe.notches, undefined, recipe.a0Overflow === true
     ), "application/pdf");
   });
 
@@ -4376,6 +4581,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         renderRecoveryPrompt();
         if (outputRevision === saveRevision) {
           savedRevision = saveRevision;
+          savedDesignRevision = designRevision;
+          savedPersistentOutputRevision = persistentOutputRevision;
           projectPersistenceState.textContent = legacyProjectionSaved
             ? "Saved in this style"
             : "Saved in this style · older single-style copy unavailable";
@@ -4397,6 +4604,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     }
     if (saveToStorage(measurements, fabric, garmentOptions, workspace, appearance, surfaceBook, nestingIntelligence, semanticEdits)) {
       savedRevision = outputRevision;
+      savedDesignRevision = designRevision;
+      savedPersistentOutputRevision = persistentOutputRevision;
       pendingRecovery = null;
       clearStoredRecovery();
       renderRecoveryPrompt();
@@ -4537,7 +4746,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     syncWorkspace(true);
     syncGarmentChoices();
     marker.disabled = customOneSizeStyle();
-    marker.title = gradedMarkerAvailabilityTitle(customOneSizeStyle());
+    marker.title = markerAvailabilityTitle();
     applyRawDraft(file.rawMeasurements, file.rawOptions);
     historyRestoring = false;
     pendingRecovery = null;
@@ -4611,6 +4820,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
 
   syncWorkspace(saved !== null && !projectWorkflow?.initializedFirstRun);
   savedRevision = outputRevision;
+  savedDesignRevision = designRevision;
+  savedPersistentOutputRevision = persistentOutputRevision;
   historyPresent = captureDraftSnapshot();
   recoveryTrackingEnabled = true;
   undoButton.addEventListener("click", () => { performUndo(); });
@@ -4622,7 +4833,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       workflow: projectWorkflow,
       getCurrentDesign: currentSavedDesign,
       getBlankDesign: blankSavedDesign,
-      hasUnsavedChanges: () => outputRevision !== savedRevision,
+      hasUnsavedChanges: () => persistentOutputRevision !== savedPersistentOutputRevision,
       onStyleLoaded: (loaded: LoadedProject, recovery: RecoveryPayload | null) => {
         measurementCapture = null;
         captureDrafts.clear();
@@ -4640,27 +4851,63 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         || captureSaveTimer !== null || captureWritesPending > 0,
       artworkStore: artworkAssetStore,
       inspectAsset: artworkInspector,
-      canFreezeOutputs: () => !customOneSizeStyle() && canExport() && styleReviewed && checkReviewed && baseDesignValid(),
+      canFreezeOutputs: () => customOneSizeStyle()
+        ? canExportRun() && gradePlanDesignIsSaved()
+          && (gradePlanSelectedLabel === null || selectedGradePlanSize()?.poms.every((pom) => pom.exceptionReason === null) === true)
+        : canExport() && styleReviewed && checkReviewed && baseDesignValid(),
       getFreezeBlocker: () => customOneSizeStyle()
         ? gradePlanApproved()
-          ? "The grade plan is approved; whole-run output capture will be added in the next step."
+          ? currentGradePlanRun().issues[0]
+            ?? (gradePlanSelectedLabel !== null && selectedGradePlanSize()?.poms.some((pom) => pom.exceptionReason !== null)
+              ? "The selected-size files cannot carry a not-applicable POM reason; choose another size before freezing outputs."
+              : canExportRun() ? null : "Review Style and the current digital checks before freezing outputs.")
           : "Whole-run output capture is unavailable until you review and approve a grade plan."
         : null,
-      getFrozenOutputSet: () => {
-        if (customOneSizeStyle() || !canExport() || !styleReviewed || !checkReviewed || !baseDesignValid()) return null;
-        const label = exportSizeLabel();
-        const pieces = exportPieces();
-        const allowances = currentAllowances();
+      getFrozenOutputSet: async () => {
+        const customRun = customOneSizeStyle() ? currentGradePlanRun().sizes : null;
+        if (customOneSizeStyle()
+          ? !canExportRun() || !gradePlanDesignIsSaved()
+            || (gradePlanSelectedLabel !== null && selectedGradePlanSize()?.poms.some((pom) => pom.exceptionReason !== null) === true)
+          : !canExport() || !styleReviewed || !checkReviewed || !baseDesignValid()) return null;
         const currentRecipe = recipeForCurrentOutputs();
+        const selectedPlanSize = customRun
+          ? customRun.find((size) => gradePlanLabelKey(size.label)
+            === gradePlanLabelKey(gradePlanSelectedLabel ?? gradePlanState!.plan!.baseSizeLabel!))
+          : null;
+        const label = customRun ? selectedPlanSize!.label : exportSizeLabel();
+        const pieces = customRun ? blockPieces(selectedPlanSize!.block!) : exportPieces();
+        const allowances = customRun ? allowancesForOptions(selectedPlanSize!.options!) : currentAllowances();
+        const projectorRun = customRun?.map((size) => ({
+          label: size.label, step: size.position, block: size.block!, allowances: allowancesForOptions(size.options!),
+        }));
+        const techPack = customRun
+          ? exportTechPackV2ForGradePlan(currentRecipe, customRun.map((size) => ({
+            label: size.label, measurements: size.measurements!, options: size.options!, block: size.block!,
+          })), undefined, stretchFabric, surfacePlacementsNow(), targetStyle, gradePlanState!.plan!.baseSizeLabel!,
+            pomExceptionRows(customRun))
+          : exportTechPackV2(currentRecipe, measurements, undefined, stretchFabric, recipeOptions(), surfacePlacementsNow(), targetStyle);
+        const approvalRefs = customRun && gradePlanState?.plan
+          ? [`grade-plan-sha256:${await jcsSha256Hex(gradePlanState.plan)}`]
+          : [];
+        const gradePlanFreeze = customRun && gradePlanState?.plan
+          ? { record: gradePlanState.plan, approvalRef: approvalRefs[0]! }
+          : undefined;
         return {
-          selectedSizes: [{ sizeId: `${recipe.name}-step-${selectedOutputStep()}`, label }],
+          selectedSizes: [{ sizeId: customRun
+            ? `${recipe.name}-grade-plan-${gradePlanState!.plan!.revision}-${encodeURIComponent(label)}`
+            : `${recipe.name}-step-${selectedOutputStep()}`, label }],
+          ...(customRun ? {
+            schemaVersion: GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION,
+            approvalRefs,
+            gradePlanFreeze,
+          } : {}),
           artifacts: [
             { artifactId: "selected-size-svg", extension: "svg", displayName: `${recipe.name}-${label}.svg`, mediaType: "image/svg+xml", content: exportSvg(pieces, allowances, recipe.notches) },
             { artifactId: "selected-size-dxf", extension: "dxf", displayName: `${recipe.name}-${label}.dxf`, mediaType: "image/vnd.dxf", content: exportDxf(pieces, allowances) },
             { artifactId: "selected-size-tiled-pdf", extension: "pdf", displayName: `${recipe.name}-${label}.pdf`, mediaType: "application/pdf", content: exportPdf(pieces, allowances, undefined, 1.0, recipe.tiledPdfLocalCoordinates === true) },
             { artifactId: "selected-size-a0-pdf", extension: "pdf", displayName: `${recipe.name}-${label}-A0.pdf`, mediaType: "application/pdf", content: exportA0Pdf(pieces, allowances, recipe.notches, undefined, recipe.a0Overflow === true) },
-            { artifactId: "whole-run-tech-pack-pdf", extension: "pdf", displayName: `${recipe.name}-techpack.pdf`, mediaType: "application/pdf", content: exportTechPackV2(currentRecipe, measurements, undefined, stretchFabric, recipeOptions(), surfacePlacementsNow(), targetStyle) },
-            { artifactId: "whole-run-projector-svg", extension: "svg", displayName: `${recipe.name}-projector.svg`, mediaType: "image/svg+xml", content: exportProjectorSvg(currentRecipe, measurements, recipeOptions()) },
+            { artifactId: "whole-run-tech-pack-pdf", extension: "pdf", displayName: `${recipe.name}-techpack.pdf`, mediaType: "application/pdf", content: techPack },
+            { artifactId: "whole-run-projector-svg", extension: "svg", displayName: `${recipe.name}-projector.svg`, mediaType: "image/svg+xml", content: exportProjectorSvg(currentRecipe, measurements, recipeOptions(), projectorRun, customRun ? pomExceptionRows(customRun) : []) },
             { artifactId: "whole-run-surface-sheet-svg", extension: "svg", displayName: `${recipe.name}-surface-sheet.svg`, mediaType: "image/svg+xml", content: exportSurfaceSheet(surfacePlacementsNow(), targetStyle) },
           ],
         };

@@ -1,0 +1,199 @@
+{
+  "schemaVersion": 1,
+  "slice": 251,
+  "verifiedDate": "2026-09-28",
+  "scope": "Approved plan-driven graded output integration for the seven admitted recipes",
+  "decisions": {
+    "pomComparison": "Exact numeric equality in unrounded centimetres; no tolerance or display rounding",
+    "notApplicable": "Allowed only with a visible reason; it is not a numeric match",
+    "wholeRunOutputs": "Withheld until a grade plan is approved and every declared size passes drafting, POM, and quantity checks"
+  },
+  "recipes": [
+    "tee",
+    "fitted",
+    "tank",
+    "polo",
+    "woven-shirt",
+    "skirt",
+    "trouser"
+  ],
+  "verifiedOutputBehavior": [
+    {
+      "source": "src/ui/grade-plan-run.test.ts",
+      "test": "drafts each explicit size from authored inputs for all seven recipes without using legacy grades",
+      "evidence": "Three explicit sizes are drafted for every registered recipe, without reading legacy grade rules."
+    },
+    {
+      "source": "src/ui/grade-plan-run.test.ts",
+      "test": "parses Tech Pack and Projector outputs and reconciles cutting pieces for all seven declared runs",
+      "evidence": "Each recipe's plan Tech Pack PDF loads in pdf-lib with more pages than declared sizes, and its raw output contains every recipe-size overview title. This test does not inspect spec-table or Fit Record values. Projector SVG labels identify every declared size. Marker placement counts equal the total drafted piece count, with pieces represented for each size. The run uses zero-delta targets, so sizes are geometrically identical."
+    },
+    {
+      "source": "src/ui/grade-plan-run.test.ts",
+      "test": "reconciles nonzero nonlinear authored inputs and option deltas from an off-center base for every recipe",
+      "evidence": "Authored measurement deltas (chest +3/+8 cm, waist -2/+5 cm, every other measurement +1/+2 cm at M/L) and supported option steps draft distinct sizes from an off-centre base S at position zero; S reproduces the saved block, measurements and options; the evaluator passes exact raw comparison once targets are set.",
+      "limitation": "POM targets are written back from the generated geometry (target delta = pom.actual - baseValue, lines 166-172), so zero mismatches is a round-trip consistency result. It does not independently verify generated POM values against authored POM targets."
+    },
+    {
+      "source": "src/ui/grade-plan-run.test.ts",
+      "tests": [
+        "requires exact raw POM equality and reports the target, generated value, and difference",
+        "identifies POM not-applicable exceptions and permits only that output row with its reason",
+        "blocks out-of-range inputs and unsupported measurement exceptions without clamping",
+        "rejects unsupported option increments, drafting failures, recipe geometry failures and edit replay errors",
+        "blocks absent or unsupported target rows and reports POM measurement failures"
+      ],
+      "evidence": "A 0.01 cm target change is reported as a mismatch and blocks the run. Unresolved drafting inputs are also blocked and reported. Explicit POM not-applicable reasons remain visible."
+    },
+    {
+      "source": "src/ui/app.test.ts",
+      "tests": [
+        "gates whole-run outputs on exact plan readiness and invalidates approval after edits",
+        "freezes the reviewed standard graded outputs through the project manager"
+      ],
+      "evidence": "The custom flow gates whole-run outputs on current approval, invalidates stale approvals, and freezes only passing reviewed outputs. Legacy standard graded freeze remains available."
+    },
+    {
+      "source": "src/export/techpack.test.ts",
+      "describe": "exportTechPackV2ForGradePlan",
+      "tests": [
+        "prints an approved not-applicable POM as N/A, never measures it, and keeps its full reason",
+        "prints the Fit Record raw from the supplied edited base block instead of a rounded fresh redraft",
+        "keeps the wider exact-value Fit Record inside both supported page sizes",
+        "prints spec values that match an independently authored nonlinear digital fixture",
+        "rejects a not-applicable exception that names no declared size or recipe POM",
+        "paginates large plan size ranges and wraps long custom labels and exception reasons"
+      ],
+      "evidence": "Each generated PDF loads in pdf-lib, and its uncompressed page content streams are split per page and their shown strings extracted. The not-applicable Body chest cell prints N/A in the spec table and Fit Record, and its guarded measure callback is never called for that block. The Fit Record has no Actual/Pass blank for that cell, and the exceptions page reproduces the full wrapped reason word for word. With a supplied base block that differs from recipe.draft(measurements, options), every Fit Record and spec value equals String(pom.measure(suppliedBlock)); none is the 0.1 cm sampleSpec redraft value.",
+      "independentFixture": {
+        "label": "Synthetic digital fixture - not a population chart, sample, physical-fit, manufacturing-tolerance or production claim",
+        "recipe": "tee",
+        "baseSizeLabel": "M",
+        "authoredInputsCm": [
+          { "label": "S", "chest": 94, "shoulderWidth": 43.5, "ease": 10 },
+          { "label": "M", "chest": 100.125, "shoulderWidth": 45, "ease": 10 },
+          { "label": "L", "chest": 108.5, "shoulderWidth": 47.25, "ease": 10 }
+        ],
+        "nonlinearSteps": "chest +6.125 then +8.375 cm; shoulder width +1.5 then +2.25 cm",
+        "authoredExpectedPomsCm": [
+          { "label": "S", "Body chest (finished)": 104, "Across shoulder": 43.5 },
+          { "label": "M", "Body chest (finished)": 110.125, "Across shoulder": 45 },
+          { "label": "L", "Body chest (finished)": 118.5, "Across shoulder": 47.25 }
+        ],
+        "oracle": "Expected values are hand-authored from the inputs: finished chest = chest + ease and across shoulder = shoulder width. These follow derive() in src/drafting/measurements.ts and are asserted for the tee in src/drafting/pom.test.ts. They are never read back from the drafted geometry. Printed values are compared at 4-decimal precision, which is the same precision pom.test.ts uses.",
+        "editedBlockFixture": "Base M paired with STANDARD_M but supplied a block drafted from chest 100.123 and shoulder width 45.678. The authored Fit Record expectations are 110.123 cm finished chest and 45.678 cm across shoulder, at 4-decimal precision. This is a stand-in for any approved block that differs from a fresh redraft; it is not a recorded semantic-edit document."
+      },
+      "executionStatus": "Codex ran the targeted Tech Pack and protected export-regression tests after the correction; 53/53 tests passed. The independent synthetic fixture and N/A/Fit Record assertions passed."
+    }
+  ],
+  "verification": {
+    "fullVitest": {
+      "command": "npm run coverage",
+      "testFilesPassed": 133,
+      "testsPassed": 2023,
+      "coverage": {
+        "statements": "24036/24036",
+        "functions": "1452/1452",
+        "branches": "11050/11050",
+        "lines": "100%"
+      },
+      "durationSeconds": 1846.88,
+      "machineEvidence": "coverage/clover.xml (generated verification output; not committed)",
+      "status": "Passed after all Slice 251 code and evidence corrections. Test Files 133/133, Tests 2023/2023, and statements, methods, conditionals, and lines all 100%."
+    },
+    "applicationBuild": "npm run build — passed after Slice 251 corrections; Vite transformed 129 modules. The existing large-chunk warning remains non-blocking.",
+    "electronBuild": "npm run electron:build-main — passed after Slice 251 corrections",
+    "controlCenter": "npm run control-center:test — 33/33 passed after Slice 251 corrections"
+  },
+  "targetedPostCorrectionTests": {
+    "status": "passed",
+    "results": [
+      "src/export/techpack.test.ts + src/export/regression.test.ts — 53/53",
+      "src/ui/grade-plan-run.test.ts + src/ui/grade-plan-run-panel.test.ts + src/edit/semantic-edit.test.ts + src/ui/project-package.test.ts — 98/98",
+      "src/ui/app.test.ts exact-plan-readiness integration case — 1/1"
+    ],
+    "note": "The post-correction full coverage gate and both strict builds passed; see verification."
+  },
+  "renderedPlanTechPackReview": {
+    "status": "passed after layout correction",
+    "fixture": "Synthetic three-size digital Tee run; no population, sample, or physical-fit claim.",
+    "renderer": "Poppler pdftoppm at 144 DPI; the same representative pages were also reviewed earlier with PDFium",
+    "pagesReviewed": [
+      { "page": 4, "content": "Three-size Measurement Spec", "image": "S251-techpack-measurement-spec.png", "result": "Long raw POM values fit inside their own columns with no overlap or clipping." },
+      { "page": 8, "content": "Base-size Fit Record", "image": "S251-techpack-fit-record.png", "result": "Exact predicted values and writable Actual/Pass spaces align without collision." },
+      { "page": 9, "content": "POM exceptions", "image": "S251-techpack-pom-exceptions.png", "result": "The not-applicable POM and full reason are readable." }
+    ],
+    "limitation": "Representative Tee pages were inspected; this is not a rendered review of every recipe's full Tech Pack."
+  },
+  "renderedBrowserReview": {
+    "url": "http://127.0.0.1:4177/",
+    "stage": "Style",
+    "observed": "The custom Woven shirt view displays the Grade plan entry, states that no chart is filled in automatically, and explains exact unrounded POM reconciliation before output availability.",
+    "savedBrowserDataChanged": false
+  },
+  "limitations": [
+    "These checks establish digital plan-to-output correspondence only; they do not establish physical fit, population validity, sample approval, manufacturing tolerance, or factory readiness.",
+    "The browser inspection reviewed the rendered no-plan gate; output artifacts were generated and parsed in the automated integration tests.",
+    "No test compares the grade-plan evaluator's generated POM values with independently authored POM targets for every recipe. The independent authored oracle covers two tee POMs in the plan Tech Pack (finished chest and across shoulder); the other POMs are checked only for raw, unrounded agreement with the supplied geometry.",
+    "The Tech Pack writer is printable-ASCII only, so non-ASCII characters in user-entered size labels, POM labels or not-applicable reasons print as '?'. The words and their order are kept, and the reason is wrapped, not truncated."
+  ],
+  "evidenceCorrections": [
+    {
+      "withdrawn": "rawOutputReconciliation (7 recipe runs, 21 sizes, 237 POM rows with targetCm, generatedCm and differenceCm) and outputReconciliationSummary",
+      "reasons": [
+        "The table's measurement inputs step uniformly by +1/+2 cm (for example, tee chest 100/101/102 and ease 10/11/12). That contradicts its own 'nonlinear measurement changes' label and the cited test's authored chest +3/+8 and waist -2/+5 deltas.",
+        "No checked-in test or script regenerates the table.",
+        "Every targetCm was copied from generated geometry in the same way the cited test writes targets back from pom.actual. The zero-mismatch count is therefore true by construction and is not independent verification."
+      ],
+      "replacement": "The src/export/techpack.test.ts independentFixture above: a labelled synthetic digital fixture with hand-authored inputs and hand-authored expected POM values, reproducible by running that test file."
+    }
+  ],
+  "protectedExportIdentitiesSource": "src/export/regression.test.ts BASELINE (exportTechPack, exportSvg, exportDxf and exportPdf for tee and fitted at STANDARD_M). The S251 plan Tech Pack corrections change only exportTechPackV2ForGradePlan output. The legacy Fit Record keeps its 2.4/3.2/0.6/1.6 cm geometry and one-decimal formatting.",
+  "protectedExportIdentities": [
+    {
+      "sha256": "3fbf2e3215af5bdfc66398b9b16714e8ee8139f5edc10dab527bc4c8378f2b9d",
+      "artifact": "tee.svg"
+    },
+    {
+      "sha256": "0b6cba95c9afd4cc6f17a2171f67303e0891babb94828816c149767935165fc9",
+      "artifact": "tee.dxf"
+    },
+    {
+      "sha256": "1256ccf60abedeed40b01915ea9a2df4d063b224d01a39dfbf8730136a128523",
+      "artifact": "tee.pdf"
+    },
+    {
+      "sha256": "6691a28a6cae0baccfe271887c6d4d00a968867fe0628a8e1d1eacd2b8b047d1",
+      "artifact": "tee.techpack"
+    },
+    {
+      "sha256": "cd16df87d100a40866e20738f858d3f11fdc3238ba0db88d99ca3a46f981a09c",
+      "artifact": "fitted.svg"
+    },
+    {
+      "sha256": "e2dd0a36ea6d834a0aec470918f4ba2b823136c13998966a8f04ddeda085a8a6",
+      "artifact": "fitted.dxf"
+    },
+    {
+      "sha256": "184dcd975bb8067b452370c78748045384bb18fa8f89f7ca1d4a583b9d0190ff",
+      "artifact": "fitted.pdf"
+    },
+    {
+      "sha256": "8e89320bfa235c44ebb481b01012a43c7c1614ce27608ccbb49df31369bca8d2",
+      "artifact": "fitted.techpack"
+    }
+  ],
+  "auditRemediations": [
+    "Persistent artwork, appearance and fabric edits now block freeze until saved; transient size/nesting selection remains excluded.",
+    "Selected-size stale plan references fail safely; direct exports reload and revalidate the active plan, capture, and revision binding.",
+    "Selected-size A0 and Fabric Nest use plan-derived geometry and allowances.",
+    "Approved plan freeze validates the canonical plan digest.",
+    "Projector SVG escapes user size labels and preserves safe stable layer IDs.",
+    "Plan Tech Pack prints unrounded raw POM values, paginates size columns and wraps long exception reasons.",
+    "Plan-run evaluation is memoized by current geometry, plan, context, and semantic edit inputs.",
+    "Plan Tech Pack prints an approved not-applicable POM as N/A in the spec table and Fit Record and never calls its measure callback. It adds a page note pointing to the full wrapped reason on the exceptions page. An exception that names no declared size or recipe POM is rejected.",
+    "Plan Fit Record prints raw, unrounded values measured from the supplied approved (possibly semantically edited) base block, reusing the spec table's base column; it no longer calls sampleSpec(), which redrafted an unedited block and rounded to 0.1 cm.",
+    "Plan spec table shows three size columns per page, and the plan Fit Record has a wider Predicted column, so full-precision raw values do not overlap. The '·' separators, which printed as '?' in the ASCII-only PDF, are now ' - '.",
+    "Evidence packet: the unreproducible, tautological rawOutputReconciliation table was withdrawn and replaced by an independently authored synthetic digital fixture (see evidenceCorrections)."
+  ]
+}

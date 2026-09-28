@@ -3,6 +3,7 @@ import { FIELDS } from "./controls";
 import { canonicalizeJcs, sha256Hex } from "./style-revisions";
 import { isCustomOneSizeStyle, type MeasurementCaptureRecord, type StyleRecord } from "./project-records";
 import type { GradePlanBaseBinding, GradePlanResult, GradePlanTargetKind } from "./grade-plan";
+import type { Block } from "../drafting/block";
 
 export interface GradePlanContext {
   readonly binding: GradePlanBaseBinding;
@@ -29,6 +30,7 @@ export async function createGradePlanContext(
   style: StyleRecord,
   capture: MeasurementCaptureRecord,
   crypto?: Crypto,
+  baseBlockOverride?: Block,
 ): Promise<GradePlanResult<GradePlanContext>> {
   if (!isCustomOneSizeStyle(style)) return invalid("Grade plans are available only for a custom one-size style.");
   if (style.projectId !== projectId || capture.projectId !== projectId || capture.styleId !== style.id
@@ -72,7 +74,7 @@ export async function createGradePlanContext(
 
   let pomTargets: GradePlanContext["targets"];
   try {
-    const block = recipe.draft(style.design.measurements, baseOptions);
+    const block = baseBlockOverride ?? recipe.draft(style.design.measurements, baseOptions);
     pomTargets = recipe.poms.map((pom) => ({
       targetId: `pom.${recipe.name}.${encodeURIComponent(pom.label)}`,
       kind: "pom" as const,
