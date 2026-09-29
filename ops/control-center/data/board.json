@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 370,
-  "updatedAt": "2026-09-29T07:29:37.185Z",
+  "revision": 381,
+  "updatedAt": "2026-09-29T14:39:57.839Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -153,9 +153,9 @@
     {
       "id": "EPIC-17",
       "title": "EPIC-17: G04 — Professional flats and CAD interchange",
-      "status": "Backlog",
+      "status": "In Progress",
       "owner": "Codex",
-      "description": "G04 future capability. Scope, gates, dates and work packets: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md. Epic remains Backlog until separately admitted.",
+      "description": "Admitted 2026-09-29 by explicit maintainer instruction. Scope and gates: docs/planning/EPIC-17-ADMISSION.md; ordered V01 → V02 → V03. Estimate 16–20 landed slices including admission and final merge evidence. V03 receiver/profile remains gated on current rights review and round-trip evidence.",
       "evidenceRefs": []
     },
     {
@@ -2664,7 +2664,7 @@
       "title": "EPIC-17: G04 — Professional flats and CAD interchange",
       "epicId": "EPIC-17",
       "releaseId": null,
-      "status": "Backlog",
+      "status": "In Progress",
       "openedAt": "2026-09-23",
       "targetAt": "2027-07-16",
       "deliveredAt": null,
@@ -2674,7 +2674,9 @@
       "contributor": "Codex",
       "reviewer": "Codex",
       "dependencies": [
-        "EPIC-15"
+        "EPIC-14",
+        "EPIC-15",
+        "EPIC-16"
       ],
       "protectedSurfaces": [
         "local-first product",
@@ -2682,7 +2684,7 @@
         "100% coverage",
         "maintainer gates"
       ],
-      "description": "Future capability goal G04. Detailed planned packets and evidence: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md. Baseline start: Research 2026-10-05; code 2027-02-15. Planned work: 9–14 landed slices. Context: G01/G02; integration serialized with G03. Target dates are conditional; no Phase 9, garment, launch-cost, supplier-contact, or physical-sampling gate is overridden.",
+      "description": "Admitted 2026-09-29 by explicit maintainer instruction. Scope and gates: docs/planning/EPIC-17-ADMISSION.md; ordered V01 → V02 → V03. Estimate 16–20 landed slices including admission and final merge evidence. V03 receiver/profile remains gated on current rights review and round-trip evidence.",
       "expectation": "Front/back technical flats for every supported recipe/variant and proven CAD interchange. Pattern-linked side/oblique views are explicitly owned by G09/D04, so the complete view set is accepted only there.",
       "acceptanceCriteria": [
         "Complete every G04 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
@@ -2697,6 +2699,22 @@
           "role": "maintainer",
           "note": "Register maintainer-directed, conditional post-Phase-9 roadmap without opening its gated work.",
           "evidenceRefs": []
+        },
+        {
+          "status": "Ready",
+          "at": "2026-09-29T14:34:14.413Z",
+          "actor": "Maintainer",
+          "role": "maintainer",
+          "note": "Admit EPIC-17 after packet, upstream and starting-tree verification.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-09-29T14:34:14.444Z",
+          "actor": "Maintainer",
+          "role": "maintainer",
+          "note": "Begin the admitted EPIC-17/G04 sequence; V01 is the active first work packet.",
+          "evidenceRefs": []
         }
       ],
       "comments": [
@@ -2709,6 +2727,16 @@
           "at": "2026-09-29T07:29:37.185Z",
           "actor": "Maintainer (via Codex)",
           "text": "Maintainer instruction, 2026-09-29: EPIC-17 remains in Backlog. Do not begin implementation or transition its status until the maintainer explicitly asks to begin EPIC-17."
+        },
+        {
+          "at": "2026-09-29T14:34:14.259Z",
+          "actor": "Maintainer",
+          "text": "Updated Epic metadata (description: Admitted 2026-09-29 by explicit maintainer instruction. Scope and gates: docs/planning/EPIC-17-ADMISSION.md; ordered V01 → V02 → V03. Estimate 16–20 landed slices including admission and final merge evidence. V03 receiver/profile remains gated on current rights review and round-trip evidence.). Admit EPIC-17/G04 on explicit maintainer instruction dated 2026-09-29; Slice 261 packet, verified start a5af5e13c2e967946b3f6035fcea66ff03a5e0e0."
+        },
+        {
+          "at": "2026-09-29T14:34:14.384Z",
+          "actor": "Maintainer",
+          "text": "Admitted 2026-09-29 by explicit maintainer instruction. Slice 261 packet: docs/planning/EPIC-17-ADMISSION.md. Verified start origin/main a5af5e13c2e967946b3f6035fcea66ff03a5e0e0; highest prior slice 260. V01 → V02 → V03; 16–20-slice estimate. V01 is next; no product code changed in admission."
         }
       ],
       "evidenceRefs": [],
@@ -5310,6 +5338,147 @@
         "E-EPIC16-S252-EXIT",
         "E-EPIC16-S252-VERIFICATION"
       ],
+      "flagKey": null
+    },
+    {
+      "id": "G04-V01",
+      "type": "task",
+      "title": "G04 V01: technical-flat primitives and source-to-view map",
+      "epicId": "EPIC-17",
+      "releaseId": null,
+      "status": "Ready",
+      "openedAt": "2026-09-29",
+      "targetAt": null,
+      "deliveredAt": null,
+      "priority": "P0",
+      "risk": "high",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": [],
+      "protectedSurfaces": [
+        "pattern topology",
+        "local-first product",
+        "100% coverage",
+        "export byte identity"
+      ],
+      "description": "Define construction-aware vector primitives and map source pattern/construction data into front/back views for all seven supported recipes.",
+      "expectation": "Stable primitives, source classes, layers, callout semantics, and complete seven-recipe mapping with explicit unsupported states.",
+      "acceptanceCriteria": [
+        "Map silhouettes, seams, topstitching, closures, pockets, darts/pleats, artwork, callouts, POMs and layer order for every supported recipe.",
+        "Reject or visibly identify missing/incoherent source features; do not invent pattern-derived geometry.",
+        "Record reviewed contract and V01 exit evidence in docs/planning/EPIC-17-ADMISSION.md or linked slice evidence."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-09-29T14:34:14.295Z",
+          "actor": "Maintainer",
+          "role": "maintainer",
+          "note": "Create the admitted V01 work card under EPIC-17.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "Ready",
+          "at": "2026-09-29T14:34:14.473Z",
+          "actor": "Maintainer",
+          "role": "maintainer",
+          "note": "V01 is the next admitted packet after Slice 261 admission.",
+          "evidenceRefs": []
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [],
+      "flagKey": null
+    },
+    {
+      "id": "G04-V02",
+      "type": "task",
+      "title": "G04 V02: live front/back vector flats",
+      "epicId": "EPIC-17",
+      "releaseId": null,
+      "status": "Backlog",
+      "openedAt": "2026-09-29",
+      "targetAt": null,
+      "deliveredAt": null,
+      "priority": "P0",
+      "risk": "high",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": [
+        "G04-V01"
+      ],
+      "protectedSurfaces": [
+        "pattern topology",
+        "local-first product",
+        "100% coverage",
+        "export byte identity"
+      ],
+      "description": "Render revision-bound front/back vector flats with topology-checked options, artwork/colorway overlays, proportional/construction annotations and anchored POM callouts.",
+      "expectation": "Live vector output stays aligned with the same pattern and style revision and remains readable across all supported options.",
+      "acceptanceCriteria": [
+        "Render front/back vector views for all seven recipes and supported option combinations from one pattern/revision.",
+        "Bind overlays and POM anchors to represented geometry; validate option topology and actionable invalid states.",
+        "Prove readable non-overlapping rendered/parsed output and record V02 evidence; review applicable MQFs."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-09-29T14:34:14.327Z",
+          "actor": "Maintainer",
+          "role": "maintainer",
+          "note": "Create the admitted V02 work card under EPIC-17.",
+          "evidenceRefs": []
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [],
+      "flagKey": null
+    },
+    {
+      "id": "G04-V03",
+      "type": "task",
+      "title": "G04 V03: documented CAD profile and round trip",
+      "epicId": "EPIC-17",
+      "releaseId": null,
+      "status": "Backlog",
+      "openedAt": "2026-09-29",
+      "targetAt": null,
+      "deliveredAt": null,
+      "priority": "P0",
+      "risk": "high",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": [
+        "G04-V02"
+      ],
+      "protectedSurfaces": [
+        "generic DXF compatibility",
+        "local-first product",
+        "100% coverage",
+        "export byte identity"
+      ],
+      "description": "Select an industrial CAD receiver/profile only after rights review; prove representative import, export and round-trip behavior.",
+      "expectation": "Documented profile scope, units, marks/notches/allowance/grade semantics and receiver-specific fidelity limits supported by actual fixtures.",
+      "acceptanceCriteria": [
+        "Record current rights and exact receiver/version/profile evidence before selection.",
+        "Import/export simple, complex, multi-size and negative fixtures; inspect receiver output and compare geometry, units, labels, marks and supported grade data.",
+        "Use exact compatibility labels only within proven behavior and preserve existing generic DXF and protected export identities."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-09-29T14:34:14.353Z",
+          "actor": "Maintainer",
+          "role": "maintainer",
+          "note": "Create the admitted V03 work card under EPIC-17.",
+          "evidenceRefs": []
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [],
       "flagKey": null
     }
   ],

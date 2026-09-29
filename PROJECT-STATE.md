@@ -1,16 +1,35 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 260 execution-time efficiency rules, 2026-09-29._
+_Last updated: Slice 261 EPIC-17/G04 admission, 2026-09-29._
 Current directive: EPIC-14/G01, EPIC-15/G02, and EPIC-16/G03 are closed with
 accepted digital exit evidence. EPIC-16/G03 completed the admitted local-first
 scope under `docs/planning/EPIC-16-ADMISSION.md`; M01, M02, M03, final review,
 merge, board closure, and automatic deployment are complete. GitHub Actions run
 `36535708194` succeeded for main commit
 `2525993ceac31d426fbd5286c14d5011169b79a5`; the configured Cloudflare Pages
-site `https://infinidrip-preview.pages.dev/` returned HTTP 200. EPIC-17 remains
-in Backlog on canonical board revision 370 and must not begin until the
-maintainer explicitly asks to begin it. EPIC-18 through EPIC-30 remain
-Backlog as well.
+site `https://infinidrip-preview.pages.dev/` returned HTTP 200.
+EPIC-17/G04 was explicitly admitted by the maintainer on 2026-09-29 from
+verified `origin/main` commit `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`.
+Slice 261 records admission, links `docs/planning/EPIC-17-ADMISSION.md`, and
+transitions the canonical board through its validated command layer. V01 is
+next; implementation has not started. The verified upstream G01/G02/G03 exits
+and 16–20-slice estimate are in the admission packet. EPIC-18 through EPIC-30
+remain Backlog.
+
+### Slice 261 — admit EPIC-17 / G04 (complete)
+
+The maintainer explicitly admitted G04 on 2026-09-29. The verified start is
+`origin/main` merge `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`; Slices 228,
+241 and 259 and the G01/G02/G03 board exits are complete. The prior checkout
+had only pre-existing untracked coverage/log/tmp artifacts; work uses a clean
+managed worktree. Highest assigned slice was 260; S261 is reserved for
+admission. The admission packet records V01 → V02 → V03, the V03 receiver and
+rights gate, a 16–20 landed-slice estimate, and final exit requirements.
+No production code has changed. The immediate next action is V01's
+seven-recipe source-to-view inventory and primitive contract now that the
+admission commit and board validation are complete. Board revision 381 is validated; `npm run control-center:test` passes 33/33
+and `git diff --check` passes. Elapsed time: context/admission 15m 00s,
+focused verification/correction 4m 03s, agent waits 0m, maintainer decisions 0m.
 No physical-fit or factory-readiness claim is authorized. S252's safety
 remediation remains attached to the canonical
 board. S253 completed the independent S252 audit reconciliation and passed its

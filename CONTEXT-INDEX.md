@@ -121,6 +121,10 @@ only through an explicitly admitted, linked Epic packet.
   source-qualified field help, resume, conflict, narrow-layout, accessibility
   and all-recipe validation. Slice 248–249 completed M02. Use
   `PROJECT-STATE.md` and the canonical Control Center for live status.
+- `docs/planning/EPIC-17-ADMISSION.md` — Slice 261's maintainer-authorized
+  G04 admission from verified `origin/main`, ordered V01 → V02 → V03 scope,
+  estimate, rights/receiver gate, acceptance evidence and merge exit. V01 is
+  the immediate next action; no G04 implementation is claimed by admission.
 - `docs/research/epic16/S250-EXIT.md` — verified S250 completion, test/build/
   browser evidence, and the remaining S251 integration boundary.
 - `docs/research/epic16/S251-EXIT.md` and
