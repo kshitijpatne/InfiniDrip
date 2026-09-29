@@ -190,8 +190,13 @@ recorded for all seven admitted recipes in
 against each drafted block and supported option endpoints. Stitch visibility
 remains unresolved until a drawing rule has source evidence; missing
 topstitch/pleat data stays visible as a notice. Live rendered flats are still
-in progress. The existing Assembled view remains schematic and is not used as
-pattern-derived evidence.
+in progress. `src/render/technical-flat-transform.ts` provides rigid
+translation, rotation and reflection for these primitives; cubic path controls,
+authored artwork dimensions, source/revision identity and semantic layers are
+preserved. Scaling and invalid or overflowing coordinates are rejected. Its
+geometry fixtures preserve drafted edge lengths across all seven default
+recipes, but it does not assemble or render the live views. The existing
+Assembled view remains schematic and is not used as pattern-derived evidence.
 
 The **Edit** view keeps user-authored deltas against stable recipe-owned
 anchors, rather than saving a disconnected picture. Pointer drags and keyboard

@@ -137,6 +137,11 @@ only through an explicitly admitted, linked Epic packet.
   seven-recipe role-to-face map, topology checks, option endpoint checks,
   construction-source mapping and unsupported-source notices. Actual assembled
   coordinates and live rendering are V02 work.
+- `src/render/technical-flat-transform.ts` — Slice 265's rigid source-to-view
+  transforms for paths and other flat primitives. It preserves curve controls,
+  dimensions, source/revision identity and semantic layer while rejecting
+  scaling and invalid coordinates. It does not assemble or render the live
+  front/back views by itself.
 - `docs/research/epic16/S250-EXIT.md` — verified S250 completion, test/build/
   browser evidence, and the remaining S251 integration boundary.
 - `docs/research/epic16/S251-EXIT.md` and

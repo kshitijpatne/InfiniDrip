@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 386,
-  "updatedAt": "2026-09-29T15:21:11.884Z",
+  "revision": 388,
+  "updatedAt": "2026-09-29T15:36:00.958Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -5418,7 +5418,7 @@
       "title": "G04 V02: live front/back vector flats",
       "epicId": "EPIC-17",
       "releaseId": null,
-      "status": "Ready",
+      "status": "In Progress",
       "openedAt": "2026-09-29",
       "targetAt": null,
       "deliveredAt": null,
@@ -5461,11 +5461,22 @@
           "evidenceRefs": [
             "E-G04-S264-EXIT"
           ]
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-09-29T15:25:49.172Z",
+          "actor": "Maintainer",
+          "role": "maintainer",
+          "note": "Start V02 Slice 265 for revision-bound vector geometry transforms and assembled view source provenance.",
+          "evidenceRefs": [
+            "E-G04-S264-EXIT"
+          ]
         }
       ],
       "comments": [],
       "evidenceRefs": [
-        "E-G04-S264-EXIT"
+        "E-G04-S264-EXIT",
+        "E-G04-S265-EXIT"
       ],
       "flagKey": null
     },
@@ -6352,6 +6363,15 @@
       "sha256": null,
       "verified": true,
       "note": "Slice 264 maps all seven recipe topologies and option endpoints; focused mapping coverage is 100% for all four metrics and TypeScript/Vite build passes."
+    },
+    {
+      "id": "E-G04-S265-EXIT",
+      "kind": "document",
+      "uri": "docs/planning/EPIC-17-ADMISSION.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Slice 265 rigid source-to-view transforms, seven-recipe drafted-edge length preservation, 100% focused coverage and passing build; no live rendered output yet."
     }
   ]
 }

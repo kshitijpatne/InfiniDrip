@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 264 EPIC-17/G04 V01 recipe source mapping, 2026-09-29._
+_Last updated: Slice 265 EPIC-17/G04 V02 geometry basis exit, 2026-09-29._
 Current directive: EPIC-14/G01, EPIC-15/G02, and EPIC-16/G03 are closed with
 accepted digital exit evidence. EPIC-16/G03 completed the admitted local-first
 scope under `docs/planning/EPIC-16-ADMISSION.md`; M01, M02, M03, final review,
@@ -17,9 +17,30 @@ records the current source inventory and front/back mapping candidates for all
 seven recipes in `docs/research/epic17/G04-V01-SOURCE-INVENTORY.md`. Slice 263
 adds the versioned primitive contract and Slice 264 completes explicit
 role-to-face/source mapping in `src/render/technical-flat-mapping.ts`. V01 is
-complete; V02 is Ready and live rendered front/back flats are next. The verified
+complete; Slice 264 landed as `ef000b292c19a69462d4037a42b28740a9513532` and
+V02 is In Progress. The verified
 upstream G01/G02/G03 exits and 16–20-slice estimate are in the admission packet.
 EPIC-18 through EPIC-30 remain Backlog.
+
+### Slice 265 — G04 V02 geometry basis (complete)
+
+Started at 2026-09-29 15:23:16 UTC from S264 commit
+`ef000b292c19a69462d4037a42b28740a9513532`; highest assigned slice was 264.
+The admitted V02 sub-slice plan is recorded in
+`docs/planning/EPIC-17-ADMISSION.md`. The canonical board is revision 387 with
+G04-V02 In Progress. Slice 265 adds rigid translation, rotation and local-axis
+reflection for path, circle, text, artwork and callout primitives in
+`src/render/technical-flat-transform.ts`. It preserves cubic controls, source
+and revision identity, authored artwork dimensions and layer order, and rejects
+scaling, malformed inputs and coordinate overflow. Focused coverage passes 7/7
+with 100% statement, branch, function and line coverage; `npm run build` passes
+with the existing Vite chunk advisory; Control Center tests pass 33/33. Fixtures
+preserve drafted edge lengths for every mapped role across all seven default
+recipes. These are geometric fixtures, not live rendered flats. Board revision
+388 links verified evidence `E-G04-S265-EXIT` to G04-V02. Next: convert mapped
+block outlines and construction marks in Slice 266. Elapsed time: implementation
+8m; focused verification 4m; build 1m; board transition/regression 2m; external-
+agent waits 0m; maintainer-decision time 0m.
 
 ### Slice 262 — G04 V01 source inventory (complete)
 
