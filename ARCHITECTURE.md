@@ -48,10 +48,34 @@ measurements + design choices
               ↓
        pattern-piece shapes
               ↓
- shared views, checks and planning
+shared views, checks and planning
               ↓
        digital files to save
 ```
+
+### Live technical flats (EPIC-17/G04)
+
+The advanced **Technical flat** canvas view turns the current recipe draft into
+revision-bound front and back SVG drawings. Each face uses its mapped role
+geometry and source construction data, rigid sewn-role placement, applicable
+saved artwork boundaries, fabric colorway and POM callouts anchored to the
+geometry they measure. Supported option values are checked against the exact
+draft topology before a face is rendered. Missing source details, unresolved
+joins, back-view POMs without geometry anchors, and unreadable text remain
+visible as notices or block that drawing; the renderer does not fill gaps by
+guessing.
+
+The drawing keeps centimetre coordinates in its SVG. In the live canvas it fits
+to the available width and scrolls vertically, so measured labels stay readable
+on the dark app surface. The colorway is a light tint over a white drawing
+sheet, which preserves technical line contrast for darker fabric choices. Its
+`live-draft` token binds one synchronous screen snapshot; it is not a saved
+style revision or outside acceptance record. Sewn-role placement is a digital
+assembly aid, not a qualified finished silhouette. It does not establish
+sewability, fit, factory readiness, or CAD compatibility. Pattern-linked
+side/oblique/inside assembled views remain G09/D04; production tech-pack content
+remains G05. Generic DXF and the protected export byte identities stay on their
+existing paths.
 
 Each garment has its own rule set (called a **recipe** in the code). It says
 which measurements, options, pieces, and construction details to use. A tee

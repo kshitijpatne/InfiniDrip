@@ -9,7 +9,7 @@ import {
 
 interface SvgXmlParser { parseFromString(source: string, mimeType: string): Document }
 interface JSDOMInstance { window: { DOMParser: new () => SvgXmlParser } }
-const JSDOM = createRequire(import.meta.url)("jsdom").JSDOM as new () => JSDOMInstance;
+const JSDOM = createRequire(import.meta.url)("jsdom").JSDOM as new (options?: { url: string }) => JSDOMInstance;
 
 const revisionId = "revision-271";
 const source = { sourceClass: "PATTERN_DERIVED" as const, sourceId: "pattern:tee:role:front", revisionId };
@@ -64,16 +64,18 @@ describe("renderTechnicalFlatSvg", () => {
     });
     expect(result.issues).toEqual([]);
     expect(result.svg).not.toBeNull();
-    const doc = new JSDOM().window;
+    const doc = new JSDOM({ url: "https://technical-flat.test/" }).window;
     const parsed = new doc.DOMParser().parseFromString(result.svg!, "image/svg+xml");
     expect(parsed.querySelector("parsererror")).toBeNull();
     const svg = parsed.documentElement;
     expect(svg.getAttribute("data-revision-id")).toBe(revisionId);
     expect(svg.getAttribute("data-colorway-revision")).toBe(revisionId);
     expect(Number(svg.getAttribute("viewBox")!.split(" ")[2])).toBeGreaterThan(30);
+    expect(svg.querySelector("[data-technical-flat-paper]")?.getAttribute("fill")).toBe("#fff");
     expect([...svg.querySelectorAll("g[data-layer-group]")].map((group) => group.getAttribute("data-layer-group")))
       .toEqual(["GARMENT_SILHOUETTE", "ARTWORK", "SEAM", "CONSTRUCTION", "DART", "PLEAT", "CLOSURE", "TOPSTITCH", "CALLOUT", "ANNOTATION", "TEXT_LABELS", "SOURCE_NOTICES"]);
     expect(svg.querySelector('[data-entity-id="outline"]')?.getAttribute("fill")).toBe("#3669a4");
+    expect(svg.querySelector('[data-entity-id="outline"]')?.getAttribute("fill-opacity")).toBe("0.16");
     expect(svg.querySelector('[data-entity-id="art"]')?.getAttribute("data-asset-id")).toBe("asset-chest");
     expect(svg.querySelector('[data-callout-target="outline"]')).not.toBeNull();
     expect(svg.querySelector('[data-label-for="pom"]')?.textContent).toBe("Chest: 10 cm");
@@ -93,7 +95,7 @@ describe("renderTechnicalFlatSvg", () => {
       placementId: id, sourceName: id, targetRoleId: "front", widthCm: 1, heightCm: 1,
       transform: { dx: zOrder * 2 + 1, dy: 4, scale: 1, rotationDegrees: 0 }, zOrder });
     const result = renderTechnicalFlatSvg(makeView([outline, art("top", 8), art("bottom", 1)]), { measureText: measure });
-    const parsed = new JSDOM().window.DOMParser;
+    const parsed = new JSDOM({ url: "https://technical-flat.test/" }).window.DOMParser;
     const svg = new parsed().parseFromString(result.svg!, "image/svg+xml");
     expect([...svg.querySelectorAll('[data-layer="ARTWORK"]')].map((node) => node.getAttribute("data-placement-id")))
       .toEqual(["bottom", "top"]);
@@ -194,9 +196,10 @@ describe("renderTechnicalFlatSvg", () => {
         markKind: "buttonhole", markName: "hole", at: { x: 3, y: 3 } },
     ];
     const result = renderTechnicalFlatSvg(makeView(shape), { measureText: measure });
-    const svg = new JSDOM().window.DOMParser;
+    const svg = new JSDOM({ url: "https://technical-flat.test/" }).window.DOMParser;
     const parsed = new svg().parseFromString(result.svg!, "image/svg+xml");
     expect(parsed.querySelector('[data-entity-id="outline"]')?.getAttribute("fill")).toBe("none");
+    expect(parsed.querySelector('[data-entity-id="outline"]')?.getAttribute("fill-opacity")).toBe("1");
     expect(parsed.querySelector('[data-entity-id="fold"]')?.getAttribute("stroke-dasharray")).toBe("0.18 0.1");
     expect(parsed.querySelector('[data-mark-kind="buttonhole"] rect')).not.toBeNull();
   });

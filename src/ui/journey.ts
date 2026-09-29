@@ -38,7 +38,7 @@ export const COACHED_STEPS: readonly StepInfo[] = [
   },
 ];
 
-export type ViewName = "pattern" | "body" | "nest" | "spec" | "fabric" | "check" | "edit";
+export type ViewName = "pattern" | "body" | "nest" | "spec" | "fabric" | "check" | "edit" | "flat";
 
 /** The controls and views relevant to one stage. */
 export interface Disclosure {
@@ -52,7 +52,7 @@ export interface Disclosure {
 }
 
 const ALL_VIEWS: readonly ViewName[] = [
-  "pattern", "body", "nest", "spec", "fabric", "check", "edit",
+  "pattern", "body", "nest", "spec", "fabric", "check", "edit", "flat",
 ];
 
 export function disclosureFor(step: JourneyStep): Disclosure {

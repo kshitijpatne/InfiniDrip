@@ -7184,4 +7184,53 @@ describe("bundled local artwork library (Slice 203)", () => {
       vi.unstubAllGlobals();
     }
   });
+
+  it("shows live front and back technical flats from one draft revision and refreshes on pattern edits", () => {
+    localStorage.clear();
+    const originalGetBBox = Object.getOwnPropertyDescriptor(SVGElement.prototype, "getBBox");
+    const originalTextLength = Object.getOwnPropertyDescriptor(SVGElement.prototype, "getComputedTextLength");
+    Object.defineProperty(SVGElement.prototype, "getBBox", { configurable: true, value() {
+      const text = this as SVGTextElement;
+      return { x: 0, y: -0.2, width: (text.textContent?.length ?? 0) * 0.18, height: 0.25 };
+    } });
+    Object.defineProperty(SVGElement.prototype, "getComputedTextLength", { configurable: true, value() {
+      return ((this as SVGTextElement).textContent?.length ?? 0) * 0.18;
+    } });
+    const root = mount();
+    try {
+      clickId(root, "view-flat");
+      const front = root.querySelector<SVGSVGElement>("[data-technical-flat-svg] svg");
+      expect(front?.getAttribute("data-view-kind")).toBe("FRONT_FLAT");
+      expect(Number.parseFloat(front?.style.width ?? "0")).toBeGreaterThanOrEqual(260);
+      const frontRevision = front?.getAttribute("data-revision-id");
+      expect(frontRevision).toMatch(/^live-draft:tee:/);
+      expect([...front!.querySelectorAll("[data-revision-id]")].every((node) => node.getAttribute("data-revision-id") === frontRevision)).toBe(true);
+
+      clickId(root, "technical-flat-back");
+      const back = root.querySelector<SVGSVGElement>("[data-technical-flat-svg] svg");
+      expect(back?.getAttribute("data-view-kind")).toBe("BACK_FLAT");
+      expect(back?.getAttribute("data-revision-id")).toBe(frontRevision);
+      expect(root.querySelector<HTMLButtonElement>("#technical-flat-back")?.getAttribute("aria-pressed")).toBe("true");
+
+      const length = root.querySelector<HTMLInputElement>('#input-length')!;
+      length.value = String(Number(length.value) + 2);
+      length.dispatchEvent(new Event("input", { bubbles: true }));
+      const refreshed = root.querySelector<SVGSVGElement>("[data-technical-flat-svg] svg");
+      expect(refreshed?.getAttribute("data-revision-id")).not.toBe(frontRevision);
+      expect(refreshed?.getAttribute("data-view-kind")).toBe("BACK_FLAT");
+
+      clickId(root, "garment-polo");
+      clickId(root, "view-flat");
+      expect(root.querySelector('[data-technical-flat-issues]')).not.toBeNull();
+      expect(root.querySelector('[data-technical-flat-issues]')?.textContent).toMatch(/placement|flat|revision|stitch|role|collision/i);
+      expect(root.textContent).toContain("Technical flat withheld");
+    } finally {
+      root.remove();
+      localStorage.clear();
+      if (originalGetBBox) Object.defineProperty(SVGElement.prototype, "getBBox", originalGetBBox);
+      else delete (SVGElement.prototype as unknown as { getBBox?: unknown }).getBBox;
+      if (originalTextLength) Object.defineProperty(SVGElement.prototype, "getComputedTextLength", originalTextLength);
+      else delete (SVGElement.prototype as unknown as { getComputedTextLength?: unknown }).getComputedTextLength;
+    }
+  });
 });

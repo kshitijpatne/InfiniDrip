@@ -117,6 +117,9 @@ import { gradePlanPanelMarkup } from "./grade-plan-panel";
 import { evaluateGradePlanRun, type GradePlanRunEvaluation, type GradePlanRunSize } from "./grade-plan-run";
 import { gradePlanRunMarkup } from "./grade-plan-run-panel";
 import { GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION, jcsSha256Hex } from "./style-revisions";
+import { createBrowserTechnicalFlatTextMeasurer, type TechnicalFlatMeasureText } from "../render/technical-flat-svg";
+import type { TechnicalFlatViewKind } from "../render/technical-flat";
+import { technicalFlatPanelMarkup } from "./technical-flat-panel";
 
 function escapeUiText(value: string): string {
   return value.replace(/[&<>"']/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[character]!);
@@ -454,6 +457,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     initialWorkspace.stretchFabric, recipe.name, appearance, activeFieldObservations());
 
   const canvasHost = root.querySelector<HTMLDivElement>("#canvas-host")!;
+  let technicalFlatTextMeasurer: TechnicalFlatMeasureText | null = null;
   const guidanceHost = root.querySelector<HTMLDivElement>("#guidance-host")!;
   const styleHost = root.querySelector<HTMLDivElement>("#style-host")!;
   const fabricWidthHost = root.querySelector<HTMLDivElement>("#fabric-width-host")!;
@@ -626,6 +630,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   let stretchFabric = STRETCH_FABRICS.find((f) => f.name === initialWorkspace.stretchFabric)!;
   let materialSelectionExplicit = saved !== null;
   let view: ViewName = saved ? initialWorkspace.view : stepView(journey.step);
+  let technicalFlatFace: TechnicalFlatViewKind = "FRONT_FLAT";
   let bodyCroquisView: BodyCroquisView = initialWorkspace.bodyCroquisView;
   let editRoleId = recipe.editRole ?? "front";
   let editedFront: Piece | null = null; // transient pointer preview; committed moves live in semanticEdits
@@ -1887,10 +1892,20 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       if (zoomOutput) zoomOutput.textContent = `${Math.round(inspectionZoom * 100)}%`;
       return;
     }
-    let height = Math.min(maxHeight, viewportWidth / ratio);
-    let width = height * ratio;
-    width *= inspectionZoom;
-    height *= inspectionZoom;
+    let width: number;
+    let height: number;
+    if (view === "flat") {
+      // Technical drawings need their construction labels at a readable screen
+      // size. Fit the full paper width and let the bounded canvas scroll
+      // vertically instead of shrinking a long flat to the viewport height.
+      width = viewportWidth * inspectionZoom;
+      height = width / ratio;
+    } else {
+      height = Math.min(maxHeight, viewportWidth / ratio);
+      width = height * ratio;
+      width *= inspectionZoom;
+      height *= inspectionZoom;
+    }
     svg.style.width = `${Math.round(width)}px`;
     svg.style.height = `${Math.round(height)}px`;
     svg.style.maxWidth = "none";
@@ -2293,6 +2308,26 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         canvasContent = specTableMarkup(
           specSheet(graded, outputRecipe.poms), graded.map((g) => g.label), baseIndex);
       }
+    } else if (view === "flat") {
+      const outputRecipe = recipeForCurrentOutputs();
+      const outputStep = selectedOutputStep();
+      const flatRevisionId = `live-draft:${recipe.name}:${designRevision}:${outputRevision}`;
+      const sizeReady = semanticSizeReady(outputStep);
+      technicalFlatTextMeasurer ??= createBrowserTechnicalFlatTextMeasurer(root.ownerDocument);
+      canvasContent = technicalFlatPanelMarkup({
+        recipe: outputRecipe,
+        measurements: gradeMeasurements(measurements, recipe.grade, outputStep),
+        rawOptions: recipeOptions(outputRecipe),
+        revisionId: flatRevisionId,
+        kind: technicalFlatFace,
+        placements: surfacePlacementsNow(),
+        colorHex: fabric,
+        texture: appearance.texture,
+        shine: appearance.shine,
+        sizeReady,
+        block: sizeReady ? semanticSizeBlock(outputStep) : null,
+        measureText: technicalFlatTextMeasurer,
+      });
     } else if (view === "body") {
       if (bodyCroquisView === "side") {
         canvasContent = isTrouser
@@ -2381,6 +2416,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     fabric: root.querySelector<HTMLButtonElement>("#view-fabric")!,
     check: root.querySelector<HTMLButtonElement>("#view-check")!,
     edit: root.querySelector<HTMLButtonElement>("#view-edit")!,
+    flat: root.querySelector<HTMLButtonElement>("#view-flat")!,
   };
   const bodyCroquisHost = root.querySelector<HTMLElement>("#body-croquis-toggle-host")!;
   const bodyCroquisBtns = {
@@ -2402,14 +2438,14 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     syncBodyCroquisButton(bodyCroquisBtns.side, v === "side");
     draw();
   };
-  const setView = (v: "pattern" | "body" | "nest" | "spec" | "fabric" | "check" | "edit"): void => {
+  const setView = (v: ViewName): void => {
     view = v;
     if (v === "check" && journey.step === "refine") checkReviewed = true;
     previewActive = false;
     inactiveInspection = { zoom: 1, left: 0, top: 0 };
     syncPreviewToggle();
     inspectionZoom = 1;
-    (["pattern", "body", "nest", "spec", "fabric", "check", "edit"] as const).forEach((k) => {
+    (["pattern", "body", "nest", "spec", "fabric", "check", "edit", "flat"] as const).forEach((k) => {
       const on = k === v;
       viewBtns[k].style.background = on ? BLUEPRINT.lineActive : BLUEPRINT.background;
       viewBtns[k].style.color = on ? BLUEPRINT.background : BLUEPRINT.line;
@@ -2430,6 +2466,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   viewBtns.fabric.addEventListener("click", () => setView("fabric"));
   viewBtns.check.addEventListener("click", () => setStep("refine"));
   viewBtns.edit.addEventListener("click", () => setView("edit"));
+  viewBtns.flat.addEventListener("click", () => setView("flat"));
   bodyCroquisBtns.frontBack.addEventListener("click", () => setBodyCroquisView("front-back"));
   bodyCroquisBtns.front.addEventListener("click", () => setBodyCroquisView("front"));
   bodyCroquisBtns.back.addEventListener("click", () => setBodyCroquisView("back"));
@@ -2702,6 +2739,12 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     if (!previewActive) previewToggle.click();
   });
   canvasHost.addEventListener("click", (event) => {
+    const face = (event.target as Element | null)?.closest<HTMLButtonElement>("button[data-technical-flat-face]")?.dataset.technicalFlatFace;
+    if (face === "FRONT_FLAT" || face === "BACK_FLAT") {
+      technicalFlatFace = face;
+      draw();
+      return;
+    }
     const target = (event.target as HTMLElement).closest<HTMLButtonElement>("button[data-ignore-guidance], button[data-restore-guidance]");
     if (!target) return;
     const field = target.dataset.ignoreGuidance ?? target.dataset.restoreGuidance;

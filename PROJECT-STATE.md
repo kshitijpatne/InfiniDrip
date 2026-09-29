@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 271 EPIC-17/G04 V02 layered SVG rendering complete, 2026-09-29._
+_Last updated: Slice 272 EPIC-17/G04 live technical-flat integration complete at Control Center revision 400, 2026-09-29._
 Current directive: EPIC-14/G01, EPIC-15/G02, and EPIC-16/G03 are closed with
 accepted digital exit evidence. EPIC-16/G03 completed the admitted local-first
 scope under `docs/planning/EPIC-16-ADMISSION.md`; M01, M02, M03, final review,
@@ -26,9 +26,13 @@ face-specific multi-edge and split-interval stitch sampling. All seven default
 recipe pairs return mapped visible-role transforms; a contradictory trouser
 back waistband cycle remains an explicit construction issue. Geometry is not
 scaled. Slice 271 adds the centimeter-sized SVG renderer, active-browser font
-metrics and visible source notices. The default recipe browser matrix parses
-eight front/back faces and blocks six dense faces for measured label collision;
-Slice 272 integrates the renderer and Slice 273 owns measured label reflow.
+metrics and visible source notices. Slice 272 integrates live front/back views
+with same-draft overlays/POMs, a readable width-fit canvas and visible blocker
+guidance. Real Chromium captures confirm the selected faces bind the same live
+draft token. The default recipe browser matrix still blocks six dense faces
+for measured label collisions; Slice 273 owns measured label reflow. G04 V02
+remains In Progress and does not close until all-recipe option/readability and
+mapped manual-output review gates pass.
 The current 20–24-slice estimate and revised boundary slots are in
 the admission packet. The verified upstream G01/G02/G03 exits are recorded
 there as well.
@@ -47,13 +51,78 @@ EPIC-18 through EPIC-30 remain Backlog.
 
 - **Result:** `src/render/technical-flat-svg.ts` now emits fixed-order semantic SVG layers with stable source/revision metadata, physical centimeter dimensions, same-scale active-browser SVG font metrics, measured label bounds and a visible notice panel. Artwork is clearly shown as a placement boundary only when image bytes are absent. Invalid revisions, stale colorways, unmeasurable metrics and measured label collisions withhold the SVG.
 - **Acceptance:** parsed/browser fixture verifies geometry, layers, source/revision identity, colorway, POM target, marks, notice visibility and browser text bounds. The renderer blocks actual label collisions, labels crossing POM leaders and labels over artwork boundaries. The all-recipe default browser matrix renders eight of 14 faces; six are blocked by genuine text collisions in Polo, Woven-shirt and Trouser. This is a safe refusal and a concrete S273 reflow gate; V02 remains incomplete.
-- **Git:** started at S270 `2dc315730a1257a42eac8deee34436f72c84124e`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Slice 271 was reserved after checking active history; its commit is recorded at the next slice boundary.
+- **Git:** started at S270 `2dc315730a1257a42eac8deee34436f72c84124e`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Slice 271 landed as `1ded7df0e650c0df20bf2ca2c5a7878e96c4c7d0`.
 - **Verification:** `npm run coverage -- src/render/technical-flat-svg.test.ts --coverage.include=src/render/technical-flat-svg.ts` passes 10/10 at 100% statement, branch, function and line coverage; `npx tsc --noEmit` and `npm run build` pass. Browser sample label bounds match SVG `getBBox()` within 0.008 cm. The seven-recipe matrix covers all 14 default faces, with eight parsed views and six `TEXT_COLLISION` blocks. `npm run control-center:test` passes 33/33; protected export/DXF checks pass 24/24. No export, generic DXF, or protected identity source changed.
 - **Evidence:** detailed scope, verification, blockers, next action and time breakdown are in `docs/research/epic17/G04-V02-SVG-S271.md`. The screenshot/SVG and measured record are `S271-browser-sample.png`, `.svg`, `.json`; the full default matrix is `S271-browser-recipe-matrix.json`.
 - **Board:** validated Control Center linked `E-G04-S271-EXIT` to EPIC-17 and G04-V02 at revision 399; V02 stays In Progress. The estimate is 20–24 slices after the browser review exposed a six-face default label-reflow boundary. V01 remains Done and V03 remains Backlog.
 - **Manual findings:** MQF-004–007, MQF-011, MQF-012 and MQF-015 remain scheduled for the applicable rendered-output review at S274/S275. No finding was used to expand scope.
 - **Next action:** integrate live front/back rendering against active pattern/options/revision state in Slice 272; surface all assembly and renderer issues. Reflow all default-label collisions in Slice 273.
 - **Elapsed-time breakdown:** implementation/repair 13m; focused tests/coverage/type verification 8m; production build 3m; browser matrix/output review 7m; documentation/board 9m; external-agent waits 0m; maintainer-decision time 0m.
+
+### Slice 272 — live front/back technical-flat integration (start record)
+
+- **Goal start:** 2026-09-29 18:27:23 UTC. S271 landed as `1ded7df0e650c0df20bf2ca2c5a7878e96c4c7d0`. Refreshed `origin/main` is `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`, an ancestor. Board revision 399 retains G04-V02 In Progress; highest active slice is 271, so 272 is reserved.
+- **Scope:** add a compact advanced canvas view that composes front/back technical flats from the exact current drafted block, options, revision token, saved overlays and POMs. Transform source geometry by the existing sewn-role placements; provide explicit front/back selection. Surface mapping, option, assembly and measured-renderer issues in the view, and withhold drawings that cannot be assembled or are unreadable. Keep the existing pattern view and all exports unchanged.
+- **Acceptance:** all generated geometry, overlays and POM anchors on both faces share one block and revision token; supported options are validated without fallback or clamping; visible components use source-supported rigid role transforms; an assembly issue or renderer collision produces clear actionable status rather than a partial/misleading drawing; the current live flat updates after option, pattern, recipe and appearance changes. Actual browser review covers both faces and verifies source revision and issue visibility.
+- **Required gates:** focused tests at 100% statement/branch/function/line for changed production code; TypeScript and Vite build; mounted UI tests for live selection, refresh, stale/missing revision, validation/assembly/render failures and face switching; production-browser evidence; protected export identity and generic DXF checks; canonical board evidence through the validated command layer; `git diff --check`; update Architecture, Context Index, admission, Project State and V02 evidence.
+- **Blocking decisions:** none for a local live-draft view. Use a stable live draft token to bind the exact synchronous pattern snapshot; do not label it as a saved or externally accepted style revision. S273 separately owns font-metric label reflow for dense default recipe faces. Receiver/profile rights remain gated for V03.
+- **Delegation:** geometry, validation, POM and UI state share one source snapshot; no safe disjoint task identified and no external agent used.
+- **Next action:** add the live front/back view to the existing advanced canvas menu and compose its output from the selected exact pattern block.
+
+### Slice 272 — G04 V02 live technical-flat integration (complete)
+
+The existing advanced canvas now renders the selected front or back from one
+active recipe, exact pattern block, validated raw options, saved surface
+placements, selected fabric appearance, POM source and live-draft revision
+token. It states clearly that this token identifies a synchronous current
+draft view and is not saved style history. Pattern edits refresh the output;
+switching faces preserves the token. Invalid options, unavailable sizes,
+assembly problems and unreadable SVG output show status guidance and withhold
+the incomplete flat.
+
+Actual browser inspection exposed two presentation defects before acceptance:
+dark technical strokes/text disappeared on the dark app canvas, and a height-fit
+scaled a tall flat's labels to only a few pixels. SVG output now includes a
+white technical sheet and uses the current colorway as a translucent fabric
+tint. The flat canvas fits to the available width and scrolls tall output
+vertically. Chromium at 1440×2600 rendered a 1006 px wide Tee front and back
+with the same `live-draft:tee:0:0` identity and zero console/page errors; front
+label bounding boxes measured about 10 px at 100% canvas fit. The retained app
+captures and browser DOM SVGs are in
+`docs/research/epic17/G04-V02-LIVE-S272.md` and adjacent artifacts.
+
+The live pipeline has 5 focused tests and 100% changed-module coverage; the
+panel has 6 tests and 100% coverage; SVG renderer has 10 tests and 100% coverage.
+The mounted live integration test passes for face switching, revision binding,
+refresh after pattern edits, and visible Polo blocking. `npx tsc --noEmit` and
+`npm run build` pass with the repository's existing Vite large-chunk advisory.
+The protected DXF/export regression and identity group passes 24/24. No generic
+DXF, export source, or protected baseline changed. `git diff --check` passes.
+Full repository/global coverage and integrated browser/Electron/output replay
+remain required at the settled Epic/PR boundary.
+
+The sources report known limits instead of asserting completeness. Role
+assembly remains a rigid placement aid and does not turn source pieces into a
+qualified finished silhouette. Unmapped construction and POM sources remain
+visible notices, the default Polo/Woven-shirt/Trouser matrices are still
+withheld for measured text collisions, and the back Tee has table-only POMs
+without source anchors. No physical fit, sewability, factory acceptance or CAD
+compatibility claim is made. MQF-004–007, MQF-011, MQF-012 and MQF-015 remain
+scheduled for their mapped rendered-output review in S274/S275; they do not
+authorize additional scope.
+
+Canonical board revision 400 links verified rendered-output evidence
+`E-G04-S272-EXIT` to EPIC-17/G04-V02. G04 V02 stays In Progress and V03
+remains Backlog. S272 began at 2026-09-29 18:27:23 UTC and ended at 20:55 UTC
+(about 2h 28m): implementation and visual correction 93m; focused
+tests/coverage and debugging 28m; type/build, protected-output and board-test
+verification 4m; browser review and captures 15m; documentation and board exit
+8m; external-agent waits 0m; maintainer-decision time 0m. The S272 landed
+commit is recorded from the verified history at the next slice start.
+
+**Next action:** refresh refs, active slice history and the board for Slice 273;
+solve the six measured default-label collisions in Polo, Woven-shirt and
+Trouser while retaining the renderer's no-overlap/no-partial-output rule.
 
 ### Slice 265 — G04 V02 geometry basis (complete)
 

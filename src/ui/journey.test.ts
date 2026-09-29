@@ -63,7 +63,7 @@ describe("disclosureFor — progressive disclosure", () => {
     expect(disclosureFor("refine")).toEqual({
       controls: false, stretch: false, style: false, guidance: true,
       swatches: false, exports: false,
-      views: ["pattern", "body", "nest", "spec", "fabric", "check", "edit"],
+      views: ["pattern", "body", "nest", "spec", "fabric", "check", "edit", "flat"],
     });
   });
 
@@ -71,7 +71,7 @@ describe("disclosureFor — progressive disclosure", () => {
     const expected = {
       controls: false, stretch: false, style: false, guidance: true,
       swatches: false, exports: true,
-      views: ["pattern", "body", "nest", "spec", "fabric", "check", "edit"],
+      views: ["pattern", "body", "nest", "spec", "fabric", "check", "edit", "flat"],
     };
     expect(disclosureFor("output")).toEqual(expected);
     expect(disclosureFor("done")).toEqual(expected);

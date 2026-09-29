@@ -169,7 +169,7 @@ export function serialize(m: Measurements, fabric: string, garmentOptions: Garme
 }
 
 const LEGACY_REQUIRED = ["chest", "shoulderWidth", "bicep", "length", "armholeDepth", "sleeveLength", "ease"];
-const VIEWS = ["pattern", "body", "nest", "spec", "fabric", "check", "edit"];
+const VIEWS = ["pattern", "body", "nest", "spec", "fabric", "check", "edit", "flat"];
 
 export function deserialize(json: string): LoadResult {
   let p: unknown;

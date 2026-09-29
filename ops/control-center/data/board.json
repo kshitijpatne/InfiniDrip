@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 399,
-  "updatedAt": "2026-09-29T18:14:17.628Z",
+  "revision": 400,
+  "updatedAt": "2026-09-29T20:54:38.359Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -5494,7 +5494,8 @@
         "E-G04-S268-EXIT",
         "E-G04-S269-EXIT",
         "E-G04-S270-EXIT",
-        "E-G04-S271-EXIT"
+        "E-G04-S271-EXIT",
+        "E-G04-S272-EXIT"
       ],
       "flagKey": null
     },
@@ -6444,6 +6445,15 @@
       "sha256": null,
       "verified": true,
       "note": "Slice 271 adds layered, revision-bound centimeter SVG with measured browser text; 8/14 default faces render and parse, while 6 dense faces are blocked by actual-text collisions for Slice 273 reflow. Focused coverage is 100%, TypeScript and build pass."
+    },
+    {
+      "id": "E-G04-S272-EXIT",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/G04-V02-LIVE-S272.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Slice 272 integrates live revision-bound front/back flats; focused live, panel and SVG modules each pass at 100% coverage, browser captures verify same-revision readable-width output, and protected export/DXF checks pass 24/24. V02 remains In Progress for all-recipe reflow and option/MQF gates."
     }
   ]
 }

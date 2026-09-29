@@ -133,6 +133,11 @@ only through an explicitly admitted, linked Epic packet.
 - `src/render/technical-flat.ts` — Slice 263's versioned vector primitive,
   source/revision, semantic-layer, artwork and anchored-callout contract plus
   runtime validation. Recipe mapping and live rendering remain in progress.
+- `docs/research/epic17/G04-V02-LIVE-S272.md` — Slice 272's completed live
+  front/back canvas integration and retained real-browser output evidence. Its
+  runtime revision token binds one current draft snapshot and is not saved
+  revision or receiver acceptance evidence. Slice 273 owns measured reflow for
+  dense default labels.
 - `src/render/technical-flat-mapping.ts` and
   `docs/research/epic17/G04-V01-MAPPING-S264.md` — Slice 264's explicit
   seven-recipe role-to-face map, topology checks, option endpoint checks,
