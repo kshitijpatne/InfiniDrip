@@ -67,18 +67,18 @@ test("contributors can submit review but cannot complete work", () => {
   assert.equal(canTransition("Done", "In Progress", "reviewer"), false);
 });
 
-test("closed Epics 14 and 15 and gated future backlog match their evidence", () => {
+test("closed Epics 14–16 and gated future backlog match their evidence", () => {
   for (let index = 1; index <= 17; index += 1) {
     const id = `EPIC-${index + 13}`;
     const goal = `G${String(index).padStart(2, "0")}`;
     const epic = board.epics.find((entry) => entry.id === id);
     const card = board.workItems.find((entry) => entry.id === id);
-    const expectedEpicStatus = id === "EPIC-14" || id === "EPIC-15"
+    const expectedEpicStatus = id === "EPIC-14" || id === "EPIC-15" || id === "EPIC-16"
       ? "Closed"
-      : id === "EPIC-16" ? "In Progress" : "Backlog";
+      : "Backlog";
     const expectedCardStatus = id === "EPIC-14" || id === "EPIC-15"
       ? "Done"
-      : id === "EPIC-16" ? "In Progress" : "Backlog";
+      : id === "EPIC-16" ? "Done" : "Backlog";
     assert.equal(epic?.status, expectedEpicStatus);
     assert.equal(card?.status, expectedCardStatus);
     assert.equal(card?.type, "epic");
@@ -97,8 +97,9 @@ test("closed Epics 14 and 15 and gated future backlog match their evidence", () 
       ]);
       assert.equal(admittedWork[0].status, "Done");
       assert.deepEqual(admittedWork.slice(1).map((entry) => entry.status), [
-        "Done", "Done", "Review", "Done",
+        "Done", "Done", "Done", "Done",
       ]);
+      assert.equal(epic.status, "Closed");
       assert.deepEqual(admittedWork.map((entry) => entry.dependencies.at(-1)), [
         "EPIC-15", "EPIC16-M01", "EPIC16-M02", "EPIC16-M03-SAFETY", "EPIC16-M03",
       ]);
@@ -198,11 +199,11 @@ test("closed Epics 14 and 15 and gated future backlog match their evidence", () 
   assert.match(mergeExitReport, /e5155e82dbd21cda5b3f537b950eb4c32a22d215/);
   assert.match(mergeExitReport, /94ce7cdfc8faa73c1000343418a3347476f34cff/);
   assert.match(mergeExitReport, /46b78b76c799e54657c46e6fb0053c042a6b36eb/);
-  const futureEpics = board.epics.filter((entry) => /^EPIC-(1[6-9]|2\d|30)$/.test(entry.id));
-  assert.equal(futureEpics.length, 15);
-  assert.equal(futureEpics.find((entry) => entry.id === "EPIC-16")?.status, "In Progress");
-  assert.ok(futureEpics.filter((entry) => entry.id !== "EPIC-16").every((entry) => entry.status === "Backlog"),
-    "only admitted EPIC-16 leaves the future goals in Backlog");
+  const laterEpics = board.epics.filter((entry) => /^EPIC-(1[6-9]|2\d|30)$/.test(entry.id));
+  assert.equal(laterEpics.length, 15);
+  assert.equal(laterEpics.find((entry) => entry.id === "EPIC-16")?.status, "Closed");
+  assert.ok(laterEpics.filter((entry) => entry.id !== "EPIC-16").every((entry) => entry.status === "Backlog"),
+    "only completed EPIC-16 leaves the future goals in Backlog");
   const g02AdmissionEvidence = board.evidence.find((entry) => entry.id === "E-EPIC15-G02-ADMISSION-S229");
   const f01StorageContractEvidence = board.evidence.find((entry) => entry.id === "E-EPIC15-F01-STORAGE-S230");
   const f01RecordModelEvidence = board.evidence.find((entry) => entry.id === "E-EPIC15-F01-MODEL-S231");
