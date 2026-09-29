@@ -1538,16 +1538,20 @@ describe("mountApp", () => {
   });
 
   it("reports an Electron export write error without confirming export", async () => {
-    window.electronAPI = { saveFile: vi.fn().mockRejectedValue(new Error("disk unavailable")) };
+    localStorage.clear();
+    const saveFile = vi.fn().mockRejectedValue(new Error("disk unavailable"));
+    window.electronAPI = { saveFile };
     try {
       const root = mount();
       reachExportStage(root);
       clickId(root, "export-svg");
-      await vi.waitFor(() => expect(root.querySelector("#persist-status")!.textContent)
-        .toContain("Export failed"));
+      expect(saveFile).toHaveBeenCalledOnce();
+      await Promise.resolve();
+      expect(root.querySelector("#persist-status")!.textContent).toContain("Export failed");
       expect(root.querySelector("#journey-celebration")).toBeNull();
     } finally {
       delete window.electronAPI;
+      localStorage.clear();
     }
   });
 

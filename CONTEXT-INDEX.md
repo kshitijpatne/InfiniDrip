@@ -139,9 +139,10 @@ only through an explicitly admitted, linked Epic packet.
   the current merge gates and board state are summarized in S254–S256.
 - `docs/research/epic16/S254-G03-AUDIT-CORRECTIONS.md`,
   `docs/research/epic16/S255-FULL-GATE-TEST-ISOLATION.md`, and
-  `docs/research/epic16/S256-LOAD-STATE-AND-REVIEW-HANDOFF.md` — bounded
+  `docs/research/epic16/S256-LOAD-STATE-AND-REVIEW-HANDOFF.md`, and
+  `docs/research/epic16/S257-ELECTRON-STATUS-ASSERTION.md` — bounded
   final-review corrections, test-isolation evidence, independent final audits,
-  exact gate status, and the unresolved 100% coverage/build requirements.
+  exact gate outcomes, and the remaining 100% coverage requirement.
 - `docs/research/epic16/S250-EXPLICIT-GRADE-PLAN-RECORD-AND-REVIEW.md` — Slice
   250's exact scope, strict grade-plan fields, stale-approval boundary,
   migration/output non-goals, and exit checks. It does not supply a population,

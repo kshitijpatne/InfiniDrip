@@ -19,20 +19,26 @@ review. An explicit Save persists Single/Marker scope in the style revision;
 that can require a bound grade plan to be refreshed and approved again, and a
 custom one-size style loads in Single scope because Marker is unavailable.
 
-The most recent full coverage attempt on the S255 candidate passed 132/133
-files and 2,029/2,030 tests but emitted no global coverage table; its single
-failed transient-status assertion was fixed and the affected four tests passed
-in a focused run. S256's revised Load-state integration assertion passed 1/1
-with unrelated app tests skipped. The repository's 100% coverage gate is not
-yet confirmed for the final candidate. Production and Electron builds after
-S254 also remain pending. The Control Center suite and protected export
-identity tests passed on the S254 source; neither their implementation nor the
-export writers/baselines changed afterward. Reuse only those unaffected gates
-after verifying the exact candidate. Independent Claude Opus 5.5 high and
-OpenCode Muse Spark 1.3 xhigh audits found no G03 release-gating defect and
-agree that merge remains blocked until required gates and durable state are
-current. S256 evidence is in
-`docs/research/epic16/S256-LOAD-STATE-AND-REVIEW-HANDOFF.md`.
+The S255 full-coverage attempt passed 132/133 files and 2,029/2,030 tests but
+emitted no global coverage table; the stale-export test's temporary status
+assertion was corrected and its related four tests passed in a focused run.
+S256's revised Load-state integration assertion passed 1/1 with unrelated app
+tests skipped. The subsequent full-coverage attempt on S256 also passed
+132/133 files and 2,029/2,030 tests, this time with one Electron error-status
+assertion expiring before its poll. Slice 257 makes that assertion immediate;
+the focused test passed 1/1. The 100% coverage thresholds remain unconfirmed
+until the final Slice 257 full run emits a passing coverage table.
+
+Production and Electron builds passed on the S256 source; S257 changes only a
+test and documentation. The Control Center suite passed 33/33 on S253, and all
+nine protected export-identity tests passed in both S255 and S256 full attempts.
+Their implementations, exporter code, and baselines have not changed; reuse
+these unaffected results after checking candidate scope. Independent Claude
+Opus 5.5 high and OpenCode Muse Spark 1.3 xhigh audits found no G03
+release-gating defect and agree that merge remains blocked until the final
+coverage/build gates and durable state are current. Current handoffs are in
+`docs/research/epic16/S256-LOAD-STATE-AND-REVIEW-HANDOFF.md` and
+`docs/research/epic16/S257-ELECTRON-STATUS-ASSERTION.md`.
 
 The board is at revision 357; final review remains In Progress. PR #14 is open
 as a draft on `codex/epic16-g03`. Do not mark ready or merge until the exact
