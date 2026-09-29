@@ -81,6 +81,8 @@ export function transformFlatPrimitive(
       };
     case "circle":
       return { ...primitive, center: mapPoint(primitive.center, transform) };
+    case "mark":
+      return { ...primitive, at: mapPoint(primitive.at, transform) };
     case "text":
       return { ...primitive, at: mapPoint(primitive.at, transform) };
     case "artwork": {

@@ -84,12 +84,29 @@ interface FlatPrimitiveBase {
 export interface FlatPathPrimitive extends FlatPrimitiveBase {
   readonly kind: "path";
   readonly commands: readonly FlatPathCommand[];
+  readonly patternMark?: {
+    readonly kind: "cutLine" | "foldLine" | "placementLine";
+    readonly name: string;
+    readonly label?: string;
+    readonly labelRole?: "label" | "instruction";
+  };
 }
 
 export interface FlatCirclePrimitive extends FlatPrimitiveBase {
   readonly kind: "circle";
   readonly center: FlatPoint;
   readonly radius: number;
+}
+
+/** A source point mark has no authored glyph size. Keeping it semantic lets a
+ * renderer choose a screen-space symbol without inventing garment dimensions. */
+export interface FlatPointMarkPrimitive extends FlatPrimitiveBase {
+  readonly kind: "mark";
+  readonly markKind: "button" | "buttonhole" | "placementPoint";
+  readonly markName: string;
+  readonly at: FlatPoint;
+  readonly label?: string;
+  readonly labelRole?: "label" | "instruction";
 }
 
 export interface FlatTextPrimitive extends FlatPrimitiveBase {
@@ -126,6 +143,7 @@ export interface FlatCalloutPrimitive extends FlatPrimitiveBase {
 export type TechnicalFlatPrimitive =
   | FlatPathPrimitive
   | FlatCirclePrimitive
+  | FlatPointMarkPrimitive
   | FlatTextPrimitive
   | FlatArtworkPrimitive
   | FlatCalloutPrimitive;
@@ -186,19 +204,23 @@ function validatePath(primitive: FlatPathPrimitive): boolean {
   if (primitive.commands.length < 2 || first?.op !== "move" || !finitePoint(first.point)) return false;
 
   let hasOpenSubpath = true;
+  let hasDrawnInSubpath = false;
   for (const command of primitive.commands.slice(1)) {
     if (command.op === "move") {
-      if (hasOpenSubpath) return false;
+      if (hasOpenSubpath && !hasDrawnInSubpath) return false;
       hasOpenSubpath = true;
+      hasDrawnInSubpath = false;
     } else if (command.op === "close") {
       if (!hasOpenSubpath) return false;
       hasOpenSubpath = false;
+      hasDrawnInSubpath = false;
     } else {
       if (!hasOpenSubpath) return false;
       if (command.op === "line" && !finitePoint(command.point)) return false;
       if (command.op === "cubic" && !finitePoint(command.point)) return false;
       if (command.op === "cubic" && !finitePoint(command.control1)) return false;
       if (command.op === "cubic" && !finitePoint(command.control2)) return false;
+      hasDrawnInSubpath = true;
     }
   }
   return true;
@@ -219,10 +241,24 @@ function validatePrimitive(primitive: TechnicalFlatPrimitive): TechnicalFlatIssu
       if (!validatePath(primitive)) {
         issues.push({ code: "INVALID_GEOMETRY", entityId: primitive.id, message: "Path commands must form finite, ordered subpaths." });
       }
+      if (primitive.patternMark && (!nonBlank(primitive.patternMark.name)
+        || !["cutLine", "foldLine", "placementLine"].includes(primitive.patternMark.kind)
+        || (primitive.patternMark.label !== undefined && !nonBlank(primitive.patternMark.label))
+        || (primitive.patternMark.labelRole !== undefined && !["label", "instruction"].includes(primitive.patternMark.labelRole)))) {
+        issues.push({ code: "INVALID_GEOMETRY", entityId: primitive.id, message: "Pattern line-mark metadata needs a supported kind, name and valid optional label role." });
+      }
       break;
     case "circle":
       if (!finitePoint(primitive.center) || !Number.isFinite(primitive.radius) || primitive.radius <= 0) {
         issues.push({ code: "INVALID_GEOMETRY", entityId: primitive.id, message: "Circle geometry needs a finite center and positive radius." });
+      }
+      break;
+    case "mark":
+      if (!finitePoint(primitive.at) || !nonBlank(primitive.markName)
+        || !["button", "buttonhole", "placementPoint"].includes(primitive.markKind)
+        || (primitive.label !== undefined && !nonBlank(primitive.label))
+        || (primitive.labelRole !== undefined && !["label", "instruction"].includes(primitive.labelRole))) {
+        issues.push({ code: "INVALID_GEOMETRY", entityId: primitive.id, message: "Point marks need a supported kind, name, finite source point and optional non-empty label." });
       }
       break;
     case "text":

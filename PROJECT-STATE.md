@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 265 EPIC-17/G04 V02 geometry basis exit, 2026-09-29._
+_Last updated: Slice 266 EPIC-17/G04 V02 source-geometry compilation exit, 2026-09-29._
 Current directive: EPIC-14/G01, EPIC-15/G02, and EPIC-16/G03 are closed with
 accepted digital exit evidence. EPIC-16/G03 completed the admitted local-first
 scope under `docs/planning/EPIC-16-ADMISSION.md`; M01, M02, M03, final review,
@@ -18,7 +18,10 @@ seven recipes in `docs/research/epic17/G04-V01-SOURCE-INVENTORY.md`. Slice 263
 adds the versioned primitive contract and Slice 264 completes explicit
 role-to-face/source mapping in `src/render/technical-flat-mapping.ts`. V01 is
 complete; Slice 264 landed as `ef000b292c19a69462d4037a42b28740a9513532` and
-V02 is In Progress. The verified
+V02 is In Progress. Slice 265 landed as
+`01a1c4b637615eb7ce9f3133626e9b84abf8e431`; Slice 266 now adds exact
+revision-bound source geometry, with assembly and visible seam policy still
+open. The verified
 upstream G01/G02/G03 exits and 16–20-slice estimate are in the admission packet.
 EPIC-18 through EPIC-30 remain Backlog.
 
@@ -41,6 +44,38 @@ recipes. These are geometric fixtures, not live rendered flats. Board revision
 block outlines and construction marks in Slice 266. Elapsed time: implementation
 8m; focused verification 4m; build 1m; board transition/regression 2m; external-
 agent waits 0m; maintainer-decision time 0m.
+
+### Slice 266 — G04 V02 source geometry (start record)
+
+Started at 2026-09-29 15:37:14 UTC from S265 commit
+`01a1c4b637615eb7ce9f3133626e9b84abf8e431`; highest assigned slice was 265.
+`origin/main` at `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor and
+the canonical board is revision 388 with G04-V02 In Progress. This slice will
+extract mapped role outlines, declared dart legs and construction marks with
+their exact source geometry and revision. The output stays component-local;
+later assembly and rendering determine presentation. Required focused 100%
+coverage, build, all-seven-recipe drafted fixtures, board evidence and export
+identity gates are recorded in the admission packet. No blocking decision; no
+safe delegated ownership.
+
+### Slice 266 — G04 V02 source geometry (complete)
+
+`src/render/technical-flat-geometry.ts` compiles mapped role outlines into
+exact line/cubic source subpaths, emits declared dart legs and construction
+marks, and binds each primitive to its source role/mark and current revision.
+Point marks preserve kind and coordinate without an assumed radius; line marks
+retain kind, label and annotation role. Internal pieces stay hidden with an
+explicit notice, and stitch relations are not drawn as visible seams. Focused
+coverage passes 20/20 with 100% statement, branch, function and line coverage
+across the compiler, primitive validator and rigid transform. The TypeScript/
+Vite build passes with the existing large-chunk advisory. Fixtures draft all
+seven recipes at defaults and each declared numeric option's min/max endpoint,
+checking both mapped faces. This is source geometry evidence, not an assembled
+or rendered flat. Board revision 389 links verified evidence
+`E-G04-S266-EXIT` to G04-V02. Next: resolve supported option topology and
+construction-detail display rules in Slice 267. Elapsed time: implementation
+7m; focused verification and repairs 5m; build 0m 18s; documentation/board
+exit 3m; external-agent waits 0m; maintainer-decision time 0m.
 
 ### Slice 262 — G04 V01 source inventory (complete)
 

@@ -142,6 +142,11 @@ only through an explicitly admitted, linked Epic packet.
   dimensions, source/revision identity and semantic layer while rejecting
   scaling and invalid coordinates. It does not assemble or render the live
   front/back views by itself.
+- `src/render/technical-flat-geometry.ts` — Slice 266's revision-bound
+  component source geometry compiler for mapped role outlines, dart legs and
+  pattern marks. Coordinates remain component-local; hidden interior roles and
+  unsupported sources stay explicit instead of being inferred as visible
+  garment features.
 - `docs/research/epic16/S250-EXIT.md` — verified S250 completion, test/build/
   browser evidence, and the remaining S251 integration boundary.
 - `docs/research/epic16/S251-EXIT.md` and

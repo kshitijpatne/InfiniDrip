@@ -197,6 +197,12 @@ preserved. Scaling and invalid or overflowing coordinates are rejected. Its
 geometry fixtures preserve drafted edge lengths across all seven default
 recipes, but it does not assemble or render the live views. The existing
 Assembled view remains schematic and is not used as pattern-derived evidence.
+`src/render/technical-flat-geometry.ts` now compiles mapped block outlines,
+declared dart legs and construction marks into exact, revision-bound vector
+source geometry. Point marks keep their source kind and coordinate without an
+assumed symbol radius, while line marks retain their authored label metadata.
+The compiled paths stay in their component-local coordinates until later V02
+assembly rules place them.
 
 The **Edit** view keeps user-authored deltas against stable recipe-owned
 anchors, rather than saving a disconnected picture. Pointer drags and keyboard

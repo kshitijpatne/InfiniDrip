@@ -77,6 +77,9 @@ describe("technical-flat rigid transforms", () => {
       at: { x: 2, y: 3 }, text: "Button" };
     expect(transformFlatPrimitive(circle, rotateMirror)).toMatchObject({ center: { x: 7, y: 18 }, radius: 0.25, id: "button" });
     expect(transformFlatPrimitive(text, rotateMirror)).toMatchObject({ at: { x: 7, y: 18 }, text: "Button", id: "note" });
+    const mark: TechnicalFlatPrimitive = { kind: "mark", id: "button-mark", layer: "CLOSURE", feature: "closure", source,
+      markKind: "button", markName: "button-1", at: { x: 2, y: 3 } };
+    expect(transformFlatPrimitive(mark, rotateMirror)).toMatchObject({ at: { x: 7, y: 18 }, markName: "button-1" });
   });
 
   it("transforms artwork placement and preserves its true scale and paint order", () => {

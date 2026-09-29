@@ -37,6 +37,8 @@ describe("validateTechnicalFlat", () => {
       path(),
       { kind: "circle", id: "button-1", layer: "CLOSURE", feature: "closure", source,
         center: { x: 3, y: 4 }, radius: 0.25 },
+      { kind: "mark", id: "button-point", layer: "CLOSURE", feature: "closure", source,
+        markKind: "button", markName: "button-1", at: { x: 3, y: 4 }, label: "Top button" },
       { kind: "text", id: "label", layer: "ANNOTATION", feature: "annotation", source,
         at: { x: 5, y: 8 }, text: "Front" },
       { kind: "artwork", id: "graphic", layer: "ARTWORK", feature: "artwork", source,
@@ -112,6 +114,17 @@ describe("validateTechnicalFlat", () => {
       { op: "move", point: { x: 4, y: 4 } }, { op: "line", point: { x: 5, y: 5 } },
     ] };
     expect(validateTechnicalFlat(view([multiSubpath]))).toEqual([]);
+    const independentOpenEdges: TechnicalFlatPrimitive = { ...path("open-edges"), commands: [
+      { op: "move", point: { x: 0, y: 0 } }, { op: "line", point: { x: 2, y: 0 } },
+      { op: "move", point: { x: 8, y: 0 } },
+      { op: "cubic", control1: { x: 8, y: 1 }, control2: { x: 9, y: 1 }, point: { x: 9, y: 0 } },
+    ] };
+    expect(validateTechnicalFlat(view([independentOpenEdges]))).toEqual([]);
+    const markedLine: FlatPathPrimitive = { ...path("marked-line"), patternMark: {
+      kind: "foldLine", name: "placket-fold", label: "Fold to inside", labelRole: "instruction",
+    } };
+    expect(validateTechnicalFlat(view([markedLine]))).toEqual([]);
+    expect(codes(view([{ ...markedLine, patternMark: { ...markedLine.patternMark!, name: " " } }]))).toEqual(["INVALID_GEOMETRY"]);
   });
 
   it("validates circles and labels", () => {
@@ -122,6 +135,20 @@ describe("validateTechnicalFlat", () => {
     expect(codes(view([badCircle, badText]))).toEqual([
       "INVALID_GEOMETRY", "INVALID_GEOMETRY", "INVALID_TEXT",
     ]);
+  });
+
+  it("validates exact-size-free source point marks", () => {
+    const valid: TechnicalFlatPrimitive = { kind: "mark", id: "button-point", layer: "CLOSURE", feature: "closure", source,
+      markKind: "buttonhole", markName: "neck-buttonhole", at: { x: 2, y: 3 } };
+    expect(validateTechnicalFlat(view([valid]))).toEqual([]);
+    const invalid: TechnicalFlatPrimitive[] = [
+      { ...valid, id: "bad-point", at: { x: Number.NaN, y: 1 } },
+      { ...valid, id: "bad-name", markName: " " },
+      { ...valid, id: "bad-kind", markKind: "unknown" as "buttonhole" },
+      { ...valid, id: "bad-label", label: " " },
+      { ...valid, id: "bad-label-role", labelRole: "caption" as "label" },
+    ];
+    expect(codes(view(invalid))).toEqual(Array(invalid.length).fill("INVALID_GEOMETRY"));
   });
 
   it("requires bounded artwork metadata and finite transforms", () => {
