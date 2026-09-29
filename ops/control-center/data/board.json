@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 357,
-  "updatedAt": "2026-09-28T17:21:53.981Z",
+  "revision": 362,
+  "updatedAt": "2026-09-29T07:05:52.039Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -5112,7 +5112,7 @@
       "title": "EPIC-16 — Final review, merge and G03 exit",
       "epicId": "EPIC-16",
       "releaseId": null,
-      "status": "In Progress",
+      "status": "Review",
       "openedAt": "2026-09-26",
       "targetAt": null,
       "deliveredAt": null,
@@ -5166,11 +5166,22 @@
           "role": "contributor",
           "note": "Start the final review workstream with S252 safety remediation and S251 PR merge recorded as explicit prerequisites before S253 closure.",
           "evidenceRefs": []
+        },
+        {
+          "status": "Review",
+          "at": "2026-09-29T07:01:36.979Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "Slice 258 final digital review and the exact-candidate full coverage gate are complete; submit the reviewed tree for merge verification.",
+          "evidenceRefs": [
+            "E-EPIC16-S258-FINAL-REVIEW"
+          ]
         }
       ],
       "comments": [],
       "evidenceRefs": [
-        "E-EPIC16-S251-EXIT"
+        "E-EPIC16-S251-EXIT",
+        "E-EPIC16-S258-FINAL-REVIEW"
       ],
       "flagKey": null
     },
@@ -5180,10 +5191,10 @@
       "title": "EPIC-16 M03 — Grade-run safety remediation",
       "epicId": "EPIC-16",
       "releaseId": null,
-      "status": "Review",
+      "status": "Done",
       "openedAt": "2026-09-28",
       "targetAt": null,
-      "deliveredAt": null,
+      "deliveredAt": "2026-09-29",
       "priority": "P0",
       "risk": "high",
       "owner": "Codex",
@@ -5237,6 +5248,17 @@
           "actor": "Codex",
           "role": "contributor",
           "note": "Slice 252 implementation, verification evidence, and limitations are submitted for independent final review.",
+          "evidenceRefs": [
+            "E-EPIC16-S252-EXIT",
+            "E-EPIC16-S252-VERIFICATION"
+          ]
+        },
+        {
+          "status": "Done",
+          "at": "2026-09-29T07:02:16.458Z",
+          "actor": "Codex",
+          "role": "reviewer",
+          "note": "Reviewed Slice 252 safety remediation and S254 corrections against exact POM, saved-plan coherence, per-size validation, output gating, current full coverage, and rendered/output evidence.",
           "evidenceRefs": [
             "E-EPIC16-S252-EXIT",
             "E-EPIC16-S252-VERIFICATION"
@@ -6052,6 +6074,15 @@
       "sha256": "58ab9fbccbaa433551c5078067a42734fa78918df5a82ca13be4842da3129860",
       "verified": true,
       "note": "Machine-readable Slice 252 gate results and rendered browser review. Distinct-size output limitation is disclosed."
+    },
+    {
+      "id": "E-EPIC16-S258-FINAL-REVIEW",
+      "kind": "document",
+      "uri": "docs/research/epic16/S258-G03-FINAL-REVIEW.md",
+      "commit": null,
+      "sha256": "1de856d33f805acd2242dba0b93adde45ff47214af1e9e822a1db37749317515",
+      "verified": true,
+      "note": "SHA-256 verified final review document; its full-coverage and gate claims are tied to the explicitly named source candidate."
     }
   ]
 }

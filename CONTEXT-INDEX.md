@@ -142,7 +142,9 @@ only through an explicitly admitted, linked Epic packet.
   `docs/research/epic16/S256-LOAD-STATE-AND-REVIEW-HANDOFF.md`, and
   `docs/research/epic16/S257-ELECTRON-STATUS-ASSERTION.md` — bounded
   final-review corrections, test-isolation evidence, independent final audits,
-  exact gate outcomes, and the remaining 100% coverage requirement.
+  and the exact S257 full-coverage pass. `S258-G03-FINAL-REVIEW.md` records the
+  final local gates, product limits, and remaining merge/board/deployment
+  checks.
 - `docs/research/epic16/S250-EXPLICIT-GRADE-PLAN-RECORD-AND-REVIEW.md` — Slice
   250's exact scope, strict grade-plan fields, stale-approval boundary,
   migration/output non-goals, and exit checks. It does not supply a population,

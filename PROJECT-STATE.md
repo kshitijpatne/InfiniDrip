@@ -1,7 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: EPIC-16/G03 Slices 254–256 review follow-ups in progress,
-2026-09-29._
+_Last updated: EPIC-16/G03 Slice 258 final review, 2026-09-29._
 Current directive: EPIC-14/G01 and EPIC-15/G02 are closed with accepted exit
 evidence. EPIC-16/G03 remains the active, admitted local-first digital scope
 under `docs/planning/EPIC-16-ADMISSION.md`; M01, M02, and M03 are implemented,
@@ -19,32 +18,33 @@ review. An explicit Save persists Single/Marker scope in the style revision;
 that can require a bound grade plan to be refreshed and approved again, and a
 custom one-size style loads in Single scope because Marker is unavailable.
 
-The S255 full-coverage attempt passed 132/133 files and 2,029/2,030 tests but
-emitted no global coverage table; the stale-export test's temporary status
-assertion was corrected and its related four tests passed in a focused run.
-S256's revised Load-state integration assertion passed 1/1 with unrelated app
-tests skipped. The subsequent full-coverage attempt on S256 also passed
-132/133 files and 2,029/2,030 tests, this time with one Electron error-status
-assertion expiring before its poll. Slice 257 makes that assertion immediate;
-the focused test passed 1/1. The 100% coverage thresholds remain unconfirmed
-until the final Slice 257 full run emits a passing coverage table.
+The S255 and S256 full-coverage attempts each had one transient app-test failure
+and did not emit a global coverage table. S257 made the Electron error assertion
+deterministic; its focused regression passed 1/1. The single final full run on
+exact S257 candidate `14dc0a76acae63ab7ec909988f49f428fb718e9c` completed with
+100% statements (24,073/24,073), functions (1,453/1,453), branches
+(11,081/11,081), and lines (24,073/24,073). The protected export-identity
+suite passed 9/9 in that run. No coverage rerun is needed.
 
-Production and Electron builds passed on the S256 source; S257 changes only a
-test and documentation. The Control Center suite passed 33/33 on S253, and all
-nine protected export-identity tests passed in both S255 and S256 full attempts.
-Their implementations, exporter code, and baselines have not changed; reuse
-these unaffected results after checking candidate scope. Independent Claude
+Production and Electron builds passed on S254; S255–S257 change only tests and
+documentation, so no production source changed after the passing builds. The
+Control Center suite passed 33/33 on S253, with no Control Center code changes
+since. Independent Claude
 Opus 5.5 high and OpenCode Muse Spark 1.3 xhigh audits found no G03
 release-gating defect and agree that merge remains blocked until the final
 coverage/build gates and durable state are current. Current handoffs are in
 `docs/research/epic16/S256-LOAD-STATE-AND-REVIEW-HANDOFF.md` and
 `docs/research/epic16/S257-ELECTRON-STATUS-ASSERTION.md`.
 
-The board is at revision 357; final review remains In Progress. PR #14 is open
-as a draft on `codex/epic16-g03`. Do not mark ready or merge until the exact
-candidate clears its required gates and the validated Control Center records
-the verified exit. See `docs/research/epic16/S253-G03-FINAL-REVIEW.md` and the
-S254–S256 handoff reports for current evidence and limitations.
+The board is at revision 362; M03 safety is Done and final review is in Review.
+PR #14 is open as a draft on `codex/epic16-g03`. The exact application source
+candidate's local coverage gate passes, and the Control Center suite passes
+33/33 against the current canonical board. See
+`docs/research/epic16/S258-G03-FINAL-REVIEW.md` and S254–S257 for evidence and
+limitations. Remaining steps are to mark the PR ready, merge while preserving
+Slice commits, verify its ancestry and tree on `origin/main`, close the board
+through validated commands, and verify the automatic GitHub Actions
+deployment from the merged main commit.
 Slice 247
 completed M01's durable resume, conflict, narrow-layout, accessibility, and
 all-recipe exits. Slice 248 completed deterministic custom one-size
