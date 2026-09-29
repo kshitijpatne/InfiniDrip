@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 381,
-  "updatedAt": "2026-09-29T14:39:57.839Z",
+  "revision": 382,
+  "updatedAt": "2026-09-29T14:46:40.893Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -5346,7 +5346,7 @@
       "title": "G04 V01: technical-flat primitives and source-to-view map",
       "epicId": "EPIC-17",
       "releaseId": null,
-      "status": "Ready",
+      "status": "In Progress",
       "openedAt": "2026-09-29",
       "targetAt": null,
       "deliveredAt": null,
@@ -5384,6 +5384,14 @@
           "actor": "Maintainer",
           "role": "maintainer",
           "note": "V01 is the next admitted packet after Slice 261 admission.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-09-29T14:46:40.893Z",
+          "actor": "Maintainer",
+          "role": "maintainer",
+          "note": "Start Slice 262 source inventory for the V01 technical-flat primitive and seven-recipe source-to-view contract.",
           "evidenceRefs": []
         }
       ],

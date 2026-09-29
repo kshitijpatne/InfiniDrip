@@ -125,6 +125,10 @@ only through an explicitly admitted, linked Epic packet.
   G04 admission from verified `origin/main`, ordered V01 → V02 → V03 scope,
   estimate, rights/receiver gate, acceptance evidence and merge exit. V01 is
   the immediate next action; no G04 implementation is claimed by admission.
+- `docs/research/epic17/G04-V01-SOURCE-INVENTORY.md` — Slice 262's observed
+  source inventory and seven-recipe front/back candidate map. It records what
+  pattern, stitch, mark, option, artwork and POM data can support and where
+  missing construction semantics must remain visible.
 - `docs/research/epic16/S250-EXIT.md` — verified S250 completion, test/build/
   browser evidence, and the remaining S251 integration boundary.
 - `docs/research/epic16/S251-EXIT.md` and

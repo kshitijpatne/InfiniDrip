@@ -72,9 +72,20 @@ The initial estimated range is 16–20 slices. The planned slots above are a wor
 - **Result:** EPIC-17/G04 admitted; V01 is the immediate next action. Implementation has not begun in this slice.
 - **Acceptance:** admission gates passed after board and document validation; V01–V03 product acceptance remains pending.
 - **Git:** starting tree `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`; latest assigned slice before admission 260; S261 reserved. Original checkout's pre-existing untracked artifacts were not copied, modified or deleted.
-- **Board:** canonical revision 381. The validated command layer moved the Epic and summary card to `In Progress`, linked this packet, created `G04-V01` (`Ready`), `G04-V02` (`Backlog`, depends on V01), and `G04-V03` (`Backlog`, depends on V02), and recorded the maintainer admission note.
+- **Board:** canonical revision 381 at admission. The validated command layer moved the Epic and summary card to `In Progress`, linked this packet, created `G04-V01` (`Ready`), `G04-V02` (`Backlog`, depends on V01), and `G04-V03` (`Backlog`, depends on V02), and recorded the maintainer admission note. Slice 262 moved V01 to `In Progress` through the same command layer at revision 382.
 - **Verification:** `npm run control-center:test` passes 33/33 after updating the board regression expectation; `git diff --check` passes. The first Control Center run failed 1/33 because a test still expected EPIC-17 to remain Backlog; the regression now asserts the admitted state, packet link, work-card order/dependencies, and remaining backlog. No product tests/builds are in scope for this documentation/board-only slice.
 - **Blockers:** none for V01. V03 receiver/license choice is a gated unresolved fact.
 - **Remaining dependency:** start V01 after the S261 admission commit.
 - **Next action:** execute V01's source-to-view inventory and primitive contract under the V01 gate.
 - **Elapsed-time breakdown:** context and admission implementation 15m 00s; focused verification and correction 4m 03s; external-agent wait 0m; maintainer-decision time 0m.
+
+## Slice 262 source inventory exit record (complete)
+
+- **Result:** `docs/research/epic17/G04-V01-SOURCE-INVENTORY.md` records source capabilities and construction-data gaps, plus front/back candidates for all seven recipes. No product code or export behavior changed.
+- **Acceptance:** each source category is tied to the existing model; missing visibility/topstitch/pleat/closure/finish metadata is explicit; source absence is not treated as proof of real-garment absence.
+- **Git:** started at `89d7cf780d155bfb4331371000f2b166b34bad35`; latest assigned slice was 261; S262 reserved. `origin/main` remains the verified admission base pending the final PR.
+- **Board:** revision 382; `G04-V01` is `In Progress`, transitioned through `executeBoardCommand`.
+- **Verification:** `npm run control-center:test` passed 33/33 after updating the board regression expectation. Source assertions were checked against the pattern, recipe, style, mark, POM and stitch definitions and the C04 contract. No production source changed, so focused production coverage was not applicable.
+- **Blockers:** none for V01. Exact role assembly and primitive semantics remain open implementation work. V03 receiver/profile rights remains gated.
+- **Next action:** define typed vector primitives and their versioned source references with focused coverage for changed production code.
+- **Elapsed-time breakdown:** implementation/source review 5m 02s; focused verification 1m 20s; external-agent wait 0m; maintainer-decision time 0m.

@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 261 EPIC-17/G04 admission, 2026-09-29._
+_Last updated: Slice 262 EPIC-17/G04 V01 source inventory, 2026-09-29._
 Current directive: EPIC-14/G01, EPIC-15/G02, and EPIC-16/G03 are closed with
 accepted digital exit evidence. EPIC-16/G03 completed the admitted local-first
 scope under `docs/planning/EPIC-16-ADMISSION.md`; M01, M02, M03, final review,
@@ -10,11 +10,29 @@ merge, board closure, and automatic deployment are complete. GitHub Actions run
 site `https://infinidrip-preview.pages.dev/` returned HTTP 200.
 EPIC-17/G04 was explicitly admitted by the maintainer on 2026-09-29 from
 verified `origin/main` commit `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`.
-Slice 261 records admission, links `docs/planning/EPIC-17-ADMISSION.md`, and
-transitions the canonical board through its validated command layer. V01 is
-next; implementation has not started. The verified upstream G01/G02/G03 exits
-and 16–20-slice estimate are in the admission packet. EPIC-18 through EPIC-30
-remain Backlog.
+Slice 261 records admission as commit
+`89d7cf780d155bfb4331371000f2b166b34bad35`, links `docs/planning/EPIC-17-ADMISSION.md`, and
+transitions the canonical board through its validated command layer. Slice 262
+records the current source inventory and front/back mapping candidates for all
+seven recipes in `docs/research/epic17/G04-V01-SOURCE-INVENTORY.md`. V01 remains
+in progress; typed primitives and exact face mapping are next. The verified
+upstream G01/G02/G03 exits and 16–20-slice estimate are in the admission packet.
+EPIC-18 through EPIC-30 remain Backlog.
+
+### Slice 262 — G04 V01 source inventory (complete)
+
+Started at 2026-09-29 14:45:09 UTC from admission commit
+`89d7cf780d155bfb4331371000f2b166b34bad35`; highest assigned slice at start was
+261. Inventory records existing pattern outlines, stitch relationships,
+construction marks, recipe options, artwork placements and POM anchors, then
+maps front/back candidates for Tee, Darted tee, Tank, Polo, Woven shirt, Skirt
+and Trouser. It distinguishes current source data from missing visibility,
+topstitch, pleat, finish and trim semantics. No product code changed. Canonical
+board revision 382 has G04-V01 In Progress. `npm run control-center:test`
+passed 33/33 after its status regression was updated. The next action is the
+versioned primitive/source-reference model under V01. Elapsed time: inventory
+implementation and source review 5m 02s; focused verification 1m 20s; external
+agent waits 0m; maintainer-decision time 0m.
 
 ### Slice 261 — admit EPIC-17 / G04 (complete)
 
