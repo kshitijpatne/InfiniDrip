@@ -203,6 +203,11 @@ source geometry. Point marks keep their source kind and coordinate without an
 assumed symbol radius, while line marks retain their authored label metadata.
 The compiled paths stay in their component-local coordinates until later V02
 assembly rules place them.
+`src/render/technical-flat-options.ts` checks raw recipe-option values before
+calling a recipe draft, so invalid user values cannot be hidden by a resolver's
+fallback. A valid draft must pass role/stitch/POM and front/back source-geometry
+checks before its pair is returned. This is a model gate; live UI rendering and
+visible finished-seam rules remain in progress.
 
 The **Edit** view keeps user-authored deltas against stable recipe-owned
 anchors, rather than saving a disconnected picture. Pointer drags and keyboard

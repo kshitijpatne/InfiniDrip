@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 389,
-  "updatedAt": "2026-09-29T15:53:50.489Z",
+  "revision": 390,
+  "updatedAt": "2026-09-29T16:06:43.401Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -5477,7 +5477,8 @@
       "evidenceRefs": [
         "E-G04-S264-EXIT",
         "E-G04-S265-EXIT",
-        "E-G04-S266-EXIT"
+        "E-G04-S266-EXIT",
+        "E-G04-S267-EXIT"
       ],
       "flagKey": null
     },
@@ -6382,6 +6383,15 @@
       "sha256": null,
       "verified": true,
       "note": "Slice 266 exact revision-bound source geometry for mapped outlines, darts and marks across all seven drafted recipes and supported numeric option endpoints; focused 100% coverage and build pass; not an assembled rendered flat."
+    },
+    {
+      "id": "E-G04-S267-EXIT",
+      "kind": "document",
+      "uri": "docs/planning/EPIC-17-ADMISSION.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Slice 267 pre-draft option range/step validation, actual both-face role/stitch/POM/geometry topology gate, all-seven-recipe option boundary drafts, 100% focused coverage and passing build."
     }
   ]
 }

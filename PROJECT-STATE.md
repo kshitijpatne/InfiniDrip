@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 266 EPIC-17/G04 V02 source-geometry compilation exit, 2026-09-29._
+_Last updated: Slice 267 EPIC-17/G04 V02 option/topology validation exit, 2026-09-29._
 Current directive: EPIC-14/G01, EPIC-15/G02, and EPIC-16/G03 are closed with
 accepted digital exit evidence. EPIC-16/G03 completed the admitted local-first
 scope under `docs/planning/EPIC-16-ADMISSION.md`; M01, M02, M03, final review,
@@ -42,8 +42,8 @@ preserve drafted edge lengths for every mapped role across all seven default
 recipes. These are geometric fixtures, not live rendered flats. Board revision
 388 links verified evidence `E-G04-S265-EXIT` to G04-V02. Next: convert mapped
 block outlines and construction marks in Slice 266. Elapsed time: implementation
-8m; focused verification 4m; build 1m; board transition/regression 2m; external-
-agent waits 0m; maintainer-decision time 0m.
+8m; focused verification and repairs 7m; build 0m 40s; board/documentation exit
+3m 30s; external-agent waits 0m; maintainer-decision time 0m.
 
 ### Slice 266 — G04 V02 source geometry (start record)
 
@@ -76,6 +76,39 @@ or rendered flat. Board revision 389 links verified evidence
 construction-detail display rules in Slice 267. Elapsed time: implementation
 7m; focused verification and repairs 5m; build 0m 18s; documentation/board
 exit 3m; external-agent waits 0m; maintainer-decision time 0m.
+
+### Slice 267 — G04 V02 option/topology validation (start record)
+
+Started at 2026-09-29 15:57:52 UTC from S266 commit
+`3a6d7ec3431bef252486eda8a903fbc3b2d8ae3f`; highest assigned slice was 266.
+`origin/main` at `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor;
+the canonical board is revision 389 with G04-V02 In Progress. This slice
+validates supplied option keys, numeric ranges and declared increments before
+drafting, then checks actual role, stitch and geometry topology for both faces.
+Invalid supplied values must remain actionable errors instead of falling
+through recipe resolver defaults. Required focused 100% coverage, build,
+all-recipe option-boundary drafts and board evidence are in the admission
+packet. No blocking decision or safe delegated work.
+
+### Slice 267 — G04 V02 option/topology validation (complete)
+
+`src/render/technical-flat-options.ts` validates raw keys, finite numeric
+values, declared ranges and increments before recipe draft functions run, so
+their fallback behavior cannot hide an invalid supplied option. Omitted
+controls use declared defaults. Valid values draft both front and back and must
+pass actual role, stitch, POM-anchor and source-geometry checks before either
+face is returned. Invalid topology or geometry returns actionable issues and
+no partial face result. Focused coverage passes 6/6 with 100% statement,
+branch, function and line coverage. `npm run build` passes with the existing
+Vite chunk advisory; `npm run control-center:test` passes 33/33. Draft fixtures
+exercise all seven recipes at defaults and each declared option min/max one at
+a time, plus a combined valid woven-shirt configuration and malformed/range/
+step/topology/geometry failures. Board revision 390 links verified evidence
+`E-G04-S267-EXIT`. No live rendering exists yet; MQF reviews remain at the later
+V02 output gate. Next: bind applicable artwork and color presentation overlays
+to visible source geometry in Slice 268. Elapsed time: implementation 4m;
+focused verification and repair 2m; TypeScript/Vite build 0m 30s; board and
+documentation exit 2m 30s; external-agent waits 0m; maintainer-decision time 0m.
 
 ### Slice 262 — G04 V01 source inventory (complete)
 

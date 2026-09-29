@@ -147,6 +147,10 @@ only through an explicitly admitted, linked Epic packet.
   pattern marks. Coordinates remain component-local; hidden interior roles and
   unsupported sources stay explicit instead of being inferred as visible
   garment features.
+- `src/render/technical-flat-options.ts` — Slice 267's raw option and
+  topology gate. It checks recipe keys, finite values, declared ranges and
+  increments before drafting, then requires valid source mapping and geometry
+  on both faces; invalid input returns corrections without partial geometry.
 - `docs/research/epic16/S250-EXIT.md` — verified S250 completion, test/build/
   browser evidence, and the remaining S251 integration boundary.
 - `docs/research/epic16/S251-EXIT.md` and
