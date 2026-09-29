@@ -184,9 +184,14 @@ its source class and source revision, semantic layer and feature, and geometry
 in centimetres. Front and back views have distinct view kinds. Artwork retains
 its placement transform and stack order. A callout must point to geometry in
 the same view, and missing construction sources are represented as explicit
-notices. This model is the V01 contract; recipe mapping and live rendered flats
-are still in progress. The existing Assembled view remains schematic and is not
-used as pattern-derived evidence.
+notices. This model is the V01 contract; explicit role-to-face mapping is now
+recorded for all seven admitted recipes in
+`src/render/technical-flat-mapping.ts`. Exact role membership is checked
+against each drafted block and supported option endpoints. Stitch visibility
+remains unresolved until a drawing rule has source evidence; missing
+topstitch/pleat data stays visible as a notice. Live rendered flats are still
+in progress. The existing Assembled view remains schematic and is not used as
+pattern-derived evidence.
 
 The **Edit** view keeps user-authored deltas against stable recipe-owned
 anchors, rather than saving a disconnected picture. Pointer drags and keyboard

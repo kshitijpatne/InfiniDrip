@@ -132,6 +132,11 @@ only through an explicitly admitted, linked Epic packet.
 - `src/render/technical-flat.ts` — Slice 263's versioned vector primitive,
   source/revision, semantic-layer, artwork and anchored-callout contract plus
   runtime validation. Recipe mapping and live rendering remain in progress.
+- `src/render/technical-flat-mapping.ts` and
+  `docs/research/epic17/G04-V01-MAPPING-S264.md` — Slice 264's explicit
+  seven-recipe role-to-face map, topology checks, option endpoint checks,
+  construction-source mapping and unsupported-source notices. Actual assembled
+  coordinates and live rendering are V02 work.
 - `docs/research/epic16/S250-EXIT.md` — verified S250 completion, test/build/
   browser evidence, and the remaining S251 integration boundary.
 - `docs/research/epic16/S251-EXIT.md` and

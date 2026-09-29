@@ -94,7 +94,8 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
       assert.deepEqual(card.dependencies, ["EPIC-14", "EPIC-15", "EPIC-16"]);
       const admittedWork = board.workItems.filter((entry) => entry.epicId === id && entry.id !== id);
       assert.deepEqual(admittedWork.map((entry) => entry.id), ["G04-V01", "G04-V02", "G04-V03"]);
-      assert.deepEqual(admittedWork.map((entry) => entry.status), ["In Progress", "Backlog", "Backlog"]);
+      assert.deepEqual(admittedWork.map((entry) => entry.status), ["Done", "Ready", "Backlog"]);
+      assert.ok(admittedWork[0].evidenceRefs.includes("E-G04-S264-EXIT"));
       assert.deepEqual(admittedWork.map((entry) => entry.dependencies), [[], ["G04-V01"], ["G04-V02"]]);
     }
     if (id === "EPIC-16") {

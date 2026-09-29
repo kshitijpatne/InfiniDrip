@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 383,
-  "updatedAt": "2026-09-29T15:03:33.353Z",
+  "revision": 386,
+  "updatedAt": "2026-09-29T15:21:11.884Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -5346,10 +5346,10 @@
       "title": "G04 V01: technical-flat primitives and source-to-view map",
       "epicId": "EPIC-17",
       "releaseId": null,
-      "status": "In Progress",
+      "status": "Done",
       "openedAt": "2026-09-29",
       "targetAt": null,
-      "deliveredAt": null,
+      "deliveredAt": "2026-09-29",
       "priority": "P0",
       "risk": "high",
       "owner": "Codex",
@@ -5393,11 +5393,22 @@
           "role": "maintainer",
           "note": "Start Slice 262 source inventory for the V01 technical-flat primitive and seven-recipe source-to-view contract.",
           "evidenceRefs": []
+        },
+        {
+          "status": "Done",
+          "at": "2026-09-29T15:21:10.722Z",
+          "actor": "Maintainer",
+          "role": "maintainer",
+          "note": "V01 source inventory, primitive model, seven-recipe source mapping and focused evidence are complete.",
+          "evidenceRefs": [
+            "E-G04-S264-EXIT"
+          ]
         }
       ],
       "comments": [],
       "evidenceRefs": [
-        "E-G04-S263-EXIT"
+        "E-G04-S263-EXIT",
+        "E-G04-S264-EXIT"
       ],
       "flagKey": null
     },
@@ -5407,7 +5418,7 @@
       "title": "G04 V02: live front/back vector flats",
       "epicId": "EPIC-17",
       "releaseId": null,
-      "status": "Backlog",
+      "status": "Ready",
       "openedAt": "2026-09-29",
       "targetAt": null,
       "deliveredAt": null,
@@ -5440,10 +5451,22 @@
           "role": "maintainer",
           "note": "Create the admitted V02 work card under EPIC-17.",
           "evidenceRefs": []
+        },
+        {
+          "status": "Ready",
+          "at": "2026-09-29T15:21:11.884Z",
+          "actor": "Maintainer",
+          "role": "maintainer",
+          "note": "V01 is complete; V02 is the next admitted output implementation packet.",
+          "evidenceRefs": [
+            "E-G04-S264-EXIT"
+          ]
         }
       ],
       "comments": [],
-      "evidenceRefs": [],
+      "evidenceRefs": [
+        "E-G04-S264-EXIT"
+      ],
       "flagKey": null
     },
     {
@@ -6320,6 +6343,15 @@
       "sha256": null,
       "verified": true,
       "note": "Slice 263 primitive model and validator passed focused 100% coverage for all four metrics and the production TypeScript/Vite build."
+    },
+    {
+      "id": "E-G04-S264-EXIT",
+      "kind": "test",
+      "uri": "docs/research/epic17/G04-V01-MAPPING-S264.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Slice 264 maps all seven recipe topologies and option endpoints; focused mapping coverage is 100% for all four metrics and TypeScript/Vite build passes."
     }
   ]
 }

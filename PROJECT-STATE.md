@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 263 EPIC-17/G04 V01 primitive contract, 2026-09-29._
+_Last updated: Slice 264 EPIC-17/G04 V01 recipe source mapping, 2026-09-29._
 Current directive: EPIC-14/G01, EPIC-15/G02, and EPIC-16/G03 are closed with
 accepted digital exit evidence. EPIC-16/G03 completed the admitted local-first
 scope under `docs/planning/EPIC-16-ADMISSION.md`; M01, M02, M03, final review,
@@ -15,8 +15,9 @@ Slice 261 records admission as commit
 transitions the canonical board through its validated command layer. Slice 262
 records the current source inventory and front/back mapping candidates for all
 seven recipes in `docs/research/epic17/G04-V01-SOURCE-INVENTORY.md`. Slice 263
-adds the versioned primitive and validation contract in
-`src/render/technical-flat.ts`; exact face mapping is next. The verified
+adds the versioned primitive contract and Slice 264 completes explicit
+role-to-face/source mapping in `src/render/technical-flat-mapping.ts`. V01 is
+complete; V02 is Ready and live rendered front/back flats are next. The verified
 upstream G01/G02/G03 exits and 16–20-slice estimate are in the admission packet.
 EPIC-18 through EPIC-30 remain Backlog.
 
@@ -35,9 +36,32 @@ versioned primitive/source-reference model under V01. Elapsed time: inventory
 implementation and source review 5m 02s; focused verification 1m 20s; external
 agent waits 0m; maintainer-decision time 0m.
 
+### Slice 264 — G04 V01 recipe source mapping (complete)
+
+Started at 2026-09-29 15:05:07 UTC from S263 commit
+`d005a81898c6ccecadbf16db2793585e3097c3ca`; highest assigned slice at start was
+263. `src/render/technical-flat-mapping.ts` explicitly maps shell, visible
+overlay and hidden interior roles for each face of Tee, Darted tee, Tank, Polo,
+Woven shirt, Skirt and Trouser. It traces stitches, pattern marks, darts,
+anchored/table-only POMs and artwork placements, checking exact block topology,
+stitch references, POM target roles and artwork roles. All declared numeric
+option minima and maxima were drafted individually from defaults and retained
+the mapped topology. Missing topstitch/pleat data and unresolved stitch-line
+visibility remain explicit notices/status, not guessed artwork. The mapping
+record is `docs/research/epic17/G04-V01-MAPPING-S264.md`. Focused mapping tests
+pass 10/10 with 100% statement, branch, function and line coverage; final
+TypeScript/Vite build passes. Canonical board revision 386 links
+`E-G04-S264-EXIT`, marks V01 Done, and V02 Ready. Manual MQF review is deferred
+to V02 because this slice produced no rendered output. Next: implement V02
+source geometry transforms and actual vector flats. Elapsed time: mapping
+implementation 9m 00s; focused verification and repairs 5m 00s; board transition
+and regression correction 3m 00s; external-agent waits 0m; maintainer-decision
+time 0m.
+
 ### Slice 263 — G04 V01 technical-flat primitive contract (complete)
 
-Started at 2026-09-29 14:51:41 UTC on S262. Added a versioned `FRONT_FLAT` /
+Started at 2026-09-29 14:51:41 UTC on S262 and landed as
+`d005a81898c6ccecadbf16db2793585e3097c3ca`. Added a versioned `FRONT_FLAT` /
 `BACK_FLAT` view model, typed path/circle/text/artwork/callout primitives,
 centimetre coordinates, stable semantic IDs, explicit source classes and
 revision references, a shared bottom-to-top layer order, artwork transforms,
