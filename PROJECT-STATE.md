@@ -1,12 +1,17 @@
 # InfiniDrip — Project State
 
-_Last updated: EPIC-16/G03 Slice 259 merge and board exit, 2026-09-29._
+_Last updated: Slice 260 execution-time efficiency rules, 2026-09-29._
 Current directive: EPIC-14/G01, EPIC-15/G02, and EPIC-16/G03 are closed with
 accepted digital exit evidence. EPIC-16/G03 completed the admitted local-first
 scope under `docs/planning/EPIC-16-ADMISSION.md`; M01, M02, M03, final review,
-merge, and board closure are complete. The automatic post-merge GitHub Actions
-deployment is the remaining verification gate for the active goal. No
-physical-fit or factory-readiness claim is authorized. S252's safety
+merge, board closure, and automatic deployment are complete. GitHub Actions run
+`36535708194` succeeded for main commit
+`2525993ceac31d426fbd5286c14d5011169b79a5`; the configured Cloudflare Pages
+site `https://infinidrip-preview.pages.dev/` returned HTTP 200. EPIC-17 remains
+in Backlog on canonical board revision 370 and must not begin until the
+maintainer explicitly asks to begin it. EPIC-18 through EPIC-30 remain
+Backlog as well.
+No physical-fit or factory-readiness claim is authorized. S252's safety
 remediation remains attached to the canonical
 board. S253 completed the independent S252 audit reconciliation and passed its
 then-current full gate. S254 applies the final audit corrections: restore
@@ -41,12 +46,35 @@ The reviewed Slice 258 head is an ancestor of `origin/main`, and the merged
 tree exactly matches the reviewed tree. Slice 259 records the validated board
 closure at revision 369; all linked G03 work cards are Done and the Epic is
 Closed. The Control Center suite passes 33/33 against the closed board.
-The automatic main-branch GitHub Actions workflow must still complete
-successfully before the goal is complete. See
+The automatic main-branch GitHub Actions workflow succeeded in run
+`36535708194`. See
 `docs/release/EPIC-16-G03-MERGE-EXIT-S259.md` for merge, ancestry, tree,
 acceptance, and deployment-run evidence, and
 `docs/research/epic16/S258-G03-FINAL-REVIEW.md` for the final local gates and
 limitations.
+
+### Slice 260 — execution-time efficiency rules (complete)
+
+The maintainer's execution-time efficiency rules are now part of `AGENTS.md`
+and the authoritative maintainer decisions. They preserve 100% coverage and
+existing acceptance criteria while setting full-gate cadence at the settled
+Epic/PR boundary, requiring focused checks after fixes, and avoiding repeated
+full runs for small corrections. They also require goal/slice timing records,
+slow-test and worker-memory profiling, decision batching, and asynchronous
+independent reviews. Documentation-only, board-only, and evidence-only changes
+do not invalidate a passing full gate. No changes to model selection are
+authorized as a response to local test resource use without evidence of model
+inference load. EPIC-17 remains Backlog and is explicitly held until the
+maintainer asks to begin it.
+
+Slice 260 began 2026-09-29 07:25:20 UTC from `origin/main` at
+`2525993ceac31d426fbd5286c14d5011169b79a5`. Its bounded scope is the durable
+rule update across `AGENTS.md`, `docs/PROJECT-DECISIONS.md`, this status file,
+`CONTEXT-INDEX.md`, and the EPIC-17 board comment. There are no blocking product
+decisions, external-agent waits, or implementation dependencies. Exit gates:
+check policy consistency, validate the board update through the command layer,
+review the exact documentation diff, and preserve EPIC-17's Backlog status.
+Elapsed-time breakdown will be recorded at the end of this slice.
 Slice 247
 completed M01's durable resume, conflict, narrow-layout, accessibility, and
 all-recipe exits. Slice 248 completed deterministic custom one-size
@@ -68,9 +96,10 @@ and Axe checks at 320, 390, and 1440 CSS pixels. The exact review evidence is
 `docs/release/EPIC-15-G02-FINAL-REVIEW-S240.md`; the merged-exit record is
 `docs/release/EPIC-15-G02-MERGE-EXIT-S241.md`.
 
-The canonical Control Center is at revision 357: the EPIC-15 summary and final
-review work items are Done, and the EPIC-15 record is Closed with verified
-S241 exit-report evidence. EPIC-16/G03 is In Progress, its M01 and M02 cards
+Historical S252 checkpoint: the canonical Control Center was at revision 357;
+the EPIC-15 summary and final-review work items were Done, and the EPIC-15
+record was Closed with verified S241 exit-report evidence. At that checkpoint,
+EPIC-16/G03 was In Progress, its M01 and M02 cards
 are Done with verified exit reports, M03 is Done with verified Slice 251 exit
 evidence, the S252 safety-remediation card is in Review, and final-review is
 In Progress with both M03 and safety remediation as dependencies. The S252 and
