@@ -8,7 +8,7 @@ import {
   type TechnicalFlatLayer,
 } from "./technical-flat";
 import type { TechnicalFlatColorwayOverlay } from "./technical-flat-overlays";
-import { technicalFlatLeaderCrossesBox } from "./technical-flat-poms";
+import { technicalFlatLeaderCrossesBox, technicalFlatLeaderSegmentsCross } from "./technical-flat-poms";
 
 const FONT_SIZE_CM = 0.32;
 const FONT_FAMILY = "Arial, sans-serif";
@@ -16,6 +16,9 @@ const EDGE_STROKE_CM = 0.035;
 const MARK_RADIUS_CM = 0.11;
 const PADDING_CM = 0.7;
 const NOTICE_WIDTH_CM = 30;
+const LABEL_GAP_CM = 0.08;
+const LABEL_SEARCH_STEP_CM = 0.25;
+const LABEL_SEARCH_RINGS = 48;
 const SVG_NS = "http://www.w3.org/2000/svg";
 
 export interface TechnicalFlatTextMetrics {
@@ -47,6 +50,17 @@ export interface TechnicalFlatSvgResult {
 }
 
 interface Bounds { minX: number; minY: number; maxX: number; maxY: number }
+interface TextItem {
+  id: string;
+  text: string;
+  at: FlatPoint;
+  anchor: "start" | "middle";
+  source: TechnicalFlatPrimitive["source"];
+  feature: TechnicalFlatPrimitive["feature"];
+  layer: TechnicalFlatLayer;
+  callout?: Extract<TechnicalFlatPrimitive, { kind: "callout" }>;
+}
+interface PlacedText { readonly item: TextItem; readonly bounds: Bounds; readonly at: FlatPoint }
 
 const finite = (value: number): boolean => Number.isFinite(value);
 const escapeXml = (value: string): string => value.replace(/&/g, "&amp;").replace(/</g, "&lt;")
@@ -110,7 +124,8 @@ function roleFor(primitive: TechnicalFlatPrimitive): string | null {
   return primitive.source.sourceId.startsWith(prefix) ? primitive.source.sourceId.slice(prefix.length) : null;
 }
 
-function styleFor(primitive: TechnicalFlatPrimitive, colorway?: TechnicalFlatColorwayOverlay): string {
+function styleFor(primitive: TechnicalFlatPrimitive, colorway?: TechnicalFlatColorwayOverlay,
+  positions: ReadonlyMap<string, FlatPoint> = new Map()): string {
   const shared = `data-entity-id="${escapeXml(primitive.id)}" data-feature="${primitive.feature}" data-source-id="${escapeXml(primitive.source.sourceId)}" data-source-class="${primitive.source.sourceClass}" data-revision-id="${escapeXml(primitive.source.revisionId)}"`;
   switch (primitive.kind) {
     case "path": {
@@ -138,12 +153,94 @@ function styleFor(primitive: TechnicalFlatPrimitive, colorway?: TechnicalFlatCol
       const transform = `rotate(${fmt(radians)} ${fmt(primitive.transform.dx)} ${fmt(primitive.transform.dy)})`;
       return `<g ${shared} data-layer="ARTWORK" data-artwork-kind="${primitive.artworkKind}" data-placement-id="${escapeXml(primitive.placementId)}" data-asset-id="${escapeXml(primitive.assetId ?? "")}" data-z-order="${primitive.zOrder}" transform="${transform}"><rect x="${fmt(x)}" y="${fmt(y)}" width="${fmt(width)}" height="${fmt(height)}" fill="none" stroke="#526677" stroke-dasharray="0.12 0.08" stroke-width="${EDGE_STROKE_CM}"/><title>Artwork placement: ${escapeXml(primitive.sourceName)}${primitive.assetId ? `; asset ${escapeXml(primitive.assetId)} is not embedded` : "; asset reference missing"}</title></g>`;
     }
-    case "callout": return `<g ${shared} data-layer="${primitive.layer}" data-callout-target="${escapeXml(primitive.anchor.primitiveId)}"><path d="M${fmt(primitive.anchor.point.x)} ${fmt(primitive.anchor.point.y)} L${fmt(primitive.labelAt.x)} ${fmt(primitive.labelAt.y)}" fill="none" stroke="#344d60" stroke-width="${EDGE_STROKE_CM}"/><circle cx="${fmt(primitive.anchor.point.x)}" cy="${fmt(primitive.anchor.point.y)}" r="${MARK_RADIUS_CM / 2}" fill="#fff" stroke="#344d60" stroke-width="${EDGE_STROKE_CM}"/></g>`;
+    case "callout": {
+      const labelAt = positions.get(primitive.id) ?? primitive.labelAt;
+      return `<g ${shared} data-layer="${primitive.layer}" data-callout-target="${escapeXml(primitive.anchor.primitiveId)}"><path d="M${fmt(primitive.anchor.point.x)} ${fmt(primitive.anchor.point.y)} L${fmt(labelAt.x)} ${fmt(labelAt.y)}" fill="none" stroke="#344d60" stroke-width="${EDGE_STROKE_CM}"/><circle cx="${fmt(primitive.anchor.point.x)}" cy="${fmt(primitive.anchor.point.y)}" r="${MARK_RADIUS_CM / 2}" fill="#fff" stroke="#344d60" stroke-width="${EDGE_STROKE_CM}"/></g>`;
+    }
   }
 }
 
 function intersects(a: Bounds, b: Bounds): boolean {
   return a.minX < b.maxX && b.minX < a.maxX && a.minY < b.maxY && b.minY < a.maxY;
+}
+
+function padded(bounds: Bounds, gap: number): Bounds {
+  return { minX: bounds.minX - gap, minY: bounds.minY - gap,
+    maxX: bounds.maxX + gap, maxY: bounds.maxY + gap };
+}
+
+function pathSegments(commands: readonly FlatPathCommand[]): Array<readonly [FlatPoint, FlatPoint]> {
+  const result: Array<readonly [FlatPoint, FlatPoint]> = [];
+  let current: FlatPoint | null = null;
+  let subpath: FlatPoint | null = null;
+  for (const command of commands) {
+    if (command.op === "move") { current = command.point; subpath = command.point; }
+    else if (command.op === "line") {
+      if (current) result.push([current, command.point]);
+      current = command.point;
+    } else if (command.op === "cubic") {
+      if (current) {
+        let previous = current;
+        for (let step = 1; step <= 16; step += 1) {
+          const t = step / 16;
+          const inverse = 1 - t;
+          const point = { x: inverse ** 3 * current.x + 3 * inverse ** 2 * t * command.control1.x
+            + 3 * inverse * t ** 2 * command.control2.x + t ** 3 * command.point.x,
+          y: inverse ** 3 * current.y + 3 * inverse ** 2 * t * command.control1.y
+            + 3 * inverse * t ** 2 * command.control2.y + t ** 3 * command.point.y };
+          result.push([previous, point]);
+          previous = point;
+        }
+      }
+      current = command.point;
+    } else if (command.op === "close" && current && subpath) {
+      result.push([current, subpath]);
+      current = subpath;
+    }
+  }
+  return result;
+}
+
+function primitiveBlocksText(primitive: TechnicalFlatPrimitive, box: Bounds): boolean {
+  if (primitive.kind === "artwork") return intersects(artworkBounds(primitive), box);
+  if (primitive.kind === "path") return pathSegments(primitive.commands)
+    .some(([start, end]) => technicalFlatLeaderCrossesBox(start, end, box));
+  if (primitive.kind === "circle") return intersects(pointBounds(primitive.center, primitive.radius + EDGE_STROKE_CM / 2), box);
+  if (primitive.kind === "mark") return intersects(pointBounds(primitive.at, MARK_RADIUS_CM + EDGE_STROKE_CM / 2), box);
+  return false;
+}
+
+function labelCandidates(item: TextItem, metric: TechnicalFlatTextMetrics): FlatPoint[] {
+  const candidates = [item.at];
+  const directions = Array.from({ length: 8 }, (_, index) => ({
+    x: Math.cos(index * Math.PI / 4), y: Math.sin(index * Math.PI / 4),
+  }));
+  for (let ring = 1; ring <= LABEL_SEARCH_RINGS; ring += 1) {
+    const radius = ring * LABEL_SEARCH_STEP_CM + Math.max(metric.widthCm, metric.ascentCm + metric.descentCm) / 2;
+    for (const direction of directions) candidates.push({ x: item.at.x + direction.x * radius,
+      y: item.at.y + direction.y * radius });
+  }
+  return candidates;
+}
+
+function placeMeasuredLabel(item: TextItem, metric: TechnicalFlatTextMetrics,
+  placed: readonly PlacedText[], primitives: readonly TechnicalFlatPrimitive[]): FlatPoint | null {
+  for (const at of labelCandidates(item, metric)) {
+    const box = textBounds(at, metric, item.anchor);
+    const separated = padded(box, LABEL_GAP_CM);
+    if (placed.some((previous) => intersects(separated, padded(previous.bounds, LABEL_GAP_CM)))) continue;
+    if (primitives.some((primitive) => primitive.id !== item.id && primitiveBlocksText(primitive, separated))) continue;
+    const leaderConflict = placed.some((previous) => previous.item.callout
+      && technicalFlatLeaderCrossesBox(previous.item.callout.anchor.point, previous.at, separated));
+    if (leaderConflict) continue;
+    if (item.callout && placed.some((previous) => technicalFlatLeaderCrossesBox(
+      item.callout!.anchor.point, at, padded(previous.bounds, LABEL_GAP_CM)))) continue;
+    if (item.callout && placed.some((previous) => previous.item.callout
+      && technicalFlatLeaderSegmentsCross(item.callout!.anchor.point, at,
+        previous.item.callout.anchor.point, previous.at))) continue;
+    return at;
+  }
+  return null;
 }
 
 function metricFor(text: string, measureText: TechnicalFlatMeasureText): TechnicalFlatTextMetrics | null {
@@ -224,14 +321,16 @@ export function renderTechnicalFlatSvg(view: TechnicalFlatView, options: Technic
   const geometry = view.primitives.map(primitiveBounds).filter((bounds): bounds is Bounds => bounds !== null);
   let bounds = geometry[0] ?? { minX: -0.5, minY: -0.5, maxX: 0.5, maxY: 0.5 };
   for (const item of geometry.slice(1)) bounds = union(bounds, item);
-  const textItems: Array<{ id: string; text: string; at: FlatPoint; anchor: "start" | "middle";
-    source: TechnicalFlatPrimitive["source"]; feature: TechnicalFlatPrimitive["feature"]; layer: TechnicalFlatLayer }> = [];
+  const textItems: TextItem[] = [];
   const addText = (primitive: TechnicalFlatPrimitive, text: string, at: FlatPoint, anchor: "start" | "middle") => {
     textItems.push({ id: primitive.id, text, at, anchor, source: primitive.source, feature: primitive.feature, layer: primitive.layer });
   };
   for (const primitive of view.primitives) {
     if (primitive.kind === "text") addText(primitive, primitive.text, primitive.at, "start");
-    else if (primitive.kind === "callout") addText(primitive, primitive.text, primitive.labelAt, "middle");
+    else if (primitive.kind === "callout") {
+      addText(primitive, primitive.text, primitive.labelAt, "middle");
+      textItems[textItems.length - 1]!.callout = primitive;
+    }
     else if (primitive.kind === "mark" && primitive.label) addText(primitive, primitive.label,
       { x: primitive.at.x + MARK_RADIUS_CM * 1.5, y: primitive.at.y }, "start");
     else if (primitive.kind === "path" && primitive.patternMark?.label) {
@@ -240,6 +339,8 @@ export function renderTechnicalFlatSvg(view: TechnicalFlatView, options: Technic
     }
   }
   const measured: Record<string, Bounds> = {};
+  const positions = new Map<string, FlatPoint>();
+  const placed: PlacedText[] = [];
   for (const item of textItems) {
     const metric = metricFor(item.text, options.measureText);
     if (!metric) {
@@ -247,35 +348,17 @@ export function renderTechnicalFlatSvg(view: TechnicalFlatView, options: Technic
         message: "The browser returned invalid font metrics; keep the flat unreviewed until text can be measured." });
       continue;
     }
-    const textBox = textBounds(item.at, metric, item.anchor);
+    const at = placeMeasuredLabel(item, metric, placed, view.primitives);
+    if (!at) {
+      issues.push({ code: "TEXT_COLLISION", entityId: item.id,
+        message: `Text “${item.text}” has no collision-free measured position near its source; reposition the annotation before review.` });
+      continue;
+    }
+    positions.set(item.id, at);
+    const textBox = textBounds(at, metric, item.anchor);
     measured[item.id] = textBox;
+    placed.push({ item, bounds: textBox, at });
     bounds = union(bounds, textBox);
-  }
-  for (let left = 0; left < textItems.length; left += 1) {
-    for (let right = left + 1; right < textItems.length; right += 1) {
-      const a = measured[textItems[left]!.id];
-      const b = measured[textItems[right]!.id];
-      if (a && b && intersects(a, b)) issues.push({ code: "TEXT_COLLISION", entityId: textItems[right]!.id,
-        message: `Text labels “${textItems[left]!.text}” and “${textItems[right]!.text}” overlap at the active browser font size; reposition them before review.` });
-    }
-  }
-  for (const callout of view.primitives.filter((primitive) => primitive.kind === "callout")) {
-    for (const item of textItems) {
-      if (item.id === callout.id) continue;
-      const textBox = measured[item.id];
-      if (textBox && technicalFlatLeaderCrossesBox(callout.anchor.point, callout.labelAt, textBox)) {
-        issues.push({ code: "TEXT_COLLISION", entityId: item.id,
-          message: `POM leader for “${callout.text}” crosses text “${item.text}”; reposition the callout or annotation before review.` });
-      }
-    }
-  }
-  for (const artwork of view.primitives.filter((primitive) => primitive.kind === "artwork")) {
-    const area = artworkBounds(artwork);
-    for (const item of textItems) {
-      const textBox = measured[item.id];
-      if (textBox && intersects(area, textBox)) issues.push({ code: "TEXT_COLLISION", entityId: item.id,
-        message: `Text “${item.text}” overlaps the artwork placement “${artwork.sourceName}”; reposition it before review.` });
-    }
   }
 
   const padBounds = { minX: bounds.minX - PADDING_CM, minY: bounds.minY - PADDING_CM,
@@ -299,9 +382,19 @@ export function renderTechnicalFlatSvg(view: TechnicalFlatView, options: Technic
     }
     return lines.map((line, index) => ({ notice, line, index, count: lines.length }));
   });
-  const textHeight = FONT_SIZE_CM * 1.5;
   const noticeTop = padBounds.maxY + 0.45;
-  const noticeHeight = noticeLines.length ? 0.5 + noticeLines.length * textHeight : 0;
+  const noticeMetrics = noticeLines.map(({ line }) => metricFor(line, options.measureText));
+  if (noticeMetrics.some((metric) => metric === null)) {
+    issues.push({ code: "INVALID_FONT_METRICS",
+      message: "A visible source notice could not be measured for panel placement; keep the flat blocked until browser text metrics are available." });
+  }
+  const validNoticeMetrics = noticeMetrics.filter((metric): metric is TechnicalFlatTextMetrics => metric !== null);
+  const noticeAscent = Math.max(0, ...validNoticeMetrics.map((metric) => metric.ascentCm));
+  const noticeDescent = Math.max(0, ...validNoticeMetrics.map((metric) => metric.descentCm));
+  const noticeLineHeight = noticeAscent + noticeDescent + 0.12;
+  const noticeTextOffset = noticeAscent + 0.12;
+  const noticeHeight = noticeLines.length
+    ? noticeTextOffset + Math.max(0, noticeLines.length - 1) * noticeLineHeight + noticeDescent + 0.12 : 0;
   const width = Math.max(padBounds.maxX - padBounds.minX, NOTICE_WIDTH_CM + PADDING_CM * 2);
   const height = padBounds.maxY - padBounds.minY + noticeHeight + (noticeLines.length ? 0.7 : 0);
   const viewBox = `${fmt(padBounds.minX)} ${fmt(padBounds.minY)} ${fmt(width)} ${fmt(height)}`;
@@ -314,16 +407,17 @@ export function renderTechnicalFlatSvg(view: TechnicalFlatView, options: Technic
   });
   const body = TECHNICAL_FLAT_LAYER_ORDER.map((layer: TechnicalFlatLayer) => {
     const shapes = ordered.filter((primitive) => primitive.layer === layer)
-      .map((primitive) => styleFor(primitive, options.colorway)).join("");
+      .map((primitive) => styleFor(primitive, options.colorway, positions)).join("");
     return `<g data-layer-group="${layer}" aria-label="${layer.toLowerCase().replace(/_/g, " ")}">${shapes}</g>`;
   }).join("");
   const labels = textItems.map((item) => {
     const metric = metricFor(item.text, options.measureText);
     if (!metric) return "";
     const anchor = item.anchor === "middle" ? "middle" : "start";
-    return `<text data-label-for="${escapeXml(item.id)}" data-feature="${item.feature}" data-source-id="${escapeXml(item.source.sourceId)}" data-source-class="${item.source.sourceClass}" data-revision-id="${escapeXml(item.source.revisionId)}" data-source-layer="${item.layer}" x="${fmt(item.at.x)}" y="${fmt(item.at.y)}" font-family="${FONT_FAMILY}" font-size="${FONT_SIZE_CM}" text-anchor="${anchor}" fill="#19222b">${escapeXml(item.text)}</text>`;
+    const at = positions.get(item.id) ?? item.at;
+    return `<text data-label-for="${escapeXml(item.id)}" data-feature="${item.feature}" data-source-id="${escapeXml(item.source.sourceId)}" data-source-class="${item.source.sourceClass}" data-revision-id="${escapeXml(item.source.revisionId)}" data-source-layer="${item.layer}" x="${fmt(at.x)}" y="${fmt(at.y)}" font-family="${FONT_FAMILY}" font-size="${FONT_SIZE_CM}" text-anchor="${anchor}" fill="#19222b">${escapeXml(item.text)}</text>`;
   }).join("");
-  const renderedNotices = noticeLines.map(({ notice, line }, lineIndex) => `<text data-notice-id="${escapeXml(notice.id)}" data-notice-reason="${notice.reason}" data-notice-source="${escapeXml(notice.sourceId ?? "")}" x="${fmt(padBounds.minX + 0.2)}" y="${fmt(noticeTop + 0.25 + lineIndex * textHeight)}" font-family="${FONT_FAMILY}" font-size="${FONT_SIZE_CM}" fill="#713c16">${escapeXml(line)}</text>`).join("");
+  const renderedNotices = noticeLines.map(({ notice, line }, lineIndex) => `<text data-notice-id="${escapeXml(notice.id)}" data-notice-reason="${notice.reason}" data-notice-source="${escapeXml(notice.sourceId ?? "")}" x="${fmt(padBounds.minX + 0.2)}" y="${fmt(noticeTop + noticeTextOffset + lineIndex * noticeLineHeight)}" font-family="${FONT_FAMILY}" font-size="${FONT_SIZE_CM}" fill="#713c16">${escapeXml(line)}</text>`).join("");
   const fabric = options.colorway ? ` data-colorway-id="${escapeXml(options.colorway.id)}" data-colorway-revision="${escapeXml(options.colorway.revisionId)}" data-color="${escapeXml(options.colorway.colorHex)}" data-texture="${options.colorway.texture}" data-shine="${fmt(options.colorway.shine)}"` : "";
   const title = escapeXml(options.title ?? `${view.recipeId} ${view.kind.replace("_", " ")}`);
   const svg = `<svg xmlns="${SVG_NS}" role="img" aria-labelledby="flat-title" data-view-id="${escapeXml(view.viewId)}" data-revision-id="${escapeXml(view.revisionId)}" data-recipe-id="${escapeXml(view.recipeId)}" data-view-kind="${view.kind}" data-units="cm"${fabric} width="${fmt(width)}cm" height="${fmt(height)}cm" viewBox="${viewBox}"><title id="flat-title">${title}</title><desc>Pattern-derived technical flat in centimetres. Source and design revision are attached to every entity.</desc><rect data-technical-flat-paper="true" x="${fmt(padBounds.minX)}" y="${fmt(padBounds.minY)}" width="${fmt(width)}" height="${fmt(height)}" fill="#fff"/>${body}<g data-layer-group="TEXT_LABELS">${labels}</g>${noticeLines.length ? `<g data-layer-group="SOURCE_NOTICES" role="note"><rect x="${fmt(padBounds.minX)}" y="${fmt(noticeTop)}" width="${fmt(width)}" height="${fmt(noticeHeight)}" fill="#fff7ed" stroke="#b45309" stroke-width="0.025"/>${renderedNotices}</g>` : ""}</svg>`;

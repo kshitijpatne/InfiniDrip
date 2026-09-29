@@ -1,0 +1,2751 @@
+{
+  "generatedAt": "2026-09-29T21:27:15.141Z",
+  "viewport": {
+    "width": 1440,
+    "height": 3000
+  },
+  "browser": "Playwright Chromium production preview",
+  "faces": [
+    {
+      "recipeId": "tee",
+      "kind": "FRONT_FLAT",
+      "revision": "live-draft:tee:1:1",
+      "viewBox": {
+        "x": -4.372700214385986,
+        "y": -1.5480999946594238,
+        "width": 40.41790008544922,
+        "height": 78.46269989013672
+      },
+      "issues": null,
+      "labels": [
+        {
+          "id": "flat:tee:FRONT_FLAT:callout:body-chest-finished",
+          "text": "Body chest (finished): 110.0 cm (±1.3 cm)",
+          "revision": "live-draft:tee:1:1",
+          "x": 32.0899,
+          "y": 23.4429,
+          "box": {
+            "x": 29.143178939819336,
+            "y": 23.16166114807129,
+            "width": 5.906885623931885,
+            "height": 0.36159154772758484
+          }
+        },
+        {
+          "id": "flat:tee:FRONT_FLAT:callout:body-length-hps-hem",
+          "text": "Body length (HPS–hem): 70.0 cm (±1.3 cm)",
+          "revision": "live-draft:tee:1:1",
+          "x": 32.2439,
+          "y": 69.4429,
+          "box": {
+            "x": 29.14337730407715,
+            "y": 69.16165924072266,
+            "width": 6.214982032775879,
+            "height": 0.36159154772758484
+          }
+        },
+        {
+          "id": "flat:tee:FRONT_FLAT:callout:across-shoulder",
+          "text": "Across shoulder: 45.0 cm (±0.6 cm)",
+          "revision": "live-draft:tee:1:1",
+          "x": 23.8927,
+          "y": 3.4429,
+          "box": {
+            "x": 21.32954216003418,
+            "y": 3.1616621017456055,
+            "width": 5.09960412979126,
+            "height": 0.36159154772758484
+          }
+        },
+        {
+          "id": "flat:tee:FRONT_FLAT:callout:neck-width",
+          "text": "Neck width: 14.0 cm (±0.6 cm)",
+          "revision": "live-draft:tee:1:1",
+          "x": 8.3927,
+          "y": -0.5571,
+          "box": {
+            "x": 6.234450340270996,
+            "y": -0.8383378386497498,
+            "width": 4.330491542816162,
+            "height": 0.36159154772758484
+          }
+        },
+        {
+          "id": "flat:tee:FRONT_FLAT:callout:front-neck-drop",
+          "text": "Front neck drop: 8.0 cm (±0.3 cm)",
+          "revision": "live-draft:tee:1:1",
+          "x": -1.265,
+          "y": 7.4429,
+          "box": {
+            "x": -3.6721575260162354,
+            "y": 7.1616621017456055,
+            "width": 4.828317165374756,
+            "height": 0.36159154772758484
+          }
+        }
+      ],
+      "notices": [
+        {
+          "id": "notice:tee:topstitch",
+          "text": "Topstitch geometry is not represented by the current pattern model.",
+          "box": {
+            "x": -4.212876319885254,
+            "y": 71.27975463867188,
+            "width": 9.550787925720215,
+            "height": 0.36159154772758484
+          }
+        },
+        {
+          "id": "notice:tee:pleat",
+          "text": "Pleat geometry is not represented by the current pattern model.",
+          "box": {
+            "x": -4.172699451446533,
+            "y": 71.77025604248047,
+            "width": 8.977640151977539,
+            "height": 0.36159154772758484
+          }
+        },
+        {
+          "id": "notice:tee:dart",
+          "text": "No dart is declared for this drafted recipe block.",
+          "box": {
+            "x": -4.172699451446533,
+            "y": 72.26065826416016,
+            "width": 6.701998710632324,
+            "height": 0.36159154772758484
+          }
+        },
+        {
+          "id": "notice:tee:pocket",
+          "text": "No pocket shape or opening is represented by this drafted recipe block.",
+          "box": {
+            "x": -4.172699451446533,
+            "y": 72.75106048583984,
+            "width": 10.098196983337402,
+            "height": 0.36159154772758484
+          }
+        },
+        {
+          "id": "notice:tee:closure",
+          "text": "No closure marks are represented by this drafted recipe block.",
+          "box": {
+            "x": -4.172699451446533,
+            "y": 73.241455078125,
+            "width": 8.816932678222656,
+            "height": 0.36159154772758484
+          }
+        },
+        {
+          "id": "notice:tee:FRONT_FLAT:pom:shoulder-seam:table-only",
+          "text": "POM “Shoulder seam” has no geometry anchor and remains table-only.",
+          "box": {
+            "x": -4.172699451446533,
+            "y": 73.73185729980469,
+            "width": 10.108869552612305,
+            "height": 0.36159154772758484
+          }
+        },
+        {
+          "id": "notice:tee:FRONT_FLAT:pom:armhole-front-back:table-only",
+          "text": "POM “Armhole (front + back)” has no geometry anchor and remains table-only.",
+          "box": {
+            "x": -4.172699451446533,
+            "y": 74.22225952148438,
+            "width": 11.130239486694336,
+            "height": 0.36159154772758484
+          }
+        },
+        {
+          "id": "notice:tee:FRONT_FLAT:pom:sleeve-length-cap-hem:table-only",
+          "text": "POM “Sleeve length (cap–hem)” has no geometry anchor and remains table-only.",
+          "box": {
+            "x": -4.172699451446533,
+            "y": 74.71276092529297,
+            "width": 11.513175010681152,
+            "height": 0.36159154772758484
+          }
+        },
+        {
+          "id": "notice:tee:FRONT_FLAT:pom:sleeve-bicep-width:table-only",
+          "text": "POM “Sleeve bicep width” has no geometry anchor and remains table-only.",
+          "box": {
+            "x": -4.172699451446533,
+            "y": 75.20315551757812,
+            "width": 10.624262809753418,
+            "height": 0.36159154772758484
+          }
+        },
+        {
+          "id": "notice:tee:FRONT_FLAT:pom:sleeve-hem:table-only",
+          "text": "POM “Sleeve hem” has no geometry anchor and remains table-only.",
+          "box": {
+            "x": -4.172699451446533,
+            "y": 75.69355773925781,
+            "width": 9.646835327148438,
+            "height": 0.36159154772758484
+          }
+        },
+        {
+          "id": "notice:tee:FRONT_FLAT:assembly:stitch:Sleeve-cap ease",
+          "text": "Stitch “Sleeve-cap ease” leaves its sewn endpoints 0.37 cm apart after rigid placement; review this construction line before release.",
+          "box": {
+            "x": -4.172699451446533,
+            "y": 76.1839599609375,
+            "width": 18.558561325073242,
+            "height": 0.36159154772758484
+          }
+        }
+      ],
+      "callouts": [
+        {
+          "id": "flat:tee:FRONT_FLAT:callout:across-shoulder",
+          "target": "flat:tee:FRONT_FLAT:component:front:outline",
+          "leaderEnd": {
+            "x": 23.8927,
+            "y": 3.4429
+          },
+          "label": {
+            "x": 23.8927,
+            "y": 3.4429
+          }
+        },
+        {
+          "id": "flat:tee:FRONT_FLAT:callout:body-chest-finished",
+          "target": "flat:tee:FRONT_FLAT:component:front:outline",
+          "leaderEnd": {
+            "x": 32.0899,
+            "y": 23.4429
+          },
+          "label": {
+            "x": 32.0899,
+            "y": 23.4429
+          }
+        },
+        {
+          "id": "flat:tee:FRONT_FLAT:callout:body-length-hps-hem",
+          "target": "flat:tee:FRONT_FLAT:component:front:outline",
+          "leaderEnd": {
+            "x": 32.2439,
+            "y": 69.4429
+          },
+          "label": {
+            "x": 32.2439,
+            "y": 69.4429
+          }
+        },
+        {
+          "id": "flat:tee:FRONT_FLAT:callout:front-neck-drop",
+          "target": "flat:tee:FRONT_FLAT:component:front:outline",
+          "leaderEnd": {
+            "x": -1.265,
+            "y": 7.4429
+          },
+          "label": {
+            "x": -1.265,
+            "y": 7.4429
+          }
+        },
+        {
+          "id": "flat:tee:FRONT_FLAT:callout:neck-width",
+          "target": "flat:tee:FRONT_FLAT:component:front:outline",
+          "leaderEnd": {
+            "x": 8.3927,
+            "y": -0.5571
+          },
+          "label": {
+            "x": 8.3927,
+            "y": -0.5571
+          }
+        }
+      ],
+      "labelOverlaps": [],
+      "noticesWithinViewBox": true,
+      "noticePanelBox": {
+        "x": -4.372700214385986,
+        "y": 71.1500015258789,
+        "width": 40.41790008544922,
+        "height": 5.514599800109863
+      },
+      "labelsWithinViewBox": true,
+      "noticesWithinPanel": true,
+      "noticeLineCount": 11,
+      "parserError": false,
+      "entityRevisionMismatch": false,
+      "name": "tee-front"
+    },
+    {
+      "recipeId": "tee",
+      "kind": "BACK_FLAT",
+      "revision": "live-draft:tee:1:1",
+      "viewBox": {
+        "x": -6.933199882507324,
+        "y": -16.896099090576172,
+        "width": 35.247501373291016,
+        "height": 93.81069946289062
+      },
+      "issues": null,
+      "labels": [],
+      "notices": [
+        {
+          "id": "notice:tee:topstitch",
+          "text": "Topstitch geometry is not represented by the current pattern model.",
+          "box": {
+            "x": -6.768243312835693,
+            "y": 71.28065490722656,
+            "width": 9.549825668334961,
+            "height": 0.35043221712112427
+          }
+        },
+        {
+          "id": "notice:tee:pleat",
+          "text": "Pleat geometry is not represented by the current pattern model.",
+          "box": {
+            "x": -6.7332000732421875,
+            "y": 71.77114868164062,
+            "width": 8.981468200683594,
+            "height": 0.35043221712112427
+          }
+        },
+        {
+          "id": "notice:tee:dart",
+          "text": "No dart is declared for this drafted recipe block.",
+          "box": {
+            "x": -6.7332000732421875,
+            "y": 72.26155853271484,
+            "width": 6.704753875732422,
+            "height": 0.35043221712112427
+          }
+        },
+        {
+          "id": "notice:tee:pocket",
+          "text": "No pocket shape or opening is represented by this drafted recipe block.",
+          "box": {
+            "x": -6.7332000732421875,
+            "y": 72.75196075439453,
+            "width": 10.102303504943848,
+            "height": 0.35043221712112427
+          }
+        },
+        {
+          "id": "notice:tee:closure",
+          "text": "No closure marks are represented by this drafted recipe block.",
+          "box": {
+            "x": -6.7332000732421875,
+            "y": 73.24234771728516,
+            "width": 8.820487976074219,
+            "height": 0.35043221712112427
+          }
+        },
+        {
+          "id": "notice:tee:BACK_FLAT:pom:body-chest-finished:front-only",
+          "text": "POM “Body chest (finished)” has a front-only source anchor; no back anchor is inferred.",
+          "box": {
+            "x": -6.7332000732421875,
+            "y": 73.73274993896484,
+            "width": 12.377375602722168,
+            "height": 0.35043221712112427
+          }
+        },
+        {
+          "id": "notice:tee:BACK_FLAT:pom:body-length-hps-hem:front-only",
+          "text": "POM “Body length (HPS–hem)” has a front-only source anchor; no back anchor is inferred.",
+          "box": {
+            "x": -6.7332000732421875,
+            "y": 74.22315979003906,
+            "width": 12.839508056640625,
+            "height": 0.35043221712112427
+          }
+        },
+        {
+          "id": "notice:tee:BACK_FLAT:pom:across-shoulder:front-only",
+          "text": "POM “Across shoulder” has a front-only source anchor; no back anchor is inferred.",
+          "box": {
+            "x": -6.7332000732421875,
+            "y": 74.71366119384766,
+            "width": 11.683629035949707,
+            "height": 0.35043221712112427
+          }
+        },
+        {
+          "id": "notice:tee:BACK_FLAT:pom:neck-width:front-only",
+          "text": "POM “Neck width” has a front-only source anchor; no back anchor is inferred.",
+          "box": {
+            "x": -6.7332000732421875,
+            "y": 75.20405578613281,
+            "width": 10.954292297363281,
+            "height": 0.35043221712112427
+          }
+        },
+        {
+          "id": "notice:tee:BACK_FLAT:pom:front-neck-drop:front-only",
+          "text": "POM “Front neck drop” has a front-only source anchor; no back anchor is inferred.",
+          "box": {
+            "x": -6.7332000732421875,
+            "y": 75.69445037841797,
+            "width": 11.630516052246094,
+            "height": 0.35043221712112427
+          }
+        },
+        {
+          "id": "notice:tee:BACK_FLAT:assembly:stitch:Sleeve-cap ease",
+          "text": "Stitch “Sleeve-cap ease” leaves its sewn endpoints 0.46 cm apart after rigid placement; review this construction line before release.",
+          "box": {
+            "x": -6.7332000732421875,
+            "y": 76.18486022949219,
+            "width": 18.566335678100586,
+            "height": 0.35043221712112427
+          }
+        }
+      ],
+      "callouts": [],
+      "labelOverlaps": [],
+      "noticesWithinViewBox": true,
+      "noticePanelBox": {
+        "x": -6.933199882507324,
+        "y": 71.1500015258789,
+        "width": 35.247501373291016,
+        "height": 5.514599800109863
+      },
+      "labelsWithinViewBox": true,
+      "noticesWithinPanel": true,
+      "noticeLineCount": 11,
+      "parserError": false,
+      "entityRevisionMismatch": false,
+      "name": "tee-back"
+    },
+    {
+      "recipeId": "fitted",
+      "kind": "FRONT_FLAT",
+      "revision": "live-draft:fitted:2:2",
+      "viewBox": {
+        "x": -4.372700214385986,
+        "y": -0.699999988079071,
+        "width": 40.109901428222656,
+        "height": 82.59539794921875
+      },
+      "issues": null,
+      "labels": [
+        {
+          "id": "flat:fitted:FRONT_FLAT:callout:body-chest-finished",
+          "text": "Body chest (finished): 110.0 cm (±1.3 cm)",
+          "revision": "live-draft:fitted:2:2",
+          "x": 32.0899,
+          "y": 23.4429,
+          "box": {
+            "x": 29.143831253051758,
+            "y": 23.163803100585938,
+            "width": 5.905150413513184,
+            "height": 0.3588360846042633
+          }
+        },
+        {
+          "id": "flat:fitted:FRONT_FLAT:callout:across-shoulder",
+          "text": "Across shoulder: 45.0 cm (±0.6 cm)",
+          "revision": "live-draft:fitted:2:2",
+          "x": 23.8927,
+          "y": 3.4429,
+          "box": {
+            "x": 21.330385208129883,
+            "y": 3.1638050079345703,
+            "width": 5.097683906555176,
+            "height": 0.3588360846042633
+          }
+        },
+        {
+          "id": "flat:fitted:FRONT_FLAT:callout:front-neck-drop",
+          "text": "Front neck drop: 8.0 cm (±0.3 cm)",
+          "revision": "live-draft:fitted:2:2",
+          "x": -1.265,
+          "y": 7.4429,
+          "box": {
+            "x": -3.6718804836273193,
+            "y": 7.16380500793457,
+            "width": 4.82673454284668,
+            "height": 0.3588360846042633
+          }
+        }
+      ],
+      "notices": [
+        {
+          "id": "notice:fitted:topstitch",
+          "text": "Topstitch geometry is not represented by the current pattern model.",
+          "box": {
+            "x": -4.212570667266846,
+            "y": 75.28189849853516,
+            "width": 9.549026489257812,
+            "height": 0.3588360846042633
+          }
+        },
+        {
+          "id": "notice:fitted:pleat",
+          "text": "Pleat geometry is not represented by the current pattern model.",
+          "box": {
+            "x": -4.172699928283691,
+            "y": 75.77239990234375,
+            "width": 8.976509094238281,
+            "height": 0.3588360846042633
+          }
+        },
+        {
+          "id": "notice:fitted:pocket",
+          "text": "No pocket shape or opening is represented by this drafted recipe block.",
+          "box": {
+            "x": -4.172699928283691,
+            "y": 76.26280212402344,
+            "width": 10.096625328063965,
+            "height": 0.3588360846042633
+          }
+        },
+        {
+          "id": "notice:fitted:closure",
+          "text": "No closure marks are represented by this drafted recipe block.",
+          "box": {
+            "x": -4.172699928283691,
+            "y": 76.75320434570312,
+            "width": 8.815780639648438,
+            "height": 0.3588360846042633
+          }
+        },
+        {
+          "id": "notice:fitted:FRONT_FLAT:pom:body-length-hps-hem:table-only",
+          "text": "POM “Body length (HPS–hem)” has no geometry anchor and remains table-only.",
+          "box": {
+            "x": -4.172699928283691,
+            "y": 77.24359893798828,
+            "width": 11.404882431030273,
+            "height": 0.3588360846042633
+          }
+        },
+        {
+          "id": "notice:fitted:FRONT_FLAT:pom:shoulder-seam:table-only",
+          "text": "POM “Shoulder seam” has no geometry anchor and remains table-only.",
+          "box": {
+            "x": -4.172699928283691,
+            "y": 77.73400115966797,
+            "width": 10.107215881347656,
+            "height": 0.3588360846042633
+          }
+        },
+        {
+          "id": "notice:fitted:FRONT_FLAT:pom:armhole-front-back:table-only",
+          "text": "POM “Armhole (front + back)” has no geometry anchor and remains table-only.",
+          "box": {
+            "x": -4.172699928283691,
+            "y": 78.22440338134766,
+            "width": 11.128902435302734,
+            "height": 0.3588360846042633
+          }
+        },
+        {
+          "id": "notice:fitted:FRONT_FLAT:pom:side-seam-dart-closed:table-only",
+          "text": "POM “Side seam (dart closed)” has no geometry anchor and remains table-only.",
+          "box": {
+            "x": -4.172699928283691,
+            "y": 78.71490478515625,
+            "width": 11.333239555358887,
+            "height": 0.3588360846042633
+          }
+        },
+        {
+          "id": "notice:fitted:FRONT_FLAT:pom:bust-dart-intake:table-only",
+          "text": "POM “Bust dart intake” has no geometry anchor and remains table-only.",
+          "box": {
+            "x": -4.172699928283691,
+            "y": 79.2052993774414,
+            "width": 10.17823600769043,
+            "height": 0.3588360846042633
+          }
+        },
+        {
+          "id": "notice:fitted:FRONT_FLAT:pom:neck-width:table-only",
+          "text": "POM “Neck width” has no geometry anchor and remains table-only.",
+          "box": {
+            "x": -4.172699928283691,
+            "y": 79.6957015991211,
+            "width": 9.520369529724121,
+            "height": 0.3588360846042633
+          }
+        },
+        {
+          "id": "notice:fitted:FRONT_FLAT:pom:sleeve-length-cap-hem:table-only",
+          "text": "POM “Sleeve length (cap–hem)” has no geometry anchor and remains table-only.",
+          "box": {
+            "x": -4.172699928283691,
+            "y": 80.18610382080078,
+            "width": 11.511411666870117,
+            "height": 0.3588360846042633
+          }
+        },
+        {
+          "id": "notice:fitted:FRONT_FLAT:pom:sleeve-hem:table-only",
+          "text": "POM “Sleeve hem” has no geometry anchor and remains table-only.",
+          "box": {
+            "x": -4.172699928283691,
+            "y": 80.67649841308594,
+            "width": 9.644965171813965,
+            "height": 0.3588360846042633
+          }
+        },
+        {
+          "id": "notice:fitted:FRONT_FLAT:assembly:stitch:Sleeve-cap ease",
+          "text": "Stitch “Sleeve-cap ease” leaves its sewn endpoints 0.37 cm apart after rigid placement; review this construction line before release.",
+          "box": {
+            "x": -4.172699928283691,
+            "y": 81.16699981689453,
+            "width": 18.556060791015625,
+            "height": 0.3588360846042633
+          }
+        }
+      ],
+      "callouts": [
+        {
+          "id": "flat:fitted:FRONT_FLAT:callout:across-shoulder",
+          "target": "flat:fitted:FRONT_FLAT:component:front:outline",
+          "leaderEnd": {
+            "x": 23.8927,
+            "y": 3.4429
+          },
+          "label": {
+            "x": 23.8927,
+            "y": 3.4429
+          }
+        },
+        {
+          "id": "flat:fitted:FRONT_FLAT:callout:body-chest-finished",
+          "target": "flat:fitted:FRONT_FLAT:component:front:outline",
+          "leaderEnd": {
+            "x": 32.0899,
+            "y": 23.4429
+          },
+          "label": {
+            "x": 32.0899,
+            "y": 23.4429
+          }
+        },
+        {
+          "id": "flat:fitted:FRONT_FLAT:callout:front-neck-drop",
+          "target": "flat:fitted:FRONT_FLAT:component:front:outline",
+          "leaderEnd": {
+            "x": -1.265,
+            "y": 7.4429
+          },
+          "label": {
+            "x": -1.265,
+            "y": 7.4429
+          }
+        }
+      ],
+      "labelOverlaps": [],
+      "noticesWithinViewBox": true,
+      "noticePanelBox": {
+        "x": -4.372700214385986,
+        "y": 75.1500015258789,
+        "width": 40.109901428222656,
+        "height": 6.4953999519348145
+      },
+      "labelsWithinViewBox": true,
+      "noticesWithinPanel": true,
+      "noticeLineCount": 13,
+      "parserError": false,
+      "entityRevisionMismatch": false,
+      "name": "fitted-front"
+    },
+    {
+      "recipeId": "fitted",
+      "kind": "BACK_FLAT",
+      "revision": "live-draft:fitted:2:2",
+      "viewBox": {
+        "x": -6.933199882507324,
+        "y": -16.896099090576172,
+        "width": 35.247501373291016,
+        "height": 92.3395004272461
+      },
+      "issues": null,
+      "labels": [],
+      "notices": [
+        {
+          "id": "notice:fitted:topstitch",
+          "text": "Topstitch geometry is not represented by the current pattern model.",
+          "box": {
+            "x": -6.768243789672852,
+            "y": 71.28065490722656,
+            "width": 9.54988956451416,
+            "height": 0.3504345417022705
+          }
+        },
+        {
+          "id": "notice:fitted:pleat",
+          "text": "Pleat geometry is not represented by the current pattern model.",
+          "box": {
+            "x": -6.733200550079346,
+            "y": 71.77115631103516,
+            "width": 8.981528282165527,
+            "height": 0.3504345417022705
+          }
+        },
+        {
+          "id": "notice:fitted:pocket",
+          "text": "No pocket shape or opening is represented by this drafted recipe block.",
+          "box": {
+            "x": -6.733200550079346,
+            "y": 72.26155853271484,
+            "width": 10.102371215820312,
+            "height": 0.3504345417022705
+          }
+        },
+        {
+          "id": "notice:fitted:closure",
+          "text": "No closure marks are represented by this drafted recipe block.",
+          "box": {
+            "x": -6.733200550079346,
+            "y": 72.75196075439453,
+            "width": 8.820547103881836,
+            "height": 0.3504345417022705
+          }
+        },
+        {
+          "id": "notice:fitted:BACK_FLAT:pom:body-chest-finished:front-only",
+          "text": "POM “Body chest (finished)” has a front-only source anchor; no back anchor is inferred.",
+          "box": {
+            "x": -6.733200550079346,
+            "y": 73.24235534667969,
+            "width": 12.377457618713379,
+            "height": 0.3504345417022705
+          }
+        },
+        {
+          "id": "notice:fitted:BACK_FLAT:pom:across-shoulder:front-only",
+          "text": "POM “Across shoulder” has a front-only source anchor; no back anchor is inferred.",
+          "box": {
+            "x": -6.733200550079346,
+            "y": 73.73275756835938,
+            "width": 11.683707237243652,
+            "height": 0.3504345417022705
+          }
+        },
+        {
+          "id": "notice:fitted:BACK_FLAT:pom:front-neck-drop:front-only",
+          "text": "POM “Front neck drop” has a front-only source anchor; no back anchor is inferred.",
+          "box": {
+            "x": -6.733200550079346,
+            "y": 74.22315979003906,
+            "width": 11.630594253540039,
+            "height": 0.3504345417022705
+          }
+        },
+        {
+          "id": "notice:fitted:BACK_FLAT:assembly:stitch:Sleeve-cap ease",
+          "text": "Stitch “Sleeve-cap ease” leaves its sewn endpoints 0.46 cm apart after rigid placement; review this construction line before release.",
+          "box": {
+            "x": -6.733200550079346,
+            "y": 74.71365356445312,
+            "width": 18.56646156311035,
+            "height": 0.3504345417022705
+          }
+        }
+      ],
+      "callouts": [],
+      "labelOverlaps": [],
+      "noticesWithinViewBox": true,
+      "noticePanelBox": {
+        "x": -6.933199882507324,
+        "y": 71.1500015258789,
+        "width": 35.247501373291016,
+        "height": 4.043300151824951
+      },
+      "labelsWithinViewBox": true,
+      "noticesWithinPanel": true,
+      "noticeLineCount": 8,
+      "parserError": false,
+      "entityRevisionMismatch": false,
+      "name": "fitted-back"
+    },
+    {
+      "recipeId": "tank",
+      "kind": "FRONT_FLAT",
+      "revision": "live-draft:tank:3:3",
+      "viewBox": {
+        "x": -0.699999988079071,
+        "y": -1.5480999946594238,
+        "width": 36.74510192871094,
+        "height": 76.5010986328125
+      },
+      "issues": null,
+      "labels": [
+        {
+          "id": "flat:tank:FRONT_FLAT:callout:body-chest-finished",
+          "text": "Body chest (finished): 110.0 cm (±1.3 cm)",
+          "revision": "live-draft:tank:3:3",
+          "x": 32.0899,
+          "y": 23.4429,
+          "box": {
+            "x": 29.144672393798828,
+            "y": 23.150632858276367,
+            "width": 5.893435478210449,
+            "height": 0.36533474922180176
+          }
+        },
+        {
+          "id": "flat:tank:FRONT_FLAT:callout:body-length-hps-hem",
+          "text": "Body length (HPS–hem): 70.0 cm (±1.3 cm)",
+          "revision": "live-draft:tank:3:3",
+          "x": 32.2439,
+          "y": 69.4429,
+          "box": {
+            "x": 29.144548416137695,
+            "y": 69.150634765625,
+            "width": 6.201396942138672,
+            "height": 0.36533474922180176
+          }
+        },
+        {
+          "id": "flat:tank:FRONT_FLAT:callout:across-shoulder",
+          "text": "Across shoulder: 30.0 cm (±0.6 cm)",
+          "revision": "live-draft:tank:3:3",
+          "x": 19.1662,
+          "y": 3.4429,
+          "box": {
+            "x": 16.608001708984375,
+            "y": 3.15063214302063,
+            "width": 5.082880020141602,
+            "height": 0.36533474922180176
+          }
+        },
+        {
+          "id": "flat:tank:FRONT_FLAT:callout:neck-width",
+          "text": "Neck width: 14.0 cm (±0.6 cm)",
+          "revision": "live-draft:tank:3:3",
+          "x": 8.3927,
+          "y": -0.5571,
+          "box": {
+            "x": 6.235226631164551,
+            "y": -0.8493677377700806,
+            "width": 4.317728519439697,
+            "height": 0.36533474922180176
+          }
+        },
+        {
+          "id": "flat:tank:FRONT_FLAT:callout:front-neck-drop",
+          "text": "Front neck drop: 13.0 cm (±0.3 cm)",
+          "revision": "live-draft:tank:3:3",
+          "x": 3.335,
+          "y": 14.3852,
+          "box": {
+            "x": 0.8398780226707458,
+            "y": 14.092931747436523,
+            "width": 4.9931206703186035,
+            "height": 0.36533474922180176
+          }
+        }
+      ],
+      "notices": [
+        {
+          "id": "notice:tank:topstitch",
+          "text": "Topstitch geometry is not represented by the current pattern model.",
+          "box": {
+            "x": -0.5365334749221802,
+            "y": 71.26873016357422,
+            "width": 9.543229103088379,
+            "height": 0.36533474922180176
+          }
+        },
+        {
+          "id": "notice:tank:pleat",
+          "text": "Pleat geometry is not represented by the current pattern model.",
+          "box": {
+            "x": -0.5,
+            "y": 71.75923156738281,
+            "width": 8.97353458404541,
+            "height": 0.36533474922180176
+          }
+        },
+        {
+          "id": "notice:tank:dart",
+          "text": "No dart is declared for this drafted recipe block.",
+          "box": {
+            "x": -0.5,
+            "y": 72.24962615966797,
+            "width": 6.698755264282227,
+            "height": 0.36533474922180176
+          }
+        },
+        {
+          "id": "notice:tank:pocket",
+          "text": "No pocket shape or opening is represented by this drafted recipe block.",
+          "box": {
+            "x": -0.5,
+            "y": 72.74003601074219,
+            "width": 10.093514442443848,
+            "height": 0.36533474922180176
+          }
+        },
+        {
+          "id": "notice:tank:closure",
+          "text": "No closure marks are represented by this drafted recipe block.",
+          "box": {
+            "x": -0.5,
+            "y": 73.23043060302734,
+            "width": 8.813130378723145,
+            "height": 0.36533474922180176
+          }
+        },
+        {
+          "id": "notice:tank:FRONT_FLAT:pom:shoulder-seam:table-only",
+          "text": "POM “Shoulder seam” has no geometry anchor and remains table-only.",
+          "box": {
+            "x": -0.5,
+            "y": 73.7208251953125,
+            "width": 10.10435962677002,
+            "height": 0.36533474922180176
+          }
+        },
+        {
+          "id": "notice:tank:FRONT_FLAT:pom:armhole-front-back:table-only",
+          "text": "POM “Armhole (front + back)” has no geometry anchor and remains table-only.",
+          "box": {
+            "x": -0.5,
+            "y": 74.21123504638672,
+            "width": 11.125584602355957,
+            "height": 0.36533474922180176
+          }
+        }
+      ],
+      "callouts": [
+        {
+          "id": "flat:tank:FRONT_FLAT:callout:across-shoulder",
+          "target": "flat:tank:FRONT_FLAT:component:front:outline",
+          "leaderEnd": {
+            "x": 19.1662,
+            "y": 3.4429
+          },
+          "label": {
+            "x": 19.1662,
+            "y": 3.4429
+          }
+        },
+        {
+          "id": "flat:tank:FRONT_FLAT:callout:body-chest-finished",
+          "target": "flat:tank:FRONT_FLAT:component:front:outline",
+          "leaderEnd": {
+            "x": 32.0899,
+            "y": 23.4429
+          },
+          "label": {
+            "x": 32.0899,
+            "y": 23.4429
+          }
+        },
+        {
+          "id": "flat:tank:FRONT_FLAT:callout:body-length-hps-hem",
+          "target": "flat:tank:FRONT_FLAT:component:front:outline",
+          "leaderEnd": {
+            "x": 32.2439,
+            "y": 69.4429
+          },
+          "label": {
+            "x": 32.2439,
+            "y": 69.4429
+          }
+        },
+        {
+          "id": "flat:tank:FRONT_FLAT:callout:front-neck-drop",
+          "target": "flat:tank:FRONT_FLAT:component:front:outline",
+          "leaderEnd": {
+            "x": 3.335,
+            "y": 14.3852
+          },
+          "label": {
+            "x": 3.335,
+            "y": 14.3852
+          }
+        },
+        {
+          "id": "flat:tank:FRONT_FLAT:callout:neck-width",
+          "target": "flat:tank:FRONT_FLAT:component:front:outline",
+          "leaderEnd": {
+            "x": 8.3927,
+            "y": -0.5571
+          },
+          "label": {
+            "x": 8.3927,
+            "y": -0.5571
+          }
+        }
+      ],
+      "labelOverlaps": [],
+      "noticesWithinViewBox": true,
+      "noticePanelBox": {
+        "x": -0.699999988079071,
+        "y": 71.1500015258789,
+        "width": 36.74509811401367,
+        "height": 3.5529000759124756
+      },
+      "labelsWithinViewBox": true,
+      "noticesWithinPanel": true,
+      "noticeLineCount": 7,
+      "parserError": false,
+      "entityRevisionMismatch": false,
+      "name": "tank-front"
+    },
+    {
+      "recipeId": "tank",
+      "kind": "BACK_FLAT",
+      "revision": "live-draft:tank:3:3",
+      "viewBox": {
+        "x": -0.699999988079071,
+        "y": -0.699999988079071,
+        "width": 31.399999618530273,
+        "height": 77.12419891357422
+      },
+      "issues": null,
+      "labels": [],
+      "notices": [
+        {
+          "id": "notice:tank:topstitch",
+          "text": "Topstitch geometry is not represented by the current pattern model.",
+          "box": {
+            "x": -0.5312127470970154,
+            "y": 71.28008270263672,
+            "width": 9.549988746643066,
+            "height": 0.3433399796485901
+          }
+        },
+        {
+          "id": "notice:tank:pleat",
+          "text": "Pleat geometry is not represented by the current pattern model.",
+          "box": {
+            "x": -0.5,
+            "y": 71.77058410644531,
+            "width": 8.985454559326172,
+            "height": 0.3433399796485901
+          }
+        },
+        {
+          "id": "notice:tank:dart",
+          "text": "No dart is declared for this drafted recipe block.",
+          "box": {
+            "x": -0.5,
+            "y": 72.260986328125,
+            "width": 6.708762168884277,
+            "height": 0.3433399796485901
+          }
+        },
+        {
+          "id": "notice:tank:pocket",
+          "text": "No pocket shape or opening is represented by this drafted recipe block.",
+          "box": {
+            "x": -0.5,
+            "y": 72.75138854980469,
+            "width": 10.106304168701172,
+            "height": 0.3433399796485901
+          }
+        },
+        {
+          "id": "notice:tank:closure",
+          "text": "No closure marks are represented by this drafted recipe block.",
+          "box": {
+            "x": -0.5,
+            "y": 73.24178314208984,
+            "width": 8.824707984924316,
+            "height": 0.3433399796485901
+          }
+        },
+        {
+          "id": "notice:tank:BACK_FLAT:pom:body-chest-finished:front-only",
+          "text": "POM “Body chest (finished)” has a front-only source anchor; no back anchor is inferred.",
+          "box": {
+            "x": -0.5,
+            "y": 73.73218536376953,
+            "width": 12.381122589111328,
+            "height": 0.3433399796485901
+          }
+        },
+        {
+          "id": "notice:tank:BACK_FLAT:pom:body-length-hps-hem:front-only",
+          "text": "POM “Body length (HPS–hem)” has a front-only source anchor; no back anchor is inferred.",
+          "box": {
+            "x": -0.5,
+            "y": 74.22258758544922,
+            "width": 12.843522071838379,
+            "height": 0.3433399796485901
+          }
+        },
+        {
+          "id": "notice:tank:BACK_FLAT:pom:across-shoulder:front-only",
+          "text": "POM “Across shoulder” has a front-only source anchor; no back anchor is inferred.",
+          "box": {
+            "x": -0.5,
+            "y": 74.71308898925781,
+            "width": 11.687522888183594,
+            "height": 0.3433399796485901
+          }
+        },
+        {
+          "id": "notice:tank:BACK_FLAT:pom:neck-width:front-only",
+          "text": "POM “Neck width” has a front-only source anchor; no back anchor is inferred.",
+          "box": {
+            "x": -0.5,
+            "y": 75.20348358154297,
+            "width": 10.958307266235352,
+            "height": 0.3433399796485901
+          }
+        },
+        {
+          "id": "notice:tank:BACK_FLAT:pom:front-neck-drop:front-only",
+          "text": "POM “Front neck drop” has a front-only source anchor; no back anchor is inferred.",
+          "box": {
+            "x": -0.5,
+            "y": 75.69388580322266,
+            "width": 11.63425350189209,
+            "height": 0.3433399796485901
+          }
+        }
+      ],
+      "callouts": [],
+      "labelOverlaps": [],
+      "noticesWithinViewBox": true,
+      "noticePanelBox": {
+        "x": -0.699999988079071,
+        "y": 71.1500015258789,
+        "width": 31.399999618530273,
+        "height": 5.024199962615967
+      },
+      "labelsWithinViewBox": true,
+      "noticesWithinPanel": true,
+      "noticeLineCount": 10,
+      "parserError": false,
+      "entityRevisionMismatch": false,
+      "name": "tank-back"
+    },
+    {
+      "recipeId": "polo",
+      "kind": "FRONT_FLAT",
+      "revision": "live-draft:polo:4:4",
+      "viewBox": {
+        "x": -6.689700126647949,
+        "y": -8.836899757385254,
+        "width": 42.42689895629883,
+        "height": 92.61740112304688
+      },
+      "issues": null,
+      "labels": [
+        {
+          "id": "flat:polo:FRONT_FLAT:mark:front:ventTop",
+          "text": "VENT TOP",
+          "revision": "live-draft:polo:4:4",
+          "x": 27.665,
+          "y": 64,
+          "box": {
+            "x": 27.622825622558594,
+            "y": 63.70477294921875,
+            "width": 1.6632757186889648,
+            "height": 0.3795795142650604
+          }
+        },
+        {
+          "id": "flat:polo:FRONT_FLAT:mark:front:centerFront",
+          "text": "CENTER FRONT",
+          "revision": "live-draft:polo:4:4",
+          "x": 3.1722,
+          "y": 11.0072,
+          "box": {
+            "x": 3.1721999645233154,
+            "y": 10.711971282958984,
+            "width": 2.519731283187866,
+            "height": 0.3795795142650604
+          }
+        },
+        {
+          "id": "flat:polo:FRONT_FLAT:mark:front:shoulder",
+          "text": "SHOULDER",
+          "revision": "live-draft:polo:4:4",
+          "x": 7.165,
+          "y": 1.3888,
+          "box": {
+            "x": 7.1650004386901855,
+            "y": 1.0935715436935425,
+            "width": 1.7985846996307373,
+            "height": 0.3795795142650604
+          }
+        },
+        {
+          "id": "flat:polo:FRONT_FLAT:mark:front:placketOpening",
+          "text": "CUT FRONT SLIT",
+          "revision": "live-draft:polo:4:4",
+          "x": -3.8147,
+          "y": 11.9247,
+          "box": {
+            "x": -3.81469988822937,
+            "y": 11.629470825195312,
+            "width": 2.6147942543029785,
+            "height": 0.3795795142650604
+          }
+        },
+        {
+          "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseClipLeft",
+          "text": "CLIP PLACKET BASE LEFT",
+          "revision": "live-draft:polo:4:4",
+          "x": 3.4292,
+          "y": 23.3192,
+          "box": {
+            "x": 3.4291999340057373,
+            "y": 23.02397346496582,
+            "width": 4.072594165802002,
+            "height": 0.3795795142650604
+          }
+        },
+        {
+          "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseClipRight",
+          "text": "CLIP PLACKET BASE RIGHT",
+          "revision": "live-draft:polo:4:4",
+          "x": 3.6813,
+          "y": 24.5713,
+          "box": {
+            "x": 3.681300163269043,
+            "y": 24.276071548461914,
+            "width": 4.2855143547058105,
+            "height": 0.3795795142650604
+          }
+        },
+        {
+          "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement",
+          "text": "REINFORCE PLACKET BASE BOX",
+          "revision": "live-draft:polo:4:4",
+          "x": 3.985,
+          "y": 23.875,
+          "box": {
+            "x": 3.984999895095825,
+            "y": 23.579771041870117,
+            "width": 5.168124675750732,
+            "height": 0.3795795142650604
+          }
+        },
+        {
+          "id": "flat:polo:FRONT_FLAT:mark:buttonPlacket:attachmentLine",
+          "text": "SEW TO FRONT SLIT",
+          "revision": "live-draft:polo:4:4",
+          "x": -5.9897,
+          "y": 8,
+          "box": {
+            "x": -5.989699840545654,
+            "y": 7.704771518707275,
+            "width": 3.2129628658294678,
+            "height": 0.3795795142650604
+          }
+        },
+        {
+          "id": "flat:polo:FRONT_FLAT:mark:buttonPlacket:placketFold",
+          "text": "FOLD",
+          "revision": "live-draft:polo:4:4",
+          "x": 3.5885,
+          "y": 8.4785,
+          "box": {
+            "x": 3.5885000228881836,
+            "y": 8.183272361755371,
+            "width": 0.8747934699058533,
+            "height": 0.3795795142650604
+          }
+        },
+        {
+          "id": "flat:polo:FRONT_FLAT:mark:buttonPlacket:turnUnder",
+          "text": "TURN UNDER",
+          "revision": "live-draft:polo:4:4",
+          "x": 5.1855,
+          "y": 7.0755,
+          "box": {
+            "x": 5.143324851989746,
+            "y": 6.780271530151367,
+            "width": 2.1777775287628174,
+            "height": 0.3795795142650604
+          }
+        },
+        {
+          "id": "flat:polo:FRONT_FLAT:mark:buttonPlacket:button-1",
+          "text": "BUTTON",
+          "revision": "live-draft:polo:4:4",
+          "x": 3.1886,
+          "y": 13.0236,
+          "box": {
+            "x": 3.1886000633239746,
+            "y": 12.728371620178223,
+            "width": 1.3306012153625488,
+            "height": 0.3795795142650604
+          }
+        },
+        {
+          "id": "flat:polo:FRONT_FLAT:mark:buttonPlacket:button-2",
+          "text": "BUTTON",
+          "revision": "live-draft:polo:4:4",
+          "x": 0.2604,
+          "y": 15,
+          "box": {
+            "x": 0.2603999972343445,
+            "y": 14.704771995544434,
+            "width": 1.3306012153625488,
+            "height": 0.3795795142650604
+          }
+        },
+        {
+          "id": "flat:polo:FRONT_FLAT:mark:buttonPlacket:button-3",
+          "text": "BUTTON",
+          "revision": "live-draft:polo:4:4",
+          "x": 1.0253,
+          "y": 19.1397,
+          "box": {
+            "x": 1.0253000259399414,
+            "y": 18.844470977783203,
+            "width": 1.3306012153625488,
+            "height": 0.3795795142650604
+          }
+        },
+        {
+          "id": "flat:polo:FRONT_FLAT:mark:outerStand:centerMatch",
+          "text": "PLACE ON FOLD",
+          "revision": "live-draft:polo:4:4",
+          "x": 8.8422,
+          "y": -6.5176,
+          "box": {
+            "x": 8.84220027923584,
+            "y": -6.81282901763916,
+            "width": 2.580325126647949,
+            "height": 0.3795795142650604
+          }
+        },
+        {
+          "id": "flat:polo:FRONT_FLAT:mark:outerStand:centerBack",
+          "text": "CENTER BACK",
+          "revision": "live-draft:polo:4:4",
+          "x": 4.3868,
+          "y": -7.4988,
+          "box": {
+            "x": 4.3867998123168945,
+            "y": -7.794028282165527,
+            "width": 2.3135530948638916,
+            "height": 0.3795795142650604
+          }
+        },
+        {
+          "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+          "text": "SHOULDER",
+          "revision": "live-draft:polo:4:4",
+          "x": 7.6591,
+          "y": 1.9424,
+          "box": {
+            "x": 7.659100532531738,
+            "y": 1.6471714973449707,
+            "width": 1.7985846996307373,
+            "height": 0.3795795142650604
+          }
+        },
+        {
+          "id": "flat:polo:FRONT_FLAT:mark:outerStand:centerFront",
+          "text": "CENTER FRONT",
+          "revision": "live-draft:polo:4:4",
+          "x": -3.8826,
+          "y": 3.9105,
+          "box": {
+            "x": -3.8826000690460205,
+            "y": 3.61527156829834,
+            "width": 2.519731283187866,
+            "height": 0.3795795142650604
+          }
+        },
+        {
+          "id": "flat:polo:FRONT_FLAT:mark:upperCollar:centerMatch",
+          "text": "PLACE ON FOLD",
+          "revision": "live-draft:polo:4:4",
+          "x": 8.394,
+          "y": -5.5249,
+          "box": {
+            "x": 8.394000053405762,
+            "y": -5.820128440856934,
+            "width": 2.5803258419036865,
+            "height": 0.3795795142650604
+          }
+        },
+        {
+          "id": "flat:polo:FRONT_FLAT:mark:upperCollar:centerBack",
+          "text": "CENTER BACK",
+          "revision": "live-draft:polo:4:4",
+          "x": 7.3672,
+          "y": -7.8459,
+          "box": {
+            "x": 7.3672003746032715,
+            "y": -8.141128540039062,
+            "width": 2.3135530948638916,
+            "height": 0.3795795142650604
+          }
+        },
+        {
+          "id": "flat:polo:FRONT_FLAT:mark:upperCollar:shoulder",
+          "text": "SHOULDER",
+          "revision": "live-draft:polo:4:4",
+          "x": 10.797,
+          "y": 0.613,
+          "box": {
+            "x": 10.797000885009766,
+            "y": 0.3177714943885803,
+            "width": 1.7985854148864746,
+            "height": 0.3795795142650604
+          }
+        },
+        {
+          "id": "flat:polo:FRONT_FLAT:mark:upperCollar:centerFront",
+          "text": "CENTER FRONT",
+          "revision": "live-draft:polo:4:4",
+          "x": 6.429,
+          "y": 3.7931,
+          "box": {
+            "x": 6.428999900817871,
+            "y": 3.4978718757629395,
+            "width": 2.519731283187866,
+            "height": 0.3795795142650604
+          }
+        },
+        {
+          "id": "flat:polo:FRONT_FLAT:callout:body-chest-finished",
+          "text": "Body chest (finished): 110.0 cm (±1.3 cm)",
+          "revision": "live-draft:polo:4:4",
+          "x": 32.0899,
+          "y": 23.4429,
+          "box": {
+            "x": 29.144535064697266,
+            "y": 23.14767074584961,
+            "width": 5.910748481750488,
+            "height": 0.3795795142650604
+          }
+        },
+        {
+          "id": "flat:polo:FRONT_FLAT:callout:across-shoulder",
+          "text": "Across shoulder: 45.0 cm (±0.6 cm)",
+          "revision": "live-draft:polo:4:4",
+          "x": 23.8927,
+          "y": 3.4429,
+          "box": {
+            "x": 21.328561782836914,
+            "y": 3.1476714611053467,
+            "width": 5.10577917098999,
+            "height": 0.3795795142650604
+          }
+        },
+        {
+          "id": "flat:polo:FRONT_FLAT:callout:neck-width",
+          "text": "Neck width: 14.0 cm (±0.6 cm)",
+          "revision": "live-draft:polo:4:4",
+          "x": 10.8016,
+          "y": -0.5571,
+          "box": {
+            "x": 8.644060134887695,
+            "y": -0.8523285388946533,
+            "width": 4.3349385261535645,
+            "height": 0.3795795142650604
+          }
+        },
+        {
+          "id": "flat:polo:FRONT_FLAT:callout:front-neck-drop",
+          "text": "Front neck drop: 8.0 cm (±0.3 cm)",
+          "revision": "live-draft:polo:4:4",
+          "x": 13.8004,
+          "y": 7.4429,
+          "box": {
+            "x": 11.394089698791504,
+            "y": 7.147671699523926,
+            "width": 4.832579135894775,
+            "height": 0.3795795142650604
+          }
+        }
+      ],
+      "notices": [
+        {
+          "id": "notice:polo:topstitch",
+          "text": "Topstitch geometry is not represented by the current pattern model.",
+          "box": {
+            "x": -6.5318756103515625,
+            "y": 71.2657699584961,
+            "width": 9.549456596374512,
+            "height": 0.3795795142650604
+          }
+        },
+        {
+          "id": "notice:polo:pleat",
+          "text": "Pleat geometry is not represented by the current pattern model.",
+          "box": {
+            "x": -6.489699840545654,
+            "y": 71.75627136230469,
+            "width": 8.974156379699707,
+            "height": 0.3795795142650604
+          }
+        },
+        {
+          "id": "notice:polo:dart",
+          "text": "No dart is declared for this drafted recipe block.",
+          "box": {
+            "x": -6.489699840545654,
+            "y": 72.24667358398438,
+            "width": 6.699314594268799,
+            "height": 0.3795795142650604
+          }
+        },
+        {
+          "id": "notice:polo:pocket",
+          "text": "No pocket shape or opening is represented by this drafted recipe block.",
+          "box": {
+            "x": -6.489699840545654,
+            "y": 72.73707580566406,
+            "width": 10.094442367553711,
+            "height": 0.3795795142650604
+          }
+        },
+        {
+          "id": "notice:polo:FRONT_FLAT:role:buttonholePlacket:hidden",
+          "text": "Interior role “buttonholePlacket” is retained as source data and omitted from the exterior front geometry.",
+          "box": {
+            "x": -6.489699840545654,
+            "y": 73.22747039794922,
+            "width": 14.600631713867188,
+            "height": 0.3795795142650604
+          }
+        },
+        {
+          "id": "notice:polo:FRONT_FLAT:role:innerStand:hidden",
+          "text": "Interior role “innerStand” is retained as source data and omitted from the exterior front geometry.",
+          "box": {
+            "x": -6.489699840545654,
+            "y": 73.7178726196289,
+            "width": 13.60555362701416,
+            "height": 0.3795795142650604
+          }
+        },
+        {
+          "id": "notice:polo:FRONT_FLAT:role:underCollar:hidden",
+          "text": "Interior role “underCollar” is retained as source data and omitted from the exterior front geometry.",
+          "box": {
+            "x": -6.489699840545654,
+            "y": 74.2082748413086,
+            "width": 13.711650848388672,
+            "height": 0.3795795142650604
+          }
+        },
+        {
+          "id": "notice:polo:FRONT_FLAT:pom:shoulder-seam:table-only",
+          "text": "POM “Shoulder seam” has no geometry anchor and remains table-only.",
+          "box": {
+            "x": -6.489699840545654,
+            "y": 74.69877624511719,
+            "width": 10.104986190795898,
+            "height": 0.3795795142650604
+          }
+        },
+        {
+          "id": "notice:polo:FRONT_FLAT:pom:armhole-front-back:table-only",
+          "text": "POM “Armhole (front + back)” has no geometry anchor and remains table-only.",
+          "box": {
+            "x": -6.489699840545654,
+            "y": 75.18917083740234,
+            "width": 11.126424789428711,
+            "height": 0.3795795142650604
+          }
+        },
+        {
+          "id": "notice:polo:FRONT_FLAT:pom:sleeve-length-cap-hem:table-only",
+          "text": "POM “Sleeve length (cap–hem)” has no geometry anchor and remains table-only.",
+          "box": {
+            "x": -6.489699840545654,
+            "y": 75.67957305908203,
+            "width": 11.509299278259277,
+            "height": 0.3795795142650604
+          }
+        },
+        {
+          "id": "notice:polo:FRONT_FLAT:pom:sleeve-bicep-width:table-only",
+          "text": "POM “Sleeve bicep width” has no geometry anchor and remains table-only.",
+          "box": {
+            "x": -6.489699840545654,
+            "y": 76.16997528076172,
+            "width": 10.620318412780762,
+            "height": 0.3795795142650604
+          }
+        },
+        {
+          "id": "notice:polo:FRONT_FLAT:pom:sleeve-hem:table-only",
+          "text": "POM “Sleeve hem” has no geometry anchor and remains table-only.",
+          "box": {
+            "x": -6.489699840545654,
+            "y": 76.66036987304688,
+            "width": 9.643033027648926,
+            "height": 0.3795795142650604
+          }
+        },
+        {
+          "id": "notice:polo:FRONT_FLAT:pom:finished-placket-length:table-only",
+          "text": "POM “Finished placket length” has no geometry anchor and remains table-only.",
+          "box": {
+            "x": -6.489699840545654,
+            "y": 77.15087127685547,
+            "width": 11.224614143371582,
+            "height": 0.3795795142650604
+          }
+        },
+        {
+          "id": "notice:polo:FRONT_FLAT:pom:finished-placket-width:table-only",
+          "text": "POM “Finished placket width” has no geometry anchor and remains table-only.",
+          "box": {
+            "x": -6.489699840545654,
+            "y": 77.64127349853516,
+            "width": 11.100065231323242,
+            "height": 0.3795795142650604
+          }
+        },
+        {
+          "id": "notice:polo:FRONT_FLAT:pom:button-spacing:table-only",
+          "text": "POM “Button spacing” has no geometry anchor and remains table-only.",
+          "box": {
+            "x": -6.489699840545654,
+            "y": 78.13167572021484,
+            "width": 10.070059776306152,
+            "height": 0.3795795142650604
+          }
+        },
+        {
+          "id": "notice:polo:FRONT_FLAT:pom:finished-collar-stand-height:table-only",
+          "text": "POM “Finished collar stand height” has no geometry anchor and remains table-only.",
+          "box": {
+            "x": -6.489699840545654,
+            "y": 78.6220703125,
+            "width": 11.846702575683594,
+            "height": 0.3795795142650604
+          }
+        },
+        {
+          "id": "notice:polo:FRONT_FLAT:pom:finished-pointed-collar-leaf:table-only",
+          "text": "POM “Finished pointed collar leaf” has no geometry anchor and remains table-only.",
+          "box": {
+            "x": -6.489699840545654,
+            "y": 79.11247253417969,
+            "width": 11.757739067077637,
+            "height": 0.3795795142650604
+          }
+        },
+        {
+          "id": "notice:polo:FRONT_FLAT:pom:stand-front-rise:table-only",
+          "text": "POM “Stand front rise” has no geometry anchor and remains table-only.",
+          "box": {
+            "x": -6.489699840545654,
+            "y": 79.60287475585938,
+            "width": 10.122779846191406,
+            "height": 0.3795795142650604
+          }
+        },
+        {
+          "id": "notice:polo:FRONT_FLAT:pom:collar-point-extension:table-only",
+          "text": "POM “Collar point extension” has no geometry anchor and remains table-only.",
+          "box": {
+            "x": -6.489699840545654,
+            "y": 80.09337615966797,
+            "width": 11.02889347076416,
+            "height": 0.3795795142650604
+          }
+        },
+        {
+          "id": "notice:polo:FRONT_FLAT:pom:front-side-vent-depth:table-only",
+          "text": "POM “Front side-vent depth” has no geometry anchor and remains table-only.",
+          "box": {
+            "x": -6.489699840545654,
+            "y": 80.58377075195312,
+            "width": 10.975515365600586,
+            "height": 0.3795795142650604
+          }
+        },
+        {
+          "id": "notice:polo:FRONT_FLAT:pom:back-side-vent-depth:table-only",
+          "text": "POM “Back side-vent depth” has no geometry anchor and remains table-only.",
+          "box": {
+            "x": -6.489699840545654,
+            "y": 81.07417297363281,
+            "width": 10.94058895111084,
+            "height": 0.3795795142650604
+          }
+        },
+        {
+          "id": "notice:polo:FRONT_FLAT:pom:front-body-length-hps-hem:table-only",
+          "text": "POM “Front body length (HPS–hem)” has no geometry anchor and remains table-only.",
+          "box": {
+            "x": -6.489699840545654,
+            "y": 81.5645751953125,
+            "width": 12.201899528503418,
+            "height": 0.3795795142650604
+          }
+        },
+        {
+          "id": "notice:polo:FRONT_FLAT:pom:back-body-length-hps-hem:table-only",
+          "text": "POM “Back body length (HPS–hem)” has no geometry anchor and remains table-only.",
+          "box": {
+            "x": -6.489699840545654,
+            "y": 82.05496978759766,
+            "width": 12.166314125061035,
+            "height": 0.3795795142650604
+          }
+        },
+        {
+          "id": "notice:polo:FRONT_FLAT:pom:back-hem-drop:table-only",
+          "text": "POM “Back hem drop” has no geometry anchor and remains table-only.",
+          "box": {
+            "x": -6.489699840545654,
+            "y": 82.54547119140625,
+            "width": 10.104986190795898,
+            "height": 0.3795795142650604
+          }
+        },
+        {
+          "id": "notice:polo:FRONT_FLAT:assembly:stitch:Sleeve-cap ease",
+          "text": "Stitch “Sleeve-cap ease” leaves its sewn endpoints 0.37 cm apart after rigid placement; review this construction line before release.",
+          "box": {
+            "x": -6.489699840545654,
+            "y": 83.03587341308594,
+            "width": 18.55194854736328,
+            "height": 0.3795795142650604
+          }
+        }
+      ],
+      "callouts": [
+        {
+          "id": "flat:polo:FRONT_FLAT:callout:across-shoulder",
+          "target": "flat:polo:FRONT_FLAT:component:front:outline",
+          "leaderEnd": {
+            "x": 23.8927,
+            "y": 3.4429
+          },
+          "label": {
+            "x": 23.8927,
+            "y": 3.4429
+          }
+        },
+        {
+          "id": "flat:polo:FRONT_FLAT:callout:body-chest-finished",
+          "target": "flat:polo:FRONT_FLAT:component:front:outline",
+          "leaderEnd": {
+            "x": 32.0899,
+            "y": 23.4429
+          },
+          "label": {
+            "x": 32.0899,
+            "y": 23.4429
+          }
+        },
+        {
+          "id": "flat:polo:FRONT_FLAT:callout:front-neck-drop",
+          "target": "flat:polo:FRONT_FLAT:component:front:outline",
+          "leaderEnd": {
+            "x": 13.8004,
+            "y": 7.4429
+          },
+          "label": {
+            "x": 13.8004,
+            "y": 7.4429
+          }
+        },
+        {
+          "id": "flat:polo:FRONT_FLAT:callout:neck-width",
+          "target": "flat:polo:FRONT_FLAT:component:front:outline",
+          "leaderEnd": {
+            "x": 10.8016,
+            "y": -0.5571
+          },
+          "label": {
+            "x": 10.8016,
+            "y": -0.5571
+          }
+        }
+      ],
+      "labelOverlaps": [],
+      "noticesWithinViewBox": true,
+      "noticePanelBox": {
+        "x": -6.689700126647949,
+        "y": 71.1500015258789,
+        "width": 42.42689895629883,
+        "height": 12.380399703979492
+      },
+      "labelsWithinViewBox": true,
+      "noticesWithinPanel": true,
+      "noticeLineCount": 25,
+      "parserError": false,
+      "entityRevisionMismatch": false,
+      "name": "polo-front"
+    },
+    {
+      "recipeId": "polo",
+      "kind": "BACK_FLAT",
+      "revision": "live-draft:polo:4:4",
+      "viewBox": {
+        "x": -9.849900245666504,
+        "y": -16.896099090576172,
+        "width": 39.79750061035156,
+        "height": 95.31069946289062
+      },
+      "issues": null,
+      "labels": [
+        {
+          "id": "flat:polo:BACK_FLAT:mark:back:ventTop",
+          "text": "VENT TOP",
+          "revision": "live-draft:polo:4:4",
+          "x": 27.665,
+          "y": 64,
+          "box": {
+            "x": 27.625436782836914,
+            "y": 63.72304916381836,
+            "width": 1.6449565887451172,
+            "height": 0.3560798168182373
+          }
+        },
+        {
+          "id": "flat:polo:BACK_FLAT:mark:back:centerBack",
+          "text": "CENTER BACK",
+          "revision": "live-draft:polo:4:4",
+          "x": 1.323,
+          "y": 3.658,
+          "box": {
+            "x": 1.3229999542236328,
+            "y": 3.381049156188965,
+            "width": 2.297823905944824,
+            "height": 0.3560798168182373
+          }
+        },
+        {
+          "id": "flat:polo:BACK_FLAT:mark:back:shoulder",
+          "text": "SHOULDER",
+          "revision": "live-draft:polo:4:4",
+          "x": 8.3038,
+          "y": 0,
+          "box": {
+            "x": 8.303799629211426,
+            "y": -0.2769509553909302,
+            "width": 1.7828712463378906,
+            "height": 0.3560798168182373
+          }
+        },
+        {
+          "id": "flat:polo:BACK_FLAT:mark:outerStand:centerMatch",
+          "text": "PLACE ON FOLD",
+          "revision": "live-draft:polo:4:4",
+          "x": 7.1217,
+          "y": 1.5271,
+          "box": {
+            "x": 7.121699810028076,
+            "y": 1.250148892402649,
+            "width": 2.5645878314971924,
+            "height": 0.3560798168182373
+          }
+        },
+        {
+          "id": "flat:polo:BACK_FLAT:mark:outerStand:centerBack",
+          "text": "CENTER BACK",
+          "revision": "live-draft:polo:4:4",
+          "x": 7.1729,
+          "y": -1.3906,
+          "box": {
+            "x": 7.172900199890137,
+            "y": -1.667550802230835,
+            "width": 2.297823905944824,
+            "height": 0.3560798168182373
+          }
+        },
+        {
+          "id": "flat:polo:BACK_FLAT:mark:outerStand:shoulder",
+          "text": "SHOULDER",
+          "revision": "live-draft:polo:4:4",
+          "x": 0.9829,
+          "y": 1.7049,
+          "box": {
+            "x": 0.9829000234603882,
+            "y": 1.427949070930481,
+            "width": 1.7828712463378906,
+            "height": 0.3560798168182373
+          }
+        },
+        {
+          "id": "flat:polo:BACK_FLAT:mark:outerStand:centerFront",
+          "text": "CENTER FRONT",
+          "revision": "live-draft:polo:4:4",
+          "x": -5.4765,
+          "y": -4.7256,
+          "box": {
+            "x": -5.476500034332275,
+            "y": -5.0025506019592285,
+            "width": 2.506605625152588,
+            "height": 0.3560798168182373
+          }
+        },
+        {
+          "id": "flat:polo:BACK_FLAT:mark:upperCollar:centerMatch",
+          "text": "PLACE ON FOLD",
+          "revision": "live-draft:polo:4:4",
+          "x": 7.1217,
+          "y": -3.0028,
+          "box": {
+            "x": 7.121699810028076,
+            "y": -3.2797510623931885,
+            "width": 2.5645878314971924,
+            "height": 0.3560798168182373
+          }
+        },
+        {
+          "id": "flat:polo:BACK_FLAT:mark:upperCollar:centerBack",
+          "text": "CENTER BACK",
+          "revision": "live-draft:polo:4:4",
+          "x": 8.1579,
+          "y": 2.9784,
+          "box": {
+            "x": 8.157899856567383,
+            "y": 2.701449155807495,
+            "width": 2.297823905944824,
+            "height": 0.3560798168182373
+          }
+        },
+        {
+          "id": "flat:polo:BACK_FLAT:mark:upperCollar:shoulder",
+          "text": "SHOULDER",
+          "revision": "live-draft:polo:4:4",
+          "x": 0.1813,
+          "y": 4.5102,
+          "box": {
+            "x": 0.18129998445510864,
+            "y": 4.233249187469482,
+            "width": 1.7828712463378906,
+            "height": 0.3560798168182373
+          }
+        },
+        {
+          "id": "flat:polo:BACK_FLAT:mark:upperCollar:centerFront",
+          "text": "CENTER FRONT",
+          "revision": "live-draft:polo:4:4",
+          "x": -7.4756,
+          "y": -1.2228,
+          "box": {
+            "x": -7.475599765777588,
+            "y": -1.4997509717941284,
+            "width": 2.506605625152588,
+            "height": 0.3560798168182373
+          }
+        }
+      ],
+      "notices": [
+        {
+          "id": "notice:polo:topstitch",
+          "text": "Topstitch geometry is not represented by the current pattern model.",
+          "box": {
+            "x": -9.689464569091797,
+            "y": 72.78404235839844,
+            "width": 9.54615306854248,
+            "height": 0.3560798168182373
+          }
+        },
+        {
+          "id": "notice:polo:pleat",
+          "text": "Pleat geometry is not represented by the current pattern model.",
+          "box": {
+            "x": -9.649900436401367,
+            "y": 73.27455139160156,
+            "width": 8.973705291748047,
+            "height": 0.3560798168182373
+          }
+        },
+        {
+          "id": "notice:polo:dart",
+          "text": "No dart is declared for this drafted recipe block.",
+          "box": {
+            "x": -9.649900436401367,
+            "y": 73.76495361328125,
+            "width": 6.699369430541992,
+            "height": 0.3560798168182373
+          }
+        },
+        {
+          "id": "notice:polo:pocket",
+          "text": "No pocket shape or opening is represented by this drafted recipe block.",
+          "box": {
+            "x": -9.649900436401367,
+            "y": 74.2553482055664,
+            "width": 10.093873023986816,
+            "height": 0.3560798168182373
+          }
+        },
+        {
+          "id": "notice:polo:BACK_FLAT:role:innerStand:hidden",
+          "text": "Interior role “innerStand” is retained as source data and omitted from the exterior back geometry.",
+          "box": {
+            "x": -9.649900436401367,
+            "y": 74.74574279785156,
+            "width": 13.640453338623047,
+            "height": 0.3560798168182373
+          }
+        },
+        {
+          "id": "notice:polo:BACK_FLAT:role:underCollar:hidden",
+          "text": "Interior role “underCollar” is retained as source data and omitted from the exterior back geometry.",
+          "box": {
+            "x": -9.649900436401367,
+            "y": 75.23614501953125,
+            "width": 13.746782302856445,
+            "height": 0.3560798168182373
+          }
+        },
+        {
+          "id": "notice:polo:BACK_FLAT:pom:body-chest-finished:front-only",
+          "text": "POM “Body chest (finished)” has a front-only source anchor; no back anchor is inferred.",
+          "box": {
+            "x": -9.649900436401367,
+            "y": 75.72655487060547,
+            "width": 12.366972923278809,
+            "height": 0.3560798168182373
+          }
+        },
+        {
+          "id": "notice:polo:BACK_FLAT:pom:across-shoulder:front-only",
+          "text": "POM “Across shoulder” has a front-only source anchor; no back anchor is inferred.",
+          "box": {
+            "x": -9.649900436401367,
+            "y": 76.21704864501953,
+            "width": 11.673977851867676,
+            "height": 0.3560798168182373
+          }
+        },
+        {
+          "id": "notice:polo:BACK_FLAT:pom:neck-width:front-only",
+          "text": "POM “Neck width” has a front-only source anchor; no back anchor is inferred.",
+          "box": {
+            "x": -9.649900436401367,
+            "y": 76.70745086669922,
+            "width": 10.9451265335083,
+            "height": 0.3560798168182373
+          }
+        },
+        {
+          "id": "notice:polo:BACK_FLAT:pom:front-neck-drop:front-only",
+          "text": "POM “Front neck drop” has a front-only source anchor; no back anchor is inferred.",
+          "box": {
+            "x": -9.649900436401367,
+            "y": 77.1978530883789,
+            "width": 11.620813369750977,
+            "height": 0.3560798168182373
+          }
+        },
+        {
+          "id": "notice:polo:BACK_FLAT:assembly:stitch:Sleeve-cap ease",
+          "text": "Stitch “Sleeve-cap ease” leaves its sewn endpoints 0.46 cm apart after rigid placement; review this construction line before release.",
+          "box": {
+            "x": -9.649900436401367,
+            "y": 77.68824768066406,
+            "width": 18.551387786865234,
+            "height": 0.3560798168182373
+          }
+        }
+      ],
+      "callouts": [],
+      "labelOverlaps": [],
+      "noticesWithinViewBox": true,
+      "noticePanelBox": {
+        "x": -9.849900245666504,
+        "y": 72.6500015258789,
+        "width": 39.79750061035156,
+        "height": 5.514599800109863
+      },
+      "labelsWithinViewBox": true,
+      "noticesWithinPanel": true,
+      "noticeLineCount": 11,
+      "parserError": false,
+      "entityRevisionMismatch": false,
+      "name": "polo-back"
+    },
+    {
+      "recipeId": "woven-shirt",
+      "kind": "FRONT_FLAT",
+      "revision": "live-draft:woven-shirt:5:5",
+      "viewBox": {
+        "x": -4.9633002281188965,
+        "y": -11.050800323486328,
+        "width": 35.459999084472656,
+        "height": 91.90789794921875
+      },
+      "issues": null,
+      "labels": [
+        {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:front:pocketPlacement",
+          "text": "POCKET PLACEMENT",
+          "revision": "live-draft:woven-shirt:5:5",
+          "x": 17.11,
+          "y": 30,
+          "box": {
+            "x": 17.110000610351562,
+            "y": 29.717966079711914,
+            "width": 3.3684887886047363,
+            "height": 0.3525427579879761
+          }
+        },
+        {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:front:ventTop",
+          "text": "VENT TOP",
+          "revision": "live-draft:woven-shirt:5:5",
+          "x": 27.665,
+          "y": 67,
+          "box": {
+            "x": 27.629745483398438,
+            "y": 66.71796417236328,
+            "width": 1.6172900199890137,
+            "height": 0.3525427579879761
+          }
+        },
+        {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:pocket:pocketTopTurn",
+          "text": "TURN UNDER",
+          "revision": "live-draft:woven-shirt:5:5",
+          "x": 17.11,
+          "y": 31,
+          "box": {
+            "x": 17.07474708557129,
+            "y": 30.717966079711914,
+            "width": 2.1649696826934814,
+            "height": 0.3525427579879761
+          }
+        },
+        {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:outerStand:centerMatch",
+          "text": "PLACE ON FOLD",
+          "revision": "live-draft:woven-shirt:5:5",
+          "x": 21.3974,
+          "y": -7.3073,
+          "box": {
+            "x": 21.39739990234375,
+            "y": -7.589334011077881,
+            "width": 2.5745327472686768,
+            "height": 0.3525427579879761
+          }
+        },
+        {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:outerStand:stand-button",
+          "text": "STAND BUTTON",
+          "revision": "live-draft:woven-shirt:5:5",
+          "x": 5.1743,
+          "y": 8.9805,
+          "box": {
+            "x": 5.174300193786621,
+            "y": 8.698466300964355,
+            "width": 2.473360538482666,
+            "height": 0.3525422215461731
+          }
+        },
+        {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:upperCollar:centerMatch",
+          "text": "PLACE ON FOLD",
+          "revision": "live-draft:woven-shirt:5:5",
+          "x": 21.3974,
+          "y": -10.0597,
+          "box": {
+            "x": 21.39739990234375,
+            "y": -10.341733932495117,
+            "width": 2.5745327472686768,
+            "height": 0.3525427579879761
+          }
+        },
+        {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFace",
+          "text": "FOLD",
+          "revision": "live-draft:woven-shirt:5:5",
+          "x": 1.5885,
+          "y": 8.6785,
+          "box": {
+            "x": 1.5885001420974731,
+            "y": 8.396466255187988,
+            "width": 0.8686492443084717,
+            "height": 0.3525427579879761
+          }
+        },
+        {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFold",
+          "text": "FOLD",
+          "revision": "live-draft:woven-shirt:5:5",
+          "x": 5.2866,
+          "y": 8.2,
+          "box": {
+            "x": 5.286600589752197,
+            "y": 7.917965888977051,
+            "width": 0.8686492443084717,
+            "height": 0.3525427579879761
+          }
+        },
+        {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:closureLine",
+          "text": "CLOSURE",
+          "revision": "live-draft:woven-shirt:5:5",
+          "x": 2.5104,
+          "y": 7.2996,
+          "box": {
+            "x": 2.5104000568389893,
+            "y": 7.017565727233887,
+            "width": 1.5462305545806885,
+            "height": 0.3525427579879761
+          }
+        },
+        {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+          "text": "BUTTON",
+          "revision": "live-draft:woven-shirt:5:5",
+          "x": 1.665,
+          "y": 13.2,
+          "box": {
+            "x": 1.6649999618530273,
+            "y": 12.917964935302734,
+            "width": 1.324550747871399,
+            "height": 0.3525427579879761
+          }
+        },
+        {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-2",
+          "text": "BUTTON",
+          "revision": "live-draft:woven-shirt:5:5",
+          "x": 1.665,
+          "y": 21.2,
+          "box": {
+            "x": 1.6649999618530273,
+            "y": 20.917966842651367,
+            "width": 1.324550747871399,
+            "height": 0.3525427579879761
+          }
+        },
+        {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-3",
+          "text": "BUTTON",
+          "revision": "live-draft:woven-shirt:5:5",
+          "x": 1.665,
+          "y": 29.2,
+          "box": {
+            "x": 1.6649999618530273,
+            "y": 28.917966842651367,
+            "width": 1.324550747871399,
+            "height": 0.3525427579879761
+          }
+        },
+        {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-4",
+          "text": "BUTTON",
+          "revision": "live-draft:woven-shirt:5:5",
+          "x": 1.665,
+          "y": 37.2,
+          "box": {
+            "x": 1.6649999618530273,
+            "y": 36.91796875,
+            "width": 1.324550747871399,
+            "height": 0.3525427579879761
+          }
+        },
+        {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-5",
+          "text": "BUTTON",
+          "revision": "live-draft:woven-shirt:5:5",
+          "x": 1.665,
+          "y": 45.2,
+          "box": {
+            "x": 1.6649999618530273,
+            "y": 44.91796875,
+            "width": 1.324550747871399,
+            "height": 0.3525427579879761
+          }
+        },
+        {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-6",
+          "text": "BUTTON",
+          "revision": "live-draft:woven-shirt:5:5",
+          "x": 1.665,
+          "y": 53.2,
+          "box": {
+            "x": 1.6649999618530273,
+            "y": 52.917964935302734,
+            "width": 1.324550747871399,
+            "height": 0.3525427579879761
+          }
+        },
+        {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-7",
+          "text": "BUTTON",
+          "revision": "live-draft:woven-shirt:5:5",
+          "x": 1.665,
+          "y": 61.2,
+          "box": {
+            "x": 1.6649999618530273,
+            "y": 60.917964935302734,
+            "width": 1.324550747871399,
+            "height": 0.3525427579879761
+          }
+        },
+        {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:sleeveBand:bandFold",
+          "text": "FOLD",
+          "revision": "live-draft:woven-shirt:5:5",
+          "x": 2.3324,
+          "y": 3.5356,
+          "box": {
+            "x": 2.33240008354187,
+            "y": 3.253565549850464,
+            "width": 0.8686492443084717,
+            "height": 0.3525427579879761
+          }
+        }
+      ],
+      "notices": [
+        {
+          "id": "notice:woven-shirt:topstitch",
+          "text": "Topstitch geometry is not represented by the current pattern model.",
+          "box": {
+            "x": -4.798554420471191,
+            "y": 72.27896118164062,
+            "width": 9.54454517364502,
+            "height": 0.3525427579879761
+          }
+        },
+        {
+          "id": "notice:woven-shirt:pleat",
+          "text": "Pleat geometry is not represented by the current pattern model.",
+          "box": {
+            "x": -4.763299942016602,
+            "y": 72.76947021484375,
+            "width": 8.976069450378418,
+            "height": 0.3525427579879761
+          }
+        },
+        {
+          "id": "notice:woven-shirt:dart",
+          "text": "No dart is declared for this drafted recipe block.",
+          "box": {
+            "x": -4.763299942016602,
+            "y": 73.2598648071289,
+            "width": 6.700516223907471,
+            "height": 0.3525427579879761
+          }
+        },
+        {
+          "id": "notice:woven-shirt:FRONT_FLAT:role:innerStand:hidden",
+          "text": "Interior role “innerStand” is retained as source data and omitted from the exterior front geometry.",
+          "box": {
+            "x": -4.763299942016602,
+            "y": 73.7502670288086,
+            "width": 13.60815143585205,
+            "height": 0.3525427579879761
+          }
+        },
+        {
+          "id": "notice:woven-shirt:FRONT_FLAT:role:underCollar:hidden",
+          "text": "Interior role “underCollar” is retained as source data and omitted from the exterior front geometry.",
+          "box": {
+            "x": -4.763299942016602,
+            "y": 74.24066162109375,
+            "width": 13.714465141296387,
+            "height": 0.3525427579879761
+          }
+        },
+        {
+          "id": "notice:woven-shirt:FRONT_FLAT:role:buttonholePlacket:hidden",
+          "text": "Interior role “buttonholePlacket” is retained as source data and omitted from the exterior front geometry.",
+          "box": {
+            "x": -4.763299942016602,
+            "y": 74.73106384277344,
+            "width": 14.603533744812012,
+            "height": 0.3525427579879761
+          }
+        },
+        {
+          "id": "notice:woven-shirt:FRONT_FLAT:pom:body-chest-finished:table-only",
+          "text": "POM “Body chest (finished)” has no geometry anchor and remains table-only.",
+          "box": {
+            "x": -4.763299942016602,
+            "y": 75.22146606445312,
+            "width": 10.942046165466309,
+            "height": 0.3525427579879761
+          }
+        },
+        {
+          "id": "notice:woven-shirt:FRONT_FLAT:pom:body-length-hps-hem:table-only",
+          "text": "POM “Body length (HPS–hem)” has no geometry anchor and remains table-only.",
+          "box": {
+            "x": -4.763299942016602,
+            "y": 75.71196746826172,
+            "width": 11.404208183288574,
+            "height": 0.3525427579879761
+          }
+        },
+        {
+          "id": "notice:woven-shirt:FRONT_FLAT:pom:neck-circumference-pattern:table-only",
+          "text": "POM “Neck circumference (pattern)” has no geometry anchor and remains table-only.",
+          "box": {
+            "x": -4.763299942016602,
+            "y": 76.20236206054688,
+            "width": 12.078996658325195,
+            "height": 0.3525427579879761
+          }
+        },
+        {
+          "id": "notice:woven-shirt:FRONT_FLAT:pom:back-yoke-depth:table-only",
+          "text": "POM “Back yoke depth” has no geometry anchor and remains table-only.",
+          "box": {
+            "x": -4.763299942016602,
+            "y": 76.69276428222656,
+            "width": 10.32068920135498,
+            "height": 0.3525427579879761
+          }
+        },
+        {
+          "id": "notice:woven-shirt:FRONT_FLAT:pom:finished-placket-width:table-only",
+          "text": "POM “Finished placket width” has no geometry anchor and remains table-only.",
+          "box": {
+            "x": -4.763299942016602,
+            "y": 77.18317413330078,
+            "width": 11.102343559265137,
+            "height": 0.3525427579879761
+          }
+        },
+        {
+          "id": "notice:woven-shirt:FRONT_FLAT:pom:front-button-spacing:table-only",
+          "text": "POM “Front button spacing” has no geometry anchor and remains table-only.",
+          "box": {
+            "x": -4.763299942016602,
+            "y": 77.6735610961914,
+            "width": 10.871538162231445,
+            "height": 0.3525427579879761
+          }
+        },
+        {
+          "id": "notice:woven-shirt:FRONT_FLAT:pom:patch-pocket-width:table-only",
+          "text": "POM “Patch pocket width” has no geometry anchor and remains table-only.",
+          "box": {
+            "x": -4.763299942016602,
+            "y": 78.1640625,
+            "width": 10.640181541442871,
+            "height": 0.3525427579879761
+          }
+        },
+        {
+          "id": "notice:woven-shirt:FRONT_FLAT:pom:patch-pocket-height:table-only",
+          "text": "POM “Patch pocket height” has no geometry anchor and remains table-only.",
+          "box": {
+            "x": -4.763299942016602,
+            "y": 78.65447235107422,
+            "width": 10.76522445678711,
+            "height": 0.3525427579879761
+          }
+        },
+        {
+          "id": "notice:woven-shirt:FRONT_FLAT:pom:finished-sleeve-band-depth:table-only",
+          "text": "POM “Finished sleeve band depth” has no geometry anchor and remains table-only.",
+          "box": {
+            "x": -4.763299942016602,
+            "y": 79.1448745727539,
+            "width": 11.867470741271973,
+            "height": 0.3525427579879761
+          }
+        },
+        {
+          "id": "notice:woven-shirt:FRONT_FLAT:pom:side-vent-depth:table-only",
+          "text": "POM “Side vent depth” has no geometry anchor and remains table-only.",
+          "box": {
+            "x": -4.763299942016602,
+            "y": 79.63526153564453,
+            "width": 10.178570747375488,
+            "height": 0.3525427579879761
+          }
+        },
+        {
+          "id": "notice:woven-shirt:FRONT_FLAT:assembly:stitch:Outer stand ↔ woven neckline",
+          "text": "Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.67 cm apart after rigid placement; review this construction line before release.",
+          "box": {
+            "x": -4.763299942016602,
+            "y": 80.12566375732422,
+            "width": 20.527904510498047,
+            "height": 0.3525427579879761
+          }
+        }
+      ],
+      "callouts": [],
+      "labelOverlaps": [],
+      "noticesWithinViewBox": true,
+      "noticePanelBox": {
+        "x": -4.9633002281188965,
+        "y": 72.1500015258789,
+        "width": 35.459999084472656,
+        "height": 8.457099914550781
+      },
+      "labelsWithinViewBox": true,
+      "noticesWithinPanel": true,
+      "noticeLineCount": 17,
+      "parserError": false,
+      "entityRevisionMismatch": false,
+      "name": "woven-shirt-front"
+    },
+    {
+      "name": "woven-shirt-back",
+      "recipeId": "woven-shirt",
+      "kind": "BACK_FLAT",
+      "blocked": true,
+      "guidance": "assembly · stitch:Woven sleeve-cap ease: Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement.",
+      "screenshot": "woven-shirt-back-blocked.png"
+    },
+    {
+      "recipeId": "skirt",
+      "kind": "FRONT_FLAT",
+      "revision": "live-draft:skirt:6:6",
+      "viewBox": {
+        "x": -0.699999988079071,
+        "y": -1.5480999946594238,
+        "width": 48.400001525878906,
+        "height": 76.0105972290039
+      },
+      "issues": null,
+      "labels": [
+        {
+          "id": "flat:skirt:FRONT_FLAT:callout:waist-finished",
+          "text": "Waist (finished): 94.0 cm (±1.0 cm)",
+          "revision": "live-draft:skirt:6:6",
+          "x": 24.8927,
+          "y": -0.5571,
+          "box": {
+            "x": 22.371362686157227,
+            "y": -0.8457679152488708,
+            "width": 5.032162189483643,
+            "height": 0.3848906457424164
+          }
+        },
+        {
+          "id": "flat:skirt:FRONT_FLAT:callout:hip-finished",
+          "text": "Hip (finished): 110.0 cm (±1.3 cm)",
+          "revision": "live-draft:skirt:6:6",
+          "x": 31.5386,
+          "y": 19.4429,
+          "box": {
+            "x": 29.14205551147461,
+            "y": 19.15423011779785,
+            "width": 4.830328941345215,
+            "height": 0.3848906457424164
+          }
+        }
+      ],
+      "notices": [
+        {
+          "id": "notice:skirt:topstitch",
+          "text": "Topstitch geometry is not represented by the current pattern model.",
+          "box": {
+            "x": -0.5481113195419312,
+            "y": 71.27232360839844,
+            "width": 9.569751739501953,
+            "height": 0.3848906457424164
+          }
+        },
+        {
+          "id": "notice:skirt:pleat",
+          "text": "Pleat geometry is not represented by the current pattern model.",
+          "box": {
+            "x": -0.4999999701976776,
+            "y": 71.76283264160156,
+            "width": 8.988303184509277,
+            "height": 0.3848906457424164
+          }
+        },
+        {
+          "id": "notice:skirt:dart",
+          "text": "No dart is declared for this drafted recipe block.",
+          "box": {
+            "x": -0.4999999701976776,
+            "y": 72.25322723388672,
+            "width": 6.711544036865234,
+            "height": 0.3848906457424164
+          }
+        },
+        {
+          "id": "notice:skirt:pocket",
+          "text": "No pocket shape or opening is represented by this drafted recipe block.",
+          "box": {
+            "x": -0.4999999701976776,
+            "y": 72.7436294555664,
+            "width": 10.109188079833984,
+            "height": 0.3848906457424164
+          }
+        },
+        {
+          "id": "notice:skirt:closure",
+          "text": "No closure marks are represented by this drafted recipe block.",
+          "box": {
+            "x": -0.4999999701976776,
+            "y": 73.23402404785156,
+            "width": 8.827552795410156,
+            "height": 0.3848906457424164
+          }
+        },
+        {
+          "id": "notice:skirt:FRONT_FLAT:pom:length-waist-hem:table-only",
+          "text": "POM “Length (waist–hem)” has no geometry anchor and remains table-only.",
+          "box": {
+            "x": -0.4999999701976776,
+            "y": 73.72443389892578,
+            "width": 10.777810096740723,
+            "height": 0.3848906457424164
+          }
+        }
+      ],
+      "callouts": [
+        {
+          "id": "flat:skirt:FRONT_FLAT:callout:hip-finished",
+          "target": "flat:skirt:FRONT_FLAT:component:front:outline",
+          "leaderEnd": {
+            "x": 31.5386,
+            "y": 19.4429
+          },
+          "label": {
+            "x": 31.5386,
+            "y": 19.4429
+          }
+        },
+        {
+          "id": "flat:skirt:FRONT_FLAT:callout:waist-finished",
+          "target": "flat:skirt:FRONT_FLAT:component:front:outline",
+          "leaderEnd": {
+            "x": 24.8927,
+            "y": -0.5571
+          },
+          "label": {
+            "x": 24.8927,
+            "y": -0.5571
+          }
+        }
+      ],
+      "labelOverlaps": [],
+      "noticesWithinViewBox": true,
+      "noticePanelBox": {
+        "x": -0.699999988079071,
+        "y": 71.1500015258789,
+        "width": 48.400001525878906,
+        "height": 3.0625
+      },
+      "labelsWithinViewBox": true,
+      "noticesWithinPanel": true,
+      "noticeLineCount": 6,
+      "parserError": false,
+      "entityRevisionMismatch": false,
+      "name": "skirt-front"
+    },
+    {
+      "recipeId": "skirt",
+      "kind": "BACK_FLAT",
+      "revision": "live-draft:skirt:6:6",
+      "viewBox": {
+        "x": -24.200000762939453,
+        "y": -0.699999988079071,
+        "width": 52.400001525878906,
+        "height": 75.65290069580078
+      },
+      "issues": null,
+      "labels": [],
+      "notices": [
+        {
+          "id": "notice:skirt:topstitch",
+          "text": "Topstitch geometry is not represented by the current pattern model.",
+          "box": {
+            "x": -24.05210304260254,
+            "y": 71.24838256835938,
+            "width": 9.58080768585205,
+            "height": 0.4168204069137573
+          }
+        },
+        {
+          "id": "notice:skirt:pleat",
+          "text": "Pleat geometry is not represented by the current pattern model.",
+          "box": {
+            "x": -24.000001907348633,
+            "y": 71.73888397216797,
+            "width": 8.995420455932617,
+            "height": 0.4168204069137573
+          }
+        },
+        {
+          "id": "notice:skirt:dart",
+          "text": "No dart is declared for this drafted recipe block.",
+          "box": {
+            "x": -24.000001907348633,
+            "y": 72.22928619384766,
+            "width": 6.718882083892822,
+            "height": 0.4168204069137573
+          }
+        },
+        {
+          "id": "notice:skirt:pocket",
+          "text": "No pocket shape or opening is represented by this drafted recipe block.",
+          "box": {
+            "x": -24.000001907348633,
+            "y": 72.71968841552734,
+            "width": 10.116193771362305,
+            "height": 0.4168204069137573
+          }
+        },
+        {
+          "id": "notice:skirt:closure",
+          "text": "No closure marks are represented by this drafted recipe block.",
+          "box": {
+            "x": -24.000001907348633,
+            "y": 73.2100830078125,
+            "width": 8.834683418273926,
+            "height": 0.4168204069137573
+          }
+        },
+        {
+          "id": "notice:skirt:BACK_FLAT:pom:waist-finished:front-only",
+          "text": "POM “Waist (finished)” has a front-only source anchor; no back anchor is inferred.",
+          "box": {
+            "x": -24.000001907348633,
+            "y": 73.70049285888672,
+            "width": 11.596085548400879,
+            "height": 0.4168204069137573
+          }
+        },
+        {
+          "id": "notice:skirt:BACK_FLAT:pom:hip-finished:front-only",
+          "text": "POM “Hip (finished)” has a front-only source anchor; no back anchor is inferred.",
+          "box": {
+            "x": -24.000001907348633,
+            "y": 74.19088745117188,
+            "width": 11.288203239440918,
+            "height": 0.4168204069137573
+          }
+        }
+      ],
+      "callouts": [],
+      "labelOverlaps": [],
+      "noticesWithinViewBox": true,
+      "noticePanelBox": {
+        "x": -24.200000762939453,
+        "y": 71.1500015258789,
+        "width": 52.400001525878906,
+        "height": 3.5529000759124756
+      },
+      "labelsWithinViewBox": true,
+      "noticesWithinPanel": true,
+      "noticeLineCount": 7,
+      "parserError": false,
+      "entityRevisionMismatch": false,
+      "name": "skirt-back"
+    },
+    {
+      "name": "trouser-front",
+      "recipeId": "trouser",
+      "kind": "FRONT_FLAT",
+      "blocked": true,
+      "guidance": "assembly · stitch:Right front fly ↔ shield: Stitch “Right front fly ↔ shield” conflicts with the solved sewn placement.",
+      "screenshot": "trouser-front-blocked.png"
+    },
+    {
+      "name": "trouser-back",
+      "recipeId": "trouser",
+      "kind": "BACK_FLAT",
+      "blocked": true,
+      "guidance": "assembly · stitch:Waistband (four legs ↔ separate waistband): Stitch “Waistband (four legs ↔ separate waistband)” conflicts with the solved sewn placement.",
+      "screenshot": "trouser-back-blocked.png"
+    }
+  ],
+  "consoleErrors": [],
+  "pageErrors": [],
+  "requestErrors": []
+}

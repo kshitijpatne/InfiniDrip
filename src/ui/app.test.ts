@@ -7221,9 +7221,10 @@ describe("bundled local artwork library (Slice 203)", () => {
 
       clickId(root, "garment-polo");
       clickId(root, "view-flat");
-      expect(root.querySelector('[data-technical-flat-issues]')).not.toBeNull();
-      expect(root.querySelector('[data-technical-flat-issues]')?.textContent).toMatch(/placement|flat|revision|stitch|role|collision/i);
-      expect(root.textContent).toContain("Technical flat withheld");
+      const poloFlat = root.querySelector<SVGSVGElement>("[data-technical-flat-svg] svg");
+      expect(poloFlat?.getAttribute("data-recipe-id")).toBe("polo");
+      expect(poloFlat?.querySelectorAll("g[data-layer-group='TEXT_LABELS'] text").length).toBeGreaterThan(0);
+      expect(root.querySelector("[data-technical-flat-issues]")).toBeNull();
     } finally {
       root.remove();
       localStorage.clear();

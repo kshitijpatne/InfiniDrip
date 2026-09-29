@@ -245,10 +245,16 @@ same draft, requires its anchor to be a real vertex on the mapped front role,
 and creates revision-bound callouts targeting that role's outline. Recipe POMs
 without anchors remain table-only. Existing anchor methods are front-only, so
 the back view receives a visible omission notice instead of a guessed mirror.
-The layout avoids label-box overlap and conflicting leader paths or returns an
-actionable collision issue. Its source-space text extents are a provisional
-character-width estimate; actual font metrics and readability still require
-the integrated rendered-view review.
+The first candidate positions use a provisional source-space character-width
+estimate. `technical-flat-svg.ts` then measures every label with the active
+browser font and deterministically searches nearby positions using those exact
+metrics. It preserves each POM's source anchor and geometry target while
+moving only its presentation label and leader endpoint. Text boxes keep a small
+gap from other labels, visible vector strokes, artwork placement bounds, and
+other POM leaders. When no measured position is available, the complete face
+remains withheld with a specific collision issue. The renderer's measured
+collision checks and 14-face default browser review are recorded in
+`docs/research/epic17/G04-V02-LABEL-REFLOW-S273.md`.
 
 `src/render/technical-flat-assembly.ts` derives per-face component placements
 from ordered `Block.stitches` interfaces. It samples each edge/mark interface
@@ -266,15 +272,15 @@ layer order. SVG width and height use physical centimetres and source geometry
 remains unscaled. Every emitted entity carries its source and revision IDs;
 artwork source assets that are not embedded receive a visible notice. The
 browser measures labels with the same SVG font family and user-unit size used
-by the output. The rendered text extents expand the view box; overlapping
-labels, labels over artwork placement boundaries, and POM leaders that cross
-other labels return a blocking issue instead of an unreadable SVG. This renderer is
-not yet wired to the live product surface. Browser coverage across the seven
-default recipes currently accepts eight faces and blocks six dense Polo,
-Woven-shirt and Trouser faces for construction-label collisions; reflow and
-rendered option review remain required before V02 exit. The source-to-sewn
-geometry also retains explicit residual and cycle notices; no physical fit or
-factory acceptance is inferred.
+by the output. The rendered text extents expand the view box; measured reflow
+avoids label, visible-stroke, artwork-bound and leader overlap. A face stays
+withheld when no collision-free placement exists. Production Chromium now
+renders and parses eleven of fourteen default faces without label collisions;
+three faces remain withheld by source assembly-cycle issues (Woven-shirt back,
+Trouser front and Trouser back), with actionable guidance. Full supported-option
+review remains required before V02 exit. The source-to-sewn geometry also
+retains explicit residual and cycle notices; no physical fit or factory
+acceptance is inferred.
 
 The **Edit** view keeps user-authored deltas against stable recipe-owned
 anchors, rather than saving a disconnected picture. Pointer drags and keyboard

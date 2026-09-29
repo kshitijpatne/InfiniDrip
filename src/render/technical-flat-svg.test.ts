@@ -86,6 +86,10 @@ describe("renderTechnicalFlatSvg", () => {
     expect(svg.querySelectorAll('[data-notice-id="source-gap"]').length).toBeGreaterThan(1);
     expect(svg.querySelector('[data-notice-id$="asset-content"]')?.textContent)
       .toContain("image content is not embedded");
+    const noticeRect = svg.querySelector("g[data-layer-group='SOURCE_NOTICES'] rect")!;
+    const noticeTop = Number(noticeRect.getAttribute("y"));
+    const firstNoticeY = Number(svg.querySelector("g[data-layer-group='SOURCE_NOTICES'] text")!.getAttribute("y"));
+    expect(firstNoticeY - noticeTop).toBeCloseTo(0.344, 3);
     expect(result.textBounds.pom).toBeDefined();
   });
 
@@ -119,7 +123,7 @@ describe("renderTechnicalFlatSvg", () => {
       .toBe("COLORWAY_REVISION_MISMATCH");
   });
 
-  it("blocks colliding labels and expands the view frame to include measured widths", () => {
+  it("reflows measured colliding labels and expands the view frame to include them", () => {
     const labels: TechnicalFlatPrimitive[] = [
       { kind: "text", id: "one", layer: "ANNOTATION", feature: "annotation", source,
         at: { x: 5, y: 5 }, text: "same" },
@@ -129,12 +133,13 @@ describe("renderTechnicalFlatSvg", () => {
         at: { x: 12, y: 4 }, text: "x".repeat(100) },
     ];
     const result = renderTechnicalFlatSvg(makeView([outline, ...labels]), { measureText: measure });
-    expect(result.svg).toBeNull();
-    expect(result.issues.map((issue) => issue.code)).toContain("TEXT_COLLISION");
+    expect(result.svg).not.toBeNull();
+    expect(result.issues).toEqual([]);
+    expect(result.textBounds.one?.minY).not.toBe(result.textBounds.two?.minY);
     expect(result.textBounds.long?.maxX).toBeGreaterThan(14);
   });
 
-  it("blocks labels over artwork and leaders through other text", () => {
+  it("reflows labels away from artwork and POM leaders while keeping callout targets", () => {
     const artwork: TechnicalFlatPrimitive = {
       kind: "artwork", id: "print-area", layer: "ARTWORK", feature: "artwork",
       source: { ...source, sourceClass: "USER_REFERENCE", sourceId: "style:artwork:front" },
@@ -145,7 +150,8 @@ describe("renderTechnicalFlatSvg", () => {
       kind: "text", id: "art-label", layer: "ANNOTATION", feature: "annotation", source,
       at: { x: 4, y: 5 }, text: "On print",
     }]), { measureText: measure });
-    expect(onArtwork.issues.some((issue) => issue.entityId === "art-label" && issue.message.includes("artwork placement"))).toBe(true);
+    expect(onArtwork.issues).toEqual([]);
+    expect(onArtwork.textBounds["art-label"]?.minX).not.toBe(4);
 
     const leader = renderTechnicalFlatSvg(makeView([outline, {
       kind: "callout", id: "leader-callout", layer: "CALLOUT", feature: "pom", source,
@@ -154,7 +160,43 @@ describe("renderTechnicalFlatSvg", () => {
       kind: "text", id: "under-leader", layer: "ANNOTATION", feature: "annotation", source,
       at: { x: 5, y: 6 }, text: "Crossing note",
     }]), { measureText: measure });
-    expect(leader.issues.some((issue) => issue.entityId === "under-leader" && issue.message.includes("leader"))).toBe(true);
+    expect(leader.issues).toEqual([]);
+    expect(leader.textBounds["under-leader"]?.minY).not.toBe(6 - measure("Crossing note", 0.32, "Arial").ascentCm);
+    expect(leader.svg).toContain('data-callout-target="outline"');
+    expect(leader.svg).toContain('data-label-for="leader-callout"');
+  });
+
+  it("keeps an unsatisfiable measured label blocked", () => {
+    const artwork: TechnicalFlatPrimitive = {
+      kind: "artwork", id: "large-print", layer: "ARTWORK", feature: "artwork",
+      source: { ...source, sourceClass: "USER_REFERENCE", sourceId: "style:artwork:large" },
+      artworkKind: "print", placementId: "large", sourceName: "Large print", targetRoleId: "front",
+      widthCm: 100, heightCm: 100, transform: { dx: 5, dy: 5, scale: 1, rotationDegrees: 0 }, zOrder: 1,
+    };
+    const result = renderTechnicalFlatSvg(makeView([outline, artwork, {
+      kind: "text", id: "covered", layer: "ANNOTATION", feature: "annotation", source,
+      at: { x: 5, y: 5 }, text: "No clear position",
+    }, {
+      kind: "callout", id: "covered-callout", layer: "CALLOUT", feature: "pom", source,
+      text: "Covered POM", anchor: { primitiveId: "outline", point: { x: 5, y: 5 } }, labelAt: { x: 5, y: 5 },
+    }]), { measureText: measure });
+    expect(result.svg).toBeNull();
+    expect(result.issues.some((issue) => issue.code === "TEXT_COLLISION" && issue.entityId === "covered")).toBe(true);
+  });
+
+  it("reflows multiple callout leaders around measured labels", () => {
+    const result = renderTechnicalFlatSvg(makeView([outline,
+      { kind: "text", id: "leader-note", layer: "ANNOTATION", feature: "annotation", source,
+        at: { x: 6, y: 5 }, text: "Leader crossing" },
+      { kind: "callout", id: "pom-one", layer: "CALLOUT", feature: "pom", source,
+        text: "First POM", anchor: { primitiveId: "outline", point: { x: 1, y: 2 } }, labelAt: { x: 11, y: 8 } },
+      { kind: "callout", id: "pom-two", layer: "CALLOUT", feature: "pom", source,
+        text: "Second POM", anchor: { primitiveId: "outline", point: { x: 1, y: 8 } }, labelAt: { x: 11, y: 2 } },
+    ]), { measureText: measure });
+    expect(result.issues).toEqual([]);
+    expect(result.svg).toContain('data-label-for="pom-one"');
+    expect(result.svg).toContain('data-label-for="pom-two"');
+    expect(result.textBounds["pom-one"]?.minX).not.toBe(result.textBounds["pom-two"]?.minX);
   });
 
   it("rejects notice wrapping when actual font metrics cannot fit the text", () => {
@@ -162,6 +204,18 @@ describe("renderTechnicalFlatSvg", () => {
       message: "Unbreakable".repeat(30) }]), { measureText: (text) => ({ widthCm: text.length * 2, ascentCm: 0.2, descentCm: 0.1 }) });
     expect(result.svg).toBeNull();
     expect(result.issues.map((issue) => issue.code)).toContain("INVALID_FONT_METRICS");
+  });
+
+  it("blocks a notice whose measured panel metrics become unavailable", () => {
+    let exactLineCalls = 0;
+    const result = renderTechnicalFlatSvg(makeView([], [{ id: "notice", feature: "annotation",
+      reason: "SOURCE_REFERENCE_MISSING", message: "visible notice" }]), { measureText: (text) => {
+      if (text === "visible notice" && exactLineCalls++ > 0) return { widthCm: Number.NaN, ascentCm: 0.2, descentCm: 0.1 };
+      return { widthCm: text.length * 0.1, ascentCm: 0.2, descentCm: 0.1 };
+    } });
+    expect(result.svg).toBeNull();
+    expect(result.issues.some((issue) => issue.code === "INVALID_FONT_METRICS"
+      && issue.message.includes("panel placement"))).toBe(true);
   });
 
   it("measures text bounds in SVG user units with the active browser font", () => {

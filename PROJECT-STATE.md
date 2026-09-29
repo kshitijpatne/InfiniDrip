@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 272 EPIC-17/G04 live technical-flat integration complete at Control Center revision 400, 2026-09-29._
+_Last updated: Slice 273 EPIC-17/G04 measured label reflow complete, 2026-09-29._
 Current directive: EPIC-14/G01, EPIC-15/G02, and EPIC-16/G03 are closed with
 accepted digital exit evidence. EPIC-16/G03 completed the admitted local-first
 scope under `docs/planning/EPIC-16-ADMISSION.md`; M01, M02, M03, final review,
@@ -29,10 +29,16 @@ scaled. Slice 271 adds the centimeter-sized SVG renderer, active-browser font
 metrics and visible source notices. Slice 272 integrates live front/back views
 with same-draft overlays/POMs, a readable width-fit canvas and visible blocker
 guidance. Real Chromium captures confirm the selected faces bind the same live
-draft token. The default recipe browser matrix still blocks six dense faces
-for measured label collisions; Slice 273 owns measured label reflow. G04 V02
-remains In Progress and does not close until all-recipe option/readability and
-mapped manual-output review gates pass.
+draft token. Slice 273 adds actual-browser-measured deterministic label
+reflow and metric-derived notice-panel padding. Production Chromium now renders
+and parses eleven of fourteen default faces without text collisions; Woven-shirt
+back and both Trouser faces remain fail-closed with existing source
+assembly-cycle guidance. The verified `E-G04-S273-EXIT` evidence is linked to
+EPIC-17 and G04-V02 by validated commands at board revision 403. V02 remains In
+Progress pending supported-option readability and mapped manual-output review.
+Slice 272 landed as `39f943495857c008d78b3f0d4bbb3194c6160009`; Slice 273's exact
+commit SHA is recorded at the next slice start. It changes no pattern geometry,
+POM anchors or construction-source mapping.
 The current 20–24-slice estimate and revised boundary slots are in
 the admission packet. The verified upstream G01/G02/G03 exits are recorded
 there as well.
@@ -123,6 +129,77 @@ commit is recorded from the verified history at the next slice start.
 **Next action:** refresh refs, active slice history and the board for Slice 273;
 solve the six measured default-label collisions in Polo, Woven-shirt and
 Trouser while retaining the renderer's no-overlap/no-partial-output rule.
+
+### Slice 273 — G04 V02 measured label reflow (start record)
+
+Started at 2026-09-29 20:57:56 UTC. Slice 272 landed as
+`39f943495857c008d78b3f0d4bbb3194c6160009`. Refreshed `origin/main` remains
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`, an ancestor; the branch is clean
+on `codex/epic-17-g04`. S273 is the unique next slice after checking branch
+history through 272. The canonical board began at revision 400, with V02
+In Progress and verified `E-G04-S272-EXIT`. The primary usage window was 18%
+used (82% remaining), ordinary usage allowed; weekly was 69% used and
+informational.
+
+This slice will place construction/POM labels on actual text bounds for all
+seven recipes' default front/back views. It will preserve exact pattern paths,
+anchor points, leader targets, semantic layers, source/revision IDs, and
+visible notices. Full viewport-level label reflow for every supported option
+remains S274. No unresolved decision blocks the default-face renderer work; no
+safe separate delegation exists because placement, collision detection and
+browser proof are coupled. Required focused coverage, TypeScript/build,
+14-face browser evidence, mounted integration, protected outputs, validated
+board evidence and documentation gates are in
+`docs/research/epic17/G04-V02-LABEL-REFLOW-S273.md`.
+
+**Next action:** inspect the current actual-metric collision boxes and renderer
+placement algorithm, then add measured candidate placement for the six blocked
+default faces without suppressing unresolved construction notices.
+
+### Slice 273 — G04 V02 measured label reflow (complete)
+
+Slice 273 uses the same-browser SVG text metrics to place label boxes through a
+deterministic 48-ring search. It keeps a 0.08 cm gap from other labels, sampled
+path strokes, artwork bounds and POM leaders. A callout keeps its exact source
+anchor and geometry target; only its text and leader endpoint move. If no
+measured position fits, the complete SVG stays withheld with a specific
+collision issue.
+
+The production Chromium verifier exercised all seven recipes and both faces at
+1440 × 3000. Eleven faces rendered and parsed with one live-draft revision per
+recipe pair where both faces were available. Browser glyph bounds do not
+overlap each other and remain inside the SVG frame; notice text remains inside
+the notice panel and SVG frame; POM leader endpoints equal their represented
+label positions. Three faces remain correctly withheld: Woven-shirt back has
+an inconsistent `Woven sleeve-cap ease` cycle, Trouser front conflicts at
+`Right front fly ↔ shield`, and Trouser back conflicts at the four-leg
+waistband cycle. Their browser captures preserve the actionable guidance.
+Rendered screenshots/SVGs and the all-face matrix are retained in
+`docs/research/epic17/S273-browser/`.
+
+The renderer-focused suite passed 13/13 with 100% statement, branch, function
+and line coverage. Mounted live flat smoke plus renderer/live compiler checks
+passed 19 tests (268 unrelated app tests skipped). `npm run build` passed with
+the existing Vite bundle-size advisory. The protected export/DXF/tech-pack
+group passed 24/24. No export/DXF implementation or byte identity changed.
+Visual review confirms readable separated annotations and visible source
+notices. The current rigid component assembly still does not create qualified
+finished garment silhouettes; no physical-fit or factory-acceptance evidence
+is implied. Full source geometry/review correction for the named assembly
+cycles is separate from this label-layout slice.
+
+Board revision 403 links `E-G04-S273-EXIT` to EPIC-17 and G04-V02. EPIC-17
+remains In Progress, G04-V02 remains In Progress, and V03 remains Backlog.
+Supported-option checks and full mapped MQF reviews remain S274/S275. S273
+began at 20:57:56 UTC and reached its verified output boundary at about 21:32
+UTC (about 34m): implementation and changed tests 8m; focused verification 8m;
+production browser matrix and visual review 7m; durable documentation and
+board evidence 11m; external-agent waits 0m; maintainer-decision time 0m. Phase
+times are rounded estimates from the retained run chronology.
+
+**Next action:** refresh refs/history and board state, then begin Slice 274's
+supported-option topology/readability sweep and applicable mapped manual
+findings review.
 
 ### Slice 265 — G04 V02 geometry basis (complete)
 
