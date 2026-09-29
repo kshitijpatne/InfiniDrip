@@ -407,11 +407,13 @@ export function celebrationMarkup(plausible: boolean): string {
 
 // ── Persistence ──────────────────────────────────────────────────────────────
 
-export const JOURNEY_VERSION = 3;
+export const JOURNEY_VERSION = 4;
 
 export interface JourneyState {
   readonly v: number;
   readonly step: JourneyStep;
+  /** True once the user explicitly leaves garment selection for the measure stage. */
+  readonly hasAdvancedFromGarment?: boolean;
   readonly exported: boolean;
   readonly familiar?: boolean;
   readonly tutorial: TutorialState;
@@ -420,6 +422,7 @@ export interface JourneyState {
 export const FRESH_JOURNEY: JourneyState = {
   v: JOURNEY_VERSION,
   step: "start",
+  hasAdvancedFromGarment: false,
   exported: false,
   familiar: false,
   tutorial: FRESH_TUTORIAL,
@@ -439,6 +442,8 @@ const hasOwn = (record: Record<string, unknown>, key: string): boolean =>
 const normalizedForSave = (state: JourneyState): JourneyState => ({
   v: JOURNEY_VERSION,
   step: isJourneyStep(state.step) ? state.step : "start",
+  hasAdvancedFromGarment: state.hasAdvancedFromGarment === true
+    || (isJourneyStep(state.step) && state.step !== "start"),
   exported: state.exported === true,
   familiar: state.familiar === true,
   tutorial: isTutorialState(state.tutorial) ? state.tutorial : FRESH_TUTORIAL,
@@ -457,7 +462,8 @@ const normalizedStage = (step: JourneyStep): JourneyStep =>
 
 const returningRecord = (value: unknown): boolean => {
   if (!isRecord(value)) return false;
-  return value.familiar === true || (isJourneyStep(value.step) && value.step !== "start");
+  return value.familiar === true || value.hasAdvancedFromGarment === true
+    || (isJourneyStep(value.step) && value.step !== "start");
 };
 
 const fallbackJourney = (hasSavedWorkspace: boolean, parsed?: unknown): JourneyState => {
@@ -467,6 +473,7 @@ const fallbackJourney = (hasSavedWorkspace: boolean, parsed?: unknown): JourneyS
   return {
     ...FRESH_JOURNEY,
     step,
+    hasAdvancedFromGarment: step !== "start",
     familiar: returning,
     tutorial: returning
       ? { status: "suppressed", step: tutorialStepForJourneyStep(step) }
@@ -475,12 +482,13 @@ const fallbackJourney = (hasSavedWorkspace: boolean, parsed?: unknown): JourneyS
 };
 
 function migrateJourney(parsed: Record<string, unknown>, hasSavedWorkspace: boolean): JourneyState {
-  if (parsed.v !== 1 && parsed.v !== 2 && parsed.v !== JOURNEY_VERSION) {
+  if (parsed.v !== 1 && parsed.v !== 2 && parsed.v !== 3 && parsed.v !== JOURNEY_VERSION) {
     return fallbackJourney(hasSavedWorkspace, parsed);
   }
   if (!isJourneyStep(parsed.step) ||
     (hasOwn(parsed, "exported") && typeof parsed.exported !== "boolean") ||
-    (hasOwn(parsed, "familiar") && typeof parsed.familiar !== "boolean")) {
+    (hasOwn(parsed, "familiar") && typeof parsed.familiar !== "boolean") ||
+    (parsed.v === JOURNEY_VERSION && typeof parsed.hasAdvancedFromGarment !== "boolean")) {
     return fallbackJourney(hasSavedWorkspace, parsed);
   }
 
@@ -498,6 +506,7 @@ function migrateJourney(parsed: Record<string, unknown>, hasSavedWorkspace: bool
     return {
       v: JOURNEY_VERSION,
       step,
+      hasAdvancedFromGarment: step !== "start",
       exported: false,
       familiar: suppressed,
       tutorial: suppressed
@@ -526,13 +535,16 @@ function migrateJourney(parsed: Record<string, unknown>, hasSavedWorkspace: bool
   return {
     v: JOURNEY_VERSION,
     step: tutorialStatus === "in_progress" && parsed.tutorial.step === "export" ? "refine" : savedWorkspaceStage,
+    hasAdvancedFromGarment: parsed.v === JOURNEY_VERSION
+      ? parsed.hasAdvancedFromGarment === true || savedWorkspaceStage !== "start"
+      : savedWorkspaceStage !== "start",
     exported: false,
     familiar: parsed.familiar === true || tutorialStatus !== "unseen",
     tutorial: { status: tutorialStatus, step: tutorialStep },
   };
 }
 
-/** Persist the journey in the legacy storage slot using the v3 shape. */
+/** Persist the journey in the legacy storage slot using the v4 shape. */
 export function saveJourney(state: JourneyState): boolean {
   try {
     localStorage.setItem(JOURNEY_KEY, JSON.stringify(normalizedForSave(state)));

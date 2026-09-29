@@ -1,0 +1,23 @@
+{
+  "slice": 247,
+  "status": "passed",
+  "command": "npm run coverage -- --maxWorkers=1 --minWorkers=1 --testTimeout=15000",
+  "testFiles": 127,
+  "tests": 1898,
+  "coveragePercent": {
+    "statements": 100,
+    "branches": 100,
+    "functions": 100,
+    "lines": 100
+  },
+  "additionalGates": {
+    "productionBuild": "npm run build — passed",
+    "electronRuntimeBuild": "npm run electron:build-main — passed",
+    "controlCenter": "npm run control-center:test — 33/33 passed",
+    "protectedExportIdentity": "Passed in the full coverage suite; all eight approved baseline digests remain unchanged."
+  },
+  "limits": [
+    "The tests establish deterministic digital behavior, not physical fit or sewn-garment validation.",
+    "Serial execution and the 15-second per-test timeout are command-line settings used to avoid render-heavy suite timeouts; repository thresholds were unchanged."
+  ]
+}

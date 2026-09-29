@@ -8,20 +8,28 @@ import { DEFAULT_FABRIC } from "../render";
 import { STANDARD_M } from "../drafting";
 import {
   MIGRATION_RECORD_VERSION,
+  isCustomOneSizeStyle,
   LEGACY_STYLE_RECORD_KEYS,
   LEGACY_PROJECT_RECORD_KEYS,
+  isMeasurementCaptureSessionSuccessor,
   migrateLegacySaveFile,
   migrateLegacyRecovery,
+  parseMeasurementCaptureRecord,
   parseMigrationRecord,
   parseProjectRecord,
   parseRecoveryRecord,
   parseStyleRecord,
   validateProjectBundle,
+  type MeasurementCaptureRecord,
   type MigrationRecord,
   type ProjectRecord,
   type RecoveryRecord,
   type StyleRecord,
 } from "./project-records";
+import {
+  parseGradePlanRecord,
+  type GradePlanRecord,
+} from "./grade-plan";
 import {
   createFieldObservationRecord,
   parseFieldObservationRecord,
@@ -31,6 +39,7 @@ import {
   parseFrozenOutputManifestRecord,
   parseStyleRevisionRecord,
   canonicalizeJcs,
+  jcsSha256Hex,
   verifyFrozenOutputManifestMetadata,
   verifyFrozenOutputManifest,
   verifyStyleRevision,
@@ -39,7 +48,7 @@ import {
 } from "./style-revisions";
 
 export const PROJECT_DATABASE_NAME = "infinidrip-projects";
-export const PROJECT_DATABASE_VERSION = 6;
+export const PROJECT_DATABASE_VERSION = 8;
 export const PROJECT_STORES = Object.freeze({
   meta: "meta",
   projects: "projects",
@@ -50,11 +59,15 @@ export const PROJECT_STORES = Object.freeze({
   fieldObservations: "fieldObservations",
   styleRevisions: "styleRevisions",
   exportManifests: "exportManifests",
+  measurementCaptures: "measurementCaptures",
+  gradePlans: "gradePlans",
 });
 const ACTIVE_SELECTION_KEY = "activeSelection";
 const ALL_STORES = Object.values(PROJECT_STORES);
 const OPEN_KEYS = ["key", "projectId", "styleId"];
-const STORE_KEY_PATHS: Readonly<Record<string, string>> = Object.freeze({
+const CAPTURE_KEY_PATH = Object.freeze(["styleId", "recipeId"]);
+const GRADE_PLAN_KEY_PATH = Object.freeze(["styleId", "recipeId"]);
+const STORE_KEY_PATHS: Readonly<Record<string, string | readonly string[]>> = Object.freeze({
   [PROJECT_STORES.meta]: "key",
   [PROJECT_STORES.projects]: "id",
   [PROJECT_STORES.styles]: "id",
@@ -64,6 +77,8 @@ const STORE_KEY_PATHS: Readonly<Record<string, string>> = Object.freeze({
   [PROJECT_STORES.fieldObservations]: "styleId",
   [PROJECT_STORES.styleRevisions]: "revisionId",
   [PROJECT_STORES.exportManifests]: "manifestId",
+  [PROJECT_STORES.measurementCaptures]: CAPTURE_KEY_PATH,
+  [PROJECT_STORES.gradePlans]: GRADE_PLAN_KEY_PATH,
 });
 
 export type RepositoryErrorCode =
@@ -106,6 +121,8 @@ export interface LoadedProject {
   readonly fieldObservations: readonly FieldObservationRecord[];
   readonly styleRevisions: readonly StyleRevisionRecord[];
   readonly exportManifests: readonly FrozenOutputManifestRecord[];
+  /** Present only when at least one style has a stored G03 grade plan. */
+  readonly gradePlans?: readonly GradePlanRecord[];
 }
 
 export interface ProjectBundleSnapshot {
@@ -115,6 +132,10 @@ export interface ProjectBundleSnapshot {
   readonly fieldObservations?: readonly FieldObservationRecord[];
   readonly styleRevisions?: readonly StyleRevisionRecord[];
   readonly exportManifests?: readonly FrozenOutputManifestRecord[];
+  /** Present only when at least one style has a stored G03 capture session. */
+  readonly measurementCaptures?: readonly MeasurementCaptureRecord[];
+  /** Present only when at least one style has a stored G03 grade plan. */
+  readonly gradePlans?: readonly GradePlanRecord[];
 }
 
 export interface SaveProjectBundleInput {
@@ -127,6 +148,23 @@ export interface SaveProjectBundleInput {
   readonly styleRevisions?: readonly StyleRevisionRecord[];
   /** New immutable output captures, validated before the transaction and inserted atomically. */
   readonly exportManifests?: readonly FrozenOutputManifestRecord[];
+  /**
+   * New recipe-matched capture sessions, validated before the transaction and
+   * inserted atomically with the style/project rows. Each entry must name a
+   * style in this bundle with the same project ID and recipe, carry revision 1,
+   * and have no stored session for its style/recipe key.
+   */
+  readonly measurementCaptures?: readonly MeasurementCaptureRecord[];
+  /**
+   * New recipe-matched grade plans, validated before the transaction and
+   * inserted atomically with the style/project rows. Each entry must name a
+   * custom one-size style in this bundle with the same project ID and recipe,
+   * carry revision 1, reference that style's saved immutable revision head and
+   * saved capture revision, and have no stored plan for its style/recipe key.
+   */
+  readonly gradePlans?: readonly GradePlanRecord[];
+  /** Exact approved record required by a schema-v2 custom grade-plan freeze. */
+  readonly gradePlanFreeze?: { readonly record: GradePlanRecord; readonly approvalRef: string };
   /** Removes a style's old crash-recovery payload in the same atomic save. */
   readonly clearRecoveryStyleIds?: readonly string[];
   /** null creates a project; a number is a compare-and-swap revision. */
@@ -147,6 +185,8 @@ export interface ImportProjectBundleInput {
   readonly fieldObservations?: readonly FieldObservationRecord[];
   readonly styleRevisions?: readonly StyleRevisionRecord[];
   readonly exportManifests?: readonly FrozenOutputManifestRecord[];
+  readonly measurementCaptures?: readonly MeasurementCaptureRecord[];
+  readonly gradePlans?: readonly GradePlanRecord[];
   readonly receipt: ProjectImportReceipt;
 }
 
@@ -251,6 +291,25 @@ function createSchema(database: IDBDatabase): void {
     database.createObjectStore(PROJECT_STORES.fieldObservations, { keyPath: "styleId" });
   }
   createImmutableHistoryStores(database);
+  createMeasurementCaptureStore(database);
+  createGradePlanStore(database);
+}
+
+/** Additive v7 store: one capture session per style and recipe, never read by the design save path. */
+function createMeasurementCaptureStore(database: IDBDatabase): void {
+  if (!database.objectStoreNames.contains(PROJECT_STORES.measurementCaptures)) {
+    const captures = database.createObjectStore(PROJECT_STORES.measurementCaptures, { keyPath: [...CAPTURE_KEY_PATH] });
+    captures.createIndex("styleId", "styleId", { unique: false });
+  }
+}
+
+/** Additive v8 store: one grade plan per custom one-size style and recipe, never read by the design save path. */
+function createGradePlanStore(database: IDBDatabase): void {
+  if (!database.objectStoreNames.contains(PROJECT_STORES.gradePlans)) {
+    const plans = database.createObjectStore(PROJECT_STORES.gradePlans, { keyPath: [...GRADE_PLAN_KEY_PATH] });
+    plans.createIndex("styleId", "styleId", { unique: false });
+    plans.createIndex("projectId", "projectId", { unique: false });
+  }
 }
 
 function createImmutableHistoryStores(database: IDBDatabase): void {
@@ -433,11 +492,16 @@ function hasSupportedSchema(database: IDBDatabase): boolean {
     if (database.objectStoreNames.length !== ALL_STORES.length
       || !ALL_STORES.every((name) => database.objectStoreNames.contains(name))) return false;
     const transaction = database.transaction([...ALL_STORES], "readonly");
-    if (!ALL_STORES.every((name) => transaction.objectStore(name).keyPath === STORE_KEY_PATHS[name])) return false;
+    if (!ALL_STORES.every((name) =>
+      JSON.stringify(transaction.objectStore(name).keyPath) === JSON.stringify(STORE_KEY_PATHS[name]))) return false;
     const revisions = transaction.objectStore(PROJECT_STORES.styleRevisions);
     const manifests = transaction.objectStore(PROJECT_STORES.exportManifests);
+    const captures = transaction.objectStore(PROJECT_STORES.measurementCaptures);
+    const plans = transaction.objectStore(PROJECT_STORES.gradePlans);
     return revisions.indexNames.contains("styleId") && revisions.indexNames.contains("styleIdAndNumber")
-      && manifests.indexNames.contains("styleId") && manifests.indexNames.contains("styleIdAndCapturedAt");
+      && manifests.indexNames.contains("styleId") && manifests.indexNames.contains("styleIdAndCapturedAt")
+      && captures.indexNames.contains("styleId")
+      && plans.indexNames.contains("styleId") && plans.indexNames.contains("projectId");
   } catch {
     return false;
   }
@@ -553,6 +617,125 @@ function parseRecoveryClears(ids: readonly string[] | undefined, styleIds: reado
   return [...ids];
 }
 
+function parseMeasurementCaptureInputs(
+  records: readonly MeasurementCaptureRecord[] | undefined,
+  projectId: string,
+  styleIds: readonly string[],
+): MeasurementCaptureRecord[] {
+  if (records === undefined) return [];
+  if (!Array.isArray(records)) throw new ProjectRepositoryError("invalid-data", "Measurement capture records must be a list.");
+  const parsed: MeasurementCaptureRecord[] = [];
+  for (const input of records) {
+    const record = parseMeasurementCaptureRecord(input);
+    if (!record.ok) throw new ProjectRepositoryError("invalid-data", record.error);
+    if (record.value.projectId !== projectId || !styleIds.includes(record.value.styleId)) {
+      throw new ProjectRepositoryError("invalid-data", "Measurement capture sessions must belong to a style in this project.");
+    }
+    if (parsed.some((item) => item.styleId === record.value.styleId && item.recipeId === record.value.recipeId)) {
+      throw new ProjectRepositoryError("invalid-data", "A project bundle contains duplicate capture sessions for one style and recipe.");
+    }
+    parsed.push(record.value);
+  }
+  return parsed;
+}
+
+/** Resolves the one existing, available style that owns a capture session or grade plan. */
+async function styleOwnerInTransaction(transaction: IDBTransaction, styleId: string): Promise<StyleRecord> {
+  const styleInput = await requestValue<unknown>(transaction.objectStore(PROJECT_STORES.styles).get(styleId));
+  if (styleInput === undefined) throw new ProjectRepositoryError("not-found", "The capture session's style does not exist.");
+  const style = parseStyleRecord(styleInput);
+  if (!style.ok) throw new ProjectRepositoryError("invalid-data", style.error);
+  const projectInput = await requestValue<unknown>(transaction.objectStore(PROJECT_STORES.projects).get(style.value.projectId));
+  if (projectInput === undefined) throw new ProjectRepositoryError("not-found", "The capture session's project does not exist.");
+  const project = parseProjectRecord(projectInput);
+  if (!project.ok) throw new ProjectRepositoryError("invalid-data", project.error);
+  if (!project.value.styleIds.includes(styleId)) {
+    throw new ProjectRepositoryError("invalid-data", "The capture session's style is not listed by its project.");
+  }
+  if (style.value.archivedAt !== null) {
+    throw new ProjectRepositoryError("invalid-data", "An archived style's capture session is read-only; restore the style first.");
+  }
+  return style.value;
+}
+
+function storedCapture(input: unknown, styleId: string, recipeId: string, projectId: string): MeasurementCaptureRecord {
+  const parsed = parseMeasurementCaptureRecord(input);
+  if (!parsed.ok) throw new ProjectRepositoryError("invalid-data", parsed.error);
+  if (parsed.value.styleId !== styleId || parsed.value.recipeId !== recipeId || parsed.value.projectId !== projectId) {
+    throw new ProjectRepositoryError("invalid-data", "A stored capture session is linked to a different style, recipe, or project.");
+  }
+  return parsed.value;
+}
+
+function parseGradePlanInputs(
+  records: readonly GradePlanRecord[] | undefined,
+  projectId: string,
+  styleIds: readonly string[],
+): GradePlanRecord[] {
+  if (records === undefined) return [];
+  if (!Array.isArray(records)) throw new ProjectRepositoryError("invalid-data", "Grade-plan records must be a list.");
+  const parsed: GradePlanRecord[] = [];
+  for (const input of records) {
+    const record = parseGradePlanRecord(input);
+    if (!record.ok) throw new ProjectRepositoryError("invalid-data", record.errors.join("; "));
+    if (record.value.projectId !== projectId || !styleIds.includes(record.value.styleId)) {
+      throw new ProjectRepositoryError("invalid-data", "Grade-plan records must belong to a style in this project.");
+    }
+    if (parsed.some((item) => item.styleId === record.value.styleId && item.recipeId === record.value.recipeId)) {
+      throw new ProjectRepositoryError("invalid-data", "A project bundle contains duplicate grade plans for one style and recipe.");
+    }
+    parsed.push(record.value);
+  }
+  return parsed;
+}
+
+function storedGradePlan(input: unknown, styleId: string, recipeId: string, projectId: string): GradePlanRecord {
+  const parsed = parseGradePlanRecord(input);
+  if (!parsed.ok) throw new ProjectRepositoryError("invalid-data", parsed.errors.join("; "));
+  if (parsed.value.styleId !== styleId || parsed.value.recipeId !== recipeId || parsed.value.projectId !== projectId) {
+    throw new ProjectRepositoryError("invalid-data", "A stored grade plan is linked to a different style, recipe, or project.");
+  }
+  return parsed.value;
+}
+
+function findInputCapture(
+  records: readonly MeasurementCaptureRecord[],
+  styleId: string,
+  recipeId: string,
+): MeasurementCaptureRecord | undefined {
+  for (const record of records) {
+    if (record.styleId === styleId && record.recipeId === recipeId) return record;
+  }
+  return undefined;
+}
+
+/** Resolves the saved capture session a grade plan is bound to; corrupt or foreign rows fail closed. */
+async function requireStoredPlanCapture(
+  transaction: IDBTransaction,
+  plan: GradePlanRecord,
+): Promise<MeasurementCaptureRecord> {
+  const storedInput = await requestValue<unknown>(
+    transaction.objectStore(PROJECT_STORES.measurementCaptures).get([plan.styleId, plan.recipeId]),
+  );
+  if (storedInput === undefined) {
+    throw new ProjectRepositoryError("invalid-data", "A grade plan requires its matching saved measurement capture session.");
+  }
+  return storedCapture(storedInput, plan.styleId, plan.recipeId, plan.projectId);
+}
+
+/** Checks a plan against the style row being saved and the capture it names; stale bases fail closed. */
+function assertGradePlanBase(plan: GradePlanRecord, style: StyleRecord, capture: MeasurementCaptureRecord): void {
+  if (style.recipeId !== plan.recipeId) {
+    throw new ProjectRepositoryError("invalid-data", "Grade-plan recipe must match its style recipe.");
+  }
+  if (style.revisionHeadId === null || style.revisionHeadId !== plan.revisionHeadId) {
+    throw new ProjectRepositoryError("invalid-data", "The grade plan names a different revision head than the saved style; refresh the grade-plan base before saving.");
+  }
+  if (capture.revision !== plan.captureRevision) {
+    throw new ProjectRepositoryError("invalid-data", "The grade plan names a different capture revision than the saved session; refresh the grade-plan base before saving.");
+  }
+}
+
 async function bundleInTransaction(
   transaction: IDBTransaction,
   projectId: string,
@@ -582,8 +765,10 @@ async function bundleInTransaction(
   const fieldObservations: FieldObservationRecord[] = [];
   const styleRevisions: StyleRevisionRecord[] = [];
   const exportManifests: FrozenOutputManifestRecord[] = [];
+  const gradePlans: GradePlanRecord[] = [];
   const revisionStore = transaction.objectStore(PROJECT_STORES.styleRevisions).index("styleId");
   const manifestStore = transaction.objectStore(PROJECT_STORES.exportManifests).index("styleId");
+  const gradePlanStore = transaction.objectStore(PROJECT_STORES.gradePlans).index("styleId");
   for (const style of bundle.value.styles) {
     const input = await requestValue<unknown>(transaction.objectStore(PROJECT_STORES.fieldObservations).get(style.id));
     if (input === undefined) throw new ProjectRepositoryError("invalid-data", "A style is missing its source-aware field history.");
@@ -602,11 +787,26 @@ async function bundleInTransaction(
       if (!manifest || manifest.styleId !== style.id) throw new ProjectRepositoryError("invalid-data", "A frozen output manifest is malformed or belongs to another style.");
       exportManifests.push(manifest);
     }
+    // Index order follows the [styleId, recipeId] primary key, so loaded plans are deterministic.
+    for (const input of await requestValue<unknown[]>(gradePlanStore.getAll(style.id))) {
+      const parsedPlan = parseGradePlanRecord(input);
+      if (!parsedPlan.ok) throw new ProjectRepositoryError("invalid-data", parsedPlan.errors.join("; "));
+      gradePlans.push(storedGradePlan(input, style.id, parsedPlan.value.recipeId, project.value.id));
+    }
   }
   styleRevisions.sort((left, right) => left.styleId.localeCompare(right.styleId) || left.revisionNumber - right.revisionNumber);
   exportManifests.sort((left, right) => left.styleId.localeCompare(right.styleId)
     || left.capturedAt.localeCompare(right.capturedAt) || left.manifestId.localeCompare(right.manifestId));
-  return { project: bundle.value.project, styles: bundle.value.styles, activeStyle, activeRecovery, fieldObservations, styleRevisions, exportManifests };
+  return {
+    project: bundle.value.project,
+    styles: bundle.value.styles,
+    activeStyle,
+    activeRecovery,
+    fieldObservations,
+    styleRevisions,
+    exportManifests,
+    ...(gradePlans.length > 0 ? { gradePlans } : {}),
+  };
 }
 
 async function verifyLoadedHistory(loaded: LoadedProject, crypto?: Crypto): Promise<LoadedProject> {
@@ -723,11 +923,19 @@ export async function openProjectRepository(options: ProjectRepositoryOptions = 
         } else if (event.oldVersion === 5 && event.newVersion === PROJECT_DATABASE_VERSION) {
           // The v6 transition is additive: store creation and a strict style
           // schema upgrade only. Hashing/seed rows happen after the upgrade.
+        } else if (event.oldVersion === 6 && event.newVersion === PROJECT_DATABASE_VERSION) {
+          // The v7 transition only adds the empty capture-session store; no
+          // existing project, style, history, or output row is rewritten.
+        } else if (event.oldVersion === 7 && event.newVersion === PROJECT_DATABASE_VERSION) {
+          // The v8 transition only adds the empty grade-plan store; no
+          // existing project, style, history, output, or capture row is rewritten.
         } else {
           request.transaction?.abort();
           return;
         }
         createImmutableHistoryStores(request.result);
+        createMeasurementCaptureStore(request.result);
+        createGradePlanStore(request.result);
         if (event.oldVersion === 5) upgradeStyleRevisionHeads(request.transaction);
       } catch {
         try { request.transaction?.abort(); } catch { /* The upgrade transaction may already be aborting. */ }
@@ -814,6 +1022,16 @@ export class ProjectRepository {
           if (!parsed.ok) throw new ProjectRepositoryError("invalid-data", parsed.error);
           recoveries.push(parsed.value);
         }
+        const measurementCaptures: MeasurementCaptureRecord[] = [];
+        const captureIndex = transaction.objectStore(PROJECT_STORES.measurementCaptures).index("styleId");
+        for (const style of loaded.styles) {
+          // Index order follows the [styleId, recipeId] primary key, so backups are deterministic.
+          for (const input of await requestValue<unknown[]>(captureIndex.getAll(style.id))) {
+            // The compound key path guarantees an indexed row carries a recipe key; parsing validates it.
+            const recipeId = (input as { readonly recipeId: string }).recipeId;
+            measurementCaptures.push(storedCapture(input, style.id, recipeId, loaded.project.id));
+          }
+        }
         return {
           project: loaded.project,
           styles: loaded.styles,
@@ -821,6 +1039,8 @@ export class ProjectRepository {
           fieldObservations: loaded.fieldObservations,
           styleRevisions: loaded.styleRevisions,
           exportManifests: loaded.exportManifests,
+          ...(measurementCaptures.length > 0 ? { measurementCaptures } : {}),
+          ...(loaded.gradePlans === undefined ? {} : { gradePlans: loaded.gradePlans }),
         };
       });
     if (!snapshot) return null;
@@ -952,6 +1172,30 @@ export class ProjectRepository {
       || exportManifests.some((manifest) => !bundle.value.project.styleIds.includes(manifest.styleId))) {
       throw new ProjectRepositoryError("invalid-data", "Imported immutable history must belong to a style in the imported project.");
     }
+    const measurementCaptures = parseMeasurementCaptureInputs(
+      input.measurementCaptures, bundle.value.project.id, bundle.value.project.styleIds,
+    );
+    const gradePlans = parseGradePlanInputs(input.gradePlans, bundle.value.project.id, bundle.value.project.styleIds);
+    for (const style of bundle.value.styles) {
+      if (isCustomOneSizeStyle(style) && !measurementCaptures.some((record) => record.styleId === style.id
+        && record.projectId === style.projectId && record.recipeId === style.recipeId)) {
+        throw new ProjectRepositoryError("invalid-data", "A custom one-size style must be imported with its matching measurement capture session.");
+      }
+    }
+    const stylesById = new Map(bundle.value.styles.map((style) => [style.id, style]));
+    for (const plan of gradePlans) {
+      const style = stylesById.get(plan.styleId)!;
+      if (!isCustomOneSizeStyle(style)) {
+        throw new ProjectRepositoryError("invalid-data", "Grade plans are supported only for custom one-size styles.");
+      }
+      if (style.recipeId !== plan.recipeId) {
+        throw new ProjectRepositoryError("invalid-data", "Grade-plan recipe must match its style recipe.");
+      }
+      const capture = findInputCapture(measurementCaptures, plan.styleId, plan.recipeId);
+      // The custom-style validation above requires a capture for this exact
+      // style and recipe before any grade plan can be imported.
+      assertGradePlanBase(plan, style, capture!);
+    }
     const receipt = parseProjectImportReceipt(input.receipt);
     if (!receipt || receipt.projectId !== bundle.value.project.id) {
       throw new ProjectRepositoryError("invalid-data", "Project package import receipt does not match the imported project.");
@@ -994,6 +1238,8 @@ export class ProjectRepository {
       }
       for (const recovery of recoveries) transaction.objectStore(PROJECT_STORES.recoveries).add(recovery);
       for (const record of fieldObservations) transaction.objectStore(PROJECT_STORES.fieldObservations).add(record);
+      for (const record of measurementCaptures) transaction.objectStore(PROJECT_STORES.measurementCaptures).add(record);
+      for (const plan of gradePlans) transaction.objectStore(PROJECT_STORES.gradePlans).add(plan);
       transaction.objectStore(PROJECT_STORES.meta).put(selection(
         bundle.value.project.id,
         bundle.value.project.activeStyleId,
@@ -1023,6 +1269,52 @@ export class ProjectRepository {
     const fieldObservations = parseFieldObservationInputs(input.fieldObservations, bundle.value.project.styleIds);
     const styleRevisions = await parseStyleRevisionInputs(input.styleRevisions, this.cryptoApi);
     const exportManifests = await parseExportManifestInputs(input.exportManifests, this.cryptoApi);
+    const measurementCaptures = parseMeasurementCaptureInputs(
+      input.measurementCaptures, bundle.value.project.id, bundle.value.project.styleIds,
+    );
+    const gradePlans = parseGradePlanInputs(
+      input.gradePlans, bundle.value.project.id, bundle.value.project.styleIds,
+    );
+    const expectedFreezePlan = input.gradePlanFreeze
+      ? parseGradePlanRecord(input.gradePlanFreeze.record)
+      : null;
+    if (input.gradePlanFreeze && (!expectedFreezePlan?.ok
+      || expectedFreezePlan.value.status !== "approved"
+      || !/^grade-plan-sha256:[0-9a-f]{64}$/.test(input.gradePlanFreeze.approvalRef))) {
+      throw new ProjectRepositoryError("invalid-data", "A frozen graded run needs the exact approved grade-plan record and digest reference.");
+    }
+    if (input.gradePlanFreeze && expectedFreezePlan?.ok
+      && input.gradePlanFreeze.approvalRef !== `grade-plan-sha256:${await jcsSha256Hex(expectedFreezePlan.value, this.cryptoApi)}`) {
+      throw new ProjectRepositoryError("invalid-data", "A frozen grade-plan approval reference must be the canonical digest of the exact approved plan.");
+    }
+    const bundleStylesById = new Map(bundle.value.styles.map((style) => [style.id, style]));
+    for (const record of measurementCaptures) {
+      const style = bundleStylesById.get(record.styleId)!;
+      if (style.recipeId !== record.recipeId) {
+        throw new ProjectRepositoryError("invalid-data", "Measurement capture recipe must match its style recipe.");
+      }
+      if (record.revision !== 1) {
+        throw new ProjectRepositoryError("invalid-data", "Measurement capture revision must be 1 for creation in a project bundle.");
+      }
+      if (style.archivedAt !== null) {
+        throw new ProjectRepositoryError("invalid-data", "An archived style's capture session is read-only; restore the style first.");
+      }
+    }
+    for (const plan of gradePlans) {
+      const style = bundleStylesById.get(plan.styleId)!;
+      if (!isCustomOneSizeStyle(style)) {
+        throw new ProjectRepositoryError("invalid-data", "Grade plans are supported only for custom one-size styles.");
+      }
+      if (style.recipeId !== plan.recipeId) {
+        throw new ProjectRepositoryError("invalid-data", "Grade-plan recipe must match its style recipe.");
+      }
+      if (plan.revision !== 1) {
+        throw new ProjectRepositoryError("invalid-data", "Grade-plan revision must be 1 for creation in a project bundle.");
+      }
+      if (style.archivedAt !== null) {
+        throw new ProjectRepositoryError("invalid-data", "An archived style's grade plan is read-only; restore the style first.");
+      }
+    }
     const clearRecoveryStyleIds = parseRecoveryClears(input.clearRecoveryStyleIds, bundle.value.project.styleIds);
     if (recoveries.some((recovery) => clearRecoveryStyleIds.includes(recovery.styleId))) {
       throw new ProjectRepositoryError("invalid-data", "A recovery record cannot be saved and cleared in the same bundle.");
@@ -1061,9 +1353,58 @@ export class ProjectRepository {
         throw new ProjectRepositoryError("conflict", "Project changed in another tab; reload or save a separate copy.");
       }
       const allStyles = await requestValue<StyleRecord[]>(styles.getAll());
+      if (input.gradePlanFreeze && expectedFreezePlan?.ok) {
+        const expectedPlan = expectedFreezePlan.value;
+        const storedInput = await requestValue<unknown>(transaction.objectStore(PROJECT_STORES.gradePlans)
+          .get([expectedPlan.styleId, expectedPlan.recipeId]));
+        const storedPlan = storedInput === undefined
+          ? null : storedGradePlan(storedInput, expectedPlan.styleId, expectedPlan.recipeId, expectedPlan.projectId);
+        const style = allStyles.map((candidate) => parseStyleRecord(candidate))
+          .find((candidate) => candidate.ok && candidate.value.id === expectedPlan.styleId);
+        if (!storedPlan || canonicalizeJcs(storedPlan) !== canonicalizeJcs(expectedPlan)
+          || !style?.ok || style.value.revisionHeadId !== expectedPlan.revisionHeadId) {
+          throw new ProjectRepositoryError("conflict", "The approved grade plan or its saved base changed while outputs were being frozen; reload and recheck the run.");
+        }
+        const capture = await requireStoredPlanCapture(transaction, expectedPlan);
+        assertGradePlanBase(expectedPlan, style.value, capture);
+        const matchingManifest = exportManifests.find((manifest) => manifest.styleId === expectedPlan.styleId);
+        if (!matchingManifest || matchingManifest.schemaVersion !== 2
+          || matchingManifest.payload.approvalRefs.length !== 1
+          || matchingManifest.payload.approvalRefs[0] !== input.gradePlanFreeze.approvalRef) {
+          throw new ProjectRepositoryError("invalid-data", "The frozen output manifest is not bound to the reviewed grade plan.");
+        }
+      }
       const observationStore = transaction.objectStore(PROJECT_STORES.fieldObservations);
       const revisionStore = transaction.objectStore(PROJECT_STORES.styleRevisions);
       const manifestStore = transaction.objectStore(PROJECT_STORES.exportManifests);
+      const captureStore = transaction.objectStore(PROJECT_STORES.measurementCaptures);
+      const gradePlanStore = transaction.objectStore(PROJECT_STORES.gradePlans);
+      for (const record of measurementCaptures) {
+        if (await requestValue<unknown>(captureStore.get([record.styleId, record.recipeId])) !== undefined) {
+          throw new ProjectRepositoryError("invalid-data", "A project bundle contains duplicate capture sessions for one style and recipe.");
+        }
+      }
+      for (const plan of gradePlans) {
+        if (await requestValue<unknown>(gradePlanStore.get([plan.styleId, plan.recipeId])) !== undefined) {
+          throw new ProjectRepositoryError("invalid-data", "A project bundle contains duplicate grade plans for one style and recipe.");
+        }
+      }
+      for (const plan of gradePlans) {
+        const style = bundleStylesById.get(plan.styleId)!;
+        const inputCapture = findInputCapture(measurementCaptures, plan.styleId, plan.recipeId);
+        const capture = inputCapture ?? await requireStoredPlanCapture(transaction, plan);
+        assertGradePlanBase(plan, style, capture);
+      }
+      for (const style of bundle.value.styles) {
+        if (!isCustomOneSizeStyle(style) || measurementCaptures.some((record) => record.styleId === style.id
+          && record.projectId === style.projectId && record.recipeId === style.recipeId)) continue;
+        const storedInput = await requestValue<unknown>(captureStore.get([style.id, style.recipeId]));
+        const stored = storedInput === undefined ? null : parseMeasurementCaptureRecord(storedInput);
+        if (!stored?.ok || stored.value.projectId !== style.projectId || stored.value.styleId !== style.id
+          || stored.value.recipeId !== style.recipeId) {
+          throw new ProjectRepositoryError("invalid-data", "A custom one-size style requires its matching saved measurement capture session.");
+        }
+      }
       const incomingObservations = new Map(fieldObservations.map((record) => [record.styleId, record]));
       const nextObservations: FieldObservationRecord[] = [];
       const incomingIds = new Set(bundle.value.styles.map((style) => style.id));
@@ -1078,6 +1419,9 @@ export class ProjectRepository {
       }
       for (const style of bundle.value.styles) {
         const existing = existingStyles.get(style.id);
+        if (existing && isCustomOneSizeStyle(existing) && style.recipeId !== existing.recipeId) {
+          throw new ProjectRepositoryError("invalid-data", "A custom one-size style cannot change its recipe.");
+        }
         if (existing && existing.projectId !== style.projectId) {
           throw new ProjectRepositoryError("conflict", "A style ID already belongs to another project.");
         }
@@ -1148,6 +1492,8 @@ export class ProjectRepository {
       }
       projects.put(bundle.value.project);
       for (const style of bundle.value.styles) styles.put(style);
+      for (const record of measurementCaptures) captureStore.add(record);
+      for (const plan of gradePlans) gradePlanStore.add(plan);
       for (const revision of styleRevisions) revisionStore.add(revision);
       for (const manifest of exportManifests) {
         const targetRevision = revisionsByStyle.get(manifest.styleId)?.find((revision) => revision.revisionId === manifest.revisionId)
@@ -1279,6 +1625,128 @@ export class ProjectRepository {
       transaction.objectStore(PROJECT_STORES.projects).put(validatedProject.value);
       return validatedProject.value;
     });
+  }
+
+  /** Reads one style's capture session for one recipe; null when none was saved. */
+  async readMeasurementCapture(styleId: string, recipeId: string): Promise<MeasurementCaptureRecord | null> {
+    this.ensureOpen();
+    if (typeof styleId !== "string" || typeof recipeId !== "string" || recipeId.length === 0) {
+      throw new ProjectRepositoryError("invalid-data", "Capture style or recipe ID is invalid.");
+    }
+    return inTransaction(this.database,
+      [PROJECT_STORES.projects, PROJECT_STORES.styles, PROJECT_STORES.measurementCaptures], "readonly",
+      async (transaction) => {
+        const style = await styleOwnerInTransaction(transaction, styleId);
+        const input = await requestValue<unknown>(
+          transaction.objectStore(PROJECT_STORES.measurementCaptures).get([styleId, recipeId]),
+        );
+        return input === undefined ? null : storedCapture(input, styleId, recipeId, style.projectId);
+      });
+  }
+
+  /**
+   * Writes only the capture store. `expectedRevision` is null to create the
+   * style/recipe session, otherwise the stored capture revision it replaces.
+   * Project, style, recovery, history and output rows are never written here.
+   */
+  async saveMeasurementCapture(
+    recordInput: MeasurementCaptureRecord,
+    expectedRevision: number | null,
+  ): Promise<MeasurementCaptureRecord> {
+    this.ensureOpen();
+    const parsed = parseMeasurementCaptureRecord(recordInput);
+    if (!parsed.ok) throw new ProjectRepositoryError("invalid-data", parsed.error);
+    if (!validExpectedRevision(expectedRevision)) {
+      throw new ProjectRepositoryError("invalid-data", "Expected capture revision is invalid.");
+    }
+    const record = parsed.value;
+    if (record.revision !== (expectedRevision === null ? 1 : expectedRevision + 1)) {
+      throw new ProjectRepositoryError("invalid-data", "Capture revision must be 1 for creation or advance exactly once.");
+    }
+    return inTransaction(this.database,
+      [PROJECT_STORES.projects, PROJECT_STORES.styles, PROJECT_STORES.measurementCaptures], "readwrite",
+      async (transaction) => {
+        const style = await styleOwnerInTransaction(transaction, record.styleId);
+        if (style.projectId !== record.projectId) {
+          throw new ProjectRepositoryError("invalid-data", "The capture session names a different project than its style.");
+        }
+        const store = transaction.objectStore(PROJECT_STORES.measurementCaptures);
+        const priorInput = await requestValue<unknown>(store.get([record.styleId, record.recipeId]));
+        const prior = priorInput === undefined ? null : storedCapture(priorInput, record.styleId, record.recipeId, style.projectId);
+        if ((prior?.revision ?? null) !== expectedRevision) {
+          throw new ProjectRepositoryError("conflict", "This capture session changed in another tab; reload it before saving.");
+        }
+        if (prior && (!isMeasurementCaptureSessionSuccessor(prior.session, record.session)
+          || Date.parse(record.updatedAt) < Date.parse(prior.updatedAt))) {
+          throw new ProjectRepositoryError("conflict", "A stale or different capture session cannot replace the saved readings.");
+        }
+        store.put(record);
+        return record;
+      });
+  }
+
+  /** Reads one custom one-size style's grade plan for one recipe; null when none was saved. */
+  async readGradePlan(styleId: string, recipeId: string): Promise<GradePlanRecord | null> {
+    this.ensureOpen();
+    if (typeof styleId !== "string" || typeof recipeId !== "string" || recipeId.length === 0) {
+      throw new ProjectRepositoryError("invalid-data", "Grade-plan style or recipe ID is invalid.");
+    }
+    return inTransaction(this.database,
+      [PROJECT_STORES.projects, PROJECT_STORES.styles, PROJECT_STORES.gradePlans], "readonly",
+      async (transaction) => {
+        const style = await styleOwnerInTransaction(transaction, styleId);
+        const input = await requestValue<unknown>(
+          transaction.objectStore(PROJECT_STORES.gradePlans).get([styleId, recipeId]),
+        );
+        return input === undefined ? null : storedGradePlan(input, styleId, recipeId, style.projectId);
+      });
+  }
+
+  /**
+   * Writes only the grade-plan store. `expectedRevision` is null to create the
+   * style/recipe plan, otherwise the stored plan revision it replaces.
+   * The plan must name its custom one-size style's project, recipe, saved
+   * immutable revision head, and saved capture revision. Project, style,
+   * recovery, history, capture, and output rows are never written here.
+   */
+  async saveGradePlan(
+    recordInput: GradePlanRecord,
+    expectedRevision: number | null,
+  ): Promise<GradePlanRecord> {
+    this.ensureOpen();
+    const parsed = parseGradePlanRecord(recordInput);
+    if (!parsed.ok) throw new ProjectRepositoryError("invalid-data", parsed.errors.join("; "));
+    if (!validExpectedRevision(expectedRevision)) {
+      throw new ProjectRepositoryError("invalid-data", "Expected grade-plan revision is invalid.");
+    }
+    const record = parsed.value;
+    if (record.revision !== (expectedRevision === null ? 1 : expectedRevision + 1)) {
+      throw new ProjectRepositoryError("invalid-data", "Grade-plan revision must be 1 for creation or advance exactly once.");
+    }
+    return inTransaction(this.database,
+      [PROJECT_STORES.projects, PROJECT_STORES.styles, PROJECT_STORES.measurementCaptures, PROJECT_STORES.gradePlans],
+      "readwrite",
+      async (transaction) => {
+        const style = await styleOwnerInTransaction(transaction, record.styleId);
+        if (style.projectId !== record.projectId) {
+          throw new ProjectRepositoryError("invalid-data", "The grade plan names a different project than its style.");
+        }
+        if (!isCustomOneSizeStyle(style)) {
+          throw new ProjectRepositoryError("invalid-data", "Grade plans are supported only for custom one-size styles.");
+        }
+        const capture = await requireStoredPlanCapture(transaction, record);
+        assertGradePlanBase(record, style, capture);
+        const store = transaction.objectStore(PROJECT_STORES.gradePlans);
+        const priorInput = await requestValue<unknown>(store.get([record.styleId, record.recipeId]));
+        const prior = priorInput === undefined
+          ? null
+          : storedGradePlan(priorInput, record.styleId, record.recipeId, style.projectId);
+        if ((prior?.revision ?? null) !== expectedRevision) {
+          throw new ProjectRepositoryError("conflict", "This grade plan changed in another tab; reload it before saving.");
+        }
+        store.put(record);
+        return record;
+      });
   }
 
   async selectActiveStyle(projectId: string, styleId: string, expectedProjectRevision: number, updatedAt: string): Promise<ProjectRecord> {

@@ -14,6 +14,10 @@ import {
   type FieldObservationRecord,
 } from "./field-provenance";
 import {
+  parseGradePlanRecord,
+  type GradePlanRecord,
+} from "./grade-plan";
+import {
   createStyleRevision,
   FROZEN_ARTIFACT_LIMIT,
   FROZEN_ARTIFACT_IDS,
@@ -29,10 +33,14 @@ import {
 } from "./style-revisions";
 import { ARTWORK_CATALOG } from "../surface/artwork-library/catalog";
 import {
+  CUSTOM_STYLE_RECORD_VERSION,
+  isCustomOneSizeStyle,
+  parseMeasurementCaptureRecord,
   parseProjectRecord,
   parseRecoveryRecord,
   parseStyleRecord,
   validateProjectBundle,
+  type MeasurementCaptureRecord,
   type ProjectRecord,
   type RecoveryRecord,
   type StyleRecord,
@@ -45,7 +53,17 @@ import {
 } from "./project-repository";
 
 export const PROJECT_PACKAGE_FORMAT = "infinidrip-project";
+/** Written for every package without G03 capture sessions, byte-for-byte as before. */
 export const PROJECT_PACKAGE_VERSION = 3;
+/** Written only when at least one style has a saved G03 capture session. */
+export const PROJECT_PACKAGE_CAPTURE_VERSION = 4;
+/** Written only when at least one style is a schema-v5 custom one-size style.
+ * It has the v4 key set; its capture list is always present and may be empty. */
+export const PROJECT_PACKAGE_CUSTOM_STYLE_VERSION = 5;
+/** Written only when at least one custom one-size style has a saved G03 grade plan.
+ * It has the v5 key set plus an exact gradePlans list; its capture list is always
+ * present and non-empty because every plan requires its matching capture. */
+export const PROJECT_PACKAGE_GRADE_PLAN_VERSION = 6;
 export const PROJECT_PACKAGE_MAX_BYTES = 256 * 1024 * 1024;
 export const PROJECT_PACKAGE_MAX_CONTENT_BYTES = 256 * 1024 * 1024;
 export const PROJECT_PACKAGE_MAX_ASSETS = 128;
@@ -115,7 +133,8 @@ export interface ProjectPackageAssetRecord {
 
 export interface ProjectPackageManifest {
   readonly format: typeof PROJECT_PACKAGE_FORMAT;
-  readonly packageVersion: 1 | 2 | typeof PROJECT_PACKAGE_VERSION;
+  readonly packageVersion: 1 | 2 | typeof PROJECT_PACKAGE_VERSION | typeof PROJECT_PACKAGE_CAPTURE_VERSION
+    | typeof PROJECT_PACKAGE_CUSTOM_STYLE_VERSION | typeof PROJECT_PACKAGE_GRADE_PLAN_VERSION;
   readonly packageSha256: string;
   readonly project: ProjectRecord;
   readonly styles: readonly StyleRecord[];
@@ -124,6 +143,10 @@ export interface ProjectPackageManifest {
   readonly styleRevisions: readonly StyleRevisionRecord[];
   readonly exportManifests: readonly ProjectPackageFrozenManifest[];
   readonly assets: readonly ProjectPackageAssetRecord[];
+  /** Present and non-empty in v4; required with each custom style's matching capture in v5. */
+  readonly measurementCaptures?: readonly MeasurementCaptureRecord[];
+  /** Present and non-empty only in v6; every entry names a custom one-size style in this project. */
+  readonly gradePlans?: readonly GradePlanRecord[];
 }
 
 export interface ProjectPackageFrozenArtifact extends Omit<RevisionManifestArtifact, "bytes"> {
@@ -359,6 +382,107 @@ async function normalizeSnapshotHistory(
   return { styles, revisions, manifests };
 }
 
+/** Strictly validates capture sessions and their single style/recipe ownership inside one project. */
+function packageMeasurementCaptures(
+  values: readonly unknown[],
+  project: ProjectRecord,
+): MeasurementCaptureRecord[] {
+  const records: MeasurementCaptureRecord[] = [];
+  for (const value of values) {
+    const parsed = parseMeasurementCaptureRecord(value);
+    if (!parsed.ok) throw new ProjectPackageError("invalid-package", parsed.error);
+    const record = parsed.value;
+    if (record.projectId !== project.id || !project.styleIds.includes(record.styleId)) {
+      throw new ProjectPackageError("invalid-package", "A measurement capture session references a style outside this project.");
+    }
+    if (records.some((item) => item.styleId === record.styleId && item.recipeId === record.recipeId)) {
+      throw new ProjectPackageError("invalid-package", "A style has more than one capture session for the same recipe.");
+    }
+    records.push(record);
+  }
+  return records.sort((left, right) => left.styleId.localeCompare(right.styleId) || left.recipeId.localeCompare(right.recipeId));
+}
+
+/** True when a backup must use package v5. Custom styles are strictly parsed and
+ * a size marker on any other style schema is rejected, never dropped. */
+function snapshotHasCustomStyles(styles: readonly StyleRecord[]): boolean {
+  let custom = false;
+  for (const style of styles) {
+    const raw = style as unknown as Record<string, unknown>;
+    if (raw.schemaVersion !== CUSTOM_STYLE_RECORD_VERSION) {
+      if (hasOwn(raw, "sizeMode")) {
+        throw new ProjectPackageError("invalid-package", "Only style schema v5 custom one-size records may declare a size mode.");
+      }
+      continue;
+    }
+    const parsed = parseStyleRecord(style);
+    if (!parsed.ok) throw new ProjectPackageError("invalid-package", parsed.error);
+    custom = true;
+  }
+  return custom;
+}
+
+/** Every custom style must travel with its original selected/draft capture source. */
+function requireCustomStyleCaptures(
+  styles: readonly StyleRecord[],
+  captures: readonly MeasurementCaptureRecord[],
+): void {
+  for (const style of styles) {
+    if (!isCustomOneSizeStyle(style)) continue;
+    if (!captures.some((capture) => capture.styleId === style.id
+      && capture.projectId === style.projectId && capture.recipeId === style.recipeId)) {
+      throw new ProjectPackageError("invalid-package", "A custom one-size style requires its matching measurement capture session.");
+    }
+  }
+}
+
+/** Strictly validates grade plans against their project, custom one-size style,
+ * matching capture revision, and matching immutable revision head. Custom
+ * one-size outputs remain withheld until approval, so this helper never enables
+ * exports; it only proves the portable plan binding. */
+function packageGradePlans(
+  values: readonly unknown[],
+  project: ProjectRecord,
+  styles: readonly StyleRecord[],
+  captures: readonly MeasurementCaptureRecord[],
+): GradePlanRecord[] {
+  const records: GradePlanRecord[] = [];
+  const stylesById = new Map(styles.map((style) => [style.id, style]));
+  for (const value of values) {
+    const parsed = parseGradePlanRecord(value);
+    if (!parsed.ok) throw new ProjectPackageError("invalid-package", parsed.errors.join("; "));
+    const record = parsed.value;
+    if (record.projectId !== project.id || !project.styleIds.includes(record.styleId)) {
+      throw new ProjectPackageError("invalid-package", "A grade plan references a style outside this project.");
+    }
+    if (records.some((item) => item.styleId === record.styleId && item.recipeId === record.recipeId)) {
+      throw new ProjectPackageError("invalid-package", "A style has more than one grade plan for the same recipe.");
+    }
+    // validateProjectBundle already proves every project style ID has a style
+    // row, so a missing lookup here means the bundle itself is inconsistent.
+    const style = stylesById.get(record.styleId)!;
+    if (!isCustomOneSizeStyle(style)) {
+      throw new ProjectPackageError("invalid-package", "Grade plans are supported only for custom one-size styles.");
+    }
+    if (style.recipeId !== record.recipeId) {
+      throw new ProjectPackageError("invalid-package", "Grade-plan recipe must match its style recipe.");
+    }
+    if (style.revisionHeadId !== record.revisionHeadId) {
+      throw new ProjectPackageError("invalid-package", "The grade plan names a different revision head than the saved style; refresh the grade-plan base before saving.");
+    }
+    const capture = captures.find((item) => item.styleId === record.styleId && item.recipeId === record.recipeId);
+    if (!capture) {
+      throw new ProjectPackageError("invalid-package", "A grade plan requires its matching measurement capture session.");
+    }
+    if (capture.revision !== record.captureRevision) {
+      throw new ProjectPackageError("invalid-package", "The grade plan names a different capture revision than the saved session; refresh the grade-plan base before saving.");
+    }
+    records.push(record);
+  }
+  return records.sort((left, right) => left.styleId.localeCompare(right.styleId)
+    || left.recipeId.localeCompare(right.recipeId));
+}
+
 function safeAssetMetadata(asset: StoredArtworkAsset): void {
   const suffix = mimeForAssetId(asset.assetId);
   if (!isLocalArtworkAssetId(asset.assetId) || suffix === null || ASSET_MIME_BY_SUFFIX[suffix] !== asset.mimeType
@@ -402,7 +526,14 @@ export async function createProjectPackage(
   artworkStore: ArtworkAssetStore,
   options: ProjectPackageOptions = {},
 ): Promise<Blob> {
+  const customStyles = snapshotHasCustomStyles(snapshot.styles);
   const history = await normalizeSnapshotHistory(snapshot, artworkStore, options);
+  const measurementCaptures = packageMeasurementCaptures(snapshot.measurementCaptures ?? [], snapshot.project);
+  const gradePlans = packageGradePlans(snapshot.gradePlans ?? [], snapshot.project, history.styles, measurementCaptures);
+  requireCustomStyleCaptures(history.styles, measurementCaptures);
+  const packageVersion = gradePlans.length > 0 ? PROJECT_PACKAGE_GRADE_PLAN_VERSION
+    : customStyles ? PROJECT_PACKAGE_CUSTOM_STYLE_VERSION
+    : measurementCaptures.length > 0 ? PROJECT_PACKAGE_CAPTURE_VERSION : PROJECT_PACKAGE_VERSION;
   const refs = historyAssetRefs(history.styles, history.revisions);
   const assetRecords: ProjectPackageAssetRecord[] = [];
   const sourceAssets: StoredArtworkAsset[] = [];
@@ -455,9 +586,12 @@ export async function createProjectPackage(
       throw new ProjectPackageError("limit-exceeded", "Project records, artwork and frozen outputs exceed the 256 MiB uncompressed package limit.");
     }
   }
+  // A package without captures or custom styles keeps the exact v3 body, key
+  // order and digest; a capture-only package keeps the exact v4 body; a custom
+  // package without plans keeps the exact v5 body. Only v6 adds gradePlans.
   const body: Omit<ProjectPackageManifest, "packageSha256"> = {
     format: PROJECT_PACKAGE_FORMAT,
-    packageVersion: PROJECT_PACKAGE_VERSION,
+    packageVersion,
     project: snapshot.project,
     styles: history.styles,
     recoveries: snapshot.recoveries,
@@ -466,6 +600,8 @@ export async function createProjectPackage(
     styleRevisions: history.revisions,
     exportManifests: packageManifests,
     assets: assetRecords,
+    ...(packageVersion !== PROJECT_PACKAGE_VERSION ? { measurementCaptures } : {}),
+    ...(packageVersion === PROJECT_PACKAGE_GRADE_PLAN_VERSION ? { gradePlans } : {}),
   };
   const packageSha256 = await sha256(new TextEncoder().encode(canonical(body)), options);
   const manifest: ProjectPackageManifest = { ...body, packageSha256 };
@@ -824,17 +960,28 @@ function metadataOnlyBlob(size: number): Blob {
 function validateManifestShape(value: unknown): ProjectPackageManifest {
   const version = typeof value === "object" && value !== null && !Array.isArray(value)
     ? (value as Record<string, unknown>).packageVersion : undefined;
+  const historyKeys = ["format", "packageVersion", "packageSha256", "project", "styles", "recoveries", "fieldObservations", "styleRevisions", "exportManifests", "assets"];
   const expectedKeys = version === 1
     ? ["format", "packageVersion", "packageSha256", "project", "styles", "recoveries", "assets"]
     : version === 2
       ? ["format", "packageVersion", "packageSha256", "project", "styles", "recoveries", "fieldObservations", "assets"]
-      : ["format", "packageVersion", "packageSha256", "project", "styles", "recoveries", "fieldObservations", "styleRevisions", "exportManifests", "assets"];
+      : version === PROJECT_PACKAGE_CAPTURE_VERSION || version === PROJECT_PACKAGE_CUSTOM_STYLE_VERSION
+        ? [...historyKeys, "measurementCaptures"]
+        : version === PROJECT_PACKAGE_GRADE_PLAN_VERSION
+          ? [...historyKeys, "measurementCaptures", "gradePlans"] : historyKeys;
   if (!exactObject(value, expectedKeys)
-    || value.format !== PROJECT_PACKAGE_FORMAT || (value.packageVersion !== 1 && value.packageVersion !== 2 && value.packageVersion !== PROJECT_PACKAGE_VERSION)
+    || value.format !== PROJECT_PACKAGE_FORMAT
+    || (value.packageVersion !== 1 && value.packageVersion !== 2 && value.packageVersion !== PROJECT_PACKAGE_VERSION
+      && value.packageVersion !== PROJECT_PACKAGE_CAPTURE_VERSION && value.packageVersion !== PROJECT_PACKAGE_CUSTOM_STYLE_VERSION
+      && value.packageVersion !== PROJECT_PACKAGE_GRADE_PLAN_VERSION)
     || typeof value.packageSha256 !== "string" || !/^[0-9a-f]{64}$/.test(value.packageSha256)
     || !Array.isArray(value.styles) || !Array.isArray(value.recoveries) || !Array.isArray(value.assets)
     || (value.packageVersion >= 2 && !Array.isArray(value.fieldObservations))
-    || (value.packageVersion === PROJECT_PACKAGE_VERSION && (!Array.isArray(value.styleRevisions) || !Array.isArray(value.exportManifests)))) {
+    || (value.packageVersion >= PROJECT_PACKAGE_VERSION && (!Array.isArray(value.styleRevisions) || !Array.isArray(value.exportManifests)))
+    || (value.packageVersion >= PROJECT_PACKAGE_CAPTURE_VERSION && !Array.isArray(value.measurementCaptures))
+    || (value.packageVersion === PROJECT_PACKAGE_CAPTURE_VERSION && (value.measurementCaptures as unknown[]).length === 0)
+    || (value.packageVersion === PROJECT_PACKAGE_GRADE_PLAN_VERSION
+      && (!Array.isArray(value.gradePlans) || (value.gradePlans as unknown[]).length === 0))) {
     throw new ProjectPackageError("invalid-package", "Project package manifest is incomplete, unknown, or unsupported.");
   }
   const project = parseProjectRecord(value.project);
@@ -857,6 +1004,19 @@ function validateManifestShape(value: unknown): ProjectPackageManifest {
   });
   const bundle = validateProjectBundle(project.value, styles);
   if (!bundle.ok) throw new ProjectPackageError("invalid-package", bundle.error);
+  // Package v5 exists only to carry custom one-size styles; earlier versions never may.
+  // Package v6 exists only to carry grade plans for those custom styles.
+  const customStyles = bundle.value.styles.some(isCustomOneSizeStyle);
+  if (customStyles && value.packageVersion !== PROJECT_PACKAGE_CUSTOM_STYLE_VERSION
+    && value.packageVersion !== PROJECT_PACKAGE_GRADE_PLAN_VERSION) {
+    throw new ProjectPackageError("invalid-package", "Custom one-size styles require project package version 5 or 6.");
+  }
+  if (!customStyles && value.packageVersion === PROJECT_PACKAGE_CUSTOM_STYLE_VERSION) {
+    throw new ProjectPackageError("invalid-package", "Project package version 5 must contain a custom one-size style.");
+  }
+  if (!customStyles && value.packageVersion === PROJECT_PACKAGE_GRADE_PLAN_VERSION) {
+    throw new ProjectPackageError("invalid-package", "Project package version 6 must contain a custom one-size style.");
+  }
   const styleIds = new Set(styles.map((style) => style.id));
   const suppliedFieldObservations = Array.isArray(value.fieldObservations) ? value.fieldObservations : [];
   const recoveries = value.recoveries.map((recovery) => {
@@ -898,7 +1058,7 @@ function validateManifestShape(value: unknown): ProjectPackageManifest {
     const history = styleRevisions.filter((revision) => revision.styleId === style.id)
       .sort((left, right) => left.revisionNumber - right.revisionNumber);
     if (history.length === 0) {
-      if (value.packageVersion === 3 || style.revisionHeadId !== null) {
+      if (value.packageVersion >= 3 || style.revisionHeadId !== null) {
         throw new ProjectPackageError("invalid-package", `Style ${style.id} is missing its immutable revision history.`);
       }
       continue;
@@ -952,6 +1112,13 @@ function validateManifestShape(value: unknown): ProjectPackageManifest {
       throw new ProjectPackageError("invalid-package", `Attribution labels for ${asset.assetId} do not match the saved placements.`);
     }
   }
+  const measurementCaptures = value.packageVersion >= PROJECT_PACKAGE_CAPTURE_VERSION
+    ? packageMeasurementCaptures(value.measurementCaptures as unknown[], project.value)
+    : [];
+  const gradePlans = value.packageVersion === PROJECT_PACKAGE_GRADE_PLAN_VERSION
+    ? packageGradePlans(value.gradePlans as unknown[], project.value, bundle.value.styles, measurementCaptures)
+    : [];
+  requireCustomStyleCaptures(bundle.value.styles, measurementCaptures);
   return {
     format: PROJECT_PACKAGE_FORMAT,
     packageVersion: value.packageVersion as ProjectPackageManifest["packageVersion"],
@@ -963,6 +1130,8 @@ function validateManifestShape(value: unknown): ProjectPackageManifest {
     styleRevisions,
     exportManifests,
     assets,
+    ...(value.packageVersion >= PROJECT_PACKAGE_CAPTURE_VERSION ? { measurementCaptures } : {}),
+    ...(value.packageVersion === PROJECT_PACKAGE_GRADE_PLAN_VERSION ? { gradePlans } : {}),
   };
 }
 
@@ -1127,12 +1296,17 @@ async function makeCopy(
   fieldObservations: FieldObservationRecord[];
   styleRevisions: StyleRevisionRecord[];
   exportManifests: FrozenOutputManifestRecord[];
+  measurementCaptures: MeasurementCaptureRecord[];
+  gradePlans: GradePlanRecord[];
 }> {
+  const sourceCaptures = manifest.measurementCaptures ?? [];
+  const sourcePlans = manifest.gradePlans ?? [];
   const usedIds = new Set([
     manifest.project.id,
     ...manifest.project.styleIds,
     ...manifest.styleRevisions.map((revision) => revision.revisionId),
     ...frozenManifests.map((record) => record.manifestId),
+    ...sourceCaptures.map((record) => record.session.id),
   ].map((id) => id.toLowerCase()));
   const projectId = uniqueUuid(idFactory, usedIds);
   const styleIds = new Map(manifest.styles.map((style) => [style.id, uniqueUuid(idFactory, usedIds)]));
@@ -1216,7 +1390,61 @@ async function makeCopy(
     }
     exportManifests.push(record);
   }
-  return { project, styles, recoveries, fieldObservations, styleRevisions, exportManifests };
+  // Copied sessions belong only to the copied styles: every style, project and
+  // session identity is replaced, while readings, raw text and drafts stay exact.
+  const measurementCaptures: MeasurementCaptureRecord[] = sourceCaptures.map((record) => {
+    const styleId = styleIds.get(record.styleId)!;
+    return {
+      ...record,
+      styleId,
+      projectId,
+      revision: 1,
+      updatedAt: now,
+      session: { ...record.session, id: uniqueUuid(idFactory, usedIds), styleId },
+    };
+  });
+  // Copied grade plans are always rebased as fresh drafts: project, style and
+  // revision-head identities move to the copy, authored rules and target values
+  // are preserved only when the matching copied style and capture exist with
+  // the same recipe, and review/approval never travels. Anything ambiguous fails closed.
+  const stylesByNewId = new Map(styles.map((style) => [style.id, style]));
+  const capturesByNewKey = new Map(measurementCaptures.map((record) => [`${record.styleId}\0${record.recipeId}`, record]));
+  const gradePlans: GradePlanRecord[] = sourcePlans.map((plan) => {
+    const styleId = styleIds.get(plan.styleId);
+    const revisionHeadId = revisionIds.get(plan.revisionHeadId);
+    if (!styleId || !revisionHeadId) {
+      throw new ProjectPackageError("invalid-package", "A copied grade plan cannot establish a safe rebased identity.");
+    }
+    const style = stylesByNewId.get(styleId)!;
+    if (style.recipeId !== plan.recipeId || style.revisionHeadId !== revisionHeadId) {
+      throw new ProjectPackageError("invalid-package", "A copied grade plan does not match its rebased style revision head.");
+    }
+    const capture = capturesByNewKey.get(`${styleId}\0${plan.recipeId}`);
+    if (!capture) {
+      throw new ProjectPackageError("invalid-package", "A copied grade plan does not match its rebased capture session.");
+    }
+    const sourceCapture = sourceCaptures.find((item) => item.styleId === plan.styleId && item.recipeId === plan.recipeId)!;
+    if (sourceCapture.revision !== plan.captureRevision) {
+      throw new ProjectPackageError("invalid-package", "A copied grade plan does not match its rebased capture session.");
+    }
+    const rebased = {
+      ...plan,
+      projectId,
+      styleId,
+      revisionHeadId,
+      captureRevision: capture.revision,
+      revision: 1,
+      status: "draft" as const,
+      reviewedAt: null,
+      approvedAt: null,
+      createdAt: now,
+      updatedAt: now,
+    };
+    const parsed = parseGradePlanRecord(rebased);
+    if (!parsed.ok) throw new ProjectPackageError("invalid-package", parsed.errors.join("; "));
+    return parsed.value;
+  });
+  return { project, styles, recoveries, fieldObservations, styleRevisions, exportManifests, measurementCaptures, gradePlans };
 }
 
 function canonicalNow(): string {
@@ -1312,6 +1540,8 @@ export async function importProjectPackage(
       fieldObservations: [...archive.manifest.fieldObservations],
       styleRevisions: [...archive.manifest.styleRevisions],
       exportManifests: [...archive.frozenManifests],
+      measurementCaptures: [...archive.manifest.measurementCaptures ?? []],
+      gradePlans: [...archive.manifest.gradePlans ?? []],
     };
   const stagedIds: string[] = [];
   let completed = 0;
@@ -1358,11 +1588,14 @@ export async function importProjectPackage(
       styleRevisions: sourceBundle.styleRevisions,
       exportManifests: sourceBundle.exportManifests,
     }, artworkStore, options);
+    const { measurementCaptures, gradePlans, ...sourceRecords } = sourceBundle;
     const bundle = {
-      ...sourceBundle,
+      ...sourceRecords,
       styles: normalizedHistory.styles,
       styleRevisions: normalizedHistory.revisions,
       exportManifests: normalizedHistory.manifests,
+      ...(measurementCaptures.length > 0 ? { measurementCaptures } : {}),
+      ...(gradePlans.length > 0 ? { gradePlans } : {}),
     };
     const receipt: ProjectImportReceipt = {
       packageSha256: archive.packageSha256,
@@ -1370,6 +1603,8 @@ export async function importProjectPackage(
       importedAt: now,
       importedAsCopy: asCopy,
     };
+    // Repository import commits plans atomically with project, style and capture rows.
+    // makeCopy rebases them as drafts; a direct restore retains the exact validated history.
     const result: ImportProjectBundleOutcome = await repository.importProjectBundle({
       ...bundle,
       recoveries: bundle.recoveries,

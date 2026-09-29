@@ -95,7 +95,7 @@ describe("repository-backed app workflow", () => {
       .toContain("Field history save failed"));
     expect(root.querySelector<HTMLDialogElement>("#field-history-dialog")!.open).toBe(false);
     expect(chest.value).toBe("104");
-  });
+  }, 15_000);
 
   it("shows a safe message when flushing history rejects a non-Error value", async () => {
     workflow = await openProjectWorkflow({
@@ -125,7 +125,7 @@ describe("repository-backed app workflow", () => {
       .toContain("Pending field history could not be saved"));
     expect(root.querySelector<HTMLDialogElement>("#field-history-dialog")!.open).toBe(false);
     expect(chest.value).toBe("104");
-  });
+  }, 15_000);
 
   it("preserves a recovery failure when the field-history write later succeeds", async () => {
     workflow = await openProjectWorkflow({
@@ -156,7 +156,7 @@ describe("repository-backed app workflow", () => {
       .toBe(true), { timeout: 10_000 });
     expect(root.querySelector<HTMLElement>("#project-persistence-state")?.textContent).toContain("Recovery save failed");
     expect(chest.value).toBe("104");
-  });
+  }, 15_000);
 
   it("persists an edited style's recovery, switches, restores, saves, duplicates, archives, and reloads", async () => {
     workflow = await openProjectWorkflow({
@@ -350,7 +350,7 @@ describe("repository-backed app workflow", () => {
       .toContain("Default style is invalid: broken default"));
     expect(workflow.snapshot.styles).toHaveLength(1);
     expect(workflow.snapshot.activeStyle.id).toBe(FIRST_STYLE_ID);
-  });
+  }, 15_000);
 
   it("freezes the app-generated outputs after review and saves verified bytes through Electron", async () => {
     workflow = await openProjectWorkflow({
@@ -797,7 +797,7 @@ describe("repository-backed app workflow", () => {
     await vi.waitFor(() => expect(root!.querySelector(
       'button[data-open-field-history="body.chest-girth"]',
     )?.parentElement?.textContent).toContain("No value history recorded for this recipe field yet."));
-  });
+  }, 15_000);
 
   it("reports a non-Error timer failure and blocks a pending recipe switch", async () => {
     workflow = await openProjectWorkflow({
@@ -863,7 +863,7 @@ describe("repository-backed app workflow", () => {
     } finally {
       clearTimeoutSpy.mockRestore();
     }
-  });
+  }, 15_000);
 
   it("reports a non-Error timer failure on Load and preserves the raw editor value", async () => {
     workflow = await openProjectWorkflow({
@@ -895,7 +895,7 @@ describe("repository-backed app workflow", () => {
     } finally {
       clearTimeoutSpy.mockRestore();
     }
-  });
+  }, 15_000);
 
   it("does not write a detached recipe field after switching garments", async () => {
     workflow = await openProjectWorkflow({

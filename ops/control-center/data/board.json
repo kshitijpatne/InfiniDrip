@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 315,
-  "updatedAt": "2026-09-26T05:10:08.918Z",
+  "revision": 362,
+  "updatedAt": "2026-09-29T07:05:52.039Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -143,9 +143,9 @@
     {
       "id": "EPIC-16",
       "title": "EPIC-16: G03 — Measurement-first creation",
-      "status": "Backlog",
+      "status": "In Progress",
       "owner": "Codex",
-      "description": "G03 future capability. Scope, gates, dates and work packets: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md. Epic remains Backlog until separately admitted.",
+      "description": "Admitted 2026-09-26 after EPIC-15/G02 closure. Execute M01 → M02 → M03 → final review under docs/planning/EPIC-16-ADMISSION.md. Seven existing recipes only; local-first deterministic digital drafts, source-qualified guidance, one size by default, and explicit approved grading. Preserve C03 meanings, project/SaveFile compatibility, 100% coverage and protected export identities. No physical-fit claim, new recipe, spend, supplier contact, hosted feature, or broad UI redesign.",
       "evidenceRefs": []
     },
     {
@@ -2576,7 +2576,7 @@
       "title": "EPIC-16: G03 — Measurement-first creation",
       "epicId": "EPIC-16",
       "releaseId": null,
-      "status": "Backlog",
+      "status": "In Progress",
       "openedAt": "2026-09-23",
       "targetAt": "2027-05-14",
       "deliveredAt": null,
@@ -2594,8 +2594,8 @@
         "100% coverage",
         "maintainer gates"
       ],
-      "description": "Future capability goal G03. Detailed planned packets and evidence: docs/planning/END-TO-END-CAPABILITY-ROADMAP.md. Baseline start: 2027-02-15. Planned work: 6–9 landed slices. Context: G02; can parallel with technical-flat specialist research. Target dates are conditional; no Phase 9, garment, launch-cost, supplier-contact, or physical-sampling gate is overridden.",
-      "expectation": "One measured size, coach, editable continuation and separately approved grading work for all supported recipes.",
+      "description": "Admitted 2026-09-26. Execute M01 → M02 → M03 → final review using docs/planning/EPIC-16-ADMISSION.md. Seven existing recipes; local-first deterministic digital drafts. Capture instruction, one-size parity, explicit grade approval, coverage, export identity, browser/output and merge gates apply.",
+      "expectation": "A user can create one transparent, editable digital draft from explicit recipe-specific values and may separately approve a named grade plan; no physical fit claim is implied.",
       "acceptanceCriteria": [
         "Complete every G03 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
         "One measured size, coach, editable continuation and separately approved grading work for all supported recipes.",
@@ -2609,6 +2609,14 @@
           "role": "maintainer",
           "note": "Register maintainer-directed, conditional post-Phase-9 roadmap without opening its gated work.",
           "evidenceRefs": []
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-09-26T08:07:06.101Z",
+          "actor": "Maintainer (via Codex)",
+          "role": "maintainer",
+          "note": "The maintainer explicitly admitted G03 with a linked execution packet and sequenced work cards.",
+          "evidenceRefs": []
         }
       ],
       "comments": [
@@ -2616,6 +2624,11 @@
           "at": "2026-09-24T06:03:46.330Z",
           "actor": "Maintainer (via Codex)",
           "text": "Renamed CAPABILITY-G03 to EPIC-16. G03 is now the numbered epic work card; dependent item links were updated atomically."
+        },
+        {
+          "at": "2026-09-26T08:07:04.478Z",
+          "actor": "Maintainer (via Codex)",
+          "text": "Updated Epic metadata (description: Admitted 2026-09-26 after EPIC-15/G02 closure. Execute M01 → M02 → M03 → final review under docs/planning/EPIC-16-ADMISSION.md. Seven existing recipes only; local-first deterministic digital drafts, source-qualified guidance, one size by default, and explicit approved grading. Preserve C03 meanings, project/SaveFile compatibility, 100% coverage and protected export identities. No physical-fit claim, new recipe, spend, supplier contact, hosted feature, or broad UI redesign.). Record the maintainer's explicit G03 admission and link its execution contract."
         }
       ],
       "evidenceRefs": [],
@@ -4817,6 +4830,447 @@
         "E-EPIC15-S240-REVISIONS"
       ],
       "flagKey": null
+    },
+    {
+      "id": "EPIC16-M01",
+      "type": "task",
+      "title": "EPIC-16 M01 — Measurement coaching for seven recipes",
+      "epicId": "EPIC-16",
+      "releaseId": null,
+      "status": "Done",
+      "openedAt": "2026-09-26",
+      "targetAt": "2027-03-12",
+      "deliveredAt": "2026-09-26",
+      "priority": "P0",
+      "risk": "high",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": [
+        "EPIC-15"
+      ],
+      "protectedSurfaces": [
+        "seven recipe field semantics",
+        "capture provenance",
+        "visible invalid guidance",
+        "local project/style records"
+      ],
+      "description": "Implement and verify M01 under docs/planning/EPIC-16-ADMISSION.md, Slices 245–247. Complete C03 recipe-specific inputs, source-qualified help, provenance, missing/conflict behavior and rendered narrow/accessibility proof.",
+      "expectation": "Each supported recipe asks only truthful inputs, clearly separates body facts from targets and controls, and guides users through an editable digital draft.",
+      "acceptanceCriteria": [
+        "All seven C03 recipe matrices are implemented; body measures, finished targets, pattern parameters, style controls, presets and derived outputs are distinct.",
+        "Anatomical capture steps have accepted sources or qualified review; unsupported procedures are visibly withheld, with no invented landmarks or confidence claims.",
+        "Missing, invalid, conflicting and unresolved values stay visible and actionable; no silent clamping, rounding, averaging or STANDARD_M substitution.",
+        "Capture provenance and precision survive save/reload without relabeling existing edit records; stage completion requires explicit user completion.",
+        "Rendered desktop and narrow-viewport QA plus keyboard/screen-reader checks pass; MQF-001, MQF-013 and MQF-014 are reviewed for scoped coverage."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-09-26T08:07:04.910Z",
+          "actor": "Maintainer (via Codex)",
+          "role": "maintainer",
+          "note": "Track the admitted M01 package and its exit evidence.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "Ready",
+          "at": "2026-09-26T08:07:05.822Z",
+          "actor": "Maintainer (via Codex)",
+          "role": "maintainer",
+          "note": "Admission is complete; M01 is the next gated implementation packet.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-09-26T08:37:46.833Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "Slice 245 capture contract implementation started from the admitted G03 packet.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "Review",
+          "at": "2026-09-26T20:04:17.046Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "Slice 247 implementation and its M01 acceptance evidence are complete; submit the M01 work card for maintainer review.",
+          "evidenceRefs": [
+            "E-EPIC16-M01-S247-SOURCE",
+            "E-EPIC16-M01-S247-COVERAGE",
+            "E-EPIC16-M01-S247-BUILD",
+            "E-EPIC16-M01-S247-BROWSER",
+            "E-EPIC16-M01-S247-EXIT"
+          ]
+        },
+        {
+          "status": "Done",
+          "at": "2026-09-26T20:04:40.132Z",
+          "actor": "Codex",
+          "role": "reviewer",
+          "note": "Reviewed Slice 247 exit report, source boundary, full 100% verification gates, rendered browser evidence, and scoped manual-finding dispositions.",
+          "evidenceRefs": [
+            "E-EPIC16-M01-S247-SOURCE",
+            "E-EPIC16-M01-S247-COVERAGE",
+            "E-EPIC16-M01-S247-BUILD",
+            "E-EPIC16-M01-S247-BROWSER",
+            "E-EPIC16-M01-S247-EXIT"
+          ]
+        }
+      ],
+      "comments": [
+        {
+          "at": "2026-09-26T14:34:29.255Z",
+          "actor": "Codex",
+          "text": "Slice 246 complete at c446496. Verified 127 test files / 1,874 tests at 100% statement, branch, function and line coverage, protected export identity, build, Control Center suite (33/33), and diff check. Mounted-app integration rendered and exercised the route. Slice 247 continues with persisted resume/conflict handling, all-recipe validation, narrow viewport and rendered accessibility QA before M01 can close."
+        }
+      ],
+      "evidenceRefs": [
+        "E-EPIC16-M01-S247-SOURCE",
+        "E-EPIC16-M01-S247-COVERAGE",
+        "E-EPIC16-M01-S247-BUILD",
+        "E-EPIC16-M01-S247-BROWSER",
+        "E-EPIC16-M01-S247-EXIT"
+      ],
+      "flagKey": null
+    },
+    {
+      "id": "EPIC16-M02",
+      "type": "task",
+      "title": "EPIC-16 M02 — Deterministic one-size creation",
+      "epicId": "EPIC-16",
+      "releaseId": null,
+      "status": "Done",
+      "openedAt": "2026-09-26",
+      "targetAt": "2027-04-09",
+      "deliveredAt": "2026-09-27",
+      "priority": "P0",
+      "risk": "high",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": [
+        "EPIC16-M01"
+      ],
+      "protectedSurfaces": [
+        "deterministic drafting",
+        "project/style persistence",
+        "seven recipe outputs",
+        "legacy export byte identity"
+      ],
+      "description": "Implement and verify M02 under docs/planning/EPIC-16-ADMISSION.md, Slices 248–249. Create one custom-size style from explicitly resolved values, persist and resume through G02, open it in the full editor, preserve selected-size outputs, and withhold whole-run outputs until an approved grade plan.",
+      "expectation": "Guided creation produces one deterministic, editable one-size digital design through the existing local workflow and exposes no graded run before approval.",
+      "acceptanceCriteria": [
+        "A recipe-matched M01 capture with every required field resolved or a clearly disclosed digital default explicitly accepted creates and reloads one style through the existing local project/style workflow.",
+        "The resulting style keeps capture/source provenance distinct from schema fillers, controls, defaults, and derived outputs; no unrelated recipe input, silent STANDARD_M filler, or XS–XL grade inheritance is allowed.",
+        "One-size pattern outputs remain available without grading. Whole-run Tech Pack, Projector, and Marker remain withheld until a grade plan is reviewed and explicitly approved.",
+        "All seven recipes must preserve geometry, options, POMs and one-size output parity for identical resolved inputs; Slice 249 records actual output comparisons.",
+        "Existing SaveFile v1–v5 behavior and all eight protected legacy export byte identities remain unchanged; no physical fit, population-chart, or production claim is made."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-09-26T08:07:05.140Z",
+          "actor": "Maintainer (via Codex)",
+          "role": "maintainer",
+          "note": "Track the admitted M02 package and its exit evidence.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "Ready",
+          "at": "2026-09-26T20:17:04.100Z",
+          "actor": "Maintainer (via Codex)",
+          "role": "maintainer",
+          "note": "M01 completed at Slice 247; M02 scope and the one-size output decision are explicit and implementation is beginning.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-09-26T20:17:04.346Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "Beginning Slice 248 custom one-size materialization under the admitted M02 packet.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "Review",
+          "at": "2026-09-27T05:20:26.112Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "Slice 249 implementation and M02 exit evidence are complete; submitted for final review.",
+          "evidenceRefs": [
+            "E-EPIC16-S249"
+          ]
+        },
+        {
+          "status": "Done",
+          "at": "2026-09-27T05:20:38.800Z",
+          "actor": "Codex",
+          "role": "reviewer",
+          "note": "Reviewed Slice 248–249 M02 acceptance and verified all linked exit evidence; M02 is complete.",
+          "evidenceRefs": [
+            "E-EPIC16-S249"
+          ]
+        }
+      ],
+      "comments": [
+        {
+          "at": "2026-09-26T20:17:05.201Z",
+          "actor": "Maintainer (via Codex)",
+          "text": "Maintainer confirmed 2026-09-26: custom styles without an explicitly approved grade plan retain selected-size pattern exports, while whole-run Tech Pack, Projector, and Marker outputs are withheld."
+        }
+      ],
+      "evidenceRefs": [
+        "E-EPIC16-S249"
+      ],
+      "flagKey": null
+    },
+    {
+      "id": "EPIC16-M03",
+      "type": "task",
+      "title": "EPIC-16 M03 — Explicitly approved grading",
+      "epicId": "EPIC-16",
+      "releaseId": null,
+      "status": "Done",
+      "openedAt": "2026-09-26",
+      "targetAt": "2027-05-14",
+      "deliveredAt": "2026-09-28",
+      "priority": "P0",
+      "risk": "high",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": [
+        "EPIC16-M02"
+      ],
+      "protectedSurfaces": [
+        "grade plan provenance",
+        "graded drafting",
+        "cutting reconciliation",
+        "single-size availability"
+      ],
+      "description": "Implement and verify M03 under docs/planning/EPIC-16-ADMISSION.md, Slices 250–251. Add an explicit, reviewable grade plan for custom styles and reconcile approved per-size outputs with cutting/export data.",
+      "expectation": "A custom wearer remains one-size until the user reviews and approves an explicit grade plan with source, range, base and increments.",
+      "acceptanceCriteria": [
+        "A strict versioned plan identifies its population or product-defined digital range, source/decision, base size, size labels/range, per-measure/POM increments, exceptions and approval state.",
+        "No custom style silently inherits XS–XL; invalid, stale or unapproved plans visibly block only graded actions and preserve one-size output.",
+        "Approved size tables reconcile with every graded pattern and cutting/whole-run output, including per-size overrides and exception cases.",
+        "Legacy designs retain current behavior and all protected export byte identities; approval is not evidence of physical fit."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-09-26T08:07:05.391Z",
+          "actor": "Maintainer (via Codex)",
+          "role": "maintainer",
+          "note": "Track the admitted M03 package and its exit evidence.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-09-27T05:30:39.343Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "M02 is complete at revision 340; Slice 250 begins the admitted M03 grade-plan record and review work.",
+          "evidenceRefs": [
+            "E-EPIC16-S250-SCOPE"
+          ]
+        },
+        {
+          "status": "Review",
+          "at": "2026-09-28T15:47:19.300Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "Slice 251 implementation and all assigned verification gates are complete; submit M03 for independent final review.",
+          "evidenceRefs": [
+            "E-EPIC16-S251-EXIT"
+          ]
+        },
+        {
+          "status": "Done",
+          "at": "2026-09-28T15:47:32.515Z",
+          "actor": "Codex",
+          "role": "reviewer",
+          "note": "Reviewed Slice 251 against M03 acceptance criteria; exact POM, grade-run gates, outputs, persisted plan provenance, full coverage, builds and rendered evidence pass.",
+          "evidenceRefs": [
+            "E-EPIC16-S251-EXIT"
+          ]
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [
+        "E-EPIC16-S250-SCOPE",
+        "E-EPIC16-S250-AUDIT",
+        "E-EPIC16-S250-EXIT",
+        "E-EPIC16-S251-EXIT"
+      ],
+      "flagKey": null
+    },
+    {
+      "id": "EPIC16-FINAL-REVIEW",
+      "type": "task",
+      "title": "EPIC-16 — Final review, merge and G03 exit",
+      "epicId": "EPIC-16",
+      "releaseId": null,
+      "status": "Review",
+      "openedAt": "2026-09-26",
+      "targetAt": null,
+      "deliveredAt": null,
+      "priority": "P0",
+      "risk": "high",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": [
+        "EPIC16-M03",
+        "EPIC16-M03-SAFETY"
+      ],
+      "protectedSurfaces": [
+        "all G03 acceptance criteria",
+        "100% coverage",
+        "protected export identities",
+        "origin/main merge"
+      ],
+      "description": "Reconcile the admission packet, all M01–M03 exits, actual browser and exported-output evidence, full gates and safe PR merge under docs/planning/EPIC-16-ADMISSION.md, Slice 253.",
+      "expectation": "G03 closes only when all linked work is evidenced, the reviewed tree is safely merged to origin/main, and the Control Center records closure.",
+      "acceptanceCriteria": [
+        "All admitted criteria pass or have a separately landed numbered remediation; no item is waived to meet the estimate.",
+        "Full suite retains 100% statement/function/branch/line coverage; strict app/Electron builds and Control Center gates pass.",
+        "All eight protected legacy export identities remain unchanged and actual all-recipe browser/drafted/exported output is reviewed.",
+        "The reviewed pull request is merged safely; origin/main ancestry and clean reviewed-tree equivalence are verified.",
+        "A verified exit report records actual evidence and limitations; all linked work and the Epic close through validated Control Center commands."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-09-26T08:07:05.595Z",
+          "actor": "Maintainer (via Codex)",
+          "role": "maintainer",
+          "note": "Track the admitted G03 final review and merge gate.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "Ready",
+          "at": "2026-09-28T15:47:45.791Z",
+          "actor": "Codex",
+          "role": "reviewer",
+          "note": "M03 is complete with verified Slice 251 exit evidence. Prepare final review after the Slice 251 PR is merged.",
+          "evidenceRefs": [
+            "E-EPIC16-S251-EXIT"
+          ]
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-09-28T16:27:36.853Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "Start the final review workstream with S252 safety remediation and S251 PR merge recorded as explicit prerequisites before S253 closure.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "Review",
+          "at": "2026-09-29T07:01:36.979Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "Slice 258 final digital review and the exact-candidate full coverage gate are complete; submit the reviewed tree for merge verification.",
+          "evidenceRefs": [
+            "E-EPIC16-S258-FINAL-REVIEW"
+          ]
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [
+        "E-EPIC16-S251-EXIT",
+        "E-EPIC16-S258-FINAL-REVIEW"
+      ],
+      "flagKey": null
+    },
+    {
+      "id": "EPIC16-M03-SAFETY",
+      "type": "task",
+      "title": "EPIC-16 M03 — Grade-run safety remediation",
+      "epicId": "EPIC-16",
+      "releaseId": null,
+      "status": "Done",
+      "openedAt": "2026-09-28",
+      "targetAt": null,
+      "deliveredAt": "2026-09-29",
+      "priority": "P0",
+      "risk": "high",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": [
+        "EPIC16-M03"
+      ],
+      "protectedSurfaces": [
+        "grade-run validation",
+        "approved-plan export gates",
+        "M03 exit evidence"
+      ],
+      "description": "Implement Slice 252 under docs/research/epic16/S252-GRADE-RUN-SAFETY-REMEDIATION.md. Correct the independently audited per-size validation gaps, fail closed on unsaved plan bases for selected-size and whole-run exports, and reconcile S251 evidence wording.",
+      "expectation": "Every plan-driven size and export is guarded by the full current validation contract, with S251 evidence accurately matching checked-in tests and output scope.",
+      "acceptanceCriteria": [
+        "Every declared size runs recipe guidance, shared plausibility/coherence, stitches, recipe checks, and notch declarations on its actual block.",
+        "Approved-plan selected-size and whole-run outputs require the approved saved base design and current persisted plan.",
+        "Exact POM equality, N/A reasons, one-size output availability, and all eight legacy export identities remain intact.",
+        "S251 exit and machine-readable evidence reflect actual test behavior; architecture, context, project state and board agree.",
+        "Focused checks, full coverage, strict builds, Control Center checks, and output evidence pass."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-09-28T16:25:57.423Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "Independent S251 audits found per-size validation and saved-base export gates that require a separately tracked remediation slice before final review.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "Ready",
+          "at": "2026-09-28T16:26:14.324Z",
+          "actor": "Codex",
+          "role": "reviewer",
+          "note": "The S252 audit findings have a bounded remediation packet, explicit acceptance criteria, and M03 dependency.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-09-28T16:26:36.516Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "Begin the accepted S252 safety remediation while preserving M03's explicit acceptance criteria and the required final-review gate.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "Review",
+          "at": "2026-09-28T17:21:53.981Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "Slice 252 implementation, verification evidence, and limitations are submitted for independent final review.",
+          "evidenceRefs": [
+            "E-EPIC16-S252-EXIT",
+            "E-EPIC16-S252-VERIFICATION"
+          ]
+        },
+        {
+          "status": "Done",
+          "at": "2026-09-29T07:02:16.458Z",
+          "actor": "Codex",
+          "role": "reviewer",
+          "note": "Reviewed Slice 252 safety remediation and S254 corrections against exact POM, saved-plan coherence, per-size validation, output gating, current full coverage, and rendered/output evidence.",
+          "evidenceRefs": [
+            "E-EPIC16-S252-EXIT",
+            "E-EPIC16-S252-VERIFICATION"
+          ]
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [
+        "E-EPIC16-S252-EXIT",
+        "E-EPIC16-S252-VERIFICATION"
+      ],
+      "flagKey": null
     }
   ],
   "evidence": [
@@ -5512,6 +5966,123 @@
       "sha256": null,
       "verified": true,
       "note": "PR #11 merge and origin/main ancestry proof for Slices 204, 205 and 240; confirms the reviewed G02 branch tree and records scope limitations."
+    },
+    {
+      "id": "E-EPIC16-M01-S247-SOURCE",
+      "kind": "document",
+      "uri": "docs/research/epic16/MEASUREMENT-HELP-SOURCE-AUDIT.md",
+      "commit": null,
+      "sha256": "0ae01ec5470e329bd071ffb0fc1ba247cded459df4f135a8f51c9d6599719546",
+      "verified": true,
+      "note": "Source-traced factual help for the seven recipe field matrices; unsupported body-measure procedures remain withheld."
+    },
+    {
+      "id": "E-EPIC16-M01-S247-COVERAGE",
+      "kind": "test",
+      "uri": "docs/research/epic16/evidence/S247-coverage-verification.json",
+      "commit": null,
+      "sha256": "91dd65c742b3cf188f28f38d7ff22a25fafa12026adc9730c61f39f7eec7b2d3",
+      "verified": true,
+      "note": "Full 127-file, 1,898-test run; 100% statements, branches, functions and lines. Protected export identities pass."
+    },
+    {
+      "id": "E-EPIC16-M01-S247-BUILD",
+      "kind": "build",
+      "uri": "docs/research/epic16/evidence/S247-coverage-verification.json",
+      "commit": null,
+      "sha256": "91dd65c742b3cf188f28f38d7ff22a25fafa12026adc9730c61f39f7eec7b2d3",
+      "verified": true,
+      "note": "Production Vite build and Electron runtime/main TypeScript builds pass."
+    },
+    {
+      "id": "E-EPIC16-M01-S247-BROWSER",
+      "kind": "browser",
+      "uri": "docs/research/epic16/evidence/S247-guided-measurements-verification.json",
+      "commit": null,
+      "sha256": "cd7a8c812b9b09e806037005e772bad2ebda4da45b2bab4e4324ee3075d454a0",
+      "verified": true,
+      "note": "Production Chromium reload, invalid reading/raw draft distinction, keyboard and accessible tree; 320/390/1440 px no overflow or Axe violations. Screenshots are hash-linked in the report."
+    },
+    {
+      "id": "E-EPIC16-M01-S247-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic16/S247-M01-VALIDATION-EXIT.md",
+      "commit": null,
+      "sha256": "c8baa54edb4727b54dda6dd09008278c2c2be2d7197cdc6fba2f663080823909",
+      "verified": true,
+      "note": "Slice 247 acceptance reconciliation and scoped MQF-001, MQF-013, MQF-014 review; M01 exit evidence."
+    },
+    {
+      "id": "E-EPIC16-S249",
+      "kind": "exit-report",
+      "uri": "docs/research/epic16/S249-RECIPE-PARITY-AND-OUTPUT-VERIFICATION.md",
+      "commit": null,
+      "sha256": "99C465125848B2ECAF3136EB097F14768DFF1A3778C1D4E8CE82493C2E567345",
+      "verified": true,
+      "note": "Slice 249 verifies seven-recipe block, options, unrounded POM, and exact selected-size writer parity; whole-run outputs stay withheld pending grade-plan approval. Full coverage, protected export identity, Control Center, app/Electron build, and production-browser evidence are in the report."
+    },
+    {
+      "id": "E-EPIC16-S250-SCOPE",
+      "kind": "document",
+      "uri": "docs/research/epic16/S250-EXPLICIT-GRADE-PLAN-RECORD-AND-REVIEW.md",
+      "commit": null,
+      "sha256": "90A58B192548B428E0D3C1B2CB51BF0461731E108752C4FBC3A4820507B22BD8",
+      "verified": true,
+      "note": "Slice 250 scope and exit boundary for the versioned user-authored grade-plan record and approval flow. It selects no population, size range, numerical rule or increments; graded outputs remain in Slice 251."
+    },
+    {
+      "id": "E-EPIC16-S250-AUDIT",
+      "kind": "document",
+      "uri": "docs/research/epic16/S250-GRADE-PLAN-DECISION-RECONCILIATION.md",
+      "commit": null,
+      "sha256": "DBC9CB998804CFCA3116398A98847B98AD0710003F8A92DC8324AE2994AB603B",
+      "verified": true,
+      "note": "Codex-reviewed, source-checked reconciliation of the separate Claude Code Opus 5.5 High and OpenCode Muse Spark 1.3 Xhigh audits; records admission-derived S250 decisions and S251 integration risks. No chart, increments or legacy behavior are supplied."
+    },
+    {
+      "id": "E-EPIC16-S250-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic16/S250-EXIT.md",
+      "commit": null,
+      "sha256": "DBAB3EC9C678BC58961AF41CD0185E56C170E08C633B34F5B4AD0B86160081ED",
+      "verified": true,
+      "note": "Slice 250 exit: grade-plan record, review/approval and stale binding; full 100% coverage after final app fix (23,290 statements, 10,482 branches, 1,422 functions, 23,290 lines), 1,984 tests, builds and production-browser lifecycle review passed. Graded outputs remain Slice 251."
+    },
+    {
+      "id": "E-EPIC16-S251-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic16/S251-EXIT.md",
+      "commit": null,
+      "sha256": "e46a89e5f808fa3a8bb13449586ff6085bfbd86b5489441c42163363d1bffc6d",
+      "verified": true,
+      "note": "Slice 251 adds plan-driven sizes and gated whole-run exports with exact raw POM equality, no tolerance or rounding. Verified by all 133 files/2,023 tests at 100% coverage, strict app/Electron builds, 33/33 Control Center tests, and rendered three-size Tee Tech Pack pages 4, 8, and 9."
+    },
+    {
+      "id": "E-EPIC16-S252-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic16/S252-GRADE-RUN-SAFETY-REMEDIATION.md",
+      "commit": "5503383",
+      "sha256": "46cb14b825c311f19aebf1da39b77dd65d216ee17f7686731005ac0fcf24c4e9",
+      "verified": true,
+      "note": "Slice 252 exit report with accepted findings, bounded remediation, full verification and current limitations."
+    },
+    {
+      "id": "E-EPIC16-S252-VERIFICATION",
+      "kind": "document",
+      "uri": "docs/research/epic16/evidence/S252-safety-verification.json",
+      "commit": "5503383",
+      "sha256": "58ab9fbccbaa433551c5078067a42734fa78918df5a82ca13be4842da3129860",
+      "verified": true,
+      "note": "Machine-readable Slice 252 gate results and rendered browser review. Distinct-size output limitation is disclosed."
+    },
+    {
+      "id": "E-EPIC16-S258-FINAL-REVIEW",
+      "kind": "document",
+      "uri": "docs/research/epic16/S258-G03-FINAL-REVIEW.md",
+      "commit": null,
+      "sha256": "1de856d33f805acd2242dba0b93adde45ff47214af1e9e822a1db37749317515",
+      "verified": true,
+      "note": "SHA-256 verified final review document; its full-coverage and gate claims are tied to the explicitly named source candidate."
     }
   ]
 }

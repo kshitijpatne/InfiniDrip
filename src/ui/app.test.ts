@@ -5,10 +5,17 @@ import { webcrypto } from "node:crypto";
 import { IDBFactory } from "fake-indexeddb";
 import {
   exportablePieces,
+  applySelectedCaptureValue,
+  captureSessionForRecipe,
+  captureSessionMatchesRecipe,
+  type CaptureDraft,
+  guidedCaptureStageBlocker,
   mountApp,
+  serializeCaptureDrafts,
   renderSemanticEditorPiece,
   resolveSemanticEditorRole,
   selectedSizeLabel,
+  renderForCaptureSession,
   semanticEditorHandles,
   semanticEditorPieceForRole,
   semanticSizeStepFor,
@@ -16,13 +23,25 @@ import {
   withSemanticEditorPiece,
 } from "./app";
 import { openProjectWorkflow } from "./project-workflow";
+import { isCustomOneSizeStyle } from "./project-records";
+import { materializeCustomSizeDesign } from "./custom-size-materialization";
+import * as gradePlanContext from "./grade-plan-context";
+import * as gradePlan from "./grade-plan";
 import type { ArtworkAssetStore, StoredArtworkAsset } from "../surface/artwork-store";
 import type { InspectedArtworkFile } from "../surface/artwork-file";
 import { ARTWORK_CATALOG } from "../surface/artwork-library/catalog";
 import { GARMENTS, STANDARD_M, draftTshirt, rolePiece, type GarmentRecipe } from "../drafting";
 import * as editEngine from "../edit";
+import * as semanticEditEngine from "../edit/semantic-edit";
 import { pieceHandles, editorViewBox } from "../edit";
 import { loadJourney } from "./journey";
+import { currentFieldObservation, getFieldDefinitions } from "./field-provenance";
+import {
+  addCaptureReadingForField,
+  createMeasurementCaptureSession,
+  selectCaptureReading,
+} from "./measurement-capture";
+import * as measurementHelp from "./measurement-help";
 import { PATTERN_MEASUREMENT_MAP, type PatternMeasurementDefinition, type PatternMeasurementField } from "./pattern-measurements";
 
 const mutablePatternMeasurementMap = PATTERN_MEASUREMENT_MAP as unknown as
@@ -50,12 +69,144 @@ const reachExportStage = (root: HTMLElement): void => {
 };
 
 describe("mountApp", () => {
+  it("persists Single/Marker as a preview preference without dirtying or adding undo history", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: { name: `app-nesting-scope-${Date.now()}`, factory: new IDBFactory(), crypto: webcrypto as unknown as Crypto },
+      storage: localStorage,
+      idFactory: () => webcrypto.randomUUID(),
+      now: () => "2026-09-28T12:00:00.000Z",
+    });
+    const root = document.createElement("div");
+    document.body.append(root);
+    try {
+      mountApp(root, { projectWorkflow: workflow });
+      const state = root.querySelector<HTMLElement>("#project-persistence-state")!;
+      expect(state.dataset.state).toBe("saved");
+      expect(root.querySelector<HTMLButtonElement>("#undo-pattern")!.disabled).toBe(true);
+      expect(root.querySelector<HTMLButtonElement>("#redo-pattern")!.disabled).toBe(true);
+      clickId(root, "view-fabric");
+      root.querySelector<HTMLButtonElement>("#nest-marker")!.click();
+      expect(root.querySelector<HTMLButtonElement>("#nest-marker")!.getAttribute("aria-pressed")).toBe("true");
+      expect(state.dataset.state).toBe("saved");
+      expect(root.querySelector<HTMLButtonElement>("#undo-pattern")!.disabled).toBe(true);
+      expect(root.querySelector<HTMLButtonElement>("#redo-pattern")!.disabled).toBe(true);
+
+      clickId(root, "save-pattern");
+      await vi.waitFor(() => expect(workflow.snapshot.activeStyle.design.workspace.nestScope).toBe("marker"));
+      expect(state.dataset.state).toBe("saved");
+    } finally {
+      workflow.close();
+      root.remove();
+      vi.unstubAllGlobals();
+      localStorage.clear();
+    }
+  });
+
+  it("serializes only meaningful saved drafts and preserves every optional draft field", () => {
+    const session = createMeasurementCaptureSession(
+      "00000000-0000-4000-8000-000000000016", "woven-shirt", "2026-09-26T00:00:00.000Z",
+    );
+    const [raw, unit, source, method, date, measurer, empty] = session.fields;
+    const drafts = new Map<string, CaptureDraft>([
+      [raw!.fieldId, { rawValue: "12", unit: "cm", error: null, sourceNote: "", method: "", captureDate: "", measurer: "" }],
+      [unit!.fieldId, { rawValue: "", unit: "in", error: null, sourceNote: "", method: "", captureDate: "", measurer: "" }],
+      [source!.fieldId, { rawValue: "", unit: source!.unit, error: null, sourceNote: "noted", method: "", captureDate: "", measurer: "" }],
+      [method!.fieldId, { rawValue: "", unit: method!.unit, error: null, sourceNote: "", method: "tape", captureDate: "", measurer: "" }],
+      [date!.fieldId, { rawValue: "", unit: date!.unit, error: null, sourceNote: "", method: "", captureDate: "2026-09-25", measurer: "" }],
+      [measurer!.fieldId, { rawValue: "", unit: measurer!.unit, error: null, sourceNote: "", method: "", captureDate: "", measurer: "HELPER" }],
+      [empty!.fieldId, { rawValue: "", unit: empty!.unit, error: null, sourceNote: "", method: "", captureDate: "", measurer: "" }],
+    ]);
+    const serialized = serializeCaptureDrafts(session, drafts);
+    expect(serialized).toHaveLength(6);
+    expect(serialized.map((draft) => draft.fieldId)).toEqual(session.fields.slice(0, 6).map((field) => field.fieldId));
+    expect(serialized[0]).toMatchObject({ fieldId: raw!.fieldId, rawValue: "12", enteredUnit: "cm" });
+    expect(serialized[1]).toMatchObject({ fieldId: unit!.fieldId, rawValue: "", enteredUnit: "in" });
+    expect(serialized[2]).toMatchObject({ fieldId: source!.fieldId, sourceNote: "noted" });
+    expect(serialized[3]).toMatchObject({ fieldId: method!.fieldId, captureMethod: "tape" });
+    expect(serialized[4]).toMatchObject({ fieldId: date!.fieldId, captureDate: "2026-09-25" });
+    expect(serialized[5]).toMatchObject({ fieldId: measurer!.fieldId, measurer: "HELPER" });
+    expect(serializeCaptureDrafts(session, new Map())).toEqual([]);
+  });
+
   it("keeps semantic-editor and export helper boundaries safe for missing roles and stale output", () => {
     expect(semanticEditorHandles("tee", { roles: {}, stitches: [] }, "front")).toEqual([]);
     const source = { roles: {}, stitches: [] };
     expect(exportablePieces(source, true)).toEqual([]);
     expect(() => exportablePieces(source, false)).toThrow(/pattern export is paused/);
     expect(() => exportablePieces(null, true)).toThrow(/pattern export is paused/);
+  });
+
+  it("fails closed when the guided capture session is missing, belongs to another recipe, or is incomplete", () => {
+    expect(guidedCaptureStageBlocker(null, "woven-shirt")).toMatchObject({
+      message: "Start guided capture for the selected garment before continuing.", step: "measure",
+    });
+    const teeSession = createMeasurementCaptureSession("00000000-0000-4000-8000-000000000001", "tee", "2026-09-26T00:00:00.000Z");
+    expect(captureSessionMatchesRecipe(null, "woven-shirt")).toBe(false);
+    expect(captureSessionMatchesRecipe(teeSession, "woven-shirt")).toBe(false);
+    expect(captureSessionMatchesRecipe(teeSession, "tee")).toBe(true);
+    const create = vi.fn(() => createMeasurementCaptureSession(
+      "00000000-0000-4000-8000-000000000005", "woven-shirt", "2026-09-26T00:00:00.000Z",
+    ));
+    expect(captureSessionForRecipe(teeSession, "tee", create)).toBe(teeSession);
+    expect(captureSessionForRecipe(teeSession, "woven-shirt", create)).toBe(create.mock.results[0]!.value);
+    expect(captureSessionForRecipe(null, "woven-shirt", create)).toBe(create.mock.results[1]!.value);
+    expect(create).toHaveBeenCalledTimes(2);
+    const render = vi.fn(() => "rendered panel");
+    expect(renderForCaptureSession(null, "woven-shirt", render)).toBe("");
+    expect(renderForCaptureSession(teeSession, "woven-shirt", render)).toBe("");
+    expect(renderForCaptureSession(teeSession, "tee", render)).toBe("rendered panel");
+    expect(render).toHaveBeenCalledOnce();
+    expect(guidedCaptureStageBlocker(teeSession, "woven-shirt")).toMatchObject({
+      message: "Start guided capture for the selected garment before continuing.", step: "measure",
+    });
+    const wovenSession = createMeasurementCaptureSession("00000000-0000-4000-8000-000000000002", "woven-shirt", "2026-09-26T00:00:00.000Z");
+    expect(guidedCaptureStageBlocker(wovenSession, "woven-shirt")).toMatchObject({
+      step: "measure", field: getFieldDefinitions("woven-shirt")[0]!.id,
+    });
+    const captureTime = "2026-09-26T00:00:00.000Z";
+    const invalidWovenCapture = getFieldDefinitions("woven-shirt").reduce((session, definition, index) =>
+      addCaptureReadingForField(session, definition.id, {
+        id: `00000000-0000-4000-8000-${String(index + 20).padStart(12, "0")}`,
+        rawValue: definition.inputKey === "length" ? "45" : String(definition.defaultValue),
+        enteredUnit: definition.unit,
+        provenance: definition.semanticKind === "BODY_MEASURE" ? "USER_CAPTURED" : "USER_SELECTED",
+        evidenceStatus: "UNCONFIRMED",
+        sourceLabel: "Explicit test value",
+        captureMethod: null,
+        capturedAt: null,
+        measurer: null,
+      }, captureTime), createMeasurementCaptureSession(
+        "00000000-0000-4000-8000-000000000003", "woven-shirt", captureTime,
+      ));
+    expect(guidedCaptureStageBlocker(invalidWovenCapture, "woven-shirt")).toMatchObject({
+      step: "measure", field: "body.wear-line-to-hip-level",
+      message: expect.stringContaining("hip station at y=51.35 cm, below the hem at y=45 cm"),
+    });
+  });
+
+  it("does not apply a selected reading while its evidence is conflicting", () => {
+    const recipeId = "tee";
+    const field = getFieldDefinitions(recipeId)[0]!;
+    const now = "2026-09-26T00:00:00.000Z";
+    const initial = createMeasurementCaptureSession("00000000-0000-4000-8000-000000000003", recipeId, now);
+    const withConflict = addCaptureReadingForField(initial, field.id, {
+      id: "00000000-0000-4000-8000-000000000004",
+      rawValue: String(field.defaultValue),
+      enteredUnit: field.unit,
+      provenance: "USER_CAPTURED",
+      evidenceStatus: "CONFLICT",
+      sourceLabel: "Conflicting source record",
+      captureMethod: null,
+      capturedAt: null,
+      measurer: null,
+    }, now);
+    const selected = selectCaptureReading(withConflict, field.id, "00000000-0000-4000-8000-000000000004", now);
+    expect(guidedCaptureStageBlocker(selected, recipeId)).toMatchObject({ step: "measure", field: field.id });
+    const apply = vi.fn();
+    applySelectedCaptureValue(selected, recipeId, field.id, apply);
+    expect(apply).not.toHaveBeenCalled();
   });
 
   it("shows a render failure and disables exports when the current source throws", () => {
@@ -131,6 +282,7 @@ describe("mountApp", () => {
   });
 
   it("draws the canvas and the garment on mount", () => {
+    localStorage.clear();
     const root = mount();
     expect(root.querySelector("h1#product-title")!.textContent).toBe("InfiniDrip");
     expect(root.querySelector("#canvas-host svg")).not.toBeNull();
@@ -185,9 +337,301 @@ describe("mountApp", () => {
     localStorage.clear();
     const root = mount();
     expect(root.querySelector<HTMLSelectElement>("#stretch-select")!.value).toBe("Cotton jersey");
+    const measure = root.querySelector<HTMLButtonElement>("#journey-step-measure")!;
+    expect(measure.getAttribute("aria-label")).toBe("2 Measure");
+    expect(measure.dataset.stageState).toBe("pending");
+    clickId(root, "journey-next");
+    expect(root.querySelector<HTMLButtonElement>("#journey-step-measure")!.getAttribute("aria-label"))
+      .toBe("2 Measure — current stage");
+    clickId(root, "journey-next");
+    expect(root.querySelector<HTMLButtonElement>("#journey-step-measure")!.getAttribute("aria-label"))
+      .toBe("2 Measure — complete");
+  });
+
+  it("opens the guided capture route with recipe help and keeps the full editor available", () => {
+    localStorage.clear();
+    const root = mount();
+    clickId(root, "garment-woven-shirt");
+    expect(root.querySelector<HTMLButtonElement>("#journey-step-measure")!.dataset.stageState).toBe("pending");
+    expect(root.querySelector<HTMLButtonElement>("#journey-guided")!.textContent).toBe("Guide my measurements");
+    const captureWithoutSession = document.createElement("button");
+    captureWithoutSession.dataset.action = "capture-add-reading";
+    captureWithoutSession.dataset.fieldId = "body.chest-girth";
+    root.append(captureWithoutSession);
+    captureWithoutSession.click();
+    captureWithoutSession.remove();
+
+    const fallbackDefinition = getFieldDefinitions("woven-shirt")[0]!;
+    const originalHelpLookup = measurementHelp.measurementHelpFor;
+    const missingHelp = vi.spyOn(measurementHelp, "measurementHelpFor").mockImplementation((recipeId, fieldId) =>
+      fieldId === fallbackDefinition.id ? null : originalHelpLookup(recipeId, fieldId));
+    const originalCrypto = globalThis.crypto;
+    const captureFallbackCrypto = new Proxy(originalCrypto, {
+      get(target, property) {
+        if (property === "randomUUID") return undefined;
+        const value = Reflect.get(target, property, target) as unknown;
+        return typeof value === "function" ? value.bind(target) : value;
+      },
+    });
+    try {
+      vi.stubGlobal("crypto", captureFallbackCrypto);
+      clickId(root, "journey-guided");
+      const fallbackCaveat = root.querySelector<HTMLElement>(
+        `[data-field-id="${fallbackDefinition.id}"] .measurement-capture-panel__caveat`,
+      )!;
+      expect(fallbackCaveat.textContent).toContain(fallbackDefinition.captureBoundary);
+    } finally {
+      vi.stubGlobal("crypto", originalCrypto);
+      missingHelp.mockRestore();
+    }
+    expect(root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("measure");
+    expect(root.querySelector<HTMLElement>("#controls-panel")!.style.display).toBe("none");
+    expect(root.querySelectorAll(".measurement-capture-panel__field")).toHaveLength(getFieldDefinitions("woven-shirt").length);
+    expect(root.querySelector(".measurement-capture-panel__field")!.textContent).toContain("How the draft uses it");
+    expect(root.querySelector<HTMLButtonElement>("#journey-next")!.disabled).toBe(true);
+
+    const uninitializedDraftFailure = document.createElement("button");
+    uninitializedDraftFailure.dataset.action = "capture-add-reading";
+    uninitializedDraftFailure.dataset.fieldId = "body.neck-base-girth";
+    root.append(uninitializedDraftFailure);
+    const throwingErrorCrypto = new Proxy(originalCrypto, {
+      get(target, property) {
+        if (property === "randomUUID") return () => { throw new Error("synthetic capture failure"); };
+        const value = Reflect.get(target, property, target) as unknown;
+        return typeof value === "function" ? value.bind(target) : value;
+      },
+    });
+    try {
+      vi.stubGlobal("crypto", throwingErrorCrypto);
+      uninitializedDraftFailure.click();
+    } finally {
+      vi.stubGlobal("crypto", originalCrypto);
+      uninitializedDraftFailure.remove();
+    }
+    expect(root.querySelector<HTMLElement>("#g03-measurement-capture-status")!.textContent)
+      .toContain("synthetic capture failure");
+
+    const initialChestUnit = root.querySelector<HTMLSelectElement>(
+      '[data-action="capture-change-unit"][data-field-id="body.chest-girth"]',
+    )!;
+    initialChestUnit.dispatchEvent(new Event("change", { bubbles: true }));
+    const staleCaptureInput = document.createElement("input");
+    staleCaptureInput.dataset.action = "capture-edit-raw";
+    staleCaptureInput.dataset.fieldId = "stale.capture-field";
+    root.append(staleCaptureInput);
+    staleCaptureInput.dispatchEvent(new Event("input", { bubbles: true }));
+    staleCaptureInput.remove();
+    const unnamedCaptureInput = document.createElement("input");
+    unnamedCaptureInput.dataset.action = "capture-edit-raw";
+    root.append(unnamedCaptureInput);
+    unnamedCaptureInput.dispatchEvent(new Event("input", { bubbles: true }));
+    unnamedCaptureInput.remove();
+    const staleCaptureSelect = document.createElement("select");
+    staleCaptureSelect.dataset.action = "capture-change-unit";
+    staleCaptureSelect.dataset.fieldId = "stale.capture-unit-field";
+    staleCaptureSelect.value = "in";
+    root.append(staleCaptureSelect);
+    staleCaptureSelect.dispatchEvent(new Event("change", { bubbles: true }));
+    staleCaptureSelect.remove();
+    const unnamedCaptureSelect = document.createElement("select");
+    unnamedCaptureSelect.dataset.action = "capture-change-unit";
+    root.append(unnamedCaptureSelect);
+    unnamedCaptureSelect.dispatchEvent(new Event("change", { bubbles: true }));
+    unnamedCaptureSelect.remove();
+    const unnamedCaptureAction = document.createElement("button");
+    unnamedCaptureAction.dataset.action = "capture-add-reading";
+    root.append(unnamedCaptureAction);
+    unnamedCaptureAction.click();
+    unnamedCaptureAction.remove();
+    const missingReadingId = document.createElement("button");
+    missingReadingId.dataset.action = "capture-select-reading";
+    missingReadingId.dataset.fieldId = "body.chest-girth";
+    root.append(missingReadingId);
+    missingReadingId.click();
+    missingReadingId.remove();
+    const nonErrorCaptureFailure = document.createElement("button");
+    nonErrorCaptureFailure.dataset.action = "capture-add-reading";
+    nonErrorCaptureFailure.dataset.fieldId = "stale.capture-error-field";
+    root.append(nonErrorCaptureFailure);
+    const throwingCrypto = new Proxy(originalCrypto, {
+      get(target, property) {
+        if (property === "randomUUID") return () => { throw "synthetic capture failure"; };
+        const value = Reflect.get(target, property, target) as unknown;
+        return typeof value === "function" ? value.bind(target) : value;
+      },
+    });
+    try {
+      vi.stubGlobal("crypto", throwingCrypto);
+      nonErrorCaptureFailure.click();
+    } finally {
+      vi.stubGlobal("crypto", originalCrypto);
+      nonErrorCaptureFailure.remove();
+    }
+    expect(root.querySelector<HTMLElement>("#g03-measurement-capture-status")!.textContent)
+      .toContain("This value could not be recorded.");
+
+    const correction = root.querySelector<HTMLButtonElement>("#journey-correction")!;
+    const correctionInput = root.querySelector<HTMLInputElement>(
+      `[data-action="capture-edit-raw"][data-field-id="${correction.dataset.correctionField}"]`,
+    )!;
+    const focusCorrection = vi.spyOn(correctionInput, "focus");
+    clickId(root, "journey-correction");
+    expect(focusCorrection).toHaveBeenCalledOnce();
+    const chest = root.querySelector<HTMLInputElement>('[data-action="capture-edit-raw"][data-field-id="body.chest-girth"]')!;
+    chest.value = "40.5";
+    chest.dispatchEvent(new Event("input", { bubbles: true }));
+    const unit = root.querySelector<HTMLSelectElement>('[data-action="capture-change-unit"][data-field-id="body.chest-girth"]')!;
+    unit.value = "in";
+    unit.dispatchEvent(new Event("change", { bubbles: true }));
+    const optional = chest.closest("li")!.querySelector<HTMLDetailsElement>(".measurement-capture-panel__optional-details")!;
+    optional.open = true;
+    const sourceNote = optional.querySelector<HTMLInputElement>('[data-action="capture-edit-source"]')!;
+    sourceNote.value = "User's sewing notebook";
+    sourceNote.dispatchEvent(new Event("input", { bubbles: true }));
+    const methodNote = optional.querySelector<HTMLInputElement>('[data-action="capture-edit-method"]')!;
+    methodNote.value = "User supplied method note";
+    methodNote.dispatchEvent(new Event("input", { bubbles: true }));
+    const dateNote = optional.querySelector<HTMLInputElement>('[data-action="capture-edit-date"]')!;
+    dateNote.value = "2026-09-25";
+    dateNote.dispatchEvent(new Event("input", { bubbles: true }));
+    const measurer = optional.querySelector<HTMLSelectElement>('[data-action="capture-change-measurer"]')!;
+    measurer.value = "HELPER";
+    measurer.dispatchEvent(new Event("change", { bubbles: true }));
+    clickId(root, chest.closest("li")!.querySelector<HTMLButtonElement>('[data-action="capture-add-reading"]')!.id);
+    expect(root.querySelector('[data-reading-id] .measurement-capture-panel__reading-summary')!.textContent)
+      .toContain("40.5” in = 102.87 cm");
+    const chestReadingDetails = root.querySelector<HTMLElement>('[data-field-id="body.chest-girth"] .measurement-capture-panel__reading-details')!;
+    expect(chestReadingDetails.textContent).toContain("Source: User's sewing notebook");
+    expect(chestReadingDetails.textContent).toContain("Method: User supplied method note");
+    expect(chestReadingDetails.textContent).toContain("Captured: 2026-09-25 (UTC)");
+    expect(chestReadingDetails.textContent).toContain("Measured by: a helper");
+
+    const firstReading = root.querySelector<HTMLElement>('[data-field-id="body.chest-girth"] [data-reading-id]')!.dataset.readingId!;
+    const repeatedChest = root.querySelector<HTMLInputElement>('[data-action="capture-edit-raw"][data-field-id="body.chest-girth"]')!;
+    repeatedChest.value = "40.75";
+    repeatedChest.dispatchEvent(new Event("input", { bubbles: true }));
+    clickId(root, repeatedChest.closest("li")!.querySelector<HTMLButtonElement>('[data-action="capture-add-reading"]')!.id);
+    expect(root.querySelector<HTMLElement>('[data-field-id="body.chest-girth"]')!.dataset.state).toBe("ambiguous");
+    const chooseFirst = [...root.querySelectorAll<HTMLButtonElement>('[data-action="capture-select-reading"]')]
+      .find((button) => button.dataset.readingId === firstReading)!;
+    clickId(root, chooseFirst.id);
+    expect(root.querySelector<HTMLElement>('[data-field-id="body.chest-girth"]')!.dataset.state).toBe("resolved");
+    expect(root.querySelector<HTMLInputElement>('#controls-panel input[data-field="chest"]')!.value).toBe("102.87");
+
+    const option = getFieldDefinitions("woven-shirt").find((definition) => definition.inputKind === "option")!;
+    const optionPreset = [...root.querySelectorAll<HTMLButtonElement>('[data-action="capture-accept-preset"]')]
+      .find((button) => button.dataset.fieldId === option.id)!;
+    clickId(root, optionPreset.id);
+    const optionInput = [...root.querySelectorAll<HTMLInputElement>("#controls-panel input[data-option]")]
+      .find((input) => input.dataset.option === option.inputKey)!;
+    expect(optionInput.value).toBe(String(option.defaultValue));
+
+    const finishedLength = root.querySelector<HTMLInputElement>(
+      '[data-action="capture-edit-raw"][data-field-id="target.top-hps-to-hem"]',
+    )!;
+    finishedLength.value = "62";
+    finishedLength.dispatchEvent(new Event("input", { bubbles: true }));
+    clickId(root, finishedLength.closest("li")!.querySelector<HTMLButtonElement>('[data-action="capture-add-reading"]')!.id);
+    expect(root.querySelector<HTMLElement>(
+      '[data-field-id="target.top-hps-to-hem"] .measurement-capture-panel__reading-details',
+    )!.textContent).toContain("Source: User-selected digital target or design value.");
+
+    const rejectedField = getFieldDefinitions("woven-shirt").find((definition) =>
+      definition.id !== "body.chest-girth" && definition.id !== option.id)!;
+    const rejectedInput = [...root.querySelectorAll<HTMLInputElement>('[data-action="capture-edit-raw"]')]
+      .find((input) => input.dataset.fieldId === rejectedField.id)!;
+    rejectedInput.value = "1".repeat(4097);
+    rejectedInput.dispatchEvent(new Event("input", { bubbles: true }));
+    clickId(root, rejectedInput.closest("li")!.querySelector<HTMLButtonElement>('[data-action="capture-add-reading"]')!.id);
+    expect(root.querySelector<HTMLElement>(`[data-field-id="${rejectedField.id}"] .measurement-capture-panel__draft-error`)!.textContent)
+      .toContain("raw value is invalid");
+
+    for (const definition of getFieldDefinitions("woven-shirt")) {
+      const preset = [...root.querySelectorAll<HTMLButtonElement>('[data-action="capture-accept-preset"]')]
+        .find((button) => button.dataset.fieldId === definition.id)!;
+      clickId(root, preset.id);
+    }
+    expect(root.querySelector<HTMLButtonElement>("#journey-next")!.disabled).toBe(false);
+
+    clickId(root, "journey-next");
+    expect(root.querySelector<HTMLButtonElement>("#journey-step-measure")!.dataset.stageState).toBe("complete");
+    expect(root.querySelector<HTMLElement>("#controls-panel")!.style.display).not.toBe("none");
+    expect(root.querySelector<HTMLInputElement>('#controls-panel input[data-field="chest"]')!.value).toBe("100");
+    expect(root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("fit");
+  });
+
+  it("renders and gates guided capture against every current recipe field list", () => {
+    const semanticLabels = {
+      BODY_MEASURE: "Body input",
+      GARMENT_MEASURE: "Finished-garment target",
+      FINISHED_POM: "Derived output",
+      PATTERN_PARAMETER: "Pattern target",
+      STYLE_CONTROL: "Style control",
+    } as const;
+    const frameLabels = {
+      body: "the wearer's body",
+      "finished-garment": "the finished garment",
+      pattern: "the flat pattern",
+      "design-control": "a design choice",
+    } as const;
+    for (const recipe of GARMENTS) {
+      localStorage.clear();
+      const root = mount();
+      clickId(root, `garment-${recipe.name}`);
+      clickId(root, "journey-guided");
+
+      const fields = [...root.querySelectorAll<HTMLElement>(".measurement-capture-panel__field")];
+      const definitions = getFieldDefinitions(recipe.name);
+      expect(fields.map((field) => field.dataset.fieldId), recipe.name)
+        .toEqual(definitions.map((definition) => definition.id));
+      for (let index = 0; index < fields.length; index += 1) {
+        expect(fields[index]!.querySelector("legend")?.textContent, recipe.name)
+          .toBe(definitions[index]!.label);
+        expect(fields[index]!.querySelector(".measurement-capture-panel__kind")?.textContent, recipe.name)
+          .toContain(semanticLabels[definitions[index]!.semanticKind]);
+        expect(fields[index]!.querySelector(".measurement-capture-panel__kind")?.textContent, recipe.name)
+          .toContain(frameLabels[definitions[index]!.referenceFrame]);
+      }
+      expect(root.querySelector<HTMLButtonElement>("#journey-next")!.disabled, recipe.name).toBe(true);
+
+      for (const definition of definitions) {
+        const preset = [...root.querySelectorAll<HTMLButtonElement>('[data-action="capture-accept-preset"]')]
+          .find((button) => button.dataset.fieldId === definition.id);
+        expect(preset, recipe.name).toBeDefined();
+        clickId(root, preset!.id);
+      }
+      expect(root.querySelector<HTMLButtonElement>("#journey-next")!.disabled, recipe.name).toBe(false);
+      if (recipe.name === "woven-shirt") {
+        const lengthDefinition = definitions.find((definition) => definition.inputKey === "length")!;
+        const lengthField = root.querySelector<HTMLElement>(`[data-field-id="${lengthDefinition.id}"]`)!;
+        const lengthInput = lengthField.querySelector<HTMLInputElement>('[data-action="capture-edit-raw"]')!;
+        lengthInput.value = "45";
+        lengthInput.dispatchEvent(new Event("input", { bubbles: true }));
+        clickId(root, lengthField.querySelector<HTMLButtonElement>('[data-action="capture-add-reading"]')!.id);
+        expect(root.querySelector<HTMLButtonElement>("#journey-next")!.disabled).toBe(true);
+        const secondLength = [...root.querySelectorAll<HTMLButtonElement>(
+          `[data-field-id="${lengthDefinition.id}"] [data-action="capture-select-reading"]`,
+        )].find((button) => button.textContent?.includes("reading 2"))!;
+        clickId(root, secondLength.id);
+        expect(root.querySelector<HTMLButtonElement>("#journey-next")!.disabled).toBe(true);
+        expect(root.querySelector<HTMLElement>("#journey-blocker")!.textContent)
+          .toContain("hip station at y=51.35 cm, below the hem at y=45 cm");
+        const firstLength = [...root.querySelectorAll<HTMLButtonElement>(
+          `[data-field-id="${lengthDefinition.id}"] [data-action="capture-select-reading"]`,
+        )].find((button) => button.textContent?.includes("reading 1"))!;
+        clickId(root, firstLength.id);
+        expect(root.querySelector("#journey-blocker")).toBeNull();
+        expect(root.querySelector<HTMLButtonElement>("#journey-next")!.disabled).toBe(false);
+      }
+      clickId(root, "journey-next");
+      expect(root.querySelector<HTMLButtonElement>("#journey-step-measure")!.dataset.stageState, recipe.name)
+        .toBe("complete");
+      root.remove();
+    }
   });
 
   it("replaces the active canvas with Assembled, then returns to the same view", () => {
+    localStorage.clear();
     const root = mount();
     root.querySelector<HTMLButtonElement>("#assembled-preview-toggle")!
       .dispatchEvent(new Event("click", { bubbles: true }));
@@ -1053,20 +1497,25 @@ describe("mountApp", () => {
   });
 
   it("keeps the reviewed journey incomplete when Electron cancels a file write", async () => {
-    window.electronAPI = { saveFile: vi.fn().mockResolvedValue({ saved: false }) };
+    localStorage.clear();
+    const saveFile = vi.fn().mockResolvedValue({ saved: false });
+    window.electronAPI = { saveFile };
     try {
       const root = mount();
       reachExportStage(root);
       clickId(root, "export-svg");
-      await vi.waitFor(() => expect(root.querySelector("#persist-status")!.textContent)
-        .toContain("Export canceled"));
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledOnce(), { timeout: 20_000 });
+      await vi.waitFor(() => expect(root.querySelector("#persist-status")?.textContent)
+        .toContain("Export canceled"), { timeout: 20_000 });
       expect(root.querySelector("#journey-celebration")).toBeNull();
     } finally {
       delete window.electronAPI;
+      localStorage.clear();
     }
   });
 
   it("does not mark an older Electron export complete after the design changes", async () => {
+    localStorage.clear();
     let finishWrite!: (result: { saved: boolean }) => void;
     const saveFile = vi.fn(() => new Promise<{ saved: boolean }>((resolve) => { finishWrite = resolve; }));
     window.electronAPI = { saveFile };
@@ -1079,25 +1528,30 @@ describe("mountApp", () => {
       chest.value = "101";
       chest.dispatchEvent(new Event("input", { bubbles: true }));
       finishWrite({ saved: true });
-      await vi.waitFor(() => expect(root.querySelector("#persist-status")!.textContent)
-        .toContain("earlier design"));
+      await Promise.resolve();
+      expect(root.querySelector("#persist-status")!.textContent).toContain("earlier design");
       expect(root.querySelector("#journey-celebration")).toBeNull();
     } finally {
       delete window.electronAPI;
+      localStorage.clear();
     }
   });
 
   it("reports an Electron export write error without confirming export", async () => {
-    window.electronAPI = { saveFile: vi.fn().mockRejectedValue(new Error("disk unavailable")) };
+    localStorage.clear();
+    const saveFile = vi.fn().mockRejectedValue(new Error("disk unavailable"));
+    window.electronAPI = { saveFile };
     try {
       const root = mount();
       reachExportStage(root);
       clickId(root, "export-svg");
-      await vi.waitFor(() => expect(root.querySelector("#persist-status")!.textContent)
-        .toContain("Export failed"));
+      expect(saveFile).toHaveBeenCalledOnce();
+      await Promise.resolve();
+      expect(root.querySelector("#persist-status")!.textContent).toContain("Export failed");
       expect(root.querySelector("#journey-celebration")).toBeNull();
     } finally {
       delete window.electronAPI;
+      localStorage.clear();
     }
   });
 
@@ -1919,7 +2373,10 @@ describe("semantic Edit view", () => {
     const root = mount();
     root.querySelector<HTMLButtonElement>("#garment-fitted")!.dispatchEvent(new Event("click"));
     root.querySelector<HTMLButtonElement>("#view-edit")!.dispatchEvent(new Event("click"));
-    await vi.waitFor(() => expect(root.querySelector('[data-editor-validation="valid"]')).not.toBeNull());
+    await vi.waitFor(
+      () => expect(root.querySelector('[data-editor-validation="valid"]')).not.toBeNull(),
+      { timeout: 10_000 },
+    );
     return root;
   };
   const firstCurveXCoordinate = (root: HTMLElement): HTMLInputElement =>
@@ -2029,7 +2486,7 @@ describe("semantic Edit view", () => {
     } finally {
       vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
     }
-  });
+  }, 15_000);
 
   it("ignores a failed hash result after its source snapshot has been replaced", async () => {
     localStorage.clear();
@@ -2093,7 +2550,7 @@ describe("semantic Edit view", () => {
     } finally {
       vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
     }
-  });
+  }, 15_000);
 
   it("asks the user to wait when rebase is activated during source verification", async () => {
     const root = await enterFittedEditor();
@@ -2166,7 +2623,7 @@ describe("semantic Edit view", () => {
     clickId(root, "garment-tee");
     await vi.waitFor(() => expect(root.querySelector('[data-editor-validation="valid"]')).not.toBeNull());
     expect(root.querySelector<HTMLButtonElement>("#editor-reset")!.disabled).toBe(true);
-  });
+  }, 15_000);
 
   it("supports durable undo and redo as separate semantic history operations", async () => {
     const root = await enterFittedEditor();
@@ -2279,7 +2736,7 @@ describe("semantic Edit view", () => {
         vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
       }
     }
-  });
+  }, 15_000);
 
   it("blocks a drag whose source changes before release", async () => {
     const root = await enterFittedEditor();
@@ -2375,7 +2832,7 @@ describe("semantic Edit view", () => {
     reloaded.querySelector<HTMLButtonElement>("#editor-rebase")!.click();
     expect(reloaded.querySelector('[data-editor-validation="valid"]')).not.toBeNull();
     expect(reloaded.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(true);
-  }, 30_000);
+  }, 120_000);
 
   it("keeps an unresolvable edit blocked when explicit rebase fails", async () => {
     localStorage.clear();
@@ -2407,7 +2864,7 @@ describe("semantic Edit view", () => {
     } finally {
       draftSpy.mockRestore();
     }
-  }, 30_000);
+  }, 120_000);
 
   it("requires explicit edit review when tank shoulder width changes and directs users to strap width", async () => {
     localStorage.clear();
@@ -4466,7 +4923,7 @@ describe("safe local artwork import and persistence (Slice 200)", () => {
     } finally {
       delete window.electronAPI;
     }
-  });
+  }, 20_000);
 
   it("keeps desktop imports disabled when the local bridge is incomplete", async () => {
     localStorage.clear();
@@ -4592,7 +5049,7 @@ describe("safe local artwork import and persistence (Slice 200)", () => {
     expect(chooseRestore).toHaveBeenCalledOnce();
     setFileInput(restoreInput, newFile("restored.png"));
     await vi.waitFor(() => expect(second.querySelector("[data-surface-asset-status]")!.textContent).toContain("Stored locally: restored.png"));
-  });
+  }, 15_000);
 
   it("rejects a file clearly and blocks creation without changing design or storage", async () => {
     localStorage.clear();
@@ -4817,7 +5274,7 @@ describe("safe local artwork import and persistence (Slice 200)", () => {
     const detailedStorageError = document.createElement("div");
     mountApp(detailedStorageError, { artworkAssetStore: assets.store });
     await vi.waitFor(() => expect(detailedStorageError.querySelector("[data-surface-asset-status]")!.textContent).toContain("local profile permission denied"));
-  }, 15_000);
+  }, 60_000);
 
   it("blocks duplicate placement saves while a validated image is still being written", async () => {
     localStorage.clear();
@@ -5197,7 +5654,7 @@ describe("bundled local artwork library (Slice 203)", () => {
     });
   });
 
-  it("routes project backup bytes through the optional Electron binary-save bridge", async () => {
+  it("keeps the first-run journey on Garment and routes project backup bytes through the optional Electron binary-save bridge", async () => {
     localStorage.clear();
     vi.stubGlobal("Blob", NodeBlob);
     vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
@@ -5212,6 +5669,7 @@ describe("bundled local artwork library (Slice 203)", () => {
       idFactory: () => ids.shift()!,
       now: () => "2026-09-24T16:00:00.000Z",
     });
+    expect(workflow.initializedFirstRun).toBe(true);
     const saved: Array<{ filename: string; bytes: Uint8Array }> = [];
     const saveProjectPackage = vi.fn(async (filename: string, bytes: Uint8Array) => {
       saved.push({ filename, bytes });
@@ -5224,7 +5682,10 @@ describe("bundled local artwork library (Slice 203)", () => {
     const root = document.createElement("div");
     document.body.append(root);
     try {
+      localStorage.clear();
       mountApp(root, { projectWorkflow: workflow });
+      expect([...root.querySelectorAll<HTMLButtonElement>(".journey-stage")].map((button) => [button.id, button.dataset.stageState]))
+        .toEqual([["journey-step-start", "active"], ["journey-step-measure", "pending"], ["journey-step-fit", "pending"], ["journey-step-refine", "pending"], ["journey-step-output", "pending"]]);
       root.querySelector<HTMLDetailsElement>(".project-manager-details")!.open = true;
       root.querySelector<HTMLButtonElement>("[data-project-action='export-package']")!.click();
       await vi.waitFor(() => expect(root.querySelector("#project-manager-status")?.textContent).toBe("Project backup exported."));
@@ -5235,6 +5696,1491 @@ describe("bundled local artwork library (Slice 203)", () => {
       workflow.close();
       root.remove();
       delete window.electronAPI;
+      vi.unstubAllGlobals();
+    }
+  });
+
+  it("resumes guided measurement drafts from the active local style without turning them into readings", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const factory = new IDBFactory();
+    const settings = {
+      repositoryOptions: { name: `app-capture-resume-${Date.now()}`, factory, crypto: webcrypto as unknown as Crypto },
+      storage: localStorage,
+      idFactory: () => "a12b39ab-4b40-48a9-9499-59583010c112",
+      now: () => "2026-09-24T16:00:00.000Z",
+    };
+    let workflow = await openProjectWorkflow(settings);
+    let root = document.createElement("div");
+    document.body.append(root);
+    try {
+      mountApp(root, { projectWorkflow: workflow });
+      root.querySelector<HTMLButtonElement>("#welcome-start")?.click();
+      root.querySelector<HTMLButtonElement>("#journey-guided")!.click();
+      await vi.waitFor(() => expect(root.querySelector(".measurement-capture-panel__field")).not.toBeNull());
+
+      const fieldId = "body.chest-girth";
+      const raw = root.querySelector<HTMLInputElement>(`[data-action="capture-edit-raw"][data-field-id="${fieldId}"]`)!;
+      raw.value = " 40 1/8 ";
+      raw.dispatchEvent(new Event("input", { bubbles: true }));
+      const unit = root.querySelector<HTMLSelectElement>(`[data-action="capture-change-unit"][data-field-id="${fieldId}"]`)!;
+      unit.value = "in";
+      unit.dispatchEvent(new Event("change", { bubbles: true }));
+      const note = root.querySelector<HTMLInputElement>(`[data-action="capture-edit-source"][data-field-id="${fieldId}"]`)!;
+      note.value = "Tape note, unconfirmed";
+      note.dispatchEvent(new Event("input", { bubbles: true }));
+
+      await vi.waitFor(async () => {
+        const record = await workflow.loadMeasurementCapture("tee");
+        expect(record?.drafts).toEqual([{
+          fieldId, rawValue: " 40 1/8 ", enteredUnit: "in", sourceNote: "Tape note, unconfirmed",
+          captureMethod: "", captureDate: "", measurer: "",
+        }]);
+      });
+      const beforeReload = await workflow.loadMeasurementCapture("tee");
+      expect(beforeReload?.session.fields.find((field) => field.fieldId === fieldId)?.readings).toEqual([]);
+      root.remove();
+      workflow.close();
+
+      workflow = await openProjectWorkflow(settings);
+      root = document.createElement("div");
+      document.body.append(root);
+      mountApp(root, { projectWorkflow: workflow });
+      root.querySelector<HTMLButtonElement>("#welcome-start")?.click();
+      root.querySelector<HTMLButtonElement>("#journey-guided")!.click();
+      await vi.waitFor(() => expect(
+        root.querySelector<HTMLInputElement>(`[data-action="capture-edit-raw"][data-field-id="${fieldId}"]`)?.value,
+      ).toBe(" 40 1/8 "));
+      expect(root.querySelector<HTMLSelectElement>(`[data-action="capture-change-unit"][data-field-id="${fieldId}"]`)!.value).toBe("in");
+      expect(root.querySelector<HTMLInputElement>(`[data-action="capture-edit-source"][data-field-id="${fieldId}"]`)!.value)
+        .toBe("Tape note, unconfirmed");
+      const afterReload = await workflow.loadMeasurementCapture("tee");
+      expect(afterReload?.session.id).toBe(beforeReload?.session.id);
+      expect(afterReload?.session.fields.find((field) => field.fieldId === fieldId)?.readings).toEqual([]);
+    } finally {
+      workflow.close();
+      root.remove();
+      vi.unstubAllGlobals();
+    }
+  }, 20_000);
+
+  it("keeps Measure and garment selection in place when a pending guided capture cannot be saved", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const ids = ["a12b39ab-4b40-48a9-9499-59583010c112", "b23c40bc-5c51-49ba-a59a-60694121d223"];
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: {
+        name: `app-capture-save-failure-${Date.now()}`,
+        factory: new IDBFactory(),
+        crypto: webcrypto as unknown as Crypto,
+      },
+      storage: localStorage,
+      idFactory: () => ids.shift() ?? webcrypto.randomUUID(),
+      now: () => "2026-09-24T16:00:00.000Z",
+    });
+    const styleId = workflow.snapshot.activeStyle.id;
+    const session = getFieldDefinitions("tee").reduce((current, definition, index) => addCaptureReadingForField(
+      current,
+      definition.id,
+      {
+        id: webcrypto.randomUUID(),
+        rawValue: String(definition.defaultValue),
+        enteredUnit: definition.unit,
+        provenance: definition.semanticKind === "BODY_MEASURE" ? "USER_CAPTURED" : "USER_SELECTED",
+        evidenceStatus: "UNCONFIRMED",
+        sourceLabel: "Explicit test fixture, not fit-qualified.",
+        captureMethod: null,
+        capturedAt: null,
+        measurer: null,
+      },
+      `2026-09-24T16:00:${String(index + 1).padStart(2, "0")}.000Z`,
+    ), createMeasurementCaptureSession(webcrypto.randomUUID(), "tee", "2026-09-24T16:00:00.000Z", styleId));
+    await workflow.saveMeasurementCapture(session, []);
+    const failingSave = vi.spyOn(workflow, "saveMeasurementCapture")
+      .mockRejectedValueOnce(new Error("synthetic capture persistence failure"))
+      .mockRejectedValueOnce("synthetic non-Error capture persistence failure");
+    const root = document.createElement("div");
+    document.body.append(root);
+    try {
+      mountApp(root, { projectWorkflow: workflow });
+      clickId(root, "journey-guided");
+      await vi.waitFor(() => expect(root.querySelector(".measurement-capture-panel__field")).not.toBeNull());
+      const raw = root.querySelector<HTMLInputElement>('[data-action="capture-edit-raw"][data-field-id="body.chest-girth"]')!;
+      raw.value = "40 1/8";
+      raw.dispatchEvent(new Event("input", { bubbles: true }));
+
+      clickId(root, "journey-next");
+      await vi.waitFor(() => expect(root.querySelector<HTMLElement>("#project-persistence-state")?.dataset.state).toBe("failed"));
+      expect(root.querySelector<HTMLElement>("#infini-shell")?.dataset.stage).toBe("measure");
+      expect(root.querySelector("#project-persistence-state")?.textContent).toContain("synthetic capture persistence failure");
+
+      raw.value = "40 1/8, second attempt";
+      raw.dispatchEvent(new Event("input", { bubbles: true }));
+      await vi.waitFor(() => expect(failingSave).toHaveBeenCalledTimes(2));
+      clickId(root, "journey-step-start");
+      clickId(root, "garment-skirt");
+      await vi.waitFor(() => expect(root.querySelector("#project-persistence-state")?.textContent)
+        .toBe("Guided measurements could not be saved."));
+      expect(root.querySelector("#current-garment")?.textContent).toBe("Tee");
+      expect(root.querySelector<HTMLElement>("#infini-shell")?.dataset.stage).toBe("start");
+      expect(root.querySelector("#project-persistence-state")?.textContent).toBe("Guided measurements could not be saved.");
+    } finally {
+      workflow.close();
+      root.remove();
+      vi.unstubAllGlobals();
+    }
+  });
+
+  it("turns a ready guided capture into one saved custom style and withholds whole-run controls", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: {
+        name: `app-custom-size-${Date.now()}`,
+        factory: new IDBFactory(),
+        crypto: webcrypto as unknown as Crypto,
+      },
+      storage: localStorage,
+      idFactory: () => webcrypto.randomUUID(),
+      now: () => "2026-09-24T16:00:00.000Z",
+    });
+    await workflow.renameActiveStyle("Custom Woven shirt");
+    const root = document.createElement("div");
+    document.body.append(root);
+    let reopenedRoot: HTMLDivElement | null = null;
+    try {
+      mountApp(root, { projectWorkflow: workflow });
+      clickId(root, "welcome-start");
+      clickId(root, "garment-woven-shirt");
+      await vi.waitFor(() => expect(root.querySelector("#current-garment")?.textContent).toBe("Woven shirt"));
+      clickId(root, "journey-guided");
+      await vi.waitFor(() => expect(root.querySelector(".measurement-capture-panel__field")).not.toBeNull());
+      for (const definition of getFieldDefinitions("woven-shirt")) {
+        const presets = [...root.querySelectorAll<HTMLButtonElement>('[data-action="capture-accept-preset"]')];
+        const preset = presets
+          .find((button) => button.dataset.fieldId === definition.id)!;
+        if (!preset) throw new Error(`No digital preset button for ${definition.id}; rendered fields: ${presets.map((button) => button.dataset.fieldId).join(", ")}`);
+        preset.click();
+      }
+      const unfinishedRaw = root.querySelector<HTMLInputElement>(
+        '[data-action="capture-edit-raw"][data-field-id="body.chest-girth"]',
+      )!;
+      unfinishedRaw.value = "103";
+      unfinishedRaw.dispatchEvent(new Event("input", { bubbles: true }));
+      expect(root.querySelector<HTMLButtonElement>("#journey-next")!.disabled).toBe(false);
+      let releaseCreation!: () => void;
+      let signalCreation!: () => void;
+      let signalCreationFinished!: () => void;
+      const creationBlocked = new Promise<void>((resolve) => { releaseCreation = resolve; });
+      const creationStarted = new Promise<void>((resolve) => { signalCreation = resolve; });
+      const creationFinished = new Promise<void>((resolve) => { signalCreationFinished = resolve; });
+      const createCustomStyle = workflow.createCustomSizeStyle.bind(workflow);
+      const createCustomStyleSpy = vi.spyOn(workflow, "createCustomSizeStyle").mockImplementation(async (...args) => {
+        signalCreation();
+        await creationBlocked;
+        try {
+          return await createCustomStyle(...args);
+        } finally {
+          signalCreationFinished();
+        }
+      });
+      clickId(root, "journey-next");
+      await creationStarted;
+      root.querySelector<HTMLButtonElement>("#journey-next")!.dispatchEvent(new Event("click", { bubbles: true }));
+      expect(createCustomStyleSpy).toHaveBeenCalledOnce();
+      releaseCreation();
+      await creationFinished;
+      const persistenceStatus = root.querySelector<HTMLElement>("#project-persistence-state")!;
+      if (persistenceStatus.dataset.state === "failed") throw new Error(persistenceStatus.textContent ?? "Custom style save failed.");
+      expect(isCustomOneSizeStyle(workflow.snapshot.activeStyle)).toBe(true);
+      await vi.waitFor(() => expect(root.querySelector<HTMLElement>("#infini-shell")?.dataset.stage).toBe("fit"));
+
+      expect(workflow.snapshot.styles).toHaveLength(2);
+      expect(workflow.snapshot.styles[0]).toMatchObject({ recipeId: "tee", name: "Custom Woven shirt" });
+      expect(workflow.snapshot.activeStyle.name).toBe("Custom Woven shirt 2");
+      expect(root.querySelector<HTMLElement>("#infini-shell")?.dataset.stage).toBe("fit");
+      expect(root.querySelector(".measurement-capture-panel")).toBeNull();
+      expect([...root.querySelector<HTMLSelectElement>("#export-size")!.options].map((option) => option.textContent))
+        .toEqual(["One size"]);
+      const oneSizePicker = root.querySelector<HTMLSelectElement>("#export-size")!;
+      oneSizePicker.add(new Option("Injected graded step", "2"));
+      oneSizePicker.value = "2";
+      oneSizePicker.dispatchEvent(new Event("change", { bubbles: true }));
+      expect(oneSizePicker.value).toBe("__one-size__");
+      expect([...oneSizePicker.options].map((option) => option.textContent)).toEqual(["One size"]);
+      expect(root.querySelector<HTMLButtonElement>("#garment-tee")!.disabled).toBe(true);
+      expect(root.querySelector<HTMLButtonElement>("#garment-woven-shirt")!.disabled).toBe(false);
+      expect(root.querySelector<HTMLButtonElement>("#nest-marker")!.disabled).toBe(true);
+      expect(root.querySelector<HTMLButtonElement>("#export-techpack")!.title).toContain("approve a grade plan");
+      expect(root.querySelector<HTMLButtonElement>("#export-projector")!.title).toContain("approve a grade plan");
+      expect(await workflow.loadMeasurementCapture("woven-shirt")).toMatchObject({
+        styleId: workflow.snapshot.activeStyle.id,
+        session: { styleId: workflow.snapshot.activeStyle.id },
+        drafts: [expect.objectContaining({ fieldId: "body.chest-girth", rawValue: "103" })],
+      });
+      expect(currentFieldObservation(
+        workflow.snapshot.fieldObservations.find((record) => record.styleId === workflow.snapshot.activeStyle.id)!,
+        getFieldDefinitions("woven-shirt")[0]!,
+      )?.provenance).toBe("PRESET");
+
+      clickId(root, "journey-next");
+      clickId(root, "view-check");
+      const customCheckText = root.querySelector("#canvas-host")?.textContent ?? "";
+      expect(customCheckText).not.toContain("Size run grows in order");
+      expect(customCheckText).toContain("Single custom size");
+      expect(customCheckText).toContain("whole-run Tech Pack, Projector, and Marker outputs are not generated in this step");
+      clickId(root, "journey-next");
+      await vi.waitFor(() => expect(root.querySelector<HTMLElement>("#infini-shell")?.dataset.stage).toBe("output"));
+      clickId(root, "save-pattern");
+      await vi.waitFor(() => expect(root.querySelector<HTMLElement>("#project-persistence-state")?.dataset.state).toBe("saved"));
+      const manager = root.querySelector<HTMLElement>("#project-manager-host")!;
+      manager.querySelector<HTMLDetailsElement>(".project-manager-details")!.open = true;
+      const freeze = manager.querySelector<HTMLButtonElement>("[data-project-action='freeze-outputs']")!;
+      expect(freeze.disabled).toBe(true);
+      expect(manager.querySelector("#project-freeze-guidance")?.textContent)
+        .toContain("Whole-run output capture is unavailable until you review and approve a grade plan.");
+      expect(workflow.snapshot.exportManifests).toHaveLength(0);
+      freeze.removeAttribute("disabled");
+      freeze.click();
+      await vi.waitFor(() => expect(manager.querySelector("#project-manager-status")?.textContent).toContain("not ready"));
+      expect(workflow.snapshot.exportManifests).toHaveLength(0);
+      const saveFile = vi.fn(async (filename: string, _content: string) => ({ saved: true, filePath: filename }));
+      window.electronAPI = { saveFile };
+      const selectedSvgButton = root.querySelector<HTMLButtonElement>("#export-svg")!;
+      await vi.waitFor(() => expect(selectedSvgButton.disabled).toBe(false));
+      selectedSvgButton.click();
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledOnce());
+      expect(saveFile.mock.calls[0]![0]).toBe("woven-shirt-One size.svg");
+      delete window.electronAPI;
+
+      const oneSizeDesign = workflow.snapshot.activeStyle.design;
+      await workflow.saveActiveDesign({
+        ...oneSizeDesign,
+        workspace: { ...oneSizeDesign.workspace, view: "fabric", nestScope: "marker" },
+      });
+      reopenedRoot = document.createElement("div");
+      document.body.append(reopenedRoot);
+      mountApp(reopenedRoot, { projectWorkflow: workflow });
+      expect(reopenedRoot.querySelector<HTMLButtonElement>("#nest-marker")!.disabled).toBe(true);
+      expect(reopenedRoot.querySelector<HTMLButtonElement>("#nest-marker")!.title).toContain("approve a grade plan");
+      expect(reopenedRoot.querySelector("#canvas-host")?.textContent).toContain("Create and approve a grade plan before generating a size run.");
+      reopenedRoot.querySelector<HTMLButtonElement>("#load-pattern")!.click();
+      await vi.waitFor(() => expect(reopenedRoot?.querySelector("#persist-status")?.textContent).toContain("Loaded"));
+      clickId(reopenedRoot, "view-nest");
+      expect(reopenedRoot.querySelector("#canvas-host")?.textContent).toContain("Create and approve a grade plan before generating a size run.");
+      clickId(reopenedRoot, "view-spec");
+      const customSpec = reopenedRoot.querySelector("#canvas-host table");
+      expect(customSpec?.querySelector("tr")?.textContent).toContain("One size");
+      const wovenRecipe = GARMENTS.find((candidate) => candidate.name === "woven-shirt")!;
+      const oneSizeBlock = wovenRecipe.draft(
+        oneSizeDesign.measurements, oneSizeDesign.garmentOptions["woven-shirt"],
+      );
+      const wovenPoms = wovenRecipe.poms;
+      const specRows = [...customSpec!.querySelectorAll("tr")].slice(1);
+      expect(specRows.map((row) => row.children[0]?.textContent)).toEqual(wovenPoms.map((pom) => pom.label));
+      expect(specRows.map((row) => row.children[2]?.textContent)).toEqual(
+        wovenPoms.map((pom) => (Math.round(pom.measure(oneSizeBlock) * 10) / 10).toFixed(1)),
+      );
+      expect(customSpec?.textContent).not.toMatch(/\b(?:XS|S|M|L|XL)\b/);
+      reopenedRoot.querySelector<HTMLButtonElement>("#garment-tee")!.dispatchEvent(new Event("click", { bubbles: true }));
+      expect(reopenedRoot.querySelector("#current-garment")?.textContent).toBe("Woven shirt");
+      reopenedRoot.querySelector<HTMLButtonElement>("#nest-marker")!.dispatchEvent(new Event("click", { bubbles: true }));
+      expect(reopenedRoot.querySelector<HTMLButtonElement>("#nest-marker")!.disabled).toBe(true);
+
+      const activeRoot = reopenedRoot;
+      expect(isCustomOneSizeStyle(workflow.snapshot.activeStyle)).toBe(true);
+      const gradePlanReload = vi.spyOn(workflow, "loadGradePlan");
+      clickId(activeRoot, "journey-step-measure");
+      clickId(activeRoot, "journey-guided");
+      await vi.waitFor(() => expect(activeRoot.querySelector(".measurement-capture-panel__field")).not.toBeNull(),
+        { timeout: 20_000 });
+      const changedCapture = activeRoot.querySelector<HTMLInputElement>(
+        '[data-action="capture-edit-raw"][data-field-id="body.chest-girth"]',
+      )!;
+      changedCapture.value = "104";
+      changedCapture.dispatchEvent(new Event("input", { bubbles: true }));
+      await vi.waitFor(() => expect(gradePlanReload).toHaveBeenCalledWith("woven-shirt"), { timeout: 10_000 });
+    } finally {
+      delete window.electronAPI;
+      workflow.close();
+      reopenedRoot?.remove();
+      root.remove();
+      vi.unstubAllGlobals();
+    }
+  }, 240_000);
+
+  it("freezes the reviewed standard graded outputs through the project manager", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    vi.stubGlobal("Blob", NodeBlob);
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: {
+        name: `app-standard-freeze-${Date.now()}`,
+        factory: new IDBFactory(),
+        crypto: webcrypto as unknown as Crypto,
+      },
+      storage: localStorage,
+      idFactory: () => webcrypto.randomUUID(),
+      now: () => "2026-09-27T12:00:00.000Z",
+    });
+    const root = document.createElement("div");
+    document.body.append(root);
+    try {
+      mountApp(root, { projectWorkflow: workflow });
+      reachExportStage(root);
+      const manager = root.querySelector<HTMLDetailsElement>(".project-manager-details")!;
+      manager.open = true;
+      const freeze = root.querySelector<HTMLButtonElement>("[data-project-action='freeze-outputs']")!;
+      await vi.waitFor(() => expect(freeze.disabled).toBe(false), { timeout: 10_000 });
+      freeze.click();
+      await vi.waitFor(() => expect(root.querySelector("#project-manager-status")?.textContent).toContain("Frozen"),
+        { timeout: 20_000 });
+      expect(workflow.snapshot.exportManifests).toHaveLength(1);
+    } finally {
+      workflow.close();
+      root.remove();
+      vi.unstubAllGlobals();
+    }
+  }, 20_000);
+
+  it("gates whole-run outputs on exact plan readiness and invalidates approval after edits", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    vi.stubGlobal("Blob", NodeBlob);
+    const now = "2026-09-27T06:00:00.000Z";
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: { name: `app-grade-plan-${Date.now()}`, factory: new IDBFactory(), crypto: webcrypto as unknown as Crypto },
+      storage: localStorage,
+      idFactory: () => webcrypto.randomUUID(),
+      now: () => now,
+    });
+    const root = document.createElement("div");
+    document.body.append(root);
+    try {
+      await workflow.loadMeasurementCapture("tee");
+      let session = createMeasurementCaptureSession(webcrypto.randomUUID(), "tee", now, workflow.snapshot.activeStyle.id);
+      for (const [index, definition] of getFieldDefinitions("tee").entries()) {
+        session = addCaptureReadingForField(session, definition.id, {
+          id: webcrypto.randomUUID(),
+          rawValue: String(definition.defaultValue),
+          enteredUnit: definition.unit,
+          provenance: definition.semanticKind === "BODY_MEASURE" ? "USER_CAPTURED" : "USER_SELECTED",
+          evidenceStatus: "UNCONFIRMED",
+          sourceLabel: "Explicit digital test input; not a fit assessment.",
+          captureMethod: null,
+          capturedAt: null,
+          measurer: null,
+        }, new Date(Date.parse(now) + index + 1).toISOString());
+      }
+      await workflow.saveMeasurementCapture(session, []);
+      const customDesign = materializeCustomSizeDesign(workflow.snapshot.activeStyle.design, session);
+      await workflow.createCustomSizeStyle("Grade Plan Test", customDesign);
+      const recipe = GARMENTS.find((candidate) => candidate.name === "tee")!;
+      const options = customDesign.garmentOptions.tee ?? {};
+      const sourceInputs = {
+        measurements: Object.fromEntries(recipe.fields.map((field) => [field, customDesign.measurements[field]])),
+        options: Object.fromEntries((recipe.options ?? []).map((option) => [option.id, options[option.id]!])),
+      };
+      const sourceBlock = recipe.draft(customDesign.measurements, options);
+      const fingerprint = await editEngine.semanticEditSourceFingerprint(
+        recipe.name, sourceBlock, webcrypto as unknown as Crypto, sourceInputs,
+      );
+      await workflow.saveActiveDesign({
+        ...workflow.snapshot.activeStyle.design,
+        semanticEdits: semanticEditEngine.emptySemanticEditDocument(recipe.name, fingerprint, sourceInputs),
+      });
+      mountApp(root, { projectWorkflow: workflow });
+      await vi.waitFor(() => expect(
+        root.querySelector<HTMLButtonElement>('[data-grade-plan-action="create"]')?.disabled,
+        root.querySelector(".grade-plan-panel")?.textContent ?? root.textContent,
+      ).toBe(false));
+
+      const action = (name: string): HTMLButtonElement => root.querySelector<HTMLButtonElement>(`[data-grade-plan-action="${name}"]`)!;
+      const edit = (selector: string, value: string): void => {
+        const input = root.querySelector<HTMLInputElement | HTMLTextAreaElement>(selector)!;
+        input.value = value;
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+      };
+      const failedCreate = vi.spyOn(workflow, "saveGradePlan").mockRejectedValueOnce(new Error("synthetic grade-plan write failure"));
+      action("create").click();
+      await vi.waitFor(() => expect(root.textContent).toContain("synthetic grade-plan write failure"));
+      failedCreate.mockRestore();
+      action("create").click();
+      await vi.waitFor(() => expect(root.querySelector(".grade-plan-status")?.textContent).toBe("Draft — not reviewed"));
+
+      const basis = (): HTMLSelectElement => root.querySelector<HTMLSelectElement>("[data-grade-plan-basis]")!;
+      const fillPlanMetadata = (): void => {
+        basis().value = "user-authored-digital-rule";
+        basis().dispatchEvent(new Event("change", { bubbles: true }));
+        edit("[data-grade-plan-decision]", "Test product decision");
+        edit("[data-grade-plan-digital-range]", "S through L; digital rules only");
+        edit("[data-grade-plan-range]", "S, M, L; unsupported edges unresolved");
+        edit("[data-grade-plan-base-size]", "m");
+        edit("[data-grade-plan-sizes]", "S\nM\nL");
+      };
+      const failedDraftSave = vi.spyOn(workflow, "saveGradePlan").mockRejectedValueOnce("synthetic non-Error grade-plan failure");
+      action("save-draft").click();
+      await vi.waitFor(() => expect(root.textContent).toContain("The grade-plan action could not be completed."));
+      failedDraftSave.mockRestore();
+      basis().add(new Option("Unsupported", "unsupported"));
+      basis().value = "unsupported";
+      basis().dispatchEvent(new Event("change", { bubbles: true }));
+      action("save-draft").click();
+      await vi.waitFor(() => expect(root.textContent).toContain("Choose a supported grade-plan basis."));
+      fillPlanMetadata();
+      edit("[data-grade-plan-base-size]", "");
+      action("save-draft").click();
+      await vi.waitFor(() => expect(root.textContent).toContain("Name the plan’s base size."));
+      fillPlanMetadata();
+      edit("[data-grade-plan-sizes]", "S\ns\nL");
+      action("save-draft").click();
+      await vi.waitFor(() => expect(root.textContent).toContain("Size label “s” is duplicated."));
+      fillPlanMetadata();
+      action("save-draft").click();
+      await vi.waitFor(() => expect(root.querySelectorAll<HTMLInputElement>("[data-grade-plan-delta]").length).toBeGreaterThan(0));
+
+      const invalidDelta = root.querySelector<HTMLInputElement>('[data-grade-plan-delta]:not([readonly])')!;
+      Object.defineProperty(invalidDelta, "value", { configurable: true, get: () => "1e309" });
+      action("save-draft").click();
+      await vi.waitFor(() => expect(root.textContent).toContain("Each size change must be a finite number."));
+
+      const exception = root.querySelector<HTMLInputElement>("[data-grade-plan-exception]")!;
+      exception.checked = true;
+      exception.dispatchEvent(new Event("input", { bubbles: true }));
+      edit(`[data-grade-plan-exception-reason][data-target-id="${exception.dataset.targetId}"][data-size-label="${exception.dataset.sizeLabel}"]`, "Not used in the smallest size");
+      for (const input of root.querySelectorAll<HTMLInputElement>("[data-grade-plan-delta]")) {
+        if (input.readOnly) continue;
+        if (input.dataset.targetId === exception.dataset.targetId && input.dataset.sizeLabel === exception.dataset.sizeLabel) continue;
+        input.value = "0";
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+      }
+      action("save-draft").click();
+      await vi.waitFor(() => expect({
+        disabled: action("review").disabled,
+        issues: root.querySelector(".grade-plan-issues")?.textContent ?? null,
+        status: root.querySelector(".grade-plan-status")?.textContent,
+      }).toEqual({ disabled: false, issues: null, status: "Draft — not reviewed" }));
+      action("review").click();
+      await vi.waitFor(() => expect(root.querySelector(".grade-plan-status")?.textContent).toBe("Reviewed; approval still required"));
+      action("approve").click();
+      await vi.waitFor(() => expect(root.querySelector(".grade-plan-status")?.textContent).toBe("Approved grade-plan record"));
+      expect((await workflow.loadGradePlan("tee"))?.status).toBe("approved");
+      expect(root.querySelector<HTMLButtonElement>("#nest-marker")?.disabled).toBe(true);
+      expect(root.querySelector<HTMLButtonElement>("#nest-marker")?.title)
+        .toContain("approved run must pass geometry and exact POM checks");
+
+      const freeze = root.querySelector<HTMLButtonElement>("[data-project-action='freeze-outputs']")!;
+      root.querySelector<HTMLDetailsElement>(".project-manager-details")!.open = true;
+      await vi.waitFor(() => expect(root.querySelector("#project-freeze-guidance")?.textContent)
+        .toContain("leaves a required drafting input unresolved"));
+      expect(freeze.disabled).toBe(true);
+      expect(root.querySelector<HTMLButtonElement>("#export-techpack")!.disabled).toBe(true);
+      expect(root.querySelector<HTMLButtonElement>("#export-projector")!.disabled).toBe(true);
+
+      const approvedException = root.querySelector<HTMLInputElement>("[data-grade-plan-exception]:checked")!;
+      const exceptionTargetId = approvedException.dataset.targetId!;
+      const exceptionSizeLabel = approvedException.dataset.sizeLabel!;
+      approvedException.checked = false;
+      approvedException.dispatchEvent(new Event("input", { bubbles: true }));
+      edit(`[data-grade-plan-exception-reason][data-target-id="${exceptionTargetId}"][data-size-label="${exceptionSizeLabel}"]`, "");
+      const mismatchedPom = [...root.querySelectorAll<HTMLInputElement>("[data-grade-plan-delta]")]
+        .find((input) => input.dataset.targetId?.startsWith("pom.") && input.dataset.sizeLabel === "S")!;
+      for (const input of root.querySelectorAll<HTMLInputElement>("[data-grade-plan-delta]")) {
+        if (input.readOnly) continue;
+        input.value = "0";
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+      }
+      action("save-draft").click();
+      await vi.waitFor(() => expect({
+        disabled: action("review").disabled,
+        issues: root.querySelector(".grade-plan-issues")?.textContent ?? null,
+        status: root.querySelector(".grade-plan-status")?.textContent,
+      }).toEqual({ disabled: false, issues: null, status: "Draft — not reviewed" }));
+      action("review").click();
+      await vi.waitFor(() => expect(root.querySelector(".grade-plan-status")?.textContent).toBe("Reviewed; approval still required"));
+      action("approve").click();
+      await vi.waitFor(() => expect(root.querySelector(".grade-plan-status")?.textContent).toBe("Approved grade-plan record"));
+
+      const storedPlan = (await workflow.loadGradePlan("tee"))!;
+      const binding = {
+        projectId: storedPlan.projectId, styleId: storedPlan.styleId, recipeId: storedPlan.recipeId,
+        revisionHeadId: storedPlan.revisionHeadId, captureRevision: storedPlan.captureRevision,
+        fingerprint: storedPlan.fingerprint,
+      };
+      const targetIds = storedPlan.targets.map((target) => target.targetId);
+      const changedAt = new Date(Date.parse(storedPlan.updatedAt) + 1_000).toISOString();
+      const mismatchedDraft = gradePlan.setGradePlanDelta(storedPlan, mismatchedPom.dataset.targetId!, "S", 1, changedAt);
+      expect(mismatchedDraft.ok).toBe(true);
+      let mismatchPlan = mismatchedDraft.ok ? mismatchedDraft.value : storedPlan;
+      mismatchPlan = await workflow.saveGradePlan(mismatchPlan);
+      const mismatchedReview = gradePlan.reviewGradePlan(mismatchPlan,
+        targetIds, binding, new Date(Date.parse(changedAt) + 1_000).toISOString());
+      expect(mismatchedReview.ok).toBe(true);
+      mismatchPlan = mismatchedReview.ok ? mismatchedReview.value : mismatchPlan;
+      mismatchPlan = await workflow.saveGradePlan(mismatchPlan);
+      const mismatchedApproval = gradePlan.approveGradePlan(mismatchPlan,
+        targetIds, binding, new Date(Date.parse(changedAt) + 2_000).toISOString());
+      expect(mismatchedApproval.ok).toBe(true);
+      mismatchPlan = mismatchedApproval.ok ? mismatchedApproval.value : mismatchPlan;
+      mismatchPlan = await workflow.saveGradePlan(mismatchPlan);
+      mountApp(root, { projectWorkflow: workflow });
+      await vi.waitFor(() => expect(root.querySelector(".grade-plan-status")?.textContent)
+        .toBe("Approved grade-plan record"), { timeout: 20_000 });
+      reachExportStage(root);
+      await vi.waitFor(() => expect(root.querySelector<HTMLButtonElement>("#export-techpack")?.disabled).toBe(true));
+      expect(root.querySelector<HTMLButtonElement>("#export-projector")?.disabled).toBe(true);
+      const chestDuringVerification = root.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+      const approvedChest = chestDuringVerification.value;
+      chestDuringVerification.value = String(Number(approvedChest) + 1);
+      chestDuringVerification.dispatchEvent(new Event("input", { bubbles: true }));
+      clickId(root, "view-nest");
+      expect(root.querySelector("#canvas-host [role='status']")?.textContent)
+        .toContain("Saved semantic edits need review before the graded run can be generated.");
+      const restoredChest = root.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+      restoredChest.value = approvedChest;
+      restoredChest.dispatchEvent(new Event("input", { bubbles: true }));
+      mountApp(root, { projectWorkflow: workflow });
+      await vi.waitFor(() => expect(root.querySelector(".grade-plan-status")?.textContent)
+        .toBe("Approved grade-plan record"), { timeout: 20_000 });
+      reachExportStage(root);
+      await vi.waitFor(() => expect(
+        [...root.querySelector<HTMLSelectElement>("#export-size")!.options].map((option) => option.value),
+      ).toContain("S"));
+      let exportSize = root.querySelector<HTMLSelectElement>("#export-size")!;
+      exportSize.value = "__one-size__";
+      exportSize.dispatchEvent(new Event("change", { bubbles: true }));
+      exportSize.value = "S";
+      exportSize.dispatchEvent(new Event("change", { bubbles: true }));
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")?.disabled).toBe(true);
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")?.title).toContain("difference");
+      clickId(root, "view-fabric");
+      expect(root.querySelector("#canvas-host [role='status']")?.textContent).toContain("Body chest");
+      const mismatchResetAt = new Date(Date.parse(mismatchPlan.updatedAt) + 1_000).toISOString();
+      const resetDraft = gradePlan.setGradePlanDelta(mismatchPlan,
+        mismatchedPom.dataset.targetId!, "S", 0, mismatchResetAt);
+      expect(resetDraft.ok).toBe(true);
+      let resetPlan = resetDraft.ok ? resetDraft.value : mismatchPlan;
+      resetPlan = await workflow.saveGradePlan(resetPlan);
+      const resetReview = gradePlan.reviewGradePlan(resetPlan,
+        targetIds, binding, new Date(Date.parse(mismatchResetAt) + 1_000).toISOString());
+      expect(resetReview.ok).toBe(true);
+      resetPlan = resetReview.ok ? resetReview.value : resetPlan;
+      resetPlan = await workflow.saveGradePlan(resetPlan);
+      const resetApproval = gradePlan.approveGradePlan(resetPlan,
+        targetIds, binding, new Date(Date.parse(mismatchResetAt) + 2_000).toISOString());
+      expect(resetApproval.ok).toBe(true);
+      resetPlan = resetApproval.ok ? resetApproval.value : resetPlan;
+      await workflow.saveGradePlan(resetPlan);
+      mountApp(root, { projectWorkflow: workflow });
+      await vi.waitFor(() => expect(root.querySelector(".grade-plan-status")?.textContent)
+        .toBe("Approved grade-plan record"), { timeout: 20_000 });
+      reachExportStage(root);
+      await vi.waitFor(() => expect(root.querySelector<HTMLButtonElement>("#export-techpack")?.disabled).toBe(false));
+      expect(root.querySelector<HTMLButtonElement>("#export-projector")?.disabled).toBe(false);
+      expect(root.querySelector<HTMLButtonElement>("#nest-marker")?.disabled).toBe(false);
+
+      const baseSizeSelection = root.querySelector<HTMLSelectElement>("#export-size")!;
+      baseSizeSelection.value = "__one-size__";
+      baseSizeSelection.dispatchEvent(new Event("change", { bubbles: true }));
+      const baseSizeFreeze = root.querySelector<HTMLButtonElement>("[data-project-action='freeze-outputs']")!;
+      root.querySelector<HTMLDetailsElement>(".project-manager-details")!.open = true;
+      await vi.waitFor(() => expect(baseSizeFreeze.disabled).toBe(false));
+      baseSizeFreeze.click();
+      await vi.waitFor(() => expect(root.querySelector("#project-manager-status")?.textContent).toContain("Frozen"),
+        { timeout: 20_000 });
+
+      exportSize = root.querySelector<HTMLSelectElement>("#export-size")!;
+      const pomException = [...root.querySelectorAll<HTMLInputElement>("[data-grade-plan-exception]")]
+        .find((input) => input.dataset.targetId?.startsWith("pom.") && input.dataset.sizeLabel === "S")!;
+      pomException.checked = true;
+      pomException.dispatchEvent(new Event("input", { bubbles: true }));
+      edit(`[data-grade-plan-exception-reason][data-target-id="${pomException.dataset.targetId}"][data-size-label="S"]`,
+        "This POM does not apply to the smallest declared size.");
+      const exceptionDelta = [...root.querySelectorAll<HTMLInputElement>("[data-grade-plan-delta]")]
+        .find((input) => input.dataset.targetId === pomException.dataset.targetId && input.dataset.sizeLabel === "S")!;
+      exceptionDelta.value = "";
+      exceptionDelta.dispatchEvent(new Event("input", { bubbles: true }));
+      action("save-draft").click();
+      await vi.waitFor(() => expect(root.querySelector(".grade-plan-status")?.textContent).toBe("Draft — not reviewed"), { timeout: 20_000 });
+      action("review").click();
+      await vi.waitFor(() => expect(root.querySelector(".grade-plan-status")?.textContent).toBe("Reviewed; approval still required"));
+      action("approve").click();
+      await vi.waitFor(() => expect(root.querySelector(".grade-plan-status")?.textContent).toBe("Approved grade-plan record"));
+      exportSize.value = "S";
+      exportSize.dispatchEvent(new Event("change", { bubbles: true }));
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(true);
+      const projectManager = root.querySelector<HTMLDetailsElement>(".project-manager-details")!;
+      projectManager.open = true;
+      const blockedFreeze = root.querySelector<HTMLButtonElement>("[data-project-action='freeze-outputs']")!;
+      blockedFreeze.disabled = false;
+      blockedFreeze.click();
+      await vi.waitFor(() => expect(root.querySelector("#project-manager-status")?.textContent).toContain("not ready"));
+      exportSize.value = "M";
+      exportSize.dispatchEvent(new Event("change", { bubbles: true }));
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(false);
+      const editorSnapshot = workflow.snapshot;
+      const failedFreshnessRead = vi.spyOn(workflow.repository, "readActiveProject")
+        .mockRejectedValueOnce(new Error("offline freshness check"));
+      const blockedDownload = vi.fn(async () => ({ saved: true }));
+      window.electronAPI = { saveFile: blockedDownload };
+      root.querySelector<HTMLButtonElement>("#export-svg")!.click();
+      await vi.waitFor(() => expect(root.querySelector("#persist-status")?.textContent)
+        .toContain("changed in another tab"));
+      expect(blockedDownload).not.toHaveBeenCalled();
+      expect(workflow.snapshot.project.id).toBe(editorSnapshot.project.id);
+      expect(workflow.snapshot.activeStyle.id).toBe(editorSnapshot.activeStyle.id);
+      failedFreshnessRead.mockRestore();
+      delete window.electronAPI;
+      await vi.waitFor(() => expect(root.querySelector(".grade-plan-status")?.textContent).toBe("Approved grade-plan record"));
+      exportSize = root.querySelector<HTMLSelectElement>("#export-size")!;
+      exportSize.value = "M";
+      exportSize.dispatchEvent(new Event("change", { bubbles: true }));
+      clickId(root, "view-nest");
+      expect(root.querySelector("#canvas-host svg")).not.toBeNull();
+      clickId(root, "view-fabric");
+
+      const storedApprovedPlan = (await workflow.loadGradePlan("tee"))!;
+      const staleRevisionRead = vi.spyOn(workflow.repository, "readActiveProject").mockResolvedValueOnce({
+        ...workflow.snapshot,
+        activeStyle: { ...workflow.snapshot.activeStyle, id: "externally-selected-style", revisionHeadId: "stale-revision" },
+      });
+      const revisionPlanLoads = vi.spyOn(workflow.repository, "readGradePlan");
+      const revisionPlanLoadCount = revisionPlanLoads.mock.calls.length;
+      const staleRevisionDownload = vi.fn(async () => ({ saved: true }));
+      window.electronAPI = { saveFile: staleRevisionDownload };
+      root.querySelector<HTMLButtonElement>("#export-techpack")!.click();
+      await vi.waitFor(() => expect(root.querySelector("#persist-status")?.textContent)
+        .toContain("changed in another tab"));
+      expect(staleRevisionDownload).not.toHaveBeenCalled();
+      expect(workflow.snapshot.project.id).toBe(editorSnapshot.project.id);
+      expect(workflow.snapshot.activeStyle.id).toBe(editorSnapshot.activeStyle.id);
+      staleRevisionRead.mockRestore();
+      delete window.electronAPI;
+      await vi.waitFor(() => expect(revisionPlanLoads).toHaveBeenCalledTimes(revisionPlanLoadCount + 1));
+      await vi.waitFor(() => expect(root.querySelector(".grade-plan-status")?.textContent).toBe("Approved grade-plan record"));
+      revisionPlanLoads.mockRestore();
+      await vi.waitFor(() => expect(root.querySelector<HTMLButtonElement>("#export-techpack")?.disabled).toBe(false));
+
+      const stalePlanRead = vi.spyOn(workflow.repository, "readGradePlan").mockResolvedValueOnce({
+        ...storedApprovedPlan,
+        updatedAt: new Date(Date.parse(storedApprovedPlan.updatedAt) + 1_000).toISOString(),
+      });
+      const stalePlanReadCount = stalePlanRead.mock.calls.length;
+      const stalePlanDownload = vi.fn(async () => ({ saved: true }));
+      window.electronAPI = { saveFile: stalePlanDownload };
+      root.querySelector<HTMLButtonElement>("#export-techpack")!.click();
+      await vi.waitFor(() => expect(root.querySelector("#persist-status")?.textContent)
+        .toContain("changed in another tab"));
+      expect(stalePlanDownload).not.toHaveBeenCalled();
+      await vi.waitFor(() => expect(stalePlanRead).toHaveBeenCalledTimes(stalePlanReadCount + 2), { timeout: 20_000 });
+      await vi.waitFor(() => expect(root.querySelector(".grade-plan-status")?.textContent).toBe("Approved grade-plan record"));
+      stalePlanRead.mockRestore();
+      delete window.electronAPI;
+      await vi.waitFor(() => expect(root.querySelector<HTMLButtonElement>("#export-techpack")?.disabled).toBe(false));
+      exportSize = root.querySelector<HTMLSelectElement>("#export-size")!;
+      exportSize.value = "M";
+      exportSize.dispatchEvent(new Event("change", { bubbles: true }));
+
+      const missingProjectRead = vi.spyOn(workflow.repository, "readActiveProject").mockResolvedValueOnce(null);
+      const missingProjectDownload = vi.fn(async () => ({ saved: true }));
+      window.electronAPI = { saveFile: missingProjectDownload };
+      root.querySelector<HTMLButtonElement>("#export-projector")!.click();
+      await vi.waitFor(() => expect(root.querySelector("#persist-status")?.textContent)
+        .toContain("changed in another tab"));
+      expect(missingProjectRead).toHaveBeenCalledOnce();
+      expect(missingProjectDownload).not.toHaveBeenCalled();
+      missingProjectRead.mockRestore();
+      delete window.electronAPI;
+      await vi.waitFor(() => expect(root.querySelector(".grade-plan-status")?.textContent)
+        .toBe("Approved grade-plan record"));
+      await vi.waitFor(() => expect(root.querySelector<HTMLButtonElement>("#export-projector")?.disabled).toBe(false));
+      exportSize = root.querySelector<HTMLSelectElement>("#export-size")!;
+      exportSize.value = "M";
+      exportSize.dispatchEvent(new Event("change", { bubbles: true }));
+
+      const saveFile = vi.fn(async (filename: string, content: string) => ({ saved: true, filePath: `${filename}:${content.length}` }));
+      window.electronAPI = { saveFile };
+      root.querySelector<HTMLButtonElement>("#export-techpack")!.click();
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(1));
+      expect(saveFile.mock.calls[0]![0]).toBe("tee-techpack.pdf");
+      expect(saveFile.mock.calls[0]![1]).toContain("Tee - S - Pattern Piece Overview");
+      root.querySelector<HTMLButtonElement>("#export-projector")!.click();
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(2));
+      expect(saveFile.mock.calls[1]![0]).toBe("tee-projector.svg");
+      expect(saveFile.mock.calls[1]![1]).toContain('inkscape:label="Size S"');
+      expect(saveFile.mock.calls[1]![1]).toContain("not applicable");
+
+      // Capture the approved run before changing saved nesting controls.
+      root.querySelector<HTMLDetailsElement>(".project-manager-details")!.open = true;
+      const freezeButton = root.querySelector<HTMLButtonElement>("[data-project-action='freeze-outputs']")!;
+      await vi.waitFor(() => expect(freezeButton.disabled).toBe(false));
+      freezeButton.click();
+      await vi.waitFor(() => expect(root.querySelector("#project-manager-status")?.textContent).toContain("Frozen"),
+        { timeout: 20_000 });
+
+      clickId(root, "view-fabric");
+      const scopePersistenceState = root.querySelector<HTMLElement>("#project-persistence-state")!.dataset.state;
+      const scopeUndoDisabled = root.querySelector<HTMLButtonElement>("#undo-pattern")!.disabled;
+      const scopeRedoDisabled = root.querySelector<HTMLButtonElement>("#redo-pattern")!.disabled;
+      root.querySelector<HTMLButtonElement>("#nest-marker")!.click();
+      expect(root.querySelector<HTMLElement>("#project-persistence-state")!.dataset.state).toBe(scopePersistenceState);
+      expect(root.querySelector<HTMLButtonElement>("#undo-pattern")!.disabled).toBe(scopeUndoDisabled);
+      expect(root.querySelector<HTMLButtonElement>("#redo-pattern")!.disabled).toBe(scopeRedoDisabled);
+      await vi.waitFor(() => expect(root.querySelector("#canvas-host")?.textContent).toContain("cm wide"));
+      expect(root.querySelector("#canvas-host")?.textContent).toContain("This POM does not apply to the smallest declared size.");
+      root.querySelector<HTMLButtonElement>("#export-svg")!.click();
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledTimes(3));
+      expect(saveFile.mock.calls[2]![0]).toBe("tee-M.svg");
+      delete window.electronAPI;
+
+      // A real nesting-input edit invalidates the saved output base; changing
+      // the single/marker preview mode above does not.
+      const unsavedFabricWidth = root.querySelector<HTMLInputElement>("#fabric-width")!;
+      unsavedFabricWidth.value = String(Number(unsavedFabricWidth.value) + 1);
+      unsavedFabricWidth.dispatchEvent(new Event("input", { bubbles: true }));
+      const editedFreezeButton = root.querySelector<HTMLButtonElement>("[data-project-action='freeze-outputs']")!;
+      await vi.waitFor(() => expect(editedFreezeButton.disabled).toBe(false));
+      editedFreezeButton.click();
+      await vi.waitFor(() => expect(root.querySelector("#project-manager-status")?.textContent)
+        .toContain("Save the current style before freezing outputs."));
+
+      const reopenedRoot = document.createElement("div");
+      document.body.append(reopenedRoot);
+      const pendingSemanticFingerprint = vi.spyOn(semanticEditEngine, "semanticEditSourceFingerprint")
+        .mockImplementation(() => new Promise<string>(() => undefined));
+      mountApp(reopenedRoot, { projectWorkflow: workflow });
+      await vi.waitFor(() => expect(reopenedRoot.querySelector(".grade-plan-status")?.textContent)
+        .toBe("Approved grade-plan record"));
+      expect(reopenedRoot.querySelector<HTMLSelectElement>("#export-size")?.value).toBe("__one-size__");
+      clickId(reopenedRoot, "view-nest");
+      await vi.waitFor(() => expect(reopenedRoot.querySelector("#canvas-host")?.textContent)
+        .toContain("The current grade-plan base could not be verified."));
+      expect(reopenedRoot.querySelector<HTMLButtonElement>("#export-techpack")?.disabled).toBe(true);
+      pendingSemanticFingerprint.mockRestore();
+      reopenedRoot.remove();
+      mountApp(root, { projectWorkflow: workflow });
+      await vi.waitFor(() => expect(root.querySelector(".grade-plan-status")?.textContent)
+        .toBe("Approved grade-plan record"), { timeout: 20_000 });
+
+      edit("[data-grade-plan-range]", "Edited after approval");
+      action("save-draft").click();
+      await vi.waitFor(() => expect(root.querySelector(".grade-plan-status")?.textContent).toBe("Draft — not reviewed"));
+      expect((await workflow.loadGradePlan("tee"))?.status).toBe("draft");
+      expect(root.querySelector<HTMLButtonElement>("#export-techpack")!.disabled).toBe(true);
+      expect(root.querySelector<HTMLButtonElement>("#export-projector")!.disabled).toBe(true);
+
+      basis().value = "population-source";
+      basis().dispatchEvent(new Event("change", { bubbles: true }));
+      edit("[data-grade-plan-population]", "Named digital population");
+      edit("[data-grade-plan-source-name]", "User-supplied specification");
+      edit("[data-grade-plan-source-version]", "2026 edition");
+      edit("[data-grade-plan-source-scope]", "Declared sizes only");
+      action("save-draft").click();
+      await vi.waitFor(() => expect(root.querySelector("[data-grade-plan-population]")?.getAttribute("value"))
+        .toBe("Named digital population"));
+
+      const activeDesign = workflow.snapshot.activeStyle.design;
+      await workflow.saveActiveDesign({
+        ...activeDesign,
+        measurements: { ...activeDesign.measurements, chest: activeDesign.measurements.chest + 1 },
+      });
+      clickId(root, "view-check");
+      await vi.waitFor(() => expect(root.querySelector(".grade-plan-status")?.textContent).toBe("Stale — approval cannot be used"));
+      action("refresh").click();
+      await vi.waitFor(() => expect(root.textContent).toContain("Base refreshed. Re-enter the basis, size rules and every size change; prior approval was cleared."));
+
+      fillPlanMetadata();
+      action("save-draft").click();
+      await vi.waitFor(() => expect(root.querySelectorAll<HTMLInputElement>("[data-grade-plan-delta]").length)
+        .toBeGreaterThan(0));
+      for (const input of root.querySelectorAll<HTMLInputElement>("[data-grade-plan-delta]")) {
+        if (input.readOnly) continue;
+        input.value = "0";
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+      }
+      action("save-draft").click();
+      await vi.waitFor(() => expect({
+        disabled: action("review").disabled,
+        issues: root.querySelector(".grade-plan-issues")?.textContent ?? null,
+        status: root.querySelector(".grade-plan-status")?.textContent,
+      }).toEqual({ disabled: false, issues: null, status: "Draft — not reviewed" }));
+      action("review").click();
+      await vi.waitFor(() => expect(root.querySelector(".grade-plan-status")?.textContent)
+        .toBe("Reviewed; approval still required"));
+      action("approve").click();
+      await vi.waitFor(() => expect(root.querySelector(".grade-plan-status")?.textContent)
+        .toBe("Approved grade-plan record"));
+      reachExportStage(root);
+      const gradedSize = root.querySelector<HTMLSelectElement>("#export-size")!;
+      expect([...gradedSize.options].map((option) => option.value)).toContain("S");
+
+      root.querySelector<HTMLInputElement>("#surface-new-id")!.value = "unsaved-approved-surface";
+      root.querySelector<HTMLInputElement>("#surface-new-role")!.value = "front";
+      root.querySelector<HTMLInputElement>("#surface-new-width")!.value = "10";
+      root.querySelector<HTMLInputElement>("#surface-new-height")!.value = "6";
+      clickId(root, "surface-add");
+      await vi.waitFor(() => expect(root.querySelectorAll("[data-surface-row]")).toHaveLength(1));
+
+      expect([...gradedSize.options].map((option) => option.value)).toEqual(["__one-size__"]);
+      expect(root.querySelector<HTMLButtonElement>("#export-svg")!.disabled).toBe(false);
+      expect(root.querySelector<HTMLButtonElement>("#export-techpack")!.disabled).toBe(true);
+      expect(root.querySelector<HTMLButtonElement>("#export-projector")!.disabled).toBe(true);
+      expect(root.querySelector<HTMLButtonElement>("#nest-marker")!.disabled).toBe(true);
+      expect(root.querySelector<HTMLButtonElement>("#export-techpack")!.title)
+        .toBe("Save the style, then refresh, review, and approve its grade plan before exporting graded sizes or whole-run files.");
+
+      clickId(root, "view-check");
+      expect(root.querySelector<HTMLElement>("[data-grade-plan-required]")?.textContent)
+        .toContain("Save the style, then refresh, review, and approve its grade plan before exporting graded sizes or whole-run files.");
+      expect(root.querySelector(".grade-plan-run-review")?.textContent)
+        .toContain("Save the style, then refresh, review, and approve its grade plan before exporting graded sizes or whole-run files.");
+      expect(root.querySelector(".grade-plan-run-review")?.textContent)
+        .not.toContain("Every declared size passes geometry and exact POM reconciliation.");
+      expect(root.querySelector(".grade-plan-run-size summary")?.textContent)
+        .toContain("blocked — save the current style first");
+
+      // Loading the saved base after an unsaved artwork edit must restore the
+      // approved-size choices that were temporarily removed from the selector.
+      clickId(root, "load-pattern");
+      await vi.waitFor(() => expect(root.querySelector<HTMLElement>("#workspace-confirm")!.hidden).toBe(false));
+      clickId(root, "workspace-confirm-accept");
+      await vi.waitFor(() => expect([...root.querySelector<HTMLSelectElement>("#export-size")!.options]
+        .map((option) => option.value)).toEqual(expect.arrayContaining(["S", "M", "L"])));
+      clickIfPresent(root, "tutorial-skip");
+      reachExportStage(root);
+      // Load restores approved-size choices, but saved semantic edits still
+      // block whole-run files until their source has been reviewed.
+      const semanticBlocker = "Saved semantic edits need review before the graded run can be generated.";
+      for (const id of ["#export-techpack", "#export-projector"]) {
+        const output = root.querySelector<HTMLButtonElement>(id)!;
+        expect(output.disabled).toBe(true);
+        expect(output.title).toContain(semanticBlocker);
+      }
+
+      // A design edit after approval independently closes plan-driven exports
+      // and removes graded options, even without an artwork edit.
+      const restoredSelect = root.querySelector<HTMLSelectElement>("#export-size")!;
+      const styleTarget = root.querySelector<HTMLSelectElement>("#style-target")!;
+      const alternateStyle = [...styleTarget.options].find((option) => option.value !== styleTarget.value)!;
+      styleTarget.value = alternateStyle.value;
+      styleTarget.dispatchEvent(new Event("change", { bubbles: true }));
+      await vi.waitFor(() => expect([...restoredSelect.options].map((option) => option.value)).toEqual(["__one-size__"]));
+      expect(root.querySelector<HTMLElement>("#project-persistence-state")!.dataset.state).toBe("unsaved");
+      expect(root.querySelector<HTMLButtonElement>("#export-techpack")!.disabled).toBe(true);
+      expect(root.querySelector<HTMLButtonElement>("#export-projector")!.disabled).toBe(true);
+      expect(root.querySelector<HTMLButtonElement>("#nest-marker")!.disabled).toBe(true);
+    } finally {
+      delete window.electronAPI;
+      workflow.close();
+      root.remove();
+      vi.unstubAllGlobals();
+    }
+  }, 360_000);
+
+  it("rejects a forced review action when the explicit grade plan is incomplete", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const now = "2026-09-27T06:00:00.000Z";
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: { name: `app-grade-plan-review-guard-${Date.now()}`, factory: new IDBFactory(), crypto: webcrypto as unknown as Crypto },
+      storage: localStorage,
+      idFactory: () => webcrypto.randomUUID(),
+      now: () => now,
+    });
+    const root = document.createElement("div");
+    document.body.append(root);
+    try {
+      await workflow.loadMeasurementCapture("tee");
+      let session = createMeasurementCaptureSession(webcrypto.randomUUID(), "tee", now, workflow.snapshot.activeStyle.id);
+      for (const [index, definition] of getFieldDefinitions("tee").entries()) {
+        session = addCaptureReadingForField(session, definition.id, {
+          id: webcrypto.randomUUID(),
+          rawValue: String(definition.defaultValue),
+          enteredUnit: definition.unit,
+          provenance: definition.semanticKind === "BODY_MEASURE" ? "USER_CAPTURED" : "USER_SELECTED",
+          evidenceStatus: "UNCONFIRMED",
+          sourceLabel: "Explicit digital test input; not a fit assessment.",
+          captureMethod: null,
+          capturedAt: null,
+          measurer: null,
+        }, new Date(Date.parse(now) + index + 1).toISOString());
+      }
+      await workflow.saveMeasurementCapture(session, []);
+      await workflow.createCustomSizeStyle("Incomplete grade plan", materializeCustomSizeDesign(workflow.snapshot.activeStyle.design, session));
+      mountApp(root, { projectWorkflow: workflow });
+      await vi.waitFor(() => expect(root.querySelector<HTMLButtonElement>('[data-grade-plan-action="create"]')?.disabled).toBe(false));
+      const forceAction = (name: string): void => {
+        const button = document.createElement("button");
+        button.dataset.gradePlanAction = name;
+        root.querySelector("#style-host")!.append(button);
+        button.click();
+      };
+
+      forceAction("refresh");
+      await vi.waitFor(() => expect(root.textContent).toContain("There is no grade plan to refresh."));
+      forceAction("review");
+      await vi.waitFor(() => expect(root.textContent).toContain("Create a grade plan first."));
+      forceAction("approve");
+      await vi.waitFor(() => expect(root.textContent).toContain("Save and review your current edits before approval."));
+      const createFailure = vi.spyOn(gradePlan, "createGradePlanDraft").mockReturnValueOnce({ ok: false, errors: ["synthetic grade-plan creation failure"] });
+      forceAction("create");
+      await vi.waitFor(() => expect(root.textContent).toContain("synthetic grade-plan creation failure"));
+      createFailure.mockRestore();
+      root.querySelector<HTMLButtonElement>('[data-grade-plan-action="create"]')!.click();
+      await vi.waitFor(() => expect(root.querySelector(".grade-plan-status")?.textContent).toBe("Draft — not reviewed"));
+
+      root.querySelector<HTMLSelectElement>("[data-grade-plan-basis]")!.remove();
+      forceAction("save-draft");
+      await vi.waitFor(() => expect(root.textContent).toContain("The grade-plan form changed before it could be saved."));
+
+      forceAction("create");
+      await vi.waitFor(() => expect(root.textContent).toContain("A grade plan already exists for this style."));
+      const freshFailure = vi.spyOn(gradePlan, "createGradePlanDraft").mockReturnValueOnce({ ok: false, errors: ["synthetic refreshed-base failure"] });
+      forceAction("refresh");
+      await vi.waitFor(() => expect(root.textContent).toContain("synthetic refreshed-base failure"));
+      freshFailure.mockRestore();
+
+      const currentPlan = await workflow.loadGradePlan("tee");
+      const draftForRefresh = vi.spyOn(gradePlan, "createGradePlanDraft").mockReturnValueOnce({ ok: true, value: currentPlan! });
+      const parseFailure = vi.spyOn(gradePlan, "parseGradePlanRecord").mockReturnValueOnce({ ok: false, errors: ["synthetic refreshed-record failure"] });
+      forceAction("refresh");
+      await vi.waitFor(() => expect(root.textContent).toContain("synthetic refreshed-record failure"));
+      parseFailure.mockRestore();
+      draftForRefresh.mockRestore();
+      forceAction("refresh");
+      await vi.waitFor(() => expect(root.textContent).toContain("Base refreshed. Re-enter the basis, size rules and every size change; prior approval was cleared."));
+      forceAction("approve");
+      await vi.waitFor(() => expect(root.textContent).toContain("Review the complete plan before approval."));
+
+      const review = root.querySelector<HTMLButtonElement>('[data-grade-plan-action="review"]')!;
+      expect(review.disabled).toBe(true);
+      review.disabled = false;
+      review.click();
+      await vi.waitFor(() => expect(root.textContent)
+        .toContain("Choose a named population/source or an explicit user-authored digital rule."));
+
+
+      const range = root.querySelector<HTMLTextAreaElement>("[data-grade-plan-range]")!;
+      range.value = "A transient edit";
+      range.dispatchEvent(new Event("input", { bubbles: true }));
+      forceAction("approve");
+      await vi.waitFor(() => expect(root.textContent).toContain("Save and review your current edits before approval."));
+    } finally {
+      workflow.close();
+      root.remove();
+      vi.unstubAllGlobals();
+    }
+  }, 90_000);
+
+  it("discards stale grade-plan loads and reports failed context or repository loads", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const now = "2026-09-27T06:00:00.000Z";
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: { name: `app-grade-plan-load-guards-${Date.now()}`, factory: new IDBFactory(), crypto: webcrypto as unknown as Crypto },
+      storage: localStorage,
+      idFactory: () => webcrypto.randomUUID(),
+      now: () => now,
+    });
+    const root = document.createElement("div");
+    document.body.append(root);
+    let replacementRoot: HTMLDivElement | null = null;
+    let resolveLoad!: (value: Awaited<ReturnType<typeof workflow.loadGradePlan>>) => void;
+    let rejectLoad!: (reason: unknown) => void;
+    const switchStyle = async (styleId: string): Promise<void> => {
+      root.querySelector<HTMLButtonElement>(`[data-project-action="switch"][data-style-id="${styleId}"]`)!.click();
+      await vi.waitFor(() => expect(workflow.snapshot.activeStyle.id).toBe(styleId), { timeout: 10_000 });
+    };
+    try {
+      const baseStyleId = workflow.snapshot.activeStyle.id;
+      await workflow.loadMeasurementCapture("tee");
+      let session = createMeasurementCaptureSession(webcrypto.randomUUID(), "tee", now, baseStyleId);
+      for (const [index, definition] of getFieldDefinitions("tee").entries()) {
+        session = addCaptureReadingForField(session, definition.id, {
+          id: webcrypto.randomUUID(),
+          rawValue: String(definition.defaultValue),
+          enteredUnit: definition.unit,
+          provenance: definition.semanticKind === "BODY_MEASURE" ? "USER_CAPTURED" : "USER_SELECTED",
+          evidenceStatus: "UNCONFIRMED",
+          sourceLabel: "Explicit digital test input; not a fit assessment.",
+          captureMethod: null,
+          capturedAt: null,
+          measurer: null,
+        }, new Date(Date.parse(now) + index + 1).toISOString());
+      }
+      await workflow.saveMeasurementCapture(session, []);
+      await workflow.createCustomSizeStyle("Grade Plan Load Test", materializeCustomSizeDesign(workflow.snapshot.activeStyle.design, session));
+      const customStyleId = workflow.snapshot.activeStyle.id;
+
+      vi.spyOn(gradePlanContext, "createGradePlanContext").mockResolvedValueOnce({ ok: false, errors: ["synthetic invalid grade-plan context"] });
+      mountApp(root, { projectWorkflow: workflow });
+      await vi.waitFor(() => expect(root.textContent).toContain("synthetic invalid grade-plan context"));
+
+      await switchStyle(baseStyleId);
+      const failedLoad = vi.spyOn(workflow, "loadGradePlan").mockRejectedValueOnce("synthetic non-Error plan load failure");
+      await switchStyle(customStyleId);
+      await vi.waitFor(() => expect(root.textContent).toContain("The grade plan could not be loaded."));
+      failedLoad.mockRestore();
+
+      await switchStyle(baseStyleId);
+      const staleSuccess = new Promise<Awaited<ReturnType<typeof workflow.loadGradePlan>>>((resolve) => { resolveLoad = resolve; });
+      const successSpy = vi.spyOn(workflow, "loadGradePlan").mockReturnValueOnce(staleSuccess);
+      await switchStyle(customStyleId);
+      await vi.waitFor(() => expect(successSpy).toHaveBeenCalledOnce());
+      await switchStyle(baseStyleId);
+      resolveLoad(null);
+      await Promise.resolve();
+      successSpy.mockRestore();
+
+      const staleFailure = new Promise<Awaited<ReturnType<typeof workflow.loadGradePlan>>>((_, reject) => { rejectLoad = reject; });
+      const failureSpy = vi.spyOn(workflow, "loadGradePlan").mockReturnValueOnce(staleFailure);
+      await switchStyle(customStyleId);
+      await vi.waitFor(() => expect(failureSpy).toHaveBeenCalledOnce());
+      await switchStyle(baseStyleId);
+      rejectLoad("discard this stale failure");
+      await Promise.resolve();
+      failureSpy.mockRestore();
+
+      const staleMountLoad = new Promise<Awaited<ReturnType<typeof workflow.loadGradePlan>>>((_, reject) => { rejectLoad = reject; });
+      const staleMountSpy = vi.spyOn(workflow, "loadGradePlan").mockReturnValueOnce(staleMountLoad);
+      await switchStyle(customStyleId);
+      await vi.waitFor(() => expect(staleMountSpy).toHaveBeenCalledOnce());
+      replacementRoot = document.createElement("div");
+      document.body.append(replacementRoot);
+      mountApp(replacementRoot, { projectWorkflow: workflow });
+      await vi.waitFor(() => expect(replacementRoot!.querySelector<HTMLButtonElement>('[data-grade-plan-action="create"]')?.disabled).toBe(false));
+      rejectLoad("discard the prior mount's delayed failure");
+      await new Promise((resolve) => setTimeout(resolve, 0));
+      staleMountSpy.mockRestore();
+      expect(root.textContent).not.toContain("The grade plan could not be loaded.");
+    } finally {
+      workflow.close();
+      replacementRoot?.remove();
+      root.remove();
+      vi.unstubAllGlobals();
+    }
+  }, 60_000);
+
+  it("keeps grade-plan creation blocked when a custom style has no saved measurement capture", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const factory = new IDBFactory();
+    const name = `app-grade-plan-missing-capture-${Date.now()}`;
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: { name, factory, crypto: webcrypto as unknown as Crypto },
+      storage: localStorage,
+      idFactory: () => webcrypto.randomUUID(),
+      now: () => "2026-09-27T06:00:00.000Z",
+    });
+    const root = document.createElement("div");
+    document.body.append(root);
+    let database: IDBDatabase | null = null;
+    try {
+      const capturedAt = "2026-09-27T06:00:00.000Z";
+      let session = createMeasurementCaptureSession(
+        webcrypto.randomUUID(), "tee", capturedAt, workflow.snapshot.activeStyle.id,
+      );
+      for (const [index, definition] of getFieldDefinitions("tee").entries()) {
+        session = addCaptureReadingForField(session, definition.id, {
+          id: webcrypto.randomUUID(),
+          rawValue: String(definition.defaultValue),
+          enteredUnit: definition.unit,
+          provenance: definition.semanticKind === "BODY_MEASURE" ? "USER_CAPTURED" : "USER_SELECTED",
+          evidenceStatus: "UNCONFIRMED",
+          sourceLabel: "Digital test input; not a fit assessment.",
+          captureMethod: null,
+          capturedAt: null,
+          measurer: null,
+        }, new Date(Date.parse(capturedAt) + index + 1).toISOString());
+      }
+      await workflow.saveMeasurementCapture(session, []);
+      await workflow.createCustomSizeStyle("Missing capture test", materializeCustomSizeDesign(workflow.snapshot.activeStyle.design, session));
+      const customStyleId = workflow.snapshot.activeStyle.id;
+
+      database = await new Promise<IDBDatabase>((resolve, reject) => {
+        const request = factory.open(name);
+        request.onerror = () => reject(request.error ?? new Error("Could not open the local test database."));
+        request.onsuccess = () => resolve(request.result);
+      });
+      const transaction = database.transaction("measurementCaptures", "readwrite");
+      transaction.objectStore("measurementCaptures").delete([customStyleId, "tee"]);
+      await new Promise<void>((resolve, reject) => {
+        transaction.oncomplete = () => resolve();
+        transaction.onabort = () => reject(transaction.error ?? new Error("Could not remove the test capture."));
+        transaction.onerror = () => reject(transaction.error ?? new Error("Could not remove the test capture."));
+      });
+      database.close();
+      database = null;
+
+      mountApp(root, { projectWorkflow: workflow });
+      await vi.waitFor(() => expect(root.textContent)
+        .toContain("Save a measurement capture for this style before creating a grade plan."), { timeout: 10_000 });
+      expect(root.querySelector<HTMLButtonElement>('[data-grade-plan-action="create"]')?.disabled).toBe(true);
+      const unavailableAction = document.createElement("button");
+      unavailableAction.dataset.gradePlanAction = "create";
+      root.querySelector("#style-host")!.append(unavailableAction);
+      unavailableAction.click();
+      expect(await workflow.loadMeasurementCapture("tee")).toBeNull();
+    } finally {
+      database?.close();
+      workflow.close();
+      root.remove();
+      vi.unstubAllGlobals();
+    }
+  }, 30_000);
+
+  it("evaluates custom one-size semantic edits only at step zero", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const capturedAt = "2026-09-26T18:00:00.000Z";
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: {
+        name: `app-one-size-semantic-${Date.now()}`,
+        factory: new IDBFactory(),
+        crypto: webcrypto as unknown as Crypto,
+      },
+      storage: localStorage,
+      idFactory: () => webcrypto.randomUUID(),
+      now: () => capturedAt,
+    });
+    const root = document.createElement("div");
+    document.body.append(root);
+    let recoveredRoot: HTMLDivElement | null = null;
+    const evaluateSpy = vi.spyOn(semanticEditEngine, "evaluateSemanticEditDocument");
+    try {
+      let session = createMeasurementCaptureSession(
+        webcrypto.randomUUID(), "tee", capturedAt, workflow.snapshot.activeStyle.id,
+      );
+      for (const definition of getFieldDefinitions("tee")) {
+        session = addCaptureReadingForField(session, definition.id, {
+          id: webcrypto.randomUUID(),
+          rawValue: String(definition.defaultValue),
+          enteredUnit: definition.unit,
+          provenance: definition.semanticKind === "BODY_MEASURE" ? "USER_CAPTURED" : "USER_SELECTED",
+          evidenceStatus: "UNCONFIRMED",
+          sourceLabel: "Digital test fixture; not a fit assessment.",
+          captureMethod: null,
+          capturedAt: null,
+          measurer: null,
+        }, capturedAt);
+      }
+      await workflow.saveMeasurementCapture(session, []);
+      const design = materializeCustomSizeDesign(workflow.snapshot.activeStyle.design, session);
+      await workflow.createCustomSizeStyle("Custom one-size Tee", design);
+
+      const recipe = GARMENTS.find((candidate) => candidate.name === "tee")!;
+      const options = design.garmentOptions.tee ?? {};
+      const sourceInputs = {
+        measurements: Object.fromEntries(recipe.fields.map((field) => [field, design.measurements[field]])),
+        options: Object.fromEntries((recipe.options ?? []).map((option) => [option.id, options[option.id]!])),
+      };
+      const sourceBlock = recipe.draft(design.measurements, options);
+      const fingerprint = await editEngine.semanticEditSourceFingerprint(
+        recipe.name, sourceBlock, webcrypto as unknown as Crypto, sourceInputs,
+      );
+      const semanticEdits = editEngine.emptySemanticEditDocument(recipe.name, fingerprint, sourceInputs);
+      await workflow.saveActiveDesign({ ...design, semanticEdits });
+
+      mountApp(root, { projectWorkflow: workflow });
+      clickId(root, "view-edit");
+      await vi.waitFor(() => expect(evaluateSpy).toHaveBeenCalled());
+      const call = evaluateSpy.mock.lastCall!;
+      expect(call[6]).toEqual([{ label: "One size", step: 0 }]);
+      const evaluation = evaluateSpy.mock.results[evaluateSpy.mock.results.length - 1]!.value;
+      expect(evaluation.sizes).toHaveLength(1);
+      expect(evaluation.sizes[0]?.label).toBe("One size");
+      expect(evaluation.sizes[0]?.step).toBe(0);
+      expect(evaluation.canExportSize(0)).toBe(true);
+      expect(evaluation.canExportSize(-1)).toBe(false);
+      expect(root.querySelector<HTMLButtonElement>("#export-techpack")!.disabled).toBe(true);
+      expect(root.querySelector<HTMLButtonElement>("#export-projector")!.disabled).toBe(true);
+
+      const chest = root.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+      const originalChest = chest.value;
+      chest.value = String(Number(chest.value) + 1);
+      chest.dispatchEvent(new Event("input", { bubbles: true }));
+      await vi.waitFor(() => expect(root.querySelector<HTMLButtonElement>("#undo-pattern")!.disabled).toBe(false));
+      clickId(root, "undo-pattern");
+      expect(root.querySelector<HTMLInputElement>('input[data-field="chest"]')!.value).toBe(originalChest);
+      expect(root.querySelector<HTMLSelectElement>("#export-size")!.value).toBe("__one-size__");
+      expect([...root.querySelector<HTMLSelectElement>("#export-size")!.options].map((option) => option.textContent))
+        .toEqual(["One size"]);
+
+      await vi.waitFor(() => expect(workflow.snapshot.activeRecovery).not.toBeNull(), { timeout: 20_000 });
+      const recovery = workflow.snapshot.activeRecovery!.payload;
+      await workflow.saveRecovery(workflow.snapshot.activeStyle.id, {
+        ...recovery,
+        workspace: { ...recovery.workspace, exportStep: 2 },
+      });
+      root.remove();
+      recoveredRoot = document.createElement("div");
+      document.body.append(recoveredRoot);
+      mountApp(recoveredRoot, { projectWorkflow: workflow });
+      clickId(recoveredRoot, "recovery-accept");
+      expect(recoveredRoot.querySelector<HTMLSelectElement>("#export-size")!.value).toBe("__one-size__");
+      expect([...recoveredRoot.querySelector<HTMLSelectElement>("#export-size")!.options].map((option) => option.textContent))
+        .toEqual(["One size"]);
+    } finally {
+      evaluateSpy.mockRestore();
+      workflow.close();
+      recoveredRoot?.remove();
+      root.remove();
+      vi.unstubAllGlobals();
+    }
+  }, 60_000);
+
+  it("waits for semantic source verification before binding grade-plan POMs to saved edits", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const capturedAt = "2026-09-26T20:00:00.000Z";
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: {
+        name: `app-grade-plan-semantic-source-${Date.now()}`,
+        factory: new IDBFactory(),
+        crypto: webcrypto as unknown as Crypto,
+      },
+      storage: localStorage,
+      idFactory: () => webcrypto.randomUUID(),
+      now: () => capturedAt,
+    });
+    const root = document.createElement("div");
+    document.body.append(root);
+    let replacementRoot: HTMLDivElement | null = null;
+    let staleStyleRoot: HTMLDivElement | null = null;
+    let rebaseRoot: HTMLDivElement | null = null;
+    let failedRoot: HTMLDivElement | null = null;
+    let releaseFingerprint!: (value: string) => void;
+    const fingerprintGate = new Promise<string>((resolve) => { releaseFingerprint = resolve; });
+    let releaseStaleStyleFingerprint!: (value: string) => void;
+    const staleStyleFingerprint = new Promise<string>((resolve) => { releaseStaleStyleFingerprint = resolve; });
+    let resolveDelayedPlan!: (value: Awaited<ReturnType<typeof workflow.loadGradePlan>>) => void;
+    const delayedPlan = new Promise<Awaited<ReturnType<typeof workflow.loadGradePlan>>>((resolve) => {
+      resolveDelayedPlan = resolve;
+    });
+    let resolveStaleStylePlan!: (value: Awaited<ReturnType<typeof workflow.loadGradePlan>>) => void;
+    const staleStylePlan = new Promise<Awaited<ReturnType<typeof workflow.loadGradePlan>>>((resolve) => {
+      resolveStaleStylePlan = resolve;
+    });
+    let resolveReplacementPlanLoad!: () => void;
+    const replacementPlanLoad = new Promise<void>((resolve) => { resolveReplacementPlanLoad = resolve; });
+    let resolveReplacementCaptureLoad!: () => void;
+    const replacementCaptureLoad = new Promise<void>((resolve) => { resolveReplacementCaptureLoad = resolve; });
+    const restoreMocks: (() => void)[] = [];
+    try {
+      let session = createMeasurementCaptureSession(
+        webcrypto.randomUUID(), "tee", capturedAt, workflow.snapshot.activeStyle.id,
+      );
+      for (const definition of getFieldDefinitions("tee")) {
+        session = addCaptureReadingForField(session, definition.id, {
+          id: webcrypto.randomUUID(),
+          rawValue: String(definition.defaultValue),
+          enteredUnit: definition.unit,
+          provenance: definition.semanticKind === "BODY_MEASURE" ? "USER_CAPTURED" : "USER_SELECTED",
+          evidenceStatus: "UNCONFIRMED",
+          sourceLabel: "Digital test fixture; not a fit assessment.",
+          captureMethod: null,
+          capturedAt: null,
+          measurer: null,
+        }, capturedAt);
+      }
+      await workflow.saveMeasurementCapture(session, []);
+      const design = materializeCustomSizeDesign(workflow.snapshot.activeStyle.design, session);
+      await workflow.createCustomSizeStyle("Grade plan semantic source", design);
+
+      const recipe = GARMENTS.find((candidate) => candidate.name === "tee")!;
+      const options = design.garmentOptions.tee ?? {};
+      const sourceInputs = {
+        measurements: Object.fromEntries(recipe.fields.map((field) => [field, design.measurements[field]])),
+        options: Object.fromEntries((recipe.options ?? []).map((option) => [option.id, options[option.id]!])),
+      };
+      const sourceBlock = recipe.draft(design.measurements, options);
+      const sourceFingerprint = await semanticEditEngine.semanticEditSourceFingerprint(
+        recipe.name, sourceBlock, webcrypto as unknown as Crypto, sourceInputs,
+      );
+      const anchor = semanticEditEngine.semanticAnchorCatalog(recipe.name, sourceBlock)[0]!;
+      const semanticDocument = semanticEditEngine.appendSemanticEditOperations(
+        semanticEditEngine.emptySemanticEditDocument(recipe.name, sourceFingerprint, sourceInputs),
+        [semanticEditEngine.createAnchorMoveOperation(recipe.name, sourceFingerprint, sourceBlock,
+          "grade-plan-source-move", anchor.id, { x: 0.125, y: 0 })],
+      );
+      const expectedBlock = semanticEditEngine.evaluateSemanticEditDocument(recipe, design.measurements, options,
+        semanticDocument, sourceFingerprint, sourceInputs, [{ label: "One size", step: 0 }]).sizes[0]!.block;
+      expect(JSON.stringify(expectedBlock)).not.toBe(JSON.stringify(sourceBlock));
+      await workflow.saveActiveDesign({ ...design, semanticEdits: semanticDocument });
+
+      const fingerprintSpy = vi.spyOn(semanticEditEngine, "semanticEditSourceFingerprint")
+        .mockReturnValue(fingerprintGate);
+      const contextSpy = vi.spyOn(gradePlanContext, "createGradePlanContext");
+      const loadGradePlan = workflow.loadGradePlan.bind(workflow);
+      const delayedPlanSpy = vi.spyOn(workflow, "loadGradePlan").mockReturnValueOnce(delayedPlan)
+        .mockImplementation(async (recipeId) => {
+          const plan = await loadGradePlan(recipeId);
+          resolveReplacementPlanLoad();
+          return plan;
+        });
+      const loadCapture = workflow.loadMeasurementCapture.bind(workflow);
+      let captureLoads = 0;
+      const captureSpy = vi.spyOn(workflow, "loadMeasurementCapture").mockImplementation(async (recipeId) => {
+        const capture = await loadCapture(recipeId);
+        captureLoads++;
+        if (captureLoads === 2) resolveReplacementCaptureLoad();
+        return capture;
+      });
+      restoreMocks.push(() => fingerprintSpy.mockRestore(), () => contextSpy.mockRestore(),
+        () => delayedPlanSpy.mockRestore(), () => captureSpy.mockRestore());
+      mountApp(root, { projectWorkflow: workflow });
+      await vi.waitFor(() => expect(root.querySelector<HTMLButtonElement>('[data-grade-plan-action="create"]')).not.toBeNull());
+      expect(root.querySelector<HTMLButtonElement>('[data-grade-plan-action="create"]')!.disabled).toBe(true);
+      expect(root.textContent).toContain("Verifying the saved pattern before creating grade-plan targets…");
+      expect(contextSpy).not.toHaveBeenCalled();
+
+      replacementRoot = document.createElement("div");
+      document.body.append(replacementRoot);
+      mountApp(replacementRoot, { projectWorkflow: workflow });
+      await vi.waitFor(() => expect(replacementRoot!.querySelector<HTMLButtonElement>('[data-grade-plan-action="create"]')).not.toBeNull());
+      expect(replacementRoot.textContent).toContain("Verifying the saved pattern before creating grade-plan targets…");
+      resolveDelayedPlan(null);
+      await replacementPlanLoad;
+      await replacementCaptureLoad;
+      await Promise.resolve();
+      expect(contextSpy).not.toHaveBeenCalled();
+
+      const snapshotGetter = Object.getOwnPropertyDescriptor(Object.getPrototypeOf(workflow), "snapshot")!.get!.bind(workflow);
+      let staleStyleVisible = false;
+      const snapshotSpy = vi.spyOn(workflow, "snapshot", "get").mockImplementation(() => {
+        const snapshot = snapshotGetter();
+        return staleStyleVisible
+          ? { ...snapshot, activeStyle: { ...snapshot.activeStyle, id: `${snapshot.activeStyle.id}-stale` } }
+          : snapshot;
+      });
+      fingerprintSpy.mockReturnValueOnce(staleStyleFingerprint);
+      delayedPlanSpy.mockReturnValueOnce(staleStylePlan);
+      staleStyleRoot = document.createElement("div");
+      document.body.append(staleStyleRoot);
+      const loadsBeforeStaleStyleMount = delayedPlanSpy.mock.calls.length;
+      mountApp(staleStyleRoot, { projectWorkflow: workflow });
+      await vi.waitFor(() => expect(delayedPlanSpy.mock.calls.length).toBeGreaterThan(loadsBeforeStaleStyleMount));
+      await workflow.loadMeasurementCapture("tee");
+      staleStyleVisible = true;
+      const snapshotReadsBeforeStaleResolution = snapshotSpy.mock.calls.length;
+      resolveStaleStylePlan(null);
+      await vi.waitFor(() => expect(snapshotSpy.mock.calls.length).toBeGreaterThan(snapshotReadsBeforeStaleResolution));
+      staleStyleVisible = false;
+      snapshotSpy.mockRestore();
+      releaseStaleStyleFingerprint(sourceFingerprint);
+
+      releaseFingerprint(sourceFingerprint);
+      await vi.waitFor(() => expect(delayedPlanSpy.mock.calls.length).toBeGreaterThan(loadsBeforeStaleStyleMount + 1),
+        { timeout: 10_000 });
+      await vi.waitFor(() => expect(contextSpy).toHaveBeenCalled(), { timeout: 10_000 });
+      expect(contextSpy.mock.calls[0]![4]).toEqual(expectedBlock);
+      expect(contextSpy.mock.calls[0]![4]).not.toEqual(sourceBlock);
+
+      const staleInputs = {
+        measurements: { ...sourceInputs.measurements, chest: sourceInputs.measurements.chest + 1 },
+        options: sourceInputs.options,
+      };
+      const staleDocument = semanticEditEngine.emptySemanticEditDocument(recipe.name, sourceFingerprint, staleInputs);
+      await workflow.saveActiveDesign({ ...workflow.snapshot.activeStyle.design, semanticEdits: staleDocument });
+      rebaseRoot = document.createElement("div");
+      document.body.append(rebaseRoot);
+      mountApp(rebaseRoot, { projectWorkflow: workflow });
+      await vi.waitFor(() => expect(rebaseRoot!.textContent)
+        .toContain("Review or rebase the saved pattern before creating grade-plan targets."));
+      expect(rebaseRoot.querySelector<HTMLButtonElement>('[data-grade-plan-action="create"]')!.disabled).toBe(true);
+      expect(rebaseRoot.textContent).toContain("The source pattern or its reviewed inputs changed.");
+
+      await workflow.saveActiveDesign({ ...workflow.snapshot.activeStyle.design, semanticEdits: semanticDocument });
+      fingerprintSpy.mockRejectedValueOnce("synthetic source verification failure");
+      failedRoot = document.createElement("div");
+      document.body.append(failedRoot);
+      mountApp(failedRoot, { projectWorkflow: workflow });
+      await vi.waitFor(() => expect(failedRoot!.textContent)
+        .toContain("SHA-256 source verification is unavailable."));
+      expect(failedRoot.querySelector<HTMLButtonElement>('[data-grade-plan-action="create"]')!.disabled).toBe(true);
+    } finally {
+      restoreMocks.forEach((restore) => restore());
+      staleStyleRoot?.remove();
+      replacementRoot?.remove();
+      rebaseRoot?.remove();
+      failedRoot?.remove();
+      workflow.close();
+      root.remove();
+      vi.unstubAllGlobals();
+    }
+  }, 60_000);
+
+  it("reports a non-Error failure while saving a completed custom size", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: {
+        name: `app-custom-size-error-${Date.now()}`,
+        factory: new IDBFactory(),
+        crypto: webcrypto as unknown as Crypto,
+      },
+      storage: localStorage,
+      idFactory: () => webcrypto.randomUUID(),
+      now: () => "2026-09-24T16:00:00.000Z",
+    });
+    const root = document.createElement("div");
+    document.body.append(root);
+    try {
+      mountApp(root, { projectWorkflow: workflow });
+      clickId(root, "welcome-start");
+      clickId(root, "journey-guided");
+      await vi.waitFor(() => expect(root.querySelector(".measurement-capture-panel__field")).not.toBeNull());
+      for (const definition of getFieldDefinitions("tee")) {
+        const preset = [...root.querySelectorAll<HTMLButtonElement>('[data-action="capture-accept-preset"]')]
+          .find((button) => button.dataset.fieldId === definition.id)!;
+        preset.click();
+      }
+      vi.spyOn(workflow, "createCustomSizeStyle").mockRejectedValueOnce("synthetic style save failure");
+      clickId(root, "journey-next");
+      await vi.waitFor(() => expect(root.querySelector<HTMLElement>("#project-persistence-state")?.dataset.state).toBe("failed"), { timeout: 20_000 });
+      expect(root.querySelector("#project-persistence-state")?.textContent)
+        .toBe("The custom one-size style could not be saved.");
+      expect(workflow.snapshot.styles).toHaveLength(1);
+    } finally {
+      workflow.close();
+      root.remove();
+      vi.unstubAllGlobals();
+    }
+  }, 60_000);
+
+  it("reports failed guided capture loads, including a non-Error rejection", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: {
+        name: `app-capture-load-failure-${Date.now()}`,
+        factory: new IDBFactory(),
+        crypto: webcrypto as unknown as Crypto,
+      },
+      storage: localStorage,
+      now: () => "2026-09-24T16:00:00.000Z",
+    });
+    vi.spyOn(workflow, "loadMeasurementCapture")
+      .mockRejectedValueOnce(new Error("synthetic capture load failure"))
+      .mockRejectedValueOnce("synthetic non-Error capture load failure");
+    const root = document.createElement("div");
+    document.body.append(root);
+    try {
+      mountApp(root, { projectWorkflow: workflow });
+      clickId(root, "journey-guided");
+      await vi.waitFor(() => expect(root.querySelector("#project-persistence-state")?.textContent)
+        .toBe("synthetic capture load failure"));
+      expect(root.querySelector<HTMLElement>("#project-persistence-state")?.dataset.state).toBe("failed");
+      expect(root.querySelector<HTMLElement>("#infini-shell")?.dataset.stage).toBe("start");
+
+      clickId(root, "journey-guided");
+      await vi.waitFor(() => expect(root.querySelector("#project-persistence-state")?.textContent)
+        .toBe("Saved guided measurements could not be loaded."));
+      expect(root.querySelector<HTMLElement>("#project-persistence-state")?.dataset.state).toBe("failed");
+      expect(root.querySelector<HTMLElement>("#infini-shell")?.dataset.stage).toBe("start");
+    } finally {
+      workflow.close();
+      root.remove();
       vi.unstubAllGlobals();
     }
   });

@@ -1,8 +1,62 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 241 verified the EPIC-15/G02 merge and Control Center closure, 2026-09-26._
+_Last updated: EPIC-16/G03 Slice 258 final review, 2026-09-29._
 Current directive: EPIC-14/G01 and EPIC-15/G02 are closed with accepted exit
-evidence. G02's F01, F02, F03, and final review are Done. PR #11 merged the
+evidence. EPIC-16/G03 remains the active, admitted local-first digital scope
+under `docs/planning/EPIC-16-ADMISSION.md`; M01, M02, and M03 are implemented,
+with final review/merge still open. No physical-fit or factory-readiness claim
+is authorized. S252's safety remediation remains attached to the canonical
+board. S253 completed the independent S252 audit reconciliation and passed its
+then-current full gate. S254 applies the final audit corrections: restore
+saved revision counters before Load resynchronizes approved sizes, show precise
+no-plan/stale-plan/unsaved guidance, and keep Single/Marker selection from
+immediately dirtying design or history. S255 isolates shared browser storage
+and makes the Electron export-status regression deterministic. S256 records
+the independent final audit and asserts that Load restores graded-size
+choices while still blocking whole-run outputs when saved semantic edits need
+review. An explicit Save persists Single/Marker scope in the style revision;
+that can require a bound grade plan to be refreshed and approved again, and a
+custom one-size style loads in Single scope because Marker is unavailable.
+
+The S255 and S256 full-coverage attempts each had one transient app-test failure
+and did not emit a global coverage table. S257 made the Electron error assertion
+deterministic; its focused regression passed 1/1. The single final full run on
+exact S257 candidate `14dc0a76acae63ab7ec909988f49f428fb718e9c` completed with
+100% statements (24,073/24,073), functions (1,453/1,453), branches
+(11,081/11,081), and lines (24,073/24,073). The protected export-identity
+suite passed 9/9 in that run. No coverage rerun is needed.
+
+Production and Electron builds passed on S254; S255–S257 change only tests and
+documentation, so no production source changed after the passing builds. The
+Control Center suite passed 33/33 on S253, with no Control Center code changes
+since. Independent Claude
+Opus 5.5 high and OpenCode Muse Spark 1.3 xhigh audits found no G03
+release-gating defect and agree that merge remains blocked until the final
+coverage/build gates and durable state are current. Current handoffs are in
+`docs/research/epic16/S256-LOAD-STATE-AND-REVIEW-HANDOFF.md` and
+`docs/research/epic16/S257-ELECTRON-STATUS-ASSERTION.md`.
+
+The board is at revision 362; M03 safety is Done and final review is in Review.
+PR #14 is open as a draft on `codex/epic16-g03`. The exact application source
+candidate's local coverage gate passes, and the Control Center suite passes
+33/33 against the current canonical board. See
+`docs/research/epic16/S258-G03-FINAL-REVIEW.md` and S254–S257 for evidence and
+limitations. Remaining steps are to mark the PR ready, merge while preserving
+Slice commits, verify its ancestry and tree on `origin/main`, close the board
+through validated commands, and verify the automatic GitHub Actions
+deployment from the merged main commit.
+Slice 247
+completed M01's durable resume, conflict, narrow-layout, accessibility, and
+all-recipe exits. Slice 248 completed deterministic custom one-size
+materialization, persistence, and resume through the full editor. Slice 249
+completed seven-recipe geometry/options, POM, selected-size export parity, and
+actual-output comparison; the S249 exit report is linked to M02 as verified
+evidence. The maintainer confirmed that whole-run Tech Pack,
+Projector, and Marker outputs stay withheld until a grade plan is approved.
+The admitted boundaries are recorded in
+`docs/planning/EPIC-16-ADMISSION.md` and
+`docs/PROJECT-DECISIONS.md`.
+G02's F01, F02, F03, and final review are Done. PR #11 merged the
 reviewed Slice 240 head as `e5155e82dbd21cda5b3f537b950eb4c32a22d215`; Slices
 204, 205, and 240 are verified ancestors of `origin/main`. The S240 review
 passed full-repository 100% statement, branch, function, and line coverage;
@@ -12,10 +66,27 @@ and Axe checks at 320, 390, and 1440 CSS pixels. The exact review evidence is
 `docs/release/EPIC-15-G02-FINAL-REVIEW-S240.md`; the merged-exit record is
 `docs/release/EPIC-15-G02-MERGE-EXIT-S241.md`.
 
-The canonical Control Center is at revision 315: the EPIC-15 summary and final
+The canonical Control Center is at revision 357: the EPIC-15 summary and final
 review work items are Done, and the EPIC-15 record is Closed with verified
-S241 exit-report evidence. EPIC-16 through EPIC-30 (G03–G17) remain Backlog,
-including G17. Phase 9 remains accepted and closed. G02 completed on
+S241 exit-report evidence. EPIC-16/G03 is In Progress, its M01 and M02 cards
+are Done with verified exit reports, M03 is Done with verified Slice 251 exit
+evidence, the S252 safety-remediation card is in Review, and final-review is
+In Progress with both M03 and safety remediation as dependencies. The S252 and
+S253 board transitions used the validated command layer. Slice 251 exit
+evidence was attached using the validated command layer after its full gate
+passed. Slice 248 exit
+verification passed 546/546
+test suites and 1,919/1,919 tests at 100% statement, branch, function, and line
+coverage; `npm run build`; and the 33/33 Control Center gate. The built browser
+preview proved custom Check omits the misleading five-size graded-run claim,
+shows the explicit grade-plan gate, offers a single `One size` selector, keeps
+SVG/DXF/PDF/A0 enabled, and disables whole-run Tech Pack and Projector with a
+grade-plan reason. One-size Marker/freeze fail closed; no frozen manifest is
+created. The preview was isolated on `localhost:4176`; the user's `4173` tab
+was left untouched. Narrow-layout and accessibility cases passed in the
+automated suite; the in-app preview did not expose viewport resizing. All eight
+protected export identities passed. EPIC-17 through EPIC-30 (G04–G17) remain Backlog, including
+G17. Phase 9 remains accepted and closed. G02 completed on
 2026-09-26, ahead of the board's revised conditional S240 target of
 2026-10-02; downstream dates remain conditional forecasts and no later work is
 admitted by G02's closure. The separate holds on garment direction, supplier
@@ -28,6 +99,16 @@ separate gate in `docs/planning/ARTWORK-LIBRARY-G17-QUEUE.md`. These are plans,
 not admission. Every fresh or resumed task must continue from repository
 records alone, under the admission and slice-boundary handoff rules in
 `AGENTS.md`; no chat-specific handoff is required or authoritative.
+
+The maintainer supplied 15 browser annotations as high-priority manual quality
+findings. Their observations, partial overlaps with G03–G17, and deferred
+review rules are in `docs/research/UI-MANUAL-QUALITY-FINDINGS-2026-09.md`.
+They are not implementation-roadmap items or Control Center work items unless
+the maintainer confirms. Review related findings at the named capability exits
+without expanding those scopes; defer unowned research and residual questions
+until after G17. The maintainer directed continuation of the G03–G17 sequence
+without interruption. Individual Epic admission and the existing physical,
+supplier, cost, hosted-service and production-readiness gates still apply.
 
 EPIC-14/G01's A-01–A-12 disposition, output replay and downstream thresholds
 are in `docs/research/epic14/G01-FINAL-REVIEW-EXIT.md`. Slice 227's readable
@@ -4304,3 +4385,206 @@ Verification: `npm run control-center:test` passed 33/33; all 49 stable planning
 packet IDs for G03–G16 were found, the G17 queue file is present, and
 EPIC-17–EPIC-30 each retain Backlog status, scope links and acceptance criteria
 on Control Center board revision 315. `git diff --check` passed.
+
+### Slice 243 — record manual UI quality findings
+
+Recorded all 15 maintainer browser annotations in
+`docs/research/UI-MANUAL-QUALITY-FINDINGS-2026-09.md` as High / P1 candidate
+findings, preserving user-reported observations separately from verified root
+causes. Mapped partial scope overlap to G03 M01–M02, G04 V01–V03, G05 T01–T05,
+G09 D03–D04, and G13 X01; their relevant exits must review the findings without
+automatically expanding scope. The finding register defers unowned UI redesign,
+layout, artwork-interaction, and requested external research until after G17
+and maintainer discussion.
+
+The maintainer directed continuation of G03–G17 uninterrupted. No roadmap row,
+Control Center item, Epic status, feature code, or external hold changed.
+EPIC-16 remains Backlog pending its linked admission packet and canonical
+admission transition. `CONTEXT-INDEX.md` and `docs/PROJECT-DECISIONS.md` link
+the findings and record the handling decision. `git diff --check` passed.
+
+### Slice 244 — admit EPIC-16 / G03 measurement-first creation
+
+The maintainer explicitly admitted EPIC-16 after verifying EPIC-15/G02 closure
+at PR #11. `docs/planning/EPIC-16-ADMISSION.md` records the start tree, current
+source facts, seven-recipe C03 boundaries, M01→M02→M03 order, acceptance gates,
+source-qualification risks, scoped MQF review checks, delegation boundaries,
+and merge exit. The packet reserves Slices 244–252: admission, seven
+implementation slices, and final review. It preserves Slice 243's manual
+findings without adding them to the roadmap or broadening G03.
+
+The validated Control Center command layer created the M01, M02, M03 and final
+review work cards, recorded their dependencies, and transitioned EPIC-16 and
+its summary card to In Progress. The resulting board revision and command
+evidence are in the canonical `ops/control-center/data/board.json`; the
+admission packet is linked from the context index and the EPIC-16 board card.
+M01 is next. No product runtime behavior changed in this admission; the board
+invariant test now checks the admitted Epic, linked packet and ordered
+children. Verification: `npm run control-center:test` passed 33/33 after the
+invariant update; `git diff --check` passed. The next action is Slice 245's
+versioned capture contract; do not start M02 until M01's all-recipe and source
+gates pass.
+
+### Slice 245 — versioned G03 capture contract
+
+`src/ui/measurement-capture.ts` now defines a strict versioned session for
+each of the seven existing recipes. It starts empty; preserves raw input text,
+entered units, exact canonical values, provenance, evidence status, source
+labels, optional method/date/measurer and revision history; and keeps repeated
+readings separate until the user deliberately chooses one. Blank, ambiguous,
+conflicting, nonnumeric and out-of-guardrail values remain visible and block
+readiness with a correction. Unknown recipes, stale fields, malformed records
+and invalid ownership are rejected. Presets are only added by an explicit
+action and are labeled as digital starting values, never wearer measurements.
+The contract is serializable domain data; the guided screen and G02-backed
+save/resume are still assigned to Slices 246–247.
+
+The guided skirt route is explicitly capped at the existing shared 100 cm
+control. A 100–120 cm Maxi value remains stored and invalid without clamping,
+with a message that the style label's extended band is currently unavailable.
+The OpenCode source audit and Claude Code recipe mapping audit are linked in
+`CONTEXT-INDEX.md`. The recipe audit's executed findings and slice decisions
+are recorded in its §12. Woven hip-below-hem validation is assigned to Slice
+247, while legacy drafting/POM mismatches remain documented and must be shown
+truthfully in M01/M02 review without moving protected export baselines.
+
+The validated Control Center command layer moved M01 to In Progress at board
+revision 325; its invariant test reflects that current state. Verification:
+`npx vitest run src/ui/measurement-capture.test.ts --coverage
+--coverage.include=src/ui/measurement-capture.ts` passed 11/11 with 100%
+statement, branch, function and line coverage for the new module; `npm run
+coverage -- --testTimeout=30000 --maxWorkers=4 --minWorkers=4` passed 125 test
+files and 1,847 tests with 100% statements, branches, functions and lines;
+`npm run build` passed; `npm run control-center:test` passed 33/33; and
+`git diff --check` passed. The 30-second timeout and four-worker bounds were
+command-line verification settings only. The first default-timeout full run
+had two unrelated package-test timeouts; both passed in the successful full
+rerun. Protected export identity tests passed within the full suite. No route,
+project persistence, grading behavior, user-facing measurement instructions,
+or export baseline changed in Slice 245. Next: Slice 246, the seven-recipe
+guided route, without beginning M02 before M01's gates pass.
+
+### Slice 246 — source-aware guided measurement route (complete)
+
+The Garment stage now presents two choices: open the existing full measurement
+editor or guide measurement capture. The guided panel is wired to the Slice 245
+session and C03 field definitions for all seven current recipes. Its factual
+help distinguishes semantic kind and reference frame, describes current draft
+use and known mismatches, states software guardrails, identifies source scope,
+and explicitly withholds unreviewed anatomical capture procedures. Raw text,
+entered units, optional source/method/date/measurer details, separate readings,
+explicit reading selection, and opt-in digital presets are available. Presets
+remain labeled as non-wearer starting values. The route does not silently
+advance after garment choice; the full editor remains available.
+
+The first-run UI review exposed that project bootstrap creates a starter
+style, which the old stage restoration logic mistook for a returning workspace
+and marked Measure complete. `ProjectWorkflow.initializedFirstRun` now preserves
+that distinction through both journey loading and workspace restoration. The
+fresh-start integration assertion verifies Garment is active while Measure is
+pending. Captured sessions are still in-memory; durable resume, conflict and
+all-recipe validation, narrow layout and accessibility remain assigned to
+Slice 247. The OpenCode-owned source-aware help module and Claude-owned
+accessible panel are disjoint contributions; Codex reviewed and integrated
+their actual source and tests after their explicit `WORK FINISHED` signals.
+
+Verification: `npm run coverage -- --testTimeout=30000 --maxWorkers=4
+--minWorkers=4 --reporter=dot` passed all 127 test files and 1,874 tests with
+100% statement, branch, function and line coverage, including protected export
+identity checks. `npm run build` passed; `npm run control-center:test` passed
+33/33; focused journey/help/panel suites passed 62/62; and `git diff --check`
+passed. The mounted-app tests rendered and checked the guided route, field
+relationships and first-run stage state. Standalone in-app browser review was
+not available in this execution, so the route's final browser screenshot review
+is still assigned to Slice 247's rendered QA. No M02 or M03 work has started.
+
+### Slice 247 — M01 validation, persistence and rendered QA (complete)
+
+Guided sessions and unrecorded text drafts now persist per project style and
+recipe through an additive IndexedDB v7 store and a strict capture record.
+Capture compare-and-swap revisions remain independent from project/style
+revisions, field edit history, and recovery records. Stale cross-tab writes and
+storage failures are visible; a settled failure blocks garment switching until
+the capture can be saved. Portable backup packages use format v4 only when
+capture sessions are present; packages without them retain the v3 body and
+digest input. Copy imports remap project, style and capture-session IDs.
+
+The route was validated against all seven recipe field lists. The Woven-shirt
+hip-station blocker reports the selected geometry values without clamping. A
+production Chromium run proved exact invalid-reading/raw-draft separation and
+reload resume at 320, 390 and 1440 CSS pixels, with keyboard route activation,
+screen-reader-facing accessible names/description tree, no horizontal overflow,
+zero WCAG 2.1 A/AA axe violations and no browser warnings or errors. Browser
+metrics, screenshots and SHA-256 digests are retained under
+`docs/research/epic16/evidence/`. MQF-001, MQF-013 and MQF-014 received only
+their scoped G03 review; broader UI questions remain deferred as documented.
+
+Verification: `npm run coverage -- --maxWorkers=1 --minWorkers=1
+--testTimeout=15000` passed 127 files and 1,898 tests at 100% statements,
+branches, functions and lines; `npm run build` and `npm run electron:build-main`
+passed; `npm run control-center:test` passed 33/33; and the production-browser
+verification passed. All eight protected export identity baselines remain
+unchanged. The validated Control Center advanced EPIC16-M01 through Review to
+Done at revision 333 with source, coverage, build, browser and exit-report
+evidence. Slice 248 completed M02 one-size creation from explicitly resolved
+capture values through the G02 project and drafting path. No grade rule, new
+recipe, output baseline, physical-fit claim or wider UI redesign was added.
+Slice 249's completion and verification are recorded below.
+
+### Slice 249 — M02 seven-recipe parity and exit (complete)
+
+For identical resolved inputs, all seven custom one-size recipes now match the
+existing step-zero path in drafted block, recipe options, unrounded POM values,
+and exact selected-size SVG, DXF, tiled-PDF, and A0-PDF writer content. The
+custom-size POM view shows a single `One size` column. Size selection,
+semantic Edit, history restoration, and recovery restoration all remain at
+step zero. Whole-run Tech Pack, Projector, Marker, graded specifications and
+frozen whole-run captures remain blocked until a grade plan is reviewed and
+approved. No legacy export writer or protected output identity changed.
+
+Verification: `npm run coverage -- --maxWorkers=2 --minWorkers=1
+--testTimeout=60000` passed 128/128 test files and 1,922/1,922 tests with 100%
+statement, branch, function and line coverage. The protected export identity
+suite passed 9/9. `npm run build`, `npm run electron:build-main`,
+`npm run control-center:test` (33/33), `npx tsc --noEmit`, and
+`git diff --check` passed. Production-browser behavior and residual source
+mapping limitations are recorded in
+`docs/research/epic16/S249-RECIPE-PARITY-AND-OUTPUT-VERIFICATION.md`. The
+validated Control Center linked the report and moved M02 through Review to
+Done at revision 340. Next: Slice 250 begins the admitted M03 versioned grade-plan
+record and review flow; no chart or fit approval is inferred.
+
+### Slice 250 — explicit grade-plan record and review (complete)
+
+M02 is complete. Slice 250 is scoped by
+`docs/research/epic16/S250-EXPLICIT-GRADE-PLAN-RECORD-AND-REVIEW.md` and the
+M03 gates in `docs/planning/EPIC-16-ADMISSION.md`. It added a strict,
+versioned and custom-style-bound grade-plan record, explicit review/approval,
+and stale-plan invalidation bound to the base style revision. No population,
+size range, grade source, rule or numerical increment is selected or inferred.
+Approved plan metadata alone must not expose generated graded output; applying
+the plan to all recipes and cutting/whole-run exporters remains Slice 251.
+Verified evidence, including full 100% coverage, builds, Control Center, and
+production-browser lifecycle review, is recorded in
+`docs/research/epic16/S250-EXIT.md`. Board M03 remains In Progress for S251.
+
+Claude Code Opus 5.5 High and OpenCode Muse Spark 1.3 Xhigh completed disjoint
+read-only audits and returned explicit `WORK FINISHED` signals. Codex reviewed
+and reconciled them against the source contract. Existing one-size output
+policy and protected legacy identities remain in effect.
+
+### Slice 254 — final audit corrections (verification in progress)
+
+Slice 254 resolves the independent Slice 253 audit follow-ups in
+`docs/research/epic16/S254-G03-AUDIT-CORRECTIONS.md`. Loaded project revision
+counters now precede approved-size synchronization; unsaved target-style edits
+receive the same stale-plan/output gate as unsaved artwork; saved project load
+restores approved size choices; and no-plan, stale-plan, and unsaved-style
+guidance are distinct. Single/Marker preview selection remains outside dirty,
+undo/redo, and recovery state while persisting its workspace preference on an
+explicit Save. Exact raw POM equality remains required without tolerance.
+
+Targeted tests and narrow/wide Chromium render checks have passed. The complete
+coverage/build/Control Center/export-identity gate and fresh independent S254
+audits are pending. See the S254 report and S253 machine-readable record for
+evidence. No merge or G03 exit is claimed yet.

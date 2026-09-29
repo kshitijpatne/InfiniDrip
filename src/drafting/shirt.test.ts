@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { edgeLength, edgeStart, pieceEdge, rolePiece, stitchChecks, STANDARD_M } from "./index";
 import { point } from "../geometry";
-import { addWovenShirtCollar, addWovenShirtHemVent, addWovenShirtPlackets, addWovenShirtYoke, draftWovenShirtBody, draftWovenShirtCollar, draftWovenShirtPlackets, draftWovenShirtPocket, draftWovenShirtSleeves, draftWovenShirtYoke, frontButtonPositions, wovenShirtGuidance, WOVEN_SHIRT_BODY_STITCHES, WOVEN_SHIRT_COLLAR_STITCHES, WOVEN_SHIRT_POMS } from "./shirt";
+import { addWovenShirtCollar, addWovenShirtHemVent, addWovenShirtPlackets, addWovenShirtYoke, draftWovenShirtBody, draftWovenShirtCollar, draftWovenShirtPlackets, draftWovenShirtPocket, draftWovenShirtSleeves, draftWovenShirtYoke, frontButtonPositions, wovenHipStationY, wovenShirtGuidance, WOVEN_SHIRT_BODY_STITCHES, WOVEN_SHIRT_COLLAR_STITCHES, WOVEN_SHIRT_POMS } from "./shirt";
 
 describe("woven shirt body", () => {
   it("drafts separate front/back panels with the required named boundaries", () => {
@@ -164,6 +164,25 @@ describe("woven shirt body", () => {
     const shortBlock = draftWovenShirtBody({ ...STANDARD_M, length: 55 });
     const shortNotes = wovenShirtGuidance(shortBlock, { ...STANDARD_M, length: 55 }, { buttonCount: 7, buttonSpacing: 9 });
     expect(shortNotes.some((note) => note.text.includes("last front button"))).toBe(true);
+  });
+
+  it("flags a woven hip station below the hem and keeps all three inputs unchanged", () => {
+    const invalid = { ...STANDARD_M, length: 45, armholeDepth: 24, hipDepth: 20 };
+    expect(wovenHipStationY(invalid.length, invalid.armholeDepth, invalid.hipDepth)).toBeCloseTo(51.35, 8);
+    const note = wovenShirtGuidance(draftWovenShirtBody(invalid), invalid)
+      .find((candidate) => candidate.field === "hipDepth");
+    expect(note).toMatchObject({ level: "warn" });
+    expect(note!.text).toContain("below the hem at y=45 cm");
+    expect(note!.text).toContain("increase top length");
+    expect(note!.text).toContain("reduce the underarm drop or hip depth");
+    expect(note!.text).toContain("Values stay unchanged");
+    expect(invalid).toMatchObject({ length: 45, armholeDepth: 24, hipDepth: 20 });
+
+    const ordinary = { ...STANDARD_M };
+    expect(wovenHipStationY(ordinary.length, ordinary.armholeDepth, ordinary.hipDepth))
+      .toBeLessThan(ordinary.length);
+    expect(wovenShirtGuidance(draftWovenShirtBody(ordinary), ordinary)
+      .some((candidate) => candidate.field === "hipDepth")).toBe(false);
   });
 
   it("uses button units without duplicating the whole-number warning", () => {

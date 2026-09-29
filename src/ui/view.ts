@@ -2,7 +2,7 @@
 // workspace header, a stable inspection canvas, and a bounded grouped inspector.
 // Pure, so the markup can be checked in tests without a browser.
 
-import { Measurements, STRETCH_FABRICS, SpecRow, GARMENTS, SizeStep, roleTag, GarmentOption, GarmentOptions } from "../drafting";
+import { Measurements, STRETCH_FABRICS, SpecRow, GARMENTS, SizeStep, roleTag, GarmentOption, GarmentOptions, GradedSize, Block, Pom, specSheet } from "../drafting";
 import { BLUEPRINT as T, FABRICS } from "../render";
 import { Note, SEVERITY_ICON } from "../guidance";
 import { Report } from "../guidance";
@@ -1247,10 +1247,32 @@ export function specTableMarkup(
     `width:100%">${head}${body}</table></div>`;
 }
 
+/** A custom size can show its own measured POMs without implying a graded run. */
+export function customOneSizeSpecMarkup(
+  block: Block | null,
+  measurements: Measurements,
+  poms: readonly Pom[],
+  ready: boolean,
+): string {
+  if (!ready || !block) {
+    return `<p role="status" data-semantic-output-paused>Single-size specifications are paused until the saved edits are valid or explicitly rebased.</p>`;
+  }
+  const oneSize: GradedSize = { label: "One size", step: 0, measurements, block };
+  return specTableMarkup(specSheet([oneSize], poms), [oneSize.label], 0);
+}
+
 /** The production-readiness report: a pass/fail verdict banner over the check list.
  *  `plausible` gates the GREEN state: geometry can pass (it sews) while the numbers
  *  are still an impossible body — that must not read as a green "ready". */
-export function checkMarkup(report: Report, plausible: boolean, ignored: readonly Note[] = []): string {
+export function checkMarkup(
+  report: Report,
+  plausible: boolean,
+  ignored: readonly Note[] = [],
+  customOneSize = false,
+  gradePlanApproved = false,
+  gradePlanOutputBaseSaved = true,
+  gradePlanExists = false,
+): string {
   const green = report.ok && plausible;
   const bannerBg = green ? OK : T.lineActive;
   const bannerText = green
@@ -1260,6 +1282,13 @@ export function checkMarkup(report: Report, plausible: boolean, ignored: readonl
       : "✗ Digital checks need review — fix the flagged checks";
   const banner = `<div style="padding:10px 14px;border-radius:8px;font-weight:600;font-size:14px;` +
     `color:${T.background};background:${bannerBg};margin-bottom:12px">${bannerText}</div>`;
+  const gradePlanNotice = customOneSize
+    ? `<p role="status" data-grade-plan-required>${!gradePlanOutputBaseSaved && gradePlanExists
+      ? "Save the style, then refresh, review, and approve its grade plan before exporting graded sizes or whole-run files."
+      : gradePlanApproved
+      ? "Single custom size. Grade plan approved. Graded geometry and whole-run Tech Pack, Projector, and Marker outputs are not generated in this step."
+      : "Single custom size. Review and approve a grade plan first. Graded geometry and whole-run Tech Pack, Projector, and Marker outputs are not generated in this step."}</p>`
+    : "";
 
   const rows = report.checks.map((c) => {
     const color = c.ok ? OK : T.lineActive;
@@ -1279,7 +1308,7 @@ export function checkMarkup(report: Report, plausible: boolean, ignored: readonl
       `<span>⚠ ${note.text}</span>` +
       `<button type="button" data-restore-guidance="${note.field}">Show guidance again</button></div>`).join("") +
     `</aside>`;
-  return `<div style="background:${T.background};border-radius:8px;padding:14px">${banner}${dismissedMarkup}${rows}</div>`;
+  return `<div style="background:${T.background};border-radius:8px;padding:14px">${banner}${gradePlanNotice}${dismissedMarkup}${rows}</div>`;
 }
 
 /** The whole app shell: persistent workspace actions, a stable canvas, and a

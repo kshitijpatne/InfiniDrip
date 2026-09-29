@@ -2,12 +2,12 @@
 // change re-draft, re-render the canvas, garment, guidance, and style. All real
 // logic lives in the pure modules.
 
-import { Measurements, STANDARD_M, Piece, STRETCH_FABRICS, fabricEaseNote, GarmentOptionsByRecipe, GarmentOptions, defaultGarmentOptions } from "../drafting";
+import { Measurements, STANDARD_M, Piece, STRETCH_FABRICS, fabricEaseNote, GarmentOptionsByRecipe, GarmentOptions, defaultGarmentOptions, wovenHipStationY } from "../drafting";
 import { gradeRun, gradeMeasurements, draftAtSize, specSheet, GARMENTS, GarmentRecipe, garmentByName } from "../drafting";
 import { block, blockPieces } from "../drafting";
 import { wovenShirtAllowances } from "../drafting/shirt";
 import type { AllowanceSpec } from "../drafting/allowance";
-import { exportSvg, exportDxf, exportPdf, exportTechPackV2, exportProjectorSvg, exportA0Pdf, exportSurfaceSheet, flattenPiece, nestPieces, gradedMarker } from "../export";
+import { exportSvg, exportDxf, exportPdf, exportTechPackV2, exportTechPackV2ForGradePlan, exportProjectorSvg, exportA0Pdf, exportSurfaceSheet, flattenPiece, nestPieces, gradedMarker, gradedMarkerForRun } from "../export";
 import { renderBlueprint, renderGarment, renderNest, renderFabricNest, renderEditor, renderBody, renderBodyPair, renderSkirtGarment, renderSkirtBody, renderTrouserGarment, renderTrouserBody, renderTrouserBodyPair, renderTrouserSide, renderSideCroquis, DEFAULT_FABRIC } from "../render";
 import { moveHandle, nearestHandle, editorViewBox, viewboxPointToCm, Handle } from "../edit";
 import {
@@ -19,6 +19,7 @@ import {
   requireSemanticEditEvaluation,
   requireSemanticEditSize,
   rebaseSemanticEditDocument,
+  replaySemanticEditsForDrafts,
   redoSemanticEdit,
   semanticAnchorCatalog,
   semanticEditSourceFingerprint,
@@ -36,7 +37,7 @@ import { surfaceGuidance } from "../guidance/surface-notes";
 import { availableLengthError, bufferError } from "../export/nesting-intelligence";
 import { matchStyle, styleNames } from "../style";
 import { FIELDS, applyChange, inputError, numericRangePosition, numericRangeState, stepNumericValue } from "./controls";
-import { appShellMarkup, controlsMarkup, fieldHistoryDialogContent, fieldObservationSummary, guidanceMarkup, styleMarkup, surfaceMarkup, artworkLibraryResultsMarkup, nestIntelReadout, specTableMarkup, checkMarkup, semanticEditorHintMarkup, editorHandleControlsMarkup, inspectionMarkup, patternAnnotationKeyMarkup, BodyCroquisView, type ArtworkLibraryPanelData } from "./view";
+import { appShellMarkup, controlsMarkup, fieldHistoryDialogContent, fieldObservationSummary, guidanceMarkup, styleMarkup, surfaceMarkup, artworkLibraryResultsMarkup, nestIntelReadout, specTableMarkup, customOneSizeSpecMarkup, checkMarkup, semanticEditorHintMarkup, editorHandleControlsMarkup, inspectionMarkup, patternAnnotationKeyMarkup, BodyCroquisView, type ArtworkLibraryPanelData } from "./view";
 import { saveToStorage, loadFromStorage, readFromStorage, serialize, deserialize, DEFAULT_WORKSPACE, defaultStretchFabricForGarment, Workspace, SaveFile, RecoveryFile, readRecoveryFromStorage, saveRecoveryToStorage, clearRecoveryFromStorage } from "./persist";
 import { Appearance, APPEARANCE_TEXTURES, DEFAULT_APPEARANCE, applyAppearanceToSvg, hexToHsl, hslToHex, normalizeHex } from "./appearance";
 import { emptyHistory, recordHistory, redoHistory, undoHistory, HistoryState } from "./history";
@@ -73,9 +74,59 @@ import {
   tutorialStepForJourneyStep, celebrationMarkup, loadJourneyWithStatus, saveJourney,
 } from "./journey";
 import { ProjectWorkflow } from "./project-workflow";
+import {
+  customStyleCreationErrorMessage,
+  gradedMarkerAvailabilityTitle,
+  materializeCustomSizeDesign,
+  requireMatchingCaptureSession,
+  requireSavedCaptureCopy,
+} from "./custom-size-materialization";
 import { ProjectManager } from "./project-manager";
 import type { LoadedProject } from "./project-repository";
-import type { RecoveryPayload, SavedDesign } from "./project-records";
+import { isCustomOneSizeStyle, type MeasurementCaptureDraft, type RecoveryPayload, type SavedDesign } from "./project-records";
+import {
+  addCaptureReadingForField,
+  acceptCapturePreset,
+  assessCaptureField,
+  createMeasurementCaptureSession,
+  measurementCaptureReadiness,
+  selectCaptureReading,
+  selectedCaptureValues,
+  type CaptureMeasurer,
+  type MeasurementCaptureSession,
+} from "./measurement-capture";
+import { getFieldDefinitions, type FieldDefinition } from "./field-provenance";
+import * as measurementHelp from "./measurement-help";
+import {
+  renderMeasurementCapturePanel,
+  type MeasurementCapturePanelModel,
+} from "./measurement-capture-panel";
+import {
+  approveGradePlan,
+  createGradePlanDraft,
+  gradePlanIsStale,
+  parseGradePlanRecord,
+  reviewGradePlan,
+  updateGradePlanDraft,
+  type GradePlanBasis,
+  type GradePlanRecord,
+  type GradePlanSize,
+} from "./grade-plan";
+import { createGradePlanContext, type GradePlanContext } from "./grade-plan-context";
+import { gradePlanPanelMarkup } from "./grade-plan-panel";
+import { evaluateGradePlanRun, type GradePlanRunEvaluation, type GradePlanRunSize } from "./grade-plan-run";
+import { gradePlanRunMarkup } from "./grade-plan-run-panel";
+import { GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION, jcsSha256Hex } from "./style-revisions";
+
+function escapeUiText(value: string): string {
+  return value.replace(/[&<>"']/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[character]!);
+}
+
+function pomExceptionRows(run: readonly GradePlanRunSize[]): { sizeLabel: string; pomLabel: string; reason: string }[] {
+  return run.flatMap((size) => size.poms.flatMap((pom) => pom.exceptionReason
+    ? [{ sizeLabel: size.label, pomLabel: pom.label, reason: pom.exceptionReason }]
+    : []));
+}
 
 // The desktop shell's bridge (Slice 46) — see electron/preload.cts for the
 // other end. Optional: undefined everywhere this app runs as a plain web page.
@@ -123,8 +174,23 @@ interface PatternMeasurementNavigation {
   readonly destinations: readonly PatternMeasurementDestination[];
 }
 
+export interface CaptureDraft {
+  readonly rawValue: string;
+  readonly unit: string;
+  readonly error: string | null;
+  readonly sourceNote: string;
+  readonly method: string;
+  readonly captureDate: string;
+  readonly measurer: CaptureMeasurer | "";
+}
+
+const emptyCaptureDraft = (unit = "cm"): CaptureDraft => ({
+  rawValue: "", unit, error: null, sourceNote: "", method: "", captureDate: "", measurer: "",
+});
+
 const HISTORY_LIMIT = 30;
 let activeMountRoot: HTMLElement | null = null;
+let activeMountGeneration = 0;
 let semanticOperationSequence = 0;
 
 function nextSemanticOperationId(): string {
@@ -149,6 +215,103 @@ export interface MountAppOptions {
   readonly inspectArtworkFile?: (file: File) => Promise<InspectedArtworkFile>;
   /** The browser entry opens/migrates this local project before mount. */
   readonly projectWorkflow?: ProjectWorkflow;
+}
+
+/** Fail closed when the guided route has no current session for its garment. */
+export function guidedCaptureStageBlocker(
+  session: MeasurementCaptureSession | null,
+  recipeId: string,
+): StageBlocker | null {
+  if (!session || session.recipeId !== recipeId) {
+    return { message: "Start guided capture for the selected garment before continuing.", step: "measure" };
+  }
+  const firstUnresolved = measurementCaptureReadiness(session).unresolvedFieldIds[0];
+  if (firstUnresolved) {
+    const help = measurementHelp.measurementHelpFor(recipeId, firstUnresolved);
+    return {
+      message: `${help?.label ?? firstUnresolved} needs an explicit value or a selected digital preset.`,
+      field: firstUnresolved,
+      step: "measure",
+    };
+  }
+  if (recipeId === "woven-shirt") {
+    // Readiness above guarantees each recipe field has one valid selection.
+    const values = selectedCaptureValues(session)!;
+    const length = values.length;
+    const hipStationY = wovenHipStationY(length, values.armholeDepth, values.hipDepth);
+    if (hipStationY > length) {
+      return {
+        message: `Current Woven shirt geometry puts the hip station at y=${hipStationY.toFixed(2)} cm, below the hem at y=${length} cm. Increase top length or reduce underarm drop or hip depth; recorded values stay unchanged.`,
+        field: session.fields.find((candidate) => candidate.inputKey === "hipDepth")!.fieldId,
+        step: "measure",
+      };
+    }
+  }
+  return null;
+}
+
+/** Keep only meaningful, user-entered guided drafts in the style record. */
+export function serializeCaptureDrafts(
+  session: MeasurementCaptureSession,
+  drafts: ReadonlyMap<string, CaptureDraft>,
+): MeasurementCaptureDraft[] {
+  return session.fields.flatMap((field) => {
+    const draft = drafts.get(field.fieldId);
+    if (!draft) return [];
+    const definition = getFieldDefinitions(session.recipeId).find((item) => item.id === field.fieldId)!;
+    const isEmptyDefault = draft.rawValue === "" && draft.unit === definition.unit
+      && draft.sourceNote === "" && draft.method === "" && draft.captureDate === "" && draft.measurer === "";
+    if (isEmptyDefault) return [];
+    return [{
+      fieldId: field.fieldId,
+      rawValue: draft.rawValue,
+      enteredUnit: draft.unit,
+      sourceNote: draft.sourceNote,
+      captureMethod: draft.method,
+      captureDate: draft.captureDate,
+      measurer: draft.measurer,
+    }];
+  });
+}
+
+export function captureSessionMatchesRecipe(
+  session: MeasurementCaptureSession | null,
+  recipeId: string,
+): boolean {
+  return session !== null && session.recipeId === recipeId;
+}
+
+export function captureSessionForRecipe(
+  session: MeasurementCaptureSession | null,
+  recipeId: string,
+  create: () => MeasurementCaptureSession,
+): MeasurementCaptureSession {
+  if (captureSessionMatchesRecipe(session, recipeId)) return session!;
+  return create();
+}
+
+export function renderForCaptureSession(
+  session: MeasurementCaptureSession | null,
+  recipeId: string,
+  render: (session: MeasurementCaptureSession) => string,
+): string {
+  if (!captureSessionMatchesRecipe(session, recipeId)) return "";
+  return render(session!);
+}
+
+/** Apply only an explicitly selected, non-conflicting reading to its digital draft. */
+export function applySelectedCaptureValue(
+  session: MeasurementCaptureSession,
+  recipeId: string,
+  fieldId: string,
+  apply: (definition: FieldDefinition, canonicalValue: number) => void,
+): void {
+  const captureField = session.fields.find((field) => field.fieldId === fieldId);
+  const definition = getFieldDefinitions(recipeId).find((field) => field.id === fieldId);
+  const selected = captureField?.readings.find((reading) => reading.id === captureField.selectedReadingId);
+  if (!captureField || !definition || !selected || selected.canonicalValue === null) return;
+  if (assessCaptureField(captureField, recipeId).issue === "conflicting-evidence") return;
+  apply(definition, selected.canonicalValue);
 }
 
 /** Fail closed if an export action somehow bypasses its rendered readiness gate. */
@@ -260,6 +423,8 @@ export function defaultArtworkAssetStore(): ArtworkAssetStore {
 
 export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void {
   activeMountRoot = root;
+  const mountGeneration = ++activeMountGeneration;
+  const isCurrentMount = (): boolean => activeMountRoot === root && activeMountGeneration === mountGeneration;
   const projectWorkflow = options.projectWorkflow;
   const saved = projectWorkflow?.snapshot.activeStyle.design ?? loadFromStorage();
   const activeFieldObservations = () => {
@@ -308,17 +473,131 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
 
   // The guided journey (F2): a coached Start→Output path over the existing views.
   // Its state is presentation-only and persisted separately from the pattern.
-  const journeyLoad = loadJourneyWithStatus(Boolean(saved));
+  // The first-run repository creates a starter design so the editor has valid
+  // data, but that starter is not evidence that the person has left Garment.
+  const journeyLoad = loadJourneyWithStatus(Boolean(saved && !projectWorkflow?.initializedFirstRun));
   let tutorialStorageUnavailable = !journeyLoad.storageAvailable;
   let journey = journeyLoad.state;
+  let measurementRoute: "guided" | "editor" = "editor";
+  let measurementCapture: MeasurementCaptureSession | null = null;
+  let customStyleCreatePending = false;
+  const captureDrafts = new Map<string, CaptureDraft>();
+  let captureAnnouncement: string | null = null;
+  let captureIdSequence = 0;
+  const captureUuid = (): string => {
+    if (globalThis.crypto?.randomUUID) return globalThis.crypto.randomUUID();
+    captureIdSequence += 1;
+    const time = Date.now().toString(16).padStart(12, "0").slice(-12);
+    const tail = captureIdSequence.toString(16).padStart(12, "0").slice(-12);
+    return `00000000-0000-4000-8000-${(time + tail).slice(-12)}`;
+  };
+  const captureNow = (): string => new Date().toISOString();
+  type GradePlanPanelState = {
+    readonly styleId: string;
+    loading: boolean;
+    plan: GradePlanRecord | null;
+    captureAvailable: boolean;
+    context: GradePlanContext | null;
+    message: string | null;
+    dirty: boolean;
+    semanticPending?: boolean;
+  };
+  let gradePlanState: GradePlanPanelState | null = null;
+  let gradePlanLoadSequence = 0;
+  let gradePlanSelectedLabel: string | null = null;
+  let captureSaveTimer: number | null = null;
+  let captureWrite = Promise.resolve();
+  let captureWritesPending = 0;
+  let captureSaveError: string | null = null;
+  const saveCaptureNow = async (): Promise<void> => {
+    if (captureSaveTimer !== null) {
+      window.clearTimeout(captureSaveTimer);
+      captureSaveTimer = null;
+    }
+    // A debounce can only be scheduled after these values are present, and all
+    // state transitions flush it before clearing the active capture.
+    const workflow = projectWorkflow!;
+    const session = measurementCapture!;
+    const drafts = serializeCaptureDrafts(session, captureDrafts);
+    captureWritesPending++;
+    const write = captureWrite.then(async () => {
+      projectPersistenceState.textContent = "Saving guided measurements…";
+      projectPersistenceState.dataset.state = "saving";
+      await workflow.saveMeasurementCapture(session, drafts);
+      captureSaveError = null;
+      if (measurementCapture?.id === session.id) {
+        projectPersistenceState.textContent = "Guided measurements saved in this style";
+        projectPersistenceState.dataset.state = "saved";
+      }
+    });
+    captureWrite = write.catch((error: unknown) => {
+      captureSaveError = error instanceof Error ? error.message : "Guided measurements could not be saved.";
+      projectPersistenceState.textContent = captureSaveError;
+      projectPersistenceState.dataset.state = "failed";
+    }).finally(() => { captureWritesPending--; });
+    await captureWrite;
+    if (captureSaveError) throw new Error(captureSaveError);
+    if (projectWorkflow && customOneSizeStyle() && projectWorkflow.snapshot.activeStyle.recipeId === session.recipeId) {
+      loadGradePlanPanel(projectWorkflow.snapshot.activeStyle.id);
+    }
+  };
+  const scheduleCaptureSave = (): void => {
+    if (!projectWorkflow || !measurementCapture) return;
+    if (captureSaveTimer !== null) window.clearTimeout(captureSaveTimer);
+    captureSaveTimer = window.setTimeout(() => {
+      captureSaveTimer = null;
+      void saveCaptureNow().catch(() => undefined);
+    }, 250);
+  };
+  const flushCaptureSave = async (): Promise<void> => {
+    if (captureSaveTimer !== null) await saveCaptureNow();
+    await captureWrite;
+    if (captureSaveError) throw new Error(captureSaveError);
+  };
+  const openGuidedCapture = async (): Promise<void> => {
+    try {
+      if (projectWorkflow) {
+        const record = await projectWorkflow.loadMeasurementCapture(recipe.name);
+        captureDrafts.clear();
+        if (record) {
+          measurementCapture = record.session;
+          for (const draft of record.drafts) captureDrafts.set(draft.fieldId, {
+            rawValue: draft.rawValue, unit: draft.enteredUnit, error: null, sourceNote: draft.sourceNote,
+            method: draft.captureMethod, captureDate: draft.captureDate, measurer: draft.measurer,
+          });
+        } else {
+          measurementCapture = createMeasurementCaptureSession(
+            captureUuid(), recipe.name, captureNow(), projectWorkflow.snapshot.activeStyle.id,
+          );
+        }
+      } else {
+        captureDrafts.clear();
+        measurementCapture = createMeasurementCaptureSession(captureUuid(), recipe.name, captureNow());
+      }
+      captureSaveError = null;
+      measurementRoute = "guided";
+      captureAnnouncement = measurementCapture.fields.some((field) => field.readings.length > 0)
+        ? "Your saved guided measurements and unfinished entries are ready to review."
+        : "Guided measurement capture opened. Each field explains its meaning and use.";
+      setStep("measure");
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Saved guided measurements could not be loaded.";
+      projectPersistenceState.textContent = message;
+      projectPersistenceState.dataset.state = "failed";
+      flash(message, BLUEPRINT.lineActive);
+    }
+  };
   let celebrating = false; // the light, dismissible export confirmation
   let styleReviewed = false;
   let checkReviewed = false;
   let outputRevision = 0;
   let savedRevision = 0;
+  let designRevision = 0;
+  let savedDesignRevision = 0;
+  let persistentOutputRevision = 0;
+  let savedPersistentOutputRevision = 0;
   let history: HistoryState<DraftSnapshot> = emptyHistory();
   let historyPresent: DraftSnapshot | null = null;
-  let historyRestoring = false;
   let recoveryTrackingEnabled = false;
   let pendingRecovery: Omit<RecoveryFile, "v"> | null = projectWorkflow?.snapshot.activeRecovery?.payload ?? null;
   if (!projectWorkflow) {
@@ -407,7 +686,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     availableInput.setAttribute("aria-invalid", String(readout.availableError !== ""));
     availableInput.setCustomValidity(readout.availableError);
   };
-  let exportStep = initialWorkspace.exportStep;
+  let exportStep = projectWorkflow && isCustomOneSizeStyle(projectWorkflow.snapshot.activeStyle)
+    ? 0 : initialWorkspace.exportStep;
   let activeDim: string | null = null; // the measurement field spotlighted on the body view
   let hoveredDim: string | null = null;
   let focusedDim: string | null = null;
@@ -427,16 +707,28 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     const { ok: _ok, ...design } = result;
     return design;
   };
-  const blankSavedDesign = (): SavedDesign => {
+  const gradePlanDesignIsSaved = (): boolean => designRevision === savedDesignRevision;
+  const gradePlanOutputBaseIsSaved = (): boolean => gradePlanDesignIsSaved()
+    && persistentOutputRevision === savedPersistentOutputRevision;
+  const gradePlanOutputSaveMessage = "Save the style, then refresh, review, and approve its grade plan before exporting graded sizes or whole-run files.";
+  const blankSavedDesignForGarment = (
+    blankRecipe: GarmentRecipe = garmentByName(DEFAULT_WORKSPACE.garment),
+  ): SavedDesign => {
     const workspace = {
       ...DEFAULT_WORKSPACE,
-      stretchFabric: defaultStretchFabricForGarment(DEFAULT_WORKSPACE.garment),
+      garment: blankRecipe.name,
+      targetStyle: blankRecipe.styles[0]!.name,
+      stretchFabric: defaultStretchFabricForGarment(blankRecipe.name),
+      exportStep: 0,
+      nestScope: "single" as const,
     };
-    const result = deserialize(serialize(STANDARD_M, DEFAULT_FABRIC, {}, workspace, DEFAULT_APPEARANCE));
+    const result = deserialize(serialize(STANDARD_M, DEFAULT_FABRIC,
+      { [blankRecipe.name]: defaultGarmentOptions(blankRecipe.options ?? []) }, workspace, DEFAULT_APPEARANCE));
     if (!result.ok) throw new Error(`Default style is invalid: ${result.error}`);
     const { ok: _ok, ...design } = result;
     return design;
   };
+  const blankSavedDesign = (): SavedDesign => blankSavedDesignForGarment();
   const copyOptions = (options: GarmentOptionsByRecipe): GarmentOptionsByRecipe =>
     Object.fromEntries(Object.entries(options).map(([name, values]) => [name, { ...values }])) as GarmentOptionsByRecipe;
   const currentRawMeasurements = (): Partial<Record<keyof Measurements, string>> =>
@@ -589,6 +881,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     }
     const result = evaluateSemanticEditDocument(
       recipe, measurements, recipeOptions(), semanticEdits, source.fingerprint, source.sourceInputs,
+      customOneSizeStyle() ? [{ label: "One size", step: 0 }] : recipe.sizes,
     );
     semanticEvaluationCache = { sourceKey: source.key, document: semanticEdits, result };
     return { source, evaluation: result };
@@ -646,9 +939,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       },
     };
   };
-  const currentAllowances = (): AllowanceSpec => recipe.name === "woven-shirt"
-    ? wovenShirtAllowances(recipeOptions().hemTurn)
+  const allowancesForOptions = (options: GarmentOptions): AllowanceSpec => recipe.name === "woven-shirt"
+    ? wovenShirtAllowances(options.hemTurn)
     : recipe.allowances;
+  const currentAllowances = (): AllowanceSpec => allowancesForOptions(recipeOptions());
   let surfaceRoleCacheKey = "";
   let surfaceRoleCache: readonly string[] = [];
   const surfaceRoleSuggestions = (): readonly string[] => {
@@ -865,7 +1159,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     try {
       return !guide(recipe, measurements, recipeOptions()).some((note) => note.level === "warn")
         && materialCompatibilityNote() === null
-        && garmentReport(recipe, measurements, recipeOptions()).ok;
+        && garmentReportForCurrentStyle(recipe).ok;
     } catch {
       return false;
     }
@@ -962,19 +1256,375 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     action.hidden = !assembledTarget;
   };
 
+  const measurementCapturePanel = (): string => renderForCaptureSession(
+    measurementCapture,
+    recipe.name,
+    (session) => {
+      const definitions = getFieldDefinitions(recipe.name);
+      const panelModel: MeasurementCapturePanelModel = {
+        panelId: "g03-measurement-capture",
+        heading: `${recipe.label} guided measurements and targets`,
+        intro: "Add body values you know, or choose an explicitly labeled digital preset. Target values and design controls stay separate from body measurements. No measuring procedure is qualified here.",
+        emptyMessage: "No input fields are available for this garment.",
+        announcement: captureAnnouncement,
+        fields: session.fields.map((captureField) => {
+          const definition = definitions.find((candidate) => candidate.id === captureField.fieldId)!;
+          const help = measurementHelp.measurementHelpFor(recipe.name, captureField.fieldId);
+          const assessment = assessCaptureField(captureField, recipe.name);
+          const draft = captureDrafts.get(captureField.fieldId);
+          return {
+            fieldId: captureField.fieldId,
+            label: definition.label,
+            semanticKind: captureField.semanticKind,
+            referenceFrame: definition.referenceFrame,
+            unit: definition.unit,
+            unitOptions: definition.unit === "cm" ? ["cm", "in"] : [definition.unit],
+            meaning: help?.meaning ?? definition.meaning,
+            currentUse: help?.draftUse ?? "Current draft use is not described.",
+            sourceCaveat: help
+              ? `${help.qualificationNote} ${help.limits}`
+              : definition.captureBoundary,
+            guardrail: help?.guardrailNote ?? `Existing software guardrail ${definition.min}–${definition.max} ${definition.unit}; not an industry standard.`,
+            draftRawValue: draft?.rawValue ?? "",
+            draftUnit: draft?.unit ?? definition.unit,
+            draftError: draft?.error ?? null,
+            draftSourceNote: draft?.sourceNote ?? "",
+            draftCaptureMethod: draft?.method ?? "",
+            draftCaptureDate: draft?.captureDate ?? "",
+            draftMeasurer: draft?.measurer ?? "",
+            readings: captureField.readings,
+            selectedReadingId: captureField.selectedReadingId,
+            preset: {
+              label: "Standard M digital preset",
+              valueText: `${definition.defaultValue} ${definition.unit}`,
+            },
+            state: assessment.state,
+            correction: assessment.correction,
+          };
+        }),
+      };
+      return renderMeasurementCapturePanel(panelModel);
+    },
+  );
+
+  const captureValueForField = (fieldId: string): void => {
+    // Every caller has just updated a field in this same session.
+    const session = measurementCapture!;
+    applySelectedCaptureValue(session, recipe.name, fieldId, (definition, canonicalValue) => {
+      const rawValue = String(canonicalValue);
+      if (definition.inputKind === "measurement") {
+        // Field definitions are generated from the shared FIELDS catalog.
+        const field = FIELDS.find((candidate) => candidate.id === definition.inputKey)!;
+        measurements = applyChange(measurements, field, rawValue);
+        const input = [...root.querySelectorAll<HTMLInputElement>("#controls-panel input[data-field]")]
+          .find((candidate) => candidate.dataset.field === definition.inputKey);
+        if (input) input.value = rawValue;
+      } else {
+        garmentOptions = {
+          ...garmentOptions,
+          [recipe.name]: { ...recipeOptions(), [definition.inputKey]: canonicalValue },
+        };
+        const input = [...root.querySelectorAll<HTMLInputElement>("#controls-panel input[data-option]")]
+          .find((candidate) => candidate.dataset.option === definition.inputKey);
+        if (input) input.value = rawValue;
+      }
+      markOutputDirty();
+    });
+  };
+
   const readiness = (): StageReadiness => ({
-    inputsOk: inputErrors().size === 0 && implausibleFields(measurements, recipe.fields).length === 0,
+    inputsOk: journey.hasAdvancedFromGarment === true
+      && (measurementRoute !== "guided" || (measurementCapture !== null
+        && measurementCapture.recipeId === recipe.name
+        && measurementCaptureReadiness(measurementCapture).ready))
+      && inputErrors().size === 0
+      && implausibleFields(measurements, recipe.fields).length === 0,
     styleReviewed,
     checksOk: designValid(),
     checkReviewed,
     exported: journey.exported,
   });
-  const canExport = (): boolean => styleReviewed && checkReviewed
-    && baseDesignValid() && semanticSizeReady(exportStep);
-  const canExportRun = (): boolean => styleReviewed && checkReviewed
-    && baseDesignValid() && semanticRunReady();
+  const customOneSizeStyle = (): boolean => !!projectWorkflow && isCustomOneSizeStyle(projectWorkflow.snapshot.activeStyle);
+  const gradePlanApproved = (): boolean => !!projectWorkflow && !!gradePlanState?.plan && !!gradePlanState.context
+    && gradePlanState.styleId === projectWorkflow.snapshot.activeStyle.id
+    && gradePlanDesignIsSaved()
+    && gradePlanState.context.binding.revisionHeadId === projectWorkflow.snapshot.activeStyle.revisionHeadId
+    && gradePlanState.plan.status === "approved" && !gradePlanIsStale(gradePlanState.plan, gradePlanState.context.binding);
+  let gradePlanRunCacheKey: string | null = null;
+  let gradePlanRunCache: GradePlanRunEvaluation | null = null;
+  const currentGradePlanRun = (): GradePlanRunEvaluation => {
+    const semantic = semanticEdits ? currentSemanticState() : null;
+    const options = recipeOptions();
+    const cacheKey = JSON.stringify({
+      recipe: recipe.name, measurements, options, designRevision,
+      plan: gradePlanState?.plan ?? null, binding: gradePlanState?.context?.binding ?? null,
+      targets: gradePlanState?.context?.targets ?? null, semanticEdits,
+      semanticSource: semantic ? [semantic.source.status, semantic.source.fingerprint, semantic.source.error] : null,
+    });
+    if (cacheKey === gradePlanRunCacheKey && gradePlanRunCache) return gradePlanRunCache;
+    const adjust = semanticEdits ? (
+      size: { readonly label: string; readonly position: number },
+      sizeMeasurements: Measurements,
+      _sizeOptions: GarmentOptions,
+      blockValue: Block,
+    ) => {
+      if (semantic?.source.status !== "ready" || !semantic.source.fingerprint) {
+        return { block: blockValue, issues: [semantic?.source.error ?? "Saved semantic edits need review before the graded run can be generated."] };
+      }
+      const [replayed] = replaySemanticEditsForDrafts(recipe, semanticEdits!, semantic.source.fingerprint, [{
+        label: size.label, measurements: sizeMeasurements, block: blockValue,
+      }]);
+      return { block: replayed!.block, issues: replayed!.issues.map((issue) => issue.message) };
+    } : undefined;
+    gradePlanRunCache = evaluateGradePlanRun(recipe, measurements, options, gradePlanState?.plan ?? null,
+      gradePlanState?.context ?? null, adjust);
+    gradePlanRunCacheKey = cacheKey;
+    return gradePlanRunCache;
+  };
+  const gradePlanLabelKey = (label: string): string => label.toLocaleLowerCase("en-US");
+  const selectedGradePlanSize = () => gradePlanSelectedLabel === null
+    ? null : currentGradePlanRun().sizes.find((size) => gradePlanLabelKey(size.label) === gradePlanLabelKey(gradePlanSelectedLabel!));
+  const loadGradePlanPanel = (styleId: string): void => {
+    // Callers guard for an active custom style before starting this async load.
+    const workflow = projectWorkflow!;
+    const sequence = ++gradePlanLoadSequence;
+    const style = workflow.snapshot.activeStyle;
+    gradePlanState = {
+      styleId, loading: true, plan: null, captureAvailable: false, context: null, message: null,
+      dirty: false, semanticPending: false,
+    };
+    void (async () => {
+      try {
+        const [capture, plan] = await Promise.all([
+          workflow.loadMeasurementCapture(style.recipeId),
+          workflow.loadGradePlan(style.recipeId),
+        ]);
+        const semanticState = semanticEdits ? currentSemanticState() : null;
+        if (semanticState?.source.status === "checking") {
+          if (!isCurrentMount() || sequence !== gradePlanLoadSequence || workflow.snapshot.activeStyle.id !== styleId) return;
+          gradePlanState = {
+            styleId, loading: false, plan, captureAvailable: capture !== null, context: null, message: null,
+            dirty: false, semanticPending: true,
+          };
+          draw();
+          return;
+        }
+        const semanticBlock = semanticEdits ? semanticSizeBlock(0) : null;
+        const semanticUnavailable = semanticEdits
+          && (semanticState?.source.status !== "ready" || semanticBlock === null);
+        const context = capture
+          ? semanticUnavailable
+            ? { ok: false as const, errors: [semanticState?.source.error
+              ?? "Review or rebase the saved pattern before creating grade-plan targets."] }
+            : await createGradePlanContext(workflow.snapshot.project.id, workflow.snapshot.activeStyle, capture,
+              undefined, semanticEdits ? semanticBlock! : undefined)
+          : null;
+        if (!isCurrentMount() || sequence !== gradePlanLoadSequence || workflow.snapshot.activeStyle.id !== styleId) return;
+        gradePlanState = {
+          styleId, loading: false, plan, captureAvailable: capture !== null,
+          context: context?.ok ? context.value : null,
+          message: context && !context.ok ? context.errors.join(" ") : null,
+          dirty: false,
+        };
+        if (plan?.status === "approved" && plan.baseSizeLabel
+          && plan.sizes.some((size) => gradePlanLabelKey(size.label) === gradePlanLabelKey(plan.baseSizeLabel!))) {
+          gradePlanSelectedLabel = null;
+        }
+        syncExportSizes();
+        draw();
+      } catch (error) {
+        if (!isCurrentMount() || sequence !== gradePlanLoadSequence || workflow.snapshot.activeStyle.id !== styleId) return;
+        gradePlanState = {
+          styleId, loading: false, plan: null, captureAvailable: false, context: null,
+          message: error instanceof Error ? error.message : "The grade plan could not be loaded.", dirty: false,
+        };
+        draw();
+      }
+    })();
+  };
+  const gradePlanPanel = (): string => {
+    if (!projectWorkflow || !customOneSizeStyle()) {
+      if (gradePlanState) { gradePlanState = null; gradePlanLoadSequence++; }
+      return "";
+    }
+    const style = projectWorkflow.snapshot.activeStyle;
+    if (!gradePlanState || gradePlanState.styleId !== style.id) {
+      loadGradePlanPanel(style.id);
+    }
+    else if (gradePlanState.context && gradePlanState.context.binding.revisionHeadId !== style.revisionHeadId) {
+      loadGradePlanPanel(style.id);
+    }
+    else if (gradePlanState.semanticPending && semanticEdits
+      && currentSemanticState()?.source.status !== "checking") {
+      loadGradePlanPanel(style.id);
+    }
+    const state = gradePlanState!;
+    const context = state.context;
+    // The grade-plan repository load and semantic-source verification can
+    // finish in either order. Keep the visible blocker tied to the live
+    // verifier state so the panel never tells the user to verify a pattern
+    // while the app is already doing that work in the background.
+    const semanticPending = state.semanticPending || (!!semanticEdits
+      && currentSemanticState()?.source.status === "checking");
+    const stale = !!state.plan && !state.semanticPending && (!context || gradePlanIsStale(state.plan, context.binding));
+    const blocker = semanticPending ? "Verifying the saved pattern before creating grade-plan targets…"
+      : state.loading ? "Loading the saved measurement capture and grade plan…"
+      : !state.captureAvailable ? "Save a measurement capture for this style before creating a grade plan."
+        : !context ? state.message! : null;
+    return gradePlanPanelMarkup({
+      recipeLabel: recipe.label,
+      plan: state.plan,
+      stale,
+      canCreate: !state.loading && !state.plan && !!context,
+      createBlocker: blocker,
+      message: state.message,
+    });
+  };
+  const gradePlanTimestamp = (prior?: string): string => {
+    const now = Date.now();
+    const time = prior ? Math.max(now, Date.parse(prior) + 1) : now;
+    return new Date(time).toISOString();
+  };
+  const requiredGradePlanControl = <T extends Element>(selector: string): T => {
+    const control = styleHost.querySelector<T>(selector);
+    if (!control) throw new Error("The grade-plan form changed before it could be saved. Reopen the panel and try again.");
+    return control;
+  };
+  const collectGradePlanDraft = (plan: GradePlanRecord):
+    | { plan: GradePlanRecord; error: null }
+    | { plan: null; error: string } => {
+    const basisKind = requiredGradePlanControl<HTMLSelectElement>("[data-grade-plan-basis]").value;
+    let basis: GradePlanBasis | null = null;
+    if (basisKind === "population-source") {
+      basis = {
+        kind: "population-source",
+        population: requiredGradePlanControl<HTMLInputElement>("[data-grade-plan-population]").value.trim(),
+        sourceName: requiredGradePlanControl<HTMLInputElement>("[data-grade-plan-source-name]").value.trim(),
+        sourceVersion: requiredGradePlanControl<HTMLInputElement>("[data-grade-plan-source-version]").value.trim(),
+        sourceScope: requiredGradePlanControl<HTMLInputElement>("[data-grade-plan-source-scope]").value.trim(),
+      };
+    } else if (basisKind === "user-authored-digital-rule") {
+      basis = {
+        kind: "user-authored-digital-rule",
+        decision: requiredGradePlanControl<HTMLInputElement>("[data-grade-plan-decision]").value.trim(),
+        digitalRange: requiredGradePlanControl<HTMLInputElement>("[data-grade-plan-digital-range]").value.trim(),
+      };
+    } else if (basisKind !== "") return { plan: null, error: "Choose a supported grade-plan basis." };
+    const labels = requiredGradePlanControl<HTMLTextAreaElement>("[data-grade-plan-sizes]").value
+      .split(/\r?\n/).map((label) => label.trim()).filter(Boolean);
+    const baseSizeLabel = requiredGradePlanControl<HTMLInputElement>("[data-grade-plan-base-size]").value.trim() || null;
+    const baseIndex = labels.findIndex((label) => label.toLocaleLowerCase("en-US") === baseSizeLabel?.toLocaleLowerCase("en-US"));
+    const sizes: GradePlanSize[] = labels.map((label, index) => ({ label, position: index - baseIndex }));
+    const exceptions = [...styleHost.querySelectorAll<HTMLInputElement>("[data-grade-plan-exception]:checked")].map((checkbox) => ({
+      targetId: checkbox.dataset.targetId!,
+      sizeLabel: checkbox.dataset.sizeLabel!,
+      reason: [...styleHost.querySelectorAll<HTMLTextAreaElement>("[data-grade-plan-exception-reason]")]
+        .find((input) => input.dataset.targetId === checkbox.dataset.targetId && input.dataset.sizeLabel === checkbox.dataset.sizeLabel)!.value.trim(),
+    }));
+    const baseChanged = (plan.baseSizeLabel ?? "").toLocaleLowerCase("en-US") !== (baseSizeLabel ?? "").toLocaleLowerCase("en-US");
+    const deltaInputs = [...styleHost.querySelectorAll<HTMLInputElement>("[data-grade-plan-delta]")];
+    const targets = plan.targets.map((target) => ({
+      ...target,
+      deltas: sizes.map((size) => {
+        if (size.label.toLocaleLowerCase("en-US") === (baseSizeLabel ?? "").toLocaleLowerCase("en-US")) {
+          return { sizeLabel: size.label, deltaFromBase: 0 };
+        }
+        if (baseChanged) return { sizeLabel: size.label, deltaFromBase: null };
+        const input = deltaInputs.find((candidate) => candidate.dataset.targetId === target.targetId
+          && candidate.dataset.sizeLabel?.toLocaleLowerCase("en-US") === size.label.toLocaleLowerCase("en-US"));
+        // The panel renders one control from this same target/size pair for every cell.
+        const raw = input!.value.trim();
+        const value = raw === "" ? null : Number(raw);
+        if (value !== null && !Number.isFinite(value)) throw new Error("Each size change must be a finite number.");
+        return { sizeLabel: size.label, deltaFromBase: value };
+      }),
+    }));
+    const updated = updateGradePlanDraft(plan, {
+      basis,
+      declaredRange: requiredGradePlanControl<HTMLTextAreaElement>("[data-grade-plan-range]").value.trim(),
+      baseSizeLabel,
+      sizes,
+      targets,
+      exceptions,
+    }, gradePlanTimestamp(plan.updatedAt));
+    return updated.ok ? { plan: updated.value, error: null } : { plan: null, error: updated.errors.join(" ") };
+  };
+  const saveGradePlanPanelAction = async (action: string): Promise<void> => {
+    if (!projectWorkflow || !gradePlanState || !gradePlanState.context) return;
+    const state = gradePlanState;
+    const context = state.context!;
+    try {
+      if (action === "create") {
+        if (state.plan) throw new Error("A grade plan already exists for this style.");
+        const created = createGradePlanDraft(context.binding, context.targets, gradePlanTimestamp());
+        if (!created.ok) throw new Error(created.errors.join(" "));
+        state.plan = await projectWorkflow.saveGradePlan(created.value);
+        state.message = "Draft saved. Add the basis, size range and explicit changes before review.";
+      } else if (action === "refresh") {
+        if (!state.plan) throw new Error("There is no grade plan to refresh.");
+        const fresh = createGradePlanDraft(context.binding, context.targets, gradePlanTimestamp(state.plan.updatedAt));
+        if (!fresh.ok) throw new Error(fresh.errors.join(" "));
+        const refreshed = parseGradePlanRecord({
+          ...fresh.value, revision: state.plan.revision + 1, createdAt: state.plan.createdAt,
+        });
+        if (!refreshed.ok) throw new Error(refreshed.errors.join(" "));
+        state.plan = await projectWorkflow.saveGradePlan(refreshed.value);
+        state.message = "Base refreshed. Re-enter the basis, size rules and every size change; prior approval was cleared.";
+      } else if (action === "approve") {
+        if (!state.plan || state.dirty) throw new Error("Save and review your current edits before approval.");
+        const approved = approveGradePlan(state.plan, context.targets.map((target) => target.targetId), context.binding,
+          gradePlanTimestamp(state.plan.updatedAt));
+        if (!approved.ok) throw new Error(approved.errors.join(" "));
+        state.plan = await projectWorkflow.saveGradePlan(approved.value);
+        state.message = "Grade plan approved and recorded. Generating each declared size and reconciling its exact POM targets…";
+      } else if (action === "save-draft" || action === "review") {
+        if (!state.plan) throw new Error("Create a grade plan first.");
+        const collected = collectGradePlanDraft(state.plan);
+        if (!collected.plan) throw new Error(collected.error);
+        state.plan = await projectWorkflow.saveGradePlan(collected.plan);
+        if (action === "review") {
+          const reviewed = reviewGradePlan(state.plan, context.targets.map((target) => target.targetId), context.binding,
+            gradePlanTimestamp(state.plan.updatedAt));
+          if (!reviewed.ok) throw new Error(reviewed.errors.join(" "));
+          state.plan = await projectWorkflow.saveGradePlan(reviewed.value);
+          state.message = "Review recorded. Confirm the plan, then approve it.";
+        } else state.message = "Draft saved. Review becomes available when every required item is complete.";
+      }
+      state.dirty = false;
+    } catch (error) {
+      state.message = error instanceof Error ? error.message : "The grade-plan action could not be completed.";
+    }
+    draw();
+    syncExportSizes();
+    projectManager?.refresh();
+  };
+  const selectedOutputStep = (): number => customOneSizeStyle() ? 0 : exportStep;
+  const garmentReportForCurrentStyle = (checkRecipe: GarmentRecipe) =>
+    garmentReport(checkRecipe, measurements, recipeOptions(), { includeSizeRun: !customOneSizeStyle() });
+  const canExport = (): boolean => styleReviewed && checkReviewed && baseDesignValid()
+    && (customOneSizeStyle()
+      ? gradePlanSelectedLabel === null ? semanticSizeReady(0) : gradePlanOutputBaseIsSaved() && gradePlanApproved()
+        && selectedGradePlanSize()?.ready === true
+        && selectedGradePlanSize()?.poms.every((pom) => pom.exceptionReason === null) === true
+      : semanticSizeReady(selectedOutputStep()));
+  const canExportRun = (): boolean => styleReviewed && checkReviewed && baseDesignValid()
+    && (customOneSizeStyle()
+      ? gradePlanOutputBaseIsSaved() && gradePlanApproved() && currentGradePlanRun().wholeRunReady
+      : semanticRunReady());
+  const markerAvailabilityTitle = (): string => !customOneSizeStyle()
+    ? gradedMarkerAvailabilityTitle(false)
+    : canExportRun()
+      ? "Estimate one garment in each approved declared size; this is a digital fabric-layout estimate."
+      : !gradePlanOutputBaseIsSaved() && gradePlanState?.plan ? gradePlanOutputSaveMessage
+      : gradePlanApproved()
+        ? "The approved run must pass geometry and exact POM checks at every size before marker estimation."
+        : gradedMarkerAvailabilityTitle(true, false);
   const stageBlocker = (): StageBlocker | undefined => {
     if (journey.step === "start") return undefined;
+    if (journey.step === "measure" && measurementRoute === "guided") {
+      const captureBlocker = guidedCaptureStageBlocker(measurementCapture, recipe.name);
+      if (captureBlocker) return captureBlocker;
+    }
     const error = inputErrors().entries().next().value;
     const implausible = implausibleFields(measurements, recipe.fields)[0];
     if (error) return { message: error[1], field: error[0], step: correctionStepForField(error[0]) };
@@ -1048,12 +1698,26 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     };
     parts.push(journeyBarMarkup(journey.step, status, blocker, {
       tutorialActive,
-      nextLabel: tutorialActive ? nextLabel[journey.step] : undefined,
+      nextLabel: journey.step === "start" && !tutorialActive
+        ? `Use ${recipe.label} in the full editor →`
+        : tutorialActive ? nextLabel[journey.step] : undefined,
       correctionLabel: tutorialActive && journey.step === "refine" && blocker
         ? "Review the first flagged item"
         : undefined,
       hideNextWhenBlocked: tutorialActive && journey.step === "refine",
     }));
+    if (journey.step === "start" || (journey.step === "measure" && measurementRoute === "editor")) {
+      parts.push(
+        `<section class="g03-route-choice" aria-labelledby="g03-route-title">` +
+        `<h2 id="g03-route-title">${journey.step === "start" ? `Choose how to begin with ${recipe.label}` : `Review ${recipe.label} measurements`}</h2>` +
+        `<p>Use the familiar measurement editor, or review each input with source and draft-use explanations first.</p>` +
+        `<button class="journey-secondary-action" id="journey-guided" type="button">Guide my measurements</button>` +
+        `</section>`,
+      );
+    }
+    if (journey.step === "measure" && measurementRoute === "guided") {
+      parts.push(measurementCapturePanel());
+    }
     if (celebrating) parts.push(celebrationMarkup(status.checksOk));
     root.querySelector<HTMLElement>("#readiness-host")!.innerHTML = checklistMarkup(journeyChecklist(status));
     journeyHost.innerHTML = parts.join("");
@@ -1071,10 +1735,11 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     }
     renderTutorial();
   };
-  const markOutputDirty = (designChanged = true): void => {
-    if (historyRestoring) return;
+  const markOutputDirty = (designChanged = true, persistentOutputChanged = designChanged): void => {
     outputRevision++;
+    if (designChanged || persistentOutputChanged) persistentOutputRevision++;
     if (designChanged) {
+      designRevision++;
       ignoredGuidance.clear();
       styleReviewed = false;
       checkReviewed = false;
@@ -1084,6 +1749,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     if (journey.tutorial.status === "in_progress" && journey.tutorial.step !== "welcome") {
       journey = { ...journey, tutorial: { ...journey.tutorial, step: tutorialStepForJourneyStep(journey.step) } };
     }
+    if (customOneSizeStyle() && gradePlanState?.plan?.status === "approved"
+      && (gradePlanSelectedLabel !== null || exportSizeEl.options.length > 1)
+      && (designChanged || persistentOutputChanged)) syncExportSizes();
     celebrating = false;
     persistJourney();
     if (historyPresent) {
@@ -1433,6 +2101,11 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       root.querySelector<HTMLElement>(`#error-${key}`)!.textContent = error ?? "";
     });
     syncRangeIndicators();
+    const markerControl = root.querySelector<HTMLButtonElement>("#nest-marker");
+    if (markerControl) {
+      markerControl.disabled = customOneSizeStyle() && !canExportRun();
+      markerControl.title = markerAvailabilityTitle();
+    }
     root.querySelectorAll<HTMLButtonElement>('#export-host button[id^="export-"]').forEach((button) => {
       const needsArtwork = button.id === "export-surface-sheet" && surfacePlacementsNow().length === 0;
       const allowed = button.id === "export-techpack" || button.id === "export-projector"
@@ -1442,7 +2115,16 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
           : canExport();
       button.disabled = !allowed || needsArtwork;
       button.title = !allowed
-        ? "Review Style and the current digital checks before exporting."
+        ? customOneSizeStyle() && (button.id === "export-techpack" || button.id === "export-projector")
+        ? !gradePlanOutputBaseIsSaved() && gradePlanState?.plan ? gradePlanOutputSaveMessage
+          : gradePlanApproved()
+            ? currentGradePlanRun().issues[0] ?? "Review Style and the current digital checks before exporting."
+            : "Whole-run output is unavailable until you review and approve a grade plan."
+        // An unsaved output base clears any graded-size selection in
+        // syncExportSizes() before the buttons are redrawn.
+        : customOneSizeStyle() && gradePlanSelectedLabel !== null && selectedGradePlanSize()?.ready !== true
+            ? selectedGradePlanSize()?.issues[0] ?? "The selected grade-plan size is no longer available. Refresh the plan or choose another size."
+          : "Review Style and the current digital checks before exporting."
         : needsArtwork ? "Add artwork on the Style panel first." : "";
     });
     if (errors.size > 0) {
@@ -1451,7 +2133,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         : "Draft paused — correct the flagged inputs to render your current design.";
       canvasHost.innerHTML = inspectionMarkup(`<p role="status">${pausedMessage}</p>`, previewActive ? "assembled" : view);
       renderGuidance([...errors.entries()].map(([field, text]) => ({ level: "warn", field, text })));
-      styleHost.innerHTML = styleMarkup(targetStyle, matchStyle(measurements, targetStyle, recipe.styles), styleNames(recipe.styles), false) + renderSurface();
+      styleHost.innerHTML = styleMarkup(targetStyle, matchStyle(measurements, targetStyle, recipe.styles), styleNames(recipe.styles), false) + gradePlanPanel() + renderSurface();
       syncSurfaceValidity();
       syncSurfaceAssetPreviews();
       renderJourney();
@@ -1471,7 +2153,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       ? recipeForCurrentOutputs()
       : recipe;
     const sourceCannotDraft = semanticState?.source.status === "failed" && !semanticState.source.baseBlock;
-    const failedChecks: Note[] = sourceCannotDraft ? [] : garmentReport(checkRecipe, measurements, recipeOptions()).checks
+    const failedChecks: Note[] = sourceCannotDraft ? [] : garmentReportForCurrentStyle(checkRecipe).checks
       .filter((check) => !check.ok).map((check) => ({ field: CHECK_FIELDS[check.name], level: "warn", text: `${check.name}: ${check.detail}` }));
     const materialNote = materialCompatibilityNote();
     // Piece frames for surface bounds/coverage checks, at base size. Built
@@ -1503,32 +2185,60 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       view === "fabric" && !previewActive ? "flex" : "none";
     bodyCroquisHost.style.display = view === "body" && !previewActive ? "flex" : "none";
     let canvasContent: string;
-    if (view === "nest") {
+    if (view === "nest" && customOneSizeStyle()) {
+      const run = currentGradePlanRun();
+      canvasContent = run.wholeRunReady
+        ? renderNest(run.sizes.map((size) => ({
+          label: size.label, step: size.position, measurements: size.measurements!, block: size.block!,
+        })))
+        : `<p role="status">${escapeUiText(run.issues[0]!)}</p>`;
+    } else if (view === "nest") {
       canvasContent = semanticRunReady()
         ? renderNest(gradeRun(measurements, recipe.grade, recipe.sizes, recipeForCurrentOutputs().draft, recipeOptions()))
         : `<p role="status" data-semantic-output-paused>Graded nesting is paused. Review or rebase the saved edits in Edit.</p>`;
     } else if (view === "fabric") {
-      if (nestScope === "marker" ? !semanticRunReady() : !semanticSizeReady(exportStep)) {
+      if (customOneSizeStyle() && nestScope === "marker" && !canExportRun()) {
+        canvasContent = `<p role="status">${escapeUiText(!gradePlanOutputBaseIsSaved() && gradePlanState?.plan
+          ? gradePlanOutputSaveMessage : currentGradePlanRun().issues[0]!)}</p>`;
+      } else if (customOneSizeStyle() && nestScope === "single" && gradePlanSelectedLabel !== null
+        && selectedGradePlanSize()?.ready !== true) {
+        canvasContent = `<p role="status">${escapeUiText(selectedGradePlanSize()?.issues[0] ?? "The selected grade-plan size is no longer available. Refresh the plan or choose another size.")}</p>`;
+      } else if (nestScope === "marker" ? !semanticRunReady() : !semanticSizeReady(selectedOutputStep())) {
         canvasContent = `<p role="status" data-semantic-output-paused>Fabric nesting is paused. Review or rebase the saved edits in Edit.</p>`;
       } else {
         const outputRecipe = recipeForCurrentOutputs();
-        const nest = nestScope === "marker"
-          ? gradedMarker(outputRecipe, measurements, fabricWidth, recipeOptions())
-          : nestPieces(blockPieces(semanticSizeBlock(exportStep)!).map((p) => flattenPiece(p, outputRecipe.allowances)), fabricWidth);
+      const nest = nestScope === "marker"
+          ? customOneSizeStyle()
+            ? gradedMarkerForRun(outputRecipe, currentGradePlanRun().sizes.map((size) => ({
+              label: size.label, block: size.block!, allowances: allowancesForOptions(size.options!),
+            })), fabricWidth)
+            : gradedMarker(outputRecipe, measurements, fabricWidth, recipeOptions())
+          : nestPieces(blockPieces(customOneSizeStyle() && gradePlanSelectedLabel !== null
+            ? selectedGradePlanSize()!.block!
+            : semanticSizeBlock(selectedOutputStep())!).map((p) => flattenPiece(p,
+              customOneSizeStyle() && gradePlanSelectedLabel !== null
+                ? allowancesForOptions(selectedGradePlanSize()!.options!) : outputRecipe.allowances)), fabricWidth);
         canvasContent = renderFabricNest(
           nest.placed, nest.fabricWidth, nest.fabricLength, nest.utilization, nest.fits);
+        if (customOneSizeStyle() && nestScope === "marker") {
+          const exceptions = pomExceptionRows(currentGradePlanRun().sizes);
+          if (exceptions.length > 0) canvasContent += `<p class="grade-plan-pom-exceptions" role="note">` +
+            `Not applicable under the approved grade plan: ${exceptions.map((entry) => `${escapeUiText(entry.sizeLabel)} · ${escapeUiText(entry.pomLabel)} — ${escapeUiText(entry.reason)}`).join("; ")}</p>`;
+        }
         renderNestIntel(nest.fabricLength, nest.utilization);
       }
     } else if (view === "check") {
       const dismissedGuidance = guidanceNotes.filter((note) =>
         note.level === "warn" && note.field !== undefined && ignoredGuidance.has(note.field));
       canvasContent = semanticSizeReady(0)
-        ? checkMarkup(garmentReport(recipeForCurrentOutputs(), measurements, recipeOptions()), valid, dismissedGuidance)
+        ? checkMarkup(garmentReportForCurrentStyle(recipeForCurrentOutputs()), valid, dismissedGuidance,
+          customOneSizeStyle(), gradePlanApproved(), gradePlanOutputBaseIsSaved(), !!gradePlanState?.plan)
+          + (customOneSizeStyle() ? gradePlanRunMarkup(currentGradePlanRun(), gradePlanOutputBaseIsSaved(), !!gradePlanState?.plan) : "")
         : `<p role="status" data-semantic-output-paused>Checks are paused until the saved edits are valid or explicitly rebased.</p>`;
     } else if (view === "edit") {
       const sourceCannotDraft = semanticState?.source.status === "failed" && !semanticState.source.baseBlock;
-      const draft = semanticSizeBlock(exportStep)
-        ?? (sourceCannotDraft ? null : draftAtSize(measurements, recipe.grade, exportStep, recipe.draft, recipeOptions()));
+      const draft = semanticSizeBlock(selectedOutputStep())
+        ?? (sourceCannotDraft ? null : draftAtSize(measurements, recipe.grade, selectedOutputStep(), recipe.draft, recipeOptions()));
       if (!draft) {
         canvasContent = '<p role="alert" data-semantic-source-unavailable>The current recipe pattern could not be generated. Resolve the source issue before editing.</p>' +
           semanticEditorHintMarkup(semanticOutputIssues(), editRoleId, {
@@ -1542,8 +2252,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         const piece = editedFront ?? draft.roles[editRole];
         canvasContent = renderSemanticEditorPiece(piece, (editablePiece) => {
           const previewBlock = { ...draft, roles: { ...draft.roles, [editRole]: editablePiece } };
-          const previewMeasurements = gradeMeasurements(measurements, recipe.grade, exportStep);
-          const sizeLabel = selectedSizeLabel(recipe.sizes, exportStep);
+          const previewMeasurements = gradeMeasurements(measurements, recipe.grade, selectedOutputStep());
+          const sizeLabel = customOneSizeStyle() ? "One size" : selectedSizeLabel(recipe.sizes, selectedOutputStep());
           const previewIssues = inspectSemanticEditCandidate(recipe, previewMeasurements, previewBlock, sizeLabel);
           const handles = semanticEditorHandles(recipe.name, previewBlock, editRole);
           const vb = editorViewBox(editablePiece);
@@ -1568,6 +2278,11 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
             editorHandleControlsMarkup(handles);
         });
       }
+    } else if (view === "spec" && customOneSizeStyle()) {
+      const outputRecipe = recipeForCurrentOutputs();
+      canvasContent = customOneSizeSpecMarkup(
+        semanticSizeBlock(0), measurements, outputRecipe.poms, semanticSizeReady(0),
+      );
     } else if (view === "spec") {
       if (!semanticRunReady()) {
         canvasContent = `<p role="status" data-semantic-output-paused>Graded specifications are paused. Review or rebase the saved edits in Edit.</p>`;
@@ -1599,8 +2314,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         canvasContent = renderBodyPair(measurements, hasSleeve, recipe.frontNeckline?.(measurements), recipe.backNeckline?.(measurements), recipe.strapWidth?.(measurements), poloVisual(), wovenBodyNeckline(), wovenBodyLowerShape());
       }
     } else {
-      const block = semanticSizeBlock(exportStep);
-      if (!semanticSizeReady(exportStep) || block === null) {
+      const block = semanticSizeBlock(selectedOutputStep());
+      if (!semanticSizeReady(selectedOutputStep()) || block === null) {
         canvasContent = `<p role="status" data-semantic-output-paused>Pattern output is paused for this size. Review or rebase the saved edits in Edit.</p>`;
       } else {
         const outputRecipe = recipeForCurrentOutputs();
@@ -1640,7 +2355,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     const plausible = valid;
     renderGuidance(guidanceNotes);
     // Style = prescriptive: the gap from current measurements to the chosen target.
-    styleHost.innerHTML = styleMarkup(targetStyle, matchStyle(measurements, targetStyle, recipe.styles), styleNames(recipe.styles), plausible) + renderSurface();
+    styleHost.innerHTML = styleMarkup(targetStyle, matchStyle(measurements, targetStyle, recipe.styles), styleNames(recipe.styles), plausible) + gradePlanPanel() + renderSurface();
     syncSurfaceValidity();
     syncSurfaceAssetPreviews();
     // Amber-outline any measurement input whose value is out of plausible range
@@ -1727,7 +2442,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage = journey.step;
     root.querySelector<HTMLElement>("#current-garment")!.textContent = recipe.label;
     root.querySelector<HTMLElement>("#garment-toggle-host")!.style.display = journey.step === "start" ? "flex" : "none";
-    root.querySelector<HTMLElement>("#controls-panel")!.style.display = d.controls ? "" : "none";
+    root.querySelector<HTMLElement>("#controls-panel")!.style.display =
+      d.controls && !(journey.step === "measure" && measurementRoute === "guided") ? "" : "none";
     root.querySelector<HTMLElement>("#stretch-host")!.style.display = d.stretch ? "flex" : "none";
     root.querySelector<HTMLElement>("#swatch-host")!.style.display = d.swatches ? "flex" : "none";
     root.querySelector<HTMLElement>("#export-host")!.style.display = d.exports ? "flex" : "none";
@@ -1759,7 +2475,13 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     } else if (tutorial.status === "unseen" && s !== "start") {
       tutorial = { status: "suppressed", step: tutorialStepForJourneyStep(s) };
     }
-    journey = { ...journey, step: s, familiar: tutorial.status !== "unseen", tutorial };
+    journey = {
+      ...journey,
+      step: s,
+      hasAdvancedFromGarment: journey.hasAdvancedFromGarment || s !== "start",
+      familiar: tutorial.status !== "unseen",
+      tutorial,
+    };
     persistJourney();
     celebrating = false;
     applyDisclosure();
@@ -1797,8 +2519,69 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       return;
     }
     const id = target.id;
+    if (target.dataset.action?.startsWith("capture-")) {
+      const fieldId = target.dataset.fieldId;
+      const session = measurementCapture;
+      if (!fieldId || !session) return;
+      try {
+        if (target.dataset.action === "capture-add-reading") {
+          const definition = getFieldDefinitions(recipe.name).find((field) => field.id === fieldId);
+          const draft = captureDrafts.get(fieldId) ?? emptyCaptureDraft(definition?.unit ?? "cm");
+          const capturedAt = draft.captureDate === "" ? null : `${draft.captureDate}T00:00:00.000Z`;
+          measurementCapture = addCaptureReadingForField(session, fieldId, {
+            id: captureUuid(),
+            rawValue: draft.rawValue,
+            enteredUnit: draft.unit,
+            provenance: definition?.semanticKind === "BODY_MEASURE" ? "USER_CAPTURED" : "USER_SELECTED",
+            evidenceStatus: "UNCONFIRMED",
+            sourceLabel: draft.sourceNote.trim() || (definition?.semanticKind === "BODY_MEASURE"
+              ? "User-entered value; capture method and technique not qualified."
+              : "User-selected digital target or design value."),
+            captureMethod: draft.method.trim() === "" ? null : draft.method,
+            capturedAt,
+            measurer: draft.measurer === "" ? null : draft.measurer,
+          }, captureNow());
+          captureDrafts.set(fieldId, emptyCaptureDraft(draft.unit));
+          captureAnnouncement = "Reading recorded. Review its status and select one reading when multiple values are listed.";
+          captureValueForField(fieldId);
+          scheduleCaptureSave();
+        } else if (target.dataset.action === "capture-select-reading") {
+          const readingId = target.dataset.readingId;
+          if (!readingId) return;
+          measurementCapture = selectCaptureReading(session, fieldId, readingId, captureNow());
+          captureAnnouncement = "Selected reading updated for the digital draft.";
+          captureValueForField(fieldId);
+          scheduleCaptureSave();
+        } else if (target.dataset.action === "capture-accept-preset") {
+          measurementCapture = acceptCapturePreset(
+            session, fieldId, captureUuid(), captureNow(), "Standard M digital preset; not measured wearer data",
+          );
+          // acceptCapturePreset validates the requested field before returning.
+          const captureField = measurementCapture.fields.find((field) => field.fieldId === fieldId)!;
+          const readings = captureField.readings;
+          const selected = readings[readings.length - 1];
+          if (selected) {
+            const previous = captureDrafts.get(fieldId) ?? emptyCaptureDraft(captureField.unit);
+            captureDrafts.set(fieldId, emptyCaptureDraft(previous.unit));
+            measurementCapture = selectCaptureReading(measurementCapture, fieldId, selected.id, captureNow());
+            captureAnnouncement = "Standard M digital preset selected. It remains labeled as a preset.";
+            captureValueForField(fieldId);
+            scheduleCaptureSave();
+          }
+        }
+      } catch (error) {
+        const existing = captureDrafts.get(fieldId) ?? emptyCaptureDraft();
+        const message = error instanceof Error ? error.message : "This value could not be recorded.";
+        captureDrafts.set(fieldId, { ...existing, error: message });
+        captureAnnouncement = message;
+      }
+      draw();
+      return;
+    }
     const idx = COACHED_STEPS.findIndex((st) => st.id === journey.step);
-    if (id === "welcome-start") {
+    if (id === "journey-guided") {
+      void openGuidedCapture();
+    } else if (id === "welcome-start") {
       setStep("start", "in_progress");
     } else if (id === "welcome-skip" || id === "tutorial-skip") {
       journey = { ...journey, familiar: true, tutorial: { ...journey.tutorial, status: "skipped" } };
@@ -1818,13 +2601,69 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       tutorialHost.querySelector<HTMLButtonElement>("#tutorial-replay")?.focus();
     } else if (id === "journey-next" &&
       (!stageBlocker() || (journey.tutorial.status === "in_progress" && ["start", "measure", "fit"].includes(journey.step)))) {
+      if (journey.step === "start") {
+        measurementRoute = "editor";
+        measurementCapture = null;
+        captureDrafts.clear();
+      }
       if (journey.step === "fit") styleReviewed = true;
-      setStep(COACHED_STEPS[Math.min(idx + 1, COACHED_STEPS.length - 1)].id);
+      const advance = (): void => setStep(COACHED_STEPS[Math.min(idx + 1, COACHED_STEPS.length - 1)].id);
+      if (journey.step === "measure" && measurementRoute === "guided" && projectWorkflow) {
+        if (customStyleCreatePending) return;
+        customStyleCreatePending = true;
+        const nextButton = root.querySelector<HTMLButtonElement>("#journey-next");
+        if (nextButton) {
+          nextButton.disabled = true;
+          nextButton.setAttribute("aria-busy", "true");
+        }
+        void (async () => {
+          await flushCaptureSave();
+          measurementCapture = requireMatchingCaptureSession(measurementCapture, recipe.name);
+          const seed = blankSavedDesignForGarment(recipe);
+          const design = materializeCustomSizeDesign(seed, measurementCapture);
+          const label = recipe.label;
+          const existingNames = new Set(projectWorkflow.snapshot.styles.map((style) => style.name.toLocaleLowerCase()));
+          let name = `Custom ${label}`;
+          for (let suffix = 2; existingNames.has(name.toLocaleLowerCase()); suffix++) name = `Custom ${label} ${suffix}`;
+          const loaded = await projectWorkflow.createCustomSizeStyle(name, design);
+          const savedCapture = requireSavedCaptureCopy(await projectWorkflow.loadMeasurementCapture(recipe.name));
+          measurementCapture = savedCapture.session;
+          captureDrafts.clear();
+          for (const draft of savedCapture.drafts) captureDrafts.set(draft.fieldId, {
+            rawValue: draft.rawValue, unit: draft.enteredUnit, error: null, sourceNote: draft.sourceNote,
+            method: draft.captureMethod, captureDate: draft.captureDate, measurer: draft.measurer,
+          });
+          measurementRoute = "editor";
+          captureSaveError = null;
+          applyLoaded(loaded.activeStyle.design, null, false);
+          projectManager?.refresh("Custom one-size style created and saved.");
+          projectPersistenceState.textContent = "Custom one-size style saved · selected-size pattern outputs are available";
+          projectPersistenceState.dataset.state = "saved";
+          advance();
+        })().catch((error: unknown) => {
+          const message = customStyleCreationErrorMessage(error);
+          projectPersistenceState.textContent = message;
+          projectPersistenceState.dataset.state = "failed";
+          flash(message, BLUEPRINT.lineActive);
+        }).finally(() => {
+          customStyleCreatePending = false;
+          const currentNext = root.querySelector<HTMLButtonElement>("#journey-next");
+          if (currentNext) {
+            currentNext.disabled = false;
+            currentNext.removeAttribute("aria-busy");
+          }
+        });
+      } else {
+        advance();
+      }
     } else if (id === "journey-back") {
       setStep(COACHED_STEPS[Math.max(idx - 1, 0)].id);
     } else if (id === "journey-correction") {
       const field = target.dataset.correctionField;
-      if (field) focusGuidanceField(field);
+      if (field && journey.step === "measure" && measurementRoute === "guided") {
+        [...root.querySelectorAll<HTMLInputElement>('input[data-action="capture-edit-raw"]')]
+          .find((candidate) => candidate.dataset.fieldId === field)?.focus();
+      } else if (field) focusGuidanceField(field);
       else setStep(target.dataset.correctionStep as JourneyStep);
     } else if (id === "celebrate-dismiss") {
       celebrating = false;
@@ -2154,6 +2993,35 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       fieldHistorySelection = null;
     }
   });
+  root.addEventListener("input", (event) => {
+    const input = (event.target as HTMLElement).closest<HTMLInputElement>('input[data-action^="capture-edit-"]');
+    if (!input) return;
+    const fieldId = input.dataset.fieldId;
+    if (!fieldId) return;
+    const definition = getFieldDefinitions(recipe.name).find((field) => field.id === fieldId);
+    const previous = captureDrafts.get(fieldId) ?? emptyCaptureDraft(definition?.unit ?? "cm");
+    switch (input.dataset.action) {
+      case "capture-edit-raw": captureDrafts.set(fieldId, { ...previous, rawValue: input.value, error: null }); break;
+      case "capture-edit-source": captureDrafts.set(fieldId, { ...previous, sourceNote: input.value }); break;
+      case "capture-edit-method": captureDrafts.set(fieldId, { ...previous, method: input.value }); break;
+      case "capture-edit-date": captureDrafts.set(fieldId, { ...previous, captureDate: input.value }); break;
+    }
+    scheduleCaptureSave();
+  });
+  root.addEventListener("change", (event) => {
+    const select = (event.target as HTMLElement).closest<HTMLSelectElement>('select[data-action^="capture-change-"]');
+    if (!select) return;
+    const fieldId = select.dataset.fieldId;
+    if (!fieldId) return;
+    const definition = getFieldDefinitions(recipe.name).find((field) => field.id === fieldId);
+    const previous = captureDrafts.get(fieldId) ?? emptyCaptureDraft(definition?.unit ?? "cm");
+    if (select.dataset.action === "capture-change-unit") {
+      captureDrafts.set(fieldId, { ...previous, unit: select.value, error: null });
+    } else if (select.dataset.action === "capture-change-measurer") {
+      captureDrafts.set(fieldId, { ...previous, measurer: select.value as CaptureMeasurer | "" });
+    }
+    scheduleCaptureSave();
+  });
   root.addEventListener("click", (event) => {
     const button = (event.target as HTMLElement).closest<HTMLButtonElement>("[data-control-page-step]");
     if (!button || button.disabled) return;
@@ -2255,7 +3123,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   };
   canvasHost.addEventListener("mousedown", (e) => {
     if (view !== "edit" || previewActive || inputErrors().size > 0 || !semanticEditCanMutate()) return;
-    const piece = editedFront ?? semanticEditorPieceForRole(semanticSizeBlock(exportStep), editRoleId);
+    const piece = editedFront ?? semanticEditorPieceForRole(semanticSizeBlock(selectedOutputStep()), editRoleId);
     withSemanticEditorPiece(piece, (currentPiece) => {
       const hit = handleAt(e, currentPiece, editRoleId);
       if (hit.handle) {
@@ -2289,7 +3157,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     }
     input.setAttribute("aria-invalid", "false");
     input.setCustomValidity("");
-    const piece = editedFront ?? semanticEditorPieceForRole(semanticSizeBlock(exportStep), editRoleId);
+    const piece = editedFront ?? semanticEditorPieceForRole(semanticSizeBlock(selectedOutputStep()), editRoleId);
     withSemanticEditorPiece(piece, (currentPiece) => {
       const handle = semanticEditorHandles(recipe.name, block({ [editRoleId]: currentPiece }, []), editRoleId)
         .find((candidate) => candidate.id === input.dataset.editorHandleId);
@@ -2395,6 +3263,20 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   });
 
   const setGarment = (name: string): void => {
+    if (customOneSizeStyle() && name !== recipe.name) {
+      flash("This custom one-size style keeps its garment. Create another style to design a different garment.", BLUEPRINT.lineActive);
+      return;
+    }
+    if (projectWorkflow && name !== recipe.name && (captureSaveError !== null
+      || captureSaveTimer !== null || captureWritesPending > 0)) {
+      void flushCaptureSave().then(() => setGarment(name)).catch((error: Error) => {
+        const message = error.message;
+        projectPersistenceState.textContent = message;
+        projectPersistenceState.dataset.state = "failed";
+        flash(message, BLUEPRINT.lineActive);
+      });
+      return;
+    }
     if (projectWorkflow && name !== recipe.name
       && (pendingFieldObservationTimers.size > 0 || activeFieldObservationWrites.size > 0)) {
       void flushPendingFieldObservations!().then(() => setGarment(name)).catch((error: unknown) => {
@@ -2407,6 +3289,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     }
     patternMeasurementNavigation = null;
     patternMeasurementFeedback = "";
+    measurementCapture = null;
+    captureDrafts.clear();
+    captureAnnouncement = null;
+    measurementRoute = "editor";
     recipe = garmentByName(name);
     if (!materialSelectionExplicit) {
       const defaultMaterial = defaultStretchFabricForGarment(recipe.name);
@@ -2453,29 +3339,48 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     root.querySelector<HTMLButtonElement>(`#garment-${g.name}`)!
       .addEventListener("click", () => setGarment(g.name));
   });
+  const syncGarmentChoices = (): void => {
+    GARMENTS.forEach((g) => {
+      const button = root.querySelector<HTMLButtonElement>(`#garment-${g.name}`)!;
+      button.disabled = customOneSizeStyle() && g.name !== recipe.name;
+      button.title = button.disabled ? "Create another style to design a different garment." : "";
+    });
+  };
+  syncGarmentChoices();
 
   const widthInput = root.querySelector<HTMLInputElement>("#fabric-width")!;
   widthInput.addEventListener("input", () => {
     const v = Number(widthInput.value);
     if (Number.isFinite(v) && v > 0) {
       fabricWidth = v;
-      markOutputDirty(false);
+      markOutputDirty(false, true);
       draw();
     }
   });
 
   const single = root.querySelector<HTMLButtonElement>("#nest-single")!;
-  const marker = root.querySelector<HTMLButtonElement>("#nest-marker")!;  const setScope = (s: "single" | "marker"): void => {
+  const marker = root.querySelector<HTMLButtonElement>("#nest-marker")!;
+  const setScope = (s: "single" | "marker"): void => {
+    if (s === "marker" && customOneSizeStyle() && !canExportRun()) {
+      flash(markerAvailabilityTitle(), BLUEPRINT.lineActive);
+      return;
+    }
     nestScope = s;
-    markOutputDirty(false);
+    // nestScope is a persisted workspace preference saved with the next Save.
+    // Switching Single/Marker is preview-only and does not mark design or
+    // output content unsaved; fabric dimensions and other nesting inputs do.
     single.style.background = s === "single" ? BLUEPRINT.lineActive : "transparent";
     single.style.color = s === "single" ? BLUEPRINT.background : BLUEPRINT.label;
     single.setAttribute("aria-pressed", String(s === "single"));
     marker.style.background = s === "marker" ? BLUEPRINT.lineActive : "transparent";
+    marker.disabled = customOneSizeStyle() && !canExportRun();
+    marker.title = markerAvailabilityTitle();
     marker.style.color = s === "marker" ? BLUEPRINT.background : BLUEPRINT.label;
     marker.setAttribute("aria-pressed", String(s === "marker"));
     draw();
   };
+  marker.disabled = customOneSizeStyle() && !canExportRun();
+  marker.title = markerAvailabilityTitle();
   single.addEventListener("click", () => setScope("single"));
   marker.addEventListener("click", () => setScope("marker"));
 
@@ -2485,19 +3390,19 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   const bufferInput = root.querySelector<HTMLInputElement>("#nest-buffer")!;
   bufferInput.addEventListener("input", () => {
     nestBufferRaw = bufferInput.value;
-    markOutputDirty(false);
+    markOutputDirty(false, true);
     draw();
   });
   const availableInput = root.querySelector<HTMLInputElement>("#nest-available")!;
   availableInput.addEventListener("input", () => {
     nestAvailableRaw = availableInput.value;
-    markOutputDirty(false);
+    markOutputDirty(false, true);
     draw();
   });
   const napInput = root.querySelector<HTMLInputElement>("#nest-nap")!;
   napInput.addEventListener("change", () => {
     nestNap = napInput.checked;
-    markOutputDirty(false);
+    markOutputDirty(false, true);
     draw();
   });
   const syncNestIntelInputs = (): void => {
@@ -2562,7 +3467,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         pendingFieldObservationTimers.delete(key);
         // A delayed callback from a detached/replaced app mount must not write
         // its captured draft after another mount has loaded the current style.
-        if (activeMountRoot === root && root.isConnected
+        if (isCurrentMount() && root.isConnected
           && projectWorkflow.snapshot.activeStyle.id === styleId && recipe.name === recipeId) {
           trackFieldObservationWrite(recordFieldChange(recipeId, inputKind, inputKey));
         }
@@ -2594,6 +3499,11 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         if (failure) throw new Error(failure);
         if (pendingFieldObservationTimers.size === 0 && activeFieldObservationWrites.size === 0) return;
       }
+      };
+      const flushProjectEditorState = flushPendingFieldObservations;
+      flushPendingFieldObservations = async (): Promise<void> => {
+        await flushProjectEditorState?.();
+        await flushCaptureSave();
       };
     }
     root.querySelectorAll<HTMLInputElement>("input[data-field]").forEach((input) => {
@@ -2790,14 +3700,14 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     status.textContent = "";
     hex.setCustomValidity("");
     fabric = next;
-    markOutputDirty(false);
+    markOutputDirty(false, true);
     syncAppearanceControls();
     draw();
     return true;
   };
   const commitAppearance = (next: Appearance): void => {
     appearance = next;
-    markOutputDirty(false);
+    markOutputDirty(false, true);
     syncAppearanceControls();
     draw();
   };
@@ -2873,6 +3783,13 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   // delegate the change event from the stable host element.
   styleHost.addEventListener("change", (e) => {
     const sel = e.target as HTMLSelectElement;
+    if (sel.matches("[data-grade-plan-basis]")) {
+      styleHost.querySelectorAll<HTMLElement>("[data-grade-plan-basis-fields]").forEach((group) => {
+        group.hidden = group.dataset.gradePlanBasisFields !== sel.value;
+      });
+      if (gradePlanState) gradePlanState.dirty = true;
+      return;
+    }
     if (sel.id === "style-target") {
       targetStyle = sel.value;
       markOutputDirty();
@@ -2917,7 +3834,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       ? { ...current, transform: { ...base, [field]: value } }
       : { ...current, [field]: value }) as ArtworkPlacement;
     surfaceBook = surfaceSetAt(surfaceBook, key, index, next);
-    markOutputDirty(false);
+    markOutputDirty(false, true);
     draw();
   };
   const removeSurfacePlacement = (index: number): void => {
@@ -2925,7 +3842,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     if (artworkLibraryTargetIndex !== "" && selectedIndex === index) artworkLibraryTargetIndex = "";
     else if (artworkLibraryTargetIndex !== "" && selectedIndex > index) artworkLibraryTargetIndex = String(selectedIndex - 1);
     surfaceBook = surfaceRemoveAt(surfaceBook, surfaceKeyNow(), index);
-    markOutputDirty(false);
+    markOutputDirty(false, true);
     draw();
   };
   let pendingArtworkChecking = false;
@@ -2995,7 +3912,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     };
     surfaceBook = surfaceSetAt(surfaceBook, surfaceKeyNow(), index, next);
     setArtworkLibraryActionMessage(`Attached ${record.title} to ${current.id}. Type, role, size, placement, transform and stack order were preserved. Save the design to retain this reference.`);
-    markOutputDirty(false);
+    markOutputDirty(false, true);
     draw();
     flash(`Bundled reference attached to ${current.id}. Save the design to retain it.`, "#2E9B63");
   };
@@ -3052,7 +3969,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       assetPreviewCache.set(assetId, { promise: Promise.resolve({
         assetId, name: inspected.name, mimeType: inspected.mimeType, blob: inspected.blob,
       }) });
-      markOutputDirty(false);
+      markOutputDirty(false, true);
       draw();
       flash("Artwork image stored locally and attached. Save the design to retain its reference.", "#2E9B63");
     } catch (error) {
@@ -3168,7 +4085,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       const currentAddButton = styleHost.querySelector<HTMLButtonElement>("#surface-add");
       if (currentAddButton) currentAddButton.disabled = false;
     }
-    markOutputDirty(false);
+    markOutputDirty(false, true);
     draw();
     styleHost.querySelector<HTMLInputElement>("#surface-new-id")?.focus();
     if (pending) flash("Placement and imported artwork image added. Use Save to retain the design reference.", "#2E9B63");
@@ -3233,6 +4150,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   });
   styleHost.addEventListener("input", (e) => {
     const target = e.target as HTMLInputElement;
+    if (target.matches("[data-grade-plan-population], [data-grade-plan-source-name], [data-grade-plan-source-version], [data-grade-plan-source-scope], [data-grade-plan-decision], [data-grade-plan-digital-range], [data-grade-plan-range], [data-grade-plan-base-size], [data-grade-plan-sizes], [data-grade-plan-delta], [data-grade-plan-exception-reason]")) {
+      if (gradePlanState) gradePlanState.dirty = true;
+      return;
+    }
     if (target.id !== "surface-library-search") return;
     artworkLibraryQuery = target.value;
     updateArtworkLibraryResults();
@@ -3249,6 +4170,11 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   });
   styleHost.addEventListener("click", (e) => {
     const target = e.target as HTMLElement;
+    const gradeAction = target.closest<HTMLButtonElement>("button[data-grade-plan-action]");
+    if (gradeAction && !gradeAction.disabled) {
+      void saveGradePlanPanelAction(gradeAction.getAttribute("data-grade-plan-action")!);
+      return;
+    }
     const stageArtwork = target.closest<HTMLButtonElement>("button[data-artwork-stage-id]");
     if (stageArtwork) {
       const record = ARTWORK_CATALOG.find((item) => item.assetId === stageArtwork.dataset.artworkStageId);
@@ -3348,29 +4274,54 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   const exportSizeEl = root.querySelector<HTMLSelectElement>("#export-size")!;
   const syncNestSelectedSize = (): void => {
     const label = root.querySelector<HTMLElement>("#nest-selected-size");
-    label!.textContent = selectedSizeLabel(recipe.sizes, exportStep);
+    label!.textContent = customOneSizeStyle()
+      ? gradePlanSelectedLabel ?? "One size"
+      : selectedSizeLabel(recipe.sizes, selectedOutputStep());
   };
   const syncExportSizes = (): void => {
-    if (!recipe.sizes.some((s) => s.step === exportStep)) exportStep = 0;
-    exportSizeEl.replaceChildren(...recipe.sizes.map((size) => new Option(size.label, String(size.step))));
-    exportSizeEl.value = String(exportStep);
+    if (customOneSizeStyle()) {
+      exportStep = 0;
+      const approvedRun = gradePlanOutputBaseIsSaved() && gradePlanApproved() ? currentGradePlanRun() : null;
+      const options = [new Option("One size", "__one-size__")];
+      if (approvedRun) options.push(...approvedRun.sizes.map((size) => new Option(size.label, size.label)));
+      if (gradePlanSelectedLabel && !approvedRun?.sizes.some((size) =>
+        gradePlanLabelKey(size.label) === gradePlanLabelKey(gradePlanSelectedLabel!))) {
+        gradePlanSelectedLabel = null;
+      }
+      exportSizeEl.replaceChildren(...options);
+      exportSizeEl.value = gradePlanSelectedLabel ?? "__one-size__";
+    } else {
+      if (!recipe.sizes.some((s) => s.step === exportStep)) exportStep = 0;
+      exportSizeEl.replaceChildren(...recipe.sizes.map((size) => new Option(size.label, String(size.step))));
+      exportSizeEl.value = String(exportStep);
+    }
     syncNestSelectedSize();
   };
   exportSizeEl.addEventListener("change", () => {
-    exportStep = Number(exportSizeEl.value);
-    markOutputDirty(false);
+    if (customOneSizeStyle()) {
+      gradePlanSelectedLabel = exportSizeEl.value === "__one-size__" ? null : exportSizeEl.value;
+    } else exportStep = Number(exportSizeEl.value);
+    syncExportSizes();
+    markOutputDirty(false, false);
     syncNestSelectedSize();
     draw();
+    projectManager?.refresh();
   });
   // exportStep always comes from the picker, which is populated from recipe.sizes,
   // so the step is guaranteed to resolve to a real size.
   const exportSizeLabel = (): string =>
-    selectedSizeLabel(recipe.sizes, exportStep);
+    customOneSizeStyle() ? gradePlanSelectedLabel ?? "One size" : selectedSizeLabel(recipe.sizes, selectedOutputStep());
   const exportPieces = (): Piece[] => {
-    const drafted = semanticEdits === null
-      ? draftAtSize(measurements, recipe.grade, exportStep, recipe.draft, recipeOptions())
-      : semanticSizeBlock(exportStep);
-    return exportablePieces(drafted, semanticSizeReady(exportStep));
+    const step = selectedOutputStep();
+    const customPlanSize = customOneSizeStyle() ? selectedGradePlanSize() : null;
+    const drafted = customPlanSize?.block ?? (semanticEdits === null
+      ? draftAtSize(measurements, recipe.grade, step, recipe.draft, recipeOptions())
+      : semanticSizeBlock(step));
+    return exportablePieces(drafted, customPlanSize ? customPlanSize.ready : semanticSizeReady(step));
+  };
+  const exportAllowances = (): AllowanceSpec => {
+    const planned = customOneSizeStyle() ? selectedGradePlanSize() : null;
+    return planned?.options ? allowancesForOptions(planned.options) : currentAllowances();
   };
   // The desktop shell's only bridge into this app (Slice 46): when running
   // inside Electron, `window.electronAPI` is set by electron/preload.cts via
@@ -3403,7 +4354,6 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     recovery: RecoveryPayload | null = null,
     clearRecovery = true,
   ): void => {
-    historyRestoring = true;
     measurements = loaded.measurements;
     fabric = loaded.fabric;
     garmentOptions = loaded.garmentOptions;
@@ -3418,9 +4368,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     materialSelectionExplicit = true;
     view = loaded.workspace.view;
     bodyCroquisView = loaded.workspace.bodyCroquisView;
-    exportStep = loaded.workspace.exportStep;
+    exportStep = customOneSizeStyle() ? 0 : loaded.workspace.exportStep;
     fabricWidth = loaded.workspace.fabricWidth;
     nestScope = loaded.workspace.nestScope;
+    if (customOneSizeStyle()) nestScope = "single";
     nestBufferRaw = String(loaded.nestingIntelligence.bufferPct);
     nestAvailableRaw = loaded.nestingIntelligence.availableLengthCm === null
       ? "" : String(loaded.nestingIntelligence.availableLengthCm);
@@ -3430,9 +4381,13 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     journey = { ...journey, exported: false };
     celebrating = false;
     persistJourney();
-    syncWorkspace(true);
-    historyRestoring = false;
     savedRevision = outputRevision;
+    savedDesignRevision = designRevision;
+    savedPersistentOutputRevision = persistentOutputRevision;
+    // Reconcile export choices against the loaded saved base, not the draft
+    // that was active before Load.
+    syncWorkspace(true);
+    syncGarmentChoices();
     history = emptyHistory();
     historyPresent = captureDraftSnapshot();
     pendingRecovery = recovery;
@@ -3504,35 +4459,83 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       flash("Export failed — the browser could not start the download.", BLUEPRINT.lineActive);
     }
   };
-  const onExport = (id: string, action: () => void, allowed: () => boolean = canExport): void => {
-    root.querySelector<HTMLButtonElement>(id)!.addEventListener("click", () => {
+  const approvedPlanStillCurrent = async (): Promise<boolean> => {
+    const state = gradePlanState!;
+    const workflow = projectWorkflow!;
+    try {
+      // Freshness probes must be read-only. ProjectWorkflow.reload() replaces
+      // its editor snapshot with the globally active project, which may have
+      // changed in another tab while this editor still holds unsaved inputs.
+      const loaded = await workflow.repository.readActiveProject();
+      if (!loaded) return false;
+      const style = loaded.activeStyle;
+      const binding = state.context!.binding;
+      if (loaded.project.id !== binding.projectId || style.id !== state.styleId || style.id !== binding.styleId
+        || style.recipeId !== binding.recipeId || style.revisionHeadId !== binding.revisionHeadId) return false;
+      const [capture, plan] = await Promise.all([
+        workflow.repository.readMeasurementCapture(style.id, style.recipeId),
+        workflow.repository.readGradePlan(style.id, style.recipeId),
+      ]);
+      if (!capture || !plan || plan.status !== "approved"
+        || await jcsSha256Hex(plan) !== await jcsSha256Hex(state.plan!)) return false;
+      const fresh = await createGradePlanContext(loaded.project.id, style, capture);
+      return fresh.ok && !gradePlanIsStale(plan, fresh.value.binding)
+        && fresh.value.binding.fingerprint === state.context!.binding.fingerprint
+        && fresh.value.binding.captureRevision === state.context!.binding.captureRevision;
+    } catch {
+      return false;
+    }
+  };
+  const onExport = (id: string, action: () => void, allowed: () => boolean = canExport,
+    requireApprovedPlan = false): void => {
+    root.querySelector<HTMLButtonElement>(id)!.addEventListener("click", async () => {
+      if (!allowed()) return;
+      if (customOneSizeStyle() && (requireApprovedPlan || gradePlanSelectedLabel !== null)
+        && !await approvedPlanStillCurrent()) {
+        flash("The approved grade plan changed in another tab. Reload it before exporting.", BLUEPRINT.lineActive);
+        if (projectWorkflow) loadGradePlanPanel(projectWorkflow.snapshot.activeStyle.id);
+        draw();
+        return;
+      }
       if (allowed()) action();
     });
   };
   onExport("#export-svg", () => {
-    download(`${recipe.name}-${exportSizeLabel()}.svg`, exportSvg(exportPieces(), currentAllowances(), recipe.notches), "image/svg+xml");
+    download(`${recipe.name}-${exportSizeLabel()}.svg`, exportSvg(exportPieces(), exportAllowances(), recipe.notches), "image/svg+xml");
   });
   onExport("#export-dxf", () => {
-    download(`${recipe.name}-${exportSizeLabel()}.dxf`, exportDxf(exportPieces(), currentAllowances()), "image/vnd.dxf");
+    download(`${recipe.name}-${exportSizeLabel()}.dxf`, exportDxf(exportPieces(), exportAllowances()), "image/vnd.dxf");
   });
   onExport("#export-pdf", () => {
     download(`${recipe.name}-${exportSizeLabel()}.pdf`, exportPdf(
-      exportPieces(), currentAllowances(), undefined, 1.0, recipe.tiledPdfLocalCoordinates === true
+      exportPieces(), exportAllowances(), undefined, 1.0, recipe.tiledPdfLocalCoordinates === true
     ), "application/pdf");
   });
   // The draft tech pack is a whole-style document (paginated piece overview +
   // graded table), so it uses live measurements and ignores the size picker.
   // The overview is explicitly not to scale; cutting files remain separate.
   onExport("#export-techpack", () => {
-    download(`${recipe.name}-techpack.pdf`, exportTechPackV2(
-      recipeForCurrentOutputs(), measurements, undefined, stretchFabric, recipeOptions(), surfacePlacementsNow(), targetStyle
-    ), "application/pdf");
-  }, canExportRun);
+    const planRun = customOneSizeStyle() ? currentGradePlanRun().sizes : null;
+    const output = planRun
+      ? exportTechPackV2ForGradePlan(recipeForCurrentOutputs(), planRun.map((size) => ({
+        label: size.label, measurements: size.measurements!, options: size.options!, block: size.block!,
+      })), undefined, stretchFabric, surfacePlacementsNow(), targetStyle, gradePlanState!.plan!.baseSizeLabel!,
+        pomExceptionRows(planRun))
+      : exportTechPackV2(recipeForCurrentOutputs(), measurements, undefined, stretchFabric, recipeOptions(), surfacePlacementsNow(), targetStyle);
+    download(`${recipe.name}-techpack.pdf`, output, "application/pdf");
+  }, canExportRun, true);
   // The projector file carries EVERY graded size as a toggleable layer, so it too
   // is a whole-style file and ignores the per-size picker.
   onExport("#export-projector", () => {
-    download(`${recipe.name}-projector.svg`, exportProjectorSvg(recipeForCurrentOutputs(), measurements, recipeOptions()), "image/svg+xml");
-  }, canExportRun);
+    const planRun = customOneSizeStyle() ? currentGradePlanRun().sizes : null;
+    const projectorRun = planRun?.map((size) => ({
+      label: size.label, step: size.position, block: size.block!,
+      allowances: allowancesForOptions(size.options!),
+    }));
+    download(`${recipe.name}-projector.svg`, exportProjectorSvg(
+      recipeForCurrentOutputs(), measurements, recipeOptions(), projectorRun, planRun ? pomExceptionRows(planRun) : [],
+    ), "image/svg+xml");
+  }, canExportRun, true);
   // The print sheet carries one style's artwork at true scale, so like the
   // tech pack and projector it is a whole-style file and ignores the picker.
   onExport("#export-surface-sheet", () => {
@@ -3540,7 +4543,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   }, () => styleReviewed && checkReviewed && baseDesignValid());
   onExport("#export-a0", () => {
     download(`${recipe.name}-${exportSizeLabel()}-A0.pdf`, exportA0Pdf(
-      exportPieces(), currentAllowances(), recipe.notches, undefined, recipe.a0Overflow === true
+      exportPieces(), exportAllowances(), recipe.notches, undefined, recipe.a0Overflow === true
     ), "application/pdf");
   });
 
@@ -3555,7 +4558,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     };
     const id = buttonId[kind];
     if (!id) return;
-    const wholeRun = kind === "techpack" || kind === "projector";
+    const wholeRun = kind === "techpack" || kind === "projector" || kind === "marker";
     if (wholeRun ? !canExportRun() : !canExport()) {
       setStep("refine");
       flash("Review Style and the current digital checks before exporting.", BLUEPRINT.lineActive);
@@ -3593,6 +4596,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         renderRecoveryPrompt();
         if (outputRevision === saveRevision) {
           savedRevision = saveRevision;
+          savedDesignRevision = designRevision;
+          savedPersistentOutputRevision = persistentOutputRevision;
+          syncExportSizes();
+          draw();
           projectPersistenceState.textContent = legacyProjectionSaved
             ? "Saved in this style"
             : "Saved in this style · older single-style copy unavailable";
@@ -3614,6 +4621,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     }
     if (saveToStorage(measurements, fabric, garmentOptions, workspace, appearance, surfaceBook, nestingIntelligence, semanticEdits)) {
       savedRevision = outputRevision;
+      savedDesignRevision = designRevision;
+      savedPersistentOutputRevision = persistentOutputRevision;
+      syncExportSizes();
+      draw();
       pendingRecovery = null;
       clearStoredRecovery();
       renderRecoveryPrompt();
@@ -3719,7 +4730,6 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   };
 
   function acceptRecovery(file: Omit<RecoveryFile, "v">): void {
-    historyRestoring = true;
     const nextMeasurements = { ...STANDARD_M };
     FIELDS.forEach((field) => {
       const value = file.measurements[field.id];
@@ -3743,7 +4753,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     materialSelectionExplicit = file.materialSelectionExplicit;
     view = file.workspace.view;
     bodyCroquisView = file.workspace.bodyCroquisView;
-    exportStep = file.workspace.exportStep;
+    exportStep = customOneSizeStyle() ? 0 : file.workspace.exportStep;
     fabricWidth = file.workspace.fabricWidth;
     nestScope = file.workspace.nestScope;
     styleReviewed = false;
@@ -3752,8 +4762,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     celebrating = false;
     persistJourney();
     syncWorkspace(true);
+    syncGarmentChoices();
+    marker.disabled = customOneSizeStyle();
+    marker.title = markerAvailabilityTitle();
     applyRawDraft(file.rawMeasurements, file.rawOptions);
-    historyRestoring = false;
     pendingRecovery = null;
     clearStoredRecovery();
     renderRecoveryPrompt();
@@ -3764,7 +4776,6 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   }
 
   function applyHistorySnapshot(snapshot: DraftSnapshot): void {
-    historyRestoring = true;
     measurements = { ...snapshot.measurements };
     garmentOptions = copyOptions(snapshot.garmentOptions);
     fabric = snapshot.fabric;
@@ -3775,12 +4786,11 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     materialSelectionExplicit = snapshot.materialSelectionExplicit;
     view = snapshot.view;
     bodyCroquisView = snapshot.bodyCroquisView;
-    exportStep = snapshot.exportStep;
+    exportStep = customOneSizeStyle() ? 0 : snapshot.exportStep;
     fabricWidth = snapshot.fabricWidth;
     nestScope = snapshot.nestScope;
     syncWorkspace(true);
     applyRawDraft(snapshot.rawMeasurements, snapshot.rawOptions);
-    historyRestoring = false;
     historyPresent = captureDraftSnapshot();
     markOutputDirty(true);
     draw();
@@ -3823,8 +4833,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     event.returnValue = "";
   });
 
-  syncWorkspace(saved !== null);
+  syncWorkspace(saved !== null && !projectWorkflow?.initializedFirstRun);
   savedRevision = outputRevision;
+  savedDesignRevision = designRevision;
+  savedPersistentOutputRevision = persistentOutputRevision;
   historyPresent = captureDraftSnapshot();
   recoveryTrackingEnabled = true;
   undoButton.addEventListener("click", () => { performUndo(); });
@@ -3836,8 +4848,12 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       workflow: projectWorkflow,
       getCurrentDesign: currentSavedDesign,
       getBlankDesign: blankSavedDesign,
-      hasUnsavedChanges: () => outputRevision !== savedRevision,
+      hasUnsavedChanges: () => persistentOutputRevision !== savedPersistentOutputRevision,
       onStyleLoaded: (loaded: LoadedProject, recovery: RecoveryPayload | null) => {
+        measurementCapture = null;
+        captureDrafts.clear();
+        measurementRoute = "editor";
+        captureSaveError = null;
         applyLoaded(loaded.activeStyle.design, recovery, false);
         projectPersistenceState.textContent = recovery
           ? "Style loaded · unfinished recovery is available below"
@@ -3846,25 +4862,67 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       },
       setBusy: (busy) => { root.inert = busy; },
       flushPendingFieldObservations,
-      hasPendingFieldObservations: () => pendingFieldObservationTimers.size > 0 || activeFieldObservationWrites.size > 0,
+      hasPendingFieldObservations: () => pendingFieldObservationTimers.size > 0 || activeFieldObservationWrites.size > 0
+        || captureSaveTimer !== null || captureWritesPending > 0,
       artworkStore: artworkAssetStore,
       inspectAsset: artworkInspector,
-      canFreezeOutputs: () => canExport() && canExportRun() && styleReviewed && checkReviewed && baseDesignValid(),
-      getFrozenOutputSet: () => {
-        if (!canExport() || !canExportRun() || !styleReviewed || !checkReviewed || !baseDesignValid()) return null;
-        const label = exportSizeLabel();
-        const pieces = exportPieces();
-        const allowances = currentAllowances();
+      canFreezeOutputs: () => customOneSizeStyle()
+        ? canExportRun() && gradePlanDesignIsSaved()
+          && (gradePlanSelectedLabel === null || selectedGradePlanSize()?.poms.every((pom) => pom.exceptionReason === null) === true)
+        : canExport() && styleReviewed && checkReviewed && baseDesignValid(),
+      getFreezeBlocker: () => customOneSizeStyle()
+        ? gradePlanApproved()
+          ? currentGradePlanRun().issues[0]
+            ?? (gradePlanSelectedLabel !== null && selectedGradePlanSize()?.poms.some((pom) => pom.exceptionReason !== null)
+              ? "The selected-size files cannot carry a not-applicable POM reason; choose another size before freezing outputs."
+              : canExportRun() ? null : "Review Style and the current digital checks before freezing outputs.")
+          : "Whole-run output capture is unavailable until you review and approve a grade plan."
+        : null,
+      getFrozenOutputSet: async () => {
+        const customRun = customOneSizeStyle() ? currentGradePlanRun().sizes : null;
+        if (customOneSizeStyle()
+          ? !canExportRun() || !gradePlanDesignIsSaved()
+            || (gradePlanSelectedLabel !== null && selectedGradePlanSize()?.poms.some((pom) => pom.exceptionReason !== null) === true)
+          : !canExport() || !styleReviewed || !checkReviewed || !baseDesignValid()) return null;
         const currentRecipe = recipeForCurrentOutputs();
+        const selectedPlanSize = customRun
+          ? customRun.find((size) => gradePlanLabelKey(size.label)
+            === gradePlanLabelKey(gradePlanSelectedLabel ?? gradePlanState!.plan!.baseSizeLabel!))
+          : null;
+        const label = customRun ? selectedPlanSize!.label : exportSizeLabel();
+        const pieces = customRun ? blockPieces(selectedPlanSize!.block!) : exportPieces();
+        const allowances = customRun ? allowancesForOptions(selectedPlanSize!.options!) : currentAllowances();
+        const projectorRun = customRun?.map((size) => ({
+          label: size.label, step: size.position, block: size.block!, allowances: allowancesForOptions(size.options!),
+        }));
+        const techPack = customRun
+          ? exportTechPackV2ForGradePlan(currentRecipe, customRun.map((size) => ({
+            label: size.label, measurements: size.measurements!, options: size.options!, block: size.block!,
+          })), undefined, stretchFabric, surfacePlacementsNow(), targetStyle, gradePlanState!.plan!.baseSizeLabel!,
+            pomExceptionRows(customRun))
+          : exportTechPackV2(currentRecipe, measurements, undefined, stretchFabric, recipeOptions(), surfacePlacementsNow(), targetStyle);
+        const approvalRefs = customRun && gradePlanState?.plan
+          ? [`grade-plan-sha256:${await jcsSha256Hex(gradePlanState.plan)}`]
+          : [];
+        const gradePlanFreeze = customRun && gradePlanState?.plan
+          ? { record: gradePlanState.plan, approvalRef: approvalRefs[0]! }
+          : undefined;
         return {
-          selectedSizes: [{ sizeId: `${recipe.name}-step-${exportStep}`, label }],
+          selectedSizes: [{ sizeId: customRun
+            ? `${recipe.name}-grade-plan-${gradePlanState!.plan!.revision}-${encodeURIComponent(label)}`
+            : `${recipe.name}-step-${selectedOutputStep()}`, label }],
+          ...(customRun ? {
+            schemaVersion: GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION,
+            approvalRefs,
+            gradePlanFreeze,
+          } : {}),
           artifacts: [
             { artifactId: "selected-size-svg", extension: "svg", displayName: `${recipe.name}-${label}.svg`, mediaType: "image/svg+xml", content: exportSvg(pieces, allowances, recipe.notches) },
             { artifactId: "selected-size-dxf", extension: "dxf", displayName: `${recipe.name}-${label}.dxf`, mediaType: "image/vnd.dxf", content: exportDxf(pieces, allowances) },
             { artifactId: "selected-size-tiled-pdf", extension: "pdf", displayName: `${recipe.name}-${label}.pdf`, mediaType: "application/pdf", content: exportPdf(pieces, allowances, undefined, 1.0, recipe.tiledPdfLocalCoordinates === true) },
             { artifactId: "selected-size-a0-pdf", extension: "pdf", displayName: `${recipe.name}-${label}-A0.pdf`, mediaType: "application/pdf", content: exportA0Pdf(pieces, allowances, recipe.notches, undefined, recipe.a0Overflow === true) },
-            { artifactId: "whole-run-tech-pack-pdf", extension: "pdf", displayName: `${recipe.name}-techpack.pdf`, mediaType: "application/pdf", content: exportTechPackV2(currentRecipe, measurements, undefined, stretchFabric, recipeOptions(), surfacePlacementsNow(), targetStyle) },
-            { artifactId: "whole-run-projector-svg", extension: "svg", displayName: `${recipe.name}-projector.svg`, mediaType: "image/svg+xml", content: exportProjectorSvg(currentRecipe, measurements, recipeOptions()) },
+            { artifactId: "whole-run-tech-pack-pdf", extension: "pdf", displayName: `${recipe.name}-techpack.pdf`, mediaType: "application/pdf", content: techPack },
+            { artifactId: "whole-run-projector-svg", extension: "svg", displayName: `${recipe.name}-projector.svg`, mediaType: "image/svg+xml", content: exportProjectorSvg(currentRecipe, measurements, recipeOptions(), projectorRun, customRun ? pomExceptionRows(customRun) : []) },
             { artifactId: "whole-run-surface-sheet-svg", extension: "svg", displayName: `${recipe.name}-surface-sheet.svg`, mediaType: "image/svg+xml", content: exportSurfaceSheet(surfacePlacementsNow(), targetStyle) },
           ],
         };

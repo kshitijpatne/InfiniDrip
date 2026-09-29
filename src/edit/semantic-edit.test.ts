@@ -13,6 +13,7 @@ import {
   requireSemanticEditEvaluation,
   requireSemanticEditSize,
   rebaseSemanticEditDocument,
+  replaySemanticEditsForDrafts,
   redoSemanticEdit,
   SEMANTIC_EDIT_HISTORY_LIMIT,
   semanticAnchorCatalog,
@@ -85,6 +86,19 @@ describe("semantic edit anchors", () => {
 });
 
 describe("semantic edit source and operations", () => {
+  it("replays an approved edit over explicit size drafts and blocks a changed base fingerprint", async () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "tee")!;
+    const measurements = STANDARD_M;
+    const block = sourceBlock(recipe, measurements);
+    const { fingerprint, document } = await emptyDocument(recipe, measurements);
+    const replay = replaySemanticEditsForDrafts(recipe, document, fingerprint, [{ label: "M", measurements, block }]);
+    expect(replay[0]!.issues).toEqual([]);
+    expect(replay[0]!.block).toEqual(block);
+    const stale = replaySemanticEditsForDrafts(recipe, document, "different-fingerprint", [{ label: "M", measurements, block }]);
+    expect(stale[0]!.block).toBe(block);
+    expect(stale[0]!.issues[0]!.code).toBe("rebase-required");
+  });
+
   it("fingerprints canonical source blocks and fails closed without Web Crypto", async () => {
     const recipe = GARMENTS[0];
     const block = sourceBlock(recipe);
@@ -168,6 +182,15 @@ describe("semantic edit source and operations", () => {
     expect(result.sizes.every((size) => size.canExport)).toBe(true);
     expect(result.sizes[0].block.roles.sleeve.edges[0]).not.toEqual(block.roles.sleeve.edges[0]);
     expect(block.roles.sleeve.edges[0]).toEqual(sourceBlock(recipe).roles.sleeve.edges[0]);
+
+    const oneSize = evaluateSemanticEditDocument(
+      recipe, STANDARD_M, optionsFor(recipe), edited, fingerprint, document.sourceInputs,
+      [{ label: "One size", step: 0 }],
+    );
+    expect(oneSize.status).toBe("ready");
+    expect(oneSize.sizes.map(({ label, step }) => ({ label, step }))).toEqual([{ label: "One size", step: 0 }]);
+    expect(oneSize.canExportSize(0)).toBe(true);
+    expect(oneSize.canExportSize(-1)).toBe(false);
   });
 
   it("reports every unchanged recipe baseline as usable across its declared sizes", async () => {

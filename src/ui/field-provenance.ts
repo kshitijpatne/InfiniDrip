@@ -2,6 +2,7 @@
 import { GARMENTS, STANDARD_M, type GarmentRecipe } from "../drafting";
 import { FIELDS } from "./controls";
 import type { RecoveryPayload, SavedDesign, StyleRecord } from "./project-records";
+import type { MeasurementCaptureSession } from "./measurement-capture";
 
 export const FIELD_DEFINITION_VERSION = 1;
 export const FIELD_OBSERVATION_RECORD_VERSION = 1;
@@ -365,6 +366,69 @@ export function createFieldObservationRecord(
     const raw = String(value);
     return makeObservation(definition, index + 1, raw, value, initialProvenance(origin), sourceLabel(origin),
       origin === "first-run-default" ? recordedAt : null, style.revision);
+  });
+  return {
+    schemaVersion: FIELD_OBSERVATION_RECORD_VERSION,
+    definitionVersion: FIELD_DEFINITION_VERSION,
+    styleId: style.id,
+    revision: observations.length,
+    updatedAt: recordedAt,
+    observations,
+  };
+}
+
+/**
+ * Creates the initial observation history for a custom style from the exact
+ * selected readings in its guided capture. Captured source metadata remains
+ * in the capture record; body capture dates are not promoted to qualified
+ * measurement dates here.
+ */
+export function createFieldObservationRecordFromCapture(
+  style: StyleRecord,
+  recordedAt: string,
+  session: MeasurementCaptureSession,
+): FieldObservationRecord {
+  if (!validTimestamp(recordedAt) || session.recipeId !== style.recipeId || session.styleId !== style.id) {
+    throw new Error("A ready recipe-matched capture is required to create field history.");
+  }
+  const definitions = getFieldDefinitions(style.recipeId);
+  if (definitions.length === 0 || definitions.length !== session.fields.length) {
+    throw new Error("The capture does not exactly cover the style's current recipe inputs.");
+  }
+  const unresolved = definitions.some((definition, index) => {
+    const field = session.fields[index];
+    const reading = field?.readings.find((candidate) => candidate.id === field.selectedReadingId);
+    return !field || field.fieldId !== definition.id || !reading || reading.canonicalValue === null
+      || !Number.isFinite(reading.canonicalValue) || reading.rawValue.trim() === ""
+      || reading.evidenceStatus === "CONFLICT"
+      || reading.canonicalValue < definition.min || reading.canonicalValue > definition.max;
+  });
+  if (unresolved) throw new Error("Resolve every measurement and construction field before creating its field history.");
+  const observations = definitions.map((definition, index) => {
+    const field = session.fields[index];
+    const reading = field?.readings.find((candidate) => candidate.id === field.selectedReadingId);
+    if (!field || field.fieldId !== definition.id || !reading
+      || field.inputKey !== definition.inputKey || field.inputKind !== definition.inputKind
+      || field.semanticId !== definition.semanticId || field.semanticKind !== definition.semanticKind
+      || reading.canonicalValue === null || !Number.isFinite(reading.canonicalValue)
+      || reading.evidenceStatus === "CONFLICT"
+      || (reading.provenance !== "USER_CAPTURED" && reading.provenance !== "USER_SELECTED" && reading.provenance !== "PRESET")
+      || (reading.provenance === "USER_CAPTURED" && definition.semanticKind !== "BODY_MEASURE")
+      || (reading.provenance === "USER_SELECTED" && definition.semanticKind === "BODY_MEASURE")
+      || currentValue(style.design, definition) !== reading.canonicalValue) {
+      throw new Error(`The selected capture for ${definition.label} does not match the saved custom style.`);
+    }
+    return makeObservation(
+      definition,
+      index + 1,
+      reading.rawValue,
+      reading.canonicalValue,
+      reading.provenance,
+      reading.sourceLabel,
+      null,
+      style.revision,
+      reading.evidenceStatus,
+    );
   });
   return {
     schemaVersion: FIELD_OBSERVATION_RECORD_VERSION,

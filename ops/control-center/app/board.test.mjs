@@ -73,8 +73,12 @@ test("closed Epics 14 and 15 and gated future backlog match their evidence", () 
     const goal = `G${String(index).padStart(2, "0")}`;
     const epic = board.epics.find((entry) => entry.id === id);
     const card = board.workItems.find((entry) => entry.id === id);
-    const expectedEpicStatus = id === "EPIC-14" || id === "EPIC-15" ? "Closed" : "Backlog";
-    const expectedCardStatus = id === "EPIC-14" || id === "EPIC-15" ? "Done" : "Backlog";
+    const expectedEpicStatus = id === "EPIC-14" || id === "EPIC-15"
+      ? "Closed"
+      : id === "EPIC-16" ? "In Progress" : "Backlog";
+    const expectedCardStatus = id === "EPIC-14" || id === "EPIC-15"
+      ? "Done"
+      : id === "EPIC-16" ? "In Progress" : "Backlog";
     assert.equal(epic?.status, expectedEpicStatus);
     assert.equal(card?.status, expectedCardStatus);
     assert.equal(card?.type, "epic");
@@ -84,6 +88,20 @@ test("closed Epics 14 and 15 and gated future backlog match their evidence", () 
     if (id === "EPIC-15") {
       assert.ok(card.evidenceRefs.includes("E-EPIC15-S240-EXIT"));
       assert.ok(epic.evidenceRefs.includes("E-EPIC15-G02-MERGE-S241"));
+    }
+    if (id === "EPIC-16") {
+      assert.match(epic.description, /docs\/planning\/EPIC-16-ADMISSION\.md/);
+      const admittedWork = board.workItems.filter((entry) => entry.epicId === id && entry.id !== id);
+      assert.deepEqual(admittedWork.map((entry) => entry.id), [
+        "EPIC16-M01", "EPIC16-M02", "EPIC16-M03", "EPIC16-FINAL-REVIEW", "EPIC16-M03-SAFETY",
+      ]);
+      assert.equal(admittedWork[0].status, "Done");
+      assert.deepEqual(admittedWork.slice(1).map((entry) => entry.status), [
+        "Done", "Done", "Review", "Done",
+      ]);
+      assert.deepEqual(admittedWork.map((entry) => entry.dependencies.at(-1)), [
+        "EPIC-15", "EPIC16-M01", "EPIC16-M02", "EPIC16-M03-SAFETY", "EPIC16-M03",
+      ]);
     }
   }
   const expectedLaneStatus = { A: "Done", B: "Done", C: "Done", D: "Done" };
@@ -182,7 +200,9 @@ test("closed Epics 14 and 15 and gated future backlog match their evidence", () 
   assert.match(mergeExitReport, /46b78b76c799e54657c46e6fb0053c042a6b36eb/);
   const futureEpics = board.epics.filter((entry) => /^EPIC-(1[6-9]|2\d|30)$/.test(entry.id));
   assert.equal(futureEpics.length, 15);
-  assert.ok(futureEpics.every((entry) => entry.status === "Backlog"), "later goals remain gated in Backlog");
+  assert.equal(futureEpics.find((entry) => entry.id === "EPIC-16")?.status, "In Progress");
+  assert.ok(futureEpics.filter((entry) => entry.id !== "EPIC-16").every((entry) => entry.status === "Backlog"),
+    "only admitted EPIC-16 leaves the future goals in Backlog");
   const g02AdmissionEvidence = board.evidence.find((entry) => entry.id === "E-EPIC15-G02-ADMISSION-S229");
   const f01StorageContractEvidence = board.evidence.find((entry) => entry.id === "E-EPIC15-F01-STORAGE-S230");
   const f01RecordModelEvidence = board.evidence.find((entry) => entry.id === "E-EPIC15-F01-MODEL-S231");

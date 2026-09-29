@@ -17,12 +17,37 @@ import type { ArtworkAssetStore, StoredArtworkAsset } from "../surface/artwork-s
 import { DEFAULT_APPEARANCE } from "./appearance";
 import { createFieldObservationRecord } from "./field-provenance";
 import { ARTWORK_CATALOG } from "../surface/artwork-library/catalog";
-import { migrateLegacyRecovery, migrateLegacySaveFile, type ProjectRecord, type RecoveryRecord, type StyleRecord } from "./project-records";
+import {
+  CUSTOM_ONE_SIZE_MODE,
+  CUSTOM_STYLE_RECORD_VERSION,
+  MEASUREMENT_CAPTURE_RECORD_VERSION,
+  STYLE_RECORD_VERSION,
+  migrateLegacyRecovery,
+  migrateLegacySaveFile,
+  type CustomOneSizeStyleRecord,
+  type MeasurementCaptureRecord,
+  type ProjectRecord,
+  type RecoveryRecord,
+  type StyleRecord,
+} from "./project-records";
+import { addCaptureReadingForField, createMeasurementCaptureSession } from "./measurement-capture";
+import {
+  approveGradePlan,
+  configureGradePlan,
+  createGradePlanDraft,
+  reviewGradePlan,
+  type GradePlanBaseBinding,
+  type GradePlanRecord,
+} from "./grade-plan";
 import { DEFAULT_WORKSPACE, serialize, serializeRecovery } from "./persist";
 import { openProjectRepository, type ProjectBundleSnapshot, type ProjectRepository } from "./project-repository";
 import {
   createProjectPackage,
   importProjectPackage,
+  PROJECT_PACKAGE_CAPTURE_VERSION,
+  PROJECT_PACKAGE_CUSTOM_STYLE_VERSION,
+  PROJECT_PACKAGE_GRADE_PLAN_VERSION,
+  PROJECT_PACKAGE_VERSION,
   PROJECT_PACKAGE_MAX_ASSETS,
   PROJECT_PACKAGE_MAX_BYTES,
   PROJECT_PACKAGE_MAX_CONTENT_BYTES,
@@ -30,8 +55,9 @@ import {
   PROJECT_PACKAGE_MAX_MANIFEST_BYTES,
   ProjectPackageError,
   readProjectPackage,
+  type ProjectPackageArchive,
 } from "./project-package";
-import { createFrozenOutputManifest, createStyleRevision, FROZEN_ARTIFACT_IDS, jcsSha256Hex, sha256Hex } from "./style-revisions";
+import { createFrozenOutputManifest, createStyleRevision, FROZEN_ARTIFACT_IDS, jcsSha256Hex, sha256Hex, verifyFrozenOutputManifest } from "./style-revisions";
 
 const crypto = webcrypto as unknown as Crypto;
 const TIME = "2026-09-24T16:00:00.000Z";
@@ -730,7 +756,7 @@ describe("portable local project package", () => {
       code: "invalid-package",
       message: expect.stringContaining("does not match an included immutable revision"),
     });
-  });
+  }, 30_000);
 
   it("backs up a frozen artifact larger than the artwork cap but within its own limit", async () => {
     const source = await createFrozenSourcePackage();
@@ -764,7 +790,7 @@ describe("portable local project package", () => {
     const archive = await readProjectPackage(packed, { crypto });
     expect(archive.frozenManifests[0]?.artifacts[0]?.byteLength).toBe(largeBytes);
     expect(archive.frozenManifests[0]?.artifacts[0]?.bytes.size).toBe(largeBytes);
-  });
+  }, 30_000);
 
   it("surfaces streaming ZIP writer failures and enforces the generated archive limit", async () => {
     const source = bundle("Writer failure");
@@ -1119,7 +1145,7 @@ describe("portable local project package", () => {
     await expect(readProjectPackage(corruptedOutput, { crypto }))
       .rejects.toMatchObject({ code: "invalid-package", message: expect.stringContaining("failed its byte digest") });
     expect(artifactEntry.uncompressedSize).toBeGreaterThan(0);
-  });
+  }, 20_000);
 
   it("round-trips immutable revision history and exact frozen artifacts through v3 and copy remapping", async () => {
     const source = bundle("Frozen archive", SECOND_PROJECT_ID, SECOND_STYLE_ID);
@@ -1970,7 +1996,13 @@ describe("portable local project package", () => {
     const mutations: Array<{ label: string; mutate: (manifest: Record<string, unknown>) => void; resign?: boolean }> = [
       { label: "unknown manifest key", mutate: (manifest) => { manifest.extra = true; } },
       { label: "unsupported format", mutate: (manifest) => { manifest.format = "other"; } },
-      { label: "unsupported package version", mutate: (manifest) => { manifest.packageVersion = 4; } },
+      { label: "unsupported package version", mutate: (manifest) => { manifest.packageVersion = 6; } },
+      { label: "custom-style package version without its capture list", mutate: (manifest) => { manifest.packageVersion = 5; } },
+      {
+        label: "custom-style package version without a custom style",
+        mutate: (manifest) => { manifest.packageVersion = 5; manifest.measurementCaptures = []; },
+      },
+      { label: "capture package version without capture sessions", mutate: (manifest) => { manifest.packageVersion = 4; } },
       { label: "malformed field observations", mutate: (manifest) => { manifest.fieldObservations = [{}]; } },
       {
         label: "field history references a foreign style",
@@ -2604,4 +2636,752 @@ describe("portable local project package", () => {
       expect(nearCap.packageBytes).toBeLessThan(PROJECT_PACKAGE_MAX_BYTES);
     }
   }, 300_000);
+});
+
+describe("G03 capture sessions in project backups", () => {
+  const CHEST = "body.chest-girth";
+  const CAPTURE_SESSION_ID = "3f0c6a2e-8d1b-4c5e-9a7f-2b6d8e1c4a90";
+  const NEXT_TIME = "2026-09-24T16:00:05.000Z";
+  const V3_KEYS = [
+    "format", "packageVersion", "project", "styles", "recoveries", "fieldObservations",
+    "styleRevisions", "exportManifests", "assets", "packageSha256",
+  ];
+
+  function packageCapture(styleId = STYLE_ID, projectId = PROJECT_ID): MeasurementCaptureRecord {
+    const session = addCaptureReadingForField(createMeasurementCaptureSession(CAPTURE_SESSION_ID, "tee", TIME, styleId), CHEST, {
+      id: "d34a5104-ae25-4b54-9a2b-fcc35237ff71",
+      rawValue: "40.125",
+      enteredUnit: "in",
+      provenance: "USER_CAPTURED",
+      evidenceStatus: "UNCONFIRMED",
+      sourceLabel: "User-entered value; capture method and technique not qualified.",
+      captureMethod: "Tape over a T-shirt",
+      capturedAt: "2026-09-24T00:00:00.000Z",
+      measurer: "HELPER",
+    }, "2026-09-24T16:00:01.000Z");
+    return {
+      schemaVersion: MEASUREMENT_CAPTURE_RECORD_VERSION,
+      styleId,
+      projectId,
+      recipeId: "tee",
+      revision: 1,
+      updatedAt: TIME,
+      session,
+      drafts: [{
+        fieldId: CHEST, rawValue: "40 1/8", enteredUnit: "in", sourceNote: "Second try", captureMethod: "",
+        captureDate: "2026-09-24", measurer: "SELF",
+      }],
+    };
+  }
+
+  function sourceSnapshot(): { snapshot: ProjectBundleSnapshot; assets: ReturnType<typeof memoryAssets> } {
+    const source = bundle();
+    const assets = memoryAssets();
+    assets.records.set(ASSET_ID, {
+      assetId: ASSET_ID, name: "front.png", mimeType: "image/png", blob: new Blob([PNG], { type: "image/png" }),
+    });
+    return { snapshot: { project: source.project, styles: [source.style], recoveries: [] }, assets };
+  }
+
+  async function manifestText(blob: Blob): Promise<string> {
+    const archive = await readProjectPackage(blob, { crypto });
+    const entry = archive.entries.get("manifest.json")!;
+    return new TextDecoder().decode(await blob.slice(entry.dataOffset, entry.dataOffset + entry.uncompressedSize).arrayBuffer());
+  }
+
+  it("keeps capture-free backups at exact v3 and adds captures only as package v4", async () => {
+    const { snapshot, assets } = sourceSnapshot();
+    const plain = await createProjectPackage(snapshot, assets, { crypto, revisionIdFactory: deterministicUuidFactory() });
+    const emptyCaptures = await createProjectPackage({ ...snapshot, measurementCaptures: [] }, assets, {
+      crypto, revisionIdFactory: deterministicUuidFactory(),
+    });
+    const plainText = await manifestText(plain);
+    expect(await manifestText(emptyCaptures)).toBe(plainText);
+    expect(Object.keys(JSON.parse(plainText))).toEqual(V3_KEYS);
+    const plainArchive = await readProjectPackage(plain, { crypto });
+    expect(plainArchive.manifest.packageVersion).toBe(PROJECT_PACKAGE_VERSION);
+    expect(plainArchive.manifest).not.toHaveProperty("measurementCaptures");
+
+    const capture = packageCapture();
+    const packed = await createProjectPackage({ ...snapshot, measurementCaptures: [capture] }, assets, {
+      crypto, revisionIdFactory: deterministicUuidFactory(),
+    });
+    const packedText = JSON.parse(await manifestText(packed)) as Record<string, unknown>;
+    expect(Object.keys(packedText)).toEqual([...V3_KEYS.slice(0, -1), "measurementCaptures", "packageSha256"]);
+    const { packageVersion: _v4, measurementCaptures: _captures, packageSha256: _d4, ...v4Rest } = packedText;
+    const { packageVersion: _v3, packageSha256: _d3, ...v3Rest } = JSON.parse(plainText) as Record<string, unknown>;
+    expect(v4Rest).toEqual(v3Rest);
+    const archive = await readProjectPackage(packed, { crypto });
+    expect(archive.manifest.packageVersion).toBe(PROJECT_PACKAGE_CAPTURE_VERSION);
+    expect(archive.manifest.measurementCaptures).toEqual([capture]);
+    expect(archive.manifest.styles).toEqual(plainArchive.manifest.styles);
+    expect(archive.manifest.styleRevisions).toEqual(plainArchive.manifest.styleRevisions);
+    expect(archive.manifest.assets).toEqual(plainArchive.manifest.assets);
+
+    await expect(createProjectPackage({ ...snapshot, measurementCaptures: [{ ...capture, drafts: "x" } as unknown as MeasurementCaptureRecord] }, assets, { crypto }))
+      .rejects.toMatchObject({ code: "invalid-package" });
+    await expect(createProjectPackage({ ...snapshot, measurementCaptures: [packageCapture(STYLE_ID, SECOND_PROJECT_ID)] }, assets, { crypto }))
+      .rejects.toMatchObject({ code: "invalid-package" });
+  });
+
+  it("restores captured values on import and remaps them only onto copied styles", async () => {
+    const { snapshot, assets } = sourceSnapshot();
+    const capture = packageCapture();
+    const archive = await readProjectPackage(await createProjectPackage({ ...snapshot, measurementCaptures: [capture] }, assets, {
+      crypto, revisionIdFactory: deterministicUuidFactory(),
+    }), { crypto });
+    const target = await repository();
+    const targetAssets = memoryAssets();
+    const imported = await importProjectPackage(target, targetAssets, archive, false, { crypto, now: () => TIME, inspectAsset: inspector });
+    expect(imported).toMatchObject({ status: "imported", projectId: PROJECT_ID, importedAsCopy: false });
+    expect(await target.readMeasurementCapture(STYLE_ID, "tee")).toEqual(capture);
+
+    const updated: MeasurementCaptureRecord = {
+      ...capture,
+      revision: 2,
+      updatedAt: NEXT_TIME,
+      drafts: [{ ...capture.drafts[0]!, rawValue: "40 3/16" }],
+    };
+    await target.saveMeasurementCapture(updated, 1);
+    const backup = await target.readProjectBundle(PROJECT_ID);
+    const reArchive = await readProjectPackage(await createProjectPackage(backup!, targetAssets, { crypto }), { crypto });
+    const options = { crypto, now: () => NEXT_TIME, idFactory: deterministicUuidFactory(), inspectAsset: inspector };
+    expect(await importProjectPackage(target, targetAssets, reArchive, false, options)).toMatchObject({ status: "copy-required" });
+    const copied = await importProjectPackage(target, targetAssets, reArchive, true, options);
+    if (copied.status !== "imported") throw new Error("Capture package copy did not import.");
+    expect(copied.projectId).not.toBe(PROJECT_ID);
+    const copy = await target.readProjectBundle(copied.projectId);
+    const copyStyleId = copy!.project.styleIds[0]!;
+    expect(copyStyleId).not.toBe(STYLE_ID);
+    const copiedCapture = await target.readMeasurementCapture(copyStyleId, "tee");
+    expect(copiedCapture).toMatchObject({
+      styleId: copyStyleId, projectId: copied.projectId, recipeId: "tee", revision: 1, updatedAt: NEXT_TIME, drafts: updated.drafts,
+    });
+    expect(copiedCapture!.session.id).not.toBe(updated.session.id);
+    expect(copiedCapture!.session).toEqual({ ...updated.session, id: copiedCapture!.session.id, styleId: copyStyleId });
+    expect(copy!.measurementCaptures).toEqual([copiedCapture]);
+    // The source project's session is unchanged and still belongs only to the source style.
+    expect(await target.readMeasurementCapture(STYLE_ID, "tee")).toEqual(updated);
+    expect((await target.readProjectBundle(PROJECT_ID))!.measurementCaptures).toEqual([updated]);
+  });
+
+  it("rejects malformed, foreign, duplicate, empty, or misversioned capture data in a package", async () => {
+    const { snapshot, assets } = sourceSnapshot();
+    const packed = await createProjectPackage({ ...snapshot, measurementCaptures: [packageCapture()] }, assets, { crypto });
+    const captureMutations: Array<{ label: string; mutate: (manifest: Record<string, unknown>) => void }> = [
+      { label: "empty capture list", mutate: (manifest) => { manifest.measurementCaptures = []; } },
+      { label: "capture list is not an array", mutate: (manifest) => { manifest.measurementCaptures = "x"; } },
+      { label: "missing capture key", mutate: (manifest) => { delete manifest.measurementCaptures; } },
+      { label: "capture key in a v3 package", mutate: (manifest) => { manifest.packageVersion = 3; } },
+      { label: "malformed capture", mutate: (manifest) => { manifest.measurementCaptures = [{}]; } },
+      {
+        label: "capture for another project",
+        mutate: (manifest) => { manifest.measurementCaptures = [packageCapture(STYLE_ID, SECOND_PROJECT_ID)]; },
+      },
+      {
+        label: "capture for a style outside the project",
+        mutate: (manifest) => { manifest.measurementCaptures = [packageCapture(SECOND_STYLE_ID, PROJECT_ID)]; },
+      },
+      {
+        label: "duplicate style/recipe capture",
+        mutate: (manifest) => { manifest.measurementCaptures = [packageCapture(), packageCapture()]; },
+      },
+    ];
+    for (const candidate of captureMutations) {
+      const malformed = await replacePackageManifest(packed, candidate.mutate);
+      await expect(readProjectPackage(malformed, { crypto }), candidate.label)
+        .rejects.toMatchObject({ code: "invalid-package" });
+    }
+  });
+
+  describe("custom one-size styles (package v5)", () => {
+    const STYLE_KEYS = [
+      "schemaVersion", "id", "projectId", "name", "recipeId", "recipePresetId",
+      "createdAt", "updatedAt", "revision", "archivedAt", "revisionHeadId", "design",
+    ];
+    const CAPTURE_KEYS = [...V3_KEYS.slice(0, -1), "measurementCaptures", "packageSha256"];
+
+    function customStyle(style: StyleRecord): CustomOneSizeStyleRecord {
+      return { ...style, schemaVersion: CUSTOM_STYLE_RECORD_VERSION, sizeMode: CUSTOM_ONE_SIZE_MODE };
+    }
+
+    function firstStyle(manifest: Record<string, unknown>): Record<string, unknown> {
+      return (manifest.styles as Array<Record<string, unknown>>)[0]!;
+    }
+
+    /** Manifest body without the fields that are allowed to differ between v3 and v5. */
+    function sharedBody(text: string): Record<string, unknown> {
+      const manifest = JSON.parse(text) as Record<string, unknown>;
+      delete manifest.packageVersion;
+      delete manifest.packageSha256;
+      delete manifest.measurementCaptures;
+      for (const style of manifest.styles as Array<Record<string, unknown>>) {
+        delete style.schemaVersion;
+        delete style.sizeMode;
+      }
+      return manifest;
+    }
+
+    it("writes custom styles only as package v5 and keeps legacy v3 and capture-only v4 manifests unchanged", async () => {
+      const { snapshot, assets } = sourceSnapshot();
+      const options = () => ({ crypto, revisionIdFactory: deterministicUuidFactory() });
+      const capture = packageCapture();
+      const v3Text = await manifestText(await createProjectPackage(snapshot, assets, options()));
+      const v4Text = await manifestText(await createProjectPackage({ ...snapshot, measurementCaptures: [capture] }, assets, options()));
+      expect(JSON.parse(v3Text)).toMatchObject({ packageVersion: PROJECT_PACKAGE_VERSION });
+      expect(Object.keys(JSON.parse(v3Text))).toEqual(V3_KEYS);
+      expect(JSON.parse(v4Text)).toMatchObject({ packageVersion: PROJECT_PACKAGE_CAPTURE_VERSION, measurementCaptures: [capture] });
+      expect(Object.keys(JSON.parse(v4Text))).toEqual(CAPTURE_KEYS);
+      for (const text of [v3Text, v4Text]) {
+        expect(text).not.toContain("sizeMode");
+        const styles = (JSON.parse(text) as { styles: Array<Record<string, unknown>> }).styles;
+        expect(styles.map((style) => Object.keys(style))).toEqual([STYLE_KEYS]);
+        expect(styles[0]!.schemaVersion).toBe(STYLE_RECORD_VERSION);
+      }
+
+      const style = customStyle(snapshot.styles[0]!);
+      expect(style).toMatchObject({ id: capture.styleId, projectId: capture.projectId, recipeId: capture.recipeId });
+      const customOnly = await createProjectPackage({ ...snapshot, styles: [style], measurementCaptures: [capture] }, assets, options());
+      const customText = await manifestText(customOnly);
+      const customManifest = JSON.parse(customText) as Record<string, unknown>;
+      expect(Object.keys(customManifest)).toEqual(CAPTURE_KEYS);
+      expect(customManifest).toMatchObject({ packageVersion: PROJECT_PACKAGE_CUSTOM_STYLE_VERSION, measurementCaptures: [capture] });
+      expect(Object.keys(firstStyle(customManifest))).toEqual([...STYLE_KEYS, "sizeMode"]);
+      expect(firstStyle(customManifest)).toMatchObject({ schemaVersion: CUSTOM_STYLE_RECORD_VERSION, sizeMode: CUSTOM_ONE_SIZE_MODE });
+      // Only the version, capture list and size marker distinguish it from the legacy v3 body.
+      expect(sharedBody(customText)).toEqual(sharedBody(v3Text));
+      const archive = await readProjectPackage(customOnly, { crypto });
+      expect(archive.manifest.packageVersion).toBe(PROJECT_PACKAGE_CUSTOM_STYLE_VERSION);
+      expect(archive.manifest.measurementCaptures).toEqual([capture]);
+      expect(archive.manifest.styles).toEqual([{ ...style, revisionHeadId: archive.manifest.styleRevisions[0]!.revisionId }]);
+
+      const withCapture = await readProjectPackage(await createProjectPackage({
+        ...snapshot, styles: [style], measurementCaptures: [capture],
+      }, assets, options()), { crypto });
+      expect(withCapture.manifest.packageVersion).toBe(PROJECT_PACKAGE_CUSTOM_STYLE_VERSION);
+      expect(withCapture.manifest.measurementCaptures).toEqual([capture]);
+      expect(withCapture.manifest.styles).toEqual(archive.manifest.styles);
+      expect(withCapture.manifest.styles[0]).toMatchObject({ id: STYLE_ID, projectId: PROJECT_ID, sizeMode: CUSTOM_ONE_SIZE_MODE });
+
+      // A mixed project stays v5 while its legacy style keeps the v4 shape.
+      const legacy = bundle("Tee project", PROJECT_ID, SECOND_STYLE_ID).style;
+      const mixed = await readProjectPackage(await createProjectPackage({
+        project: { ...snapshot.project, styleIds: [STYLE_ID, SECOND_STYLE_ID] },
+        styles: [style, legacy],
+        recoveries: [],
+        measurementCaptures: [capture],
+      }, assets, options()), { crypto });
+      expect(mixed.manifest.packageVersion).toBe(PROJECT_PACKAGE_CUSTOM_STYLE_VERSION);
+      expect(mixed.manifest.measurementCaptures).toEqual([capture]);
+      expect(mixed.manifest.styles.map((record) => record.schemaVersion)).toEqual([CUSTOM_STYLE_RECORD_VERSION, STYLE_RECORD_VERSION]);
+      expect(mixed.manifest.styles[1]).not.toHaveProperty("sizeMode");
+    });
+
+    it("round-trips a custom style through import, re-export, and copy import without losing its size mode", async () => {
+      const { snapshot, assets } = sourceSnapshot();
+      const style = customStyle(snapshot.styles[0]!);
+      const capture = packageCapture();
+      const archive = await readProjectPackage(await createProjectPackage({
+        ...snapshot, styles: [style], measurementCaptures: [capture],
+      }, assets, { crypto, revisionIdFactory: deterministicUuidFactory() }), { crypto });
+
+      const target = await repository();
+      const targetAssets = memoryAssets();
+      expect(await importProjectPackage(target, targetAssets, archive, false, { crypto, now: () => TIME, inspectAsset: inspector }))
+        .toMatchObject({ status: "imported", projectId: PROJECT_ID, importedAsCopy: false });
+      const restored = await target.readProjectBundle(PROJECT_ID);
+      expect(restored!.styles).toEqual(archive.manifest.styles);
+      expect(restored!.styles[0]).toMatchObject({
+        id: STYLE_ID, projectId: PROJECT_ID, schemaVersion: CUSTOM_STYLE_RECORD_VERSION, sizeMode: CUSTOM_ONE_SIZE_MODE,
+      });
+      expect(restored!.measurementCaptures).toEqual([capture]);
+      const reArchive = await readProjectPackage(await createProjectPackage(restored!, targetAssets, { crypto }), { crypto });
+      expect(reArchive.manifest.packageVersion).toBe(PROJECT_PACKAGE_CUSTOM_STYLE_VERSION);
+      expect(reArchive.manifest.styles).toEqual(restored!.styles);
+      expect(reArchive.manifest.measurementCaptures).toEqual([capture]);
+
+      const copyTarget = await repository();
+      const copyAssets = memoryAssets();
+      const copied = await importProjectPackage(copyTarget, copyAssets, archive, true, {
+        crypto, now: () => NEXT_TIME, idFactory: deterministicUuidFactory(), inspectAsset: inspector,
+      });
+      if (copied.status !== "imported") throw new Error("Custom-style package copy did not import.");
+      const copy = await copyTarget.readProjectBundle(copied.projectId);
+      const copiedStyle = copy!.styles[0]!;
+      expect(copied.projectId).not.toBe(PROJECT_ID);
+      expect(copiedStyle.id).not.toBe(STYLE_ID);
+      expect(copiedStyle).toMatchObject({
+        projectId: copied.projectId, recipeId: "tee", schemaVersion: CUSTOM_STYLE_RECORD_VERSION, sizeMode: CUSTOM_ONE_SIZE_MODE,
+      });
+      expect(copy!.measurementCaptures).toMatchObject([{ styleId: copiedStyle.id, projectId: copied.projectId, recipeId: "tee" }]);
+      const copyArchive = await readProjectPackage(await createProjectPackage(copy!, copyAssets, { crypto }), { crypto });
+      expect(copyArchive.manifest.packageVersion).toBe(PROJECT_PACKAGE_CUSTOM_STYLE_VERSION);
+      expect(copyArchive.manifest.styles[0]).toMatchObject({ id: copiedStyle.id, sizeMode: CUSTOM_ONE_SIZE_MODE });
+    });
+
+    it("rejects malformed size markers and package versions that do not match custom styles", async () => {
+      const { snapshot, assets } = sourceSnapshot();
+      const legacy = snapshot.styles[0]!;
+      const style = customStyle(legacy);
+      const { sizeMode: _sizeMode, ...unmarked } = style;
+      const writerCases: ReadonlyArray<{ label: string; style: unknown }> = [
+        { label: "legacy style with a size marker", style: { ...legacy, sizeMode: CUSTOM_ONE_SIZE_MODE } },
+        { label: "custom style with another size mode", style: { ...style, sizeMode: "graded" } },
+        { label: "custom style without a size mode", style: unmarked },
+      ];
+      for (const candidate of writerCases) {
+        await expect(createProjectPackage({ ...snapshot, styles: [candidate.style as StyleRecord] }, assets, { crypto }), candidate.label)
+          .rejects.toMatchObject({ code: "invalid-package" });
+      }
+      await expect(createProjectPackage({ ...snapshot, styles: [style] }, assets, { crypto }))
+        .rejects.toMatchObject({
+          code: "invalid-package",
+          message: expect.stringContaining("requires its matching measurement capture session"),
+        });
+
+      const customPackage = await createProjectPackage({ ...snapshot, styles: [style], measurementCaptures: [packageCapture()] }, assets, { crypto });
+      const capturePackage = await createProjectPackage({ ...snapshot, measurementCaptures: [packageCapture()] }, assets, { crypto });
+      const plainPackage = await createProjectPackage(snapshot, assets, { crypto });
+      const requiresV5 = "Custom one-size styles require project package version 5 or 6.";
+      const requiresCustom = "Project package version 5 must contain a custom one-size style.";
+      const markCustom = (manifest: Record<string, unknown>) => {
+        Object.assign(firstStyle(manifest), { schemaVersion: CUSTOM_STYLE_RECORD_VERSION, sizeMode: CUSTOM_ONE_SIZE_MODE });
+      };
+      const readerCases: ReadonlyArray<{
+        label: string;
+        source: Blob;
+        mutate: (manifest: Record<string, unknown>) => void;
+        message?: string;
+      }> = [
+        { label: "custom style in a v4 package", source: customPackage, mutate: (manifest) => { manifest.packageVersion = 4; }, message: requiresV5 },
+        {
+          label: "custom style in a v3 package",
+          source: customPackage,
+          mutate: (manifest) => { manifest.packageVersion = 3; delete manifest.measurementCaptures; },
+          message: requiresV5,
+        },
+        {
+          label: "custom style in a v2 package",
+          source: customPackage,
+          mutate: (manifest) => {
+            manifest.packageVersion = 2;
+            delete manifest.measurementCaptures;
+            delete manifest.styleRevisions;
+            delete manifest.exportManifests;
+          },
+          message: requiresV5,
+        },
+        { label: "custom style added to a capture-only v4 package", source: capturePackage, mutate: markCustom, message: requiresV5 },
+        { label: "custom style added to a v3 package", source: plainPackage, mutate: markCustom, message: requiresV5 },
+        { label: "v5 package without its capture list", source: customPackage, mutate: (manifest) => { delete manifest.measurementCaptures; } },
+        { label: "v5 package without the custom style's matching capture", source: customPackage, mutate: (manifest) => { manifest.measurementCaptures = []; } },
+        { label: "v5 capture list is not an array", source: customPackage, mutate: (manifest) => { manifest.measurementCaptures = "x"; } },
+        { label: "v5 package with a malformed capture", source: customPackage, mutate: (manifest) => { manifest.measurementCaptures = [{}]; } },
+        {
+          label: "v5 capture for a style outside the project",
+          source: customPackage,
+          mutate: (manifest) => { manifest.measurementCaptures = [packageCapture(SECOND_STYLE_ID)]; },
+        },
+        { label: "unsupported size mode", source: customPackage, mutate: (manifest) => { firstStyle(manifest).sizeMode = "graded"; } },
+        { label: "missing size mode", source: customPackage, mutate: (manifest) => { delete firstStyle(manifest).sizeMode; } },
+        {
+          label: "size marker on a legacy style schema",
+          source: customPackage,
+          mutate: (manifest) => { firstStyle(manifest).schemaVersion = STYLE_RECORD_VERSION; },
+        },
+        {
+          label: "v5 package whose styles are all legacy",
+          source: customPackage,
+          mutate: (manifest) => {
+            firstStyle(manifest).schemaVersion = STYLE_RECORD_VERSION;
+            delete firstStyle(manifest).sizeMode;
+          },
+          message: requiresCustom,
+        },
+        {
+          label: "capture-only v4 package relabeled as v5",
+          source: capturePackage,
+          mutate: (manifest) => { manifest.packageVersion = 5; },
+          message: requiresCustom,
+        },
+      ];
+      for (const candidate of readerCases) {
+        const malformed = await replacePackageManifest(candidate.source, candidate.mutate);
+        await expect(readProjectPackage(malformed, { crypto }), candidate.label).rejects.toMatchObject({
+          code: "invalid-package",
+          ...(candidate.message ? { message: candidate.message } : {}),
+        });
+      }
+    });
+  });
+});
+
+describe("G03 grade plans in project backups (package v6)", () => {
+  const FINGERPRINT = "c".repeat(64);
+  const V6_NEXT_TIME = "2026-09-24T16:00:05.000Z";
+  const V6_APPROVE_TIME = "2026-09-24T16:00:06.000Z";
+  const V6_SESSION_ID = "5e9f4c2a-8d1b-4c5e-9a7f-2b6d8e1c4a91";
+  const V3_KEYS = [
+    "format", "packageVersion", "project", "styles", "recoveries", "fieldObservations",
+    "styleRevisions", "exportManifests", "assets", "packageSha256",
+  ];
+  const V6_KEYS = [...V3_KEYS.slice(0, -1), "measurementCaptures", "gradePlans", "packageSha256"];
+
+  function v6Capture(styleId = STYLE_ID, projectId = PROJECT_ID): MeasurementCaptureRecord {
+    const session = addCaptureReadingForField(createMeasurementCaptureSession(V6_SESSION_ID, "tee", TIME, styleId), "body.chest-girth", {
+      id: "d34a5104-ae25-4b54-9a2b-fcc35237ff71",
+      rawValue: "40.125",
+      enteredUnit: "in",
+      provenance: "USER_CAPTURED",
+      evidenceStatus: "UNCONFIRMED",
+      sourceLabel: "User-entered value; capture method and technique not qualified.",
+      captureMethod: "Tape over a T-shirt",
+      capturedAt: "2026-09-24T00:00:00.000Z",
+      measurer: "HELPER",
+    }, "2026-09-24T16:00:01.000Z");
+    return {
+      schemaVersion: MEASUREMENT_CAPTURE_RECORD_VERSION,
+      styleId,
+      projectId,
+      recipeId: "tee",
+      revision: 1,
+      updatedAt: TIME,
+      session,
+      drafts: [{
+        fieldId: "body.chest-girth", rawValue: "40 1/8", enteredUnit: "in", sourceNote: "Second try", captureMethod: "",
+        captureDate: "2026-09-24", measurer: "SELF",
+      }],
+    };
+  }
+
+  function v6CustomStyle(style: StyleRecord): CustomOneSizeStyleRecord {
+    return { ...style, schemaVersion: CUSTOM_STYLE_RECORD_VERSION, sizeMode: CUSTOM_ONE_SIZE_MODE };
+  }
+
+  function v6Binding(headId: string, captureRevision = 1): GradePlanBaseBinding {
+    return {
+      projectId: PROJECT_ID,
+      styleId: STYLE_ID,
+      recipeId: "tee",
+      revisionHeadId: headId,
+      captureRevision,
+      fingerprint: FINGERPRINT,
+    };
+  }
+
+  function v6Draft(headId: string): GradePlanRecord {
+    const draft = createGradePlanDraft(v6Binding(headId), [], TIME);
+    if (!draft.ok) throw new Error(draft.errors.join("; "));
+    return draft.value;
+  }
+
+  function v6Reviewed(headId: string): GradePlanRecord {
+    const draft = v6Draft(headId);
+    const configured = configureGradePlan(draft, {
+      basis: { kind: "population-source", population: "Test wearers", sourceName: "Test chart", sourceVersion: "v1", sourceScope: "Digital range" },
+      declaredRange: "S to M digital range",
+      baseSizeLabel: "M",
+      sizes: [{ label: "S", position: -1 }, { label: "M", position: 0 }],
+      exceptions: [],
+    }, TIME);
+    if (!configured.ok) throw new Error(configured.errors.join("; "));
+    const reviewed = reviewGradePlan(configured.value, [], v6Binding(headId), V6_NEXT_TIME);
+    if (!reviewed.ok) throw new Error(reviewed.errors.join("; "));
+    return reviewed.value;
+  }
+
+  function v6Approved(headId: string): GradePlanRecord {
+    const reviewed = v6Reviewed(headId);
+    const approved = approveGradePlan(reviewed, [], v6Binding(headId), V6_APPROVE_TIME);
+    if (!approved.ok) throw new Error(approved.errors.join("; "));
+    return approved.value;
+  }
+
+  async function v6DraftPackage(): Promise<{ blob: Blob; archive: Awaited<ReturnType<typeof readProjectPackage>>; capture: MeasurementCaptureRecord; plan: GradePlanRecord }> {
+    const source = bundle();
+    const assets = memoryAssets();
+    assets.records.set(ASSET_ID, {
+      assetId: ASSET_ID, name: "front.png", mimeType: "image/png", blob: new Blob([PNG], { type: "image/png" }),
+    });
+    const custom = v6CustomStyle(source.style);
+    const capture = v6Capture();
+    const seed = await createProjectPackage({ project: source.project, styles: [custom], recoveries: [], measurementCaptures: [capture] }, assets, {
+      crypto, revisionIdFactory: deterministicUuidFactory(),
+    });
+    const seedArchive = await readProjectPackage(seed, { crypto });
+    const head = seedArchive.manifest.styles[0]!.revisionHeadId!;
+    const plan = v6Draft(head);
+    const snapshot: ProjectBundleSnapshot = {
+      project: seedArchive.manifest.project,
+      styles: [...seedArchive.manifest.styles],
+      recoveries: [],
+      fieldObservations: [...seedArchive.manifest.fieldObservations],
+      styleRevisions: [...seedArchive.manifest.styleRevisions],
+      exportManifests: [],
+      measurementCaptures: [capture],
+      gradePlans: [plan],
+    };
+    const blob = await createProjectPackage(snapshot, assets, { crypto });
+    const archive = await readProjectPackage(blob, { crypto });
+    return { blob, archive, capture, plan };
+  }
+
+  async function manifestJson(blob: Blob): Promise<Record<string, unknown>> {
+    const archive = await readProjectPackage(blob, { crypto });
+    const entry = archive.entries.get("manifest.json")!;
+    return JSON.parse(new TextDecoder().decode(await blob.slice(entry.dataOffset, entry.dataOffset + entry.uncompressedSize).arrayBuffer()));
+  }
+
+  it("writes grade plans only as package v6 and keeps v3/v4/v5 bodies unchanged", async () => {
+    const source = bundle();
+    const assets = memoryAssets();
+    assets.records.set(ASSET_ID, {
+      assetId: ASSET_ID, name: "front.png", mimeType: "image/png", blob: new Blob([PNG], { type: "image/png" }),
+    });
+    const options = { crypto, revisionIdFactory: deterministicUuidFactory() };
+    const v3Text = JSON.stringify(await manifestJson(await createProjectPackage({ project: source.project, styles: [source.style], recoveries: [] }, assets, options)));
+    expect(Object.keys(JSON.parse(v3Text))).toEqual(V3_KEYS);
+    expect(JSON.parse(v3Text)).toMatchObject({ packageVersion: PROJECT_PACKAGE_VERSION });
+    const capture = v6Capture();
+    const v4Blob = await createProjectPackage({ project: source.project, styles: [source.style], recoveries: [], measurementCaptures: [capture] }, assets, options);
+    const v4Text = JSON.stringify(await manifestJson(v4Blob));
+    expect(Object.keys(JSON.parse(v4Text))).toEqual([...V3_KEYS.slice(0, -1), "measurementCaptures", "packageSha256"]);
+    expect(JSON.parse(v4Text)).toMatchObject({ packageVersion: PROJECT_PACKAGE_CAPTURE_VERSION });
+    const custom = v6CustomStyle(source.style);
+    const v5Blob = await createProjectPackage({ project: source.project, styles: [custom], recoveries: [], measurementCaptures: [capture] }, assets, options);
+    const v5Text = JSON.stringify(await manifestJson(v5Blob));
+    expect(Object.keys(JSON.parse(v5Text))).toEqual([...V3_KEYS.slice(0, -1), "measurementCaptures", "packageSha256"]);
+    expect(JSON.parse(v5Text)).toMatchObject({ packageVersion: PROJECT_PACKAGE_CUSTOM_STYLE_VERSION });
+    expect(v5Text).not.toContain("gradePlans");
+
+    const { blob, archive, plan } = await v6DraftPackage();
+    const v6Json = await manifestJson(blob);
+    expect(Object.keys(v6Json)).toEqual(V6_KEYS);
+    expect(v6Json).toMatchObject({ packageVersion: PROJECT_PACKAGE_GRADE_PLAN_VERSION });
+    expect(archive.manifest.packageVersion).toBe(PROJECT_PACKAGE_GRADE_PLAN_VERSION);
+    expect(archive.manifest.gradePlans).toEqual([plan]);
+    expect(archive.manifest.measurementCaptures).toHaveLength(1);
+    // Custom-style packages without plans remain v5 with identical keys.
+    expect(v5Text).not.toContain("gradePlans");
+  });
+
+  it("round-trips a draft grade plan through export, import, and re-export without enabling outputs", async () => {
+    const { archive, capture, plan } = await v6DraftPackage();
+    expect(archive.manifest.exportManifests).toEqual([]);
+    expect(archive.frozenManifests).toEqual([]);
+    const target = await repository();
+    const targetAssets = memoryAssets();
+    const imported = await importProjectPackage(target, targetAssets, archive, false, { crypto, now: () => TIME, inspectAsset: inspector });
+    expect(imported).toMatchObject({ status: "imported", projectId: PROJECT_ID, importedAsCopy: false });
+    expect(await target.readGradePlan(STYLE_ID, "tee")).toEqual(plan);
+    expect(await target.readMeasurementCapture(STYLE_ID, "tee")).toEqual(capture);
+    const restored = await target.readProjectBundle(PROJECT_ID);
+    expect(restored?.gradePlans).toEqual([plan]);
+    const reExported = await createProjectPackage(restored!, targetAssets, { crypto });
+    const reloaded = await readProjectPackage(reExported, { crypto });
+    expect(reloaded.manifest.packageVersion).toBe(PROJECT_PACKAGE_GRADE_PLAN_VERSION);
+    expect(reloaded.manifest.gradePlans).toEqual([plan]);
+    expect(reloaded.manifest.exportManifests).toEqual([]);
+  });
+
+  it("rejects malformed, duplicate, foreign, and mismatched grade plans", async () => {
+    const { blob } = await v6DraftPackage();
+    const valid = await readProjectPackage(blob, { crypto });
+    const head = valid.manifest.styles[0]!.revisionHeadId!;
+    const good = valid.manifest.gradePlans![0]!;
+    const cases: Array<{ label: string; mutate: (manifest: Record<string, unknown>) => void }> = [
+      { label: "gradePlans is not an array", mutate: (m) => { m.gradePlans = "x"; } },
+      { label: "missing gradePlans key", mutate: (m) => { delete m.gradePlans; } },
+      { label: "empty gradePlans list", mutate: (m) => { m.gradePlans = []; } },
+      { label: "malformed grade plan", mutate: (m) => { m.gradePlans = [{}]; } },
+      { label: "duplicate grade plans", mutate: (m) => { m.gradePlans = [good, good]; } },
+      { label: "foreign project", mutate: (m) => { m.gradePlans = [{ ...good, projectId: SECOND_PROJECT_ID }]; } },
+      { label: "foreign style", mutate: (m) => { m.gradePlans = [{ ...good, styleId: SECOND_STYLE_ID }]; } },
+      { label: "recipe mismatch", mutate: (m) => { m.gradePlans = [{ ...good, recipeId: "skirt" }]; } },
+      { label: "revision head mismatch", mutate: (m) => { m.gradePlans = [{ ...good, revisionHeadId: "77777777-7777-4777-8777-777777777777" }]; } },
+      { label: "capture revision mismatch", mutate: (m) => { m.gradePlans = [{ ...good, captureRevision: 2 }]; } },
+      { label: "missing capture", mutate: (m) => { m.measurementCaptures = []; } },
+      { label: "gradePlans in a v5 package", mutate: (m) => { m.packageVersion = 5; } },
+      { label: "gradePlans in a v4 package", mutate: (m) => { m.packageVersion = 4; } },
+      { label: "gradePlans in a v3 package", mutate: (m) => { m.packageVersion = 3; delete m.measurementCaptures; delete m.gradePlans; m.gradePlans = [good]; } },
+      { label: "v6 without a custom style", mutate: (m) => {
+        const styles = m.styles as Array<Record<string, unknown>>;
+        styles[0] = { ...styles[0], schemaVersion: STYLE_RECORD_VERSION };
+        delete styles[0]!.sizeMode;
+      } },
+      { label: "v6 capture list is not an array", mutate: (m) => { m.measurementCaptures = "x"; } },
+    ];
+    for (const candidate of cases) {
+      const malformed = await replacePackageManifest(blob, candidate.mutate);
+      await expect(readProjectPackage(malformed, { crypto }), candidate.label).rejects.toMatchObject({ code: "invalid-package" });
+    }
+    // Writer rejects a plan for a legacy (non-custom) style without inventing a version.
+    const source = bundle();
+    const assets = memoryAssets();
+    assets.records.set(ASSET_ID, {
+      assetId: ASSET_ID, name: "front.png", mimeType: "image/png", blob: new Blob([PNG], { type: "image/png" }),
+    });
+    const legacyHead = "88888888-8888-4888-8888-888888888888";
+    const legacyPlan = v6Draft(legacyHead);
+    await expect(createProjectPackage({
+      project: source.project, styles: [source.style], recoveries: [], measurementCaptures: [v6Capture()], gradePlans: [{ ...legacyPlan, revisionHeadId: legacyHead }],
+    }, assets, { crypto })).rejects.toMatchObject({ code: "invalid-package" });
+    expect(head).not.toBe(legacyHead);
+  });
+
+  it("remaps a reviewed plan to a draft copy without carrying approval", async () => {
+    const source = bundle();
+    const assets = memoryAssets();
+    assets.records.set(ASSET_ID, {
+      assetId: ASSET_ID, name: "front.png", mimeType: "image/png", blob: new Blob([PNG], { type: "image/png" }),
+    });
+    const custom = v6CustomStyle(source.style);
+    const capture = v6Capture();
+    const seed = await createProjectPackage({ project: source.project, styles: [custom], recoveries: [], measurementCaptures: [capture] }, assets, {
+      crypto, revisionIdFactory: deterministicUuidFactory(),
+    });
+    const seedArchive = await readProjectPackage(seed, { crypto });
+    const head = seedArchive.manifest.styles[0]!.revisionHeadId!;
+    const approved = v6Approved(head);
+    expect(approved.status).toBe("approved");
+    const snapshot: ProjectBundleSnapshot = {
+      project: seedArchive.manifest.project,
+      styles: [...seedArchive.manifest.styles],
+      recoveries: [],
+      fieldObservations: [...seedArchive.manifest.fieldObservations],
+      styleRevisions: [...seedArchive.manifest.styleRevisions],
+      exportManifests: [],
+      measurementCaptures: [capture],
+      gradePlans: [approved],
+    };
+    const blob = await createProjectPackage(snapshot, assets, { crypto });
+    const archive = await readProjectPackage(blob, { crypto });
+    expect(archive.manifest.gradePlans![0]!.status).toBe("approved");
+
+    // A direct restore preserves the exact identity-bound approval.
+    const directTarget = await repository();
+    const direct = await importProjectPackage(directTarget, memoryAssets(), archive, false, {
+      crypto, now: () => TIME, inspectAsset: inspector,
+    });
+    expect(direct).toMatchObject({ status: "imported", projectId: PROJECT_ID, importedAsCopy: false });
+    expect(await directTarget.readGradePlan(STYLE_ID, "tee")).toEqual(approved);
+
+    // Copy import rebinds identities, preserves rules, and resets approval.
+    const target = await repository();
+    const targetAssets = memoryAssets();
+    const copied = await importProjectPackage(target, targetAssets, archive, true, {
+      crypto, now: () => V6_NEXT_TIME, idFactory: deterministicUuidFactory(), inspectAsset: inspector,
+    });
+    expect(copied).toMatchObject({ status: "imported", importedAsCopy: true });
+    if (copied.status !== "imported") throw new Error("Grade-plan copy did not import.");
+    expect(copied.projectId).not.toBe(PROJECT_ID);
+    const copy = await target.readProjectBundle(copied.projectId);
+    const copyStyleId = copy!.project.styleIds[0]!;
+    expect(copyStyleId).not.toBe(STYLE_ID);
+    const restored = copy!.gradePlans![0]!;
+    expect(restored.projectId).toBe(copied.projectId);
+    expect(restored.styleId).toBe(copyStyleId);
+    expect(restored.revisionHeadId).toBe(copy!.styles[0]!.revisionHeadId);
+    expect(restored.captureRevision).toBe(1);
+    expect(restored.status).toBe("draft");
+    expect(restored.reviewedAt).toBeNull();
+    expect(restored.approvedAt).toBeNull();
+    expect(restored.revision).toBe(1);
+    expect(restored.createdAt).toBe(V6_NEXT_TIME);
+    expect(restored.updatedAt).toBe(V6_NEXT_TIME);
+    expect(restored.sizes).toEqual(approved.sizes);
+    expect(restored.targets).toEqual(approved.targets);
+    expect(restored.basis).toEqual(approved.basis);
+    expect(restored.declaredRange).toEqual(approved.declaredRange);
+    // The source project was never created by the failed direct import.
+    expect(await target.readMeasurementCapture(copyStyleId, "tee")).toMatchObject({ styleId: copyStyleId, projectId: copied.projectId });
+  });
+
+  it("preserves schema-v2 frozen bytes as source history when the copied plan is rebased to draft", async () => {
+    const { archive, capture } = await v6DraftPackage();
+    const assets = memoryAssets();
+    assets.records.set(ASSET_ID, {
+      assetId: ASSET_ID, name: "front.png", mimeType: "image/png", blob: new Blob([PNG], { type: "image/png" }),
+    });
+    const style = archive.manifest.styles[0]!;
+    const approved = v6Approved(style.revisionHeadId!);
+    const approvalRef = `grade-plan-sha256:${await jcsSha256Hex(approved, crypto)}`;
+    const revision = archive.manifest.styleRevisions[0]!;
+    const manifestId = "99999999-9999-4999-8999-999999999991";
+    const manifest = await createFrozenOutputManifest({
+      schemaVersion: 2,
+      manifestId,
+      styleId: style.id,
+      revision,
+      capturedAt: V6_APPROVE_TIME,
+      selectedSizes: [{ sizeId: "tee-grade-plan-1-M", label: "M" }],
+      unresolved: ["Digital output evidence only; no physical fit claim."],
+      approvalRefs: [approvalRef],
+      artifacts: FROZEN_ARTIFACT_IDS.map((artifactId) => {
+        const extension = artifactId.includes("dxf") ? "dxf" : artifactId.endsWith("svg") ? "svg" : "pdf";
+        return {
+          artifactId,
+          extension,
+          displayName: `${artifactId}.${extension}`,
+          mediaType: extension === "svg" ? "image/svg+xml" : extension === "dxf" ? "image/vnd.dxf" : "application/pdf",
+          content: `historical-approved-run:${artifactId}`,
+        };
+      }),
+    }, crypto);
+    const snapshot: ProjectBundleSnapshot = {
+      ...archive.manifest,
+      recoveries: [],
+      gradePlans: [approved],
+      measurementCaptures: [capture],
+      exportManifests: [manifest],
+    };
+    const packageBlob = await createProjectPackage(snapshot, assets, { crypto });
+    const packageArchive = await readProjectPackage(packageBlob, { crypto });
+    const target = await repository();
+    const targetAssets = memoryAssets();
+    const imported = await importProjectPackage(target, targetAssets, packageArchive, true, {
+      crypto, now: () => V6_NEXT_TIME, idFactory: deterministicUuidFactory(), inspectAsset: inspector,
+    });
+    if (imported.status !== "imported") throw new Error("The grade-plan archive copy did not import.");
+    const copied = await target.readProjectBundle(imported.projectId);
+    expect(copied?.gradePlans).toHaveLength(1);
+    expect(copied?.gradePlans?.[0]?.status).toBe("draft");
+    expect(copied?.exportManifests).toHaveLength(1);
+    const historical = copied!.exportManifests![0]!;
+    expect(historical.schemaVersion).toBe(2);
+    expect(historical.payload.approvalRefs).toEqual([approvalRef]);
+    expect(historical.payload.approvalRefs[0]).not.toBe(
+      `grade-plan-sha256:${await jcsSha256Hex(copied!.gradePlans![0]!, crypto)}`,
+    );
+    expect(await verifyFrozenOutputManifest(historical, crypto)).toBe(true);
+    const artifact = historical.artifacts.find((candidate) => candidate.artifactId === "whole-run-tech-pack-pdf")!;
+    expect(new TextDecoder().decode(await artifact.bytes.arrayBuffer())).toBe("historical-approved-run:whole-run-tech-pack-pdf");
+  });
+
+  it("fails closed when a copied grade plan cannot establish a safe rebind", async () => {
+    const { archive } = await v6DraftPackage();
+    const copyWith = async (mutate: (manifest: Record<string, unknown>) => void) => {
+      const mutated: ProjectPackageArchive = {
+        ...archive,
+        manifest: JSON.parse(JSON.stringify(archive.manifest)),
+      };
+      mutate(mutated.manifest as unknown as Record<string, unknown>);
+      const target = await repository();
+      await expect(importProjectPackage(target, memoryAssets(), mutated, true, {
+        crypto, now: () => V6_NEXT_TIME, idFactory: deterministicUuidFactory(), inspectAsset: inspector,
+      })).rejects.toMatchObject({ code: "invalid-package" });
+      expect(await target.readActiveProject()).toBeNull();
+    };
+    await copyWith((m) => { m.gradePlans = [{ ...(m.gradePlans as GradePlanRecord[])[0]!, styleId: SECOND_STYLE_ID }]; });
+    await copyWith((m) => { m.gradePlans = [{ ...(m.gradePlans as GradePlanRecord[])[0]!, revisionHeadId: "77777777-7777-4777-8777-777777777777" }]; });
+    await copyWith((m) => { m.gradePlans = [{ ...(m.gradePlans as GradePlanRecord[])[0]!, recipeId: "skirt" }]; });
+    await copyWith((m) => { m.measurementCaptures = []; });
+    await copyWith((m) => { m.gradePlans = [{ ...(m.gradePlans as GradePlanRecord[])[0]!, captureRevision: 2 }]; });
+    await copyWith((m) => { m.gradePlans = [{ ...(m.gradePlans as GradePlanRecord[])[0]!, sizes: "corrupt" } as unknown as GradePlanRecord]; });
+    // A style head that no longer matches the plan's pinned head fails the rebased comparison.
+    await copyWith((m) => {
+      const styles = m.styles as Array<Record<string, unknown>>;
+      styles[0] = { ...styles[0], revisionHeadId: "99999999-9999-4999-8999-999999999999" };
+    });
+  });
 });

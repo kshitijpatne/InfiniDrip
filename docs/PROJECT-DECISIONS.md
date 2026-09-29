@@ -895,3 +895,58 @@ data collection still require their own explicit gate.
   in the tested Electron/Chromium profile; it does not prove browser quota or
   eviction resistance and does not wire app boot or current Save/Load. Keep
   that UI integration in Slice 233 and package import/export in Slice 234.
+
+## Manual UI quality findings and G03–G17 continuity — directed 2026-09-26
+
+- Preserve the maintainer's 15 annotated browser observations as high-priority
+  findings in `docs/research/UI-MANUAL-QUALITY-FINDINGS-2026-09.md`. They are
+  reports for review, not verified root causes or implementation scope.
+- Do not add them to the capability roadmap or canonical Control Center until
+  the maintainer confirms. Continue the G03–G17 sequence without interruption;
+  each related capability exit marks its finding **To be reviewed** and checks
+  accepted output against the observation without silently expanding scope.
+- Defer findings without a current roadmap owner and any residual scope from
+  partial overlaps until after G17 and a maintainer discussion. The requested
+  visual-identity, art-placement/material-response, Polo-neck, and export
+  reference research is not performed by this intake; conduct it only at the
+  appropriate admitted review or after-G17 scope checkpoint.
+- A capability's review may establish only digital rendering and data fidelity.
+  It does not establish physical fit, sewn construction, fabric print response,
+  factory acceptance, or production readiness. Existing launch-cost, supplier,
+  physical-sampling and hosted-service gates remain in force.
+
+## EPIC-16 custom one-size output identity — confirmed 2026-09-26
+
+- A custom style without an explicitly approved grade plan is a single-size
+  design. Its selected-size pattern exports remain available without grading.
+- Whole-run Tech Pack, Projector, and Marker outputs are withheld until the
+  user reviews and explicitly approves a grade plan. Existing legacy styles
+  keep their current export behavior and protected byte identities.
+- This is a digital output policy only; it does not qualify fit or a population
+  chart.
+
+## EPIC-16 graded POM reconciliation — confirmed 2026-09-27
+
+- Before any graded per-size or whole-run output is released, each applicable
+  generated POM must exactly equal the corresponding user-authored plan target
+  in unrounded centimetres. No tolerance or display rounding is used to pass a
+  mismatch.
+- A mismatched POM blocks that size's graded output. A whole-run artifact is
+  blocked if any declared size is blocked or unresolved. The UI must show the
+  target, generated value, and raw difference so the user can revise and
+  re-approve the plan.
+- An explicit `not applicable` exception is not a match. It may be honored only
+  where the output can identify the exception and reason; exceptions that
+  remove a required drafting input remain unsupported and block the affected
+  size and whole run.
+- Exact digital correspondence is not a physical measurement tolerance, fit
+  acceptance, or standards-conformance claim.
+
+## EPIC-16 custom-style inactive fields — implementation constraint
+
+- SaveFile v6 still requires the shared measurement object. A custom style
+  initializes measurements not consumed by its recipe to `STANDARD_M` as
+  schema-only padding. These values are not capture observations or recipe
+  inputs, are not copied from another style, and the custom style remains
+  locked to its recipe. This constraint preserves the protected legacy
+  SaveFile shape until a separately admitted schema migration.

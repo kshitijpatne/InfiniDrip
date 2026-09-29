@@ -10,6 +10,7 @@ import {
   createFrozenOutputManifest,
   createStyleRevision,
   FROZEN_ARTIFACT_IDS,
+  GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION,
   jcsSha256Hex,
   parseFrozenOutputManifestRecord,
   parseStyleRevisionRecord,
@@ -284,6 +285,29 @@ describe("immutable revision and frozen output records", () => {
     expect(parseFrozenOutputManifestRecord(overTotal)).toBeNull();
   });
 
+  it("binds a custom frozen output capture to the exact approved grade-plan digest", async () => {
+    const approvalRefs = [`grade-plan-sha256:${"a".repeat(64)}`];
+    const record = await createFrozenOutputManifest({
+      manifestId: "33333333-3333-4333-8333-333333333333",
+      styleId: STYLE_ID,
+      revision: await revisionFixture(),
+      capturedAt: TIME,
+      selectedSizes: [{ sizeId: "tee-grade-plan-2-M", label: "M" }],
+      unresolved: ["Physical fit is not verified."],
+      artifacts: frozenInputs(),
+      schemaVersion: GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION,
+      approvalRefs,
+    }, crypto);
+    expect(record.schemaVersion).toBe(2);
+    expect(record.payload.approvalRefs).toEqual(approvalRefs);
+    expect(parseFrozenOutputManifestRecord(record)).toEqual(record);
+    expect(await verifyFrozenOutputManifest(record, crypto)).toBe(true);
+    expect(parseFrozenOutputManifestRecord({
+      ...record,
+      payload: { ...record.payload, approvalRefs: ["grade-plan-sha256:short"] },
+    })).toBeNull();
+  });
+
   it("rejects partial, duplicate, empty, oversized, or unsafe output sets before a capture is returned", async () => {
     const revision = await revisionFixture();
     const base = {
@@ -318,5 +342,19 @@ describe("immutable revision and frozen output records", () => {
     await expect(createFrozenOutputManifest({ ...base, artifacts: overAggregateLimit }, crypto)).rejects.toThrow("128 MiB per-manifest limit");
     await expect(createFrozenOutputManifest({ ...base, manifestId: "bad-id", artifacts: frozenInputs() }, crypto)).rejects.toThrow("identity or capture inputs");
     await expect(createFrozenOutputManifest({ ...base, capturedAt: "2026-09-24", artifacts: frozenInputs() }, crypto)).rejects.toThrow("identity or capture inputs");
+  });
+
+  it("requires exactly one well-formed grade-plan approval reference for schema two", async () => {
+    const revision = await revisionFixture();
+    const schemaVersion: typeof GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION = GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION;
+    const base = {
+      manifestId: MANIFEST_ID, styleId: STYLE_ID, revision, capturedAt: TIME,
+      selectedSizes: [{ sizeId: "m", label: "M" }], unresolved: ["Digital only."],
+      artifacts: frozenInputs(), schemaVersion,
+    };
+    await expect(createFrozenOutputManifest({ ...base, approvalRefs: [] }, crypto)).rejects.toThrow("identity or capture inputs");
+    await expect(createFrozenOutputManifest({ ...base, approvalRefs: ["grade-plan-sha256:invalid"] }, crypto)).rejects.toThrow("identity or capture inputs");
+    await expect(createFrozenOutputManifest({ ...base, approvalRefs: [undefined as unknown as string] }, crypto))
+      .rejects.toThrow("identity or capture inputs");
   });
 });

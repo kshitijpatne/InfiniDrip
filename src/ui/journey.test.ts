@@ -116,6 +116,11 @@ describe("journeyChecklist — readiness", () => {
     expect(items.map((item) => item.label).join(" ")).not.toContain("Target fit reached");
   });
 
+  it("keeps Measure pending on a fresh garment screen until the user leaves that stage", () => {
+    const document = stageDocument(journeyBarMarkup("start", readiness({ inputsOk: false })));
+    expect(document.querySelector<HTMLButtonElement>("#journey-step-measure")?.dataset.stageState).toBe("pending");
+  });
+
   it("requires both a passing check and an explicit check review", () => {
     expect(journeyChecklist(readiness({ checksOk: false })).map((item) => item.done)[3]).toBe(false);
     expect(journeyChecklist(readiness({ checkReviewed: false })).map((item) => item.done)[3]).toBe(false);
@@ -335,6 +340,7 @@ describe("journey persistence", () => {
   const state = (step: JourneyState["step"], status: TutorialState["status"], tutorialStep: TutorialState["step"]) => ({
     v: JOURNEY_VERSION,
     step,
+    hasAdvancedFromGarment: step !== "start",
     exported: false,
     familiar: status !== "unseen",
     tutorial: { status, step: tutorialStep },
@@ -344,24 +350,27 @@ describe("journey persistence", () => {
     expect(loadJourney()).toEqual(FRESH_JOURNEY);
   });
 
-  it("normalizes saved state to v3 while keeping the storage key", () => {
+  it("normalizes saved state to v4 while keeping the storage key", () => {
     expect(saveJourney({ v: 1, step: "refine", exported: true, tutorial: FRESH_TUTORIAL })).toBe(true);
     expect(JSON.parse(localStorage.getItem("patternworks_journey_v1")!)).toEqual({
-      v: JOURNEY_VERSION, step: "refine", exported: true, familiar: false, tutorial: FRESH_TUTORIAL,
+      v: JOURNEY_VERSION, step: "refine", hasAdvancedFromGarment: true,
+      exported: true, familiar: false, tutorial: FRESH_TUTORIAL,
     });
     expect(loadJourney()).toEqual({
       ...state("refine", "suppressed", "check"),
     });
     expect(saveJourney({ v: 99, step: "done", exported: false, familiar: true, tutorial: { status: "completed", step: "export" } })).toBe(true);
     expect(JSON.parse(localStorage.getItem("patternworks_journey_v1")!)).toEqual({
-      v: JOURNEY_VERSION, step: "done", exported: false, familiar: true, tutorial: { status: "completed", step: "export" },
+      v: JOURNEY_VERSION, step: "done", hasAdvancedFromGarment: true,
+      exported: false, familiar: true, tutorial: { status: "completed", step: "export" },
     });
   });
 
   it("normalizes malformed runtime stage without losing the nested tutorial", () => {
     expect(saveJourney({ v: JOURNEY_VERSION, step: "teleport" as never, exported: true, tutorial: FRESH_TUTORIAL })).toBe(true);
     expect(JSON.parse(localStorage.getItem("patternworks_journey_v1")!)).toEqual({
-      v: JOURNEY_VERSION, step: "start", exported: true, familiar: false, tutorial: FRESH_TUTORIAL,
+      v: JOURNEY_VERSION, step: "start", hasAdvancedFromGarment: false,
+      exported: true, familiar: false, tutorial: FRESH_TUTORIAL,
     });
   });
 
@@ -407,12 +416,23 @@ describe("journey persistence", () => {
     expect(loadJourney()).toEqual(state("measure", "suppressed", "measure"));
   });
 
-  it("resumes active v3 tutorial stages and returns an export substep to Check", () => {
+  it("resumes active v4 tutorial stages and returns an export substep to Check", () => {
     localStorage.setItem("patternworks_journey_v1", JSON.stringify(state("measure", "in_progress", "measure")));
     expect(loadJourney()).toEqual(state("measure", "in_progress", "measure"));
     localStorage.setItem("patternworks_journey_v1", JSON.stringify(state("output", "in_progress", "export")));
     expect(loadJourney()).toEqual(state("refine", "in_progress", "check"));
     expect(loadJourney(true)).toEqual(state("refine", "in_progress", "check"));
+  });
+
+  it("migrates v3 route position into the explicit garment-stage acknowledgement", () => {
+    localStorage.setItem("patternworks_journey_v1", JSON.stringify({
+      v: 3, step: "start", exported: false, familiar: true, tutorial: { status: "skipped", step: "garment" },
+    }));
+    expect(loadJourney().hasAdvancedFromGarment).toBe(false);
+    localStorage.setItem("patternworks_journey_v1", JSON.stringify({
+      v: 3, step: "measure", exported: false, familiar: true, tutorial: { status: "skipped", step: "measure" },
+    }));
+    expect(loadJourney().hasAdvancedFromGarment).toBe(true);
   });
 
   it("suppresses an undecided Welcome and preserves the returning-user Measure entry", () => {

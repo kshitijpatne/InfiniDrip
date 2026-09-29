@@ -3,10 +3,12 @@ import { DEFAULT_APPEARANCE } from "./appearance";
 import { GARMENTS, STANDARD_M, defaultGarmentOptions, type GarmentRecipe } from "../drafting";
 import { DEFAULT_WORKSPACE, deserializeRecovery, serialize, serializeRecovery } from "./persist";
 import { migrateLegacySaveFile, type RecoveryPayload, type StyleRecord } from "./project-records";
+import { addCaptureReadingForField, createMeasurementCaptureSession } from "./measurement-capture";
 import {
   appendRecoveryFieldObservations,
   assertRecipeFieldCoverage,
   createFieldObservationRecord,
+  createFieldObservationRecordFromCapture,
   currentFieldObservation,
   fieldDefinitionById,
   getAllFieldDefinitions,
@@ -118,6 +120,85 @@ describe("C03 field definitions and append-only observations", () => {
       canonicalValue: 100,
     });
     expect(getFieldDefinition("tee", "chest")?.defaultValue).toBe(STANDARD_M.chest);
+  });
+
+  it("seeds a custom style's field history from its exact selected capture provenance", () => {
+    const style = styleFor("woven-shirt");
+    let session = createMeasurementCaptureSession("3f0c6a2e-8d1b-4c5e-9a7f-2b6d8e1c4a90", "woven-shirt", TIME, style.id);
+    const definitions = getFieldDefinitions("woven-shirt");
+    definitions.forEach((definition, index) => {
+      const isOption = definition.inputKind === "option";
+      const provenance = isOption || definition.semanticKind !== "BODY_MEASURE"
+        ? "USER_SELECTED"
+        : definition.inputKey === "chest" ? "PRESET" : "USER_CAPTURED";
+      session = addCaptureReadingForField(session, definition.id, {
+        id: `00000000-0000-4000-8000-${String(index + 1).padStart(12, "0")}`,
+        rawValue: String(definition.defaultValue),
+        enteredUnit: definition.unit,
+        provenance,
+        evidenceStatus: "UNCONFIRMED",
+        sourceLabel: isOption ? "Selected digital construction option." : "Named digital starting value; not measured wearer data.",
+        captureMethod: null,
+        capturedAt: null,
+        measurer: null,
+      }, TIME);
+    });
+
+    const observations = createFieldObservationRecordFromCapture(style, TIME, session);
+    expect(observations.observations).toHaveLength(definitions.length);
+    expect(currentFieldObservation(observations, getFieldDefinition("woven-shirt", "chest")!)).toMatchObject({
+      provenance: "PRESET",
+      sourceLabel: "Named digital starting value; not measured wearer data.",
+      evidenceStatus: "UNCONFIRMED",
+      recordedAt: null,
+      confidence: "NOT_ASSESSED",
+    });
+    const buttonRows = observations.observations.filter((entry) => entry.semanticKind === "STYLE_CONTROL");
+    expect(buttonRows.length).toBeGreaterThan(0);
+    expect(buttonRows.every((entry) => entry.provenance === "USER_SELECTED")).toBe(true);
+    expect(parseFieldObservationRecord(observations).ok).toBe(true);
+  });
+
+  it("rejects capture history with an unresolved session, wrong recipe, or values that differ from the saved style", () => {
+    const woven = styleFor("woven-shirt");
+    const empty = createMeasurementCaptureSession("3f0c6a2e-8d1b-4c5e-9a7f-2b6d8e1c4a90", "woven-shirt", TIME, woven.id);
+    expect(() => createFieldObservationRecordFromCapture(woven, TIME, empty)).toThrow("Resolve every measurement");
+    expect(() => createFieldObservationRecordFromCapture(woven, TIME, { ...empty, fields: empty.fields.slice(1) }))
+      .toThrow("does not exactly cover");
+    expect(() => createFieldObservationRecordFromCapture(
+      { ...woven, recipeId: "unknown-recipe" }, TIME, { ...empty, recipeId: "unknown-recipe", fields: [] },
+    )).toThrow("does not exactly cover");
+
+    const tee = styleFor("tee");
+    expect(() => createFieldObservationRecordFromCapture(woven, TIME, {
+      ...empty,
+      recipeId: "tee",
+    })).toThrow("ready recipe-matched capture");
+
+    let ready = empty;
+    getFieldDefinitions("woven-shirt").forEach((definition, index) => {
+      const isOption = definition.inputKind === "option";
+      ready = addCaptureReadingForField(ready, definition.id, {
+        id: `00000000-0000-4000-8000-${String(index + 101).padStart(12, "0")}`,
+        rawValue: String(definition.defaultValue),
+        enteredUnit: definition.unit,
+        provenance: isOption || definition.semanticKind !== "BODY_MEASURE" ? "USER_SELECTED" : "USER_CAPTURED",
+        evidenceStatus: "UNCONFIRMED",
+        sourceLabel: "Entered in guided capture.",
+        captureMethod: null,
+        capturedAt: null,
+        measurer: null,
+      }, TIME);
+    });
+    expect(() => createFieldObservationRecordFromCapture({
+      ...woven,
+      id: "e8ff457f-982e-4b50-a12b-74bc5cc8fdd4",
+    }, TIME, ready))
+      .toThrow("ready recipe-matched capture");
+    expect(() => createFieldObservationRecordFromCapture(tee, TIME, ready)).toThrow("ready recipe-matched capture");
+    expect(() => createFieldObservationRecordFromCapture(woven, "yesterday", ready)).toThrow("ready recipe-matched capture");
+    const changed = { ...woven, design: { ...woven.design, measurements: { ...woven.design.measurements, chest: 99 } } };
+    expect(() => createFieldObservationRecordFromCapture(changed, TIME, ready)).toThrow("does not match the saved custom style");
   });
 
   it("appends raw user edits without clamping invalid values or mutating previous history", () => {

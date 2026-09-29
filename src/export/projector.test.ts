@@ -225,6 +225,151 @@ describe("exportProjectorSvg — slot sizing sanity", () => {
   });
 });
 
+describe("exportProjectorSvg — plan exceptions", () => {
+  it("escapes user-authored size labels and assigns safe deterministic layer IDs", () => {
+    const block = TEE.draft(STANDARD_M, {});
+    const source = exportProjectorSvg(TEE, STANDARD_M, {}, [
+      { label: 'S & <"M">', step: 0, block },
+    ]);
+    const parsed = new DOMParser().parseFromString(source, "image/svg+xml");
+    expect(parsed.querySelector("parsererror")).toBeNull();
+    expect(parsed.querySelector("g[inkscape\\:label]")?.getAttribute("id")).toBe("size-1");
+    expect(parsed.querySelector("g[inkscape\\:label]")?.getAttribute("inkscape:label")).toBe('Size S & <"M">');
+    expect([...parsed.getElementsByTagName("text")].some((label) => label.textContent?.includes('S & <"M"> FRONT'))).toBe(true);
+  });
+
+  it("sizes planned roles against sizes where a piece is absent and omits empty exception metadata", () => {
+    const block = TEE.draft(STANDARD_M, {});
+    const noSleeve = { ...block, roles: Object.fromEntries(Object.entries(block.roles).filter(([role]) => role !== "sleeve")) };
+    const svg = exportProjectorSvg(TEE, STANDARD_M, {}, [
+      { label: "M", step: 0, block },
+      { label: "XS", step: -1, block: noSleeve },
+    ]);
+    expect(svg).toContain('id="size-XS"');
+    expect(svg).not.toContain("<desc>");
+  });
+
+  it("includes approved not-applicable POM reasons in SVG metadata", () => {
+    const block = TEE.draft(STANDARD_M, {});
+    const svg = exportProjectorSvg(TEE, STANDARD_M, {}, [
+      { label: "M", step: 0, block },
+      { label: "L", step: 1, block },
+    ], [{ sizeLabel: "L", pomLabel: "Body chest", reason: "Not included in this product size." }]);
+    expect(svg).toContain("<desc>L - Body chest: not applicable - Not included in this product size.</desc>");
+  });
+});
+
+describe("exportProjectorSvg — visible exception legend", () => {
+  it("renders each N/A reason as legible escaped text below the geometry", () => {
+    const block = TEE.draft(STANDARD_M, {});
+    const source = exportProjectorSvg(TEE, STANDARD_M, {}, [
+      { label: "M", step: 0, block },
+      { label: "L", step: 1, block },
+    ], [
+      { sizeLabel: "L", pomLabel: "Body <chest>", reason: "Not in this size & intentionally <omitted>" },
+      { sizeLabel: "M", pomLabel: "Sleeve", reason: "Excluded." },
+    ]);
+    const parsed = new DOMParser().parseFromString(source, "image/svg+xml");
+    expect(parsed.querySelector("parsererror")).toBeNull();
+    // Machine metadata is retained alongside the visible legend.
+    expect(source).toContain("<desc>L - Body &lt;chest&gt;: not applicable - Not in this size &amp; intentionally &lt;omitted&gt;; M - Sleeve: not applicable - Excluded.</desc>");
+    const legend = parsed.querySelector('[id="pom-exceptions"]');
+    expect(legend).not.toBeNull();
+    const texts = [...legend!.getElementsByTagName("text")];
+    expect(texts).toHaveLength(3);
+    expect(texts[0].textContent).toBe("Excluded measurements (not applicable):");
+    expect(texts[1].textContent).toBe("L — Body <chest>: not applicable — Not in this size & intentionally <omitted>");
+    expect(texts[2].textContent).toBe("M — Sleeve: not applicable — Excluded.");
+    // Adversarial characters arrive escaped in the raw source.
+    expect(source).toContain("Body &lt;chest&gt;");
+    expect(source).toContain("Not in this size &amp; intentionally &lt;omitted&gt;");
+    // Every legend baseline sits below all projected geometry, rows never
+    // share a baseline, and the legend stays inside the canvas.
+    const maxPolyY = Math.max(
+      ...[...parsed.getElementsByTagName("polygon")].flatMap((poly) => polygonPoints(poly).map((pt) => pt.y))
+    );
+    const ys = texts.map((t) => Number(t.getAttribute("y")));
+    for (const y of ys) expect(y).toBeGreaterThan(maxPolyY);
+    expect(new Set(ys).size).toBe(ys.length);
+    const [, , , vh] = parsed.documentElement.getAttribute("viewBox")!.split(" ").map(Number);
+    expect(Math.max(...ys)).toBeLessThan(vh);
+  });
+
+  it("omits the legend and metadata when there are no exceptions", () => {
+    const plain = exportProjectorSvg(TEE, STANDARD_M);
+    expect(plain).not.toContain("pom-exceptions");
+    expect(plain).not.toContain("<desc>");
+  });
+
+  it("wraps long exception reasons into visible lines inside the expanded canvas", () => {
+    const block = TEE.draft(STANDARD_M, {});
+    const reason = `${"This documented construction exception explains the alternate inspection point. ".repeat(4).trim()} ${"X".repeat(600)}`;
+    const source = exportProjectorSvg(TEE, STANDARD_M, {}, [
+      { label: "M", step: 0, block },
+    ], [{ sizeLabel: "M", pomLabel: "Body chest", reason }]);
+    const parsed = new DOMParser().parseFromString(source, "image/svg+xml");
+    expect(parsed.querySelector("parsererror")).toBeNull();
+    const legendLines = [...parsed.querySelector("#pom-exceptions")!.getElementsByTagName("text")];
+    const visibleLines = legendLines.map((line) => line.textContent ?? "");
+    expect(visibleLines.length).toBeGreaterThan(2);
+    const [, , viewWidth, viewHeight] = parsed.documentElement.getAttribute("viewBox")!.split(" ").map(Number);
+    const maxChars = Math.floor((viewWidth - 10) / (1.5 * 0.62));
+    for (const [index, line] of legendLines.entries()) {
+      expect(visibleLines[index]!.length).toBeLessThanOrEqual(maxChars);
+      expect(Number(line.getAttribute("x"))).toBeGreaterThanOrEqual(5);
+      expect(Number(line.getAttribute("x"))).toBeLessThan(viewWidth - 5);
+      expect(Number(line.getAttribute("y"))).toBeLessThan(viewHeight);
+    }
+    const joinedLegend = visibleLines.join(" ").replace(/\s+/g, " ");
+    expect(joinedLegend).toContain(`M — Body chest: not applicable — ${reason.slice(0, -601)}`);
+    expect(visibleLines.filter((line) => /^X+$/u.test(line)).join("")).toBe("X".repeat(600));
+  });
+});
+
+describe("exportProjectorSvg — adversarial layer ids", () => {
+  it("keeps every layer id unique when safe labels repeat and fallbacks collide", () => {
+    const block = TEE.draft(STANDARD_M, {});
+    const source = exportProjectorSvg(TEE, STANDARD_M, {}, [
+      { label: "A/B", step: 0, block },
+      { label: "1", step: 1, block },
+      { label: "M", step: 2, block },
+      { label: "M", step: 3, block },
+    ]);
+    const parsed = new DOMParser().parseFromString(source, "image/svg+xml");
+    expect(parsed.querySelector("parsererror")).toBeNull();
+    const layers = [...parsed.getElementsByTagName("g")].filter(
+      (g) => g.getAttribute("inkscape:groupmode") === "layer"
+    );
+    expect(layers).toHaveLength(4);
+    const ids = layers.map((g) => g.getAttribute("id")!);
+    expect(new Set(ids).size).toBe(4);
+    // The unsafe "A/B" falls back to its stable 1-based run position; the
+    // safe "1" collides with that fallback and gains a suffix.
+    const byLabel = new Map(layers.map((g) => [g.getAttribute("id")!, g.getAttribute("inkscape:label")!]));
+    expect(byLabel.get("size-1")).toBe("Size A/B");
+    expect(byLabel.get("size-1-2")).toBe("Size 1");
+    // The first safe "M" keeps its legacy id; the repeat gains a suffix.
+    expect(byLabel.get("size-M")).toBe("Size M");
+    expect(byLabel.get("size-M-2")).toBe("Size M");
+    expect(ids).toContain("size-M");
+  });
+
+  it("increments the suffix across three identical safe labels", () => {
+    const block = TEE.draft(STANDARD_M, {});
+    const source = exportProjectorSvg(TEE, STANDARD_M, {}, [
+      { label: "M", step: 0, block },
+      { label: "M", step: 1, block },
+      { label: "M", step: 2, block },
+    ]);
+    const parsed = new DOMParser().parseFromString(source, "image/svg+xml");
+    expect(parsed.querySelector("parsererror")).toBeNull();
+    const ids = [...parsed.getElementsByTagName("g")]
+      .filter((g) => g.getAttribute("inkscape:groupmode") === "layer")
+      .map((g) => g.getAttribute("id")!);
+    expect(ids.sort()).toEqual(["size-M", "size-M-2", "size-M-3"]);
+  });
+});
+
 describe("exportProjectorSvg construction marks", () => {
   it("keeps an on-fold cut line singular and mirrors off-fold button placement", () => {
     const marked: GarmentRecipe = {

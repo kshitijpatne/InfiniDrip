@@ -1,0 +1,78 @@
+{
+  "slice": 247,
+  "status": "passed",
+  "createdAt": "2026-09-26T19:55:45.396Z",
+  "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+  "axeCoreVersion": "4.13.0",
+  "state": "Woven shirt guided capture with an exact invalid raw chest draft resumed after reload",
+  "keyboardRouteActivation": "Guide my measurements opened with Enter",
+  "accessibleFieldName": "The Chest capture input is exposed as a textbox named 'New reading for Chest'.",
+  "accessibleFieldTree": "- group \"Chest\":\n  - text: Chest\n  - paragraph:\n    - strong: \"Type:\"\n    - text: Body input ·\n    - strong: \"Refers to:\"\n    - text: the wearer's body\n  - paragraph:\n    - strong: \"Status:\"\n    - text: Invalid — needs correction\n  - paragraph:\n    - strong: \"What it means:\"\n    - text: Full wearer chest/bust girth used by the current recipe; the recipe's chest-derived neckline remains a calculation.\n  - paragraph:\n    - strong: \"How the draft uses it:\"\n    - text: The current draft sets panel width from (chest plus ease) divided by 4 and derives the neckline width from chest divided by 20 plus 2. The body-chest POM reads back chest plus ease. Pocket placement uses chest divided by 20.\n  - paragraph:\n    - strong: \"Source and limits:\"\n    - text: \"No accepted fit-qualified capture procedure exists for this field. This help explains meaning and digital use only; it gives no measuring steps and claims no fit. The chest/bust path is not defined by an accepted guide. Preserve the user-entered value as unconfirmed; a girth does not describe torso shape or prove fit. Open gate G-chest-path: exact level and plane are unreviewed. The derived neckline is a formula, not a measurement. Confidence stays NOT_ASSESSED; no fit claim.\"\n  - paragraph:\n    - strong: \"Range:\"\n    - text: Existing software guardrail 60–160 cm; not an industry standard or fit range. Values outside stay visible and block continuation without automatic changes.\n  - text: New reading for Chest\n  - textbox \"New reading for Chest\" [invalid]: \"123\"\n  - text: Unit for Chest\n  - combobox \"Unit for Chest\":\n    - option \"cm\" [selected]\n    - option \"in\"\n  - button \"Add reading\"\n  - group: Optional source details\n  - paragraph:\n    - strong: Recorded readings for Chest\n  - list \"Recorded readings for Chest\":\n    - listitem:\n      - paragraph:\n        - text: \"Reading 1: “not a number” cm — not a usable number\"\n        - strong: Selected for the draft\n      - paragraph: \"Entered by you as a body input · Unconfirmed · Source: User-entered value; capture method and technique not qualified.\"\n      - button \"Use reading 1\" [pressed]\n  - paragraph:\n    - strong: Digital preset\n    - text: \"— Standard M digital preset: 100 cm. Digital starting value — not a measurement of the wearer. It stays labeled as a preset after you use it.\"\n  - button \"Use digital preset value\"\n  - paragraph:\n    - strong: \"To resolve:\"\n    - text: Enter a finite numeric value; the original text stays visible.",
+  "viewports": [
+    {
+      "width": 320,
+      "height": 800,
+      "screenshot": "S247-guided-measurements-320.png",
+      "layout": {
+        "viewportWidth": 320,
+        "documentWidth": 320,
+        "bodyWidth": 320,
+        "capturePanel": {
+          "left": 8,
+          "right": 312,
+          "width": 304
+        },
+        "panelCanScrollInternally": true
+      },
+      "axeViolationCount": 0
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "layout": {
+        "viewportWidth": 390,
+        "documentWidth": 390,
+        "bodyWidth": 390,
+        "capturePanel": {
+          "left": 8,
+          "right": 382,
+          "width": 374
+        },
+        "panelCanScrollInternally": true
+      },
+      "axeViolationCount": 0
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "screenshot": "S247-guided-measurements-1440.png",
+      "layout": {
+        "viewportWidth": 1440,
+        "documentWidth": 1440,
+        "bodyWidth": 1440,
+        "capturePanel": {
+          "left": 16,
+          "right": 1424,
+          "width": 1408
+        },
+        "panelCanScrollInternally": true
+      },
+      "axeViolationCount": 0
+    }
+  ],
+  "browserMessages": [],
+  "screenshots": [
+    {
+      "path": "docs/research/epic16/evidence/S247-guided-measurements-320.png",
+      "sha256": "15d2130a39af7f299bba1c20a91917c6c11ac6badbd295243cf0d9cbf7f3e99a"
+    },
+    {
+      "path": "docs/research/epic16/evidence/S247-guided-measurements-1440.png",
+      "sha256": "a3b8ffb4ddad8ca3810f96942ce24e8cde45f292767c7cb968e398c47bfeeed5"
+    }
+  ],
+  "scope": [
+    "Checks cover the local production build at 320, 390 and 1440 CSS pixels, including WCAG 2.1 A/AA axe rules.",
+    "Chromium's accessible role tree, keyboard activation, and axe checks cover screen-reader-facing semantics; no physical fit or usability claim is made."
+  ]
+}

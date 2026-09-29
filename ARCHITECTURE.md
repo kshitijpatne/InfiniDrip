@@ -58,6 +58,97 @@ which measurements, options, pieces, and construction details to use. A tee
 and a skirt use different rules and shapes, but the same app tools display,
 check, compare sizes, estimate fabric layout, and export both drafts.
 
+### Measurement-first capture contract (G03/M01)
+
+The versioned `measurement-capture.ts` model records an empty, recipe-specific
+session before values are entered. A reading keeps the user's original text,
+entered unit, unrounded centimetre conversion, source label, optional method,
+capture date and measurer, evidence status, and revision. Presets are separate
+readings labeled as digital starting values, never wearer measurements. More
+than one reading stays visible and requires an explicit choice; conflicting,
+blank, nonnumeric and out-of-guardrail selections block the draft with a
+field-specific correction. Values outside a software guardrail are retained,
+not silently changed.
+
+The source audit in
+`docs/research/epic16/MEASUREMENT-HELP-SOURCE-AUDIT.md` found no accepted
+apparel procedure for the current recipe-to-pattern mappings. G03/M01 may
+explain each field's reference frame, current use, software limit and unresolved
+mapping, but must not invent landmark or posture steps. In particular, the
+guided skirt route follows the shared 40–100 cm software control and explains
+that the Maxi label's 100–120 cm band is currently unavailable. The capture
+record is serializable domain data. Slice 246 adds a garment-stage choice
+between guided capture and the existing full editor, with recipe-specific
+field meaning, current draft use, software limits, source caveats, raw units,
+separate readings, optional provenance details and explicit preset acceptance.
+No anatomical steps are shown. Slice 247 stores unfinished sessions and text
+drafts in an additive project/style-owned capture store with separate
+compare-and-swap revisions. Reading history and raw drafts survive reload
+without changing design revisions, field-edit history, or recovery records.
+Cross-tab conflicts and failed writes stay visible; failed writes block a
+garment switch until a retry succeeds. Capture packages use a strict additive
+v4 manifest only when needed, while no-capture package v3 bytes remain stable.
+Narrow and desktop browser checks cover the guided route, keyboard activation,
+accessible field semantics, and WCAG 2.1 A/AA axe rules. A project created by
+the first-run bootstrap does not count as the user's decision to leave Garment.
+
+### Custom one-size materialization (G03/M02)
+
+A completed guided session materializes into a separate custom one-size style;
+it does not repurpose the starter style. Creation uses a clean recipe-specific
+seed, overlays exactly the selected measurement and option readings, records
+their existing provenance, and locks the style to that recipe. Because
+SaveFile v6 requires the full shared measurement object, fields outside the
+recipe receive the fixed `STANDARD_M` schema-only baseline. They are not
+capture observations, are not copied from another style, and are not consumed
+by the locked recipe. The source style and capture remain intact; the new style,
+initial field history/revision, and a new capture-session identity are saved in
+one IndexedDB bundle transaction. Reload and style switching resolve captures
+by both style and recipe.
+
+Without an explicitly approved grade plan, a custom one-size style exposes its
+step-zero pattern files and a single-column POM specification under the label
+“One size”. Whole-run Tech Pack, Projector and Marker outputs, graded specs and
+nesting, and their frozen capture entries remain unavailable. Legacy styles
+retain their previous output gates and protected byte identities. The Check
+view validates the selected draft, omits graded-run checks, and states that
+whole-run outputs require an approved plan; it does not imply an XS–XL run. This
+is digital customization only; no physical fit or population grade is implied.
+
+### Explicit grade plans (G03/M03)
+
+An approved grade plan is a separate, versioned record authored for one custom
+one-size style. It records an identified source or product decision, declared
+size range, base size, ordered labels, explicit measurement/control/POM changes
+and exceptions. It binds to the project and style identity, locked recipe,
+immutable design revision, capture revision and a digest of the base design.
+Edits return the record to draft; base changes make it stale and require a
+fresh review. Approval records user review of the rule document only. It does
+not certify drafted geometry, POM reconciliation, cutting quantities, physical
+fit or factory readiness.
+
+The local repository's version 8 migration only creates an empty grade-plan
+store keyed by style and recipe; it does not rewrite existing project, style,
+capture or export rows. Full project backups use package version 6 only when a
+grade plan is present. Earlier package versions and SaveFile versions keep
+their existing contents and byte identities. Copy imports rebind a plan to the
+new style and revision identities and clear review and approval. A custom style
+starts with one-size outputs. Its separately approved, current grade plan can
+derive only the explicitly declared sizes from authored changes to the base;
+the plan does not infer a population chart or fill unstated increments. Slices
+251–252 validate every derived block, supported option, measurement and recipe
+guidance, seam and notch declaration, POM, and cutting quantity before enabling
+size-specific graded outputs or whole-run Tech Pack, Projector, and Marker
+files. A plan-driven export also requires the approved base style to be saved
+and current. Applicable POMs require exact equality in
+unrounded centimetres. A mismatch blocks its size, and any blocked size blocks
+the whole run. An explicit not-applicable POM exception must retain its visible
+reason and is not a numeric match. Stale, invalid, unapproved, or concurrently
+changed plans fail closed. Frozen whole-run captures include the approved plan
+binding and output-integrity metadata. Legacy grading and protected export
+bytes remain unchanged. These digital checks do not establish physical fit,
+sample approval, or factory readiness.
+
 Pattern pieces are created from measurements and selected options. The app
 does not draw a separate, unrelated design for each screen or file. Most areas
 show or check the same current draft:
@@ -225,9 +316,26 @@ complete matrix and residual risks are recorded in
 F02 and F03 are complete. PR #11 merged the reviewed Slice 240 tree to
 `origin/main` at `e5155e82dbd21cda5b3f537b950eb4c32a22d215`; Slice 241 verified
 the S204/S205/S240 ancestry and closed EPIC-15 at Control Center revision 315.
-EPIC-16 through EPIC-30 remain Backlog, and this digital work does not establish
-physical fit, drape, factory acceptance, supplier readiness, or production
-readiness.
+EPIC-16/G03 is admitted; M01 and M02 are complete. M03's Slice 251 output
+integration passed its gates, then independent review required the Slice 252
+per-size validation and saved-base export remediation before final review.
+Slice 253 is the G03 final review and merge exit; Slice 254 addresses its
+independent-audit follow-ups. Loaded revision state is restored before
+workspace selectors resynchronize, and an unsaved target-style edit invalidates
+plan-driven output just like an unsaved artwork edit. Single/Marker is a
+preview scope whose selection does not dirty a style or create undo/recovery
+state; its workspace preference is persisted by explicit Save. Because that
+setting is currently stored in the style revision, saving a changed preference
+can make a bound grade plan stale and require refresh/review/approval again.
+Custom one-size styles normalize the preview scope to Single when loaded, since
+Marker is unavailable without an approved graded run. This is fail-safe but
+means the Marker preview preference is not restored for that style. Exact raw
+POM equality remains required without tolerance. See
+`docs/research/epic16/S254-G03-AUDIT-CORRECTIONS.md` and
+`docs/research/epic16/S256-LOAD-STATE-AND-REVIEW-HANDOFF.md`. EPIC-17 through
+EPIC-30 remain Backlog. This digital work
+does not establish physical fit, drape, factory
+acceptance, supplier readiness, or production readiness.
 Slice 237 is now complete: it adds the semantic-anchor operation model,
 per-size geometry/stitch/recipe/POM guards, explicit rebase/conflict/undo rules,
 and an accessible warning for invalid edits in the still-exploratory Edit

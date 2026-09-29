@@ -5,12 +5,27 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { STANDARD_M } from "../drafting";
 import { DEFAULT_APPEARANCE } from "./appearance";
 import { DEFAULT_WORKSPACE, serialize, serializeRecovery } from "./persist";
-import { migrateLegacyRecovery, migrateLegacySaveFile, type RecoveryPayload } from "./project-records";
+import {
+  migrateLegacyRecovery,
+  migrateLegacySaveFile,
+  type MeasurementCaptureDraft,
+  type RecoveryPayload,
+} from "./project-records";
+import {
+  addCaptureReadingForField,
+  createMeasurementCaptureSession,
+  selectCaptureReading,
+  type NewCaptureReading,
+} from "./measurement-capture";
 import { ProjectRepositoryError, type LoadedProject, type ProjectRepository } from "./project-repository";
 import { changedPaths, openProjectWorkflow, ProjectWorkflow } from "./project-workflow";
-import { createFieldObservationRecord, currentFieldObservation, getFieldDefinition } from "./field-provenance";
+import { approveGradePlan, createGradePlanDraft, reviewGradePlan, updateGradePlanDraft } from "./grade-plan";
+import { createGradePlanContext } from "./grade-plan-context";
+import { createFieldObservationRecord, currentFieldObservation, getFieldDefinition, getFieldDefinitions } from "./field-provenance";
+import { materializeCustomSizeDesign } from "./custom-size-materialization";
 import { ARTWORK_CATALOG } from "../surface/artwork-library/catalog";
 import type { ArtworkAssetStore, StoredArtworkAsset } from "../surface/artwork-store";
+import { GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION, jcsSha256Hex } from "./style-revisions";
 
 const cryptoApi = webcrypto as unknown as Crypto;
 const TIME = "2026-09-24T16:00:00.000Z";
@@ -96,6 +111,7 @@ describe("local project/style workflow", () => {
       ...options, storage: fakeStorage, idFactory: ids(PROJECT_ID, STYLE_ID), now: () => TIME,
     });
     workflows.push(workflow);
+    expect(workflow.initializedFirstRun).toBe(true);
     expect(workflow.snapshot.project.styleIds).toEqual([STYLE_ID]);
     expect(workflow.snapshot.activeStyle.name).toBe("Untitled tee");
     expect(workflow.snapshot.activeStyle.recipeId).toBe("tee");
@@ -857,5 +873,413 @@ describe("local project/style workflow", () => {
     const duplicateId = new ProjectWorkflow(workflow.repository, workflow.snapshot, () => STYLE_ID, () => NEXT_TIME);
     await expect(duplicateId.createStyle("Second", workflow.snapshot.activeStyle.design)).rejects.toMatchObject({ code: "invalid-data" });
     expect((await workflow.reload()).activeStyle.id).toBe(STYLE_ID);
+  });
+});
+
+describe("G03 capture persistence through the project workflow", () => {
+  const CHEST = "body.chest-girth";
+  const SESSION_ONE = "3f0c6a2e-8d1b-4c5e-9a7f-2b6d8e1c4a90";
+  const SESSION_TWO = "c200916f-baa3-4373-87f8-8d7481fb6053";
+  const READING_ONE = "d34a5104-ae25-4b54-9a2b-fcc35237ff71";
+  const READING_TWO = "e78e0c40-ae1a-4d03-9470-80345f994734";
+  const reading = (id: string, rawValue: string, enteredUnit: string): NewCaptureReading => ({
+    id,
+    rawValue,
+    enteredUnit,
+    provenance: "USER_CAPTURED",
+    evidenceStatus: "UNCONFIRMED",
+    sourceLabel: "User-entered value; capture method and technique not qualified.",
+    captureMethod: "Tape over a T-shirt",
+    capturedAt: "2026-09-24T00:00:00.000Z",
+    measurer: "HELPER",
+  });
+  const draft = (overrides: Partial<MeasurementCaptureDraft> = {}): MeasurementCaptureDraft => ({
+    fieldId: CHEST, rawValue: "", enteredUnit: "cm", sourceNote: "", captureMethod: "", captureDate: "", measurer: "",
+    ...overrides,
+  });
+  const captureSettings = () => ({
+    ...repositoryOptions(),
+    storage: storage(),
+    idFactory: ids(PROJECT_ID, STYLE_ID, STYLE_TWO_ID, STYLE_THREE_ID),
+    now: () => TIME,
+  });
+
+  it("starts empty and reloads readings, explicit selection, and unrecorded drafts without touching design state", async () => {
+    const artworkStore = { put: vi.fn(), get: vi.fn(async () => null), remove: vi.fn() };
+    const settings = { ...captureSettings(), artworkStore };
+    const workflow = await openProjectWorkflow(settings);
+    workflows.push(workflow);
+    const before = await workflow.repository.readProjectBundle(PROJECT_ID);
+    const snapshotBefore = workflow.snapshot;
+    expect(await workflow.loadMeasurementCapture("tee")).toBeNull();
+
+    const empty = createMeasurementCaptureSession(SESSION_ONE, "tee", TIME, STYLE_ID);
+    const later = empty.fields[empty.fields.findIndex((field) => field.fieldId === CHEST) + 1]!;
+    const laterDraft = draft({ fieldId: later.fieldId, rawValue: "abc", enteredUnit: later.unit });
+    const chestDraft = draft({
+      rawValue: "40 1/8", enteredUnit: "in", sourceNote: "Tape note", captureMethod: "Snug", captureDate: "2026-09-24", measurer: "SELF",
+    });
+    const pending = await workflow.saveMeasurementCapture(empty, [laterDraft, chestDraft]);
+    expect(pending).toMatchObject({ revision: 1, styleId: STYLE_ID, projectId: PROJECT_ID, recipeId: "tee" });
+    expect(pending.drafts).toEqual([chestDraft, laterDraft]);
+    expect(pending.session.fields.every((field) => field.readings.length === 0)).toBe(true);
+
+    // Only an explicit Add reading turns entered text into a reading; the other draft stays unrecorded.
+    const recorded = addCaptureReadingForField(empty, CHEST, reading(READING_ONE, "40.125", "in"), "2026-09-24T16:00:01.000Z");
+    const repeated = addCaptureReadingForField(recorded, CHEST, reading(READING_TWO, "102", "cm"), "2026-09-24T16:00:02.000Z");
+    await workflow.saveMeasurementCapture(repeated, [laterDraft]);
+    const selected = selectCaptureReading(repeated, CHEST, READING_TWO, "2026-09-24T16:00:03.000Z");
+    const saved = await workflow.saveMeasurementCapture(selected, [laterDraft]);
+    expect(saved.revision).toBe(3);
+
+    const reopened = await openProjectWorkflow({ ...settings, storage: storage() });
+    workflows.push(reopened);
+    const loaded = await reopened.loadMeasurementCapture("tee");
+    expect(loaded).toEqual(saved);
+    const chest = loaded!.session.fields.find((field) => field.fieldId === CHEST)!;
+    expect(chest.readings.map((item) => [item.rawValue, item.enteredUnit, item.canonicalValue, item.measurer]))
+      .toEqual([["40.125", "in", 101.9175, "HELPER"], ["102", "cm", 102, "HELPER"]]);
+    expect(chest.selectedReadingId).toBe(READING_TWO);
+    expect(loaded!.drafts).toEqual([laterDraft]);
+    expect(loaded!.session.fields.find((field) => field.fieldId === later.fieldId)!.readings).toEqual([]);
+
+    const after = await reopened.repository.readProjectBundle(PROJECT_ID);
+    if (!after) throw new Error("Project disappeared after capture saves.");
+    const { measurementCaptures, ...unchanged } = after;
+    expect(unchanged).toEqual(before);
+    expect(measurementCaptures).toEqual([saved]);
+    expect(reopened.snapshot.project).toEqual(snapshotBefore.project);
+    expect(reopened.snapshot.activeStyle).toEqual(snapshotBefore.activeStyle);
+    expect(reopened.snapshot.activeRecovery).toEqual(snapshotBefore.activeRecovery);
+    expect(reopened.snapshot.fieldObservations).toEqual(snapshotBefore.fieldObservations);
+    expect(reopened.snapshot.styleRevisions).toEqual(snapshotBefore.styleRevisions);
+    expect(reopened.snapshot.exportManifests).toEqual(snapshotBefore.exportManifests);
+    expect(artworkStore.put).not.toHaveBeenCalled();
+    expect(artworkStore.remove).not.toHaveBeenCalled();
+  });
+
+  it("keeps a second style/recipe independent and refuses cross-style, stale, unread, or malformed saves", async () => {
+    const settings = captureSettings();
+    const tabOne = await openProjectWorkflow(settings);
+    workflows.push(tabOne);
+    const tee = createMeasurementCaptureSession(SESSION_ONE, "tee", TIME, STYLE_ID);
+    const teeRecord = await tabOne.saveMeasurementCapture(tee, []);
+    await tabOne.createStyle("Skirt study", tabOne.snapshot.activeStyle.design);
+    expect(tabOne.snapshot.activeStyle.id).toBe(STYLE_TWO_ID);
+    const skirt = createMeasurementCaptureSession(SESSION_TWO, "skirt", TIME, STYLE_TWO_ID);
+    const skirtRecord = await tabOne.saveMeasurementCapture(skirt, [draft({ fieldId: skirt.fields[0]!.fieldId, rawValue: "72" })]);
+    await expect(tabOne.saveMeasurementCapture(tee, [])).rejects.toMatchObject({ code: "conflict" });
+    expect(await tabOne.loadMeasurementCapture("tee")).toBeNull();
+    expect(await tabOne.loadMeasurementCapture("skirt")).toEqual(skirtRecord);
+
+    await tabOne.switchStyle(STYLE_ID);
+    expect(await tabOne.loadMeasurementCapture("skirt")).toBeNull();
+    expect(await tabOne.loadMeasurementCapture("tee")).toEqual(teeRecord);
+    const tabTwo = await openProjectWorkflow({ ...settings, storage: storage() });
+    workflows.push(tabTwo);
+    expect(await tabTwo.loadMeasurementCapture("tee")).toEqual(teeRecord);
+    const withReading = addCaptureReadingForField(tee, CHEST, reading(READING_ONE, "101", "cm"), "2026-09-24T16:00:01.000Z");
+    expect((await tabOne.saveMeasurementCapture(withReading, [])).revision).toBe(2);
+    await expect(tabTwo.saveMeasurementCapture(tee, [draft({ rawValue: "99" })])).rejects.toMatchObject({ code: "conflict" });
+    const refreshed = await tabTwo.loadMeasurementCapture("tee");
+    expect(refreshed?.session).toEqual(withReading);
+    expect((await tabTwo.saveMeasurementCapture(refreshed!.session, [draft({ rawValue: "99" })])).revision).toBe(3);
+
+    const unread = await openProjectWorkflow({ ...settings, storage: storage() });
+    workflows.push(unread);
+    await expect(unread.saveMeasurementCapture(withReading, [])).rejects.toMatchObject({ code: "conflict" });
+    await expect(tabTwo.saveMeasurementCapture(withReading, [draft({ fieldId: "body.unknown" }), draft()]))
+      .rejects.toMatchObject({ code: "invalid-data" });
+    const latest = await unread.loadMeasurementCapture("tee");
+    expect(latest?.revision).toBe(3);
+    expect(latest?.drafts).toEqual([draft({ rawValue: "99" })]);
+  });
+
+  it("creates and reloads one custom one-size style with an atomic, source-preserving capture copy", async () => {
+    const settings = {
+      ...repositoryOptions(),
+      storage: storage(),
+      idFactory: ids(PROJECT_ID, STYLE_ID, STYLE_TWO_ID, SESSION_TWO),
+      now: () => NEXT_TIME,
+    };
+    const workflow = await openProjectWorkflow(settings);
+    workflows.push(workflow);
+    await workflow.loadMeasurementCapture("tee");
+    let session = createMeasurementCaptureSession(SESSION_ONE, "tee", TIME, STYLE_ID);
+    getFieldDefinitions("tee").forEach((definition, index) => {
+      const isBody = definition.semanticKind === "BODY_MEASURE";
+      session = addCaptureReadingForField(session, definition.id, {
+        id: `00000000-0000-4000-8000-${String(index + 201).padStart(12, "0")}`,
+        rawValue: String(definition.defaultValue),
+        enteredUnit: definition.unit,
+        provenance: isBody ? "USER_CAPTURED" : "USER_SELECTED",
+        evidenceStatus: "UNCONFIRMED",
+        sourceLabel: isBody ? "User reading; method remains unqualified." : "Digital construction target or setting.",
+        captureMethod: isBody ? "Tape; technique unqualified" : null,
+        capturedAt: isBody ? "2026-09-24T00:00:00.000Z" : null,
+        measurer: isBody ? "HELPER" : null,
+      }, NEXT_TIME);
+    });
+    const originalCapture = await workflow.saveMeasurementCapture(session, []);
+    const design = materializeCustomSizeDesign(workflow.snapshot.activeStyle.design, session);
+    const created = await workflow.createCustomSizeStyle("Custom Tee", design);
+
+    expect(created.styles).toHaveLength(2);
+    expect(created.activeStyle).toMatchObject({
+      id: STYLE_TWO_ID,
+      name: "Custom Tee",
+      schemaVersion: 5,
+      sizeMode: "custom-one-size",
+      recipeId: "tee",
+      recipePresetId: design.workspace.targetStyle,
+      design,
+    });
+    await expect(workflow.saveActiveDesign({
+      ...design,
+      workspace: { ...design.workspace, exportStep: 2 },
+    })).rejects.toMatchObject({ code: "invalid-data", message: "A custom one-size style must stay on export step 0." });
+    expect(workflow.snapshot.activeStyle.design.workspace.exportStep).toBe(0);
+    const copiedCapture = await workflow.loadMeasurementCapture("tee");
+    expect(copiedCapture).toMatchObject({
+      styleId: STYLE_TWO_ID,
+      projectId: PROJECT_ID,
+      recipeId: "tee",
+      revision: 1,
+      session: { styleId: STYLE_TWO_ID, revision: originalCapture.session.revision + 1 },
+      drafts: [],
+    });
+    expect(copiedCapture?.session.id).not.toBe(originalCapture.session.id);
+    const capturedChest = currentFieldObservation(
+      created.fieldObservations.find((record) => record.styleId === STYLE_TWO_ID)!, getFieldDefinition("tee", "chest")!,
+    );
+    expect(capturedChest).toMatchObject({
+      provenance: "USER_CAPTURED",
+      sourceLabel: "User reading; method remains unqualified.",
+      recordedAt: null,
+    });
+
+    const reopened = await openProjectWorkflow({ ...settings, storage: storage() });
+    workflows.push(reopened);
+    const persistedCapture = await reopened.loadMeasurementCapture("tee");
+    expect(persistedCapture).toEqual(copiedCapture);
+    await reopened.switchStyle(STYLE_ID);
+    expect(await reopened.loadMeasurementCapture("tee")).toEqual(originalCapture);
+  });
+
+  it("loads and saves grade plans through the active style with compare-and-swap", async () => {
+    const base = repositoryOptions();
+    const settings = {
+      ...base,
+      storage: storage(),
+      idFactory: ids(PROJECT_ID, STYLE_ID, STYLE_TWO_ID, SESSION_TWO),
+      now: () => NEXT_TIME,
+    };
+    const workflow = await openProjectWorkflow(settings);
+    workflows.push(workflow);
+    await workflow.loadMeasurementCapture("tee");
+    let session = createMeasurementCaptureSession(SESSION_ONE, "tee", TIME, STYLE_ID);
+    getFieldDefinitions("tee").forEach((definition, index) => {
+      const body = definition.semanticKind === "BODY_MEASURE";
+      session = addCaptureReadingForField(session, definition.id, {
+        id: `00000000-0000-4000-8000-${String(index + 401).padStart(12, "0")}`,
+        rawValue: String(definition.defaultValue), enteredUnit: definition.unit,
+        provenance: body ? "USER_CAPTURED" : "USER_SELECTED", evidenceStatus: "UNCONFIRMED",
+        sourceLabel: body ? "User reading; method remains unqualified." : "Digital construction target or setting.",
+        captureMethod: body ? "Tape; technique unqualified" : null,
+        capturedAt: body ? "2026-09-24T00:00:00.000Z" : null, measurer: body ? "HELPER" : null,
+      }, NEXT_TIME);
+    });
+    await workflow.saveMeasurementCapture(session, []);
+    const design = materializeCustomSizeDesign(workflow.snapshot.activeStyle.design, session);
+    await workflow.createCustomSizeStyle("Custom Tee", design);
+    const capture = await workflow.loadMeasurementCapture("tee");
+    if (!capture) throw new Error("Custom style capture was not copied.");
+    const context = await createGradePlanContext(PROJECT_ID, workflow.snapshot.activeStyle, capture, cryptoApi);
+    if (!context.ok) throw new Error(context.errors.join("; "));
+    expect(await workflow.loadGradePlan("tee")).toBeNull();
+    expect(workflow.snapshot.gradePlans).toBeUndefined();
+    const draftPlan = createGradePlanDraft(context.value.binding, context.value.targets, NEXT_TIME);
+    if (!draftPlan.ok) throw new Error(draftPlan.errors.join("; "));
+
+    const concurrent = await openProjectWorkflow({ ...settings, storage: storage() });
+    workflows.push(concurrent);
+    expect(await concurrent.loadGradePlan("tee")).toBeNull();
+    const saved = await workflow.saveGradePlan(draftPlan.value);
+    expect(saved).toEqual(draftPlan.value);
+    expect(workflow.snapshot.gradePlans).toEqual([saved]);
+    expect(await workflow.loadGradePlan("tee")).toEqual(saved);
+    expect(await workflow.loadGradePlan("skirt")).toBeNull();
+    expect(workflow.snapshot.gradePlans).toEqual([saved]);
+    await expect(concurrent.saveGradePlan(draftPlan.value)).rejects.toMatchObject({ code: "conflict" });
+    expect(await concurrent.loadGradePlan("tee")).toEqual(saved);
+    await expect(workflow.saveGradePlan({ ...saved, projectId: OTHER_PROJECT_ID })).rejects.toMatchObject({ code: "conflict" });
+
+    let complete = updateGradePlanDraft(saved, {
+      basis: { kind: "user-authored-digital-rule", decision: "Explicit test plan", digitalRange: "S-L" },
+      declaredRange: "S-L digital only", baseSizeLabel: "M",
+      sizes: [{ label: "S", position: -1 }, { label: "M", position: 0 }, { label: "L", position: 1 }],
+      exceptions: [],
+      targets: saved.targets.map((target) => ({ ...target, deltas: [
+        { sizeLabel: "S", deltaFromBase: 0 }, { sizeLabel: "M", deltaFromBase: 0 }, { sizeLabel: "L", deltaFromBase: 0 },
+      ] })),
+    }, "2026-09-24T16:00:02.000Z");
+    if (!complete.ok) throw new Error(complete.errors.join("; "));
+    let reviewed = reviewGradePlan(complete.value, context.value.targets.map((target) => target.targetId), context.value.binding,
+      "2026-09-24T16:00:03.000Z");
+    if (!reviewed.ok) throw new Error(reviewed.errors.join("; "));
+    const approved = approveGradePlan(reviewed.value, context.value.targets.map((target) => target.targetId), context.value.binding,
+      "2026-09-24T16:00:04.000Z");
+    if (!approved.ok) throw new Error(approved.errors.join("; "));
+    await workflow.saveGradePlan(complete.value);
+    await workflow.saveGradePlan(reviewed.value);
+    const persistedApproval = await workflow.saveGradePlan(approved.value);
+    const approvalRef = `grade-plan-sha256:${await jcsSha256Hex(persistedApproval, cryptoApi)}`;
+    const freezeArtifacts = [
+      ["selected-size-a0-pdf", "pdf"], ["selected-size-dxf", "dxf"], ["selected-size-svg", "svg"],
+      ["selected-size-tiled-pdf", "pdf"], ["whole-run-projector-svg", "svg"],
+      ["whole-run-surface-sheet-svg", "svg"], ["whole-run-tech-pack-pdf", "pdf"],
+    ] as const;
+    const frozen = await workflow.freezeOutputs(freezeArtifacts.map(([artifactId, extension]) => ({
+      artifactId, extension, displayName: `${artifactId}.${extension}`,
+      mediaType: extension === "svg" ? "image/svg+xml" : extension === "dxf" ? "image/vnd.dxf" : "application/pdf",
+      content: `custom:${artifactId}`,
+    })), [{ sizeId: "tee-grade-plan-4-M", label: "M" }], ["Digital only."],
+    workflow.snapshot.activeStyle.revisionHeadId!, {
+      schemaVersion: GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION,
+      approvalRefs: [approvalRef],
+      gradePlanFreeze: { record: persistedApproval, approvalRef },
+    });
+    expect(frozen).toMatchObject({ schemaVersion: 2, payload: { approvalRefs: [approvalRef] } });
+
+    const captureAgain = (suffix: string) => freezeArtifacts.map(([artifactId, extension]) => ({
+      artifactId, extension, displayName: `${artifactId}.${extension}`,
+      mediaType: extension === "svg" ? "image/svg+xml" : extension === "dxf" ? "image/vnd.dxf" : "application/pdf",
+      content: `${suffix}:${artifactId}`,
+    }));
+    await expect(workflow.freezeOutputs(captureAgain("bad-reference"), [{ sizeId: "tee-grade-plan-4-M", label: "M" }],
+      ["Digital only."], workflow.snapshot.activeStyle.revisionHeadId!, {
+        schemaVersion: GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION,
+        approvalRefs: [approvalRef],
+        gradePlanFreeze: { record: persistedApproval, approvalRef: "invalid-digest" },
+      })).rejects.toMatchObject({ code: "invalid-data", message: expect.stringContaining("exact approved grade-plan") });
+    const differentValidRef = `grade-plan-sha256:${"f".repeat(64)}`;
+    await expect(workflow.freezeOutputs(captureAgain("mismatched-reference"), [{ sizeId: "tee-grade-plan-4-M", label: "M" }],
+      ["Digital only."], workflow.snapshot.activeStyle.revisionHeadId!, {
+        schemaVersion: GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION,
+        approvalRefs: [differentValidRef],
+        gradePlanFreeze: { record: persistedApproval, approvalRef: differentValidRef },
+      })).rejects.toMatchObject({ code: "invalid-data", message: expect.stringContaining("canonical digest of the exact approved plan") });
+    await expect(workflow.freezeOutputs(captureAgain("unbound-manifest"), [{ sizeId: "tee-grade-plan-4-M", label: "M" }],
+      ["Digital only."], workflow.snapshot.activeStyle.revisionHeadId!, {
+        schemaVersion: GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION,
+        approvalRefs: [differentValidRef],
+        gradePlanFreeze: { record: persistedApproval, approvalRef },
+      })).rejects.toMatchObject({ code: "invalid-data", message: expect.stringContaining("not bound to the reviewed grade plan") });
+
+    const changedAfterFreeze = updateGradePlanDraft(persistedApproval, {
+      basis: persistedApproval.basis!, declaredRange: persistedApproval.declaredRange,
+      baseSizeLabel: persistedApproval.baseSizeLabel, sizes: persistedApproval.sizes,
+      exceptions: persistedApproval.exceptions,
+      targets: persistedApproval.targets.map((target, index) => index === 0 ? {
+        ...target, deltas: target.deltas.map((delta) => delta.sizeLabel === "S"
+          ? { ...delta, deltaFromBase: 1 } : delta),
+      } : target),
+    }, "2026-09-24T16:00:05.000Z");
+    if (!changedAfterFreeze.ok) throw new Error(changedAfterFreeze.errors.join("; "));
+    await concurrent.loadGradePlan("tee");
+    await concurrent.saveGradePlan(changedAfterFreeze.value);
+    await expect(workflow.freezeOutputs(freezeArtifacts.map(([artifactId, extension]) => ({
+      artifactId, extension, displayName: `${artifactId}.${extension}`,
+      mediaType: extension === "svg" ? "image/svg+xml" : extension === "dxf" ? "image/vnd.dxf" : "application/pdf",
+      content: `stale:${artifactId}`,
+    })), [{ sizeId: "tee-grade-plan-4-M", label: "M" }], ["Digital only."],
+    workflow.snapshot.activeStyle.revisionHeadId!, {
+      schemaVersion: GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION,
+      approvalRefs: [approvalRef],
+      gradePlanFreeze: { record: persistedApproval, approvalRef },
+    })).rejects.toMatchObject({ code: "conflict", message: expect.stringContaining("approved grade plan") });
+
+    const database = await new Promise<IDBDatabase>((resolve, reject) => {
+      const request = base.repositoryOptions.factory.open(base.repositoryOptions.name);
+      request.onerror = () => reject(request.error ?? new Error("Could not open the plan-removal fixture database."));
+      request.onsuccess = () => resolve(request.result);
+    });
+    const removal = database.transaction("gradePlans", "readwrite");
+    removal.objectStore("gradePlans").delete([workflow.snapshot.activeStyle.id, "tee"]);
+    await new Promise<void>((resolve, reject) => {
+      removal.oncomplete = () => resolve();
+      removal.onabort = () => reject(removal.error ?? new Error("Could not remove the stored plan fixture."));
+      removal.onerror = () => reject(removal.error ?? new Error("Could not remove the stored plan fixture."));
+    });
+    database.close();
+    await workflow.reload();
+    await expect(workflow.freezeOutputs(captureAgain("missing-stored-plan"), [{ sizeId: "tee-grade-plan-4-M", label: "M" }],
+      ["Digital only."], workflow.snapshot.activeStyle.revisionHeadId!, {
+        schemaVersion: GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION,
+        approvalRefs: [approvalRef],
+        gradePlanFreeze: { record: persistedApproval, approvalRef },
+      })).rejects.toMatchObject({ code: "conflict", message: expect.stringContaining("approved grade plan or its saved base changed") });
+  });
+
+  it("duplicates a custom style only with its saved source capture and keeps the recipe", async () => {
+    const settings = {
+      ...repositoryOptions(),
+      storage: storage(),
+      idFactory: ids(PROJECT_ID, STYLE_ID, STYLE_TWO_ID, SESSION_TWO, STYLE_THREE_ID,
+        "33b9700e-33a3-4933-a980-c5301c2c3b29"),
+      now: () => NEXT_TIME,
+    };
+    const workflow = await openProjectWorkflow(settings);
+    workflows.push(workflow);
+    const design = workflow.snapshot.activeStyle.design;
+    await expect(workflow.createCustomSizeStyle("Missing capture", design))
+      .rejects.toMatchObject({ code: "not-found" });
+
+    await workflow.loadMeasurementCapture("tee");
+    let session = createMeasurementCaptureSession(SESSION_ONE, "tee", TIME, STYLE_ID);
+    getFieldDefinitions("tee").forEach((definition, index) => {
+      const isBody = definition.semanticKind === "BODY_MEASURE";
+      session = addCaptureReadingForField(session, definition.id, {
+        id: `00000000-0000-4000-8000-${String(index + 301).padStart(12, "0")}`,
+        rawValue: String(definition.defaultValue),
+        enteredUnit: definition.unit,
+        provenance: isBody ? "USER_CAPTURED" : "USER_SELECTED",
+        evidenceStatus: "UNCONFIRMED",
+        sourceLabel: "Explicit digital capture fixture.",
+        captureMethod: null,
+        capturedAt: null,
+        measurer: null,
+      }, NEXT_TIME);
+    });
+    await workflow.saveMeasurementCapture(session, []);
+    const custom = await workflow.createCustomSizeStyle("Custom Tee", design);
+    const customDesign = custom.activeStyle.design;
+    const sourceCapture = await workflow.loadMeasurementCapture("tee");
+    const changedRecipe = {
+      ...customDesign,
+      workspace: { ...customDesign.workspace, garment: "skirt" },
+    };
+    await expect(workflow.saveActiveDesign(changedRecipe)).rejects.toMatchObject({ code: "invalid-data" });
+    await expect(workflow.createStyle("Invalid recipe copy", changedRecipe)).rejects.toMatchObject({ code: "invalid-data" });
+
+    // A freshly opened workflow has no in-memory capture cache. It must recover
+    // the source capture from the repository before it duplicates the style.
+    const uncached = new ProjectWorkflow(
+      workflow.repository, custom, ids(STYLE_THREE_ID, "33b9700e-33a3-4933-a980-c5301c2c3b29"), () => NEXT_TIME,
+    );
+    const readCapture = vi.spyOn(workflow.repository, "readMeasurementCapture").mockResolvedValueOnce(null);
+    try {
+      await expect(uncached.createStyle("Missing source capture", customDesign))
+        .rejects.toMatchObject({ code: "not-found" });
+    } finally {
+      readCapture.mockRestore();
+    }
+    const duplicate = await uncached.createStyle("Copy of Custom Tee", customDesign);
+
+    expect(duplicate.styles).toHaveLength(3);
+    expect(duplicate.activeStyle).toMatchObject({ name: "Copy of Custom Tee", recipeId: "tee", sizeMode: "custom-one-size" });
+    const copied = await uncached.loadMeasurementCapture("tee");
+    expect(copied).toMatchObject({ styleId: duplicate.activeStyle.id, recipeId: "tee" });
+    expect(copied?.session.id).not.toBe(sourceCapture?.session.id);
   });
 });

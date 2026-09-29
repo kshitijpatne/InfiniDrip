@@ -43,6 +43,10 @@ only through an explicitly admitted, linked Epic packet.
   `docs/archive/ARCHITECTURE-HISTORY.md`.
 - `docs/BUG-LEDGER.md` — durable UI/UX bug IDs, severity, priority, root cause,
   fix, and verification history.
+- `docs/research/UI-MANUAL-QUALITY-FINDINGS-2026-09.md` — 15 maintainer browser
+  annotations captured as high-priority findings, with mapped G03–G17 review
+  checkpoints and post-G17 follow-up. Findings only; they are not roadmap or
+  Control Center work items until the maintainer confirms.
 - `README.md` — user-facing project overview; useful but less authoritative than
   the two files above.
 - `docs/PROJECT-DECISIONS.md` — decisions confirmed directly by the maintainer.
@@ -107,6 +111,61 @@ only through an explicitly admitted, linked Epic packet.
   verified repository starting point, F01/F02/F03 sequence, Slice 229–240
   boundaries, risks, and exit gates. It authorizes only local-first G02 work;
   use `PROJECT-STATE.md` and the canonical Control Center for current status.
+- `docs/planning/EPIC-16-ADMISSION.md` — the maintainer-admitted G03/M01–M03
+  execution contract, verified start, seven-recipe C03 boundaries, ordered
+  Slice 244–253 plan, source qualification and grade approval gates, and merge
+  exit; Slices 254–256 are bounded final-review corrections and verification
+  follow-ups, not new garment scope. Slices 246–247 completed the guided route,
+  source-qualified field help, resume, conflict, narrow-layout, accessibility
+  and all-recipe validation. Slice 248–249 completed M02. Use
+  `PROJECT-STATE.md` and the canonical Control Center for live status.
+- `docs/research/epic16/S250-EXIT.md` — verified S250 completion, test/build/
+  browser evidence, and the remaining S251 integration boundary.
+- `docs/research/epic16/S251-EXIT.md` and
+  `docs/research/epic16/evidence/S251-graded-output-verification.json` — Slice
+  251's approved plan-driven graded outputs, exact unrounded POM gate, output
+  parsing and coverage evidence. Slice 252 records the independent-review
+  safety remediation; Slice 253 is the final review and merge gate.
+- `docs/research/epic16/S252-GRADE-RUN-SAFETY-REMEDIATION.md` and
+  `docs/research/epic16/evidence/S252-safety-verification.json` — accepted
+  independent S251 audit findings, bounded safety-remediation scope, exact
+  acceptance results, full-coverage metrics, build/Control Center results, and
+  rendered grade-plan review for Slice 252.
+- `docs/research/epic16/S253-G03-FINAL-REVIEW.md` and
+  `docs/research/epic16/evidence/S253-final-review-verification.json` — the
+  final-review boundary, pre/post-audit full-gate results, seven-recipe
+  distinct-size output replay, independent audit reconciliation, rendered Grade
+  plan panel screenshot, and S253 PR/board state. The S253 audits are complete;
+  the current merge gates and board state are summarized in S254–S256.
+- `docs/research/epic16/S254-G03-AUDIT-CORRECTIONS.md`,
+  `docs/research/epic16/S255-FULL-GATE-TEST-ISOLATION.md`, and
+  `docs/research/epic16/S256-LOAD-STATE-AND-REVIEW-HANDOFF.md`, and
+  `docs/research/epic16/S257-ELECTRON-STATUS-ASSERTION.md` — bounded
+  final-review corrections, test-isolation evidence, independent final audits,
+  and the exact S257 full-coverage pass. `S258-G03-FINAL-REVIEW.md` records the
+  final local gates, product limits, and remaining merge/board/deployment
+  checks.
+- `docs/research/epic16/S250-EXPLICIT-GRADE-PLAN-RECORD-AND-REVIEW.md` — Slice
+  250's exact scope, strict grade-plan fields, stale-approval boundary,
+  migration/output non-goals, and exit checks. It does not supply a population,
+  size range, grade rule, or numerical increments.
+- `docs/research/epic16/S250-GRADE-PLAN-DECISION-RECONCILIATION.md` — Codex's
+  source-checked resolutions of the independent Claude/OpenCode M03 audits,
+  the intended record/persistence boundary, and risks held for Slice 251.
+- `docs/research/epic16/MEASUREMENT-HELP-SOURCE-AUDIT.md` — OpenCode's
+  source-traced M01 audit of all seven recipe inputs, the limits of public
+  measurement guidance, and the safe explanatory-copy boundary. It does not
+  authorize unsourced measurement procedures or product changes.
+- `docs/research/epic16/ONE-SIZE-RECIPE-MAPPING-AUDIT.md` — Claude Code's
+  read-only M01/M02 audit of recipe inputs, drafting consumers, POMs, and the
+  one-size parity risks Codex must resolve before output verification. It is
+  evidence for implementation planning, not an approval to change legacy
+  drafting or export baselines.
+- `docs/research/epic16/S247-M01-VALIDATION-EXIT.md` and
+  `docs/research/epic16/evidence/` — Slice 247's durable capture/resume,
+  conflict, package-compatibility, all-recipe, production-browser, narrow,
+  accessible-field-tree, and 100% full-coverage evidence. M01 is complete;
+  Slice 248 may start M02 under the unchanged one-size and export boundaries.
 - `docs/research/epic15/F01-STORAGE-CONTRACT-S230.md` — Slice 230's accepted
   IndexedDB repository, non-destructive legacy migration, per-style recovery,
   artwork two-store, portable package, failure and test contracts. Its Electron

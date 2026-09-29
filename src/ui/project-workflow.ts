@@ -7,16 +7,25 @@ import {
   type ProjectRepositoryOptions,
 } from "./project-repository";
 import {
+  MEASUREMENT_CAPTURE_RECORD_VERSION,
+  isCustomOneSizeStyle,
+  CUSTOM_ONE_SIZE_MODE,
+  CUSTOM_STYLE_RECORD_VERSION,
   RECOVERY_RECORD_VERSION,
   STYLE_RECORD_VERSION,
+  type MeasurementCaptureDraft,
+  type MeasurementCaptureRecord,
   type RecoveryPayload,
   type SavedDesign,
   type StyleRecord,
 } from "./project-records";
+import type { MeasurementCaptureSession } from "./measurement-capture";
+import type { GradePlanRecord } from "./grade-plan";
 import { LEGACY_RECOVERY_STORAGE_KEY, LEGACY_SAVE_STORAGE_KEY } from "./persist";
 import {
   appendRecoveryFieldObservations,
   createFieldObservationRecord,
+  createFieldObservationRecordFromCapture,
   reconcileDesignFieldObservations,
   type FieldInputReference,
   type InitialObservationOrigin,
@@ -240,8 +249,14 @@ async function seedRevisionHeadsWithRetry(
   }
 }
 
+function captureKey(styleId: string, recipeId: string): string {
+  return JSON.stringify([styleId, recipeId]);
+}
+
 export class ProjectWorkflow {
   private tail: Promise<void> = Promise.resolve();
+  /** Last capture record read or written here, per style and recipe; the CAS base for the next save. */
+  private readonly captureRecords = new Map<string, MeasurementCaptureRecord | null>();
 
   constructor(
     readonly repository: ProjectRepository,
@@ -251,6 +266,8 @@ export class ProjectWorkflow {
     private readonly revisionIdFactory: () => string = uuid,
     private readonly artworkStore?: ArtworkAssetStore,
     private readonly cryptoProvider?: Crypto,
+    /** True only for the browser session that created the empty first-run workspace. */
+    readonly initializedFirstRun = false,
   ) {}
 
   get snapshot(): LoadedProject {
@@ -346,12 +363,67 @@ export class ProjectWorkflow {
     });
   }
 
+  /**
+   * Loads the active style's unfinished capture session and unrecorded drafts
+   * for one recipe, or null. Load before saving an existing session: a save
+   * never replaces a stored session this workflow has not read.
+   */
+  async loadMeasurementCapture(recipeId: string): Promise<MeasurementCaptureRecord | null> {
+    return this.enqueue(async () => {
+      const styleId = this.loaded.activeStyle.id;
+      const record = await this.repository.readMeasurementCapture(styleId, recipeId);
+      this.captureRecords.set(captureKey(styleId, recipeId), record);
+      return record;
+    });
+  }
+
+  /**
+   * Persists a deliberate reading/selection change and the current unrecorded
+   * drafts for the active style. Only the capture store is written; the
+   * design, field history, recovery, revisions and project/style revisions
+   * are untouched. Drafts are stored in recipe field order.
+   */
+  async saveMeasurementCapture(
+    session: MeasurementCaptureSession,
+    drafts: readonly MeasurementCaptureDraft[],
+  ): Promise<MeasurementCaptureRecord> {
+    return this.enqueue(async () => {
+      const current = this.loaded;
+      const styleId = current.activeStyle.id;
+      if (session.styleId !== styleId) {
+        throw new ProjectRepositoryError("conflict", "This capture session belongs to another style; reload the active style's capture before saving.");
+      }
+      const key = captureKey(styleId, session.recipeId);
+      const prior = this.captureRecords.get(key) ?? null;
+      const order = new Map(session.fields.map((field, index) => [field.fieldId, index]));
+      const record: MeasurementCaptureRecord = {
+        schemaVersion: MEASUREMENT_CAPTURE_RECORD_VERSION,
+        styleId,
+        projectId: current.project.id,
+        recipeId: session.recipeId,
+        revision: prior === null ? 1 : prior.revision + 1,
+        updatedAt: prior === null ? monotonicTimestamp(this.now()) : monotonicTimestamp(this.now(), prior.updatedAt),
+        session,
+        drafts: [...drafts].sort((left, right) => (order.get(left.fieldId) ?? -1) - (order.get(right.fieldId) ?? -1)),
+      };
+      const saved = await this.repository.saveMeasurementCapture(record, prior === null ? null : prior.revision);
+      this.captureRecords.set(key, saved);
+      return saved;
+    });
+  }
+
   async saveActiveDesign(design: SavedDesign): Promise<LoadedProject> {
     return this.enqueue(() => this.saveDesignInQueue(design, false));
   }
 
   private async saveDesignInQueue(design: SavedDesign, forceRevision: boolean): Promise<LoadedProject> {
       const current = this.loaded;
+      if (isCustomOneSizeStyle(current.activeStyle) && design.workspace.garment !== current.activeStyle.recipeId) {
+        throw new ProjectRepositoryError("invalid-data", "A custom one-size style cannot change its recipe.");
+      }
+      if (isCustomOneSizeStyle(current.activeStyle) && design.workspace.exportStep !== 0) {
+        throw new ProjectRepositoryError("invalid-data", "A custom one-size style must stay on export step 0.");
+      }
       const time = monotonicTimestamp(this.now(), current.project.updatedAt, current.activeStyle.updatedAt);
       const previousObservations = current.fieldObservations.find((record) => record.styleId === current.activeStyle.id);
       if (!previousObservations) throw new ProjectRepositoryError("invalid-data", "The active style has no field history record.");
@@ -425,6 +497,11 @@ export class ProjectWorkflow {
     selectedSizes: readonly { readonly sizeId: string; readonly label: string }[],
     unresolved: readonly string[],
     expectedRevisionId: string,
+    metadata: {
+      readonly schemaVersion?: 1 | 2;
+      readonly approvalRefs?: readonly string[];
+      readonly gradePlanFreeze?: { readonly record: GradePlanRecord; readonly approvalRef: string };
+    } = {},
   ): Promise<FrozenOutputManifestRecord> {
     return this.enqueue(async () => {
       const current = this.loaded;
@@ -441,6 +518,8 @@ export class ProjectWorkflow {
         selectedSizes,
         unresolved,
         artifacts,
+        schemaVersion: metadata.schemaVersion,
+        approvalRefs: metadata.approvalRefs,
       }, this.cryptoProvider);
       const project = { ...current.project, revision: current.project.revision + 1, updatedAt: capturedAt };
       await this.repository.saveProjectBundle({
@@ -448,6 +527,7 @@ export class ProjectWorkflow {
         styles: current.styles,
         exportManifests: [manifest],
         expectedProjectRevision: current.project.revision,
+        ...(metadata.gradePlanFreeze ? { gradePlanFreeze: metadata.gradePlanFreeze } : {}),
       });
       const loaded = await this.reloadLoaded();
       const saved = loaded.exportManifests.find((candidate) => candidate.manifestId === manifest.manifestId);
@@ -498,6 +578,18 @@ export class ProjectWorkflow {
   ): Promise<LoadedProject> {
     return this.enqueue(async () => {
       const current = this.loaded;
+      if (isCustomOneSizeStyle(current.activeStyle) && origin !== "first-run-default") {
+        const recipeId = design.workspace.garment;
+        if (recipeId !== current.activeStyle.recipeId) {
+          throw new ProjectRepositoryError("invalid-data", "A custom one-size style cannot change its recipe.");
+        }
+        const key = captureKey(current.activeStyle.id, recipeId);
+        let capture = this.captureRecords.get(key) ?? null;
+        if (!capture) capture = await this.repository.readMeasurementCapture(current.activeStyle.id, recipeId);
+        if (!capture) throw new ProjectRepositoryError("not-found", "A custom one-size style cannot be duplicated without its source capture.");
+        this.captureRecords.set(key, capture);
+        return this.createCustomSizeStyleInQueue(nameInput, design, capture);
+      }
       const name = cleanedName(nameInput);
       ensureUniqueName(name, current.styles);
       const time = monotonicTimestamp(this.now(), current.project.updatedAt);
@@ -544,6 +636,128 @@ export class ProjectWorkflow {
       });
       return this.reloadLoaded();
     });
+  }
+
+  /** Loads the active style's explicit grade-plan record without changing its design revision. */
+  async loadGradePlan(recipeId: string): Promise<GradePlanRecord | null> {
+    return this.enqueue(async () => {
+      const style = this.loaded.activeStyle;
+      const plan = await this.repository.readGradePlan(style.id, recipeId);
+      const otherPlans = (this.loaded.gradePlans ?? []).filter((record) =>
+        record.styleId !== style.id || record.recipeId !== recipeId);
+      this.loaded = {
+        ...this.loaded,
+        ...(plan || otherPlans.length > 0 ? { gradePlans: [...otherPlans, ...(plan ? [plan] : [])] } : { gradePlans: undefined }),
+      };
+      return plan;
+    });
+  }
+
+  /** Saves one plan with compare-and-swap while leaving project/style revisions untouched. */
+  async saveGradePlan(record: GradePlanRecord): Promise<GradePlanRecord> {
+    return this.enqueue(async () => {
+      const current = this.loaded;
+      if (record.projectId !== current.project.id || record.styleId !== current.activeStyle.id) {
+        throw new ProjectRepositoryError("conflict", "The active project or style changed before the grade plan was saved.");
+      }
+      const prior = (current.gradePlans ?? []).find((candidate) =>
+        candidate.styleId === record.styleId && candidate.recipeId === record.recipeId);
+      const saved = await this.repository.saveGradePlan(record, prior?.revision ?? null);
+      const otherPlans = (current.gradePlans ?? []).filter((candidate) =>
+        candidate.styleId !== saved.styleId || candidate.recipeId !== saved.recipeId);
+      this.loaded = { ...current, gradePlans: [...otherPlans, saved] };
+      return saved;
+    });
+  }
+
+  /**
+   * Materializes a ready guided capture as a new custom one-size style. The
+   * style, its initial revision/provenance, and a newly identified copy of the
+   * capture are committed together; the source style and its capture remain
+   * untouched.
+   */
+  async createCustomSizeStyle(nameInput: string, design: SavedDesign): Promise<LoadedProject> {
+    return this.enqueue(() => this.createCustomSizeStyleInQueue(nameInput, design));
+  }
+
+  private async createCustomSizeStyleInQueue(
+    nameInput: string,
+    design: SavedDesign,
+    suppliedCapture?: MeasurementCaptureRecord,
+  ): Promise<LoadedProject> {
+      const current = this.loaded;
+      const source = current.activeStyle;
+      const recipeId = design.workspace.garment;
+      const cachedCapture = suppliedCapture ?? this.captureRecords.get(captureKey(source.id, recipeId));
+      if (!cachedCapture || cachedCapture.styleId !== source.id || cachedCapture.projectId !== current.project.id
+        || cachedCapture.recipeId !== recipeId) {
+        throw new ProjectRepositoryError("not-found", "Save the completed guided capture before creating its custom style.");
+      }
+      const name = cleanedName(nameInput);
+      ensureUniqueName(name, current.styles);
+      const time = monotonicTimestamp(this.now(), current.project.updatedAt, source.updatedAt,
+        cachedCapture.updatedAt, cachedCapture.session.updatedAt);
+      const id = this.idFactory();
+      const observationsSeed: StyleRecord = {
+        schemaVersion: CUSTOM_STYLE_RECORD_VERSION,
+        id,
+        projectId: current.project.id,
+        name,
+        recipeId,
+        recipePresetId: design.workspace.targetStyle,
+        createdAt: time,
+        updatedAt: time,
+        revision: 1,
+        archivedAt: null,
+        revisionHeadId: null,
+        sizeMode: CUSTOM_ONE_SIZE_MODE,
+        design,
+      };
+      const session: MeasurementCaptureSession = {
+        ...cachedCapture.session,
+        id: this.idFactory(),
+        styleId: id,
+        revision: cachedCapture.session.revision + 1,
+        updatedAt: monotonicTimestamp(time, cachedCapture.session.updatedAt),
+      };
+      const capture: MeasurementCaptureRecord = {
+        ...cachedCapture,
+        styleId: id,
+        projectId: current.project.id,
+        revision: 1,
+        updatedAt: time,
+        session,
+        drafts: cachedCapture.drafts.map((draft) => ({ ...draft })),
+      };
+      const observations = createFieldObservationRecordFromCapture(observationsSeed, time, session);
+      const revision = await createStyleRevision({
+        styleId: id,
+        revisionId: this.revisionIdFactory(),
+        parentRevisionId: null,
+        revisionNumber: 1,
+        design,
+        fieldObservations: observations,
+        artwork: await revisionArtworkDigests(design, this.artworkStore, this.cryptoProvider),
+        createdAt: time,
+      }, this.cryptoProvider);
+      const style: StyleRecord = { ...observationsSeed, revisionHeadId: revision.revisionId };
+      const project = {
+        ...current.project,
+        styleIds: [...current.project.styleIds, id],
+        activeStyleId: id,
+        revision: current.project.revision + 1,
+        updatedAt: time,
+      };
+      await this.repository.saveProjectBundle({
+        project,
+        styles: [...current.styles, style],
+        fieldObservations: [observations],
+        styleRevisions: [revision],
+        measurementCaptures: [capture],
+        expectedProjectRevision: current.project.revision,
+      });
+      this.captureRecords.set(captureKey(id, recipeId), capture);
+      return this.reloadLoaded();
   }
 
   async renameActiveStyle(nameInput: string): Promise<LoadedProject> {
@@ -602,6 +816,7 @@ export class ProjectWorkflow {
 
 export async function openProjectWorkflow(options: ProjectWorkflowOptions = {}): Promise<ProjectWorkflow> {
   const repository = await (options.openRepository ?? openProjectRepository)(options.repositoryOptions);
+  let initializedFirstRun = false;
   try {
     let loaded = await repository.readActiveProject();
     if (!loaded) {
@@ -629,6 +844,7 @@ export async function openProjectWorkflow(options: ProjectWorkflowOptions = {}):
             (options.idFactory ?? uuid)(),
             (options.now ?? canonicalNow)(),
           );
+          initializedFirstRun = true;
         } catch (error) {
           loaded = await repository.readActiveProject();
           if (!loaded) throw error;
@@ -665,6 +881,7 @@ export async function openProjectWorkflow(options: ProjectWorkflowOptions = {}):
       revisionIdFactory,
       options.artworkStore,
       options.repositoryOptions?.crypto,
+      initializedFirstRun,
     );
   } catch (error) {
     repository.close();

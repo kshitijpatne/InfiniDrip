@@ -9,11 +9,23 @@ import {
   deserializeRecovery,
 } from "./persist";
 import { FIELDS } from "./controls";
+import { getFieldDefinitions } from "./field-provenance";
+import {
+  parseMeasurementCaptureSession,
+  type CaptureMeasurer,
+  type MeasurementCaptureSession,
+} from "./measurement-capture";
 
 export const PROJECT_RECORD_VERSION = 2;
+/** Every existing and legacy-shaped style; v1–v3 records normalize to this shape. */
 export const STYLE_RECORD_VERSION = 4;
+/** Only a newly created G03 custom one-size style. It is never produced by upgrading a legacy style. */
+export const CUSTOM_STYLE_RECORD_VERSION = 5;
+/** A single custom digital size with no inherited or approved grade plan. */
+export const CUSTOM_ONE_SIZE_MODE = "custom-one-size";
 export const RECOVERY_RECORD_VERSION = 2;
 export const MIGRATION_RECORD_VERSION = 1;
+export const MEASUREMENT_CAPTURE_RECORD_VERSION = 1;
 
 export interface ProjectRecord {
   readonly schemaVersion: typeof PROJECT_RECORD_VERSION;
@@ -36,8 +48,7 @@ export interface ImportedFrom {
 
 export type SavedDesign = Omit<SaveFile, "v">;
 
-export interface StyleRecord {
-  readonly schemaVersion: typeof STYLE_RECORD_VERSION;
+interface StyleRecordFields {
   readonly id: string;
   readonly projectId: string;
   readonly name: string;
@@ -51,6 +62,21 @@ export interface StyleRecord {
   /** Immutable design-history head; null only until the explicit S239 seed completes. */
   readonly revisionHeadId: string | null;
   readonly design: SavedDesign;
+}
+
+export interface LegacyStyleRecord extends StyleRecordFields {
+  readonly schemaVersion: typeof STYLE_RECORD_VERSION;
+}
+
+export interface CustomOneSizeStyleRecord extends StyleRecordFields {
+  readonly schemaVersion: typeof CUSTOM_STYLE_RECORD_VERSION;
+  readonly sizeMode: typeof CUSTOM_ONE_SIZE_MODE;
+}
+
+export type StyleRecord = LegacyStyleRecord | CustomOneSizeStyleRecord;
+
+export function isCustomOneSizeStyle(style: StyleRecord): style is CustomOneSizeStyleRecord {
+  return style.schemaVersion === CUSTOM_STYLE_RECORD_VERSION;
 }
 
 export type RecoveryPayload = Omit<RecoveryFile, "v">;
@@ -69,6 +95,33 @@ export interface MigrationRecord {
   readonly migratedAt: string;
   readonly projectId: string;
   readonly styleId: string;
+}
+
+/** Text the user typed for a field but has not added as a reading. It is never
+ * parsed, converted, rounded, or treated as a recorded measurement. */
+export interface MeasurementCaptureDraft {
+  readonly fieldId: string;
+  readonly rawValue: string;
+  readonly enteredUnit: string;
+  readonly sourceNote: string;
+  readonly captureMethod: string;
+  /** Empty, or the calendar date (YYYY-MM-DD) chosen in the optional date input. */
+  readonly captureDate: string;
+  readonly measurer: CaptureMeasurer | "";
+}
+
+/** One unfinished G03 capture session for exactly one style, project and recipe. */
+export interface MeasurementCaptureRecord {
+  readonly schemaVersion: typeof MEASUREMENT_CAPTURE_RECORD_VERSION;
+  readonly styleId: string;
+  readonly projectId: string;
+  readonly recipeId: string;
+  /** Compare-and-swap revision of this capture record only; never a project or style revision. */
+  readonly revision: number;
+  readonly updatedAt: string;
+  readonly session: MeasurementCaptureSession;
+  /** Unrecorded entries in the session's field order, at most one per field. */
+  readonly drafts: readonly MeasurementCaptureDraft[];
 }
 
 export type RecordResult<T> = { readonly ok: true; readonly value: T } | { readonly ok: false; readonly error: string };
@@ -92,6 +145,7 @@ export const LEGACY_PROJECT_RECORD_KEYS = Object.freeze(["schemaVersion", "id", 
 const STYLE_V3_KEYS = ["schemaVersion", "id", "projectId", "name", "recipeId", "recipePresetId", "createdAt", "updatedAt", "revision", "archivedAt", "design"];
 const STYLE_KEYS = [...STYLE_V3_KEYS, "revisionHeadId"];
 const STYLE_V2_KEYS = STYLE_V3_KEYS;
+const CUSTOM_STYLE_KEYS = [...STYLE_KEYS, "sizeMode"];
 export const LEGACY_STYLE_RECORD_KEYS = Object.freeze(["schemaVersion", "id", "projectId", "name", "recipeId", "recipePresetId", "createdAt", "updatedAt", "revision", "design"]);
 const RECOVERY_KEYS = ["schemaVersion", "styleId", "payload"];
 const MIGRATION_KEYS = ["schemaVersion", "sourceKeys", "sourceSaveVersion", "sourceSha256", "migratedAt", "projectId", "styleId"];
@@ -106,6 +160,9 @@ const RECOVERY_PAYLOAD_KEYS = [
   "semanticEdits",
 ];
 const LEGACY_RECOVERY_PAYLOAD_KEYS = RECOVERY_PAYLOAD_KEYS.filter((key) => key !== "semanticEdits");
+const CAPTURE_RECORD_KEYS = ["schemaVersion", "styleId", "projectId", "recipeId", "revision", "updatedAt", "session", "drafts"];
+const CAPTURE_DRAFT_KEYS = ["fieldId", "rawValue", "enteredUnit", "sourceNote", "captureMethod", "captureDate", "measurer"];
+const CAPTURE_DRAFT_MEASURERS = new Set(["", "SELF", "HELPER", "IMPORTED", "OTHER"]);
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const SHA256 = /^[0-9a-f]{64}$/i;
 
@@ -194,20 +251,30 @@ export function parseProjectRecord(value: unknown): RecordResult<ProjectRecord> 
 }
 
 export function parseStyleRecord(value: unknown): RecordResult<StyleRecord> {
-  if (!object(value) || ![1, 2, 3, STYLE_RECORD_VERSION].includes(value.schemaVersion as number)) {
+  if (!object(value) || ![1, 2, 3, STYLE_RECORD_VERSION, CUSTOM_STYLE_RECORD_VERSION].includes(value.schemaVersion as number)) {
     return fail("Unsupported style record schema version.");
   }
   const version = value.schemaVersion as number;
+  const custom = version === CUSTOM_STYLE_RECORD_VERSION;
+  // A size marker is meaningful only on the custom schema; it is never ignored
+  // on, or silently removed from, a legacy-shaped record.
+  if (!custom && Object.prototype.hasOwnProperty.call(value, "sizeMode")) {
+    return fail("Only style schema v5 custom one-size records may declare a size mode.");
+  }
   if (version === 1 ? !hasExactKeys(value, LEGACY_STYLE_RECORD_KEYS)
-    : version < 4 ? !hasExactKeys(value, STYLE_V2_KEYS) : !hasExactKeys(value, STYLE_KEYS)) {
+    : version < 4 ? !hasExactKeys(value, STYLE_V2_KEYS)
+      : !hasExactKeys(value, custom ? CUSTOM_STYLE_KEYS : STYLE_KEYS)) {
     return fail("Style record fields are incomplete or unknown.");
+  }
+  if (custom && value.sizeMode !== CUSTOM_ONE_SIZE_MODE) {
+    return fail(`Style schema v5 size mode must be exactly "${CUSTOM_ONE_SIZE_MODE}".`);
   }
   if (!validUuid(value.id) || !validUuid(value.projectId) || !validName(value.name)
     || typeof value.recipeId !== "string" || value.recipeId.length === 0
     || typeof value.recipePresetId !== "string" || value.recipePresetId.length === 0
     || !validTimestamp(value.createdAt) || !validTimestamp(value.updatedAt)
     || !validRevision(value.revision)
-    || (version === STYLE_RECORD_VERSION && value.revisionHeadId !== null && !validUuid(value.revisionHeadId))
+    || (version >= STYLE_RECORD_VERSION && value.revisionHeadId !== null && !validUuid(value.revisionHeadId))
     || (version > 1 && value.archivedAt !== null && !validTimestamp(value.archivedAt))) {
     return fail("Style identity, name, recipe, timestamps, or revision are invalid.");
   }
@@ -217,10 +284,15 @@ export function parseStyleRecord(value: unknown): RecordResult<StyleRecord> {
   // while v1/v2 designs still receive the legacy null default.
   const design = parseSavedDesign(value.design, version < 3);
   if (!design.ok) return fail(design.error);
+  if (custom && design.value.workspace.exportStep !== 0) {
+    return fail("Custom one-size styles must keep export step 0.");
+  }
   if (design.value.workspace.garment !== value.recipeId
     || design.value.workspace.targetStyle !== value.recipePresetId) {
     return fail("Style recipe identity does not match its saved workspace.");
   }
+  // The custom schema already has the current shape; keep its version and size mode exactly.
+  if (custom) return { ok: true, value: { ...value, design: design.value } as unknown as StyleRecord };
   return { ok: true, value: {
     ...value,
     schemaVersion: STYLE_RECORD_VERSION,
@@ -265,6 +337,72 @@ export function parseMigrationRecord(value: unknown): RecordResult<MigrationReco
     return fail("Migration fingerprint, timestamp, or destination IDs are invalid.");
   }
   return { ok: true, value: value as unknown as MigrationRecord };
+}
+
+function canonicalJson(value: unknown): string {
+  if (value === null || typeof value !== "object") return JSON.stringify(value);
+  if (Array.isArray(value)) return `[${value.map(canonicalJson).join(",")}]`;
+  const record = value as Record<string, unknown>;
+  return `{${Object.keys(record).sort().map((key) => `${JSON.stringify(key)}:${canonicalJson(record[key])}`).join(",")}}`;
+}
+
+function validCalendarDate(value: string): boolean {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+  const time = Date.parse(`${value}T00:00:00.000Z`);
+  return Number.isFinite(time) && new Date(time).toISOString().slice(0, 10) === value;
+}
+
+function validDraft(value: unknown, session: MeasurementCaptureSession): value is MeasurementCaptureDraft {
+  if (!hasExactKeys(value, CAPTURE_DRAFT_KEYS)) return false;
+  const definition = getFieldDefinitions(session.recipeId).find((candidate) => candidate.id === value.fieldId);
+  return definition !== undefined
+    && typeof value.rawValue === "string" && value.rawValue.length <= 4096
+    && typeof value.enteredUnit === "string"
+    && (value.enteredUnit === definition.unit
+      || (definition.unit === "cm" && (value.enteredUnit === "cm" || value.enteredUnit === "in")))
+    && typeof value.sourceNote === "string" && value.sourceNote.length <= 500
+    && typeof value.captureMethod === "string" && value.captureMethod.length <= 256
+    && typeof value.captureDate === "string" && (value.captureDate === "" || validCalendarDate(value.captureDate))
+    && typeof value.measurer === "string" && CAPTURE_DRAFT_MEASURERS.has(value.measurer);
+}
+
+/** Strict parser for a persisted capture session plus its unrecorded entry drafts. */
+export function parseMeasurementCaptureRecord(value: unknown): RecordResult<MeasurementCaptureRecord> {
+  if (!hasExactKeys(value, CAPTURE_RECORD_KEYS)) return fail("Measurement capture record fields are incomplete or unknown.");
+  if (value.schemaVersion !== MEASUREMENT_CAPTURE_RECORD_VERSION) return fail("Unsupported measurement capture record schema version.");
+  if (!validUuid(value.styleId) || !validUuid(value.projectId) || typeof value.recipeId !== "string"
+    || !validRevision(value.revision) || !validTimestamp(value.updatedAt)) {
+    return fail("Measurement capture record identity, revision, or timestamp is invalid.");
+  }
+  const session = parseMeasurementCaptureSession(value.session);
+  if (!session.ok) return fail(session.error);
+  if (session.value.styleId !== value.styleId || session.value.recipeId !== value.recipeId) {
+    return fail("Measurement capture session does not belong to this record's style and recipe.");
+  }
+  if (!Array.isArray(value.drafts)) return fail("Measurement capture drafts must be a list.");
+  let previousIndex = -1;
+  for (const draft of value.drafts) {
+    if (!validDraft(draft, session.value)) return fail("A measurement capture draft is malformed or does not match its recipe field.");
+    const index = session.value.fields.findIndex((field) => field.fieldId === draft.fieldId);
+    if (index <= previousIndex) return fail("Measurement capture drafts must be unique and in recipe field order.");
+    previousIndex = index;
+  }
+  return { ok: true, value: value as unknown as MeasurementCaptureRecord };
+}
+
+/** True when `next` is the same session with every earlier reading kept exactly.
+ * Selections may change; readings are never removed, reordered, or rewritten. */
+export function isMeasurementCaptureSessionSuccessor(
+  prior: MeasurementCaptureSession,
+  next: MeasurementCaptureSession,
+): boolean {
+  if (prior.id !== next.id || prior.styleId !== next.styleId || prior.recipeId !== next.recipeId
+    || prior.createdAt !== next.createdAt || next.revision < prior.revision
+    || Date.parse(next.updatedAt) < Date.parse(prior.updatedAt)) return false;
+  if (next.revision === prior.revision) return canonicalJson(prior) === canonicalJson(next);
+  // Both sessions parsed against the same recipe definitions, so fields align by index.
+  return prior.fields.every((field, index) => field.readings.every((reading, at) =>
+    canonicalJson(reading) === canonicalJson(next.fields[index]!.readings[at])));
 }
 
 export function validateProjectBundle(
