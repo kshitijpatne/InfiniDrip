@@ -216,6 +216,15 @@ missing artwork assets, out-of-frame placements and overlapping placements
 carry actionable review notices. The color/texture/shine data remains
 presentation metadata until the later live renderer consumes it; this compiler
 does not resolve asset bytes or claim that the fabric appearance is rendered.
+`src/render/technical-flat-poms.ts` evaluates each existing POM method on the
+same draft, requires its anchor to be a real vertex on the mapped front role,
+and creates revision-bound callouts targeting that role's outline. Recipe POMs
+without anchors remain table-only. Existing anchor methods are front-only, so
+the back view receives a visible omission notice instead of a guessed mirror.
+The layout avoids label-box overlap and conflicting leader paths or returns an
+actionable collision issue. Its source-space text extents are a provisional
+character-width estimate; actual font metrics and readability still require
+the integrated rendered-view review.
 
 The **Edit** view keeps user-authored deltas against stable recipe-owned
 anchors, rather than saving a disconnected picture. Pointer drags and keyboard

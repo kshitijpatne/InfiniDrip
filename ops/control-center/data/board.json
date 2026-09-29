@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 391,
-  "updatedAt": "2026-09-29T16:22:18.916Z",
+  "revision": 392,
+  "updatedAt": "2026-09-29T16:38:33.319Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -5479,7 +5479,8 @@
         "E-G04-S265-EXIT",
         "E-G04-S266-EXIT",
         "E-G04-S267-EXIT",
-        "E-G04-S268-EXIT"
+        "E-G04-S268-EXIT",
+        "E-G04-S269-EXIT"
       ],
       "flagKey": null
     },
@@ -6402,6 +6403,15 @@
       "sha256": null,
       "verified": true,
       "note": "Slice 268 artwork and fabric presentation overlays use same-revision cut frames and visible role mapping for all seven recipes; missing/overlapping/out-of-frame artwork is explicit; focused coverage 100%, build and Control Center regression pass."
+    },
+    {
+      "id": "E-G04-S269-EXIT",
+      "kind": "document",
+      "uri": "docs/planning/EPIC-17-ADMISSION.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Slice 269 binds existing POM methods to same-revision front outline vertices, reports front-only back omissions and table-only methods, blocks label/leader collisions; focused coverage 100% and build passes."
     }
   ]
 }

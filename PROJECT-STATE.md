@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 268 EPIC-17/G04 V02 artwork/colorway overlays complete, 2026-09-29._
+_Last updated: Slice 269 EPIC-17/G04 V02 POM callout placement complete, 2026-09-29._
 Current directive: EPIC-14/G01, EPIC-15/G02, and EPIC-16/G03 are closed with
 accepted digital exit evidence. EPIC-16/G03 completed the admitted local-first
 scope under `docs/planning/EPIC-16-ADMISSION.md`; M01, M02, M03, final review,
@@ -135,18 +135,52 @@ Elapsed time: implementation 6m; focused verification and repairs 5m; build
 2m; board/documentation exit 2m; export-identity verification 1m;
 external-agent waits 0m; maintainer-decision time 0m.
 
-### Slice 269 — G04 V02 POM callout placement (start record)
+### Slice 269 — G04 V02 POM callout placement (complete)
 
 Started at 2026-09-29 16:20:01 UTC from S268's verified tree; highest assigned
-slice was 268. The refreshed `origin/main` at
+slice was 268; S268 landed as `566d4a8302dee21b7cac808bac6229e509b556cf`.
+The refreshed `origin/main` at
 `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor, and the
-canonical board is revision 391 with G04-V02 In Progress. This slice will bind
-supported POM measurements and methods to exact geometry anchors within the
-same front/back revision, lay out proportional leaders and labels, and report
-label/leader collision or missing-anchor issues instead of presenting detached
-measurements as pattern facts. Required focused 100% coverage, build, all-seven
-recipe anchor fixtures, validated board evidence and export identity checks
-apply. No blocking decision; no safe disjoint delegation.
+canonical board began at revision 391 with G04-V02 In Progress. The new
+`src/render/technical-flat-poms.ts` evaluates existing POM measures and
+front-only anchor methods against the same drafted Block. Every emitted
+callout targets the exact front outline primitive in that revision, stores the
+anchor at a real source vertex, includes the existing POM label/value, and uses
+source-coordinate leader placement. Unsupported and front-only back POMs,
+table-only measurements and failures are explicit. Label boxes and leader
+crossings are checked; a crowded set returns no partial callout array and a
+correction message. Focused coverage passes 8/8 with 100% statement, branch,
+function and line coverage. The TypeScript/Vite build passes with the existing
+large-chunk advisory. Fixtures validate each recipe's declared anchor count and
+geometry/revision relationship, same-anchor fanout, collision/reflow, table-
+only and back-view notices, malformed methods, and invalid/missing anchors.
+Actual font metrics remain a rendered-output gate because this model uses a
+provisional character-width estimate. Canonical board revision 392 links
+`E-G04-S269-EXIT` to G04-V02. No generic DXF code or protected export identity
+changed. Next: integrate source geometry, overlays and POM callouts into the
+existing product view with actual SVG layout in Slice 270.
+
+Elapsed time: implementation 8m; focused verification and repairs 5m; build
+2m; board/documentation exit 2m; external-agent waits 0m; maintainer-decision
+time 0m. The board regression was first run before S269 evidence existed and
+correctly failed that new assertion; after the validated evidence command,
+the complete Control Center suite passed 33/33.
+
+### Slice 270 — G04 V02 live vector view integration (start record)
+
+Started at 2026-09-29 16:37:02 UTC from S269's verified working tree; highest
+assigned slice was 269. `origin/main` remains
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`, an ancestor of the branch, and the
+canonical board is revision 392 with G04-V02 In Progress. This slice will
+connect the validated live design state to separate front/back SVG flats,
+assemble mapped pieces with rigid transforms, render only evidenced features,
+and consume color/artwork/POM overlays from that same revision. It will expose
+unsupported construction and collision states in the view. Required focused
+100% coverage, build, browser-rendered output and accessibility/readability
+checks, all-seven-recipe default render, actual option/color/artwork updates,
+revision consistency, board evidence and protected export checks apply. No
+blocking decision; no safe disjoint work identified because view state,
+assembly and rendering share one UI path.
 
 ### Slice 262 — G04 V01 source inventory (complete)
 
