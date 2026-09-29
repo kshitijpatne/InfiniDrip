@@ -1,6 +1,19 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 274 EPIC-17/G04 rendered option matrix complete, 2026-09-29._
+_Last updated: Slice 275 EPIC-17/G04 exact assembly interfaces and rendered review, 2026-09-29._
+
+### Slice 275 — G04 V02 assembly correction (complete; V02 remains open)
+
+- **Goal / slice start:** 2026-09-29 23:05:31 UTC; bounded source-supported rigid assembly correction and rendered review. The packet is `docs/research/epic17/G04-V02-ASSEMBLY-CORRECTION-S275.md`.
+- **Git:** started clean at S274 `884a437768633d91f7b77c94c7158cc42dbead83` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor; S275 is unique.
+- **Implementation:** assembly mapping now uses exact cumulative interface boundaries and the correct adjoining role at shared boundaries. `EdgeRef.reversed` records traversal direction; the Trouser waist path follows a single authored perimeter across its four leg pieces. Draft coordinates, curves and lengths are unchanged.
+- **Rendered evidence:** production Chromium completed 73 configurations / 146 faces across all seven recipes, all 32 option fields at min/max and two existing combined fixtures. 70 SVGs passed parser, revision, measured text/notice and POM anchor/leader checks; 76 remain visibly held (28 Woven-shirt back, 24 Trouser front, 24 Trouser back). Browser/page/remote-request errors are zero. Retained Polo front/back and Woven-shirt front screenshots remain visibly crossed, so those accepted SVGs are not professionally coherent and V02 remains open.
+- **Verification:** changed `technical-flat-assembly.ts`, `trouser.ts`, and `stitch.ts` passed 72 focused tests at 100% statement, branch, function and line coverage; `npm run build` passed with the existing Vite large-chunk advisory. Protected export identity and legacy DXF/tech-pack regression group passed 69/69. Control Center and `git diff --check` are completed after final board closeout below. Full repository coverage remains reserved for the settled Epic/PR candidate.
+- **Acceptance/blockers:** exact interface subdivision/direction behavior and fail-closed handling passed. The source cycles remain unresolved because current construction data cannot justify a rigid place for eased multi-role joins, both Trouser front fly edges to one shield, or the full waistband on both front/back views. Manual output review also found full component outlines are repeated per face and cross on Polo/Woven-shirt. These are V02 blockers; no geometry, validator threshold or export baseline was changed to bypass them.
+- **Board:** started at revision 407 and S275 start comment advanced to 408. Final rendered-output evidence is linked to G04-V02 and EPIC-17 through validated commands; the Epic estimate is revised to 22–26 slices.
+- **Delegation:** no safe disjoint low-risk work; external-agent wait 0m.
+- **Next gated action:** Slice 276 must implement and verify face-specific source-to-view component visibility from existing marks/stitches and reconcile only joins supported by current topology. If required source semantics are absent, preserve visible holds and bring the specific decision to the V02 exit boundary. V02 review moves to S277.
+- **Time:** implementation/source investigation ~22m; focused tests, build, full Chromium matrix and manual output review ~23m; external-agent waits 0m; maintainer-decision time 0m. Total approximately 45m from the 23:05:31 UTC start.
 
 ### Slice 274 — G04 V02 rendered option matrix (complete)
 

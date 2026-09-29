@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 407,
-  "updatedAt": "2026-09-29T23:00:03.720Z",
+  "revision": 413,
+  "updatedAt": "2026-09-29T23:54:01.477Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -155,11 +155,12 @@
       "title": "EPIC-17: G04 — Professional flats and CAD interchange",
       "status": "In Progress",
       "owner": "Codex",
-      "description": "Admitted 2026-09-29 by explicit maintainer instruction. G04 V01 → V02 → V03; current estimate 21–25 landed slices including admission and final merge evidence (re-estimated Slice 274 after the rendered option matrix exposed Woven-shirt/Trouser assembly blockers and crossed component placement). Scope, boundaries, verification and rights gates: docs/planning/EPIC-17-ADMISSION.md.",
+      "description": "Admitted 2026-09-29 by explicit maintainer instruction. G04 V01 → V02 → V03; current estimate 22–26 landed slices including admission and final merge evidence (re-estimated Slice 275 after the full option matrix retained 76 source-cycle holds and manual review found crossed Polo/Woven face outlines). Scope, boundaries, verification and rights gates: docs/planning/EPIC-17-ADMISSION.md.",
       "evidenceRefs": [
         "E-G04-S271-EXIT",
         "E-G04-S273-EXIT",
-        "E-G04-S274-EXIT"
+        "E-G04-S274-EXIT",
+        "E-G04-S275-EXIT"
       ]
     },
     {
@@ -2688,7 +2689,7 @@
         "100% coverage",
         "maintainer gates"
       ],
-      "description": "Admitted 2026-09-29 by explicit maintainer instruction. Scope and gates: docs/planning/EPIC-17-ADMISSION.md; ordered V01 → V02 → V03. Current estimate 20–24 landed slices including admission and final merge evidence (re-estimated Slice 271 after browser review blocked six default faces for text collisions). V03 receiver/profile remains gated on current rights review and round-trip evidence.",
+      "description": "Admitted 2026-09-29 by explicit maintainer instruction. G04 V01 → V02 → V03; current estimate 22–26 landed slices including admission and final merge evidence (re-estimated Slice 275 after the full option matrix retained 76 source-cycle holds and manual review found crossed Polo/Woven face outlines). Scope, boundaries, verification and rights gates: docs/planning/EPIC-17-ADMISSION.md.",
       "expectation": "Front/back technical flats for every supported recipe/variant and proven CAD interchange. Pattern-linked side/oblique views are explicitly owned by G09/D04, so the complete view set is accepted only there.",
       "acceptanceCriteria": [
         "Complete every G04 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
@@ -2756,6 +2757,11 @@
           "at": "2026-09-29T23:00:03.720Z",
           "actor": "Maintainer",
           "text": "Updated Epic metadata (description: Admitted 2026-09-29 by explicit maintainer instruction. G04 V01 → V02 → V03; current estimate 21–25 landed slices including admission and final merge evidence (re-estimated Slice 274 after the rendered option matrix exposed Woven-shirt/Trouser assembly blockers and crossed component placement). Scope, boundaries, verification and rights gates: docs/planning/EPIC-17-ADMISSION.md.). Re-estimate G04 after Slice 274's full browser option matrix retained 76 assembly-cycle holds and showed crossed component outlines that require a dedicated correction and V02 exit-review boundary."
+        },
+        {
+          "at": "2026-09-29T23:54:01.025Z",
+          "actor": "Maintainer",
+          "text": "Updated Epic metadata (description: Admitted 2026-09-29 by explicit maintainer instruction. G04 V01 → V02 → V03; current estimate 22–26 landed slices including admission and final merge evidence (re-estimated Slice 275 after the full option matrix retained 76 source-cycle holds and manual review found crossed Polo/Woven face outlines). Scope, boundaries, verification and rights gates: docs/planning/EPIC-17-ADMISSION.md.). Slice 275 completed exact source-ordered boundary handling; its complete rendered review showed remaining source cycles and incoherent full-role face views, requiring a dedicated face-projection boundary before V02 exit."
         }
       ],
       "evidenceRefs": [],
@@ -5502,6 +5508,16 @@
           "at": "2026-09-29T21:41:01.482Z",
           "actor": "Codex",
           "text": "Slice 274 started at 2026-09-29 21:38:02 UTC from fe173d7bbe89b00de646e35cd4fc8cc2d730fcad. Packet: docs/research/epic17/G04-V02-OPTION-MATRIX-S274.md. Scope is rendered all-recipe defaults and every declared option min/max endpoint, with bounded valid combinations, topology/anchor checks and mapped MQF review; no Cartesian option sweep."
+        },
+        {
+          "at": "2026-09-29T23:07:41.579Z",
+          "actor": "Codex",
+          "text": "Slice 275 started 2026-09-29 23:05:31 UTC from 884a437768633d91f7b77c94c7158cc42dbead83. Packet: docs/research/epic17/G04-V02-ASSEMBLY-CORRECTION-S275.md. Scope is exact source-topology correction for the named Woven-shirt/Trouser assembly cycles and crossed accepted placements; unsupported joins remain visibly held."
+        },
+        {
+          "at": "2026-09-29T23:54:01.477Z",
+          "actor": "Codex",
+          "text": "Slice 275 exit: docs/research/epic17/G04-V02-ASSEMBLY-CORRECTION-S275.md; rendered evidence E-G04-S275-EXIT. Exact segment boundaries and explicit Trouser waist direction are implemented with 100% changed-module coverage. All 146 requests were rendered; 76 remain visibly held and Polo/Woven outlines remain crossed on manual review, so V02 stays In Progress. Re-estimate 22–26 slices; S276 face-specific projection/cycle reconciliation, S277 V02 exit review."
         }
       ],
       "evidenceRefs": [
@@ -5515,7 +5531,8 @@
         "E-G04-S271-EXIT",
         "E-G04-S272-EXIT",
         "E-G04-S273-EXIT",
-        "E-G04-S274-EXIT"
+        "E-G04-S274-EXIT",
+        "E-G04-S275-EXIT"
       ],
       "flagKey": null
     },
@@ -6492,6 +6509,15 @@
       "sha256": null,
       "verified": true,
       "note": "Production Chromium exercised 73 all-recipe configurations and all 32 recipe-scoped option fields at both endpoints (146 front/back requests): 70 SVGs passed revision, text, notice, POM anchor and leader checks; 76 retained visible source holds identify the Woven-shirt and Trouser assembly blockers. A separate local UI trace verifies same-revision art and colorway overlays. V02 stays open for coherent supported output; no source geometry or export baseline changed."
+    },
+    {
+      "id": "E-G04-S275-EXIT",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/G04-V02-ASSEMBLY-CORRECTION-S275.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "72 focused tests at 100% across changed assembly/trouser/stitch modules; production Chromium 73 configurations/146 faces retained. Source-cycle holds persist and manual Polo/Woven review keeps V02 open."
     }
   ]
 }

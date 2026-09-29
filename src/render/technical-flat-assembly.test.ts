@@ -115,7 +115,15 @@ describe("assembleTechnicalFlatRoles", () => {
   });
 
   it("surfaces the default trouser back waistband cycle conflict without losing role transforms", () => {
-    const result = assembleTechnicalFlatRoles("trouser", draft(TROUSER), "BACK_FLAT");
+    const trouser = draft(TROUSER);
+    const waistStitch = trouser.stitches.find((stitch) => stitch.label === "Waistband (four legs ↔ separate waistband)")!;
+    expect(waistStitch.a.edges).toEqual([
+      { piece: "backLeft", edge: "waist" },
+      { piece: "frontLeft", edge: "waist", reversed: true },
+      { piece: "frontRight", edge: "waist" },
+      { piece: "backRight", edge: "waist", reversed: true },
+    ]);
+    const result = assembleTechnicalFlatRoles("trouser", trouser, "BACK_FLAT");
     expect(result.issues).toContainEqual(expect.objectContaining({
       code: "INCONSISTENT_STITCH_TRANSFORM", sourceId: "stitch:Waistband (four legs ↔ separate waistband)",
     }));

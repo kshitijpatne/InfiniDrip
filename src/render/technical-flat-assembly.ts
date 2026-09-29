@@ -60,15 +60,16 @@ function measureRef(block: Block, ref: InterfaceRef): RefMeasure | null {
 
 function pointOnRef(block: Block, measured: RefMeasure, fraction: number): FlatPoint {
   const piece = block.roles[measured.roleId]!;
+  const sourceFraction = "edge" in measured.ref && measured.ref.reversed ? 1 - fraction : fraction;
   if ("edge" in measured.ref) {
     const edgeName = (measured.ref as { readonly edge: string }).edge;
     const edge = piece.edges.find((candidate) => candidate.name === edgeName)!;
-    return pointOnEdge(edge, fraction);
+    return pointOnEdge(edge, sourceFraction);
   }
   const markName = (measured.ref as { readonly mark: string }).mark;
   const mark = piece.marks?.find((candidate) => candidate.name === markName) as { readonly start: FlatPoint; readonly end: FlatPoint };
-  return point(mark.start.x + (mark.end.x - mark.start.x) * fraction,
-    mark.start.y + (mark.end.y - mark.start.y) * fraction);
+  return point(mark.start.x + (mark.end.x - mark.start.x) * sourceFraction,
+    mark.start.y + (mark.end.y - mark.start.y) * sourceFraction);
 }
 
 function measureInterface(block: Block, refs: readonly InterfaceRef[]): RefMeasure[] | null {
@@ -78,7 +79,9 @@ function measureInterface(block: Block, refs: readonly InterfaceRef[]): RefMeasu
   return segments.every((segment) => Number.isFinite(segment.length) && segment.length > 1e-8) ? segments : null;
 }
 
-function pointOnInterface(block: Block, segments: readonly RefMeasure[], fraction: number): { roleId: string; point: FlatPoint } | null {
+function pointOnInterface(
+  block: Block, segments: readonly RefMeasure[], fraction: number, atEndBoundary = false,
+): { roleId: string; point: FlatPoint } | null {
   const total = segments.reduce((sum, segment) => sum + segment.length, 0);
   const remaining = Math.max(0, Math.min(1, fraction)) * total;
   const prefixes: number[] = [];
@@ -87,11 +90,24 @@ function pointOnInterface(block: Block, segments: readonly RefMeasure[], fractio
     prefixes.push(consumed);
     consumed += segment.length;
   }
-  const index = segments.findIndex((segment, candidateIndex) =>
-    remaining <= prefixes[candidateIndex]! + segment.length || candidateIndex === segments.length - 1);
+  const index = segments.findIndex((segment, candidateIndex) => {
+    const end = prefixes[candidateIndex]! + segment.length;
+    return (atEndBoundary ? remaining <= end : remaining < end) || candidateIndex === segments.length - 1;
+  });
   const segment = segments[index]!;
   const prefix = prefixes[index]!;
   return { roleId: segment.roleId, point: pointOnRef(block, segment, Math.min(1, (remaining - prefix) / segment.length)) };
+}
+
+function interfaceBreakpoints(segments: readonly RefMeasure[]): number[] {
+  const total = segments.reduce((sum, segment) => sum + segment.length, 0);
+  let consumed = 0;
+  const points = [0];
+  for (const segment of segments) {
+    consumed += segment.length;
+    points.push(consumed / total);
+  }
+  return points;
 }
 
 function transformPoint(value: FlatPoint, transform: Rigid): FlatPoint {
@@ -130,16 +146,25 @@ function stitchRelations(block: Block, stitch: Stitch, visible: ReadonlySet<stri
   if (Math.abs(totalA - totalB) > allowedDifference) return null;
 
   const groups = new Map<string, { from: string; to: string; source: FlatPoint[]; target: FlatPoint[] }>();
-  const samples = Math.max(8, Math.ceil(Math.max(totalA, totalB) / 0.5));
-  for (let index = 0; index <= samples; index += 1) {
-    const fraction = index / samples;
-    const pointA = pointOnInterface(block, a, fraction)!;
-    const pointB = pointOnInterface(block, b, fraction)!;
-    if (!visible.has(pointA.roleId) || !visible.has(pointB.roleId) || pointA.roleId === pointB.roleId) continue;
-    const key = `${pointA.roleId}:${pointB.roleId}`;
-    const group = groups.get(key) ?? { from: pointA.roleId, to: pointB.roleId, source: [], target: [] };
-    group.source.push(pointB.point);
-    group.target.push(pointA.point);
+  const breakpoints = [...new Set([...interfaceBreakpoints(a), ...interfaceBreakpoints(b)])].sort((left, right) => left - right);
+  for (let index = 0; index < breakpoints.length - 1; index += 1) {
+    const startFraction = breakpoints[index]!;
+    const endFraction = breakpoints[index + 1]!;
+    const midpoint = (startFraction + endFraction) / 2;
+    const startA = pointOnInterface(block, a, startFraction)!;
+    const endA = pointOnInterface(block, a, endFraction, true)!;
+    const startB = pointOnInterface(block, b, startFraction)!;
+    const endB = pointOnInterface(block, b, endFraction, true)!;
+    const middleA = pointOnInterface(block, a, midpoint)!;
+    const middleB = pointOnInterface(block, b, midpoint)!;
+    if (!visible.has(middleA.roleId) || !visible.has(middleB.roleId) || middleA.roleId === middleB.roleId) continue;
+    // Segment boundaries come directly from the source edge lengths. Include
+    // each exact seam subdivision endpoint so joins do not depend on a sampled
+    // point accidentally landing near a piece transition.
+    const key = `${middleA.roleId}:${middleB.roleId}`;
+    const group = groups.get(key) ?? { from: middleA.roleId, to: middleB.roleId, source: [], target: [] };
+    group.source.push(startB.point, endB.point);
+    group.target.push(startA.point, endA.point);
     groups.set(key, group);
   }
 
@@ -148,12 +173,10 @@ function stitchRelations(block: Block, stitch: Stitch, visible: ReadonlySet<stri
     // Stitch interfaces define length and ordering, while their cut curves can
     // differ after ease and seam truing. Use their authored ends as placement
     // landmarks; preserve every intervening curve point without warping it.
-    const sourceEnds = [group.source[0]!, group.source[group.source.length - 1]!];
-    const targetEnds = [group.target[0]!, group.target[group.target.length - 1]!];
-    // Stitch interface arrays and each edge's source direction are the
-    // construction correspondence; preserve that ordering instead of choosing
-    // a visually convenient reversal from a symmetric two-point fit.
-    const best = fitRigid(sourceEnds, targetEnds);
+    // The relation stores B's local coordinates in A's frame. When A is fixed,
+    // this is the transform that places B; the reverse graph traversal inverts
+    // it. Keep the source/target order explicit to match that contract.
+    const best = fitRigid(group.source, group.target);
     relations.push({ from: group.from, to: group.to, toFrom: best.transform, label: stitch.label,
       endpointResidualCm: best.rms });
   }

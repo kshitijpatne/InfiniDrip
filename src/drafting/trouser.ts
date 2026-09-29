@@ -405,9 +405,17 @@ export const trouserPocket: Component<TrouserOptions> = (m, rawOptions) => {
   };
 };
 
-const trouserWaistStitch = (roles: readonly string[]): Stitch => ({
+const trouserWaistInterface = () => iface(
+    edgeRef("backLeft", "waist"), edgeRef("frontLeft", "waist", true),
+    edgeRef("frontRight", "waist"), edgeRef("backRight", "waist", true),
+  );
+
+const trouserWaistStitch = (): Stitch => ({
   label: "Waistband (four legs ↔ separate waistband)",
-  a: iface(...roles.map((role) => edgeRef(role, "waist"))),
+  // Trace one continuous waist seam from center back, around the left side,
+  // across center front, and back around the right side. The authored front
+  // left and back right edges run opposite to that perimeter direction.
+  a: trouserWaistInterface(),
   b: iface(edgeRef("waistband", "bottom")),
 });
 
@@ -468,7 +476,7 @@ export const TROUSER_GRAMMAR = garmentGrammar(
   (context) => [
     {
       label: "Waistband (four legs ↔ separate waistband)",
-      a: context.interfaceOf("legs", "waist"),
+      a: trouserWaistInterface(),
       b: context.interfaceOf("waistband", "bottom"),
     },
     {
@@ -500,7 +508,6 @@ export function draftTrouserWithClosure(
 ): Block {
   const options = resolveTrouserOptions(rawOptions);
   const legs = addFlyMarks(draftTrouserLegs(m, options), options.flyLength);
-  const legRoles = ["frontLeft", "frontRight", "backLeft", "backRight"] as const;
   const combined = assembleComponents([
     { pieces: legs.roles, stitches: legs.stitches, interfaces: {} },
     trouserWaistband(m, options),
@@ -508,7 +515,7 @@ export function draftTrouserWithClosure(
   ]);
   const stitches: Stitch[] = [
     ...combined.stitches,
-    trouserWaistStitch(legRoles),
+    trouserWaistStitch(),
     { label: "Left front fly ↔ shield", a: iface(markRef("frontLeft", "flyEdge", "left")), b: iface(edgeRef("flyShield", "left")) },
     { label: "Right front fly ↔ shield", a: iface(markRef("frontRight", "flyEdge", "right")), b: iface(edgeRef("flyShield", "right")) },
   ];

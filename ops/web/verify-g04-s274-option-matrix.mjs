@@ -5,7 +5,7 @@ import { chromium } from "playwright";
 import verificationHelpers from "../../electron/verify-common.cjs";
 
 const { startPreviewServer } = verificationHelpers;
-const output = path.resolve("docs/research/epic17/S274-browser");
+const output = path.resolve(process.env.G04_OPTION_MATRIX_OUTPUT ?? "docs/research/epic17/S274-browser");
 const smoke = process.argv.includes("--smoke");
 const recipes = smoke ? ["tee", "polo"] : ["tee", "fitted", "tank", "polo", "woven-shirt", "skirt", "trouser"];
 const consoleErrors = [];
@@ -36,6 +36,11 @@ async function captureFace(page, caseId, recipeId, face) {
   const issues = (await page.locator("[data-technical-flat-issues]").allTextContents()).join("\n").trim() || null;
   const name = `${caseId}-${faceName}`;
   const retainScreenshot = new Set([
+    "polo-default-front",
+    "polo-default-back",
+    "woven-shirt-default-front",
+    "trouser-default-front",
+    "trouser-default-back",
     "polo-backHemDrop-max-back",
     "woven-shirt-buttonCount-min-front",
     "trouser-legOpening-max-front",

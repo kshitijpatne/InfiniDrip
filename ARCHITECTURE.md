@@ -257,15 +257,15 @@ collision checks and 14-face default browser review are recorded in
 `docs/research/epic17/G04-V02-LABEL-REFLOW-S273.md`.
 
 `src/render/technical-flat-assembly.ts` derives per-face component placements
-from ordered `Block.stitches` interfaces. It samples each edge/mark interface
-in source order, uses matched endpoint pairs to solve rigid rotation and
-translation, and preserves each drafted curve and its dimensions. This supports
-face-specific sections of sleeve-cap joins and one-to-many waist joins without
-inventing scale. Hidden mapped components may provide construction links but
-are excluded from returned exterior transforms. A bad/missing interface,
-unplaced visible role, endpoint residual over 0.25 cm or contradictory cycle
-returns an explicit issue. This is drafted transform evidence only; it does not
-yet merge pattern outlines into a garment silhouette or render the live views.
+from ordered `Block.stitches` interfaces. It partitions each interface at exact
+cumulative edge-length boundaries, honors explicit source-edge reversal, and
+uses the adjoining roles' matching endpoints to solve rigid rotation and
+translation. It preserves drafted curves and dimensions. Hidden mapped
+components may provide construction links but are excluded from returned
+exterior transforms. A bad/missing interface, unplaced visible role, endpoint
+residual over 0.25 cm or contradictory cycle returns an explicit issue. This
+is drafted transform evidence only; it does not merge a component into a
+face-specific garment contour by itself.
 
 `src/render/technical-flat-svg.ts` renders a validated semantic view in stable
 layer order. SVG width and height use physical centimetres and source geometry
@@ -283,10 +283,13 @@ Trouser front and Trouser back), with actionable guidance. Slice 274 exercised
 views remained withheld by the existing Woven-shirt and Trouser stitch
 placement conflicts. The local overlay trace confirmed same-revision artwork
 targeting and colorway fills. Accepted Polo and Woven-shirt component outlines
-still cross visually and do not form coherent professional flats, so V02
-remains open for assembly correction and a new rendered exit review. The
-source-to-sewn geometry retains explicit residual and cycle notices; no
-physical fit or factory acceptance is inferred.
+still cross visually and do not form coherent professional flats. Slice 275
+records exact interface subdivision and explicit Trouser waist traversal, but
+its 146-face matrix has the same 70 accepted SVGs/76 visible holds as S274.
+Full role outlines still appear in both faces, and the Woven-shirt and Trouser
+source-cycle holds persist. V02 remains open for face-specific source-to-view
+correction and a new rendered exit review. No physical fit, factory acceptance
+or CAD compatibility is inferred.
 
 The **Edit** view keeps user-authored deltas against stable recipe-owned
 anchors, rather than saving a disconnected picture. Pointer drags and keyboard

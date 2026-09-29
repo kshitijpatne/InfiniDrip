@@ -146,6 +146,14 @@ only through an explicitly admitted, linked Epic packet.
 - `docs/research/epic17/G04-V02-OPTION-MATRIX-S274.md` — Slice 274's current
   rendered all-recipe option endpoint scope, 146-face evidence, assembly
   blockers, mapped MQF review, overlay proof and next V02 gate.
+- `docs/research/epic17/G04-V02-ASSEMBLY-CORRECTION-S275.md` — Slice 275's
+  exact ordered-interface boundary and Trouser waistband-direction correction,
+  full 146-face render result, unresolved source cycles and crossed accepted
+  Polo/Woven output that keeps V02 open.
+- `docs/research/epic17/G04-V02-ASSEMBLY-CORRECTION-S275.md` — Slice 275's
+  bounded source-topology investigation/correction gate for the Woven-shirt
+  and Trouser seam cycles and crossed rigid component placements; unresolved
+  or unsupported joins must remain visibly held.
 - `src/render/technical-flat-mapping.ts` and
   `docs/research/epic17/G04-V01-MAPPING-S264.md` — Slice 264's explicit
   seven-recipe role-to-face map, topology checks, option endpoint checks,
