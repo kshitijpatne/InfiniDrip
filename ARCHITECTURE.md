@@ -324,10 +324,16 @@ independent-audit follow-ups. Loaded revision state is restored before
 workspace selectors resynchronize, and an unsaved target-style edit invalidates
 plan-driven output just like an unsaved artwork edit. Single/Marker is a
 preview scope whose selection does not dirty a style or create undo/recovery
-state; its workspace preference is persisted by explicit Save. Exact raw POM
-equality remains required without tolerance. See
-`docs/research/epic16/S254-G03-AUDIT-CORRECTIONS.md`. EPIC-17 through EPIC-30
-remain Backlog. This digital work
+state; its workspace preference is persisted by explicit Save. Because that
+setting is currently stored in the style revision, saving a changed preference
+can make a bound grade plan stale and require refresh/review/approval again.
+Custom one-size styles normalize the preview scope to Single when loaded, since
+Marker is unavailable without an approved graded run. This is fail-safe but
+means the Marker preview preference is not restored for that style. Exact raw
+POM equality remains required without tolerance. See
+`docs/research/epic16/S254-G03-AUDIT-CORRECTIONS.md` and
+`docs/research/epic16/S256-LOAD-STATE-AND-REVIEW-HANDOFF.md`. EPIC-17 through
+EPIC-30 remain Backlog. This digital work
 does not establish physical fit, drape, factory
 acceptance, supplier readiness, or production readiness.
 Slice 237 is now complete: it adds the semantic-anchor operation model,

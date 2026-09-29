@@ -6544,6 +6544,14 @@ describe("bundled local artwork library (Slice 203)", () => {
         .map((option) => option.value)).toEqual(expect.arrayContaining(["S", "M", "L"])));
       clickIfPresent(root, "tutorial-skip");
       reachExportStage(root);
+      // Load restores approved-size choices, but saved semantic edits still
+      // block whole-run files until their source has been reviewed.
+      const semanticBlocker = "Saved semantic edits need review before the graded run can be generated.";
+      for (const id of ["#export-techpack", "#export-projector"]) {
+        const output = root.querySelector<HTMLButtonElement>(id)!;
+        expect(output.disabled).toBe(true);
+        expect(output.title).toContain(semanticBlocker);
+      }
 
       // A design edit after approval independently closes plan-driven exports
       // and removes graded options, even without an artwork edit.

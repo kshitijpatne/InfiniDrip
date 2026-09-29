@@ -114,10 +114,11 @@ only through an explicitly admitted, linked Epic packet.
 - `docs/planning/EPIC-16-ADMISSION.md` — the maintainer-admitted G03/M01–M03
   execution contract, verified start, seven-recipe C03 boundaries, ordered
   Slice 244–253 plan, source qualification and grade approval gates, and merge
-  exit. Slices 246–247 completed the guided route, source-qualified field help,
-  resume, conflict, narrow-layout, accessibility and all-recipe validation.
-  Slice 248–249 completed M02. Use `PROJECT-STATE.md` and the canonical
-  Control Center for live status.
+  exit; Slices 254–256 are bounded final-review corrections and verification
+  follow-ups, not new garment scope. Slices 246–247 completed the guided route,
+  source-qualified field help, resume, conflict, narrow-layout, accessibility
+  and all-recipe validation. Slice 248–249 completed M02. Use
+  `PROJECT-STATE.md` and the canonical Control Center for live status.
 - `docs/research/epic16/S250-EXIT.md` — verified S250 completion, test/build/
   browser evidence, and the remaining S251 integration boundary.
 - `docs/research/epic16/S251-EXIT.md` and
@@ -134,8 +135,13 @@ only through an explicitly admitted, linked Epic packet.
   `docs/research/epic16/evidence/S253-final-review-verification.json` — the
   final-review boundary, pre/post-audit full-gate results, seven-recipe
   distinct-size output replay, independent audit reconciliation, rendered Grade
-  plan panel screenshot, and current PR/board state. Fresh S253 audits, merge,
-  and G03 closure remain open.
+  plan panel screenshot, and S253 PR/board state. The S253 audits are complete;
+  the current merge gates and board state are summarized in S254–S256.
+- `docs/research/epic16/S254-G03-AUDIT-CORRECTIONS.md`,
+  `docs/research/epic16/S255-FULL-GATE-TEST-ISOLATION.md`, and
+  `docs/research/epic16/S256-LOAD-STATE-AND-REVIEW-HANDOFF.md` — bounded
+  final-review corrections, test-isolation evidence, independent final audits,
+  exact gate status, and the unresolved 100% coverage/build requirements.
 - `docs/research/epic16/S250-EXPLICIT-GRADE-PLAN-RECORD-AND-REVIEW.md` — Slice
   250's exact scope, strict grade-plan fields, stale-approval boundary,
   migration/output non-goals, and exit checks. It does not supply a population,

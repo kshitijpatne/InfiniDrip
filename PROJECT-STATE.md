@@ -1,33 +1,44 @@
 # InfiniDrip — Project State
 
-_Last updated: EPIC-16/G03 Slice 254 audit corrections implemented; verification in progress, 2026-09-28._
+_Last updated: EPIC-16/G03 Slices 254–256 review follow-ups in progress,
+2026-09-29._
 Current directive: EPIC-14/G01 and EPIC-15/G02 are closed with accepted exit
-evidence. The maintainer admitted EPIC-16/G03 at Slice 244 from `origin/main`
-Slice 242, preserving the local Slice 243 manual-quality findings in its
-reviewed branch. The linked execution contract is
-`docs/planning/EPIC-16-ADMISSION.md`; M01 → M02 → M03 → final review is the
-ordered scope. G03 is local-first and digital; no body-capture procedure is
-presented as qualified without accepted sourcing/review, and no physical-fit
-claim is authorized. The validated Control Center records EPIC-16 as In
-Progress with M01 and M02 Done and M03's Slice 251 plan-driven drafting, exact
-POM/cutting reconciliation, and gated graded outputs verified. Independent
-S251 audits found per-size validation and unsaved-base export gaps; Slice 252
-remediates both and passes the full 100% coverage gate, strict app/Electron
-builds, Control Center tests, and rendered browser review. Slice 252 evidence is
-recorded in `docs/research/epic16/S252-GRADE-RUN-SAFETY-REMEDIATION.md` and
-attached to the canonical board, where the safety-remediation item is in Review
-pending final review closure. S253 adds positive distinct-size output replay
-for all seven recipes and reconciles two independent S252 audits. Follow-up
-changes gate plan-driven exports on saved output-affecting changes, refresh
-stale size choices and blocked-state guidance, and cover coherence and
-semantic-replay checks. The rendered Style-stage Grade plan screenshot is
-saved. Post-audit verification passes 100% coverage (2,027 tests), application
-and Electron builds, Control Center tests (33/33), and the protected export
-identities. Fresh independent S253 reviews and final PR-state review remain
-before merge. The board is at revision 357; final review remains In Progress.
-PR #14 remains draft pending those reviews and merge. See
-`docs/research/epic16/S253-G03-FINAL-REVIEW.md` for its verified boundary and
-remaining merge gates.
+evidence. EPIC-16/G03 remains the active, admitted local-first digital scope
+under `docs/planning/EPIC-16-ADMISSION.md`; M01, M02, and M03 are implemented,
+with final review/merge still open. No physical-fit or factory-readiness claim
+is authorized. S252's safety remediation remains attached to the canonical
+board. S253 completed the independent S252 audit reconciliation and passed its
+then-current full gate. S254 applies the final audit corrections: restore
+saved revision counters before Load resynchronizes approved sizes, show precise
+no-plan/stale-plan/unsaved guidance, and keep Single/Marker selection from
+immediately dirtying design or history. S255 isolates shared browser storage
+and makes the Electron export-status regression deterministic. S256 records
+the independent final audit and asserts that Load restores graded-size
+choices while still blocking whole-run outputs when saved semantic edits need
+review. An explicit Save persists Single/Marker scope in the style revision;
+that can require a bound grade plan to be refreshed and approved again, and a
+custom one-size style loads in Single scope because Marker is unavailable.
+
+The most recent full coverage attempt on the S255 candidate passed 132/133
+files and 2,029/2,030 tests but emitted no global coverage table; its single
+failed transient-status assertion was fixed and the affected four tests passed
+in a focused run. S256's revised Load-state integration assertion passed 1/1
+with unrelated app tests skipped. The repository's 100% coverage gate is not
+yet confirmed for the final candidate. Production and Electron builds after
+S254 also remain pending. The Control Center suite and protected export
+identity tests passed on the S254 source; neither their implementation nor the
+export writers/baselines changed afterward. Reuse only those unaffected gates
+after verifying the exact candidate. Independent Claude Opus 5.5 high and
+OpenCode Muse Spark 1.3 xhigh audits found no G03 release-gating defect and
+agree that merge remains blocked until required gates and durable state are
+current. S256 evidence is in
+`docs/research/epic16/S256-LOAD-STATE-AND-REVIEW-HANDOFF.md`.
+
+The board is at revision 357; final review remains In Progress. PR #14 is open
+as a draft on `codex/epic16-g03`. Do not mark ready or merge until the exact
+candidate clears its required gates and the validated Control Center records
+the verified exit. See `docs/research/epic16/S253-G03-FINAL-REVIEW.md` and the
+S254–S256 handoff reports for current evidence and limitations.
 Slice 247
 completed M01's durable resume, conflict, narrow-layout, accessibility, and
 all-recipe exits. Slice 248 completed deterministic custom one-size
