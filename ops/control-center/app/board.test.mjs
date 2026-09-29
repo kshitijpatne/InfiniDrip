@@ -99,6 +99,7 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S265-EXIT"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S266-EXIT"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S267-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S268-EXIT"));
       assert.deepEqual(admittedWork.map((entry) => entry.dependencies), [[], ["G04-V01"], ["G04-V02"]]);
     }
     if (id === "EPIC-16") {

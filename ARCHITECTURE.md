@@ -208,6 +208,14 @@ calling a recipe draft, so invalid user values cannot be hidden by a resolver's
 fallback. A valid draft must pass role/stitch/POM and front/back source-geometry
 checks before its pair is returned. This is a model gate; live UI rendering and
 visible finished-seam rules remain in progress.
+`src/render/technical-flat-overlays.ts` maps the current saved artwork placements
+and selected fabric color/appearance values onto each face using that draft's
+cut frames. Placements retain source, asset and revision identity, dimensions,
+transform and stack order. Unknown or interior-only targets fail visibly;
+missing artwork assets, out-of-frame placements and overlapping placements
+carry actionable review notices. The color/texture/shine data remains
+presentation metadata until the later live renderer consumes it; this compiler
+does not resolve asset bytes or claim that the fabric appearance is rendered.
 
 The **Edit** view keeps user-authored deltas against stable recipe-owned
 anchors, rather than saving a disconnected picture. Pointer drags and keyboard

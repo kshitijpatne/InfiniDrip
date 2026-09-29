@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 267 EPIC-17/G04 V02 option/topology validation exit, 2026-09-29._
+_Last updated: Slice 268 EPIC-17/G04 V02 artwork/colorway overlays complete, 2026-09-29._
 Current directive: EPIC-14/G01, EPIC-15/G02, and EPIC-16/G03 are closed with
 accepted digital exit evidence. EPIC-16/G03 completed the admitted local-first
 scope under `docs/planning/EPIC-16-ADMISSION.md`; M01, M02, M03, final review,
@@ -109,6 +109,44 @@ V02 output gate. Next: bind applicable artwork and color presentation overlays
 to visible source geometry in Slice 268. Elapsed time: implementation 4m;
 focused verification and repair 2m; TypeScript/Vite build 0m 30s; board and
 documentation exit 2m 30s; external-agent waits 0m; maintainer-decision time 0m.
+
+### Slice 268 — G04 V02 artwork/colorway overlays (complete)
+
+Started at 2026-09-29 16:08:04 UTC from S267 commit
+`1577102a02f189c26bb504e3cb32d06787c576bd`; highest assigned slice was 267.
+`origin/main` at `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor;
+the canonical board is revision 391 with G04-V02 In Progress. This slice maps
+existing saved artwork onto the exact visible role faces using base-size cut
+frames from the same draft and carries selected fabric color, texture and shine
+as revision-bound presentation metadata. Each face retains placement source,
+asset ID, dimensions, transform, target role and z-order. Hidden interior
+targets, missing asset IDs, out-of-frame artwork and overlapping placements
+remain explicit notices; invalid identity, colorway, role, frame, placement or
+pattern geometry returns issues without a partial overlay pair. The compiler
+does not resolve asset bytes or render appearance. Focused coverage passes 7/7
+with 100% statement, branch, function and line coverage; the TypeScript/Vite
+build passes with the existing large-chunk advisory, and the Control Center
+suite passes 33/33. Seven-recipe placements and a validator-to-overlay
+revision smoke passed. No generic DXF or export baseline changed. Canonical
+board revision 391 links `E-G04-S268-EXIT` to G04-V02; V02 remains In Progress.
+Actual output readability/color rendering and all mapped MQF checks remain for
+the integrated renderer. Next: anchor and lay out POM callouts in Slice 269.
+Elapsed time: implementation 6m; focused verification and repairs 5m; build
+2m; board/documentation exit 2m; export-identity verification 1m;
+external-agent waits 0m; maintainer-decision time 0m.
+
+### Slice 269 — G04 V02 POM callout placement (start record)
+
+Started at 2026-09-29 16:20:01 UTC from S268's verified tree; highest assigned
+slice was 268. The refreshed `origin/main` at
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor, and the
+canonical board is revision 391 with G04-V02 In Progress. This slice will bind
+supported POM measurements and methods to exact geometry anchors within the
+same front/back revision, lay out proportional leaders and labels, and report
+label/leader collision or missing-anchor issues instead of presenting detached
+measurements as pattern facts. Required focused 100% coverage, build, all-seven
+recipe anchor fixtures, validated board evidence and export identity checks
+apply. No blocking decision; no safe disjoint delegation.
 
 ### Slice 262 — G04 V01 source inventory (complete)
 
