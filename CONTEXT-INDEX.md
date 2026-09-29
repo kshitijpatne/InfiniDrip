@@ -123,8 +123,9 @@ only through an explicitly admitted, linked Epic packet.
   `PROJECT-STATE.md` and the canonical Control Center for live status.
 - `docs/planning/EPIC-17-ADMISSION.md` — Slice 261's maintainer-authorized
   G04 admission from verified `origin/main`, ordered V01 → V02 → V03 scope,
-  estimate, rights/receiver gate, acceptance evidence and merge exit. V01 is
-  the immediate next action; no G04 implementation is claimed by admission.
+  current 19–23-slice estimate, rights/receiver gate, acceptance evidence and
+  merge exit. V01 and its contracts are complete; consult `PROJECT-STATE.md`
+  for the current V02 rendering and interchange gates.
 - `docs/research/epic17/G04-V01-SOURCE-INVENTORY.md` — Slice 262's observed
   source inventory and seven-recipe front/back candidate map. It records what
   pattern, stitch, mark, option, artwork and POM data can support and where
@@ -151,6 +152,11 @@ only through an explicitly admitted, linked Epic packet.
   topology gate. It checks recipe keys, finite values, declared ranges and
   increments before drafting, then requires valid source mapping and geometry
   on both faces; invalid input returns corrections without partial geometry.
+- `src/render/technical-flat-assembly.ts` and
+  `docs/research/epic17/G04-V02-ASSEMBLY-S270.md` — Slice 270's face-specific
+  rigid placement map from ordered stitch interfaces, including multi-edge and
+  split waistband joins, with explicit issues for unresolved construction.
+  It preserves pattern coordinates but is not a rendered flat.
 - `docs/research/epic16/S250-EXIT.md` — verified S250 completion, test/build/
   browser evidence, and the remaining S251 integration boundary.
 - `docs/research/epic16/S251-EXIT.md` and

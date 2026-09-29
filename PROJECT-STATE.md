@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 269 EPIC-17/G04 V02 POM callout placement complete, 2026-09-29._
+_Last updated: Slice 270 EPIC-17/G04 V02 sewn-role assembly map complete, 2026-09-29._
 Current directive: EPIC-14/G01, EPIC-15/G02, and EPIC-16/G03 are closed with
 accepted digital exit evidence. EPIC-16/G03 completed the admitted local-first
 scope under `docs/planning/EPIC-16-ADMISSION.md`; M01, M02, M03, final review,
@@ -19,10 +19,16 @@ adds the versioned primitive contract and Slice 264 completes explicit
 role-to-face/source mapping in `src/render/technical-flat-mapping.ts`. V01 is
 complete; Slice 264 landed as `ef000b292c19a69462d4037a42b28740a9513532` and
 V02 is In Progress. Slice 265 landed as
-`01a1c4b637615eb7ce9f3133626e9b84abf8e431`; Slice 266 now adds exact
-revision-bound source geometry, with assembly and visible seam policy still
-open. The verified
-upstream G01/G02/G03 exits and 16–20-slice estimate are in the admission packet.
+`01a1c4b637615eb7ce9f3133626e9b84abf8e431`; Slice 266 added exact
+revision-bound source geometry, and Slice 270 added its source-driven rigid
+sewn-role assembly solver with
+face-specific multi-edge and split-interval stitch sampling. All seven default
+recipe pairs return mapped visible-role transforms; a contradictory trouser
+back waistband cycle remains an explicit construction issue. Geometry is not
+scaled. Live rendering and product integration remain the next V02 gates. The
+current 19–23-slice estimate and revised boundary slots are in
+the admission packet. The verified upstream G01/G02/G03 exits are recorded
+there as well.
 EPIC-18 through EPIC-30 remain Backlog.
 
 ### Slice 265 — G04 V02 geometry basis (complete)
@@ -158,7 +164,7 @@ Actual font metrics remain a rendered-output gate because this model uses a
 provisional character-width estimate. Canonical board revision 392 links
 `E-G04-S269-EXIT` to G04-V02. No generic DXF code or protected export identity
 changed. Next: integrate source geometry, overlays and POM callouts into the
-existing product view with actual SVG layout in Slice 270.
+existing product view with actual SVG layout in Slice 271.
 
 Elapsed time: implementation 8m; focused verification and repairs 5m; build
 2m; board/documentation exit 2m; external-agent waits 0m; maintainer-decision
@@ -166,21 +172,56 @@ time 0m. The board regression was first run before S269 evidence existed and
 correctly failed that new assertion; after the validated evidence command,
 the complete Control Center suite passed 33/33.
 
-### Slice 270 — G04 V02 live vector view integration (start record)
+### Slice 270 — G04 V02 sewn-role assembly map (start record)
 
 Started at 2026-09-29 16:37:02 UTC from S269's verified working tree; highest
 assigned slice was 269. `origin/main` remains
 `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`, an ancestor of the branch, and the
-canonical board is revision 392 with G04-V02 In Progress. This slice will
-connect the validated live design state to separate front/back SVG flats,
-assemble mapped pieces with rigid transforms, render only evidenced features,
-and consume color/artwork/POM overlays from that same revision. It will expose
-unsupported construction and collision states in the view. Required focused
-100% coverage, build, browser-rendered output and accessibility/readability
-checks, all-seven-recipe default render, actual option/color/artwork updates,
-revision consistency, board evidence and protected export checks apply. No
-blocking decision; no safe disjoint work identified because view state,
-assembly and rendering share one UI path.
+canonical board is revision 392 with G04-V02 In Progress. After reviewing the
+seven-recipe stitch topologies, this slice is narrowed to the construction
+placement core needed before rendering: sample ordered multi-edge interfaces,
+align source endpoints with rigid transforms, handle face-specific halves and
+one-to-many waistband joins, allow declared ease, and report malformed,
+unplaceable, residual or contradictory construction rather than scaling or
+guessing. Hidden pieces may support placement but cannot enter the visible
+transform result. The live renderer/UI and actual font/readability checks move
+to S271–272. Required focused 100% coverage, build, default all-recipe drafted
+view-pair fixtures, board evidence and protected export checks apply. No
+blocking product decision; no safe disjoint work identified because interface
+mapping and placement semantics are one contract.
+
+### Slice 270 — G04 V02 sewn-role assembly map (complete)
+
+`src/render/technical-flat-assembly.ts` now samples ordered `Block.stitches`
+interfaces by face and solves rigid role translations/rotations from source
+endpoint pairs. It handles curve edges, face-specific regions of multi-edge
+sleeve joins, declared ease and one-to-many waistband joins without scaling
+source geometry. Hidden mapped pattern roles can support the solve but are
+omitted from returned exterior transforms. Missing/incompatible joins,
+unplaced visible roles, endpoint residuals over 0.25 cm and contradictory
+cycles produce explicit issues. Default front/back drafts for all seven
+recipes return finite transforms for mapped visible roles; the trouser back
+waistband cycle remains flagged and must be reviewed in the rendered view.
+Source-geometry assertions confirm the skirt's front and back waist edges meet
+the waistband's shared midpoint. Residual seam endpoints remain construction
+review notices; the solver does not turn component outlines into a finished
+outer silhouette. This is drafted transformation evidence, not a live rendered
+flat, so the actual font and MQF review remains pending. An initial role-
+presence fixture failed to catch an interface offset defect; point-level tests
+exposed and corrected it before this boundary's final gates.
+
+Focused coverage passes 8/8 with 100% statement, branch, function and line
+coverage. `npm run build` passes with the existing Vite bundle advisory;
+`npm run control-center:test` passes 33/33; protected export/DXF checks pass
+24/24, including byte-identity cases; `git diff --check` passes. Canonical
+board revision 395 links `E-G04-S270-EXIT` to G04-V02 and records the revised
+19–23-slice estimate. The detailed boundary and limitations are in
+`docs/research/epic17/G04-V02-ASSEMBLY-S270.md`; V01 remains Done, V02 remains
+In Progress and V03 remains Backlog. The next action is layered SVG rendering
+with actual font metrics in Slice 271, followed by narrow UI integration in
+Slice 272. Elapsed time: implementation 33m; focused verification/repair 11m;
+build 2m; Control Center/export gates 3m; documentation/board 12m; external-
+agent waits 0m; maintainer-decision time 0m.
 
 ### Slice 262 — G04 V01 source inventory (complete)
 

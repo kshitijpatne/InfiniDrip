@@ -226,6 +226,17 @@ actionable collision issue. Its source-space text extents are a provisional
 character-width estimate; actual font metrics and readability still require
 the integrated rendered-view review.
 
+`src/render/technical-flat-assembly.ts` derives per-face component placements
+from ordered `Block.stitches` interfaces. It samples each edge/mark interface
+in source order, uses matched endpoint pairs to solve rigid rotation and
+translation, and preserves each drafted curve and its dimensions. This supports
+face-specific sections of sleeve-cap joins and one-to-many waist joins without
+inventing scale. Hidden mapped components may provide construction links but
+are excluded from returned exterior transforms. A bad/missing interface,
+unplaced visible role, endpoint residual over 0.25 cm or contradictory cycle
+returns an explicit issue. This is drafted transform evidence only; it does not
+yet merge pattern outlines into a garment silhouette or render the live views.
+
 The **Edit** view keeps user-authored deltas against stable recipe-owned
 anchors, rather than saving a disconnected picture. Pointer drags and keyboard
 coordinate edits become semantic operations; Undo, Redo, Clear and explicit
