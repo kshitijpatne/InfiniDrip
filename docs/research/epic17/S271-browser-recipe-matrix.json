@@ -1,0 +1,302 @@
+[
+  {
+    "recipe": "tee",
+    "kind": "FRONT_FLAT",
+    "defaultOptions": {},
+    "primitiveCount": 7,
+    "noticeCount": 11,
+    "accepted": true,
+    "issueCodes": [],
+    "issueCount": 0,
+    "measuredLabels": 5,
+    "parseAndRevisionPass": true,
+    "assemblyIssues": [
+      "STITCH_ENDPOINT_RESIDUAL"
+    ],
+    "pomIssues": []
+  },
+  {
+    "recipe": "tee",
+    "kind": "BACK_FLAT",
+    "defaultOptions": {},
+    "primitiveCount": 2,
+    "noticeCount": 11,
+    "accepted": true,
+    "issueCodes": [],
+    "issueCount": 0,
+    "measuredLabels": 0,
+    "parseAndRevisionPass": true,
+    "assemblyIssues": [
+      "STITCH_ENDPOINT_RESIDUAL"
+    ],
+    "pomIssues": []
+  },
+  {
+    "recipe": "fitted",
+    "kind": "FRONT_FLAT",
+    "defaultOptions": {},
+    "primitiveCount": 7,
+    "noticeCount": 13,
+    "accepted": true,
+    "issueCodes": [],
+    "issueCount": 0,
+    "measuredLabels": 3,
+    "parseAndRevisionPass": true,
+    "assemblyIssues": [
+      "STITCH_ENDPOINT_RESIDUAL"
+    ],
+    "pomIssues": []
+  },
+  {
+    "recipe": "fitted",
+    "kind": "BACK_FLAT",
+    "defaultOptions": {},
+    "primitiveCount": 2,
+    "noticeCount": 8,
+    "accepted": true,
+    "issueCodes": [],
+    "issueCount": 0,
+    "measuredLabels": 0,
+    "parseAndRevisionPass": true,
+    "assemblyIssues": [
+      "STITCH_ENDPOINT_RESIDUAL"
+    ],
+    "pomIssues": []
+  },
+  {
+    "recipe": "tank",
+    "kind": "FRONT_FLAT",
+    "defaultOptions": {},
+    "primitiveCount": 6,
+    "noticeCount": 7,
+    "accepted": true,
+    "issueCodes": [],
+    "issueCount": 0,
+    "measuredLabels": 5,
+    "parseAndRevisionPass": true,
+    "assemblyIssues": [],
+    "pomIssues": []
+  },
+  {
+    "recipe": "tank",
+    "kind": "BACK_FLAT",
+    "defaultOptions": {},
+    "primitiveCount": 1,
+    "noticeCount": 10,
+    "accepted": true,
+    "issueCodes": [],
+    "issueCount": 0,
+    "measuredLabels": 0,
+    "parseAndRevisionPass": true,
+    "assemblyIssues": [],
+    "pomIssues": []
+  },
+  {
+    "recipe": "polo",
+    "kind": "FRONT_FLAT",
+    "defaultOptions": {
+      "placketLength": 14,
+      "placketWidth": 3,
+      "standHeight": 2,
+      "collarLeafDepth": 5,
+      "standFrontRise": 0.75,
+      "collarPointExtension": 1.5,
+      "sideVentDepth": 6,
+      "backHemDrop": 1.5
+    },
+    "primitiveCount": 30,
+    "noticeCount": 25,
+    "accepted": false,
+    "issueCodes": [
+      "TEXT_COLLISION"
+    ],
+    "issueCount": 24,
+    "measuredLabels": 25,
+    "parseAndRevisionPass": false,
+    "assemblyIssues": [
+      "STITCH_ENDPOINT_RESIDUAL"
+    ],
+    "pomIssues": []
+  },
+  {
+    "recipe": "polo",
+    "kind": "BACK_FLAT",
+    "defaultOptions": {
+      "placketLength": 14,
+      "placketWidth": 3,
+      "standHeight": 2,
+      "collarLeafDepth": 5,
+      "standFrontRise": 0.75,
+      "collarPointExtension": 1.5,
+      "sideVentDepth": 6,
+      "backHemDrop": 1.5
+    },
+    "primitiveCount": 15,
+    "noticeCount": 11,
+    "accepted": false,
+    "issueCodes": [
+      "TEXT_COLLISION"
+    ],
+    "issueCount": 4,
+    "measuredLabels": 11,
+    "parseAndRevisionPass": false,
+    "assemblyIssues": [
+      "STITCH_ENDPOINT_RESIDUAL"
+    ],
+    "pomIssues": []
+  },
+  {
+    "recipe": "woven-shirt",
+    "kind": "FRONT_FLAT",
+    "defaultOptions": {
+      "neckEase": 1,
+      "buttonCount": 7,
+      "buttonSpacing": 8,
+      "frontOverlap": 1.5,
+      "placketWidth": 3,
+      "standHeight": 2.5,
+      "collarLeafDepth": 6,
+      "yokeDepth": 10,
+      "pocketWidth": 12,
+      "pocketHeight": 13,
+      "sleeveBandDepth": 3,
+      "sideVentDepth": 3,
+      "hemTurn": 1
+    },
+    "primitiveCount": 24,
+    "noticeCount": 17,
+    "accepted": false,
+    "issueCodes": [
+      "TEXT_COLLISION"
+    ],
+    "issueCount": 1,
+    "measuredLabels": 17,
+    "parseAndRevisionPass": false,
+    "assemblyIssues": [
+      "STITCH_ENDPOINT_RESIDUAL"
+    ],
+    "pomIssues": []
+  },
+  {
+    "recipe": "woven-shirt",
+    "kind": "BACK_FLAT",
+    "defaultOptions": {
+      "neckEase": 1,
+      "buttonCount": 7,
+      "buttonSpacing": 8,
+      "frontOverlap": 1.5,
+      "placketWidth": 3,
+      "standHeight": 2.5,
+      "collarLeafDepth": 6,
+      "yokeDepth": 10,
+      "pocketWidth": 12,
+      "pocketHeight": 13,
+      "sleeveBandDepth": 3,
+      "sideVentDepth": 3,
+      "hemTurn": 1
+    },
+    "primitiveCount": 11,
+    "noticeCount": 8,
+    "accepted": false,
+    "issueCodes": [
+      "TEXT_COLLISION"
+    ],
+    "issueCount": 1,
+    "measuredLabels": 5,
+    "parseAndRevisionPass": false,
+    "assemblyIssues": [
+      "STITCH_ENDPOINT_RESIDUAL",
+      "STITCH_ENDPOINT_RESIDUAL",
+      "INCONSISTENT_STITCH_TRANSFORM"
+    ],
+    "pomIssues": []
+  },
+  {
+    "recipe": "skirt",
+    "kind": "FRONT_FLAT",
+    "defaultOptions": {},
+    "primitiveCount": 4,
+    "noticeCount": 6,
+    "accepted": true,
+    "issueCodes": [],
+    "issueCount": 0,
+    "measuredLabels": 2,
+    "parseAndRevisionPass": true,
+    "assemblyIssues": [],
+    "pomIssues": []
+  },
+  {
+    "recipe": "skirt",
+    "kind": "BACK_FLAT",
+    "defaultOptions": {},
+    "primitiveCount": 2,
+    "noticeCount": 7,
+    "accepted": true,
+    "issueCodes": [],
+    "issueCount": 0,
+    "measuredLabels": 0,
+    "parseAndRevisionPass": true,
+    "assemblyIssues": [],
+    "pomIssues": []
+  },
+  {
+    "recipe": "trouser",
+    "kind": "FRONT_FLAT",
+    "defaultOptions": {
+      "frontRiseEase": 1,
+      "backRiseEase": 9,
+      "waistbandDepth": 4,
+      "thighEase": 8,
+      "kneeEase": 5,
+      "legOpening": 40,
+      "flyLength": 15,
+      "pocketOpening": 16,
+      "pocketAngle": 58,
+      "pocketBagDepth": 23,
+      "pocketDrop": 2
+    },
+    "primitiveCount": 25,
+    "noticeCount": 19,
+    "accepted": false,
+    "issueCodes": [
+      "TEXT_COLLISION"
+    ],
+    "issueCount": 2,
+    "measuredLabels": 22,
+    "parseAndRevisionPass": false,
+    "assemblyIssues": [
+      "INCONSISTENT_STITCH_TRANSFORM"
+    ],
+    "pomIssues": []
+  },
+  {
+    "recipe": "trouser",
+    "kind": "BACK_FLAT",
+    "defaultOptions": {
+      "frontRiseEase": 1,
+      "backRiseEase": 9,
+      "waistbandDepth": 4,
+      "thighEase": 8,
+      "kneeEase": 5,
+      "legOpening": 40,
+      "flyLength": 15,
+      "pocketOpening": 16,
+      "pocketAngle": 58,
+      "pocketBagDepth": 23,
+      "pocketDrop": 2
+    },
+    "primitiveCount": 14,
+    "noticeCount": 12,
+    "accepted": false,
+    "issueCodes": [
+      "TEXT_COLLISION"
+    ],
+    "issueCount": 1,
+    "measuredLabels": 11,
+    "parseAndRevisionPass": false,
+    "assemblyIssues": [
+      "INCONSISTENT_STITCH_TRANSFORM"
+    ],
+    "pomIssues": []
+  }
+]

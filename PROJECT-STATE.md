@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 270 EPIC-17/G04 V02 sewn-role assembly map complete, 2026-09-29._
+_Last updated: Slice 271 EPIC-17/G04 V02 layered SVG rendering complete, 2026-09-29._
 Current directive: EPIC-14/G01, EPIC-15/G02, and EPIC-16/G03 are closed with
 accepted digital exit evidence. EPIC-16/G03 completed the admitted local-first
 scope under `docs/planning/EPIC-16-ADMISSION.md`; M01, M02, M03, final review,
@@ -25,11 +25,35 @@ sewn-role assembly solver with
 face-specific multi-edge and split-interval stitch sampling. All seven default
 recipe pairs return mapped visible-role transforms; a contradictory trouser
 back waistband cycle remains an explicit construction issue. Geometry is not
-scaled. Live rendering and product integration remain the next V02 gates. The
-current 19–23-slice estimate and revised boundary slots are in
+scaled. Slice 271 adds the centimeter-sized SVG renderer, active-browser font
+metrics and visible source notices. The default recipe browser matrix parses
+eight front/back faces and blocks six dense faces for measured label collision;
+Slice 272 integrates the renderer and Slice 273 owns measured label reflow.
+The current 20–24-slice estimate and revised boundary slots are in
 the admission packet. The verified upstream G01/G02/G03 exits are recorded
 there as well.
 EPIC-18 through EPIC-30 remain Backlog.
+
+### Slice 271 — layered SVG rendering (start record)
+
+- **Goal start:** 2026-09-29 17:41:11 UTC. Primary usage was at 35%; weekly usage at 62%. The worktree is clean on `codex/epic-17-g04`; `origin/main` was refreshed at `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` and is an ancestor. S270 is `2dc315730a1257a42eac8deee34436f72c84124e`; highest assigned active slice is 270, so 271 is reserved.
+- **Scope:** render the validated same-revision technical-flat model as deterministic layered SVG, including source geometry, marks, construction labels, artwork, callouts and visible notices. Use actual browser font metrics to report text bounds and block geometry/text collisions. Keep all output geometry in source centimetres; no scaling or inferred geometry. No live app entry in this slice.
+- **Exit gates:** focused changed-code tests at 100% statement/branch/function/line; parse and inspect emitted SVG structure, layer order, source/revision identity, geometry and labels; browser-render representative seven-recipe front/back output and capture metrics/notices; build; Control Center command-layer evidence; protected export identity and generic DXF checks; `git diff --check`; update architecture, context, admission packet, Project State and board at the slice exit.
+- **Blocking decisions:** none for rendering. The known trouser back assembly cycle remains an actionable rendered notice. The exact live UI refresh binding is S272. V03 receiver/profile rights remain an independent later blocker.
+- **Delegation:** no safe disjoint renderer work; no external agent used.
+- **Next action:** implement the source/revision-checked SVG renderer, integrating browser-measured typography without mutating pattern geometry.
+
+### Slice 271 — G04 V02 layered SVG rendering (complete)
+
+- **Result:** `src/render/technical-flat-svg.ts` now emits fixed-order semantic SVG layers with stable source/revision metadata, physical centimeter dimensions, same-scale active-browser SVG font metrics, measured label bounds and a visible notice panel. Artwork is clearly shown as a placement boundary only when image bytes are absent. Invalid revisions, stale colorways, unmeasurable metrics and measured label collisions withhold the SVG.
+- **Acceptance:** parsed/browser fixture verifies geometry, layers, source/revision identity, colorway, POM target, marks, notice visibility and browser text bounds. The renderer blocks actual label collisions, labels crossing POM leaders and labels over artwork boundaries. The all-recipe default browser matrix renders eight of 14 faces; six are blocked by genuine text collisions in Polo, Woven-shirt and Trouser. This is a safe refusal and a concrete S273 reflow gate; V02 remains incomplete.
+- **Git:** started at S270 `2dc315730a1257a42eac8deee34436f72c84124e`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Slice 271 was reserved after checking active history; its commit is recorded at the next slice boundary.
+- **Verification:** `npm run coverage -- src/render/technical-flat-svg.test.ts --coverage.include=src/render/technical-flat-svg.ts` passes 10/10 at 100% statement, branch, function and line coverage; `npx tsc --noEmit` and `npm run build` pass. Browser sample label bounds match SVG `getBBox()` within 0.008 cm. The seven-recipe matrix covers all 14 default faces, with eight parsed views and six `TEXT_COLLISION` blocks. `npm run control-center:test` passes 33/33; protected export/DXF checks pass 24/24. No export, generic DXF, or protected identity source changed.
+- **Evidence:** detailed scope, verification, blockers, next action and time breakdown are in `docs/research/epic17/G04-V02-SVG-S271.md`. The screenshot/SVG and measured record are `S271-browser-sample.png`, `.svg`, `.json`; the full default matrix is `S271-browser-recipe-matrix.json`.
+- **Board:** validated Control Center linked `E-G04-S271-EXIT` to EPIC-17 and G04-V02 at revision 399; V02 stays In Progress. The estimate is 20–24 slices after the browser review exposed a six-face default label-reflow boundary. V01 remains Done and V03 remains Backlog.
+- **Manual findings:** MQF-004–007, MQF-011, MQF-012 and MQF-015 remain scheduled for the applicable rendered-output review at S274/S275. No finding was used to expand scope.
+- **Next action:** integrate live front/back rendering against active pattern/options/revision state in Slice 272; surface all assembly and renderer issues. Reflow all default-label collisions in Slice 273.
+- **Elapsed-time breakdown:** implementation/repair 13m; focused tests/coverage/type verification 8m; production build 3m; browser matrix/output review 7m; documentation/board 9m; external-agent waits 0m; maintainer-decision time 0m.
 
 ### Slice 265 — G04 V02 geometry basis (complete)
 

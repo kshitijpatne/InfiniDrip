@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 395,
-  "updatedAt": "2026-09-29T17:27:40.512Z",
+  "revision": 399,
+  "updatedAt": "2026-09-29T18:14:17.628Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -155,8 +155,10 @@
       "title": "EPIC-17: G04 — Professional flats and CAD interchange",
       "status": "In Progress",
       "owner": "Codex",
-      "description": "Admitted 2026-09-29 by explicit maintainer instruction. G04 V01 → V02 → V03; current estimate 19–23 landed slices including admission and final merge evidence (re-estimated Slice 270). Scope, boundaries, verification and rights gates: docs/planning/EPIC-17-ADMISSION.md.",
-      "evidenceRefs": []
+      "description": "Admitted 2026-09-29 by explicit maintainer instruction. G04 V01 → V02 → V03; current estimate 20–24 landed slices including admission and final merge evidence (re-estimated Slice 271 after browser review blocked six default faces for text collisions). Scope, boundaries, verification and rights gates: docs/planning/EPIC-17-ADMISSION.md.",
+      "evidenceRefs": [
+        "E-G04-S271-EXIT"
+      ]
     },
     {
       "id": "EPIC-18",
@@ -2684,7 +2686,7 @@
         "100% coverage",
         "maintainer gates"
       ],
-      "description": "Admitted 2026-09-29 by explicit maintainer instruction. Scope and gates: docs/planning/EPIC-17-ADMISSION.md; ordered V01 → V02 → V03. Current estimate 19–23 landed slices including admission and final merge evidence (re-estimated Slice 270). V03 receiver/profile remains gated on current rights review and round-trip evidence.",
+      "description": "Admitted 2026-09-29 by explicit maintainer instruction. Scope and gates: docs/planning/EPIC-17-ADMISSION.md; ordered V01 → V02 → V03. Current estimate 20–24 landed slices including admission and final merge evidence (re-estimated Slice 271 after browser review blocked six default faces for text collisions). V03 receiver/profile remains gated on current rights review and round-trip evidence.",
       "expectation": "Front/back technical flats for every supported recipe/variant and proven CAD interchange. Pattern-linked side/oblique views are explicitly owned by G09/D04, so the complete view set is accepted only there.",
       "acceptanceCriteria": [
         "Complete every G04 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
@@ -2742,6 +2744,11 @@
           "at": "2026-09-29T17:27:38.969Z",
           "actor": "Maintainer",
           "text": "Updated Epic metadata (description: Admitted 2026-09-29 by explicit maintainer instruction. G04 V01 → V02 → V03; current estimate 19–23 landed slices including admission and final merge evidence (re-estimated Slice 270). Scope, boundaries, verification and rights gates: docs/planning/EPIC-17-ADMISSION.md.). Re-estimated the admitted execution slots after source-tracing seven-recipe sewn-interface topology at Slice 270."
+        },
+        {
+          "at": "2026-09-29T18:14:08.225Z",
+          "actor": "Maintainer",
+          "text": "Updated Epic metadata (description: Admitted 2026-09-29 by explicit maintainer instruction. G04 V01 → V02 → V03; current estimate 20–24 landed slices including admission and final merge evidence (re-estimated Slice 271 after browser review blocked six default faces for text collisions). Scope, boundaries, verification and rights gates: docs/planning/EPIC-17-ADMISSION.md.). Re-estimated the admitted G04 sequence after actual browser font metrics showed that six dense default faces require a dedicated label-reflow boundary in Slice 273."
         }
       ],
       "evidenceRefs": [],
@@ -5486,7 +5493,8 @@
         "E-G04-S267-EXIT",
         "E-G04-S268-EXIT",
         "E-G04-S269-EXIT",
-        "E-G04-S270-EXIT"
+        "E-G04-S270-EXIT",
+        "E-G04-S271-EXIT"
       ],
       "flagKey": null
     },
@@ -6427,6 +6435,15 @@
       "sha256": null,
       "verified": true,
       "note": "Slice 270 adds source-driven rigid sewn-role placements for all seven recipe pairs, with explicit construction issues; focused changed-module coverage is 100%, production build passes, Control Center 33/33 and protected export checks 24/24."
+    },
+    {
+      "id": "E-G04-S271-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-SVG-S271.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Slice 271 adds layered, revision-bound centimeter SVG with measured browser text; 8/14 default faces render and parse, while 6 dense faces are blocked by actual-text collisions for Slice 273 reflow. Focused coverage is 100%, TypeScript and build pass."
     }
   ]
 }

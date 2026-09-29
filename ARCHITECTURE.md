@@ -237,6 +237,21 @@ unplaced visible role, endpoint residual over 0.25 cm or contradictory cycle
 returns an explicit issue. This is drafted transform evidence only; it does not
 yet merge pattern outlines into a garment silhouette or render the live views.
 
+`src/render/technical-flat-svg.ts` renders a validated semantic view in stable
+layer order. SVG width and height use physical centimetres and source geometry
+remains unscaled. Every emitted entity carries its source and revision IDs;
+artwork source assets that are not embedded receive a visible notice. The
+browser measures labels with the same SVG font family and user-unit size used
+by the output. The rendered text extents expand the view box; overlapping
+labels, labels over artwork placement boundaries, and POM leaders that cross
+other labels return a blocking issue instead of an unreadable SVG. This renderer is
+not yet wired to the live product surface. Browser coverage across the seven
+default recipes currently accepts eight faces and blocks six dense Polo,
+Woven-shirt and Trouser faces for construction-label collisions; reflow and
+rendered option review remain required before V02 exit. The source-to-sewn
+geometry also retains explicit residual and cycle notices; no physical fit or
+factory acceptance is inferred.
+
 The **Edit** view keeps user-authored deltas against stable recipe-owned
 anchors, rather than saving a disconnected picture. Pointer drags and keyboard
 coordinate edits become semantic operations; Undo, Redo, Clear and explicit
