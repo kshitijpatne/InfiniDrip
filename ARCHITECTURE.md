@@ -274,13 +274,19 @@ artwork source assets that are not embedded receive a visible notice. The
 browser measures labels with the same SVG font family and user-unit size used
 by the output. The rendered text extents expand the view box; measured reflow
 avoids label, visible-stroke, artwork-bound and leader overlap. A face stays
-withheld when no collision-free placement exists. Production Chromium now
-renders and parses eleven of fourteen default faces without label collisions;
-three faces remain withheld by source assembly-cycle issues (Woven-shirt back,
-Trouser front and Trouser back), with actionable guidance. Full supported-option
-review remains required before V02 exit. The source-to-sewn geometry also
-retains explicit residual and cycle notices; no physical fit or factory
-acceptance is inferred.
+withheld when no collision-free placement exists. Production Chromium renders
+and parses eleven of fourteen default faces without label collisions; three
+defaults remain withheld by source assembly-cycle issues (Woven-shirt back,
+Trouser front and Trouser back), with actionable guidance. Slice 274 exercised
+32 recipe-scoped option fields at min/max and retained 146 front/back requests:
+70 SVGs passed measured label, notice, revision and POM-anchor checks, while 76
+views remained withheld by the existing Woven-shirt and Trouser stitch
+placement conflicts. The local overlay trace confirmed same-revision artwork
+targeting and colorway fills. Accepted Polo and Woven-shirt component outlines
+still cross visually and do not form coherent professional flats, so V02
+remains open for assembly correction and a new rendered exit review. The
+source-to-sewn geometry retains explicit residual and cycle notices; no
+physical fit or factory acceptance is inferred.
 
 The **Edit** view keeps user-authored deltas against stable recipe-owned
 anchors, rather than saving a disconnected picture. Pointer drags and keyboard

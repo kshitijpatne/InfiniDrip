@@ -123,7 +123,7 @@ only through an explicitly admitted, linked Epic packet.
   `PROJECT-STATE.md` and the canonical Control Center for live status.
 - `docs/planning/EPIC-17-ADMISSION.md` — Slice 261's maintainer-authorized
   G04 admission from verified `origin/main`, ordered V01 → V02 → V03 scope,
-  current 20–24-slice estimate, rights/receiver gate, acceptance evidence and
+  current 21–25-slice estimate, rights/receiver gate, acceptance evidence and
   merge exit. V01 and its contracts are complete; consult `PROJECT-STATE.md`
   for the current V02 rendering and interchange gates.
 - `docs/research/epic17/G04-V01-SOURCE-INVENTORY.md` — Slice 262's observed
@@ -143,6 +143,9 @@ only through an explicitly admitted, linked Epic packet.
   verified exit gates. It records three existing assembly-cycle holds and
   allows no pattern geometry, POM value or missing construction source to be
   inferred to make labels fit.
+- `docs/research/epic17/G04-V02-OPTION-MATRIX-S274.md` — Slice 274's current
+  rendered all-recipe option endpoint scope, 146-face evidence, assembly
+  blockers, mapped MQF review, overlay proof and next V02 gate.
 - `src/render/technical-flat-mapping.ts` and
   `docs/research/epic17/G04-V01-MAPPING-S264.md` — Slice 264's explicit
   seven-recipe role-to-face map, topology checks, option endpoint checks,

@@ -1,0 +1,64 @@
+{
+  "generatedAt": "2026-09-29T22:51:00.642Z",
+  "recipeId": "tee",
+  "assetId": "builtin-met-221932",
+  "color": "#3A4150",
+  "colorLabel": "Color Charcoal",
+  "faces": [
+    {
+      "recipeId": "tee",
+      "kind": "FRONT_FLAT",
+      "revision": "live-draft:tee:1:4",
+      "color": "#3A4150",
+      "texture": "smooth",
+      "shine": "0",
+      "artwork": [
+        {
+          "placementId": "textile-printed-with-game-birds",
+          "assetId": "builtin-met-221932",
+          "sourceId": "style:artwork:textile-printed-with-game-birds",
+          "revision": "live-draft:tee:1:4",
+          "zOrder": 0
+        }
+      ],
+      "fills": [
+        {
+          "roleSource": "pattern:tee:role:front",
+          "fill": "#3A4150",
+          "revision": "live-draft:tee:1:4"
+        },
+        {
+          "roleSource": "pattern:tee:role:sleeve",
+          "fill": "#3A4150",
+          "revision": "live-draft:tee:1:4"
+        }
+      ],
+      "entityRevisionMismatch": false,
+      "parserError": false
+    },
+    {
+      "recipeId": "tee",
+      "kind": "BACK_FLAT",
+      "revision": "live-draft:tee:1:4",
+      "color": "#3A4150",
+      "texture": "smooth",
+      "shine": "0",
+      "artwork": [],
+      "fills": [
+        {
+          "roleSource": "pattern:tee:role:back",
+          "fill": "#3A4150",
+          "revision": "live-draft:tee:1:4"
+        },
+        {
+          "roleSource": "pattern:tee:role:sleeve",
+          "fill": "#3A4150",
+          "revision": "live-draft:tee:1:4"
+        }
+      ],
+      "entityRevisionMismatch": false,
+      "parserError": false
+    }
+  ],
+  "requestErrors": []
+}

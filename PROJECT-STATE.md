@@ -1,6 +1,19 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 273 EPIC-17/G04 measured label reflow complete, 2026-09-29._
+_Last updated: Slice 274 EPIC-17/G04 rendered option matrix complete, 2026-09-29._
+
+### Slice 274 — G04 V02 rendered option matrix (complete)
+
+- **Goal start / boundary:** 2026-09-29 21:38:02 UTC. Render all seven recipe defaults and each of 32 declared option fields at min/max (64 endpoints) through production Chromium, plus the existing Woven-shirt and Trouser valid combined fixtures; review mapped MQF findings.
+- **Git:** started clean at S273 `fe173d7bbe89b00de646e35cd4fc8cc2d730fcad` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. S274 was unique after branch history review.
+- **Landing:** one commit, `Slice 274: verify rendered technical-flat options`, contains the packet, 146-face matrix, overlay proof, context/state/architecture/admission updates, and validated board revision 407. No other S274 commit or fixup was created.
+- **Rendered output:** `docs/research/epic17/S274-browser/matrix.json` retains 73 configurations and 146 face requests. 70 SVGs passed parsing, same-entity revision, measured labels/notices, and POM target/leader checks; 76 views remain withheld with visible existing stitch-placement guidance (28 Woven-shirt backs, 24 Trouser fronts, 24 Trouser backs). All defaults and every single-option endpoint were exercised. A separate local Style UI trace confirms same-revision Tee front artwork and front/back colorway overlay; its local source asset is shown as a placement boundary, not embedded image content.
+- **Acceptance/blockers:** endpoint exercise, topology/anchor checks, and representative local overlay proof passed. V02 output acceptance remains pending: Woven-shirt backs and both Trouser faces fail closed; accepted Polo/Woven component outlines visibly cross and are not coherent professional flats. No geometry, validator, or DXF was changed to hide those results. No physical, qualified-designer, factory, or production claim is made.
+- **Manual findings:** MQF-004/005/006/007/011/012 are partial; MQF-015 is not applicable until V03. The findings register remains **To be reviewed** for the G04 exit and post-G17 deferrals remain intact. Detailed mapping is in `docs/research/epic17/G04-V02-OPTION-MATRIX-S274.md`.
+- **Verification:** final full Chromium matrix passed 146 face requests and 32 recipe-scoped fields with no browser/page/request errors; overlay Chromium proof passed. Focused protected DXF/export and Control Center results are recorded in the packet. No product source changed, so production coverage/build are unaffected. `git diff --check` passed.
+- **Board:** validated start comment at revision 404. The S274 evidence record links this report to EPIC-17 and G04-V02; the Epic description reflects the revised 21–25-slice estimate. Board remains EPIC-17 In Progress, V01 Done, V02 In Progress, V03 Backlog.
+- **Next gated action:** reserve S275 after refreshing `origin/main` and history. Its packet must bound source-topology fixes for the named Woven-shirt/Trouser stitch conflicts and require the corrected full rendered matrix before V02 can close. No cycle bypass or misleading output is allowed.
+- **Time:** from the 21:38:02 UTC start, estimated implementation/harness and durable closeout 35m; focused Chromium verification/output review, overlay proof and focused regression gates 45m; external-agent waits 0m; maintainer-decision time 0m. Total elapsed approximately 1h 21m.
 Current directive: EPIC-14/G01, EPIC-15/G02, and EPIC-16/G03 are closed with
 accepted digital exit evidence. EPIC-16/G03 completed the admitted local-first
 scope under `docs/planning/EPIC-16-ADMISSION.md`; M01, M02, M03, final review,
