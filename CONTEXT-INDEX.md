@@ -129,6 +129,9 @@ only through an explicitly admitted, linked Epic packet.
   source inventory and seven-recipe front/back candidate map. It records what
   pattern, stitch, mark, option, artwork and POM data can support and where
   missing construction semantics must remain visible.
+- `src/render/technical-flat.ts` — Slice 263's versioned vector primitive,
+  source/revision, semantic-layer, artwork and anchored-callout contract plus
+  runtime validation. Recipe mapping and live rendering remain in progress.
 - `docs/research/epic16/S250-EXIT.md` — verified S250 completion, test/build/
   browser evidence, and the remaining S251 integration boundary.
 - `docs/research/epic16/S251-EXIT.md` and

@@ -89,3 +89,14 @@ The initial estimated range is 16–20 slices. The planned slots above are a wor
 - **Blockers:** none for V01. Exact role assembly and primitive semantics remain open implementation work. V03 receiver/profile rights remains gated.
 - **Next action:** define typed vector primitives and their versioned source references with focused coverage for changed production code.
 - **Elapsed-time breakdown:** implementation/source review 5m 02s; focused verification 1m 20s; external-agent wait 0m; maintainer-decision time 0m.
+
+## Slice 263 primitive-contract exit record (complete)
+
+- **Result:** `src/render/technical-flat.ts` defines the versioned front/back view, path/circle/text/artwork/callout primitives, explicit source classes and revision references, centimetre coordinate system, stable semantic identities, paint-layer order, and notices for unsupported or unresolved source data. The shared validator checks view/source identity, geometry, callout resolution and same-revision binding.
+- **Acceptance:** invalid input is returned as explicit issues; no coordinates or options are clamped; callouts require geometry targets; artwork preserves the existing true-scale rectangle, transform and z-order contract; V01 uses the same vocabulary as C04. Live recipe mappings and UI rendering are still pending.
+- **Git:** started from S262 commit `b36dd9a4ed1828608023a44567650098c64bad94`; highest assigned slice at start was 262; S263 reserved. `origin/main` remains the verified admission base pending final PR.
+- **Verification:** `npm run coverage -- src/render/technical-flat.test.ts --coverage.include=src/render/technical-flat.ts` passed 8/8 at 100% statement, branch, function and line coverage. Final `npm run build` passed TypeScript and the Vite production bundle; Vite emitted its existing large-chunk advisory. Lockfile install was isolated to ignored `node_modules` in the managed worktree; package manifests did not change.
+- **Board:** revision 383 links verified evidence `E-G04-S263-EXIT` to `G04-V01` using the validated command layer.
+- **Blockers:** none for V01. Per-recipe face assignment and ambiguity validation remain to be implemented. V03 receiver/rights is separately gated.
+- **Next action:** complete the seven-recipe source-to-view mapping and topology checks in Slice 264.
+- **Elapsed-time breakdown:** implementation 9m 10s; focused verification and repairs 3m 20s; build 0m 20s; external-agent wait 0m; maintainer-decision time 0m.

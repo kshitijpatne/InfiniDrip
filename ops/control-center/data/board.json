@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 382,
-  "updatedAt": "2026-09-29T14:46:40.893Z",
+  "revision": 383,
+  "updatedAt": "2026-09-29T15:03:33.353Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -5396,7 +5396,9 @@
         }
       ],
       "comments": [],
-      "evidenceRefs": [],
+      "evidenceRefs": [
+        "E-G04-S263-EXIT"
+      ],
       "flagKey": null
     },
     {
@@ -6309,6 +6311,15 @@
       "sha256": "a0324a3a26d1ce4dcb759c2e56fc8db4c03fa0f17723bdfdb57296dd7f3c587c",
       "verified": true,
       "note": "Verified PR #14 merge, origin/main ancestry and reviewed-tree equivalence; contains G03 acceptance limits and validated-board closure evidence."
+    },
+    {
+      "id": "E-G04-S263-EXIT",
+      "kind": "test",
+      "uri": "docs/planning/EPIC-17-ADMISSION.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Slice 263 primitive model and validator passed focused 100% coverage for all four metrics and the production TypeScript/Vite build."
     }
   ]
 }

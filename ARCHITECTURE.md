@@ -178,6 +178,16 @@ show or check the same current draft:
   controls. A committed movement is stored with the active style, checked
   across its registered size run, and consumed by its dependent outputs.
 
+G04 adds a separate versioned technical-flat model in
+`src/render/technical-flat.ts`. Each vector entity records a stable identity,
+its source class and source revision, semantic layer and feature, and geometry
+in centimetres. Front and back views have distinct view kinds. Artwork retains
+its placement transform and stack order. A callout must point to geometry in
+the same view, and missing construction sources are represented as explicit
+notices. This model is the V01 contract; recipe mapping and live rendered flats
+are still in progress. The existing Assembled view remains schematic and is not
+used as pattern-derived evidence.
+
 The **Edit** view keeps user-authored deltas against stable recipe-owned
 anchors, rather than saving a disconnected picture. Pointer drags and keyboard
 coordinate edits become semantic operations; Undo, Redo, Clear and explicit

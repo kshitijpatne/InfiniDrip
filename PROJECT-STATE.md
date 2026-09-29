@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 262 EPIC-17/G04 V01 source inventory, 2026-09-29._
+_Last updated: Slice 263 EPIC-17/G04 V01 primitive contract, 2026-09-29._
 Current directive: EPIC-14/G01, EPIC-15/G02, and EPIC-16/G03 are closed with
 accepted digital exit evidence. EPIC-16/G03 completed the admitted local-first
 scope under `docs/planning/EPIC-16-ADMISSION.md`; M01, M02, M03, final review,
@@ -14,8 +14,9 @@ Slice 261 records admission as commit
 `89d7cf780d155bfb4331371000f2b166b34bad35`, links `docs/planning/EPIC-17-ADMISSION.md`, and
 transitions the canonical board through its validated command layer. Slice 262
 records the current source inventory and front/back mapping candidates for all
-seven recipes in `docs/research/epic17/G04-V01-SOURCE-INVENTORY.md`. V01 remains
-in progress; typed primitives and exact face mapping are next. The verified
+seven recipes in `docs/research/epic17/G04-V01-SOURCE-INVENTORY.md`. Slice 263
+adds the versioned primitive and validation contract in
+`src/render/technical-flat.ts`; exact face mapping is next. The verified
 upstream G01/G02/G03 exits and 16–20-slice estimate are in the admission packet.
 EPIC-18 through EPIC-30 remain Backlog.
 
@@ -33,6 +34,25 @@ passed 33/33 after its status regression was updated. The next action is the
 versioned primitive/source-reference model under V01. Elapsed time: inventory
 implementation and source review 5m 02s; focused verification 1m 20s; external
 agent waits 0m; maintainer-decision time 0m.
+
+### Slice 263 — G04 V01 technical-flat primitive contract (complete)
+
+Started at 2026-09-29 14:51:41 UTC on S262. Added a versioned `FRONT_FLAT` /
+`BACK_FLAT` view model, typed path/circle/text/artwork/callout primitives,
+centimetre coordinates, stable semantic IDs, explicit source classes and
+revision references, a shared bottom-to-top layer order, artwork transforms,
+and unresolved construction notices. Validation rejects duplicate IDs,
+malformed geometry, missing source data, mixed revisions and POM targets that
+do not resolve to geometry. `ARCHITECTURE.md` and the context index describe
+the implemented contract and the still-pending recipe mapping/rendering.
+Focused coverage passed 8/8 with 100% statements, branches, functions and
+lines for `technical-flat.ts`. The exact final source passed `npm run build`
+(TypeScript plus Vite production bundle); Vite emitted its existing large-chunk
+advisory. Canonical board revision 383 links verified evidence
+`E-G04-S263-EXIT` to G04-V01. The next action is S264's explicit seven-recipe
+role/edge/mark mapping and topology validation. Elapsed time: implementation 9m 10s; focused
+checks and repairs 3m 20s; build 0m 20s; external-agent waits 0m; maintainer
+decisions 0m.
 
 ### Slice 261 — admit EPIC-17 / G04 (complete)
 
