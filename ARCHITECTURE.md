@@ -319,7 +319,14 @@ the S204/S205/S240 ancestry and closed EPIC-15 at Control Center revision 315.
 EPIC-16/G03 is admitted; M01 and M02 are complete. M03's Slice 251 output
 integration passed its gates, then independent review required the Slice 252
 per-size validation and saved-base export remediation before final review.
-Slice 253 is the G03 final review and merge exit. EPIC-17 through EPIC-30
+Slice 253 is the G03 final review and merge exit; Slice 254 addresses its
+independent-audit follow-ups. Loaded revision state is restored before
+workspace selectors resynchronize, and an unsaved target-style edit invalidates
+plan-driven output just like an unsaved artwork edit. Single/Marker is a
+preview scope whose selection does not dirty a style or create undo/recovery
+state; its workspace preference is persisted by explicit Save. Exact raw POM
+equality remains required without tolerance. See
+`docs/research/epic16/S254-G03-AUDIT-CORRECTIONS.md`. EPIC-17 through EPIC-30
 remain Backlog. This digital work
 does not establish physical fit, drape, factory
 acceptance, supplier readiness, or production readiness.

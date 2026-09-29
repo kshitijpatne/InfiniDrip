@@ -710,7 +710,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   const gradePlanDesignIsSaved = (): boolean => designRevision === savedDesignRevision;
   const gradePlanOutputBaseIsSaved = (): boolean => gradePlanDesignIsSaved()
     && persistentOutputRevision === savedPersistentOutputRevision;
-  const gradePlanOutputSaveMessage = "Save the style. Then refresh, review, and approve its grade plan before exporting.";
+  const gradePlanOutputSaveMessage = "Save the style, then refresh, review, and approve its grade plan before exporting graded sizes or whole-run files.";
   const blankSavedDesignForGarment = (
     blankRecipe: GarmentRecipe = garmentByName(DEFAULT_WORKSPACE.garment),
   ): SavedDesign => {
@@ -1615,7 +1615,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     ? gradedMarkerAvailabilityTitle(false)
     : canExportRun()
       ? "Estimate one garment in each approved declared size; this is a digital fabric-layout estimate."
-      : !gradePlanOutputBaseIsSaved() ? gradePlanOutputSaveMessage
+      : !gradePlanOutputBaseIsSaved() && gradePlanState?.plan ? gradePlanOutputSaveMessage
       : gradePlanApproved()
         ? "The approved run must pass geometry and exact POM checks at every size before marker estimation."
         : gradedMarkerAvailabilityTitle(true, false);
@@ -2116,7 +2116,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       button.disabled = !allowed || needsArtwork;
       button.title = !allowed
         ? customOneSizeStyle() && (button.id === "export-techpack" || button.id === "export-projector")
-          ? !gradePlanOutputBaseIsSaved() ? gradePlanOutputSaveMessage
+        ? !gradePlanOutputBaseIsSaved() && gradePlanState?.plan ? gradePlanOutputSaveMessage
           : gradePlanApproved()
             ? currentGradePlanRun().issues[0] ?? "Review Style and the current digital checks before exporting."
             : "Whole-run output is unavailable until you review and approve a grade plan."
@@ -2198,7 +2198,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         : `<p role="status" data-semantic-output-paused>Graded nesting is paused. Review or rebase the saved edits in Edit.</p>`;
     } else if (view === "fabric") {
       if (customOneSizeStyle() && nestScope === "marker" && !canExportRun()) {
-        canvasContent = `<p role="status">${escapeUiText(!gradePlanOutputBaseIsSaved()
+        canvasContent = `<p role="status">${escapeUiText(!gradePlanOutputBaseIsSaved() && gradePlanState?.plan
           ? gradePlanOutputSaveMessage : currentGradePlanRun().issues[0]!)}</p>`;
       } else if (customOneSizeStyle() && nestScope === "single" && gradePlanSelectedLabel !== null
         && selectedGradePlanSize()?.ready !== true) {
@@ -2231,8 +2231,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       const dismissedGuidance = guidanceNotes.filter((note) =>
         note.level === "warn" && note.field !== undefined && ignoredGuidance.has(note.field));
       canvasContent = semanticSizeReady(0)
-        ? checkMarkup(garmentReportForCurrentStyle(recipeForCurrentOutputs()), valid, dismissedGuidance, customOneSizeStyle(), gradePlanApproved(), gradePlanOutputBaseIsSaved())
-          + (customOneSizeStyle() ? gradePlanRunMarkup(currentGradePlanRun(), gradePlanOutputBaseIsSaved()) : "")
+        ? checkMarkup(garmentReportForCurrentStyle(recipeForCurrentOutputs()), valid, dismissedGuidance,
+          customOneSizeStyle(), gradePlanApproved(), gradePlanOutputBaseIsSaved(), !!gradePlanState?.plan)
+          + (customOneSizeStyle() ? gradePlanRunMarkup(currentGradePlanRun(), gradePlanOutputBaseIsSaved(), !!gradePlanState?.plan) : "")
         : `<p role="status" data-semantic-output-paused>Checks are paused until the saved edits are valid or explicitly rebased.</p>`;
     } else if (view === "edit") {
       const sourceCannotDraft = semanticState?.source.status === "failed" && !semanticState.source.baseBlock;
@@ -3365,9 +3366,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       return;
     }
     nestScope = s;
-    // This changes the preview/export mode only. Fabric dimensions and other
-    // nesting inputs are persisted and invalidate a graded approval; switching
-    // between single-size and marker views does not change those inputs.
+    // nestScope is a persisted workspace preference saved with the next Save.
+    // Switching Single/Marker is preview-only and does not mark design or
+    // output content unsaved; fabric dimensions and other nesting inputs do.
     single.style.background = s === "single" ? BLUEPRINT.lineActive : "transparent";
     single.style.color = s === "single" ? BLUEPRINT.background : BLUEPRINT.label;
     single.setAttribute("aria-pressed", String(s === "single"));
@@ -4380,11 +4381,13 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     journey = { ...journey, exported: false };
     celebrating = false;
     persistJourney();
-    syncWorkspace(true);
-    syncGarmentChoices();
     savedRevision = outputRevision;
     savedDesignRevision = designRevision;
     savedPersistentOutputRevision = persistentOutputRevision;
+    // Reconcile export choices against the loaded saved base, not the draft
+    // that was active before Load.
+    syncWorkspace(true);
+    syncGarmentChoices();
     history = emptyHistory();
     historyPresent = captureDraftSnapshot();
     pendingRecovery = recovery;

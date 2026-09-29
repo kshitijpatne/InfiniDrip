@@ -286,6 +286,7 @@ reconciles exact POM values and cutting quantities, shows the base-to-size
 review, and enables only the outputs whose checks pass. Its verified exit is
 `docs/research/epic16/S251-EXIT.md`, with machine-readable output and coverage
 evidence in `docs/research/epic16/evidence/S251-graded-output-verification.json`.
-Slice 252 is the independent final review and merge gate. Existing legacy
+Slice 252 is the graded-run safety remediation. Slice 253 is the final review
+and merge gate. Existing legacy
 grading and protected bytes stay unchanged. No fit, population,
 standards-conformity, or physical approval claim is authorized.

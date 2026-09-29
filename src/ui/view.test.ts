@@ -496,6 +496,17 @@ describe("checkMarkup", () => {
     expect(approved).toContain("Grade plan approved");
     expect(approved).toContain("are not generated in this step");
   });
+
+  it("keeps grade-plan refresh guidance scoped to an existing plan and its graded outputs", () => {
+    const report = buildReport([present("Seam", true, "agree")]);
+    const noPlan = checkMarkup(report, true, [], true, false, false, false);
+    expect(noPlan).toContain("Single custom size");
+    expect(noPlan).toContain("Review and approve a grade plan first");
+    expect(noPlan).not.toContain("refresh, review, and approve");
+    const existingPlan = checkMarkup(report, true, [], true, false, false, true);
+    expect(existingPlan).toContain("Save the style, then refresh, review, and approve");
+    expect(existingPlan).toContain("graded sizes or whole-run files");
+  });
 });
 
 describe("fabricWidthMarkup", () => {

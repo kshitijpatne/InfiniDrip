@@ -1,8 +1,9 @@
 # EPIC-16/G03 Slice 253 — final review and merge exit
 
 **Status:** In progress; independent S252 audits are reconciled, S253 fixes are
-implemented, and the complete local verification gate passes. Final S253
-independent review, PR-state review, and safe merge remain open.
+implemented, and the complete local verification gate passes. Independent S253
+audits are complete; audit-identified corrections are being completed in Slice
+254. Final PR-state review and safe merge remain open.
 **Date:** 2026-09-28
 **Branch:** `codex/epic16-g03`
 **Pull request:** [#14](https://github.com/kshitijpatne/InfiniDrip/pull/14)
@@ -33,7 +34,8 @@ The machine-readable verification record is
 - `npx vitest run src/ui/grade-plan-run.test.ts -t "replays exact nonzero digital size geometry into outputs for all seven recipes"`
   — passed. The seven recipes each generated distinct S/M/L digital blocks
   from nonzero size inputs, and the approved runs produced parseable Tech Packs,
-  labeled Projector SVGs, and piece-count-complete Markers.
+  labeled Projector SVGs, and Markers whose placed count equals the total
+  drafted pieces across sizes with each size represented.
 - The new output replay's POM deltas are derived from the same generated blocks
   and then re-approved. It demonstrates positive output plumbing for distinct
   geometry, not an independent POM oracle or a population chart.
@@ -46,10 +48,15 @@ The machine-readable verification record is
   exceptions pages. The table columns, exact values, N/A reason, and writable
   Fit Record fields remain readable without overlap or clipping.
 - All eight protected legacy export identities pass; no baseline moved.
-- The plan safety integration verifies a frozen whole run remains exportable
-  in transient Marker preview mode, while a real unsaved fabric-width change
-  blocks a new freeze until the style is saved. Marker preview selection alone
-  does not dirty the saved style.
+- The plan safety integration verifies the approved run is frozen before
+  switching to Marker preview. In Marker preview the graded Marker is rendered
+  with its N/A POM reason and a selected-size SVG is exported; Marker mode
+  does not produce a whole-run export. A real unsaved fabric-width change
+  blocks a new freeze until the style is saved.
+- `nestScope` remains a persisted workspace preference and is saved on the
+  next Save. Switching Single/Marker acts as preview mode only: the switch
+  itself does not flag unsaved changes, create an undo step, or trigger a
+  recovery save, including for legacy styles. Export content is unaffected.
 
 ## Independent audit reconciliation and remaining gates
 
@@ -77,8 +84,8 @@ separate Tee fixture remains the only authored POM oracle.
 Neither audit found a blocker in S252's exact POM, N/A exception, or
 whole-run gating logic. The post-audit full coverage gate, builds, Control
 Center tests, rendered Style review, and protected output identity checks now
-pass. Fresh Claude and OpenCode reviews of the S253 diff remain required before
-merge.
+pass. Independent S253 audits are complete; audit-identified corrections are
+being completed in Slice 254, and the final PR/merge gate remains open.
 
 PR #14 remains open as a draft on the reviewed integration branch. Before
 merge, confirm its latest head matches the reviewed commit, inspect current

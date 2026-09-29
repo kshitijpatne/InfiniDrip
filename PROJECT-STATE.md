@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: EPIC-16/G03 Slice 253 final review in progress, 2026-09-28._
+_Last updated: EPIC-16/G03 Slice 254 audit corrections implemented; verification in progress, 2026-09-28._
 Current directive: EPIC-14/G01 and EPIC-15/G02 are closed with accepted exit
 evidence. The maintainer admitted EPIC-16/G03 at Slice 244 from `origin/main`
 Slice 242, preserving the local Slice 243 manual-quality findings in its
@@ -4555,3 +4555,19 @@ Claude Code Opus 5.5 High and OpenCode Muse Spark 1.3 Xhigh completed disjoint
 read-only audits and returned explicit `WORK FINISHED` signals. Codex reviewed
 and reconciled them against the source contract. Existing one-size output
 policy and protected legacy identities remain in effect.
+
+### Slice 254 — final audit corrections (verification in progress)
+
+Slice 254 resolves the independent Slice 253 audit follow-ups in
+`docs/research/epic16/S254-G03-AUDIT-CORRECTIONS.md`. Loaded project revision
+counters now precede approved-size synchronization; unsaved target-style edits
+receive the same stale-plan/output gate as unsaved artwork; saved project load
+restores approved size choices; and no-plan, stale-plan, and unsaved-style
+guidance are distinct. Single/Marker preview selection remains outside dirty,
+undo/redo, and recovery state while persisting its workspace preference on an
+explicit Save. Exact raw POM equality remains required without tolerance.
+
+Targeted tests and narrow/wide Chromium render checks have passed. The complete
+coverage/build/Control Center/export-identity gate and fresh independent S254
+audits are pending. See the S254 report and S253 machine-readable record for
+evidence. No merge or G03 exit is claimed yet.

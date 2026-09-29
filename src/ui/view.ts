@@ -1271,6 +1271,7 @@ export function checkMarkup(
   customOneSize = false,
   gradePlanApproved = false,
   gradePlanOutputBaseSaved = true,
+  gradePlanExists = false,
 ): string {
   const green = report.ok && plausible;
   const bannerBg = green ? OK : T.lineActive;
@@ -1282,8 +1283,8 @@ export function checkMarkup(
   const banner = `<div style="padding:10px 14px;border-radius:8px;font-weight:600;font-size:14px;` +
     `color:${T.background};background:${bannerBg};margin-bottom:12px">${bannerText}</div>`;
   const gradePlanNotice = customOneSize
-    ? `<p role="status" data-grade-plan-required>${!gradePlanOutputBaseSaved
-      ? "Save the style. Then refresh, review, and approve its grade plan before exporting."
+    ? `<p role="status" data-grade-plan-required>${!gradePlanOutputBaseSaved && gradePlanExists
+      ? "Save the style, then refresh, review, and approve its grade plan before exporting graded sizes or whole-run files."
       : gradePlanApproved
       ? "Single custom size. Grade plan approved. Graded geometry and whole-run Tech Pack, Projector, and Marker outputs are not generated in this step."
       : "Single custom size. Review and approve a grade plan first. Graded geometry and whole-run Tech Pack, Projector, and Marker outputs are not generated in this step."}</p>`

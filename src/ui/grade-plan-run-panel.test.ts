@@ -98,6 +98,28 @@ describe("gradePlanRunMarkup", () => {
     expect(empty).toContain("No generated inputs recorded for this size.");
   });
 
+  it("does not present an unsaved computed size as export-ready or ask to refresh a nonexistent plan", () => {
+    const evaluation: GradePlanRunEvaluation = {
+      ...base,
+      recipeId: "tee",
+      issues: [],
+      wholeRunReady: true,
+      sizes: [{ label: "M", position: 0, measurements: { ...STANDARD_M }, options: {},
+        block: null, issues: [], ready: true, poms: [] }],
+    };
+    const withoutPlan = gradePlanRunMarkup(evaluation, false, false);
+    expect(withoutPlan).toContain("Create and approve a grade plan");
+    expect(withoutPlan).toContain("M — blocked — save the current style first");
+    expect(withoutPlan).not.toContain("Save the style, then refresh");
+    expect(withoutPlan).not.toContain("The saved style does not include");
+
+    const withPlan = gradePlanRunMarkup(evaluation, false, true);
+    expect(withPlan).toContain("Save the style, then refresh, review, and approve");
+    expect(withPlan).toContain("graded sizes or whole-run files");
+    expect(withPlan).toContain("M — blocked — save the current style first");
+    expect(withPlan).toContain("The saved style does not include all current output-affecting changes.");
+  });
+
   it("falls back to safely escaped raw keys for recipes without shared definitions", () => {
     const markup = gradePlanRunMarkup({
       ...base, recipeId: "unknown-recipe", issues: [], sizes: [{ label: "S", position: -1,

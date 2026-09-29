@@ -69,6 +69,40 @@ const reachExportStage = (root: HTMLElement): void => {
 };
 
 describe("mountApp", () => {
+  it("persists Single/Marker as a preview preference without dirtying or adding undo history", async () => {
+    localStorage.clear();
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const workflow = await openProjectWorkflow({
+      repositoryOptions: { name: `app-nesting-scope-${Date.now()}`, factory: new IDBFactory(), crypto: webcrypto as unknown as Crypto },
+      storage: localStorage,
+      idFactory: () => webcrypto.randomUUID(),
+      now: () => "2026-09-28T12:00:00.000Z",
+    });
+    const root = document.createElement("div");
+    document.body.append(root);
+    try {
+      mountApp(root, { projectWorkflow: workflow });
+      const state = root.querySelector<HTMLElement>("#project-persistence-state")!;
+      expect(state.dataset.state).toBe("saved");
+      expect(root.querySelector<HTMLButtonElement>("#undo-pattern")!.disabled).toBe(true);
+      expect(root.querySelector<HTMLButtonElement>("#redo-pattern")!.disabled).toBe(true);
+      clickId(root, "view-fabric");
+      root.querySelector<HTMLButtonElement>("#nest-marker")!.click();
+      expect(root.querySelector<HTMLButtonElement>("#nest-marker")!.getAttribute("aria-pressed")).toBe("true");
+      expect(state.dataset.state).toBe("saved");
+      expect(root.querySelector<HTMLButtonElement>("#undo-pattern")!.disabled).toBe(true);
+      expect(root.querySelector<HTMLButtonElement>("#redo-pattern")!.disabled).toBe(true);
+
+      clickId(root, "save-pattern");
+      await vi.waitFor(() => expect(workflow.snapshot.activeStyle.design.workspace.nestScope).toBe("marker"));
+      expect(state.dataset.state).toBe("saved");
+    } finally {
+      workflow.close();
+      root.remove();
+      vi.unstubAllGlobals();
+    }
+  });
+
   it("serializes only meaningful saved drafts and preserves every optional draft field", () => {
     const session = createMeasurementCaptureSession(
       "00000000-0000-4000-8000-000000000016", "woven-shirt", "2026-09-26T00:00:00.000Z",
@@ -6373,7 +6407,13 @@ describe("bundled local artwork library (Slice 203)", () => {
         { timeout: 20_000 });
 
       clickId(root, "view-fabric");
+      const scopePersistenceState = root.querySelector<HTMLElement>("#project-persistence-state")!.dataset.state;
+      const scopeUndoDisabled = root.querySelector<HTMLButtonElement>("#undo-pattern")!.disabled;
+      const scopeRedoDisabled = root.querySelector<HTMLButtonElement>("#redo-pattern")!.disabled;
       root.querySelector<HTMLButtonElement>("#nest-marker")!.click();
+      expect(root.querySelector<HTMLElement>("#project-persistence-state")!.dataset.state).toBe(scopePersistenceState);
+      expect(root.querySelector<HTMLButtonElement>("#undo-pattern")!.disabled).toBe(scopeUndoDisabled);
+      expect(root.querySelector<HTMLButtonElement>("#redo-pattern")!.disabled).toBe(scopeRedoDisabled);
       await vi.waitFor(() => expect(root.querySelector("#canvas-host")?.textContent).toContain("cm wide"));
       expect(root.querySelector("#canvas-host")?.textContent).toContain("This POM does not apply to the smallest declared size.");
       root.querySelector<HTMLButtonElement>("#export-svg")!.click();
@@ -6475,15 +6515,40 @@ describe("bundled local artwork library (Slice 203)", () => {
       expect(root.querySelector<HTMLButtonElement>("#export-projector")!.disabled).toBe(true);
       expect(root.querySelector<HTMLButtonElement>("#nest-marker")!.disabled).toBe(true);
       expect(root.querySelector<HTMLButtonElement>("#export-techpack")!.title)
-        .toBe("Save the style. Then refresh, review, and approve its grade plan before exporting.");
+        .toBe("Save the style, then refresh, review, and approve its grade plan before exporting graded sizes or whole-run files.");
 
       clickId(root, "view-check");
       expect(root.querySelector<HTMLElement>("[data-grade-plan-required]")?.textContent)
-        .toContain("Save the style. Then refresh, review, and approve its grade plan before exporting.");
+        .toContain("Save the style, then refresh, review, and approve its grade plan before exporting graded sizes or whole-run files.");
       expect(root.querySelector(".grade-plan-run-review")?.textContent)
-        .toContain("Save the style. Then refresh, review, and approve its grade plan before exporting.");
+        .toContain("Save the style, then refresh, review, and approve its grade plan before exporting graded sizes or whole-run files.");
       expect(root.querySelector(".grade-plan-run-review")?.textContent)
         .not.toContain("Every declared size passes geometry and exact POM reconciliation.");
+      expect(root.querySelector(".grade-plan-run-size summary")?.textContent)
+        .toContain("blocked — save the current style first");
+
+      // Loading the saved base after an unsaved artwork edit must restore the
+      // approved-size choices that were temporarily removed from the selector.
+      clickId(root, "load-pattern");
+      await vi.waitFor(() => expect(root.querySelector<HTMLElement>("#workspace-confirm")!.hidden).toBe(false));
+      clickId(root, "workspace-confirm-accept");
+      await vi.waitFor(() => expect([...root.querySelector<HTMLSelectElement>("#export-size")!.options]
+        .map((option) => option.value)).toEqual(expect.arrayContaining(["S", "M", "L"])));
+      clickIfPresent(root, "tutorial-skip");
+      reachExportStage(root);
+
+      // A design edit after approval independently closes plan-driven exports
+      // and removes graded options, even without an artwork edit.
+      const restoredSelect = root.querySelector<HTMLSelectElement>("#export-size")!;
+      const styleTarget = root.querySelector<HTMLSelectElement>("#style-target")!;
+      const alternateStyle = [...styleTarget.options].find((option) => option.value !== styleTarget.value)!;
+      styleTarget.value = alternateStyle.value;
+      styleTarget.dispatchEvent(new Event("change", { bubbles: true }));
+      await vi.waitFor(() => expect([...restoredSelect.options].map((option) => option.value)).toEqual(["__one-size__"]));
+      expect(root.querySelector<HTMLElement>("#project-persistence-state")!.dataset.state).toBe("unsaved");
+      expect(root.querySelector<HTMLButtonElement>("#export-techpack")!.disabled).toBe(true);
+      expect(root.querySelector<HTMLButtonElement>("#export-projector")!.disabled).toBe(true);
+      expect(root.querySelector<HTMLButtonElement>("#nest-marker")!.disabled).toBe(true);
     } finally {
       delete window.electronAPI;
       workflow.close();

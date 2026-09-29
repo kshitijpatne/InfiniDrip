@@ -2,12 +2,12 @@
   "schemaVersion": 1,
   "slice": 253,
   "verifiedDate": "2026-09-28",
-  "status": "post-audit local gates passed; fresh S253 audits and merge pending",
+  "status": "S253 independent audits complete; S254 audit-identified corrections implemented; S254 full verification and independent audits pending; merge pending",
   "independentAudits": {
     "reviewedCommit": "55033838b08be08eb905c4280eb7f83b1fd3074b",
     "claude": "Opus 5.5 high — WORK FINISHED; three follow-ups reconciled",
     "opencode": "Muse Spark 1.3 xhigh — WORK FINISHED; evidence precision follow-ups reconciled",
-    "postAuditFullGate": "passed; fresh S253 audits still required"
+    "postAuditFullGate": "passed for S253; S254 corrections are implemented and await a fresh full verification gate"
   },
   "postAuditFullGate": {
     "command": "npm run coverage -- --minWorkers=1 --maxWorkers=6",
@@ -40,11 +40,11 @@
     "controlCenter": "npm run control-center:test — 33/33 passed"
   },
   "distinctGeometryOutputReplay": {
-    "test": "src/ui/grade-plan-run.test.ts — replays nonzero digital size geometry into outputs for all seven recipes",
+    "test": "src/ui/grade-plan-run.test.ts — replays exact nonzero digital size geometry into outputs for all seven recipes",
     "recipes": ["tee", "fitted", "tank", "polo", "woven-shirt", "skirt", "trouser"],
-    "result": "Each recipe produced three distinct ready digital size blocks from nonzero measurement deltas; Tech Pack PDFs parsed with all size labels, Projector SVGs carried each size label, and Marker placements covered every drafted piece.",
+    "result": "Each recipe produced three distinct ready digital size blocks from nonzero measurement deltas; Tech Pack PDFs parsed with all size labels, Projector SVGs carried each size label, and Marker placed count equals the total drafted pieces across sizes with each size represented.",
     "pomOracle": "The synthetic fixture derives POM deltas from generated blocks to exercise positive output flow. It is not an independent authored POM oracle or population chart.",
-      "targetedRun": "1/1 passed before audit follow-ups"
+    "targetedRun": "1/1 passed before audit follow-ups"
   },
   "postAuditTargetedTests": [
     "src/ui/grade-plan-run.test.ts — coherence warning, semantic replay validation, and all-seven output label/piece assertions passed",
@@ -77,7 +77,7 @@
     "number": 14,
     "branch": "codex/epic16-g03",
     "state": "open draft",
-    "merge": "not merged; awaiting fresh S253 independent audits and final PR-state review"
+    "merge": "not merged; S254 corrections implemented; full verification, independent audits, and final PR-state review remain open"
   },
   "limitations": [
     "The positive seven-recipe output replay does not independently validate the authored POM increments; independent authored POM output expectations remain limited to the synthetic Tee oracle.",
