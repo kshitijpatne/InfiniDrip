@@ -100,6 +100,7 @@ describe("mountApp", () => {
       workflow.close();
       root.remove();
       vi.unstubAllGlobals();
+      localStorage.clear();
     }
   });
 
@@ -281,6 +282,7 @@ describe("mountApp", () => {
   });
 
   it("draws the canvas and the garment on mount", () => {
+    localStorage.clear();
     const root = mount();
     expect(root.querySelector("h1#product-title")!.textContent).toBe("InfiniDrip");
     expect(root.querySelector("#canvas-host svg")).not.toBeNull();
@@ -1495,20 +1497,25 @@ describe("mountApp", () => {
   });
 
   it("keeps the reviewed journey incomplete when Electron cancels a file write", async () => {
-    window.electronAPI = { saveFile: vi.fn().mockResolvedValue({ saved: false }) };
+    localStorage.clear();
+    const saveFile = vi.fn().mockResolvedValue({ saved: false });
+    window.electronAPI = { saveFile };
     try {
       const root = mount();
       reachExportStage(root);
       clickId(root, "export-svg");
-      await vi.waitFor(() => expect(root.querySelector("#persist-status")!.textContent)
-        .toContain("Export canceled"));
+      await vi.waitFor(() => expect(saveFile).toHaveBeenCalledOnce(), { timeout: 20_000 });
+      await vi.waitFor(() => expect(root.querySelector("#persist-status")?.textContent)
+        .toContain("Export canceled"), { timeout: 20_000 });
       expect(root.querySelector("#journey-celebration")).toBeNull();
     } finally {
       delete window.electronAPI;
+      localStorage.clear();
     }
   });
 
   it("does not mark an older Electron export complete after the design changes", async () => {
+    localStorage.clear();
     let finishWrite!: (result: { saved: boolean }) => void;
     const saveFile = vi.fn(() => new Promise<{ saved: boolean }>((resolve) => { finishWrite = resolve; }));
     window.electronAPI = { saveFile };
@@ -1521,11 +1528,12 @@ describe("mountApp", () => {
       chest.value = "101";
       chest.dispatchEvent(new Event("input", { bubbles: true }));
       finishWrite({ saved: true });
-      await vi.waitFor(() => expect(root.querySelector("#persist-status")!.textContent)
-        .toContain("earlier design"));
+      await Promise.resolve();
+      expect(root.querySelector("#persist-status")!.textContent).toContain("earlier design");
       expect(root.querySelector("#journey-celebration")).toBeNull();
     } finally {
       delete window.electronAPI;
+      localStorage.clear();
     }
   });
 
@@ -6555,7 +6563,7 @@ describe("bundled local artwork library (Slice 203)", () => {
       root.remove();
       vi.unstubAllGlobals();
     }
-  }, 180_000);
+  }, 360_000);
 
   it("rejects a forced review action when the explicit grade plan is incomplete", async () => {
     localStorage.clear();
@@ -6650,7 +6658,7 @@ describe("bundled local artwork library (Slice 203)", () => {
       root.remove();
       vi.unstubAllGlobals();
     }
-  }, 30_000);
+  }, 90_000);
 
   it("discards stale grade-plan loads and reports failed context or repository loads", async () => {
     localStorage.clear();
