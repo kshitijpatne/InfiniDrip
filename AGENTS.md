@@ -40,6 +40,11 @@ is authoritative for maintainer decisions that are not derivable from code.
   detect invalid combinations and provide actionable corrections; do not hide
   invalid combinations by silently clamping inputs.
 - Code signing has not started.
+- EPIC-16/G03 is closed after PR #14's verified merge and PR #15's board
+  closeout. Its automatic main-branch deployment succeeded in GitHub Actions
+  run `36535708194`; the configured site returned HTTP 200. EPIC-17 remains in
+  Backlog. Do not begin EPIC-17 until the maintainer explicitly asks to begin
+  it; roadmap ordering or completion of EPIC-16 is not admission.
 
 ## Durable workflow rules
 
@@ -105,6 +110,58 @@ is authoritative for maintainer decisions that are not derivable from code.
 - Update `PROJECT-STATE.md`, `ARCHITECTURE.md`, and any affected durable context
   in the same change as the behavior they describe.
 - Treat `docs/archive/` as historical evidence, not current instructions.
+
+## Execution-time efficiency (quality gates remain unchanged)
+
+- At goal start, record the start time, admitted slice boundaries, blocking
+  decisions, and required gates. At each slice boundary, record elapsed time
+  for implementation, focused verification, external-agent waits, and
+  maintainer decisions separately.
+
+- During each slice, run focused tests for the changed area. Require 100%
+  statement, branch, function, and line coverage for changed production code.
+  Record the slice's scope, focused test results, and any unresolved integration
+  risks in its exit evidence.
+
+- Run the full repository test suite and 100% global coverage once on the
+  settled integrated Epic/PR candidate, before merge. Run the full gate per
+  slice only when that slice is independently mergeable or releaseable. This
+  cadence does not reduce coverage thresholds or acceptance criteria.
+
+- Run full-Epic builds, browser/Electron verification, and output replay at the
+  Epic/PR boundary when they validate integrated behavior. Run them earlier
+  only when a slice specifically depends on that evidence or a focused check
+  finds a relevant defect.
+
+- After a full gate fails, preserve its output and diagnose the cause. Run
+  affected tests first after each fix; rerun the full gate once the candidate's
+  source and test changes are complete. Do not repeat a full gate for each
+  small correction. Any source, test, test-configuration, or dependency change
+  after the passing full gate requires a new full gate. Documentation-only,
+  board-only, and evidence-only changes do not invalidate it.
+
+- Profile unusually slow or memory-heavy tests. Improve setup, teardown, and
+  fixture reuse without removing assertions, coverage requirements, or output
+  evidence. Clean up mounted DOM roots, timers, IndexedDB fixtures, and
+  listeners after each test.
+
+- When worker memory pressure is observed, compare the current Vitest worker
+  setting with one worker using the same representative gate. Record wall time
+  and peak memory before changing defaults; fewer workers may reduce memory
+  pressure while increasing total runtime.
+
+- Resolve blocking product decisions together before dependent implementation
+  begins. Mark unresolved items as blocking or nonblocking, and continue
+  independent work while nonblocking answers are pending.
+
+- Start independent reviews early and asynchronously. Avoid overlapping audits
+  and do not block implementation on reviews that are not dependencies. Codex
+  remains responsible for the integrated diff, final evidence, and merge
+  decision.
+
+- Do not change model selection to address local test CPU or memory use without
+  evidence that model inference is consuming those local resources. Use
+  test-runner profiling and gate scheduling to manage verification cost.
 
 ## External coding-agent delegation
 

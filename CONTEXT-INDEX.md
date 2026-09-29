@@ -3,6 +3,8 @@
 This repository is the durable source of project context shared by Codex,
 Claude Code, and future development sessions. Chat history and external Project
 Knowledge may add evidence, but must not silently override the documents below.
+The execution-time efficiency rules in `AGENTS.md` and their maintainer
+decision in `docs/PROJECT-DECISIONS.md` apply to every new or resumed task.
 
 ## Authority and reading order
 
@@ -146,7 +148,12 @@ only through an explicitly admitted, linked Epic packet.
   final local gates, product limits, and remaining merge/board/deployment
   checks. `docs/release/EPIC-16-G03-MERGE-EXIT-S259.md` records the merged PR,
   verified ancestry/tree, board closure, and the separate Actions deployment
-  gate.
+  gate. Deployment succeeded in Actions run `36535708194` for main commit
+  `2525993ceac31d426fbd5286c14d5011169b79a5`.
+- `docs/research/S260-EXECUTION-EFFICIENCY-RULES.md` — Slice 260's exact
+  boundaries, start time, applied files, rule-preservation checks, and separate
+  elapsed-time accounting. `AGENTS.md` is the operational source; the
+  maintainer decision records its project-wide authority.
 - `docs/research/epic16/S250-EXPLICIT-GRADE-PLAN-RECORD-AND-REVIEW.md` — Slice
   250's exact scope, strict grade-plan fields, stale-approval boundary,
   migration/output non-goals, and exit checks. It does not supply a population,
@@ -209,8 +216,10 @@ only through an explicitly admitted, linked Epic packet.
   `docs/research/epic15/evidence/S240-*`. Slice 241 records PR #11's merge,
   verified S204/S205/S240 ancestry, and the validated Control Center closure at
   revision 315 in `docs/release/EPIC-15-G02-MERGE-EXIT-S241.md`. EPIC-15/G02 is
-  Closed; EPIC-16 through EPIC-30, including G17, remain Backlog. `PROJECT-STATE.md`
-  and the canonical Control Center carry the current status.
+  Closed; EPIC-16/G03 is also closed after its verified merge and deployment.
+  EPIC-17 through EPIC-30 remain Backlog. Do not begin EPIC-17 until the
+  maintainer explicitly asks to begin it. `PROJECT-STATE.md` and the canonical
+  Control Center carry the current status.
 - `docs/research/epic14/` — accepted evidence packets for C01 recipe baseline,
   C02 standards and tools, C05 3D feasibility, C06 starter/assortment/upcycling/
   supplier evidence, and C03 measurement/donor contract. C04's accepted

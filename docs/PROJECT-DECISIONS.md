@@ -950,3 +950,20 @@ data collection still require their own explicit gate.
   inputs, are not copied from another style, and the custom style remains
   locked to its recipe. This constraint preserves the protected legacy
   SaveFile shape until a separately admitted schema migration.
+
+## Execution-time efficiency and EPIC-17 admission — confirmed 2026-09-29
+
+The maintainer adopted the complete **Execution-time efficiency (quality gates
+remain unchanged)** rules in `AGENTS.md`. They apply to every new or resumed
+goal, including work started in a fresh chat. Full coverage thresholds,
+acceptance criteria, output evidence and merge requirements remain unchanged;
+the rules define when integrated gates run, how failures are diagnosed, and how
+test time and memory are measured. Do not lower coverage or remove assertions to
+reduce runtime. Do not change model selection to address local test CPU or
+memory pressure without evidence that model inference consumes those local
+resources.
+
+EPIC-17/G04 remains Backlog. Do not begin its implementation, open an admission
+packet, or change its board status until the maintainer explicitly asks to
+begin EPIC-17. Completion of EPIC-16 and roadmap ordering do not constitute
+admission. The canonical board records this hold in the EPIC-17 work item.

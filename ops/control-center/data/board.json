@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 369,
-  "updatedAt": "2026-09-29T07:13:18.276Z",
+  "revision": 370,
+  "updatedAt": "2026-09-29T07:29:37.185Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -2704,6 +2704,11 @@
           "at": "2026-09-24T06:03:46.384Z",
           "actor": "Maintainer (via Codex)",
           "text": "Renamed CAPABILITY-G04 to EPIC-17. G04 is now the numbered epic work card; dependent item links were updated atomically."
+        },
+        {
+          "at": "2026-09-29T07:29:37.185Z",
+          "actor": "Maintainer (via Codex)",
+          "text": "Maintainer instruction, 2026-09-29: EPIC-17 remains in Backlog. Do not begin implementation or transition its status until the maintainer explicitly asks to begin EPIC-17."
         }
       ],
       "evidenceRefs": [],
