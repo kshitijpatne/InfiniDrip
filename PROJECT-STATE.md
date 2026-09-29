@@ -1,11 +1,13 @@
 # InfiniDrip — Project State
 
-_Last updated: EPIC-16/G03 Slice 258 final review, 2026-09-29._
-Current directive: EPIC-14/G01 and EPIC-15/G02 are closed with accepted exit
-evidence. EPIC-16/G03 remains the active, admitted local-first digital scope
-under `docs/planning/EPIC-16-ADMISSION.md`; M01, M02, and M03 are implemented,
-with final review/merge still open. No physical-fit or factory-readiness claim
-is authorized. S252's safety remediation remains attached to the canonical
+_Last updated: EPIC-16/G03 Slice 259 merge and board exit, 2026-09-29._
+Current directive: EPIC-14/G01, EPIC-15/G02, and EPIC-16/G03 are closed with
+accepted digital exit evidence. EPIC-16/G03 completed the admitted local-first
+scope under `docs/planning/EPIC-16-ADMISSION.md`; M01, M02, M03, final review,
+merge, and board closure are complete. The automatic post-merge GitHub Actions
+deployment is the remaining verification gate for the active goal. No
+physical-fit or factory-readiness claim is authorized. S252's safety
+remediation remains attached to the canonical
 board. S253 completed the independent S252 audit reconciliation and passed its
 then-current full gate. S254 applies the final audit corrections: restore
 saved revision counters before Load resynchronizes approved sizes, show precise
@@ -26,25 +28,25 @@ exact S257 candidate `14dc0a76acae63ab7ec909988f49f428fb718e9c` completed with
 (11,081/11,081), and lines (24,073/24,073). The protected export-identity
 suite passed 9/9 in that run. No coverage rerun is needed.
 
-Production and Electron builds passed on S254; S255–S257 change only tests and
-documentation, so no production source changed after the passing builds. The
-Control Center suite passed 33/33 on S253, with no Control Center code changes
-since. Independent Claude
-Opus 5.5 high and OpenCode Muse Spark 1.3 xhigh audits found no G03
-release-gating defect and agree that merge remains blocked until the final
-coverage/build gates and durable state are current. Current handoffs are in
+Production and Electron builds passed on S254; S255–S259 changed only tests,
+documentation, and board data, so no production source changed after the
+passing builds. The Control Center suite passed 33/33 against the final closed
+board state. Independent Claude Opus 5.5 high and OpenCode Muse Spark 1.3 xhigh
+audits found no G03 release-gating defect. Current handoffs are in
 `docs/research/epic16/S256-LOAD-STATE-AND-REVIEW-HANDOFF.md` and
 `docs/research/epic16/S257-ELECTRON-STATUS-ASSERTION.md`.
 
-The board is at revision 362; M03 safety is Done and final review is in Review.
-PR #14 is open as a draft on `codex/epic16-g03`. The exact application source
-candidate's local coverage gate passes, and the Control Center suite passes
-33/33 against the current canonical board. See
-`docs/research/epic16/S258-G03-FINAL-REVIEW.md` and S254–S257 for evidence and
-limitations. Remaining steps are to mark the PR ready, merge while preserving
-Slice commits, verify its ancestry and tree on `origin/main`, close the board
-through validated commands, and verify the automatic GitHub Actions
-deployment from the merged main commit.
+EPIC-16/G03 PR #14 was merged as `a5b6e82499685e635406e6149e92b3fdd82d1ead`.
+The reviewed Slice 258 head is an ancestor of `origin/main`, and the merged
+tree exactly matches the reviewed tree. Slice 259 records the validated board
+closure at revision 369; all linked G03 work cards are Done and the Epic is
+Closed. The Control Center suite passes 33/33 against the closed board.
+The automatic main-branch GitHub Actions workflow must still complete
+successfully before the goal is complete. See
+`docs/release/EPIC-16-G03-MERGE-EXIT-S259.md` for merge, ancestry, tree,
+acceptance, and deployment-run evidence, and
+`docs/research/epic16/S258-G03-FINAL-REVIEW.md` for the final local gates and
+limitations.
 Slice 247
 completed M01's durable resume, conflict, narrow-layout, accessibility, and
 all-recipe exits. Slice 248 completed deterministic custom one-size

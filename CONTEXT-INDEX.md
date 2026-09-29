@@ -144,7 +144,9 @@ only through an explicitly admitted, linked Epic packet.
   final-review corrections, test-isolation evidence, independent final audits,
   and the exact S257 full-coverage pass. `S258-G03-FINAL-REVIEW.md` records the
   final local gates, product limits, and remaining merge/board/deployment
-  checks.
+  checks. `docs/release/EPIC-16-G03-MERGE-EXIT-S259.md` records the merged PR,
+  verified ancestry/tree, board closure, and the separate Actions deployment
+  gate.
 - `docs/research/epic16/S250-EXPLICIT-GRADE-PLAN-RECORD-AND-REVIEW.md` — Slice
   250's exact scope, strict grade-plan fields, stale-approval boundary,
   migration/output non-goals, and exit checks. It does not supply a population,
