@@ -1,0 +1,399 @@
+{
+  "slice": 310,
+  "sourceMatrix": "S309-trouser-back-rise-browser/matrix.json",
+  "sourcePOM": "src/drafting/trouser-tables.ts#Waistband depth (finished): seam(waistband.endRight)",
+  "sourceMark": "src/drafting/trouser.ts#waistband.centerBack at (0, depth/2)",
+  "acceptedBacks": 24,
+  "assertions": {
+    "allAccepted": true,
+    "markIsExactCenterBackClosureMidpoint": true,
+    "closureDepthEqualsOption": true,
+    "markRevisionEqualsFaceRevision": true
+  },
+  "faces": [
+    {
+      "caseId": "trouser-default",
+      "depthCm": 4,
+      "markEntityId": "live-flat:trouser:BACK_FLAT:waistband:mark:centerBack",
+      "sourceId": "pattern:trouser:mark:waistband:centerBack",
+      "revisionId": "live-draft:trouser:1:1",
+      "markXY": [
+        0,
+        -2
+      ],
+      "closureMidpointXY": [
+        0,
+        -2
+      ],
+      "closureDepthCm": 4
+    },
+    {
+      "caseId": "trouser-frontRiseEase-min",
+      "depthCm": 4,
+      "markEntityId": "live-flat:trouser:BACK_FLAT:waistband:mark:centerBack",
+      "sourceId": "pattern:trouser:mark:waistband:centerBack",
+      "revisionId": "live-draft:trouser:2:2",
+      "markXY": [
+        0,
+        -2
+      ],
+      "closureMidpointXY": [
+        0,
+        -2
+      ],
+      "closureDepthCm": 4
+    },
+    {
+      "caseId": "trouser-frontRiseEase-max",
+      "depthCm": 4,
+      "markEntityId": "live-flat:trouser:BACK_FLAT:waistband:mark:centerBack",
+      "sourceId": "pattern:trouser:mark:waistband:centerBack",
+      "revisionId": "live-draft:trouser:3:3",
+      "markXY": [
+        0,
+        -2
+      ],
+      "closureMidpointXY": [
+        0,
+        -2
+      ],
+      "closureDepthCm": 4
+    },
+    {
+      "caseId": "trouser-backRiseEase-min",
+      "depthCm": 4,
+      "markEntityId": "live-flat:trouser:BACK_FLAT:waistband:mark:centerBack",
+      "sourceId": "pattern:trouser:mark:waistband:centerBack",
+      "revisionId": "live-draft:trouser:5:5",
+      "markXY": [
+        0,
+        -2
+      ],
+      "closureMidpointXY": [
+        0,
+        -2
+      ],
+      "closureDepthCm": 4
+    },
+    {
+      "caseId": "trouser-backRiseEase-max",
+      "depthCm": 4,
+      "markEntityId": "live-flat:trouser:BACK_FLAT:waistband:mark:centerBack",
+      "sourceId": "pattern:trouser:mark:waistband:centerBack",
+      "revisionId": "live-draft:trouser:6:6",
+      "markXY": [
+        0,
+        -2
+      ],
+      "closureMidpointXY": [
+        0,
+        -2
+      ],
+      "closureDepthCm": 4
+    },
+    {
+      "caseId": "trouser-waistbandDepth-min",
+      "depthCm": 2,
+      "markEntityId": "live-flat:trouser:BACK_FLAT:waistband:mark:centerBack",
+      "sourceId": "pattern:trouser:mark:waistband:centerBack",
+      "revisionId": "live-draft:trouser:8:8",
+      "markXY": [
+        0,
+        -1
+      ],
+      "closureMidpointXY": [
+        0,
+        -1
+      ],
+      "closureDepthCm": 2
+    },
+    {
+      "caseId": "trouser-waistbandDepth-max",
+      "depthCm": 8,
+      "markEntityId": "live-flat:trouser:BACK_FLAT:waistband:mark:centerBack",
+      "sourceId": "pattern:trouser:mark:waistband:centerBack",
+      "revisionId": "live-draft:trouser:9:9",
+      "markXY": [
+        0,
+        -4
+      ],
+      "closureMidpointXY": [
+        0,
+        -4
+      ],
+      "closureDepthCm": 8
+    },
+    {
+      "caseId": "trouser-thighEase-min",
+      "depthCm": 4,
+      "markEntityId": "live-flat:trouser:BACK_FLAT:waistband:mark:centerBack",
+      "sourceId": "pattern:trouser:mark:waistband:centerBack",
+      "revisionId": "live-draft:trouser:11:11",
+      "markXY": [
+        0,
+        -2
+      ],
+      "closureMidpointXY": [
+        0,
+        -2
+      ],
+      "closureDepthCm": 4
+    },
+    {
+      "caseId": "trouser-thighEase-max",
+      "depthCm": 4,
+      "markEntityId": "live-flat:trouser:BACK_FLAT:waistband:mark:centerBack",
+      "sourceId": "pattern:trouser:mark:waistband:centerBack",
+      "revisionId": "live-draft:trouser:12:12",
+      "markXY": [
+        0,
+        -2
+      ],
+      "closureMidpointXY": [
+        0,
+        -2
+      ],
+      "closureDepthCm": 4
+    },
+    {
+      "caseId": "trouser-kneeEase-min",
+      "depthCm": 4,
+      "markEntityId": "live-flat:trouser:BACK_FLAT:waistband:mark:centerBack",
+      "sourceId": "pattern:trouser:mark:waistband:centerBack",
+      "revisionId": "live-draft:trouser:14:14",
+      "markXY": [
+        0,
+        -2
+      ],
+      "closureMidpointXY": [
+        0,
+        -2
+      ],
+      "closureDepthCm": 4
+    },
+    {
+      "caseId": "trouser-kneeEase-max",
+      "depthCm": 4,
+      "markEntityId": "live-flat:trouser:BACK_FLAT:waistband:mark:centerBack",
+      "sourceId": "pattern:trouser:mark:waistband:centerBack",
+      "revisionId": "live-draft:trouser:15:15",
+      "markXY": [
+        0,
+        -2
+      ],
+      "closureMidpointXY": [
+        0,
+        -2
+      ],
+      "closureDepthCm": 4
+    },
+    {
+      "caseId": "trouser-legOpening-min",
+      "depthCm": 4,
+      "markEntityId": "live-flat:trouser:BACK_FLAT:waistband:mark:centerBack",
+      "sourceId": "pattern:trouser:mark:waistband:centerBack",
+      "revisionId": "live-draft:trouser:17:17",
+      "markXY": [
+        0,
+        -2
+      ],
+      "closureMidpointXY": [
+        0,
+        -2
+      ],
+      "closureDepthCm": 4
+    },
+    {
+      "caseId": "trouser-legOpening-max",
+      "depthCm": 4,
+      "markEntityId": "live-flat:trouser:BACK_FLAT:waistband:mark:centerBack",
+      "sourceId": "pattern:trouser:mark:waistband:centerBack",
+      "revisionId": "live-draft:trouser:18:18",
+      "markXY": [
+        0,
+        -2
+      ],
+      "closureMidpointXY": [
+        0,
+        -2
+      ],
+      "closureDepthCm": 4
+    },
+    {
+      "caseId": "trouser-flyLength-min",
+      "depthCm": 4,
+      "markEntityId": "live-flat:trouser:BACK_FLAT:waistband:mark:centerBack",
+      "sourceId": "pattern:trouser:mark:waistband:centerBack",
+      "revisionId": "live-draft:trouser:20:20",
+      "markXY": [
+        0,
+        -2
+      ],
+      "closureMidpointXY": [
+        0,
+        -2
+      ],
+      "closureDepthCm": 4
+    },
+    {
+      "caseId": "trouser-flyLength-max",
+      "depthCm": 4,
+      "markEntityId": "live-flat:trouser:BACK_FLAT:waistband:mark:centerBack",
+      "sourceId": "pattern:trouser:mark:waistband:centerBack",
+      "revisionId": "live-draft:trouser:21:21",
+      "markXY": [
+        0,
+        -2
+      ],
+      "closureMidpointXY": [
+        0,
+        -2
+      ],
+      "closureDepthCm": 4
+    },
+    {
+      "caseId": "trouser-pocketOpening-min",
+      "depthCm": 4,
+      "markEntityId": "live-flat:trouser:BACK_FLAT:waistband:mark:centerBack",
+      "sourceId": "pattern:trouser:mark:waistband:centerBack",
+      "revisionId": "live-draft:trouser:23:23",
+      "markXY": [
+        0,
+        -2
+      ],
+      "closureMidpointXY": [
+        0,
+        -2
+      ],
+      "closureDepthCm": 4
+    },
+    {
+      "caseId": "trouser-pocketOpening-max",
+      "depthCm": 4,
+      "markEntityId": "live-flat:trouser:BACK_FLAT:waistband:mark:centerBack",
+      "sourceId": "pattern:trouser:mark:waistband:centerBack",
+      "revisionId": "live-draft:trouser:24:24",
+      "markXY": [
+        0,
+        -2
+      ],
+      "closureMidpointXY": [
+        0,
+        -2
+      ],
+      "closureDepthCm": 4
+    },
+    {
+      "caseId": "trouser-pocketAngle-min",
+      "depthCm": 4,
+      "markEntityId": "live-flat:trouser:BACK_FLAT:waistband:mark:centerBack",
+      "sourceId": "pattern:trouser:mark:waistband:centerBack",
+      "revisionId": "live-draft:trouser:26:26",
+      "markXY": [
+        0,
+        -2
+      ],
+      "closureMidpointXY": [
+        0,
+        -2
+      ],
+      "closureDepthCm": 4
+    },
+    {
+      "caseId": "trouser-pocketAngle-max",
+      "depthCm": 4,
+      "markEntityId": "live-flat:trouser:BACK_FLAT:waistband:mark:centerBack",
+      "sourceId": "pattern:trouser:mark:waistband:centerBack",
+      "revisionId": "live-draft:trouser:27:27",
+      "markXY": [
+        0,
+        -2
+      ],
+      "closureMidpointXY": [
+        0,
+        -2
+      ],
+      "closureDepthCm": 4
+    },
+    {
+      "caseId": "trouser-pocketBagDepth-min",
+      "depthCm": 4,
+      "markEntityId": "live-flat:trouser:BACK_FLAT:waistband:mark:centerBack",
+      "sourceId": "pattern:trouser:mark:waistband:centerBack",
+      "revisionId": "live-draft:trouser:29:29",
+      "markXY": [
+        0,
+        -2
+      ],
+      "closureMidpointXY": [
+        0,
+        -2
+      ],
+      "closureDepthCm": 4
+    },
+    {
+      "caseId": "trouser-pocketBagDepth-max",
+      "depthCm": 4,
+      "markEntityId": "live-flat:trouser:BACK_FLAT:waistband:mark:centerBack",
+      "sourceId": "pattern:trouser:mark:waistband:centerBack",
+      "revisionId": "live-draft:trouser:30:30",
+      "markXY": [
+        0,
+        -2
+      ],
+      "closureMidpointXY": [
+        0,
+        -2
+      ],
+      "closureDepthCm": 4
+    },
+    {
+      "caseId": "trouser-pocketDrop-min",
+      "depthCm": 4,
+      "markEntityId": "live-flat:trouser:BACK_FLAT:waistband:mark:centerBack",
+      "sourceId": "pattern:trouser:mark:waistband:centerBack",
+      "revisionId": "live-draft:trouser:32:32",
+      "markXY": [
+        0,
+        -2
+      ],
+      "closureMidpointXY": [
+        0,
+        -2
+      ],
+      "closureDepthCm": 4
+    },
+    {
+      "caseId": "trouser-pocketDrop-max",
+      "depthCm": 4,
+      "markEntityId": "live-flat:trouser:BACK_FLAT:waistband:mark:centerBack",
+      "sourceId": "pattern:trouser:mark:waistband:centerBack",
+      "revisionId": "live-draft:trouser:33:33",
+      "markXY": [
+        0,
+        -2
+      ],
+      "closureMidpointXY": [
+        0,
+        -2
+      ],
+      "closureDepthCm": 4
+    },
+    {
+      "caseId": "trouser-combined-supported",
+      "depthCm": 4,
+      "markEntityId": "live-flat:trouser:BACK_FLAT:waistband:mark:centerBack",
+      "sourceId": "pattern:trouser:mark:waistband:centerBack",
+      "revisionId": "live-draft:trouser:39:39",
+      "markXY": [
+        0,
+        -2
+      ],
+      "closureMidpointXY": [
+        0,
+        -2
+      ],
+      "closureDepthCm": 4
+    }
+  ]
+}
