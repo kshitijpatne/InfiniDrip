@@ -79,7 +79,10 @@ existing paths. S286 adds source-derived Woven collar shoulder station and
 exact zero-depth closed-vent view metadata without changing cut geometry. Its
 production Chromium review found crossing/separated front components and
 conflicting back sleeve-cap ease placement, so both Woven faces remain held
-until source-supported assembly produces a coherent view.
+until source-supported assembly produces a coherent view. S287 confirmed that
+the current Woven sleeve-cap stitch only locates an aggregate eased interface;
+the authored pattern has no front/back cap split marks or sleeve view-instance
+rule, so its faces remain held until those source semantics are defined.
 
 Each garment has its own rule set (called a **recipe** in the code). It says
 which measurements, options, pieces, and construction details to use. A tee

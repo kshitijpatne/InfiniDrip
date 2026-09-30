@@ -2,6 +2,22 @@
 
 _Last updated: Slice 286 Woven source-metadata implementation complete; V02 remains open, 2026-09-30._
 
+### Slice 287 — G04 V02 Woven sleeve-cap assembly review (complete; V02 remains open)
+
+- **Start:** 2026-09-30 07:28:29 UTC. Packet: `docs/research/epic17/G04-V02-WOVEN-SLEEVE-CAP-ASSEMBLY-S287.md`.
+- **Git:** clean at S286 `17bc908a40c4b3e9809c9d8c4ca3b25643f2bb68` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. S286 highest; S287 uniquely reserved.
+- **Board:** canonical revision 462 before start; S286 exit is linked to G04-V02 and EPIC-17. S287 packet/start evidence/comment are linked at revisions 463–466 and exit evidence/comment at revisions 467–470 using the validated command layer.
+- **Goal/gates:** review Woven roles/stitches/fold and sleeve-cap ease from exact draft topology; implement only a uniquely sourced same-revision view transform. Otherwise retain actionable holds. If production code changes, require focused tests and 100% changed-module coverage, TypeScript/build, affected Chromium/manual review, protected export/DXF identities and `git diff --check`. V02 stays open; no V03 work.
+- **Blockers/non-goals:** do not infer a missing sleeve face-instance or orthographic surface rule from appearance. No cut/source geometry edits, Polo/Tee/Fitted/Trouser corrections, G09/D04, G05, physical/factory claims or scope from MQF review findings.
+- **Next action:** S288 audits the Polo outer-collar cubic for an exact pattern-specific construction reference and front/back shoulder landmark. Keep its faces held if source evidence remains insufficient.
+
+#### Exit evidence — Woven view placement remains held
+
+- **Result:** exact `Woven sleeve-cap ease` topology joins two cap edges to three ordered armhole edges with an aggregate ease band, and the pattern's sleeve entry contains only a generic center-cap notch. Neither the stitch nor marks define front/back cap boundaries or view instances. Existing generic sewing reference does not supply pattern-specific landmarks. No unique source-backed front/back transform can be derived. Updated live hold guidance names the missing source semantics; Woven faces remain held.
+- **Verification:** focused projection/live/geometry 41/41; 100% statement/branch/function/line coverage for changed `technical-flat-projection.ts`; TypeScript/build passed; Control Center 33/33; protected export/DXF/tech-pack identities 24/24. Production Chromium reviewed all 13 Woven option fields across 28 configurations/56 faces; all remained visibly held, no browser/page/request errors, and default front/back holds were manually inspected. Packet/artifacts: `docs/research/epic17/G04-V02-WOVEN-SLEEVE-CAP-ASSEMBLY-S287.md`, `docs/research/epic17/S287-browser/`.
+- **Board:** start revisions 463–466; `E-G04-S287-EXIT` linked to G04-V02 at 467, EPIC-17 at 468 and summary card at 469; exit comment at 470. Final revision 470; V02 remains In Progress and V03 Backlog.
+- **Elapsed time:** 07:28:29–07:44:41 UTC (16m12s): source/topology audit 5m; guidance implementation 1m; focused tests/coverage/build/export/board checks 4m; browser/rendered review 5m; durable closeout 1m; agent waits 0m; maintainer decision 0m.
+
 ### Slice 286 — G04 V02 Woven collar/closed vent metadata (complete; V02 remains open)
 
 - **Start / Git:** started 2026-09-30 06:35:08 UTC from clean S285 `9f059d3cf869ec7310e8f72af6829059063a97e8` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. S285 was highest; S286 reserved and landed under subject `Slice 286: map Woven collar and closed vent views`; see active branch history for its identifier. Slice packet: `docs/research/epic17/G04-V02-WOVEN-COLLAR-VENT-S286.md`.

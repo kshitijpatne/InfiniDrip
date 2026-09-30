@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 462,
-  "updatedAt": "2026-09-30T07:24:47.462Z",
+  "revision": 470,
+  "updatedAt": "2026-09-30T07:45:46.906Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -164,7 +164,9 @@
         "E-G04-S285-START",
         "E-G04-S285-EXIT",
         "E-G04-S286-START",
-        "E-G04-S286-EXIT"
+        "E-G04-S286-EXIT",
+        "E-G04-S287-START",
+        "E-G04-S287-EXIT"
       ]
     },
     {
@@ -2802,7 +2804,9 @@
         "E-G04-S283-EXIT",
         "E-G04-S284-EXIT",
         "E-G04-S286-START",
-        "E-G04-S286-EXIT"
+        "E-G04-S286-EXIT",
+        "E-G04-S287-START",
+        "E-G04-S287-EXIT"
       ],
       "flagKey": null
     },
@@ -5650,6 +5654,16 @@
           "at": "2026-09-30T07:24:45.713Z",
           "actor": "Codex",
           "text": "Slice 286 exit: Woven source-derived collar stations and exact closed-vent metadata are covered, but production Chromium review found crossing/separated front components and conflicting back sleeve-cap ease placement. All 56 Woven face requests remain visibly held; V02 stays In Progress. See E-G04-S286-EXIT. S287 reviews Woven source-backed sleeve-cap placement."
+        },
+        {
+          "at": "2026-09-30T07:30:41.388Z",
+          "actor": "Codex",
+          "text": "Slice 287 started 2026-09-30 07:28:29 UTC from S286 commit 17bc908a40c4b3e9809c9d8c4ca3b25643f2bb68. Audit Woven sleeve-cap ease placement and crossing components against same-revision roles, ordered stitches and fold axes. Apply only a unique source-supported view transform; otherwise preserve actionable face holds. Packet: docs/research/epic17/G04-V02-WOVEN-SLEEVE-CAP-ASSEMBLY-S287.md. V02 remains In Progress."
+        },
+        {
+          "at": "2026-09-30T07:45:46.906Z",
+          "actor": "Codex",
+          "text": "Slice 287 exit: Woven source joins the full sleeve cap to three ordered armhole edges with aggregate ease, but has no front/back cap split or view-instance landmarks. The generic reference does not resolve this pattern-specific gap. Updated guidance names the missing facts; 56/56 production Chromium requests remain held. V02 stays In Progress. E-G04-S287-EXIT linked."
         }
       ],
       "evidenceRefs": [
@@ -5678,7 +5692,9 @@
         "E-G04-S285-START",
         "E-G04-S285-EXIT",
         "E-G04-S286-START",
-        "E-G04-S286-EXIT"
+        "E-G04-S286-EXIT",
+        "E-G04-S287-START",
+        "E-G04-S287-EXIT"
       ],
       "flagKey": null
     },
@@ -6790,6 +6806,24 @@
       "sha256": null,
       "verified": true,
       "note": "Slice 286 source metadata, focused 100% coverage, protected identities, build, and retained 56-face Woven Chromium review; all Woven faces remain visibly held after manual review."
+    },
+    {
+      "id": "E-G04-S287-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-SLEEVE-CAP-ASSEMBLY-S287.md",
+      "commit": null,
+      "sha256": null,
+      "verified": false,
+      "note": "Slice 287 start packet: source-topology audit of Woven sleeve-cap and crossing assembly placement. No production edit begins until the packet and board admission are durable."
+    },
+    {
+      "id": "E-G04-S287-EXIT",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-SLEEVE-CAP-ASSEMBLY-S287.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Source topology audit confirms no front/back sleeve-cap partition or view-instance rule; actionable guidance is rendered and all 56 Woven Chromium requests remain visibly held."
     }
   ]
 }

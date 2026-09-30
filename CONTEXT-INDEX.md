@@ -169,6 +169,11 @@ only through an explicitly admitted, linked Epic packet.
   sleeve-cap placement, so Woven remains visibly held. Polo, Tee/Fitted and
   Trouser blockers remain; V02 remains open. Candidate and retained output are
   in `S286-candidate-rejected/` and `S286-browser/`.
+- `docs/research/epic17/G04-V02-WOVEN-SLEEVE-CAP-ASSEMBLY-S287.md` — Slice
+  287's completed bounded audit of Woven sleeve-cap assembly placement and
+  crossing source roles. The current eased aggregate stitch and pattern notch
+  do not define front/back cap boundaries or instances; the affected faces
+  remain held.
 - `src/render/technical-flat-projection.ts` — versioned G04 face-projection
   metadata and exact drafted-topology validation. Interior split landmarks not
   present as source endpoints remain unsupported and explicitly held.

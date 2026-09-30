@@ -91,9 +91,9 @@ export const G04_UNRESOLVED_PROJECTION_ROLES: Readonly<Record<string, Readonly<R
     upperCollar: "The collar's exterior contour has no authored front/back split landmark.",
   },
   "woven-shirt": {
-    front: "Slice 286 production Chromium showed the assembled Woven front with separated and crossing source roles; keep the face held until source-backed component placement is corrected and rendered coherently.",
-    back: "Slice 286 production Chromium found a conflicting Woven sleeve-cap placement; keep the face held until its source-backed transform and rendered output are verified.",
-    yoke: "Slice 286 production Chromium found a conflicting Woven sleeve-cap placement; keep the face held until its source-backed transform and rendered output are verified.",
+    front: "Slice 286 production Chromium showed the assembled Woven front with separated and crossing source roles. The source joins the full sleeve cap to three ordered armhole edges with ease but supplies no front/back cap split or sleeve-view instance rule; keep the face held until source-backed assembly and rendered output are coherent.",
+    back: "Slice 286 production Chromium found a conflicting Woven sleeve-cap placement. The eased source stitch locates the combined sewn interval but supplies no front/back cap split or view-instance rule; keep the face held until a unique source-backed transform and rendered output are verified.",
+    yoke: "Slice 286 production Chromium found a conflicting Woven sleeve-cap placement. The eased source stitch locates the combined sewn interval but supplies no front/back cap split or view-instance rule; keep the face held until a unique source-backed transform and rendered output are verified.",
   },
 };
 
