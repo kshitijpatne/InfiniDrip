@@ -171,6 +171,12 @@ only through an explicitly admitted, linked Epic packet.
   gates.
 - `docs/research/epic17/S318-colorway-browser/` — S318's fresh live-UI SVGs,
   production raster comparisons, replay matrices and manual review.
+- `docs/research/epic17/G04-V02-INTEGRATED-OUTPUT-RECONCILIATION-S319.md` —
+  S319's admitted all-recipe/all-option production replay, colorway raster,
+  accepted/held reconciliation and V02 readiness gate.
+- `docs/research/epic17/S319-browser-final/` — S319's retained 73-case/146-face
+  production replay, selected rendered output, all emitted colorway SVGs and
+  rasters, per-fill review and manual accepted/held output assessment.
 - `docs/research/epic17/G04-V02-PROJECTION-MAPPING-S277.md` — Slice 277's
   current projection-mapping contract boundary, source-reference rules,
   fail-closed semantics, and focused acceptance gates.
