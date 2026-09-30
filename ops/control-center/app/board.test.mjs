@@ -122,6 +122,8 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S292-EXIT"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S293-START"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S293-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S294-START"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S294-EXIT"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S285-EXIT"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S286-EXIT"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S287-START"));
@@ -137,7 +139,8 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
       assert.ok(admittedWork[1].comments.some((comment) => /S290 source audit: exact Tee.*cap edges pair to front.*armhole/.test(comment.text)));
       assert.ok(admittedWork[1].comments.some((comment) => /Slice 292 started 2026-09-30 08:50:03 UTC.*G04-V02-WOVEN-SOURCE-MAPPING-S292\.md/.test(comment.text)));
       assert.ok(admittedWork[1].comments.some((comment) => /Slice 293 started 2026-09-30 09:01:47 UTC.*G04-V02-WOVEN-BODY-VIEW-METADATA-S293\.md/.test(comment.text)));
-      assert.match(admittedWork[1].comments.at(-1).text, /Slice 293 exit: source names right\/left placket interfaces.*no source layer order distinguishes the overlap/);
+      assert.ok(admittedWork[1].comments.some((comment) => /Slice 294 started 2026-09-30 09:16:12 UTC.*G04-V02-COLLAR-REFERENCE-REVIEW-S294\.md/.test(comment.text)));
+      assert.match(admittedWork[1].comments.at(-1).text, /Slice 294 exit: the Massey composite-collar thesis and Müller & Sohn separate-stand article.*current Polo\/Woven outer contour/);
       assert.deepEqual(admittedWork.map((entry) => entry.dependencies), [[], ["G04-V01"], ["G04-V02"]]);
     }
     if (id === "EPIC-16") {

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 508,
-  "updatedAt": "2026-09-30T09:11:25.341Z",
+  "revision": 514,
+  "updatedAt": "2026-09-30T09:19:59.624Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -178,7 +178,9 @@
         "E-G04-S292-START",
         "E-G04-S292-EXIT",
         "E-G04-S293-START",
-        "E-G04-S293-EXIT"
+        "E-G04-S293-EXIT",
+        "E-G04-S294-START",
+        "E-G04-S294-EXIT"
       ]
     },
     {
@@ -5738,6 +5740,16 @@
           "at": "2026-09-30T09:11:25.341Z",
           "actor": "Codex",
           "text": "Slice 293 exit: source names right/left placket interfaces, but both still target one typed front role and no source layer order distinguishes the overlap. No production map changed; full Woven face holds remain. The recorded body-axis facts are not activated as an output rule. V02 stays In Progress; S294 audits the next evidence-backed role map; V03 remains gated."
+        },
+        {
+          "at": "2026-09-30T09:17:19.048Z",
+          "actor": "Codex",
+          "text": "Slice 294 started 2026-09-30 09:16:12 UTC from clean S293 commit baa7aa9 on refreshed origin/main ancestor a5af5e1, with board revision 508 and unique slice 294. Scope: evaluate newly located primary collar drafting sources against exact Polo/Woven authored outer contours; preserve holds unless an exact source landmark relation is proven. Packet: docs/research/epic17/G04-V02-COLLAR-REFERENCE-REVIEW-S294.md. V02 remains In Progress; V03 stays gated."
+        },
+        {
+          "at": "2026-09-30T09:19:59.624Z",
+          "actor": "Codex",
+          "text": "Slice 294 exit: the Massey composite-collar thesis and Müller & Sohn separate-stand article add construction evidence but neither maps the shoulder station onto the current Polo/Woven outer contour. No production change; retain both full-face holds. V02 stays In Progress; V03 remains gated pending V02 acceptance."
         }
       ],
       "evidenceRefs": [
@@ -5780,7 +5792,9 @@
         "E-G04-S292-START",
         "E-G04-S292-EXIT",
         "E-G04-S293-START",
-        "E-G04-S293-EXIT"
+        "E-G04-S293-EXIT",
+        "E-G04-S294-START",
+        "E-G04-S294-EXIT"
       ],
       "flagKey": null
     },
@@ -7018,6 +7032,24 @@
       "sha256": null,
       "verified": true,
       "note": "Exact source audit confirms right/left labels but both typed placket interfaces target one front role with no instance binding or overlap layer order. Full Woven views remain held; no production change."
+    },
+    {
+      "id": "E-G04-S294-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-COLLAR-REFERENCE-REVIEW-S294.md",
+      "commit": null,
+      "sha256": null,
+      "verified": false,
+      "note": "Bounded review of new primary collar-construction sources for exact applicability to held Polo and Woven outer-contour landmarks."
+    },
+    {
+      "id": "E-G04-S294-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/G04-V02-COLLAR-REFERENCE-REVIEW-S294.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "The reviewed primary collar references support construction but not exact shoulder-to-outer-edge correspondence for the current Polo/Woven contours. Both remain fully held; no production changes."
     }
   ]
 }

@@ -1,6 +1,16 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 293 Woven body-metadata hold; V02 remains open, 2026-09-30._
+_Last updated: Slice 294 collar-reference review; V02 remains open, 2026-09-30._
+
+## EPIC-17 / G04 — Slice 294 complete; V02 remains open
+
+- **Start/exit:** 2026-09-30 09:16:12–09:20:20 UTC (4m08s). Packet: `docs/research/epic17/G04-V02-COLLAR-REFERENCE-REVIEW-S294.md`.
+- **Git:** began clean at S293 `baa7aa914ae3ce2e105efb118bedea8feade2fba`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. S294 uniquely reserved. Research only; no production code changed.
+- **Source result:** reviewed Morris Campbell's 2005 Massey composite-collar thesis and the Müller & Sohn separate-stand collar construction article against current Polo/Woven edges. They describe construction and contour drafting/length checks but do not state where the present authored outer contours meet the local shoulder stations. Existing Polo/Woven role holds remain.
+- **Acceptance:** source comparison completed; exact current-pattern outer-edge landmark remains unproven. V02 remains In Progress, V03 Backlog. MQF-004–007/011/012 stay `To be reviewed`; MQF-015 remains gated for V03; deferrals unchanged.
+- **Verification:** research-only; no production tests/build/coverage/export/Chromium replay apply. Control Center 33/33 and `git diff --check` are closeout gates.
+- **Elapsed-time breakdown:** source comparison 2m; implementation 0m; docs/board closeout 1m; focused Control Center verification/diff check 1m; browser review 0m; external-agent waits 0m; maintainer-decision time 0m.
+- **Next action:** continue only independent V02 work that does not assume these collar boundaries; request the exact same-model source drawing/pattern specification or authored landmark needed for Polo/Woven. Do not start V03.
 
 ## EPIC-17 / G04 — Slice 293 complete; V02 remains open
 
@@ -10,7 +20,7 @@ _Last updated: Slice 293 Woven body-metadata hold; V02 remains open, 2026-09-30.
 - **Acceptance:** source audit found a bounded reason to retain full-face holds; no unique complete closure mapping was established. S291's production result remains current at 56/56 Woven faces held. V02 remains In Progress and V03 Backlog. MQF findings remain `To be reviewed`; post-G17 deferrals unchanged.
 - **Verification:** research-only. No production test/build/coverage/export/browser replay applies. Control Center 33/33 and `git diff --check` are the required closeout gates; no DXF or protected export change.
 - **Elapsed-time breakdown:** source/topology review 4m; implementation 0m; docs/board closeout 4m; focused Control Center verification/diff check 1m; rendered review 0m; external-agent waits 0m; maintainer-decision time 0m.
-- **Next action:** Slice 294 audits the next independently evidence-backed V02 role map from current repository evidence; do not treat unresolved Woven faces as accepted and do not start V03.
+- **Next action:** Slice 294's collar reference result is recorded above; retain the Woven hold until typed instance mapping/layer order is source-backed. Continue only independent V02 work; do not start V03.
 
 ## EPIC-17 / G04 — Slice 292 complete; V02 remains open
 
