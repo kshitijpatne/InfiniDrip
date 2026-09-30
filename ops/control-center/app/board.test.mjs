@@ -91,16 +91,20 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
     }
     if (id === "EPIC-17") {
       assert.match(epic.description, /docs\/planning\/EPIC-17-ADMISSION\.md/);
-      assert.match(epic.description, /41–46 landed slices/);
-      assert.match(card.description, /41–46 landed slices/);
+      assert.match(epic.description, /57–71 landed slices/);
+      assert.match(card.description, /57–71 landed slices/);
       assert.ok(card.evidenceRefs.includes("E-G04-S286-EXIT"));
       assert.ok(card.evidenceRefs.includes("E-G04-S300-EXIT"));
       assert.ok(card.evidenceRefs.includes("E-G04-S301-START"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S302-START"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S302-EXIT"));
       assert.ok(card.evidenceRefs.includes("E-G04-S301-EXIT"));
       assert.ok(epic.evidenceRefs.includes("E-G04-S300-EXIT"));
       assert.ok(epic.evidenceRefs.includes("E-G04-S301-START"));
+      assert.ok(epic.evidenceRefs.includes("E-G04-S302-START"));
+      assert.ok(epic.evidenceRefs.includes("E-G04-S302-EXIT"));
       assert.ok(epic.evidenceRefs.includes("E-G04-S301-EXIT"));
-      assert.match(card.comments.at(-1).text, /Synchronize the conditional estimate and remaining holds from the verified S297\/S298 boundary/);
+      assert.match(card.comments.at(-1).text, /Re-estimate from verified S301 boundary: 4\/146 faces are accepted, 142 remain held/);
       assert.deepEqual(card.dependencies, ["EPIC-14", "EPIC-15", "EPIC-16"]);
       const admittedWork = board.workItems.filter((entry) => entry.epicId === id && entry.id !== id);
       assert.deepEqual(admittedWork.map((entry) => entry.id), ["G04-V01", "G04-V02", "G04-V03"]);
@@ -142,6 +146,8 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S300-START"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S300-EXIT"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S301-START"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S302-START"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S302-EXIT"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S301-EXIT"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S285-EXIT"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S286-EXIT"));
@@ -159,7 +165,7 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
       assert.ok(admittedWork[1].comments.some((comment) => /Slice 292 started 2026-09-30 08:50:03 UTC.*G04-V02-WOVEN-SOURCE-MAPPING-S292\.md/.test(comment.text)));
       assert.ok(admittedWork[1].comments.some((comment) => /Slice 293 started 2026-09-30 09:01:47 UTC.*G04-V02-WOVEN-BODY-VIEW-METADATA-S293\.md/.test(comment.text)));
       assert.ok(admittedWork[1].comments.some((comment) => /Slice 294 started 2026-09-30 09:16:12 UTC.*G04-V02-COLLAR-REFERENCE-REVIEW-S294\.md/.test(comment.text)));
-      assert.match(admittedWork[1].comments.at(-1).text, /Slice 301 exit: the exact stitch graph places full collar roles.*S300-browser-candidate.*V02 remains In Progress; V03 remains Backlog/);
+      assert.match(admittedWork[1].comments.at(-1).text, /Slice 302 exit: verified matrix has 4 accepted faces of 146.*estimate is 57–71.*V02 remains In Progress; V03 remains Backlog/);
       assert.deepEqual(admittedWork.map((entry) => entry.dependencies), [[], ["G04-V01"], ["G04-V02"]]);
     }
     if (id === "EPIC-16") {

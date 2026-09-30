@@ -1,7 +1,15 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 298 held-view guidance readability complete; V02 remains open, 2026-09-30._
+_Last updated: Slice 302 estimate/sequence reconciliation complete; V02 remains open, 2026-09-30._
 
+## EPIC-17 / G04 current handoff — S302 complete; V02 remains open
+
+- Latest completed boundary: S301 `44f7e8424eee14c8f8186d65a9e0b3f6df929c55` (`Slice 301: document Polo collar sewn-placement hold`); clean start for S302. Refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor.
+- Canonical board revision 563 at S302 start; S302 packet/start evidence/comment link at revisions 564–567. EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog.
+- Latest all-recipe output evidence is the production Chromium 73-configuration / 146-face matrix: 4 accepted (Tank/Skirt defaults), 142 held. Complete V02 is not accepted. Woven placket closure/order remains held because the maintainer confirmed no marked reference exists; Polo outer-collar face mapping also remains unsupported.
+- S302 scope is a documentation/board-only re-estimate and future-sequence correction. Prior 41–46 estimate and roadmap 22–26 estimate are stale given delivered S297–S301 work and remaining V02, V03, integration, PR, merge and deployment gates. Packet: `docs/research/epic17/G04-V02-ESTIMATE-RECONCILIATION-S302.md`.
+- Reconciled working estimate is 57–71 landed slices total (16–30 from the S301 boundary including S302), conditional on source evidence; unavailable-source waits remain unpriced and may block V02. S302 made no production implementation changes. Admission and roadmap estimates and future sequencing are synchronized.
+- **Next gate:** begin the next source-backed V02 slice from a refreshed Git/board/usage boundary. Keep Woven closure held; do not start V03 until every supported face/option passes.
 ## EPIC-17 / G04 current handoff — S298 complete; V02 remains open
 
 - S297 landed as `2dbfd753fc164829cd93d086b2a0d1455f5b0f4a` (`Slice 297: map Woven front physical pair`). Refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor; the worktree was clean at S298 start.
@@ -5550,3 +5558,12 @@ Scope: test whether exact Polo collar/stand stitch topology and construction evi
 The Polo stitch graph places whole `outerStand` and `upperCollar` roles through their authored base interfaces in both faces, but it supplies no front/back-visible split on the authored exterior cubic. Default transforms are front `(4.1897, -6.8582) cm / 87.6993°` and back `(7.0000, ~0) cm / 180°` for both roles. The only assembly warning is an unrelated 0.48 cm Polo sleeve-cap residual. S288's exact-source review found no relation from the base shoulder notch to the outer cubic; S300's actual production-Chromium candidate visibly crossed collar/stand lines through the body. No metadata/source/test behavior changed. Keep complete Polo faces held and Woven closure held. The S301 packet is `docs/research/epic17/G04-V02-POLO-COLLAR-SEWN-PLACEMENT-S301.md`.
 
 Board revision 563 links `E-G04-S301-EXIT` to G04-V02 and the EPIC-17 summary at 560 and the Epic record at 562, with the exit comment at 563. Control Center tests pass 33/33 after correcting a stale board regression expectation; `git diff --check` passes. V02 remains In Progress; V03 remains Backlog. Elapsed: 8m48s (12:24:40–12:33:28 UTC)—implementation 0m, source/topology research 3m45s, focused verification 1m30s including one diagnosed stale assertion and successful rerun, rendered review 1m, records/board 2m33s, external-agent waits 0m, maintainer-decision time 0m. Exact S301 commit ID is recorded in the S302 starting boundary. Next action: refresh usage/Git/board state and begin one bounded V02 source-backed map-or-hold slice; do not begin V03.
+### Slice 302 start — estimate and future sequence reconciliation
+
+Started 2026-09-30 12:38:17 UTC from clean S301 `44f7e8424eee14c8f8186d65a9e0b3f6df929c55`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. Highest assigned slice was 301; S302 was reserved. Board revision 563 had EPIC-17/G04-V02 In Progress, V01 Done and V03 Backlog. Packet/start evidence/comment link at revisions 564–567. Primary usage was 13%; weekly 84%. Packet: `docs/research/epic17/G04-V02-ESTIMATE-RECONCILIATION-S302.md`.
+
+### Slice 302 exit — conditional estimate and future sequence synchronized
+
+Verified production matrix is 73 configurations / 146 faces, 4 accepted and 142 held. The 41–46 Epic and 22–26 roadmap estimates and future slice-number assignments were stale: S297–S301 had already landed as V02. Admission, roadmap, active project-state handoff and board now agree on a 57–71 landed-slice total including admission, S302 and final merge; 16–30 remain from the S301 boundary, conditional on source evidence. Breakdown: V02 7–14, V03 5–10 after V02 passes, final review/merge/deployment 3–5. Missing source/rights waits are unpriced and can block completion. No scope, acceptance criterion or status changed; V02 remains In Progress, V03 Backlog. Future V03/final review rows are dependency-labeled and receive slice numbers only from refreshed starts.
+
+Validated board updates: Epic/summary descriptions at revisions 568–569; `E-G04-S302-EXIT` linked to V02 and summary at 570, Epic at 572, exit comment at 573. `npm run control-center:test` passes 33/33; the first run's single failure was a stale assertion on the previous edit reason, diagnosed and corrected. `git diff --check` passes. Elapsed 10m05s (12:38:17–12:48:22 UTC): implementation 0m, evidence re-evaluation 2m, focused verification 1m30s including repair, new rendered review 0m, docs/board 6m35s, external waits 0m, maintainer-decision time 0m. Exact S302 commit ID is captured at the next boundary. Next action: continue source-backed V02 work; do not start V03 until all accepted options/faces pass.
