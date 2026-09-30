@@ -97,7 +97,10 @@ const SKIRT_STITCHES: readonly Stitch[] = [
   },
   {
     label: "Waistband (front + back ↔ waistband)",
-    a: iface(edgeRef("front", "waist"), edgeRef("back", "waist")),
+    // Walk the half-garment waistline center-front → side seam → center-back.
+    // Both panel edges are authored center → side, so the back reference must
+    // reverse to make this ordered junction agree with the side-seam stitch.
+    a: iface(edgeRef("front", "waist"), edgeRef("back", "waist", true)),
     b: iface(edgeRef("waistband", "seam")),
   },
 ];

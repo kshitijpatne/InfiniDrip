@@ -1,11 +1,22 @@
 import { edgeEnd, edgeStart, type Edge, type Piece } from "../drafting/piece";
 import type { Block } from "../drafting/block";
+import type { EdgeRef, Stitch } from "../drafting/stitch";
 import { G04_TECHNICAL_FLAT_MAPPINGS, type FlatRoleTreatment } from "./technical-flat-mapping";
 import type { TechnicalFlatViewKind } from "./technical-flat";
 
 export type FlatProjectionLandmark =
   | { readonly kind: "edge-endpoint"; readonly edgeId: string; readonly endpoint: "start" | "end" }
-  | { readonly kind: "pattern-mark"; readonly markId: string; readonly point: "at" | "start" | "end" };
+  | { readonly kind: "pattern-mark"; readonly markId: string; readonly point: "at" | "start" | "end" }
+  | {
+    readonly kind: "stitch-interface-boundary";
+    readonly stitchLabel: string;
+    readonly boundarySide: "a" | "b";
+    readonly afterEdgeIndex: number;
+    readonly faceSegmentEdgeIndex: number;
+    readonly receiverSide: "a" | "b";
+    readonly receiverEdgeIndex: number;
+    readonly pairedEdgeId?: string;
+  };
 
 export interface FlatProjectionEdgeRun {
   readonly edgeId: string;
@@ -23,6 +34,15 @@ export interface FlatProjectionFoldAxisReflection {
   readonly edgeId: string;
   readonly axis: "LOCAL_Y";
   readonly source: "Piece.onFold";
+  /** Use a sewn-to panel's center axis for a source-derived component segment. */
+  readonly axisRoleId?: string;
+  readonly viaStitchLabel?: string;
+}
+
+export interface FlatProjectionViewBoundary {
+  readonly id: string;
+  readonly from: FlatProjectionLandmark;
+  readonly to: FlatProjectionLandmark;
 }
 
 export interface FlatProjectionRole {
@@ -33,8 +53,12 @@ export interface FlatProjectionRole {
   readonly runs: readonly FlatProjectionEdgeRun[];
   /** Every unprojected source edge remains accounted for as an explicit hold. */
   readonly heldEdges: readonly FlatProjectionHeldEdge[];
+  /** Source-authored contour belongs to the opposite orthographic face. */
+  readonly faceExcludedEdges?: readonly FlatProjectionHeldEdge[];
   /** View-only reflection across a source-declared cut-on-fold boundary. */
   readonly foldAxisReflection?: FlatProjectionFoldAxisReflection;
+  /** View-only closure for a face segment; it is not a drafted cut or seam edge. */
+  readonly viewBoundaries?: readonly FlatProjectionViewBoundary[];
 }
 
 export interface FlatProjectionFace {
@@ -60,9 +84,6 @@ export const G04_UNRESOLVED_PROJECTION_ROLES: Readonly<Record<string, Readonly<R
   },
   fitted: {
     sleeve: "The sleeve-cap stitch locates sewn cap intervals but the source does not identify the front/back visible sleeve contour or supported sleeve view instances.",
-  },
-  skirt: {
-    waistband: "The waistband role spans both front and back waist interfaces; the source does not establish a face-specific contour segment, so the full strip would extend beyond this face.",
   },
   polo: {
     outerStand: "The stand's exterior contour has no authored front/back split landmark.",
@@ -119,6 +140,54 @@ export function createG04TechnicalFlatProjectionMap(
         if (!piece) {
           return { roleId: role.roleId, instanceId: role.roleId, treatment: role.treatment, runs: [], heldEdges: [] };
         }
+        if (recipeId === "skirt" && role.roleId === "waistband") {
+          const stitchLabel = "Waistband (front + back ↔ waistband)";
+          const isFront = face.kind === "FRONT_FLAT";
+          const boundary: FlatProjectionLandmark = {
+            kind: "stitch-interface-boundary", stitchLabel, boundarySide: "a",
+            afterEdgeIndex: 0, faceSegmentEdgeIndex: isFront ? 0 : 1,
+            receiverSide: "b", receiverEdgeIndex: 0,
+          };
+          const topBoundary: FlatProjectionLandmark = { ...boundary, pairedEdgeId: "top" };
+          const axisRoleId = isFront ? "front" : "back";
+          const axisEdge = block.roles[axisRoleId] && foldAxisEdge(block.roles[axisRoleId]!);
+          const heldRoleReason = axisEdge
+            ? undefined
+            : `The sewn-to ${axisRoleId} panel has no exact on-fold center axis for this waistband segment.`;
+          const endpoint = (edgeId: string, point: "start" | "end"): FlatProjectionLandmark => ({
+            kind: "edge-endpoint", edgeId, endpoint: point,
+          });
+          const runs: FlatProjectionEdgeRun[] = isFront
+            ? [
+              { edgeId: "seam", from: endpoint("seam", "start"), to: boundary },
+              { edgeId: "top", from: topBoundary, to: endpoint("top", "end") },
+              { edgeId: "end", from: endpoint("end", "start"), to: endpoint("end", "end") },
+            ]
+            : [
+              { edgeId: "seam", from: boundary, to: endpoint("seam", "end") },
+              { edgeId: "top", from: endpoint("top", "start"), to: topBoundary },
+            ];
+          return {
+            roleId: role.roleId,
+            instanceId: role.roleId,
+            treatment: role.treatment,
+            runs: heldRoleReason ? [] : runs,
+            heldEdges: heldRoleReason ? piece.edges.map((edge) => ({ edgeId: edge.name, reason: heldRoleReason })) : [],
+            faceExcludedEdges: heldRoleReason ? [] : [
+              { edgeId: isFront ? "fold" : "end",
+                reason: `This waistband edge is the opposite face segment's center end and is excluded from the ${isFront ? "front" : "back"} face.` },
+              ...(!isFront ? [{ edgeId: "fold",
+                reason: "The source-declared cut-on-fold edge is the back center axis and is not a visible garment boundary." }] : []),
+            ],
+            ...(!heldRoleReason && axisEdge ? {
+              foldAxisReflection: {
+                edgeId: axisEdge.name, axis: "LOCAL_Y" as const, source: "Piece.onFold" as const,
+                axisRoleId, viaStitchLabel: stitchLabel,
+              },
+              viewBoundaries: [{ id: "side-seam-outline", from: topBoundary, to: boundary }],
+            } : {}),
+          };
+        }
         const nonMirrorReason = G04_NON_MIRRORED_ON_FOLD_ROLES[recipeId]?.[role.roleId];
         const axisEdge = role.treatment === "INTERIOR_HIDDEN" || nonMirrorReason ? undefined : foldAxisEdge(piece);
         const heldRoleReason = role.treatment === "INTERIOR_HIDDEN"
@@ -129,11 +198,15 @@ export function createG04TechnicalFlatProjectionMap(
               : undefined);
         const runs: FlatProjectionEdgeRun[] = [];
         const heldEdges: FlatProjectionHeldEdge[] = [];
+        const faceExcludedEdges: FlatProjectionHeldEdge[] = [];
         for (const edge of piece.edges) {
           const start = edgeStart(edge);
           const end = edgeEnd(edge);
           if (heldRoleReason) {
             heldEdges.push({ edgeId: edge.name, reason: heldRoleReason });
+          } else if (axisEdge?.name === edge.name) {
+            faceExcludedEdges.push({ edgeId: edge.name,
+              reason: "This source-declared cut-on-fold edge is the merged garment center axis, not a visible exterior boundary." });
           } else if (start.x === end.x && start.y === end.y) {
             heldEdges.push({ edgeId: edge.name, reason: "This drafted edge has identical endpoints and cannot form a visible contour." });
           } else {
@@ -150,6 +223,7 @@ export function createG04TechnicalFlatProjectionMap(
           treatment: role.treatment,
           runs,
           heldEdges,
+          ...(faceExcludedEdges.length > 0 ? { faceExcludedEdges } : {}),
           ...(axisEdge && !heldRoleReason ? { foldAxisReflection: { edgeId: axisEdge.name, axis: "LOCAL_Y" as const, source: "Piece.onFold" as const } } : {}),
         };
       }),
@@ -163,7 +237,8 @@ export type FlatProjectionIssueCode =
   | "DUPLICATE_ROLE" | "MISSING_INSTANCE" | "DUPLICATE_INSTANCE" | "INSTANCE_MISMATCH" | "TREATMENT_MISMATCH"
   | "MISSING_EDGE_ACCOUNTING" | "DUPLICATE_EDGE_ACCOUNTING" | "UNKNOWN_EDGE"
   | "INVALID_RUN_LANDMARK" | "LANDMARK_ROLE_MISMATCH" | "LANDMARK_EDGE_MISMATCH"
-  | "LANDMARK_NOT_ON_EDGE" | "EMPTY_HOLD_REASON" | "RUN_ON_HIDDEN_ROLE" | "INVALID_FOLD_AXIS_REFLECTION";
+  | "LANDMARK_NOT_ON_EDGE" | "EMPTY_HOLD_REASON" | "RUN_ON_HIDDEN_ROLE" | "INVALID_FOLD_AXIS_REFLECTION"
+  | "INVALID_STITCH_BOUNDARY" | "INVALID_PAIRED_EDGE" | "INVALID_VIEW_BOUNDARY";
 
 export interface FlatProjectionIssue {
   readonly code: FlatProjectionIssueCode;
@@ -183,11 +258,40 @@ function pointAtEdgeEnd(edge: Edge, end: "start" | "end") {
   return end === "start" ? edgeStart(edge) : edgeEnd(edge);
 }
 
+function refsForSide(stitch: Stitch, side: "a" | "b") {
+  return stitch[side].edges;
+}
+
+function edgeRefLine(block: Block, rawRef: unknown): { ref: EdgeRef; edge: Extract<Edge, { kind: "line" }>; roleId: string } | undefined {
+  if (!isRecord(rawRef) || typeof rawRef.piece !== "string" || typeof rawRef.edge !== "string") return undefined;
+  const piece = block.roles[rawRef.piece];
+  const edge = piece?.edges.find((candidate) => candidate.name === rawRef.edge);
+  if (!piece || !edge || edge.kind !== "line") return undefined;
+  return { ref: rawRef as unknown as EdgeRef, edge, roleId: rawRef.piece };
+}
+
+function refEndpoints(entry: { ref: EdgeRef; edge: Extract<Edge, { kind: "line" }> }) {
+  return entry.ref.reversed ? [entry.edge.end, entry.edge.start] as const : [entry.edge.start, entry.edge.end] as const;
+}
+
+function lineLength(edge: Extract<Edge, { kind: "line" }>) {
+  return Math.hypot(edge.end.x - edge.start.x, edge.end.y - edge.start.y);
+}
+
+function pointOnLine(edge: Extract<Edge, { kind: "line" }>, fraction: number) {
+  return {
+    x: edge.start.x + (edge.end.x - edge.start.x) * fraction,
+    y: edge.start.y + (edge.end.y - edge.start.y) * fraction,
+  };
+}
+
 function pointForLandmark(
   roleId: string,
+  faceKind: TechnicalFlatViewKind,
   edge: Edge,
   landmark: unknown,
   piece: Piece,
+  block: Block,
   issues: FlatProjectionIssue[],
   sourceId: string,
 ) {
@@ -230,8 +334,124 @@ function pointForLandmark(
     }
     return point;
   }
+  if (landmark.kind === "stitch-interface-boundary") {
+    const malformed = typeof landmark.stitchLabel !== "string" || !landmark.stitchLabel
+      || (landmark.boundarySide !== "a" && landmark.boundarySide !== "b")
+      || (landmark.receiverSide !== "a" && landmark.receiverSide !== "b")
+      || landmark.boundarySide === landmark.receiverSide
+      || !Number.isInteger(landmark.afterEdgeIndex) || !Number.isInteger(landmark.faceSegmentEdgeIndex)
+      || !Number.isInteger(landmark.receiverEdgeIndex)
+      || (landmark.pairedEdgeId !== undefined && typeof landmark.pairedEdgeId !== "string");
+    if (malformed) {
+      issues.push({ code: "INVALID_STITCH_BOUNDARY", sourceId, message: "Stitch boundary must name distinct interface sides and valid edge indexes." });
+      return undefined;
+    }
+    const stitchMatches = block.stitches.filter((candidate) => candidate.label === landmark.stitchLabel);
+    if (stitchMatches.length !== 1) {
+      issues.push({ code: "INVALID_STITCH_BOUNDARY", sourceId, message: `Stitch boundary must resolve one exact stitch named “${String(landmark.stitchLabel)}”.` });
+      return undefined;
+    }
+    const stitch = stitchMatches[0]!;
+    const boundarySide = landmark.boundarySide as "a" | "b";
+    const receiverSide = landmark.receiverSide as "a" | "b";
+    if (stitch.ease !== undefined) {
+      issues.push({ code: "INVALID_STITCH_BOUNDARY", sourceId, message: `Eased stitch “${stitch.label}” cannot define an exact face-segment boundary.` });
+      return undefined;
+    }
+    const sourceRaw = refsForSide(stitch, boundarySide);
+    const targetRaw = refsForSide(stitch, receiverSide);
+    const afterIndex = landmark.afterEdgeIndex as number;
+    const faceIndex = landmark.faceSegmentEdgeIndex as number;
+    const targetIndex = landmark.receiverEdgeIndex as number;
+    if (afterIndex < 0 || afterIndex >= sourceRaw.length - 1 || faceIndex < 0 || faceIndex >= sourceRaw.length
+      || targetIndex < 0 || targetIndex >= targetRaw.length) {
+      issues.push({ code: "INVALID_STITCH_BOUNDARY", sourceId, message: `Stitch “${stitch.label}” does not contain the declared source or receiving interface boundary.` });
+      return undefined;
+    }
+    const sourceSegments = sourceRaw.map((ref) => edgeRefLine(block, ref));
+    const targetSegments = targetRaw.map((ref) => edgeRefLine(block, ref));
+    if (sourceSegments.some((segment) => !segment) || targetSegments.some((segment) => !segment)) {
+      issues.push({ code: "INVALID_STITCH_BOUNDARY", sourceId, message: `Stitch “${stitch.label}” boundary requires line-edge references on both interfaces.` });
+      return undefined;
+    }
+    const sourceLines = sourceSegments as NonNullable<(typeof sourceSegments)[number]>[];
+    const targetLines = targetSegments as NonNullable<(typeof targetSegments)[number]>[];
+    const previous = refEndpoints(sourceLines[afterIndex]!)[1];
+    const next = refEndpoints(sourceLines[afterIndex + 1]!)[0];
+    if (!samePoint(previous, next)) {
+      issues.push({ code: "INVALID_STITCH_BOUNDARY", sourceId, message: `Stitch “${stitch.label}” ordered references do not share an exact source endpoint.` });
+      return undefined;
+    }
+    const expectedSegmentRole = faceKind === "FRONT_FLAT" ? "front" : "back";
+    if (landmark.boundarySide !== "a" || faceIndex !== (faceKind === "FRONT_FLAT" ? afterIndex : afterIndex + 1)
+      || sourceLines[faceIndex]!.roleId !== expectedSegmentRole) {
+      issues.push({ code: "INVALID_STITCH_BOUNDARY", sourceId, message: `Stitch “${stitch.label}” does not assign this boundary to the ${expectedSegmentRole} face segment.` });
+      return undefined;
+    }
+    const sourceTotal = sourceLines.reduce((sum, segment) => sum + lineLength(segment.edge), 0);
+    const targetTotal = targetLines.reduce((sum, segment) => sum + lineLength(segment.edge), 0);
+    const sourcePrefix = sourceLines.slice(0, afterIndex + 1).reduce((sum, segment) => sum + lineLength(segment.edge), 0);
+    if (!(sourceTotal > 0) || Math.abs(sourceTotal - targetTotal) > 1e-8) {
+      issues.push({ code: "INVALID_STITCH_BOUNDARY", sourceId, message: `Stitch “${stitch.label}” interface lengths do not support an exact source-derived split.` });
+      return undefined;
+    }
+    const target = targetLines[targetIndex]!;
+    if (target.roleId !== roleId || (landmark.pairedEdgeId === undefined && target.edge.name !== edge.name)
+      || (landmark.pairedEdgeId !== undefined && landmark.pairedEdgeId !== edge.name)) {
+      issues.push({ code: "LANDMARK_ROLE_MISMATCH", sourceId, message: "Stitch boundary receiver does not match the mapped component edge." });
+      return undefined;
+    }
+    const targetOffset = targetLines.slice(0, targetIndex).reduce((sum, segment) => sum + lineLength(segment.edge), 0);
+    const localDistance = sourcePrefix - targetOffset;
+    const targetLength = lineLength(target.edge);
+    if (localDistance < -1e-8 || localDistance > targetLength + 1e-8) {
+      issues.push({ code: "INVALID_STITCH_BOUNDARY", sourceId, message: `Stitch “${stitch.label}” boundary falls outside the declared receiving edge.` });
+      return undefined;
+    }
+    const traversalFraction = Math.max(0, Math.min(1, localDistance / targetLength));
+    const point = pointOnLine(target.edge, target.ref.reversed ? 1 - traversalFraction : traversalFraction);
+    if (landmark.pairedEdgeId === undefined) return point;
+    const paired = piece.edges.find((candidate) => candidate.name === landmark.pairedEdgeId);
+    if (!paired || paired.kind !== "line" || target.edge.start.y !== target.edge.end.y
+      || paired.start.y !== paired.end.y || target.edge.start.y === paired.start.y
+      || target.edge.start.x !== paired.end.x || target.edge.end.x !== paired.start.x) {
+      issues.push({ code: "INVALID_PAIRED_EDGE", sourceId, message: "Paired strip edge must be an exact opposite-direction horizontal span of the receiving stitch edge." });
+      return undefined;
+    }
+    return { x: point.x, y: paired.start.y };
+  }
   issues.push({ code: "INVALID_RUN_LANDMARK", sourceId, message: "Unsupported source landmark kind." });
   return undefined;
+}
+
+export function resolveFlatProjectionLandmark(
+  block: Block,
+  roleId: string,
+  faceKind: TechnicalFlatViewKind,
+  landmark: unknown,
+  receivingEdgeId?: string,
+) {
+  const piece = block.roles[roleId];
+  if (!piece) return undefined;
+  let edgeId = receivingEdgeId;
+  if (!edgeId && isRecord(landmark)) {
+    if (landmark.kind === "edge-endpoint" && typeof landmark.edgeId === "string") edgeId = landmark.edgeId;
+    if (landmark.kind === "stitch-interface-boundary" && typeof landmark.stitchLabel === "string"
+      && (landmark.receiverSide === "a" || landmark.receiverSide === "b")
+      && Number.isInteger(landmark.receiverEdgeIndex)) {
+      const matches = block.stitches.filter((stitch) => stitch.label === landmark.stitchLabel);
+      const refs = matches.length === 1 ? refsForSide(matches[0]!, landmark.receiverSide) : [];
+      const ref = refs[landmark.receiverEdgeIndex as number];
+      if (ref && "edge" in ref && ref.piece === roleId) {
+        edgeId = typeof landmark.pairedEdgeId === "string" ? landmark.pairedEdgeId : ref.edge;
+      }
+    }
+  }
+  const edge = edgeId ? piece.edges.find((candidate) => candidate.name === edgeId) : undefined;
+  if (!edge) return undefined;
+  const issues: FlatProjectionIssue[] = [];
+  const resolved = pointForLandmark(roleId, faceKind, edge, landmark, piece, block, issues, `${faceKind}:${roleId}`);
+  return issues.length === 0 ? resolved : undefined;
 }
 
 function validateRole(
@@ -264,7 +484,8 @@ function validateRole(
   } else {
     usedInstances.add(mappingRole.instanceId);
   }
-  if (!Array.isArray(mappingRole.runs) || !Array.isArray(mappingRole.heldEdges)) {
+  if (!Array.isArray(mappingRole.runs) || !Array.isArray(mappingRole.heldEdges)
+    || (mappingRole.faceExcludedEdges !== undefined && !Array.isArray(mappingRole.faceExcludedEdges))) {
     issues.push({ code: "MISSING_EDGE_ACCOUNTING", sourceId, message: `Role “${roleId}” must list projected runs and explicit held edges.` });
     return;
   }
@@ -273,17 +494,30 @@ function validateRole(
   }
   if (mappingRole.foldAxisReflection !== undefined) {
     const reflection = mappingRole.foldAxisReflection;
-    const edge = isRecord(reflection) && typeof reflection.edgeId === "string"
-      ? piece.edges.find((candidate) => candidate.name === reflection.edgeId)
-      : undefined;
+    const axisRoleId = isRecord(reflection) && typeof reflection.axisRoleId === "string"
+      ? reflection.axisRoleId : roleId;
+    const axisPiece = block.roles[axisRoleId];
+    const edge = isRecord(reflection) && typeof reflection.edgeId === "string" && axisPiece
+      ? axisPiece.edges.find((candidate) => candidate.name === reflection.edgeId) : undefined;
+    const externalAxis = axisRoleId !== roleId;
+    const axisStitches = isRecord(reflection) && typeof reflection.viaStitchLabel === "string"
+      ? block.stitches.filter((stitch) => stitch.label === reflection.viaStitchLabel) : [];
+    const sourceRoleForFace = faceKind === "FRONT_FLAT" ? "front" : "back";
+    const attachedByNamedSeam = axisStitches.length === 1 && [axisStitches[0]!.a, axisStitches[0]!.b].some((side) =>
+      side.edges.some((ref) => "edge" in ref && ref.piece === axisRoleId && ref.edge === "waist"))
+      && [axisStitches[0]!.a, axisStitches[0]!.b].some((side) =>
+        side.edges.some((ref) => "edge" in ref && ref.piece === roleId && ref.edge === "seam"));
     if (!isRecord(reflection) || reflection.axis !== "LOCAL_Y" || reflection.source !== "Piece.onFold"
-      || !piece.onFold || !edge || foldAxisEdge(piece)?.name !== edge.name) {
+      || !axisPiece || !axisPiece.onFold || !edge || foldAxisEdge(axisPiece)?.name !== edge.name
+      || (externalAxis && (roleId !== "waistband" || axisRoleId !== sourceRoleForFace
+        || typeof reflection.viaStitchLabel !== "string" || !attachedByNamedSeam))
+      || (!externalAxis && reflection.viaStitchLabel !== undefined)) {
       issues.push({ code: "INVALID_FOLD_AXIS_REFLECTION", sourceId,
-        message: `View reflection for “${roleId}” needs an exact source-declared on-fold edge on local x=0 with the drafted piece on one side.` });
+        message: `View reflection for “${roleId}” needs the exact source-declared on-fold axis on its own role or its sewn-to face panel.` });
     }
   }
   const accounted = new Set<string>();
-  const account = (edgeId: unknown, category: "run" | "hold") => {
+  const account = (edgeId: unknown, category: "run" | "hold" | "face exclusion") => {
     if (typeof edgeId !== "string" || edgeId.length === 0 || !piece.edges.some((edge) => edge.name === edgeId)) {
       issues.push({ code: "UNKNOWN_EDGE", sourceId, message: `Projection ${category} references an edge missing from “${roleId}”.` });
       return;
@@ -302,8 +536,8 @@ function validateRole(
     account(run.edgeId, "run");
     const edge = typeof run.edgeId === "string" ? piece.edges.find((candidate) => candidate.name === run.edgeId) : undefined;
     if (!edge) continue;
-    const from = pointForLandmark(roleId, edge, run.from, piece, issues, sourceId);
-    const to = pointForLandmark(roleId, edge, run.to, piece, issues, sourceId);
+    const from = pointForLandmark(roleId, faceKind, edge, run.from, piece, block, issues, sourceId);
+    const to = pointForLandmark(roleId, faceKind, edge, run.to, piece, block, issues, sourceId);
     if (from && to && samePoint(from, to)) {
       issues.push({ code: "INVALID_RUN_LANDMARK", sourceId, message: `Run on “${roleId}.${edge.name}” must have distinct source endpoints.` });
     }
@@ -316,6 +550,33 @@ function validateRole(
     account(hold.edgeId, "hold");
     if (typeof hold.reason !== "string" || hold.reason.trim().length === 0) {
       issues.push({ code: "EMPTY_HOLD_REASON", sourceId, message: `Held edge on “${roleId}” needs an actionable visible reason.` });
+    }
+  }
+  for (const exclusion of (mappingRole.faceExcludedEdges ?? []) as unknown[]) {
+    if (!isRecord(exclusion)) {
+      issues.push({ code: "UNKNOWN_EDGE", sourceId, message: `Face exclusion for “${roleId}” is malformed.` });
+      continue;
+    }
+    account(exclusion.edgeId, "face exclusion");
+    if (typeof exclusion.reason !== "string" || exclusion.reason.trim().length === 0) {
+      issues.push({ code: "EMPTY_HOLD_REASON", sourceId, message: `Face-excluded edge on “${roleId}” needs a source-based reason.` });
+    }
+  }
+  if (mappingRole.viewBoundaries !== undefined) {
+    if (!Array.isArray(mappingRole.viewBoundaries)) {
+      issues.push({ code: "INVALID_VIEW_BOUNDARY", sourceId, message: "View boundaries must be an array of source-bound silhouette closures." });
+    } else {
+      for (const boundary of mappingRole.viewBoundaries) {
+        if (!isRecord(boundary) || typeof boundary.id !== "string" || !boundary.id.trim()) {
+          issues.push({ code: "INVALID_VIEW_BOUNDARY", sourceId, message: "A view boundary needs a stable non-empty ID." });
+          continue;
+        }
+        const from = resolveFlatProjectionLandmark(block, roleId, faceKind, boundary.from);
+        const to = resolveFlatProjectionLandmark(block, roleId, faceKind, boundary.to);
+        if (!from || !to || samePoint(from, to)) {
+          issues.push({ code: "INVALID_VIEW_BOUNDARY", sourceId, message: "A view boundary must connect distinct source-resolved endpoints." });
+        }
+      }
     }
   }
   for (const edge of piece.edges) {

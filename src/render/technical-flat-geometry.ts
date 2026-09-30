@@ -11,7 +11,7 @@ import type {
 } from "./technical-flat";
 import { mapTechnicalFlatSources, type FlatMappingIssue } from "./technical-flat-mapping";
 import { edgeEnd, edgeStart } from "../drafting/piece";
-import { validateTechnicalFlatProjectionMap, type FlatProjectionIssue, type FlatProjectionRole, type TechnicalFlatProjectionMap } from "./technical-flat-projection";
+import { resolveFlatProjectionLandmark, validateTechnicalFlatProjectionMap, type FlatProjectionIssue, type FlatProjectionRole, type TechnicalFlatProjectionMap } from "./technical-flat-projection";
 
 export interface TechnicalFlatGeometryIssue {
   readonly code: "INVALID_REVISION_ID" | "INVALID_SOURCE_EDGE" | "INVALID_PROJECTION_MAP" | "UNRESOLVED_PROJECTION_EDGE";
@@ -83,19 +83,20 @@ function outlinePrimitive(
   };
 }
 
-function pointForProjectionLandmark(piece: Piece, edge: Edge, landmark: FlatProjectionRole["runs"][number]["from"]) {
-  if (landmark.kind === "edge-endpoint") return landmark.endpoint === "start" ? edgeStart(edge) : edgeEnd(edge);
-  const mark = piece.marks!.find((candidate) => candidate.name === landmark.markId)!;
-  return "at" in mark ? mark.at : landmark.point === "start" ? mark.start : mark.end;
+function pointForProjectionLandmark(
+  block: Block, kind: TechnicalFlatViewKind, roleId: string, edgeId: string,
+  landmark: FlatProjectionRole["runs"][number]["from"],
+) {
+  return resolveFlatProjectionLandmark(block, roleId, kind, landmark, edgeId);
 }
 
-function projectedCommands(recipeId: string, piece: Piece, role: FlatProjectionRole) {
+function projectedCommands(recipeId: string, block: Block, kind: TechnicalFlatViewKind, piece: Piece, role: FlatProjectionRole) {
   const commands: FlatPathCommand[] = [];
   const sourceEdgeIds: string[] = [];
   for (const run of role.runs) {
     const edge = piece.edges.find((candidate) => candidate.name === run.edgeId)!;
-    const from = pointForProjectionLandmark(piece, edge, run.from);
-    const to = pointForProjectionLandmark(piece, edge, run.to);
+    const from = pointForProjectionLandmark(block, kind, role.roleId, edge.name, run.from);
+    const to = pointForProjectionLandmark(block, kind, role.roleId, edge.name, run.to);
     const forward = finitePoint(from) && finitePoint(to) && finitePoint(edgeStart(edge))
       && from.x === edgeStart(edge).x && from.y === edgeStart(edge).y
       && to.x === edgeEnd(edge).x && to.y === edgeEnd(edge).y;
@@ -114,6 +115,27 @@ function projectedCommands(recipeId: string, piece: Piece, role: FlatProjectionR
     sourceEdgeIds.push(`pattern:${recipeId}:role:${role.roleId}:edge:${edge.name}`);
   }
   return commands.length > 0 ? { commands, sourceEdgeIds } : null;
+}
+
+function projectionBoundaryPrimitives(
+  recipeId: string, revisionId: string, kind: TechnicalFlatViewKind, block: Block, role: FlatProjectionRole,
+): FlatPathPrimitive[] {
+  const primitives: FlatPathPrimitive[] = [];
+  for (const boundary of role.viewBoundaries ?? []) {
+    const from = resolveFlatProjectionLandmark(block, role.roleId, kind, boundary.from);
+    const to = resolveFlatProjectionLandmark(block, role.roleId, kind, boundary.to);
+    const sourceStitch = boundary.from.kind === "stitch-interface-boundary"
+      ? boundary.from.stitchLabel : boundary.to.kind === "stitch-interface-boundary" ? boundary.to.stitchLabel : "unknown";
+    primitives.push({
+      kind: "path",
+      id: `flat:${recipeId}:${kind}:component:${role.roleId}:view-boundary:${boundary.id}`,
+      layer: "GARMENT_SILHOUETTE",
+      feature: "silhouette",
+      source: source(revisionId, `view:${recipeId}:role:${role.roleId}:stitch:${sourceStitch}:boundary:${boundary.id}`),
+      commands: [{ op: "move", point: { ...from! } }, { op: "line", point: { ...to! } }],
+    });
+  }
+  return primitives;
 }
 
 function dartPrimitives(
@@ -227,7 +249,7 @@ export function compileTechnicalFlatSourceGeometry(
       }
       continue;
     }
-    const projected = projectionRole ? projectedCommands(recipeId, piece, projectionRole) : undefined;
+    const projected = projectionRole ? projectedCommands(recipeId, block, kind, piece, projectionRole) : undefined;
     const outline = projectionRole
       ? projected && outlinePrimitive(recipeId, revisionId, kind, role.roleId, [], projected.sourceEdgeIds, projected.commands)
       : outlinePrimitive(recipeId, revisionId, kind, role.roleId, piece.edges);
@@ -237,6 +259,10 @@ export function compileTechnicalFlatSourceGeometry(
       continue;
     }
     primitives.push(outline);
+    if (projectionRole) {
+      const boundaries = projectionBoundaryPrimitives(recipeId, revisionId, kind, block, projectionRole);
+      primitives.push(...boundaries);
+    }
     const dartGeometry = dartPrimitives(recipeId, revisionId, kind, role.roleId, piece);
     primitives.push(...dartGeometry.primitives);
     issues.push(...dartGeometry.issues);

@@ -145,8 +145,14 @@ only through an explicitly admitted, linked Epic packet.
   fail-closed map decision, retained production browser output and the V02
   blocker disposition.
 - `docs/research/epic17/G04-V02-FACE-SEGMENT-CONTRACT-S282.md` — Slice 282's
-  active source audit of ordered stitch traversal, shared junctions, and the
+  completed source audit of ordered stitch traversal, shared junctions, and the
   fail-closed contract for source-backed face segments and view instances.
+- `docs/research/epic17/G04-V02-SOURCE-INTERFACE-SEGMENTS-S283.md` — Slice
+  283's completed implementation/exit record for source-derived Skirt
+  waistband segments, panel-axis reflection, focused 100% coverage, protected
+  identities and rendered evidence. G04 V02 remains open.
+- `docs/research/epic17/S283-skirt-browser/` — retained production Chromium
+  SVG/PNG output and revision/configuration evidence for the six S283 views.
 - `src/render/technical-flat-projection.ts` — versioned G04 face-projection
   metadata and exact drafted-topology validation. Interior split landmarks not
   present as source endpoints remain unsupported and explicitly held.

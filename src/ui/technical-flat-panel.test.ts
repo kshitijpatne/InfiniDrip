@@ -3,14 +3,16 @@ import { GARMENTS, STANDARD_M, defaultGarmentOptions } from "../drafting";
 import type { TechnicalFlatMeasureText } from "../render/technical-flat-svg";
 import { technicalFlatPanelMarkup } from "./technical-flat-panel";
 
-const recipe = GARMENTS.find((candidate) => candidate.name === "tee")!;
+// Tee sleeve contours are correctly held by the current source map. Use Tank,
+// the supported emitting fixture, for success-path panel markup assertions.
+const recipe = GARMENTS.find((candidate) => candidate.name === "tank")!;
 const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
 const measure: TechnicalFlatMeasureText = (text, size) => ({ widthCm: text.length * size * 0.3, ascentCm: size * 0.7, descentCm: size * 0.2 });
 const base = {
   recipe,
   measurements: STANDARD_M,
   rawOptions: defaultGarmentOptions(recipe.options ?? []),
-  revisionId: "live-tee-42",
+  revisionId: "live-tank-42",
   placements: [],
   colorHex: "#456789",
   texture: "woven" as const,
@@ -49,12 +51,12 @@ describe("technicalFlatPanelMarkup", () => {
       .toContain("selected pattern size is unavailable");
   });
 
-  it("surfaces assembly failures without showing a partial face", () => {
-    const broken = { ...block, stitches: [] };
+  it("surfaces missing mapped source roles without showing a partial face", () => {
+    const broken = { ...block, roles: { ...block.roles, front: undefined } } as unknown as typeof block;
     const markup = technicalFlatPanelMarkup({ ...base, kind: "FRONT_FLAT", block: broken });
     expect(markup).toContain("no partial face is shown");
-    expect(markup).toContain("transform");
-    expect(markup).toContain("no sewn placement");
+    expect(markup).toContain("geometry");
+    expect(markup).toContain("absent from the exact drafted block");
   });
 
   it("withholds geometry when browser measured text overlaps", () => {
@@ -65,9 +67,9 @@ describe("technicalFlatPanelMarkup", () => {
   });
 
   it("escapes revision and recipe labels and provides source fallbacks in issue rows", () => {
-    const hostile = { ...recipe, label: "Tee <sample> & 'fit'" };
+    const hostile = { ...recipe, label: "Tank <sample> & 'fit'" };
     const markup = technicalFlatPanelMarkup({ ...base, recipe: hostile, revisionId: 'live-<draft>&"', kind: "FRONT_FLAT" });
-    expect(markup).toContain("Tee &lt;sample&gt; &amp; &#39;fit&#39;");
+    expect(markup).toContain("Tank &lt;sample&gt; &amp; &#39;fit&#39;");
     expect(markup).toContain("data-technical-flat-revision=\"live-&lt;draft&gt;&amp;&quot;\"");
   });
 });

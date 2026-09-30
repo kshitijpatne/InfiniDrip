@@ -333,14 +333,19 @@ center-to-side. Its ordered boundary therefore maps front-side to back-center
 and conflicts with the adjacent side-seam endpoints. Reversing only the
 back-waist `EdgeRef` makes the junction agree with both authored side
 endpoints; the joined length then lands at the straight waistband seam
-midpoint and its exact corresponding top-edge point. This is source-interface
-evidence for a future view-only split. Any reflection must follow the selected
-segment's sewn-to front/back panel center axis; the waistband's own short
-`fold` edge remains excluded as a garment axis. Slice 282 changes no
-production behavior. See
-`docs/research/epic17/G04-V02-FACE-SEGMENT-CONTRACT-S282.md`; S283 must implement
-and verify the metadata and S284 must review the full rendered matrix before
-the Skirt or V02 can be accepted.
+midpoint and its exact corresponding top-edge point. Slice 283 reverses only
+the back-waist stitch reference and compiles the paired boundary from this
+ordered relation on the same live block and revision. Each face receives its
+matching band segment, reflected only across that sewn-to body's exact center
+axis. The emitted connector is provenance-tagged as a view silhouette
+boundary; it does not alter the pattern, notch, seam or export geometry. The
+waistband's own short `fold` edge remains excluded as a garment axis. Production
+Chromium shows coherent Skirt body/band outlines at three waist/ease
+configurations without a continuous center-fold line. This accepts only the
+bounded S283 implementation evidence: S284 must review the full rendered
+matrix and all remaining held roles before Skirt or V02 can be accepted. See
+`docs/research/epic17/G04-V02-FACE-SEGMENT-CONTRACT-S282.md` and
+`docs/research/epic17/G04-V02-SOURCE-INTERFACE-SEGMENTS-S283.md`.
 
 The **Edit** view keeps user-authored deltas against stable recipe-owned
 anchors, rather than saving a disconnected picture. Pointer drags and keyboard

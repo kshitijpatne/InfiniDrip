@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 433,
-  "updatedAt": "2026-09-30T04:06:12.940Z",
+  "revision": 437,
+  "updatedAt": "2026-09-30T05:21:43.536Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -2779,7 +2779,9 @@
           "text": "Updated Epic metadata (description: Admitted 2026-09-29 by explicit maintainer instruction. G04 V01 → V02 → V03; current estimate 27–31 landed slices including admission and final merge evidence, re-estimated after S281's 144/146 held rendered faces required another source-backed V02 mapping and re-review boundary. Scope, boundaries, verification and rights gates: docs/planning/EPIC-17-ADMISSION.md.). Re-estimate the admitted sequence after S281 retained 144 held faces and exposed a separate source-backed face-segment/instance contract and V02 review boundary."
         }
       ],
-      "evidenceRefs": [],
+      "evidenceRefs": [
+        "E-G04-S283-EXIT"
+      ],
       "flagKey": null
     },
     {
@@ -5586,6 +5588,16 @@
           "at": "2026-09-30T03:57:21.174Z",
           "actor": "Codex",
           "text": "Slice 282 started 2026-09-30 03:53:37 UTC from a082495286808044ccadcdb3e8802b8ea96b6091. Packet: docs/research/epic17/G04-V02-FACE-SEGMENT-CONTRACT-S282.md. Scope: audit ordered stitch traversal and source-shared junctions, then define fail-closed source-backed face-segment/instance metadata; no pattern or cut geometry change. Verify exact Skirt waist/side-seam endpoints before proposing any traversal correction."
+        },
+        {
+          "at": "2026-09-30T04:11:22.932Z",
+          "actor": "Codex",
+          "text": "Slice 283 started 2026-09-30 04:10:07 UTC from fc54deb13cb87d57bcfcd49aa30b13192e6fc561. Packet: docs/research/epic17/G04-V02-SOURCE-INTERFACE-SEGMENTS-S283.md. Scope: implement only the S282 source-backed Skirt waistband split, correcting ordered back-waist traversal and adding exact face-segment/view-axis metadata; preserve pattern/notch coordinates, exports and other holds."
+        },
+        {
+          "at": "2026-09-30T05:21:43.536Z",
+          "actor": "Maintainer",
+          "text": "Slice 283 exit: source-backed Skirt waistband face segments passed focused 100% coverage (191 tests), build, Control Center, protected export/DXF checks and six production Chromium face outputs across three configurations. Evidence E-G04-S283-EXIT is linked. V02 remains In Progress; next gate is S284 full 73-configuration/146-face review with remaining holds preserved."
         }
       ],
       "evidenceRefs": [
@@ -5607,7 +5619,8 @@
         "E-G04-S279-EXIT",
         "E-G04-S280-EXIT",
         "E-G04-S281-EXIT",
-        "E-G04-S282-EXIT"
+        "E-G04-S282-EXIT",
+        "E-G04-S283-EXIT"
       ],
       "flagKey": null
     },
@@ -6656,6 +6669,15 @@
       "sha256": null,
       "verified": true,
       "note": "Verified source-interface-boundary contract and exact Skirt waist/side-seam traversal audit. S282 changes no production geometry or export behavior; V02 remains In Progress, with source-backed Skirt implementation assigned to S283 and full rendered review to S284."
+    },
+    {
+      "id": "E-G04-S283-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-SOURCE-INTERFACE-SEGMENTS-S283.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S283 bounded Skirt source-interface implementation, focused 100% coverage, build, Control Center, protected export/DXF identities, and six production Chromium face outputs; V02 remains In Progress."
     }
   ]
 }

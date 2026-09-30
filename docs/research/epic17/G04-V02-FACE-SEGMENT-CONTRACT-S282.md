@@ -204,16 +204,13 @@ measurement inputs:
   the validated command layer. Landing subject is reserved as one
   `Slice 282: define source-backed face-segment contract` commit.
   Landing subject must be exactly one `Slice 282: ...` commit.
-- **Acceptance:** source contract and Skirt candidate are traced; rendered
-  output acceptance is explicitly pending S283–S284. V02 remains In Progress.
-- **Blockers / next action:** S283 must implement the reverse traversal and
-  typed source-bound segment projection while preserving cut coordinates,
-  legacy DXF and protected byte identities. S284 must then render/review the
-  integrated 73-configuration/146-face matrix. Keep all unsupported roles
-  held.
-- **Acceptance:** passed for the source/contract boundary; V02 output criteria
-  remain pending. Unsupported components stay held and the Skirt mapping is not
-  accepted until the later production output review.
+- **Acceptance:** passed for the source/contract boundary. V02 output criteria
+  remain pending; unsupported components stay held, and Skirt mapping
+  acceptance awaits rendered review.
+- **Blockers / next action:** S283 implements the source-backed Skirt boundary
+  while preserving cut coordinates, legacy DXF and protected byte identities.
+  S284 must render/review the integrated 73-configuration/146-face matrix and
+  keep unsupported roles held.
 - **Elapsed-time breakdown:** source audit/contract research 8m; focused source
   probe and adjacent tests 3m; Control Center regression correction/final run
   and board/whitespace review 2m; agent waits 0m; maintainer-decision time 0m;

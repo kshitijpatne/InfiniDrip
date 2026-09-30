@@ -5,7 +5,7 @@ import { defaultGarmentOptions } from "../drafting/options";
 import type { Block } from "../drafting/block";
 import { compileTechnicalFlatSourceGeometry } from "./technical-flat-geometry";
 import { G04_TECHNICAL_FLAT_MAPPINGS } from "./technical-flat-mapping";
-import type { TechnicalFlatProjectionMap } from "./technical-flat-projection";
+import { createG04TechnicalFlatProjectionMap, type TechnicalFlatProjectionMap } from "./technical-flat-projection";
 import { TECHNICAL_FLAT_SCHEMA_VERSION, validateTechnicalFlat } from "./technical-flat";
 
 const revisionId = "style-revision-17";
@@ -41,6 +41,26 @@ function projectionMap(recipeId: string, block: Block): TechnicalFlatProjectionM
 }
 
 describe("technical-flat source geometry", () => {
+  it("retains provenance for view-only boundaries from alternate exact landmarks", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "skirt")!;
+    const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
+    const map = createG04TechnicalFlatProjectionMap("skirt", block, revisionId)!;
+    const face = map.faces[0];
+    const frontBand = face.roles.find((role) => role.roleId === "waistband")!;
+    const endpoint = { kind: "edge-endpoint" as const, edgeId: "top", endpoint: "start" as const };
+    const alternate = { ...map, faces: map.faces.map((candidate, index) => index === 0 ? { ...candidate,
+      roles: candidate.roles.map((role) => role.roleId === "waistband" ? { ...role, viewBoundaries: [
+        { id: "stitch-on-to", from: endpoint, to: frontBand.runs[0]!.to },
+        { id: "endpoint-pair", from: endpoint, to: { kind: "edge-endpoint" as const, edgeId: "top", endpoint: "end" as const } },
+      ] } : role) } : candidate),
+    } as unknown as TechnicalFlatProjectionMap;
+    const output = compileTechnicalFlatSourceGeometry("skirt", block, revisionId, "FRONT_FLAT", alternate);
+    expect(output.issues).toEqual([]);
+    expect(output.primitives.filter((primitive) => primitive.id.includes("view-boundary")))
+      .toMatchObject([{ source: { sourceId: expect.stringContaining(":stitch:Waistband") } },
+        { source: { sourceId: expect.stringContaining(":stitch:unknown") } }]);
+  });
+
   it("compiles exact mapped role outlines, marks and darts for every recipe and option endpoint", () => {
     for (const recipe of GARMENTS) {
       const optionSets = [defaultGarmentOptions(recipe.options ?? [])];

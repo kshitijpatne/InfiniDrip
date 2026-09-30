@@ -1,17 +1,32 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 282 source-backed face-segment contract audit complete; V02 remains open, 2026-09-30._
+_Last updated: Slice 283 source-backed Skirt face segments complete; V02 remains open, 2026-09-30._
+
+### Slice 283 — G04 V02 source-interface face segments (complete; V02 remains open)
+
+- **Start:** 2026-09-30 04:10:07 UTC. Packet: `docs/research/epic17/G04-V02-SOURCE-INTERFACE-SEGMENTS-S283.md`.
+- **Git:** started clean at S282 `fc54deb13cb87d57bcfcd49aa30b13192e6fc561` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. S282 is the highest assigned slice; S283 is reserved.
+- **Board:** revision 433 before start, validated S283 start comment at 434, `E-G04-S283-EXIT` created/linked to V02 at 435 and linked to EPIC-17 at 436, exit comment at 437. EPIC-17 In Progress; V01 Done; V02 In Progress; V03 Backlog.
+- **Scope:** implement the source-backed Skirt waistband boundary, segment each face from the ordered stitch plus exact strip topology, and reflect only the segment sewn to its panel center-fold axis. Preserve pattern/notch coordinates and every export byte identity. All unrelated source holds remain.
+- **Gates:** focused changed-module 100% coverage; drafting/assembly/projection/geometry/live/POM tests; build; Control Center; protected DXF/export identities; production Chromium Skirt front/back rendering and manual inspection; `git diff --check`. Full option matrix belongs to S284.
+- **Delegation:** no safe disjoint task due coupled stitch, projection, transform and rendered-output changes; expected waits 0m.
+- **Result:** reverse only the back waist stitch traversal. Added typed source interface boundary, paired strip-edge and face exclusion metadata; strict same-block/revision topology/fold-axis validation; provenance-preserving geometry compilation; and view-only reflection of only the face-attached waistband segment. Pattern/cut/notch coordinates and export paths are unchanged. Unsupported source details/roles remain held.
+- **Verification:** changed production modules have 100% statement/branch/function/line coverage; focused tests 191/191; `npm run build` passed with the existing chunk-size advisory; Control Center 33/33; protected export identity, legacy DXF and tech-pack surface 24/24; `git diff --check` passed. Chromium production preview passed six face outputs (default, 70/2 and 112/12 waist/ease) on three revisions with zero console/page errors. Manually reviewed front/back PNGs; source notices remain visible. Durable evidence: `docs/research/epic17/S283-skirt-browser/`.
+- **Acceptance/blockers:** bounded S283 passed. G04 V02 is not accepted; the all-recipe 73-configuration/146-face review is still required. MQF-004–007, MQF-011/012 remain `To be reviewed` for the applicable successful V02 output exit; MQF-015 remains for V03. Polo/Woven collar reference and other unsupported mapping blockers remain.
+- **Delegation:** no safe disjoint low-risk task; external-agent waits 0m; OpenCode not invoked.
+- **Elapsed time:** from 04:10:07 to 05:21:50 UTC, 1h11m43s total. Implementation ~32m; focused tests/build/protected checks ~24m; rendered run/review ~8m; docs and validated board closeout ~8m (workstreams overlap); external-agent waits 0m; maintainer-decision wait ~67m to the source-backed metadata authorization.
+- **Next action:** S284 must run and inspect the full 73-configuration/146-face production matrix, retain visible holds and reconcile the mapped findings at the applicable output exit. Keep V02 In Progress.
 
 ### Slice 282 — G04 V02 source-backed face-segment contract (complete; V02 remains open)
 
 - **Start:** 2026-09-30 03:53:37 UTC. Packet: `docs/research/epic17/G04-V02-FACE-SEGMENT-CONTRACT-S282.md`.
-- **Git:** started clean at S281 `a082495286808044ccadcdb3e8802b8ea96b6091` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. S281 is the verified highest assigned slice; S282 is reserved.
+- **Git:** started clean at S281 `a082495286808044ccadcdb3e8802b8ea96b6091` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. S281 was highest at its start. S282 landed as `fc54deb13cb87d57bcfcd49aa30b13192e6fc561` (`Slice 282: define source-backed face-segment contract`).
 - **Board:** revision 431 before start; validated start comment at revision 432; verified `E-G04-S282-EXIT` linked at revision 433. EPIC-17 In Progress; V01 Done; V02 In Progress; V03 Backlog.
 - **Scope/result:** defined a fail-closed source-interface-boundary mapping rule. The Skirt source confirms front/back waist edges run center-to-side, while the ordered stitch lists both forward; reversing back maps the boundary to both side-seam endpoints and the waistband seam/top midpoint. The view split may reflect only the segment attached to that face's on-fold panel, never the whole waistband across its own short fold edge. Tee/Fitted sleeves, Polo/Woven collars, Trouser cycles and Woven vent remain held. No production or cut geometry changed.
 - **Verification:** temporary three-case draft probe confirmed exact side endpoints and midpoint formulas at waist/ease 70/2, 84/10 and 112/12; temporary files were removed. Existing stitch and technical-flat assembly tests passed 44/44. `npm run control-center:test` passed 33/33 after updating the regression to retain S281 history and assert the S282 start/evidence; its initial stale-latest-comment assertion failure was diagnosed. `git diff --check` passed. No production code changed.
 - **Elapsed time:** 12m49s from 03:53:37 through board revision 433 at 04:06:26 UTC; source audit/contract research 8m, focused source probes and adjacent tests 3m, Control Center correction/final gate and docs/board closeout 2m (workstreams overlap), external-agent waits 0m, maintainer-decision time 0m.
 - **Delegation:** no safe disjoint low-risk task; the audit crosses stitch semantics, view projection, assembly and output. External-agent waits 0m expected.
-- **Next action:** S283 implements only the reverse traversal and typed source-boundary/paired-strip-edge view mapping, preserving coordinates and legacy export identities. S284 renders/reviews the full 73-configuration/146-face matrix. V02 remains open.
+- **Next action:** S283 is in progress; implement the source-boundary/paired-strip-edge view mapping and preserve coordinates/export identities. S284 renders/reviews the full 73-configuration/146-face matrix. V02 remains open.
 
 ### Slice 281 — G04 V02 sewn-component assembly review (complete; V02 remains open)
 
