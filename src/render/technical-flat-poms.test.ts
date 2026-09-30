@@ -6,6 +6,8 @@ import { STANDARD_M } from "../drafting/measurements";
 import { defaultGarmentOptions } from "../drafting/options";
 import type { TechnicalFlatPrimitive } from "./technical-flat";
 import { compileTechnicalFlatSourceGeometry } from "./technical-flat-geometry";
+import { compileTrouserWaistbandFragments } from "./technical-flat-fragment-compiler";
+import { assembleTechnicalFlatRoles } from "./technical-flat-assembly";
 import { G04_TECHNICAL_FLAT_MAPPINGS } from "./technical-flat-mapping";
 import { compileTechnicalFlatPomCallouts, technicalFlatLeaderCrossesBox, technicalFlatLeaderSegmentsCross } from "./technical-flat-poms";
 
@@ -13,6 +15,21 @@ const revisionId = "revision-g04-pom";
 
 function faceGeometry(recipeId: string, block: Block, kind: "FRONT_FLAT" | "BACK_FLAT", revision = revisionId): TechnicalFlatPrimitive[] {
   return [...compileTechnicalFlatSourceGeometry(recipeId, block, revision, kind).primitives];
+}
+
+function trouserBackGeometry(block: Block) {
+  const assembly = assembleTechnicalFlatRoles("trouser", block, "BACK_FLAT");
+  const fragments = compileTrouserWaistbandFragments(block, revisionId, "BACK_FLAT", assembly.sourceFragments, assembly.transforms);
+  return {
+    geometry: [...faceGeometry("trouser", block, "BACK_FLAT"), ...fragments.primitives],
+    resolve: (pom: Pom, point: { x: number; y: number }) => {
+      if (!pom.backMarkAnchor) return { targetGeometryId: "flat:trouser:BACK_FLAT:component:backLeft:outline", point };
+      const markAnchor = pom.backMarkAnchor;
+      const mark = fragments.primitives.find((primitive) => primitive.kind === "mark"
+        && primitive.source.sourceId === `pattern:trouser:mark:${markAnchor.roleId}:${markAnchor.markName}`);
+      return mark?.kind === "mark" ? { targetGeometryId: mark.id, point: mark.at } : undefined;
+    },
+  };
 }
 
 describe("technical-flat POM callouts", () => {
@@ -50,18 +67,27 @@ describe("technical-flat POM callouts", () => {
         }));
       }
 
+      const backMap = recipe.name === "trouser" ? trouserBackGeometry(block) : undefined;
       const back = compileTechnicalFlatPomCallouts(recipe.name, block, revisionId,
-        "BACK_FLAT", recipe.poms ?? [], faceGeometry(recipe.name, block, "BACK_FLAT"));
+        "BACK_FLAT", recipe.poms ?? [], backMap?.geometry ?? faceGeometry(recipe.name, block, "BACK_FLAT"), backMap?.resolve);
       expect(back.issues, `${recipe.name} back`).toEqual([]);
-      const declaredBackAnchored = (recipe.poms ?? []).filter((pom) => pom.backAnchor).length;
+      const declaredBackAnchored = (recipe.poms ?? []).filter((pom) => pom.backAnchor || pom.backMarkAnchor).length;
       expect(back.callouts, `${recipe.name} back`).toHaveLength(declaredBackAnchored);
       if (declaredBackAnchored > 0) {
-        expect(back.callouts?.every((callout) => callout.anchor.primitiveId
-          === `flat:${recipe.name}:BACK_FLAT:component:${mapping.backPomAnchorRole}:outline`
-          && callout.source.revisionId === revisionId)).toBe(true);
+        expect(back.callouts?.every((callout) => callout.source.revisionId === revisionId)).toBe(true);
+        if (recipe.name === "trouser") {
+          expect(back.callouts?.find((callout) => callout.source.sourceId === "pom:trouser:back-rise-finished-incl-waistband")
+            ?.anchor.primitiveId).toBe(`flat:${recipe.name}:BACK_FLAT:component:${mapping.backPomAnchorRole}:outline`);
+          expect(back.callouts?.find((callout) => callout.source.sourceId === "pom:trouser:waistband-depth-finished")
+            ?.anchor.primitiveId).toBe("live-flat:trouser:BACK_FLAT:waistband:mark:centerBack");
+          expect(back.notices.some((notice) => notice.sourceId === "pom:trouser:waistband-depth-finished")).toBe(false);
+        } else {
+          expect(back.callouts?.every((callout) => callout.anchor.primitiveId
+            === `flat:${recipe.name}:BACK_FLAT:component:${mapping.backPomAnchorRole}:outline`)).toBe(true);
+        }
       }
       expect(back.notices.some((notice) => notice.message.includes("front-only source anchor")))
-        .toBe((recipe.poms ?? []).some((pom) => pom.anchor && !pom.backAnchor));
+        .toBe((recipe.poms ?? []).some((pom) => pom.anchor && !pom.backAnchor && !pom.backMarkAnchor));
       if (declaredAnchored === 0) {
         expect(compileTechnicalFlatPomCallouts(recipe.name, block, revisionId, "BACK_FLAT", [], faceGeometry(recipe.name, block, "BACK_FLAT"))).toMatchObject({
           callouts: [], notices: [], issues: [],
@@ -143,6 +169,49 @@ describe("technical-flat POM callouts", () => {
       invalidAnchor, faceGeometry(trouser.name, trouserBlock, "BACK_FLAT"));
     expect(invalid.callouts).toBeNull();
     expect(invalid.issues.map((issue) => issue.code)).toContain("INVALID_POM_ANCHOR");
+  });
+
+  it("requires a valid same-revision emitted entity for typed mark callouts", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "trouser")!;
+    const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
+    const sourceMark = block.roles.waistband.marks!.find((mark) => mark.name === "centerBack")!;
+    if (!("at" in sourceMark)) throw new Error("Expected the centerBack point mark.");
+    const mapped = trouserBackGeometry(block);
+    const base: Pom = { label: "Mark measure", measure: () => 4,
+      backMarkAnchor: { roleId: "waistband", markName: "centerBack" } };
+    const compile = (pom: Pom, resolver = mapped.resolve) => compileTechnicalFlatPomCallouts("trouser", block,
+      revisionId, "BACK_FLAT", [pom], mapped.geometry, resolver);
+
+    expect(compile({ ...base, backMarkAnchor: { roleId: "", markName: "centerBack" } }).issues)
+      .toContainEqual(expect.objectContaining({ code: "INVALID_POM_ANCHOR" }));
+    expect(compile({ ...base, backMarkAnchor: { roleId: "waistband", markName: "missing" } }).issues)
+      .toContainEqual(expect.objectContaining({ code: "INVALID_POM_ANCHOR" }));
+    expect(compile({ ...base, measure: () => { throw "bad mark method"; } }).issues)
+      .toContainEqual(expect.objectContaining({ code: "INVALID_POM_MEASURE" }));
+    expect(compile({ ...base, measure: () => { throw new Error("bad mark method"); } }).issues)
+      .toContainEqual(expect.objectContaining({ code: "INVALID_POM_MEASURE", message: expect.stringContaining("bad mark method") }));
+    expect(compile({ ...base, measure: () => Number.NaN }).issues)
+      .toContainEqual(expect.objectContaining({ code: "INVALID_POM_MEASURE" }));
+    expect(compile(base, () => undefined).issues)
+      .toContainEqual(expect.objectContaining({ code: "MISSING_ANCHOR_GEOMETRY" }));
+    expect(compile(base, () => ({ targetGeometryId: "wrong-mark", point: sourceMark.at })).issues)
+      .toContainEqual(expect.objectContaining({ code: "MISSING_ANCHOR_GEOMETRY" }));
+    expect(compile(base, () => ({ ...mapped.resolve(base, sourceMark.at)!, point: { x: sourceMark.at.x + 1, y: sourceMark.at.y } })).issues)
+      .toContainEqual(expect.objectContaining({ code: "MISSING_ANCHOR_GEOMETRY" }));
+    const frontEdge = block.roles.frontLeft.edges[0]!;
+    const frontVertex = frontEdge.kind === "line" ? frontEdge.start : frontEdge.curve.start;
+    const ordinaryPom: Pom = { label: "Ordinary", measure: () => 2, anchor: () => frontVertex };
+    const ordinaryGeometry = faceGeometry("trouser", block, "FRONT_FLAT");
+    expect(compileTechnicalFlatPomCallouts("trouser", block, revisionId, "FRONT_FLAT", [ordinaryPom], ordinaryGeometry,
+      () => ({ targetGeometryId: "missing-outline", point: frontVertex })).issues)
+      .toContainEqual(expect.objectContaining({ code: "MISSING_ANCHOR_GEOMETRY" }));
+    expect(compileTechnicalFlatPomCallouts("trouser", block, revisionId, "FRONT_FLAT", [ordinaryPom], ordinaryGeometry,
+      () => undefined).issues).toContainEqual(expect.objectContaining({ code: "MISSING_ANCHOR_GEOMETRY" }));
+    const withoutTolerance: Pom = { ...base, tolerance: undefined };
+    expect(compile(withoutTolerance).callouts?.[0]?.text).toBe("Mark measure: 4.0 cm");
+    const crowded = Array.from({ length: 80 }, (_, index): Pom => ({ ...base, label: `Same mark ${index}` }));
+    expect(compileTechnicalFlatPomCallouts("trouser", block, revisionId, "BACK_FLAT", crowded,
+      mapped.geometry, mapped.resolve).issues.some((issue) => issue.code === "LABEL_COLLISION")).toBe(true);
   });
 
   it("reports malformed methods, duplicate labels, invalid values and source anchors", () => {

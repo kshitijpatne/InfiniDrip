@@ -29,6 +29,11 @@ export interface TechnicalFlatPomCallouts {
   readonly issues: readonly TechnicalFlatPomIssue[];
 }
 
+export interface TechnicalFlatPomResolvedAnchor {
+  readonly targetGeometryId: string;
+  readonly point: Point;
+}
+
 interface LabelBox {
   readonly minX: number;
   readonly minY: number;
@@ -135,6 +140,7 @@ export function compileTechnicalFlatPomCallouts(
   kind: TechnicalFlatViewKind,
   poms: readonly Pom[],
   availableGeometry: readonly TechnicalFlatPrimitive[],
+  resolveAnchor?: (pom: Pom, sourcePoint: Point) => TechnicalFlatPomResolvedAnchor | undefined,
 ): TechnicalFlatPomCallouts {
   const issues: TechnicalFlatPomIssue[] = [];
   const notices: TechnicalFlatNotice[] = [];
@@ -154,14 +160,16 @@ export function compileTechnicalFlatPomCallouts(
   const faceAnchor = (pom: Pom) => typeof pom === "object" && pom !== null && !Array.isArray(pom)
     ? kind === "FRONT_FLAT" ? pom.anchor : pom.backAnchor
     : undefined;
-  const hasFaceAnchors = poms.some((pom) => faceAnchor(pom) !== undefined);
+  const backMarkAnchor = (pom: Pom) => kind === "BACK_FLAT" && typeof pom === "object" && pom !== null && !Array.isArray(pom)
+    ? pom.backMarkAnchor : undefined;
+  const hasFaceAnchors = poms.some((pom) => faceAnchor(pom) !== undefined || backMarkAnchor(pom) !== undefined);
   if (!roleId && hasFaceAnchors) {
     issues.push({ code: "MISSING_ANCHOR_ROLE", sourceId: `pattern:${recipeId}:role:back-pom`,
       message: `Recipe “${recipeId}” has a back-face POM anchor but no mapped back role.` });
   }
   if (kind === "BACK_FLAT") {
     for (const [index, pom] of poms.entries()) {
-      if (typeof pom === "object" && pom !== null && !Array.isArray(pom) && pom.anchor && !pom.backAnchor) {
+      if (typeof pom === "object" && pom !== null && !Array.isArray(pom) && pom.anchor && !pom.backAnchor && !pom.backMarkAnchor) {
         notices.push({ id: `notice:${recipeId}:BACK_FLAT:pom:${stableSegment(pom.label) || index}:front-only`,
           feature: "pom", reason: "SOURCE_NOT_REPRESENTED", sourceId: `pom:${recipeId}:${stableSegment(pom.label) || index}`,
           message: `POM “${pom.label}” has a front-only source anchor; no back anchor is inferred.` });
@@ -177,9 +185,8 @@ export function compileTechnicalFlatPomCallouts(
   if (!roleId || !anchorPiece) return { recipeId, revisionId, kind, callouts: issues.length > 0 ? null : [], notices, issues };
   const targetGeometryId = `flat:${recipeId}:${kind}:component:${roleId}:outline`;
   const targetGeometry = availableGeometry.find((primitive) => primitive.id === targetGeometryId
-    && primitive.kind === "path"
-    && primitive.source.revisionId === revisionId);
-  if (!targetGeometry) {
+    && primitive.kind === "path" && primitive.source.revisionId === revisionId);
+  if (roleId && !targetGeometry) {
     issues.push({ code: "MISSING_ANCHOR_GEOMETRY", sourceId: targetGeometryId,
       message: "POM callouts need the mapped role outline in the same face and revision." });
   }
@@ -209,11 +216,60 @@ export function compileTechnicalFlatPomCallouts(
     }
     ids.add(id);
     const anchorMethod = faceAnchor(pom);
+    const markAnchor = backMarkAnchor(pom);
     if (anchorMethod === undefined) {
-      if (kind === "BACK_FLAT" && !pom.anchor) continue;
+      if (kind === "BACK_FLAT" && !pom.anchor && !markAnchor) continue;
+      if (markAnchor) {
+        if (typeof markAnchor.roleId !== "string" || !markAnchor.roleId || typeof markAnchor.markName !== "string" || !markAnchor.markName) {
+          issues.push({ code: "INVALID_POM_ANCHOR", sourceId,
+            message: `POM “${pom.label}” needs an exact authored back-face mark reference.` });
+          continue;
+        }
+        const mark = block.roles[markAnchor.roleId]?.marks?.find((candidate) => candidate.name === markAnchor.markName);
+        if (!mark || !("at" in mark) || !finitePoint(mark.at)) {
+          issues.push({ code: "INVALID_POM_ANCHOR", sourceId,
+            message: `POM “${pom.label}” references missing mark “${markAnchor.roleId}.${markAnchor.markName}”.` });
+          continue;
+        }
+        let value: number;
+        try { value = pom.measure(block); }
+        catch (error) {
+          const detail = error instanceof Error ? error.message : "the POM method rejected this pattern";
+          issues.push({ code: "INVALID_POM_MEASURE", sourceId, message: `POM “${pom.label}” could not be evaluated from this draft: ${detail}.` });
+          continue;
+        }
+        if (typeof value !== "number" || !Number.isFinite(value) || value < 0
+          || (pom.tolerance !== undefined && (!Number.isFinite(pom.tolerance) || pom.tolerance < 0))) {
+          issues.push({ code: "INVALID_POM_MEASURE", sourceId,
+            message: `POM “${pom.label}” must return a finite non-negative centimetre value and any tolerance must be finite and non-negative.` });
+          continue;
+        }
+        const resolved = resolveAnchor?.(pom, mark.at);
+        const target = resolved && availableGeometry.find((primitive) => primitive.id === resolved.targetGeometryId
+          && primitive.kind === "mark" && primitive.source.sourceId === `pattern:${recipeId}:mark:${markAnchor.roleId}:${markAnchor.markName}`
+          && primitive.source.revisionId === revisionId);
+        if (!resolved || target?.kind !== "mark" || !finitePoint(resolved.point)
+          || target.at.x !== resolved.point.x || target.at.y !== resolved.point.y) {
+          issues.push({ code: "MISSING_ANCHOR_GEOMETRY", sourceId: resolved?.targetGeometryId ?? `pattern:${recipeId}:mark:${markAnchor.roleId}:${markAnchor.markName}`,
+            message: "POM mark callouts need the exact emitted mark entity in the same face and revision." });
+          continue;
+        }
+        const tolerance = pom.tolerance === undefined ? "" : ` (±${pom.tolerance.toFixed(1)} cm)`;
+        const text = `${pom.label}: ${value.toFixed(1)} cm${tolerance}`;
+        const labelAt = placeLabel(resolved.point, text, positioned);
+        if (!labelAt) {
+          issues.push({ code: "LABEL_COLLISION", sourceId, message: `POM “${pom.label}” has no readable label/leader position in the supported search area; adjust the view layout before rendering.` });
+          continue;
+        }
+        positioned.push({ anchor: resolved.point, labelAt, box: labelBox(labelAt, text) });
+        callouts.push({ kind: "callout", id, layer: "CALLOUT", feature: "pom",
+          source: { sourceClass: "PATTERN_DERIVED", sourceId, revisionId }, text,
+          anchor: { primitiveId: resolved.targetGeometryId, point: { ...resolved.point } }, labelAt });
+        continue;
+      }
       notices.push({ id: `notice:${recipeId}:${kind}:pom:${segment}:table-only`, feature: "pom",
         reason: "SOURCE_REFERENCE_MISSING", sourceId,
-        message: kind === "FRONT_FLAT" && pom.backAnchor
+        message: kind === "FRONT_FLAT" && (pom.backAnchor || pom.backMarkAnchor)
           ? `POM “${pom.label}” has a back-face anchor and remains table-only on the front view.`
           : `POM “${pom.label}” has no geometry anchor and remains table-only.` });
       continue;
@@ -241,24 +297,31 @@ export function compileTechnicalFlatPomCallouts(
         message: `POM “${pom.label}” must return a finite non-negative centimetre value and any tolerance must be finite and non-negative.` });
       continue;
     }
-    if (!finitePoint(anchor) || !isSourceVertex(anchorPiece, anchor)) {
+    if (!finitePoint(anchor) || !anchorPiece || !isSourceVertex(anchorPiece, anchor)) {
       issues.push({ code: "INVALID_POM_ANCHOR", sourceId,
         message: `POM “${pom.label}” must anchor to a finite vertex on mapped role “${roleId}”; edit the method or pattern mapping.` });
       continue;
     }
     const tolerance = pom.tolerance === undefined ? "" : ` (±${pom.tolerance.toFixed(1)} cm)`;
     const text = `${pom.label}: ${value.toFixed(1)} cm${tolerance}`;
-    const labelAt = placeLabel(anchor, text, positioned);
+    const resolved = resolveAnchor ? resolveAnchor(pom, anchor) : { targetGeometryId, point: anchor };
+    if (!resolved || !finitePoint(resolved.point) || !resolved.targetGeometryId || !availableGeometry.some((primitive) => primitive.id === resolved.targetGeometryId
+      && primitive.kind === "path" && primitive.source.revisionId === revisionId)) {
+      issues.push({ code: "MISSING_ANCHOR_GEOMETRY", sourceId: resolved?.targetGeometryId ?? targetGeometryId,
+        message: "POM callouts need the mapped same-revision outline in the composed view." });
+      continue;
+    }
+    const labelAt = placeLabel(resolved.point, text, positioned);
     if (!labelAt) {
       issues.push({ code: "LABEL_COLLISION", sourceId,
         message: `POM “${pom.label}” has no readable label/leader position in the supported search area; adjust the view layout before rendering.` });
       continue;
     }
     const box = labelBox(labelAt, text);
-    positioned.push({ anchor, labelAt, box });
+    positioned.push({ anchor: resolved.point, labelAt, box });
     callouts.push({ kind: "callout", id, layer: "CALLOUT", feature: "pom",
       source: { sourceClass: "PATTERN_DERIVED", sourceId, revisionId }, text,
-      anchor: { primitiveId: targetGeometryId, point: { ...anchor } }, labelAt });
+      anchor: { primitiveId: resolved.targetGeometryId, point: { ...resolved.point } }, labelAt });
   }
   return { recipeId, revisionId, kind, callouts: issues.length === 0 ? callouts : null, notices, issues };
 }

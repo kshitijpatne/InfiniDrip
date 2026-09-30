@@ -126,6 +126,10 @@ only through an explicitly admitted, linked Epic packet.
   current conditional 39–44-slice estimate, rights/receiver gate, acceptance evidence and
   merge exit. V01 and its contracts are complete; consult `PROJECT-STATE.md`
   for the current V02 rendering and interchange gates.
+- `docs/research/epic17/G04-V02-TROUSER-WAISTBAND-DEPTH-POM-S311.md` — Slice
+  311's source-backed mark-target POM mapping, production-rendered verification,
+  held-face limits and current G04 boundary. Use `PROJECT-STATE.md` and the
+  validated Control Center board for the next slice.
 - `docs/research/epic17/G04-V02-PROJECTION-MAPPING-S277.md` — Slice 277's
   current projection-mapping contract boundary, source-reference rules,
   fail-closed semantics, and focused acceptance gates.
@@ -203,6 +207,7 @@ only through an explicitly admitted, linked Epic packet.
 - `docs/research/epic17/G04-V02-TROUSER-BACK-RISE-POM-S309.md` — Slice 309 maps the existing finished Trouser back-rise method to its exact same-revision back-center geometry; no other POM or held front is inferred.
 - `docs/research/epic17/G04-V02-TROUSER-WAISTBAND-DEPTH-POM-S310.md` — Slice 310 verifies whether the existing waistband-depth POM can target an exact source-backed landmark on the compiled same-revision Trouser back; implement only if the source fragment and emitted target prove it.
 - `docs/research/epic17/S310-waistband-depth-anchor-probe.json` — executable summary of all 24 retained accepted Trouser back SVG checks, proving the source `centerBack` waistband mark is the revision-bound midpoint of the rendered closure edge and that its length matches each option value.
+- `docs/research/epic17/G04-V02-TROUSER-WAISTBAND-DEPTH-POM-S311.md` — Slice 311's bounded implementation packet for the proven same-revision centerBack mark target, shared callout layout, and preserved Trouser front holds.
 - `docs/research/epic17/G04-V02-TROUSER-FACE-PLACEMENT-S289.md` and `docs/research/epic17/G04-V02-SOURCE-DEPENDENCY-INVENTORY-S303.md` — Slice 305 addenda supersede the earlier claim that Trouser waistband construction intent is absent; the view-fragment/transform contract is still pending.
 - `docs/research/epic17/S298-browser-final/` — S298 final production 73-configuration/146-face matrix and manually reviewed held/accepted screenshots; accepted Tank/Skirt SVG replay evidence is retained with the matrix.
 - `docs/research/epic17/G04-V02-TEE-FITTED-SLEEVE-SOURCE-S290.md` — completed

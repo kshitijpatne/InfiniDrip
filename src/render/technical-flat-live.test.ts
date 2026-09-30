@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { GARMENTS, STANDARD_M, defaultGarmentOptions } from "../drafting";
 import { appendPhysicalPairReflection, compileTechnicalFlatLiveView, placeTechnicalFlatPrimitive, reflectFoldPrimitive, reflectPhysicalPairPrimitive, reflectPrimitiveAcrossLine, technicalFlatAssemblyNotices, technicalFlatPrimitiveRole } from "./technical-flat-live";
 import { assembleTechnicalFlatRoles } from "./technical-flat-assembly";
+import { G04_TECHNICAL_FLAT_MAPPINGS } from "./technical-flat-mapping";
 import type { FlatPathPrimitive, TechnicalFlatPrimitive } from "./technical-flat";
 import type { TechnicalFlatLiveIssue } from "./technical-flat-live";
 
@@ -73,6 +74,10 @@ describe("compileTechnicalFlatLiveView", () => {
     expect(back.view?.primitives.every((primitive) => primitive.source.revisionId === back.view!.revisionId)).toBe(true);
     const backRiseCallout = back.view?.primitives.find((primitive) => primitive.kind === "callout"
       && primitive.id.endsWith(":callout:back-rise-finished-incl-waistband"));
+    const waistbandDepthCallout = back.view?.primitives.find((primitive) => primitive.kind === "callout"
+      && primitive.id.endsWith(":callout:waistband-depth-finished"));
+    const waistbandMark = back.view?.primitives.find((primitive) => primitive.kind === "mark"
+      && primitive.id === "live-flat:trouser:BACK_FLAT:waistband:mark:centerBack");
     const backLeftOutline = back.view?.primitives.find((primitive) => primitive.kind === "path"
       && primitive.id === "flat:trouser:BACK_FLAT:component:backLeft:outline");
     expect(backRiseCallout).toMatchObject({
@@ -80,6 +85,18 @@ describe("compileTechnicalFlatLiveView", () => {
       source: { sourceId: "pom:trouser:back-rise-finished-incl-waistband", revisionId: "live-trouser-s307" },
       anchor: { primitiveId: "flat:trouser:BACK_FLAT:component:backLeft:outline" },
     });
+    expect(waistbandDepthCallout).toMatchObject({
+      kind: "callout",
+      source: { sourceId: "pom:trouser:waistband-depth-finished", revisionId: "live-trouser-s307" },
+      text: "Waistband depth (finished): 4.0 cm (±0.2 cm)",
+      anchor: { primitiveId: "live-flat:trouser:BACK_FLAT:waistband:mark:centerBack" },
+    });
+    expect(waistbandMark?.kind).toBe("mark");
+    if (waistbandDepthCallout?.kind !== "callout" || waistbandMark?.kind !== "mark") {
+      throw new Error("Expected the waistband depth callout and its exact emitted mark.");
+    }
+    expect(waistbandDepthCallout.anchor.point).toEqual(waistbandMark.at);
+    expect(waistbandDepthCallout.labelAt).not.toEqual(backRiseCallout?.kind === "callout" ? backRiseCallout.labelAt : undefined);
     expect(backLeftOutline?.kind).toBe("path");
     if (backRiseCallout?.kind !== "callout" || backLeftOutline?.kind !== "path") {
       throw new Error("Expected the back-rise leader and its same-revision backLeft outline.");
@@ -95,6 +112,38 @@ describe("compileTechnicalFlatLiveView", () => {
       sourceId: "view:trouser:waistband:center-front", message: expect.stringContaining("complete face remains held") }));
     expect(front.issues.some((issue) => issue.sourceId.includes("role:waistband")
       && issue.message.includes("no sewn placement"))).toBe(false);
+
+    const unattachedBand = { ...block, stitches: block.stitches.filter((stitch) =>
+      stitch.label !== "Waistband (four legs ↔ separate waistband)") };
+    const missingEmittedMark = compileTechnicalFlatLiveView({ recipe, block: unattachedBand,
+      revisionId: "live-trouser-no-band-fragments", kind: "BACK_FLAT", placements: [],
+      colorHex: "#456789", texture: "woven", shine: 0 });
+    expect(missingEmittedMark.view).toBeNull();
+    expect(missingEmittedMark.issues.some((issue) => issue.stage === "pom"
+      && issue.message.includes("exact emitted mark entity"))).toBe(true);
+
+  });
+
+  it("fails closed when a source POM role has no view transform", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "trouser")!;
+    const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
+    const mappings = G04_TECHNICAL_FLAT_MAPPINGS as unknown as Record<string, typeof G04_TECHNICAL_FLAT_MAPPINGS.trouser>;
+    const saved = mappings.trouser;
+    const edge = block.roles.waistband.edges[0]!;
+    const anchor = edge.kind === "line" ? edge.start : edge.curve.start;
+    try {
+      mappings.trouser = { ...saved, backPomAnchorRole: "waistband" };
+      const result = compileTechnicalFlatLiveView({ recipe: { ...recipe, poms: [
+        { label: "Unplaced source POM", measure: () => 2, backAnchor: () => anchor },
+      ] }, block, revisionId: "live-trouser-no-anchor-transform", kind: "BACK_FLAT",
+      placements: [], colorHex: "#456789", texture: "woven", shine: 0 });
+      expect(result.view).toBeNull();
+      expect(result.issues).toContainEqual(expect.objectContaining({ stage: "pom",
+        sourceId: "flat:trouser:BACK_FLAT:component:waistband:outline",
+        message: expect.stringContaining("same-revision outline") }));
+    } finally {
+      mappings.trouser = saved;
+    }
   });
 
   it("withholds Trouser waistband artwork until the source placement is fragment-clipped", () => {

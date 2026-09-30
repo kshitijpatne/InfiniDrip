@@ -320,7 +320,7 @@ export function validateTechnicalFlat(view: TechnicalFlatView): TechnicalFlatIss
       issues.push({ code: "DUPLICATE_ENTITY_ID", entityId: primitive.id, message: "Primitive identities must be unique within a view." });
     }
     ids.add(primitive.id);
-    if (primitive.kind === "path" || primitive.kind === "circle") geometryIds.add(primitive.id);
+    if (primitive.kind === "path" || primitive.kind === "circle" || primitive.kind === "mark") geometryIds.add(primitive.id);
     issues.push(...validatePrimitive(primitive));
     if (primitive.source && primitive.source.revisionId !== view.revisionId) {
       issues.push({ code: "REVISION_MISMATCH", entityId: primitive.id, message: "Primitive source must belong to the view revision." });

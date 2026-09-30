@@ -189,6 +189,10 @@ describe("validateTechnicalFlat", () => {
       primitiveId: "front-outline", point: { x: Number.NaN, y: 1 },
     }, labelAt: { x: 2, y: Number.NaN } };
     expect(codes(view([path(), invalid]))).toEqual(["INVALID_GEOMETRY"]);
+    const pointMark: TechnicalFlatPrimitive = { kind: "mark", id: "waistband-mark", layer: "ANNOTATION",
+      feature: "annotation", source, markKind: "placementPoint", markName: "centerBack", at: { x: 1, y: 1 } };
+    const markCallout = { ...noTarget, id: "mark-pom", anchor: { primitiveId: pointMark.id, point: { x: 1, y: 1 } } };
+    expect(validateTechnicalFlat(view([pointMark, markCallout]))).toEqual([]);
   });
 
   it("requires stable unique notice identities and actionable messages", () => {

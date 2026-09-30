@@ -49,6 +49,8 @@ export interface Pom {
   readonly anchor?: (block: Block) => Point;
   /** Optional source point on the mapped back role for BACK_FLAT callouts. */
   readonly backAnchor?: (block: Block) => Point;
+  /** Optional authored mark entity on the back face for construction-specific callouts. */
+  readonly backMarkAnchor?: { readonly roleId: string; readonly markName: string };
   /**
    * Optional production tolerance in cm — how far a finished garment may drift
    * from the spec on this measure before it's a reject. A property of the POINT

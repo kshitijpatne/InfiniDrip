@@ -49,6 +49,7 @@ export const TROUSER_POMS: readonly Pom[] = [
     label: "Waistband depth (finished)",
     tolerance: 0.2,
     measure: (b) => seam(band(b), "endRight"),
+    backMarkAnchor: { roleId: "waistband", markName: "centerBack" },
   },
   {
     label: "Seat / hip (finished)",

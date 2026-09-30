@@ -1,0 +1,2250 @@
+{
+  "generatedAt": "2026-09-30T18:01:00.459Z",
+  "browser": "Playwright Chromium against the production Vite preview through the live app UI",
+  "url": "http://127.0.0.1:4175/",
+  "viewport": {
+    "width": 1440,
+    "height": 3000
+  },
+  "sourceCaseMatrix": "../S309-trouser-back-rise-browser/matrix.json",
+  "testedFaceRequests": 48,
+  "acceptedBacks": 24,
+  "heldFronts": 24,
+  "browserErrors": [],
+  "cases": [
+    {
+      "caseId": "trouser-default",
+      "optionValues": {},
+      "front": {
+        "withheld": true,
+        "issue": "geometry · view:trouser:waistband:center-front: The front waistband fragments do not share one exact center-front join in this assembled view; the complete face remains held."
+      },
+      "back": {
+        "accepted": true,
+        "revisionId": "live-draft:trouser:1:1",
+        "callouts": [
+          {
+            "id": "flat:trouser:BACK_FLAT:callout:back-rise-finished-incl-waistband",
+            "sourceId": "pom:trouser:back-rise-finished-incl-waistband",
+            "revisionId": "live-draft:trouser:1:1",
+            "target": "flat:trouser:BACK_FLAT:component:backLeft:outline",
+            "leader": "M0 32 L1.3927 35.523",
+            "marker": "<circle cx=\"0\" cy=\"32\" r=\"0.055\" fill=\"#fff\" stroke=\"#344d60\" stroke-width=\"0.035\"></circle>"
+          },
+          {
+            "id": "flat:trouser:BACK_FLAT:callout:waistband-depth-finished",
+            "sourceId": "pom:trouser:waistband-depth-finished",
+            "revisionId": "live-draft:trouser:1:1",
+            "target": "live-flat:trouser:BACK_FLAT:waistband:mark:centerBack",
+            "leader": "M0 -2 L-1.0357 -4.9855",
+            "marker": "<circle cx=\"0\" cy=\"-2\" r=\"0.055\" fill=\"#fff\" stroke=\"#344d60\" stroke-width=\"0.035\"></circle>"
+          }
+        ],
+        "labels": [
+          {
+            "id": null,
+            "sourceId": "pom:trouser:waistband-depth-finished",
+            "revisionId": "live-draft:trouser:1:1",
+            "text": "Waistband depth (finished): 4.0 cm (±0.2 cm)",
+            "bounds": {
+              "x": -4.27293586730957,
+              "y": -5.265818119049072,
+              "width": 6.479891300201416,
+              "height": 0.39244532585144043
+            }
+          },
+          {
+            "id": null,
+            "sourceId": "pom:trouser:back-rise-finished-incl-waistband",
+            "revisionId": "live-draft:trouser:1:1",
+            "text": "Back rise (finished incl. waistband): 36.0 cm (±0.8 cm)",
+            "bounds": {
+              "x": -2.4336414337158203,
+              "y": 35.242679595947266,
+              "width": 7.714087963104248,
+              "height": 0.39244532585144043
+            }
+          }
+        ],
+        "layoutChecks": {
+          "labelsInsidePaper": true,
+          "pomLabelsDoNotOverlap": true,
+          "depthMarkerMatchesSourcePoint": true,
+          "pomLabelBounds": [
+            {
+              "id": "pom:trouser:waistband-depth-finished",
+              "x": -4.27293586730957,
+              "y": -5.265818119049072,
+              "width": 6.479891300201416,
+              "height": 0.39244532585144043
+            },
+            {
+              "id": "pom:trouser:back-rise-finished-incl-waistband",
+              "x": -2.4336414337158203,
+              "y": 35.242679595947266,
+              "width": 7.714087963104248,
+              "height": 0.39244532585144043
+            }
+          ],
+          "paperBounds": {
+            "x": -28.2,
+            "y": -5.9766,
+            "width": 56.4,
+            "height": 125.3432
+          },
+          "sourcePointCenter": {
+            "x": 503,
+            "y": 71.06438696463877
+          },
+          "depthMarkerCenter": {
+            "x": 503,
+            "y": 71.06438696463877
+          }
+        }
+      }
+    },
+    {
+      "caseId": "trouser-frontRiseEase-min",
+      "optionValues": {
+        "frontRiseEase": -2
+      },
+      "front": {
+        "withheld": true,
+        "issue": "geometry · view:trouser:waistband:center-front: The front waistband fragments do not share one exact center-front join in this assembled view; the complete face remains held."
+      },
+      "back": {
+        "accepted": true,
+        "revisionId": "live-draft:trouser:7:7",
+        "callouts": [
+          {
+            "id": "flat:trouser:BACK_FLAT:callout:back-rise-finished-incl-waistband",
+            "sourceId": "pom:trouser:back-rise-finished-incl-waistband",
+            "revisionId": "live-draft:trouser:7:7",
+            "target": "flat:trouser:BACK_FLAT:component:backLeft:outline",
+            "leader": "M0 32 L1.3927 35.523",
+            "marker": "<circle cx=\"0\" cy=\"32\" r=\"0.055\" fill=\"#fff\" stroke=\"#344d60\" stroke-width=\"0.035\"></circle>"
+          },
+          {
+            "id": "flat:trouser:BACK_FLAT:callout:waistband-depth-finished",
+            "sourceId": "pom:trouser:waistband-depth-finished",
+            "revisionId": "live-draft:trouser:7:7",
+            "target": "live-flat:trouser:BACK_FLAT:waistband:mark:centerBack",
+            "leader": "M0 -2 L-1.0357 -4.9855",
+            "marker": "<circle cx=\"0\" cy=\"-2\" r=\"0.055\" fill=\"#fff\" stroke=\"#344d60\" stroke-width=\"0.035\"></circle>"
+          }
+        ],
+        "labels": [
+          {
+            "id": null,
+            "sourceId": "pom:trouser:waistband-depth-finished",
+            "revisionId": "live-draft:trouser:7:7",
+            "text": "Waistband depth (finished): 4.0 cm (±0.2 cm)",
+            "bounds": {
+              "x": -4.27293586730957,
+              "y": -5.265818119049072,
+              "width": 6.479891300201416,
+              "height": 0.39244532585144043
+            }
+          },
+          {
+            "id": null,
+            "sourceId": "pom:trouser:back-rise-finished-incl-waistband",
+            "revisionId": "live-draft:trouser:7:7",
+            "text": "Back rise (finished incl. waistband): 36.0 cm (±0.8 cm)",
+            "bounds": {
+              "x": -2.4336414337158203,
+              "y": 35.242679595947266,
+              "width": 7.714087963104248,
+              "height": 0.39244532585144043
+            }
+          }
+        ],
+        "layoutChecks": {
+          "labelsInsidePaper": true,
+          "pomLabelsDoNotOverlap": true,
+          "depthMarkerMatchesSourcePoint": true,
+          "pomLabelBounds": [
+            {
+              "id": "pom:trouser:waistband-depth-finished",
+              "x": -4.27293586730957,
+              "y": -5.265818119049072,
+              "width": 6.479891300201416,
+              "height": 0.39244532585144043
+            },
+            {
+              "id": "pom:trouser:back-rise-finished-incl-waistband",
+              "x": -2.4336414337158203,
+              "y": 35.242679595947266,
+              "width": 7.714087963104248,
+              "height": 0.39244532585144043
+            }
+          ],
+          "paperBounds": {
+            "x": -28.2,
+            "y": -5.9766,
+            "width": 56.4,
+            "height": 125.3432
+          },
+          "sourcePointCenter": {
+            "x": 503,
+            "y": 71.06438696463877
+          },
+          "depthMarkerCenter": {
+            "x": 503,
+            "y": 71.06438696463877
+          }
+        }
+      }
+    },
+    {
+      "caseId": "trouser-frontRiseEase-max",
+      "optionValues": {
+        "frontRiseEase": 8
+      },
+      "front": {
+        "withheld": true,
+        "issue": "geometry · view:trouser:waistband:center-front: The front waistband fragments do not share one exact center-front join in this assembled view; the complete face remains held."
+      },
+      "back": {
+        "accepted": true,
+        "revisionId": "live-draft:trouser:15:15",
+        "callouts": [
+          {
+            "id": "flat:trouser:BACK_FLAT:callout:back-rise-finished-incl-waistband",
+            "sourceId": "pom:trouser:back-rise-finished-incl-waistband",
+            "revisionId": "live-draft:trouser:15:15",
+            "target": "flat:trouser:BACK_FLAT:component:backLeft:outline",
+            "leader": "M0 32 L1.3927 35.523",
+            "marker": "<circle cx=\"0\" cy=\"32\" r=\"0.055\" fill=\"#fff\" stroke=\"#344d60\" stroke-width=\"0.035\"></circle>"
+          },
+          {
+            "id": "flat:trouser:BACK_FLAT:callout:waistband-depth-finished",
+            "sourceId": "pom:trouser:waistband-depth-finished",
+            "revisionId": "live-draft:trouser:15:15",
+            "target": "live-flat:trouser:BACK_FLAT:waistband:mark:centerBack",
+            "leader": "M0 -2 L-1.0357 -4.9855",
+            "marker": "<circle cx=\"0\" cy=\"-2\" r=\"0.055\" fill=\"#fff\" stroke=\"#344d60\" stroke-width=\"0.035\"></circle>"
+          }
+        ],
+        "labels": [
+          {
+            "id": null,
+            "sourceId": "pom:trouser:waistband-depth-finished",
+            "revisionId": "live-draft:trouser:15:15",
+            "text": "Waistband depth (finished): 4.0 cm (±0.2 cm)",
+            "bounds": {
+              "x": -4.27293586730957,
+              "y": -5.265818119049072,
+              "width": 6.479891300201416,
+              "height": 0.39244532585144043
+            }
+          },
+          {
+            "id": null,
+            "sourceId": "pom:trouser:back-rise-finished-incl-waistband",
+            "revisionId": "live-draft:trouser:15:15",
+            "text": "Back rise (finished incl. waistband): 36.0 cm (±0.8 cm)",
+            "bounds": {
+              "x": -2.4336414337158203,
+              "y": 35.242679595947266,
+              "width": 7.714087963104248,
+              "height": 0.39244532585144043
+            }
+          }
+        ],
+        "layoutChecks": {
+          "labelsInsidePaper": true,
+          "pomLabelsDoNotOverlap": true,
+          "depthMarkerMatchesSourcePoint": true,
+          "pomLabelBounds": [
+            {
+              "id": "pom:trouser:waistband-depth-finished",
+              "x": -4.27293586730957,
+              "y": -5.265818119049072,
+              "width": 6.479891300201416,
+              "height": 0.39244532585144043
+            },
+            {
+              "id": "pom:trouser:back-rise-finished-incl-waistband",
+              "x": -2.4336414337158203,
+              "y": 35.242679595947266,
+              "width": 7.714087963104248,
+              "height": 0.39244532585144043
+            }
+          ],
+          "paperBounds": {
+            "x": -28.2,
+            "y": -5.9766,
+            "width": 56.4,
+            "height": 125.3432
+          },
+          "sourcePointCenter": {
+            "x": 503,
+            "y": 71.06438696463877
+          },
+          "depthMarkerCenter": {
+            "x": 503,
+            "y": 71.06438696463877
+          }
+        }
+      }
+    },
+    {
+      "caseId": "trouser-backRiseEase-min",
+      "optionValues": {
+        "backRiseEase": 2
+      },
+      "front": {
+        "withheld": true,
+        "issue": "geometry · view:trouser:waistband:center-front: The front waistband fragments do not share one exact center-front join in this assembled view; the complete face remains held."
+      },
+      "back": {
+        "accepted": true,
+        "revisionId": "live-draft:trouser:15:15",
+        "callouts": [
+          {
+            "id": "flat:trouser:BACK_FLAT:callout:back-rise-finished-incl-waistband",
+            "sourceId": "pom:trouser:back-rise-finished-incl-waistband",
+            "revisionId": "live-draft:trouser:15:15",
+            "target": "flat:trouser:BACK_FLAT:component:backLeft:outline",
+            "leader": "M0 25 L1.3927 28.523",
+            "marker": "<circle cx=\"0\" cy=\"25\" r=\"0.055\" fill=\"#fff\" stroke=\"#344d60\" stroke-width=\"0.035\"></circle>"
+          },
+          {
+            "id": "flat:trouser:BACK_FLAT:callout:waistband-depth-finished",
+            "sourceId": "pom:trouser:waistband-depth-finished",
+            "revisionId": "live-draft:trouser:15:15",
+            "target": "live-flat:trouser:BACK_FLAT:waistband:mark:centerBack",
+            "leader": "M0 -2 L-1.0357 -4.9855",
+            "marker": "<circle cx=\"0\" cy=\"-2\" r=\"0.055\" fill=\"#fff\" stroke=\"#344d60\" stroke-width=\"0.035\"></circle>"
+          }
+        ],
+        "labels": [
+          {
+            "id": null,
+            "sourceId": "pom:trouser:waistband-depth-finished",
+            "revisionId": "live-draft:trouser:15:15",
+            "text": "Waistband depth (finished): 4.0 cm (±0.2 cm)",
+            "bounds": {
+              "x": -4.27293586730957,
+              "y": -5.265818119049072,
+              "width": 6.479891300201416,
+              "height": 0.39244532585144043
+            }
+          },
+          {
+            "id": null,
+            "sourceId": "pom:trouser:back-rise-finished-incl-waistband",
+            "revisionId": "live-draft:trouser:15:15",
+            "text": "Back rise (finished incl. waistband): 29.0 cm (±0.8 cm)",
+            "bounds": {
+              "x": -2.4336414337158203,
+              "y": 28.24268341064453,
+              "width": 7.714087963104248,
+              "height": 0.39244532585144043
+            }
+          }
+        ],
+        "layoutChecks": {
+          "labelsInsidePaper": true,
+          "pomLabelsDoNotOverlap": true,
+          "depthMarkerMatchesSourcePoint": true,
+          "pomLabelBounds": [
+            {
+              "id": "pom:trouser:waistband-depth-finished",
+              "x": -4.27293586730957,
+              "y": -5.265818119049072,
+              "width": 6.479891300201416,
+              "height": 0.39244532585144043
+            },
+            {
+              "id": "pom:trouser:back-rise-finished-incl-waistband",
+              "x": -2.4336414337158203,
+              "y": 28.24268341064453,
+              "width": 7.714087963104248,
+              "height": 0.39244532585144043
+            }
+          ],
+          "paperBounds": {
+            "x": -28.2,
+            "y": -5.9766,
+            "width": 56.4,
+            "height": 118.3432
+          },
+          "sourcePointCenter": {
+            "x": 503,
+            "y": 70.99346328983
+          },
+          "depthMarkerCenter": {
+            "x": 503,
+            "y": 70.99346328983
+          }
+        }
+      }
+    },
+    {
+      "caseId": "trouser-backRiseEase-max",
+      "optionValues": {
+        "backRiseEase": 14
+      },
+      "front": {
+        "withheld": true,
+        "issue": "geometry · view:trouser:waistband:center-front: The front waistband fragments do not share one exact center-front join in this assembled view; the complete face remains held."
+      },
+      "back": {
+        "accepted": true,
+        "revisionId": "live-draft:trouser:11:11",
+        "callouts": [
+          {
+            "id": "flat:trouser:BACK_FLAT:callout:back-rise-finished-incl-waistband",
+            "sourceId": "pom:trouser:back-rise-finished-incl-waistband",
+            "revisionId": "live-draft:trouser:11:11",
+            "target": "flat:trouser:BACK_FLAT:component:backLeft:outline",
+            "leader": "M0 37 L1.3927 40.523",
+            "marker": "<circle cx=\"0\" cy=\"37\" r=\"0.055\" fill=\"#fff\" stroke=\"#344d60\" stroke-width=\"0.035\"></circle>"
+          },
+          {
+            "id": "flat:trouser:BACK_FLAT:callout:waistband-depth-finished",
+            "sourceId": "pom:trouser:waistband-depth-finished",
+            "revisionId": "live-draft:trouser:11:11",
+            "target": "live-flat:trouser:BACK_FLAT:waistband:mark:centerBack",
+            "leader": "M0 -2 L-1.0357 -4.9855",
+            "marker": "<circle cx=\"0\" cy=\"-2\" r=\"0.055\" fill=\"#fff\" stroke=\"#344d60\" stroke-width=\"0.035\"></circle>"
+          }
+        ],
+        "labels": [
+          {
+            "id": null,
+            "sourceId": "pom:trouser:waistband-depth-finished",
+            "revisionId": "live-draft:trouser:11:11",
+            "text": "Waistband depth (finished): 4.0 cm (±0.2 cm)",
+            "bounds": {
+              "x": -4.27293586730957,
+              "y": -5.265818119049072,
+              "width": 6.479891300201416,
+              "height": 0.39244532585144043
+            }
+          },
+          {
+            "id": null,
+            "sourceId": "pom:trouser:back-rise-finished-incl-waistband",
+            "revisionId": "live-draft:trouser:11:11",
+            "text": "Back rise (finished incl. waistband): 41.0 cm (±0.8 cm)",
+            "bounds": {
+              "x": -2.4336414337158203,
+              "y": 40.242679595947266,
+              "width": 7.714087963104248,
+              "height": 0.39244532585144043
+            }
+          }
+        ],
+        "layoutChecks": {
+          "labelsInsidePaper": true,
+          "pomLabelsDoNotOverlap": true,
+          "depthMarkerMatchesSourcePoint": true,
+          "pomLabelBounds": [
+            {
+              "id": "pom:trouser:waistband-depth-finished",
+              "x": -4.27293586730957,
+              "y": -5.265818119049072,
+              "width": 6.479891300201416,
+              "height": 0.39244532585144043
+            },
+            {
+              "id": "pom:trouser:back-rise-finished-incl-waistband",
+              "x": -2.4336414337158203,
+              "y": 40.242679595947266,
+              "width": 7.714087963104248,
+              "height": 0.39244532585144043
+            }
+          ],
+          "paperBounds": {
+            "x": -28.2,
+            "y": -5.9766,
+            "width": 56.4,
+            "height": 130.3432
+          },
+          "sourcePointCenter": {
+            "x": 503,
+            "y": 70.97218958950211
+          },
+          "depthMarkerCenter": {
+            "x": 503,
+            "y": 70.97218958950211
+          }
+        }
+      }
+    },
+    {
+      "caseId": "trouser-waistbandDepth-min",
+      "optionValues": {
+        "waistbandDepth": 2
+      },
+      "front": {
+        "withheld": true,
+        "issue": "geometry · view:trouser:waistband:center-front: The front waistband fragments do not share one exact center-front join in this assembled view; the complete face remains held."
+      },
+      "back": {
+        "accepted": true,
+        "revisionId": "live-draft:trouser:5:5",
+        "callouts": [
+          {
+            "id": "flat:trouser:BACK_FLAT:callout:back-rise-finished-incl-waistband",
+            "sourceId": "pom:trouser:back-rise-finished-incl-waistband",
+            "revisionId": "live-draft:trouser:5:5",
+            "target": "flat:trouser:BACK_FLAT:component:backLeft:outline",
+            "leader": "M0 34 L1.3927 37.523",
+            "marker": "<circle cx=\"0\" cy=\"34\" r=\"0.055\" fill=\"#fff\" stroke=\"#344d60\" stroke-width=\"0.035\"></circle>"
+          },
+          {
+            "id": "flat:trouser:BACK_FLAT:callout:waistband-depth-finished",
+            "sourceId": "pom:trouser:waistband-depth-finished",
+            "revisionId": "live-draft:trouser:5:5",
+            "target": "live-flat:trouser:BACK_FLAT:waistband:mark:centerBack",
+            "leader": "M0 -1 L-1.0357 -3.9855",
+            "marker": "<circle cx=\"0\" cy=\"-1\" r=\"0.055\" fill=\"#fff\" stroke=\"#344d60\" stroke-width=\"0.035\"></circle>"
+          }
+        ],
+        "labels": [
+          {
+            "id": null,
+            "sourceId": "pom:trouser:waistband-depth-finished",
+            "revisionId": "live-draft:trouser:5:5",
+            "text": "Waistband depth (finished): 2.0 cm (±0.2 cm)",
+            "bounds": {
+              "x": -4.27293586730957,
+              "y": -4.265818119049072,
+              "width": 6.479891300201416,
+              "height": 0.39244532585144043
+            }
+          },
+          {
+            "id": null,
+            "sourceId": "pom:trouser:back-rise-finished-incl-waistband",
+            "revisionId": "live-draft:trouser:5:5",
+            "text": "Back rise (finished incl. waistband): 36.0 cm (±0.8 cm)",
+            "bounds": {
+              "x": -2.4336414337158203,
+              "y": 37.242679595947266,
+              "width": 7.714087963104248,
+              "height": 0.39244532585144043
+            }
+          }
+        ],
+        "layoutChecks": {
+          "labelsInsidePaper": true,
+          "pomLabelsDoNotOverlap": true,
+          "depthMarkerMatchesSourcePoint": true,
+          "pomLabelBounds": [
+            {
+              "id": "pom:trouser:waistband-depth-finished",
+              "x": -4.27293586730957,
+              "y": -4.265818119049072,
+              "width": 6.479891300201416,
+              "height": 0.39244532585144043
+            },
+            {
+              "id": "pom:trouser:back-rise-finished-incl-waistband",
+              "x": -2.4336414337158203,
+              "y": 37.242679595947266,
+              "width": 7.714087963104248,
+              "height": 0.39244532585144043
+            }
+          ],
+          "paperBounds": {
+            "x": -28.2,
+            "y": -4.9766,
+            "width": 56.4,
+            "height": 126.3432
+          },
+          "sourcePointCenter": {
+            "x": 503,
+            "y": 71.14594748961142
+          },
+          "depthMarkerCenter": {
+            "x": 503,
+            "y": 71.14594748961142
+          }
+        }
+      }
+    },
+    {
+      "caseId": "trouser-waistbandDepth-max",
+      "optionValues": {
+        "waistbandDepth": 8
+      },
+      "front": {
+        "withheld": true,
+        "issue": "geometry · view:trouser:waistband:center-front: The front waistband fragments do not share one exact center-front join in this assembled view; the complete face remains held."
+      },
+      "back": {
+        "accepted": true,
+        "revisionId": "live-draft:trouser:9:9",
+        "callouts": [
+          {
+            "id": "flat:trouser:BACK_FLAT:callout:back-rise-finished-incl-waistband",
+            "sourceId": "pom:trouser:back-rise-finished-incl-waistband",
+            "revisionId": "live-draft:trouser:9:9",
+            "target": "flat:trouser:BACK_FLAT:component:backLeft:outline",
+            "leader": "M0 28 L1.3927 31.523",
+            "marker": "<circle cx=\"0\" cy=\"28\" r=\"0.055\" fill=\"#fff\" stroke=\"#344d60\" stroke-width=\"0.035\"></circle>"
+          },
+          {
+            "id": "flat:trouser:BACK_FLAT:callout:waistband-depth-finished",
+            "sourceId": "pom:trouser:waistband-depth-finished",
+            "revisionId": "live-draft:trouser:9:9",
+            "target": "live-flat:trouser:BACK_FLAT:waistband:mark:centerBack",
+            "leader": "M0 -4 L-3.2916 -4.5571",
+            "marker": "<circle cx=\"0\" cy=\"-4\" r=\"0.055\" fill=\"#fff\" stroke=\"#344d60\" stroke-width=\"0.035\"></circle>"
+          }
+        ],
+        "labels": [
+          {
+            "id": null,
+            "sourceId": "pom:trouser:waistband-depth-finished",
+            "revisionId": "live-draft:trouser:9:9",
+            "text": "Waistband depth (finished): 8.0 cm (±0.2 cm)",
+            "bounds": {
+              "x": -6.528835773468018,
+              "y": -4.837418079376221,
+              "width": 6.479891300201416,
+              "height": 0.39244532585144043
+            }
+          },
+          {
+            "id": null,
+            "sourceId": "pom:trouser:back-rise-finished-incl-waistband",
+            "revisionId": "live-draft:trouser:9:9",
+            "text": "Back rise (finished incl. waistband): 36.0 cm (±0.8 cm)",
+            "bounds": {
+              "x": -2.4336414337158203,
+              "y": 31.24268341064453,
+              "width": 7.714087963104248,
+              "height": 0.39244532585144043
+            }
+          }
+        ],
+        "layoutChecks": {
+          "labelsInsidePaper": true,
+          "pomLabelsDoNotOverlap": true,
+          "depthMarkerMatchesSourcePoint": true,
+          "pomLabelBounds": [
+            {
+              "id": "pom:trouser:waistband-depth-finished",
+              "x": -6.528835773468018,
+              "y": -4.837418079376221,
+              "width": 6.479891300201416,
+              "height": 0.39244532585144043
+            },
+            {
+              "id": "pom:trouser:back-rise-finished-incl-waistband",
+              "x": -2.4336414337158203,
+              "y": 31.24268341064453,
+              "width": 7.714087963104248,
+              "height": 0.39244532585144043
+            }
+          ],
+          "paperBounds": {
+            "x": -28.2,
+            "y": -8.7,
+            "width": 56.4,
+            "height": 124.0667
+          },
+          "sourcePointCenter": {
+            "x": 503,
+            "y": 83.85193898892395
+          },
+          "depthMarkerCenter": {
+            "x": 503,
+            "y": 83.85193898892395
+          }
+        }
+      }
+    },
+    {
+      "caseId": "trouser-thighEase-min",
+      "optionValues": {
+        "thighEase": 0
+      },
+      "front": {
+        "withheld": true,
+        "issue": "geometry · view:trouser:waistband:center-front: The front waistband fragments do not share one exact center-front join in this assembled view; the complete face remains held."
+      },
+      "back": {
+        "accepted": true,
+        "revisionId": "live-draft:trouser:17:17",
+        "callouts": [
+          {
+            "id": "flat:trouser:BACK_FLAT:callout:back-rise-finished-incl-waistband",
+            "sourceId": "pom:trouser:back-rise-finished-incl-waistband",
+            "revisionId": "live-draft:trouser:17:17",
+            "target": "flat:trouser:BACK_FLAT:component:backLeft:outline",
+            "leader": "M0 32 L1.3927 35.523",
+            "marker": "<circle cx=\"0\" cy=\"32\" r=\"0.055\" fill=\"#fff\" stroke=\"#344d60\" stroke-width=\"0.035\"></circle>"
+          },
+          {
+            "id": "flat:trouser:BACK_FLAT:callout:waistband-depth-finished",
+            "sourceId": "pom:trouser:waistband-depth-finished",
+            "revisionId": "live-draft:trouser:17:17",
+            "target": "live-flat:trouser:BACK_FLAT:waistband:mark:centerBack",
+            "leader": "M0 -2 L-1.0357 -4.9855",
+            "marker": "<circle cx=\"0\" cy=\"-2\" r=\"0.055\" fill=\"#fff\" stroke=\"#344d60\" stroke-width=\"0.035\"></circle>"
+          }
+        ],
+        "labels": [
+          {
+            "id": null,
+            "sourceId": "pom:trouser:waistband-depth-finished",
+            "revisionId": "live-draft:trouser:17:17",
+            "text": "Waistband depth (finished): 4.0 cm (±0.2 cm)",
+            "bounds": {
+              "x": -4.27293586730957,
+              "y": -5.265818119049072,
+              "width": 6.479891300201416,
+              "height": 0.39244532585144043
+            }
+          },
+          {
+            "id": null,
+            "sourceId": "pom:trouser:back-rise-finished-incl-waistband",
+            "revisionId": "live-draft:trouser:17:17",
+            "text": "Back rise (finished incl. waistband): 36.0 cm (±0.8 cm)",
+            "bounds": {
+              "x": -2.4336414337158203,
+              "y": 35.242679595947266,
+              "width": 7.714087963104248,
+              "height": 0.39244532585144043
+            }
+          }
+        ],
+        "layoutChecks": {
+          "labelsInsidePaper": true,
+          "pomLabelsDoNotOverlap": true,
+          "depthMarkerMatchesSourcePoint": true,
+          "pomLabelBounds": [
+            {
+              "id": "pom:trouser:waistband-depth-finished",
+              "x": -4.27293586730957,
+              "y": -5.265818119049072,
+              "width": 6.479891300201416,
+              "height": 0.39244532585144043
+            },
+            {
+              "id": "pom:trouser:back-rise-finished-incl-waistband",
+              "x": -2.4336414337158203,
+              "y": 35.242679595947266,
+              "width": 7.714087963104248,
+              "height": 0.39244532585144043
+            }
+          ],
+          "paperBounds": {
+            "x": -28.2,
+            "y": -5.9766,
+            "width": 56.4,
+            "height": 125.3432
+          },
+          "sourcePointCenter": {
+            "x": 503,
+            "y": 71.06438696463877
+          },
+          "depthMarkerCenter": {
+            "x": 503,
+            "y": 71.06438696463877
+          }
+        }
+      }
+    },
+    {
+      "caseId": "trouser-thighEase-max",
+      "optionValues": {
+        "thighEase": 20
+      },
+      "front": {
+        "withheld": true,
+        "issue": "geometry · view:trouser:waistband:center-front: The front waistband fragments do not share one exact center-front join in this assembled view; the complete face remains held."
+      },
+      "back": {
+        "accepted": true,
+        "revisionId": "live-draft:trouser:25:25",
+        "callouts": [
+          {
+            "id": "flat:trouser:BACK_FLAT:callout:back-rise-finished-incl-waistband",
+            "sourceId": "pom:trouser:back-rise-finished-incl-waistband",
+            "revisionId": "live-draft:trouser:25:25",
+            "target": "flat:trouser:BACK_FLAT:component:backLeft:outline",
+            "leader": "M0 32 L1.3927 35.523",
+            "marker": "<circle cx=\"0\" cy=\"32\" r=\"0.055\" fill=\"#fff\" stroke=\"#344d60\" stroke-width=\"0.035\"></circle>"
+          },
+          {
+            "id": "flat:trouser:BACK_FLAT:callout:waistband-depth-finished",
+            "sourceId": "pom:trouser:waistband-depth-finished",
+            "revisionId": "live-draft:trouser:25:25",
+            "target": "live-flat:trouser:BACK_FLAT:waistband:mark:centerBack",
+            "leader": "M0 -2 L-1.0357 -4.9855",
+            "marker": "<circle cx=\"0\" cy=\"-2\" r=\"0.055\" fill=\"#fff\" stroke=\"#344d60\" stroke-width=\"0.035\"></circle>"
+          }
+        ],
+        "labels": [
+          {
+            "id": null,
+            "sourceId": "pom:trouser:waistband-depth-finished",
+            "revisionId": "live-draft:trouser:25:25",
+            "text": "Waistband depth (finished): 4.0 cm (±0.2 cm)",
+            "bounds": {
+              "x": -4.27293586730957,
+              "y": -5.265818119049072,
+              "width": 6.479891300201416,
+              "height": 0.39244532585144043
+            }
+          },
+          {
+            "id": null,
+            "sourceId": "pom:trouser:back-rise-finished-incl-waistband",
+            "revisionId": "live-draft:trouser:25:25",
+            "text": "Back rise (finished incl. waistband): 36.0 cm (±0.8 cm)",
+            "bounds": {
+              "x": -2.4336414337158203,
+              "y": 35.242679595947266,
+              "width": 7.714087963104248,
+              "height": 0.39244532585144043
+            }
+          }
+        ],
+        "layoutChecks": {
+          "labelsInsidePaper": true,
+          "pomLabelsDoNotOverlap": true,
+          "depthMarkerMatchesSourcePoint": true,
+          "pomLabelBounds": [
+            {
+              "id": "pom:trouser:waistband-depth-finished",
+              "x": -4.27293586730957,
+              "y": -5.265818119049072,
+              "width": 6.479891300201416,
+              "height": 0.39244532585144043
+            },
+            {
+              "id": "pom:trouser:back-rise-finished-incl-waistband",
+              "x": -2.4336414337158203,
+              "y": 35.242679595947266,
+              "width": 7.714087963104248,
+              "height": 0.39244532585144043
+            }
+          ],
+          "paperBounds": {
+            "x": -28.2,
+            "y": -5.9766,
+            "width": 56.4,
+            "height": 125.3432
+          },
+          "sourcePointCenter": {
+            "x": 503,
+            "y": 71.06438696463877
+          },
+          "depthMarkerCenter": {
+            "x": 503,
+            "y": 71.06438696463877
+          }
+        }
+      }
+    },
+    {
+      "caseId": "trouser-kneeEase-min",
+      "optionValues": {
+        "kneeEase": 0
+      },
+      "front": {
+        "withheld": true,
+        "issue": "geometry · view:trouser:waistband:center-front: The front waistband fragments do not share one exact center-front join in this assembled view; the complete face remains held."
+      },
+      "back": {
+        "accepted": true,
+        "revisionId": "live-draft:trouser:11:11",
+        "callouts": [
+          {
+            "id": "flat:trouser:BACK_FLAT:callout:back-rise-finished-incl-waistband",
+            "sourceId": "pom:trouser:back-rise-finished-incl-waistband",
+            "revisionId": "live-draft:trouser:11:11",
+            "target": "flat:trouser:BACK_FLAT:component:backLeft:outline",
+            "leader": "M0 32 L1.3927 35.523",
+            "marker": "<circle cx=\"0\" cy=\"32\" r=\"0.055\" fill=\"#fff\" stroke=\"#344d60\" stroke-width=\"0.035\"></circle>"
+          },
+          {
+            "id": "flat:trouser:BACK_FLAT:callout:waistband-depth-finished",
+            "sourceId": "pom:trouser:waistband-depth-finished",
+            "revisionId": "live-draft:trouser:11:11",
+            "target": "live-flat:trouser:BACK_FLAT:waistband:mark:centerBack",
+            "leader": "M0 -2 L-1.0357 -4.9855",
+            "marker": "<circle cx=\"0\" cy=\"-2\" r=\"0.055\" fill=\"#fff\" stroke=\"#344d60\" stroke-width=\"0.035\"></circle>"
+          }
+        ],
+        "labels": [
+          {
+            "id": null,
+            "sourceId": "pom:trouser:waistband-depth-finished",
+            "revisionId": "live-draft:trouser:11:11",
+            "text": "Waistband depth (finished): 4.0 cm (±0.2 cm)",
+            "bounds": {
+              "x": -4.27293586730957,
+              "y": -5.265818119049072,
+              "width": 6.479891300201416,
+              "height": 0.39244532585144043
+            }
+          },
+          {
+            "id": null,
+            "sourceId": "pom:trouser:back-rise-finished-incl-waistband",
+            "revisionId": "live-draft:trouser:11:11",
+            "text": "Back rise (finished incl. waistband): 36.0 cm (±0.8 cm)",
+            "bounds": {
+              "x": -2.4336414337158203,
+              "y": 35.242679595947266,
+              "width": 7.714087963104248,
+              "height": 0.39244532585144043
+            }
+          }
+        ],
+        "layoutChecks": {
+          "labelsInsidePaper": true,
+          "pomLabelsDoNotOverlap": true,
+          "depthMarkerMatchesSourcePoint": true,
+          "pomLabelBounds": [
+            {
+              "id": "pom:trouser:waistband-depth-finished",
+              "x": -4.27293586730957,
+              "y": -5.265818119049072,
+              "width": 6.479891300201416,
+              "height": 0.39244532585144043
+            },
+            {
+              "id": "pom:trouser:back-rise-finished-incl-waistband",
+              "x": -2.4336414337158203,
+              "y": 35.242679595947266,
+              "width": 7.714087963104248,
+              "height": 0.39244532585144043
+            }
+          ],
+          "paperBounds": {
+            "x": -28.2,
+            "y": -5.9766,
+            "width": 56.4,
+            "height": 125.3432
+          },
+          "sourcePointCenter": {
+            "x": 503,
+            "y": 71.06438696463877
+          },
+          "depthMarkerCenter": {
+            "x": 503,
+            "y": 71.06438696463877
+          }
+        }
+      }
+    },
+    {
+      "caseId": "trouser-kneeEase-max",
+      "optionValues": {
+        "kneeEase": 15
+      },
+      "front": {
+        "withheld": true,
+        "issue": "geometry · view:trouser:waistband:center-front: The front waistband fragments do not share one exact center-front join in this assembled view; the complete face remains held."
+      },
+      "back": {
+        "accepted": true,
+        "revisionId": "live-draft:trouser:21:21",
+        "callouts": [
+          {
+            "id": "flat:trouser:BACK_FLAT:callout:back-rise-finished-incl-waistband",
+            "sourceId": "pom:trouser:back-rise-finished-incl-waistband",
+            "revisionId": "live-draft:trouser:21:21",
+            "target": "flat:trouser:BACK_FLAT:component:backLeft:outline",
+            "leader": "M0 32 L1.3927 35.523",
+            "marker": "<circle cx=\"0\" cy=\"32\" r=\"0.055\" fill=\"#fff\" stroke=\"#344d60\" stroke-width=\"0.035\"></circle>"
+          },
+          {
+            "id": "flat:trouser:BACK_FLAT:callout:waistband-depth-finished",
+            "sourceId": "pom:trouser:waistband-depth-finished",
+            "revisionId": "live-draft:trouser:21:21",
+            "target": "live-flat:trouser:BACK_FLAT:waistband:mark:centerBack",
+            "leader": "M0 -2 L-1.0357 -4.9855",
+            "marker": "<circle cx=\"0\" cy=\"-2\" r=\"0.055\" fill=\"#fff\" stroke=\"#344d60\" stroke-width=\"0.035\"></circle>"
+          }
+        ],
+        "labels": [
+          {
+            "id": null,
+            "sourceId": "pom:trouser:waistband-depth-finished",
+            "revisionId": "live-draft:trouser:21:21",
+            "text": "Waistband depth (finished): 4.0 cm (±0.2 cm)",
+            "bounds": {
+              "x": -4.27293586730957,
+              "y": -5.265818119049072,
+              "width": 6.479891300201416,
+              "height": 0.39244532585144043
+            }
+          },
+          {
+            "id": null,
+            "sourceId": "pom:trouser:back-rise-finished-incl-waistband",
+            "revisionId": "live-draft:trouser:21:21",
+            "text": "Back rise (finished incl. waistband): 36.0 cm (±0.8 cm)",
+            "bounds": {
+              "x": -2.4336414337158203,
+              "y": 35.242679595947266,
+              "width": 7.714087963104248,
+              "height": 0.39244532585144043
+            }
+          }
+        ],
+        "layoutChecks": {
+          "labelsInsidePaper": true,
+          "pomLabelsDoNotOverlap": true,
+          "depthMarkerMatchesSourcePoint": true,
+          "pomLabelBounds": [
+            {
+              "id": "pom:trouser:waistband-depth-finished",
+              "x": -4.27293586730957,
+              "y": -5.265818119049072,
+              "width": 6.479891300201416,
+              "height": 0.39244532585144043
+            },
+            {
+              "id": "pom:trouser:back-rise-finished-incl-waistband",
+              "x": -2.4336414337158203,
+              "y": 35.242679595947266,
+              "width": 7.714087963104248,
+              "height": 0.39244532585144043
+            }
+          ],
+          "paperBounds": {
+            "x": -28.2,
+            "y": -5.9766,
+            "width": 56.4,
+            "height": 125.3432
+          },
+          "sourcePointCenter": {
+            "x": 503,
+            "y": 71.06438696463877
+          },
+          "depthMarkerCenter": {
+            "x": 503,
+            "y": 71.06438696463877
+          }
+        }
+      }
+    },
+    {
+      "caseId": "trouser-legOpening-min",
+      "optionValues": {
+        "legOpening": 25
+      },
+      "front": {
+        "withheld": true,
+        "issue": "geometry · view:trouser:waistband:center-front: The front waistband fragments do not share one exact center-front join in this assembled view; the complete face remains held."
+      },
+      "back": {
+        "accepted": true,
+        "revisionId": "live-draft:trouser:31:31",
+        "callouts": [
+          {
+            "id": "flat:trouser:BACK_FLAT:callout:back-rise-finished-incl-waistband",
+            "sourceId": "pom:trouser:back-rise-finished-incl-waistband",
+            "revisionId": "live-draft:trouser:31:31",
+            "target": "flat:trouser:BACK_FLAT:component:backLeft:outline",
+            "leader": "M0 32 L1.3927 35.523",
+            "marker": "<circle cx=\"0\" cy=\"32\" r=\"0.055\" fill=\"#fff\" stroke=\"#344d60\" stroke-width=\"0.035\"></circle>"
+          },
+          {
+            "id": "flat:trouser:BACK_FLAT:callout:waistband-depth-finished",
+            "sourceId": "pom:trouser:waistband-depth-finished",
+            "revisionId": "live-draft:trouser:31:31",
+            "target": "live-flat:trouser:BACK_FLAT:waistband:mark:centerBack",
+            "leader": "M0 -2 L-1.0357 -4.9855",
+            "marker": "<circle cx=\"0\" cy=\"-2\" r=\"0.055\" fill=\"#fff\" stroke=\"#344d60\" stroke-width=\"0.035\"></circle>"
+          }
+        ],
+        "labels": [
+          {
+            "id": null,
+            "sourceId": "pom:trouser:waistband-depth-finished",
+            "revisionId": "live-draft:trouser:31:31",
+            "text": "Waistband depth (finished): 4.0 cm (±0.2 cm)",
+            "bounds": {
+              "x": -4.27293586730957,
+              "y": -5.265818119049072,
+              "width": 6.479891300201416,
+              "height": 0.39244532585144043
+            }
+          },
+          {
+            "id": null,
+            "sourceId": "pom:trouser:back-rise-finished-incl-waistband",
+            "revisionId": "live-draft:trouser:31:31",
+            "text": "Back rise (finished incl. waistband): 36.0 cm (±0.8 cm)",
+            "bounds": {
+              "x": -2.4336414337158203,
+              "y": 35.242679595947266,
+              "width": 7.714087963104248,
+              "height": 0.39244532585144043
+            }
+          }
+        ],
+        "layoutChecks": {
+          "labelsInsidePaper": true,
+          "pomLabelsDoNotOverlap": true,
+          "depthMarkerMatchesSourcePoint": true,
+          "pomLabelBounds": [
+            {
+              "id": "pom:trouser:waistband-depth-finished",
+              "x": -4.27293586730957,
+              "y": -5.265818119049072,
+              "width": 6.479891300201416,
+              "height": 0.39244532585144043
+            },
+            {
+              "id": "pom:trouser:back-rise-finished-incl-waistband",
+              "x": -2.4336414337158203,
+              "y": 35.242679595947266,
+              "width": 7.714087963104248,
+              "height": 0.39244532585144043
+            }
+          ],
+          "paperBounds": {
+            "x": -28.2,
+            "y": -5.9766,
+            "width": 56.4,
+            "height": 125.3432
+          },
+          "sourcePointCenter": {
+            "x": 503,
+            "y": 71.06438696463877
+          },
+          "depthMarkerCenter": {
+            "x": 503,
+            "y": 71.06438696463877
+          }
+        }
+      }
+    },
+    {
+      "caseId": "trouser-legOpening-max",
+      "optionValues": {
+        "legOpening": 65
+      },
+      "front": {
+        "withheld": true,
+        "issue": "geometry · view:trouser:waistband:center-front: The front waistband fragments do not share one exact center-front join in this assembled view; the complete face remains held."
+      },
+      "back": {
+        "accepted": true,
+        "revisionId": "live-draft:trouser:51:51",
+        "callouts": [
+          {
+            "id": "flat:trouser:BACK_FLAT:callout:back-rise-finished-incl-waistband",
+            "sourceId": "pom:trouser:back-rise-finished-incl-waistband",
+            "revisionId": "live-draft:trouser:51:51",
+            "target": "flat:trouser:BACK_FLAT:component:backLeft:outline",
+            "leader": "M0 32 L1.3927 35.523",
+            "marker": "<circle cx=\"0\" cy=\"32\" r=\"0.055\" fill=\"#fff\" stroke=\"#344d60\" stroke-width=\"0.035\"></circle>"
+          },
+          {
+            "id": "flat:trouser:BACK_FLAT:callout:waistband-depth-finished",
+            "sourceId": "pom:trouser:waistband-depth-finished",
+            "revisionId": "live-draft:trouser:51:51",
+            "target": "live-flat:trouser:BACK_FLAT:waistband:mark:centerBack",
+            "leader": "M0 -2 L-1.0357 -4.9855",
+            "marker": "<circle cx=\"0\" cy=\"-2\" r=\"0.055\" fill=\"#fff\" stroke=\"#344d60\" stroke-width=\"0.035\"></circle>"
+          }
+        ],
+        "labels": [
+          {
+            "id": null,
+            "sourceId": "pom:trouser:waistband-depth-finished",
+            "revisionId": "live-draft:trouser:51:51",
+            "text": "Waistband depth (finished): 4.0 cm (±0.2 cm)",
+            "bounds": {
+              "x": -4.274224758148193,
+              "y": -5.2698540687561035,
+              "width": 6.484116554260254,
+              "height": 0.3980954885482788
+            }
+          },
+          {
+            "id": null,
+            "sourceId": "pom:trouser:back-rise-finished-incl-waistband",
+            "revisionId": "live-draft:trouser:51:51",
+            "text": "Back rise (finished incl. waistband): 36.0 cm (±0.8 cm)",
+            "bounds": {
+              "x": -2.434081792831421,
+              "y": 35.2386474609375,
+              "width": 7.717714309692383,
+              "height": 0.3980954885482788
+            }
+          }
+        ],
+        "layoutChecks": {
+          "labelsInsidePaper": true,
+          "pomLabelsDoNotOverlap": true,
+          "depthMarkerMatchesSourcePoint": true,
+          "pomLabelBounds": [
+            {
+              "id": "pom:trouser:waistband-depth-finished",
+              "x": -4.274224758148193,
+              "y": -5.2698540687561035,
+              "width": 6.484116554260254,
+              "height": 0.3980954885482788
+            },
+            {
+              "id": "pom:trouser:back-rise-finished-incl-waistband",
+              "x": -2.434081792831421,
+              "y": 35.2386474609375,
+              "width": 7.717714309692383,
+              "height": 0.3980954885482788
+            }
+          ],
+          "paperBounds": {
+            "x": -28.2,
+            "y": -5.9766,
+            "width": 57.2043,
+            "height": 125.3432
+          },
+          "sourcePointCenter": {
+            "x": 495.92872024222555,
+            "y": 69.92343204241965
+          },
+          "depthMarkerCenter": {
+            "x": 495.92872024222555,
+            "y": 69.92343204241965
+          }
+        }
+      }
+    },
+    {
+      "caseId": "trouser-flyLength-min",
+      "optionValues": {
+        "flyLength": 8
+      },
+      "front": {
+        "withheld": true,
+        "issue": "geometry · view:trouser:waistband:center-front: The front waistband fragments do not share one exact center-front join in this assembled view; the complete face remains held."
+      },
+      "back": {
+        "accepted": true,
+        "revisionId": "live-draft:trouser:15:15",
+        "callouts": [
+          {
+            "id": "flat:trouser:BACK_FLAT:callout:back-rise-finished-incl-waistband",
+            "sourceId": "pom:trouser:back-rise-finished-incl-waistband",
+            "revisionId": "live-draft:trouser:15:15",
+            "target": "flat:trouser:BACK_FLAT:component:backLeft:outline",
+            "leader": "M0 32 L1.3927 35.523",
+            "marker": "<circle cx=\"0\" cy=\"32\" r=\"0.055\" fill=\"#fff\" stroke=\"#344d60\" stroke-width=\"0.035\"></circle>"
+          },
+          {
+            "id": "flat:trouser:BACK_FLAT:callout:waistband-depth-finished",
+            "sourceId": "pom:trouser:waistband-depth-finished",
+            "revisionId": "live-draft:trouser:15:15",
+            "target": "live-flat:trouser:BACK_FLAT:waistband:mark:centerBack",
+            "leader": "M0 -2 L-1.0357 -4.9855",
+            "marker": "<circle cx=\"0\" cy=\"-2\" r=\"0.055\" fill=\"#fff\" stroke=\"#344d60\" stroke-width=\"0.035\"></circle>"
+          }
+        ],
+        "labels": [
+          {
+            "id": null,
+            "sourceId": "pom:trouser:waistband-depth-finished",
+            "revisionId": "live-draft:trouser:15:15",
+            "text": "Waistband depth (finished): 4.0 cm (±0.2 cm)",
+            "bounds": {
+              "x": -4.27293586730957,
+              "y": -5.265818119049072,
+              "width": 6.479891300201416,
+              "height": 0.39244532585144043
+            }
+          },
+          {
+            "id": null,
+            "sourceId": "pom:trouser:back-rise-finished-incl-waistband",
+            "revisionId": "live-draft:trouser:15:15",
+            "text": "Back rise (finished incl. waistband): 36.0 cm (±0.8 cm)",
+            "bounds": {
+              "x": -2.4336414337158203,
+              "y": 35.242679595947266,
+              "width": 7.714087963104248,
+              "height": 0.39244532585144043
+            }
+          }
+        ],
+        "layoutChecks": {
+          "labelsInsidePaper": true,
+          "pomLabelsDoNotOverlap": true,
+          "depthMarkerMatchesSourcePoint": true,
+          "pomLabelBounds": [
+            {
+              "id": "pom:trouser:waistband-depth-finished",
+              "x": -4.27293586730957,
+              "y": -5.265818119049072,
+              "width": 6.479891300201416,
+              "height": 0.39244532585144043
+            },
+            {
+              "id": "pom:trouser:back-rise-finished-incl-waistband",
+              "x": -2.4336414337158203,
+              "y": 35.242679595947266,
+              "width": 7.714087963104248,
+              "height": 0.39244532585144043
+            }
+          ],
+          "paperBounds": {
+            "x": -28.2,
+            "y": -5.9766,
+            "width": 56.4,
+            "height": 125.3432
+          },
+          "sourcePointCenter": {
+            "x": 503,
+            "y": 71.06438696463877
+          },
+          "depthMarkerCenter": {
+            "x": 503,
+            "y": 71.06438696463877
+          }
+        }
+      }
+    },
+    {
+      "caseId": "trouser-flyLength-max",
+      "optionValues": {
+        "flyLength": 25
+      },
+      "front": {
+        "withheld": true,
+        "issue": "geometry · view:trouser:waistband:center-front: The front waistband fragments do not share one exact center-front join in this assembled view; the complete face remains held."
+      },
+      "back": {
+        "accepted": true,
+        "revisionId": "live-draft:trouser:21:21",
+        "callouts": [
+          {
+            "id": "flat:trouser:BACK_FLAT:callout:back-rise-finished-incl-waistband",
+            "sourceId": "pom:trouser:back-rise-finished-incl-waistband",
+            "revisionId": "live-draft:trouser:21:21",
+            "target": "flat:trouser:BACK_FLAT:component:backLeft:outline",
+            "leader": "M0 32 L1.3927 35.523",
+            "marker": "<circle cx=\"0\" cy=\"32\" r=\"0.055\" fill=\"#fff\" stroke=\"#344d60\" stroke-width=\"0.035\"></circle>"
+          },
+          {
+            "id": "flat:trouser:BACK_FLAT:callout:waistband-depth-finished",
+            "sourceId": "pom:trouser:waistband-depth-finished",
+            "revisionId": "live-draft:trouser:21:21",
+            "target": "live-flat:trouser:BACK_FLAT:waistband:mark:centerBack",
+            "leader": "M0 -2 L-1.0357 -4.9855",
+            "marker": "<circle cx=\"0\" cy=\"-2\" r=\"0.055\" fill=\"#fff\" stroke=\"#344d60\" stroke-width=\"0.035\"></circle>"
+          }
+        ],
+        "labels": [
+          {
+            "id": null,
+            "sourceId": "pom:trouser:waistband-depth-finished",
+            "revisionId": "live-draft:trouser:21:21",
+            "text": "Waistband depth (finished): 4.0 cm (±0.2 cm)",
+            "bounds": {
+              "x": -4.27293586730957,
+              "y": -5.265818119049072,
+              "width": 6.479891300201416,
+              "height": 0.39244532585144043
+            }
+          },
+          {
+            "id": null,
+            "sourceId": "pom:trouser:back-rise-finished-incl-waistband",
+            "revisionId": "live-draft:trouser:21:21",
+            "text": "Back rise (finished incl. waistband): 36.0 cm (±0.8 cm)",
+            "bounds": {
+              "x": -2.4336414337158203,
+              "y": 35.242679595947266,
+              "width": 7.714087963104248,
+              "height": 0.39244532585144043
+            }
+          }
+        ],
+        "layoutChecks": {
+          "labelsInsidePaper": true,
+          "pomLabelsDoNotOverlap": true,
+          "depthMarkerMatchesSourcePoint": true,
+          "pomLabelBounds": [
+            {
+              "id": "pom:trouser:waistband-depth-finished",
+              "x": -4.27293586730957,
+              "y": -5.265818119049072,
+              "width": 6.479891300201416,
+              "height": 0.39244532585144043
+            },
+            {
+              "id": "pom:trouser:back-rise-finished-incl-waistband",
+              "x": -2.4336414337158203,
+              "y": 35.242679595947266,
+              "width": 7.714087963104248,
+              "height": 0.39244532585144043
+            }
+          ],
+          "paperBounds": {
+            "x": -28.2,
+            "y": -5.9766,
+            "width": 56.4,
+            "height": 125.3432
+          },
+          "sourcePointCenter": {
+            "x": 503,
+            "y": 71.06438696463877
+          },
+          "depthMarkerCenter": {
+            "x": 503,
+            "y": 71.06438696463877
+          }
+        }
+      }
+    },
+    {
+      "caseId": "trouser-pocketOpening-min",
+      "optionValues": {
+        "pocketOpening": 8
+      },
+      "front": {
+        "withheld": true,
+        "issue": "geometry · view:trouser:waistband:center-front: The front waistband fragments do not share one exact center-front join in this assembled view; the complete face remains held."
+      },
+      "back": {
+        "accepted": true,
+        "revisionId": "live-draft:trouser:17:17",
+        "callouts": [
+          {
+            "id": "flat:trouser:BACK_FLAT:callout:back-rise-finished-incl-waistband",
+            "sourceId": "pom:trouser:back-rise-finished-incl-waistband",
+            "revisionId": "live-draft:trouser:17:17",
+            "target": "flat:trouser:BACK_FLAT:component:backLeft:outline",
+            "leader": "M0 32 L1.3927 35.523",
+            "marker": "<circle cx=\"0\" cy=\"32\" r=\"0.055\" fill=\"#fff\" stroke=\"#344d60\" stroke-width=\"0.035\"></circle>"
+          },
+          {
+            "id": "flat:trouser:BACK_FLAT:callout:waistband-depth-finished",
+            "sourceId": "pom:trouser:waistband-depth-finished",
+            "revisionId": "live-draft:trouser:17:17",
+            "target": "live-flat:trouser:BACK_FLAT:waistband:mark:centerBack",
+            "leader": "M0 -2 L-1.0357 -4.9855",
+            "marker": "<circle cx=\"0\" cy=\"-2\" r=\"0.055\" fill=\"#fff\" stroke=\"#344d60\" stroke-width=\"0.035\"></circle>"
+          }
+        ],
+        "labels": [
+          {
+            "id": null,
+            "sourceId": "pom:trouser:waistband-depth-finished",
+            "revisionId": "live-draft:trouser:17:17",
+            "text": "Waistband depth (finished): 4.0 cm (±0.2 cm)",
+            "bounds": {
+              "x": -4.27293586730957,
+              "y": -5.265818119049072,
+              "width": 6.479891300201416,
+              "height": 0.39244532585144043
+            }
+          },
+          {
+            "id": null,
+            "sourceId": "pom:trouser:back-rise-finished-incl-waistband",
+            "revisionId": "live-draft:trouser:17:17",
+            "text": "Back rise (finished incl. waistband): 36.0 cm (±0.8 cm)",
+            "bounds": {
+              "x": -2.4336414337158203,
+              "y": 35.242679595947266,
+              "width": 7.714087963104248,
+              "height": 0.39244532585144043
+            }
+          }
+        ],
+        "layoutChecks": {
+          "labelsInsidePaper": true,
+          "pomLabelsDoNotOverlap": true,
+          "depthMarkerMatchesSourcePoint": true,
+          "pomLabelBounds": [
+            {
+              "id": "pom:trouser:waistband-depth-finished",
+              "x": -4.27293586730957,
+              "y": -5.265818119049072,
+              "width": 6.479891300201416,
+              "height": 0.39244532585144043
+            },
+            {
+              "id": "pom:trouser:back-rise-finished-incl-waistband",
+              "x": -2.4336414337158203,
+              "y": 35.242679595947266,
+              "width": 7.714087963104248,
+              "height": 0.39244532585144043
+            }
+          ],
+          "paperBounds": {
+            "x": -28.2,
+            "y": -5.9766,
+            "width": 56.4,
+            "height": 125.3432
+          },
+          "sourcePointCenter": {
+            "x": 503,
+            "y": 71.06438696463877
+          },
+          "depthMarkerCenter": {
+            "x": 503,
+            "y": 71.06438696463877
+          }
+        }
+      }
+    },
+    {
+      "caseId": "trouser-pocketOpening-max",
+      "optionValues": {
+        "pocketOpening": 25
+      },
+      "front": {
+        "withheld": true,
+        "issue": "geometry · view:trouser:waistband:center-front: The front waistband fragments do not share one exact center-front join in this assembled view; the complete face remains held."
+      },
+      "back": {
+        "accepted": true,
+        "revisionId": "live-draft:trouser:19:19",
+        "callouts": [
+          {
+            "id": "flat:trouser:BACK_FLAT:callout:back-rise-finished-incl-waistband",
+            "sourceId": "pom:trouser:back-rise-finished-incl-waistband",
+            "revisionId": "live-draft:trouser:19:19",
+            "target": "flat:trouser:BACK_FLAT:component:backLeft:outline",
+            "leader": "M0 32 L1.3927 35.523",
+            "marker": "<circle cx=\"0\" cy=\"32\" r=\"0.055\" fill=\"#fff\" stroke=\"#344d60\" stroke-width=\"0.035\"></circle>"
+          },
+          {
+            "id": "flat:trouser:BACK_FLAT:callout:waistband-depth-finished",
+            "sourceId": "pom:trouser:waistband-depth-finished",
+            "revisionId": "live-draft:trouser:19:19",
+            "target": "live-flat:trouser:BACK_FLAT:waistband:mark:centerBack",
+            "leader": "M0 -2 L-1.0357 -4.9855",
+            "marker": "<circle cx=\"0\" cy=\"-2\" r=\"0.055\" fill=\"#fff\" stroke=\"#344d60\" stroke-width=\"0.035\"></circle>"
+          }
+        ],
+        "labels": [
+          {
+            "id": null,
+            "sourceId": "pom:trouser:waistband-depth-finished",
+            "revisionId": "live-draft:trouser:19:19",
+            "text": "Waistband depth (finished): 4.0 cm (±0.2 cm)",
+            "bounds": {
+              "x": -4.27293586730957,
+              "y": -5.265818119049072,
+              "width": 6.479891300201416,
+              "height": 0.39244532585144043
+            }
+          },
+          {
+            "id": null,
+            "sourceId": "pom:trouser:back-rise-finished-incl-waistband",
+            "revisionId": "live-draft:trouser:19:19",
+            "text": "Back rise (finished incl. waistband): 36.0 cm (±0.8 cm)",
+            "bounds": {
+              "x": -2.4336414337158203,
+              "y": 35.242679595947266,
+              "width": 7.714087963104248,
+              "height": 0.39244532585144043
+            }
+          }
+        ],
+        "layoutChecks": {
+          "labelsInsidePaper": true,
+          "pomLabelsDoNotOverlap": true,
+          "depthMarkerMatchesSourcePoint": true,
+          "pomLabelBounds": [
+            {
+              "id": "pom:trouser:waistband-depth-finished",
+              "x": -4.27293586730957,
+              "y": -5.265818119049072,
+              "width": 6.479891300201416,
+              "height": 0.39244532585144043
+            },
+            {
+              "id": "pom:trouser:back-rise-finished-incl-waistband",
+              "x": -2.4336414337158203,
+              "y": 35.242679595947266,
+              "width": 7.714087963104248,
+              "height": 0.39244532585144043
+            }
+          ],
+          "paperBounds": {
+            "x": -28.2,
+            "y": -5.9766,
+            "width": 56.4,
+            "height": 125.3432
+          },
+          "sourcePointCenter": {
+            "x": 503,
+            "y": 71.06438696463877
+          },
+          "depthMarkerCenter": {
+            "x": 503,
+            "y": 71.06438696463877
+          }
+        }
+      }
+    },
+    {
+      "caseId": "trouser-pocketAngle-min",
+      "optionValues": {
+        "pocketAngle": 35
+      },
+      "front": {
+        "withheld": true,
+        "issue": "geometry · view:trouser:waistband:center-front: The front waistband fragments do not share one exact center-front join in this assembled view; the complete face remains held."
+      },
+      "back": {
+        "accepted": true,
+        "revisionId": "live-draft:trouser:24:24",
+        "callouts": [
+          {
+            "id": "flat:trouser:BACK_FLAT:callout:back-rise-finished-incl-waistband",
+            "sourceId": "pom:trouser:back-rise-finished-incl-waistband",
+            "revisionId": "live-draft:trouser:24:24",
+            "target": "flat:trouser:BACK_FLAT:component:backLeft:outline",
+            "leader": "M0 32 L1.3927 35.523",
+            "marker": "<circle cx=\"0\" cy=\"32\" r=\"0.055\" fill=\"#fff\" stroke=\"#344d60\" stroke-width=\"0.035\"></circle>"
+          },
+          {
+            "id": "flat:trouser:BACK_FLAT:callout:waistband-depth-finished",
+            "sourceId": "pom:trouser:waistband-depth-finished",
+            "revisionId": "live-draft:trouser:24:24",
+            "target": "live-flat:trouser:BACK_FLAT:waistband:mark:centerBack",
+            "leader": "M0 -2 L-1.0357 -4.9855",
+            "marker": "<circle cx=\"0\" cy=\"-2\" r=\"0.055\" fill=\"#fff\" stroke=\"#344d60\" stroke-width=\"0.035\"></circle>"
+          }
+        ],
+        "labels": [
+          {
+            "id": null,
+            "sourceId": "pom:trouser:waistband-depth-finished",
+            "revisionId": "live-draft:trouser:24:24",
+            "text": "Waistband depth (finished): 4.0 cm (±0.2 cm)",
+            "bounds": {
+              "x": -4.27293586730957,
+              "y": -5.265818119049072,
+              "width": 6.479891300201416,
+              "height": 0.39244532585144043
+            }
+          },
+          {
+            "id": null,
+            "sourceId": "pom:trouser:back-rise-finished-incl-waistband",
+            "revisionId": "live-draft:trouser:24:24",
+            "text": "Back rise (finished incl. waistband): 36.0 cm (±0.8 cm)",
+            "bounds": {
+              "x": -2.4336414337158203,
+              "y": 35.242679595947266,
+              "width": 7.714087963104248,
+              "height": 0.39244532585144043
+            }
+          }
+        ],
+        "layoutChecks": {
+          "labelsInsidePaper": true,
+          "pomLabelsDoNotOverlap": true,
+          "depthMarkerMatchesSourcePoint": true,
+          "pomLabelBounds": [
+            {
+              "id": "pom:trouser:waistband-depth-finished",
+              "x": -4.27293586730957,
+              "y": -5.265818119049072,
+              "width": 6.479891300201416,
+              "height": 0.39244532585144043
+            },
+            {
+              "id": "pom:trouser:back-rise-finished-incl-waistband",
+              "x": -2.4336414337158203,
+              "y": 35.242679595947266,
+              "width": 7.714087963104248,
+              "height": 0.39244532585144043
+            }
+          ],
+          "paperBounds": {
+            "x": -28.2,
+            "y": -5.9766,
+            "width": 56.4,
+            "height": 125.3432
+          },
+          "sourcePointCenter": {
+            "x": 503,
+            "y": 71.06438696463877
+          },
+          "depthMarkerCenter": {
+            "x": 503,
+            "y": 71.06438696463877
+          }
+        }
+      }
+    },
+    {
+      "caseId": "trouser-pocketAngle-max",
+      "optionValues": {
+        "pocketAngle": 70
+      },
+      "front": {
+        "withheld": true,
+        "issue": "geometry · view:trouser:waistband:center-front: The front waistband fragments do not share one exact center-front join in this assembled view; the complete face remains held."
+      },
+      "back": {
+        "accepted": true,
+        "revisionId": "live-draft:trouser:13:13",
+        "callouts": [
+          {
+            "id": "flat:trouser:BACK_FLAT:callout:back-rise-finished-incl-waistband",
+            "sourceId": "pom:trouser:back-rise-finished-incl-waistband",
+            "revisionId": "live-draft:trouser:13:13",
+            "target": "flat:trouser:BACK_FLAT:component:backLeft:outline",
+            "leader": "M0 32 L1.3927 35.523",
+            "marker": "<circle cx=\"0\" cy=\"32\" r=\"0.055\" fill=\"#fff\" stroke=\"#344d60\" stroke-width=\"0.035\"></circle>"
+          },
+          {
+            "id": "flat:trouser:BACK_FLAT:callout:waistband-depth-finished",
+            "sourceId": "pom:trouser:waistband-depth-finished",
+            "revisionId": "live-draft:trouser:13:13",
+            "target": "live-flat:trouser:BACK_FLAT:waistband:mark:centerBack",
+            "leader": "M0 -2 L-1.0357 -4.9855",
+            "marker": "<circle cx=\"0\" cy=\"-2\" r=\"0.055\" fill=\"#fff\" stroke=\"#344d60\" stroke-width=\"0.035\"></circle>"
+          }
+        ],
+        "labels": [
+          {
+            "id": null,
+            "sourceId": "pom:trouser:waistband-depth-finished",
+            "revisionId": "live-draft:trouser:13:13",
+            "text": "Waistband depth (finished): 4.0 cm (±0.2 cm)",
+            "bounds": {
+              "x": -4.27293586730957,
+              "y": -5.265818119049072,
+              "width": 6.479891300201416,
+              "height": 0.39244532585144043
+            }
+          },
+          {
+            "id": null,
+            "sourceId": "pom:trouser:back-rise-finished-incl-waistband",
+            "revisionId": "live-draft:trouser:13:13",
+            "text": "Back rise (finished incl. waistband): 36.0 cm (±0.8 cm)",
+            "bounds": {
+              "x": -2.4336414337158203,
+              "y": 35.242679595947266,
+              "width": 7.714087963104248,
+              "height": 0.39244532585144043
+            }
+          }
+        ],
+        "layoutChecks": {
+          "labelsInsidePaper": true,
+          "pomLabelsDoNotOverlap": true,
+          "depthMarkerMatchesSourcePoint": true,
+          "pomLabelBounds": [
+            {
+              "id": "pom:trouser:waistband-depth-finished",
+              "x": -4.27293586730957,
+              "y": -5.265818119049072,
+              "width": 6.479891300201416,
+              "height": 0.39244532585144043
+            },
+            {
+              "id": "pom:trouser:back-rise-finished-incl-waistband",
+              "x": -2.4336414337158203,
+              "y": 35.242679595947266,
+              "width": 7.714087963104248,
+              "height": 0.39244532585144043
+            }
+          ],
+          "paperBounds": {
+            "x": -28.2,
+            "y": -5.9766,
+            "width": 56.4,
+            "height": 125.3432
+          },
+          "sourcePointCenter": {
+            "x": 503,
+            "y": 71.06438696463877
+          },
+          "depthMarkerCenter": {
+            "x": 503,
+            "y": 71.06438696463877
+          }
+        }
+      }
+    },
+    {
+      "caseId": "trouser-pocketBagDepth-min",
+      "optionValues": {
+        "pocketBagDepth": 12
+      },
+      "front": {
+        "withheld": true,
+        "issue": "geometry · view:trouser:waistband:center-front: The front waistband fragments do not share one exact center-front join in this assembled view; the complete face remains held."
+      },
+      "back": {
+        "accepted": true,
+        "revisionId": "live-draft:trouser:23:23",
+        "callouts": [
+          {
+            "id": "flat:trouser:BACK_FLAT:callout:back-rise-finished-incl-waistband",
+            "sourceId": "pom:trouser:back-rise-finished-incl-waistband",
+            "revisionId": "live-draft:trouser:23:23",
+            "target": "flat:trouser:BACK_FLAT:component:backLeft:outline",
+            "leader": "M0 32 L1.3927 35.523",
+            "marker": "<circle cx=\"0\" cy=\"32\" r=\"0.055\" fill=\"#fff\" stroke=\"#344d60\" stroke-width=\"0.035\"></circle>"
+          },
+          {
+            "id": "flat:trouser:BACK_FLAT:callout:waistband-depth-finished",
+            "sourceId": "pom:trouser:waistband-depth-finished",
+            "revisionId": "live-draft:trouser:23:23",
+            "target": "live-flat:trouser:BACK_FLAT:waistband:mark:centerBack",
+            "leader": "M0 -2 L-1.0357 -4.9855",
+            "marker": "<circle cx=\"0\" cy=\"-2\" r=\"0.055\" fill=\"#fff\" stroke=\"#344d60\" stroke-width=\"0.035\"></circle>"
+          }
+        ],
+        "labels": [
+          {
+            "id": null,
+            "sourceId": "pom:trouser:waistband-depth-finished",
+            "revisionId": "live-draft:trouser:23:23",
+            "text": "Waistband depth (finished): 4.0 cm (±0.2 cm)",
+            "bounds": {
+              "x": -4.27293586730957,
+              "y": -5.265818119049072,
+              "width": 6.479891300201416,
+              "height": 0.39244532585144043
+            }
+          },
+          {
+            "id": null,
+            "sourceId": "pom:trouser:back-rise-finished-incl-waistband",
+            "revisionId": "live-draft:trouser:23:23",
+            "text": "Back rise (finished incl. waistband): 36.0 cm (±0.8 cm)",
+            "bounds": {
+              "x": -2.4336414337158203,
+              "y": 35.242679595947266,
+              "width": 7.714087963104248,
+              "height": 0.39244532585144043
+            }
+          }
+        ],
+        "layoutChecks": {
+          "labelsInsidePaper": true,
+          "pomLabelsDoNotOverlap": true,
+          "depthMarkerMatchesSourcePoint": true,
+          "pomLabelBounds": [
+            {
+              "id": "pom:trouser:waistband-depth-finished",
+              "x": -4.27293586730957,
+              "y": -5.265818119049072,
+              "width": 6.479891300201416,
+              "height": 0.39244532585144043
+            },
+            {
+              "id": "pom:trouser:back-rise-finished-incl-waistband",
+              "x": -2.4336414337158203,
+              "y": 35.242679595947266,
+              "width": 7.714087963104248,
+              "height": 0.39244532585144043
+            }
+          ],
+          "paperBounds": {
+            "x": -28.2,
+            "y": -5.9766,
+            "width": 56.4,
+            "height": 125.3432
+          },
+          "sourcePointCenter": {
+            "x": 503,
+            "y": 71.06438696463877
+          },
+          "depthMarkerCenter": {
+            "x": 503,
+            "y": 71.06438696463877
+          }
+        }
+      }
+    },
+    {
+      "caseId": "trouser-pocketBagDepth-max",
+      "optionValues": {
+        "pocketBagDepth": 35
+      },
+      "front": {
+        "withheld": true,
+        "issue": "geometry · view:trouser:waistband:center-front: The front waistband fragments do not share one exact center-front join in this assembled view; the complete face remains held."
+      },
+      "back": {
+        "accepted": true,
+        "revisionId": "live-draft:trouser:25:25",
+        "callouts": [
+          {
+            "id": "flat:trouser:BACK_FLAT:callout:back-rise-finished-incl-waistband",
+            "sourceId": "pom:trouser:back-rise-finished-incl-waistband",
+            "revisionId": "live-draft:trouser:25:25",
+            "target": "flat:trouser:BACK_FLAT:component:backLeft:outline",
+            "leader": "M0 32 L1.3927 35.523",
+            "marker": "<circle cx=\"0\" cy=\"32\" r=\"0.055\" fill=\"#fff\" stroke=\"#344d60\" stroke-width=\"0.035\"></circle>"
+          },
+          {
+            "id": "flat:trouser:BACK_FLAT:callout:waistband-depth-finished",
+            "sourceId": "pom:trouser:waistband-depth-finished",
+            "revisionId": "live-draft:trouser:25:25",
+            "target": "live-flat:trouser:BACK_FLAT:waistband:mark:centerBack",
+            "leader": "M0 -2 L-1.0357 -4.9855",
+            "marker": "<circle cx=\"0\" cy=\"-2\" r=\"0.055\" fill=\"#fff\" stroke=\"#344d60\" stroke-width=\"0.035\"></circle>"
+          }
+        ],
+        "labels": [
+          {
+            "id": null,
+            "sourceId": "pom:trouser:waistband-depth-finished",
+            "revisionId": "live-draft:trouser:25:25",
+            "text": "Waistband depth (finished): 4.0 cm (±0.2 cm)",
+            "bounds": {
+              "x": -4.27293586730957,
+              "y": -5.265818119049072,
+              "width": 6.479891300201416,
+              "height": 0.39244532585144043
+            }
+          },
+          {
+            "id": null,
+            "sourceId": "pom:trouser:back-rise-finished-incl-waistband",
+            "revisionId": "live-draft:trouser:25:25",
+            "text": "Back rise (finished incl. waistband): 36.0 cm (±0.8 cm)",
+            "bounds": {
+              "x": -2.4336414337158203,
+              "y": 35.242679595947266,
+              "width": 7.714087963104248,
+              "height": 0.39244532585144043
+            }
+          }
+        ],
+        "layoutChecks": {
+          "labelsInsidePaper": true,
+          "pomLabelsDoNotOverlap": true,
+          "depthMarkerMatchesSourcePoint": true,
+          "pomLabelBounds": [
+            {
+              "id": "pom:trouser:waistband-depth-finished",
+              "x": -4.27293586730957,
+              "y": -5.265818119049072,
+              "width": 6.479891300201416,
+              "height": 0.39244532585144043
+            },
+            {
+              "id": "pom:trouser:back-rise-finished-incl-waistband",
+              "x": -2.4336414337158203,
+              "y": 35.242679595947266,
+              "width": 7.714087963104248,
+              "height": 0.39244532585144043
+            }
+          ],
+          "paperBounds": {
+            "x": -28.2,
+            "y": -5.9766,
+            "width": 56.4,
+            "height": 125.3432
+          },
+          "sourcePointCenter": {
+            "x": 503,
+            "y": 71.06438696463877
+          },
+          "depthMarkerCenter": {
+            "x": 503,
+            "y": 71.06438696463877
+          }
+        }
+      }
+    },
+    {
+      "caseId": "trouser-pocketDrop-min",
+      "optionValues": {
+        "pocketDrop": 0
+      },
+      "front": {
+        "withheld": true,
+        "issue": "geometry · view:trouser:waistband:center-front: The front waistband fragments do not share one exact center-front join in this assembled view; the complete face remains held."
+      },
+      "back": {
+        "accepted": true,
+        "revisionId": "live-draft:trouser:5:5",
+        "callouts": [
+          {
+            "id": "flat:trouser:BACK_FLAT:callout:back-rise-finished-incl-waistband",
+            "sourceId": "pom:trouser:back-rise-finished-incl-waistband",
+            "revisionId": "live-draft:trouser:5:5",
+            "target": "flat:trouser:BACK_FLAT:component:backLeft:outline",
+            "leader": "M0 32 L1.3927 35.523",
+            "marker": "<circle cx=\"0\" cy=\"32\" r=\"0.055\" fill=\"#fff\" stroke=\"#344d60\" stroke-width=\"0.035\"></circle>"
+          },
+          {
+            "id": "flat:trouser:BACK_FLAT:callout:waistband-depth-finished",
+            "sourceId": "pom:trouser:waistband-depth-finished",
+            "revisionId": "live-draft:trouser:5:5",
+            "target": "live-flat:trouser:BACK_FLAT:waistband:mark:centerBack",
+            "leader": "M0 -2 L-1.0357 -4.9855",
+            "marker": "<circle cx=\"0\" cy=\"-2\" r=\"0.055\" fill=\"#fff\" stroke=\"#344d60\" stroke-width=\"0.035\"></circle>"
+          }
+        ],
+        "labels": [
+          {
+            "id": null,
+            "sourceId": "pom:trouser:waistband-depth-finished",
+            "revisionId": "live-draft:trouser:5:5",
+            "text": "Waistband depth (finished): 4.0 cm (±0.2 cm)",
+            "bounds": {
+              "x": -4.27293586730957,
+              "y": -5.265818119049072,
+              "width": 6.479891300201416,
+              "height": 0.39244532585144043
+            }
+          },
+          {
+            "id": null,
+            "sourceId": "pom:trouser:back-rise-finished-incl-waistband",
+            "revisionId": "live-draft:trouser:5:5",
+            "text": "Back rise (finished incl. waistband): 36.0 cm (±0.8 cm)",
+            "bounds": {
+              "x": -2.4336414337158203,
+              "y": 35.242679595947266,
+              "width": 7.714087963104248,
+              "height": 0.39244532585144043
+            }
+          }
+        ],
+        "layoutChecks": {
+          "labelsInsidePaper": true,
+          "pomLabelsDoNotOverlap": true,
+          "depthMarkerMatchesSourcePoint": true,
+          "pomLabelBounds": [
+            {
+              "id": "pom:trouser:waistband-depth-finished",
+              "x": -4.27293586730957,
+              "y": -5.265818119049072,
+              "width": 6.479891300201416,
+              "height": 0.39244532585144043
+            },
+            {
+              "id": "pom:trouser:back-rise-finished-incl-waistband",
+              "x": -2.4336414337158203,
+              "y": 35.242679595947266,
+              "width": 7.714087963104248,
+              "height": 0.39244532585144043
+            }
+          ],
+          "paperBounds": {
+            "x": -28.2,
+            "y": -5.9766,
+            "width": 56.4,
+            "height": 125.3432
+          },
+          "sourcePointCenter": {
+            "x": 503,
+            "y": 71.06438696463877
+          },
+          "depthMarkerCenter": {
+            "x": 503,
+            "y": 71.06438696463877
+          }
+        }
+      }
+    },
+    {
+      "caseId": "trouser-pocketDrop-max",
+      "optionValues": {
+        "pocketDrop": 15
+      },
+      "front": {
+        "withheld": true,
+        "issue": "geometry · view:trouser:waistband:center-front: The front waistband fragments do not share one exact center-front join in this assembled view; the complete face remains held."
+      },
+      "back": {
+        "accepted": true,
+        "revisionId": "live-draft:trouser:27:27",
+        "callouts": [
+          {
+            "id": "flat:trouser:BACK_FLAT:callout:back-rise-finished-incl-waistband",
+            "sourceId": "pom:trouser:back-rise-finished-incl-waistband",
+            "revisionId": "live-draft:trouser:27:27",
+            "target": "flat:trouser:BACK_FLAT:component:backLeft:outline",
+            "leader": "M0 32 L1.3927 35.523",
+            "marker": "<circle cx=\"0\" cy=\"32\" r=\"0.055\" fill=\"#fff\" stroke=\"#344d60\" stroke-width=\"0.035\"></circle>"
+          },
+          {
+            "id": "flat:trouser:BACK_FLAT:callout:waistband-depth-finished",
+            "sourceId": "pom:trouser:waistband-depth-finished",
+            "revisionId": "live-draft:trouser:27:27",
+            "target": "live-flat:trouser:BACK_FLAT:waistband:mark:centerBack",
+            "leader": "M0 -2 L-1.0357 -4.9855",
+            "marker": "<circle cx=\"0\" cy=\"-2\" r=\"0.055\" fill=\"#fff\" stroke=\"#344d60\" stroke-width=\"0.035\"></circle>"
+          }
+        ],
+        "labels": [
+          {
+            "id": null,
+            "sourceId": "pom:trouser:waistband-depth-finished",
+            "revisionId": "live-draft:trouser:27:27",
+            "text": "Waistband depth (finished): 4.0 cm (±0.2 cm)",
+            "bounds": {
+              "x": -4.27293586730957,
+              "y": -5.265818119049072,
+              "width": 6.479891300201416,
+              "height": 0.39244532585144043
+            }
+          },
+          {
+            "id": null,
+            "sourceId": "pom:trouser:back-rise-finished-incl-waistband",
+            "revisionId": "live-draft:trouser:27:27",
+            "text": "Back rise (finished incl. waistband): 36.0 cm (±0.8 cm)",
+            "bounds": {
+              "x": -2.4336414337158203,
+              "y": 35.242679595947266,
+              "width": 7.714087963104248,
+              "height": 0.39244532585144043
+            }
+          }
+        ],
+        "layoutChecks": {
+          "labelsInsidePaper": true,
+          "pomLabelsDoNotOverlap": true,
+          "depthMarkerMatchesSourcePoint": true,
+          "pomLabelBounds": [
+            {
+              "id": "pom:trouser:waistband-depth-finished",
+              "x": -4.27293586730957,
+              "y": -5.265818119049072,
+              "width": 6.479891300201416,
+              "height": 0.39244532585144043
+            },
+            {
+              "id": "pom:trouser:back-rise-finished-incl-waistband",
+              "x": -2.4336414337158203,
+              "y": 35.242679595947266,
+              "width": 7.714087963104248,
+              "height": 0.39244532585144043
+            }
+          ],
+          "paperBounds": {
+            "x": -28.2,
+            "y": -5.9766,
+            "width": 56.4,
+            "height": 125.3432
+          },
+          "sourcePointCenter": {
+            "x": 503,
+            "y": 71.06438696463877
+          },
+          "depthMarkerCenter": {
+            "x": 503,
+            "y": 71.06438696463877
+          }
+        }
+      }
+    },
+    {
+      "caseId": "trouser-combined-supported",
+      "optionValues": {
+        "frontRiseEase": 2,
+        "backRiseEase": 11,
+        "thighEase": 10,
+        "kneeEase": 7,
+        "legOpening": 48
+      },
+      "front": {
+        "withheld": true,
+        "issue": "geometry · view:trouser:waistband:center-front: The front waistband fragments do not share one exact center-front join in this assembled view; the complete face remains held."
+      },
+      "back": {
+        "accepted": true,
+        "revisionId": "live-draft:trouser:31:31",
+        "callouts": [
+          {
+            "id": "flat:trouser:BACK_FLAT:callout:back-rise-finished-incl-waistband",
+            "sourceId": "pom:trouser:back-rise-finished-incl-waistband",
+            "revisionId": "live-draft:trouser:31:31",
+            "target": "flat:trouser:BACK_FLAT:component:backLeft:outline",
+            "leader": "M0 34 L1.3927 37.523",
+            "marker": "<circle cx=\"0\" cy=\"34\" r=\"0.055\" fill=\"#fff\" stroke=\"#344d60\" stroke-width=\"0.035\"></circle>"
+          },
+          {
+            "id": "flat:trouser:BACK_FLAT:callout:waistband-depth-finished",
+            "sourceId": "pom:trouser:waistband-depth-finished",
+            "revisionId": "live-draft:trouser:31:31",
+            "target": "live-flat:trouser:BACK_FLAT:waistband:mark:centerBack",
+            "leader": "M0 -2 L-1.0357 -4.9855",
+            "marker": "<circle cx=\"0\" cy=\"-2\" r=\"0.055\" fill=\"#fff\" stroke=\"#344d60\" stroke-width=\"0.035\"></circle>"
+          }
+        ],
+        "labels": [
+          {
+            "id": null,
+            "sourceId": "pom:trouser:waistband-depth-finished",
+            "revisionId": "live-draft:trouser:31:31",
+            "text": "Waistband depth (finished): 4.0 cm (±0.2 cm)",
+            "bounds": {
+              "x": -4.2735137939453125,
+              "y": -5.265867710113525,
+              "width": 6.481047630310059,
+              "height": 0.3925153613090515
+            }
+          },
+          {
+            "id": null,
+            "sourceId": "pom:trouser:back-rise-finished-incl-waistband",
+            "revisionId": "live-draft:trouser:31:31",
+            "text": "Back rise (finished incl. waistband): 38.0 cm (±0.8 cm)",
+            "bounds": {
+              "x": -2.4343247413635254,
+              "y": 37.24263000488281,
+              "width": 7.715465068817139,
+              "height": 0.3925153613090515
+            }
+          }
+        ],
+        "layoutChecks": {
+          "labelsInsidePaper": true,
+          "pomLabelsDoNotOverlap": true,
+          "depthMarkerMatchesSourcePoint": true,
+          "pomLabelBounds": [
+            {
+              "id": "pom:trouser:waistband-depth-finished",
+              "x": -4.2735137939453125,
+              "y": -5.265867710113525,
+              "width": 6.481047630310059,
+              "height": 0.3925153613090515
+            },
+            {
+              "id": "pom:trouser:back-rise-finished-incl-waistband",
+              "x": -2.4343247413635254,
+              "y": 37.24263000488281,
+              "width": 7.715465068817139,
+              "height": 0.3925153613090515
+            }
+          ],
+          "paperBounds": {
+            "x": -28.2,
+            "y": -5.9766,
+            "width": 56.4,
+            "height": 127.3432
+          },
+          "sourcePointCenter": {
+            "x": 503,
+            "y": 70.91748077556531
+          },
+          "depthMarkerCenter": {
+            "x": 503,
+            "y": 70.91748077556531
+          }
+        }
+      }
+    }
+  ]
+}

@@ -32,17 +32,23 @@ describe("mapTechnicalFlatSources", () => {
       expect(mapping.notices.some((notice) => notice.feature === "topstitch"), recipe.name).toBe(true);
       expect(mapping.notices.some((notice) => notice.feature === "pleat"), recipe.name).toBe(true);
       for (const pom of mapping.sources.filter((source) => source.kind === "pom" && source.treatment === "ANCHORED")) {
-        expect(pom.targetGeometryId).toMatch(/^flat:.*:component:.*:outline$/);
+        expect(pom.targetGeometryId).toMatch(/^flat:.*:(component:.*:outline|mark:.*)$/);
         expect(pom.anchorPoint).toMatchObject({ x: expect.any(Number), y: expect.any(Number) });
       }
       const backAnchors = mapping.sources.filter((source) => source.kind === "pom"
         && source.treatment === "ANCHORED" && source.viewKinds.includes("BACK_FLAT"));
-      expect(backAnchors, recipe.name).toHaveLength(recipe.name === "trouser" ? 1 : 0);
+      expect(backAnchors, recipe.name).toHaveLength(recipe.name === "trouser" ? 2 : 0);
       if (recipe.name === "trouser") {
-        expect(backAnchors[0]).toMatchObject({
+        expect(backAnchors.find((source) => source.sourceId.endsWith("back-rise-finished-incl-waistband"))).toMatchObject({
           sourceId: "pom:trouser:back-rise-finished-incl-waistband",
           viewKinds: ["BACK_FLAT"],
           targetGeometryId: "flat:trouser:BACK_FLAT:component:backLeft:outline",
+          anchorPoint: { x: 0, y: expect.any(Number) },
+        });
+        expect(backAnchors.find((source) => source.sourceId.endsWith("waistband-depth-finished"))).toMatchObject({
+          sourceId: "pom:trouser:waistband-depth-finished",
+          viewKinds: ["BACK_FLAT"],
+          targetGeometryId: "flat:trouser:BACK_FLAT:mark:waistband:centerBack",
           anchorPoint: { x: 0, y: expect.any(Number) },
         });
       }
@@ -169,6 +175,16 @@ describe("mapTechnicalFlatSources", () => {
         label: "Invalid back Y", measure: () => 1, backAnchor: () => ({ x: 0, y: Number.POSITIVE_INFINITY }),
       }]);
       expect(invalidY.issues).toContainEqual(expect.objectContaining({ code: "INVALID_POM_ANCHOR" }));
+      const invalidMark = mapTechnicalFlatSources(recipe.name, block, [{
+        label: "Invalid back mark", measure: () => 1,
+        backMarkAnchor: { roleId: "waistband", markName: "missing" },
+      }]);
+      expect(invalidMark.issues).toContainEqual(expect.objectContaining({ code: "INVALID_POM_ANCHOR" }));
+      const blankMarkLabel = mapTechnicalFlatSources(recipe.name, block, [{
+        label: " ", measure: () => 1, backMarkAnchor: { roleId: "waistband", markName: "centerBack" },
+      }]);
+      expect(blankMarkLabel.sources.some((source) => source.id
+        === "flat:trouser:BACK_FLAT:mark:waistband:centerBack:callout:0")).toBe(true);
     } finally {
       mappings.trouser = saved;
     }

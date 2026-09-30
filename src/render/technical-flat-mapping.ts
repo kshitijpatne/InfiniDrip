@@ -288,6 +288,17 @@ export function mapTechnicalFlatSources(
       sources.push({ id: `flat:${recipeId}:BACK_FLAT:component:${roleId}:outline:callout:${stableSegment(pom.label) || index}`,
         kind: "pom", feature: "pom", layer: "CALLOUT", sourceId: pomId, viewKinds: ["BACK_FLAT"], treatment: "ANCHORED",
         targetGeometryId: `flat:${recipeId}:BACK_FLAT:component:${roleId}:outline`, anchorPoint: point });
+    } else if (pom.backMarkAnchor) {
+      const { roleId, markName } = pom.backMarkAnchor;
+      const mark = block.roles[roleId]?.marks?.find((candidate) => candidate.name === markName);
+      if (!block.roles[roleId] || !mark || !("at" in mark)) {
+        issues.push({ code: "INVALID_POM_ANCHOR", sourceId: pomId,
+          message: `POM “${pom.label}” references missing back mark “${roleId}.${markName}”.` });
+        continue;
+      }
+      sources.push({ id: `flat:${recipeId}:BACK_FLAT:mark:${roleId}:${markName}:callout:${stableSegment(pom.label) || index}`,
+        kind: "pom", feature: "pom", layer: "CALLOUT", sourceId: pomId, viewKinds: ["BACK_FLAT"], treatment: "ANCHORED",
+        targetGeometryId: `flat:${recipeId}:BACK_FLAT:mark:${roleId}:${markName}`, anchorPoint: mark.at });
     }
   }
 

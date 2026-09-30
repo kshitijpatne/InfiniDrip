@@ -234,7 +234,24 @@ export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): Tec
     : { primitives: [], issues: [] };
   const overlays = compileTechnicalFlatOverlays(recipe, block, revisionId, input.placements,
     input.colorHex, input.texture, input.shine);
-  const poms = compileTechnicalFlatPomCallouts(recipe.name, block, revisionId, kind, recipe.poms, geometry.primitives);
+  const resolvePomAnchor = recipe.name === "trouser" ? (pom: GarmentRecipe["poms"][number], point: FlatPoint) => {
+    const markAnchor = kind === "BACK_FLAT" ? pom.backMarkAnchor : undefined;
+    if (markAnchor) {
+      const target = waistbandFragments.primitives.find((primitive) => primitive.kind === "mark"
+        && primitive.source.sourceId === `pattern:${recipe.name}:mark:${markAnchor.roleId}:${markAnchor.markName}`
+        && primitive.source.revisionId === revisionId);
+      return target?.kind === "mark" ? { targetGeometryId: target.id, point: target.at } : undefined;
+    }
+    const anchorRoleId = kind === "FRONT_FLAT" ? G04_TECHNICAL_FLAT_MAPPINGS[recipe.name]?.pomAnchorRole
+      : G04_TECHNICAL_FLAT_MAPPINGS[recipe.name]?.backPomAnchorRole;
+    const placement = assembly.transforms[anchorRoleId!];
+    return anchorRoleId && placement ? {
+      targetGeometryId: `flat:${recipe.name}:${kind}:component:${anchorRoleId}:outline`,
+      point: placedPoint(point, placement),
+    } : undefined;
+  } : undefined;
+  const poms = compileTechnicalFlatPomCallouts(recipe.name, block, revisionId, kind, recipe.poms,
+    [...geometry.primitives, ...waistbandFragments.primitives], resolvePomAnchor);
   const issues: TechnicalFlatLiveIssue[] = [
     ...geometry.issues.map((issue) => ({ stage: "geometry" as const, sourceId: issue.sourceId, message: issue.message })),
     ...waistbandFragments.issues.map((issue) => ({ stage: "geometry" as const, sourceId: issue.sourceId, message: issue.message })),
@@ -255,6 +272,7 @@ export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): Tec
     message: "Artwork on the Trouser waistband is withheld until its exact source placement can be clipped to one sewn front/back fragment." });
   const faceRoleIds = face?.roles.map((role) => role.roleId) ?? [];
   const fragmentPrimitiveIds = new Set(waistbandFragments.primitives.map((primitive) => primitive.id));
+  const outputSpaceCalloutIds = new Set((poms.callouts ?? []).map((primitive) => primitive.id));
   const geometryPrimitives = recipe.name === "trouser" ? geometry.primitives.filter((primitive) =>
     primitive.source.sourceId !== "pattern:trouser:role:waistband"
       && !primitive.source.sourceId.startsWith("pattern:trouser:mark:waistband:")) : geometry.primitives;
@@ -262,6 +280,10 @@ export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): Tec
     ...(overlayFace?.artwork ?? []).filter((primitive) => !bandArtwork.includes(primitive)), ...(poms.callouts ?? [])];
   const transformed: TechnicalFlatPrimitive[] = [];
   for (const primitive of combined) {
+    if (outputSpaceCalloutIds.has(primitive.id)) {
+      transformed.push(primitive);
+      continue;
+    }
     if (fragmentPrimitiveIds.has(primitive.id)) {
       transformed.push(primitive);
       continue;
