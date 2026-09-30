@@ -155,6 +155,11 @@ only through an explicitly admitted, linked Epic packet.
   production Chromium matrix, accepted SVGs, retained UI screenshots,
   diagnostics, and manual output review. S315 confirms 28/146 accepted and
   118/146 held; V02 remains open.
+- `docs/research/epic17/G04-V02-TROUSER-BACK-OVERLAY-S316.md` — S316's
+  bounded output-only Style overlay check on the newly accepted Trouser back;
+  see `PROJECT-STATE.md` and the canonical board for its verified exit.
+- `docs/research/epic17/S316-trouser-back-overlay/` — S316's retained live
+  production Chromium replay, matrix, SVG, screenshots and diagnostic output.
 - `docs/research/epic17/G04-V02-PROJECTION-MAPPING-S277.md` — Slice 277's
   current projection-mapping contract boundary, source-reference rules,
   fail-closed semantics, and focused acceptance gates.
