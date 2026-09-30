@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 431,
-  "updatedAt": "2026-09-30T03:42:19.890Z",
+  "revision": 433,
+  "updatedAt": "2026-09-30T04:06:12.940Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -5581,6 +5581,11 @@
           "at": "2026-09-30T03:02:18.537Z",
           "actor": "Codex",
           "text": "Slice 281 started 2026-09-30 03:02:00 UTC from 8cb935c5c189a50c882284914e00f14c6bafdb92. Packet: docs/research/epic17/G04-V02-ASSEMBLY-REVIEW-S281.md. Scope is source-traced review of Tee/Fitted sleeve and Skirt waistband joins, with only evidence-backed rigid fixes; unsupported faces remain held."
+        },
+        {
+          "at": "2026-09-30T03:57:21.174Z",
+          "actor": "Codex",
+          "text": "Slice 282 started 2026-09-30 03:53:37 UTC from a082495286808044ccadcdb3e8802b8ea96b6091. Packet: docs/research/epic17/G04-V02-FACE-SEGMENT-CONTRACT-S282.md. Scope: audit ordered stitch traversal and source-shared junctions, then define fail-closed source-backed face-segment/instance metadata; no pattern or cut geometry change. Verify exact Skirt waist/side-seam endpoints before proposing any traversal correction."
         }
       ],
       "evidenceRefs": [
@@ -5601,7 +5606,8 @@
         "E-G04-S278-EXIT",
         "E-G04-S279-EXIT",
         "E-G04-S280-EXIT",
-        "E-G04-S281-EXIT"
+        "E-G04-S281-EXIT",
+        "E-G04-S282-EXIT"
       ],
       "flagKey": null
     },
@@ -6641,6 +6647,15 @@
       "sha256": null,
       "verified": true,
       "note": "Verified exact source review, 100% focused projection coverage, production build, protected export/DXF identities and the full 73-configuration/146-face Chromium matrix. Source-unsupported Tee/Fitted sleeve and Skirt waistband contours now fail closed; only Tank emits and its front/back output was manually reviewed. V02 remains In Progress."
+    },
+    {
+      "id": "E-G04-S282-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-FACE-SEGMENT-CONTRACT-S282.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Verified source-interface-boundary contract and exact Skirt waist/side-seam traversal audit. S282 changes no production geometry or export behavior; V02 remains In Progress, with source-backed Skirt implementation assigned to S283 and full rendered review to S284."
     }
   ]
 }

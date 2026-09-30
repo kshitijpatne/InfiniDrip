@@ -123,7 +123,7 @@ only through an explicitly admitted, linked Epic packet.
   `PROJECT-STATE.md` and the canonical Control Center for live status.
 - `docs/planning/EPIC-17-ADMISSION.md` — Slice 261's maintainer-authorized
   G04 admission from verified `origin/main`, ordered V01 → V02 → V03 scope,
-  provisional 25–29-slice estimate, rights/receiver gate, acceptance evidence and
+  current provisional 27–31-slice estimate, rights/receiver gate, acceptance evidence and
   merge exit. V01 and its contracts are complete; consult `PROJECT-STATE.md`
   for the current V02 rendering and interchange gates.
 - `docs/research/epic17/G04-V02-PROJECTION-MAPPING-S277.md` — Slice 277's
@@ -144,6 +144,9 @@ only through an explicitly admitted, linked Epic packet.
   source seam/face-placement review, the Tee/Fitted sleeve and Skirt waistband
   fail-closed map decision, retained production browser output and the V02
   blocker disposition.
+- `docs/research/epic17/G04-V02-FACE-SEGMENT-CONTRACT-S282.md` — Slice 282's
+  active source audit of ordered stitch traversal, shared junctions, and the
+  fail-closed contract for source-backed face segments and view instances.
 - `src/render/technical-flat-projection.ts` — versioned G04 face-projection
   metadata and exact drafted-topology validation. Interior split landmarks not
   present as source endpoints remain unsupported and explicitly held.

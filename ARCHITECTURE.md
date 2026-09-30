@@ -327,6 +327,21 @@ geometry intact and keep misleading partial assemblies out of the live view.
 The production Chromium evidence and exact issue text are recorded in
 `docs/research/epic17/G04-V02-ASSEMBLY-REVIEW-S281.md`.
 
+Slice 282's source audit found that the Skirt waistband stitch lists front and
+back waist in the same authored direction, although both panel edges run
+center-to-side. Its ordered boundary therefore maps front-side to back-center
+and conflicts with the adjacent side-seam endpoints. Reversing only the
+back-waist `EdgeRef` makes the junction agree with both authored side
+endpoints; the joined length then lands at the straight waistband seam
+midpoint and its exact corresponding top-edge point. This is source-interface
+evidence for a future view-only split. Any reflection must follow the selected
+segment's sewn-to front/back panel center axis; the waistband's own short
+`fold` edge remains excluded as a garment axis. Slice 282 changes no
+production behavior. See
+`docs/research/epic17/G04-V02-FACE-SEGMENT-CONTRACT-S282.md`; S283 must implement
+and verify the metadata and S284 must review the full rendered matrix before
+the Skirt or V02 can be accepted.
+
 The **Edit** view keeps user-authored deltas against stable recipe-owned
 anchors, rather than saving a disconnected picture. Pointer drags and keyboard
 coordinate edits become semantic operations; Undo, Redo, Clear and explicit
