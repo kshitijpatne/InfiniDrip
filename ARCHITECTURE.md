@@ -65,6 +65,13 @@ joins, back-view POMs without geometry anchors, and unreadable text remain
 visible as notices or block that drawing; the renderer does not fill gaps by
 guessing.
 
+Tee and Tank share a dedicated body-POM set with exact same-block back
+endpoints for chest, body length, across shoulder and neck width. The legacy
+`TSHIRT_POMS` set remains front-only for Polo. These anchors can be compiled
+against the represented back outline when that complete face is renderable;
+they do not permit a partial flat. Tee's unresolved sleeve contour continues
+to hold both complete faces.
+
 The drawing keeps centimetre coordinates in its SVG. In the live canvas it fits
 to the available width and scrolls vertically, so measured labels stay readable
 on the dark app surface. The colorway is a light tint over a white drawing

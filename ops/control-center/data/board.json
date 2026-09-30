@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 697,
-  "updatedAt": "2026-09-30T18:58:37.107Z",
+  "revision": 710,
+  "updatedAt": "2026-09-30T19:38:52.974Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -155,7 +155,7 @@
       "title": "EPIC-17: G04 — Professional flats and CAD interchange",
       "status": "In Progress",
       "owner": "Codex",
-      "description": "EPIC-17 admitted by maintainer. Current conditional estimate: 57–71 landed slices total; 8–18 remain from verified S313 (0–3 further V02 implementation/review slices, 5–10 V03 slices only after V02 passes, and 3–5 integrated review/merge/deployment). Current all-recipe output: 28/146 faces accepted; 118 held. Source/rights waits are unpriced and may block V02 passage. V01 Done; V02 In Progress; V03 Backlog. See docs/planning/EPIC-17-ADMISSION.md.",
+      "description": "EPIC-17 admitted by maintainer. Current conditional estimate: 57–71 landed slices total; 8–17 remain from verified S314 (0–2 further V02 implementation/review slices, 5–10 V03 slices only after V02 passes, and 3–5 integrated review/merge/deployment). Current all-recipe output: 28/146 faces accepted; 118 held. Source/rights waits are unpriced and may block V02 passage. V01 Done; V02 In Progress; V03 Backlog. See docs/planning/EPIC-17-ADMISSION.md.",
       "evidenceRefs": [
         "E-G04-S271-EXIT",
         "E-G04-S273-EXIT",
@@ -213,7 +213,9 @@
         "E-G04-S312-START",
         "E-G04-S312-EXIT",
         "E-G04-S313-START",
-        "E-G04-S313-EXIT"
+        "E-G04-S313-EXIT",
+        "E-G04-S314-START",
+        "E-G04-S314-EXIT"
       ]
     },
     {
@@ -2742,7 +2744,7 @@
         "100% coverage",
         "maintainer gates"
       ],
-      "description": "EPIC-17 admitted by maintainer. Current conditional estimate: 57–71 landed slices total; 8–18 remain from S313 (0–3 further V02 implementation/review slices, 5–10 V03 slices only after V02 passes, and 3–5 integrated review/merge/deployment). Current all-recipe output: 28/146 faces accepted; 118 held. Source/rights waits are unpriced and may block V02 passage. V01 Done; V02 In Progress; V03 Backlog. See docs/planning/EPIC-17-ADMISSION.md.",
+      "description": "EPIC-17 admitted by maintainer. Current conditional estimate: 57–71 landed slices total; 8–17 remain from verified S314 (0–2 further V02 implementation/review slices, 5–10 V03 slices only after V02 passes, and 3–5 integrated review/merge/deployment). Current all-recipe output: 28/146 faces accepted; 118 held. Source/rights waits are unpriced and may block V02 passage. V01 Done; V02 In Progress; V03 Backlog. See docs/planning/EPIC-17-ADMISSION.md.",
       "expectation": "Front/back technical flats for every supported recipe/variant and proven CAD interchange. Pattern-linked side/oblique views are explicitly owned by G09/D04, so the complete view set is accepted only there.",
       "acceptanceCriteria": [
         "Complete every G04 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
@@ -2970,6 +2972,16 @@
           "at": "2026-09-30T18:58:37.107Z",
           "actor": "Codex",
           "text": "Slice 313 exit: four existing Tank POM anchors resolve to exact same-revision back-outline vertices; front neck drop stays front-only. Focused coverage, build, protected outputs, and two-configuration production Chromium review pass. No new faces accepted: 28/146 accepted, 118 held. Correction: the prior comment encoded the MQF range separator incorrectly; MQF-004–007, MQF-011, MQF-012 and MQF-015 remain To be reviewed. Woven closure and all unsupported faces remain held. V02 remains In Progress; V03 remains Backlog. Verified exit packet: docs/research/epic17/G04-V02-TANK-BACK-POM-ANCHORS-S313.md."
+        },
+        {
+          "at": "2026-09-30T19:35:40.415Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: EPIC-17 admitted by maintainer. Current conditional estimate: 57–71 landed slices total; 8–17 remain from verified S314 (0–2 further V02 implementation/review slices, 5–10 V03 slices only after V02 passes, and 3–5 integrated review/merge/deployment). Current all-recipe output: 28/146 faces accepted; 118 held. Source/rights waits are unpriced and may block V02 passage. V01 Done; V02 In Progress; V03 Backlog. See docs/planning/EPIC-17-ADMISSION.md.). Re-estimate from verified S314 while preserving the V02 acceptance gate and Woven closure hold."
+        },
+        {
+          "at": "2026-09-30T19:38:52.974Z",
+          "actor": "Codex",
+          "text": "Slice 314 exit: Tee body chest, body length, across shoulder and neck width now have exact same-block back endpoints. Tank reuses these anchors; Polo remains on the front-only shared POM table. Focused changed-module coverage, build, and 32 protected export/DXF checks pass. Production Chromium covered default/changed measurements on four faces; all Tee faces remain wholly held with zero partial SVGs and zero browser errors. No face newly accepted; output remains 28/146. Woven placket closure stays held without a construction reference. MQF-004–007/011/012/015 remain To be reviewed. V02 In Progress; V03 Backlog. Packet: docs/research/epic17/G04-V02-TEE-BACK-POM-ANCHORS-S314.md."
         }
       ],
       "evidenceRefs": [
@@ -3014,7 +3026,9 @@
         "E-G04-S312-START",
         "E-G04-S312-EXIT",
         "E-G04-S313-START",
-        "E-G04-S313-EXIT"
+        "E-G04-S313-EXIT",
+        "E-G04-S314-START",
+        "E-G04-S314-EXIT"
       ],
       "flagKey": null
     },
@@ -5712,7 +5726,7 @@
         "100% coverage",
         "export byte identity"
       ],
-      "description": "Render revision-bound front/back vector flats with topology-checked options, artwork/colorway overlays, proportional/construction annotations and anchored POM callouts. Current verified replay: 28/146 face/configuration outputs accepted, 118 held. Conditional EPIC-17 estimate: 57–71 slices total, 8–18 remain from S313 (0–3 V02 follow-up/review, 5–10 V03 after V02, 3–5 final integration/merge/deployment); source/rights waits are unpriced. See docs/planning/EPIC-17-ADMISSION.md.",
+      "description": "Render revision-bound front/back vector flats with topology-checked options, artwork/colorway overlays, proportional/construction annotations and anchored POM callouts. Current verified replay: 28/146 face/configuration outputs accepted, 118 held. Conditional EPIC-17 estimate: 57–71 slices total, 8–17 remain from verified S314 (0–2 V02 follow-up/review, 5–10 V03 after V02, 3–5 final integration/merge/deployment); source/rights waits are unpriced. See docs/planning/EPIC-17-ADMISSION.md and S314 exit evidence.",
       "expectation": "Live vector output stays aligned with the same pattern and style revision and remains readable across all supported options.",
       "acceptanceCriteria": [
         "Render front/back vector views for all seven recipes and supported option combinations from one pattern/revision.",
@@ -6142,6 +6156,21 @@
           "at": "2026-09-30T18:58:16.073Z",
           "actor": "Codex",
           "text": "Slice 313 exit: four existing Tank POMs now target exact same-revision back vertices on front/back flats; the front neck-drop stays front-only. Focused tests pass 62/62 with 100% changed-module coverage; build and 27 protected DXF/export checks pass; Chromium verifies 2 measurement configurations/4 faces, exact marker vertices, in-page labels without overlap and zero browser errors. No new faces accepted: 28/146 accepted, 118 held. Correction: the prior comment encoded the MQF range separator incorrectly; MQF-004–007, MQF-011, MQF-012 and MQF-015 all remain To be reviewed. Woven closure and unsupported faces stay held. V02 remains In Progress; V03 remains Backlog. Packet: docs/research/epic17/G04-V02-TANK-BACK-POM-ANCHORS-S313.md."
+        },
+        {
+          "at": "2026-09-30T19:06:32.148Z",
+          "actor": "Codex",
+          "text": "Slice 314 started 2026-09-30 19:02:54 UTC from clean S313 ecdd0d13373f4c6cb2cafba8a4032b84843c3a18; refreshed origin/main a5af5e13 remains an ancestor. Packet: docs/research/epic17/G04-V02-TEE-BACK-POM-ANCHORS-S314.md. Scope is exact same-block back endpoints for four existing Tee POMs; the Polo front-only POM set stays isolated and complete Tee faces stay held at the sleeve assembly gap. No geometry or export changes."
+        },
+        {
+          "at": "2026-09-30T19:36:00.213Z",
+          "actor": "Codex",
+          "text": "Slice 314 exit: Tee body chest, body length, across shoulder and neck width now have exact same-block back endpoints. Tank reuses these anchors; Polo remains on the front-only shared POM table. Focused changed-module coverage, build, and 32 protected export/DXF checks pass. Production Chromium covered default/changed measurements on four faces; all Tee faces remain wholly held with zero partial SVGs and zero browser errors. No face newly accepted; output remains 28/146. Woven placket closure stays held without a construction reference. MQF-004–007/011/012/015 remain To be reviewed. V02 In Progress; V03 Backlog. Packet: docs/research/epic17/G04-V02-TEE-BACK-POM-ANCHORS-S314.md."
+        },
+        {
+          "at": "2026-09-30T19:37:52.564Z",
+          "actor": "Codex",
+          "text": "Slice 314 exit: Tee body chest, body length, across shoulder and neck width now have exact same-block back endpoints. Tank reuses these anchors; Polo remains on the front-only shared POM table. Focused changed-module coverage, build, and 32 protected export/DXF checks pass. Production Chromium covered default/changed measurements on four faces; all Tee faces remain wholly held with zero partial SVGs and zero browser errors. No face newly accepted; output remains 28/146. Woven placket closure stays held without a construction reference. MQF-004–007/011/012/015 remain To be reviewed. V02 In Progress; V03 Backlog. Packet: docs/research/epic17/G04-V02-TEE-BACK-POM-ANCHORS-S314.md."
         }
       ],
       "evidenceRefs": [
@@ -6225,7 +6254,9 @@
         "E-G04-S312-START",
         "E-G04-S312-EXIT",
         "E-G04-S313-START",
-        "E-G04-S313-EXIT"
+        "E-G04-S313-EXIT",
+        "E-G04-S314-START",
+        "E-G04-S314-EXIT"
       ],
       "flagKey": null
     },
@@ -7832,6 +7863,24 @@
       "sha256": null,
       "verified": true,
       "note": "Slice 313 adds exact source-backed back anchors for four existing Tank POMs; front neck drop remains front-only. Focused tests pass 62/62 with 100% changed-module coverage, build and 27 protected export/DXF checks pass, and production Chromium verifies two same-revision Tank measurement configurations/four faces with exact callout vertices, in-page non-overlapping labels and zero browser errors. No new faces accepted or export changes."
+    },
+    {
+      "id": "E-G04-S314-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-TEE-BACK-POM-ANCHORS-S314.md",
+      "commit": null,
+      "sha256": null,
+      "verified": false,
+      "note": "S314 start packet: exact same-draft Tee back endpoints for four existing body POMs; Polo remains front-only and complete Tee faces remain held."
+    },
+    {
+      "id": "E-G04-S314-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-TEE-BACK-POM-ANCHORS-S314.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Four existing Tee body POMs now have exact source-backed back endpoints; Tank reuses them and Polo stays front-only. Focused changed-module coverage, build, 32 protected checks and production Chromium hold replay pass. No complete face is newly accepted; output remains 28/146."
     }
   ]
 }

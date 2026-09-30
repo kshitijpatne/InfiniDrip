@@ -152,7 +152,8 @@ describe("technical-flat POM callouts", () => {
     if (!recipe) throw new Error("Tee recipe is missing.");
     const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
     const backOnly: Pom[] = [{ label: "Back only", measure: () => 4, backAnchor: () => ({ x: 0, y: 0 }) }];
-    const unmapped = compileTechnicalFlatPomCallouts(recipe.name, block, revisionId, "BACK_FLAT", backOnly, []);
+    const noBackRole = { ...block, roles: { ...block.roles, back: undefined } } as unknown as typeof block;
+    const unmapped = compileTechnicalFlatPomCallouts(recipe.name, noBackRole, revisionId, "BACK_FLAT", backOnly, []);
     expect(unmapped.callouts).toBeNull();
     expect(unmapped.issues.map((issue) => issue.code)).toContain("MISSING_ANCHOR_ROLE");
 

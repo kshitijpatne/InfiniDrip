@@ -37,8 +37,10 @@ describe("mapTechnicalFlatSources", () => {
       }
       const backAnchors = mapping.sources.filter((source) => source.kind === "pom"
         && source.treatment === "ANCHORED" && source.viewKinds.includes("BACK_FLAT"));
-      expect(backAnchors, recipe.name).toHaveLength(recipe.name === "trouser" || recipe.name === "skirt" ? 2 : recipe.name === "tank" ? 4 : 0);
-      if (recipe.name === "tank") {
+      expect(backAnchors, recipe.name).toHaveLength(recipe.name === "trouser" || recipe.name === "skirt" ? 2 : recipe.name === "tank" || recipe.name === "tee" ? 4 : 0);
+      if (recipe.name === "tank" || recipe.name === "tee") {
+        expect(G04_TECHNICAL_FLAT_MAPPINGS[recipe.name].pomAnchorRole).toBe("front");
+        const backRole = "back";
         const mappedTankAnchors = [
           ["body-chest-finished", "side", "start"],
           ["body-length-hps-hem", "hem", "start"],
@@ -46,20 +48,22 @@ describe("mapTechnicalFlatSources", () => {
           ["neck-width", "shoulder", "start"],
         ] as const;
         for (const [label, edge, end] of mappedTankAnchors) {
-          expect(backAnchors.find((source) => source.sourceId === `pom:tank:${label}`)).toMatchObject({
+          expect(backAnchors.find((source) => source.sourceId === `pom:${recipe.name}:${label}`)).toMatchObject({
             viewKinds: ["BACK_FLAT"], treatment: "ANCHORED",
-            targetGeometryId: "flat:tank:BACK_FLAT:component:back:outline",
+            targetGeometryId: `flat:${recipe.name}:BACK_FLAT:component:${G04_TECHNICAL_FLAT_MAPPINGS[recipe.name].backPomAnchorRole}:outline`,
           });
           const method = recipe.poms.find((pom) => pom.label.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") === label)!;
           const point = method.backAnchor!(block);
-          const piece = block.roles.back!;
+          const piece = block.roles[backRole]!;
           const target = piece.edges.find((candidate) => candidate.name === edge)!;
-          expect(backAnchors.find((source) => source.sourceId === `pom:tank:${label}`)?.anchorPoint)
+          expect(backAnchors.find((source) => source.sourceId === `pom:${recipe.name}:${label}`)?.anchorPoint)
             .toEqual(end === "start" ? (target.kind === "line" ? target.start : target.curve.start)
               : (target.kind === "line" ? target.end : target.curve.end));
-          expect(point).toEqual(backAnchors.find((source) => source.sourceId === `pom:tank:${label}`)?.anchorPoint);
+          expect(point).toEqual(backAnchors.find((source) => source.sourceId === `pom:${recipe.name}:${label}`)?.anchorPoint);
         }
-        expect(backAnchors.some((source) => source.sourceId === "pom:tank:front-neck-drop")).toBe(false);
+        expect(backAnchors.some((source) => source.sourceId === `pom:${recipe.name}:front-neck-drop`)).toBe(false);
+        expect(recipe.poms.find((pom) => pom.label === "Body chest (finished)")?.anchor!(block))
+          .toEqual(recipe.poms.find((pom) => pom.label === "Body chest (finished)")?.backAnchor!(block));
       }
       if (recipe.name === "skirt") {
         expect(mapping.notices).toContainEqual(expect.objectContaining({

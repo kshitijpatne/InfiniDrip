@@ -51,7 +51,7 @@ const makeMapping = (
  * records establish source membership and visibility class, not placement
  * coordinates; V02 computes the actual assembled geometry. */
 export const G04_TECHNICAL_FLAT_MAPPINGS: Readonly<Record<string, TechnicalFlatRecipeMapping>> = {
-  tee: makeMapping("tee", [shell("front"), shell("sleeve")], [shell("back"), shell("sleeve")], "front"),
+  tee: makeMapping("tee", [shell("front"), shell("sleeve")], [shell("back"), shell("sleeve")], "front", "back"),
   fitted: makeMapping("fitted", [shell("front"), shell("sleeve")], [shell("back"), shell("sleeve")], "front"),
   tank: makeMapping("tank", [shell("front")], [shell("back")], "front", "back"),
   polo: makeMapping("polo",

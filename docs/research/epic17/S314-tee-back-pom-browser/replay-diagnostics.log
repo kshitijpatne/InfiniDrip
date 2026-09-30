@@ -1,0 +1,27 @@
+Slice 314 production-preview replay diagnostics
+Date: 2026-09-30
+
+1. The first replay assertion expected the withheld explanation inside the
+   issue-list element. Actual UI output correctly renders that sentence in a
+   separate role=status paragraph, followed by the sleeve mapping and
+   same-revision POM-anchor issues. The selector was corrected to inspect both
+   the status paragraphs and the issue list.
+2. The settled replay covers Tee default and changed-measurement drafts on both
+   faces. Each of four requests shows the complete-face hold, the sleeve source
+   evidence, an empty SVG count, and zero page/console/request errors. Final
+   records and captures are in matrix.json and the PNG files beside this log.
+3. The first broad targeted coverage run (42 suites / 441 tests) showed that
+   `recipe.ts` still had uncovered legacy recipe callbacks. A recipe callback
+   regression now invokes each registered recipe's declared draft, checks,
+   guidance, size, option/fabric tech-pack, neckline and strap callbacks where
+   present. The final focused coverage run passed seven suites / 102 tests;
+   every changed production module reached 100% statements, branches,
+   functions and lines. The first TypeScript build also caught a test assertion
+   on a nonexistent `Pom.formula` field; Pom defines a measure function and
+   tolerance instead. That assertion was removed, and the corrected build
+   passed.
+4. The first post-exit Control Center run found stale S313 expectations in the
+   Epic and G04 board regression, including the forecast, summary-card
+   description, and latest exit comments/evidence. The canonical record was
+   reloaded after each failure; the current assertions now check the verified
+   S314 forecast and evidence links. Final Control Center result: 33/33.

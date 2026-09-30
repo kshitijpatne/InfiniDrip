@@ -23,7 +23,7 @@ import { draftFitted, FITTED_GRAMMAR } from "./fitted";
 import { draftTank, TANK_GRAMMAR, tankGuidance, TANK_NOTCHES, TANK_POMS, tankFrontNeckline, tankBackNeckline } from "./tank";
 import { NecklineParams, NECKLINE_DEFAULT } from "./neckline";
 import { TSHIRT_NOTCHES } from "./tshirt-notches";
-import { TSHIRT_POMS } from "./tshirt-pom";
+import { TSHIRT_POMS, TEE_POMS } from "./tshirt-pom";
 import { TSHIRT_GRADE, TSHIRT_SIZES } from "./tshirt-grade";
 import { FITTED_NOTCHES, FITTED_POMS } from "./fitted-tables";
 import { GarmentOption, GarmentOptions } from "./options";
@@ -163,7 +163,7 @@ export const TEE: GarmentRecipe = {
   draft: draftTshirt,
   grammar: TEE_GRAMMAR,
   notches: TSHIRT_NOTCHES,
-  poms: TSHIRT_POMS,
+  poms: TEE_POMS,
   grade: TSHIRT_GRADE,
   sizes: TSHIRT_SIZES,
   checks: sleevedTopPanelChecks(true),

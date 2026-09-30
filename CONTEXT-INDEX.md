@@ -140,6 +140,13 @@ only through an explicitly admitted, linked Epic packet.
   the packet and `PROJECT-STATE.md`.
 - `docs/research/epic17/S313-tank-back-pom-browser/` — S313 production Chromium
   matrix, parsed SVGs, diagnostics and manually reviewed default screenshots.
+- `docs/research/epic17/G04-V02-TEE-BACK-POM-ANCHORS-S314.md` — S314's
+  source-equality gate and verified exit for exact Tee back POM vertices. Polo
+  remains on the front-only shared POM set, and Tee's complete face stays held
+  for its sleeve assembly gap.
+- `docs/research/epic17/S314-tee-back-pom-browser/` — S314's production
+  Chromium matrix, diagnostics and manually reviewed front/back screenshots
+  for default and changed Tee measurements.
 - `docs/research/epic17/G04-V02-PROJECTION-MAPPING-S277.md` — Slice 277's
   current projection-mapping contract boundary, source-reference rules,
   fail-closed semantics, and focused acceptance gates.
