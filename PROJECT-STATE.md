@@ -1,6 +1,17 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 289 Trouser source hold; V02 remains open, 2026-09-30._
+_Last updated: Slice 290 Tee/Fitted sleeve source audit; V02 remains open, 2026-09-30._
+
+## EPIC-17 / G04 — Slice 290 complete; V02 remains open
+
+- **Start/exit:** 2026-09-30 08:04:46–08:09:04 UTC (4m18s). Packet: `docs/research/epic17/G04-V02-TEE-FITTED-SLEEVE-SOURCE-S290.md`.
+- **Git:** began clean at S289 `2aa82a55144eaad91948bc224435293b36fe1b99`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor; S290 uniquely reserved. Land with subject `Slice 290: audit Tee sleeve view correspondence`.
+- **Board:** revision 484 at start; packet and Epic evidence revisions 485–486, start comment 487. Exit evidence/comment at revisions 488–490.
+- **Source result:** exact ordered source topology supports capLeft→front armhole and capRight→back armhole as sewn intervals, but aggregate ease and cap-ease notch marks do not define face contour or instance count/orientation. Maelo BL-020, Nuffield's T-shirt resource and ASG's sleeve-setting article establish their examples' seam/notch/ease construction only. No pattern-specific projection rule was found.
+- **Rendered evidence:** retained S280 production Chromium Tee front was manually inspected and visibly crosses the bodice; S281 and S284 withhold both Tee/Fitted faces. No production change means no new browser output.
+- **Verification:** Control Center initially failed 32/33 due the stale newest-comment assertion. The fixture now preserves S289 in history and asserts S290's current result. `npm run control-center:test` passed 33/33; `git diff --check` passed. No production coverage/build/export gate applies. V02 remains In Progress; V03 Backlog. MQF and post-G17 disposition unchanged.
+- **Elapsed breakdown:** local/source/research review ~2m; primary-source/render review ~1m; focused board-test diagnosis and durable closeout ~1m; external-agent waits 0m; maintainer-decision time 0m.
+- **Next action:** S291 reviews integrated V02 output and MQF checkpoints against the full seven-recipe/option criteria; V03 remains gated.
 
 ## EPIC-17 / G04 — Slice 289 complete; V02 remains open
 

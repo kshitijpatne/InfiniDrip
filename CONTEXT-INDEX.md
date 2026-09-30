@@ -179,6 +179,9 @@ only through an explicitly admitted, linked Epic packet.
   authored outer collar cubic. Specific Polo and two-piece collar references
   establish base-seam construction but not a unique outer-cubic point; its
   faces remain held.
+- `docs/research/epic17/G04-V02-TEE-FITTED-SLEEVE-SOURCE-S290.md` — active
+  S290 source audit for the exact shared Tee/Fitted sleeve contour and
+  supported orthographic view instances.
 - `docs/research/epic17/G04-V02-TROUSER-FACE-PLACEMENT-S289.md` — active
   S289 boundary for a source-topology-bound Trouser placement attempt; retain
   holds unless all relevant interfaces support one coherent result.
