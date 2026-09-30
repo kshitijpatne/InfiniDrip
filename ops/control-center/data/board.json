@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 478,
-  "updatedAt": "2026-09-30T07:51:53.462Z",
+  "revision": 484,
+  "updatedAt": "2026-09-30T08:02:38.248Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -168,7 +168,9 @@
         "E-G04-S287-START",
         "E-G04-S287-EXIT",
         "E-G04-S288-START",
-        "E-G04-S288-EXIT"
+        "E-G04-S288-EXIT",
+        "E-G04-S289-START",
+        "E-G04-S289-EXIT"
       ]
     },
     {
@@ -5678,6 +5680,16 @@
           "at": "2026-09-30T07:51:53.462Z",
           "actor": "Codex",
           "text": "Slice 288 exit: Jalie 3137, Maelo BL-018 and Threads two-piece collar drafting sources establish construction and base-seam shoulder points, but no specific point on InfiniDrip's outer collar cubic. Keep Polo outer collar held; no geometry/code change and no interpolation. V02 stays In Progress. E-G04-S288-EXIT linked."
+        },
+        {
+          "at": "2026-09-30T07:58:27.459Z",
+          "actor": "Codex",
+          "text": "S289 starts from S288 at refreshed origin/main ancestor a5af5e1, board revision 478, with 289 reserved. Scope: test a source-topology-bound Trouser front/back rigid placement using current distinct leg roles and ordered center/fly/waist joins; preserve visible holds if the graph does not yield a coherent unique result. No cut geometry or export change; V03 remains gated on full V02 acceptance."
+        },
+        {
+          "at": "2026-09-30T08:02:38.248Z",
+          "actor": "Codex",
+          "text": "S289 source-topology audit found no supported rigid Trouser face placement. The right front fly-to-shield join conflicts with front waist placement; the full four-leg waistband conflicts with the back center seam. All 24 retained production Chromium option-face requests remain held without partial output. No pattern or cut geometry changed; V02 remains open and V03 gated. See E-G04-S289-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -5710,7 +5722,9 @@
         "E-G04-S287-START",
         "E-G04-S287-EXIT",
         "E-G04-S288-START",
-        "E-G04-S288-EXIT"
+        "E-G04-S288-EXIT",
+        "E-G04-S289-START",
+        "E-G04-S289-EXIT"
       ],
       "flagKey": null
     },
@@ -6858,6 +6872,24 @@
       "sha256": null,
       "verified": true,
       "note": "Specific Polo, Jalie and Threads sources were checked against the authored collar geometry; none defines the outer-cubic shoulder correspondence, so the Polo faces remain held."
+    },
+    {
+      "id": "E-G04-S289-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-TROUSER-FACE-PLACEMENT-S289.md",
+      "commit": null,
+      "sha256": null,
+      "verified": false,
+      "note": "S289 packet reserves a bounded source-topology-based Trouser face-placement attempt and records scope and exit gates."
+    },
+    {
+      "id": "E-G04-S289-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-TROUSER-FACE-PLACEMENT-S289.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Exact current-draft Trouser fly and four-role waistband joins do not determine coherent rigid front/back flats; retained production Chromium evidence confirms all 24 option-face requests are visibly held without partial geometry."
     }
   ]
 }

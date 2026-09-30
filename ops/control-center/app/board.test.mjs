@@ -126,7 +126,8 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
       assert.ok(admittedWork[1].comments.some((comment) => /Slice 283 started.*G04-V02-SOURCE-INTERFACE-SEGMENTS-S283\.md/.test(comment.text)));
       assert.ok(admittedWork[1].comments.some((comment) => /Slice 283 exit: source-backed Skirt waistband face segments passed/.test(comment.text)));
       assert.ok(admittedWork[1].comments.some((comment) => /Slice 284 started 2026-09-30 05:24:03 UTC.*G04-V02-INTEGRATED-OUTPUT-REVIEW-S284\.md/.test(comment.text)));
-      assert.match(admittedWork[1].comments.at(-1).text, /Slice 288 exit: Jalie 3137, Maelo BL-018 and Threads two-piece collar drafting sources/);
+      assert.ok(admittedWork[1].comments.some((comment) => /Slice 288 exit: Jalie 3137, Maelo BL-018 and Threads two-piece collar drafting sources/.test(comment.text)));
+      assert.match(admittedWork[1].comments.at(-1).text, /S289 source-topology audit found no supported rigid Trouser face placement/);
       assert.deepEqual(admittedWork.map((entry) => entry.dependencies), [[], ["G04-V01"], ["G04-V02"]]);
     }
     if (id === "EPIC-16") {

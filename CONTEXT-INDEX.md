@@ -179,6 +179,9 @@ only through an explicitly admitted, linked Epic packet.
   authored outer collar cubic. Specific Polo and two-piece collar references
   establish base-seam construction but not a unique outer-cubic point; its
   faces remain held.
+- `docs/research/epic17/G04-V02-TROUSER-FACE-PLACEMENT-S289.md` — active
+  S289 boundary for a source-topology-bound Trouser placement attempt; retain
+  holds unless all relevant interfaces support one coherent result.
 - `src/render/technical-flat-projection.ts` — versioned G04 face-projection
   metadata and exact drafted-topology validation. Interior split landmarks not
   present as source endpoints remain unsupported and explicitly held.

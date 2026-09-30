@@ -1,6 +1,17 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 286 Woven source-metadata implementation complete; V02 remains open, 2026-09-30._
+_Last updated: Slice 289 Trouser source hold; V02 remains open, 2026-09-30._
+
+## EPIC-17 / G04 — Slice 289 complete; V02 remains open
+
+- **Start/exit:** 2026-09-30 07:54:52–08:02:52 UTC (8m00s). Packet: `docs/research/epic17/G04-V02-TROUSER-FACE-PLACEMENT-S289.md`.
+- **Git:** started clean at S288 `1e6f2e2c8c5735f5ef720e6b2bbaace882702846`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. S289 is uniquely reserved; commit subject is `Slice 289: record Trouser flat placement hold`.
+- **Board:** start revision 478; packet evidence at 479, Epic evidence at 480, start comment at 481. Exit links/comment recorded by validated commands at revisions 482–484.
+- **Source result:** ordered front waist joins place the two front legs, but the right fly-to-shield interface conflicts with the solved placement. On the back, the center-back seam conflicts with the single full-length waistband interface, whose ordered path includes both front-waist segments. No source-backed fly overlap landmark or per-face waistband segment transform resolves these conflicts. Do not skip joins or alter cut geometry.
+- **Rendered evidence:** manually inspected retained S284 production Chromium default screenshots and matrix. All 24 Trouser face requests are held by the named front fly/back waistband conflict; the UI shows no partial face. The focused topology probe was temporary and removed after passing 1/1. No production code changed.
+- **Verification:** Control Center initially passed 32/33 because the board test still required S288 to be the newest comment. After diagnosis, its fixture now requires S288 exit history and the current S289 result. The rerun passed 33/33; `git diff --check` passed. Production coverage/build/export gates do not apply to this research-only boundary. V02 remains In Progress, V03 Backlog; MQF-004–007 and MQF-011/012 remain `To be reviewed`, MQF-015 remains for V03, and post-G17 deferrals are intact.
+- **Elapsed breakdown:** source topology and retained browser review ~4m; focused Control Center diagnosis/repair ~2m; packet/state/board closeout ~2m; external-agent waits 0m; maintainer-decision time 0m.
+- **Next action:** S290 audits pattern-specific Tee/Fitted sleeve contour and front/back instance evidence; keep unsupported faces held and do not begin V03.
 
 ### Slice 287 — G04 V02 Woven sleeve-cap assembly review (complete; V02 remains open)
 
