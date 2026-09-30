@@ -192,6 +192,7 @@ only through an explicitly admitted, linked Epic packet.
 - `docs/research/epic17/G04-V02-POLO-COLLAR-FOLD-MAPPING-S300.md` — Slice 300 full-role reflection candidate emitted crossed Polo collar/stand components; its source change was reverted and complete face holds remain.
 - `docs/research/epic17/G04-V02-POLO-COLLAR-SEWN-PLACEMENT-S301.md` — Slice 301 tests whether the exact Polo collar/stand sewn-interface graph uniquely places complete roles into front/back flat coordinates; implementation is gated on source and topology evidence.
 - `docs/research/epic17/G04-V02-ESTIMATE-RECONCILIATION-S302.md` — Slice 302 re-estimates the remaining V02/V03/integrated gates from current verified output evidence and corrects stale future slice assignments.
+- `docs/research/epic17/G04-V02-SOURCE-DEPENDENCY-INVENTORY-S303.md` — Slice 303 maps the 142 held faces to exact missing source facts/artifacts by recipe family; user-confirmed Woven placket hold remains intact.
 - `docs/research/epic17/S298-browser-final/` — S298 final production 73-configuration/146-face matrix and manually reviewed held/accepted screenshots; accepted Tank/Skirt SVG replay evidence is retained with the matrix.
 - `docs/research/epic17/G04-V02-TEE-FITTED-SLEEVE-SOURCE-S290.md` — completed
   S290 source audit for the exact shared Tee/Fitted sleeve contour and

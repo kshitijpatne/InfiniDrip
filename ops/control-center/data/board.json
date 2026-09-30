@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 573,
-  "updatedAt": "2026-09-30T12:47:54.546Z",
+  "revision": 581,
+  "updatedAt": "2026-09-30T12:56:25.635Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -191,7 +191,9 @@
         "E-G04-S301-START",
         "E-G04-S301-EXIT",
         "E-G04-S302-START",
-        "E-G04-S302-EXIT"
+        "E-G04-S302-EXIT",
+        "E-G04-S303-START",
+        "E-G04-S303-EXIT"
       ]
     },
     {
@@ -2855,7 +2857,9 @@
         "E-G04-S301-START",
         "E-G04-S301-EXIT",
         "E-G04-S302-START",
-        "E-G04-S302-EXIT"
+        "E-G04-S302-EXIT",
+        "E-G04-S303-START",
+        "E-G04-S303-EXIT"
       ],
       "flagKey": null
     },
@@ -5863,6 +5867,16 @@
           "at": "2026-09-30T12:47:54.546Z",
           "actor": "Codex",
           "text": "Slice 302 exit: verified matrix has 4 accepted faces of 146 and 142 held. Re-estimate is 57–71 landed G04 slices total (16–30 remaining from S301); source waits are unpriced and may block V02. Future V03 and final-review slice numbers follow dependency gates. V02 remains In Progress; V03 remains Backlog. Evidence: docs/research/epic17/G04-V02-ESTIMATE-RECONCILIATION-S302.md."
+        },
+        {
+          "at": "2026-09-30T12:55:04.255Z",
+          "actor": "Codex",
+          "text": "Slice 303 started 2026-09-30 12:53:36 UTC. Packet: docs/research/epic17/G04-V02-SOURCE-DEPENDENCY-INVENTORY-S303.md. Consolidate exact sources needed for the remaining 142 held faces; keep user-confirmed Woven closure hold and all V02 acceptance gates."
+        },
+        {
+          "at": "2026-09-30T12:56:25.635Z",
+          "actor": "Codex",
+          "text": "Slice 303 exit: inventory maps 142 held faces to the missing source facts/artifacts by recipe family. Woven closure remains held per maintainer instruction; no other hold is treated as accepted. Evidence: docs/research/epic17/G04-V02-SOURCE-DEPENDENCY-INVENTORY-S303.md. V02 remains In Progress; V03 remains Backlog."
         }
       ],
       "evidenceRefs": [
@@ -5923,7 +5937,9 @@
         "E-G04-S301-START",
         "E-G04-S301-EXIT",
         "E-G04-S302-START",
-        "E-G04-S302-EXIT"
+        "E-G04-S302-EXIT",
+        "E-G04-S303-START",
+        "E-G04-S303-EXIT"
       ],
       "flagKey": null
     },
@@ -7323,6 +7339,24 @@
       "sha256": null,
       "verified": true,
       "note": "Reconciled G04 estimate to 57–71 total landed slices (16–30 remaining at S301), based on 4/146 accepted and 142/146 held, with V02 source-dependent work, gated V03 and final merge/deployment remaining. Future slice ranges were made dependency-based and current board/roadmap/admission records agree."
+    },
+    {
+      "id": "E-G04-S303-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-SOURCE-DEPENDENCY-INVENTORY-S303.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S303 consolidates the 142 held-face V02 source dependencies against the 73-configuration/146-face production matrix and names minimum evidence artifacts without changing scope or acceptance."
+    },
+    {
+      "id": "E-G04-S303-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/G04-V02-SOURCE-DEPENDENCY-INVENTORY-S303.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "The 142 held V02 face requests are mapped by recipe family to the exact missing source fact and minimum artifact; user-confirmed Woven placket hold remains. This documentation-only slice changes no output, scope or acceptance."
     }
   ]
 }

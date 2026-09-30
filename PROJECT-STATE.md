@@ -1,15 +1,17 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 302 estimate/sequence reconciliation complete; V02 remains open, 2026-09-30._
+_Last updated: Slice 303 source-dependency inventory complete; V02 remains open, 2026-09-30._
 
-## EPIC-17 / G04 current handoff — S302 complete; V02 remains open
+## EPIC-17 / G04 current handoff — S303 complete; V02 remains open
 
-- Latest completed boundary: S301 `44f7e8424eee14c8f8186d65a9e0b3f6df929c55` (`Slice 301: document Polo collar sewn-placement hold`); clean start for S302. Refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor.
-- Canonical board revision 563 at S302 start; S302 packet/start evidence/comment link at revisions 564–567. EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog.
+- S303 started at 2026-09-30 12:53:36 UTC from clean S302 `140a1091918c964b6011c24cc238bc5b525155b3`, subject `Slice 302: reconcile G04 estimate and sequence`. Refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor; S303 is uniquely assigned. Its evidence and start comment were linked at board revisions 574–577.
+- S303 `map remaining V02 source dependencies` inventories 142 held faces by Tee/Fitted sleeve, Polo collar/stand, Woven assembly roles and Trouser placement. No new construction artifact was present, no missing geometry was inferred and no production code/output changed. Packet: `docs/research/epic17/G04-V02-SOURCE-DEPENDENCY-INVENTORY-S303.md`.
+- S303 elapsed 4m18s (12:53:36–12:57:54 UTC): source review 2m; implementation 0m; docs/board closeout 1m; Control Center/diff verification 1m; rendered review 0m; external-agent waits 0m; maintainer-decision time 0m. Exit evidence and comment link at revisions 578–581. The final landed commit is recorded at S304 start.
+- Board final revision 581. EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog. S303 requires Control Center tests and `git diff --check`; no production output or geometry changed, so no production/browser/global gate applied.
 - Latest all-recipe output evidence is the production Chromium 73-configuration / 146-face matrix: 4 accepted (Tank/Skirt defaults), 142 held. Complete V02 is not accepted. Woven placket closure/order remains held because the maintainer confirmed no marked reference exists; Polo outer-collar face mapping also remains unsupported.
-- S302 scope is a documentation/board-only re-estimate and future-sequence correction. Prior 41–46 estimate and roadmap 22–26 estimate are stale given delivered S297–S301 work and remaining V02, V03, integration, PR, merge and deployment gates. Packet: `docs/research/epic17/G04-V02-ESTIMATE-RECONCILIATION-S302.md`.
-- Reconciled working estimate is 57–71 landed slices total (16–30 from the S301 boundary including S302), conditional on source evidence; unavailable-source waits remain unpriced and may block V02. S302 made no production implementation changes. Admission and roadmap estimates and future sequencing are synchronized.
-- **Next gate:** begin the next source-backed V02 slice from a refreshed Git/board/usage boundary. Keep Woven closure held; do not start V03 until every supported face/option passes.
+- S303 scope is a source-dependency inventory for the 142 held faces. Its packet maps each remaining role family to exact source facts/artifacts; user-confirmed Woven closure hold remains. Packet: `docs/research/epic17/G04-V02-SOURCE-DEPENDENCY-INVENTORY-S303.md`.
+- Reconciled working estimate is 57–71 landed slices total (16–30 from the S301 boundary including S302), conditional on source evidence; unavailable-source waits remain unpriced and may block V02. S302 `140a1091918c964b6011c24cc238bc5b525155b3` made no production implementation changes; admission/roadmap/board estimates now agree.
+- **Next gate:** continue with one resolvable V02 task only if required source evidence exists. Keep the Woven closure and other unsupported faces held; do not start V03 until every supported face/option passes.
 ## EPIC-17 / G04 current handoff — S298 complete; V02 remains open
 
 - S297 landed as `2dbfd753fc164829cd93d086b2a0d1455f5b0f4a` (`Slice 297: map Woven front physical pair`). Refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor; the worktree was clean at S298 start.
