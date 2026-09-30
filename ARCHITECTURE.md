@@ -341,11 +341,16 @@ axis. The emitted connector is provenance-tagged as a view silhouette
 boundary; it does not alter the pattern, notch, seam or export geometry. The
 waistband's own short `fold` edge remains excluded as a garment axis. Production
 Chromium shows coherent Skirt body/band outlines at three waist/ease
-configurations without a continuous center-fold line. This accepts only the
-bounded S283 implementation evidence: S284 must review the full rendered
-matrix and all remaining held roles before Skirt or V02 can be accepted. See
-`docs/research/epic17/G04-V02-FACE-SEGMENT-CONTRACT-S282.md` and
-`docs/research/epic17/G04-V02-SOURCE-INTERFACE-SEGMENTS-S283.md`.
+configurations without a continuous center-fold line. Slice 284 re-ran all 73
+configurations/146 faces: Tank and Skirt front/back are the only four emitted
+views; Tee/Fitted sleeve, Polo/Woven collar, Woven vent and Trouser assembly
+faces remain held. Same-revision Tank artwork/colorway overlay passes, but
+Woven-shirt button visibility and Polo collar depiction remain unverified.
+V02 is not accepted. Slice 285 must check available construction references
+for exact missing source landmarks; unsupported roles remain visibly held. See
+`docs/research/epic17/G04-V02-FACE-SEGMENT-CONTRACT-S282.md`,
+`docs/research/epic17/G04-V02-SOURCE-INTERFACE-SEGMENTS-S283.md` and
+`docs/research/epic17/G04-V02-INTEGRATED-OUTPUT-REVIEW-S284.md`.
 
 The **Edit** view keeps user-authored deltas against stable recipe-owned
 anchors, rather than saving a disconnected picture. Pointer drags and keyboard

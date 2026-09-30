@@ -1,11 +1,27 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 283 source-backed Skirt face segments complete; V02 remains open, 2026-09-30._
+_Last updated: Slice 284 integrated rendered-output review started; V02 remains open, 2026-09-30._
+
+### Slice 284 — G04 V02 integrated rendered-output review (in progress)
+
+- **Start:** 2026-09-30 05:24:03 UTC. Packet: `docs/research/epic17/G04-V02-INTEGRATED-OUTPUT-REVIEW-S284.md`.
+- **Git:** clean at S283 `337ed72640500ef490a4bb3346cb34b09ed8d80d` (`Slice 283: implement source-backed skirt face segments`) on `codex/epic-17-g04`; fetched `origin` with prune. Refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. S283 is highest assigned; S284 is unique.
+- **Board:** revision 437 before start; `E-G04-S284-START` packet evidence linked and start comment validated at revision 439. EPIC-17 In Progress; V01 Done; V02 In Progress; V03 Backlog. `E-G04-S283-EXIT` remains linked to V02 and EPIC-17.
+- **Scope:** rerun 73 configurations/146 front/back face requests in production Chromium with all 32 single-option min/max endpoints and the existing combined fixtures. Retain output, issues, revision, labels/POM/topology/browser data, inspect every emitted default and representative option/overlay views, compare S281/S283 outcomes, and review MQF-004–007/011/012 against the applicable output. No scope expansion from a finding.
+- **Gates/blockers:** full matrix and manual output review. Keep unsupported Tee/Fitted sleeves, Polo/Woven collars (specific construction reference still absent), Trouser cycles and Woven vent visibly held. Preserve all export byte identities and no physical/factory claim. If source correction is required, assign its own unique next slice and full focused 100% coverage.
+- **Delegation:** matrix and output review are coupled; no safe disjoint low-risk work. External-agent waits expected 0m.
+- **Result:** production Chromium completed 73 configurations/146 face requests and 32 option endpoint pairs with zero browser/page/remote errors. Four faces emitted (Tank and Skirt front/back); 142 are held across Tee/Fitted sleeves, Polo/Woven collar splits, Woven vents and Trouser fly/waistband joins. Emitted views passed automated parsing/revision/layout/POM checks and manual review. Same-revision local artwork/colorway overlay passed on supported Tank; the Tee overlay fixture is held as documented. MQF-004/005/006/007/011/012 reviewed as partial or uncovered and remain `To be reviewed`; MQF-015 remains for V03.
+- **Acceptance:** the review gates passed, but V02 output acceptance failed because 142/146 faces remain held and important construction details are unverified. No source or production code changed. Preserve existing byte-identity gate evidence.
+- **Board:** S284 packet/start evidence and start comment at revisions 438–439; verified `E-G04-S284-EXIT` linked to V02 and EPIC-17 at revisions 440–441; exit comment at 442; revised estimate through validated `editEpic` at 443 and synced the summary card through validated `editItem` at 444. Estimate is 28–33 total landed slices.
+- **Elapsed time:** matrix/rendered review and manual artifact inspection ~24m; focused Control Center/script checks ~3m; durable closeout and validated board update ~10m (workstreams overlap); external-agent waits 0m; maintainer decisions 0m. Start 05:24:03 UTC; exit time 06:02:00 UTC; total 37m57s.
+- **Next action:** S285 performs a bounded source audit for exact construction references/landmarks that might resolve the remaining V02 mappings. If no specific Polo/Woven collar reference exists, keep those faces held and ask for the source needed to proceed; do not start V03 before V02 passes.
+
+### Slice 283 — G04 V02 source-interface face segments (complete; V02 remains open)
 
 ### Slice 283 — G04 V02 source-interface face segments (complete; V02 remains open)
 
 - **Start:** 2026-09-30 04:10:07 UTC. Packet: `docs/research/epic17/G04-V02-SOURCE-INTERFACE-SEGMENTS-S283.md`.
-- **Git:** started clean at S282 `fc54deb13cb87d57bcfcd49aa30b13192e6fc561` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. S282 is the highest assigned slice; S283 is reserved.
+- **Git:** started clean at S282 `fc54deb13cb87d57bcfcd49aa30b13192e6fc561` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. S283 landed as `337ed72640500ef490a4bb3346cb34b09ed8d80d` (`Slice 283: implement source-backed skirt face segments`).
 - **Board:** revision 433 before start, validated S283 start comment at 434, `E-G04-S283-EXIT` created/linked to V02 at 435 and linked to EPIC-17 at 436, exit comment at 437. EPIC-17 In Progress; V01 Done; V02 In Progress; V03 Backlog.
 - **Scope:** implement the source-backed Skirt waistband boundary, segment each face from the ordered stitch plus exact strip topology, and reflect only the segment sewn to its panel center-fold axis. Preserve pattern/notch coordinates and every export byte identity. All unrelated source holds remain.
 - **Gates:** focused changed-module 100% coverage; drafting/assembly/projection/geometry/live/POM tests; build; Control Center; protected DXF/export identities; production Chromium Skirt front/back rendering and manual inspection; `git diff --check`. Full option matrix belongs to S284.
