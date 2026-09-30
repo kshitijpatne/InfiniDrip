@@ -97,6 +97,11 @@ coordinates and cut shape stay unchanged. Geometry reflection preserves source
 IDs and revision binding, while the complete Woven face remains withheld until
 the placket instances/overlap, sleeve-cap split, collar landmark and assembled
 output are all supported and reviewed.
+S298 changes only how repeated live-flat edge holds are presented: identical
+geometry messages from one role are grouped with the complete list of source
+edge IDs, while distinct roles, stages, and POM/assembly/overlay issues remain
+separate. The live issue records, face holds and accepted SVG output are
+unchanged.
 
 Each garment has its own rule set (called a **recipe** in the code). It says
 which measurements, options, pieces, and construction details to use. A tee

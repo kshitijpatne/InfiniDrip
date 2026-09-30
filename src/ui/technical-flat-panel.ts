@@ -24,15 +24,51 @@ export interface TechnicalFlatPanelInput {
   readonly measureText: TechnicalFlatMeasureText;
 }
 
-type DisplayIssue = TechnicalFlatLiveIssue | TechnicalFlatSvgIssue | { readonly code: string; readonly message: string };
+export type TechnicalFlatPanelIssue = TechnicalFlatLiveIssue | TechnicalFlatSvgIssue | { readonly code: string; readonly message: string };
+
+interface GroupedEdgeIssue {
+  readonly issue: TechnicalFlatLiveIssue;
+  readonly sourcePrefix: string;
+  readonly edgeIds: string[];
+}
 
 function escapeUiText(value: string): string {
   return value.replace(/[&<>"']/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[character]!);
 }
 
-function issueList(issues: readonly DisplayIssue[]): string {
+export function technicalFlatIssueList(issues: readonly TechnicalFlatPanelIssue[]): string {
+  const rows: Array<TechnicalFlatPanelIssue | GroupedEdgeIssue> = [];
+  const grouped = new Map<string, GroupedEdgeIssue>();
+  for (const issue of issues) {
+    if (!("stage" in issue) || issue.stage !== "geometry") {
+      rows.push(issue);
+      continue;
+    }
+    const edge = issue.sourceId.match(/^(pattern:[^:]+:role:[^:]+):edge:(.+)$/);
+    if (!edge) {
+      rows.push(issue);
+      continue;
+    }
+    const [, sourcePrefix] = edge;
+    const normalizedMessage = issue.message.replace(/edge “[^”]+”/, "edge “one of the listed source edges”");
+    const key = `${issue.stage}\u0000${sourcePrefix}\u0000${normalizedMessage}`;
+    const existing = grouped.get(key);
+    if (existing) {
+      existing.edgeIds.push(issue.sourceId);
+    } else {
+      const entry: GroupedEdgeIssue = { issue, sourcePrefix, edgeIds: [issue.sourceId] };
+      grouped.set(key, entry);
+      rows.push(entry);
+    }
+  }
   return `<ul data-technical-flat-issues role="status" aria-label="Technical flat guidance" style="margin:8px 0;padding-left:22px;color:${BLUEPRINT.lineActive}">` +
-    issues.map((issue) => {
+    rows.map((row) => {
+      if ("issue" in row && row.edgeIds.length > 1) {
+        const message = row.issue.message.replace(/edge “[^”]+”/, "edge “one of the listed source edges”");
+        const affected = ` Affected source edges: ${row.edgeIds.join(", ")}.`;
+        return `<li><strong>${escapeUiText(row.issue.stage)} · ${escapeUiText(row.sourcePrefix)}:</strong> ${escapeUiText(message + affected)}</li>`;
+      }
+      const issue = "issue" in row ? row.issue : row;
       const label = "stage" in issue ? issue.stage : issue.code;
       const source = "sourceId" in issue ? issue.sourceId : "entityId" in issue ? issue.entityId : undefined;
       return `<li><strong>${escapeUiText(label)}${source ? ` · ${escapeUiText(source)}` : ""}:</strong> ${escapeUiText(issue.message)}</li>`;
@@ -45,7 +81,7 @@ export function technicalFlatPanelMarkup(input: TechnicalFlatPanelInput): string
   const checked = validateTechnicalFlatOptions(input.recipe, input.measurements, input.rawOptions, input.revisionId);
   if (checked.issues.length > 0) {
     return faceControls + '<p role="status">Technical flat withheld. Correct the listed supported options or pattern source.</p>' +
-      issueList(checked.issues);
+      technicalFlatIssueList(checked.issues);
   }
   if (!input.sizeReady) {
     return faceControls + '<p role="status">Technical flat withheld. Review or rebase the current pattern edits before viewing this revision.</p>';
@@ -58,7 +94,7 @@ export function technicalFlatPanelMarkup(input: TechnicalFlatPanelInput): string
     kind: input.kind, placements: input.placements, colorHex: input.colorHex, texture: input.texture, shine: input.shine });
   if (!live.view || live.issues.length > 0) {
     return faceControls + '<p role="status">Technical flat withheld. Resolve the source or assembly issues below; no partial face is shown.</p>' +
-      issueList(live.issues);
+      technicalFlatIssueList(live.issues);
   }
 
   const rendered = renderTechnicalFlatSvg(live.view, { measureText: input.measureText,
@@ -69,5 +105,5 @@ export function technicalFlatPanelMarkup(input: TechnicalFlatPanelInput): string
     "This view updates from the current pattern; it is not a saved style history record.</p>";
   return faceControls + status + (rendered.svg
     ? `<div data-technical-flat-svg data-revision-id="${escapeUiText(input.revisionId)}">${rendered.svg}</div>`
-    : '<p role="status">Technical flat withheld because the measured drawing is unreadable or incomplete.</p>' + issueList(rendered.issues));
+    : '<p role="status">Technical flat withheld because the measured drawing is unreadable or incomplete.</p>' + technicalFlatIssueList(rendered.issues));
 }

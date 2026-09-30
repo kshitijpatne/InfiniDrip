@@ -1,6 +1,17 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 296 Woven sleeve-source review; V02 remains open, 2026-09-30._
+_Last updated: Slice 298 held-view guidance readability complete; V02 remains open, 2026-09-30._
+
+## EPIC-17 / G04 current handoff — S298 complete; V02 remains open
+
+- S297 landed as `2dbfd753fc164829cd93d086b2a0d1455f5b0f4a` (`Slice 297: map Woven front physical pair`). Refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor; the worktree was clean at S298 start.
+- S297 adds source-backed, view-only Woven front-pair reflection metadata. Its final production Chromium replay covered 28 configurations / 56 faces: 0 SVGs emitted, 56 visible holds, no browser/page/request errors. See `docs/research/epic17/G04-V02-WOVEN-FRONT-PAIR-METADATA-S297.md` and `docs/research/epic17/S297-browser-final/`.
+- V01 is Done; V02 remains In Progress; V03 remains Backlog. Current V02 source holds include the Woven sleeve-cap boundary, collar outer landmark, closure instance/order, Polo collar landmark, Tee/Fitted sleeve view, and Trouser assembly placement. The requested same-model marked construction evidence is still pending; do not infer missing mappings.
+- S298 started at 2026-09-30 10:54:49 UTC from clean S297 commit `2dbfd753fc164829cd93d086b2a0d1455f5b0f4a`, with board revision 531 and refreshed `origin/main` ancestor. The validated board linked start evidence/comment and synchronized the conditional estimate to 41–46 at revisions 532–536.
+- S298 groups repeated same-role edge hold messages in the technical-flat panel while retaining every full source edge ID and each distinct blocker. Focused changed-module coverage is 100% in all four measures (9/9); UI/view tests pass 99/99; Control Center 33/33; build passes. Final production Chromium covers 73 configurations and 146 faces: 4 accepted, 142 held, zero browser/page/request errors. All four emitted Tank/Skirt default SVGs replay and parse. Final rendered evidence and manual review: `docs/research/epic17/S298-browser-final/`; packet: `docs/research/epic17/G04-V02-HELD-GUIDANCE-READABILITY-S298.md`.
+- S298 elapsed 51m43s: implementation 6m; focused tests/repairs and build 8m; Control Center/diff and durable board/docs closeout 4m; pre-final matrix 15m; final matrix 15m; accepted-SVG replay/manual review 3m; external-agent waits 0m; maintainer-decision time 0m. The single slice commit is recorded in the S299 handoff after landing.
+- Verified exit evidence `E-G04-S298-EXIT` is linked to G04-V02, the EPIC-17 summary card and the Epic record through validated commands at revisions 537–540; the exit comment is revision 539. Board final revision is 540. V01 remains Done, V02 In Progress and V03 Backlog.
+- **Next gate:** continue source-backed V02 blocker work only; same-model collar/sleeve construction reference is still pending. Keep Polo/Woven/Tee/Fitted/Trouser holds intact, preserve MQF findings as review checks, and do not start V03. Full repository coverage/build and other integrated gates remain for the settled Epic/PR candidate.
 
 ## EPIC-17 / G04 — Slice 296 complete; V02 remains open
 

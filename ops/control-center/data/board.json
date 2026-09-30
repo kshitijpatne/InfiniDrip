@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 531,
-  "updatedAt": "2026-09-30T10:36:02.858Z",
+  "revision": 540,
+  "updatedAt": "2026-09-30T11:49:15.566Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -155,7 +155,7 @@
       "title": "EPIC-17: G04 — Professional flats and CAD interchange",
       "status": "In Progress",
       "owner": "Codex",
-      "description": "Admitted 2026-09-29 by explicit maintainer instruction. G04 V01 → V02 → V03; current conditional estimate 39–44 landed slices including admission and final merge evidence, re-estimated after S286 found incoherent Woven assembly. Woven collar/closed-vent view metadata is validated, but front components cross/separate and back sleeve-cap ease placement conflicts. Polo outer-contour correspondence, Tee/Fitted sleeve projection and Trouser placement also remain unresolved. V02 stays In Progress and V03 is gated. Scope, boundaries, verification and rights gates: docs/planning/EPIC-17-ADMISSION.md.",
+      "description": "Admitted 2026-09-29 by explicit maintainer instruction. G04 V01 → V02 → V03; current conditional estimate 41–46 landed slices including admission and final merge evidence, re-estimated after S297 source-backed Woven pair metadata and S298 held-view readability review. Woven collar, sleeve and closure relations remain held; Polo collar, Tee/Fitted sleeve and Trouser placement also need exact source evidence. V02 stays In Progress and V03 is gated. Scope, boundaries, verification and rights gates: docs/planning/EPIC-17-ADMISSION.md.",
       "evidenceRefs": [
         "E-G04-S271-EXIT",
         "E-G04-S273-EXIT",
@@ -182,7 +182,8 @@
         "E-G04-S294-START",
         "E-G04-S294-EXIT",
         "E-G04-S295-START",
-        "E-G04-S297-EXIT"
+        "E-G04-S297-EXIT",
+        "E-G04-S298-EXIT"
       ]
     },
     {
@@ -2711,7 +2712,7 @@
         "100% coverage",
         "maintainer gates"
       ],
-      "description": "Admitted 2026-09-29 by explicit maintainer instruction. G04 V01 → V02 → V03; current conditional estimate 39–44 landed slices including admission and final merge evidence, re-estimated after S286 found incoherent Woven assembly. Woven collar/closed-vent view metadata is validated, but front components cross/separate and back sleeve-cap ease placement conflicts. Polo outer-contour correspondence, Tee/Fitted sleeve projection and Trouser placement also remain unresolved. V02 stays In Progress and V03 is gated. Scope, boundaries, verification and rights gates: docs/planning/EPIC-17-ADMISSION.md.",
+      "description": "Admitted 2026-09-29 by explicit maintainer instruction. G04 V01 → V02 → V03; current conditional estimate 41–46 landed slices including admission and final merge evidence, re-estimated after S297 source-backed Woven pair metadata and S298 held-view readability review. Woven collar, sleeve and closure relations remain held; Polo collar, Tee/Fitted sleeve and Trouser placement also need exact source evidence. V02 stays In Progress and V03 is gated. Scope, boundaries, verification and rights gates: docs/planning/EPIC-17-ADMISSION.md.",
       "expectation": "Front/back technical flats for every supported recipe/variant and proven CAD interchange. Pattern-linked side/oblique views are explicitly owned by G09/D04, so the complete view set is accepted only there.",
       "acceptanceCriteria": [
         "Complete every G04 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
@@ -2814,6 +2815,11 @@
           "at": "2026-09-30T07:24:46.638Z",
           "actor": "Maintainer",
           "text": "Updated Epic metadata (description: Admitted 2026-09-29 by explicit maintainer instruction. G04 V01 → V02 → V03; current conditional estimate 39–44 landed slices including admission and final merge evidence, re-estimated after S286 found incoherent Woven assembly. Woven collar/closed-vent view metadata is validated, but front components cross/separate and back sleeve-cap ease placement conflicts. Polo outer-contour correspondence, Tee/Fitted sleeve projection and Trouser placement also remain unresolved. V02 stays In Progress and V03 is gated. Scope, boundaries, verification and rights gates: docs/planning/EPIC-17-ADMISSION.md.). Re-estimate after S286 confirmed the Woven views remain held pending a source-backed sleeve-cap placement review."
+        },
+        {
+          "at": "2026-09-30T10:57:10.776Z",
+          "actor": "Maintainer",
+          "text": "Updated Epic metadata (description: Admitted 2026-09-29 by explicit maintainer instruction. G04 V01 → V02 → V03; current conditional estimate 41–46 landed slices including admission and final merge evidence, re-estimated after S297 source-backed Woven pair metadata and S298 held-view readability review. Woven collar, sleeve and closure relations remain held; Polo collar, Tee/Fitted sleeve and Trouser placement also need exact source evidence. V02 stays In Progress and V03 is gated. Scope, boundaries, verification and rights gates: docs/planning/EPIC-17-ADMISSION.md.). Synchronize the conditional estimate and remaining holds from the verified S297/S298 boundary."
         }
       ],
       "evidenceRefs": [
@@ -2827,7 +2833,9 @@
         "E-G04-S288-EXIT",
         "E-G04-S295-EXIT",
         "E-G04-S296-START",
-        "E-G04-S296-EXIT"
+        "E-G04-S296-EXIT",
+        "E-G04-S298-START",
+        "E-G04-S298-EXIT"
       ],
       "flagKey": null
     },
@@ -5785,6 +5793,16 @@
           "at": "2026-09-30T10:36:02.858Z",
           "actor": "Maintainer",
           "text": "Slice 297 exit: source-declared Woven front quantity-two reflection is typed separately from on-fold and validates the exact centerFront axis without changing cut geometry. Production Chromium held all 56 front/back faces across 28 configurations; no browser/page/request errors. Changed projection/live modules each pass 100% focused coverage, focused technical-flat tests pass 73/73, build and protected identities 24/24 pass. See docs/research/epic17/G04-V02-WOVEN-FRONT-PAIR-METADATA-S297.md. G04-V02 remains In Progress; G04-V03 remains Backlog."
+        },
+        {
+          "at": "2026-09-30T10:57:09.516Z",
+          "actor": "Maintainer",
+          "text": "Slice 298 started 2026-09-30 10:54:49 UTC from clean S297 commit 2dbfd753 on refreshed origin/main ancestor a5af5e1; board revision 531 and unique slice 298. Scope: group only exact repeated edge-level blockers in technical-flat guidance, preserve every edge ID and distinct issue, retain fail-closed views, and verify the production 146-face matrix. Packet: docs/research/epic17/G04-V02-HELD-GUIDANCE-READABILITY-S298.md. V02 remains In Progress; V03 stays Backlog."
+        },
+        {
+          "at": "2026-09-30T11:48:06.232Z",
+          "actor": "Maintainer",
+          "text": "Slice 298 exit: exact repeated edge-level holds now render as one role-level row with every full source edge ID; distinct role, POM and other blockers remain. Technical-flat panel coverage is 100% in all four measures (9/9); focused panel/view tests pass 99/99, Control Center 33/33, build passes. Final production Chromium matrix: 73 configurations / 146 faces, 4 accepted, 142 held, zero console/page/request errors; all four accepted Tank/Skirt default SVGs replayed and parsed. See docs/research/epic17/G04-V02-HELD-GUIDANCE-READABILITY-S298.md and docs/research/epic17/S298-browser-final/. V02 remains In Progress; V03 remains Backlog."
         }
       ],
       "evidenceRefs": [
@@ -5835,7 +5853,9 @@
         "E-G04-S296-START",
         "E-G04-S296-EXIT",
         "E-G04-S297-START",
-        "E-G04-S297-EXIT"
+        "E-G04-S297-EXIT",
+        "E-G04-S298-START",
+        "E-G04-S298-EXIT"
       ],
       "flagKey": null
     },
@@ -7145,6 +7165,24 @@
       "sha256": null,
       "verified": true,
       "note": "Source-backed quantity-two Woven front-pair view reflection validates against the exact same-revision centerFront axis. Production Chromium retains visible holds for all 56 face requests; protected export/DXF identities are unchanged."
+    },
+    {
+      "id": "E-G04-S298-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-HELD-GUIDANCE-READABILITY-S298.md",
+      "commit": null,
+      "sha256": null,
+      "verified": false,
+      "note": "Slice 298 start packet: improve readability of repeated identical held-view diagnostics while preserving every source edge and distinct blocker."
+    },
+    {
+      "id": "E-G04-S298-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/G04-V02-HELD-GUIDANCE-READABILITY-S298.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Repeated same-role edge holds are grouped while preserving all edge identifiers and distinct issues. Focused UI coverage is 100%; 146-face production replay passes with 4 accepted defaults, 142 holds and zero browser errors."
     }
   ]
 }
