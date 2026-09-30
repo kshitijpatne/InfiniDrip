@@ -89,6 +89,14 @@ edges. The authored fold edges are excluded from the exterior contour and the
 existing face compiler preserves exact component geometry. This does not alter
 cut geometry or release a partial live face: the front pair/placket, sleeve
 cap, and collar assembly requirements still withhold both complete Woven views.
+S297 adds a separate physical-pair reflection contract for the Woven front:
+the physical-role source declares two mirrored separate pieces, and the live
+front map validates its exact straight `centerFront` edge on local x=0 with the
+draft on one side. This is view metadata, not `Piece.onFold`; the source
+coordinates and cut shape stay unchanged. Geometry reflection preserves source
+IDs and revision binding, while the complete Woven face remains withheld until
+the placket instances/overlap, sleeve-cap split, collar landmark and assembled
+output are all supported and reviewed.
 
 Each garment has its own rule set (called a **recipe** in the code). It says
 which measurements, options, pieces, and construction details to use. A tee

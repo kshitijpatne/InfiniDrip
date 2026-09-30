@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { GARMENTS, STANDARD_M, defaultGarmentOptions } from "../drafting";
-import { compileTechnicalFlatLiveView, placeTechnicalFlatPrimitive, reflectFoldPrimitive, reflectPrimitiveAcrossLine, technicalFlatAssemblyNotices, technicalFlatPrimitiveRole } from "./technical-flat-live";
+import { appendPhysicalPairReflection, compileTechnicalFlatLiveView, placeTechnicalFlatPrimitive, reflectFoldPrimitive, reflectPhysicalPairPrimitive, reflectPrimitiveAcrossLine, technicalFlatAssemblyNotices, technicalFlatPrimitiveRole } from "./technical-flat-live";
 import { assembleTechnicalFlatRoles } from "./technical-flat-assembly";
 import type { FlatPathPrimitive, TechnicalFlatPrimitive } from "./technical-flat";
 import type { TechnicalFlatLiveIssue } from "./technical-flat-live";
@@ -167,7 +167,7 @@ describe("compileTechnicalFlatLiveView", () => {
           expect(result.colorway).toBeNull();
           if (kind === "FRONT_FLAT") {
             expect(result.issues.some((issue) => issue.stage === "geometry"
-              && issue.message.includes("crossing source roles"))).toBe(true);
+              && issue.message.includes("right/left placket instances and overlap order"))).toBe(true);
           } else {
             expect(result.issues.some((issue) => issue.stage === "geometry"
               && issue.message.includes("Woven sleeve-cap placement"))).toBe(false);
@@ -228,6 +228,24 @@ describe("compileTechnicalFlatLiveView", () => {
       .toBeUndefined();
     expect(reflectFoldPrimitive({ ...base, kind: "text", id: "text", at: { x: 1, y: 1 }, text: "note" }, "centerFront"))
       .toBeUndefined();
+    const reflection = { edgeId: "centerFront", axis: "LOCAL_Y" as const,
+      source: "WOVEN_SHIRT_PHYSICAL_ROLES" as const, quantity: 2 as const };
+    const physicalPair = reflectPhysicalPairPrimitive(outline, reflection, { offset: { x: 5, y: 2 }, rotationDegrees: 0 });
+    expect(physicalPair).toMatchObject({ id: "outline:physical-pair-reflection",
+      sourceEdgeIds: ["pattern:tee:role:front:edge:neck", "pattern:tee:role:front:edge:side"],
+      commands: [{ op: "move", point: { x: 5, y: 2 } }, { op: "line", point: { x: 3, y: 3 } },
+        { op: "move", point: { x: 3, y: 3 } }, { op: "line", point: { x: 1, y: 2 } }] });
+    expect(reflectPhysicalPairPrimitive(outline, undefined, { offset: { x: 0, y: 0 }, rotationDegrees: 0 })).toBeUndefined();
+    expect(reflectPhysicalPairPrimitive(outline, reflection, undefined)).toBeUndefined();
+    expect(reflectPhysicalPairPrimitive({ ...outline, source: { ...base.source, sourceClass: "USER_REFERENCE" } },
+      reflection, { offset: { x: 0, y: 0 }, rotationDegrees: 0 })).toBeUndefined();
+    expect(reflectPhysicalPairPrimitive({ ...base, kind: "text", id: "text", at: { x: 1, y: 1 }, text: "note" },
+      reflection, { offset: { x: 0, y: 0 }, rotationDegrees: 0 })).toBeUndefined();
+    const reflectedPair: TechnicalFlatPrimitive[] = [outline];
+    appendPhysicalPairReflection(reflectedPair, outline, reflection, { offset: { x: 5, y: 2 }, rotationDegrees: 0 });
+    expect(reflectedPair).toHaveLength(2);
+    appendPhysicalPairReflection(reflectedPair, outline, undefined, { offset: { x: 0, y: 0 }, rotationDegrees: 0 });
+    expect(reflectedPair).toHaveLength(2);
   });
 
   it("renders the second half from source-declared folds while preserving the drafted block and single POM anchors", () => {

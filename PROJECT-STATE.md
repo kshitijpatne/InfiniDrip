@@ -5375,3 +5375,72 @@ Targeted tests and narrow/wide Chromium render checks have passed. The complete
 coverage/build/Control Center/export-identity gate and fresh independent S254
 audits are pending. See the S254 report and S253 machine-readable record for
 evidence. No merge or G03 exit is claimed yet.
+
+## EPIC-17 / G04 current handoff — refreshed 2026-09-30
+
+The earlier status log below ended at Slice 270 and is a historical snapshot.
+Slices 271–296 are recorded in Git, the canonical board and
+`docs/planning/EPIC-17-ADMISSION.md`; the most recent output reviews are S291's
+73-configuration/146-face integrated matrix, S295's exact Woven back/yoke
+fold-axis metadata, and S296's Woven sleeve-source hold. V01 is Done; V02 is
+In Progress; V03 remains Backlog until V02 passes. The canonical board was
+refreshed at revision 526 before S297 admission.
+
+S295 maps only source-declared Woven back/yoke center folds. S296 confirms the
+Fairfield attachment/ease tutorial does not identify the exact current-pattern
+sleeve-cap front/back boundary. S293 still blocks closure mapping because its
+two placket stitch interfaces target a single front role without explicit
+instances or overlap order; S294 has no exact local Polo/Woven collar
+shoulder-to-outer-edge landmark. All 56 Woven front/back requests remained
+visibly held in S295's focused production browser replay. Do not emit partial
+front/back views or infer missing construction.
+
+Slice 297 started at 2026-09-30 10:04:25 UTC from clean commit
+`ca5b4d4ba7ad4fa9f8a05321bce838e1069aa520`, with refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` an ancestor. The maintainer
+authorized source-backed view metadata. The bounded scope is a view-only,
+revision-validated reflection for the authored Woven front physical pair
+(quantity two, separate pieces, exact `centerFront` on x=0), preserving all
+whole-face holds and all cut geometry. The start packet is
+`docs/research/epic17/G04-V02-WOVEN-FRONT-PAIR-METADATA-S297.md`, linked from
+`CONTEXT-INDEX.md`, the G04 admission packet and G04-V02 at board revision 527;
+the start note is at revision 528. V02 remains In Progress and V03 Backlog.
+
+Slice 297 adds a distinct `physicalPairReflection` contract sourced from
+`WOVEN_SHIRT_PHYSICAL_ROLES`, without treating the separate-piece front as
+`Piece.onFold`. The validator requires the Woven front role, quantity two,
+`onFold: false`, and the unique straight local-x=0 `centerFront` edge with all
+draft points/control points on one side. The live view helper reflects only
+pattern-derived geometry, keeps source/revision metadata, and does not reflect
+styled artwork, labels or callouts. It changes no drafted geometry. The whole
+front/back remains fail-closed for the sleeve-cap, collar and placket-instance /
+overlap-order gaps.
+
+Verification: `technical-flat-projection.ts` and `technical-flat-live.ts` each
+pass focused tests with 100% statement, branch, function and line coverage (19
+projection tests; 13 live tests). Projection, geometry, live, flat model, SVG
+and assembly focused suites pass 73/73; production build passes; protected
+export/DXF checks pass 24/24. Production Chromium exercised 28 Woven option
+configurations/13 fields and 56 front/back faces: 0 SVG outputs, 56 visible
+holds, no console/page/request errors. Default front/back and representative
+button-count/vent cases were manually inspected. Evidence is retained in
+`docs/research/epic17/S297-browser-final/` (the earlier pre-review run is retained separately). `npm run control-center:test` passes 33/33
+after updating its latest-comment regression. The first Control Center run
+expected S296's exit as the latest comment; it was updated for S297's start and
+rerun successfully. An initial test fixture lacked the new physical-pair
+metadata; it now consumes the authored map. One parallel coverage invocation
+collided on Vitest's shared `coverage/.tmp`; sequential changed-module runs pass.
+An exploratory test that removed the live front hold surfaced a view candidate,
+so the mutation was removed: the current source hold remains intact, and the
+production matrix confirms no partial view.
+
+Board revisions 527/528 record S297 start evidence/comment; verified exit
+evidence is linked to G04-V02/EPIC-17 and the exit comment is recorded through
+the validated command layer at revisions 529–531. MQF-004–007/011/012 stay `To be reviewed` as output review
+checks; MQF-015 remains gated for V03. The same-model collar/sleeve construction
+drawing request remains pending. No physical fit, factory acceptance, CAD
+interoperability or production-readiness claim is supported.
+
+**Next action:** continue one source-backed V02 blocker at a time. Keep both
+Polo and Woven collar views held absent their required local construction
+references; keep Woven held for sleeve cap and closure order. V03 remains gated.

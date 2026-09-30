@@ -12,6 +12,7 @@ const revisionId = "style-revision-17";
 
 function projectionMap(recipeId: string, block: Block): TechnicalFlatProjectionMap {
   const base = G04_TECHNICAL_FLAT_MAPPINGS[recipeId];
+  const authored = recipeId === "woven-shirt" ? createG04TechnicalFlatProjectionMap(recipeId, block, revisionId)! : undefined;
   return {
     version: 1, recipeId, revisionId,
     faces: base.faces.map((face) => ({
@@ -19,6 +20,8 @@ function projectionMap(recipeId: string, block: Block): TechnicalFlatProjectionM
       roles: face.roles.map((role) => {
         const piece = block.roles[role.roleId];
         const hidden = role.treatment === "INTERIOR_HIDDEN";
+        const pairReflection = authored?.faces.find((candidate) => candidate.kind === face.kind)?.roles
+          .find((candidate) => candidate.roleId === role.roleId)?.physicalPairReflection;
         const isZero = (edge: (typeof piece.edges)[number]) => {
           const start = edge.kind === "line" ? edge.start : edge.curve.start;
           const end = edge.kind === "line" ? edge.end : edge.curve.end;
@@ -34,6 +37,7 @@ function projectionMap(recipeId: string, block: Block): TechnicalFlatProjectionM
           heldEdges: piece.edges.filter((edge) => hidden || isZero(edge)).map((edge) => ({
             edgeId: edge.name, reason: hidden ? "Interior role is hidden." : "Zero-length edge is unresolved.",
           })),
+          ...(pairReflection ? { physicalPairReflection: pairReflection } : {}),
         };
       }),
     })) as unknown as TechnicalFlatProjectionMap["faces"],
@@ -138,7 +142,7 @@ describe("technical-flat source geometry", () => {
     const front = compileTechnicalFlatSourceGeometry("woven-shirt", openBlock, revision, "FRONT_FLAT", openMap);
     const back = compileTechnicalFlatSourceGeometry("woven-shirt", openBlock, revision, "BACK_FLAT", openMap);
     expect(front.issues.some((issue) => issue.code === "UNRESOLVED_PROJECTION_EDGE"
-      && issue.message.includes("crossing source roles"))).toBe(true);
+      && issue.message.includes("right/left placket instances and overlap order"))).toBe(true);
     expect(back.issues.some((issue) => issue.code === "UNRESOLVED_PROJECTION_EDGE"
       && issue.message.includes("Woven sleeve-cap placement"))).toBe(false);
     expect(front.primitives).toEqual([]);

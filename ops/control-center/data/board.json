@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 526,
-  "updatedAt": "2026-09-30T09:52:47.579Z",
+  "revision": 531,
+  "updatedAt": "2026-09-30T10:36:02.858Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -181,7 +181,8 @@
         "E-G04-S293-EXIT",
         "E-G04-S294-START",
         "E-G04-S294-EXIT",
-        "E-G04-S295-START"
+        "E-G04-S295-START",
+        "E-G04-S297-EXIT"
       ]
     },
     {
@@ -5774,6 +5775,16 @@
           "at": "2026-09-30T09:52:47.579Z",
           "actor": "Maintainer",
           "text": "Slice 296 exit: Thread Theory’s Fairfield sleeve tutorial supports sleeve/armhole sewing and easing only; it gives no same-model front/back cap break, exact cap-edge landmark, or view-instance transform for the current Woven source. Keep the sleeve and both complete Woven faces held. V02 remains In Progress; V03 stays Backlog."
+        },
+        {
+          "at": "2026-09-30T10:06:51.047Z",
+          "actor": "Maintainer",
+          "text": "Slice 297 started 2026-09-30 10:04:25 UTC from clean S296 commit ca5b4d4 on refreshed origin/main ancestor a5af5e1, with board revision 526 and unique slice 297. Scope: add only source-backed, view-only Woven physical front-pair reflection metadata with strict quantity/axis validation; retain whole-face holds and prove no partial output escapes. Packet: docs/research/epic17/G04-V02-WOVEN-FRONT-PAIR-METADATA-S297.md. V02 remains In Progress; V03 stays Backlog."
+        },
+        {
+          "at": "2026-09-30T10:36:02.858Z",
+          "actor": "Maintainer",
+          "text": "Slice 297 exit: source-declared Woven front quantity-two reflection is typed separately from on-fold and validates the exact centerFront axis without changing cut geometry. Production Chromium held all 56 front/back faces across 28 configurations; no browser/page/request errors. Changed projection/live modules each pass 100% focused coverage, focused technical-flat tests pass 73/73, build and protected identities 24/24 pass. See docs/research/epic17/G04-V02-WOVEN-FRONT-PAIR-METADATA-S297.md. G04-V02 remains In Progress; G04-V03 remains Backlog."
         }
       ],
       "evidenceRefs": [
@@ -5822,7 +5833,9 @@
         "E-G04-S295-START",
         "E-G04-S295-EXIT",
         "E-G04-S296-START",
-        "E-G04-S296-EXIT"
+        "E-G04-S296-EXIT",
+        "E-G04-S297-START",
+        "E-G04-S297-EXIT"
       ],
       "flagKey": null
     },
@@ -7114,6 +7127,24 @@
       "sha256": null,
       "verified": true,
       "note": "The Fairfield sleeve tutorial describes sleeve/armhole sewing and ease, but provides no exact cap split or view-instance relation for the current Woven pattern; the sleeve and complete faces remain held."
+    },
+    {
+      "id": "E-G04-S297-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-FRONT-PAIR-METADATA-S297.md",
+      "commit": null,
+      "sha256": null,
+      "verified": false,
+      "note": "Slice 297 start packet: source-backed Woven physical front pair metadata; complete front/back faces remain held."
+    },
+    {
+      "id": "E-G04-S297-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-FRONT-PAIR-METADATA-S297.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Source-backed quantity-two Woven front-pair view reflection validates against the exact same-revision centerFront axis. Production Chromium retains visible holds for all 56 face requests; protected export/DXF identities are unchanged."
     }
   ]
 }

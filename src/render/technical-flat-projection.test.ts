@@ -18,6 +18,7 @@ const REVISION = "draft-r7";
 function validMap(recipeId: string, block: ReturnType<(typeof GARMENTS)[number]["draft"]>): TechnicalFlatProjectionMap {
   if (recipeId === "skirt") return createG04TechnicalFlatProjectionMap(recipeId, block, REVISION)!;
   const source = G04_TECHNICAL_FLAT_MAPPINGS[recipeId];
+  const authored = recipeId === "woven-shirt" ? createG04TechnicalFlatProjectionMap(recipeId, block, REVISION)! : undefined;
   return {
     version: 1,
     recipeId,
@@ -27,6 +28,8 @@ function validMap(recipeId: string, block: ReturnType<(typeof GARMENTS)[number][
       roles: face.roles.map((role) => {
         const piece = block.roles[role.roleId];
         const hidden = role.treatment === "INTERIOR_HIDDEN";
+        const pairReflection = authored?.faces.find((candidate) => candidate.kind === face.kind)?.roles
+          .find((candidate) => candidate.roleId === role.roleId)?.physicalPairReflection;
         const zeroLength = (edge: (typeof piece.edges)[number]) => {
           const start = edge.kind === "line" ? edge.start : edge.curve.start;
           const end = edge.kind === "line" ? edge.end : edge.curve.end;
@@ -44,6 +47,7 @@ function validMap(recipeId: string, block: ReturnType<(typeof GARMENTS)[number][
           heldEdges: hidden
             ? piece.edges.map((edge) => ({ edgeId: edge.name, reason: "Interior layer is hidden in this exterior face." }))
             : piece.edges.filter(zeroLength).map((edge) => ({ edgeId: edge.name, reason: "Zero-length source edge has no displayable contour." })),
+          ...(pairReflection ? { physicalPairReflection: pairReflection } : {}),
         };
       }),
     })) as unknown as TechnicalFlatProjectionMap["faces"],
@@ -464,6 +468,73 @@ describe("validateTechnicalFlatProjectionMap", () => {
         expect(validateTechnicalFlatProjectionMap(recipe.name, block, REVISION, mapping), recipe.name).toEqual([]);
       }
     }
+  });
+
+  it("binds Woven front-pair reflection to its separate-piece quantity and exact center axis", () => {
+    const { block } = draft("woven-shirt");
+    const map = createG04TechnicalFlatProjectionMap("woven-shirt", block, REVISION)!;
+    const frontFace = map.faces.find((face) => face.kind === "FRONT_FLAT")!;
+    const backFace = map.faces.find((face) => face.kind === "BACK_FLAT")!;
+    const frontRole = frontFace.roles.find((role) => role.roleId === "front")!;
+    expect(frontRole.physicalPairReflection).toEqual({ edgeId: "centerFront", axis: "LOCAL_Y",
+      source: "WOVEN_SHIRT_PHYSICAL_ROLES", quantity: 2 });
+    expect(frontRole.heldEdges).toHaveLength(block.roles.front!.edges.length);
+    expect(backFace.roles.some((role) => role.physicalPairReflection !== undefined)).toBe(false);
+    expect(validateTechnicalFlatProjectionMap("woven-shirt", block, REVISION, map)).toEqual([]);
+
+    const invalidReflection = (reflection: unknown) => {
+      const invalid = structuredClone(map) as unknown as { faces: { kind: string; roles: { roleId: string; physicalPairReflection?: unknown }[] }[] };
+      const front = invalid.faces.find((face) => face.kind === "FRONT_FLAT")!.roles.find((role) => role.roleId === "front")!;
+      if (reflection === undefined) delete front.physicalPairReflection;
+      else front.physicalPairReflection = reflection;
+      return validateTechnicalFlatProjectionMap("woven-shirt", block, REVISION, invalid)
+        .some((issue) => issue.code === "INVALID_PHYSICAL_PAIR_REFLECTION");
+    };
+    expect(invalidReflection(undefined)).toBe(true);
+    expect(invalidReflection(null)).toBe(true);
+    expect(invalidReflection({ ...frontRole.physicalPairReflection, quantity: 1 })).toBe(true);
+    expect(invalidReflection({ ...frontRole.physicalPairReflection, source: "Piece.onFold" })).toBe(true);
+    expect(invalidReflection({ ...frontRole.physicalPairReflection, axis: "LOCAL_X" })).toBe(true);
+    expect(invalidReflection({ ...frontRole.physicalPairReflection, edgeId: "shoulder" })).toBe(true);
+
+    const front = block.roles.front!;
+    const onFoldBlock = { ...block, roles: { ...block.roles, front: { ...front, onFold: true } } };
+    expect(validateTechnicalFlatProjectionMap("woven-shirt", onFoldBlock, REVISION, map)
+      .some((issue) => issue.code === "INVALID_PHYSICAL_PAIR_REFLECTION")).toBe(true);
+    const renamedAxis = { ...block, roles: { ...block.roles, front: { ...front,
+      edges: front.edges.map((edge) => edge.name === "centerFront" ? { ...edge, name: "renamed-axis" } : edge) } } };
+    expect(validateTechnicalFlatProjectionMap("woven-shirt", renamedAxis, REVISION, map)
+      .some((issue) => issue.code === "INVALID_PHYSICAL_PAIR_REFLECTION")).toBe(true);
+    const nonLineAxis = { ...block, roles: { ...block.roles, front: { ...front,
+      edges: front.edges.map((edge) => edge.name === "centerFront" && edge.kind === "line"
+        ? { kind: "curve" as const, name: edge.name,
+          curve: { start: edge.start, control1: edge.start, control2: edge.end, end: edge.end } } : edge) } } };
+    expect(validateTechnicalFlatProjectionMap("woven-shirt", nonLineAxis, REVISION, map)
+      .some((issue) => issue.code === "INVALID_PHYSICAL_PAIR_REFLECTION")).toBe(true);
+    const offAxis = { ...block, roles: { ...block.roles, front: { ...front,
+      edges: front.edges.map((edge) => edge.name === "centerFront" && edge.kind === "line"
+        ? { ...edge, start: { ...edge.start, x: 0.1 } } : edge) } } };
+    expect(validateTechnicalFlatProjectionMap("woven-shirt", offAxis, REVISION, map)
+      .some((issue) => issue.code === "INVALID_PHYSICAL_PAIR_REFLECTION")).toBe(true);
+    const oppositeSideEdge = front.edges.find((edge) => edge.name !== "centerFront" && edge.kind === "line")!;
+    const crossed = { ...block, roles: { ...block.roles, front: { ...front,
+      edges: front.edges.map((edge) => edge.name === oppositeSideEdge.name && edge.kind === "line"
+        ? { ...edge, start: { ...edge.start, x: -0.1 } } : edge) } } };
+    expect(validateTechnicalFlatProjectionMap("woven-shirt", crossed, REVISION, map)
+      .some((issue) => issue.code === "INVALID_PHYSICAL_PAIR_REFLECTION")).toBe(true);
+    const duplicateAxis = { ...block, roles: { ...block.roles, front: { ...front,
+      edges: [...front.edges, front.edges.find((edge) => edge.name === "centerFront")!] } } };
+    expect(validateTechnicalFlatProjectionMap("woven-shirt", duplicateAxis, REVISION, map)
+      .some((issue) => issue.code === "INVALID_PHYSICAL_PAIR_REFLECTION")).toBe(true);
+
+    const wrongFace = structuredClone(map) as unknown as { faces: { kind: string; roles: { roleId: string; physicalPairReflection?: unknown }[] }[] };
+    wrongFace.faces.find((face) => face.kind === "BACK_FLAT")!.roles.find((role) => role.roleId === "back")!.physicalPairReflection = frontRole.physicalPairReflection;
+    expect(validateTechnicalFlatProjectionMap("woven-shirt", block, REVISION, wrongFace)
+      .some((issue) => issue.code === "INVALID_PHYSICAL_PAIR_REFLECTION")).toBe(true);
+    const wrongRecipe = validMap("tee", draft("tee").block) as unknown as { faces: { roles: { roleId: string; physicalPairReflection?: unknown }[] }[] };
+    wrongRecipe.faces[0]!.roles.find((role) => role.roleId === "front")!.physicalPairReflection = frontRole.physicalPairReflection;
+    expect(validateTechnicalFlatProjectionMap("tee", draft("tee").block, REVISION, wrongRecipe)
+      .some((issue) => issue.code === "INVALID_PHYSICAL_PAIR_REFLECTION")).toBe(true);
   });
 
   it("binds a map to one supported recipe and the exact live revision", () => {

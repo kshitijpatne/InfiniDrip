@@ -1,0 +1,98 @@
+CASE woven-shirt-default
+FACE woven-shirt-default-front WITHHELD
+FACE woven-shirt-default-back WITHHELD
+CASE woven-shirt-neckEase-min
+FACE woven-shirt-neckEase-min-front WITHHELD
+FACE woven-shirt-neckEase-min-back WITHHELD
+CASE woven-shirt-neckEase-max
+FACE woven-shirt-neckEase-max-front WITHHELD
+FACE woven-shirt-neckEase-max-back WITHHELD
+CASE woven-shirt-standHeight-min
+FACE woven-shirt-standHeight-min-front WITHHELD
+FACE woven-shirt-standHeight-min-back WITHHELD
+CASE woven-shirt-standHeight-max
+FACE woven-shirt-standHeight-max-front WITHHELD
+FACE woven-shirt-standHeight-max-back WITHHELD
+CASE woven-shirt-collarLeafDepth-min
+FACE woven-shirt-collarLeafDepth-min-front WITHHELD
+FACE woven-shirt-collarLeafDepth-min-back WITHHELD
+CASE woven-shirt-collarLeafDepth-max
+FACE woven-shirt-collarLeafDepth-max-front WITHHELD
+FACE woven-shirt-collarLeafDepth-max-back WITHHELD
+CASE woven-shirt-buttonCount-min
+FACE woven-shirt-buttonCount-min-front WITHHELD
+FACE woven-shirt-buttonCount-min-back WITHHELD
+CASE woven-shirt-buttonCount-max
+FACE woven-shirt-buttonCount-max-front WITHHELD
+FACE woven-shirt-buttonCount-max-back WITHHELD
+CASE woven-shirt-buttonSpacing-min
+FACE woven-shirt-buttonSpacing-min-front WITHHELD
+FACE woven-shirt-buttonSpacing-min-back WITHHELD
+CASE woven-shirt-buttonSpacing-max
+FACE woven-shirt-buttonSpacing-max-front WITHHELD
+FACE woven-shirt-buttonSpacing-max-back WITHHELD
+CASE woven-shirt-frontOverlap-min
+FACE woven-shirt-frontOverlap-min-front WITHHELD
+FACE woven-shirt-frontOverlap-min-back WITHHELD
+CASE woven-shirt-frontOverlap-max
+FACE woven-shirt-frontOverlap-max-front WITHHELD
+FACE woven-shirt-frontOverlap-max-back WITHHELD
+CASE woven-shirt-placketWidth-min
+FACE woven-shirt-placketWidth-min-front WITHHELD
+FACE woven-shirt-placketWidth-min-back WITHHELD
+CASE woven-shirt-placketWidth-max
+FACE woven-shirt-placketWidth-max-front WITHHELD
+FACE woven-shirt-placketWidth-max-back WITHHELD
+CASE woven-shirt-yokeDepth-min
+FACE woven-shirt-yokeDepth-min-front WITHHELD
+FACE woven-shirt-yokeDepth-min-back WITHHELD
+CASE woven-shirt-yokeDepth-max
+FACE woven-shirt-yokeDepth-max-front WITHHELD
+FACE woven-shirt-yokeDepth-max-back WITHHELD
+CASE woven-shirt-pocketWidth-min
+FACE woven-shirt-pocketWidth-min-front WITHHELD
+FACE woven-shirt-pocketWidth-min-back WITHHELD
+CASE woven-shirt-pocketWidth-max
+FACE woven-shirt-pocketWidth-max-front WITHHELD
+FACE woven-shirt-pocketWidth-max-back WITHHELD
+CASE woven-shirt-pocketHeight-min
+FACE woven-shirt-pocketHeight-min-front WITHHELD
+FACE woven-shirt-pocketHeight-min-back WITHHELD
+CASE woven-shirt-pocketHeight-max
+FACE woven-shirt-pocketHeight-max-front WITHHELD
+FACE woven-shirt-pocketHeight-max-back WITHHELD
+CASE woven-shirt-sleeveBandDepth-min
+FACE woven-shirt-sleeveBandDepth-min-front WITHHELD
+FACE woven-shirt-sleeveBandDepth-min-back WITHHELD
+CASE woven-shirt-sleeveBandDepth-max
+FACE woven-shirt-sleeveBandDepth-max-front WITHHELD
+FACE woven-shirt-sleeveBandDepth-max-back WITHHELD
+CASE woven-shirt-sideVentDepth-min
+FACE woven-shirt-sideVentDepth-min-front WITHHELD
+FACE woven-shirt-sideVentDepth-min-back WITHHELD
+CASE woven-shirt-sideVentDepth-max
+FACE woven-shirt-sideVentDepth-max-front WITHHELD
+FACE woven-shirt-sideVentDepth-max-back WITHHELD
+CASE woven-shirt-hemTurn-min
+FACE woven-shirt-hemTurn-min-front WITHHELD
+FACE woven-shirt-hemTurn-min-back WITHHELD
+CASE woven-shirt-hemTurn-max
+FACE woven-shirt-hemTurn-max-front WITHHELD
+FACE woven-shirt-hemTurn-max-back WITHHELD
+CASE woven-shirt-combined-supported
+FACE woven-shirt-combined-supported-front WITHHELD
+FACE woven-shirt-combined-supported-back WITHHELD
+Captured 56 Chromium-rendered front/back faces for 28 option configurations.
+{
+  "faceCount": 56,
+  "accepted": 0,
+  "withheld": 56,
+  "blockedByReason": {
+    "geometry · pattern:woven-shirt:role:front:edge:neckline: Visible FRONT_FLAT is withheld because edge “front.neckline” is unresolved: Woven source still lacks a front/back sleeve-ca": 28,
+    "assembly · stitch:Woven sleeve-cap ease: Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement.": 28
+  },
+  "optionFieldCount": 13,
+  "consoleErrors": [],
+  "pageErrors": [],
+  "requestErrors": []
+}

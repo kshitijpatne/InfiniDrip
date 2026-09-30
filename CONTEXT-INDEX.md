@@ -185,6 +185,8 @@ only through an explicitly admitted, linked Epic packet.
 - `docs/research/epic17/G04-V02-COLLAR-REFERENCE-REVIEW-S294.md` — S294 compares the Massey composite-collar thesis and Müller & Sohn separate-stand method with Polo/Woven's authored outer contours; neither supplies the exact local shoulder-to-edge relation, so both full-face holds remain.
 - `docs/research/epic17/G04-V02-WOVEN-BACK-YOKE-FOLD-MAP-S295.md` — S295 activates only exact source-declared center-back fold reflection for Woven back/yoke view metadata. The back/yoke source contours map, while sleeve/collar/placket and assembly gaps still withhold the full live faces.
 - `docs/research/epic17/G04-V02-WOVEN-SLEEVE-SOURCE-REVIEW-S296.md` — S296 finds that Thread Theory's Fairfield sleeve tutorial covers sewing/ease handling but no exact current-pattern cap split or front/back view instance. The Woven sleeve and complete live faces remain held.
+- `docs/research/epic17/G04-V02-WOVEN-FRONT-PAIR-METADATA-S297.md` — S297's bounded source-backed Woven physical-pair reflection contract; complete live faces remain held pending sleeve, collar and closure evidence.
+- `docs/research/epic17/S297-browser-final/` — S297 production Chromium matrix and manually reviewed default/representative Woven held-output screenshots (28 configurations, 56 faces).
 - `docs/research/epic17/G04-V02-TEE-FITTED-SLEEVE-SOURCE-S290.md` — completed
   S290 source audit for the exact shared Tee/Fitted sleeve contour and
   supported orthographic view instances.

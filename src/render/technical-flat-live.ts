@@ -12,7 +12,7 @@ import {
   type TechnicalFlatViewKind,
 } from "./technical-flat";
 import { G04_TECHNICAL_FLAT_MAPPINGS } from "./technical-flat-mapping";
-import { createG04TechnicalFlatProjectionMap } from "./technical-flat-projection";
+import { createG04TechnicalFlatProjectionMap, type FlatProjectionPhysicalPairReflection } from "./technical-flat-projection";
 import { compileTechnicalFlatSourceGeometry } from "./technical-flat-geometry";
 import { assembleTechnicalFlatRoles, type FlatRoleTransform } from "./technical-flat-assembly";
 import { compileTechnicalFlatOverlays } from "./technical-flat-overlays";
@@ -111,6 +111,34 @@ export function reflectFoldPrimitive(
     return primitive.center.x === 0 ? undefined : { ...primitive, id: `${primitive.id}:fold-reflection` };
   }
   return undefined;
+}
+
+export function reflectPhysicalPairPrimitive(
+  primitive: TechnicalFlatPrimitive,
+  reflection: FlatProjectionPhysicalPairReflection | undefined,
+  placement: FlatRoleTransform | undefined,
+): TechnicalFlatPrimitive | undefined {
+  if (!reflection || !placement || primitive.source.sourceClass !== "PATTERN_DERIVED") return undefined;
+  const reflected = reflectFoldPrimitive(primitive, reflection.edgeId);
+  if (!reflected) return undefined;
+  return transformFlatPrimitive({
+    ...reflected,
+    id: reflected.id.replace(/:fold-reflection$/, ":physical-pair-reflection"),
+  }, {
+    offset: placement.offset,
+    rotationDegrees: placement.rotationDegrees,
+    mirrorX: true,
+  });
+}
+
+export function appendPhysicalPairReflection(
+  primitives: TechnicalFlatPrimitive[],
+  primitive: TechnicalFlatPrimitive,
+  reflection: FlatProjectionPhysicalPairReflection | undefined,
+  placement: FlatRoleTransform | undefined,
+): void {
+  const mirrored = reflectPhysicalPairPrimitive(primitive, reflection, placement);
+  if (mirrored) primitives.push(mirrored);
 }
 
 function pointOnLine(point: FlatPoint, start: FlatPoint, end: FlatPoint): boolean {
@@ -242,6 +270,10 @@ export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): Tec
           if (mirrored) transformed.push(transformFlatPrimitive(mirrored, { offset: placement.offset,
             rotationDegrees: placement.rotationDegrees, mirrorX: true }));
         }
+      } else {
+        const physicalPair = projectionMap?.faces.find((candidate) => candidate.kind === kind)?.roles
+          .find((candidate) => candidate.roleId === roleId)?.physicalPairReflection;
+        appendPhysicalPairReflection(transformed, primitive, physicalPair, placement);
       }
     }
   }

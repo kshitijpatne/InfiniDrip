@@ -1,6 +1,7 @@
 import { edgeEnd, edgeLength, edgeStart, type Edge, type Piece } from "../drafting/piece";
 import type { Block } from "../drafting/block";
 import type { EdgeRef, Stitch } from "../drafting/stitch";
+import { WOVEN_SHIRT_PHYSICAL_ROLES } from "../drafting/shirt-contract";
 import { G04_TECHNICAL_FLAT_MAPPINGS, type FlatRoleTreatment } from "./technical-flat-mapping";
 import type { TechnicalFlatViewKind } from "./technical-flat";
 
@@ -40,6 +41,14 @@ export interface FlatProjectionFoldAxisReflection {
   readonly viaStitchLabel?: string;
 }
 
+/** A source-declared mirrored pair of separate pieces, distinct from on-fold. */
+export interface FlatProjectionPhysicalPairReflection {
+  readonly edgeId: string;
+  readonly axis: "LOCAL_Y";
+  readonly source: "WOVEN_SHIRT_PHYSICAL_ROLES";
+  readonly quantity: 2;
+}
+
 export interface FlatProjectionViewBoundary {
   readonly id: string;
   readonly from: FlatProjectionLandmark;
@@ -58,6 +67,8 @@ export interface FlatProjectionRole {
   readonly faceExcludedEdges?: readonly FlatProjectionHeldEdge[];
   /** View-only reflection across a source-declared cut-on-fold boundary. */
   readonly foldAxisReflection?: FlatProjectionFoldAxisReflection;
+  /** View-only second instance for an explicitly authored mirrored physical pair. */
+  readonly physicalPairReflection?: FlatProjectionPhysicalPairReflection;
   /** View-only closure for a face segment; it is not a drafted cut or seam edge. */
   readonly viewBoundaries?: readonly FlatProjectionViewBoundary[];
 }
@@ -91,7 +102,7 @@ export const G04_UNRESOLVED_PROJECTION_ROLES: Readonly<Record<string, Readonly<R
     upperCollar: "The collar's exterior contour has no authored front/back split landmark.",
   },
   "woven-shirt": {
-    front: "Slice 286 production Chromium showed the assembled Woven front with separated and crossing source roles. The source joins the full sleeve cap to three ordered armhole edges with ease but supplies no front/back cap split or sleeve-view instance rule; keep the face held until source-backed assembly and rendered output are coherent.",
+    front: "Woven source still lacks a front/back sleeve-cap boundary, collar outer-face landmark, and explicit right/left placket instances and overlap order. Keep the complete face held until these visible roles have coherent source-backed mappings and assembly.",
   },
 };
 
@@ -109,6 +120,17 @@ const FOLD_AXIS_EDGE_NAME = /^center(?:Front|Back)?$/i;
 function foldAxisEdge(piece: Piece): Edge | undefined {
   if (!piece.onFold) return undefined;
   const candidates = piece.edges.filter((edge) => FOLD_AXIS_EDGE_NAME.test(edge.name));
+  if (candidates.length !== 1 || candidates[0]?.kind !== "line") return undefined;
+  const edge = candidates[0];
+  if (edge.start.x !== 0 || edge.end.x !== 0) return undefined;
+  const points = piece.edges.flatMap((candidate) => candidate.kind === "line"
+    ? [candidate.start, candidate.end]
+    : [candidate.curve.start, candidate.curve.control1, candidate.curve.control2, candidate.curve.end]);
+  return points.every((point) => point.x >= 0) ? edge : undefined;
+}
+
+function wovenFrontPairAxis(piece: Piece): Edge | undefined {
+  const candidates = piece.edges.filter((edge) => edge.name === "centerFront");
   if (candidates.length !== 1 || candidates[0]?.kind !== "line") return undefined;
   const edge = candidates[0];
   if (edge.start.x !== 0 || edge.end.x !== 0) return undefined;
@@ -245,6 +267,8 @@ export function createG04TechnicalFlatProjectionMap(
         }
         const nonMirrorReason = G04_NON_MIRRORED_ON_FOLD_ROLES[recipeId]?.[role.roleId];
         const axisEdge = role.treatment === "INTERIOR_HIDDEN" || nonMirrorReason ? undefined : foldAxisEdge(piece);
+        const pairAxisEdge = recipeId === "woven-shirt" && face.kind === "FRONT_FLAT" && role.roleId === "front"
+          ? wovenFrontPairAxis(piece) : undefined;
         const heldRoleReason = role.treatment === "INTERIOR_HIDDEN"
           ? `Interior role “${role.roleId}” is intentionally hidden in this exterior view.`
           : G04_UNRESOLVED_PROJECTION_ROLES[recipeId]?.[role.roleId]
@@ -283,6 +307,9 @@ export function createG04TechnicalFlatProjectionMap(
           heldEdges,
           ...(faceExcludedEdges.length > 0 ? { faceExcludedEdges } : {}),
           ...(axisEdge && !heldRoleReason ? { foldAxisReflection: { edgeId: axisEdge.name, axis: "LOCAL_Y" as const, source: "Piece.onFold" as const } } : {}),
+          ...(pairAxisEdge ? { physicalPairReflection: {
+            edgeId: pairAxisEdge.name, axis: "LOCAL_Y" as const, source: "WOVEN_SHIRT_PHYSICAL_ROLES" as const, quantity: 2 as const,
+          } } : {}),
         };
       }),
     })) as unknown as TechnicalFlatProjectionMap["faces"],
@@ -296,7 +323,7 @@ export type FlatProjectionIssueCode =
   | "MISSING_EDGE_ACCOUNTING" | "DUPLICATE_EDGE_ACCOUNTING" | "UNKNOWN_EDGE"
   | "INVALID_RUN_LANDMARK" | "LANDMARK_ROLE_MISMATCH" | "LANDMARK_EDGE_MISMATCH"
   | "LANDMARK_NOT_ON_EDGE" | "EMPTY_HOLD_REASON" | "RUN_ON_HIDDEN_ROLE" | "INVALID_FOLD_AXIS_REFLECTION"
-  | "INVALID_STITCH_BOUNDARY" | "INVALID_PAIRED_EDGE" | "INVALID_VIEW_BOUNDARY";
+  | "INVALID_PHYSICAL_PAIR_REFLECTION" | "INVALID_STITCH_BOUNDARY" | "INVALID_PAIRED_EDGE" | "INVALID_VIEW_BOUNDARY";
 
 export interface FlatProjectionIssue {
   readonly code: FlatProjectionIssueCode;
@@ -571,6 +598,7 @@ export function resolveFlatProjectionLandmark(
 }
 
 function validateRole(
+  recipeId: string,
   faceKind: TechnicalFlatViewKind,
   mappingRole: unknown,
   block: Block,
@@ -607,6 +635,24 @@ function validateRole(
   }
   if (expectedTreatment === "INTERIOR_HIDDEN" && mappingRole.runs.length > 0) {
     issues.push({ code: "RUN_ON_HIDDEN_ROLE", sourceId, message: `Hidden interior role “${roleId}” cannot emit exterior edge runs.` });
+  }
+  if (recipeId === "woven-shirt" && faceKind === "FRONT_FLAT" && roleId === "front") {
+    const reflection = mappingRole.physicalPairReflection;
+    const physicalRole = WOVEN_SHIRT_PHYSICAL_ROLES.find((candidate) => candidate.id === roleId);
+    const axis = isRecord(reflection) && typeof reflection.edgeId === "string"
+      ? piece.edges.find((candidate) => candidate.name === reflection.edgeId) : undefined;
+    const exactPairAxis = wovenFrontPairAxis(piece);
+    if (!isRecord(reflection) || reflection.axis !== "LOCAL_Y"
+      || reflection.source !== "WOVEN_SHIRT_PHYSICAL_ROLES" || reflection.quantity !== 2
+      || physicalRole?.quantity !== 2 || physicalRole?.onFold !== false || piece.onFold !== false
+      || !axis || axis.kind !== "line" || axis.name !== "centerFront"
+      || exactPairAxis?.name !== axis.name) {
+      issues.push({ code: "INVALID_PHYSICAL_PAIR_REFLECTION", sourceId,
+        message: "Woven front-pair reflection needs quantity two, separate-piece source metadata, and the exact straight centerFront axis on local x=0 with the authored piece on one side." });
+    }
+  } else if (mappingRole.physicalPairReflection !== undefined) {
+    issues.push({ code: "INVALID_PHYSICAL_PAIR_REFLECTION", sourceId,
+      message: "Physical-pair reflection is supported only for the source-declared Woven front role on the front face." });
   }
   if (mappingRole.foldAxisReflection !== undefined) {
     const reflection = mappingRole.foldAxisReflection;
@@ -747,7 +793,7 @@ export function validateTechnicalFlatProjectionMap(
     const usedInstances = new Set<string>();
     for (const rawRole of rawFace.roles) {
       if (!isRecord(rawRole) || typeof rawRole.roleId !== "string") {
-        validateRole(faceKind, rawRole, block, "SHELL", usedInstances, issues);
+        validateRole(recipeId, faceKind, rawRole, block, "SHELL", usedInstances, issues);
         continue;
       }
       const roleId = rawRole.roleId;
@@ -761,7 +807,7 @@ export function validateTechnicalFlatProjectionMap(
         issues.push({ code: "UNEXPECTED_ROLE", sourceId: `${faceKind}:${roleId || "?"}`, message: `Role “${roleId || "?"}” is not admitted on ${faceKind}.` });
         continue;
       }
-      validateRole(faceKind, rawRole, block, treatment, usedInstances, issues);
+      validateRole(recipeId, faceKind, rawRole, block, treatment, usedInstances, issues);
       if (typeof rawRole.instanceId === "string" && rawRole.instanceId.trim().length > 0) {
         const existingInstanceId = instancesByRole.get(roleId);
         if (existingInstanceId !== undefined && existingInstanceId !== rawRole.instanceId) {
