@@ -1,0 +1,156 @@
+CASE tee-default
+FACE tee-default-front WITHHELD
+FACE tee-default-back WITHHELD
+CASE fitted-default
+FACE fitted-default-front WITHHELD
+FACE fitted-default-back WITHHELD
+CASE tank-default
+FACE tank-default-front SVG
+FACE tank-default-back SVG
+CASE polo-default
+FACE polo-default-front WITHHELD
+FACE polo-default-back WITHHELD
+CASE polo-placketLength-min
+FACE polo-placketLength-min-front WITHHELD
+FACE polo-placketLength-min-back WITHHELD
+CASE polo-placketLength-max
+FACE polo-placketLength-max-front WITHHELD
+FACE polo-placketLength-max-back WITHHELD
+CASE polo-placketWidth-min
+FACE polo-placketWidth-min-front WITHHELD
+FACE polo-placketWidth-min-back WITHHELD
+CASE polo-placketWidth-max
+FACE polo-placketWidth-max-front WITHHELD
+FACE polo-placketWidth-max-back WITHHELD
+CASE polo-standHeight-min
+FACE polo-standHeight-min-front WITHHELD
+FACE polo-standHeight-min-back WITHHELD
+CASE polo-standHeight-max
+FACE polo-standHeight-max-front WITHHELD
+FACE polo-standHeight-max-back WITHHELD
+CASE polo-collarLeafDepth-min
+FACE polo-collarLeafDepth-min-front WITHHELD
+FACE polo-collarLeafDepth-min-back WITHHELD
+CASE polo-collarLeafDepth-max
+FACE polo-collarLeafDepth-max-front WITHHELD
+FACE polo-collarLeafDepth-max-back WITHHELD
+CASE polo-standFrontRise-min
+FACE polo-standFrontRise-min-front WITHHELD
+FACE polo-standFrontRise-min-back WITHHELD
+CASE polo-standFrontRise-max
+FACE polo-standFrontRise-max-front WITHHELD
+FACE polo-standFrontRise-max-back WITHHELD
+CASE polo-collarPointExtension-min
+FACE polo-collarPointExtension-min-front WITHHELD
+FACE polo-collarPointExtension-min-back WITHHELD
+CASE polo-collarPointExtension-max
+FACE polo-collarPointExtension-max-front WITHHELD
+FACE polo-collarPointExtension-max-back WITHHELD
+CASE polo-sideVentDepth-min
+FACE polo-sideVentDepth-min-front WITHHELD
+FACE polo-sideVentDepth-min-back WITHHELD
+CASE polo-sideVentDepth-max
+FACE polo-sideVentDepth-max-front WITHHELD
+FACE polo-sideVentDepth-max-back WITHHELD
+CASE polo-backHemDrop-min
+FACE polo-backHemDrop-min-front WITHHELD
+FACE polo-backHemDrop-min-back WITHHELD
+CASE polo-backHemDrop-max
+FACE polo-backHemDrop-max-front WITHHELD
+FACE polo-backHemDrop-max-back WITHHELD
+CASE woven-shirt-default
+FACE woven-shirt-default-front WITHHELD
+FACE woven-shirt-default-back WITHHELD
+CASE woven-shirt-neckEase-min
+FACE woven-shirt-neckEase-min-front WITHHELD
+FACE woven-shirt-neckEase-min-back WITHHELD
+CASE woven-shirt-neckEase-max
+FACE woven-shirt-neckEase-max-front WITHHELD
+FACE woven-shirt-neckEase-max-back WITHHELD
+CASE woven-shirt-standHeight-min
+FACE woven-shirt-standHeight-min-front WITHHELD
+FACE woven-shirt-standHeight-min-back WITHHELD
+CASE woven-shirt-standHeight-max
+FACE woven-shirt-standHeight-max-front WITHHELD
+FACE woven-shirt-standHeight-max-back WITHHELD
+CASE woven-shirt-collarLeafDepth-min
+FACE woven-shirt-collarLeafDepth-min-front WITHHELD
+FACE woven-shirt-collarLeafDepth-min-back WITHHELD
+CASE woven-shirt-collarLeafDepth-max
+FACE woven-shirt-collarLeafDepth-max-front WITHHELD
+FACE woven-shirt-collarLeafDepth-max-back WITHHELD
+CASE woven-shirt-buttonCount-min
+FACE woven-shirt-buttonCount-min-front WITHHELD
+FACE woven-shirt-buttonCount-min-back WITHHELD
+CASE woven-shirt-buttonCount-max
+FACE woven-shirt-buttonCount-max-front WITHHELD
+FACE woven-shirt-buttonCount-max-back WITHHELD
+CASE woven-shirt-buttonSpacing-min
+FACE woven-shirt-buttonSpacing-min-front WITHHELD
+FACE woven-shirt-buttonSpacing-min-back WITHHELD
+CASE woven-shirt-buttonSpacing-max
+FACE woven-shirt-buttonSpacing-max-front WITHHELD
+FACE woven-shirt-buttonSpacing-max-back WITHHELD
+CASE woven-shirt-frontOverlap-min
+FACE woven-shirt-frontOverlap-min-front WITHHELD
+FACE woven-shirt-frontOverlap-min-back WITHHELD
+CASE woven-shirt-frontOverlap-max
+FACE woven-shirt-frontOverlap-max-front WITHHELD
+FACE woven-shirt-frontOverlap-max-back WITHHELD
+CASE woven-shirt-placketWidth-min
+FACE woven-shirt-placketWidth-min-front WITHHELD
+FACE woven-shirt-placketWidth-min-back WITHHELD
+CASE woven-shirt-placketWidth-max
+FACE woven-shirt-placketWidth-max-front WITHHELD
+FACE woven-shirt-placketWidth-max-back WITHHELD
+CASE woven-shirt-yokeDepth-min
+FACE woven-shirt-yokeDepth-min-front WITHHELD
+FACE woven-shirt-yokeDepth-min-back WITHHELD
+CASE woven-shirt-yokeDepth-max
+FACE woven-shirt-yokeDepth-max-front WITHHELD
+FACE woven-shirt-yokeDepth-max-back WITHHELD
+CASE woven-shirt-pocketWidth-min
+FACE woven-shirt-pocketWidth-min-front WITHHELD
+FACE woven-shirt-pocketWidth-min-back WITHHELD
+CASE woven-shirt-pocketWidth-max
+FACE woven-shirt-pocketWidth-max-front WITHHELD
+FACE woven-shirt-pocketWidth-max-back WITHHELD
+CASE woven-shirt-pocketHeight-min
+FACE woven-shirt-pocketHeight-min-front WITHHELD
+FACE woven-shirt-pocketHeight-min-back WITHHELD
+CASE woven-shirt-pocketHeight-max
+FACE woven-shirt-pocketHeight-max-front WITHHELD
+FACE woven-shirt-pocketHeight-max-back WITHHELD
+CASE woven-shirt-sleeveBandDepth-min
+FACE woven-shirt-sleeveBandDepth-min-front WITHHELD
+FACE woven-shirt-sleeveBandDepth-min-back WITHHELD
+CASE woven-shirt-sleeveBandDepth-max
+FACE woven-shirt-sleeveBandDepth-max-front WITHHELD
+FACE woven-shirt-sleeveBandDepth-max-back WITHHELD
+CASE woven-shirt-sideVentDepth-min
+FACE woven-shirt-sideVentDepth-min-front WITHHELD
+FACE woven-shirt-sideVentDepth-min-back WITHHELD
+CASE woven-shirt-sideVentDepth-max
+FACE woven-shirt-sideVentDepth-max-front WITHHELD
+FACE woven-shirt-sideVentDepth-max-back WITHHELD
+CASE woven-shirt-hemTurn-min
+FACE woven-shirt-hemTurn-min-front WITHHELD
+FACE woven-shirt-hemTurn-min-back WITHHELD
+CASE woven-shirt-hemTurn-max
+FACE woven-shirt-hemTurn-max-front WITHHELD
+FACE woven-shirt-hemTurn-max-back WITHHELD
+CASE woven-shirt-combined-supported
+FACE woven-shirt-combined-supported-front WITHHELD
+FACE woven-shirt-combined-supported-back WITHHELD
+CASE skirt-default
+FACE skirt-default-front SVG
+FACE skirt-default-back SVG
+CASE trouser-default
+FACE trouser-default-front WITHHELD
+FACE trouser-default-back SVG
+AssertionError [ERR_ASSERTION]: trouser-default-back must show only the source-mapped back-rise callout
+
+2 !== 1
+
+    at run (file:///C:/Users/kshit/.codex/worktrees/epic-17-g04/designApp/ops/web/verify-g04-s274-option-matrix.mjs:184:22)
+    at async main (file:///C:/Users/kshit/.codex/worktrees/epic-17-g04/designApp/ops/web/verify-g04-s274-option-matrix.mjs:202:7)

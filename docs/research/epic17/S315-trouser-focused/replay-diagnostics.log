@@ -1,0 +1,85 @@
+CASE trouser-default
+FACE trouser-default-front WITHHELD
+FACE trouser-default-back SVG
+CASE trouser-frontRiseEase-min
+FACE trouser-frontRiseEase-min-front WITHHELD
+FACE trouser-frontRiseEase-min-back SVG
+CASE trouser-frontRiseEase-max
+FACE trouser-frontRiseEase-max-front WITHHELD
+FACE trouser-frontRiseEase-max-back SVG
+CASE trouser-backRiseEase-min
+FACE trouser-backRiseEase-min-front WITHHELD
+FACE trouser-backRiseEase-min-back SVG
+CASE trouser-backRiseEase-max
+FACE trouser-backRiseEase-max-front WITHHELD
+FACE trouser-backRiseEase-max-back SVG
+CASE trouser-waistbandDepth-min
+FACE trouser-waistbandDepth-min-front WITHHELD
+FACE trouser-waistbandDepth-min-back SVG
+CASE trouser-waistbandDepth-max
+FACE trouser-waistbandDepth-max-front WITHHELD
+FACE trouser-waistbandDepth-max-back SVG
+CASE trouser-thighEase-min
+FACE trouser-thighEase-min-front WITHHELD
+FACE trouser-thighEase-min-back SVG
+CASE trouser-thighEase-max
+FACE trouser-thighEase-max-front WITHHELD
+FACE trouser-thighEase-max-back SVG
+CASE trouser-kneeEase-min
+FACE trouser-kneeEase-min-front WITHHELD
+FACE trouser-kneeEase-min-back SVG
+CASE trouser-kneeEase-max
+FACE trouser-kneeEase-max-front WITHHELD
+FACE trouser-kneeEase-max-back SVG
+CASE trouser-legOpening-min
+FACE trouser-legOpening-min-front WITHHELD
+FACE trouser-legOpening-min-back SVG
+CASE trouser-legOpening-max
+FACE trouser-legOpening-max-front WITHHELD
+FACE trouser-legOpening-max-back SVG
+CASE trouser-flyLength-min
+FACE trouser-flyLength-min-front WITHHELD
+FACE trouser-flyLength-min-back SVG
+CASE trouser-flyLength-max
+FACE trouser-flyLength-max-front WITHHELD
+FACE trouser-flyLength-max-back SVG
+CASE trouser-pocketOpening-min
+FACE trouser-pocketOpening-min-front WITHHELD
+FACE trouser-pocketOpening-min-back SVG
+CASE trouser-pocketOpening-max
+FACE trouser-pocketOpening-max-front WITHHELD
+FACE trouser-pocketOpening-max-back SVG
+CASE trouser-pocketAngle-min
+FACE trouser-pocketAngle-min-front WITHHELD
+FACE trouser-pocketAngle-min-back SVG
+CASE trouser-pocketAngle-max
+FACE trouser-pocketAngle-max-front WITHHELD
+FACE trouser-pocketAngle-max-back SVG
+CASE trouser-pocketBagDepth-min
+FACE trouser-pocketBagDepth-min-front WITHHELD
+FACE trouser-pocketBagDepth-min-back SVG
+CASE trouser-pocketBagDepth-max
+FACE trouser-pocketBagDepth-max-front WITHHELD
+FACE trouser-pocketBagDepth-max-back SVG
+CASE trouser-pocketDrop-min
+FACE trouser-pocketDrop-min-front WITHHELD
+FACE trouser-pocketDrop-min-back SVG
+CASE trouser-pocketDrop-max
+FACE trouser-pocketDrop-max-front WITHHELD
+FACE trouser-pocketDrop-max-back SVG
+CASE trouser-combined-supported
+FACE trouser-combined-supported-front WITHHELD
+FACE trouser-combined-supported-back SVG
+Captured 48 Chromium-rendered front/back faces for 24 option configurations.
+{
+  "faceCount": 48,
+  "accepted": 24,
+  "withheld": 24,
+  "blockedByReason": {
+    "geometry · view:trouser:waistband:center-front: The front waistband fragments do not share one exact center-front join in this assembled view; the complete face remains held.": 24
+  },
+  "optionFieldCount": 11,
+  "consoleErrors": [],
+  "pageErrors": [],
+  "requestErrors": []
+}

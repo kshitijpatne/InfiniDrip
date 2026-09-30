@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 710,
-  "updatedAt": "2026-09-30T19:38:52.974Z",
+  "revision": 723,
+  "updatedAt": "2026-09-30T20:43:23.553Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -155,7 +155,7 @@
       "title": "EPIC-17: G04 — Professional flats and CAD interchange",
       "status": "In Progress",
       "owner": "Codex",
-      "description": "EPIC-17 admitted by maintainer. Current conditional estimate: 57–71 landed slices total; 8–17 remain from verified S314 (0–2 further V02 implementation/review slices, 5–10 V03 slices only after V02 passes, and 3–5 integrated review/merge/deployment). Current all-recipe output: 28/146 faces accepted; 118 held. Source/rights waits are unpriced and may block V02 passage. V01 Done; V02 In Progress; V03 Backlog. See docs/planning/EPIC-17-ADMISSION.md.",
+      "description": "EPIC-17 maintainer-admitted. Current conditional estimate at S315: at least 64 total / 9 remaining if one V02 closeout slice suffices, followed by V03 minimum 5 and final integration minimum 3; no upper bound while source/rights waits remain unresolved. Production Chromium verifies 73 configurations / 146 faces: 28 accepted, 118 held. V01 Done; V02 In Progress; V03 Backlog and gated on V02 acceptance. See docs/planning/EPIC-17-ADMISSION.md and docs/research/epic17/G04-V02-INTEGRATED-MATRIX-S315.md.",
       "evidenceRefs": [
         "E-G04-S271-EXIT",
         "E-G04-S273-EXIT",
@@ -215,7 +215,9 @@
         "E-G04-S313-START",
         "E-G04-S313-EXIT",
         "E-G04-S314-START",
-        "E-G04-S314-EXIT"
+        "E-G04-S314-EXIT",
+        "E-G04-S315-START",
+        "E-G04-S315-EXIT"
       ]
     },
     {
@@ -2744,7 +2746,7 @@
         "100% coverage",
         "maintainer gates"
       ],
-      "description": "EPIC-17 admitted by maintainer. Current conditional estimate: 57–71 landed slices total; 8–17 remain from verified S314 (0–2 further V02 implementation/review slices, 5–10 V03 slices only after V02 passes, and 3–5 integrated review/merge/deployment). Current all-recipe output: 28/146 faces accepted; 118 held. Source/rights waits are unpriced and may block V02 passage. V01 Done; V02 In Progress; V03 Backlog. See docs/planning/EPIC-17-ADMISSION.md.",
+      "description": "EPIC-17 maintainer-admitted. Current conditional estimate at S315: at least 64 total / 9 remaining if one V02 closeout slice suffices, followed by V03 minimum 5 and final integration minimum 3; no upper bound while source/rights waits remain unresolved. Production Chromium verifies 73 configurations / 146 faces: 28 accepted, 118 held. V01 Done; V02 In Progress; V03 Backlog and gated on V02 acceptance. See docs/planning/EPIC-17-ADMISSION.md and docs/research/epic17/G04-V02-INTEGRATED-MATRIX-S315.md.",
       "expectation": "Front/back technical flats for every supported recipe/variant and proven CAD interchange. Pattern-linked side/oblique views are explicitly owned by G09/D04, so the complete view set is accepted only there.",
       "acceptanceCriteria": [
         "Complete every G04 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
@@ -2982,6 +2984,26 @@
           "at": "2026-09-30T19:38:52.974Z",
           "actor": "Codex",
           "text": "Slice 314 exit: Tee body chest, body length, across shoulder and neck width now have exact same-block back endpoints. Tank reuses these anchors; Polo remains on the front-only shared POM table. Focused changed-module coverage, build, and 32 protected export/DXF checks pass. Production Chromium covered default/changed measurements on four faces; all Tee faces remain wholly held with zero partial SVGs and zero browser errors. No face newly accepted; output remains 28/146. Woven placket closure stays held without a construction reference. MQF-004–007/011/012/015 remain To be reviewed. V02 In Progress; V03 Backlog. Packet: docs/research/epic17/G04-V02-TEE-BACK-POM-ANCHORS-S314.md."
+        },
+        {
+          "at": "2026-09-30T19:57:30.924Z",
+          "actor": "Codex",
+          "text": "S315 is in progress: integrated production output review and accepted/held tally refresh. Woven closure remains held per maintainer instruction; other source gaps remain held pending references. No V03 work before complete V02 acceptance."
+        },
+        {
+          "at": "2026-09-30T20:41:57.752Z",
+          "actor": "Codex",
+          "text": "S315 complete: 28/146 accepted, 118 held; fresh 73-case/146-face production matrix confirms the current output. Estimate is now at least 64 total / 9 remaining under the single-V02-slice assumption; no upper bound while source and rights waits remain unresolved. V02 stays In Progress; V03 Backlog."
+        },
+        {
+          "at": "2026-09-30T20:41:57.888Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: EPIC-17 maintainer-admitted. Current conditional estimate at S315: at least 64 total / 9 remaining if one V02 closeout slice suffices, followed by V03 minimum 5 and final integration minimum 3; no upper bound while source/rights waits remain unresolved. Production Chromium verifies 73 configurations / 146 faces: 28 accepted, 118 held. V01 Done; V02 In Progress; V03 Backlog and gated on V02 acceptance. See docs/planning/EPIC-17-ADMISSION.md and docs/research/epic17/G04-V02-INTEGRATED-MATRIX-S315.md.). S315 refreshed production output tally and conditional remaining-work estimate after verified all-recipe replay."
+        },
+        {
+          "at": "2026-09-30T20:43:23.553Z",
+          "actor": "Codex",
+          "text": "S315 complete: 28/146 accepted, 118 held; fresh 73-case/146-face production matrix confirms the current output. Estimate is now at least 64 total / 9 remaining under the single-V02-slice assumption; no upper bound while source and rights waits remain unresolved. V02 stays In Progress; V03 Backlog."
         }
       ],
       "evidenceRefs": [
@@ -3028,7 +3050,9 @@
         "E-G04-S313-START",
         "E-G04-S313-EXIT",
         "E-G04-S314-START",
-        "E-G04-S314-EXIT"
+        "E-G04-S314-EXIT",
+        "E-G04-S315-START",
+        "E-G04-S315-EXIT"
       ],
       "flagKey": null
     },
@@ -6171,6 +6195,16 @@
           "at": "2026-09-30T19:37:52.564Z",
           "actor": "Codex",
           "text": "Slice 314 exit: Tee body chest, body length, across shoulder and neck width now have exact same-block back endpoints. Tank reuses these anchors; Polo remains on the front-only shared POM table. Focused changed-module coverage, build, and 32 protected export/DXF checks pass. Production Chromium covered default/changed measurements on four faces; all Tee faces remain wholly held with zero partial SVGs and zero browser errors. No face newly accepted; output remains 28/146. Woven placket closure stays held without a construction reference. MQF-004–007/011/012/015 remain To be reviewed. V02 In Progress; V03 Backlog. Packet: docs/research/epic17/G04-V02-TEE-BACK-POM-ANCHORS-S314.md."
+        },
+        {
+          "at": "2026-09-30T19:57:30.685Z",
+          "actor": "Codex",
+          "text": "Start Slice 315 from clean S314 1367581; refreshed origin/main a5af5e1 is an ancestor. Packet: docs/research/epic17/G04-V02-INTEGRATED-MATRIX-S315.md. Run the full 73-configuration/146-face production Chromium replay and reconcile only evidence-backed output states; preserve all unsupported-source holds and keep V03 gated."
+        },
+        {
+          "at": "2026-09-30T20:41:57.601Z",
+          "actor": "Codex",
+          "text": "Slice 315 verified full production output: 73 configurations / 146 faces; 28 accepted, 118 held; zero browser/page/request errors. All 24 Trouser backs carry exact same-revision back-rise and waistband-depth anchors; all 24 fronts and other source-dependent faces remain wholly held. No new acceptance relative to S314. The S309 verifier expectation was corrected for the source-backed S311 waistband callout and both focused/full replays pass. Woven closure stays held per maintainer instruction. V02 remains In Progress; V03 remains gated. See S315 packet and rendered output."
         }
       ],
       "evidenceRefs": [
@@ -6256,7 +6290,9 @@
         "E-G04-S313-START",
         "E-G04-S313-EXIT",
         "E-G04-S314-START",
-        "E-G04-S314-EXIT"
+        "E-G04-S314-EXIT",
+        "E-G04-S315-START",
+        "E-G04-S315-EXIT"
       ],
       "flagKey": null
     },
@@ -7881,6 +7917,24 @@
       "sha256": null,
       "verified": true,
       "note": "Four existing Tee body POMs now have exact source-backed back endpoints; Tank reuses them and Polo stays front-only. Focused changed-module coverage, build, 32 protected checks and production Chromium hold replay pass. No complete face is newly accepted; output remains 28/146."
+    },
+    {
+      "id": "E-G04-S315-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-INTEGRATED-MATRIX-S315.md",
+      "commit": null,
+      "sha256": null,
+      "verified": false,
+      "note": "S315 start packet: fresh production Chromium replay of the integrated seven-recipe/73-configuration/146-face matrix; reconcile current output and source holds without production changes."
+    },
+    {
+      "id": "E-G04-S315-EXIT",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S315-browser-final/matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Production Chromium replay verifies 73 configurations/146 faces across all seven recipes and 32 option fields: 28 accepted, 118 visibly held, zero console/page/request errors. Focused corrected Trouser replay validates two exact same-revision back POM callouts for all 24 backs and full holds for all 24 fronts. No new acceptance relative to S314; V02 stays In Progress and V03 gated."
     }
   ]
 }

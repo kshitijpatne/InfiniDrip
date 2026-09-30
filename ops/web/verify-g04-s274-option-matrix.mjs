@@ -181,13 +181,21 @@ async function main() {
               assert.deepEqual(anchor.leaderEnd, anchor.labelAt, `${face.name} POM ${anchor.id} leader must terminate at its label`);
             }
             if (recipeId === "trouser" && face.face === "BACK_FLAT") {
-              assert.equal(face.callouts.length, 1, `${face.name} must show only the source-mapped back-rise callout`);
-              assert.equal(face.callouts[0].id, "flat:trouser:BACK_FLAT:callout:back-rise-finished-incl-waistband");
-              assert.equal(face.callouts[0].target, "flat:trouser:BACK_FLAT:component:backLeft:outline");
-              assert.equal(face.callouts[0].sourceId, "pom:trouser:back-rise-finished-incl-waistband");
-              assert.equal(face.callouts[0].revision, face.revision);
-              assert.ok(face.callouts[0].anchorPoint && Number.isFinite(face.callouts[0].anchorPoint.x)
-                && Number.isFinite(face.callouts[0].anchorPoint.y), `${face.name} back-rise anchor must be a finite point`);
+              assert.equal(face.callouts.length, 2, `${face.name} must show the source-mapped back-rise and waistband-depth callouts`);
+              const backRise = face.callouts.find((callout) => callout.id === "flat:trouser:BACK_FLAT:callout:back-rise-finished-incl-waistband");
+              assert.ok(backRise, `${face.name} must retain the source-mapped back-rise callout`);
+              assert.equal(backRise.target, "flat:trouser:BACK_FLAT:component:backLeft:outline");
+              assert.equal(backRise.sourceId, "pom:trouser:back-rise-finished-incl-waistband");
+              assert.equal(backRise.revision, face.revision);
+              assert.ok(backRise.anchorPoint && Number.isFinite(backRise.anchorPoint.x)
+                && Number.isFinite(backRise.anchorPoint.y), `${face.name} back-rise anchor must be a finite point`);
+              const waistbandDepth = face.callouts.find((callout) => callout.id === "flat:trouser:BACK_FLAT:callout:waistband-depth-finished");
+              assert.ok(waistbandDepth, `${face.name} must retain the source-mapped waistband-depth callout`);
+              assert.equal(waistbandDepth.target, "live-flat:trouser:BACK_FLAT:waistband:mark:centerBack");
+              assert.equal(waistbandDepth.sourceId, "pom:trouser:waistband-depth-finished");
+              assert.equal(waistbandDepth.revision, face.revision);
+              assert.ok(waistbandDepth.anchorPoint && Number.isFinite(waistbandDepth.anchorPoint.x)
+                && Number.isFinite(waistbandDepth.anchorPoint.y), `${face.name} waistband-depth anchor must be a finite point`);
             }
           }
         }

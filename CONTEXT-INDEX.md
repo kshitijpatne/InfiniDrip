@@ -147,6 +147,14 @@ only through an explicitly admitted, linked Epic packet.
 - `docs/research/epic17/S314-tee-back-pom-browser/` — S314's production
   Chromium matrix, diagnostics and manually reviewed front/back screenshots
   for default and changed Tee measurements.
+- `docs/research/epic17/G04-V02-INTEGRATED-MATRIX-S315.md` — S315's start
+  packet for a fresh all-recipe, all-option production Chromium replay and
+  accepted/held output reconciliation after S299–S314. Check
+  `PROJECT-STATE.md` and the validated Control Center board for its exit.
+- `docs/research/epic17/S315-browser-final/` — S315's complete 73-configuration
+  production Chromium matrix, accepted SVGs, retained UI screenshots,
+  diagnostics, and manual output review. S315 confirms 28/146 accepted and
+  118/146 held; V02 remains open.
 - `docs/research/epic17/G04-V02-PROJECTION-MAPPING-S277.md` — Slice 277's
   current projection-mapping contract boundary, source-reference rules,
   fail-closed semantics, and focused acceptance gates.
