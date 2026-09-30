@@ -75,7 +75,11 @@ assembly aid, not a qualified finished silhouette. It does not establish
 sewability, fit, factory readiness, or CAD compatibility. Pattern-linked
 side/oblique/inside assembled views remain G09/D04; production tech-pack content
 remains G05. Generic DXF and the protected export byte identities stay on their
-existing paths.
+existing paths. S286 adds source-derived Woven collar shoulder station and
+exact zero-depth closed-vent view metadata without changing cut geometry. Its
+production Chromium review found crossing/separated front components and
+conflicting back sleeve-cap ease placement, so both Woven faces remain held
+until source-supported assembly produces a coherent view.
 
 Each garment has its own rule set (called a **recipe** in the code). It says
 which measurements, options, pieces, and construction details to use. A tee

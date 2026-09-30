@@ -123,7 +123,7 @@ only through an explicitly admitted, linked Epic packet.
   `PROJECT-STATE.md` and the canonical Control Center for live status.
 - `docs/planning/EPIC-17-ADMISSION.md` — Slice 261's maintainer-authorized
   G04 admission from verified `origin/main`, ordered V01 → V02 → V03 scope,
-  current provisional 28–33-slice estimate, rights/receiver gate, acceptance evidence and
+  current conditional 39–44-slice estimate, rights/receiver gate, acceptance evidence and
   merge exit. V01 and its contracts are complete; consult `PROJECT-STATE.md`
   for the current V02 rendering and interchange gates.
 - `docs/research/epic17/G04-V02-PROJECTION-MAPPING-S277.md` — Slice 277's
@@ -153,7 +153,7 @@ only through an explicitly admitted, linked Epic packet.
   identities and rendered evidence. G04 V02 remains open.
 - `docs/research/epic17/S283-skirt-browser/` — retained production Chromium
   SVG/PNG output and revision/configuration evidence for the six S283 views.
-- `docs/research/epic17/G04-V02-INTEGRATED-OUTPUT-REVIEW-S284.md` — active
+- `docs/research/epic17/G04-V02-INTEGRATED-OUTPUT-REVIEW-S284.md` — completed
   Slice 284 73-configuration/146-face rendered review, mapped MQF checkpoints,
   held-source boundaries and V02 acceptance gate.
 - `docs/research/epic17/G04-V02-SOURCE-REFERENCE-AUDIT-S285.md` — completed
@@ -162,6 +162,13 @@ only through an explicitly admitted, linked Epic packet.
   exact primary references. Woven collar/vent metadata is eligible for a
   bounded implementation; the Polo cubic outer-collar correspondence,
   Tee/Fitted sleeve projection and Trouser placement remain visibly held.
+- `docs/research/epic17/G04-V02-WOVEN-COLLAR-VENT-S286.md` — Slice 286's
+  bounded implementation packet for source-derived Woven collar/stand
+  shoulder metadata and omission of the closed zero-depth vent. Its 56-face
+  Chromium review rejected crossing front components and conflicting back
+  sleeve-cap placement, so Woven remains visibly held. Polo, Tee/Fitted and
+  Trouser blockers remain; V02 remains open. Candidate and retained output are
+  in `S286-candidate-rejected/` and `S286-browser/`.
 - `src/render/technical-flat-projection.ts` — versioned G04 face-projection
   metadata and exact drafted-topology validation. Interior split landmarks not
   present as source endpoints remain unsupported and explicitly held.

@@ -5,9 +5,12 @@ import { chromium } from "playwright";
 import verificationHelpers from "../../electron/verify-common.cjs";
 
 const { startPreviewServer } = verificationHelpers;
-const output = path.resolve(process.env.G04_OPTION_MATRIX_OUTPUT ?? "docs/research/epic17/S274-browser");
+const wovenOnly = process.argv.includes("--woven-only");
+const output = path.resolve(process.env.G04_OPTION_MATRIX_OUTPUT
+  ?? (wovenOnly ? "docs/research/epic17/S286-browser" : "docs/research/epic17/S274-browser"));
 const smoke = process.argv.includes("--smoke");
-const recipes = smoke ? ["tee", "polo"] : ["tee", "fitted", "tank", "polo", "woven-shirt", "skirt", "trouser"];
+const recipes = wovenOnly ? ["woven-shirt"]
+  : smoke ? ["tee", "polo"] : ["tee", "fitted", "tank", "polo", "woven-shirt", "skirt", "trouser"];
 const consoleErrors = [];
 const pageErrors = [];
 const requestErrors = [];
@@ -49,6 +52,10 @@ async function captureFace(page, caseId, recipeId, face) {
     "trouser-default-back",
     "polo-backHemDrop-max-back",
     "woven-shirt-buttonCount-min-front",
+    "woven-shirt-default-front",
+    "woven-shirt-default-back",
+    "woven-shirt-sideVentDepth-min-front",
+    "woven-shirt-sideVentDepth-min-back",
     "trouser-legOpening-max-front",
   ]).has(name);
   const svgCount = await page.locator("[data-technical-flat-svg] svg").count();
@@ -198,9 +205,10 @@ async function main() {
         await resetOptions();
       }
     }
-    assert.equal(faces.length, smoke ? 8 : 146, smoke ? "smoke captures two defaults and one option range" : "71 defaults/endpoints plus two combined fixtures × two faces");
-    assert.equal(cases.length, smoke ? 4 : 73, "all default, endpoint and bounded-combination inputs must be recorded");
-    assert.equal(definitionsCount(cases), smoke ? 1 : 32, "the endpoint matrix should cover all declared option fields");
+    assert.equal(faces.length, wovenOnly ? 56 : smoke ? 8 : 146,
+      wovenOnly ? "Woven default, option endpoints and combined fixture must cover both faces" : smoke ? "smoke captures two defaults and one option range" : "71 defaults/endpoints plus two combined fixtures × two faces");
+    assert.equal(cases.length, wovenOnly ? 28 : smoke ? 4 : 73, "all default, endpoint and bounded-combination inputs must be recorded");
+    assert.equal(definitionsCount(cases), wovenOnly ? 13 : smoke ? 1 : 32, "the endpoint matrix should cover all declared option fields");
     assert.deepEqual(consoleErrors, [], "production browser should not log console errors");
     assert.deepEqual(pageErrors, [], "production browser should not throw page errors");
     assert.deepEqual(requestErrors, [], "production browser should not request remote services");

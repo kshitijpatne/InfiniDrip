@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { GARMENTS } from "../drafting/recipe";
 import { STANDARD_M } from "../drafting/measurements";
 import { defaultGarmentOptions } from "../drafting/options";
+import { edgeLength } from "../drafting/piece";
 import { G04_TECHNICAL_FLAT_MAPPINGS } from "./technical-flat-mapping";
 import {
   createG04TechnicalFlatProjectionMap,
@@ -56,6 +57,138 @@ function draft(recipeId: string, options = {}) {
 }
 
 describe("validateTechnicalFlatProjectionMap", () => {
+  it("splits source-folded Woven collars at the sewn CB-to-shoulder station", () => {
+    const { block } = draft("woven-shirt");
+    const map = createG04TechnicalFlatProjectionMap("woven-shirt", block, REVISION)!;
+    expect(validateTechnicalFlatProjectionMap("woven-shirt", block, REVISION, map)).toEqual([]);
+    const backRoleId = block.roles.yoke ? "yoke" : "back";
+    const station = edgeLength(block.roles[backRoleId]!.edges.find((edge) => edge.name === "neckline")!);
+    for (const face of map.faces) {
+      for (const roleId of ["outerStand", "upperCollar"]) {
+        const role = face.roles.find((candidate) => candidate.roleId === roleId)!;
+        expect(role.foldAxisReflection).toMatchObject({ edgeId: "centerBack", axis: "LOCAL_Y", source: "Piece.onFold" });
+        const boundaryRun = role.runs.find((run) => run.from.kind === "woven-neckline-shoulder"
+          || run.to.kind === "woven-neckline-shoulder")!;
+        const landmark = boundaryRun.from.kind === "woven-neckline-shoulder" ? boundaryRun.from : boundaryRun.to;
+        const point = resolveFlatProjectionLandmark(block, roleId, face.kind, landmark, boundaryRun.edgeId);
+        const receiver = block.roles[roleId]!.edges.find((edge) => edge.name === boundaryRun.edgeId)!;
+        if (receiver.kind !== "line") throw new Error("Expected an authored Woven collar line.");
+        expect(point).toEqual({ x: station, y: receiver.start.y });
+      }
+    }
+    const closed = draft("woven-shirt", { sideVentDepth: 0 }).block;
+    const closedMap = createG04TechnicalFlatProjectionMap("woven-shirt", closed, REVISION)!;
+    for (const face of closedMap.faces) for (const roleId of ["front", "back"]) {
+      const role = face.roles.find((candidate) => candidate.roleId === roleId);
+      if (!role) continue;
+      expect(role.runs.some((run) => run.edgeId === "vent")).toBe(false);
+      expect(role.faceExcludedEdges).toContainEqual(expect.objectContaining({ edgeId: "vent", reason: expect.stringContaining("zero-depth") }));
+      expect(role.heldEdges.some((held) => held.edgeId === "vent")).toBe(false);
+    }
+    const open = createG04TechnicalFlatProjectionMap("woven-shirt", block, REVISION)!;
+    for (const face of open.faces) for (const roleId of ["front", "back"]) {
+      const role = face.roles.find((candidate) => candidate.roleId === roleId);
+      if (role) expect(role.heldEdges.some((held) => held.edgeId === "vent")).toBe(true);
+    }
+  });
+
+  it("fails closed when Woven collar source seams or closed-vent adjacency are inconsistent", () => {
+    const { block } = draft("woven-shirt", { sideVentDepth: 0 });
+    const boundaryMap = createG04TechnicalFlatProjectionMap("woven-shirt", block, REVISION)!;
+    const collarRole = boundaryMap.faces[0].roles.find((role) => role.roleId === "outerStand")!;
+    const collarRun = collarRole.runs.find((run) => run.from.kind === "woven-neckline-shoulder")!;
+    const resolveBoundary = (input: typeof block, roleId = "outerStand", edgeId = "collar", landmark: unknown = collarRun.from) =>
+      resolveFlatProjectionLandmark(input, roleId, "FRONT_FLAT", landmark, edgeId);
+    expect(resolveFlatProjectionLandmark(block, "outerStand", "FRONT_FLAT",
+      { ...collarRun.from, stitchLabel: "wrong stitch" }, collarRun.edgeId)).toBeUndefined();
+    expect(resolveBoundary(block, "pocket")).toBeUndefined();
+    expect(resolveBoundary(block, "underCollar", "stand")).toBeUndefined();
+    expect(resolveFlatProjectionLandmark(block, "outerStand", "FRONT_FLAT",
+      { kind: "edge-endpoint", edgeId: "collar", endpoint: "start" })).toBeDefined();
+    const offFold = { ...block, roles: { ...block.roles, outerStand: { ...block.roles.outerStand!, onFold: false } } };
+    expect(resolveBoundary(offFold)).toBeUndefined();
+    const noAxisRoles = { ...block.roles, outerStand: { ...block.roles.outerStand!, edges:
+      block.roles.outerStand!.edges.map((edge) => edge.name === "centerBack" ? { ...edge, name: "renamed-fold" } : edge) } };
+    expect(resolveBoundary({ ...block, roles: noAxisRoles })).toBeUndefined();
+    const nonLineRoles = { ...block.roles, outerStand: { ...block.roles.outerStand!, edges:
+      block.roles.outerStand!.edges.map((edge) => edge.name === "collar" && edge.kind === "line"
+        ? { kind: "curve" as const, name: edge.name, curve: { start: edge.start, control1: edge.start, control2: edge.end, end: edge.end } }
+        : edge) } };
+    expect(resolveBoundary({ ...block, roles: nonLineRoles })).toBeUndefined();
+
+    const brokenStitch = (update: (stitch: (typeof block.stitches)[number]) => (typeof block.stitches)[number]) => ({
+      ...block, stitches: block.stitches.map((stitch) => stitch.label === "Outer stand ↔ woven neckline" ? update(stitch) : stitch),
+    });
+    expect(resolveBoundary(brokenStitch((stitch) => ({ ...stitch, ease: { lo: 0, hi: 1 } })))).toBeUndefined();
+    expect(resolveBoundary(brokenStitch((stitch) => ({ ...stitch, a: { edges: [] } })))).toBeUndefined();
+    expect(resolveBoundary(brokenStitch((stitch) => ({ ...stitch, a: { edges: [{ piece: "front", edge: "neckline" }] } })))).toBeUndefined();
+    expect(resolveBoundary(brokenStitch((stitch) => ({ ...stitch, b: { edges: [stitch.b.edges[0]!] } })))).toBeUndefined();
+    expect(resolveBoundary(brokenStitch((stitch) => ({ ...stitch, b: { edges: [stitch.b.edges[0]!, { piece: "back", edge: "other" }] } })))).toBeUndefined();
+
+    const missingBase = { ...block, roles: { ...block.roles, underCollar: undefined } } as unknown as typeof block;
+    expect(resolveBoundary(missingBase)).toBeUndefined();
+    const noFront = { ...block, roles: { ...block.roles, front: undefined } } as unknown as typeof block;
+    expect(resolveBoundary(noFront)).toBeUndefined();
+    const noYoke = { ...block, roles: { ...block.roles, yoke: undefined, back: undefined } } as unknown as typeof block;
+    expect(resolveBoundary(noYoke)).toBeUndefined();
+    const noFrontNeck = { ...block, roles: { ...block.roles, front: { ...block.roles.front!, edges:
+      block.roles.front!.edges.filter((edge) => edge.name !== "neckline") } } };
+    expect(resolveBoundary(noFrontNeck)).toBeUndefined();
+    const noYokeNeck = { ...block, roles: { ...block.roles, yoke: { ...block.roles.yoke!, edges:
+      block.roles.yoke!.edges.filter((edge) => edge.name !== "neckline") } } };
+    expect(resolveBoundary(noYokeNeck)).toBeUndefined();
+    const shortStand = { ...block, roles: { ...block.roles, outerStand: { ...block.roles.outerStand!, edges:
+      block.roles.outerStand!.edges.map((edge) => edge.name === "neckline" && edge.kind === "line"
+        ? { ...edge, end: { ...edge.end, x: edge.end.x + 0.25 } } : edge) } } };
+    expect(resolveBoundary(shortStand)).toBeUndefined();
+    const outsideStation = { ...block, roles: { ...block.roles, upperCollar: { ...block.roles.upperCollar!, edges:
+      block.roles.upperCollar!.edges.map((edge) => edge.name === "outer" && edge.kind === "line"
+        ? { ...edge, start: { ...edge.start, x: -0.25 } } : edge) } } };
+    expect(resolveBoundary(outsideStation, "upperCollar", "outer")).toBeUndefined();
+    const slopedTarget = { ...block, roles: { ...block.roles, upperCollar: { ...block.roles.upperCollar!, edges:
+      block.roles.upperCollar!.edges.map((edge) => edge.name === "outer" && edge.kind === "line"
+        ? { ...edge, start: { ...edge.start, y: edge.start.y + 0.25 } } : edge) } } };
+    expect(resolveBoundary(slopedTarget, "upperCollar", "outer")).toBeUndefined();
+    const station = edgeLength(block.roles.yoke!.edges.find((edge) => edge.name === "neckline")!);
+    const zeroTarget = { ...block, roles: { ...block.roles, upperCollar: { ...block.roles.upperCollar!, edges:
+      block.roles.upperCollar!.edges.map((edge) => edge.name === "outer" && edge.kind === "line"
+        ? { ...edge, start: { x: station, y: edge.start.y }, end: { x: station, y: edge.start.y } } : edge) } } };
+    expect(resolveBoundary(zeroTarget, "upperCollar", "outer")).toBeUndefined();
+
+    const malformedJunction = { ...block, roles: { ...block.roles,
+      yoke: { ...block.roles.yoke!, edges: block.roles.yoke!.edges.map((edge) => edge.name === "neckline" && edge.kind === "curve"
+        ? { ...edge, curve: { ...edge.curve, end: { ...edge.curve.end, x: edge.curve.end.x + 0.25 } } } : edge) },
+    } };
+    const invalidMap = createG04TechnicalFlatProjectionMap("woven-shirt", malformedJunction, REVISION)!;
+    expect(validateTechnicalFlatProjectionMap("woven-shirt", malformedJunction, REVISION, invalidMap)
+      .some((issue) => issue.code === "INVALID_STITCH_BOUNDARY")).toBe(true);
+
+    const front = block.roles.front!;
+    const badVentAdjacency = { ...block, roles: { ...block.roles,
+      front: { ...front, edges: front.edges.map((edge) => edge.name === "hem" && edge.kind === "curve"
+        ? { ...edge, curve: { ...edge.curve, start: { ...edge.curve.start, x: edge.curve.start.x + 0.25 } } } : edge) },
+    } };
+    const badVentMap = createG04TechnicalFlatProjectionMap("woven-shirt", badVentAdjacency, REVISION)!;
+    expect(badVentMap.faces[0].roles.find((role) => role.roleId === "front")?.heldEdges)
+      .toContainEqual(expect.objectContaining({ edgeId: "vent" }));
+
+    const noCollarAxis = { ...block, roles: { ...block.roles, outerStand: { ...block.roles.outerStand!, edges:
+      block.roles.outerStand!.edges.map((edge) => edge.name === "centerBack" ? { ...edge, name: "off-source-axis" } : edge) } } };
+    const noCollarAxisMap = createG04TechnicalFlatProjectionMap("woven-shirt", noCollarAxis, REVISION)!;
+    const heldStand = noCollarAxisMap.faces[0].roles.find((role) => role.roleId === "outerStand")!;
+    expect(heldStand.runs).toEqual([]);
+    expect(heldStand.heldEdges).toHaveLength(noCollarAxis.roles.outerStand!.edges.length);
+    expect(heldStand.foldAxisReflection).toBeUndefined();
+    expect(validateTechnicalFlatProjectionMap("woven-shirt", noCollarAxis, REVISION, noCollarAxisMap)).toEqual([]);
+
+    const roles = { ...block.roles };
+    delete roles.pocket;
+    const missingRole = { ...block, roles } as unknown as typeof block;
+    const missingRoleMap = createG04TechnicalFlatProjectionMap("woven-shirt", missingRole, REVISION)!;
+    expect(missingRoleMap.faces[0].roles.find((role) => role.roleId === "pocket"))
+      .toMatchObject({ runs: [], heldEdges: [] });
+  });
+
   it("fails closed when a source stitch boundary becomes stale or internally inconsistent", () => {
     const { block } = draft("skirt");
     const map = createG04TechnicalFlatProjectionMap("skirt", block, REVISION)!;
@@ -176,7 +309,10 @@ describe("validateTechnicalFlatProjectionMap", () => {
               ...(role.faceExcludedEdges ?? []).map((edge) => edge.edgeId)].sort())
               .toEqual(piece.edges.map((edge) => edge.name).sort());
             if (role.treatment === "INTERIOR_HIDDEN") expect(role.runs).toEqual([]);
-            if (G04_UNRESOLVED_PROJECTION_ROLES[recipe.name]?.[role.roleId]) expect(role.heldEdges.length).toBe(piece.edges.length);
+            if (G04_UNRESOLVED_PROJECTION_ROLES[recipe.name]?.[role.roleId]) {
+              expect(role.runs).toEqual([]);
+              expect(role.heldEdges.length + (role.faceExcludedEdges?.length ?? 0)).toBe(piece.edges.length);
+            }
           }
         }
       }
@@ -224,7 +360,8 @@ describe("validateTechnicalFlatProjectionMap", () => {
             })).toBe(true);
           } else {
             if (G04_UNRESOLVED_PROJECTION_ROLES[recipe.name]?.[role.roleId]) {
-              expect(role.heldEdges).toHaveLength(piece.edges.length);
+              expect(role.runs).toEqual([]);
+              expect(role.heldEdges.length + (role.faceExcludedEdges?.length ?? 0)).toBe(piece.edges.length);
               expect(role.foldAxisReflection).toBeUndefined();
               continue;
             }

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 452,
-  "updatedAt": "2026-09-30T06:27:52.318Z",
+  "revision": 462,
+  "updatedAt": "2026-09-30T07:24:47.462Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -155,14 +155,16 @@
       "title": "EPIC-17: G04 — Professional flats and CAD interchange",
       "status": "In Progress",
       "owner": "Codex",
-      "description": "Admitted 2026-09-29 by explicit maintainer instruction. G04 V01 → V02 → V03; current conditional estimate 37–42 landed slices including admission and final merge evidence, re-estimated after S285 source audit. Woven collar/vent metadata is eligible for bounded V02 implementation; Polo outer-contour correspondence, Tee/Fitted sleeve projection and Trouser placement remain unresolved. V02 stays In Progress and V03 is gated. Scope, boundaries, verification and rights gates: docs/planning/EPIC-17-ADMISSION.md.",
+      "description": "Admitted 2026-09-29 by explicit maintainer instruction. G04 V01 → V02 → V03; current conditional estimate 39–44 landed slices including admission and final merge evidence, re-estimated after S286 found incoherent Woven assembly. Woven collar/closed-vent view metadata is validated, but front components cross/separate and back sleeve-cap ease placement conflicts. Polo outer-contour correspondence, Tee/Fitted sleeve projection and Trouser placement also remain unresolved. V02 stays In Progress and V03 is gated. Scope, boundaries, verification and rights gates: docs/planning/EPIC-17-ADMISSION.md.",
       "evidenceRefs": [
         "E-G04-S271-EXIT",
         "E-G04-S273-EXIT",
         "E-G04-S274-EXIT",
         "E-G04-S275-EXIT",
         "E-G04-S285-START",
-        "E-G04-S285-EXIT"
+        "E-G04-S285-EXIT",
+        "E-G04-S286-START",
+        "E-G04-S286-EXIT"
       ]
     },
     {
@@ -2691,7 +2693,7 @@
         "100% coverage",
         "maintainer gates"
       ],
-      "description": "Admitted 2026-09-29 by explicit maintainer instruction. G04 V01 → V02 → V03; current conditional estimate 37–42 landed slices including admission and final merge evidence, re-estimated after S285 source audit. Woven collar/vent metadata is eligible for bounded V02 implementation; Polo outer-contour correspondence, Tee/Fitted sleeve projection and Trouser placement remain unresolved. V02 stays In Progress and V03 is gated. Scope, boundaries, verification and rights gates: docs/planning/EPIC-17-ADMISSION.md.",
+      "description": "Admitted 2026-09-29 by explicit maintainer instruction. G04 V01 → V02 → V03; current conditional estimate 39–44 landed slices including admission and final merge evidence, re-estimated after S286 found incoherent Woven assembly. Woven collar/closed-vent view metadata is validated, but front components cross/separate and back sleeve-cap ease placement conflicts. Polo outer-contour correspondence, Tee/Fitted sleeve projection and Trouser placement also remain unresolved. V02 stays In Progress and V03 is gated. Scope, boundaries, verification and rights gates: docs/planning/EPIC-17-ADMISSION.md.",
       "expectation": "Front/back technical flats for every supported recipe/variant and proven CAD interchange. Pattern-linked side/oblique views are explicitly owned by G09/D04, so the complete view set is accepted only there.",
       "acceptanceCriteria": [
         "Complete every G04 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
@@ -2789,11 +2791,18 @@
           "at": "2026-09-30T06:27:52.174Z",
           "actor": "Codex",
           "text": "Updated Epic metadata (description: Admitted 2026-09-29 by explicit maintainer instruction. G04 V01 → V02 → V03; current conditional estimate 37–42 landed slices including admission and final merge evidence, re-estimated after S285 source audit. Woven collar/vent metadata is eligible for bounded V02 implementation; Polo outer-contour correspondence, Tee/Fitted sleeve projection and Trouser placement remain unresolved. V02 stays In Progress and V03 is gated. Scope, boundaries, verification and rights gates: docs/planning/EPIC-17-ADMISSION.md.). Re-estimate the remaining G04 sequence after S285 verified the Woven source candidate and recorded three continuing V02 blockers."
+        },
+        {
+          "at": "2026-09-30T07:24:46.638Z",
+          "actor": "Maintainer",
+          "text": "Updated Epic metadata (description: Admitted 2026-09-29 by explicit maintainer instruction. G04 V01 → V02 → V03; current conditional estimate 39–44 landed slices including admission and final merge evidence, re-estimated after S286 found incoherent Woven assembly. Woven collar/closed-vent view metadata is validated, but front components cross/separate and back sleeve-cap ease placement conflicts. Polo outer-contour correspondence, Tee/Fitted sleeve projection and Trouser placement also remain unresolved. V02 stays In Progress and V03 is gated. Scope, boundaries, verification and rights gates: docs/planning/EPIC-17-ADMISSION.md.). Re-estimate after S286 confirmed the Woven views remain held pending a source-backed sleeve-cap placement review."
         }
       ],
       "evidenceRefs": [
         "E-G04-S283-EXIT",
-        "E-G04-S284-EXIT"
+        "E-G04-S284-EXIT",
+        "E-G04-S286-START",
+        "E-G04-S286-EXIT"
       ],
       "flagKey": null
     },
@@ -5631,6 +5640,16 @@
           "at": "2026-09-30T06:27:51.998Z",
           "actor": "Codex",
           "text": "Slice 285 source audit is complete. Primary sources and exact local pattern geometry support a Woven collar/stand shoulder split and omission of the closed 0 cm vent. Polo stand/base segments are authored, but the cubic outer collar has no source-backed shoulder correspondence; Tee/Fitted sleeve projections and Trouser cycles remain held. V02 stays In Progress; V03 remains Backlog."
+        },
+        {
+          "at": "2026-09-30T06:37:12.949Z",
+          "actor": "Codex",
+          "text": "Slice 286 started 2026-09-30 06:35:08 UTC from verified Slice 285 and board revision 452. Bounded scope: source-derived Woven collar/stand shoulder boundary and omission of the closed zero-depth vent as same-revision view metadata. Polo contour, Tee/Fitted sleeves and Trouser assembly remain held; V02 stays In Progress and V03 Backlog. Packet: docs/research/epic17/G04-V02-WOVEN-COLLAR-VENT-S286.md."
+        },
+        {
+          "at": "2026-09-30T07:24:45.713Z",
+          "actor": "Codex",
+          "text": "Slice 286 exit: Woven source-derived collar stations and exact closed-vent metadata are covered, but production Chromium review found crossing/separated front components and conflicting back sleeve-cap ease placement. All 56 Woven face requests remain visibly held; V02 stays In Progress. See E-G04-S286-EXIT. S287 reviews Woven source-backed sleeve-cap placement."
         }
       ],
       "evidenceRefs": [
@@ -5657,7 +5676,9 @@
         "E-G04-S284-START",
         "E-G04-S284-EXIT",
         "E-G04-S285-START",
-        "E-G04-S285-EXIT"
+        "E-G04-S285-EXIT",
+        "E-G04-S286-START",
+        "E-G04-S286-EXIT"
       ],
       "flagKey": null
     },
@@ -6751,6 +6772,24 @@
       "sha256": null,
       "verified": true,
       "note": "Verified local and primary construction-source audit; supports Woven view metadata candidates, retains source holds for Polo outer contour, Tee/Fitted sleeve projection and Trouser assembly. No production code/cut geometry changed; V02 remains unmet."
+    },
+    {
+      "id": "E-G04-S286-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-COLLAR-VENT-S286.md",
+      "commit": null,
+      "sha256": null,
+      "verified": false,
+      "note": "Slice 286 start packet: source-derived Woven collar/stand boundary and closed zero-depth vent view metadata; no acceptance claimed."
+    },
+    {
+      "id": "E-G04-S286-EXIT",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-COLLAR-VENT-S286.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Slice 286 source metadata, focused 100% coverage, protected identities, build, and retained 56-face Woven Chromium review; all Woven faces remain visibly held after manual review."
     }
   ]
 }

@@ -91,10 +91,10 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
     }
     if (id === "EPIC-17") {
       assert.match(epic.description, /docs\/planning\/EPIC-17-ADMISSION\.md/);
-      assert.match(epic.description, /37–42 landed slices/);
-      assert.match(card.description, /37–42 landed slices/);
-      assert.ok(card.evidenceRefs.includes("E-G04-S284-EXIT"));
-      assert.match(card.comments.at(-1).text, /Re-estimate the remaining G04 sequence after S285 verified the Woven source candidate/);
+      assert.match(epic.description, /39–44 landed slices/);
+      assert.match(card.description, /39–44 landed slices/);
+      assert.ok(card.evidenceRefs.includes("E-G04-S286-EXIT"));
+      assert.match(card.comments.at(-1).text, /Re-estimate after S286 confirmed the Woven views remain held/);
       assert.deepEqual(card.dependencies, ["EPIC-14", "EPIC-15", "EPIC-16"]);
       const admittedWork = board.workItems.filter((entry) => entry.epicId === id && entry.id !== id);
       assert.deepEqual(admittedWork.map((entry) => entry.id), ["G04-V01", "G04-V02", "G04-V03"]);
@@ -117,11 +117,12 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S284-START"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S284-EXIT"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S285-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S286-EXIT"));
       assert.ok(admittedWork[1].comments.some((comment) => /Slice 282 started.*G04-V02-FACE-SEGMENT-CONTRACT-S282\.md/.test(comment.text)));
       assert.ok(admittedWork[1].comments.some((comment) => /Slice 283 started.*G04-V02-SOURCE-INTERFACE-SEGMENTS-S283\.md/.test(comment.text)));
       assert.ok(admittedWork[1].comments.some((comment) => /Slice 283 exit: source-backed Skirt waistband face segments passed/.test(comment.text)));
       assert.ok(admittedWork[1].comments.some((comment) => /Slice 284 started 2026-09-30 05:24:03 UTC.*G04-V02-INTEGRATED-OUTPUT-REVIEW-S284\.md/.test(comment.text)));
-      assert.match(admittedWork[1].comments.at(-1).text, /Slice 285 source audit is complete/);
+      assert.match(admittedWork[1].comments.at(-1).text, /Slice 286 exit: Woven source-derived collar stations.*All 56 Woven face requests remain visibly held/);
       assert.deepEqual(admittedWork.map((entry) => entry.dependencies), [[], ["G04-V01"], ["G04-V02"]]);
     }
     if (id === "EPIC-16") {

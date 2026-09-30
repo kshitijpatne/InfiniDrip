@@ -1,4 +1,4 @@
-import { edgeEnd, edgeStart, type Edge, type Piece } from "../drafting/piece";
+import { edgeEnd, edgeLength, edgeStart, type Edge, type Piece } from "../drafting/piece";
 import type { Block } from "../drafting/block";
 import type { EdgeRef, Stitch } from "../drafting/stitch";
 import { G04_TECHNICAL_FLAT_MAPPINGS, type FlatRoleTreatment } from "./technical-flat-mapping";
@@ -7,6 +7,7 @@ import type { TechnicalFlatViewKind } from "./technical-flat";
 export type FlatProjectionLandmark =
   | { readonly kind: "edge-endpoint"; readonly edgeId: string; readonly endpoint: "start" | "end" }
   | { readonly kind: "pattern-mark"; readonly markId: string; readonly point: "at" | "start" | "end" }
+  | { readonly kind: "woven-neckline-shoulder"; readonly stitchLabel: "Outer stand ↔ woven neckline" }
   | {
     readonly kind: "stitch-interface-boundary";
     readonly stitchLabel: string;
@@ -90,8 +91,9 @@ export const G04_UNRESOLVED_PROJECTION_ROLES: Readonly<Record<string, Readonly<R
     upperCollar: "The collar's exterior contour has no authored front/back split landmark.",
   },
   "woven-shirt": {
-    outerStand: "The stand's exterior contour has no authored front/back split landmark.",
-    upperCollar: "The collar's exterior contour has no authored front/back split landmark.",
+    front: "Slice 286 production Chromium showed the assembled Woven front with separated and crossing source roles; keep the face held until source-backed component placement is corrected and rendered coherently.",
+    back: "Slice 286 production Chromium found a conflicting Woven sleeve-cap placement; keep the face held until its source-backed transform and rendered output are verified.",
+    yoke: "Slice 286 production Chromium found a conflicting Woven sleeve-cap placement; keep the face held until its source-backed transform and rendered output are verified.",
   },
 };
 
@@ -118,6 +120,58 @@ function foldAxisEdge(piece: Piece): Edge | undefined {
   return points.every((point) => point.x >= 0) ? edge : undefined;
 }
 
+function wovenCollarRoleProjection(
+  roleId: "outerStand" | "upperCollar", kind: TechnicalFlatViewKind, piece: Piece,
+  treatment: FlatRoleTreatment,
+): FlatProjectionRole {
+  const front = kind === "FRONT_FLAT";
+  const baseEdge = roleId === "outerStand" ? "collar" : "stand";
+  const outerEdge = roleId === "outerStand" ? "neckline" : "outer";
+  const frontEndEdge = roleId === "outerStand" ? "frontEnd" : "frontTip";
+  const boundary = (): FlatProjectionLandmark => ({
+    kind: "woven-neckline-shoulder", stitchLabel: "Outer stand ↔ woven neckline",
+  });
+  const endpoint = (edgeId: string, endpointName: "start" | "end"): FlatProjectionLandmark => ({
+    kind: "edge-endpoint", edgeId, endpoint: endpointName,
+  });
+  const centerBack = foldAxisEdge(piece);
+  const splitRuns: FlatProjectionEdgeRun[] = front
+    ? [
+      { edgeId: baseEdge, from: boundary(), to: endpoint(baseEdge, "end") },
+      { edgeId: outerEdge, from: endpoint(outerEdge, "start"), to: boundary() },
+      { edgeId: frontEndEdge, from: endpoint(frontEndEdge, "start"), to: endpoint(frontEndEdge, "end") },
+    ]
+    : [
+      { edgeId: baseEdge, from: endpoint(baseEdge, "start"), to: boundary() },
+      { edgeId: outerEdge, from: boundary(), to: endpoint(outerEdge, "end") },
+    ];
+  const faceExcludedEdges: FlatProjectionHeldEdge[] = [
+    ...(centerBack ? [
+      { edgeId: centerBack.name, reason: "The source-declared center-back fold is the reflection axis, not an exterior cut edge." },
+      ...(!front ? [{ edgeId: frontEndEdge, reason: "The collar/front-end edge belongs to the front face beyond the source shoulder station." }] : []),
+    ] : []),
+  ];
+  return {
+    roleId,
+    instanceId: roleId,
+    treatment,
+    runs: centerBack ? splitRuns : [],
+    heldEdges: centerBack ? [] : piece.edges.map((edge) => ({ edgeId: edge.name, reason: "The source-declared center-back axis is missing." })),
+    faceExcludedEdges,
+    ...(centerBack ? { foldAxisReflection: { edgeId: centerBack.name, axis: "LOCAL_Y" as const, source: "Piece.onFold" as const } } : {}),
+  };
+}
+
+function isClosedWovenVent(piece: Piece, edge: Edge): boolean {
+  if (edge.name !== "vent" || !samePoint(edgeStart(edge), edgeEnd(edge))) return false;
+  const ventTop = piece.marks?.find((mark) => mark.name === "ventTop");
+  const sideLower = piece.edges.find((candidate) => candidate.name === "sideLower");
+  const hem = piece.edges.find((candidate) => candidate.name === "hem");
+  return !!ventTop && "at" in ventTop && samePoint(ventTop.at, edgeStart(edge))
+    && !!sideLower && samePoint(edgeEnd(sideLower), ventTop.at)
+    && !!hem && samePoint(edgeStart(hem), ventTop.at);
+}
+
 /** Build the current per-recipe map from explicit V01 role membership and the
  * exact drafted edges. Whole-role contours are included only where the role
  * map defines their face membership; known unsplittable visible roles and
@@ -139,6 +193,9 @@ export function createG04TechnicalFlatProjectionMap(
         const piece = block.roles[role.roleId];
         if (!piece) {
           return { roleId: role.roleId, instanceId: role.roleId, treatment: role.treatment, runs: [], heldEdges: [] };
+        }
+        if (recipeId === "woven-shirt" && (role.roleId === "outerStand" || role.roleId === "upperCollar")) {
+          return wovenCollarRoleProjection(role.roleId, face.kind, piece, role.treatment);
         }
         if (recipeId === "skirt" && role.roleId === "waistband") {
           const stitchLabel = "Waistband (front + back ↔ waistband)";
@@ -202,7 +259,10 @@ export function createG04TechnicalFlatProjectionMap(
         for (const edge of piece.edges) {
           const start = edgeStart(edge);
           const end = edgeEnd(edge);
-          if (heldRoleReason) {
+          if (recipeId === "woven-shirt" && isClosedWovenVent(piece, edge)) {
+            faceExcludedEdges.push({ edgeId: edge.name,
+              reason: "The source-drafted zero-depth vent is closed at ventTop and has no visible edge in this option state." });
+          } else if (heldRoleReason) {
             heldEdges.push({ edgeId: edge.name, reason: heldRoleReason });
           } else if (axisEdge?.name === edge.name) {
             faceExcludedEdges.push({ edgeId: edge.name,
@@ -258,6 +318,53 @@ function pointAtEdgeEnd(edge: Edge, end: "start" | "end") {
   return end === "start" ? edgeStart(edge) : edgeEnd(edge);
 }
 
+function wovenNecklineShoulderPoint(
+  block: Block, roleId: string, edge: Edge, piece: Piece,
+): { readonly x: number; readonly y: number } | undefined {
+  if (edge.kind !== "line") return undefined;
+  if (!piece.onFold) return undefined;
+  if (!foldAxisEdge(piece)) return undefined;
+  if (roleId !== "outerStand" && roleId !== "upperCollar") return undefined;
+  const matches = block.stitches.filter((stitch) => stitch.label === "Outer stand ↔ woven neckline");
+  const stitch = matches[0];
+  if (matches.length !== 1 || !stitch || stitch.ease !== undefined || stitch.a.edges.length !== 1
+    || stitch.b.edges.length !== 2) return undefined;
+  const outerNeckRef = stitch.a.edges[0];
+  if (!outerNeckRef || !("edge" in outerNeckRef)
+    || outerNeckRef.piece !== "outerStand" || outerNeckRef.edge !== "neckline") return undefined;
+  const [frontRef, backRef] = stitch.b.edges;
+  if (!frontRef || !backRef || !("edge" in frontRef) || !("edge" in backRef)
+    || frontRef.piece !== "front" || frontRef.edge !== "neckline"
+    || !(backRef.piece === "back" || backRef.piece === "yoke") || backRef.edge !== "neckline") return undefined;
+  const front = block.roles.front;
+  const back = block.roles[backRef.piece];
+  const frontNeck = front?.edges.find((candidate) => candidate.name === "neckline");
+  const backNeck = back?.edges.find((candidate) => candidate.name === "neckline");
+  if (!front || !back || !frontNeck || !backNeck) return undefined;
+  const shared = [edgeStart(frontNeck), edgeEnd(frontNeck)].filter((candidate) =>
+    [edgeStart(backNeck), edgeEnd(backNeck)].some((other) => samePoint(candidate, other)));
+  if (shared.length !== 1) return undefined;
+  const frontLength = edgeLength(frontNeck);
+  const backLength = edgeLength(backNeck);
+  const total = frontLength + backLength;
+  const sewnTo = roleId === "outerStand" ? block.roles.underCollar : block.roles.innerStand;
+  const ownBaseName = roleId === "outerStand" ? "collar" : "stand";
+  const counterpartBaseName = roleId === "outerStand" ? "stand" : "collar";
+  const receiverBase = sewnTo?.edges.find((candidate) => candidate.name === counterpartBaseName);
+  const ownBase = piece.edges.find((candidate) => candidate.name === ownBaseName);
+  const standNeckline = block.roles.outerStand?.edges.find((candidate) => candidate.name === "neckline");
+  if (!sewnTo?.onFold || !receiverBase || !ownBase || !standNeckline
+    || Math.abs(edgeLength(receiverBase) - total) > 1e-8
+    || Math.abs(edgeLength(ownBase) - total) > 1e-8
+    || Math.abs(edgeLength(standNeckline) - total) > 1e-8) return undefined;
+  const minX = Math.min(edge.start.x, edge.end.x);
+  const maxX = Math.max(edge.start.x, edge.end.x);
+  const stationX = backLength;
+  if (edge.start.y !== edge.end.y || stationX < minX || stationX > maxX || edge.start.x === edge.end.x) return undefined;
+  const t = (stationX - edge.start.x) / (edge.end.x - edge.start.x);
+  return { x: stationX, y: edge.start.y + (edge.end.y - edge.start.y) * t };
+}
+
 function refsForSide(stitch: Stitch, side: "a" | "b") {
   return stitch[side].edges;
 }
@@ -309,6 +416,17 @@ function pointForLandmark(
       return undefined;
     }
     return pointAtEdgeEnd(edge, landmark.endpoint);
+  }
+  if (landmark.kind === "woven-neckline-shoulder") {
+    if (landmark.stitchLabel !== "Outer stand ↔ woven neckline") {
+      issues.push({ code: "INVALID_STITCH_BOUNDARY", sourceId, message: "Woven collar shoulder landmark must name the source neckline stitch." });
+      return undefined;
+    }
+    const resolved = wovenNecklineShoulderPoint(block, roleId, edge, piece);
+    if (!resolved) {
+      issues.push({ code: "INVALID_STITCH_BOUNDARY", sourceId, message: `Woven collar shoulder station does not resolve on “${roleId}.${edge.name}” from the current ordered neckline stitch and collar-edge topology.` });
+    }
+    return resolved;
   }
   if (landmark.kind === "pattern-mark") {
     if (typeof landmark.markId !== "string" || landmark.markId.length === 0

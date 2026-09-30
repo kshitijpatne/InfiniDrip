@@ -150,17 +150,28 @@ describe("compileTechnicalFlatLiveView", () => {
       { x: 0, y: 0 }, { x: 0, y: 2 })).toBeUndefined();
   });
 
-  it("withholds Polo and Woven collar faces when the drafted source has no face split landmarks", () => {
+  it("keeps Polo and visually incoherent Woven assembled faces held", () => {
     for (const recipeId of ["polo", "woven-shirt"]) {
       const recipe = GARMENTS.find((candidate) => candidate.name === recipeId)!;
       const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
       for (const kind of ["FRONT_FLAT", "BACK_FLAT"] as const) {
         const result = compileTechnicalFlatLiveView({ recipe, block, revisionId: `live-${recipeId}-${kind}`, kind,
           placements: [], colorHex: "#456789", texture: "smooth", shine: 0 });
-        expect(result.view).toBeNull();
-        expect(result.colorway).toBeNull();
-        expect(result.issues.some((issue) => issue.stage === "geometry"
-          && issue.message.includes("no authored front/back split landmark"))).toBe(true);
+        if (recipeId === "polo") {
+          expect(result.view).toBeNull();
+          expect(result.colorway).toBeNull();
+          expect(result.issues.some((issue) => issue.stage === "geometry"
+            && issue.message.includes("no authored front/back split landmark"))).toBe(true);
+        } else {
+          expect(result.view).toBeNull();
+          expect(result.colorway).toBeNull();
+          expect(result.issues.some((issue) => issue.stage === "geometry"
+            && issue.message.includes(kind === "FRONT_FLAT" ? "crossing source roles" : "Woven sleeve-cap placement"))).toBe(true);
+          expect(result.issues.some((issue) => issue.stage === "geometry"
+            && issue.message.includes("no authored front/back split landmark"))).toBe(false);
+          if (kind === "BACK_FLAT") expect(result.issues.some((issue) => issue.stage === "assembly"
+            && issue.message.includes("Woven sleeve-cap ease"))).toBe(true);
+        }
       }
     }
   });

@@ -130,6 +130,44 @@ describe("technical-flat source geometry", () => {
     }
   });
 
+  it("keeps source-derived Woven collar segments accounted while withholding incoherent assembled faces", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "woven-shirt")!;
+    const revision = revisionId;
+    const openBlock = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
+    const openMap = createG04TechnicalFlatProjectionMap("woven-shirt", openBlock, revision)!;
+    const front = compileTechnicalFlatSourceGeometry("woven-shirt", openBlock, revision, "FRONT_FLAT", openMap);
+    const back = compileTechnicalFlatSourceGeometry("woven-shirt", openBlock, revision, "BACK_FLAT", openMap);
+    expect(front.issues.some((issue) => issue.code === "UNRESOLVED_PROJECTION_EDGE"
+      && issue.message.includes("crossing source roles"))).toBe(true);
+    expect(back.issues.some((issue) => issue.code === "UNRESOLVED_PROJECTION_EDGE"
+      && issue.message.includes("Woven sleeve-cap placement"))).toBe(true);
+    expect(front.primitives).toEqual([]);
+    expect(back.primitives).toEqual([]);
+    for (const face of openMap.faces) for (const roleId of ["outerStand", "upperCollar"]) {
+      const role = face.roles.find((candidate) => candidate.roleId === roleId)!;
+      expect(role.runs.some((run) => run.from.kind === "woven-neckline-shoulder"
+        || run.to.kind === "woven-neckline-shoulder")).toBe(true);
+      expect(role.heldEdges).toEqual([]);
+    }
+    for (const face of openMap.faces) {
+      const bodyRoleId = face.kind === "FRONT_FLAT" ? "front" : "yoke";
+      expect(face.roles.find((role) => role.roleId === bodyRoleId)?.heldEdges.length).toBeGreaterThan(0);
+      const lowerRole = face.roles.find((role) => role.roleId === (face.kind === "FRONT_FLAT" ? "front" : "back"));
+      if (lowerRole) {
+        expect(lowerRole.runs.some((run) => run.edgeId === "vent")
+          || lowerRole.heldEdges.some((held) => held.edgeId === "vent")).toBe(true);
+        expect(lowerRole.faceExcludedEdges?.some((excluded) => excluded.edgeId === "vent") ?? false).toBe(false);
+      }
+    }
+
+    const closedBlock = recipe.draft(STANDARD_M, { ...defaultGarmentOptions(recipe.options ?? []), sideVentDepth: 0 });
+    const closedMap = createG04TechnicalFlatProjectionMap("woven-shirt", closedBlock, revision)!;
+    const closedFront = closedMap.faces[0].roles.find((role) => role.roleId === "front")!;
+    expect(closedFront.runs.some((run) => run.edgeId === "vent")).toBe(false);
+    expect(closedFront.faceExcludedEdges).toContainEqual(expect.objectContaining({ edgeId: "vent" }));
+    expect(compileTechnicalFlatSourceGeometry("woven-shirt", closedBlock, revision, "FRONT_FLAT", closedMap).primitives).toEqual([]);
+  });
+
   it("compiles only validated projected source runs and retains per-edge provenance", () => {
     const tee = GARMENTS.find((recipe) => recipe.name === "tee")!;
     const block = tee.draft(STANDARD_M, defaultGarmentOptions(tee.options ?? []));

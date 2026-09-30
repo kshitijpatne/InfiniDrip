@@ -1,6 +1,16 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 285 source-reference audit complete; V02 remains open, 2026-09-30._
+_Last updated: Slice 286 Woven source-metadata implementation complete; V02 remains open, 2026-09-30._
+
+### Slice 286 — G04 V02 Woven collar/closed vent metadata (complete; V02 remains open)
+
+- **Start / Git:** started 2026-09-30 06:35:08 UTC from clean S285 `9f059d3cf869ec7310e8f72af6829059063a97e8` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. S285 was highest; S286 reserved and landed under subject `Slice 286: map Woven collar and closed vent views`; see active branch history for its identifier. Slice packet: `docs/research/epic17/G04-V02-WOVEN-COLLAR-VENT-S286.md`.
+- **Scope/result:** added source-derived Woven collar/stand shoulder stations bound to the current ordered neckline stitch, exact role topology, same revision and source fold frame; conditionally omits only the exactly closed zero-depth vent. No source coordinates, cut geometry, marks or exports changed. The candidate's front components crossed/separated and the back had conflicting sleeve-cap ease placement, so both Woven faces are now held with explicit source guidance.
+- **Board:** started at revision 452; validated packet links at 453–455 and start comment at 456. `E-G04-S286-EXIT` is linked to G04-V02, EPIC-17 and its summary at revisions 457–459; exit comment at 460; estimate synchronized with validated `editEpic`/`editItem` at 461–462. Final board revision 462. EPIC-17 remains In Progress, V01 Done, V02 In Progress, V03 Backlog; estimate is 39–44 slices.
+- **Focused verification:** live/projection/geometry tests 41/41; `technical-flat-projection.ts` coverage 100% for statements, branches, functions and lines across 17 tests. `npx tsc --noEmit`, `npm run build`, and protected export/DXF/tech-pack identities 24/24 passed. Production Chromium reviewed 28 Woven configurations/56 faces across all 13 option fields; all stayed visibly held. Corrected harness's stale 14-vs-13 expected count and successful rerun are documented. No browser, page or remote errors. Final held screenshots manually inspected; the rejected first candidate is preserved separately.
+- **Acceptance/findings:** exact Woven metadata eligibility passes, but coherent Woven output does not; V02 is not accepted and V03 cannot begin. MQF-004–007, MQF-011 and MQF-012 were reviewed and remain `To be reviewed`; MQF-015 remains assigned to V03. Post-G17 deferrals are unchanged.
+- **Delegation / elapsed time:** no safe disjoint low-risk work; agent waits 0m. Start 06:35:08, exit 07:25:39 UTC (50m31s): implementation/source review 22m; focused verification/build/protected identity/browser review 19m; durable/board closeout 9m; maintainer-decision time 0m. The first closeout Control Center run exposed a stale expected comment phrase; the expectation was corrected to match the validated S286 board comment, and the final suite passed 33/33.
+- **Next action:** S287 reviews Woven sleeve-cap placement/crossing against exact source topology and makes only source-supported view-transform corrections, otherwise retaining a hold. Polo, Tee/Fitted and Trouser remain blocked. Full seven-recipe/options V02 acceptance precedes any V03 CAD profile work.
 
 ### Slice 285 — G04 V02 source-reference audit (complete; V02 remains open)
 
