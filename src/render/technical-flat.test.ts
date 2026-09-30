@@ -125,6 +125,10 @@ describe("validateTechnicalFlat", () => {
     } };
     expect(validateTechnicalFlat(view([markedLine]))).toEqual([]);
     expect(codes(view([{ ...markedLine, patternMark: { ...markedLine.patternMark!, name: " " } }]))).toEqual(["INVALID_GEOMETRY"]);
+    expect(validateTechnicalFlat(view([{ ...path("projected"), sourceEdgeIds: ["pattern:tee:role:front:edge:neck", "pattern:tee:role:front:edge:shoulder"] }]))).toEqual([]);
+    expect(codes(view([{ ...path("empty-projection"), sourceEdgeIds: [] }]))).toEqual(["INVALID_GEOMETRY"]);
+    expect(codes(view([{ ...path("bad-projection"), sourceEdgeIds: ["pattern:front", " "] }]))).toEqual(["INVALID_GEOMETRY"]);
+    expect(codes(view([{ ...path("duplicate-projection"), sourceEdgeIds: ["pattern:front", "pattern:front"] }]))).toEqual(["INVALID_GEOMETRY"]);
   });
 
   it("validates circles and labels", () => {

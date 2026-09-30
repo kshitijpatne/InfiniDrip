@@ -1,6 +1,21 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 277 EPIC-17/G04 projection-mapping contract exit, 2026-09-30._
+_Last updated: Slice 278 EPIC-17/G04 projected source-geometry adapter exit, 2026-09-30._
+
+### Slice 278 — G04 V02 projected source geometry (complete)
+
+- **Goal / slice start:** 2026-09-30 01:10:48 UTC. Packet: `docs/research/epic17/G04-V02-PROJECTION-GEOMETRY-S278.md`.
+- **Git:** clean at S277 `23a11a4b38d65fb343cbee253e7cf539b3e44b66` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor; S278 is uniquely reserved after history through 277.
+- **Board:** revision 421 at start; S278 start packet linked by validated command at revision 422; verified exit evidence `E-G04-S278-EXIT` linked at revision 423. EPIC-17 In Progress; V01 Done; V02 In Progress; V03 Backlog.
+- **Blockers/non-goals:** no maintainer decision blocks this adapter. No static recipe mapping/live default switch, guessed interior split, pattern change, export change or V02 exit claim. The seven actual maps and their rendered review remain later boundaries.
+- **Delegation:** no safe disjoint ownership; this adapter touches shared geometry and POM identities. Codex owns it; external-agent waits expected 0m.
+- **Implementation:** `compileTechnicalFlatSourceGeometry` accepts an optional validated projection map. It emits only its exact face edge runs, keeps line endpoints and cubic controls exact (including reversed control order), stores ordered per-edge IDs in `FlatPathPrimitive.sourceEdgeIds`, and retains the role-outline ID used by anchored POMs. A visible held edge produces a source-specific issue and no projected primitives; intentionally hidden interior roles remain hidden with their existing notice. `validateTechnicalFlat` validates projected edge-source IDs. `technical-flat-options` propagates projection-map issue types. Calls without a projection map preserve the existing geometry path.
+- **Acceptance:** passed for the adapter boundary. All seven recipes at defaults and each declared numeric option min/max endpoint were drafted and run through explicit contract fixtures; complete mapped faces compile, visible holds withhold the face, and invalid coordinates/stale metadata fail closed. Live UI behavior did not switch to projection maps, and this is not V02 visual acceptance. No pattern, export or baseline changed.
+- **Verification:** `npm run coverage -- src/render/technical-flat-geometry.test.ts src/render/technical-flat.test.ts src/render/technical-flat-options.test.ts --coverage.include=src/render/technical-flat-geometry.ts --coverage.include=src/render/technical-flat.ts --coverage.include=src/render/technical-flat-options.ts` passed 24/24 with 100% statement, branch, function and line coverage for all three modules. The adjacent live/POM/option/geometry suite passed 37/37. `npm run build` passed TypeScript and Vite (existing chunk-size advisory). `npm run control-center:test` passed 33/33; protected export identity suites passed 17/17; `git diff --check` passed. A first build caught strict tuple casts and the option result's missing projection-issue union; both were corrected before the final passing build. An initial Control Center run caught a stale assertion for the previous slice's start comment; the board fixture now asserts the S278 packet link and the suite passes. No browser matrix was run because no production renderer call supplies a projection map yet.
+- **Manual findings:** MQF-004–007, MQF-011 and MQF-012 remain `To be reviewed` for the V02 rendered exit; MQF-015 remains assigned to V03. S278 adds no new findings scope; post-G17 deferrals remain intact.
+- **Blockers/risks:** no new maintainer decision blocks this adapter. S279 still must author source-backed maps for all seven recipes, connect them to the live renderer, and inspect actual browser output. Any unsupported visible run must continue to block that face.
+- **Next action:** refresh refs/history and prepare S279's packet for source-backed per-recipe face maps, live renderer integration and the full 146-face visual review; do not infer unsupported splits or seams.
+- **Elapsed time:** implementation 6m; focused verification and corrections 4m; build and adjacent-consumer/protected-output review 2m; board/docs closeout 2m; external-agent waits 0m; maintainer-decision time 0m (about 14m total from 01:10:48 to 01:24:24 UTC).
 
 ### Slice 277 — G04 V02 projection-mapping contract (complete)
 

@@ -129,6 +129,9 @@ only through an explicitly admitted, linked Epic packet.
 - `docs/research/epic17/G04-V02-PROJECTION-MAPPING-S277.md` — Slice 277's
   current projection-mapping contract boundary, source-reference rules,
   fail-closed semantics, and focused acceptance gates.
+- `docs/research/epic17/G04-V02-PROJECTION-GEOMETRY-S278.md` — Slice 278's
+  current contract for compiling exact mapped edge runs while preserving
+  source IDs and withholding faces with unresolved visible edges.
 - `src/render/technical-flat-projection.ts` — versioned G04 face-projection
   metadata and exact drafted-topology validation. Interior split landmarks not
   present as source endpoints remain unsupported and explicitly held.
@@ -139,6 +142,10 @@ only through an explicitly admitted, linked Epic packet.
 - `src/render/technical-flat.ts` — Slice 263's versioned vector primitive,
   source/revision, semantic-layer, artwork and anchored-callout contract plus
   runtime validation. Recipe mapping and live rendering remain in progress.
+- `src/render/technical-flat-geometry.ts` — exact Block-derived geometry and
+  the optional S278 projection-map path. It preserves stable outline IDs and
+  per-edge provenance, and withholds faces that include unresolved visible
+  edges; the live renderer does not use this path until recipe maps are added.
 - `docs/research/epic17/G04-V02-LIVE-S272.md` — Slice 272's completed live
   front/back canvas integration and retained real-browser output evidence. Its
   runtime revision token binds one current draft snapshot and is not saved

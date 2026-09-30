@@ -2,6 +2,7 @@ import type { GarmentRecipe } from "../drafting/recipe";
 import type { GarmentOptions } from "../drafting/options";
 import type { Measurements } from "../drafting/measurements";
 import { mapTechnicalFlatSources, type FlatMappingIssue } from "./technical-flat-mapping";
+import type { FlatProjectionIssue } from "./technical-flat-projection";
 import {
   compileTechnicalFlatSourceGeometry,
   type TechnicalFlatGeometryIssue,
@@ -26,7 +27,7 @@ export interface ValidatedTechnicalFlatOptions {
   readonly revisionId: string;
   readonly options: GarmentOptions | null;
   readonly faces: readonly [TechnicalFlatSourceGeometry, TechnicalFlatSourceGeometry] | null;
-  readonly issues: readonly (TechnicalFlatOptionIssue | FlatMappingIssue | TechnicalFlatGeometryIssue)[];
+  readonly issues: readonly (TechnicalFlatOptionIssue | FlatMappingIssue | FlatProjectionIssue | TechnicalFlatGeometryIssue)[];
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {

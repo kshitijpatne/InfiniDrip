@@ -303,6 +303,13 @@ map. It binds exact edge runs and landmarks to the drafted block/revision,
 fails closed when the source cannot support a partition, and leaves pattern
 cut geometry unchanged. It must not infer split points from a screenshot.
 
+Slice 278 adds an optional projection-aware path to the source-geometry
+compiler. It emits only validated edge runs, records each contributing source
+edge while preserving the role-outline ID used by POM anchors, and withholds a
+visible face when any included role has an unresolved edge. The current live
+renderer does not yet supply recipe projection maps, so its existing path is
+unchanged until S279 authors and reviews those maps.
+
 The **Edit** view keeps user-authored deltas against stable recipe-owned
 anchors, rather than saving a disconnected picture. Pointer drags and keyboard
 coordinate edits become semantic operations; Undo, Redo, Clear and explicit

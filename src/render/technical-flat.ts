@@ -84,6 +84,8 @@ interface FlatPrimitiveBase {
 export interface FlatPathPrimitive extends FlatPrimitiveBase {
   readonly kind: "path";
   readonly commands: readonly FlatPathCommand[];
+  /** Exact outline-edge sources for a projected multi-edge path, in subpath order. */
+  readonly sourceEdgeIds?: readonly string[];
   readonly patternMark?: {
     readonly kind: "cutLine" | "foldLine" | "placementLine";
     readonly name: string;
@@ -240,6 +242,12 @@ function validatePrimitive(primitive: TechnicalFlatPrimitive): TechnicalFlatIssu
     case "path":
       if (!validatePath(primitive)) {
         issues.push({ code: "INVALID_GEOMETRY", entityId: primitive.id, message: "Path commands must form finite, ordered subpaths." });
+      }
+      if (primitive.sourceEdgeIds !== undefined && (!Array.isArray(primitive.sourceEdgeIds)
+        || primitive.sourceEdgeIds.length === 0
+        || primitive.sourceEdgeIds.some((sourceId) => !nonBlank(sourceId))
+        || new Set(primitive.sourceEdgeIds).size !== primitive.sourceEdgeIds.length)) {
+        issues.push({ code: "INVALID_GEOMETRY", entityId: primitive.id, message: "Projected path source-edge IDs must be non-empty, unique and ordered with their subpaths." });
       }
       if (primitive.patternMark && (!nonBlank(primitive.patternMark.name)
         || !["cutLine", "foldLine", "placementLine"].includes(primitive.patternMark.kind)

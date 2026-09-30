@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 421,
-  "updatedAt": "2026-09-30T01:02:36.128Z",
+  "revision": 423,
+  "updatedAt": "2026-09-30T01:24:50.614Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -5556,6 +5556,11 @@
           "at": "2026-09-30T00:50:09.656Z",
           "actor": "Codex",
           "text": "Slice 277 started 2026-09-30 00:48:58 UTC from 85783a4422dc728a75b1783513781adb9f52989d. Packet: docs/research/epic17/G04-V02-PROJECTION-MAPPING-S277.md. Bounded contract implements admitted source-to-view mapping with exact source-bound runs/landmarks/instances; unsupported mappings fail closed and pattern geometry remains unchanged."
+        },
+        {
+          "at": "2026-09-30T01:12:16.256Z",
+          "actor": "Codex",
+          "text": "Slice 278 started 2026-09-30 01:10:48 UTC from 23a11a4b38d65fb343cbee253e7cf539b3e44b66. Packet: docs/research/epic17/G04-V02-PROJECTION-GEOMETRY-S278.md. Bound scope is an opt-in adapter from validated face maps to exact source edge paths; unresolved visible edges withhold the face and no-map geometry stays unchanged."
         }
       ],
       "evidenceRefs": [
@@ -5572,7 +5577,8 @@
         "E-G04-S274-EXIT",
         "E-G04-S275-EXIT",
         "E-G04-S276-EXIT",
-        "E-G04-S277-EXIT"
+        "E-G04-S277-EXIT",
+        "E-G04-S278-EXIT"
       ],
       "flagKey": null
     },
@@ -6576,6 +6582,15 @@
       "sha256": null,
       "verified": true,
       "note": "Verified Slice 277 projection-map contract, fail-closed source references, all-recipe/options topology fixtures, 100% focused coverage, build, and unchanged protected export identities; rendered V02 exit remains open."
+    },
+    {
+      "id": "E-G04-S278-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-PROJECTION-GEOMETRY-S278.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Verified optional projection-map geometry compilation, stable POM outline identity, edge provenance, explicit face holds, 100% focused coverage, build, and unchanged protected exports. Live rendering remains on the no-map path; V02 visual exit is open."
     }
   ]
 }

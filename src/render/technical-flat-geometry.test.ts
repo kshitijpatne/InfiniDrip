@@ -5,9 +5,40 @@ import { defaultGarmentOptions } from "../drafting/options";
 import type { Block } from "../drafting/block";
 import { compileTechnicalFlatSourceGeometry } from "./technical-flat-geometry";
 import { G04_TECHNICAL_FLAT_MAPPINGS } from "./technical-flat-mapping";
+import type { TechnicalFlatProjectionMap } from "./technical-flat-projection";
 import { TECHNICAL_FLAT_SCHEMA_VERSION, validateTechnicalFlat } from "./technical-flat";
 
 const revisionId = "style-revision-17";
+
+function projectionMap(recipeId: string, block: Block): TechnicalFlatProjectionMap {
+  const base = G04_TECHNICAL_FLAT_MAPPINGS[recipeId];
+  return {
+    version: 1, recipeId, revisionId,
+    faces: base.faces.map((face) => ({
+      kind: face.kind,
+      roles: face.roles.map((role) => {
+        const piece = block.roles[role.roleId];
+        const hidden = role.treatment === "INTERIOR_HIDDEN";
+        const isZero = (edge: (typeof piece.edges)[number]) => {
+          const start = edge.kind === "line" ? edge.start : edge.curve.start;
+          const end = edge.kind === "line" ? edge.end : edge.curve.end;
+          return start.x === end.x && start.y === end.y;
+        };
+        return {
+          roleId: role.roleId, instanceId: role.roleId, treatment: role.treatment,
+          runs: hidden ? [] : piece.edges.filter((edge) => !isZero(edge)).map((edge) => ({
+            edgeId: edge.name,
+            from: { kind: "edge-endpoint" as const, edgeId: edge.name, endpoint: "start" as const },
+            to: { kind: "edge-endpoint" as const, edgeId: edge.name, endpoint: "end" as const },
+          })),
+          heldEdges: piece.edges.filter((edge) => hidden || isZero(edge)).map((edge) => ({
+            edgeId: edge.name, reason: hidden ? "Interior role is hidden." : "Zero-length edge is unresolved.",
+          })),
+        };
+      }),
+    })) as unknown as TechnicalFlatProjectionMap["faces"],
+  };
+}
 
 describe("technical-flat source geometry", () => {
   it("compiles exact mapped role outlines, marks and darts for every recipe and option endpoint", () => {
@@ -77,6 +108,155 @@ describe("technical-flat source geometry", () => {
         }
       }
     }
+  });
+
+  it("compiles only validated projected source runs and retains per-edge provenance", () => {
+    const tee = GARMENTS.find((recipe) => recipe.name === "tee")!;
+    const block = tee.draft(STANDARD_M, defaultGarmentOptions(tee.options ?? []));
+    const map = projectionMap("tee", block);
+    const legacy = compileTechnicalFlatSourceGeometry("tee", block, revisionId, "FRONT_FLAT");
+    const projected = compileTechnicalFlatSourceGeometry("tee", block, revisionId, "FRONT_FLAT", map);
+    expect(projected.issues).toEqual([]);
+    expect(projected.primitives).toHaveLength(legacy.primitives.length);
+    for (const roleMap of map.faces[0].roles.filter((role) => role.treatment !== "INTERIOR_HIDDEN")) {
+      const outline = projected.primitives.find((primitive) => primitive.id ===
+        `flat:tee:FRONT_FLAT:component:${roleMap.roleId}:outline`);
+      expect(outline).toMatchObject({ kind: "path", source: { sourceId: `pattern:tee:role:${roleMap.roleId}` },
+        sourceEdgeIds: roleMap.runs.map((run) => `pattern:tee:role:${roleMap.roleId}:edge:${run.edgeId}`) });
+      if (outline?.kind !== "path") throw new Error("Projected outline must be a path.");
+      expect(outline.commands).toHaveLength(roleMap.runs.length * 2);
+      const legacyOutline = legacy.primitives.find((primitive) => primitive.id === outline.id);
+      expect(legacyOutline?.kind).toBe("path");
+      expect(outline.id).toBe(legacyOutline?.id);
+      expect(legacyOutline?.kind === "path" ? legacyOutline.sourceEdgeIds : undefined).toBeUndefined();
+    }
+  });
+
+  it("uses source-bound pattern-mark endpoints and exercises every supported option topology", () => {
+    const tee = GARMENTS.find((recipe) => recipe.name === "tee")!;
+    const block = tee.draft(STANDARD_M, defaultGarmentOptions(tee.options ?? []));
+    const map = projectionMap("tee", block);
+    const face = map.faces[0];
+    const role = face.roles.find((candidate) => candidate.treatment !== "INTERIOR_HIDDEN")!;
+    const edgeId = role.runs[0].edgeId;
+    const edge = block.roles[role.roleId].edges.find((candidate) => candidate.name === edgeId)!;
+    const start = edge.kind === "line" ? edge.start : edge.curve.start;
+    const end = edge.kind === "line" ? edge.end : edge.curve.end;
+    const pointMark = { kind: "placementPoint" as const, name: "endpoint-point", at: start };
+    const lineMark = { kind: "placementLine" as const, name: "endpoint-line", start, end };
+    const markedBlock = { ...block, roles: { ...block.roles, [role.roleId]: { ...block.roles[role.roleId], marks: [pointMark, lineMark] } } };
+    const markedRole = { ...role, runs: role.runs.map((run, index) => index ? run : ({ ...run,
+      from: { kind: "pattern-mark" as const, markId: "endpoint-point", point: "at" as const },
+      to: { kind: "pattern-mark" as const, markId: "endpoint-line", point: "end" as const },
+    })) };
+    const markedFace = { ...face, roles: face.roles.map((candidate) => candidate.roleId === role.roleId ? markedRole : candidate) };
+    const markedMap = { ...map, faces: [markedFace, map.faces[1]] } as unknown as TechnicalFlatProjectionMap;
+    const marked = compileTechnicalFlatSourceGeometry("tee", markedBlock, revisionId, "FRONT_FLAT", markedMap);
+    expect(marked.issues).toEqual([]);
+    const lineStartRole = { ...role, runs: role.runs.map((run, index) => index ? run : ({ ...run,
+      from: { kind: "pattern-mark" as const, markId: "endpoint-line", point: "start" as const },
+      to: { kind: "edge-endpoint" as const, edgeId: run.edgeId, endpoint: "end" as const },
+    })) };
+    const lineStartMap = { ...map, faces: [{ ...face, roles: face.roles.map((candidate) => candidate.roleId === role.roleId ? lineStartRole : candidate) }, map.faces[1]] } as unknown as TechnicalFlatProjectionMap;
+    expect(compileTechnicalFlatSourceGeometry("tee", markedBlock, revisionId, "FRONT_FLAT", lineStartMap).issues).toEqual([]);
+
+    for (const recipe of GARMENTS) {
+      const optionSets = [defaultGarmentOptions(recipe.options ?? [])];
+      for (const option of recipe.options ?? []) {
+        optionSets.push({ ...defaultGarmentOptions(recipe.options ?? []), [option.id]: option.min });
+        optionSets.push({ ...defaultGarmentOptions(recipe.options ?? []), [option.id]: option.max });
+      }
+      for (const options of optionSets) {
+        const optionBlock = recipe.draft(STANDARD_M, options);
+        const optionMap = projectionMap(recipe.name, optionBlock);
+        for (const kind of ["FRONT_FLAT", "BACK_FLAT"] as const) {
+          const output = compileTechnicalFlatSourceGeometry(recipe.name, optionBlock, revisionId, kind, optionMap);
+          const visibleHeld = optionMap.faces.find((candidate) => candidate.kind === kind)!.roles
+            .some((candidate) => candidate.treatment !== "INTERIOR_HIDDEN" && candidate.heldEdges.length > 0);
+          if (visibleHeld) {
+            expect(output.issues.some((issue) => issue.code === "UNRESOLVED_PROJECTION_EDGE"), `${recipe.name}/${kind}`).toBe(true);
+            expect(output.primitives, `${recipe.name}/${kind}`).toEqual([]);
+          } else {
+            expect(output.issues, `${recipe.name}/${kind}`).toEqual([]);
+          }
+        }
+      }
+    }
+  });
+
+  it("reverses cubic controls exactly and withholds a face containing visible held edges", () => {
+    const tee = GARMENTS.find((recipe) => recipe.name === "tee")!;
+    const block = tee.draft(STANDARD_M, defaultGarmentOptions(tee.options ?? []));
+    const map = projectionMap("tee", block);
+    const curveRole = map.faces[0].roles.find((role) => role.runs.some((run) =>
+      block.roles[role.roleId].edges.some((edge) => edge.name === run.edgeId && edge.kind === "curve")))!;
+    const curveRun = curveRole.runs.find((run) => block.roles[curveRole.roleId].edges.some((edge) => edge.name === run.edgeId && edge.kind === "curve"))!;
+    const faceWithReverse = {
+      ...map,
+      faces: map.faces.map((face, index) => index ? face : ({ ...face, roles: face.roles.map((role) => role.roleId !== curveRole.roleId ? role : ({
+        ...role, runs: role.runs.map((run) => run.edgeId !== curveRun.edgeId ? run : ({
+          ...run,
+          from: { kind: "edge-endpoint" as const, edgeId: run.edgeId, endpoint: "end" as const },
+          to: { kind: "edge-endpoint" as const, edgeId: run.edgeId, endpoint: "start" as const },
+        })),
+      })) })),
+    } as unknown as TechnicalFlatProjectionMap;
+    const reversed = compileTechnicalFlatSourceGeometry("tee", block, revisionId, "FRONT_FLAT", faceWithReverse);
+    expect(reversed.issues).toEqual([]);
+    const reversedOutline = reversed.primitives.find((primitive) => primitive.id ===
+      `flat:tee:FRONT_FLAT:component:${curveRole.roleId}:outline`);
+    const sourceCurve = block.roles[curveRole.roleId].edges.find((edge) => edge.name === curveRun.edgeId)!;
+    if (sourceCurve.kind !== "curve" || reversedOutline?.kind !== "path") throw new Error("Expected a curved projected run.");
+    expect(reversedOutline.commands).toContainEqual({ op: "move", point: sourceCurve.curve.end });
+    expect(reversedOutline.commands).toContainEqual({ op: "cubic", control1: sourceCurve.curve.control2,
+      control2: sourceCurve.curve.control1, point: sourceCurve.curve.start });
+
+    const firstRole = map.faces[0].roles[0];
+    const heldMap = { ...map, faces: map.faces.map((face, index) => index ? face : ({ ...face, roles: face.roles.map((role) =>
+      role.roleId === firstRole.roleId ? ({ ...role, runs: role.runs.slice(1), heldEdges: [
+        ...role.heldEdges, { edgeId: role.runs[0].edgeId, reason: "Face boundary has unresolved source visibility." },
+      ] }) : role) })) } as unknown as TechnicalFlatProjectionMap;
+    const held = compileTechnicalFlatSourceGeometry("tee", block, revisionId, "FRONT_FLAT", heldMap);
+    expect(held.issues).toContainEqual(expect.objectContaining({ code: "UNRESOLVED_PROJECTION_EDGE" }));
+    expect(held.primitives).toEqual([]);
+  });
+
+  it("rejects stale maps and preserves explicit interior-hidden roles", () => {
+    const polo = GARMENTS.find((recipe) => recipe.name === "polo")!;
+    const block = polo.draft(STANDARD_M, defaultGarmentOptions(polo.options ?? []));
+    const map = projectionMap("polo", block);
+    const stale = { ...map, revisionId: "old-revision" };
+    expect(compileTechnicalFlatSourceGeometry("polo", block, revisionId, "FRONT_FLAT", stale).issues)
+      .toContainEqual(expect.objectContaining({ code: "REVISION_MISMATCH" }));
+    const output = compileTechnicalFlatSourceGeometry("polo", block, revisionId, "FRONT_FLAT", map);
+    expect(output.notices).toContainEqual(expect.objectContaining({ sourceId: "pattern:polo:role:buttonholePlacket", reason: "HIDDEN_BY_VIEW" }));
+  });
+
+  it("withholds projected geometry when drafted source coordinates or paths are invalid", () => {
+    const tee = GARMENTS.find((recipe) => recipe.name === "tee")!;
+    const block = tee.draft(STANDARD_M, defaultGarmentOptions(tee.options ?? []));
+    const roleId = "front";
+    const front = block.roles[roleId];
+    const lineIndex = front.edges.findIndex((edge) => edge.kind === "line");
+    const badLineEdges = front.edges.map((edge, index) => index === lineIndex && edge.kind === "line"
+      ? { ...edge, start: { x: Number.NaN, y: edge.start.y } } : edge);
+    const badLineBlock = { ...block, roles: { ...block.roles, [roleId]: { ...front, edges: badLineEdges } } };
+    const badLine = compileTechnicalFlatSourceGeometry("tee", badLineBlock, revisionId, "FRONT_FLAT", projectionMap("tee", badLineBlock));
+    expect(badLine.issues).toContainEqual(expect.objectContaining({ code: "INVALID_PROJECTION_MAP" }));
+    expect(badLine.primitives).toEqual([]);
+
+    const curveIndex = front.edges.findIndex((edge) => edge.kind === "curve");
+    const badCurveEdges = front.edges.map((edge, index) => index === curveIndex && edge.kind === "curve"
+      ? { ...edge, curve: { ...edge.curve, control1: { x: Number.POSITIVE_INFINITY, y: edge.curve.control1.y } } } : edge);
+    const badCurveBlock = { ...block, roles: { ...block.roles, [roleId]: { ...front, edges: badCurveEdges } } };
+    const badCurve = compileTechnicalFlatSourceGeometry("tee", badCurveBlock, revisionId, "FRONT_FLAT", projectionMap("tee", badCurveBlock));
+    expect(badCurve.issues).toContainEqual(expect.objectContaining({ code: "INVALID_PROJECTION_MAP" }));
+    expect(badCurve.primitives).toEqual([]);
+
+    const emptyRoleBlock = { ...block, roles: { ...block.roles, [roleId]: { ...front, edges: [] } } };
+    const emptyRole = compileTechnicalFlatSourceGeometry("tee", emptyRoleBlock, revisionId, "FRONT_FLAT", projectionMap("tee", emptyRoleBlock));
+    expect(emptyRole.issues).toContainEqual(expect.objectContaining({ code: "INVALID_PROJECTION_MAP" }));
+    expect(emptyRole.primitives).toEqual([]);
   });
 
   it("returns actionable issues for an invalid revision and invalid source coordinates", () => {
