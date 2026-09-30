@@ -1,6 +1,19 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 278 EPIC-17/G04 projected source-geometry adapter exit, 2026-09-30._
+_Last updated: Slice 279 EPIC-17/G04 live projection integration exit, 2026-09-30._
+
+### Slice 279 — G04 V02 live source projection (complete; visual exit not met)
+
+- **Goal / slice start:** 2026-09-30 01:29:34 UTC. Packet: `docs/research/epic17/G04-V02-LIVE-PROJECTION-S279.md`.
+- **Git:** started at S278 `e77a1c5acd7f66eed860b9af243a1096daf3e0af` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` was an ancestor. S279 will be committed as one numbered slice.
+- **Board:** revision 423 at start, S279 start comment at 424, verified exit evidence `E-G04-S279-EXIT` linked at 425 through the validated command layer. EPIC-17 remains In Progress, V01 Done, V02 In Progress, V03 Backlog.
+- **Implementation:** exact current-block/revision map validation is connected to live vector generation across all seven recipes and declared numeric endpoints. Unsupported source edges and Polo/Woven collar contours remain held. No pattern geometry changed.
+- **Verification:** focused projection/live coverage 16/16 at 100% statement/branch/function/line per changed production module; adjacent technical-flat tests 39/39; build passed with existing chunk-size advisory; Control Center 33/33; protected export/DXF identity tests 17/17; Chromium matrix 73 configurations/146 faces and overlay check completed; `git diff --check` passed. See packet for retained paths and details.
+- **Rendered acceptance:** eight defaults emitted and all eight were rejected on manual inspection as incomplete half-pattern assemblies with crossing lines; 138 other faces were withheld. The result fails V02 visual acceptance and V02 remains open. Polo/Woven collar splits need specific construction evidence with front/back landmarks.
+- **Decision:** maintainer authorized view-only fold-axis reflection for source-declared `onFold` roles only with explicit source axis, and supported face-specific landmarks/multiplicity only where construction evidence proves them. No cut geometry edits or inference. Recorded in `docs/PROJECT-DECISIONS.md`.
+- **Manual findings:** MQF-004–007, MQF-011 and MQF-012 remain `To be reviewed` until their applicable G04 rendered exit; MQF-015 remains for V03. Post-G17 deferrals remain unchanged.
+- **Elapsed time:** approximately 39 minutes; implementation 13m, focused verification/build/Control Center/protected exports 9m, browser/output inspection 12m, board/docs closeout 4m, external-agent waits 0m; maintainer-decision time about 30m overlapped with independent work.
+- **Next action:** Slice 280 source audit and bounded implementation from `docs/research/epic17/G04-V02-ON-FOLD-VIEW-METADATA-S280.md`; only source-proven view metadata may be added, while unsupported faces stay withheld.
 
 ### Slice 278 — G04 V02 projected source geometry (complete)
 

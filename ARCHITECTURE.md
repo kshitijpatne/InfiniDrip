@@ -303,12 +303,18 @@ map. It binds exact edge runs and landmarks to the drafted block/revision,
 fails closed when the source cannot support a partition, and leaves pattern
 cut geometry unchanged. It must not infer split points from a screenshot.
 
-Slice 278 adds an optional projection-aware path to the source-geometry
-compiler. It emits only validated edge runs, records each contributing source
-edge while preserving the role-outline ID used by POM anchors, and withholds a
-visible face when any included role has an unresolved edge. The current live
-renderer does not yet supply recipe projection maps, so its existing path is
-unchanged until S279 authors and reviews those maps.
+Slice 278 adds a projection-aware path to the source-geometry compiler. It
+emits only validated edge runs, records each contributing source edge while
+preserving the role-outline ID used by POM anchors, and withholds a visible
+face when any included role has an unresolved edge. Slice 279 connects explicit
+recipe maps to the live renderer with same-block/revision validation. Its
+production output review rejected all eight emitted defaults as incomplete
+half-pattern assemblies with crossing lines; V02 remains open. Polo/Woven
+collar contours stay held pending exact source landmarks. The maintainer has
+authorized view-only fold-axis reflection for source-declared `onFold` roles
+and face-specific landmarks/multiplicity only when construction evidence
+supports them. No canonical cut geometry may change, and unsupported views
+remain withheld.
 
 The **Edit** view keeps user-authored deltas against stable recipe-owned
 anchors, rather than saving a disconnected picture. Pointer drags and keyboard

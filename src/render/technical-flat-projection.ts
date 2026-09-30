@@ -42,6 +42,68 @@ export interface TechnicalFlatProjectionMap {
   readonly faces: readonly [FlatProjectionFace, FlatProjectionFace];
 }
 
+/** Source roles whose face-visible contour cannot be split from existing
+ * authored edge/mark landmarks. Keep the whole affected face unresolved until
+ * construction-source landmarks and instance rules are available. */
+export const G04_UNRESOLVED_PROJECTION_ROLES: Readonly<Record<string, Readonly<Record<string, string>>>> = {
+  polo: {
+    outerStand: "The stand's exterior contour has no authored front/back split landmark.",
+    upperCollar: "The collar's exterior contour has no authored front/back split landmark.",
+  },
+  "woven-shirt": {
+    outerStand: "The stand's exterior contour has no authored front/back split landmark.",
+    upperCollar: "The collar's exterior contour has no authored front/back split landmark.",
+  },
+};
+
+/** Build the current per-recipe map from explicit V01 role membership and the
+ * exact drafted edges. Whole-role contours are included only where the role
+ * map defines their face membership; known unsplittable visible roles and
+ * zero-length edges remain explicit holds. */
+export function createG04TechnicalFlatProjectionMap(
+  recipeId: string,
+  block: Block,
+  revisionId: string,
+): TechnicalFlatProjectionMap | undefined {
+  const mapping = G04_TECHNICAL_FLAT_MAPPINGS[recipeId];
+  if (!mapping) return undefined;
+  return {
+    version: 1,
+    recipeId,
+    revisionId,
+    faces: mapping.faces.map((face) => ({
+      kind: face.kind,
+      roles: face.roles.map((role) => {
+        const piece = block.roles[role.roleId];
+        if (!piece) {
+          return { roleId: role.roleId, instanceId: role.roleId, treatment: role.treatment, runs: [], heldEdges: [] };
+        }
+        const heldRoleReason = role.treatment === "INTERIOR_HIDDEN"
+          ? `Interior role “${role.roleId}” is intentionally hidden in this exterior view.`
+          : G04_UNRESOLVED_PROJECTION_ROLES[recipeId]?.[role.roleId];
+        const runs: FlatProjectionEdgeRun[] = [];
+        const heldEdges: FlatProjectionHeldEdge[] = [];
+        for (const edge of piece.edges) {
+          const start = edgeStart(edge);
+          const end = edgeEnd(edge);
+          if (heldRoleReason) {
+            heldEdges.push({ edgeId: edge.name, reason: heldRoleReason });
+          } else if (start.x === end.x && start.y === end.y) {
+            heldEdges.push({ edgeId: edge.name, reason: "This drafted edge has identical endpoints and cannot form a visible contour." });
+          } else {
+            runs.push({
+              edgeId: edge.name,
+              from: { kind: "edge-endpoint", edgeId: edge.name, endpoint: "start" },
+              to: { kind: "edge-endpoint", edgeId: edge.name, endpoint: "end" },
+            });
+          }
+        }
+        return { roleId: role.roleId, instanceId: role.roleId, treatment: role.treatment, runs, heldEdges };
+      }),
+    })) as unknown as TechnicalFlatProjectionMap["faces"],
+  };
+}
+
 export type FlatProjectionIssueCode =
   | "UNSUPPORTED_RECIPE" | "INVALID_REVISION" | "REVISION_MISMATCH" | "INVALID_FACES"
   | "INVALID_FACE" | "DUPLICATE_FACE" | "MISSING_ROLE" | "UNEXPECTED_ROLE"

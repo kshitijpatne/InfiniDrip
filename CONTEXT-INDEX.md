@@ -132,6 +132,14 @@ only through an explicitly admitted, linked Epic packet.
 - `docs/research/epic17/G04-V02-PROJECTION-GEOMETRY-S278.md` — Slice 278's
   current contract for compiling exact mapped edge runs while preserving
   source IDs and withholding faces with unresolved visible edges.
+- `docs/research/epic17/G04-V02-LIVE-PROJECTION-S279.md` — Slice 279's
+  source-backed per-recipe maps, live integration, rejected visual output and
+  exit evidence. Its follow-up decision authorizes only view metadata supported
+  by construction sources.
+- `docs/research/epic17/G04-V02-ON-FOLD-VIEW-METADATA-S280.md` — Slice 280's
+  bounded source audit and implementation packet for view-only fold-axis
+  reflection and supported face metadata; collar splits remain held absent a
+  specific construction reference.
 - `src/render/technical-flat-projection.ts` — versioned G04 face-projection
   metadata and exact drafted-topology validation. Interior split landmarks not
   present as source endpoints remain unsupported and explicitly held.

@@ -9,6 +9,7 @@ import {
   type TechnicalFlatViewKind,
 } from "./technical-flat";
 import { G04_TECHNICAL_FLAT_MAPPINGS } from "./technical-flat-mapping";
+import { createG04TechnicalFlatProjectionMap } from "./technical-flat-projection";
 import { compileTechnicalFlatSourceGeometry } from "./technical-flat-geometry";
 import { assembleTechnicalFlatRoles } from "./technical-flat-assembly";
 import { compileTechnicalFlatOverlays } from "./technical-flat-overlays";
@@ -50,7 +51,8 @@ export function technicalFlatPrimitiveRole(primitive: TechnicalFlatPrimitive, pr
 /** Compose one face from a single exact block, revision and sewn-role solution. */
 export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): TechnicalFlatLiveResult {
   const { recipe, block, revisionId, kind } = input;
-  const geometry = compileTechnicalFlatSourceGeometry(recipe.name, block, revisionId, kind);
+  const projectionMap = createG04TechnicalFlatProjectionMap(recipe.name, block, revisionId);
+  const geometry = compileTechnicalFlatSourceGeometry(recipe.name, block, revisionId, kind, projectionMap);
   const assembly = assembleTechnicalFlatRoles(recipe.name, block, kind);
   const overlays = compileTechnicalFlatOverlays(recipe, block, revisionId, input.placements,
     input.colorHex, input.texture, input.shine);

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 423,
-  "updatedAt": "2026-09-30T01:24:50.614Z",
+  "revision": 425,
+  "updatedAt": "2026-09-30T02:16:19.886Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -5561,6 +5561,11 @@
           "at": "2026-09-30T01:12:16.256Z",
           "actor": "Codex",
           "text": "Slice 278 started 2026-09-30 01:10:48 UTC from 23a11a4b38d65fb343cbee253e7cf539b3e44b66. Packet: docs/research/epic17/G04-V02-PROJECTION-GEOMETRY-S278.md. Bound scope is an opt-in adapter from validated face maps to exact source edge paths; unresolved visible edges withhold the face and no-map geometry stays unchanged."
+        },
+        {
+          "at": "2026-09-30T01:32:28.375Z",
+          "actor": "Codex",
+          "text": "Slice 279 started 2026-09-30 01:29:34 UTC from e77a1c5acd7f66eed860b9af243a1096daf3e0af. Packet: docs/research/epic17/G04-V02-LIVE-PROJECTION-S279.md. Scope is explicit source-backed maps for all seven recipes, same-block/revision live integration, the 146-request browser matrix and manual review; source-unsupported contours remain visibly withheld."
         }
       ],
       "evidenceRefs": [
@@ -5578,7 +5583,8 @@
         "E-G04-S275-EXIT",
         "E-G04-S276-EXIT",
         "E-G04-S277-EXIT",
-        "E-G04-S278-EXIT"
+        "E-G04-S278-EXIT",
+        "E-G04-S279-EXIT"
       ],
       "flagKey": null
     },
@@ -6591,6 +6597,15 @@
       "sha256": null,
       "verified": true,
       "note": "Verified optional projection-map geometry compilation, stable POM outline identity, edge provenance, explicit face holds, 100% focused coverage, build, and unchanged protected exports. Live rendering remains on the no-map path; V02 visual exit is open."
+    },
+    {
+      "id": "E-G04-S279-EXIT",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/G04-V02-LIVE-PROJECTION-S279.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Verified S279 implementation and retained production output review. Matrix completed, but all eight emitted defaults were visually rejected as incomplete crossed half-pattern assemblies; V02 remains In Progress."
     }
   ]
 }

@@ -45,6 +45,8 @@ describe("compileTechnicalFlatLiveView", () => {
     expect(front.view?.primitives.some((primitive) => primitive.kind === "callout")).toBe(true);
     expect(back.view?.notices.some((notice) => notice.message.includes("no back anchor is inferred"))).toBe(true);
     expect(front.view?.primitives.find((primitive) => primitive.kind === "path")?.kind).toBe("path");
+    expect(front.view?.primitives.filter((primitive) => primitive.kind === "path")
+      .every((primitive) => primitive.sourceEdgeIds?.every((id) => id.startsWith("pattern:tee:role:")))).toBe(true);
     const artwork = compileTechnicalFlatLiveView({ recipe, block, revisionId: "live-tee-art", kind: "FRONT_FLAT",
       placements: [{ id: "chest-mark", kind: "print", pieceRole: "front", widthCm: 1, heightCm: 1,
         transform: { dx: 0, dy: 0, scale: 1, rotationDeg: 0 }, zOrder: 1, sourceName: "Chest mark" }],
@@ -52,6 +54,21 @@ describe("compileTechnicalFlatLiveView", () => {
     expect(artwork.issues).toEqual([]);
     expect(artwork.view?.primitives.some((primitive) => primitive.kind === "artwork")).toBe(true);
     expect(artwork.colorway).toMatchObject({ revisionId: "live-tee-art", colorHex: "#456789" });
+  });
+
+  it("withholds Polo and Woven collar faces when the drafted source has no face split landmarks", () => {
+    for (const recipeId of ["polo", "woven-shirt"]) {
+      const recipe = GARMENTS.find((candidate) => candidate.name === recipeId)!;
+      const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
+      for (const kind of ["FRONT_FLAT", "BACK_FLAT"] as const) {
+        const result = compileTechnicalFlatLiveView({ recipe, block, revisionId: `live-${recipeId}-${kind}`, kind,
+          placements: [], colorHex: "#456789", texture: "smooth", shine: 0 });
+        expect(result.view).toBeNull();
+        expect(result.colorway).toBeNull();
+        expect(result.issues.some((issue) => issue.stage === "geometry"
+          && issue.message.includes("no authored front/back split landmark"))).toBe(true);
+      }
+    }
   });
 
   it("withholds unsupported recipes and exposes mapping and assembly corrections", () => {

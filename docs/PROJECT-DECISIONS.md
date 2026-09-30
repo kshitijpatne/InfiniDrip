@@ -972,3 +972,17 @@ The maintainer explicitly instructed Codex to begin EPIC-17/G04 on
 above. Slice 261's `docs/planning/EPIC-17-ADMISSION.md` records the authority,
 verified start, sequence and gates. The Epic is now In Progress; later work
 still follows the admitted packet and current board state.
+
+## EPIC-17 view-only projection metadata — confirmed 2026-09-30
+
+The maintainer authorized G04 to add source-backed view metadata for
+construction-aware flats: fold-axis reflection only for source-declared
+`onFold` roles where the fold axis is explicit in source evidence, plus
+face-specific landmarks and multiplicity rules only where construction
+evidence supports them. This metadata may change how existing pattern geometry
+is represented in a view; it must not change canonical pattern or cut
+geometry. Do not infer a fold axis, split, role instance, or landmark from
+appearance, stitching, or screenshots. Polo and Woven-shirt collar splits
+remain held until a specific construction reference supplies the missing
+front/back landmarks. This authorization does not establish that any
+particular role is eligible for reflection.

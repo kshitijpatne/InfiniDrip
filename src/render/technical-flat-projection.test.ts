@@ -3,7 +3,12 @@ import { GARMENTS } from "../drafting/recipe";
 import { STANDARD_M } from "../drafting/measurements";
 import { defaultGarmentOptions } from "../drafting/options";
 import { G04_TECHNICAL_FLAT_MAPPINGS } from "./technical-flat-mapping";
-import { validateTechnicalFlatProjectionMap, type TechnicalFlatProjectionMap } from "./technical-flat-projection";
+import {
+  createG04TechnicalFlatProjectionMap,
+  G04_UNRESOLVED_PROJECTION_ROLES,
+  validateTechnicalFlatProjectionMap,
+  type TechnicalFlatProjectionMap,
+} from "./technical-flat-projection";
 
 const REVISION = "draft-r7";
 
@@ -48,6 +53,41 @@ function draft(recipeId: string, options = {}) {
 }
 
 describe("validateTechnicalFlatProjectionMap", () => {
+  it("creates source-edge maps for every supported recipe and numeric option endpoint", () => {
+    for (const recipe of GARMENTS) {
+      const endpointOptions = [undefined, ...(recipe.options ?? []).flatMap((option) => [option.min, option.max].map((value) => ({ [option.id]: value })))];
+      for (const options of endpointOptions) {
+        const block = recipe.draft(STANDARD_M, { ...defaultGarmentOptions(recipe.options ?? []), ...options });
+        const map = createG04TechnicalFlatProjectionMap(recipe.name, block, REVISION)!;
+        expect(validateTechnicalFlatProjectionMap(recipe.name, block, REVISION, map), recipe.name).toEqual([]);
+        for (const face of map.faces) {
+          for (const role of face.roles) {
+            expect(role.instanceId).toBe(role.roleId);
+            const piece = block.roles[role.roleId]!;
+            expect([...role.runs.map((run) => run.edgeId), ...role.heldEdges.map((edge) => edge.edgeId)].sort())
+              .toEqual(piece.edges.map((edge) => edge.name).sort());
+            if (role.treatment === "INTERIOR_HIDDEN") expect(role.runs).toEqual([]);
+            if (G04_UNRESOLVED_PROJECTION_ROLES[recipe.name]?.[role.roleId]) expect(role.heldEdges.length).toBe(piece.edges.length);
+          }
+        }
+      }
+    }
+  });
+
+  it("holds degenerate role geometry visibly and leaves unsupported recipes unmapped", () => {
+    const { block } = draft("tee");
+    expect(createG04TechnicalFlatProjectionMap("future", block, REVISION)).toBeUndefined();
+    const front = block.roles.front!;
+    const degenerate = { ...block, roles: { ...block.roles, front: { ...front,
+      edges: front.edges.map((edge, index) => index === 0
+        ? { kind: "line" as const, name: "degenerate", start: { x: 1, y: 1 }, end: { x: 1, y: 1 } }
+        : edge) } } };
+    const map = createG04TechnicalFlatProjectionMap("tee", degenerate, REVISION)!;
+    expect(map.faces[0].roles[0]?.heldEdges).toContainEqual({ edgeId: "degenerate",
+      reason: "This drafted edge has identical endpoints and cannot form a visible contour." });
+    expect(validateTechnicalFlatProjectionMap("tee", degenerate, REVISION, map)).toEqual([]);
+  });
+
   it("accepts explicit per-face edge accounting for every supported recipe and option endpoint", () => {
     for (const recipe of GARMENTS) {
       const endpointOptions = [undefined, ...(recipe.options ?? []).flatMap((option) => [option.min, option.max].map((value) => ({ [option.id]: value })))];
