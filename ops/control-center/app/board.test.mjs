@@ -102,6 +102,8 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
       assert.ok(card.evidenceRefs.includes("E-G04-S303-EXIT"));
       assert.ok(card.evidenceRefs.includes("E-G04-S304-START"));
       assert.ok(card.evidenceRefs.includes("E-G04-S304-EXIT"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S305-START"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S305-EXIT"));
       assert.ok(card.evidenceRefs.includes("E-G04-S301-EXIT"));
       assert.ok(epic.evidenceRefs.includes("E-G04-S300-EXIT"));
       assert.ok(epic.evidenceRefs.includes("E-G04-S301-START"));
@@ -111,6 +113,8 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
       assert.ok(epic.evidenceRefs.includes("E-G04-S303-EXIT"));
       assert.ok(epic.evidenceRefs.includes("E-G04-S304-START"));
       assert.ok(epic.evidenceRefs.includes("E-G04-S304-EXIT"));
+      assert.ok(epic.evidenceRefs.includes("E-G04-S305-START"));
+      assert.ok(epic.evidenceRefs.includes("E-G04-S305-EXIT"));
       assert.ok(epic.evidenceRefs.includes("E-G04-S301-EXIT"));
       assert.match(card.comments.at(-1).text, /Re-estimate from verified S301 boundary: 4\/146 faces are accepted, 142 remain held/);
       assert.deepEqual(card.dependencies, ["EPIC-14", "EPIC-15", "EPIC-16"]);
@@ -160,8 +164,11 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S303-EXIT"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S304-START"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S304-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S305-START"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S305-EXIT"));
+      assert.ok(admittedWork[1].comments.some((comment) => /Slice 305 started 2026-09-30 13:19:48 UTC.*G04-V02-TROUSER-WAISTBAND-VIEW-SEGMENTS-S305\.md/.test(comment.text)));
+      assert.match(admittedWork[1].comments.at(-1).text, /Slice 305 exit: TROUSER-RESEARCH specifies one closed waistband, separate front\/back joins.*S306.*V02 remains In Progress; V03 remains Backlog/);
       assert.ok(admittedWork[1].comments.some((comment) => /Slice 304 started 2026-09-30 13:02:44 UTC.*G04-V02-ACCEPTED-FACE-OVERLAYS-S304\.md/.test(comment.text)));
-      assert.match(admittedWork[1].comments.at(-1).text, /Slice 304 exit: local artwork and colorway overlays passed the actual-browser replay.*V02 remains In Progress; V03 remains Backlog/);
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S301-EXIT"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S285-EXIT"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S286-EXIT"));

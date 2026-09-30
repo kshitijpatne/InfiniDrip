@@ -195,6 +195,8 @@ only through an explicitly admitted, linked Epic packet.
 - `docs/research/epic17/G04-V02-SOURCE-DEPENDENCY-INVENTORY-S303.md` — Slice 303 maps the 142 held faces to exact missing source facts/artifacts by recipe family; user-confirmed Woven placket hold remains intact.
 - `docs/research/epic17/G04-V02-ACCEPTED-FACE-OVERLAYS-S304.md` — Slice 304's bounded actual-browser artwork/colorway overlay review for the four currently accepted Tank/Skirt faces.
 - `docs/research/epic17/S304-browser/` — Slice 304's parsed front/back SVGs, production Chromium screenshots and revision/layer/target matrix for Tank and Skirt overlays.
+- `docs/research/epic17/G04-V02-TROUSER-WAISTBAND-VIEW-SEGMENTS-S305.md` — Slice 305's bounded source/topology attempt to map Trouser waistband segments to front/back flats using the maintained V1 construction contract.
+- `docs/research/epic17/G04-V02-TROUSER-FACE-PLACEMENT-S289.md` and `docs/research/epic17/G04-V02-SOURCE-DEPENDENCY-INVENTORY-S303.md` — Slice 305 addenda supersede the earlier claim that Trouser waistband construction intent is absent; the view-fragment/transform contract is still pending.
 - `docs/research/epic17/S298-browser-final/` — S298 final production 73-configuration/146-face matrix and manually reviewed held/accepted screenshots; accepted Tank/Skirt SVG replay evidence is retained with the matrix.
 - `docs/research/epic17/G04-V02-TEE-FITTED-SLEEVE-SOURCE-S290.md` — completed
   S290 source audit for the exact shared Tee/Fitted sleeve contour and

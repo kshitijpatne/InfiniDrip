@@ -1,8 +1,13 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 304 accepted-face overlay review complete; V02 remains open, 2026-09-30._
+_Last updated: Slice 305 Trouser waistband source-contract review complete; V02 remains open, 2026-09-30._
 
-## EPIC-17 / G04 current handoff — S304 complete; V02 remains open
+## EPIC-17 / G04 current handoff — S305 complete; V02 remains open
+
+- S305 started 2026-09-30 13:19:48 UTC from clean S304 `bfef6c05ef736421bb52227d0c0bb546ebdf85a6`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor and S304 was the highest assigned slice. Board revision 589 at start; start evidence/comment linked at 590–593.
+- S305 confirmed `TROUSER-RESEARCH.md` specifies one closed waistband, separate front/back joins and a center-back short-end closure. The exact combined interface and source lengths derive face breakpoints, but current whole-edge accounting and one-transform-per-role behavior cannot map the rear's discontiguous source intervals. S289 and S303 packets are addended to correct the source-intent statement while retaining the assembly-cycle result and all holds. No production behavior/output or cut geometry changed. Packet: `docs/research/epic17/G04-V02-TROUSER-WAISTBAND-VIEW-SEGMENTS-S305.md`.
+- S305 elapsed 11m43s (13:19:48–13:31:31 UTC): contract audit/interface trace 5m; implementation 0m; docs/board closeout 3m43s; Control Center stale-comment diagnosis/repair and diff check 3m; new rendered review 0m; external-agent waits 0m; maintainer-decision time 0m. The first Control Center run failed 32/33 on a stale duplicate S304-comment assertion; corrected it, then the suite passed 33/33. Board exit evidence/comment linked at revisions 594–597; final board revision 597. EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog.
+- **Next gate:** S306 implements a typed, same-role view-fragment and per-fragment-transform contract for the two back waistband intervals, validating the exact short-end/center-back closure and segment joins in production Chromium. Preserve the independent fly/shield hold and all other unsupported faces; do not start V03.
 
 - S304 started at 2026-09-30 13:02:44 UTC from clean S303 `86af28b396059a64b145dd118ed4a1863586084c` (`Slice 303: map remaining V02 source dependencies`). Refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor; S304 is uniquely assigned. Start evidence/comment linked at board revisions 582–585.
 - S304 verifies the existing local artwork/colorway path on the four accepted Tank/Skirt faces only. Production Chromium confirms one draft revision per recipe across front/back, front-only local artwork, both-face Charcoal silhouette overlays, parseable SVG and five Tank/two Skirt front POM leaders targeting emitted geometry. Back faces intentionally have no POM callouts under the current front-only POM mapping. Manual review finds no overlay boundary obscuring contour or leader. Packet/output: `docs/research/epic17/G04-V02-ACCEPTED-FACE-OVERLAYS-S304.md` and `docs/research/epic17/S304-browser/`.

@@ -33,3 +33,14 @@
 - **Elapsed time:** 07:54:52–08:02:52 UTC (8m00s): source/topology probe and retained output review ~4m; focused Control Center diagnosis/repair ~2m; durable packet/state/board closeout ~2m; external-agent waits 0m; maintainer-decision time 0m.
 - **Landed slice:** one commit with unique subject `Slice 289: record Trouser flat placement hold`.
 - **Next action:** S290 audits whether a specific Tee/Fitted sleeve construction source establishes front/back exterior contour and instance rules for the exact drafted sleeve-cap interfaces. Keep both recipes held if that evidence is not pattern-specific; V03 remains gated on full V02 acceptance.
+
+### Slice 305 source-contract clarification
+
+S305 (`G04-V02-TROUSER-WAISTBAND-VIEW-SEGMENTS-S305.md`) later identified that
+`docs/research/garments/TROUSER-RESEARCH.md` explicitly defines one closed
+waistband, separate front/back lower-edge joins, and a center-back short-end
+closure. This narrows S289's source gap: the construction intent is already
+recorded locally, while the view system still needs exact source-edge fragments
+and per-fragment transforms to draw the rear half. S289's measured assembly
+cycle conflict and its complete front/back hold remain valid; no face is
+released by the clarification.

@@ -36,3 +36,15 @@ No safe disjoint implementation or low-risk research ownership exists; this is a
 - **Elapsed time:** 2026-09-30 12:53:36–12:57:54 UTC (4m18s): source evidence/inventory 2m; implementation 0m; documentation/board closeout 1m; focused Control Center and diff verification 1m; rendered review 0m; external-agent waits 0m; maintainer-decision time 0m (source dependency decision was already given).
 - **Landed slice:** pending `Slice 303: map remaining V02 source dependencies` commit ID.
 - **Next action:** process any pattern-specific artifacts supplied by the maintainer into a bounded source-backed V02 packet. If none are available, continue only independently resolvable V02 behavior; keep Woven closure held and V03 gated.
+
+### Slice 305 Trouser source-contract update
+
+S305 found the required Trouser construction intent in the maintained local
+`docs/research/garments/TROUSER-RESEARCH.md`: a single closed waistband with
+front/back lower-edge joins separately identified and its short-end seam at
+center back. Therefore S303's Trouser source-artifact request is superseded as
+to general construction intent. The remaining blocker is the renderer's lack
+of a typed face-fragment and per-fragment-transform contract for the two
+discontiguous source intervals forming a back waistband view; see S305. This
+clarification does not change the 48 held requests or release a face. The
+Woven placket overlap reference remains unavailable by maintainer decision.

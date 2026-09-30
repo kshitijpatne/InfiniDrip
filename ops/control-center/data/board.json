@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 589,
-  "updatedAt": "2026-09-30T13:11:26.791Z",
+  "revision": 597,
+  "updatedAt": "2026-09-30T13:30:44.938Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -195,7 +195,9 @@
         "E-G04-S303-START",
         "E-G04-S303-EXIT",
         "E-G04-S304-START",
-        "E-G04-S304-EXIT"
+        "E-G04-S304-EXIT",
+        "E-G04-S305-START",
+        "E-G04-S305-EXIT"
       ]
     },
     {
@@ -2863,7 +2865,9 @@
         "E-G04-S303-START",
         "E-G04-S303-EXIT",
         "E-G04-S304-START",
-        "E-G04-S304-EXIT"
+        "E-G04-S304-EXIT",
+        "E-G04-S305-START",
+        "E-G04-S305-EXIT"
       ],
       "flagKey": null
     },
@@ -5891,6 +5895,16 @@
           "at": "2026-09-30T13:11:26.791Z",
           "actor": "Maintainer",
           "text": "Slice 304 exit: local artwork and colorway overlays passed the actual-browser replay on accepted Tank/Skirt front/back faces. All outputs share per-recipe draft revisions; front artwork is face-targeted, colorway reaches both silhouettes, front POM leaders target emitted geometry, SVGs parse, and there were no remote requests. Manual screenshots show the placement boundary within each front body and no obscured contour. Evidence: docs/research/epic17/G04-V02-ACCEPTED-FACE-OVERLAYS-S304.md and docs/research/epic17/S304-browser/. The initial verifier incorrectly required back-face POM callouts; source mapping and capture confirmed POM callouts are front-only, then verifier was corrected and all four faces passed. V02 remains In Progress; V03 remains Backlog."
+        },
+        {
+          "at": "2026-09-30T13:21:20.270Z",
+          "actor": "Maintainer",
+          "text": "Slice 305 started 2026-09-30 13:19:48 UTC from clean bfef6c05ef736421bb52227d0c0bb546ebdf85a6. Auditing whether the maintained Trouser front/back waistband join contract supports exact view-only face segments against current edge order, without changing cut geometry or fly closure semantics. Packet: docs/research/epic17/G04-V02-TROUSER-WAISTBAND-VIEW-SEGMENTS-S305.md."
+        },
+        {
+          "at": "2026-09-30T13:30:44.938Z",
+          "actor": "Maintainer",
+          "text": "Slice 305 exit: TROUSER-RESEARCH specifies one closed waistband, separate front/back joins and center-back short-end closure; ordered source edges derive exact face breakpoints. Current whole-edge/one-transform mapping cannot render discontiguous back intervals. S289's cycle remains; no Trouser face is released. S306 will add typed source-bound view fragments without changing the physical piece. V02 remains In Progress; V03 remains Backlog. Evidence: docs/research/epic17/G04-V02-TROUSER-WAISTBAND-VIEW-SEGMENTS-S305.md."
         }
       ],
       "evidenceRefs": [
@@ -5955,7 +5969,9 @@
         "E-G04-S303-START",
         "E-G04-S303-EXIT",
         "E-G04-S304-START",
-        "E-G04-S304-EXIT"
+        "E-G04-S304-EXIT",
+        "E-G04-S305-START",
+        "E-G04-S305-EXIT"
       ],
       "flagKey": null
     },
@@ -7391,6 +7407,24 @@
       "sha256": null,
       "verified": true,
       "note": "Four accepted Tank/Skirt faces replayed in production Chromium with revision-bound local overlays and retained output."
+    },
+    {
+      "id": "E-G04-S305-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-TROUSER-WAISTBAND-VIEW-SEGMENTS-S305.md",
+      "commit": null,
+      "sha256": null,
+      "verified": false,
+      "note": "Slice 305 start packet for source-contract and Trouser waistband face-segment review."
+    },
+    {
+      "id": "E-G04-S305-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-TROUSER-WAISTBAND-VIEW-SEGMENTS-S305.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Slice 305 identifies local Trouser closed-waistband construction contract and exact renderer fragment-transform gap; no output change."
     }
   ]
 }
