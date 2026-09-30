@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 555,
-  "updatedAt": "2026-09-30T12:20:56.645Z",
+  "revision": 563,
+  "updatedAt": "2026-09-30T12:31:25.414Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -187,7 +187,9 @@
         "E-G04-S299-START",
         "E-G04-S299-EXIT",
         "E-G04-S300-START",
-        "E-G04-S300-EXIT"
+        "E-G04-S300-EXIT",
+        "E-G04-S301-START",
+        "E-G04-S301-EXIT"
       ]
     },
     {
@@ -2842,7 +2844,9 @@
         "E-G04-S298-EXIT",
         "E-G04-S299-EXIT",
         "E-G04-S300-START",
-        "E-G04-S300-EXIT"
+        "E-G04-S300-EXIT",
+        "E-G04-S301-START",
+        "E-G04-S301-EXIT"
       ],
       "flagKey": null
     },
@@ -5830,6 +5834,16 @@
           "at": "2026-09-30T12:20:56.645Z",
           "actor": "Codex",
           "text": "Slice 300 exit: full-role Polo collar reflection candidate emitted, but production output contains crossed collar/stand lines through the body. It was reverted; complete views remain held. Candidate: docs/research/epic17/S300-browser-candidate/. V02 remains In Progress; V03 remains Backlog."
+        },
+        {
+          "at": "2026-09-30T12:25:47.122Z",
+          "actor": "Codex",
+          "text": "Slice 301 started 2026-09-30 12:24:40 UTC. Packet: docs/research/epic17/G04-V02-POLO-COLLAR-SEWN-PLACEMENT-S301.md. S300 full-role fold reflection was visually rejected; this slice tests exact sewn-interface placement only. No production edits until face placement is uniquely supported."
+        },
+        {
+          "at": "2026-09-30T12:31:25.414Z",
+          "actor": "Codex",
+          "text": "Slice 301 exit: the exact stitch graph places full collar roles through their base seams but does not provide a face-specific outer-cubic split. The S300 reflected candidate remains visually incoherent, so complete Polo faces stay held. Evidence: docs/research/epic17/G04-V02-POLO-COLLAR-SEWN-PLACEMENT-S301.md and S300-browser-candidate/. V02 remains In Progress; V03 remains Backlog."
         }
       ],
       "evidenceRefs": [
@@ -5886,7 +5900,9 @@
         "E-G04-S299-START",
         "E-G04-S299-EXIT",
         "E-G04-S300-START",
-        "E-G04-S300-EXIT"
+        "E-G04-S300-EXIT",
+        "E-G04-S301-START",
+        "E-G04-S301-EXIT"
       ],
       "flagKey": null
     },
@@ -7250,6 +7266,24 @@
       "sha256": null,
       "verified": true,
       "note": "Complete Polo outer-stand and upper-collar reflection candidate was rejected after production Chromium visual review showed crossing diagonal contours through the body. Source change reverted; complete face holds retained. Candidate SVGs/screenshots preserved."
+    },
+    {
+      "id": "E-G04-S301-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-POLO-COLLAR-SEWN-PLACEMENT-S301.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S301 source/topology gate to test whether exact Polo collar/stand stitched interfaces can uniquely place complete on-fold roles into coherent front/back coordinates. No implementation before the packet/start evidence."
+    },
+    {
+      "id": "E-G04-S301-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/G04-V02-POLO-COLLAR-SEWN-PLACEMENT-S301.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Polo stitch graph places complete collar roles through base seams but does not establish face-specific outer-cubic boundaries. S300 full-role fold reflection was visually incoherent; production source was not changed and complete face holds remain."
     }
   ]
 }

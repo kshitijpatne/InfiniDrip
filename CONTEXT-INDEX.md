@@ -190,6 +190,7 @@ only through an explicitly admitted, linked Epic packet.
 - `docs/research/epic17/G04-V02-HELD-GUIDANCE-READABILITY-S298.md` — S298's narrow G04 issue-list readability boundary; identical repeated edge-level hold messages may be grouped only while retaining all edge IDs and distinct blockers.
 - `docs/research/epic17/G04-V02-WOVEN-PLACKET-SOURCE-REVIEW-S299.md` — S299 compares the Woven two-placket closure with its linked construction source; no unique physical-instance/layer map is supported, so all Woven faces remain held.
 - `docs/research/epic17/G04-V02-POLO-COLLAR-FOLD-MAPPING-S300.md` — Slice 300 full-role reflection candidate emitted crossed Polo collar/stand components; its source change was reverted and complete face holds remain.
+- `docs/research/epic17/G04-V02-POLO-COLLAR-SEWN-PLACEMENT-S301.md` — Slice 301 tests whether the exact Polo collar/stand sewn-interface graph uniquely places complete roles into front/back flat coordinates; implementation is gated on source and topology evidence.
 - `docs/research/epic17/S298-browser-final/` — S298 final production 73-configuration/146-face matrix and manually reviewed held/accepted screenshots; accepted Tank/Skirt SVG replay evidence is retained with the matrix.
 - `docs/research/epic17/G04-V02-TEE-FITTED-SLEEVE-SOURCE-S290.md` — completed
   S290 source audit for the exact shared Tee/Fitted sleeve contour and
