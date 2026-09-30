@@ -18,6 +18,7 @@ import { assembleTechnicalFlatRoles, type FlatRoleTransform } from "./technical-
 import { compileTechnicalFlatOverlays } from "./technical-flat-overlays";
 import { compileTechnicalFlatPomCallouts } from "./technical-flat-poms";
 import { transformFlatPrimitive } from "./technical-flat-transform";
+import { compileTrouserWaistbandFragments } from "./technical-flat-fragment-compiler";
 
 export interface TechnicalFlatLiveIssue {
   readonly stage: "geometry" | "assembly" | "overlay" | "pom" | "transform";
@@ -228,11 +229,15 @@ export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): Tec
   const projectionMap = createG04TechnicalFlatProjectionMap(recipe.name, block, revisionId);
   const geometry = compileTechnicalFlatSourceGeometry(recipe.name, block, revisionId, kind, projectionMap);
   const assembly = assembleTechnicalFlatRoles(recipe.name, block, kind);
+  const waistbandFragments = recipe.name === "trouser"
+    ? compileTrouserWaistbandFragments(block, revisionId, kind, assembly.sourceFragments, assembly.transforms)
+    : { primitives: [], issues: [] };
   const overlays = compileTechnicalFlatOverlays(recipe, block, revisionId, input.placements,
     input.colorHex, input.texture, input.shine);
   const poms = compileTechnicalFlatPomCallouts(recipe.name, block, revisionId, kind, recipe.poms, geometry.primitives);
   const issues: TechnicalFlatLiveIssue[] = [
     ...geometry.issues.map((issue) => ({ stage: "geometry" as const, sourceId: issue.sourceId, message: issue.message })),
+    ...waistbandFragments.issues.map((issue) => ({ stage: "geometry" as const, sourceId: issue.sourceId, message: issue.message })),
     ...assembly.issues.filter((issue) => issue.code !== "STITCH_ENDPOINT_RESIDUAL")
       .map((issue) => ({ stage: "assembly" as const, sourceId: issue.sourceId, message: issue.message })),
     ...overlays.issues.map((issue) => ({ stage: "overlay" as const, sourceId: issue.sourceId, message: issue.message })),
@@ -245,10 +250,22 @@ export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): Tec
   const mapping = G04_TECHNICAL_FLAT_MAPPINGS[recipe.name];
   const face = mapping?.faces.find((candidate) => candidate.kind === kind);
   const overlayFace = overlays.faces?.find((candidate) => candidate.kind === kind);
+  const bandArtwork = recipe.name === "trouser" ? (overlayFace?.artwork ?? []).filter((primitive) => primitive.targetRoleId === "waistband") : [];
+  for (const artwork of bandArtwork) issues.push({ stage: "overlay", sourceId: artwork.source.sourceId,
+    message: "Artwork on the Trouser waistband is withheld until its exact source placement can be clipped to one sewn front/back fragment." });
   const faceRoleIds = face?.roles.map((role) => role.roleId) ?? [];
-  const combined = [...geometry.primitives, ...(overlayFace?.artwork ?? []), ...(poms.callouts ?? [])];
+  const fragmentPrimitiveIds = new Set(waistbandFragments.primitives.map((primitive) => primitive.id));
+  const geometryPrimitives = recipe.name === "trouser" ? geometry.primitives.filter((primitive) =>
+    primitive.source.sourceId !== "pattern:trouser:role:waistband"
+      && !primitive.source.sourceId.startsWith("pattern:trouser:mark:waistband:")) : geometry.primitives;
+  const combined = [...geometryPrimitives, ...waistbandFragments.primitives,
+    ...(overlayFace?.artwork ?? []).filter((primitive) => !bandArtwork.includes(primitive)), ...(poms.callouts ?? [])];
   const transformed: TechnicalFlatPrimitive[] = [];
   for (const primitive of combined) {
+    if (fragmentPrimitiveIds.has(primitive.id)) {
+      transformed.push(primitive);
+      continue;
+    }
     const roleId = technicalFlatPrimitiveRole(primitive, combined, faceRoleIds);
     for (const { placed, placement } of placeTechnicalFlatPrimitive(primitive, roleId, assembly.transforms[roleId], issues)) {
       transformed.push(placed);

@@ -107,9 +107,16 @@ S306 adds a narrow assembly contract for the Trouser's single closed
 waistband source role. The exact ordered zero-ease waist interface yields
 front/back edge intervals and separate rigid placements relative to the sewn
 leg panels; the back view therefore does not assign one transform to the
-whole strip. These records are view metadata only. The current geometry
-compiler does not consume the intervals yet, so Trouser flats remain held
-until a later slice emits and reviews the complete source-derived paths. The
+whole strip. Slice 307 consumes these intervals in
+`src/render/technical-flat-fragment-compiler.ts`. It clips only authored top
+and short-end line edges that correspond to the intervals, composes each
+fragment transform with the same-revision panel placement, and emits view-only
+boundary paths under the original role and source edge IDs. The sewn lower
+edge remains represented by body waist geometry once. The complete Trouser
+back flat now renders with its top, side and center-back closure boundaries;
+the front remains withheld because its current assembled center-front joins
+do not coincide exactly. Band artwork that cannot be clipped to a fragment
+interval is explicitly held. This compiler changes technical views only: the
 draft, role count, stitch graph, DXF and protected exports remain unchanged.
 
 Each garment has its own rule set (called a **recipe** in the code). It says

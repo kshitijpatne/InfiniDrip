@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 605,
-  "updatedAt": "2026-09-30T14:11:05.496Z",
+  "revision": 620,
+  "updatedAt": "2026-09-30T15:32:56.789Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -155,7 +155,7 @@
       "title": "EPIC-17: G04 — Professional flats and CAD interchange",
       "status": "In Progress",
       "owner": "Codex",
-      "description": "Admitted 2026-09-29 by explicit maintainer instruction. G04 V01 → V02 → V03; current conditional estimate 57–71 landed slices including admission, S302 estimate reconciliation and final merge/closure evidence; 16–30 remain from the verified S301 boundary. Verified output remains 4/146 faces accepted and 142 held. V02 is estimated at 7–14 future engineering/evidence slices, V03 at 5–10 only after V02 passes, and final review/merge/deployment at 3–5. Unavailable source evidence, including the maintainer-confirmed absent Woven placket overlap reference, is not priced and can prevent V02 passage. V02 stays In Progress and V03 is gated. Scope, boundaries, verification and rights gates: docs/planning/EPIC-17-ADMISSION.md.",
+      "description": "EPIC-17 admitted by maintainer. Current conditional estimate: 57–71 landed slices total; 10–24 remain from verified S307 (about 2–9 V02, 5–10 V03 only after V02 passes, and 3–5 integrated review/merge/deployment). Current all-recipe output: 28/146 faces accepted; 118 held. Source waits are unpriced and may block V02 passage. V01 Done; V02 In Progress; V03 Backlog. See docs/planning/EPIC-17-ADMISSION.md.",
       "evidenceRefs": [
         "E-G04-S271-EXIT",
         "E-G04-S273-EXIT",
@@ -199,7 +199,9 @@
         "E-G04-S305-START",
         "E-G04-S305-EXIT",
         "E-G04-S306-START",
-        "E-G04-S306-EXIT"
+        "E-G04-S306-EXIT",
+        "E-G04-S307-EXIT",
+        "E-G04-S307-RENDERED"
       ]
     },
     {
@@ -2728,7 +2730,7 @@
         "100% coverage",
         "maintainer gates"
       ],
-      "description": "EPIC-17 admitted by maintainer. Current conditional estimate: 57–71 landed slices total (16–30 remain from S301), including S302 re-estimate and final merge/closure. Current output: 4/146 faces accepted; 142 held. V02 remaining estimate is 7–14 slices conditional on source evidence; V03 is 5–10 only after V02 passes; integrated review/merge/deployment is 3–5. Unavailable sources are unpriced and can prevent V02 passage. V01 Done; V02 In Progress; V03 Backlog. See docs/planning/EPIC-17-ADMISSION.md.",
+      "description": "G04 source-to-view technical flats and industrial CAD interchange. Verified current output: 28/146 faces accepted, 118 held. Conditional estimate: 57–71 landed slices total, with 10–24 remaining from S307; source waits are unpriced. V01 Done, V02 In Progress, V03 Backlog. Scope and exit gates: docs/planning/EPIC-17-ADMISSION.md.",
       "expectation": "Front/back technical flats for every supported recipe/variant and proven CAD interchange. Pattern-linked side/oblique views are explicitly owned by G09/D04, so the complete view set is accepted only there.",
       "acceptanceCriteria": [
         "Complete every G04 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
@@ -2841,6 +2843,21 @@
           "at": "2026-09-30T12:45:36.712Z",
           "actor": "Codex",
           "text": "Updated Epic metadata (description: Admitted 2026-09-29 by explicit maintainer instruction. G04 V01 → V02 → V03; current conditional estimate 57–71 landed slices including admission, S302 estimate reconciliation and final merge/closure evidence; 16–30 remain from the verified S301 boundary. Verified output remains 4/146 faces accepted and 142 held. V02 is estimated at 7–14 future engineering/evidence slices, V03 at 5–10 only after V02 passes, and final review/merge/deployment at 3–5. Unavailable source evidence, including the maintainer-confirmed absent Woven placket overlap reference, is not priced and can prevent V02 passage. V02 stays In Progress and V03 is gated. Scope, boundaries, verification and rights gates: docs/planning/EPIC-17-ADMISSION.md.). Re-estimate from verified S301 boundary: 4/146 faces are accepted, 142 remain held, and V02 blockers plus V03/final review gates remain."
+        },
+        {
+          "at": "2026-09-30T14:24:13.029Z",
+          "actor": "Codex",
+          "text": "S307 is active at the verified S306 boundary; G04-V02 remains In Progress and V03 remains Backlog. Woven placket instances and overlap remain explicitly held for lack of a marked construction reference."
+        },
+        {
+          "at": "2026-09-30T15:31:21.540Z",
+          "actor": "Maintainer",
+          "text": "Updated Epic metadata (description: EPIC-17 admitted by maintainer. Current conditional estimate: 57–71 landed slices total; 10–24 remain from verified S307 (about 2–9 V02, 5–10 V03 only after V02 passes, and 3–5 integrated review/merge/deployment). Current all-recipe output: 28/146 faces accepted; 118 held. Source waits are unpriced and may block V02 passage. V01 Done; V02 In Progress; V03 Backlog. See docs/planning/EPIC-17-ADMISSION.md.). Re-estimate from verified S307 output: 28/146 all-recipe faces are accepted and 118 remain held. Six slices S302-S307 have landed since the prior boundary, leaving a conditional 10-24 slices from S307: 2-9 V02, 5-10 V03 after V02, and 3-5 integrated review/merge/deployment. Unavailable source waits are unpriced."
+        },
+        {
+          "at": "2026-09-30T15:31:23.856Z",
+          "actor": "Codex",
+          "text": "Re-estimate from verified S307 boundary: 28/146 faces are accepted, 118 remain held; 10–24 conditional slices remain, with unavailable source waits unpriced. Woven closure stays held for absent source evidence; G04 statuses remain V01 Done, V02 In Progress, V03 Backlog."
         }
       ],
       "evidenceRefs": [
@@ -2870,7 +2887,10 @@
         "E-G04-S304-EXIT",
         "E-G04-S305-START",
         "E-G04-S305-EXIT",
-        "E-G04-S306-START"
+        "E-G04-S306-START",
+        "E-G04-S307-START",
+        "E-G04-S307-EXIT",
+        "E-G04-S307-RENDERED"
       ],
       "flagKey": null
     },
@@ -5923,6 +5943,16 @@
           "at": "2026-09-30T14:11:05.496Z",
           "actor": "Maintainer",
           "text": "Slice 306 exit: exact same-role Trouser waistband intervals and panel-relative attachments validate at all 11 option min/max endpoints. Live geometry does not consume the fragments yet; 0/48 Trouser faces are newly accepted, and default browser screenshots show no partial geometry. Production Chromium covered 24 configurations / 48 faces without browser, page or network errors; focused changed-module coverage is 100%, build/protected exports/Control Center pass. Replace the generic no-sewn-placement message during S307 fragment compiler integration. Woven placket overlap remains held per maintainer decision. Evidence: docs/research/epic17/G04-V02-TROUSER-WAISTBAND-FRAGMENTS-S306.md and docs/research/epic17/S306-trouser-browser/. V02 remains In Progress; V03 remains Backlog."
+        },
+        {
+          "at": "2026-09-30T14:24:12.995Z",
+          "actor": "Codex",
+          "text": "Start Slice 307 from clean S306 c5930532; refreshed origin/main a5af5e13 remains an ancestor. Compile source-bound Trouser waistband fragments only with exact provenance and same-revision geometry; preserve the fly/shield hold and V03 gate. See the S307 packet."
+        },
+        {
+          "at": "2026-09-30T15:31:20.632Z",
+          "actor": "Codex",
+          "text": "Slice 307 exit: exact waistband fragments compile to revision-bound paths with source IDs and composed back-panel transforms. All 24 Trouser back views pass; all 24 front views remain completely held at view:trouser:waistband:center-front. Fresh production output has no parse, revision, collision, browser, page or request errors. Focused changed-module coverage is 100%, renderer/export suites 127/127, build and protected exports pass. V02 remains In Progress; V03 remains Backlog. Evidence: S307 packet and S307-trouser-browser/."
         }
       ],
       "evidenceRefs": [
@@ -5991,7 +6021,10 @@
         "E-G04-S305-START",
         "E-G04-S305-EXIT",
         "E-G04-S306-START",
-        "E-G04-S306-EXIT"
+        "E-G04-S306-EXIT",
+        "E-G04-S307-START",
+        "E-G04-S307-EXIT",
+        "E-G04-S307-RENDERED"
       ],
       "flagKey": null
     },
@@ -7463,6 +7496,33 @@
       "sha256": null,
       "verified": true,
       "note": "Exact same-role Trouser waistband source intervals and panel-relative transforms; changed-module 100% coverage, build, protected exports, focused suites, and 24-configuration/48-face Chromium hold review. No face released."
+    },
+    {
+      "id": "E-G04-S307-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-TROUSER-WAISTBAND-FRAGMENT-COMPILER-S307.md",
+      "commit": null,
+      "sha256": null,
+      "verified": false,
+      "note": "Slice 307 start packet: compile the source-bound Trouser waistband fragments with same-revision clipped geometry and retain faces on unresolved joins."
+    },
+    {
+      "id": "E-G04-S307-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-TROUSER-WAISTBAND-FRAGMENT-COMPILER-S307.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S307 compiles exact same-revision Trouser waistband view fragments; 24 back faces pass and 24 fronts stay fully held at the exact center-front join. Focused changed-module coverage is 100%; focused suites, build and protected export/DXF checks pass."
+    },
+    {
+      "id": "E-G04-S307-RENDERED",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S307-trouser-browser/matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Fresh production Chromium matrix: 24 Trouser back SVGs accepted, 24 front faces held, with zero parser/revision/label/browser/page/network failures; reviewed PNG/SVG captures and stale-build diagnostic are retained beside the matrix."
     }
   ]
 }

@@ -1,8 +1,16 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 306 Trouser waistband attachment metadata complete; V02 remains open, 2026-09-30._
+_Last updated: Slice 307 Trouser waistband back fragments verified; V02 remains open, 2026-09-30._
 
-## EPIC-17 / G04 current handoff — S306 complete; V02 remains open
+## EPIC-17 / G04 current handoff — S307 verified; V02 remains open
+
+- S307 started 2026-09-30 14:20:25 UTC from clean S306 `c5930532809b5830d7fe131eebc290f3ce6360f3`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Slice 307 was reserved uniquely after S306. Its verified exit is in `docs/research/epic17/G04-V02-TROUSER-WAISTBAND-FRAGMENT-COMPILER-S307.md`; the S308 start record will capture the landed commit hash from Git.
+- S307 compiles exact authored waistband top/short-end path intervals to view-only geometry, composes their panel-relative transforms with same-revision back panels, preserves the single physical role/source IDs, and reports exact fail-closed issues. The Trouser back passes in all 24 supported matrix configurations. All 24 front requests remain completely held because the source fragments do not share one exact assembled center-front join; no partial geometry is emitted. Woven closure instances/overlap remain held because no construction reference is available. Pattern coordinates, role count, stitch topology, legacy DXF and protected export bytes remain unchanged.
+- Verification: changed compiler/live modules pass focused 100% statement/branch/function/line coverage (10/10 and 16/16); focused renderer/export regressions 127/127; production build and protected exports 24/24 pass. The retained production Chromium matrix reports 24 accepted back SVGs and 24 held fronts with zero parse, revision, collision, browser, page or request errors; default/endpoint output was visually reviewed. Stale-build failure and diagnosis are preserved. MQF-004–007/011/012/015 remain **To be reviewed** for the integrated G04 output exits; V02 is not closed.
+- Current all-recipe status is 28/146 faces accepted and 118 held. Re-estimate from S307: 57–71 total slices remains conditional, with 10–24 future slices from this boundary (about 2–9 V02 work/evidence, 5–10 V03 after V02, and 3–5 integrated review/merge/deployment); unavailable source waits are unpriced. No safe delegation existed. Full global coverage remains for the settled Epic/PR candidate.
+- **Next action:** start S308 with a source-backed Trouser front center-front/fly/shield topology audit and map-or-hold decision; do not begin V03 until every supported face/option passes V02.
+
+## S306 verified boundary — historical detail
 
 - S305 `b14101eec56a76268bfe9f5f93db8ad6e95c7e74` (`Slice 305: map Trouser waistband face segments`) is the clean start. Refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor; S305 is highest and S306 is uniquely reserved. Board revision 597 at start; S305 exit linked.
 - S306 landed as `Slice 306: map Trouser waistband fragment attachments`. It adds exact per-face Trouser waistband intervals and panel-relative rigid attachment metadata for the one source role. The live geometry compiler does not consume this contract yet; no Trouser face is accepted. It preserves source piece coordinates, role count, stitch graph, options, generic DXF and protected exports. Packet and browser output: `docs/research/epic17/G04-V02-TROUSER-WAISTBAND-FRAGMENTS-S306.md` and `docs/research/epic17/S306-trouser-browser/`.

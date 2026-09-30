@@ -1,0 +1,1061 @@
+{
+  "generatedAt": "2026-09-30T15:08:16.759Z",
+  "viewport": {
+    "width": 1440,
+    "height": 3000
+  },
+  "browser": "Playwright Chromium production preview through the live app UI",
+  "recipes": [
+    "trouser"
+  ],
+  "cases": [
+    {
+      "caseId": "trouser-default",
+      "recipeId": "trouser",
+      "kind": "default",
+      "optionValues": {},
+      "options": {
+        "frontRiseEase": 1,
+        "backRiseEase": 9,
+        "waistbandDepth": 4,
+        "thighEase": 8,
+        "kneeEase": 5,
+        "legOpening": 40,
+        "flyLength": 15,
+        "pocketOpening": 16,
+        "pocketAngle": 58,
+        "pocketBagDepth": 23,
+        "pocketDrop": 2
+      }
+    },
+    {
+      "caseId": "trouser-frontRiseEase-min",
+      "recipeId": "trouser",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "frontRiseEase": -2
+      },
+      "options": {
+        "frontRiseEase": -2,
+        "backRiseEase": 9,
+        "waistbandDepth": 4,
+        "thighEase": 8,
+        "kneeEase": 5,
+        "legOpening": 40,
+        "flyLength": 15,
+        "pocketOpening": 16,
+        "pocketAngle": 58,
+        "pocketBagDepth": 23,
+        "pocketDrop": 2
+      }
+    },
+    {
+      "caseId": "trouser-frontRiseEase-max",
+      "recipeId": "trouser",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "frontRiseEase": 8
+      },
+      "options": {
+        "frontRiseEase": 8,
+        "backRiseEase": 9,
+        "waistbandDepth": 4,
+        "thighEase": 8,
+        "kneeEase": 5,
+        "legOpening": 40,
+        "flyLength": 15,
+        "pocketOpening": 16,
+        "pocketAngle": 58,
+        "pocketBagDepth": 23,
+        "pocketDrop": 2
+      }
+    },
+    {
+      "caseId": "trouser-backRiseEase-min",
+      "recipeId": "trouser",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "backRiseEase": 2
+      },
+      "options": {
+        "frontRiseEase": 1,
+        "backRiseEase": 2,
+        "waistbandDepth": 4,
+        "thighEase": 8,
+        "kneeEase": 5,
+        "legOpening": 40,
+        "flyLength": 15,
+        "pocketOpening": 16,
+        "pocketAngle": 58,
+        "pocketBagDepth": 23,
+        "pocketDrop": 2
+      }
+    },
+    {
+      "caseId": "trouser-backRiseEase-max",
+      "recipeId": "trouser",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "backRiseEase": 14
+      },
+      "options": {
+        "frontRiseEase": 1,
+        "backRiseEase": 14,
+        "waistbandDepth": 4,
+        "thighEase": 8,
+        "kneeEase": 5,
+        "legOpening": 40,
+        "flyLength": 15,
+        "pocketOpening": 16,
+        "pocketAngle": 58,
+        "pocketBagDepth": 23,
+        "pocketDrop": 2
+      }
+    },
+    {
+      "caseId": "trouser-waistbandDepth-min",
+      "recipeId": "trouser",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "waistbandDepth": 2
+      },
+      "options": {
+        "frontRiseEase": 1,
+        "backRiseEase": 9,
+        "waistbandDepth": 2,
+        "thighEase": 8,
+        "kneeEase": 5,
+        "legOpening": 40,
+        "flyLength": 15,
+        "pocketOpening": 16,
+        "pocketAngle": 58,
+        "pocketBagDepth": 23,
+        "pocketDrop": 2
+      }
+    },
+    {
+      "caseId": "trouser-waistbandDepth-max",
+      "recipeId": "trouser",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "waistbandDepth": 8
+      },
+      "options": {
+        "frontRiseEase": 1,
+        "backRiseEase": 9,
+        "waistbandDepth": 8,
+        "thighEase": 8,
+        "kneeEase": 5,
+        "legOpening": 40,
+        "flyLength": 15,
+        "pocketOpening": 16,
+        "pocketAngle": 58,
+        "pocketBagDepth": 23,
+        "pocketDrop": 2
+      }
+    },
+    {
+      "caseId": "trouser-thighEase-min",
+      "recipeId": "trouser",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "thighEase": 0
+      },
+      "options": {
+        "frontRiseEase": 1,
+        "backRiseEase": 9,
+        "waistbandDepth": 4,
+        "thighEase": 0,
+        "kneeEase": 5,
+        "legOpening": 40,
+        "flyLength": 15,
+        "pocketOpening": 16,
+        "pocketAngle": 58,
+        "pocketBagDepth": 23,
+        "pocketDrop": 2
+      }
+    },
+    {
+      "caseId": "trouser-thighEase-max",
+      "recipeId": "trouser",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "thighEase": 20
+      },
+      "options": {
+        "frontRiseEase": 1,
+        "backRiseEase": 9,
+        "waistbandDepth": 4,
+        "thighEase": 20,
+        "kneeEase": 5,
+        "legOpening": 40,
+        "flyLength": 15,
+        "pocketOpening": 16,
+        "pocketAngle": 58,
+        "pocketBagDepth": 23,
+        "pocketDrop": 2
+      }
+    },
+    {
+      "caseId": "trouser-kneeEase-min",
+      "recipeId": "trouser",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "kneeEase": 0
+      },
+      "options": {
+        "frontRiseEase": 1,
+        "backRiseEase": 9,
+        "waistbandDepth": 4,
+        "thighEase": 8,
+        "kneeEase": 0,
+        "legOpening": 40,
+        "flyLength": 15,
+        "pocketOpening": 16,
+        "pocketAngle": 58,
+        "pocketBagDepth": 23,
+        "pocketDrop": 2
+      }
+    },
+    {
+      "caseId": "trouser-kneeEase-max",
+      "recipeId": "trouser",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "kneeEase": 15
+      },
+      "options": {
+        "frontRiseEase": 1,
+        "backRiseEase": 9,
+        "waistbandDepth": 4,
+        "thighEase": 8,
+        "kneeEase": 15,
+        "legOpening": 40,
+        "flyLength": 15,
+        "pocketOpening": 16,
+        "pocketAngle": 58,
+        "pocketBagDepth": 23,
+        "pocketDrop": 2
+      }
+    },
+    {
+      "caseId": "trouser-legOpening-min",
+      "recipeId": "trouser",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "legOpening": 25
+      },
+      "options": {
+        "frontRiseEase": 1,
+        "backRiseEase": 9,
+        "waistbandDepth": 4,
+        "thighEase": 8,
+        "kneeEase": 5,
+        "legOpening": 25,
+        "flyLength": 15,
+        "pocketOpening": 16,
+        "pocketAngle": 58,
+        "pocketBagDepth": 23,
+        "pocketDrop": 2
+      }
+    },
+    {
+      "caseId": "trouser-legOpening-max",
+      "recipeId": "trouser",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "legOpening": 65
+      },
+      "options": {
+        "frontRiseEase": 1,
+        "backRiseEase": 9,
+        "waistbandDepth": 4,
+        "thighEase": 8,
+        "kneeEase": 5,
+        "legOpening": 65,
+        "flyLength": 15,
+        "pocketOpening": 16,
+        "pocketAngle": 58,
+        "pocketBagDepth": 23,
+        "pocketDrop": 2
+      }
+    },
+    {
+      "caseId": "trouser-flyLength-min",
+      "recipeId": "trouser",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "flyLength": 8
+      },
+      "options": {
+        "frontRiseEase": 1,
+        "backRiseEase": 9,
+        "waistbandDepth": 4,
+        "thighEase": 8,
+        "kneeEase": 5,
+        "legOpening": 40,
+        "flyLength": 8,
+        "pocketOpening": 16,
+        "pocketAngle": 58,
+        "pocketBagDepth": 23,
+        "pocketDrop": 2
+      }
+    },
+    {
+      "caseId": "trouser-flyLength-max",
+      "recipeId": "trouser",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "flyLength": 25
+      },
+      "options": {
+        "frontRiseEase": 1,
+        "backRiseEase": 9,
+        "waistbandDepth": 4,
+        "thighEase": 8,
+        "kneeEase": 5,
+        "legOpening": 40,
+        "flyLength": 25,
+        "pocketOpening": 16,
+        "pocketAngle": 58,
+        "pocketBagDepth": 23,
+        "pocketDrop": 2
+      }
+    },
+    {
+      "caseId": "trouser-pocketOpening-min",
+      "recipeId": "trouser",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "pocketOpening": 8
+      },
+      "options": {
+        "frontRiseEase": 1,
+        "backRiseEase": 9,
+        "waistbandDepth": 4,
+        "thighEase": 8,
+        "kneeEase": 5,
+        "legOpening": 40,
+        "flyLength": 15,
+        "pocketOpening": 8,
+        "pocketAngle": 58,
+        "pocketBagDepth": 23,
+        "pocketDrop": 2
+      }
+    },
+    {
+      "caseId": "trouser-pocketOpening-max",
+      "recipeId": "trouser",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "pocketOpening": 25
+      },
+      "options": {
+        "frontRiseEase": 1,
+        "backRiseEase": 9,
+        "waistbandDepth": 4,
+        "thighEase": 8,
+        "kneeEase": 5,
+        "legOpening": 40,
+        "flyLength": 15,
+        "pocketOpening": 25,
+        "pocketAngle": 58,
+        "pocketBagDepth": 23,
+        "pocketDrop": 2
+      }
+    },
+    {
+      "caseId": "trouser-pocketAngle-min",
+      "recipeId": "trouser",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "pocketAngle": 35
+      },
+      "options": {
+        "frontRiseEase": 1,
+        "backRiseEase": 9,
+        "waistbandDepth": 4,
+        "thighEase": 8,
+        "kneeEase": 5,
+        "legOpening": 40,
+        "flyLength": 15,
+        "pocketOpening": 16,
+        "pocketAngle": 35,
+        "pocketBagDepth": 23,
+        "pocketDrop": 2
+      }
+    },
+    {
+      "caseId": "trouser-pocketAngle-max",
+      "recipeId": "trouser",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "pocketAngle": 70
+      },
+      "options": {
+        "frontRiseEase": 1,
+        "backRiseEase": 9,
+        "waistbandDepth": 4,
+        "thighEase": 8,
+        "kneeEase": 5,
+        "legOpening": 40,
+        "flyLength": 15,
+        "pocketOpening": 16,
+        "pocketAngle": 70,
+        "pocketBagDepth": 23,
+        "pocketDrop": 2
+      }
+    },
+    {
+      "caseId": "trouser-pocketBagDepth-min",
+      "recipeId": "trouser",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "pocketBagDepth": 12
+      },
+      "options": {
+        "frontRiseEase": 1,
+        "backRiseEase": 9,
+        "waistbandDepth": 4,
+        "thighEase": 8,
+        "kneeEase": 5,
+        "legOpening": 40,
+        "flyLength": 15,
+        "pocketOpening": 16,
+        "pocketAngle": 58,
+        "pocketBagDepth": 12,
+        "pocketDrop": 2
+      }
+    },
+    {
+      "caseId": "trouser-pocketBagDepth-max",
+      "recipeId": "trouser",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "pocketBagDepth": 35
+      },
+      "options": {
+        "frontRiseEase": 1,
+        "backRiseEase": 9,
+        "waistbandDepth": 4,
+        "thighEase": 8,
+        "kneeEase": 5,
+        "legOpening": 40,
+        "flyLength": 15,
+        "pocketOpening": 16,
+        "pocketAngle": 58,
+        "pocketBagDepth": 35,
+        "pocketDrop": 2
+      }
+    },
+    {
+      "caseId": "trouser-pocketDrop-min",
+      "recipeId": "trouser",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "pocketDrop": 0
+      },
+      "options": {
+        "frontRiseEase": 1,
+        "backRiseEase": 9,
+        "waistbandDepth": 4,
+        "thighEase": 8,
+        "kneeEase": 5,
+        "legOpening": 40,
+        "flyLength": 15,
+        "pocketOpening": 16,
+        "pocketAngle": 58,
+        "pocketBagDepth": 23,
+        "pocketDrop": 0
+      }
+    },
+    {
+      "caseId": "trouser-pocketDrop-max",
+      "recipeId": "trouser",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "pocketDrop": 15
+      },
+      "options": {
+        "frontRiseEase": 1,
+        "backRiseEase": 9,
+        "waistbandDepth": 4,
+        "thighEase": 8,
+        "kneeEase": 5,
+        "legOpening": 40,
+        "flyLength": 15,
+        "pocketOpening": 16,
+        "pocketAngle": 58,
+        "pocketBagDepth": 23,
+        "pocketDrop": 15
+      }
+    },
+    {
+      "caseId": "trouser-combined-supported",
+      "recipeId": "trouser",
+      "kind": "source-test-backed-combination",
+      "optionValues": {
+        "frontRiseEase": 2,
+        "backRiseEase": 11,
+        "thighEase": 10,
+        "kneeEase": 7,
+        "legOpening": 48
+      },
+      "options": {
+        "frontRiseEase": 2,
+        "backRiseEase": 11,
+        "waistbandDepth": 4,
+        "thighEase": 10,
+        "kneeEase": 7,
+        "legOpening": 48,
+        "flyLength": 15,
+        "pocketOpening": 16,
+        "pocketAngle": 58,
+        "pocketBagDepth": 23,
+        "pocketDrop": 2
+      }
+    }
+  ],
+  "faces": [
+    {
+      "name": "trouser-default-front",
+      "caseId": "trouser-default",
+      "recipeId": "trouser",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "transform · pattern:trouser:role:waistband: Source “pattern:trouser:role:waistband” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerBack: Source “pattern:trouser:mark:waistband:centerBack” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerFront: Source “pattern:trouser:mark:waistband:centerFront” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:waistbandButton: Source “pattern:trouser:mark:waistband:waistbandButton” has no sewn placement on this face; the flat is withheld.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": "trouser-default-front.png"
+    },
+    {
+      "name": "trouser-default-back",
+      "caseId": "trouser-default",
+      "recipeId": "trouser",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "transform · pattern:trouser:role:waistband: Source “pattern:trouser:role:waistband” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerBack: Source “pattern:trouser:mark:waistband:centerBack” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerFront: Source “pattern:trouser:mark:waistband:centerFront” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:waistbandButton: Source “pattern:trouser:mark:waistband:waistbandButton” has no sewn placement on this face; the flat is withheld.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": "trouser-default-back.png"
+    },
+    {
+      "name": "trouser-frontRiseEase-min-front",
+      "caseId": "trouser-frontRiseEase-min",
+      "recipeId": "trouser",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "transform · pattern:trouser:role:waistband: Source “pattern:trouser:role:waistband” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerBack: Source “pattern:trouser:mark:waistband:centerBack” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerFront: Source “pattern:trouser:mark:waistband:centerFront” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:waistbandButton: Source “pattern:trouser:mark:waistband:waistbandButton” has no sewn placement on this face; the flat is withheld.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "trouser-frontRiseEase-min-back",
+      "caseId": "trouser-frontRiseEase-min",
+      "recipeId": "trouser",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "transform · pattern:trouser:role:waistband: Source “pattern:trouser:role:waistband” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerBack: Source “pattern:trouser:mark:waistband:centerBack” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerFront: Source “pattern:trouser:mark:waistband:centerFront” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:waistbandButton: Source “pattern:trouser:mark:waistband:waistbandButton” has no sewn placement on this face; the flat is withheld.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "trouser-frontRiseEase-max-front",
+      "caseId": "trouser-frontRiseEase-max",
+      "recipeId": "trouser",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "transform · pattern:trouser:role:waistband: Source “pattern:trouser:role:waistband” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerBack: Source “pattern:trouser:mark:waistband:centerBack” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerFront: Source “pattern:trouser:mark:waistband:centerFront” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:waistbandButton: Source “pattern:trouser:mark:waistband:waistbandButton” has no sewn placement on this face; the flat is withheld.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "trouser-frontRiseEase-max-back",
+      "caseId": "trouser-frontRiseEase-max",
+      "recipeId": "trouser",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "transform · pattern:trouser:role:waistband: Source “pattern:trouser:role:waistband” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerBack: Source “pattern:trouser:mark:waistband:centerBack” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerFront: Source “pattern:trouser:mark:waistband:centerFront” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:waistbandButton: Source “pattern:trouser:mark:waistband:waistbandButton” has no sewn placement on this face; the flat is withheld.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "trouser-backRiseEase-min-front",
+      "caseId": "trouser-backRiseEase-min",
+      "recipeId": "trouser",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "transform · pattern:trouser:role:waistband: Source “pattern:trouser:role:waistband” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerBack: Source “pattern:trouser:mark:waistband:centerBack” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerFront: Source “pattern:trouser:mark:waistband:centerFront” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:waistbandButton: Source “pattern:trouser:mark:waistband:waistbandButton” has no sewn placement on this face; the flat is withheld.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "trouser-backRiseEase-min-back",
+      "caseId": "trouser-backRiseEase-min",
+      "recipeId": "trouser",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "transform · pattern:trouser:role:waistband: Source “pattern:trouser:role:waistband” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerBack: Source “pattern:trouser:mark:waistband:centerBack” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerFront: Source “pattern:trouser:mark:waistband:centerFront” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:waistbandButton: Source “pattern:trouser:mark:waistband:waistbandButton” has no sewn placement on this face; the flat is withheld.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "trouser-backRiseEase-max-front",
+      "caseId": "trouser-backRiseEase-max",
+      "recipeId": "trouser",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "transform · pattern:trouser:role:waistband: Source “pattern:trouser:role:waistband” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerBack: Source “pattern:trouser:mark:waistband:centerBack” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerFront: Source “pattern:trouser:mark:waistband:centerFront” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:waistbandButton: Source “pattern:trouser:mark:waistband:waistbandButton” has no sewn placement on this face; the flat is withheld.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "trouser-backRiseEase-max-back",
+      "caseId": "trouser-backRiseEase-max",
+      "recipeId": "trouser",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "transform · pattern:trouser:role:waistband: Source “pattern:trouser:role:waistband” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerBack: Source “pattern:trouser:mark:waistband:centerBack” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerFront: Source “pattern:trouser:mark:waistband:centerFront” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:waistbandButton: Source “pattern:trouser:mark:waistband:waistbandButton” has no sewn placement on this face; the flat is withheld.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "trouser-waistbandDepth-min-front",
+      "caseId": "trouser-waistbandDepth-min",
+      "recipeId": "trouser",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "transform · pattern:trouser:role:waistband: Source “pattern:trouser:role:waistband” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerBack: Source “pattern:trouser:mark:waistband:centerBack” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerFront: Source “pattern:trouser:mark:waistband:centerFront” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:waistbandButton: Source “pattern:trouser:mark:waistband:waistbandButton” has no sewn placement on this face; the flat is withheld.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "trouser-waistbandDepth-min-back",
+      "caseId": "trouser-waistbandDepth-min",
+      "recipeId": "trouser",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "transform · pattern:trouser:role:waistband: Source “pattern:trouser:role:waistband” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerBack: Source “pattern:trouser:mark:waistband:centerBack” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerFront: Source “pattern:trouser:mark:waistband:centerFront” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:waistbandButton: Source “pattern:trouser:mark:waistband:waistbandButton” has no sewn placement on this face; the flat is withheld.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "trouser-waistbandDepth-max-front",
+      "caseId": "trouser-waistbandDepth-max",
+      "recipeId": "trouser",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "transform · pattern:trouser:role:waistband: Source “pattern:trouser:role:waistband” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerBack: Source “pattern:trouser:mark:waistband:centerBack” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerFront: Source “pattern:trouser:mark:waistband:centerFront” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:waistbandButton: Source “pattern:trouser:mark:waistband:waistbandButton” has no sewn placement on this face; the flat is withheld.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "trouser-waistbandDepth-max-back",
+      "caseId": "trouser-waistbandDepth-max",
+      "recipeId": "trouser",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "transform · pattern:trouser:role:waistband: Source “pattern:trouser:role:waistband” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerBack: Source “pattern:trouser:mark:waistband:centerBack” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerFront: Source “pattern:trouser:mark:waistband:centerFront” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:waistbandButton: Source “pattern:trouser:mark:waistband:waistbandButton” has no sewn placement on this face; the flat is withheld.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "trouser-thighEase-min-front",
+      "caseId": "trouser-thighEase-min",
+      "recipeId": "trouser",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "transform · pattern:trouser:role:waistband: Source “pattern:trouser:role:waistband” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerBack: Source “pattern:trouser:mark:waistband:centerBack” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerFront: Source “pattern:trouser:mark:waistband:centerFront” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:waistbandButton: Source “pattern:trouser:mark:waistband:waistbandButton” has no sewn placement on this face; the flat is withheld.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "trouser-thighEase-min-back",
+      "caseId": "trouser-thighEase-min",
+      "recipeId": "trouser",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "transform · pattern:trouser:role:waistband: Source “pattern:trouser:role:waistband” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerBack: Source “pattern:trouser:mark:waistband:centerBack” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerFront: Source “pattern:trouser:mark:waistband:centerFront” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:waistbandButton: Source “pattern:trouser:mark:waistband:waistbandButton” has no sewn placement on this face; the flat is withheld.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "trouser-thighEase-max-front",
+      "caseId": "trouser-thighEase-max",
+      "recipeId": "trouser",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "transform · pattern:trouser:role:waistband: Source “pattern:trouser:role:waistband” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerBack: Source “pattern:trouser:mark:waistband:centerBack” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerFront: Source “pattern:trouser:mark:waistband:centerFront” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:waistbandButton: Source “pattern:trouser:mark:waistband:waistbandButton” has no sewn placement on this face; the flat is withheld.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "trouser-thighEase-max-back",
+      "caseId": "trouser-thighEase-max",
+      "recipeId": "trouser",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "transform · pattern:trouser:role:waistband: Source “pattern:trouser:role:waistband” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerBack: Source “pattern:trouser:mark:waistband:centerBack” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerFront: Source “pattern:trouser:mark:waistband:centerFront” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:waistbandButton: Source “pattern:trouser:mark:waistband:waistbandButton” has no sewn placement on this face; the flat is withheld.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "trouser-kneeEase-min-front",
+      "caseId": "trouser-kneeEase-min",
+      "recipeId": "trouser",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "transform · pattern:trouser:role:waistband: Source “pattern:trouser:role:waistband” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerBack: Source “pattern:trouser:mark:waistband:centerBack” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerFront: Source “pattern:trouser:mark:waistband:centerFront” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:waistbandButton: Source “pattern:trouser:mark:waistband:waistbandButton” has no sewn placement on this face; the flat is withheld.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "trouser-kneeEase-min-back",
+      "caseId": "trouser-kneeEase-min",
+      "recipeId": "trouser",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "transform · pattern:trouser:role:waistband: Source “pattern:trouser:role:waistband” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerBack: Source “pattern:trouser:mark:waistband:centerBack” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerFront: Source “pattern:trouser:mark:waistband:centerFront” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:waistbandButton: Source “pattern:trouser:mark:waistband:waistbandButton” has no sewn placement on this face; the flat is withheld.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "trouser-kneeEase-max-front",
+      "caseId": "trouser-kneeEase-max",
+      "recipeId": "trouser",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "transform · pattern:trouser:role:waistband: Source “pattern:trouser:role:waistband” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerBack: Source “pattern:trouser:mark:waistband:centerBack” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerFront: Source “pattern:trouser:mark:waistband:centerFront” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:waistbandButton: Source “pattern:trouser:mark:waistband:waistbandButton” has no sewn placement on this face; the flat is withheld.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "trouser-kneeEase-max-back",
+      "caseId": "trouser-kneeEase-max",
+      "recipeId": "trouser",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "transform · pattern:trouser:role:waistband: Source “pattern:trouser:role:waistband” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerBack: Source “pattern:trouser:mark:waistband:centerBack” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerFront: Source “pattern:trouser:mark:waistband:centerFront” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:waistbandButton: Source “pattern:trouser:mark:waistband:waistbandButton” has no sewn placement on this face; the flat is withheld.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "trouser-legOpening-min-front",
+      "caseId": "trouser-legOpening-min",
+      "recipeId": "trouser",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "transform · pattern:trouser:role:waistband: Source “pattern:trouser:role:waistband” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerBack: Source “pattern:trouser:mark:waistband:centerBack” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerFront: Source “pattern:trouser:mark:waistband:centerFront” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:waistbandButton: Source “pattern:trouser:mark:waistband:waistbandButton” has no sewn placement on this face; the flat is withheld.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "trouser-legOpening-min-back",
+      "caseId": "trouser-legOpening-min",
+      "recipeId": "trouser",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "transform · pattern:trouser:role:waistband: Source “pattern:trouser:role:waistband” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerBack: Source “pattern:trouser:mark:waistband:centerBack” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerFront: Source “pattern:trouser:mark:waistband:centerFront” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:waistbandButton: Source “pattern:trouser:mark:waistband:waistbandButton” has no sewn placement on this face; the flat is withheld.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "trouser-legOpening-max-front",
+      "caseId": "trouser-legOpening-max",
+      "recipeId": "trouser",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "transform · pattern:trouser:role:waistband: Source “pattern:trouser:role:waistband” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerBack: Source “pattern:trouser:mark:waistband:centerBack” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerFront: Source “pattern:trouser:mark:waistband:centerFront” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:waistbandButton: Source “pattern:trouser:mark:waistband:waistbandButton” has no sewn placement on this face; the flat is withheld.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": "trouser-legOpening-max-front.png"
+    },
+    {
+      "name": "trouser-legOpening-max-back",
+      "caseId": "trouser-legOpening-max",
+      "recipeId": "trouser",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "transform · pattern:trouser:role:waistband: Source “pattern:trouser:role:waistband” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerBack: Source “pattern:trouser:mark:waistband:centerBack” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerFront: Source “pattern:trouser:mark:waistband:centerFront” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:waistbandButton: Source “pattern:trouser:mark:waistband:waistbandButton” has no sewn placement on this face; the flat is withheld.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "trouser-flyLength-min-front",
+      "caseId": "trouser-flyLength-min",
+      "recipeId": "trouser",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "transform · pattern:trouser:role:waistband: Source “pattern:trouser:role:waistband” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerBack: Source “pattern:trouser:mark:waistband:centerBack” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerFront: Source “pattern:trouser:mark:waistband:centerFront” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:waistbandButton: Source “pattern:trouser:mark:waistband:waistbandButton” has no sewn placement on this face; the flat is withheld.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "trouser-flyLength-min-back",
+      "caseId": "trouser-flyLength-min",
+      "recipeId": "trouser",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "transform · pattern:trouser:role:waistband: Source “pattern:trouser:role:waistband” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerBack: Source “pattern:trouser:mark:waistband:centerBack” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerFront: Source “pattern:trouser:mark:waistband:centerFront” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:waistbandButton: Source “pattern:trouser:mark:waistband:waistbandButton” has no sewn placement on this face; the flat is withheld.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "trouser-flyLength-max-front",
+      "caseId": "trouser-flyLength-max",
+      "recipeId": "trouser",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "transform · pattern:trouser:role:waistband: Source “pattern:trouser:role:waistband” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerBack: Source “pattern:trouser:mark:waistband:centerBack” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerFront: Source “pattern:trouser:mark:waistband:centerFront” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:waistbandButton: Source “pattern:trouser:mark:waistband:waistbandButton” has no sewn placement on this face; the flat is withheld.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "trouser-flyLength-max-back",
+      "caseId": "trouser-flyLength-max",
+      "recipeId": "trouser",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "transform · pattern:trouser:role:waistband: Source “pattern:trouser:role:waistband” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerBack: Source “pattern:trouser:mark:waistband:centerBack” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerFront: Source “pattern:trouser:mark:waistband:centerFront” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:waistbandButton: Source “pattern:trouser:mark:waistband:waistbandButton” has no sewn placement on this face; the flat is withheld.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "trouser-pocketOpening-min-front",
+      "caseId": "trouser-pocketOpening-min",
+      "recipeId": "trouser",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "transform · pattern:trouser:role:waistband: Source “pattern:trouser:role:waistband” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerBack: Source “pattern:trouser:mark:waistband:centerBack” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerFront: Source “pattern:trouser:mark:waistband:centerFront” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:waistbandButton: Source “pattern:trouser:mark:waistband:waistbandButton” has no sewn placement on this face; the flat is withheld.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "trouser-pocketOpening-min-back",
+      "caseId": "trouser-pocketOpening-min",
+      "recipeId": "trouser",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "transform · pattern:trouser:role:waistband: Source “pattern:trouser:role:waistband” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerBack: Source “pattern:trouser:mark:waistband:centerBack” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerFront: Source “pattern:trouser:mark:waistband:centerFront” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:waistbandButton: Source “pattern:trouser:mark:waistband:waistbandButton” has no sewn placement on this face; the flat is withheld.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "trouser-pocketOpening-max-front",
+      "caseId": "trouser-pocketOpening-max",
+      "recipeId": "trouser",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "transform · pattern:trouser:role:waistband: Source “pattern:trouser:role:waistband” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerBack: Source “pattern:trouser:mark:waistband:centerBack” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerFront: Source “pattern:trouser:mark:waistband:centerFront” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:waistbandButton: Source “pattern:trouser:mark:waistband:waistbandButton” has no sewn placement on this face; the flat is withheld.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "trouser-pocketOpening-max-back",
+      "caseId": "trouser-pocketOpening-max",
+      "recipeId": "trouser",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "transform · pattern:trouser:role:waistband: Source “pattern:trouser:role:waistband” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerBack: Source “pattern:trouser:mark:waistband:centerBack” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerFront: Source “pattern:trouser:mark:waistband:centerFront” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:waistbandButton: Source “pattern:trouser:mark:waistband:waistbandButton” has no sewn placement on this face; the flat is withheld.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "trouser-pocketAngle-min-front",
+      "caseId": "trouser-pocketAngle-min",
+      "recipeId": "trouser",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "transform · pattern:trouser:role:waistband: Source “pattern:trouser:role:waistband” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerBack: Source “pattern:trouser:mark:waistband:centerBack” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerFront: Source “pattern:trouser:mark:waistband:centerFront” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:waistbandButton: Source “pattern:trouser:mark:waistband:waistbandButton” has no sewn placement on this face; the flat is withheld.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "trouser-pocketAngle-min-back",
+      "caseId": "trouser-pocketAngle-min",
+      "recipeId": "trouser",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "transform · pattern:trouser:role:waistband: Source “pattern:trouser:role:waistband” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerBack: Source “pattern:trouser:mark:waistband:centerBack” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerFront: Source “pattern:trouser:mark:waistband:centerFront” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:waistbandButton: Source “pattern:trouser:mark:waistband:waistbandButton” has no sewn placement on this face; the flat is withheld.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "trouser-pocketAngle-max-front",
+      "caseId": "trouser-pocketAngle-max",
+      "recipeId": "trouser",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "transform · pattern:trouser:role:waistband: Source “pattern:trouser:role:waistband” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerBack: Source “pattern:trouser:mark:waistband:centerBack” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerFront: Source “pattern:trouser:mark:waistband:centerFront” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:waistbandButton: Source “pattern:trouser:mark:waistband:waistbandButton” has no sewn placement on this face; the flat is withheld.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "trouser-pocketAngle-max-back",
+      "caseId": "trouser-pocketAngle-max",
+      "recipeId": "trouser",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "transform · pattern:trouser:role:waistband: Source “pattern:trouser:role:waistband” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerBack: Source “pattern:trouser:mark:waistband:centerBack” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerFront: Source “pattern:trouser:mark:waistband:centerFront” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:waistbandButton: Source “pattern:trouser:mark:waistband:waistbandButton” has no sewn placement on this face; the flat is withheld.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "trouser-pocketBagDepth-min-front",
+      "caseId": "trouser-pocketBagDepth-min",
+      "recipeId": "trouser",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "transform · pattern:trouser:role:waistband: Source “pattern:trouser:role:waistband” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerBack: Source “pattern:trouser:mark:waistband:centerBack” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerFront: Source “pattern:trouser:mark:waistband:centerFront” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:waistbandButton: Source “pattern:trouser:mark:waistband:waistbandButton” has no sewn placement on this face; the flat is withheld.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "trouser-pocketBagDepth-min-back",
+      "caseId": "trouser-pocketBagDepth-min",
+      "recipeId": "trouser",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "transform · pattern:trouser:role:waistband: Source “pattern:trouser:role:waistband” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerBack: Source “pattern:trouser:mark:waistband:centerBack” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerFront: Source “pattern:trouser:mark:waistband:centerFront” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:waistbandButton: Source “pattern:trouser:mark:waistband:waistbandButton” has no sewn placement on this face; the flat is withheld.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "trouser-pocketBagDepth-max-front",
+      "caseId": "trouser-pocketBagDepth-max",
+      "recipeId": "trouser",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "transform · pattern:trouser:role:waistband: Source “pattern:trouser:role:waistband” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerBack: Source “pattern:trouser:mark:waistband:centerBack” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerFront: Source “pattern:trouser:mark:waistband:centerFront” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:waistbandButton: Source “pattern:trouser:mark:waistband:waistbandButton” has no sewn placement on this face; the flat is withheld.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "trouser-pocketBagDepth-max-back",
+      "caseId": "trouser-pocketBagDepth-max",
+      "recipeId": "trouser",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "transform · pattern:trouser:role:waistband: Source “pattern:trouser:role:waistband” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerBack: Source “pattern:trouser:mark:waistband:centerBack” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerFront: Source “pattern:trouser:mark:waistband:centerFront” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:waistbandButton: Source “pattern:trouser:mark:waistband:waistbandButton” has no sewn placement on this face; the flat is withheld.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "trouser-pocketDrop-min-front",
+      "caseId": "trouser-pocketDrop-min",
+      "recipeId": "trouser",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "transform · pattern:trouser:role:waistband: Source “pattern:trouser:role:waistband” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerBack: Source “pattern:trouser:mark:waistband:centerBack” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerFront: Source “pattern:trouser:mark:waistband:centerFront” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:waistbandButton: Source “pattern:trouser:mark:waistband:waistbandButton” has no sewn placement on this face; the flat is withheld.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "trouser-pocketDrop-min-back",
+      "caseId": "trouser-pocketDrop-min",
+      "recipeId": "trouser",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "transform · pattern:trouser:role:waistband: Source “pattern:trouser:role:waistband” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerBack: Source “pattern:trouser:mark:waistband:centerBack” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerFront: Source “pattern:trouser:mark:waistband:centerFront” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:waistbandButton: Source “pattern:trouser:mark:waistband:waistbandButton” has no sewn placement on this face; the flat is withheld.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "trouser-pocketDrop-max-front",
+      "caseId": "trouser-pocketDrop-max",
+      "recipeId": "trouser",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "transform · pattern:trouser:role:waistband: Source “pattern:trouser:role:waistband” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerBack: Source “pattern:trouser:mark:waistband:centerBack” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerFront: Source “pattern:trouser:mark:waistband:centerFront” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:waistbandButton: Source “pattern:trouser:mark:waistband:waistbandButton” has no sewn placement on this face; the flat is withheld.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "trouser-pocketDrop-max-back",
+      "caseId": "trouser-pocketDrop-max",
+      "recipeId": "trouser",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "transform · pattern:trouser:role:waistband: Source “pattern:trouser:role:waistband” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerBack: Source “pattern:trouser:mark:waistband:centerBack” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerFront: Source “pattern:trouser:mark:waistband:centerFront” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:waistbandButton: Source “pattern:trouser:mark:waistband:waistbandButton” has no sewn placement on this face; the flat is withheld.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "trouser-combined-supported-front",
+      "caseId": "trouser-combined-supported",
+      "recipeId": "trouser",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "transform · pattern:trouser:role:waistband: Source “pattern:trouser:role:waistband” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerBack: Source “pattern:trouser:mark:waistband:centerBack” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerFront: Source “pattern:trouser:mark:waistband:centerFront” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:waistbandButton: Source “pattern:trouser:mark:waistband:waistbandButton” has no sewn placement on this face; the flat is withheld.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "trouser-combined-supported-back",
+      "caseId": "trouser-combined-supported",
+      "recipeId": "trouser",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "transform · pattern:trouser:role:waistband: Source “pattern:trouser:role:waistband” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerBack: Source “pattern:trouser:mark:waistband:centerBack” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:centerFront: Source “pattern:trouser:mark:waistband:centerFront” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistband:waistbandButton: Source “pattern:trouser:mark:waistband:waistbandButton” has no sewn placement on this face; the flat is withheld.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    }
+  ],
+  "summary": {
+    "faceCount": 48,
+    "accepted": 0,
+    "withheld": 48,
+    "blockedByReason": {
+      "transform · pattern:trouser:role:waistband: Source “pattern:trouser:role:waistband” has no sewn placement on this face; the flat is withheld.transform · pattern:trouser:mark:waistb": 48
+    },
+    "optionFieldCount": 11,
+    "consoleErrors": [],
+    "pageErrors": [],
+    "requestErrors": []
+  }
+}

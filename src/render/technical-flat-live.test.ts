@@ -58,6 +58,66 @@ describe("compileTechnicalFlatLiveView", () => {
     expect(artwork.colorway).toMatchObject({ revisionId: "live-tank-art", colorHex: "#456789" });
   });
 
+  it("renders only the coherent source-bound Trouser back waistband and keeps the mismapped front held", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "trouser")!;
+    const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
+    const back = compileTechnicalFlatLiveView({ recipe, block, revisionId: "live-trouser-s307", kind: "BACK_FLAT",
+      placements: [], colorHex: "#456789", texture: "woven", shine: 0 });
+    expect(back.issues).toEqual([]);
+    expect(back.view?.revisionId).toBe("live-trouser-s307");
+    expect(back.view?.primitives.filter((primitive) => primitive.id.includes(":waistband:")))
+      .toHaveLength(6);
+    expect(back.view?.primitives.some((primitive) => primitive.kind === "path"
+      && primitive.id.endsWith("center-back-closure"))).toBe(true);
+    expect(back.view?.primitives.some((primitive) => primitive.kind === "mark" && primitive.markName === "centerBack")).toBe(true);
+    expect(back.view?.primitives.every((primitive) => primitive.source.revisionId === back.view!.revisionId)).toBe(true);
+
+    const front = compileTechnicalFlatLiveView({ recipe, block, revisionId: "live-trouser-s307", kind: "FRONT_FLAT",
+      placements: [], colorHex: "#456789", texture: "woven", shine: 0 });
+    expect(front.view).toBeNull();
+    expect(front.issues).toContainEqual(expect.objectContaining({ stage: "geometry",
+      sourceId: "view:trouser:waistband:center-front", message: expect.stringContaining("complete face remains held") }));
+    expect(front.issues.some((issue) => issue.sourceId.includes("role:waistband")
+      && issue.message.includes("no sewn placement"))).toBe(false);
+  });
+
+  it("withholds Trouser waistband artwork until the source placement is fragment-clipped", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "trouser")!;
+    const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
+    const result = compileTechnicalFlatLiveView({ recipe, block, revisionId: "live-trouser-band-art", kind: "BACK_FLAT",
+      placements: [
+        { id: "band-art", kind: "print", pieceRole: "waistband", widthCm: 1, heightCm: 1,
+          transform: { dx: 0, dy: 0, scale: 1, rotationDeg: 0 }, zOrder: 1, sourceName: "Band artwork" },
+        { id: "back-art", kind: "print", pieceRole: "backLeft", widthCm: 1, heightCm: 1,
+          transform: { dx: 0, dy: 0, scale: 1, rotationDeg: 0 }, zOrder: 0, sourceName: "Back artwork" },
+      ],
+      colorHex: "#456789", texture: "woven", shine: 0 });
+    expect(result.view).toBeNull();
+    expect(result.issues).toContainEqual(expect.objectContaining({ stage: "overlay",
+      message: expect.stringContaining("exact source placement can be clipped") }));
+    expect(result.issues.some((issue) => issue.message.includes("no sewn placement"))).toBe(false);
+  });
+
+  it("keeps a recipe without an overlay face explicitly unsupported", () => {
+    const base = GARMENTS.find((candidate) => candidate.name === "tank")!;
+    const recipe = { ...base, name: "unmapped-recipe" };
+    const block = base.draft(STANDARD_M, defaultGarmentOptions(base.options ?? []));
+    const result = compileTechnicalFlatLiveView({ recipe, block, revisionId: "live-unmapped", kind: "FRONT_FLAT",
+      placements: [], colorHex: "#456789", texture: "smooth", shine: 0 });
+    expect(result.view).toBeNull();
+    expect(result.issues.some((issue) => issue.message.includes("no admitted front flat mapping"))).toBe(true);
+
+    const trouser = GARMENTS.find((candidate) => candidate.name === "trouser")!;
+    const trouserBlock = trouser.draft(STANDARD_M, defaultGarmentOptions(trouser.options ?? []));
+    const missingOverlay = compileTechnicalFlatLiveView({ recipe: trouser, block: trouserBlock,
+      revisionId: "live-trouser-no-overlay-face", kind: "BACK_FLAT",
+      placements: [{ id: "bad", kind: "print", pieceRole: "backLeft", widthCm: -1, heightCm: 1,
+        transform: { dx: 0, dy: 0, scale: 1, rotationDeg: 0 }, zOrder: 0, sourceName: "Invalid" }],
+      colorHex: "#456789", texture: "woven", shine: 0 });
+    expect(missingOverlay.view).toBeNull();
+    expect(missingOverlay.issues.some((issue) => issue.stage === "overlay")).toBe(true);
+  });
+
   it("withholds Tee/Fitted sleeves until their face contours are source-mapped", () => {
     for (const [recipeId, roleId] of [["tee", "sleeve"], ["fitted", "sleeve"]] as const) {
       const recipe = GARMENTS.find((candidate) => candidate.name === recipeId)!;
