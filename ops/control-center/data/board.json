@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 735,
-  "updatedAt": "2026-09-30T20:59:45.480Z",
+  "revision": 749,
+  "updatedAt": "2026-09-30T21:27:20.175Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -155,7 +155,7 @@
       "title": "EPIC-17: G04 — Professional flats and CAD interchange",
       "status": "In Progress",
       "owner": "Codex",
-      "description": "EPIC-17 maintainer-admitted. Current conditional estimate at S316: at least 65 total / 8 remaining if one V02 closeout slice suffices, followed by V03 minimum 5 and final integration minimum 3; no upper bound while source/rights waits remain unresolved. Production Chromium verifies 73 configurations / 146 faces: 28 accepted, 118 held. S316 verifies a local colorway and artwork placement on accepted Trouser back output; no face acceptance changes. V01 Done; V02 In Progress; V03 Backlog and gated on V02 acceptance. See docs/planning/EPIC-17-ADMISSION.md and docs/research/epic17/G04-V02-TROUSER-BACK-OVERLAY-S316.md.",
+      "description": "EPIC-17 maintainer-admitted. Current conditional estimate at S317 exit: at least 67 total / 10 remaining (two V02 slices: visible colorway fill fix and integrated output closeout; V03 minimum 5 after V02; final integration minimum 3); no upper bound while source/rights waits remain unresolved. Production Chromium verifies 73 configurations / 146 faces: 28 assembled views accepted, 118 held. S317 verifies Trouser back option geometry and same-revision artwork/color metadata at five endpoints, but its raster review finds no visible colorway fill. V02 remains In Progress; V03 Backlog and gated on V02 acceptance. See docs/planning/EPIC-17-ADMISSION.md and docs/research/epic17/G04-V02-TROUSER-OPTION-OVERLAY-S317.md.",
       "evidenceRefs": [
         "E-G04-S271-EXIT",
         "E-G04-S273-EXIT",
@@ -219,7 +219,9 @@
         "E-G04-S315-START",
         "E-G04-S315-EXIT",
         "E-G04-S316-START",
-        "E-G04-S316-EXIT"
+        "E-G04-S316-EXIT",
+        "E-G04-S317-START",
+        "E-G04-S317-EXIT"
       ]
     },
     {
@@ -2748,7 +2750,7 @@
         "100% coverage",
         "maintainer gates"
       ],
-      "description": "EPIC-17 maintainer-admitted. Current conditional estimate at S316: at least 65 total / 8 remaining if one V02 closeout slice suffices, followed by V03 minimum 5 and final integration minimum 3; no upper bound while source/rights waits remain unresolved. Production Chromium verifies 73 configurations / 146 faces: 28 accepted, 118 held. S316 verifies a local colorway and artwork placement on accepted Trouser back output; no face acceptance changes. V01 Done; V02 In Progress; V03 Backlog and gated on V02 acceptance. See docs/planning/EPIC-17-ADMISSION.md and docs/research/epic17/G04-V02-TROUSER-BACK-OVERLAY-S316.md.",
+      "description": "EPIC-17 maintainer-admitted. Current conditional estimate at S317 exit: at least 67 total / 10 remaining (two V02 slices: visible colorway fill fix and integrated output closeout; V03 minimum 5 after V02; final integration minimum 3); no upper bound while source/rights waits remain unresolved. Production Chromium verifies 73 configurations / 146 faces: 28 assembled views accepted, 118 held. S317 verifies Trouser back option geometry and same-revision artwork/color metadata at five endpoints, but its raster review finds no visible colorway fill. V02 remains In Progress; V03 Backlog and gated on V02 acceptance. See docs/planning/EPIC-17-ADMISSION.md and docs/research/epic17/G04-V02-TROUSER-OPTION-OVERLAY-S317.md.",
       "expectation": "Front/back technical flats for every supported recipe/variant and proven CAD interchange. Pattern-linked side/oblique views are explicitly owned by G09/D04, so the complete view set is accepted only there.",
       "acceptanceCriteria": [
         "Complete every G04 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
@@ -3021,6 +3023,26 @@
           "at": "2026-09-30T20:59:45.480Z",
           "actor": "Codex",
           "text": "Slice 316 exit: local Charcoal colorway and artwork placement are verified on accepted Trouser backLeft at one revision, with both POM callouts and no label overlap or browser errors. The front remains fully held with no partial SVG; tally remains 28/146 accepted and 118 held. No artwork image-content or clipping claim is made. Woven closure remains held per maintainer instruction. V02 remains In Progress; V03 remains Backlog and gated. See the S316 packet and rendered replay."
+        },
+        {
+          "at": "2026-09-30T21:06:26.655Z",
+          "actor": "Maintainer",
+          "text": "Updated Epic metadata (description: EPIC-17 maintainer-admitted. Current conditional estimate at S317: at least 66 total / 7 remaining if one V02 closeout slice suffices, followed by V03 minimum 5 and final integration minimum 3; no upper bound while source/rights waits remain unresolved. Production Chromium verifies 73 configurations / 146 faces: 28 accepted, 118 held. S316 verifies one local colorway and artwork placement on accepted Trouser back output; no face acceptance changes. S317 tests that output at documented waistband-depth and leg-opening endpoints. V01 Done; V02 In Progress; V03 Backlog and gated on V02 acceptance. See docs/planning/EPIC-17-ADMISSION.md and docs/research/epic17/G04-V02-TROUSER-OPTION-OVERLAY-S317.md.). Record the verified S317 start and updated conditional minimum forecast; status and acceptance remain unchanged."
+        },
+        {
+          "at": "2026-09-30T21:06:27.116Z",
+          "actor": "Codex",
+          "text": "Start Slice 317 from clean S316 1a8e8dbbd2ee8adf3864b0a35a593fce20f6bd7b; refreshed origin/main a5af5e13 is an ancestor. Packet: docs/research/epic17/G04-V02-TROUSER-OPTION-OVERLAY-S317.md. Replay accepted Trouser back overlay and colorway at documented default, waistbandDepth min/max and legOpening min/max; verify same-revision POMs, placement containment, full front hold and no browser errors. Preserve every other unsupported hold; V03 remains gated."
+        },
+        {
+          "at": "2026-09-30T21:27:19.809Z",
+          "actor": "Maintainer",
+          "text": "Updated Epic metadata (description: EPIC-17 maintainer-admitted. Current conditional estimate at S317 exit: at least 67 total / 10 remaining (two V02 slices: visible colorway fill fix and integrated output closeout; V03 minimum 5 after V02; final integration minimum 3); no upper bound while source/rights waits remain unresolved. Production Chromium verifies 73 configurations / 146 faces: 28 assembled views accepted, 118 held. S317 verifies Trouser back option geometry and same-revision artwork/color metadata at five endpoints, but its raster review finds no visible colorway fill. V02 remains In Progress; V03 Backlog and gated on V02 acceptance. See docs/planning/EPIC-17-ADMISSION.md and docs/research/epic17/G04-V02-TROUSER-OPTION-OVERLAY-S317.md.). Record the S317 raster blocker and the minimum follow-up work; no status or face acceptance changes."
+        },
+        {
+          "at": "2026-09-30T21:27:20.175Z",
+          "actor": "Codex",
+          "text": "Slice 317 verified output: five documented Trouser configurations retain accepted backs, complete front holds, source-contained artwork boundaries, exact-revision POMs and zero browser errors. raster shows no visible colorway fill at any sampled placement center (0 RGB difference from paper), so the colorway output gate fails despite same-revision metadata. The face assembly tally remains 28/146 accepted, 118 held. V02 remains In Progress; V03 remains Backlog. S318 is reserved for a bounded contour fill fix."
         }
       ],
       "evidenceRefs": [
@@ -3071,7 +3093,9 @@
         "E-G04-S315-START",
         "E-G04-S315-EXIT",
         "E-G04-S316-START",
-        "E-G04-S316-EXIT"
+        "E-G04-S316-EXIT",
+        "E-G04-S317-START",
+        "E-G04-S317-EXIT"
       ],
       "flagKey": null
     },
@@ -6234,6 +6258,16 @@
           "at": "2026-09-30T20:59:45.000Z",
           "actor": "Codex",
           "text": "Slice 316 exit: local Charcoal colorway and artwork placement are verified on accepted Trouser backLeft at one revision, with both POM callouts and no label overlap or browser errors. The front remains fully held with no partial SVG; tally remains 28/146 accepted and 118 held. No artwork image-content or clipping claim is made. Woven closure remains held per maintainer instruction. V02 remains In Progress; V03 remains Backlog and gated. See the S316 packet and rendered replay."
+        },
+        {
+          "at": "2026-09-30T21:06:26.954Z",
+          "actor": "Codex",
+          "text": "Start Slice 317 from clean S316 1a8e8dbbd2ee8adf3864b0a35a593fce20f6bd7b; refreshed origin/main a5af5e13 is an ancestor. Packet: docs/research/epic17/G04-V02-TROUSER-OPTION-OVERLAY-S317.md. Replay accepted Trouser back overlay and colorway at documented default, waistbandDepth min/max and legOpening min/max; verify same-revision POMs, placement containment, full front hold and no browser errors. Preserve every other unsupported hold; V03 remains gated."
+        },
+        {
+          "at": "2026-09-30T21:27:19.602Z",
+          "actor": "Codex",
+          "text": "Slice 317 verified output: five documented Trouser configurations retain accepted backs, complete front holds, source-contained artwork boundaries, exact-revision POMs and zero browser errors. raster shows no visible colorway fill at any sampled placement center (0 RGB difference from paper), so the colorway output gate fails despite same-revision metadata. The face assembly tally remains 28/146 accepted, 118 held. V02 remains In Progress; V03 remains Backlog. S318 is reserved for a bounded contour fill fix."
         }
       ],
       "evidenceRefs": [
@@ -6323,7 +6357,9 @@
         "E-G04-S315-START",
         "E-G04-S315-EXIT",
         "E-G04-S316-START",
-        "E-G04-S316-EXIT"
+        "E-G04-S316-EXIT",
+        "E-G04-S317-START",
+        "E-G04-S317-EXIT"
       ],
       "flagKey": null
     },
@@ -7984,6 +8020,24 @@
       "sha256": null,
       "verified": true,
       "note": "Production Chromium and manual rendered review verify local Charcoal colorway and one artwork placement boundary on accepted Trouser backLeft at live-draft:trouser:1:4, both same-revision back POM anchors, no label overlap, correct layer order, zero browser/page/request errors, and a complete front hold with no partial SVG. Output tally remains 28/146 accepted, 118 held; no image-content or clipping claim."
+    },
+    {
+      "id": "E-G04-S317-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-TROUSER-OPTION-OVERLAY-S317.md",
+      "commit": null,
+      "sha256": null,
+      "verified": false,
+      "note": "S317 start packet: production-browser check of local artwork/colorway and source-backed Trouser back POM anchors at default and documented minimum/maximum waistbandDepth and legOpening. Keep the full front hold and all unrelated source holds; do not change product behavior or acceptance."
+    },
+    {
+      "id": "E-G04-S317-EXIT",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S317-trouser-option-overlay/matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Production Chromium verifies default plus exact waistbandDepth 2/8 cm and legOpening 25/65 cm: five accepted backs, five complete front holds, exact closed eleven-edge backLeft loops with 605/605 placement samples inside, same-revision artwork/color metadata and two POMs, parsed SVGs, no text overlap and zero browser/page/request errors. Raster center is white equal to paper in every case (RGB delta 0); visible colorway area fill gate fails. Face assembly tally remains 28/146 accepted and 118 held. No production source changed."
     }
   ]
 }

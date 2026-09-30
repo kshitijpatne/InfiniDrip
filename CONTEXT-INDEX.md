@@ -160,6 +160,12 @@ only through an explicitly admitted, linked Epic packet.
   see `PROJECT-STATE.md` and the canonical board for its verified exit.
 - `docs/research/epic17/S316-trouser-back-overlay/` — S316's retained live
   production Chromium replay, matrix, SVG, screenshots and diagnostic output.
+- `docs/research/epic17/G04-V02-TROUSER-OPTION-OVERLAY-S317.md` — S317's
+  bounded Trouser option/overlay boundary check at documented option endpoints;
+  read with `PROJECT-STATE.md` and the canonical board before continuing.
+- `docs/research/epic17/S317-trouser-option-overlay/` — S317's five-case
+  production replay, option matrix, retained SVG/screenshots and raster manual
+  review, including the visible-colorway blocker.
 - `docs/research/epic17/G04-V02-PROJECTION-MAPPING-S277.md` — Slice 277's
   current projection-mapping contract boundary, source-reference rules,
   fail-closed semantics, and focused acceptance gates.
