@@ -55,6 +55,15 @@ export interface TechnicalFlatProjectionMap {
  * authored edge/mark landmarks. Keep the whole affected face unresolved until
  * construction-source landmarks and instance rules are available. */
 export const G04_UNRESOLVED_PROJECTION_ROLES: Readonly<Record<string, Readonly<Record<string, string>>>> = {
+  tee: {
+    sleeve: "The sleeve-cap stitch locates sewn cap intervals but the source does not identify the front/back visible sleeve contour or supported sleeve view instances.",
+  },
+  fitted: {
+    sleeve: "The sleeve-cap stitch locates sewn cap intervals but the source does not identify the front/back visible sleeve contour or supported sleeve view instances.",
+  },
+  skirt: {
+    waistband: "The waistband role spans both front and back waist interfaces; the source does not establish a face-specific contour segment, so the full strip would extend beyond this face.",
+  },
   polo: {
     outerStand: "The stand's exterior contour has no authored front/back split landmark.",
     upperCollar: "The collar's exterior contour has no authored front/back split landmark.",

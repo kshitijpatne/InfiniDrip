@@ -1,6 +1,20 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 280 EPIC-17/G04 source-backed view metadata exit, 2026-09-30._
+_Last updated: Slice 281 EPIC-17/G04 source-gap holds verified; V02 remains open, 2026-09-30._
+
+### Slice 281 — G04 V02 sewn-component assembly review (complete; V02 remains open)
+
+- **Start:** 2026-09-30 03:02:00 UTC. Packet: `docs/research/epic17/G04-V02-ASSEMBLY-REVIEW-S281.md`.
+- **Git:** started clean at S280 `8cb935c5c189a50c882284914e00f14c6bafdb92` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. S281 is recorded as one numbered commit; its exact hash is captured at the next slice boundary.
+- **Board:** revision 427 before start, S281 start comment at 428, verified `E-G04-S281-EXIT` at 429, and estimate sync at revisions 430–431. EPIC-17 In Progress; V01 Done; V02 In Progress; V03 Backlog. Current estimate is 27–31 total landed slices.
+- **Scope/gates:** review Tee/Fitted sleeve and Skirt waistband assembly against exact source seam order/edge landmarks; use source-backed face metadata only where supported and otherwise hold with actionable guidance. The maintainer's 2026-09-30 authorization is recorded in `docs/PROJECT-DECISIONS.md`. Keep cut geometry immutable. Focused changed-module 100% coverage, full option/face browser output, protected identities, build and `git diff --check`.
+- **Implementation:** source map holds Tee/Fitted sleeve and Skirt waistband roles on both faces until exact exterior contour and instance mapping exists. No draft/cut geometry changed.
+- **Verification:** focused projection/live/assembly suites pass 30/30; `technical-flat-projection.ts` has 100% statement/branch/function/line coverage. Build passes. Control Center passes 33/33. Protected export identity, legacy DXF regression and tech-pack surface pass 24/24. `git diff --check` and browser-harness syntax pass.
+- **Rendered result:** production Chromium exercised 73 configurations/146 faces across 32 option fields and both combined fixtures; 2 Tank SVGs emitted and 144 faces visibly held. Browser, page and remote-request errors are zero. Tank front/back output was manually inspected at revision `live-draft:tank:3:3`; its silhouette, labels, five front POM anchors/leaders and notices pass the digital view checks. Tee/Fitted and Skirt holds show exact visible source guidance. V02 is not accepted.
+- **Blockers:** Tee/Fitted sleeve contour/instance rules; Skirt face-specific waistband segment; Polo/Woven collar split references; Trouser fly/shield and waist-cycle placement; Woven zero-length vent edges. Keep V02 open and MQF-004–007, MQF-011/012 as `To be reviewed`; MQF-015 remains for V03.
+- **Delegation:** no safe disjoint low-risk ownership; Codex owns assembly and integrated output review. External-agent waits 0m.
+- **Elapsed time:** approximately 40m19s from 03:02:00 through the validated board evidence/estimate update at revision 431, 03:42:19 UTC. Source audit/fail-closed implementation ~10m; focused coverage/build ~4m; Control Center/protected checks ~3m; full Chromium matrix and output review ~23m; docs/board closeout ~5m (workstreams overlap); external-agent waits 0m; maintainer-decision wait 0m.
+- **Next action:** Slice 282 must define and validate source-backed face-segment/instance metadata; keep unsupported roles held and V02 open.
 
 ### Slice 280 — G04 V02 source-backed view metadata (complete; V02 remains open)
 
@@ -12,7 +26,7 @@ _Last updated: Slice 280 EPIC-17/G04 source-backed view metadata exit, 2026-09-3
 - **Rendered acceptance:** manual review confirms Tee/Fitted sleeve outlines still cross their bodies, Skirt front waistband remains offset, and Polo/Woven/Trouser faces remain withheld. Tank is symmetric after reflection. This does not meet V02's all-recipe acceptance; no output findings are closed.
 - **Decision and findings:** exact authorization and source limitations are in `docs/PROJECT-DECISIONS.md`; MQF-004–007, MQF-011 and MQF-012 remain `To be reviewed` until an applicable successful output exit; MQF-015 remains for V03. Post-G17 deferrals remain unchanged.
 - **Elapsed time:** 42m15s from 02:17:36 through board revision 427 at 02:59:51 UTC (implementation 15m; focused verification/build/adjacent/protected tests 8m; browser run/correction/rendered review 12m; board/docs closeout 7m; agent waits 0m; maintainer-decision time 0m).
-- **Next action:** commit S280 as one numbered slice, then record the S281 start through the validated board command before implementation. S281's packet is `docs/research/epic17/G04-V02-ASSEMBLY-REVIEW-S281.md`.
+- **Next action:** Slice 281 is active from its linked packet; keep V02 open unless rendered acceptance passes for every required face.
 
 ### Slice 279 — G04 V02 live source projection (complete; visual exit not met)
 

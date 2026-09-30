@@ -318,7 +318,14 @@ IDs, avoids duplicating the center edge, and does not mutate the draft. A
 construction fold on a component such as the Skirt waistband is not a garment
 center axis and is explicitly excluded. Face-specific landmarks or
 multiplicity still require direct construction evidence; no instance count is
-inferred.
+inferred. Slice 281's source review adds fail-closed projection holds for the
+Tee/Fitted sleeve roles and the Skirt waistband on both faces. Ordered sleeve
+cap interfaces do not define the exterior front/back contour or sleeve view
+instances; the Skirt waistband role spans both waist interfaces and its full
+strip cannot be shown on either individual face. These holds leave source
+geometry intact and keep misleading partial assemblies out of the live view.
+The production Chromium evidence and exact issue text are recorded in
+`docs/research/epic17/G04-V02-ASSEMBLY-REVIEW-S281.md`.
 
 The **Edit** view keeps user-authored deltas against stable recipe-owned
 anchors, rather than saving a disconnected picture. Pointer drags and keyboard

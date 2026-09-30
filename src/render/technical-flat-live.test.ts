@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { GARMENTS, STANDARD_M, defaultGarmentOptions } from "../drafting";
 import { compileTechnicalFlatLiveView, reflectFoldPrimitive, technicalFlatPrimitiveRole } from "./technical-flat-live";
+import { assembleTechnicalFlatRoles } from "./technical-flat-assembly";
 import type { FlatPathPrimitive, TechnicalFlatPrimitive } from "./technical-flat";
 
 describe("compileTechnicalFlatLiveView", () => {
@@ -31,29 +32,45 @@ describe("compileTechnicalFlatLiveView", () => {
   });
 
   it("binds front/back primitives, overlays and callouts to one transformed draft revision", () => {
-    const recipe = GARMENTS.find((candidate) => candidate.name === "tee")!;
+    const recipe = GARMENTS.find((candidate) => candidate.name === "tank")!;
     const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
-    const front = compileTechnicalFlatLiveView({ recipe, block, revisionId: "live-tee-42", kind: "FRONT_FLAT",
+    const front = compileTechnicalFlatLiveView({ recipe, block, revisionId: "live-tank-42", kind: "FRONT_FLAT",
       placements: [], colorHex: "#456789", texture: "woven", shine: 12 });
-    const back = compileTechnicalFlatLiveView({ recipe, block, revisionId: "live-tee-42", kind: "BACK_FLAT",
+    const back = compileTechnicalFlatLiveView({ recipe, block, revisionId: "live-tank-42", kind: "BACK_FLAT",
       placements: [], colorHex: "#456789", texture: "woven", shine: 12 });
     expect(front.issues).toEqual([]);
     expect(back.issues).toEqual([]);
     expect(front.view?.revisionId).toBe(back.view?.revisionId);
-    expect(front.view?.primitives.every((primitive) => primitive.source.revisionId === "live-tee-42")).toBe(true);
-    expect(back.view?.primitives.every((primitive) => primitive.source.revisionId === "live-tee-42")).toBe(true);
+    expect(front.view?.primitives.every((primitive) => primitive.source.revisionId === "live-tank-42")).toBe(true);
+    expect(back.view?.primitives.every((primitive) => primitive.source.revisionId === "live-tank-42")).toBe(true);
     expect(front.view?.primitives.some((primitive) => primitive.kind === "callout")).toBe(true);
     expect(back.view?.notices.some((notice) => notice.message.includes("no back anchor is inferred"))).toBe(true);
     expect(front.view?.primitives.find((primitive) => primitive.kind === "path")?.kind).toBe("path");
     expect(front.view?.primitives.filter((primitive) => primitive.kind === "path")
-      .every((primitive) => primitive.sourceEdgeIds?.every((id) => id.startsWith("pattern:tee:role:")))).toBe(true);
-    const artwork = compileTechnicalFlatLiveView({ recipe, block, revisionId: "live-tee-art", kind: "FRONT_FLAT",
+      .every((primitive) => primitive.sourceEdgeIds?.every((id) => id.startsWith("pattern:tank:role:")))).toBe(true);
+    const artwork = compileTechnicalFlatLiveView({ recipe, block, revisionId: "live-tank-art", kind: "FRONT_FLAT",
       placements: [{ id: "chest-mark", kind: "print", pieceRole: "front", widthCm: 1, heightCm: 1,
         transform: { dx: 0, dy: 0, scale: 1, rotationDeg: 0 }, zOrder: 1, sourceName: "Chest mark" }],
       colorHex: "#456789", texture: "woven", shine: 12 });
     expect(artwork.issues).toEqual([]);
     expect(artwork.view?.primitives.some((primitive) => primitive.kind === "artwork")).toBe(true);
-    expect(artwork.colorway).toMatchObject({ revisionId: "live-tee-art", colorHex: "#456789" });
+    expect(artwork.colorway).toMatchObject({ revisionId: "live-tank-art", colorHex: "#456789" });
+  });
+
+  it("withholds Tee/Fitted sleeves and the Skirt waistband until their face contours are source-mapped", () => {
+    for (const [recipeId, roleId] of [["tee", "sleeve"], ["fitted", "sleeve"], ["skirt", "waistband"]] as const) {
+      const recipe = GARMENTS.find((candidate) => candidate.name === recipeId)!;
+      const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
+      for (const kind of ["FRONT_FLAT", "BACK_FLAT"] as const) {
+        const result = compileTechnicalFlatLiveView({ recipe, block, revisionId: `live-${recipeId}-${kind}`, kind,
+          placements: [], colorHex: "#456789", texture: "smooth", shine: 0 });
+        expect(result.view, `${recipeId}.${kind}`).toBeNull();
+        expect(result.colorway).toBeNull();
+        expect(result.issues.some((issue) => issue.stage === "geometry"
+          && issue.sourceId.includes(`role:${roleId}:edge:`)
+          && (issue.message.includes("source does not identify") || issue.message.includes("source does not establish")))).toBe(true);
+      }
+    }
   });
 
   it("withholds Polo and Woven collar faces when the drafted source has no face split landmarks", () => {
@@ -106,7 +123,7 @@ describe("compileTechnicalFlatLiveView", () => {
   });
 
   it("renders the second half from source-declared folds while preserving the drafted block and single POM anchors", () => {
-    const recipe = GARMENTS.find((candidate) => candidate.name === "tee")!;
+    const recipe = GARMENTS.find((candidate) => candidate.name === "tank")!;
     const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
     const before = structuredClone(block);
     const result = compileTechnicalFlatLiveView({ recipe, block, revisionId: "fold-view", kind: "FRONT_FLAT",
@@ -115,11 +132,11 @@ describe("compileTechnicalFlatLiveView", () => {
     expect(result.view).not.toBeNull();
     expect(block).toEqual(before);
     const outlines = result.view!.primitives.filter((primitive): primitive is FlatPathPrimitive => primitive.kind === "path"
-      && primitive.source.sourceId === "pattern:tee:role:front");
+      && primitive.source.sourceId === "pattern:tank:role:front");
     const original = outlines.find((primitive) => primitive.id.endsWith(":outline"))!;
     const reflected = outlines.find((primitive) => primitive.id.endsWith(":outline:fold-reflection"))!;
-    expect(original.sourceEdgeIds).toContain("pattern:tee:role:front:edge:centerFront");
-    expect(reflected.sourceEdgeIds).not.toContain("pattern:tee:role:front:edge:centerFront");
+    expect(original.sourceEdgeIds).toContain("pattern:tank:role:front:edge:centerFront");
+    expect(reflected.sourceEdgeIds).not.toContain("pattern:tank:role:front:edge:centerFront");
     expect(result.view!.primitives.some((primitive) => primitive.kind === "callout" && primitive.id.includes(":fold-reflection")))
       .toBe(false);
     expect(result.view!.primitives.some((primitive) => primitive.kind === "artwork" && primitive.id.includes(":fold-reflection")))
@@ -143,10 +160,8 @@ describe("compileTechnicalFlatLiveView", () => {
     expect(assembly.view).toBeNull();
     expect(assembly.issues.some((issue) => issue.stage === "assembly" && issue.message.includes("absent"))).toBe(true);
 
-    const disconnected = compileTechnicalFlatLiveView({ recipe, block: { ...block, stitches: [] },
-      revisionId: "live-tee-disconnected", kind: "FRONT_FLAT", placements: [], colorHex: "#456789", texture: "smooth", shine: 0 });
-    expect(disconnected.view).toBeNull();
-    expect(disconnected.issues.some((issue) => issue.stage === "transform" && issue.message.includes("no sewn placement"))).toBe(true);
+    const disconnected = assembleTechnicalFlatRoles("tee", { ...block, stitches: [] }, "FRONT_FLAT");
+    expect(disconnected.issues.some((issue) => issue.code === "UNPLACED_COMPONENT_ROLE" && issue.sourceId === "sleeve")).toBe(true);
   });
 
   it("reports invalid revision and presentation values from their source stages", () => {
@@ -163,10 +178,8 @@ describe("compileTechnicalFlatLiveView", () => {
   it("retains assembly residuals as visible source notices while preserving rigid scale", () => {
     const recipe = GARMENTS.find((candidate) => candidate.name === "tee")!;
     const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
-    const result = compileTechnicalFlatLiveView({ recipe, block, revisionId: "live-tee-residual", kind: "FRONT_FLAT",
-      placements: [], colorHex: "#456789", texture: "smooth", shine: 0 });
-    expect(result.issues).toEqual([]);
-    const residual = result.view?.notices.find((notice) => notice.message.includes("leaves its sewn endpoints"));
+    const result = assembleTechnicalFlatRoles("tee", block, "FRONT_FLAT");
+    const residual = result.issues.find((issue) => issue.message.includes("leaves its sewn endpoints"));
     expect(residual?.sourceId).toContain("stitch:");
   });
 });

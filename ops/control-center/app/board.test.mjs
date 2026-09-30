@@ -91,6 +91,8 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
     }
     if (id === "EPIC-17") {
       assert.match(epic.description, /docs\/planning\/EPIC-17-ADMISSION\.md/);
+      assert.match(epic.description, /27–31 landed slices/);
+      assert.match(card.description, /27–31 landed slices/);
       assert.deepEqual(card.dependencies, ["EPIC-14", "EPIC-15", "EPIC-16"]);
       const admittedWork = board.workItems.filter((entry) => entry.epicId === id && entry.id !== id);
       assert.deepEqual(admittedWork.map((entry) => entry.id), ["G04-V01", "G04-V02", "G04-V03"]);
@@ -106,7 +108,8 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S278-EXIT"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S279-EXIT"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S280-EXIT"));
-      assert.match(admittedWork[1].comments.at(-1).text, /Slice 280 started.*G04-V02-ON-FOLD-VIEW-METADATA-S280\.md/);
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S281-EXIT"));
+      assert.match(admittedWork[1].comments.at(-1).text, /Slice 281 started.*G04-V02-ASSEMBLY-REVIEW-S281\.md/);
       assert.deepEqual(admittedWork.map((entry) => entry.dependencies), [[], ["G04-V01"], ["G04-V02"]]);
     }
     if (id === "EPIC-16") {

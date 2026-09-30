@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 427,
-  "updatedAt": "2026-09-30T02:59:51.328Z",
+  "revision": 431,
+  "updatedAt": "2026-09-30T03:42:19.890Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -155,7 +155,7 @@
       "title": "EPIC-17: G04 — Professional flats and CAD interchange",
       "status": "In Progress",
       "owner": "Codex",
-      "description": "Admitted 2026-09-29 by explicit maintainer instruction. G04 V01 → V02 → V03; provisional estimate 25–29 landed slices including admission and final merge evidence. Slice 277 defines G04-owned face-projection mapping metadata under the admitted V01 source-to-view scope; no pattern cut coordinates change. Scope, boundaries, verification and rights gates: docs/planning/EPIC-17-ADMISSION.md.",
+      "description": "Admitted 2026-09-29 by explicit maintainer instruction. G04 V01 → V02 → V03; current estimate 27–31 landed slices including admission and final merge evidence, re-estimated after S281's 144/146 held rendered faces required another source-backed V02 mapping and re-review boundary. Scope, boundaries, verification and rights gates: docs/planning/EPIC-17-ADMISSION.md.",
       "evidenceRefs": [
         "E-G04-S271-EXIT",
         "E-G04-S273-EXIT",
@@ -2689,7 +2689,7 @@
         "100% coverage",
         "maintainer gates"
       ],
-      "description": "Admitted 2026-09-29 by explicit maintainer instruction. G04 V01 → V02 → V03; current estimate 22–26 landed slices including admission and final merge evidence (re-estimated Slice 275 after the full option matrix retained 76 source-cycle holds and manual review found crossed Polo/Woven face outlines). Scope, boundaries, verification and rights gates: docs/planning/EPIC-17-ADMISSION.md.",
+      "description": "Admitted 2026-09-29 by explicit maintainer instruction. G04 V01 → V02 → V03; current estimate 27–31 landed slices including admission and final merge evidence, re-estimated after S281's 144/146 held rendered faces required another source-backed V02 mapping and re-review boundary. Scope, boundaries, verification and rights gates: docs/planning/EPIC-17-ADMISSION.md.",
       "expectation": "Front/back technical flats for every supported recipe/variant and proven CAD interchange. Pattern-linked side/oblique views are explicitly owned by G09/D04, so the complete view set is accepted only there.",
       "acceptanceCriteria": [
         "Complete every G04 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
@@ -2772,6 +2772,11 @@
           "at": "2026-09-30T00:50:09.615Z",
           "actor": "Codex",
           "text": "Updated Epic metadata (description: Admitted 2026-09-29 by explicit maintainer instruction. G04 V01 → V02 → V03; provisional estimate 25–29 landed slices including admission and final merge evidence. Slice 277 defines G04-owned face-projection mapping metadata under the admitted V01 source-to-view scope; no pattern cut coordinates change. Scope, boundaries, verification and rights gates: docs/planning/EPIC-17-ADMISSION.md.). Slice 277 records the admitted source-to-view mapping implementation boundary"
+        },
+        {
+          "at": "2026-09-30T03:42:08.962Z",
+          "actor": "Maintainer",
+          "text": "Updated Epic metadata (description: Admitted 2026-09-29 by explicit maintainer instruction. G04 V01 → V02 → V03; current estimate 27–31 landed slices including admission and final merge evidence, re-estimated after S281's 144/146 held rendered faces required another source-backed V02 mapping and re-review boundary. Scope, boundaries, verification and rights gates: docs/planning/EPIC-17-ADMISSION.md.). Re-estimate the admitted sequence after S281 retained 144 held faces and exposed a separate source-backed face-segment/instance contract and V02 review boundary."
         }
       ],
       "evidenceRefs": [],
@@ -5571,6 +5576,11 @@
           "at": "2026-09-30T02:17:44.918Z",
           "actor": "Codex",
           "text": "Slice 280 started 2026-09-30 02:17:36 UTC from 85195cd4d6c89d9abeb9c3be26087ab687d77180. Packet: docs/research/epic17/G04-V02-ON-FOLD-VIEW-METADATA-S280.md. Bound scope audits explicit construction evidence for view-only fold axes and face metadata; unsupported rules remain held, with no cut geometry changes."
+        },
+        {
+          "at": "2026-09-30T03:02:18.537Z",
+          "actor": "Codex",
+          "text": "Slice 281 started 2026-09-30 03:02:00 UTC from 8cb935c5c189a50c882284914e00f14c6bafdb92. Packet: docs/research/epic17/G04-V02-ASSEMBLY-REVIEW-S281.md. Scope is source-traced review of Tee/Fitted sleeve and Skirt waistband joins, with only evidence-backed rigid fixes; unsupported faces remain held."
         }
       ],
       "evidenceRefs": [
@@ -5590,7 +5600,8 @@
         "E-G04-S277-EXIT",
         "E-G04-S278-EXIT",
         "E-G04-S279-EXIT",
-        "E-G04-S280-EXIT"
+        "E-G04-S280-EXIT",
+        "E-G04-S281-EXIT"
       ],
       "flagKey": null
     },
@@ -6621,6 +6632,15 @@
       "sha256": null,
       "verified": true,
       "note": "Verified source-backed view-only center-fold reflection, exact revision validation, protected identities and retained browser review. Several required outputs remain crossed/offset or visibly withheld, so V02 remains In Progress."
+    },
+    {
+      "id": "E-G04-S281-EXIT",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/G04-V02-ASSEMBLY-REVIEW-S281.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Verified exact source review, 100% focused projection coverage, production build, protected export/DXF identities and the full 73-configuration/146-face Chromium matrix. Source-unsupported Tee/Fitted sleeve and Skirt waistband contours now fail closed; only Tank emits and its front/back output was manually reviewed. V02 remains In Progress."
     }
   ]
 }

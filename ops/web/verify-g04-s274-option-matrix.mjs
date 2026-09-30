@@ -36,6 +36,12 @@ async function captureFace(page, caseId, recipeId, face) {
   const issues = (await page.locator("[data-technical-flat-issues]").allTextContents()).join("\n").trim() || null;
   const name = `${caseId}-${faceName}`;
   const retainScreenshot = new Set([
+    "tee-default-front",
+    "tee-default-back",
+    "fitted-default-front",
+    "fitted-default-back",
+    "skirt-default-front",
+    "skirt-default-back",
     "polo-default-front",
     "polo-default-back",
     "woven-shirt-default-front",

@@ -99,6 +99,11 @@ describe("validateTechnicalFlatProjectionMap", () => {
               return points.every((point) => point.x >= 0);
             })).toBe(true);
           } else {
+            if (G04_UNRESOLVED_PROJECTION_ROLES[recipe.name]?.[role.roleId]) {
+              expect(role.heldEdges).toHaveLength(piece.edges.length);
+              expect(role.foldAxisReflection).toBeUndefined();
+              continue;
+            }
             if (G04_NON_MIRRORED_ON_FOLD_ROLES[recipe.name]?.[role.roleId]) {
               expect(role.heldEdges).toEqual([]);
               expect(role.runs).toHaveLength(piece.edges.length);
