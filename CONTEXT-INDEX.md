@@ -130,6 +130,10 @@ only through an explicitly admitted, linked Epic packet.
   311's source-backed mark-target POM mapping, production-rendered verification,
   held-face limits and current G04 boundary. Use `PROJECT-STATE.md` and the
   validated Control Center board for the next slice.
+- `docs/research/epic17/G04-V02-SKIRT-BACK-POM-ANCHORS-S312.md` — Slice 312's
+  source-equivalent Skirt waist/hip anchors on the accepted back flat, plus
+  current rendered evidence and hold limits. Use `PROJECT-STATE.md` and the
+  validated Control Center board for the next boundary.
 - `docs/research/epic17/G04-V02-PROJECTION-MAPPING-S277.md` — Slice 277's
   current projection-mapping contract boundary, source-reference rules,
   fail-closed semantics, and focused acceptance gates.

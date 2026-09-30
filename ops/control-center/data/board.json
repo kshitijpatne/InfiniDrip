@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 668,
-  "updatedAt": "2026-09-30T18:07:12.948Z",
+  "revision": 680,
+  "updatedAt": "2026-09-30T18:27:23.437Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -155,7 +155,7 @@
       "title": "EPIC-17: G04 — Professional flats and CAD interchange",
       "status": "In Progress",
       "owner": "Codex",
-      "description": "EPIC-17 admitted by maintainer. Current conditional estimate: 57–71 landed slices total; 6–20 remain from verified S311 (0–5 further V02 work/evidence, 5–10 V03 only after V02 passes, and 3–5 integrated review/merge/deployment). Current all-recipe output: 28/146 faces accepted; 118 held. Source waits are unpriced and may block V02 passage. V01 Done; V02 In Progress; V03 Backlog. See docs/planning/EPIC-17-ADMISSION.md.",
+      "description": "EPIC-17 admitted by maintainer. Current conditional estimate: 57–71 landed slices total; 5–19 remain from verified S312 (0–4 further V02 work/evidence, 5–10 V03 only after V02 passes, and 3–5 integrated review/merge/deployment). Current all-recipe output: 28/146 faces accepted; 118 held. Source waits are unpriced and may block V02 passage. V01 Done; V02 In Progress; V03 Backlog. See docs/planning/EPIC-17-ADMISSION.md.",
       "evidenceRefs": [
         "E-G04-S271-EXIT",
         "E-G04-S273-EXIT",
@@ -209,7 +209,9 @@
         "E-G04-S310-START",
         "E-G04-S310-EXIT",
         "E-G04-S311-START",
-        "E-G04-S311-EXIT"
+        "E-G04-S311-EXIT",
+        "E-G04-S312-START",
+        "E-G04-S312-EXIT"
       ]
     },
     {
@@ -2738,7 +2740,7 @@
         "100% coverage",
         "maintainer gates"
       ],
-      "description": "G04 source-to-view technical flats and industrial CAD interchange. Verified current output: 28/146 faces accepted, 118 held. Conditional estimate: 57–71 landed slices total, with 6–20 remaining from S311; source waits are unpriced. V01 Done, V02 In Progress, V03 Backlog. Scope and exit gates: docs/planning/EPIC-17-ADMISSION.md.",
+      "description": "G04 source-to-view technical flats and industrial CAD interchange. Verified current output: 28/146 faces accepted, 118 held. Conditional estimate: 57–71 landed slices total, with 5–19 remaining from S312; source waits are unpriced. V01 Done, V02 In Progress, V03 Backlog. Scope and exit gates: docs/planning/EPIC-17-ADMISSION.md.",
       "expectation": "Front/back technical flats for every supported recipe/variant and proven CAD interchange. Pattern-linked side/oblique views are explicitly owned by G09/D04, so the complete view set is accepted only there.",
       "acceptanceCriteria": [
         "Complete every G04 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
@@ -2926,6 +2928,21 @@
           "at": "2026-09-30T18:07:11.943Z",
           "actor": "Codex",
           "text": "Slice 311 exit: exact authored waistband.centerBack mark now anchors the existing waistband-depth POM in the same-revision back flat. All 24 Trouser backs render both exact POM targets and all 24 fronts remain fully held; label bounds and marker equality pass in every case. Changed-module coverage is 100%, focused tests 53/53, build and protected exports pass, Control Center 33/33, production Chromium 48/48 with zero errors. Global output remains 28/146. Woven placket closure remains held without a construction reference. V02 remains In Progress; V03 remains Backlog."
+        },
+        {
+          "at": "2026-09-30T18:14:13.807Z",
+          "actor": "Codex",
+          "text": "Slice 312 started 2026-09-30 18:13:10 UTC from clean S311 51cfa24; refreshed origin/main a5af5e13 remains an ancestor. Source-backed Skirt waist and hip POM back anchors only for the existing accepted Skirt front/back views; no measurement or geometry changes. Packet: G04-V02-SKIRT-BACK-POM-ANCHORS-S312.md."
+        },
+        {
+          "at": "2026-09-30T18:27:20.520Z",
+          "actor": "Maintainer",
+          "text": "Updated Epic metadata (description: EPIC-17 admitted by maintainer. Current conditional estimate: 57–71 landed slices total; 5–19 remain from verified S312 (0–4 further V02 work/evidence, 5–10 V03 only after V02 passes, and 3–5 integrated review/merge/deployment). Current all-recipe output: 28/146 faces accepted; 118 held. Source waits are unpriced and may block V02 passage. V01 Done; V02 In Progress; V03 Backlog. See docs/planning/EPIC-17-ADMISSION.md.). Re-estimate the admitted V02 sequence from verified S312; retain the V03 dependency and unpriced source waits."
+        },
+        {
+          "at": "2026-09-30T18:27:22.377Z",
+          "actor": "Codex",
+          "text": "Slice 312 exit: Skirt waist and hip POMs resolve to matching exact front/back outline vertices. Production Chromium verified default and changed measurements on both faces, with same-revision callouts, in-bounds non-overlapping labels and zero errors. Focused tests pass 49/49 with 100% changed-module coverage; build, protected exports, Control Center and diff gates pass. Global output remains 28/146 accepted, 118 held. No geometry/export change. Woven closure remains held for lack of its construction reference. V02 remains In Progress; V03 remains Backlog."
         }
       ],
       "evidenceRefs": [
@@ -2966,7 +2983,9 @@
         "E-G04-S310-START",
         "E-G04-S310-EXIT",
         "E-G04-S311-START",
-        "E-G04-S311-EXIT"
+        "E-G04-S311-EXIT",
+        "E-G04-S312-START",
+        "E-G04-S312-EXIT"
       ],
       "flagKey": null
     },
@@ -6069,6 +6088,16 @@
           "at": "2026-09-30T18:07:12.948Z",
           "actor": "Codex",
           "text": "Slice 311 exit: exact authored waistband.centerBack mark now anchors the existing waistband-depth POM in the same-revision back flat. All 24 Trouser backs render both exact POM targets and all 24 fronts remain fully held; label bounds and marker equality pass in every case. Changed-module coverage is 100%, focused tests 53/53, build and protected exports pass, Control Center 33/33, production Chromium 48/48 with zero errors. Global output remains 28/146. Woven placket closure remains held without a construction reference. V02 remains In Progress; V03 remains Backlog."
+        },
+        {
+          "at": "2026-09-30T18:14:14.629Z",
+          "actor": "Codex",
+          "text": "Start Slice 312 from clean S311 51cfa24, with origin/main a5af5e13 verified ancestor. Verify the shared Skirt panel constructor supports exact back counterparts for current waist/hip POM vertices; then add only those anchors and verify current accepted front/back output. Preserve all other face holds. Packet: G04-V02-SKIRT-BACK-POM-ANCHORS-S312.md."
+        },
+        {
+          "at": "2026-09-30T18:27:23.437Z",
+          "actor": "Codex",
+          "text": "Slice 312 exit: Skirt waist and hip POMs resolve to matching exact front/back outline vertices. Production Chromium verified default and changed measurements on both faces, with same-revision callouts, in-bounds non-overlapping labels and zero errors. Focused tests pass 49/49 with 100% changed-module coverage; build, protected exports, Control Center and diff gates pass. Global output remains 28/146 accepted, 118 held. No geometry/export change. Woven closure remains held for lack of its construction reference. V02 remains In Progress; V03 remains Backlog."
         }
       ],
       "evidenceRefs": [
@@ -6148,7 +6177,9 @@
         "E-G04-S310-START",
         "E-G04-S310-EXIT",
         "E-G04-S311-START",
-        "E-G04-S311-EXIT"
+        "E-G04-S311-EXIT",
+        "E-G04-S312-START",
+        "E-G04-S312-EXIT"
       ],
       "flagKey": null
     },
@@ -7719,6 +7750,24 @@
       "sha256": null,
       "verified": true,
       "note": "Slice 311 implements the exact same-revision Trouser waistband-depth centerBack mark target and verifies both output-space back POM callouts across 24 configurations; 24 fronts remain held. 100% changed-module coverage, focused/build/protected-export/Control Center/diff gates pass; production Chromium has 24 accepted backs, 24 complete front holds, readable in-page non-overlapping labels and zero browser errors. Retained screenshots and SVG matrix."
+    },
+    {
+      "id": "E-G04-S312-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-SKIRT-BACK-POM-ANCHORS-S312.md",
+      "commit": null,
+      "sha256": null,
+      "verified": false,
+      "note": "Slice 312 start packet: source-backed Skirt waist and hip POM back anchors for the existing accepted Skirt front/back views; exact corresponding panel vertices only."
+    },
+    {
+      "id": "E-G04-S312-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-SKIRT-BACK-POM-ANCHORS-S312.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Slice 312 anchors the existing Skirt waist/hip POMs to exact same-revision back outline vertices matching their authored front counterparts. Focused suites pass 49/49 with 100% four-metric changed-module coverage; build and protected DXF/export pass, Control Center 33/33, production Chromium verifies default and changed-measurement front/back views with in-page non-overlapping labels and zero errors. No new faces accepted or export changes."
     }
   ]
 }

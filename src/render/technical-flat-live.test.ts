@@ -59,6 +59,39 @@ describe("compileTechnicalFlatLiveView", () => {
     expect(artwork.colorway).toMatchObject({ revisionId: "live-tank-art", colorHex: "#456789" });
   });
 
+  it("anchors existing Skirt waist and hip POMs to matching front/back outline vertices", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "skirt")!;
+    const block = recipe.draft({ ...STANDARD_M, waist: 92, hip: 112, hipDepth: 22, length: 88, ease: 8 },
+      defaultGarmentOptions(recipe.options ?? []));
+    const views = (['FRONT_FLAT', 'BACK_FLAT'] as const).map((kind) => compileTechnicalFlatLiveView({
+      recipe, block, revisionId: "live-skirt-poms-312", kind, placements: [],
+      colorHex: "#456789", texture: "smooth", shine: 0,
+    }));
+    expect(views.map((result) => result.issues)).toEqual([[], []]);
+    for (const [index, kind] of (["FRONT_FLAT", "BACK_FLAT"] as const).entries()) {
+      const view = views[index].view!;
+      expect(view.revisionId).toBe("live-skirt-poms-312");
+      for (const [sourceId, targetGeometryId, expectedText] of [
+        ["pom:skirt:waist-finished", `flat:skirt:${kind}:component:${kind === "FRONT_FLAT" ? "front" : "back"}:outline`, "Waist (finished): 100.0 cm (±1.0 cm)"],
+        ["pom:skirt:hip-finished", `flat:skirt:${kind}:component:${kind === "FRONT_FLAT" ? "front" : "back"}:outline`, "Hip (finished): 120.0 cm (±1.3 cm)"],
+      ]) {
+        const callout = view.primitives.find((primitive) => primitive.kind === "callout"
+          && primitive.source.sourceId === sourceId);
+        const target = view.primitives.find((primitive) => primitive.id === targetGeometryId);
+        expect(callout).toMatchObject({ kind: "callout", source: { sourceId, revisionId: view.revisionId }, text: expectedText,
+          anchor: { primitiveId: targetGeometryId, point: { x: expect.any(Number), y: expect.any(Number) } } });
+        expect(target?.kind).toBe("path");
+        if (callout?.kind !== "callout" || target?.kind !== "path") throw new Error("Expected exact Skirt POM geometry.");
+        expect(target.commands.some((command) => command.op !== "close"
+          && command.point.x === callout.anchor.point.x && command.point.y === callout.anchor.point.y)).toBe(true);
+      }
+      expect(view.primitives.some((primitive) => primitive.kind === "callout"
+        && primitive.source.sourceId === "pom:skirt:length-waist-hem")).toBe(false);
+    }
+    expect(views[0].view?.primitives.every((primitive) => primitive.source.revisionId === "live-skirt-poms-312")).toBe(true);
+    expect(views[1].view?.primitives.every((primitive) => primitive.source.revisionId === "live-skirt-poms-312")).toBe(true);
+  });
+
   it("renders only the coherent source-bound Trouser back waistband and keeps the mismapped front held", () => {
     const recipe = GARMENTS.find((candidate) => candidate.name === "trouser")!;
     const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));

@@ -129,14 +129,27 @@ describe("SKIRT recipe end-to-end", () => {
     expect(SKIRT.fields).toEqual(["waist", "hip", "hipDepth", "length", "ease"]);
   });
 
-  it("gives its anchored POMs a point on the front piece (for tech-pack leaders)", () => {
-    const b = draftSkirt(STANDARD_M);
-    for (const pom of SKIRT_POMS) {
-      if (pom.anchor) {
-        const p = pom.anchor(b);
-        expect(typeof p.x).toBe("number");
-        expect(typeof p.y).toBe("number");
-      }
+  it("anchors waist and hip POMs to exact corresponding front and back panel vertices", () => {
+    const drafts = [STANDARD_M,
+      { ...STANDARD_M, waist: 92, hip: 112, hipDepth: 22, length: 88, ease: 8 },
+      { ...STANDARD_M, waist: 76, hip: 104, hipDepth: 18, length: 102, ease: 12 }];
+    for (const measurements of drafts) {
+      const b = draftSkirt(measurements);
+      const front = rolePiece(b, "front");
+      const back = rolePiece(b, "back");
+      const waist = SKIRT_POMS.find((pom) => pom.label === "Waist (finished)")!;
+      const hip = SKIRT_POMS.find((pom) => pom.label === "Hip (finished)")!;
+      expect(waist.anchor?.(b)).toEqual(edgeEnd(pieceEdge(front, "waist")));
+      expect(waist.backAnchor?.(b)).toEqual(edgeEnd(pieceEdge(back, "waist")));
+      expect(waist.backAnchor?.(b)).toEqual(waist.anchor?.(b));
+      expect(hip.anchor?.(b)).toEqual(edgeStart(pieceEdge(front, "sideLower")));
+      expect(hip.backAnchor?.(b)).toEqual(edgeStart(pieceEdge(back, "sideLower")));
+      expect(hip.backAnchor?.(b)).toEqual(hip.anchor?.(b));
+      expect(waist.measure(b)).toBeCloseTo(measurements.waist + measurements.ease, 6);
+      expect(hip.measure(b)).toBeCloseTo(measurements.hip + measurements.ease, 6);
+      const length = SKIRT_POMS.find((pom) => pom.label === "Length (waist–hem)")!;
+      expect(length.anchor).toBeUndefined();
+      expect(length.backAnchor).toBeUndefined();
     }
   });
 });

@@ -37,7 +37,22 @@ describe("mapTechnicalFlatSources", () => {
       }
       const backAnchors = mapping.sources.filter((source) => source.kind === "pom"
         && source.treatment === "ANCHORED" && source.viewKinds.includes("BACK_FLAT"));
-      expect(backAnchors, recipe.name).toHaveLength(recipe.name === "trouser" ? 2 : 0);
+      expect(backAnchors, recipe.name).toHaveLength(recipe.name === "trouser" || recipe.name === "skirt" ? 2 : 0);
+      if (recipe.name === "skirt") {
+        expect(mapping.notices).toContainEqual(expect.objectContaining({
+          sourceId: "pom:skirt:length-waist-hem", reason: "SOURCE_REFERENCE_MISSING",
+        }));
+        expect(backAnchors.find((source) => source.sourceId === "pom:skirt:waist-finished")).toMatchObject({
+          viewKinds: ["BACK_FLAT"],
+          targetGeometryId: "flat:skirt:BACK_FLAT:component:back:outline",
+          anchorPoint: { x: expect.any(Number), y: 0 },
+        });
+        expect(backAnchors.find((source) => source.sourceId === "pom:skirt:hip-finished")).toMatchObject({
+          viewKinds: ["BACK_FLAT"],
+          targetGeometryId: "flat:skirt:BACK_FLAT:component:back:outline",
+          anchorPoint: { x: expect.any(Number), y: STANDARD_M.hipDepth },
+        });
+      }
       if (recipe.name === "trouser") {
         expect(backAnchors.find((source) => source.sourceId.endsWith("back-rise-finished-incl-waistband"))).toMatchObject({
           sourceId: "pom:trouser:back-rise-finished-incl-waistband",

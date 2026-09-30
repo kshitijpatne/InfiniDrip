@@ -198,12 +198,16 @@ export const SKIRT_POMS: readonly Pom[] = [
     tolerance: 1.0,
     measure: (b) => 4 * spanX(rolePiece(b, "front"), { edge: "waist", at: "end" }, FOLD),
     anchor: (b) => edgeEnd(pieceEdge(rolePiece(b, "front"), "waist")),
+    // Both quarter panels come from the same panel(m, position) source with
+    // the same Measurements, so this is the exact counterpart edge point.
+    backAnchor: (b) => edgeEnd(pieceEdge(rolePiece(b, "back"), "waist")),
   },
   {
     label: "Hip (finished)",
     tolerance: 1.3,
     measure: (b) => 4 * spanX(rolePiece(b, "front"), { edge: "sideLower", at: "start" }, FOLD),
     anchor: (b) => edgeStart(pieceEdge(rolePiece(b, "front"), "sideLower")),
+    backAnchor: (b) => edgeStart(pieceEdge(rolePiece(b, "back"), "sideLower")),
   },
   {
     label: "Length (waist–hem)",
