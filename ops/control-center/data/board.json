@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 490,
-  "updatedAt": "2026-09-30T08:10:15.189Z",
+  "revision": 496,
+  "updatedAt": "2026-09-30T08:43:48.515Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -172,7 +172,9 @@
         "E-G04-S289-START",
         "E-G04-S289-EXIT",
         "E-G04-S290-START",
-        "E-G04-S290-EXIT"
+        "E-G04-S290-EXIT",
+        "E-G04-S291-START",
+        "E-G04-S291-EXIT"
       ]
     },
     {
@@ -5702,6 +5704,16 @@
           "at": "2026-09-30T08:10:15.189Z",
           "actor": "Codex",
           "text": "S290 source audit: exact Tee/Fitted cap edges pair to front/back armhole sewn intervals, but local and reviewed construction sources do not define complete orthographic sleeve contours or view-instance count/orientation. The retained S280 front output crosses the bodice; current faces remain held. See E-G04-S290-EXIT; no pattern/cut geometry changed."
+        },
+        {
+          "at": "2026-09-30T08:16:00.468Z",
+          "actor": "Codex",
+          "text": "Slice 291 started 2026-09-30 08:13:34 UTC from clean S290 commit 4c338821 on refreshed origin/main ancestor a5af5e1, with board revision 490 and unique slice 291. Scope: production build plus fresh seven-recipe, 73-configuration/146-face Chromium output review, mapped G04 findings and source-bound holds. V02 remains In Progress; V03 stays gated. Packet: docs/research/epic17/G04-V02-INTEGRATED-OUTPUT-REVIEW-S291.md."
+        },
+        {
+          "at": "2026-09-30T08:43:48.515Z",
+          "actor": "Codex",
+          "text": "Slice 291 exit: production Chromium covered 73 configurations/146 faces and 32 option fields with zero browser/page/remote errors. Four Tank/Skirt defaults emitted; 142 faces remain visibly held. The mapped MQF review is recorded and statuses remain To be reviewed. Evidence E-G04-S291-EXIT is linked. V02 stays In Progress; S292 audits source-backed Woven mapping; V03 remains gated."
         }
       ],
       "evidenceRefs": [
@@ -5738,7 +5750,9 @@
         "E-G04-S289-START",
         "E-G04-S289-EXIT",
         "E-G04-S290-START",
-        "E-G04-S290-EXIT"
+        "E-G04-S290-EXIT",
+        "E-G04-S291-START",
+        "E-G04-S291-EXIT"
       ],
       "flagKey": null
     },
@@ -6922,6 +6936,24 @@
       "sha256": null,
       "verified": true,
       "note": "Exact Tee/Fitted cap stitch order identifies sewn intervals but does not support the complete orthographic sleeve contours or instance count/orientation; affected output remains held."
+    },
+    {
+      "id": "E-G04-S291-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-INTEGRATED-OUTPUT-REVIEW-S291.md",
+      "commit": null,
+      "sha256": null,
+      "verified": false,
+      "note": "S291 start packet for the fresh integrated seven-recipe/146-face production Chromium matrix and G04 manual-finding review."
+    },
+    {
+      "id": "E-G04-S291-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-INTEGRATED-OUTPUT-REVIEW-S291.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Fresh production build and Chromium matrix covered 73 configurations/146 faces across seven recipes/32 fields; Tank/Skirt 4 emitted and manually inspected, 142 source-held; exact SVG replay and same-revision Tank artwork/color overlay verified; V02 remains open."
     }
   ]
 }

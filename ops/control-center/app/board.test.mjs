@@ -116,6 +116,8 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S283-EXIT"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S284-START"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S284-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S291-START"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S291-EXIT"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S285-EXIT"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S286-EXIT"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S287-START"));
@@ -128,7 +130,8 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
       assert.ok(admittedWork[1].comments.some((comment) => /Slice 284 started 2026-09-30 05:24:03 UTC.*G04-V02-INTEGRATED-OUTPUT-REVIEW-S284\.md/.test(comment.text)));
       assert.ok(admittedWork[1].comments.some((comment) => /Slice 288 exit: Jalie 3137, Maelo BL-018 and Threads two-piece collar drafting sources/.test(comment.text)));
       assert.ok(admittedWork[1].comments.some((comment) => /S289 source-topology audit found no supported rigid Trouser face placement/.test(comment.text)));
-      assert.match(admittedWork[1].comments.at(-1).text, /S290 source audit: exact Tee.*cap edges pair to front.*armhole/);
+      assert.ok(admittedWork[1].comments.some((comment) => /S290 source audit: exact Tee.*cap edges pair to front.*armhole/.test(comment.text)));
+      assert.match(admittedWork[1].comments.at(-1).text, /Slice 291 exit: production Chromium covered 73 configurations\/146 faces and 32 option fields.*142 faces remain visibly held/);
       assert.deepEqual(admittedWork.map((entry) => entry.dependencies), [[], ["G04-V01"], ["G04-V02"]]);
     }
     if (id === "EPIC-16") {

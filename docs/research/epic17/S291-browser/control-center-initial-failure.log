@@ -1,0 +1,40 @@
+✔ canonical board validates and summarizes its tracked work (18.5109ms)
+✔ malformed board data is rejected instead of repaired (8.6414ms)
+✔ invalid top-level and duplicate records are reported (9.2371ms)
+✔ invalid calendar dates are rejected instead of normalized (6.909ms)
+✔ contributors can submit review but cannot complete work (0.5122ms)
+✖ closed Epics 14–16 and admitted G04 status match their evidence (9.026ms)
+✔ literal search and filters cover title, slice, body, owner, priority, and type (27.1036ms)
+✔ detail rendering exposes editing, evidence, history, and escapes board text (8.9596ms)
+✔ new work item form captures schema-required fields and starts with Backlog workflow guidance (0.9588ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 8
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 355.7044
+
+✖ failing tests:
+
+test at ops\control-center\app\board.test.mjs:70:1
+✖ closed Epics 14–16 and admitted G04 status match their evidence (9.026ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Slice 291 exit: production Chromium covered 73 configurations\/146 faces and 32 option fields.*142 remain visibly held/. Input:
+
+  'Slice 291 exit: production Chromium covered 73 configurations/146 faces and 32 option fields with zero browser/page/remote errors. Four Tank/Skirt defaults emitted; 142 faces remain visibly held. The mapped MQF review is recorded and statuses remain To be reviewed. Evidence E-G04-S291-EXIT is linked. V02 stays In Progress; S292 audits source-backed Woven mapping; V03 remains gated.'
+
+      at TestContext.<anonymous> (file:///C:/Users/kshit/.codex/worktrees/epic-17-g04/designApp/ops/control-center/app/board.test.mjs:134:14)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19)
+      at Test.run (node:internal/test_runner/test:1258:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Slice 291 exit: production Chromium covered 73 configurations/146 faces and 32 option fields with zero browser/page/remote errors. Four Tank/Skirt defaults emitted; 142 faces remain visibly held. The mapped MQF review is recorded and statuses remain To be reviewed. Evidence E-G04-S291-EXIT is linked. V02 stays In Progress; S292 audits source-backed Woven mapping; V03 remains gated.',
+    expected: /Slice 291 exit: production Chromium covered 73 configurations\/146 faces and 32 option fields.*142 remain visibly held/,
+    operator: 'match',
+    diff: 'simple'
+  }

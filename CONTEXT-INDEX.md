@@ -179,12 +179,12 @@ only through an explicitly admitted, linked Epic packet.
   authored outer collar cubic. Specific Polo and two-piece collar references
   establish base-seam construction but not a unique outer-cubic point; its
   faces remain held.
-- `docs/research/epic17/G04-V02-TEE-FITTED-SLEEVE-SOURCE-S290.md` — active
+- `docs/research/epic17/G04-V02-INTEGRATED-OUTPUT-REVIEW-S291.md` — latest V02 integrated output gate. It retains the fresh 73-configuration/146-face Chromium matrix, accepted SVG replays, Tank overlay and manual MQF review; V02 remains open because 142 faces are held.
+- `docs/research/epic17/G04-V02-TEE-FITTED-SLEEVE-SOURCE-S290.md` — completed
   S290 source audit for the exact shared Tee/Fitted sleeve contour and
   supported orthographic view instances.
-- `docs/research/epic17/G04-V02-TROUSER-FACE-PLACEMENT-S289.md` — active
-  S289 boundary for a source-topology-bound Trouser placement attempt; retain
-  holds unless all relevant interfaces support one coherent result.
+- `docs/research/epic17/G04-V02-TROUSER-FACE-PLACEMENT-S289.md` — completed
+  S289 bounded source-topology audit; its fly/shield and waistband conflicts do not support a coherent placement, so both faces remain held.
 - `src/render/technical-flat-projection.ts` — versioned G04 face-projection
   metadata and exact drafted-topology validation. Interior split landmarks not
   present as source endpoints remain unsupported and explicitly held.

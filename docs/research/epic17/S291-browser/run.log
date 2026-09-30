@@ -1,0 +1,241 @@
+CASE tee-default
+FACE tee-default-front WITHHELD
+FACE tee-default-back WITHHELD
+CASE fitted-default
+FACE fitted-default-front WITHHELD
+FACE fitted-default-back WITHHELD
+CASE tank-default
+FACE tank-default-front SVG
+FACE tank-default-back SVG
+CASE polo-default
+FACE polo-default-front WITHHELD
+FACE polo-default-back WITHHELD
+CASE polo-placketLength-min
+FACE polo-placketLength-min-front WITHHELD
+FACE polo-placketLength-min-back WITHHELD
+CASE polo-placketLength-max
+FACE polo-placketLength-max-front WITHHELD
+FACE polo-placketLength-max-back WITHHELD
+CASE polo-placketWidth-min
+FACE polo-placketWidth-min-front WITHHELD
+FACE polo-placketWidth-min-back WITHHELD
+CASE polo-placketWidth-max
+FACE polo-placketWidth-max-front WITHHELD
+FACE polo-placketWidth-max-back WITHHELD
+CASE polo-standHeight-min
+FACE polo-standHeight-min-front WITHHELD
+FACE polo-standHeight-min-back WITHHELD
+CASE polo-standHeight-max
+FACE polo-standHeight-max-front WITHHELD
+FACE polo-standHeight-max-back WITHHELD
+CASE polo-collarLeafDepth-min
+FACE polo-collarLeafDepth-min-front WITHHELD
+FACE polo-collarLeafDepth-min-back WITHHELD
+CASE polo-collarLeafDepth-max
+FACE polo-collarLeafDepth-max-front WITHHELD
+FACE polo-collarLeafDepth-max-back WITHHELD
+CASE polo-standFrontRise-min
+FACE polo-standFrontRise-min-front WITHHELD
+FACE polo-standFrontRise-min-back WITHHELD
+CASE polo-standFrontRise-max
+FACE polo-standFrontRise-max-front WITHHELD
+FACE polo-standFrontRise-max-back WITHHELD
+CASE polo-collarPointExtension-min
+FACE polo-collarPointExtension-min-front WITHHELD
+FACE polo-collarPointExtension-min-back WITHHELD
+CASE polo-collarPointExtension-max
+FACE polo-collarPointExtension-max-front WITHHELD
+FACE polo-collarPointExtension-max-back WITHHELD
+CASE polo-sideVentDepth-min
+FACE polo-sideVentDepth-min-front WITHHELD
+FACE polo-sideVentDepth-min-back WITHHELD
+CASE polo-sideVentDepth-max
+FACE polo-sideVentDepth-max-front WITHHELD
+FACE polo-sideVentDepth-max-back WITHHELD
+CASE polo-backHemDrop-min
+FACE polo-backHemDrop-min-front WITHHELD
+FACE polo-backHemDrop-min-back WITHHELD
+CASE polo-backHemDrop-max
+FACE polo-backHemDrop-max-front WITHHELD
+FACE polo-backHemDrop-max-back WITHHELD
+CASE woven-shirt-default
+FACE woven-shirt-default-front WITHHELD
+FACE woven-shirt-default-back WITHHELD
+CASE woven-shirt-neckEase-min
+FACE woven-shirt-neckEase-min-front WITHHELD
+FACE woven-shirt-neckEase-min-back WITHHELD
+CASE woven-shirt-neckEase-max
+FACE woven-shirt-neckEase-max-front WITHHELD
+FACE woven-shirt-neckEase-max-back WITHHELD
+CASE woven-shirt-standHeight-min
+FACE woven-shirt-standHeight-min-front WITHHELD
+FACE woven-shirt-standHeight-min-back WITHHELD
+CASE woven-shirt-standHeight-max
+FACE woven-shirt-standHeight-max-front WITHHELD
+FACE woven-shirt-standHeight-max-back WITHHELD
+CASE woven-shirt-collarLeafDepth-min
+FACE woven-shirt-collarLeafDepth-min-front WITHHELD
+FACE woven-shirt-collarLeafDepth-min-back WITHHELD
+CASE woven-shirt-collarLeafDepth-max
+FACE woven-shirt-collarLeafDepth-max-front WITHHELD
+FACE woven-shirt-collarLeafDepth-max-back WITHHELD
+CASE woven-shirt-buttonCount-min
+FACE woven-shirt-buttonCount-min-front WITHHELD
+FACE woven-shirt-buttonCount-min-back WITHHELD
+CASE woven-shirt-buttonCount-max
+FACE woven-shirt-buttonCount-max-front WITHHELD
+FACE woven-shirt-buttonCount-max-back WITHHELD
+CASE woven-shirt-buttonSpacing-min
+FACE woven-shirt-buttonSpacing-min-front WITHHELD
+FACE woven-shirt-buttonSpacing-min-back WITHHELD
+CASE woven-shirt-buttonSpacing-max
+FACE woven-shirt-buttonSpacing-max-front WITHHELD
+FACE woven-shirt-buttonSpacing-max-back WITHHELD
+CASE woven-shirt-frontOverlap-min
+FACE woven-shirt-frontOverlap-min-front WITHHELD
+FACE woven-shirt-frontOverlap-min-back WITHHELD
+CASE woven-shirt-frontOverlap-max
+FACE woven-shirt-frontOverlap-max-front WITHHELD
+FACE woven-shirt-frontOverlap-max-back WITHHELD
+CASE woven-shirt-placketWidth-min
+FACE woven-shirt-placketWidth-min-front WITHHELD
+FACE woven-shirt-placketWidth-min-back WITHHELD
+CASE woven-shirt-placketWidth-max
+FACE woven-shirt-placketWidth-max-front WITHHELD
+FACE woven-shirt-placketWidth-max-back WITHHELD
+CASE woven-shirt-yokeDepth-min
+FACE woven-shirt-yokeDepth-min-front WITHHELD
+FACE woven-shirt-yokeDepth-min-back WITHHELD
+CASE woven-shirt-yokeDepth-max
+FACE woven-shirt-yokeDepth-max-front WITHHELD
+FACE woven-shirt-yokeDepth-max-back WITHHELD
+CASE woven-shirt-pocketWidth-min
+FACE woven-shirt-pocketWidth-min-front WITHHELD
+FACE woven-shirt-pocketWidth-min-back WITHHELD
+CASE woven-shirt-pocketWidth-max
+FACE woven-shirt-pocketWidth-max-front WITHHELD
+FACE woven-shirt-pocketWidth-max-back WITHHELD
+CASE woven-shirt-pocketHeight-min
+FACE woven-shirt-pocketHeight-min-front WITHHELD
+FACE woven-shirt-pocketHeight-min-back WITHHELD
+CASE woven-shirt-pocketHeight-max
+FACE woven-shirt-pocketHeight-max-front WITHHELD
+FACE woven-shirt-pocketHeight-max-back WITHHELD
+CASE woven-shirt-sleeveBandDepth-min
+FACE woven-shirt-sleeveBandDepth-min-front WITHHELD
+FACE woven-shirt-sleeveBandDepth-min-back WITHHELD
+CASE woven-shirt-sleeveBandDepth-max
+FACE woven-shirt-sleeveBandDepth-max-front WITHHELD
+FACE woven-shirt-sleeveBandDepth-max-back WITHHELD
+CASE woven-shirt-sideVentDepth-min
+FACE woven-shirt-sideVentDepth-min-front WITHHELD
+FACE woven-shirt-sideVentDepth-min-back WITHHELD
+CASE woven-shirt-sideVentDepth-max
+FACE woven-shirt-sideVentDepth-max-front WITHHELD
+FACE woven-shirt-sideVentDepth-max-back WITHHELD
+CASE woven-shirt-hemTurn-min
+FACE woven-shirt-hemTurn-min-front WITHHELD
+FACE woven-shirt-hemTurn-min-back WITHHELD
+CASE woven-shirt-hemTurn-max
+FACE woven-shirt-hemTurn-max-front WITHHELD
+FACE woven-shirt-hemTurn-max-back WITHHELD
+CASE woven-shirt-combined-supported
+FACE woven-shirt-combined-supported-front WITHHELD
+FACE woven-shirt-combined-supported-back WITHHELD
+CASE skirt-default
+FACE skirt-default-front SVG
+FACE skirt-default-back SVG
+CASE trouser-default
+FACE trouser-default-front WITHHELD
+FACE trouser-default-back WITHHELD
+CASE trouser-frontRiseEase-min
+FACE trouser-frontRiseEase-min-front WITHHELD
+FACE trouser-frontRiseEase-min-back WITHHELD
+CASE trouser-frontRiseEase-max
+FACE trouser-frontRiseEase-max-front WITHHELD
+FACE trouser-frontRiseEase-max-back WITHHELD
+CASE trouser-backRiseEase-min
+FACE trouser-backRiseEase-min-front WITHHELD
+FACE trouser-backRiseEase-min-back WITHHELD
+CASE trouser-backRiseEase-max
+FACE trouser-backRiseEase-max-front WITHHELD
+FACE trouser-backRiseEase-max-back WITHHELD
+CASE trouser-waistbandDepth-min
+FACE trouser-waistbandDepth-min-front WITHHELD
+FACE trouser-waistbandDepth-min-back WITHHELD
+CASE trouser-waistbandDepth-max
+FACE trouser-waistbandDepth-max-front WITHHELD
+FACE trouser-waistbandDepth-max-back WITHHELD
+CASE trouser-thighEase-min
+FACE trouser-thighEase-min-front WITHHELD
+FACE trouser-thighEase-min-back WITHHELD
+CASE trouser-thighEase-max
+FACE trouser-thighEase-max-front WITHHELD
+FACE trouser-thighEase-max-back WITHHELD
+CASE trouser-kneeEase-min
+FACE trouser-kneeEase-min-front WITHHELD
+FACE trouser-kneeEase-min-back WITHHELD
+CASE trouser-kneeEase-max
+FACE trouser-kneeEase-max-front WITHHELD
+FACE trouser-kneeEase-max-back WITHHELD
+CASE trouser-legOpening-min
+FACE trouser-legOpening-min-front WITHHELD
+FACE trouser-legOpening-min-back WITHHELD
+CASE trouser-legOpening-max
+FACE trouser-legOpening-max-front WITHHELD
+FACE trouser-legOpening-max-back WITHHELD
+CASE trouser-flyLength-min
+FACE trouser-flyLength-min-front WITHHELD
+FACE trouser-flyLength-min-back WITHHELD
+CASE trouser-flyLength-max
+FACE trouser-flyLength-max-front WITHHELD
+FACE trouser-flyLength-max-back WITHHELD
+CASE trouser-pocketOpening-min
+FACE trouser-pocketOpening-min-front WITHHELD
+FACE trouser-pocketOpening-min-back WITHHELD
+CASE trouser-pocketOpening-max
+FACE trouser-pocketOpening-max-front WITHHELD
+FACE trouser-pocketOpening-max-back WITHHELD
+CASE trouser-pocketAngle-min
+FACE trouser-pocketAngle-min-front WITHHELD
+FACE trouser-pocketAngle-min-back WITHHELD
+CASE trouser-pocketAngle-max
+FACE trouser-pocketAngle-max-front WITHHELD
+FACE trouser-pocketAngle-max-back WITHHELD
+CASE trouser-pocketBagDepth-min
+FACE trouser-pocketBagDepth-min-front WITHHELD
+FACE trouser-pocketBagDepth-min-back WITHHELD
+CASE trouser-pocketBagDepth-max
+FACE trouser-pocketBagDepth-max-front WITHHELD
+FACE trouser-pocketBagDepth-max-back WITHHELD
+CASE trouser-pocketDrop-min
+FACE trouser-pocketDrop-min-front WITHHELD
+FACE trouser-pocketDrop-min-back WITHHELD
+CASE trouser-pocketDrop-max
+FACE trouser-pocketDrop-max-front WITHHELD
+FACE trouser-pocketDrop-max-back WITHHELD
+CASE trouser-combined-supported
+FACE trouser-combined-supported-front WITHHELD
+FACE trouser-combined-supported-back WITHHELD
+Captured 146 Chromium-rendered front/back faces for 73 option configurations.
+{
+  "faceCount": 146,
+  "accepted": 4,
+  "withheld": 142,
+  "blockedByReason": {
+    "geometry · pattern:tee:role:sleeve:edge:capLeft: Visible FRONT_FLAT is withheld because edge “sleeve.capLeft” is unresolved: The sleeve-cap stitch locates sewn cap intervals but th": 1,
+    "geometry · pattern:tee:role:sleeve:edge:capLeft: Visible BACK_FLAT is withheld because edge “sleeve.capLeft” is unresolved: The sleeve-cap stitch locates sewn cap intervals but the": 1,
+    "geometry · pattern:fitted:role:sleeve:edge:capLeft: Visible FRONT_FLAT is withheld because edge “sleeve.capLeft” is unresolved: The sleeve-cap stitch locates sewn cap intervals but": 1,
+    "geometry · pattern:fitted:role:sleeve:edge:capLeft: Visible BACK_FLAT is withheld because edge “sleeve.capLeft” is unresolved: The sleeve-cap stitch locates sewn cap intervals but ": 1,
+    "geometry · pattern:polo:role:outerStand:edge:centerBack: Visible FRONT_FLAT is withheld because edge “outerStand.centerBack” is unresolved: The stand's exterior contour has no auth": 17,
+    "geometry · pattern:polo:role:outerStand:edge:centerBack: Visible BACK_FLAT is withheld because edge “outerStand.centerBack” is unresolved: The stand's exterior contour has no autho": 17,
+    "geometry · pattern:woven-shirt:role:front:edge:neckline: Visible FRONT_FLAT is withheld because edge “front.neckline” is unresolved: Slice 286 production Chromium showed the assemb": 28,
+    "geometry · pattern:woven-shirt:role:back:edge:centerBack: Visible BACK_FLAT is withheld because edge “back.centerBack” is unresolved: Slice 286 production Chromium found a conflict": 28,
+    "assembly · stitch:Right front fly ↔ shield: Stitch “Right front fly ↔ shield” conflicts with the solved sewn placement.": 24,
+    "assembly · stitch:Waistband (four legs ↔ separate waistband): Stitch “Waistband (four legs ↔ separate waistband)” conflicts with the solved sewn placement.": 24
+  },
+  "optionFieldCount": 32,
+  "consoleErrors": [],
+  "pageErrors": [],
+  "requestErrors": []
+}

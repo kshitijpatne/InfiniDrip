@@ -1,0 +1,30 @@
+
+> InfiniDrip@0.0.1 build
+> tsc && vite build
+
+vite v5.4.21 building for production...
+transforming...
+✓ 141 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                             0.48 kB │ gzip:   0.30 kB
+dist/assets/met-710048-DxtjRXFh.jpg       855.26 kB
+dist/assets/met-229298-BqrcZqbR.jpg     1,041.18 kB
+dist/assets/met-710711-b_MDc0JJ.jpg     1,849.50 kB
+dist/assets/cma-1930-192-Bq5VfxCJ.jpg   2,870.62 kB
+dist/assets/cma-1916-1324-DS7z6tdb.jpg  3,683.25 kB
+dist/assets/met-221948-DvT8EFC8.jpg     3,707.50 kB
+dist/assets/met-221932-Daru8XLa.jpg     4,441.76 kB
+dist/assets/met-221939-Dy0evkok.jpg     4,444.53 kB
+dist/assets/met-221951-C2w62z9w.jpg     4,872.13 kB
+dist/assets/cma-1928-269-ClYUpHcg.jpg   6,266.28 kB
+dist/assets/met-69802-eLe5n92q.jpg      6,293.65 kB
+dist/assets/cma-2009-267-CamGvCEl.jpg   6,572.08 kB
+dist/assets/index-CJh1Lj2C.css             48.28 kB │ gzip:   8.89 kB
+dist/assets/index-CEzXkFxl.js             743.28 kB │ gzip: 218.67 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 3.06s

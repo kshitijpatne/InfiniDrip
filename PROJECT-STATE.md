@@ -1,7 +1,18 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 290 Tee/Fitted sleeve source audit; V02 remains open, 2026-09-30._
+_Last updated: Slice 291 integrated V02 rendered-output review; V02 remains open, 2026-09-30._
 
+## EPIC-17 / G04 — Slice 291 complete; V02 remains open
+
+- **Start/exit:** 2026-09-30 08:13:34 UTC–08:49 UTC (35m26s). Packet: `docs/research/epic17/G04-V02-INTEGRATED-OUTPUT-REVIEW-S291.md`.
+- **Git:** began clean at S290 `4c3388218d1a7fa72b861018c3940b749fd9773d`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor; S291 uniquely reserved.
+- **Board:** revision 490 at start; S291 start packet/Epic links and start comment at 491–493; exit evidence and comment recorded through validated commands at 494–496.
+- **Output:** production build passed; fresh Chromium matrix covered all seven recipes, 73 configurations, 32 option fields and 146 faces. Tank and Skirt front/back emitted and passed geometry/layout/POM/revision checks; Tee 2, Fitted 2, Polo 34, Woven 56 and Trouser 48 faces remain visibly held. No console, page or remote-request errors. Current default PNGs, SVGs, exact options/revisions, screenshots, matrix and logs are retained in `docs/research/epic17/S291-browser/`. Fresh Tank overlay preserves local artwork and Charcoal on exact revision `live-draft:tank:1:4`; no image content or fabric response is claimed.
+- **MQF review:** MQF-004 remains uncovered until Woven buttons can be viewed; MQF-005–007 and MQF-011 are partial as scoped in the packet; MQF-012 remains unreviewable without a specific collar construction reference; MQF-015 remains for V03. Findings stay `To be reviewed`; post-G17 deferrals remain.
+- **Acceptance:** the matrix/replay, visible-hold behavior, manual output review and mapped findings were verified, but V02 fails its all-recipe/all-option output gate with 142/146 faces held. V02 remains In Progress; V03 remains Backlog. No production code, pattern/cut geometry, DXF behavior or protected export identities changed.
+- **Verification:** `npm run build` passed with only the existing Vite chunk advisory. The production browser matrix, exact-SVG default replay, Tank overlay, helper `node --check`, Control Center 33/33 and `git diff --check` passed. The first board assertion run failed 32/33 because its expected phrase omitted “faces”; the failure is preserved in `S291-browser/control-center-initial-failure.log`, the assertion was corrected, and the full suite rerun passed. No production source code changed; global repository coverage is reserved for the settled PR candidate.
+- **Elapsed time:** implementation 0m; production build 1m; 73-case/146-face Chromium run and retained rendering ~23m; SVG replay/overlay/manual review ~2m; board/docs/focused verification and commit closeout about 9m; external-agent waits 0m; maintainer-decision time 0m.
+- **Next action:** Slice 292 makes one bounded source-backed V02 mapping attempt, starting with Woven source edges/fold declarations and allowing only explicitly supported reflection, face landmarks or multiplicity. Preserve holds if construction does not uniquely determine the map; do not start V03.
 ## EPIC-17 / G04 — Slice 290 complete; V02 remains open
 
 - **Start/exit:** 2026-09-30 08:04:46–08:09:04 UTC (4m18s). Packet: `docs/research/epic17/G04-V02-TEE-FITTED-SLEEVE-SOURCE-S290.md`.
