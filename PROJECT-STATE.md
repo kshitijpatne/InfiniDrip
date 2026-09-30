@@ -1,8 +1,23 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 284 integrated rendered-output review started; V02 remains open, 2026-09-30._
+_Last updated: Slice 285 source-reference audit complete; V02 remains open, 2026-09-30._
 
-### Slice 284 — G04 V02 integrated rendered-output review (in progress)
+### Slice 285 — G04 V02 source-reference audit (complete; V02 remains open)
+
+- **Start:** 2026-09-30 06:05:18 UTC. Packet: `docs/research/epic17/G04-V02-SOURCE-REFERENCE-AUDIT-S285.md`.
+- **Git:** clean at S284 `506d0280cbea5d6157f070b0981096dc55f27954` on `codex/epic-17-g04`; fetched `origin` with prune. Refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. S284 is highest assigned; S285 is uniquely reserved.
+- **Board:** canonical revision 444 at start; packet/start evidence and comment were linked through the validated command layer at revisions 445–447. Verified S285 exit evidence was linked to G04-V02 and EPIC-17 at revisions 448–449, with exit comment at 450. The S285 source-based estimate was updated and synced through the validated command layer at revisions 451–452. Final board revision 452; EPIC-17 In Progress, V01 Done, V02 In Progress, V03 Backlog.
+- **Scope:** trace local pattern/research evidence and exact construction references for held Tee/Fitted sleeves, Polo/Woven collar splits, Woven vents, and Trouser fly/waist joins. Maintainer has authorized source-backed view metadata only; no cut geometry changes. Polo/Woven collar splits specifically require a construction reference or remain held.
+- **Gates/blockers:** document source identity and exact supported/unsupported role/face rules; no rule from appearance or generic convention; source-less faces stay visible holds. Do not begin V03 unless V02 passes. Review MQF-004–007, MQF-011/012 only as applicable and retain `To be reviewed`; MQF-015 remains for V03. No scope from findings and all post-G17 deferrals remain.
+- **Delegation:** no safe disjoint source-provenance audit; external-agent waits 0m; OpenCode not used.
+- **Result:** exact local and primary construction sources support a view-only Woven collar/stand shoulder boundary at the joined neckline segment, plus omission of the closed 0 cm Woven vent. Polo local geometry names back/front stand and collar-base segments and shoulder landmarks, but its outer collar is an authored cubic with no source-backed shoulder correspondence; keep that contour held pending an exact pattern/landmark reference. Tee/Fitted cap joins do not establish a flat surface/instance map; Trouser role and stitch identities support a bounded face-specific placement attempt but the current fly/waist cycles remain held until rendered proof. No product code or pattern/cut geometry changed.
+- **Primary references:** official Jalie 3137 instructions and Maelo BL-018 corroborate layered Polo collar/stand construction; Threads' two-piece-collar guide names CB/shoulder/CF notches; Thread Theory's Fairfield collar article specifically aligns stand notches with CB and shoulder seams; Maelo BL-020 documents set-in sleeve cap and front/back notches. Their exact claims and limits are in the packet.
+- **Acceptance/blockers:** source audit passed for mapping eligibility, not V02 output acceptance. Polo outer-collar correspondence, Tee/Fitted sleeve instances/contours, Trouser cycle placement and visual acceptance remain open. MQF-004–007, MQF-011/012 stay `To be reviewed`; MQF-015 remains for V03; post-G17 deferrals are unchanged. No V03 work begins.
+- **Focused verification:** `npm run control-center:test` passed 33/33. Two consecutive runs first exposed stale S284-only board assertions (estimate/comment, then latest V02 exit comment); the failures were preserved and diagnosed as test expectations lagging the validated S285 board updates. Updated the assertions to require the current 37–42 estimate, S285 V02 exit evidence and S285 exit comment; final run passed 33/33. `git diff --check` passed. No production source or cut geometry changed. Global coverage is not applicable to this research-only slice.
+- **Elapsed time:** start 06:05:18 UTC; exit 06:30:56 UTC; total 25m38s. Source/research review ~13m; focused Control Center verification and diagnosis ~4m; durable and validated-board closeout ~8m; external-agent waits 0m; maintainer-decision time 0m.
+- **Next action:** S286 implements only the Woven shirt's source-supported collar/stand shoulder split and zero-depth vent omission as same-revision view metadata, then exercises the complete production matrix and manually reviews new output. Polo remains visibly held pending an exact outer-contour landmark reference.
+
+### Slice 284 — G04 V02 integrated rendered-output review (complete; V02 remains open)
 
 - **Start:** 2026-09-30 05:24:03 UTC. Packet: `docs/research/epic17/G04-V02-INTEGRATED-OUTPUT-REVIEW-S284.md`.
 - **Git:** clean at S283 `337ed72640500ef490a4bb3346cb34b09ed8d80d` (`Slice 283: implement source-backed skirt face segments`) on `codex/epic-17-g04`; fetched `origin` with prune. Refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. S283 is highest assigned; S284 is unique.
@@ -15,8 +30,6 @@ _Last updated: Slice 284 integrated rendered-output review started; V02 remains 
 - **Board:** S284 packet/start evidence and start comment at revisions 438–439; verified `E-G04-S284-EXIT` linked to V02 and EPIC-17 at revisions 440–441; exit comment at 442; revised estimate through validated `editEpic` at 443 and synced the summary card through validated `editItem` at 444. Estimate is 28–33 total landed slices.
 - **Elapsed time:** matrix/rendered review and manual artifact inspection ~24m; focused Control Center/script checks ~3m; durable closeout and validated board update ~10m (workstreams overlap); external-agent waits 0m; maintainer decisions 0m. Start 05:24:03 UTC; exit time 06:02:00 UTC; total 37m57s.
 - **Next action:** S285 performs a bounded source audit for exact construction references/landmarks that might resolve the remaining V02 mappings. If no specific Polo/Woven collar reference exists, keep those faces held and ask for the source needed to proceed; do not start V03 before V02 passes.
-
-### Slice 283 — G04 V02 source-interface face segments (complete; V02 remains open)
 
 ### Slice 283 — G04 V02 source-interface face segments (complete; V02 remains open)
 

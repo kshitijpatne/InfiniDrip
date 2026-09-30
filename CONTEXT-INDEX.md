@@ -156,6 +156,12 @@ only through an explicitly admitted, linked Epic packet.
 - `docs/research/epic17/G04-V02-INTEGRATED-OUTPUT-REVIEW-S284.md` — active
   Slice 284 73-configuration/146-face rendered review, mapped MQF checkpoints,
   held-source boundaries and V02 acceptance gate.
+- `docs/research/epic17/G04-V02-SOURCE-REFERENCE-AUDIT-S285.md` — completed
+  Slice 285 source/provenance audit for the remaining held V02 roles. It
+  records the maintainer's source-backed view-metadata authorization and
+  exact primary references. Woven collar/vent metadata is eligible for a
+  bounded implementation; the Polo cubic outer-collar correspondence,
+  Tee/Fitted sleeve projection and Trouser placement remain visibly held.
 - `src/render/technical-flat-projection.ts` — versioned G04 face-projection
   metadata and exact drafted-topology validation. Interior split landmarks not
   present as source endpoints remain unsupported and explicitly held.
