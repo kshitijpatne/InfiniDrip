@@ -1,20 +1,36 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 295 Woven fold-axis view metadata; V02 remains open, 2026-09-30._
+_Last updated: Slice 296 Woven sleeve-source review; V02 remains open, 2026-09-30._
+
+## EPIC-17 / G04 — Slice 296 complete; V02 remains open
+
+- **Start/exit:** 2026-09-30 09:49:02–09:57 UTC (about 8m). Packet: `docs/research/epic17/G04-V02-WOVEN-SLEEVE-SOURCE-REVIEW-S296.md`.
+- **Git:** started clean at S295 `15b36f962f484d44bcb1b7f7046afea906c50b58`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. S296 is uniquely reserved; research-only. No production code changed.
+- **Board:** revision 520 at start; packet/start evidence linked at 521–523; exit evidence linked to G04-V02 and EPIC-17 at 524–525; exit comment at 526, all through validated commands. EPIC-17 and G04-V02 remain In Progress; G04-V03 remains Backlog.
+- **Source result:** Thread Theory's Fairfield sew-along describes attaching the sleeve to the armhole and managing cap ease in short segments, but does not identify a cap front/back break, exact cap-edge station, or view-instance transform applicable to the current authored Woven Block. The local sleeve remains quantity two with a generic midpoint notch; its two cap edges join three ordered armhole edges with aggregate ease. No unique source-to-view map results.
+- **Acceptance and remaining blockers:** retain the Woven sleeve hold and complete-face fail-closed behavior. Front-pair/placket instance/layer order and collar landmark remain unresolved; Polo collar, Tee/Fitted sleeve and Trouser placement blockers remain. V02 stays open, so V03 cannot start. The same-model source drawing/spec needed for the exact split was requested; no reply/source file is recorded yet.
+- **Verification:** research-only; Control Center passes 33/33 and `git diff --check` passes. No DXF or protected export identities changed. No production behavior or rendered output was changed.
+- **Elapsed time:** source and local topology review 2m; S295 mapped-finding review 1m; durable research/state/board closeout 3m; Control Center/diff verification 2m; implementation 0m; browser review 0m; external-agent waits 0m; maintainer-decision time 0m (source metadata decision was already recorded; source-drawing request remains pending).
+- **Next action:** continue with one independent V02 source-backed mapping gate; retain all unsupported holds and do not start V03.
+
+## EPIC-17 / G04 — Slice 295 complete; V02 remains open
+- **Non-goals:** no pattern/cut edits, guessed cap split, generic view convention, new recipe, exports, broad UI, G09/D04, G05, physical sample, supplier, spending, hosted service, V03 work, or physical/factory/readiness claim. No safe delegated task; Codex owns the source-to-current-pattern comparison.
+- **MQFs:** MQF-004–007/011/012 remain `To be reviewed` for relevant output exits; MQF-015 remains gated for V03. Findings are checks, not added scope. Preserve post-G17 deferrals.
+- **Next gate:** compare the primary Fairfield sleeve tutorial/pattern evidence directly against current Woven cap edges, notch marks, role multiplicity and sewn-interface order; either support one exact map or retain the full-face hold.
 
 ## EPIC-17 / G04 — Slice 295 complete; V02 remains open
 
 - **Goal and scope:** 2026-09-30 09:23:12 UTC start. Map only source-declared Woven back/yoke center-back folds into view metadata. Do not change cut geometry or release either complete Woven live face; retain unsupported front pair/placket, sleeve-cap, collar and assembly holds.
-- **Git:** began clean at S294 `3fb4177f47d18a0b86b2d5a29e7c1bb8bd851e14` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. S295 uniquely reserved. Commit is pending final diff review.
+- **Git:** began clean at S294 `3fb4177f47d18a0b86b2d5a29e7c1bb8bd851e14` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. S295 landed in `15b36f962f484d44bcb1b7f7046afea906c50b58` (`Slice 295: map Woven back and yoke fold axes`); it remains a local candidate and an ancestor of refreshed `origin/main`.
 - **Board:** revision 517 at S295 start; packet/start evidence linked. Revision 518 links verified S295 exit evidence to G04-V02, 519 to EPIC-17, and 520 records the exit comment through the validated Control Center command layer. G04-V02 remains In Progress; V03 remains Backlog.
 - **Implementation:** only the Woven `back`/`yoke` projection holds were removed. Exact `Piece.onFold` `centerBack` x=0 edges drive view-only fold reflection and are excluded from exterior runs; source contours remain one-sided. No pattern/cut coordinates or DXF/export code changed.
 - **Acceptance:** all 28 Woven configurations across 13 options retain exact projection accounting. The production Chromium matrix completed 56 faces: 0 emitted, 56 visibly held. Front faces report unresolved crossing/front roles; back faces report the Woven sleeve-cap assembly conflict. No partial live face is rendered.
 - **Manual review and retained evidence:** manually inspected default front/back and `buttonCount=min` front plus `sideVentDepth=min` back; all show visible guidance, no partial outline, and no misleading assembled depiction. Matrix, exact input values, error lists and screenshots are in `docs/research/epic17/S295-browser/`. Console/page/request errors: 0.
 - **Verification:** changed `technical-flat-projection.ts` has 100% statement, branch, function and line coverage (18 tests). Projection/geometry/live/flat focused suites pass 51/51. `npm run build` passes with only the existing Vite chunk advisory. Protected export identity, tech-pack surface and legacy-DXF tests pass 24/24. Control Center passes 33/33 after its latest-board-comment assertion was updated; `git diff --check` passes.
-- **Findings/holds:** mapped MQF-004–007, MQF-011 and MQF-012 remain `To be reviewed`; MQF-015 stays gated for V03. Review outcomes add no scope. Post-G17 deferrals remain. No physical fit, factory acceptance, CAD interoperability, or production-readiness claim.
+- **Findings/holds:** the S295 Woven output checkpoint records MQF-004 uncovered by the held front; MQF-005/007 not evaluable without an emitted pattern-key/annotation view; MQF-006 uncovered on these held faces; MQF-011 not newly tested by this Woven hold (S291 Tank overlay remains the relevant output evidence); MQF-012 remains under S294's unresolved collar-landmark review; MQF-015 remains for V03. The register keeps each mapped finding `To be reviewed`; no added remediation scope or change to post-G17 deferrals. No physical fit, factory acceptance, CAD interoperability, or production-readiness claim.
 - **Remaining source gates:** typed front-pair instance mapping and source-defined placket overlap/layer order; Woven sleeve-cap face split and placement; Polo/Woven exact collar landmark; Tee/Fitted sleeve contour/instances; Trouser placements; later V03 receiver/profile rights. Do not start V03 before V02 acceptance.
 - **Elapsed time:** 2026-09-30 09:23:12–09:45 UTC (about 22 minutes). Implementation 3m; focused test/coverage work and repairs 4m; build 1m; protected identity and Control Center checks 2m; production Chromium and manual screenshot review 9m; durable docs/board and final diff/commit closeout 3m; external-agent waits 0m; maintainer-decision time 0m (the view-metadata authority was already recorded).
-- **Next action:** refresh origin/branch history, inspect the complete S295 diff and verify output evidence; commit exactly one `Slice 295:` commit. Then choose one independent bounded V02 source/mapping blocker for the next uniquely numbered slice.
+- **Next action:** Slice 296 audits the Fairfield sleeve-construction reference for exact current-pattern view mapping. Retain holds where the reference does not bind to authored Woven topology; do not start V03.
 
 ## EPIC-17 / G04 — Slice 294 complete; V02 remains open
 

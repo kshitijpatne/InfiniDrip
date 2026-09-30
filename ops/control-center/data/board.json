@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 520,
-  "updatedAt": "2026-09-30T09:42:32.720Z",
+  "revision": 526,
+  "updatedAt": "2026-09-30T09:52:47.579Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -2824,7 +2824,9 @@
         "E-G04-S287-EXIT",
         "E-G04-S288-START",
         "E-G04-S288-EXIT",
-        "E-G04-S295-EXIT"
+        "E-G04-S295-EXIT",
+        "E-G04-S296-START",
+        "E-G04-S296-EXIT"
       ],
       "flagKey": null
     },
@@ -5762,6 +5764,16 @@
           "at": "2026-09-30T09:42:32.720Z",
           "actor": "Maintainer",
           "text": "Slice 295 exit: source-declared Woven back/yoke fold-axis projection mapping is covered for all 28 option configurations; Chromium confirms all 56 front/back faces remain held with visible guidance and no browser/request errors. No partial face is emitted. V02 remains In Progress; V03 stays gated."
+        },
+        {
+          "at": "2026-09-30T09:50:47.412Z",
+          "actor": "Maintainer",
+          "text": "Slice 296 started 2026-09-30 09:49:02 UTC from S295 15b36f9 on refreshed origin/main ancestor a5af5e1, with board revision 520 and unique slice 296. Scope: compare the garment-specific Fairfield sleeve source to exact current Woven cap edges, marks, instance count and ordered joins; map only an exact source-supported relation, otherwise keep both complete faces held. Packet: docs/research/epic17/G04-V02-WOVEN-SLEEVE-SOURCE-REVIEW-S296.md. V02 remains In Progress; V03 stays Backlog."
+        },
+        {
+          "at": "2026-09-30T09:52:47.579Z",
+          "actor": "Maintainer",
+          "text": "Slice 296 exit: Thread Theory’s Fairfield sleeve tutorial supports sleeve/armhole sewing and easing only; it gives no same-model front/back cap break, exact cap-edge landmark, or view-instance transform for the current Woven source. Keep the sleeve and both complete Woven faces held. V02 remains In Progress; V03 stays Backlog."
         }
       ],
       "evidenceRefs": [
@@ -5808,7 +5820,9 @@
         "E-G04-S294-START",
         "E-G04-S294-EXIT",
         "E-G04-S295-START",
-        "E-G04-S295-EXIT"
+        "E-G04-S295-EXIT",
+        "E-G04-S296-START",
+        "E-G04-S296-EXIT"
       ],
       "flagKey": null
     },
@@ -7082,6 +7096,24 @@
       "sha256": null,
       "verified": true,
       "note": "Exact source-declared Woven back/yoke center-fold view metadata is covered; production Chromium keeps all 56 Woven front/back faces held without partial output."
+    },
+    {
+      "id": "E-G04-S296-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-SLEEVE-SOURCE-REVIEW-S296.md",
+      "commit": null,
+      "sha256": null,
+      "verified": false,
+      "note": "Review the garment-specific Fairfield sleeve-construction source for exact mapping to current Woven Block topology; no generic split or partial view."
+    },
+    {
+      "id": "E-G04-S296-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-SLEEVE-SOURCE-REVIEW-S296.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "The Fairfield sleeve tutorial describes sleeve/armhole sewing and ease, but provides no exact cap split or view-instance relation for the current Woven pattern; the sleeve and complete faces remain held."
     }
   ]
 }
