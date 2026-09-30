@@ -1,0 +1,176 @@
+{
+  "generatedAt": "2026-09-30T13:09:52.518Z",
+  "scope": "accepted Tank/Skirt output only",
+  "recipes": [
+    {
+      "recipeId": "tank",
+      "assetId": "builtin-met-221932",
+      "color": "#3A4150",
+      "colorLabel": "Color Charcoal",
+      "faces": [
+        {
+          "recipeId": "tank",
+          "kind": "FRONT_FLAT",
+          "revision": "live-draft:tank:1:4",
+          "color": "#3A4150",
+          "texture": "smooth",
+          "shine": "0",
+          "artwork": [
+            {
+              "placementId": "textile-printed-with-game-birds",
+              "assetId": "builtin-met-221932",
+              "sourceId": "style:artwork:textile-printed-with-game-birds",
+              "revision": "live-draft:tank:1:4",
+              "zOrder": 0
+            }
+          ],
+          "fills": [
+            {
+              "roleSource": "pattern:tank:role:front",
+              "fill": "#3A4150",
+              "revision": "live-draft:tank:1:4"
+            },
+            {
+              "roleSource": "pattern:tank:role:front",
+              "fill": "#3A4150",
+              "revision": "live-draft:tank:1:4"
+            }
+          ],
+          "layerSequence": [
+            "GARMENT_SILHOUETTE",
+            "ARTWORK",
+            "CALLOUT"
+          ],
+          "calloutCount": 5,
+          "calloutTargetsResolved": true,
+          "entityRevisionMismatch": false,
+          "parserError": false
+        },
+        {
+          "recipeId": "tank",
+          "kind": "BACK_FLAT",
+          "revision": "live-draft:tank:1:4",
+          "color": "#3A4150",
+          "texture": "smooth",
+          "shine": "0",
+          "artwork": [],
+          "fills": [
+            {
+              "roleSource": "pattern:tank:role:back",
+              "fill": "#3A4150",
+              "revision": "live-draft:tank:1:4"
+            },
+            {
+              "roleSource": "pattern:tank:role:back",
+              "fill": "#3A4150",
+              "revision": "live-draft:tank:1:4"
+            }
+          ],
+          "layerSequence": [
+            "GARMENT_SILHOUETTE"
+          ],
+          "calloutCount": 0,
+          "calloutTargetsResolved": false,
+          "entityRevisionMismatch": false,
+          "parserError": false
+        }
+      ],
+      "requestErrors": []
+    },
+    {
+      "recipeId": "skirt",
+      "assetId": "builtin-met-221932",
+      "color": "#3A4150",
+      "colorLabel": "Color Charcoal",
+      "faces": [
+        {
+          "recipeId": "skirt",
+          "kind": "FRONT_FLAT",
+          "revision": "live-draft:skirt:1:4",
+          "color": "#3A4150",
+          "texture": "smooth",
+          "shine": "0",
+          "artwork": [
+            {
+              "placementId": "textile-printed-with-game-birds",
+              "assetId": "builtin-met-221932",
+              "sourceId": "style:artwork:textile-printed-with-game-birds",
+              "revision": "live-draft:skirt:1:4",
+              "zOrder": 0
+            }
+          ],
+          "fills": [
+            {
+              "roleSource": "pattern:skirt:role:front",
+              "fill": "#3A4150",
+              "revision": "live-draft:skirt:1:4"
+            },
+            {
+              "roleSource": "pattern:skirt:role:front",
+              "fill": "#3A4150",
+              "revision": "live-draft:skirt:1:4"
+            },
+            {
+              "roleSource": "pattern:skirt:role:waistband",
+              "fill": "#3A4150",
+              "revision": "live-draft:skirt:1:4"
+            },
+            {
+              "roleSource": "pattern:skirt:role:waistband",
+              "fill": "#3A4150",
+              "revision": "live-draft:skirt:1:4"
+            }
+          ],
+          "layerSequence": [
+            "GARMENT_SILHOUETTE",
+            "ARTWORK",
+            "CALLOUT"
+          ],
+          "calloutCount": 2,
+          "calloutTargetsResolved": true,
+          "entityRevisionMismatch": false,
+          "parserError": false
+        },
+        {
+          "recipeId": "skirt",
+          "kind": "BACK_FLAT",
+          "revision": "live-draft:skirt:1:4",
+          "color": "#3A4150",
+          "texture": "smooth",
+          "shine": "0",
+          "artwork": [],
+          "fills": [
+            {
+              "roleSource": "pattern:skirt:role:back",
+              "fill": "#3A4150",
+              "revision": "live-draft:skirt:1:4"
+            },
+            {
+              "roleSource": "pattern:skirt:role:back",
+              "fill": "#3A4150",
+              "revision": "live-draft:skirt:1:4"
+            },
+            {
+              "roleSource": "pattern:skirt:role:waistband",
+              "fill": "#3A4150",
+              "revision": "live-draft:skirt:1:4"
+            },
+            {
+              "roleSource": "pattern:skirt:role:waistband",
+              "fill": "#3A4150",
+              "revision": "live-draft:skirt:1:4"
+            }
+          ],
+          "layerSequence": [
+            "GARMENT_SILHOUETTE"
+          ],
+          "calloutCount": 0,
+          "calloutTargetsResolved": false,
+          "entityRevisionMismatch": false,
+          "parserError": false
+        }
+      ],
+      "requestErrors": []
+    }
+  ]
+}

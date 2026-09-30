@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 581,
-  "updatedAt": "2026-09-30T12:56:25.635Z",
+  "revision": 589,
+  "updatedAt": "2026-09-30T13:11:26.791Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -193,7 +193,9 @@
         "E-G04-S302-START",
         "E-G04-S302-EXIT",
         "E-G04-S303-START",
-        "E-G04-S303-EXIT"
+        "E-G04-S303-EXIT",
+        "E-G04-S304-START",
+        "E-G04-S304-EXIT"
       ]
     },
     {
@@ -2859,7 +2861,9 @@
         "E-G04-S302-START",
         "E-G04-S302-EXIT",
         "E-G04-S303-START",
-        "E-G04-S303-EXIT"
+        "E-G04-S303-EXIT",
+        "E-G04-S304-START",
+        "E-G04-S304-EXIT"
       ],
       "flagKey": null
     },
@@ -5877,6 +5881,16 @@
           "at": "2026-09-30T12:56:25.635Z",
           "actor": "Codex",
           "text": "Slice 303 exit: inventory maps 142 held faces to the missing source facts/artifacts by recipe family. Woven closure remains held per maintainer instruction; no other hold is treated as accepted. Evidence: docs/research/epic17/G04-V02-SOURCE-DEPENDENCY-INVENTORY-S303.md. V02 remains In Progress; V03 remains Backlog."
+        },
+        {
+          "at": "2026-09-30T13:05:15.669Z",
+          "actor": "Maintainer",
+          "text": "Slice 304 started 2026-09-30 13:02:44 UTC from clean 86af28b396059a64b145dd118ed4a1863586084c. Reviewing same-revision local artwork/colorway overlays on the four currently accepted Tank/Skirt faces; held recipe/source gaps and Woven closure remain held. Packet: docs/research/epic17/G04-V02-ACCEPTED-FACE-OVERLAYS-S304.md."
+        },
+        {
+          "at": "2026-09-30T13:11:26.791Z",
+          "actor": "Maintainer",
+          "text": "Slice 304 exit: local artwork and colorway overlays passed the actual-browser replay on accepted Tank/Skirt front/back faces. All outputs share per-recipe draft revisions; front artwork is face-targeted, colorway reaches both silhouettes, front POM leaders target emitted geometry, SVGs parse, and there were no remote requests. Manual screenshots show the placement boundary within each front body and no obscured contour. Evidence: docs/research/epic17/G04-V02-ACCEPTED-FACE-OVERLAYS-S304.md and docs/research/epic17/S304-browser/. The initial verifier incorrectly required back-face POM callouts; source mapping and capture confirmed POM callouts are front-only, then verifier was corrected and all four faces passed. V02 remains In Progress; V03 remains Backlog."
         }
       ],
       "evidenceRefs": [
@@ -5939,7 +5953,9 @@
         "E-G04-S302-START",
         "E-G04-S302-EXIT",
         "E-G04-S303-START",
-        "E-G04-S303-EXIT"
+        "E-G04-S303-EXIT",
+        "E-G04-S304-START",
+        "E-G04-S304-EXIT"
       ],
       "flagKey": null
     },
@@ -7357,6 +7373,24 @@
       "sha256": null,
       "verified": true,
       "note": "The 142 held V02 face requests are mapped by recipe family to the exact missing source fact and minimum artifact; user-confirmed Woven placket hold remains. This documentation-only slice changes no output, scope or acceptance."
+    },
+    {
+      "id": "E-G04-S304-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-ACCEPTED-FACE-OVERLAYS-S304.md",
+      "commit": null,
+      "sha256": null,
+      "verified": false,
+      "note": "Slice 304 start packet and rendered-overlay review boundary."
+    },
+    {
+      "id": "E-G04-S304-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-ACCEPTED-FACE-OVERLAYS-S304.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Four accepted Tank/Skirt faces replayed in production Chromium with revision-bound local overlays and retained output."
     }
   ]
 }

@@ -1,8 +1,14 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 303 source-dependency inventory complete; V02 remains open, 2026-09-30._
+_Last updated: Slice 304 accepted-face overlay review complete; V02 remains open, 2026-09-30._
 
-## EPIC-17 / G04 current handoff — S303 complete; V02 remains open
+## EPIC-17 / G04 current handoff — S304 complete; V02 remains open
+
+- S304 started at 2026-09-30 13:02:44 UTC from clean S303 `86af28b396059a64b145dd118ed4a1863586084c` (`Slice 303: map remaining V02 source dependencies`). Refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor; S304 is uniquely assigned. Start evidence/comment linked at board revisions 582–585.
+- S304 verifies the existing local artwork/colorway path on the four accepted Tank/Skirt faces only. Production Chromium confirms one draft revision per recipe across front/back, front-only local artwork, both-face Charcoal silhouette overlays, parseable SVG and five Tank/two Skirt front POM leaders targeting emitted geometry. Back faces intentionally have no POM callouts under the current front-only POM mapping. Manual review finds no overlay boundary obscuring contour or leader. Packet/output: `docs/research/epic17/G04-V02-ACCEPTED-FACE-OVERLAYS-S304.md` and `docs/research/epic17/S304-browser/`.
+- S304 elapsed 10m31s (13:02:44–13:13:15 UTC): contract/harness review 2m; verifier creation/diagnosis 3m; production build 14s; Chromium replay 1m; screenshot review 1m; focused Control Center/diff verification and stale latest-comment assertion repair 2m; documentation/board closeout 1m30s; production implementation 0m; external-agent waits 0m; maintainer-decision time 0m. `npm run build` passes with existing chunk advisory and Control Center passes 33/33. The first verifier assertion incorrectly required back-face POM leaders; source mapping confirmed front-only POMs and 4/4 faces then passed. No product code or export behavior changed.
+- Exit evidence/comment linked to G04-V02 and EPIC-17 at board revisions 586–589; final board revision 589. EPIC-17/G04-V02 remain In Progress, V01 Done and V03 Backlog. This scoped overlay evidence does not close MQF-011 or unblock any of 142 held faces.
+- **Next gate:** process any pattern-specific artifacts supplied by the maintainer into a bounded V02 source-map packet. Keep the Woven placket and other unsupported faces held; do not start V03 until every supported face/option passes.
 
 - S303 started at 2026-09-30 12:53:36 UTC from clean S302 `140a1091918c964b6011c24cc238bc5b525155b3`, subject `Slice 302: reconcile G04 estimate and sequence`. Refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor; S303 is uniquely assigned. Its evidence and start comment were linked at board revisions 574–577.
 - S303 `map remaining V02 source dependencies` inventories 142 held faces by Tee/Fitted sleeve, Polo collar/stand, Woven assembly roles and Trouser placement. No new construction artifact was present, no missing geometry was inferred and no production code/output changed. Packet: `docs/research/epic17/G04-V02-SOURCE-DEPENDENCY-INVENTORY-S303.md`.
