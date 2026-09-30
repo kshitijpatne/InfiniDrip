@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 620,
-  "updatedAt": "2026-09-30T15:32:56.789Z",
+  "revision": 632,
+  "updatedAt": "2026-09-30T15:57:20.334Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -155,7 +155,7 @@
       "title": "EPIC-17: G04 — Professional flats and CAD interchange",
       "status": "In Progress",
       "owner": "Codex",
-      "description": "EPIC-17 admitted by maintainer. Current conditional estimate: 57–71 landed slices total; 10–24 remain from verified S307 (about 2–9 V02, 5–10 V03 only after V02 passes, and 3–5 integrated review/merge/deployment). Current all-recipe output: 28/146 faces accepted; 118 held. Source waits are unpriced and may block V02 passage. V01 Done; V02 In Progress; V03 Backlog. See docs/planning/EPIC-17-ADMISSION.md.",
+      "description": "EPIC-17 admitted by maintainer. Current conditional estimate: 57–71 landed slices total; 9–23 remain from verified S308 (about 1–8 V02, 5–10 V03 only after V02 passes, and 3–5 integrated review/merge/deployment). Current all-recipe output: 28/146 faces accepted; 118 held. Source waits are unpriced and may block V02 passage. V01 Done; V02 In Progress; V03 Backlog. See docs/planning/EPIC-17-ADMISSION.md.",
       "evidenceRefs": [
         "E-G04-S271-EXIT",
         "E-G04-S273-EXIT",
@@ -201,7 +201,9 @@
         "E-G04-S306-START",
         "E-G04-S306-EXIT",
         "E-G04-S307-EXIT",
-        "E-G04-S307-RENDERED"
+        "E-G04-S307-RENDERED",
+        "E-G04-S308-START",
+        "E-G04-S308-EXIT"
       ]
     },
     {
@@ -2730,7 +2732,7 @@
         "100% coverage",
         "maintainer gates"
       ],
-      "description": "G04 source-to-view technical flats and industrial CAD interchange. Verified current output: 28/146 faces accepted, 118 held. Conditional estimate: 57–71 landed slices total, with 10–24 remaining from S307; source waits are unpriced. V01 Done, V02 In Progress, V03 Backlog. Scope and exit gates: docs/planning/EPIC-17-ADMISSION.md.",
+      "description": "G04 source-to-view technical flats and industrial CAD interchange. Verified current output: 28/146 faces accepted, 118 held. Conditional estimate: 57–71 landed slices total, with 9–23 remaining from S308; source waits are unpriced. V01 Done, V02 In Progress, V03 Backlog. Scope and exit gates: docs/planning/EPIC-17-ADMISSION.md.",
       "expectation": "Front/back technical flats for every supported recipe/variant and proven CAD interchange. Pattern-linked side/oblique views are explicitly owned by G09/D04, so the complete view set is accepted only there.",
       "acceptanceCriteria": [
         "Complete every G04 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
@@ -2858,6 +2860,21 @@
           "at": "2026-09-30T15:31:23.856Z",
           "actor": "Codex",
           "text": "Re-estimate from verified S307 boundary: 28/146 faces are accepted, 118 remain held; 10–24 conditional slices remain, with unavailable source waits unpriced. Woven closure stays held for absent source evidence; G04 statuses remain V01 Done, V02 In Progress, V03 Backlog."
+        },
+        {
+          "at": "2026-09-30T15:48:51.031Z",
+          "actor": "Codex",
+          "text": "Slice 308 started 2026-09-30 15:44:39 UTC from clean S307 54dc71b. Bounded source review of the Trouser front center join and fly/shield attachment; map or hold without overlap inference or pattern edits. Packet: docs/research/epic17/G04-V02-TROUSER-FRONT-CENTER-JOIN-S308.md."
+        },
+        {
+          "at": "2026-09-30T15:57:17.840Z",
+          "actor": "Maintainer",
+          "text": "Updated Epic metadata (description: EPIC-17 admitted by maintainer. Current conditional estimate: 57–71 landed slices total; 9–23 remain from verified S308 (about 1–8 V02, 5–10 V03 only after V02 passes, and 3–5 integrated review/merge/deployment). Current all-recipe output: 28/146 faces accepted; 118 held. Source waits are unpriced and may block V02 passage. V01 Done; V02 In Progress; V03 Backlog. See docs/planning/EPIC-17-ADMISSION.md.). Re-estimate from verified S308 source result: the all-recipe output tally remains 28/146 accepted and 118 held. One bounded V02 source-review slice landed without changing output; 9-23 conditional slices remain from S308 (about 1-8 V02, 5-10 V03 after V02, and 3-5 integrated review/merge/deployment). No source waits are priced."
+        },
+        {
+          "at": "2026-09-30T15:57:20.334Z",
+          "actor": "Codex",
+          "text": "Re-estimate from verified S308 boundary: output remains 28/146 accepted and 118 held; 9–23 conditional slices remain (1–8 V02, 5–10 V03 after V02, 3–5 integrated review/merge/deployment). No external source wait is priced; do not infer the Trouser fly view."
         }
       ],
       "evidenceRefs": [
@@ -2890,7 +2907,9 @@
         "E-G04-S306-START",
         "E-G04-S307-START",
         "E-G04-S307-EXIT",
-        "E-G04-S307-RENDERED"
+        "E-G04-S307-RENDERED",
+        "E-G04-S308-START",
+        "E-G04-S308-EXIT"
       ],
       "flagKey": null
     },
@@ -5953,6 +5972,16 @@
           "at": "2026-09-30T15:31:20.632Z",
           "actor": "Codex",
           "text": "Slice 307 exit: exact waistband fragments compile to revision-bound paths with source IDs and composed back-panel transforms. All 24 Trouser back views pass; all 24 front views remain completely held at view:trouser:waistband:center-front. Fresh production output has no parse, revision, collision, browser, page or request errors. Focused changed-module coverage is 100%, renderer/export suites 127/127, build and protected exports pass. V02 remains In Progress; V03 remains Backlog. Evidence: S307 packet and S307-trouser-browser/."
+        },
+        {
+          "at": "2026-09-30T15:48:50.080Z",
+          "actor": "Codex",
+          "text": "Start Slice 308 from clean S307 54dc71b; refreshed origin/main a5af5e13 remains an ancestor. Prove the exact front waistband/fly-shield topology or retain a complete hold; do not infer overlap or alter pattern geometry. See the S308 packet."
+        },
+        {
+          "at": "2026-09-30T15:57:16.742Z",
+          "actor": "Codex",
+          "text": "Slice 308 exit: the exact source graph places frontLeft at 0 degrees and frontRight at 180 degrees to align both authored fly marks with the shield; the right panel is upside down, and the source does not declare an alternate traversal/view orientation or overlap order. The S307 center-front waistband fragment join also fails, so all 24 front views remain completely held. No source-backed correction or pattern change is supported. V02 remains In Progress; V03 remains Backlog. Evidence: S308 packet."
         }
       ],
       "evidenceRefs": [
@@ -6024,7 +6053,9 @@
         "E-G04-S306-EXIT",
         "E-G04-S307-START",
         "E-G04-S307-EXIT",
-        "E-G04-S307-RENDERED"
+        "E-G04-S307-RENDERED",
+        "E-G04-S308-START",
+        "E-G04-S308-EXIT"
       ],
       "flagKey": null
     },
@@ -7523,6 +7554,24 @@
       "sha256": null,
       "verified": true,
       "note": "Fresh production Chromium matrix: 24 Trouser back SVGs accepted, 24 front faces held, with zero parser/revision/label/browser/page/network failures; reviewed PNG/SVG captures and stale-build diagnostic are retained beside the matrix."
+    },
+    {
+      "id": "E-G04-S308-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-TROUSER-FRONT-CENTER-JOIN-S308.md",
+      "commit": null,
+      "sha256": null,
+      "verified": false,
+      "note": "Bounded source-backed Trouser front center-join and fly-shield map-or-hold packet; no overlap inference or pattern changes."
+    },
+    {
+      "id": "E-G04-S308-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-TROUSER-FRONT-CENTER-JOIN-S308.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S308 re-evaluates the exact front waistband and fly/shield topology across default and all option endpoints. The assembly rotates frontRight 180 degrees and the exact front band join remains unresolved; the complete view is held. No construction-supported view correction exists in current source."
     }
   ]
 }
