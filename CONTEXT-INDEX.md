@@ -166,6 +166,11 @@ only through an explicitly admitted, linked Epic packet.
 - `docs/research/epic17/S317-trouser-option-overlay/` — S317's five-case
   production replay, option matrix, retained SVG/screenshots and raster manual
   review, including the visible-colorway blocker.
+- `docs/research/epic17/G04-V02-CLOSED-COLORWAY-CONTOURS-S318.md` — S318's
+  exact-closure colorway fill contract, fail-closed behavior and verification
+  gates.
+- `docs/research/epic17/S318-colorway-browser/` — S318's fresh live-UI SVGs,
+  production raster comparisons, replay matrices and manual review.
 - `docs/research/epic17/G04-V02-PROJECTION-MAPPING-S277.md` — Slice 277's
   current projection-mapping contract boundary, source-reference rules,
   fail-closed semantics, and focused acceptance gates.

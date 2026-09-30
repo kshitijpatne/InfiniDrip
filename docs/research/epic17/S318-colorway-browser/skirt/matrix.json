@@ -1,0 +1,252 @@
+{
+  "generatedAt": "2026-09-30T22:32:12.555Z",
+  "browser": "Playwright Chromium production preview through the live app UI",
+  "url": "http://127.0.0.1:4175/",
+  "viewport": {
+    "width": 1440,
+    "height": 2600
+  },
+  "cases": [
+    {
+      "caseId": "skirt-default",
+      "measurements": {
+        "waist": 84,
+        "hip": 100,
+        "hipDepth": 20,
+        "length": 70,
+        "ease": 10
+      },
+      "faces": [
+        {
+          "kind": "FRONT_FLAT",
+          "revisionId": "live-draft:skirt:1:1",
+          "callouts": [
+            {
+              "sourceId": "pom:skirt:hip-finished",
+              "target": "flat:skirt:FRONT_FLAT:component:front:outline",
+              "revisionId": "live-draft:skirt:1:1",
+              "marker": {
+                "x": 27.5,
+                "y": 20
+              },
+              "targetHasMarkerVertex": true,
+              "leader": "M27.5 20 L31.5386 19.4429"
+            },
+            {
+              "sourceId": "pom:skirt:waist-finished",
+              "target": "flat:skirt:FRONT_FLAT:component:front:outline",
+              "revisionId": "live-draft:skirt:1:1",
+              "marker": {
+                "x": 23.5,
+                "y": 0
+              },
+              "targetHasMarkerVertex": true,
+              "leader": "M23.5 0 L24.8927 -0.5571"
+            }
+          ],
+          "labels": [
+            {
+              "sourceId": "pom:skirt:waist-finished",
+              "revisionId": "live-draft:skirt:1:1",
+              "text": "Waist (finished): 94.0 cm (±1.0 cm)",
+              "bounds": {
+                "x": 22.358198165893555,
+                "y": -0.8693991899490356,
+                "width": 5.024871826171875,
+                "height": 0.3747590184211731
+              }
+            },
+            {
+              "sourceId": "pom:skirt:hip-finished",
+              "revisionId": "live-draft:skirt:1:1",
+              "text": "Hip (finished): 110.0 cm (±1.3 cm)",
+              "bounds": {
+                "x": 29.14316749572754,
+                "y": 19.13060188293457,
+                "width": 4.808763027191162,
+                "height": 0.3747590184211731
+              }
+            }
+          ],
+          "labelsInsidePaper": true,
+          "labelsDoNotOverlap": true
+        },
+        {
+          "kind": "BACK_FLAT",
+          "revisionId": "live-draft:skirt:1:1",
+          "callouts": [
+            {
+              "sourceId": "pom:skirt:hip-finished",
+              "target": "flat:skirt:BACK_FLAT:component:back:outline",
+              "revisionId": "live-draft:skirt:1:1",
+              "marker": {
+                "x": 27.5,
+                "y": 20
+              },
+              "targetHasMarkerVertex": true,
+              "leader": "M27.5 20 L31.5386 19.4429"
+            },
+            {
+              "sourceId": "pom:skirt:waist-finished",
+              "target": "flat:skirt:BACK_FLAT:component:back:outline",
+              "revisionId": "live-draft:skirt:1:1",
+              "marker": {
+                "x": 23.5,
+                "y": 0
+              },
+              "targetHasMarkerVertex": true,
+              "leader": "M23.5 0 L27.6155 -0.5571"
+            }
+          ],
+          "labels": [
+            {
+              "sourceId": "pom:skirt:waist-finished",
+              "revisionId": "live-draft:skirt:1:1",
+              "text": "Waist (finished): 94.0 cm (±1.0 cm)",
+              "bounds": {
+                "x": 25.08099937438965,
+                "y": -0.8693991899490356,
+                "width": 5.024871826171875,
+                "height": 0.3747590184211731
+              }
+            },
+            {
+              "sourceId": "pom:skirt:hip-finished",
+              "revisionId": "live-draft:skirt:1:1",
+              "text": "Hip (finished): 110.0 cm (±1.3 cm)",
+              "bounds": {
+                "x": 29.14316749572754,
+                "y": 19.13060188293457,
+                "width": 4.808763027191162,
+                "height": 0.3747590184211731
+              }
+            }
+          ],
+          "labelsInsidePaper": true,
+          "labelsDoNotOverlap": true
+        }
+      ]
+    },
+    {
+      "caseId": "skirt-measurement-variant",
+      "measurements": {
+        "waist": 92,
+        "hip": 112,
+        "hipDepth": 22,
+        "length": 88,
+        "ease": 10
+      },
+      "faces": [
+        {
+          "kind": "FRONT_FLAT",
+          "revisionId": "live-draft:skirt:5:5",
+          "callouts": [
+            {
+              "sourceId": "pom:skirt:hip-finished",
+              "target": "flat:skirt:FRONT_FLAT:component:front:outline",
+              "revisionId": "live-draft:skirt:5:5",
+              "marker": {
+                "x": 30.5,
+                "y": 22
+              },
+              "targetHasMarkerVertex": true,
+              "leader": "M30.5 22 L34.5504 21.4429"
+            },
+            {
+              "sourceId": "pom:skirt:waist-finished",
+              "target": "flat:skirt:FRONT_FLAT:component:front:outline",
+              "revisionId": "live-draft:skirt:5:5",
+              "marker": {
+                "x": 25.5,
+                "y": 0
+              },
+              "targetHasMarkerVertex": true,
+              "leader": "M25.5 0 L26.8927 -0.5571"
+            }
+          ],
+          "labels": [
+            {
+              "sourceId": "pom:skirt:waist-finished",
+              "revisionId": "live-draft:skirt:5:5",
+              "text": "Waist (finished): 102.0 cm (±1.0 cm)",
+              "bounds": {
+                "x": 24.263525009155273,
+                "y": -0.8309837579727173,
+                "width": 5.220219612121582,
+                "height": 0.3423547148704529
+              }
+            },
+            {
+              "sourceId": "pom:skirt:hip-finished",
+              "revisionId": "live-draft:skirt:5:5",
+              "text": "Hip (finished): 122.0 cm (±1.3 cm)",
+              "bounds": {
+                "x": 32.143218994140625,
+                "y": 21.169017791748047,
+                "width": 4.844013690948486,
+                "height": 0.3423547148704529
+              }
+            }
+          ],
+          "labelsInsidePaper": true,
+          "labelsDoNotOverlap": true
+        },
+        {
+          "kind": "BACK_FLAT",
+          "revisionId": "live-draft:skirt:5:5",
+          "callouts": [
+            {
+              "sourceId": "pom:skirt:hip-finished",
+              "target": "flat:skirt:BACK_FLAT:component:back:outline",
+              "revisionId": "live-draft:skirt:5:5",
+              "marker": {
+                "x": 30.5,
+                "y": 22
+              },
+              "targetHasMarkerVertex": true,
+              "leader": "M30.5 22 L34.5504 21.4429"
+            },
+            {
+              "sourceId": "pom:skirt:waist-finished",
+              "target": "flat:skirt:BACK_FLAT:component:back:outline",
+              "revisionId": "live-draft:skirt:5:5",
+              "marker": {
+                "x": 25.5,
+                "y": 0
+              },
+              "targetHasMarkerVertex": true,
+              "leader": "M25.5 0 L29.7044 -0.5571"
+            }
+          ],
+          "labels": [
+            {
+              "sourceId": "pom:skirt:waist-finished",
+              "revisionId": "live-draft:skirt:5:5",
+              "text": "Waist (finished): 102.0 cm (±1.0 cm)",
+              "bounds": {
+                "x": 27.076030731201172,
+                "y": -0.8308995962142944,
+                "width": 5.2186150550842285,
+                "height": 0.34224945306777954
+              }
+            },
+            {
+              "sourceId": "pom:skirt:hip-finished",
+              "revisionId": "live-draft:skirt:5:5",
+              "text": "Hip (finished): 122.0 cm (±1.3 cm)",
+              "bounds": {
+                "x": 32.143959045410156,
+                "y": 21.169099807739258,
+                "width": 4.842525005340576,
+                "height": 0.34224945306777954
+              }
+            }
+          ],
+          "labelsInsidePaper": true,
+          "labelsDoNotOverlap": true
+        }
+      ]
+    }
+  ],
+  "browserErrors": []
+}

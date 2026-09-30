@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 749,
-  "updatedAt": "2026-09-30T21:27:20.175Z",
+  "revision": 759,
+  "updatedAt": "2026-09-30T22:41:23.864Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -221,7 +221,9 @@
         "E-G04-S316-START",
         "E-G04-S316-EXIT",
         "E-G04-S317-START",
-        "E-G04-S317-EXIT"
+        "E-G04-S317-EXIT",
+        "E-G04-S318-START",
+        "E-G04-S318-EXIT"
       ]
     },
     {
@@ -3043,6 +3045,16 @@
           "at": "2026-09-30T21:27:20.175Z",
           "actor": "Codex",
           "text": "Slice 317 verified output: five documented Trouser configurations retain accepted backs, complete front holds, source-contained artwork boundaries, exact-revision POMs and zero browser errors. raster shows no visible colorway fill at any sampled placement center (0 RGB difference from paper), so the colorway output gate fails despite same-revision metadata. The face assembly tally remains 28/146 accepted, 118 held. V02 remains In Progress; V03 remains Backlog. S318 is reserved for a bounded contour fill fix."
+        },
+        {
+          "at": "2026-09-30T21:34:11.643Z",
+          "actor": "Codex",
+          "text": "Start Slice 318 from clean S317 928e0af6e4d0761e31bbb8c912873a61f8da6680; refreshed origin/main a5af5e13 is an ancestor. Packet: docs/research/epic17/G04-V02-CLOSED-COLORWAY-CONTOURS-S318.md. Fix visible colorway area fill only where ordered authored role edges exactly join and close; preserve independent edge strokes and return a full-face hold for unsupported contours. Verify focused 100% coverage, build/protected exports, production raster output and manual review. Preserve the 28/146 assembly tally and keep V03 gated."
+        },
+        {
+          "at": "2026-09-30T22:41:23.864Z",
+          "actor": "Codex",
+          "text": "Slice 318 exit: source-backed colorway areas are visibly rasterized at one 16% tint across 13 SVGs and 27 fills; focused renderer coverage is 100%, build/Electron and protected DXF/export identities pass. All unsupported faces remain held; V02 remains In Progress; V03 remains Backlog. See docs/research/epic17/G04-V02-CLOSED-COLORWAY-CONTOURS-S318.md and S318-colorway-browser/manual-review.md."
         }
       ],
       "evidenceRefs": [
@@ -3095,7 +3107,9 @@
         "E-G04-S316-START",
         "E-G04-S316-EXIT",
         "E-G04-S317-START",
-        "E-G04-S317-EXIT"
+        "E-G04-S317-EXIT",
+        "E-G04-S318-START",
+        "E-G04-S318-EXIT"
       ],
       "flagKey": null
     },
@@ -6268,6 +6282,16 @@
           "at": "2026-09-30T21:27:19.602Z",
           "actor": "Codex",
           "text": "Slice 317 verified output: five documented Trouser configurations retain accepted backs, complete front holds, source-contained artwork boundaries, exact-revision POMs and zero browser errors. raster shows no visible colorway fill at any sampled placement center (0 RGB difference from paper), so the colorway output gate fails despite same-revision metadata. The face assembly tally remains 28/146 accepted, 118 held. V02 remains In Progress; V03 remains Backlog. S318 is reserved for a bounded contour fill fix."
+        },
+        {
+          "at": "2026-09-30T21:34:11.481Z",
+          "actor": "Codex",
+          "text": "Start Slice 318 from clean S317 928e0af6e4d0761e31bbb8c912873a61f8da6680; refreshed origin/main a5af5e13 is an ancestor. Packet: docs/research/epic17/G04-V02-CLOSED-COLORWAY-CONTOURS-S318.md. Fix visible colorway area fill only where ordered authored role edges exactly join and close; preserve independent edge strokes and return a full-face hold for unsupported contours. Verify focused 100% coverage, build/protected exports, production raster output and manual review. Preserve the 28/146 assembly tally and keep V03 gated."
+        },
+        {
+          "at": "2026-09-30T22:41:23.529Z",
+          "actor": "Codex",
+          "text": "Slice 318 exit: source-backed colorway areas are visibly rasterized at one 16% tint across 13 SVGs and 27 fills; focused renderer coverage is 100%, build/Electron and protected DXF/export identities pass. All unsupported faces remain held; V02 remains In Progress; V03 remains Backlog. See docs/research/epic17/G04-V02-CLOSED-COLORWAY-CONTOURS-S318.md and S318-colorway-browser/manual-review.md."
         }
       ],
       "evidenceRefs": [
@@ -6359,7 +6383,9 @@
         "E-G04-S316-START",
         "E-G04-S316-EXIT",
         "E-G04-S317-START",
-        "E-G04-S317-EXIT"
+        "E-G04-S317-EXIT",
+        "E-G04-S318-START",
+        "E-G04-S318-EXIT"
       ],
       "flagKey": null
     },
@@ -8038,6 +8064,24 @@
       "sha256": null,
       "verified": true,
       "note": "Production Chromium verifies default plus exact waistbandDepth 2/8 cm and legOpening 25/65 cm: five accepted backs, five complete front holds, exact closed eleven-edge backLeft loops with 605/605 placement samples inside, same-revision artwork/color metadata and two POMs, parsed SVGs, no text overlap and zero browser/page/request errors. Raster center is white equal to paper in every case (RGB delta 0); visible colorway area fill gate fails. Face assembly tally remains 28/146 accepted and 118 held. No production source changed."
+    },
+    {
+      "id": "E-G04-S318-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-CLOSED-COLORWAY-CONTOURS-S318.md",
+      "commit": null,
+      "sha256": null,
+      "verified": false,
+      "note": "S318 start packet: fix absent visible colorway fill on accepted flats by rendering an area path only after exact authored endpoint adjacency and closure. Preserve separate source strokes; fail the complete face closed with an actionable issue when a targeted contour is absent or unclosed. No pattern/cut change or V02/V03 status change."
+    },
+    {
+      "id": "E-G04-S318-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-CLOSED-COLORWAY-CONTOURS-S318.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Verified source-backed exact-contour colorway implementation and production raster/manual evidence in docs/research/epic17/S318-colorway-browser/; 13 SVGs, 27 visible same-revision fills, held-face status preserved, and all S318 gates passed."
     }
   ]
 }

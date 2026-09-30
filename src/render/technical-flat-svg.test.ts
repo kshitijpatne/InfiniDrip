@@ -35,6 +35,7 @@ describe("renderTechnicalFlatSvg", () => {
   it("emits parseable, ordered, revision-bound geometry, labels, colorway and visible wrapped notices", () => {
     const primitives: TechnicalFlatPrimitive[] = [
       { ...outline, kind: "path", layer: "GARMENT_SILHOUETTE" },
+      { ...outline, id: "unmapped-outline", source: { ...source, sourceId: "pattern:tee:unmapped" } },
       { kind: "path", id: "mark-line", layer: "CONSTRUCTION", feature: "pocket", source,
         commands: [{ op: "move", point: { x: 3, y: 3 } }, { op: "line", point: { x: 8, y: 3 } }],
         patternMark: { kind: "placementLine", name: "pocket placement", label: "Pocket position" } },
@@ -72,10 +73,19 @@ describe("renderTechnicalFlatSvg", () => {
     expect(svg.getAttribute("data-colorway-revision")).toBe(revisionId);
     expect(Number(svg.getAttribute("viewBox")!.split(" ")[2])).toBeGreaterThan(30);
     expect(svg.querySelector("[data-technical-flat-paper]")?.getAttribute("fill")).toBe("#fff");
+    const silhouette = svg.querySelector("g[data-layer-group='GARMENT_SILHOUETTE']");
+    const colorwayAreaGroup = silhouette?.firstElementChild;
+    expect(colorwayAreaGroup?.getAttribute("data-colorway-area-group")).toBe("fabric");
+    expect(colorwayAreaGroup?.getAttribute("opacity")).toBe("0.16");
     expect([...svg.querySelectorAll("g[data-layer-group]")].map((group) => group.getAttribute("data-layer-group")))
       .toEqual(["GARMENT_SILHOUETTE", "ARTWORK", "SEAM", "CONSTRUCTION", "DART", "PLEAT", "CLOSURE", "TOPSTITCH", "CALLOUT", "ANNOTATION", "TEXT_LABELS", "SOURCE_NOTICES"]);
-    expect(svg.querySelector('[data-entity-id="outline"]')?.getAttribute("fill")).toBe("#3669a4");
-    expect(svg.querySelector('[data-entity-id="outline"]')?.getAttribute("fill-opacity")).toBe("0.16");
+    const fill = svg.querySelector('[data-colorway-fill-for="outline"]');
+    expect(fill?.getAttribute("fill")).toBe("#3669a4");
+    expect(fill?.parentElement).toBe(colorwayAreaGroup);
+    expect(fill?.getAttribute("fill-opacity")).toBeNull();
+    expect(fill?.getAttribute("stroke")).toBe("none");
+    expect(svg.querySelector('[data-entity-id="outline"]')?.getAttribute("fill")).toBe("none");
+    expect(svg.querySelector('[data-entity-id="outline"]')?.getAttribute("stroke")).toBe("#19222b");
     expect(svg.querySelector('[data-entity-id="art"]')?.getAttribute("data-asset-id")).toBe("asset-chest");
     expect(svg.querySelector('[data-callout-target="outline"]')).not.toBeNull();
     expect(svg.querySelector('[data-label-for="pom"]')?.textContent).toBe("Chest: 10 cm");
@@ -91,6 +101,23 @@ describe("renderTechnicalFlatSvg", () => {
     const firstNoticeY = Number(svg.querySelector("g[data-layer-group='SOURCE_NOTICES'] text")!.getAttribute("y"));
     expect(firstNoticeY - noticeTop).toBeCloseTo(0.344, 3);
     expect(result.textBounds.pom).toBeDefined();
+  });
+
+  it("composites overlapping colorway areas together at one translucent opacity", () => {
+    const second: TechnicalFlatPrimitive = { ...outline, id: "overlapping-outline",
+      source: { ...source, sourceId: "pattern:tee:role:back" }, commands: [
+      { op: "move", point: { x: 6, y: 0 } }, { op: "line", point: { x: 18, y: 0 } },
+      { op: "line", point: { x: 18, y: 10 } }, { op: "line", point: { x: 6, y: 10 } }, { op: "close" },
+    ] };
+    const result = renderTechnicalFlatSvg(makeView([outline, second]), { measureText: measure,
+      colorway: { id: "fabric", revisionId, colorHex: "#3669a4", texture: "woven", shine: 24,
+        targetRoleIds: ["front", "back"], sourceId: "style:fabric-presentation" } });
+    const parsed = new (new JSDOM({ url: "https://technical-flat.test/" }).window.DOMParser)()
+      .parseFromString(result.svg!, "image/svg+xml");
+    const group = parsed.querySelector("[data-colorway-area-group='fabric']");
+    expect(group?.getAttribute("opacity")).toBe("0.16");
+    expect(group?.querySelectorAll("[data-colorway-fill-for]")).toHaveLength(2);
+    expect([...group!.querySelectorAll("[data-colorway-fill-for]")].every((shape) => shape.parentElement === group)).toBe(true);
   });
 
   it("keeps artwork sorted by authored z-order within its semantic layer", () => {
@@ -121,6 +148,273 @@ describe("renderTechnicalFlatSvg", () => {
       shine: 0, targetRoleIds: ["front"], sourceId: "style:fabric-presentation" as const };
     expect(renderTechnicalFlatSvg(makeView(), { measureText: measure, colorway: staleColor }).issues[0]?.code)
       .toBe("COLORWAY_REVISION_MISMATCH");
+  });
+
+  it("fails the complete flat closed when a requested colorway target is missing or disconnected", () => {
+    const colorway = { id: "fabric", revisionId, colorHex: "#3669a4", texture: "woven" as const,
+      shine: 24, targetRoleIds: ["front"], sourceId: "style:fabric-presentation" as const };
+    const missing = renderTechnicalFlatSvg(makeView([{ ...outline, source: { ...source, sourceId: "pattern:tee:role:back" } }]), {
+      measureText: measure, colorway,
+    });
+    expect(missing.svg).toBeNull();
+    expect(missing.issues.map((issue) => issue.code)).toContain("COLORWAY_TARGET_MISSING");
+
+    const disconnected: TechnicalFlatPrimitive = { ...outline, commands: [
+      { op: "move", point: { x: 0, y: 0 } }, { op: "line", point: { x: 12, y: 0 } },
+      { op: "move", point: { x: 12, y: 10 } }, { op: "line", point: { x: 0, y: 10 } },
+      { op: "line", point: { x: 0, y: 0 } },
+    ] };
+    const open = renderTechnicalFlatSvg(makeView([disconnected]), { measureText: measure, colorway });
+    expect(open.svg).toBeNull();
+    expect(open.issues.map((issue) => issue.code)).toContain("COLORWAY_CONTOUR_UNCLOSED");
+
+    const openEnd: TechnicalFlatPrimitive = { ...outline, commands: [
+      { op: "move", point: { x: 0, y: 0 } }, { op: "line", point: { x: 12, y: 0 } },
+      { op: "line", point: { x: 12, y: 10 } }, { op: "line", point: { x: 0, y: 10 } },
+    ] };
+    const unfinished = renderTechnicalFlatSvg(makeView([openEnd]), { measureText: measure, colorway });
+    expect(unfinished.svg).toBeNull();
+    expect(unfinished.issues.map((issue) => issue.code)).toContain("COLORWAY_CONTOUR_UNCLOSED");
+  });
+
+  it("joins only exactly matching source edge endpoints and supports cubic closed loops", () => {
+    const splitLoop: TechnicalFlatPrimitive = { ...outline, commands: [
+      { op: "move", point: { x: 0, y: 0 } }, { op: "line", point: { x: 4, y: 0 } },
+      { op: "move", point: { x: 4, y: 0 } },
+      { op: "cubic", control1: { x: 6, y: 0 }, control2: { x: 6, y: 4 }, point: { x: 4, y: 4 } },
+      { op: "move", point: { x: 4, y: 4 } }, { op: "line", point: { x: 0, y: 4 } },
+      { op: "move", point: { x: 0, y: 4 } }, { op: "line", point: { x: 0, y: 0 } },
+    ] };
+    const colorway = { id: "fabric", revisionId, colorHex: "#3669a4", texture: "woven" as const,
+      shine: 24, targetRoleIds: ["front"], sourceId: "style:fabric-presentation" as const };
+    const result = renderTechnicalFlatSvg(makeView([splitLoop]), { measureText: measure, colorway });
+    expect(result.issues).toEqual([]);
+    const parsed = new (new JSDOM({ url: "https://technical-flat.test/" }).window.DOMParser)()
+      .parseFromString(result.svg!, "image/svg+xml");
+    const fill = parsed.querySelector('[data-colorway-fill-for="outline"]');
+    expect(fill?.getAttribute("d")).toContain("C6 0 6 4 4 4");
+    expect(fill?.getAttribute("d")?.match(/M/g)).toHaveLength(1);
+    expect(fill?.getAttribute("d")?.endsWith("Z")).toBe(true);
+
+    const emptyClose: TechnicalFlatPrimitive = { ...outline, commands: [
+      { op: "move", point: { x: 0, y: 0 } }, { op: "close" },
+    ] };
+    const degenerate = renderTechnicalFlatSvg(makeView([emptyClose]), { measureText: measure, colorway });
+    expect(degenerate.svg).toBeNull();
+    expect(degenerate.issues.map((issue) => issue.code)).toContain("COLORWAY_CONTOUR_UNCLOSED");
+  });
+
+  it("fills exact source-declared fold-reflection paths and rejects mismatched or ambiguous edges", () => {
+    const half: TechnicalFlatPrimitive = { ...outline, commands: [
+      { op: "move", point: { x: 0, y: 0 } }, { op: "line", point: { x: 2, y: 0 } },
+      { op: "cubic", control1: { x: 2, y: 1 }, control2: { x: 2, y: 3 }, point: { x: 2, y: 4 } },
+      { op: "line", point: { x: 0, y: 4 } },
+    ] };
+    const reflected: TechnicalFlatPrimitive = { ...half, id: "outline:fold-reflection", commands: [
+      { op: "move", point: { x: 0, y: 0 } }, { op: "line", point: { x: -2, y: 0 } },
+      { op: "cubic", control1: { x: -2, y: 1 }, control2: { x: -2, y: 3 }, point: { x: -2, y: 4 } },
+      { op: "line", point: { x: 0, y: 4 } },
+    ] };
+    const colorway = { id: "fabric", revisionId, colorHex: "#3669a4", texture: "woven" as const,
+      shine: 24, targetRoleIds: ["front"], sourceId: "style:fabric-presentation" as const };
+    const result = renderTechnicalFlatSvg(makeView([half, reflected]), { measureText: measure, colorway });
+    expect(result.issues).toEqual([]);
+    const parsed = new (new JSDOM({ url: "https://technical-flat.test/" }).window.DOMParser)()
+      .parseFromString(result.svg!, "image/svg+xml");
+    const fills = parsed.querySelectorAll('[data-colorway-fill-for]');
+    expect(fills).toHaveLength(1);
+    expect(fills[0]?.getAttribute("d")).toContain("C-2 3 -2 1 -2 0");
+    expect(parsed.querySelectorAll('[data-entity-id="outline"], [data-entity-id="outline:fold-reflection"]'))
+      .toHaveLength(2);
+    expect([...parsed.querySelectorAll('[data-entity-id="outline"], [data-entity-id="outline:fold-reflection"]')]
+      .every((path) => path.getAttribute("fill") === "none" && path.getAttribute("stroke") === "#19222b")).toBe(true);
+
+    const wrongEndpoint = { ...reflected, commands: [
+      { op: "move" as const, point: { x: 0, y: 0 } }, { op: "line" as const, point: { x: -2, y: 0 } },
+      { op: "line" as const, point: { x: -2, y: 4 } }, { op: "line" as const, point: { x: -1, y: 4 } },
+    ] };
+    const withheld = renderTechnicalFlatSvg(makeView([half, wrongEndpoint]), { measureText: measure, colorway });
+    expect(withheld.svg).toBeNull();
+    expect(withheld.issues.map((issue) => issue.code)).toContain("COLORWAY_CONTOUR_UNCLOSED");
+
+    const extra = { ...reflected, id: "outline:extra" };
+    const ambiguous = renderTechnicalFlatSvg(makeView([half, reflected, extra]), { measureText: measure, colorway });
+    expect(ambiguous.svg).toBeNull();
+    expect(ambiguous.issues.map((issue) => issue.code)).toContain("COLORWAY_CONTOUR_UNCLOSED");
+  });
+
+  it("joins exact source view-boundary edges into a requested role contour", () => {
+    const panel: TechnicalFlatPrimitive = { ...outline, commands: [
+      { op: "move", point: { x: 0, y: 0 } }, { op: "line", point: { x: 4, y: 0 } },
+      { op: "move", point: { x: 4, y: 4 } }, { op: "line", point: { x: 0, y: 4 } },
+      { op: "move", point: { x: 0, y: 4 } }, { op: "line", point: { x: 0, y: 0 } },
+    ] };
+    const boundary: TechnicalFlatPrimitive = { kind: "path", id: "outline:view-boundary:side",
+      layer: "GARMENT_SILHOUETTE", feature: "silhouette",
+      source: { ...source, sourceId: "view:tee:role:front:stitch:side:boundary:side" },
+      commands: [{ op: "move", point: { x: 4, y: 4 } }, { op: "line", point: { x: 4, y: 0 } }] };
+    const colorway = { id: "fabric", revisionId, colorHex: "#3669a4", texture: "woven" as const,
+      shine: 24, targetRoleIds: ["front"], sourceId: "style:fabric-presentation" as const };
+    const result = renderTechnicalFlatSvg(makeView([panel, boundary]), { measureText: measure, colorway });
+    expect(result.issues).toEqual([]);
+    const parsed = new (new JSDOM({ url: "https://technical-flat.test/" }).window.DOMParser)()
+      .parseFromString(result.svg!, "image/svg+xml");
+    expect(parsed.querySelector('[data-colorway-fill-for="outline"]')?.getAttribute("d"))
+      .toBe("M0 0 L4 0 L4 4 L0 4 L0 0 Z");
+  });
+
+  it("omits an exact source-edge group hidden on a declared attached fold axis", () => {
+    const sourceEdgeIds = ["pattern:tee:role:front:edge:fold", "pattern:tee:role:front:edge:top",
+      "pattern:tee:role:front:edge:side", "pattern:tee:role:front:edge:bottom"];
+    const half: TechnicalFlatPrimitive = { ...outline, id: "axis-outline", sourceEdgeIds, commands: [
+      { op: "move", point: { x: 0, y: 0 } }, { op: "line", point: { x: 0, y: 4 } },
+      { op: "move", point: { x: 0, y: 0 } }, { op: "line", point: { x: 2, y: 0 } },
+      { op: "move", point: { x: 2, y: 0 } }, { op: "line", point: { x: 2, y: 4 } },
+      { op: "move", point: { x: 2, y: 4 } }, { op: "line", point: { x: 0, y: 4 } },
+    ] };
+    const reflected: TechnicalFlatPrimitive = { ...half, id: "axis-outline:attached-fold-reflection",
+      sourceEdgeIds: sourceEdgeIds.slice(1), commands: [
+        { op: "move", point: { x: 0, y: 0 } }, { op: "line", point: { x: -2, y: 0 } },
+        { op: "move", point: { x: -2, y: 0 } }, { op: "line", point: { x: -2, y: 4 } },
+        { op: "move", point: { x: -2, y: 4 } }, { op: "line", point: { x: 0, y: 4 } },
+      ] };
+    const colorway = { id: "fabric", revisionId, colorHex: "#3669a4", texture: "woven" as const,
+      shine: 24, targetRoleIds: ["front"], sourceId: "style:fabric-presentation" as const };
+    const result = renderTechnicalFlatSvg(makeView([half, reflected]), { measureText: measure, colorway });
+    expect(result.issues).toEqual([]);
+    const parsed = new (new JSDOM({ url: "https://technical-flat.test/" }).window.DOMParser)()
+      .parseFromString(result.svg!, "image/svg+xml");
+    expect(parsed.querySelector('[data-colorway-fill-for="axis-outline"]')?.getAttribute("d"))
+      .toBe("M0 0 L2 0 L2 4 L0 4 L-2 4 L-2 0 L0 0 Z");
+  });
+
+  it("closes a source-split waistband face with its mapped side boundary and attached reflection", () => {
+    const waistbandSource = { ...source, sourceId: "pattern:skirt:role:waistband" };
+    const base: TechnicalFlatPrimitive = { kind: "path", id: "waistband",
+      layer: "GARMENT_SILHOUETTE", feature: "silhouette", source: waistbandSource,
+      sourceEdgeIds: ["pattern:skirt:role:waistband:edge:seam", "pattern:skirt:role:waistband:edge:top", "pattern:skirt:role:waistband:edge:end"],
+      commands: [
+        { op: "move", point: { x: 0, y: 0 } }, { op: "line", point: { x: 23.5, y: 0 } },
+        { op: "move", point: { x: 23.5, y: 3.5 } }, { op: "line", point: { x: 0, y: 3.5 } },
+        { op: "move", point: { x: 0, y: 3.5 } }, { op: "line", point: { x: 0, y: 0 } },
+      ] };
+    const reflected: TechnicalFlatPrimitive = { ...base, id: "waistband:attached-fold-reflection",
+      sourceEdgeIds: base.sourceEdgeIds!.slice(0, 2), commands: [
+        { op: "move", point: { x: 0, y: 0 } }, { op: "line", point: { x: -23.5, y: 0 } },
+        { op: "move", point: { x: -23.5, y: 3.5 } }, { op: "line", point: { x: 0, y: 3.5 } },
+      ] };
+    const boundarySource = { ...source, sourceId: "view:skirt:role:waistband:stitch:waistband:boundary:side" };
+    const right: TechnicalFlatPrimitive = { kind: "path", id: "waistband:view-boundary:right",
+      layer: "GARMENT_SILHOUETTE", feature: "silhouette", source: boundarySource,
+      commands: [{ op: "move", point: { x: 23.5, y: 3.5 } }, { op: "line", point: { x: 23.5, y: 0 } }] };
+    const left: TechnicalFlatPrimitive = { ...right, id: "waistband:view-boundary:left:attached-fold-reflection",
+      commands: [{ op: "move", point: { x: -23.5, y: 3.5 } }, { op: "line", point: { x: -23.5, y: 0 } }] };
+    const colorway = { id: "fabric", revisionId, colorHex: "#3669a4", texture: "woven" as const,
+      shine: 24, targetRoleIds: ["waistband"], sourceId: "style:fabric-presentation" as const };
+    const result = renderTechnicalFlatSvg(makeView([base, reflected, right, left]), { measureText: measure, colorway });
+    expect(result.issues).toEqual([]);
+    const parsed = new (new JSDOM({ url: "https://technical-flat.test/" }).window.DOMParser)()
+      .parseFromString(result.svg!, "image/svg+xml");
+    expect(parsed.querySelector('[data-colorway-fill-for="waistband"]')?.getAttribute("d"))
+      .toContain("L23.5 0 L23.5 3.5 L0 3.5");
+  });
+
+  it("uses exact attached panel waist edges to close accepted Trouser back waistband color", () => {
+    const waistbandTop = (panel: "backLeft" | "backRight", start: number, end: number): TechnicalFlatPrimitive => ({
+      kind: "path", id: `live-flat:trouser:BACK_FLAT:waistband:waistband:${panel}:waist:top`,
+      layer: "GARMENT_SILHOUETTE", feature: "silhouette",
+      source: { ...source, sourceId: "pattern:trouser:role:waistband:edge:top" },
+      sourceEdgeIds: ["pattern:trouser:role:waistband:edge:top"],
+      commands: [{ op: "move", point: { x: start, y: -4 } }, { op: "line", point: { x: end, y: -4 } }],
+    });
+    const sideBoundary = (panel: "backLeft" | "backRight", x: number): TechnicalFlatPrimitive => ({
+      kind: "path", id: `live-flat:trouser:BACK_FLAT:waistband:waistband:${panel}:waist:side-boundary`,
+      layer: "GARMENT_SILHOUETTE", feature: "silhouette",
+      source: { ...source, sourceId: `view:trouser:stitch:Waistband (four legs ↔ separate waistband):boundary:${panel}` },
+      commands: [{ op: "move", point: { x, y: -4 } }, { op: "line", point: { x, y: 0 } }],
+    });
+    const panelWaist = (panel: "backLeft" | "backRight", start: number, end: number): TechnicalFlatPrimitive => ({
+      kind: "path", id: `flat:trouser:BACK_FLAT:component:${panel}:outline`,
+      layer: "GARMENT_SILHOUETTE", feature: "silhouette",
+      source: { ...source, sourceId: `pattern:trouser:role:${panel}` },
+      sourceEdgeIds: [`pattern:trouser:role:${panel}:edge:waist`, `pattern:trouser:role:${panel}:edge:side`],
+      commands: [
+        { op: "move", point: { x: start, y: 0 } }, { op: "line", point: { x: end, y: 0 } },
+        { op: "move", point: { x: end, y: 0 } }, { op: "line", point: { x: end, y: 4 } },
+      ],
+    });
+    const colorway = { id: "fabric", revisionId, colorHex: "#3669a4", texture: "woven" as const,
+      shine: 24, targetRoleIds: ["waistband"], sourceId: "style:fabric-presentation" as const };
+    const view = { ...makeView([
+      waistbandTop("backLeft", 0, 23.5), sideBoundary("backLeft", 23.5),
+      waistbandTop("backRight", -23.5, 0), sideBoundary("backRight", -23.5),
+      panelWaist("backLeft", 0, 23.5), panelWaist("backRight", -23.5, 0),
+    ]), recipeId: "trouser" };
+    const result = renderTechnicalFlatSvg(view, { measureText: measure, colorway });
+    expect(result.issues).toEqual([]);
+    const parsed = new (new JSDOM({ url: "https://technical-flat.test/" }).window.DOMParser)()
+      .parseFromString(result.svg!, "image/svg+xml");
+    expect(parsed.querySelector('[data-colorway-fill-for="live-flat:trouser:BACK_FLAT:waistband:waistband:backLeft:waist:top"]')
+      ?.getAttribute("d")).toContain("L23.5 0 L0 0 L-23.5 0");
+  });
+
+  it("withholds Trouser waistband color when its mapped panel seam source is incomplete", () => {
+    const colorway = { id: "fabric", revisionId, colorHex: "#3669a4", texture: "woven" as const,
+      shine: 24, targetRoleIds: ["waistband"], sourceId: "style:fabric-presentation" as const };
+    const top = (panel: "backLeft" | "backRight", start: number, end: number): TechnicalFlatPrimitive => ({
+      kind: "path", id: `live-flat:trouser:BACK_FLAT:waistband:waistband:${panel}:waist:top`,
+      layer: "GARMENT_SILHOUETTE", feature: "silhouette",
+      source: { ...source, sourceId: "pattern:trouser:role:waistband:edge:top" },
+      sourceEdgeIds: ["pattern:trouser:role:waistband:edge:top"],
+      commands: [{ op: "move", point: { x: start, y: -4 } }, { op: "line", point: { x: end, y: -4 } }],
+    });
+    const boundary = (panel: "backLeft" | "backRight", x: number): TechnicalFlatPrimitive => ({
+      kind: "path", id: `live-flat:trouser:BACK_FLAT:waistband:waistband:${panel}:waist:side-boundary`,
+      layer: "GARMENT_SILHOUETTE", feature: "silhouette",
+      source: { ...source, sourceId: `view:trouser:stitch:waistband:boundary:${panel}` },
+      commands: [{ op: "move", point: { x, y: -4 } }, { op: "line", point: { x, y: 0 } }],
+    });
+    const basePrimitives = [top("backLeft", 0, 23.5), boundary("backLeft", 23.5),
+      top("backRight", -23.5, 0), boundary("backRight", -23.5)];
+    const render = (primitives: TechnicalFlatPrimitive[]) => renderTechnicalFlatSvg({ ...makeView(primitives), recipeId: "trouser" }, {
+      measureText: measure, colorway,
+    });
+    expect(render(basePrimitives).issues.map((issue) => issue.code)).toContain("COLORWAY_CONTOUR_UNCLOSED");
+
+    const bodySource = { ...source, sourceId: "pattern:trouser:role:backLeft" };
+    const noIds: TechnicalFlatPrimitive = { kind: "path", id: "backLeft-no-ids", layer: "GARMENT_SILHOUETTE",
+      feature: "silhouette", source: bodySource,
+      commands: [{ op: "move", point: { x: 0, y: 0 } }, { op: "line", point: { x: 23.5, y: 0 } }] };
+    expect(render([...basePrimitives, noIds]).issues.map((issue) => issue.code)).toContain("COLORWAY_CONTOUR_UNCLOSED");
+
+    const mismatchedGroups: TechnicalFlatPrimitive = { ...noIds, id: "backLeft-mismatched-groups",
+      sourceEdgeIds: ["pattern:trouser:role:backLeft:edge:waist"], commands: [
+        { op: "move", point: { x: 0, y: 0 } }, { op: "line", point: { x: 23.5, y: 0 } },
+        { op: "move", point: { x: 0, y: 1 } }, { op: "line", point: { x: 23.5, y: 1 } },
+      ] };
+    expect(render([...basePrimitives, mismatchedGroups]).issues.map((issue) => issue.code))
+      .toContain("COLORWAY_CONTOUR_UNCLOSED");
+
+    const wrongEdge: TechnicalFlatPrimitive = { ...noIds, id: "backLeft-wrong-edge",
+      sourceEdgeIds: ["pattern:trouser:role:backLeft:edge:side"] };
+    expect(render([...basePrimitives, wrongEdge]).issues.map((issue) => issue.code)).toContain("COLORWAY_CONTOUR_UNCLOSED");
+  });
+
+  it("rejects one-edge and two-edge cycles even when their endpoints are closed", () => {
+    const colorway = { id: "fabric", revisionId, colorHex: "#3669a4", texture: "woven" as const,
+      shine: 24, targetRoleIds: ["front"], sourceId: "style:fabric-presentation" as const };
+    const selfLoop: TechnicalFlatPrimitive = { ...outline, id: "self-loop", commands: [
+      { op: "move", point: { x: 20, y: 20 } }, { op: "line", point: { x: 20, y: 20 } },
+    ] };
+    expect(renderTechnicalFlatSvg(makeView([selfLoop, outline]), { measureText: measure, colorway }).issues
+      .map((issue) => issue.code)).toContain("COLORWAY_CONTOUR_UNCLOSED");
+
+    const twoEdgeCycle: TechnicalFlatPrimitive = { ...outline, id: "two-edge-cycle", commands: [
+      { op: "move", point: { x: 20, y: 20 } }, { op: "line", point: { x: 21, y: 20 } },
+      { op: "move", point: { x: 21, y: 20 } }, { op: "line", point: { x: 20, y: 20 } },
+    ] };
+    expect(renderTechnicalFlatSvg(makeView([twoEdgeCycle, outline]), { measureText: measure, colorway }).issues
+      .map((issue) => issue.code)).toContain("COLORWAY_CONTOUR_UNCLOSED");
   });
 
   it("reflows measured colliding labels and expands the view frame to include them", () => {
@@ -253,7 +547,7 @@ describe("renderTechnicalFlatSvg", () => {
     const svg = new JSDOM({ url: "https://technical-flat.test/" }).window.DOMParser;
     const parsed = new svg().parseFromString(result.svg!, "image/svg+xml");
     expect(parsed.querySelector('[data-entity-id="outline"]')?.getAttribute("fill")).toBe("none");
-    expect(parsed.querySelector('[data-entity-id="outline"]')?.getAttribute("fill-opacity")).toBe("1");
+    expect(parsed.querySelector('[data-entity-id="outline"]')?.getAttribute("fill-opacity")).toBeNull();
     expect(parsed.querySelector('[data-entity-id="fold"]')?.getAttribute("stroke-dasharray")).toBe("0.18 0.1");
     expect(parsed.querySelector('[data-mark-kind="buttonhole"] rect')).not.toBeNull();
   });

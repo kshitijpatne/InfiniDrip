@@ -101,8 +101,12 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
       assert.ok(card.evidenceRefs.includes("E-G04-S316-EXIT"));
       assert.ok(card.evidenceRefs.includes("E-G04-S317-START"));
       assert.ok(card.evidenceRefs.includes("E-G04-S317-EXIT"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S318-START"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S318-EXIT"));
       assert.ok(epic.evidenceRefs.includes("E-G04-S316-EXIT"));
       assert.ok(epic.evidenceRefs.includes("E-G04-S317-EXIT"));
+      assert.ok(epic.evidenceRefs.includes("E-G04-S318-START"));
+      assert.ok(epic.evidenceRefs.includes("E-G04-S318-EXIT"));
       assert.ok(card.evidenceRefs.includes("E-G04-S286-EXIT"));
       assert.ok(card.evidenceRefs.includes("E-G04-S300-EXIT"));
       assert.ok(card.evidenceRefs.includes("E-G04-S301-START"));
@@ -165,7 +169,7 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
       assert.ok(card.comments.some((comment) => /Slice 310 started 2026-09-30 16:41:59 UTC from clean S309 b89eec1.*G04-V02-TROUSER-WAISTBAND-DEPTH-POM-S310\.md/.test(comment.text)));
       assert.ok(card.comments.some((comment) => /Re-estimate from verified S310 boundary: output remains 28\/146 accepted and 118 held; 7–21 conditional slices remain/.test(comment.text)));
       assert.ok(card.comments.some((comment) => /Slice 312 exit: Skirt waist and hip POMs resolve to matching exact front\/back outline vertices.*V02 remains In Progress; V03 remains Backlog/.test(comment.text)));
-      assert.match(card.comments.at(-1).text, /Slice 317 verified output: five documented Trouser configurations retain accepted backs, complete front holds, source-contained artwork boundaries, exact-revision POMs and zero browser errors.*raster shows no visible colorway fill.*V02 remains In Progress; V03 remains Backlog/);
+      assert.match(card.comments.at(-1).text, /Slice 318 exit: source-backed colorway areas are visibly rasterized at one 16% tint.*13 SVGs and 27 fills.*V02 remains In Progress; V03 remains Backlog/);
       assert.deepEqual(card.dependencies, ["EPIC-14", "EPIC-15", "EPIC-16"]);
       const admittedWork = board.workItems.filter((entry) => entry.epicId === id && entry.id !== id);
       assert.deepEqual(admittedWork.map((entry) => entry.id), ["G04-V01", "G04-V02", "G04-V03"]);
@@ -244,13 +248,15 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
       assert.ok(admittedWork[1].comments.some((comment) => /Slice 310 exit: source and retained production SVGs prove the authored `centerBack` mark is the exact same-revision midpoint of the compiled back closure edge in all 24 accepted configurations.*S311 will add the typed mark-entity anchor/.test(comment.text)));
       assert.ok(admittedWork[1].comments.some((comment) => /Slice 312 exit: Skirt waist and hip POMs resolve to matching exact front\/back outline vertices.*V02 remains In Progress; V03 remains Backlog/.test(comment.text)));
       assert.ok(admittedWork[1].comments.some((comment) => /Slice 313 started 2026-09-30 18:33:26 UTC from clean S312 c7e7a6fc.*G04-V02-TANK-BACK-POM-ANCHORS-S313\.md/.test(comment.text)));
-      assert.match(admittedWork[1].comments.at(-1).text, /Slice 317 verified output: five documented Trouser configurations retain accepted backs, complete front holds, source-contained artwork boundaries, exact-revision POMs and zero browser errors.*raster shows no visible colorway fill.*V02 remains In Progress; V03 remains Backlog/);
+      assert.match(admittedWork[1].comments.at(-1).text, /Slice 318 exit: source-backed colorway areas are visibly rasterized at one 16% tint.*13 SVGs and 27 fills.*V02 remains In Progress; V03 remains Backlog/);
       assert.ok(admittedWork[1].comments.some((comment) => /Slice 304 started 2026-09-30 13:02:44 UTC.*G04-V02-ACCEPTED-FACE-OVERLAYS-S304\.md/.test(comment.text)));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S301-EXIT"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S316-START"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S316-EXIT"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S317-START"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S317-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S318-START"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S318-EXIT"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S285-EXIT"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S286-EXIT"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S287-START"));

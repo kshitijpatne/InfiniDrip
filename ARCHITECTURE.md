@@ -65,6 +65,16 @@ joins, back-view POMs without geometry anchors, and unreadable text remain
 visible as notices or block that drawing; the renderer does not fill gaps by
 guessing.
 
+Slice 318 paints a requested colorway area only when emitted silhouette paths,
+source-declared reflected edges and mapped view boundaries form exact closed
+loops at the same four-decimal coordinates serialized to SVG. The area is
+composited once at 16% opacity beneath the unchanged independently stroked
+edges. Missing, ambiguous or open contours withhold the complete SVG and
+explain which mapped role needs review. Trouser waistband area uses the exact
+source waist-edge fragments and mapped waistband side boundaries. This makes
+the tint visible on accepted roles; it does not release any previously held
+face or infer unfinished construction.
+
 Tee and Tank share a dedicated body-POM set with exact same-block back
 endpoints for chest, body length, across shoulder and neck width. The legacy
 `TSHIRT_POMS` set remains front-only for Polo. These anchors can be compiled
