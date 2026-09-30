@@ -45,12 +45,10 @@ export function spanY(piece: Piece, a: PointRef, b: PointRef): number {
 export interface Pom {
   readonly label: string;
   readonly measure: (block: Block) => number;
-  /**
-   * Optional: the point on the FRONT piece this measure reads from, in the front
-   * piece's own coordinates. The tech-pack sketch draws a callout leader to it.
-   * POMs without an anchor are table-only (no leader). Front-only in this pass.
-   */
+  /** Optional source point on the mapped front role for FRONT_FLAT callouts. */
   readonly anchor?: (block: Block) => Point;
+  /** Optional source point on the mapped back role for BACK_FLAT callouts. */
+  readonly backAnchor?: (block: Block) => Point;
   /**
    * Optional production tolerance in cm — how far a finished garment may drift
    * from the spec on this measure before it's a reject. A property of the POINT

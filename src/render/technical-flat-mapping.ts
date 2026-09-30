@@ -19,8 +19,10 @@ export interface FlatFaceMapping {
 export interface TechnicalFlatRecipeMapping {
   readonly recipeId: string;
   readonly faces: readonly [FlatFaceMapping, FlatFaceMapping];
-  /** Current POM.anchor callbacks are in this role's source coordinate system. */
+  /** Source-coordinate role for front anchors and optional back anchors. */
   readonly pomAnchorRole: string;
+  /** Optional source role for recipe methods that define a back-face landmark. */
+  readonly backPomAnchorRole?: string;
 }
 
 const face = (kind: TechnicalFlatViewKind, roles: readonly (readonly [string, FlatRoleTreatment])[]): FlatFaceMapping => ({
@@ -37,10 +39,12 @@ const makeMapping = (
   front: readonly (readonly [string, FlatRoleTreatment])[],
   back: readonly (readonly [string, FlatRoleTreatment])[],
   pomAnchorRole: string,
+  backPomAnchorRole?: string,
 ): TechnicalFlatRecipeMapping => ({
   recipeId,
   faces: [face("FRONT_FLAT", front), face("BACK_FLAT", back)],
   pomAnchorRole,
+  ...(backPomAnchorRole ? { backPomAnchorRole } : {}),
 });
 
 /** Explicit role-to-face mapping for every recipe admitted under G04. These
@@ -62,7 +66,7 @@ export const G04_TECHNICAL_FLAT_MAPPINGS: Readonly<Record<string, TechnicalFlatR
   trouser: makeMapping("trouser",
     [shell("frontLeft"), shell("frontRight"), overlay("waistband"), interior("flyShield"), interior("pocketBagLeft"), interior("pocketBagRight")],
     [shell("backLeft"), shell("backRight"), overlay("waistband"), interior("flyShield"), interior("pocketBagLeft"), interior("pocketBagRight")],
-    "frontLeft"),
+    "frontLeft", "backLeft"),
 };
 
 export type FlatSourceKind = "component" | "stitch" | "mark" | "dart" | "pom" | "artwork";
@@ -243,30 +247,48 @@ export function mapTechnicalFlatSources(
     });
   }
 
-  const anchorRole = block.roles[mapping.pomAnchorRole];
   for (const [index, pom] of poms.entries()) {
     const pomId = `pom:${recipeId}:${stableSegment(pom.label) || index}`;
-    if (!pom.anchor) {
+    if (pom.anchor) {
+      const anchorRole = block.roles[mapping.pomAnchorRole];
+      if (!anchorRole) {
+        issues.push({ code: "MISSING_POM_ANCHOR_ROLE", sourceId: pomId,
+          message: `POM anchor role “${mapping.pomAnchorRole}” is missing.` });
+        continue;
+      }
+      const point = pom.anchor(block);
+      if (!Number.isFinite(point.x) || !Number.isFinite(point.y)) {
+        issues.push({ code: "INVALID_POM_ANCHOR", sourceId: pomId,
+          message: `POM “${pom.label}” has a non-finite anchor.` });
+        continue;
+      }
+      sources.push({ id: `flat:${recipeId}:FRONT_FLAT:component:${mapping.pomAnchorRole}:outline:callout:${stableSegment(pom.label) || index}`,
+        kind: "pom", feature: "pom", layer: "CALLOUT", sourceId: pomId, viewKinds: ["FRONT_FLAT"], treatment: "ANCHORED",
+        targetGeometryId: `flat:${recipeId}:FRONT_FLAT:component:${mapping.pomAnchorRole}:outline`, anchorPoint: point });
+    } else {
       sources.push({ id: `flat:${recipeId}:pom:${stableSegment(pom.label) || index}`, kind: "pom", feature: "pom", layer: "CALLOUT",
         sourceId: pomId, viewKinds: ["FRONT_FLAT"], treatment: "TABLE_ONLY" });
       notices.push({ id: `notice:${pomId}:anchor`, feature: "pom", reason: "SOURCE_REFERENCE_MISSING",
-        message: `POM “${pom.label}” has no geometry anchor and is table-only.`, sourceId: pomId });
-      continue;
+        message: `POM “${pom.label}” has no front geometry anchor and is table-only on the front view.`, sourceId: pomId });
     }
-    if (!anchorRole) {
-      issues.push({ code: "MISSING_POM_ANCHOR_ROLE", sourceId: pomId,
-        message: `POM anchor role “${mapping.pomAnchorRole}” is missing.` });
-      continue;
+    if (pom.backAnchor) {
+      const roleId = mapping.backPomAnchorRole;
+      const anchorRole = roleId ? block.roles[roleId] : undefined;
+      if (!roleId || !anchorRole) {
+        issues.push({ code: "MISSING_POM_ANCHOR_ROLE", sourceId: pomId,
+          message: `POM “${pom.label}” has a back anchor but no mapped back role.` });
+        continue;
+      }
+      const point = pom.backAnchor(block);
+      if (!Number.isFinite(point.x) || !Number.isFinite(point.y)) {
+        issues.push({ code: "INVALID_POM_ANCHOR", sourceId: pomId,
+          message: `POM “${pom.label}” has a non-finite back anchor.` });
+        continue;
+      }
+      sources.push({ id: `flat:${recipeId}:BACK_FLAT:component:${roleId}:outline:callout:${stableSegment(pom.label) || index}`,
+        kind: "pom", feature: "pom", layer: "CALLOUT", sourceId: pomId, viewKinds: ["BACK_FLAT"], treatment: "ANCHORED",
+        targetGeometryId: `flat:${recipeId}:BACK_FLAT:component:${roleId}:outline`, anchorPoint: point });
     }
-    const point = pom.anchor(block);
-    if (!Number.isFinite(point.x) || !Number.isFinite(point.y)) {
-      issues.push({ code: "INVALID_POM_ANCHOR", sourceId: pomId,
-        message: `POM “${pom.label}” has a non-finite anchor.` });
-      continue;
-    }
-    sources.push({ id: `flat:${recipeId}:FRONT_FLAT:component:${mapping.pomAnchorRole}:outline:callout:${stableSegment(pom.label) || index}`,
-      kind: "pom", feature: "pom", layer: "CALLOUT", sourceId: pomId, viewKinds: ["FRONT_FLAT"], treatment: "ANCHORED",
-      targetGeometryId: `flat:${recipeId}:FRONT_FLAT:component:${mapping.pomAnchorRole}:outline`, anchorPoint: point });
   }
 
   for (const placement of artwork) {

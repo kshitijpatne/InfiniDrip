@@ -5,6 +5,7 @@ import { STANDARD_M } from "../drafting/measurements";
 import { defaultGarmentOptions } from "../drafting/options";
 import {
   G04_TECHNICAL_FLAT_MAPPINGS,
+  type TechnicalFlatRecipeMapping,
   mapTechnicalFlatSources,
   validateFlatRoleMapping,
 } from "./technical-flat-mapping";
@@ -33,6 +34,17 @@ describe("mapTechnicalFlatSources", () => {
       for (const pom of mapping.sources.filter((source) => source.kind === "pom" && source.treatment === "ANCHORED")) {
         expect(pom.targetGeometryId).toMatch(/^flat:.*:component:.*:outline$/);
         expect(pom.anchorPoint).toMatchObject({ x: expect.any(Number), y: expect.any(Number) });
+      }
+      const backAnchors = mapping.sources.filter((source) => source.kind === "pom"
+        && source.treatment === "ANCHORED" && source.viewKinds.includes("BACK_FLAT"));
+      expect(backAnchors, recipe.name).toHaveLength(recipe.name === "trouser" ? 1 : 0);
+      if (recipe.name === "trouser") {
+        expect(backAnchors[0]).toMatchObject({
+          sourceId: "pom:trouser:back-rise-finished-incl-waistband",
+          viewKinds: ["BACK_FLAT"],
+          targetGeometryId: "flat:trouser:BACK_FLAT:component:backLeft:outline",
+          anchorPoint: { x: 0, y: expect.any(Number) },
+        });
       }
     }
   });
@@ -129,6 +141,39 @@ describe("mapTechnicalFlatSources", () => {
     }));
   });
 
+  it("requires an admitted back role when a source method declares a back anchor", () => {
+    const { recipe, block } = draft("trouser");
+    const mappings = G04_TECHNICAL_FLAT_MAPPINGS as unknown as Record<string, TechnicalFlatRecipeMapping>;
+    const saved = mappings.trouser;
+    try {
+      mappings.trouser = { ...saved, backPomAnchorRole: undefined };
+      const result = mapTechnicalFlatSources(recipe.name, block, recipe.poms);
+      expect(result.issues).toContainEqual(expect.objectContaining({
+        code: "MISSING_POM_ANCHOR_ROLE",
+        sourceId: "pom:trouser:back-rise-finished-incl-waistband",
+      }));
+
+      mappings.trouser = { ...saved, backPomAnchorRole: "missingBack" };
+      const missingBack = mapTechnicalFlatSources(recipe.name, block, recipe.poms);
+      expect(missingBack.issues).toContainEqual(expect.objectContaining({
+        code: "MISSING_POM_ANCHOR_ROLE",
+        sourceId: "pom:trouser:back-rise-finished-incl-waistband",
+      }));
+
+      mappings.trouser = saved;
+      const invalidX = mapTechnicalFlatSources(recipe.name, block, [{
+        label: "Invalid back X", measure: () => 1, backAnchor: () => ({ x: Number.NaN, y: 0 }),
+      }]);
+      expect(invalidX.issues).toContainEqual(expect.objectContaining({ code: "INVALID_POM_ANCHOR" }));
+      const invalidY = mapTechnicalFlatSources(recipe.name, block, [{
+        label: "Invalid back Y", measure: () => 1, backAnchor: () => ({ x: 0, y: Number.POSITIVE_INFINITY }),
+      }]);
+      expect(invalidY.issues).toContainEqual(expect.objectContaining({ code: "INVALID_POM_ANCHOR" }));
+    } finally {
+      mappings.trouser = saved;
+    }
+  });
+
   it("uses deterministic positional fallback IDs only when a source label is blank", () => {
     const { recipe, block } = draft("tee");
     const blankStitch = { ...block.stitches[0], label: "" };
@@ -140,6 +185,12 @@ describe("mapTechnicalFlatSources", () => {
     expect(result.sources.some((source) => source.id === "flat:tee:stitch:0")).toBe(true);
     expect(result.sources.some((source) => source.id === "flat:tee:pom:0")).toBe(true);
     expect(result.sources.some((source) => source.id === "flat:tee:FRONT_FLAT:component:front:outline:callout:1")).toBe(true);
+    const trouser = draft("trouser");
+    const blankBackAnchor = mapTechnicalFlatSources("trouser", trouser.block, [
+      { label: " ", measure: () => 1, backAnchor: () => ({ x: 0, y: 0 }) },
+    ]);
+    expect(blankBackAnchor.sources.some((source) =>
+      source.id === "flat:trouser:BACK_FLAT:component:backLeft:outline:callout:0")).toBe(true);
   });
 
   it("maps artwork overlays to each exposed face and rejects unmapped or hidden targets", () => {

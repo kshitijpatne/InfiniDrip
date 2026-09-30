@@ -72,6 +72,7 @@ export const TROUSER_POMS: readonly Pom[] = [
     label: "Back rise (finished incl. waistband)",
     tolerance: 0.8,
     measure: (b) => spanY(back(b), { edge: "centerBack", at: "start" }, { edge: "centerBack", at: "end" }) + seam(band(b), "endRight"),
+    backAnchor: (b) => edgeStart(pieceEdge(back(b), "centerBack")),
   },
   {
     label: "Thigh (finished)",

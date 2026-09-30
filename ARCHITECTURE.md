@@ -282,13 +282,14 @@ missing artwork assets, out-of-frame placements and overlapping placements
 carry actionable review notices. The color/texture/shine data remains
 presentation metadata until the later live renderer consumes it; this compiler
 does not resolve asset bytes or claim that the fabric appearance is rendered.
-`src/render/technical-flat-poms.ts` evaluates each existing POM method on the
-same draft, requires its anchor to be a real vertex on the mapped front role,
-and creates revision-bound callouts targeting that role's outline. Recipe POMs
-without anchors remain table-only. Existing anchor methods are front-only, so
-the back view receives a visible omission notice instead of a guessed mirror.
-The first candidate positions use a provisional source-space character-width
-estimate. `technical-flat-svg.ts` then measures every label with the active
+`src/render/technical-flat-poms.ts` evaluates each face-specific POM method on
+the same draft, requires its anchor to be a real vertex on the mapped role, and
+creates revision-bound callouts targeting that face's outline. The existing
+Trouser back-rise method has one explicit `backLeft.centerBack` source vertex;
+other front anchors remain front-only and receive a visible omission notice on
+the back rather than a guessed mirror. Methods without an anchor on a face
+remain table-only there. The first candidate positions use a provisional
+source-space character-width estimate. `technical-flat-svg.ts` then measures every label with the active
 browser font and deterministically searches nearby positions using those exact
 metrics. It preserves each POM's source anchor and geometry target while
 moving only its presentation label and leader endpoint. Text boxes keep a small

@@ -127,9 +127,7 @@ function placeLabel(anchor: Point, text: string, placed: readonly PositionedCall
   return null;
 }
 
-/** Bind existing POM methods to exact front outline vertices. Current recipe
- * anchors are authored for the front piece only; the back view is explicit
- * about that limit instead of mirroring or guessing an anchor. */
+/** Bind face-specific POM methods to exact same-revision outline vertices. */
 export function compileTechnicalFlatPomCallouts(
   recipeId: string,
   block: Block,
@@ -152,22 +150,31 @@ export function compileTechnicalFlatPomCallouts(
   if (issues.length > 0 || !mapping) {
     return { recipeId, revisionId, kind, callouts: null, notices, issues };
   }
+  const roleId = kind === "FRONT_FLAT" ? mapping.pomAnchorRole : mapping.backPomAnchorRole;
+  const faceAnchor = (pom: Pom) => typeof pom === "object" && pom !== null && !Array.isArray(pom)
+    ? kind === "FRONT_FLAT" ? pom.anchor : pom.backAnchor
+    : undefined;
+  const hasFaceAnchors = poms.some((pom) => faceAnchor(pom) !== undefined);
+  if (!roleId && hasFaceAnchors) {
+    issues.push({ code: "MISSING_ANCHOR_ROLE", sourceId: `pattern:${recipeId}:role:back-pom`,
+      message: `Recipe “${recipeId}” has a back-face POM anchor but no mapped back role.` });
+  }
   if (kind === "BACK_FLAT") {
-    const anchoredPoms = poms.filter((pom) => pom.anchor !== undefined);
-    for (const [index, pom] of anchoredPoms.entries()) {
-      notices.push({ id: `notice:${recipeId}:BACK_FLAT:pom:${stableSegment(pom.label) || index}:front-only`,
-        feature: "pom", reason: "SOURCE_NOT_REPRESENTED", sourceId: `pom:${recipeId}:${stableSegment(pom.label) || index}`,
-        message: `POM “${pom.label}” has a front-only source anchor; no back anchor is inferred.` });
+    for (const [index, pom] of poms.entries()) {
+      if (typeof pom === "object" && pom !== null && !Array.isArray(pom) && pom.anchor && !pom.backAnchor) {
+        notices.push({ id: `notice:${recipeId}:BACK_FLAT:pom:${stableSegment(pom.label) || index}:front-only`,
+          feature: "pom", reason: "SOURCE_NOT_REPRESENTED", sourceId: `pom:${recipeId}:${stableSegment(pom.label) || index}`,
+          message: `POM “${pom.label}” has a front-only source anchor; no back anchor is inferred.` });
+      }
     }
-    return { recipeId, revisionId, kind, callouts: [], notices, issues };
+    if (!hasFaceAnchors) return { recipeId, revisionId, kind, callouts: [], notices, issues };
   }
-
-  const roleId = mapping.pomAnchorRole;
-  const anchorPiece = block.roles[roleId];
-  if (!anchorPiece) {
-    issues.push({ code: "MISSING_ANCHOR_ROLE", sourceId: `pattern:${recipeId}:role:${roleId}`,
-      message: `POM anchors require the mapped source role “${roleId}” in this pattern revision.` });
+  const anchorPiece = roleId ? block.roles[roleId] : undefined;
+  if (hasFaceAnchors && !anchorPiece) {
+    issues.push({ code: "MISSING_ANCHOR_ROLE", sourceId: `pattern:${recipeId}:role:${roleId ?? "back-pom"}`,
+      message: `POM anchors require the mapped source role “${roleId ?? "back-pom"}” in this pattern revision.` });
   }
+  if (!roleId || !anchorPiece) return { recipeId, revisionId, kind, callouts: issues.length > 0 ? null : [], notices, issues };
   const targetGeometryId = `flat:${recipeId}:${kind}:component:${roleId}:outline`;
   const targetGeometry = availableGeometry.find((primitive) => primitive.id === targetGeometryId
     && primitive.kind === "path"
@@ -201,13 +208,17 @@ export function compileTechnicalFlatPomCallouts(
       continue;
     }
     ids.add(id);
-    if (pom.anchor === undefined) {
+    const anchorMethod = faceAnchor(pom);
+    if (anchorMethod === undefined) {
+      if (kind === "BACK_FLAT" && !pom.anchor) continue;
       notices.push({ id: `notice:${recipeId}:${kind}:pom:${segment}:table-only`, feature: "pom",
         reason: "SOURCE_REFERENCE_MISSING", sourceId,
-        message: `POM “${pom.label}” has no geometry anchor and remains table-only.` });
+        message: kind === "FRONT_FLAT" && pom.backAnchor
+          ? `POM “${pom.label}” has a back-face anchor and remains table-only on the front view.`
+          : `POM “${pom.label}” has no geometry anchor and remains table-only.` });
       continue;
     }
-    if (typeof pom.anchor !== "function") {
+    if (typeof anchorMethod !== "function") {
       issues.push({ code: "INVALID_POM", sourceId,
         message: `POM “${pom.label}” has an invalid anchor method.` });
       continue;
@@ -217,7 +228,7 @@ export function compileTechnicalFlatPomCallouts(
     let anchor: Point;
     try {
       value = pom.measure(block);
-      anchor = pom.anchor(block);
+      anchor = anchorMethod(block);
     } catch (error) {
       const detail = error instanceof Error ? error.message : "the POM method rejected this pattern";
       issues.push({ code: "INVALID_POM_MEASURE", sourceId,

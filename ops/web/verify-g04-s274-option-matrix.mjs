@@ -51,6 +51,9 @@ async function captureFace(page, caseId, recipeId, face) {
     "woven-shirt-default-front",
     "trouser-default-front",
     "trouser-default-back",
+    "trouser-backRiseEase-min-back",
+    "trouser-backRiseEase-max-back",
+    "trouser-waistbandDepth-max-back",
     "polo-backHemDrop-max-back",
     "woven-shirt-buttonCount-min-front",
     "woven-shirt-default-front",
@@ -87,7 +90,10 @@ async function captureFace(page, caseId, recipeId, face) {
       const label = root.querySelector(`text[data-label-for='${CSS.escape(node.getAttribute("data-entity-id"))}']`);
       const pathData = node.querySelector("path")?.getAttribute("d") ?? "";
       const end = pathData.match(/L([\d.-]+) ([\d.-]+)$/u);
+      const anchor = node.querySelector("circle");
       return { id: node.getAttribute("data-entity-id"), target, targetGeometry, label: Boolean(label),
+        sourceId: node.getAttribute("data-source-id"), revision: node.getAttribute("data-revision-id"),
+        anchorPoint: anchor ? { x: Number(anchor.getAttribute("cx")), y: Number(anchor.getAttribute("cy")) } : null,
         leaderEnd: end ? { x: Number(end[1]), y: Number(end[2]) } : null,
         labelAt: label ? { x: Number(label.getAttribute("x")), y: Number(label.getAttribute("y")) } : null };
     });
@@ -173,6 +179,15 @@ async function main() {
               assert.equal(anchor.targetGeometry, true, `${face.name} POM ${anchor.id} anchor must resolve to represented geometry`);
               assert.equal(anchor.label, true, `${face.name} POM ${anchor.id} must have a label`);
               assert.deepEqual(anchor.leaderEnd, anchor.labelAt, `${face.name} POM ${anchor.id} leader must terminate at its label`);
+            }
+            if (recipeId === "trouser" && face.face === "BACK_FLAT") {
+              assert.equal(face.callouts.length, 1, `${face.name} must show only the source-mapped back-rise callout`);
+              assert.equal(face.callouts[0].id, "flat:trouser:BACK_FLAT:callout:back-rise-finished-incl-waistband");
+              assert.equal(face.callouts[0].target, "flat:trouser:BACK_FLAT:component:backLeft:outline");
+              assert.equal(face.callouts[0].sourceId, "pom:trouser:back-rise-finished-incl-waistband");
+              assert.equal(face.callouts[0].revision, face.revision);
+              assert.ok(face.callouts[0].anchorPoint && Number.isFinite(face.callouts[0].anchorPoint.x)
+                && Number.isFinite(face.callouts[0].anchorPoint.y), `${face.name} back-rise anchor must be a finite point`);
             }
           }
         }

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 632,
-  "updatedAt": "2026-09-30T15:57:20.334Z",
+  "revision": 644,
+  "updatedAt": "2026-09-30T16:32:00.527Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -155,7 +155,7 @@
       "title": "EPIC-17: G04 — Professional flats and CAD interchange",
       "status": "In Progress",
       "owner": "Codex",
-      "description": "EPIC-17 admitted by maintainer. Current conditional estimate: 57–71 landed slices total; 9–23 remain from verified S308 (about 1–8 V02, 5–10 V03 only after V02 passes, and 3–5 integrated review/merge/deployment). Current all-recipe output: 28/146 faces accepted; 118 held. Source waits are unpriced and may block V02 passage. V01 Done; V02 In Progress; V03 Backlog. See docs/planning/EPIC-17-ADMISSION.md.",
+      "description": "EPIC-17 admitted by maintainer. Current conditional estimate: 57–71 landed slices total; 8–22 remain from verified S309 (0–7 additional V02, 5–10 V03 only after V02 passes, and 3–5 integrated review/merge/deployment). Current all-recipe output: 28/146 faces accepted; 118 held. Source waits are unpriced and may block V02 passage. V01 Done; V02 In Progress; V03 Backlog. See docs/planning/EPIC-17-ADMISSION.md.",
       "evidenceRefs": [
         "E-G04-S271-EXIT",
         "E-G04-S273-EXIT",
@@ -203,7 +203,9 @@
         "E-G04-S307-EXIT",
         "E-G04-S307-RENDERED",
         "E-G04-S308-START",
-        "E-G04-S308-EXIT"
+        "E-G04-S308-EXIT",
+        "E-G04-S309-START",
+        "E-G04-S309-EXIT"
       ]
     },
     {
@@ -2732,7 +2734,7 @@
         "100% coverage",
         "maintainer gates"
       ],
-      "description": "G04 source-to-view technical flats and industrial CAD interchange. Verified current output: 28/146 faces accepted, 118 held. Conditional estimate: 57–71 landed slices total, with 9–23 remaining from S308; source waits are unpriced. V01 Done, V02 In Progress, V03 Backlog. Scope and exit gates: docs/planning/EPIC-17-ADMISSION.md.",
+      "description": "G04 source-to-view technical flats and industrial CAD interchange. Verified current output: 28/146 faces accepted, 118 held. Conditional estimate: 57–71 landed slices total, with 8–22 remaining from S309; source waits are unpriced. V01 Done, V02 In Progress, V03 Backlog. Scope and exit gates: docs/planning/EPIC-17-ADMISSION.md.",
       "expectation": "Front/back technical flats for every supported recipe/variant and proven CAD interchange. Pattern-linked side/oblique views are explicitly owned by G09/D04, so the complete view set is accepted only there.",
       "acceptanceCriteria": [
         "Complete every G04 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
@@ -2875,6 +2877,21 @@
           "at": "2026-09-30T15:57:20.334Z",
           "actor": "Codex",
           "text": "Re-estimate from verified S308 boundary: output remains 28/146 accepted and 118 held; 9–23 conditional slices remain (1–8 V02, 5–10 V03 after V02, 3–5 integrated review/merge/deployment). No external source wait is priced; do not infer the Trouser fly view."
+        },
+        {
+          "at": "2026-09-30T16:07:54.965Z",
+          "actor": "Codex",
+          "text": "Slice 309 starts from verified S308. Narrow source-backed change: add the existing finished Trouser back-rise callout to the exact backLeft center-back vertex in BACK_FLAT; no pattern change or front release. See the S309 packet."
+        },
+        {
+          "at": "2026-09-30T16:31:58.472Z",
+          "actor": "Maintainer",
+          "text": "Updated Epic metadata (description: EPIC-17 admitted by maintainer. Current conditional estimate: 57–71 landed slices total; 8–22 remain from verified S309 (0–7 additional V02, 5–10 V03 only after V02 passes, and 3–5 integrated review/merge/deployment). Current all-recipe output: 28/146 faces accepted; 118 held. Source waits are unpriced and may block V02 passage. V01 Done; V02 In Progress; V03 Backlog. See docs/planning/EPIC-17-ADMISSION.md.). Re-estimate G04 from the verified S309 boundary; retain unpriced source waits and all V02/V03 gates."
+        },
+        {
+          "at": "2026-09-30T16:32:00.527Z",
+          "actor": "Codex",
+          "text": "Re-estimate from verified S309 boundary: output remains 28/146 accepted and 118 held; 8–22 conditional slices remain (0–7 V02, 5–10 V03 only after V02, 3–5 integration/merge/deployment). Source waits remain unpriced. Woven closure remains held without the placket construction/overlap reference. See the S309 exit packet."
         }
       ],
       "evidenceRefs": [
@@ -2909,7 +2926,9 @@
         "E-G04-S307-EXIT",
         "E-G04-S307-RENDERED",
         "E-G04-S308-START",
-        "E-G04-S308-EXIT"
+        "E-G04-S308-EXIT",
+        "E-G04-S309-START",
+        "E-G04-S309-EXIT"
       ],
       "flagKey": null
     },
@@ -5982,6 +6001,16 @@
           "at": "2026-09-30T15:57:16.742Z",
           "actor": "Codex",
           "text": "Slice 308 exit: the exact source graph places frontLeft at 0 degrees and frontRight at 180 degrees to align both authored fly marks with the shield; the right panel is upside down, and the source does not declare an alternate traversal/view orientation or overlap order. The S307 center-front waistband fragment join also fails, so all 24 front views remain completely held. No source-backed correction or pattern change is supported. V02 remains In Progress; V03 remains Backlog. Evidence: S308 packet."
+        },
+        {
+          "at": "2026-09-30T16:07:54.080Z",
+          "actor": "Codex",
+          "text": "Start Slice 309 at 2026-09-30 16:04:30 UTC from clean S308 03dcb4f. Map only the source-defined Trouser back-rise POM to the exact same-revision backLeft.centerBack vertex; preserve the held front and all other callouts. Packet: docs/research/epic17/G04-V02-TROUSER-BACK-RISE-POM-S309.md."
+        },
+        {
+          "at": "2026-09-30T16:31:57.399Z",
+          "actor": "Codex",
+          "text": "Slice 309 exit: the finished back-rise POM is anchored to the exact same-revision backLeft center-back crotch vertex; all 24 Trouser back configurations remain coherent with the callout and all 24 fronts remain completely held at the center-front join. Changed runtime modules have 100% coverage; focused renderers 108/108, build and protected export/DXF checks pass; fresh production Chromium and manual output review pass. Woven closure stays held for absent construction reference. Current tally: 28/146 accepted, 118 held. V02 remains In Progress; V03 remains Backlog. Evidence: S309 packet and S309-trouser-back-rise-browser/."
         }
       ],
       "evidenceRefs": [
@@ -6055,7 +6084,9 @@
         "E-G04-S307-EXIT",
         "E-G04-S307-RENDERED",
         "E-G04-S308-START",
-        "E-G04-S308-EXIT"
+        "E-G04-S308-EXIT",
+        "E-G04-S309-START",
+        "E-G04-S309-EXIT"
       ],
       "flagKey": null
     },
@@ -7572,6 +7603,24 @@
       "sha256": null,
       "verified": true,
       "note": "S308 re-evaluates the exact front waistband and fly/shield topology across default and all option endpoints. The assembly rotates frontRight 180 degrees and the exact front band join remains unresolved; the complete view is held. No construction-supported view correction exists in current source."
+    },
+    {
+      "id": "E-G04-S309-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-TROUSER-BACK-RISE-POM-S309.md",
+      "commit": null,
+      "sha256": null,
+      "verified": false,
+      "note": "Slice 309 source-backed Trouser back-rise callout mapping start packet."
+    },
+    {
+      "id": "E-G04-S309-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-TROUSER-BACK-RISE-POM-S309.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Slice 309 exit: source-defined same-revision Trouser back-rise POM anchor, 100% changed-module coverage, focused renderers/build/protected exports, and 24-configuration production Chromium output/manual review. Front holds preserved; no pattern or export identity change."
     }
   ]
 }

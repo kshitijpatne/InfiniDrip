@@ -71,6 +71,22 @@ describe("compileTechnicalFlatLiveView", () => {
       && primitive.id.endsWith("center-back-closure"))).toBe(true);
     expect(back.view?.primitives.some((primitive) => primitive.kind === "mark" && primitive.markName === "centerBack")).toBe(true);
     expect(back.view?.primitives.every((primitive) => primitive.source.revisionId === back.view!.revisionId)).toBe(true);
+    const backRiseCallout = back.view?.primitives.find((primitive) => primitive.kind === "callout"
+      && primitive.id.endsWith(":callout:back-rise-finished-incl-waistband"));
+    const backLeftOutline = back.view?.primitives.find((primitive) => primitive.kind === "path"
+      && primitive.id === "flat:trouser:BACK_FLAT:component:backLeft:outline");
+    expect(backRiseCallout).toMatchObject({
+      kind: "callout",
+      source: { sourceId: "pom:trouser:back-rise-finished-incl-waistband", revisionId: "live-trouser-s307" },
+      anchor: { primitiveId: "flat:trouser:BACK_FLAT:component:backLeft:outline" },
+    });
+    expect(backLeftOutline?.kind).toBe("path");
+    if (backRiseCallout?.kind !== "callout" || backLeftOutline?.kind !== "path") {
+      throw new Error("Expected the back-rise leader and its same-revision backLeft outline.");
+    }
+    const anchorIsOutlined = backLeftOutline.commands.some((command) => command.op !== "close"
+      && command.point.x === backRiseCallout.anchor.point.x && command.point.y === backRiseCallout.anchor.point.y);
+    expect(anchorIsOutlined).toBe(true);
 
     const front = compileTechnicalFlatLiveView({ recipe, block, revisionId: "live-trouser-s307", kind: "FRONT_FLAT",
       placements: [], colorHex: "#456789", texture: "woven", shine: 0 });
