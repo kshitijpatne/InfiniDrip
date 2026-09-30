@@ -86,10 +86,10 @@ describe("validateTechnicalFlatProjectionMap", () => {
       expect(role.heldEdges.some((held) => held.edgeId === "vent")).toBe(false);
     }
     const open = createG04TechnicalFlatProjectionMap("woven-shirt", block, REVISION)!;
-    for (const face of open.faces) for (const roleId of ["front", "back"]) {
-      const role = face.roles.find((candidate) => candidate.roleId === roleId);
-      if (role) expect(role.heldEdges.some((held) => held.edgeId === "vent")).toBe(true);
-    }
+    const openFront = open.faces.find((face) => face.kind === "FRONT_FLAT")!.roles.find((role) => role.roleId === "front")!;
+    const openBack = open.faces.find((face) => face.kind === "BACK_FLAT")!.roles.find((role) => role.roleId === "back")!;
+    expect(openFront.heldEdges.some((held) => held.edgeId === "vent")).toBe(true);
+    expect(openBack.runs.some((run) => run.edgeId === "vent")).toBe(true);
   });
 
   it("fails closed when Woven collar source seams or closed-vent adjacency are inconsistent", () => {
@@ -371,6 +371,34 @@ describe("validateTechnicalFlatProjectionMap", () => {
             }
           }
         }
+      }
+    }
+  });
+
+  it("maps Woven back and yoke from their source-declared center-back folds", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "woven-shirt")!;
+    const endpointOptions = [undefined, ...(recipe.options ?? []).flatMap((option) =>
+      [option.min, option.max].map((value) => ({ [option.id]: value })) )];
+    for (const options of endpointOptions) {
+      const block = recipe.draft(STANDARD_M, { ...defaultGarmentOptions(recipe.options ?? []), ...options });
+      const map = createG04TechnicalFlatProjectionMap(recipe.name, block, REVISION)!;
+      expect(validateTechnicalFlatProjectionMap(recipe.name, block, REVISION, map)).toEqual([]);
+      const backFace = map.faces.find((face) => face.kind === "BACK_FLAT")!;
+      for (const roleId of ["back", "yoke"]) {
+        const role = backFace.roles.find((candidate) => candidate.roleId === roleId)!;
+        const piece = block.roles[roleId]!;
+        expect(piece.onFold).toBe(true);
+        expect(role.foldAxisReflection).toMatchObject({
+          edgeId: "centerBack", axis: "LOCAL_Y", source: "Piece.onFold",
+        });
+        expect(role.runs.some((run) => run.edgeId === "centerBack")).toBe(false);
+        expect(role.faceExcludedEdges).toContainEqual(expect.objectContaining({ edgeId: "centerBack" }));
+        expect(role.heldEdges).toEqual([]);
+        expect(piece.edges.every((edge) => {
+          const points = edge.kind === "line" ? [edge.start, edge.end]
+            : [edge.curve.start, edge.curve.control1, edge.curve.control2, edge.curve.end];
+          return points.every((point) => point.x >= 0);
+        })).toBe(true);
       }
     }
   });

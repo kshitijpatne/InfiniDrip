@@ -83,6 +83,12 @@ until source-supported assembly produces a coherent view. S287 confirmed that
 the current Woven sleeve-cap stitch only locates an aggregate eased interface;
 the authored pattern has no front/back cap split marks or sleeve view-instance
 rule, so its faces remain held until those source semantics are defined.
+The S295 projection map now also records view-only reflection for the Woven
+back-lower and yoke roles from their exact source-declared `onFold` center-back
+edges. The authored fold edges are excluded from the exterior contour and the
+existing face compiler preserves exact component geometry. This does not alter
+cut geometry or release a partial live face: the front pair/placket, sleeve
+cap, and collar assembly requirements still withhold both complete Woven views.
 
 Each garment has its own rule set (called a **recipe** in the code). It says
 which measurements, options, pieces, and construction details to use. A tee

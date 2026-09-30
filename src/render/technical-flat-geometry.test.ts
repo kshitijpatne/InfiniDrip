@@ -140,9 +140,10 @@ describe("technical-flat source geometry", () => {
     expect(front.issues.some((issue) => issue.code === "UNRESOLVED_PROJECTION_EDGE"
       && issue.message.includes("crossing source roles"))).toBe(true);
     expect(back.issues.some((issue) => issue.code === "UNRESOLVED_PROJECTION_EDGE"
-      && issue.message.includes("Woven sleeve-cap placement"))).toBe(true);
+      && issue.message.includes("Woven sleeve-cap placement"))).toBe(false);
     expect(front.primitives).toEqual([]);
-    expect(back.primitives).toEqual([]);
+    expect(back.primitives.some((primitive) => primitive.source.sourceId === "pattern:woven-shirt:role:back")).toBe(true);
+    expect(back.primitives.some((primitive) => primitive.source.sourceId === "pattern:woven-shirt:role:yoke")).toBe(true);
     for (const face of openMap.faces) for (const roleId of ["outerStand", "upperCollar"]) {
       const role = face.roles.find((candidate) => candidate.roleId === roleId)!;
       expect(role.runs.some((run) => run.from.kind === "woven-neckline-shoulder"
@@ -150,8 +151,15 @@ describe("technical-flat source geometry", () => {
       expect(role.heldEdges).toEqual([]);
     }
     for (const face of openMap.faces) {
-      const bodyRoleId = face.kind === "FRONT_FLAT" ? "front" : "yoke";
-      expect(face.roles.find((role) => role.roleId === bodyRoleId)?.heldEdges.length).toBeGreaterThan(0);
+      if (face.kind === "BACK_FLAT") {
+        for (const bodyRoleId of ["back", "yoke"]) {
+          const bodyRole = face.roles.find((role) => role.roleId === bodyRoleId)!;
+          expect(bodyRole.heldEdges).toEqual([]);
+          expect(bodyRole.foldAxisReflection).toMatchObject({ edgeId: "centerBack", source: "Piece.onFold" });
+        }
+      } else {
+        expect(face.roles.find((role) => role.roleId === "front")?.heldEdges.length).toBeGreaterThan(0);
+      }
       const lowerRole = face.roles.find((role) => role.roleId === (face.kind === "FRONT_FLAT" ? "front" : "back"));
       if (lowerRole) {
         expect(lowerRole.runs.some((run) => run.edgeId === "vent")

@@ -165,12 +165,17 @@ describe("compileTechnicalFlatLiveView", () => {
         } else {
           expect(result.view).toBeNull();
           expect(result.colorway).toBeNull();
-          expect(result.issues.some((issue) => issue.stage === "geometry"
-            && issue.message.includes(kind === "FRONT_FLAT" ? "crossing source roles" : "Woven sleeve-cap placement"))).toBe(true);
+          if (kind === "FRONT_FLAT") {
+            expect(result.issues.some((issue) => issue.stage === "geometry"
+              && issue.message.includes("crossing source roles"))).toBe(true);
+          } else {
+            expect(result.issues.some((issue) => issue.stage === "geometry"
+              && issue.message.includes("Woven sleeve-cap placement"))).toBe(false);
+            expect(result.issues.some((issue) => issue.stage === "assembly"
+              && issue.message.includes("Woven sleeve-cap ease"))).toBe(true);
+          }
           expect(result.issues.some((issue) => issue.stage === "geometry"
             && issue.message.includes("no authored front/back split landmark"))).toBe(false);
-          if (kind === "BACK_FLAT") expect(result.issues.some((issue) => issue.stage === "assembly"
-            && issue.message.includes("Woven sleeve-cap ease"))).toBe(true);
         }
       }
     }

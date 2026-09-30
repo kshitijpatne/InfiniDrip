@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 514,
-  "updatedAt": "2026-09-30T09:19:59.624Z",
+  "revision": 520,
+  "updatedAt": "2026-09-30T09:42:32.720Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -180,7 +180,8 @@
         "E-G04-S293-START",
         "E-G04-S293-EXIT",
         "E-G04-S294-START",
-        "E-G04-S294-EXIT"
+        "E-G04-S294-EXIT",
+        "E-G04-S295-START"
       ]
     },
     {
@@ -2822,7 +2823,8 @@
         "E-G04-S287-START",
         "E-G04-S287-EXIT",
         "E-G04-S288-START",
-        "E-G04-S288-EXIT"
+        "E-G04-S288-EXIT",
+        "E-G04-S295-EXIT"
       ],
       "flagKey": null
     },
@@ -5750,6 +5752,16 @@
           "at": "2026-09-30T09:19:59.624Z",
           "actor": "Codex",
           "text": "Slice 294 exit: the Massey composite-collar thesis and Müller & Sohn separate-stand article add construction evidence but neither maps the shoulder station onto the current Polo/Woven outer contour. No production change; retain both full-face holds. V02 stays In Progress; V03 remains gated pending V02 acceptance."
+        },
+        {
+          "at": "2026-09-30T09:24:37.376Z",
+          "actor": "Codex",
+          "text": "Slice 295 started 2026-09-30 09:23:12 UTC from clean S294 commit 3fb4177 on refreshed origin/main ancestor a5af5e1, with board revision 514 and unique slice 295. Scope: map only the exact source-declared Woven back-lower/yoke center folds; preserve whole-view holds for unresolved front/sleeve/collar roles and prove no partial output. Packet: docs/research/epic17/G04-V02-WOVEN-BACK-YOKE-FOLD-MAP-S295.md. V02 remains In Progress; V03 stays gated."
+        },
+        {
+          "at": "2026-09-30T09:42:32.720Z",
+          "actor": "Maintainer",
+          "text": "Slice 295 exit: source-declared Woven back/yoke fold-axis projection mapping is covered for all 28 option configurations; Chromium confirms all 56 front/back faces remain held with visible guidance and no browser/request errors. No partial face is emitted. V02 remains In Progress; V03 stays gated."
         }
       ],
       "evidenceRefs": [
@@ -5794,7 +5806,9 @@
         "E-G04-S293-START",
         "E-G04-S293-EXIT",
         "E-G04-S294-START",
-        "E-G04-S294-EXIT"
+        "E-G04-S294-EXIT",
+        "E-G04-S295-START",
+        "E-G04-S295-EXIT"
       ],
       "flagKey": null
     },
@@ -7050,6 +7064,24 @@
       "sha256": null,
       "verified": true,
       "note": "The reviewed primary collar references support construction but not exact shoulder-to-outer-edge correspondence for the current Polo/Woven contours. Both remain fully held; no production changes."
+    },
+    {
+      "id": "E-G04-S295-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-BACK-YOKE-FOLD-MAP-S295.md",
+      "commit": null,
+      "sha256": null,
+      "verified": false,
+      "note": "Bounded source-backed Woven back/yoke on-fold map; full faces must remain held while sleeve/front/collar assembly is unresolved."
+    },
+    {
+      "id": "E-G04-S295-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-BACK-YOKE-FOLD-MAP-S295.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Exact source-declared Woven back/yoke center-fold view metadata is covered; production Chromium keeps all 56 Woven front/back faces held without partial output."
     }
   ]
 }

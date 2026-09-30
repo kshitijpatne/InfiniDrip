@@ -1,6 +1,20 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 294 collar-reference review; V02 remains open, 2026-09-30._
+_Last updated: Slice 295 Woven fold-axis view metadata; V02 remains open, 2026-09-30._
+
+## EPIC-17 / G04 — Slice 295 complete; V02 remains open
+
+- **Goal and scope:** 2026-09-30 09:23:12 UTC start. Map only source-declared Woven back/yoke center-back folds into view metadata. Do not change cut geometry or release either complete Woven live face; retain unsupported front pair/placket, sleeve-cap, collar and assembly holds.
+- **Git:** began clean at S294 `3fb4177f47d18a0b86b2d5a29e7c1bb8bd851e14` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. S295 uniquely reserved. Commit is pending final diff review.
+- **Board:** revision 517 at S295 start; packet/start evidence linked. Revision 518 links verified S295 exit evidence to G04-V02, 519 to EPIC-17, and 520 records the exit comment through the validated Control Center command layer. G04-V02 remains In Progress; V03 remains Backlog.
+- **Implementation:** only the Woven `back`/`yoke` projection holds were removed. Exact `Piece.onFold` `centerBack` x=0 edges drive view-only fold reflection and are excluded from exterior runs; source contours remain one-sided. No pattern/cut coordinates or DXF/export code changed.
+- **Acceptance:** all 28 Woven configurations across 13 options retain exact projection accounting. The production Chromium matrix completed 56 faces: 0 emitted, 56 visibly held. Front faces report unresolved crossing/front roles; back faces report the Woven sleeve-cap assembly conflict. No partial live face is rendered.
+- **Manual review and retained evidence:** manually inspected default front/back and `buttonCount=min` front plus `sideVentDepth=min` back; all show visible guidance, no partial outline, and no misleading assembled depiction. Matrix, exact input values, error lists and screenshots are in `docs/research/epic17/S295-browser/`. Console/page/request errors: 0.
+- **Verification:** changed `technical-flat-projection.ts` has 100% statement, branch, function and line coverage (18 tests). Projection/geometry/live/flat focused suites pass 51/51. `npm run build` passes with only the existing Vite chunk advisory. Protected export identity, tech-pack surface and legacy-DXF tests pass 24/24. Control Center passes 33/33 after its latest-board-comment assertion was updated; `git diff --check` passes.
+- **Findings/holds:** mapped MQF-004–007, MQF-011 and MQF-012 remain `To be reviewed`; MQF-015 stays gated for V03. Review outcomes add no scope. Post-G17 deferrals remain. No physical fit, factory acceptance, CAD interoperability, or production-readiness claim.
+- **Remaining source gates:** typed front-pair instance mapping and source-defined placket overlap/layer order; Woven sleeve-cap face split and placement; Polo/Woven exact collar landmark; Tee/Fitted sleeve contour/instances; Trouser placements; later V03 receiver/profile rights. Do not start V03 before V02 acceptance.
+- **Elapsed time:** 2026-09-30 09:23:12–09:45 UTC (about 22 minutes). Implementation 3m; focused test/coverage work and repairs 4m; build 1m; protected identity and Control Center checks 2m; production Chromium and manual screenshot review 9m; durable docs/board and final diff/commit closeout 3m; external-agent waits 0m; maintainer-decision time 0m (the view-metadata authority was already recorded).
+- **Next action:** refresh origin/branch history, inspect the complete S295 diff and verify output evidence; commit exactly one `Slice 295:` commit. Then choose one independent bounded V02 source/mapping blocker for the next uniquely numbered slice.
 
 ## EPIC-17 / G04 — Slice 294 complete; V02 remains open
 
