@@ -297,9 +297,11 @@ still showed crossed Polo and Woven-shirt contours. `Piece.onFold` describes
 pattern cutting, not finished-face visibility or role-instance count. The
 current collar sources also lack explicit exterior-edge landmarks at the
 front/back split. Do not use a whole-role mirror or stitch length alone as a
-finished-face projection rule. The next source-projection contract requires a
-maintainer decision recorded in `docs/PROJECT-DECISIONS.md` and retained in
-`docs/research/epic17/G04-V02-FACE-PROJECTION-S276.md`.
+finished-face projection rule. Slice 277 defines the explicit G04-owned
+projection-mapping metadata already called for by V01's admitted source-to-view
+map. It binds exact edge runs and landmarks to the drafted block/revision,
+fails closed when the source cannot support a partition, and leaves pattern
+cut geometry unchanged. It must not infer split points from a screenshot.
 
 The **Edit** view keeps user-authored deltas against stable recipe-owned
 anchors, rather than saving a disconnected picture. Pointer drags and keyboard

@@ -126,6 +126,12 @@ only through an explicitly admitted, linked Epic packet.
   provisional 25–29-slice estimate, rights/receiver gate, acceptance evidence and
   merge exit. V01 and its contracts are complete; consult `PROJECT-STATE.md`
   for the current V02 rendering and interchange gates.
+- `docs/research/epic17/G04-V02-PROJECTION-MAPPING-S277.md` — Slice 277's
+  current projection-mapping contract boundary, source-reference rules,
+  fail-closed semantics, and focused acceptance gates.
+- `src/render/technical-flat-projection.ts` — versioned G04 face-projection
+  metadata and exact drafted-topology validation. Interior split landmarks not
+  present as source endpoints remain unsupported and explicitly held.
 - `docs/research/epic17/G04-V01-SOURCE-INVENTORY.md` — Slice 262's observed
   source inventory and seven-recipe front/back candidate map. It records what
   pattern, stitch, mark, option, artwork and POM data can support and where
@@ -152,8 +158,7 @@ only through an explicitly admitted, linked Epic packet.
   Polo/Woven output that keeps V02 open.
 - `docs/research/epic17/G04-V02-FACE-PROJECTION-S276.md` — Slice 276's
   face-projection source investigation, rejected whole-fold reflection trial,
-  full 146-face browser evidence and the maintainer decision needed before the
-  next projection implementation. No experimental product code was retained.
+  and full 146-face browser evidence. No experimental product code was retained.
 - `src/render/technical-flat-mapping.ts` and
   `docs/research/epic17/G04-V01-MAPPING-S264.md` — Slice 264's explicit
   seven-recipe role-to-face map, topology checks, option endpoint checks,

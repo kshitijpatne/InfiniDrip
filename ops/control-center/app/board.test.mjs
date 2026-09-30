@@ -94,7 +94,7 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
       assert.deepEqual(card.dependencies, ["EPIC-14", "EPIC-15", "EPIC-16"]);
       const admittedWork = board.workItems.filter((entry) => entry.epicId === id && entry.id !== id);
       assert.deepEqual(admittedWork.map((entry) => entry.id), ["G04-V01", "G04-V02", "G04-V03"]);
-      assert.deepEqual(admittedWork.map((entry) => entry.status), ["Done", "Blocked", "Backlog"]);
+      assert.deepEqual(admittedWork.map((entry) => entry.status), ["Done", "In Progress", "Backlog"]);
       assert.ok(admittedWork[0].evidenceRefs.includes("E-G04-S264-EXIT"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S265-EXIT"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S266-EXIT"));
@@ -102,6 +102,8 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S268-EXIT"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S269-EXIT"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S276-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S277-EXIT"));
+      assert.match(admittedWork[1].comments.at(-1).text, /Slice 277 started.*Bounded contract implements admitted source-to-view mapping/);
       assert.deepEqual(admittedWork.map((entry) => entry.dependencies), [[], ["G04-V01"], ["G04-V02"]]);
     }
     if (id === "EPIC-16") {
