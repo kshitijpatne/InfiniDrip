@@ -18,6 +18,23 @@ _Last updated: Slice 286 Woven source-metadata implementation complete; V02 rema
 - **Board:** start revisions 463–466; `E-G04-S287-EXIT` linked to G04-V02 at 467, EPIC-17 at 468 and summary card at 469; exit comment at 470. Final revision 470; V02 remains In Progress and V03 Backlog.
 - **Elapsed time:** 07:28:29–07:44:41 UTC (16m12s): source/topology audit 5m; guidance implementation 1m; focused tests/coverage/build/export/board checks 4m; browser/rendered review 5m; durable closeout 1m; agent waits 0m; maintainer decision 0m.
 
+### Slice 288 — G04 V02 Polo collar landmark audit (in progress)
+
+- **Start:** 2026-09-30 07:47:22 UTC. Packet: `docs/research/epic17/G04-V02-POLO-COLLAR-LANDMARK-S288.md`.
+- **Git:** clean at S287 `31c8e2755754e1fc920a4887c1517971db13b522` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. S287 highest; S288 uniquely reserved.
+- **Board:** canonical revision 470; S287 exit evidence is linked. Link S288 packet and start comment through the validated command layer.
+- **Goal:** find a specific source that uniquely ties the Polo outer-collar cubic to its shoulder landmark; otherwise preserve a hold. No production/cut-geometry change in this research packet.
+- **Decision/gates:** generic collar type or base-seam shoulder notch is not proof of a point on the cubic outer contour. Record exact source claim, pattern edge IDs and the evidence gap. V02 remains open; no V03 work until V02 passes.
+- **Next action:** reserve S289 for source-backed Trouser front/back assembly placement; preserve its current face holds unless the distinct leg roles and sewn interfaces prove a coherent unique view.
+
+#### Slice 288 exit — Polo outer contour stays held
+
+- **Source result:** local Polo collar geometry has exact CB/shoulder/CF marks on base/neck seams, while the upper/under outer contour is one authored cubic with no shoulder mark or cross-contour rule. Jalie 3137, Maelo BL-018 and Threads' two-piece collar drafting guide specify layered construction and seam landmarks but no point on InfiniDrip's cubic. Other reviewed references concern different shapes. Do not infer a split or edit cut geometry. See `docs/research/epic17/G04-V02-POLO-COLLAR-LANDMARK-S288.md`.
+- **Acceptance:** source audit passed; Polo collar faces remain held. G04 V02 remains In Progress and V03 Backlog. MQF-004–007, MQF-011/012 remain `To be reviewed`; MQF-015 remains for V03; post-G17 deferrals are unchanged.
+- **Board:** start revisions 471–474; verified S288 exit evidence/comment linked at revisions 475–478. Final board revision 478; V02 In Progress, V03 Backlog.
+- **Verification:** `npm run control-center:test` passed 33/33; `git diff --check` passed. This research-only source audit changed no product code, rendered output, cut geometry or export, so those gates did not apply.
+- **Elapsed time:** 07:47:22–07:52:18 UTC (4m56s): primary source/local geometry review 3m; Control Center/diff checks 1m; docs/board closeout 1m; external-agent waits 0m; maintainer-decision time 0m.
+
 ### Slice 286 — G04 V02 Woven collar/closed vent metadata (complete; V02 remains open)
 
 - **Start / Git:** started 2026-09-30 06:35:08 UTC from clean S285 `9f059d3cf869ec7310e8f72af6829059063a97e8` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. S285 was highest; S286 reserved and landed under subject `Slice 286: map Woven collar and closed vent views`; see active branch history for its identifier. Slice packet: `docs/research/epic17/G04-V02-WOVEN-COLLAR-VENT-S286.md`.

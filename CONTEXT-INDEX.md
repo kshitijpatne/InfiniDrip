@@ -174,6 +174,11 @@ only through an explicitly admitted, linked Epic packet.
   crossing source roles. The current eased aggregate stitch and pattern notch
   do not define front/back cap boundaries or instances; the affected faces
   remain held.
+- `docs/research/epic17/G04-V02-POLO-COLLAR-LANDMARK-S288.md` — completed
+  source audit for a pattern-specific shoulder correspondence on the Polo's
+  authored outer collar cubic. Specific Polo and two-piece collar references
+  establish base-seam construction but not a unique outer-cubic point; its
+  faces remain held.
 - `src/render/technical-flat-projection.ts` — versioned G04 face-projection
   metadata and exact drafted-topology validation. Interior split landmarks not
   present as source endpoints remain unsupported and explicitly held.
