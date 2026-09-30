@@ -46,7 +46,24 @@ describe("compileTechnicalFlatLiveView", () => {
     expect(front.view?.primitives.every((primitive) => primitive.source.revisionId === "live-tank-42")).toBe(true);
     expect(back.view?.primitives.every((primitive) => primitive.source.revisionId === "live-tank-42")).toBe(true);
     expect(front.view?.primitives.some((primitive) => primitive.kind === "callout")).toBe(true);
-    expect(back.view?.notices.some((notice) => notice.message.includes("no back anchor is inferred"))).toBe(true);
+    const tankBackCallouts = back.view?.primitives.filter((primitive) => primitive.kind === "callout") ?? [];
+    expect(tankBackCallouts).toHaveLength(4);
+    for (const sourceId of [
+      "pom:tank:body-chest-finished", "pom:tank:body-length-hps-hem",
+      "pom:tank:across-shoulder", "pom:tank:neck-width",
+    ]) {
+      const callout = tankBackCallouts.find((primitive) => primitive.source.sourceId === sourceId);
+      const target = back.view?.primitives.find((primitive) => primitive.kind === "path"
+        && primitive.id === "flat:tank:BACK_FLAT:component:back:outline");
+      expect(callout).toMatchObject({ kind: "callout", source: { sourceId, revisionId: "live-tank-42" },
+        anchor: { primitiveId: "flat:tank:BACK_FLAT:component:back:outline" } });
+      if (callout?.kind !== "callout" || target?.kind !== "path") throw new Error("Expected exact Tank back POM geometry.");
+      expect(target.commands.some((command) => command.op !== "close"
+        && command.point.x === callout.anchor.point.x && command.point.y === callout.anchor.point.y)).toBe(true);
+    }
+    expect(tankBackCallouts.some((callout) => callout.source.sourceId === "pom:tank:front-neck-drop")).toBe(false);
+    expect(back.view?.notices.some((notice) => notice.sourceId === "pom:tank:front-neck-drop"
+      && notice.message.includes("no back anchor is inferred"))).toBe(true);
     expect(front.view?.primitives.find((primitive) => primitive.kind === "path")?.kind).toBe("path");
     expect(front.view?.primitives.filter((primitive) => primitive.kind === "path")
       .every((primitive) => primitive.sourceEdgeIds?.every((id) => id.startsWith("pattern:tank:role:")))).toBe(true);

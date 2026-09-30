@@ -134,6 +134,12 @@ only through an explicitly admitted, linked Epic packet.
   source-equivalent Skirt waist/hip anchors on the accepted back flat, plus
   current rendered evidence and hold limits. Use `PROJECT-STATE.md` and the
   validated Control Center board for the next boundary.
+- `docs/research/epic17/G04-V02-TANK-BACK-POM-ANCHORS-S313.md` — Slice 313's
+  active source-equality gate for exact Tank back POM targets. Front-neck drop
+  remains front-only; exit evidence and unsupported-view holds are recorded in
+  the packet and `PROJECT-STATE.md`.
+- `docs/research/epic17/S313-tank-back-pom-browser/` — S313 production Chromium
+  matrix, parsed SVGs, diagnostics and manually reviewed default screenshots.
 - `docs/research/epic17/G04-V02-PROJECTION-MAPPING-S277.md` — Slice 277's
   current projection-mapping contract boundary, source-reference rules,
   fail-closed semantics, and focused acceptance gates.

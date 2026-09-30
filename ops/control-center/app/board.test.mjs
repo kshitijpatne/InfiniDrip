@@ -92,10 +92,10 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
     if (id === "EPIC-17") {
       assert.match(epic.description, /docs\/planning\/EPIC-17-ADMISSION\.md/);
       assert.match(epic.description, /57–71 landed slices/);
-      assert.match(epic.description, /5–19 remain(?:ing)? from (?:verified )?S312/);
+      assert.match(epic.description, /8–18 remain(?:ing)? from (?:verified )?S313/);
       assert.match(epic.description, /28\/146 faces accepted; 118 held/);
       assert.match(card.description, /57–71 landed slices/);
-      assert.match(card.description, /5–19 remain(?:ing)? from S312/);
+      assert.match(card.description, /8–18 remain(?:ing)? from S313/);
       assert.ok(card.evidenceRefs.includes("E-G04-S286-EXIT"));
       assert.ok(card.evidenceRefs.includes("E-G04-S300-EXIT"));
       assert.ok(card.evidenceRefs.includes("E-G04-S301-START"));
@@ -118,6 +118,8 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
       assert.ok(card.evidenceRefs.includes("E-G04-S311-EXIT"));
       assert.ok(card.evidenceRefs.includes("E-G04-S312-START"));
       assert.ok(card.evidenceRefs.includes("E-G04-S312-EXIT"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S313-START"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S313-EXIT"));
       assert.ok(card.evidenceRefs.includes("E-G04-S301-EXIT"));
       assert.ok(epic.evidenceRefs.includes("E-G04-S300-EXIT"));
       assert.ok(epic.evidenceRefs.includes("E-G04-S301-START"));
@@ -139,6 +141,8 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
       assert.ok(epic.evidenceRefs.includes("E-G04-S311-EXIT"));
       assert.ok(epic.evidenceRefs.includes("E-G04-S312-START"));
       assert.ok(epic.evidenceRefs.includes("E-G04-S312-EXIT"));
+      assert.ok(epic.evidenceRefs.includes("E-G04-S313-START"));
+      assert.ok(epic.evidenceRefs.includes("E-G04-S313-EXIT"));
       assert.ok(epic.evidenceRefs.includes("E-G04-S301-EXIT"));
       assert.ok(card.comments.some((comment) => /Re-estimate from verified S301 boundary: 4\/146 faces are accepted, 142 remain held/.test(comment.text)));
       assert.ok(card.comments.some((comment) => /Re-estimate from verified S307 boundary: 28\/146 faces are accepted, 118 remain held/.test(comment.text)));
@@ -147,7 +151,8 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
       assert.ok(card.comments.some((comment) => /Re-estimate from verified S309 boundary: output remains 28\/146 accepted and 118 held; 8–22 conditional slices remain/.test(comment.text)));
       assert.ok(card.comments.some((comment) => /Slice 310 started 2026-09-30 16:41:59 UTC from clean S309 b89eec1.*G04-V02-TROUSER-WAISTBAND-DEPTH-POM-S310\.md/.test(comment.text)));
       assert.ok(card.comments.some((comment) => /Re-estimate from verified S310 boundary: output remains 28\/146 accepted and 118 held; 7–21 conditional slices remain/.test(comment.text)));
-      assert.match(card.comments.at(-1).text, /Slice 312 exit: Skirt waist and hip POMs resolve to matching exact front\/back outline vertices.*V02 remains In Progress; V03 remains Backlog/);
+      assert.ok(card.comments.some((comment) => /Slice 312 exit: Skirt waist and hip POMs resolve to matching exact front\/back outline vertices.*V02 remains In Progress; V03 remains Backlog/.test(comment.text)));
+      assert.match(card.comments.at(-1).text, /Slice 313 exit: four existing Tank POM anchors resolve to exact same-revision back-outline vertices.*V02 remains In Progress; V03 remains Backlog/);
       assert.deepEqual(card.dependencies, ["EPIC-14", "EPIC-15", "EPIC-16"]);
       const admittedWork = board.workItems.filter((entry) => entry.epicId === id && entry.id !== id);
       assert.deepEqual(admittedWork.map((entry) => entry.id), ["G04-V01", "G04-V02", "G04-V03"]);
@@ -210,6 +215,8 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S311-EXIT"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S312-START"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S312-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S313-START"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S313-EXIT"));
       assert.ok(admittedWork[1].comments.some((comment) => /Slice 305 started 2026-09-30 13:19:48 UTC.*G04-V02-TROUSER-WAISTBAND-VIEW-SEGMENTS-S305\.md/.test(comment.text)));
       assert.ok(admittedWork[1].comments.some((comment) => /Slice 305 exit: TROUSER-RESEARCH specifies one closed waistband, separate front\/back joins.*S306.*V02 remains In Progress; V03 remains Backlog/.test(comment.text)));
       assert.ok(admittedWork[1].comments.some((comment) => /Slice 306 started 2026-09-30 13:32:50 UTC.*G04-V02-TROUSER-WAISTBAND-FRAGMENTS-S306\.md/.test(comment.text)));
@@ -222,7 +229,9 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
       assert.ok(admittedWork[1].comments.some((comment) => /Slice 309 exit: the finished back-rise POM is anchored to the exact same-revision backLeft center-back crotch vertex.*V02 remains In Progress; V03 remains Backlog/.test(comment.text)));
       assert.ok(admittedWork[1].comments.some((comment) => /Start Slice 310 at 2026-09-30 16:41:59 UTC from clean S309 b89eec1.*G04-V02-TROUSER-WAISTBAND-DEPTH-POM-S310\.md/.test(comment.text)));
       assert.ok(admittedWork[1].comments.some((comment) => /Slice 310 exit: source and retained production SVGs prove the authored `centerBack` mark is the exact same-revision midpoint of the compiled back closure edge in all 24 accepted configurations.*S311 will add the typed mark-entity anchor/.test(comment.text)));
-      assert.match(admittedWork[1].comments.at(-1).text, /Slice 312 exit: Skirt waist and hip POMs resolve to matching exact front\/back outline vertices.*V02 remains In Progress; V03 remains Backlog/);
+      assert.ok(admittedWork[1].comments.some((comment) => /Slice 312 exit: Skirt waist and hip POMs resolve to matching exact front\/back outline vertices.*V02 remains In Progress; V03 remains Backlog/.test(comment.text)));
+      assert.ok(admittedWork[1].comments.some((comment) => /Slice 313 started 2026-09-30 18:33:26 UTC from clean S312 c7e7a6fc.*G04-V02-TANK-BACK-POM-ANCHORS-S313\.md/.test(comment.text)));
+      assert.match(admittedWork[1].comments.at(-1).text, /Slice 313 exit: four existing Tank POMs now target exact same-revision back vertices on front\/back flats.*V02 remains In Progress; V03 remains Backlog/);
       assert.ok(admittedWork[1].comments.some((comment) => /Slice 304 started 2026-09-30 13:02:44 UTC.*G04-V02-ACCEPTED-FACE-OVERLAYS-S304\.md/.test(comment.text)));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S301-EXIT"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S285-EXIT"));

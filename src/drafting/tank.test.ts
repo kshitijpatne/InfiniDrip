@@ -3,9 +3,10 @@ import { STANDARD_M } from "./measurements";
 import { draftTank, tankGuidance, TANK_NOTCHES, TANK_POMS } from "./tank";
 import { TANK, gradeRun, specSheet } from "./index";
 import { rolePiece, blockPieces } from "./block";
-import { pieceEdge } from "./piece";
+import { edgeEnd, edgeStart, pieceEdge } from "./piece";
 import { stitchChecks } from "./stitch";
 import { garmentReport } from "../guidance/garment-check";
+import { TSHIRT_POMS } from "./tshirt-pom";
 
 describe("draftTank", () => {
   it("drafts a front and back panel — no sleeve role", () => {
@@ -156,6 +157,41 @@ describe("TANK_NOTCHES / TANK_POMS", () => {
   it("drops the 3 sleeve POMs the tee has, keeps everything else", () => {
     expect(TANK_POMS).toHaveLength(7);
     expect(TANK_POMS.some((p) => p.label.toLowerCase().includes("sleeve"))).toBe(false);
+  });
+
+  it("anchors only exact same-draft Tank back vertices and leaves front neck drop front-only", () => {
+    const variants = [
+      STANDARD_M,
+      { ...STANDARD_M, chest: 92, shoulderWidth: 39, length: 64, armholeDepth: 19, strapWidth: 9, neckDrop: 8, neckWidthEase: 2, ease: 12 },
+      { ...STANDARD_M, chest: 106, shoulderWidth: 44, length: 72, armholeDepth: 24, strapWidth: 13, neckDrop: 3, neckWidthEase: -1, ease: 8 },
+    ];
+    const methods = [
+      { index: 0, edge: "side", at: "start" as const },
+      { index: 1, edge: "hem", at: "start" as const },
+      { index: 2, edge: "shoulder", at: "end" as const },
+      { index: 5, edge: "shoulder", at: "start" as const },
+    ];
+    for (const measurements of variants) {
+      const block = draftTank(measurements);
+      for (const method of methods) {
+        const pom = TANK_POMS[method.index];
+        const frontPoint = method.at === "start"
+          ? edgeStart(pieceEdge(rolePiece(block, "front"), method.edge))
+          : edgeEnd(pieceEdge(rolePiece(block, "front"), method.edge));
+        const backPoint = method.at === "start"
+          ? edgeStart(pieceEdge(rolePiece(block, "back"), method.edge))
+          : edgeEnd(pieceEdge(rolePiece(block, "back"), method.edge));
+        expect(pom.anchor?.(block)).toEqual(frontPoint);
+        expect(pom.backAnchor?.(block)).toEqual(backPoint);
+        expect(backPoint).toEqual(frontPoint);
+        expect(pom.measure(block)).toBeCloseTo(TSHIRT_POMS[method.index].measure(block));
+        expect(pom.tolerance).toBe(TSHIRT_POMS[method.index].tolerance);
+      }
+      expect(TANK_POMS[6].backAnchor).toBeUndefined();
+      expect(TANK_POMS[6].anchor?.(block)).toEqual(edgeStart(pieceEdge(rolePiece(block, "front"), "neckline")));
+      expect(TANK_POMS[3].backAnchor).toBeUndefined();
+      expect(TANK_POMS[4].backAnchor).toBeUndefined();
+    }
   });
 });
 

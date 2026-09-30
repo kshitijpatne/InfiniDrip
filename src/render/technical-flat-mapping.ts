@@ -53,7 +53,7 @@ const makeMapping = (
 export const G04_TECHNICAL_FLAT_MAPPINGS: Readonly<Record<string, TechnicalFlatRecipeMapping>> = {
   tee: makeMapping("tee", [shell("front"), shell("sleeve")], [shell("back"), shell("sleeve")], "front"),
   fitted: makeMapping("fitted", [shell("front"), shell("sleeve")], [shell("back"), shell("sleeve")], "front"),
-  tank: makeMapping("tank", [shell("front")], [shell("back")], "front"),
+  tank: makeMapping("tank", [shell("front")], [shell("back")], "front", "back"),
   polo: makeMapping("polo",
     [shell("front"), shell("sleeve"), overlay("buttonPlacket"), interior("buttonholePlacket"), overlay("outerStand"), interior("innerStand"), overlay("upperCollar"), interior("underCollar")],
     [shell("back"), shell("sleeve"), overlay("outerStand"), interior("innerStand"), overlay("upperCollar"), interior("underCollar")],

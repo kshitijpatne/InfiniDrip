@@ -37,7 +37,30 @@ describe("mapTechnicalFlatSources", () => {
       }
       const backAnchors = mapping.sources.filter((source) => source.kind === "pom"
         && source.treatment === "ANCHORED" && source.viewKinds.includes("BACK_FLAT"));
-      expect(backAnchors, recipe.name).toHaveLength(recipe.name === "trouser" || recipe.name === "skirt" ? 2 : 0);
+      expect(backAnchors, recipe.name).toHaveLength(recipe.name === "trouser" || recipe.name === "skirt" ? 2 : recipe.name === "tank" ? 4 : 0);
+      if (recipe.name === "tank") {
+        const mappedTankAnchors = [
+          ["body-chest-finished", "side", "start"],
+          ["body-length-hps-hem", "hem", "start"],
+          ["across-shoulder", "shoulder", "end"],
+          ["neck-width", "shoulder", "start"],
+        ] as const;
+        for (const [label, edge, end] of mappedTankAnchors) {
+          expect(backAnchors.find((source) => source.sourceId === `pom:tank:${label}`)).toMatchObject({
+            viewKinds: ["BACK_FLAT"], treatment: "ANCHORED",
+            targetGeometryId: "flat:tank:BACK_FLAT:component:back:outline",
+          });
+          const method = recipe.poms.find((pom) => pom.label.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") === label)!;
+          const point = method.backAnchor!(block);
+          const piece = block.roles.back!;
+          const target = piece.edges.find((candidate) => candidate.name === edge)!;
+          expect(backAnchors.find((source) => source.sourceId === `pom:tank:${label}`)?.anchorPoint)
+            .toEqual(end === "start" ? (target.kind === "line" ? target.start : target.curve.start)
+              : (target.kind === "line" ? target.end : target.curve.end));
+          expect(point).toEqual(backAnchors.find((source) => source.sourceId === `pom:tank:${label}`)?.anchorPoint);
+        }
+        expect(backAnchors.some((source) => source.sourceId === "pom:tank:front-neck-drop")).toBe(false);
+      }
       if (recipe.name === "skirt") {
         expect(mapping.notices).toContainEqual(expect.objectContaining({
           sourceId: "pom:skirt:length-waist-hem", reason: "SOURCE_REFERENCE_MISSING",

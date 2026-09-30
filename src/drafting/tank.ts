@@ -17,7 +17,7 @@
 // `tankGuidance` below, which is the same function minus `armholeMatch`.
 
 import { Measurements, derive } from "./measurements";
-import { Block } from "./block";
+import { Block, rolePiece } from "./block";
 import { Note } from "../guidance/note";
 import { Stitch, edgeRef, iface, matchedNotch } from "./stitch";
 import { bodice } from "./bodice";
@@ -26,6 +26,7 @@ import { NecklineParams, necklineEdge } from "./neckline";
 import { sleevelessArmhole } from "./armhole";
 import { PieceNotches } from "./tshirt-notches";
 import { Pom } from "./pom";
+import { edgeEnd, edgeStart, pieceEdge } from "./piece";
 import { TSHIRT_POMS } from "./tshirt-pom";
 import { easeRange, armholeDepthCheck, shoulderCheck } from "./tshirt-guidance";
 
@@ -138,4 +139,17 @@ export const TANK_NOTCHES: readonly PieceNotches[] = [
 /** The tee's first 7 POMs (Body chest through Front neck drop) — the last 3
  *  (Sleeve length/bicep/hem) all read `rolePiece(b,"sleeve")`, which throws
  *  on a tank. */
-export const TANK_POMS: readonly Pom[] = TSHIRT_POMS.slice(0, 7);
+const TANK_BACK_POM_ANCHORS: Readonly<Partial<Record<number, (block: Block) => { readonly x: number; readonly y: number }>>> = {
+  0: (block) => edgeStart(pieceEdge(rolePiece(block, "back"), "side")),
+  1: (block) => edgeStart(pieceEdge(rolePiece(block, "back"), "hem")),
+  2: (block) => edgeEnd(pieceEdge(rolePiece(block, "back"), "shoulder")),
+  5: (block) => edgeStart(pieceEdge(rolePiece(block, "back"), "shoulder")),
+};
+
+/** The first seven shared body POMs, with back anchors only where the Tank's
+ * source-authored front method has an exact counterpart on its back panel.
+ * Front neck drop remains a front-face method. */
+export const TANK_POMS: readonly Pom[] = TSHIRT_POMS.slice(0, 7).map((pom, index) => {
+  const backAnchor = TANK_BACK_POM_ANCHORS[index];
+  return backAnchor ? { ...pom, backAnchor } : pom;
+});
