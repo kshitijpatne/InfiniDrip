@@ -48,6 +48,39 @@ export function technicalFlatPrimitiveRole(primitive: TechnicalFlatPrimitive, pr
     || sourceId.includes(`mark:${roleId}:`) || sourceId.includes(`dart:${roleId}:`)) ?? "";
 }
 
+export function reflectFoldPrimitive(
+  primitive: TechnicalFlatPrimitive,
+  foldEdgeId: string,
+): TechnicalFlatPrimitive | undefined {
+  if (primitive.kind === "path") {
+    if (primitive.sourceEdgeIds) {
+      const keepIndexes = primitive.sourceEdgeIds.flatMap((sourceId, index) =>
+        sourceId.endsWith(`:edge:${foldEdgeId}`) ? [] : [index]);
+      if (keepIndexes.length === 0) return undefined;
+      return {
+        ...primitive,
+        id: `${primitive.id}:fold-reflection`,
+        sourceEdgeIds: keepIndexes.map((index) => primitive.sourceEdgeIds![index]!),
+        commands: keepIndexes.flatMap((index) => primitive.commands.slice(index * 2, index * 2 + 2)),
+      };
+    }
+    const points = primitive.commands.flatMap((command) => {
+      if (command.op === "close") return [];
+      if (command.op === "cubic") return [command.control1, command.control2, command.point];
+      return [command.point];
+    });
+    if (points.length === 0 || points.every((point) => point.x === 0)) return undefined;
+    return { ...primitive, id: `${primitive.id}:fold-reflection` };
+  }
+  if (primitive.kind === "mark") {
+    return primitive.at.x === 0 ? undefined : { ...primitive, id: `${primitive.id}:fold-reflection` };
+  }
+  if (primitive.kind === "circle") {
+    return primitive.center.x === 0 ? undefined : { ...primitive, id: `${primitive.id}:fold-reflection` };
+  }
+  return undefined;
+}
+
 /** Compose one face from a single exact block, revision and sewn-role solution. */
 export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): TechnicalFlatLiveResult {
   const { recipe, block, revisionId, kind } = input;
@@ -80,6 +113,13 @@ export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): Tec
     }
     transformed.push(transformFlatPrimitive(primitive, { offset: placement.offset,
       rotationDegrees: placement.rotationDegrees, mirrorX: false }));
+    const foldAxis = projectionMap?.faces.find((candidate) => candidate.kind === kind)?.roles
+      .find((candidate) => candidate.roleId === roleId)?.foldAxisReflection;
+    if (foldAxis) {
+      const mirrored = reflectFoldPrimitive(primitive, foldAxis.edgeId);
+      if (mirrored) transformed.push(transformFlatPrimitive(mirrored, { offset: placement.offset,
+        rotationDegrees: placement.rotationDegrees, mirrorX: true }));
+    }
   }
   if (!mapping || !face) issues.push({ stage: "geometry", sourceId: recipe.name,
     message: `Recipe “${recipe.label}” has no admitted ${kind === "FRONT_FLAT" ? "front" : "back"} flat mapping.` });

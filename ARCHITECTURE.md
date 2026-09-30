@@ -311,10 +311,14 @@ recipe maps to the live renderer with same-block/revision validation. Its
 production output review rejected all eight emitted defaults as incomplete
 half-pattern assemblies with crossing lines; V02 remains open. Polo/Woven
 collar contours stay held pending exact source landmarks. The maintainer has
-authorized view-only fold-axis reflection for source-declared `onFold` roles
-and face-specific landmarks/multiplicity only when construction evidence
-supports them. No canonical cut geometry may change, and unsupported views
-remain withheld.
+authorized view-only fold-axis reflection only when a source-declared
+`onFold` role also has an explicit garment center edge on local `x=0` and its
+remaining drafted geometry stays on one side. The reflected SVG keeps source
+IDs, avoids duplicating the center edge, and does not mutate the draft. A
+construction fold on a component such as the Skirt waistband is not a garment
+center axis and is explicitly excluded. Face-specific landmarks or
+multiplicity still require direct construction evidence; no instance count is
+inferred.
 
 The **Edit** view keeps user-authored deltas against stable recipe-owned
 anchors, rather than saving a disconnected picture. Pointer drags and keyboard

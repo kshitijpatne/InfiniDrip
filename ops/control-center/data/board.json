@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 425,
-  "updatedAt": "2026-09-30T02:16:19.886Z",
+  "revision": 427,
+  "updatedAt": "2026-09-30T02:59:51.328Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -5566,6 +5566,11 @@
           "at": "2026-09-30T01:32:28.375Z",
           "actor": "Codex",
           "text": "Slice 279 started 2026-09-30 01:29:34 UTC from e77a1c5acd7f66eed860b9af243a1096daf3e0af. Packet: docs/research/epic17/G04-V02-LIVE-PROJECTION-S279.md. Scope is explicit source-backed maps for all seven recipes, same-block/revision live integration, the 146-request browser matrix and manual review; source-unsupported contours remain visibly withheld."
+        },
+        {
+          "at": "2026-09-30T02:17:44.918Z",
+          "actor": "Codex",
+          "text": "Slice 280 started 2026-09-30 02:17:36 UTC from 85195cd4d6c89d9abeb9c3be26087ab687d77180. Packet: docs/research/epic17/G04-V02-ON-FOLD-VIEW-METADATA-S280.md. Bound scope audits explicit construction evidence for view-only fold axes and face metadata; unsupported rules remain held, with no cut geometry changes."
         }
       ],
       "evidenceRefs": [
@@ -5584,7 +5589,8 @@
         "E-G04-S276-EXIT",
         "E-G04-S277-EXIT",
         "E-G04-S278-EXIT",
-        "E-G04-S279-EXIT"
+        "E-G04-S279-EXIT",
+        "E-G04-S280-EXIT"
       ],
       "flagKey": null
     },
@@ -6606,6 +6612,15 @@
       "sha256": null,
       "verified": true,
       "note": "Verified S279 implementation and retained production output review. Matrix completed, but all eight emitted defaults were visually rejected as incomplete crossed half-pattern assemblies; V02 remains In Progress."
+    },
+    {
+      "id": "E-G04-S280-EXIT",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/G04-V02-ON-FOLD-VIEW-METADATA-S280.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Verified source-backed view-only center-fold reflection, exact revision validation, protected identities and retained browser review. Several required outputs remain crossed/offset or visibly withheld, so V02 remains In Progress."
     }
   ]
 }

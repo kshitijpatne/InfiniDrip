@@ -5,6 +5,7 @@ import { defaultGarmentOptions } from "../drafting/options";
 import { G04_TECHNICAL_FLAT_MAPPINGS } from "./technical-flat-mapping";
 import {
   createG04TechnicalFlatProjectionMap,
+  G04_NON_MIRRORED_ON_FOLD_ROLES,
   G04_UNRESOLVED_PROJECTION_ROLES,
   validateTechnicalFlatProjectionMap,
   type TechnicalFlatProjectionMap,
@@ -72,6 +73,78 @@ describe("validateTechnicalFlatProjectionMap", () => {
         }
       }
     }
+  });
+
+  it("records only source-validated local-y fold axes across every recipe option endpoint", () => {
+    for (const recipe of GARMENTS) {
+      const endpointOptions = [undefined, ...(recipe.options ?? []).flatMap((option) => [option.min, option.max].map((value) => ({ [option.id]: value })))];
+      for (const options of endpointOptions) {
+        const block = recipe.draft(STANDARD_M, { ...defaultGarmentOptions(recipe.options ?? []), ...options });
+        const map = createG04TechnicalFlatProjectionMap(recipe.name, block, REVISION)!;
+        expect(validateTechnicalFlatProjectionMap(recipe.name, block, REVISION, map), recipe.name).toEqual([]);
+        for (const face of map.faces) for (const role of face.roles) {
+          const piece = block.roles[role.roleId]!;
+          const expectedReflection = piece.onFold && role.treatment !== "INTERIOR_HIDDEN"
+            && !G04_UNRESOLVED_PROJECTION_ROLES[recipe.name]?.[role.roleId]
+            && !G04_NON_MIRRORED_ON_FOLD_ROLES[recipe.name]?.[role.roleId];
+          expect(Boolean(role.foldAxisReflection)).toBe(expectedReflection);
+          if (expectedReflection) {
+            expect(piece.onFold).toBe(true);
+            expect(role.foldAxisReflection).toMatchObject({ axis: "LOCAL_Y", source: "Piece.onFold" });
+            const edge = piece.edges.find((candidate) => candidate.name === role.foldAxisReflection?.edgeId);
+            expect(edge).toMatchObject({ kind: "line", start: { x: 0 }, end: { x: 0 } });
+            expect(piece.edges.every((candidate) => {
+              const points = candidate.kind === "line" ? [candidate.start, candidate.end]
+                : [candidate.curve.start, candidate.curve.control1, candidate.curve.control2, candidate.curve.end];
+              return points.every((point) => point.x >= 0);
+            })).toBe(true);
+          } else {
+            if (G04_NON_MIRRORED_ON_FOLD_ROLES[recipe.name]?.[role.roleId]) {
+              expect(role.heldEdges).toEqual([]);
+              expect(role.runs).toHaveLength(piece.edges.length);
+            }
+          }
+        }
+      }
+    }
+  });
+
+  it("rejects a fold reflection that does not resolve to the exact drafted fold edge", () => {
+    const { block } = draft("tee");
+    const map = createG04TechnicalFlatProjectionMap("tee", block, REVISION)!;
+    const invalid = { ...map, faces: map.faces.map((face, index) => index === 0 ? { ...face,
+      roles: face.roles.map((role) => role.roleId === "front" ? { ...role,
+        foldAxisReflection: { ...role.foldAxisReflection!, edgeId: "side" } } : role) } : face) } as unknown as TechnicalFlatProjectionMap;
+    expect(validateTechnicalFlatProjectionMap("tee", block, REVISION, invalid).map((issue) => issue.code))
+      .toContain("INVALID_FOLD_AXIS_REFLECTION");
+    const malformed = { ...map, faces: map.faces.map((face, index) => index === 0 ? { ...face,
+      roles: face.roles.map((role) => role.roleId === "front" ? { ...role,
+        foldAxisReflection: { ...role.foldAxisReflection!, edgeId: 23 } } : role) } : face) } as unknown as TechnicalFlatProjectionMap;
+    expect(validateTechnicalFlatProjectionMap("tee", block, REVISION, malformed).map((issue) => issue.code))
+      .toContain("INVALID_FOLD_AXIS_REFLECTION");
+  });
+
+  it("holds an on-fold role if its explicit source boundary is no longer available", () => {
+    const { block } = draft("tee");
+    const front = block.roles.front!;
+    const invalidBlock = { ...block, roles: { ...block.roles, front: { ...front,
+      onFold: true, edges: front.edges.map((edge) => edge.name === "centerFront" ? { ...edge, name: "renamed-boundary" } : edge) } } };
+    const map = createG04TechnicalFlatProjectionMap("tee", invalidBlock, REVISION)!;
+    expect(map.faces[0].roles.find((role) => role.roleId === "front")?.heldEdges[0]?.reason)
+      .toContain("one explicit straight center/fold edge");
+    const offAxisBlock = { ...block, roles: { ...block.roles, front: { ...front,
+      edges: front.edges.map((edge) => edge.name === "centerFront" && edge.kind === "line"
+        ? { ...edge, start: { ...edge.start, x: 0.1 } } : edge) } } };
+    const offAxisMap = createG04TechnicalFlatProjectionMap("tee", offAxisBlock, REVISION)!;
+    expect(offAxisMap.faces[0].roles.find((role) => role.roleId === "front")?.heldEdges[0]?.reason)
+      .toContain("one explicit straight center/fold edge");
+    const nonAxisLine = front.edges.find((edge) => edge.name !== "centerFront" && edge.kind === "line")!;
+    const crossedBlock = { ...block, roles: { ...block.roles, front: { ...front,
+      edges: front.edges.map((edge) => edge.name === nonAxisLine.name && edge.kind === "line"
+        ? { ...edge, start: { ...edge.start, x: -0.1 } } : edge) } } };
+    const crossedMap = createG04TechnicalFlatProjectionMap("tee", crossedBlock, REVISION)!;
+    expect(crossedMap.faces[0].roles.find((role) => role.roleId === "front")?.heldEdges[0]?.reason)
+      .toContain("one explicit straight center/fold edge");
   });
 
   it("holds degenerate role geometry visibly and leaves unsupported recipes unmapped", () => {

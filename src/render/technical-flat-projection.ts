@@ -18,6 +18,13 @@ export interface FlatProjectionHeldEdge {
   readonly reason: string;
 }
 
+export interface FlatProjectionFoldAxisReflection {
+  /** The authored boundary edge that lies on the local garment centre axis. */
+  readonly edgeId: string;
+  readonly axis: "LOCAL_Y";
+  readonly source: "Piece.onFold";
+}
+
 export interface FlatProjectionRole {
   readonly roleId: string;
   /** A logical garment-component identity shared by its front/back projections. */
@@ -26,6 +33,8 @@ export interface FlatProjectionRole {
   readonly runs: readonly FlatProjectionEdgeRun[];
   /** Every unprojected source edge remains accounted for as an explicit hold. */
   readonly heldEdges: readonly FlatProjectionHeldEdge[];
+  /** View-only reflection across a source-declared cut-on-fold boundary. */
+  readonly foldAxisReflection?: FlatProjectionFoldAxisReflection;
 }
 
 export interface FlatProjectionFace {
@@ -56,6 +65,29 @@ export const G04_UNRESOLVED_PROJECTION_ROLES: Readonly<Record<string, Readonly<R
   },
 };
 
+/** A cut-on-fold construction does not always describe garment centre
+ * symmetry. The skirt waistband fold is the folded strip edge, so its source
+ * segment is shown once rather than reflected into a full circumference. */
+export const G04_NON_MIRRORED_ON_FOLD_ROLES: Readonly<Record<string, Readonly<Record<string, string>>>> = {
+  skirt: {
+    waistband: "The waistband fold is the folded strip edge, not a garment center axis; preserve its authored half-circumference view segment.",
+  },
+};
+
+const FOLD_AXIS_EDGE_NAME = /^center(?:Front|Back)?$/i;
+
+function foldAxisEdge(piece: Piece): Edge | undefined {
+  if (!piece.onFold) return undefined;
+  const candidates = piece.edges.filter((edge) => FOLD_AXIS_EDGE_NAME.test(edge.name));
+  if (candidates.length !== 1 || candidates[0]?.kind !== "line") return undefined;
+  const edge = candidates[0];
+  if (edge.start.x !== 0 || edge.end.x !== 0) return undefined;
+  const points = piece.edges.flatMap((candidate) => candidate.kind === "line"
+    ? [candidate.start, candidate.end]
+    : [candidate.curve.start, candidate.curve.control1, candidate.curve.control2, candidate.curve.end]);
+  return points.every((point) => point.x >= 0) ? edge : undefined;
+}
+
 /** Build the current per-recipe map from explicit V01 role membership and the
  * exact drafted edges. Whole-role contours are included only where the role
  * map defines their face membership; known unsplittable visible roles and
@@ -78,9 +110,14 @@ export function createG04TechnicalFlatProjectionMap(
         if (!piece) {
           return { roleId: role.roleId, instanceId: role.roleId, treatment: role.treatment, runs: [], heldEdges: [] };
         }
+        const nonMirrorReason = G04_NON_MIRRORED_ON_FOLD_ROLES[recipeId]?.[role.roleId];
+        const axisEdge = role.treatment === "INTERIOR_HIDDEN" || nonMirrorReason ? undefined : foldAxisEdge(piece);
         const heldRoleReason = role.treatment === "INTERIOR_HIDDEN"
           ? `Interior role “${role.roleId}” is intentionally hidden in this exterior view.`
-          : G04_UNRESOLVED_PROJECTION_ROLES[recipeId]?.[role.roleId];
+          : G04_UNRESOLVED_PROJECTION_ROLES[recipeId]?.[role.roleId]
+            ?? (piece.onFold && !axisEdge && !nonMirrorReason
+              ? "This on-fold role does not expose one explicit straight center/fold edge on local x=0 with the rest of the piece on one side."
+              : undefined);
         const runs: FlatProjectionEdgeRun[] = [];
         const heldEdges: FlatProjectionHeldEdge[] = [];
         for (const edge of piece.edges) {
@@ -98,7 +135,14 @@ export function createG04TechnicalFlatProjectionMap(
             });
           }
         }
-        return { roleId: role.roleId, instanceId: role.roleId, treatment: role.treatment, runs, heldEdges };
+        return {
+          roleId: role.roleId,
+          instanceId: role.roleId,
+          treatment: role.treatment,
+          runs,
+          heldEdges,
+          ...(axisEdge && !heldRoleReason ? { foldAxisReflection: { edgeId: axisEdge.name, axis: "LOCAL_Y" as const, source: "Piece.onFold" as const } } : {}),
+        };
       }),
     })) as unknown as TechnicalFlatProjectionMap["faces"],
   };
@@ -110,7 +154,7 @@ export type FlatProjectionIssueCode =
   | "DUPLICATE_ROLE" | "MISSING_INSTANCE" | "DUPLICATE_INSTANCE" | "INSTANCE_MISMATCH" | "TREATMENT_MISMATCH"
   | "MISSING_EDGE_ACCOUNTING" | "DUPLICATE_EDGE_ACCOUNTING" | "UNKNOWN_EDGE"
   | "INVALID_RUN_LANDMARK" | "LANDMARK_ROLE_MISMATCH" | "LANDMARK_EDGE_MISMATCH"
-  | "LANDMARK_NOT_ON_EDGE" | "EMPTY_HOLD_REASON" | "RUN_ON_HIDDEN_ROLE";
+  | "LANDMARK_NOT_ON_EDGE" | "EMPTY_HOLD_REASON" | "RUN_ON_HIDDEN_ROLE" | "INVALID_FOLD_AXIS_REFLECTION";
 
 export interface FlatProjectionIssue {
   readonly code: FlatProjectionIssueCode;
@@ -217,6 +261,17 @@ function validateRole(
   }
   if (expectedTreatment === "INTERIOR_HIDDEN" && mappingRole.runs.length > 0) {
     issues.push({ code: "RUN_ON_HIDDEN_ROLE", sourceId, message: `Hidden interior role “${roleId}” cannot emit exterior edge runs.` });
+  }
+  if (mappingRole.foldAxisReflection !== undefined) {
+    const reflection = mappingRole.foldAxisReflection;
+    const edge = isRecord(reflection) && typeof reflection.edgeId === "string"
+      ? piece.edges.find((candidate) => candidate.name === reflection.edgeId)
+      : undefined;
+    if (!isRecord(reflection) || reflection.axis !== "LOCAL_Y" || reflection.source !== "Piece.onFold"
+      || !piece.onFold || !edge || foldAxisEdge(piece)?.name !== edge.name) {
+      issues.push({ code: "INVALID_FOLD_AXIS_REFLECTION", sourceId,
+        message: `View reflection for “${roleId}” needs an exact source-declared on-fold edge on local x=0 with the drafted piece on one side.` });
+    }
   }
   const accounted = new Set<string>();
   const account = (edgeId: unknown, category: "run" | "hold") => {

@@ -137,9 +137,12 @@ only through an explicitly admitted, linked Epic packet.
   exit evidence. Its follow-up decision authorizes only view metadata supported
   by construction sources.
 - `docs/research/epic17/G04-V02-ON-FOLD-VIEW-METADATA-S280.md` — Slice 280's
-  bounded source audit and implementation packet for view-only fold-axis
-  reflection and supported face metadata; collar splits remain held absent a
-  specific construction reference.
+  source audit, exact center-axis reflection rules, explicit Skirt waistband
+  exception, retained browser evidence and unresolved visual findings. V02
+  remains open.
+- `docs/research/epic17/G04-V02-ASSEMBLY-REVIEW-S281.md` — Slice 281's
+  bounded review of remaining crossed/offset component placement, source seam
+  support and fail-closed output behavior before a V02 exit decision.
 - `src/render/technical-flat-projection.ts` — versioned G04 face-projection
   metadata and exact drafted-topology validation. Interior split landmarks not
   present as source endpoints remain unsupported and explicitly held.

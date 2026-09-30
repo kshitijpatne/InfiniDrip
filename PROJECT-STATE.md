@@ -1,18 +1,30 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 279 EPIC-17/G04 live projection integration exit, 2026-09-30._
+_Last updated: Slice 280 EPIC-17/G04 source-backed view metadata exit, 2026-09-30._
+
+### Slice 280 — G04 V02 source-backed view metadata (complete; V02 remains open)
+
+- **Start:** 2026-09-30 02:17:36 UTC. Packet: `docs/research/epic17/G04-V02-ON-FOLD-VIEW-METADATA-S280.md`.
+- **Git:** clean at S279 `85195cd4d6c89d9abeb9c3be26087ab687d77180` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. Reachable/active history confirms S279 is the highest assigned; S280 is reserved.
+- **Board:** revision 425 before start; S280 start comment at 426 and verified slice exit evidence `E-G04-S280-EXIT` at 427 through validated commands. EPIC-17 In Progress; V01 Done; V02 In Progress; V03 Backlog.
+- **Implementation:** view reflection is enabled only for source-declared `onFold` roles with an exact center edge on local x=0 and all source points on one side. The mirror removes the duplicate center edge, preserves source identity, and does not alter the draft. Skirt waistband is explicitly excluded because its fold is a folded-strip edge, not garment symmetry. Physical quantities are unchanged; no new multiplicity rule was supported.
+- **Verification:** focused changed-module coverage 21/21 at 100% statements/branches/functions/lines; adjacent assembly/geometry/options/POM suite 31/31; build passed with existing chunk-size advisory; protected export/DXF identity tests 17/17; Control Center 33/33; corrected two-face production Chromium Skirt run passed; full pre-correction 146-face/73-config matrix is retained only as diagnostic; `git diff --check` passed.
+- **Rendered acceptance:** manual review confirms Tee/Fitted sleeve outlines still cross their bodies, Skirt front waistband remains offset, and Polo/Woven/Trouser faces remain withheld. Tank is symmetric after reflection. This does not meet V02's all-recipe acceptance; no output findings are closed.
+- **Decision and findings:** exact authorization and source limitations are in `docs/PROJECT-DECISIONS.md`; MQF-004–007, MQF-011 and MQF-012 remain `To be reviewed` until an applicable successful output exit; MQF-015 remains for V03. Post-G17 deferrals remain unchanged.
+- **Elapsed time:** 42m15s from 02:17:36 through board revision 427 at 02:59:51 UTC (implementation 15m; focused verification/build/adjacent/protected tests 8m; browser run/correction/rendered review 12m; board/docs closeout 7m; agent waits 0m; maintainer-decision time 0m).
+- **Next action:** commit S280 as one numbered slice, then record the S281 start through the validated board command before implementation. S281's packet is `docs/research/epic17/G04-V02-ASSEMBLY-REVIEW-S281.md`.
 
 ### Slice 279 — G04 V02 live source projection (complete; visual exit not met)
 
 - **Goal / slice start:** 2026-09-30 01:29:34 UTC. Packet: `docs/research/epic17/G04-V02-LIVE-PROJECTION-S279.md`.
-- **Git:** started at S278 `e77a1c5acd7f66eed860b9af243a1096daf3e0af` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` was an ancestor. S279 will be committed as one numbered slice.
+- **Git:** started at S278 `e77a1c5acd7f66eed860b9af243a1096daf3e0af`; landed as one numbered commit `85195cd4d6c89d9abeb9c3be26087ab687d77180` (`Slice 279: integrate live source projection`). Refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor.
 - **Board:** revision 423 at start, S279 start comment at 424, verified exit evidence `E-G04-S279-EXIT` linked at 425 through the validated command layer. EPIC-17 remains In Progress, V01 Done, V02 In Progress, V03 Backlog.
 - **Implementation:** exact current-block/revision map validation is connected to live vector generation across all seven recipes and declared numeric endpoints. Unsupported source edges and Polo/Woven collar contours remain held. No pattern geometry changed.
 - **Verification:** focused projection/live coverage 16/16 at 100% statement/branch/function/line per changed production module; adjacent technical-flat tests 39/39; build passed with existing chunk-size advisory; Control Center 33/33; protected export/DXF identity tests 17/17; Chromium matrix 73 configurations/146 faces and overlay check completed; `git diff --check` passed. See packet for retained paths and details.
 - **Rendered acceptance:** eight defaults emitted and all eight were rejected on manual inspection as incomplete half-pattern assemblies with crossing lines; 138 other faces were withheld. The result fails V02 visual acceptance and V02 remains open. Polo/Woven collar splits need specific construction evidence with front/back landmarks.
 - **Decision:** maintainer authorized view-only fold-axis reflection for source-declared `onFold` roles only with explicit source axis, and supported face-specific landmarks/multiplicity only where construction evidence proves them. No cut geometry edits or inference. Recorded in `docs/PROJECT-DECISIONS.md`.
 - **Manual findings:** MQF-004–007, MQF-011 and MQF-012 remain `To be reviewed` until their applicable G04 rendered exit; MQF-015 remains for V03. Post-G17 deferrals remain unchanged.
-- **Elapsed time:** approximately 39 minutes; implementation 13m, focused verification/build/Control Center/protected exports 9m, browser/output inspection 12m, board/docs closeout 4m, external-agent waits 0m; maintainer-decision time about 30m overlapped with independent work.
+- **Elapsed time:** 46m45s through validated board exit evidence at 02:16:19 UTC; implementation 13m, focused verification/build/Control Center/protected exports 9m, browser/output inspection 12m, board/docs closeout 12m, external-agent waits 0m; maintainer-decision time about 30m overlapped with independent work.
 - **Next action:** Slice 280 source audit and bounded implementation from `docs/research/epic17/G04-V02-ON-FOLD-VIEW-METADATA-S280.md`; only source-proven view metadata may be added, while unsupported faces stay withheld.
 
 ### Slice 278 — G04 V02 projected source geometry (complete)
