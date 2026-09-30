@@ -5455,3 +5455,47 @@ interoperability or production-readiness claim is supported.
 **Next action:** continue one source-backed V02 blocker at a time. Keep both
 Polo and Woven collar views held absent their required local construction
 references; keep Woven held for sleeve cap and closure order. V03 remains gated.
+
+### Slice 299 start — Woven placket instance and overlap source review
+
+Started 2026-09-30 11:55:28 UTC from clean S298 commit
+`da4c4d5c6163e2c9eebd85858a8096576f7e61e2` on `codex/epic-17-g04` after
+refreshing `origin/main` to `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`
+(ancestor). Highest assigned slice was 298; S299 is reserved. Board revision
+540 has EPIC-17/G04-V02 In Progress, V01 Done, V03 Backlog and verified S298
+exit linked. The durable start packet is
+`docs/research/epic17/G04-V02-WOVEN-PLACKET-SOURCE-REVIEW-S299.md`.
+
+Scope: reconcile the source-authored Woven front/placket roles and S297's
+physical-pair view metadata with Woven construction research and its linked
+standard-placket source. Add view metadata only if it uniquely establishes
+the physical-instance bindings and finished overlap order; otherwise retain
+the Woven full-face holds and record the missing fact. No cut geometry, DXF,
+protected export identity, partial output, or unrelated product scope changes.
+V02 acceptance remains open and V03 remains gated. A focused board test and
+diff check are required for a research-only exit; a production change also
+requires focused 100% coverage, build, protected identities, 28-configuration /
+56-face Chromium review and manual output evidence. Full global coverage stays
+at the settled integrated Epic/PR boundary. No safe independent delegation is
+identified; Codex owns the source decision and integration review.
+### Slice 299 exit — Woven placket instance and overlap source review
+
+Slice 299 completed as a research-only source hold. The Woven source names the
+button and buttonhole placket joins to right/left center-fronts, but both typed
+stitches still target one `front.centerFront` role; the physical-role record
+has no side-instance or layer-order fields. The linked Closet Core Kalle
+reference describes overlap for its standard one-attached-placket option. Its
+two-attached-placket alternative leaves button/buttonhole layer order
+unspecified, so it cannot support a safe mapping for this Woven block. No
+production metadata, pattern/cut geometry, DXF, or export bytes changed. Keep
+all 56 Woven configuration/face requests held; V02 remains In Progress and
+V03 remains gated. Exact source findings and the remaining required artifact
+are in `docs/research/epic17/G04-V02-WOVEN-PLACKET-SOURCE-REVIEW-S299.md`.
+
+The S299 exit packet `docs/research/epic17/G04-V02-WOVEN-PLACKET-SOURCE-REVIEW-S299.md`
+records the current-pattern trace, linked-source comparison, required missing
+construction fact, and exact board revisions 544–547. The canonical board is
+revision 547. `npm run control-center:test` passes 33/33 and `git diff --check`
+passes. No production behavior changed, so no build, rendered replay, coverage,
+DXF or export-identity gate was applicable to this source-only slice. Commit ID
+will be recorded at the next verified handoff.

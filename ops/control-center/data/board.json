@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 540,
-  "updatedAt": "2026-09-30T11:49:15.566Z",
+  "revision": 547,
+  "updatedAt": "2026-09-30T12:03:53.009Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -183,7 +183,9 @@
         "E-G04-S294-EXIT",
         "E-G04-S295-START",
         "E-G04-S297-EXIT",
-        "E-G04-S298-EXIT"
+        "E-G04-S298-EXIT",
+        "E-G04-S299-START",
+        "E-G04-S299-EXIT"
       ]
     },
     {
@@ -2835,7 +2837,8 @@
         "E-G04-S296-START",
         "E-G04-S296-EXIT",
         "E-G04-S298-START",
-        "E-G04-S298-EXIT"
+        "E-G04-S298-EXIT",
+        "E-G04-S299-EXIT"
       ],
       "flagKey": null
     },
@@ -5803,6 +5806,16 @@
           "at": "2026-09-30T11:48:06.232Z",
           "actor": "Maintainer",
           "text": "Slice 298 exit: exact repeated edge-level holds now render as one role-level row with every full source edge ID; distinct role, POM and other blockers remain. Technical-flat panel coverage is 100% in all four measures (9/9); focused panel/view tests pass 99/99, Control Center 33/33, build passes. Final production Chromium matrix: 73 configurations / 146 faces, 4 accepted, 142 held, zero console/page/request errors; all four accepted Tank/Skirt default SVGs replayed and parsed. See docs/research/epic17/G04-V02-HELD-GUIDANCE-READABILITY-S298.md and docs/research/epic17/S298-browser-final/. V02 remains In Progress; V03 remains Backlog."
+        },
+        {
+          "at": "2026-09-30T12:00:29.631Z",
+          "actor": "Codex",
+          "text": "Slice 299 started from clean S298 commit da4c4d5; source review will bind Woven placket instances and overlap only from explicit authored evidence. Packet: docs/research/epic17/G04-V02-WOVEN-PLACKET-SOURCE-REVIEW-S299.md. V02 remains In Progress; V03 remains gated."
+        },
+        {
+          "at": "2026-09-30T12:03:53.009Z",
+          "actor": "Codex",
+          "text": "Slice 299 exit: Closet Core Kalle describes overlap for its standard single-attached-placket option; its two-placket alternative does not bind button/buttonhole roles to a layer order. Current Woven joins also lack typed front-instance links. All 56 Woven faces remain held. See docs/research/epic17/G04-V02-WOVEN-PLACKET-SOURCE-REVIEW-S299.md. V02 remains In Progress; V03 remains Backlog."
         }
       ],
       "evidenceRefs": [
@@ -5855,7 +5868,9 @@
         "E-G04-S297-START",
         "E-G04-S297-EXIT",
         "E-G04-S298-START",
-        "E-G04-S298-EXIT"
+        "E-G04-S298-EXIT",
+        "E-G04-S299-START",
+        "E-G04-S299-EXIT"
       ],
       "flagKey": null
     },
@@ -7183,6 +7198,24 @@
       "sha256": null,
       "verified": true,
       "note": "Repeated same-role edge holds are grouped while preserving all edge identifiers and distinct issues. Focused UI coverage is 100%; 146-face production replay passes with 4 accepted defaults, 142 holds and zero browser errors."
+    },
+    {
+      "id": "E-G04-S299-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-PLACKET-SOURCE-REVIEW-S299.md",
+      "commit": null,
+      "sha256": null,
+      "verified": false,
+      "note": "S299 start packet: compare current Woven placket instance/layer semantics with admitted pattern research and linked standard-placket construction source; add view metadata only if uniquely evidenced, otherwise retain complete holds."
+    },
+    {
+      "id": "E-G04-S299-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-PLACKET-SOURCE-REVIEW-S299.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Verified source comparison: current Woven joins do not bind physical front instances or overlap layer; linked Kalle alternative does not specify the button/buttonhole order. No code or metadata change; 56 Woven faces stay held."
     }
   ]
 }

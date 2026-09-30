@@ -188,6 +188,7 @@ only through an explicitly admitted, linked Epic packet.
 - `docs/research/epic17/G04-V02-WOVEN-FRONT-PAIR-METADATA-S297.md` — S297's bounded source-backed Woven physical-pair reflection contract; complete live faces remain held pending sleeve, collar and closure evidence.
 - `docs/research/epic17/S297-browser-final/` — S297 production Chromium matrix and manually reviewed default/representative Woven held-output screenshots (28 configurations, 56 faces).
 - `docs/research/epic17/G04-V02-HELD-GUIDANCE-READABILITY-S298.md` — S298's narrow G04 issue-list readability boundary; identical repeated edge-level hold messages may be grouped only while retaining all edge IDs and distinct blockers.
+- `docs/research/epic17/G04-V02-WOVEN-PLACKET-SOURCE-REVIEW-S299.md` — S299 compares the Woven two-placket closure with its linked construction source; no unique physical-instance/layer map is supported, so all Woven faces remain held.
 - `docs/research/epic17/S298-browser-final/` — S298 final production 73-configuration/146-face matrix and manually reviewed held/accepted screenshots; accepted Tank/Skirt SVG replay evidence is retained with the matrix.
 - `docs/research/epic17/G04-V02-TEE-FITTED-SLEEVE-SOURCE-S290.md` — completed
   S290 source audit for the exact shared Tee/Fitted sleeve contour and
