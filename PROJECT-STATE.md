@@ -1,6 +1,18 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 291 integrated V02 rendered-output review; V02 remains open, 2026-09-30._
+_Last updated: Slice 292 Woven source-backed mapping audit; V02 remains open, 2026-09-30._
+
+## EPIC-17 / G04 — Slice 292 complete; V02 remains open
+
+- **Start/exit:** 2026-09-30 08:50:03 UTC–approximately 08:59 UTC. Packet: `docs/research/epic17/G04-V02-WOVEN-SOURCE-MAPPING-S292.md`.
+- **Git:** started clean at S291 `190652d110999fcea82808eb6aee3e7394c3b9b1`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor; S292 uniquely reserved. Research and board/state closeout only; no production code changed.
+- **Source result:** `shirtPanel()` explicitly describes two mirrored front pieces and authors `centerFront` on x=0; the physical role contract records front quantity 2. Back lower and yoke are source-declared on-fold roles with explicit x=0 center-back edges across supported yoke depths. These are source-backed body metadata candidates. Sleeve quantity and one generic midpoint notch still do not define a sleeve-cap face split or instance placement. Collar face landmarks remain unresolved. Placket attachment to the common front center edge still requires an explicit, validated overlap/layer boundary. No partial body-only flat was emitted.
+- **Acceptance:** exact source role/edge/fold/multiplicity/stitch/notch audit passed; complete coherent Woven face output did not. S291's retained production matrix remains current, with 56/56 Woven front/back requests held. V02 remains In Progress; V03 remains Backlog. MQF-004–007, MQF-011 and MQF-012 stay `To be reviewed`; MQF-015 remains gated for V03. No G09/G05/physical-readiness scope was added.
+- **Verification:** research-only. No production tests/build/coverage/export/browser replay apply because production code/output did not change. Closeout uses Control Center tests and `git diff --check`; no DXF or protected identity changed.
+- **Elapsed-time breakdown:** source and retained evidence audit ~5m; packet/state/board/test closeout ~4m; implementation 0m; focused production verification 0m; browser review 0m; external-agent waits 0m; maintainer-decision time 0m.
+- **Next action:** S293 creates only a bounded candidate for Woven body center axes, mirrored front-pair mapping and center-front/placket overlap validation. Sleeve-cap and collar roles remain held; do not accept partial view output or start V03.
+
+## EPIC-17 / G04 — Slice 291 complete; V02 remains open
 
 ## EPIC-17 / G04 — Slice 291 complete; V02 remains open
 
@@ -12,7 +24,7 @@ _Last updated: Slice 291 integrated V02 rendered-output review; V02 remains open
 - **Acceptance:** the matrix/replay, visible-hold behavior, manual output review and mapped findings were verified, but V02 fails its all-recipe/all-option output gate with 142/146 faces held. V02 remains In Progress; V03 remains Backlog. No production code, pattern/cut geometry, DXF behavior or protected export identities changed.
 - **Verification:** `npm run build` passed with only the existing Vite chunk advisory. The production browser matrix, exact-SVG default replay, Tank overlay, helper `node --check`, Control Center 33/33 and `git diff --check` passed. The first board assertion run failed 32/33 because its expected phrase omitted “faces”; the failure is preserved in `S291-browser/control-center-initial-failure.log`, the assertion was corrected, and the full suite rerun passed. No production source code changed; global repository coverage is reserved for the settled PR candidate.
 - **Elapsed time:** implementation 0m; production build 1m; 73-case/146-face Chromium run and retained rendering ~23m; SVG replay/overlay/manual review ~2m; board/docs/focused verification and commit closeout about 9m; external-agent waits 0m; maintainer-decision time 0m.
-- **Next action:** Slice 292 makes one bounded source-backed V02 mapping attempt, starting with Woven source edges/fold declarations and allowing only explicitly supported reflection, face landmarks or multiplicity. Preserve holds if construction does not uniquely determine the map; do not start V03.
+- **Next action:** Slice 292's Woven source audit is recorded above. Continue with the bounded S293 body-metadata candidate from exact front/back source axes, keeping Woven faces held until the sleeve-cap and collar gaps also support complete views. Do not start V03.
 ## EPIC-17 / G04 — Slice 290 complete; V02 remains open
 
 - **Start/exit:** 2026-09-30 08:04:46–08:09:04 UTC (4m18s). Packet: `docs/research/epic17/G04-V02-TEE-FITTED-SLEEVE-SOURCE-S290.md`.

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 496,
-  "updatedAt": "2026-09-30T08:43:48.515Z",
+  "revision": 502,
+  "updatedAt": "2026-09-30T08:59:25.712Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -174,7 +174,9 @@
         "E-G04-S290-START",
         "E-G04-S290-EXIT",
         "E-G04-S291-START",
-        "E-G04-S291-EXIT"
+        "E-G04-S291-EXIT",
+        "E-G04-S292-START",
+        "E-G04-S292-EXIT"
       ]
     },
     {
@@ -5714,6 +5716,16 @@
           "at": "2026-09-30T08:43:48.515Z",
           "actor": "Codex",
           "text": "Slice 291 exit: production Chromium covered 73 configurations/146 faces and 32 option fields with zero browser/page/remote errors. Four Tank/Skirt defaults emitted; 142 faces remain visibly held. The mapped MQF review is recorded and statuses remain To be reviewed. Evidence E-G04-S291-EXIT is linked. V02 stays In Progress; S292 audits source-backed Woven mapping; V03 remains gated."
+        },
+        {
+          "at": "2026-09-30T08:53:22.790Z",
+          "actor": "Codex",
+          "text": "Slice 292 started 2026-09-30 08:50:03 UTC from clean S291 commit 190652d on refreshed origin/main ancestor a5af5e1, with board revision 496 and unique slice 292. Scope: audit exact Woven role folds, edge order, face landmarks and multiplicity under the maintainer-approved source-backed metadata rule; implement only a unique view-only map, otherwise retain full-face holds. Packet: docs/research/epic17/G04-V02-WOVEN-SOURCE-MAPPING-S292.md. V02 remains In Progress; V03 stays gated."
+        },
+        {
+          "at": "2026-09-30T08:59:25.712Z",
+          "actor": "Codex",
+          "text": "Slice 292 exit: source audit supports the Woven mirrored-front pair and explicit back/yoke center axes as metadata candidates, but the sleeve-cap face split and collar landmark remain unresolved. No partial output or production mapping changed; all 56 Woven faces remain held. MQF-004–007/011/012 stay To be reviewed; MQF-015 remains for V03. V02 stays In Progress; S293 is the bounded body-axis/front-pair candidate; V03 remains gated."
         }
       ],
       "evidenceRefs": [
@@ -5752,7 +5764,9 @@
         "E-G04-S290-START",
         "E-G04-S290-EXIT",
         "E-G04-S291-START",
-        "E-G04-S291-EXIT"
+        "E-G04-S291-EXIT",
+        "E-G04-S292-START",
+        "E-G04-S292-EXIT"
       ],
       "flagKey": null
     },
@@ -6954,6 +6968,24 @@
       "sha256": null,
       "verified": true,
       "note": "Fresh production build and Chromium matrix covered 73 configurations/146 faces across seven recipes/32 fields; Tank/Skirt 4 emitted and manually inspected, 142 source-held; exact SVG replay and same-revision Tank artwork/color overlay verified; V02 remains open."
+    },
+    {
+      "id": "E-G04-S292-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-SOURCE-MAPPING-S292.md",
+      "commit": null,
+      "sha256": null,
+      "verified": false,
+      "note": "S292 bounded audit of exact Woven role folds, ordered source edges, landmarks and view-instance evidence; no cut geometry change."
+    },
+    {
+      "id": "E-G04-S292-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-SOURCE-MAPPING-S292.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S292 traces authored Woven front/back body axes and mirrored-front quantity, but sleeve cap and collar landmarks remain unsupported. All 56 Woven face requests remain held; no partial flat or production change. G04-V02 stays In Progress; G04-V03 remains gated."
     }
   ]
 }
