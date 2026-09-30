@@ -291,6 +291,16 @@ source-cycle holds persist. V02 remains open for face-specific source-to-view
 correction and a new rendered exit review. No physical fit, factory acceptance
 or CAD compatibility is inferred.
 
+Slice 276 tested reflecting every non-fold edge of a cut-on-fold role across
+its local centre axis, then rejected that output after production screenshots
+still showed crossed Polo and Woven-shirt contours. `Piece.onFold` describes
+pattern cutting, not finished-face visibility or role-instance count. The
+current collar sources also lack explicit exterior-edge landmarks at the
+front/back split. Do not use a whole-role mirror or stitch length alone as a
+finished-face projection rule. The next source-projection contract requires a
+maintainer decision recorded in `docs/PROJECT-DECISIONS.md` and retained in
+`docs/research/epic17/G04-V02-FACE-PROJECTION-S276.md`.
+
 The **Edit** view keeps user-authored deltas against stable recipe-owned
 anchors, rather than saving a disconnected picture. Pointer drags and keyboard
 coordinate edits become semantic operations; Undo, Redo, Clear and explicit

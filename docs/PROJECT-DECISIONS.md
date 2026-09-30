@@ -967,3 +967,8 @@ EPIC-17/G04 remains Backlog. Do not begin its implementation, open an admission
 packet, or change its board status until the maintainer explicitly asks to
 begin EPIC-17. Completion of EPIC-16 and roadmap ordering do not constitute
 admission. The canonical board records this hold in the EPIC-17 work item.
+The maintainer explicitly instructed Codex to begin EPIC-17/G04 on
+2026-09-29; this satisfies the admission condition and supersedes the hold
+above. Slice 261's `docs/planning/EPIC-17-ADMISSION.md` records the authority,
+verified start, sequence and gates. The Epic is now In Progress; later work
+still follows the admitted packet and current board state.

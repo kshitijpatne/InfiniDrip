@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 413,
-  "updatedAt": "2026-09-29T23:54:01.477Z",
+  "revision": 417,
+  "updatedAt": "2026-09-30T00:38:17.704Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -155,7 +155,7 @@
       "title": "EPIC-17: G04 — Professional flats and CAD interchange",
       "status": "In Progress",
       "owner": "Codex",
-      "description": "Admitted 2026-09-29 by explicit maintainer instruction. G04 V01 → V02 → V03; current estimate 22–26 landed slices including admission and final merge evidence (re-estimated Slice 275 after the full option matrix retained 76 source-cycle holds and manual review found crossed Polo/Woven face outlines). Scope, boundaries, verification and rights gates: docs/planning/EPIC-17-ADMISSION.md.",
+      "description": "Admitted 2026-09-29 by explicit maintainer instruction. G04 V01 → V02 → V03; provisional estimate 25–29 landed slices including admission and final merge evidence. Slice 276 completed a 146-face browser run but rejected whole-role fold reflection on manual Polo/Woven review; V02 is Blocked pending the maintainer source-projection authority decision. Scope, boundaries, verification and rights gates: docs/planning/EPIC-17-ADMISSION.md.",
       "evidenceRefs": [
         "E-G04-S271-EXIT",
         "E-G04-S273-EXIT",
@@ -2762,6 +2762,11 @@
           "at": "2026-09-29T23:54:01.025Z",
           "actor": "Maintainer",
           "text": "Updated Epic metadata (description: Admitted 2026-09-29 by explicit maintainer instruction. G04 V01 → V02 → V03; current estimate 22–26 landed slices including admission and final merge evidence (re-estimated Slice 275 after the full option matrix retained 76 source-cycle holds and manual review found crossed Polo/Woven face outlines). Scope, boundaries, verification and rights gates: docs/planning/EPIC-17-ADMISSION.md.). Slice 275 completed exact source-ordered boundary handling; its complete rendered review showed remaining source cycles and incoherent full-role face views, requiring a dedicated face-projection boundary before V02 exit."
+        },
+        {
+          "at": "2026-09-30T00:38:17.704Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: Admitted 2026-09-29 by explicit maintainer instruction. G04 V01 → V02 → V03; provisional estimate 25–29 landed slices including admission and final merge evidence. Slice 276 completed a 146-face browser run but rejected whole-role fold reflection on manual Polo/Woven review; V02 is Blocked pending the maintainer source-projection authority decision. Scope, boundaries, verification and rights gates: docs/planning/EPIC-17-ADMISSION.md.). Slice 276 rejected whole-role fold reflection on rendered review and adds a source-authority decision/contract boundary before the V02 exit."
         }
       ],
       "evidenceRefs": [],
@@ -5443,7 +5448,7 @@
       "title": "G04 V02: live front/back vector flats",
       "epicId": "EPIC-17",
       "releaseId": null,
-      "status": "In Progress",
+      "status": "Blocked",
       "openedAt": "2026-09-29",
       "targetAt": null,
       "deliveredAt": null,
@@ -5496,6 +5501,16 @@
           "evidenceRefs": [
             "E-G04-S264-EXIT"
           ]
+        },
+        {
+          "status": "Blocked",
+          "at": "2026-09-30T00:37:58.536Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "Slice 276 found that current pattern roles/stitches do not define valid Polo/Woven face-visible collar contours or instance symmetry. Waiting for the maintainer source-authority decision recorded in E-G04-S276-EXIT.",
+          "evidenceRefs": [
+            "E-G04-S276-EXIT"
+          ]
         }
       ],
       "comments": [
@@ -5518,6 +5533,11 @@
           "at": "2026-09-29T23:54:01.477Z",
           "actor": "Codex",
           "text": "Slice 275 exit: docs/research/epic17/G04-V02-ASSEMBLY-CORRECTION-S275.md; rendered evidence E-G04-S275-EXIT. Exact segment boundaries and explicit Trouser waist direction are implemented with 100% changed-module coverage. All 146 requests were rendered; 76 remain visibly held and Polo/Woven outlines remain crossed on manual review, so V02 stays In Progress. Re-estimate 22–26 slices; S276 face-specific projection/cycle reconciliation, S277 V02 exit review."
+        },
+        {
+          "at": "2026-09-29T23:59:28.496Z",
+          "actor": "Codex",
+          "text": "Slice 276 started 2026-09-29 23:56:03 UTC from 29c6e40b964ca80811475a9cee4bf772eb8a580e. Packet: docs/research/epic17/G04-V02-FACE-PROJECTION-S276.md. Bound scope is source-supported Polo/Woven face-specific component projection and exact placements, with visible holds where current source data is insufficient."
         }
       ],
       "evidenceRefs": [
@@ -5532,7 +5552,8 @@
         "E-G04-S272-EXIT",
         "E-G04-S273-EXIT",
         "E-G04-S274-EXIT",
-        "E-G04-S275-EXIT"
+        "E-G04-S275-EXIT",
+        "E-G04-S276-EXIT"
       ],
       "flagKey": null
     },
@@ -6518,6 +6539,15 @@
       "sha256": null,
       "verified": true,
       "note": "72 focused tests at 100% across changed assembly/trouser/stitch modules; production Chromium 73 configurations/146 faces retained. Source-cycle holds persist and manual Polo/Woven review keeps V02 open."
+    },
+    {
+      "id": "E-G04-S276-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-FACE-PROJECTION-S276.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Verified Slice 276 source projection investigation and rejected full-option rendered trial; V02 acceptance remains open and a maintainer source-authority decision is required."
     }
   ]
 }

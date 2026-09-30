@@ -123,7 +123,7 @@ only through an explicitly admitted, linked Epic packet.
   `PROJECT-STATE.md` and the canonical Control Center for live status.
 - `docs/planning/EPIC-17-ADMISSION.md` — Slice 261's maintainer-authorized
   G04 admission from verified `origin/main`, ordered V01 → V02 → V03 scope,
-  current 21–25-slice estimate, rights/receiver gate, acceptance evidence and
+  provisional 25–29-slice estimate, rights/receiver gate, acceptance evidence and
   merge exit. V01 and its contracts are complete; consult `PROJECT-STATE.md`
   for the current V02 rendering and interchange gates.
 - `docs/research/epic17/G04-V01-SOURCE-INVENTORY.md` — Slice 262's observed
@@ -150,10 +150,10 @@ only through an explicitly admitted, linked Epic packet.
   exact ordered-interface boundary and Trouser waistband-direction correction,
   full 146-face render result, unresolved source cycles and crossed accepted
   Polo/Woven output that keeps V02 open.
-- `docs/research/epic17/G04-V02-ASSEMBLY-CORRECTION-S275.md` — Slice 275's
-  bounded source-topology investigation/correction gate for the Woven-shirt
-  and Trouser seam cycles and crossed rigid component placements; unresolved
-  or unsupported joins must remain visibly held.
+- `docs/research/epic17/G04-V02-FACE-PROJECTION-S276.md` — Slice 276's
+  face-projection source investigation, rejected whole-fold reflection trial,
+  full 146-face browser evidence and the maintainer decision needed before the
+  next projection implementation. No experimental product code was retained.
 - `src/render/technical-flat-mapping.ts` and
   `docs/research/epic17/G04-V01-MAPPING-S264.md` — Slice 264's explicit
   seven-recipe role-to-face map, topology checks, option endpoint checks,

@@ -1,6 +1,21 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 275 EPIC-17/G04 exact assembly interfaces and rendered review, 2026-09-29._
+_Last updated: Slice 276 EPIC-17/G04 rejected face-projection trial and source decision boundary, 2026-09-30._
+
+### Slice 276 — G04 V02 face-specific component projection (complete; source decision pending)
+
+- **Goal / slice start:** 2026-09-29 23:56:03 UTC; define and implement only source-supported face-specific component contours and exact placements from current pattern marks/stitches. Packet: `docs/research/epic17/G04-V02-FACE-PROJECTION-S276.md`.
+- **Git:** clean at S275 `29c6e40b964ca80811475a9cee4bf772eb8a580e` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor; highest slice is 275 and S276 is reserved.
+- **Board:** canonical revision 413 before the validated start comment. EPIC-17 In Progress, V01 Done, V02 In Progress, V03 Backlog; S275 exit evidence is linked and the current estimate is 22–26 slices.
+- **Source finding:** `Piece.onFold` identifies a cut method, not finished face visibility, component instance count or per-face contour. The temporary mirror experiment passed its focused six-test 100%-coverage gate and production build, but manual Polo/Woven output review rejected it. `S276-browser/matrix.json` contains all 146 production Chromium requests; its 70 SVGs passed automated parser/layout/anchor checks, but the retained three representative screenshots remain visibly incoherent. The experiment was reverted; no production code lands.
+- **Result / acceptance:** S276 closes as a documentation-and-evidence boundary with V02 still In Progress. Automated option exercise passed (73 configurations, 32 option fields, 146 faces, zero console/page/request errors); visual acceptance failed. The existing 28 Woven-shirt back, 24 Trouser front and 24 Trouser back holds are unchanged. No cycle or garment geometry changed.
+- **Maintainer decision needed:** authorize explicit G04 mapping metadata for per-face visible edge runs, source-bound split landmarks and role-instance/symmetry rules without changing cut coordinates or protected exports; or require the canonical pattern sources to carry those landmarks/instance facts before projection. The exact evidence and rejected screenshots are in `docs/research/epic17/G04-V02-FACE-PROJECTION-S276.md` and `docs/research/epic17/S276-browser/`.
+- **Board / Git boundary:** canonical board revision 417 links `E-G04-S276-EXIT` to G04-V02 and moves that work item to `Blocked`; EPIC-17 remains In Progress. Slice 276 is the unique next commit after S275 `29c6e40b...`; refreshed `origin/main` `a5af5e13...` is an ancestor. S276 lands documentation/evidence only; the rejected source/test experiment is restored.
+- **Required gates:** the temporary geometry module reached 100% statement/branch/function/line coverage across six focused tests and `npm run build` passed, but that source was restored after visual rejection. S275's protected DXF/export identities therefore remain the latest applicable passing evidence. Control Center and diff checks are recorded after this documentation closeout; full global gates remain for the settled Epic/PR candidate.
+- **Delegation:** no safe disjoint low-risk work identified; external-agent waits 0m.
+- **Delegation:** no safe disjoint low-risk work identified; no external contributor planned.
+- **Next action:** record the maintainer's source-model choice in `docs/PROJECT-DECISIONS.md`, then admit the next unique slice with a packet for the selected face-projection contract. Keep G04-V02 blocked until actual rendered silhouettes pass manual review and all remaining cycles have exact supported placements.
+- **Time:** source inspection/mapping and temporary implementation ~14m; focused verification, build, restored-baseline regressions, full Chromium matrix and manual review ~20m; documentation/validated-board closeout ~10m; agent waits 0m; maintainer-decision time 0m; total approximately 44m.
 
 ### Slice 275 — G04 V02 assembly correction (complete; V02 remains open)
 
