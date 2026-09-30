@@ -1,6 +1,6 @@
 import type { Block } from "../drafting/block";
 import type { Edge, Piece } from "../drafting/piece";
-import type { InterfaceRef, Stitch } from "../drafting/stitch";
+import type { EdgeRef, InterfaceRef, Stitch } from "../drafting/stitch";
 import { cubicLength, cubicPoint } from "../geometry";
 import type { FlatPoint, TechnicalFlatViewKind } from "./technical-flat";
 import { G04_TECHNICAL_FLAT_MAPPINGS } from "./technical-flat-mapping";
@@ -21,8 +21,22 @@ export interface TechnicalFlatAssembly {
   readonly recipeId: string;
   readonly kind: TechnicalFlatViewKind;
   readonly transforms: Readonly<Record<string, FlatRoleTransform>>;
+  /** View-only attachments that retain their one drafted source role. */
+  readonly sourceFragments: readonly TechnicalFlatSourceFragment[];
   readonly joinedStitchLabels: readonly string[];
   readonly issues: readonly TechnicalFlatAssemblyIssue[];
+}
+
+export interface TechnicalFlatSourceFragment {
+  readonly id: string;
+  readonly roleId: string;
+  readonly edgeId: string;
+  /** Directed local source-edge parameters corresponding to the sewn attachment. */
+  readonly sourceInterval: readonly [number, number];
+  readonly attachedRoleId: string;
+  readonly attachedEdgeId: string;
+  readonly transform: FlatRoleTransform;
+  readonly stitchLabel: string;
 }
 
 interface Rigid { readonly rotation: number; readonly offset: FlatPoint }
@@ -201,17 +215,83 @@ function difference(a: Rigid, b: Rigid): number {
   return distance(a.offset, b.offset) + rotation * Math.PI / 180;
 }
 
+function finitePoint(value: FlatPoint): boolean {
+  return Number.isFinite(value.x) && Number.isFinite(value.y);
+}
+
+/** Map exact zero-ease trouser waist-interface intervals from the one lower
+ * waistband edge to each sewn leg panel. These are placements of source
+ * subintervals, not additional pattern pieces. */
+function trouserWaistbandFragments(block: Block, kind: TechnicalFlatViewKind): TechnicalFlatSourceFragment[] {
+  const label = "Waistband (four legs ↔ separate waistband)";
+  const matches = block.stitches.filter((stitch) => stitch.label === label);
+  const stitch = matches[0];
+  if (matches.length !== 1 || !stitch || stitch.ease !== undefined || stitch.a.edges.length !== 4 || stitch.b.edges.length !== 1) return [];
+  const bandRef = stitch.b.edges[0];
+  if (!bandRef || !("edge" in bandRef) || bandRef.piece !== "waistband" || bandRef.edge !== "bottom" || bandRef.reversed) return [];
+  const band = block.roles.waistband?.edges.find((edge) => edge.name === "bottom");
+  if (!band || band.kind !== "line" || !finitePoint(band.start) || !finitePoint(band.end)) return [];
+  const refs = stitch.a.edges;
+  const expected = ["backLeft", "frontLeft", "frontRight", "backRight"];
+  const panelRefs: EdgeRef[] = [];
+  for (const [index, ref] of refs.entries()) {
+    if (!("edge" in ref) || ref.piece !== expected[index] || ref.edge !== "waist") return [];
+    panelRefs.push(ref);
+  }
+  const panelEdges = panelRefs.map((ref) => {
+    const edge = block.roles[ref.piece]?.edges.find((candidate) => candidate.name === ref.edge);
+    return edge?.kind === "line" && finitePoint(edge.start) && finitePoint(edge.end) ? { ref, edge } : undefined;
+  });
+  if (panelEdges.some((entry) => !entry)) return [];
+  const lengths = panelEdges.map((entry) => Math.hypot(entry!.edge.end.x - entry!.edge.start.x,
+    entry!.edge.end.y - entry!.edge.start.y));
+  const total = lengths.reduce((sum, length) => sum + length, 0);
+  const bandLength = Math.hypot(band.end.x - band.start.x, band.end.y - band.start.y);
+  if (!(total > 0) || !Number.isFinite(total) || !Number.isFinite(bandLength) || Math.abs(total - bandLength) > 1e-8) return [];
+  const selected = expected.flatMap((roleId, index) => {
+    const isBack = roleId.startsWith("back");
+    if ((kind === "BACK_FLAT") !== isBack) return [];
+    let start = lengths.slice(0, index).reduce((sum, length) => sum + length, 0) / total;
+    let end = start + lengths[index]! / total;
+    // The source waistband bottom traverses opposite to the composite waist.
+    [start, end] = [1 - end, 1 - start];
+    const { ref, edge } = panelEdges[index]!;
+    // The sorted local band interval traverses opposite to the interface
+    // because the band reference itself is not reversed.
+    const panelStart = ref.reversed ? edge.start : edge.end;
+    const panelEnd = ref.reversed ? edge.end : edge.start;
+    const bandStart = { x: band.start.x + (band.end.x - band.start.x) * start,
+      y: band.start.y + (band.end.y - band.start.y) * start };
+    const bandEnd = { x: band.start.x + (band.end.x - band.start.x) * end,
+      y: band.start.y + (band.end.y - band.start.y) * end };
+    const dx = bandEnd.x - bandStart.x; const dy = bandEnd.y - bandStart.y;
+    const tx = panelEnd.x - panelStart.x; const ty = panelEnd.y - panelStart.y;
+    const rotation = Math.atan2(ty, tx) - Math.atan2(dy, dx);
+    const cos = Math.cos(rotation); const sin = Math.sin(rotation);
+    const offset = point(panelStart.x - (bandStart.x * cos - bandStart.y * sin),
+      panelStart.y - (bandStart.x * sin + bandStart.y * cos));
+    const residual = distance(transformPoint(bandEnd, { rotation: rotation * 180 / Math.PI, offset }), panelEnd);
+    if (residual > 1e-8) return [];
+    return [{ id: `waistband:${roleId}:waist`, roleId: "waistband", edgeId: "bottom",
+      sourceInterval: [start, end] as const, attachedRoleId: roleId, attachedEdgeId: "waist",
+      transform: { offset, rotationDegrees: rotation * 180 / Math.PI }, stitchLabel: label }];
+  });
+  return selected.length === 2 ? selected : [];
+}
+
 /** Position visible components from source-ordered sewn interfaces. Curves are
  * sampled by their authored parameter and never scaled or rewritten. An
  * interface that cannot support a rigid placement blocks the view explicitly. */
 export function assembleTechnicalFlatRoles(recipeId: string, block: Block, kind: TechnicalFlatViewKind): TechnicalFlatAssembly {
   const mapping = G04_TECHNICAL_FLAT_MAPPINGS[recipeId];
-  if (!mapping) return { recipeId, kind, transforms: {}, joinedStitchLabels: [], issues: [{
+  if (!mapping) return { recipeId, kind, transforms: {}, sourceFragments: [], joinedStitchLabels: [], issues: [{
     code: "UNSUPPORTED_RECIPE", sourceId: recipeId, message: `Recipe “${recipeId}” has no admitted front/back role assembly map.`,
   }] };
   const face = mapping.faces.find((candidate) => candidate.kind === kind);
-  if (!face) return { recipeId, kind, transforms: {}, joinedStitchLabels: [], issues: [] };
+  if (!face) return { recipeId, kind, transforms: {}, sourceFragments: [], joinedStitchLabels: [], issues: [] };
   const visible = new Set(face.roles.filter((role) => role.treatment !== "INTERIOR_HIDDEN").map((role) => role.roleId));
+  const sourceFragments = recipeId === "trouser" ? trouserWaistbandFragments(block, kind) : [];
+  const fragmentPlacedRoles = sourceFragments.length === 2 ? new Set(["waistband"]) : new Set<string>();
   // Interior pattern pieces may establish where a visible exterior piece is
   // sewn. Include them in the placement graph, then omit their transforms from
   // the face result so the renderer cannot mistake them for exterior geometry.
@@ -219,10 +299,11 @@ export function assembleTechnicalFlatRoles(recipeId: string, block: Block, kind:
   const issues: TechnicalFlatAssemblyIssue[] = [];
   for (const roleId of visible) if (!block.roles[roleId]) issues.push({ code: "MISSING_MAPPED_ROLE", sourceId: roleId,
     message: `Mapped visible role “${roleId}” is absent from this pattern revision.` });
-  if (issues.length) return { recipeId, kind, transforms: {}, joinedStitchLabels: [], issues };
+  if (issues.length) return { recipeId, kind, transforms: {}, sourceFragments: [], joinedStitchLabels: [], issues };
 
   const relations: Relation[] = [];
   for (const stitch of block.stitches) {
+    if (fragmentPlacedRoles.has("waistband") && stitch.label === "Waistband (four legs ↔ separate waistband)") continue;
     const touchesFace = [...stitch.a.edges, ...stitch.b.edges].some((ref) => constructionRoles.has(ref.piece));
     if (!touchesFace) continue;
     if (stitch.a.edges.length === 0 || stitch.b.edges.length === 0) {
@@ -272,9 +353,10 @@ export function assembleTechnicalFlatRoles(recipeId: string, block: Block, kind:
       }
     }
   }
-  for (const roleId of visible) if (!(roleId in solved)) issues.push({ code: "UNPLACED_COMPONENT_ROLE", sourceId: roleId,
+  for (const roleId of visible) if (!fragmentPlacedRoles.has(roleId) && !(roleId in solved)) issues.push({ code: "UNPLACED_COMPONENT_ROLE", sourceId: roleId,
     message: `Visible role “${roleId}” has no rigid placement supported by a sewn interface on this face.` });
   return { recipeId, kind, transforms: Object.fromEntries(Object.entries(solved).filter(([roleId]) => visible.has(roleId)).map(([roleId, transform]) => [roleId, {
     offset: transform.offset, rotationDegrees: transform.rotation,
-  }])), joinedStitchLabels: [...new Set(relations.map((relation) => relation.label))], issues };
+  }])), sourceFragments,
+  joinedStitchLabels: [...new Set(relations.map((relation) => relation.label))], issues };
 }

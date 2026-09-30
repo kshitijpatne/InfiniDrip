@@ -196,6 +196,8 @@ only through an explicitly admitted, linked Epic packet.
 - `docs/research/epic17/G04-V02-ACCEPTED-FACE-OVERLAYS-S304.md` — Slice 304's bounded actual-browser artwork/colorway overlay review for the four currently accepted Tank/Skirt faces.
 - `docs/research/epic17/S304-browser/` — Slice 304's parsed front/back SVGs, production Chromium screenshots and revision/layer/target matrix for Tank and Skirt overlays.
 - `docs/research/epic17/G04-V02-TROUSER-WAISTBAND-VIEW-SEGMENTS-S305.md` — Slice 305's bounded source/topology attempt to map Trouser waistband segments to front/back flats using the maintained V1 construction contract.
+- `docs/research/epic17/G04-V02-TROUSER-WAISTBAND-FRAGMENTS-S306.md` — Slice 306's exact same-role Trouser waistband source intervals and panel-relative rigid attachments. Complete face output remains held until a later slice compiles these intervals and passes rendered review.
+- `docs/research/epic17/S306-trouser-browser/` — Slice 306's production Chromium 24-configuration/48-face hold matrix, run log, and manually reviewed default front/back hold screenshots.
 - `docs/research/epic17/G04-V02-TROUSER-FACE-PLACEMENT-S289.md` and `docs/research/epic17/G04-V02-SOURCE-DEPENDENCY-INVENTORY-S303.md` — Slice 305 addenda supersede the earlier claim that Trouser waistband construction intent is absent; the view-fragment/transform contract is still pending.
 - `docs/research/epic17/S298-browser-final/` — S298 final production 73-configuration/146-face matrix and manually reviewed held/accepted screenshots; accepted Tank/Skirt SVG replay evidence is retained with the matrix.
 - `docs/research/epic17/G04-V02-TEE-FITTED-SLEEVE-SOURCE-S290.md` — completed

@@ -103,6 +103,15 @@ edge IDs, while distinct roles, stages, and POM/assembly/overlay issues remain
 separate. The live issue records, face holds and accepted SVG output are
 unchanged.
 
+S306 adds a narrow assembly contract for the Trouser's single closed
+waistband source role. The exact ordered zero-ease waist interface yields
+front/back edge intervals and separate rigid placements relative to the sewn
+leg panels; the back view therefore does not assign one transform to the
+whole strip. These records are view metadata only. The current geometry
+compiler does not consume the intervals yet, so Trouser flats remain held
+until a later slice emits and reviews the complete source-derived paths. The
+draft, role count, stitch graph, DXF and protected exports remain unchanged.
+
 Each garment has its own rule set (called a **recipe** in the code). It says
 which measurements, options, pieces, and construction details to use. A tee
 and a skirt use different rules and shapes, but the same app tools display,

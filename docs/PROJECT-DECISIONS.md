@@ -986,3 +986,9 @@ appearance, stitching, or screenshots. Polo and Woven-shirt collar splits
 remain held until a specific construction reference supplies the missing
 front/back landmarks. This authorization does not establish that any
 particular role is eligible for reflection.
+
+For the Woven-shirt front closure, the maintainer confirms no construction
+reference is available that identifies which physical placket belongs to each
+front and which finished placket overlaps on top. Keep the Woven closure and
+all complete Woven flats held until source evidence supports its instances and
+layer order; do not infer overlap from the current drawing or stitch graph.

@@ -166,8 +166,12 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S304-EXIT"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S305-START"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S305-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S306-START"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S306-EXIT"));
       assert.ok(admittedWork[1].comments.some((comment) => /Slice 305 started 2026-09-30 13:19:48 UTC.*G04-V02-TROUSER-WAISTBAND-VIEW-SEGMENTS-S305\.md/.test(comment.text)));
-      assert.match(admittedWork[1].comments.at(-1).text, /Slice 305 exit: TROUSER-RESEARCH specifies one closed waistband, separate front\/back joins.*S306.*V02 remains In Progress; V03 remains Backlog/);
+      assert.ok(admittedWork[1].comments.some((comment) => /Slice 305 exit: TROUSER-RESEARCH specifies one closed waistband, separate front\/back joins.*S306.*V02 remains In Progress; V03 remains Backlog/.test(comment.text)));
+      assert.ok(admittedWork[1].comments.some((comment) => /Slice 306 started 2026-09-30 13:32:50 UTC.*G04-V02-TROUSER-WAISTBAND-FRAGMENTS-S306\.md/.test(comment.text)));
+      assert.match(admittedWork[1].comments.at(-1).text, /Slice 306 exit: exact same-role Trouser waistband intervals.*V02 remains In Progress; V03 remains Backlog/);
       assert.ok(admittedWork[1].comments.some((comment) => /Slice 304 started 2026-09-30 13:02:44 UTC.*G04-V02-ACCEPTED-FACE-OVERLAYS-S304\.md/.test(comment.text)));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S301-EXIT"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S285-EXIT"));

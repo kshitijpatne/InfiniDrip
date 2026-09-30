@@ -10,6 +10,7 @@ import type { TechnicalFlatViewKind } from "./technical-flat";
 import { G04_TECHNICAL_FLAT_MAPPINGS } from "./technical-flat-mapping";
 import { cubicPoint } from "../geometry";
 import { transformFlatPoint } from "./technical-flat-transform";
+import { TROUSER_OPTION_DEFINITIONS } from "../drafting/trouser-contract";
 
 const draft = (recipe: typeof GARMENTS[number]) => recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
 
@@ -114,7 +115,7 @@ describe("assembleTechnicalFlatRoles", () => {
       .toContainEqual(expect.objectContaining({ code: "UNPLACED_COMPONENT_ROLE", sourceId: "sleeve" }));
   });
 
-  it("surfaces the default trouser back waistband cycle conflict without losing role transforms", () => {
+  it("maps one closed trouser waistband to discontiguous source intervals on each orthographic face", () => {
     const trouser = draft(TROUSER);
     const waistStitch = trouser.stitches.find((stitch) => stitch.label === "Waistband (four legs ↔ separate waistband)")!;
     expect(waistStitch.a.edges).toEqual([
@@ -123,13 +124,126 @@ describe("assembleTechnicalFlatRoles", () => {
       { piece: "frontRight", edge: "waist" },
       { piece: "backRight", edge: "waist", reversed: true },
     ]);
-    const result = assembleTechnicalFlatRoles("trouser", trouser, "BACK_FLAT");
-    expect(result.issues).toContainEqual(expect.objectContaining({
-      code: "INCONSISTENT_STITCH_TRANSFORM", sourceId: "stitch:Waistband (four legs ↔ separate waistband)",
-    }));
-    expect(result.transforms.waistband).toBeDefined();
-    expect(result.transforms.backLeft).toBeDefined();
-    expect(result.transforms.backRight).toBeDefined();
+    for (const [kind, roleIds] of [["BACK_FLAT", ["backLeft", "backRight"]], ["FRONT_FLAT", ["frontLeft", "frontRight"]]] as const) {
+      const result = assembleTechnicalFlatRoles("trouser", trouser, kind);
+      const fragments = result.sourceFragments;
+      expect(fragments).toHaveLength(2);
+      expect(fragments.map((fragment) => fragment.attachedRoleId)).toEqual(roleIds);
+      expect(fragments.every((fragment) => fragment.roleId === "waistband" && fragment.edgeId === "bottom"
+        && fragment.stitchLabel === "Waistband (four legs ↔ separate waistband)" )).toBe(true);
+      expect(fragments[0]!.sourceInterval[0]).toBeLessThan(fragments[0]!.sourceInterval[1]);
+      expect(fragments[1]!.sourceInterval[0]).toBeLessThan(fragments[1]!.sourceInterval[1]);
+      const orderedIntervals = fragments.map((fragment) => fragment.sourceInterval).sort((left, right) => left[0] - right[0]);
+      if (kind === "BACK_FLAT") expect(orderedIntervals[0]![1]).toBeLessThan(orderedIntervals[1]![0]);
+      else expect(orderedIntervals[0]![1]).toBeCloseTo(orderedIntervals[1]![0], 12);
+      expect(result.transforms.waistband).toBeUndefined();
+      expect(result.issues.some((issue) => issue.sourceId === "stitch:Waistband (four legs ↔ separate waistband)"
+        && issue.code === "INCONSISTENT_STITCH_TRANSFORM")).toBe(false);
+      for (const fragment of fragments) {
+        const bodyEdge = trouser.roles[fragment.attachedRoleId]!.edges.find((edge) => edge.name === fragment.attachedEdgeId)!;
+        const bandEdge = trouser.roles.waistband!.edges.find((edge) => edge.name === fragment.edgeId)!;
+        const ref = waistStitch.a.edges.find((candidate) => "edge" in candidate && candidate.piece === fragment.attachedRoleId)!;
+        const bodyPoint = edgePoint(bodyEdge, "edge" in ref && ref.reversed ? 0 : 1);
+        const bandPoint = edgePoint(bandEdge, fragment.sourceInterval[0]);
+        const placedBand = transformFlatPoint(bandPoint, { ...fragment.transform, mirrorX: false });
+        expect(Math.hypot(bodyPoint.x - placedBand.x, bodyPoint.y - placedBand.y)).toBeLessThan(1e-8);
+      }
+      expect(result.transforms[roleIds[0]!]).toBeDefined();
+      expect(result.transforms[roleIds[1]!]).toBeDefined();
+    }
+  });
+
+  it("fails closed when the exact zero-ease waistband source relation is missing or malformed", () => {
+    const source = draft(TROUSER);
+    const waist = source.stitches.find((stitch) => stitch.label === "Waistband (four legs ↔ separate waistband)")!;
+    const noFragments = (candidate: typeof source) => assembleTechnicalFlatRoles("trouser", candidate, "BACK_FLAT").sourceFragments;
+    expect(noFragments(block(source.roles, source.stitches.filter((stitch) => stitch !== waist)))).toEqual([]);
+    expect(noFragments(block(source.roles, [...source.stitches, waist]))).toEqual([]);
+    expect(noFragments(block(source.roles, source.stitches.map((stitch) => stitch === waist ? { ...stitch, ease: { lo: 0, hi: 1 } } : stitch)))).toEqual([]);
+    expect(noFragments(block(source.roles, source.stitches.map((stitch) => stitch === waist
+      ? { ...stitch, a: iface(...stitch.a.edges.slice(0, 3)) } : stitch)))).toEqual([]);
+    expect(noFragments(block(source.roles, source.stitches.map((stitch) => stitch === waist
+      ? { ...stitch, b: iface(edgeRef("waistband", "top")) } : stitch)))).toEqual([]);
+    expect(noFragments(block(source.roles, source.stitches.map((stitch) => stitch === waist
+      ? { ...stitch, b: iface(edgeRef("waistband", "bottom", true)) } : stitch)))).toEqual([]);
+    expect(noFragments(block(source.roles, source.stitches.map((stitch) => stitch === waist
+      ? { ...stitch, a: iface(edgeRef("backRight", "waist"), ...stitch.a.edges.slice(1)) } : stitch)))).toEqual([]);
+
+    const band = source.roles.waistband!;
+    const missingBand = { ...source.roles, waistband: { ...band, edges: band.edges.filter((edge) => edge.name !== "bottom") } };
+    expect(noFragments(block(missingBand, source.stitches))).toEqual([]);
+    const curvedBand = { ...source.roles, waistband: { ...band, edges: band.edges.map((edge) => edge.name === "bottom" && edge.kind === "line"
+      ? { kind: "curve" as const, name: edge.name, curve: { start: edge.start, control1: edge.start, control2: edge.end, end: edge.end } } : edge) } };
+    expect(noFragments(block(curvedBand, source.stitches))).toEqual([]);
+    const tooLongBand = { ...source.roles, waistband: { ...band, edges: band.edges.map((edge) => edge.name === "bottom" && edge.kind === "line"
+      ? { ...edge, end: { ...edge.end, x: edge.end.x - 1 } } : edge) } };
+    expect(noFragments(block(tooLongBand, source.stitches))).toEqual([]);
+    const nonFiniteBand = { ...source.roles, waistband: { ...band, edges: band.edges.map((edge) => edge.name === "bottom" && edge.kind === "line"
+      ? { ...edge, end: { ...edge.end, x: Number.NaN } } : edge) } };
+    expect(noFragments(block(nonFiniteBand, source.stitches))).toEqual([]);
+    const curvedWaist = { ...source.roles, backLeft: { ...source.roles.backLeft!, edges: source.roles.backLeft!.edges.map((edge) => edge.name === "waist" && edge.kind === "line"
+      ? { kind: "curve" as const, name: edge.name, curve: { start: edge.start, control1: edge.start, control2: edge.end, end: edge.end } } : edge) } };
+    expect(noFragments(block(curvedWaist, source.stitches))).toEqual([]);
+    const missingWaist = { ...source.roles, backLeft: { ...source.roles.backLeft!, edges: source.roles.backLeft!.edges.filter((edge) => edge.name !== "waist") } };
+    expect(noFragments(block(missingWaist, source.stitches))).toEqual([]);
+    const nonFiniteWaist = { ...source.roles, backLeft: { ...source.roles.backLeft!, edges: source.roles.backLeft!.edges.map((edge) => edge.name === "waist" && edge.kind === "line"
+      ? { ...edge, end: { ...edge.end, y: Number.NaN } } : edge) } };
+    expect(noFragments(block(nonFiniteWaist, source.stitches))).toEqual([]);
+    const farWaist = { ...source.roles, backLeft: { ...source.roles.backLeft!, edges: source.roles.backLeft!.edges.map((edge) => edge.name === "waist" && edge.kind === "line"
+      ? { ...edge, start: { x: edge.start.x + 1e16, y: edge.start.y }, end: { x: edge.end.x + 1e16, y: edge.end.y } } : edge) } };
+    expect(noFragments(block(farWaist, source.stitches))).toEqual([]);
+    const sourceWaistEdges = waist.a.edges.map((ref) => {
+      if (!("edge" in ref)) throw new Error("Expected edge reference in Trouser waist stitch.");
+      return source.roles[ref.piece]!.edges.find((edge) => edge.name === ref.edge)!;
+    });
+    const sourceTotal = sourceWaistEdges.reduce((sum, edge) => {
+      const start = edgePoint(edge, 0);
+      const end = edgePoint(edge, 1);
+      return sum + Math.hypot(end.x - start.x, end.y - start.y);
+    }, 0);
+    const roundedWidth = Math.round(sourceTotal / 2) * 2;
+    const bandAtPrecisionLimit = { ...source.roles, waistband: { ...band, edges: band.edges.map((edge) => edge.name === "bottom" && edge.kind === "line"
+      ? { ...edge, start: { x: 1e16 + roundedWidth, y: 0 }, end: { x: 1e16, y: 0 } } : edge) },
+      backLeft: { ...source.roles.backLeft!, edges: source.roles.backLeft!.edges.map((edge) => {
+        if (edge.name !== "waist" || edge.kind !== "line") return edge;
+        const length = Math.hypot(edge.end.x - edge.start.x, edge.end.y - edge.start.y);
+        const adjustment = roundedWidth - sourceTotal;
+        return { ...edge, end: { x: edge.end.x + (edge.end.x - edge.start.x) / length * adjustment,
+          y: edge.end.y + (edge.end.y - edge.start.y) / length * adjustment } };
+      }) } };
+    expect(noFragments(block(bandAtPrecisionLimit, source.stitches))).toEqual([]);
+  });
+
+  it("keeps source intervals and rigid attachments valid at every Trouser option endpoint", () => {
+    for (const option of TROUSER_OPTION_DEFINITIONS) {
+      for (const value of [option.min, option.max]) {
+        const options = { ...defaultGarmentOptions(TROUSER_OPTION_DEFINITIONS), [option.id]: value };
+        const source = TROUSER.draft(STANDARD_M, options);
+        const stitch = source.stitches.find((candidate) => candidate.label === "Waistband (four legs ↔ separate waistband)")!;
+        const waistLengths = stitch.a.edges.map((ref) => {
+          if (!("edge" in ref)) throw new Error("Expected edge reference in Trouser waist stitch.");
+          const edge = source.roles[ref.piece]!.edges.find((candidate) => candidate.name === ref.edge)!;
+          const start = edgePoint(edge, ref.reversed ? 1 : 0);
+          const end = edgePoint(edge, ref.reversed ? 0 : 1);
+          return Math.hypot(end.x - start.x, end.y - start.y);
+        });
+        const totalWaist = waistLengths.reduce((sum, length) => sum + length, 0);
+        for (const kind of ["FRONT_FLAT", "BACK_FLAT"] as const) {
+          const result = assembleTechnicalFlatRoles("trouser", source, kind);
+          expect(result.sourceFragments, `${option.id}=${value}.${kind}`).toHaveLength(2);
+          expect(result.sourceFragments.every((fragment) => fragment.sourceInterval[0] >= 0
+            && fragment.sourceInterval[1] <= 1 && fragment.sourceInterval[0] < fragment.sourceInterval[1]
+            && Number.isFinite(fragment.transform.offset.x) && Number.isFinite(fragment.transform.offset.y)
+            && Number.isFinite(fragment.transform.rotationDegrees))).toBe(true);
+          for (const fragment of result.sourceFragments) {
+            const index = stitch.a.edges.findIndex((ref) => "edge" in ref && ref.piece === fragment.attachedRoleId);
+            const prefix = waistLengths.slice(0, index).reduce((sum, length) => sum + length, 0);
+            expect(fragment.sourceInterval[0]).toBeCloseTo(1 - (prefix + waistLengths[index]!) / totalWaist, 12);
+            expect(fragment.sourceInterval[1]).toBeCloseTo(1 - prefix / totalWaist, 12);
+          }
+        }
+      }
+    }
   });
 
   it("keeps a woven collar placed and reports residual seam endpoints", () => {
