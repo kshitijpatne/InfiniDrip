@@ -5499,3 +5499,42 @@ revision 547. `npm run control-center:test` passes 33/33 and `git diff --check`
 passes. No production behavior changed, so no build, rendered replay, coverage,
 DXF or export-identity gate was applicable to this source-only slice. Commit ID
 will be recorded at the next verified handoff.
+
+### Slice 300 start — Polo collar on-fold projection review
+
+At the S299 boundary, S299 landed as `82b358eb8e153ab7992facb2aff94a47e74509c9`.
+The maintainer answered the outstanding Woven closure question on
+2026-09-30: no marked reference is available; keep the closure held. This is
+recorded in the S300 packet and does not change S299's verified disposition.
+
+Started 2026-09-30 12:07:47 UTC from clean S299 on
+`codex/epic-17-g04`; refreshed `origin/main` is
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` (ancestor). The highest assigned
+slice was 299; S300 is reserved. Board revision 547 has EPIC-17/G04-V02 In
+Progress, V01 Done, V03 Backlog; the verified S299 exit is linked. The S300
+packet is `docs/research/epic17/G04-V02-POLO-COLLAR-FOLD-MAPPING-S300.md`.
+
+Scope: determine whether source-declared Polo on-fold axes and exact base
+interfaces support complete front/back collar roles without an unsupported
+outer-cubic shoulder split. Implement only a unique, topology-validated,
+view-only map; otherwise retain complete face holds and document the precise
+missing evidence. No cut geometry or export behavior changes. V02 stays open;
+V03 remains gated. Full global coverage is reserved for the settled integrated
+Epic/PR candidate. No safe independent delegation is identified.
+### Slice 300 exit — Polo collar fold projection candidate rejected
+
+S300 tested a view-only reflection of the complete authored Polo outer-stand
+and upper-collar roles across their exact source-declared center-back fold
+axes. The candidate emitted default front/back SVGs, but production Chromium
+output showed crossing collar and stand contours drawn diagonally through the
+body. The visual gate failed; its production change was reverted and both
+roles remain held. Candidate matrix, SVGs and screenshots are in
+`docs/research/epic17/S300-browser-candidate/`; findings are in
+`docs/research/epic17/G04-V02-POLO-COLLAR-FOLD-MAPPING-S300.md`.
+
+After restoring the current source, projection/live suites pass 32/32 with
+100% focused statement, branch, function and line coverage for both modules.
+The source-restored `npm run build` passes with the existing Vite large-chunk
+advisory. No pattern/cut geometry, DXF or protected export bytes changed. The
+maintainer confirmed no marked Woven placket source is available and that the
+closure must remain held. S300 closes at board revision 555. `E-G04-S300-EXIT` is linked to G04-V02 and the EPIC-17 summary at revision 552 and to the Epic record at revision 554; the exit comment is revision 555. Control Center tests pass 33/33 and `git diff --check` passes. S300 landed as `Slice 300: retain Polo collar projection hold`, based on refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`; exact resulting commit ID is recorded in the S301 starting boundary after the final documentation amend.
