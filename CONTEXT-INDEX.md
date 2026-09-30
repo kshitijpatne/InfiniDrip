@@ -181,6 +181,7 @@ only through an explicitly admitted, linked Epic packet.
   faces remain held.
 - `docs/research/epic17/G04-V02-INTEGRATED-OUTPUT-REVIEW-S291.md` — latest V02 integrated output gate. It retains the fresh 73-configuration/146-face Chromium matrix, accepted SVG replays, Tank overlay and manual MQF review; V02 remains open because 142 faces are held.
 - `docs/research/epic17/G04-V02-WOVEN-SOURCE-MAPPING-S292.md` — S292's exact Woven body-axis/multiplicity and sleeve-cap source audit. Body metadata candidates are recorded, but no partial flat was emitted; all 56 Woven faces remain held pending complete sleeve and collar mapping.
+- `docs/research/epic17/G04-V02-WOVEN-BODY-VIEW-METADATA-S293.md` — S293 confirms the source names right/left placket joins but both typed interfaces still target one front role; overlap layer order and instance binding remain unsupported, so the full Woven face stays held.
 - `docs/research/epic17/G04-V02-TEE-FITTED-SLEEVE-SOURCE-S290.md` — completed
   S290 source audit for the exact shared Tee/Fitted sleeve contour and
   supported orthographic view instances.

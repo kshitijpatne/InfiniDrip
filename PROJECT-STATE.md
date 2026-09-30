@@ -1,6 +1,16 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 292 Woven source-backed mapping audit; V02 remains open, 2026-09-30._
+_Last updated: Slice 293 Woven body-metadata hold; V02 remains open, 2026-09-30._
+
+## EPIC-17 / G04 — Slice 293 complete; V02 remains open
+
+- **Start/exit:** 2026-09-30 09:01:47–09:11:45 UTC (9m58s). Packet: `docs/research/epic17/G04-V02-WOVEN-BODY-VIEW-METADATA-S293.md`.
+- **Git:** started clean at S292 `215cf3ddfbee41f33b3fcec49f7f4538ad96f5a7`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor. S293 uniquely reserved. Research-only hold; no production code changed.
+- **Source result:** Woven code names separate right- and left-front placket stitches, but both typed interfaces target the one `front.centerFront` role. The block has no front-instance reference, and the placket source does not define which placket overlays the other at the front overlap. Reflecting a whole front role could also duplicate its overlays/callouts without a declared instance rule. Exact authored front-pair and back/yoke axes remain valid candidates, but no active mapping was added.
+- **Acceptance:** source audit found a bounded reason to retain full-face holds; no unique complete closure mapping was established. S291's production result remains current at 56/56 Woven faces held. V02 remains In Progress and V03 Backlog. MQF findings remain `To be reviewed`; post-G17 deferrals unchanged.
+- **Verification:** research-only. No production test/build/coverage/export/browser replay applies. Control Center 33/33 and `git diff --check` are the required closeout gates; no DXF or protected export change.
+- **Elapsed-time breakdown:** source/topology review 4m; implementation 0m; docs/board closeout 4m; focused Control Center verification/diff check 1m; rendered review 0m; external-agent waits 0m; maintainer-decision time 0m.
+- **Next action:** Slice 294 audits the next independently evidence-backed V02 role map from current repository evidence; do not treat unresolved Woven faces as accepted and do not start V03.
 
 ## EPIC-17 / G04 — Slice 292 complete; V02 remains open
 
@@ -11,8 +21,6 @@ _Last updated: Slice 292 Woven source-backed mapping audit; V02 remains open, 20
 - **Verification:** research-only. No production tests/build/coverage/export/browser replay apply because production code/output did not change. Closeout uses Control Center tests and `git diff --check`; no DXF or protected identity changed.
 - **Elapsed-time breakdown:** source and retained evidence audit ~5m; packet/state/board/test closeout ~4m; implementation 0m; focused production verification 0m; browser review 0m; external-agent waits 0m; maintainer-decision time 0m.
 - **Next action:** S293 creates only a bounded candidate for Woven body center axes, mirrored front-pair mapping and center-front/placket overlap validation. Sleeve-cap and collar roles remain held; do not accept partial view output or start V03.
-
-## EPIC-17 / G04 — Slice 291 complete; V02 remains open
 
 ## EPIC-17 / G04 — Slice 291 complete; V02 remains open
 

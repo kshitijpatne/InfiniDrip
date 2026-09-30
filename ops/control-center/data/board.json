@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 502,
-  "updatedAt": "2026-09-30T08:59:25.712Z",
+  "revision": 508,
+  "updatedAt": "2026-09-30T09:11:25.341Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -176,7 +176,9 @@
         "E-G04-S291-START",
         "E-G04-S291-EXIT",
         "E-G04-S292-START",
-        "E-G04-S292-EXIT"
+        "E-G04-S292-EXIT",
+        "E-G04-S293-START",
+        "E-G04-S293-EXIT"
       ]
     },
     {
@@ -5726,6 +5728,16 @@
           "at": "2026-09-30T08:59:25.712Z",
           "actor": "Codex",
           "text": "Slice 292 exit: source audit supports the Woven mirrored-front pair and explicit back/yoke center axes as metadata candidates, but the sleeve-cap face split and collar landmark remain unresolved. No partial output or production mapping changed; all 56 Woven faces remain held. MQF-004–007/011/012 stay To be reviewed; MQF-015 remains for V03. V02 stays In Progress; S293 is the bounded body-axis/front-pair candidate; V03 remains gated."
+        },
+        {
+          "at": "2026-09-30T09:02:43.897Z",
+          "actor": "Codex",
+          "text": "Slice 293 started 2026-09-30 09:01:47 UTC from clean S292 commit 215cf3d on refreshed origin/main ancestor a5af5e1, with board revision 502 and unique slice 293. Scope: source-proven Woven front-pair and back/yoke axes plus explicit placket overlap/layer validation; keep the full face held unless every visible role is supported. Packet: docs/research/epic17/G04-V02-WOVEN-BODY-VIEW-METADATA-S293.md. V02 remains In Progress; V03 stays gated."
+        },
+        {
+          "at": "2026-09-30T09:11:25.341Z",
+          "actor": "Codex",
+          "text": "Slice 293 exit: source names right/left placket interfaces, but both still target one typed front role and no source layer order distinguishes the overlap. No production map changed; full Woven face holds remain. The recorded body-axis facts are not activated as an output rule. V02 stays In Progress; S294 audits the next evidence-backed role map; V03 remains gated."
         }
       ],
       "evidenceRefs": [
@@ -5766,7 +5778,9 @@
         "E-G04-S291-START",
         "E-G04-S291-EXIT",
         "E-G04-S292-START",
-        "E-G04-S292-EXIT"
+        "E-G04-S292-EXIT",
+        "E-G04-S293-START",
+        "E-G04-S293-EXIT"
       ],
       "flagKey": null
     },
@@ -6986,6 +7000,24 @@
       "sha256": null,
       "verified": true,
       "note": "S292 traces authored Woven front/back body axes and mirrored-front quantity, but sleeve cap and collar landmarks remain unsupported. All 56 Woven face requests remain held; no partial flat or production change. G04-V02 stays In Progress; G04-V03 remains gated."
+    },
+    {
+      "id": "E-G04-S293-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-BODY-VIEW-METADATA-S293.md",
+      "commit": null,
+      "sha256": null,
+      "verified": false,
+      "note": "Admission packet for source-bound Woven mirrored-front and center-axis metadata plus placket overlap validation; preserve complete-face holds for unresolved sleeve and collar roles."
+    },
+    {
+      "id": "E-G04-S293-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-BODY-VIEW-METADATA-S293.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Exact source audit confirms right/left labels but both typed placket interfaces target one front role with no instance binding or overlap layer order. Full Woven views remain held; no production change."
     }
   ]
 }
