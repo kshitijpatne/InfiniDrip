@@ -1,0 +1,3837 @@
+{
+  "currentSourceCommit": "4beeafe3f8805b0b0685ae8d03175ed406432fb9",
+  "sourceFilesChanged": false,
+  "candidatePersistedToRecipe": false,
+  "acceptedOutput": false,
+  "scopeNote": "The proposed flyUnderlap role/stitches exist only in this process. This is assembly feasibility evidence, not source implementation or construction approval.",
+  "configurationCount": 24,
+  "optionFieldCount": 11,
+  "matrix": [
+    {
+      "caseId": "default",
+      "options": {},
+      "flyLengthCm": 15,
+      "shieldWidthCm": 3.5,
+      "existing": {
+        "issues": [],
+        "transforms": {
+          "frontLeft": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          },
+          "frontRight": {
+            "offset": {
+              "x": -3.499999999999999,
+              "y": 15
+            },
+            "rotationDegrees": 180
+          }
+        },
+        "frontWaistJoins": {
+          "frontLeft": {
+            "kind": "line",
+            "name": "waist",
+            "start": {
+              "x": 0,
+              "y": 0
+            },
+            "end": {
+              "x": 23.5,
+              "y": 0
+            }
+          },
+          "frontRight": {
+            "kind": "line",
+            "name": "waist",
+            "start": {
+              "x": 0,
+              "y": 0
+            },
+            "end": {
+              "x": -23.5,
+              "y": 0
+            }
+          }
+        },
+        "flyMarks": [
+          {
+            "roleId": "frontLeft",
+            "mark": {
+              "start": {
+                "x": 0,
+                "y": 0
+              },
+              "end": {
+                "x": 0,
+                "y": 15
+              }
+            }
+          },
+          {
+            "roleId": "frontRight",
+            "mark": {
+              "start": {
+                "x": 0,
+                "y": 0
+              },
+              "end": {
+                "x": 0,
+                "y": 15
+              }
+            }
+          }
+        ]
+      },
+      "proposalFixture": {
+        "issues": [],
+        "transforms": {
+          "frontLeft": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          },
+          "frontRight": {
+            "offset": {
+              "x": 3.030667966038976e-17,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          }
+        },
+        "joinedStitchLabels": [
+          "Left front fly ↔ shield",
+          "Left pocket opening ↔ bag",
+          "Right pocket opening ↔ bag",
+          "Right front fly ↔ proposed underlap",
+          "Proposed underlap ↔ shield.right"
+        ],
+        "sourceFragments": [
+          {
+            "id": "waistband:frontLeft:waist",
+            "roleId": "waistband",
+            "edgeId": "bottom",
+            "sourceInterval": [
+              0.5,
+              0.75
+            ],
+            "attachedRoleId": "frontLeft",
+            "attachedEdgeId": "waist",
+            "transform": {
+              "offset": {
+                "x": 47,
+                "y": 4.000000000000005
+              },
+              "rotationDegrees": -180
+            },
+            "stitchLabel": "Waistband (four legs ↔ separate waistband)"
+          },
+          {
+            "id": "waistband:frontRight:waist",
+            "roleId": "waistband",
+            "edgeId": "bottom",
+            "sourceInterval": [
+              0.25,
+              0.5
+            ],
+            "attachedRoleId": "frontRight",
+            "attachedEdgeId": "waist",
+            "transform": {
+              "offset": {
+                "x": 47,
+                "y": 4.000000000000009
+              },
+              "rotationDegrees": -180
+            },
+            "stitchLabel": "Waistband (four legs ↔ separate waistband)"
+          }
+        ],
+        "unchangedWaistEdges": true,
+        "uprightPanels": true,
+        "sameBandFragments": true,
+        "centerJoinResidualCm": 3.030667966038976e-17,
+        "coincidentOriginalCenterFrontAxes": true,
+        "sourceRolesAddedOnlyInMemory": [
+          "flyUnderlap"
+        ],
+        "stitchChangesOnlyInMemory": [
+          "Right front fly ↔ proposed underlap",
+          "Proposed underlap ↔ shield.right"
+        ]
+      }
+    },
+    {
+      "caseId": "frontRiseEase-min",
+      "options": {
+        "frontRiseEase": -2
+      },
+      "flyLengthCm": 15,
+      "shieldWidthCm": 3.5,
+      "existing": {
+        "issues": [],
+        "transforms": {
+          "frontLeft": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          },
+          "frontRight": {
+            "offset": {
+              "x": -3.499999999999999,
+              "y": 15
+            },
+            "rotationDegrees": 180
+          }
+        },
+        "frontWaistJoins": {
+          "frontLeft": {
+            "kind": "line",
+            "name": "waist",
+            "start": {
+              "x": 0,
+              "y": 0
+            },
+            "end": {
+              "x": 23.5,
+              "y": 0
+            }
+          },
+          "frontRight": {
+            "kind": "line",
+            "name": "waist",
+            "start": {
+              "x": 0,
+              "y": 0
+            },
+            "end": {
+              "x": -23.5,
+              "y": 0
+            }
+          }
+        },
+        "flyMarks": [
+          {
+            "roleId": "frontLeft",
+            "mark": {
+              "start": {
+                "x": 0,
+                "y": 0
+              },
+              "end": {
+                "x": 0,
+                "y": 15
+              }
+            }
+          },
+          {
+            "roleId": "frontRight",
+            "mark": {
+              "start": {
+                "x": 0,
+                "y": 0
+              },
+              "end": {
+                "x": 0,
+                "y": 15
+              }
+            }
+          }
+        ]
+      },
+      "proposalFixture": {
+        "issues": [],
+        "transforms": {
+          "frontLeft": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          },
+          "frontRight": {
+            "offset": {
+              "x": 3.030667966038976e-17,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          }
+        },
+        "joinedStitchLabels": [
+          "Left front fly ↔ shield",
+          "Left pocket opening ↔ bag",
+          "Right pocket opening ↔ bag",
+          "Right front fly ↔ proposed underlap",
+          "Proposed underlap ↔ shield.right"
+        ],
+        "sourceFragments": [
+          {
+            "id": "waistband:frontLeft:waist",
+            "roleId": "waistband",
+            "edgeId": "bottom",
+            "sourceInterval": [
+              0.5,
+              0.75
+            ],
+            "attachedRoleId": "frontLeft",
+            "attachedEdgeId": "waist",
+            "transform": {
+              "offset": {
+                "x": 47,
+                "y": 4.000000000000005
+              },
+              "rotationDegrees": -180
+            },
+            "stitchLabel": "Waistband (four legs ↔ separate waistband)"
+          },
+          {
+            "id": "waistband:frontRight:waist",
+            "roleId": "waistband",
+            "edgeId": "bottom",
+            "sourceInterval": [
+              0.25,
+              0.5
+            ],
+            "attachedRoleId": "frontRight",
+            "attachedEdgeId": "waist",
+            "transform": {
+              "offset": {
+                "x": 47,
+                "y": 4.000000000000009
+              },
+              "rotationDegrees": -180
+            },
+            "stitchLabel": "Waistband (four legs ↔ separate waistband)"
+          }
+        ],
+        "unchangedWaistEdges": true,
+        "uprightPanels": true,
+        "sameBandFragments": true,
+        "centerJoinResidualCm": 3.030667966038976e-17,
+        "coincidentOriginalCenterFrontAxes": true,
+        "sourceRolesAddedOnlyInMemory": [
+          "flyUnderlap"
+        ],
+        "stitchChangesOnlyInMemory": [
+          "Right front fly ↔ proposed underlap",
+          "Proposed underlap ↔ shield.right"
+        ]
+      }
+    },
+    {
+      "caseId": "frontRiseEase-max",
+      "options": {
+        "frontRiseEase": 8
+      },
+      "flyLengthCm": 15,
+      "shieldWidthCm": 3.5,
+      "existing": {
+        "issues": [],
+        "transforms": {
+          "frontLeft": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          },
+          "frontRight": {
+            "offset": {
+              "x": -3.499999999999999,
+              "y": 15
+            },
+            "rotationDegrees": 180
+          }
+        },
+        "frontWaistJoins": {
+          "frontLeft": {
+            "kind": "line",
+            "name": "waist",
+            "start": {
+              "x": 0,
+              "y": 0
+            },
+            "end": {
+              "x": 23.5,
+              "y": 0
+            }
+          },
+          "frontRight": {
+            "kind": "line",
+            "name": "waist",
+            "start": {
+              "x": 0,
+              "y": 0
+            },
+            "end": {
+              "x": -23.5,
+              "y": 0
+            }
+          }
+        },
+        "flyMarks": [
+          {
+            "roleId": "frontLeft",
+            "mark": {
+              "start": {
+                "x": 0,
+                "y": 0
+              },
+              "end": {
+                "x": 0,
+                "y": 15
+              }
+            }
+          },
+          {
+            "roleId": "frontRight",
+            "mark": {
+              "start": {
+                "x": 0,
+                "y": 0
+              },
+              "end": {
+                "x": 0,
+                "y": 15
+              }
+            }
+          }
+        ]
+      },
+      "proposalFixture": {
+        "issues": [],
+        "transforms": {
+          "frontLeft": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          },
+          "frontRight": {
+            "offset": {
+              "x": 3.030667966038976e-17,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          }
+        },
+        "joinedStitchLabels": [
+          "Left front fly ↔ shield",
+          "Left pocket opening ↔ bag",
+          "Right pocket opening ↔ bag",
+          "Right front fly ↔ proposed underlap",
+          "Proposed underlap ↔ shield.right"
+        ],
+        "sourceFragments": [
+          {
+            "id": "waistband:frontLeft:waist",
+            "roleId": "waistband",
+            "edgeId": "bottom",
+            "sourceInterval": [
+              0.5,
+              0.75
+            ],
+            "attachedRoleId": "frontLeft",
+            "attachedEdgeId": "waist",
+            "transform": {
+              "offset": {
+                "x": 47,
+                "y": 4.000000000000005
+              },
+              "rotationDegrees": -180
+            },
+            "stitchLabel": "Waistband (four legs ↔ separate waistband)"
+          },
+          {
+            "id": "waistband:frontRight:waist",
+            "roleId": "waistband",
+            "edgeId": "bottom",
+            "sourceInterval": [
+              0.25,
+              0.5
+            ],
+            "attachedRoleId": "frontRight",
+            "attachedEdgeId": "waist",
+            "transform": {
+              "offset": {
+                "x": 47,
+                "y": 4.000000000000009
+              },
+              "rotationDegrees": -180
+            },
+            "stitchLabel": "Waistband (four legs ↔ separate waistband)"
+          }
+        ],
+        "unchangedWaistEdges": true,
+        "uprightPanels": true,
+        "sameBandFragments": true,
+        "centerJoinResidualCm": 3.030667966038976e-17,
+        "coincidentOriginalCenterFrontAxes": true,
+        "sourceRolesAddedOnlyInMemory": [
+          "flyUnderlap"
+        ],
+        "stitchChangesOnlyInMemory": [
+          "Right front fly ↔ proposed underlap",
+          "Proposed underlap ↔ shield.right"
+        ]
+      }
+    },
+    {
+      "caseId": "backRiseEase-min",
+      "options": {
+        "backRiseEase": 2
+      },
+      "flyLengthCm": 15,
+      "shieldWidthCm": 3.5,
+      "existing": {
+        "issues": [],
+        "transforms": {
+          "frontLeft": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          },
+          "frontRight": {
+            "offset": {
+              "x": -3.499999999999999,
+              "y": 15
+            },
+            "rotationDegrees": 180
+          }
+        },
+        "frontWaistJoins": {
+          "frontLeft": {
+            "kind": "line",
+            "name": "waist",
+            "start": {
+              "x": 0,
+              "y": 0
+            },
+            "end": {
+              "x": 23.5,
+              "y": 0
+            }
+          },
+          "frontRight": {
+            "kind": "line",
+            "name": "waist",
+            "start": {
+              "x": 0,
+              "y": 0
+            },
+            "end": {
+              "x": -23.5,
+              "y": 0
+            }
+          }
+        },
+        "flyMarks": [
+          {
+            "roleId": "frontLeft",
+            "mark": {
+              "start": {
+                "x": 0,
+                "y": 0
+              },
+              "end": {
+                "x": 0,
+                "y": 15
+              }
+            }
+          },
+          {
+            "roleId": "frontRight",
+            "mark": {
+              "start": {
+                "x": 0,
+                "y": 0
+              },
+              "end": {
+                "x": 0,
+                "y": 15
+              }
+            }
+          }
+        ]
+      },
+      "proposalFixture": {
+        "issues": [],
+        "transforms": {
+          "frontLeft": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          },
+          "frontRight": {
+            "offset": {
+              "x": 3.030667966038976e-17,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          }
+        },
+        "joinedStitchLabels": [
+          "Left front fly ↔ shield",
+          "Left pocket opening ↔ bag",
+          "Right pocket opening ↔ bag",
+          "Right front fly ↔ proposed underlap",
+          "Proposed underlap ↔ shield.right"
+        ],
+        "sourceFragments": [
+          {
+            "id": "waistband:frontLeft:waist",
+            "roleId": "waistband",
+            "edgeId": "bottom",
+            "sourceInterval": [
+              0.5,
+              0.75
+            ],
+            "attachedRoleId": "frontLeft",
+            "attachedEdgeId": "waist",
+            "transform": {
+              "offset": {
+                "x": 47,
+                "y": 4.000000000000005
+              },
+              "rotationDegrees": -180
+            },
+            "stitchLabel": "Waistband (four legs ↔ separate waistband)"
+          },
+          {
+            "id": "waistband:frontRight:waist",
+            "roleId": "waistband",
+            "edgeId": "bottom",
+            "sourceInterval": [
+              0.25,
+              0.5
+            ],
+            "attachedRoleId": "frontRight",
+            "attachedEdgeId": "waist",
+            "transform": {
+              "offset": {
+                "x": 47,
+                "y": 4.000000000000009
+              },
+              "rotationDegrees": -180
+            },
+            "stitchLabel": "Waistband (four legs ↔ separate waistband)"
+          }
+        ],
+        "unchangedWaistEdges": true,
+        "uprightPanels": true,
+        "sameBandFragments": true,
+        "centerJoinResidualCm": 3.030667966038976e-17,
+        "coincidentOriginalCenterFrontAxes": true,
+        "sourceRolesAddedOnlyInMemory": [
+          "flyUnderlap"
+        ],
+        "stitchChangesOnlyInMemory": [
+          "Right front fly ↔ proposed underlap",
+          "Proposed underlap ↔ shield.right"
+        ]
+      }
+    },
+    {
+      "caseId": "backRiseEase-max",
+      "options": {
+        "backRiseEase": 14
+      },
+      "flyLengthCm": 15,
+      "shieldWidthCm": 3.5,
+      "existing": {
+        "issues": [],
+        "transforms": {
+          "frontLeft": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          },
+          "frontRight": {
+            "offset": {
+              "x": -3.499999999999999,
+              "y": 15
+            },
+            "rotationDegrees": 180
+          }
+        },
+        "frontWaistJoins": {
+          "frontLeft": {
+            "kind": "line",
+            "name": "waist",
+            "start": {
+              "x": 0,
+              "y": 0
+            },
+            "end": {
+              "x": 23.5,
+              "y": 0
+            }
+          },
+          "frontRight": {
+            "kind": "line",
+            "name": "waist",
+            "start": {
+              "x": 0,
+              "y": 0
+            },
+            "end": {
+              "x": -23.5,
+              "y": 0
+            }
+          }
+        },
+        "flyMarks": [
+          {
+            "roleId": "frontLeft",
+            "mark": {
+              "start": {
+                "x": 0,
+                "y": 0
+              },
+              "end": {
+                "x": 0,
+                "y": 15
+              }
+            }
+          },
+          {
+            "roleId": "frontRight",
+            "mark": {
+              "start": {
+                "x": 0,
+                "y": 0
+              },
+              "end": {
+                "x": 0,
+                "y": 15
+              }
+            }
+          }
+        ]
+      },
+      "proposalFixture": {
+        "issues": [],
+        "transforms": {
+          "frontLeft": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          },
+          "frontRight": {
+            "offset": {
+              "x": 3.030667966038976e-17,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          }
+        },
+        "joinedStitchLabels": [
+          "Left front fly ↔ shield",
+          "Left pocket opening ↔ bag",
+          "Right pocket opening ↔ bag",
+          "Right front fly ↔ proposed underlap",
+          "Proposed underlap ↔ shield.right"
+        ],
+        "sourceFragments": [
+          {
+            "id": "waistband:frontLeft:waist",
+            "roleId": "waistband",
+            "edgeId": "bottom",
+            "sourceInterval": [
+              0.5,
+              0.75
+            ],
+            "attachedRoleId": "frontLeft",
+            "attachedEdgeId": "waist",
+            "transform": {
+              "offset": {
+                "x": 47,
+                "y": 4.000000000000005
+              },
+              "rotationDegrees": -180
+            },
+            "stitchLabel": "Waistband (four legs ↔ separate waistband)"
+          },
+          {
+            "id": "waistband:frontRight:waist",
+            "roleId": "waistband",
+            "edgeId": "bottom",
+            "sourceInterval": [
+              0.25,
+              0.5
+            ],
+            "attachedRoleId": "frontRight",
+            "attachedEdgeId": "waist",
+            "transform": {
+              "offset": {
+                "x": 47,
+                "y": 4.000000000000009
+              },
+              "rotationDegrees": -180
+            },
+            "stitchLabel": "Waistband (four legs ↔ separate waistband)"
+          }
+        ],
+        "unchangedWaistEdges": true,
+        "uprightPanels": true,
+        "sameBandFragments": true,
+        "centerJoinResidualCm": 3.030667966038976e-17,
+        "coincidentOriginalCenterFrontAxes": true,
+        "sourceRolesAddedOnlyInMemory": [
+          "flyUnderlap"
+        ],
+        "stitchChangesOnlyInMemory": [
+          "Right front fly ↔ proposed underlap",
+          "Proposed underlap ↔ shield.right"
+        ]
+      }
+    },
+    {
+      "caseId": "waistbandDepth-min",
+      "options": {
+        "waistbandDepth": 2
+      },
+      "flyLengthCm": 15,
+      "shieldWidthCm": 3.5,
+      "existing": {
+        "issues": [],
+        "transforms": {
+          "frontLeft": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          },
+          "frontRight": {
+            "offset": {
+              "x": -3.499999999999999,
+              "y": 15
+            },
+            "rotationDegrees": 180
+          }
+        },
+        "frontWaistJoins": {
+          "frontLeft": {
+            "kind": "line",
+            "name": "waist",
+            "start": {
+              "x": 0,
+              "y": 0
+            },
+            "end": {
+              "x": 23.5,
+              "y": 0
+            }
+          },
+          "frontRight": {
+            "kind": "line",
+            "name": "waist",
+            "start": {
+              "x": 0,
+              "y": 0
+            },
+            "end": {
+              "x": -23.5,
+              "y": 0
+            }
+          }
+        },
+        "flyMarks": [
+          {
+            "roleId": "frontLeft",
+            "mark": {
+              "start": {
+                "x": 0,
+                "y": 0
+              },
+              "end": {
+                "x": 0,
+                "y": 15
+              }
+            }
+          },
+          {
+            "roleId": "frontRight",
+            "mark": {
+              "start": {
+                "x": 0,
+                "y": 0
+              },
+              "end": {
+                "x": 0,
+                "y": 15
+              }
+            }
+          }
+        ]
+      },
+      "proposalFixture": {
+        "issues": [],
+        "transforms": {
+          "frontLeft": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          },
+          "frontRight": {
+            "offset": {
+              "x": 3.030667966038976e-17,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          }
+        },
+        "joinedStitchLabels": [
+          "Left front fly ↔ shield",
+          "Left pocket opening ↔ bag",
+          "Right pocket opening ↔ bag",
+          "Right front fly ↔ proposed underlap",
+          "Proposed underlap ↔ shield.right"
+        ],
+        "sourceFragments": [
+          {
+            "id": "waistband:frontLeft:waist",
+            "roleId": "waistband",
+            "edgeId": "bottom",
+            "sourceInterval": [
+              0.5,
+              0.75
+            ],
+            "attachedRoleId": "frontLeft",
+            "attachedEdgeId": "waist",
+            "transform": {
+              "offset": {
+                "x": 47,
+                "y": 2.0000000000000058
+              },
+              "rotationDegrees": -180
+            },
+            "stitchLabel": "Waistband (four legs ↔ separate waistband)"
+          },
+          {
+            "id": "waistband:frontRight:waist",
+            "roleId": "waistband",
+            "edgeId": "bottom",
+            "sourceInterval": [
+              0.25,
+              0.5
+            ],
+            "attachedRoleId": "frontRight",
+            "attachedEdgeId": "waist",
+            "transform": {
+              "offset": {
+                "x": 47,
+                "y": 2.0000000000000084
+              },
+              "rotationDegrees": -180
+            },
+            "stitchLabel": "Waistband (four legs ↔ separate waistband)"
+          }
+        ],
+        "unchangedWaistEdges": true,
+        "uprightPanels": true,
+        "sameBandFragments": true,
+        "centerJoinResidualCm": 3.030667966038976e-17,
+        "coincidentOriginalCenterFrontAxes": true,
+        "sourceRolesAddedOnlyInMemory": [
+          "flyUnderlap"
+        ],
+        "stitchChangesOnlyInMemory": [
+          "Right front fly ↔ proposed underlap",
+          "Proposed underlap ↔ shield.right"
+        ]
+      }
+    },
+    {
+      "caseId": "waistbandDepth-max",
+      "options": {
+        "waistbandDepth": 8
+      },
+      "flyLengthCm": 15,
+      "shieldWidthCm": 3.5,
+      "existing": {
+        "issues": [],
+        "transforms": {
+          "frontLeft": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          },
+          "frontRight": {
+            "offset": {
+              "x": -3.499999999999999,
+              "y": 15
+            },
+            "rotationDegrees": 180
+          }
+        },
+        "frontWaistJoins": {
+          "frontLeft": {
+            "kind": "line",
+            "name": "waist",
+            "start": {
+              "x": 0,
+              "y": 0
+            },
+            "end": {
+              "x": 23.5,
+              "y": 0
+            }
+          },
+          "frontRight": {
+            "kind": "line",
+            "name": "waist",
+            "start": {
+              "x": 0,
+              "y": 0
+            },
+            "end": {
+              "x": -23.5,
+              "y": 0
+            }
+          }
+        },
+        "flyMarks": [
+          {
+            "roleId": "frontLeft",
+            "mark": {
+              "start": {
+                "x": 0,
+                "y": 0
+              },
+              "end": {
+                "x": 0,
+                "y": 15
+              }
+            }
+          },
+          {
+            "roleId": "frontRight",
+            "mark": {
+              "start": {
+                "x": 0,
+                "y": 0
+              },
+              "end": {
+                "x": 0,
+                "y": 15
+              }
+            }
+          }
+        ]
+      },
+      "proposalFixture": {
+        "issues": [],
+        "transforms": {
+          "frontLeft": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          },
+          "frontRight": {
+            "offset": {
+              "x": 3.030667966038976e-17,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          }
+        },
+        "joinedStitchLabels": [
+          "Left front fly ↔ shield",
+          "Left pocket opening ↔ bag",
+          "Right pocket opening ↔ bag",
+          "Right front fly ↔ proposed underlap",
+          "Proposed underlap ↔ shield.right"
+        ],
+        "sourceFragments": [
+          {
+            "id": "waistband:frontLeft:waist",
+            "roleId": "waistband",
+            "edgeId": "bottom",
+            "sourceInterval": [
+              0.5,
+              0.75
+            ],
+            "attachedRoleId": "frontLeft",
+            "attachedEdgeId": "waist",
+            "transform": {
+              "offset": {
+                "x": 47,
+                "y": 8.000000000000005
+              },
+              "rotationDegrees": -180
+            },
+            "stitchLabel": "Waistband (four legs ↔ separate waistband)"
+          },
+          {
+            "id": "waistband:frontRight:waist",
+            "roleId": "waistband",
+            "edgeId": "bottom",
+            "sourceInterval": [
+              0.25,
+              0.5
+            ],
+            "attachedRoleId": "frontRight",
+            "attachedEdgeId": "waist",
+            "transform": {
+              "offset": {
+                "x": 47,
+                "y": 8.000000000000009
+              },
+              "rotationDegrees": -180
+            },
+            "stitchLabel": "Waistband (four legs ↔ separate waistband)"
+          }
+        ],
+        "unchangedWaistEdges": true,
+        "uprightPanels": true,
+        "sameBandFragments": true,
+        "centerJoinResidualCm": 3.030667966038976e-17,
+        "coincidentOriginalCenterFrontAxes": true,
+        "sourceRolesAddedOnlyInMemory": [
+          "flyUnderlap"
+        ],
+        "stitchChangesOnlyInMemory": [
+          "Right front fly ↔ proposed underlap",
+          "Proposed underlap ↔ shield.right"
+        ]
+      }
+    },
+    {
+      "caseId": "thighEase-min",
+      "options": {
+        "thighEase": 0
+      },
+      "flyLengthCm": 15,
+      "shieldWidthCm": 3.5,
+      "existing": {
+        "issues": [],
+        "transforms": {
+          "frontLeft": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          },
+          "frontRight": {
+            "offset": {
+              "x": -3.499999999999999,
+              "y": 15
+            },
+            "rotationDegrees": 180
+          }
+        },
+        "frontWaistJoins": {
+          "frontLeft": {
+            "kind": "line",
+            "name": "waist",
+            "start": {
+              "x": 0,
+              "y": 0
+            },
+            "end": {
+              "x": 23.5,
+              "y": 0
+            }
+          },
+          "frontRight": {
+            "kind": "line",
+            "name": "waist",
+            "start": {
+              "x": 0,
+              "y": 0
+            },
+            "end": {
+              "x": -23.5,
+              "y": 0
+            }
+          }
+        },
+        "flyMarks": [
+          {
+            "roleId": "frontLeft",
+            "mark": {
+              "start": {
+                "x": 0,
+                "y": 0
+              },
+              "end": {
+                "x": 0,
+                "y": 15
+              }
+            }
+          },
+          {
+            "roleId": "frontRight",
+            "mark": {
+              "start": {
+                "x": 0,
+                "y": 0
+              },
+              "end": {
+                "x": 0,
+                "y": 15
+              }
+            }
+          }
+        ]
+      },
+      "proposalFixture": {
+        "issues": [],
+        "transforms": {
+          "frontLeft": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          },
+          "frontRight": {
+            "offset": {
+              "x": 3.030667966038976e-17,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          }
+        },
+        "joinedStitchLabels": [
+          "Left front fly ↔ shield",
+          "Left pocket opening ↔ bag",
+          "Right pocket opening ↔ bag",
+          "Right front fly ↔ proposed underlap",
+          "Proposed underlap ↔ shield.right"
+        ],
+        "sourceFragments": [
+          {
+            "id": "waistband:frontLeft:waist",
+            "roleId": "waistband",
+            "edgeId": "bottom",
+            "sourceInterval": [
+              0.5,
+              0.75
+            ],
+            "attachedRoleId": "frontLeft",
+            "attachedEdgeId": "waist",
+            "transform": {
+              "offset": {
+                "x": 47,
+                "y": 4.000000000000005
+              },
+              "rotationDegrees": -180
+            },
+            "stitchLabel": "Waistband (four legs ↔ separate waistband)"
+          },
+          {
+            "id": "waistband:frontRight:waist",
+            "roleId": "waistband",
+            "edgeId": "bottom",
+            "sourceInterval": [
+              0.25,
+              0.5
+            ],
+            "attachedRoleId": "frontRight",
+            "attachedEdgeId": "waist",
+            "transform": {
+              "offset": {
+                "x": 47,
+                "y": 4.000000000000009
+              },
+              "rotationDegrees": -180
+            },
+            "stitchLabel": "Waistband (four legs ↔ separate waistband)"
+          }
+        ],
+        "unchangedWaistEdges": true,
+        "uprightPanels": true,
+        "sameBandFragments": true,
+        "centerJoinResidualCm": 3.030667966038976e-17,
+        "coincidentOriginalCenterFrontAxes": true,
+        "sourceRolesAddedOnlyInMemory": [
+          "flyUnderlap"
+        ],
+        "stitchChangesOnlyInMemory": [
+          "Right front fly ↔ proposed underlap",
+          "Proposed underlap ↔ shield.right"
+        ]
+      }
+    },
+    {
+      "caseId": "thighEase-max",
+      "options": {
+        "thighEase": 20
+      },
+      "flyLengthCm": 15,
+      "shieldWidthCm": 3.5,
+      "existing": {
+        "issues": [],
+        "transforms": {
+          "frontLeft": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          },
+          "frontRight": {
+            "offset": {
+              "x": -3.499999999999999,
+              "y": 15
+            },
+            "rotationDegrees": 180
+          }
+        },
+        "frontWaistJoins": {
+          "frontLeft": {
+            "kind": "line",
+            "name": "waist",
+            "start": {
+              "x": 0,
+              "y": 0
+            },
+            "end": {
+              "x": 23.5,
+              "y": 0
+            }
+          },
+          "frontRight": {
+            "kind": "line",
+            "name": "waist",
+            "start": {
+              "x": 0,
+              "y": 0
+            },
+            "end": {
+              "x": -23.5,
+              "y": 0
+            }
+          }
+        },
+        "flyMarks": [
+          {
+            "roleId": "frontLeft",
+            "mark": {
+              "start": {
+                "x": 0,
+                "y": 0
+              },
+              "end": {
+                "x": 0,
+                "y": 15
+              }
+            }
+          },
+          {
+            "roleId": "frontRight",
+            "mark": {
+              "start": {
+                "x": 0,
+                "y": 0
+              },
+              "end": {
+                "x": 0,
+                "y": 15
+              }
+            }
+          }
+        ]
+      },
+      "proposalFixture": {
+        "issues": [],
+        "transforms": {
+          "frontLeft": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          },
+          "frontRight": {
+            "offset": {
+              "x": 3.030667966038976e-17,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          }
+        },
+        "joinedStitchLabels": [
+          "Left front fly ↔ shield",
+          "Left pocket opening ↔ bag",
+          "Right pocket opening ↔ bag",
+          "Right front fly ↔ proposed underlap",
+          "Proposed underlap ↔ shield.right"
+        ],
+        "sourceFragments": [
+          {
+            "id": "waistband:frontLeft:waist",
+            "roleId": "waistband",
+            "edgeId": "bottom",
+            "sourceInterval": [
+              0.5,
+              0.75
+            ],
+            "attachedRoleId": "frontLeft",
+            "attachedEdgeId": "waist",
+            "transform": {
+              "offset": {
+                "x": 47,
+                "y": 4.000000000000005
+              },
+              "rotationDegrees": -180
+            },
+            "stitchLabel": "Waistband (four legs ↔ separate waistband)"
+          },
+          {
+            "id": "waistband:frontRight:waist",
+            "roleId": "waistband",
+            "edgeId": "bottom",
+            "sourceInterval": [
+              0.25,
+              0.5
+            ],
+            "attachedRoleId": "frontRight",
+            "attachedEdgeId": "waist",
+            "transform": {
+              "offset": {
+                "x": 47,
+                "y": 4.000000000000009
+              },
+              "rotationDegrees": -180
+            },
+            "stitchLabel": "Waistband (four legs ↔ separate waistband)"
+          }
+        ],
+        "unchangedWaistEdges": true,
+        "uprightPanels": true,
+        "sameBandFragments": true,
+        "centerJoinResidualCm": 3.030667966038976e-17,
+        "coincidentOriginalCenterFrontAxes": true,
+        "sourceRolesAddedOnlyInMemory": [
+          "flyUnderlap"
+        ],
+        "stitchChangesOnlyInMemory": [
+          "Right front fly ↔ proposed underlap",
+          "Proposed underlap ↔ shield.right"
+        ]
+      }
+    },
+    {
+      "caseId": "kneeEase-min",
+      "options": {
+        "kneeEase": 0
+      },
+      "flyLengthCm": 15,
+      "shieldWidthCm": 3.5,
+      "existing": {
+        "issues": [],
+        "transforms": {
+          "frontLeft": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          },
+          "frontRight": {
+            "offset": {
+              "x": -3.499999999999999,
+              "y": 15
+            },
+            "rotationDegrees": 180
+          }
+        },
+        "frontWaistJoins": {
+          "frontLeft": {
+            "kind": "line",
+            "name": "waist",
+            "start": {
+              "x": 0,
+              "y": 0
+            },
+            "end": {
+              "x": 23.5,
+              "y": 0
+            }
+          },
+          "frontRight": {
+            "kind": "line",
+            "name": "waist",
+            "start": {
+              "x": 0,
+              "y": 0
+            },
+            "end": {
+              "x": -23.5,
+              "y": 0
+            }
+          }
+        },
+        "flyMarks": [
+          {
+            "roleId": "frontLeft",
+            "mark": {
+              "start": {
+                "x": 0,
+                "y": 0
+              },
+              "end": {
+                "x": 0,
+                "y": 15
+              }
+            }
+          },
+          {
+            "roleId": "frontRight",
+            "mark": {
+              "start": {
+                "x": 0,
+                "y": 0
+              },
+              "end": {
+                "x": 0,
+                "y": 15
+              }
+            }
+          }
+        ]
+      },
+      "proposalFixture": {
+        "issues": [],
+        "transforms": {
+          "frontLeft": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          },
+          "frontRight": {
+            "offset": {
+              "x": 3.030667966038976e-17,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          }
+        },
+        "joinedStitchLabels": [
+          "Left front fly ↔ shield",
+          "Left pocket opening ↔ bag",
+          "Right pocket opening ↔ bag",
+          "Right front fly ↔ proposed underlap",
+          "Proposed underlap ↔ shield.right"
+        ],
+        "sourceFragments": [
+          {
+            "id": "waistband:frontLeft:waist",
+            "roleId": "waistband",
+            "edgeId": "bottom",
+            "sourceInterval": [
+              0.5,
+              0.75
+            ],
+            "attachedRoleId": "frontLeft",
+            "attachedEdgeId": "waist",
+            "transform": {
+              "offset": {
+                "x": 47,
+                "y": 4.000000000000005
+              },
+              "rotationDegrees": -180
+            },
+            "stitchLabel": "Waistband (four legs ↔ separate waistband)"
+          },
+          {
+            "id": "waistband:frontRight:waist",
+            "roleId": "waistband",
+            "edgeId": "bottom",
+            "sourceInterval": [
+              0.25,
+              0.5
+            ],
+            "attachedRoleId": "frontRight",
+            "attachedEdgeId": "waist",
+            "transform": {
+              "offset": {
+                "x": 47,
+                "y": 4.000000000000009
+              },
+              "rotationDegrees": -180
+            },
+            "stitchLabel": "Waistband (four legs ↔ separate waistband)"
+          }
+        ],
+        "unchangedWaistEdges": true,
+        "uprightPanels": true,
+        "sameBandFragments": true,
+        "centerJoinResidualCm": 3.030667966038976e-17,
+        "coincidentOriginalCenterFrontAxes": true,
+        "sourceRolesAddedOnlyInMemory": [
+          "flyUnderlap"
+        ],
+        "stitchChangesOnlyInMemory": [
+          "Right front fly ↔ proposed underlap",
+          "Proposed underlap ↔ shield.right"
+        ]
+      }
+    },
+    {
+      "caseId": "kneeEase-max",
+      "options": {
+        "kneeEase": 15
+      },
+      "flyLengthCm": 15,
+      "shieldWidthCm": 3.5,
+      "existing": {
+        "issues": [],
+        "transforms": {
+          "frontLeft": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          },
+          "frontRight": {
+            "offset": {
+              "x": -3.499999999999999,
+              "y": 15
+            },
+            "rotationDegrees": 180
+          }
+        },
+        "frontWaistJoins": {
+          "frontLeft": {
+            "kind": "line",
+            "name": "waist",
+            "start": {
+              "x": 0,
+              "y": 0
+            },
+            "end": {
+              "x": 23.5,
+              "y": 0
+            }
+          },
+          "frontRight": {
+            "kind": "line",
+            "name": "waist",
+            "start": {
+              "x": 0,
+              "y": 0
+            },
+            "end": {
+              "x": -23.5,
+              "y": 0
+            }
+          }
+        },
+        "flyMarks": [
+          {
+            "roleId": "frontLeft",
+            "mark": {
+              "start": {
+                "x": 0,
+                "y": 0
+              },
+              "end": {
+                "x": 0,
+                "y": 15
+              }
+            }
+          },
+          {
+            "roleId": "frontRight",
+            "mark": {
+              "start": {
+                "x": 0,
+                "y": 0
+              },
+              "end": {
+                "x": 0,
+                "y": 15
+              }
+            }
+          }
+        ]
+      },
+      "proposalFixture": {
+        "issues": [],
+        "transforms": {
+          "frontLeft": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          },
+          "frontRight": {
+            "offset": {
+              "x": 3.030667966038976e-17,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          }
+        },
+        "joinedStitchLabels": [
+          "Left front fly ↔ shield",
+          "Left pocket opening ↔ bag",
+          "Right pocket opening ↔ bag",
+          "Right front fly ↔ proposed underlap",
+          "Proposed underlap ↔ shield.right"
+        ],
+        "sourceFragments": [
+          {
+            "id": "waistband:frontLeft:waist",
+            "roleId": "waistband",
+            "edgeId": "bottom",
+            "sourceInterval": [
+              0.5,
+              0.75
+            ],
+            "attachedRoleId": "frontLeft",
+            "attachedEdgeId": "waist",
+            "transform": {
+              "offset": {
+                "x": 47,
+                "y": 4.000000000000005
+              },
+              "rotationDegrees": -180
+            },
+            "stitchLabel": "Waistband (four legs ↔ separate waistband)"
+          },
+          {
+            "id": "waistband:frontRight:waist",
+            "roleId": "waistband",
+            "edgeId": "bottom",
+            "sourceInterval": [
+              0.25,
+              0.5
+            ],
+            "attachedRoleId": "frontRight",
+            "attachedEdgeId": "waist",
+            "transform": {
+              "offset": {
+                "x": 47,
+                "y": 4.000000000000009
+              },
+              "rotationDegrees": -180
+            },
+            "stitchLabel": "Waistband (four legs ↔ separate waistband)"
+          }
+        ],
+        "unchangedWaistEdges": true,
+        "uprightPanels": true,
+        "sameBandFragments": true,
+        "centerJoinResidualCm": 3.030667966038976e-17,
+        "coincidentOriginalCenterFrontAxes": true,
+        "sourceRolesAddedOnlyInMemory": [
+          "flyUnderlap"
+        ],
+        "stitchChangesOnlyInMemory": [
+          "Right front fly ↔ proposed underlap",
+          "Proposed underlap ↔ shield.right"
+        ]
+      }
+    },
+    {
+      "caseId": "legOpening-min",
+      "options": {
+        "legOpening": 25
+      },
+      "flyLengthCm": 15,
+      "shieldWidthCm": 3.5,
+      "existing": {
+        "issues": [],
+        "transforms": {
+          "frontLeft": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          },
+          "frontRight": {
+            "offset": {
+              "x": -3.499999999999999,
+              "y": 15
+            },
+            "rotationDegrees": 180
+          }
+        },
+        "frontWaistJoins": {
+          "frontLeft": {
+            "kind": "line",
+            "name": "waist",
+            "start": {
+              "x": 0,
+              "y": 0
+            },
+            "end": {
+              "x": 23.5,
+              "y": 0
+            }
+          },
+          "frontRight": {
+            "kind": "line",
+            "name": "waist",
+            "start": {
+              "x": 0,
+              "y": 0
+            },
+            "end": {
+              "x": -23.5,
+              "y": 0
+            }
+          }
+        },
+        "flyMarks": [
+          {
+            "roleId": "frontLeft",
+            "mark": {
+              "start": {
+                "x": 0,
+                "y": 0
+              },
+              "end": {
+                "x": 0,
+                "y": 15
+              }
+            }
+          },
+          {
+            "roleId": "frontRight",
+            "mark": {
+              "start": {
+                "x": 0,
+                "y": 0
+              },
+              "end": {
+                "x": 0,
+                "y": 15
+              }
+            }
+          }
+        ]
+      },
+      "proposalFixture": {
+        "issues": [],
+        "transforms": {
+          "frontLeft": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          },
+          "frontRight": {
+            "offset": {
+              "x": 3.030667966038976e-17,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          }
+        },
+        "joinedStitchLabels": [
+          "Left front fly ↔ shield",
+          "Left pocket opening ↔ bag",
+          "Right pocket opening ↔ bag",
+          "Right front fly ↔ proposed underlap",
+          "Proposed underlap ↔ shield.right"
+        ],
+        "sourceFragments": [
+          {
+            "id": "waistband:frontLeft:waist",
+            "roleId": "waistband",
+            "edgeId": "bottom",
+            "sourceInterval": [
+              0.5,
+              0.75
+            ],
+            "attachedRoleId": "frontLeft",
+            "attachedEdgeId": "waist",
+            "transform": {
+              "offset": {
+                "x": 47,
+                "y": 4.000000000000005
+              },
+              "rotationDegrees": -180
+            },
+            "stitchLabel": "Waistband (four legs ↔ separate waistband)"
+          },
+          {
+            "id": "waistband:frontRight:waist",
+            "roleId": "waistband",
+            "edgeId": "bottom",
+            "sourceInterval": [
+              0.25,
+              0.5
+            ],
+            "attachedRoleId": "frontRight",
+            "attachedEdgeId": "waist",
+            "transform": {
+              "offset": {
+                "x": 47,
+                "y": 4.000000000000009
+              },
+              "rotationDegrees": -180
+            },
+            "stitchLabel": "Waistband (four legs ↔ separate waistband)"
+          }
+        ],
+        "unchangedWaistEdges": true,
+        "uprightPanels": true,
+        "sameBandFragments": true,
+        "centerJoinResidualCm": 3.030667966038976e-17,
+        "coincidentOriginalCenterFrontAxes": true,
+        "sourceRolesAddedOnlyInMemory": [
+          "flyUnderlap"
+        ],
+        "stitchChangesOnlyInMemory": [
+          "Right front fly ↔ proposed underlap",
+          "Proposed underlap ↔ shield.right"
+        ]
+      }
+    },
+    {
+      "caseId": "legOpening-max",
+      "options": {
+        "legOpening": 65
+      },
+      "flyLengthCm": 15,
+      "shieldWidthCm": 3.5,
+      "existing": {
+        "issues": [],
+        "transforms": {
+          "frontLeft": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          },
+          "frontRight": {
+            "offset": {
+              "x": -3.499999999999999,
+              "y": 15
+            },
+            "rotationDegrees": 180
+          }
+        },
+        "frontWaistJoins": {
+          "frontLeft": {
+            "kind": "line",
+            "name": "waist",
+            "start": {
+              "x": 0,
+              "y": 0
+            },
+            "end": {
+              "x": 23.5,
+              "y": 0
+            }
+          },
+          "frontRight": {
+            "kind": "line",
+            "name": "waist",
+            "start": {
+              "x": 0,
+              "y": 0
+            },
+            "end": {
+              "x": -23.5,
+              "y": 0
+            }
+          }
+        },
+        "flyMarks": [
+          {
+            "roleId": "frontLeft",
+            "mark": {
+              "start": {
+                "x": 0,
+                "y": 0
+              },
+              "end": {
+                "x": 0,
+                "y": 15
+              }
+            }
+          },
+          {
+            "roleId": "frontRight",
+            "mark": {
+              "start": {
+                "x": 0,
+                "y": 0
+              },
+              "end": {
+                "x": 0,
+                "y": 15
+              }
+            }
+          }
+        ]
+      },
+      "proposalFixture": {
+        "issues": [],
+        "transforms": {
+          "frontLeft": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          },
+          "frontRight": {
+            "offset": {
+              "x": 3.030667966038976e-17,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          }
+        },
+        "joinedStitchLabels": [
+          "Left front fly ↔ shield",
+          "Left pocket opening ↔ bag",
+          "Right pocket opening ↔ bag",
+          "Right front fly ↔ proposed underlap",
+          "Proposed underlap ↔ shield.right"
+        ],
+        "sourceFragments": [
+          {
+            "id": "waistband:frontLeft:waist",
+            "roleId": "waistband",
+            "edgeId": "bottom",
+            "sourceInterval": [
+              0.5,
+              0.75
+            ],
+            "attachedRoleId": "frontLeft",
+            "attachedEdgeId": "waist",
+            "transform": {
+              "offset": {
+                "x": 47,
+                "y": 4.000000000000005
+              },
+              "rotationDegrees": -180
+            },
+            "stitchLabel": "Waistband (four legs ↔ separate waistband)"
+          },
+          {
+            "id": "waistband:frontRight:waist",
+            "roleId": "waistband",
+            "edgeId": "bottom",
+            "sourceInterval": [
+              0.25,
+              0.5
+            ],
+            "attachedRoleId": "frontRight",
+            "attachedEdgeId": "waist",
+            "transform": {
+              "offset": {
+                "x": 47,
+                "y": 4.000000000000009
+              },
+              "rotationDegrees": -180
+            },
+            "stitchLabel": "Waistband (four legs ↔ separate waistband)"
+          }
+        ],
+        "unchangedWaistEdges": true,
+        "uprightPanels": true,
+        "sameBandFragments": true,
+        "centerJoinResidualCm": 3.030667966038976e-17,
+        "coincidentOriginalCenterFrontAxes": true,
+        "sourceRolesAddedOnlyInMemory": [
+          "flyUnderlap"
+        ],
+        "stitchChangesOnlyInMemory": [
+          "Right front fly ↔ proposed underlap",
+          "Proposed underlap ↔ shield.right"
+        ]
+      }
+    },
+    {
+      "caseId": "flyLength-min",
+      "options": {
+        "flyLength": 8
+      },
+      "flyLengthCm": 8,
+      "shieldWidthCm": 3.5,
+      "existing": {
+        "issues": [],
+        "transforms": {
+          "frontLeft": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          },
+          "frontRight": {
+            "offset": {
+              "x": -3.4999999999999996,
+              "y": 8
+            },
+            "rotationDegrees": 180
+          }
+        },
+        "frontWaistJoins": {
+          "frontLeft": {
+            "kind": "line",
+            "name": "waist",
+            "start": {
+              "x": 0,
+              "y": 0
+            },
+            "end": {
+              "x": 23.5,
+              "y": 0
+            }
+          },
+          "frontRight": {
+            "kind": "line",
+            "name": "waist",
+            "start": {
+              "x": 0,
+              "y": 0
+            },
+            "end": {
+              "x": -23.5,
+              "y": 0
+            }
+          }
+        },
+        "flyMarks": [
+          {
+            "roleId": "frontLeft",
+            "mark": {
+              "start": {
+                "x": 0,
+                "y": 0
+              },
+              "end": {
+                "x": 0,
+                "y": 8
+              }
+            }
+          },
+          {
+            "roleId": "frontRight",
+            "mark": {
+              "start": {
+                "x": 0,
+                "y": 0
+              },
+              "end": {
+                "x": 0,
+                "y": 8
+              }
+            }
+          }
+        ]
+      },
+      "proposalFixture": {
+        "issues": [],
+        "transforms": {
+          "frontLeft": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          },
+          "frontRight": {
+            "offset": {
+              "x": 4.5769509808878667e-17,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          }
+        },
+        "joinedStitchLabels": [
+          "Left front fly ↔ shield",
+          "Left pocket opening ↔ bag",
+          "Right pocket opening ↔ bag",
+          "Right front fly ↔ proposed underlap",
+          "Proposed underlap ↔ shield.right"
+        ],
+        "sourceFragments": [
+          {
+            "id": "waistband:frontLeft:waist",
+            "roleId": "waistband",
+            "edgeId": "bottom",
+            "sourceInterval": [
+              0.5,
+              0.75
+            ],
+            "attachedRoleId": "frontLeft",
+            "attachedEdgeId": "waist",
+            "transform": {
+              "offset": {
+                "x": 47,
+                "y": 4.000000000000005
+              },
+              "rotationDegrees": -180
+            },
+            "stitchLabel": "Waistband (four legs ↔ separate waistband)"
+          },
+          {
+            "id": "waistband:frontRight:waist",
+            "roleId": "waistband",
+            "edgeId": "bottom",
+            "sourceInterval": [
+              0.25,
+              0.5
+            ],
+            "attachedRoleId": "frontRight",
+            "attachedEdgeId": "waist",
+            "transform": {
+              "offset": {
+                "x": 47,
+                "y": 4.000000000000009
+              },
+              "rotationDegrees": -180
+            },
+            "stitchLabel": "Waistband (four legs ↔ separate waistband)"
+          }
+        ],
+        "unchangedWaistEdges": true,
+        "uprightPanels": true,
+        "sameBandFragments": true,
+        "centerJoinResidualCm": 4.5769509808878667e-17,
+        "coincidentOriginalCenterFrontAxes": true,
+        "sourceRolesAddedOnlyInMemory": [
+          "flyUnderlap"
+        ],
+        "stitchChangesOnlyInMemory": [
+          "Right front fly ↔ proposed underlap",
+          "Proposed underlap ↔ shield.right"
+        ]
+      }
+    },
+    {
+      "caseId": "flyLength-max",
+      "options": {
+        "flyLength": 25
+      },
+      "flyLengthCm": 25,
+      "shieldWidthCm": 3.5,
+      "existing": {
+        "issues": [],
+        "transforms": {
+          "frontLeft": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          },
+          "frontRight": {
+            "offset": {
+              "x": -3.4999999999999987,
+              "y": 25
+            },
+            "rotationDegrees": 180
+          }
+        },
+        "frontWaistJoins": {
+          "frontLeft": {
+            "kind": "line",
+            "name": "waist",
+            "start": {
+              "x": 0,
+              "y": 0
+            },
+            "end": {
+              "x": 23.5,
+              "y": 0
+            }
+          },
+          "frontRight": {
+            "kind": "line",
+            "name": "waist",
+            "start": {
+              "x": 0,
+              "y": 0
+            },
+            "end": {
+              "x": -23.5,
+              "y": 0
+            }
+          }
+        },
+        "flyMarks": [
+          {
+            "roleId": "frontLeft",
+            "mark": {
+              "start": {
+                "x": 0,
+                "y": 0
+              },
+              "end": {
+                "x": 0,
+                "y": 25
+              }
+            }
+          },
+          {
+            "roleId": "frontRight",
+            "mark": {
+              "start": {
+                "x": 0,
+                "y": 0
+              },
+              "end": {
+                "x": 0,
+                "y": 25
+              }
+            }
+          }
+        ]
+      },
+      "proposalFixture": {
+        "issues": [],
+        "transforms": {
+          "frontLeft": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          },
+          "frontRight": {
+            "offset": {
+              "x": 1.9854086938400367e-16,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          }
+        },
+        "joinedStitchLabels": [
+          "Left front fly ↔ shield",
+          "Left pocket opening ↔ bag",
+          "Right pocket opening ↔ bag",
+          "Right front fly ↔ proposed underlap",
+          "Proposed underlap ↔ shield.right"
+        ],
+        "sourceFragments": [
+          {
+            "id": "waistband:frontLeft:waist",
+            "roleId": "waistband",
+            "edgeId": "bottom",
+            "sourceInterval": [
+              0.5,
+              0.75
+            ],
+            "attachedRoleId": "frontLeft",
+            "attachedEdgeId": "waist",
+            "transform": {
+              "offset": {
+                "x": 47,
+                "y": 4.000000000000005
+              },
+              "rotationDegrees": -180
+            },
+            "stitchLabel": "Waistband (four legs ↔ separate waistband)"
+          },
+          {
+            "id": "waistband:frontRight:waist",
+            "roleId": "waistband",
+            "edgeId": "bottom",
+            "sourceInterval": [
+              0.25,
+              0.5
+            ],
+            "attachedRoleId": "frontRight",
+            "attachedEdgeId": "waist",
+            "transform": {
+              "offset": {
+                "x": 47,
+                "y": 4.000000000000009
+              },
+              "rotationDegrees": -180
+            },
+            "stitchLabel": "Waistband (four legs ↔ separate waistband)"
+          }
+        ],
+        "unchangedWaistEdges": true,
+        "uprightPanels": true,
+        "sameBandFragments": true,
+        "centerJoinResidualCm": 1.9854086938400367e-16,
+        "coincidentOriginalCenterFrontAxes": true,
+        "sourceRolesAddedOnlyInMemory": [
+          "flyUnderlap"
+        ],
+        "stitchChangesOnlyInMemory": [
+          "Right front fly ↔ proposed underlap",
+          "Proposed underlap ↔ shield.right"
+        ]
+      }
+    },
+    {
+      "caseId": "pocketOpening-min",
+      "options": {
+        "pocketOpening": 8
+      },
+      "flyLengthCm": 15,
+      "shieldWidthCm": 3.5,
+      "existing": {
+        "issues": [],
+        "transforms": {
+          "frontLeft": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          },
+          "frontRight": {
+            "offset": {
+              "x": -3.499999999999999,
+              "y": 15
+            },
+            "rotationDegrees": 180
+          }
+        },
+        "frontWaistJoins": {
+          "frontLeft": {
+            "kind": "line",
+            "name": "waist",
+            "start": {
+              "x": 0,
+              "y": 0
+            },
+            "end": {
+              "x": 23.5,
+              "y": 0
+            }
+          },
+          "frontRight": {
+            "kind": "line",
+            "name": "waist",
+            "start": {
+              "x": 0,
+              "y": 0
+            },
+            "end": {
+              "x": -23.5,
+              "y": 0
+            }
+          }
+        },
+        "flyMarks": [
+          {
+            "roleId": "frontLeft",
+            "mark": {
+              "start": {
+                "x": 0,
+                "y": 0
+              },
+              "end": {
+                "x": 0,
+                "y": 15
+              }
+            }
+          },
+          {
+            "roleId": "frontRight",
+            "mark": {
+              "start": {
+                "x": 0,
+                "y": 0
+              },
+              "end": {
+                "x": 0,
+                "y": 15
+              }
+            }
+          }
+        ]
+      },
+      "proposalFixture": {
+        "issues": [],
+        "transforms": {
+          "frontLeft": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          },
+          "frontRight": {
+            "offset": {
+              "x": 3.030667966038976e-17,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          }
+        },
+        "joinedStitchLabels": [
+          "Left front fly ↔ shield",
+          "Left pocket opening ↔ bag",
+          "Right pocket opening ↔ bag",
+          "Right front fly ↔ proposed underlap",
+          "Proposed underlap ↔ shield.right"
+        ],
+        "sourceFragments": [
+          {
+            "id": "waistband:frontLeft:waist",
+            "roleId": "waistband",
+            "edgeId": "bottom",
+            "sourceInterval": [
+              0.5,
+              0.75
+            ],
+            "attachedRoleId": "frontLeft",
+            "attachedEdgeId": "waist",
+            "transform": {
+              "offset": {
+                "x": 47,
+                "y": 4.000000000000005
+              },
+              "rotationDegrees": -180
+            },
+            "stitchLabel": "Waistband (four legs ↔ separate waistband)"
+          },
+          {
+            "id": "waistband:frontRight:waist",
+            "roleId": "waistband",
+            "edgeId": "bottom",
+            "sourceInterval": [
+              0.25,
+              0.5
+            ],
+            "attachedRoleId": "frontRight",
+            "attachedEdgeId": "waist",
+            "transform": {
+              "offset": {
+                "x": 47,
+                "y": 4.000000000000009
+              },
+              "rotationDegrees": -180
+            },
+            "stitchLabel": "Waistband (four legs ↔ separate waistband)"
+          }
+        ],
+        "unchangedWaistEdges": true,
+        "uprightPanels": true,
+        "sameBandFragments": true,
+        "centerJoinResidualCm": 3.030667966038976e-17,
+        "coincidentOriginalCenterFrontAxes": true,
+        "sourceRolesAddedOnlyInMemory": [
+          "flyUnderlap"
+        ],
+        "stitchChangesOnlyInMemory": [
+          "Right front fly ↔ proposed underlap",
+          "Proposed underlap ↔ shield.right"
+        ]
+      }
+    },
+    {
+      "caseId": "pocketOpening-max",
+      "options": {
+        "pocketOpening": 25
+      },
+      "flyLengthCm": 15,
+      "shieldWidthCm": 3.5,
+      "existing": {
+        "issues": [],
+        "transforms": {
+          "frontLeft": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          },
+          "frontRight": {
+            "offset": {
+              "x": -3.499999999999999,
+              "y": 15
+            },
+            "rotationDegrees": 180
+          }
+        },
+        "frontWaistJoins": {
+          "frontLeft": {
+            "kind": "line",
+            "name": "waist",
+            "start": {
+              "x": 0,
+              "y": 0
+            },
+            "end": {
+              "x": 23.5,
+              "y": 0
+            }
+          },
+          "frontRight": {
+            "kind": "line",
+            "name": "waist",
+            "start": {
+              "x": 0,
+              "y": 0
+            },
+            "end": {
+              "x": -23.5,
+              "y": 0
+            }
+          }
+        },
+        "flyMarks": [
+          {
+            "roleId": "frontLeft",
+            "mark": {
+              "start": {
+                "x": 0,
+                "y": 0
+              },
+              "end": {
+                "x": 0,
+                "y": 15
+              }
+            }
+          },
+          {
+            "roleId": "frontRight",
+            "mark": {
+              "start": {
+                "x": 0,
+                "y": 0
+              },
+              "end": {
+                "x": 0,
+                "y": 15
+              }
+            }
+          }
+        ]
+      },
+      "proposalFixture": {
+        "issues": [],
+        "transforms": {
+          "frontLeft": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          },
+          "frontRight": {
+            "offset": {
+              "x": 3.030667966038976e-17,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          }
+        },
+        "joinedStitchLabels": [
+          "Left front fly ↔ shield",
+          "Left pocket opening ↔ bag",
+          "Right pocket opening ↔ bag",
+          "Right front fly ↔ proposed underlap",
+          "Proposed underlap ↔ shield.right"
+        ],
+        "sourceFragments": [
+          {
+            "id": "waistband:frontLeft:waist",
+            "roleId": "waistband",
+            "edgeId": "bottom",
+            "sourceInterval": [
+              0.5,
+              0.75
+            ],
+            "attachedRoleId": "frontLeft",
+            "attachedEdgeId": "waist",
+            "transform": {
+              "offset": {
+                "x": 47,
+                "y": 4.000000000000005
+              },
+              "rotationDegrees": -180
+            },
+            "stitchLabel": "Waistband (four legs ↔ separate waistband)"
+          },
+          {
+            "id": "waistband:frontRight:waist",
+            "roleId": "waistband",
+            "edgeId": "bottom",
+            "sourceInterval": [
+              0.25,
+              0.5
+            ],
+            "attachedRoleId": "frontRight",
+            "attachedEdgeId": "waist",
+            "transform": {
+              "offset": {
+                "x": 47,
+                "y": 4.000000000000009
+              },
+              "rotationDegrees": -180
+            },
+            "stitchLabel": "Waistband (four legs ↔ separate waistband)"
+          }
+        ],
+        "unchangedWaistEdges": true,
+        "uprightPanels": true,
+        "sameBandFragments": true,
+        "centerJoinResidualCm": 3.030667966038976e-17,
+        "coincidentOriginalCenterFrontAxes": true,
+        "sourceRolesAddedOnlyInMemory": [
+          "flyUnderlap"
+        ],
+        "stitchChangesOnlyInMemory": [
+          "Right front fly ↔ proposed underlap",
+          "Proposed underlap ↔ shield.right"
+        ]
+      }
+    },
+    {
+      "caseId": "pocketAngle-min",
+      "options": {
+        "pocketAngle": 35
+      },
+      "flyLengthCm": 15,
+      "shieldWidthCm": 3.5,
+      "existing": {
+        "issues": [],
+        "transforms": {
+          "frontLeft": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          },
+          "frontRight": {
+            "offset": {
+              "x": -3.499999999999999,
+              "y": 15
+            },
+            "rotationDegrees": 180
+          }
+        },
+        "frontWaistJoins": {
+          "frontLeft": {
+            "kind": "line",
+            "name": "waist",
+            "start": {
+              "x": 0,
+              "y": 0
+            },
+            "end": {
+              "x": 23.5,
+              "y": 0
+            }
+          },
+          "frontRight": {
+            "kind": "line",
+            "name": "waist",
+            "start": {
+              "x": 0,
+              "y": 0
+            },
+            "end": {
+              "x": -23.5,
+              "y": 0
+            }
+          }
+        },
+        "flyMarks": [
+          {
+            "roleId": "frontLeft",
+            "mark": {
+              "start": {
+                "x": 0,
+                "y": 0
+              },
+              "end": {
+                "x": 0,
+                "y": 15
+              }
+            }
+          },
+          {
+            "roleId": "frontRight",
+            "mark": {
+              "start": {
+                "x": 0,
+                "y": 0
+              },
+              "end": {
+                "x": 0,
+                "y": 15
+              }
+            }
+          }
+        ]
+      },
+      "proposalFixture": {
+        "issues": [],
+        "transforms": {
+          "frontLeft": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          },
+          "frontRight": {
+            "offset": {
+              "x": 3.030667966038976e-17,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          }
+        },
+        "joinedStitchLabels": [
+          "Left front fly ↔ shield",
+          "Left pocket opening ↔ bag",
+          "Right pocket opening ↔ bag",
+          "Right front fly ↔ proposed underlap",
+          "Proposed underlap ↔ shield.right"
+        ],
+        "sourceFragments": [
+          {
+            "id": "waistband:frontLeft:waist",
+            "roleId": "waistband",
+            "edgeId": "bottom",
+            "sourceInterval": [
+              0.5,
+              0.75
+            ],
+            "attachedRoleId": "frontLeft",
+            "attachedEdgeId": "waist",
+            "transform": {
+              "offset": {
+                "x": 47,
+                "y": 4.000000000000005
+              },
+              "rotationDegrees": -180
+            },
+            "stitchLabel": "Waistband (four legs ↔ separate waistband)"
+          },
+          {
+            "id": "waistband:frontRight:waist",
+            "roleId": "waistband",
+            "edgeId": "bottom",
+            "sourceInterval": [
+              0.25,
+              0.5
+            ],
+            "attachedRoleId": "frontRight",
+            "attachedEdgeId": "waist",
+            "transform": {
+              "offset": {
+                "x": 47,
+                "y": 4.000000000000009
+              },
+              "rotationDegrees": -180
+            },
+            "stitchLabel": "Waistband (four legs ↔ separate waistband)"
+          }
+        ],
+        "unchangedWaistEdges": true,
+        "uprightPanels": true,
+        "sameBandFragments": true,
+        "centerJoinResidualCm": 3.030667966038976e-17,
+        "coincidentOriginalCenterFrontAxes": true,
+        "sourceRolesAddedOnlyInMemory": [
+          "flyUnderlap"
+        ],
+        "stitchChangesOnlyInMemory": [
+          "Right front fly ↔ proposed underlap",
+          "Proposed underlap ↔ shield.right"
+        ]
+      }
+    },
+    {
+      "caseId": "pocketAngle-max",
+      "options": {
+        "pocketAngle": 70
+      },
+      "flyLengthCm": 15,
+      "shieldWidthCm": 3.5,
+      "existing": {
+        "issues": [],
+        "transforms": {
+          "frontLeft": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          },
+          "frontRight": {
+            "offset": {
+              "x": -3.499999999999999,
+              "y": 15
+            },
+            "rotationDegrees": 180
+          }
+        },
+        "frontWaistJoins": {
+          "frontLeft": {
+            "kind": "line",
+            "name": "waist",
+            "start": {
+              "x": 0,
+              "y": 0
+            },
+            "end": {
+              "x": 23.5,
+              "y": 0
+            }
+          },
+          "frontRight": {
+            "kind": "line",
+            "name": "waist",
+            "start": {
+              "x": 0,
+              "y": 0
+            },
+            "end": {
+              "x": -23.5,
+              "y": 0
+            }
+          }
+        },
+        "flyMarks": [
+          {
+            "roleId": "frontLeft",
+            "mark": {
+              "start": {
+                "x": 0,
+                "y": 0
+              },
+              "end": {
+                "x": 0,
+                "y": 15
+              }
+            }
+          },
+          {
+            "roleId": "frontRight",
+            "mark": {
+              "start": {
+                "x": 0,
+                "y": 0
+              },
+              "end": {
+                "x": 0,
+                "y": 15
+              }
+            }
+          }
+        ]
+      },
+      "proposalFixture": {
+        "issues": [],
+        "transforms": {
+          "frontLeft": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          },
+          "frontRight": {
+            "offset": {
+              "x": 3.030667966038976e-17,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          }
+        },
+        "joinedStitchLabels": [
+          "Left front fly ↔ shield",
+          "Left pocket opening ↔ bag",
+          "Right pocket opening ↔ bag",
+          "Right front fly ↔ proposed underlap",
+          "Proposed underlap ↔ shield.right"
+        ],
+        "sourceFragments": [
+          {
+            "id": "waistband:frontLeft:waist",
+            "roleId": "waistband",
+            "edgeId": "bottom",
+            "sourceInterval": [
+              0.5,
+              0.75
+            ],
+            "attachedRoleId": "frontLeft",
+            "attachedEdgeId": "waist",
+            "transform": {
+              "offset": {
+                "x": 47,
+                "y": 4.000000000000005
+              },
+              "rotationDegrees": -180
+            },
+            "stitchLabel": "Waistband (four legs ↔ separate waistband)"
+          },
+          {
+            "id": "waistband:frontRight:waist",
+            "roleId": "waistband",
+            "edgeId": "bottom",
+            "sourceInterval": [
+              0.25,
+              0.5
+            ],
+            "attachedRoleId": "frontRight",
+            "attachedEdgeId": "waist",
+            "transform": {
+              "offset": {
+                "x": 47,
+                "y": 4.000000000000009
+              },
+              "rotationDegrees": -180
+            },
+            "stitchLabel": "Waistband (four legs ↔ separate waistband)"
+          }
+        ],
+        "unchangedWaistEdges": true,
+        "uprightPanels": true,
+        "sameBandFragments": true,
+        "centerJoinResidualCm": 3.030667966038976e-17,
+        "coincidentOriginalCenterFrontAxes": true,
+        "sourceRolesAddedOnlyInMemory": [
+          "flyUnderlap"
+        ],
+        "stitchChangesOnlyInMemory": [
+          "Right front fly ↔ proposed underlap",
+          "Proposed underlap ↔ shield.right"
+        ]
+      }
+    },
+    {
+      "caseId": "pocketBagDepth-min",
+      "options": {
+        "pocketBagDepth": 12
+      },
+      "flyLengthCm": 15,
+      "shieldWidthCm": 3.5,
+      "existing": {
+        "issues": [],
+        "transforms": {
+          "frontLeft": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          },
+          "frontRight": {
+            "offset": {
+              "x": -3.499999999999999,
+              "y": 15
+            },
+            "rotationDegrees": 180
+          }
+        },
+        "frontWaistJoins": {
+          "frontLeft": {
+            "kind": "line",
+            "name": "waist",
+            "start": {
+              "x": 0,
+              "y": 0
+            },
+            "end": {
+              "x": 23.5,
+              "y": 0
+            }
+          },
+          "frontRight": {
+            "kind": "line",
+            "name": "waist",
+            "start": {
+              "x": 0,
+              "y": 0
+            },
+            "end": {
+              "x": -23.5,
+              "y": 0
+            }
+          }
+        },
+        "flyMarks": [
+          {
+            "roleId": "frontLeft",
+            "mark": {
+              "start": {
+                "x": 0,
+                "y": 0
+              },
+              "end": {
+                "x": 0,
+                "y": 15
+              }
+            }
+          },
+          {
+            "roleId": "frontRight",
+            "mark": {
+              "start": {
+                "x": 0,
+                "y": 0
+              },
+              "end": {
+                "x": 0,
+                "y": 15
+              }
+            }
+          }
+        ]
+      },
+      "proposalFixture": {
+        "issues": [],
+        "transforms": {
+          "frontLeft": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          },
+          "frontRight": {
+            "offset": {
+              "x": 3.030667966038976e-17,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          }
+        },
+        "joinedStitchLabels": [
+          "Left front fly ↔ shield",
+          "Left pocket opening ↔ bag",
+          "Right pocket opening ↔ bag",
+          "Right front fly ↔ proposed underlap",
+          "Proposed underlap ↔ shield.right"
+        ],
+        "sourceFragments": [
+          {
+            "id": "waistband:frontLeft:waist",
+            "roleId": "waistband",
+            "edgeId": "bottom",
+            "sourceInterval": [
+              0.5,
+              0.75
+            ],
+            "attachedRoleId": "frontLeft",
+            "attachedEdgeId": "waist",
+            "transform": {
+              "offset": {
+                "x": 47,
+                "y": 4.000000000000005
+              },
+              "rotationDegrees": -180
+            },
+            "stitchLabel": "Waistband (four legs ↔ separate waistband)"
+          },
+          {
+            "id": "waistband:frontRight:waist",
+            "roleId": "waistband",
+            "edgeId": "bottom",
+            "sourceInterval": [
+              0.25,
+              0.5
+            ],
+            "attachedRoleId": "frontRight",
+            "attachedEdgeId": "waist",
+            "transform": {
+              "offset": {
+                "x": 47,
+                "y": 4.000000000000009
+              },
+              "rotationDegrees": -180
+            },
+            "stitchLabel": "Waistband (four legs ↔ separate waistband)"
+          }
+        ],
+        "unchangedWaistEdges": true,
+        "uprightPanels": true,
+        "sameBandFragments": true,
+        "centerJoinResidualCm": 3.030667966038976e-17,
+        "coincidentOriginalCenterFrontAxes": true,
+        "sourceRolesAddedOnlyInMemory": [
+          "flyUnderlap"
+        ],
+        "stitchChangesOnlyInMemory": [
+          "Right front fly ↔ proposed underlap",
+          "Proposed underlap ↔ shield.right"
+        ]
+      }
+    },
+    {
+      "caseId": "pocketBagDepth-max",
+      "options": {
+        "pocketBagDepth": 35
+      },
+      "flyLengthCm": 15,
+      "shieldWidthCm": 3.5,
+      "existing": {
+        "issues": [],
+        "transforms": {
+          "frontLeft": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          },
+          "frontRight": {
+            "offset": {
+              "x": -3.499999999999999,
+              "y": 15
+            },
+            "rotationDegrees": 180
+          }
+        },
+        "frontWaistJoins": {
+          "frontLeft": {
+            "kind": "line",
+            "name": "waist",
+            "start": {
+              "x": 0,
+              "y": 0
+            },
+            "end": {
+              "x": 23.5,
+              "y": 0
+            }
+          },
+          "frontRight": {
+            "kind": "line",
+            "name": "waist",
+            "start": {
+              "x": 0,
+              "y": 0
+            },
+            "end": {
+              "x": -23.5,
+              "y": 0
+            }
+          }
+        },
+        "flyMarks": [
+          {
+            "roleId": "frontLeft",
+            "mark": {
+              "start": {
+                "x": 0,
+                "y": 0
+              },
+              "end": {
+                "x": 0,
+                "y": 15
+              }
+            }
+          },
+          {
+            "roleId": "frontRight",
+            "mark": {
+              "start": {
+                "x": 0,
+                "y": 0
+              },
+              "end": {
+                "x": 0,
+                "y": 15
+              }
+            }
+          }
+        ]
+      },
+      "proposalFixture": {
+        "issues": [],
+        "transforms": {
+          "frontLeft": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          },
+          "frontRight": {
+            "offset": {
+              "x": 3.030667966038976e-17,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          }
+        },
+        "joinedStitchLabels": [
+          "Left front fly ↔ shield",
+          "Left pocket opening ↔ bag",
+          "Right pocket opening ↔ bag",
+          "Right front fly ↔ proposed underlap",
+          "Proposed underlap ↔ shield.right"
+        ],
+        "sourceFragments": [
+          {
+            "id": "waistband:frontLeft:waist",
+            "roleId": "waistband",
+            "edgeId": "bottom",
+            "sourceInterval": [
+              0.5,
+              0.75
+            ],
+            "attachedRoleId": "frontLeft",
+            "attachedEdgeId": "waist",
+            "transform": {
+              "offset": {
+                "x": 47,
+                "y": 4.000000000000005
+              },
+              "rotationDegrees": -180
+            },
+            "stitchLabel": "Waistband (four legs ↔ separate waistband)"
+          },
+          {
+            "id": "waistband:frontRight:waist",
+            "roleId": "waistband",
+            "edgeId": "bottom",
+            "sourceInterval": [
+              0.25,
+              0.5
+            ],
+            "attachedRoleId": "frontRight",
+            "attachedEdgeId": "waist",
+            "transform": {
+              "offset": {
+                "x": 47,
+                "y": 4.000000000000009
+              },
+              "rotationDegrees": -180
+            },
+            "stitchLabel": "Waistband (four legs ↔ separate waistband)"
+          }
+        ],
+        "unchangedWaistEdges": true,
+        "uprightPanels": true,
+        "sameBandFragments": true,
+        "centerJoinResidualCm": 3.030667966038976e-17,
+        "coincidentOriginalCenterFrontAxes": true,
+        "sourceRolesAddedOnlyInMemory": [
+          "flyUnderlap"
+        ],
+        "stitchChangesOnlyInMemory": [
+          "Right front fly ↔ proposed underlap",
+          "Proposed underlap ↔ shield.right"
+        ]
+      }
+    },
+    {
+      "caseId": "pocketDrop-min",
+      "options": {
+        "pocketDrop": 0
+      },
+      "flyLengthCm": 15,
+      "shieldWidthCm": 3.5,
+      "existing": {
+        "issues": [],
+        "transforms": {
+          "frontLeft": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          },
+          "frontRight": {
+            "offset": {
+              "x": -3.499999999999999,
+              "y": 15
+            },
+            "rotationDegrees": 180
+          }
+        },
+        "frontWaistJoins": {
+          "frontLeft": {
+            "kind": "line",
+            "name": "waist",
+            "start": {
+              "x": 0,
+              "y": 0
+            },
+            "end": {
+              "x": 23.5,
+              "y": 0
+            }
+          },
+          "frontRight": {
+            "kind": "line",
+            "name": "waist",
+            "start": {
+              "x": 0,
+              "y": 0
+            },
+            "end": {
+              "x": -23.5,
+              "y": 0
+            }
+          }
+        },
+        "flyMarks": [
+          {
+            "roleId": "frontLeft",
+            "mark": {
+              "start": {
+                "x": 0,
+                "y": 0
+              },
+              "end": {
+                "x": 0,
+                "y": 15
+              }
+            }
+          },
+          {
+            "roleId": "frontRight",
+            "mark": {
+              "start": {
+                "x": 0,
+                "y": 0
+              },
+              "end": {
+                "x": 0,
+                "y": 15
+              }
+            }
+          }
+        ]
+      },
+      "proposalFixture": {
+        "issues": [],
+        "transforms": {
+          "frontLeft": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          },
+          "frontRight": {
+            "offset": {
+              "x": 3.030667966038976e-17,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          }
+        },
+        "joinedStitchLabels": [
+          "Left front fly ↔ shield",
+          "Left pocket opening ↔ bag",
+          "Right pocket opening ↔ bag",
+          "Right front fly ↔ proposed underlap",
+          "Proposed underlap ↔ shield.right"
+        ],
+        "sourceFragments": [
+          {
+            "id": "waistband:frontLeft:waist",
+            "roleId": "waistband",
+            "edgeId": "bottom",
+            "sourceInterval": [
+              0.5,
+              0.75
+            ],
+            "attachedRoleId": "frontLeft",
+            "attachedEdgeId": "waist",
+            "transform": {
+              "offset": {
+                "x": 47,
+                "y": 4.000000000000005
+              },
+              "rotationDegrees": -180
+            },
+            "stitchLabel": "Waistband (four legs ↔ separate waistband)"
+          },
+          {
+            "id": "waistband:frontRight:waist",
+            "roleId": "waistband",
+            "edgeId": "bottom",
+            "sourceInterval": [
+              0.25,
+              0.5
+            ],
+            "attachedRoleId": "frontRight",
+            "attachedEdgeId": "waist",
+            "transform": {
+              "offset": {
+                "x": 47,
+                "y": 4.000000000000009
+              },
+              "rotationDegrees": -180
+            },
+            "stitchLabel": "Waistband (four legs ↔ separate waistband)"
+          }
+        ],
+        "unchangedWaistEdges": true,
+        "uprightPanels": true,
+        "sameBandFragments": true,
+        "centerJoinResidualCm": 3.030667966038976e-17,
+        "coincidentOriginalCenterFrontAxes": true,
+        "sourceRolesAddedOnlyInMemory": [
+          "flyUnderlap"
+        ],
+        "stitchChangesOnlyInMemory": [
+          "Right front fly ↔ proposed underlap",
+          "Proposed underlap ↔ shield.right"
+        ]
+      }
+    },
+    {
+      "caseId": "pocketDrop-max",
+      "options": {
+        "pocketDrop": 15
+      },
+      "flyLengthCm": 15,
+      "shieldWidthCm": 3.5,
+      "existing": {
+        "issues": [],
+        "transforms": {
+          "frontLeft": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          },
+          "frontRight": {
+            "offset": {
+              "x": -3.499999999999999,
+              "y": 15
+            },
+            "rotationDegrees": 180
+          }
+        },
+        "frontWaistJoins": {
+          "frontLeft": {
+            "kind": "line",
+            "name": "waist",
+            "start": {
+              "x": 0,
+              "y": 0
+            },
+            "end": {
+              "x": 23.5,
+              "y": 0
+            }
+          },
+          "frontRight": {
+            "kind": "line",
+            "name": "waist",
+            "start": {
+              "x": 0,
+              "y": 0
+            },
+            "end": {
+              "x": -23.5,
+              "y": 0
+            }
+          }
+        },
+        "flyMarks": [
+          {
+            "roleId": "frontLeft",
+            "mark": {
+              "start": {
+                "x": 0,
+                "y": 0
+              },
+              "end": {
+                "x": 0,
+                "y": 15
+              }
+            }
+          },
+          {
+            "roleId": "frontRight",
+            "mark": {
+              "start": {
+                "x": 0,
+                "y": 0
+              },
+              "end": {
+                "x": 0,
+                "y": 15
+              }
+            }
+          }
+        ]
+      },
+      "proposalFixture": {
+        "issues": [],
+        "transforms": {
+          "frontLeft": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          },
+          "frontRight": {
+            "offset": {
+              "x": 3.030667966038976e-17,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          }
+        },
+        "joinedStitchLabels": [
+          "Left front fly ↔ shield",
+          "Left pocket opening ↔ bag",
+          "Right pocket opening ↔ bag",
+          "Right front fly ↔ proposed underlap",
+          "Proposed underlap ↔ shield.right"
+        ],
+        "sourceFragments": [
+          {
+            "id": "waistband:frontLeft:waist",
+            "roleId": "waistband",
+            "edgeId": "bottom",
+            "sourceInterval": [
+              0.5,
+              0.75
+            ],
+            "attachedRoleId": "frontLeft",
+            "attachedEdgeId": "waist",
+            "transform": {
+              "offset": {
+                "x": 47,
+                "y": 4.000000000000005
+              },
+              "rotationDegrees": -180
+            },
+            "stitchLabel": "Waistband (four legs ↔ separate waistband)"
+          },
+          {
+            "id": "waistband:frontRight:waist",
+            "roleId": "waistband",
+            "edgeId": "bottom",
+            "sourceInterval": [
+              0.25,
+              0.5
+            ],
+            "attachedRoleId": "frontRight",
+            "attachedEdgeId": "waist",
+            "transform": {
+              "offset": {
+                "x": 47,
+                "y": 4.000000000000009
+              },
+              "rotationDegrees": -180
+            },
+            "stitchLabel": "Waistband (four legs ↔ separate waistband)"
+          }
+        ],
+        "unchangedWaistEdges": true,
+        "uprightPanels": true,
+        "sameBandFragments": true,
+        "centerJoinResidualCm": 3.030667966038976e-17,
+        "coincidentOriginalCenterFrontAxes": true,
+        "sourceRolesAddedOnlyInMemory": [
+          "flyUnderlap"
+        ],
+        "stitchChangesOnlyInMemory": [
+          "Right front fly ↔ proposed underlap",
+          "Proposed underlap ↔ shield.right"
+        ]
+      }
+    },
+    {
+      "caseId": "combined-supported",
+      "options": {
+        "frontRiseEase": 2,
+        "backRiseEase": 11,
+        "thighEase": 10,
+        "kneeEase": 7,
+        "legOpening": 48
+      },
+      "flyLengthCm": 15,
+      "shieldWidthCm": 3.5,
+      "existing": {
+        "issues": [],
+        "transforms": {
+          "frontLeft": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          },
+          "frontRight": {
+            "offset": {
+              "x": -3.499999999999999,
+              "y": 15
+            },
+            "rotationDegrees": 180
+          }
+        },
+        "frontWaistJoins": {
+          "frontLeft": {
+            "kind": "line",
+            "name": "waist",
+            "start": {
+              "x": 0,
+              "y": 0
+            },
+            "end": {
+              "x": 23.5,
+              "y": 0
+            }
+          },
+          "frontRight": {
+            "kind": "line",
+            "name": "waist",
+            "start": {
+              "x": 0,
+              "y": 0
+            },
+            "end": {
+              "x": -23.5,
+              "y": 0
+            }
+          }
+        },
+        "flyMarks": [
+          {
+            "roleId": "frontLeft",
+            "mark": {
+              "start": {
+                "x": 0,
+                "y": 0
+              },
+              "end": {
+                "x": 0,
+                "y": 15
+              }
+            }
+          },
+          {
+            "roleId": "frontRight",
+            "mark": {
+              "start": {
+                "x": 0,
+                "y": 0
+              },
+              "end": {
+                "x": 0,
+                "y": 15
+              }
+            }
+          }
+        ]
+      },
+      "proposalFixture": {
+        "issues": [],
+        "transforms": {
+          "frontLeft": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          },
+          "frontRight": {
+            "offset": {
+              "x": 3.030667966038976e-17,
+              "y": 0
+            },
+            "rotationDegrees": 0
+          }
+        },
+        "joinedStitchLabels": [
+          "Left front fly ↔ shield",
+          "Left pocket opening ↔ bag",
+          "Right pocket opening ↔ bag",
+          "Right front fly ↔ proposed underlap",
+          "Proposed underlap ↔ shield.right"
+        ],
+        "sourceFragments": [
+          {
+            "id": "waistband:frontLeft:waist",
+            "roleId": "waistband",
+            "edgeId": "bottom",
+            "sourceInterval": [
+              0.5,
+              0.75
+            ],
+            "attachedRoleId": "frontLeft",
+            "attachedEdgeId": "waist",
+            "transform": {
+              "offset": {
+                "x": 47,
+                "y": 4.000000000000005
+              },
+              "rotationDegrees": -180
+            },
+            "stitchLabel": "Waistband (four legs ↔ separate waistband)"
+          },
+          {
+            "id": "waistband:frontRight:waist",
+            "roleId": "waistband",
+            "edgeId": "bottom",
+            "sourceInterval": [
+              0.25,
+              0.5
+            ],
+            "attachedRoleId": "frontRight",
+            "attachedEdgeId": "waist",
+            "transform": {
+              "offset": {
+                "x": 47,
+                "y": 4.000000000000009
+              },
+              "rotationDegrees": -180
+            },
+            "stitchLabel": "Waistband (four legs ↔ separate waistband)"
+          }
+        ],
+        "unchangedWaistEdges": true,
+        "uprightPanels": true,
+        "sameBandFragments": true,
+        "centerJoinResidualCm": 3.030667966038976e-17,
+        "coincidentOriginalCenterFrontAxes": true,
+        "sourceRolesAddedOnlyInMemory": [
+          "flyUnderlap"
+        ],
+        "stitchChangesOnlyInMemory": [
+          "Right front fly ↔ proposed underlap",
+          "Proposed underlap ↔ shield.right"
+        ]
+      }
+    }
+  ],
+  "summary": {
+    "candidateIssueCases": [],
+    "nonUprightCases": [],
+    "changedWaistCases": [],
+    "missingFrontJoinCases": [],
+    "changedBandFragmentCases": [],
+    "nonzeroCenterJoinCases": []
+  }
+}

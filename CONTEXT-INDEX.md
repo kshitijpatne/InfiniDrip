@@ -190,6 +190,10 @@ only through an explicitly admitted, linked Epic packet.
   `docs/research/epic17/G04-V02-COLLAR-EXTERIOR-VIEW-MAPPING-S323.md`.
   S324's conditional Woven sleeve/band and approved closure mapping boundaries
   are in `docs/research/epic17/G04-V02-WOVEN-SLEEVE-CLOSURE-VIEW-MAPPING-S324.md`.
+  S325's concrete Trouser front source-repair proposal and in-memory
+  24-configuration feasibility evidence are in
+  `docs/research/epic17/G04-V02-TROUSER-FLY-SOURCE-REPAIR-PROPOSAL-S325.md` and
+  `docs/research/epic17/S325-trouser-source-proposal/`.
   Use `PROJECT-STATE.md` and the validated board for live status.
 - `docs/research/epic17/G04-V02-PROJECTION-MAPPING-S277.md` — Slice 277's
   current projection-mapping contract boundary, source-reference rules,

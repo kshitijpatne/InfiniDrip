@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 851,
-  "updatedAt": "2026-10-01T04:32:38.027Z",
+  "revision": 867,
+  "updatedAt": "2026-10-01T04:58:14.882Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -238,7 +238,11 @@
         "E-G04-S323-BROWSER",
         "E-G04-S324-START",
         "E-G04-S324-EXIT",
-        "E-G04-S324-BROWSER"
+        "E-G04-S324-BROWSER",
+        "E-G04-S325-START",
+        "E-G04-S325-EXIT",
+        "E-G04-S325-PROPOSAL-OVERLAY",
+        "E-G04-S325-FEASIBILITY"
       ]
     },
     {
@@ -3180,6 +3184,16 @@
           "at": "2026-10-01T04:32:38.027Z",
           "actor": "Codex",
           "text": "S324 verified exit: all 28 Woven configurations and 56 front/back requests remain held. Metadata is implemented, but exact contour closure and solved sleeve-cap placement still block full-face assembly; G04-V02 stays In Progress and V03 stays Backlog."
+        },
+        {
+          "at": "2026-10-01T04:41:12.268Z",
+          "actor": "Codex",
+          "text": "Start Slice 325 at 2026-10-01 04:36:21 UTC from clean S324 4beeafe3f8805b0b0685ae8d03175ed406432fb9. Investigate and propose a Trouser source repair only; preserve upright front panels and exact waistband joins, keep all 24 fronts held, and make no source/stitch edits before approval. Packet: docs/research/epic17/G04-V02-TROUSER-FLY-SOURCE-REPAIR-PROPOSAL-S325.md."
+        },
+        {
+          "at": "2026-10-01T04:58:14.882Z",
+          "actor": "Codex",
+          "text": "S325 verified exit: proposal-only Trouser fly-underlap fixture passes assembly feasibility in all 24 configurations. Both panels remain upright; original waistband edges/fragments and center joins are unchanged. No source edit is made. All 24 fronts remain held pending approval; G04-V02 stays In Progress and V03 stays Backlog."
         }
       ],
       "evidenceRefs": [
@@ -3249,7 +3263,11 @@
         "E-G04-S323-BROWSER",
         "E-G04-S324-START",
         "E-G04-S324-EXIT",
-        "E-G04-S324-BROWSER"
+        "E-G04-S324-BROWSER",
+        "E-G04-S325-START",
+        "E-G04-S325-EXIT",
+        "E-G04-S325-PROPOSAL-OVERLAY",
+        "E-G04-S325-FEASIBILITY"
       ],
       "flagKey": null
     },
@@ -6492,6 +6510,16 @@
           "at": "2026-10-01T04:32:38.006Z",
           "actor": "Codex",
           "text": "S324 verified exit: all 28 Woven configurations and 56 front/back requests remain held. Metadata is implemented, but exact contour closure and solved sleeve-cap placement still block full-face assembly; V02 stays In Progress and V03 stays Backlog."
+        },
+        {
+          "at": "2026-10-01T04:41:12.242Z",
+          "actor": "Codex",
+          "text": "Start Slice 325 at 2026-10-01 04:36:21 UTC from clean S324 4beeafe3f8805b0b0685ae8d03175ed406432fb9. Investigate and propose a Trouser source repair only; preserve upright front panels and exact waistband joins, keep all 24 fronts held, and make no source/stitch edits before approval. Packet: docs/research/epic17/G04-V02-TROUSER-FLY-SOURCE-REPAIR-PROPOSAL-S325.md."
+        },
+        {
+          "at": "2026-10-01T04:58:14.864Z",
+          "actor": "Codex",
+          "text": "S325 verified exit: proposal-only Trouser fly-underlap fixture passes assembly feasibility in all 24 configurations. Both panels remain upright; original waistband edges/fragments and center joins are unchanged. No source edit is made. All 24 fronts remain held pending approval; G04-V02 stays In Progress and V03 stays Backlog."
         }
       ],
       "evidenceRefs": [
@@ -6600,7 +6628,11 @@
         "E-G04-S323-BROWSER",
         "E-G04-S324-START",
         "E-G04-S324-EXIT",
-        "E-G04-S324-BROWSER"
+        "E-G04-S324-BROWSER",
+        "E-G04-S325-START",
+        "E-G04-S325-EXIT",
+        "E-G04-S325-PROPOSAL-OVERLAY",
+        "E-G04-S325-FEASIBILITY"
       ],
       "flagKey": null
     },
@@ -8432,6 +8464,42 @@
       "sha256": null,
       "verified": true,
       "note": "Current-production Chromium replay: all 28 Woven configurations and 56 face requests held, zero browser/page/request errors; reviewed hold screenshots and held candidate."
+    },
+    {
+      "id": "E-G04-S325-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-TROUSER-FLY-SOURCE-REPAIR-PROPOSAL-S325.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Slice 325 authorized boundary: concrete Trouser fly source-repair investigation/proposal only; no pattern or stitch edits."
+    },
+    {
+      "id": "E-G04-S325-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/G04-V02-TROUSER-FLY-SOURCE-REPAIR-PROPOSAL-S325.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Proposal-only source/topology analysis; no drafting or stitch source edits. Approval remains required before implementation."
+    },
+    {
+      "id": "E-G04-S325-PROPOSAL-OVERLAY",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S325-trouser-source-proposal/trouser-source-and-proposal.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Reviewed annotated exact-source fly/waist overlay with orange underlap proposal; explicitly not an accepted flat."
+    },
+    {
+      "id": "E-G04-S325-FEASIBILITY",
+      "kind": "test",
+      "uri": "docs/research/epic17/S325-trouser-source-proposal/assembly-feasibility-matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "In-memory candidate assembly probe across default, all 22 endpoints, and combined-supported configuration; no source implementation."
     }
   ]
 }
