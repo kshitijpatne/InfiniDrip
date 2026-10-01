@@ -283,6 +283,11 @@ only through an explicitly admitted, linked Epic packet.
   drafting/render selection, and the diagnostic POM labels crowd/overlap.
   Every Polo face remains held. Follow its exit record before starting the
   approved dimension-only annotations.
+- `docs/research/epic17/G04-V02-POM-VERIFICATION-CLOSEOUT-S339.md` — active
+  S339 packet for the specific S338 branch-coverage failure, corrected S326
+  Trouser assertions, and the approved exact fly-underlap shield-edge notch.
+  It authorizes that one construction mark without cut-geometry or stitch
+  changes. Polo label crowding and approved dimensions remain separate work.
 - `docs/research/epic17/G04-V02-PROJECTION-MAPPING-S277.md` — Slice 277's
   current projection-mapping contract boundary, source-reference rules,
   fail-closed semantics, and focused acceptance gates.

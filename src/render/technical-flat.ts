@@ -341,10 +341,9 @@ export function validateTechnicalFlat(view: TechnicalFlatView): TechnicalFlatIss
       const edgeReference = /^pattern:([^:]+):role:([^:]+):edge:(.+)$/.exec(primitive.anchor.sourceEntityId);
       const roleSourceId = edgeReference ? `pattern:${edgeReference[1]}:role:${edgeReference[2]}` : undefined;
       const exactEdgeId = edgeReference ? `pattern:${edgeReference[1]}:role:${edgeReference[2]}:edge:${edgeReference[3]}` : undefined;
-      const sourceIsRepresented = target?.source.sourceId === primitive.anchor.sourceEntityId
-        || (roleSourceId !== undefined && target?.source.sourceId === roleSourceId
-          && target.kind === "path" && (target.sourceEdgeIds === undefined
-            || target.sourceEdgeIds.includes(exactEdgeId ?? "")));
+      const roleEdgeIsRepresented = roleSourceId !== undefined && target?.source.sourceId === roleSourceId
+        && target.kind === "path" && sourceEdgeIsRepresented(target, exactEdgeId as string);
+      const sourceIsRepresented = target?.source.sourceId === primitive.anchor.sourceEntityId || roleEdgeIsRepresented;
       if (!sourceIsRepresented) issues.push({ code: "UNRESOLVED_CALLOUT_TARGET", entityId: primitive.id,
         message: "Callout source entity must be represented by its same-revision target geometry." });
     }
@@ -358,4 +357,9 @@ export function validateTechnicalFlat(view: TechnicalFlatView): TechnicalFlatIss
     noticeIds.add(notice.id);
   }
   return issues;
+}
+
+function sourceEdgeIsRepresented(target: FlatPathPrimitive, exactEdgeId: string): boolean {
+  if (target.sourceEdgeIds === undefined) return true;
+  return target.sourceEdgeIds.includes(exactEdgeId);
 }

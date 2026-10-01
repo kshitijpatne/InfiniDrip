@@ -182,11 +182,11 @@ describe("Trouser recipe integration (Slice 100)", () => {
     expect(TROUSER.styles.map((style) => style.name)).toContain("Relaxed straight trouser");
   });
 
-  it("runs the live eight-role block through the generic production report", () => {
+  it("runs the live nine-role block through the generic production report", () => {
     const block = TROUSER.draft(STANDARD_M);
     expect(Object.keys(block.roles)).toEqual([
       "frontLeft", "frontRight", "backLeft", "backRight",
-      "waistband", "flyShield", "pocketBagLeft", "pocketBagRight",
+      "waistband", "flyShield", "flyUnderlap", "pocketBagLeft", "pocketBagRight",
     ]);
     expect(garmentReport(TROUSER, STANDARD_M).ok).toBe(true);
     expect(TROUSER.sizeMetric(block)).toBeGreaterThan(0);

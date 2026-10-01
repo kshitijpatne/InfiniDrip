@@ -1029,3 +1029,10 @@ pass, and preserve any other Woven hold.
 - On 2026-10-01, the maintainer approved both S337 proposed dimension-only references: show the `upperCollar.centerBack` finished-leaf measurement as an annotation referencing its source-declared fold-axis edge, without drawing that edge as a garment seam/cut contour; and show Back hem drop on the back flat using `front.hem.start` Y and `back.hem.start` as the two measurement levels.
 - These are view annotations only. The cross-piece reference may show witness/dimension marks but must not imply that the front and back panels join at the hem. Use exact same-revision source identities and preserve the POM method/value. Resolve annotation collision/readability across every Polo option before accepting any affected view.
 - This decision approves those two projection conventions only; it does not accept any Polo face, change source/cut/stitch geometry, or waive the 0.25 cm sleeve-cap residual hold or the all-seven-recipe G04 acceptance criterion.
+
+## EPIC-17 / G04 — Trouser fly-underlap balance notch (S339)
+
+- On 2026-10-01, the maintainer approved adding a midpoint balance mark to `flyUnderlap.shieldEdge` at `t: 0.5`, using the existing `flyShield.left` midpoint notch as the chosen location convention.
+- The source stitch graph joins `flyUnderlap.shieldEdge` to `flyShield.right`; `flyShield.left` is joined to `frontLeft.flyEdge`. The new mark is therefore an explicit design choice on the underlap, not a matched mark on the sewn counterpart. Preserve the source stitch graph and do not describe the two marks as seam-matched.
+- Leave `flyUnderlap.top` and `flyUnderlap.bottom` unmarked. This adds a construction mark only; it does not change cut geometry, either fly stitch, waistband joins, or the explicit statement that short-edge finishing is unspecified.
+- The approval resolves the universal per-piece notch/grainline completeness check. It does not claim physical sewability, fit, factory acceptance, or acceptance of any Trouser flat; all 24 Trouser fronts remain subject to their full option-matrix and rendered-output gates.

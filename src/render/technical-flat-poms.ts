@@ -2,6 +2,7 @@ import type { Block } from "../drafting/block";
 import type { Pom } from "../drafting/pom";
 import { edgeEnd, edgeStart, type Piece } from "../drafting/piece";
 import type { Point } from "../geometry/point";
+import type { PatternMark } from "../drafting/pattern-mark";
 import type { FlatCalloutPrimitive, TechnicalFlatNotice, TechnicalFlatPrimitive, TechnicalFlatViewKind } from "./technical-flat";
 import { G04_TECHNICAL_FLAT_MAPPINGS } from "./technical-flat-mapping";
 
@@ -18,6 +19,11 @@ export interface TechnicalFlatPomIssue {
     | "LABEL_COLLISION";
   readonly sourceId: string;
   readonly message: string;
+}
+
+/** Resolve only the authored point name; an absent property remains undefined and fails validation. */
+function authoredMarkPoint(mark: PatternMark, pointName: "at" | "start" | "end"): Point | undefined {
+  return (mark as unknown as Readonly<Record<"at" | "start" | "end", Point>>)[pointName];
 }
 
 export interface TechnicalFlatPomCallouts {
@@ -241,8 +247,7 @@ export function compileTechnicalFlatPomCallouts(
           continue;
       }
       const mark = block.roles[markReference.roleId]?.marks?.find((candidate) => candidate.name === markReference.markName);
-      const markPoint = mark && ("at" in mark ? markReference.point === "at" ? mark.at : undefined
-        : markReference.point === "start" ? mark.start : markReference.point === "end" ? mark.end : undefined);
+      const markPoint = mark && authoredMarkPoint(mark, markReference.point);
       if (!mark || !markPoint || !finitePoint(markPoint)) {
           issues.push({ code: "INVALID_POM_ANCHOR", sourceId,
             message: `POM “${pom.label}” references missing mark point “${markReference.roleId}.${markReference.markName}.${markReference.point}”.` });

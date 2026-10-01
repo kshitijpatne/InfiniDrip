@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 1217,
-  "updatedAt": "2026-10-01T19:02:06.915Z",
+  "revision": 1227,
+  "updatedAt": "2026-10-01T19:52:38.391Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -3468,6 +3468,16 @@
           "at": "2026-10-01T19:02:06.915Z",
           "actor": "Codex",
           "text": "S338 implemented same-revision Polo POM source mapping. Focused tests/build/export checks pass and fresh replay holds all 34 faces with no browser errors. Branch coverage remains 98.13% and diagnostic candidate labels visibly crowd/overlap; both are open blockers. Two stale S326 Trouser test expectations also need a numbered follow-up. See the S338 packet and linked evidence. Next: resolve these quality/readability gates; retain every face hold."
+        },
+        {
+          "at": "2026-10-01T19:06:06.029Z",
+          "actor": "Codex",
+          "text": "S339 starts from S338 88f906ed. Scope: close S338 changed-logic branch coverage and update the two stale S326 Trouser test expectations. No geometry/output change; all Polo faces remain held, diagnostic label crowding remains open, and the approved dimension-only annotations remain future bounded work. See the S339 packet."
+        },
+        {
+          "at": "2026-10-01T19:52:38.391Z",
+          "actor": "Codex",
+          "text": "S339 exit is linked. It completes the focused S338 POM coverage and S326 Trouser test closeout; the approved fly-underlap midpoint mark is documented with the source stitch-graph distinction. G04 all-seven acceptance remains unmet at 56/146 accepted and 90 held; Polo remains held and V03 is still gated."
         }
       ],
       "evidenceRefs": [
@@ -3625,7 +3635,10 @@
         "E-G04-S338-RENDERED",
         "E-G04-S338-BUILD",
         "E-G04-S338-EXPORT",
-        "E-G04-S338-COVERAGE"
+        "E-G04-S338-COVERAGE",
+        "E-G04-S338-COMMIT",
+        "E-G04-S339-START",
+        "E-G04-S339-EXIT"
       ],
       "flagKey": null
     },
@@ -7013,6 +7026,16 @@
           "at": "2026-10-01T19:02:05.911Z",
           "actor": "Codex",
           "text": "S338 implemented same-revision Polo POM source mapping. Focused tests/build/export checks pass and fresh replay holds all 34 faces with no browser errors. Branch coverage remains 98.13% and diagnostic candidate labels visibly crowd/overlap; both are open blockers. Two stale S326 Trouser test expectations also need a numbered follow-up. See the S338 packet and linked evidence. Next: resolve these quality/readability gates; retain every face hold."
+        },
+        {
+          "at": "2026-10-01T19:06:05.098Z",
+          "actor": "Codex",
+          "text": "S339 starts from S338 88f906ed. Scope: close S338 changed-logic branch coverage and update the two stale S326 Trouser test expectations. No geometry/output change; all Polo faces remain held, diagnostic label crowding remains open, and the approved dimension-only annotations remain future bounded work. See the S339 packet."
+        },
+        {
+          "at": "2026-10-01T19:52:30.866Z",
+          "actor": "Codex",
+          "text": "S339 verified: 777 drafting/render tests pass with 100% statement, branch, function, and line coverage for all changed production modules; build, 24 protected export/identity tests, Control Center tests, and rendered underlap-mark checks pass. All 34 Polo faces remain held; V02 stays In Progress and V03 stays Backlog. Exit packet: docs/research/epic17/G04-V02-POM-VERIFICATION-CLOSEOUT-S339.md."
         }
       ],
       "evidenceRefs": [
@@ -7210,7 +7233,10 @@
         "E-G04-S338-RENDERED",
         "E-G04-S338-BUILD",
         "E-G04-S338-EXPORT",
-        "E-G04-S338-COVERAGE"
+        "E-G04-S338-COVERAGE",
+        "E-G04-S338-COMMIT",
+        "E-G04-S339-START",
+        "E-G04-S339-EXIT"
       ],
       "flagKey": null
     },
@@ -9843,6 +9869,33 @@
       "sha256": null,
       "verified": true,
       "note": "Focused drafting/render coverage reached 100% statements/functions/lines but failed branch threshold at 98.13%; two stale S326 Trouser assertions were also identified and remain open."
+    },
+    {
+      "id": "E-G04-S338-COMMIT",
+      "kind": "commit",
+      "uri": "docs/research/epic17/G04-V02-POLO-POM-ANCHORS-S338.md",
+      "commit": "88f906ed28af49a5d9301e20ab288a8e2ea59bd3",
+      "sha256": null,
+      "verified": true,
+      "note": "Slice 338 landed with source-exact Polo POM mapping and explicit unresolved branch-coverage/readability gates. Not merged to main."
+    },
+    {
+      "id": "E-G04-S339-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-POM-VERIFICATION-CLOSEOUT-S339.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Slice 339 start packet at verified S338 commit 88f906e; focused S338 branch coverage and source-repair-specific Trouser regression assertion closeout only."
+    },
+    {
+      "id": "E-G04-S339-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-POM-VERIFICATION-CLOSEOUT-S339.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S339 closes source-exact POM coverage at 100% across all four measures, corrects the S326 Trouser role/stitch tests, and records the approved shield-edge midpoint mark as a design convention. Polo remains held."
     }
   ]
 }

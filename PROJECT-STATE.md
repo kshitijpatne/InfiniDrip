@@ -1,8 +1,8 @@
 # InfiniDrip — Project State
 
-_Last updated: S338 source-exact Polo POM mapping is implemented but has an open branch-coverage gate and rendered label collisions; approved Polo dimension references remain queued for a separate slice, 2026-10-01._
+_Last updated: S339 closes S338 POM branch-coverage and stale Trouser assertions; the approved underlap midpoint mark is recorded as a design convention, while Polo label crowding and dimension references remain queued separately, 2026-10-01._
 
-## EPIC-17 / G04 current handoff — refreshed after Slice 337; V02 remains open
+## EPIC-17 / G04 current handoff — refreshed after Slice 339; V02 remains open
 
 ### Slice 333 — Polo sleeve view mapping (start)
 
@@ -5833,6 +5833,24 @@ Verification: the seven focused suites pass 120/120; `npx tsc --noEmit` and `npm
 Validated board evidence and comments are recorded at revision 1217 for G04-V02 and the EPIC-17 summary; `npm run control-center:test` passes 33/33 and `git diff --check` passes after those updates. The S338 commit is recorded at the next verified slice boundary. S338 elapsed 82m05s (17:37:45–18:59:50 UTC), approximately: implementation/source edits 20m, focused verification/build/export 37m, replay/rendered review 15m, docs/board 10m, agent waits 0m; maintainer-decision time not separately timed. No safe delegation was identified. V02 remains In Progress, V03 remains Backlog; the integrated 56 accepted / 90 held baseline and all-seven criterion remain unchanged.
 
 **Next action:** S339 is reserved for focused branch-coverage completion and correction of the two stale Trouser regression expectations as a source-repair-specific verification follow-up. Then implement the already-approved Polo fold-axis leaf and back-hem-drop dimension-only references in a separate slice. Do not begin V03 until every supported V02 option and face passes.
+
+### Slice 339 start — focused POM coverage and Trouser assertion repair
+
+Started 2026-10-01 19:04:18 UTC from clean S338 `88f906ed28af49a5d9301e20ab288a8e2ea59bd3` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice was 338; S339 is reserved. Canonical board revision 1217 links the S338 exit, browser, rendered, build, export and coverage evidence to G04-V02 and EPIC-17. Both remain In Progress; V01 Done, V03 Backlog. Primary usage was 2%; weekly 10%. Packet: `docs/research/epic17/G04-V02-POM-VERIFICATION-CLOSEOUT-S339.md`.
+
+Scope: add focused test coverage for S338's new source-identity branches and correct the stale assertions for S326's approved `flyUnderlap` piece and stitch graph. By maintainer decision, add a midpoint mark on `flyUnderlap.shieldEdge` at `t=0.5`, explicitly as a chosen location convention rather than a matched seam notch: the source stitch graph joins that edge to `flyShield.right`, while the existing notch is on `flyShield.left`. No cut geometry, stitch, DXF writer, or export baseline changes. Keep Polo output held; record but do not resolve S338's diagnostic label crowding here. The two approved Polo dimension-only references remain reserved for a later bounded slice. No safe delegation; no V03 until all-seven V02 acceptance passes.
+
+**Maintainer decision:** on 2026-10-01 the maintainer approved a midpoint mark on `flyUnderlap.shieldEdge` at `t=0.5`, using the existing `flyShield.left` notch midpoint as the selected location convention. Source review found that the underlap shield edge joins `flyShield.right` instead; preserve that distinction in documentation and make no claim that the marks are seam-matched. Leave free top/bottom edges unmarked. The mark clears the digital every-piece notch completeness check only; it establishes no physical sewability or factory acceptance.
+
+### Slice 339 exit — POM branch coverage and Trouser assertions
+
+S339 adds focused same-revision mark-point, role/edge, no-placement, blank-label, and source-edge validation cases for the S338 POM behavior. Small resolver changes make exact authored mark-point selection and source-edge presence checks explicit; missing transform keys remain fail-closed. The S326 test expectations now cover nine recipe roles and the actual 11-stitch pocket-composition graph. Per the approved S339 design convention, `TROUSER_NOTCHES` adds only `flyUnderlap.shieldEdge` midpoint `t=0.5`; the two free short edges, cut geometry, and stitch graph are unchanged. Blueprint and true-scale SVG tests confirm the notch is emitted at its exact resolved and placed coordinates.
+
+Verification: drafting/render selection passes 777/777 across 67 test files with 100% statement, branch, function and line coverage for the five changed production modules (`trouser.ts`, technical-flat mapping, POM compiler, live resolver, and flat validator). `npx tsc --noEmit`, production build, protected export identity/regression/tech-pack tests (24/24), `npm run control-center:test` (33/33), and `git diff --check` pass. The build retains the existing large-chunk advisory. No new browser replay was necessary because the approved change is confined to pattern marking and S339's other changes exercise resolver validation; Polo production output remains 0/34 and its label collisions plus 0.68 cm sleeve-cap residual remain held. Integrated tally stays 56/146 accepted and 90 held; no V02 face is newly accepted.
+
+Elapsed: approximately 51m (19:04:18–19:55 UTC): implementation and test changes ~14m; focused drafting/render/coverage verification ~18m; build/export/Control Center checks ~7m; durable records and board closeout ~12m; external-agent waits 0m; maintainer-decision time not separately measurable. No delegation was used. Validated board revision 1227 links S339 exit evidence to G04-V02 and EPIC-17; the PR candidate remains unmerged until the settled integrated Epic gate.
+
+**Next action:** implement the two previously approved Polo dimension-only references with exact same-revision identities, then review callout layout and rendered readability across all Polo configurations. Keep Polo held until its sleeve residual and all POM label collisions are resolved; retain all-seven acceptance and do not begin V03 early.
 
 ### Slice 299 start — Woven placket instance and overlap source review
 

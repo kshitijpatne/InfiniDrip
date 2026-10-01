@@ -161,6 +161,11 @@ describe("technical-flat POM callouts", () => {
         faceGeometry(recipe.name, block, "FRONT_FLAT"), () => wrong).issues)
         .toContainEqual(expect.objectContaining({ code: "MISSING_ANCHOR_GEOMETRY" }));
     }
+    const resolverWithoutSourcePoint = () => ({ targetGeometryId, point, sourceEntityId });
+    const acceptedWithoutSourcePoint = compileTechnicalFlatPomCallouts(recipe.name, block, revisionId, "FRONT_FLAT", [pom],
+      faceGeometry(recipe.name, block, "FRONT_FLAT"), resolverWithoutSourcePoint);
+    expect(acceptedWithoutSourcePoint.issues).toEqual([]);
+    expect(acceptedWithoutSourcePoint.callouts).toHaveLength(1);
   });
 
   it("rejects unsupported revisions, target geometry and mapped roles", () => {
@@ -262,11 +267,44 @@ describe("technical-flat POM callouts", () => {
     const polo = GARMENTS.find((candidate) => candidate.name === "polo")!;
     const poloBlock = polo.draft(STANDARD_M, defaultGarmentOptions(polo.options ?? []));
     const placketWidth = polo.poms?.find((pom) => pom.label === "Finished placket width")!;
+    const attachmentLine = poloBlock.roles.buttonPlacket.marks?.find((mark) => mark.name === "attachmentLine");
+    if (!attachmentLine || !("start" in attachmentLine)) throw new Error("Expected the authored attachment line mark.");
     const lineMark = compileTechnicalFlatPomCallouts("polo", poloBlock, revisionId, "FRONT_FLAT", [placketWidth],
       faceGeometry("polo", poloBlock, "FRONT_FLAT"));
     expect(lineMark.issues).toEqual([]);
     expect(lineMark.callouts?.[0]?.anchor.sourceEntityId)
       .toBe("pattern:polo:mark:buttonPlacket:attachmentLine");
+    const lineMarkEnd = compileTechnicalFlatPomCallouts("polo", poloBlock, revisionId, "FRONT_FLAT", [{ ...placketWidth,
+      frontMarkAnchor: { roleId: "buttonPlacket", markName: "attachmentLine", point: "end" } }],
+    faceGeometry("polo", poloBlock, "FRONT_FLAT"));
+    expect(lineMarkEnd.issues).toEqual([]);
+    expect(lineMarkEnd.callouts?.[0]?.anchor.point).toEqual(attachmentLine.end);
+    const buttonPoint = poloBlock.roles.buttonPlacket.marks?.find((mark) => mark.name === "button-1");
+    if (!buttonPoint || !("at" in buttonPoint)) throw new Error("Expected the authored button point mark.");
+    const pointMark = compileTechnicalFlatPomCallouts("polo", poloBlock, revisionId, "FRONT_FLAT", [{
+      label: "Button point", measure: () => 1,
+      frontMarkAnchor: { roleId: "buttonPlacket", markName: "button-1", point: "at" },
+    }], faceGeometry("polo", poloBlock, "FRONT_FLAT"));
+    expect(pointMark.issues).toEqual([]);
+    expect(pointMark.callouts?.[0]?.anchor.point).toEqual(buttonPoint.at);
+    const invalidPointEndpoint = compileTechnicalFlatPomCallouts("polo", poloBlock, revisionId, "FRONT_FLAT", [{ ...placketWidth,
+      frontMarkAnchor: { roleId: "buttonPlacket", markName: "button-1", point: "start" } }],
+    faceGeometry("polo", poloBlock, "FRONT_FLAT"));
+    expect(invalidPointEndpoint.issues).toContainEqual(expect.objectContaining({ code: "INVALID_POM_ANCHOR" }));
+    const lineSourceId = "pattern:polo:mark:buttonPlacket:attachmentLine";
+    const lineGeometry = faceGeometry("polo", poloBlock, "FRONT_FLAT");
+    const lineTargetId = lineMark.callouts?.[0]?.anchor.primitiveId;
+    if (!lineTargetId) throw new Error("Expected a same-face emitted line target.");
+    const noSourcePointResolver = () => ({ targetGeometryId: lineTargetId, point: attachmentLine.start,
+      sourceEntityId: lineSourceId });
+    expect(compileTechnicalFlatPomCallouts("polo", poloBlock, revisionId, "FRONT_FLAT", [placketWidth], lineGeometry,
+      noSourcePointResolver).issues).toEqual([]);
+    const lineTarget = lineGeometry.find((primitive) => primitive.id === lineTargetId);
+    if (!lineTarget || lineTarget.kind !== "path") throw new Error("Expected a path representation for the authored line mark.");
+    const closeOnlyTarget = { ...lineTarget, commands: lineTarget.commands.filter((command) => command.op === "close") };
+    const withoutEndpointGeometry = lineGeometry.map((primitive) => primitive.id === lineTargetId ? closeOnlyTarget : primitive);
+    expect(compileTechnicalFlatPomCallouts("polo", poloBlock, revisionId, "FRONT_FLAT", [placketWidth], withoutEndpointGeometry)
+      .issues).toContainEqual(expect.objectContaining({ code: "MISSING_ANCHOR_GEOMETRY" }));
 
     const noVentBlock = polo.draft(STANDARD_M, { ...defaultGarmentOptions(polo.options ?? []), sideVentDepth: 0 });
     const frontVentPom = polo.poms?.find((pom) => pom.label === "Front side-vent depth")!;
@@ -290,6 +328,7 @@ describe("technical-flat POM callouts", () => {
       { label: "", measure: () => 1 },
       { label: 17, measure: () => 1 },
       { label: "Missing measurement" },
+      valid({ label: "", anchorRoleId: "" }),
       valid({ anchor: "bad" as unknown as Pom["anchor"] }),
       valid(), valid(),
       valid({ label: "Not a vertex", anchor: () => ({ x: 9999, y: -9999 }) }),
@@ -309,6 +348,11 @@ describe("technical-flat POM callouts", () => {
     expect(result.issues.find((issue) => issue.sourceId.endsWith("throw-error"))?.message).toContain("stale method");
     expect(result.issues.find((issue) => issue.sourceId.endsWith("throw-value"))?.message)
       .toContain("POM method rejected");
+    const missingRoleWithoutLabel = compileTechnicalFlatPomCallouts(recipe.name, block, revisionId, "FRONT_FLAT",
+      [{ label: undefined, measure: () => 1, anchor: () => vertex, anchorRoleId: "" } as unknown as Pom],
+      faceGeometry(recipe.name, block, "FRONT_FLAT"));
+    expect(missingRoleWithoutLabel.issues).toContainEqual(expect.objectContaining({ code: "MISSING_ANCHOR_ROLE",
+      sourceId: "pom:tee:0", message: expect.stringContaining("POM “0” has a face anchor") }));
   });
 
   it("blocks a label set that cannot be placed without label or leader collisions", () => {

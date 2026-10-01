@@ -525,6 +525,8 @@ describe("compileTechnicalFlatLiveView", () => {
     const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
     const shoulder = block.roles.front!.edges.find((edge) => edge.name === "shoulder")!;
     const shoulderPoint = edgeEnd(shoulder);
+    const placketAttachment = block.roles.buttonPlacket!.edges.find((edge) => edge.name === "attachmentRaw")!;
+    const placketPoint = edgeStart(placketAttachment);
     const backHem = block.roles.back!.edges.find((edge) => edge.name === "hem")!;
     const backHemPoint = edgeStart(backHem);
     const poms = [
@@ -534,11 +536,65 @@ describe("compileTechnicalFlatLiveView", () => {
         frontMarkAnchor: { roleId: "buttonPlacket", markName: "button-1", point: "at" as const } },
       { label: "Back hem source", measure: () => 1, backAnchor: () => backHemPoint,
         backAnchorRoleId: "back", backAnchorEdgeId: "hem" },
+      { label: "Front fallback role", measure: () => 1, anchor: () => shoulderPoint },
+      { label: "Back fallback role", measure: () => 1, backAnchor: () => backHemPoint },
+      { label: "Missing view transform", measure: () => 1, anchor: () => placketPoint,
+        anchorRoleId: "buttonPlacket" },
+      { label: "Back point mark", measure: () => 1,
+        backMarkAnchor: { roleId: "back", markName: "centerBack" } },
     ];
+    const singleMapped = compileTechnicalFlatLiveView({ recipe: { ...recipe, poms: [{ label: "Single mapped shoulder",
+      measure: () => 1, anchor: () => shoulderPoint, anchorRoleId: "front" }] }, block,
+      revisionId: "polo-pom-single-mapped", kind: "FRONT_FLAT", placements: [],
+      colorHex: "#456789", texture: "smooth", shine: 0 });
+    expect(singleMapped.issues.filter((issue) => issue.stage === "pom")).toEqual([]);
     for (const kind of ["FRONT_FLAT", "BACK_FLAT"] as const) {
       const result = compileTechnicalFlatLiveView({ recipe: { ...recipe, poms }, block,
         revisionId: `polo-pom-role-${kind}`, kind, placements: [], colorHex: "#456789", texture: "smooth", shine: 0 });
-      expect(result.issues.filter((issue) => issue.stage === "pom")).toEqual([]);
+      if (kind === "FRONT_FLAT") {
+        expect(result.issues.filter((issue) => issue.stage === "pom")).toEqual([]);
+      } else {
+        expect(result.issues.filter((issue) => issue.stage === "pom")).toEqual([]);
+      }
+    }
+    const mappings = G04_TECHNICAL_FLAT_MAPPINGS as unknown as Record<string, typeof G04_TECHNICAL_FLAT_MAPPINGS.polo>;
+    const savedPoloMapping = mappings.polo;
+    try {
+      const [frontMapping, backMapping] = savedPoloMapping.faces;
+      mappings.polo = { ...savedPoloMapping, faces: [{ ...frontMapping,
+        roles: frontMapping.roles.filter((role) => role.roleId !== "buttonPlacket") }, backMapping] };
+      const missingPlacement = compileTechnicalFlatLiveView({ recipe: { ...recipe, poms: [poms[1]] }, block,
+        revisionId: "polo-pom-missing-placement", kind: "FRONT_FLAT", placements: [],
+        colorHex: "#456789", texture: "smooth", shine: 0 });
+      expect(missingPlacement.issues.filter((issue) => issue.stage === "pom")).toContainEqual(expect.objectContaining({
+        message: expect.stringContaining("exact emitted mark entity"),
+      }));
+      mappings.polo = { ...savedPoloMapping, pomAnchorRole: undefined as unknown as string };
+      const noMappedRole = compileTechnicalFlatLiveView({ recipe: { ...recipe, poms: [{ label: "No mapped role",
+        measure: () => 1, anchor: () => placketPoint }] }, block, revisionId: "polo-pom-no-mapped-role",
+        kind: "FRONT_FLAT", placements: [], colorHex: "#456789", texture: "smooth", shine: 0 });
+      expect(noMappedRole.issues.filter((issue) => issue.stage === "pom").length).toBeGreaterThan(0);
+    } finally {
+      mappings.polo = savedPoloMapping;
+    }
+
+    const trouser = GARMENTS.find((candidate) => candidate.name === "trouser")!;
+    const trouserBlock = trouser.draft(STANDARD_M, defaultGarmentOptions(trouser.options ?? []));
+    const mappingsWithTrouser = G04_TECHNICAL_FLAT_MAPPINGS as unknown as Record<string,
+      typeof G04_TECHNICAL_FLAT_MAPPINGS.trouser>;
+    const savedTrouserMapping = mappingsWithTrouser.trouser;
+    try {
+      mappingsWithTrouser.trouser = { ...savedTrouserMapping, pomAnchorRole: "" };
+      const trouserEdge = trouserBlock.roles.frontLeft!.edges.find((edge) => edge.name === "hem")!;
+      const missingFallback = compileTechnicalFlatLiveView({ recipe: { ...trouser, poms: [{ label: "No fallback", measure: () => 1,
+        anchor: () => edgeStart(trouserEdge), anchorRoleId: "frontLeft" }] }, block: trouserBlock,
+        revisionId: "trouser-pom-no-fallback", kind: "FRONT_FLAT", placements: [],
+        colorHex: "#456789", texture: "smooth", shine: 0 });
+      expect(missingFallback.issues.filter((issue) => issue.stage === "pom")).toContainEqual(expect.objectContaining({
+        message: expect.stringContaining("exact mapped same-revision source entity"),
+      }));
+    } finally {
+      mappingsWithTrouser.trouser = savedTrouserMapping;
     }
   });
 

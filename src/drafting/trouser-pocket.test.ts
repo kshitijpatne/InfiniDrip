@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { distance, point } from "../geometry";
 import { exportSvg } from "../export/svg";
+import { flattenPiece, layoutPieces, polylineBounds } from "../export/layout";
 import { exportDxf } from "../export/dxf";
 import { renderBlueprint } from "../render/canvas";
 import { resolveGrainline, resolveNotch } from "../render/notch";
@@ -167,7 +168,7 @@ describe("trouser pocket component", () => {
       const recipe = TROUSER_NOTCHES.find((entry) => entry.pieceName === piece.name);
       expect(recipe).toBeDefined();
       if (!recipe) continue;
-      if (piece.name === "trouser fly underlap") expect(recipe.notches).toEqual([]);
+      if (piece.name === "trouser fly underlap") expect(recipe.notches).toEqual([{ edgeName: "shieldEdge", t: 0.5 }]);
       else expect(recipe.notches.length).toBeGreaterThan(0);
       for (const rule of recipe.notches) {
         const notch = resolveNotch(piece, rule);
@@ -185,16 +186,32 @@ describe("trouser pocket component", () => {
 
   it("renders and exports the actual pocket marks and bag roles", () => {
     const b = draftTrouserWithPockets(STANDARD_M);
+    const underlap = blockPieces(b).find((piece) => piece.name === "trouser fly underlap");
+    const underlapNotchRule = TROUSER_NOTCHES.find((entry) => entry.pieceName === "trouser fly underlap")?.notches[0];
+    if (!underlap || !underlapNotchRule) throw new Error("Expected the source-approved fly-underlap balance notch.");
+    const underlapNotchPoint = resolveNotch(underlap, underlapNotchRule).point;
+    const rounded = (value: number) => Math.round(value * 1000) / 1000;
+    const notchOutputAnchor = `x1="${rounded(underlapNotchPoint.x)}" y1="${rounded(underlapNotchPoint.y)}"`;
     const blueprint = renderBlueprint([...blockPieces(b)], {
       notches: TROUSER_NOTCHES,
       allowances: TROUSER_ALLOWANCES,
     });
+    expect(blueprint).toContain(notchOutputAnchor);
     expect(blueprint).toContain("TROUSER POCKET BAG LEFT");
     expect(blueprint).toContain("TROUSER FLY UNDERLAP");
     expect(blueprint).toContain('data-pattern-mark-name="pocketOpening"');
     expect(blueprint).toContain('data-pattern-mark-name="bagOpeningMatch"');
 
     const svg = exportSvg([...blockPieces(b)], TROUSER_ALLOWANCES, TROUSER_NOTCHES);
+    const pieces = [...blockPieces(b)];
+    const flats = pieces.map((piece) => flattenPiece(piece, TROUSER_ALLOWANCES));
+    const layout = layoutPieces(flats);
+    const index = pieces.findIndex((piece) => piece.name === underlap.name);
+    const sourceBounds = polylineBounds(flats[index]!.cut);
+    const placedBounds = polylineBounds(layout.pieces[index]!.cut);
+    const translatedAnchor = `x1="${rounded(underlapNotchPoint.x + placedBounds.minX - sourceBounds.minX)}" `
+      + `y1="${rounded(underlapNotchPoint.y + placedBounds.minY - sourceBounds.minY)}"`;
+    expect(svg).toContain(translatedAnchor);
     expect(svg).toContain("TROUSER POCKET BAG RIGHT");
     expect(svg).toContain("TROUSER FLY UNDERLAP");
     expect(svg).toContain('data-pattern-mark-name="pocketOpening"');

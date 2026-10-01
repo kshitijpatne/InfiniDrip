@@ -4,6 +4,11 @@ import type { Stitch, InterfaceRef } from "../drafting/stitch";
 import type { ArtworkPlacement } from "../surface/placement";
 import type { TechnicalFlatFeature, TechnicalFlatLayer, TechnicalFlatViewKind } from "./technical-flat";
 
+/** Resolve only the authored point name; an absent property remains undefined and fails validation. */
+function markedPoint(mark: NonNullable<Block["roles"][string]["marks"]>[number], pointName: "at" | "start" | "end") {
+  return (mark as unknown as Readonly<Record<"at" | "start" | "end", { x: number; y: number }>>)[pointName];
+}
+
 export type FlatRoleTreatment = "SHELL" | "VISIBLE_OVERLAY" | "INTERIOR_HIDDEN";
 
 export interface FlatRoleMapping {
@@ -300,8 +305,7 @@ export function mapTechnicalFlatSources(
     } else if (pom.frontMarkAnchor) {
       const { roleId, markName, point: pointName } = pom.frontMarkAnchor;
       const mark = block.roles[roleId]?.marks?.find((candidate) => candidate.name === markName);
-      const anchorPoint = mark && ("at" in mark ? pointName === "at" ? mark.at : undefined
-        : pointName === "start" ? mark.start : pointName === "end" ? mark.end : undefined);
+      const anchorPoint = mark && markedPoint(mark, pointName);
       if (!block.roles[roleId] || !anchorPoint) {
         issues.push({ code: "INVALID_POM_ANCHOR", sourceId: pomId,
           message: `POM “${pom.label}” references missing front mark point “${roleId}.${markName}.${pointName}”.` });

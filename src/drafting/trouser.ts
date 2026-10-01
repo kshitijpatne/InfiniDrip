@@ -604,10 +604,11 @@ export const TROUSER_NOTCHES: readonly PieceNotches[] = [
   },
   {
     pieceName: "trouser fly underlap",
-    notches: [],
+    notches: [{ edgeName: "shieldEdge", t: 0.5 }],
     // Keep the underlap's lengthwise grain aligned with the adjacent shield.
-    // This reuses the shield's source-coordinate top-to-bottom convention;
-    // the new role has no source-declared balance notch.
+    // The maintainer approved this same-t midpoint location convention from
+    // flyShield.left; shieldEdge itself joins flyShield.right in the stitch graph.
+    // The free short edges remain unmarked.
     grainline: { topEdge: "top", topT: 0.5, bottomEdge: "bottom", bottomT: 0.5 },
   },
   ...["trouser pocket bag left", "trouser pocket bag right"].map((pieceName) => ({

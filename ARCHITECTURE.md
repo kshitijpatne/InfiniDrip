@@ -186,8 +186,12 @@ remains on `flyShield.left`. The front mapping records the approved
 `behindRoleId: "frontLeft"` relation and validates it against an earlier
 visible role on that face; the underlap remains hidden interior support on
 both exterior faces. Its lengthwise grainline follows the existing fly
-shield's top-to-bottom source-coordinate convention; no balance notch or
-short-edge finishing method is invented. This changes the Trouser recipe's
+shield's top-to-bottom source-coordinate convention. A separate maintainer
+decision adds a midpoint balance mark to `flyUnderlap.shieldEdge` at `t=0.5`,
+using the existing `flyShield.left` midpoint notch as a location convention.
+The stitch graph actually joins `flyUnderlap.shieldEdge` to `flyShield.right`,
+so this is not a seam-matched notch; both underlap short edges remain unmarked
+and their finishing method remains unspecified. This changes the Trouser recipe's
 piece list so new DXF output includes the new cut piece, while the DXF writer
 and all protected legacy hashes stay unchanged. The assembly graph solves all
 24 supported option configurations with upright front panels and the existing

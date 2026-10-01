@@ -326,7 +326,8 @@ export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): Tec
       const roleId = markAnchor?.roleId ?? (kind === "FRONT_FLAT"
         ? pom.anchorRoleId ?? G04_TECHNICAL_FLAT_MAPPINGS[recipe.name]?.pomAnchorRole
         : pom.backAnchorRoleId ?? G04_TECHNICAL_FLAT_MAPPINGS[recipe.name]?.backPomAnchorRole);
-      const placement = roleId ? assembly.transforms[roleId] : undefined;
+      // Undefined/nonexistent role IDs cannot match a transform key and stay fail-closed.
+      const placement = assembly.transforms[roleId as string];
       if (!roleId || !placement) return undefined;
       if (markAnchor) {
         const entityId = `pattern:${recipe.name}:mark:${markAnchor.roleId}:${markAnchor.markName}`;

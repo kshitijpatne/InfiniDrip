@@ -135,6 +135,55 @@ describe("mapTechnicalFlatSources", () => {
     expect(mapped.notices).toContainEqual(expect.objectContaining({
       sourceId: "pom:polo:front-side-vent-depth", reason: "SOURCE_NOT_REPRESENTED",
     }));
+    expect(mapped.sources.find((source) => source.sourceId === "pom:polo:back-side-vent-depth"
+      && source.viewKinds.includes("BACK_FLAT")))
+      .toMatchObject({ treatment: "TABLE_ONLY", viewKinds: ["BACK_FLAT"] });
+    expect(mapped.notices).toContainEqual(expect.objectContaining({
+      sourceId: "pom:polo:back-side-vent-depth", reason: "SOURCE_NOT_REPRESENTED",
+    }));
+    const noBackVentWithBlankLabel = mapTechnicalFlatSources(recipe.name, block, [{ label: "", measure: () => 0,
+      backAnchor: () => ({ x: 0, y: 0 }), backAnchorRoleId: "back", backAnchorEdgeId: "missing",
+      backAnchorAvailable: () => false }]);
+    expect(noBackVentWithBlankLabel.sources).toContainEqual(expect.objectContaining({
+      sourceId: "pom:polo:0", treatment: "TABLE_ONLY", viewKinds: ["BACK_FLAT"],
+    }));
+  });
+
+  it("maps an explicitly selected endpoint of a source line mark", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "polo")!;
+    const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
+    const mapped = mapTechnicalFlatSources(recipe.name, block, [{ label: "Attachment end", measure: () => 1,
+      frontMarkAnchor: { roleId: "buttonPlacket", markName: "attachmentLine", point: "end" } }]);
+    expect(mapped.issues).toEqual([]);
+    expect(mapped.sources.find((source) => source.sourceId === "pom:polo:attachment-end")).toMatchObject({
+      treatment: "ANCHORED", relatedIds: ["mark:buttonPlacket:attachmentLine"],
+      targetGeometryId: "flat:polo:FRONT_FLAT:mark:buttonPlacket:attachmentLine",
+    });
+    const attachment = block.roles.buttonPlacket.marks?.find((mark) => mark.name === "attachmentLine");
+    if (!attachment || !("end" in attachment)) throw new Error("Expected the authored attachment line mark.");
+    expect(mapped.sources.find((source) => source.sourceId === "pom:polo:attachment-end")?.anchorPoint).toEqual(attachment.end);
+    const blankLabel = mapTechnicalFlatSources(recipe.name, block, [{ label: "", measure: () => 1,
+      frontMarkAnchor: { roleId: "buttonPlacket", markName: "attachmentLine", point: "end" } }]);
+    expect(blankLabel.sources.find((source) => source.sourceId === "pom:polo:0")).toMatchObject({
+      treatment: "ANCHORED", relatedIds: ["mark:buttonPlacket:attachmentLine"],
+    });
+    const lineStart = mapTechnicalFlatSources(recipe.name, block, [{ label: "Attachment start", measure: () => 1,
+      frontMarkAnchor: { roleId: "buttonPlacket", markName: "attachmentLine", point: "start" } }]);
+    expect(lineStart.issues).toEqual([]);
+    expect(lineStart.sources.find((source) => source.sourceId === "pom:polo:attachment-start"))
+      .toMatchObject({ treatment: "ANCHORED", relatedIds: ["mark:buttonPlacket:attachmentLine"] });
+    const buttonPoint = mapTechnicalFlatSources(recipe.name, block, [{ label: "Button mark", measure: () => 1,
+      frontMarkAnchor: { roleId: "buttonPlacket", markName: "button-1", point: "at" } }]);
+    expect(buttonPoint.issues).toEqual([]);
+    const buttonMark = block.roles.buttonPlacket.marks?.find((mark) => mark.name === "button-1");
+    if (!buttonMark || !("at" in buttonMark)) throw new Error("Expected the authored button point mark.");
+    expect(buttonPoint.sources.find((source) => source.sourceId === "pom:polo:button-mark")?.anchorPoint)
+      .toEqual(buttonMark.at);
+    const unavailableFront = mapTechnicalFlatSources(recipe.name, block, [{ label: "", measure: () => 1,
+      anchor: () => ({ x: 0, y: 0 }), anchorRoleId: "front", anchorAvailable: () => false }]);
+    expect(unavailableFront.sources).toContainEqual(expect.objectContaining({
+      sourceId: "pom:polo:0", treatment: "TABLE_ONLY", viewKinds: ["FRONT_FLAT"],
+    }));
   });
 
   it("keeps every declared numeric option endpoint inside its recipe's mapped topology", () => {
@@ -251,6 +300,12 @@ describe("mapTechnicalFlatSources", () => {
       .toContainEqual(expect.objectContaining({ code: "INVALID_POM_ANCHOR" }));
     expect(mapTechnicalFlatSources("polo", poloBlock, [{ label: "Invalid front mark", measure: () => 1,
       frontMarkAnchor: { roleId: "buttonPlacket", markName: "missing", point: "at" } }]).issues)
+      .toContainEqual(expect.objectContaining({ code: "INVALID_POM_ANCHOR" }));
+    expect(mapTechnicalFlatSources("polo", poloBlock, [{ label: "Invalid point-mark endpoint", measure: () => 1,
+      frontMarkAnchor: { roleId: "buttonPlacket", markName: "button-1", point: "start" } }]).issues)
+      .toContainEqual(expect.objectContaining({ code: "INVALID_POM_ANCHOR" }));
+    expect(mapTechnicalFlatSources("polo", poloBlock, [{ label: "Invalid back line mark", measure: () => 1,
+      backMarkAnchor: { roleId: "buttonPlacket", markName: "attachmentLine" } }]).issues)
       .toContainEqual(expect.objectContaining({ code: "INVALID_POM_ANCHOR" }));
     expect(mapTechnicalFlatSources("polo", poloBlock, [{ label: "Invalid back edge", measure: () => 1,
       backAnchor: () => ({ x: 0, y: 0 }), backAnchorRoleId: "back", backAnchorEdgeId: "missing" }]).issues)
