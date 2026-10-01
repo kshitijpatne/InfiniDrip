@@ -1,0 +1,387 @@
+{
+  "basis": "S331 live production browser case options, redrafted against current S332 recipe source",
+  "currentDefaultRevision": "live-draft:polo:1:1",
+  "sourceEdgesCompared": [
+    "sleeve all edges",
+    "front.armhole",
+    "back.armhole",
+    "onFold center axes remain x=0"
+  ],
+  "allMatchDefault": true,
+  "cases": [
+    {
+      "caseId": "polo-default",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "sourceTopologyMatchesDefault": true,
+      "browserFiles": [
+        "polo-default-front.svg",
+        "polo-default-back.svg"
+      ],
+      "browserRevisionIds": [
+        "live-draft:polo:1:1",
+        "live-draft:polo:1:1"
+      ]
+    },
+    {
+      "caseId": "polo-placketLength-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "sourceTopologyMatchesDefault": true,
+      "browserFiles": [
+        "polo-placketLength-min-front.svg",
+        "polo-placketLength-min-back.svg"
+      ],
+      "browserRevisionIds": [
+        "live-draft:polo:1:1",
+        "live-draft:polo:1:1"
+      ]
+    },
+    {
+      "caseId": "polo-placketLength-max",
+      "options": {
+        "placketLength": 30,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "sourceTopologyMatchesDefault": true,
+      "browserFiles": [
+        "polo-placketLength-max-front.svg",
+        "polo-placketLength-max-back.svg"
+      ],
+      "browserRevisionIds": [
+        "live-draft:polo:2:2",
+        "live-draft:polo:2:2"
+      ]
+    },
+    {
+      "caseId": "polo-placketWidth-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 2,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "sourceTopologyMatchesDefault": true,
+      "browserFiles": [
+        "polo-placketWidth-min-front.svg",
+        "polo-placketWidth-min-back.svg"
+      ],
+      "browserRevisionIds": [
+        "live-draft:polo:4:4",
+        "live-draft:polo:4:4"
+      ]
+    },
+    {
+      "caseId": "polo-placketWidth-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 4,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "sourceTopologyMatchesDefault": true,
+      "browserFiles": [
+        "polo-placketWidth-max-front.svg",
+        "polo-placketWidth-max-back.svg"
+      ],
+      "browserRevisionIds": [
+        "live-draft:polo:5:5",
+        "live-draft:polo:5:5"
+      ]
+    },
+    {
+      "caseId": "polo-standHeight-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 1,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "sourceTopologyMatchesDefault": true,
+      "browserFiles": [
+        "polo-standHeight-min-front.svg",
+        "polo-standHeight-min-back.svg"
+      ],
+      "browserRevisionIds": [
+        "live-draft:polo:7:7",
+        "live-draft:polo:7:7"
+      ]
+    },
+    {
+      "caseId": "polo-standHeight-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 3,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "sourceTopologyMatchesDefault": true,
+      "browserFiles": [
+        "polo-standHeight-max-front.svg",
+        "polo-standHeight-max-back.svg"
+      ],
+      "browserRevisionIds": [
+        "live-draft:polo:8:8",
+        "live-draft:polo:8:8"
+      ]
+    },
+    {
+      "caseId": "polo-collarLeafDepth-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 4,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "sourceTopologyMatchesDefault": true,
+      "browserFiles": [
+        "polo-collarLeafDepth-min-front.svg",
+        "polo-collarLeafDepth-min-back.svg"
+      ],
+      "browserRevisionIds": [
+        "live-draft:polo:10:10",
+        "live-draft:polo:10:10"
+      ]
+    },
+    {
+      "caseId": "polo-collarLeafDepth-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 7,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "sourceTopologyMatchesDefault": true,
+      "browserFiles": [
+        "polo-collarLeafDepth-max-front.svg",
+        "polo-collarLeafDepth-max-back.svg"
+      ],
+      "browserRevisionIds": [
+        "live-draft:polo:11:11",
+        "live-draft:polo:11:11"
+      ]
+    },
+    {
+      "caseId": "polo-standFrontRise-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "sourceTopologyMatchesDefault": true,
+      "browserFiles": [
+        "polo-standFrontRise-min-front.svg",
+        "polo-standFrontRise-min-back.svg"
+      ],
+      "browserRevisionIds": [
+        "live-draft:polo:13:13",
+        "live-draft:polo:13:13"
+      ]
+    },
+    {
+      "caseId": "polo-standFrontRise-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 2,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "sourceTopologyMatchesDefault": true,
+      "browserFiles": [
+        "polo-standFrontRise-max-front.svg",
+        "polo-standFrontRise-max-back.svg"
+      ],
+      "browserRevisionIds": [
+        "live-draft:polo:14:14",
+        "live-draft:polo:14:14"
+      ]
+    },
+    {
+      "caseId": "polo-collarPointExtension-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 0.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "sourceTopologyMatchesDefault": true,
+      "browserFiles": [
+        "polo-collarPointExtension-min-front.svg",
+        "polo-collarPointExtension-min-back.svg"
+      ],
+      "browserRevisionIds": [
+        "live-draft:polo:16:16",
+        "live-draft:polo:16:16"
+      ]
+    },
+    {
+      "caseId": "polo-collarPointExtension-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 3,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "sourceTopologyMatchesDefault": true,
+      "browserFiles": [
+        "polo-collarPointExtension-max-front.svg",
+        "polo-collarPointExtension-max-back.svg"
+      ],
+      "browserRevisionIds": [
+        "live-draft:polo:17:17",
+        "live-draft:polo:17:17"
+      ]
+    },
+    {
+      "caseId": "polo-sideVentDepth-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 0,
+        "backHemDrop": 1.5
+      },
+      "sourceTopologyMatchesDefault": true,
+      "browserFiles": [
+        "polo-sideVentDepth-min-front.svg",
+        "polo-sideVentDepth-min-back.svg"
+      ],
+      "browserRevisionIds": [
+        "live-draft:polo:19:19",
+        "live-draft:polo:19:19"
+      ]
+    },
+    {
+      "caseId": "polo-sideVentDepth-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 15,
+        "backHemDrop": 1.5
+      },
+      "sourceTopologyMatchesDefault": true,
+      "browserFiles": [
+        "polo-sideVentDepth-max-front.svg",
+        "polo-sideVentDepth-max-back.svg"
+      ],
+      "browserRevisionIds": [
+        "live-draft:polo:20:20",
+        "live-draft:polo:20:20"
+      ]
+    },
+    {
+      "caseId": "polo-backHemDrop-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 0
+      },
+      "sourceTopologyMatchesDefault": true,
+      "browserFiles": [
+        "polo-backHemDrop-min-front.svg",
+        "polo-backHemDrop-min-back.svg"
+      ],
+      "browserRevisionIds": [
+        "live-draft:polo:22:22",
+        "live-draft:polo:22:22"
+      ]
+    },
+    {
+      "caseId": "polo-backHemDrop-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 5
+      },
+      "sourceTopologyMatchesDefault": true,
+      "browserFiles": [
+        "polo-backHemDrop-max-front.svg",
+        "polo-backHemDrop-max-back.svg"
+      ],
+      "browserRevisionIds": [
+        "live-draft:polo:23:23",
+        "live-draft:polo:23:23"
+      ]
+    }
+  ]
+}

@@ -234,7 +234,12 @@ only through an explicitly admitted, linked Epic packet.
   fill-only result and the separate Polo sleeve crossing that keeps all 34
   faces held; final full-face withholding evidence is in
   `docs/research/epic17/S331-polo-browser-final/`. Use `PROJECT-STATE.md` and
-  the validated board for the S331 exit and next S332 gate.
+  the validated board for the S331 exit and next S332 gate. S332's exact live
+  Polo sleeve source trace, 17-option topology comparison, proposed face map,
+  current shoulder residual, and diagnostic overlays are in
+  `docs/research/epic17/G04-V02-POLO-SLEEVE-MAPPING-PROPOSAL-S332.md` and
+  `docs/research/epic17/S332-polo-sleeve/`. Polo remains fully held pending the
+  sleeve-map decision and seam-residual resolution.
 - `docs/research/epic17/G04-V02-PROJECTION-MAPPING-S277.md` — Slice 277's
   current projection-mapping contract boundary, source-reference rules,
   fail-closed semantics, and focused acceptance gates.
