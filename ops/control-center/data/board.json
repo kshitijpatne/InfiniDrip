@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 775,
-  "updatedAt": "2026-09-30T23:21:26.141Z",
+  "revision": 791,
+  "updatedAt": "2026-10-01T00:21:51.707Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -155,7 +155,7 @@
       "title": "EPIC-17: G04 — Professional flats and CAD interchange",
       "status": "In Progress",
       "owner": "Codex",
-      "description": "EPIC-17 maintainer-admitted. S319 verified integrated production replay covers 73 configurations / 146 faces / 32 option fields: 28 accepted and 118 held, unchanged from S315. All 28 emitted colorway SVGs and 78 regions pass raster review at one 16% tint. V02 remains In Progress because the held views leave the all-recipe acceptance incomplete; preserve all source-backed holds, including Woven closure per maintainer direction. Conditional estimate: at least 68 total / 9 remaining (one or more V02 source/mapping and acceptance boundaries; V03 minimum 5 after V02; final integration minimum 3); no upper bound while source and CAD-rights/receiver waits remain. V03 remains Backlog and gated on full V02 acceptance. See docs/planning/EPIC-17-ADMISSION.md, docs/research/epic17/G04-V02-INTEGRATED-OUTPUT-RECONCILIATION-S319.md and docs/research/epic17/S319-browser-final/.",
+      "description": "EPIC-17 maintainer-admitted. S320 audited every current hold against the exact source/pattern revision and supplied official construction leads; zero blockers cleared. S319 production replay remains 73 configurations / 146 faces / 32 option fields, 28 accepted and 118 complete holds. Preserve Tee/Fitted sleeve, Polo stand/collar contours, Woven sleeve/collar/placket assembly and Trouser front/fly/waistband holds; Woven closure remains held per maintainer direction. Conditional estimate: at least 82 total / 13 remaining after S320, assuming one source-backed map/fix slice for each of four independent blocker families, one integrated V02 acceptance slice, V03 minimum five after V02, and final integration/merge/deployment minimum three. No upper bound while required source/decision access and CAD rights/receiver remain unresolved. V02 In Progress; V03 Backlog and gated on complete V02 acceptance. See docs/planning/EPIC-17-ADMISSION.md and docs/research/epic17/G04-V02-CONSTRUCTION-EVIDENCE-AMBIGUITY-RESOLUTION-S320.md.",
       "evidenceRefs": [
         "E-G04-S271-EXIT",
         "E-G04-S273-EXIT",
@@ -225,7 +225,9 @@
         "E-G04-S318-START",
         "E-G04-S318-EXIT",
         "E-G04-S319-START",
-        "E-G04-S319-EXIT"
+        "E-G04-S319-EXIT",
+        "E-G04-S320-START",
+        "E-G04-S320-EXIT"
       ]
     },
     {
@@ -2754,7 +2756,7 @@
         "100% coverage",
         "maintainer gates"
       ],
-      "description": "EPIC-17 maintainer-admitted. S319 verified integrated production replay covers 73 configurations / 146 faces / 32 option fields: 28 accepted and 118 held, unchanged from S315. All 28 emitted colorway SVGs and 78 regions pass raster review at one 16% tint. V02 remains In Progress because the held views leave the all-recipe acceptance incomplete; preserve all source-backed holds, including Woven closure per maintainer direction. Conditional estimate: at least 68 total / 9 remaining (one or more V02 source/mapping and acceptance boundaries; V03 minimum 5 after V02; final integration minimum 3); no upper bound while source and CAD-rights/receiver waits remain. V03 remains Backlog and gated on full V02 acceptance. See docs/planning/EPIC-17-ADMISSION.md, docs/research/epic17/G04-V02-INTEGRATED-OUTPUT-RECONCILIATION-S319.md and docs/research/epic17/S319-browser-final/.",
+      "description": "EPIC-17 maintainer-admitted. S320 audited every current hold against the exact source/pattern revision and supplied official construction leads; zero blockers cleared. S319 production replay remains 73 configurations / 146 faces / 32 option fields, 28 accepted and 118 complete holds. Preserve Tee/Fitted sleeve, Polo stand/collar contours, Woven sleeve/collar/placket assembly and Trouser front/fly/waistband holds; Woven closure remains held per maintainer direction. Conditional estimate: at least 82 total / 13 remaining after S320, assuming one source-backed map/fix slice for each of four independent blocker families, one integrated V02 acceptance slice, V03 minimum five after V02, and final integration/merge/deployment minimum three. No upper bound while required source/decision access and CAD rights/receiver remain unresolved. V02 In Progress; V03 Backlog and gated on complete V02 acceptance. See docs/planning/EPIC-17-ADMISSION.md and docs/research/epic17/G04-V02-CONSTRUCTION-EVIDENCE-AMBIGUITY-RESOLUTION-S320.md.",
       "expectation": "Front/back technical flats for every supported recipe/variant and proven CAD interchange. Pattern-linked side/oblique views are explicitly owned by G09/D04, so the complete view set is accepted only there.",
       "acceptanceCriteria": [
         "Complete every G04 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
@@ -3077,6 +3079,26 @@
           "at": "2026-09-30T23:19:50.605Z",
           "actor": "Maintainer",
           "text": "Updated Epic metadata (description: EPIC-17 maintainer-admitted. S319 verified integrated production replay covers 73 configurations / 146 faces / 32 option fields: 28 accepted and 118 held, unchanged from S315. All 28 emitted colorway SVGs and 78 regions pass raster review at one 16% tint. V02 remains In Progress because the held views leave the all-recipe acceptance incomplete; preserve all source-backed holds, including Woven closure per maintainer direction. Conditional estimate: at least 68 total / 9 remaining (one or more V02 source/mapping and acceptance boundaries; V03 minimum 5 after V02; final integration minimum 3); no upper bound while source and CAD-rights/receiver waits remain. V03 remains Backlog and gated on full V02 acceptance. See docs/planning/EPIC-17-ADMISSION.md, docs/research/epic17/G04-V02-INTEGRATED-OUTPUT-RECONCILIATION-S319.md and docs/research/epic17/S319-browser-final/.). Record verified Slice 319 production output replay, updated conditional estimate, and the still-blocking V02 source-backed assembly gate."
+        },
+        {
+          "at": "2026-10-01T00:07:10.322Z",
+          "actor": "Maintainer",
+          "text": "Admit Slice 320 source-evidence ambiguity resolution before digital mapping. Preserve the 118 S319 face holds and all existing non-goals; V02 remains In Progress and V03 Backlog."
+        },
+        {
+          "at": "2026-10-01T00:07:11.463Z",
+          "actor": "Maintainer",
+          "text": "Updated Epic metadata (description: EPIC-17 maintainer-admitted. S320 source audit is active before any digital mapping: reconcile every current face hold against exact recipe/pattern evidence and the supplied primary/official references, then record each construction fact as cleared, unresolved or requiring maintainer decision. Conditional lower bound from S319: at least 69 total / 9 remaining only if one subsequent source-backed mapping/integration boundary suffices; V03 minimum 5 and final integration/merge/deployment minimum 3. Upper bound remains unpriced pending source access and CAD rights/receiver. S319 production replay: 73 configurations / 146 faces / 32 option fields, 28 accepted / 118 held. V02 remains In Progress; V03 stays Backlog and gated. See docs/planning/EPIC-17-ADMISSION.md, docs/research/epic17/G04-V02-INTEGRATED-OUTPUT-RECONCILIATION-S319.md and docs/research/epic17/G04-V02-CONSTRUCTION-EVIDENCE-AMBIGUITY-RESOLUTION-S320.md.). Admit the maintainer-provided S320 source-evidence audit before mapping; preserve the V02 acceptance gate and update the conditional lower bound from the verified S319 boundary."
+        },
+        {
+          "at": "2026-10-01T00:21:51.615Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: EPIC-17 maintainer-admitted. S320 audited every current hold against the exact source/pattern revision and supplied official construction leads; zero blockers cleared. S319 production replay remains 73 configurations / 146 faces / 32 option fields, 28 accepted and 118 complete holds. Preserve Tee/Fitted sleeve, Polo stand/collar contours, Woven sleeve/collar/placket assembly and Trouser front/fly/waistband holds; Woven closure remains held per maintainer direction. Conditional estimate: at least 82 total / 13 remaining after S320, assuming one source-backed map/fix slice for each of four independent blocker families, one integrated V02 acceptance slice, V03 minimum five after V02, and final integration/merge/deployment minimum three. No upper bound while required source/decision access and CAD rights/receiver remain unresolved. V02 In Progress; V03 Backlog and gated on complete V02 acceptance. See docs/planning/EPIC-17-ADMISSION.md and docs/research/epic17/G04-V02-CONSTRUCTION-EVIDENCE-AMBIGUITY-RESOLUTION-S320.md.). Record S320 evidence audit result, unchanged accepted/held matrix, and source-backed remaining-work estimate."
+        },
+        {
+          "at": "2026-10-01T00:21:51.707Z",
+          "actor": "Codex",
+          "text": "S320 source-evidence audit is complete. The accessible official/general construction sources do not identify current InfiniDrip pattern landmarks, physical instances or layer order, so no mapping blocker was cleared. Hold census remains 28 accepted / 118 held across 73 configurations and 146 faces. Conditional estimate now has a lower bound of at least 82 total / 13 remaining; upper bound is unpriced. See S320 packet."
         }
       ],
       "evidenceRefs": [
@@ -3133,7 +3155,9 @@
         "E-G04-S318-START",
         "E-G04-S318-EXIT",
         "E-G04-S319-START",
-        "E-G04-S319-EXIT"
+        "E-G04-S319-EXIT",
+        "E-G04-S320-START",
+        "E-G04-S320-EXIT"
       ],
       "flagKey": null
     },
@@ -5831,7 +5855,7 @@
         "100% coverage",
         "export byte identity"
       ],
-      "description": "Render revision-bound front/back vector flats with topology-checked options, artwork/colorway overlays, proportional/construction annotations and anchored POM callouts. S319 production replay covers 73 configurations / 146 faces / 32 option fields: 28 accepted, 118 complete holds, unchanged from S315. All 28 emitted colorway SVGs and 78 fill regions pass raster review at one source/revision-bound 16% tint. V02 remains In Progress because the held views leave all-recipe acceptance incomplete; retain source-backed holds, including Woven closure per maintainer direction. See docs/research/epic17/G04-V02-INTEGRATED-OUTPUT-RECONCILIATION-S319.md and docs/research/epic17/S319-browser-final/. V03 stays gated on full V02 acceptance.",
+      "description": "Render revision-bound front/back vector flats with topology-checked options, artwork/colorway overlays, proportional/construction annotations and anchored POM callouts. S319 covers 73 configurations / 146 faces / 32 option fields: 28 accepted and 118 complete holds. S320 source audit clears no current construction blocker; preserve each complete hold, including Woven closure per maintainer direction. See docs/research/epic17/G04-V02-CONSTRUCTION-EVIDENCE-AMBIGUITY-RESOLUTION-S320.md. V02 remains In Progress; V03 stays gated on complete V02 acceptance.",
       "expectation": "Live vector output stays aligned with the same pattern and style revision and remains readable across all supported options.",
       "acceptanceCriteria": [
         "Render front/back vector views for all seven recipes and supported option combinations from one pattern/revision.",
@@ -6326,6 +6350,16 @@
           "at": "2026-09-30T23:19:48.878Z",
           "actor": "Maintainer",
           "text": "Slice 319 exit: production replay covered 73 configurations, 146 faces and 32 option fields; 28 accepted and 118 complete source-backed holds exactly match S315. All 28 emitted colorway SVGs / 78 fill regions pass raster review; zero browser errors. V02 remains In Progress because supported outputs remain incomplete; V03 remains Backlog and gated. Woven placket closure stays held per maintainer direction; obtain source evidence for remaining mappings or preserve holds. See S319 packet and manual-review evidence."
+        },
+        {
+          "at": "2026-10-01T00:07:09.197Z",
+          "actor": "Maintainer",
+          "text": "Start Slice 320 at 2026-10-01 00:04:19 UTC from clean S319 92a270753ee526d90c9daba0b3ffbfd45da68ff9. Research every current hold against the exact pattern and supplied official/primary references; write the fact ledger before any digital mapping. Keep unsupported views held, V02 In Progress and V03 gated. Packet: docs/research/epic17/G04-V02-CONSTRUCTION-EVIDENCE-AMBIGUITY-RESOLUTION-S320.md."
+        },
+        {
+          "at": "2026-10-01T00:21:51.584Z",
+          "actor": "Codex",
+          "text": "Slice 320 verified exit: all 118 S319 complete-face holds were recounted and audited against current source and the supplied official/patternmaking leads. No pattern-specific relation clears any blocker; preserve every hold. Woven closure remains held per maintainer direction. V02 remains In Progress; V03 stays Backlog. At least 82 total / 13 remaining conditional lower bound reflects four independent mapping families, integrated V02 acceptance, V03 minimum five and final integration minimum three. See the S320 source and ambiguity ledger."
         }
       ],
       "evidenceRefs": [
@@ -6421,7 +6455,9 @@
         "E-G04-S318-START",
         "E-G04-S318-EXIT",
         "E-G04-S319-START",
-        "E-G04-S319-EXIT"
+        "E-G04-S319-EXIT",
+        "E-G04-S320-START",
+        "E-G04-S320-EXIT"
       ],
       "flagKey": null
     },
@@ -8136,6 +8172,24 @@
       "sha256": null,
       "verified": true,
       "note": "S319 production Chromium replay and manual review: 73 configurations, 146 faces, 32 option fields; unchanged 28 accepted / 118 fully held; zero browser/page/request errors. All 28 emitted colorway SVGs and 78 regions raster reviewed at source/revision-bound 0.16 opacity, max summed RGB sample error 4, no double composite. See sibling manual-review.md and S319 packet. V02 remains open because held views leave acceptance incomplete."
+    },
+    {
+      "id": "E-G04-S320-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-CONSTRUCTION-EVIDENCE-AMBIGUITY-RESOLUTION-S320.md",
+      "commit": null,
+      "sha256": null,
+      "verified": false,
+      "note": "S320 admission: review every S319 hold against exact current recipe/pattern source, prior evidence and the maintainer-supplied official/primary research leads. Record distinct construction facts as cleared, unresolved or requiring a maintainer decision. No digital mapping begins until its source fact is evidenced or explicitly decided; retain all holds and keep V03 gated."
+    },
+    {
+      "id": "E-G04-S320-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-CONSTRUCTION-EVIDENCE-AMBIGUITY-RESOLUTION-S320.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S320 exhaustively audits the 118 S319 complete-face holds against exact recipe/pattern sources and supplied official construction leads. No local source-to-view fact is established; zero blockers cleared; all holds remain; V02 In Progress and V03 gated. See per-recipe census, source claim comparison, access limits and exact next artifact requests in the packet."
     }
   ]
 }

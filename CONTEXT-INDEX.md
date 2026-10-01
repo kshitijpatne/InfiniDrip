@@ -177,6 +177,9 @@ only through an explicitly admitted, linked Epic packet.
 - `docs/research/epic17/S319-browser-final/` — S319's retained 73-case/146-face
   production replay, selected rendered output, all emitted colorway SVGs and
   rasters, per-fill review and manual accepted/held output assessment.
+- `docs/research/epic17/G04-V02-CONSTRUCTION-EVIDENCE-AMBIGUITY-RESOLUTION-S320.md`
+  — S320's admitted source audit and fact-by-fact evidence/decision ledger;
+  mapping is gated until each needed construction relation is established.
 - `docs/research/epic17/G04-V02-PROJECTION-MAPPING-S277.md` — Slice 277's
   current projection-mapping contract boundary, source-reference rules,
   fail-closed semantics, and focused acceptance gates.

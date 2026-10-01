@@ -91,10 +91,10 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
     }
     if (id === "EPIC-17") {
       assert.match(epic.description, /docs\/planning\/EPIC-17-ADMISSION\.md/);
-      assert.match(epic.description, /at least 68 total \/ 9 remaining/);
-      assert.match(epic.description, /73 configurations \/ 146 faces \/ 32 option fields: 28 accepted and 118 held/);
-      assert.match(card.description, /at least 68 total \/ 9 remaining/);
-      assert.match(card.description, /73 configurations \/ 146 faces \/ 32 option fields: 28 accepted and 118 held/);
+      assert.match(epic.description, /at least 82 total \/ 13 remaining/);
+      assert.match(epic.description, /73 configurations \/ 146 faces \/ 32 option fields, 28 accepted and 118 complete holds/);
+      assert.match(card.description, /at least 82 total \/ 13 remaining/);
+      assert.match(card.description, /73 configurations \/ 146 faces \/ 32 option fields, 28 accepted and 118 complete holds/);
       assert.ok(card.evidenceRefs.includes("E-G04-S315-START"));
       assert.ok(card.evidenceRefs.includes("E-G04-S315-EXIT"));
       assert.ok(card.evidenceRefs.includes("E-G04-S316-START"));
@@ -105,12 +105,16 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
       assert.ok(card.evidenceRefs.includes("E-G04-S318-EXIT"));
       assert.ok(card.evidenceRefs.includes("E-G04-S319-START"));
       assert.ok(card.evidenceRefs.includes("E-G04-S319-EXIT"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S320-START"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S320-EXIT"));
       assert.ok(epic.evidenceRefs.includes("E-G04-S316-EXIT"));
       assert.ok(epic.evidenceRefs.includes("E-G04-S317-EXIT"));
       assert.ok(epic.evidenceRefs.includes("E-G04-S318-START"));
       assert.ok(epic.evidenceRefs.includes("E-G04-S318-EXIT"));
       assert.ok(epic.evidenceRefs.includes("E-G04-S319-START"));
       assert.ok(epic.evidenceRefs.includes("E-G04-S319-EXIT"));
+      assert.ok(epic.evidenceRefs.includes("E-G04-S320-START"));
+      assert.ok(epic.evidenceRefs.includes("E-G04-S320-EXIT"));
       assert.ok(card.evidenceRefs.includes("E-G04-S286-EXIT"));
       assert.ok(card.evidenceRefs.includes("E-G04-S300-EXIT"));
       assert.ok(card.evidenceRefs.includes("E-G04-S301-START"));
@@ -174,13 +178,18 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
       assert.ok(card.comments.some((comment) => /Re-estimate from verified S310 boundary: output remains 28\/146 accepted and 118 held; 7–21 conditional slices remain/.test(comment.text)));
       assert.ok(card.comments.some((comment) => /Slice 312 exit: Skirt waist and hip POMs resolve to matching exact front\/back outline vertices.*V02 remains In Progress; V03 remains Backlog/.test(comment.text)));
       assert.ok(card.comments.some((comment) => /Slice 319 verified exit: all-recipe production replay and visible colorway raster review passed with unchanged 28\/146 accepted and 118 held; V02 remains In Progress and V03 remains Backlog/.test(comment.text)));
-      assert.match(card.comments.at(-1).text, /Updated Epic metadata \(description: EPIC-17 maintainer-admitted\. S319 verified integrated production replay/);
+      assert.match(card.comments.at(-1).text, /S320 source-evidence audit is complete\. The accessible official\/general construction sources do not identify current InfiniDrip pattern landmarks/);
       assert.ok(card.comments.some((comment) => /Slice 318 exit: source-backed colorway areas are visibly rasterized at one 16% tint.*13 SVGs and 27 fills.*V02 remains In Progress; V03 remains Backlog/.test(comment.text)));
       assert.deepEqual(card.dependencies, ["EPIC-14", "EPIC-15", "EPIC-16"]);
       const admittedWork = board.workItems.filter((entry) => entry.epicId === id && entry.id !== id);
       assert.deepEqual(admittedWork.map((entry) => entry.id), ["G04-V01", "G04-V02", "G04-V03"]);
       assert.deepEqual(admittedWork.map((entry) => entry.status), ["Done", "In Progress", "Backlog"]);
-      assert.match(admittedWork[1].description, /S319 production replay covers 73 configurations \/ 146 faces \/ 32 option fields: 28 accepted, 118 complete holds/);
+      assert.match(admittedWork[1].description, /S320 source audit clears no current construction blocker; preserve each complete hold/);
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S320-EXIT"));
+      assert.match(admittedWork[1].comments.at(-1).text, /Slice 320 verified exit: all 118 S319 complete-face holds were recounted and audited/);
+      assert.ok(admittedWork[1].comments.some((comment) => /Start Slice 320 at 2026-10-01 00:04:19 UTC from clean S319 92a270753ee526d90c9daba0b3ffbfd45da68ff9/.test(comment.text)));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S320-START"));
+      assert.match(admittedWork[1].description, /S319 covers 73 configurations \/ 146 faces \/ 32 option fields: 28 accepted and 118 complete holds/);
       assert.ok(admittedWork[0].evidenceRefs.includes("E-G04-S264-EXIT"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S265-EXIT"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S266-EXIT"));
@@ -255,7 +264,7 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
       assert.ok(admittedWork[1].comments.some((comment) => /Slice 310 exit: source and retained production SVGs prove the authored `centerBack` mark is the exact same-revision midpoint of the compiled back closure edge in all 24 accepted configurations.*S311 will add the typed mark-entity anchor/.test(comment.text)));
       assert.ok(admittedWork[1].comments.some((comment) => /Slice 312 exit: Skirt waist and hip POMs resolve to matching exact front\/back outline vertices.*V02 remains In Progress; V03 remains Backlog/.test(comment.text)));
       assert.ok(admittedWork[1].comments.some((comment) => /Slice 313 started 2026-09-30 18:33:26 UTC from clean S312 c7e7a6fc.*G04-V02-TANK-BACK-POM-ANCHORS-S313\.md/.test(comment.text)));
-      assert.match(admittedWork[1].comments.at(-1).text, /Slice 319 exit: production replay covered 73 configurations, 146 faces and 32 option fields; 28 accepted and 118 complete source-backed holds exactly match S315/);
+      assert.ok(admittedWork[1].comments.some((comment) => /Slice 319 exit: production replay covered 73 configurations, 146 faces and 32 option fields; 28 accepted and 118 complete source-backed holds exactly match S315/.test(comment.text)));
       assert.ok(admittedWork[1].comments.some((comment) => /Slice 318 exit: source-backed colorway areas are visibly rasterized at one 16% tint.*13 SVGs and 27 fills.*V02 remains In Progress; V03 remains Backlog/.test(comment.text)));
       assert.ok(admittedWork[1].comments.some((comment) => /Slice 304 started 2026-09-30 13:02:44 UTC.*G04-V02-ACCEPTED-FACE-OVERLAYS-S304\.md/.test(comment.text)));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S301-EXIT"));
