@@ -1,8 +1,8 @@
 # InfiniDrip — Project State
 
-_Last updated: S336 landed source-order correction and retained all Woven holds pending two explicit view-convention decisions; all 56 Woven and 34 Polo faces remain held, 2026-10-01._
+_Last updated: S337 completed Polo source/POM hold diagnosis; maintainer approved keeping the unresolved Woven sleeve/collar views held; Polo POM display decisions remain pending, 2026-10-01._
 
-## EPIC-17 / G04 current handoff — refreshed after Slice 334; V02 remains open
+## EPIC-17 / G04 current handoff — refreshed after Slice 337; V02 remains open
 
 ### Slice 333 — Polo sleeve view mapping (start)
 
@@ -5795,6 +5795,26 @@ S321 collar exterior and sleeve/band transfers, two-instance mappings and closur
 Elapsed 51m (2026-10-01 16:20:05–17:11 UTC): implementation/source-order correction 9m; focused coverage/build/protected checks 5m; 28-case source diagnosis and overlay refinement 8m; production Chromium replay and wait 14m; rendered review 3m; durable records and validated board closeout 12m; external-agent waits 0m; maintainer-decision time pending. Canonical board revision 1159 links 11 S336 evidence records and the verified exit comment to G04-V02, the EPIC-17 summary card and Epic record; Control Center passes 33/33 and board validation passes. Exact landed commit ID is recorded at S337 start through the validated command layer.
 
 **Next action:** proceed with an independent, exact-source diagnosis of the remaining non-Woven V02 holds while awaiting the two S336 design choices; do not implement either nonrigid mapping before approval. Do not start V03 until every G04 V02 acceptance criterion passes.
+
+### Slice 337 start — independent Polo hold diagnosis
+
+S336 landed as `9bce95df80e0598d24c42b49d211df81f9892325` (`Slice 336: correct Woven stitched endpoint traversal`) from clean S335 `32bff6d165ae23ae87d6d89d2110f55aad69375b`. Refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest active slice was 336; S337 is reserved. Canonical board was revision 1159; EPIC-17/G04-V02 In Progress, V01 Done and V03 Backlog. Usage: primary 22%, weekly 8%, ordinary usage allowed. Packet: `docs/research/epic17/G04-V02-POLO-REMAINING-HOLDS-S337.md`.
+
+Scope: independently inspect exact Polo recipe/pattern topology and current 17-option / 34-face rendered holds, distinguish source facts from approved S321/S333 conventions, and provide exact mapping-or-hold proposals for remaining issues. Re-run current production output and inspect readable source-edge overlays and relevant options. Do not introduce any new semantic deformation, relax the 0.25 cm gate, change geometry/stitches/options, or accept a face without the full gate. The two S336 Woven view-deformation decisions remain pending and do not block this independent Polo evidence work. No safe delegation identified.
+
+### Slice 337 — Polo source/POM hold diagnosis (exit)
+
+S337 completed from S336 `9bce95df80e0598d24c42b49d211df81f9892325` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest prior slice was 336; S337 was uniquely reserved. Board revision 1170 carried the validated start record. The durable packet and diagnostics are in `docs/research/epic17/G04-V02-POLO-REMAINING-HOLDS-S337.md` and `docs/research/epic17/S337-polo-holds/`.
+
+S337 made no production code, pattern geometry, stitch, tolerance, option, export identity or legacy DXF change. It traced current Polo `draftPolo` source, exact same-revision assembly/projection, all 17 configurations, collar/sleeve role runs and the S321/S333 approved view decisions. Fresh TypeScript source replay reproduced the full 17-configuration / 34-face matrix: front and back underarms are exactly joined, each mapped shoulder endpoint is 0.958604 cm apart, while live Chromium still reports the solver's 0.68 cm `Sleeve-cap ease` residual against the 0.25 cm gate. Production replay had zero browser errors, emitted 0/34 SVGs, showed one actionable full-face hold on every request, and remained invariant across the option extremes. Annotated source overlays were inspected; no face was accepted.
+
+Polo's four current front callouts target same-revision `front` outline vertices. Seventeen other front POMs are table-only; the four existing front anchors are not projected to the back. S337 traces source-exact edge/mark/span candidates for all Polo POMs and records the callout system's current single-role/single-point limitation. The `upperCollar.centerBack` leaf-length reference is a `Piece.onFold` edge excluded from exterior strokes; back hem drop compares `front.hem.start` with `back.hem.start` while the faces render separately. A grouped maintainer question now requests approval for dimension-only references for those two exact cases. Do not implement either projected reference until the maintainer responds. Other same-face POM sources remain directly derivable and may proceed independently. MQF-004–007, MQF-011, MQF-012 and MQF-015 remain **To be reviewed** for their applicable G04 exits; S337 produced no completed output surface that would change these statuses. Post-G17 deferrals remain in force.
+
+The maintainer replied “approved, proceed” to the S336 grouped Woven choice request. Record the conservative recommended choice for both questions: keep the Woven sleeve-cap and collar-base displays held, without nonrigid view deformation. This leaves the all-seven V02 acceptance unchanged and does not satisfy or weaken any criterion.
+
+Elapsed (2026-10-01 17:12:52–17:34:57 UTC, approximately 22m): production implementation 0m; source/POM trace and focused verification 9m; Chromium replay and rendered review 5m; durable records/validated-board work 8m; external-agent waits 0m; maintainer-decision time not separately timed (conservative Woven hold approval received; two Polo dimension-only choices pending). Board revision 1193 links six S337 exit evidence records and comments to G04-V02 and the EPIC-17 summary/Epic. Canonical board validation passes, `npm run control-center:test` passes 33/33, and `git diff --check` passes. V02 remains In Progress with the integrated baseline 56 accepted / 90 held across 73 configurations / 146 faces. V03 remains Backlog and gated.
+
+**Next action:** land S337 diagnosis, then begin S338 on source-exact same-face Polo POM anchors and their rendered collision/readability gate. Leave the fold-axis leaf dimension and cross-face back-hem reference unimplemented until the grouped maintainer decision is received. Keep Polo and Woven complete-face holds and do not start V03.
 
 ### Slice 299 start — Woven placket instance and overlap source review
 

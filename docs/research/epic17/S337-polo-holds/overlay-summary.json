@@ -1,0 +1,459 @@
+{
+  "basis": "exact current default source pattern and S333 approved mapping",
+  "classification": "source edges and stitch interfaces are direct facts; two-instance reflected face view is maintainer-approved; overlays show source rigid placement only",
+  "panels": [
+    {
+      "id": "front",
+      "svg": "front-sleeve-join.svg",
+      "selectedCap": "capLeft",
+      "bodyEdge": "front.armhole",
+      "mappedRuns": [
+        "capLeft",
+        "sideLeft",
+        "hem"
+      ],
+      "multiplicity": 2,
+      "shoulderGapCm": 0.9586038005636853,
+      "underarmGapCm": 0,
+      "transform": {
+        "offset": {
+          "x": 25.736469171951565,
+          "y": 24.28831838894513
+        },
+        "rotationDegrees": -99.28510102077226,
+        "mirrorX": false
+      },
+      "collarRoleRuns": {
+        "outerStand": {
+          "runs": [
+            {
+              "edgeId": "frontCollar",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "frontCollar",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "frontCollar",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "frontEnd",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "frontEnd",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "frontEnd",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "frontNeckline",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "frontNeckline",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "frontNeckline",
+                "endpoint": "end"
+              }
+            }
+          ],
+          "heldEdges": [],
+          "faceExcludedEdges": [
+            {
+              "edgeId": "centerBack",
+              "reason": "The source-declared center-back fold is the reflection axis."
+            },
+            {
+              "edgeId": "backCollar",
+              "reason": "The exact backCollar interval belongs to BACK_FLAT."
+            },
+            {
+              "edgeId": "backNeckline",
+              "reason": "The neckline back interval belongs to BACK_FLAT."
+            }
+          ],
+          "foldAxisReflection": {
+            "edgeId": "centerBack",
+            "axis": "LOCAL_Y",
+            "source": "Piece.onFold"
+          }
+        },
+        "upperCollar": {
+          "runs": [
+            {
+              "edgeId": "frontCollarBase",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "frontCollarBase",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "frontCollarBase",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "frontTip",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "frontTip",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "frontTip",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "outer",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "outer",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "normalized-edge-transfer",
+                "edgeId": "outer",
+                "fraction": 0.6042987780864775,
+                "basis": "POLO_COLLAR_BASE",
+                "decisionId": "G04-S321-COLLAR-EXTERIOR-ARCLENGTH"
+              }
+            }
+          ],
+          "heldEdges": [],
+          "faceExcludedEdges": [
+            {
+              "edgeId": "centerBack",
+              "reason": "The source-declared center-back fold is the reflection axis."
+            },
+            {
+              "edgeId": "backCollarBase",
+              "reason": "The collar base back interval belongs to BACK_FLAT."
+            }
+          ],
+          "foldAxisReflection": {
+            "edgeId": "centerBack",
+            "axis": "LOCAL_Y",
+            "source": "Piece.onFold"
+          }
+        },
+        "underCollar": {
+          "runs": [
+            {
+              "edgeId": "frontCollarBase",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "frontCollarBase",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "frontCollarBase",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "frontTip",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "frontTip",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "frontTip",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "outer",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "outer",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "normalized-edge-transfer",
+                "edgeId": "outer",
+                "fraction": 0.6042987780864775,
+                "basis": "POLO_COLLAR_BASE",
+                "decisionId": "G04-S321-COLLAR-EXTERIOR-ARCLENGTH"
+              }
+            }
+          ],
+          "heldEdges": [],
+          "faceExcludedEdges": [
+            {
+              "edgeId": "centerBack",
+              "reason": "The source-declared center-back fold is the reflection axis."
+            },
+            {
+              "edgeId": "backCollarBase",
+              "reason": "The collar base back interval belongs to BACK_FLAT."
+            }
+          ],
+          "foldAxisReflection": {
+            "edgeId": "centerBack",
+            "axis": "LOCAL_Y",
+            "source": "Piece.onFold"
+          }
+        },
+        "innerStand": {
+          "runs": [],
+          "heldEdges": [
+            {
+              "edgeId": "centerBack",
+              "reason": "Interior role “innerStand” is intentionally hidden in this exterior view."
+            },
+            {
+              "edgeId": "backCollar",
+              "reason": "Interior role “innerStand” is intentionally hidden in this exterior view."
+            },
+            {
+              "edgeId": "frontCollar",
+              "reason": "Interior role “innerStand” is intentionally hidden in this exterior view."
+            },
+            {
+              "edgeId": "frontEnd",
+              "reason": "Interior role “innerStand” is intentionally hidden in this exterior view."
+            },
+            {
+              "edgeId": "frontNeckline",
+              "reason": "Interior role “innerStand” is intentionally hidden in this exterior view."
+            },
+            {
+              "edgeId": "backNeckline",
+              "reason": "Interior role “innerStand” is intentionally hidden in this exterior view."
+            }
+          ],
+          "faceExcludedEdges": [],
+          "foldAxisReflection": null
+        }
+      }
+    },
+    {
+      "id": "back",
+      "svg": "back-sleeve-join.svg",
+      "selectedCap": "capRight",
+      "bodyEdge": "back.armhole",
+      "mappedRuns": [
+        "capRight",
+        "sideRight",
+        "hem"
+      ],
+      "multiplicity": 2,
+      "shoulderGapCm": 0.9586038005636853,
+      "underarmGapCm": 0,
+      "transform": {
+        "offset": {
+          "x": 18.798539684184604,
+          "y": -18.148282964400472
+        },
+        "rotationDegrees": -99.28510102077226,
+        "mirrorX": true
+      },
+      "collarRoleRuns": {
+        "outerStand": {
+          "runs": [
+            {
+              "edgeId": "backCollar",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "backCollar",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "backCollar",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "backNeckline",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "backNeckline",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "backNeckline",
+                "endpoint": "end"
+              }
+            }
+          ],
+          "heldEdges": [],
+          "faceExcludedEdges": [
+            {
+              "edgeId": "centerBack",
+              "reason": "The source-declared center-back fold is the reflection axis."
+            },
+            {
+              "edgeId": "frontCollar",
+              "reason": "The exact frontCollar interval belongs to FRONT_FLAT."
+            },
+            {
+              "edgeId": "frontEnd",
+              "reason": "The Polo stand front end belongs to FRONT_FLAT."
+            },
+            {
+              "edgeId": "frontNeckline",
+              "reason": "The neckline front interval belongs to FRONT_FLAT."
+            }
+          ],
+          "foldAxisReflection": {
+            "edgeId": "centerBack",
+            "axis": "LOCAL_Y",
+            "source": "Piece.onFold"
+          }
+        },
+        "upperCollar": {
+          "runs": [
+            {
+              "edgeId": "backCollarBase",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "backCollarBase",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "backCollarBase",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "outer",
+              "from": {
+                "kind": "normalized-edge-transfer",
+                "edgeId": "outer",
+                "fraction": 0.6042987780864775,
+                "basis": "POLO_COLLAR_BASE",
+                "decisionId": "G04-S321-COLLAR-EXTERIOR-ARCLENGTH"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "outer",
+                "endpoint": "end"
+              }
+            }
+          ],
+          "heldEdges": [],
+          "faceExcludedEdges": [
+            {
+              "edgeId": "centerBack",
+              "reason": "The source-declared center-back fold is the reflection axis."
+            },
+            {
+              "edgeId": "frontCollarBase",
+              "reason": "The collar base front interval belongs to FRONT_FLAT."
+            },
+            {
+              "edgeId": "frontTip",
+              "reason": "The Polo front collar point belongs to FRONT_FLAT."
+            }
+          ],
+          "foldAxisReflection": {
+            "edgeId": "centerBack",
+            "axis": "LOCAL_Y",
+            "source": "Piece.onFold"
+          }
+        },
+        "underCollar": {
+          "runs": [
+            {
+              "edgeId": "backCollarBase",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "backCollarBase",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "backCollarBase",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "outer",
+              "from": {
+                "kind": "normalized-edge-transfer",
+                "edgeId": "outer",
+                "fraction": 0.6042987780864775,
+                "basis": "POLO_COLLAR_BASE",
+                "decisionId": "G04-S321-COLLAR-EXTERIOR-ARCLENGTH"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "outer",
+                "endpoint": "end"
+              }
+            }
+          ],
+          "heldEdges": [],
+          "faceExcludedEdges": [
+            {
+              "edgeId": "centerBack",
+              "reason": "The source-declared center-back fold is the reflection axis."
+            },
+            {
+              "edgeId": "frontCollarBase",
+              "reason": "The collar base front interval belongs to FRONT_FLAT."
+            },
+            {
+              "edgeId": "frontTip",
+              "reason": "The Polo front collar point belongs to FRONT_FLAT."
+            }
+          ],
+          "foldAxisReflection": {
+            "edgeId": "centerBack",
+            "axis": "LOCAL_Y",
+            "source": "Piece.onFold"
+          }
+        },
+        "innerStand": {
+          "runs": [],
+          "heldEdges": [
+            {
+              "edgeId": "centerBack",
+              "reason": "Interior role “innerStand” is intentionally hidden in this exterior view."
+            },
+            {
+              "edgeId": "backCollar",
+              "reason": "Interior role “innerStand” is intentionally hidden in this exterior view."
+            },
+            {
+              "edgeId": "frontCollar",
+              "reason": "Interior role “innerStand” is intentionally hidden in this exterior view."
+            },
+            {
+              "edgeId": "frontEnd",
+              "reason": "Interior role “innerStand” is intentionally hidden in this exterior view."
+            },
+            {
+              "edgeId": "frontNeckline",
+              "reason": "Interior role “innerStand” is intentionally hidden in this exterior view."
+            },
+            {
+              "edgeId": "backNeckline",
+              "reason": "Interior role “innerStand” is intentionally hidden in this exterior view."
+            }
+          ],
+          "faceExcludedEdges": [],
+          "foldAxisReflection": null
+        }
+      }
+    }
+  ]
+}

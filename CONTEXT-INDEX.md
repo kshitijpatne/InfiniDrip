@@ -270,6 +270,12 @@ only through an explicitly admitted, linked Epic packet.
   with an inconsistent back sleeve transform. Continue from its explicit
   maintainer decision request; do not introduce nonrigid geometry or lower the
   all-seven acceptance criterion without approval.
+- `docs/research/epic17/G04-V02-POLO-REMAINING-HOLDS-S337.md` — current
+  independent source/topology, POM-reference and production-output diagnosis
+  for the remaining Polo V02 holds. It records the maintainer-approved
+  conservative Woven hold and the exact POM references still awaiting a
+  dimension-only display decision. Keep all Polo faces held until the 17-option
+  output gate passes.
 - `docs/research/epic17/G04-V02-PROJECTION-MAPPING-S277.md` — Slice 277's
   current projection-mapping contract boundary, source-reference rules,
   fail-closed semantics, and focused acceptance gates.

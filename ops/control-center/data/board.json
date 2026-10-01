@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 1159,
-  "updatedAt": "2026-10-01T17:10:59.090Z",
+  "revision": 1193,
+  "updatedAt": "2026-10-01T17:34:11.904Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -155,7 +155,7 @@
       "title": "EPIC-17: G04 — Professional flats and CAD interchange",
       "status": "In Progress",
       "owner": "Codex",
-      "description": "Admission packet: docs/planning/EPIC-17-ADMISSION.md; current state: PROJECT-STATE.md. S330 landed at 558564bab25ab0e717ee825f4c4ab54f9eba4ea2. S331 closes the source-bound, fill-only Polo outerStand and collar color areas. S332 traces the exact Polo sleeve topology across 17 configurations. S333 implements the maintainer-approved Polo sleeve view map, but production Chromium holds all 34 Polo faces after the 17-option replay found a 0.68 cm sleeve-cap residual vs 0.25 cm limit; the diagnostic shows a 0.96 cm shoulder gap. No source geometry changed. Integrated baseline remains 73 configurations / 146 faces / 32 option fields, 56 accepted and 90 held. Preserve all-seven V02 acceptance; do not start V03. See S333 packet, strict option matrix and rendered hold evidence. S334 corrects source-encoded Woven view traversal only (front armhole reversed against sleeve capLeft; back yoke seam reversed against its exact source counterpart); no stitch graph or cut geometry change. Production replay: 0/56 Woven faces emitted; all 28 fronts remain held on open colorway contours and all 28 backs on the sleeve-cap placement conflict. Integrated baseline remains 56 accepted / 90 held across 73 configurations, 146 faces and 32 option fields. V02 stays In Progress; preserve all-seven acceptance and keep V03 Backlog. See the S334 packet and source/assembly diagnostics, matrix and reviewed screenshots. Next: investigate exact Woven front contour closure under approved mappings; do not release faces until full output gates pass. S334 landed as b27a444a020ff69330479554776977ab5aeb5be4. S335 is investigating exact Woven front colorway closure from source topology and previously approved view boundaries; the implementation must not infer a physical edge or weaken exact contour closure. All 56 Woven faces and 34 Polo faces remain held; integrated baseline stays 56 accepted / 90 held. V02 remains In Progress; all-seven acceptance and the V02-before-V03 gate remain unchanged. See the S335 packet. S335 landed at 32bff6d165ae23ae87d6d89d2110f55aad69375b; its fill loops close but all 56 Woven faces remain held for exact source-assembly residuals and inconsistent back transforms. S336 traces these joins without changing source geometry/stitches or releasing faces; see docs/research/epic17/G04-V02-WOVEN-PLACEMENT-DIAGNOSIS-S336.md. S336 verified source-order correction: production replay emits 0/56 Woven faces and reports zero browser errors; front sleeve/collar residuals are 0.47/0.71 cm, and back retains a sleeve-transform conflict plus 0.39/0.27 cm sleeve/collar residuals. All seven-recipe V02 acceptance remains unchanged; two nonrigid view conventions await explicit decision. Keep all Woven and Polo faces held and V03 gated; see the S336 packet and production replay.",
+      "description": "Admission packet: docs/planning/EPIC-17-ADMISSION.md; current state: PROJECT-STATE.md. S330 landed at 558564bab25ab0e717ee825f4c4ab54f9eba4ea2. S331 closes the source-bound, fill-only Polo outerStand and collar color areas. S332 traces the exact Polo sleeve topology across 17 configurations. S333 implements the maintainer-approved Polo sleeve view map, but production Chromium holds all 34 Polo faces after the 17-option replay found a 0.68 cm sleeve-cap residual vs 0.25 cm limit; the diagnostic shows a 0.96 cm shoulder gap. No source geometry changed. Integrated baseline remains 73 configurations / 146 faces / 32 option fields, 56 accepted and 90 held. Preserve all-seven V02 acceptance; do not start V03. See S333 packet, strict option matrix and rendered hold evidence. S334 corrects source-encoded Woven view traversal only (front armhole reversed against sleeve capLeft; back yoke seam reversed against its exact source counterpart); no stitch graph or cut geometry change. Production replay: 0/56 Woven faces emitted; all 28 fronts remain held on open colorway contours and all 28 backs on the sleeve-cap placement conflict. Integrated baseline remains 56 accepted / 90 held across 73 configurations, 146 faces and 32 option fields. V02 stays In Progress; preserve all-seven acceptance and keep V03 Backlog. See the S334 packet and source/assembly diagnostics, matrix and reviewed screenshots. Next: investigate exact Woven front contour closure under approved mappings; do not release faces until full output gates pass. S334 landed as b27a444a020ff69330479554776977ab5aeb5be4. S335 is investigating exact Woven front colorway closure from source topology and previously approved view boundaries; the implementation must not infer a physical edge or weaken exact contour closure. All 56 Woven faces and 34 Polo faces remain held; integrated baseline stays 56 accepted / 90 held. V02 remains In Progress; all-seven acceptance and the V02-before-V03 gate remain unchanged. See the S335 packet. S335 landed at 32bff6d165ae23ae87d6d89d2110f55aad69375b; its fill loops close but all 56 Woven faces remain held for exact source-assembly residuals and inconsistent back transforms. S336 traces these joins without changing source geometry/stitches or releasing faces; see docs/research/epic17/G04-V02-WOVEN-PLACEMENT-DIAGNOSIS-S336.md. S336 verified source-order correction: production replay emits 0/56 Woven faces and reports zero browser errors; front sleeve/collar residuals are 0.47/0.71 cm, and back retains a sleeve-transform conflict plus 0.39/0.27 cm sleeve/collar residuals. All seven-recipe V02 acceptance remains unchanged; two nonrigid view conventions await explicit decision. Keep all Woven and Polo faces held and V03 gated; see the S336 packet and production replay. S337 completed exact Polo source/POM and 17-option hold diagnosis: all 34 faces remain held on the 0.68 cm sleeve-cap assembly residual; four current front POM anchors and 17 table-only Polo methods are traced. Maintainer approved keeping unresolved Woven cap/collar output held, with no nonrigid mapping. Two source-exact Polo POM references await approval for dimension-only display. See docs/research/epic17/G04-V02-POLO-REMAINING-HOLDS-S337.md.",
       "evidenceRefs": [
         "E-G04-S271-EXIT",
         "E-G04-S273-EXIT",
@@ -306,7 +306,15 @@
         "E-G04-S336-BUILD",
         "E-G04-S336-EXPORT",
         "E-G04-S336-CONTROL-CENTER",
-        "E-G04-S336-DECISION"
+        "E-G04-S336-DECISION",
+        "E-G04-S336-COMMIT",
+        "E-G04-S337-START",
+        "E-G04-S337-EXIT",
+        "E-G04-S337-SOURCE",
+        "E-G04-S337-BROWSER",
+        "E-G04-S337-FRONT-OVERLAY",
+        "E-G04-S337-BACK-OVERLAY",
+        "E-G04-S337-DECISION"
       ]
     },
     {
@@ -2835,7 +2843,7 @@
         "100% coverage",
         "maintainer gates"
       ],
-      "description": "S330 landed at 558564bab25ab0e717ee825f4c4ab54f9eba4ea2. S331 closes Polo color fills, but all 34 Polo front/back faces stay held. S332 traces the exact Polo sleeve topology across 17 configurations. S333 implements the approved exact Polo sleeve view map. 17 supported options; production replay withheld all 34 faces because the sleeve-cap residual is 0.68 cm vs the 0.25 cm limit; the rejected diagnostic shows a 0.96 cm shoulder gap. Integrated baseline remains 73 configurations / 146 faces / 32 option fields, 56 accepted and 90 held. Preserve all-seven V02 acceptance and keep V03 gated. See docs/planning/EPIC-17-ADMISSION.md, S333 packet, matrix and rendered hold evidence. S334 corrects source-encoded Woven view traversal only (front armhole reversed against sleeve capLeft; back yoke seam reversed against its exact source counterpart); no stitch graph or cut geometry change. Production replay: 0/56 Woven faces emitted; all 28 fronts remain held on open colorway contours and all 28 backs on the sleeve-cap placement conflict. Integrated baseline remains 56 accepted / 90 held across 73 configurations, 146 faces and 32 option fields. V02 stays In Progress; preserve all-seven acceptance and keep V03 Backlog. See the S334 packet and source/assembly diagnostics, matrix and reviewed screenshots. Next: investigate exact Woven front contour closure under approved mappings; do not release faces until full output gates pass. S334 landed as b27a444a020ff69330479554776977ab5aeb5be4. S335 is investigating exact Woven front colorway closure from source topology and previously approved view boundaries; the implementation must not infer a physical edge or weaken exact contour closure. All 56 Woven faces and 34 Polo faces remain held; integrated baseline stays 56 accepted / 90 held. V02 remains In Progress; all-seven acceptance and the V02-before-V03 gate remain unchanged. See the S335 packet. S336 verified source-order correction: production replay emits 0/56 Woven faces and reports zero browser errors; front sleeve/collar residuals are 0.47/0.71 cm, and back retains a sleeve-transform conflict plus 0.39/0.27 cm sleeve/collar residuals. All seven-recipe V02 acceptance remains unchanged; two nonrigid view conventions await explicit decision. Keep all Woven and Polo faces held and V03 gated; see the S336 packet and production replay.",
+      "description": "S330 landed at 558564bab25ab0e717ee825f4c4ab54f9eba4ea2. S331 closes Polo color fills, but all 34 Polo front/back faces stay held. S332 traces the exact Polo sleeve topology across 17 configurations. S333 implements the approved exact Polo sleeve view map. 17 supported options; production replay withheld all 34 faces because the sleeve-cap residual is 0.68 cm vs the 0.25 cm limit; the rejected diagnostic shows a 0.96 cm shoulder gap. Integrated baseline remains 73 configurations / 146 faces / 32 option fields, 56 accepted and 90 held. Preserve all-seven V02 acceptance and keep V03 gated. See docs/planning/EPIC-17-ADMISSION.md, S333 packet, matrix and rendered hold evidence. S334 corrects source-encoded Woven view traversal only (front armhole reversed against sleeve capLeft; back yoke seam reversed against its exact source counterpart); no stitch graph or cut geometry change. Production replay: 0/56 Woven faces emitted; all 28 fronts remain held on open colorway contours and all 28 backs on the sleeve-cap placement conflict. Integrated baseline remains 56 accepted / 90 held across 73 configurations, 146 faces and 32 option fields. V02 stays In Progress; preserve all-seven acceptance and keep V03 Backlog. See the S334 packet and source/assembly diagnostics, matrix and reviewed screenshots. Next: investigate exact Woven front contour closure under approved mappings; do not release faces until full output gates pass. S334 landed as b27a444a020ff69330479554776977ab5aeb5be4. S335 is investigating exact Woven front colorway closure from source topology and previously approved view boundaries; the implementation must not infer a physical edge or weaken exact contour closure. All 56 Woven faces and 34 Polo faces remain held; integrated baseline stays 56 accepted / 90 held. V02 remains In Progress; all-seven acceptance and the V02-before-V03 gate remain unchanged. See the S335 packet. S336 verified source-order correction: production replay emits 0/56 Woven faces and reports zero browser errors; front sleeve/collar residuals are 0.47/0.71 cm, and back retains a sleeve-transform conflict plus 0.39/0.27 cm sleeve/collar residuals. All seven-recipe V02 acceptance remains unchanged; two nonrigid view conventions await explicit decision. Keep all Woven and Polo faces held and V03 gated; see the S336 packet and production replay. S337 completed exact Polo source/POM and 17-option hold diagnosis: all 34 faces remain held on the 0.68 cm sleeve-cap assembly residual; four current front POM anchors and 17 table-only Polo methods are traced. Maintainer approved keeping unresolved Woven cap/collar output held, with no nonrigid mapping. Two source-exact Polo POM references await approval for dimension-only display. See docs/research/epic17/G04-V02-POLO-REMAINING-HOLDS-S337.md.",
       "expectation": "Front/back technical flats for every supported recipe/variant and proven CAD interchange. Pattern-linked side/oblique views are explicitly owned by G09/D04, so the complete view set is accepted only there.",
       "acceptanceCriteria": [
         "Complete every G04 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
@@ -3428,6 +3436,26 @@
           "at": "2026-10-01T17:10:59.037Z",
           "actor": "Codex",
           "text": "Updated Epic metadata (description: Admission packet: docs/planning/EPIC-17-ADMISSION.md; current state: PROJECT-STATE.md. S330 landed at 558564bab25ab0e717ee825f4c4ab54f9eba4ea2. S331 closes the source-bound, fill-only Polo outerStand and collar color areas. S332 traces the exact Polo sleeve topology across 17 configurations. S333 implements the maintainer-approved Polo sleeve view map, but production Chromium holds all 34 Polo faces after the 17-option replay found a 0.68 cm sleeve-cap residual vs 0.25 cm limit; the diagnostic shows a 0.96 cm shoulder gap. No source geometry changed. Integrated baseline remains 73 configurations / 146 faces / 32 option fields, 56 accepted and 90 held. Preserve all-seven V02 acceptance; do not start V03. See S333 packet, strict option matrix and rendered hold evidence. S334 corrects source-encoded Woven view traversal only (front armhole reversed against sleeve capLeft; back yoke seam reversed against its exact source counterpart); no stitch graph or cut geometry change. Production replay: 0/56 Woven faces emitted; all 28 fronts remain held on open colorway contours and all 28 backs on the sleeve-cap placement conflict. Integrated baseline remains 56 accepted / 90 held across 73 configurations, 146 faces and 32 option fields. V02 stays In Progress; preserve all-seven acceptance and keep V03 Backlog. See the S334 packet and source/assembly diagnostics, matrix and reviewed screenshots. Next: investigate exact Woven front contour closure under approved mappings; do not release faces until full output gates pass. S334 landed as b27a444a020ff69330479554776977ab5aeb5be4. S335 is investigating exact Woven front colorway closure from source topology and previously approved view boundaries; the implementation must not infer a physical edge or weaken exact contour closure. All 56 Woven faces and 34 Polo faces remain held; integrated baseline stays 56 accepted / 90 held. V02 remains In Progress; all-seven acceptance and the V02-before-V03 gate remain unchanged. See the S335 packet. S335 landed at 32bff6d165ae23ae87d6d89d2110f55aad69375b; its fill loops close but all 56 Woven faces remain held for exact source-assembly residuals and inconsistent back transforms. S336 traces these joins without changing source geometry/stitches or releasing faces; see docs/research/epic17/G04-V02-WOVEN-PLACEMENT-DIAGNOSIS-S336.md. S336 verified source-order correction: production replay emits 0/56 Woven faces and reports zero browser errors; front sleeve/collar residuals are 0.47/0.71 cm, and back retains a sleeve-transform conflict plus 0.39/0.27 cm sleeve/collar residuals. All seven-recipe V02 acceptance remains unchanged; two nonrigid view conventions await explicit decision. Keep all Woven and Polo faces held and V03 gated; see the S336 packet and production replay.). Record the verified S336 Woven hold and its two pending view decisions."
+        },
+        {
+          "at": "2026-10-01T17:14:01.269Z",
+          "actor": "Codex",
+          "text": "S337 started 2026-10-01 17:12:52 UTC from clean S336 9bce95df; refreshed origin/main remains an ancestor and slice 337 is reserved. Scope is independent Polo source/topology and production-output diagnosis; preserve every hold and the 0.25 cm gate. Packet: docs/research/epic17/G04-V02-POLO-REMAINING-HOLDS-S337.md."
+        },
+        {
+          "at": "2026-10-01T17:14:01.291Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: Admission packet: docs/planning/EPIC-17-ADMISSION.md; current state: PROJECT-STATE.md. S330 landed at 558564bab25ab0e717ee825f4c4ab54f9eba4ea2. S331 closes the source-bound, fill-only Polo outerStand and collar color areas. S332 traces the exact Polo sleeve topology across 17 configurations. S333 implements the maintainer-approved Polo sleeve view map, but production Chromium holds all 34 Polo faces after the 17-option replay found a 0.68 cm sleeve-cap residual vs 0.25 cm limit; the diagnostic shows a 0.96 cm shoulder gap. No source geometry changed. Integrated baseline remains 73 configurations / 146 faces / 32 option fields, 56 accepted and 90 held. Preserve all-seven V02 acceptance; do not start V03. See S333 packet, strict option matrix and rendered hold evidence. S334 corrects source-encoded Woven view traversal only (front armhole reversed against sleeve capLeft; back yoke seam reversed against its exact source counterpart); no stitch graph or cut geometry change. Production replay: 0/56 Woven faces emitted; all 28 fronts remain held on open colorway contours and all 28 backs on the sleeve-cap placement conflict. Integrated baseline remains 56 accepted / 90 held across 73 configurations, 146 faces and 32 option fields. V02 stays In Progress; preserve all-seven acceptance and keep V03 Backlog. See the S334 packet and source/assembly diagnostics, matrix and reviewed screenshots. Next: investigate exact Woven front contour closure under approved mappings; do not release faces until full output gates pass. S334 landed as b27a444a020ff69330479554776977ab5aeb5be4. S335 is investigating exact Woven front colorway closure from source topology and previously approved view boundaries; the implementation must not infer a physical edge or weaken exact contour closure. All 56 Woven faces and 34 Polo faces remain held; integrated baseline stays 56 accepted / 90 held. V02 remains In Progress; all-seven acceptance and the V02-before-V03 gate remain unchanged. See the S335 packet. S335 landed at 32bff6d165ae23ae87d6d89d2110f55aad69375b; its fill loops close but all 56 Woven faces remain held for exact source-assembly residuals and inconsistent back transforms. S336 traces these joins without changing source geometry/stitches or releasing faces; see docs/research/epic17/G04-V02-WOVEN-PLACEMENT-DIAGNOSIS-S336.md. S336 verified source-order correction: production replay emits 0/56 Woven faces and reports zero browser errors; front sleeve/collar residuals are 0.47/0.71 cm, and back retains a sleeve-transform conflict plus 0.39/0.27 cm sleeve/collar residuals. All seven-recipe V02 acceptance remains unchanged; two nonrigid view conventions await explicit decision. Keep all Woven and Polo faces held and V03 gated; see the S336 packet and production replay. S337 is inspecting remaining Polo source/topology and current 17-option production holds independently while the S336 Woven design choices are pending; retain all affected faces until the full gate passes. See docs/research/epic17/G04-V02-POLO-REMAINING-HOLDS-S337.md.). Record the admitted independent S337 Polo diagnosis while S336 design choices remain pending."
+        },
+        {
+          "at": "2026-10-01T17:34:08.598Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: Admission packet: docs/planning/EPIC-17-ADMISSION.md; current state: PROJECT-STATE.md. S330 landed at 558564bab25ab0e717ee825f4c4ab54f9eba4ea2. S331 closes the source-bound, fill-only Polo outerStand and collar color areas. S332 traces the exact Polo sleeve topology across 17 configurations. S333 implements the maintainer-approved Polo sleeve view map, but production Chromium holds all 34 Polo faces after the 17-option replay found a 0.68 cm sleeve-cap residual vs 0.25 cm limit; the diagnostic shows a 0.96 cm shoulder gap. No source geometry changed. Integrated baseline remains 73 configurations / 146 faces / 32 option fields, 56 accepted and 90 held. Preserve all-seven V02 acceptance; do not start V03. See S333 packet, strict option matrix and rendered hold evidence. S334 corrects source-encoded Woven view traversal only (front armhole reversed against sleeve capLeft; back yoke seam reversed against its exact source counterpart); no stitch graph or cut geometry change. Production replay: 0/56 Woven faces emitted; all 28 fronts remain held on open colorway contours and all 28 backs on the sleeve-cap placement conflict. Integrated baseline remains 56 accepted / 90 held across 73 configurations, 146 faces and 32 option fields. V02 stays In Progress; preserve all-seven acceptance and keep V03 Backlog. See the S334 packet and source/assembly diagnostics, matrix and reviewed screenshots. Next: investigate exact Woven front contour closure under approved mappings; do not release faces until full output gates pass. S334 landed as b27a444a020ff69330479554776977ab5aeb5be4. S335 is investigating exact Woven front colorway closure from source topology and previously approved view boundaries; the implementation must not infer a physical edge or weaken exact contour closure. All 56 Woven faces and 34 Polo faces remain held; integrated baseline stays 56 accepted / 90 held. V02 remains In Progress; all-seven acceptance and the V02-before-V03 gate remain unchanged. See the S335 packet. S335 landed at 32bff6d165ae23ae87d6d89d2110f55aad69375b; its fill loops close but all 56 Woven faces remain held for exact source-assembly residuals and inconsistent back transforms. S336 traces these joins without changing source geometry/stitches or releasing faces; see docs/research/epic17/G04-V02-WOVEN-PLACEMENT-DIAGNOSIS-S336.md. S336 verified source-order correction: production replay emits 0/56 Woven faces and reports zero browser errors; front sleeve/collar residuals are 0.47/0.71 cm, and back retains a sleeve-transform conflict plus 0.39/0.27 cm sleeve/collar residuals. All seven-recipe V02 acceptance remains unchanged; two nonrigid view conventions await explicit decision. Keep all Woven and Polo faces held and V03 gated; see the S336 packet and production replay. S337 completed exact Polo source/POM and 17-option hold diagnosis: all 34 faces remain held on the 0.68 cm sleeve-cap assembly residual; four current front POM anchors and 17 table-only Polo methods are traced. Maintainer approved keeping unresolved Woven cap/collar output held, with no nonrigid mapping. Two source-exact Polo POM references await approval for dimension-only display. See docs/research/epic17/G04-V02-POLO-REMAINING-HOLDS-S337.md.). Record the verified Slice 337 Polo hold diagnosis and current decision state."
+        },
+        {
+          "at": "2026-10-01T17:34:11.904Z",
+          "actor": "Codex",
+          "text": "S337 exit: Polo source/POM audit and 17-configuration/34-face Chromium replay complete. Zero SVGs; all 34 faces remain held on the 0.68 cm cap-ease residual. Exact same-face POM references are recorded; two display-only projections await approval. Maintainer approved keeping Woven cap/collar output held without nonrigid mapping. See E-G04-S337-EXIT and linked evidence."
         }
       ],
       "evidenceRefs": [
@@ -3569,7 +3597,15 @@
         "E-G04-S336-BUILD",
         "E-G04-S336-EXPORT",
         "E-G04-S336-CONTROL-CENTER",
-        "E-G04-S336-DECISION"
+        "E-G04-S336-DECISION",
+        "E-G04-S336-COMMIT",
+        "E-G04-S337-START",
+        "E-G04-S337-EXIT",
+        "E-G04-S337-SOURCE",
+        "E-G04-S337-BROWSER",
+        "E-G04-S337-FRONT-OVERLAY",
+        "E-G04-S337-BACK-OVERLAY",
+        "E-G04-S337-DECISION"
       ],
       "flagKey": null
     },
@@ -6267,7 +6303,7 @@
         "100% coverage",
         "export byte identity"
       ],
-      "description": "S331 verified: Polo outerStand, upperCollar and underCollar color areas use revision-bound approved fill-only closures. S332 traced the exact Polo sleeve topology across 17 configurations. S333 implements the approved exact Polo sleeve view map. Projection topology and source accounting validate across 17 supported options; production replay withheld all 34 faces because the rigid sleeve-cap residual is 0.68 cm vs the 0.25 cm limit. The rejected default diagnostic shows a 0.96 cm shoulder gap. Some Polo POMs remain table-only pending their own mapped anchors. Current integrated baseline remains 73 configurations / 146 faces / 32 option fields, 56 accepted / 90 held. Preserve the seven-recipe V02 criterion, all other holds, and the no-V03-before-V02 gate. See S333 implementation packet, option matrix and rendered evidence. S334 corrects source-encoded Woven view traversal only (front armhole reversed against sleeve capLeft; back yoke seam reversed against its exact source counterpart); no stitch graph or cut geometry change. Production replay: 0/56 Woven faces emitted; all 28 fronts remain held on open colorway contours and all 28 backs on the sleeve-cap placement conflict. Integrated baseline remains 56 accepted / 90 held across 73 configurations, 146 faces and 32 option fields. V02 stays In Progress; preserve all-seven acceptance and keep V03 Backlog. See the S334 packet and source/assembly diagnostics, matrix and reviewed screenshots. Next: investigate exact Woven front contour closure under approved mappings; do not release faces until full output gates pass. S334 landed as b27a444a020ff69330479554776977ab5aeb5be4. S335 is investigating exact Woven front colorway closure from source topology and previously approved view boundaries; the implementation must not infer a physical edge or weaken exact contour closure. All 56 Woven faces and 34 Polo faces remain held; integrated baseline stays 56 accepted / 90 held. V02 remains In Progress; all-seven acceptance and the V02-before-V03 gate remain unchanged. See the S335 packet. S335 landed at 32bff6d165ae23ae87d6d89d2110f55aad69375b; its fill loops close but all 56 Woven faces remain held for exact source-assembly residuals and inconsistent back transforms. S336 traces these joins without changing source geometry/stitches or releasing faces; see docs/research/epic17/G04-V02-WOVEN-PLACEMENT-DIAGNOSIS-S336.md. S336 verified source-order correction: production replay emits 0/56 Woven faces and reports zero browser errors; front sleeve/collar residuals are 0.47/0.71 cm, and back retains a sleeve-transform conflict plus 0.39/0.27 cm sleeve/collar residuals. All seven-recipe V02 acceptance remains unchanged; two nonrigid view conventions await explicit decision. Keep all Woven and Polo faces held and V03 gated; see the S336 packet and production replay.",
+      "description": "S331 verified: Polo outerStand, upperCollar and underCollar color areas use revision-bound approved fill-only closures. S332 traced the exact Polo sleeve topology across 17 configurations. S333 implements the approved exact Polo sleeve view map. Projection topology and source accounting validate across 17 supported options; production replay withheld all 34 faces because the rigid sleeve-cap residual is 0.68 cm vs the 0.25 cm limit. The rejected default diagnostic shows a 0.96 cm shoulder gap. Some Polo POMs remain table-only pending their own mapped anchors. Current integrated baseline remains 73 configurations / 146 faces / 32 option fields, 56 accepted / 90 held. Preserve the seven-recipe V02 criterion, all other holds, and the no-V03-before-V02 gate. See S333 implementation packet, option matrix and rendered evidence. S334 corrects source-encoded Woven view traversal only (front armhole reversed against sleeve capLeft; back yoke seam reversed against its exact source counterpart); no stitch graph or cut geometry change. Production replay: 0/56 Woven faces emitted; all 28 fronts remain held on open colorway contours and all 28 backs on the sleeve-cap placement conflict. Integrated baseline remains 56 accepted / 90 held across 73 configurations, 146 faces and 32 option fields. V02 stays In Progress; preserve all-seven acceptance and keep V03 Backlog. See the S334 packet and source/assembly diagnostics, matrix and reviewed screenshots. Next: investigate exact Woven front contour closure under approved mappings; do not release faces until full output gates pass. S334 landed as b27a444a020ff69330479554776977ab5aeb5be4. S335 is investigating exact Woven front colorway closure from source topology and previously approved view boundaries; the implementation must not infer a physical edge or weaken exact contour closure. All 56 Woven faces and 34 Polo faces remain held; integrated baseline stays 56 accepted / 90 held. V02 remains In Progress; all-seven acceptance and the V02-before-V03 gate remain unchanged. See the S335 packet. S335 landed at 32bff6d165ae23ae87d6d89d2110f55aad69375b; its fill loops close but all 56 Woven faces remain held for exact source-assembly residuals and inconsistent back transforms. S336 traces these joins without changing source geometry/stitches or releasing faces; see docs/research/epic17/G04-V02-WOVEN-PLACEMENT-DIAGNOSIS-S336.md. S336 verified source-order correction: production replay emits 0/56 Woven faces and reports zero browser errors; front sleeve/collar residuals are 0.47/0.71 cm, and back retains a sleeve-transform conflict plus 0.39/0.27 cm sleeve/collar residuals. All seven-recipe V02 acceptance remains unchanged; two nonrigid view conventions await explicit decision. Keep all Woven and Polo faces held and V03 gated; see the S336 packet and production replay. S337 completed exact Polo source/POM and 17-option hold diagnosis: all 34 faces remain held on the 0.68 cm sleeve-cap assembly residual; four current front POM anchors and 17 table-only Polo methods are traced. Maintainer approved keeping unresolved Woven cap/collar output held, with no nonrigid mapping. Two source-exact Polo POM references await approval for dimension-only display. See docs/research/epic17/G04-V02-POLO-REMAINING-HOLDS-S337.md.",
       "expectation": "Live vector output stays aligned with the same pattern and style revision and remains readable across all supported options.",
       "acceptanceCriteria": [
         "Render front/back vector views for all seven recipes and supported option combinations from one pattern/revision.",
@@ -6937,6 +6973,16 @@
           "at": "2026-10-01T17:09:08.460Z",
           "actor": "Codex",
           "text": "S336 verified exit: source-order endpoint correction passes focused gates; 0/56 Woven faces emitted and two view-deformation decisions remain pending."
+        },
+        {
+          "at": "2026-10-01T17:14:01.247Z",
+          "actor": "Codex",
+          "text": "S337 started 2026-10-01 17:12:52 UTC from clean S336 9bce95df; refreshed origin/main remains an ancestor and slice 337 is reserved. Scope is independent Polo source/topology and production-output diagnosis; preserve every hold and the 0.25 cm gate. Packet: docs/research/epic17/G04-V02-POLO-REMAINING-HOLDS-S337.md."
+        },
+        {
+          "at": "2026-10-01T17:34:11.722Z",
+          "actor": "Codex",
+          "text": "S337 exit: Polo source/POM audit and 17-configuration/34-face Chromium replay complete. Zero SVGs; all 34 faces remain held on the 0.68 cm cap-ease residual. Exact same-face POM references are recorded; two display-only projections await approval. Maintainer approved keeping Woven cap/collar output held without nonrigid mapping. See E-G04-S337-EXIT and linked evidence."
         }
       ],
       "evidenceRefs": [
@@ -7118,7 +7164,15 @@
         "E-G04-S336-BUILD",
         "E-G04-S336-EXPORT",
         "E-G04-S336-CONTROL-CENTER",
-        "E-G04-S336-DECISION"
+        "E-G04-S336-DECISION",
+        "E-G04-S336-COMMIT",
+        "E-G04-S337-START",
+        "E-G04-S337-EXIT",
+        "E-G04-S337-SOURCE",
+        "E-G04-S337-BROWSER",
+        "E-G04-S337-FRONT-OVERLAY",
+        "E-G04-S337-BACK-OVERLAY",
+        "E-G04-S337-DECISION"
       ],
       "flagKey": null
     },
@@ -9607,6 +9661,78 @@
       "sha256": null,
       "verified": true,
       "note": "Two explicit maintainer choices are recorded; no unapproved nonrigid sleeve or collar mapping is implemented."
+    },
+    {
+      "id": "E-G04-S336-COMMIT",
+      "kind": "commit",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-PLACEMENT-DIAGNOSIS-S336.md",
+      "commit": "9bce95df80e0598d24c42b49d211df81f9892325",
+      "sha256": null,
+      "verified": true,
+      "note": "Slice 336 landed after refreshed origin/main ancestry verification; source-order metadata, endpoint anchors, focused tests and all 56 Woven holds are recorded in the exit packet."
+    },
+    {
+      "id": "E-G04-S337-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-POLO-REMAINING-HOLDS-S337.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Slice 337 starts an independent exact-source diagnosis and current production replay for remaining Polo V02 holds while Woven view decisions are pending."
+    },
+    {
+      "id": "E-G04-S337-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/G04-V02-POLO-REMAINING-HOLDS-S337.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Source/POM diagnosis; production remains fail-closed on all 34 Polo faces and V02 remains open."
+    },
+    {
+      "id": "E-G04-S337-SOURCE",
+      "kind": "document",
+      "uri": "docs/research/epic17/S337-polo-holds/source-transform-matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "17 exact draftPolo configurations, 34 face projections, source transforms, stitches, POM anchors and notices."
+    },
+    {
+      "id": "E-G04-S337-BROWSER",
+      "kind": "browser",
+      "uri": "docs/research/epic17/S337-polo-holds/production-replay/matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "17-config/34-face production Chromium replay; zero SVGs, 34 actionable full holds, zero browser errors."
+    },
+    {
+      "id": "E-G04-S337-FRONT-OVERLAY",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S337-polo-holds/front-sleeve-join.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Inspected exact source-edge overlay for front sleeve cap/armhole endpoints and rigid transforms."
+    },
+    {
+      "id": "E-G04-S337-BACK-OVERLAY",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S337-polo-holds/back-sleeve-join.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Inspected exact source-edge overlay for back sleeve cap/armhole endpoints and rigid transforms."
+    },
+    {
+      "id": "E-G04-S337-DECISION",
+      "kind": "decision",
+      "uri": "docs/research/epic17/G04-V02-POLO-REMAINING-HOLDS-S337.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Maintainer approved the conservative S336 recommendation: keep Woven sleeve/collar views held; no deformation or acceptance change."
     }
   ]
 }
