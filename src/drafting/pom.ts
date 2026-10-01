@@ -49,6 +49,21 @@ export interface Pom {
   readonly anchor?: (block: Block) => Point;
   /** Optional source point on the mapped back role for BACK_FLAT callouts. */
   readonly backAnchor?: (block: Block) => Point;
+  /** Optional option/topology guard for when a face source anchor exists. */
+  readonly anchorAvailable?: (block: Block) => boolean;
+  readonly backAnchorAvailable?: (block: Block) => boolean;
+  /** Exact source role/edge for a front outline anchor when it differs from the recipe fallback. */
+  readonly anchorRoleId?: string;
+  readonly anchorEdgeId?: string;
+  /** Exact source role/edge for a back outline anchor when it differs from the recipe fallback. */
+  readonly backAnchorRoleId?: string;
+  readonly backAnchorEdgeId?: string;
+  /** Exact authored front-face mark reference; line marks identify one authored endpoint. */
+  readonly frontMarkAnchor?: {
+    readonly roleId: string;
+    readonly markName: string;
+    readonly point: "at" | "start" | "end";
+  };
   /** Optional authored mark entity on the back face for construction-specific callouts. */
   readonly backMarkAnchor?: { readonly roleId: string; readonly markName: string };
   /**

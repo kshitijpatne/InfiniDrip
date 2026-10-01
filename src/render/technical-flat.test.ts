@@ -53,6 +53,44 @@ describe("validateTechnicalFlat", () => {
     ] })).toEqual([]);
   });
 
+  it("validates a POM callout's exact represented source edge", () => {
+    const edgeSource = { ...source, sourceId: "pattern:tee:role:front" };
+    const outline = { ...path(), source: edgeSource, sourceEdgeIds: ["pattern:tee:role:front:edge:side"] };
+    const validCallout: TechnicalFlatPrimitive = { kind: "callout", id: "pom-side", layer: "CALLOUT", feature: "pom",
+      source, text: "Chest", anchor: { primitiveId: "front-outline", point: { x: 0, y: 0 },
+        sourceEntityId: "pattern:tee:role:front:edge:side" }, labelAt: { x: 15, y: 0 } };
+    expect(validateTechnicalFlat(view([outline, validCallout]))).toEqual([]);
+    const wrongEdgeTarget = { ...outline, sourceEdgeIds: ["pattern:tee:role:front:edge:neck"] };
+    expect(validateTechnicalFlat(view([wrongEdgeTarget, validCallout]))).toContainEqual(expect.objectContaining({
+      code: "UNRESOLVED_CALLOUT_TARGET", entityId: "pom-side",
+    }));
+    const wrongEdge = { ...validCallout, anchor: { ...validCallout.anchor,
+      sourceEntityId: "pattern:tee:role:front:edge:neck" } };
+    expect(validateTechnicalFlat(view([outline, wrongEdge]))).toContainEqual(expect.objectContaining({
+      code: "UNRESOLVED_CALLOUT_TARGET", entityId: "pom-side",
+      message: expect.stringContaining("source entity must be represented"),
+    }));
+    const wrongRole = { ...validCallout, anchor: { ...validCallout.anchor,
+      sourceEntityId: "pattern:tee:role:back:edge:side" } };
+    expect(validateTechnicalFlat(view([outline, wrongRole]))).toContainEqual(expect.objectContaining({
+      code: "UNRESOLVED_CALLOUT_TARGET", entityId: "pom-side",
+    }));
+    const unlistedEdges = { ...outline, sourceEdgeIds: undefined };
+    expect(validateTechnicalFlat(view([unlistedEdges, validCallout]))).toEqual([]);
+    const nonPathRoleTarget: TechnicalFlatPrimitive = { kind: "mark", id: "front-source-mark", layer: "CLOSURE",
+      feature: "closure", source: edgeSource, markKind: "button", markName: "source-mark", at: { x: 0, y: 0 } };
+    expect(validateTechnicalFlat(view([nonPathRoleTarget, validCallout]))).toContainEqual(expect.objectContaining({
+      code: "UNRESOLVED_CALLOUT_TARGET", entityId: "pom-side",
+    }));
+    const sourceMark: TechnicalFlatPrimitive = { kind: "mark", id: "front-button", layer: "CLOSURE", feature: "closure",
+      source: { ...source, sourceId: "pattern:tee:mark:buttonPlacket:button-1" }, markKind: "button",
+      markName: "button-1", at: { x: 2, y: 2 } };
+    const markCallout: TechnicalFlatPrimitive = { ...validCallout, id: "pom-button",
+      anchor: { primitiveId: "front-button", point: { x: 2, y: 2 },
+        sourceEntityId: "pattern:tee:mark:buttonPlacket:button-1" } };
+    expect(validateTechnicalFlat(view([sourceMark, markCallout]))).toEqual([]);
+  });
+
   it("rejects invalid view identity, version, view kind and units", () => {
     const invalid = {
       ...view(), viewId: " ", revisionId: "", recipeId: " ", schemaVersion: 2,

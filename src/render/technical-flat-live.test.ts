@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { GARMENTS, STANDARD_M, defaultGarmentOptions } from "../drafting";
+import { edgeEnd, edgeStart } from "../drafting/piece";
 import { appendApprovedViewPairReflection, appendOppositeSideReflection, appendPhysicalPairReflection, compileTechnicalFlatLiveView, placeTechnicalFlatPrimitive, reflectFoldPrimitive, reflectPhysicalPairPrimitive, reflectPrimitiveAcrossLine, technicalFlatAssemblyNotices, technicalFlatPrimitiveRole } from "./technical-flat-live";
 import { assembleTechnicalFlatRoles } from "./technical-flat-assembly";
 import { G04_TECHNICAL_FLAT_MAPPINGS } from "./technical-flat-mapping";
@@ -345,7 +346,7 @@ describe("compileTechnicalFlatLiveView", () => {
       expect(result.view).toBeNull();
       expect(result.issues).toContainEqual(expect.objectContaining({ stage: "pom",
         sourceId: "flat:trouser:BACK_FLAT:component:waistband:outline",
-        message: expect.stringContaining("same-revision outline") }));
+        message: expect.stringContaining("exact mapped same-revision source entity") }));
     } finally {
       mappings.trouser = saved;
     }
@@ -490,6 +491,15 @@ describe("compileTechnicalFlatLiveView", () => {
         if (recipeId === "polo") {
           expect(result.view).toBeNull();
           expect(result.colorway).toBeNull();
+          const pomIssues = result.issues.filter((issue) => issue.stage === "pom");
+          expect(pomIssues.every((issue) => issue.message.includes("no readable label/leader position"))).toBe(true);
+          if (kind === "FRONT_FLAT") {
+            expect(pomIssues.map((issue) => issue.sourceId)).toEqual([
+              "pom:polo:finished-collar-stand-height", "pom:polo:stand-front-rise",
+            ]);
+          } else {
+            expect(pomIssues.map((issue) => issue.sourceId)).toEqual(["pom:polo:sleeve-bicep-width"]);
+          }
           expect(result.issues).toContainEqual(expect.objectContaining({ stage: "assembly",
             sourceId: "stitch:Sleeve-cap ease", message: expect.stringContaining("0.25 cm acceptance tolerance") }));
           expect(result.issues.some((issue) => issue.stage === "geometry"
@@ -510,6 +520,28 @@ describe("compileTechnicalFlatLiveView", () => {
     }
   });
 
+  it("resolves Polo front mark and back edge POMs through their own same-face role transforms", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "polo")!;
+    const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
+    const shoulder = block.roles.front!.edges.find((edge) => edge.name === "shoulder")!;
+    const shoulderPoint = edgeEnd(shoulder);
+    const backHem = block.roles.back!.edges.find((edge) => edge.name === "hem")!;
+    const backHemPoint = edgeStart(backHem);
+    const poms = [
+      { label: "Front shoulder source", measure: () => 1, anchor: () => shoulderPoint,
+        anchorRoleId: "front", anchorEdgeId: "shoulder" },
+      { label: "Front button source", measure: () => 1,
+        frontMarkAnchor: { roleId: "buttonPlacket", markName: "button-1", point: "at" as const } },
+      { label: "Back hem source", measure: () => 1, backAnchor: () => backHemPoint,
+        backAnchorRoleId: "back", backAnchorEdgeId: "hem" },
+    ];
+    for (const kind of ["FRONT_FLAT", "BACK_FLAT"] as const) {
+      const result = compileTechnicalFlatLiveView({ recipe: { ...recipe, poms }, block,
+        revisionId: `polo-pom-role-${kind}`, kind, placements: [], colorHex: "#456789", texture: "smooth", shine: 0 });
+      expect(result.issues.filter((issue) => issue.stage === "pom")).toEqual([]);
+    }
+  });
+
   it("withholds every Polo option face while the mapped sleeve-cap residual exceeds tolerance", () => {
     const recipe = GARMENTS.find((candidate) => candidate.name === "polo")!;
     const optionSets = [defaultGarmentOptions(recipe.options ?? []), ...(recipe.options ?? []).flatMap((option) => [
@@ -526,6 +558,8 @@ describe("compileTechnicalFlatLiveView", () => {
         expect(result.colorway).toBeNull();
         expect(result.issues).toContainEqual(expect.objectContaining({ stage: "assembly",
           sourceId: "stitch:Sleeve-cap ease", message: expect.stringContaining("0.25 cm acceptance tolerance") }));
+        const poms = result.issues.filter((issue) => issue.stage === "pom");
+        expect(poms.every((issue) => issue.message.includes("no readable label/leader position"))).toBe(true);
       }
     }
   });

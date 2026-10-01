@@ -125,9 +125,15 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
         assert.ok(card.evidenceRefs.includes(evidenceId));
         assert.ok(epic.evidenceRefs.includes(evidenceId));
       }
+      for (const evidenceId of ["E-G04-S337-COMMIT", "E-G04-S338-START"]) {
+        assert.ok(g04V02?.evidenceRefs.includes(evidenceId));
+        assert.ok(card.evidenceRefs.includes(evidenceId));
+        assert.ok(epic.evidenceRefs.includes(evidenceId));
+      }
       assert.ok(g04V02?.comments.some((comment) => /S336 verified exit: source-order endpoint correction passes focused gates; 0\/56 Woven faces emitted and two view-deformation decisions remain pending/.test(comment.text)));
       assert.ok(g04V02?.comments.some((comment) => /S337 started 2026-10-01 17:12:52 UTC from clean S336 9bce95df/.test(comment.text)));
       assert.ok(g04V02?.comments.some((comment) => /S337 exit: Polo source\/POM audit and 17-configuration\/34-face Chromium replay complete/.test(comment.text)));
+      assert.ok(g04V02?.comments.some((comment) => /S338 started 2026-10-01 17:37:45 UTC from clean S337 b113f25/.test(comment.text)));
       for (const evidenceId of ["E-G04-S332-START", "E-G04-S332-EXIT", "E-G04-S332-OPTIONS", "E-G04-S332-RENDERED",
         "E-G04-S333-START", "E-G04-S333-EXIT", "E-G04-S333-BROWSER", "E-G04-S333-RENDERED", "E-G04-S333-COVERAGE",
         "E-G04-S333-COMMIT"]) {
@@ -163,6 +169,10 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
         "9bce95df80e0598d24c42b49d211df81f9892325");
       assert.equal(board.evidence.find((entry) => entry.id === "E-G04-S337-EXIT")?.uri,
         "docs/research/epic17/G04-V02-POLO-REMAINING-HOLDS-S337.md");
+      assert.equal(board.evidence.find((entry) => entry.id === "E-G04-S337-COMMIT")?.commit,
+        "b113f25da4b28d075326c5ec30f73030a79c2f35");
+      assert.equal(board.evidence.find((entry) => entry.id === "E-G04-S338-START")?.uri,
+        "docs/research/epic17/G04-V02-POLO-POM-ANCHORS-S338.md");
       assert.equal(board.evidence.find((entry) => entry.id === "E-G04-S337-BROWSER")?.uri,
         "docs/research/epic17/S337-polo-holds/production-replay/matrix.json");
       assert.match(board.evidence.find((entry) => entry.id === "E-G04-S337-DECISION")?.note ?? "",

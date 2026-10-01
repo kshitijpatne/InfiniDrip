@@ -23,11 +23,11 @@ import { draftFitted, FITTED_GRAMMAR } from "./fitted";
 import { draftTank, TANK_GRAMMAR, tankGuidance, TANK_NOTCHES, TANK_POMS, tankFrontNeckline, tankBackNeckline } from "./tank";
 import { NecklineParams, NECKLINE_DEFAULT } from "./neckline";
 import { TSHIRT_NOTCHES } from "./tshirt-notches";
-import { TSHIRT_POMS, TEE_POMS } from "./tshirt-pom";
+import { TEE_POMS } from "./tshirt-pom";
 import { TSHIRT_GRADE, TSHIRT_SIZES } from "./tshirt-grade";
 import { FITTED_NOTCHES, FITTED_POMS } from "./fitted-tables";
 import { GarmentOption, GarmentOptions } from "./options";
-import { draftPolo, POLO_GRAMMAR, poloGuidance, POLO_ALLOWANCES, POLO_NOTCHES, POLO_OPTION_DEFINITIONS, POLO_POMS, resolvePoloOptions } from "./polo";
+import { draftPolo, POLO_GRAMMAR, poloGuidance, POLO_ALLOWANCES, POLO_NOTCHES, POLO_OPTION_DEFINITIONS, POLO_POMS, POLO_BODY_POMS, resolvePoloOptions } from "./polo";
 import { draftWovenShirt, WOVEN_SHIRT_GRAMMAR, wovenShirtGuidance, WOVEN_SHIRT_ALLOWANCES, WOVEN_SHIRT_GRADE, WOVEN_SHIRT_NOTCHES, WOVEN_SHIRT_POMS } from "./shirt";
 import { WOVEN_SHIRT_FIELDS, WOVEN_SHIRT_OPTION_DEFINITIONS } from "./shirt-contract";
 import { edgeLength, pieceEdge } from "./piece";
@@ -333,7 +333,7 @@ export const POLO: GarmentRecipe = {
   draft: (m, options = {}) => draftPolo(m, options),
   grammar: POLO_GRAMMAR,
   notches: POLO_NOTCHES,
-  poms: [...TSHIRT_POMS.filter((pom) => pom.label !== "Body length (HPS–hem)"), ...POLO_POMS],
+  poms: [...POLO_BODY_POMS, ...POLO_POMS],
   grade: TSHIRT_GRADE,
   sizes: TSHIRT_SIZES,
   checks: sleevedTopPanelChecks(true),

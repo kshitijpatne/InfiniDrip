@@ -66,7 +66,7 @@ export const G04_TECHNICAL_FLAT_MAPPINGS: Readonly<Record<string, TechnicalFlatR
   polo: makeMapping("polo",
     [shell("front"), shell("sleeve"), overlay("buttonPlacket"), interior("buttonholePlacket"), overlay("outerStand"), interior("innerStand"), overlay("underCollar"), overlay("upperCollar")],
     [shell("back"), shell("sleeve"), overlay("outerStand"), interior("innerStand"), overlay("underCollar"), overlay("upperCollar")],
-    "front"),
+    "front", "back"),
   "woven-shirt": makeMapping("woven-shirt",
     [shell("front"), shell("sleeve"), overlay("pocket"), overlay("outerStand"), interior("innerStand"), overlay("underCollar"), overlay("upperCollar"), overlay("buttonholePlacket"), overlay("buttonPlacket"), overlay("sleeveBand")],
     [shell("back"), shell("yoke"), shell("sleeve"), overlay("outerStand"), interior("innerStand"), overlay("underCollar"), overlay("upperCollar"), overlay("sleeveBand")],
@@ -265,21 +265,52 @@ export function mapTechnicalFlatSources(
   for (const [index, pom] of poms.entries()) {
     const pomId = `pom:${recipeId}:${stableSegment(pom.label) || index}`;
     if (pom.anchor) {
-      const anchorRole = block.roles[mapping.pomAnchorRole];
+      const roleId = pom.anchorRoleId ?? mapping.pomAnchorRole;
+      const anchorRole = block.roles[roleId];
       if (!anchorRole) {
         issues.push({ code: "MISSING_POM_ANCHOR_ROLE", sourceId: pomId,
-          message: `POM anchor role “${mapping.pomAnchorRole}” is missing.` });
+          message: `POM anchor role “${roleId}” is missing.` });
         continue;
       }
+      if (pom.anchorAvailable && !pom.anchorAvailable(block)) {
+        sources.push({ id: `flat:${recipeId}:pom:${stableSegment(pom.label) || index}`, kind: "pom", feature: "pom",
+          layer: "CALLOUT", sourceId: pomId, viewKinds: ["FRONT_FLAT"], treatment: "TABLE_ONLY" });
+        notices.push({ id: `notice:${pomId}:front-source-not-represented`, feature: "pom",
+          reason: "SOURCE_NOT_REPRESENTED", sourceId: pomId,
+          message: `POM “${pom.label}” has no front source anchor in this option and remains table-only.` });
+      } else {
       const point = pom.anchor(block);
       if (!Number.isFinite(point.x) || !Number.isFinite(point.y)) {
         issues.push({ code: "INVALID_POM_ANCHOR", sourceId: pomId,
           message: `POM “${pom.label}” has a non-finite anchor.` });
         continue;
       }
-      sources.push({ id: `flat:${recipeId}:FRONT_FLAT:component:${mapping.pomAnchorRole}:outline:callout:${stableSegment(pom.label) || index}`,
+      const edge = pom.anchorEdgeId ? anchorRole.edges.find((candidate) => candidate.name === pom.anchorEdgeId) : undefined;
+      if (pom.anchorEdgeId && (!edge || ![edge.kind === "line" ? edge.start : edge.curve.start,
+        edge.kind === "line" ? edge.end : edge.curve.end].some((candidate) => candidate.x === point.x && candidate.y === point.y))) {
+        issues.push({ code: "INVALID_POM_ANCHOR", sourceId: pomId,
+          message: `POM “${pom.label}” must anchor to a vertex on “${roleId}.${pom.anchorEdgeId}”.` });
+        continue;
+      }
+      sources.push({ id: `flat:${recipeId}:FRONT_FLAT:component:${roleId}:outline:callout:${stableSegment(pom.label) || index}`,
         kind: "pom", feature: "pom", layer: "CALLOUT", sourceId: pomId, viewKinds: ["FRONT_FLAT"], treatment: "ANCHORED",
-        targetGeometryId: `flat:${recipeId}:FRONT_FLAT:component:${mapping.pomAnchorRole}:outline`, anchorPoint: point });
+        targetGeometryId: `flat:${recipeId}:FRONT_FLAT:component:${roleId}:outline`, anchorPoint: point,
+        ...(pom.anchorEdgeId ? { relatedIds: [`edge:${roleId}:${pom.anchorEdgeId}`] } : {}) });
+      }
+    } else if (pom.frontMarkAnchor) {
+      const { roleId, markName, point: pointName } = pom.frontMarkAnchor;
+      const mark = block.roles[roleId]?.marks?.find((candidate) => candidate.name === markName);
+      const anchorPoint = mark && ("at" in mark ? pointName === "at" ? mark.at : undefined
+        : pointName === "start" ? mark.start : pointName === "end" ? mark.end : undefined);
+      if (!block.roles[roleId] || !anchorPoint) {
+        issues.push({ code: "INVALID_POM_ANCHOR", sourceId: pomId,
+          message: `POM “${pom.label}” references missing front mark point “${roleId}.${markName}.${pointName}”.` });
+        continue;
+      }
+      sources.push({ id: `flat:${recipeId}:FRONT_FLAT:mark:${roleId}:${markName}:callout:${stableSegment(pom.label) || index}`,
+        kind: "pom", feature: "pom", layer: "CALLOUT", sourceId: pomId, viewKinds: ["FRONT_FLAT"], treatment: "ANCHORED",
+        targetGeometryId: `flat:${recipeId}:FRONT_FLAT:mark:${roleId}:${markName}`, anchorPoint,
+        relatedIds: [`mark:${roleId}:${markName}`] });
     } else {
       sources.push({ id: `flat:${recipeId}:pom:${stableSegment(pom.label) || index}`, kind: "pom", feature: "pom", layer: "CALLOUT",
         sourceId: pomId, viewKinds: ["FRONT_FLAT"], treatment: "TABLE_ONLY" });
@@ -287,11 +318,19 @@ export function mapTechnicalFlatSources(
         message: `POM “${pom.label}” has no front geometry anchor and is table-only on the front view.`, sourceId: pomId });
     }
     if (pom.backAnchor) {
-      const roleId = mapping.backPomAnchorRole;
+      const roleId = pom.backAnchorRoleId ?? mapping.backPomAnchorRole;
       const anchorRole = roleId ? block.roles[roleId] : undefined;
       if (!roleId || !anchorRole) {
         issues.push({ code: "MISSING_POM_ANCHOR_ROLE", sourceId: pomId,
           message: `POM “${pom.label}” has a back anchor but no mapped back role.` });
+        continue;
+      }
+      if (pom.backAnchorAvailable && !pom.backAnchorAvailable(block)) {
+        sources.push({ id: `flat:${recipeId}:pom:${stableSegment(pom.label) || index}:back`, kind: "pom", feature: "pom",
+          layer: "CALLOUT", sourceId: pomId, viewKinds: ["BACK_FLAT"], treatment: "TABLE_ONLY" });
+        notices.push({ id: `notice:${pomId}:back-source-not-represented`, feature: "pom",
+          reason: "SOURCE_NOT_REPRESENTED", sourceId: pomId,
+          message: `POM “${pom.label}” has no back source anchor in this option and remains table-only.` });
         continue;
       }
       const point = pom.backAnchor(block);
@@ -300,9 +339,17 @@ export function mapTechnicalFlatSources(
           message: `POM “${pom.label}” has a non-finite back anchor.` });
         continue;
       }
+      const edge = pom.backAnchorEdgeId ? anchorRole.edges.find((candidate) => candidate.name === pom.backAnchorEdgeId) : undefined;
+      if (pom.backAnchorEdgeId && (!edge || ![edge.kind === "line" ? edge.start : edge.curve.start,
+        edge.kind === "line" ? edge.end : edge.curve.end].some((candidate) => candidate.x === point.x && candidate.y === point.y))) {
+        issues.push({ code: "INVALID_POM_ANCHOR", sourceId: pomId,
+          message: `POM “${pom.label}” must anchor to a vertex on “${roleId}.${pom.backAnchorEdgeId}”.` });
+        continue;
+      }
       sources.push({ id: `flat:${recipeId}:BACK_FLAT:component:${roleId}:outline:callout:${stableSegment(pom.label) || index}`,
         kind: "pom", feature: "pom", layer: "CALLOUT", sourceId: pomId, viewKinds: ["BACK_FLAT"], treatment: "ANCHORED",
-        targetGeometryId: `flat:${recipeId}:BACK_FLAT:component:${roleId}:outline`, anchorPoint: point });
+        targetGeometryId: `flat:${recipeId}:BACK_FLAT:component:${roleId}:outline`, anchorPoint: point,
+        ...(pom.backAnchorEdgeId ? { relatedIds: [`edge:${roleId}:${pom.backAnchorEdgeId}`] } : {}) });
     } else if (pom.backMarkAnchor) {
       const { roleId, markName } = pom.backMarkAnchor;
       const mark = block.roles[roleId]?.marks?.find((candidate) => candidate.name === markName);

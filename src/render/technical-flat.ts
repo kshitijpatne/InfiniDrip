@@ -140,7 +140,7 @@ export interface FlatArtworkPrimitive extends FlatPrimitiveBase {
 export interface FlatCalloutPrimitive extends FlatPrimitiveBase {
   readonly kind: "callout";
   readonly text: string;
-  readonly anchor: { readonly primitiveId: string; readonly point: FlatPoint };
+  readonly anchor: { readonly primitiveId: string; readonly point: FlatPoint; readonly sourceEntityId?: string };
   readonly labelAt: FlatPoint;
 }
 
@@ -335,6 +335,18 @@ export function validateTechnicalFlat(view: TechnicalFlatView): TechnicalFlatIss
   for (const primitive of view.primitives) {
     if (primitive.kind === "callout" && !geometryIds.has(primitive.anchor.primitiveId)) {
       issues.push({ code: "UNRESOLVED_CALLOUT_TARGET", entityId: primitive.id, message: "Callout target must identify geometry in this view." });
+    }
+    if (primitive.kind === "callout" && primitive.anchor.sourceEntityId !== undefined) {
+      const target = view.primitives.find((candidate) => candidate.id === primitive.anchor.primitiveId);
+      const edgeReference = /^pattern:([^:]+):role:([^:]+):edge:(.+)$/.exec(primitive.anchor.sourceEntityId);
+      const roleSourceId = edgeReference ? `pattern:${edgeReference[1]}:role:${edgeReference[2]}` : undefined;
+      const exactEdgeId = edgeReference ? `pattern:${edgeReference[1]}:role:${edgeReference[2]}:edge:${edgeReference[3]}` : undefined;
+      const sourceIsRepresented = target?.source.sourceId === primitive.anchor.sourceEntityId
+        || (roleSourceId !== undefined && target?.source.sourceId === roleSourceId
+          && target.kind === "path" && (target.sourceEdgeIds === undefined
+            || target.sourceEdgeIds.includes(exactEdgeId ?? "")));
+      if (!sourceIsRepresented) issues.push({ code: "UNRESOLVED_CALLOUT_TARGET", entityId: primitive.id,
+        message: "Callout source entity must be represented by its same-revision target geometry." });
     }
   }
 

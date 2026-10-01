@@ -538,7 +538,8 @@ describe("renderTechnicalFlatSvg", () => {
 
     const leader = renderTechnicalFlatSvg(makeView([outline, {
       kind: "callout", id: "leader-callout", layer: "CALLOUT", feature: "pom", source,
-      text: "Chest width", anchor: { primitiveId: "outline", point: { x: 1, y: 6 } }, labelAt: { x: 11, y: 6 },
+      text: "Chest width", anchor: { primitiveId: "outline", point: { x: 1, y: 6 },
+        sourceEntityId: "pattern:tee:role:front:edge:side" }, labelAt: { x: 11, y: 6 },
     }, {
       kind: "text", id: "under-leader", layer: "ANNOTATION", feature: "annotation", source,
       at: { x: 5, y: 6 }, text: "Crossing note",
@@ -546,6 +547,7 @@ describe("renderTechnicalFlatSvg", () => {
     expect(leader.issues).toEqual([]);
     expect(leader.textBounds["under-leader"]?.minY).not.toBe(6 - measure("Crossing note", 0.32, "Arial").ascentCm);
     expect(leader.svg).toContain('data-callout-target="outline"');
+    expect(leader.svg).toContain('data-callout-source-entity="pattern:tee:role:front:edge:side"');
     expect(leader.svg).toContain('data-label-for="leader-callout"');
   });
 

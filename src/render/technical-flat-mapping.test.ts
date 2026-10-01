@@ -37,7 +37,8 @@ describe("mapTechnicalFlatSources", () => {
       }
       const backAnchors = mapping.sources.filter((source) => source.kind === "pom"
         && source.treatment === "ANCHORED" && source.viewKinds.includes("BACK_FLAT"));
-      expect(backAnchors, recipe.name).toHaveLength(recipe.name === "trouser" || recipe.name === "skirt" ? 2 : recipe.name === "tank" || recipe.name === "tee" ? 4 : 0);
+      expect(backAnchors, recipe.name).toHaveLength(recipe.name === "trouser" || recipe.name === "skirt" ? 2
+        : recipe.name === "tank" || recipe.name === "tee" ? 4 : recipe.name === "polo" ? 10 : 0);
       if (recipe.name === "tank" || recipe.name === "tee") {
         expect(G04_TECHNICAL_FLAT_MAPPINGS[recipe.name].pomAnchorRole).toBe("front");
         const backRole = "back";
@@ -80,6 +81,27 @@ describe("mapTechnicalFlatSources", () => {
           anchorPoint: { x: expect.any(Number), y: STANDARD_M.hipDepth },
         });
       }
+      if (recipe.name === "polo") {
+        expect(mapping.sources.find((source) => source.sourceId === "pom:polo:finished-placket-length")).toMatchObject({
+          targetGeometryId: "flat:polo:FRONT_FLAT:component:buttonPlacket:outline",
+          relatedIds: ["edge:buttonPlacket:attachmentRaw"], treatment: "ANCHORED",
+        });
+        expect(mapping.sources.find((source) => source.sourceId === "pom:polo:finished-placket-width")).toMatchObject({
+          targetGeometryId: "flat:polo:FRONT_FLAT:mark:buttonPlacket:attachmentLine",
+          relatedIds: ["mark:buttonPlacket:attachmentLine"], treatment: "ANCHORED",
+        });
+        expect(mapping.sources.find((source) => source.sourceId === "pom:polo:body-chest-finished")).toMatchObject({
+          targetGeometryId: "flat:polo:FRONT_FLAT:component:front:outline",
+          relatedIds: ["edge:front:side"], treatment: "ANCHORED",
+        });
+        expect(mapping.sources.find((source) => source.sourceId === "pom:polo:back-body-length-hps-hem"
+          && source.viewKinds.includes("BACK_FLAT"))).toMatchObject({
+          targetGeometryId: "flat:polo:BACK_FLAT:component:back:outline",
+          relatedIds: ["edge:back:hem"], treatment: "ANCHORED",
+        });
+        expect(mapping.sources.find((source) => source.sourceId === "pom:polo:finished-pointed-collar-leaf"))
+          .toMatchObject({ treatment: "TABLE_ONLY" });
+      }
       if (recipe.name === "trouser") {
         expect(G04_TECHNICAL_FLAT_MAPPINGS.trouser.faces[0].roles).toContainEqual({
           roleId: "flyUnderlap", treatment: "INTERIOR_HIDDEN", behindRoleId: "frontLeft",
@@ -100,6 +122,19 @@ describe("mapTechnicalFlatSources", () => {
         });
       }
     }
+  });
+
+  it("keeps absent Polo vent anchors table-only when the option removes the vent geometry", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "polo")!;
+    const options = { ...defaultGarmentOptions(recipe.options ?? []), sideVentDepth: 0 };
+    const block = recipe.draft(STANDARD_M, options);
+    const mapped = mapTechnicalFlatSources(recipe.name, block, recipe.poms);
+    expect(mapped.issues).toEqual([]);
+    expect(mapped.sources.find((source) => source.sourceId === "pom:polo:front-side-vent-depth"))
+      .toMatchObject({ treatment: "TABLE_ONLY", viewKinds: ["FRONT_FLAT"] });
+    expect(mapped.notices).toContainEqual(expect.objectContaining({
+      sourceId: "pom:polo:front-side-vent-depth", reason: "SOURCE_NOT_REPRESENTED",
+    }));
   });
 
   it("keeps every declared numeric option endpoint inside its recipe's mapped topology", () => {
@@ -209,6 +244,17 @@ describe("mapTechnicalFlatSources", () => {
     expect(mapTechnicalFlatSources(recipe.name, missingRole, [invalidAnchor]).issues).toContainEqual(expect.objectContaining({
       code: "MISSING_POM_ANCHOR_ROLE",
     }));
+    const polo = GARMENTS.find((candidate) => candidate.name === "polo")!;
+    const poloBlock = polo.draft(STANDARD_M, defaultGarmentOptions(polo.options ?? []));
+    expect(mapTechnicalFlatSources("polo", poloBlock, [{ label: "Invalid front edge", measure: () => 1,
+      anchor: () => ({ x: 0, y: 0 }), anchorRoleId: "front", anchorEdgeId: "missing" }]).issues)
+      .toContainEqual(expect.objectContaining({ code: "INVALID_POM_ANCHOR" }));
+    expect(mapTechnicalFlatSources("polo", poloBlock, [{ label: "Invalid front mark", measure: () => 1,
+      frontMarkAnchor: { roleId: "buttonPlacket", markName: "missing", point: "at" } }]).issues)
+      .toContainEqual(expect.objectContaining({ code: "INVALID_POM_ANCHOR" }));
+    expect(mapTechnicalFlatSources("polo", poloBlock, [{ label: "Invalid back edge", measure: () => 1,
+      backAnchor: () => ({ x: 0, y: 0 }), backAnchorRoleId: "back", backAnchorEdgeId: "missing" }]).issues)
+      .toContainEqual(expect.objectContaining({ code: "INVALID_POM_ANCHOR" }));
   });
 
   it("requires an admitted back role when a source method declares a back anchor", () => {

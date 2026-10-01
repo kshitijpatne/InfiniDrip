@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 1193,
-  "updatedAt": "2026-10-01T17:34:11.904Z",
+  "revision": 1217,
+  "updatedAt": "2026-10-01T19:02:06.915Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -314,7 +314,9 @@
         "E-G04-S337-BROWSER",
         "E-G04-S337-FRONT-OVERLAY",
         "E-G04-S337-BACK-OVERLAY",
-        "E-G04-S337-DECISION"
+        "E-G04-S337-DECISION",
+        "E-G04-S337-COMMIT",
+        "E-G04-S338-START"
       ]
     },
     {
@@ -3456,6 +3458,16 @@
           "at": "2026-10-01T17:34:11.904Z",
           "actor": "Codex",
           "text": "S337 exit: Polo source/POM audit and 17-configuration/34-face Chromium replay complete. Zero SVGs; all 34 faces remain held on the 0.68 cm cap-ease residual. Exact same-face POM references are recorded; two display-only projections await approval. Maintainer approved keeping Woven cap/collar output held without nonrigid mapping. See E-G04-S337-EXIT and linked evidence."
+        },
+        {
+          "at": "2026-10-01T17:41:55.034Z",
+          "actor": "Codex",
+          "text": "S338 started 2026-10-01 17:37:45 UTC from clean S337 b113f25. Scope: same-revision exact POM source-role/edge/mark anchors on represented Polo faces. The fold-axis collar-leaf and cross-face hem-drop display choices remain pending; do not project either reference. All Polo/Woven faces remain held. Packet: docs/research/epic17/G04-V02-POLO-POM-ANCHORS-S338.md."
+        },
+        {
+          "at": "2026-10-01T19:02:06.915Z",
+          "actor": "Codex",
+          "text": "S338 implemented same-revision Polo POM source mapping. Focused tests/build/export checks pass and fresh replay holds all 34 faces with no browser errors. Branch coverage remains 98.13% and diagnostic candidate labels visibly crowd/overlap; both are open blockers. Two stale S326 Trouser test expectations also need a numbered follow-up. See the S338 packet and linked evidence. Next: resolve these quality/readability gates; retain every face hold."
         }
       ],
       "evidenceRefs": [
@@ -3605,7 +3617,15 @@
         "E-G04-S337-BROWSER",
         "E-G04-S337-FRONT-OVERLAY",
         "E-G04-S337-BACK-OVERLAY",
-        "E-G04-S337-DECISION"
+        "E-G04-S337-DECISION",
+        "E-G04-S337-COMMIT",
+        "E-G04-S338-START",
+        "E-G04-S338-EXIT",
+        "E-G04-S338-BROWSER",
+        "E-G04-S338-RENDERED",
+        "E-G04-S338-BUILD",
+        "E-G04-S338-EXPORT",
+        "E-G04-S338-COVERAGE"
       ],
       "flagKey": null
     },
@@ -6983,6 +7003,16 @@
           "at": "2026-10-01T17:34:11.722Z",
           "actor": "Codex",
           "text": "S337 exit: Polo source/POM audit and 17-configuration/34-face Chromium replay complete. Zero SVGs; all 34 faces remain held on the 0.68 cm cap-ease residual. Exact same-face POM references are recorded; two display-only projections await approval. Maintainer approved keeping Woven cap/collar output held without nonrigid mapping. See E-G04-S337-EXIT and linked evidence."
+        },
+        {
+          "at": "2026-10-01T17:41:54.880Z",
+          "actor": "Codex",
+          "text": "S338 started 2026-10-01 17:37:45 UTC from clean S337 b113f25. Scope: same-revision exact POM source-role/edge/mark anchors on represented Polo faces. The fold-axis collar-leaf and cross-face hem-drop display choices remain pending; do not project either reference. All Polo/Woven faces remain held. Packet: docs/research/epic17/G04-V02-POLO-POM-ANCHORS-S338.md."
+        },
+        {
+          "at": "2026-10-01T19:02:05.911Z",
+          "actor": "Codex",
+          "text": "S338 implemented same-revision Polo POM source mapping. Focused tests/build/export checks pass and fresh replay holds all 34 faces with no browser errors. Branch coverage remains 98.13% and diagnostic candidate labels visibly crowd/overlap; both are open blockers. Two stale S326 Trouser test expectations also need a numbered follow-up. See the S338 packet and linked evidence. Next: resolve these quality/readability gates; retain every face hold."
         }
       ],
       "evidenceRefs": [
@@ -7172,7 +7202,15 @@
         "E-G04-S337-BROWSER",
         "E-G04-S337-FRONT-OVERLAY",
         "E-G04-S337-BACK-OVERLAY",
-        "E-G04-S337-DECISION"
+        "E-G04-S337-DECISION",
+        "E-G04-S337-COMMIT",
+        "E-G04-S338-START",
+        "E-G04-S338-EXIT",
+        "E-G04-S338-BROWSER",
+        "E-G04-S338-RENDERED",
+        "E-G04-S338-BUILD",
+        "E-G04-S338-EXPORT",
+        "E-G04-S338-COVERAGE"
       ],
       "flagKey": null
     },
@@ -9733,6 +9771,78 @@
       "sha256": null,
       "verified": true,
       "note": "Maintainer approved the conservative S336 recommendation: keep Woven sleeve/collar views held; no deformation or acceptance change."
+    },
+    {
+      "id": "E-G04-S337-COMMIT",
+      "kind": "commit",
+      "uri": "docs/research/epic17/G04-V02-POLO-REMAINING-HOLDS-S337.md",
+      "commit": "b113f25da4b28d075326c5ec30f73030a79c2f35",
+      "sha256": null,
+      "verified": true,
+      "note": "Slice 337 landed with exact Polo 17-option source/POM diagnosis, overlays and full 34-face hold replay."
+    },
+    {
+      "id": "E-G04-S338-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-POLO-POM-ANCHORS-S338.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Slice 338 begins per-POM source-role resolution for visible Polo geometry; two hidden/cross-face POM display conventions remain gated on approval."
+    },
+    {
+      "id": "E-G04-S338-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/G04-V02-POLO-POM-ANCHORS-S338.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S338 source-exact Polo POM implementation exit. 120 focused tests, build, protected exports and 17/34 production hold replay pass; branch coverage remains 98.13% versus 100%, and rendered diagnostic label overlap remains unresolved. All Polo views stay held."
+    },
+    {
+      "id": "E-G04-S338-BROWSER",
+      "kind": "browser",
+      "uri": "docs/research/epic17/S338-polo-pom-anchors/production-replay/matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Fresh Chromium replay: 17 Polo configurations, 34 face requests, zero emitted SVG, all 34 held, zero browser errors."
+    },
+    {
+      "id": "E-G04-S338-RENDERED",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S338-polo-pom-anchors/source-anchor-diagnostic-matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Manual diagnostic review found crowded/overlapping candidate POM labels; diagnostic is not accepted production output. Production UI holds are readable and emit no partial face."
+    },
+    {
+      "id": "E-G04-S338-BUILD",
+      "kind": "build",
+      "uri": "docs/research/epic17/G04-V02-POLO-POM-ANCHORS-S338.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "TypeScript check and production build pass; existing large-chunk advisory remains."
+    },
+    {
+      "id": "E-G04-S338-EXPORT",
+      "kind": "test",
+      "uri": "docs/research/epic17/G04-V02-POLO-POM-ANCHORS-S338.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Protected DXF/export regression tests passed 63/63; no baseline or legacy DXF code changed."
+    },
+    {
+      "id": "E-G04-S338-COVERAGE",
+      "kind": "test",
+      "uri": "docs/research/epic17/G04-V02-POLO-POM-ANCHORS-S338.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Focused drafting/render coverage reached 100% statements/functions/lines but failed branch threshold at 98.13%; two stale S326 Trouser assertions were also identified and remain open."
     }
   ]
 }

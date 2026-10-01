@@ -333,7 +333,9 @@ function styleFor(primitive: TechnicalFlatPrimitive, positions: ReadonlyMap<stri
     }
     case "callout": {
       const labelAt = positions.get(primitive.id) ?? primitive.labelAt;
-      return `<g ${shared} data-layer="${primitive.layer}" data-callout-target="${escapeXml(primitive.anchor.primitiveId)}"><path d="M${fmt(primitive.anchor.point.x)} ${fmt(primitive.anchor.point.y)} L${fmt(labelAt.x)} ${fmt(labelAt.y)}" fill="none" stroke="#344d60" stroke-width="${EDGE_STROKE_CM}"/><circle cx="${fmt(primitive.anchor.point.x)}" cy="${fmt(primitive.anchor.point.y)}" r="${MARK_RADIUS_CM / 2}" fill="#fff" stroke="#344d60" stroke-width="${EDGE_STROKE_CM}"/></g>`;
+      const sourceEntity = primitive.anchor.sourceEntityId === undefined ? ""
+        : ` data-callout-source-entity="${escapeXml(primitive.anchor.sourceEntityId)}"`;
+      return `<g ${shared} data-layer="${primitive.layer}" data-callout-target="${escapeXml(primitive.anchor.primitiveId)}"${sourceEntity}><path d="M${fmt(primitive.anchor.point.x)} ${fmt(primitive.anchor.point.y)} L${fmt(labelAt.x)} ${fmt(labelAt.y)}" fill="none" stroke="#344d60" stroke-width="${EDGE_STROKE_CM}"/><circle cx="${fmt(primitive.anchor.point.x)}" cy="${fmt(primitive.anchor.point.y)}" r="${MARK_RADIUS_CM / 2}" fill="#fff" stroke="#344d60" stroke-width="${EDGE_STROKE_CM}"/></g>`;
     }
   }
 }

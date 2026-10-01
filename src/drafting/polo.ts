@@ -17,6 +17,7 @@ import { sleevedTopGuidance } from "./tshirt-guidance";
 import { Pom, seam, spanY } from "./pom";
 import { PieceNotches } from "./tshirt-notches";
 import { TSHIRT_NOTCHES } from "./tshirt-notches";
+import { TSHIRT_POMS } from "./tshirt-pom";
 import type { ComponentResult } from "./component";
 import { componentNode, composeBlock, garmentGrammar } from "./grammar";
 import { buildPoloCollarGeometry, PoloCollarGeometry, PoloCollarIssueCode, PoloNecklineInputs, reversePoloEdge } from "./polo-collar";
@@ -537,6 +538,9 @@ export const POLO_POMS: readonly Pom[] = [
     label: "Finished placket length",
     tolerance: 0.3,
     measure: (block) => seam(rolePiece(block, "buttonPlacket"), "attachmentRaw"),
+    anchor: (block) => edgeStart(pieceEdge(rolePiece(block, "buttonPlacket"), "attachmentRaw")),
+    anchorRoleId: "buttonPlacket",
+    anchorEdgeId: "attachmentRaw",
   },
   {
     label: "Finished placket width",
@@ -550,6 +554,7 @@ export const POLO_POMS: readonly Pom[] = [
       }
       return distance(attachment.start, fold.start);
     },
+    frontMarkAnchor: { roleId: "buttonPlacket", markName: "attachmentLine", point: "start" },
   },
   {
     label: "Button spacing",
@@ -558,11 +563,15 @@ export const POLO_POMS: readonly Pom[] = [
       markedPoint(block, "buttonPlacket", "button-1"),
       markedPoint(block, "buttonPlacket", "button-2")
     ),
+    frontMarkAnchor: { roleId: "buttonPlacket", markName: "button-1", point: "at" },
   },
   {
     label: "Finished collar stand height",
     tolerance: 0.2,
     measure: (block) => seam(rolePiece(block, "outerStand"), "frontEnd"),
+    anchor: (block) => edgeStart(pieceEdge(rolePiece(block, "outerStand"), "frontEnd")),
+    anchorRoleId: "outerStand",
+    anchorEdgeId: "frontEnd",
   },
   {
     label: "Finished pointed collar leaf",
@@ -579,6 +588,9 @@ export const POLO_POMS: readonly Pom[] = [
       return edgeStart(pieceEdge(front, "neckline")).y - edgeStart(pieceEdge(back, "neckline")).y -
         edgeStart(pieceEdge(stand, "frontNeckline")).y;
     },
+    anchor: (block) => edgeStart(pieceEdge(rolePiece(block, "outerStand"), "frontNeckline")),
+    anchorRoleId: "outerStand",
+    anchorEdgeId: "frontNeckline",
   },
   {
     label: "Collar point extension",
@@ -587,6 +599,9 @@ export const POLO_POMS: readonly Pom[] = [
       const tip = pieceEdge(rolePiece(block, "upperCollar"), "frontTip");
       return edgeEnd(tip).x - edgeStart(tip).x;
     },
+    anchor: (block) => edgeEnd(pieceEdge(rolePiece(block, "upperCollar"), "frontTip")),
+    anchorRoleId: "upperCollar",
+    anchorEdgeId: "frontTip",
   },
   {
     label: "Front side-vent depth",
@@ -595,6 +610,12 @@ export const POLO_POMS: readonly Pom[] = [
       const vent = rolePiece(block, "front").edges.find((edge) => edge.name === "vent");
       return vent ? edgeLength(vent) : 0;
     },
+    anchor: (block) => {
+      return edgeStart(pieceEdge(rolePiece(block, "front"), "vent"));
+    },
+    anchorAvailable: (block) => rolePiece(block, "front").edges.some((edge) => edge.name === "vent"),
+    anchorRoleId: "front",
+    anchorEdgeId: "vent",
   },
   {
     label: "Back side-vent depth",
@@ -603,16 +624,28 @@ export const POLO_POMS: readonly Pom[] = [
       const vent = rolePiece(block, "back").edges.find((edge) => edge.name === "vent");
       return vent ? edgeLength(vent) : 0;
     },
+    backAnchor: (block) => {
+      return edgeStart(pieceEdge(rolePiece(block, "back"), "vent"));
+    },
+    backAnchorAvailable: (block) => rolePiece(block, "back").edges.some((edge) => edge.name === "vent"),
+    backAnchorRoleId: "back",
+    backAnchorEdgeId: "vent",
   },
   {
     label: "Front body length (HPS–hem)",
     tolerance: 1.3,
     measure: (block) => spanY(rolePiece(block, "front"), { edge: "shoulder", at: "start" }, { edge: "hem", at: "start" }),
+    anchor: (block) => edgeStart(pieceEdge(rolePiece(block, "front"), "hem")),
+    anchorRoleId: "front",
+    anchorEdgeId: "hem",
   },
   {
     label: "Back body length (HPS–hem)",
     tolerance: 1.3,
     measure: (block) => spanY(rolePiece(block, "back"), { edge: "shoulder", at: "start" }, { edge: "hem", at: "start" }),
+    backAnchor: (block) => edgeStart(pieceEdge(rolePiece(block, "back"), "hem")),
+    backAnchorRoleId: "back",
+    backAnchorEdgeId: "hem",
   },
   {
     label: "Back hem drop",
@@ -621,6 +654,42 @@ export const POLO_POMS: readonly Pom[] = [
       edgeStart(pieceEdge(rolePiece(block, "front"), "hem")).y,
   },
 ];
+
+/** Polo-local copies add view targets without changing Tee's shared POM map. */
+export const POLO_BODY_POMS: readonly Pom[] = TSHIRT_POMS
+  .filter((pom) => pom.label !== "Body length (HPS–hem)")
+  .map((pom) => {
+    switch (pom.label) {
+      case "Body chest (finished)": return { ...pom, backAnchor: (b) => edgeStart(pieceEdge(rolePiece(b, "back"), "side")),
+        anchorRoleId: "front", anchorEdgeId: "side", backAnchorRoleId: "back", backAnchorEdgeId: "side" };
+      case "Across shoulder": return { ...pom, backAnchor: (b) => edgeEnd(pieceEdge(rolePiece(b, "back"), "shoulder")),
+        anchorRoleId: "front", anchorEdgeId: "shoulder", backAnchorRoleId: "back", backAnchorEdgeId: "shoulder" };
+      case "Neck width": return { ...pom, backAnchor: (b) => edgeStart(pieceEdge(rolePiece(b, "back"), "shoulder")),
+        anchorRoleId: "front", anchorEdgeId: "shoulder", backAnchorRoleId: "back", backAnchorEdgeId: "shoulder" };
+      case "Front neck drop": return { ...pom, anchorRoleId: "front", anchorEdgeId: "neckline" };
+      case "Shoulder seam": return { ...pom,
+        anchor: (b) => edgeStart(pieceEdge(rolePiece(b, "front"), "shoulder")),
+        backAnchor: (b) => edgeStart(pieceEdge(rolePiece(b, "back"), "shoulder")),
+        anchorRoleId: "front", anchorEdgeId: "shoulder", backAnchorRoleId: "back", backAnchorEdgeId: "shoulder" };
+      case "Armhole (front + back)": return { ...pom,
+        anchor: (b) => edgeStart(pieceEdge(rolePiece(b, "front"), "armhole")),
+        backAnchor: (b) => edgeStart(pieceEdge(rolePiece(b, "back"), "armhole")),
+        anchorRoleId: "front", anchorEdgeId: "armhole", backAnchorRoleId: "back", backAnchorEdgeId: "armhole" };
+      case "Sleeve length (cap–hem)": return { ...pom,
+        anchor: (b) => edgeEnd(pieceEdge(rolePiece(b, "sleeve"), "capLeft")),
+        backAnchor: (b) => edgeEnd(pieceEdge(rolePiece(b, "sleeve"), "capRight")),
+        anchorRoleId: "sleeve", anchorEdgeId: "capLeft", backAnchorRoleId: "sleeve", backAnchorEdgeId: "capRight" };
+      case "Sleeve bicep width": return { ...pom,
+        anchor: (b) => edgeEnd(pieceEdge(rolePiece(b, "sleeve"), "sideLeft")),
+        backAnchor: (b) => edgeStart(pieceEdge(rolePiece(b, "sleeve"), "sideRight")),
+        anchorRoleId: "sleeve", anchorEdgeId: "sideLeft", backAnchorRoleId: "sleeve", backAnchorEdgeId: "sideRight" };
+      case "Sleeve hem": return { ...pom,
+        anchor: (b) => edgeEnd(pieceEdge(rolePiece(b, "sleeve"), "hem")),
+        backAnchor: (b) => edgeStart(pieceEdge(rolePiece(b, "sleeve"), "hem")),
+        anchorRoleId: "sleeve", anchorEdgeId: "hem", backAnchorRoleId: "sleeve", backAnchorEdgeId: "hem" };
+      default: return pom;
+    }
+  });
 
 /** Notches and grainlines for every Polo piece. Sleeve/body tables are reused
  * verbatim because those pieces are the current tee geometry, not lookalikes. */

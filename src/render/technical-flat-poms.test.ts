@@ -4,6 +4,7 @@ import type { Pom } from "../drafting/pom";
 import { GARMENTS } from "../drafting/recipe";
 import { STANDARD_M } from "../drafting/measurements";
 import { defaultGarmentOptions } from "../drafting/options";
+import { edgeStart } from "../drafting/piece";
 import type { TechnicalFlatPrimitive } from "./technical-flat";
 import { compileTechnicalFlatSourceGeometry } from "./technical-flat-geometry";
 import { compileTrouserWaistbandFragments } from "./technical-flat-fragment-compiler";
@@ -51,12 +52,11 @@ describe("technical-flat POM callouts", () => {
       const geometry = faceGeometry(recipe.name, block, "FRONT_FLAT");
       const front = compileTechnicalFlatPomCallouts(recipe.name, block, revisionId,
         "FRONT_FLAT", recipe.poms ?? [], geometry);
-      const declaredAnchored = (recipe.poms ?? []).filter((pom) => pom.anchor).length;
+      const declaredAnchored = (recipe.poms ?? []).filter((pom) => pom.anchor || pom.frontMarkAnchor).length;
       expect(front.issues, recipe.name).toEqual([]);
       expect(front.callouts, recipe.name).toHaveLength(declaredAnchored);
-      expect(front.callouts?.every((callout) => callout.anchor.primitiveId
-        === `flat:${recipe.name}:FRONT_FLAT:component:${mapping.pomAnchorRole}:outline`
-        && callout.source.revisionId === revisionId)).toBe(true);
+      expect(front.callouts?.every((callout) => callout.source.revisionId === revisionId
+        && (recipe.name !== "polo" || typeof callout.anchor.sourceEntityId === "string"))).toBe(true);
       expect(front.callouts?.every((callout) => callout.anchor.point.x !== callout.labelAt.x
         || callout.anchor.point.y !== callout.labelAt.y)).toBe(true);
       expect(front.callouts?.every((callout) => /: \d+\.\d cm/.test(callout.text))).toBe(true);
@@ -81,9 +81,11 @@ describe("technical-flat POM callouts", () => {
           expect(back.callouts?.find((callout) => callout.source.sourceId === "pom:trouser:waistband-depth-finished")
             ?.anchor.primitiveId).toBe("live-flat:trouser:BACK_FLAT:waistband:mark:centerBack");
           expect(back.notices.some((notice) => notice.sourceId === "pom:trouser:waistband-depth-finished")).toBe(false);
-        } else {
+        } else if (recipe.name !== "polo") {
           expect(back.callouts?.every((callout) => callout.anchor.primitiveId
             === `flat:${recipe.name}:BACK_FLAT:component:${mapping.backPomAnchorRole}:outline`)).toBe(true);
+        } else {
+          expect(back.callouts?.every((callout) => typeof callout.anchor.sourceEntityId === "string")).toBe(true);
         }
       }
       expect(back.notices.some((notice) => notice.message.includes("front-only source anchor")))
@@ -123,6 +125,44 @@ describe("technical-flat POM callouts", () => {
     expect(back.notices[0].sourceId).toBe("pom:tee:one-anchor");
   });
 
+  it("keeps an authored but unprojected edge POM table-only on that face", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "polo")!;
+    const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
+    const edge = block.roles.upperCollar.edges.find((candidate) => candidate.name === "centerBack")!;
+    const point = edge.kind === "line" ? edgeStart(edge) : edge.curve.start;
+    const poms: Pom[] = [{ label: "Unprojected edge", measure: () => 2, anchor: () => point,
+      anchorRoleId: "upperCollar", anchorEdgeId: "centerBack" }];
+    const projected = faceGeometry(recipe.name, block, "FRONT_FLAT").map((primitive) => primitive.id
+      === "flat:polo:FRONT_FLAT:component:upperCollar:outline" && primitive.kind === "path"
+      ? { ...primitive, sourceEdgeIds: (primitive.sourceEdgeIds ?? []).filter((edgeId) => !edgeId.endsWith(":edge:centerBack")) }
+      : primitive);
+    const result = compileTechnicalFlatPomCallouts(recipe.name, block, revisionId, "FRONT_FLAT", poms,
+      projected);
+    expect(result.issues).toEqual([]);
+    expect(result.callouts).toEqual([]);
+    expect(result.notices).toContainEqual(expect.objectContaining({ sourceId: "pom:polo:unprojected-edge",
+      reason: "SOURCE_NOT_REPRESENTED", message: expect.stringContaining("value remains table-only") }));
+  });
+
+  it("rejects a custom resolver that changes an exact source edge point or entity", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "tee")!;
+    const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
+    const edge = block.roles.front.edges[0]!;
+    const point = edgeStart(edge);
+    const pom: Pom = { label: "Resolver source check", measure: () => 2, anchor: () => point,
+      anchorRoleId: "front", anchorEdgeId: edge.name };
+    const targetGeometryId = "flat:tee:FRONT_FLAT:component:front:outline";
+    const sourceEntityId = `pattern:tee:role:front:edge:${edge.name}`;
+    const resolve = (sourcePoint: { x: number; y: number }, entity = sourceEntityId) => ({ targetGeometryId,
+      point, sourcePoint, sourceEntityId: entity });
+    for (const wrong of [resolve({ x: point.x + 1, y: point.y }), resolve({ x: point.x, y: point.y + 1 }),
+      resolve(point, `${sourceEntityId}:wrong`)]) {
+      expect(compileTechnicalFlatPomCallouts(recipe.name, block, revisionId, "FRONT_FLAT", [pom],
+        faceGeometry(recipe.name, block, "FRONT_FLAT"), () => wrong).issues)
+        .toContainEqual(expect.objectContaining({ code: "MISSING_ANCHOR_GEOMETRY" }));
+    }
+  });
+
   it("rejects unsupported revisions, target geometry and mapped roles", () => {
     const recipe = GARMENTS.find((candidate) => candidate.name === "tee");
     if (!recipe) throw new Error("Tee recipe is missing.");
@@ -132,12 +172,13 @@ describe("technical-flat POM callouts", () => {
     expect(invalidRevision.issues).toContainEqual(expect.objectContaining({ code: "INVALID_REVISION_ID" }));
     const unsupported = compileTechnicalFlatPomCallouts("unsupported", block, revisionId, "FRONT_FLAT", [], []);
     expect(unsupported.issues).toContainEqual(expect.objectContaining({ code: "UNSUPPORTED_RECIPE" }));
-    const noGeometry = compileTechnicalFlatPomCallouts(recipe.name, block, revisionId, "FRONT_FLAT", [], []);
+    const anchoredPom = recipe.poms.find((pom) => pom.anchor)!;
+    const noGeometry = compileTechnicalFlatPomCallouts(recipe.name, block, revisionId, "FRONT_FLAT", [anchoredPom], []);
     expect(noGeometry.issues).toContainEqual(expect.objectContaining({ code: "MISSING_ANCHOR_GEOMETRY" }));
     const wrongRevisionGeometry = compileTechnicalFlatPomCallouts(recipe.name, block, revisionId,
-      "FRONT_FLAT", [], faceGeometry(recipe.name, block, "FRONT_FLAT", "older-revision"));
+      "FRONT_FLAT", [anchoredPom], faceGeometry(recipe.name, block, "FRONT_FLAT", "older-revision"));
     expect(wrongRevisionGeometry.issues).toContainEqual(expect.objectContaining({ code: "MISSING_ANCHOR_GEOMETRY" }));
-    const wrongKindGeometry = compileTechnicalFlatPomCallouts(recipe.name, block, revisionId, "FRONT_FLAT", [], [
+    const wrongKindGeometry = compileTechnicalFlatPomCallouts(recipe.name, block, revisionId, "FRONT_FLAT", [anchoredPom], [
       { kind: "text", id: "flat:tee:FRONT_FLAT:component:front:outline", layer: "ANNOTATION", feature: "annotation",
         source: { sourceClass: "PATTERN_DERIVED", sourceId: "pattern:tee:front", revisionId }, at: { x: 0, y: 0 }, text: "not geometry" },
     ]);
@@ -145,6 +186,10 @@ describe("technical-flat POM callouts", () => {
     const noRoleBlock = { ...block, roles: { sleeve: block.roles.sleeve } };
     const noRole = compileTechnicalFlatPomCallouts(recipe.name, noRoleBlock, revisionId, "FRONT_FLAT", [], []);
     expect(noRole.issues.map((issue) => issue.code)).toEqual([]);
+    const noMappedRole = compileTechnicalFlatPomCallouts(recipe.name, block, revisionId, "BACK_FLAT",
+      [{ label: "No mapped role", measure: () => 4, backAnchor: () => ({ x: 0, y: 0 }), backAnchorRoleId: "" }],
+      faceGeometry(recipe.name, block, "BACK_FLAT"));
+    expect(noMappedRole.issues.map((issue) => issue.code)).toContain("MISSING_ANCHOR_ROLE");
   });
 
   it("fails closed when a back anchor has no mapped role or exact same-revision outline", () => {
@@ -213,6 +258,23 @@ describe("technical-flat POM callouts", () => {
     const crowded = Array.from({ length: 80 }, (_, index): Pom => ({ ...base, label: `Same mark ${index}` }));
     expect(compileTechnicalFlatPomCallouts("trouser", block, revisionId, "BACK_FLAT", crowded,
       mapped.geometry, mapped.resolve).issues.some((issue) => issue.code === "LABEL_COLLISION")).toBe(true);
+
+    const polo = GARMENTS.find((candidate) => candidate.name === "polo")!;
+    const poloBlock = polo.draft(STANDARD_M, defaultGarmentOptions(polo.options ?? []));
+    const placketWidth = polo.poms?.find((pom) => pom.label === "Finished placket width")!;
+    const lineMark = compileTechnicalFlatPomCallouts("polo", poloBlock, revisionId, "FRONT_FLAT", [placketWidth],
+      faceGeometry("polo", poloBlock, "FRONT_FLAT"));
+    expect(lineMark.issues).toEqual([]);
+    expect(lineMark.callouts?.[0]?.anchor.sourceEntityId)
+      .toBe("pattern:polo:mark:buttonPlacket:attachmentLine");
+
+    const noVentBlock = polo.draft(STANDARD_M, { ...defaultGarmentOptions(polo.options ?? []), sideVentDepth: 0 });
+    const frontVentPom = polo.poms?.find((pom) => pom.label === "Front side-vent depth")!;
+    const noVent = compileTechnicalFlatPomCallouts("polo", noVentBlock, revisionId, "FRONT_FLAT", [frontVentPom],
+      faceGeometry("polo", noVentBlock, "FRONT_FLAT"));
+    expect(noVent.issues).toEqual([]);
+    expect(noVent.notices).toContainEqual(expect.objectContaining({ sourceId: "pom:polo:front-side-vent-depth",
+      reason: "SOURCE_NOT_REPRESENTED", message: expect.stringContaining("remains table-only") }));
   });
 
   it("reports malformed methods, duplicate labels, invalid values and source anchors", () => {

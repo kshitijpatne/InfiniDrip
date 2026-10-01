@@ -1,0 +1,262 @@
+{
+  "caseId": "polo-sideVentDepth-min",
+  "kind": "FRONT_FLAT",
+  "state": {
+    "url": "http://127.0.0.1:4177/",
+    "stage": "refine",
+    "text": "InfiniDrip\nPolo\n\nParametric garment design workspace\n\nUnsaved changes · field value history recorded\nUndo\nRedo\nSave\nLoad\n1 Garment\n2 Measure\n3 Style\n4 Check\n5 Export\nCurrent stage: 4 Check\nReview the pattern and digital checks. Fix flagged inputs before exporting.\n← Back\nNext →\nBack hem drop is positive while the vent is disabled — set back hem drop to 0 cm or enable a side vent.\nReview in Style\nNeed a quick guide?\nTake the tour\nProject & styles · Untitled tee\nReview the current draft and any guidance before exporting. Digital checks do not replace a sewn sample.\nDesign readiness\n⚠ 3 to review · Guidance\nVIEW\nPattern\nBody\nTechnical flat\nAssembled\n\nThe current design could not be rendered: Piece \"front\" has no edge named \"vent\"",
+    "buttons": [
+      {
+        "id": "undo-pattern",
+        "text": "Undo",
+        "disabled": false
+      },
+      {
+        "id": "redo-pattern",
+        "text": "Redo",
+        "disabled": true
+      },
+      {
+        "id": "save-pattern",
+        "text": "Save",
+        "disabled": false
+      },
+      {
+        "id": "load-pattern",
+        "text": "Load",
+        "disabled": false
+      },
+      {
+        "id": "workspace-confirm-cancel",
+        "text": "Keep editing",
+        "disabled": false
+      },
+      {
+        "id": "workspace-confirm-accept",
+        "text": "Load saved workspace",
+        "disabled": false
+      },
+      {
+        "id": "journey-step-start",
+        "text": "1 Garment",
+        "disabled": false
+      },
+      {
+        "id": "journey-step-measure",
+        "text": "2 Measure",
+        "disabled": false
+      },
+      {
+        "id": "journey-step-fit",
+        "text": "3 Style",
+        "disabled": false
+      },
+      {
+        "id": "journey-step-refine",
+        "text": "4 Check",
+        "disabled": false
+      },
+      {
+        "id": "journey-step-output",
+        "text": "5 Export",
+        "disabled": true
+      },
+      {
+        "id": "journey-back",
+        "text": "← Back",
+        "disabled": false
+      },
+      {
+        "id": "journey-next",
+        "text": "Next →",
+        "disabled": true
+      },
+      {
+        "id": "journey-correction",
+        "text": "Review in Style",
+        "disabled": false
+      },
+      {
+        "id": "tutorial-replay",
+        "text": "Take the tour",
+        "disabled": false
+      },
+      {
+        "id": "garment-tee",
+        "text": "TeeEveryday knit topShort sleeve · crew neck",
+        "disabled": false
+      },
+      {
+        "id": "garment-fitted",
+        "text": "Darted teeShaped knit topDarted fit · short sleeve",
+        "disabled": false
+      },
+      {
+        "id": "garment-tank",
+        "text": "TankSleeveless knit topStrap and neckline controls",
+        "disabled": false
+      },
+      {
+        "id": "garment-polo",
+        "text": "PoloCollared knit topPlacket, collar, vents & hem controls",
+        "disabled": false
+      },
+      {
+        "id": "garment-woven-shirt",
+        "text": "Woven shirtStable woven shirtYoke, placket and pocket",
+        "disabled": false
+      },
+      {
+        "id": "garment-skirt",
+        "text": "SkirtSimple woven skirtWaist and hem controls",
+        "disabled": false
+      },
+      {
+        "id": "garment-trouser",
+        "text": "TrouserStraight-leg trouserRise, leg and pocket controls",
+        "disabled": false
+      },
+      {
+        "id": "surface-new-choose-file",
+        "text": "Choose artwork file",
+        "disabled": false
+      },
+      {
+        "id": "surface-new-clear-file",
+        "text": "Clear selected image",
+        "disabled": false
+      },
+      {
+        "id": "surface-add",
+        "text": "Add placement",
+        "disabled": false
+      },
+      {
+        "id": "appearance-toggle",
+        "text": "Adjust appearance",
+        "disabled": false
+      },
+      {
+        "id": "",
+        "text": "SmoothFlat screen cue",
+        "disabled": false
+      },
+      {
+        "id": "export-svg",
+        "text": "SVG",
+        "disabled": true
+      },
+      {
+        "id": "export-dxf",
+        "text": "DXF",
+        "disabled": true
+      },
+      {
+        "id": "export-pdf",
+        "text": "PDF",
+        "disabled": true
+      },
+      {
+        "id": "export-a0",
+        "text": "A0",
+        "disabled": true
+      },
+      {
+        "id": "export-techpack",
+        "text": "Tech Pack",
+        "disabled": true
+      },
+      {
+        "id": "export-projector",
+        "text": "Projector",
+        "disabled": true
+      },
+      {
+        "id": "export-surface-sheet",
+        "text": "Print sheet",
+        "disabled": true
+      },
+      {
+        "id": "view-pattern",
+        "text": "Pattern",
+        "disabled": false
+      },
+      {
+        "id": "view-body",
+        "text": "Body",
+        "disabled": false
+      },
+      {
+        "id": "view-nest",
+        "text": "",
+        "disabled": false
+      },
+      {
+        "id": "view-spec",
+        "text": "",
+        "disabled": false
+      },
+      {
+        "id": "view-fabric",
+        "text": "",
+        "disabled": false
+      },
+      {
+        "id": "view-check",
+        "text": "",
+        "disabled": false
+      },
+      {
+        "id": "view-edit",
+        "text": "",
+        "disabled": false
+      },
+      {
+        "id": "view-flat",
+        "text": "",
+        "disabled": false
+      },
+      {
+        "id": "assembled-preview-toggle",
+        "text": "Assembled",
+        "disabled": false
+      },
+      {
+        "id": "body-front-back",
+        "text": "Front + Back",
+        "disabled": false
+      },
+      {
+        "id": "body-front",
+        "text": "Front",
+        "disabled": false
+      },
+      {
+        "id": "body-back",
+        "text": "Back",
+        "disabled": false
+      },
+      {
+        "id": "body-side",
+        "text": "Side",
+        "disabled": false
+      },
+      {
+        "id": "spatial-cue-action",
+        "text": "Show in Assembled",
+        "disabled": false
+      },
+      {
+        "id": "nest-single",
+        "text": "Single size",
+        "disabled": false
+      },
+      {
+        "id": "nest-marker",
+        "text": "Graded marker",
+        "disabled": false
+      }
+    ]
+  },
+  "error": "locator.click: Timeout 60000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#technical-flat-front')\u001b[22m\n"
+}

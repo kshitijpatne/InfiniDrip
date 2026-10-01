@@ -17,7 +17,7 @@ import { createG04TechnicalFlatProjectionMap, type FlatProjectionPhysicalPairRef
 import { compileTechnicalFlatSourceGeometry } from "./technical-flat-geometry";
 import { assembleTechnicalFlatRoles, type FlatRoleTransform } from "./technical-flat-assembly";
 import { compileTechnicalFlatOverlays } from "./technical-flat-overlays";
-import { compileTechnicalFlatPomCallouts } from "./technical-flat-poms";
+import { compileTechnicalFlatPomCallouts, type TechnicalFlatPomResolvedAnchor } from "./technical-flat-poms";
 import { transformFlatPrimitive } from "./technical-flat-transform";
 import { compileTrouserWaistbandFragments } from "./technical-flat-fragment-compiler";
 
@@ -300,22 +300,45 @@ export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): Tec
     : { primitives: [], issues: [] };
   const overlays = compileTechnicalFlatOverlays(recipe, block, revisionId, input.placements,
     input.colorHex, input.texture, input.shine);
-  const resolvePomAnchor = recipe.name === "trouser" ? (pom: GarmentRecipe["poms"][number], point: FlatPoint) => {
-    const markAnchor = kind === "BACK_FLAT" ? pom.backMarkAnchor : undefined;
-    if (markAnchor) {
-      const target = waistbandFragments.primitives.find((primitive) => primitive.kind === "mark"
-        && primitive.source.sourceId === `pattern:${recipe.name}:mark:${markAnchor.roleId}:${markAnchor.markName}`
-        && primitive.source.revisionId === revisionId);
-      return target?.kind === "mark" ? { targetGeometryId: target.id, point: target.at } : undefined;
-    }
-    const anchorRoleId = kind === "FRONT_FLAT" ? G04_TECHNICAL_FLAT_MAPPINGS[recipe.name]?.pomAnchorRole
-      : G04_TECHNICAL_FLAT_MAPPINGS[recipe.name]?.backPomAnchorRole;
-    const placement = assembly.transforms[anchorRoleId!];
-    return anchorRoleId && placement ? {
-      targetGeometryId: `flat:${recipe.name}:${kind}:component:${anchorRoleId}:outline`,
-      point: placedPoint(point, placement),
-    } : undefined;
-  } : undefined;
+  let resolvePomAnchor: ((pom: GarmentRecipe["poms"][number], point: FlatPoint) =>
+    TechnicalFlatPomResolvedAnchor | undefined) | undefined;
+  if (recipe.name === "trouser") {
+    resolvePomAnchor = (pom, point) => {
+      const markAnchor = kind === "BACK_FLAT" ? pom.backMarkAnchor : undefined;
+      if (markAnchor) {
+        const target = waistbandFragments.primitives.find((primitive) => primitive.kind === "mark"
+          && primitive.source.sourceId === `pattern:${recipe.name}:mark:${markAnchor.roleId}:${markAnchor.markName}`
+          && primitive.source.revisionId === revisionId);
+        return target?.kind === "mark" ? { targetGeometryId: target.id, point: target.at } : undefined;
+      }
+      const anchorRoleId = kind === "FRONT_FLAT" ? G04_TECHNICAL_FLAT_MAPPINGS[recipe.name]?.pomAnchorRole
+        : G04_TECHNICAL_FLAT_MAPPINGS[recipe.name]?.backPomAnchorRole;
+      const placement = anchorRoleId ? assembly.transforms[anchorRoleId] : undefined;
+      return anchorRoleId && placement ? {
+        targetGeometryId: `flat:${recipe.name}:${kind}:component:${anchorRoleId}:outline`,
+        point: placedPoint(point, placement), sourcePoint: point,
+      } : undefined;
+    };
+  } else if (recipe.name === "polo") {
+    resolvePomAnchor = (pom, point) => {
+      const markAnchor = kind === "FRONT_FLAT" ? pom.frontMarkAnchor
+        : pom.backMarkAnchor ? { ...pom.backMarkAnchor, point: "at" as const } : undefined;
+      const roleId = markAnchor?.roleId ?? (kind === "FRONT_FLAT"
+        ? pom.anchorRoleId ?? G04_TECHNICAL_FLAT_MAPPINGS[recipe.name]?.pomAnchorRole
+        : pom.backAnchorRoleId ?? G04_TECHNICAL_FLAT_MAPPINGS[recipe.name]?.backPomAnchorRole);
+      const placement = roleId ? assembly.transforms[roleId] : undefined;
+      if (!roleId || !placement) return undefined;
+      if (markAnchor) {
+        const entityId = `pattern:${recipe.name}:mark:${markAnchor.roleId}:${markAnchor.markName}`;
+        return { targetGeometryId: `flat:${recipe.name}:${kind}:mark:${markAnchor.roleId}:${markAnchor.markName}`,
+          point: placedPoint(point, placement), sourcePoint: point, sourceEntityId: entityId };
+      }
+      const anchorEdgeId = kind === "FRONT_FLAT" ? pom.anchorEdgeId : pom.backAnchorEdgeId;
+      return { targetGeometryId: `flat:${recipe.name}:${kind}:component:${roleId}:outline`,
+        point: placedPoint(point, placement), sourcePoint: point,
+        ...(anchorEdgeId ? { sourceEntityId: `pattern:${recipe.name}:role:${roleId}:edge:${anchorEdgeId}` } : {}) };
+    };
+  }
   const poms = compileTechnicalFlatPomCallouts(recipe.name, block, revisionId, kind, recipe.poms,
     [...geometry.primitives, ...waistbandFragments.primitives], resolvePomAnchor);
   const issues: TechnicalFlatLiveIssue[] = [
