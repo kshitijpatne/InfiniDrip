@@ -1,12 +1,78 @@
 import { describe, expect, it } from "vitest";
 import { GARMENTS, STANDARD_M, defaultGarmentOptions } from "../drafting";
 import { edgeEnd, edgeStart } from "../drafting/piece";
-import { appendApprovedViewPairReflection, appendOppositeSideReflection, appendPhysicalPairReflection, compileTechnicalFlatLiveView, mapPoloDimensionCallouts, placeTechnicalFlatPrimitive, reflectFoldPrimitive, reflectPhysicalPairPrimitive, reflectPrimitiveAcrossLine, technicalFlatAssemblyNotices, technicalFlatPrimitiveRole } from "./technical-flat-live";
+import { appendApprovedViewPairReflection, appendOppositeSideReflection, appendPhysicalPairReflection, compileTechnicalFlatLiveView, mapPoloDimensionCallouts, placeTechnicalFlatPrimitive, projectWovenSleeveFillClosures, reflectFoldPrimitive, reflectPhysicalPairPrimitive, reflectPrimitiveAcrossLine, technicalFlatAssemblyNotices, technicalFlatPrimitiveRole } from "./technical-flat-live";
 import { assembleTechnicalFlatRoles } from "./technical-flat-assembly";
 import { G04_TECHNICAL_FLAT_MAPPINGS } from "./technical-flat-mapping";
 import { transformFlatPoint } from "./technical-flat-transform";
 import type { FlatPathPrimitive, TechnicalFlatPrimitive } from "./technical-flat";
 import type { TechnicalFlatLiveIssue } from "./technical-flat-live";
+
+describe("projectWovenSleeveFillClosures", () => {
+  const point = (x: number, y = 0) => ({ x, y });
+  const path = (id: string, commands: FlatPathPrimitive["commands"], colorwayBoundaryOnly = false): FlatPathPrimitive => ({
+    kind: "path", id, layer: colorwayBoundaryOnly ? "GARMENT_SILHOUETTE" : "SEAM",
+    feature: colorwayBoundaryOnly ? "silhouette" : "seam",
+    source: { sourceClass: "PATTERN_DERIVED", sourceId: `source:${id}`, revisionId: "woven-r1" },
+    commands, ...(colorwayBoundaryOnly ? { colorwayBoundaryOnly: true } : {}),
+  });
+  const seam = (start: number, end: number) => path("cap-seam:view-seam:woven-sleeve-cap:front", [
+    { op: "move", point: point(start) }, { op: "line", point: point(end) },
+  ]);
+  const sleeve = (start: number, end: number) => path("flat:woven-shirt:FRONT_FLAT:component:sleeve:outline", [
+    { op: "move", point: point(start) }, { op: "line", point: point(end) },
+  ]);
+  const closure = (commands: FlatPathPrimitive["commands"]) => path(
+    "flat:woven-shirt:FRONT_FLAT:view-boundary:approved-woven-sleeve-area-closure", commands, true);
+
+  it("closes a valid boundary to the other terminal of the same assembled body contour", () => {
+    const boundary = closure([{ op: "move", point: point(5) }, { op: "line", point: point(99) }]);
+    const primitives: TechnicalFlatPrimitive[] = [seam(0, 2), sleeve(0, 5), boundary];
+    expect(projectWovenSleeveFillClosures(primitives)).toEqual([]);
+    const commands = (primitives[2] as FlatPathPrimitive).commands;
+    expect(commands[commands.length - 1]).toEqual({ op: "line", point: point(2) });
+    expect(primitives.filter((primitive) => primitive.kind === "path" && primitive.colorwayBoundaryOnly)).toHaveLength(2);
+  });
+
+  it("holds a boundary with no same-instance hem endpoint or no usable body contour", () => {
+    const noSleeve = [seam(0, 2), closure([{ op: "move", point: point(5) }, { op: "line", point: point(2) }])];
+    expect(projectWovenSleeveFillClosures(noSleeve)).toContainEqual(expect.objectContaining({
+      message: expect.stringContaining("no exact same-instance sleeve hem endpoint"),
+    }));
+    const noContour: TechnicalFlatPrimitive[] = [seam(0, Number.NaN),
+      path("bad:view-seam:woven-sleeve-cap:empty", []),
+      path("bad:view-seam:woven-sleeve-cap:closed", [{ op: "move", point: point(0) }, { op: "close" }]),
+      sleeve(0, 5),
+      closure([{ op: "move", point: point(5) }, { op: "line", point: point(2) }])];
+    expect(projectWovenSleeveFillClosures(noContour)).toContainEqual(expect.objectContaining({
+      message: expect.stringContaining("one unambiguous paired body contour"),
+    }));
+  });
+
+  it("holds unpaired, distant, ambiguous and multiply claimed body components", () => {
+    const makeClosure = () => closure([{ op: "move", point: point(5) }, { op: "line", point: point(2) }]);
+    const distant: TechnicalFlatPrimitive[] = [seam(10, 12), sleeve(0, 5), makeClosure()];
+    expect(projectWovenSleeveFillClosures(distant)).toContainEqual(expect.objectContaining({
+      message: expect.stringContaining("one unambiguous paired body contour"),
+    }));
+    const ambiguous: TechnicalFlatPrimitive[] = [seam(-0.5, -1.5), seam(0.5, 1.5), sleeve(0, 5), makeClosure()];
+    expect(projectWovenSleeveFillClosures(ambiguous)).toContainEqual(expect.objectContaining({
+      message: expect.stringContaining("one unambiguous paired body contour"),
+    }));
+    const multiplyClaimed: TechnicalFlatPrimitive[] = [seam(0, 2), sleeve(0, 5), makeClosure(), makeClosure()];
+    expect(projectWovenSleeveFillClosures(multiplyClaimed).length).toBeGreaterThan(0);
+  });
+
+  it("holds malformed boundary paths and reports missing one-to-one closure accounting", () => {
+    const noStart: TechnicalFlatPrimitive[] = [seam(0, 2), sleeve(0, 5), closure([{ op: "line", point: point(5) }])];
+    expect(projectWovenSleeveFillClosures(noStart).some((issue) => issue.message.includes("one-to-one"))).toBe(true);
+    const closed: TechnicalFlatPrimitive[] = [seam(0, 2), sleeve(0, 5),
+      closure([{ op: "move", point: point(5) }, { op: "close" }])];
+    expect(projectWovenSleeveFillClosures(closed)).toContainEqual(expect.objectContaining({
+      message: expect.stringContaining("must end at one exact line station"),
+    }));
+  });
+});
 
 describe("compileTechnicalFlatLiveView", () => {
   it("maps the approved Polo dimensions to exact transformed sources across all 17 configurations", () => {
@@ -205,11 +271,14 @@ describe("compileTechnicalFlatLiveView", () => {
     const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
     const result = compileTechnicalFlatLiveView({ recipe, block, revisionId: "live-woven-approved-view", kind: "FRONT_FLAT",
       placements: [], colorHex: "#456789", texture: "smooth", shine: 0 });
-    expect(result.view).toBeNull();
-    expect(result.issues.map((issue) => issue.sourceId)).toEqual([
-      "stitch:Woven sleeve-cap ease",
-    ]);
-    expect(result.issues.every((issue) => issue.message.includes("within the 0.25 cm acceptance tolerance"))).toBe(true);
+    expect(result.view).not.toBeNull();
+    expect(result.issues).toEqual([]);
+    expect(result.view?.primitives.filter((primitive) => primitive.kind === "path"
+      && primitive.layer === "SEAM" && primitive.id.includes(":view-seam:woven-sleeve-cap:"))).toHaveLength(2);
+    const sleeveOutline = result.view?.primitives.find((primitive) => primitive.kind === "path"
+      && primitive.id === "flat:woven-shirt:FRONT_FLAT:component:sleeve:outline");
+    expect(sleeveOutline?.kind === "path" ? sleeveOutline.sourceEdgeIds?.some((sourceId) =>
+      sourceId.endsWith(":edge:capLeft") || sourceId.endsWith(":edge:capRight")) : false).toBe(false);
   });
 
   it("fails closed when the approved Woven left closure has no assembled center axis or cannot reflect", () => {
@@ -599,8 +668,7 @@ describe("compileTechnicalFlatLiveView", () => {
             expect(result.colorway).not.toBeNull();
           } else {
             expect(result.colorway).toBeNull();
-            expect(result.issues.some((issue) => issue.stage === "assembly"
-              && issue.message.includes("Woven sleeve-cap ease"))).toBe(true);
+            expect(result.issues.some((issue) => issue.stage === "assembly" || issue.stage === "transform")).toBe(true);
           }
           expect(result.issues.some((issue) => issue.stage === "geometry"
             && issue.message.includes("no authored front/back split landmark"))).toBe(false);
@@ -712,6 +780,19 @@ describe("compileTechnicalFlatLiveView", () => {
         expect(poms.every((issue) => issue.message.includes("no readable label/leader position"))).toBe(true);
       }
     }
+  });
+
+  it("retains the Woven sleeve residual hold when its source stitch no longer matches the approved projection", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "woven-shirt")!;
+    const source = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
+    const block = { ...source, stitches: source.stitches.map((stitch) => stitch.label === "Woven sleeve-cap ease"
+      ? { ...stitch, label: "Woven sleeve-cap ease changed" } : stitch) };
+    const result = compileTechnicalFlatLiveView({ recipe, block, revisionId: "woven-cap-stitch-changed",
+      kind: "FRONT_FLAT", placements: [], colorHex: "#456789", texture: "woven", shine: 0 });
+    expect(result.view).toBeNull();
+    expect(result.issues).toContainEqual(expect.objectContaining({ stage: "assembly",
+      sourceId: expect.stringContaining("Woven sleeve-cap ease changed"),
+      message: expect.stringContaining("Woven front/back flats are withheld") }));
   });
 
   it("reports unavailable sewn placements and preserves residual-endpoint notices", () => {

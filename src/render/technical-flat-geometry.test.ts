@@ -83,6 +83,11 @@ describe("technical-flat source geometry", () => {
       const visibleSeams = result.primitives.filter((primitive) => primitive.layer === "SEAM"
         && primitive.source.sourceId === seamSource);
       expect(visibleSeams).toHaveLength(1);
+      expect(result.primitives.filter((primitive) => primitive.kind === "path" && primitive.layer === "SEAM"
+        && primitive.id.includes(":view-seam:woven-sleeve-cap:")).map((primitive) => primitive.id).sort()).toEqual(kind === "FRONT_FLAT"
+        ? [`flat:woven-shirt:${kind}:view-seam:woven-sleeve-cap:front:armhole`]
+        : [`flat:woven-shirt:${kind}:view-seam:woven-sleeve-cap:yoke:armholeUpper`,
+          `flat:woven-shirt:${kind}:view-seam:woven-sleeve-cap:back:armholeLower`].sort());
       expect(visibleSeams[0]).toMatchObject({ feature: "seam", kind: "path" });
       const visibleOutlines = result.primitives.filter((primitive) => primitive.kind === "path"
         && primitive.layer === "GARMENT_SILHOUETTE" && primitive.colorwayBoundaryOnly !== true);
@@ -92,6 +97,24 @@ describe("technical-flat source geometry", () => {
       expect(result.primitives.filter((primitive) => primitive.kind === "path" && primitive.colorwayBoundaryOnly === true
         && primitive.sourceEdgeIds?.some((id) => id.endsWith(":edge:neckline")))).toHaveLength(2);
     }
+  });
+
+  it("rejects a sleeve-cap map before compiling when its exact body seam edge is absent", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "woven-shirt")!;
+    const source = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
+    const authored = createG04TechnicalFlatProjectionMap(recipe.name, source, revisionId)!;
+    const face = authored.faces.find((candidate) => candidate.kind === "FRONT_FLAT")!;
+    const sleeve = face.roles.find((candidate) => candidate.roleId === "sleeve")!;
+    const malformed = { ...authored, faces: authored.faces.map((candidate) => candidate.kind !== "FRONT_FLAT" ? candidate : {
+      ...candidate, roles: candidate.roles.map((role) => role.roleId !== "sleeve" ? role : {
+        ...role, wovenSleeveCapRepresentation: { ...role.wovenSleeveCapRepresentation!,
+          visibleBodyEdges: [{ roleId: "front", edgeId: "missing-armhole" }] },
+      }),
+    }) } as unknown as TechnicalFlatProjectionMap;
+    expect(sleeve.wovenSleeveCapRepresentation?.visibleBodyEdges).toEqual([{ roleId: "front", edgeId: "armhole" }]);
+    const result = compileTechnicalFlatSourceGeometry(recipe.name, source, revisionId, "FRONT_FLAT", malformed);
+    expect(result.issues).toContainEqual(expect.objectContaining({ code: "INVALID_VIEW_SEAM_REPRESENTATION",
+      sourceId: "FRONT_FLAT:sleeve" }));
   });
 
   it("compiles Polo shoulder closures as same-revision fill-only boundaries without mutating the drafted block", () => {

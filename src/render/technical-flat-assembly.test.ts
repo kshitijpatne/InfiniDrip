@@ -127,7 +127,7 @@ describe("assembleTechnicalFlatRoles", () => {
     expect(assembleTechnicalFlatRoles("tee", tee, "FRONT_FLAT", missingFaceMap).transforms.sleeve).toBeDefined();
   });
 
-  it("maps Woven sleeve cap halves to the source armholes and preserves the held back ease conflict", () => {
+  it("maps Woven sleeve cap halves to one source body relation per face", () => {
     const wovenRecipe = GARMENTS.find((recipe) => recipe.name === "woven-shirt")!;
     const woven = draft(wovenRecipe);
     const projection = createG04TechnicalFlatProjectionMap("woven-shirt", woven, "woven-sleeve-placement")!;
@@ -143,13 +143,24 @@ describe("assembleTechnicalFlatRoles", () => {
     expect(Math.hypot(mappedCapStart.x - frontShoulder.x, mappedCapStart.y - frontShoulder.y)).toBeGreaterThan(20);
 
     const backAssembly = assembleTechnicalFlatRoles("woven-shirt", woven, "BACK_FLAT", projection);
-    expect(backAssembly.issues.some((issue) => issue.sourceId === "stitch:Woven sleeve-cap ease")).toBe(true);
+    expect(backAssembly.issues.some((issue) => issue.sourceId === "stitch:Woven sleeve-cap ease")).toBe(false);
+    expect(backAssembly.joinedStitchLabels).toContain("Woven sleeve-cap ease");
     const capRight = sleeve.edges.find((edge) => edge.name === "capRight")!;
     const backArmhole = woven.roles.back!.edges.find((edge) => edge.name === "armholeLower")!;
     const mappedBackCapEnd = transformFlatPoint(edgePoint(capRight, 1), { ...backAssembly.transforms.sleeve!, mirrorX: false });
     const backUnderarm = transformFlatPoint(edgePoint(backArmhole, 1), { ...backAssembly.transforms.back!, mirrorX: false });
     expect(Math.hypot(mappedBackCapEnd.x - backUnderarm.x, mappedBackCapEnd.y - backUnderarm.y)).toBeLessThan(1e-8);
+
+    const staleProjection = { ...projection, faces: projection.faces.map((face) => face.kind !== "FRONT_FLAT" ? face : {
+      ...face, roles: face.roles.map((role) => role.roleId !== "sleeve" ? role : {
+        ...role, wovenSleeveCapRepresentation: { ...role.wovenSleeveCapRepresentation!, decisionId: "stale" },
+      }),
+    }) } as unknown as typeof projection;
+    const invalid = assembleTechnicalFlatRoles("woven-shirt", woven, "FRONT_FLAT", staleProjection);
+    expect(invalid.issues).toContainEqual(expect.objectContaining({ code: "STITCH_ENDPOINT_RESIDUAL",
+      sourceId: "stitch:Woven sleeve-cap ease" }));
   });
+
 
   it("reflects the selected Tee back sleeve locally so its source side projects outside the back panel", () => {
     const tee = draft(TEE);
@@ -387,7 +398,7 @@ describe("assembleTechnicalFlatRoles", () => {
     expect(result.issues.some((issue) => issue.code === "STITCH_ENDPOINT_RESIDUAL"
       && issue.sourceId === "stitch:Outer stand ↔ woven neckline")).toBe(false);
     expect(result.issues.some((issue) => issue.code === "STITCH_ENDPOINT_RESIDUAL"
-      && issue.sourceId === "stitch:Woven sleeve-cap ease")).toBe(true);
+      && issue.sourceId === "stitch:Woven sleeve-cap ease")).toBe(false);
     const malformed = structuredClone(map);
     (malformed.faces[0]!.roles.find((role) => role.roleId === "outerStand")!.viewSeamRepresentation as { decisionId: string }).decisionId = "unapproved";
     const rejected = assembleTechnicalFlatRoles("woven-shirt", source, "FRONT_FLAT", malformed);

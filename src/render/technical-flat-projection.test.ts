@@ -46,6 +46,8 @@ function validMap(recipeId: string, block: ReturnType<(typeof GARMENTS)[number][
           .find((candidate) => candidate.roleId === role.roleId)?.reversedStitchEdges;
         const localYReflection = authored?.faces.find((candidate) => candidate.kind === face.kind)?.roles
           .find((candidate) => candidate.roleId === role.roleId)?.localYReflection;
+        const wovenSleeveCapRepresentation = authored?.faces.find((candidate) => candidate.kind === face.kind)?.roles
+          .find((candidate) => candidate.roleId === role.roleId)?.wovenSleeveCapRepresentation;
         const zeroLength = (edge: (typeof piece.edges)[number]) => {
           const start = edge.kind === "line" ? edge.start : edge.curve.start;
           const end = edge.kind === "line" ? edge.end : edge.curve.end;
@@ -68,6 +70,7 @@ function validMap(recipeId: string, block: ReturnType<(typeof GARMENTS)[number][
           ...(viewBoundaries ? { viewBoundaries } : {}),
           ...(reversedStitchEdges ? { reversedStitchEdges } : {}),
           ...(localYReflection ? { localYReflection } : {}),
+          ...(wovenSleeveCapRepresentation ? { wovenSleeveCapRepresentation } : {}),
           ...(oppositeSideReflection ? { oppositeSideReflection } : {}),
         };
       }),
@@ -1096,7 +1099,8 @@ describe("validateTechnicalFlatProjectionMap", () => {
         basis: "WOVEN_SLEEVE_CAP", decisionId: "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH" },
       fillOnlyColorway: { source: "MAINTAINER_VIEW_DECISION", decisionId: "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR" },
     });
-    expect(backSleeve.viewBoundaries).toBeUndefined();
+    expect(backSleeve.viewBoundaries).toHaveLength(1);
+    expect(backSleeve.viewBoundaries?.[0]?.id).toBe("approved-woven-sleeve-area-closure");
     expect(frontSleeve.faceExcludedEdges?.some((entry) => entry.edgeId === "sideRight")).toBe(true);
     expect(backSleeve.faceExcludedEdges?.some((entry) => entry.edgeId === "sideLeft")).toBe(true);
     for (const face of [front, back]) {
@@ -1335,5 +1339,20 @@ describe("validateTechnicalFlatProjectionMap", () => {
     } finally {
       (G04_TECHNICAL_FLAT_MAPPINGS as Record<string, typeof original>).tee = original;
     }
+  });
+
+  it("rejects the Woven sleeve-cap seam representation on any non-sleeve role", () => {
+    const { block } = draft("tee");
+    const map = createG04TechnicalFlatProjectionMap("tee", block, REVISION)!;
+    const front = map.faces.find((face) => face.kind === "FRONT_FLAT")!;
+    const malformed = structuredClone(map) as unknown as { faces: { kind: string; roles: { roleId: string; wovenSleeveCapRepresentation?: unknown }[] }[] };
+    const target = malformed.faces.find((face) => face.kind === "FRONT_FLAT")!.roles.find((role) => role.roleId === "front")!;
+    const wovenSource = createG04TechnicalFlatProjectionMap("woven-shirt", draft("woven-shirt").block, REVISION)!;
+    const wovenRole = wovenSource.faces.find((face) => face.kind === "FRONT_FLAT")!.roles.find((role) => role.roleId === "sleeve")!;
+    target.wovenSleeveCapRepresentation = wovenRole.wovenSleeveCapRepresentation;
+    expect(front.roles.find((role) => role.roleId === "front")?.wovenSleeveCapRepresentation).toBeUndefined();
+    expect(validateTechnicalFlatProjectionMap("tee", block, REVISION, malformed as unknown as TechnicalFlatProjectionMap)
+      .some((issue) => issue.code === "INVALID_VIEW_SEAM_REPRESENTATION"
+        && issue.sourceId.endsWith(":front"))).toBe(true);
   });
 });

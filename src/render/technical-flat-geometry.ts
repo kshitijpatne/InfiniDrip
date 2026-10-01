@@ -292,6 +292,8 @@ export function compileTechnicalFlatSourceGeometry(
 
   const viewSeamRepresentation = projectionMap?.faces.find((candidate) => candidate.kind === kind)?.roles
     .find((candidate) => candidate.roleId === "outerStand")?.viewSeamRepresentation;
+  const wovenSleeveCapRepresentation = projectionMap?.faces.find((candidate) => candidate.kind === kind)?.roles
+    .find((candidate) => candidate.roleId === "sleeve")?.wovenSleeveCapRepresentation;
 
   for (const role of face.roles) {
     const piece = block.roles[role.roleId];
@@ -313,9 +315,13 @@ export function compileTechnicalFlatSourceGeometry(
       }
       continue;
     }
-    const silhouetteRole = projectionRole && viewSeamRepresentation?.visibleRoleId === role.roleId
-      ? { ...projectionRole, runs: projectionRole.runs.filter((run) => run.edgeId !== viewSeamRepresentation.visibleEdgeId) }
-      : projectionRole;
+    const silhouetteRole = projectionRole ? { ...projectionRole, runs: projectionRole.runs.filter((run) => {
+      if (viewSeamRepresentation?.visibleRoleId === role.roleId && run.edgeId === viewSeamRepresentation.visibleEdgeId) return false;
+      if (role.roleId === "sleeve" && wovenSleeveCapRepresentation?.capEdgeIds.includes(run.edgeId as "capLeft" | "capRight")) return false;
+      if (wovenSleeveCapRepresentation?.visibleBodyEdges.some((segment) => segment.roleId === role.roleId
+        && segment.edgeId === run.edgeId)) return false;
+      return true;
+    }) } : projectionRole;
     const projected = silhouetteRole ? projectedCommands(recipeId, block, kind, piece, silhouetteRole) : undefined;
     const outline = projectionRole
       ? projected && outlinePrimitive(recipeId, revisionId, kind, role.roleId, [], projected.sourceEdgeIds, projected.commands)
@@ -326,6 +332,18 @@ export function compileTechnicalFlatSourceGeometry(
       continue;
     }
     primitives.push(outline);
+    for (const segment of wovenSleeveCapRepresentation?.visibleBodyEdges.filter((candidate) => candidate.roleId === role.roleId) ?? []) {
+      // Projection-map validation above proves the same-revision role edge exists.
+      const edge = piece.edges.find((candidate) => candidate.name === segment.edgeId)!;
+      const commands = edgeCommand(edge)!;
+      const sourceEdgeId = `pattern:${recipeId}:role:${role.roleId}:edge:${edge.name}`;
+      const sourceRef = source(revisionId, sourceEdgeId);
+      primitives.push({ kind: "path", id: `flat:${recipeId}:${kind}:view-seam:woven-sleeve-cap:${role.roleId}:${edge.name}`,
+        layer: "SEAM", feature: "seam", source: sourceRef, sourceEdgeIds: [sourceEdgeId], commands });
+      primitives.push({ kind: "path", id: `flat:${recipeId}:${kind}:view-seam-boundary:woven-sleeve-cap:${role.roleId}:${edge.name}`,
+        layer: "GARMENT_SILHOUETTE", feature: "silhouette", source: sourceRef, sourceEdgeIds: [sourceEdgeId],
+        colorwayBoundaryOnly: true, commands });
+    }
     if (viewSeamRepresentation?.visibleRoleId === role.roleId) {
       // Exact map validation above proves the role/edge and its finite full run.
       const edge = piece.edges.find((candidate) => candidate.name === viewSeamRepresentation.visibleEdgeId)!;

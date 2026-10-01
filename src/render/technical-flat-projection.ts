@@ -121,6 +121,16 @@ export interface FlatProjectionViewSeamRepresentation {
   readonly suppressedTo: FlatProjectionLandmark;
 }
 
+/** The approved Woven cap display replaces its eased cut edge with the exact
+ * body-side stitched edge. This is a same-revision view convention only. */
+export interface FlatProjectionWovenSleeveCapRepresentation {
+  readonly decisionId: "G04-S344-WOVEN-SLEEVE-CAP-PROJECTION";
+  readonly stitchLabel: "Woven sleeve-cap ease";
+  readonly capEdgeIds: readonly ["capLeft", "capRight"];
+  readonly visibleBodyEdges: readonly { readonly roleId: "front" | "yoke" | "back"; readonly edgeId: "armhole" | "armholeUpper" | "armholeLower" }[];
+  readonly layer: "SEAM";
+}
+
 export interface FlatProjectionRole {
   readonly roleId: string;
   /** A logical garment-component identity shared by its front/back projections. */
@@ -140,6 +150,7 @@ export interface FlatProjectionRole {
   readonly reversedStitchEdges?: readonly FlatProjectionReversedStitchEdge[];
   readonly localYReflection?: FlatProjectionLocalYReflection;
   readonly viewSeamRepresentation?: FlatProjectionViewSeamRepresentation;
+  readonly wovenSleeveCapRepresentation?: FlatProjectionWovenSleeveCapRepresentation;
   /** View-only closure for a face segment; it is not a drafted cut or seam edge. */
   readonly viewBoundaries?: readonly FlatProjectionViewBoundary[];
 }
@@ -335,12 +346,12 @@ function wovenSleeveProjection(kind: TechnicalFlatViewKind, block: Block, treatm
   const start = (edgeId: string): FlatProjectionLandmark => endpointLandmark(edgeId, "start");
   const end = (edgeId: string): FlatProjectionLandmark => endpointLandmark(edgeId, "end");
   const middle: FlatProjectionLandmark = { kind: "edge-arclength", edgeId: "hem", fraction: 0.5 };
-  const viewBoundary: FlatProjectionViewBoundary | undefined = kind === "FRONT_FLAT" ? {
+  const viewBoundary: FlatProjectionViewBoundary = {
     id: "approved-woven-sleeve-area-closure",
     from: middle,
     to: station,
     fillOnlyColorway: { source: "MAINTAINER_VIEW_DECISION", decisionId: "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR" },
-  } : undefined;
+  };
   const frontRuns: FlatProjectionEdgeRun[] = boundary.edgeId === "capLeft"
     ? [{ edgeId: "capLeft", from: start("capLeft"), to: station },
       { edgeId: "sideLeft", from: end("sideLeft"), to: start("sideLeft") },
@@ -358,6 +369,15 @@ function wovenSleeveProjection(kind: TechnicalFlatViewKind, block: Block, treatm
       { edgeId: "sideRight", from: start("sideRight"), to: end("sideRight") },
       { edgeId: "hem", from: start("hem"), to: middle }];
   const yokeAxis = kind === "FRONT_FLAT" ? "centerFront" : "centerBack";
+  const wovenSleeveCapRepresentation: FlatProjectionWovenSleeveCapRepresentation = {
+    decisionId: "G04-S344-WOVEN-SLEEVE-CAP-PROJECTION",
+    stitchLabel: "Woven sleeve-cap ease",
+    capEdgeIds: ["capLeft", "capRight"],
+    visibleBodyEdges: kind === "FRONT_FLAT"
+      ? [{ roleId: "front", edgeId: "armhole" }]
+      : [{ roleId: "yoke", edgeId: "armholeUpper" }, { roleId: "back", edgeId: "armholeLower" }],
+    layer: "SEAM",
+  };
   return {
     roleId: "sleeve", instanceId: "sleeve", treatment,
     runs: kind === "FRONT_FLAT" ? frontRuns : backRuns,
@@ -375,10 +395,11 @@ function wovenSleeveProjection(kind: TechnicalFlatViewKind, block: Block, treatm
     // do not rewrite the source stitch graph.
     reversedStitchEdges: [{ stitchLabel: "Woven sleeve-cap ease", pieceId: "front", edgeId: "armhole",
       source: "SOURCE_ENDPOINT_ORDER" }],
+    wovenSleeveCapRepresentation,
     viewPairReflection: { axisRoleId: kind === "FRONT_FLAT" ? "front" : "back", edgeId: yokeAxis,
       axis: "ASSEMBLED_BODY_CENTER", source: "WOVEN_SHIRT_PHYSICAL_ROLES",
       decisionId: "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR", quantity: 2 },
-    ...(viewBoundary ? { viewBoundaries: [viewBoundary] } : {}),
+    viewBoundaries: [viewBoundary],
   };
 }
 
@@ -544,7 +565,6 @@ function poloOuterStandProjection(kind: TechnicalFlatViewKind, piece: Piece, tre
 function expectedWovenColorwayBoundary(
   roleId: string, faceKind: TechnicalFlatViewKind, block: Block,
 ): FlatProjectionViewBoundary | undefined {
-  if (faceKind !== "FRONT_FLAT") return undefined;
   const decision = { source: "MAINTAINER_VIEW_DECISION" as const };
   if (roleId === "sleeve") {
     const boundary = wovenSleeveCapBoundary(block);
@@ -555,6 +575,7 @@ function expectedWovenColorwayBoundary(
         basis: "WOVEN_SLEEVE_CAP", decisionId: "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH" },
       fillOnlyColorway: { ...decision, decisionId: "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR" } };
   }
+  if (faceKind !== "FRONT_FLAT") return undefined;
   if (roleId === "outerStand" || roleId === "upperCollar" || roleId === "underCollar") {
     const piece = block.roles[roleId];
     const basisFraction = wovenNecklineFraction(block);
@@ -1453,6 +1474,35 @@ function validateRole(
     if (!validSleeve || !validYoke || !validCollar || !noUnexpectedReversal) {
       issues.push({ code: "INVALID_STITCH_ENDPOINT_ORIENTATION", sourceId,
         message: "Woven sewn-edge traversal requires exact source endpoint ordering for sleeve-cap, neckline and yoke-seam placement." });
+    }
+  }
+  const requiresWovenSleeveCapRepresentation = recipeId === "woven-shirt" && roleId === "sleeve";
+  if (requiresWovenSleeveCapRepresentation || mappingRole.wovenSleeveCapRepresentation !== undefined) {
+    const actual = mappingRole.wovenSleeveCapRepresentation;
+    const expectedSegments = faceKind === "FRONT_FLAT"
+      ? [{ roleId: "front", edgeId: "armhole" }]
+      : [{ roleId: "yoke", edgeId: "armholeUpper" }, { roleId: "back", edgeId: "armholeLower" }];
+    const stitchMatches = block.stitches.filter((stitch) => stitch.label === "Woven sleeve-cap ease");
+    const boundary = wovenSleeveCapBoundary(block);
+    const exactSegments = isRecord(actual) && Array.isArray(actual.visibleBodyEdges)
+      && actual.visibleBodyEdges.length === expectedSegments.length
+      && actual.visibleBodyEdges.every((segment, index) => isRecord(segment)
+        && segment.roleId === expectedSegments[index]?.roleId && segment.edgeId === expectedSegments[index]?.edgeId);
+    const exactRepresentation = isRecord(actual) && Object.keys(actual).length === 5
+      && actual.decisionId === "G04-S344-WOVEN-SLEEVE-CAP-PROJECTION"
+      && actual.stitchLabel === "Woven sleeve-cap ease"
+      && Array.isArray(actual.capEdgeIds) && actual.capEdgeIds.length === 2
+      && actual.capEdgeIds[0] === "capLeft" && actual.capEdgeIds[1] === "capRight"
+      && actual.layer === "SEAM" && exactSegments;
+    if (requiresWovenSleeveCapRepresentation && (!exactRepresentation || !boundary
+      || stitchMatches.length !== 1 || !block.roles.sleeve?.edges.some((edge) => edge.name === "capLeft")
+      || !block.roles.sleeve?.edges.some((edge) => edge.name === "capRight")
+      || expectedSegments.some((segment) => !block.roles[segment.roleId]?.edges.some((edge) => edge.name === segment.edgeId)))) {
+      issues.push({ code: "INVALID_VIEW_SEAM_REPRESENTATION", sourceId,
+        message: "The approved Woven eased-cap display requires the exact same-revision cap stitch, ordered body edges, and one shared SEAM representation." });
+    } else if (!requiresWovenSleeveCapRepresentation) {
+      issues.push({ code: "INVALID_VIEW_SEAM_REPRESENTATION", sourceId,
+        message: "The Woven eased-cap seam representation belongs only to the sleeve projection role." });
     }
   }
   const localYReflection = mappingRole.localYReflection;

@@ -345,6 +345,10 @@ export function assembleTechnicalFlatRoles(recipeId: string, block: Block, kind:
     ? projectionMap?.faces.find((candidate) => candidate.kind === kind)?.roles
       .find((role) => role.roleId === "outerStand")?.viewSeamRepresentation
     : undefined;
+  const approvedWovenSleeveCap = projectionIsValid && recipeId === "woven-shirt"
+    ? projectionMap?.faces.find((candidate) => candidate.kind === kind)?.roles
+      .find((role) => role.roleId === "sleeve")?.wovenSleeveCapRepresentation
+    : undefined;
   const visible = new Set(face.roles.filter((role) => role.treatment !== "INTERIOR_HIDDEN").map((role) => role.roleId));
   const sourceFragments = recipeId === "trouser" ? trouserWaistbandFragments(block, kind) : [];
   const fragmentPlacedRoles = sourceFragments.length === 2 ? new Set(["waistband"]) : new Set<string>();
@@ -383,16 +387,17 @@ export function assembleTechnicalFlatRoles(recipeId: string, block: Block, kind:
       issues.push({ code: "UNRESOLVED_STITCH_REFERENCE", sourceId: `stitch:${stitch.label}`,
         message: `Stitch “${stitch.label}” does not provide a length-compatible rigid placement for this view.` });
     } else {
-      relations.push(...stitchResults);
-      if (stitchResults.some((relation) => relation.endpointResidualCm > 0.25
-        && !isApprovedWovenBaseSeamDisplay(relation.label, approvedWovenBaseSeam?.decisionId))) {
-        const relation = stitchResults.find((candidate) => candidate.endpointResidualCm > 0.25
-          && !isApprovedWovenBaseSeamDisplay(candidate.label, approvedWovenBaseSeam?.decisionId))!;
-        if (!issues.some((issue) => issue.sourceId === `stitch:${relation.label}`)) issues.push({
-          code: "STITCH_ENDPOINT_RESIDUAL", sourceId: `stitch:${relation.label}`,
-          message: `Stitch “${relation.label}” leaves its sewn endpoints ${relation.endpointResidualCm.toFixed(2)} cm apart after rigid placement; review this construction line before release.`,
-        });
-      }
+      const projectedResults = stitch.label === "Woven sleeve-cap ease" && approvedWovenSleeveCap
+        ? stitchResults.filter((relation) => relation.to === (kind === "FRONT_FLAT" ? "front" : "back"))
+        : stitchResults;
+      relations.push(...projectedResults);
+      const residual = projectedResults.find((candidate) => candidate.endpointResidualCm > 0.25
+        && !isApprovedWovenBaseSeamDisplay(candidate.label, approvedWovenBaseSeam?.decisionId)
+        && !(candidate.label === "Woven sleeve-cap ease" && approvedWovenSleeveCap?.decisionId === "G04-S344-WOVEN-SLEEVE-CAP-PROJECTION"));
+      if (residual && !issues.some((issue) => issue.sourceId === `stitch:${residual.label}`)) issues.push({
+        code: "STITCH_ENDPOINT_RESIDUAL", sourceId: `stitch:${residual.label}`,
+        message: `Stitch “${residual.label}” leaves its sewn endpoints ${residual.endpointResidualCm.toFixed(2)} cm apart after rigid placement; review this construction line before release.`,
+      });
     }
   }
 

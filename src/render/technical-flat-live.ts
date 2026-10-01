@@ -84,6 +84,93 @@ export function technicalFlatPrimitiveRole(primitive: TechnicalFlatPrimitive, pr
     || sourceId.includes(`mark:${roleId}:`) || sourceId.includes(`dart:${roleId}:`)) ?? "";
 }
 
+/** Close only the approved Woven sleeve colorway fills from the exact assembled
+ * body seam graph. Any missing or ambiguous source pairing leaves a hold issue. */
+export function projectWovenSleeveFillClosures(transformed: TechnicalFlatPrimitive[]): TechnicalFlatLiveIssue[] {
+  const closureIssues: TechnicalFlatLiveIssue[] = [];
+    const seamPaths = transformed.filter((primitive): primitive is Extract<TechnicalFlatPrimitive, { kind: "path" }> => primitive.kind === "path" && primitive.id.includes(":view-seam:woven-sleeve-cap:"));
+    const endpoints = (primitive: Extract<TechnicalFlatPrimitive, { kind: "path" }>): [FlatPoint, FlatPoint] | undefined => {
+      const first = primitive.commands.find((command) => command.op === "move");
+      const last = primitive.commands[primitive.commands.length - 1];
+      if (first?.op !== "move" || !last || last.op === "close") return undefined;
+      return [first.point, last.point];
+    };
+    const pathEnds = seamPaths.map(endpoints);
+    const neighbors = seamPaths.map(() => new Set<number>());
+    for (let left = 0; left < pathEnds.length; left += 1) for (let right = left + 1; right < pathEnds.length; right += 1) {
+      const a = pathEnds[left]; const b = pathEnds[right];
+      if (a && b && a.some((point) => b.some((other) => Math.hypot(point.x - other.x, point.y - other.y) <= 1e-6))) {
+        neighbors[left]!.add(right); neighbors[right]!.add(left);
+      }
+    }
+    const components: { indexes: number[]; terminals: FlatPoint[] }[] = [];
+    const visited = new Set<number>();
+    for (let seed = 0; seed < seamPaths.length; seed += 1) {
+      if (visited.has(seed)) continue;
+      const queue = [seed]; const indexes: number[] = []; visited.add(seed);
+      while (queue.length) {
+        const current = queue.shift()!; indexes.push(current);
+        for (const next of neighbors[current]!) if (!visited.has(next)) { visited.add(next); queue.push(next); }
+      }
+      const vertices: { point: FlatPoint; degree: number }[] = [];
+      for (const index of indexes) for (const endpoint of pathEnds[index] ?? []) {
+        const vertex = vertices.find((candidate) => Math.hypot(candidate.point.x - endpoint.x, candidate.point.y - endpoint.y) <= 1e-6);
+        if (vertex) vertex.degree += 1; else vertices.push({ point: endpoint, degree: 1 });
+      }
+      components.push({ indexes, terminals: vertices.filter((vertex) => vertex.degree === 1).map((vertex) => vertex.point) });
+    }
+    const closures = transformed.filter((primitive): primitive is Extract<TechnicalFlatPrimitive, { kind: "path" }> =>
+      primitive.kind === "path" && primitive.colorwayBoundaryOnly === true
+        && primitive.id.includes(":view-boundary:approved-woven-sleeve-area-closure"));
+    const sleeveOutlines = transformed.filter((primitive): primitive is Extract<TechnicalFlatPrimitive, { kind: "path" }> =>
+      primitive.kind === "path" && primitive.id.includes(":component:sleeve:outline"));
+    const usedComponents = new Set<number>();
+    for (const closure of closures) {
+      const start = closure.commands.find((command) => command.op === "move");
+      if (start?.op !== "move") continue;
+      const sleeveOutline = sleeveOutlines.find((candidate) => {
+        const points = endpoints(candidate);
+        return !!points && Math.hypot(points[1].x - start.point.x, points[1].y - start.point.y) <= 1e-6;
+      });
+      const sleeveEnds = sleeveOutline && endpoints(sleeveOutline);
+      if (!sleeveEnds) {
+        closureIssues.push({ stage: "transform", sourceId: closure.source.sourceId,
+          message: "The approved Woven sleeve-cap fill closure has no exact same-instance sleeve hem endpoint." });
+        continue;
+      }
+      const ranked = components.map((component, index) => ({ component, index,
+        distance: Math.min(...component.terminals.map((point) => Math.hypot(point.x - sleeveEnds[0].x, point.y - sleeveEnds[0].y))) }))
+        .filter((entry) => !usedComponents.has(entry.index) && entry.component.terminals.length === 2)
+        .sort((a, b) => a.distance - b.distance);
+      if (ranked.length === 0 || !Number.isFinite(ranked[0]!.distance) || ranked[0]!.distance > 1e-6
+        || (ranked.length > 1 && Math.abs(ranked[0]!.distance - ranked[1]!.distance) < 1e-7)) {
+        closureIssues.push({ stage: "transform", sourceId: "view:woven-shirt:sleeve:cap-seam-closure",
+          message: "The approved Woven sleeve-cap seam does not resolve one unambiguous paired body contour for the sleeve fill closure." });
+        continue;
+      }
+      const match = ranked[0]!; usedComponents.add(match.index);
+      const target = [...match.component.terminals].sort((a, b) =>
+        Math.hypot(b.x - sleeveEnds[0].x, b.y - sleeveEnds[0].y) - Math.hypot(a.x - sleeveEnds[0].x, a.y - sleeveEnds[0].y))[0]!;
+      const last = closure.commands[closure.commands.length - 1];
+      if (!last || last.op !== "line") {
+        closureIssues.push({ stage: "transform", sourceId: closure.source.sourceId,
+          message: "The approved Woven sleeve-cap fill closure must end at one exact line station." });
+        continue;
+      }
+      transformed[transformed.indexOf(closure)] = { ...closure, commands: [...closure.commands.slice(0, -1), { op: "line", point: target }] };
+    }
+    if (usedComponents.size !== components.length || closures.length !== components.length) {
+      closureIssues.push({ stage: "transform", sourceId: "view:woven-shirt:sleeve:cap-seam-closure",
+        message: "The approved Woven sleeve-cap seam and reflected sleeve instances do not form a one-to-one set of closed colorway contours." });
+    }
+    for (const seam of seamPaths) transformed.push({ ...seam,
+      id: `${seam.id}:sleeve-fill-boundary`, layer: "GARMENT_SILHOUETTE", feature: "silhouette",
+      source: { ...seam.source, sourceId: `view:woven-shirt:role:sleeve:decision:G04-S344-WOVEN-SLEEVE-CAP-PROJECTION:body-edge:${seam.source.sourceId}` },
+      colorwayBoundaryOnly: true,
+    });
+
+  return closureIssues;
+}
 /** Add approved Polo dimension references after same-face assembly transforms are known. */
 export function mapPoloDimensionCallouts(block: Block, kind: TechnicalFlatViewKind,
   poms: readonly Pom[], callouts: readonly FlatCalloutPrimitive[], transforms: Readonly<Record<string, FlatRoleTransform>>) {
@@ -391,6 +478,9 @@ export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): Tec
   const poloDimensions = recipe.name === "polo"
     ? mapPoloDimensionCallouts(block, kind, recipe.poms!, poms.callouts ?? [], assembly.transforms) : undefined;
   const mappedPomCallouts = poloDimensions ? poloDimensions.callouts : poms.callouts;
+  const approvedWovenSleeveCap = projectionMap?.faces.find((candidate) => candidate.kind === kind)?.roles
+    .find((candidate) => candidate.roleId === "sleeve")?.wovenSleeveCapRepresentation?.decisionId
+    === "G04-S344-WOVEN-SLEEVE-CAP-PROJECTION";
   const issues: TechnicalFlatLiveIssue[] = [
     ...geometry.issues.map((issue) => ({ stage: "geometry" as const, sourceId: issue.sourceId, message: issue.message })),
     ...waistbandFragments.issues.map((issue) => ({ stage: "geometry" as const, sourceId: issue.sourceId, message: issue.message })),
@@ -409,7 +499,8 @@ export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): Tec
   }
   if (recipe.name === "woven-shirt") {
     issues.push(...assembly.issues.filter((issue) => issue.code === "STITCH_ENDPOINT_RESIDUAL"
-      && (issue.sourceId.includes("Woven sleeve-cap ease") || issue.sourceId.includes("Outer stand ↔ woven neckline"))).map((issue) => ({ stage: "assembly" as const,
+      && (issue.sourceId.includes("Outer stand ↔ woven neckline")
+        || (issue.sourceId.includes("Woven sleeve-cap ease") && !approvedWovenSleeveCap))).map((issue) => ({ stage: "assembly" as const,
       sourceId: issue.sourceId,
       message: `${issue.message} Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.`,
     })));
@@ -477,6 +568,7 @@ export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): Tec
       }
     }
   }
+  if (recipe.name === "woven-shirt" && approvedWovenSleeveCap) issues.push(...projectWovenSleeveFillClosures(transformed));
   if (!mapping || !face) issues.push({ stage: "geometry", sourceId: recipe.name,
     message: `Recipe “${recipe.label}” has no admitted ${kind === "FRONT_FLAT" ? "front" : "back"} flat mapping.` });
   if (issues.length > 0 || !overlayFace || poms.callouts === null) return { view: null, colorway: null, issues };

@@ -465,6 +465,21 @@ residual over 0.25 cm or contradictory cycle returns an explicit issue. This
 is drafted transform evidence only; it does not merge a component into a
 face-specific garment contour by itself.
 
+Slice 345 adds an exact-revision Woven sleeve-cap projection to the live flat
+pipeline. `technical-flat-projection.ts` validates the approved ordered body
+stitch and maps the authored eased cap to the corresponding body interface by
+normalized arclength; `technical-flat-geometry.ts` transfers the display path,
+and assembly/live rendering emit the shared seam once while suppressing the
+duplicate cap stroke. The back-facing yoke seam uses its approved `SEAM` layer.
+This changes only the view: source piece coordinates, cut geometry, stitch
+graph, authored ease and generic assembly tolerance remain unchanged. The S345
+28-configuration production replay emits front candidates but rendered review
+does not accept them because collar strokes cross/overlap and ten front POMs
+lack geometry anchors. All backs remain held by three open collar colorway
+contours. See `docs/research/epic17/G04-V02-WOVEN-EASED-SEAM-PROJECTION-S345.md`
+and `docs/research/epic17/S345-woven-sleeve/manual-review.md`; the projection
+does not establish physical fit or complete G04 acceptance.
+
 Slice 336 records an additional source-order rule in the versioned projection
 metadata: Woven's `Outer stand ↔ woven neckline` stitch lists the stand edge
 from CF to CB, while the `front.neckline` and `yoke.neckline` edges run from CF

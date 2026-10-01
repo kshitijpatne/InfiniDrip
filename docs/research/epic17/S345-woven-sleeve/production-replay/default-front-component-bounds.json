@@ -1,0 +1,42 @@
+[
+  {
+    "label": "outerStand",
+    "sourceId": "pattern:woven-shirt:role:outerStand",
+    "x": -0.5508000254631042,
+    "y": -23.565200805664062,
+    "width": 41.819000244140625,
+    "height": 34.15800094604492
+  },
+  {
+    "label": "upperCollar",
+    "sourceId": "pattern:woven-shirt:role:upperCollar",
+    "x": -4.298999786376953,
+    "y": -27.54759979248047,
+    "width": 45.56719970703125,
+    "height": 38.14039993286133
+  },
+  {
+    "label": "underCollar",
+    "sourceId": "pattern:woven-shirt:role:underCollar",
+    "x": -4.298999786376953,
+    "y": -27.54759979248047,
+    "width": 45.56719970703125,
+    "height": 38.14039993286133
+  },
+  {
+    "label": "front body",
+    "sourceId": "pattern:woven-shirt:role:front",
+    "x": -27.5,
+    "y": 0,
+    "width": 55,
+    "height": 70.75
+  },
+  {
+    "label": "sleeve",
+    "sourceId": "pattern:woven-shirt:role:sleeve",
+    "x": -51.58729934692383,
+    "y": 2.5,
+    "width": 103.17459869384766,
+    "height": 21.5
+  }
+]

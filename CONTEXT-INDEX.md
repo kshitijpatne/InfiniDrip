@@ -316,8 +316,16 @@ only through an explicitly admitted, linked Epic packet.
   `docs/research/epic17/S344-woven-sleeve/` — completed Slice 344 source,
   topology and transform diagnosis for Woven sleeve-cap joins across all 28
   configurations. No production edit is made; all 56 faces remain held pending
-  approval of the proposed view-only ease projection and its all-option output
-  validation.
+  complete output validation. The maintainer approved S345's bounded
+  revision-bound view-only eased-seam projection; the S345 implementation
+  packet and exact decision record govern the work.
+- `docs/research/epic17/G04-V02-WOVEN-EASED-SEAM-PROJECTION-S345.md` — current
+  S345 exit record: exact approved Woven body-edge projection, duplicate
+  cap-stroke suppression and back-facing seam-layer correction. Source geometry
+  and stitch graph remain unchanged. `docs/research/epic17/S345-woven-sleeve/`
+  contains the 28-option production replay and `manual-review.md`; 28 front
+  candidates emitted but none passed review, while all 28 backs remain held on
+  open collar contours. No Woven face is accepted.
 - `docs/research/epic17/G04-V02-PROJECTION-MAPPING-S277.md` — Slice 277's
   current projection-mapping contract boundary, source-reference rules,
   fail-closed semantics, and focused acceptance gates.

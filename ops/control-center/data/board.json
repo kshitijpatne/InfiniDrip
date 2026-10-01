@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 1289,
-  "updatedAt": "2026-10-01T22:20:47.919Z",
+  "revision": 1305,
+  "updatedAt": "2026-10-01T23:40:52.302Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -339,7 +339,10 @@
         "E-G04-S344-START",
         "E-G04-S344-EXIT",
         "E-G04-S344-MATRIX",
-        "E-G04-S344-RENDERED"
+        "E-G04-S344-RENDERED",
+        "E-G04-S345-START",
+        "E-G04-S345-DECISION",
+        "E-G04-S345-EXIT"
       ]
     },
     {
@@ -3670,7 +3673,10 @@
         "E-G04-S340-START",
         "E-G04-S344-EXIT",
         "E-G04-S344-MATRIX",
-        "E-G04-S344-RENDERED"
+        "E-G04-S344-RENDERED",
+        "E-G04-S345-START",
+        "E-G04-S345-DECISION",
+        "E-G04-S345-EXIT"
       ],
       "flagKey": null
     },
@@ -7118,6 +7124,16 @@
           "at": "2026-10-01T22:20:47.919Z",
           "actor": "Codex",
           "text": "S344 diagnosis complete: source specifies the 1.5 cm eased sleeve-cap join across all 28 Woven options; the approved normalized-arclength map does not specify a warped rendered join. Proposal and output evidence are linked. Await explicit decision on the exact view-only cap projection; keep all 56 Woven faces held and preserve all-seven V02 acceptance."
+        },
+        {
+          "at": "2026-10-01T22:32:06.095Z",
+          "actor": "Codex",
+          "text": "S345 started from verified S344. The maintainer approved the exact view-only eased sleeve-cap projection and one body-derived seam stroke on 2026-10-01. Source geometry/stitches, authored ease and generic 0.25 cm threshold remain unchanged; preserve all 56 Woven holds until all 28 configurations pass complete rendered checks."
+        },
+        {
+          "at": "2026-10-01T23:40:52.302Z",
+          "actor": "Codex",
+          "text": "Slice 345 completed. The approved revision-bound Woven sleeve-cap projection is implemented and focused gates pass. Production replay covers all 28 configurations / 56 faces with zero browser errors; rendered review accepts no Woven face: all 28 front candidates fail collar/readability and POM anchoring review, while all 28 back faces remain held on open collar contours. Preserve all-seven V02 acceptance; V03 remains gated. See S345 exit, coverage, build, browser, rendered and export evidence."
         }
       ],
       "evidenceRefs": [
@@ -7342,7 +7358,15 @@
         "E-G04-S344-START",
         "E-G04-S344-EXIT",
         "E-G04-S344-MATRIX",
-        "E-G04-S344-RENDERED"
+        "E-G04-S344-RENDERED",
+        "E-G04-S345-START",
+        "E-G04-S345-DECISION",
+        "E-G04-S345-EXIT",
+        "E-G04-S345-COVERAGE",
+        "E-G04-S345-BUILD",
+        "E-G04-S345-BROWSER",
+        "E-G04-S345-RENDERED",
+        "E-G04-S345-EXPORT"
       ],
       "flagKey": null
     },
@@ -10218,6 +10242,78 @@
       "sha256": null,
       "verified": true,
       "note": "Inspected default and yokeDepth-max front/back source-edge overlays. They show current rigid-placement gaps/crossing; proposed warp is not implemented or accepted."
+    },
+    {
+      "id": "E-G04-S345-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-EASED-SEAM-PROJECTION-S345.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S345 start: implements only the exact maintainer-approved, view-only Woven eased seam projection and already-approved yoke seam layer; all 56 faces remain held until complete output checks."
+    },
+    {
+      "id": "E-G04-S345-DECISION",
+      "kind": "decision",
+      "uri": "docs/PROJECT-DECISIONS.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Maintainer approved the S344 exact view mapping: reverse-normalized capLeft to front.armhole; capRight to yoke.armholeUpper then back.armholeLower by exact yoke arclength; one body-derived SEAM stroke; suppress duplicate cap stroke; preserve source geometry, source stitch graph, authored ease and 0.25 cm threshold."
+    },
+    {
+      "id": "E-G04-S345-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-EASED-SEAM-PROJECTION-S345.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S345 implementation and verified exit record: approved view-only eased sleeve-cap mapping; no Woven face accepted; remaining holds and next action documented."
+    },
+    {
+      "id": "E-G04-S345-COVERAGE",
+      "kind": "test",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-EASED-SEAM-PROJECTION-S345.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Focused V02 suites pass 130/130; all four changed production modules report 100% statements, branches, functions and lines."
+    },
+    {
+      "id": "E-G04-S345-BUILD",
+      "kind": "build",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-EASED-SEAM-PROJECTION-S345.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "npx tsc --noEmit and production npm run build pass; only the existing Vite chunk-size advisory remains."
+    },
+    {
+      "id": "E-G04-S345-BROWSER",
+      "kind": "browser",
+      "uri": "docs/research/epic17/S345-woven-sleeve/production-replay/matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Production Chromium replay: 28 supported configurations, 56 face requests, 28 front SVG candidates, 28 backs held on three collar contours, zero browser errors."
+    },
+    {
+      "id": "E-G04-S345-RENDERED",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S345-woven-sleeve/manual-review.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Inspected annotated default front and selected option extremes; collar crossings/detached forms and ten table-only front POMs prevent acceptance; no face accepted."
+    },
+    {
+      "id": "E-G04-S345-EXPORT",
+      "kind": "test",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-EASED-SEAM-PROJECTION-S345.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Protected legacy export regression passes 8/8; no legacy DXF behavior or protected export identity changed."
     }
   ]
 }
