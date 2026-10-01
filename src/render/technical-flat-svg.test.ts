@@ -402,7 +402,7 @@ describe("renderTechnicalFlatSvg", () => {
       .toHaveLength(2);
   });
 
-  it("does not render Tee/Fitted sleeve fills while the projected sides overlap the body", () => {
+  it("renders Tee/Fitted sleeve fill closures after source endpoint traversal is resolved", () => {
     for (const recipeId of ["tee", "fitted"] as const) {
       const recipe = GARMENTS.find((candidate) => candidate.name === recipeId)!;
       const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
@@ -410,9 +410,12 @@ describe("renderTechnicalFlatSvg", () => {
         const revision = `live-${recipeId}-${kind}-sleeve-fill`;
         const live = compileTechnicalFlatLiveView({ recipe, block, revisionId: revision, kind, placements: [],
           colorHex: "#3669a4", texture: "smooth", shine: 0 });
-        expect(live.issues.some((issue) => issue.sourceId.includes(`pattern:${recipeId}:role:sleeve:edge:`)
-          && issue.message.includes("S328 production-output review")), `${recipeId}.${kind}`).toBe(true);
-        expect(live.view).toBeNull();
+        expect(live.issues, `${recipeId}.${kind}`).toEqual([]);
+        expect(live.view).not.toBeNull();
+        const rendered = renderTechnicalFlatSvg(live.view!, { measureText: measure,
+          colorway: live.colorway! });
+        expect(rendered.issues, `${recipeId}.${kind}`).toEqual([]);
+        expect(rendered.svg).toContain(`data-colorway-fill-for="flat:${recipeId}:${kind}:component:sleeve:outline"`);
       }
     }
   });

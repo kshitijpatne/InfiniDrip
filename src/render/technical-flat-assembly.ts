@@ -4,10 +4,12 @@ import type { EdgeRef, InterfaceRef, Stitch } from "../drafting/stitch";
 import { cubicLength, cubicPoint } from "../geometry";
 import type { FlatPoint, TechnicalFlatViewKind } from "./technical-flat";
 import { G04_TECHNICAL_FLAT_MAPPINGS } from "./technical-flat-mapping";
+import type { TechnicalFlatProjectionMap } from "./technical-flat-projection";
 
 export interface FlatRoleTransform {
   readonly offset: FlatPoint;
   readonly rotationDegrees: number;
+  readonly mirrorX?: boolean;
 }
 
 export interface TechnicalFlatAssemblyIssue {
@@ -150,9 +152,16 @@ function fitRigid(source: readonly FlatPoint[], target: readonly FlatPoint[]): {
   return { transform, rms };
 }
 
-function stitchRelations(block: Block, stitch: Stitch, visible: ReadonlySet<string>): Relation[] | null {
-  const a = measureInterface(block, stitch.a.edges);
-  const b = measureInterface(block, stitch.b.edges);
+function stitchRelations(block: Block, stitch: Stitch, visible: ReadonlySet<string>,
+  reversedStitchEdges: readonly { readonly stitchLabel: string; readonly pieceId: string; readonly edgeId: string }[],
+  locallyReflectedRoles: ReadonlySet<string>): Relation[] | null {
+  const viewRefs = (refs: readonly InterfaceRef[], side: "a" | "b"): InterfaceRef[] => refs.map((ref) => {
+    if (!("edge" in ref) || !reversedStitchEdges.some((rule) => rule.stitchLabel === stitch.label
+      && rule.pieceId === ref.piece && rule.edgeId === ref.edge && side === "b")) return ref;
+    return { ...ref, reversed: !ref.reversed };
+  });
+  const a = measureInterface(block, viewRefs(stitch.a.edges, "a"));
+  const b = measureInterface(block, viewRefs(stitch.b.edges, "b"));
   if (!a || !b) return null;
   const totalA = a.reduce((sum, segment) => sum + segment.length, 0);
   const totalB = b.reduce((sum, segment) => sum + segment.length, 0);
@@ -160,17 +169,22 @@ function stitchRelations(block: Block, stitch: Stitch, visible: ReadonlySet<stri
   if (Math.abs(totalA - totalB) > allowedDifference) return null;
 
   const groups = new Map<string, { from: string; to: string; source: FlatPoint[]; target: FlatPoint[] }>();
+  const onViewInterface = (segments: readonly RefMeasure[], fraction: number, atEndBoundary = false) => {
+    const resolved = pointOnInterface(block, segments, fraction, atEndBoundary);
+    return resolved && locallyReflectedRoles.has(resolved.roleId)
+      ? { ...resolved, point: point(-resolved.point.x, resolved.point.y) } : resolved;
+  };
   const breakpoints = [...new Set([...interfaceBreakpoints(a), ...interfaceBreakpoints(b)])].sort((left, right) => left - right);
   for (let index = 0; index < breakpoints.length - 1; index += 1) {
     const startFraction = breakpoints[index]!;
     const endFraction = breakpoints[index + 1]!;
     const midpoint = (startFraction + endFraction) / 2;
-    const startA = pointOnInterface(block, a, startFraction)!;
-    const endA = pointOnInterface(block, a, endFraction, true)!;
-    const startB = pointOnInterface(block, b, startFraction)!;
-    const endB = pointOnInterface(block, b, endFraction, true)!;
-    const middleA = pointOnInterface(block, a, midpoint)!;
-    const middleB = pointOnInterface(block, b, midpoint)!;
+    const startA = onViewInterface(a, startFraction)!;
+    const endA = onViewInterface(a, endFraction, true)!;
+    const startB = onViewInterface(b, startFraction)!;
+    const endB = onViewInterface(b, endFraction, true)!;
+    const middleA = onViewInterface(a, midpoint)!;
+    const middleB = onViewInterface(b, midpoint)!;
     if (!visible.has(middleA.roleId) || !visible.has(middleB.roleId) || middleA.roleId === middleB.roleId) continue;
     // Segment boundaries come directly from the source edge lengths. Include
     // each exact seam subdivision endpoint so joins do not depend on a sampled
@@ -190,7 +204,27 @@ function stitchRelations(block: Block, stitch: Stitch, visible: ReadonlySet<stri
     // The relation stores B's local coordinates in A's frame. When A is fixed,
     // this is the transform that places B; the reverse graph traversal inverts
     // it. Keep the source/target order explicit to match that contract.
-    const best = fitRigid(group.source, group.target);
+    const fitted = fitRigid(group.source, group.target);
+    let best = fitted;
+    const frontEndpointAnchor = stitch.label === "Sleeve-cap ease" && group.from === "sleeve" && group.to === "front"
+      && reversedStitchEdges.some((rule) => rule.stitchLabel === stitch.label && rule.pieceId === "front" && rule.edgeId === "armhole");
+    const backEndpointAnchor = stitch.label === "Sleeve-cap ease" && group.from === "sleeve" && group.to === "back"
+      && locallyReflectedRoles.has("sleeve");
+    if (frontEndpointAnchor || backEndpointAnchor) {
+      const sleeveEdge = block.roles.sleeve?.edges.find((edge) => edge.name === (frontEndpointAnchor ? "capLeft" : "capRight"));
+      const bodyArmhole = block.roles[group.to]?.edges.find((edge) => edge.name === "armhole");
+      if (!sleeveEdge || sleeveEdge.kind !== "curve" || !bodyArmhole || bodyArmhole.kind !== "curve") return null;
+      const sourceUnderarm = frontEndpointAnchor ? sleeveEdge.curve.start : sleeveEdge.curve.end;
+      const target = locallyReflectedRoles.has("sleeve") ? point(-sourceUnderarm.x, sourceUnderarm.y) : sourceUnderarm;
+      const placed = transformPoint(bodyArmhole.curve.end, fitted.transform);
+      const transform = { ...fitted.transform, offset: point(
+        fitted.transform.offset.x + target.x - placed.x,
+        fitted.transform.offset.y + target.y - placed.y,
+      ) };
+      const rms = Math.sqrt(group.source.reduce((sum, source, index) =>
+        sum + distance(transformPoint(source, transform), group.target[index]!) ** 2, 0) / group.source.length);
+      best = { transform, rms };
+    }
     relations.push({ from: group.from, to: group.to, toFrom: best.transform, label: stitch.label,
       endpointResidualCm: best.rms });
   }
@@ -282,7 +316,8 @@ function trouserWaistbandFragments(block: Block, kind: TechnicalFlatViewKind): T
 /** Position visible components from source-ordered sewn interfaces. Curves are
  * sampled by their authored parameter and never scaled or rewritten. An
  * interface that cannot support a rigid placement blocks the view explicitly. */
-export function assembleTechnicalFlatRoles(recipeId: string, block: Block, kind: TechnicalFlatViewKind): TechnicalFlatAssembly {
+export function assembleTechnicalFlatRoles(recipeId: string, block: Block, kind: TechnicalFlatViewKind,
+  projectionMap?: TechnicalFlatProjectionMap): TechnicalFlatAssembly {
   const mapping = G04_TECHNICAL_FLAT_MAPPINGS[recipeId];
   if (!mapping) return { recipeId, kind, transforms: {}, sourceFragments: [], joinedStitchLabels: [], issues: [{
     code: "UNSUPPORTED_RECIPE", sourceId: recipeId, message: `Recipe “${recipeId}” has no admitted front/back role assembly map.`,
@@ -296,6 +331,14 @@ export function assembleTechnicalFlatRoles(recipeId: string, block: Block, kind:
   // sewn. Include them in the placement graph, then omit their transforms from
   // the face result so the renderer cannot mistake them for exterior geometry.
   const constructionRoles = new Set(face.roles.map((role) => role.roleId));
+  const reversedStitchEdges = projectionMap?.recipeId === recipeId && projectionMap.revisionId.trim().length > 0
+    ? projectionMap.faces.find((candidate) => candidate.kind === kind)?.roles
+      .flatMap((role) => role.reversedStitchEdges ?? []) ?? []
+    : [];
+  const locallyReflectedRoles = projectionMap?.recipeId === recipeId
+    ? new Set(projectionMap.faces.find((candidate) => candidate.kind === kind)?.roles
+      .filter((role) => role.localYReflection !== undefined).map((role) => role.roleId) ?? [])
+    : new Set<string>();
   const issues: TechnicalFlatAssemblyIssue[] = [];
   for (const roleId of visible) if (!block.roles[roleId]) issues.push({ code: "MISSING_MAPPED_ROLE", sourceId: roleId,
     message: `Mapped visible role “${roleId}” is absent from this pattern revision.` });
@@ -314,7 +357,7 @@ export function assembleTechnicalFlatRoles(recipeId: string, block: Block, kind:
     const hasMappedSideA = stitch.a.edges.some((ref) => constructionRoles.has(ref.piece));
     const hasMappedSideB = stitch.b.edges.some((ref) => constructionRoles.has(ref.piece));
     if (!hasMappedSideA || !hasMappedSideB) continue;
-    const stitchResults = stitchRelations(block, stitch, constructionRoles);
+    const stitchResults = stitchRelations(block, stitch, constructionRoles, reversedStitchEdges, locallyReflectedRoles);
     if (stitchResults === null) {
       issues.push({ code: "UNRESOLVED_STITCH_REFERENCE", sourceId: `stitch:${stitch.label}`,
         message: `Stitch “${stitch.label}” does not provide a length-compatible rigid placement for this view.` });
@@ -356,7 +399,7 @@ export function assembleTechnicalFlatRoles(recipeId: string, block: Block, kind:
   for (const roleId of visible) if (!fragmentPlacedRoles.has(roleId) && !(roleId in solved)) issues.push({ code: "UNPLACED_COMPONENT_ROLE", sourceId: roleId,
     message: `Visible role “${roleId}” has no rigid placement supported by a sewn interface on this face.` });
   return { recipeId, kind, transforms: Object.fromEntries(Object.entries(solved).filter(([roleId]) => visible.has(roleId)).map(([roleId, transform]) => [roleId, {
-    offset: transform.offset, rotationDegrees: transform.rotation,
+    offset: transform.offset, rotationDegrees: transform.rotation, mirrorX: locallyReflectedRoles.has(roleId),
   }])), sourceFragments,
   joinedStitchLabels: [...new Set(relations.map((relation) => relation.label))], issues };
 }

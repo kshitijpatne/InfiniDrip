@@ -89,6 +89,23 @@ export interface FlatProjectionViewBoundary {
   };
 }
 
+/** Face-local traversal correction for a sewn interface. This affects only
+ * rigid placement correspondence; the drafted stitch references stay intact. */
+export interface FlatProjectionReversedStitchEdge {
+  readonly stitchLabel: "Sleeve-cap ease";
+  readonly pieceId: "front";
+  readonly edgeId: "armhole";
+  readonly source: "SOURCE_ENDPOINT_ORDER";
+}
+
+/** A local-Y view reflection used to place the selected back-side sleeve edge
+ * on the exterior side of its face while retaining its source edge identity. */
+export interface FlatProjectionLocalYReflection {
+  readonly axis: "LOCAL_Y";
+  readonly basis: "APPROVED_VIEW_CONVENTION";
+  readonly decisionId: "G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR";
+}
+
 export interface FlatProjectionRole {
   readonly roleId: string;
   /** A logical garment-component identity shared by its front/back projections. */
@@ -105,6 +122,8 @@ export interface FlatProjectionRole {
   readonly physicalPairReflection?: FlatProjectionPhysicalPairReflection;
   readonly viewPairReflection?: FlatProjectionViewPairReflection;
   readonly oppositeSideReflection?: FlatProjectionOppositeSideReflection;
+  readonly reversedStitchEdges?: readonly FlatProjectionReversedStitchEdge[];
+  readonly localYReflection?: FlatProjectionLocalYReflection;
   /** View-only closure for a face segment; it is not a drafted cut or seam edge. */
   readonly viewBoundaries?: readonly FlatProjectionViewBoundary[];
 }
@@ -209,15 +228,8 @@ function teeFittedSleeveProjection(
   ];
   return {
     roleId: "sleeve", instanceId: "sleeve", treatment,
-    runs: valid
-      ? (kind === "FRONT_FLAT" ? frontRuns : backRuns).filter((run) => run.edgeId !== (kind === "FRONT_FLAT" ? "sideLeft" : "sideRight"))
-      : [],
-    heldEdges: valid
-      ? [{
-        edgeId: kind === "FRONT_FLAT" ? "sideLeft" : "sideRight",
-        reason: "S328 production-output review shows the mapped sleeve-side path entering the body interior on the same revision; the mirrored pair overlaps across the center region. Hold the face until a source-to-view transform places both sleeve instances outside the body without changing cut geometry.",
-      }]
-      : piece.edges.map((edge) => ({ edgeId: edge.name, reason })),
+    runs: valid ? (kind === "FRONT_FLAT" ? frontRuns : backRuns) : [],
+    heldEdges: valid ? [] : piece.edges.map((edge) => ({ edgeId: edge.name, reason })),
     faceExcludedEdges: valid
       ? (kind === "FRONT_FLAT"
         ? [{ edgeId: "capRight", reason: "Back-facing sleeve-cap interval is mapped to BACK_FLAT." },
@@ -234,6 +246,14 @@ function teeFittedSleeveProjection(
     ...(valid ? { viewPairReflection: {
       axisRoleId, edgeId: axis!.name as "centerFront" | "centerBack", axis: "ASSEMBLED_BODY_CENTER" as const,
       source: "MAINTAINER_VIEW_DECISION" as const, decisionId: "G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR" as const, quantity: 2 as const,
+    } } : {}),
+    ...(valid && kind === "FRONT_FLAT" ? { reversedStitchEdges: [{
+      stitchLabel: "Sleeve-cap ease" as const, pieceId: "front" as const,
+      edgeId: "armhole" as const, source: "SOURCE_ENDPOINT_ORDER" as const,
+    }] } : {}),
+    ...(valid && kind === "BACK_FLAT" ? { localYReflection: {
+      axis: "LOCAL_Y" as const, basis: "APPROVED_VIEW_CONVENTION" as const,
+      decisionId: "G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR" as const,
     } } : {}),
   };
 }
@@ -703,7 +723,8 @@ export type FlatProjectionIssueCode =
   | "INVALID_RUN_LANDMARK" | "LANDMARK_ROLE_MISMATCH" | "LANDMARK_EDGE_MISMATCH"
   | "LANDMARK_NOT_ON_EDGE" | "EMPTY_HOLD_REASON" | "RUN_ON_HIDDEN_ROLE" | "INVALID_FOLD_AXIS_REFLECTION"
   | "INVALID_PHYSICAL_PAIR_REFLECTION" | "INVALID_VIEW_PAIR_REFLECTION" | "INVALID_OPPOSITE_SIDE_REFLECTION"
-  | "INVALID_COLLAR_TRANSFER" | "INVALID_WOVEN_SLEEVE_TRANSFER" | "INVALID_STITCH_BOUNDARY" | "INVALID_PAIRED_EDGE" | "INVALID_VIEW_BOUNDARY";
+  | "INVALID_COLLAR_TRANSFER" | "INVALID_WOVEN_SLEEVE_TRANSFER" | "INVALID_STITCH_BOUNDARY" | "INVALID_PAIRED_EDGE" | "INVALID_VIEW_BOUNDARY"
+  | "INVALID_STITCH_ENDPOINT_ORIENTATION" | "INVALID_LOCAL_Y_REFLECTION";
 
 export interface FlatProjectionIssue {
   readonly code: FlatProjectionIssueCode;
@@ -1112,6 +1133,52 @@ function validateRole(
   }
   if (mappingRole.treatment !== expectedTreatment) {
     issues.push({ code: "TREATMENT_MISMATCH", sourceId, message: `Projection treatment for “${roleId}” must match the admitted role map.` });
+  }
+  const reversedStitchEdges = mappingRole.reversedStitchEdges;
+  const requiresSleeveEndpointOrder = (recipeId === "tee" || recipeId === "fitted")
+    && faceKind === "FRONT_FLAT" && roleId === "sleeve";
+  if (reversedStitchEdges !== undefined || requiresSleeveEndpointOrder) {
+    const entries = Array.isArray(reversedStitchEdges) ? reversedStitchEdges : [];
+    const matches = block.stitches.filter((stitch) => stitch.label === "Sleeve-cap ease");
+    const stitch = matches[0];
+    const capLeft = block.roles.sleeve?.edges.find((edge) => edge.name === "capLeft");
+    const sideLeft = block.roles.sleeve?.edges.find((edge) => edge.name === "sideLeft");
+    const armhole = block.roles.front?.edges.find((edge) => edge.name === "armhole");
+    const topologyMatches = matches.length === 1 && !!stitch
+      && stitch.a.edges.length === 2 && stitch.b.edges.length === 2
+      && stitch.a.edges[0]?.piece === "sleeve" && "edge" in stitch.a.edges[0] && stitch.a.edges[0].edge === "capLeft"
+      && stitch.a.edges[1]?.piece === "sleeve" && "edge" in stitch.a.edges[1] && stitch.a.edges[1].edge === "capRight"
+      && stitch.b.edges[0]?.piece === "front" && "edge" in stitch.b.edges[0] && stitch.b.edges[0].edge === "armhole"
+      && stitch.b.edges[1]?.piece === "back" && "edge" in stitch.b.edges[1] && stitch.b.edges[1].edge === "armhole"
+      && !!capLeft && capLeft.kind === "curve" && !!sideLeft && sideLeft.kind === "line"
+      && samePoint(capLeft.curve.start, sideLeft.end)
+      && !!armhole && armhole.kind === "curve";
+    const exactRule = entries.length === 1 && isRecord(entries[0])
+      && entries[0].stitchLabel === "Sleeve-cap ease" && entries[0].pieceId === "front"
+      && entries[0].edgeId === "armhole" && entries[0].source === "SOURCE_ENDPOINT_ORDER";
+    if (!requiresSleeveEndpointOrder || !topologyMatches || !exactRule) {
+      issues.push({ code: "INVALID_STITCH_ENDPOINT_ORIENTATION", sourceId,
+        message: "The reversed view traversal requires the exact Tee/Fitted front armhole and sleeve-cap source endpoint order." });
+    }
+  }
+  const localYReflection = mappingRole.localYReflection;
+  const requiresBackSleeveReflection = (recipeId === "tee" || recipeId === "fitted")
+    && faceKind === "BACK_FLAT" && roleId === "sleeve";
+  if (localYReflection !== undefined || requiresBackSleeveReflection) {
+    const capLeft = block.roles.sleeve?.edges.find((edge) => edge.name === "capLeft");
+    const capRight = block.roles.sleeve?.edges.find((edge) => edge.name === "capRight");
+    const sideRight = block.roles.sleeve?.edges.find((edge) => edge.name === "sideRight");
+    const validSourceJoin = !!capLeft && capLeft.kind === "curve" && !!capRight && capRight.kind === "curve"
+      && !!sideRight && sideRight.kind === "line"
+      && samePoint(capLeft.curve.end, capRight.curve.start)
+      && samePoint(capRight.curve.end, sideRight.start);
+    const exactReflection = isRecord(localYReflection) && localYReflection.axis === "LOCAL_Y"
+      && localYReflection.basis === "APPROVED_VIEW_CONVENTION"
+      && localYReflection.decisionId === "G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR";
+    if (!requiresBackSleeveReflection || !validSourceJoin || !exactReflection) {
+      issues.push({ code: "INVALID_LOCAL_Y_REFLECTION", sourceId,
+        message: "The back sleeve local-Y view reflection requires the exact sewn cap-to-side source joins and admitted face mapping." });
+    }
   }
   if (typeof mappingRole.instanceId !== "string" || mappingRole.instanceId.trim().length === 0) {
     issues.push({ code: "MISSING_INSTANCE", sourceId, message: `Role “${roleId}” needs an explicit physical component instance ID.` });

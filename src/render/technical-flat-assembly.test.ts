@@ -11,6 +11,7 @@ import { G04_TECHNICAL_FLAT_MAPPINGS } from "./technical-flat-mapping";
 import { cubicPoint } from "../geometry";
 import { transformFlatPoint } from "./technical-flat-transform";
 import { TROUSER_OPTION_DEFINITIONS } from "../drafting/trouser-contract";
+import { createG04TechnicalFlatProjectionMap } from "./technical-flat-projection";
 
 const draft = (recipe: typeof GARMENTS[number]) => recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
 
@@ -97,6 +98,57 @@ describe("assembleTechnicalFlatRoles", () => {
       const bandViewPoint = transformFlatPoint(edgePoint(bandEdge, bandT), { ...assembly.transforms.waistband!, mirrorX: false });
       expect(Math.hypot(bodyViewPoint.x - bandViewPoint.x, bodyViewPoint.y - bandViewPoint.y)).toBeLessThan(0.3);
     }
+  });
+
+  it("maps the Tee front sleeve underarm to the source-matching body underarm by reversing only the view traversal", () => {
+    const tee = draft(TEE);
+    const projection = createG04TechnicalFlatProjectionMap("tee", tee, "tee-endpoint-map")!;
+    const assembly = assembleTechnicalFlatRoles("tee", tee, "FRONT_FLAT", projection);
+    const sleeve = tee.roles.sleeve!.edges.find((edge) => edge.name === "capLeft")!;
+    const armhole = tee.roles.front!.edges.find((edge) => edge.name === "armhole")!;
+    const sleeveUnderarm = transformFlatPoint(edgePoint(sleeve, 0), { ...assembly.transforms.sleeve!, mirrorX: false });
+    const bodyUnderarm = transformFlatPoint(edgePoint(armhole, 1), { ...assembly.transforms.front!, mirrorX: false });
+    const bodyShoulder = transformFlatPoint(edgePoint(armhole, 0), { ...assembly.transforms.front!, mirrorX: false });
+    expect(Math.hypot(sleeveUnderarm.x - bodyUnderarm.x, sleeveUnderarm.y - bodyUnderarm.y)).toBeLessThan(1e-8);
+    expect(Math.hypot(sleeveUnderarm.x - bodyShoulder.x, sleeveUnderarm.y - bodyShoulder.y)).toBeGreaterThan(5);
+    expect(assembly.issues.some((issue) => issue.code === "STITCH_ENDPOINT_RESIDUAL")).toBe(true);
+    const mismatchedMap = { ...projection, recipeId: "fitted" } as unknown as typeof projection;
+    expect(assembleTechnicalFlatRoles("tee", tee, "FRONT_FLAT", mismatchedMap).transforms.sleeve?.mirrorX).toBe(false);
+    const blankRevisionMap = { ...projection, revisionId: " " } as unknown as typeof projection;
+    expect(assembleTechnicalFlatRoles("tee", tee, "FRONT_FLAT", blankRevisionMap).transforms.sleeve).toBeDefined();
+    const missingFaceMap = { ...projection, faces: [projection.faces[1]] } as unknown as typeof projection;
+    expect(assembleTechnicalFlatRoles("tee", tee, "FRONT_FLAT", missingFaceMap).transforms.sleeve).toBeDefined();
+  });
+
+  it("reflects the selected Tee back sleeve locally so its source side projects outside the back panel", () => {
+    const tee = draft(TEE);
+    const projection = createG04TechnicalFlatProjectionMap("tee", tee, "tee-back-endpoint-map")!;
+    const assembly = assembleTechnicalFlatRoles("tee", tee, "BACK_FLAT", projection);
+    const sleeve = tee.roles.sleeve!;
+    const back = tee.roles.back!;
+    const transform = assembly.transforms.sleeve!;
+    expect(transform.mirrorX).toBe(true);
+    const capRight = sleeve.edges.find((edge) => edge.name === "capRight")!;
+    const armhole = back.edges.find((edge) => edge.name === "armhole")!;
+    const sleeveUnderarm = transformFlatPoint(edgePoint(capRight, 1), { ...transform, mirrorX: true });
+    const bodyUnderarm = transformFlatPoint(edgePoint(armhole, 1), { ...assembly.transforms.back!, mirrorX: false });
+    expect(Math.hypot(sleeveUnderarm.x - bodyUnderarm.x, sleeveUnderarm.y - bodyUnderarm.y)).toBeLessThan(1e-8);
+    const sideRight = sleeve.edges.find((edge) => edge.name === "sideRight")!;
+    const outerHem = transformFlatPoint(edgePoint(sideRight, 1), { ...transform, mirrorX: true });
+    expect(outerHem.x).toBeGreaterThan(bodyUnderarm.x);
+  });
+
+  it("rejects a malformed front armhole when endpoint anchoring cannot resolve its curve", () => {
+    const tee = draft(TEE);
+    const front = tee.roles.front!;
+    const armhole = front.edges.find((edge) => edge.name === "armhole")!;
+    if (armhole.kind !== "curve") throw new Error("Expected the drafted armhole curve.");
+    const malformed = block({ ...tee.roles, front: { ...front, edges: front.edges.map((edge) => edge.name === "armhole"
+      ? { kind: "line" as const, name: "armhole", start: armhole.curve.start, end: armhole.curve.end } : edge) } },
+    tee.stitches.map((stitch) => stitch.label === "Sleeve-cap ease" ? { ...stitch, ease: { lo: -1, hi: 100 } } : stitch));
+    const projection = createG04TechnicalFlatProjectionMap("tee", malformed, "malformed-front-armhole")!;
+    expect(assembleTechnicalFlatRoles("tee", malformed, "FRONT_FLAT", projection).issues)
+      .toContainEqual(expect.objectContaining({ code: "UNRESOLVED_STITCH_REFERENCE", sourceId: "stitch:Sleeve-cap ease" }));
   });
 
   it("reports an unsupported recipe", () => {

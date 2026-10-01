@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 936,
-  "updatedAt": "2026-10-01T08:43:19.911Z",
+  "revision": 961,
+  "updatedAt": "2026-10-01T09:34:32.474Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -155,7 +155,7 @@
       "title": "EPIC-17: G04 — Professional flats and CAD interchange",
       "status": "In Progress",
       "owner": "Codex",
-      "description": "Admission: docs/planning/EPIC-17-ADMISSION.md. S329 exit re-estimate: 69 numbered slices through S329; at least 10 additional slices / 79 total under the current minimum (resolve Tee/Fitted sleeve transform; integrated V02 exit; V03 five-slice minimum after V02; three final integration/merge/deployment slices). Other V02 conflicts and CAD rights/receiver evidence may add unbounded work. Current production matrix: 73 configurations / 146 faces / 32 option fields, 52 accepted and 94 held, exactly matching S328 per face. S329's body-relative Tee/Fitted candidate failed rendered visual review; all four defaults remain held and no implementation was landed. All-seven acceptance remains mandatory; exact CAD compatibility requires demonstrated import/round-trip evidence. See S329 exit packet and integrated browser evidence; V03 remains gated.",
+      "description": "Admission: docs/planning/EPIC-17-ADMISSION.md. S330 exit re-estimate: 330 numbered slices through S330; at least 9 additional slices / 339 total under the current minimum (integrated V02 exit; V03 five-slice minimum after V02; three final integration/PR/merge/deployment slices). Further V02 holds and CAD rights/receiver evidence may add unbounded work. Production matrix: 73 configurations / 146 faces / 32 option fields, 56 accepted and 90 held. S330 accepts only the four Tee/Fitted default faces after strict Chromium review; all other hold reasons and four changed-measurement Tee/Fitted holds remain. All-seven acceptance remains mandatory; exact CAD compatibility requires demonstrated import/round-trip evidence. See S330 exit packet and linked browser evidence; V03 remains gated.",
       "evidenceRefs": [
         "E-G04-S271-EXIT",
         "E-G04-S273-EXIT",
@@ -251,7 +251,13 @@
         "E-G04-S328-INTEGRATED-BROWSER",
         "E-G04-S329-START",
         "E-G04-S329-EXIT",
-        "E-G04-S329-INTEGRATED-BROWSER"
+        "E-G04-S329-INTEGRATED-BROWSER",
+        "E-G04-S330-START",
+        "E-G04-S330-EXIT",
+        "E-G04-S330-TEE-FITTED-REVIEW",
+        "E-G04-S330-TEE-FITTED-BROWSER",
+        "E-G04-S330-MEASUREMENT-HOLD",
+        "E-G04-S330-INTEGRATED-BROWSER"
       ]
     },
     {
@@ -2780,7 +2786,7 @@
         "100% coverage",
         "maintainer gates"
       ],
-      "description": "Admission: docs/planning/EPIC-17-ADMISSION.md. S329 exit re-estimate: 69 numbered slices through S329; at least 10 additional slices / 79 total under the current minimum (resolve Tee/Fitted sleeve transform; integrated V02 exit; V03 five-slice minimum after V02; three final integration/merge/deployment slices). Other V02 conflicts and CAD rights/receiver evidence may add unbounded work. Current production matrix: 73 configurations / 146 faces / 32 option fields, 52 accepted and 94 held, exactly matching S328 per face. S329's body-relative Tee/Fitted candidate failed rendered visual review; all four defaults remain held and no implementation was landed. All-seven acceptance remains mandatory; exact CAD compatibility requires demonstrated import/round-trip evidence. See S329 exit packet and integrated browser evidence; V03 remains gated.",
+      "description": "Admission: docs/planning/EPIC-17-ADMISSION.md. S330 exit re-estimate: 330 numbered slices through S330; at least 9 additional slices / 339 total under the current minimum (integrated V02 exit; V03 five-slice minimum after V02; three final integration/PR/merge/deployment slices). Further V02 holds and CAD rights/receiver evidence may add unbounded work. Production matrix: 73 configurations / 146 faces / 32 option fields, 56 accepted and 90 held. S330 accepts only the four Tee/Fitted default faces after strict Chromium review; all other hold reasons and four changed-measurement Tee/Fitted holds remain. All-seven acceptance remains mandatory; exact CAD compatibility requires demonstrated import/round-trip evidence. See S330 exit packet and linked browser evidence; V03 remains gated.",
       "expectation": "Front/back technical flats for every supported recipe/variant and proven CAD interchange. Pattern-linked side/oblique views are explicitly owned by G09/D04, so the complete view set is accepted only there.",
       "acceptanceCriteria": [
         "Complete every G04 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
@@ -3273,6 +3279,21 @@
           "at": "2026-10-01T08:41:25.926Z",
           "actor": "Codex",
           "text": "Updated Epic metadata (description: Admission: docs/planning/EPIC-17-ADMISSION.md. S329 exit re-estimate: 69 numbered slices through S329; at least 10 additional slices / 79 total under the current minimum (resolve Tee/Fitted sleeve transform; integrated V02 exit; V03 five-slice minimum after V02; three final integration/merge/deployment slices). Other V02 conflicts and CAD rights/receiver evidence may add unbounded work. Current production matrix: 73 configurations / 146 faces / 32 option fields, 52 accepted and 94 held, exactly matching S328 per face. S329's body-relative Tee/Fitted candidate failed rendered visual review; all four defaults remain held and no implementation was landed. All-seven acceptance remains mandatory; exact CAD compatibility requires demonstrated import/round-trip evidence. See S329 exit packet and integrated browser evidence; V03 remains gated.). Refresh the admitted G04 estimate and output hold evidence after S329's rendered transform rejection and full production replay."
+        },
+        {
+          "at": "2026-10-01T08:48:57.259Z",
+          "actor": "Codex",
+          "text": "S330 starts from S329 commit 3594160a on the admitted, still-blocked V02 path. It will trace only the Tee/Fitted sleeve-to-armhole face mapping under the existing maintainer approval. The all-seven recipe requirement is unchanged; current production remains 52 accepted / 94 held. No V03 work starts until V02 passes."
+        },
+        {
+          "at": "2026-10-01T09:32:40.783Z",
+          "actor": "Codex",
+          "text": "Slice 330 verified exit. Estimate after S330: at least 9 additional landed slices / 339 total under the current minimum; V02 integrated exit, V03 minimum five slices, and final integration/PR/merge/deployment remain. Further recipe conflicts and rights/receiver evidence may extend this without a defensible upper bound. No status transition: G04-V02 In Progress, V03 Backlog."
+        },
+        {
+          "at": "2026-10-01T09:34:03.411Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: Admission: docs/planning/EPIC-17-ADMISSION.md. S330 exit re-estimate: 330 numbered slices through S330; at least 9 additional slices / 339 total under the current minimum (integrated V02 exit; V03 five-slice minimum after V02; three final integration/PR/merge/deployment slices). Further V02 holds and CAD rights/receiver evidence may add unbounded work. Production matrix: 73 configurations / 146 faces / 32 option fields, 56 accepted and 90 held. S330 accepts only the four Tee/Fitted default faces after strict Chromium review; all other hold reasons and four changed-measurement Tee/Fitted holds remain. All-seven acceptance remains mandatory; exact CAD compatibility requires demonstrated import/round-trip evidence. See S330 exit packet and linked browser evidence; V03 remains gated.). Refresh canonical EPIC-17 status and conditional estimate after S330 verified output review."
         }
       ],
       "evidenceRefs": [
@@ -3360,7 +3381,13 @@
         "E-G04-S328-INTEGRATED-BROWSER",
         "E-G04-S329-START",
         "E-G04-S329-EXIT",
-        "E-G04-S329-INTEGRATED-BROWSER"
+        "E-G04-S329-INTEGRATED-BROWSER",
+        "E-G04-S330-START",
+        "E-G04-S330-EXIT",
+        "E-G04-S330-TEE-FITTED-REVIEW",
+        "E-G04-S330-TEE-FITTED-BROWSER",
+        "E-G04-S330-MEASUREMENT-HOLD",
+        "E-G04-S330-INTEGRATED-BROWSER"
       ],
       "flagKey": null
     },
@@ -6058,7 +6085,7 @@
         "100% coverage",
         "export byte identity"
       ],
-      "description": "S322–S329 implement approved source-to-view conventions and preserve unresolved holds. S328 found the Tee/Fitted side paths enter the bodice and mirrored instances overlap; S329 source traces confirm the endpoint order but its rendered body-relative candidate still crosses inward, so all four defaults remain held. The rejected transform is not landed. S327 resolves the exact source-derived Trouser front contour and measured same-anchor POM collision; all 48 Trouser faces emit. Production matrix: 73 configurations / 146 faces / 32 option fields; 52 accepted and 94 held, exactly matching S328 per face (Tee/Fitted 4 sleeve-side/body-overlap holds; Polo 34 outer-stand color contours; Woven 28 front contours and 28 back sleeve-cap placements). All-seven V02 acceptance remains mandatory and unmet. G04-V02 stays In Progress; V03 remains gated. See S329 exit packet and integrated browser evidence.",
+      "description": "S330 maps the approved Tee/Fitted source edges to the body underarms in front/back digital views; strict production review accepts only the four defaults. The exact changed-measurement Tee/Fitted cases remain held for length-incompatible Sleeve-cap ease. Current production matrix: 73 configurations / 146 faces / 32 option fields, 56 accepted / 90 held; exactly four faces changed from S329 and every other prior hold reason is unchanged. All-seven V02 acceptance remains mandatory and unmet; keep V02 In Progress and V03 gated. Linked evidence includes the S330 exit packet, manual reviews, strict and integrated Chromium outputs, and measurement hold replay.",
       "expectation": "Live vector output stays aligned with the same pattern and style revision and remains readable across all supported options.",
       "acceptanceCriteria": [
         "Render front/back vector views for all seven recipes and supported option combinations from one pattern/revision.",
@@ -6658,6 +6685,16 @@
           "at": "2026-10-01T08:39:51.667Z",
           "actor": "Codex",
           "text": "S329 exits as evidence-only: source-derived sleeve-edge traces show the attempted body-relative production transform still places the selected FRONT_FLAT side edge inward, so the candidate is rejected. No production source change is landed and all four Tee/Fitted defaults remain held. Fresh production Chromium replay matches S328 for every face: 73 configurations / 146 faces / 32 option fields, 52 accepted / 94 held, zero browser/page/request errors. V02 stays In Progress; V03 remains gated. S330 will investigate the face-local endpoint attachment mapping. See S329 exit packet, manual review, and integrated matrix."
+        },
+        {
+          "at": "2026-10-01T08:48:48.631Z",
+          "actor": "Codex",
+          "text": "S330 starts at clean S329 commit 3594160a, with origin/main verified as its ancestor. Scope isolates the Tee/Fitted source-to-view endpoint mismatch: front selected side geometry begins at the shoulder instead of the shared sleeve underarm. Keep all four defaults and the separate changed-measurement faces held while tracing projection landmarks through assembly and SVG output. Packet: docs/research/epic17/G04-V02-TEE-FITTED-SLEEVE-ENDPOINT-MAPPING-S330.md."
+        },
+        {
+          "at": "2026-10-01T09:32:40.710Z",
+          "actor": "Codex",
+          "text": "Slice 330 exit: source-backed Tee/Fitted endpoint placement now produces four accepted default digital views. Strict visual review and the final 73-configuration / 146-face production replay passed; total is 56 accepted / 90 held, with every other hold unchanged from S329. Exact changed-measurement faces remain held. V02 stays In Progress; V03 stays Backlog. S330 exit report and all rendered evidence are linked."
         }
       ],
       "evidenceRefs": [
@@ -6784,7 +6821,13 @@
         "E-G04-S328-INTEGRATED-BROWSER",
         "E-G04-S329-START",
         "E-G04-S329-EXIT",
-        "E-G04-S329-INTEGRATED-BROWSER"
+        "E-G04-S329-INTEGRATED-BROWSER",
+        "E-G04-S330-START",
+        "E-G04-S330-EXIT",
+        "E-G04-S330-TEE-FITTED-REVIEW",
+        "E-G04-S330-TEE-FITTED-BROWSER",
+        "E-G04-S330-MEASUREMENT-HOLD",
+        "E-G04-S330-INTEGRATED-BROWSER"
       ],
       "flagKey": null
     },
@@ -8778,6 +8821,60 @@
       "sha256": null,
       "verified": true,
       "note": "Fresh production Chromium replay: 73 configurations / 146 faces / 32 fields; 52 accepted / 94 held; all per-face states and blockers match S328; zero browser/page/request errors."
+    },
+    {
+      "id": "E-G04-S330-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-TEE-FITTED-SLEEVE-ENDPOINT-MAPPING-S330.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S330 boundary and source-backed investigation plan for the unresolved Tee/Fitted sleeve-to-armhole endpoint mapping; preserve all current holds pending rendered proof."
+    },
+    {
+      "id": "E-G04-S330-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/G04-V02-TEE-FITTED-SLEEVE-ENDPOINT-MAPPING-S330.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Verified S330 exit: source-backed Tee/Fitted sleeve endpoint mapping, strict and integrated rendered evidence, focused 100% changed-module coverage, protected export identity, remaining holds, and next gated action."
+    },
+    {
+      "id": "E-G04-S330-TEE-FITTED-REVIEW",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S330-tee-fitted-browser/manual-review.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Manual inspection of all four rebuilt-production Tee/Fitted default SVG and PNG outputs; digital view accepted, measured fixtures remain separately held."
+    },
+    {
+      "id": "E-G04-S330-TEE-FITTED-BROWSER",
+      "kind": "browser",
+      "uri": "docs/research/epic17/S330-tee-fitted-browser/matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Strict production Chromium replay of four Tee/Fitted default faces; no browser/page/request errors and all four emitted."
+    },
+    {
+      "id": "E-G04-S330-MEASUREMENT-HOLD",
+      "kind": "browser",
+      "uri": "docs/research/epic17/S330-tee-fitted-browser/measurements/matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Production Chromium replay of four exact changed-measurement faces; all remain fully held for length-incompatible Sleeve-cap ease, with no partial SVG."
+    },
+    {
+      "id": "E-G04-S330-INTEGRATED-BROWSER",
+      "kind": "browser",
+      "uri": "docs/research/epic17/S330-integrated-browser/matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Final rebuilt-production replay: 73 configurations / 146 faces / 32 option fields; 56 accepted / 90 held; only four Tee/Fitted defaults changed from S329."
     }
   ]
 }

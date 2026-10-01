@@ -76,16 +76,36 @@ describe("compileTechnicalFlatLiveView", () => {
     expect(artwork.colorway).toMatchObject({ revisionId: "live-tank-art", colorHex: "#456789" });
   });
 
-  it("holds Tee/Fitted sleeve views when mapped side edges overlap the body", () => {
+  it("attaches the Tee/Fitted front cap and side to the exact armhole underarm while retaining the eased-cap notice", () => {
     for (const recipeId of ["tee", "fitted"] as const) {
       const recipe = GARMENTS.find((candidate) => candidate.name === recipeId)!;
       const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
       for (const kind of ["FRONT_FLAT", "BACK_FLAT"] as const) {
-        const result = compileTechnicalFlatLiveView({ recipe, block, revisionId: `live-${recipeId}-${kind}`, kind,
+        const revisionId = `live-${recipeId}-${kind}`;
+        const result = compileTechnicalFlatLiveView({ recipe, block, revisionId, kind,
           placements: [], colorHex: "#456789", texture: "smooth", shine: 0 });
-        expect(result.issues.some((issue) => issue.sourceId.includes(`pattern:${recipeId}:role:sleeve:edge:`)
-          && issue.message.includes("S328 production-output review")), `${recipeId}:${kind}`).toBe(true);
-        expect(result.view).toBeNull();
+        expect(result.issues, `${recipeId}.${kind}`).toEqual([]);
+        expect(result.view?.revisionId).toBe(revisionId);
+        const sleeve = result.view?.primitives.find((primitive) => primitive.kind === "path"
+          && primitive.id === `flat:${recipeId}:${kind}:component:sleeve:outline`);
+        const bodyRoleId = kind === "FRONT_FLAT" ? "front" : "back";
+        const body = result.view?.primitives.find((primitive) => primitive.kind === "path"
+          && primitive.id === `flat:${recipeId}:${kind}:component:${bodyRoleId}:outline`);
+        if (sleeve?.kind !== "path" || body?.kind !== "path") throw new Error("Expected the live sleeve and body outlines.");
+        const bodyArmholeIndex = body.sourceEdgeIds!.indexOf(`pattern:${recipeId}:role:${bodyRoleId}:edge:armhole`);
+        const capId = kind === "FRONT_FLAT" ? "capLeft" : "capRight";
+        const sleeveCapIndex = sleeve.sourceEdgeIds!.indexOf(`pattern:${recipeId}:role:sleeve:edge:${capId}`);
+        const sleeveUnderarmCommand = sleeve.commands[sleeveCapIndex * 2 + (kind === "FRONT_FLAT" ? 0 : 1)]!;
+        const bodyUnderarmCommand = body.commands[bodyArmholeIndex * 2 + 1]!;
+        if (sleeveUnderarmCommand.op === "close" || bodyUnderarmCommand.op === "close") {
+          throw new Error("Expected source endpoints on the sleeve and body outlines.");
+        }
+        const sleeveUnderarm = sleeveUnderarmCommand.point;
+        const bodyUnderarm = bodyUnderarmCommand.point;
+        expect(Math.hypot(sleeveUnderarm.x - bodyUnderarm.x, sleeveUnderarm.y - bodyUnderarm.y)).toBeLessThan(1e-8);
+        expect(result.view?.notices.some((notice) => notice.sourceId === "stitch:Sleeve-cap ease"
+          && notice.message.includes("endpoints"))).toBe(true);
+        expect(result.view?.primitives.some((primitive) => primitive.id.endsWith(":approved-view-pair"))).toBe(true);
       }
     }
   });
@@ -181,6 +201,12 @@ describe("compileTechnicalFlatLiveView", () => {
       feature: "annotation", source: { ...base.source, sourceClass: "PATTERN_DERIVED" },
       markKind: "placementPoint", markName: "on-axis", at: { x: 0, y: 4 } };
     appendApprovedViewPairReflection([], centerPoint, reflection, block, transforms, issues);
+    expect(issues).toEqual([]);
+    const locallyMirroredFrontTransforms = { ...transforms, front: { ...transforms.front!, mirrorX: true } };
+    const mirroredAxisResult: TechnicalFlatPrimitive[] = [];
+    const offAxisMark = { ...centerPoint, id: "off-axis-mark", at: { x: 2, y: 4 } };
+    appendApprovedViewPairReflection(mirroredAxisResult, offAxisMark, reflection, block, locallyMirroredFrontTransforms, issues);
+    expect(mirroredAxisResult).toHaveLength(1);
     expect(issues).toEqual([]);
   });
 
@@ -342,16 +368,18 @@ describe("compileTechnicalFlatLiveView", () => {
     expect(missingOverlay.issues.some((issue) => issue.stage === "overlay")).toBe(true);
   });
 
-  it("keeps the Tee/Fitted sleeve candidate held after the production-output overlap finding", () => {
+  it("emits Tee/Fitted front and back sleeve candidates with source endpoint traversal", () => {
     for (const [recipeId, roleId] of [["tee", "sleeve"], ["fitted", "sleeve"]] as const) {
       const recipe = GARMENTS.find((candidate) => candidate.name === recipeId)!;
       const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
       for (const kind of ["FRONT_FLAT", "BACK_FLAT"] as const) {
         const result = compileTechnicalFlatLiveView({ recipe, block, revisionId: `live-${recipeId}-${kind}`, kind,
           placements: [], colorHex: "#456789", texture: "smooth", shine: 0 });
-        expect(result.view, `${recipeId}.${kind}`).toBeNull();
-        expect(result.issues.some((issue) => issue.sourceId.includes(`pattern:${recipeId}:role:${roleId}:edge:`)
-          && issue.message.includes("S328 production-output review")), `${recipeId}.${kind}`).toBe(true);
+        expect(result.issues, `${recipeId}.${kind}`).toEqual([]);
+        expect(result.view?.primitives.some((primitive) => primitive.kind === "path"
+          && primitive.source.sourceId === `pattern:${recipeId}:role:${roleId}`), `${recipeId}.${kind}`).toBe(true);
+        expect(result.view?.notices.some((notice) => notice.sourceId === "stitch:Sleeve-cap ease"
+          && notice.message.includes("endpoints")), `${recipeId}.${kind}`).toBe(true);
       }
     }
   });

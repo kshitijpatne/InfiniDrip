@@ -1,0 +1,835 @@
+{
+  "generatedAt": "2026-10-01T09:05:13.242Z",
+  "viewport": {
+    "width": 1440,
+    "height": 3000
+  },
+  "browser": "Playwright Chromium production preview through the live app UI",
+  "recipes": [
+    "tee",
+    "fitted"
+  ],
+  "cases": [
+    {
+      "caseId": "tee-default",
+      "recipeId": "tee",
+      "kind": "default",
+      "optionValues": {},
+      "options": {}
+    },
+    {
+      "caseId": "fitted-default",
+      "recipeId": "fitted",
+      "kind": "default",
+      "optionValues": {},
+      "options": {}
+    }
+  ],
+  "faces": [
+    {
+      "name": "tee-default-front",
+      "caseId": "tee-default",
+      "recipeId": "tee",
+      "face": "FRONT_FLAT",
+      "revision": "live-draft:tee:1:1",
+      "issues": null,
+      "blocked": false,
+      "viewBox": {
+        "x": -49.42770004272461,
+        "y": -1.5480999946594238,
+        "width": 98.85540008544922,
+        "height": 78.46269989013672
+      },
+      "labels": [
+        {
+          "id": "flat:tee:FRONT_FLAT:callout:body-chest-finished",
+          "text": "Body chest (finished): 110.0 cm (±1.3 cm)",
+          "revision": "live-draft:tee:1:1",
+          "box": {
+            "x": 28.985828399658203,
+            "y": 23.771728515625,
+            "width": 6.07673978805542,
+            "height": 0.3932967483997345
+          }
+        },
+        {
+          "id": "flat:tee:FRONT_FLAT:callout:body-length-hps-hem",
+          "text": "Body length (HPS–hem): 70.0 cm (±1.3 cm)",
+          "revision": "live-draft:tee:1:1",
+          "box": {
+            "x": 29.04682731628418,
+            "y": 69.14793395996094,
+            "width": 6.3845906257629395,
+            "height": 0.3932967483997345
+          }
+        },
+        {
+          "id": "flat:tee:FRONT_FLAT:callout:across-shoulder",
+          "text": "Across shoulder: 45.0 cm (±0.6 cm)",
+          "revision": "live-draft:tee:1:1",
+          "box": {
+            "x": 24.046783447265625,
+            "y": 3.1479275226593018,
+            "width": 5.229953765869141,
+            "height": 0.3932967483997345
+          }
+        },
+        {
+          "id": "flat:tee:FRONT_FLAT:callout:neck-width",
+          "text": "Neck width: 14.0 cm (±0.6 cm)",
+          "revision": "live-draft:tee:1:1",
+          "box": {
+            "x": 6.137389659881592,
+            "y": -0.852072536945343,
+            "width": 4.501596450805664,
+            "height": 0.3932967483997345
+          }
+        },
+        {
+          "id": "flat:tee:FRONT_FLAT:callout:front-neck-drop",
+          "text": "Front neck drop: 8.0 cm (±0.3 cm)",
+          "revision": "live-draft:tee:1:1",
+          "box": {
+            "x": 1.3439061641693115,
+            "y": 8.165027618408203,
+            "width": 4.999026298522949,
+            "height": 0.3932967483997345
+          }
+        }
+      ],
+      "overlaps": [],
+      "labelsWithinViewBox": true,
+      "callouts": [
+        {
+          "id": "flat:tee:FRONT_FLAT:callout:across-shoulder",
+          "target": "flat:tee:FRONT_FLAT:component:front:outline",
+          "targetGeometry": true,
+          "label": true,
+          "sourceId": "pom:tee:across-shoulder",
+          "revision": "live-draft:tee:1:1",
+          "anchorPoint": {
+            "x": 22.5,
+            "y": 4
+          },
+          "leaderEnd": {
+            "x": 26.6662,
+            "y": 3.4429
+          },
+          "labelAt": {
+            "x": 26.6662,
+            "y": 3.4429
+          }
+        },
+        {
+          "id": "flat:tee:FRONT_FLAT:callout:body-chest-finished",
+          "target": "flat:tee:FRONT_FLAT:component:front:outline",
+          "targetGeometry": true,
+          "label": true,
+          "sourceId": "pom:tee:body-chest-finished",
+          "revision": "live-draft:tee:1:1",
+          "anchorPoint": {
+            "x": 27.5,
+            "y": 24
+          },
+          "leaderEnd": {
+            "x": 32.0285,
+            "y": 24.0667
+          },
+          "labelAt": {
+            "x": 32.0285,
+            "y": 24.0667
+          }
+        },
+        {
+          "id": "flat:tee:FRONT_FLAT:callout:body-length-hps-hem",
+          "target": "flat:tee:FRONT_FLAT:component:front:outline",
+          "targetGeometry": true,
+          "label": true,
+          "sourceId": "pom:tee:body-length-hps-hem",
+          "revision": "live-draft:tee:1:1",
+          "anchorPoint": {
+            "x": 27.5,
+            "y": 70
+          },
+          "leaderEnd": {
+            "x": 32.2439,
+            "y": 69.4429
+          },
+          "labelAt": {
+            "x": 32.2439,
+            "y": 69.4429
+          }
+        },
+        {
+          "id": "flat:tee:FRONT_FLAT:callout:front-neck-drop",
+          "target": "flat:tee:FRONT_FLAT:component:front:outline",
+          "targetGeometry": true,
+          "label": true,
+          "sourceId": "pom:tee:front-neck-drop",
+          "revision": "live-draft:tee:1:1",
+          "anchorPoint": {
+            "x": 0,
+            "y": 8
+          },
+          "leaderEnd": {
+            "x": 3.8481,
+            "y": 8.46
+          },
+          "labelAt": {
+            "x": 3.8481,
+            "y": 8.46
+          }
+        },
+        {
+          "id": "flat:tee:FRONT_FLAT:callout:neck-width",
+          "target": "flat:tee:FRONT_FLAT:component:front:outline",
+          "targetGeometry": true,
+          "label": true,
+          "sourceId": "pom:tee:neck-width",
+          "revision": "live-draft:tee:1:1",
+          "anchorPoint": {
+            "x": 7,
+            "y": 0
+          },
+          "leaderEnd": {
+            "x": 8.3927,
+            "y": -0.5571
+          },
+          "labelAt": {
+            "x": 8.3927,
+            "y": -0.5571
+          }
+        }
+      ],
+      "notices": [
+        {
+          "text": "Topstitch geometry is not represented by the current pattern model.",
+          "x": -49.326026916503906,
+          "y": 71.26602172851562,
+          "width": 9.610685348510742,
+          "height": 0.3932967483997345
+        },
+        {
+          "text": "Pleat geometry is not represented by the current pattern model.",
+          "x": -49.326026916503906,
+          "y": 71.75653076171875,
+          "width": 9.077991485595703,
+          "height": 0.3932967483997345
+        },
+        {
+          "text": "No dart is declared for this drafted recipe block.",
+          "x": -49.326026916503906,
+          "y": 72.24693298339844,
+          "width": 6.803980827331543,
+          "height": 0.3932967483997345
+        },
+        {
+          "text": "No pocket shape or opening is represented by this drafted recipe block.",
+          "x": -49.326026916503906,
+          "y": 72.73733520507812,
+          "width": 10.197521209716797,
+          "height": 0.3932967483997345
+        },
+        {
+          "text": "No closure marks are represented by this drafted recipe block.",
+          "x": -49.326026916503906,
+          "y": 73.22772216796875,
+          "width": 8.917434692382812,
+          "height": 0.3932967483997345
+        },
+        {
+          "text": "POM “Shoulder seam” has no geometry anchor and remains table-only.",
+          "x": -49.326026916503906,
+          "y": 73.71812438964844,
+          "width": 10.208288192749023,
+          "height": 0.3932967483997345
+        },
+        {
+          "text": "POM “Armhole (front + back)” has no geometry anchor and remains table-only.",
+          "x": -49.326026916503906,
+          "y": 74.20852661132812,
+          "width": 11.229049682617188,
+          "height": 0.3932967483997345
+        },
+        {
+          "text": "POM “Sleeve length (cap–hem)” has no geometry anchor and remains table-only.",
+          "x": -49.326026916503906,
+          "y": 74.69903564453125,
+          "width": 11.611639976501465,
+          "height": 0.3932967483997345
+        },
+        {
+          "text": "POM “Sleeve bicep width” has no geometry anchor and remains table-only.",
+          "x": -49.326026916503906,
+          "y": 75.18942260742188,
+          "width": 10.723505973815918,
+          "height": 0.3932967483997345
+        },
+        {
+          "text": "POM “Sleeve hem” has no geometry anchor and remains table-only.",
+          "x": -49.326026916503906,
+          "y": 75.67982482910156,
+          "width": 9.74643325805664,
+          "height": 0.3932967483997345
+        },
+        {
+          "text": "Stitch “Sleeve-cap ease” leaves its sewn endpoints 0.68 cm apart after rigid placement; review this construction line before release.",
+          "x": -49.326026916503906,
+          "y": 76.17022705078125,
+          "width": 18.651336669921875,
+          "height": 0.3932967483997345
+        }
+      ],
+      "noticesWithinPanel": true,
+      "parserError": false,
+      "sourceIds": [
+        "pattern:tee:role:front",
+        "pattern:tee:role:sleeve",
+        "pom:tee:across-shoulder",
+        "pom:tee:body-chest-finished",
+        "pom:tee:body-length-hps-hem",
+        "pom:tee:front-neck-drop",
+        "pom:tee:neck-width"
+      ],
+      "entityRevisionMismatch": false,
+      "overlayMetadata": [],
+      "screenshot": "tee-default-front.png",
+      "svg": "tee-default-front.svg"
+    },
+    {
+      "name": "tee-default-back",
+      "caseId": "tee-default",
+      "recipeId": "tee",
+      "face": "BACK_FLAT",
+      "revision": "live-draft:tee:1:1",
+      "issues": null,
+      "blocked": false,
+      "viewBox": {
+        "x": -49.42770004272461,
+        "y": -1.5480999946594238,
+        "width": 98.85540008544922,
+        "height": 76.99150085449219
+      },
+      "labels": [
+        {
+          "id": "flat:tee:BACK_FLAT:callout:body-chest-finished",
+          "text": "Body chest (finished): 110.0 cm (±1.3 cm)",
+          "revision": "live-draft:tee:1:1",
+          "box": {
+            "x": 28.987634658813477,
+            "y": 23.771902084350586,
+            "width": 6.073131561279297,
+            "height": 0.3930632174015045
+          }
+        },
+        {
+          "id": "flat:tee:BACK_FLAT:callout:body-length-hps-hem",
+          "text": "Body length (HPS–hem): 70.0 cm (±1.3 cm)",
+          "revision": "live-draft:tee:1:1",
+          "box": {
+            "x": 29.04872703552246,
+            "y": 69.14810943603516,
+            "width": 6.380799770355225,
+            "height": 0.3930632174015045
+          }
+        },
+        {
+          "id": "flat:tee:BACK_FLAT:callout:across-shoulder",
+          "text": "Across shoulder: 45.0 cm (±0.6 cm)",
+          "revision": "live-draft:tee:1:1",
+          "box": {
+            "x": 24.04833984375,
+            "y": 3.1481025218963623,
+            "width": 5.226848125457764,
+            "height": 0.3930632174015045
+          }
+        },
+        {
+          "id": "flat:tee:BACK_FLAT:callout:neck-width",
+          "text": "Neck width: 14.0 cm (±0.6 cm)",
+          "revision": "live-draft:tee:1:1",
+          "box": {
+            "x": 6.138729572296143,
+            "y": -0.8518974184989929,
+            "width": 4.498923301696777,
+            "height": 0.3930632174015045
+          }
+        }
+      ],
+      "overlaps": [],
+      "labelsWithinViewBox": true,
+      "callouts": [
+        {
+          "id": "flat:tee:BACK_FLAT:callout:across-shoulder",
+          "target": "flat:tee:BACK_FLAT:component:back:outline",
+          "targetGeometry": true,
+          "label": true,
+          "sourceId": "pom:tee:across-shoulder",
+          "revision": "live-draft:tee:1:1",
+          "anchorPoint": {
+            "x": 22.5,
+            "y": 4
+          },
+          "leaderEnd": {
+            "x": 26.6662,
+            "y": 3.4429
+          },
+          "labelAt": {
+            "x": 26.6662,
+            "y": 3.4429
+          }
+        },
+        {
+          "id": "flat:tee:BACK_FLAT:callout:body-chest-finished",
+          "target": "flat:tee:BACK_FLAT:component:back:outline",
+          "targetGeometry": true,
+          "label": true,
+          "sourceId": "pom:tee:body-chest-finished",
+          "revision": "live-draft:tee:1:1",
+          "anchorPoint": {
+            "x": 27.5,
+            "y": 24
+          },
+          "leaderEnd": {
+            "x": 32.0285,
+            "y": 24.0667
+          },
+          "labelAt": {
+            "x": 32.0285,
+            "y": 24.0667
+          }
+        },
+        {
+          "id": "flat:tee:BACK_FLAT:callout:body-length-hps-hem",
+          "target": "flat:tee:BACK_FLAT:component:back:outline",
+          "targetGeometry": true,
+          "label": true,
+          "sourceId": "pom:tee:body-length-hps-hem",
+          "revision": "live-draft:tee:1:1",
+          "anchorPoint": {
+            "x": 27.5,
+            "y": 70
+          },
+          "leaderEnd": {
+            "x": 32.2439,
+            "y": 69.4429
+          },
+          "labelAt": {
+            "x": 32.2439,
+            "y": 69.4429
+          }
+        },
+        {
+          "id": "flat:tee:BACK_FLAT:callout:neck-width",
+          "target": "flat:tee:BACK_FLAT:component:back:outline",
+          "targetGeometry": true,
+          "label": true,
+          "sourceId": "pom:tee:neck-width",
+          "revision": "live-draft:tee:1:1",
+          "anchorPoint": {
+            "x": 7,
+            "y": 0
+          },
+          "leaderEnd": {
+            "x": 8.3927,
+            "y": -0.5571
+          },
+          "labelAt": {
+            "x": 8.3927,
+            "y": -0.5571
+          }
+        }
+      ],
+      "notices": [
+        {
+          "text": "Topstitch geometry is not represented by the current pattern model.",
+          "x": -49.325965881347656,
+          "y": 71.26620483398438,
+          "width": 9.604978561401367,
+          "height": 0.3930632174015045
+        },
+        {
+          "text": "Pleat geometry is not represented by the current pattern model.",
+          "x": -49.325965881347656,
+          "y": 71.75669860839844,
+          "width": 9.072601318359375,
+          "height": 0.3930632174015045
+        },
+        {
+          "text": "No dart is declared for this drafted recipe block.",
+          "x": -49.325965881347656,
+          "y": 72.24710845947266,
+          "width": 6.799941062927246,
+          "height": 0.3930632174015045
+        },
+        {
+          "text": "No pocket shape or opening is represented by this drafted recipe block.",
+          "x": -49.325965881347656,
+          "y": 72.73751068115234,
+          "width": 10.191466331481934,
+          "height": 0.3930632174015045
+        },
+        {
+          "text": "No closure marks are represented by this drafted recipe block.",
+          "x": -49.325965881347656,
+          "y": 73.22789764404297,
+          "width": 8.912139892578125,
+          "height": 0.3930632174015045
+        },
+        {
+          "text": "POM “Front neck drop” has a front-only source anchor; no back anchor is inferred.",
+          "x": -49.325965881347656,
+          "y": 73.71830749511719,
+          "width": 11.716710090637207,
+          "height": 0.3930632174015045
+        },
+        {
+          "text": "POM “Front neck drop” has no geometry anchor and remains table-only.",
+          "x": -49.325965881347656,
+          "y": 74.20870208740234,
+          "width": 10.290800094604492,
+          "height": 0.3930632174015045
+        },
+        {
+          "text": "Stitch “Sleeve-cap ease” leaves its sewn endpoints 0.68 cm apart after rigid placement; review this construction line before release.",
+          "x": -49.325965881347656,
+          "y": 74.69920349121094,
+          "width": 18.640262603759766,
+          "height": 0.3930632174015045
+        }
+      ],
+      "noticesWithinPanel": true,
+      "parserError": false,
+      "sourceIds": [
+        "pattern:tee:role:back",
+        "pattern:tee:role:sleeve",
+        "pom:tee:across-shoulder",
+        "pom:tee:body-chest-finished",
+        "pom:tee:body-length-hps-hem",
+        "pom:tee:neck-width"
+      ],
+      "entityRevisionMismatch": false,
+      "overlayMetadata": [],
+      "screenshot": "tee-default-back.png",
+      "svg": "tee-default-back.svg"
+    },
+    {
+      "name": "fitted-default-front",
+      "caseId": "fitted-default",
+      "recipeId": "fitted",
+      "face": "FRONT_FLAT",
+      "revision": "live-draft:fitted:2:2",
+      "issues": null,
+      "blocked": false,
+      "viewBox": {
+        "x": -49.42770004272461,
+        "y": -1.467900037765503,
+        "width": 98.85540008544922,
+        "height": 83.3634033203125
+      },
+      "labels": [
+        {
+          "id": "flat:fitted:FRONT_FLAT:callout:body-chest-finished",
+          "text": "Body chest (finished): 110.0 cm (±1.3 cm)",
+          "revision": "live-draft:fitted:2:2",
+          "box": {
+            "x": 28.986392974853516,
+            "y": 23.77178192138672,
+            "width": 6.0756096839904785,
+            "height": 0.3932236135005951
+          }
+        },
+        {
+          "id": "flat:fitted:FRONT_FLAT:callout:across-shoulder",
+          "text": "Across shoulder: 45.0 cm (±0.6 cm)",
+          "revision": "live-draft:fitted:2:2",
+          "box": {
+            "x": 24.04726791381836,
+            "y": 3.147982358932495,
+            "width": 5.228981018066406,
+            "height": 0.3932236135005951
+          }
+        },
+        {
+          "id": "flat:fitted:FRONT_FLAT:callout:front-neck-drop",
+          "text": "Front neck drop: 8.0 cm (±0.3 cm)",
+          "revision": "live-draft:fitted:2:2",
+          "box": {
+            "x": 1.3443717956542969,
+            "y": 8.165082931518555,
+            "width": 4.998096942901611,
+            "height": 0.3932236135005951
+          }
+        }
+      ],
+      "overlaps": [],
+      "labelsWithinViewBox": true,
+      "callouts": [
+        {
+          "id": "flat:fitted:FRONT_FLAT:callout:across-shoulder",
+          "target": "flat:fitted:FRONT_FLAT:component:front:outline",
+          "targetGeometry": true,
+          "label": true,
+          "sourceId": "pom:fitted:across-shoulder",
+          "revision": "live-draft:fitted:2:2",
+          "anchorPoint": {
+            "x": 22.5,
+            "y": 4
+          },
+          "leaderEnd": {
+            "x": 26.6662,
+            "y": 3.4429
+          },
+          "labelAt": {
+            "x": 26.6662,
+            "y": 3.4429
+          }
+        },
+        {
+          "id": "flat:fitted:FRONT_FLAT:callout:body-chest-finished",
+          "target": "flat:fitted:FRONT_FLAT:component:front:outline",
+          "targetGeometry": true,
+          "label": true,
+          "sourceId": "pom:fitted:body-chest-finished",
+          "revision": "live-draft:fitted:2:2",
+          "anchorPoint": {
+            "x": 27.5,
+            "y": 24
+          },
+          "leaderEnd": {
+            "x": 32.0285,
+            "y": 24.0667
+          },
+          "labelAt": {
+            "x": 32.0285,
+            "y": 24.0667
+          }
+        },
+        {
+          "id": "flat:fitted:FRONT_FLAT:callout:front-neck-drop",
+          "target": "flat:fitted:FRONT_FLAT:component:front:outline",
+          "targetGeometry": true,
+          "label": true,
+          "sourceId": "pom:fitted:front-neck-drop",
+          "revision": "live-draft:fitted:2:2",
+          "anchorPoint": {
+            "x": 0,
+            "y": 8
+          },
+          "leaderEnd": {
+            "x": 3.8481,
+            "y": 8.46
+          },
+          "labelAt": {
+            "x": 3.8481,
+            "y": 8.46
+          }
+        }
+      ],
+      "notices": [
+        {
+          "text": "Topstitch geometry is not represented by the current pattern model.",
+          "x": -49.32600402832031,
+          "y": 75.26608276367188,
+          "width": 9.608898162841797,
+          "height": 0.3932236135005951
+        },
+        {
+          "text": "Pleat geometry is not represented by the current pattern model.",
+          "x": -49.32600402832031,
+          "y": 75.75657653808594,
+          "width": 9.076303482055664,
+          "height": 0.3932236135005951
+        },
+        {
+          "text": "No pocket shape or opening is represented by this drafted recipe block.",
+          "x": -49.32600402832031,
+          "y": 76.24697875976562,
+          "width": 10.195625305175781,
+          "height": 0.3932236135005951
+        },
+        {
+          "text": "No closure marks are represented by this drafted recipe block.",
+          "x": -49.32600402832031,
+          "y": 76.73738098144531,
+          "width": 8.915776252746582,
+          "height": 0.3932236135005951
+        },
+        {
+          "text": "POM “Body length (HPS–hem)” has no geometry anchor and remains table-only.",
+          "x": -49.32600402832031,
+          "y": 77.22777557373047,
+          "width": 11.502618789672852,
+          "height": 0.3932236135005951
+        },
+        {
+          "text": "POM “Shoulder seam” has no geometry anchor and remains table-only.",
+          "x": -49.32600402832031,
+          "y": 77.71817779541016,
+          "width": 10.206389427185059,
+          "height": 0.3932236135005951
+        },
+        {
+          "text": "POM “Armhole (front + back)” has no geometry anchor and remains table-only.",
+          "x": -49.32600402832031,
+          "y": 78.20858001708984,
+          "width": 11.226961135864258,
+          "height": 0.3932236135005951
+        },
+        {
+          "text": "POM “Side seam (dart closed)” has no geometry anchor and remains table-only.",
+          "x": -49.32600402832031,
+          "y": 78.69908142089844,
+          "width": 11.43132495880127,
+          "height": 0.3932236135005951
+        },
+        {
+          "text": "POM “Bust dart intake” has no geometry anchor and remains table-only.",
+          "x": -49.32600402832031,
+          "y": 79.1894760131836,
+          "width": 10.277371406555176,
+          "height": 0.3932236135005951
+        },
+        {
+          "text": "POM “Neck width” has no geometry anchor and remains table-only.",
+          "x": -49.32600402832031,
+          "y": 79.67987823486328,
+          "width": 9.619974136352539,
+          "height": 0.3932236135005951
+        },
+        {
+          "text": "POM “Sleeve length (cap–hem)” has no geometry anchor and remains table-only.",
+          "x": -49.32600402832031,
+          "y": 80.17028045654297,
+          "width": 11.609480857849121,
+          "height": 0.3932236135005951
+        },
+        {
+          "text": "POM “Sleeve hem” has no geometry anchor and remains table-only.",
+          "x": -49.32600402832031,
+          "y": 80.66067504882812,
+          "width": 9.744620323181152,
+          "height": 0.3932236135005951
+        },
+        {
+          "text": "Stitch “Sleeve-cap ease” leaves its sewn endpoints 0.68 cm apart after rigid placement; review this construction line before release.",
+          "x": -49.32600402832031,
+          "y": 81.15118408203125,
+          "width": 18.647869110107422,
+          "height": 0.3932236135005951
+        }
+      ],
+      "noticesWithinPanel": true,
+      "parserError": false,
+      "sourceIds": [
+        "pattern:fitted:role:front",
+        "pattern:fitted:role:sleeve",
+        "pattern:fitted:dart:front:bustDartUpper:bustDartLower",
+        "pom:fitted:across-shoulder",
+        "pom:fitted:body-chest-finished",
+        "pom:fitted:front-neck-drop"
+      ],
+      "entityRevisionMismatch": false,
+      "overlayMetadata": [],
+      "screenshot": "fitted-default-front.png",
+      "svg": "fitted-default-front.svg"
+    },
+    {
+      "name": "fitted-default-back",
+      "caseId": "fitted-default",
+      "recipeId": "fitted",
+      "face": "BACK_FLAT",
+      "revision": "live-draft:fitted:2:2",
+      "issues": null,
+      "blocked": false,
+      "viewBox": {
+        "x": -49.42770004272461,
+        "y": -1.467900037765503,
+        "width": 98.85540008544922,
+        "height": 76.91130065917969
+      },
+      "labels": [],
+      "overlaps": [],
+      "labelsWithinViewBox": true,
+      "callouts": [],
+      "notices": [
+        {
+          "text": "Topstitch geometry is not represented by the current pattern model.",
+          "x": -49.325965881347656,
+          "y": 71.26620483398438,
+          "width": 9.604978561401367,
+          "height": 0.3930632174015045
+        },
+        {
+          "text": "Pleat geometry is not represented by the current pattern model.",
+          "x": -49.325965881347656,
+          "y": 71.75669860839844,
+          "width": 9.072601318359375,
+          "height": 0.3930632174015045
+        },
+        {
+          "text": "No pocket shape or opening is represented by this drafted recipe block.",
+          "x": -49.325965881347656,
+          "y": 72.24710845947266,
+          "width": 10.191466331481934,
+          "height": 0.3930632174015045
+        },
+        {
+          "text": "No closure marks are represented by this drafted recipe block.",
+          "x": -49.325965881347656,
+          "y": 72.73751068115234,
+          "width": 8.912139892578125,
+          "height": 0.3930632174015045
+        },
+        {
+          "text": "POM “Body chest (finished)” has a front-only source anchor; no back anchor is inferred.",
+          "x": -49.325965881347656,
+          "y": 73.22789764404297,
+          "width": 12.46225643157959,
+          "height": 0.3930632174015045
+        },
+        {
+          "text": "POM “Across shoulder” has a front-only source anchor; no back anchor is inferred.",
+          "x": -49.325965881347656,
+          "y": 73.71830749511719,
+          "width": 11.769885063171387,
+          "height": 0.3930632174015045
+        },
+        {
+          "text": "POM “Front neck drop” has a front-only source anchor; no back anchor is inferred.",
+          "x": -49.325965881347656,
+          "y": 74.20870208740234,
+          "width": 11.716710090637207,
+          "height": 0.3930632174015045
+        },
+        {
+          "text": "Stitch “Sleeve-cap ease” leaves its sewn endpoints 0.68 cm apart after rigid placement; review this construction line before release.",
+          "x": -49.325965881347656,
+          "y": 74.69920349121094,
+          "width": 18.640262603759766,
+          "height": 0.3930632174015045
+        }
+      ],
+      "noticesWithinPanel": true,
+      "parserError": false,
+      "sourceIds": [
+        "pattern:fitted:role:back",
+        "pattern:fitted:role:sleeve"
+      ],
+      "entityRevisionMismatch": false,
+      "overlayMetadata": [],
+      "screenshot": "fitted-default-back.png",
+      "svg": "fitted-default-back.svg"
+    }
+  ],
+  "summary": {
+    "faceCount": 4,
+    "accepted": 4,
+    "withheld": 0,
+    "blockedByReason": {},
+    "optionFieldCount": 0,
+    "consoleErrors": [],
+    "pageErrors": [],
+    "requestErrors": []
+  }
+}

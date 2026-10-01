@@ -70,7 +70,7 @@ export function placeTechnicalFlatPrimitive(primitive: TechnicalFlatPrimitive, r
     return [];
   }
   return [{ placed: transformFlatPrimitive(primitive, { offset: placement.offset,
-    rotationDegrees: placement.rotationDegrees, mirrorX: false }), roleId, placement }];
+    rotationDegrees: placement.rotationDegrees, mirrorX: placement.mirrorX ?? false }), roleId, placement }];
 }
 
 export function technicalFlatPrimitiveRole(primitive: TechnicalFlatPrimitive, primitives: readonly TechnicalFlatPrimitive[], roleIds: readonly string[]): string {
@@ -216,11 +216,12 @@ export function reflectPrimitiveAcrossLine(
   return undefined;
 }
 
-function placedPoint(pointValue: FlatPoint, placement: { readonly offset: FlatPoint; readonly rotationDegrees: number }): FlatPoint {
+function placedPoint(pointValue: FlatPoint, placement: { readonly offset: FlatPoint; readonly rotationDegrees: number; readonly mirrorX?: boolean }): FlatPoint {
   const angle = placement.rotationDegrees * Math.PI / 180;
+  const localX = placement.mirrorX ? -pointValue.x : pointValue.x;
   return {
-    x: pointValue.x * Math.cos(angle) - pointValue.y * Math.sin(angle) + placement.offset.x,
-    y: pointValue.x * Math.sin(angle) + pointValue.y * Math.cos(angle) + placement.offset.y,
+    x: localX * Math.cos(angle) - pointValue.y * Math.sin(angle) + placement.offset.x,
+    y: localX * Math.sin(angle) + pointValue.y * Math.cos(angle) + placement.offset.y,
   };
 }
 
@@ -282,7 +283,7 @@ export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): Tec
   const { recipe, block, revisionId, kind } = input;
   const projectionMap = createG04TechnicalFlatProjectionMap(recipe.name, block, revisionId);
   const geometry = compileTechnicalFlatSourceGeometry(recipe.name, block, revisionId, kind, projectionMap);
-  const assembly = assembleTechnicalFlatRoles(recipe.name, block, kind);
+  const assembly = assembleTechnicalFlatRoles(recipe.name, block, kind, projectionMap);
   const waistbandFragments = recipe.name === "trouser"
     ? compileTrouserWaistbandFragments(block, revisionId, kind, assembly.sourceFragments, assembly.transforms)
     : { primitives: [], issues: [] };

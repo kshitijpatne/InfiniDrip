@@ -39,6 +39,10 @@ function validMap(recipeId: string, block: ReturnType<(typeof GARMENTS)[number][
           .find((candidate) => candidate.roleId === role.roleId)?.oppositeSideReflection;
         const viewBoundaries = authored?.faces.find((candidate) => candidate.kind === face.kind)?.roles
           .find((candidate) => candidate.roleId === role.roleId)?.viewBoundaries;
+        const reversedStitchEdges = authored?.faces.find((candidate) => candidate.kind === face.kind)?.roles
+          .find((candidate) => candidate.roleId === role.roleId)?.reversedStitchEdges;
+        const localYReflection = authored?.faces.find((candidate) => candidate.kind === face.kind)?.roles
+          .find((candidate) => candidate.roleId === role.roleId)?.localYReflection;
         const zeroLength = (edge: (typeof piece.edges)[number]) => {
           const start = edge.kind === "line" ? edge.start : edge.curve.start;
           const end = edge.kind === "line" ? edge.end : edge.curve.end;
@@ -59,6 +63,8 @@ function validMap(recipeId: string, block: ReturnType<(typeof GARMENTS)[number][
           ...(pairReflection ? { physicalPairReflection: pairReflection } : {}),
           ...(viewPairReflection ? { viewPairReflection } : {}),
           ...(viewBoundaries ? { viewBoundaries } : {}),
+          ...(reversedStitchEdges ? { reversedStitchEdges } : {}),
+          ...(localYReflection ? { localYReflection } : {}),
           ...(oppositeSideReflection ? { oppositeSideReflection } : {}),
         };
       }),
@@ -73,6 +79,27 @@ function draft(recipeId: string, options = {}) {
 }
 
 describe("validateTechnicalFlatProjectionMap", () => {
+  it("requires the exact front sleeve-cap endpoint-order rule for Tee and Fitted", () => {
+    for (const recipeId of ["tee", "fitted"] as const) {
+      const { block } = draft(recipeId);
+      const map = createG04TechnicalFlatProjectionMap(recipeId, block, REVISION)!;
+      expect(validateTechnicalFlatProjectionMap(recipeId, block, REVISION, map)).toEqual([]);
+      const malformed = structuredClone(map) as unknown as { faces: Array<{ kind: string; roles: Array<{ roleId: string; reversedStitchEdges?: readonly unknown[] }> }> };
+      const sleeve = malformed.faces.find((face) => face.kind === "FRONT_FLAT")!.roles.find((role) => role.roleId === "sleeve")!;
+      sleeve.reversedStitchEdges = [];
+      expect(validateTechnicalFlatProjectionMap(recipeId, block, REVISION, malformed))
+        .toContainEqual(expect.objectContaining({ code: "INVALID_STITCH_ENDPOINT_ORIENTATION" }));
+      const malformedBack = structuredClone(map) as unknown as { faces: Array<{ kind: string; roles: Array<{
+        roleId: string; localYReflection?: { axis: string; basis: string; decisionId: string };
+      }> }> };
+      const backSleeve = malformedBack.faces.find((face) => face.kind === "BACK_FLAT")!.roles
+        .find((role) => role.roleId === "sleeve")!;
+      backSleeve.localYReflection = { axis: "LOCAL_Y", basis: "SOURCE_EVIDENCE", decisionId: "G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR" };
+      expect(validateTechnicalFlatProjectionMap(recipeId, block, REVISION, malformedBack))
+        .toContainEqual(expect.objectContaining({ code: "INVALID_LOCAL_Y_REFLECTION" }));
+    }
+  });
+
   it("maps the Polo stand at its encoded junction and transfers both collar layers onto exact cubic arclength", () => {
     const { block } = draft("polo");
     const map = createG04TechnicalFlatProjectionMap("polo", block, REVISION)!;
@@ -459,10 +486,7 @@ describe("validateTechnicalFlatProjectionMap", () => {
         expect(validateTechnicalFlatProjectionMap(recipeId, block, REVISION, map), `${recipeId}:${JSON.stringify(options)}`).toEqual([]);
         for (const face of map.faces) {
           const sleeve = face.roles.find((role) => role.roleId === "sleeve")!;
-          expect(sleeve.heldEdges).toHaveLength(1);
-          expect(sleeve.heldEdges[0]).toMatchObject({
-            edgeId: face.kind === "FRONT_FLAT" ? "sideLeft" : "sideRight",
-          });
+          expect(sleeve.heldEdges).toEqual([]);
           expect(sleeve.viewBoundaries).toMatchObject([{
             id: "approved-sleeve-area-closure",
             from: { kind: "edge-arclength", edgeId: "hem", fraction: 0.5 },
@@ -478,7 +502,7 @@ describe("validateTechnicalFlatProjectionMap", () => {
             decisionId: "G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR", quantity: 2,
           });
           expect(sleeve.runs.map((run) => run.edgeId)).toEqual(face.kind === "FRONT_FLAT"
-            ? ["capLeft", "hem"] : ["capRight", "hem"]);
+            ? ["capLeft", "sideLeft", "hem"] : ["capRight", "sideRight", "hem"]);
           expect(sleeve.faceExcludedEdges?.map((edge) => edge.edgeId)).toEqual(face.kind === "FRONT_FLAT"
             ? ["capRight", "sideRight"] : ["capLeft", "sideLeft"]);
           const hemRun = sleeve.runs.find((run) => run.edgeId === "hem")!;
