@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 1248,
-  "updatedAt": "2026-10-01T20:59:51.683Z",
+  "revision": 1260,
+  "updatedAt": "2026-10-01T21:09:50.630Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -323,7 +323,12 @@
         "E-G04-S341-START",
         "E-G04-S341-EXIT",
         "E-G04-S341-BROWSER",
-        "E-G04-S341-INVENTORY"
+        "E-G04-S341-INVENTORY",
+        "E-G04-S342-START",
+        "E-G04-S342-EXIT",
+        "E-G04-S342-MATRIX",
+        "E-G04-S342-FRONT-OVERLAY",
+        "E-G04-S342-BACK-OVERLAY"
       ]
     },
     {
@@ -7069,6 +7074,16 @@
           "at": "2026-10-01T20:59:51.683Z",
           "actor": "Codex",
           "text": "S341 exit: fresh production replay matches the previous 56 accepted / 90 held status set across 73 configurations and 146 faces, with zero browser errors. Current Woven endpoint residuals (collar 0.26–0.74 cm; sleeve cap 0.39–0.73 cm on backs and 0.47 cm on fronts) and Polo 0.68 cm sleeve residual/label collisions remain. No face was newly accepted. See linked current matrix and blocker inventory; next S342 investigates Woven collar mapping with all holds preserved."
+        },
+        {
+          "at": "2026-10-01T21:03:19.921Z",
+          "actor": "Codex",
+          "text": "S342 started from clean S341 commit 20b5468. It traces the approved Woven outer-stand-to-neckline interface across all 28 options to resolve the current 0.26–0.74 cm endpoint residual diagnosis. No stitch/cut geometry or 0.25 cm acceptance threshold changes are authorized; all 56 Woven faces remain held. See linked S342 packet."
+        },
+        {
+          "at": "2026-10-01T21:09:50.630Z",
+          "actor": "Codex",
+          "text": "S342 diagnosis is complete with no code changes. The S321 exterior station remains valid, but it does not determine how the straight outerStand.neckline base edge should be represented against front/yoke neckline curves. Exact current gaps are 0.688–0.740 cm front and 0.263–0.283 cm back, over the 0.25 cm hold limit. Proposal: use front.neckline / yoke.neckline as the single base-seam strokes and suppress the duplicate outerStand.neckline stroke in assembled faces; no cut geometry or stitch graph change. This display convention awaits maintainer approval. All 56 Woven faces remain held. See S342 packet and overlays."
         }
       ],
       "evidenceRefs": [
@@ -7277,7 +7292,12 @@
         "E-G04-S341-START",
         "E-G04-S341-EXIT",
         "E-G04-S341-BROWSER",
-        "E-G04-S341-INVENTORY"
+        "E-G04-S341-INVENTORY",
+        "E-G04-S342-START",
+        "E-G04-S342-EXIT",
+        "E-G04-S342-MATRIX",
+        "E-G04-S342-FRONT-OVERLAY",
+        "E-G04-S342-BACK-OVERLAY"
       ],
       "flagKey": null
     },
@@ -10009,6 +10029,51 @@
       "sha256": null,
       "verified": true,
       "note": "Machine-readable exact status reconciliation and current issue identity/count/range inventory across Polo 34 holds and Woven 56 holds."
+    },
+    {
+      "id": "E-G04-S342-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-COLLAR-JOIN-DIAGNOSIS-S342.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S342 diagnoses exact Woven outer-stand-to-neckline source/stitch interfaces over the current 28-option matrix under the existing approved normalized-station convention. It preserves source geometry/stitch graph and all 56 Woven holds."
+    },
+    {
+      "id": "E-G04-S342-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-COLLAR-JOIN-DIAGNOSIS-S342.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Diagnosis only. Confirms exact source graph is a straight outerStand.neckline matched by total length to front/yoke neckline curves; current rigid-placement gaps persist across 28 options. A one-stroke view convention requires product-owner approval; all 56 Woven faces remain held."
+    },
+    {
+      "id": "E-G04-S342-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S342-woven-collar/current-crosswalk.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Machine crosswalk matches all 28 S336 exact source/transform cases to S341 current production options with no option differences; reports front 0.688–0.740 cm and back 0.263–0.283 cm station/end gaps and current holds."
+    },
+    {
+      "id": "E-G04-S342-FRONT-OVERLAY",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S342-woven-collar/front-source-overlay.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Actual default Woven front source-edge overlay inspected: transformed straight outerStand.neckline versus front.neckline cubic, with exact source endpoints and 0.705 cm gaps."
+    },
+    {
+      "id": "E-G04-S342-BACK-OVERLAY",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S342-woven-collar/back-source-overlay.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Actual default Woven back source-edge overlay inspected: reversed stand neckline versus yoke neckline cubic, with exact CB/shoulder stations and 0.269 cm gaps."
     }
   ]
 }

@@ -1,0 +1,3732 @@
+{
+  "sourceEvidence": "S336 generated source/transform matrix and authored Woven pattern/stitch code; relevant source files have no edits after the S336 commit 9bce95d in current branch history.",
+  "productionEvidence": "S341 current-production Chromium matrix after S340.",
+  "configurations": 28,
+  "currentFaceRequests": 56,
+  "optionDifferences": [],
+  "all56CurrentFacesHeld": true,
+  "metricsAcrossOptionsCm": {
+    "frontEndGap": [
+      0.6881414268959325,
+      0.73975203391313
+    ],
+    "frontStationToShoulderGap": [
+      0.6881447751405804,
+      0.739755633276129
+    ],
+    "backStationToYokeShoulderGap": [
+      0.26282350441070634,
+      0.2825352672415098
+    ],
+    "backCenterBackGap": [
+      0.2628268526553551,
+      0.28253886660451166
+    ],
+    "currentFrontReportedEndpointResidual": [
+      0.69,
+      0.74
+    ],
+    "currentBackReportedEndpointResidual": [
+      0.26,
+      0.28
+    ]
+  },
+  "records": [
+    {
+      "caseId": "woven-shirt-default",
+      "revision": "s336-diagnostic:woven-shirt-default",
+      "resolvedOptions": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "source": {
+        "stitch": {
+          "label": "Outer stand ↔ woven neckline",
+          "a": {
+            "edges": [
+              {
+                "piece": "outerStand",
+                "edge": "neckline"
+              }
+            ]
+          },
+          "b": {
+            "edges": [
+              {
+                "piece": "front",
+                "edge": "neckline"
+              },
+              {
+                "piece": "yoke",
+                "edge": "neckline"
+              }
+            ]
+          }
+        },
+        "standNecklineLengthCm": 25.77720383145081,
+        "frontNecklineLengthCm": 14.537098043824779,
+        "backNecklineLengthCm": 11.24010578762603,
+        "cbToCfNormalizedStationFraction": 0.4360482952736696,
+        "edges": {
+          "outerStandNeckline": {
+            "kind": "line",
+            "name": "neckline",
+            "start": {
+              "x": 25.77720383145081,
+              "y": 2.5
+            },
+            "end": {
+              "x": 0,
+              "y": 2.5
+            }
+          },
+          "frontNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 8.200000000000001
+              },
+              "control1": {
+                "x": 5.661075,
+                "y": 8.200000000000001
+              },
+              "control2": {
+                "x": 10.25,
+                "y": 4.528860000000001
+              },
+              "end": {
+                "x": 10.25,
+                "y": 0
+              }
+            }
+          },
+          "yokeNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 3.0749999999999997
+              },
+              "control1": {
+                "x": 5.661075,
+                "y": 3.0749999999999997
+              },
+              "control2": {
+                "x": 10.25,
+                "y": 1.6983225
+              },
+              "end": {
+                "x": 10.25,
+                "y": 0
+              }
+            }
+          }
+        }
+      },
+      "rigidPlacedSourceEdgeGapsCm": {
+        "frontCapUnderarmToFrontArmhole": 0,
+        "frontCapCrownToFrontShoulder": 0.6614695609227775,
+        "backCapCrownToYokeShoulder": 1.7383640455031923,
+        "backCapUnderarmToBackUnderarm": 7.944109290391274e-15,
+        "frontStandCFToFrontCF": 0.7053449625683329,
+        "frontStandShoulderStationToFrontShoulder": 0.7053483945191068,
+        "backStandShoulderStationToYokeShoulder": 0.26939409202097214,
+        "backStandCBToYokeCB": 0.26939752397174505
+      },
+      "currentProduction": {
+        "front": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.71 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.71
+        },
+        "back": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.27 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.27
+        },
+        "svgEmitted": [
+          false,
+          false
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-neckEase-min",
+      "revision": "s336-diagnostic:woven-shirt-neckEase-min",
+      "resolvedOptions": {
+        "neckEase": 0,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "source": {
+        "stitch": {
+          "label": "Outer stand ↔ woven neckline",
+          "a": {
+            "edges": [
+              {
+                "piece": "outerStand",
+                "edge": "neckline"
+              }
+            ]
+          },
+          "b": {
+            "edges": [
+              {
+                "piece": "front",
+                "edge": "neckline"
+              },
+              {
+                "piece": "yoke",
+                "edge": "neckline"
+              }
+            ]
+          }
+        },
+        "standNecklineLengthCm": 25.148491542878823,
+        "frontNecklineLengthCm": 14.182534676902211,
+        "backNecklineLengthCm": 10.965956865976613,
+        "cbToCfNormalizedStationFraction": 0.43604829527366984,
+        "edges": {
+          "outerStandNeckline": {
+            "kind": "line",
+            "name": "neckline",
+            "start": {
+              "x": 25.148491542878823,
+              "y": 2.5
+            },
+            "end": {
+              "x": 0,
+              "y": 2.5
+            }
+          },
+          "frontNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 8
+              },
+              "control1": {
+                "x": 5.523,
+                "y": 8
+              },
+              "control2": {
+                "x": 10,
+                "y": 4.4184
+              },
+              "end": {
+                "x": 10,
+                "y": 0
+              }
+            }
+          },
+          "yokeNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 3
+              },
+              "control1": {
+                "x": 5.523,
+                "y": 3
+              },
+              "control2": {
+                "x": 10,
+                "y": 1.6569
+              },
+              "end": {
+                "x": 10,
+                "y": 0
+              }
+            }
+          }
+        }
+      },
+      "rigidPlacedSourceEdgeGapsCm": {
+        "frontCapUnderarmToFrontArmhole": 0,
+        "frontCapCrownToFrontShoulder": 0.6614695609227775,
+        "backCapCrownToYokeShoulder": 1.7383640455031923,
+        "backCapUnderarmToBackUnderarm": 7.944109290391274e-15,
+        "frontStandCFToFrontCF": 0.6881414268959325,
+        "frontStandShoulderStationToFrontShoulder": 0.6881447751405804,
+        "backStandShoulderStationToYokeShoulder": 0.26282350441070634,
+        "backStandCBToYokeCB": 0.2628268526553551
+      },
+      "currentProduction": {
+        "front": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.69 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.69
+        },
+        "back": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.26 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.26
+        },
+        "svgEmitted": [
+          false,
+          false
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-neckEase-max",
+      "revision": "s336-diagnostic:woven-shirt-neckEase-max",
+      "resolvedOptions": {
+        "neckEase": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "source": {
+        "stitch": {
+          "label": "Outer stand ↔ woven neckline",
+          "a": {
+            "edges": [
+              {
+                "piece": "outerStand",
+                "edge": "neckline"
+              }
+            ]
+          },
+          "b": {
+            "edges": [
+              {
+                "piece": "front",
+                "edge": "neckline"
+              },
+              {
+                "piece": "yoke",
+                "edge": "neckline"
+              }
+            ]
+          }
+        },
+        "standNecklineLengthCm": 27.034628408594745,
+        "frontNecklineLengthCm": 15.246224777669884,
+        "backNecklineLengthCm": 11.788403630924861,
+        "cbToCfNormalizedStationFraction": 0.43604829527366973,
+        "edges": {
+          "outerStandNeckline": {
+            "kind": "line",
+            "name": "neckline",
+            "start": {
+              "x": 27.034628408594745,
+              "y": 2.5
+            },
+            "end": {
+              "x": 0,
+              "y": 2.5
+            }
+          },
+          "frontNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 8.6
+              },
+              "control1": {
+                "x": 5.937225,
+                "y": 8.6
+              },
+              "control2": {
+                "x": 10.75,
+                "y": 4.74978
+              },
+              "end": {
+                "x": 10.75,
+                "y": 0
+              }
+            }
+          },
+          "yokeNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 3.225
+              },
+              "control1": {
+                "x": 5.937225,
+                "y": 3.225
+              },
+              "control2": {
+                "x": 10.75,
+                "y": 1.7811675
+              },
+              "end": {
+                "x": 10.75,
+                "y": 0
+              }
+            }
+          }
+        }
+      },
+      "rigidPlacedSourceEdgeGapsCm": {
+        "frontCapUnderarmToFrontArmhole": 0,
+        "frontCapCrownToFrontShoulder": 0.6614695609227775,
+        "backCapCrownToYokeShoulder": 1.7383640455031923,
+        "backCapUnderarmToBackUnderarm": 7.944109290391274e-15,
+        "frontStandCFToFrontCF": 0.73975203391313,
+        "frontStandShoulderStationToFrontShoulder": 0.739755633276129,
+        "backStandShoulderStationToYokeShoulder": 0.2825352672415098,
+        "backStandCBToYokeCB": 0.28253886660451166
+      },
+      "currentProduction": {
+        "front": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.74 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.74
+        },
+        "back": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.28 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.28
+        },
+        "svgEmitted": [
+          false,
+          false
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-standHeight-min",
+      "revision": "s336-diagnostic:woven-shirt-standHeight-min",
+      "resolvedOptions": {
+        "neckEase": 1,
+        "standHeight": 1.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "source": {
+        "stitch": {
+          "label": "Outer stand ↔ woven neckline",
+          "a": {
+            "edges": [
+              {
+                "piece": "outerStand",
+                "edge": "neckline"
+              }
+            ]
+          },
+          "b": {
+            "edges": [
+              {
+                "piece": "front",
+                "edge": "neckline"
+              },
+              {
+                "piece": "yoke",
+                "edge": "neckline"
+              }
+            ]
+          }
+        },
+        "standNecklineLengthCm": 25.77720383145081,
+        "frontNecklineLengthCm": 14.537098043824779,
+        "backNecklineLengthCm": 11.24010578762603,
+        "cbToCfNormalizedStationFraction": 0.4360482952736696,
+        "edges": {
+          "outerStandNeckline": {
+            "kind": "line",
+            "name": "neckline",
+            "start": {
+              "x": 25.77720383145081,
+              "y": 1.5
+            },
+            "end": {
+              "x": 0,
+              "y": 1.5
+            }
+          },
+          "frontNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 8.200000000000001
+              },
+              "control1": {
+                "x": 5.661075,
+                "y": 8.200000000000001
+              },
+              "control2": {
+                "x": 10.25,
+                "y": 4.528860000000001
+              },
+              "end": {
+                "x": 10.25,
+                "y": 0
+              }
+            }
+          },
+          "yokeNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 3.0749999999999997
+              },
+              "control1": {
+                "x": 5.661075,
+                "y": 3.0749999999999997
+              },
+              "control2": {
+                "x": 10.25,
+                "y": 1.6983225
+              },
+              "end": {
+                "x": 10.25,
+                "y": 0
+              }
+            }
+          }
+        }
+      },
+      "rigidPlacedSourceEdgeGapsCm": {
+        "frontCapUnderarmToFrontArmhole": 0,
+        "frontCapCrownToFrontShoulder": 0.6614695609227775,
+        "backCapCrownToYokeShoulder": 1.7383640455031923,
+        "backCapUnderarmToBackUnderarm": 7.944109290391274e-15,
+        "frontStandCFToFrontCF": 0.7053449625683356,
+        "frontStandShoulderStationToFrontShoulder": 0.705348394519106,
+        "backStandShoulderStationToYokeShoulder": 0.26939409202097037,
+        "backStandCBToYokeCB": 0.26939752397174505
+      },
+      "currentProduction": {
+        "front": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.71 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.71
+        },
+        "back": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.27 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.27
+        },
+        "svgEmitted": [
+          false,
+          false
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-standHeight-max",
+      "revision": "s336-diagnostic:woven-shirt-standHeight-max",
+      "resolvedOptions": {
+        "neckEase": 1,
+        "standHeight": 3.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "source": {
+        "stitch": {
+          "label": "Outer stand ↔ woven neckline",
+          "a": {
+            "edges": [
+              {
+                "piece": "outerStand",
+                "edge": "neckline"
+              }
+            ]
+          },
+          "b": {
+            "edges": [
+              {
+                "piece": "front",
+                "edge": "neckline"
+              },
+              {
+                "piece": "yoke",
+                "edge": "neckline"
+              }
+            ]
+          }
+        },
+        "standNecklineLengthCm": 25.77720383145081,
+        "frontNecklineLengthCm": 14.537098043824779,
+        "backNecklineLengthCm": 11.24010578762603,
+        "cbToCfNormalizedStationFraction": 0.4360482952736696,
+        "edges": {
+          "outerStandNeckline": {
+            "kind": "line",
+            "name": "neckline",
+            "start": {
+              "x": 25.77720383145081,
+              "y": 3.5
+            },
+            "end": {
+              "x": 0,
+              "y": 3.5
+            }
+          },
+          "frontNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 8.200000000000001
+              },
+              "control1": {
+                "x": 5.661075,
+                "y": 8.200000000000001
+              },
+              "control2": {
+                "x": 10.25,
+                "y": 4.528860000000001
+              },
+              "end": {
+                "x": 10.25,
+                "y": 0
+              }
+            }
+          },
+          "yokeNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 3.0749999999999997
+              },
+              "control1": {
+                "x": 5.661075,
+                "y": 3.0749999999999997
+              },
+              "control2": {
+                "x": 10.25,
+                "y": 1.6983225
+              },
+              "end": {
+                "x": 10.25,
+                "y": 0
+              }
+            }
+          }
+        }
+      },
+      "rigidPlacedSourceEdgeGapsCm": {
+        "frontCapUnderarmToFrontArmhole": 0,
+        "frontCapCrownToFrontShoulder": 0.6614695609227775,
+        "backCapCrownToYokeShoulder": 1.7383640455031923,
+        "backCapUnderarmToBackUnderarm": 7.944109290391274e-15,
+        "frontStandCFToFrontCF": 0.7053449625683329,
+        "frontStandShoulderStationToFrontShoulder": 0.7053483945191074,
+        "backStandShoulderStationToYokeShoulder": 0.26939409202097037,
+        "backStandCBToYokeCB": 0.26939752397174505
+      },
+      "currentProduction": {
+        "front": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.71 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.71
+        },
+        "back": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.27 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.27
+        },
+        "svgEmitted": [
+          false,
+          false
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-min",
+      "revision": "s336-diagnostic:woven-shirt-collarLeafDepth-min",
+      "resolvedOptions": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 4,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "source": {
+        "stitch": {
+          "label": "Outer stand ↔ woven neckline",
+          "a": {
+            "edges": [
+              {
+                "piece": "outerStand",
+                "edge": "neckline"
+              }
+            ]
+          },
+          "b": {
+            "edges": [
+              {
+                "piece": "front",
+                "edge": "neckline"
+              },
+              {
+                "piece": "yoke",
+                "edge": "neckline"
+              }
+            ]
+          }
+        },
+        "standNecklineLengthCm": 25.77720383145081,
+        "frontNecklineLengthCm": 14.537098043824779,
+        "backNecklineLengthCm": 11.24010578762603,
+        "cbToCfNormalizedStationFraction": 0.4360482952736696,
+        "edges": {
+          "outerStandNeckline": {
+            "kind": "line",
+            "name": "neckline",
+            "start": {
+              "x": 25.77720383145081,
+              "y": 2.5
+            },
+            "end": {
+              "x": 0,
+              "y": 2.5
+            }
+          },
+          "frontNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 8.200000000000001
+              },
+              "control1": {
+                "x": 5.661075,
+                "y": 8.200000000000001
+              },
+              "control2": {
+                "x": 10.25,
+                "y": 4.528860000000001
+              },
+              "end": {
+                "x": 10.25,
+                "y": 0
+              }
+            }
+          },
+          "yokeNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 3.0749999999999997
+              },
+              "control1": {
+                "x": 5.661075,
+                "y": 3.0749999999999997
+              },
+              "control2": {
+                "x": 10.25,
+                "y": 1.6983225
+              },
+              "end": {
+                "x": 10.25,
+                "y": 0
+              }
+            }
+          }
+        }
+      },
+      "rigidPlacedSourceEdgeGapsCm": {
+        "frontCapUnderarmToFrontArmhole": 0,
+        "frontCapCrownToFrontShoulder": 0.6614695609227775,
+        "backCapCrownToYokeShoulder": 1.7383640455031923,
+        "backCapUnderarmToBackUnderarm": 7.944109290391274e-15,
+        "frontStandCFToFrontCF": 0.7053449625683329,
+        "frontStandShoulderStationToFrontShoulder": 0.7053483945191068,
+        "backStandShoulderStationToYokeShoulder": 0.26939409202097214,
+        "backStandCBToYokeCB": 0.26939752397174505
+      },
+      "currentProduction": {
+        "front": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.71 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.71
+        },
+        "back": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.27 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.27
+        },
+        "svgEmitted": [
+          false,
+          false
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-max",
+      "revision": "s336-diagnostic:woven-shirt-collarLeafDepth-max",
+      "resolvedOptions": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 8,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "source": {
+        "stitch": {
+          "label": "Outer stand ↔ woven neckline",
+          "a": {
+            "edges": [
+              {
+                "piece": "outerStand",
+                "edge": "neckline"
+              }
+            ]
+          },
+          "b": {
+            "edges": [
+              {
+                "piece": "front",
+                "edge": "neckline"
+              },
+              {
+                "piece": "yoke",
+                "edge": "neckline"
+              }
+            ]
+          }
+        },
+        "standNecklineLengthCm": 25.77720383145081,
+        "frontNecklineLengthCm": 14.537098043824779,
+        "backNecklineLengthCm": 11.24010578762603,
+        "cbToCfNormalizedStationFraction": 0.4360482952736696,
+        "edges": {
+          "outerStandNeckline": {
+            "kind": "line",
+            "name": "neckline",
+            "start": {
+              "x": 25.77720383145081,
+              "y": 2.5
+            },
+            "end": {
+              "x": 0,
+              "y": 2.5
+            }
+          },
+          "frontNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 8.200000000000001
+              },
+              "control1": {
+                "x": 5.661075,
+                "y": 8.200000000000001
+              },
+              "control2": {
+                "x": 10.25,
+                "y": 4.528860000000001
+              },
+              "end": {
+                "x": 10.25,
+                "y": 0
+              }
+            }
+          },
+          "yokeNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 3.0749999999999997
+              },
+              "control1": {
+                "x": 5.661075,
+                "y": 3.0749999999999997
+              },
+              "control2": {
+                "x": 10.25,
+                "y": 1.6983225
+              },
+              "end": {
+                "x": 10.25,
+                "y": 0
+              }
+            }
+          }
+        }
+      },
+      "rigidPlacedSourceEdgeGapsCm": {
+        "frontCapUnderarmToFrontArmhole": 0,
+        "frontCapCrownToFrontShoulder": 0.6614695609227775,
+        "backCapCrownToYokeShoulder": 1.7383640455031923,
+        "backCapUnderarmToBackUnderarm": 7.944109290391274e-15,
+        "frontStandCFToFrontCF": 0.7053449625683329,
+        "frontStandShoulderStationToFrontShoulder": 0.7053483945191068,
+        "backStandShoulderStationToYokeShoulder": 0.26939409202097214,
+        "backStandCBToYokeCB": 0.26939752397174505
+      },
+      "currentProduction": {
+        "front": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.71 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.71
+        },
+        "back": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.27 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.27
+        },
+        "svgEmitted": [
+          false,
+          false
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-min",
+      "revision": "s336-diagnostic:woven-shirt-buttonCount-min",
+      "resolvedOptions": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 6,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "source": {
+        "stitch": {
+          "label": "Outer stand ↔ woven neckline",
+          "a": {
+            "edges": [
+              {
+                "piece": "outerStand",
+                "edge": "neckline"
+              }
+            ]
+          },
+          "b": {
+            "edges": [
+              {
+                "piece": "front",
+                "edge": "neckline"
+              },
+              {
+                "piece": "yoke",
+                "edge": "neckline"
+              }
+            ]
+          }
+        },
+        "standNecklineLengthCm": 25.77720383145081,
+        "frontNecklineLengthCm": 14.537098043824779,
+        "backNecklineLengthCm": 11.24010578762603,
+        "cbToCfNormalizedStationFraction": 0.4360482952736696,
+        "edges": {
+          "outerStandNeckline": {
+            "kind": "line",
+            "name": "neckline",
+            "start": {
+              "x": 25.77720383145081,
+              "y": 2.5
+            },
+            "end": {
+              "x": 0,
+              "y": 2.5
+            }
+          },
+          "frontNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 8.200000000000001
+              },
+              "control1": {
+                "x": 5.661075,
+                "y": 8.200000000000001
+              },
+              "control2": {
+                "x": 10.25,
+                "y": 4.528860000000001
+              },
+              "end": {
+                "x": 10.25,
+                "y": 0
+              }
+            }
+          },
+          "yokeNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 3.0749999999999997
+              },
+              "control1": {
+                "x": 5.661075,
+                "y": 3.0749999999999997
+              },
+              "control2": {
+                "x": 10.25,
+                "y": 1.6983225
+              },
+              "end": {
+                "x": 10.25,
+                "y": 0
+              }
+            }
+          }
+        }
+      },
+      "rigidPlacedSourceEdgeGapsCm": {
+        "frontCapUnderarmToFrontArmhole": 0,
+        "frontCapCrownToFrontShoulder": 0.6614695609227775,
+        "backCapCrownToYokeShoulder": 1.7383640455031923,
+        "backCapUnderarmToBackUnderarm": 7.944109290391274e-15,
+        "frontStandCFToFrontCF": 0.7053449625683329,
+        "frontStandShoulderStationToFrontShoulder": 0.7053483945191068,
+        "backStandShoulderStationToYokeShoulder": 0.26939409202097214,
+        "backStandCBToYokeCB": 0.26939752397174505
+      },
+      "currentProduction": {
+        "front": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.71 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.71
+        },
+        "back": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.27 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.27
+        },
+        "svgEmitted": [
+          false,
+          false
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-max",
+      "revision": "s336-diagnostic:woven-shirt-buttonCount-max",
+      "resolvedOptions": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "source": {
+        "stitch": {
+          "label": "Outer stand ↔ woven neckline",
+          "a": {
+            "edges": [
+              {
+                "piece": "outerStand",
+                "edge": "neckline"
+              }
+            ]
+          },
+          "b": {
+            "edges": [
+              {
+                "piece": "front",
+                "edge": "neckline"
+              },
+              {
+                "piece": "yoke",
+                "edge": "neckline"
+              }
+            ]
+          }
+        },
+        "standNecklineLengthCm": 25.77720383145081,
+        "frontNecklineLengthCm": 14.537098043824779,
+        "backNecklineLengthCm": 11.24010578762603,
+        "cbToCfNormalizedStationFraction": 0.4360482952736696,
+        "edges": {
+          "outerStandNeckline": {
+            "kind": "line",
+            "name": "neckline",
+            "start": {
+              "x": 25.77720383145081,
+              "y": 2.5
+            },
+            "end": {
+              "x": 0,
+              "y": 2.5
+            }
+          },
+          "frontNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 8.200000000000001
+              },
+              "control1": {
+                "x": 5.661075,
+                "y": 8.200000000000001
+              },
+              "control2": {
+                "x": 10.25,
+                "y": 4.528860000000001
+              },
+              "end": {
+                "x": 10.25,
+                "y": 0
+              }
+            }
+          },
+          "yokeNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 3.0749999999999997
+              },
+              "control1": {
+                "x": 5.661075,
+                "y": 3.0749999999999997
+              },
+              "control2": {
+                "x": 10.25,
+                "y": 1.6983225
+              },
+              "end": {
+                "x": 10.25,
+                "y": 0
+              }
+            }
+          }
+        }
+      },
+      "rigidPlacedSourceEdgeGapsCm": {
+        "frontCapUnderarmToFrontArmhole": 0,
+        "frontCapCrownToFrontShoulder": 0.6614695609227775,
+        "backCapCrownToYokeShoulder": 1.7383640455031923,
+        "backCapUnderarmToBackUnderarm": 7.944109290391274e-15,
+        "frontStandCFToFrontCF": 0.7053449625683329,
+        "frontStandShoulderStationToFrontShoulder": 0.7053483945191068,
+        "backStandShoulderStationToYokeShoulder": 0.26939409202097214,
+        "backStandCBToYokeCB": 0.26939752397174505
+      },
+      "currentProduction": {
+        "front": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.71 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.71
+        },
+        "back": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.27 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.27
+        },
+        "svgEmitted": [
+          false,
+          false
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-min",
+      "revision": "s336-diagnostic:woven-shirt-buttonSpacing-min",
+      "resolvedOptions": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 6,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "source": {
+        "stitch": {
+          "label": "Outer stand ↔ woven neckline",
+          "a": {
+            "edges": [
+              {
+                "piece": "outerStand",
+                "edge": "neckline"
+              }
+            ]
+          },
+          "b": {
+            "edges": [
+              {
+                "piece": "front",
+                "edge": "neckline"
+              },
+              {
+                "piece": "yoke",
+                "edge": "neckline"
+              }
+            ]
+          }
+        },
+        "standNecklineLengthCm": 25.77720383145081,
+        "frontNecklineLengthCm": 14.537098043824779,
+        "backNecklineLengthCm": 11.24010578762603,
+        "cbToCfNormalizedStationFraction": 0.4360482952736696,
+        "edges": {
+          "outerStandNeckline": {
+            "kind": "line",
+            "name": "neckline",
+            "start": {
+              "x": 25.77720383145081,
+              "y": 2.5
+            },
+            "end": {
+              "x": 0,
+              "y": 2.5
+            }
+          },
+          "frontNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 8.200000000000001
+              },
+              "control1": {
+                "x": 5.661075,
+                "y": 8.200000000000001
+              },
+              "control2": {
+                "x": 10.25,
+                "y": 4.528860000000001
+              },
+              "end": {
+                "x": 10.25,
+                "y": 0
+              }
+            }
+          },
+          "yokeNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 3.0749999999999997
+              },
+              "control1": {
+                "x": 5.661075,
+                "y": 3.0749999999999997
+              },
+              "control2": {
+                "x": 10.25,
+                "y": 1.6983225
+              },
+              "end": {
+                "x": 10.25,
+                "y": 0
+              }
+            }
+          }
+        }
+      },
+      "rigidPlacedSourceEdgeGapsCm": {
+        "frontCapUnderarmToFrontArmhole": 0,
+        "frontCapCrownToFrontShoulder": 0.6614695609227775,
+        "backCapCrownToYokeShoulder": 1.7383640455031923,
+        "backCapUnderarmToBackUnderarm": 7.944109290391274e-15,
+        "frontStandCFToFrontCF": 0.7053449625683329,
+        "frontStandShoulderStationToFrontShoulder": 0.7053483945191068,
+        "backStandShoulderStationToYokeShoulder": 0.26939409202097214,
+        "backStandCBToYokeCB": 0.26939752397174505
+      },
+      "currentProduction": {
+        "front": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.71 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.71
+        },
+        "back": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.27 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.27
+        },
+        "svgEmitted": [
+          false,
+          false
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-max",
+      "revision": "s336-diagnostic:woven-shirt-buttonSpacing-max",
+      "resolvedOptions": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 9,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "source": {
+        "stitch": {
+          "label": "Outer stand ↔ woven neckline",
+          "a": {
+            "edges": [
+              {
+                "piece": "outerStand",
+                "edge": "neckline"
+              }
+            ]
+          },
+          "b": {
+            "edges": [
+              {
+                "piece": "front",
+                "edge": "neckline"
+              },
+              {
+                "piece": "yoke",
+                "edge": "neckline"
+              }
+            ]
+          }
+        },
+        "standNecklineLengthCm": 25.77720383145081,
+        "frontNecklineLengthCm": 14.537098043824779,
+        "backNecklineLengthCm": 11.24010578762603,
+        "cbToCfNormalizedStationFraction": 0.4360482952736696,
+        "edges": {
+          "outerStandNeckline": {
+            "kind": "line",
+            "name": "neckline",
+            "start": {
+              "x": 25.77720383145081,
+              "y": 2.5
+            },
+            "end": {
+              "x": 0,
+              "y": 2.5
+            }
+          },
+          "frontNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 8.200000000000001
+              },
+              "control1": {
+                "x": 5.661075,
+                "y": 8.200000000000001
+              },
+              "control2": {
+                "x": 10.25,
+                "y": 4.528860000000001
+              },
+              "end": {
+                "x": 10.25,
+                "y": 0
+              }
+            }
+          },
+          "yokeNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 3.0749999999999997
+              },
+              "control1": {
+                "x": 5.661075,
+                "y": 3.0749999999999997
+              },
+              "control2": {
+                "x": 10.25,
+                "y": 1.6983225
+              },
+              "end": {
+                "x": 10.25,
+                "y": 0
+              }
+            }
+          }
+        }
+      },
+      "rigidPlacedSourceEdgeGapsCm": {
+        "frontCapUnderarmToFrontArmhole": 0,
+        "frontCapCrownToFrontShoulder": 0.6614695609227775,
+        "backCapCrownToYokeShoulder": 1.7383640455031923,
+        "backCapUnderarmToBackUnderarm": 7.944109290391274e-15,
+        "frontStandCFToFrontCF": 0.7053449625683329,
+        "frontStandShoulderStationToFrontShoulder": 0.7053483945191068,
+        "backStandShoulderStationToYokeShoulder": 0.26939409202097214,
+        "backStandCBToYokeCB": 0.26939752397174505
+      },
+      "currentProduction": {
+        "front": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.71 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.71
+        },
+        "back": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.27 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.27
+        },
+        "svgEmitted": [
+          false,
+          false
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-min",
+      "revision": "s336-diagnostic:woven-shirt-frontOverlap-min",
+      "resolvedOptions": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "source": {
+        "stitch": {
+          "label": "Outer stand ↔ woven neckline",
+          "a": {
+            "edges": [
+              {
+                "piece": "outerStand",
+                "edge": "neckline"
+              }
+            ]
+          },
+          "b": {
+            "edges": [
+              {
+                "piece": "front",
+                "edge": "neckline"
+              },
+              {
+                "piece": "yoke",
+                "edge": "neckline"
+              }
+            ]
+          }
+        },
+        "standNecklineLengthCm": 25.77720383145081,
+        "frontNecklineLengthCm": 14.537098043824779,
+        "backNecklineLengthCm": 11.24010578762603,
+        "cbToCfNormalizedStationFraction": 0.4360482952736696,
+        "edges": {
+          "outerStandNeckline": {
+            "kind": "line",
+            "name": "neckline",
+            "start": {
+              "x": 25.77720383145081,
+              "y": 2.5
+            },
+            "end": {
+              "x": 0,
+              "y": 2.5
+            }
+          },
+          "frontNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 8.200000000000001
+              },
+              "control1": {
+                "x": 5.661075,
+                "y": 8.200000000000001
+              },
+              "control2": {
+                "x": 10.25,
+                "y": 4.528860000000001
+              },
+              "end": {
+                "x": 10.25,
+                "y": 0
+              }
+            }
+          },
+          "yokeNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 3.0749999999999997
+              },
+              "control1": {
+                "x": 5.661075,
+                "y": 3.0749999999999997
+              },
+              "control2": {
+                "x": 10.25,
+                "y": 1.6983225
+              },
+              "end": {
+                "x": 10.25,
+                "y": 0
+              }
+            }
+          }
+        }
+      },
+      "rigidPlacedSourceEdgeGapsCm": {
+        "frontCapUnderarmToFrontArmhole": 0,
+        "frontCapCrownToFrontShoulder": 0.6614695609227775,
+        "backCapCrownToYokeShoulder": 1.7383640455031923,
+        "backCapUnderarmToBackUnderarm": 7.944109290391274e-15,
+        "frontStandCFToFrontCF": 0.7053449625683329,
+        "frontStandShoulderStationToFrontShoulder": 0.7053483945191068,
+        "backStandShoulderStationToYokeShoulder": 0.26939409202097214,
+        "backStandCBToYokeCB": 0.26939752397174505
+      },
+      "currentProduction": {
+        "front": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.71 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.71
+        },
+        "back": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.27 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.27
+        },
+        "svgEmitted": [
+          false,
+          false
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-max",
+      "revision": "s336-diagnostic:woven-shirt-frontOverlap-max",
+      "resolvedOptions": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 3,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "source": {
+        "stitch": {
+          "label": "Outer stand ↔ woven neckline",
+          "a": {
+            "edges": [
+              {
+                "piece": "outerStand",
+                "edge": "neckline"
+              }
+            ]
+          },
+          "b": {
+            "edges": [
+              {
+                "piece": "front",
+                "edge": "neckline"
+              },
+              {
+                "piece": "yoke",
+                "edge": "neckline"
+              }
+            ]
+          }
+        },
+        "standNecklineLengthCm": 25.77720383145081,
+        "frontNecklineLengthCm": 14.537098043824779,
+        "backNecklineLengthCm": 11.24010578762603,
+        "cbToCfNormalizedStationFraction": 0.4360482952736696,
+        "edges": {
+          "outerStandNeckline": {
+            "kind": "line",
+            "name": "neckline",
+            "start": {
+              "x": 25.77720383145081,
+              "y": 2.5
+            },
+            "end": {
+              "x": 0,
+              "y": 2.5
+            }
+          },
+          "frontNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 8.200000000000001
+              },
+              "control1": {
+                "x": 5.661075,
+                "y": 8.200000000000001
+              },
+              "control2": {
+                "x": 10.25,
+                "y": 4.528860000000001
+              },
+              "end": {
+                "x": 10.25,
+                "y": 0
+              }
+            }
+          },
+          "yokeNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 3.0749999999999997
+              },
+              "control1": {
+                "x": 5.661075,
+                "y": 3.0749999999999997
+              },
+              "control2": {
+                "x": 10.25,
+                "y": 1.6983225
+              },
+              "end": {
+                "x": 10.25,
+                "y": 0
+              }
+            }
+          }
+        }
+      },
+      "rigidPlacedSourceEdgeGapsCm": {
+        "frontCapUnderarmToFrontArmhole": 0,
+        "frontCapCrownToFrontShoulder": 0.6614695609227775,
+        "backCapCrownToYokeShoulder": 1.7383640455031923,
+        "backCapUnderarmToBackUnderarm": 7.944109290391274e-15,
+        "frontStandCFToFrontCF": 0.7053449625683329,
+        "frontStandShoulderStationToFrontShoulder": 0.7053483945191068,
+        "backStandShoulderStationToYokeShoulder": 0.26939409202097214,
+        "backStandCBToYokeCB": 0.26939752397174505
+      },
+      "currentProduction": {
+        "front": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.71 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.71
+        },
+        "back": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.27 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.27
+        },
+        "svgEmitted": [
+          false,
+          false
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-min",
+      "revision": "s336-diagnostic:woven-shirt-placketWidth-min",
+      "resolvedOptions": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 2,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "source": {
+        "stitch": {
+          "label": "Outer stand ↔ woven neckline",
+          "a": {
+            "edges": [
+              {
+                "piece": "outerStand",
+                "edge": "neckline"
+              }
+            ]
+          },
+          "b": {
+            "edges": [
+              {
+                "piece": "front",
+                "edge": "neckline"
+              },
+              {
+                "piece": "yoke",
+                "edge": "neckline"
+              }
+            ]
+          }
+        },
+        "standNecklineLengthCm": 25.77720383145081,
+        "frontNecklineLengthCm": 14.537098043824779,
+        "backNecklineLengthCm": 11.24010578762603,
+        "cbToCfNormalizedStationFraction": 0.4360482952736696,
+        "edges": {
+          "outerStandNeckline": {
+            "kind": "line",
+            "name": "neckline",
+            "start": {
+              "x": 25.77720383145081,
+              "y": 2.5
+            },
+            "end": {
+              "x": 0,
+              "y": 2.5
+            }
+          },
+          "frontNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 8.200000000000001
+              },
+              "control1": {
+                "x": 5.661075,
+                "y": 8.200000000000001
+              },
+              "control2": {
+                "x": 10.25,
+                "y": 4.528860000000001
+              },
+              "end": {
+                "x": 10.25,
+                "y": 0
+              }
+            }
+          },
+          "yokeNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 3.0749999999999997
+              },
+              "control1": {
+                "x": 5.661075,
+                "y": 3.0749999999999997
+              },
+              "control2": {
+                "x": 10.25,
+                "y": 1.6983225
+              },
+              "end": {
+                "x": 10.25,
+                "y": 0
+              }
+            }
+          }
+        }
+      },
+      "rigidPlacedSourceEdgeGapsCm": {
+        "frontCapUnderarmToFrontArmhole": 0,
+        "frontCapCrownToFrontShoulder": 0.6614695609227775,
+        "backCapCrownToYokeShoulder": 1.7383640455031923,
+        "backCapUnderarmToBackUnderarm": 7.944109290391274e-15,
+        "frontStandCFToFrontCF": 0.7053449625683329,
+        "frontStandShoulderStationToFrontShoulder": 0.7053483945191068,
+        "backStandShoulderStationToYokeShoulder": 0.26939409202097214,
+        "backStandCBToYokeCB": 0.26939752397174505
+      },
+      "currentProduction": {
+        "front": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.71 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.71
+        },
+        "back": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.27 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.27
+        },
+        "svgEmitted": [
+          false,
+          false
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-max",
+      "revision": "s336-diagnostic:woven-shirt-placketWidth-max",
+      "resolvedOptions": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 4,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "source": {
+        "stitch": {
+          "label": "Outer stand ↔ woven neckline",
+          "a": {
+            "edges": [
+              {
+                "piece": "outerStand",
+                "edge": "neckline"
+              }
+            ]
+          },
+          "b": {
+            "edges": [
+              {
+                "piece": "front",
+                "edge": "neckline"
+              },
+              {
+                "piece": "yoke",
+                "edge": "neckline"
+              }
+            ]
+          }
+        },
+        "standNecklineLengthCm": 25.77720383145081,
+        "frontNecklineLengthCm": 14.537098043824779,
+        "backNecklineLengthCm": 11.24010578762603,
+        "cbToCfNormalizedStationFraction": 0.4360482952736696,
+        "edges": {
+          "outerStandNeckline": {
+            "kind": "line",
+            "name": "neckline",
+            "start": {
+              "x": 25.77720383145081,
+              "y": 2.5
+            },
+            "end": {
+              "x": 0,
+              "y": 2.5
+            }
+          },
+          "frontNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 8.200000000000001
+              },
+              "control1": {
+                "x": 5.661075,
+                "y": 8.200000000000001
+              },
+              "control2": {
+                "x": 10.25,
+                "y": 4.528860000000001
+              },
+              "end": {
+                "x": 10.25,
+                "y": 0
+              }
+            }
+          },
+          "yokeNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 3.0749999999999997
+              },
+              "control1": {
+                "x": 5.661075,
+                "y": 3.0749999999999997
+              },
+              "control2": {
+                "x": 10.25,
+                "y": 1.6983225
+              },
+              "end": {
+                "x": 10.25,
+                "y": 0
+              }
+            }
+          }
+        }
+      },
+      "rigidPlacedSourceEdgeGapsCm": {
+        "frontCapUnderarmToFrontArmhole": 0,
+        "frontCapCrownToFrontShoulder": 0.6614695609227775,
+        "backCapCrownToYokeShoulder": 1.7383640455031923,
+        "backCapUnderarmToBackUnderarm": 7.944109290391274e-15,
+        "frontStandCFToFrontCF": 0.7053449625683329,
+        "frontStandShoulderStationToFrontShoulder": 0.7053483945191068,
+        "backStandShoulderStationToYokeShoulder": 0.26939409202097214,
+        "backStandCBToYokeCB": 0.26939752397174505
+      },
+      "currentProduction": {
+        "front": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.71 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.71
+        },
+        "back": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.27 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.27
+        },
+        "svgEmitted": [
+          false,
+          false
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-min",
+      "revision": "s336-diagnostic:woven-shirt-yokeDepth-min",
+      "resolvedOptions": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 7,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "source": {
+        "stitch": {
+          "label": "Outer stand ↔ woven neckline",
+          "a": {
+            "edges": [
+              {
+                "piece": "outerStand",
+                "edge": "neckline"
+              }
+            ]
+          },
+          "b": {
+            "edges": [
+              {
+                "piece": "front",
+                "edge": "neckline"
+              },
+              {
+                "piece": "yoke",
+                "edge": "neckline"
+              }
+            ]
+          }
+        },
+        "standNecklineLengthCm": 25.77720383145081,
+        "frontNecklineLengthCm": 14.537098043824779,
+        "backNecklineLengthCm": 11.24010578762603,
+        "cbToCfNormalizedStationFraction": 0.4360482952736696,
+        "edges": {
+          "outerStandNeckline": {
+            "kind": "line",
+            "name": "neckline",
+            "start": {
+              "x": 25.77720383145081,
+              "y": 2.5
+            },
+            "end": {
+              "x": 0,
+              "y": 2.5
+            }
+          },
+          "frontNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 8.200000000000001
+              },
+              "control1": {
+                "x": 5.661075,
+                "y": 8.200000000000001
+              },
+              "control2": {
+                "x": 10.25,
+                "y": 4.528860000000001
+              },
+              "end": {
+                "x": 10.25,
+                "y": 0
+              }
+            }
+          },
+          "yokeNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 3.0749999999999997
+              },
+              "control1": {
+                "x": 5.661075,
+                "y": 3.0749999999999997
+              },
+              "control2": {
+                "x": 10.25,
+                "y": 1.6983225
+              },
+              "end": {
+                "x": 10.25,
+                "y": 0
+              }
+            }
+          }
+        }
+      },
+      "rigidPlacedSourceEdgeGapsCm": {
+        "frontCapUnderarmToFrontArmhole": 0,
+        "frontCapCrownToFrontShoulder": 0.6614666573766657,
+        "backCapCrownToYokeShoulder": 2.0643521980009742,
+        "backCapUnderarmToBackUnderarm": 3.552713678800501e-15,
+        "frontStandCFToFrontCF": 0.7053449625683329,
+        "frontStandShoulderStationToFrontShoulder": 0.7053483945191068,
+        "backStandShoulderStationToYokeShoulder": 0.26939409202097214,
+        "backStandCBToYokeCB": 0.26939752397174505
+      },
+      "currentProduction": {
+        "front": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.71 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.71
+        },
+        "back": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.27 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.27
+        },
+        "svgEmitted": [
+          false,
+          false
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-max",
+      "revision": "s336-diagnostic:woven-shirt-yokeDepth-max",
+      "resolvedOptions": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 15,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "source": {
+        "stitch": {
+          "label": "Outer stand ↔ woven neckline",
+          "a": {
+            "edges": [
+              {
+                "piece": "outerStand",
+                "edge": "neckline"
+              }
+            ]
+          },
+          "b": {
+            "edges": [
+              {
+                "piece": "front",
+                "edge": "neckline"
+              },
+              {
+                "piece": "yoke",
+                "edge": "neckline"
+              }
+            ]
+          }
+        },
+        "standNecklineLengthCm": 25.77720383145081,
+        "frontNecklineLengthCm": 14.537098043824779,
+        "backNecklineLengthCm": 11.24010578762603,
+        "cbToCfNormalizedStationFraction": 0.4360482952736696,
+        "edges": {
+          "outerStandNeckline": {
+            "kind": "line",
+            "name": "neckline",
+            "start": {
+              "x": 25.77720383145081,
+              "y": 2.5
+            },
+            "end": {
+              "x": 0,
+              "y": 2.5
+            }
+          },
+          "frontNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 8.200000000000001
+              },
+              "control1": {
+                "x": 5.661075,
+                "y": 8.200000000000001
+              },
+              "control2": {
+                "x": 10.25,
+                "y": 4.528860000000001
+              },
+              "end": {
+                "x": 10.25,
+                "y": 0
+              }
+            }
+          },
+          "yokeNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 3.0749999999999997
+              },
+              "control1": {
+                "x": 5.661075,
+                "y": 3.0749999999999997
+              },
+              "control2": {
+                "x": 10.25,
+                "y": 1.6983225
+              },
+              "end": {
+                "x": 10.25,
+                "y": 0
+              }
+            }
+          }
+        }
+      },
+      "rigidPlacedSourceEdgeGapsCm": {
+        "frontCapUnderarmToFrontArmhole": 7.105427357601002e-15,
+        "frontCapCrownToFrontShoulder": 0.661469040107098,
+        "backCapCrownToYokeShoulder": 0.8301485135357454,
+        "backCapUnderarmToBackUnderarm": 3.552713678800501e-15,
+        "frontStandCFToFrontCF": 0.7053449625683329,
+        "frontStandShoulderStationToFrontShoulder": 0.7053483945191068,
+        "backStandShoulderStationToYokeShoulder": 0.26939409202097214,
+        "backStandCBToYokeCB": 0.26939752397174505
+      },
+      "currentProduction": {
+        "front": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.71 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.71
+        },
+        "back": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.27 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.27
+        },
+        "svgEmitted": [
+          false,
+          false
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-min",
+      "revision": "s336-diagnostic:woven-shirt-pocketWidth-min",
+      "resolvedOptions": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 9,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "source": {
+        "stitch": {
+          "label": "Outer stand ↔ woven neckline",
+          "a": {
+            "edges": [
+              {
+                "piece": "outerStand",
+                "edge": "neckline"
+              }
+            ]
+          },
+          "b": {
+            "edges": [
+              {
+                "piece": "front",
+                "edge": "neckline"
+              },
+              {
+                "piece": "yoke",
+                "edge": "neckline"
+              }
+            ]
+          }
+        },
+        "standNecklineLengthCm": 25.77720383145081,
+        "frontNecklineLengthCm": 14.537098043824779,
+        "backNecklineLengthCm": 11.24010578762603,
+        "cbToCfNormalizedStationFraction": 0.4360482952736696,
+        "edges": {
+          "outerStandNeckline": {
+            "kind": "line",
+            "name": "neckline",
+            "start": {
+              "x": 25.77720383145081,
+              "y": 2.5
+            },
+            "end": {
+              "x": 0,
+              "y": 2.5
+            }
+          },
+          "frontNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 8.200000000000001
+              },
+              "control1": {
+                "x": 5.661075,
+                "y": 8.200000000000001
+              },
+              "control2": {
+                "x": 10.25,
+                "y": 4.528860000000001
+              },
+              "end": {
+                "x": 10.25,
+                "y": 0
+              }
+            }
+          },
+          "yokeNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 3.0749999999999997
+              },
+              "control1": {
+                "x": 5.661075,
+                "y": 3.0749999999999997
+              },
+              "control2": {
+                "x": 10.25,
+                "y": 1.6983225
+              },
+              "end": {
+                "x": 10.25,
+                "y": 0
+              }
+            }
+          }
+        }
+      },
+      "rigidPlacedSourceEdgeGapsCm": {
+        "frontCapUnderarmToFrontArmhole": 0,
+        "frontCapCrownToFrontShoulder": 0.6614695609227775,
+        "backCapCrownToYokeShoulder": 1.7383640455031923,
+        "backCapUnderarmToBackUnderarm": 7.944109290391274e-15,
+        "frontStandCFToFrontCF": 0.7053449625683329,
+        "frontStandShoulderStationToFrontShoulder": 0.7053483945191068,
+        "backStandShoulderStationToYokeShoulder": 0.26939409202097214,
+        "backStandCBToYokeCB": 0.26939752397174505
+      },
+      "currentProduction": {
+        "front": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.71 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.71
+        },
+        "back": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.27 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.27
+        },
+        "svgEmitted": [
+          false,
+          false
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-max",
+      "revision": "s336-diagnostic:woven-shirt-pocketWidth-max",
+      "resolvedOptions": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 16,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "source": {
+        "stitch": {
+          "label": "Outer stand ↔ woven neckline",
+          "a": {
+            "edges": [
+              {
+                "piece": "outerStand",
+                "edge": "neckline"
+              }
+            ]
+          },
+          "b": {
+            "edges": [
+              {
+                "piece": "front",
+                "edge": "neckline"
+              },
+              {
+                "piece": "yoke",
+                "edge": "neckline"
+              }
+            ]
+          }
+        },
+        "standNecklineLengthCm": 25.77720383145081,
+        "frontNecklineLengthCm": 14.537098043824779,
+        "backNecklineLengthCm": 11.24010578762603,
+        "cbToCfNormalizedStationFraction": 0.4360482952736696,
+        "edges": {
+          "outerStandNeckline": {
+            "kind": "line",
+            "name": "neckline",
+            "start": {
+              "x": 25.77720383145081,
+              "y": 2.5
+            },
+            "end": {
+              "x": 0,
+              "y": 2.5
+            }
+          },
+          "frontNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 8.200000000000001
+              },
+              "control1": {
+                "x": 5.661075,
+                "y": 8.200000000000001
+              },
+              "control2": {
+                "x": 10.25,
+                "y": 4.528860000000001
+              },
+              "end": {
+                "x": 10.25,
+                "y": 0
+              }
+            }
+          },
+          "yokeNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 3.0749999999999997
+              },
+              "control1": {
+                "x": 5.661075,
+                "y": 3.0749999999999997
+              },
+              "control2": {
+                "x": 10.25,
+                "y": 1.6983225
+              },
+              "end": {
+                "x": 10.25,
+                "y": 0
+              }
+            }
+          }
+        }
+      },
+      "rigidPlacedSourceEdgeGapsCm": {
+        "frontCapUnderarmToFrontArmhole": 0,
+        "frontCapCrownToFrontShoulder": 0.6614695609227775,
+        "backCapCrownToYokeShoulder": 1.7383640455031923,
+        "backCapUnderarmToBackUnderarm": 7.944109290391274e-15,
+        "frontStandCFToFrontCF": 0.7053449625683329,
+        "frontStandShoulderStationToFrontShoulder": 0.7053483945191068,
+        "backStandShoulderStationToYokeShoulder": 0.26939409202097214,
+        "backStandCBToYokeCB": 0.26939752397174505
+      },
+      "currentProduction": {
+        "front": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.71 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.71
+        },
+        "back": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.27 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.27
+        },
+        "svgEmitted": [
+          false,
+          false
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-min",
+      "revision": "s336-diagnostic:woven-shirt-pocketHeight-min",
+      "resolvedOptions": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 10,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "source": {
+        "stitch": {
+          "label": "Outer stand ↔ woven neckline",
+          "a": {
+            "edges": [
+              {
+                "piece": "outerStand",
+                "edge": "neckline"
+              }
+            ]
+          },
+          "b": {
+            "edges": [
+              {
+                "piece": "front",
+                "edge": "neckline"
+              },
+              {
+                "piece": "yoke",
+                "edge": "neckline"
+              }
+            ]
+          }
+        },
+        "standNecklineLengthCm": 25.77720383145081,
+        "frontNecklineLengthCm": 14.537098043824779,
+        "backNecklineLengthCm": 11.24010578762603,
+        "cbToCfNormalizedStationFraction": 0.4360482952736696,
+        "edges": {
+          "outerStandNeckline": {
+            "kind": "line",
+            "name": "neckline",
+            "start": {
+              "x": 25.77720383145081,
+              "y": 2.5
+            },
+            "end": {
+              "x": 0,
+              "y": 2.5
+            }
+          },
+          "frontNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 8.200000000000001
+              },
+              "control1": {
+                "x": 5.661075,
+                "y": 8.200000000000001
+              },
+              "control2": {
+                "x": 10.25,
+                "y": 4.528860000000001
+              },
+              "end": {
+                "x": 10.25,
+                "y": 0
+              }
+            }
+          },
+          "yokeNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 3.0749999999999997
+              },
+              "control1": {
+                "x": 5.661075,
+                "y": 3.0749999999999997
+              },
+              "control2": {
+                "x": 10.25,
+                "y": 1.6983225
+              },
+              "end": {
+                "x": 10.25,
+                "y": 0
+              }
+            }
+          }
+        }
+      },
+      "rigidPlacedSourceEdgeGapsCm": {
+        "frontCapUnderarmToFrontArmhole": 0,
+        "frontCapCrownToFrontShoulder": 0.6614695609227775,
+        "backCapCrownToYokeShoulder": 1.7383640455031923,
+        "backCapUnderarmToBackUnderarm": 7.944109290391274e-15,
+        "frontStandCFToFrontCF": 0.7053449625683329,
+        "frontStandShoulderStationToFrontShoulder": 0.7053483945191068,
+        "backStandShoulderStationToYokeShoulder": 0.26939409202097214,
+        "backStandCBToYokeCB": 0.26939752397174505
+      },
+      "currentProduction": {
+        "front": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.71 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.71
+        },
+        "back": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.27 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.27
+        },
+        "svgEmitted": [
+          false,
+          false
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-max",
+      "revision": "s336-diagnostic:woven-shirt-pocketHeight-max",
+      "resolvedOptions": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 18,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "source": {
+        "stitch": {
+          "label": "Outer stand ↔ woven neckline",
+          "a": {
+            "edges": [
+              {
+                "piece": "outerStand",
+                "edge": "neckline"
+              }
+            ]
+          },
+          "b": {
+            "edges": [
+              {
+                "piece": "front",
+                "edge": "neckline"
+              },
+              {
+                "piece": "yoke",
+                "edge": "neckline"
+              }
+            ]
+          }
+        },
+        "standNecklineLengthCm": 25.77720383145081,
+        "frontNecklineLengthCm": 14.537098043824779,
+        "backNecklineLengthCm": 11.24010578762603,
+        "cbToCfNormalizedStationFraction": 0.4360482952736696,
+        "edges": {
+          "outerStandNeckline": {
+            "kind": "line",
+            "name": "neckline",
+            "start": {
+              "x": 25.77720383145081,
+              "y": 2.5
+            },
+            "end": {
+              "x": 0,
+              "y": 2.5
+            }
+          },
+          "frontNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 8.200000000000001
+              },
+              "control1": {
+                "x": 5.661075,
+                "y": 8.200000000000001
+              },
+              "control2": {
+                "x": 10.25,
+                "y": 4.528860000000001
+              },
+              "end": {
+                "x": 10.25,
+                "y": 0
+              }
+            }
+          },
+          "yokeNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 3.0749999999999997
+              },
+              "control1": {
+                "x": 5.661075,
+                "y": 3.0749999999999997
+              },
+              "control2": {
+                "x": 10.25,
+                "y": 1.6983225
+              },
+              "end": {
+                "x": 10.25,
+                "y": 0
+              }
+            }
+          }
+        }
+      },
+      "rigidPlacedSourceEdgeGapsCm": {
+        "frontCapUnderarmToFrontArmhole": 0,
+        "frontCapCrownToFrontShoulder": 0.6614695609227775,
+        "backCapCrownToYokeShoulder": 1.7383640455031923,
+        "backCapUnderarmToBackUnderarm": 7.944109290391274e-15,
+        "frontStandCFToFrontCF": 0.7053449625683329,
+        "frontStandShoulderStationToFrontShoulder": 0.7053483945191068,
+        "backStandShoulderStationToYokeShoulder": 0.26939409202097214,
+        "backStandCBToYokeCB": 0.26939752397174505
+      },
+      "currentProduction": {
+        "front": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.71 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.71
+        },
+        "back": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.27 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.27
+        },
+        "svgEmitted": [
+          false,
+          false
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-min",
+      "revision": "s336-diagnostic:woven-shirt-sleeveBandDepth-min",
+      "resolvedOptions": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 2,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "source": {
+        "stitch": {
+          "label": "Outer stand ↔ woven neckline",
+          "a": {
+            "edges": [
+              {
+                "piece": "outerStand",
+                "edge": "neckline"
+              }
+            ]
+          },
+          "b": {
+            "edges": [
+              {
+                "piece": "front",
+                "edge": "neckline"
+              },
+              {
+                "piece": "yoke",
+                "edge": "neckline"
+              }
+            ]
+          }
+        },
+        "standNecklineLengthCm": 25.77720383145081,
+        "frontNecklineLengthCm": 14.537098043824779,
+        "backNecklineLengthCm": 11.24010578762603,
+        "cbToCfNormalizedStationFraction": 0.4360482952736696,
+        "edges": {
+          "outerStandNeckline": {
+            "kind": "line",
+            "name": "neckline",
+            "start": {
+              "x": 25.77720383145081,
+              "y": 2.5
+            },
+            "end": {
+              "x": 0,
+              "y": 2.5
+            }
+          },
+          "frontNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 8.200000000000001
+              },
+              "control1": {
+                "x": 5.661075,
+                "y": 8.200000000000001
+              },
+              "control2": {
+                "x": 10.25,
+                "y": 4.528860000000001
+              },
+              "end": {
+                "x": 10.25,
+                "y": 0
+              }
+            }
+          },
+          "yokeNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 3.0749999999999997
+              },
+              "control1": {
+                "x": 5.661075,
+                "y": 3.0749999999999997
+              },
+              "control2": {
+                "x": 10.25,
+                "y": 1.6983225
+              },
+              "end": {
+                "x": 10.25,
+                "y": 0
+              }
+            }
+          }
+        }
+      },
+      "rigidPlacedSourceEdgeGapsCm": {
+        "frontCapUnderarmToFrontArmhole": 0,
+        "frontCapCrownToFrontShoulder": 0.6614695609227775,
+        "backCapCrownToYokeShoulder": 1.7383640455031923,
+        "backCapUnderarmToBackUnderarm": 7.944109290391274e-15,
+        "frontStandCFToFrontCF": 0.7053449625683329,
+        "frontStandShoulderStationToFrontShoulder": 0.7053483945191068,
+        "backStandShoulderStationToYokeShoulder": 0.26939409202097214,
+        "backStandCBToYokeCB": 0.26939752397174505
+      },
+      "currentProduction": {
+        "front": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.71 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.71
+        },
+        "back": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.27 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.27
+        },
+        "svgEmitted": [
+          false,
+          false
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-max",
+      "revision": "s336-diagnostic:woven-shirt-sleeveBandDepth-max",
+      "resolvedOptions": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 5,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "source": {
+        "stitch": {
+          "label": "Outer stand ↔ woven neckline",
+          "a": {
+            "edges": [
+              {
+                "piece": "outerStand",
+                "edge": "neckline"
+              }
+            ]
+          },
+          "b": {
+            "edges": [
+              {
+                "piece": "front",
+                "edge": "neckline"
+              },
+              {
+                "piece": "yoke",
+                "edge": "neckline"
+              }
+            ]
+          }
+        },
+        "standNecklineLengthCm": 25.77720383145081,
+        "frontNecklineLengthCm": 14.537098043824779,
+        "backNecklineLengthCm": 11.24010578762603,
+        "cbToCfNormalizedStationFraction": 0.4360482952736696,
+        "edges": {
+          "outerStandNeckline": {
+            "kind": "line",
+            "name": "neckline",
+            "start": {
+              "x": 25.77720383145081,
+              "y": 2.5
+            },
+            "end": {
+              "x": 0,
+              "y": 2.5
+            }
+          },
+          "frontNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 8.200000000000001
+              },
+              "control1": {
+                "x": 5.661075,
+                "y": 8.200000000000001
+              },
+              "control2": {
+                "x": 10.25,
+                "y": 4.528860000000001
+              },
+              "end": {
+                "x": 10.25,
+                "y": 0
+              }
+            }
+          },
+          "yokeNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 3.0749999999999997
+              },
+              "control1": {
+                "x": 5.661075,
+                "y": 3.0749999999999997
+              },
+              "control2": {
+                "x": 10.25,
+                "y": 1.6983225
+              },
+              "end": {
+                "x": 10.25,
+                "y": 0
+              }
+            }
+          }
+        }
+      },
+      "rigidPlacedSourceEdgeGapsCm": {
+        "frontCapUnderarmToFrontArmhole": 0,
+        "frontCapCrownToFrontShoulder": 0.6614695609227775,
+        "backCapCrownToYokeShoulder": 1.7383640455031923,
+        "backCapUnderarmToBackUnderarm": 7.944109290391274e-15,
+        "frontStandCFToFrontCF": 0.7053449625683329,
+        "frontStandShoulderStationToFrontShoulder": 0.7053483945191068,
+        "backStandShoulderStationToYokeShoulder": 0.26939409202097214,
+        "backStandCBToYokeCB": 0.26939752397174505
+      },
+      "currentProduction": {
+        "front": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.71 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.71
+        },
+        "back": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.27 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.27
+        },
+        "svgEmitted": [
+          false,
+          false
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-min",
+      "revision": "s336-diagnostic:woven-shirt-sideVentDepth-min",
+      "resolvedOptions": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 0,
+        "hemTurn": 1
+      },
+      "source": {
+        "stitch": {
+          "label": "Outer stand ↔ woven neckline",
+          "a": {
+            "edges": [
+              {
+                "piece": "outerStand",
+                "edge": "neckline"
+              }
+            ]
+          },
+          "b": {
+            "edges": [
+              {
+                "piece": "front",
+                "edge": "neckline"
+              },
+              {
+                "piece": "yoke",
+                "edge": "neckline"
+              }
+            ]
+          }
+        },
+        "standNecklineLengthCm": 25.77720383145081,
+        "frontNecklineLengthCm": 14.537098043824779,
+        "backNecklineLengthCm": 11.24010578762603,
+        "cbToCfNormalizedStationFraction": 0.4360482952736696,
+        "edges": {
+          "outerStandNeckline": {
+            "kind": "line",
+            "name": "neckline",
+            "start": {
+              "x": 25.77720383145081,
+              "y": 2.5
+            },
+            "end": {
+              "x": 0,
+              "y": 2.5
+            }
+          },
+          "frontNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 8.200000000000001
+              },
+              "control1": {
+                "x": 5.661075,
+                "y": 8.200000000000001
+              },
+              "control2": {
+                "x": 10.25,
+                "y": 4.528860000000001
+              },
+              "end": {
+                "x": 10.25,
+                "y": 0
+              }
+            }
+          },
+          "yokeNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 3.0749999999999997
+              },
+              "control1": {
+                "x": 5.661075,
+                "y": 3.0749999999999997
+              },
+              "control2": {
+                "x": 10.25,
+                "y": 1.6983225
+              },
+              "end": {
+                "x": 10.25,
+                "y": 0
+              }
+            }
+          }
+        }
+      },
+      "rigidPlacedSourceEdgeGapsCm": {
+        "frontCapUnderarmToFrontArmhole": 0,
+        "frontCapCrownToFrontShoulder": 0.6614695609227775,
+        "backCapCrownToYokeShoulder": 1.7383640455031923,
+        "backCapUnderarmToBackUnderarm": 7.944109290391274e-15,
+        "frontStandCFToFrontCF": 0.7053449625683329,
+        "frontStandShoulderStationToFrontShoulder": 0.7053483945191068,
+        "backStandShoulderStationToYokeShoulder": 0.26939409202097214,
+        "backStandCBToYokeCB": 0.26939752397174505
+      },
+      "currentProduction": {
+        "front": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.71 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.71
+        },
+        "back": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.27 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.27
+        },
+        "svgEmitted": [
+          false,
+          false
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-max",
+      "revision": "s336-diagnostic:woven-shirt-sideVentDepth-max",
+      "resolvedOptions": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 8,
+        "hemTurn": 1
+      },
+      "source": {
+        "stitch": {
+          "label": "Outer stand ↔ woven neckline",
+          "a": {
+            "edges": [
+              {
+                "piece": "outerStand",
+                "edge": "neckline"
+              }
+            ]
+          },
+          "b": {
+            "edges": [
+              {
+                "piece": "front",
+                "edge": "neckline"
+              },
+              {
+                "piece": "yoke",
+                "edge": "neckline"
+              }
+            ]
+          }
+        },
+        "standNecklineLengthCm": 25.77720383145081,
+        "frontNecklineLengthCm": 14.537098043824779,
+        "backNecklineLengthCm": 11.24010578762603,
+        "cbToCfNormalizedStationFraction": 0.4360482952736696,
+        "edges": {
+          "outerStandNeckline": {
+            "kind": "line",
+            "name": "neckline",
+            "start": {
+              "x": 25.77720383145081,
+              "y": 2.5
+            },
+            "end": {
+              "x": 0,
+              "y": 2.5
+            }
+          },
+          "frontNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 8.200000000000001
+              },
+              "control1": {
+                "x": 5.661075,
+                "y": 8.200000000000001
+              },
+              "control2": {
+                "x": 10.25,
+                "y": 4.528860000000001
+              },
+              "end": {
+                "x": 10.25,
+                "y": 0
+              }
+            }
+          },
+          "yokeNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 3.0749999999999997
+              },
+              "control1": {
+                "x": 5.661075,
+                "y": 3.0749999999999997
+              },
+              "control2": {
+                "x": 10.25,
+                "y": 1.6983225
+              },
+              "end": {
+                "x": 10.25,
+                "y": 0
+              }
+            }
+          }
+        }
+      },
+      "rigidPlacedSourceEdgeGapsCm": {
+        "frontCapUnderarmToFrontArmhole": 0,
+        "frontCapCrownToFrontShoulder": 0.6614695609227775,
+        "backCapCrownToYokeShoulder": 1.7383640455031923,
+        "backCapUnderarmToBackUnderarm": 7.944109290391274e-15,
+        "frontStandCFToFrontCF": 0.7053449625683329,
+        "frontStandShoulderStationToFrontShoulder": 0.7053483945191068,
+        "backStandShoulderStationToYokeShoulder": 0.26939409202097214,
+        "backStandCBToYokeCB": 0.26939752397174505
+      },
+      "currentProduction": {
+        "front": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.71 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.71
+        },
+        "back": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.27 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.27
+        },
+        "svgEmitted": [
+          false,
+          false
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-min",
+      "revision": "s336-diagnostic:woven-shirt-hemTurn-min",
+      "resolvedOptions": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 0.7
+      },
+      "source": {
+        "stitch": {
+          "label": "Outer stand ↔ woven neckline",
+          "a": {
+            "edges": [
+              {
+                "piece": "outerStand",
+                "edge": "neckline"
+              }
+            ]
+          },
+          "b": {
+            "edges": [
+              {
+                "piece": "front",
+                "edge": "neckline"
+              },
+              {
+                "piece": "yoke",
+                "edge": "neckline"
+              }
+            ]
+          }
+        },
+        "standNecklineLengthCm": 25.77720383145081,
+        "frontNecklineLengthCm": 14.537098043824779,
+        "backNecklineLengthCm": 11.24010578762603,
+        "cbToCfNormalizedStationFraction": 0.4360482952736696,
+        "edges": {
+          "outerStandNeckline": {
+            "kind": "line",
+            "name": "neckline",
+            "start": {
+              "x": 25.77720383145081,
+              "y": 2.5
+            },
+            "end": {
+              "x": 0,
+              "y": 2.5
+            }
+          },
+          "frontNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 8.200000000000001
+              },
+              "control1": {
+                "x": 5.661075,
+                "y": 8.200000000000001
+              },
+              "control2": {
+                "x": 10.25,
+                "y": 4.528860000000001
+              },
+              "end": {
+                "x": 10.25,
+                "y": 0
+              }
+            }
+          },
+          "yokeNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 3.0749999999999997
+              },
+              "control1": {
+                "x": 5.661075,
+                "y": 3.0749999999999997
+              },
+              "control2": {
+                "x": 10.25,
+                "y": 1.6983225
+              },
+              "end": {
+                "x": 10.25,
+                "y": 0
+              }
+            }
+          }
+        }
+      },
+      "rigidPlacedSourceEdgeGapsCm": {
+        "frontCapUnderarmToFrontArmhole": 0,
+        "frontCapCrownToFrontShoulder": 0.6614695609227775,
+        "backCapCrownToYokeShoulder": 1.7383640455031923,
+        "backCapUnderarmToBackUnderarm": 7.944109290391274e-15,
+        "frontStandCFToFrontCF": 0.7053449625683329,
+        "frontStandShoulderStationToFrontShoulder": 0.7053483945191068,
+        "backStandShoulderStationToYokeShoulder": 0.26939409202097214,
+        "backStandCBToYokeCB": 0.26939752397174505
+      },
+      "currentProduction": {
+        "front": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.71 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.71
+        },
+        "back": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.27 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.27
+        },
+        "svgEmitted": [
+          false,
+          false
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-max",
+      "revision": "s336-diagnostic:woven-shirt-hemTurn-max",
+      "resolvedOptions": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 2
+      },
+      "source": {
+        "stitch": {
+          "label": "Outer stand ↔ woven neckline",
+          "a": {
+            "edges": [
+              {
+                "piece": "outerStand",
+                "edge": "neckline"
+              }
+            ]
+          },
+          "b": {
+            "edges": [
+              {
+                "piece": "front",
+                "edge": "neckline"
+              },
+              {
+                "piece": "yoke",
+                "edge": "neckline"
+              }
+            ]
+          }
+        },
+        "standNecklineLengthCm": 25.77720383145081,
+        "frontNecklineLengthCm": 14.537098043824779,
+        "backNecklineLengthCm": 11.24010578762603,
+        "cbToCfNormalizedStationFraction": 0.4360482952736696,
+        "edges": {
+          "outerStandNeckline": {
+            "kind": "line",
+            "name": "neckline",
+            "start": {
+              "x": 25.77720383145081,
+              "y": 2.5
+            },
+            "end": {
+              "x": 0,
+              "y": 2.5
+            }
+          },
+          "frontNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 8.200000000000001
+              },
+              "control1": {
+                "x": 5.661075,
+                "y": 8.200000000000001
+              },
+              "control2": {
+                "x": 10.25,
+                "y": 4.528860000000001
+              },
+              "end": {
+                "x": 10.25,
+                "y": 0
+              }
+            }
+          },
+          "yokeNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 3.0749999999999997
+              },
+              "control1": {
+                "x": 5.661075,
+                "y": 3.0749999999999997
+              },
+              "control2": {
+                "x": 10.25,
+                "y": 1.6983225
+              },
+              "end": {
+                "x": 10.25,
+                "y": 0
+              }
+            }
+          }
+        }
+      },
+      "rigidPlacedSourceEdgeGapsCm": {
+        "frontCapUnderarmToFrontArmhole": 0,
+        "frontCapCrownToFrontShoulder": 0.6614695609227775,
+        "backCapCrownToYokeShoulder": 1.7383640455031923,
+        "backCapUnderarmToBackUnderarm": 7.944109290391274e-15,
+        "frontStandCFToFrontCF": 0.7053449625683329,
+        "frontStandShoulderStationToFrontShoulder": 0.7053483945191068,
+        "backStandShoulderStationToYokeShoulder": 0.26939409202097214,
+        "backStandCBToYokeCB": 0.26939752397174505
+      },
+      "currentProduction": {
+        "front": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.71 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.71
+        },
+        "back": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.27 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.27
+        },
+        "svgEmitted": [
+          false,
+          false
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-combined-supported",
+      "revision": "s336-diagnostic:woven-shirt-combined-supported",
+      "resolvedOptions": {
+        "neckEase": 1,
+        "standHeight": 3,
+        "collarLeafDepth": 7,
+        "buttonCount": 6,
+        "buttonSpacing": 6,
+        "frontOverlap": 2,
+        "placketWidth": 4,
+        "yokeDepth": 10,
+        "pocketWidth": 14,
+        "pocketHeight": 15,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "source": {
+        "stitch": {
+          "label": "Outer stand ↔ woven neckline",
+          "a": {
+            "edges": [
+              {
+                "piece": "outerStand",
+                "edge": "neckline"
+              }
+            ]
+          },
+          "b": {
+            "edges": [
+              {
+                "piece": "front",
+                "edge": "neckline"
+              },
+              {
+                "piece": "yoke",
+                "edge": "neckline"
+              }
+            ]
+          }
+        },
+        "standNecklineLengthCm": 25.77720383145081,
+        "frontNecklineLengthCm": 14.537098043824779,
+        "backNecklineLengthCm": 11.24010578762603,
+        "cbToCfNormalizedStationFraction": 0.4360482952736696,
+        "edges": {
+          "outerStandNeckline": {
+            "kind": "line",
+            "name": "neckline",
+            "start": {
+              "x": 25.77720383145081,
+              "y": 3
+            },
+            "end": {
+              "x": 0,
+              "y": 3
+            }
+          },
+          "frontNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 8.200000000000001
+              },
+              "control1": {
+                "x": 5.661075,
+                "y": 8.200000000000001
+              },
+              "control2": {
+                "x": 10.25,
+                "y": 4.528860000000001
+              },
+              "end": {
+                "x": 10.25,
+                "y": 0
+              }
+            }
+          },
+          "yokeNeckline": {
+            "kind": "curve",
+            "name": "neckline",
+            "curve": {
+              "start": {
+                "x": 0,
+                "y": 3.0749999999999997
+              },
+              "control1": {
+                "x": 5.661075,
+                "y": 3.0749999999999997
+              },
+              "control2": {
+                "x": 10.25,
+                "y": 1.6983225
+              },
+              "end": {
+                "x": 10.25,
+                "y": 0
+              }
+            }
+          }
+        }
+      },
+      "rigidPlacedSourceEdgeGapsCm": {
+        "frontCapUnderarmToFrontArmhole": 0,
+        "frontCapCrownToFrontShoulder": 0.6614695609227775,
+        "backCapCrownToYokeShoulder": 1.7383640455031923,
+        "backCapUnderarmToBackUnderarm": 7.944109290391274e-15,
+        "frontStandCFToFrontCF": 0.7053449625683329,
+        "frontStandShoulderStationToFrontShoulder": 0.7053483945191074,
+        "backStandShoulderStationToYokeShoulder": 0.26939409202097037,
+        "backStandCBToYokeCB": 0.26939752397174505
+      },
+      "currentProduction": {
+        "front": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.71 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.71
+        },
+        "back": {
+          "held": true,
+          "issue": "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.27 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+          "reportedResidualCm": 0.27
+        },
+        "svgEmitted": [
+          false,
+          false
+        ]
+      }
+    }
+  ]
+}

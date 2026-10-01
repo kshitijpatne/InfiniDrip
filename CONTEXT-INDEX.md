@@ -301,6 +301,12 @@ only through an explicitly admitted, linked Epic packet.
   73 configurations / 146 faces. Status remains 56 accepted / 90 held; the
   refreshed blockers select the next bounded Woven collar-interface
   investigation.
+- `docs/research/epic17/G04-V02-WOVEN-COLLAR-JOIN-DIAGNOSIS-S342.md` and
+  `docs/research/epic17/S342-woven-collar/` — completed source/overlay
+  diagnosis across all 28 Woven options. It finds a straight stand base against
+  curved front/yoke neckline pieces and proposes one exact body-edge seam
+  representation that needs maintainer approval. No behavior changed; all 56
+  Woven faces stay held pending that decision and the remaining output gates.
 - `docs/research/epic17/G04-V02-PROJECTION-MAPPING-S277.md` — Slice 277's
   current projection-mapping contract boundary, source-reference rules,
   fail-closed semantics, and focused acceptance gates.
