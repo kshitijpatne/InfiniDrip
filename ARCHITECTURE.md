@@ -435,6 +435,20 @@ residual over 0.25 cm or contradictory cycle returns an explicit issue. This
 is drafted transform evidence only; it does not merge a component into a
 face-specific garment contour by itself.
 
+Slice 336 records an additional source-order rule in the versioned projection
+metadata: Woven's `Outer stand ↔ woven neckline` stitch lists the stand edge
+from CF to CB, while the `front.neckline` and `yoke.neckline` edges run from CF
+or CB toward their shoulder endpoints. The view reverses the yoke (or fallback
+back) neckline traversal so the back interface follows the authored stitch
+order; it does not alter the stitch graph or contour. Exact topology validation
+checks both stand junctions, body center/shoulder endpoints, role identity and
+the permitted reversal. The front shoulder station still misses by about
+0.71 cm and the back by about 0.27 cm on the default revision, so all Woven
+faces remain held. Approved normalized-arclength collar exterior transfers
+remain view conventions and do not create physical notches. See
+`docs/research/epic17/G04-V02-WOVEN-PLACEMENT-DIAGNOSIS-S336.md` for the full
+configuration trace and current holds.
+
 `src/render/technical-flat-svg.ts` renders a validated semantic view in stable
 layer order. SVG width and height use physical centimetres and source geometry
 remains unscaled. Every emitted entity carries its source and revision IDs;

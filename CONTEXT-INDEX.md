@@ -263,6 +263,13 @@ only through an explicitly admitted, linked Epic packet.
   exceed the 0.25 cm residual gate; closures do not imply acceptance. Continue
   from the S335 exit in `PROJECT-STATE.md` and the validated board; keep V03
   gated.
+- `docs/research/epic17/G04-V02-WOVEN-PLACEMENT-DIAGNOSIS-S336.md` — S336's
+  source-order endpoint correction, 28-case station/transform trace, annotated
+  join panels and production Chromium hold replay. All 56 Woven faces remain
+  held: the sleeve-cap and outerStand-to-neckline joins still exceed 0.25 cm,
+  with an inconsistent back sleeve transform. Continue from its explicit
+  maintainer decision request; do not introduce nonrigid geometry or lower the
+  all-seven acceptance criterion without approval.
 - `docs/research/epic17/G04-V02-PROJECTION-MAPPING-S277.md` — Slice 277's
   current projection-mapping contract boundary, source-reference rules,
   fail-closed semantics, and focused acceptance gates.

@@ -93,9 +93,9 @@ export interface FlatProjectionViewBoundary {
 /** Face-local traversal correction for a sewn interface. This affects only
  * rigid placement correspondence; the drafted stitch references stay intact. */
 export interface FlatProjectionReversedStitchEdge {
-  readonly stitchLabel: "Sleeve-cap ease" | "Woven sleeve-cap ease" | "Yoke seam (yoke ↔ back lower)";
-  readonly pieceId: "front" | "back";
-  readonly edgeId: "armhole" | "yokeSeam";
+  readonly stitchLabel: "Sleeve-cap ease" | "Woven sleeve-cap ease" | "Yoke seam (yoke ↔ back lower)" | "Outer stand ↔ woven neckline";
+  readonly pieceId: "front" | "back" | "yoke";
+  readonly edgeId: "armhole" | "yokeSeam" | "neckline";
   readonly source: "SOURCE_ENDPOINT_ORDER";
 }
 
@@ -614,6 +614,8 @@ function wovenCollarRoleProjection(
         { edgeId: "frontEnd", reason: "The stand front end belongs to FRONT_FLAT." },
       ],
       foldAxisReflection: { edgeId: "centerBack", axis: "LOCAL_Y", source: "Piece.onFold" },
+      reversedStitchEdges: [{ stitchLabel: "Outer stand ↔ woven neckline",
+        pieceId: block.roles.yoke ? "yoke" : "back", edgeId: "neckline", source: "SOURCE_ENDPOINT_ORDER" }],
       ...(collarAreaClosure ? { viewBoundaries: [collarAreaClosure] } : {}),
     };
   }
@@ -1306,7 +1308,10 @@ function validateRole(
   }
   const requiresWovenSleeveOrder = recipeId === "woven-shirt" && roleId === "sleeve";
   const requiresWovenBackYokeOrder = recipeId === "woven-shirt" && faceKind === "BACK_FLAT" && roleId === "back";
-  if ((reversedStitchEdges !== undefined && recipeId === "woven-shirt") || requiresWovenSleeveOrder) {
+  const requiresWovenNecklineOrder = recipeId === "woven-shirt" && roleId === "outerStand"
+    && Array.isArray(mappingRole.runs) && mappingRole.runs.length > 0;
+  if ((reversedStitchEdges !== undefined && recipeId === "woven-shirt")
+    || requiresWovenSleeveOrder || requiresWovenNecklineOrder) {
     const entries = Array.isArray(reversedStitchEdges) ? reversedStitchEdges : [];
     const sleeveMatches = block.stitches.filter((stitch) => stitch.label === "Woven sleeve-cap ease");
     const sleeveStitch = sleeveMatches[0];
@@ -1350,12 +1355,41 @@ function validateRole(
     const exactYokeRule = entries.length === 1 && isRecord(entries[0])
       && entries[0].stitchLabel === "Yoke seam (yoke ↔ back lower)" && entries[0].pieceId === "back"
       && entries[0].edgeId === "yokeSeam" && entries[0].source === "SOURCE_ENDPOINT_ORDER";
+    const collarStitches = block.stitches.filter((stitch) => stitch.label === "Outer stand ↔ woven neckline");
+    const collarStitch = collarStitches[0];
+    const collarBackRole = block.roles.yoke ? "yoke" : "back";
+    const standNeckline = block.roles.outerStand?.edges.find((edge) => edge.name === "neckline");
+    const standFrontEnd = block.roles.outerStand?.edges.find((edge) => edge.name === "frontEnd");
+    const standFold = block.roles.outerStand?.edges.find((edge) => edge.name === "centerBack");
+    const frontNeckline = block.roles.front?.edges.find((edge) => edge.name === "neckline");
+    const frontCenter = block.roles.front?.edges.find((edge) => edge.name === "centerFront");
+    const frontShoulder = block.roles.front?.edges.find((edge) => edge.name === "shoulder");
+    const collarBackNeckline = block.roles[collarBackRole]?.edges.find((edge) => edge.name === "neckline");
+    const collarBackCenter = block.roles[collarBackRole]?.edges.find((edge) => edge.name === "centerBack");
+    const collarBackShoulder = block.roles[collarBackRole]?.edges.find((edge) => edge.name === "shoulder");
+    const collarTopologyMatches = collarStitches.length === 1 && !!collarStitch && collarStitch.ease === undefined
+      && expectedRefs(collarStitch.a.edges, [["outerStand", "neckline"]])
+      && expectedRefs(collarStitch.b.edges, [["front", "neckline"], [collarBackRole, "neckline"]])
+      && standNeckline?.kind === "line" && standFrontEnd?.kind === "line" && standFold?.kind === "line"
+      && frontNeckline !== undefined && frontCenter?.kind === "line" && frontShoulder?.kind === "line"
+      && collarBackNeckline !== undefined && collarBackCenter?.kind === "line" && collarBackShoulder?.kind === "line"
+      && samePoint(standNeckline.start, standFrontEnd.end) && samePoint(standNeckline.end, standFold.start)
+      && samePoint(edgeStart(frontNeckline), frontCenter.end)
+      && samePoint(edgeEnd(frontNeckline), frontShoulder.start)
+      && samePoint(edgeStart(collarBackNeckline), collarBackCenter.end)
+      && samePoint(edgeEnd(collarBackNeckline), collarBackShoulder.start)
+      && wovenNecklineFraction(block) !== undefined;
+    const exactCollarRule = entries.length === 1 && isRecord(entries[0])
+      && entries[0].stitchLabel === "Outer stand ↔ woven neckline" && entries[0].pieceId === collarBackRole
+      && entries[0].edgeId === "neckline" && entries[0].source === "SOURCE_ENDPOINT_ORDER";
     const validSleeve = !requiresWovenSleeveOrder || (sleeveTopologyMatches && exactSleeveRule);
     const validYoke = !requiresWovenBackYokeOrder || (yokeTopologyMatches && exactYokeRule);
-    const noUnexpectedReversal = (requiresWovenSleeveOrder || requiresWovenBackYokeOrder) || entries.length === 0;
-    if (!validSleeve || !validYoke || !noUnexpectedReversal) {
+    const validCollar = roleId !== "outerStand" || (collarTopologyMatches && exactCollarRule);
+    const expectedRoleRule = requiresWovenSleeveOrder || requiresWovenBackYokeOrder || requiresWovenNecklineOrder;
+    const noUnexpectedReversal = expectedRoleRule || entries.length === 0;
+    if (!validSleeve || !validYoke || !validCollar || !noUnexpectedReversal) {
       issues.push({ code: "INVALID_STITCH_ENDPOINT_ORIENTATION", sourceId,
-        message: "Woven sewn-edge traversal requires exact source endpoint ordering for sleeve-cap and yoke-seam placement." });
+        message: "Woven sewn-edge traversal requires exact source endpoint ordering for sleeve-cap, neckline and yoke-seam placement." });
     }
   }
   const localYReflection = mappingRole.localYReflection;

@@ -316,6 +316,10 @@ describe("validateTechnicalFlatProjectionMap", () => {
     const frontLength = edgeLength(block.roles.front!.edges.find((edge) => edge.name === "neckline")!);
     const baseFraction = backLength / (backLength + frontLength);
     for (const face of map.faces) {
+      const standRole = face.roles.find((candidate) => candidate.roleId === "outerStand")!;
+      expect(standRole.reversedStitchEdges).toEqual([{
+        stitchLabel: "Outer stand ↔ woven neckline", pieceId: backRoleId, edgeId: "neckline", source: "SOURCE_ENDPOINT_ORDER",
+      }]);
       for (const roleId of ["outerStand", "upperCollar", "underCollar"]) {
         const role = face.roles.find((candidate) => candidate.roleId === roleId)!;
         if (roleId !== "outerStand") expect(role.treatment).toBe("VISIBLE_OVERLAY");
@@ -338,6 +342,28 @@ describe("validateTechnicalFlatProjectionMap", () => {
       expect(face.roles.findIndex((role) => role.roleId === "underCollar"))
         .toBeLessThan(face.roles.findIndex((role) => role.roleId === "upperCollar"));
     }
+    const missingNecklineTraversal = structuredClone(map) as unknown as {
+      faces: Array<{ kind: string; roles: Array<{ roleId: string; reversedStitchEdges?: unknown[] }> }>;
+    };
+    for (const face of missingNecklineTraversal.faces) {
+      delete face.roles.find((role) => role.roleId === "outerStand")!.reversedStitchEdges;
+    }
+    expect(validateTechnicalFlatProjectionMap("woven-shirt", block, REVISION, missingNecklineTraversal)
+      .some((issue) => issue.code === "INVALID_STITCH_ENDPOINT_ORIENTATION")).toBe(true);
+
+    const backOnlyRoles = { ...block.roles, back: block.roles.yoke!, yoke: undefined } as unknown as typeof block.roles;
+    const backOnlyBlock = { ...block, roles: backOnlyRoles, stitches: block.stitches.map((stitch) =>
+      stitch.label === "Outer stand ↔ woven neckline" ? { ...stitch, b: { edges: stitch.b.edges.map((ref) =>
+        "edge" in ref && ref.piece === "yoke" ? { ...ref, piece: "back" } : ref) } } : stitch) };
+    const backOnlyMap = createG04TechnicalFlatProjectionMap("woven-shirt", backOnlyBlock, REVISION)!;
+    for (const face of backOnlyMap.faces) {
+      expect(face.roles.find((role) => role.roleId === "outerStand")?.reversedStitchEdges).toEqual([{
+        stitchLabel: "Outer stand ↔ woven neckline", pieceId: "back", edgeId: "neckline", source: "SOURCE_ENDPOINT_ORDER",
+      }]);
+    }
+    const backOnlyIssues = validateTechnicalFlatProjectionMap("woven-shirt", backOnlyBlock, REVISION, backOnlyMap);
+    expect(backOnlyIssues.some((issue) => issue.sourceId.endsWith(":outerStand")
+      && issue.code === "INVALID_STITCH_ENDPOINT_ORIENTATION")).toBe(false);
     const closed = draft("woven-shirt", { sideVentDepth: 0 }).block;
     const closedMap = createG04TechnicalFlatProjectionMap("woven-shirt", closed, REVISION)!;
     for (const face of closedMap.faces) for (const roleId of ["front", "back"]) {

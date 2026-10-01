@@ -95,12 +95,14 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
       assert.match(epic.description, /S331 closes the source-bound, fill-only Polo outerStand and collar color areas/);
       assert.match(epic.description, /S333 implements the maintainer-approved Polo sleeve view map/);
       assert.match(epic.description, /0\.68 cm sleeve-cap residual vs 0\.25 cm limit/);
+      assert.match(epic.description, /S336 verified source-order correction: production replay emits 0\/56 Woven faces/);
       assert.match(epic.description, /Integrated baseline remains 73 configurations \/ 146 faces \/ 32 option fields, 56 accepted and 90 held/);
       assert.match(card.description, /S330 landed at 558564bab25ab0e717ee825f4c4ab54f9eba4ea2/);
       assert.match(card.description, /S331 closes Polo color fills, but all 34 Polo front\/back faces stay held/);
       assert.match(card.description, /73 configurations \/ 146 faces \/ 32 option fields, 56 accepted and 90 held/);
       assert.match(card.description, /S333 implements the approved exact Polo sleeve view map/);
       assert.match(card.description, /17 supported options; production replay withheld all 34 faces/);
+      assert.match(card.description, /S336 verified source-order correction: production replay emits 0\/56 Woven faces/);
       assert.match(card.description, /0\.68 cm.*0\.25 cm/);
       assert.match(epic.description, /S334 corrects source-encoded Woven view traversal only/);
       assert.match(card.description, /S334 corrects source-encoded Woven view traversal only/);
@@ -109,6 +111,10 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
       assert.ok(g04V02?.evidenceRefs.includes("E-G04-S335-EXIT"));
       assert.ok(g04V02?.evidenceRefs.includes("E-G04-S335-BROWSER"));
       assert.ok(g04V02?.comments.some((comment) => /S335 verified exit: all five Woven front colorway contours now close/.test(comment.text)));
+      assert.ok(g04V02?.evidenceRefs.includes("E-G04-S336-EXIT"));
+      assert.ok(g04V02?.evidenceRefs.includes("E-G04-S336-BROWSER"));
+      assert.ok(g04V02?.evidenceRefs.includes("E-G04-S336-DECISION"));
+      assert.ok(g04V02?.comments.some((comment) => /S336 verified exit: source-order endpoint correction passes focused gates; 0\/56 Woven faces emitted and two view-deformation decisions remain pending/.test(comment.text)));
       for (const evidenceId of ["E-G04-S332-START", "E-G04-S332-EXIT", "E-G04-S332-OPTIONS", "E-G04-S332-RENDERED",
         "E-G04-S333-START", "E-G04-S333-EXIT", "E-G04-S333-BROWSER", "E-G04-S333-RENDERED", "E-G04-S333-COVERAGE",
         "E-G04-S333-COMMIT"]) {
@@ -126,8 +132,16 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
         assert.ok(card.evidenceRefs.includes(evidenceId));
         assert.ok(epic.evidenceRefs.includes(evidenceId));
       }
+      for (const evidenceId of ["E-G04-S336-START", "E-G04-S336-EXIT", "E-G04-S336-DIAGNOSTIC", "E-G04-S336-OVERLAY",
+        "E-G04-S336-BROWSER", "E-G04-S336-RENDERED", "E-G04-S336-COVERAGE", "E-G04-S336-BUILD",
+        "E-G04-S336-EXPORT", "E-G04-S336-CONTROL-CENTER", "E-G04-S336-DECISION"]) {
+        assert.ok(card.evidenceRefs.includes(evidenceId));
+        assert.ok(epic.evidenceRefs.includes(evidenceId));
+      }
       assert.equal(board.evidence.find((entry) => entry.id === "E-G04-S335-BROWSER")?.uri,
         "docs/research/epic17/S335-woven-contours/replay-after-hold/matrix.json");
+      assert.equal(board.evidence.find((entry) => entry.id === "E-G04-S336-BROWSER")?.uri,
+        "docs/research/epic17/S336-woven-placement/production-replay/matrix.json");
       assert.equal(board.evidence.find((entry) => entry.id === "E-G04-S334-COMMIT")?.commit,
         "b27a444a020ff69330479554776977ab5aeb5be4");
       assert.ok(card.evidenceRefs.includes("E-G04-S315-START"));

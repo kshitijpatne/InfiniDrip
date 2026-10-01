@@ -132,11 +132,16 @@ describe("assembleTechnicalFlatRoles", () => {
     const mappedCapStart = transformFlatPoint(edgePoint(capLeft, 0), { ...frontAssembly.transforms.sleeve!, mirrorX: false });
     const frontUnderarm = transformFlatPoint(edgePoint(frontArmhole, 1), { ...frontAssembly.transforms.front!, mirrorX: false });
     const frontShoulder = transformFlatPoint(edgePoint(frontArmhole, 0), { ...frontAssembly.transforms.front!, mirrorX: false });
-    expect(Math.hypot(mappedCapStart.x - frontUnderarm.x, mappedCapStart.y - frontUnderarm.y)).toBeLessThan(0.4);
+    expect(Math.hypot(mappedCapStart.x - frontUnderarm.x, mappedCapStart.y - frontUnderarm.y)).toBeLessThan(1e-8);
     expect(Math.hypot(mappedCapStart.x - frontShoulder.x, mappedCapStart.y - frontShoulder.y)).toBeGreaterThan(20);
 
     const backAssembly = assembleTechnicalFlatRoles("woven-shirt", woven, "BACK_FLAT", projection);
     expect(backAssembly.issues.some((issue) => issue.sourceId === "stitch:Woven sleeve-cap ease")).toBe(true);
+    const capRight = sleeve.edges.find((edge) => edge.name === "capRight")!;
+    const backArmhole = woven.roles.back!.edges.find((edge) => edge.name === "armholeLower")!;
+    const mappedBackCapEnd = transformFlatPoint(edgePoint(capRight, 1), { ...backAssembly.transforms.sleeve!, mirrorX: false });
+    const backUnderarm = transformFlatPoint(edgePoint(backArmhole, 1), { ...backAssembly.transforms.back!, mirrorX: false });
+    expect(Math.hypot(mappedBackCapEnd.x - backUnderarm.x, mappedBackCapEnd.y - backUnderarm.y)).toBeLessThan(1e-8);
   });
 
   it("reflects the selected Tee back sleeve locally so its source side projects outside the back panel", () => {

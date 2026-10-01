@@ -206,17 +206,28 @@ function stitchRelations(block: Block, stitch: Stitch, visible: ReadonlySet<stri
     // it. Keep the source/target order explicit to match that contract.
     const fitted = fitRigid(group.source, group.target);
     let best = fitted;
-    const frontEndpointAnchor = stitch.label === "Sleeve-cap ease" && group.from === "sleeve" && group.to === "front"
+    const wovenSleeveCap = stitch.label === "Woven sleeve-cap ease";
+    const frontEndpointAnchor = (stitch.label === "Sleeve-cap ease" || wovenSleeveCap)
+      && group.from === "sleeve" && group.to === "front"
       && reversedStitchEdges.some((rule) => rule.stitchLabel === stitch.label && rule.pieceId === "front" && rule.edgeId === "armhole");
     const backEndpointAnchor = stitch.label === "Sleeve-cap ease" && group.from === "sleeve" && group.to === "back"
       && locallyReflectedRoles.has("sleeve");
-    if (frontEndpointAnchor || backEndpointAnchor) {
-      const sleeveEdge = block.roles.sleeve?.edges.find((edge) => edge.name === (frontEndpointAnchor ? "capLeft" : "capRight"));
-      const bodyArmhole = block.roles[group.to]?.edges.find((edge) => edge.name === "armhole");
+    const wovenBackEndpointAnchor = wovenSleeveCap && group.from === "sleeve"
+      && (group.to === "yoke" || group.to === "back");
+    if (frontEndpointAnchor || backEndpointAnchor || wovenBackEndpointAnchor) {
+      const sleeveEdgeName = frontEndpointAnchor ? "capLeft" : "capRight";
+      const sleeveEdge = block.roles.sleeve?.edges.find((edge) => edge.name === sleeveEdgeName);
+      const bodyEdgeName = wovenBackEndpointAnchor
+        ? group.to === "yoke" ? "armholeUpper" : "armholeLower"
+        : "armhole";
+      const bodyArmhole = block.roles[group.to]?.edges.find((edge) => edge.name === bodyEdgeName);
       if (!sleeveEdge || sleeveEdge.kind !== "curve" || !bodyArmhole || bodyArmhole.kind !== "curve") return null;
-      const sourceUnderarm = frontEndpointAnchor ? sleeveEdge.curve.start : sleeveEdge.curve.end;
-      const target = locallyReflectedRoles.has("sleeve") ? point(-sourceUnderarm.x, sourceUnderarm.y) : sourceUnderarm;
-      const placed = transformPoint(bodyArmhole.curve.end, fitted.transform);
+      const sleeveEndpoint = frontEndpointAnchor || (wovenBackEndpointAnchor && group.to === "yoke")
+        ? sleeveEdge.curve.start : sleeveEdge.curve.end;
+      const bodyEndpoint = frontEndpointAnchor || backEndpointAnchor || (wovenBackEndpointAnchor && group.to === "back")
+        ? bodyArmhole.curve.end : bodyArmhole.curve.start;
+      const target = locallyReflectedRoles.has("sleeve") ? point(-sleeveEndpoint.x, sleeveEndpoint.y) : sleeveEndpoint;
+      const placed = transformPoint(bodyEndpoint, fitted.transform);
       const transform = { ...fitted.transform, offset: point(
         fitted.transform.offset.x + target.x - placed.x,
         fitted.transform.offset.y + target.y - placed.y,
