@@ -23,7 +23,7 @@ function projectionMap(recipeId: string, block: Block): TechnicalFlatProjectionM
   const base = G04_TECHNICAL_FLAT_MAPPINGS[recipeId];
   const authored = ["woven-shirt", "tee", "fitted", "polo"].includes(recipeId)
     ? createG04TechnicalFlatProjectionMap(recipeId, block, revisionId)! : undefined;
-  if (recipeId === "polo") return authored!;
+  if (recipeId === "polo" || recipeId === "woven-shirt") return authored!;
   return {
     version: 1, recipeId, revisionId,
     faces: base.faces.map((face) => ({
@@ -71,6 +71,29 @@ function projectionMap(recipeId: string, block: Block): TechnicalFlatProjectionM
 }
 
 describe("technical-flat source geometry", () => {
+  it("emits the approved Woven base seam once from the body edge and retains both source fill boundaries", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "woven-shirt")!;
+    const source = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
+    const mapping = createG04TechnicalFlatProjectionMap(recipe.name, source, revisionId)!;
+    for (const kind of ["FRONT_FLAT", "BACK_FLAT"] as const) {
+      const result = compileTechnicalFlatSourceGeometry(recipe.name, source, revisionId, kind, mapping);
+      expect(result.issues, kind).toEqual([]);
+      const visibleRoleId = kind === "FRONT_FLAT" ? "front" : "yoke";
+      const seamSource = `pattern:woven-shirt:role:${visibleRoleId}:edge:neckline`;
+      const visibleSeams = result.primitives.filter((primitive) => primitive.layer === "SEAM"
+        && primitive.source.sourceId === seamSource);
+      expect(visibleSeams).toHaveLength(1);
+      expect(visibleSeams[0]).toMatchObject({ feature: "seam", kind: "path" });
+      const visibleOutlines = result.primitives.filter((primitive) => primitive.kind === "path"
+        && primitive.layer === "GARMENT_SILHOUETTE" && primitive.colorwayBoundaryOnly !== true);
+      expect(visibleOutlines.some((primitive) => primitive.kind === "path" && primitive.sourceEdgeIds?.includes(seamSource))).toBe(false);
+      expect(visibleOutlines.some((primitive) => primitive.kind === "path" && primitive.sourceEdgeIds
+        ?.includes("pattern:woven-shirt:role:outerStand:edge:neckline"))).toBe(false);
+      expect(result.primitives.filter((primitive) => primitive.kind === "path" && primitive.colorwayBoundaryOnly === true
+        && primitive.sourceEdgeIds?.some((id) => id.endsWith(":edge:neckline")))).toHaveLength(2);
+    }
+  });
+
   it("compiles Polo shoulder closures as same-revision fill-only boundaries without mutating the drafted block", () => {
     const recipe = GARMENTS.find((candidate) => candidate.name === "polo")!;
     const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));

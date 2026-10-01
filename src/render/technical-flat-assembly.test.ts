@@ -5,7 +5,7 @@ import { block } from "../drafting/block";
 import { defaultGarmentOptions } from "../drafting/options";
 import { edgeRef, iface, markRef, type Stitch } from "../drafting/stitch";
 import type { Edge } from "../drafting/piece";
-import { assembleTechnicalFlatRoles } from "./technical-flat-assembly";
+import { assembleTechnicalFlatRoles, isApprovedWovenBaseSeamDisplay } from "./technical-flat-assembly";
 import type { TechnicalFlatViewKind } from "./technical-flat";
 import { G04_TECHNICAL_FLAT_MAPPINGS } from "./technical-flat-mapping";
 import { cubicPoint } from "../geometry";
@@ -16,6 +16,13 @@ import { createG04TechnicalFlatProjectionMap } from "./technical-flat-projection
 const draft = (recipe: typeof GARMENTS[number]) => recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
 
 describe("assembleTechnicalFlatRoles", () => {
+  it("suppresses a residual only for the exact approved Woven collar display decision", () => {
+    expect(isApprovedWovenBaseSeamDisplay("Outer stand ↔ woven neckline", "G04-S342-WOVEN-COLLAR-BASE-SEAM")).toBe(true);
+    expect(isApprovedWovenBaseSeamDisplay("Outer stand ↔ woven neckline", "unapproved")).toBe(false);
+    expect(isApprovedWovenBaseSeamDisplay("Woven sleeve-cap ease", "G04-S342-WOVEN-COLLAR-BASE-SEAM")).toBe(false);
+    expect(isApprovedWovenBaseSeamDisplay("Outer stand ↔ woven neckline")).toBe(false);
+  });
+
   it("maps every exterior role for all seven default recipes without exposing interior support pieces", () => {
     for (const recipe of GARMENTS) {
       const source = draft(recipe);
@@ -370,12 +377,22 @@ describe("assembleTechnicalFlatRoles", () => {
     }
   });
 
-  it("keeps a woven collar placed and reports residual seam endpoints", () => {
+  it("keeps Woven stand placement but suppresses only the approved base-seam residual", () => {
     const woven = GARMENTS.find((recipe) => recipe.name === "woven-shirt")!;
-    const result = assembleTechnicalFlatRoles("woven-shirt", draft(woven), "FRONT_FLAT");
+    const source = draft(woven);
+    const map = createG04TechnicalFlatProjectionMap("woven-shirt", source, "assembly-test-r1")!;
+    const result = assembleTechnicalFlatRoles("woven-shirt", source, "FRONT_FLAT", map);
     expect(result.transforms.outerStand).toBeDefined();
     expect(result.transforms.upperCollar).toBeDefined();
-    expect(result.issues.some((issue) => issue.code === "STITCH_ENDPOINT_RESIDUAL")).toBe(true);
+    expect(result.issues.some((issue) => issue.code === "STITCH_ENDPOINT_RESIDUAL"
+      && issue.sourceId === "stitch:Outer stand ↔ woven neckline")).toBe(false);
+    expect(result.issues.some((issue) => issue.code === "STITCH_ENDPOINT_RESIDUAL"
+      && issue.sourceId === "stitch:Woven sleeve-cap ease")).toBe(true);
+    const malformed = structuredClone(map);
+    (malformed.faces[0]!.roles.find((role) => role.roleId === "outerStand")!.viewSeamRepresentation as { decisionId: string }).decisionId = "unapproved";
+    const rejected = assembleTechnicalFlatRoles("woven-shirt", source, "FRONT_FLAT", malformed);
+    expect(rejected.issues.some((issue) => issue.code === "STITCH_ENDPOINT_RESIDUAL"
+      && issue.sourceId === "stitch:Outer stand ↔ woven neckline")).toBe(true);
   });
 });
 

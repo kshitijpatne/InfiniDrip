@@ -29,6 +29,9 @@ function validMap(recipeId: string, block: ReturnType<(typeof GARMENTS)[number][
     faces: source.faces.map((face) => ({
       kind: face.kind,
       roles: face.roles.map((role) => {
+        const authoredRole = authored?.faces.find((candidate) => candidate.kind === face.kind)?.roles
+          .find((candidate) => candidate.roleId === role.roleId);
+        if (recipeId === "woven-shirt" && role.roleId === "outerStand" && authoredRole) return authoredRole;
         const piece = block.roles[role.roleId];
         const hidden = role.treatment === "INTERIOR_HIDDEN";
         const pairReflection = authored?.faces.find((candidate) => candidate.kind === face.kind)?.roles
@@ -317,6 +320,19 @@ describe("validateTechnicalFlatProjectionMap", () => {
     const baseFraction = backLength / (backLength + frontLength);
     for (const face of map.faces) {
       const standRole = face.roles.find((candidate) => candidate.roleId === "outerStand")!;
+      expect(standRole.viewSeamRepresentation).toMatchObject({
+        decisionId: "G04-S342-WOVEN-COLLAR-BASE-SEAM",
+        stitchLabel: "Outer stand ↔ woven neckline",
+        visibleRoleId: face.kind === "FRONT_FLAT" ? "front" : "yoke",
+        visibleEdgeId: "neckline", suppressedEdgeId: "neckline", layer: "SEAM",
+      });
+      expect(standRole.runs.some((run) => run.edgeId === "neckline")).toBe(false);
+      expect(standRole.faceExcludedEdges).toContainEqual(expect.objectContaining({ edgeId: "neckline",
+        reason: "The approved assembled view shows the source body neckline once as the base seam." }));
+      const visibleRole = face.roles.find((candidate) => candidate.roleId === standRole.viewSeamRepresentation?.visibleRoleId)!;
+      expect(visibleRole.runs).toContainEqual({ edgeId: "neckline",
+        from: { kind: "edge-endpoint", edgeId: "neckline", endpoint: "start" },
+        to: { kind: "edge-endpoint", edgeId: "neckline", endpoint: "end" } });
       expect(standRole.reversedStitchEdges).toEqual([{
         stitchLabel: "Outer stand ↔ woven neckline", pieceId: backRoleId, edgeId: "neckline", source: "SOURCE_ENDPOINT_ORDER",
       }]);
@@ -342,6 +358,33 @@ describe("validateTechnicalFlatProjectionMap", () => {
       expect(face.roles.findIndex((role) => role.roleId === "underCollar"))
         .toBeLessThan(face.roles.findIndex((role) => role.roleId === "upperCollar"));
     }
+    const malformed = structuredClone(map) as unknown as { faces: Array<{ kind: string; roles: Array<{
+      roleId: string; viewSeamRepresentation?: { decisionId: string };
+    }> }> };
+    malformed.faces[0]!.roles.find((role) => role.roleId === "outerStand")!.viewSeamRepresentation!.decisionId = "unapproved";
+    expect(validateTechnicalFlatProjectionMap("woven-shirt", block, REVISION, malformed)
+      .some((issue) => issue.code === "INVALID_VIEW_SEAM_REPRESENTATION")).toBe(true);
+    const missingVisibleRun = structuredClone(map) as unknown as { faces: Array<{ kind: string; roles: Array<{
+      roleId: string; runs: Array<{ edgeId: string }>;
+    }> }> };
+    const frontFace = missingVisibleRun.faces.find((face) => face.kind === "FRONT_FLAT")!;
+    frontFace.roles.find((role) => role.roleId === "front")!.runs = frontFace.roles.find((role) => role.roleId === "front")!.runs
+      .filter((run) => run.edgeId !== "neckline");
+    expect(validateTechnicalFlatProjectionMap("woven-shirt", block, REVISION, missingVisibleRun)
+      .some((issue) => issue.code === "INVALID_VIEW_SEAM_REPRESENTATION")).toBe(true);
+    const missingVisibleRole = structuredClone(map) as unknown as { faces: Array<{ kind: string; roles: Array<{
+      roleId: string; viewSeamRepresentation?: { visibleRoleId: string };
+    }> }> };
+    missingVisibleRole.faces[1]!.roles.find((role) => role.roleId === "outerStand")!
+      .viewSeamRepresentation!.visibleRoleId = "missing-role";
+    expect(validateTechnicalFlatProjectionMap("woven-shirt", block, REVISION, missingVisibleRole)
+      .some((issue) => issue.code === "INVALID_VIEW_SEAM_REPRESENTATION")).toBe(true);
+    const missingFaceExclusion = structuredClone(map) as unknown as { faces: Array<{ kind: string; roles: Array<{
+      roleId: string; faceExcludedEdges?: unknown;
+    }> }> };
+    delete missingFaceExclusion.faces[0]!.roles.find((role) => role.roleId === "outerStand")!.faceExcludedEdges;
+    expect(validateTechnicalFlatProjectionMap("woven-shirt", block, REVISION, missingFaceExclusion)
+      .some((issue) => issue.code === "INVALID_VIEW_SEAM_REPRESENTATION")).toBe(true);
     const missingNecklineTraversal = structuredClone(map) as unknown as {
       faces: Array<{ kind: string; roles: Array<{ roleId: string; reversedStitchEdges?: unknown[] }> }>;
     };
@@ -378,6 +421,22 @@ describe("validateTechnicalFlatProjectionMap", () => {
     const openBack = open.faces.find((face) => face.kind === "BACK_FLAT")!.roles.find((role) => role.roleId === "back")!;
     expect(openFront.runs.some((run) => run.edgeId === "vent")).toBe(true);
     expect(openBack.runs.some((run) => run.edgeId === "vent")).toBe(true);
+  });
+
+  it("keeps the seam exclusion disabled when the stand base no longer meets its authored front end", () => {
+    const { block } = draft("woven-shirt");
+    const stand = block.roles.outerStand!;
+    const broken = { ...block, roles: { ...block.roles, outerStand: { ...stand, edges: stand.edges.map((edge) =>
+      edge.name === "frontEnd" && edge.kind === "line" ? { ...edge, end: { ...edge.end, x: edge.end.x + 0.01 } } : edge) } } };
+    const map = createG04TechnicalFlatProjectionMap("woven-shirt", broken, REVISION)!;
+    for (const face of map.faces) {
+      const outerStand = face.roles.find((role) => role.roleId === "outerStand")!;
+      expect(outerStand.viewSeamRepresentation).toBeUndefined();
+      expect(outerStand.faceExcludedEdges?.some((edge) => edge.edgeId === "neckline"
+        && edge.reason === "The approved assembled view shows the source body neckline once as the base seam.")).toBe(false);
+    }
+    expect(validateTechnicalFlatProjectionMap("woven-shirt", broken, REVISION, map)
+      .some((issue) => issue.code === "INVALID_STITCH_ENDPOINT_ORIENTATION" || issue.code === "MISSING_EDGE_ACCOUNTING")).toBe(true);
   });
 
   it("fails closed when Woven collar source seams or closed-vent adjacency are inconsistent", () => {

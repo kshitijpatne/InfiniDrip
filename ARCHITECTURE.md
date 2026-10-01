@@ -162,6 +162,18 @@ continues to emit no Woven SVGs. Source geometry, source stitches, cut roles,
 layer order, generic DXF and protected export identities remain unchanged;
 Woven V02 is still incomplete.
 
+Slice 343 records the maintainer-approved Woven base-seam display at the
+face-mapping boundary: `front.neckline` is the single visible front seam and
+`yoke.neckline` the single visible back seam; the duplicate
+`outerStand.neckline` stroke is suppressed in assembled technical-flat output
+while its source path remains available only as a hidden colorway-fill
+boundary. The revision-bound validator accepts this exception only for the
+exact `Outer stand ↔ woven neckline` source stitch and its validated front/back
+edge mapping. It changes no source stitch, cut geometry, rigid role placement,
+or residual tolerance elsewhere. All 56 Woven faces remain held because the
+independent sleeve-cap ease residual and solved-placement conflict persist;
+the display decision does not accept partial output.
+
 S306 adds a narrow assembly contract for the Trouser's single closed
 waistband source role. The exact ordered zero-ease waist interface yields
 front/back edge intervals and separate rigid placements relative to the sewn

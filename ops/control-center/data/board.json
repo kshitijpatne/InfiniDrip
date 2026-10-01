@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 1260,
-  "updatedAt": "2026-10-01T21:09:50.630Z",
+  "revision": 1276,
+  "updatedAt": "2026-10-01T21:45:38.872Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -328,7 +328,14 @@
         "E-G04-S342-EXIT",
         "E-G04-S342-MATRIX",
         "E-G04-S342-FRONT-OVERLAY",
-        "E-G04-S342-BACK-OVERLAY"
+        "E-G04-S342-BACK-OVERLAY",
+        "E-G04-S343-DECISION",
+        "E-G04-S343-START",
+        "E-G04-S343-EXIT",
+        "E-G04-S343-COVERAGE",
+        "E-G04-S343-BUILD",
+        "E-G04-S343-BROWSER",
+        "E-G04-S343-RENDERED"
       ]
     },
     {
@@ -7084,6 +7091,16 @@
           "at": "2026-10-01T21:09:50.630Z",
           "actor": "Codex",
           "text": "S342 diagnosis is complete with no code changes. The S321 exterior station remains valid, but it does not determine how the straight outerStand.neckline base edge should be represented against front/yoke neckline curves. Exact current gaps are 0.688–0.740 cm front and 0.263–0.283 cm back, over the 0.25 cm hold limit. Proposal: use front.neckline / yoke.neckline as the single base-seam strokes and suppress the duplicate outerStand.neckline stroke in assembled faces; no cut geometry or stitch graph change. This display convention awaits maintainer approval. All 56 Woven faces remain held. See S342 packet and overlays."
+        },
+        {
+          "at": "2026-10-01T21:16:51.714Z",
+          "actor": "Codex",
+          "text": "S343 started from verified S342. The maintainer approved the specific Woven body-neckline single-stroke base-seam mapping for front and back flats. This view-only decision suppresses only the duplicate stand-base stroke; it changes no cut geometry or source stitch and clears no other hold. All 56 Woven faces remain held until the complete rendered gate passes. See the S343 packet and linked decision evidence."
+        },
+        {
+          "at": "2026-10-01T21:45:38.872Z",
+          "actor": "Codex",
+          "text": "S343 complete: implemented the approved exact Woven front/yoke neckline base-seam display and suppressed only the duplicate stand base stroke. Focused 95/95 suites with 100% changed-module coverage, TypeScript/build and all 28 production option configurations verified. Replay emits 0/56 SVGs, keeps 56 held on sleeve-cap joins/solver conflicts, reports no browser errors and no longer reports the collar-base residual. See S343 exit, coverage, build, browser and rendered-output evidence. EPIC-17/G04-V02 remain In Progress; all-seven V02 acceptance and the V02-before-V03 gate remain unchanged."
         }
       ],
       "evidenceRefs": [
@@ -7297,7 +7314,14 @@
         "E-G04-S342-EXIT",
         "E-G04-S342-MATRIX",
         "E-G04-S342-FRONT-OVERLAY",
-        "E-G04-S342-BACK-OVERLAY"
+        "E-G04-S342-BACK-OVERLAY",
+        "E-G04-S343-START",
+        "E-G04-S343-DECISION",
+        "E-G04-S343-EXIT",
+        "E-G04-S343-COVERAGE",
+        "E-G04-S343-BUILD",
+        "E-G04-S343-BROWSER",
+        "E-G04-S343-RENDERED"
       ],
       "flagKey": null
     },
@@ -10074,6 +10098,69 @@
       "sha256": null,
       "verified": true,
       "note": "Actual default Woven back source-edge overlay inspected: reversed stand neckline versus yoke neckline cubic, with exact CB/shoulder stations and 0.269 cm gaps."
+    },
+    {
+      "id": "E-G04-S343-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-COLLAR-SEAM-REPRESENTATION-S343.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S343 admission boundary: implements only the maintainer-approved view-only Woven base-seam representation; all 56 faces stay held until complete output validation."
+    },
+    {
+      "id": "E-G04-S343-DECISION",
+      "kind": "decision",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-COLLAR-SEAM-REPRESENTATION-S343.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Maintainer approved: show front.neckline on FRONT_FLAT and yoke.neckline on BACK_FLAT as the single base-seam strokes; suppress duplicate outerStand.neckline stroke in assembled views only. Preserve cut geometry, source stitch graph and all independent holds."
+    },
+    {
+      "id": "E-G04-S343-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-COLLAR-SEAM-REPRESENTATION-S343.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S343 exit: implements the approved revision-bound view-only Woven base-seam display; 28-option replay retains all 56 holds on independent sleeve-cap conflicts."
+    },
+    {
+      "id": "E-G04-S343-COVERAGE",
+      "kind": "test",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-COLLAR-SEAM-REPRESENTATION-S343.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S343 focused verification: four suites pass 95/95 and changed projection, geometry and assembly modules report 100% statement, branch, function and line coverage; TypeScript passes."
+    },
+    {
+      "id": "E-G04-S343-BUILD",
+      "kind": "build",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-COLLAR-SEAM-REPRESENTATION-S343.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S343 production build passes; Vite reports the existing 825.75 KB chunk advisory."
+    },
+    {
+      "id": "E-G04-S343-BROWSER",
+      "kind": "browser",
+      "uri": "docs/research/epic17/S343-woven-seam/production-replay/matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Production Chromium replay: 28 Woven configurations, 56 faces held, zero SVGs, zero browser errors, no remaining outerStand-to-neckline residual warning."
+    },
+    {
+      "id": "E-G04-S343-RENDERED",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S343-woven-seam/manual-review.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Manual output review and saved per-face screenshots/issues: default hold screen inspected; all 56 fail-closed outputs reconcile; remaining sleeve-cap conflicts documented."
     }
   ]
 }

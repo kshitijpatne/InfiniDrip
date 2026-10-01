@@ -305,8 +305,13 @@ only through an explicitly admitted, linked Epic packet.
   `docs/research/epic17/S342-woven-collar/` — completed source/overlay
   diagnosis across all 28 Woven options. It finds a straight stand base against
   curved front/yoke neckline pieces and proposes one exact body-edge seam
-  representation that needs maintainer approval. No behavior changed; all 56
-  Woven faces stay held pending that decision and the remaining output gates.
+  representation. The maintainer has approved the view-only convention; S343
+  implements it while preserving the source stitch and every other output hold.
+- `docs/research/epic17/G04-V02-WOVEN-COLLAR-SEAM-REPRESENTATION-S343.md` and
+  `docs/research/epic17/S343-woven-seam/` — completed approved Woven base-seam
+  display mapping and 28-configuration/56-face production replay. The duplicate
+  collar-base residual is gone from guidance, but all Woven faces remain held
+  by sleeve-cap residual/solver conflicts; no face is accepted.
 - `docs/research/epic17/G04-V02-PROJECTION-MAPPING-S277.md` — Slice 277's
   current projection-mapping contract boundary, source-reference rules,
   fail-closed semantics, and focused acceptance gates.

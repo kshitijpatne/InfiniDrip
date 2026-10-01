@@ -290,6 +290,9 @@ export function compileTechnicalFlatSourceGeometry(
     }
   }
 
+  const viewSeamRepresentation = projectionMap?.faces.find((candidate) => candidate.kind === kind)?.roles
+    .find((candidate) => candidate.roleId === "outerStand")?.viewSeamRepresentation;
+
   for (const role of face.roles) {
     const piece = block.roles[role.roleId];
     if (!piece) continue;
@@ -310,7 +313,10 @@ export function compileTechnicalFlatSourceGeometry(
       }
       continue;
     }
-    const projected = projectionRole ? projectedCommands(recipeId, block, kind, piece, projectionRole) : undefined;
+    const silhouetteRole = projectionRole && viewSeamRepresentation?.visibleRoleId === role.roleId
+      ? { ...projectionRole, runs: projectionRole.runs.filter((run) => run.edgeId !== viewSeamRepresentation.visibleEdgeId) }
+      : projectionRole;
+    const projected = silhouetteRole ? projectedCommands(recipeId, block, kind, piece, silhouetteRole) : undefined;
     const outline = projectionRole
       ? projected && outlinePrimitive(recipeId, revisionId, kind, role.roleId, [], projected.sourceEdgeIds, projected.commands)
       : outlinePrimitive(recipeId, revisionId, kind, role.roleId, piece.edges);
@@ -320,6 +326,29 @@ export function compileTechnicalFlatSourceGeometry(
       continue;
     }
     primitives.push(outline);
+    if (viewSeamRepresentation?.visibleRoleId === role.roleId) {
+      // Exact map validation above proves the role/edge and its finite full run.
+      const edge = piece.edges.find((candidate) => candidate.name === viewSeamRepresentation.visibleEdgeId)!;
+      const commands = edgeCommand(edge)!;
+      const sourceEdgeId = `pattern:${recipeId}:role:${role.roleId}:edge:${edge.name}`;
+      const sourceRef = source(revisionId, sourceEdgeId);
+      primitives.push({ kind: "path", id: `flat:${recipeId}:${kind}:view-seam:${role.roleId}:${edge.name}`,
+        layer: "SEAM", feature: "seam", source: sourceRef, sourceEdgeIds: [sourceEdgeId], commands });
+      primitives.push({ kind: "path", id: `flat:${recipeId}:${kind}:view-seam-boundary:${role.roleId}:${edge.name}`,
+        layer: "GARMENT_SILHOUETTE", feature: "silhouette", source: sourceRef, sourceEdgeIds: [sourceEdgeId],
+        colorwayBoundaryOnly: true, commands });
+    }
+    if (viewSeamRepresentation && role.roleId === "outerStand" && projectionRole) {
+      // The validator proves the exact source edge and normalized interval.
+      const hiddenBoundary = projectedCommands(recipeId, block, kind, piece, { ...projectionRole, runs: [{
+        edgeId: viewSeamRepresentation.suppressedEdgeId,
+        from: viewSeamRepresentation.suppressedFrom,
+        to: viewSeamRepresentation.suppressedTo,
+      }] })!;
+      primitives.push({ kind: "path", id: `flat:${recipeId}:${kind}:view-seam-boundary:outerStand:${viewSeamRepresentation.suppressedEdgeId}`,
+        layer: "GARMENT_SILHOUETTE", feature: "silhouette", source: source(revisionId, `pattern:${recipeId}:role:outerStand`),
+        sourceEdgeIds: hiddenBoundary.sourceEdgeIds, colorwayBoundaryOnly: true, commands: hiddenBoundary.commands });
+    }
     if (projectionRole) {
       const boundaries = projectionBoundaryPrimitives(recipeId, revisionId, kind, block, projectionRole);
       primitives.push(...boundaries);

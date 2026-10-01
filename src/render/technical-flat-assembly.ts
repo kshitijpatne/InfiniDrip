@@ -4,7 +4,7 @@ import type { EdgeRef, InterfaceRef, Stitch } from "../drafting/stitch";
 import { cubicLength, cubicPoint } from "../geometry";
 import type { FlatPoint, TechnicalFlatViewKind } from "./technical-flat";
 import { G04_TECHNICAL_FLAT_MAPPINGS } from "./technical-flat-mapping";
-import type { TechnicalFlatProjectionMap } from "./technical-flat-projection";
+import { validateTechnicalFlatProjectionMap, type TechnicalFlatProjectionMap } from "./technical-flat-projection";
 
 export interface FlatRoleTransform {
   readonly offset: FlatPoint;
@@ -43,6 +43,10 @@ export interface TechnicalFlatSourceFragment {
 
 interface Rigid { readonly rotation: number; readonly offset: FlatPoint }
 interface Relation { readonly from: string; readonly to: string; readonly toFrom: Rigid; readonly label: string; readonly endpointResidualCm: number }
+
+export function isApprovedWovenBaseSeamDisplay(stitchLabel: string, decisionId?: string): boolean {
+  return stitchLabel === "Outer stand ↔ woven neckline" && decisionId === "G04-S342-WOVEN-COLLAR-BASE-SEAM";
+}
 
 const radians = (degrees: number): number => degrees * Math.PI / 180;
 const point = (x: number, y: number): FlatPoint => ({ x, y });
@@ -335,6 +339,12 @@ export function assembleTechnicalFlatRoles(recipeId: string, block: Block, kind:
   }] };
   const face = mapping.faces.find((candidate) => candidate.kind === kind);
   if (!face) return { recipeId, kind, transforms: {}, sourceFragments: [], joinedStitchLabels: [], issues: [] };
+  const projectionIsValid = projectionMap?.recipeId === recipeId && projectionMap.revisionId.trim().length > 0
+    && validateTechnicalFlatProjectionMap(recipeId, block, projectionMap.revisionId, projectionMap).length === 0;
+  const approvedWovenBaseSeam = projectionIsValid && recipeId === "woven-shirt"
+    ? projectionMap?.faces.find((candidate) => candidate.kind === kind)?.roles
+      .find((role) => role.roleId === "outerStand")?.viewSeamRepresentation
+    : undefined;
   const visible = new Set(face.roles.filter((role) => role.treatment !== "INTERIOR_HIDDEN").map((role) => role.roleId));
   const sourceFragments = recipeId === "trouser" ? trouserWaistbandFragments(block, kind) : [];
   const fragmentPlacedRoles = sourceFragments.length === 2 ? new Set(["waistband"]) : new Set<string>();
@@ -374,8 +384,10 @@ export function assembleTechnicalFlatRoles(recipeId: string, block: Block, kind:
         message: `Stitch “${stitch.label}” does not provide a length-compatible rigid placement for this view.` });
     } else {
       relations.push(...stitchResults);
-      if (stitchResults.some((relation) => relation.endpointResidualCm > 0.25)) {
-        const relation = stitchResults.find((candidate) => candidate.endpointResidualCm > 0.25)!;
+      if (stitchResults.some((relation) => relation.endpointResidualCm > 0.25
+        && !isApprovedWovenBaseSeamDisplay(relation.label, approvedWovenBaseSeam?.decisionId))) {
+        const relation = stitchResults.find((candidate) => candidate.endpointResidualCm > 0.25
+          && !isApprovedWovenBaseSeamDisplay(candidate.label, approvedWovenBaseSeam?.decisionId))!;
         if (!issues.some((issue) => issue.sourceId === `stitch:${relation.label}`)) issues.push({
           code: "STITCH_ENDPOINT_RESIDUAL", sourceId: `stitch:${relation.label}`,
           message: `Stitch “${relation.label}” leaves its sewn endpoints ${relation.endpointResidualCm.toFixed(2)} cm apart after rigid placement; review this construction line before release.`,

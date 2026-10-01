@@ -207,7 +207,7 @@ describe("compileTechnicalFlatLiveView", () => {
       placements: [], colorHex: "#456789", texture: "smooth", shine: 0 });
     expect(result.view).toBeNull();
     expect(result.issues.map((issue) => issue.sourceId)).toEqual([
-      "stitch:Outer stand ↔ woven neckline", "stitch:Woven sleeve-cap ease",
+      "stitch:Woven sleeve-cap ease",
     ]);
     expect(result.issues.every((issue) => issue.message.includes("within the 0.25 cm acceptance tolerance"))).toBe(true);
   });

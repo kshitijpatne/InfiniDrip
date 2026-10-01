@@ -107,6 +107,20 @@ export interface FlatProjectionLocalYReflection {
   readonly decisionId: "G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR" | "G04-S333-POLO-SLEEVE-VIEW-MAP";
 }
 
+/** Maintainer-approved display of the Woven stand/body base interface. The
+ * source stitch still positions the stand; only its duplicate base stroke is
+ * suppressed while the exact body neckline supplies the visible seam. */
+export interface FlatProjectionViewSeamRepresentation {
+  readonly decisionId: "G04-S342-WOVEN-COLLAR-BASE-SEAM";
+  readonly stitchLabel: "Outer stand ↔ woven neckline";
+  readonly visibleRoleId: "front" | "yoke" | "back";
+  readonly visibleEdgeId: "neckline";
+  readonly suppressedEdgeId: "neckline";
+  readonly layer: "SEAM";
+  readonly suppressedFrom: FlatProjectionLandmark;
+  readonly suppressedTo: FlatProjectionLandmark;
+}
+
 export interface FlatProjectionRole {
   readonly roleId: string;
   /** A logical garment-component identity shared by its front/back projections. */
@@ -125,6 +139,7 @@ export interface FlatProjectionRole {
   readonly oppositeSideReflection?: FlatProjectionOppositeSideReflection;
   readonly reversedStitchEdges?: readonly FlatProjectionReversedStitchEdge[];
   readonly localYReflection?: FlatProjectionLocalYReflection;
+  readonly viewSeamRepresentation?: FlatProjectionViewSeamRepresentation;
   /** View-only closure for a face segment; it is not a drafted cut or seam edge. */
   readonly viewBoundaries?: readonly FlatProjectionViewBoundary[];
 }
@@ -423,6 +438,51 @@ function endpointLandmark(edgeId: string, endpoint: "start" | "end"): FlatProjec
   return { kind: "edge-endpoint", edgeId, endpoint };
 }
 
+function wovenBaseSeamRepresentation(
+  kind: TechnicalFlatViewKind, block: Block,
+): FlatProjectionViewSeamRepresentation | undefined {
+  const backRoleId = block.roles.yoke ? "yoke" : "back";
+  const matches = block.stitches.filter((stitch) => stitch.label === "Outer stand ↔ woven neckline");
+  const stitch = matches[0];
+  const exactEdgeRef = (ref: InterfaceRef | undefined, piece: string, edge: string) => !!ref && "edge" in ref
+    && ref.piece === piece && ref.edge === edge && ref.reversed !== true;
+  const standBase = block.roles.outerStand?.edges.find((edge) => edge.name === "neckline");
+  const standFrontEnd = block.roles.outerStand?.edges.find((edge) => edge.name === "frontEnd");
+  const standFold = block.roles.outerStand?.edges.find((edge) => edge.name === "centerBack");
+  const frontBase = block.roles.front?.edges.find((edge) => edge.name === "neckline");
+  const frontCenter = block.roles.front?.edges.find((edge) => edge.name === "centerFront");
+  const frontShoulder = block.roles.front?.edges.find((edge) => edge.name === "shoulder");
+  const backBase = block.roles[backRoleId]?.edges.find((edge) => edge.name === "neckline");
+  const backCenter = block.roles[backRoleId]?.edges.find((edge) => edge.name === "centerBack");
+  const backShoulder = block.roles[backRoleId]?.edges.find((edge) => edge.name === "shoulder");
+  const basisFraction = wovenNecklineFraction(block);
+  if (matches.length !== 1 || !stitch || stitch.ease !== undefined
+    || stitch.a.edges.length !== 1 || stitch.b.edges.length !== 2
+    || !exactEdgeRef(stitch.a.edges[0], "outerStand", "neckline")
+    || !exactEdgeRef(stitch.b.edges[0], "front", "neckline")
+    || !exactEdgeRef(stitch.b.edges[1], backRoleId, "neckline")
+    || !standBase || !standFrontEnd || !standFold || !frontBase || !frontCenter || !frontShoulder
+    || !backBase || !backCenter || !backShoulder || basisFraction === undefined
+    || !samePoint(edgeStart(standBase), edgeEnd(standFrontEnd))
+    || !samePoint(edgeEnd(standBase), edgeStart(standFold))
+    || !samePoint(edgeStart(frontBase), edgeEnd(frontCenter))
+    || !samePoint(edgeEnd(frontBase), edgeStart(frontShoulder))
+    || !samePoint(edgeStart(backBase), edgeEnd(backCenter))
+    || !samePoint(edgeEnd(backBase), edgeStart(backShoulder))) return undefined;
+  return {
+    decisionId: "G04-S342-WOVEN-COLLAR-BASE-SEAM",
+    stitchLabel: "Outer stand ↔ woven neckline",
+    visibleRoleId: kind === "FRONT_FLAT" ? "front" : backRoleId,
+    visibleEdgeId: "neckline",
+    suppressedEdgeId: "neckline",
+    layer: "SEAM",
+    suppressedFrom: kind === "FRONT_FLAT" ? endpointLandmark("neckline", "start")
+      : { kind: "edge-arclength", edgeId: "neckline", fraction: 1 - basisFraction },
+    suppressedTo: kind === "FRONT_FLAT" ? { kind: "edge-arclength", edgeId: "neckline", fraction: 1 - basisFraction }
+      : endpointLandmark("neckline", "end"),
+  };
+}
+
 function heldProjectionRole(roleId: string, treatment: FlatRoleTreatment, piece: Piece, reason: string): FlatProjectionRole {
   return { roleId, instanceId: roleId, treatment, runs: [],
     heldEdges: piece.edges.map((edge) => ({ edgeId: edge.name, reason })) };
@@ -596,26 +656,29 @@ function wovenCollarRoleProjection(
     fillOnlyColorway: { source: "MAINTAINER_VIEW_DECISION", decisionId: "G04-S321-COLLAR-EXTERIOR-ARCLENGTH" },
   } : undefined;
   if (roleId === "outerStand") {
+    const seamRepresentation = wovenBaseSeamRepresentation(kind, block);
+    const visibleNeckline = roleId === "outerStand" && seamRepresentation !== undefined;
     return {
       roleId, instanceId: roleId, treatment,
       runs: front ? [
       { edgeId: "collar", from: station, to: endpointLandmark("collar", "end") },
       { edgeId: "frontEnd", from: endpointLandmark("frontEnd", "start"), to: endpointLandmark("frontEnd", "end") },
-        { edgeId: "neckline", from: endpointLandmark("neckline", "start"), to: { kind: "edge-arclength", edgeId: "neckline", fraction: 1 - basisFraction } },
       ] : [
         { edgeId: "collar", from: endpointLandmark("collar", "start"), to: station },
-        { edgeId: "neckline", from: { kind: "edge-arclength", edgeId: "neckline", fraction: 1 - basisFraction }, to: endpointLandmark("neckline", "end") },
       ],
       heldEdges: [],
       faceExcludedEdges: front ? [
         { edgeId: "centerBack", reason: "The source-declared center-back fold is the reflection axis." },
+        ...(visibleNeckline ? [{ edgeId: "neckline", reason: "The approved assembled view shows the source body neckline once as the base seam." }] : []),
       ] : [
         { edgeId: "centerBack", reason: "The source-declared center-back fold is the reflection axis." },
         { edgeId: "frontEnd", reason: "The stand front end belongs to FRONT_FLAT." },
+        ...(visibleNeckline ? [{ edgeId: "neckline", reason: "The approved assembled view shows the source body neckline once as the base seam." }] : []),
       ],
       foldAxisReflection: { edgeId: "centerBack", axis: "LOCAL_Y", source: "Piece.onFold" },
       reversedStitchEdges: [{ stitchLabel: "Outer stand ↔ woven neckline",
         pieceId: block.roles.yoke ? "yoke" : "back", edgeId: "neckline", source: "SOURCE_ENDPOINT_ORDER" }],
+      ...(seamRepresentation ? { viewSeamRepresentation: seamRepresentation } : {}),
       ...(collarAreaClosure ? { viewBoundaries: [collarAreaClosure] } : {}),
     };
   }
@@ -813,7 +876,7 @@ export type FlatProjectionIssueCode =
   | "LANDMARK_NOT_ON_EDGE" | "EMPTY_HOLD_REASON" | "RUN_ON_HIDDEN_ROLE" | "INVALID_FOLD_AXIS_REFLECTION"
   | "INVALID_PHYSICAL_PAIR_REFLECTION" | "INVALID_VIEW_PAIR_REFLECTION" | "INVALID_OPPOSITE_SIDE_REFLECTION"
   | "INVALID_COLLAR_TRANSFER" | "INVALID_WOVEN_SLEEVE_TRANSFER" | "INVALID_STITCH_BOUNDARY" | "INVALID_PAIRED_EDGE" | "INVALID_VIEW_BOUNDARY"
-  | "INVALID_STITCH_ENDPOINT_ORIENTATION" | "INVALID_LOCAL_Y_REFLECTION";
+  | "INVALID_STITCH_ENDPOINT_ORIENTATION" | "INVALID_LOCAL_Y_REFLECTION" | "INVALID_VIEW_SEAM_REPRESENTATION";
 
 export interface FlatProjectionIssue {
   readonly code: FlatProjectionIssueCode;
@@ -1650,6 +1713,30 @@ function validateRole(
         message: "The approved Woven front colorway contour requires its one exact same-revision view-only closure." });
     }
   }
+  const expectedSeamRepresentation = recipeId === "woven-shirt" && roleId === "outerStand"
+    ? wovenBaseSeamRepresentation(faceKind, block) : undefined;
+  if (expectedSeamRepresentation) {
+    const actual = mappingRole.viewSeamRepresentation;
+    const excluded = Array.isArray(mappingRole.faceExcludedEdges) ? mappingRole.faceExcludedEdges : [];
+    const exactRepresentation = isRecord(actual) && Object.keys(actual).length === 8
+      && actual.decisionId === expectedSeamRepresentation.decisionId
+      && actual.stitchLabel === expectedSeamRepresentation.stitchLabel
+      && actual.visibleRoleId === expectedSeamRepresentation.visibleRoleId
+      && actual.visibleEdgeId === expectedSeamRepresentation.visibleEdgeId
+      && actual.suppressedEdgeId === expectedSeamRepresentation.suppressedEdgeId
+      && actual.layer === expectedSeamRepresentation.layer
+      && exactProjectionLandmark(actual.suppressedFrom, expectedSeamRepresentation.suppressedFrom)
+      && exactProjectionLandmark(actual.suppressedTo, expectedSeamRepresentation.suppressedTo);
+    const seamExcluded = excluded.some((entry) => isRecord(entry) && entry.edgeId === "neckline"
+      && entry.reason === "The approved assembled view shows the source body neckline once as the base seam.");
+    if (!exactRepresentation || !seamExcluded || mappingRole.runs.some((run) => isRecord(run) && run.edgeId === "neckline")) {
+      issues.push({ code: "INVALID_VIEW_SEAM_REPRESENTATION", sourceId,
+        message: "The approved Woven base-seam display requires the exact current outerStand stitch, the face-specific body neckline, and suppression of only the duplicate stand neckline stroke." });
+    }
+  } else if (mappingRole.viewSeamRepresentation !== undefined) {
+    issues.push({ code: "INVALID_VIEW_SEAM_REPRESENTATION", sourceId,
+      message: "The Woven base-seam display decision is valid only for the exact current stand-to-neckline topology." });
+  }
   for (const edge of piece.edges) {
     if (!accounted.has(edge.name)) {
       issues.push({ code: "MISSING_EDGE_ACCOUNTING", sourceId: `${sourceId}:${edge.name}`, message: `Source edge “${roleId}.${edge.name}” is neither projected nor held.` });
@@ -1724,6 +1811,22 @@ export function validateTechnicalFlatProjectionMap(
         } else {
           instancesByRole.set(roleId, rawRole.instanceId);
         }
+      }
+    }
+    if (recipeId === "woven-shirt") {
+      const stand = rawFace.roles.find((role) => isRecord(role) && role.roleId === "outerStand");
+      const representation = isRecord(stand) && isRecord(stand.viewSeamRepresentation)
+        ? stand.viewSeamRepresentation : undefined;
+      if (representation) {
+        const visibleRole = rawFace.roles.find((role) => isRecord(role) && role.roleId === representation.visibleRoleId);
+        const edgeId = representation.visibleEdgeId;
+        const fullRun = isRecord(visibleRole) && Array.isArray(visibleRole.runs)
+          ? visibleRole.runs.some((run) => isRecord(run) && run.edgeId === edgeId
+            && exactProjectionLandmark(run.from, endpointLandmark(edgeId as string, "start"))
+            && exactProjectionLandmark(run.to, endpointLandmark(edgeId as string, "end")))
+          : false;
+        if (!fullRun) issues.push({ code: "INVALID_VIEW_SEAM_REPRESENTATION", sourceId: `${faceKind}:outerStand`,
+          message: "The approved Woven base seam must be emitted from the full same-face source body neckline edge." });
       }
     }
     for (const role of expectedFace.roles) {
