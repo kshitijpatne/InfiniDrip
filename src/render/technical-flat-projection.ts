@@ -85,7 +85,8 @@ export interface FlatProjectionViewBoundary {
   readonly to: FlatProjectionLandmark;
   readonly fillOnlyColorway?: {
     readonly source: "MAINTAINER_VIEW_DECISION";
-    readonly decisionId: "G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR" | "G04-S321-COLLAR-EXTERIOR-ARCLENGTH" | "G04-S333-POLO-SLEEVE-VIEW-MAP";
+    readonly decisionId: "G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR" | "G04-S321-COLLAR-EXTERIOR-ARCLENGTH"
+      | "G04-S333-POLO-SLEEVE-VIEW-MAP" | "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR" | "G04-S321-WOVEN-CLOSURE-A";
   };
 }
 
@@ -319,6 +320,12 @@ function wovenSleeveProjection(kind: TechnicalFlatViewKind, block: Block, treatm
   const start = (edgeId: string): FlatProjectionLandmark => endpointLandmark(edgeId, "start");
   const end = (edgeId: string): FlatProjectionLandmark => endpointLandmark(edgeId, "end");
   const middle: FlatProjectionLandmark = { kind: "edge-arclength", edgeId: "hem", fraction: 0.5 };
+  const viewBoundary: FlatProjectionViewBoundary | undefined = kind === "FRONT_FLAT" ? {
+    id: "approved-woven-sleeve-area-closure",
+    from: middle,
+    to: station,
+    fillOnlyColorway: { source: "MAINTAINER_VIEW_DECISION", decisionId: "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR" },
+  } : undefined;
   const frontRuns: FlatProjectionEdgeRun[] = boundary.edgeId === "capLeft"
     ? [{ edgeId: "capLeft", from: start("capLeft"), to: station },
       { edgeId: "sideLeft", from: end("sideLeft"), to: start("sideLeft") },
@@ -356,6 +363,7 @@ function wovenSleeveProjection(kind: TechnicalFlatViewKind, block: Block, treatm
     viewPairReflection: { axisRoleId: kind === "FRONT_FLAT" ? "front" : "back", edgeId: yokeAxis,
       axis: "ASSEMBLED_BODY_CENTER", source: "WOVEN_SHIRT_PHYSICAL_ROLES",
       decisionId: "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR", quantity: 2 },
+    ...(viewBoundary ? { viewBoundaries: [viewBoundary] } : {}),
   };
 }
 
@@ -473,6 +481,45 @@ function poloOuterStandProjection(kind: TechnicalFlatViewKind, piece: Piece, tre
   };
 }
 
+function expectedWovenColorwayBoundary(
+  roleId: string, faceKind: TechnicalFlatViewKind, block: Block,
+): FlatProjectionViewBoundary | undefined {
+  if (faceKind !== "FRONT_FLAT") return undefined;
+  const decision = { source: "MAINTAINER_VIEW_DECISION" as const };
+  if (roleId === "sleeve") {
+    const boundary = wovenSleeveCapBoundary(block);
+    if (!boundary) return undefined;
+    return { id: "approved-woven-sleeve-area-closure",
+      from: { kind: "edge-arclength", edgeId: "hem", fraction: 0.5 },
+      to: { kind: "normalized-edge-transfer", edgeId: boundary.edgeId, fraction: boundary.fraction,
+        basis: "WOVEN_SLEEVE_CAP", decisionId: "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH" },
+      fillOnlyColorway: { ...decision, decisionId: "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR" } };
+  }
+  if (roleId === "outerStand" || roleId === "upperCollar" || roleId === "underCollar") {
+    const piece = block.roles[roleId];
+    const basisFraction = wovenNecklineFraction(block);
+    const exteriorEdgeId = roleId === "outerStand" ? "collar" : "outer";
+    const exterior = piece?.edges.find((edge) => edge.name === exteriorEdgeId);
+    const fraction = exterior ? normalizedCollarTransferFraction(block, roleId, exterior, "WOVEN_NECKLINE") : undefined;
+    if (!piece?.onFold || foldAxisEdge(piece)?.name !== "centerBack" || basisFraction === undefined || fraction === undefined) return undefined;
+    return { id: "approved-woven-collar-area-closure",
+      from: transferredLandmark(exteriorEdgeId, fraction, "WOVEN_NECKLINE"),
+      to: roleId === "outerStand"
+        ? { kind: "edge-arclength", edgeId: "neckline", fraction: 1 - basisFraction }
+        : { kind: "edge-arclength", edgeId: "stand", fraction: basisFraction },
+      fillOnlyColorway: { ...decision, decisionId: "G04-S321-COLLAR-EXTERIOR-ARCLENGTH" } };
+  }
+  if (roleId === "buttonholePlacket" && wovenPlacketSideProjection(block)) {
+    const piece = block.roles.buttonholePlacket;
+    const edge = piece?.edges.find((candidate) => candidate.name === "attachmentRaw");
+    if (edge?.kind !== "line" || edge.start.x !== 0 || edge.end.x !== 0 || samePoint(edge.start, edge.end)) return undefined;
+    return { id: "approved-woven-left-placket-area-closure",
+      from: endpointLandmark("attachmentRaw", "start"), to: endpointLandmark("attachmentRaw", "end"),
+      fillOnlyColorway: { ...decision, decisionId: "G04-S321-WOVEN-CLOSURE-A" } };
+  }
+  return undefined;
+}
+
 function poloCollarPieceProjection(
   roleId: "upperCollar" | "underCollar", kind: TechnicalFlatViewKind, block: Block,
   piece: Piece, treatment: FlatRoleTreatment,
@@ -540,6 +587,14 @@ function wovenCollarRoleProjection(
   }
   const station = transferredLandmark(exteriorEdgeId, fraction, "WOVEN_NECKLINE");
   const front = kind === "FRONT_FLAT";
+  const collarAreaClosure: FlatProjectionViewBoundary | undefined = front ? {
+    id: "approved-woven-collar-area-closure",
+    from: station,
+    to: roleId === "outerStand"
+      ? { kind: "edge-arclength", edgeId: "neckline", fraction: 1 - basisFraction }
+      : { kind: "edge-arclength", edgeId: "stand", fraction: basisFraction },
+    fillOnlyColorway: { source: "MAINTAINER_VIEW_DECISION", decisionId: "G04-S321-COLLAR-EXTERIOR-ARCLENGTH" },
+  } : undefined;
   if (roleId === "outerStand") {
     return {
       roleId, instanceId: roleId, treatment,
@@ -559,6 +614,7 @@ function wovenCollarRoleProjection(
         { edgeId: "frontEnd", reason: "The stand front end belongs to FRONT_FLAT." },
       ],
       foldAxisReflection: { edgeId: "centerBack", axis: "LOCAL_Y", source: "Piece.onFold" },
+      ...(collarAreaClosure ? { viewBoundaries: [collarAreaClosure] } : {}),
     };
   }
   return {
@@ -579,6 +635,7 @@ function wovenCollarRoleProjection(
       { edgeId: "frontTip", reason: "The collar front point belongs to FRONT_FLAT." },
     ],
     foldAxisReflection: { edgeId: "centerBack", axis: "LOCAL_Y", source: "Piece.onFold" },
+    ...(collarAreaClosure ? { viewBoundaries: [collarAreaClosure] } : {}),
   };
 }
 
@@ -736,6 +793,9 @@ export function createG04TechnicalFlatProjectionMap(
           } : {}),
           ...(recipeId === "woven-shirt" && role.roleId === "buttonholePlacket"
             ? { oppositeSideReflection: wovenPlacketSideProjection(block) } : {}),
+          ...(recipeId === "woven-shirt" && role.roleId === "buttonholePlacket" && face.kind === "FRONT_FLAT"
+            && expectedWovenColorwayBoundary(role.roleId, face.kind, block)
+            ? { viewBoundaries: [expectedWovenColorwayBoundary(role.roleId, face.kind, block)!] } : {}),
         };
       }),
     })) as unknown as TechnicalFlatProjectionMap["faces"],
@@ -1185,6 +1245,9 @@ function exactProjectionLandmark(actual: unknown, expected: FlatProjectionLandma
   if (expected.kind === "edge-endpoint") {
     return Object.keys(actual).length === 3 && actual.edgeId === expected.edgeId && actual.endpoint === expected.endpoint;
   }
+  if (expected.kind === "edge-arclength") {
+    return Object.keys(actual).length === 3 && actual.edgeId === expected.edgeId && actual.fraction === expected.fraction;
+  }
   return expected.kind === "normalized-edge-transfer" && Object.keys(actual).length === 5
     && actual.edgeId === expected.edgeId && actual.fraction === expected.fraction
     && actual.basis === expected.basis && actual.decisionId === expected.decisionId;
@@ -1521,7 +1584,13 @@ function validateRole(
             && fillOnly.decisionId === "G04-S321-COLLAR-EXTERIOR-ARCLENGTH"
             && boundary.id === poloExpected.id && exactProjectionLandmark(boundary.from, poloExpected.from)
             && exactProjectionLandmark(boundary.to, poloExpected.to);
-          if (!teeSleeveBoundary && !poloSleeveBoundary && !poloCollarBoundary) {
+          const wovenExpected = recipeId === "woven-shirt" ? expectedWovenColorwayBoundary(roleId, faceKind, block) : undefined;
+          const wovenBoundary = !!wovenExpected && isRecord(fillOnly) && Object.keys(fillOnly).length === 2
+            && fillOnly.source === "MAINTAINER_VIEW_DECISION"
+            && fillOnly.decisionId === wovenExpected.fillOnlyColorway?.decisionId
+            && boundary.id === wovenExpected.id && exactProjectionLandmark(boundary.from, wovenExpected.from)
+            && exactProjectionLandmark(boundary.to, wovenExpected.to);
+          if (!teeSleeveBoundary && !poloSleeveBoundary && !poloCollarBoundary && !wovenBoundary) {
             issues.push({ code: "INVALID_VIEW_BOUNDARY", sourceId,
               message: "A colorway-only closure requires an admitted decision and its exact same-revision source landmarks." });
           }
@@ -1532,6 +1601,19 @@ function validateRole(
           issues.push({ code: "INVALID_VIEW_BOUNDARY", sourceId, message: "A view boundary must connect distinct source-resolved endpoints." });
         }
       }
+    }
+  }
+  if (recipeId === "woven-shirt" && faceKind === "FRONT_FLAT"
+    && (roleId === "sleeve" || roleId === "outerStand" || roleId === "upperCollar"
+      || roleId === "underCollar" || roleId === "buttonholePlacket") && mappingRole.runs.length > 0) {
+    const expected = expectedWovenColorwayBoundary(roleId, faceKind, block);
+    const actual = Array.isArray(mappingRole.viewBoundaries) ? mappingRole.viewBoundaries : [];
+    if (!expected || actual.length !== 1 || !isRecord(actual[0]) || actual[0].id !== expected.id
+      || !isRecord(actual[0].fillOnlyColorway)
+      || actual[0].fillOnlyColorway.decisionId !== expected.fillOnlyColorway?.decisionId
+      || !exactProjectionLandmark(actual[0].from, expected.from) || !exactProjectionLandmark(actual[0].to, expected.to)) {
+      issues.push({ code: "INVALID_VIEW_BOUNDARY", sourceId,
+        message: "The approved Woven front colorway contour requires its one exact same-revision view-only closure." });
     }
   }
   for (const edge of piece.edges) {

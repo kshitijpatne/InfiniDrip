@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-_Last updated: S334 corrected source-encoded Woven view traversal; all 56 Woven and 34 Polo faces remain held; G04 V02 stays open, 2026-10-01._
+_Last updated: S335 added approved view-only Woven front colorway closures and explicit residual holds; all 56 Woven and 34 Polo faces remain held, 2026-10-01._
 
 ## EPIC-17 / G04 current handoff — refreshed after Slice 334; V02 remains open
 
@@ -5757,6 +5757,24 @@ Woven front visible-contour closure against the exact current role topology and
 already-approved S321 decisions. Keep the all-56 Woven holds until complete
 front/back production render, joins, crossing/overlap, POM and readability gates
 pass. Do not start V03 or claim physical/factory validation.
+
+### Slice 335 start — Woven front colorway contour closure
+
+Started 2026-10-01 15:24:44 UTC from clean S334 `b27a444a020ff69330479554776977ab5aeb5be4` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice is 334; reserve 335. Board was revision 1075 with EPIC-17/G04-V02 In Progress, V01 Done and V03 Backlog; S334 commit and S335 start evidence/comment are linked through the validated command layer at revision 1085. Usage at start: primary 10%, weekly 6% informational, ordinary usage allowed. Packet: `docs/research/epic17/G04-V02-WOVEN-FRONT-COLORWAY-CLOSURE-S335.md`.
+
+Scope is exact current Woven front colorway closure only. Trace current role topology, approved view boundaries, source edge identity and SVG closure semantics. Implement no physical/seam/cut boundary or tolerance. Only use uniquely source-derived or already approved view boundaries; preserve complete-face fail-closed output if any closure is ambiguous. The all-28 configuration / 56-face production replay, no-crossing/overlap and readability inspections, focused 100% coverage, build, protected export/DXF checks, Control Center tests and `git diff --check` gate any production change. Woven back sleeve placement and Polo holds remain open. All-seven V02 acceptance and the V02-before-V03 dependency are unchanged.
+
+## EPIC-17 / G04 current handoff — refreshed after Slice 335
+
+Use this section, the S335 packet/evidence and the canonical board for the current boundary. EPIC-17 and G04-V02 remain In Progress; G04-V01 is Done and G04-V03 remains Backlog until every V02 criterion passes. The integrated baseline remains 73 configurations / 146 faces / 32 option fields, 56 accepted and 90 held. All 56 Woven and 34 Polo faces remain held; the all-seven requirement is unchanged.
+
+S335 adds revision-bound, view-only fill closures for the five open Woven front colorway contours using the exact current source edges and already approved sleeve/collar conventions, plus closure A for the source attachment boundary. The 28-option topology trace now has degree-2 closed paths at the SVG serializer's four-decimal precision. This does not change pattern/stitch geometry or layer order. Default assembly still has a 0.71 cm outerStand-to-neckline residual and a 0.33 cm sleeve-cap residual against the existing 0.25 cm gate; S334 option diagnostics show 56 collar residuals (0.27–5.48 cm), 55 sleeve-cap residuals (0.28–0.52 cm), and 28 inconsistent back transforms. S335 adds an explicit live hold for both residual-bearing joins. Final production Chromium replay emits 0/56 Woven SVGs and reports zero browser errors. No Woven face is accepted; crossing/overlap/POM/readability acceptance of a complete assembled output remains unproven. Candidate contours and pre-hold screenshots are diagnostic evidence only.
+
+S335 focused render/projection/SVG tests pass 85/85; both changed production modules have 100% statement, branch, function and line coverage. Production build passes with the existing Vite chunk advisory. Protected legacy-DXF/export tests pass 24/24. Default front/back and combined-option held screenshots were inspected; issue text is readable and reports exact joins and residuals. MQF-004–007, MQF-011, MQF-012 and MQF-015 remain **To be reviewed** at the applicable output exits; post-G17 deferrals stay intact. No fit, factory, readiness or CAD compatibility claim is supported.
+
+Full-repository tests/global coverage and integrated 73-configuration/146-face output/build gates remain reserved for the settled Epic/PR candidate. No source geometry, solver tolerance, DXF behavior or protected export identity changed. See `docs/research/epic17/G04-V02-WOVEN-FRONT-COLORWAY-CLOSURE-S335.md` and `docs/research/epic17/S335-woven-contours/`.
+
+**Next action:** refresh Git and board state, reserve the next unused slice, then inspect Woven residual-bearing stitched placements and source transform correspondence without changing cut/stitch geometry. Retain all Woven holds unless the exact joins are within tolerance and complete rendered output passes crossing, overlap, annotation/POM and readability checks. Keep Polo/Tee/Fitted/Trouser held faces and V03's rights/receiver/round-trip gate independent. Conditional minimum remains at least 10 further slices based on the prior S334 lower bound; the upper bound is unpriced while source/assembly conflicts remain.
 
 ### Slice 299 start — Woven placket instance and overlap source review
 

@@ -254,6 +254,15 @@ only through an explicitly admitted, linked Epic packet.
   The two source-order view corrections are implemented and covered, but every
   Woven face remains held (0/56 emitted); continue from the next action in
   `PROJECT-STATE.md` and the validated board.
+- `docs/research/epic17/G04-V02-WOVEN-FRONT-COLORWAY-CLOSURE-S335.md` — Slice
+  335's exact contour closures, source-versus-approved-view evidence, residual
+  holds and output review. Its 28-case topology trace, annotated overlay,
+  candidate renders and final 56-face held replay are in
+  `docs/research/epic17/S335-woven-contours/`. Every Woven face remains held
+  (0/56 emitted) because exact sleeve-cap and outerStand-to-neckline joins still
+  exceed the 0.25 cm residual gate; closures do not imply acceptance. Continue
+  from the S335 exit in `PROJECT-STATE.md` and the validated board; keep V03
+  gated.
 - `docs/research/epic17/G04-V02-PROJECTION-MAPPING-S277.md` — Slice 277's
   current projection-mapping contract boundary, source-reference rules,
   fail-closed semantics, and focused acceptance gates.

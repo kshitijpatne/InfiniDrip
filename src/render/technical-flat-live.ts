@@ -270,6 +270,17 @@ export function appendOppositeSideReflection(
   const end = placedPoint(edgeEnd(edge), placement);
   const reflected = reflectPrimitiveAcrossLine(primitive, start, end);
   if (!reflected) {
+    if (primitive.kind === "path" && primitive.colorwayBoundaryOnly === true
+      && primitive.source.sourceId === "view:woven-shirt:role:buttonholePlacket:decision:G04-S321-WOVEN-CLOSURE-A:boundary:approved-woven-left-placket-area-closure"
+      && primitive.commands.flatMap((command) => command.op === "cubic"
+        ? [command.control1, command.control2, command.point]
+        : command.op === "close" ? [] : [command.point]).every((point) => pointOnLine(point, start, end))) {
+      // The approved left closure uses the source attachment edge lying on CF.
+      // It is invariant under the right/left reflection, so emit one copy for
+      // the reflected instance without drawing or duplicating a stroke.
+      primitives.push({ ...primitive, id: `${primitive.id}:approved-left-closure` });
+      return true;
+    }
     issues.push({ stage: "transform", sourceId: primitive.source.sourceId,
       message: "The approved left buttonhole placket cannot be represented on its opposite front side from the current attachment geometry." });
     return true;
@@ -320,6 +331,13 @@ export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): Tec
       && issue.sourceId.includes("Sleeve-cap ease")).map((issue) => ({ stage: "assembly" as const,
       sourceId: issue.sourceId,
       message: `${issue.message} Polo front/back flats are withheld until this sleeve-cap join is within the 0.25 cm acceptance tolerance.`,
+    })));
+  }
+  if (recipe.name === "woven-shirt") {
+    issues.push(...assembly.issues.filter((issue) => issue.code === "STITCH_ENDPOINT_RESIDUAL"
+      && (issue.sourceId.includes("Woven sleeve-cap ease") || issue.sourceId.includes("Outer stand ↔ woven neckline"))).map((issue) => ({ stage: "assembly" as const,
+      sourceId: issue.sourceId,
+      message: `${issue.message} Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.`,
     })));
   }
   if (recipe.name === "skirt" && input.placements.some((placement) => placement.pieceRole === "waistband")) {

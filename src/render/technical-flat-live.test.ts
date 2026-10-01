@@ -115,35 +115,11 @@ describe("compileTechnicalFlatLiveView", () => {
     const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
     const result = compileTechnicalFlatLiveView({ recipe, block, revisionId: "live-woven-approved-view", kind: "FRONT_FLAT",
       placements: [], colorHex: "#456789", texture: "smooth", shine: 0 });
-    expect(result.issues).toEqual([]);
-    expect(result.view).not.toBeNull();
-    const primitives = result.view!.primitives;
-    const outlines = (role: string) => primitives.filter((primitive) => primitive.kind === "path"
-      && primitive.source.sourceId === `pattern:woven-shirt:role:${role}` && primitive.feature === "silhouette");
-    expect(outlines("sleeve")).toHaveLength(2);
-    expect(outlines("sleeve").map((primitive) => primitive.id)).toEqual([
-      "flat:woven-shirt:FRONT_FLAT:component:sleeve:outline",
-      "flat:woven-shirt:FRONT_FLAT:component:sleeve:outline:approved-view-pair",
+    expect(result.view).toBeNull();
+    expect(result.issues.map((issue) => issue.sourceId)).toEqual([
+      "stitch:Outer stand ↔ woven neckline", "stitch:Woven sleeve-cap ease",
     ]);
-    expect(outlines("sleeveBand")).toHaveLength(2);
-    expect(outlines("sleeveBand").map((primitive) => primitive.id)).toEqual([
-      "flat:woven-shirt:FRONT_FLAT:component:sleeveBand:outline",
-      "flat:woven-shirt:FRONT_FLAT:component:sleeveBand:outline:approved-view-pair",
-    ]);
-    const foldMarks = primitives.filter((primitive) => primitive.kind === "path"
-      && primitive.source.sourceId === "pattern:woven-shirt:mark:sleeveBand:bandFold");
-    expect(foldMarks).toHaveLength(2);
-    expect(foldMarks.some((primitive) => primitive.id.endsWith(":approved-view-pair"))).toBe(true);
-    const buttonhole = outlines("buttonholePlacket");
-    const button = outlines("buttonPlacket");
-    expect(buttonhole).toHaveLength(1);
-    expect(buttonhole[0]?.id).toBe("flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure");
-    expect(button).toHaveLength(1);
-    expect(button[0]?.id).toBe("flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline");
-    expect(primitives.indexOf(buttonhole[0]!)).toBeLessThan(primitives.indexOf(button[0]!));
-    for (const primitive of [...outlines("sleeve"), ...outlines("sleeveBand"), ...buttonhole, ...button]) {
-      expect(primitive.source.revisionId).toBe("live-woven-approved-view");
-    }
+    expect(result.issues.every((issue) => issue.message.includes("within the 0.25 cm acceptance tolerance"))).toBe(true);
   });
 
   it("fails closed when the approved Woven left closure has no assembled center axis or cannot reflect", () => {
@@ -167,6 +143,50 @@ describe("compileTechnicalFlatLiveView", () => {
     expect(appendOppositeSideReflection([], primitive, reflection, collapsed, transforms, collapsedIssues)).toBe(true);
     expect(collapsedIssues.some((issue) => issue.message.includes("cannot be represented on its opposite front side"))).toBe(true);
     expect(appendOppositeSideReflection([], primitive, undefined, block, transforms, [])).toBe(false);
+  });
+
+  it("retains only the approved center-axis placket fill closure under reflection", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "woven-shirt")!;
+    const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
+    const reflection = { axisRoleId: "front" as const, edgeId: "centerFront" as const,
+      source: "MAINTAINER_VIEW_DECISION" as const, decisionId: "G04-S321-WOVEN-CLOSURE-A" as const,
+      side: "LEFT" as const, quantity: 1 as const };
+    const transforms = assembleTechnicalFlatRoles("woven-shirt", block, "FRONT_FLAT").transforms;
+    const axis = block.roles.front!.edges.find((edge) => edge.name === "centerFront")!;
+    if (axis.kind !== "line") throw new Error("Expected the authored center-front axis line.");
+    const placement = transforms.front!;
+    const place = (point: { x: number; y: number }) => {
+      const angle = placement.rotationDegrees * Math.PI / 180;
+      return { x: point.x * Math.cos(angle) - point.y * Math.sin(angle) + placement.offset.x,
+        y: point.x * Math.sin(angle) + point.y * Math.cos(angle) + placement.offset.y };
+    };
+    const points = [place(axis.start), place(axis.end)];
+    const boundary: FlatPathPrimitive = { kind: "path", id: "buttonhole-boundary", layer: "GARMENT_SILHOUETTE",
+      feature: "silhouette", colorwayBoundaryOnly: true,
+      source: { sourceClass: "PATTERN_DERIVED", sourceId: "view:woven-shirt:role:buttonholePlacket:decision:G04-S321-WOVEN-CLOSURE-A:boundary:approved-woven-left-placket-area-closure", revisionId: "r1" },
+      commands: [{ op: "move", point: points[0]! }, { op: "line", point: points[1]! }, { op: "close" }] };
+    const output: TechnicalFlatPrimitive[] = [];
+    const issues: TechnicalFlatLiveIssue[] = [];
+    expect(appendOppositeSideReflection(output, boundary, reflection, block, transforms, issues)).toBe(true);
+    expect(output).toEqual([{ ...boundary, id: "buttonhole-boundary:approved-left-closure" }]);
+    expect(issues).toEqual([]);
+
+    const cubicBoundary: FlatPathPrimitive = { ...boundary, id: "cubic-boundary", commands: [
+      { op: "move", point: points[0]! },
+      { op: "cubic", control1: { x: points[0]!.x + (points[1]!.x - points[0]!.x) / 3,
+        y: points[0]!.y + (points[1]!.y - points[0]!.y) / 3 },
+      control2: { x: points[0]!.x + (points[1]!.x - points[0]!.x) * 2 / 3,
+        y: points[0]!.y + (points[1]!.y - points[0]!.y) * 2 / 3 }, point: points[1]! },
+    ] };
+    const cubicOutput: TechnicalFlatPrimitive[] = [];
+    expect(appendOppositeSideReflection(cubicOutput, cubicBoundary, reflection, block, transforms, [])).toBe(true);
+    expect(cubicOutput[0]?.id).toBe("cubic-boundary:approved-left-closure");
+
+    const malformed: FlatPathPrimitive = { ...boundary, id: "malformed-boundary", sourceEdgeIds: ["one", "two"],
+      commands: [{ op: "move", point: { x: 1000, y: 1000 } }, { op: "line", point: { x: 1001, y: 1000 } }] };
+    const malformedIssues: TechnicalFlatLiveIssue[] = [];
+    expect(appendOppositeSideReflection([], malformed, reflection, block, transforms, malformedIssues)).toBe(true);
+    expect(malformedIssues.some((issue) => issue.message.includes("cannot be represented on its opposite front side"))).toBe(true);
   });
 
   it("withholds an approved sleeve pair when its assembled axis or overlay transform is unavailable", () => {

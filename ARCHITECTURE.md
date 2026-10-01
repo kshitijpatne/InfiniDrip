@@ -146,6 +146,22 @@ ease, piece coordinates and cut geometry are unchanged. It does not resolve
 the remaining sleeve-cap placement conflicts across the option matrix or the
 unclosed front colorway contours, so all 56 Woven faces remain held.
 
+Slice 335 adds exact, revision-bound fill-only view boundaries for Woven's
+front sleeve, outer stand, upper and under collars, and reflected buttonhole
+placket. The sleeve and collar transfer stations implement already-approved
+view conventions; they do not add a physical seam, notch or visible partition.
+The buttonhole-placket fill closure uses its source-authored `attachmentRaw`
+edge after validating the center-front stitch and approved closure A. These
+closures make all five role areas topologically closed at the SVG coordinate
+precision across all 28 supported Woven configurations. A closed color area
+does not prove a valid assembled join: the live renderer now withholds Woven
+front/back output while `Woven sleeve-cap ease` or `Outer stand ↔ woven
+neckline` exceeds the existing 0.25 cm residual gate, and preserves the
+existing inconsistent-transform hold. The 28-case production replay therefore
+continues to emit no Woven SVGs. Source geometry, source stitches, cut roles,
+layer order, generic DXF and protected export identities remain unchanged;
+Woven V02 is still incomplete.
+
 S306 adds a narrow assembly contract for the Trouser's single closed
 waistband source role. The exact ordered zero-ease waist interface yields
 front/back edge intervals and separate rigid placements relative to the sewn
