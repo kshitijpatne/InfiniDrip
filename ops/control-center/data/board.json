@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 1276,
-  "updatedAt": "2026-10-01T21:45:38.872Z",
+  "revision": 1289,
+  "updatedAt": "2026-10-01T22:20:47.919Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -335,7 +335,11 @@
         "E-G04-S343-COVERAGE",
         "E-G04-S343-BUILD",
         "E-G04-S343-BROWSER",
-        "E-G04-S343-RENDERED"
+        "E-G04-S343-RENDERED",
+        "E-G04-S344-START",
+        "E-G04-S344-EXIT",
+        "E-G04-S344-MATRIX",
+        "E-G04-S344-RENDERED"
       ]
     },
     {
@@ -3663,7 +3667,10 @@
         "E-G04-S338-COMMIT",
         "E-G04-S339-START",
         "E-G04-S339-EXIT",
-        "E-G04-S340-START"
+        "E-G04-S340-START",
+        "E-G04-S344-EXIT",
+        "E-G04-S344-MATRIX",
+        "E-G04-S344-RENDERED"
       ],
       "flagKey": null
     },
@@ -7101,6 +7108,16 @@
           "at": "2026-10-01T21:45:38.872Z",
           "actor": "Codex",
           "text": "S343 complete: implemented the approved exact Woven front/yoke neckline base-seam display and suppressed only the duplicate stand base stroke. Focused 95/95 suites with 100% changed-module coverage, TypeScript/build and all 28 production option configurations verified. Replay emits 0/56 SVGs, keeps 56 held on sleeve-cap joins/solver conflicts, reports no browser errors and no longer reports the collar-base residual. See S343 exit, coverage, build, browser and rendered-output evidence. EPIC-17/G04-V02 remain In Progress; all-seven V02 acceptance and the V02-before-V03 gate remain unchanged."
+        },
+        {
+          "at": "2026-10-01T21:51:15.345Z",
+          "actor": "Codex",
+          "text": "S344 started from verified S343: source/topology/transform diagnosis of the Woven sleeve-cap residual and solver conflicts across 28 configurations. Diagnosis only; the user-approved view metadata remains conditional on valid joins and clear rendering, and does not authorize changing pattern geometry or stitch graph. Preserve all 56 Woven holds and all-seven V02 acceptance."
+        },
+        {
+          "at": "2026-10-01T22:20:47.919Z",
+          "actor": "Codex",
+          "text": "S344 diagnosis complete: source specifies the 1.5 cm eased sleeve-cap join across all 28 Woven options; the approved normalized-arclength map does not specify a warped rendered join. Proposal and output evidence are linked. Await explicit decision on the exact view-only cap projection; keep all 56 Woven faces held and preserve all-seven V02 acceptance."
         }
       ],
       "evidenceRefs": [
@@ -7321,7 +7338,11 @@
         "E-G04-S343-COVERAGE",
         "E-G04-S343-BUILD",
         "E-G04-S343-BROWSER",
-        "E-G04-S343-RENDERED"
+        "E-G04-S343-RENDERED",
+        "E-G04-S344-START",
+        "E-G04-S344-EXIT",
+        "E-G04-S344-MATRIX",
+        "E-G04-S344-RENDERED"
       ],
       "flagKey": null
     },
@@ -10161,6 +10182,42 @@
       "sha256": null,
       "verified": true,
       "note": "Manual output review and saved per-face screenshots/issues: default hold screen inspected; all 56 fail-closed outputs reconcile; remaining sleeve-cap conflicts documented."
+    },
+    {
+      "id": "E-G04-S344-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-SLEEVE-CAP-JOIN-DIAGNOSIS-S344.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S344 start boundary: diagnosis-only trace of Woven sleeve-cap residual/solver conflicts over all 28 options; no source/stitch changes and all 56 faces held."
+    },
+    {
+      "id": "E-G04-S344-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-SLEEVE-CAP-JOIN-DIAGNOSIS-S344.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S344 diagnosis exit: exact Woven sleeve-cap topology/ease is recorded across 28 options; no production edits; all 56 faces held pending explicit decision on a new view-only ease projection."
+    },
+    {
+      "id": "E-G04-S344-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S344-woven-sleeve/matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Same-source 28-option diagnostic: encoded edge order and ease, all mapped roles, current back-yoke layer, per-face endpoint/station gaps and current assembly issues."
+    },
+    {
+      "id": "E-G04-S344-RENDERED",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S344-woven-sleeve/manual-review.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Inspected default and yokeDepth-max front/back source-edge overlays. They show current rigid-placement gaps/crossing; proposed warp is not implemented or accepted."
     }
   ]
 }

@@ -312,6 +312,12 @@ only through an explicitly admitted, linked Epic packet.
   display mapping and 28-configuration/56-face production replay. The duplicate
   collar-base residual is gone from guidance, but all Woven faces remain held
   by sleeve-cap residual/solver conflicts; no face is accepted.
+- `docs/research/epic17/G04-V02-WOVEN-SLEEVE-CAP-JOIN-DIAGNOSIS-S344.md` and
+  `docs/research/epic17/S344-woven-sleeve/` — completed Slice 344 source,
+  topology and transform diagnosis for Woven sleeve-cap joins across all 28
+  configurations. No production edit is made; all 56 faces remain held pending
+  approval of the proposed view-only ease projection and its all-option output
+  validation.
 - `docs/research/epic17/G04-V02-PROJECTION-MAPPING-S277.md` — Slice 277's
   current projection-mapping contract boundary, source-reference rules,
   fail-closed semantics, and focused acceptance gates.

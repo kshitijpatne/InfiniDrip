@@ -1,0 +1,3818 @@
+{
+  "generatedAt": "2026-10-01T22:11:48.059Z",
+  "method": "Current WOVEN_SHIRT source options plus current S343 projection and rigid assembly functions; diagnostic source-edge overlays do not change pattern geometry or release production faces.",
+  "configurations": 28,
+  "faceRequests": 56,
+  "productionBrowserErrors": 0,
+  "records": [
+    {
+      "caseId": "woven-shirt-default",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revision": "s344-diagnostic:woven-shirt-default",
+      "directlyEncoded": {
+        "stitchA": [
+          {
+            "piece": "sleeve",
+            "edge": "capLeft"
+          },
+          {
+            "piece": "sleeve",
+            "edge": "capRight"
+          }
+        ],
+        "stitchB": [
+          {
+            "piece": "front",
+            "edge": "armhole"
+          },
+          {
+            "piece": "yoke",
+            "edge": "armholeUpper"
+          },
+          {
+            "piece": "back",
+            "edge": "armholeLower"
+          }
+        ],
+        "declaredEaseCm": {
+          "lo": -1,
+          "hi": 4
+        },
+        "capLeftCm": 23.050681281202372,
+        "capRightCm": 23.05068128120238,
+        "capTotalCm": 46.10136256240475,
+        "frontArmholeCm": 22.30065383946726,
+        "yokeArmholeCm": 11.385138417547896,
+        "backArmholeCm": 10.915570298418702,
+        "bodyTotalCm": 44.60136255543385,
+        "generatedEaseCm": 1.5000000069709003
+      },
+      "approvedMapping": {
+        "sleeveInstances": 2,
+        "sleeveBandInstances": 2,
+        "backYokeRoleTreatment": "SHELL",
+        "bodyToCapSplitFraction": 0.4999993848114027,
+        "stationEdge": "capLeft",
+        "stationEdgeFraction": 0.9999987696228056,
+        "bodyYokeBackBoundaryFraction": 0.7552637481679617
+      },
+      "layerOrder": {
+        "backYokeSeamGeometryLayer": "GARMENT_SILHOUETTE",
+        "backYokeSeamEdgeIsRepresented": true,
+        "backRoleOrder": [
+          "back",
+          "yoke",
+          "sleeve",
+          "outerStand",
+          "innerStand",
+          "underCollar",
+          "upperCollar",
+          "sleeveBand"
+        ]
+      },
+      "assembled": {
+        "frontResidualCm": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.47 cm apart after rigid placement; review this construction line before release.",
+        "backResidualOrConflict": [
+          {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.39 cm apart after rigid placement; review this construction line before release."
+          },
+          {
+            "code": "INCONSISTENT_STITCH_TRANSFORM",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement."
+          }
+        ],
+        "frontUnderarmEndpointGapCm": 0,
+        "frontShoulderEndpointGapCm": 0.6614418648212078,
+        "backYokeShoulderEndpointGapCm": 1.7383640455031923,
+        "backUnderarmEndpointGapCm": 7.944109290391274e-15,
+        "sleeveCapAtYokeBackPieceBoundaryGapToYokeCm": 0.2667694217697056,
+        "sleeveCapAtYokeBackPieceBoundaryGapToBackCm": 0.2667694217697056,
+        "bodyYokeBackSeamEndpointAgreementCm": 0,
+        "frontBandEndpointErrorCm": 2.864289338439558e-14,
+        "backBandEndpointErrorCm": 2.5618982671915017e-14,
+        "frontSleeveTransform": {
+          "offset": {
+            "x": 20.147040034579977,
+            "y": 23.2425463640785
+          },
+          "rotationDegrees": -84.1185109392702,
+          "mirrorX": false
+        },
+        "backSleeveTransform": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "frontBandTransform": {
+          "offset": {
+            "x": 53.48303809150684,
+            "y": -13.535073351937179
+          },
+          "rotationDegrees": -264.1185109392702,
+          "mirrorX": false
+        },
+        "backBandTransform": {
+          "offset": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "rotationDegrees": -126.17776700012641,
+          "mirrorX": false
+        }
+      }
+    },
+    {
+      "caseId": "woven-shirt-neckEase-min",
+      "options": {
+        "neckEase": 0,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revision": "s344-diagnostic:woven-shirt-neckEase-min",
+      "directlyEncoded": {
+        "stitchA": [
+          {
+            "piece": "sleeve",
+            "edge": "capLeft"
+          },
+          {
+            "piece": "sleeve",
+            "edge": "capRight"
+          }
+        ],
+        "stitchB": [
+          {
+            "piece": "front",
+            "edge": "armhole"
+          },
+          {
+            "piece": "yoke",
+            "edge": "armholeUpper"
+          },
+          {
+            "piece": "back",
+            "edge": "armholeLower"
+          }
+        ],
+        "declaredEaseCm": {
+          "lo": -1,
+          "hi": 4
+        },
+        "capLeftCm": 23.050681281202372,
+        "capRightCm": 23.05068128120238,
+        "capTotalCm": 46.10136256240475,
+        "frontArmholeCm": 22.30065383946726,
+        "yokeArmholeCm": 11.385138417547896,
+        "backArmholeCm": 10.915570298418702,
+        "bodyTotalCm": 44.60136255543385,
+        "generatedEaseCm": 1.5000000069709003
+      },
+      "approvedMapping": {
+        "sleeveInstances": 2,
+        "sleeveBandInstances": 2,
+        "backYokeRoleTreatment": "SHELL",
+        "bodyToCapSplitFraction": 0.4999993848114027,
+        "stationEdge": "capLeft",
+        "stationEdgeFraction": 0.9999987696228056,
+        "bodyYokeBackBoundaryFraction": 0.7552637481679617
+      },
+      "layerOrder": {
+        "backYokeSeamGeometryLayer": "GARMENT_SILHOUETTE",
+        "backYokeSeamEdgeIsRepresented": true,
+        "backRoleOrder": [
+          "back",
+          "yoke",
+          "sleeve",
+          "outerStand",
+          "innerStand",
+          "underCollar",
+          "upperCollar",
+          "sleeveBand"
+        ]
+      },
+      "assembled": {
+        "frontResidualCm": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.47 cm apart after rigid placement; review this construction line before release.",
+        "backResidualOrConflict": [
+          {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.39 cm apart after rigid placement; review this construction line before release."
+          },
+          {
+            "code": "INCONSISTENT_STITCH_TRANSFORM",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement."
+          }
+        ],
+        "frontUnderarmEndpointGapCm": 0,
+        "frontShoulderEndpointGapCm": 0.6614418648212078,
+        "backYokeShoulderEndpointGapCm": 1.7383640455031923,
+        "backUnderarmEndpointGapCm": 7.944109290391274e-15,
+        "sleeveCapAtYokeBackPieceBoundaryGapToYokeCm": 0.2667694217697056,
+        "sleeveCapAtYokeBackPieceBoundaryGapToBackCm": 0.2667694217697056,
+        "bodyYokeBackSeamEndpointAgreementCm": 0,
+        "frontBandEndpointErrorCm": 2.864289338439558e-14,
+        "backBandEndpointErrorCm": 2.5618982671915017e-14,
+        "frontSleeveTransform": {
+          "offset": {
+            "x": 20.147040034579977,
+            "y": 23.2425463640785
+          },
+          "rotationDegrees": -84.1185109392702,
+          "mirrorX": false
+        },
+        "backSleeveTransform": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "frontBandTransform": {
+          "offset": {
+            "x": 53.48303809150684,
+            "y": -13.535073351937179
+          },
+          "rotationDegrees": -264.1185109392702,
+          "mirrorX": false
+        },
+        "backBandTransform": {
+          "offset": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "rotationDegrees": -126.17776700012641,
+          "mirrorX": false
+        }
+      }
+    },
+    {
+      "caseId": "woven-shirt-neckEase-max",
+      "options": {
+        "neckEase": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revision": "s344-diagnostic:woven-shirt-neckEase-max",
+      "directlyEncoded": {
+        "stitchA": [
+          {
+            "piece": "sleeve",
+            "edge": "capLeft"
+          },
+          {
+            "piece": "sleeve",
+            "edge": "capRight"
+          }
+        ],
+        "stitchB": [
+          {
+            "piece": "front",
+            "edge": "armhole"
+          },
+          {
+            "piece": "yoke",
+            "edge": "armholeUpper"
+          },
+          {
+            "piece": "back",
+            "edge": "armholeLower"
+          }
+        ],
+        "declaredEaseCm": {
+          "lo": -1,
+          "hi": 4
+        },
+        "capLeftCm": 23.050681281202372,
+        "capRightCm": 23.05068128120238,
+        "capTotalCm": 46.10136256240475,
+        "frontArmholeCm": 22.30065383946726,
+        "yokeArmholeCm": 11.385138417547896,
+        "backArmholeCm": 10.915570298418702,
+        "bodyTotalCm": 44.60136255543385,
+        "generatedEaseCm": 1.5000000069709003
+      },
+      "approvedMapping": {
+        "sleeveInstances": 2,
+        "sleeveBandInstances": 2,
+        "backYokeRoleTreatment": "SHELL",
+        "bodyToCapSplitFraction": 0.4999993848114027,
+        "stationEdge": "capLeft",
+        "stationEdgeFraction": 0.9999987696228056,
+        "bodyYokeBackBoundaryFraction": 0.7552637481679617
+      },
+      "layerOrder": {
+        "backYokeSeamGeometryLayer": "GARMENT_SILHOUETTE",
+        "backYokeSeamEdgeIsRepresented": true,
+        "backRoleOrder": [
+          "back",
+          "yoke",
+          "sleeve",
+          "outerStand",
+          "innerStand",
+          "underCollar",
+          "upperCollar",
+          "sleeveBand"
+        ]
+      },
+      "assembled": {
+        "frontResidualCm": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.47 cm apart after rigid placement; review this construction line before release.",
+        "backResidualOrConflict": [
+          {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.39 cm apart after rigid placement; review this construction line before release."
+          },
+          {
+            "code": "INCONSISTENT_STITCH_TRANSFORM",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement."
+          }
+        ],
+        "frontUnderarmEndpointGapCm": 0,
+        "frontShoulderEndpointGapCm": 0.6614418648212078,
+        "backYokeShoulderEndpointGapCm": 1.7383640455031923,
+        "backUnderarmEndpointGapCm": 7.944109290391274e-15,
+        "sleeveCapAtYokeBackPieceBoundaryGapToYokeCm": 0.2667694217697056,
+        "sleeveCapAtYokeBackPieceBoundaryGapToBackCm": 0.2667694217697056,
+        "bodyYokeBackSeamEndpointAgreementCm": 0,
+        "frontBandEndpointErrorCm": 2.864289338439558e-14,
+        "backBandEndpointErrorCm": 2.5618982671915017e-14,
+        "frontSleeveTransform": {
+          "offset": {
+            "x": 20.147040034579977,
+            "y": 23.2425463640785
+          },
+          "rotationDegrees": -84.1185109392702,
+          "mirrorX": false
+        },
+        "backSleeveTransform": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "frontBandTransform": {
+          "offset": {
+            "x": 53.48303809150684,
+            "y": -13.535073351937179
+          },
+          "rotationDegrees": -264.1185109392702,
+          "mirrorX": false
+        },
+        "backBandTransform": {
+          "offset": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "rotationDegrees": -126.17776700012641,
+          "mirrorX": false
+        }
+      }
+    },
+    {
+      "caseId": "woven-shirt-standHeight-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 1.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revision": "s344-diagnostic:woven-shirt-standHeight-min",
+      "directlyEncoded": {
+        "stitchA": [
+          {
+            "piece": "sleeve",
+            "edge": "capLeft"
+          },
+          {
+            "piece": "sleeve",
+            "edge": "capRight"
+          }
+        ],
+        "stitchB": [
+          {
+            "piece": "front",
+            "edge": "armhole"
+          },
+          {
+            "piece": "yoke",
+            "edge": "armholeUpper"
+          },
+          {
+            "piece": "back",
+            "edge": "armholeLower"
+          }
+        ],
+        "declaredEaseCm": {
+          "lo": -1,
+          "hi": 4
+        },
+        "capLeftCm": 23.050681281202372,
+        "capRightCm": 23.05068128120238,
+        "capTotalCm": 46.10136256240475,
+        "frontArmholeCm": 22.30065383946726,
+        "yokeArmholeCm": 11.385138417547896,
+        "backArmholeCm": 10.915570298418702,
+        "bodyTotalCm": 44.60136255543385,
+        "generatedEaseCm": 1.5000000069709003
+      },
+      "approvedMapping": {
+        "sleeveInstances": 2,
+        "sleeveBandInstances": 2,
+        "backYokeRoleTreatment": "SHELL",
+        "bodyToCapSplitFraction": 0.4999993848114027,
+        "stationEdge": "capLeft",
+        "stationEdgeFraction": 0.9999987696228056,
+        "bodyYokeBackBoundaryFraction": 0.7552637481679617
+      },
+      "layerOrder": {
+        "backYokeSeamGeometryLayer": "GARMENT_SILHOUETTE",
+        "backYokeSeamEdgeIsRepresented": true,
+        "backRoleOrder": [
+          "back",
+          "yoke",
+          "sleeve",
+          "outerStand",
+          "innerStand",
+          "underCollar",
+          "upperCollar",
+          "sleeveBand"
+        ]
+      },
+      "assembled": {
+        "frontResidualCm": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.47 cm apart after rigid placement; review this construction line before release.",
+        "backResidualOrConflict": [
+          {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.39 cm apart after rigid placement; review this construction line before release."
+          },
+          {
+            "code": "INCONSISTENT_STITCH_TRANSFORM",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement."
+          }
+        ],
+        "frontUnderarmEndpointGapCm": 0,
+        "frontShoulderEndpointGapCm": 0.6614418648212078,
+        "backYokeShoulderEndpointGapCm": 1.7383640455031923,
+        "backUnderarmEndpointGapCm": 7.944109290391274e-15,
+        "sleeveCapAtYokeBackPieceBoundaryGapToYokeCm": 0.2667694217697056,
+        "sleeveCapAtYokeBackPieceBoundaryGapToBackCm": 0.2667694217697056,
+        "bodyYokeBackSeamEndpointAgreementCm": 0,
+        "frontBandEndpointErrorCm": 2.864289338439558e-14,
+        "backBandEndpointErrorCm": 2.5618982671915017e-14,
+        "frontSleeveTransform": {
+          "offset": {
+            "x": 20.147040034579977,
+            "y": 23.2425463640785
+          },
+          "rotationDegrees": -84.1185109392702,
+          "mirrorX": false
+        },
+        "backSleeveTransform": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "frontBandTransform": {
+          "offset": {
+            "x": 53.48303809150684,
+            "y": -13.535073351937179
+          },
+          "rotationDegrees": -264.1185109392702,
+          "mirrorX": false
+        },
+        "backBandTransform": {
+          "offset": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "rotationDegrees": -126.17776700012641,
+          "mirrorX": false
+        }
+      }
+    },
+    {
+      "caseId": "woven-shirt-standHeight-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 3.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revision": "s344-diagnostic:woven-shirt-standHeight-max",
+      "directlyEncoded": {
+        "stitchA": [
+          {
+            "piece": "sleeve",
+            "edge": "capLeft"
+          },
+          {
+            "piece": "sleeve",
+            "edge": "capRight"
+          }
+        ],
+        "stitchB": [
+          {
+            "piece": "front",
+            "edge": "armhole"
+          },
+          {
+            "piece": "yoke",
+            "edge": "armholeUpper"
+          },
+          {
+            "piece": "back",
+            "edge": "armholeLower"
+          }
+        ],
+        "declaredEaseCm": {
+          "lo": -1,
+          "hi": 4
+        },
+        "capLeftCm": 23.050681281202372,
+        "capRightCm": 23.05068128120238,
+        "capTotalCm": 46.10136256240475,
+        "frontArmholeCm": 22.30065383946726,
+        "yokeArmholeCm": 11.385138417547896,
+        "backArmholeCm": 10.915570298418702,
+        "bodyTotalCm": 44.60136255543385,
+        "generatedEaseCm": 1.5000000069709003
+      },
+      "approvedMapping": {
+        "sleeveInstances": 2,
+        "sleeveBandInstances": 2,
+        "backYokeRoleTreatment": "SHELL",
+        "bodyToCapSplitFraction": 0.4999993848114027,
+        "stationEdge": "capLeft",
+        "stationEdgeFraction": 0.9999987696228056,
+        "bodyYokeBackBoundaryFraction": 0.7552637481679617
+      },
+      "layerOrder": {
+        "backYokeSeamGeometryLayer": "GARMENT_SILHOUETTE",
+        "backYokeSeamEdgeIsRepresented": true,
+        "backRoleOrder": [
+          "back",
+          "yoke",
+          "sleeve",
+          "outerStand",
+          "innerStand",
+          "underCollar",
+          "upperCollar",
+          "sleeveBand"
+        ]
+      },
+      "assembled": {
+        "frontResidualCm": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.47 cm apart after rigid placement; review this construction line before release.",
+        "backResidualOrConflict": [
+          {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.39 cm apart after rigid placement; review this construction line before release."
+          },
+          {
+            "code": "INCONSISTENT_STITCH_TRANSFORM",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement."
+          }
+        ],
+        "frontUnderarmEndpointGapCm": 0,
+        "frontShoulderEndpointGapCm": 0.6614418648212078,
+        "backYokeShoulderEndpointGapCm": 1.7383640455031923,
+        "backUnderarmEndpointGapCm": 7.944109290391274e-15,
+        "sleeveCapAtYokeBackPieceBoundaryGapToYokeCm": 0.2667694217697056,
+        "sleeveCapAtYokeBackPieceBoundaryGapToBackCm": 0.2667694217697056,
+        "bodyYokeBackSeamEndpointAgreementCm": 0,
+        "frontBandEndpointErrorCm": 2.864289338439558e-14,
+        "backBandEndpointErrorCm": 2.5618982671915017e-14,
+        "frontSleeveTransform": {
+          "offset": {
+            "x": 20.147040034579977,
+            "y": 23.2425463640785
+          },
+          "rotationDegrees": -84.1185109392702,
+          "mirrorX": false
+        },
+        "backSleeveTransform": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "frontBandTransform": {
+          "offset": {
+            "x": 53.48303809150684,
+            "y": -13.535073351937179
+          },
+          "rotationDegrees": -264.1185109392702,
+          "mirrorX": false
+        },
+        "backBandTransform": {
+          "offset": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "rotationDegrees": -126.17776700012641,
+          "mirrorX": false
+        }
+      }
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 4,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revision": "s344-diagnostic:woven-shirt-collarLeafDepth-min",
+      "directlyEncoded": {
+        "stitchA": [
+          {
+            "piece": "sleeve",
+            "edge": "capLeft"
+          },
+          {
+            "piece": "sleeve",
+            "edge": "capRight"
+          }
+        ],
+        "stitchB": [
+          {
+            "piece": "front",
+            "edge": "armhole"
+          },
+          {
+            "piece": "yoke",
+            "edge": "armholeUpper"
+          },
+          {
+            "piece": "back",
+            "edge": "armholeLower"
+          }
+        ],
+        "declaredEaseCm": {
+          "lo": -1,
+          "hi": 4
+        },
+        "capLeftCm": 23.050681281202372,
+        "capRightCm": 23.05068128120238,
+        "capTotalCm": 46.10136256240475,
+        "frontArmholeCm": 22.30065383946726,
+        "yokeArmholeCm": 11.385138417547896,
+        "backArmholeCm": 10.915570298418702,
+        "bodyTotalCm": 44.60136255543385,
+        "generatedEaseCm": 1.5000000069709003
+      },
+      "approvedMapping": {
+        "sleeveInstances": 2,
+        "sleeveBandInstances": 2,
+        "backYokeRoleTreatment": "SHELL",
+        "bodyToCapSplitFraction": 0.4999993848114027,
+        "stationEdge": "capLeft",
+        "stationEdgeFraction": 0.9999987696228056,
+        "bodyYokeBackBoundaryFraction": 0.7552637481679617
+      },
+      "layerOrder": {
+        "backYokeSeamGeometryLayer": "GARMENT_SILHOUETTE",
+        "backYokeSeamEdgeIsRepresented": true,
+        "backRoleOrder": [
+          "back",
+          "yoke",
+          "sleeve",
+          "outerStand",
+          "innerStand",
+          "underCollar",
+          "upperCollar",
+          "sleeveBand"
+        ]
+      },
+      "assembled": {
+        "frontResidualCm": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.47 cm apart after rigid placement; review this construction line before release.",
+        "backResidualOrConflict": [
+          {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.39 cm apart after rigid placement; review this construction line before release."
+          },
+          {
+            "code": "INCONSISTENT_STITCH_TRANSFORM",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement."
+          }
+        ],
+        "frontUnderarmEndpointGapCm": 0,
+        "frontShoulderEndpointGapCm": 0.6614418648212078,
+        "backYokeShoulderEndpointGapCm": 1.7383640455031923,
+        "backUnderarmEndpointGapCm": 7.944109290391274e-15,
+        "sleeveCapAtYokeBackPieceBoundaryGapToYokeCm": 0.2667694217697056,
+        "sleeveCapAtYokeBackPieceBoundaryGapToBackCm": 0.2667694217697056,
+        "bodyYokeBackSeamEndpointAgreementCm": 0,
+        "frontBandEndpointErrorCm": 2.864289338439558e-14,
+        "backBandEndpointErrorCm": 2.5618982671915017e-14,
+        "frontSleeveTransform": {
+          "offset": {
+            "x": 20.147040034579977,
+            "y": 23.2425463640785
+          },
+          "rotationDegrees": -84.1185109392702,
+          "mirrorX": false
+        },
+        "backSleeveTransform": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "frontBandTransform": {
+          "offset": {
+            "x": 53.48303809150684,
+            "y": -13.535073351937179
+          },
+          "rotationDegrees": -264.1185109392702,
+          "mirrorX": false
+        },
+        "backBandTransform": {
+          "offset": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "rotationDegrees": -126.17776700012641,
+          "mirrorX": false
+        }
+      }
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 8,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revision": "s344-diagnostic:woven-shirt-collarLeafDepth-max",
+      "directlyEncoded": {
+        "stitchA": [
+          {
+            "piece": "sleeve",
+            "edge": "capLeft"
+          },
+          {
+            "piece": "sleeve",
+            "edge": "capRight"
+          }
+        ],
+        "stitchB": [
+          {
+            "piece": "front",
+            "edge": "armhole"
+          },
+          {
+            "piece": "yoke",
+            "edge": "armholeUpper"
+          },
+          {
+            "piece": "back",
+            "edge": "armholeLower"
+          }
+        ],
+        "declaredEaseCm": {
+          "lo": -1,
+          "hi": 4
+        },
+        "capLeftCm": 23.050681281202372,
+        "capRightCm": 23.05068128120238,
+        "capTotalCm": 46.10136256240475,
+        "frontArmholeCm": 22.30065383946726,
+        "yokeArmholeCm": 11.385138417547896,
+        "backArmholeCm": 10.915570298418702,
+        "bodyTotalCm": 44.60136255543385,
+        "generatedEaseCm": 1.5000000069709003
+      },
+      "approvedMapping": {
+        "sleeveInstances": 2,
+        "sleeveBandInstances": 2,
+        "backYokeRoleTreatment": "SHELL",
+        "bodyToCapSplitFraction": 0.4999993848114027,
+        "stationEdge": "capLeft",
+        "stationEdgeFraction": 0.9999987696228056,
+        "bodyYokeBackBoundaryFraction": 0.7552637481679617
+      },
+      "layerOrder": {
+        "backYokeSeamGeometryLayer": "GARMENT_SILHOUETTE",
+        "backYokeSeamEdgeIsRepresented": true,
+        "backRoleOrder": [
+          "back",
+          "yoke",
+          "sleeve",
+          "outerStand",
+          "innerStand",
+          "underCollar",
+          "upperCollar",
+          "sleeveBand"
+        ]
+      },
+      "assembled": {
+        "frontResidualCm": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.47 cm apart after rigid placement; review this construction line before release.",
+        "backResidualOrConflict": [
+          {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.39 cm apart after rigid placement; review this construction line before release."
+          },
+          {
+            "code": "INCONSISTENT_STITCH_TRANSFORM",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement."
+          }
+        ],
+        "frontUnderarmEndpointGapCm": 0,
+        "frontShoulderEndpointGapCm": 0.6614418648212078,
+        "backYokeShoulderEndpointGapCm": 1.7383640455031923,
+        "backUnderarmEndpointGapCm": 7.944109290391274e-15,
+        "sleeveCapAtYokeBackPieceBoundaryGapToYokeCm": 0.2667694217697056,
+        "sleeveCapAtYokeBackPieceBoundaryGapToBackCm": 0.2667694217697056,
+        "bodyYokeBackSeamEndpointAgreementCm": 0,
+        "frontBandEndpointErrorCm": 2.864289338439558e-14,
+        "backBandEndpointErrorCm": 2.5618982671915017e-14,
+        "frontSleeveTransform": {
+          "offset": {
+            "x": 20.147040034579977,
+            "y": 23.2425463640785
+          },
+          "rotationDegrees": -84.1185109392702,
+          "mirrorX": false
+        },
+        "backSleeveTransform": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "frontBandTransform": {
+          "offset": {
+            "x": 53.48303809150684,
+            "y": -13.535073351937179
+          },
+          "rotationDegrees": -264.1185109392702,
+          "mirrorX": false
+        },
+        "backBandTransform": {
+          "offset": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "rotationDegrees": -126.17776700012641,
+          "mirrorX": false
+        }
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 6,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revision": "s344-diagnostic:woven-shirt-buttonCount-min",
+      "directlyEncoded": {
+        "stitchA": [
+          {
+            "piece": "sleeve",
+            "edge": "capLeft"
+          },
+          {
+            "piece": "sleeve",
+            "edge": "capRight"
+          }
+        ],
+        "stitchB": [
+          {
+            "piece": "front",
+            "edge": "armhole"
+          },
+          {
+            "piece": "yoke",
+            "edge": "armholeUpper"
+          },
+          {
+            "piece": "back",
+            "edge": "armholeLower"
+          }
+        ],
+        "declaredEaseCm": {
+          "lo": -1,
+          "hi": 4
+        },
+        "capLeftCm": 23.050681281202372,
+        "capRightCm": 23.05068128120238,
+        "capTotalCm": 46.10136256240475,
+        "frontArmholeCm": 22.30065383946726,
+        "yokeArmholeCm": 11.385138417547896,
+        "backArmholeCm": 10.915570298418702,
+        "bodyTotalCm": 44.60136255543385,
+        "generatedEaseCm": 1.5000000069709003
+      },
+      "approvedMapping": {
+        "sleeveInstances": 2,
+        "sleeveBandInstances": 2,
+        "backYokeRoleTreatment": "SHELL",
+        "bodyToCapSplitFraction": 0.4999993848114027,
+        "stationEdge": "capLeft",
+        "stationEdgeFraction": 0.9999987696228056,
+        "bodyYokeBackBoundaryFraction": 0.7552637481679617
+      },
+      "layerOrder": {
+        "backYokeSeamGeometryLayer": "GARMENT_SILHOUETTE",
+        "backYokeSeamEdgeIsRepresented": true,
+        "backRoleOrder": [
+          "back",
+          "yoke",
+          "sleeve",
+          "outerStand",
+          "innerStand",
+          "underCollar",
+          "upperCollar",
+          "sleeveBand"
+        ]
+      },
+      "assembled": {
+        "frontResidualCm": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.47 cm apart after rigid placement; review this construction line before release.",
+        "backResidualOrConflict": [
+          {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.39 cm apart after rigid placement; review this construction line before release."
+          },
+          {
+            "code": "INCONSISTENT_STITCH_TRANSFORM",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement."
+          }
+        ],
+        "frontUnderarmEndpointGapCm": 0,
+        "frontShoulderEndpointGapCm": 0.6614418648212078,
+        "backYokeShoulderEndpointGapCm": 1.7383640455031923,
+        "backUnderarmEndpointGapCm": 7.944109290391274e-15,
+        "sleeveCapAtYokeBackPieceBoundaryGapToYokeCm": 0.2667694217697056,
+        "sleeveCapAtYokeBackPieceBoundaryGapToBackCm": 0.2667694217697056,
+        "bodyYokeBackSeamEndpointAgreementCm": 0,
+        "frontBandEndpointErrorCm": 2.864289338439558e-14,
+        "backBandEndpointErrorCm": 2.5618982671915017e-14,
+        "frontSleeveTransform": {
+          "offset": {
+            "x": 20.147040034579977,
+            "y": 23.2425463640785
+          },
+          "rotationDegrees": -84.1185109392702,
+          "mirrorX": false
+        },
+        "backSleeveTransform": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "frontBandTransform": {
+          "offset": {
+            "x": 53.48303809150684,
+            "y": -13.535073351937179
+          },
+          "rotationDegrees": -264.1185109392702,
+          "mirrorX": false
+        },
+        "backBandTransform": {
+          "offset": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "rotationDegrees": -126.17776700012641,
+          "mirrorX": false
+        }
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revision": "s344-diagnostic:woven-shirt-buttonCount-max",
+      "directlyEncoded": {
+        "stitchA": [
+          {
+            "piece": "sleeve",
+            "edge": "capLeft"
+          },
+          {
+            "piece": "sleeve",
+            "edge": "capRight"
+          }
+        ],
+        "stitchB": [
+          {
+            "piece": "front",
+            "edge": "armhole"
+          },
+          {
+            "piece": "yoke",
+            "edge": "armholeUpper"
+          },
+          {
+            "piece": "back",
+            "edge": "armholeLower"
+          }
+        ],
+        "declaredEaseCm": {
+          "lo": -1,
+          "hi": 4
+        },
+        "capLeftCm": 23.050681281202372,
+        "capRightCm": 23.05068128120238,
+        "capTotalCm": 46.10136256240475,
+        "frontArmholeCm": 22.30065383946726,
+        "yokeArmholeCm": 11.385138417547896,
+        "backArmholeCm": 10.915570298418702,
+        "bodyTotalCm": 44.60136255543385,
+        "generatedEaseCm": 1.5000000069709003
+      },
+      "approvedMapping": {
+        "sleeveInstances": 2,
+        "sleeveBandInstances": 2,
+        "backYokeRoleTreatment": "SHELL",
+        "bodyToCapSplitFraction": 0.4999993848114027,
+        "stationEdge": "capLeft",
+        "stationEdgeFraction": 0.9999987696228056,
+        "bodyYokeBackBoundaryFraction": 0.7552637481679617
+      },
+      "layerOrder": {
+        "backYokeSeamGeometryLayer": "GARMENT_SILHOUETTE",
+        "backYokeSeamEdgeIsRepresented": true,
+        "backRoleOrder": [
+          "back",
+          "yoke",
+          "sleeve",
+          "outerStand",
+          "innerStand",
+          "underCollar",
+          "upperCollar",
+          "sleeveBand"
+        ]
+      },
+      "assembled": {
+        "frontResidualCm": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.47 cm apart after rigid placement; review this construction line before release.",
+        "backResidualOrConflict": [
+          {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.39 cm apart after rigid placement; review this construction line before release."
+          },
+          {
+            "code": "INCONSISTENT_STITCH_TRANSFORM",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement."
+          }
+        ],
+        "frontUnderarmEndpointGapCm": 0,
+        "frontShoulderEndpointGapCm": 0.6614418648212078,
+        "backYokeShoulderEndpointGapCm": 1.7383640455031923,
+        "backUnderarmEndpointGapCm": 7.944109290391274e-15,
+        "sleeveCapAtYokeBackPieceBoundaryGapToYokeCm": 0.2667694217697056,
+        "sleeveCapAtYokeBackPieceBoundaryGapToBackCm": 0.2667694217697056,
+        "bodyYokeBackSeamEndpointAgreementCm": 0,
+        "frontBandEndpointErrorCm": 2.864289338439558e-14,
+        "backBandEndpointErrorCm": 2.5618982671915017e-14,
+        "frontSleeveTransform": {
+          "offset": {
+            "x": 20.147040034579977,
+            "y": 23.2425463640785
+          },
+          "rotationDegrees": -84.1185109392702,
+          "mirrorX": false
+        },
+        "backSleeveTransform": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "frontBandTransform": {
+          "offset": {
+            "x": 53.48303809150684,
+            "y": -13.535073351937179
+          },
+          "rotationDegrees": -264.1185109392702,
+          "mirrorX": false
+        },
+        "backBandTransform": {
+          "offset": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "rotationDegrees": -126.17776700012641,
+          "mirrorX": false
+        }
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 6,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revision": "s344-diagnostic:woven-shirt-buttonSpacing-min",
+      "directlyEncoded": {
+        "stitchA": [
+          {
+            "piece": "sleeve",
+            "edge": "capLeft"
+          },
+          {
+            "piece": "sleeve",
+            "edge": "capRight"
+          }
+        ],
+        "stitchB": [
+          {
+            "piece": "front",
+            "edge": "armhole"
+          },
+          {
+            "piece": "yoke",
+            "edge": "armholeUpper"
+          },
+          {
+            "piece": "back",
+            "edge": "armholeLower"
+          }
+        ],
+        "declaredEaseCm": {
+          "lo": -1,
+          "hi": 4
+        },
+        "capLeftCm": 23.050681281202372,
+        "capRightCm": 23.05068128120238,
+        "capTotalCm": 46.10136256240475,
+        "frontArmholeCm": 22.30065383946726,
+        "yokeArmholeCm": 11.385138417547896,
+        "backArmholeCm": 10.915570298418702,
+        "bodyTotalCm": 44.60136255543385,
+        "generatedEaseCm": 1.5000000069709003
+      },
+      "approvedMapping": {
+        "sleeveInstances": 2,
+        "sleeveBandInstances": 2,
+        "backYokeRoleTreatment": "SHELL",
+        "bodyToCapSplitFraction": 0.4999993848114027,
+        "stationEdge": "capLeft",
+        "stationEdgeFraction": 0.9999987696228056,
+        "bodyYokeBackBoundaryFraction": 0.7552637481679617
+      },
+      "layerOrder": {
+        "backYokeSeamGeometryLayer": "GARMENT_SILHOUETTE",
+        "backYokeSeamEdgeIsRepresented": true,
+        "backRoleOrder": [
+          "back",
+          "yoke",
+          "sleeve",
+          "outerStand",
+          "innerStand",
+          "underCollar",
+          "upperCollar",
+          "sleeveBand"
+        ]
+      },
+      "assembled": {
+        "frontResidualCm": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.47 cm apart after rigid placement; review this construction line before release.",
+        "backResidualOrConflict": [
+          {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.39 cm apart after rigid placement; review this construction line before release."
+          },
+          {
+            "code": "INCONSISTENT_STITCH_TRANSFORM",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement."
+          }
+        ],
+        "frontUnderarmEndpointGapCm": 0,
+        "frontShoulderEndpointGapCm": 0.6614418648212078,
+        "backYokeShoulderEndpointGapCm": 1.7383640455031923,
+        "backUnderarmEndpointGapCm": 7.944109290391274e-15,
+        "sleeveCapAtYokeBackPieceBoundaryGapToYokeCm": 0.2667694217697056,
+        "sleeveCapAtYokeBackPieceBoundaryGapToBackCm": 0.2667694217697056,
+        "bodyYokeBackSeamEndpointAgreementCm": 0,
+        "frontBandEndpointErrorCm": 2.864289338439558e-14,
+        "backBandEndpointErrorCm": 2.5618982671915017e-14,
+        "frontSleeveTransform": {
+          "offset": {
+            "x": 20.147040034579977,
+            "y": 23.2425463640785
+          },
+          "rotationDegrees": -84.1185109392702,
+          "mirrorX": false
+        },
+        "backSleeveTransform": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "frontBandTransform": {
+          "offset": {
+            "x": 53.48303809150684,
+            "y": -13.535073351937179
+          },
+          "rotationDegrees": -264.1185109392702,
+          "mirrorX": false
+        },
+        "backBandTransform": {
+          "offset": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "rotationDegrees": -126.17776700012641,
+          "mirrorX": false
+        }
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 9,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revision": "s344-diagnostic:woven-shirt-buttonSpacing-max",
+      "directlyEncoded": {
+        "stitchA": [
+          {
+            "piece": "sleeve",
+            "edge": "capLeft"
+          },
+          {
+            "piece": "sleeve",
+            "edge": "capRight"
+          }
+        ],
+        "stitchB": [
+          {
+            "piece": "front",
+            "edge": "armhole"
+          },
+          {
+            "piece": "yoke",
+            "edge": "armholeUpper"
+          },
+          {
+            "piece": "back",
+            "edge": "armholeLower"
+          }
+        ],
+        "declaredEaseCm": {
+          "lo": -1,
+          "hi": 4
+        },
+        "capLeftCm": 23.050681281202372,
+        "capRightCm": 23.05068128120238,
+        "capTotalCm": 46.10136256240475,
+        "frontArmholeCm": 22.30065383946726,
+        "yokeArmholeCm": 11.385138417547896,
+        "backArmholeCm": 10.915570298418702,
+        "bodyTotalCm": 44.60136255543385,
+        "generatedEaseCm": 1.5000000069709003
+      },
+      "approvedMapping": {
+        "sleeveInstances": 2,
+        "sleeveBandInstances": 2,
+        "backYokeRoleTreatment": "SHELL",
+        "bodyToCapSplitFraction": 0.4999993848114027,
+        "stationEdge": "capLeft",
+        "stationEdgeFraction": 0.9999987696228056,
+        "bodyYokeBackBoundaryFraction": 0.7552637481679617
+      },
+      "layerOrder": {
+        "backYokeSeamGeometryLayer": "GARMENT_SILHOUETTE",
+        "backYokeSeamEdgeIsRepresented": true,
+        "backRoleOrder": [
+          "back",
+          "yoke",
+          "sleeve",
+          "outerStand",
+          "innerStand",
+          "underCollar",
+          "upperCollar",
+          "sleeveBand"
+        ]
+      },
+      "assembled": {
+        "frontResidualCm": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.47 cm apart after rigid placement; review this construction line before release.",
+        "backResidualOrConflict": [
+          {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.39 cm apart after rigid placement; review this construction line before release."
+          },
+          {
+            "code": "INCONSISTENT_STITCH_TRANSFORM",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement."
+          }
+        ],
+        "frontUnderarmEndpointGapCm": 0,
+        "frontShoulderEndpointGapCm": 0.6614418648212078,
+        "backYokeShoulderEndpointGapCm": 1.7383640455031923,
+        "backUnderarmEndpointGapCm": 7.944109290391274e-15,
+        "sleeveCapAtYokeBackPieceBoundaryGapToYokeCm": 0.2667694217697056,
+        "sleeveCapAtYokeBackPieceBoundaryGapToBackCm": 0.2667694217697056,
+        "bodyYokeBackSeamEndpointAgreementCm": 0,
+        "frontBandEndpointErrorCm": 2.864289338439558e-14,
+        "backBandEndpointErrorCm": 2.5618982671915017e-14,
+        "frontSleeveTransform": {
+          "offset": {
+            "x": 20.147040034579977,
+            "y": 23.2425463640785
+          },
+          "rotationDegrees": -84.1185109392702,
+          "mirrorX": false
+        },
+        "backSleeveTransform": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "frontBandTransform": {
+          "offset": {
+            "x": 53.48303809150684,
+            "y": -13.535073351937179
+          },
+          "rotationDegrees": -264.1185109392702,
+          "mirrorX": false
+        },
+        "backBandTransform": {
+          "offset": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "rotationDegrees": -126.17776700012641,
+          "mirrorX": false
+        }
+      }
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revision": "s344-diagnostic:woven-shirt-frontOverlap-min",
+      "directlyEncoded": {
+        "stitchA": [
+          {
+            "piece": "sleeve",
+            "edge": "capLeft"
+          },
+          {
+            "piece": "sleeve",
+            "edge": "capRight"
+          }
+        ],
+        "stitchB": [
+          {
+            "piece": "front",
+            "edge": "armhole"
+          },
+          {
+            "piece": "yoke",
+            "edge": "armholeUpper"
+          },
+          {
+            "piece": "back",
+            "edge": "armholeLower"
+          }
+        ],
+        "declaredEaseCm": {
+          "lo": -1,
+          "hi": 4
+        },
+        "capLeftCm": 23.050681281202372,
+        "capRightCm": 23.05068128120238,
+        "capTotalCm": 46.10136256240475,
+        "frontArmholeCm": 22.30065383946726,
+        "yokeArmholeCm": 11.385138417547896,
+        "backArmholeCm": 10.915570298418702,
+        "bodyTotalCm": 44.60136255543385,
+        "generatedEaseCm": 1.5000000069709003
+      },
+      "approvedMapping": {
+        "sleeveInstances": 2,
+        "sleeveBandInstances": 2,
+        "backYokeRoleTreatment": "SHELL",
+        "bodyToCapSplitFraction": 0.4999993848114027,
+        "stationEdge": "capLeft",
+        "stationEdgeFraction": 0.9999987696228056,
+        "bodyYokeBackBoundaryFraction": 0.7552637481679617
+      },
+      "layerOrder": {
+        "backYokeSeamGeometryLayer": "GARMENT_SILHOUETTE",
+        "backYokeSeamEdgeIsRepresented": true,
+        "backRoleOrder": [
+          "back",
+          "yoke",
+          "sleeve",
+          "outerStand",
+          "innerStand",
+          "underCollar",
+          "upperCollar",
+          "sleeveBand"
+        ]
+      },
+      "assembled": {
+        "frontResidualCm": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.47 cm apart after rigid placement; review this construction line before release.",
+        "backResidualOrConflict": [
+          {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.39 cm apart after rigid placement; review this construction line before release."
+          },
+          {
+            "code": "INCONSISTENT_STITCH_TRANSFORM",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement."
+          }
+        ],
+        "frontUnderarmEndpointGapCm": 0,
+        "frontShoulderEndpointGapCm": 0.6614418648212078,
+        "backYokeShoulderEndpointGapCm": 1.7383640455031923,
+        "backUnderarmEndpointGapCm": 7.944109290391274e-15,
+        "sleeveCapAtYokeBackPieceBoundaryGapToYokeCm": 0.2667694217697056,
+        "sleeveCapAtYokeBackPieceBoundaryGapToBackCm": 0.2667694217697056,
+        "bodyYokeBackSeamEndpointAgreementCm": 0,
+        "frontBandEndpointErrorCm": 2.864289338439558e-14,
+        "backBandEndpointErrorCm": 2.5618982671915017e-14,
+        "frontSleeveTransform": {
+          "offset": {
+            "x": 20.147040034579977,
+            "y": 23.2425463640785
+          },
+          "rotationDegrees": -84.1185109392702,
+          "mirrorX": false
+        },
+        "backSleeveTransform": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "frontBandTransform": {
+          "offset": {
+            "x": 53.48303809150684,
+            "y": -13.535073351937179
+          },
+          "rotationDegrees": -264.1185109392702,
+          "mirrorX": false
+        },
+        "backBandTransform": {
+          "offset": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "rotationDegrees": -126.17776700012641,
+          "mirrorX": false
+        }
+      }
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 3,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revision": "s344-diagnostic:woven-shirt-frontOverlap-max",
+      "directlyEncoded": {
+        "stitchA": [
+          {
+            "piece": "sleeve",
+            "edge": "capLeft"
+          },
+          {
+            "piece": "sleeve",
+            "edge": "capRight"
+          }
+        ],
+        "stitchB": [
+          {
+            "piece": "front",
+            "edge": "armhole"
+          },
+          {
+            "piece": "yoke",
+            "edge": "armholeUpper"
+          },
+          {
+            "piece": "back",
+            "edge": "armholeLower"
+          }
+        ],
+        "declaredEaseCm": {
+          "lo": -1,
+          "hi": 4
+        },
+        "capLeftCm": 23.050681281202372,
+        "capRightCm": 23.05068128120238,
+        "capTotalCm": 46.10136256240475,
+        "frontArmholeCm": 22.30065383946726,
+        "yokeArmholeCm": 11.385138417547896,
+        "backArmholeCm": 10.915570298418702,
+        "bodyTotalCm": 44.60136255543385,
+        "generatedEaseCm": 1.5000000069709003
+      },
+      "approvedMapping": {
+        "sleeveInstances": 2,
+        "sleeveBandInstances": 2,
+        "backYokeRoleTreatment": "SHELL",
+        "bodyToCapSplitFraction": 0.4999993848114027,
+        "stationEdge": "capLeft",
+        "stationEdgeFraction": 0.9999987696228056,
+        "bodyYokeBackBoundaryFraction": 0.7552637481679617
+      },
+      "layerOrder": {
+        "backYokeSeamGeometryLayer": "GARMENT_SILHOUETTE",
+        "backYokeSeamEdgeIsRepresented": true,
+        "backRoleOrder": [
+          "back",
+          "yoke",
+          "sleeve",
+          "outerStand",
+          "innerStand",
+          "underCollar",
+          "upperCollar",
+          "sleeveBand"
+        ]
+      },
+      "assembled": {
+        "frontResidualCm": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.47 cm apart after rigid placement; review this construction line before release.",
+        "backResidualOrConflict": [
+          {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.39 cm apart after rigid placement; review this construction line before release."
+          },
+          {
+            "code": "INCONSISTENT_STITCH_TRANSFORM",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement."
+          }
+        ],
+        "frontUnderarmEndpointGapCm": 0,
+        "frontShoulderEndpointGapCm": 0.6614418648212078,
+        "backYokeShoulderEndpointGapCm": 1.7383640455031923,
+        "backUnderarmEndpointGapCm": 7.944109290391274e-15,
+        "sleeveCapAtYokeBackPieceBoundaryGapToYokeCm": 0.2667694217697056,
+        "sleeveCapAtYokeBackPieceBoundaryGapToBackCm": 0.2667694217697056,
+        "bodyYokeBackSeamEndpointAgreementCm": 0,
+        "frontBandEndpointErrorCm": 2.864289338439558e-14,
+        "backBandEndpointErrorCm": 2.5618982671915017e-14,
+        "frontSleeveTransform": {
+          "offset": {
+            "x": 20.147040034579977,
+            "y": 23.2425463640785
+          },
+          "rotationDegrees": -84.1185109392702,
+          "mirrorX": false
+        },
+        "backSleeveTransform": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "frontBandTransform": {
+          "offset": {
+            "x": 53.48303809150684,
+            "y": -13.535073351937179
+          },
+          "rotationDegrees": -264.1185109392702,
+          "mirrorX": false
+        },
+        "backBandTransform": {
+          "offset": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "rotationDegrees": -126.17776700012641,
+          "mirrorX": false
+        }
+      }
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 2,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revision": "s344-diagnostic:woven-shirt-placketWidth-min",
+      "directlyEncoded": {
+        "stitchA": [
+          {
+            "piece": "sleeve",
+            "edge": "capLeft"
+          },
+          {
+            "piece": "sleeve",
+            "edge": "capRight"
+          }
+        ],
+        "stitchB": [
+          {
+            "piece": "front",
+            "edge": "armhole"
+          },
+          {
+            "piece": "yoke",
+            "edge": "armholeUpper"
+          },
+          {
+            "piece": "back",
+            "edge": "armholeLower"
+          }
+        ],
+        "declaredEaseCm": {
+          "lo": -1,
+          "hi": 4
+        },
+        "capLeftCm": 23.050681281202372,
+        "capRightCm": 23.05068128120238,
+        "capTotalCm": 46.10136256240475,
+        "frontArmholeCm": 22.30065383946726,
+        "yokeArmholeCm": 11.385138417547896,
+        "backArmholeCm": 10.915570298418702,
+        "bodyTotalCm": 44.60136255543385,
+        "generatedEaseCm": 1.5000000069709003
+      },
+      "approvedMapping": {
+        "sleeveInstances": 2,
+        "sleeveBandInstances": 2,
+        "backYokeRoleTreatment": "SHELL",
+        "bodyToCapSplitFraction": 0.4999993848114027,
+        "stationEdge": "capLeft",
+        "stationEdgeFraction": 0.9999987696228056,
+        "bodyYokeBackBoundaryFraction": 0.7552637481679617
+      },
+      "layerOrder": {
+        "backYokeSeamGeometryLayer": "GARMENT_SILHOUETTE",
+        "backYokeSeamEdgeIsRepresented": true,
+        "backRoleOrder": [
+          "back",
+          "yoke",
+          "sleeve",
+          "outerStand",
+          "innerStand",
+          "underCollar",
+          "upperCollar",
+          "sleeveBand"
+        ]
+      },
+      "assembled": {
+        "frontResidualCm": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.47 cm apart after rigid placement; review this construction line before release.",
+        "backResidualOrConflict": [
+          {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.39 cm apart after rigid placement; review this construction line before release."
+          },
+          {
+            "code": "INCONSISTENT_STITCH_TRANSFORM",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement."
+          }
+        ],
+        "frontUnderarmEndpointGapCm": 0,
+        "frontShoulderEndpointGapCm": 0.6614418648212078,
+        "backYokeShoulderEndpointGapCm": 1.7383640455031923,
+        "backUnderarmEndpointGapCm": 7.944109290391274e-15,
+        "sleeveCapAtYokeBackPieceBoundaryGapToYokeCm": 0.2667694217697056,
+        "sleeveCapAtYokeBackPieceBoundaryGapToBackCm": 0.2667694217697056,
+        "bodyYokeBackSeamEndpointAgreementCm": 0,
+        "frontBandEndpointErrorCm": 2.864289338439558e-14,
+        "backBandEndpointErrorCm": 2.5618982671915017e-14,
+        "frontSleeveTransform": {
+          "offset": {
+            "x": 20.147040034579977,
+            "y": 23.2425463640785
+          },
+          "rotationDegrees": -84.1185109392702,
+          "mirrorX": false
+        },
+        "backSleeveTransform": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "frontBandTransform": {
+          "offset": {
+            "x": 53.48303809150684,
+            "y": -13.535073351937179
+          },
+          "rotationDegrees": -264.1185109392702,
+          "mirrorX": false
+        },
+        "backBandTransform": {
+          "offset": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "rotationDegrees": -126.17776700012641,
+          "mirrorX": false
+        }
+      }
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 4,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revision": "s344-diagnostic:woven-shirt-placketWidth-max",
+      "directlyEncoded": {
+        "stitchA": [
+          {
+            "piece": "sleeve",
+            "edge": "capLeft"
+          },
+          {
+            "piece": "sleeve",
+            "edge": "capRight"
+          }
+        ],
+        "stitchB": [
+          {
+            "piece": "front",
+            "edge": "armhole"
+          },
+          {
+            "piece": "yoke",
+            "edge": "armholeUpper"
+          },
+          {
+            "piece": "back",
+            "edge": "armholeLower"
+          }
+        ],
+        "declaredEaseCm": {
+          "lo": -1,
+          "hi": 4
+        },
+        "capLeftCm": 23.050681281202372,
+        "capRightCm": 23.05068128120238,
+        "capTotalCm": 46.10136256240475,
+        "frontArmholeCm": 22.30065383946726,
+        "yokeArmholeCm": 11.385138417547896,
+        "backArmholeCm": 10.915570298418702,
+        "bodyTotalCm": 44.60136255543385,
+        "generatedEaseCm": 1.5000000069709003
+      },
+      "approvedMapping": {
+        "sleeveInstances": 2,
+        "sleeveBandInstances": 2,
+        "backYokeRoleTreatment": "SHELL",
+        "bodyToCapSplitFraction": 0.4999993848114027,
+        "stationEdge": "capLeft",
+        "stationEdgeFraction": 0.9999987696228056,
+        "bodyYokeBackBoundaryFraction": 0.7552637481679617
+      },
+      "layerOrder": {
+        "backYokeSeamGeometryLayer": "GARMENT_SILHOUETTE",
+        "backYokeSeamEdgeIsRepresented": true,
+        "backRoleOrder": [
+          "back",
+          "yoke",
+          "sleeve",
+          "outerStand",
+          "innerStand",
+          "underCollar",
+          "upperCollar",
+          "sleeveBand"
+        ]
+      },
+      "assembled": {
+        "frontResidualCm": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.47 cm apart after rigid placement; review this construction line before release.",
+        "backResidualOrConflict": [
+          {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.39 cm apart after rigid placement; review this construction line before release."
+          },
+          {
+            "code": "INCONSISTENT_STITCH_TRANSFORM",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement."
+          }
+        ],
+        "frontUnderarmEndpointGapCm": 0,
+        "frontShoulderEndpointGapCm": 0.6614418648212078,
+        "backYokeShoulderEndpointGapCm": 1.7383640455031923,
+        "backUnderarmEndpointGapCm": 7.944109290391274e-15,
+        "sleeveCapAtYokeBackPieceBoundaryGapToYokeCm": 0.2667694217697056,
+        "sleeveCapAtYokeBackPieceBoundaryGapToBackCm": 0.2667694217697056,
+        "bodyYokeBackSeamEndpointAgreementCm": 0,
+        "frontBandEndpointErrorCm": 2.864289338439558e-14,
+        "backBandEndpointErrorCm": 2.5618982671915017e-14,
+        "frontSleeveTransform": {
+          "offset": {
+            "x": 20.147040034579977,
+            "y": 23.2425463640785
+          },
+          "rotationDegrees": -84.1185109392702,
+          "mirrorX": false
+        },
+        "backSleeveTransform": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "frontBandTransform": {
+          "offset": {
+            "x": 53.48303809150684,
+            "y": -13.535073351937179
+          },
+          "rotationDegrees": -264.1185109392702,
+          "mirrorX": false
+        },
+        "backBandTransform": {
+          "offset": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "rotationDegrees": -126.17776700012641,
+          "mirrorX": false
+        }
+      }
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 7,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revision": "s344-diagnostic:woven-shirt-yokeDepth-min",
+      "directlyEncoded": {
+        "stitchA": [
+          {
+            "piece": "sleeve",
+            "edge": "capLeft"
+          },
+          {
+            "piece": "sleeve",
+            "edge": "capRight"
+          }
+        ],
+        "stitchB": [
+          {
+            "piece": "front",
+            "edge": "armhole"
+          },
+          {
+            "piece": "yoke",
+            "edge": "armholeUpper"
+          },
+          {
+            "piece": "back",
+            "edge": "armholeLower"
+          }
+        ],
+        "declaredEaseCm": {
+          "lo": -1,
+          "hi": 4
+        },
+        "capLeftCm": 23.05067773298697,
+        "capRightCm": 23.050677732986955,
+        "capTotalCm": 46.101355465973924,
+        "frontArmholeCm": 22.30065383946726,
+        "yokeArmholeCm": 8.161141994916838,
+        "backArmholeCm": 14.139559639723974,
+        "bodyTotalCm": 44.601355474108075,
+        "generatedEaseCm": 1.4999999918658489
+      },
+      "approvedMapping": {
+        "sleeveInstances": 2,
+        "sleeveBandInstances": 2,
+        "backYokeRoleTreatment": "SHELL",
+        "bodyToCapSplitFraction": 0.4999994641959527,
+        "stationEdge": "capLeft",
+        "stationEdgeFraction": 0.9999989283919051,
+        "bodyYokeBackBoundaryFraction": 0.6829791496374531
+      },
+      "layerOrder": {
+        "backYokeSeamGeometryLayer": "GARMENT_SILHOUETTE",
+        "backYokeSeamEdgeIsRepresented": true,
+        "backRoleOrder": [
+          "back",
+          "yoke",
+          "sleeve",
+          "outerStand",
+          "innerStand",
+          "underCollar",
+          "upperCollar",
+          "sleeveBand"
+        ]
+      },
+      "assembled": {
+        "frontResidualCm": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.47 cm apart after rigid placement; review this construction line before release.",
+        "backResidualOrConflict": [
+          {
+            "code": "INCONSISTENT_STITCH_TRANSFORM",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement."
+          }
+        ],
+        "frontUnderarmEndpointGapCm": 0,
+        "frontShoulderEndpointGapCm": 0.6614425349614805,
+        "backYokeShoulderEndpointGapCm": 2.0643521980009742,
+        "backUnderarmEndpointGapCm": 3.552713678800501e-15,
+        "sleeveCapAtYokeBackPieceBoundaryGapToYokeCm": 0.305752676058822,
+        "sleeveCapAtYokeBackPieceBoundaryGapToBackCm": 0.305752676058822,
+        "bodyYokeBackSeamEndpointAgreementCm": 0,
+        "frontBandEndpointErrorCm": 1.0048591735576161e-14,
+        "backBandEndpointErrorCm": 5.0242958677880805e-15,
+        "frontSleeveTransform": {
+          "offset": {
+            "x": 20.147048628336798,
+            "y": 23.24255009130885
+          },
+          "rotationDegrees": -84.11853285188761,
+          "mirrorX": false
+        },
+        "backSleeveTransform": {
+          "offset": {
+            "x": 7.479148348435974,
+            "y": -14.766030534274282
+          },
+          "rotationDegrees": 52.931724352344354,
+          "mirrorX": false
+        },
+        "frontBandTransform": {
+          "offset": {
+            "x": 53.48302373631667,
+            "y": -13.535083289077754
+          },
+          "rotationDegrees": -264.1185328518876,
+          "mirrorX": false
+        },
+        "backBandTransform": {
+          "offset": {
+            "x": 8.137509579827906,
+            "y": 34.86710470772893
+          },
+          "rotationDegrees": -127.06827564765564,
+          "mirrorX": false
+        }
+      }
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 15,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revision": "s344-diagnostic:woven-shirt-yokeDepth-max",
+      "directlyEncoded": {
+        "stitchA": [
+          {
+            "piece": "sleeve",
+            "edge": "capLeft"
+          },
+          {
+            "piece": "sleeve",
+            "edge": "capRight"
+          }
+        ],
+        "stitchB": [
+          {
+            "piece": "front",
+            "edge": "armhole"
+          },
+          {
+            "piece": "yoke",
+            "edge": "armholeUpper"
+          },
+          {
+            "piece": "back",
+            "edge": "armholeLower"
+          }
+        ],
+        "declaredEaseCm": {
+          "lo": -1,
+          "hi": 4
+        },
+        "capLeftCm": 23.050680644750923,
+        "capRightCm": 23.050680644750926,
+        "capTotalCm": 46.10136128950185,
+        "frontArmholeCm": 22.30065383946726,
+        "yokeArmholeCm": 16.195421527731824,
+        "backArmholeCm": 6.105285913674054,
+        "bodyTotalCm": 44.601361280873135,
+        "generatedEaseCm": 1.5000000086287173
+      },
+      "approvedMapping": {
+        "sleeveInstances": 2,
+        "sleeveBandInstances": 2,
+        "backYokeRoleTreatment": "SHELL",
+        "bodyToCapSplitFraction": 0.49999939909974633,
+        "stationEdge": "capLeft",
+        "stationEdgeFraction": 0.9999987981994929,
+        "bodyYokeBackBoundaryFraction": 0.863114359330278
+      },
+      "layerOrder": {
+        "backYokeSeamGeometryLayer": "GARMENT_SILHOUETTE",
+        "backYokeSeamEdgeIsRepresented": true,
+        "backRoleOrder": [
+          "back",
+          "yoke",
+          "sleeve",
+          "outerStand",
+          "innerStand",
+          "underCollar",
+          "upperCollar",
+          "sleeveBand"
+        ]
+      },
+      "assembled": {
+        "frontResidualCm": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.47 cm apart after rigid placement; review this construction line before release.",
+        "backResidualOrConflict": [
+          {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.73 cm apart after rigid placement; review this construction line before release."
+          },
+          {
+            "code": "INCONSISTENT_STITCH_TRANSFORM",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement."
+          }
+        ],
+        "frontUnderarmEndpointGapCm": 7.105427357601002e-15,
+        "frontShoulderEndpointGapCm": 0.661441988331791,
+        "backYokeShoulderEndpointGapCm": 0.8301485135357454,
+        "backUnderarmEndpointGapCm": 3.552713678800501e-15,
+        "sleeveCapAtYokeBackPieceBoundaryGapToYokeCm": 0.24221565186192145,
+        "sleeveCapAtYokeBackPieceBoundaryGapToBackCm": 0.24221565186192145,
+        "bodyYokeBackSeamEndpointAgreementCm": 0,
+        "frontBandEndpointErrorCm": 7.105427357601002e-15,
+        "backBandEndpointErrorCm": 1.2809491335957509e-14,
+        "frontSleeveTransform": {
+          "offset": {
+            "x": 20.14704157605685,
+            "y": 23.242547032679703
+          },
+          "rotationDegrees": -84.11851487009014,
+          "mirrorX": false
+        },
+        "backSleeveTransform": {
+          "offset": {
+            "x": 10.036555576900916,
+            "y": -15.98334455074098
+          },
+          "rotationDegrees": 56.65180005808255,
+          "mirrorX": false
+        },
+        "frontBandTransform": {
+          "offset": {
+            "x": 53.48303551638491,
+            "y": -13.535075134522913
+          },
+          "rotationDegrees": -264.11851487009017,
+          "mirrorX": false
+        },
+        "backBandTransform": {
+          "offset": {
+            "x": 7.473228333080712,
+            "y": 33.58793077786229
+          },
+          "rotationDegrees": -123.34819994191744,
+          "mirrorX": false
+        }
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 9,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revision": "s344-diagnostic:woven-shirt-pocketWidth-min",
+      "directlyEncoded": {
+        "stitchA": [
+          {
+            "piece": "sleeve",
+            "edge": "capLeft"
+          },
+          {
+            "piece": "sleeve",
+            "edge": "capRight"
+          }
+        ],
+        "stitchB": [
+          {
+            "piece": "front",
+            "edge": "armhole"
+          },
+          {
+            "piece": "yoke",
+            "edge": "armholeUpper"
+          },
+          {
+            "piece": "back",
+            "edge": "armholeLower"
+          }
+        ],
+        "declaredEaseCm": {
+          "lo": -1,
+          "hi": 4
+        },
+        "capLeftCm": 23.050681281202372,
+        "capRightCm": 23.05068128120238,
+        "capTotalCm": 46.10136256240475,
+        "frontArmholeCm": 22.30065383946726,
+        "yokeArmholeCm": 11.385138417547896,
+        "backArmholeCm": 10.915570298418702,
+        "bodyTotalCm": 44.60136255543385,
+        "generatedEaseCm": 1.5000000069709003
+      },
+      "approvedMapping": {
+        "sleeveInstances": 2,
+        "sleeveBandInstances": 2,
+        "backYokeRoleTreatment": "SHELL",
+        "bodyToCapSplitFraction": 0.4999993848114027,
+        "stationEdge": "capLeft",
+        "stationEdgeFraction": 0.9999987696228056,
+        "bodyYokeBackBoundaryFraction": 0.7552637481679617
+      },
+      "layerOrder": {
+        "backYokeSeamGeometryLayer": "GARMENT_SILHOUETTE",
+        "backYokeSeamEdgeIsRepresented": true,
+        "backRoleOrder": [
+          "back",
+          "yoke",
+          "sleeve",
+          "outerStand",
+          "innerStand",
+          "underCollar",
+          "upperCollar",
+          "sleeveBand"
+        ]
+      },
+      "assembled": {
+        "frontResidualCm": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.47 cm apart after rigid placement; review this construction line before release.",
+        "backResidualOrConflict": [
+          {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.39 cm apart after rigid placement; review this construction line before release."
+          },
+          {
+            "code": "INCONSISTENT_STITCH_TRANSFORM",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement."
+          }
+        ],
+        "frontUnderarmEndpointGapCm": 0,
+        "frontShoulderEndpointGapCm": 0.6614418648212078,
+        "backYokeShoulderEndpointGapCm": 1.7383640455031923,
+        "backUnderarmEndpointGapCm": 7.944109290391274e-15,
+        "sleeveCapAtYokeBackPieceBoundaryGapToYokeCm": 0.2667694217697056,
+        "sleeveCapAtYokeBackPieceBoundaryGapToBackCm": 0.2667694217697056,
+        "bodyYokeBackSeamEndpointAgreementCm": 0,
+        "frontBandEndpointErrorCm": 2.864289338439558e-14,
+        "backBandEndpointErrorCm": 2.5618982671915017e-14,
+        "frontSleeveTransform": {
+          "offset": {
+            "x": 20.147040034579977,
+            "y": 23.2425463640785
+          },
+          "rotationDegrees": -84.1185109392702,
+          "mirrorX": false
+        },
+        "backSleeveTransform": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "frontBandTransform": {
+          "offset": {
+            "x": 53.48303809150684,
+            "y": -13.535073351937179
+          },
+          "rotationDegrees": -264.1185109392702,
+          "mirrorX": false
+        },
+        "backBandTransform": {
+          "offset": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "rotationDegrees": -126.17776700012641,
+          "mirrorX": false
+        }
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 16,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revision": "s344-diagnostic:woven-shirt-pocketWidth-max",
+      "directlyEncoded": {
+        "stitchA": [
+          {
+            "piece": "sleeve",
+            "edge": "capLeft"
+          },
+          {
+            "piece": "sleeve",
+            "edge": "capRight"
+          }
+        ],
+        "stitchB": [
+          {
+            "piece": "front",
+            "edge": "armhole"
+          },
+          {
+            "piece": "yoke",
+            "edge": "armholeUpper"
+          },
+          {
+            "piece": "back",
+            "edge": "armholeLower"
+          }
+        ],
+        "declaredEaseCm": {
+          "lo": -1,
+          "hi": 4
+        },
+        "capLeftCm": 23.050681281202372,
+        "capRightCm": 23.05068128120238,
+        "capTotalCm": 46.10136256240475,
+        "frontArmholeCm": 22.30065383946726,
+        "yokeArmholeCm": 11.385138417547896,
+        "backArmholeCm": 10.915570298418702,
+        "bodyTotalCm": 44.60136255543385,
+        "generatedEaseCm": 1.5000000069709003
+      },
+      "approvedMapping": {
+        "sleeveInstances": 2,
+        "sleeveBandInstances": 2,
+        "backYokeRoleTreatment": "SHELL",
+        "bodyToCapSplitFraction": 0.4999993848114027,
+        "stationEdge": "capLeft",
+        "stationEdgeFraction": 0.9999987696228056,
+        "bodyYokeBackBoundaryFraction": 0.7552637481679617
+      },
+      "layerOrder": {
+        "backYokeSeamGeometryLayer": "GARMENT_SILHOUETTE",
+        "backYokeSeamEdgeIsRepresented": true,
+        "backRoleOrder": [
+          "back",
+          "yoke",
+          "sleeve",
+          "outerStand",
+          "innerStand",
+          "underCollar",
+          "upperCollar",
+          "sleeveBand"
+        ]
+      },
+      "assembled": {
+        "frontResidualCm": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.47 cm apart after rigid placement; review this construction line before release.",
+        "backResidualOrConflict": [
+          {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.39 cm apart after rigid placement; review this construction line before release."
+          },
+          {
+            "code": "INCONSISTENT_STITCH_TRANSFORM",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement."
+          }
+        ],
+        "frontUnderarmEndpointGapCm": 0,
+        "frontShoulderEndpointGapCm": 0.6614418648212078,
+        "backYokeShoulderEndpointGapCm": 1.7383640455031923,
+        "backUnderarmEndpointGapCm": 7.944109290391274e-15,
+        "sleeveCapAtYokeBackPieceBoundaryGapToYokeCm": 0.2667694217697056,
+        "sleeveCapAtYokeBackPieceBoundaryGapToBackCm": 0.2667694217697056,
+        "bodyYokeBackSeamEndpointAgreementCm": 0,
+        "frontBandEndpointErrorCm": 2.864289338439558e-14,
+        "backBandEndpointErrorCm": 2.5618982671915017e-14,
+        "frontSleeveTransform": {
+          "offset": {
+            "x": 20.147040034579977,
+            "y": 23.2425463640785
+          },
+          "rotationDegrees": -84.1185109392702,
+          "mirrorX": false
+        },
+        "backSleeveTransform": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "frontBandTransform": {
+          "offset": {
+            "x": 53.48303809150684,
+            "y": -13.535073351937179
+          },
+          "rotationDegrees": -264.1185109392702,
+          "mirrorX": false
+        },
+        "backBandTransform": {
+          "offset": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "rotationDegrees": -126.17776700012641,
+          "mirrorX": false
+        }
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 10,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revision": "s344-diagnostic:woven-shirt-pocketHeight-min",
+      "directlyEncoded": {
+        "stitchA": [
+          {
+            "piece": "sleeve",
+            "edge": "capLeft"
+          },
+          {
+            "piece": "sleeve",
+            "edge": "capRight"
+          }
+        ],
+        "stitchB": [
+          {
+            "piece": "front",
+            "edge": "armhole"
+          },
+          {
+            "piece": "yoke",
+            "edge": "armholeUpper"
+          },
+          {
+            "piece": "back",
+            "edge": "armholeLower"
+          }
+        ],
+        "declaredEaseCm": {
+          "lo": -1,
+          "hi": 4
+        },
+        "capLeftCm": 23.050681281202372,
+        "capRightCm": 23.05068128120238,
+        "capTotalCm": 46.10136256240475,
+        "frontArmholeCm": 22.30065383946726,
+        "yokeArmholeCm": 11.385138417547896,
+        "backArmholeCm": 10.915570298418702,
+        "bodyTotalCm": 44.60136255543385,
+        "generatedEaseCm": 1.5000000069709003
+      },
+      "approvedMapping": {
+        "sleeveInstances": 2,
+        "sleeveBandInstances": 2,
+        "backYokeRoleTreatment": "SHELL",
+        "bodyToCapSplitFraction": 0.4999993848114027,
+        "stationEdge": "capLeft",
+        "stationEdgeFraction": 0.9999987696228056,
+        "bodyYokeBackBoundaryFraction": 0.7552637481679617
+      },
+      "layerOrder": {
+        "backYokeSeamGeometryLayer": "GARMENT_SILHOUETTE",
+        "backYokeSeamEdgeIsRepresented": true,
+        "backRoleOrder": [
+          "back",
+          "yoke",
+          "sleeve",
+          "outerStand",
+          "innerStand",
+          "underCollar",
+          "upperCollar",
+          "sleeveBand"
+        ]
+      },
+      "assembled": {
+        "frontResidualCm": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.47 cm apart after rigid placement; review this construction line before release.",
+        "backResidualOrConflict": [
+          {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.39 cm apart after rigid placement; review this construction line before release."
+          },
+          {
+            "code": "INCONSISTENT_STITCH_TRANSFORM",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement."
+          }
+        ],
+        "frontUnderarmEndpointGapCm": 0,
+        "frontShoulderEndpointGapCm": 0.6614418648212078,
+        "backYokeShoulderEndpointGapCm": 1.7383640455031923,
+        "backUnderarmEndpointGapCm": 7.944109290391274e-15,
+        "sleeveCapAtYokeBackPieceBoundaryGapToYokeCm": 0.2667694217697056,
+        "sleeveCapAtYokeBackPieceBoundaryGapToBackCm": 0.2667694217697056,
+        "bodyYokeBackSeamEndpointAgreementCm": 0,
+        "frontBandEndpointErrorCm": 2.864289338439558e-14,
+        "backBandEndpointErrorCm": 2.5618982671915017e-14,
+        "frontSleeveTransform": {
+          "offset": {
+            "x": 20.147040034579977,
+            "y": 23.2425463640785
+          },
+          "rotationDegrees": -84.1185109392702,
+          "mirrorX": false
+        },
+        "backSleeveTransform": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "frontBandTransform": {
+          "offset": {
+            "x": 53.48303809150684,
+            "y": -13.535073351937179
+          },
+          "rotationDegrees": -264.1185109392702,
+          "mirrorX": false
+        },
+        "backBandTransform": {
+          "offset": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "rotationDegrees": -126.17776700012641,
+          "mirrorX": false
+        }
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 18,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revision": "s344-diagnostic:woven-shirt-pocketHeight-max",
+      "directlyEncoded": {
+        "stitchA": [
+          {
+            "piece": "sleeve",
+            "edge": "capLeft"
+          },
+          {
+            "piece": "sleeve",
+            "edge": "capRight"
+          }
+        ],
+        "stitchB": [
+          {
+            "piece": "front",
+            "edge": "armhole"
+          },
+          {
+            "piece": "yoke",
+            "edge": "armholeUpper"
+          },
+          {
+            "piece": "back",
+            "edge": "armholeLower"
+          }
+        ],
+        "declaredEaseCm": {
+          "lo": -1,
+          "hi": 4
+        },
+        "capLeftCm": 23.050681281202372,
+        "capRightCm": 23.05068128120238,
+        "capTotalCm": 46.10136256240475,
+        "frontArmholeCm": 22.30065383946726,
+        "yokeArmholeCm": 11.385138417547896,
+        "backArmholeCm": 10.915570298418702,
+        "bodyTotalCm": 44.60136255543385,
+        "generatedEaseCm": 1.5000000069709003
+      },
+      "approvedMapping": {
+        "sleeveInstances": 2,
+        "sleeveBandInstances": 2,
+        "backYokeRoleTreatment": "SHELL",
+        "bodyToCapSplitFraction": 0.4999993848114027,
+        "stationEdge": "capLeft",
+        "stationEdgeFraction": 0.9999987696228056,
+        "bodyYokeBackBoundaryFraction": 0.7552637481679617
+      },
+      "layerOrder": {
+        "backYokeSeamGeometryLayer": "GARMENT_SILHOUETTE",
+        "backYokeSeamEdgeIsRepresented": true,
+        "backRoleOrder": [
+          "back",
+          "yoke",
+          "sleeve",
+          "outerStand",
+          "innerStand",
+          "underCollar",
+          "upperCollar",
+          "sleeveBand"
+        ]
+      },
+      "assembled": {
+        "frontResidualCm": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.47 cm apart after rigid placement; review this construction line before release.",
+        "backResidualOrConflict": [
+          {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.39 cm apart after rigid placement; review this construction line before release."
+          },
+          {
+            "code": "INCONSISTENT_STITCH_TRANSFORM",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement."
+          }
+        ],
+        "frontUnderarmEndpointGapCm": 0,
+        "frontShoulderEndpointGapCm": 0.6614418648212078,
+        "backYokeShoulderEndpointGapCm": 1.7383640455031923,
+        "backUnderarmEndpointGapCm": 7.944109290391274e-15,
+        "sleeveCapAtYokeBackPieceBoundaryGapToYokeCm": 0.2667694217697056,
+        "sleeveCapAtYokeBackPieceBoundaryGapToBackCm": 0.2667694217697056,
+        "bodyYokeBackSeamEndpointAgreementCm": 0,
+        "frontBandEndpointErrorCm": 2.864289338439558e-14,
+        "backBandEndpointErrorCm": 2.5618982671915017e-14,
+        "frontSleeveTransform": {
+          "offset": {
+            "x": 20.147040034579977,
+            "y": 23.2425463640785
+          },
+          "rotationDegrees": -84.1185109392702,
+          "mirrorX": false
+        },
+        "backSleeveTransform": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "frontBandTransform": {
+          "offset": {
+            "x": 53.48303809150684,
+            "y": -13.535073351937179
+          },
+          "rotationDegrees": -264.1185109392702,
+          "mirrorX": false
+        },
+        "backBandTransform": {
+          "offset": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "rotationDegrees": -126.17776700012641,
+          "mirrorX": false
+        }
+      }
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 2,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revision": "s344-diagnostic:woven-shirt-sleeveBandDepth-min",
+      "directlyEncoded": {
+        "stitchA": [
+          {
+            "piece": "sleeve",
+            "edge": "capLeft"
+          },
+          {
+            "piece": "sleeve",
+            "edge": "capRight"
+          }
+        ],
+        "stitchB": [
+          {
+            "piece": "front",
+            "edge": "armhole"
+          },
+          {
+            "piece": "yoke",
+            "edge": "armholeUpper"
+          },
+          {
+            "piece": "back",
+            "edge": "armholeLower"
+          }
+        ],
+        "declaredEaseCm": {
+          "lo": -1,
+          "hi": 4
+        },
+        "capLeftCm": 23.050681281202372,
+        "capRightCm": 23.05068128120238,
+        "capTotalCm": 46.10136256240475,
+        "frontArmholeCm": 22.30065383946726,
+        "yokeArmholeCm": 11.385138417547896,
+        "backArmholeCm": 10.915570298418702,
+        "bodyTotalCm": 44.60136255543385,
+        "generatedEaseCm": 1.5000000069709003
+      },
+      "approvedMapping": {
+        "sleeveInstances": 2,
+        "sleeveBandInstances": 2,
+        "backYokeRoleTreatment": "SHELL",
+        "bodyToCapSplitFraction": 0.4999993848114027,
+        "stationEdge": "capLeft",
+        "stationEdgeFraction": 0.9999987696228056,
+        "bodyYokeBackBoundaryFraction": 0.7552637481679617
+      },
+      "layerOrder": {
+        "backYokeSeamGeometryLayer": "GARMENT_SILHOUETTE",
+        "backYokeSeamEdgeIsRepresented": true,
+        "backRoleOrder": [
+          "back",
+          "yoke",
+          "sleeve",
+          "outerStand",
+          "innerStand",
+          "underCollar",
+          "upperCollar",
+          "sleeveBand"
+        ]
+      },
+      "assembled": {
+        "frontResidualCm": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.47 cm apart after rigid placement; review this construction line before release.",
+        "backResidualOrConflict": [
+          {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.39 cm apart after rigid placement; review this construction line before release."
+          },
+          {
+            "code": "INCONSISTENT_STITCH_TRANSFORM",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement."
+          }
+        ],
+        "frontUnderarmEndpointGapCm": 0,
+        "frontShoulderEndpointGapCm": 0.6614418648212078,
+        "backYokeShoulderEndpointGapCm": 1.7383640455031923,
+        "backUnderarmEndpointGapCm": 7.944109290391274e-15,
+        "sleeveCapAtYokeBackPieceBoundaryGapToYokeCm": 0.2667694217697056,
+        "sleeveCapAtYokeBackPieceBoundaryGapToBackCm": 0.2667694217697056,
+        "bodyYokeBackSeamEndpointAgreementCm": 0,
+        "frontBandEndpointErrorCm": 2.864289338439558e-14,
+        "backBandEndpointErrorCm": 2.5618982671915017e-14,
+        "frontSleeveTransform": {
+          "offset": {
+            "x": 20.147040034579977,
+            "y": 23.2425463640785
+          },
+          "rotationDegrees": -84.1185109392702,
+          "mirrorX": false
+        },
+        "backSleeveTransform": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "frontBandTransform": {
+          "offset": {
+            "x": 53.48303809150684,
+            "y": -13.535073351937179
+          },
+          "rotationDegrees": -264.1185109392702,
+          "mirrorX": false
+        },
+        "backBandTransform": {
+          "offset": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "rotationDegrees": -126.17776700012641,
+          "mirrorX": false
+        }
+      }
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 5,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revision": "s344-diagnostic:woven-shirt-sleeveBandDepth-max",
+      "directlyEncoded": {
+        "stitchA": [
+          {
+            "piece": "sleeve",
+            "edge": "capLeft"
+          },
+          {
+            "piece": "sleeve",
+            "edge": "capRight"
+          }
+        ],
+        "stitchB": [
+          {
+            "piece": "front",
+            "edge": "armhole"
+          },
+          {
+            "piece": "yoke",
+            "edge": "armholeUpper"
+          },
+          {
+            "piece": "back",
+            "edge": "armholeLower"
+          }
+        ],
+        "declaredEaseCm": {
+          "lo": -1,
+          "hi": 4
+        },
+        "capLeftCm": 23.050681281202372,
+        "capRightCm": 23.05068128120238,
+        "capTotalCm": 46.10136256240475,
+        "frontArmholeCm": 22.30065383946726,
+        "yokeArmholeCm": 11.385138417547896,
+        "backArmholeCm": 10.915570298418702,
+        "bodyTotalCm": 44.60136255543385,
+        "generatedEaseCm": 1.5000000069709003
+      },
+      "approvedMapping": {
+        "sleeveInstances": 2,
+        "sleeveBandInstances": 2,
+        "backYokeRoleTreatment": "SHELL",
+        "bodyToCapSplitFraction": 0.4999993848114027,
+        "stationEdge": "capLeft",
+        "stationEdgeFraction": 0.9999987696228056,
+        "bodyYokeBackBoundaryFraction": 0.7552637481679617
+      },
+      "layerOrder": {
+        "backYokeSeamGeometryLayer": "GARMENT_SILHOUETTE",
+        "backYokeSeamEdgeIsRepresented": true,
+        "backRoleOrder": [
+          "back",
+          "yoke",
+          "sleeve",
+          "outerStand",
+          "innerStand",
+          "underCollar",
+          "upperCollar",
+          "sleeveBand"
+        ]
+      },
+      "assembled": {
+        "frontResidualCm": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.47 cm apart after rigid placement; review this construction line before release.",
+        "backResidualOrConflict": [
+          {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.39 cm apart after rigid placement; review this construction line before release."
+          },
+          {
+            "code": "INCONSISTENT_STITCH_TRANSFORM",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement."
+          }
+        ],
+        "frontUnderarmEndpointGapCm": 0,
+        "frontShoulderEndpointGapCm": 0.6614418648212078,
+        "backYokeShoulderEndpointGapCm": 1.7383640455031923,
+        "backUnderarmEndpointGapCm": 7.944109290391274e-15,
+        "sleeveCapAtYokeBackPieceBoundaryGapToYokeCm": 0.2667694217697056,
+        "sleeveCapAtYokeBackPieceBoundaryGapToBackCm": 0.2667694217697056,
+        "bodyYokeBackSeamEndpointAgreementCm": 0,
+        "frontBandEndpointErrorCm": 2.864289338439558e-14,
+        "backBandEndpointErrorCm": 2.5618982671915017e-14,
+        "frontSleeveTransform": {
+          "offset": {
+            "x": 20.147040034579977,
+            "y": 23.2425463640785
+          },
+          "rotationDegrees": -84.1185109392702,
+          "mirrorX": false
+        },
+        "backSleeveTransform": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "frontBandTransform": {
+          "offset": {
+            "x": 53.48303809150684,
+            "y": -13.535073351937179
+          },
+          "rotationDegrees": -264.1185109392702,
+          "mirrorX": false
+        },
+        "backBandTransform": {
+          "offset": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "rotationDegrees": -126.17776700012641,
+          "mirrorX": false
+        }
+      }
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 0,
+        "hemTurn": 1
+      },
+      "revision": "s344-diagnostic:woven-shirt-sideVentDepth-min",
+      "directlyEncoded": {
+        "stitchA": [
+          {
+            "piece": "sleeve",
+            "edge": "capLeft"
+          },
+          {
+            "piece": "sleeve",
+            "edge": "capRight"
+          }
+        ],
+        "stitchB": [
+          {
+            "piece": "front",
+            "edge": "armhole"
+          },
+          {
+            "piece": "yoke",
+            "edge": "armholeUpper"
+          },
+          {
+            "piece": "back",
+            "edge": "armholeLower"
+          }
+        ],
+        "declaredEaseCm": {
+          "lo": -1,
+          "hi": 4
+        },
+        "capLeftCm": 23.050681281202372,
+        "capRightCm": 23.05068128120238,
+        "capTotalCm": 46.10136256240475,
+        "frontArmholeCm": 22.30065383946726,
+        "yokeArmholeCm": 11.385138417547896,
+        "backArmholeCm": 10.915570298418702,
+        "bodyTotalCm": 44.60136255543385,
+        "generatedEaseCm": 1.5000000069709003
+      },
+      "approvedMapping": {
+        "sleeveInstances": 2,
+        "sleeveBandInstances": 2,
+        "backYokeRoleTreatment": "SHELL",
+        "bodyToCapSplitFraction": 0.4999993848114027,
+        "stationEdge": "capLeft",
+        "stationEdgeFraction": 0.9999987696228056,
+        "bodyYokeBackBoundaryFraction": 0.7552637481679617
+      },
+      "layerOrder": {
+        "backYokeSeamGeometryLayer": "GARMENT_SILHOUETTE",
+        "backYokeSeamEdgeIsRepresented": true,
+        "backRoleOrder": [
+          "back",
+          "yoke",
+          "sleeve",
+          "outerStand",
+          "innerStand",
+          "underCollar",
+          "upperCollar",
+          "sleeveBand"
+        ]
+      },
+      "assembled": {
+        "frontResidualCm": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.47 cm apart after rigid placement; review this construction line before release.",
+        "backResidualOrConflict": [
+          {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.39 cm apart after rigid placement; review this construction line before release."
+          },
+          {
+            "code": "INCONSISTENT_STITCH_TRANSFORM",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement."
+          }
+        ],
+        "frontUnderarmEndpointGapCm": 0,
+        "frontShoulderEndpointGapCm": 0.6614418648212078,
+        "backYokeShoulderEndpointGapCm": 1.7383640455031923,
+        "backUnderarmEndpointGapCm": 7.944109290391274e-15,
+        "sleeveCapAtYokeBackPieceBoundaryGapToYokeCm": 0.2667694217697056,
+        "sleeveCapAtYokeBackPieceBoundaryGapToBackCm": 0.2667694217697056,
+        "bodyYokeBackSeamEndpointAgreementCm": 0,
+        "frontBandEndpointErrorCm": 2.864289338439558e-14,
+        "backBandEndpointErrorCm": 2.5618982671915017e-14,
+        "frontSleeveTransform": {
+          "offset": {
+            "x": 20.147040034579977,
+            "y": 23.2425463640785
+          },
+          "rotationDegrees": -84.1185109392702,
+          "mirrorX": false
+        },
+        "backSleeveTransform": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "frontBandTransform": {
+          "offset": {
+            "x": 53.48303809150684,
+            "y": -13.535073351937179
+          },
+          "rotationDegrees": -264.1185109392702,
+          "mirrorX": false
+        },
+        "backBandTransform": {
+          "offset": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "rotationDegrees": -126.17776700012641,
+          "mirrorX": false
+        }
+      }
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 8,
+        "hemTurn": 1
+      },
+      "revision": "s344-diagnostic:woven-shirt-sideVentDepth-max",
+      "directlyEncoded": {
+        "stitchA": [
+          {
+            "piece": "sleeve",
+            "edge": "capLeft"
+          },
+          {
+            "piece": "sleeve",
+            "edge": "capRight"
+          }
+        ],
+        "stitchB": [
+          {
+            "piece": "front",
+            "edge": "armhole"
+          },
+          {
+            "piece": "yoke",
+            "edge": "armholeUpper"
+          },
+          {
+            "piece": "back",
+            "edge": "armholeLower"
+          }
+        ],
+        "declaredEaseCm": {
+          "lo": -1,
+          "hi": 4
+        },
+        "capLeftCm": 23.050681281202372,
+        "capRightCm": 23.05068128120238,
+        "capTotalCm": 46.10136256240475,
+        "frontArmholeCm": 22.30065383946726,
+        "yokeArmholeCm": 11.385138417547896,
+        "backArmholeCm": 10.915570298418702,
+        "bodyTotalCm": 44.60136255543385,
+        "generatedEaseCm": 1.5000000069709003
+      },
+      "approvedMapping": {
+        "sleeveInstances": 2,
+        "sleeveBandInstances": 2,
+        "backYokeRoleTreatment": "SHELL",
+        "bodyToCapSplitFraction": 0.4999993848114027,
+        "stationEdge": "capLeft",
+        "stationEdgeFraction": 0.9999987696228056,
+        "bodyYokeBackBoundaryFraction": 0.7552637481679617
+      },
+      "layerOrder": {
+        "backYokeSeamGeometryLayer": "GARMENT_SILHOUETTE",
+        "backYokeSeamEdgeIsRepresented": true,
+        "backRoleOrder": [
+          "back",
+          "yoke",
+          "sleeve",
+          "outerStand",
+          "innerStand",
+          "underCollar",
+          "upperCollar",
+          "sleeveBand"
+        ]
+      },
+      "assembled": {
+        "frontResidualCm": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.47 cm apart after rigid placement; review this construction line before release.",
+        "backResidualOrConflict": [
+          {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.39 cm apart after rigid placement; review this construction line before release."
+          },
+          {
+            "code": "INCONSISTENT_STITCH_TRANSFORM",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement."
+          }
+        ],
+        "frontUnderarmEndpointGapCm": 0,
+        "frontShoulderEndpointGapCm": 0.6614418648212078,
+        "backYokeShoulderEndpointGapCm": 1.7383640455031923,
+        "backUnderarmEndpointGapCm": 7.944109290391274e-15,
+        "sleeveCapAtYokeBackPieceBoundaryGapToYokeCm": 0.2667694217697056,
+        "sleeveCapAtYokeBackPieceBoundaryGapToBackCm": 0.2667694217697056,
+        "bodyYokeBackSeamEndpointAgreementCm": 0,
+        "frontBandEndpointErrorCm": 2.864289338439558e-14,
+        "backBandEndpointErrorCm": 2.5618982671915017e-14,
+        "frontSleeveTransform": {
+          "offset": {
+            "x": 20.147040034579977,
+            "y": 23.2425463640785
+          },
+          "rotationDegrees": -84.1185109392702,
+          "mirrorX": false
+        },
+        "backSleeveTransform": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "frontBandTransform": {
+          "offset": {
+            "x": 53.48303809150684,
+            "y": -13.535073351937179
+          },
+          "rotationDegrees": -264.1185109392702,
+          "mirrorX": false
+        },
+        "backBandTransform": {
+          "offset": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "rotationDegrees": -126.17776700012641,
+          "mirrorX": false
+        }
+      }
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 0.7
+      },
+      "revision": "s344-diagnostic:woven-shirt-hemTurn-min",
+      "directlyEncoded": {
+        "stitchA": [
+          {
+            "piece": "sleeve",
+            "edge": "capLeft"
+          },
+          {
+            "piece": "sleeve",
+            "edge": "capRight"
+          }
+        ],
+        "stitchB": [
+          {
+            "piece": "front",
+            "edge": "armhole"
+          },
+          {
+            "piece": "yoke",
+            "edge": "armholeUpper"
+          },
+          {
+            "piece": "back",
+            "edge": "armholeLower"
+          }
+        ],
+        "declaredEaseCm": {
+          "lo": -1,
+          "hi": 4
+        },
+        "capLeftCm": 23.050681281202372,
+        "capRightCm": 23.05068128120238,
+        "capTotalCm": 46.10136256240475,
+        "frontArmholeCm": 22.30065383946726,
+        "yokeArmholeCm": 11.385138417547896,
+        "backArmholeCm": 10.915570298418702,
+        "bodyTotalCm": 44.60136255543385,
+        "generatedEaseCm": 1.5000000069709003
+      },
+      "approvedMapping": {
+        "sleeveInstances": 2,
+        "sleeveBandInstances": 2,
+        "backYokeRoleTreatment": "SHELL",
+        "bodyToCapSplitFraction": 0.4999993848114027,
+        "stationEdge": "capLeft",
+        "stationEdgeFraction": 0.9999987696228056,
+        "bodyYokeBackBoundaryFraction": 0.7552637481679617
+      },
+      "layerOrder": {
+        "backYokeSeamGeometryLayer": "GARMENT_SILHOUETTE",
+        "backYokeSeamEdgeIsRepresented": true,
+        "backRoleOrder": [
+          "back",
+          "yoke",
+          "sleeve",
+          "outerStand",
+          "innerStand",
+          "underCollar",
+          "upperCollar",
+          "sleeveBand"
+        ]
+      },
+      "assembled": {
+        "frontResidualCm": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.47 cm apart after rigid placement; review this construction line before release.",
+        "backResidualOrConflict": [
+          {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.39 cm apart after rigid placement; review this construction line before release."
+          },
+          {
+            "code": "INCONSISTENT_STITCH_TRANSFORM",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement."
+          }
+        ],
+        "frontUnderarmEndpointGapCm": 0,
+        "frontShoulderEndpointGapCm": 0.6614418648212078,
+        "backYokeShoulderEndpointGapCm": 1.7383640455031923,
+        "backUnderarmEndpointGapCm": 7.944109290391274e-15,
+        "sleeveCapAtYokeBackPieceBoundaryGapToYokeCm": 0.2667694217697056,
+        "sleeveCapAtYokeBackPieceBoundaryGapToBackCm": 0.2667694217697056,
+        "bodyYokeBackSeamEndpointAgreementCm": 0,
+        "frontBandEndpointErrorCm": 2.864289338439558e-14,
+        "backBandEndpointErrorCm": 2.5618982671915017e-14,
+        "frontSleeveTransform": {
+          "offset": {
+            "x": 20.147040034579977,
+            "y": 23.2425463640785
+          },
+          "rotationDegrees": -84.1185109392702,
+          "mirrorX": false
+        },
+        "backSleeveTransform": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "frontBandTransform": {
+          "offset": {
+            "x": 53.48303809150684,
+            "y": -13.535073351937179
+          },
+          "rotationDegrees": -264.1185109392702,
+          "mirrorX": false
+        },
+        "backBandTransform": {
+          "offset": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "rotationDegrees": -126.17776700012641,
+          "mirrorX": false
+        }
+      }
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 2
+      },
+      "revision": "s344-diagnostic:woven-shirt-hemTurn-max",
+      "directlyEncoded": {
+        "stitchA": [
+          {
+            "piece": "sleeve",
+            "edge": "capLeft"
+          },
+          {
+            "piece": "sleeve",
+            "edge": "capRight"
+          }
+        ],
+        "stitchB": [
+          {
+            "piece": "front",
+            "edge": "armhole"
+          },
+          {
+            "piece": "yoke",
+            "edge": "armholeUpper"
+          },
+          {
+            "piece": "back",
+            "edge": "armholeLower"
+          }
+        ],
+        "declaredEaseCm": {
+          "lo": -1,
+          "hi": 4
+        },
+        "capLeftCm": 23.050681281202372,
+        "capRightCm": 23.05068128120238,
+        "capTotalCm": 46.10136256240475,
+        "frontArmholeCm": 22.30065383946726,
+        "yokeArmholeCm": 11.385138417547896,
+        "backArmholeCm": 10.915570298418702,
+        "bodyTotalCm": 44.60136255543385,
+        "generatedEaseCm": 1.5000000069709003
+      },
+      "approvedMapping": {
+        "sleeveInstances": 2,
+        "sleeveBandInstances": 2,
+        "backYokeRoleTreatment": "SHELL",
+        "bodyToCapSplitFraction": 0.4999993848114027,
+        "stationEdge": "capLeft",
+        "stationEdgeFraction": 0.9999987696228056,
+        "bodyYokeBackBoundaryFraction": 0.7552637481679617
+      },
+      "layerOrder": {
+        "backYokeSeamGeometryLayer": "GARMENT_SILHOUETTE",
+        "backYokeSeamEdgeIsRepresented": true,
+        "backRoleOrder": [
+          "back",
+          "yoke",
+          "sleeve",
+          "outerStand",
+          "innerStand",
+          "underCollar",
+          "upperCollar",
+          "sleeveBand"
+        ]
+      },
+      "assembled": {
+        "frontResidualCm": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.47 cm apart after rigid placement; review this construction line before release.",
+        "backResidualOrConflict": [
+          {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.39 cm apart after rigid placement; review this construction line before release."
+          },
+          {
+            "code": "INCONSISTENT_STITCH_TRANSFORM",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement."
+          }
+        ],
+        "frontUnderarmEndpointGapCm": 0,
+        "frontShoulderEndpointGapCm": 0.6614418648212078,
+        "backYokeShoulderEndpointGapCm": 1.7383640455031923,
+        "backUnderarmEndpointGapCm": 7.944109290391274e-15,
+        "sleeveCapAtYokeBackPieceBoundaryGapToYokeCm": 0.2667694217697056,
+        "sleeveCapAtYokeBackPieceBoundaryGapToBackCm": 0.2667694217697056,
+        "bodyYokeBackSeamEndpointAgreementCm": 0,
+        "frontBandEndpointErrorCm": 2.864289338439558e-14,
+        "backBandEndpointErrorCm": 2.5618982671915017e-14,
+        "frontSleeveTransform": {
+          "offset": {
+            "x": 20.147040034579977,
+            "y": 23.2425463640785
+          },
+          "rotationDegrees": -84.1185109392702,
+          "mirrorX": false
+        },
+        "backSleeveTransform": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "frontBandTransform": {
+          "offset": {
+            "x": 53.48303809150684,
+            "y": -13.535073351937179
+          },
+          "rotationDegrees": -264.1185109392702,
+          "mirrorX": false
+        },
+        "backBandTransform": {
+          "offset": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "rotationDegrees": -126.17776700012641,
+          "mirrorX": false
+        }
+      }
+    },
+    {
+      "caseId": "woven-shirt-combined-supported",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 3,
+        "collarLeafDepth": 7,
+        "buttonCount": 6,
+        "buttonSpacing": 6,
+        "frontOverlap": 2,
+        "placketWidth": 4,
+        "yokeDepth": 10,
+        "pocketWidth": 14,
+        "pocketHeight": 15,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revision": "s344-diagnostic:woven-shirt-combined-supported",
+      "directlyEncoded": {
+        "stitchA": [
+          {
+            "piece": "sleeve",
+            "edge": "capLeft"
+          },
+          {
+            "piece": "sleeve",
+            "edge": "capRight"
+          }
+        ],
+        "stitchB": [
+          {
+            "piece": "front",
+            "edge": "armhole"
+          },
+          {
+            "piece": "yoke",
+            "edge": "armholeUpper"
+          },
+          {
+            "piece": "back",
+            "edge": "armholeLower"
+          }
+        ],
+        "declaredEaseCm": {
+          "lo": -1,
+          "hi": 4
+        },
+        "capLeftCm": 23.050681281202372,
+        "capRightCm": 23.05068128120238,
+        "capTotalCm": 46.10136256240475,
+        "frontArmholeCm": 22.30065383946726,
+        "yokeArmholeCm": 11.385138417547896,
+        "backArmholeCm": 10.915570298418702,
+        "bodyTotalCm": 44.60136255543385,
+        "generatedEaseCm": 1.5000000069709003
+      },
+      "approvedMapping": {
+        "sleeveInstances": 2,
+        "sleeveBandInstances": 2,
+        "backYokeRoleTreatment": "SHELL",
+        "bodyToCapSplitFraction": 0.4999993848114027,
+        "stationEdge": "capLeft",
+        "stationEdgeFraction": 0.9999987696228056,
+        "bodyYokeBackBoundaryFraction": 0.7552637481679617
+      },
+      "layerOrder": {
+        "backYokeSeamGeometryLayer": "GARMENT_SILHOUETTE",
+        "backYokeSeamEdgeIsRepresented": true,
+        "backRoleOrder": [
+          "back",
+          "yoke",
+          "sleeve",
+          "outerStand",
+          "innerStand",
+          "underCollar",
+          "upperCollar",
+          "sleeveBand"
+        ]
+      },
+      "assembled": {
+        "frontResidualCm": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.47 cm apart after rigid placement; review this construction line before release.",
+        "backResidualOrConflict": [
+          {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.39 cm apart after rigid placement; review this construction line before release."
+          },
+          {
+            "code": "INCONSISTENT_STITCH_TRANSFORM",
+            "sourceId": "stitch:Woven sleeve-cap ease",
+            "message": "Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement."
+          }
+        ],
+        "frontUnderarmEndpointGapCm": 0,
+        "frontShoulderEndpointGapCm": 0.6614418648212078,
+        "backYokeShoulderEndpointGapCm": 1.7383640455031923,
+        "backUnderarmEndpointGapCm": 7.944109290391274e-15,
+        "sleeveCapAtYokeBackPieceBoundaryGapToYokeCm": 0.2667694217697056,
+        "sleeveCapAtYokeBackPieceBoundaryGapToBackCm": 0.2667694217697056,
+        "bodyYokeBackSeamEndpointAgreementCm": 0,
+        "frontBandEndpointErrorCm": 2.864289338439558e-14,
+        "backBandEndpointErrorCm": 2.5618982671915017e-14,
+        "frontSleeveTransform": {
+          "offset": {
+            "x": 20.147040034579977,
+            "y": 23.2425463640785
+          },
+          "rotationDegrees": -84.1185109392702,
+          "mirrorX": false
+        },
+        "backSleeveTransform": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "frontBandTransform": {
+          "offset": {
+            "x": 53.48303809150684,
+            "y": -13.535073351937179
+          },
+          "rotationDegrees": -264.1185109392702,
+          "mirrorX": false
+        },
+        "backBandTransform": {
+          "offset": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "rotationDegrees": -126.17776700012641,
+          "mirrorX": false
+        }
+      }
+    }
+  ],
+  "visualOverlays": [
+    "woven-shirt-default-front.svg",
+    "woven-shirt-default-back.svg",
+    "woven-shirt-yokeDepth-max-front.svg",
+    "woven-shirt-yokeDepth-max-back.svg"
+  ]
+}
