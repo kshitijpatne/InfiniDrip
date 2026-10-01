@@ -1,8 +1,8 @@
 # InfiniDrip — Project State
 
-_Last updated: S333 is implementing the maintainer-approved Polo sleeve view mapping; all 34 Polo faces remain held pending the existing seam-residual and rendered gates; V02 remains open, 2026-10-01._
+_Last updated: S334 corrected source-encoded Woven view traversal; all 56 Woven and 34 Polo faces remain held; G04 V02 stays open, 2026-10-01._
 
-## EPIC-17 / G04 current handoff — S332 source research exit; V02 remains open
+## EPIC-17 / G04 current handoff — refreshed after Slice 334; V02 remains open
 
 ### Slice 333 — Polo sleeve view mapping (start)
 
@@ -12,7 +12,13 @@ The maintainer approved the S332 view-only map: front `capLeft` + `sideLeft` + l
 
 ### Slice 333 — Polo sleeve view mapping (complete)
 
-S333 is one bounded implementation slice. The focused render/projection suites pass 113/113; changed production modules have 100% statement/branch/function/line coverage; build passes with the existing Vite bundle-size advisory; production Chromium replays all 17 Polo option configurations / 34 front-back requests and withholds every face on the same 0.68 cm `Sleeve-cap ease` residual, above the existing 0.25 cm limit. No pattern/stitch geometry, DXF writer or export baseline changed. `git diff --check` passes. The detailed boundary, evidence paths, risks and elapsed-time buckets are in the S333 packet. No faces accepted; preserve the all-seven acceptance criterion. G04-V02 stays In Progress, V03 Backlog. Next action: S334's independent Woven output gate; no V03 work until V02 is accepted.
+S333 implemented the approved Polo sleeve view mapping, but production Chromium withholds all 34 Polo faces on the 0.68 cm `Sleeve-cap ease` residual versus the 0.25 cm limit. S334 reverses only the Woven front armhole and back yoke-seam view traversals where exact authored endpoint order requires it; production Chromium still withholds all 56 Woven faces across 28 configurations for front colorway contour and back sleeve-cap placement conflicts. No source stitch/cut geometry changed. Integrated status remains 56 accepted / 90 held across 73 configurations. See the current S334 handoff below and packet. Preserve the all-seven acceptance criterion; G04-V02 stays In Progress, V03 Backlog.
+
+### Slice 334 — Woven sleeve placement diagnosis (start)
+
+Started 2026-10-01 14:24 UTC from S333 commit `5d35b3e3e83189f5c60e910b5f3ac684ab7d3a54` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. Highest assigned slice was 333; S334 reserved. S333's commit evidence is present; the board was revision 1049 before S334 and is now revision 1053 after validated start evidence/comment. `npm run control-center:test` passed 33/33 before the S334 board entries. EPIC-17/G04-V02 are In Progress, V01 Done, V03 Backlog. The integrated baseline remains 56 accepted / 90 held across 73 configurations / 146 faces; every Woven face remains held. S334 packet: `docs/research/epic17/G04-V02-WOVEN-SLEEVE-PLACEMENT-S334.md`.
+
+Scope: inspect exact Woven source/topology, generated option configurations, sleeve-cap seam relation and existing S324 mapping; recreate annotated view evidence and diagnose the solved-placement conflict. Implement only a narrow assembly/view-mapping correction justified by the existing maintainer-approved normalized-arclength convention. Preserve source cut/stitch geometry, transforms' residual gate, all complete-face holds, colorway contours, collar/closure and seven-recipe acceptance criteria. Validate all 28 Woven configurations if production behavior changes. A solved sleeve alone cannot release a face; crossing, overlap, layer order, band/fold, POM anchoring and callout readability still gate acceptance. No V03 work until V02 passes.
 
 - **Verified S327 boundary:** Slice 327 landed as `2202b0c6f0f2aaeb24438e7cfbc190656445e121` (`Slice 327: fix Trouser front flat output`) from clean S326 `681aedd8fabad0fa45983053a1c88052a3c8d5f5`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. It accepts the 24 Trouser fronts based on exact stitched waistband boundaries and collision-free same-anchor POM labels; all prior faces remain unchanged. Packet and rendered evidence are in the S327 exit report and linked folders.
 - **S327 start and packet:** started 2026-10-01 05:41:32 UTC at S326 from clean tree, highest slice 326; unique S327 reserved. Packet: `docs/research/epic17/G04-V02-TROUSER-FRONT-COLORWAY-CALLOUT-S327.md`. Scope preserves pattern/stitch graph and addresses only the exact front waistband color contour and measured collision between POM labels sharing one source anchor.
@@ -5694,6 +5700,63 @@ interoperability or production-readiness claim is supported.
 **Next action:** continue one source-backed V02 blocker at a time. Keep both
 Polo and Woven collar views held absent their required local construction
 references; keep Woven held for sleeve cap and closure order. V03 remains gated.
+
+## EPIC-17 / G04 current handoff — refreshed 2026-10-01 after Slice 334
+
+Earlier slice logs preserve their verified boundaries; use this section, the
+latest S334 packet and canonical Control Center board for the active state. EPIC-17 is
+admitted and In Progress. G04-V01 is Done, G04-V02 is In Progress, and G04-V03
+remains Backlog until V02 passes. The integrated evidence baseline remains 73
+configurations / 146 faces / 32 option fields, with 56 accepted and 90 held.
+The 90 held faces are the 56 Woven and 34 Polo faces; do not infer acceptance
+from source overlays or diagnostic placements.
+
+Slice 334 adds source-topology-validated, view-only traversal corrections for
+Woven sleeve placement: reverse `front.armhole` against `sleeve.capLeft`, and
+reverse the back `yokeSeam` against the geometrically reversed yoke seam. The
+stitch graph, ease, pattern coordinates and cut geometry remain unchanged. Its
+production replay covered all 28 Woven configurations / 56 front/back requests;
+0 SVGs emitted, 56 remain held, 0 browser errors. Front output reports
+unclosed colorway contours; back output reports Woven sleeve-cap placement
+conflict. The 28-case source assembly matrix retains 55 endpoint residuals
+(0.28–0.52 cm) and 28 inconsistent-transform diagnostics. Default front/back
+holds and the actual source topology overlay were visually inspected. The
+views cannot pass joins, crossings, overlap, POM or complete-output readability
+until the conflicts are resolved. Full findings and evidence are in
+`docs/research/epic17/G04-V02-WOVEN-SLEEVE-PLACEMENT-S334.md` and
+`docs/research/epic17/S334-woven-sleeve/`.
+
+Verification: focused projection/assembly/live tests pass 71/71, with 100%
+statement, branch, function and line coverage for
+`src/render/technical-flat-projection.ts`; production build passes with the
+existing chunk-size advisory; protected export byte identities pass 9/9;
+Control Center tests pass 33/33; and `git diff --check` passes. Board revision
+1075 links S334 exit, diagnostics, browser, rendered, coverage and build
+evidence to G04-V02, the EPIC-17 summary card and Epic record through validated
+commands; the exit comment is on G04-V02. The full
+repository suite/global coverage and final integrated output/build gates remain
+reserved for the settled Epic/PR candidate.
+
+MQF-004–007, MQF-011, MQF-012 and MQF-015 were considered against the held
+rendered output. They remain **To be reviewed** at the applicable G04/G05/V03
+output exits because this slice produced no releasable garment face. Preserve
+the findings document's post-G17 deferrals and do not expand scope.
+
+**Re-estimate from S334:** V02 needs at least three more boundaries: resolve
+Woven visible-contour and assembly blockers, resolve the Polo sleeve blocker,
+then rerun and review the settled 73-configuration/146-face integrated gate.
+Unresolved topology/output conflicts leave V02's upper bound unpriced. After
+all-seven V02 acceptance, V03 still requires at least 5–10 slices for rights
+review, a qualified receiver/profile, fixtures, round-trip evidence and output
+review. Final integration, PR/merge, ancestry/deployment closeout adds 3–5
+slices. Conditional minimum from this boundary is therefore at least 11
+additional slices; this is not a guaranteed completion ceiling.
+
+**Next action:** start S335 from refreshed Git and board state; investigate
+Woven front visible-contour closure against the exact current role topology and
+already-approved S321 decisions. Keep the all-56 Woven holds until complete
+front/back production render, joins, crossing/overlap, POM and readability gates
+pass. Do not start V03 or claim physical/factory validation.
 
 ### Slice 299 start — Woven placket instance and overlap source review
 

@@ -245,7 +245,15 @@ only through an explicitly admitted, linked Epic packet.
   faces because `Sleeve-cap ease` remains 0.68 cm against the 0.25 cm gate.
   Screenshots, per-face issue records and replay are in
   `docs/research/epic17/S333-polo-browser/`; do not release those views or
-  infer the sleeve POM anchors from the view convention.
+  infer the sleeve POM anchors from the view convention. S334's admitted
+  Woven sleeve-placement diagnosis, exact source/view scope, 28-configuration
+  gates and hold boundary are in
+  `docs/research/epic17/G04-V02-WOVEN-SLEEVE-PLACEMENT-S334.md`; current
+  source-topology overlay, 28-option diagnostics, production Chromium matrix and
+  reviewed hold screenshots are in `docs/research/epic17/S334-woven-sleeve/`.
+  The two source-order view corrections are implemented and covered, but every
+  Woven face remains held (0/56 emitted); continue from the next action in
+  `PROJECT-STATE.md` and the validated board.
 - `docs/research/epic17/G04-V02-PROJECTION-MAPPING-S277.md` — Slice 277's
   current projection-mapping contract boundary, source-reference rules,
   fail-closed semantics, and focused acceptance gates.

@@ -136,6 +136,16 @@ and cannot establish joins, crossings, or final readability. Keep both faces
 held until the exact conflicts are resolved and complete rendered output
 passes review.
 
+Slice 334 corrects two Woven view-traversal correspondences using the exact
+authored interface order: the front `armhole` is traversed in reverse against
+`sleeve.capLeft`, and the back `yokeSeam` is traversed in reverse against the
+coincident, oppositely directed yoke edge. The revision-bound projection map
+validates each exception against the current stitch references and source
+endpoints. This changes rigid-placement correspondence only; source stitches,
+ease, piece coordinates and cut geometry are unchanged. It does not resolve
+the remaining sleeve-cap placement conflicts across the option matrix or the
+unclosed front colorway contours, so all 56 Woven faces remain held.
+
 S306 adds a narrow assembly contract for the Trouser's single closed
 waistband source role. The exact ordered zero-ease waist interface yields
 front/back edge intervals and separate rigid placements relative to the sewn

@@ -120,6 +120,25 @@ describe("assembleTechnicalFlatRoles", () => {
     expect(assembleTechnicalFlatRoles("tee", tee, "FRONT_FLAT", missingFaceMap).transforms.sleeve).toBeDefined();
   });
 
+  it("maps Woven sleeve cap halves to the source armholes and preserves the held back ease conflict", () => {
+    const wovenRecipe = GARMENTS.find((recipe) => recipe.name === "woven-shirt")!;
+    const woven = draft(wovenRecipe);
+    const projection = createG04TechnicalFlatProjectionMap("woven-shirt", woven, "woven-sleeve-placement")!;
+    const frontAssembly = assembleTechnicalFlatRoles("woven-shirt", woven, "FRONT_FLAT", projection);
+    const sleeve = woven.roles.sleeve!;
+    const front = woven.roles.front!;
+    const capLeft = sleeve.edges.find((edge) => edge.name === "capLeft")!;
+    const frontArmhole = front.edges.find((edge) => edge.name === "armhole")!;
+    const mappedCapStart = transformFlatPoint(edgePoint(capLeft, 0), { ...frontAssembly.transforms.sleeve!, mirrorX: false });
+    const frontUnderarm = transformFlatPoint(edgePoint(frontArmhole, 1), { ...frontAssembly.transforms.front!, mirrorX: false });
+    const frontShoulder = transformFlatPoint(edgePoint(frontArmhole, 0), { ...frontAssembly.transforms.front!, mirrorX: false });
+    expect(Math.hypot(mappedCapStart.x - frontUnderarm.x, mappedCapStart.y - frontUnderarm.y)).toBeLessThan(0.4);
+    expect(Math.hypot(mappedCapStart.x - frontShoulder.x, mappedCapStart.y - frontShoulder.y)).toBeGreaterThan(20);
+
+    const backAssembly = assembleTechnicalFlatRoles("woven-shirt", woven, "BACK_FLAT", projection);
+    expect(backAssembly.issues.some((issue) => issue.sourceId === "stitch:Woven sleeve-cap ease")).toBe(true);
+  });
+
   it("reflects the selected Tee back sleeve locally so its source side projects outside the back panel", () => {
     const tee = draft(TEE);
     const projection = createG04TechnicalFlatProjectionMap("tee", tee, "tee-back-endpoint-map")!;

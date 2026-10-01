@@ -92,9 +92,9 @@ export interface FlatProjectionViewBoundary {
 /** Face-local traversal correction for a sewn interface. This affects only
  * rigid placement correspondence; the drafted stitch references stay intact. */
 export interface FlatProjectionReversedStitchEdge {
-  readonly stitchLabel: "Sleeve-cap ease";
-  readonly pieceId: "front";
-  readonly edgeId: "armhole";
+  readonly stitchLabel: "Sleeve-cap ease" | "Woven sleeve-cap ease" | "Yoke seam (yoke ↔ back lower)";
+  readonly pieceId: "front" | "back";
+  readonly edgeId: "armhole" | "yokeSeam";
   readonly source: "SOURCE_ENDPOINT_ORDER";
 }
 
@@ -347,6 +347,12 @@ function wovenSleeveProjection(kind: TechnicalFlatViewKind, block: Block, treatm
       : [...(boundary.edgeId === "capRight" ? [{ edgeId: "capLeft",
         reason: "The complementary Woven sleeve-cap prefix belongs to FRONT_FLAT." }] : []),
       { edgeId: "sideLeft", reason: "The front-facing Woven sleeve side belongs to FRONT_FLAT." }],
+    // Source endpoint topology shows the front underarm is the end of the
+    // authored front armhole, while the sleeve's front cap begins at
+    // capLeft.start. Reverse that interface only in its view correspondence;
+    // do not rewrite the source stitch graph.
+    reversedStitchEdges: [{ stitchLabel: "Woven sleeve-cap ease", pieceId: "front", edgeId: "armhole",
+      source: "SOURCE_ENDPOINT_ORDER" }],
     viewPairReflection: { axisRoleId: kind === "FRONT_FLAT" ? "front" : "back", edgeId: yokeAxis,
       axis: "ASSEMBLED_BODY_CENTER", source: "WOVEN_SHIRT_PHYSICAL_ROLES",
       decisionId: "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR", quantity: 2 },
@@ -724,6 +730,10 @@ export function createG04TechnicalFlatProjectionMap(
           ...(pairAxisEdge ? { physicalPairReflection: {
             edgeId: pairAxisEdge.name, axis: "LOCAL_Y" as const, source: "WOVEN_SHIRT_PHYSICAL_ROLES" as const, quantity: 2 as const,
           } } : {}),
+          ...(recipeId === "woven-shirt" && face.kind === "BACK_FLAT" && role.roleId === "back" ? {
+            reversedStitchEdges: [{ stitchLabel: "Yoke seam (yoke ↔ back lower)" as const,
+              pieceId: "back" as const, edgeId: "yokeSeam" as const, source: "SOURCE_ENDPOINT_ORDER" as const }],
+          } : {}),
           ...(recipeId === "woven-shirt" && role.roleId === "buttonholePlacket"
             ? { oppositeSideReflection: wovenPlacketSideProjection(block) } : {}),
         };
@@ -1207,7 +1217,7 @@ function validateRole(
   const reversedStitchEdges = mappingRole.reversedStitchEdges;
   const requiresSleeveEndpointOrder = (recipeId === "tee" || recipeId === "fitted" || recipeId === "polo")
     && faceKind === "FRONT_FLAT" && roleId === "sleeve";
-  if (reversedStitchEdges !== undefined || requiresSleeveEndpointOrder) {
+  if ((reversedStitchEdges !== undefined && recipeId !== "woven-shirt") || requiresSleeveEndpointOrder) {
     const entries = Array.isArray(reversedStitchEdges) ? reversedStitchEdges : [];
     const matches = block.stitches.filter((stitch) => stitch.label === "Sleeve-cap ease");
     const stitch = matches[0];
@@ -1229,6 +1239,60 @@ function validateRole(
     if (!requiresSleeveEndpointOrder || !topologyMatches || !exactRule) {
       issues.push({ code: "INVALID_STITCH_ENDPOINT_ORIENTATION", sourceId,
         message: "The reversed view traversal requires the exact front armhole and sleeve-cap source endpoint order." });
+    }
+  }
+  const requiresWovenSleeveOrder = recipeId === "woven-shirt" && roleId === "sleeve";
+  const requiresWovenBackYokeOrder = recipeId === "woven-shirt" && faceKind === "BACK_FLAT" && roleId === "back";
+  if ((reversedStitchEdges !== undefined && recipeId === "woven-shirt") || requiresWovenSleeveOrder) {
+    const entries = Array.isArray(reversedStitchEdges) ? reversedStitchEdges : [];
+    const sleeveMatches = block.stitches.filter((stitch) => stitch.label === "Woven sleeve-cap ease");
+    const sleeveStitch = sleeveMatches[0];
+    const sleeve = block.roles.sleeve;
+    const front = block.roles.front;
+    const yoke = block.roles.yoke;
+    const back = block.roles.back;
+    const capLeft = sleeve?.edges.find((edge) => edge.name === "capLeft");
+    const capRight = sleeve?.edges.find((edge) => edge.name === "capRight");
+    const sideLeft = sleeve?.edges.find((edge) => edge.name === "sideLeft");
+    const sideRight = sleeve?.edges.find((edge) => edge.name === "sideRight");
+    const frontArmhole = front?.edges.find((edge) => edge.name === "armhole");
+    const frontSide = front?.edges.find((edge) => edge.name === "sideUpper");
+    const yokeArmhole = yoke?.edges.find((edge) => edge.name === "armholeUpper");
+    const backArmhole = back?.edges.find((edge) => edge.name === "armholeLower");
+    const expectedRefs = (refs: readonly InterfaceRef[], expected: readonly [string, string][]) =>
+      refs.length === expected.length && refs.every((ref, index) => "edge" in ref
+        && ref.piece === expected[index]?.[0] && ref.edge === expected[index]?.[1] && !ref.reversed);
+    const sleeveTopologyMatches = sleeveMatches.length === 1 && !!sleeveStitch
+      && sleeveStitch.ease?.lo === -1 && sleeveStitch.ease.hi === 4
+      && expectedRefs(sleeveStitch.a.edges, [["sleeve", "capLeft"], ["sleeve", "capRight"]])
+      && expectedRefs(sleeveStitch.b.edges, [["front", "armhole"], ["yoke", "armholeUpper"], ["back", "armholeLower"]])
+      && capLeft?.kind === "curve" && capRight?.kind === "curve" && sideLeft?.kind === "line" && sideRight?.kind === "line"
+      && frontArmhole?.kind === "curve" && frontSide?.kind === "line" && yokeArmhole?.kind === "curve" && backArmhole?.kind === "curve"
+      && samePoint(capLeft.curve.start, sideLeft.end) && samePoint(capLeft.curve.end, capRight.curve.start)
+      && samePoint(capRight.curve.end, sideRight.start)
+      && samePoint(frontArmhole.curve.end, frontSide.start)
+      && samePoint(yokeArmhole.curve.end, backArmhole.curve.start);
+    const yokeMatches = block.stitches.filter((stitch) => stitch.label === "Yoke seam (yoke ↔ back lower)");
+    const yokeStitch = yokeMatches[0];
+    const yokeEdge = yoke?.edges.find((edge) => edge.name === "yokeSeam");
+    const backYokeEdge = back?.edges.find((edge) => edge.name === "yokeSeam");
+    const yokeTopologyMatches = yokeMatches.length === 1 && !!yokeStitch && yokeStitch.ease === undefined
+      && expectedRefs(yokeStitch.a.edges, [["yoke", "yokeSeam"]])
+      && expectedRefs(yokeStitch.b.edges, [["back", "yokeSeam"]])
+      && yokeEdge?.kind === "line" && backYokeEdge?.kind === "line"
+      && samePoint(yokeEdge.start, backYokeEdge.end) && samePoint(yokeEdge.end, backYokeEdge.start);
+    const exactSleeveRule = entries.length === 1 && isRecord(entries[0])
+      && entries[0].stitchLabel === "Woven sleeve-cap ease" && entries[0].pieceId === "front"
+      && entries[0].edgeId === "armhole" && entries[0].source === "SOURCE_ENDPOINT_ORDER";
+    const exactYokeRule = entries.length === 1 && isRecord(entries[0])
+      && entries[0].stitchLabel === "Yoke seam (yoke ↔ back lower)" && entries[0].pieceId === "back"
+      && entries[0].edgeId === "yokeSeam" && entries[0].source === "SOURCE_ENDPOINT_ORDER";
+    const validSleeve = !requiresWovenSleeveOrder || (sleeveTopologyMatches && exactSleeveRule);
+    const validYoke = !requiresWovenBackYokeOrder || (yokeTopologyMatches && exactYokeRule);
+    const noUnexpectedReversal = (requiresWovenSleeveOrder || requiresWovenBackYokeOrder) || entries.length === 0;
+    if (!validSleeve || !validYoke || !noUnexpectedReversal) {
+      issues.push({ code: "INVALID_STITCH_ENDPOINT_ORIENTATION", sourceId,
+        message: "Woven sewn-edge traversal requires exact source endpoint ordering for sleeve-cap and yoke-seam placement." });
     }
   }
   const localYReflection = mappingRole.localYReflection;

@@ -100,6 +100,18 @@ describe("validateTechnicalFlatProjectionMap", () => {
     }
   });
 
+  it("rejects source-edge traversal overrides outside the Woven source-backed rules", () => {
+    const { block } = draft("tee");
+    const map = createG04TechnicalFlatProjectionMap("tee", block, REVISION)!;
+    const unexpected = structuredClone(map) as unknown as {
+      faces: Array<{ kind: string; roles: Array<{ roleId: string; reversedStitchEdges?: unknown[] }> }>;
+    };
+    unexpected.faces.find((face) => face.kind === "FRONT_FLAT")!.roles.find((role) => role.roleId === "front")!
+      .reversedStitchEdges = [{ stitchLabel: "Unapproved", pieceId: "front", edgeId: "armhole", source: "SOURCE_ENDPOINT_ORDER" }];
+    expect(validateTechnicalFlatProjectionMap("tee", block, REVISION, unexpected)
+      .some((issue) => issue.code === "INVALID_STITCH_ENDPOINT_ORIENTATION")).toBe(true);
+  });
+
   it("maps the Polo stand at its encoded junction and transfers both collar layers onto exact cubic arclength", () => {
     const { block } = draft("polo");
     const map = createG04TechnicalFlatProjectionMap("polo", block, REVISION)!;
@@ -945,6 +957,13 @@ describe("validateTechnicalFlatProjectionMap", () => {
       decisionId: "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR", edgeId: "centerFront" });
     expect(backSleeve.viewPairReflection).toMatchObject({ quantity: 2, source: "WOVEN_SHIRT_PHYSICAL_ROLES",
       decisionId: "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR", edgeId: "centerBack" });
+    for (const sleeve of [frontSleeve, backSleeve]) expect(sleeve.reversedStitchEdges).toEqual([{
+      stitchLabel: "Woven sleeve-cap ease", pieceId: "front", edgeId: "armhole", source: "SOURCE_ENDPOINT_ORDER",
+    }]);
+    const backBody = back.roles.find((role) => role.roleId === "back")!;
+    expect(backBody.reversedStitchEdges).toEqual([{
+      stitchLabel: "Yoke seam (yoke ↔ back lower)", pieceId: "back", edgeId: "yokeSeam", source: "SOURCE_ENDPOINT_ORDER",
+    }]);
     expect(frontSleeve.viewBoundaries).toBeUndefined();
     expect(frontSleeve.faceExcludedEdges?.some((entry) => entry.edgeId === "sideRight")).toBe(true);
     expect(backSleeve.faceExcludedEdges?.some((entry) => entry.edgeId === "sideLeft")).toBe(true);
@@ -967,6 +986,21 @@ describe("validateTechnicalFlatProjectionMap", () => {
         control1: { x: edge.curve.control1.x + 100, y: edge.curve.control1.y } } } : edge) } } };
     const capRightMap = createG04TechnicalFlatProjectionMap("woven-shirt", stretched, REVISION)!;
     expect(validateTechnicalFlatProjectionMap("woven-shirt", stretched, REVISION, capRightMap)).toEqual([]);
+    const wrongTraversal = structuredClone(capRightMap) as unknown as {
+      faces: Array<{ kind: string; roles: Array<{ roleId: string; reversedStitchEdges?: unknown[] }> }>;
+    };
+    for (const face of wrongTraversal.faces) face.roles.find((role) => role.roleId === "sleeve")!.reversedStitchEdges = [];
+    wrongTraversal.faces.find((face) => face.kind === "BACK_FLAT")!.roles
+      .find((role) => role.roleId === "back")!.reversedStitchEdges = [];
+    expect(validateTechnicalFlatProjectionMap("woven-shirt", stretched, REVISION, wrongTraversal)
+      .some((issue) => issue.code === "INVALID_STITCH_ENDPOINT_ORIENTATION")).toBe(true);
+    const unexpectedTraversal = structuredClone(capRightMap) as unknown as {
+      faces: Array<{ kind: string; roles: Array<{ roleId: string; reversedStitchEdges?: unknown[] }> }>;
+    };
+    unexpectedTraversal.faces.find((face) => face.kind === "FRONT_FLAT")!.roles.find((role) => role.roleId === "front")!
+      .reversedStitchEdges = [{ stitchLabel: "Unapproved", pieceId: "front", edgeId: "armhole", source: "SOURCE_ENDPOINT_ORDER" }];
+    expect(validateTechnicalFlatProjectionMap("woven-shirt", stretched, REVISION, unexpectedTraversal)
+      .some((issue) => issue.code === "INVALID_STITCH_ENDPOINT_ORIENTATION")).toBe(true);
     for (const face of capRightMap.faces) {
       const sleeve = face.roles.find((role) => role.roleId === "sleeve")!;
       expect(sleeve.runs.flatMap((run) => [run.from, run.to])

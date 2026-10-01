@@ -102,8 +102,17 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
       assert.match(card.description, /S333 implements the approved exact Polo sleeve view map/);
       assert.match(card.description, /17 supported options; production replay withheld all 34 faces/);
       assert.match(card.description, /0\.68 cm.*0\.25 cm/);
+      assert.match(epic.description, /S334 corrects source-encoded Woven view traversal only/);
+      assert.match(card.description, /S334 corrects source-encoded Woven view traversal only/);
+      assert.match(card.description, /Production replay: 0\/56 Woven faces emitted/);
       for (const evidenceId of ["E-G04-S332-START", "E-G04-S332-EXIT", "E-G04-S332-OPTIONS", "E-G04-S332-RENDERED",
-        "E-G04-S333-START", "E-G04-S333-EXIT", "E-G04-S333-BROWSER", "E-G04-S333-RENDERED", "E-G04-S333-COVERAGE"]) {
+        "E-G04-S333-START", "E-G04-S333-EXIT", "E-G04-S333-BROWSER", "E-G04-S333-RENDERED", "E-G04-S333-COVERAGE",
+        "E-G04-S333-COMMIT"]) {
+        assert.ok(card.evidenceRefs.includes(evidenceId));
+        assert.ok(epic.evidenceRefs.includes(evidenceId));
+      }
+      for (const evidenceId of ["E-G04-S334-START", "E-G04-S334-EXIT", "E-G04-S334-DIAGNOSTIC", "E-G04-S334-BROWSER",
+        "E-G04-S334-RENDERED", "E-G04-S334-COVERAGE", "E-G04-S334-BUILD"]) {
         assert.ok(card.evidenceRefs.includes(evidenceId));
         assert.ok(epic.evidenceRefs.includes(evidenceId));
       }
@@ -226,6 +235,7 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
       assert.ok(card.comments.some((comment) => /Slice 318 exit: source-backed colorway areas are visibly rasterized at one 16% tint.*13 SVGs and 27 fills.*V02 remains In Progress; V03 remains Backlog/.test(comment.text)));
       assert.deepEqual(card.dependencies, ["EPIC-14", "EPIC-15", "EPIC-16"]);
       const admittedWork = board.workItems.filter((entry) => entry.epicId === id && entry.id !== id);
+      assert.ok(admittedWork.find((entry) => entry.id === "G04-V02")?.comments.some((comment) => /S334 verified exit: exact Woven source-edge traversal corrections pass focused 100% coverage and build/.test(comment.text)));
       assert.deepEqual(admittedWork.map((entry) => entry.id), ["G04-V01", "G04-V02", "G04-V03"]);
       assert.deepEqual(admittedWork.map((entry) => entry.status), ["Done", "In Progress", "Backlog"]);
       assert.match(admittedWork[1].description, /S331 verified: Polo outerStand, upperCollar and underCollar color areas use revision-bound approved fill-only closures/);
