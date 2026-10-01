@@ -1,0 +1,12 @@
+Slice 326 strict initial production replay result
+
+Command:
+  $env:G04_OPTION_MATRIX_OUTPUT='docs/research/epic17/S326-trouser-browser'; node ops/web/verify-g04-s274-option-matrix.mjs --trouser-only
+
+The replay stopped on `trouser-default-front` after capturing the held front screenshot. Exact output issues:
+
+COLORWAY_CONTOUR_UNCLOSED · live-flat:trouser:FRONT_FLAT:waistband:waistband:frontLeft:waist:top: The waistband colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.
+
+TEXT_COLLISION · flat:trouser:FRONT_FLAT:callout:hip-depth-body-reference: Text “Hip depth (body reference): 20.0 cm (±0.5 cm)” has no collision-free measured position near its source; reposition the annotation before review.
+
+The strict harness stops on the callout readability gate. The follow-up `--capture-held` evidence run completed all 24 configurations / 48 faces while preserving both front holds in the matrix and screenshots; this failure was not treated as an acceptance result.

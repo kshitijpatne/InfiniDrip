@@ -65,6 +65,17 @@ The dimensions use the already-authored 3.5 cm shield width and live `flyLength`
 
 If this construction/layer choice is not approved, keep all 24 Trouser fronts held and provide a different construction decision or retain the hold; no pattern or stitch change is made by S325.
 
+## Superseding maintainer decision
+
+On 2026-10-01 the maintainer approved the exact proposal above: add the
+3.5 cm × live `flyLength` `flyUnderlap`, route the right fly edge through it
+to the distinct shield-right edge, keep the left fly/shield-left relation, and
+place the underlap behind the front-left exterior closure layer. The approval
+did not establish short-edge finishing and did not accept any front face.
+Slice 326 implements the approved source repair and records the protected
+export boundary, all-24 topology check, rendered holds and next blockers in
+`docs/research/epic17/G04-V02-TROUSER-FLY-UNDERLAP-IMPLEMENTATION-S326.md`.
+
 ## Slice exit
 
 - **Result:** a concrete, separately approval-gated fly-underlap source proposal is recorded above. No pattern or stitch graph was changed. All 24 Trouser front configurations remain held; the 24 back views retain their existing accepted status.

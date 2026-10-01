@@ -194,6 +194,11 @@ only through an explicitly admitted, linked Epic packet.
   24-configuration feasibility evidence are in
   `docs/research/epic17/G04-V02-TROUSER-FLY-SOURCE-REPAIR-PROPOSAL-S325.md` and
   `docs/research/epic17/S325-trouser-source-proposal/`.
+  The maintainer approved the exact proposal; S326's bounded implementation,
+  export-identity boundary and all-24 option/render gates are in
+  `docs/research/epic17/G04-V02-TROUSER-FLY-UNDERLAP-IMPLEMENTATION-S326.md`.
+  Current production browser and source-topology evidence is in
+  `docs/research/epic17/S326-trouser-browser/`.
   Use `PROJECT-STATE.md` and the validated board for live status.
 - `docs/research/epic17/G04-V02-PROJECTION-MAPPING-S277.md` — Slice 277's
   current projection-mapping contract boundary, source-reference rules,

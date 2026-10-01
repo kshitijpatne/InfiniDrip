@@ -9,6 +9,8 @@ export type FlatRoleTreatment = "SHELL" | "VISIBLE_OVERLAY" | "INTERIOR_HIDDEN";
 export interface FlatRoleMapping {
   readonly roleId: string;
   readonly treatment: FlatRoleTreatment;
+  /** Optional foreground role that this mapped source role sits behind. */
+  readonly behindRoleId?: string;
 }
 
 export interface FlatFaceMapping {
@@ -25,19 +27,26 @@ export interface TechnicalFlatRecipeMapping {
   readonly backPomAnchorRole?: string;
 }
 
-const face = (kind: TechnicalFlatViewKind, roles: readonly (readonly [string, FlatRoleTreatment])[]): FlatFaceMapping => ({
+type FaceRoleInput = readonly [string, FlatRoleTreatment] | FlatRoleMapping;
+
+const face = (kind: TechnicalFlatViewKind, roles: readonly FaceRoleInput[]): FlatFaceMapping => ({
   kind,
-  roles: roles.map(([roleId, treatment]) => ({ roleId, treatment })),
+  roles: roles.map((role) => "roleId" in role
+    ? role
+    : { roleId: role[0], treatment: role[1] }),
 });
 
 const shell = (role: string): readonly [string, FlatRoleTreatment] => [role, "SHELL"];
 const overlay = (role: string): readonly [string, FlatRoleTreatment] => [role, "VISIBLE_OVERLAY"];
 const interior = (role: string): readonly [string, FlatRoleTreatment] => [role, "INTERIOR_HIDDEN"];
+const interiorBehind = (role: string, behindRoleId: string): FlatRoleMapping => ({
+  roleId: role, treatment: "INTERIOR_HIDDEN", behindRoleId,
+});
 
 const makeMapping = (
   recipeId: string,
-  front: readonly (readonly [string, FlatRoleTreatment])[],
-  back: readonly (readonly [string, FlatRoleTreatment])[],
+  front: readonly FaceRoleInput[],
+  back: readonly FaceRoleInput[],
   pomAnchorRole: string,
   backPomAnchorRole?: string,
 ): TechnicalFlatRecipeMapping => ({
@@ -64,8 +73,8 @@ export const G04_TECHNICAL_FLAT_MAPPINGS: Readonly<Record<string, TechnicalFlatR
     "front"),
   skirt: makeMapping("skirt", [shell("front"), overlay("waistband")], [shell("back"), overlay("waistband")], "front", "back"),
   trouser: makeMapping("trouser",
-    [shell("frontLeft"), shell("frontRight"), overlay("waistband"), interior("flyShield"), interior("pocketBagLeft"), interior("pocketBagRight")],
-    [shell("backLeft"), shell("backRight"), overlay("waistband"), interior("flyShield"), interior("pocketBagLeft"), interior("pocketBagRight")],
+    [shell("frontLeft"), shell("frontRight"), overlay("waistband"), interiorBehind("flyUnderlap", "frontLeft"), interior("flyShield"), interior("pocketBagLeft"), interior("pocketBagRight")],
+    [shell("backLeft"), shell("backRight"), overlay("waistband"), interior("flyUnderlap"), interior("flyShield"), interior("pocketBagLeft"), interior("pocketBagRight")],
     "frontLeft", "backLeft"),
 };
 
@@ -90,6 +99,7 @@ export type FlatMappingIssueCode =
   | "MISSING_MAPPED_ROLE"
   | "UNMAPPED_BLOCK_ROLE"
   | "DUPLICATE_FACE_ROLE"
+  | "INVALID_LAYER_ORDER_REFERENCE"
   | "MISSING_STITCH_ROLE"
   | "MISSING_STITCH_EDGE"
   | "MISSING_STITCH_MARK"
@@ -149,6 +159,11 @@ export function validateFlatRoleMapping(mapping: TechnicalFlatRecipeMapping, blo
       mappedRoles.add(role.roleId);
       if (!block.roles[role.roleId]) {
         issues.push({ code: "MISSING_MAPPED_ROLE", sourceId: role.roleId, message: `Mapped role “${role.roleId}” is absent from the drafted block.` });
+      }
+      if (role.behindRoleId && (!faceRoles.has(role.behindRoleId)
+        || !faceMapping.roles.some((candidate) => candidate.roleId === role.behindRoleId && candidate.treatment !== "INTERIOR_HIDDEN"))) {
+        issues.push({ code: "INVALID_LAYER_ORDER_REFERENCE", sourceId: `${faceMapping.kind}:${role.roleId}`,
+          message: `Mapped role “${role.roleId}” must name an earlier visible role in ${faceMapping.kind} for its behind-layer relation.` });
       }
     }
   }

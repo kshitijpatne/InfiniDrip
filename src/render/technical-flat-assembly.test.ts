@@ -34,6 +34,54 @@ describe("assembleTechnicalFlatRoles", () => {
     }
   });
 
+  it("keeps the approved Trouser underlap chain, upright fronts, and waist fragments across all option fixtures", () => {
+    const baseOptions = defaultGarmentOptions(TROUSER.options ?? []);
+    const fixtures: Array<{ readonly name: string; readonly options: Record<string, number> }> = [
+      { name: "default", options: baseOptions },
+      ...TROUSER_OPTION_DEFINITIONS.flatMap((definition) => [
+        { name: `${definition.id}-min`, options: { ...baseOptions, [definition.id]: definition.min } },
+        { name: `${definition.id}-max`, options: { ...baseOptions, [definition.id]: definition.max } },
+      ]),
+      { name: "combined-supported", options: {
+        ...baseOptions, frontRiseEase: 2, backRiseEase: 11, thighEase: 10, kneeEase: 7, legOpening: 48,
+      } },
+    ];
+    expect(fixtures).toHaveLength(24);
+
+    for (const fixture of fixtures) {
+      const source = TROUSER.draft(STANDARD_M, fixture.options);
+      const front = assembleTechnicalFlatRoles("trouser", source, "FRONT_FLAT");
+      const back = assembleTechnicalFlatRoles("trouser", source, "BACK_FLAT");
+      expect(front.issues, `${fixture.name}.front`).toEqual([]);
+      expect(back.issues, `${fixture.name}.back`).toEqual([]);
+      for (const roleId of ["frontLeft", "frontRight"]) {
+        const transform = front.transforms[roleId]!;
+        expect(transform.offset.x, `${fixture.name}.${roleId}.x`).toBeCloseTo(0, 12);
+        expect(transform.offset.y, `${fixture.name}.${roleId}.y`).toBeCloseTo(0, 12);
+        expect(transform.rotationDegrees, `${fixture.name}.${roleId}.rotation`).toBeCloseTo(0, 12);
+      }
+      const leftCenter = source.roles.frontLeft!.edges.find((edge) => edge.name === "centerFront")!;
+      const rightCenter = source.roles.frontRight!.edges.find((edge) => edge.name === "centerFront")!;
+      for (const fraction of [0, 1]) {
+        const leftPoint = transformFlatPoint(edgePoint(leftCenter, fraction), { ...front.transforms.frontLeft!, mirrorX: false });
+        const rightPoint = transformFlatPoint(edgePoint(rightCenter, fraction), { ...front.transforms.frontRight!, mirrorX: false });
+        expect(Math.hypot(leftPoint.x - rightPoint.x, leftPoint.y - rightPoint.y), `${fixture.name}.centerFront residual`)
+          .toBeLessThan(1e-10);
+      }
+      expect(front.sourceFragments.map((fragment) => [fragment.attachedRoleId, fragment.attachedEdgeId]))
+        .toEqual([["frontLeft", "waist"], ["frontRight", "waist"]]);
+      expect(front.joinedStitchLabels).toContain("Fly underlap ↔ shield");
+      expect(front.joinedStitchLabels).toContain("Right front fly ↔ underlap");
+      expect(front.joinedStitchLabels).toContain("Left front fly ↔ shield");
+      expect(source.roles.flyUnderlap?.edges.map((edge) => edge.name))
+        .toEqual(["top", "frontEdge", "bottom", "shieldEdge"]);
+      expect(source.stitches.find((stitch) => stitch.label === "Right front fly ↔ underlap")?.b.edges)
+        .toEqual([{ piece: "flyUnderlap", edge: "frontEdge" }]);
+      expect(source.stitches.find((stitch) => stitch.label === "Fly underlap ↔ shield")?.a.edges)
+        .toEqual([{ piece: "flyUnderlap", edge: "shieldEdge" }]);
+    }
+  });
+
   it("solves sleeve and waistband placements from face-specific intervals of multi-edge stitches", () => {
     const tee = draft(TEE);
     expect(assembleTechnicalFlatRoles("tee", tee, "FRONT_FLAT").transforms.sleeve).toBeDefined();

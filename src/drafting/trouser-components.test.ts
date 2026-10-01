@@ -36,12 +36,25 @@ describe("trouser waistband and closure components", () => {
     expect(edgeLength(pieceEdge(changed, "endRight"))).toBe(6);
     expect(edgeLength(pieceEdge(changed, "bottom"))).toBe(edgeLength(pieceEdge(base, "bottom")));
 
-    const fly = trouserFly(STANDARD_M, { ...DEFAULT_TROUSER_OPTIONS, flyLength: 19 }).pieces.flyShield;
+    const flyComponent = trouserFly(STANDARD_M, { ...DEFAULT_TROUSER_OPTIONS, flyLength: 19 });
+    const fly = flyComponent.pieces.flyShield;
+    const underlap = flyComponent.pieces.flyUnderlap;
     expect(edgeLength(pieceEdge(fly, "left"))).toBe(19);
+    expect(edgeLength(pieceEdge(underlap, "frontEdge"))).toBe(19);
+    expect(edgeLength(pieceEdge(underlap, "shieldEdge"))).toBe(19);
+    expect(edgeLength(pieceEdge(underlap, "top"))).toBe(3.5);
+    expect(edgeLength(pieceEdge(underlap, "bottom"))).toBe(3.5);
     expect(fly.marks?.some((mark) => mark.name === "flyFold")).toBe(true);
     expect(fly.marks?.some((mark) => mark.name === "waistbandButtonhole" && mark.kind === "buttonhole")).toBe(true);
-    expect(trouserFly(STANDARD_M, DEFAULT_TROUSER_OPTIONS).interfaces.right.edges)
+    expect(flyComponent.stitches).toEqual([expect.objectContaining({
+      label: "Fly underlap ↔ shield",
+      a: { edges: [{ piece: "flyUnderlap", edge: "shieldEdge" }] },
+      b: { edges: [{ piece: "flyShield", edge: "right" }] },
+    })]);
+    expect(flyComponent.interfaces.right.edges)
       .toEqual([{ piece: "flyShield", edge: "right" }]);
+    expect(flyComponent.interfaces.underlapFront.edges)
+      .toEqual([{ piece: "flyUnderlap", edge: "frontEdge" }]);
   });
 
   it("packages the leg block as a component without changing its roles", () => {
@@ -55,17 +68,23 @@ describe("trouser waistband and closure components", () => {
     const b = draftTrouserWithClosure(STANDARD_M, DEFAULT_TROUSER_OPTIONS);
     expect(blockPieces(b).map((piece) => piece.name)).toEqual([
       "trouser front left", "trouser front right", "trouser back left", "trouser back right",
-      "trouser waistband", "trouser fly shield",
+      "trouser waistband", "trouser fly shield", "trouser fly underlap",
     ]);
     expect(b.stitches.map((stitch) => stitch.label)).toEqual([
       "Left side seam (front ↔ back)", "Right side seam (front ↔ back)",
       "Left inseam (front ↔ back)", "Right inseam (front ↔ back)",
-      "Center-back seam (left ↔ right)", "Waistband (four legs ↔ separate waistband)",
-      "Left front fly ↔ shield", "Right front fly ↔ shield",
+      "Center-back seam (left ↔ right)", "Fly underlap ↔ shield",
+      "Waistband (four legs ↔ separate waistband)",
+      "Left front fly ↔ shield", "Right front fly ↔ underlap",
     ]);
     expect(stitchChecks(b, b.stitches).every((check) => check.ok)).toBe(true);
     expect(rolePiece(b, "frontLeft").marks?.some((mark) => mark.name === "flyEdge")).toBe(true);
     expect(rolePiece(b, "frontRight").marks?.some((mark) => mark.name === "flyEdge")).toBe(true);
+    const waist = b.stitches.find((stitch) => stitch.label === "Waistband (four legs ↔ separate waistband)")!;
+    expect(waist.a.edges).toEqual([
+      { piece: "backLeft", edge: "waist" }, { piece: "frontLeft", edge: "waist", reversed: true },
+      { piece: "frontRight", edge: "waist" }, { piece: "backRight", edge: "waist", reversed: true },
+    ]);
   });
 
   it("changes the actual band, fly, and front marks when options change", () => {
@@ -77,6 +96,8 @@ describe("trouser waistband and closure components", () => {
       .toBeGreaterThan(edgeLength(pieceEdge(rolePiece(base, "waistband"), "endRight")));
     expect(edgeLength(pieceEdge(rolePiece(changed, "flyShield"), "right")))
       .toBeGreaterThan(edgeLength(pieceEdge(rolePiece(base, "flyShield"), "right")));
+    expect(edgeLength(pieceEdge(rolePiece(changed, "flyUnderlap"), "frontEdge")))
+      .toBeGreaterThan(edgeLength(pieceEdge(rolePiece(base, "flyUnderlap"), "frontEdge")));
     const baseMark = rolePiece(base, "frontLeft").marks!.find((mark) => mark.name === "flyEdge")!;
     const changedMark = rolePiece(changed, "frontLeft").marks!.find((mark) => mark.name === "flyEdge")!;
     if (!("start" in baseMark) || !("start" in changedMark)) throw new Error("fly line mark missing");

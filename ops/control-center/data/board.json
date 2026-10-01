@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 867,
-  "updatedAt": "2026-10-01T04:58:14.882Z",
+  "revision": 881,
+  "updatedAt": "2026-10-01T05:39:27.068Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -3194,6 +3194,21 @@
           "at": "2026-10-01T04:58:14.882Z",
           "actor": "Codex",
           "text": "S325 verified exit: proposal-only Trouser fly-underlap fixture passes assembly feasibility in all 24 configurations. Both panels remain upright; original waistband edges/fragments and center joins are unchanged. No source edit is made. All 24 fronts remain held pending approval; G04-V02 stays In Progress and V03 stays Backlog."
+        },
+        {
+          "at": "2026-10-01T05:04:16.731Z",
+          "actor": "Codex",
+          "text": "S326 started from verified S325. The exact approved Trouser fly-underlap source repair is admitted; all 24 fronts remain held pending option and rendered-output acceptance. No protected export baseline movement or DXF-writer change."
+        },
+        {
+          "at": "2026-10-01T05:23:54.071Z",
+          "actor": "Codex",
+          "text": "S326 verified exit: the approved Trouser underlap graph solves all 24 configurations; 24 back faces emit and 24 fronts remain held on waistband colorway closure and hip-depth callout collision. V02 remains In Progress; V03 remains Backlog. See the S326 packet and browser evidence."
+        },
+        {
+          "at": "2026-10-01T05:39:27.068Z",
+          "actor": "Codex",
+          "text": "S326 verified exit: the approved Trouser underlap graph solves all 24 configurations; 24 back faces emit and 24 fronts remain held; all 24 front views retain the waistband color-contour and hip-depth label holds. The source-to-view map explicitly records flyUnderlap behind frontLeft and validates the same-face visible-layer reference. The final production replay is linked as E-G04-S326-OUTPUT-REPLAY; each front records both colorway-contour and hip-depth text blockers. Focused renderer suites pass 73/73, changed modules meet 100% four-metric coverage, build and protected export checks pass. No Trouser face is accepted and all-seven V02 acceptance remains unmet. Next: S327 correct the source-bound contour and callout collision, then rerun all 24 configurations."
         }
       ],
       "evidenceRefs": [
@@ -3267,7 +3282,11 @@
         "E-G04-S325-START",
         "E-G04-S325-EXIT",
         "E-G04-S325-PROPOSAL-OVERLAY",
-        "E-G04-S325-FEASIBILITY"
+        "E-G04-S325-FEASIBILITY",
+        "E-G04-S326-START",
+        "E-G04-S326-EXIT",
+        "E-G04-S326-BROWSER",
+        "E-G04-S326-OUTPUT-REPLAY"
       ],
       "flagKey": null
     },
@@ -6520,6 +6539,21 @@
           "at": "2026-10-01T04:58:14.864Z",
           "actor": "Codex",
           "text": "S325 verified exit: proposal-only Trouser fly-underlap fixture passes assembly feasibility in all 24 configurations. Both panels remain upright; original waistband edges/fragments and center joins are unchanged. No source edit is made. All 24 fronts remain held pending approval; G04-V02 stays In Progress and V03 stays Backlog."
+        },
+        {
+          "at": "2026-10-01T05:04:15.896Z",
+          "actor": "Codex",
+          "text": "Start Slice 326 at 2026-10-01 05:02:28 UTC from clean S325 fbc296e; refreshed origin/main a5af5e13 is an ancestor. Maintainer approved the exact flyUnderlap source proposal. Implement only that repair and minimal view metadata; preserve every other hold and validate all 24 Trouser configurations and rendered output. Packet: docs/research/epic17/G04-V02-TROUSER-FLY-UNDERLAP-IMPLEMENTATION-S326.md."
+        },
+        {
+          "at": "2026-10-01T05:23:53.262Z",
+          "actor": "Codex",
+          "text": "S326 verified exit: the approved Trouser underlap graph solves all 24 configurations; 24 back faces emit and 24 fronts remain held on waistband colorway closure and hip-depth callout collision. V02 remains In Progress; V03 remains Backlog. See the S326 packet and browser evidence."
+        },
+        {
+          "at": "2026-10-01T05:38:54.206Z",
+          "actor": "Codex",
+          "text": "S326 verified exit: the approved Trouser underlap graph solves all 24 configurations; 24 back faces emit and 24 fronts remain held; all 24 front views retain the waistband color-contour and hip-depth label holds. The source-to-view map now explicitly records flyUnderlap behind frontLeft and validates that it targets an earlier visible role on the same face. Focused renderer suites pass 73/73, changed modules meet 100% four-metric coverage, build and 69 protected export checks pass. Final Chromium evidence: E-G04-S326-OUTPUT-REPLAY; per-face matrix records both blockers, with no browser/page/request errors. No Trouser front is accepted and all-seven V02 acceptance remains unmet. Next: S327 correct the source-bound contour and callout collision, then rerun all 24 configurations."
         }
       ],
       "evidenceRefs": [
@@ -6632,7 +6666,11 @@
         "E-G04-S325-START",
         "E-G04-S325-EXIT",
         "E-G04-S325-PROPOSAL-OVERLAY",
-        "E-G04-S325-FEASIBILITY"
+        "E-G04-S325-FEASIBILITY",
+        "E-G04-S326-START",
+        "E-G04-S326-EXIT",
+        "E-G04-S326-BROWSER",
+        "E-G04-S326-OUTPUT-REPLAY"
       ],
       "flagKey": null
     },
@@ -8500,6 +8538,42 @@
       "sha256": null,
       "verified": true,
       "note": "In-memory candidate assembly probe across default, all 22 endpoints, and combined-supported configuration; no source implementation."
+    },
+    {
+      "id": "E-G04-S326-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-TROUSER-FLY-UNDERLAP-IMPLEMENTATION-S326.md",
+      "commit": null,
+      "sha256": null,
+      "verified": false,
+      "note": "S326 start packet records the approved Trouser repair, verified S325 boundary, protected export scope and required option/render gates."
+    },
+    {
+      "id": "E-G04-S326-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-TROUSER-FLY-UNDERLAP-IMPLEMENTATION-S326.md",
+      "commit": null,
+      "sha256": null,
+      "verified": false,
+      "note": "S326 implementation and verified exit packet. Trouser fronts remain held; no Epic face acceptance."
+    },
+    {
+      "id": "E-G04-S326-BROWSER",
+      "kind": "browser",
+      "uri": "docs/research/epic17/S326-trouser-browser/matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": false,
+      "note": "Current-production 24-configuration/48-face Trouser Chromium replay, rendered screenshots, annotated topology SVG and manual review."
+    },
+    {
+      "id": "E-G04-S326-OUTPUT-REPLAY",
+      "kind": "browser",
+      "uri": "docs/research/epic17/S326-trouser-browser/matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Final fresh production Chromium replay after explicit underlap layer-map validation: 24 configurations / 48 faces; 24 back views accepted by output checks, all 24 fronts fully held on the waistband contour and hip-depth text issues; zero browser, page, or request errors."
     }
   ]
 }

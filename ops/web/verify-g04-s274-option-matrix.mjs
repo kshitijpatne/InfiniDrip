@@ -12,6 +12,10 @@ const poloWovenOnly = process.argv.includes("--polo-woven-only");
 const output = path.resolve(process.env.G04_OPTION_MATRIX_OUTPUT
   ?? (wovenOnly ? "docs/research/epic17/S286-browser" : "docs/research/epic17/S274-browser"));
 const smoke = process.argv.includes("--smoke");
+// Investigation runs may need to finish the matrix while known, explicitly
+// held text-layout defects remain. This flag records the holds and screenshots;
+// it never changes the default acceptance behavior or marks a held face passed.
+const captureHeld = process.argv.includes("--capture-held");
 const recipes = wovenOnly ? ["woven-shirt"] : trouserOnly ? ["trouser"] : teeFittedOnly ? ["tee", "fitted"]
   : poloWovenOnly ? ["polo", "woven-shirt"]
   : smoke ? ["tee", "polo"] : ["tee", "fitted", "tank", "polo", "woven-shirt", "skirt", "trouser"];
@@ -64,7 +68,7 @@ async function captureFace(page, caseId, recipeId, face) {
     "woven-shirt-sideVentDepth-min-front",
     "woven-shirt-sideVentDepth-min-back",
     "trouser-legOpening-max-front",
-  ]).has(name);
+  ]).has(name) || (captureHeld && recipeId === "trouser");
   const svgCount = await page.locator("[data-technical-flat-svg] svg").count();
   const state = { name, caseId, recipeId, face, revision, issues, blocked: svgCount !== 1 };
   if (svgCount !== 1) {
@@ -176,7 +180,7 @@ async function main() {
           if (face.blocked) {
             assert.equal(face.guidanceVisible, true, `${face.name} blocked output must retain visible source guidance`);
             assert.ok(face.issues && face.issues.length > 5, `${face.name} blocked output must explain its hold`);
-            if (/TEXT_COLLISION|no collision-free measured position/iu.test(face.issues)) assert.fail(`${face.name} was withheld for unresolved label layout: ${face.issues}`);
+            if (!captureHeld && /TEXT_COLLISION|no collision-free measured position/iu.test(face.issues)) assert.fail(`${face.name} was withheld for unresolved label layout: ${face.issues}`);
           } else {
             assert.equal(face.parserError, false, `${face.name} must parse as SVG`);
             assert.equal(face.entityRevisionMismatch, false, `${face.name} entities must retain one revision`);

@@ -81,6 +81,11 @@ describe("mapTechnicalFlatSources", () => {
         });
       }
       if (recipe.name === "trouser") {
+        expect(G04_TECHNICAL_FLAT_MAPPINGS.trouser.faces[0].roles).toContainEqual({
+          roleId: "flyUnderlap", treatment: "INTERIOR_HIDDEN", behindRoleId: "frontLeft",
+        });
+        expect(G04_TECHNICAL_FLAT_MAPPINGS.trouser.faces[1].roles.some((role) =>
+          role.roleId === "flyUnderlap" && role.treatment === "INTERIOR_HIDDEN")).toBe(true);
         expect(backAnchors.find((source) => source.sourceId.endsWith("back-rise-finished-incl-waistband"))).toMatchObject({
           sourceId: "pom:trouser:back-rise-finished-incl-waistband",
           viewKinds: ["BACK_FLAT"],
@@ -151,6 +156,23 @@ describe("mapTechnicalFlatSources", () => {
     } as const;
     expect(validateFlatRoleMapping(duplicate, block)).toContainEqual(expect.objectContaining({
       code: "DUPLICATE_FACE_ROLE", sourceId: "FRONT_FLAT:front",
+    }));
+  });
+
+  it("requires layer-order targets to be earlier visible roles on the same face", () => {
+    const { block } = draft("trouser");
+    const base = G04_TECHNICAL_FLAT_MAPPINGS.trouser;
+    expect(validateFlatRoleMapping(base, block)).toEqual([]);
+    const malformed: TechnicalFlatRecipeMapping = {
+      ...base,
+      faces: [
+        { ...base.faces[0], roles: base.faces[0].roles.map((role) => role.roleId === "flyUnderlap"
+          ? { ...role, behindRoleId: "flyShield" } : role) },
+        base.faces[1],
+      ],
+    };
+    expect(validateFlatRoleMapping(malformed, block)).toContainEqual(expect.objectContaining({
+      code: "INVALID_LAYER_ORDER_REFERENCE", sourceId: "FRONT_FLAT:flyUnderlap",
     }));
   });
 

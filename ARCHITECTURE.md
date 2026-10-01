@@ -152,6 +152,25 @@ do not coincide exactly. Band artwork that cannot be clipped to a fragment
 interval is explicitly held. This compiler changes technical views only: the
 draft, role count, stitch graph, DXF and protected exports remain unchanged.
 
+Slice 326 implements the maintainer-approved Trouser front fly repair in the
+pattern source. The separate `flyUnderlap` cut role is 3.5 cm wide and follows
+the live `flyLength`; `frontRight.flyEdge` joins its `frontEdge`, then its
+`shieldEdge` joins the distinct `flyShield.right`, while `frontLeft.flyEdge`
+remains on `flyShield.left`. The front mapping records the approved
+`behindRoleId: "frontLeft"` relation and validates it against an earlier
+visible role on that face; the underlap remains hidden interior support on
+both exterior faces. Its lengthwise grainline follows the existing fly
+shield's top-to-bottom source-coordinate convention; no balance notch or
+short-edge finishing method is invented. This changes the Trouser recipe's
+piece list so new DXF output includes the new cut piece, while the DXF writer
+and all protected legacy hashes stay unchanged. The assembly graph solves all
+24 supported option configurations with upright front panels and the existing
+waistband fragments. Current browser output still holds all 24 front views for
+the open waistband colorway contour and hip-depth callout collision; the 24
+backs render and pass their output checks. No face-level V02 acceptance,
+physical construction, fit, factory acceptance or CAD compatibility is
+claimed from this implementation.
+
 POM leaders use recipe-declared face anchors and resolve against exact
 same-revision view geometry. A back point on a role outline uses that role's
 assembled output transform; a mark target names an authored mark and must

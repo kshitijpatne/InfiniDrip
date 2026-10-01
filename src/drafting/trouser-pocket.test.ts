@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { distance, point } from "../geometry";
 import { exportSvg } from "../export/svg";
+import { exportDxf } from "../export/dxf";
 import { renderBlueprint } from "../render/canvas";
 import { resolveGrainline, resolveNotch } from "../render/notch";
 import {
@@ -42,7 +43,7 @@ describe("trouser pocket component", () => {
 
     expect(blockPieces(b).map((piece) => piece.name)).toEqual([
       "trouser front left", "trouser front right", "trouser back left", "trouser back right",
-      "trouser waistband", "trouser fly shield", "trouser pocket bag left", "trouser pocket bag right",
+      "trouser waistband", "trouser fly shield", "trouser fly underlap", "trouser pocket bag left", "trouser pocket bag right",
     ]);
     expect(leftMark.start).toEqual(opening.start);
     expect(leftMark.end).toEqual(opening.end);
@@ -58,8 +59,9 @@ describe("trouser pocket component", () => {
     expect(b.stitches.map((stitch) => stitch.label)).toEqual([
       "Left side seam (front ↔ back)", "Right side seam (front ↔ back)",
       "Left inseam (front ↔ back)", "Right inseam (front ↔ back)",
-      "Center-back seam (left ↔ right)", "Waistband (four legs ↔ separate waistband)",
-      "Left front fly ↔ shield", "Right front fly ↔ shield",
+      "Center-back seam (left ↔ right)", "Fly underlap ↔ shield",
+      "Waistband (four legs ↔ separate waistband)",
+      "Left front fly ↔ shield", "Right front fly ↔ underlap",
       "Left pocket opening ↔ bag", "Right pocket opening ↔ bag",
     ]);
     expect(stitchChecks(b, b.stitches).every((check) => check.ok)).toBe(true);
@@ -160,12 +162,13 @@ describe("trouser pocket component", () => {
 
   it("declares notch, grainline, and allowance data for every emitted piece", () => {
     const b = draftTrouserWithPockets(STANDARD_M);
-    expect(TROUSER_NOTCHES).toHaveLength(8);
+    expect(TROUSER_NOTCHES).toHaveLength(9);
     for (const piece of blockPieces(b)) {
       const recipe = TROUSER_NOTCHES.find((entry) => entry.pieceName === piece.name);
       expect(recipe).toBeDefined();
       if (!recipe) continue;
-      expect(recipe.notches.length).toBeGreaterThan(0);
+      if (piece.name === "trouser fly underlap") expect(recipe.notches).toEqual([]);
+      else expect(recipe.notches.length).toBeGreaterThan(0);
       for (const rule of recipe.notches) {
         const notch = resolveNotch(piece, rule);
         expect(Number.isFinite(notch.point.x) && Number.isFinite(notch.point.y)).toBe(true);
@@ -176,6 +179,8 @@ describe("trouser pocket component", () => {
     expect(allowanceFor(TROUSER_ALLOWANCES, "hem")).toBe(2);
     expect(allowanceFor(TROUSER_ALLOWANCES, "opening")).toBe(1);
     expect(allowanceFor(TROUSER_ALLOWANCES, "unknown-edge")).toBe(1);
+    expect(TROUSER_NOTCHES.find((entry) => entry.pieceName === "trouser fly underlap")?.grainline)
+      .toEqual({ topEdge: "top", topT: 0.5, bottomEdge: "bottom", bottomT: 0.5 });
   });
 
   it("renders and exports the actual pocket marks and bag roles", () => {
@@ -185,12 +190,17 @@ describe("trouser pocket component", () => {
       allowances: TROUSER_ALLOWANCES,
     });
     expect(blueprint).toContain("TROUSER POCKET BAG LEFT");
+    expect(blueprint).toContain("TROUSER FLY UNDERLAP");
     expect(blueprint).toContain('data-pattern-mark-name="pocketOpening"');
     expect(blueprint).toContain('data-pattern-mark-name="bagOpeningMatch"');
 
     const svg = exportSvg([...blockPieces(b)], TROUSER_ALLOWANCES, TROUSER_NOTCHES);
     expect(svg).toContain("TROUSER POCKET BAG RIGHT");
+    expect(svg).toContain("TROUSER FLY UNDERLAP");
     expect(svg).toContain('data-pattern-mark-name="pocketOpening"');
     expect(svg).toContain('data-pattern-mark-name="bagOpeningMatch"');
+
+    const dxf = exportDxf(blockPieces(b), TROUSER_ALLOWANCES);
+    expect(dxf.match(/\nPOLYLINE\n/gu)).toHaveLength(blockPieces(b).length * 2);
   });
 });

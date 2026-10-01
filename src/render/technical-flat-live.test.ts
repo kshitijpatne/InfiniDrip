@@ -227,7 +227,7 @@ describe("compileTechnicalFlatLiveView", () => {
     expect(views[1].view?.primitives.every((primitive) => primitive.source.revisionId === "live-skirt-poms-312")).toBe(true);
   });
 
-  it("renders only the coherent source-bound Trouser back waistband and keeps the mismapped front held", () => {
+  it("renders source-bound Trouser waistband joins after the approved fly repair", () => {
     const recipe = GARMENTS.find((candidate) => candidate.name === "trouser")!;
     const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
     const back = compileTechnicalFlatLiveView({ recipe, block, revisionId: "live-trouser-s307", kind: "BACK_FLAT",
@@ -275,9 +275,10 @@ describe("compileTechnicalFlatLiveView", () => {
 
     const front = compileTechnicalFlatLiveView({ recipe, block, revisionId: "live-trouser-s307", kind: "FRONT_FLAT",
       placements: [], colorHex: "#456789", texture: "woven", shine: 0 });
-    expect(front.view).toBeNull();
-    expect(front.issues).toContainEqual(expect.objectContaining({ stage: "geometry",
-      sourceId: "view:trouser:waistband:center-front", message: expect.stringContaining("complete face remains held") }));
+    expect(front.view).not.toBeNull();
+    expect(front.issues).not.toContainEqual(expect.objectContaining({
+      sourceId: "view:trouser:waistband:center-front",
+    }));
     expect(front.issues.some((issue) => issue.sourceId.includes("role:waistband")
       && issue.message.includes("no sewn placement"))).toBe(false);
 
