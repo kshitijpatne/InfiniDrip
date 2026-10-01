@@ -212,6 +212,16 @@ only through an explicitly admitted, linked Epic packet.
   and integrated production-browser output in `S328-tee-fitted-browser/` and
   `S328-integrated-browser/`. The integrated tally remains 52/146 accepted
   and 94 held; no V02 acceptance is inferred from the earlier pre-review run.
+  S329 confirms the source endpoint order but rejects the generated
+  body-relative Tee/Fitted sleeve transform after rendered FRONT_FLAT geometry
+  still crosses inward; all four defaults remain held. The diagnostic
+  candidates and the no-regression 73-configuration production replay are in
+  `docs/research/epic17/G04-V02-TEE-FITTED-SLEEVE-TRANSFORM-S329.md`,
+  `docs/research/epic17/S329-orientation-candidate/`, and
+  `docs/research/epic17/S329-tee-fitted-browser/` and
+  `docs/research/epic17/S329-integrated-browser/`. Do not treat candidate
+  SVGs as accepted output; use `PROJECT-STATE.md` and the validated board for
+  the next S330 boundary.
   Use `PROJECT-STATE.md` and the validated board for live status.
 - `docs/research/epic17/G04-V02-PROJECTION-MAPPING-S277.md` — Slice 277's
   current projection-mapping contract boundary, source-reference rules,

@@ -1,0 +1,46 @@
+{
+  "recipe": "fitted",
+  "revision": "live-draft:fitted:1:1",
+  "face": "BACK_FLAT",
+  "sourceRole": "back",
+  "selectedSourceEdges": [
+    "capRight",
+    "sideRight",
+    "hem[0..0.5]",
+    "hem[0.5..1]"
+  ],
+  "sourceSymmetryAxisX": 21.5,
+  "viewOrientation": "back source role reflected about exact cap crown/sleeve centerline before placement; back armhole traversal preserved",
+  "transform": {
+    "offset": {
+      "x": 25.852716957917522,
+      "y": 24.753309532808967
+    },
+    "rotationDegrees": -99.28510102077226
+  },
+  "assemblyIssues": [
+    {
+      "code": "STITCH_ENDPOINT_RESIDUAL",
+      "sourceId": "stitch:Sleeve-cap ease",
+      "message": "Stitch “Sleeve-cap ease” leaves its sewn endpoints 0.48 cm apart after rigid placement; review this construction line before release."
+    }
+  ],
+  "anchors": {
+    "sleeveUnderarm": {
+      "x": 27.616247785965957,
+      "y": 24.464991143863838
+    },
+    "bodyUnderarm": {
+      "x": 27.5,
+      "y": 24
+    },
+    "sleeveCrown": {
+      "x": 22.38375221403404,
+      "y": 3.535008856136166
+    },
+    "bodyShoulder": {
+      "x": 22.5,
+      "y": 4
+    }
+  }
+}

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 919,
-  "updatedAt": "2026-10-01T07:29:14.298Z",
+  "revision": 936,
+  "updatedAt": "2026-10-01T08:43:19.911Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -155,7 +155,7 @@
       "title": "EPIC-17: G04 — Professional flats and CAD interchange",
       "status": "In Progress",
       "owner": "Codex",
-      "description": "Admission: docs/planning/EPIC-17-ADMISSION.md. S328 exit re-estimate: 68 numbered slices through S328; at least 10 additional slices / 78 total under the current minimum (resolve Tee/Fitted sleeve transform; integrated V02 exit; V03 five-slice minimum after V02; three final integration/merge/deployment slices). Other V02 conflicts and CAD rights/receiver evidence may add unbounded work. Current production matrix: 73 configurations / 146 faces / 32 option fields, 52 accepted and 94 held. All-seven acceptance remains mandatory; exact CAD compatibility requires demonstrated import/round-trip evidence. See S328 exit packet and browser evidence; V03 remains gated.",
+      "description": "Admission: docs/planning/EPIC-17-ADMISSION.md. S329 exit re-estimate: 69 numbered slices through S329; at least 10 additional slices / 79 total under the current minimum (resolve Tee/Fitted sleeve transform; integrated V02 exit; V03 five-slice minimum after V02; three final integration/merge/deployment slices). Other V02 conflicts and CAD rights/receiver evidence may add unbounded work. Current production matrix: 73 configurations / 146 faces / 32 option fields, 52 accepted and 94 held, exactly matching S328 per face. S329's body-relative Tee/Fitted candidate failed rendered visual review; all four defaults remain held and no implementation was landed. All-seven acceptance remains mandatory; exact CAD compatibility requires demonstrated import/round-trip evidence. See S329 exit packet and integrated browser evidence; V03 remains gated.",
       "evidenceRefs": [
         "E-G04-S271-EXIT",
         "E-G04-S273-EXIT",
@@ -248,7 +248,10 @@
         "E-G04-S327-INTEGRATED-BROWSER",
         "E-G04-S328-EXIT",
         "E-G04-S328-TEE-FITTED-BROWSER",
-        "E-G04-S328-INTEGRATED-BROWSER"
+        "E-G04-S328-INTEGRATED-BROWSER",
+        "E-G04-S329-START",
+        "E-G04-S329-EXIT",
+        "E-G04-S329-INTEGRATED-BROWSER"
       ]
     },
     {
@@ -2777,7 +2780,7 @@
         "100% coverage",
         "maintainer gates"
       ],
-      "description": "Admission: docs/planning/EPIC-17-ADMISSION.md. S328 exit re-estimate: 68 numbered slices through S328; at least 10 additional slices / 78 total under the current minimum (resolve Tee/Fitted sleeve transform; integrated V02 exit; V03 five-slice minimum after V02; three final integration/merge/deployment slices). Other V02 conflicts and CAD rights/receiver evidence may add unbounded work. Current production matrix: 73 configurations / 146 faces / 32 option fields, 52 accepted and 94 held. All-seven acceptance remains mandatory; exact CAD compatibility requires demonstrated import/round-trip evidence. See S328 exit packet and browser evidence; V03 remains gated.",
+      "description": "Admission: docs/planning/EPIC-17-ADMISSION.md. S329 exit re-estimate: 69 numbered slices through S329; at least 10 additional slices / 79 total under the current minimum (resolve Tee/Fitted sleeve transform; integrated V02 exit; V03 five-slice minimum after V02; three final integration/merge/deployment slices). Other V02 conflicts and CAD rights/receiver evidence may add unbounded work. Current production matrix: 73 configurations / 146 faces / 32 option fields, 52 accepted and 94 held, exactly matching S328 per face. S329's body-relative Tee/Fitted candidate failed rendered visual review; all four defaults remain held and no implementation was landed. All-seven acceptance remains mandatory; exact CAD compatibility requires demonstrated import/round-trip evidence. See S329 exit packet and integrated browser evidence; V03 remains gated.",
       "expectation": "Front/back technical flats for every supported recipe/variant and proven CAD interchange. Pattern-linked side/oblique views are explicitly owned by G09/D04, so the complete view set is accepted only there.",
       "acceptanceCriteria": [
         "Complete every G04 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
@@ -3255,6 +3258,21 @@
           "at": "2026-10-01T07:28:39.221Z",
           "actor": "Maintainer",
           "text": "Updated Epic metadata (description: Admission: docs/planning/EPIC-17-ADMISSION.md. S328 exit re-estimate: 68 numbered slices through S328; at least 10 additional slices / 78 total under the current minimum (resolve Tee/Fitted sleeve transform; integrated V02 exit; V03 five-slice minimum after V02; three final integration/merge/deployment slices). Other V02 conflicts and CAD rights/receiver evidence may add unbounded work. Current production matrix: 73 configurations / 146 faces / 32 option fields, 52 accepted and 94 held. All-seven acceptance remains mandatory; exact CAD compatibility requires demonstrated import/round-trip evidence. See S328 exit packet and browser evidence; V03 remains gated.). Refresh estimate and V02 hold evidence after S328 production review."
+        },
+        {
+          "at": "2026-10-01T07:43:06.582Z",
+          "actor": "Codex",
+          "text": "S329 starts the bounded body-relative Tee/Fitted sleeve-transform investigation. All-seven V02 acceptance remains required; current matrix remains 52/146 accepted and 94/146 held. V03 remains gated."
+        },
+        {
+          "at": "2026-10-01T08:39:58.742Z",
+          "actor": "Codex",
+          "text": "S329 preserves the all-seven V02 acceptance criterion and records a failed, unlanded Tee/Fitted transform candidate. The rebuilt 73-configuration production matrix exactly matches S328 at 52 accepted and 94 held; no statuses regressed or advanced. G04 remains active and V03 remains gated. Current lower bound: at least 10 additional slices / 79 total from S329, subject to further holds and CAD rights/receiver evidence."
+        },
+        {
+          "at": "2026-10-01T08:41:25.926Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: Admission: docs/planning/EPIC-17-ADMISSION.md. S329 exit re-estimate: 69 numbered slices through S329; at least 10 additional slices / 79 total under the current minimum (resolve Tee/Fitted sleeve transform; integrated V02 exit; V03 five-slice minimum after V02; three final integration/merge/deployment slices). Other V02 conflicts and CAD rights/receiver evidence may add unbounded work. Current production matrix: 73 configurations / 146 faces / 32 option fields, 52 accepted and 94 held, exactly matching S328 per face. S329's body-relative Tee/Fitted candidate failed rendered visual review; all four defaults remain held and no implementation was landed. All-seven acceptance remains mandatory; exact CAD compatibility requires demonstrated import/round-trip evidence. See S329 exit packet and integrated browser evidence; V03 remains gated.). Refresh the admitted G04 estimate and output hold evidence after S329's rendered transform rejection and full production replay."
         }
       ],
       "evidenceRefs": [
@@ -3339,7 +3357,10 @@
         "E-G04-S328-START",
         "E-G04-S328-EXIT",
         "E-G04-S328-TEE-FITTED-BROWSER",
-        "E-G04-S328-INTEGRATED-BROWSER"
+        "E-G04-S328-INTEGRATED-BROWSER",
+        "E-G04-S329-START",
+        "E-G04-S329-EXIT",
+        "E-G04-S329-INTEGRATED-BROWSER"
       ],
       "flagKey": null
     },
@@ -6037,7 +6058,7 @@
         "100% coverage",
         "export byte identity"
       ],
-      "description": "S322–S328 implement approved source-to-view conventions and preserve unresolved holds. S328 found the Tee/Fitted side paths enter the bodice and mirrored instances overlap; all four default views are held until a body-relative transform passes output review. S327 resolves the exact source-derived Trouser front contour and measured same-anchor POM collision; all 48 Trouser faces emit. Production matrix: 73 configurations / 146 faces / 32 option fields; 52 accepted and 94 held (Tee/Fitted 4 sleeve-side/body-overlap holds; Polo 34 outer-stand color contours; Woven 28 front contours and 28 back sleeve-cap placements). All-seven V02 acceptance remains mandatory and unmet. G04-V02 stays In Progress; V03 remains gated. See S328 exit packet and strict/integrated browser evidence.",
+      "description": "S322–S329 implement approved source-to-view conventions and preserve unresolved holds. S328 found the Tee/Fitted side paths enter the bodice and mirrored instances overlap; S329 source traces confirm the endpoint order but its rendered body-relative candidate still crosses inward, so all four defaults remain held. The rejected transform is not landed. S327 resolves the exact source-derived Trouser front contour and measured same-anchor POM collision; all 48 Trouser faces emit. Production matrix: 73 configurations / 146 faces / 32 option fields; 52 accepted and 94 held, exactly matching S328 per face (Tee/Fitted 4 sleeve-side/body-overlap holds; Polo 34 outer-stand color contours; Woven 28 front contours and 28 back sleeve-cap placements). All-seven V02 acceptance remains mandatory and unmet. G04-V02 stays In Progress; V03 remains gated. See S329 exit packet and integrated browser evidence.",
       "expectation": "Live vector output stays aligned with the same pattern and style revision and remains readable across all supported options.",
       "acceptanceCriteria": [
         "Render front/back vector views for all seven recipes and supported option combinations from one pattern/revision.",
@@ -6627,6 +6648,16 @@
           "at": "2026-10-01T07:28:30.085Z",
           "actor": "Codex",
           "text": "S328 exit: Tee/Fitted fill-only boundary metadata is implemented, but rendered side paths enter the bodice and mirrored instances overlap; all four defaults stay held. Integrated tally remains 52/146 accepted and 94/146 held. V02 remains In Progress; next action is to resolve body-relative sleeve placement. See E-G04-S328-* evidence."
+        },
+        {
+          "at": "2026-10-01T07:43:05.359Z",
+          "actor": "Codex",
+          "text": "S329 started at 2026-10-01 07:39:03 UTC from clean S328 017b192. Scope is the body-relative Tee/Fitted sleeve transform and separate S322 measurement holds; keep the four defaults held until output review passes. Start packet: docs/research/epic17/G04-V02-TEE-FITTED-SLEEVE-TRANSFORM-S329.md."
+        },
+        {
+          "at": "2026-10-01T08:39:51.667Z",
+          "actor": "Codex",
+          "text": "S329 exits as evidence-only: source-derived sleeve-edge traces show the attempted body-relative production transform still places the selected FRONT_FLAT side edge inward, so the candidate is rejected. No production source change is landed and all four Tee/Fitted defaults remain held. Fresh production Chromium replay matches S328 for every face: 73 configurations / 146 faces / 32 option fields, 52 accepted / 94 held, zero browser/page/request errors. V02 stays In Progress; V03 remains gated. S330 will investigate the face-local endpoint attachment mapping. See S329 exit packet, manual review, and integrated matrix."
         }
       ],
       "evidenceRefs": [
@@ -6750,7 +6781,10 @@
         "E-G04-S328-START",
         "E-G04-S328-EXIT",
         "E-G04-S328-TEE-FITTED-BROWSER",
-        "E-G04-S328-INTEGRATED-BROWSER"
+        "E-G04-S328-INTEGRATED-BROWSER",
+        "E-G04-S329-START",
+        "E-G04-S329-EXIT",
+        "E-G04-S329-INTEGRATED-BROWSER"
       ],
       "flagKey": null
     },
@@ -8717,6 +8751,33 @@
       "sha256": null,
       "verified": true,
       "note": "Integrated production replay: 73 configurations / 146 faces / 32 fields, 52 accepted / 94 held, same tally and no previously accepted face regressed."
+    },
+    {
+      "id": "E-G04-S329-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-TEE-FITTED-SLEEVE-TRANSFORM-S329.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S329 start packet bounds the source-to-view transform investigation, Tee/Fitted source trace, separate measurement holds and required output gates."
+    },
+    {
+      "id": "E-G04-S329-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/G04-V02-TEE-FITTED-SLEEVE-TRANSFORM-S329.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S329 source-edge investigation, rejected rendered transform candidates, fail-closed holds, and full no-regression 73-configuration production replay."
+    },
+    {
+      "id": "E-G04-S329-INTEGRATED-BROWSER",
+      "kind": "browser",
+      "uri": "docs/research/epic17/S329-integrated-browser/matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Fresh production Chromium replay: 73 configurations / 146 faces / 32 fields; 52 accepted / 94 held; all per-face states and blockers match S328; zero browser/page/request errors."
     }
   ]
 }
