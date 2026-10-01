@@ -8,6 +8,7 @@ const { startPreviewServer } = verificationHelpers;
 const wovenOnly = process.argv.includes("--woven-only");
 const trouserOnly = process.argv.includes("--trouser-only");
 const teeFittedOnly = process.argv.includes("--tee-fitted-only");
+const poloOnly = process.argv.includes("--polo-only");
 const poloWovenOnly = process.argv.includes("--polo-woven-only");
 const output = path.resolve(process.env.G04_OPTION_MATRIX_OUTPUT
   ?? (wovenOnly ? "docs/research/epic17/S286-browser" : "docs/research/epic17/S274-browser"));
@@ -16,8 +17,9 @@ const smoke = process.argv.includes("--smoke");
 // held text-layout defects remain. This flag records the holds and screenshots;
 // it never changes the default acceptance behavior or marks a held face passed.
 const captureHeld = process.argv.includes("--capture-held");
+const captureAllPolo = process.argv.includes("--capture-all-polo");
 const recipes = wovenOnly ? ["woven-shirt"] : trouserOnly ? ["trouser"] : teeFittedOnly ? ["tee", "fitted"]
-  : poloWovenOnly ? ["polo", "woven-shirt"]
+  : poloOnly ? ["polo"] : poloWovenOnly ? ["polo", "woven-shirt"]
   : smoke ? ["tee", "polo"] : ["tee", "fitted", "tank", "polo", "woven-shirt", "skirt", "trouser"];
 const consoleErrors = [];
 const pageErrors = [];
@@ -68,7 +70,7 @@ async function captureFace(page, caseId, recipeId, face) {
     "woven-shirt-sideVentDepth-min-front",
     "woven-shirt-sideVentDepth-min-back",
     "trouser-legOpening-max-front",
-  ]).has(name) || (captureHeld && recipeId === "trouser");
+  ]).has(name) || (captureHeld && recipeId === "trouser") || (captureAllPolo && recipeId === "polo");
   const svgCount = await page.locator("[data-technical-flat-svg] svg").count();
   const state = { name, caseId, recipeId, face, revision, issues, blocked: svgCount !== 1 };
   if (svgCount !== 1) {

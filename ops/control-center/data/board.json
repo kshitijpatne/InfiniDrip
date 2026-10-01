@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 961,
-  "updatedAt": "2026-10-01T09:34:32.474Z",
+  "revision": 986,
+  "updatedAt": "2026-10-01T10:15:10.594Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -155,7 +155,7 @@
       "title": "EPIC-17: G04 — Professional flats and CAD interchange",
       "status": "In Progress",
       "owner": "Codex",
-      "description": "Admission: docs/planning/EPIC-17-ADMISSION.md. S330 exit re-estimate: 330 numbered slices through S330; at least 9 additional slices / 339 total under the current minimum (integrated V02 exit; V03 five-slice minimum after V02; three final integration/PR/merge/deployment slices). Further V02 holds and CAD rights/receiver evidence may add unbounded work. Production matrix: 73 configurations / 146 faces / 32 option fields, 56 accepted and 90 held. S330 accepts only the four Tee/Fitted default faces after strict Chromium review; all other hold reasons and four changed-measurement Tee/Fitted holds remain. All-seven acceptance remains mandatory; exact CAD compatibility requires demonstrated import/round-trip evidence. See S330 exit packet and linked browser evidence; V03 remains gated.",
+      "description": "Admission: docs/planning/EPIC-17-ADMISSION.md. S330 landed at 558564bab25ab0e717ee825f4c4ab54f9eba4ea2. S331 closes the source-bound, fill-only Polo outerStand and collar color areas. Rendered review found a separate sleeve/bodice crossing; all 34 Polo faces remain fully held pending source-topology and rendered checks. S332 investigates that mapping. The all-seven V02 criterion remains unmet: integrated baseline 56 accepted / 90 held. V03 remains gated on all V02 faces and documented CAD import/round-trip evidence. See the S331 exit report and current held replay; no physical-fit, factory, or production-readiness claim.",
       "evidenceRefs": [
         "E-G04-S271-EXIT",
         "E-G04-S273-EXIT",
@@ -257,7 +257,12 @@
         "E-G04-S330-TEE-FITTED-REVIEW",
         "E-G04-S330-TEE-FITTED-BROWSER",
         "E-G04-S330-MEASUREMENT-HOLD",
-        "E-G04-S330-INTEGRATED-BROWSER"
+        "E-G04-S330-INTEGRATED-BROWSER",
+        "E-G04-S330-COMMIT",
+        "E-G04-S331-START",
+        "E-G04-S331-EXIT",
+        "E-G04-S331-REVIEW",
+        "E-G04-S331-BROWSER"
       ]
     },
     {
@@ -2786,7 +2791,7 @@
         "100% coverage",
         "maintainer gates"
       ],
-      "description": "Admission: docs/planning/EPIC-17-ADMISSION.md. S330 exit re-estimate: 330 numbered slices through S330; at least 9 additional slices / 339 total under the current minimum (integrated V02 exit; V03 five-slice minimum after V02; three final integration/PR/merge/deployment slices). Further V02 holds and CAD rights/receiver evidence may add unbounded work. Production matrix: 73 configurations / 146 faces / 32 option fields, 56 accepted and 90 held. S330 accepts only the four Tee/Fitted default faces after strict Chromium review; all other hold reasons and four changed-measurement Tee/Fitted holds remain. All-seven acceptance remains mandatory; exact CAD compatibility requires demonstrated import/round-trip evidence. See S330 exit packet and linked browser evidence; V03 remains gated.",
+      "description": "Admission: docs/planning/EPIC-17-ADMISSION.md. S330 landed at 558564bab25ab0e717ee825f4c4ab54f9eba4ea2. S331 closes Polo color fills, but all 34 Polo front/back faces stay held for the rendered sleeve/bodice crossing. S332 investigates source-topology-backed Polo sleeve mapping. Current integrated baseline remains 73 configurations / 146 faces / 32 option fields, 56 accepted and 90 held. All-seven acceptance remains mandatory; V03 remains gated on V02 and exact CAD exchange evidence. See S331 packet and linked output evidence.",
       "expectation": "Front/back technical flats for every supported recipe/variant and proven CAD interchange. Pattern-linked side/oblique views are explicitly owned by G09/D04, so the complete view set is accepted only there.",
       "acceptanceCriteria": [
         "Complete every G04 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
@@ -3294,6 +3299,26 @@
           "at": "2026-10-01T09:34:03.411Z",
           "actor": "Codex",
           "text": "Updated Epic metadata (description: Admission: docs/planning/EPIC-17-ADMISSION.md. S330 exit re-estimate: 330 numbered slices through S330; at least 9 additional slices / 339 total under the current minimum (integrated V02 exit; V03 five-slice minimum after V02; three final integration/PR/merge/deployment slices). Further V02 holds and CAD rights/receiver evidence may add unbounded work. Production matrix: 73 configurations / 146 faces / 32 option fields, 56 accepted and 90 held. S330 accepts only the four Tee/Fitted default faces after strict Chromium review; all other hold reasons and four changed-measurement Tee/Fitted holds remain. All-seven acceptance remains mandatory; exact CAD compatibility requires demonstrated import/round-trip evidence. See S330 exit packet and linked browser evidence; V03 remains gated.). Refresh canonical EPIC-17 status and conditional estimate after S330 verified output review."
+        },
+        {
+          "at": "2026-10-01T09:42:02.492Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: Admission: docs/planning/EPIC-17-ADMISSION.md. S330 landed at 558564bab25ab0e717ee825f4c4ab54f9eba4ea2. S331 is active for Polo face-local colorway closure at the already-approved S321 shoulder stations. Conditional lower bound remains at least 9 additional slices / 339 total through S330 (including S331); final estimate is rechecked at each exit. Current integrated production matrix: 73 configurations / 146 faces / 32 option fields, 56 accepted and 90 held. All-seven acceptance remains mandatory; exact CAD compatibility requires demonstrated import/round-trip evidence. See S330 exit and S331 start packets plus linked output evidence; V03 remains gated.). Record S330 commit and admit the S331 Polo colorway-contour investigation from the verified boundary."
+        },
+        {
+          "at": "2026-10-01T09:42:02.586Z",
+          "actor": "Codex",
+          "text": "S330 landed as 558564bab25ab0e717ee825f4c4ab54f9eba4ea2. S331 starts on the approved Polo fill-closure boundary; G04 remains In Progress and V03 gated. Current minimum through S330 was 339 total / at least 9 further slices, subject to re-estimation as blockers are resolved."
+        },
+        {
+          "at": "2026-10-01T10:14:36.297Z",
+          "actor": "Maintainer",
+          "text": "Updated Epic metadata (description: S331 closes the source-bound, fill-only Polo outerStand and collar color areas. Rendered review found a separate sleeve/bodice crossing; all 34 Polo faces remain fully held pending source-topology and rendered checks. S332 investigates that mapping. The all-seven V02 criterion remains unmet: integrated baseline 56 accepted / 90 held. V03 remains gated on all V02 faces and documented CAD import/round-trip evidence. See the S331 exit report and current held replay; no physical-fit, factory, or production-readiness claim.). Record the verified S331 colorway closure and retained Polo sleeve/output hold; admit no other scope."
+        },
+        {
+          "at": "2026-10-01T10:15:10.594Z",
+          "actor": "Maintainer",
+          "text": "Updated Epic metadata (description: Admission: docs/planning/EPIC-17-ADMISSION.md. S330 landed at 558564bab25ab0e717ee825f4c4ab54f9eba4ea2. S331 closes the source-bound, fill-only Polo outerStand and collar color areas. Rendered review found a separate sleeve/bodice crossing; all 34 Polo faces remain fully held pending source-topology and rendered checks. S332 investigates that mapping. The all-seven V02 criterion remains unmet: integrated baseline 56 accepted / 90 held. V03 remains gated on all V02 faces and documented CAD import/round-trip evidence. See the S331 exit report and current held replay; no physical-fit, factory, or production-readiness claim.). Retain the admission and verified S331 exit status in the Epic record."
         }
       ],
       "evidenceRefs": [
@@ -3387,7 +3412,12 @@
         "E-G04-S330-TEE-FITTED-REVIEW",
         "E-G04-S330-TEE-FITTED-BROWSER",
         "E-G04-S330-MEASUREMENT-HOLD",
-        "E-G04-S330-INTEGRATED-BROWSER"
+        "E-G04-S330-INTEGRATED-BROWSER",
+        "E-G04-S330-COMMIT",
+        "E-G04-S331-START",
+        "E-G04-S331-EXIT",
+        "E-G04-S331-REVIEW",
+        "E-G04-S331-BROWSER"
       ],
       "flagKey": null
     },
@@ -6085,7 +6115,7 @@
         "100% coverage",
         "export byte identity"
       ],
-      "description": "S330 maps the approved Tee/Fitted source edges to the body underarms in front/back digital views; strict production review accepts only the four defaults. The exact changed-measurement Tee/Fitted cases remain held for length-incompatible Sleeve-cap ease. Current production matrix: 73 configurations / 146 faces / 32 option fields, 56 accepted / 90 held; exactly four faces changed from S329 and every other prior hold reason is unchanged. All-seven V02 acceptance remains mandatory and unmet; keep V02 In Progress and V03 gated. Linked evidence includes the S330 exit packet, manual reviews, strict and integrated Chromium outputs, and measurement hold replay.",
+      "description": "S331 verified: Polo outerStand, upperCollar and underCollar color areas use revision-bound approved fill-only closures. Render review exposed the separate Polo sleeve crossing the bodice; all 34 Polo faces remain fully held with no partial output. S332 investigates source-topology-backed sleeve mapping. Current integrated baseline remains 73 configurations / 146 faces / 32 option fields, 56 accepted / 90 held. Preserve all-seven V02 acceptance and all other holds; V03 remains gated. See the S331 packet, manual review and final held-state replay.",
       "expectation": "Live vector output stays aligned with the same pattern and style revision and remains readable across all supported options.",
       "acceptanceCriteria": [
         "Render front/back vector views for all seven recipes and supported option combinations from one pattern/revision.",
@@ -6695,6 +6725,16 @@
           "at": "2026-10-01T09:32:40.710Z",
           "actor": "Codex",
           "text": "Slice 330 exit: source-backed Tee/Fitted endpoint placement now produces four accepted default digital views. Strict visual review and the final 73-configuration / 146-face production replay passed; total is 56 accepted / 90 held, with every other hold unchanged from S329. Exact changed-measurement faces remain held. V02 stays In Progress; V03 stays Backlog. S330 exit report and all rendered evidence are linked."
+        },
+        {
+          "at": "2026-10-01T09:42:02.561Z",
+          "actor": "Codex",
+          "text": "S331 started 2026-10-01 09:38:54 UTC at clean S330 558564bab25ab0e717ee825f4c4ab54f9eba4ea2; origin/main remains an ancestor. Scope is exact Polo role-area closure from the accepted station map, with 17 configurations / 34 face output validation. Other recipe holds remain unchanged. Packet: docs/research/epic17/G04-V02-POLO-COLLAR-COLORWAY-CLOSURE-S331.md."
+        },
+        {
+          "at": "2026-10-01T10:14:36.329Z",
+          "actor": "Maintainer",
+          "text": "S331 verified exit: Polo colorway closure metadata passes all 17 configurations, but its diagnostic render exposed a sleeve contour crossing the bodice. The rebuilt production UI withholds all 34 Polo faces and emits no partial SVG; integrated V02 remains 56 accepted / 90 held. S332 next: source-topology trace for Polo sleeve-to-armhole mapping; keep all affected views held until strict rendered review passes."
         }
       ],
       "evidenceRefs": [
@@ -6827,7 +6867,12 @@
         "E-G04-S330-TEE-FITTED-REVIEW",
         "E-G04-S330-TEE-FITTED-BROWSER",
         "E-G04-S330-MEASUREMENT-HOLD",
-        "E-G04-S330-INTEGRATED-BROWSER"
+        "E-G04-S330-INTEGRATED-BROWSER",
+        "E-G04-S330-COMMIT",
+        "E-G04-S331-START",
+        "E-G04-S331-EXIT",
+        "E-G04-S331-REVIEW",
+        "E-G04-S331-BROWSER"
       ],
       "flagKey": null
     },
@@ -8875,6 +8920,51 @@
       "sha256": null,
       "verified": true,
       "note": "Final rebuilt-production replay: 73 configurations / 146 faces / 32 option fields; 56 accepted / 90 held; only four Tee/Fitted defaults changed from S329."
+    },
+    {
+      "id": "E-G04-S330-COMMIT",
+      "kind": "commit",
+      "uri": "docs/research/epic17/G04-V02-TEE-FITTED-SLEEVE-ENDPOINT-MAPPING-S330.md",
+      "commit": "558564bab25ab0e717ee825f4c4ab54f9eba4ea2",
+      "sha256": null,
+      "verified": true,
+      "note": "S330 landed as the single required Slice 330 commit; the changed default output has four digitally accepted Tee/Fitted faces and all remaining holds preserved."
+    },
+    {
+      "id": "E-G04-S331-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-POLO-COLLAR-COLORWAY-CLOSURE-S331.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S331 admission from clean S330; investigate exact fill-only closure for Polo outerStand and upper/under collar areas at the approved existing shoulder stations, with 17-configuration rendered gates."
+    },
+    {
+      "id": "E-G04-S331-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/G04-V02-POLO-COLLAR-COLORWAY-CLOSURE-S331.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S331 closes Polo collar color areas with revision-bound fill-only boundaries; all 34 Polo faces remain held for a separately observed sleeve crossing. Includes focused coverage, build, protected export checks and the strict held-state replay."
+    },
+    {
+      "id": "E-G04-S331-REVIEW",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S331-polo-browser/manual-review.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Manual production-output review distinguishes diagnostic pre-hold renders from current full-face holds and records the exact Polo sleeve/bodice crossing."
+    },
+    {
+      "id": "E-G04-S331-BROWSER",
+      "kind": "browser",
+      "uri": "docs/research/epic17/S331-polo-browser-final/matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Rebuilt Chromium replay for 17 Polo configurations / 34 faces: 0 accepted, 34 fully withheld, no partial SVGs and no browser/page/request errors."
     }
   ]
 }

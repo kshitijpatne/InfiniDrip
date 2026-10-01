@@ -91,9 +91,11 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
     }
     if (id === "EPIC-17") {
       assert.match(epic.description, /docs\/planning\/EPIC-17-ADMISSION\.md/);
-      assert.match(epic.description, /330 numbered slices through S330; at least 9 additional slices \/ 339 total/);
-      assert.match(epic.description, /73 configurations \/ 146 faces \/ 32 option fields, 56 accepted and 90 held/);
-      assert.match(card.description, /330 numbered slices through S330; at least 9 additional slices \/ 339 total/);
+      assert.match(epic.description, /S330 landed at 558564bab25ab0e717ee825f4c4ab54f9eba4ea2/);
+      assert.match(epic.description, /S331 closes the source-bound, fill-only Polo outerStand and collar color areas/);
+      assert.match(epic.description, /integrated baseline 56 accepted \/ 90 held/);
+      assert.match(card.description, /S330 landed at 558564bab25ab0e717ee825f4c4ab54f9eba4ea2/);
+      assert.match(card.description, /S331 closes Polo color fills, but all 34 Polo front\/back faces stay held/);
       assert.match(card.description, /73 configurations \/ 146 faces \/ 32 option fields, 56 accepted and 90 held/);
       assert.ok(card.evidenceRefs.includes("E-G04-S315-START"));
       assert.ok(card.evidenceRefs.includes("E-G04-S315-EXIT"));
@@ -113,10 +115,17 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
         "E-G04-S330-TEE-FITTED-BROWSER",
         "E-G04-S330-MEASUREMENT-HOLD",
         "E-G04-S330-INTEGRATED-BROWSER",
+        "E-G04-S330-COMMIT",
+        "E-G04-S331-START",
+        "E-G04-S331-EXIT",
+        "E-G04-S331-REVIEW",
+        "E-G04-S331-BROWSER",
       ]) {
         assert.ok(card.evidenceRefs.includes(evidenceId));
         assert.ok(epic.evidenceRefs.includes(evidenceId));
       }
+      assert.equal(board.evidence.find((entry) => entry.id === "E-G04-S330-COMMIT")?.commit,
+        "558564bab25ab0e717ee825f4c4ab54f9eba4ea2");
       assert.ok(card.evidenceRefs.includes("E-G04-S327-EXIT"));
       assert.ok(card.evidenceRefs.includes("E-G04-S327-TROUSER-BROWSER"));
       assert.ok(card.evidenceRefs.includes("E-G04-S327-INTEGRATED-BROWSER"));
@@ -209,7 +218,7 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
       const admittedWork = board.workItems.filter((entry) => entry.epicId === id && entry.id !== id);
       assert.deepEqual(admittedWork.map((entry) => entry.id), ["G04-V01", "G04-V02", "G04-V03"]);
       assert.deepEqual(admittedWork.map((entry) => entry.status), ["Done", "In Progress", "Backlog"]);
-      assert.match(admittedWork[1].description, /S330 maps the approved Tee\/Fitted source edges to the body underarms/);
+      assert.match(admittedWork[1].description, /S331 verified: Polo outerStand, upperCollar and underCollar color areas use revision-bound approved fill-only closures/);
       assert.match(admittedWork[1].description, /73 configurations \/ 146 faces \/ 32 option fields, 56 accepted \/ 90 held/);
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S320-EXIT"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S326-START"));
@@ -228,6 +237,11 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
         "E-G04-S330-TEE-FITTED-BROWSER",
         "E-G04-S330-MEASUREMENT-HOLD",
         "E-G04-S330-INTEGRATED-BROWSER",
+        "E-G04-S330-COMMIT",
+        "E-G04-S331-START",
+        "E-G04-S331-EXIT",
+        "E-G04-S331-REVIEW",
+        "E-G04-S331-BROWSER",
       ]) assert.ok(admittedWork[1].evidenceRefs.includes(evidenceId));
       assert.ok(admittedWork[1].comments.some((comment) => /S325 verified exit: proposal-only Trouser fly-underlap fixture passes assembly feasibility in all 24 configurations/.test(comment.text)));
       assert.ok(admittedWork[1].comments.some((comment) => /S326 verified exit: the approved Trouser underlap graph solves all 24 configurations; 24 back faces emit and 24 fronts remain held; all 24 front views retain the waistband color-contour and hip-depth label holds/.test(comment.text)));
@@ -239,7 +253,7 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S322-RECONCILIATION"));
       assert.ok(admittedWork[1].comments.some((comment) => /Start Slice 320 at 2026-10-01 00:04:19 UTC from clean S319 92a270753ee526d90c9daba0b3ffbfd45da68ff9/.test(comment.text)));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S320-START"));
-      assert.match(admittedWork[1].description, /Current production matrix: 73 configurations \/ 146 faces \/ 32 option fields, 56 accepted \/ 90 held/);
+      assert.match(admittedWork[1].description, /Current integrated baseline remains 73 configurations \/ 146 faces \/ 32 option fields, 56 accepted \/ 90 held/);
       assert.ok(admittedWork[0].evidenceRefs.includes("E-G04-S264-EXIT"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S265-EXIT"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S266-EXIT"));

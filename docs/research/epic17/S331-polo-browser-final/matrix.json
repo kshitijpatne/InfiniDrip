@@ -1,0 +1,706 @@
+{
+  "generatedAt": "2026-10-01T10:10:12.909Z",
+  "viewport": {
+    "width": 1440,
+    "height": 3000
+  },
+  "browser": "Playwright Chromium production preview through the live app UI",
+  "recipes": [
+    "polo"
+  ],
+  "cases": [
+    {
+      "caseId": "polo-default",
+      "recipeId": "polo",
+      "kind": "default",
+      "optionValues": {},
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      }
+    },
+    {
+      "caseId": "polo-placketLength-min",
+      "recipeId": "polo",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "placketLength": 14
+      },
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      }
+    },
+    {
+      "caseId": "polo-placketLength-max",
+      "recipeId": "polo",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "placketLength": 30
+      },
+      "options": {
+        "placketLength": 30,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      }
+    },
+    {
+      "caseId": "polo-placketWidth-min",
+      "recipeId": "polo",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "placketWidth": 2
+      },
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 2,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      }
+    },
+    {
+      "caseId": "polo-placketWidth-max",
+      "recipeId": "polo",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "placketWidth": 4
+      },
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 4,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      }
+    },
+    {
+      "caseId": "polo-standHeight-min",
+      "recipeId": "polo",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "standHeight": 1
+      },
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 1,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      }
+    },
+    {
+      "caseId": "polo-standHeight-max",
+      "recipeId": "polo",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "standHeight": 3
+      },
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 3,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      }
+    },
+    {
+      "caseId": "polo-collarLeafDepth-min",
+      "recipeId": "polo",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "collarLeafDepth": 4
+      },
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 4,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      }
+    },
+    {
+      "caseId": "polo-collarLeafDepth-max",
+      "recipeId": "polo",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "collarLeafDepth": 7
+      },
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 7,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      }
+    },
+    {
+      "caseId": "polo-standFrontRise-min",
+      "recipeId": "polo",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "standFrontRise": 0
+      },
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      }
+    },
+    {
+      "caseId": "polo-standFrontRise-max",
+      "recipeId": "polo",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "standFrontRise": 2
+      },
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 2,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      }
+    },
+    {
+      "caseId": "polo-collarPointExtension-min",
+      "recipeId": "polo",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "collarPointExtension": 0.5
+      },
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 0.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      }
+    },
+    {
+      "caseId": "polo-collarPointExtension-max",
+      "recipeId": "polo",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "collarPointExtension": 3
+      },
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 3,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      }
+    },
+    {
+      "caseId": "polo-sideVentDepth-min",
+      "recipeId": "polo",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "sideVentDepth": 0
+      },
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 0,
+        "backHemDrop": 1.5
+      }
+    },
+    {
+      "caseId": "polo-sideVentDepth-max",
+      "recipeId": "polo",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "sideVentDepth": 15
+      },
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 15,
+        "backHemDrop": 1.5
+      }
+    },
+    {
+      "caseId": "polo-backHemDrop-min",
+      "recipeId": "polo",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "backHemDrop": 0
+      },
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 0
+      }
+    },
+    {
+      "caseId": "polo-backHemDrop-max",
+      "recipeId": "polo",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "backHemDrop": 5
+      },
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 5
+      }
+    }
+  ],
+  "faces": [
+    {
+      "name": "polo-default-front",
+      "caseId": "polo-default",
+      "recipeId": "polo",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:polo:role:sleeve: Visible FRONT_FLAT is withheld because edge “one of the listed source edges” is unresolved: Current rendered Polo options place the authored sleeve across the bodice interior from the shoulder/underarm; keep the complete face held until a source-topology-validated sleeve-cap and armhole view mapping passes rendered review. Affected source edges: pattern:polo:role:sleeve:edge:capLeft, pattern:polo:role:sleeve:edge:capRight, pattern:polo:role:sleeve:edge:sideRight, pattern:polo:role:sleeve:edge:hem, pattern:polo:role:sleeve:edge:sideLeft.pom · flat:polo:FRONT_FLAT:component:front:outline: POM callouts need the mapped role outline in the same face and revision.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": "polo-default-front.png"
+    },
+    {
+      "name": "polo-default-back",
+      "caseId": "polo-default",
+      "recipeId": "polo",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:polo:role:sleeve: Visible BACK_FLAT is withheld because edge “one of the listed source edges” is unresolved: Current rendered Polo options place the authored sleeve across the bodice interior from the shoulder/underarm; keep the complete face held until a source-topology-validated sleeve-cap and armhole view mapping passes rendered review. Affected source edges: pattern:polo:role:sleeve:edge:capLeft, pattern:polo:role:sleeve:edge:capRight, pattern:polo:role:sleeve:edge:sideRight, pattern:polo:role:sleeve:edge:hem, pattern:polo:role:sleeve:edge:sideLeft.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": "polo-default-back.png"
+    },
+    {
+      "name": "polo-placketLength-min-front",
+      "caseId": "polo-placketLength-min",
+      "recipeId": "polo",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:polo:role:sleeve: Visible FRONT_FLAT is withheld because edge “one of the listed source edges” is unresolved: Current rendered Polo options place the authored sleeve across the bodice interior from the shoulder/underarm; keep the complete face held until a source-topology-validated sleeve-cap and armhole view mapping passes rendered review. Affected source edges: pattern:polo:role:sleeve:edge:capLeft, pattern:polo:role:sleeve:edge:capRight, pattern:polo:role:sleeve:edge:sideRight, pattern:polo:role:sleeve:edge:hem, pattern:polo:role:sleeve:edge:sideLeft.pom · flat:polo:FRONT_FLAT:component:front:outline: POM callouts need the mapped role outline in the same face and revision.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": "polo-placketLength-min-front.png"
+    },
+    {
+      "name": "polo-placketLength-min-back",
+      "caseId": "polo-placketLength-min",
+      "recipeId": "polo",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:polo:role:sleeve: Visible BACK_FLAT is withheld because edge “one of the listed source edges” is unresolved: Current rendered Polo options place the authored sleeve across the bodice interior from the shoulder/underarm; keep the complete face held until a source-topology-validated sleeve-cap and armhole view mapping passes rendered review. Affected source edges: pattern:polo:role:sleeve:edge:capLeft, pattern:polo:role:sleeve:edge:capRight, pattern:polo:role:sleeve:edge:sideRight, pattern:polo:role:sleeve:edge:hem, pattern:polo:role:sleeve:edge:sideLeft.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": "polo-placketLength-min-back.png"
+    },
+    {
+      "name": "polo-placketLength-max-front",
+      "caseId": "polo-placketLength-max",
+      "recipeId": "polo",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:polo:role:sleeve: Visible FRONT_FLAT is withheld because edge “one of the listed source edges” is unresolved: Current rendered Polo options place the authored sleeve across the bodice interior from the shoulder/underarm; keep the complete face held until a source-topology-validated sleeve-cap and armhole view mapping passes rendered review. Affected source edges: pattern:polo:role:sleeve:edge:capLeft, pattern:polo:role:sleeve:edge:capRight, pattern:polo:role:sleeve:edge:sideRight, pattern:polo:role:sleeve:edge:hem, pattern:polo:role:sleeve:edge:sideLeft.pom · flat:polo:FRONT_FLAT:component:front:outline: POM callouts need the mapped role outline in the same face and revision.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": "polo-placketLength-max-front.png"
+    },
+    {
+      "name": "polo-placketLength-max-back",
+      "caseId": "polo-placketLength-max",
+      "recipeId": "polo",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:polo:role:sleeve: Visible BACK_FLAT is withheld because edge “one of the listed source edges” is unresolved: Current rendered Polo options place the authored sleeve across the bodice interior from the shoulder/underarm; keep the complete face held until a source-topology-validated sleeve-cap and armhole view mapping passes rendered review. Affected source edges: pattern:polo:role:sleeve:edge:capLeft, pattern:polo:role:sleeve:edge:capRight, pattern:polo:role:sleeve:edge:sideRight, pattern:polo:role:sleeve:edge:hem, pattern:polo:role:sleeve:edge:sideLeft.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": "polo-placketLength-max-back.png"
+    },
+    {
+      "name": "polo-placketWidth-min-front",
+      "caseId": "polo-placketWidth-min",
+      "recipeId": "polo",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:polo:role:sleeve: Visible FRONT_FLAT is withheld because edge “one of the listed source edges” is unresolved: Current rendered Polo options place the authored sleeve across the bodice interior from the shoulder/underarm; keep the complete face held until a source-topology-validated sleeve-cap and armhole view mapping passes rendered review. Affected source edges: pattern:polo:role:sleeve:edge:capLeft, pattern:polo:role:sleeve:edge:capRight, pattern:polo:role:sleeve:edge:sideRight, pattern:polo:role:sleeve:edge:hem, pattern:polo:role:sleeve:edge:sideLeft.pom · flat:polo:FRONT_FLAT:component:front:outline: POM callouts need the mapped role outline in the same face and revision.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": "polo-placketWidth-min-front.png"
+    },
+    {
+      "name": "polo-placketWidth-min-back",
+      "caseId": "polo-placketWidth-min",
+      "recipeId": "polo",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:polo:role:sleeve: Visible BACK_FLAT is withheld because edge “one of the listed source edges” is unresolved: Current rendered Polo options place the authored sleeve across the bodice interior from the shoulder/underarm; keep the complete face held until a source-topology-validated sleeve-cap and armhole view mapping passes rendered review. Affected source edges: pattern:polo:role:sleeve:edge:capLeft, pattern:polo:role:sleeve:edge:capRight, pattern:polo:role:sleeve:edge:sideRight, pattern:polo:role:sleeve:edge:hem, pattern:polo:role:sleeve:edge:sideLeft.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": "polo-placketWidth-min-back.png"
+    },
+    {
+      "name": "polo-placketWidth-max-front",
+      "caseId": "polo-placketWidth-max",
+      "recipeId": "polo",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:polo:role:sleeve: Visible FRONT_FLAT is withheld because edge “one of the listed source edges” is unresolved: Current rendered Polo options place the authored sleeve across the bodice interior from the shoulder/underarm; keep the complete face held until a source-topology-validated sleeve-cap and armhole view mapping passes rendered review. Affected source edges: pattern:polo:role:sleeve:edge:capLeft, pattern:polo:role:sleeve:edge:capRight, pattern:polo:role:sleeve:edge:sideRight, pattern:polo:role:sleeve:edge:hem, pattern:polo:role:sleeve:edge:sideLeft.pom · flat:polo:FRONT_FLAT:component:front:outline: POM callouts need the mapped role outline in the same face and revision.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": "polo-placketWidth-max-front.png"
+    },
+    {
+      "name": "polo-placketWidth-max-back",
+      "caseId": "polo-placketWidth-max",
+      "recipeId": "polo",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:polo:role:sleeve: Visible BACK_FLAT is withheld because edge “one of the listed source edges” is unresolved: Current rendered Polo options place the authored sleeve across the bodice interior from the shoulder/underarm; keep the complete face held until a source-topology-validated sleeve-cap and armhole view mapping passes rendered review. Affected source edges: pattern:polo:role:sleeve:edge:capLeft, pattern:polo:role:sleeve:edge:capRight, pattern:polo:role:sleeve:edge:sideRight, pattern:polo:role:sleeve:edge:hem, pattern:polo:role:sleeve:edge:sideLeft.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": "polo-placketWidth-max-back.png"
+    },
+    {
+      "name": "polo-standHeight-min-front",
+      "caseId": "polo-standHeight-min",
+      "recipeId": "polo",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:polo:role:sleeve: Visible FRONT_FLAT is withheld because edge “one of the listed source edges” is unresolved: Current rendered Polo options place the authored sleeve across the bodice interior from the shoulder/underarm; keep the complete face held until a source-topology-validated sleeve-cap and armhole view mapping passes rendered review. Affected source edges: pattern:polo:role:sleeve:edge:capLeft, pattern:polo:role:sleeve:edge:capRight, pattern:polo:role:sleeve:edge:sideRight, pattern:polo:role:sleeve:edge:hem, pattern:polo:role:sleeve:edge:sideLeft.pom · flat:polo:FRONT_FLAT:component:front:outline: POM callouts need the mapped role outline in the same face and revision.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": "polo-standHeight-min-front.png"
+    },
+    {
+      "name": "polo-standHeight-min-back",
+      "caseId": "polo-standHeight-min",
+      "recipeId": "polo",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:polo:role:sleeve: Visible BACK_FLAT is withheld because edge “one of the listed source edges” is unresolved: Current rendered Polo options place the authored sleeve across the bodice interior from the shoulder/underarm; keep the complete face held until a source-topology-validated sleeve-cap and armhole view mapping passes rendered review. Affected source edges: pattern:polo:role:sleeve:edge:capLeft, pattern:polo:role:sleeve:edge:capRight, pattern:polo:role:sleeve:edge:sideRight, pattern:polo:role:sleeve:edge:hem, pattern:polo:role:sleeve:edge:sideLeft.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": "polo-standHeight-min-back.png"
+    },
+    {
+      "name": "polo-standHeight-max-front",
+      "caseId": "polo-standHeight-max",
+      "recipeId": "polo",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:polo:role:sleeve: Visible FRONT_FLAT is withheld because edge “one of the listed source edges” is unresolved: Current rendered Polo options place the authored sleeve across the bodice interior from the shoulder/underarm; keep the complete face held until a source-topology-validated sleeve-cap and armhole view mapping passes rendered review. Affected source edges: pattern:polo:role:sleeve:edge:capLeft, pattern:polo:role:sleeve:edge:capRight, pattern:polo:role:sleeve:edge:sideRight, pattern:polo:role:sleeve:edge:hem, pattern:polo:role:sleeve:edge:sideLeft.pom · flat:polo:FRONT_FLAT:component:front:outline: POM callouts need the mapped role outline in the same face and revision.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": "polo-standHeight-max-front.png"
+    },
+    {
+      "name": "polo-standHeight-max-back",
+      "caseId": "polo-standHeight-max",
+      "recipeId": "polo",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:polo:role:sleeve: Visible BACK_FLAT is withheld because edge “one of the listed source edges” is unresolved: Current rendered Polo options place the authored sleeve across the bodice interior from the shoulder/underarm; keep the complete face held until a source-topology-validated sleeve-cap and armhole view mapping passes rendered review. Affected source edges: pattern:polo:role:sleeve:edge:capLeft, pattern:polo:role:sleeve:edge:capRight, pattern:polo:role:sleeve:edge:sideRight, pattern:polo:role:sleeve:edge:hem, pattern:polo:role:sleeve:edge:sideLeft.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": "polo-standHeight-max-back.png"
+    },
+    {
+      "name": "polo-collarLeafDepth-min-front",
+      "caseId": "polo-collarLeafDepth-min",
+      "recipeId": "polo",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:polo:role:sleeve: Visible FRONT_FLAT is withheld because edge “one of the listed source edges” is unresolved: Current rendered Polo options place the authored sleeve across the bodice interior from the shoulder/underarm; keep the complete face held until a source-topology-validated sleeve-cap and armhole view mapping passes rendered review. Affected source edges: pattern:polo:role:sleeve:edge:capLeft, pattern:polo:role:sleeve:edge:capRight, pattern:polo:role:sleeve:edge:sideRight, pattern:polo:role:sleeve:edge:hem, pattern:polo:role:sleeve:edge:sideLeft.pom · flat:polo:FRONT_FLAT:component:front:outline: POM callouts need the mapped role outline in the same face and revision.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": "polo-collarLeafDepth-min-front.png"
+    },
+    {
+      "name": "polo-collarLeafDepth-min-back",
+      "caseId": "polo-collarLeafDepth-min",
+      "recipeId": "polo",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:polo:role:sleeve: Visible BACK_FLAT is withheld because edge “one of the listed source edges” is unresolved: Current rendered Polo options place the authored sleeve across the bodice interior from the shoulder/underarm; keep the complete face held until a source-topology-validated sleeve-cap and armhole view mapping passes rendered review. Affected source edges: pattern:polo:role:sleeve:edge:capLeft, pattern:polo:role:sleeve:edge:capRight, pattern:polo:role:sleeve:edge:sideRight, pattern:polo:role:sleeve:edge:hem, pattern:polo:role:sleeve:edge:sideLeft.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": "polo-collarLeafDepth-min-back.png"
+    },
+    {
+      "name": "polo-collarLeafDepth-max-front",
+      "caseId": "polo-collarLeafDepth-max",
+      "recipeId": "polo",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:polo:role:sleeve: Visible FRONT_FLAT is withheld because edge “one of the listed source edges” is unresolved: Current rendered Polo options place the authored sleeve across the bodice interior from the shoulder/underarm; keep the complete face held until a source-topology-validated sleeve-cap and armhole view mapping passes rendered review. Affected source edges: pattern:polo:role:sleeve:edge:capLeft, pattern:polo:role:sleeve:edge:capRight, pattern:polo:role:sleeve:edge:sideRight, pattern:polo:role:sleeve:edge:hem, pattern:polo:role:sleeve:edge:sideLeft.pom · flat:polo:FRONT_FLAT:component:front:outline: POM callouts need the mapped role outline in the same face and revision.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": "polo-collarLeafDepth-max-front.png"
+    },
+    {
+      "name": "polo-collarLeafDepth-max-back",
+      "caseId": "polo-collarLeafDepth-max",
+      "recipeId": "polo",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:polo:role:sleeve: Visible BACK_FLAT is withheld because edge “one of the listed source edges” is unresolved: Current rendered Polo options place the authored sleeve across the bodice interior from the shoulder/underarm; keep the complete face held until a source-topology-validated sleeve-cap and armhole view mapping passes rendered review. Affected source edges: pattern:polo:role:sleeve:edge:capLeft, pattern:polo:role:sleeve:edge:capRight, pattern:polo:role:sleeve:edge:sideRight, pattern:polo:role:sleeve:edge:hem, pattern:polo:role:sleeve:edge:sideLeft.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": "polo-collarLeafDepth-max-back.png"
+    },
+    {
+      "name": "polo-standFrontRise-min-front",
+      "caseId": "polo-standFrontRise-min",
+      "recipeId": "polo",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:polo:role:sleeve: Visible FRONT_FLAT is withheld because edge “one of the listed source edges” is unresolved: Current rendered Polo options place the authored sleeve across the bodice interior from the shoulder/underarm; keep the complete face held until a source-topology-validated sleeve-cap and armhole view mapping passes rendered review. Affected source edges: pattern:polo:role:sleeve:edge:capLeft, pattern:polo:role:sleeve:edge:capRight, pattern:polo:role:sleeve:edge:sideRight, pattern:polo:role:sleeve:edge:hem, pattern:polo:role:sleeve:edge:sideLeft.pom · flat:polo:FRONT_FLAT:component:front:outline: POM callouts need the mapped role outline in the same face and revision.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": "polo-standFrontRise-min-front.png"
+    },
+    {
+      "name": "polo-standFrontRise-min-back",
+      "caseId": "polo-standFrontRise-min",
+      "recipeId": "polo",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:polo:role:sleeve: Visible BACK_FLAT is withheld because edge “one of the listed source edges” is unresolved: Current rendered Polo options place the authored sleeve across the bodice interior from the shoulder/underarm; keep the complete face held until a source-topology-validated sleeve-cap and armhole view mapping passes rendered review. Affected source edges: pattern:polo:role:sleeve:edge:capLeft, pattern:polo:role:sleeve:edge:capRight, pattern:polo:role:sleeve:edge:sideRight, pattern:polo:role:sleeve:edge:hem, pattern:polo:role:sleeve:edge:sideLeft.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": "polo-standFrontRise-min-back.png"
+    },
+    {
+      "name": "polo-standFrontRise-max-front",
+      "caseId": "polo-standFrontRise-max",
+      "recipeId": "polo",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:polo:role:sleeve: Visible FRONT_FLAT is withheld because edge “one of the listed source edges” is unresolved: Current rendered Polo options place the authored sleeve across the bodice interior from the shoulder/underarm; keep the complete face held until a source-topology-validated sleeve-cap and armhole view mapping passes rendered review. Affected source edges: pattern:polo:role:sleeve:edge:capLeft, pattern:polo:role:sleeve:edge:capRight, pattern:polo:role:sleeve:edge:sideRight, pattern:polo:role:sleeve:edge:hem, pattern:polo:role:sleeve:edge:sideLeft.pom · flat:polo:FRONT_FLAT:component:front:outline: POM callouts need the mapped role outline in the same face and revision.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": "polo-standFrontRise-max-front.png"
+    },
+    {
+      "name": "polo-standFrontRise-max-back",
+      "caseId": "polo-standFrontRise-max",
+      "recipeId": "polo",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:polo:role:sleeve: Visible BACK_FLAT is withheld because edge “one of the listed source edges” is unresolved: Current rendered Polo options place the authored sleeve across the bodice interior from the shoulder/underarm; keep the complete face held until a source-topology-validated sleeve-cap and armhole view mapping passes rendered review. Affected source edges: pattern:polo:role:sleeve:edge:capLeft, pattern:polo:role:sleeve:edge:capRight, pattern:polo:role:sleeve:edge:sideRight, pattern:polo:role:sleeve:edge:hem, pattern:polo:role:sleeve:edge:sideLeft.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": "polo-standFrontRise-max-back.png"
+    },
+    {
+      "name": "polo-collarPointExtension-min-front",
+      "caseId": "polo-collarPointExtension-min",
+      "recipeId": "polo",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:polo:role:sleeve: Visible FRONT_FLAT is withheld because edge “one of the listed source edges” is unresolved: Current rendered Polo options place the authored sleeve across the bodice interior from the shoulder/underarm; keep the complete face held until a source-topology-validated sleeve-cap and armhole view mapping passes rendered review. Affected source edges: pattern:polo:role:sleeve:edge:capLeft, pattern:polo:role:sleeve:edge:capRight, pattern:polo:role:sleeve:edge:sideRight, pattern:polo:role:sleeve:edge:hem, pattern:polo:role:sleeve:edge:sideLeft.pom · flat:polo:FRONT_FLAT:component:front:outline: POM callouts need the mapped role outline in the same face and revision.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": "polo-collarPointExtension-min-front.png"
+    },
+    {
+      "name": "polo-collarPointExtension-min-back",
+      "caseId": "polo-collarPointExtension-min",
+      "recipeId": "polo",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:polo:role:sleeve: Visible BACK_FLAT is withheld because edge “one of the listed source edges” is unresolved: Current rendered Polo options place the authored sleeve across the bodice interior from the shoulder/underarm; keep the complete face held until a source-topology-validated sleeve-cap and armhole view mapping passes rendered review. Affected source edges: pattern:polo:role:sleeve:edge:capLeft, pattern:polo:role:sleeve:edge:capRight, pattern:polo:role:sleeve:edge:sideRight, pattern:polo:role:sleeve:edge:hem, pattern:polo:role:sleeve:edge:sideLeft.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": "polo-collarPointExtension-min-back.png"
+    },
+    {
+      "name": "polo-collarPointExtension-max-front",
+      "caseId": "polo-collarPointExtension-max",
+      "recipeId": "polo",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:polo:role:sleeve: Visible FRONT_FLAT is withheld because edge “one of the listed source edges” is unresolved: Current rendered Polo options place the authored sleeve across the bodice interior from the shoulder/underarm; keep the complete face held until a source-topology-validated sleeve-cap and armhole view mapping passes rendered review. Affected source edges: pattern:polo:role:sleeve:edge:capLeft, pattern:polo:role:sleeve:edge:capRight, pattern:polo:role:sleeve:edge:sideRight, pattern:polo:role:sleeve:edge:hem, pattern:polo:role:sleeve:edge:sideLeft.pom · flat:polo:FRONT_FLAT:component:front:outline: POM callouts need the mapped role outline in the same face and revision.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": "polo-collarPointExtension-max-front.png"
+    },
+    {
+      "name": "polo-collarPointExtension-max-back",
+      "caseId": "polo-collarPointExtension-max",
+      "recipeId": "polo",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:polo:role:sleeve: Visible BACK_FLAT is withheld because edge “one of the listed source edges” is unresolved: Current rendered Polo options place the authored sleeve across the bodice interior from the shoulder/underarm; keep the complete face held until a source-topology-validated sleeve-cap and armhole view mapping passes rendered review. Affected source edges: pattern:polo:role:sleeve:edge:capLeft, pattern:polo:role:sleeve:edge:capRight, pattern:polo:role:sleeve:edge:sideRight, pattern:polo:role:sleeve:edge:hem, pattern:polo:role:sleeve:edge:sideLeft.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": "polo-collarPointExtension-max-back.png"
+    },
+    {
+      "name": "polo-sideVentDepth-min-front",
+      "caseId": "polo-sideVentDepth-min",
+      "recipeId": "polo",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:polo:role:sleeve: Visible FRONT_FLAT is withheld because edge “one of the listed source edges” is unresolved: Current rendered Polo options place the authored sleeve across the bodice interior from the shoulder/underarm; keep the complete face held until a source-topology-validated sleeve-cap and armhole view mapping passes rendered review. Affected source edges: pattern:polo:role:sleeve:edge:capLeft, pattern:polo:role:sleeve:edge:capRight, pattern:polo:role:sleeve:edge:sideRight, pattern:polo:role:sleeve:edge:hem, pattern:polo:role:sleeve:edge:sideLeft.pom · flat:polo:FRONT_FLAT:component:front:outline: POM callouts need the mapped role outline in the same face and revision.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": "polo-sideVentDepth-min-front.png"
+    },
+    {
+      "name": "polo-sideVentDepth-min-back",
+      "caseId": "polo-sideVentDepth-min",
+      "recipeId": "polo",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:polo:role:sleeve: Visible BACK_FLAT is withheld because edge “one of the listed source edges” is unresolved: Current rendered Polo options place the authored sleeve across the bodice interior from the shoulder/underarm; keep the complete face held until a source-topology-validated sleeve-cap and armhole view mapping passes rendered review. Affected source edges: pattern:polo:role:sleeve:edge:capLeft, pattern:polo:role:sleeve:edge:capRight, pattern:polo:role:sleeve:edge:sideRight, pattern:polo:role:sleeve:edge:hem, pattern:polo:role:sleeve:edge:sideLeft.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": "polo-sideVentDepth-min-back.png"
+    },
+    {
+      "name": "polo-sideVentDepth-max-front",
+      "caseId": "polo-sideVentDepth-max",
+      "recipeId": "polo",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:polo:role:sleeve: Visible FRONT_FLAT is withheld because edge “one of the listed source edges” is unresolved: Current rendered Polo options place the authored sleeve across the bodice interior from the shoulder/underarm; keep the complete face held until a source-topology-validated sleeve-cap and armhole view mapping passes rendered review. Affected source edges: pattern:polo:role:sleeve:edge:capLeft, pattern:polo:role:sleeve:edge:capRight, pattern:polo:role:sleeve:edge:sideRight, pattern:polo:role:sleeve:edge:hem, pattern:polo:role:sleeve:edge:sideLeft.pom · flat:polo:FRONT_FLAT:component:front:outline: POM callouts need the mapped role outline in the same face and revision.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": "polo-sideVentDepth-max-front.png"
+    },
+    {
+      "name": "polo-sideVentDepth-max-back",
+      "caseId": "polo-sideVentDepth-max",
+      "recipeId": "polo",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:polo:role:sleeve: Visible BACK_FLAT is withheld because edge “one of the listed source edges” is unresolved: Current rendered Polo options place the authored sleeve across the bodice interior from the shoulder/underarm; keep the complete face held until a source-topology-validated sleeve-cap and armhole view mapping passes rendered review. Affected source edges: pattern:polo:role:sleeve:edge:capLeft, pattern:polo:role:sleeve:edge:capRight, pattern:polo:role:sleeve:edge:sideRight, pattern:polo:role:sleeve:edge:hem, pattern:polo:role:sleeve:edge:sideLeft.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": "polo-sideVentDepth-max-back.png"
+    },
+    {
+      "name": "polo-backHemDrop-min-front",
+      "caseId": "polo-backHemDrop-min",
+      "recipeId": "polo",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:polo:role:sleeve: Visible FRONT_FLAT is withheld because edge “one of the listed source edges” is unresolved: Current rendered Polo options place the authored sleeve across the bodice interior from the shoulder/underarm; keep the complete face held until a source-topology-validated sleeve-cap and armhole view mapping passes rendered review. Affected source edges: pattern:polo:role:sleeve:edge:capLeft, pattern:polo:role:sleeve:edge:capRight, pattern:polo:role:sleeve:edge:sideRight, pattern:polo:role:sleeve:edge:hem, pattern:polo:role:sleeve:edge:sideLeft.pom · flat:polo:FRONT_FLAT:component:front:outline: POM callouts need the mapped role outline in the same face and revision.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": "polo-backHemDrop-min-front.png"
+    },
+    {
+      "name": "polo-backHemDrop-min-back",
+      "caseId": "polo-backHemDrop-min",
+      "recipeId": "polo",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:polo:role:sleeve: Visible BACK_FLAT is withheld because edge “one of the listed source edges” is unresolved: Current rendered Polo options place the authored sleeve across the bodice interior from the shoulder/underarm; keep the complete face held until a source-topology-validated sleeve-cap and armhole view mapping passes rendered review. Affected source edges: pattern:polo:role:sleeve:edge:capLeft, pattern:polo:role:sleeve:edge:capRight, pattern:polo:role:sleeve:edge:sideRight, pattern:polo:role:sleeve:edge:hem, pattern:polo:role:sleeve:edge:sideLeft.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": "polo-backHemDrop-min-back.png"
+    },
+    {
+      "name": "polo-backHemDrop-max-front",
+      "caseId": "polo-backHemDrop-max",
+      "recipeId": "polo",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:polo:role:sleeve: Visible FRONT_FLAT is withheld because edge “one of the listed source edges” is unresolved: Current rendered Polo options place the authored sleeve across the bodice interior from the shoulder/underarm; keep the complete face held until a source-topology-validated sleeve-cap and armhole view mapping passes rendered review. Affected source edges: pattern:polo:role:sleeve:edge:capLeft, pattern:polo:role:sleeve:edge:capRight, pattern:polo:role:sleeve:edge:sideRight, pattern:polo:role:sleeve:edge:hem, pattern:polo:role:sleeve:edge:sideLeft.pom · flat:polo:FRONT_FLAT:component:front:outline: POM callouts need the mapped role outline in the same face and revision.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": "polo-backHemDrop-max-front.png"
+    },
+    {
+      "name": "polo-backHemDrop-max-back",
+      "caseId": "polo-backHemDrop-max",
+      "recipeId": "polo",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:polo:role:sleeve: Visible BACK_FLAT is withheld because edge “one of the listed source edges” is unresolved: Current rendered Polo options place the authored sleeve across the bodice interior from the shoulder/underarm; keep the complete face held until a source-topology-validated sleeve-cap and armhole view mapping passes rendered review. Affected source edges: pattern:polo:role:sleeve:edge:capLeft, pattern:polo:role:sleeve:edge:capRight, pattern:polo:role:sleeve:edge:sideRight, pattern:polo:role:sleeve:edge:hem, pattern:polo:role:sleeve:edge:sideLeft.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": "polo-backHemDrop-max-back.png"
+    }
+  ],
+  "summary": {
+    "faceCount": 34,
+    "accepted": 0,
+    "withheld": 34,
+    "blockedByReason": {
+      "geometry · pattern:polo:role:sleeve: Visible FRONT_FLAT is withheld because edge “one of the listed source edges” is unresolved: Current rendered Polo options place the authored sl": 17,
+      "geometry · pattern:polo:role:sleeve: Visible BACK_FLAT is withheld because edge “one of the listed source edges” is unresolved: Current rendered Polo options place the authored sle": 17
+    },
+    "optionFieldCount": 8,
+    "consoleErrors": [],
+    "pageErrors": [],
+    "requestErrors": []
+  }
+}

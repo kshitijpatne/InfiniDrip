@@ -226,8 +226,15 @@ only through an explicitly admitted, linked Epic packet.
   in `docs/research/epic17/G04-V02-TEE-FITTED-SLEEVE-ENDPOINT-MAPPING-S330.md`,
   `docs/research/epic17/S330-tee-fitted-browser/`, and
   `docs/research/epic17/S330-integrated-browser/`. Only Tee/Fitted defaults
-  newly pass; all other output holds remain. Use `PROJECT-STATE.md` and the
-  validated board for the next admitted V02 boundary and current status.
+  newly pass; all other output holds remain. Slice 331 investigates the exact
+  Polo split-collar colorway closure under the previously approved S321
+  shoulder stations; its scope and gates are in
+  `docs/research/epic17/G04-V02-POLO-COLLAR-COLORWAY-CLOSURE-S331.md`. Use
+  `docs/research/epic17/S331-polo-browser/manual-review.md` for the exact
+  fill-only result and the separate Polo sleeve crossing that keeps all 34
+  faces held; final full-face withholding evidence is in
+  `docs/research/epic17/S331-polo-browser-final/`. Use `PROJECT-STATE.md` and
+  the validated board for the S331 exit and next S332 gate.
 - `docs/research/epic17/G04-V02-PROJECTION-MAPPING-S277.md` — Slice 277's
   current projection-mapping contract boundary, source-reference rules,
   fail-closed semantics, and focused acceptance gates.

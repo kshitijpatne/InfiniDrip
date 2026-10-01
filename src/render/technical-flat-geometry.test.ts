@@ -7,10 +7,25 @@ import { cubicPoint } from "../geometry/curve";
 import type { Block } from "../drafting/block";
 import { compileTechnicalFlatSourceGeometry, parameterForLandmark, projectedCommands } from "./technical-flat-geometry";
 import { G04_TECHNICAL_FLAT_MAPPINGS } from "./technical-flat-mapping";
-import { createG04TechnicalFlatProjectionMap, edgeParameterAtArclengthFraction, type TechnicalFlatProjectionMap } from "./technical-flat-projection";
+import { createG04TechnicalFlatProjectionMap, edgeParameterAtArclengthFraction, resolveFlatProjectionLandmark,
+  type TechnicalFlatProjectionMap } from "./technical-flat-projection";
 import { TECHNICAL_FLAT_SCHEMA_VERSION, validateTechnicalFlat } from "./technical-flat";
 
 const revisionId = "style-revision-17";
+
+/** The Polo face is production-held for its sleeve view. This test-only map
+ * clears that hold solely to exercise the independent collar fill compiler. */
+function poloColorwayDiagnosticMap(block: Block): TechnicalFlatProjectionMap {
+  const map = createG04TechnicalFlatProjectionMap("polo", block, revisionId)!;
+  return { ...map, faces: map.faces.map((face) => ({ ...face, roles: face.roles.map((role) => {
+    if (role.roleId !== "sleeve") return role;
+    return { ...role, heldEdges: [], runs: block.roles.sleeve!.edges.map((edge) => ({
+      edgeId: edge.name,
+      from: { kind: "edge-endpoint" as const, edgeId: edge.name, endpoint: "start" as const },
+      to: { kind: "edge-endpoint" as const, edgeId: edge.name, endpoint: "end" as const },
+    })) };
+  }) })) };
+}
 
 function projectionMap(recipeId: string, block: Block): TechnicalFlatProjectionMap {
   const base = G04_TECHNICAL_FLAT_MAPPINGS[recipeId];
@@ -29,6 +44,10 @@ function projectionMap(recipeId: string, block: Block): TechnicalFlatProjectionM
           .find((candidate) => candidate.roleId === role.roleId)?.viewPairReflection;
         const viewBoundaries = authored?.faces.find((candidate) => candidate.kind === face.kind)?.roles
           .find((candidate) => candidate.roleId === role.roleId)?.viewBoundaries;
+        const reversedStitchEdges = authored?.faces.find((candidate) => candidate.kind === face.kind)?.roles
+          .find((candidate) => candidate.roleId === role.roleId)?.reversedStitchEdges;
+        const localYReflection = authored?.faces.find((candidate) => candidate.kind === face.kind)?.roles
+          .find((candidate) => candidate.roleId === role.roleId)?.localYReflection;
         const oppositeSideReflection = authored?.faces.find((candidate) => candidate.kind === face.kind)?.roles
           .find((candidate) => candidate.roleId === role.roleId)?.oppositeSideReflection;
         const isZero = (edge: (typeof piece.edges)[number]) => {
@@ -49,6 +68,8 @@ function projectionMap(recipeId: string, block: Block): TechnicalFlatProjectionM
           ...(pairReflection ? { physicalPairReflection: pairReflection } : {}),
           ...(viewPairReflection ? { viewPairReflection } : {}),
           ...(viewBoundaries ? { viewBoundaries } : {}),
+          ...(reversedStitchEdges ? { reversedStitchEdges } : {}),
+          ...(localYReflection ? { localYReflection } : {}),
           ...(oppositeSideReflection ? { oppositeSideReflection } : {}),
         };
       }),
@@ -57,6 +78,42 @@ function projectionMap(recipeId: string, block: Block): TechnicalFlatProjectionM
 }
 
 describe("technical-flat source geometry", () => {
+  it("compiles Polo shoulder closures as same-revision fill-only boundaries without mutating the drafted block", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "polo")!;
+    const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
+    const original = structuredClone(block);
+    const productionMap = createG04TechnicalFlatProjectionMap("polo", block, revisionId)!;
+    for (const face of productionMap.faces) {
+      const held = compileTechnicalFlatSourceGeometry("polo", block, revisionId, face.kind, productionMap);
+      expect(held.issues).toHaveLength(block.roles.sleeve!.edges.length);
+      expect(held.issues.every((issue) => issue.code === "UNRESOLVED_PROJECTION_EDGE"
+        && issue.sourceId.startsWith("pattern:polo:role:sleeve:edge:")
+        && issue.message.includes("keep the complete face held"))).toBe(true);
+      expect(held.primitives).toEqual([]);
+    }
+    const map = poloColorwayDiagnosticMap(block);
+    for (const face of map.faces) {
+      const compiled = compileTechnicalFlatSourceGeometry("polo", block, revisionId, face.kind, map);
+      expect(compiled.issues).toEqual([]);
+      for (const roleId of ["outerStand", "underCollar", "upperCollar"]) {
+        const boundary = face.roles.find((role) => role.roleId === roleId)!.viewBoundaries![0]!;
+        const primitive = compiled.primitives.find((entry) => entry.kind === "path"
+          && entry.id.endsWith(`component:${roleId}:view-boundary:${boundary.id}`));
+        expect(primitive).toMatchObject({
+          kind: "path", layer: "GARMENT_SILHOUETTE", feature: "silhouette", colorwayBoundaryOnly: true,
+          source: { sourceClass: "PATTERN_DERIVED", revisionId,
+            sourceId: `view:polo:role:${roleId}:decision:G04-S321-COLLAR-EXTERIOR-ARCLENGTH:boundary:${boundary.id}` },
+        });
+        if (primitive?.kind !== "path" || primitive.commands[0]?.op !== "move" || primitive.commands[1]?.op !== "line") {
+          throw new Error("Approved Polo fill closure must compile to one non-stroked line primitive.");
+        }
+        expect(primitive.commands[0].point).toEqual(resolveFlatProjectionLandmark(block, roleId, face.kind, boundary.from));
+        expect(primitive.commands[1].point).toEqual(resolveFlatProjectionLandmark(block, roleId, face.kind, boundary.to));
+      }
+    }
+    expect(block).toEqual(original);
+  });
+
   it("does not invent a cubic parameter for a stitch-interface landmark", () => {
     const recipe = GARMENTS.find((candidate) => candidate.name === "polo")!;
     const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
@@ -111,7 +168,7 @@ describe("technical-flat source geometry", () => {
     const recipe = GARMENTS.find((candidate) => candidate.name === "polo")!;
     const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
     const revision = revisionId;
-    const map = createG04TechnicalFlatProjectionMap("polo", block, revision)!;
+    const map = poloColorwayDiagnosticMap(block);
     for (const face of map.faces) for (const roleId of ["underCollar", "upperCollar"]) {
       const output = compileTechnicalFlatSourceGeometry("polo", block, revision, face.kind, map);
       expect(output.issues).toEqual([]);
@@ -166,18 +223,17 @@ describe("technical-flat source geometry", () => {
         { source: { sourceId: expect.stringContaining(":stitch:unknown") } }]);
   });
 
-  it("keeps the approved Tee/Fitted sleeve area mapping held when output review finds body overlap", () => {
+  it("compiles approved Tee/Fitted sleeve areas after S330 clears the default-view mapping hold", () => {
     for (const recipeId of ["tee", "fitted"] as const) {
       const recipe = GARMENTS.find((candidate) => candidate.name === recipeId)!;
       const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
       for (const kind of ["FRONT_FLAT", "BACK_FLAT"] as const) {
         const map = createG04TechnicalFlatProjectionMap(recipeId, block, revisionId)!;
         const output = compileTechnicalFlatSourceGeometry(recipeId, block, revisionId, kind, map);
-        expect(output.issues).toContainEqual(expect.objectContaining({
-          code: "UNRESOLVED_PROJECTION_EDGE",
-          sourceId: `pattern:${recipeId}:role:sleeve:edge:${kind === "FRONT_FLAT" ? "sideLeft" : "sideRight"}`,
-        }));
-        expect(output.primitives.some((primitive) => primitive.source.sourceId === `pattern:${recipeId}:role:sleeve`)).toBe(false);
+        expect(output.issues).toEqual([]);
+        expect(output.primitives.some((primitive) => primitive.source.sourceId === `pattern:${recipeId}:role:sleeve`)).toBe(true);
+        expect(output.primitives.some((primitive) => primitive.kind === "path" && primitive.colorwayBoundaryOnly === true
+          && primitive.source.sourceId.includes("G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR"))).toBe(true);
       }
     }
   });
@@ -443,7 +499,8 @@ describe("technical-flat source geometry", () => {
       ? { ...edge, curve: { ...edge.curve, control1: { x: Number.POSITIVE_INFINITY, y: edge.curve.control1.y } } } : edge);
     const badCurveBlock = { ...block, roles: { ...block.roles, [roleId]: { ...front, edges: badCurveEdges } } };
     const badCurve = compileTechnicalFlatSourceGeometry("tee", badCurveBlock, revisionId, "FRONT_FLAT", projectionMap("tee", badCurveBlock));
-    expect(badCurve.issues).toContainEqual(expect.objectContaining({ code: "INVALID_PROJECTION_MAP" }));
+    expect(badCurve.issues.some((issue) => ["INVALID_PROJECTION_MAP", "INVALID_STITCH_ENDPOINT_ORIENTATION",
+      "INVALID_LOCAL_Y_REFLECTION"].includes(issue.code))).toBe(true);
     expect(badCurve.primitives).toEqual([]);
 
     const emptyRoleBlock = { ...block, roles: { ...block.roles, [roleId]: { ...front, edges: [] } } };

@@ -114,7 +114,14 @@ describe("validateTechnicalFlatProjectionMap", () => {
       const hiddenStandInterval = face.kind === "FRONT_FLAT" ? "backCollar" : "frontCollar";
       expect(stand.runs.map((run) => run.edgeId)).toContain(visibleStandInterval);
       expect(stand.faceExcludedEdges?.map((entry) => entry.edgeId)).toContain(hiddenStandInterval);
-      expect(stand.viewBoundaries).toBeUndefined();
+      expect(stand.viewBoundaries).toEqual([expect.objectContaining({
+        id: "approved-polo-collar-area-closure",
+        fillOnlyColorway: { source: "MAINTAINER_VIEW_DECISION", decisionId: "G04-S321-COLLAR-EXTERIOR-ARCLENGTH" },
+        from: { kind: "edge-endpoint", edgeId: face.kind === "FRONT_FLAT" ? "frontCollar" : "backCollar",
+          endpoint: face.kind === "FRONT_FLAT" ? "start" : "end" },
+        to: { kind: "edge-endpoint", edgeId: face.kind === "FRONT_FLAT" ? "frontNeckline" : "backNeckline",
+          endpoint: face.kind === "FRONT_FLAT" ? "end" : "start" },
+      })]);
       const shoulder = edgeEnd(block.roles.outerStand!.edges.find((edge) => edge.name === "backCollar")!);
       expect(shoulder).toEqual(edgeStart(block.roles.outerStand!.edges.find((edge) => edge.name === "frontCollar")!));
       for (const roleId of ["underCollar", "upperCollar"]) {
@@ -132,11 +139,79 @@ describe("validateTechnicalFlatProjectionMap", () => {
         const t = edgeParameterAtArclengthFraction(edge, transfer.fraction)!;
         expect(resolveFlatProjectionLandmark(block, roleId, face.kind, transfer, "outer"))
           .toEqual(cubicPoint(edge.curve, t));
+        expect(role.viewBoundaries).toEqual([expect.objectContaining({
+          id: "approved-polo-collar-area-closure",
+          from: transfer,
+          to: { kind: "edge-endpoint", edgeId: face.kind === "FRONT_FLAT" ? "frontCollarBase" : "backCollarBase",
+            endpoint: face.kind === "FRONT_FLAT" ? "start" : "end" },
+          fillOnlyColorway: { source: "MAINTAINER_VIEW_DECISION", decisionId: "G04-S321-COLLAR-EXTERIOR-ARCLENGTH" },
+        })]);
       }
       const underIndex = face.roles.findIndex((role) => role.roleId === "underCollar");
       const upperIndex = face.roles.findIndex((role) => role.roleId === "upperCollar");
       expect(underIndex).toBeLessThan(upperIndex);
     }
+  });
+
+  it("rejects Polo fill closures with altered decision or source station", () => {
+    const { block } = draft("polo");
+    const map = createG04TechnicalFlatProjectionMap("polo", block, REVISION)!;
+    const altered = structuredClone(map) as unknown as { faces: Array<{ roles: Array<{
+      roleId: string; viewBoundaries?: Array<{ fillOnlyColorway?: { decisionId: string }; to: { endpoint?: string } }>;
+    }> }> };
+    const outerStand = altered.faces[0]!.roles.find((role) => role.roleId === "outerStand")!;
+    outerStand.viewBoundaries![0]!.to.endpoint = "start";
+    outerStand.viewBoundaries![0]!.fillOnlyColorway!.decisionId = "G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR";
+    expect(validateTechnicalFlatProjectionMap("polo", block, REVISION, altered)
+      .some((issue) => issue.code === "INVALID_VIEW_BOUNDARY")).toBe(true);
+
+    const malformed = structuredClone(map) as unknown as { faces: Array<{ roles: Array<{
+      roleId: string; viewBoundaries?: Array<{ from: { fraction?: number } }>;
+    }> }> };
+    const collar = malformed.faces[1]!.roles.find((role) => role.roleId === "upperCollar")!;
+    collar.viewBoundaries![0]!.from.fraction = 0.5;
+    expect(validateTechnicalFlatProjectionMap("polo", block, REVISION, malformed)
+      .some((issue) => issue.code === "INVALID_VIEW_BOUNDARY")).toBe(true);
+
+    const unsupportedRole = structuredClone(map) as unknown as { faces: Array<{ roles: Array<{
+      roleId: string; viewBoundaries?: unknown[];
+    }> }> };
+    const innerStand = unsupportedRole.faces[0]!.roles.find((role) => role.roleId === "innerStand")!;
+    innerStand.viewBoundaries = [{ id: "unsupported-polo-closure", from: { kind: "edge-endpoint", edgeId: "centerBack", endpoint: "start" },
+      to: { kind: "edge-endpoint", edgeId: "frontCollar", endpoint: "end" },
+      fillOnlyColorway: { source: "MAINTAINER_VIEW_DECISION", decisionId: "G04-S321-COLLAR-EXTERIOR-ARCLENGTH" } }];
+    expect(validateTechnicalFlatProjectionMap("polo", block, REVISION, unsupportedRole)
+      .some((issue) => issue.code === "INVALID_VIEW_BOUNDARY")).toBe(true);
+
+    const malformedFrom = structuredClone(map) as unknown as { faces: Array<{ roles: Array<{
+      roleId: string; viewBoundaries?: Array<{ from: unknown }>;
+    }> }> };
+    malformedFrom.faces[0]!.roles.find((role) => role.roleId === "upperCollar")!.viewBoundaries![0]!.from = null;
+    expect(validateTechnicalFlatProjectionMap("polo", block, REVISION, malformedFrom)
+      .some((issue) => issue.code === "INVALID_VIEW_BOUNDARY")).toBe(true);
+
+    const missingOuter = { ...block, roles: { ...block.roles, upperCollar: { ...block.roles.upperCollar!,
+      edges: block.roles.upperCollar!.edges.filter((edge) => edge.name !== "outer") } } };
+    expect(validateTechnicalFlatProjectionMap("polo", missingOuter, REVISION, map)
+      .some((issue) => issue.code === "INVALID_VIEW_BOUNDARY")).toBe(true);
+
+    const disconnectedBase = { ...block, roles: { ...block.roles, upperCollar: { ...block.roles.upperCollar!,
+      edges: block.roles.upperCollar!.edges.map((edge) => edge.name === "frontCollarBase"
+        ? edge.kind === "line" ? { ...edge, start: { ...edge.start, x: edge.start.x + 0.25 } }
+          : { ...edge, curve: { ...edge.curve, start: { ...edge.curve.start, x: edge.curve.start.x + 0.25 } } } : edge) } } };
+    expect(validateTechnicalFlatProjectionMap("polo", disconnectedBase, REVISION, map)
+      .some((issue) => issue.code === "INVALID_VIEW_BOUNDARY")).toBe(true);
+
+    const offFold = { ...block, roles: { ...block.roles, upperCollar: { ...block.roles.upperCollar!, onFold: false } } };
+    expect(validateTechnicalFlatProjectionMap("polo", offFold, REVISION, map)
+      .some((issue) => issue.code === "INVALID_VIEW_BOUNDARY")).toBe(true);
+
+    const brokenStandClosure = { ...block, roles: { ...block.roles, outerStand: { ...block.roles.outerStand!,
+      edges: block.roles.outerStand!.edges.map((edge) => edge.name === "backNeckline"
+        ? edge.kind === "line" ? { ...edge, end: { ...edge.end, x: edge.end.x + 0.25 } }
+          : { ...edge, curve: { ...edge.curve, end: { ...edge.curve.end, x: edge.curve.end.x + 0.25 } } } : edge) } } };
+    expect(validateTechnicalFlatProjectionMap("polo", brokenStandClosure, REVISION, map)
+      .some((issue) => issue.code === "INVALID_VIEW_BOUNDARY")).toBe(true);
   });
 
   it("covers invalid arclengths and line/cubic endpoint parameter resolution", () => {

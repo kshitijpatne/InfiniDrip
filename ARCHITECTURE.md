@@ -353,13 +353,16 @@ upper/under collar exteriors and Woven stand/upper/under exteriors transfer the
 base or stitched-neckline shoulder fraction onto the live exterior edge by
 normalized arclength; the transfer is revision-bound and adds no physical
 notch or seam. Cubic intervals are split with exact Bézier subcurves. The
-current browser replay checks 17 Polo and 28 Woven configurations, but all 90
-front/back requests remain held: Polo's split collar colorway contours are
-not closed, Woven front sleeve/closure mappings remain unresolved, and Woven
-back sleeve-cap placement is inconsistent. These metadata checks do not
-establish assembled joins, crossings, overlap, POM readability or accepted
-faces. See the S321–S323 evidence in `docs/research/epic17/` and the live
-handoff in `PROJECT-STATE.md`.
+current browser replay checks 17 Polo and 28 Woven configurations. S331 closes
+the approved Polo stand and upper/under collar color areas with revision-bound
+fill-only boundaries. Rendered review then exposed a separate sleeve contour
+crossing the bodice interior, so all 34 Polo front/back requests remain held
+with no partial output. The S331 browser replay verifies that hold across all
+17 configurations. Woven front sleeve/closure mappings remain unresolved, and
+Woven back sleeve-cap placement is inconsistent. The collar metadata alone
+does not establish assembled joins, crossings, overlap, POM readability or
+accepted faces. See the S321–S331 evidence in `docs/research/epic17/` and the
+live handoff in `PROJECT-STATE.md`.
 `src/render/technical-flat-options.ts` checks raw recipe-option values before
 calling a recipe draft, so invalid user values cannot be hidden by a resolver's
 fallback. A valid draft must pass role/stitch/POM and front/back source-geometry

@@ -992,6 +992,15 @@ reference is available that identifies which physical placket belongs to each
 front and which finished placket overlaps on top. Keep the Woven closure and
 all complete Woven flats held until source evidence supports its instances and
 layer order; do not infer overlap from the current drawing or stitch graph.
+
+**Decision superseded by the later S321 maintainer decision below:** the
+maintainer subsequently approved the Polo/Woven collar exterior station
+convention, Woven sleeve/band view convention (conditional on output checks),
+and Woven closure order A (right button placket above left buttonhole placket).
+These explicit design decisions resolve the prior need for an external
+construction reference for those view choices only. They do not accept any
+face; keep every affected view held until source-topology and rendered checks
+pass, and preserve any other Woven hold.
 # EPIC-17 / G04 — maintainer decisions, 2026-10-01 (S321)
 
 - Approved Tee/Fitted view-only sleeve mapping: front uses `capLeft`, `sideLeft` and the left hem half; back uses `capRight`, `sideRight` and the right hem half. Display two mirrored sleeve instances. Do not draw a partition line, add a seam, or change cut geometry.
