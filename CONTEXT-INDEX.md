@@ -206,6 +206,12 @@ only through an explicitly admitted, linked Epic packet.
   `docs/research/epic17/S327-trouser-browser/` and
   `docs/research/epic17/S327-integrated-browser/`. At S327 exit, 52/146 faces
   emit and 94 remain held; all-seven-recipe V02 acceptance is still required.
+  Slice 328's approved fill-only sleeve closure metadata, rendered body-overlap
+  finding and explicit hold are recorded in
+  `docs/research/epic17/G04-V02-TEE-FITTED-SLEEVE-COLORWAY-S328.md`, with strict
+  and integrated production-browser output in `S328-tee-fitted-browser/` and
+  `S328-integrated-browser/`. The integrated tally remains 52/146 accepted
+  and 94 held; no V02 acceptance is inferred from the earlier pre-review run.
   Use `PROJECT-STATE.md` and the validated board for live status.
 - `docs/research/epic17/G04-V02-PROJECTION-MAPPING-S277.md` — Slice 277's
   current projection-mapping contract boundary, source-reference rules,

@@ -183,12 +183,16 @@ function projectionBoundaryPrimitives(
     const to = resolveFlatProjectionLandmark(block, role.roleId, kind, boundary.to);
     const sourceStitch = boundary.from.kind === "stitch-interface-boundary"
       ? boundary.from.stitchLabel : boundary.to.kind === "stitch-interface-boundary" ? boundary.to.stitchLabel : "unknown";
+    const boundarySourceId = boundary.fillOnlyColorway
+      ? `view:${recipeId}:role:${role.roleId}:decision:${boundary.fillOnlyColorway.decisionId}:boundary:${boundary.id}`
+      : `view:${recipeId}:role:${role.roleId}:stitch:${sourceStitch}:boundary:${boundary.id}`;
     primitives.push({
       kind: "path",
       id: `flat:${recipeId}:${kind}:component:${role.roleId}:view-boundary:${boundary.id}`,
       layer: "GARMENT_SILHOUETTE",
       feature: "silhouette",
-      source: source(revisionId, `view:${recipeId}:role:${role.roleId}:stitch:${sourceStitch}:boundary:${boundary.id}`),
+      source: source(revisionId, boundarySourceId),
+      ...(boundary.fillOnlyColorway ? { colorwayBoundaryOnly: true } : {}),
       commands: [{ op: "move", point: { ...from! } }, { op: "line", point: { ...to! } }],
     });
   }

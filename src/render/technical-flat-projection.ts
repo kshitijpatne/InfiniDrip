@@ -83,6 +83,10 @@ export interface FlatProjectionViewBoundary {
   readonly id: string;
   readonly from: FlatProjectionLandmark;
   readonly to: FlatProjectionLandmark;
+  readonly fillOnlyColorway?: {
+    readonly source: "MAINTAINER_VIEW_DECISION";
+    readonly decisionId: "G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR";
+  };
 }
 
 export interface FlatProjectionRole {
@@ -184,7 +188,12 @@ function teeFittedSleeveProjection(
     && stitch[0]!.b.edges[1]?.piece === "back" && "edge" in stitch[0]!.b.edges[1]! && stitch[0]!.b.edges[1]!.edge === "armhole";
   const valid = !!axis && !!capLeft && capLeft.kind === "curve" && !!capRight && capRight.kind === "curve"
     && !!leftSide && leftSide.kind === "line" && !!rightSide && rightSide.kind === "line"
-    && !!hem && hem.kind === "line" && exactStitch;
+    && !!hem && hem.kind === "line" && exactStitch
+    && samePoint(capLeft.curve.end, capRight.curve.start)
+    && samePoint(capLeft.curve.start, leftSide.end)
+    && samePoint(leftSide.start, hem.end)
+    && samePoint(hem.start, rightSide.end)
+    && samePoint(rightSide.start, capRight.curve.end);
   const reason = "The approved front/back sleeve projection requires the current ordered cap edges, straight hem and exact sewn-to on-fold body center axis.";
   const endpoint = (edgeId: string, value: "start" | "end"): FlatProjectionLandmark => ({ kind: "edge-endpoint", edgeId, endpoint: value });
   const midpoint: FlatProjectionLandmark = { kind: "edge-arclength", edgeId: "hem", fraction: 0.5 };
@@ -200,8 +209,15 @@ function teeFittedSleeveProjection(
   ];
   return {
     roleId: "sleeve", instanceId: "sleeve", treatment,
-    runs: valid ? (kind === "FRONT_FLAT" ? frontRuns : backRuns) : [],
-    heldEdges: valid ? [] : piece.edges.map((edge) => ({ edgeId: edge.name, reason })),
+    runs: valid
+      ? (kind === "FRONT_FLAT" ? frontRuns : backRuns).filter((run) => run.edgeId !== (kind === "FRONT_FLAT" ? "sideLeft" : "sideRight"))
+      : [],
+    heldEdges: valid
+      ? [{
+        edgeId: kind === "FRONT_FLAT" ? "sideLeft" : "sideRight",
+        reason: "S328 production-output review shows the mapped sleeve-side path entering the body interior on the same revision; the mirrored pair overlaps across the center region. Hold the face until a source-to-view transform places both sleeve instances outside the body without changing cut geometry.",
+      }]
+      : piece.edges.map((edge) => ({ edgeId: edge.name, reason })),
     faceExcludedEdges: valid
       ? (kind === "FRONT_FLAT"
         ? [{ edgeId: "capRight", reason: "Back-facing sleeve-cap interval is mapped to BACK_FLAT." },
@@ -209,6 +225,12 @@ function teeFittedSleeveProjection(
         : [{ edgeId: "capLeft", reason: "Front-facing sleeve-cap interval is mapped to FRONT_FLAT." },
           { edgeId: "sideLeft", reason: "Front-facing sleeve side is mapped to FRONT_FLAT." }])
       : [],
+    ...(valid ? { viewBoundaries: [{ id: "approved-sleeve-area-closure",
+      from: midpoint,
+      to: endpoint(kind === "FRONT_FLAT" ? "capLeft" : "capRight", kind === "FRONT_FLAT" ? "end" : "start"),
+      fillOnlyColorway: { source: "MAINTAINER_VIEW_DECISION" as const,
+        decisionId: "G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR" as const },
+    }] } : {}),
     ...(valid ? { viewPairReflection: {
       axisRoleId, edgeId: axis!.name as "centerFront" | "centerBack", axis: "ASSEMBLED_BODY_CENTER" as const,
       source: "MAINTAINER_VIEW_DECISION" as const, decisionId: "G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR" as const, quantity: 2 as const,
@@ -1263,6 +1285,22 @@ function validateRole(
         if (!isRecord(boundary) || typeof boundary.id !== "string" || !boundary.id.trim()) {
           issues.push({ code: "INVALID_VIEW_BOUNDARY", sourceId, message: "A view boundary needs a stable non-empty ID." });
           continue;
+        }
+        if (boundary.fillOnlyColorway !== undefined) {
+          const fillOnly = boundary.fillOnlyColorway;
+          const expectedCap = faceKind === "FRONT_FLAT" ? "capLeft" : "capRight";
+          if ((recipeId !== "tee" && recipeId !== "fitted") || roleId !== "sleeve"
+            || boundary.id !== "approved-sleeve-area-closure" || !isRecord(fillOnly)
+            || fillOnly.source !== "MAINTAINER_VIEW_DECISION"
+            || fillOnly.decisionId !== "G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR"
+            || !isRecord(boundary.from) || boundary.from.kind !== "edge-arclength"
+            || boundary.from.edgeId !== "hem" || boundary.from.fraction !== 0.5
+            || !isRecord(boundary.to) || boundary.to.kind !== "edge-endpoint"
+            || boundary.to.edgeId !== expectedCap
+            || boundary.to.endpoint !== (faceKind === "FRONT_FLAT" ? "end" : "start")) {
+            issues.push({ code: "INVALID_VIEW_BOUNDARY", sourceId,
+              message: "A colorway-only sleeve closure requires the approved Tee/Fitted decision and exact hem-midpoint-to-cap-crown landmarks." });
+          }
         }
         const from = resolveFlatProjectionLandmark(block, roleId, faceKind, boundary.from);
         const to = resolveFlatProjectionLandmark(block, roleId, faceKind, boundary.to);

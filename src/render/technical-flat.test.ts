@@ -124,6 +124,8 @@ describe("validateTechnicalFlat", () => {
       kind: "foldLine", name: "placket-fold", label: "Fold to inside", labelRole: "instruction",
     } };
     expect(validateTechnicalFlat(view([markedLine]))).toEqual([]);
+    expect(validateTechnicalFlat(view([{ ...path("colorway-boundary"), colorwayBoundaryOnly: true }]))).toEqual([]);
+    expect(codes(view([{ ...path("invalid-colorway-boundary"), colorwayBoundaryOnly: "yes" as unknown as boolean }]))).toEqual(["INVALID_GEOMETRY"]);
     expect(codes(view([{ ...markedLine, patternMark: { ...markedLine.patternMark!, name: " " } }]))).toEqual(["INVALID_GEOMETRY"]);
     expect(validateTechnicalFlat(view([{ ...path("projected"), sourceEdgeIds: ["pattern:tee:role:front:edge:neck", "pattern:tee:role:front:edge:shoulder"] }]))).toEqual([]);
     expect(codes(view([{ ...path("empty-projection"), sourceEdgeIds: [] }]))).toEqual(["INVALID_GEOMETRY"]);

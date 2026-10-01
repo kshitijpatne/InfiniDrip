@@ -233,12 +233,21 @@ function closedContourData(primitives: readonly Extract<TechnicalFlatPrimitive, 
   return contours.join(" ");
 }
 
-function colorwayFillPaths(view: TechnicalFlatView, colorway: TechnicalFlatColorwayOverlay): Map<string, string> {
-  const fills = new Map<string, string>();
+interface ColorwayFillPath {
+  readonly path: string;
+  readonly sourceIds: readonly string[];
+}
+
+function colorwayFillPaths(view: TechnicalFlatView, colorway: TechnicalFlatColorwayOverlay): Map<string, ColorwayFillPath> {
+  const fills = new Map<string, ColorwayFillPath>();
   for (const roleId of colorway.targetRoleIds) {
     const outlines = view.primitives.filter((primitive): primitive is Extract<TechnicalFlatPrimitive, { kind: "path" }> =>
-      primitive.kind === "path" && primitive.layer === "GARMENT_SILHOUETTE" && roleFor(primitive) === roleId);
-    const contourPaths = [...outlines];
+      primitive.kind === "path" && primitive.layer === "GARMENT_SILHOUETTE"
+      && primitive.colorwayBoundaryOnly !== true && roleFor(primitive) === roleId);
+    const fillBoundaries = view.primitives.filter((primitive): primitive is Extract<TechnicalFlatPrimitive, { kind: "path" }> =>
+      primitive.kind === "path" && primitive.layer === "GARMENT_SILHOUETTE"
+      && primitive.colorwayBoundaryOnly === true && roleFor(primitive) === roleId);
+    const contourPaths = [...outlines, ...fillBoundaries];
     if (view.recipeId === "trouser" && roleId === "waistband") {
       const attachedPanelRoles = new Set(outlines.flatMap((primitive) => {
         const match = /:waistband:waistband:(frontLeft|frontRight|backLeft|backRight):waist:side-boundary$/u.exec(primitive.id);
@@ -255,12 +264,14 @@ function colorwayFillPaths(view: TechnicalFlatView, colorway: TechnicalFlatColor
       }
     }
     const contour = closedContourData(contourPaths);
-    if (contour && outlines[0]) fills.set(outlines[0].id, contour);
+    if (contour && outlines[0]) fills.set(outlines[0].id, { path: contour,
+      sourceIds: [...new Set(contourPaths.flatMap((primitive) => primitive.sourceEdgeIds?.length
+        ? primitive.sourceEdgeIds : [primitive.source.sourceId]))] });
   }
   return fills;
 }
 
-function roleHasCompleteFill(outlines: readonly TechnicalFlatPrimitive[], fills: ReadonlyMap<string, string>): boolean {
+function roleHasCompleteFill(outlines: readonly TechnicalFlatPrimitive[], fills: ReadonlyMap<string, ColorwayFillPath>): boolean {
   return outlines.length > 0 && fills.has(outlines[0]!.id);
 }
 
@@ -299,6 +310,7 @@ function styleFor(primitive: TechnicalFlatPrimitive, positions: ReadonlyMap<stri
   const shared = `data-entity-id="${escapeXml(primitive.id)}" data-feature="${primitive.feature}" data-source-id="${escapeXml(primitive.source.sourceId)}" data-source-class="${primitive.source.sourceClass}" data-revision-id="${escapeXml(primitive.source.revisionId)}"`;
   switch (primitive.kind) {
     case "path": {
+      if (primitive.colorwayBoundaryOnly === true) return "";
       const dash = primitive.patternMark?.kind === "foldLine" ? ` stroke-dasharray="0.18 0.1"` : "";
       return `<path ${shared} data-layer="${primitive.layer}" d="${pathData(primitive.commands)}" fill="none" stroke="#19222b" stroke-width="${EDGE_STROKE_CM}" stroke-linecap="round" stroke-linejoin="round"${dash}/>`;
     }
@@ -327,8 +339,8 @@ function styleFor(primitive: TechnicalFlatPrimitive, positions: ReadonlyMap<stri
 }
 
 function colorwayAreaMarkup(primitive: Extract<TechnicalFlatPrimitive, { kind: "path" }>, d: string,
-  colorway: TechnicalFlatColorwayOverlay): string {
-  return `<path data-colorway-fill-for="${escapeXml(primitive.id)}" data-feature="silhouette" data-source-id="${escapeXml(primitive.source.sourceId)}" data-source-class="${primitive.source.sourceClass}" data-revision-id="${escapeXml(primitive.source.revisionId)}" data-layer="${primitive.layer}" d="${d}" fill="${colorway.colorHex}" stroke="none" pointer-events="none"/>`;
+  colorway: TechnicalFlatColorwayOverlay, sourceIds: readonly string[]): string {
+  return `<path data-colorway-fill-for="${escapeXml(primitive.id)}" data-colorway-contour-sources="${escapeXml(sourceIds.join(" "))}" data-feature="silhouette" data-source-id="${escapeXml(primitive.source.sourceId)}" data-source-class="${primitive.source.sourceClass}" data-revision-id="${escapeXml(primitive.source.revisionId)}" data-layer="${primitive.layer}" d="${d}" fill="${colorway.colorHex}" stroke="none" pointer-events="none"/>`;
 }
 
 function intersects(a: Bounds, b: Bounds): boolean {
@@ -374,7 +386,7 @@ function pathSegments(commands: readonly FlatPathCommand[]): Array<readonly [Fla
 
 function primitiveBlocksText(primitive: TechnicalFlatPrimitive, box: Bounds): boolean {
   if (primitive.kind === "artwork") return intersects(artworkBounds(primitive), box);
-  if (primitive.kind === "path") return pathSegments(primitive.commands)
+  if (primitive.kind === "path") return primitive.colorwayBoundaryOnly !== true && pathSegments(primitive.commands)
     .some(([start, end]) => technicalFlatLeaderCrossesBox(start, end, box));
   if (primitive.kind === "circle") return intersects(pointBounds(primitive.center, primitive.radius + EDGE_STROKE_CM / 2), box);
   if (primitive.kind === "mark") return intersects(pointBounds(primitive.at, MARK_RADIUS_CM + EDGE_STROKE_CM / 2), box);
@@ -495,11 +507,11 @@ export function renderTechnicalFlatSvg(view: TechnicalFlatView, options: Technic
     issues.push({ code: "COLORWAY_REVISION_MISMATCH", entityId: options.colorway.id,
       message: "Fabric colorway and flat must use the same saved design revision." });
   }
-  const fillPaths = options.colorway ? colorwayFillPaths(view, options.colorway) : new Map<string, string>();
+  const fillPaths = options.colorway ? colorwayFillPaths(view, options.colorway) : new Map<string, ColorwayFillPath>();
   if (options.colorway) {
     for (const roleId of options.colorway.targetRoleIds) {
       const outlines = view.primitives.filter((primitive) => primitive.kind === "path"
-        && primitive.layer === "GARMENT_SILHOUETTE" && roleFor(primitive) === roleId);
+        && primitive.layer === "GARMENT_SILHOUETTE" && primitive.colorwayBoundaryOnly !== true && roleFor(primitive) === roleId);
       if (outlines.length === 0) {
         issues.push({ code: "COLORWAY_TARGET_MISSING", entityId: options.colorway.id,
           message: `The ${roleId} colorway has no emitted source outline; keep this face withheld until its role is mapped.` });
@@ -602,9 +614,9 @@ export function renderTechnicalFlatSvg(view: TechnicalFlatView, options: Technic
   const body = TECHNICAL_FLAT_LAYER_ORDER.map((layer: TechnicalFlatLayer) => {
     const layerPrimitives = ordered.filter((primitive) => primitive.layer === layer);
     const areaPaths = layer === "GARMENT_SILHOUETTE" && options.colorway
-      ? [...fillPaths.entries()].map(([id, d]) => {
+      ? [...fillPaths.entries()].map(([id, fill]) => {
         const primitive = layerPrimitives.find((candidate) => candidate.id === id)! as Extract<TechnicalFlatPrimitive, { kind: "path" }>;
-        return colorwayAreaMarkup(primitive, d, options.colorway!);
+        return colorwayAreaMarkup(primitive, fill.path, options.colorway!, fill.sourceIds);
       }).join("") : "";
     const areas = areaPaths && options.colorway
       ? `<g data-colorway-area-group="${escapeXml(options.colorway.id)}" data-colorway-revision="${escapeXml(options.colorway.revisionId)}" opacity="0.16">${areaPaths}</g>` : "";

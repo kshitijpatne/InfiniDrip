@@ -37,6 +37,8 @@ function validMap(recipeId: string, block: ReturnType<(typeof GARMENTS)[number][
           .find((candidate) => candidate.roleId === role.roleId)?.viewPairReflection;
         const oppositeSideReflection = authored?.faces.find((candidate) => candidate.kind === face.kind)?.roles
           .find((candidate) => candidate.roleId === role.roleId)?.oppositeSideReflection;
+        const viewBoundaries = authored?.faces.find((candidate) => candidate.kind === face.kind)?.roles
+          .find((candidate) => candidate.roleId === role.roleId)?.viewBoundaries;
         const zeroLength = (edge: (typeof piece.edges)[number]) => {
           const start = edge.kind === "line" ? edge.start : edge.curve.start;
           const end = edge.kind === "line" ? edge.end : edge.curve.end;
@@ -56,6 +58,7 @@ function validMap(recipeId: string, block: ReturnType<(typeof GARMENTS)[number][
             : piece.edges.filter(zeroLength).map((edge) => ({ edgeId: edge.name, reason: "Zero-length source edge has no displayable contour." })),
           ...(pairReflection ? { physicalPairReflection: pairReflection } : {}),
           ...(viewPairReflection ? { viewPairReflection } : {}),
+          ...(viewBoundaries ? { viewBoundaries } : {}),
           ...(oppositeSideReflection ? { oppositeSideReflection } : {}),
         };
       }),
@@ -402,6 +405,14 @@ describe("validateTechnicalFlatProjectionMap", () => {
     expect(validateTechnicalFlatProjectionMap("skirt", block, REVISION,
       updateWaistband(0, (role) => ({ ...role, viewBoundaries: [{ id: "unknown", from: {}, to: {} }] }))).map((issue) => issue.code))
       .toContain("INVALID_VIEW_BOUNDARY");
+    const { block: teeBlock } = draft("tee");
+    const teeMap = createG04TechnicalFlatProjectionMap("tee", teeBlock, REVISION)!;
+    const malformedFillBoundary = { ...teeMap, faces: teeMap.faces.map((face) => face.kind === "FRONT_FLAT" ? { ...face,
+      roles: face.roles.map((role) => role.roleId === "sleeve" ? { ...role, viewBoundaries: [{
+        ...role.viewBoundaries![0]!, from: { kind: "edge-arclength", edgeId: "hem", fraction: 0.45 },
+      }] } : role) } : face) } as unknown as TechnicalFlatProjectionMap;
+    expect(validateTechnicalFlatProjectionMap("tee", teeBlock, REVISION, malformedFillBoundary).map((issue) => issue.code))
+      .toContain("INVALID_VIEW_BOUNDARY");
     expect(validateTechnicalFlatProjectionMap("skirt", block, REVISION,
       updateWaistband(1, (role) => ({ ...role, foldAxisReflection: { ...role.foldAxisReflection!, axisRoleId: "front" } })))
       .map((issue) => issue.code)).toContain("INVALID_FOLD_AXIS_REFLECTION");
@@ -448,8 +459,18 @@ describe("validateTechnicalFlatProjectionMap", () => {
         expect(validateTechnicalFlatProjectionMap(recipeId, block, REVISION, map), `${recipeId}:${JSON.stringify(options)}`).toEqual([]);
         for (const face of map.faces) {
           const sleeve = face.roles.find((role) => role.roleId === "sleeve")!;
-          expect(sleeve.heldEdges).toEqual([]);
-          expect(sleeve.viewBoundaries).toBeUndefined();
+          expect(sleeve.heldEdges).toHaveLength(1);
+          expect(sleeve.heldEdges[0]).toMatchObject({
+            edgeId: face.kind === "FRONT_FLAT" ? "sideLeft" : "sideRight",
+          });
+          expect(sleeve.viewBoundaries).toMatchObject([{
+            id: "approved-sleeve-area-closure",
+            from: { kind: "edge-arclength", edgeId: "hem", fraction: 0.5 },
+            to: { kind: "edge-endpoint", edgeId: face.kind === "FRONT_FLAT" ? "capLeft" : "capRight",
+              endpoint: face.kind === "FRONT_FLAT" ? "end" : "start" },
+            fillOnlyColorway: { source: "MAINTAINER_VIEW_DECISION",
+              decisionId: "G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR" },
+          }]);
           expect(sleeve.viewPairReflection).toMatchObject({
             axisRoleId: face.kind === "FRONT_FLAT" ? "front" : "back",
             edgeId: face.kind === "FRONT_FLAT" ? "centerFront" : "centerBack",
@@ -457,7 +478,7 @@ describe("validateTechnicalFlatProjectionMap", () => {
             decisionId: "G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR", quantity: 2,
           });
           expect(sleeve.runs.map((run) => run.edgeId)).toEqual(face.kind === "FRONT_FLAT"
-            ? ["capLeft", "sideLeft", "hem"] : ["capRight", "sideRight", "hem"]);
+            ? ["capLeft", "hem"] : ["capRight", "hem"]);
           expect(sleeve.faceExcludedEdges?.map((edge) => edge.edgeId)).toEqual(face.kind === "FRONT_FLAT"
             ? ["capRight", "sideRight"] : ["capLeft", "sideLeft"]);
           const hemRun = sleeve.runs.find((run) => run.edgeId === "hem")!;

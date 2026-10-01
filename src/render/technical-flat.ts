@@ -86,6 +86,8 @@ export interface FlatPathPrimitive extends FlatPrimitiveBase {
   readonly commands: readonly FlatPathCommand[];
   /** Exact outline-edge sources for a projected multi-edge path, in subpath order. */
   readonly sourceEdgeIds?: readonly string[];
+  /** Internal source-bound contour closure used only to paint the associated colorway area. */
+  readonly colorwayBoundaryOnly?: boolean;
   readonly patternMark?: {
     readonly kind: "cutLine" | "foldLine" | "placementLine";
     readonly name: string;
@@ -240,6 +242,9 @@ function validatePrimitive(primitive: TechnicalFlatPrimitive): TechnicalFlatIssu
 
   switch (primitive.kind) {
     case "path":
+      if (primitive.colorwayBoundaryOnly !== undefined && typeof primitive.colorwayBoundaryOnly !== "boolean") {
+        issues.push({ code: "INVALID_GEOMETRY", entityId: primitive.id, message: "Colorway-only contour boundaries need an explicit boolean value." });
+      }
       if (!validatePath(primitive)) {
         issues.push({ code: "INVALID_GEOMETRY", entityId: primitive.id, message: "Path commands must form finite, ordered subpaths." });
       }

@@ -27,6 +27,8 @@ function projectionMap(recipeId: string, block: Block): TechnicalFlatProjectionM
           .find((candidate) => candidate.roleId === role.roleId)?.physicalPairReflection;
         const viewPairReflection = authored?.faces.find((candidate) => candidate.kind === face.kind)?.roles
           .find((candidate) => candidate.roleId === role.roleId)?.viewPairReflection;
+        const viewBoundaries = authored?.faces.find((candidate) => candidate.kind === face.kind)?.roles
+          .find((candidate) => candidate.roleId === role.roleId)?.viewBoundaries;
         const oppositeSideReflection = authored?.faces.find((candidate) => candidate.kind === face.kind)?.roles
           .find((candidate) => candidate.roleId === role.roleId)?.oppositeSideReflection;
         const isZero = (edge: (typeof piece.edges)[number]) => {
@@ -46,6 +48,7 @@ function projectionMap(recipeId: string, block: Block): TechnicalFlatProjectionM
           })),
           ...(pairReflection ? { physicalPairReflection: pairReflection } : {}),
           ...(viewPairReflection ? { viewPairReflection } : {}),
+          ...(viewBoundaries ? { viewBoundaries } : {}),
           ...(oppositeSideReflection ? { oppositeSideReflection } : {}),
         };
       }),
@@ -161,6 +164,22 @@ describe("technical-flat source geometry", () => {
       .toMatchObject([{ source: { sourceId: expect.stringContaining(":stitch:Waistband") } },
         { source: { sourceId: expect.stringContaining(":stitch:Waistband") } },
         { source: { sourceId: expect.stringContaining(":stitch:unknown") } }]);
+  });
+
+  it("keeps the approved Tee/Fitted sleeve area mapping held when output review finds body overlap", () => {
+    for (const recipeId of ["tee", "fitted"] as const) {
+      const recipe = GARMENTS.find((candidate) => candidate.name === recipeId)!;
+      const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
+      for (const kind of ["FRONT_FLAT", "BACK_FLAT"] as const) {
+        const map = createG04TechnicalFlatProjectionMap(recipeId, block, revisionId)!;
+        const output = compileTechnicalFlatSourceGeometry(recipeId, block, revisionId, kind, map);
+        expect(output.issues).toContainEqual(expect.objectContaining({
+          code: "UNRESOLVED_PROJECTION_EDGE",
+          sourceId: `pattern:${recipeId}:role:sleeve:edge:${kind === "FRONT_FLAT" ? "sideLeft" : "sideRight"}`,
+        }));
+        expect(output.primitives.some((primitive) => primitive.source.sourceId === `pattern:${recipeId}:role:sleeve`)).toBe(false);
+      }
+    }
   });
 
   it("compiles exact mapped role outlines, marks and darts for every recipe and option endpoint", () => {
@@ -288,7 +307,9 @@ describe("technical-flat source geometry", () => {
     const legacy = compileTechnicalFlatSourceGeometry("tee", block, revisionId, "FRONT_FLAT");
     const projected = compileTechnicalFlatSourceGeometry("tee", block, revisionId, "FRONT_FLAT", map);
     expect(projected.issues).toEqual([]);
-    expect(projected.primitives).toHaveLength(legacy.primitives.length);
+    expect(projected.primitives).toHaveLength(legacy.primitives.length + 1);
+    expect(projected.primitives.filter((primitive) => primitive.kind === "path" && primitive.colorwayBoundaryOnly === true))
+      .toHaveLength(1);
     for (const roleMap of map.faces[0].roles.filter((role) => role.treatment !== "INTERIOR_HIDDEN")) {
       const outline = projected.primitives.find((primitive) => primitive.id ===
         `flat:tee:FRONT_FLAT:component:${roleMap.roleId}:outline`);

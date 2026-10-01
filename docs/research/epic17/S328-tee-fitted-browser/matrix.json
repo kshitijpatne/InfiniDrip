@@ -1,0 +1,89 @@
+{
+  "generatedAt": "2026-10-01T07:16:49.666Z",
+  "viewport": {
+    "width": 1440,
+    "height": 3000
+  },
+  "browser": "Playwright Chromium production preview through the live app UI",
+  "recipes": [
+    "tee",
+    "fitted"
+  ],
+  "cases": [
+    {
+      "caseId": "tee-default",
+      "recipeId": "tee",
+      "kind": "default",
+      "optionValues": {},
+      "options": {}
+    },
+    {
+      "caseId": "fitted-default",
+      "recipeId": "fitted",
+      "kind": "default",
+      "optionValues": {},
+      "options": {}
+    }
+  ],
+  "faces": [
+    {
+      "name": "tee-default-front",
+      "caseId": "tee-default",
+      "recipeId": "tee",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:tee:role:sleeve:edge:sideLeft: Visible FRONT_FLAT is withheld because edge “sleeve.sideLeft” is unresolved: S328 production-output review shows the mapped sleeve-side path entering the body interior on the same revision; the mirrored pair overlaps across the center region. Hold the face until a source-to-view transform places both sleeve instances outside the body without changing cut geometry.pom · flat:tee:FRONT_FLAT:component:front:outline: POM callouts need the mapped role outline in the same face and revision.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": "tee-default-front.png"
+    },
+    {
+      "name": "tee-default-back",
+      "caseId": "tee-default",
+      "recipeId": "tee",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:tee:role:sleeve:edge:sideRight: Visible BACK_FLAT is withheld because edge “sleeve.sideRight” is unresolved: S328 production-output review shows the mapped sleeve-side path entering the body interior on the same revision; the mirrored pair overlaps across the center region. Hold the face until a source-to-view transform places both sleeve instances outside the body without changing cut geometry.pom · flat:tee:BACK_FLAT:component:back:outline: POM callouts need the mapped role outline in the same face and revision.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": "tee-default-back.png"
+    },
+    {
+      "name": "fitted-default-front",
+      "caseId": "fitted-default",
+      "recipeId": "fitted",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:fitted:role:sleeve:edge:sideLeft: Visible FRONT_FLAT is withheld because edge “sleeve.sideLeft” is unresolved: S328 production-output review shows the mapped sleeve-side path entering the body interior on the same revision; the mirrored pair overlaps across the center region. Hold the face until a source-to-view transform places both sleeve instances outside the body without changing cut geometry.pom · flat:fitted:FRONT_FLAT:component:front:outline: POM callouts need the mapped role outline in the same face and revision.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": "fitted-default-front.png"
+    },
+    {
+      "name": "fitted-default-back",
+      "caseId": "fitted-default",
+      "recipeId": "fitted",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:fitted:role:sleeve:edge:sideRight: Visible BACK_FLAT is withheld because edge “sleeve.sideRight” is unresolved: S328 production-output review shows the mapped sleeve-side path entering the body interior on the same revision; the mirrored pair overlaps across the center region. Hold the face until a source-to-view transform places both sleeve instances outside the body without changing cut geometry.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": "fitted-default-back.png"
+    }
+  ],
+  "summary": {
+    "faceCount": 4,
+    "accepted": 0,
+    "withheld": 4,
+    "blockedByReason": {
+      "geometry · pattern:tee:role:sleeve:edge:sideLeft: Visible FRONT_FLAT is withheld because edge “sleeve.sideLeft” is unresolved: S328 production-output review shows the mapped sleeve": 1,
+      "geometry · pattern:tee:role:sleeve:edge:sideRight: Visible BACK_FLAT is withheld because edge “sleeve.sideRight” is unresolved: S328 production-output review shows the mapped sleev": 1,
+      "geometry · pattern:fitted:role:sleeve:edge:sideLeft: Visible FRONT_FLAT is withheld because edge “sleeve.sideLeft” is unresolved: S328 production-output review shows the mapped sle": 1,
+      "geometry · pattern:fitted:role:sleeve:edge:sideRight: Visible BACK_FLAT is withheld because edge “sleeve.sideRight” is unresolved: S328 production-output review shows the mapped sl": 1
+    },
+    "optionFieldCount": 0,
+    "consoleErrors": [],
+    "pageErrors": [],
+    "requestErrors": []
+  }
+}

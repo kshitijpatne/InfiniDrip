@@ -439,6 +439,12 @@ all 48 Trouser faces across 24 configurations; an integrated replay accepts
 52/146 faces and retains the prior 94 Tee, Fitted, Polo and Woven holds. The
 S327 packet records the output checks and screenshots; this remains digital
 view evidence and does not establish physical fit or factory acceptance.
+S328 adds decision-bound, fill-only closure metadata for the approved Tee/Fitted
+sleeve halves. Production review found their projected side paths inside the
+bodice and the mirrored instances overlapping across the center. Those four
+faces fail closed with the exact source edge and hold reason until a
+body-relative transform passes rendered join and overlap review. The integrated
+replay remains 52/146 accepted and 94 held; cut geometry is unchanged.
 
 Slice 276 tested reflecting every non-fold edge of a cut-on-fold role across
 its local centre axis, then rejected that output after production screenshots

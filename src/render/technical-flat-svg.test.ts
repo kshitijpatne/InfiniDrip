@@ -402,6 +402,48 @@ describe("renderTechnicalFlatSvg", () => {
       .toHaveLength(2);
   });
 
+  it("does not render Tee/Fitted sleeve fills while the projected sides overlap the body", () => {
+    for (const recipeId of ["tee", "fitted"] as const) {
+      const recipe = GARMENTS.find((candidate) => candidate.name === recipeId)!;
+      const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
+      for (const kind of ["FRONT_FLAT", "BACK_FLAT"] as const) {
+        const revision = `live-${recipeId}-${kind}-sleeve-fill`;
+        const live = compileTechnicalFlatLiveView({ recipe, block, revisionId: revision, kind, placements: [],
+          colorHex: "#3669a4", texture: "smooth", shine: 0 });
+        expect(live.issues.some((issue) => issue.sourceId.includes(`pattern:${recipeId}:role:sleeve:edge:`)
+          && issue.message.includes("S328 production-output review")), `${recipeId}.${kind}`).toBe(true);
+        expect(live.view).toBeNull();
+      }
+    }
+  });
+
+  it("uses decision-sourced fill-only boundaries without painting a boundary stroke", () => {
+    const sleevePath = (id: string, sourceId: string, edgeId: string, from: { x: number; y: number },
+      to: { x: number; y: number }, colorwayBoundaryOnly = false): TechnicalFlatPrimitive => ({
+      kind: "path", id, layer: "GARMENT_SILHOUETTE", feature: "silhouette",
+      source: { sourceClass: "PATTERN_DERIVED", sourceId, revisionId }, sourceEdgeIds: [edgeId],
+      ...(colorwayBoundaryOnly ? { colorwayBoundaryOnly: true } : {}),
+      commands: [{ op: "move", point: from }, { op: "line", point: to }],
+    });
+    const view = makeView([
+      sleevePath("sleeve-cap", "pattern:tee:role:sleeve", "pattern:tee:role:sleeve:edge:capLeft", { x: 0, y: 0 }, { x: 2, y: 0 }),
+      sleevePath("sleeve-side", "pattern:tee:role:sleeve", "pattern:tee:role:sleeve:edge:sideLeft", { x: 2, y: 0 }, { x: 2, y: 2 }),
+      sleevePath("sleeve-hem", "pattern:tee:role:sleeve", "pattern:tee:role:sleeve:edge:hem", { x: 2, y: 2 }, { x: 0, y: 2 }, true),
+      sleevePath("sleeve-view-close", "view:tee:role:sleeve:decision:G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR:boundary:approved-sleeve-area-closure",
+        "view:tee:role:sleeve:decision:G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR:boundary:approved-sleeve-area-closure",
+        { x: 0, y: 2 }, { x: 0, y: 0 }, true),
+    ]);
+    const rendered = renderTechnicalFlatSvg(view, { measureText: measure, colorway: {
+      id: "fabric", revisionId, colorHex: "#3669a4", texture: "woven", shine: 24,
+      targetRoleIds: ["sleeve"], sourceId: "style:fabric-presentation",
+    } });
+    expect(rendered.issues).toEqual([]);
+    expect(rendered.svg).toContain('data-colorway-contour-sources=');
+    expect(rendered.svg).toContain("G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR");
+    expect(rendered.svg).not.toContain('data-entity-id="sleeve-hem"');
+    expect(rendered.svg).not.toContain('data-entity-id="sleeve-view-close"');
+  });
+
   it("withholds Trouser waistband color when its mapped panel seam source is incomplete", () => {
     const colorway = { id: "fabric", revisionId, colorHex: "#3669a4", texture: "woven" as const,
       shine: 24, targetRoleIds: ["waistband"], sourceId: "style:fabric-presentation" as const };
