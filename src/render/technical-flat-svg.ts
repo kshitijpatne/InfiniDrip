@@ -106,7 +106,8 @@ function primitiveBounds(primitive: TechnicalFlatPrimitive): Bounds | null {
     case "mark": return pointBounds(primitive.at, MARK_RADIUS_CM);
     case "text": return pointBounds(primitive.at);
     case "artwork": return artworkBounds(primitive);
-    case "callout": return union(pointBounds(primitive.anchor.point), pointBounds(primitive.labelAt));
+    case "callout": return (primitive.dimensionReferences?.references ?? []).reduce((result, reference) =>
+      union(result, pointBounds(reference.point)), union(pointBounds(primitive.anchor.point), pointBounds(primitive.labelAt)));
   }
 }
 
@@ -335,7 +336,12 @@ function styleFor(primitive: TechnicalFlatPrimitive, positions: ReadonlyMap<stri
       const labelAt = positions.get(primitive.id) ?? primitive.labelAt;
       const sourceEntity = primitive.anchor.sourceEntityId === undefined ? ""
         : ` data-callout-source-entity="${escapeXml(primitive.anchor.sourceEntityId)}"`;
-      return `<g ${shared} data-layer="${primitive.layer}" data-callout-target="${escapeXml(primitive.anchor.primitiveId)}"${sourceEntity}><path d="M${fmt(primitive.anchor.point.x)} ${fmt(primitive.anchor.point.y)} L${fmt(labelAt.x)} ${fmt(labelAt.y)}" fill="none" stroke="#344d60" stroke-width="${EDGE_STROKE_CM}"/><circle cx="${fmt(primitive.anchor.point.x)}" cy="${fmt(primitive.anchor.point.y)}" r="${MARK_RADIUS_CM / 2}" fill="#fff" stroke="#344d60" stroke-width="${EDGE_STROKE_CM}"/></g>`;
+      const references = primitive.dimensionReferences;
+      const referenceMarkup = references ? references.references.map((reference) =>
+        `<circle data-dimension-source-entity="${escapeXml(reference.sourceEntityId)}" cx="${fmt(reference.point.x)}" cy="${fmt(reference.point.y)}" r="${MARK_RADIUS_CM / 2}" fill="#fff" stroke="#526677" stroke-width="${EDGE_STROKE_CM}"/>`).join("") : "";
+      const levelLine = references?.kind === "vertical-levels" ? `<path data-dimension-kind="vertical-levels" d="M${fmt(references.references[0]!.point.x)} ${fmt(references.references[0]!.point.y)} L${fmt(references.references[1]!.point.x)} ${fmt(references.references[1]!.point.y)}" fill="none" stroke="#526677" stroke-width="${EDGE_STROKE_CM}" stroke-dasharray="0.16 0.12"/>` : "";
+      const dimensionKind = references ? ` data-dimension-kind="${references.kind}"` : "";
+      return `<g ${shared} data-layer="${primitive.layer}" data-callout-target="${escapeXml(primitive.anchor.primitiveId)}"${sourceEntity}${dimensionKind}>${levelLine}${referenceMarkup}<path d="M${fmt(primitive.anchor.point.x)} ${fmt(primitive.anchor.point.y)} L${fmt(labelAt.x)} ${fmt(labelAt.y)}" fill="none" stroke="#344d60" stroke-width="${EDGE_STROKE_CM}"/><circle cx="${fmt(primitive.anchor.point.x)}" cy="${fmt(primitive.anchor.point.y)}" r="${MARK_RADIUS_CM / 2}" fill="#fff" stroke="#344d60" stroke-width="${EDGE_STROKE_CM}"/></g>`;
     }
   }
 }

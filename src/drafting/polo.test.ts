@@ -8,6 +8,7 @@ import {
   POLO_NOTCHES,
   POLO_OPTION_DEFINITIONS,
   POLO_POMS,
+  mapPoloBodyPom,
   poloGuidance,
   resolvePoloOptions,
 } from "./polo";
@@ -15,6 +16,10 @@ import { rolePiece } from "./block";
 import { interfaceLength, stitchChecks } from "./stitch";
 
 describe("Polo shell (Slice 69)", () => {
+  it("leaves a shared body POM unchanged when it has no Polo-specific view mapping", () => {
+    const unmapped = { label: "Unmapped", measure: () => 1 };
+    expect(mapPoloBodyPom(unmapped)).toBe(unmapped);
+  });
   it("drafts tee body/sleeve plus two real folded placket pieces", () => {
     const block = draftPoloShell(STANDARD_M);
     expect(Object.keys(block.roles)).toEqual(["front", "back", "sleeve", "buttonPlacket", "buttonholePlacket"]);
@@ -217,6 +222,17 @@ describe("Polo shell (Slice 69)", () => {
     expect(noVentFields).toContain("option-backHemDrop");
     expect(noVentFields).not.toContain("polo-collar");
     expect(noVentFields).not.toContain("polo-seam");
+
+    const renamedMismatch = { ...draftPolo(STANDARD_M, noVent), stitches: draftPolo(STANDARD_M, noVent).stitches.map((stitch) =>
+      stitch.label === "Side seam (front ↔ back)" ? { ...stitch, label: "Other interface" } : stitch) };
+    expect(poloGuidance(renamedMismatch, STANDARD_M, noVent).find((note) => note.text.startsWith("Other interface measures")))
+      .toMatchObject({ field: "option-placketLength", level: "warn" });
+    const noVentNoDrop = { sideVentDepth: 0, backHemDrop: 0 };
+    const validZeroDrop = draftPolo(STANDARD_M, noVentNoDrop);
+    const brokenInterface = { ...validZeroDrop, stitches: validZeroDrop.stitches.map((stitch) =>
+      stitch.label === "Side seam (front ↔ back)" ? { ...stitch, a: { edges: [{ piece: "front", edge: "hem" }] } } : stitch) };
+    expect(poloGuidance(brokenInterface, STANDARD_M, noVentNoDrop).find((note) => note.text.startsWith("Side seam (front ↔ back) measures")))
+      .toMatchObject({ field: "option-sideVentDepth", level: "warn" });
   });
 
   it("reports live V2 POMs for rise, point, vent, separate lengths, and drop", () => {

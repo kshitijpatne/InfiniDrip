@@ -577,6 +577,14 @@ export const POLO_POMS: readonly Pom[] = [
     label: "Finished pointed collar leaf",
     tolerance: 0.3,
     measure: (block) => seam(rolePiece(block, "upperCollar"), "centerBack"),
+    anchor: (block) => {
+      const edge = pieceEdge(rolePiece(block, "upperCollar"), "centerBack");
+      const start = edgeStart(edge); const end = edgeEnd(edge);
+      return { x: (start.x + end.x) / 2, y: (start.y + end.y) / 2 };
+    },
+    anchorRoleId: "upperCollar",
+    anchorEdgeId: "centerBack",
+    viewDimension: { kind: "edge-length", view: "FRONT_FLAT", roleId: "upperCollar", edgeId: "centerBack" },
   },
   {
     label: "Stand front rise",
@@ -652,13 +660,16 @@ export const POLO_POMS: readonly Pom[] = [
     tolerance: 0.2,
     measure: (block) => edgeStart(pieceEdge(rolePiece(block, "back"), "hem")).y -
       edgeStart(pieceEdge(rolePiece(block, "front"), "hem")).y,
+    backAnchor: (block) => edgeStart(pieceEdge(rolePiece(block, "back"), "hem")),
+    backAnchorRoleId: "back",
+    backAnchorEdgeId: "hem",
+    viewDimension: { kind: "vertical-levels", view: "BACK_FLAT",
+      upperRoleId: "front", upperEdgeId: "hem", lowerRoleId: "back", lowerEdgeId: "hem" },
   },
 ];
 
 /** Polo-local copies add view targets without changing Tee's shared POM map. */
-export const POLO_BODY_POMS: readonly Pom[] = TSHIRT_POMS
-  .filter((pom) => pom.label !== "Body length (HPS–hem)")
-  .map((pom) => {
+export function mapPoloBodyPom(pom: Pom): Pom {
     switch (pom.label) {
       case "Body chest (finished)": return { ...pom, backAnchor: (b) => edgeStart(pieceEdge(rolePiece(b, "back"), "side")),
         anchorRoleId: "front", anchorEdgeId: "side", backAnchorRoleId: "back", backAnchorEdgeId: "side" };
@@ -689,7 +700,11 @@ export const POLO_BODY_POMS: readonly Pom[] = TSHIRT_POMS
         anchorRoleId: "sleeve", anchorEdgeId: "hem", backAnchorRoleId: "sleeve", backAnchorEdgeId: "hem" };
       default: return pom;
     }
-  });
+}
+
+export const POLO_BODY_POMS: readonly Pom[] = TSHIRT_POMS
+  .filter((pom) => pom.label !== "Body length (HPS–hem)")
+  .map(mapPoloBodyPom);
 
 /** Notches and grainlines for every Polo piece. Sleeve/body tables are reused
  * verbatim because those pieces are the current tee geometry, not lookalikes. */

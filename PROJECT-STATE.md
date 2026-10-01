@@ -1,8 +1,22 @@
 # InfiniDrip — Project State
 
-_Last updated: S339 closes S338 POM branch-coverage and stale Trouser assertions; the approved underlap midpoint mark is recorded as a design convention, while Polo label crowding and dimension references remain queued separately, 2026-10-01._
+_Last updated: Slice 340 implements the approved Polo dimension-only references; all Polo holds remain. EPIC-17/G04 V02 is In Progress and V03 remains gated, 2026-10-01._
 
-## EPIC-17 / G04 current handoff — refreshed after Slice 339; V02 remains open
+## EPIC-17 / G04 current handoff — Slice 340 completed; V02 remains open
+
+### Slice 340 — Polo dimension-only POM references
+
+Started 2026-10-01 19:58:12 UTC from clean S339 `3fe2652` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor. Highest assigned number was 339; S340 reserved. Board revision was 1227 before its validated start evidence and 1231 at implementation entry. Packet: `docs/research/epic17/G04-V02-POLO-DIMENSION-REFERENCES-S340.md`.
+
+S340 implements two approved annotation-only dimensions. Polo's finished collar-leaf POM now points to exact `upperCollar.centerBack` fold-edge endpoints without rendering that hidden fold as a garment edge. Back hem drop references the exact same-revision `front.hem.start` and `back.hem.start` levels; the front level is projected to an external dashed dimension on the back view and does not imply a front/back stitch. No cut geometry, stitch graph, assembly rule/tolerance, POM formula/value/tolerance or DXF writer changed. Source diagnostics cover all 17 Polo configurations/34 faces with zero dimension mapping issues. Production Chromium replay covers the same 17/34, with zero browser errors and zero SVGs: all 34 complete Polo faces remain held on existing sleeve-cap residual and POM-label conflicts. Diagnostic and production evidence are in `docs/research/epic17/S340-polo-dimensions/`.
+
+Focused Polo/technical-flat tests pass 118/118; all seven changed executable production modules report 100% statement, branch, function and line coverage. `npx tsc --noEmit` and production build pass (existing Vite large-chunk advisory). Relevant protected export/DXF/identity tests pass 27/27, including eight protected legacy DXF hashes and nine empty-placement identities; the Trouser output fixture now includes the already-approved S326 `flyUnderlap`. No export baseline moved. The S340 visual review confirmed the new reference marks are present in diagnostic-only renderings but did not pass the full Polo readability or assembly gate; no face is accepted from this work.
+
+Validated Control Center exit evidence will be added at slice close; expected current status remains EPIC-17/G04-V02 In Progress, V01 Done, V03 Backlog. The last verified integrated all-recipe baseline remains 56 accepted / 90 held over 73 configurations / 146 faces / 32 option fields; S340 changes only the Polo dimension metadata and no acceptance tally. MQF-004–007, MQF-011, MQF-012 and MQF-015 remain review checks at applicable output exits, and post-G17 deferrals stay intact. There is no physical-fit, factory-acceptance, CAD-compatibility, or production-readiness claim.
+
+Elapsed through S340 closeout: 48m04s (2026-10-01 19:58:12–20:46:16 UTC): implementation/focused corrections about 19m; focused gates about 12m; rendered replay/review about 8m; durable docs and board closeout about 9m04s; external-agent waits 0m; maintainer-decision time 0m. Validated board revision 1238 links S340 exit, production replay and focused-gate evidence. **Next action:** refresh the integrated seven-recipe source/output hold inventory from the verified S340 state in a separately numbered, bounded slice, then select the next V02 blocker from that evidence; maintain all current holds and do not begin V03 before all 146 faces pass.
+
+### Slice 333 — Polo sleeve view mapping (start)
 
 ### Slice 333 — Polo sleeve view mapping (start)
 
@@ -5851,6 +5865,16 @@ Verification: drafting/render selection passes 777/777 across 67 test files with
 Elapsed: approximately 51m (19:04:18–19:55 UTC): implementation and test changes ~14m; focused drafting/render/coverage verification ~18m; build/export/Control Center checks ~7m; durable records and board closeout ~12m; external-agent waits 0m; maintainer-decision time not separately measurable. No delegation was used. Validated board revision 1227 links S339 exit evidence to G04-V02 and EPIC-17; the PR candidate remains unmerged until the settled integrated Epic gate.
 
 **Next action:** implement the two previously approved Polo dimension-only references with exact same-revision identities, then review callout layout and rendered readability across all Polo configurations. Keep Polo held until its sleeve residual and all POM label collisions are resolved; retain all-seven acceptance and do not begin V03 early.
+
+### Slice 339 landed boundary
+
+Slice 339 landed as `3fe2652` (`Slice 339: close POM coverage and Trouser assertions`) from clean S338 `88f906e`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Board revision 1227 links the verified S339 exit to G04-V02 and EPIC-17. The reviewed underlap midpoint location is recorded as an explicit design convention, not a stitch-matched balance notch: `flyUnderlap.shieldEdge` joins `flyShield.right`, while the existing notch is on `flyShield.left`.
+
+### Slice 340 start — Polo dimension-only POM references
+
+Started 2026-10-01 19:58:12 UTC from clean S339 `3fe2652` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice was 339; S340 is reserved. Canonical board revision 1227 verifies S339 exit evidence; validated S340 start evidence/comments are recorded at revision 1231. EPIC-17/G04-V02 remain In Progress; V01 Done; V03 Backlog. Integrated status is 56 accepted / 90 held across 73 configurations / 146 face requests / 32 option fields; all 34 Polo requests remain held. Primary usage 9%, weekly 11%. Packet: `docs/research/epic17/G04-V02-POLO-DIMENSION-REFERENCES-S340.md`.
+
+Scope: implement only the approved exact-source `upperCollar.centerBack` finished-leaf dimension reference and the back-flat Back hem drop reference using `front.hem.start` Y and `back.hem.start`. These display as annotations only and may not draw the hidden fold edge as a garment boundary or imply a front/back seam. Preserve POM methods/values, source revision identity, cut/stitch geometry, solver threshold and full-face holds. Recheck all 17 Polo option configurations and rendered diagnostics; no face can pass while the 0.68 cm sleeve residual exceeds 0.25 cm or any callout is unreadable. V03 remains gated; no unrelated output/UI scope is admitted.
 
 ### Slice 299 start — Woven placket instance and overlap source review
 

@@ -66,6 +66,13 @@ export interface Pom {
   };
   /** Optional authored mark entity on the back face for construction-specific callouts. */
   readonly backMarkAnchor?: { readonly roleId: string; readonly markName: string };
+  /** Optional view-only measurement references. These never become garment edges. */
+  readonly viewDimension?:
+    | { readonly kind: "edge-length"; readonly view: "FRONT_FLAT" | "BACK_FLAT";
+      readonly roleId: string; readonly edgeId: string }
+    | { readonly kind: "vertical-levels"; readonly view: "BACK_FLAT";
+      readonly upperRoleId: string; readonly upperEdgeId: string;
+      readonly lowerRoleId: string; readonly lowerEdgeId: string };
   /**
    * Optional production tolerance in cm — how far a finished garment may drift
    * from the spec on this measure before it's a reject. A property of the POINT

@@ -34,6 +34,27 @@ const measure: TechnicalFlatMeasureText = (text, fontSizeCm) => ({
 });
 
 describe("renderTechnicalFlatSvg", () => {
+  it("renders two source-identified hem levels as annotation without a garment join", () => {
+    const callout: TechnicalFlatPrimitive = { kind: "callout", id: "back-hem-drop", layer: "ANNOTATION", feature: "pom",
+      source: { ...source, sourceId: "pom:polo:back-hem-drop" }, text: "Back hem drop: 1.5 cm (±0.2 cm)",
+      anchor: { primitiveId: "outline", point: { x: 13, y: 10 }, sourceEntityId: "pattern:polo:role:back:edge:hem" },
+      labelAt: { x: 17, y: 11 }, dimensionReferences: { kind: "vertical-levels", references: [
+        { point: { x: 13, y: 8.5 }, sourceEntityId: "pattern:polo:role:front:edge:hem" },
+        { point: { x: 13, y: 10 }, sourceEntityId: "pattern:polo:role:back:edge:hem" },
+      ] } };
+    const view = { ...makeView([outline, callout], []), recipeId: "polo" };
+    const result = renderTechnicalFlatSvg(view, { measureText: measure });
+    expect(result.issues).toEqual([]);
+    const parsed = new (new JSDOM({ url: "https://technical-flat.test/" }).window.DOMParser)()
+      .parseFromString(result.svg!, "image/svg+xml");
+    const annotation = parsed.querySelector("g[data-entity-id='back-hem-drop']");
+    expect(annotation?.getAttribute("data-layer")).toBe("ANNOTATION");
+    expect(annotation?.querySelector("[data-dimension-kind='vertical-levels']")).not.toBeNull();
+    expect(annotation?.querySelectorAll("[data-dimension-source-entity]")).toHaveLength(2);
+    expect(annotation?.querySelector("[data-dimension-source-entity='pattern:polo:role:front:edge:hem']")).not.toBeNull();
+    expect(parsed.querySelectorAll("path[data-source-id*='pattern:polo:role:front']")).toHaveLength(0);
+  });
+
   it("emits parseable, ordered, revision-bound geometry, labels, colorway and visible wrapped notices", () => {
     const primitives: TechnicalFlatPrimitive[] = [
       { ...outline, kind: "path", layer: "GARMENT_SILHOUETTE" },

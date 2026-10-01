@@ -38,7 +38,7 @@ describe("mapTechnicalFlatSources", () => {
       const backAnchors = mapping.sources.filter((source) => source.kind === "pom"
         && source.treatment === "ANCHORED" && source.viewKinds.includes("BACK_FLAT"));
       expect(backAnchors, recipe.name).toHaveLength(recipe.name === "trouser" || recipe.name === "skirt" ? 2
-        : recipe.name === "tank" || recipe.name === "tee" ? 4 : recipe.name === "polo" ? 10 : 0);
+        : recipe.name === "tank" || recipe.name === "tee" ? 4 : recipe.name === "polo" ? 11 : 0);
       if (recipe.name === "tank" || recipe.name === "tee") {
         expect(G04_TECHNICAL_FLAT_MAPPINGS[recipe.name].pomAnchorRole).toBe("front");
         const backRole = "back";
@@ -100,7 +100,9 @@ describe("mapTechnicalFlatSources", () => {
           relatedIds: ["edge:back:hem"], treatment: "ANCHORED",
         });
         expect(mapping.sources.find((source) => source.sourceId === "pom:polo:finished-pointed-collar-leaf"))
-          .toMatchObject({ treatment: "TABLE_ONLY" });
+          .toMatchObject({ treatment: "ANCHORED", viewKinds: ["FRONT_FLAT"],
+            targetGeometryId: "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+            relatedIds: ["edge:upperCollar:centerBack"] });
       }
       if (recipe.name === "trouser") {
         expect(G04_TECHNICAL_FLAT_MAPPINGS.trouser.faces[0].roles).toContainEqual({

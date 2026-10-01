@@ -1,13 +1,102 @@
 import { describe, expect, it } from "vitest";
 import { GARMENTS, STANDARD_M, defaultGarmentOptions } from "../drafting";
 import { edgeEnd, edgeStart } from "../drafting/piece";
-import { appendApprovedViewPairReflection, appendOppositeSideReflection, appendPhysicalPairReflection, compileTechnicalFlatLiveView, placeTechnicalFlatPrimitive, reflectFoldPrimitive, reflectPhysicalPairPrimitive, reflectPrimitiveAcrossLine, technicalFlatAssemblyNotices, technicalFlatPrimitiveRole } from "./technical-flat-live";
+import { appendApprovedViewPairReflection, appendOppositeSideReflection, appendPhysicalPairReflection, compileTechnicalFlatLiveView, mapPoloDimensionCallouts, placeTechnicalFlatPrimitive, reflectFoldPrimitive, reflectPhysicalPairPrimitive, reflectPrimitiveAcrossLine, technicalFlatAssemblyNotices, technicalFlatPrimitiveRole } from "./technical-flat-live";
 import { assembleTechnicalFlatRoles } from "./technical-flat-assembly";
 import { G04_TECHNICAL_FLAT_MAPPINGS } from "./technical-flat-mapping";
+import { transformFlatPoint } from "./technical-flat-transform";
 import type { FlatPathPrimitive, TechnicalFlatPrimitive } from "./technical-flat";
 import type { TechnicalFlatLiveIssue } from "./technical-flat-live";
 
 describe("compileTechnicalFlatLiveView", () => {
+  it("maps the approved Polo dimensions to exact transformed sources across all 17 configurations", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "polo")!;
+    const optionSets = [defaultGarmentOptions(recipe.options ?? []), ...(recipe.options ?? []).flatMap((option) => [
+      { ...defaultGarmentOptions(recipe.options ?? []), [option.id]: option.min },
+      { ...defaultGarmentOptions(recipe.options ?? []), [option.id]: option.max },
+    ])];
+    for (const options of optionSets) {
+      const block = recipe.draft(STANDARD_M, options);
+      for (const kind of ["FRONT_FLAT", "BACK_FLAT"] as const) {
+        const assembly = assembleTechnicalFlatRoles("polo", block, kind);
+        const callouts = (recipe.poms ?? []).filter((pom) => pom.viewDimension?.view === kind).map((pom) => ({
+          kind: "callout" as const, id: `flat:polo:${kind}:callout:${pom.label}`,
+          layer: "CALLOUT" as const, feature: "pom" as const,
+          source: { sourceClass: "PATTERN_DERIVED" as const,
+            sourceId: `pom:polo:${pom.label.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}`,
+            revisionId: `polo-dimension:${JSON.stringify(options)}` }, text: `${pom.label}: ${pom.measure(block)} cm`,
+          anchor: { primitiveId: "outline", point: { x: 0, y: 0 } }, labelAt: { x: 2, y: 2 },
+        }));
+        const mapped = mapPoloDimensionCallouts(block, kind, recipe.poms ?? [], callouts, assembly.transforms);
+        expect(mapped.issues, kind).toEqual([]);
+        if (kind === "FRONT_FLAT") {
+          expect(mapped.callouts).toHaveLength(1);
+          const collar = mapped.callouts[0]!;
+          const edge = block.roles.upperCollar!.edges.find((candidate) => candidate.name === "centerBack")!;
+          const transform = assembly.transforms.upperCollar!;
+          expect(collar).toMatchObject({ layer: "ANNOTATION", dimensionReferences: {
+            kind: "edge-length", references: [
+              { sourceEntityId: "pattern:polo:role:upperCollar:edge:centerBack" },
+              { sourceEntityId: "pattern:polo:role:upperCollar:edge:centerBack" },
+            ],
+          } });
+          expect(collar.dimensionReferences?.references.map((reference) => reference.point)).toEqual([
+            transformFlatPoint(edgeStart(edge), { ...transform, mirrorX: transform.mirrorX ?? false }),
+            transformFlatPoint(edgeEnd(edge), { ...transform, mirrorX: transform.mirrorX ?? false }),
+          ]);
+        } else {
+          expect(mapped.callouts).toHaveLength(1);
+          const drop = mapped.callouts[0]!;
+          const frontHem = block.roles.front!.edges.find((candidate) => candidate.name === "hem")!;
+          const backHem = block.roles.back!.edges.find((candidate) => candidate.name === "hem")!;
+          const refs = drop.dimensionReferences!.references;
+          expect(drop).toMatchObject({ layer: "ANNOTATION", dimensionReferences: { kind: "vertical-levels" } });
+          expect(refs.map((reference) => reference.sourceEntityId)).toEqual([
+            "pattern:polo:role:front:edge:hem", "pattern:polo:role:back:edge:hem",
+          ]);
+          expect(Math.abs(refs[0]!.point.y - refs[1]!.point.y)).toBeCloseTo(recipe.poms!.find((pom) => pom.label === "Back hem drop")!.measure(block), 6);
+          expect(refs[0]!.point.x).toBeCloseTo(refs[1]!.point.x, 8);
+          expect(refs[0]!.point.x).toBeGreaterThan(transformFlatPoint(edgeStart(backHem), {
+            ...assembly.transforms.back!, mirrorX: assembly.transforms.back!.mirrorX ?? false,
+          }).x);
+          expect(frontHem).toBeDefined();
+        }
+      }
+    }
+    const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
+    const poms = recipe.poms ?? [];
+    const calls = [{ kind: "callout" as const, id: "missing", layer: "CALLOUT" as const, feature: "pom" as const,
+      source: { sourceClass: "PATTERN_DERIVED" as const, sourceId: "pom:polo:finished-pointed-collar-leaf", revisionId: "r1" },
+      text: "leaf", anchor: { primitiveId: "outline", point: { x: 0, y: 0 } }, labelAt: { x: 1, y: 1 } }];
+    expect(mapPoloDimensionCallouts(block, "FRONT_FLAT", poms, calls, {}).issues).toContainEqual(
+      expect.objectContaining({ message: expect.stringContaining("no same-revision source edge or face transform") }));
+    const hem = [{ ...calls[0]!, source: { ...calls[0]!.source, sourceId: "pom:polo:back-hem-drop" } }];
+    expect(mapPoloDimensionCallouts(block, "BACK_FLAT", poms, hem, {}).issues).toContainEqual(
+      expect.objectContaining({ message: expect.stringContaining("no same-revision source edges or back-face transform") }));
+    expect(mapPoloDimensionCallouts(block, "BACK_FLAT", poms, calls, {}).callouts).toEqual(calls);
+    const edge = block.roles.upperCollar!.edges.find((candidate) => candidate.name === "centerBack")!;
+    const assembled = assembleTechnicalFlatRoles("polo", block, "FRONT_FLAT");
+    const rolePlacement = assembled.transforms.upperCollar!;
+    const noMirrorFlag = { ...assembled.transforms, upperCollar: { offset: rolePlacement.offset,
+      rotationDegrees: rolePlacement.rotationDegrees } };
+    const collarCallout = [{ ...calls[0]!, source: { ...calls[0]!.source,
+      sourceId: "pom:polo:finished-pointed-collar-leaf" } }];
+    const fallbackTransform = mapPoloDimensionCallouts(block, "FRONT_FLAT", poms, collarCallout, noMirrorFlag);
+    expect(fallbackTransform.issues).toEqual([]);
+    expect(fallbackTransform.callouts[0]?.dimensionReferences?.references.map((reference) => reference.point)).toEqual([
+      transformFlatPoint(edgeStart(edge), { offset: rolePlacement.offset, rotationDegrees: rolePlacement.rotationDegrees, mirrorX: false }),
+      transformFlatPoint(edgeEnd(edge), { offset: rolePlacement.offset, rotationDegrees: rolePlacement.rotationDegrees, mirrorX: false }),
+    ]);
+    const backAssembly = assembleTechnicalFlatRoles("polo", block, "BACK_FLAT");
+    const backPlacement = backAssembly.transforms.back!;
+    const noBackMirrorFlag = { ...backAssembly.transforms, back: { offset: backPlacement.offset,
+      rotationDegrees: backPlacement.rotationDegrees } };
+    const fallbackLevels = mapPoloDimensionCallouts(block, "BACK_FLAT", poms, hem, noBackMirrorFlag);
+    expect(fallbackLevels.issues).toEqual([]);
+    expect(fallbackLevels.callouts[0]?.dimensionReferences?.references.map((reference) => reference.point["y"]))
+      .toEqual([70, 71.5]);
+  });
+
   it("resolves role ownership for geometry, marks, darts, artwork and anchored callouts", () => {
     const base = { layer: "ANNOTATION" as const, feature: "annotation" as const,
       source: { sourceClass: "PATTERN_DERIVED" as const, sourceId: "pattern:tee:role:front", revisionId: "live" } };
@@ -548,6 +637,11 @@ describe("compileTechnicalFlatLiveView", () => {
       revisionId: "polo-pom-single-mapped", kind: "FRONT_FLAT", placements: [],
       colorHex: "#456789", texture: "smooth", shine: 0 });
     expect(singleMapped.issues.filter((issue) => issue.stage === "pom")).toEqual([]);
+    const invalidPom = compileTechnicalFlatLiveView({ recipe: { ...recipe, poms: [{ label: "Invalid value",
+      measure: () => -1, anchor: () => shoulderPoint, anchorRoleId: "front", anchorEdgeId: "shoulder" }] }, block,
+      revisionId: "polo-pom-null-callouts", kind: "FRONT_FLAT", placements: [],
+      colorHex: "#456789", texture: "smooth", shine: 0 });
+    expect(invalidPom.issues).toContainEqual(expect.objectContaining({ stage: "pom", sourceId: "pom:polo:invalid-value" }));
     for (const kind of ["FRONT_FLAT", "BACK_FLAT"] as const) {
       const result = compileTechnicalFlatLiveView({ recipe: { ...recipe, poms }, block,
         revisionId: `polo-pom-role-${kind}`, kind, placements: [], colorHex: "#456789", texture: "smooth", shine: 0 });

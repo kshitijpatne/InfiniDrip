@@ -142,6 +142,11 @@ export interface FlatCalloutPrimitive extends FlatPrimitiveBase {
   readonly text: string;
   readonly anchor: { readonly primitiveId: string; readonly point: FlatPoint; readonly sourceEntityId?: string };
   readonly labelAt: FlatPoint;
+  /** Annotation-only evidence for a multi-point POM; these references never join garment contours. */
+  readonly dimensionReferences?: {
+    readonly kind: "edge-length" | "vertical-levels";
+    readonly references: readonly { readonly point: FlatPoint; readonly sourceEntityId: string }[];
+  };
 }
 
 export type TechnicalFlatPrimitive =
@@ -298,6 +303,14 @@ function validatePrimitive(primitive: TechnicalFlatPrimitive): TechnicalFlatIssu
       if (!nonBlank(primitive.text) || !finitePoint(primitive.anchor.point) || !finitePoint(primitive.labelAt)) {
         issues.push({ code: "INVALID_GEOMETRY", entityId: primitive.id, message: "Callout text and anchor/label positions must be valid." });
       }
+      if (primitive.dimensionReferences !== undefined && (!primitive.dimensionReferences
+        || !["edge-length", "vertical-levels"].includes(primitive.dimensionReferences.kind)
+        || !Array.isArray(primitive.dimensionReferences.references) || primitive.dimensionReferences.references.length !== 2
+        || primitive.dimensionReferences.references.some((reference) => !finitePoint(reference.point)
+          || !nonBlank(reference.sourceEntityId)))) {
+        issues.push({ code: "INVALID_GEOMETRY", entityId: primitive.id,
+          message: "Dimension references need two finite, source-identified annotation points." });
+      }
       break;
   }
   return issues;
@@ -343,10 +356,16 @@ export function validateTechnicalFlat(view: TechnicalFlatView): TechnicalFlatIss
       const exactEdgeId = edgeReference ? `pattern:${edgeReference[1]}:role:${edgeReference[2]}:edge:${edgeReference[3]}` : undefined;
       const roleEdgeIsRepresented = roleSourceId !== undefined && target?.source.sourceId === roleSourceId
         && target.kind === "path" && sourceEdgeIsRepresented(target, exactEdgeId as string);
-      const sourceIsRepresented = target?.source.sourceId === primitive.anchor.sourceEntityId || roleEdgeIsRepresented;
+      const sourceIsRepresented = target?.source.sourceId === primitive.anchor.sourceEntityId || roleEdgeIsRepresented
+        || primitive.dimensionReferences?.references.some((reference) => reference.sourceEntityId === primitive.anchor.sourceEntityId) === true;
       if (!sourceIsRepresented) issues.push({ code: "UNRESOLVED_CALLOUT_TARGET", entityId: primitive.id,
         message: "Callout source entity must be represented by its same-revision target geometry." });
     }
+    if (primitive.kind === "callout" && primitive.dimensionReferences?.references.some((reference) => {
+      const match = /^pattern:([^:]+):role:[^:]+:edge:.+$/u.exec(reference.sourceEntityId);
+      return !match || match[1] !== view.recipeId;
+    })) issues.push({ code: "UNRESOLVED_CALLOUT_TARGET", entityId: primitive.id,
+      message: "Dimension references must identify source edges from this recipe and revision." });
   }
 
   const noticeIds = new Set<string>();

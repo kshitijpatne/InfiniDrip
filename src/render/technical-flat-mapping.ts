@@ -3,6 +3,7 @@ import type { Pom } from "../drafting/pom";
 import type { Stitch, InterfaceRef } from "../drafting/stitch";
 import type { ArtworkPlacement } from "../surface/placement";
 import type { TechnicalFlatFeature, TechnicalFlatLayer, TechnicalFlatViewKind } from "./technical-flat";
+import { edgeEnd, edgeStart } from "../drafting/piece";
 
 /** Resolve only the authored point name; an absent property remains undefined and fails validation. */
 function markedPoint(mark: NonNullable<Block["roles"][string]["marks"]>[number], pointName: "at" | "start" | "end") {
@@ -291,8 +292,13 @@ export function mapTechnicalFlatSources(
         continue;
       }
       const edge = pom.anchorEdgeId ? anchorRole.edges.find((candidate) => candidate.name === pom.anchorEdgeId) : undefined;
-      if (pom.anchorEdgeId && (!edge || ![edge.kind === "line" ? edge.start : edge.curve.start,
-        edge.kind === "line" ? edge.end : edge.curve.end].some((candidate) => candidate.x === point.x && candidate.y === point.y))) {
+      const endpoints = edge ? [edgeStart(edge), edgeEnd(edge)] : [];
+      const dimensionMidpoint = pom.viewDimension?.kind === "edge-length" && pom.viewDimension.view === "FRONT_FLAT"
+        && pom.viewDimension.roleId === roleId && pom.viewDimension.edgeId === pom.anchorEdgeId
+        && edge?.kind === "line" && point.x === (endpoints[0]!.x + endpoints[1]!.x) / 2
+        && point.y === (endpoints[0]!.y + endpoints[1]!.y) / 2;
+      if (pom.anchorEdgeId && (!edge || (!endpoints.some((candidate) => candidate.x === point.x && candidate.y === point.y)
+        && !dimensionMidpoint))) {
         issues.push({ code: "INVALID_POM_ANCHOR", sourceId: pomId,
           message: `POM “${pom.label}” must anchor to a vertex on “${roleId}.${pom.anchorEdgeId}”.` });
         continue;
@@ -344,8 +350,8 @@ export function mapTechnicalFlatSources(
         continue;
       }
       const edge = pom.backAnchorEdgeId ? anchorRole.edges.find((candidate) => candidate.name === pom.backAnchorEdgeId) : undefined;
-      if (pom.backAnchorEdgeId && (!edge || ![edge.kind === "line" ? edge.start : edge.curve.start,
-        edge.kind === "line" ? edge.end : edge.curve.end].some((candidate) => candidate.x === point.x && candidate.y === point.y))) {
+      const endpoints = edge ? [edgeStart(edge), edgeEnd(edge)] : [];
+      if (pom.backAnchorEdgeId && (!edge || !endpoints.some((candidate) => candidate.x === point.x && candidate.y === point.y))) {
         issues.push({ code: "INVALID_POM_ANCHOR", sourceId: pomId,
           message: `POM “${pom.label}” must anchor to a vertex on “${roleId}.${pom.backAnchorEdgeId}”.` });
         continue;

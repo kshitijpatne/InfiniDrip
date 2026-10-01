@@ -103,6 +103,9 @@ export function transformFlatPrimitive(
         ...primitive,
         anchor: { ...primitive.anchor, point: mapPoint(primitive.anchor.point, transform) },
         labelAt: mapPoint(primitive.labelAt, transform),
+        ...(primitive.dimensionReferences ? { dimensionReferences: { ...primitive.dimensionReferences,
+          references: primitive.dimensionReferences.references.map((reference) => ({ ...reference,
+            point: mapPoint(reference.point, transform) })) } } : {}),
       };
   }
 }

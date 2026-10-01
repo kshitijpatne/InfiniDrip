@@ -91,6 +91,35 @@ describe("validateTechnicalFlat", () => {
     expect(validateTechnicalFlat(view([sourceMark, markCallout]))).toEqual([]);
   });
 
+  it("allows hidden garment edges only as exact annotation dimension references", () => {
+    const sourceEdge = "pattern:polo:role:upperCollar:edge:centerBack";
+    const upperCollar: FlatPathPrimitive = { ...path("upper-collar"), source: { ...source,
+      sourceId: "pattern:polo:role:upperCollar" }, sourceEdgeIds: ["pattern:polo:role:upperCollar:edge:frontTip"] };
+    const dimension: TechnicalFlatPrimitive = { kind: "callout", id: "leaf-pom", layer: "ANNOTATION", feature: "pom",
+      source: { ...source, sourceId: "pom:polo:finished-pointed-collar-leaf" }, text: "Finished pointed collar leaf: 5.0 cm",
+      anchor: { primitiveId: "upper-collar", point: { x: 0, y: 3 }, sourceEntityId: sourceEdge }, labelAt: { x: 4, y: 4 },
+      dimensionReferences: { kind: "edge-length", references: [
+        { point: { x: 0, y: 0 }, sourceEntityId: sourceEdge },
+        { point: { x: 0, y: 5 }, sourceEntityId: sourceEdge },
+      ] } };
+    expect(validateTechnicalFlat({ ...view([upperCollar, dimension]), recipeId: "polo" })).toEqual([]);
+    const wrongRecipe = { ...dimension, dimensionReferences: { ...dimension.dimensionReferences!, references: [
+      { point: { x: 0, y: 0 }, sourceEntityId: "pattern:tee:role:upperCollar:edge:centerBack" },
+      { point: { x: 0, y: 5 }, sourceEntityId: sourceEdge },
+    ] } };
+    expect(validateTechnicalFlat({ ...view([upperCollar, wrongRecipe]), recipeId: "polo" })).toContainEqual(
+      expect.objectContaining({ code: "UNRESOLVED_CALLOUT_TARGET", entityId: "leaf-pom" }));
+    const wrongTarget = { ...dimension, dimensionReferences: { ...dimension.dimensionReferences!, references: [
+      { point: { x: 0, y: 0 }, sourceEntityId: sourceEdge },
+      { point: { x: 0, y: 5 }, sourceEntityId: sourceEdge },
+    ] }, anchor: { ...dimension.anchor, sourceEntityId: "pattern:polo:role:upperCollar:edge:missing" } };
+    expect(validateTechnicalFlat({ ...view([upperCollar, wrongTarget]), recipeId: "polo" })).toContainEqual(
+      expect.objectContaining({ code: "UNRESOLVED_CALLOUT_TARGET", entityId: "leaf-pom" }));
+    const malformed = { ...dimension, dimensionReferences: { kind: "vertical-levels", references: [] } } as unknown as TechnicalFlatPrimitive;
+    expect(validateTechnicalFlat({ ...view([upperCollar, malformed]), recipeId: "polo" })).toContainEqual(
+      expect.objectContaining({ code: "INVALID_GEOMETRY", entityId: "leaf-pom" }));
+  });
+
   it("rejects invalid view identity, version, view kind and units", () => {
     const invalid = {
       ...view(), viewId: " ", revisionId: "", recipeId: " ", schemaVersion: 2,

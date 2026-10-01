@@ -97,10 +97,20 @@ describe("technical-flat rigid transforms", () => {
 
   it("transforms callout anchors and labels without changing their geometry target", () => {
     const callout: TechnicalFlatPrimitive = { kind: "callout", id: "pom-chest", layer: "CALLOUT", feature: "pom", source,
-      text: "Chest width", anchor: { primitiveId: "front-outline", point: { x: 2, y: 3 } }, labelAt: { x: 6, y: 3 } };
+      text: "Chest width", anchor: { primitiveId: "front-outline", point: { x: 2, y: 3 } }, labelAt: { x: 6, y: 3 },
+      dimensionReferences: { kind: "vertical-levels", references: [
+        { point: { x: 2, y: 2 }, sourceEntityId: "pattern:polo:role:front:edge:hem" },
+        { point: { x: 2, y: 4 }, sourceEntityId: "pattern:polo:role:back:edge:hem" },
+      ] } };
     expect(transformFlatPrimitive(callout, rotateMirror)).toMatchObject({
       id: "pom-chest", text: "Chest width", anchor: { primitiveId: "front-outline", point: { x: 7, y: 18 } },
-      labelAt: { x: 7, y: 14 },
+      labelAt: { x: 7, y: 14 }, dimensionReferences: { references: [
+        { point: { x: 8, y: 18 } }, { point: { x: 6, y: 18 } },
+      ] },
+    });
+    const ordinaryCallout = { ...callout, dimensionReferences: undefined };
+    expect(transformFlatPrimitive(ordinaryCallout, rotateMirror)).toMatchObject({
+      labelAt: { x: 7, y: 14 }, dimensionReferences: undefined,
     });
   });
 

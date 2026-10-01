@@ -1,0 +1,62 @@
+# G04 V02 — Polo dimension-only POM references — Slice 340
+
+## Start boundary
+
+- **Started:** 2026-10-01 19:58:12 UTC.
+- **Goal:** continue admitted EPIC-17/G04 through all-seven V02, evidence-backed V03, final output review, required gates, and safe merge into `origin/main`.
+- **Verified Git:** clean `codex/epic-17-g04` at `3fe2652` (`Slice 339: close POM coverage and Trouser assertions`). Refreshed `origin/main` is `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`, an ancestor. Highest assigned slice is 339; reserve 340.
+- **Verified board:** canonical revision 1227. EPIC-17/G04-V02 are In Progress; V01 Done; V03 Backlog. `E-G04-S339-EXIT` is verified and linked to G04-V02 and EPIC-17. Integrated baseline remains 56 accepted / 90 held across 73 configurations / 146 face requests / 32 option fields. All 34 Polo faces are held.
+- **Usage:** ordinary work is allowed; primary window 9%, weekly 11% informational.
+- **Dependencies:** S338's exact Polo source-POM maps and the S337 same-revision topology table; S339 closes the previous 100% branch-coverage gap and stale Trouser assertions. The S338/S339 commits remain unmerged pending the integrated Epic/PR gate.
+
+## Scope and acceptance
+
+Implement only the two Polo dimension-only references approved in `docs/PROJECT-DECISIONS.md`:
+
+1. **Finished pointed collar leaf:** show the POM measured from `upperCollar.centerBack` by an annotation bound to that exact source fold-axis edge. The edge must not be emitted as a garment seam, cut contour, or construction mark. Use one `upperCollar` source instance on each face where the collar role is actually represented; if an exact source mapping is unavailable on a face, leave that face's POM table-only.
+2. **Back hem drop:** on `BACK_FLAT` only, show the exact `back.hem.start` and `front.hem.start` Y levels. The front level is a dimension reference projected onto the back view under the maintainer-approved convention. The annotation must not draw a front-to-back join, seam, cut edge, or continuous garment boundary.
+
+Preserve the existing POM methods, text/value/tolerance, pattern piece geometry, source stitch graph, assembly solver and 0.25 cm residual threshold, legacy DXF behavior, protected export identities, all-seven acceptance, and full-face fail-closed behavior. Bind every dimension witness/reference to the exact same pattern revision and role/edge/vertex identities. Any dimension mark is annotation-layer output only. Keep all Polo faces held unless the complete topology, assembly residual, crossings/overlap, layer order, and readable-output gates pass; current sleeve residual and POM-label conflicts already prevent acceptance.
+
+Acceptance for this slice requires focused tests with 100% statement, branch, function and line coverage for changed production modules; exact source/revision/face validation; option coverage for all 17 Polo configurations; rendered diagnostic inspection of the default and relevant extremes; no missing, crossed, clipped, mislabeled, or unreadable dimension output; unchanged complete-face holds; `npx tsc --noEmit`, production build, protected export/DXF/identity checks, Control Center tests after board edits, and `git diff --check`. Preserve any new collision as a failure and leave faces held. Do not claim the all-seven V02 exit or begin V03 here.
+
+## Required source and output review
+
+- Re-read the relevant portions of `docs/research/epic17/G04-V02-POLO-REMAINING-HOLDS-S337.md`, `G04-V02-POLO-POM-ANCHORS-S338.md`, and the exact Polo recipe, pattern geometry, face mapping, source-projection and live-render code before changing implementation.
+- Distinguish direct code facts (the `upperCollar.centerBack` fold edge and `front.hem.start` / `back.hem.start` measurement references), approved view conventions (a dimension can refer to an otherwise hidden fold edge; front hem Y can be shown as a back-view level), and any newly proposed annotation placement. Do not represent a projected reference as a source edge present in that face.
+- Capture diagnostics from the actual 17 supported configurations and inspect actual rendered output. Compare full production replay holds before/after; a dimension-only candidate never bypasses assembly or label acceptance.
+- At the eventual G04 output exit, review MQF-004–007, MQF-011, MQF-012 and MQF-015 as review checks and leave them `To be reviewed` where applicable. Preserve the findings document's post-G17 deferrals; no unrelated remediation is authorized.
+
+## Non-goals, holds, and delegation
+
+- No changes to pattern/cut geometry, physical marks, sewing graph, manufacturing construction, source measurements, topology, option ranges, solver tolerance, or DXF writer/baselines.
+- No general dimension-system redesign, broad UI redesign, new recipe, G05 production tech-pack content, G09/D04 assembled views, physical sampling, fit/factory claim, supplier contact, launch spending, hosted service, or production-readiness claim.
+- Known S338 output conflicts remain in force: all 34 Polo requests emit no accepted SVG because of a 0.68 cm sleeve-cap residual against 0.25 cm and POM label collisions. The dimension references do not waive either condition.
+- No safe disjoint low-risk delegation is identified; Codex owns implementation, integration, verification and rendered review. OpenCode remains limited to Muse Spark 1.3 xhigh in normal mode; do not invoke a substitute configuration.
+- Effort is conditional on the exact annotation format and rendered collision results. Keep slice work separate from the eventual settled 73-configuration/146-face Epic gate. Do not rerun unaffected full gates.
+
+## Verification plan
+
+1. Implement exact same-revision dimension-reference metadata/geometry and validators within the existing technical-flat contract.
+2. Add focused source-identity, projection-only, wrong-face, revision-mismatch, excluded-edge, label-overlap and unsupported-role tests; keep 100% coverage thresholds.
+3. Replay all 17 Polo configurations in production Chromium and inspect default plus collar/measurement extremes. Confirm all 34 complete-face holds remain and no partial candidate SVG leaks to production.
+4. Run focused coverage and relevant export/DXF regression first; run build, protected identity set and Control Center tests at this slice boundary.
+5. Update this packet, `PROJECT-STATE.md`, `ARCHITECTURE.md`/`CONTEXT-INDEX.md` if affected, and the validated Control Center board. Record implementation, focused verification, browser/review, record/board, agent wait, and maintainer-decision time separately.
+
+## Exit record
+
+### Result
+
+- **Landed slice:** Slice 340, `Slice 340: add Polo dimension-only references`. The implementation, tests, architecture/context and durable evidence are committed together. The board's validated evidence points to this packet and output folders; the commit hash is in branch history because a commit cannot contain its own final hash.
+- **Exact source references:** The front-flat `Finished pointed collar leaf` dimension retains its existing value, method and tolerance and now carries two annotation-only witnesses at the transformed endpoints of `pattern:polo:role:upperCollar:edge:centerBack`. The center-back fold is not emitted as a garment edge. The back-flat `Back hem drop` retains its existing value/method/tolerance and references exact same-revision vertices on `pattern:polo:role:front:edge:hem` and `pattern:polo:role:back:edge:hem`. The front Y level is projected onto the back flat; a dashed bracket is placed 1 cm outside the back hem. It expresses a dimension only and does not assert a seam or physical front/back join.
+- **Classification:** `upperCollar.centerBack`, `front.hem.start`, `back.hem.start`, existing POM formulas, and all option-dependent source coordinates are directly encoded in the recipe/pattern code. The fold-reference and projected hem-level view conventions are approved design decisions recorded in `docs/PROJECT-DECISIONS.md`; the sources do not encode physical notches at the collar exterior. The bracket's 1 cm offset is a view placement choice, not construction evidence. No outside construction source was needed or used for these source-derived measurements.
+- **Configuration and renderer result:** The source diagnostic covers all 17 supported Polo option configurations and 34 faces, with zero dimension source-mapping issues. The production-built Chromium replay covers the same 17 configurations / 34 face requests, records zero page/console/request errors, and emits zero SVGs: all 34 complete faces remain withheld, as required, for the pre-existing 0.68 cm `Sleeve-cap ease` residual against 0.25 cm and POM label collisions. Diagnostic-only renders show the new marks but are explicitly not production acceptance evidence. The default, minimum and maximum collar-leaf/back-hem-drop outputs were inspected. General collar/placket label clusters remain too crowded; the Polo faces do not pass readability or assembly gates.
+- **Source and graph preservation:** No cut geometry, source stitch, assembly placement/tolerance, POM method/value/tolerance, or DXF writer changed. The dimension API is revision- and role/edge-bound, the marks are annotation-layer only, and SVG bounds include them. The previously approved Trouser underlap itself is unchanged; only `src/export/trouser-final.test.ts` was corrected to include that already-implemented role/count.
+- **Focused checks:** 118 tests pass across the seven focused suites, with 100% statement/branch/function/line coverage for the seven changed production modules (`polo.ts`, `pom.ts`, `technical-flat.ts`, `technical-flat-poms.ts`, `technical-flat-live.ts`, `technical-flat-mapping.ts`, `technical-flat-svg.ts`, and `technical-flat-transform.ts`; `pom.ts` is included in the suite but unchanged production behavior remains at the existing global threshold). `npx tsc --noEmit` passes. `npm run build` passes with the existing Vite advisory for an 820.75 KB JavaScript chunk.
+- **Protected outputs:** Relevant export/regression suites pass 27/27 across five files, including all eight protected legacy DXF SHA identities and nine empty-placement export identities. Polo, Woven and Trouser final-output fixtures pass; the Trouser expected role/count fixture now includes `flyUnderlap`. No export baseline moved.
+- **Rendered evidence:** Source/geometry diagnosis and diagnostic-only annotated PNG/SVGs are in `docs/research/epic17/S340-polo-dimensions/`; production UI screenshots, per-face JSON and matrix are in `production-replay/`. The diagnostic renders intentionally omit already-blocked POMs to make the two references inspectable; they are not accepted flats. The production Chromium replay on the final build verified both flat selectors, visible full-hold guidance, same-revision identities where SVG exists (none was emitted), zero browser errors, and complete fail-closed behavior across all 34 faces.
+- The maintainers' dimension decisions were established before this slice start; no new maintainer decision was pending during implementation.
+- **Board:** Start evidence was recorded at revision 1231. Validated commands linked exit-report, rendered-output and test evidence to both G04-V02 and EPIC-17 and added the exit comment; canonical board revision is **1238**. `npm run control-center:test` passes 33/33; schema validation passes at revision 1238. EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog.
+- **Acceptance still pending:** all 34 Polo faces remain held. The entire integrated matrix is still 56 accepted / 90 held across 73 configurations / 146 faces / 32 option fields unless a fresh replay establishes a change. Collar/placket POM label collisions, Polo sleeve placement residual, and other recipes' outstanding holds remain unresolved. S340 does not close V02 and does not authorize V03.
+- **Elapsed time (2026-10-01 19:58:12–20:46:16 UTC; 48m04s):** implementation and focused corrections about 19m; focused tests/coverage/typecheck/build/export diagnosis about 12m; output replay and visual inspection about 8m; durable docs and validated board closeout about 9m04s; external-agent waits 0m; maintainer-decision time 0m.
+- **Next gate:** from refreshed branch/board state, refresh the integrated seven-recipe source/output hold inventory in a separately numbered bounded slice, then address the highest-leverage remaining V02 output blocker using that exact evidence. Keep the all-seven criterion and holds intact; only after all 146 faces pass may V03 begin.

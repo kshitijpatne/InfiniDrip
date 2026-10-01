@@ -428,6 +428,20 @@ with a specific collision issue. The renderer's measured
 collision checks and 14-face default browser review are recorded in
 `docs/research/epic17/G04-V02-LABEL-REFLOW-S273.md`.
 
+Polo's two approved dimension-only POM references are typed in `Pom.viewDimension`
+and resolved by `mapPoloDimensionCallouts` from the same drafted block and
+revision as the flat. The pointed-collar leaf measurement references the
+authored `upperCollar.centerBack` fold edge by its endpoints without drawing
+that fold as a garment edge. The back-hem-drop dimension uses the exact
+`front.hem.start` and `back.hem.start` source levels; the front level is
+projected onto the back flat as an annotation-only dashed bracket one centimetre
+outside the back hem. These are measurement/view references, not construction
+marks or a front/back stitch join. The renderer validates the named source
+identities, includes the annotation in the view bounds, and keeps both marks on
+the annotation layer. Slice 340 records the 17-configuration diagnostic and
+production replay. The dimensions do not bypass Polo's held status: all 34
+faces remain withheld for the sleeve-cap residual and POM-label conflicts.
+
 `src/render/technical-flat-assembly.ts` derives per-face component placements
 from ordered `Block.stitches` interfaces. It partitions each interface at exact
 cumulative edge-length boundaries, honors explicit source-edge reversal, and

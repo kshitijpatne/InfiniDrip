@@ -331,10 +331,17 @@ export function compileTechnicalFlatPomCallouts(
     }
     const anchorEdgeId = kind === "FRONT_FLAT" ? pom.anchorEdgeId : pom.backAnchorEdgeId;
     const anchorEdge = anchorPiece?.edges.find((edge) => edge.name === anchorEdgeId);
+    const dimensionOnlyEdge = pom.viewDimension?.view === kind && pom.viewDimension.kind === "edge-length"
+      && pom.viewDimension.roleId === roleId && pom.viewDimension.edgeId === anchorEdgeId
+      && anchorEdge !== undefined;
+    const edgeMidpoint = anchorEdge ? { x: (edgeStart(anchorEdge).x + edgeEnd(anchorEdge).x) / 2,
+      y: (edgeStart(anchorEdge).y + edgeEnd(anchorEdge).y) / 2 } : undefined;
     const edgeOwnsAnchor = anchorEdge && [edgeStart(anchorEdge), edgeEnd(anchorEdge)].some((endpoint) =>
       endpoint.x === anchor.x && endpoint.y === anchor.y);
-    if (!finitePoint(anchor) || !anchorPiece || !isSourceVertex(anchorPiece, anchor)
-      || (anchorEdgeId !== undefined && !edgeOwnsAnchor)) {
+    const dimensionAnchorIsExactMidpoint = dimensionOnlyEdge && anchorEdge?.kind === "line"
+      && anchor.x === edgeMidpoint?.x && anchor.y === edgeMidpoint.y;
+    if (!finitePoint(anchor) || !anchorPiece || (!isSourceVertex(anchorPiece, anchor) && !dimensionAnchorIsExactMidpoint)
+      || (anchorEdgeId !== undefined && !edgeOwnsAnchor && !dimensionAnchorIsExactMidpoint)) {
       issues.push({ code: "INVALID_POM_ANCHOR", sourceId,
         message: `POM “${pom.label}” must anchor to a finite source vertex on mapped role “${roleId}” and declared edge “${anchorEdgeId ?? "any"}”.` });
       continue;
@@ -350,7 +357,7 @@ export function compileTechnicalFlatPomCallouts(
     }
     const edgeIsRepresented = targetGeometry.kind === "path"
       && (!targetGeometry.sourceEdgeIds || !sourceEntityId || targetGeometry.sourceEdgeIds.includes(sourceEntityId));
-    if (!edgeIsRepresented) {
+    if (!edgeIsRepresented && !dimensionOnlyEdge) {
       notices.push({ id: `notice:${recipeId}:${kind}:pom:${segment}:edge-not-represented`, feature: "pom",
         reason: "SOURCE_NOT_REPRESENTED", sourceId,
         message: `POM “${pom.label}” names a source edge that is not drawn on this face; its value remains table-only.` });

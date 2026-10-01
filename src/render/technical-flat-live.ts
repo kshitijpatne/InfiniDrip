@@ -7,6 +7,7 @@ import {
   TECHNICAL_FLAT_SCHEMA_VERSION,
   type FlatPoint,
   type FlatPathCommand,
+  type FlatCalloutPrimitive,
   type TechnicalFlatPrimitive,
   type TechnicalFlatView,
   type TechnicalFlatViewKind,
@@ -18,8 +19,9 @@ import { compileTechnicalFlatSourceGeometry } from "./technical-flat-geometry";
 import { assembleTechnicalFlatRoles, type FlatRoleTransform } from "./technical-flat-assembly";
 import { compileTechnicalFlatOverlays } from "./technical-flat-overlays";
 import { compileTechnicalFlatPomCallouts, type TechnicalFlatPomResolvedAnchor } from "./technical-flat-poms";
-import { transformFlatPrimitive } from "./technical-flat-transform";
+import { transformFlatPoint, transformFlatPrimitive } from "./technical-flat-transform";
 import { compileTrouserWaistbandFragments } from "./technical-flat-fragment-compiler";
+import type { Pom } from "../drafting/pom";
 
 export interface TechnicalFlatLiveIssue {
   readonly stage: "geometry" | "assembly" | "overlay" | "pom" | "transform";
@@ -80,6 +82,50 @@ export function technicalFlatPrimitiveRole(primitive: TechnicalFlatPrimitive, pr
     : primitive.source.sourceId;
   return roleIds.find((roleId) => sourceId.includes(`role:${roleId}`)
     || sourceId.includes(`mark:${roleId}:`) || sourceId.includes(`dart:${roleId}:`)) ?? "";
+}
+
+/** Add approved Polo dimension references after same-face assembly transforms are known. */
+export function mapPoloDimensionCallouts(block: Block, kind: TechnicalFlatViewKind,
+  poms: readonly Pom[], callouts: readonly FlatCalloutPrimitive[], transforms: Readonly<Record<string, FlatRoleTransform>>) {
+  const issues: TechnicalFlatLiveIssue[] = [];
+  const mapped = callouts.map((callout) => {
+    const pom = poms.find((candidate) => `pom:polo:${candidate.label.toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}` === callout.source.sourceId);
+    const dimension = pom?.viewDimension;
+    if (!dimension || dimension.view !== kind) return callout;
+    if (dimension.kind === "edge-length") {
+      const placement = transforms[dimension.roleId];
+      const edge = block.roles[dimension.roleId]?.edges.find((candidate) => candidate.name === dimension.edgeId);
+      if (!placement || !edge) {
+        issues.push({ stage: "pom", sourceId: callout.source.sourceId,
+          message: "The exact collar-fold dimension reference has no same-revision source edge or face transform." });
+        return callout;
+      }
+      const sourceEntityId = `pattern:polo:role:${dimension.roleId}:edge:${dimension.edgeId}`;
+      const transform = { offset: placement.offset, rotationDegrees: placement.rotationDegrees, mirrorX: placement.mirrorX ?? false };
+      return { ...callout, layer: "ANNOTATION" as const, dimensionReferences: { kind: "edge-length" as const, references: [
+        { point: transformFlatPoint(edgeStart(edge), transform), sourceEntityId },
+        { point: transformFlatPoint(edgeEnd(edge), transform), sourceEntityId },
+      ] } };
+    }
+    const placement = transforms[dimension.lowerRoleId];
+    const upperEdge = block.roles[dimension.upperRoleId]?.edges.find((candidate) => candidate.name === dimension.upperEdgeId);
+    const lowerEdge = block.roles[dimension.lowerRoleId]?.edges.find((candidate) => candidate.name === dimension.lowerEdgeId);
+    if (!placement || !upperEdge || !lowerEdge) {
+      issues.push({ stage: "pom", sourceId: callout.source.sourceId,
+        message: "The exact two hem-level references have no same-revision source edges or back-face transform." });
+      return callout;
+    }
+    // The bracket sits just beyond the back hem's side endpoint; source levels
+    // are projected there without drawing a front-to-back join.
+    const transform = { offset: placement.offset, rotationDegrees: placement.rotationDegrees, mirrorX: placement.mirrorX ?? false };
+    const projected = (y: number) => transformFlatPoint({ x: edgeStart(lowerEdge).x + 1, y }, transform);
+    return { ...callout, layer: "ANNOTATION" as const, dimensionReferences: { kind: "vertical-levels" as const, references: [
+      { point: projected(edgeStart(upperEdge).y), sourceEntityId: `pattern:polo:role:${dimension.upperRoleId}:edge:${dimension.upperEdgeId}` },
+      { point: projected(edgeStart(lowerEdge).y), sourceEntityId: `pattern:polo:role:${dimension.lowerRoleId}:edge:${dimension.lowerEdgeId}` },
+    ] } };
+  });
+  return { callouts: mapped, issues };
 }
 
 export function reflectFoldPrimitive(
@@ -342,6 +388,9 @@ export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): Tec
   }
   const poms = compileTechnicalFlatPomCallouts(recipe.name, block, revisionId, kind, recipe.poms,
     [...geometry.primitives, ...waistbandFragments.primitives], resolvePomAnchor);
+  const poloDimensions = recipe.name === "polo"
+    ? mapPoloDimensionCallouts(block, kind, recipe.poms!, poms.callouts ?? [], assembly.transforms) : undefined;
+  const mappedPomCallouts = poloDimensions ? poloDimensions.callouts : poms.callouts;
   const issues: TechnicalFlatLiveIssue[] = [
     ...geometry.issues.map((issue) => ({ stage: "geometry" as const, sourceId: issue.sourceId, message: issue.message })),
     ...waistbandFragments.issues.map((issue) => ({ stage: "geometry" as const, sourceId: issue.sourceId, message: issue.message })),
@@ -349,6 +398,7 @@ export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): Tec
       .map((issue) => ({ stage: "assembly" as const, sourceId: issue.sourceId, message: issue.message })),
     ...overlays.issues.map((issue) => ({ stage: "overlay" as const, sourceId: issue.sourceId, message: issue.message })),
     ...poms.issues.map((issue) => ({ stage: "pom" as const, sourceId: issue.sourceId, message: issue.message })),
+    ...(poloDimensions?.issues ?? []),
   ];
   if (recipe.name === "polo") {
     issues.push(...assembly.issues.filter((issue) => issue.code === "STITCH_ENDPOINT_RESIDUAL"
@@ -376,12 +426,12 @@ export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): Tec
     message: "Artwork on the Trouser waistband is withheld until its exact source placement can be clipped to one sewn front/back fragment." });
   const faceRoleIds = face?.roles.map((role) => role.roleId) ?? [];
   const fragmentPrimitiveIds = new Set(waistbandFragments.primitives.map((primitive) => primitive.id));
-  const outputSpaceCalloutIds = new Set((poms.callouts ?? []).map((primitive) => primitive.id));
+  const outputSpaceCalloutIds = new Set((mappedPomCallouts ?? []).map((primitive) => primitive.id));
   const geometryPrimitives = recipe.name === "trouser" ? geometry.primitives.filter((primitive) =>
     primitive.source.sourceId !== "pattern:trouser:role:waistband"
       && !primitive.source.sourceId.startsWith("pattern:trouser:mark:waistband:")) : geometry.primitives;
   const combined = [...geometryPrimitives, ...waistbandFragments.primitives,
-    ...(overlayFace?.artwork ?? []).filter((primitive) => !bandArtwork.includes(primitive)), ...(poms.callouts ?? [])];
+    ...(overlayFace?.artwork ?? []).filter((primitive) => !bandArtwork.includes(primitive)), ...(mappedPomCallouts ?? [])];
   const transformed: TechnicalFlatPrimitive[] = [];
   for (const primitive of combined) {
     if (outputSpaceCalloutIds.has(primitive.id)) {

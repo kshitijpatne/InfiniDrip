@@ -288,6 +288,13 @@ only through an explicitly admitted, linked Epic packet.
   Trouser assertions, and the approved exact fly-underlap shield-edge notch.
   It authorizes that one construction mark without cut-geometry or stitch
   changes. Polo label crowding and approved dimensions remain separate work.
+- `docs/research/epic17/G04-V02-POLO-DIMENSION-REFERENCES-S340.md` and
+  `docs/research/epic17/S340-polo-dimensions/` — completed S340 packet and
+  source/rendered evidence for the two Polo dimension-only references. The
+  hidden `upperCollar.centerBack` fold-axis measurement and projected
+  front-hem level are bound to exact source revision identities. Production
+  replay retains all 34 Polo holds for unresolved sleeve assembly and POM label
+  conflicts; V02 and V03 remain open/gated.
 - `docs/research/epic17/G04-V02-PROJECTION-MAPPING-S277.md` — Slice 277's
   current projection-mapping contract boundary, source-reference rules,
   fail-closed semantics, and focused acceptance gates.
