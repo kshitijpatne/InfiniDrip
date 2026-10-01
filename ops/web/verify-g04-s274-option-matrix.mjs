@@ -7,10 +7,11 @@ import verificationHelpers from "../../electron/verify-common.cjs";
 const { startPreviewServer } = verificationHelpers;
 const wovenOnly = process.argv.includes("--woven-only");
 const trouserOnly = process.argv.includes("--trouser-only");
+const teeFittedOnly = process.argv.includes("--tee-fitted-only");
 const output = path.resolve(process.env.G04_OPTION_MATRIX_OUTPUT
   ?? (wovenOnly ? "docs/research/epic17/S286-browser" : "docs/research/epic17/S274-browser"));
 const smoke = process.argv.includes("--smoke");
-const recipes = wovenOnly ? ["woven-shirt"] : trouserOnly ? ["trouser"]
+const recipes = wovenOnly ? ["woven-shirt"] : trouserOnly ? ["trouser"] : teeFittedOnly ? ["tee", "fitted"]
   : smoke ? ["tee", "polo"] : ["tee", "fitted", "tank", "polo", "woven-shirt", "skirt", "trouser"];
 const consoleErrors = [];
 const pageErrors = [];
@@ -135,6 +136,8 @@ async function main() {
     if (!(await page.locator("#garment-tee").isVisible())) await page.locator("#journey-step-start").click();
     const faces = [];
     const cases = [];
+    const expectedConfigurationCounts = new Map();
+    const expectedOptionFieldCount = new Set();
     const setOption = async (id, value) => {
       const input = page.locator(`#controls-panel input[data-option='${id}']`);
       const pageNumber = await input.evaluate((node) => node.closest("[data-control-page]")?.getAttribute("data-control-page") ?? null);
@@ -153,6 +156,9 @@ async function main() {
       const definitions = await page.locator("#controls-panel input[data-option]").evaluateAll((nodes) => nodes.map((input) => ({
         id: input.getAttribute("data-option"), min: Number(input.min), max: Number(input.max), value: Number(input.defaultValue || input.value),
       }))).then((items) => smoke && recipeId === "polo" ? items.slice(0, 1) : items);
+      expectedConfigurationCounts.set(recipeId, 1 + definitions.length * 2
+        + (!smoke && ["woven-shirt", "trouser"].includes(recipeId) ? 1 : 0));
+      for (const definition of definitions) expectedOptionFieldCount.add(`${recipeId}:${definition.id}`);
       const run = async (caseId, kind, optionValues = {}) => {
         process.stdout.write(`CASE ${caseId}\n`);
         const options = Object.fromEntries(await page.locator("#controls-panel input[data-option]").evaluateAll((nodes) => nodes.map((input) => [input.getAttribute("data-option"), Number(input.value)])));
@@ -229,10 +235,10 @@ async function main() {
         await resetOptions();
       }
     }
-    assert.equal(faces.length, wovenOnly ? 56 : trouserOnly ? 48 : smoke ? 8 : 146,
-      wovenOnly ? "Woven default, option endpoints and combined fixture must cover both faces" : trouserOnly ? "Trouser default, every option endpoint and combined fixture must cover both faces" : smoke ? "smoke captures two defaults and one option range" : "71 defaults/endpoints plus two combined fixtures × two faces");
-    assert.equal(cases.length, wovenOnly ? 28 : trouserOnly ? 24 : smoke ? 4 : 73, "all default, endpoint and bounded-combination inputs must be recorded");
-    assert.equal(definitionsCount(cases), wovenOnly ? 13 : trouserOnly ? 11 : smoke ? 1 : 32, "the endpoint matrix should cover all declared option fields");
+    const expectedCases = [...expectedConfigurationCounts.values()].reduce((sum, count) => sum + count, 0);
+    assert.equal(faces.length, expectedCases * 2, "each default, option endpoint and bounded fixture must render both faces");
+    assert.equal(cases.length, expectedCases, "every default, endpoint and bounded-combination input must be recorded");
+    assert.equal(definitionsCount(cases), expectedOptionFieldCount.size, "the endpoint matrix should cover every declared option field");
     assert.deepEqual(consoleErrors, [], "production browser should not log console errors");
     assert.deepEqual(pageErrors, [], "production browser should not throw page errors");
     assert.deepEqual(requestErrors, [], "production browser should not request remote services");

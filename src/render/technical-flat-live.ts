@@ -12,7 +12,8 @@ import {
   type TechnicalFlatViewKind,
 } from "./technical-flat";
 import { G04_TECHNICAL_FLAT_MAPPINGS } from "./technical-flat-mapping";
-import { createG04TechnicalFlatProjectionMap, type FlatProjectionPhysicalPairReflection } from "./technical-flat-projection";
+import { createG04TechnicalFlatProjectionMap, type FlatProjectionPhysicalPairReflection,
+  type FlatProjectionViewPairReflection } from "./technical-flat-projection";
 import { compileTechnicalFlatSourceGeometry } from "./technical-flat-geometry";
 import { assembleTechnicalFlatRoles, type FlatRoleTransform } from "./technical-flat-assembly";
 import { compileTechnicalFlatOverlays } from "./technical-flat-overlays";
@@ -223,6 +224,31 @@ function placedPoint(pointValue: FlatPoint, placement: { readonly offset: FlatPo
   };
 }
 
+export function appendApprovedViewPairReflection(
+  primitives: TechnicalFlatPrimitive[], primitive: TechnicalFlatPrimitive,
+  reflection: FlatProjectionViewPairReflection | undefined, block: Block,
+  transforms: Readonly<Record<string, FlatRoleTransform>>, issues: TechnicalFlatLiveIssue[],
+): void {
+  if (!reflection) return;
+  const placement = transforms[reflection.axisRoleId];
+  const piece = block.roles[reflection.axisRoleId];
+  const edge = piece?.edges.find((candidate) => candidate.name === reflection.edgeId);
+  if (!placement || !edge || edge.kind !== "line") {
+    issues.push({ stage: "transform", sourceId: primitive.source.sourceId,
+      message: `The approved paired view for “sleeve” has no exact assembled ${reflection.axisRoleId}.${reflection.edgeId} axis.` });
+    return;
+  }
+  const start = placedPoint(edgeStart(edge), placement);
+  const end = placedPoint(edgeEnd(edge), placement);
+  const mirrored = reflectPrimitiveAcrossLine(primitive, start, end);
+  if (mirrored) {
+    primitives.push({ ...mirrored, id: mirrored.id.replace(/:attached-fold-reflection$/, ":approved-view-pair") });
+  } else if (primitive.kind === "artwork" || primitive.kind === "text" || primitive.kind === "callout") {
+    issues.push({ stage: "overlay", sourceId: primitive.source.sourceId,
+      message: `The paired sleeve view cannot mirror ${primitive.kind} content without an explicit placement transform; the face is withheld.` });
+  }
+}
+
 /** Compose one face from a single exact block, revision and sewn-role solution. */
 export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): TechnicalFlatLiveResult {
   const { recipe, block, revisionId, kind } = input;
@@ -310,9 +336,12 @@ export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): Tec
             rotationDegrees: placement.rotationDegrees, mirrorX: true }));
         }
       } else {
+        const viewPair = projectionMap?.faces.find((candidate) => candidate.kind === kind)?.roles
+          .find((candidate) => candidate.roleId === roleId)?.viewPairReflection;
+        appendApprovedViewPairReflection(transformed, placed, viewPair, block, assembly.transforms, issues);
         const physicalPair = projectionMap?.faces.find((candidate) => candidate.kind === kind)?.roles
           .find((candidate) => candidate.roleId === roleId)?.physicalPairReflection;
-        appendPhysicalPairReflection(transformed, primitive, physicalPair, placement);
+        if (!viewPair) appendPhysicalPairReflection(transformed, primitive, physicalPair, placement);
       }
     }
   }

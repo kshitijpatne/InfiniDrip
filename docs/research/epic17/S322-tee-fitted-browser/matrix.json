@@ -1,0 +1,89 @@
+{
+  "generatedAt": "2026-10-01T02:09:16.011Z",
+  "viewport": {
+    "width": 1440,
+    "height": 3000
+  },
+  "browser": "Playwright Chromium production preview through the live app UI",
+  "recipes": [
+    "tee",
+    "fitted"
+  ],
+  "cases": [
+    {
+      "caseId": "tee-default",
+      "recipeId": "tee",
+      "kind": "default",
+      "optionValues": {},
+      "options": {}
+    },
+    {
+      "caseId": "fitted-default",
+      "recipeId": "fitted",
+      "kind": "default",
+      "optionValues": {},
+      "options": {}
+    }
+  ],
+  "faces": [
+    {
+      "name": "tee-default-front",
+      "caseId": "tee-default",
+      "recipeId": "tee",
+      "face": "FRONT_FLAT",
+      "revision": "live-draft:tee:1:1",
+      "issues": "COLORWAY_CONTOUR_UNCLOSED · flat:tee:FRONT_FLAT:component:sleeve:outline: The sleeve colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": "tee-default-front.png"
+    },
+    {
+      "name": "tee-default-back",
+      "caseId": "tee-default",
+      "recipeId": "tee",
+      "face": "BACK_FLAT",
+      "revision": "live-draft:tee:1:1",
+      "issues": "COLORWAY_CONTOUR_UNCLOSED · flat:tee:BACK_FLAT:component:sleeve:outline: The sleeve colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": "tee-default-back.png"
+    },
+    {
+      "name": "fitted-default-front",
+      "caseId": "fitted-default",
+      "recipeId": "fitted",
+      "face": "FRONT_FLAT",
+      "revision": "live-draft:fitted:2:2",
+      "issues": "COLORWAY_CONTOUR_UNCLOSED · flat:fitted:FRONT_FLAT:component:sleeve:outline: The sleeve colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": "fitted-default-front.png"
+    },
+    {
+      "name": "fitted-default-back",
+      "caseId": "fitted-default",
+      "recipeId": "fitted",
+      "face": "BACK_FLAT",
+      "revision": "live-draft:fitted:2:2",
+      "issues": "COLORWAY_CONTOUR_UNCLOSED · flat:fitted:BACK_FLAT:component:sleeve:outline: The sleeve colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": "fitted-default-back.png"
+    }
+  ],
+  "summary": {
+    "faceCount": 4,
+    "accepted": 0,
+    "withheld": 4,
+    "blockedByReason": {
+      "COLORWAY_CONTOUR_UNCLOSED · flat:tee:FRONT_FLAT:component:sleeve:outline: The sleeve colorway has no exact closed source contour; review its mapped source edges and view boundaries": 1,
+      "COLORWAY_CONTOUR_UNCLOSED · flat:tee:BACK_FLAT:component:sleeve:outline: The sleeve colorway has no exact closed source contour; review its mapped source edges and view boundaries ": 1,
+      "COLORWAY_CONTOUR_UNCLOSED · flat:fitted:FRONT_FLAT:component:sleeve:outline: The sleeve colorway has no exact closed source contour; review its mapped source edges and view boundar": 1,
+      "COLORWAY_CONTOUR_UNCLOSED · flat:fitted:BACK_FLAT:component:sleeve:outline: The sleeve colorway has no exact closed source contour; review its mapped source edges and view boundari": 1
+    },
+    "optionFieldCount": 0,
+    "consoleErrors": [],
+    "pageErrors": [],
+    "requestErrors": []
+  }
+}

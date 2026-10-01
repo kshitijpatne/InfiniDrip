@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { GARMENTS, STANDARD_M, defaultGarmentOptions } from "../drafting";
-import { appendPhysicalPairReflection, compileTechnicalFlatLiveView, placeTechnicalFlatPrimitive, reflectFoldPrimitive, reflectPhysicalPairPrimitive, reflectPrimitiveAcrossLine, technicalFlatAssemblyNotices, technicalFlatPrimitiveRole } from "./technical-flat-live";
+import { appendApprovedViewPairReflection, appendPhysicalPairReflection, compileTechnicalFlatLiveView, placeTechnicalFlatPrimitive, reflectFoldPrimitive, reflectPhysicalPairPrimitive, reflectPrimitiveAcrossLine, technicalFlatAssemblyNotices, technicalFlatPrimitiveRole } from "./technical-flat-live";
 import { assembleTechnicalFlatRoles } from "./technical-flat-assembly";
 import { G04_TECHNICAL_FLAT_MAPPINGS } from "./technical-flat-mapping";
 import type { FlatPathPrimitive, TechnicalFlatPrimitive } from "./technical-flat";
@@ -74,6 +74,65 @@ describe("compileTechnicalFlatLiveView", () => {
     expect(artwork.issues).toEqual([]);
     expect(artwork.view?.primitives.some((primitive) => primitive.kind === "artwork")).toBe(true);
     expect(artwork.colorway).toMatchObject({ revisionId: "live-tank-art", colorHex: "#456789" });
+  });
+
+  it("renders approved Tee/Fitted sleeve half views as two instances without a partition stroke", () => {
+    for (const recipeId of ["tee", "fitted"] as const) {
+      const recipe = GARMENTS.find((candidate) => candidate.name === recipeId)!;
+      const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
+      for (const kind of ["FRONT_FLAT", "BACK_FLAT"] as const) {
+        const result = compileTechnicalFlatLiveView({ recipe, block, revisionId: `live-${recipeId}-${kind}`, kind,
+          placements: [], colorHex: "#456789", texture: "smooth", shine: 0 });
+        expect(result.issues, `${recipeId}:${kind}`).toEqual([]);
+        expect(result.view).not.toBeNull();
+        const sleeveOutlines = result.view!.primitives.filter((primitive) => primitive.kind === "path"
+          && primitive.source.sourceId === `pattern:${recipeId}:role:sleeve`);
+        expect(sleeveOutlines).toHaveLength(2);
+        expect(sleeveOutlines.map((primitive) => primitive.id)).toContain(`flat:${recipeId}:${kind}:component:sleeve:outline`);
+        expect(sleeveOutlines.map((primitive) => primitive.id)).toContain(`flat:${recipeId}:${kind}:component:sleeve:outline:approved-view-pair`);
+        expect(result.view!.primitives.some((primitive) => primitive.id.includes("view-boundary"))).toBe(false);
+        for (const outline of sleeveOutlines) {
+          if (outline.kind !== "path") throw new Error("Expected sleeve outline paths.");
+          expect(outline.source.revisionId).toBe(`live-${recipeId}-${kind}`);
+          expect(outline.sourceEdgeIds).toHaveLength(3);
+        }
+      }
+    }
+  });
+
+  it("withholds an approved sleeve pair when its assembled axis or overlay transform is unavailable", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "tee")!;
+    const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
+    const reflection = { axisRoleId: "front" as const, edgeId: "centerFront" as const,
+      axis: "ASSEMBLED_BODY_CENTER" as const, source: "MAINTAINER_VIEW_DECISION" as const,
+      decisionId: "G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR" as const, quantity: 2 as const };
+    const issues: TechnicalFlatLiveIssue[] = [];
+    const base = { layer: "ARTWORK" as const, feature: "artwork" as const,
+      source: { sourceClass: "USER_REFERENCE" as const, sourceId: "style:artwork:sleeve", revisionId: "r1" } };
+    const artwork: TechnicalFlatPrimitive = { ...base, kind: "artwork", id: "sleeve-art", artworkKind: "print",
+      placementId: "sleeve-print", sourceName: "Print", targetRoleId: "sleeve", widthCm: 2, heightCm: 2,
+      transform: { dx: 0, dy: 0, scale: 1, rotationDegrees: 0 }, zOrder: 0 };
+    appendApprovedViewPairReflection([], artwork, reflection, block, {}, issues);
+    expect(issues).toContainEqual(expect.objectContaining({ stage: "transform", message: expect.stringContaining("no exact assembled front.centerFront axis") }));
+    issues.length = 0;
+    const transforms = assembleTechnicalFlatRoles(recipe.name, block, "FRONT_FLAT").transforms;
+    appendApprovedViewPairReflection([], artwork, reflection, block, transforms, issues);
+    expect(issues).toContainEqual(expect.objectContaining({ stage: "overlay", message: expect.stringContaining("cannot mirror artwork content") }));
+    issues.length = 0;
+    const note: TechnicalFlatPrimitive = { ...base, kind: "text", id: "note", at: { x: 1, y: 1 }, text: "note" };
+    appendApprovedViewPairReflection([], note, reflection, block, transforms, issues);
+    expect(issues.some((issue) => issue.message.includes("cannot mirror text content"))).toBe(true);
+    issues.length = 0;
+    const callout: TechnicalFlatPrimitive = { ...base, kind: "callout", id: "callout", feature: "pom", text: "POM",
+      anchor: { primitiveId: "target", point: { x: 1, y: 1 } }, labelAt: { x: 2, y: 2 } };
+    appendApprovedViewPairReflection([], callout, reflection, block, transforms, issues);
+    expect(issues.some((issue) => issue.message.includes("cannot mirror callout content"))).toBe(true);
+    issues.length = 0;
+    const centerPoint: TechnicalFlatPrimitive = { ...base, kind: "mark", id: "axis-mark", layer: "ANNOTATION",
+      feature: "annotation", source: { ...base.source, sourceClass: "PATTERN_DERIVED" },
+      markKind: "placementPoint", markName: "on-axis", at: { x: 0, y: 4 } };
+    appendApprovedViewPairReflection([], centerPoint, reflection, block, transforms, issues);
+    expect(issues).toEqual([]);
   });
 
   it("anchors existing Skirt waist and hip POMs to matching front/back outline vertices", () => {
@@ -233,18 +292,21 @@ describe("compileTechnicalFlatLiveView", () => {
     expect(missingOverlay.issues.some((issue) => issue.stage === "overlay")).toBe(true);
   });
 
-  it("withholds Tee/Fitted sleeves until their face contours are source-mapped", () => {
+  it("emits Tee/Fitted sleeve candidates only from their approved half-contour mapping", () => {
     for (const [recipeId, roleId] of [["tee", "sleeve"], ["fitted", "sleeve"]] as const) {
       const recipe = GARMENTS.find((candidate) => candidate.name === recipeId)!;
       const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
       for (const kind of ["FRONT_FLAT", "BACK_FLAT"] as const) {
         const result = compileTechnicalFlatLiveView({ recipe, block, revisionId: `live-${recipeId}-${kind}`, kind,
           placements: [], colorHex: "#456789", texture: "smooth", shine: 0 });
-        expect(result.view, `${recipeId}.${kind}`).toBeNull();
-        expect(result.colorway).toBeNull();
-        expect(result.issues.some((issue) => issue.stage === "geometry"
-          && issue.sourceId.includes(`role:${roleId}:edge:`)
-          && (issue.message.includes("source does not identify") || issue.message.includes("source does not establish")))).toBe(true);
+        expect(result.view, `${recipeId}.${kind}`).not.toBeNull();
+        expect(result.colorway?.revisionId).toBe(`live-${recipeId}-${kind}`);
+        const sleeve = result.view!.primitives.find((primitive) => primitive.kind === "path"
+          && primitive.source.sourceId === `pattern:${recipeId}:role:${roleId}`);
+        expect(sleeve?.kind).toBe("path");
+        if (sleeve?.kind !== "path") throw new Error("Expected mapped sleeve outline.");
+        expect(sleeve.sourceEdgeIds).toHaveLength(3);
+        expect(result.view!.primitives.some((primitive) => primitive.id.includes("view-boundary"))).toBe(false);
       }
     }
   });

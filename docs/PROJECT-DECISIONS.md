@@ -992,3 +992,11 @@ reference is available that identifies which physical placket belongs to each
 front and which finished placket overlaps on top. Keep the Woven closure and
 all complete Woven flats held until source evidence supports its instances and
 layer order; do not infer overlap from the current drawing or stitch graph.
+# EPIC-17 / G04 — maintainer decisions, 2026-10-01 (S321)
+
+- Approved Tee/Fitted view-only sleeve mapping: front uses `capLeft`, `sideLeft` and the left hem half; back uses `capRight`, `sideRight` and the right hem half. Display two mirrored sleeve instances. Do not draw a partition line, add a seam, or change cut geometry.
+- Approved Woven sleeve/band normalized-arclength transfer as a view convention, with two mirrored sleeve and band instances and yoke on the back-facing seam layer. This remains conditional on generated join, crossing, overlap and readability checks; failures keep affected views held. No stitch graph or cut geometry change is authorized.
+- Approved Polo/Woven upper and under collar exterior CB-to-CF normalized-arclength transfer from the sourced base/neckline shoulder fraction. It is a view-only convention and does not assert a physical exterior notch. Polo outer stand uses its source-encoded `backCollar`/`frontCollar` junction.
+- Approved Woven closure order A: right button placket above left buttonhole placket. Preserve the all-seven-recipe acceptance criterion; approval alone does not pass any face.
+- Trouser front: authorize investigation and a source-repair proposal only. Do not edit the pattern source or stitch graph until the maintainer approves the concrete proposal. Preserve upright front panels and exact waistband center joins; explain distinct shield-edge attachments. All 24 fronts remain held until approval and full option/render checks.
+- These approvals settle design choices only. Each affected view remains held until its exact configuration passes same-revision topology and rendered-output checks. G04 MQF findings remain review checks; post-G17 deferrals remain unchanged.

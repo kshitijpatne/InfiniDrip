@@ -7,6 +7,7 @@ import type { TechnicalFlatViewKind } from "./technical-flat";
 
 export type FlatProjectionLandmark =
   | { readonly kind: "edge-endpoint"; readonly edgeId: string; readonly endpoint: "start" | "end" }
+  | { readonly kind: "edge-arclength"; readonly edgeId: string; readonly fraction: number }
   | { readonly kind: "pattern-mark"; readonly markId: string; readonly point: "at" | "start" | "end" }
   | { readonly kind: "woven-neckline-shoulder"; readonly stitchLabel: "Outer stand ↔ woven neckline" }
   | {
@@ -49,6 +50,18 @@ export interface FlatProjectionPhysicalPairReflection {
   readonly quantity: 2;
 }
 
+/** A maintainer-approved second display instance reflected across the exact
+ * assembled body center axis. This describes a view convention, not a second
+ * cut piece in the source block. */
+export interface FlatProjectionViewPairReflection {
+  readonly axisRoleId: "front" | "back";
+  readonly edgeId: "centerFront" | "centerBack";
+  readonly axis: "ASSEMBLED_BODY_CENTER";
+  readonly source: "MAINTAINER_VIEW_DECISION";
+  readonly decisionId: "G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR";
+  readonly quantity: 2;
+}
+
 export interface FlatProjectionViewBoundary {
   readonly id: string;
   readonly from: FlatProjectionLandmark;
@@ -69,6 +82,7 @@ export interface FlatProjectionRole {
   readonly foldAxisReflection?: FlatProjectionFoldAxisReflection;
   /** View-only second instance for an explicitly authored mirrored physical pair. */
   readonly physicalPairReflection?: FlatProjectionPhysicalPairReflection;
+  readonly viewPairReflection?: FlatProjectionViewPairReflection;
   /** View-only closure for a face segment; it is not a drafted cut or seam edge. */
   readonly viewBoundaries?: readonly FlatProjectionViewBoundary[];
 }
@@ -91,12 +105,8 @@ export interface TechnicalFlatProjectionMap {
  * authored edge/mark landmarks. Keep the whole affected face unresolved until
  * construction-source landmarks and instance rules are available. */
 export const G04_UNRESOLVED_PROJECTION_ROLES: Readonly<Record<string, Readonly<Record<string, string>>>> = {
-  tee: {
-    sleeve: "The sleeve-cap stitch locates sewn cap intervals but the source does not identify the front/back visible sleeve contour or supported sleeve view instances.",
-  },
-  fitted: {
-    sleeve: "The sleeve-cap stitch locates sewn cap intervals but the source does not identify the front/back visible sleeve contour or supported sleeve view instances.",
-  },
+  tee: {},
+  fitted: {},
   polo: {
     outerStand: "The stand's exterior contour has no authored front/back split landmark.",
     upperCollar: "The collar's exterior contour has no authored front/back split landmark.",
@@ -138,6 +148,59 @@ function wovenFrontPairAxis(piece: Piece): Edge | undefined {
     ? [candidate.start, candidate.end]
     : [candidate.curve.start, candidate.curve.control1, candidate.curve.control2, candidate.curve.end]);
   return points.every((point) => point.x >= 0) ? edge : undefined;
+}
+
+function teeFittedSleeveProjection(
+  kind: TechnicalFlatViewKind, block: Block, treatment: FlatRoleTreatment,
+): FlatProjectionRole | undefined {
+  const piece = block.roles.sleeve!;
+  const axisRoleId = kind === "FRONT_FLAT" ? "front" : "back";
+  const axisPiece = block.roles[axisRoleId];
+  const axis = axisPiece && foldAxisEdge(axisPiece);
+  const capLeft = piece.edges.find((edge) => edge.name === "capLeft");
+  const capRight = piece.edges.find((edge) => edge.name === "capRight");
+  const leftSide = piece.edges.find((edge) => edge.name === "sideLeft");
+  const rightSide = piece.edges.find((edge) => edge.name === "sideRight");
+  const hem = piece.edges.find((edge) => edge.name === "hem");
+  const stitch = block.stitches.filter((candidate) => candidate.label === "Sleeve-cap ease");
+  const exactStitch = stitch.length === 1
+    && stitch[0]!.a.edges.length === 2 && stitch[0]!.b.edges.length === 2
+    && stitch[0]!.a.edges[0]?.piece === "sleeve" && "edge" in stitch[0]!.a.edges[0]! && stitch[0]!.a.edges[0]!.edge === "capLeft"
+    && stitch[0]!.a.edges[1]?.piece === "sleeve" && "edge" in stitch[0]!.a.edges[1]! && stitch[0]!.a.edges[1]!.edge === "capRight"
+    && stitch[0]!.b.edges[0]?.piece === "front" && "edge" in stitch[0]!.b.edges[0]! && stitch[0]!.b.edges[0]!.edge === "armhole"
+    && stitch[0]!.b.edges[1]?.piece === "back" && "edge" in stitch[0]!.b.edges[1]! && stitch[0]!.b.edges[1]!.edge === "armhole";
+  const valid = !!axis && !!capLeft && capLeft.kind === "curve" && !!capRight && capRight.kind === "curve"
+    && !!leftSide && leftSide.kind === "line" && !!rightSide && rightSide.kind === "line"
+    && !!hem && hem.kind === "line" && exactStitch;
+  const reason = "The approved front/back sleeve projection requires the current ordered cap edges, straight hem and exact sewn-to on-fold body center axis.";
+  const endpoint = (edgeId: string, value: "start" | "end"): FlatProjectionLandmark => ({ kind: "edge-endpoint", edgeId, endpoint: value });
+  const midpoint: FlatProjectionLandmark = { kind: "edge-arclength", edgeId: "hem", fraction: 0.5 };
+  const frontRuns: FlatProjectionEdgeRun[] = [
+    { edgeId: "capLeft", from: endpoint("capLeft", "start"), to: endpoint("capLeft", "end") },
+    { edgeId: "sideLeft", from: endpoint("sideLeft", "end"), to: endpoint("sideLeft", "start") },
+    { edgeId: "hem", from: endpoint("hem", "end"), to: midpoint },
+  ];
+  const backRuns: FlatProjectionEdgeRun[] = [
+    { edgeId: "capRight", from: endpoint("capRight", "start"), to: endpoint("capRight", "end") },
+    { edgeId: "sideRight", from: endpoint("sideRight", "start"), to: endpoint("sideRight", "end") },
+    { edgeId: "hem", from: endpoint("hem", "start"), to: midpoint },
+  ];
+  return {
+    roleId: "sleeve", instanceId: "sleeve", treatment,
+    runs: valid ? (kind === "FRONT_FLAT" ? frontRuns : backRuns) : [],
+    heldEdges: valid ? [] : piece.edges.map((edge) => ({ edgeId: edge.name, reason })),
+    faceExcludedEdges: valid
+      ? (kind === "FRONT_FLAT"
+        ? [{ edgeId: "capRight", reason: "Back-facing sleeve-cap interval is mapped to BACK_FLAT." },
+          { edgeId: "sideRight", reason: "Back-facing sleeve side is mapped to BACK_FLAT." }]
+        : [{ edgeId: "capLeft", reason: "Front-facing sleeve-cap interval is mapped to FRONT_FLAT." },
+          { edgeId: "sideLeft", reason: "Front-facing sleeve side is mapped to FRONT_FLAT." }])
+      : [],
+    ...(valid ? { viewPairReflection: {
+      axisRoleId, edgeId: axis!.name as "centerFront" | "centerBack", axis: "ASSEMBLED_BODY_CENTER" as const,
+      source: "MAINTAINER_VIEW_DECISION" as const, decisionId: "G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR" as const, quantity: 2 as const,
+    } } : {}),
+  };
 }
 
 function wovenCollarRoleProjection(
@@ -265,6 +328,9 @@ export function createG04TechnicalFlatProjectionMap(
             } : {}),
           };
         }
+        if ((recipeId === "tee" || recipeId === "fitted") && role.roleId === "sleeve") {
+          return teeFittedSleeveProjection(face.kind, block, role.treatment)!;
+        }
         const nonMirrorReason = G04_NON_MIRRORED_ON_FOLD_ROLES[recipeId]?.[role.roleId];
         const axisEdge = role.treatment === "INTERIOR_HIDDEN" || nonMirrorReason ? undefined : foldAxisEdge(piece);
         const pairAxisEdge = recipeId === "woven-shirt" && face.kind === "FRONT_FLAT" && role.roleId === "front"
@@ -323,7 +389,8 @@ export type FlatProjectionIssueCode =
   | "MISSING_EDGE_ACCOUNTING" | "DUPLICATE_EDGE_ACCOUNTING" | "UNKNOWN_EDGE"
   | "INVALID_RUN_LANDMARK" | "LANDMARK_ROLE_MISMATCH" | "LANDMARK_EDGE_MISMATCH"
   | "LANDMARK_NOT_ON_EDGE" | "EMPTY_HOLD_REASON" | "RUN_ON_HIDDEN_ROLE" | "INVALID_FOLD_AXIS_REFLECTION"
-  | "INVALID_PHYSICAL_PAIR_REFLECTION" | "INVALID_STITCH_BOUNDARY" | "INVALID_PAIRED_EDGE" | "INVALID_VIEW_BOUNDARY";
+  | "INVALID_PHYSICAL_PAIR_REFLECTION" | "INVALID_VIEW_PAIR_REFLECTION"
+  | "INVALID_STITCH_BOUNDARY" | "INVALID_PAIRED_EDGE" | "INVALID_VIEW_BOUNDARY";
 
 export interface FlatProjectionIssue {
   readonly code: FlatProjectionIssueCode;
@@ -441,6 +508,16 @@ function pointForLandmark(
       return undefined;
     }
     return pointAtEdgeEnd(edge, landmark.endpoint);
+  }
+  if (landmark.kind === "edge-arclength") {
+    if (landmark.edgeId !== edge.name || edge.kind !== "line"
+      || typeof landmark.fraction !== "number" || !Number.isFinite(landmark.fraction)
+      || landmark.fraction <= 0 || landmark.fraction >= 1) {
+      issues.push({ code: "LANDMARK_NOT_ON_EDGE", sourceId,
+        message: "An interior arclength landmark must identify this straight source edge and a finite fraction strictly between its endpoints." });
+      return undefined;
+    }
+    return pointOnLine(edge, landmark.fraction);
   }
   if (landmark.kind === "woven-neckline-shoulder") {
     if (landmark.stitchLabel !== "Outer stand ↔ woven neckline") {
@@ -579,6 +656,7 @@ export function resolveFlatProjectionLandmark(
   let edgeId = receivingEdgeId;
   if (!edgeId && isRecord(landmark)) {
     if (landmark.kind === "edge-endpoint" && typeof landmark.edgeId === "string") edgeId = landmark.edgeId;
+      if (landmark.kind === "edge-arclength" && typeof landmark.edgeId === "string") edgeId = landmark.edgeId;
     if (landmark.kind === "stitch-interface-boundary" && typeof landmark.stitchLabel === "string"
       && (landmark.receiverSide === "a" || landmark.receiverSide === "b")
       && Number.isInteger(landmark.receiverEdgeIndex)) {
@@ -653,6 +731,25 @@ function validateRole(
   } else if (mappingRole.physicalPairReflection !== undefined) {
     issues.push({ code: "INVALID_PHYSICAL_PAIR_REFLECTION", sourceId,
       message: "Physical-pair reflection is supported only for the source-declared Woven front role on the front face." });
+  }
+  if (mappingRole.viewPairReflection !== undefined) {
+    const reflection = mappingRole.viewPairReflection;
+    const axisRoleId = faceKind === "FRONT_FLAT" ? "front" : "back";
+    const axisPiece = block.roles[axisRoleId];
+    const axis = isRecord(reflection) && typeof reflection.edgeId === "string" && axisPiece
+      ? axisPiece.edges.find((edge) => edge.name === reflection.edgeId) : undefined;
+    const expectedAxisId = faceKind === "FRONT_FLAT" ? "centerFront" : "centerBack";
+    if ((recipeId !== "tee" && recipeId !== "fitted") || roleId !== "sleeve"
+      || !isRecord(reflection) || reflection.axisRoleId !== axisRoleId || reflection.edgeId !== expectedAxisId
+      || reflection.axis !== "ASSEMBLED_BODY_CENTER" || reflection.source !== "MAINTAINER_VIEW_DECISION"
+      || reflection.decisionId !== "G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR" || reflection.quantity !== 2
+      || !axisPiece?.onFold || foldAxisEdge(axisPiece)?.name !== axis?.name) {
+      issues.push({ code: "INVALID_VIEW_PAIR_REFLECTION", sourceId,
+        message: "Paired sleeve view reflection requires the approved recipe/role decision and the exact current face panel center axis." });
+    }
+  } else if ((recipeId === "tee" || recipeId === "fitted") && roleId === "sleeve") {
+    issues.push({ code: "INVALID_VIEW_PAIR_REFLECTION", sourceId,
+      message: "The approved Tee/Fitted sleeve mapping requires two explicit mirrored view instances." });
   }
   if (mappingRole.foldAxisReflection !== undefined) {
     const reflection = mappingRole.foldAxisReflection;

@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { GARMENTS } from "../drafting/recipe";
 import { STANDARD_M } from "../drafting/measurements";
 import { defaultGarmentOptions } from "../drafting/options";
-import { edgeLength } from "../drafting/piece";
+import { edgeEnd, edgeLength, edgeStart } from "../drafting/piece";
 import { G04_TECHNICAL_FLAT_MAPPINGS } from "./technical-flat-mapping";
 import {
   createG04TechnicalFlatProjectionMap,
@@ -18,7 +18,8 @@ const REVISION = "draft-r7";
 function validMap(recipeId: string, block: ReturnType<(typeof GARMENTS)[number]["draft"]>): TechnicalFlatProjectionMap {
   if (recipeId === "skirt") return createG04TechnicalFlatProjectionMap(recipeId, block, REVISION)!;
   const source = G04_TECHNICAL_FLAT_MAPPINGS[recipeId];
-  const authored = recipeId === "woven-shirt" ? createG04TechnicalFlatProjectionMap(recipeId, block, REVISION)! : undefined;
+  const authored = ["woven-shirt", "tee", "fitted"].includes(recipeId)
+    ? createG04TechnicalFlatProjectionMap(recipeId, block, REVISION)! : undefined;
   return {
     version: 1,
     recipeId,
@@ -30,6 +31,8 @@ function validMap(recipeId: string, block: ReturnType<(typeof GARMENTS)[number][
         const hidden = role.treatment === "INTERIOR_HIDDEN";
         const pairReflection = authored?.faces.find((candidate) => candidate.kind === face.kind)?.roles
           .find((candidate) => candidate.roleId === role.roleId)?.physicalPairReflection;
+        const viewPairReflection = authored?.faces.find((candidate) => candidate.kind === face.kind)?.roles
+          .find((candidate) => candidate.roleId === role.roleId)?.viewPairReflection;
         const zeroLength = (edge: (typeof piece.edges)[number]) => {
           const start = edge.kind === "line" ? edge.start : edge.curve.start;
           const end = edge.kind === "line" ? edge.end : edge.curve.end;
@@ -48,6 +51,7 @@ function validMap(recipeId: string, block: ReturnType<(typeof GARMENTS)[number][
             ? piece.edges.map((edge) => ({ edgeId: edge.name, reason: "Interior layer is hidden in this exterior face." }))
             : piece.edges.filter(zeroLength).map((edge) => ({ edgeId: edge.name, reason: "Zero-length source edge has no displayable contour." })),
           ...(pairReflection ? { physicalPairReflection: pairReflection } : {}),
+          ...(viewPairReflection ? { viewPairReflection } : {}),
         };
       }),
     })) as unknown as TechnicalFlatProjectionMap["faces"],
@@ -320,6 +324,80 @@ describe("validateTechnicalFlatProjectionMap", () => {
           }
         }
       }
+    }
+  });
+
+  it("maps approved Tee and Fitted sleeve halves without drawing the view partition", () => {
+    for (const recipeId of ["tee", "fitted"] as const) {
+      const recipe = GARMENTS.find((candidate) => candidate.name === recipeId)!;
+      const endpointOptions = [undefined, ...(recipe.options ?? []).flatMap((option) =>
+        [option.min, option.max].map((value) => ({ [option.id]: value })))];
+      for (const options of endpointOptions) {
+        for (const measurements of [STANDARD_M, { ...STANDARD_M, chest: 92, shoulderWidth: 39,
+          bicep: 38, length: 66, armholeDepth: 21, sleeveLength: 22, ease: 10 }]) {
+        const block = recipe.draft(measurements, { ...defaultGarmentOptions(recipe.options ?? []), ...options });
+        const map = createG04TechnicalFlatProjectionMap(recipeId, block, REVISION)!;
+        expect(validateTechnicalFlatProjectionMap(recipeId, block, REVISION, map), `${recipeId}:${JSON.stringify(options)}`).toEqual([]);
+        for (const face of map.faces) {
+          const sleeve = face.roles.find((role) => role.roleId === "sleeve")!;
+          expect(sleeve.heldEdges).toEqual([]);
+          expect(sleeve.viewBoundaries).toBeUndefined();
+          expect(sleeve.viewPairReflection).toMatchObject({
+            axisRoleId: face.kind === "FRONT_FLAT" ? "front" : "back",
+            edgeId: face.kind === "FRONT_FLAT" ? "centerFront" : "centerBack",
+            axis: "ASSEMBLED_BODY_CENTER", source: "MAINTAINER_VIEW_DECISION",
+            decisionId: "G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR", quantity: 2,
+          });
+          expect(sleeve.runs.map((run) => run.edgeId)).toEqual(face.kind === "FRONT_FLAT"
+            ? ["capLeft", "sideLeft", "hem"] : ["capRight", "sideRight", "hem"]);
+          expect(sleeve.faceExcludedEdges?.map((edge) => edge.edgeId)).toEqual(face.kind === "FRONT_FLAT"
+            ? ["capRight", "sideRight"] : ["capLeft", "sideLeft"]);
+          const hemRun = sleeve.runs.find((run) => run.edgeId === "hem")!;
+          expect(hemRun.from.kind).toBe("edge-endpoint");
+          expect(hemRun.to).toEqual({ kind: "edge-arclength", edgeId: "hem", fraction: 0.5 });
+          const hem = block.roles.sleeve!.edges.find((edge) => edge.name === "hem")!;
+          const midpoint = resolveFlatProjectionLandmark(block, "sleeve", face.kind, hemRun.to);
+          expect(midpoint?.x).toBeCloseTo((edgeStart(hem).x + edgeEnd(hem).x) / 2, 12);
+          expect(midpoint?.y).toBeCloseTo((edgeStart(hem).y + edgeEnd(hem).y) / 2, 12);
+        }
+        }
+      }
+    }
+  });
+
+  it("rejects a paired sleeve decision that names the wrong body axis or approval", () => {
+    const { block } = draft("tee");
+    const map = createG04TechnicalFlatProjectionMap("tee", block, REVISION)!;
+    const invalid = structuredClone(map) as unknown as {
+      faces: { kind: string; roles: { roleId: string; viewPairReflection?: Record<string, unknown> }[] }[];
+    };
+    const sleeve = invalid.faces.find((face) => face.kind === "FRONT_FLAT")!.roles.find((role) => role.roleId === "sleeve")!;
+    sleeve.viewPairReflection!.decisionId = "unapproved";
+    expect(validateTechnicalFlatProjectionMap("tee", block, REVISION, invalid).map((issue) => issue.code))
+      .toContain("INVALID_VIEW_PAIR_REFLECTION");
+    sleeve.viewPairReflection!.decisionId = "G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR";
+    sleeve.viewPairReflection!.edgeId = "side";
+    expect(validateTechnicalFlatProjectionMap("tee", block, REVISION, invalid).map((issue) => issue.code))
+      .toContain("INVALID_VIEW_PAIR_REFLECTION");
+  });
+
+  it("resolves only interior fractions on the exact straight hem edge", () => {
+    const { block } = draft("tee");
+    const piece = block.roles.sleeve!;
+    const hem = piece.edges.find((edge) => edge.name === "hem")!;
+    const hemStart = edgeStart(hem);
+    const hemEnd = edgeEnd(hem);
+    const midpoint = resolveFlatProjectionLandmark(block, "sleeve", "FRONT_FLAT",
+      { kind: "edge-arclength", edgeId: "hem", fraction: 0.5 });
+    expect(midpoint).toEqual({ x: (hemStart.x + hemEnd.x) / 2, y: hemStart.y });
+    for (const landmark of [
+      { kind: "edge-arclength", edgeId: "sideLeft", fraction: 0.5 },
+      { kind: "edge-arclength", edgeId: "hem", fraction: 0 },
+      { kind: "edge-arclength", edgeId: "hem", fraction: 1 },
+      { kind: "edge-arclength", edgeId: "hem", fraction: Number.NaN },
+      { kind: "edge-arclength", edgeId: "other", fraction: 0.5 },
+    ]) {
+      expect(resolveFlatProjectionLandmark(block, "sleeve", "FRONT_FLAT", landmark, "hem")).toBeUndefined();
     }
   });
 

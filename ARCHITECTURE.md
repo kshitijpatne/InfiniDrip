@@ -302,6 +302,15 @@ source geometry. Point marks keep their source kind and coordinate without an
 assumed symbol radius, while line marks retain their authored label metadata.
 The compiled paths stay in their component-local coordinates until later V02
 assembly rules place them.
+The approved Tee/Fitted sleeve projection now uses a straight-edge arclength
+landmark for its hidden hem midpoint, with front and back cap/side/hem runs
+bound to the exact draft. A separate maintainer-decision tag authorizes the
+second sleeve display instance to reflect across that face's assembled body
+center axis. The midpoint emits no seam or visible partition line, and source
+piece coordinates remain unchanged. This mapping currently remains held in
+production output: default sleeve colorway contours do not close, and the
+reviewed changed-measurement draft fails the existing sleeve-cap rigid-placement
+length check. These conflicts must pass before the affected faces are accepted.
 `src/render/technical-flat-options.ts` checks raw recipe-option values before
 calling a recipe draft, so invalid user values cannot be hidden by a resolver's
 fallback. A valid draft must pass role/stitch/POM and front/back source-geometry

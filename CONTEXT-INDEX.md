@@ -183,8 +183,10 @@ only through an explicitly admitted, linked Epic packet.
 - `docs/research/epic17/G04-V02-SOURCE-MAPPING-PROPOSALS-S321.md` and
   `docs/research/epic17/S321-pattern-overlays/` — exact pattern topology
   overlays and source-versus-decision proposals for every remaining V02 hold.
-  The packet records the maintainer decisions needed before dependent mapping;
-  use `PROJECT-STATE.md` and the validated board for live status.
+  The decisions are recorded in `docs/PROJECT-DECISIONS.md`; S322's focused
+  implementation and exit gates are in
+  `docs/research/epic17/G04-V02-TEE-FITTED-SLEEVE-VIEW-MAPPING-S322.md`.
+  Use `PROJECT-STATE.md` and the validated board for live status.
 - `docs/research/epic17/G04-V02-PROJECTION-MAPPING-S277.md` — Slice 277's
   current projection-mapping contract boundary, source-reference rules,
   fail-closed semantics, and focused acceptance gates.

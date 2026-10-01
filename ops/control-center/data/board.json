@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 799,
-  "updatedAt": "2026-10-01T01:27:08.078Z",
+  "revision": 823,
+  "updatedAt": "2026-10-01T02:25:33.330Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -155,7 +155,7 @@
       "title": "EPIC-17: G04 — Professional flats and CAD interchange",
       "status": "In Progress",
       "owner": "Codex",
-      "description": "EPIC-17 maintainer-admitted. S320 audited every current hold against the exact source/pattern revision and supplied official construction leads; zero blockers cleared. S319 production replay remains 73 configurations / 146 faces / 32 option fields, 28 accepted and 118 complete holds. Preserve Tee/Fitted sleeve, Polo stand/collar contours, Woven sleeve/collar/placket assembly and Trouser front/fly/waistband holds; Woven closure remains held per maintainer direction. Conditional estimate: at least 82 total / 13 remaining after S320, assuming one source-backed map/fix slice for each of four independent blocker families, one integrated V02 acceptance slice, V03 minimum five after V02, and final integration/merge/deployment minimum three. No upper bound while required source/decision access and CAD rights/receiver remain unresolved. V02 In Progress; V03 Backlog and gated on complete V02 acceptance. See docs/planning/EPIC-17-ADMISSION.md and docs/research/epic17/G04-V02-CONSTRUCTION-EVIDENCE-AMBIGUITY-RESOLUTION-S320.md.",
+      "description": "Admission: docs/planning/EPIC-17-ADMISSION.md. Planning lower bound at admission: at least 82 total / 13 remaining conditional slices. G04-V02 baseline: 73 configurations / 146 faces / 32 option fields, 28 accepted and 118 complete holds. S322 reconciled output: 12 total Chromium front/back requests remain held: four default faces on unclosed sleeve colorway contours, four changed-measurement faces on sleeve-cap rigid-placement incompatibility, and four duplicate default requests; zero browser errors and no partial SVGs. Preserve all-seven V02 acceptance, approved Polo/Woven collar and Woven overlap decisions, conditional Woven holds, and all 24 Trouser front holds pending separate source-repair approval. S322 packet: docs/research/epic17/G04-V02-TEE-FITTED-SLEEVE-VIEW-MAPPING-S322.md.",
       "evidenceRefs": [
         "E-G04-S271-EXIT",
         "E-G04-S273-EXIT",
@@ -229,7 +229,10 @@
         "E-G04-S320-START",
         "E-G04-S320-EXIT",
         "E-G04-S321-START",
-        "E-G04-S321-EXIT"
+        "E-G04-S321-EXIT",
+        "E-G04-S322-START",
+        "E-G04-S322-EXIT",
+        "E-G04-S322-RECONCILIATION"
       ]
     },
     {
@@ -2758,7 +2761,7 @@
         "100% coverage",
         "maintainer gates"
       ],
-      "description": "EPIC-17 maintainer-admitted. S320 audited every current hold against the exact source/pattern revision and supplied official construction leads; zero blockers cleared. S319 production replay remains 73 configurations / 146 faces / 32 option fields, 28 accepted and 118 complete holds. Preserve Tee/Fitted sleeve, Polo stand/collar contours, Woven sleeve/collar/placket assembly and Trouser front/fly/waistband holds; Woven closure remains held per maintainer direction. Conditional estimate: at least 82 total / 13 remaining after S320, assuming one source-backed map/fix slice for each of four independent blocker families, one integrated V02 acceptance slice, V03 minimum five after V02, and final integration/merge/deployment minimum three. No upper bound while required source/decision access and CAD rights/receiver remain unresolved. V02 In Progress; V03 Backlog and gated on complete V02 acceptance. See docs/planning/EPIC-17-ADMISSION.md and docs/research/epic17/G04-V02-CONSTRUCTION-EVIDENCE-AMBIGUITY-RESOLUTION-S320.md.",
+      "description": "Admission: docs/planning/EPIC-17-ADMISSION.md. Planning lower bound at admission: at least 82 total / 13 remaining conditional slices. G04-V02 baseline: 73 configurations / 146 faces / 32 option fields, 28 accepted and 118 complete holds. S322 reconciled output: 12 total Chromium front/back requests remain held: four default faces on unclosed sleeve colorway contours, four changed-measurement faces on sleeve-cap rigid-placement incompatibility, and four duplicate default requests; zero browser errors and no partial SVGs. Preserve all-seven V02 acceptance, approved Polo/Woven collar and Woven overlap decisions, conditional Woven holds, and all 24 Trouser front holds pending separate source-repair approval. S322 packet: docs/research/epic17/G04-V02-TEE-FITTED-SLEEVE-VIEW-MAPPING-S322.md.",
       "expectation": "Front/back technical flats for every supported recipe/variant and proven CAD interchange. Pattern-linked side/oblique views are explicitly owned by G09/D04, so the complete view set is accepted only there.",
       "acceptanceCriteria": [
         "Complete every G04 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
@@ -3106,6 +3109,46 @@
           "at": "2026-10-01T01:27:08.078Z",
           "actor": "Codex",
           "text": "S321 rechecked every current held recipe against exact pattern topology and inspected annotated drafts. Polo outerStand shoulder station and Woven placket side labels are source-encoded; unresolved sleeve/collar view conventions, Woven overlap choice and the Trouser constraint conflict are documented in the linked packet. All 118 holds remain; the all-seven V02 criterion is unchanged."
+        },
+        {
+          "at": "2026-10-01T01:56:20.098Z",
+          "actor": "Codex",
+          "text": "S322 started from clean S321 after refresh and maintainer approval. Packet: docs/research/epic17/G04-V02-TEE-FITTED-SLEEVE-VIEW-MAPPING-S322.md. Implement only approved Tee/Fitted view metadata; retain all other holds and require actual generated checks."
+        },
+        {
+          "at": "2026-10-01T02:19:57.511Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: S322 implements the approved Tee/Fitted view-only sleeve-half projection and paired reflection. Production replay withholds all four faces: default sleeve colorway contours do not close; changed-measurement Sleeve-cap ease has no length-compatible rigid placement. S319 remains 28/146 accepted and 118 held; no face is newly accepted. Preserve all-seven V02 acceptance, the approved Polo/Woven collar and Woven closure decisions, conditional Woven holds, and all 24 Trouser front holds pending separately approved source-repair proposal. V02 In Progress; V03 gated. S322 packet and rendered evidence: docs/research/epic17/G04-V02-TEE-FITTED-SLEEVE-VIEW-MAPPING-S322.md and docs/research/epic17/S322-measurement-browser/.). Refresh current G04 status after S322; no acceptance or scope boundary changed."
+        },
+        {
+          "at": "2026-10-01T02:19:57.595Z",
+          "actor": "Codex",
+          "text": "S322 exit: Tee/Fitted view metadata and paired reflection are covered at 100% in changed production modules; build and protected export identity regressions pass. Chromium requests 12 faces across default and changed-measurement configs with zero browser errors; all 12 remain fully held (four default colorway-closure holds and eight changed-measurement sleeve-cap placement holds). S319 tally remains 28/146 accepted, 118 held. V02 In Progress; V03 Backlog. See S322 packet and browser evidence. Trouser source edit remains prohibited until the separate concrete proposal is approved."
+        },
+        {
+          "at": "2026-10-01T02:20:35.972Z",
+          "actor": "Codex",
+          "text": "S322 reconciled output: 12 total Chromium front/back requests all remain held. Four default faces have unclosed sleeve colorway contours; four changed-measurement faces fail sleeve-cap rigid placement; the other four requests are duplicate default cases from the dedicated option matrix. Zero browser errors and no partial SVGs. S319 integrated tally remains 28/146 accepted and 118 held. V02 In Progress; V03 Backlog. See packet and both S322 browser folders."
+        },
+        {
+          "at": "2026-10-01T02:30:01.000Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: Admission: docs/planning/EPIC-17-ADMISSION.md. Planning lower bound at admission: at least 82 total slices / 13 remaining conditional slices. G04-V02 baseline: 73 configurations / 146 faces / 32 option fields, 28 accepted and 118 complete holds. S322 reconciled output: 12 total Chromium front/back requests remain held: four default faces on unclosed sleeve colorway contours, four changed-measurement faces on sleeve-cap rigid-placement incompatibility, and four duplicate default requests; zero browser errors and no partial SVGs. Preserve all-seven V02 acceptance, approved Polo/Woven collar and Woven overlap decisions, conditional Woven holds, and all 24 Trouser front holds pending separate source-repair approval. S322 packet: docs/research/epic17/G04-V02-TEE-FITTED-SLEEVE-VIEW-MAPPING-S322.md.). Restore admission and estimation context alongside reconciled S322 output evidence."
+        },
+        {
+          "at": "2026-10-01T02:31:01.000Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: Admission: docs/planning/EPIC-17-ADMISSION.md. Planning lower bound at admission: at least 82 total / 13 remaining conditional slices. G04-V02 baseline: 73 configurations / 146 faces / 32 option fields, 28 accepted and 118 complete holds. S322 reconciled output: 12 total Chromium front/back requests remain held: four default faces on unclosed sleeve colorway contours, four changed-measurement faces on sleeve-cap rigid-placement incompatibility, and four duplicate default requests; zero browser errors and no partial SVGs. Preserve all-seven V02 acceptance, approved Polo/Woven collar and Woven overlap decisions, conditional Woven holds, and all 24 Trouser front holds pending separate source-repair approval. S322 packet: docs/research/epic17/G04-V02-TEE-FITTED-SLEEVE-VIEW-MAPPING-S322.md.). Align the summary planning lower-bound phrase with the admitted estimate and board validation."
+        },
+        {
+          "at": "2026-10-01T02:32:00.000Z",
+          "actor": "Codex",
+          "text": "S322 reconciled output: 12 total Chromium front/back requests all remain held. Four default faces have unclosed sleeve colorway contours; four changed-measurement faces fail sleeve-cap rigid placement; the other four requests are duplicate default cases from the dedicated option matrix. Zero browser errors and no partial SVGs. S319 integrated tally remains 28/146 accepted and 118 held. V02 In Progress; V03 Backlog. Admission and current packet are linked in this summary and docs/research/epic17/G04-V02-TEE-FITTED-SLEEVE-VIEW-MAPPING-S322.md."
+        },
+        {
+          "at": "2026-10-01T02:25:33.330Z",
+          "actor": "Codex",
+          "text": "S322 reconciled output: 12 total Chromium front/back requests all remain held. Four default faces have unclosed sleeve colorway contours; four changed-measurement faces fail sleeve-cap rigid placement; the other four requests are duplicate default cases from the dedicated option matrix. Zero browser errors and no partial SVGs. S319 integrated tally remains 28/146 accepted and 118 held. V02 In Progress; V03 Backlog. Audit timestamp correction: the preceding board description edits supplied future command timestamps (02:30–02:32 UTC); this corrective entry is recorded at actual command time, and the evidence/status is unchanged. See S322 packet."
         }
       ],
       "evidenceRefs": [
@@ -3166,7 +3209,10 @@
         "E-G04-S320-START",
         "E-G04-S320-EXIT",
         "E-G04-S321-START",
-        "E-G04-S321-EXIT"
+        "E-G04-S321-EXIT",
+        "E-G04-S322-START",
+        "E-G04-S322-EXIT",
+        "E-G04-S322-RECONCILIATION"
       ],
       "flagKey": null
     },
@@ -5864,7 +5910,7 @@
         "100% coverage",
         "export byte identity"
       ],
-      "description": "Render revision-bound front/back vector flats with topology-checked options, artwork/colorway overlays, proportional/construction annotations and anchored POM callouts. S319 covers 73 configurations / 146 faces / 32 option fields: 28 accepted and 118 complete holds. S320 source audit clears no current construction blocker; preserve each complete hold, including Woven closure per maintainer direction. See docs/research/epic17/G04-V02-CONSTRUCTION-EVIDENCE-AMBIGUITY-RESOLUTION-S320.md. V02 remains In Progress; V03 stays gated on complete V02 acceptance.",
+      "description": "S322 implements the approved Tee/Fitted view-only sleeve-half projection and paired reflection. Production replay withholds all four faces: default sleeve colorway contours do not close; changed-measurement Sleeve-cap ease has no length-compatible rigid placement. S319 remains 28/146 accepted and 118 held; no face is newly accepted. Preserve all-seven V02 acceptance, the approved Polo/Woven collar and Woven closure decisions, conditional Woven holds, and all 24 Trouser front holds pending separately approved source-repair proposal. V02 In Progress; V03 gated. S322 packet and rendered evidence: docs/research/epic17/G04-V02-TEE-FITTED-SLEEVE-VIEW-MAPPING-S322.md and docs/research/epic17/S322-measurement-browser/.",
       "expectation": "Live vector output stays aligned with the same pattern and style revision and remains readable across all supported options.",
       "acceptanceCriteria": [
         "Render front/back vector views for all seven recipes and supported option combinations from one pattern/revision.",
@@ -6374,6 +6420,21 @@
           "at": "2026-10-01T01:26:17.849Z",
           "actor": "Codex",
           "text": "S321 rechecked each current held recipe against exact pattern topology and inspected annotated drafts. Polo outerStand shoulder station is source-encoded; Woven placket side labels are source-encoded, while overlap order remains a decision. Concrete sleeve/collar proposals, Woven A/B decision and Trouser constraint conflict are in the linked S321 packet. All 118 holds remain; V02 is still In Progress and V03 stays gated."
+        },
+        {
+          "at": "2026-10-01T01:56:20.124Z",
+          "actor": "Codex",
+          "text": "S322 started from clean S321 after refresh and maintainer approval. Packet: docs/research/epic17/G04-V02-TEE-FITTED-SLEEVE-VIEW-MAPPING-S322.md. Implement only approved Tee/Fitted view metadata; retain all other holds and require actual generated checks."
+        },
+        {
+          "at": "2026-10-01T02:19:57.620Z",
+          "actor": "Codex",
+          "text": "S322 exit: Tee/Fitted view metadata and paired reflection are covered at 100% in changed production modules; build and protected export identity regressions pass. Chromium requests 12 faces across default and changed-measurement configs with zero browser errors; all 12 remain fully held (four default colorway-closure holds and eight changed-measurement sleeve-cap placement holds). S319 tally remains 28/146 accepted, 118 held. V02 In Progress; V03 Backlog. See S322 packet and browser evidence. Trouser source edit remains prohibited until the separate concrete proposal is approved."
+        },
+        {
+          "at": "2026-10-01T02:20:36.022Z",
+          "actor": "Codex",
+          "text": "S322 reconciled output: 12 total Chromium front/back requests all remain held. Four default faces have unclosed sleeve colorway contours; four changed-measurement faces fail sleeve-cap rigid placement; the other four requests are duplicate default cases from the dedicated option matrix. Zero browser errors and no partial SVGs. S319 integrated tally remains 28/146 accepted and 118 held. V02 In Progress; V03 Backlog. See packet and both S322 browser folders."
         }
       ],
       "evidenceRefs": [
@@ -6473,7 +6534,10 @@
         "E-G04-S320-START",
         "E-G04-S320-EXIT",
         "E-G04-S321-START",
-        "E-G04-S321-EXIT"
+        "E-G04-S321-EXIT",
+        "E-G04-S322-START",
+        "E-G04-S322-EXIT",
+        "E-G04-S322-RECONCILIATION"
       ],
       "flagKey": null
     },
@@ -8224,6 +8288,33 @@
       "sha256": null,
       "verified": true,
       "note": "S321 exact pattern topology proposals, inspected overlays, decision ledger and unresolved V02 holds. No production mapping or acceptance change."
+    },
+    {
+      "id": "E-G04-S322-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-TEE-FITTED-SLEEVE-VIEW-MAPPING-S322.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S322 start packet: verified clean S321, refreshed origin/main ancestry, current board and usage; records maintainer approvals and limits S322 to Tee/Fitted sleeve view metadata."
+    },
+    {
+      "id": "E-G04-S322-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/G04-V02-TEE-FITTED-SLEEVE-VIEW-MAPPING-S322.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S322 exit: Tee/Fitted view metadata and paired reflection are covered at 100% in changed production modules; build and protected export identity regressions pass. Chromium requests 12 faces across default and changed-measurement configs with zero browser errors; all 12 remain fully held (four default colorway-closure holds and eight changed-measurement sleeve-cap placement holds). S319 tally remains 28/146 accepted, 118 held. V02 In Progress; V03 Backlog. See S322 packet and browser evidence."
+    },
+    {
+      "id": "E-G04-S322-RECONCILIATION",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-TEE-FITTED-SLEEVE-VIEW-MAPPING-S322.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Correction to E-G04-S322-EXIT detail: 12 total Chromium face requests comprise four default faces held on COLORWAY_CONTOUR_UNCLOSED and four changed-measurement faces held on Sleeve-cap ease rigid-placement incompatibility, plus the same four faces in the separate S322 default option harness. There are four, not eight, changed-measurement-held faces. All 12 are held; the integrated tally remains 28 accepted / 118 held."
     }
   ]
 }
