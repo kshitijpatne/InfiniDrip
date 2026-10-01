@@ -1,8 +1,8 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 340 implements the approved Polo dimension-only references; all Polo holds remain. EPIC-17/G04 V02 is In Progress and V03 remains gated, 2026-10-01._
+_Last updated: Slice 341 refreshed the seven-recipe production matrix; status remains 56 accepted / 90 held. EPIC-17/G04 V02 is In Progress and V03 remains gated, 2026-10-01._
 
-## EPIC-17 / G04 current handoff — Slice 340 completed; V02 remains open
+## EPIC-17 / G04 current handoff — Slice 341 completed; V02 remains open
 
 ### Slice 340 — Polo dimension-only POM references
 
@@ -14,7 +14,19 @@ Focused Polo/technical-flat tests pass 118/118; all seven changed executable pro
 
 Validated Control Center exit evidence will be added at slice close; expected current status remains EPIC-17/G04-V02 In Progress, V01 Done, V03 Backlog. The last verified integrated all-recipe baseline remains 56 accepted / 90 held over 73 configurations / 146 faces / 32 option fields; S340 changes only the Polo dimension metadata and no acceptance tally. MQF-004–007, MQF-011, MQF-012 and MQF-015 remain review checks at applicable output exits, and post-G17 deferrals stay intact. There is no physical-fit, factory-acceptance, CAD-compatibility, or production-readiness claim.
 
-Elapsed through S340 closeout: 48m04s (2026-10-01 19:58:12–20:46:16 UTC): implementation/focused corrections about 19m; focused gates about 12m; rendered replay/review about 8m; durable docs and board closeout about 9m04s; external-agent waits 0m; maintainer-decision time 0m. Validated board revision 1238 links S340 exit, production replay and focused-gate evidence. **Next action:** refresh the integrated seven-recipe source/output hold inventory from the verified S340 state in a separately numbered, bounded slice, then select the next V02 blocker from that evidence; maintain all current holds and do not begin V03 before all 146 faces pass.
+Elapsed through S340 closeout: 48m04s (2026-10-01 19:58:12–20:46:16 UTC): implementation/focused corrections about 19m; focused gates about 12m; rendered replay/review about 8m; durable docs and board closeout about 9m04s; external-agent waits 0m; maintainer-decision time 0m. Validated board revision 1238 links S340 exit, production replay and focused-gate evidence.
+
+### Slice 341 start — integrated hold refresh
+
+Started 2026-10-01 20:48:49 UTC from clean S340 `2362792`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest slice was 340; S341 reserved. Board revision 1238; the validated S341 start record is being linked to G04-V02 and EPIC-17. Packet: `docs/research/epic17/G04-V02-INTEGRATED-HOLD-REFRESH-S341.md`.
+
+Scope is evidence-only: replay the current production build across all 73 canonical configurations / 146 faces / 32 recipe-option fields; reconcile every result with the last 56 accepted / 90 held matrix; inspect current Polo dimension output and any status changes; update the exact blocker inventory and choose the next bounded V02 slice. No source changes, new construction decisions, face acceptance by assumption, or V03 work. Required exit gates: all-case current-production Chromium replay, zero browser errors, full held-face matrix, visual review of changed/representative output, Control Center tests/schema validation and clean diff. Existing holds and all-seven criterion remain.
+
+### Slice 341 exit — integrated all-recipe hold refresh
+
+S341 replayed the current S340 production build at `http://127.0.0.1:4178/` through Playwright Chromium: 73 configurations / 146 front/back faces / 32 option fields, 56 emitted and 90 wholly withheld, zero console/page/request errors. Case-by-case emitted/held status exactly matches S330; there are no status changes, regressions or newly accepted faces. S330 blocker text is stale after S331–S340, so the new machine-readable issue inventory supersedes those old issue descriptions. Current holds are exactly 34 Polo (17 each face; POM label collisions plus 0.68 cm sleeve-cap residual) and 56 Woven (28 each face; approved outer-stand/neckline join residual 0.26–0.74 cm and Woven sleeve-cap residual/solver conflicts). Tee, Fitted, Tank, Skirt and Trouser all remain accepted at 2, 2, 2, 2 and 48 faces respectively. Full UI screenshots, SVGs, per-face JSON, comparison and hold map are in `docs/research/epic17/S341-integrated-browser/`.
+
+Validated board revision 1248 links S341 start/exit/browser/inventory evidence to G04-V02 and EPIC-17; Control Center tests pass 33/33 and canonical schema validation passes. S341 was evidence-only; no full source suite/build was rerun. Elapsed time was 11m14s (20:48:49–21:00:03 UTC): replay 2m10s, reconciliation/issue aggregation 1m40s, representative visual review 1m, durable docs/board/test closeout 6m24s, agent wait 0m, maintainer-decision time 0m. **Next action:** begin S342 as a bounded source/topology/overlay investigation of the Woven outer-stand-to-neckline interface across its 28 current configurations. Preserve the approved construction and all 56 Woven holds; identify a valid within-0.25 cm view placement or report the exact remaining constraint before implementation. S325 Trouser source repair remains approved; no physical/factory claim; V03 remains gated.
 
 ### Slice 333 — Polo sleeve view mapping (start)
 

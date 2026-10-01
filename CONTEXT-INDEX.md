@@ -295,6 +295,12 @@ only through an explicitly admitted, linked Epic packet.
   front-hem level are bound to exact source revision identities. Production
   replay retains all 34 Polo holds for unresolved sleeve assembly and POM label
   conflicts; V02 and V03 remain open/gated.
+- `docs/research/epic17/G04-V02-INTEGRATED-HOLD-REFRESH-S341.md` and
+  `docs/research/epic17/S341-integrated-browser/` — completed S341 current-build
+  Chromium replay, case-by-case reconciliation and exact hold inventory for all
+  73 configurations / 146 faces. Status remains 56 accepted / 90 held; the
+  refreshed blockers select the next bounded Woven collar-interface
+  investigation.
 - `docs/research/epic17/G04-V02-PROJECTION-MAPPING-S277.md` — Slice 277's
   current projection-mapping contract boundary, source-reference rules,
   fail-closed semantics, and focused acceptance gates.

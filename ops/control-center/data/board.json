@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 1238,
-  "updatedAt": "2026-10-01T20:46:07.111Z",
+  "revision": 1248,
+  "updatedAt": "2026-10-01T20:59:51.683Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -319,7 +319,11 @@
         "E-G04-S338-START",
         "E-G04-S340-EXIT",
         "E-G04-S340-RENDERED",
-        "E-G04-S340-GATES"
+        "E-G04-S340-GATES",
+        "E-G04-S341-START",
+        "E-G04-S341-EXIT",
+        "E-G04-S341-BROWSER",
+        "E-G04-S341-INVENTORY"
       ]
     },
     {
@@ -7055,6 +7059,16 @@
           "at": "2026-10-01T20:46:07.111Z",
           "actor": "Codex",
           "text": "S340 exit recorded: source-exact Polo dimension references are implemented and replayed across all 17 configurations. They do not release any faces; all 34 Polo requests remain held for existing sleeve assembly and POM-label conflicts. Integrated V02 remains 56 accepted / 90 held; V03 stays gated. See the linked S340 packet, output matrix and gate evidence."
+        },
+        {
+          "at": "2026-10-01T20:49:50.382Z",
+          "actor": "Codex",
+          "text": "S341 started from clean S340 commit 2362792. This evidence-only slice refreshes all 73 supported configurations / 146 faces in the current production app after S340. It preserves every hold and gates the next V02 implementation target on the refreshed matrix. Packet: docs/research/epic17/G04-V02-INTEGRATED-HOLD-REFRESH-S341.md."
+        },
+        {
+          "at": "2026-10-01T20:59:51.683Z",
+          "actor": "Codex",
+          "text": "S341 exit: fresh production replay matches the previous 56 accepted / 90 held status set across 73 configurations and 146 faces, with zero browser errors. Current Woven endpoint residuals (collar 0.26–0.74 cm; sleeve cap 0.39–0.73 cm on backs and 0.47 cm on fronts) and Polo 0.68 cm sleeve residual/label collisions remain. No face was newly accepted. See linked current matrix and blocker inventory; next S342 investigates Woven collar mapping with all holds preserved."
         }
       ],
       "evidenceRefs": [
@@ -7259,7 +7273,11 @@
         "E-G04-S340-START",
         "E-G04-S340-EXIT",
         "E-G04-S340-RENDERED",
-        "E-G04-S340-GATES"
+        "E-G04-S340-GATES",
+        "E-G04-S341-START",
+        "E-G04-S341-EXIT",
+        "E-G04-S341-BROWSER",
+        "E-G04-S341-INVENTORY"
       ],
       "flagKey": null
     },
@@ -9955,6 +9973,42 @@
       "sha256": null,
       "verified": true,
       "note": "Focused technical-flat coverage: 118 tests, 100% statement, branch, function and line coverage for all changed executable modules; TypeScript, build and protected export checks pass."
+    },
+    {
+      "id": "E-G04-S341-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-INTEGRATED-HOLD-REFRESH-S341.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S341 is a read-only refresh of the built production app across the canonical 73 configurations/146 faces after S340. Preserve current face holds and select the next V02 blocker only from refreshed output."
+    },
+    {
+      "id": "E-G04-S341-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/G04-V02-INTEGRATED-HOLD-REFRESH-S341.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Current production Chromium output was reconciled across all 73 configurations/146 faces: status set exactly matches prior 56 accepted/90 held; zero browser errors or status changes. Updated exact hold inventory selects the next Woven collar endpoint investigation."
+    },
+    {
+      "id": "E-G04-S341-BROWSER",
+      "kind": "browser",
+      "uri": "docs/research/epic17/S341-integrated-browser/production-replay/matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Playwright Chromium production UI run: 73 configurations, 146 front/back requests, 56 emitted SVGs, 90 complete holds, zero console/page/request errors."
+    },
+    {
+      "id": "E-G04-S341-INVENTORY",
+      "kind": "document",
+      "uri": "docs/research/epic17/S341-integrated-browser/hold-inventory.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Machine-readable exact status reconciliation and current issue identity/count/range inventory across Polo 34 holds and Woven 56 holds."
     }
   ]
 }
