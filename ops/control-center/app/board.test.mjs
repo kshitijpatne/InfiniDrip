@@ -178,7 +178,7 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
       assert.ok(card.comments.some((comment) => /Re-estimate from verified S310 boundary: output remains 28\/146 accepted and 118 held; 7–21 conditional slices remain/.test(comment.text)));
       assert.ok(card.comments.some((comment) => /Slice 312 exit: Skirt waist and hip POMs resolve to matching exact front\/back outline vertices.*V02 remains In Progress; V03 remains Backlog/.test(comment.text)));
       assert.ok(card.comments.some((comment) => /Slice 319 verified exit: all-recipe production replay and visible colorway raster review passed with unchanged 28\/146 accepted and 118 held; V02 remains In Progress and V03 remains Backlog/.test(comment.text)));
-      assert.match(card.comments.at(-1).text, /S320 source-evidence audit is complete\. The accessible official\/general construction sources do not identify current InfiniDrip pattern landmarks/);
+      assert.match(card.comments.at(-1).text, /S321 rechecked every current held recipe against exact pattern topology and inspected annotated drafts/);
       assert.ok(card.comments.some((comment) => /Slice 318 exit: source-backed colorway areas are visibly rasterized at one 16% tint.*13 SVGs and 27 fills.*V02 remains In Progress; V03 remains Backlog/.test(comment.text)));
       assert.deepEqual(card.dependencies, ["EPIC-14", "EPIC-15", "EPIC-16"]);
       const admittedWork = board.workItems.filter((entry) => entry.epicId === id && entry.id !== id);
@@ -186,7 +186,9 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
       assert.deepEqual(admittedWork.map((entry) => entry.status), ["Done", "In Progress", "Backlog"]);
       assert.match(admittedWork[1].description, /S320 source audit clears no current construction blocker; preserve each complete hold/);
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S320-EXIT"));
-      assert.match(admittedWork[1].comments.at(-1).text, /Slice 320 verified exit: all 118 S319 complete-face holds were recounted and audited/);
+      assert.match(admittedWork[1].comments.at(-1).text, /S321 rechecked each current held recipe against exact pattern topology and inspected annotated drafts/);
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S321-START"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S321-EXIT"));
       assert.ok(admittedWork[1].comments.some((comment) => /Start Slice 320 at 2026-10-01 00:04:19 UTC from clean S319 92a270753ee526d90c9daba0b3ffbfd45da68ff9/.test(comment.text)));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S320-START"));
       assert.match(admittedWork[1].description, /S319 covers 73 configurations \/ 146 faces \/ 32 option fields: 28 accepted and 118 complete holds/);

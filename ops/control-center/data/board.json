@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 791,
-  "updatedAt": "2026-10-01T00:21:51.707Z",
+  "revision": 799,
+  "updatedAt": "2026-10-01T01:27:08.078Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -227,7 +227,9 @@
         "E-G04-S319-START",
         "E-G04-S319-EXIT",
         "E-G04-S320-START",
-        "E-G04-S320-EXIT"
+        "E-G04-S320-EXIT",
+        "E-G04-S321-START",
+        "E-G04-S321-EXIT"
       ]
     },
     {
@@ -3099,6 +3101,11 @@
           "at": "2026-10-01T00:21:51.707Z",
           "actor": "Codex",
           "text": "S320 source-evidence audit is complete. The accessible official/general construction sources do not identify current InfiniDrip pattern landmarks, physical instances or layer order, so no mapping blocker was cleared. Hold census remains 28 accepted / 118 held across 73 configurations and 146 faces. Conditional estimate now has a lower bound of at least 82 total / 13 remaining; upper bound is unpriced. See S320 packet."
+        },
+        {
+          "at": "2026-10-01T01:27:08.078Z",
+          "actor": "Codex",
+          "text": "S321 rechecked every current held recipe against exact pattern topology and inspected annotated drafts. Polo outerStand shoulder station and Woven placket side labels are source-encoded; unresolved sleeve/collar view conventions, Woven overlap choice and the Trouser constraint conflict are documented in the linked packet. All 118 holds remain; the all-seven V02 criterion is unchanged."
         }
       ],
       "evidenceRefs": [
@@ -3157,7 +3164,9 @@
         "E-G04-S319-START",
         "E-G04-S319-EXIT",
         "E-G04-S320-START",
-        "E-G04-S320-EXIT"
+        "E-G04-S320-EXIT",
+        "E-G04-S321-START",
+        "E-G04-S321-EXIT"
       ],
       "flagKey": null
     },
@@ -6360,6 +6369,11 @@
           "at": "2026-10-01T00:21:51.584Z",
           "actor": "Codex",
           "text": "Slice 320 verified exit: all 118 S319 complete-face holds were recounted and audited against current source and the supplied official/patternmaking leads. No pattern-specific relation clears any blocker; preserve every hold. Woven closure remains held per maintainer direction. V02 remains In Progress; V03 stays Backlog. At least 82 total / 13 remaining conditional lower bound reflects four independent mapping families, integrated V02 acceptance, V03 minimum five and final integration minimum three. See the S320 source and ambiguity ledger."
+        },
+        {
+          "at": "2026-10-01T01:26:17.849Z",
+          "actor": "Codex",
+          "text": "S321 rechecked each current held recipe against exact pattern topology and inspected annotated drafts. Polo outerStand shoulder station is source-encoded; Woven placket side labels are source-encoded, while overlap order remains a decision. Concrete sleeve/collar proposals, Woven A/B decision and Trouser constraint conflict are in the linked S321 packet. All 118 holds remain; V02 is still In Progress and V03 stays gated."
         }
       ],
       "evidenceRefs": [
@@ -6457,7 +6471,9 @@
         "E-G04-S319-START",
         "E-G04-S319-EXIT",
         "E-G04-S320-START",
-        "E-G04-S320-EXIT"
+        "E-G04-S320-EXIT",
+        "E-G04-S321-START",
+        "E-G04-S321-EXIT"
       ],
       "flagKey": null
     },
@@ -8190,6 +8206,24 @@
       "sha256": null,
       "verified": true,
       "note": "S320 exhaustively audits the 118 S319 complete-face holds against exact recipe/pattern sources and supplied official construction leads. No local source-to-view fact is established; zero blockers cleared; all holds remain; V02 In Progress and V03 gated. See per-recipe census, source claim comparison, access limits and exact next artifact requests in the packet."
+    },
+    {
+      "id": "E-G04-S321-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-SOURCE-MAPPING-PROPOSALS-S321.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S321 proposal audit begins from verified S320 and refreshed origin/main; no production mapping authorized or implemented."
+    },
+    {
+      "id": "E-G04-S321-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/G04-V02-SOURCE-MAPPING-PROPOSALS-S321.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S321 exact pattern topology proposals, inspected overlays, decision ledger and unresolved V02 holds. No production mapping or acceptance change."
     }
   ]
 }

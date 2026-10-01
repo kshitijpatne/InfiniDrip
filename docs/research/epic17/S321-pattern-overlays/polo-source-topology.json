@@ -1,0 +1,1442 @@
+{
+  "recipe": "polo",
+  "size": "STANDARD_M",
+  "options": {
+    "placketLength": 14,
+    "placketWidth": 3,
+    "standHeight": 2,
+    "collarLeafDepth": 5,
+    "standFrontRise": 0.75,
+    "collarPointExtension": 1.5,
+    "sideVentDepth": 6,
+    "backHemDrop": 1.5
+  },
+  "sourceCommit": "5e03d371dc0986a95e4472bd642d63b07d201468",
+  "geometryBasis": "drafted directly from current recipe source at the S320 commit; no flat revision is claimed",
+  "roles": {
+    "outerStand": {
+      "name": "outer collar stand",
+      "onFold": true,
+      "edges": [
+        {
+          "kind": "line",
+          "name": "centerBack",
+          "start": {
+            "x": 0,
+            "y": 0
+          },
+          "end": {
+            "x": 0,
+            "y": -2
+          }
+        },
+        {
+          "kind": "curve",
+          "name": "backCollar",
+          "curve": {
+            "start": {
+              "x": 0,
+              "y": -2
+            },
+            "control1": {
+              "x": 3.8661000000000003,
+              "y": -2
+            },
+            "control2": {
+              "x": 7,
+              "y": -3.11925
+            },
+            "end": {
+              "x": 7,
+              "y": -4.5
+            }
+          }
+        },
+        {
+          "kind": "curve",
+          "name": "frontCollar",
+          "curve": {
+            "start": {
+              "x": 7,
+              "y": -4.5
+            },
+            "control1": {
+              "x": 7,
+              "y": -0.0815999999999999
+            },
+            "control2": {
+              "x": 10.421985711829228,
+              "y": 3.5
+            },
+            "end": {
+              "x": 14.643479365265193,
+              "y": 2.75
+            }
+          }
+        },
+        {
+          "kind": "line",
+          "name": "frontEnd",
+          "start": {
+            "x": 14.643479365265193,
+            "y": 2.75
+          },
+          "end": {
+            "x": 14.643479365265193,
+            "y": 4.75
+          }
+        },
+        {
+          "kind": "curve",
+          "name": "frontNeckline",
+          "curve": {
+            "start": {
+              "x": 14.643479365265193,
+              "y": 4.75
+            },
+            "control1": {
+              "x": 10.421985711829228,
+              "y": 4.75
+            },
+            "control2": {
+              "x": 7,
+              "y": 1.9184
+            },
+            "end": {
+              "x": 7,
+              "y": -2.5
+            }
+          }
+        },
+        {
+          "kind": "curve",
+          "name": "backNeckline",
+          "curve": {
+            "start": {
+              "x": 7,
+              "y": -2.5
+            },
+            "control1": {
+              "x": 7,
+              "y": -1.11925
+            },
+            "control2": {
+              "x": 3.8661000000000003,
+              "y": 0
+            },
+            "end": {
+              "x": 0,
+              "y": 0
+            }
+          }
+        }
+      ],
+      "marks": [
+        {
+          "kind": "placementLine",
+          "name": "centerMatch",
+          "start": {
+            "x": 0,
+            "y": 0
+          },
+          "end": {
+            "x": 0,
+            "y": -2
+          },
+          "label": "PLACE ON FOLD",
+          "labelRole": "instruction"
+        },
+        {
+          "kind": "placementPoint",
+          "name": "centerBack",
+          "at": {
+            "x": 0,
+            "y": 0
+          },
+          "label": "CENTER BACK"
+        },
+        {
+          "kind": "placementPoint",
+          "name": "shoulder",
+          "at": {
+            "x": 7,
+            "y": -2.5
+          },
+          "label": "SHOULDER"
+        },
+        {
+          "kind": "placementPoint",
+          "name": "centerFront",
+          "at": {
+            "x": 14.643479365265193,
+            "y": 4.75
+          },
+          "label": "CENTER FRONT"
+        }
+      ]
+    },
+    "innerStand": {
+      "name": "inner collar stand",
+      "onFold": true,
+      "edges": [
+        {
+          "kind": "line",
+          "name": "centerBack",
+          "start": {
+            "x": 0,
+            "y": 0
+          },
+          "end": {
+            "x": 0,
+            "y": -2
+          }
+        },
+        {
+          "kind": "curve",
+          "name": "backCollar",
+          "curve": {
+            "start": {
+              "x": 0,
+              "y": -2
+            },
+            "control1": {
+              "x": 3.8661000000000003,
+              "y": -2
+            },
+            "control2": {
+              "x": 7,
+              "y": -3.11925
+            },
+            "end": {
+              "x": 7,
+              "y": -4.5
+            }
+          }
+        },
+        {
+          "kind": "curve",
+          "name": "frontCollar",
+          "curve": {
+            "start": {
+              "x": 7,
+              "y": -4.5
+            },
+            "control1": {
+              "x": 7,
+              "y": -0.0815999999999999
+            },
+            "control2": {
+              "x": 10.421985711829228,
+              "y": 3.5
+            },
+            "end": {
+              "x": 14.643479365265193,
+              "y": 2.75
+            }
+          }
+        },
+        {
+          "kind": "line",
+          "name": "frontEnd",
+          "start": {
+            "x": 14.643479365265193,
+            "y": 2.75
+          },
+          "end": {
+            "x": 14.643479365265193,
+            "y": 4.75
+          }
+        },
+        {
+          "kind": "curve",
+          "name": "frontNeckline",
+          "curve": {
+            "start": {
+              "x": 14.643479365265193,
+              "y": 4.75
+            },
+            "control1": {
+              "x": 10.421985711829228,
+              "y": 4.75
+            },
+            "control2": {
+              "x": 7,
+              "y": 1.9184
+            },
+            "end": {
+              "x": 7,
+              "y": -2.5
+            }
+          }
+        },
+        {
+          "kind": "curve",
+          "name": "backNeckline",
+          "curve": {
+            "start": {
+              "x": 7,
+              "y": -2.5
+            },
+            "control1": {
+              "x": 7,
+              "y": -1.11925
+            },
+            "control2": {
+              "x": 3.8661000000000003,
+              "y": 0
+            },
+            "end": {
+              "x": 0,
+              "y": 0
+            }
+          }
+        }
+      ],
+      "marks": [
+        {
+          "kind": "placementLine",
+          "name": "centerMatch",
+          "start": {
+            "x": 0,
+            "y": 0
+          },
+          "end": {
+            "x": 0,
+            "y": -2
+          },
+          "label": "PLACE ON FOLD",
+          "labelRole": "instruction"
+        },
+        {
+          "kind": "placementPoint",
+          "name": "centerBack",
+          "at": {
+            "x": 0,
+            "y": 0
+          },
+          "label": "CENTER BACK"
+        },
+        {
+          "kind": "placementPoint",
+          "name": "shoulder",
+          "at": {
+            "x": 7,
+            "y": -2.5
+          },
+          "label": "SHOULDER"
+        },
+        {
+          "kind": "placementPoint",
+          "name": "centerFront",
+          "at": {
+            "x": 14.643479365265193,
+            "y": 4.75
+          },
+          "label": "CENTER FRONT"
+        }
+      ]
+    },
+    "upperCollar": {
+      "name": "upper pointed collar",
+      "onFold": true,
+      "edges": [
+        {
+          "kind": "line",
+          "name": "centerBack",
+          "start": {
+            "x": 0,
+            "y": 3
+          },
+          "end": {
+            "x": 0,
+            "y": -2
+          }
+        },
+        {
+          "kind": "curve",
+          "name": "backCollarBase",
+          "curve": {
+            "start": {
+              "x": 0,
+              "y": -2
+            },
+            "control1": {
+              "x": 3.8661000000000003,
+              "y": -2
+            },
+            "control2": {
+              "x": 7,
+              "y": -3.11925
+            },
+            "end": {
+              "x": 7,
+              "y": -4.5
+            }
+          }
+        },
+        {
+          "kind": "curve",
+          "name": "frontCollarBase",
+          "curve": {
+            "start": {
+              "x": 7,
+              "y": -4.5
+            },
+            "control1": {
+              "x": 7,
+              "y": -0.0815999999999999
+            },
+            "control2": {
+              "x": 10.421985711829228,
+              "y": 3.5
+            },
+            "end": {
+              "x": 14.643479365265193,
+              "y": 2.75
+            }
+          }
+        },
+        {
+          "kind": "line",
+          "name": "frontTip",
+          "start": {
+            "x": 14.643479365265193,
+            "y": 2.75
+          },
+          "end": {
+            "x": 16.143479365265193,
+            "y": 7.75
+          }
+        },
+        {
+          "kind": "curve",
+          "name": "outer",
+          "curve": {
+            "start": {
+              "x": 16.143479365265193,
+              "y": 7.75
+            },
+            "control1": {
+              "x": 15.618479365265193,
+              "y": 7.75
+            },
+            "control2": {
+              "x": 2.928695873053039,
+              "y": 3
+            },
+            "end": {
+              "x": 0,
+              "y": 3
+            }
+          }
+        }
+      ],
+      "marks": [
+        {
+          "kind": "placementLine",
+          "name": "centerMatch",
+          "start": {
+            "x": 0,
+            "y": -2
+          },
+          "end": {
+            "x": 0,
+            "y": 3
+          },
+          "label": "PLACE ON FOLD",
+          "labelRole": "instruction"
+        },
+        {
+          "kind": "placementPoint",
+          "name": "centerBack",
+          "at": {
+            "x": 0,
+            "y": -2
+          },
+          "label": "CENTER BACK"
+        },
+        {
+          "kind": "placementPoint",
+          "name": "shoulder",
+          "at": {
+            "x": 7,
+            "y": -4.5
+          },
+          "label": "SHOULDER"
+        },
+        {
+          "kind": "placementPoint",
+          "name": "centerFront",
+          "at": {
+            "x": 14.643479365265193,
+            "y": 2.75
+          },
+          "label": "CENTER FRONT"
+        }
+      ]
+    },
+    "underCollar": {
+      "name": "under pointed collar",
+      "onFold": true,
+      "edges": [
+        {
+          "kind": "line",
+          "name": "centerBack",
+          "start": {
+            "x": 0,
+            "y": 3
+          },
+          "end": {
+            "x": 0,
+            "y": -2
+          }
+        },
+        {
+          "kind": "curve",
+          "name": "backCollarBase",
+          "curve": {
+            "start": {
+              "x": 0,
+              "y": -2
+            },
+            "control1": {
+              "x": 3.8661000000000003,
+              "y": -2
+            },
+            "control2": {
+              "x": 7,
+              "y": -3.11925
+            },
+            "end": {
+              "x": 7,
+              "y": -4.5
+            }
+          }
+        },
+        {
+          "kind": "curve",
+          "name": "frontCollarBase",
+          "curve": {
+            "start": {
+              "x": 7,
+              "y": -4.5
+            },
+            "control1": {
+              "x": 7,
+              "y": -0.0815999999999999
+            },
+            "control2": {
+              "x": 10.421985711829228,
+              "y": 3.5
+            },
+            "end": {
+              "x": 14.643479365265193,
+              "y": 2.75
+            }
+          }
+        },
+        {
+          "kind": "line",
+          "name": "frontTip",
+          "start": {
+            "x": 14.643479365265193,
+            "y": 2.75
+          },
+          "end": {
+            "x": 16.143479365265193,
+            "y": 7.75
+          }
+        },
+        {
+          "kind": "curve",
+          "name": "outer",
+          "curve": {
+            "start": {
+              "x": 16.143479365265193,
+              "y": 7.75
+            },
+            "control1": {
+              "x": 15.618479365265193,
+              "y": 7.75
+            },
+            "control2": {
+              "x": 2.928695873053039,
+              "y": 3
+            },
+            "end": {
+              "x": 0,
+              "y": 3
+            }
+          }
+        }
+      ],
+      "marks": [
+        {
+          "kind": "placementLine",
+          "name": "centerMatch",
+          "start": {
+            "x": 0,
+            "y": -2
+          },
+          "end": {
+            "x": 0,
+            "y": 3
+          },
+          "label": "PLACE ON FOLD",
+          "labelRole": "instruction"
+        },
+        {
+          "kind": "placementPoint",
+          "name": "centerBack",
+          "at": {
+            "x": 0,
+            "y": -2
+          },
+          "label": "CENTER BACK"
+        },
+        {
+          "kind": "placementPoint",
+          "name": "shoulder",
+          "at": {
+            "x": 7,
+            "y": -4.5
+          },
+          "label": "SHOULDER"
+        },
+        {
+          "kind": "placementPoint",
+          "name": "centerFront",
+          "at": {
+            "x": 14.643479365265193,
+            "y": 2.75
+          },
+          "label": "CENTER FRONT"
+        }
+      ]
+    },
+    "front": {
+      "name": "front",
+      "onFold": true,
+      "edges": [
+        {
+          "kind": "curve",
+          "name": "neckline",
+          "curve": {
+            "start": {
+              "x": 0,
+              "y": 8
+            },
+            "control1": {
+              "x": 3.8661000000000003,
+              "y": 8
+            },
+            "control2": {
+              "x": 7,
+              "y": 4.4184
+            },
+            "end": {
+              "x": 7,
+              "y": 0
+            }
+          }
+        },
+        {
+          "kind": "line",
+          "name": "shoulder",
+          "start": {
+            "x": 7,
+            "y": 0
+          },
+          "end": {
+            "x": 22.5,
+            "y": 4
+          }
+        },
+        {
+          "kind": "curve",
+          "name": "armhole",
+          "curve": {
+            "start": {
+              "x": 22.5,
+              "y": 4
+            },
+            "control1": {
+              "x": 22.5,
+              "y": 13
+            },
+            "control2": {
+              "x": 25.5,
+              "y": 21
+            },
+            "end": {
+              "x": 27.5,
+              "y": 24
+            }
+          }
+        },
+        {
+          "kind": "line",
+          "name": "side",
+          "start": {
+            "x": 27.5,
+            "y": 24
+          },
+          "end": {
+            "x": 27.5,
+            "y": 64
+          }
+        },
+        {
+          "kind": "line",
+          "name": "vent",
+          "start": {
+            "x": 27.5,
+            "y": 64
+          },
+          "end": {
+            "x": 27.5,
+            "y": 70
+          }
+        },
+        {
+          "kind": "line",
+          "name": "hem",
+          "start": {
+            "x": 27.5,
+            "y": 70
+          },
+          "end": {
+            "x": 0,
+            "y": 70
+          }
+        },
+        {
+          "kind": "line",
+          "name": "centerFront",
+          "start": {
+            "x": 0,
+            "y": 70
+          },
+          "end": {
+            "x": 0,
+            "y": 8
+          }
+        }
+      ],
+      "marks": [
+        {
+          "kind": "placementPoint",
+          "name": "ventTop",
+          "at": {
+            "x": 27.5,
+            "y": 64
+          },
+          "label": "VENT TOP"
+        },
+        {
+          "kind": "placementPoint",
+          "name": "centerFront",
+          "at": {
+            "x": 0,
+            "y": 8
+          },
+          "label": "CENTER FRONT"
+        },
+        {
+          "kind": "placementPoint",
+          "name": "shoulder",
+          "at": {
+            "x": 7,
+            "y": 0
+          },
+          "label": "SHOULDER"
+        },
+        {
+          "kind": "cutLine",
+          "name": "placketOpening",
+          "start": {
+            "x": 0,
+            "y": 8
+          },
+          "end": {
+            "x": 0,
+            "y": 22
+          },
+          "label": "CUT FRONT SLIT",
+          "labelRole": "instruction"
+        },
+        {
+          "kind": "cutLine",
+          "name": "placketBaseClipLeft",
+          "start": {
+            "x": 0,
+            "y": 22
+          },
+          "end": {
+            "x": 1,
+            "y": 21
+          },
+          "label": "CLIP PLACKET BASE LEFT",
+          "labelRole": "instruction"
+        },
+        {
+          "kind": "cutLine",
+          "name": "placketBaseClipRight",
+          "start": {
+            "x": 0,
+            "y": 22
+          },
+          "end": {
+            "x": 1,
+            "y": 23
+          },
+          "label": "CLIP PLACKET BASE RIGHT",
+          "labelRole": "instruction"
+        },
+        {
+          "kind": "placementLine",
+          "name": "placketBaseReinforcement",
+          "start": {
+            "x": 1,
+            "y": 21
+          },
+          "end": {
+            "x": 1,
+            "y": 23
+          },
+          "label": "REINFORCE PLACKET BASE BOX",
+          "labelRole": "instruction"
+        }
+      ]
+    },
+    "back": {
+      "name": "back",
+      "onFold": true,
+      "edges": [
+        {
+          "kind": "curve",
+          "name": "neckline",
+          "curve": {
+            "start": {
+              "x": 0,
+              "y": 2.5
+            },
+            "control1": {
+              "x": 3.8661000000000003,
+              "y": 2.5
+            },
+            "control2": {
+              "x": 7,
+              "y": 1.38075
+            },
+            "end": {
+              "x": 7,
+              "y": 0
+            }
+          }
+        },
+        {
+          "kind": "line",
+          "name": "shoulder",
+          "start": {
+            "x": 7,
+            "y": 0
+          },
+          "end": {
+            "x": 22.5,
+            "y": 4
+          }
+        },
+        {
+          "kind": "curve",
+          "name": "armhole",
+          "curve": {
+            "start": {
+              "x": 22.5,
+              "y": 4
+            },
+            "control1": {
+              "x": 22.5,
+              "y": 13
+            },
+            "control2": {
+              "x": 25.5,
+              "y": 21
+            },
+            "end": {
+              "x": 27.5,
+              "y": 24
+            }
+          }
+        },
+        {
+          "kind": "line",
+          "name": "side",
+          "start": {
+            "x": 27.5,
+            "y": 24
+          },
+          "end": {
+            "x": 27.5,
+            "y": 64
+          }
+        },
+        {
+          "kind": "line",
+          "name": "vent",
+          "start": {
+            "x": 27.5,
+            "y": 64
+          },
+          "end": {
+            "x": 27.5,
+            "y": 71.5
+          }
+        },
+        {
+          "kind": "line",
+          "name": "hem",
+          "start": {
+            "x": 27.5,
+            "y": 71.5
+          },
+          "end": {
+            "x": 0,
+            "y": 71.5
+          }
+        },
+        {
+          "kind": "line",
+          "name": "centerBack",
+          "start": {
+            "x": 0,
+            "y": 71.5
+          },
+          "end": {
+            "x": 0,
+            "y": 2.5
+          }
+        }
+      ],
+      "marks": [
+        {
+          "kind": "placementPoint",
+          "name": "ventTop",
+          "at": {
+            "x": 27.5,
+            "y": 64
+          },
+          "label": "VENT TOP"
+        },
+        {
+          "kind": "placementPoint",
+          "name": "centerBack",
+          "at": {
+            "x": 0,
+            "y": 2.5
+          },
+          "label": "CENTER BACK"
+        },
+        {
+          "kind": "placementPoint",
+          "name": "shoulder",
+          "at": {
+            "x": 7,
+            "y": 0
+          },
+          "label": "SHOULDER"
+        }
+      ]
+    },
+    "buttonPlacket": {
+      "name": "button placket",
+      "onFold": false,
+      "edges": [
+        {
+          "kind": "line",
+          "name": "top",
+          "start": {
+            "x": 0,
+            "y": 0
+          },
+          "end": {
+            "x": 8,
+            "y": 0
+          }
+        },
+        {
+          "kind": "line",
+          "name": "outerRaw",
+          "start": {
+            "x": 8,
+            "y": 0
+          },
+          "end": {
+            "x": 8,
+            "y": 14
+          }
+        },
+        {
+          "kind": "line",
+          "name": "bottom",
+          "start": {
+            "x": 8,
+            "y": 14
+          },
+          "end": {
+            "x": 0,
+            "y": 14
+          }
+        },
+        {
+          "kind": "line",
+          "name": "attachmentRaw",
+          "start": {
+            "x": 0,
+            "y": 14
+          },
+          "end": {
+            "x": 0,
+            "y": 0
+          }
+        }
+      ],
+      "marks": [
+        {
+          "kind": "placementLine",
+          "name": "attachmentLine",
+          "start": {
+            "x": 1,
+            "y": 0
+          },
+          "end": {
+            "x": 1,
+            "y": 14
+          },
+          "label": "SEW TO FRONT SLIT",
+          "labelRole": "instruction"
+        },
+        {
+          "kind": "foldLine",
+          "name": "placketFold",
+          "start": {
+            "x": 4,
+            "y": 0
+          },
+          "end": {
+            "x": 4,
+            "y": 14
+          },
+          "label": "FOLD",
+          "labelRole": "instruction"
+        },
+        {
+          "kind": "foldLine",
+          "name": "turnUnder",
+          "start": {
+            "x": 7,
+            "y": 0
+          },
+          "end": {
+            "x": 7,
+            "y": 14
+          },
+          "label": "TURN UNDER",
+          "labelRole": "instruction"
+        },
+        {
+          "kind": "button",
+          "name": "button-1",
+          "at": {
+            "x": 2.5,
+            "y": 3.5
+          },
+          "label": "BUTTON"
+        },
+        {
+          "kind": "button",
+          "name": "button-2",
+          "at": {
+            "x": 2.5,
+            "y": 7
+          },
+          "label": "BUTTON"
+        },
+        {
+          "kind": "button",
+          "name": "button-3",
+          "at": {
+            "x": 2.5,
+            "y": 10.5
+          },
+          "label": "BUTTON"
+        }
+      ]
+    },
+    "buttonholePlacket": {
+      "name": "buttonhole placket",
+      "onFold": false,
+      "edges": [
+        {
+          "kind": "line",
+          "name": "top",
+          "start": {
+            "x": 0,
+            "y": 0
+          },
+          "end": {
+            "x": 8,
+            "y": 0
+          }
+        },
+        {
+          "kind": "line",
+          "name": "outerRaw",
+          "start": {
+            "x": 8,
+            "y": 0
+          },
+          "end": {
+            "x": 8,
+            "y": 14
+          }
+        },
+        {
+          "kind": "line",
+          "name": "bottom",
+          "start": {
+            "x": 8,
+            "y": 14
+          },
+          "end": {
+            "x": 0,
+            "y": 14
+          }
+        },
+        {
+          "kind": "line",
+          "name": "attachmentRaw",
+          "start": {
+            "x": 0,
+            "y": 14
+          },
+          "end": {
+            "x": 0,
+            "y": 0
+          }
+        }
+      ],
+      "marks": [
+        {
+          "kind": "placementLine",
+          "name": "attachmentLine",
+          "start": {
+            "x": 1,
+            "y": 0
+          },
+          "end": {
+            "x": 1,
+            "y": 14
+          },
+          "label": "SEW TO FRONT SLIT",
+          "labelRole": "instruction"
+        },
+        {
+          "kind": "foldLine",
+          "name": "placketFold",
+          "start": {
+            "x": 4,
+            "y": 0
+          },
+          "end": {
+            "x": 4,
+            "y": 14
+          },
+          "label": "FOLD",
+          "labelRole": "instruction"
+        },
+        {
+          "kind": "foldLine",
+          "name": "turnUnder",
+          "start": {
+            "x": 7,
+            "y": 0
+          },
+          "end": {
+            "x": 7,
+            "y": 14
+          },
+          "label": "TURN UNDER",
+          "labelRole": "instruction"
+        },
+        {
+          "kind": "buttonhole",
+          "name": "buttonhole-1",
+          "at": {
+            "x": 2.5,
+            "y": 3.5
+          },
+          "label": "BUTTONHOLE"
+        },
+        {
+          "kind": "buttonhole",
+          "name": "buttonhole-2",
+          "at": {
+            "x": 2.5,
+            "y": 7
+          },
+          "label": "BUTTONHOLE"
+        },
+        {
+          "kind": "buttonhole",
+          "name": "buttonhole-3",
+          "at": {
+            "x": 2.5,
+            "y": 10.5
+          },
+          "label": "BUTTONHOLE"
+        }
+      ]
+    }
+  },
+  "stitches": [
+    {
+      "label": "Shoulder seam (front ↔ back)",
+      "a": {
+        "edges": [
+          {
+            "piece": "front",
+            "edge": "shoulder"
+          }
+        ]
+      },
+      "b": {
+        "edges": [
+          {
+            "piece": "back",
+            "edge": "shoulder"
+          }
+        ]
+      }
+    },
+    {
+      "label": "Side seam (front ↔ back)",
+      "a": {
+        "edges": [
+          {
+            "piece": "front",
+            "edge": "side"
+          }
+        ]
+      },
+      "b": {
+        "edges": [
+          {
+            "piece": "back",
+            "edge": "side"
+          }
+        ]
+      }
+    },
+    {
+      "label": "Sleeve underarm (left ↔ right)",
+      "a": {
+        "edges": [
+          {
+            "piece": "sleeve",
+            "edge": "sideLeft"
+          }
+        ]
+      },
+      "b": {
+        "edges": [
+          {
+            "piece": "sleeve",
+            "edge": "sideRight"
+          }
+        ]
+      }
+    },
+    {
+      "label": "Sleeve-cap ease",
+      "a": {
+        "edges": [
+          {
+            "piece": "sleeve",
+            "edge": "capLeft"
+          },
+          {
+            "piece": "sleeve",
+            "edge": "capRight"
+          }
+        ]
+      },
+      "b": {
+        "edges": [
+          {
+            "piece": "front",
+            "edge": "armhole"
+          },
+          {
+            "piece": "back",
+            "edge": "armhole"
+          }
+        ]
+      },
+      "ease": {
+        "lo": -1,
+        "hi": 4
+      }
+    },
+    {
+      "label": "Button placket ↔ left front slit",
+      "a": {
+        "edges": [
+          {
+            "piece": "front",
+            "mark": "placketOpening",
+            "side": "left"
+          }
+        ]
+      },
+      "b": {
+        "edges": [
+          {
+            "piece": "buttonPlacket",
+            "mark": "attachmentLine",
+            "side": "left"
+          }
+        ]
+      }
+    },
+    {
+      "label": "Buttonhole placket ↔ right front slit",
+      "a": {
+        "edges": [
+          {
+            "piece": "front",
+            "mark": "placketOpening",
+            "side": "right"
+          }
+        ]
+      },
+      "b": {
+        "edges": [
+          {
+            "piece": "buttonholePlacket",
+            "mark": "attachmentLine",
+            "side": "right"
+          }
+        ]
+      }
+    },
+    {
+      "label": "Outer stand ↔ polo neckline",
+      "a": {
+        "edges": [
+          {
+            "piece": "outerStand",
+            "edge": "frontNeckline"
+          },
+          {
+            "piece": "outerStand",
+            "edge": "backNeckline"
+          }
+        ]
+      },
+      "b": {
+        "edges": [
+          {
+            "piece": "front",
+            "edge": "neckline"
+          },
+          {
+            "piece": "back",
+            "edge": "neckline"
+          }
+        ]
+      }
+    },
+    {
+      "label": "Under collar ↔ outer stand",
+      "a": {
+        "edges": [
+          {
+            "piece": "underCollar",
+            "edge": "backCollarBase"
+          },
+          {
+            "piece": "underCollar",
+            "edge": "frontCollarBase"
+          }
+        ]
+      },
+      "b": {
+        "edges": [
+          {
+            "piece": "outerStand",
+            "edge": "backCollar"
+          },
+          {
+            "piece": "outerStand",
+            "edge": "frontCollar"
+          }
+        ]
+      }
+    },
+    {
+      "label": "Upper collar ↔ inner stand",
+      "a": {
+        "edges": [
+          {
+            "piece": "upperCollar",
+            "edge": "backCollarBase"
+          },
+          {
+            "piece": "upperCollar",
+            "edge": "frontCollarBase"
+          }
+        ]
+      },
+      "b": {
+        "edges": [
+          {
+            "piece": "innerStand",
+            "edge": "backCollar"
+          },
+          {
+            "piece": "innerStand",
+            "edge": "frontCollar"
+          }
+        ]
+      }
+    },
+    {
+      "label": "Collar outer seam (upper ↔ under)",
+      "a": {
+        "edges": [
+          {
+            "piece": "upperCollar",
+            "edge": "frontTip"
+          },
+          {
+            "piece": "upperCollar",
+            "edge": "outer"
+          }
+        ]
+      },
+      "b": {
+        "edges": [
+          {
+            "piece": "underCollar",
+            "edge": "frontTip"
+          },
+          {
+            "piece": "underCollar",
+            "edge": "outer"
+          }
+        ]
+      }
+    }
+  ]
+}

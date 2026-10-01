@@ -1,0 +1,207 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1260" height="1454" viewBox="0 0 1260 1454">
+<rect width="100%" height="100%" fill="#fff"/><style>text{font-family:Arial,sans-serif}.title{font-size:20px;font-weight:bold}.role{font-size:15px;font-weight:bold}.edge{font-size:10px;paint-order:stroke;stroke:white;stroke-width:3px;stroke-linejoin:round}.note{font-size:11px;fill:#7c2d12}.small{font-size:10px;fill:#475569}</style>
+<text class="title" x="16" y="28">woven · exact live draft pieces · STANDARD_M</text>
+<text class="small" x="16" y="45">Default recipe options; coordinates in cm; source geometry is drawn without transforms</text>
+<rect x="5" y="59" width="410" height="340" rx="5" fill="#f8fafc" stroke="#cbd5e1"/>
+<text class="role" x="16" y="81">front · woven front · onFold=false</text>
+<path d="M 161.5845070422535,136.8732394366197 C 181.51786971830984,136.8732394366197 197.67605633802816,123.94669014084508 197.67605633802816,108" fill="none" stroke="#15803d" stroke-width="2.3"/>
+<text class="edge" x="190.10529269366197" y="124.41662852112677" fill="#15803d">neckline</text>
+<path d="M 197.67605633802816,108 L 240.80985915492957,116.80281690140845" fill="none" stroke="#334155" stroke-width="2.3"/>
+<text class="edge" x="222.24295774647885" y="108.40140845070422" fill="#334155">shoulder</text>
+<path d="M 240.80985915492957,116.80281690140845 C 240.80985915492957,150.86971830985917 251.3732394366197,181.94366197183098 258.41549295774644,192.50704225352115" fill="none" stroke="#334155" stroke-width="2.3"/>
+<text class="edge" x="249.9718309859155" y="159.46875" fill="#334155">armhole</text>
+<path d="M 258.41549295774644,192.50704225352115 L 244.33098591549293,249.19718309859152" fill="none" stroke="#334155" stroke-width="2.3"/>
+<text class="edge" x="254.3732394366197" y="216.85211267605632" fill="#334155">sideUpper</text>
+<path d="M 244.33098591549293,249.19718309859152 L 258.41549295774644,319.61971830985914" fill="none" stroke="#334155" stroke-width="2.3"/>
+<text class="edge" x="254.3732394366197" y="280.40845070422534" fill="#334155">sideMiddle</text>
+<path d="M 258.41549295774644,319.61971830985914 L 258.41549295774644,343.9154929577465" fill="none" stroke="#334155" stroke-width="2.3"/>
+<text class="edge" x="261.41549295774644" y="327.7676056338028" fill="#334155">sideLower</text>
+<path d="M 258.41549295774644,343.9154929577465 L 258.41549295774644,354.47887323943667" fill="none" stroke="#334155" stroke-width="2.3"/>
+<text class="edge" x="261.41549295774644" y="345.19718309859155" fill="#334155">vent</text>
+<path d="M 258.41549295774644,354.47887323943667 C 225.49295774647888,358 193.53873239436618,358 161.5845070422535,354.47887323943667" fill="none" stroke="#334155" stroke-width="2.3"/>
+<text class="edge" x="212.6368838028169" y="353.1197183098592" fill="#334155">hem</text>
+<path d="M 161.5845070422535,354.47887323943667 L 161.5845070422535,136.8732394366197" fill="none" stroke="#15803d" stroke-width="2.3"/>
+<text class="edge" x="164.5845070422535" y="241.6760563380282" fill="#15803d">centerFront</text>
+<path d="M 179.1901408450704,213.6338028169014 L 221.44366197183098,213.6338028169014" stroke="#7c3aed" stroke-width="1.5" stroke-dasharray="4 3"/>
+<text class="small" x="203.3169014084507" y="210.6338028169014">pocketPlacement</text>
+<circle cx="258.41549295774644" cy="343.9154929577465" r="3.2" fill="#7c3aed"/>
+<text class="small" x="262.41549295774644" y="338.9154929577465">ventTop</text>
+<rect x="425" y="59" width="410" height="340" rx="5" fill="#f8fafc" stroke="#cbd5e1"/>
+<text class="role" x="436" y="81">yoke · woven back yoke · onFold=true</text>
+<path d="M 534.9074074074074,257.8353587962963 L 534.9074074074074,202.4353587962963" fill="none" stroke="#15803d" stroke-width="2.3"/>
+<text class="edge" x="537.9074074074074" y="226.13535879629632" fill="#15803d">centerBack</text>
+<path d="M 534.9074074074074,202.4353587962963 C 580.1960074074074,202.4353587962963 616.9074074074074,191.4219387962963 616.9074074074074,177.8353587962963" fill="none" stroke="#15803d" stroke-width="2.3"/>
+<text class="edge" x="595.8906324074073" y="191.2303262962963" fill="#15803d">neckline</text>
+<path d="M 616.9074074074074,177.8353587962963 L 714.9074074074074,197.8353587962963" fill="none" stroke="#334155" stroke-width="2.3"/>
+<text class="edge" x="668.9074074074074" y="183.8353587962963" fill="#334155">shoulder</text>
+<path d="M 714.9074074074074,197.8353587962963 C 714.9074074074074,230.0853587962963 719.074074074074,261.15480324074076 725.0925925925926,288.1646412037037" fill="none" stroke="#334155" stroke-width="2.3"/>
+<text class="edge" x="720.7430555555555" y="240.9650607638889" fill="#334155">armholeUpper</text>
+<path d="M 725.0925925925926,288.1646412037037 L 534.9074074074074,257.8353587962963" fill="none" stroke="#334155" stroke-width="2.3"/>
+<text class="edge" x="633" y="269" fill="#334155">yokeSeam</text>
+<rect x="845" y="59" width="410" height="340" rx="5" fill="#f8fafc" stroke="#cbd5e1"/>
+<text class="role" x="856" y="81">back · woven back lower · onFold=true</text>
+<path d="M 993.6475409836065,353.9016393442623 L 993.6475409836065,108.00000000000001" fill="none" stroke="#15803d" stroke-width="2.3"/>
+<text class="edge" x="996.6475409836065" y="226.95081967213116" fill="#15803d">centerBack</text>
+<path d="M 993.6475409836065,108.00000000000001 L 1091.0784760170006,123.53754221690954" fill="none" stroke="#334155" stroke-width="2.3"/>
+<text class="edge" x="1045.3630085003035" y="111.76877110845479" fill="#334155">yokeSeam</text>
+<path d="M 1091.0784760170006,123.53754221690954 C 1095.3950364298726,142.9093522313297 1101.571038251366,158.2049180327869 1106.3524590163934,165.3770491803279" fill="none" stroke="#334155" stroke-width="2.3"/>
+<text class="edge" x="1101.5411448846387" y="145.0321752736984" fill="#334155">armholeLower</text>
+<path d="M 1106.3524590163934,165.3770491803279 L 1089.9590163934427,231.36065573770492" fill="none" stroke="#334155" stroke-width="2.3"/>
+<text class="edge" x="1101.155737704918" y="194.3688524590164" fill="#334155">sideUpper</text>
+<path d="M 1089.9590163934427,231.36065573770492 L 1106.3524590163934,313.327868852459" fill="none" stroke="#334155" stroke-width="2.3"/>
+<text class="edge" x="1101.155737704918" y="268.34426229508193" fill="#334155">sideMiddle</text>
+<path d="M 1106.3524590163934,313.327868852459 L 1106.3524590163934,341.60655737704917" fill="none" stroke="#334155" stroke-width="2.3"/>
+<text class="edge" x="1109.3524590163934" y="323.4672131147541" fill="#334155">sideLower</text>
+<path d="M 1106.3524590163934,341.60655737704917 L 1106.3524590163934,353.9016393442623" fill="none" stroke="#334155" stroke-width="2.3"/>
+<text class="edge" x="1109.3524590163934" y="343.75409836065575" fill="#334155">vent</text>
+<path d="M 1106.3524590163934,353.9016393442623 C 1068.032786885246,358 1030.8401639344263,358 993.6475409836065,353.9016393442623" fill="none" stroke="#334155" stroke-width="2.3"/>
+<text class="edge" x="1052.577356557377" y="352.9754098360656" fill="#334155">hem</text>
+<circle cx="1106.3524590163934" cy="341.60655737704917" r="3.2" fill="#7c3aed"/>
+<text class="small" x="1110.3524590163934" y="336.60655737704917">ventTop</text>
+<rect x="5" y="409" width="410" height="340" rx="5" fill="#f8fafc" stroke="#cbd5e1"/>
+<text class="role" x="16" y="431">outerStand · outer woven stand · onFold=true</text>
+<path d="M 106.89118467419677,593 L 106.89118467419677,573" fill="none" stroke="#15803d" stroke-width="2.3"/>
+<text class="edge" x="109.89118467419677" y="579" fill="#15803d">centerBack</text>
+<path d="M 106.89118467419677,573 L 313.1088153258032,573" fill="none" stroke="#334155" stroke-width="2.3"/>
+<text class="edge" x="213" y="569" fill="#334155">collar</text>
+<path d="M 313.1088153258032,573 L 313.1088153258032,593" fill="none" stroke="#334155" stroke-width="2.3"/>
+<text class="edge" x="316.1088153258032" y="579" fill="#334155">frontEnd</text>
+<path d="M 313.1088153258032,593 L 106.89118467419677,593" fill="none" stroke="#15803d" stroke-width="2.3"/>
+<text class="edge" x="213" y="589" fill="#15803d">neckline</text>
+<circle cx="196.8120551380069" cy="593" r="5" fill="#f59e0b" stroke="#7c2d12" stroke-width="1.5"/>
+<text class="note" x="203.8120551380069" y="607">source interface station: rear neckline length</text>
+<circle cx="196.8120551380069" cy="573" r="5" fill="#f59e0b" stroke="#7c2d12" stroke-width="1.5"/>
+<text class="note" x="203.8120551380069" y="566">PROPOSAL only: transfer source seam fraction to outer edge</text>
+<path d="M 106.89118467419677,573 L 106.89118467419677,593" stroke="#7c3aed" stroke-width="1.5" stroke-dasharray="4 3"/>
+<text class="small" x="109.89118467419677" y="580">centerMatch</text>
+<circle cx="305.1088153258032" cy="583" r="3.2" fill="#7c3aed"/>
+<text class="small" x="309.1088153258032" y="578">stand-button</text>
+<rect x="425" y="409" width="410" height="340" rx="5" fill="#f8fafc" stroke="#cbd5e1"/>
+<text class="role" x="436" y="431">innerStand · inner woven stand · onFold=true</text>
+<path d="M 526.8911846741968,593 L 526.8911846741968,573" fill="none" stroke="#15803d" stroke-width="2.3"/>
+<text class="edge" x="529.8911846741968" y="579" fill="#15803d">centerBack</text>
+<path d="M 526.8911846741968,573 L 733.1088153258032,573" fill="none" stroke="#334155" stroke-width="2.3"/>
+<text class="edge" x="633" y="569" fill="#334155">collar</text>
+<path d="M 733.1088153258032,573 L 733.1088153258032,593" fill="none" stroke="#334155" stroke-width="2.3"/>
+<text class="edge" x="736.1088153258032" y="579" fill="#334155">frontEnd</text>
+<path d="M 733.1088153258032,593 L 526.8911846741968,593" fill="none" stroke="#15803d" stroke-width="2.3"/>
+<text class="edge" x="633" y="589" fill="#15803d">neckline</text>
+<path d="M 526.8911846741968,573 L 526.8911846741968,593" stroke="#7c3aed" stroke-width="1.5" stroke-dasharray="4 3"/>
+<text class="small" x="529.8911846741968" y="580">centerMatch</text>
+<circle cx="725.1088153258032" cy="583" r="3.2" fill="#7c3aed"/>
+<text class="small" x="729.1088153258032" y="578">stand-buttonhole</text>
+<rect x="845" y="409" width="410" height="340" rx="5" fill="#f8fafc" stroke="#cbd5e1"/>
+<text class="role" x="856" y="431">upperCollar · upper pointed woven collar · onFold=true</text>
+<path d="M 938.8911846741968,607 L 938.8911846741968,559" fill="none" stroke="#15803d" stroke-width="2.3"/>
+<text class="edge" x="941.8911846741968" y="579" fill="#15803d">centerBack</text>
+<path d="M 938.8911846741968,559 L 1145.1088153258033,559" fill="none" stroke="#15803d" stroke-width="2.3"/>
+<text class="edge" x="1045" y="555" fill="#15803d">stand</text>
+<path d="M 1145.1088153258033,559 L 1161.1088153258033,607" fill="none" stroke="#334155" stroke-width="2.3"/>
+<text class="edge" x="1156.1088153258033" y="579" fill="#334155">frontTip</text>
+<path d="M 1161.1088153258033,607 L 938.8911846741968,607" fill="none" stroke="#334155" stroke-width="2.3"/>
+<text class="edge" x="1053" y="603" fill="#334155">outer</text>
+<circle cx="1035.7888297371276" cy="607" r="5" fill="#f59e0b" stroke="#7c2d12" stroke-width="1.5"/>
+<text class="note" x="1042.7888297371276" y="621">PROPOSAL only: same normalized CB→CF fraction</text>
+<path d="M 938.8911846741968,559 L 938.8911846741968,607" stroke="#7c3aed" stroke-width="1.5" stroke-dasharray="4 3"/>
+<text class="small" x="941.8911846741968" y="580">centerMatch</text>
+<rect x="5" y="759" width="410" height="340" rx="5" fill="#f8fafc" stroke="#cbd5e1"/>
+<text class="role" x="16" y="781">underCollar · under pointed woven collar · onFold=true</text>
+<path d="M 98.89118467419677,957 L 98.89118467419677,909" fill="none" stroke="#15803d" stroke-width="2.3"/>
+<text class="edge" x="101.89118467419677" y="929" fill="#15803d">centerBack</text>
+<path d="M 98.89118467419677,909 L 305.1088153258032,909" fill="none" stroke="#15803d" stroke-width="2.3"/>
+<text class="edge" x="205" y="905" fill="#15803d">stand</text>
+<path d="M 305.1088153258032,909 L 321.1088153258032,957" fill="none" stroke="#334155" stroke-width="2.3"/>
+<text class="edge" x="316.1088153258032" y="929" fill="#334155">frontTip</text>
+<path d="M 321.1088153258032,957 L 98.89118467419677,957" fill="none" stroke="#334155" stroke-width="2.3"/>
+<text class="edge" x="213" y="953" fill="#334155">outer</text>
+<circle cx="195.78882973712751" cy="957" r="5" fill="#f59e0b" stroke="#7c2d12" stroke-width="1.5"/>
+<text class="note" x="202.78882973712751" y="971">PROPOSAL only: same normalized CB→CF fraction</text>
+<path d="M 98.89118467419677,909 L 98.89118467419677,957" stroke="#7c3aed" stroke-width="1.5" stroke-dasharray="4 3"/>
+<text class="small" x="101.89118467419677" y="930">centerMatch</text>
+<rect x="425" y="759" width="410" height="340" rx="5" fill="#f8fafc" stroke="#cbd5e1"/>
+<text class="role" x="436" y="781">buttonPlacket · woven button placket · onFold=false</text>
+<path d="M 619.8867313915857,808 L 640.1132686084142,808" fill="none" stroke="#334155" stroke-width="2.3"/>
+<text class="edge" x="633" y="804" fill="#334155">top</text>
+<path d="M 640.1132686084142,808 L 640.1132686084142,1058" fill="none" stroke="#334155" stroke-width="2.3"/>
+<text class="edge" x="643.1132686084142" y="929" fill="#334155">outerRaw</text>
+<path d="M 640.1132686084142,1058 L 619.8867313915857,1058" fill="none" stroke="#334155" stroke-width="2.3"/>
+<text class="edge" x="633" y="1054" fill="#334155">bottom</text>
+<path d="M 619.8867313915857,1058 L 619.8867313915857,808" fill="none" stroke="#334155" stroke-width="2.3"/>
+<text class="edge" x="622.8867313915857" y="929" fill="#334155">attachmentRaw</text>
+<path d="M 623.9320388349514,808 L 623.9320388349514,1058" stroke="#7c3aed" stroke-width="1.5" stroke-dasharray="4 3"/>
+<text class="small" x="626.9320388349514" y="930">placketFace</text>
+<path d="M 636.0679611650485,808 L 636.0679611650485,1058" stroke="#7c3aed" stroke-width="1.5" stroke-dasharray="4 3"/>
+<text class="small" x="639.0679611650485" y="930">placketFold</text>
+<path d="M 625.9546925566343,808 L 625.9546925566343,1058" stroke="#7c3aed" stroke-width="1.5" stroke-dasharray="4 3"/>
+<text class="small" x="628.9546925566343" y="930">closureLine</text>
+<circle cx="625.9546925566343" cy="828.2265372168284" r="3.2" fill="#7c3aed"/>
+<text class="small" x="629.9546925566343" y="823.2265372168284">button-1</text>
+<circle cx="625.9546925566343" cy="860.588996763754" r="3.2" fill="#7c3aed"/>
+<text class="small" x="629.9546925566343" y="855.588996763754">button-2</text>
+<circle cx="625.9546925566343" cy="892.9514563106796" r="3.2" fill="#7c3aed"/>
+<text class="small" x="629.9546925566343" y="887.9514563106796">button-3</text>
+<circle cx="625.9546925566343" cy="925.3139158576053" r="3.2" fill="#7c3aed"/>
+<text class="small" x="629.9546925566343" y="920.3139158576053">button-4</text>
+<circle cx="625.9546925566343" cy="957.6763754045307" r="3.2" fill="#7c3aed"/>
+<text class="small" x="629.9546925566343" y="952.6763754045307">button-5</text>
+<circle cx="625.9546925566343" cy="990.0388349514564" r="3.2" fill="#7c3aed"/>
+<text class="small" x="629.9546925566343" y="985.0388349514564">button-6</text>
+<circle cx="625.9546925566343" cy="1022.401294498382" r="3.2" fill="#7c3aed"/>
+<text class="small" x="629.9546925566343" y="1017.401294498382">button-7</text>
+<rect x="845" y="759" width="410" height="340" rx="5" fill="#f8fafc" stroke="#cbd5e1"/>
+<text class="role" x="856" y="781">buttonholePlacket · woven buttonhole placket · onFold=false</text>
+<path d="M 1039.8867313915857,808 L 1060.1132686084143,808" fill="none" stroke="#334155" stroke-width="2.3"/>
+<text class="edge" x="1053" y="804" fill="#334155">top</text>
+<path d="M 1060.1132686084143,808 L 1060.1132686084143,1058" fill="none" stroke="#334155" stroke-width="2.3"/>
+<text class="edge" x="1063.1132686084143" y="929" fill="#334155">outerRaw</text>
+<path d="M 1060.1132686084143,1058 L 1039.8867313915857,1058" fill="none" stroke="#334155" stroke-width="2.3"/>
+<text class="edge" x="1053" y="1054" fill="#334155">bottom</text>
+<path d="M 1039.8867313915857,1058 L 1039.8867313915857,808" fill="none" stroke="#334155" stroke-width="2.3"/>
+<text class="edge" x="1042.8867313915857" y="929" fill="#334155">attachmentRaw</text>
+<path d="M 1043.9320388349515,808 L 1043.9320388349515,1058" stroke="#7c3aed" stroke-width="1.5" stroke-dasharray="4 3"/>
+<text class="small" x="1046.9320388349515" y="930">placketFace</text>
+<path d="M 1056.0679611650485,808 L 1056.0679611650485,1058" stroke="#7c3aed" stroke-width="1.5" stroke-dasharray="4 3"/>
+<text class="small" x="1059.0679611650485" y="930">placketFold</text>
+<path d="M 1045.9546925566342,808 L 1045.9546925566342,1058" stroke="#7c3aed" stroke-width="1.5" stroke-dasharray="4 3"/>
+<text class="small" x="1048.9546925566342" y="930">closureLine</text>
+<circle cx="1045.9546925566342" cy="828.2265372168284" r="3.2" fill="#7c3aed"/>
+<text class="small" x="1049.9546925566342" y="823.2265372168284">buttonhole-1</text>
+<circle cx="1045.9546925566342" cy="860.588996763754" r="3.2" fill="#7c3aed"/>
+<text class="small" x="1049.9546925566342" y="855.588996763754">buttonhole-2</text>
+<circle cx="1045.9546925566342" cy="892.9514563106796" r="3.2" fill="#7c3aed"/>
+<text class="small" x="1049.9546925566342" y="887.9514563106796">buttonhole-3</text>
+<circle cx="1045.9546925566342" cy="925.3139158576053" r="3.2" fill="#7c3aed"/>
+<text class="small" x="1049.9546925566342" y="920.3139158576053">buttonhole-4</text>
+<circle cx="1045.9546925566342" cy="957.6763754045307" r="3.2" fill="#7c3aed"/>
+<text class="small" x="1049.9546925566342" y="952.6763754045307">buttonhole-5</text>
+<circle cx="1045.9546925566342" cy="990.0388349514564" r="3.2" fill="#7c3aed"/>
+<text class="small" x="1049.9546925566342" y="985.0388349514564">buttonhole-6</text>
+<circle cx="1045.9546925566342" cy="1022.401294498382" r="3.2" fill="#7c3aed"/>
+<text class="small" x="1049.9546925566342" y="1017.401294498382">buttonhole-7</text>
+<rect x="5" y="1109" width="410" height="340" rx="5" fill="#f8fafc" stroke="#cbd5e1"/>
+<text class="role" x="16" y="1131">sleeve · woven short sleeve · onFold=false</text>
+<path d="M 40,1225.246931695466 C 125,1225.246931695466 133.5,1175.5666826968948 210,1166.799579932441" fill="none" stroke="#1d4ed8" stroke-width="2.3"/>
+<text class="edge" x="131.1875" y="1195.3109193506236" fill="#1d4ed8">capLeft</text>
+<path d="M 210,1166.799579932441 C 286.5,1175.5666826968948 295,1225.246931695466 380,1225.246931695466" fill="none" stroke="#c2410c" stroke-width="2.3"/>
+<text class="edge" x="294.8125" y="1195.3109193506236" fill="#c2410c">capRight</text>
+<path d="M 380,1225.246931695466 L 356.27906976744185,1399.200420067559" fill="none" stroke="#c2410c" stroke-width="2.3"/>
+<text class="edge" x="371.1395348837209" y="1308.2236758815125" fill="#c2410c">sideRight</text>
+<path d="M 356.27906976744185,1399.200420067559 L 63.72093023255814,1399.200420067559" fill="none" stroke="#334155" stroke-width="2.3"/>
+<text class="edge" x="213" y="1395.200420067559" fill="#334155">hem</text>
+<path d="M 63.72093023255814,1399.200420067559 L 40,1225.246931695466" fill="none" stroke="#1d4ed8" stroke-width="2.3"/>
+<text class="edge" x="54.86046511627907" y="1308.2236758815125" fill="#1d4ed8">sideLeft</text>
+<path d="M 210,1166.799579932441 L 210,1399.200420067559" stroke="#d97706" stroke-width="2" stroke-dasharray="6 4"/>
+<text class="note" x="214" y="1283">candidate split; no source mark</text>
+<rect x="425" y="1109" width="410" height="340" rx="5" fill="#f8fafc" stroke="#cbd5e1"/>
+<text class="role" x="436" y="1131">sleeveBand · woven folded sleeve band · onFold=false</text>
+<path d="M 482,1271 L 778,1271" fill="none" stroke="#334155" stroke-width="2.3"/>
+<text class="edge" x="633" y="1267" fill="#334155">top</text>
+<path d="M 778,1271 L 778,1295" fill="none" stroke="#c2410c" stroke-width="2.3"/>
+<text class="edge" x="781" y="1279" fill="#c2410c">sideRight</text>
+<path d="M 778,1295 L 482,1295" fill="none" stroke="#334155" stroke-width="2.3"/>
+<text class="edge" x="633" y="1291" fill="#334155">bottom</text>
+<path d="M 482,1295 L 482,1271" fill="none" stroke="#1d4ed8" stroke-width="2.3"/>
+<text class="edge" x="485" y="1279" fill="#1d4ed8">sideLeft</text>
+<path d="M 482,1283 L 778,1283" stroke="#7c3aed" stroke-width="1.5" stroke-dasharray="4 3"/>
+<text class="small" x="633" y="1280">bandFold</text>
+</svg>

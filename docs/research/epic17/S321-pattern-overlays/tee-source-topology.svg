@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="404" viewBox="0 0 1440 404">
+<rect width="100%" height="100%" fill="#fff"/><style>text{font-family:Arial,sans-serif}.title{font-size:20px;font-weight:bold}.role{font-size:15px;font-weight:bold}.edge{font-size:10px;paint-order:stroke;stroke:white;stroke-width:3px;stroke-linejoin:round}.note{font-size:11px;fill:#7c2d12}.small{font-size:10px;fill:#475569}</style>
+<text class="title" x="16" y="28">tee · exact live draft pieces · STANDARD_M</text>
+<text class="small" x="16" y="45">Default recipe options; coordinates in cm; source geometry is drawn without transforms</text>
+<rect x="5" y="59" width="470" height="340" rx="5" fill="#f8fafc" stroke="#cbd5e1"/>
+<text class="role" x="16" y="81">sleeve · sleeve · onFold=false</text>
+<path d="M 166.9,198.63780461722052 C 203.45,198.63780461722052 207.10500000000002,193.47353676794563 240,192.56219538277946" fill="none" stroke="#1d4ed8" stroke-width="2.3"/>
+<text class="edge" x="207.820625" y="191.9417530194373" fill="#1d4ed8">capLeft</text>
+<path d="M 240,192.56219538277946 C 272.895,193.47353676794563 276.55,198.63780461722052 313.1,198.63780461722052" fill="none" stroke="#c2410c" stroke-width="2.3"/>
+<text class="edge" x="278.179375" y="191.9417530194373" fill="#c2410c">capRight</text>
+<path d="M 313.1,198.63780461722052 L 302.9,273.43780461722054" fill="none" stroke="#c2410c" stroke-width="2.3"/>
+<text class="edge" x="311" y="232.03780461722053" fill="#c2410c">sideRight</text>
+<path d="M 302.9,273.43780461722054 L 177.1,273.43780461722054" fill="none" stroke="#334155" stroke-width="2.3"/>
+<text class="edge" x="243" y="269.43780461722054" fill="#334155">hem</text>
+<path d="M 177.1,273.43780461722054 L 166.9,198.63780461722052" fill="none" stroke="#1d4ed8" stroke-width="2.3"/>
+<text class="edge" x="175" y="232.03780461722053" fill="#1d4ed8">sideLeft</text>
+<path d="M 240,192.56219538277946 L 240,273.43780461722054" stroke="#d97706" stroke-width="2" stroke-dasharray="6 4"/>
+<text class="note" x="244" y="233">candidate split; no source mark</text>
+<rect x="485" y="59" width="470" height="340" rx="5" fill="#f8fafc" stroke="#cbd5e1"/>
+<text class="role" x="496" y="81">front · front · onFold=true</text>
+<path d="M 673.25,141.2 C 686.39474,141.2 697.05,129.02256 697.05,114" fill="none" stroke="#15803d" stroke-width="2.3"/>
+<text class="edge" x="693.0792775" y="129.23346" fill="#15803d">neckline</text>
+<path d="M 697.05,114 L 749.75,127.6" fill="none" stroke="#334155" stroke-width="2.3"/>
+<text class="edge" x="726.4" y="116.8" fill="#334155">shoulder</text>
+<path d="M 749.75,127.6 C 749.75,158.2 759.95,185.39999999999998 766.75,195.6" fill="none" stroke="#334155" stroke-width="2.3"/>
+<text class="edge" x="758.7" y="165.25" fill="#334155">armhole</text>
+<path d="M 766.75,195.6 L 766.75,352" fill="none" stroke="#334155" stroke-width="2.3"/>
+<text class="edge" x="769.75" y="269.79999999999995" fill="#334155">side</text>
+<path d="M 766.75,352 L 673.25,352" fill="none" stroke="#334155" stroke-width="2.3"/>
+<text class="edge" x="723" y="348" fill="#334155">hem</text>
+<path d="M 673.25,352 L 673.25,141.2" fill="none" stroke="#15803d" stroke-width="2.3"/>
+<text class="edge" x="676.25" y="242.6" fill="#15803d">centerFront</text>
+<rect x="965" y="59" width="470" height="340" rx="5" fill="#f8fafc" stroke="#cbd5e1"/>
+<text class="role" x="976" y="81">back · back · onFold=true</text>
+<path d="M 1153.25,122.5 C 1166.39474,122.5 1177.05,118.69454999999999 1177.05,114" fill="none" stroke="#15803d" stroke-width="2.3"/>
+<text class="edge" x="1173.0792775" y="116.01045625" fill="#15803d">neckline</text>
+<path d="M 1177.05,114 L 1229.75,127.6" fill="none" stroke="#334155" stroke-width="2.3"/>
+<text class="edge" x="1206.4" y="116.8" fill="#334155">shoulder</text>
+<path d="M 1229.75,127.6 C 1229.75,158.2 1239.95,185.39999999999998 1246.75,195.6" fill="none" stroke="#334155" stroke-width="2.3"/>
+<text class="edge" x="1238.7" y="165.25" fill="#334155">armhole</text>
+<path d="M 1246.75,195.6 L 1246.75,352" fill="none" stroke="#334155" stroke-width="2.3"/>
+<text class="edge" x="1249.75" y="269.79999999999995" fill="#334155">side</text>
+<path d="M 1246.75,352 L 1153.25,352" fill="none" stroke="#334155" stroke-width="2.3"/>
+<text class="edge" x="1203" y="348" fill="#334155">hem</text>
+<path d="M 1153.25,352 L 1153.25,122.5" fill="none" stroke="#15803d" stroke-width="2.3"/>
+<text class="edge" x="1156.25" y="233.25" fill="#15803d">centerBack</text>
+</svg>

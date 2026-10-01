@@ -180,6 +180,11 @@ only through an explicitly admitted, linked Epic packet.
 - `docs/research/epic17/G04-V02-CONSTRUCTION-EVIDENCE-AMBIGUITY-RESOLUTION-S320.md`
   — S320's admitted source audit and fact-by-fact evidence/decision ledger;
   mapping is gated until each needed construction relation is established.
+- `docs/research/epic17/G04-V02-SOURCE-MAPPING-PROPOSALS-S321.md` and
+  `docs/research/epic17/S321-pattern-overlays/` — exact pattern topology
+  overlays and source-versus-decision proposals for every remaining V02 hold.
+  The packet records the maintainer decisions needed before dependent mapping;
+  use `PROJECT-STATE.md` and the validated board for live status.
 - `docs/research/epic17/G04-V02-PROJECTION-MAPPING-S277.md` — Slice 277's
   current projection-mapping contract boundary, source-reference rules,
   fail-closed semantics, and focused acceptance gates.
