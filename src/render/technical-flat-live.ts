@@ -315,6 +315,13 @@ export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): Tec
     ...overlays.issues.map((issue) => ({ stage: "overlay" as const, sourceId: issue.sourceId, message: issue.message })),
     ...poms.issues.map((issue) => ({ stage: "pom" as const, sourceId: issue.sourceId, message: issue.message })),
   ];
+  if (recipe.name === "polo") {
+    issues.push(...assembly.issues.filter((issue) => issue.code === "STITCH_ENDPOINT_RESIDUAL"
+      && issue.sourceId.includes("Sleeve-cap ease")).map((issue) => ({ stage: "assembly" as const,
+      sourceId: issue.sourceId,
+      message: `${issue.message} Polo front/back flats are withheld until this sleeve-cap join is within the 0.25 cm acceptance tolerance.`,
+    })));
+  }
   if (recipe.name === "skirt" && input.placements.some((placement) => placement.pieceRole === "waistband")) {
     issues.push({ stage: "overlay", sourceId: "style:artwork:waistband",
       message: "Artwork targeting the Skirt waistband is withheld until its face-specific segment can be clipped without crossing the side-seam boundary. Reposition it on the front or back panel." });

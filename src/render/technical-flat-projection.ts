@@ -64,7 +64,7 @@ export interface FlatProjectionViewPairReflection {
   readonly edgeId: "centerFront" | "centerBack";
   readonly axis: "ASSEMBLED_BODY_CENTER";
   readonly source: "MAINTAINER_VIEW_DECISION" | "WOVEN_SHIRT_PHYSICAL_ROLES";
-  readonly decisionId: "G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR" | "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR";
+  readonly decisionId: "G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR" | "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR" | "G04-S333-POLO-SLEEVE-VIEW-MAP";
   readonly quantity: 2;
 }
 
@@ -85,7 +85,7 @@ export interface FlatProjectionViewBoundary {
   readonly to: FlatProjectionLandmark;
   readonly fillOnlyColorway?: {
     readonly source: "MAINTAINER_VIEW_DECISION";
-    readonly decisionId: "G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR" | "G04-S321-COLLAR-EXTERIOR-ARCLENGTH";
+    readonly decisionId: "G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR" | "G04-S321-COLLAR-EXTERIOR-ARCLENGTH" | "G04-S333-POLO-SLEEVE-VIEW-MAP";
   };
 }
 
@@ -103,7 +103,7 @@ export interface FlatProjectionReversedStitchEdge {
 export interface FlatProjectionLocalYReflection {
   readonly axis: "LOCAL_Y";
   readonly basis: "APPROVED_VIEW_CONVENTION";
-  readonly decisionId: "G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR";
+  readonly decisionId: "G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR" | "G04-S333-POLO-SLEEVE-VIEW-MAP";
 }
 
 export interface FlatProjectionRole {
@@ -148,9 +148,7 @@ export interface TechnicalFlatProjectionMap {
 export const G04_UNRESOLVED_PROJECTION_ROLES: Readonly<Record<string, Readonly<Record<string, string>>>> = {
   tee: {},
   fitted: {},
-  polo: {
-    sleeve: "Current rendered Polo options place the authored sleeve across the bodice interior from the shoulder/underarm; keep the complete face held until a source-topology-validated sleeve-cap and armhole view mapping passes rendered review.",
-  },
+  polo: {},
   "woven-shirt": {},
 };
 
@@ -188,8 +186,9 @@ function wovenFrontPairAxis(piece: Piece): Edge | undefined {
   return points.every((point) => point.x >= 0) ? edge : undefined;
 }
 
-function teeFittedSleeveProjection(
+function pairedSleeveProjection(
   kind: TechnicalFlatViewKind, block: Block, treatment: FlatRoleTreatment,
+  decisionId: "G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR" | "G04-S333-POLO-SLEEVE-VIEW-MAP",
 ): FlatProjectionRole | undefined {
   const piece = block.roles.sleeve!;
   const axisRoleId = kind === "FRONT_FLAT" ? "front" : "back";
@@ -243,11 +242,11 @@ function teeFittedSleeveProjection(
       from: midpoint,
       to: endpoint(kind === "FRONT_FLAT" ? "capLeft" : "capRight", kind === "FRONT_FLAT" ? "end" : "start"),
       fillOnlyColorway: { source: "MAINTAINER_VIEW_DECISION" as const,
-        decisionId: "G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR" as const },
+        decisionId },
     }] } : {}),
     ...(valid ? { viewPairReflection: {
       axisRoleId, edgeId: axis!.name as "centerFront" | "centerBack", axis: "ASSEMBLED_BODY_CENTER" as const,
-      source: "MAINTAINER_VIEW_DECISION" as const, decisionId: "G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR" as const, quantity: 2 as const,
+      source: "MAINTAINER_VIEW_DECISION" as const, decisionId, quantity: 2 as const,
     } } : {}),
     ...(valid && kind === "FRONT_FLAT" ? { reversedStitchEdges: [{
       stitchLabel: "Sleeve-cap ease" as const, pieceId: "front" as const,
@@ -255,7 +254,7 @@ function teeFittedSleeveProjection(
     }] } : {}),
     ...(valid && kind === "BACK_FLAT" ? { localYReflection: {
       axis: "LOCAL_Y" as const, basis: "APPROVED_VIEW_CONVENTION" as const,
-      decisionId: "G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR" as const,
+      decisionId,
     } } : {}),
   };
 }
@@ -673,8 +672,9 @@ export function createG04TechnicalFlatProjectionMap(
             } : {}),
           };
         }
-        if ((recipeId === "tee" || recipeId === "fitted") && role.roleId === "sleeve") {
-          return teeFittedSleeveProjection(face.kind, block, role.treatment)!;
+        if ((recipeId === "tee" || recipeId === "fitted" || recipeId === "polo") && role.roleId === "sleeve") {
+          const decisionId = recipeId === "polo" ? "G04-S333-POLO-SLEEVE-VIEW-MAP" : "G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR";
+          return pairedSleeveProjection(face.kind, block, role.treatment, decisionId)!;
         }
         const nonMirrorReason = G04_NON_MIRRORED_ON_FOLD_ROLES[recipeId]?.[role.roleId];
         const axisEdge = role.treatment === "INTERIOR_HIDDEN" || nonMirrorReason ? undefined : foldAxisEdge(piece);
@@ -1205,7 +1205,7 @@ function validateRole(
     issues.push({ code: "TREATMENT_MISMATCH", sourceId, message: `Projection treatment for “${roleId}” must match the admitted role map.` });
   }
   const reversedStitchEdges = mappingRole.reversedStitchEdges;
-  const requiresSleeveEndpointOrder = (recipeId === "tee" || recipeId === "fitted")
+  const requiresSleeveEndpointOrder = (recipeId === "tee" || recipeId === "fitted" || recipeId === "polo")
     && faceKind === "FRONT_FLAT" && roleId === "sleeve";
   if (reversedStitchEdges !== undefined || requiresSleeveEndpointOrder) {
     const entries = Array.isArray(reversedStitchEdges) ? reversedStitchEdges : [];
@@ -1228,11 +1228,11 @@ function validateRole(
       && entries[0].edgeId === "armhole" && entries[0].source === "SOURCE_ENDPOINT_ORDER";
     if (!requiresSleeveEndpointOrder || !topologyMatches || !exactRule) {
       issues.push({ code: "INVALID_STITCH_ENDPOINT_ORIENTATION", sourceId,
-        message: "The reversed view traversal requires the exact Tee/Fitted front armhole and sleeve-cap source endpoint order." });
+        message: "The reversed view traversal requires the exact front armhole and sleeve-cap source endpoint order." });
     }
   }
   const localYReflection = mappingRole.localYReflection;
-  const requiresBackSleeveReflection = (recipeId === "tee" || recipeId === "fitted")
+  const requiresBackSleeveReflection = (recipeId === "tee" || recipeId === "fitted" || recipeId === "polo")
     && faceKind === "BACK_FLAT" && roleId === "sleeve";
   if (localYReflection !== undefined || requiresBackSleeveReflection) {
     const capLeft = block.roles.sleeve?.edges.find((edge) => edge.name === "capLeft");
@@ -1244,7 +1244,8 @@ function validateRole(
       && samePoint(capRight.curve.end, sideRight.start);
     const exactReflection = isRecord(localYReflection) && localYReflection.axis === "LOCAL_Y"
       && localYReflection.basis === "APPROVED_VIEW_CONVENTION"
-      && localYReflection.decisionId === "G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR";
+      && localYReflection.decisionId === (recipeId === "polo"
+        ? "G04-S333-POLO-SLEEVE-VIEW-MAP" : "G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR");
     if (!requiresBackSleeveReflection || !validSourceJoin || !exactReflection) {
       issues.push({ code: "INVALID_LOCAL_Y_REFLECTION", sourceId,
         message: "The back sleeve local-Y view reflection requires the exact sewn cap-to-side source joins and admitted face mapping." });
@@ -1293,6 +1294,9 @@ function validateRole(
     const teeFittedPair = (recipeId === "tee" || recipeId === "fitted") && roleId === "sleeve"
       && isRecord(reflection) && reflection.source === "MAINTAINER_VIEW_DECISION"
       && reflection.decisionId === "G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR";
+    const poloPair = recipeId === "polo" && roleId === "sleeve" && isRecord(reflection)
+      && reflection.source === "MAINTAINER_VIEW_DECISION"
+      && reflection.decisionId === "G04-S333-POLO-SLEEVE-VIEW-MAP";
     const wovenRole = roleId === "sleeve" || roleId === "sleeveBand";
     const physicalRole = WOVEN_SHIRT_PHYSICAL_ROLES.find((candidate) => candidate.id === roleId);
     const exactAxis = recipeId === "woven-shirt" && axisRoleId === "front" && axisPiece
@@ -1302,7 +1306,7 @@ function validateRole(
       && reflection.source === "WOVEN_SHIRT_PHYSICAL_ROLES"
       && reflection.decisionId === "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR"
       && physicalRole?.quantity === 2 && !physicalRole.onFold;
-    if ((!teeFittedPair && !wovenPair) || !isRecord(reflection)
+    if ((!teeFittedPair && !poloPair && !wovenPair) || !isRecord(reflection)
       || reflection.axisRoleId !== axisRoleId || reflection.edgeId !== expectedAxisId
       || reflection.axis !== "ASSEMBLED_BODY_CENTER" || reflection.quantity !== 2
       || !exactAxis) {
@@ -1315,6 +1319,9 @@ function validateRole(
   } else if (recipeId === "woven-shirt" && (roleId === "sleeve" || roleId === "sleeveBand")) {
     issues.push({ code: "INVALID_VIEW_PAIR_REFLECTION", sourceId,
       message: "The approved Woven sleeve/band mapping requires two explicit mirrored physical instances." });
+  } else if (recipeId === "polo" && roleId === "sleeve") {
+    issues.push({ code: "INVALID_VIEW_PAIR_REFLECTION", sourceId,
+      message: "The approved Polo sleeve mapping requires two explicit mirrored view instances." });
   }
   const oppositeSide = mappingRole.oppositeSideReflection;
   if (oppositeSide !== undefined || (recipeId === "woven-shirt" && faceKind === "FRONT_FLAT" && roleId === "buttonholePlacket")) {
@@ -1435,13 +1442,22 @@ function validateRole(
             && isRecord(boundary.to) && boundary.to.kind === "edge-endpoint"
             && boundary.to.edgeId === expectedCap
             && boundary.to.endpoint === (faceKind === "FRONT_FLAT" ? "end" : "start");
+          const poloSleeveBoundary = recipeId === "polo" && roleId === "sleeve"
+            && boundary.id === "approved-sleeve-area-closure" && isRecord(fillOnly)
+            && fillOnly.source === "MAINTAINER_VIEW_DECISION"
+            && fillOnly.decisionId === "G04-S333-POLO-SLEEVE-VIEW-MAP"
+            && isRecord(boundary.from) && boundary.from.kind === "edge-arclength"
+            && boundary.from.edgeId === "hem" && boundary.from.fraction === 0.5
+            && isRecord(boundary.to) && boundary.to.kind === "edge-endpoint"
+            && boundary.to.edgeId === expectedCap
+            && boundary.to.endpoint === (faceKind === "FRONT_FLAT" ? "end" : "start");
           const poloExpected = recipeId === "polo" ? expectedPoloColorwayBoundary(roleId, faceKind, block) : undefined;
           const poloCollarBoundary = !!poloExpected && isRecord(fillOnly)
             && Object.keys(fillOnly).length === 2 && fillOnly.source === "MAINTAINER_VIEW_DECISION"
             && fillOnly.decisionId === "G04-S321-COLLAR-EXTERIOR-ARCLENGTH"
             && boundary.id === poloExpected.id && exactProjectionLandmark(boundary.from, poloExpected.from)
             && exactProjectionLandmark(boundary.to, poloExpected.to);
-          if (!teeSleeveBoundary && !poloCollarBoundary) {
+          if (!teeSleeveBoundary && !poloSleeveBoundary && !poloCollarBoundary) {
             issues.push({ code: "INVALID_VIEW_BOUNDARY", sourceId,
               message: "A colorway-only closure requires an admitted decision and its exact same-revision source landmarks." });
           }

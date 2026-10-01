@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 1015,
-  "updatedAt": "2026-10-01T10:52:06.163Z",
+  "revision": 1046,
+  "updatedAt": "2026-10-01T14:19:07.484Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -155,7 +155,7 @@
       "title": "EPIC-17: G04 — Professional flats and CAD interchange",
       "status": "In Progress",
       "owner": "Codex",
-      "description": "Admitted by explicit maintainer instruction. G04 V01 → V02 → V03. S330 landed at 558564bab25ab0e717ee825f4c4ab54f9eba4ea2. S331 closes the source-bound, fill-only Polo outerStand and collar color areas. S332 source-traces Polo sleeve topology across 17 configurations; its view-map proposal awaits approval and exposes a 0.96 cm shoulder endpoint gap / 0.68 cm assembly residual, so all 34 Polo faces remain held. The integrated baseline 56 accepted / 90 held across 73 configurations / 146 faces. Preserve seven-recipe acceptance; do not begin V03 until every recipe and option passes rendered V02 output review. Admission packet: docs/planning/EPIC-17-ADMISSION.md; current state: PROJECT-STATE.md.",
+      "description": "Admission packet: docs/planning/EPIC-17-ADMISSION.md; current state: PROJECT-STATE.md. S330 landed at 558564bab25ab0e717ee825f4c4ab54f9eba4ea2. S331 closes the source-bound, fill-only Polo outerStand and collar color areas. S332 traces the exact Polo sleeve topology across 17 configurations. S333 implements the maintainer-approved Polo sleeve view map, but production Chromium holds all 34 Polo faces after the 17-option replay found a 0.68 cm sleeve-cap residual vs 0.25 cm limit; the diagnostic shows a 0.96 cm shoulder gap. No source geometry changed. Integrated baseline remains 73 configurations / 146 faces / 32 option fields, 56 accepted and 90 held. Preserve all-seven V02 acceptance; do not start V03. See S333 packet, strict option matrix and rendered hold evidence.",
       "evidenceRefs": [
         "E-G04-S271-EXIT",
         "E-G04-S273-EXIT",
@@ -267,7 +267,14 @@
         "E-G04-S332-START",
         "E-G04-S332-EXIT",
         "E-G04-S332-OPTIONS",
-        "E-G04-S332-RENDERED"
+        "E-G04-S332-RENDERED",
+        "E-G04-S333-START",
+        "E-G04-S333-EXIT",
+        "E-G04-S333-COVERAGE",
+        "E-G04-S333-BUILD",
+        "E-G04-S333-BROWSER",
+        "E-G04-S333-RENDERED",
+        "E-G04-S333-DIAGNOSTIC"
       ]
     },
     {
@@ -2796,7 +2803,7 @@
         "100% coverage",
         "maintainer gates"
       ],
-      "description": "S330 landed at 558564bab25ab0e717ee825f4c4ab54f9eba4ea2. S331 closes Polo color fills, but all 34 Polo front/back faces stay held. S332 source-traces Polo sleeve topology across 17 option configurations; the proposal awaits approval and diagnostic output shows 0.96 cm shoulder gaps and 0.68 cm assembly residual above the 0.25 cm gate, so all 34 Polo faces remain held. Integrated baseline: 73 configurations / 146 faces / 32 option fields, 56 accepted and 90 held. Preserve all-seven V02 acceptance; V03 stays gated. See S332 packet and linked source/option/rendered evidence.",
+      "description": "S330 landed at 558564bab25ab0e717ee825f4c4ab54f9eba4ea2. S331 closes Polo color fills, but all 34 Polo front/back faces stay held. S332 traces the exact Polo sleeve topology across 17 configurations. S333 implements the approved exact Polo sleeve view map. 17 supported options; production replay withheld all 34 faces because the sleeve-cap residual is 0.68 cm vs the 0.25 cm limit; the rejected diagnostic shows a 0.96 cm shoulder gap. Integrated baseline remains 73 configurations / 146 faces / 32 option fields, 56 accepted and 90 held. Preserve all-seven V02 acceptance and keep V03 gated. See docs/planning/EPIC-17-ADMISSION.md, S333 packet, matrix and rendered hold evidence.",
       "expectation": "Front/back technical flats for every supported recipe/variant and proven CAD interchange. Pattern-linked side/oblique views are explicitly owned by G09/D04, so the complete view set is accepted only there.",
       "acceptanceCriteria": [
         "Complete every G04 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
@@ -3349,6 +3356,21 @@
           "at": "2026-10-01T10:51:29.453Z",
           "actor": "Codex",
           "text": "Updated Epic metadata (description: Admitted by explicit maintainer instruction. G04 V01 → V02 → V03. S330 landed at 558564bab25ab0e717ee825f4c4ab54f9eba4ea2. S331 closes the source-bound, fill-only Polo outerStand and collar color areas. S332 source-traces Polo sleeve topology across 17 configurations; its view-map proposal awaits approval and exposes a 0.96 cm shoulder endpoint gap / 0.68 cm assembly residual, so all 34 Polo faces remain held. The integrated baseline 56 accepted / 90 held across 73 configurations / 146 faces. Preserve seven-recipe acceptance; do not begin V03 until every recipe and option passes rendered V02 output review. Admission packet: docs/planning/EPIC-17-ADMISSION.md; current state: PROJECT-STATE.md.). Match the validated Epic summary to its current S332 source and output evidence."
+        },
+        {
+          "at": "2026-10-01T14:16:50.780Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: S330 landed at 558564bab25ab0e717ee825f4c4ab54f9eba4ea2. S331 closes the source-bound, fill-only Polo outerStand and collar color areas. S332 traces the exact Polo sleeve topology across 17 configurations. The maintainer-approved Polo sleeve view map is implemented in S333, but production Chromium holds all 34 Polo faces after the 17-option replay found a 0.68 cm sleeve-cap residual vs 0.25 cm limit; the diagnostic shows a 0.96 cm shoulder gap. No source geometry changed. Integrated baseline remains 73 configurations / 146 face requests / 32 option fields, 56 accepted and 90 held. Preserve all-seven V02 acceptance; do not start V03. See S333 packet, strict option matrix and rendered hold evidence.). Record the approved S333 Polo mapping and its verified strict hold without changing G04 acceptance."
+        },
+        {
+          "at": "2026-10-01T14:17:19.615Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: Admission packet: docs/planning/EPIC-17-ADMISSION.md; current state: PROJECT-STATE.md. S330 landed at 558564bab25ab0e717ee825f4c4ab54f9eba4ea2. S331 closes the source-bound, fill-only Polo outerStand and collar color areas. S332 traces the exact Polo sleeve topology across 17 configurations. The maintainer-approved Polo sleeve view map is implemented in S333, but production Chromium holds all 34 Polo faces after the 17-option replay found a 0.68 cm sleeve-cap residual vs 0.25 cm limit; the diagnostic shows a 0.96 cm shoulder gap. No source geometry changed. Integrated baseline remains 73 configurations / 146 faces / 32 option fields, 56 accepted and 90 held. Preserve all-seven V02 acceptance; do not start V03. See S333 packet, strict option matrix and rendered hold evidence.). Retain the canonical admission packet link while updating S333 verification state."
+        },
+        {
+          "at": "2026-10-01T14:17:35.216Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: Admission packet: docs/planning/EPIC-17-ADMISSION.md; current state: PROJECT-STATE.md. S330 landed at 558564bab25ab0e717ee825f4c4ab54f9eba4ea2. S331 closes the source-bound, fill-only Polo outerStand and collar color areas. S332 traces the exact Polo sleeve topology across 17 configurations. S333 implements the maintainer-approved Polo sleeve view map, but production Chromium holds all 34 Polo faces after the 17-option replay found a 0.68 cm sleeve-cap residual vs 0.25 cm limit; the diagnostic shows a 0.96 cm shoulder gap. No source geometry changed. Integrated baseline remains 73 configurations / 146 faces / 32 option fields, 56 accepted and 90 held. Preserve all-seven V02 acceptance; do not start V03. See S333 packet, strict option matrix and rendered hold evidence.). Align the Epic summary with its regression assertion and S333 verified outcome."
         }
       ],
       "evidenceRefs": [
@@ -3452,7 +3474,14 @@
         "E-G04-S332-START",
         "E-G04-S332-EXIT",
         "E-G04-S332-OPTIONS",
-        "E-G04-S332-RENDERED"
+        "E-G04-S332-RENDERED",
+        "E-G04-S333-START",
+        "E-G04-S333-EXIT",
+        "E-G04-S333-COVERAGE",
+        "E-G04-S333-BUILD",
+        "E-G04-S333-BROWSER",
+        "E-G04-S333-RENDERED",
+        "E-G04-S333-DIAGNOSTIC"
       ],
       "flagKey": null
     },
@@ -6150,7 +6179,7 @@
         "100% coverage",
         "export byte identity"
       ],
-      "description": "S331 verified: Polo outerStand, upperCollar and underCollar color areas use revision-bound approved fill-only closures. S332 source-only Polo sleeve trace is complete. The exact 17-option sleeve/armhole topology is unchanged; the proposed view map needs maintainer approval. Diagnostic front/back overlays show a 0.96 cm shoulder gap and 0.68 cm assembly residual above the 0.25 cm gate, so all 34 Polo faces remain held. Current integrated baseline remains 73 configurations / 146 faces / 32 option fields, 56 accepted / 90 held. Preserve all-seven V02 acceptance and all other holds; do not start V03. See S332 packet, option trace and rendered overlays. Next gate: maintainer decision on the exact view convention, then a separately evidenced seam-residual resolution if approved.",
+      "description": "S331 verified: Polo outerStand, upperCollar and underCollar color areas use revision-bound approved fill-only closures. S332 traced the exact Polo sleeve topology across 17 configurations. S333 implements the approved exact Polo sleeve view map. Projection topology and source accounting validate across 17 supported options; production replay withheld all 34 faces because the rigid sleeve-cap residual is 0.68 cm vs the 0.25 cm limit. The rejected default diagnostic shows a 0.96 cm shoulder gap. Some Polo POMs remain table-only pending their own mapped anchors. Current integrated baseline remains 73 configurations / 146 faces / 32 option fields, 56 accepted / 90 held. Preserve the seven-recipe V02 criterion, all other holds, and the no-V03-before-V02 gate. See S333 implementation packet, option matrix and rendered evidence.",
       "expectation": "Live vector output stays aligned with the same pattern and style revision and remains readable across all supported options.",
       "acceptanceCriteria": [
         "Render front/back vector views for all seven recipes and supported option combinations from one pattern/revision.",
@@ -6780,6 +6809,16 @@
           "at": "2026-10-01T10:50:05.368Z",
           "actor": "Codex",
           "text": "S332 exit: the exact candidate sleeve map is recorded in the linked proposal. Its default diagnostic has clean selected half-runs but 0.96 cm shoulder gaps and 0.68 cm assembly residual; all 34 production Polo requests remain fully held. Await maintainer approval before implementing semantic mapping. No new face accepted; all-seven V02 remains mandatory."
+        },
+        {
+          "at": "2026-10-01T13:57:57.875Z",
+          "actor": "Codex",
+          "text": "S333 started from clean S332 at 02bcc2f. Maintainer approved the exact S332 Polo sleeve view-only map; no cut/stitch/ease/solver change. Implement metadata and test all 17 options, retaining all 34 Polo holds unless joins, <=0.25 cm residual, collision/overlap, topology and rendered readability pass. Packet: docs/research/epic17/G04-V02-POLO-SLEEVE-IMPLEMENTATION-S333.md."
+        },
+        {
+          "at": "2026-10-01T14:16:51.125Z",
+          "actor": "Codex",
+          "text": "S333 verified exit: approved Polo view metadata validates on 17 configurations; rebuilt production output withholds all 34 faces on the 0.68 cm Sleeve-cap ease residual vs the 0.25 cm gate. Integrated status is unchanged at 56 accepted / 90 held. No Polo face accepted; V02 remains In Progress, V03 remains Backlog. See S333 exit, matrix, coverage and rendered hold evidence."
         }
       ],
       "evidenceRefs": [
@@ -6922,7 +6961,14 @@
         "E-G04-S332-START",
         "E-G04-S332-EXIT",
         "E-G04-S332-OPTIONS",
-        "E-G04-S332-RENDERED"
+        "E-G04-S332-RENDERED",
+        "E-G04-S333-START",
+        "E-G04-S333-EXIT",
+        "E-G04-S333-COVERAGE",
+        "E-G04-S333-BUILD",
+        "E-G04-S333-BROWSER",
+        "E-G04-S333-RENDERED",
+        "E-G04-S333-DIAGNOSTIC"
       ],
       "flagKey": null
     },
@@ -9060,6 +9106,69 @@
       "sha256": null,
       "verified": true,
       "note": "Inspected current-source diagnostic front/back sleeve half-run overlays in this folder. They show no selected-run body crossing but mark 0.96 cm shoulder gaps; diagnostic only, not accepted production output."
+    },
+    {
+      "id": "E-G04-S333-START",
+      "kind": "decision",
+      "uri": "docs/research/epic17/G04-V02-POLO-SLEEVE-IMPLEMENTATION-S333.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Maintainer approval recorded and S333 start boundary, exact view-only scope, known residual blocker, and validation gates durably packeted before implementation."
+    },
+    {
+      "id": "E-G04-S333-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/G04-V02-POLO-SLEEVE-IMPLEMENTATION-S333.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S333 exact mapping implementation, changed-code coverage, build, 17-option strict replay, visible residual hold, durable exit, and remaining blockers."
+    },
+    {
+      "id": "E-G04-S333-COVERAGE",
+      "kind": "test",
+      "uri": "docs/research/epic17/G04-V02-POLO-SLEEVE-IMPLEMENTATION-S333.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "113 focused render tests pass; technical-flat-projection.ts and technical-flat-live.ts each pass 100% statement, branch, function, and line coverage."
+    },
+    {
+      "id": "E-G04-S333-BUILD",
+      "kind": "build",
+      "uri": "docs/research/epic17/G04-V02-POLO-SLEEVE-IMPLEMENTATION-S333.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Production TypeScript/Vite build passes with only the existing chunk-size advisory; protected export source and baselines untouched."
+    },
+    {
+      "id": "E-G04-S333-BROWSER",
+      "kind": "browser",
+      "uri": "docs/research/epic17/S333-polo-browser/matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Built-app Chromium replay of 17 Polo options / 34 faces: all held for the same 0.68 cm sleeve-cap residual above 0.25 cm, zero SVGs emitted, zero browser errors."
+    },
+    {
+      "id": "E-G04-S333-RENDERED",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S333-polo-browser/polo-default-front_flat.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Inspected built-app hold screen: no partial geometry shown; exact sleeve-cap residual and 0.25 cm gate are visible."
+    },
+    {
+      "id": "E-G04-S333-DIAGNOSTIC",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S333-polo-browser/polo-default-front-residual-failure.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Rejected pre-gate diagnostic only; the approved two-instance front mapping still has a visible shoulder gap. Not accepted output."
     }
   ]
 }

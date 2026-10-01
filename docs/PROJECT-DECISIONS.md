@@ -1017,3 +1017,9 @@ pass, and preserve any other Woven hold.
 - Short-edge finishing remains unspecified and must remain explicit in pattern/output documentation. If a required output depends on it, hold that output.
 - Keep all 24 Trouser front views held until the supported option matrix and rendered-output checks pass. Preserve all seven recipe acceptance criteria and the unrelated holds.
 - No export baseline movement or DXF-writer change is authorized or required. The eight protected SHA fixtures cover legacy Tee/Fitted outputs; the approved new Trouser physical role will naturally appear in new Trouser DXF content. Existing legacy hash identities and tech-pack identity checks remain mandatory.
+
+## EPIC-17 / G04 — Polo sleeve view mapping (S333)
+
+- On 2026-10-01 the maintainer approved the exact S332 Polo sleeve view proposal: FRONT uses `capLeft` start-to-end, `sideLeft` end-to-start, and the left hem half; BACK uses `capRight` start-to-end, `sideRight` start-to-end, and the right hem half, with local-Y reflection for the back view. Reflect each displayed sleeve instance across its sewn-to body's source-declared center axis; show two mirrored instances and no crown-to-hem partition line.
+- This is view-only mapping metadata. It authorizes no cut-geometry, stitch-graph, ease, physical-mark, or solver-threshold change and does not waive the 0.25 cm assembly residual gate. Keep each Polo face held unless its exact source revision passes topology, stitch residual, join, crossing, overlap, and rendered-readability checks across the supported option matrix.
+- The S332 default diagnostic reported a 0.96 cm shoulder gap and 0.68 cm assembly residual. If the approved mapping does not remove those within the existing solver contract, preserve all 34 Polo holds and bring a separate evidence-backed proposal; do not average/scale transforms or hide the gap.

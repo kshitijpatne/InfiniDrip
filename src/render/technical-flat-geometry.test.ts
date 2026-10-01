@@ -16,21 +16,14 @@ const revisionId = "style-revision-17";
 /** The Polo face is production-held for its sleeve view. This test-only map
  * clears that hold solely to exercise the independent collar fill compiler. */
 function poloColorwayDiagnosticMap(block: Block): TechnicalFlatProjectionMap {
-  const map = createG04TechnicalFlatProjectionMap("polo", block, revisionId)!;
-  return { ...map, faces: map.faces.map((face) => ({ ...face, roles: face.roles.map((role) => {
-    if (role.roleId !== "sleeve") return role;
-    return { ...role, heldEdges: [], runs: block.roles.sleeve!.edges.map((edge) => ({
-      edgeId: edge.name,
-      from: { kind: "edge-endpoint" as const, edgeId: edge.name, endpoint: "start" as const },
-      to: { kind: "edge-endpoint" as const, edgeId: edge.name, endpoint: "end" as const },
-    })) };
-  }) })) };
+  return createG04TechnicalFlatProjectionMap("polo", block, revisionId)!;
 }
 
 function projectionMap(recipeId: string, block: Block): TechnicalFlatProjectionMap {
   const base = G04_TECHNICAL_FLAT_MAPPINGS[recipeId];
-  const authored = ["woven-shirt", "tee", "fitted"].includes(recipeId)
+  const authored = ["woven-shirt", "tee", "fitted", "polo"].includes(recipeId)
     ? createG04TechnicalFlatProjectionMap(recipeId, block, revisionId)! : undefined;
+  if (recipeId === "polo") return authored!;
   return {
     version: 1, recipeId, revisionId,
     faces: base.faces.map((face) => ({
@@ -82,16 +75,14 @@ describe("technical-flat source geometry", () => {
     const recipe = GARMENTS.find((candidate) => candidate.name === "polo")!;
     const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
     const original = structuredClone(block);
-    const productionMap = createG04TechnicalFlatProjectionMap("polo", block, revisionId)!;
+    const productionMap = poloColorwayDiagnosticMap(block);
     for (const face of productionMap.faces) {
-      const held = compileTechnicalFlatSourceGeometry("polo", block, revisionId, face.kind, productionMap);
-      expect(held.issues).toHaveLength(block.roles.sleeve!.edges.length);
-      expect(held.issues.every((issue) => issue.code === "UNRESOLVED_PROJECTION_EDGE"
-        && issue.sourceId.startsWith("pattern:polo:role:sleeve:edge:")
-        && issue.message.includes("keep the complete face held"))).toBe(true);
-      expect(held.primitives).toEqual([]);
+      const output = compileTechnicalFlatSourceGeometry("polo", block, revisionId, face.kind, productionMap);
+      expect(output.issues).toEqual([]);
+      expect(output.primitives.some((primitive) => primitive.id ===
+        `flat:polo:${face.kind}:component:sleeve:outline`)).toBe(true);
     }
-    const map = poloColorwayDiagnosticMap(block);
+    const map = productionMap;
     for (const face of map.faces) {
       const compiled = compileTechnicalFlatSourceGeometry("polo", block, revisionId, face.kind, map);
       expect(compiled.issues).toEqual([]);

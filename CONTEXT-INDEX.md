@@ -238,8 +238,14 @@ only through an explicitly admitted, linked Epic packet.
   Polo sleeve source trace, 17-option topology comparison, proposed face map,
   current shoulder residual, and diagnostic overlays are in
   `docs/research/epic17/G04-V02-POLO-SLEEVE-MAPPING-PROPOSAL-S332.md` and
-  `docs/research/epic17/S332-polo-sleeve/`. Polo remains fully held pending the
-  sleeve-map decision and seam-residual resolution.
+  `docs/research/epic17/S332-polo-sleeve/`. The maintainer approved the exact
+  view-only map; S333's implementation and 17-option rendered replay are tracked
+  in `docs/research/epic17/G04-V02-POLO-SLEEVE-IMPLEMENTATION-S333.md`. Polo
+  remains fully held: the 17-option production Chromium replay emitted 0/34
+  faces because `Sleeve-cap ease` remains 0.68 cm against the 0.25 cm gate.
+  Screenshots, per-face issue records and replay are in
+  `docs/research/epic17/S333-polo-browser/`; do not release those views or
+  infer the sleeve POM anchors from the view convention.
 - `docs/research/epic17/G04-V02-PROJECTION-MAPPING-S277.md` — Slice 277's
   current projection-mapping contract boundary, source-reference rules,
   fail-closed semantics, and focused acceptance gates.

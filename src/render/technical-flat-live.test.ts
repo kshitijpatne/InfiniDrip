@@ -468,12 +468,10 @@ describe("compileTechnicalFlatLiveView", () => {
         const result = compileTechnicalFlatLiveView({ recipe, block, revisionId: `live-${recipeId}-${kind}`, kind,
           placements: [], colorHex: "#456789", texture: "smooth", shine: 0 });
         if (recipeId === "polo") {
-          expect(result.view).not.toBeNull();
-          expect(result.colorway).not.toBeNull();
-          for (const roleId of ["outerStand", "underCollar", "upperCollar"]) {
-            expect(result.view?.primitives.some((primitive) => primitive.id
-              === `flat:polo:${kind}:component:${roleId}:outline`)).toBe(true);
-          }
+          expect(result.view).toBeNull();
+          expect(result.colorway).toBeNull();
+          expect(result.issues).toContainEqual(expect.objectContaining({ stage: "assembly",
+            sourceId: "stitch:Sleeve-cap ease", message: expect.stringContaining("0.25 cm acceptance tolerance") }));
           expect(result.issues.some((issue) => issue.stage === "geometry"
             && issue.message.includes("no authored front/back split landmark"))).toBe(false);
         } else {
@@ -488,6 +486,26 @@ describe("compileTechnicalFlatLiveView", () => {
           expect(result.issues.some((issue) => issue.stage === "geometry"
             && issue.message.includes("no authored front/back split landmark"))).toBe(false);
         }
+      }
+    }
+  });
+
+  it("withholds every Polo option face while the mapped sleeve-cap residual exceeds tolerance", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "polo")!;
+    const optionSets = [defaultGarmentOptions(recipe.options ?? []), ...(recipe.options ?? []).flatMap((option) => [
+      { ...defaultGarmentOptions(recipe.options ?? []), [option.id]: option.min },
+      { ...defaultGarmentOptions(recipe.options ?? []), [option.id]: option.max },
+    ])];
+    expect(optionSets).toHaveLength(17);
+    for (const options of optionSets) {
+      const block = recipe.draft(STANDARD_M, options);
+      for (const kind of ["FRONT_FLAT", "BACK_FLAT"] as const) {
+        const result = compileTechnicalFlatLiveView({ recipe, block, revisionId: `live-polo-${kind}-${JSON.stringify(options)}`,
+          kind, placements: [], colorHex: "#456789", texture: "smooth", shine: 0 });
+        expect(result.view).toBeNull();
+        expect(result.colorway).toBeNull();
+        expect(result.issues).toContainEqual(expect.objectContaining({ stage: "assembly",
+          sourceId: "stitch:Sleeve-cap ease", message: expect.stringContaining("0.25 cm acceptance tolerance") }));
       }
     }
   });
