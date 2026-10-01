@@ -199,6 +199,13 @@ only through an explicitly admitted, linked Epic packet.
   `docs/research/epic17/G04-V02-TROUSER-FLY-UNDERLAP-IMPLEMENTATION-S326.md`.
   Current production browser and source-topology evidence is in
   `docs/research/epic17/S326-trouser-browser/`.
+  S327's source-exact waistband contour and measured hip-depth label fixes,
+  focused gates, 24-configuration Trouser replay and integrated matrix are
+  verified in
+  `docs/research/epic17/G04-V02-TROUSER-FRONT-COLORWAY-CALLOUT-S327.md`,
+  `docs/research/epic17/S327-trouser-browser/` and
+  `docs/research/epic17/S327-integrated-browser/`. At S327 exit, 52/146 faces
+  emit and 94 remain held; all-seven-recipe V02 acceptance is still required.
   Use `PROJECT-STATE.md` and the validated board for live status.
 - `docs/research/epic17/G04-V02-PROJECTION-MAPPING-S277.md` — Slice 277's
   current projection-mapping contract boundary, source-reference rules,

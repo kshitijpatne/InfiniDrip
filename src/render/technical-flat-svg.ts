@@ -241,7 +241,7 @@ function colorwayFillPaths(view: TechnicalFlatView, colorway: TechnicalFlatColor
     const contourPaths = [...outlines];
     if (view.recipeId === "trouser" && roleId === "waistband") {
       const attachedPanelRoles = new Set(outlines.flatMap((primitive) => {
-        const match = /:waistband:waistband:(backLeft|backRight):waist:side-boundary$/u.exec(primitive.id);
+        const match = /:waistband:waistband:(frontLeft|frontRight|backLeft|backRight):waist:side-boundary$/u.exec(primitive.id);
         return match ? [match[1]!] : [];
       }));
       for (const panelRole of attachedPanelRoles) {
@@ -269,7 +269,7 @@ function roleFor(primitive: TechnicalFlatPrimitive): string | null {
   if (pattern) return pattern[1]!;
   const boundary = /^view:[^:]+:role:([^:]+):/u.exec(primitive.source.sourceId);
   if (boundary) return boundary[1]!;
-  return /:waistband:waistband:(?:backLeft|backRight):waist:side-boundary$/u.test(primitive.id) ? "waistband" : null;
+  return /:waistband:waistband:(?:frontLeft|frontRight|backLeft|backRight):waist:side-boundary$/u.test(primitive.id) ? "waistband" : null;
 }
 
 function selectSourceEdgeSubpaths(
@@ -381,10 +381,17 @@ function primitiveBlocksText(primitive: TechnicalFlatPrimitive, box: Bounds): bo
   return false;
 }
 
+function calloutLeadersConflict(a: FlatPoint, b: FlatPoint, c: FlatPoint, d: FlatPoint): boolean {
+  // Two leaders may meet at a source vertex they both represent. Same-ray
+  // overlap is still prevented because the later leader may not cross the
+  // earlier callout's measured text box.
+  return (a.x !== c.x || a.y !== c.y) && technicalFlatLeaderSegmentsCross(a, b, c, d);
+}
+
 function labelCandidates(item: TextItem, metric: TechnicalFlatTextMetrics): FlatPoint[] {
   const candidates = [item.at];
-  const directions = Array.from({ length: 8 }, (_, index) => ({
-    x: Math.cos(index * Math.PI / 4), y: Math.sin(index * Math.PI / 4),
+  const directions = Array.from({ length: 32 }, (_, index) => ({
+    x: Math.cos(index * Math.PI / 16), y: Math.sin(index * Math.PI / 16),
   }));
   for (let ring = 1; ring <= LABEL_SEARCH_RINGS; ring += 1) {
     const radius = ring * LABEL_SEARCH_STEP_CM + Math.max(metric.widthCm, metric.ascentCm + metric.descentCm) / 2;
@@ -407,7 +414,7 @@ function placeMeasuredLabel(item: TextItem, metric: TechnicalFlatTextMetrics,
     if (item.callout && placed.some((previous) => technicalFlatLeaderCrossesBox(
       item.callout!.anchor.point, at, padded(previous.bounds, LABEL_GAP_CM)))) continue;
     if (item.callout && placed.some((previous) => previous.item.callout
-      && technicalFlatLeaderSegmentsCross(item.callout!.anchor.point, at,
+      && calloutLeadersConflict(item.callout!.anchor.point, at,
         previous.item.callout.anchor.point, previous.at))) continue;
     return at;
   }

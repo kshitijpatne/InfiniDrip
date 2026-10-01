@@ -35,11 +35,23 @@ describe("compileTrouserWaistbandFragments", () => {
     expect(new Set(result.primitives.map((primitive) => primitive.id)).size).toBe(result.primitives.length);
   });
 
-  it("retains the current front hold when the two mapped halves do not join at center front", () => {
+  it("emits exact front top and face-boundary segments from the two joined waistband fragments", () => {
     const result = compile(draft(), "FRONT_FLAT");
-    expect(result.primitives).toEqual([]);
-    expect(result.issues).toContainEqual(expect.objectContaining({ code: "UNRESOLVED_FRAGMENT_JOIN",
-      sourceId: "view:trouser:waistband:center-front" }));
+    expect(result.issues).toEqual([]);
+    expect(result.primitives.filter((primitive) => primitive.kind === "path" && primitive.source.sourceId.startsWith("view:")))
+      .toMatchObject([
+        { id: "live-flat:trouser:FRONT_FLAT:waistband:waistband:frontLeft:waist:side-boundary",
+          source: { sourceId: "view:trouser:stitch:Waistband (four legs ↔ separate waistband):boundary:frontLeft" } },
+        { id: "live-flat:trouser:FRONT_FLAT:waistband:waistband:frontRight:waist:side-boundary",
+          source: { sourceId: "view:trouser:stitch:Waistband (four legs ↔ separate waistband):boundary:frontRight" } },
+      ]);
+    expect(result.primitives.filter((primitive) => primitive.kind === "path")).toHaveLength(4);
+
+    const movedRight = { ...assembled(draft(), "FRONT_FLAT").transforms,
+      frontRight: { offset: { x: 0.01, y: 0 }, rotationDegrees: 0 } };
+    expect(compile(draft(), "FRONT_FLAT", movedRight).issues).toContainEqual(expect.objectContaining({
+      code: "UNRESOLVED_FRAGMENT_JOIN", sourceId: "view:trouser:waistband:center-front",
+    }));
   });
 
   it("compiles the back fragments at every declared Trouser option endpoint", () => {

@@ -1,6 +1,8 @@
 import { createRequire } from "node:module";
 import { describe, expect, it } from "vitest";
+import { GARMENTS, STANDARD_M, TROUSER_OPTION_DEFINITIONS, defaultGarmentOptions } from "../drafting";
 import { TECHNICAL_FLAT_SCHEMA_VERSION, type TechnicalFlatPrimitive, type TechnicalFlatView } from "./technical-flat";
+import { compileTechnicalFlatLiveView } from "./technical-flat-live";
 import {
   createBrowserTechnicalFlatTextMeasurer,
   renderTechnicalFlatSvg,
@@ -358,6 +360,48 @@ describe("renderTechnicalFlatSvg", () => {
       ?.getAttribute("d")).toContain("L23.5 0 L0 0 L-23.5 0");
   });
 
+  it("closes the live Trouser front waistband from its source top, sewn waist, and exact face boundaries", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "trouser")!;
+    const block = recipe.draft(STANDARD_M, defaultGarmentOptions(TROUSER_OPTION_DEFINITIONS));
+    const live = compileTechnicalFlatLiveView({ recipe, block, revisionId, kind: "FRONT_FLAT", placements: [],
+      colorHex: "#3669a4", texture: "woven", shine: 24 });
+    expect(live.issues).toEqual([]);
+    expect(live.view).not.toBeNull();
+    const view = live.view!;
+    const boundaries = view.primitives.filter((primitive) => primitive.kind === "path"
+      && primitive.id.includes(":waist:side-boundary"));
+    expect(boundaries.map((primitive) => primitive.source.sourceId)).toEqual([
+      "view:trouser:stitch:Waistband (four legs ↔ separate waistband):boundary:frontLeft",
+      "view:trouser:stitch:Waistband (four legs ↔ separate waistband):boundary:frontRight",
+    ]);
+    expect(boundaries).toHaveLength(2);
+
+    const fullResult = renderTechnicalFlatSvg(view, { measureText: measure, colorway: live.colorway! });
+    expect(fullResult.issues).toEqual([]);
+    const sharedAnchorCallouts = view.primitives.filter((primitive) => primitive.kind === "callout"
+      && ["seat-hip-finished", "hip-depth-body-reference"].some((name) => primitive.id.endsWith(name)));
+    expect(sharedAnchorCallouts).toHaveLength(2);
+    const sharedAnchors = sharedAnchorCallouts.flatMap((primitive) => primitive.kind === "callout" ? [primitive.anchor] : []);
+    expect(sharedAnchors[0]).toEqual(sharedAnchors[1]);
+    expect(sharedAnchors[0]?.primitiveId).toBe("flat:trouser:FRONT_FLAT:component:frontLeft:outline");
+    const seatBounds = fullResult.textBounds["flat:trouser:FRONT_FLAT:callout:seat-hip-finished"]!;
+    const depthBounds = fullResult.textBounds["flat:trouser:FRONT_FLAT:callout:hip-depth-body-reference"]!;
+    expect(seatBounds.maxX <= depthBounds.minX || depthBounds.maxX <= seatBounds.minX
+      || seatBounds.maxY <= depthBounds.minY || depthBounds.maxY <= seatBounds.minY).toBe(true);
+    const contourView = { ...view, primitives: view.primitives.filter((primitive) => primitive.kind !== "callout") };
+    const result = renderTechnicalFlatSvg(contourView, { measureText: measure, colorway: live.colorway! });
+    expect(result.issues.map((issue) => issue.code)).not.toContain("COLORWAY_CONTOUR_UNCLOSED");
+    expect(result.svg).not.toBeNull();
+    const parsed = new (new JSDOM({ url: "https://technical-flat.test/" }).window.DOMParser)()
+      .parseFromString(result.svg!, "image/svg+xml");
+    const fill = parsed.querySelector('[data-colorway-fill-for^="live-flat:trouser:FRONT_FLAT:waistband:"]');
+    expect(fill?.getAttribute("d")).toMatch(/Z$/u);
+    expect(parsed.querySelectorAll('[data-layer="GARMENT_SILHOUETTE"][data-source-id^="pattern:trouser:role:front"]'))
+      .toHaveLength(4);
+    expect(parsed.querySelectorAll('[data-source-id^="view:trouser:stitch:Waistband "][data-layer="GARMENT_SILHOUETTE"]'))
+      .toHaveLength(2);
+  });
+
   it("withholds Trouser waistband color when its mapped panel seam source is incomplete", () => {
     const colorway = { id: "fabric", revisionId, colorHex: "#3669a4", texture: "woven" as const,
       shine: 24, targetRoleIds: ["waistband"], sourceId: "style:fabric-presentation" as const };
@@ -491,6 +535,20 @@ describe("renderTechnicalFlatSvg", () => {
     expect(result.svg).toContain('data-label-for="pom-one"');
     expect(result.svg).toContain('data-label-for="pom-two"');
     expect(result.textBounds["pom-one"]?.minX).not.toBe(result.textBounds["pom-two"]?.minX);
+  });
+
+  it("separates same-anchor callouts whose initial leaders overlap on the same ray", () => {
+    const result = renderTechnicalFlatSvg(makeView([outline,
+      { kind: "callout", id: "pom-ray-one", layer: "CALLOUT", feature: "pom", source,
+        text: "First POM", anchor: { primitiveId: "outline", point: { x: 1, y: 6 } }, labelAt: { x: 21, y: 26 } },
+      { kind: "callout", id: "pom-ray-two", layer: "CALLOUT", feature: "pom", source,
+        text: "Second POM", anchor: { primitiveId: "outline", point: { x: 1, y: 6 } }, labelAt: { x: 41, y: 46 } },
+    ]), { measureText: measure });
+    expect(result.issues).toEqual([]);
+    expect(result.textBounds["pom-ray-one"]).toBeDefined();
+    expect(result.textBounds["pom-ray-two"]).toBeDefined();
+    expect(result.svg).toContain('data-label-for="pom-ray-one"');
+    expect(result.svg).toContain('data-label-for="pom-ray-two"');
   });
 
   it("rejects notice wrapping when actual font metrics cannot fit the text", () => {

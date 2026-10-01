@@ -238,14 +238,23 @@ export function compileTrouserWaistbandFragments(
     // short-end lines coincide without emitting a duplicate center-back stroke.
   }
 
+  const sharedFrontFraction = kind === "FRONT_FLAT" ? attachments.get("frontLeft")!.fragment.sourceInterval[0] : undefined;
   for (const [index, fragment] of faceFragments.entries()) {
     const segment = topSegments[index]!;
     const topPrimitive = pathPrimitive(revisionId, kind, `${fragment.id}:top`, "top", "GARMENT_SILHOUETTE", "silhouette",
       segment[0], segment[1]);
     output.push(topPrimitive);
-    const interiorBoundary = fragment.sourceInterval.find((value) => value > TOLERANCE && value < 1 - TOLERANCE);
-    if (kind === "BACK_FLAT" && interiorBoundary !== undefined) {
-      const localIndex = Math.abs(interiorBoundary - fragment.sourceInterval[0]) <= TOLERANCE ? 0 : 1;
+    // The waist stitch order is backLeft → frontLeft → frontRight → backRight,
+    // while each fragment's source interval runs in reverse along the band.
+    // Thus these fixed local endpoints are the face perimeter joins; the
+    // front center boundary is shared by both panels and is intentionally not
+    // emitted as a perimeter stroke.
+    const boundaryIndex = fragment.attachedRoleId === "backLeft" || fragment.attachedRoleId === "frontRight" ? 0 : 1;
+    const boundaryFraction = fragment.sourceInterval[boundaryIndex];
+    const isFaceBoundary = kind === "BACK_FLAT"
+      || Math.abs(boundaryFraction - sharedFrontFraction!) > TOLERANCE;
+    if (isFaceBoundary) {
+      const localIndex = boundaryIndex;
       const bottomView = bottomSegments[index]![localIndex]!;
       const topView = topSegments[index]![1 - localIndex]!;
       output.push({ kind: "path", id: `live-flat:trouser:${kind}:waistband:${fragment.id}:side-boundary`,

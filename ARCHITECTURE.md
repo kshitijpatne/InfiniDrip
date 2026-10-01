@@ -387,8 +387,11 @@ browser font and deterministically searches nearby positions using those exact
 metrics. It preserves each POM's source anchor and geometry target while
 moving only its presentation label and leader endpoint. Text boxes keep a small
 gap from other labels, visible vector strokes, artwork placement bounds, and
-other POM leaders. When no measured position is available, the complete face
-remains withheld with a specific collision issue. The renderer's measured
+other POM leaders. Leaders for callouts sharing the same exact source vertex
+may meet at that represented vertex; same-ray overlap remains blocked by the
+measured label-box check, and leaders from distinct vertices may not cross.
+When no measured position is available, the complete face remains withheld
+with a specific collision issue. The renderer's measured
 collision checks and 14-face default browser review are recorded in
 `docs/research/epic17/G04-V02-LABEL-REFLOW-S273.md`.
 
@@ -426,6 +429,16 @@ Full role outlines still appear in both faces, and the Woven-shirt and Trouser
 source-cycle holds persist. V02 remains open for face-specific source-to-view
 correction and a new rendered exit review. No physical fit, factory acceptance
 or CAD compatibility is inferred.
+
+Slice 327 closes the exact Trouser front waistband colorway contour from the
+two stitched front-waist subpaths and their source-derived face boundaries,
+without drawing a duplicate center-front boundary. Its same-anchor callout
+layout rule preserves the exact POM targets while allowing two leaders to meet
+at the shared `frontLeft.sideUpper` vertex. Fresh production Chromium accepts
+all 48 Trouser faces across 24 configurations; an integrated replay accepts
+52/146 faces and retains the prior 94 Tee, Fitted, Polo and Woven holds. The
+S327 packet records the output checks and screenshots; this remains digital
+view evidence and does not establish physical fit or factory acceptance.
 
 Slice 276 tested reflecting every non-fold edge of a cut-on-fold role across
 its local centre axis, then rejected that output after production screenshots

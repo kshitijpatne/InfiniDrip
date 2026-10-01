@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 881,
-  "updatedAt": "2026-10-01T05:39:27.068Z",
+  "revision": 901,
+  "updatedAt": "2026-10-01T06:39:32.936Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -155,7 +155,7 @@
       "title": "EPIC-17: G04 — Professional flats and CAD interchange",
       "status": "In Progress",
       "owner": "Codex",
-      "description": "Admission: docs/planning/EPIC-17-ADMISSION.md. Planning lower bound at admission: at least 82 total / 13 remaining conditional slices. G04-V02 baseline: 73 configurations / 146 faces / 32 option fields, 28 accepted and 118 complete holds. S322 reconciled 12 additional Tee/Fitted requests, all held. S323 reconciled 45 Polo/Woven configurations / 90 faces, also all held: split Polo collar colorway contours do not close; Woven front role mapping and back sleeve-cap placement remain unresolved. Zero current-browser errors, no partial SVG output, and zero new accepted faces. Preserve all-seven V02, approved collar and Woven overlap decisions, conditional Woven holds, and 24 Trouser front holds pending separate source-repair approval. S323 packet: docs/research/epic17/G04-V02-COLLAR-EXTERIOR-VIEW-MAPPING-S323.md.",
+      "description": "Admission: docs/planning/EPIC-17-ADMISSION.md. S327 exit re-estimate: 67 numbered slices through S327; at least 9 additional slices / 76 total under the current minimum (integrated V02 exit; V03 five-slice minimum after V02; three final integration/merge/deployment slices). Other V02 holds and CAD rights/receiver evidence may add unbounded work. Current production matrix: 73 configurations / 146 faces / 32 option fields, 52 accepted and 94 held. All-seven acceptance remains mandatory; exact CAD compatibility requires demonstrated import/round-trip evidence. See S327 exit packet and browser evidence; V03 remains gated.",
       "evidenceRefs": [
         "E-G04-S271-EXIT",
         "E-G04-S273-EXIT",
@@ -242,7 +242,10 @@
         "E-G04-S325-START",
         "E-G04-S325-EXIT",
         "E-G04-S325-PROPOSAL-OVERLAY",
-        "E-G04-S325-FEASIBILITY"
+        "E-G04-S325-FEASIBILITY",
+        "E-G04-S327-EXIT",
+        "E-G04-S327-TROUSER-BROWSER",
+        "E-G04-S327-INTEGRATED-BROWSER"
       ]
     },
     {
@@ -2771,7 +2774,7 @@
         "100% coverage",
         "maintainer gates"
       ],
-      "description": "Admission: docs/planning/EPIC-17-ADMISSION.md. Planning lower bound at admission: at least 82 total / 13 remaining conditional slices. G04-V02 baseline: 73 configurations / 146 faces / 32 option fields, 28 accepted and 118 complete holds. S322 reconciled output: 12 total Chromium front/back requests remain held: four default faces on unclosed sleeve colorway contours, four changed-measurement faces on sleeve-cap rigid-placement incompatibility, and four duplicate default requests; zero browser errors and no partial SVGs. Preserve all-seven V02 acceptance, approved Polo/Woven collar and Woven overlap decisions, conditional Woven holds, and all 24 Trouser front holds pending separate source-repair approval. S322 packet: docs/research/epic17/G04-V02-TEE-FITTED-SLEEVE-VIEW-MAPPING-S322.md.",
+      "description": "Admission: docs/planning/EPIC-17-ADMISSION.md. S327 exit re-estimate: 67 numbered slices through S327; at least 9 additional slices / 76 total under the current minimum (integrated V02 exit; V03 five-slice minimum after V02; three final integration/merge/deployment slices). Other V02 holds and CAD rights/receiver evidence may add unbounded work. Current production matrix: 73 configurations / 146 faces / 32 option fields, 52 accepted and 94 held. All-seven acceptance remains mandatory; exact CAD compatibility requires demonstrated import/round-trip evidence. See S327 exit packet and browser evidence; V03 remains gated.",
       "expectation": "Front/back technical flats for every supported recipe/variant and proven CAD interchange. Pattern-linked side/oblique views are explicitly owned by G09/D04, so the complete view set is accepted only there.",
       "acceptanceCriteria": [
         "Complete every G04 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
@@ -3209,6 +3212,31 @@
           "at": "2026-10-01T05:39:27.068Z",
           "actor": "Codex",
           "text": "S326 verified exit: the approved Trouser underlap graph solves all 24 configurations; 24 back faces emit and 24 fronts remain held; all 24 front views retain the waistband color-contour and hip-depth label holds. The source-to-view map explicitly records flyUnderlap behind frontLeft and validates the same-face visible-layer reference. The final production replay is linked as E-G04-S326-OUTPUT-REPLAY; each front records both colorway-contour and hip-depth text blockers. Focused renderer suites pass 73/73, changed modules meet 100% four-metric coverage, build and protected export checks pass. No Trouser face is accepted and all-seven V02 acceptance remains unmet. Next: S327 correct the source-bound contour and callout collision, then rerun all 24 configurations."
+        },
+        {
+          "at": "2026-10-01T05:46:27.117Z",
+          "actor": "Codex",
+          "text": "S327 started 2026-10-01 05:41:32 UTC from clean S326 681aedd8fabad0fa45983053a1c88052a3c8d5f5; origin/main a5af5e13 is an ancestor. Packet: docs/research/epic17/G04-V02-TROUSER-FRONT-COLORWAY-CALLOUT-S327.md. Resolve only the exact Trouser front waistband contour and measured hip-depth label holds; preserve pattern/stitch geometry and all face holds until the 24-configuration production output passes."
+        },
+        {
+          "at": "2026-10-01T05:49:26.915Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: Admission: docs/planning/EPIC-17-ADMISSION.md. Verified S327 planning lower bound: 66 numbered slices through S326; at least 10 more from current boundary; at least 76 total. Minimum includes S327, one integrated V02 exit, V03's five-slice minimum, and three final integration/merge/deployment slices. Other V02 recipe holds and CAD rights/receiver evidence may extend this work; no upper bound. Current complete matrix: 73 configurations / 146 faces / 32 option fields, 28 accepted and 118 held. All-seven acceptance remains mandatory; exact CAD compatibility requires demonstrated import/round-trip evidence. See S326 output and the active S327 packet; G04-V03 remains gated on V02 acceptance.). Re-estimate from verified S326 history and preserve all-seven V02 and V03 gates."
+        },
+        {
+          "at": "2026-10-01T05:49:27.340Z",
+          "actor": "Codex",
+          "text": "S327 start: re-estimated from 66 numbered slices landed through S326. Minimum is at least 10 more / 76 total: S327, one integrated V02 exit, V03 five-slice minimum, and three final integration/merge/deployment slices. Other held recipe families and CAD-rights/receiver evidence may add unbounded work. Preserve 28/146 accepted, 118 held, all-seven acceptance, and the V03 gate."
+        },
+        {
+          "at": "2026-10-01T06:38:20.109Z",
+          "actor": "Codex",
+          "text": "S327 exit recorded. Current minimum is at least 9 further slices after S327 (one integrated V02 exit, V03 five-slice minimum after V02, and three final integration/merge/deployment slices), at least 76 total. Production matrix: 73 configurations / 146 faces / 32 option fields, 52 accepted / 94 held. More V02/CAD-rights work may extend this without a known upper bound. Preserve all-seven acceptance and V03 gate."
+        },
+        {
+          "at": "2026-10-01T06:38:22.076Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: Admission: docs/planning/EPIC-17-ADMISSION.md. S327 exit re-estimate: 67 numbered slices through S327; at least 9 additional slices / 76 total under the current minimum (integrated V02 exit; V03 five-slice minimum after V02; three final integration/merge/deployment slices). Other V02 holds and CAD rights/receiver evidence may add unbounded work. Current production matrix: 73 configurations / 146 faces / 32 option fields, 52 accepted and 94 held. All-seven acceptance remains mandatory; exact CAD compatibility requires demonstrated import/round-trip evidence. See S327 exit packet and browser evidence; V03 remains gated.). Refresh the verified S327 exit tally, remaining lower bound, and linked evidence without weakening all-seven acceptance or V03 gates."
         }
       ],
       "evidenceRefs": [
@@ -3286,7 +3314,10 @@
         "E-G04-S326-START",
         "E-G04-S326-EXIT",
         "E-G04-S326-BROWSER",
-        "E-G04-S326-OUTPUT-REPLAY"
+        "E-G04-S326-OUTPUT-REPLAY",
+        "E-G04-S327-EXIT",
+        "E-G04-S327-TROUSER-BROWSER",
+        "E-G04-S327-INTEGRATED-BROWSER"
       ],
       "flagKey": null
     },
@@ -5984,7 +6015,7 @@
         "100% coverage",
         "export byte identity"
       ],
-      "description": "S322 implements the approved Tee/Fitted view-only sleeve-half projection and paired reflection. S323 implements approved view-only Polo/Woven collar exterior station transfers, validated from each live block/revision. Production replay holds all 90 Polo/Woven requests: Polo split collar colorway contours are not closed; Woven front roles remain unresolved and Woven back sleeve-cap placement conflicts. No face is newly accepted; S319 remains 28/146 accepted and 118 held. Preserve all-seven V02 acceptance, approved Woven closure choice A, conditional sleeve/collar views, and all 24 Trouser front holds pending separately approved source repair. V02 In Progress; V03 gated. See S322 and S323 packets and browser evidence.",
+      "description": "S322–S327 implement approved Tee/Fitted, Polo/Woven and Trouser source-to-view mappings/repairs while preserving unresolved holds. S327 resolves the exact source-derived Trouser front waistband contour and measured same-anchor POM label collision; 24/24 fronts and 24/24 backs now emit. Current production matrix: 73 configurations / 146 faces / 32 option fields; 52 accepted and 94 held (Tee 2 sleeve-color contours, Fitted 2 sleeve-color contours, Polo 34 outer-stand color contours, Woven 28 front contours and 28 back sleeve-cap placement). All-seven-recipe V02 acceptance remains mandatory and unmet. G04-V02 stays In Progress; V03 remains gated. See S327 exit packet and strict/integrated browser evidence.",
       "expectation": "Live vector output stays aligned with the same pattern and style revision and remains readable across all supported options.",
       "acceptanceCriteria": [
         "Render front/back vector views for all seven recipes and supported option combinations from one pattern/revision.",
@@ -6554,6 +6585,16 @@
           "at": "2026-10-01T05:38:54.206Z",
           "actor": "Codex",
           "text": "S326 verified exit: the approved Trouser underlap graph solves all 24 configurations; 24 back faces emit and 24 fronts remain held; all 24 front views retain the waistband color-contour and hip-depth label holds. The source-to-view map now explicitly records flyUnderlap behind frontLeft and validates that it targets an earlier visible role on the same face. Focused renderer suites pass 73/73, changed modules meet 100% four-metric coverage, build and 69 protected export checks pass. Final Chromium evidence: E-G04-S326-OUTPUT-REPLAY; per-face matrix records both blockers, with no browser/page/request errors. No Trouser front is accepted and all-seven V02 acceptance remains unmet. Next: S327 correct the source-bound contour and callout collision, then rerun all 24 configurations."
+        },
+        {
+          "at": "2026-10-01T05:46:27.273Z",
+          "actor": "Codex",
+          "text": "S327 started 2026-10-01 05:41:32 UTC from clean S326 681aedd8fabad0fa45983053a1c88052a3c8d5f5; origin/main a5af5e13 is an ancestor. Packet: docs/research/epic17/G04-V02-TROUSER-FRONT-COLORWAY-CALLOUT-S327.md. Resolve only the exact Trouser front waistband contour and measured hip-depth label holds; preserve pattern/stitch geometry and all face holds until the 24-configuration production output passes."
+        },
+        {
+          "at": "2026-10-01T06:38:19.313Z",
+          "actor": "Codex",
+          "text": "S327 verified exit: all 24 Trouser fronts now emit from exact source-derived waistband boundaries; same-anchor POM leaders and labels pass measured collision checks. Focused changed-module coverage is 100% on all four metrics; build and 34 protected export checks pass. Production Chromium passes 24 Trouser configurations (48/48 faces) and integrated 73 configurations (146 faces), with 52 accepted and 94 held and no regression. Tee/Fitted/Polo/Woven holds remain; all-seven V02 criterion is unmet and V03 stays gated. Exit packet and browser matrices linked."
         }
       ],
       "evidenceRefs": [
@@ -6670,7 +6711,10 @@
         "E-G04-S326-START",
         "E-G04-S326-EXIT",
         "E-G04-S326-BROWSER",
-        "E-G04-S326-OUTPUT-REPLAY"
+        "E-G04-S326-OUTPUT-REPLAY",
+        "E-G04-S327-EXIT",
+        "E-G04-S327-TROUSER-BROWSER",
+        "E-G04-S327-INTEGRATED-BROWSER"
       ],
       "flagKey": null
     },
@@ -8574,6 +8618,33 @@
       "sha256": null,
       "verified": true,
       "note": "Final fresh production Chromium replay after explicit underlap layer-map validation: 24 configurations / 48 faces; 24 back views accepted by output checks, all 24 fronts fully held on the waistband contour and hip-depth text issues; zero browser, page, or request errors."
+    },
+    {
+      "id": "E-G04-S327-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/G04-V02-TROUSER-FRONT-COLORWAY-CALLOUT-S327.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S327 implementation, focused gates, source-exact contour/callout evidence, output review, and held-state exit."
+    },
+    {
+      "id": "E-G04-S327-TROUSER-BROWSER",
+      "kind": "browser",
+      "uri": "docs/research/epic17/S327-trouser-browser/matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Fresh production Chromium strict replay for all 24 Trouser configurations and 48 faces; screenshots and manual review accompany matrix."
+    },
+    {
+      "id": "E-G04-S327-INTEGRATED-BROWSER",
+      "kind": "browser",
+      "uri": "docs/research/epic17/S327-integrated-browser/matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Fresh production Chromium integrated replay: 73 configurations / 146 faces; 52 accepted / 94 held, no regression."
     }
   ]
 }
