@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 823,
-  "updatedAt": "2026-10-01T02:25:33.330Z",
+  "revision": 838,
+  "updatedAt": "2026-10-01T03:25:03.832Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -155,7 +155,7 @@
       "title": "EPIC-17: G04 — Professional flats and CAD interchange",
       "status": "In Progress",
       "owner": "Codex",
-      "description": "Admission: docs/planning/EPIC-17-ADMISSION.md. Planning lower bound at admission: at least 82 total / 13 remaining conditional slices. G04-V02 baseline: 73 configurations / 146 faces / 32 option fields, 28 accepted and 118 complete holds. S322 reconciled output: 12 total Chromium front/back requests remain held: four default faces on unclosed sleeve colorway contours, four changed-measurement faces on sleeve-cap rigid-placement incompatibility, and four duplicate default requests; zero browser errors and no partial SVGs. Preserve all-seven V02 acceptance, approved Polo/Woven collar and Woven overlap decisions, conditional Woven holds, and all 24 Trouser front holds pending separate source-repair approval. S322 packet: docs/research/epic17/G04-V02-TEE-FITTED-SLEEVE-VIEW-MAPPING-S322.md.",
+      "description": "Admission: docs/planning/EPIC-17-ADMISSION.md. Planning lower bound at admission: at least 82 total / 13 remaining conditional slices. G04-V02 baseline: 73 configurations / 146 faces / 32 option fields, 28 accepted and 118 complete holds. S322 reconciled 12 additional Tee/Fitted requests, all held. S323 reconciled 45 Polo/Woven configurations / 90 faces, also all held: split Polo collar colorway contours do not close; Woven front role mapping and back sleeve-cap placement remain unresolved. Zero current-browser errors, no partial SVG output, and zero new accepted faces. Preserve all-seven V02, approved collar and Woven overlap decisions, conditional Woven holds, and 24 Trouser front holds pending separate source-repair approval. S323 packet: docs/research/epic17/G04-V02-COLLAR-EXTERIOR-VIEW-MAPPING-S323.md.",
       "evidenceRefs": [
         "E-G04-S271-EXIT",
         "E-G04-S273-EXIT",
@@ -232,7 +232,10 @@
         "E-G04-S321-EXIT",
         "E-G04-S322-START",
         "E-G04-S322-EXIT",
-        "E-G04-S322-RECONCILIATION"
+        "E-G04-S322-RECONCILIATION",
+        "E-G04-S323-START",
+        "E-G04-S323-EXIT",
+        "E-G04-S323-BROWSER"
       ]
     },
     {
@@ -3149,6 +3152,21 @@
           "at": "2026-10-01T02:25:33.330Z",
           "actor": "Codex",
           "text": "S322 reconciled output: 12 total Chromium front/back requests all remain held. Four default faces have unclosed sleeve colorway contours; four changed-measurement faces fail sleeve-cap rigid placement; the other four requests are duplicate default cases from the dedicated option matrix. Zero browser errors and no partial SVGs. S319 integrated tally remains 28/146 accepted and 118 held. V02 In Progress; V03 Backlog. Audit timestamp correction: the preceding board description edits supplied future command timestamps (02:30–02:32 UTC); this corrective entry is recorded at actual command time, and the evidence/status is unchanged. See S322 packet."
+        },
+        {
+          "at": "2026-10-01T02:31:24.045Z",
+          "actor": "Codex",
+          "text": "Start Slice 323 at 2026-10-01 02:29:32 UTC from clean S322 1a77ced9e55f94f56e01a59cc029c29fe922c52e. Scope: approved view-only Polo/Woven collar exterior station mapping, same-revision all-option verification, and complete-face holds on conflicts. Packet: docs/research/epic17/G04-V02-COLLAR-EXTERIOR-VIEW-MAPPING-S323.md."
+        },
+        {
+          "at": "2026-10-01T03:25:03.460Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: Admission: docs/planning/EPIC-17-ADMISSION.md. Planning lower bound at admission: at least 82 total / 13 remaining conditional slices. G04-V02 baseline: 73 configurations / 146 faces / 32 option fields, 28 accepted and 118 complete holds. S322 reconciled 12 additional Tee/Fitted requests, all held. S323 reconciled 45 Polo/Woven configurations / 90 faces, also all held: split Polo collar colorway contours do not close; Woven front role mapping and back sleeve-cap placement remain unresolved. Zero current-browser errors, no partial SVG output, and zero new accepted faces. Preserve all-seven V02, approved collar and Woven overlap decisions, conditional Woven holds, and 24 Trouser front holds pending separate source-repair approval. S323 packet: docs/research/epic17/G04-V02-COLLAR-EXTERIOR-VIEW-MAPPING-S323.md.). Record verified S323 output and retain the all-seven V02 acceptance gate."
+        },
+        {
+          "at": "2026-10-01T03:25:03.832Z",
+          "actor": "Codex",
+          "text": "S323 verified exit: all 45 Polo/Woven configurations and 90 front/back requests are held. Collar transfer metadata resolves; Polo colorway contours remain unclosed; Woven front source-role and back sleeve-cap placement gates remain unresolved. Zero browser/page/request errors; no partial SVGs; integrated tally unchanged at 28/146 accepted and 118 held. See S323 packet and matrix."
         }
       ],
       "evidenceRefs": [
@@ -3212,7 +3230,10 @@
         "E-G04-S321-EXIT",
         "E-G04-S322-START",
         "E-G04-S322-EXIT",
-        "E-G04-S322-RECONCILIATION"
+        "E-G04-S322-RECONCILIATION",
+        "E-G04-S323-START",
+        "E-G04-S323-EXIT",
+        "E-G04-S323-BROWSER"
       ],
       "flagKey": null
     },
@@ -5910,7 +5931,7 @@
         "100% coverage",
         "export byte identity"
       ],
-      "description": "S322 implements the approved Tee/Fitted view-only sleeve-half projection and paired reflection. Production replay withholds all four faces: default sleeve colorway contours do not close; changed-measurement Sleeve-cap ease has no length-compatible rigid placement. S319 remains 28/146 accepted and 118 held; no face is newly accepted. Preserve all-seven V02 acceptance, the approved Polo/Woven collar and Woven closure decisions, conditional Woven holds, and all 24 Trouser front holds pending separately approved source-repair proposal. V02 In Progress; V03 gated. S322 packet and rendered evidence: docs/research/epic17/G04-V02-TEE-FITTED-SLEEVE-VIEW-MAPPING-S322.md and docs/research/epic17/S322-measurement-browser/.",
+      "description": "S322 implements the approved Tee/Fitted view-only sleeve-half projection and paired reflection. S323 implements approved view-only Polo/Woven collar exterior station transfers, validated from each live block/revision. Production replay holds all 90 Polo/Woven requests: Polo split collar colorway contours are not closed; Woven front roles remain unresolved and Woven back sleeve-cap placement conflicts. No face is newly accepted; S319 remains 28/146 accepted and 118 held. Preserve all-seven V02 acceptance, approved Woven closure choice A, conditional sleeve/collar views, and all 24 Trouser front holds pending separately approved source repair. V02 In Progress; V03 gated. See S322 and S323 packets and browser evidence.",
       "expectation": "Live vector output stays aligned with the same pattern and style revision and remains readable across all supported options.",
       "acceptanceCriteria": [
         "Render front/back vector views for all seven recipes and supported option combinations from one pattern/revision.",
@@ -6435,6 +6456,16 @@
           "at": "2026-10-01T02:20:36.022Z",
           "actor": "Codex",
           "text": "S322 reconciled output: 12 total Chromium front/back requests all remain held. Four default faces have unclosed sleeve colorway contours; four changed-measurement faces fail sleeve-cap rigid placement; the other four requests are duplicate default cases from the dedicated option matrix. Zero browser errors and no partial SVGs. S319 integrated tally remains 28/146 accepted and 118 held. V02 In Progress; V03 Backlog. See packet and both S322 browser folders."
+        },
+        {
+          "at": "2026-10-01T02:31:24.014Z",
+          "actor": "Codex",
+          "text": "Start Slice 323 at 2026-10-01 02:29:32 UTC from clean S322 1a77ced9e55f94f56e01a59cc029c29fe922c52e. Scope: approved view-only Polo/Woven collar exterior station mapping, same-revision all-option verification, and complete-face holds on conflicts. Packet: docs/research/epic17/G04-V02-COLLAR-EXTERIOR-VIEW-MAPPING-S323.md."
+        },
+        {
+          "at": "2026-10-01T03:25:03.657Z",
+          "actor": "Codex",
+          "text": "S323 verified exit: all 45 Polo/Woven configurations and 90 front/back requests are held. Collar transfer metadata resolves; Polo colorway contours remain unclosed; Woven front source-role and back sleeve-cap placement gates remain unresolved. Zero browser/page/request errors; no partial SVGs; integrated tally unchanged at 28/146 accepted and 118 held. See S323 packet and matrix."
         }
       ],
       "evidenceRefs": [
@@ -6537,7 +6568,10 @@
         "E-G04-S321-EXIT",
         "E-G04-S322-START",
         "E-G04-S322-EXIT",
-        "E-G04-S322-RECONCILIATION"
+        "E-G04-S322-RECONCILIATION",
+        "E-G04-S323-START",
+        "E-G04-S323-EXIT",
+        "E-G04-S323-BROWSER"
       ],
       "flagKey": null
     },
@@ -8315,6 +8349,33 @@
       "sha256": null,
       "verified": true,
       "note": "Correction to E-G04-S322-EXIT detail: 12 total Chromium face requests comprise four default faces held on COLORWAY_CONTOUR_UNCLOSED and four changed-measurement faces held on Sleeve-cap ease rigid-placement incompatibility, plus the same four faces in the separate S322 default option harness. There are four, not eight, changed-measurement-held faces. All 12 are held; the integrated tally remains 28 accepted / 118 held."
+    },
+    {
+      "id": "E-G04-S323-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-COLLAR-EXTERIOR-VIEW-MAPPING-S323.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S323 start packet: refreshed Git/board/usage; exact Polo/Woven source and approved normalized-arclength view decisions; scope and 90-face gates."
+    },
+    {
+      "id": "E-G04-S323-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/G04-V02-COLLAR-EXTERIOR-VIEW-MAPPING-S323.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S323 verified exit: all 45 Polo/Woven configurations and 90 front/back requests are held. Collar transfer metadata resolves; Polo colorway contours remain unclosed; Woven front source-role and back sleeve-cap placement gates remain unresolved. Zero browser/page/request errors; no partial SVGs; integrated tally unchanged at 28/146 accepted and 118 held. See S323 packet and matrix."
+    },
+    {
+      "id": "E-G04-S323-BROWSER",
+      "kind": "browser",
+      "uri": "docs/research/epic17/S323-collar-browser-current/matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Current-production Chromium matrix: 45 configurations, 90 faces, 21 option fields; 0 accepted and 90 held; zero browser/page/request errors and no partial SVG output. Matrix: docs/research/epic17/S323-collar-browser-current/matrix.json."
     }
   ]
 }

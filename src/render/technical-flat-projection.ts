@@ -1,6 +1,7 @@
 import { edgeEnd, edgeLength, edgeStart, type Edge, type Piece } from "../drafting/piece";
 import type { Block } from "../drafting/block";
 import type { EdgeRef, Stitch } from "../drafting/stitch";
+import { cubicLength, cubicPoint } from "../geometry/curve";
 import { WOVEN_SHIRT_PHYSICAL_ROLES } from "../drafting/shirt-contract";
 import { G04_TECHNICAL_FLAT_MAPPINGS, type FlatRoleTreatment } from "./technical-flat-mapping";
 import type { TechnicalFlatViewKind } from "./technical-flat";
@@ -8,8 +9,10 @@ import type { TechnicalFlatViewKind } from "./technical-flat";
 export type FlatProjectionLandmark =
   | { readonly kind: "edge-endpoint"; readonly edgeId: string; readonly endpoint: "start" | "end" }
   | { readonly kind: "edge-arclength"; readonly edgeId: string; readonly fraction: number }
+  | { readonly kind: "normalized-edge-transfer"; readonly edgeId: string; readonly fraction: number;
+    readonly basis: "POLO_COLLAR_BASE" | "WOVEN_NECKLINE";
+    readonly decisionId: "G04-S321-COLLAR-EXTERIOR-ARCLENGTH" }
   | { readonly kind: "pattern-mark"; readonly markId: string; readonly point: "at" | "start" | "end" }
-  | { readonly kind: "woven-neckline-shoulder"; readonly stitchLabel: "Outer stand ↔ woven neckline" }
   | {
     readonly kind: "stitch-interface-boundary";
     readonly stitchLabel: string;
@@ -107,12 +110,9 @@ export interface TechnicalFlatProjectionMap {
 export const G04_UNRESOLVED_PROJECTION_ROLES: Readonly<Record<string, Readonly<Record<string, string>>>> = {
   tee: {},
   fitted: {},
-  polo: {
-    outerStand: "The stand's exterior contour has no authored front/back split landmark.",
-    upperCollar: "The collar's exterior contour has no authored front/back split landmark.",
-  },
+  polo: {},
   "woven-shirt": {
-    front: "Woven source still lacks a front/back sleeve-cap boundary, collar outer-face landmark, and explicit right/left placket instances and overlap order. Keep the complete face held until these visible roles have coherent source-backed mappings and assembly.",
+    front: "Woven source still lacks a front/back sleeve-cap boundary and explicit right/left placket instances and overlap order. Keep the complete face held until these remaining visible roles have coherent source-backed mappings and assembly.",
   },
 };
 
@@ -203,45 +203,163 @@ function teeFittedSleeveProjection(
   };
 }
 
-function wovenCollarRoleProjection(
-  roleId: "outerStand" | "upperCollar", kind: TechnicalFlatViewKind, piece: Piece,
-  treatment: FlatRoleTreatment,
-): FlatProjectionRole {
+function transferredLandmark(edgeId: string, fraction: number, basis: "POLO_COLLAR_BASE" | "WOVEN_NECKLINE"): FlatProjectionLandmark {
+  return { kind: "normalized-edge-transfer", edgeId, fraction, basis, decisionId: "G04-S321-COLLAR-EXTERIOR-ARCLENGTH" };
+}
+
+function endpointLandmark(edgeId: string, endpoint: "start" | "end"): FlatProjectionLandmark {
+  return { kind: "edge-endpoint", edgeId, endpoint };
+}
+
+function heldProjectionRole(roleId: string, treatment: FlatRoleTreatment, piece: Piece, reason: string): FlatProjectionRole {
+  return { roleId, instanceId: roleId, treatment, runs: [],
+    heldEdges: piece.edges.map((edge) => ({ edgeId: edge.name, reason })) };
+}
+
+function poloOuterStandProjection(kind: TechnicalFlatViewKind, piece: Piece, treatment: FlatRoleTreatment): FlatProjectionRole {
+  const centerBack = piece.edges.find((edge) => edge.name === "centerBack");
+  const backCollar = piece.edges.find((edge) => edge.name === "backCollar");
+  const frontCollar = piece.edges.find((edge) => edge.name === "frontCollar");
+  const frontEnd = piece.edges.find((edge) => edge.name === "frontEnd");
+  const frontNeckline = piece.edges.find((edge) => edge.name === "frontNeckline");
+  const backNeckline = piece.edges.find((edge) => edge.name === "backNeckline");
+  const centerBackAxis = centerBack && foldAxisEdge(piece);
+  const valid = piece.onFold && centerBack?.kind === "line" && centerBackAxis?.name === centerBack.name
+    && !!backCollar && !!frontCollar && !!frontEnd && !!frontNeckline && !!backNeckline
+    && samePoint(edgeEnd(centerBack), edgeStart(backCollar))
+    && samePoint(edgeEnd(backCollar), edgeStart(frontCollar))
+    && samePoint(edgeEnd(frontCollar), edgeStart(frontEnd))
+    && samePoint(edgeEnd(frontEnd), edgeStart(frontNeckline))
+    && samePoint(edgeEnd(frontNeckline), edgeStart(backNeckline))
+    && samePoint(edgeEnd(backNeckline), edgeStart(centerBack));
+  if (!valid || !backCollar || !frontCollar || !frontEnd || !frontNeckline || !backNeckline || !centerBack) {
+    return heldProjectionRole("outerStand", treatment, piece,
+      "The source-encoded Polo backCollar/frontCollar shoulder junction or closed on-fold stand edge order is inconsistent.");
+  }
   const front = kind === "FRONT_FLAT";
-  const baseEdge = roleId === "outerStand" ? "collar" : "stand";
-  const outerEdge = roleId === "outerStand" ? "neckline" : "outer";
-  const frontEndEdge = roleId === "outerStand" ? "frontEnd" : "frontTip";
-  const boundary = (): FlatProjectionLandmark => ({
-    kind: "woven-neckline-shoulder", stitchLabel: "Outer stand ↔ woven neckline",
-  });
-  const endpoint = (edgeId: string, endpointName: "start" | "end"): FlatProjectionLandmark => ({
-    kind: "edge-endpoint", edgeId, endpoint: endpointName,
-  });
-  const centerBack = foldAxisEdge(piece);
-  const splitRuns: FlatProjectionEdgeRun[] = front
-    ? [
-      { edgeId: baseEdge, from: boundary(), to: endpoint(baseEdge, "end") },
-      { edgeId: outerEdge, from: endpoint(outerEdge, "start"), to: boundary() },
-      { edgeId: frontEndEdge, from: endpoint(frontEndEdge, "start"), to: endpoint(frontEndEdge, "end") },
-    ]
-    : [
-      { edgeId: baseEdge, from: endpoint(baseEdge, "start"), to: boundary() },
-      { edgeId: outerEdge, from: boundary(), to: endpoint(outerEdge, "end") },
-    ];
-  const faceExcludedEdges: FlatProjectionHeldEdge[] = [
-    ...(centerBack ? [
-      { edgeId: centerBack.name, reason: "The source-declared center-back fold is the reflection axis, not an exterior cut edge." },
-      ...(!front ? [{ edgeId: frontEndEdge, reason: "The collar/front-end edge belongs to the front face beyond the source shoulder station." }] : []),
-    ] : []),
-  ];
   return {
-    roleId,
-    instanceId: roleId,
-    treatment,
-    runs: centerBack ? splitRuns : [],
-    heldEdges: centerBack ? [] : piece.edges.map((edge) => ({ edgeId: edge.name, reason: "The source-declared center-back axis is missing." })),
-    faceExcludedEdges,
-    ...(centerBack ? { foldAxisReflection: { edgeId: centerBack.name, axis: "LOCAL_Y" as const, source: "Piece.onFold" as const } } : {}),
+    roleId: "outerStand", instanceId: "outerStand", treatment,
+    runs: front ? [
+      { edgeId: "frontCollar", from: endpointLandmark("frontCollar", "start"), to: endpointLandmark("frontCollar", "end") },
+      { edgeId: "frontEnd", from: endpointLandmark("frontEnd", "start"), to: endpointLandmark("frontEnd", "end") },
+      { edgeId: "frontNeckline", from: endpointLandmark("frontNeckline", "start"), to: endpointLandmark("frontNeckline", "end") },
+    ] : [
+      { edgeId: "backCollar", from: endpointLandmark("backCollar", "start"), to: endpointLandmark("backCollar", "end") },
+      { edgeId: "backNeckline", from: endpointLandmark("backNeckline", "start"), to: endpointLandmark("backNeckline", "end") },
+    ],
+    heldEdges: [],
+    faceExcludedEdges: front ? [
+      { edgeId: "centerBack", reason: "The source-declared center-back fold is the reflection axis." },
+      { edgeId: "backCollar", reason: "The exact backCollar interval belongs to BACK_FLAT." },
+      { edgeId: "backNeckline", reason: "The neckline back interval belongs to BACK_FLAT." },
+    ] : [
+      { edgeId: "centerBack", reason: "The source-declared center-back fold is the reflection axis." },
+      { edgeId: "frontCollar", reason: "The exact frontCollar interval belongs to FRONT_FLAT." },
+      { edgeId: "frontEnd", reason: "The Polo stand front end belongs to FRONT_FLAT." },
+      { edgeId: "frontNeckline", reason: "The neckline front interval belongs to FRONT_FLAT." },
+    ],
+    foldAxisReflection: { edgeId: "centerBack", axis: "LOCAL_Y", source: "Piece.onFold" },
+  };
+}
+
+function poloCollarPieceProjection(
+  roleId: "upperCollar" | "underCollar", kind: TechnicalFlatViewKind, block: Block,
+  piece: Piece, treatment: FlatRoleTreatment,
+): FlatProjectionRole {
+  const backBase = piece.edges.find((edge) => edge.name === "backCollarBase");
+  const frontBase = piece.edges.find((edge) => edge.name === "frontCollarBase");
+  const tip = piece.edges.find((edge) => edge.name === "frontTip");
+  const outer = piece.edges.find((edge) => edge.name === "outer");
+  const axis = foldAxisEdge(piece);
+  const fraction = outer ? normalizedCollarTransferFraction(block, roleId, outer, "POLO_COLLAR_BASE") : undefined;
+  if (!piece.onFold || axis?.name !== "centerBack" || !backBase || !frontBase || !tip || !outer || fraction === undefined) {
+    return heldProjectionRole(roleId, treatment, piece,
+      `The approved Polo ${roleId} base-to-outer collar arclength transfer does not resolve on the exact current stitch topology and center-back axis.`);
+  }
+  const station = transferredLandmark("outer", fraction, "POLO_COLLAR_BASE");
+  const front = kind === "FRONT_FLAT";
+  return {
+    roleId, instanceId: roleId, treatment,
+    runs: front ? [
+      { edgeId: "frontCollarBase", from: endpointLandmark("frontCollarBase", "start"), to: endpointLandmark("frontCollarBase", "end") },
+      { edgeId: "frontTip", from: endpointLandmark("frontTip", "start"), to: endpointLandmark("frontTip", "end") },
+      { edgeId: "outer", from: endpointLandmark("outer", "start"), to: station },
+    ] : [
+      { edgeId: "backCollarBase", from: endpointLandmark("backCollarBase", "start"), to: endpointLandmark("backCollarBase", "end") },
+      { edgeId: "outer", from: station, to: endpointLandmark("outer", "end") },
+    ],
+    heldEdges: [],
+    faceExcludedEdges: front ? [
+      { edgeId: "centerBack", reason: "The source-declared center-back fold is the reflection axis." },
+      { edgeId: "backCollarBase", reason: "The collar base back interval belongs to BACK_FLAT." },
+    ] : [
+      { edgeId: "centerBack", reason: "The source-declared center-back fold is the reflection axis." },
+      { edgeId: "frontCollarBase", reason: "The collar base front interval belongs to FRONT_FLAT." },
+      { edgeId: "frontTip", reason: "The Polo front collar point belongs to FRONT_FLAT." },
+    ],
+    foldAxisReflection: { edgeId: "centerBack", axis: "LOCAL_Y", source: "Piece.onFold" },
+  };
+}
+
+function wovenCollarRoleProjection(
+  roleId: "outerStand" | "upperCollar" | "underCollar", kind: TechnicalFlatViewKind,
+  block: Block, piece: Piece, treatment: FlatRoleTreatment,
+): FlatProjectionRole {
+  const exteriorEdgeId = roleId === "outerStand" ? "collar" : "outer";
+  const baseEdgeId = roleId === "outerStand" ? "neckline" : "stand";
+  const frontEndEdgeId = roleId === "outerStand" ? "frontEnd" : "frontTip";
+  const exterior = piece.edges.find((edge) => edge.name === exteriorEdgeId);
+  const base = piece.edges.find((edge) => edge.name === baseEdgeId);
+  const frontEnd = piece.edges.find((edge) => edge.name === frontEndEdgeId);
+  const axis = foldAxisEdge(piece);
+  const basisFraction = wovenNecklineFraction(block);
+  const fraction = exterior ? normalizedCollarTransferFraction(block, roleId, exterior, "WOVEN_NECKLINE") : undefined;
+  if (!piece.onFold || axis?.name !== "centerBack" || !exterior || !base || basisFraction === undefined || fraction === undefined
+    || (roleId !== "outerStand" && !frontEnd)) {
+    return heldProjectionRole(roleId, treatment, piece,
+      `The approved Woven ${roleId} neckline-to-exterior transfer does not resolve on the exact current stitched neckline and center-back axis.`);
+  }
+  const station = transferredLandmark(exteriorEdgeId, fraction, "WOVEN_NECKLINE");
+  const front = kind === "FRONT_FLAT";
+  if (roleId === "outerStand") {
+    return {
+      roleId, instanceId: roleId, treatment,
+      runs: front ? [
+      { edgeId: "collar", from: station, to: endpointLandmark("collar", "end") },
+      { edgeId: "frontEnd", from: endpointLandmark("frontEnd", "start"), to: endpointLandmark("frontEnd", "end") },
+        { edgeId: "neckline", from: endpointLandmark("neckline", "start"), to: { kind: "edge-arclength", edgeId: "neckline", fraction: 1 - basisFraction } },
+      ] : [
+        { edgeId: "collar", from: endpointLandmark("collar", "start"), to: station },
+        { edgeId: "neckline", from: { kind: "edge-arclength", edgeId: "neckline", fraction: 1 - basisFraction }, to: endpointLandmark("neckline", "end") },
+      ],
+      heldEdges: [],
+      faceExcludedEdges: front ? [
+        { edgeId: "centerBack", reason: "The source-declared center-back fold is the reflection axis." },
+      ] : [
+        { edgeId: "centerBack", reason: "The source-declared center-back fold is the reflection axis." },
+        { edgeId: "frontEnd", reason: "The stand front end belongs to FRONT_FLAT." },
+      ],
+      foldAxisReflection: { edgeId: "centerBack", axis: "LOCAL_Y", source: "Piece.onFold" },
+    };
+  }
+  return {
+    roleId, instanceId: roleId, treatment,
+    runs: front ? [
+      { edgeId: "stand", from: { kind: "edge-arclength", edgeId: "stand", fraction: basisFraction }, to: endpointLandmark("stand", "end") },
+      { edgeId: "frontTip", from: endpointLandmark("frontTip", "start"), to: endpointLandmark("frontTip", "end") },
+      { edgeId: "outer", from: endpointLandmark("outer", "start"), to: station },
+    ] : [
+      { edgeId: "stand", from: endpointLandmark("stand", "start"), to: { kind: "edge-arclength", edgeId: "stand", fraction: basisFraction } },
+      { edgeId: "outer", from: station, to: endpointLandmark("outer", "end") },
+    ],
+    heldEdges: [],
+    faceExcludedEdges: front ? [
+      { edgeId: "centerBack", reason: "The source-declared center-back fold is the reflection axis." },
+    ] : [
+      { edgeId: "centerBack", reason: "The source-declared center-back fold is the reflection axis." },
+      { edgeId: "frontTip", reason: "The collar front point belongs to FRONT_FLAT." },
+    ],
+    foldAxisReflection: { edgeId: "centerBack", axis: "LOCAL_Y", source: "Piece.onFold" },
   };
 }
 
@@ -277,8 +395,15 @@ export function createG04TechnicalFlatProjectionMap(
         if (!piece) {
           return { roleId: role.roleId, instanceId: role.roleId, treatment: role.treatment, runs: [], heldEdges: [] };
         }
-        if (recipeId === "woven-shirt" && (role.roleId === "outerStand" || role.roleId === "upperCollar")) {
-          return wovenCollarRoleProjection(role.roleId, face.kind, piece, role.treatment);
+        if (recipeId === "polo" && role.roleId === "outerStand") {
+          return poloOuterStandProjection(face.kind, piece, role.treatment);
+        }
+        if (recipeId === "polo" && (role.roleId === "upperCollar" || role.roleId === "underCollar")) {
+          return poloCollarPieceProjection(role.roleId, face.kind, block, piece, role.treatment);
+        }
+        if (recipeId === "woven-shirt" && (role.roleId === "outerStand"
+          || role.roleId === "upperCollar" || role.roleId === "underCollar")) {
+          return wovenCollarRoleProjection(role.roleId, face.kind, block, piece, role.treatment);
         }
         if (recipeId === "skirt" && role.roleId === "waistband") {
           const stitchLabel = "Waistband (front + back ↔ waistband)";
@@ -390,7 +515,7 @@ export type FlatProjectionIssueCode =
   | "INVALID_RUN_LANDMARK" | "LANDMARK_ROLE_MISMATCH" | "LANDMARK_EDGE_MISMATCH"
   | "LANDMARK_NOT_ON_EDGE" | "EMPTY_HOLD_REASON" | "RUN_ON_HIDDEN_ROLE" | "INVALID_FOLD_AXIS_REFLECTION"
   | "INVALID_PHYSICAL_PAIR_REFLECTION" | "INVALID_VIEW_PAIR_REFLECTION"
-  | "INVALID_STITCH_BOUNDARY" | "INVALID_PAIRED_EDGE" | "INVALID_VIEW_BOUNDARY";
+  | "INVALID_COLLAR_TRANSFER" | "INVALID_STITCH_BOUNDARY" | "INVALID_PAIRED_EDGE" | "INVALID_VIEW_BOUNDARY";
 
 export interface FlatProjectionIssue {
   readonly code: FlatProjectionIssueCode;
@@ -408,53 +533,6 @@ function samePoint(a: { readonly x: number; readonly y: number }, b: { readonly 
 
 function pointAtEdgeEnd(edge: Edge, end: "start" | "end") {
   return end === "start" ? edgeStart(edge) : edgeEnd(edge);
-}
-
-function wovenNecklineShoulderPoint(
-  block: Block, roleId: string, edge: Edge, piece: Piece,
-): { readonly x: number; readonly y: number } | undefined {
-  if (edge.kind !== "line") return undefined;
-  if (!piece.onFold) return undefined;
-  if (!foldAxisEdge(piece)) return undefined;
-  if (roleId !== "outerStand" && roleId !== "upperCollar") return undefined;
-  const matches = block.stitches.filter((stitch) => stitch.label === "Outer stand ↔ woven neckline");
-  const stitch = matches[0];
-  if (matches.length !== 1 || !stitch || stitch.ease !== undefined || stitch.a.edges.length !== 1
-    || stitch.b.edges.length !== 2) return undefined;
-  const outerNeckRef = stitch.a.edges[0];
-  if (!outerNeckRef || !("edge" in outerNeckRef)
-    || outerNeckRef.piece !== "outerStand" || outerNeckRef.edge !== "neckline") return undefined;
-  const [frontRef, backRef] = stitch.b.edges;
-  if (!frontRef || !backRef || !("edge" in frontRef) || !("edge" in backRef)
-    || frontRef.piece !== "front" || frontRef.edge !== "neckline"
-    || !(backRef.piece === "back" || backRef.piece === "yoke") || backRef.edge !== "neckline") return undefined;
-  const front = block.roles.front;
-  const back = block.roles[backRef.piece];
-  const frontNeck = front?.edges.find((candidate) => candidate.name === "neckline");
-  const backNeck = back?.edges.find((candidate) => candidate.name === "neckline");
-  if (!front || !back || !frontNeck || !backNeck) return undefined;
-  const shared = [edgeStart(frontNeck), edgeEnd(frontNeck)].filter((candidate) =>
-    [edgeStart(backNeck), edgeEnd(backNeck)].some((other) => samePoint(candidate, other)));
-  if (shared.length !== 1) return undefined;
-  const frontLength = edgeLength(frontNeck);
-  const backLength = edgeLength(backNeck);
-  const total = frontLength + backLength;
-  const sewnTo = roleId === "outerStand" ? block.roles.underCollar : block.roles.innerStand;
-  const ownBaseName = roleId === "outerStand" ? "collar" : "stand";
-  const counterpartBaseName = roleId === "outerStand" ? "stand" : "collar";
-  const receiverBase = sewnTo?.edges.find((candidate) => candidate.name === counterpartBaseName);
-  const ownBase = piece.edges.find((candidate) => candidate.name === ownBaseName);
-  const standNeckline = block.roles.outerStand?.edges.find((candidate) => candidate.name === "neckline");
-  if (!sewnTo?.onFold || !receiverBase || !ownBase || !standNeckline
-    || Math.abs(edgeLength(receiverBase) - total) > 1e-8
-    || Math.abs(edgeLength(ownBase) - total) > 1e-8
-    || Math.abs(edgeLength(standNeckline) - total) > 1e-8) return undefined;
-  const minX = Math.min(edge.start.x, edge.end.x);
-  const maxX = Math.max(edge.start.x, edge.end.x);
-  const stationX = backLength;
-  if (edge.start.y !== edge.end.y || stationX < minX || stationX > maxX || edge.start.x === edge.end.x) return undefined;
-  const t = (stationX - edge.start.x) / (edge.end.x - edge.start.x);
-  return { x: stationX, y: edge.start.y + (edge.end.y - edge.start.y) * t };
 }
 
 function refsForSide(stitch: Stitch, side: "a" | "b") {
@@ -484,6 +562,143 @@ function pointOnLine(edge: Extract<Edge, { kind: "line" }>, fraction: number) {
   };
 }
 
+function lerpPoint(a: { readonly x: number; readonly y: number }, b: { readonly x: number; readonly y: number }, t: number) {
+  return { x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t };
+}
+
+function splitCubicAt(curve: Extract<Edge, { kind: "curve" }> ["curve"], t: number) {
+  const p01 = lerpPoint(curve.start, curve.control1, t);
+  const p12 = lerpPoint(curve.control1, curve.control2, t);
+  const p23 = lerpPoint(curve.control2, curve.end, t);
+  const p012 = lerpPoint(p01, p12, t);
+  const p123 = lerpPoint(p12, p23, t);
+  const split = lerpPoint(p012, p123, t);
+  return {
+    left: { start: curve.start, control1: p01, control2: p012, end: split },
+    right: { start: split, control1: p123, control2: p23, end: curve.end },
+  };
+}
+
+/** Resolve normalized edge arclength to its Bézier parameter using the
+ * pattern engine's 64-chord length metric. */
+export function edgeParameterAtArclengthFraction(edge: Edge, fraction: number): number | undefined {
+  if (!Number.isFinite(fraction) || fraction < 0 || fraction > 1) return undefined;
+  if (edge.kind === "line") return fraction;
+  if (fraction === 0 || fraction === 1) return fraction;
+  const target = cubicLength(edge.curve) * fraction;
+  let low = 0;
+  let high = 1;
+  for (let index = 0; index < 32; index += 1) {
+    const middle = (low + high) / 2;
+    const partial = splitCubicAt(edge.curve, middle).left;
+    if (cubicLength(partial) < target) low = middle;
+    else high = middle;
+  }
+  return (low + high) / 2;
+}
+
+function pointOnEdgeFraction(edge: Edge, fraction: number) {
+  if (edge.kind === "line") return pointOnLine(edge, fraction);
+  // Callers validate the fraction before resolving the point.
+  return cubicPoint(edge.curve, edgeParameterAtArclengthFraction(edge, fraction)!);
+}
+
+function wovenNecklineFraction(block: Block): number | undefined {
+  const matches = block.stitches.filter((candidate) => candidate.label === "Outer stand ↔ woven neckline");
+  const stitch = matches[0];
+  if (matches.length !== 1 || !stitch || stitch.ease !== undefined || stitch.a.edges.length !== 1 || stitch.b.edges.length !== 2) return undefined;
+  const standRef = stitch.a.edges[0];
+  const [frontRef, backRef] = stitch.b.edges;
+  const expectedBack = block.roles.yoke ? "yoke" : "back";
+  if (!standRef || !("edge" in standRef) || standRef.piece !== "outerStand" || standRef.edge !== "neckline"
+    || standRef.reversed || !frontRef || !("edge" in frontRef) || frontRef.piece !== "front" || frontRef.edge !== "neckline" || frontRef.reversed
+    || !backRef || !("edge" in backRef) || backRef.piece !== expectedBack || backRef.edge !== "neckline" || backRef.reversed) return undefined;
+  const front = block.roles.front;
+  const back = block.roles[expectedBack];
+  const frontEdge = front?.edges.find((candidate) => candidate.name === "neckline");
+  const backEdge = back?.edges.find((candidate) => candidate.name === "neckline");
+  const standEdge = block.roles.outerStand?.edges.find((candidate) => candidate.name === "neckline");
+  if (!frontEdge || !backEdge || !standEdge) return undefined;
+  const shared = [edgeStart(frontEdge), edgeEnd(frontEdge)].filter((point) =>
+    [edgeStart(backEdge), edgeEnd(backEdge)].some((other) => samePoint(point, other)));
+  const frontLength = edgeLength(frontEdge);
+  const backLength = edgeLength(backEdge);
+  const total = frontLength + backLength;
+  if (shared.length !== 1 || !(frontLength > 0) || !(backLength > 0)
+    || Math.abs(edgeLength(standEdge) - total) > 1e-8) return undefined;
+  return backLength / total;
+}
+
+function normalizedCollarTransferFraction(
+  block: Block, roleId: string, edge: Edge, basis: "POLO_COLLAR_BASE" | "WOVEN_NECKLINE",
+): number | undefined {
+  const piece = block.roles[roleId];
+  const axis = piece && foldAxisEdge(piece);
+  if (!piece?.onFold || axis?.name !== "centerBack") return undefined;
+  if (basis === "POLO_COLLAR_BASE") {
+    if ((roleId !== "upperCollar" && roleId !== "underCollar") || edge.name !== "outer") return undefined;
+    const back = piece.edges.find((candidate) => candidate.name === "backCollarBase");
+    const front = piece.edges.find((candidate) => candidate.name === "frontCollarBase");
+    const outer = piece.edges.find((candidate) => candidate.name === "outer");
+    const tip = piece.edges.find((candidate) => candidate.name === "frontTip");
+    const fold = piece.edges.find((candidate) => candidate.name === "centerBack");
+    const seamLabel = roleId === "upperCollar" ? "Upper collar ↔ inner stand" : "Under collar ↔ outer stand";
+    const counterpartRole = roleId === "upperCollar" ? "innerStand" : "outerStand";
+    const counterpart = block.roles[counterpartRole];
+    const joins = block.stitches.filter((stitch) => stitch.label === seamLabel);
+    const stitch = joins[0];
+    const refs = stitch?.a.edges;
+    const receiver = stitch?.b.edges;
+    const receiverNames = roleId === "upperCollar" ? ["backCollar", "frontCollar"] : ["backCollar", "frontCollar"];
+    const baseLength = back && front ? edgeLength(back) + edgeLength(front) : 0;
+    if (!back || !front || !outer || outer !== edge || !tip || !fold || !counterpart || joins.length !== 1
+      || !samePoint(edgeEnd(back), edgeStart(front)) || !samePoint(edgeEnd(front), edgeStart(tip))
+      || !samePoint(edgeEnd(tip), edgeStart(outer)) || !samePoint(edgeEnd(outer), edgeStart(fold))
+      || !stitch || stitch.ease !== undefined || !refs || refs.length !== 2 || !receiver || receiver.length !== 2
+      || refs.some((ref, index) => !("edge" in ref) || ref.piece !== roleId || ref.edge !== (index === 0 ? "backCollarBase" : "frontCollarBase"))
+      || receiver.some((ref, index) => !("edge" in ref) || ref.piece !== counterpartRole || ref.edge !== receiverNames[index])
+      || !(baseLength > 0)) return undefined;
+    return 1 - edgeLength(back) / baseLength;
+  }
+  const fraction = wovenNecklineFraction(block);
+  if (fraction === undefined) return undefined;
+  if (roleId === "outerStand" && edge.name === "collar") {
+    const neckline = piece.edges.find((candidate) => candidate.name === "neckline");
+    const underBase = block.roles.underCollar?.edges.find((candidate) => candidate.name === "stand");
+    const joins = block.stitches.filter((stitch) => stitch.label === "Under collar ↔ outer stand");
+    const stitch = joins[0];
+    const ownRefs = stitch?.b.edges;
+    const receiverRefs = stitch?.a.edges;
+    return neckline && underBase && joins.length === 1 && !!stitch && stitch.ease === undefined
+      && ownRefs?.length === 1 && "edge" in ownRefs[0]! && ownRefs[0]!.piece === "outerStand" && ownRefs[0]!.edge === "collar"
+      && receiverRefs?.length === 1 && "edge" in receiverRefs[0]! && receiverRefs[0]!.piece === "underCollar" && receiverRefs[0]!.edge === "stand"
+      && Math.abs(edgeLength(edge) - edgeLength(neckline)) <= 1e-8
+      && Math.abs(edgeLength(edge) - edgeLength(underBase)) <= 1e-8 ? fraction : undefined;
+  }
+  if ((roleId === "upperCollar" || roleId === "underCollar") && edge.name === "outer") {
+    const base = piece.edges.find((candidate) => candidate.name === "stand");
+    const outer = piece.edges.find((candidate) => candidate.name === "outer");
+    const centerBack = piece.edges.find((candidate) => candidate.name === "centerBack");
+    const frontTip = piece.edges.find((candidate) => candidate.name === "frontTip");
+    const receiverRole = roleId === "upperCollar" ? "innerStand" : "outerStand";
+    const standStitchLabel = roleId === "upperCollar" ? "Upper collar ↔ inner stand" : "Under collar ↔ outer stand";
+    const stitches = block.stitches.filter((stitch) => stitch.label === standStitchLabel);
+    const stitch = stitches[0];
+    const ownRefs = stitch?.a.edges;
+    const receiverRefs = stitch?.b.edges;
+    const receiverBase = block.roles[receiverRole]?.edges.find((candidate) => candidate.name === "collar");
+    if (!base || !outer || outer !== edge || !centerBack || !frontTip || !receiverBase || stitches.length !== 1
+      || !stitch || stitch.ease !== undefined || !ownRefs || ownRefs.length !== 1 || !receiverRefs || receiverRefs.length !== 1
+      || !("edge" in ownRefs[0]!) || ownRefs[0]!.piece !== roleId || ownRefs[0]!.edge !== "stand"
+      || !("edge" in receiverRefs[0]!) || receiverRefs[0]!.piece !== receiverRole || receiverRefs[0]!.edge !== "collar"
+      || Math.abs(edgeLength(base) - edgeLength(receiverBase)) > 1e-8
+      || !samePoint(edgeStart(base), edgeEnd(centerBack)) || !samePoint(edgeEnd(base), edgeStart(frontTip))
+      || !samePoint(edgeEnd(frontTip), edgeStart(outer)) || !samePoint(edgeEnd(outer), edgeStart(centerBack))) return undefined;
+    return 1 - fraction;
+  }
+  return undefined;
+}
+
 function pointForLandmark(
   roleId: string,
   faceKind: TechnicalFlatViewKind,
@@ -510,25 +725,28 @@ function pointForLandmark(
     return pointAtEdgeEnd(edge, landmark.endpoint);
   }
   if (landmark.kind === "edge-arclength") {
-    if (landmark.edgeId !== edge.name || edge.kind !== "line"
+    if (landmark.edgeId !== edge.name
       || typeof landmark.fraction !== "number" || !Number.isFinite(landmark.fraction)
       || landmark.fraction <= 0 || landmark.fraction >= 1) {
       issues.push({ code: "LANDMARK_NOT_ON_EDGE", sourceId,
-        message: "An interior arclength landmark must identify this straight source edge and a finite fraction strictly between its endpoints." });
+        message: "An interior arclength landmark must identify this source edge and a finite fraction strictly between its endpoints." });
       return undefined;
     }
-    return pointOnLine(edge, landmark.fraction);
+    return pointOnEdgeFraction(edge, landmark.fraction);
   }
-  if (landmark.kind === "woven-neckline-shoulder") {
-    if (landmark.stitchLabel !== "Outer stand ↔ woven neckline") {
-      issues.push({ code: "INVALID_STITCH_BOUNDARY", sourceId, message: "Woven collar shoulder landmark must name the source neckline stitch." });
+  if (landmark.kind === "normalized-edge-transfer") {
+    const basis = landmark.basis === "POLO_COLLAR_BASE" || landmark.basis === "WOVEN_NECKLINE"
+      ? landmark.basis : undefined;
+    const expected = landmark.decisionId === "G04-S321-COLLAR-EXTERIOR-ARCLENGTH" && basis
+      ? normalizedCollarTransferFraction(block, roleId, edge, basis) : undefined;
+    if (landmark.edgeId !== edge.name || typeof landmark.fraction !== "number" || !Number.isFinite(landmark.fraction)
+      || landmark.fraction <= 0 || landmark.fraction >= 1 || expected === undefined
+      || Math.abs(expected - landmark.fraction) > 1e-10) {
+      issues.push({ code: "INVALID_COLLAR_TRANSFER", sourceId,
+        message: `The collar exterior station on “${roleId}.${edge.name}” does not match the approved same-revision base/neckline arclength transfer.` });
       return undefined;
     }
-    const resolved = wovenNecklineShoulderPoint(block, roleId, edge, piece);
-    if (!resolved) {
-      issues.push({ code: "INVALID_STITCH_BOUNDARY", sourceId, message: `Woven collar shoulder station does not resolve on “${roleId}.${edge.name}” from the current ordered neckline stitch and collar-edge topology.` });
-    }
-    return resolved;
+    return pointOnEdgeFraction(edge, landmark.fraction);
   }
   if (landmark.kind === "pattern-mark") {
     if (typeof landmark.markId !== "string" || landmark.markId.length === 0
@@ -656,7 +874,8 @@ export function resolveFlatProjectionLandmark(
   let edgeId = receivingEdgeId;
   if (!edgeId && isRecord(landmark)) {
     if (landmark.kind === "edge-endpoint" && typeof landmark.edgeId === "string") edgeId = landmark.edgeId;
-      if (landmark.kind === "edge-arclength" && typeof landmark.edgeId === "string") edgeId = landmark.edgeId;
+      if ((landmark.kind === "edge-arclength" || landmark.kind === "normalized-edge-transfer")
+        && typeof landmark.edgeId === "string") edgeId = landmark.edgeId;
     if (landmark.kind === "stitch-interface-boundary" && typeof landmark.stitchLabel === "string"
       && (landmark.receiverSide === "a" || landmark.receiverSide === "b")
       && Number.isInteger(landmark.receiverEdgeIndex)) {

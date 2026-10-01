@@ -178,7 +178,7 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
       assert.ok(card.comments.some((comment) => /Re-estimate from verified S310 boundary: output remains 28\/146 accepted and 118 held; 7–21 conditional slices remain/.test(comment.text)));
       assert.ok(card.comments.some((comment) => /Slice 312 exit: Skirt waist and hip POMs resolve to matching exact front\/back outline vertices.*V02 remains In Progress; V03 remains Backlog/.test(comment.text)));
       assert.ok(card.comments.some((comment) => /Slice 319 verified exit: all-recipe production replay and visible colorway raster review passed with unchanged 28\/146 accepted and 118 held; V02 remains In Progress and V03 remains Backlog/.test(comment.text)));
-      assert.match(card.comments.at(-1).text, /S322 reconciled output: 12 total Chromium front\/back requests all remain held/);
+      assert.match(card.comments.at(-1).text, /S323 verified exit: all 45 Polo\/Woven configurations and 90 front\/back requests are held/);
       assert.ok(card.comments.some((comment) => /Slice 318 exit: source-backed colorway areas are visibly rasterized at one 16% tint.*13 SVGs and 27 fills.*V02 remains In Progress; V03 remains Backlog/.test(comment.text)));
       assert.deepEqual(card.dependencies, ["EPIC-14", "EPIC-15", "EPIC-16"]);
       const admittedWork = board.workItems.filter((entry) => entry.epicId === id && entry.id !== id);
@@ -186,7 +186,7 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
       assert.deepEqual(admittedWork.map((entry) => entry.status), ["Done", "In Progress", "Backlog"]);
       assert.match(admittedWork[1].description, /S322 implements the approved Tee\/Fitted view-only sleeve-half projection and paired reflection/);
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S320-EXIT"));
-      assert.match(admittedWork[1].comments.at(-1).text, /S322 reconciled output: 12 total Chromium front\/back requests all remain held/);
+      assert.match(admittedWork[1].comments.at(-1).text, /S323 verified exit: all 45 Polo\/Woven configurations and 90 front\/back requests are held/);
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S321-START"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S321-EXIT"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S322-START"));

@@ -8,10 +8,12 @@ const { startPreviewServer } = verificationHelpers;
 const wovenOnly = process.argv.includes("--woven-only");
 const trouserOnly = process.argv.includes("--trouser-only");
 const teeFittedOnly = process.argv.includes("--tee-fitted-only");
+const poloWovenOnly = process.argv.includes("--polo-woven-only");
 const output = path.resolve(process.env.G04_OPTION_MATRIX_OUTPUT
   ?? (wovenOnly ? "docs/research/epic17/S286-browser" : "docs/research/epic17/S274-browser"));
 const smoke = process.argv.includes("--smoke");
 const recipes = wovenOnly ? ["woven-shirt"] : trouserOnly ? ["trouser"] : teeFittedOnly ? ["tee", "fitted"]
+  : poloWovenOnly ? ["polo", "woven-shirt"]
   : smoke ? ["tee", "polo"] : ["tee", "fitted", "tank", "polo", "woven-shirt", "skirt", "trouser"];
 const consoleErrors = [];
 const pageErrors = [];

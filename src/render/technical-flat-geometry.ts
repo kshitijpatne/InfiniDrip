@@ -11,7 +11,8 @@ import type {
 } from "./technical-flat";
 import { mapTechnicalFlatSources, type FlatMappingIssue } from "./technical-flat-mapping";
 import { edgeEnd, edgeStart } from "../drafting/piece";
-import { resolveFlatProjectionLandmark, validateTechnicalFlatProjectionMap, type FlatProjectionIssue, type FlatProjectionRole, type TechnicalFlatProjectionMap } from "./technical-flat-projection";
+import { resolveFlatProjectionLandmark, validateTechnicalFlatProjectionMap, edgeParameterAtArclengthFraction,
+  type FlatProjectionIssue, type FlatProjectionLandmark, type FlatProjectionRole, type TechnicalFlatProjectionMap } from "./technical-flat-projection";
 
 export interface TechnicalFlatGeometryIssue {
   readonly code: "INVALID_REVISION_ID" | "INVALID_SOURCE_EDGE" | "INVALID_PROJECTION_MAP" | "UNRESOLVED_PROJECTION_EDGE";
@@ -90,25 +91,81 @@ function pointForProjectionLandmark(
   return resolveFlatProjectionLandmark(block, roleId, kind, landmark, edgeId);
 }
 
-function projectedCommands(recipeId: string, block: Block, kind: TechnicalFlatViewKind, piece: Piece, role: FlatProjectionRole) {
+/** @internal Pure helper exported for focused landmark validation tests. */
+export function parameterForLandmark(edge: Edge, piece: Piece, landmark: FlatProjectionLandmark): number | undefined {
+  if (landmark.kind === "edge-endpoint") {
+    if (landmark.edgeId !== edge.name) return undefined;
+    return landmark.endpoint === "start" ? 0 : landmark.endpoint === "end" ? 1 : undefined;
+  }
+  if (landmark.kind === "edge-arclength" || landmark.kind === "normalized-edge-transfer") {
+    if (landmark.edgeId !== edge.name) return undefined;
+    return edgeParameterAtArclengthFraction(edge, landmark.fraction);
+  }
+  if (landmark.kind === "pattern-mark") {
+    const mark = piece.marks?.find((candidate) => candidate.name === landmark.markId);
+    if (!mark) return undefined;
+    const point = "at" in mark ? landmark.point === "at" ? mark.at : undefined
+      : landmark.point === "start" ? mark.start : landmark.point === "end" ? mark.end : undefined;
+    if (!point) return undefined;
+    const start = edgeStart(edge);
+    if (point.x === start.x && point.y === start.y) return 0;
+    const end = edgeEnd(edge);
+    if (point.x === end.x && point.y === end.y) return 1;
+    return undefined;
+  }
+  return undefined;
+}
+
+function lerpPoint(a: { readonly x: number; readonly y: number }, b: { readonly x: number; readonly y: number }, t: number) {
+  return { x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t };
+}
+
+function splitCubic(curve: Extract<Edge, { kind: "curve" }> ["curve"], t: number) {
+  const p01 = lerpPoint(curve.start, curve.control1, t);
+  const p12 = lerpPoint(curve.control1, curve.control2, t);
+  const p23 = lerpPoint(curve.control2, curve.end, t);
+  const p012 = lerpPoint(p01, p12, t);
+  const p123 = lerpPoint(p12, p23, t);
+  const point = lerpPoint(p012, p123, t);
+  return {
+    left: { start: curve.start, control1: p01, control2: p012, end: point },
+    right: { start: point, control1: p123, control2: p23, end: curve.end },
+  };
+}
+
+function cubicInterval(
+  curve: Extract<Edge, { kind: "curve" }> ["curve"], from: number, to: number,
+) {
+  const lower = Math.min(from, to);
+  const upper = Math.max(from, to);
+  const left = splitCubic(curve, upper).left;
+  const interval = lower === 0 ? left : splitCubic(left, lower / upper).right;
+  return from <= to ? interval : {
+    start: interval.end, control1: interval.control2, control2: interval.control1, end: interval.start,
+  };
+}
+
+/** @internal Pure helper exported for malformed-run fail-closed tests. */
+export function projectedCommands(recipeId: string, block: Block, kind: TechnicalFlatViewKind, piece: Piece, role: FlatProjectionRole) {
   const commands: FlatPathCommand[] = [];
   const sourceEdgeIds: string[] = [];
   for (const run of role.runs) {
     const edge = piece.edges.find((candidate) => candidate.name === run.edgeId)!;
     const from = pointForProjectionLandmark(block, kind, role.roleId, edge.name, run.from);
     const to = pointForProjectionLandmark(block, kind, role.roleId, edge.name, run.to);
-    const forward = finitePoint(from) && finitePoint(to) && finitePoint(edgeStart(edge))
-      && from.x === edgeStart(edge).x && from.y === edgeStart(edge).y
-      && to.x === edgeEnd(edge).x && to.y === edgeEnd(edge).y;
     if (edge.kind === "line") {
       if (!finitePoint(from) || !finitePoint(to)) return null;
       commands.push({ op: "move", point: { ...from } }, { op: "line", point: { ...to } });
     } else {
-      if (!finitePoint(from) || !finitePoint(to) || !finitePoint(edge.curve.control1) || !finitePoint(edge.curve.control2)) return null;
+      const fromParameter = parameterForLandmark(edge, piece, run.from);
+      const toParameter = parameterForLandmark(edge, piece, run.to);
+      if (fromParameter === undefined || toParameter === undefined || !finitePoint(from) || !finitePoint(to)) return null;
+      const segment = cubicInterval(edge.curve, fromParameter, toParameter);
+      if (!finitePoint(segment.control1) || !finitePoint(segment.control2)) return null;
       commands.push({ op: "move", point: { ...from } }, {
         op: "cubic",
-        control1: { ...(forward ? edge.curve.control1 : edge.curve.control2) },
-        control2: { ...(forward ? edge.curve.control2 : edge.curve.control1) },
+        control1: { ...segment.control1 },
+        control2: { ...segment.control2 },
         point: { ...to },
       });
     }

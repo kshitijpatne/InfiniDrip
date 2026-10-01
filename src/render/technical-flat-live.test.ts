@@ -387,7 +387,7 @@ describe("compileTechnicalFlatLiveView", () => {
       { x: 0, y: 0 }, { x: 0, y: 2 })).toBeUndefined();
   });
 
-  it("keeps Polo and visually incoherent Woven assembled faces held", () => {
+  it("compiles approved Polo collar geometry while keeping incoherent Woven faces held", () => {
     for (const recipeId of ["polo", "woven-shirt"]) {
       const recipe = GARMENTS.find((candidate) => candidate.name === recipeId)!;
       const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
@@ -395,10 +395,14 @@ describe("compileTechnicalFlatLiveView", () => {
         const result = compileTechnicalFlatLiveView({ recipe, block, revisionId: `live-${recipeId}-${kind}`, kind,
           placements: [], colorHex: "#456789", texture: "smooth", shine: 0 });
         if (recipeId === "polo") {
-          expect(result.view).toBeNull();
-          expect(result.colorway).toBeNull();
+          expect(result.view).not.toBeNull();
+          expect(result.colorway).not.toBeNull();
+          for (const roleId of ["outerStand", "underCollar", "upperCollar"]) {
+            expect(result.view?.primitives.some((primitive) => primitive.id
+              === `flat:polo:${kind}:component:${roleId}:outline`)).toBe(true);
+          }
           expect(result.issues.some((issue) => issue.stage === "geometry"
-            && issue.message.includes("no authored front/back split landmark"))).toBe(true);
+            && issue.message.includes("no authored front/back split landmark"))).toBe(false);
         } else {
           expect(result.view).toBeNull();
           expect(result.colorway).toBeNull();

@@ -2,17 +2,20 @@ import { describe, expect, it } from "vitest";
 import { GARMENTS } from "../drafting/recipe";
 import { STANDARD_M } from "../drafting/measurements";
 import { defaultGarmentOptions } from "../drafting/options";
+import { lineMark, pointMark } from "../drafting/pattern-mark";
+import { cubicPoint } from "../geometry/curve";
 import type { Block } from "../drafting/block";
-import { compileTechnicalFlatSourceGeometry } from "./technical-flat-geometry";
+import { compileTechnicalFlatSourceGeometry, parameterForLandmark, projectedCommands } from "./technical-flat-geometry";
 import { G04_TECHNICAL_FLAT_MAPPINGS } from "./technical-flat-mapping";
-import { createG04TechnicalFlatProjectionMap, type TechnicalFlatProjectionMap } from "./technical-flat-projection";
+import { createG04TechnicalFlatProjectionMap, edgeParameterAtArclengthFraction, type TechnicalFlatProjectionMap } from "./technical-flat-projection";
 import { TECHNICAL_FLAT_SCHEMA_VERSION, validateTechnicalFlat } from "./technical-flat";
 
 const revisionId = "style-revision-17";
 
 function projectionMap(recipeId: string, block: Block): TechnicalFlatProjectionMap {
   const base = G04_TECHNICAL_FLAT_MAPPINGS[recipeId];
-  const authored = recipeId === "woven-shirt" ? createG04TechnicalFlatProjectionMap(recipeId, block, revisionId)! : undefined;
+  const authored = ["woven-shirt", "tee", "fitted"].includes(recipeId)
+    ? createG04TechnicalFlatProjectionMap(recipeId, block, revisionId)! : undefined;
   return {
     version: 1, recipeId, revisionId,
     faces: base.faces.map((face) => ({
@@ -22,6 +25,8 @@ function projectionMap(recipeId: string, block: Block): TechnicalFlatProjectionM
         const hidden = role.treatment === "INTERIOR_HIDDEN";
         const pairReflection = authored?.faces.find((candidate) => candidate.kind === face.kind)?.roles
           .find((candidate) => candidate.roleId === role.roleId)?.physicalPairReflection;
+        const viewPairReflection = authored?.faces.find((candidate) => candidate.kind === face.kind)?.roles
+          .find((candidate) => candidate.roleId === role.roleId)?.viewPairReflection;
         const isZero = (edge: (typeof piece.edges)[number]) => {
           const start = edge.kind === "line" ? edge.start : edge.curve.start;
           const end = edge.kind === "line" ? edge.end : edge.curve.end;
@@ -38,6 +43,7 @@ function projectionMap(recipeId: string, block: Block): TechnicalFlatProjectionM
             edgeId: edge.name, reason: hidden ? "Interior role is hidden." : "Zero-length edge is unresolved.",
           })),
           ...(pairReflection ? { physicalPairReflection: pairReflection } : {}),
+          ...(viewPairReflection ? { viewPairReflection } : {}),
         };
       }),
     })) as unknown as TechnicalFlatProjectionMap["faces"],
@@ -45,6 +51,93 @@ function projectionMap(recipeId: string, block: Block): TechnicalFlatProjectionM
 }
 
 describe("technical-flat source geometry", () => {
+  it("does not invent a cubic parameter for a stitch-interface landmark", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "polo")!;
+    const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
+    const piece = block.roles.upperCollar!;
+    const edge = piece.edges.find((candidate) => candidate.name === "outer")!;
+    expect(parameterForLandmark(edge, piece, {
+      kind: "stitch-interface-boundary", stitchLabel: "Upper collar ↔ inner stand",
+      boundarySide: "a", receiverSide: "b", afterEdgeIndex: 0, faceSegmentEdgeIndex: 0, receiverEdgeIndex: 0,
+    })).toBeUndefined();
+  });
+
+  it("resolves only validated source endpoint and edge parameter landmarks", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "polo")!;
+    const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
+    const piece = block.roles.upperCollar!;
+    const edge = piece.edges.find((candidate) => candidate.name === "outer")!;
+    const start = edge.kind === "curve" ? edge.curve.start : edge.start;
+    const end = edge.kind === "curve" ? edge.curve.end : edge.end;
+    const markedPiece = { ...piece, marks: [
+      pointMark("placementPoint", "atStart", start),
+      pointMark("placementPoint", "inside", { x: (start.x + end.x) / 2, y: (start.y + end.y) / 2 }),
+      lineMark("placementLine", "edgeEnds", start, end),
+    ] };
+    expect(parameterForLandmark(edge, markedPiece, { kind: "edge-endpoint", edgeId: "other", endpoint: "start" })).toBeUndefined();
+    expect(parameterForLandmark(edge, piece, { kind: "edge-endpoint", edgeId: "outer", endpoint: "middle" } as never)).toBeUndefined();
+    expect(parameterForLandmark(edge, piece, { kind: "edge-arclength", edgeId: "other", fraction: 0.5 })).toBeUndefined();
+    expect(parameterForLandmark(edge, markedPiece, { kind: "pattern-mark", markId: "missing", point: "at" })).toBeUndefined();
+    expect(parameterForLandmark(edge, markedPiece, { kind: "pattern-mark", markId: "atStart", point: "start" })).toBeUndefined();
+    expect(parameterForLandmark(edge, markedPiece, { kind: "pattern-mark", markId: "inside", point: "at" })).toBeUndefined();
+    expect(parameterForLandmark(edge, markedPiece, { kind: "pattern-mark", markId: "edgeEnds", point: "start" })).toBe(0);
+    expect(parameterForLandmark(edge, markedPiece, { kind: "pattern-mark", markId: "edgeEnds", point: "end" })).toBe(1);
+    expect(parameterForLandmark(edge, markedPiece, { kind: "pattern-mark", markId: "edgeEnds", point: "at" })).toBeUndefined();
+    expect(parameterForLandmark(edge, markedPiece, { kind: "pattern-mark", markId: "atStart", point: "at" })).toBe(0);
+  });
+
+  it("fails closed for malformed projected line and cubic runs", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "polo")!;
+    const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
+    const collar = block.roles.upperCollar!;
+    const outer = collar.edges.find((candidate) => candidate.name === "outer")!;
+    const line = collar.edges.find((candidate) => candidate.kind === "line")!;
+    const invalidLandmark = { kind: "edge-endpoint" as const, edgeId: "wrong", endpoint: "start" as const };
+    expect(projectedCommands("polo", block, "FRONT_FLAT", collar, { roleId: "upperCollar", instanceId: "test",
+      treatment: "VISIBLE_OVERLAY", heldEdges: [], runs: [{ edgeId: line.name, from: invalidLandmark, to: invalidLandmark }] })).toBeNull();
+    expect(projectedCommands("polo", block, "FRONT_FLAT", collar, { roleId: "upperCollar", instanceId: "test",
+      treatment: "VISIBLE_OVERLAY", heldEdges: [], runs: [{ edgeId: outer.name, from: invalidLandmark, to: invalidLandmark }] })).toBeNull();
+    expect(projectedCommands("polo", block, "FRONT_FLAT", collar,
+      { roleId: "upperCollar", instanceId: "test", treatment: "VISIBLE_OVERLAY", heldEdges: [], runs: [] })).toBeNull();
+  });
+
+  it("compiles exact front and back cubic subcurves at Polo's transferred collar station", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "polo")!;
+    const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
+    const revision = revisionId;
+    const map = createG04TechnicalFlatProjectionMap("polo", block, revision)!;
+    for (const face of map.faces) for (const roleId of ["underCollar", "upperCollar"]) {
+      const output = compileTechnicalFlatSourceGeometry("polo", block, revision, face.kind, map);
+      expect(output.issues).toEqual([]);
+      const outline = output.primitives.find((primitive) => primitive.id ===
+        `flat:polo:${face.kind}:component:${roleId}:outline`);
+      if (outline?.kind !== "path") throw new Error("Mapped Polo collar must compile to a path.");
+      const projection = face.roles.find((role) => role.roleId === roleId)!;
+      const runIndex = projection.runs.findIndex((run) => run.edgeId === "outer");
+      const run = projection.runs[runIndex]!;
+      const t = run.to.kind === "normalized-edge-transfer" ? run.to.fraction
+        : run.from.kind === "normalized-edge-transfer" ? run.from.fraction : undefined;
+      if (t === undefined) throw new Error("Polo outer collar run needs its approved arclength station.");
+      const outer = block.roles[roleId]!.edges.find((edge) => edge.name === "outer")!;
+      if (outer.kind !== "curve") throw new Error("Polo outer collar edge must remain cubic.");
+      const transferParameter = edgeParameterAtArclengthFraction(outer, t)!;
+      const startCommand = outline.commands[runIndex * 2];
+      const curveCommand = outline.commands[runIndex * 2 + 1];
+      if (startCommand?.op !== "move" || curveCommand?.op !== "cubic") throw new Error("Transferred collar segment must preserve cubic geometry.");
+      const emittedCurve = { start: startCommand.point,
+        control1: curveCommand.control1, control2: curveCommand.control2, end: curveCommand.point };
+      const fromParameter = face.kind === "FRONT_FLAT" ? 0 : transferParameter;
+      const toParameter = face.kind === "FRONT_FLAT" ? transferParameter : 1;
+      for (const fraction of [0, 0.2, 0.5, 0.8, 1]) {
+        const actual = cubicPoint(emittedCurve, fraction);
+        const expected = cubicPoint(outer.curve,
+          fromParameter + (toParameter - fromParameter) * fraction);
+        expect(actual.x).toBeCloseTo(expected.x, 12);
+        expect(actual.y).toBeCloseTo(expected.y, 12);
+      }
+    }
+  });
+
   it("retains provenance for view-only boundaries from alternate exact landmarks", () => {
     const recipe = GARMENTS.find((candidate) => candidate.name === "skirt")!;
     const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
@@ -55,6 +148,7 @@ describe("technical-flat source geometry", () => {
     const alternate = { ...map, faces: map.faces.map((candidate, index) => index === 0 ? { ...candidate,
       roles: candidate.roles.map((role) => role.roleId === "waistband" ? { ...role, viewBoundaries: [
         { id: "stitch-on-to", from: endpoint, to: frontBand.runs[0]!.to },
+        { id: "stitch-on-from", from: frontBand.runs[0]!.to, to: endpoint },
         { id: "endpoint-pair", from: endpoint, to: { kind: "edge-endpoint" as const, edgeId: "top", endpoint: "end" as const } },
       ] } : role) } : candidate),
     } as unknown as TechnicalFlatProjectionMap;
@@ -62,6 +156,7 @@ describe("technical-flat source geometry", () => {
     expect(output.issues).toEqual([]);
     expect(output.primitives.filter((primitive) => primitive.id.includes("view-boundary")))
       .toMatchObject([{ source: { sourceId: expect.stringContaining(":stitch:Waistband") } },
+        { source: { sourceId: expect.stringContaining(":stitch:Waistband") } },
         { source: { sourceId: expect.stringContaining(":stitch:unknown") } }]);
   });
 
@@ -148,10 +243,10 @@ describe("technical-flat source geometry", () => {
     expect(front.primitives).toEqual([]);
     expect(back.primitives.some((primitive) => primitive.source.sourceId === "pattern:woven-shirt:role:back")).toBe(true);
     expect(back.primitives.some((primitive) => primitive.source.sourceId === "pattern:woven-shirt:role:yoke")).toBe(true);
-    for (const face of openMap.faces) for (const roleId of ["outerStand", "upperCollar"]) {
+    for (const face of openMap.faces) for (const roleId of ["outerStand", "upperCollar", "underCollar"]) {
       const role = face.roles.find((candidate) => candidate.roleId === roleId)!;
-      expect(role.runs.some((run) => run.from.kind === "woven-neckline-shoulder"
-        || run.to.kind === "woven-neckline-shoulder")).toBe(true);
+      expect(role.runs.some((run) => run.from.kind === "normalized-edge-transfer"
+        || run.to.kind === "normalized-edge-transfer")).toBe(true);
       expect(role.heldEdges).toEqual([]);
     }
     for (const face of openMap.faces) {
@@ -312,7 +407,8 @@ describe("technical-flat source geometry", () => {
       ? { ...edge, start: { x: Number.NaN, y: edge.start.y } } : edge);
     const badLineBlock = { ...block, roles: { ...block.roles, [roleId]: { ...front, edges: badLineEdges } } };
     const badLine = compileTechnicalFlatSourceGeometry("tee", badLineBlock, revisionId, "FRONT_FLAT", projectionMap("tee", badLineBlock));
-    expect(badLine.issues).toContainEqual(expect.objectContaining({ code: "INVALID_PROJECTION_MAP" }));
+    expect(badLine.issues.some((issue) => issue.code === "INVALID_PROJECTION_MAP"
+      || issue.code === "INVALID_VIEW_PAIR_REFLECTION")).toBe(true);
     expect(badLine.primitives).toEqual([]);
 
     const curveIndex = front.edges.findIndex((edge) => edge.kind === "curve");
@@ -325,7 +421,8 @@ describe("technical-flat source geometry", () => {
 
     const emptyRoleBlock = { ...block, roles: { ...block.roles, [roleId]: { ...front, edges: [] } } };
     const emptyRole = compileTechnicalFlatSourceGeometry("tee", emptyRoleBlock, revisionId, "FRONT_FLAT", projectionMap("tee", emptyRoleBlock));
-    expect(emptyRole.issues).toContainEqual(expect.objectContaining({ code: "INVALID_PROJECTION_MAP" }));
+    expect(emptyRole.issues.some((issue) => issue.code === "INVALID_PROJECTION_MAP"
+      || issue.code === "INVALID_VIEW_PAIR_REFLECTION" || issue.code === "MISSING_STITCH_EDGE")).toBe(true);
     expect(emptyRole.primitives).toEqual([]);
   });
 

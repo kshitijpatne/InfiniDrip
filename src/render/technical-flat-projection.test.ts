@@ -3,9 +3,11 @@ import { GARMENTS } from "../drafting/recipe";
 import { STANDARD_M } from "../drafting/measurements";
 import { defaultGarmentOptions } from "../drafting/options";
 import { edgeEnd, edgeLength, edgeStart } from "../drafting/piece";
+import { cubicPoint } from "../geometry/curve";
 import { G04_TECHNICAL_FLAT_MAPPINGS } from "./technical-flat-mapping";
 import {
   createG04TechnicalFlatProjectionMap,
+  edgeParameterAtArclengthFraction,
   G04_NON_MIRRORED_ON_FOLD_ROLES,
   G04_UNRESOLVED_PROJECTION_ROLES,
   resolveFlatProjectionLandmark,
@@ -65,24 +67,117 @@ function draft(recipeId: string, options = {}) {
 }
 
 describe("validateTechnicalFlatProjectionMap", () => {
+  it("maps the Polo stand at its encoded junction and transfers both collar layers onto exact cubic arclength", () => {
+    const { block } = draft("polo");
+    const map = createG04TechnicalFlatProjectionMap("polo", block, REVISION)!;
+    expect(validateTechnicalFlatProjectionMap("polo", block, REVISION, map)).toEqual([]);
+    const collarRole = block.roles.upperCollar!;
+    const backBase = collarRole.edges.find((edge) => edge.name === "backCollarBase")!;
+    const frontBase = collarRole.edges.find((edge) => edge.name === "frontCollarBase")!;
+    const r = edgeLength(backBase) / (edgeLength(backBase) + edgeLength(frontBase));
+    for (const face of map.faces) {
+      const stand = face.roles.find((role) => role.roleId === "outerStand")!;
+      const visibleStandInterval = face.kind === "FRONT_FLAT" ? "frontCollar" : "backCollar";
+      const hiddenStandInterval = face.kind === "FRONT_FLAT" ? "backCollar" : "frontCollar";
+      expect(stand.runs.map((run) => run.edgeId)).toContain(visibleStandInterval);
+      expect(stand.faceExcludedEdges?.map((entry) => entry.edgeId)).toContain(hiddenStandInterval);
+      expect(stand.viewBoundaries).toBeUndefined();
+      const shoulder = edgeEnd(block.roles.outerStand!.edges.find((edge) => edge.name === "backCollar")!);
+      expect(shoulder).toEqual(edgeStart(block.roles.outerStand!.edges.find((edge) => edge.name === "frontCollar")!));
+      for (const roleId of ["underCollar", "upperCollar"]) {
+        const role = face.roles.find((candidate) => candidate.roleId === roleId)!;
+        expect(role.treatment).toBe("VISIBLE_OVERLAY");
+        const run = role.runs.find((candidate) => candidate.edgeId === "outer")!;
+        const transfer = run.from.kind === "normalized-edge-transfer" ? run.from : run.to;
+        expect(transfer.kind).toBe("normalized-edge-transfer");
+        if (transfer.kind !== "normalized-edge-transfer") throw new Error("Expected approved collar arclength metadata.");
+        expect(transfer.basis).toBe("POLO_COLLAR_BASE");
+        expect(transfer.fraction).toBeCloseTo(1 - r, 10);
+        const edge = block.roles[roleId]!.edges.find((candidate) => candidate.name === "outer")!;
+        expect(edge.kind).toBe("curve");
+        if (edge.kind !== "curve") throw new Error("Polo collar exterior must retain its authored cubic.");
+        const t = edgeParameterAtArclengthFraction(edge, transfer.fraction)!;
+        expect(resolveFlatProjectionLandmark(block, roleId, face.kind, transfer, "outer"))
+          .toEqual(cubicPoint(edge.curve, t));
+      }
+      const underIndex = face.roles.findIndex((role) => role.roleId === "underCollar");
+      const upperIndex = face.roles.findIndex((role) => role.roleId === "upperCollar");
+      expect(underIndex).toBeLessThan(upperIndex);
+    }
+  });
+
+  it("covers invalid arclengths and line/cubic endpoint parameter resolution", () => {
+    const line = { kind: "line" as const, name: "line", start: { x: 0, y: 0 }, end: { x: 2, y: 0 } };
+    const curve = { kind: "curve" as const, name: "curve", curve: {
+      start: { x: 0, y: 0 }, control1: { x: 0, y: 1 }, control2: { x: 1, y: 1 }, end: { x: 1, y: 0 },
+    } };
+    expect(edgeParameterAtArclengthFraction(line, 0.4)).toBe(0.4);
+    expect(edgeParameterAtArclengthFraction(curve, 0)).toBe(0);
+    expect(edgeParameterAtArclengthFraction(curve, 1)).toBe(1);
+    for (const fraction of [Number.NaN, Number.POSITIVE_INFINITY, -0.1, 1.1]) {
+      expect(edgeParameterAtArclengthFraction(curve, fraction)).toBeUndefined();
+    }
+  });
+
+  it("holds Polo collar mappings when the exact source junction or fold axis is broken", () => {
+    const { block } = draft("polo");
+    const brokenStand = { ...block, roles: { ...block.roles, outerStand: { ...block.roles.outerStand!, edges:
+      block.roles.outerStand!.edges.map((edge) => edge.name === "frontCollar"
+        ? edge.kind === "line" ? { ...edge, start: { ...edge.start, x: edge.start.x + 0.25 } }
+          : { ...edge, curve: { ...edge.curve, start: { ...edge.curve.start, x: edge.curve.start.x + 0.25 } } }
+        : edge) } } };
+    const standMap = createG04TechnicalFlatProjectionMap("polo", brokenStand, REVISION)!;
+    const stand = standMap.faces[0]!.roles.find((role) => role.roleId === "outerStand")!;
+    expect(stand.runs).toEqual([]);
+    expect(stand.heldEdges).toHaveLength(brokenStand.roles.outerStand!.edges.length);
+
+    const offFold = { ...block, roles: { ...block.roles, upperCollar: { ...block.roles.upperCollar!, onFold: false } } };
+    const collarMap = createG04TechnicalFlatProjectionMap("polo", offFold, REVISION)!;
+    const collar = collarMap.faces[0]!.roles.find((role) => role.roleId === "upperCollar")!;
+    expect(collar.runs).toEqual([]);
+    expect(collar.heldEdges).toHaveLength(offFold.roles.upperCollar!.edges.length);
+
+    const missingBase = { ...block, roles: { ...block.roles, upperCollar: { ...block.roles.upperCollar!, edges:
+      block.roles.upperCollar!.edges.filter((edge) => edge.name !== "frontCollarBase") } } };
+    const missingBaseMap = createG04TechnicalFlatProjectionMap("polo", missingBase, REVISION)!;
+    expect(missingBaseMap.faces[0]!.roles.find((role) => role.roleId === "upperCollar")?.runs).toEqual([]);
+
+    const missingOuter = { ...block, roles: { ...block.roles, upperCollar: { ...block.roles.upperCollar!, edges:
+      block.roles.upperCollar!.edges.filter((edge) => edge.name !== "outer") } } };
+    const missingOuterMap = createG04TechnicalFlatProjectionMap("polo", missingOuter, REVISION)!;
+    expect(missingOuterMap.faces[0]!.roles.find((role) => role.roleId === "upperCollar")?.runs).toEqual([]);
+  });
+
   it("splits source-folded Woven collars at the sewn CB-to-shoulder station", () => {
     const { block } = draft("woven-shirt");
     const map = createG04TechnicalFlatProjectionMap("woven-shirt", block, REVISION)!;
     expect(validateTechnicalFlatProjectionMap("woven-shirt", block, REVISION, map)).toEqual([]);
     const backRoleId = block.roles.yoke ? "yoke" : "back";
-    const station = edgeLength(block.roles[backRoleId]!.edges.find((edge) => edge.name === "neckline")!);
+    const backLength = edgeLength(block.roles[backRoleId]!.edges.find((edge) => edge.name === "neckline")!);
+    const frontLength = edgeLength(block.roles.front!.edges.find((edge) => edge.name === "neckline")!);
+    const baseFraction = backLength / (backLength + frontLength);
     for (const face of map.faces) {
-      for (const roleId of ["outerStand", "upperCollar"]) {
+      for (const roleId of ["outerStand", "upperCollar", "underCollar"]) {
         const role = face.roles.find((candidate) => candidate.roleId === roleId)!;
+        if (roleId !== "outerStand") expect(role.treatment).toBe("VISIBLE_OVERLAY");
         expect(role.foldAxisReflection).toMatchObject({ edgeId: "centerBack", axis: "LOCAL_Y", source: "Piece.onFold" });
-        const boundaryRun = role.runs.find((run) => run.from.kind === "woven-neckline-shoulder"
-          || run.to.kind === "woven-neckline-shoulder")!;
-        const landmark = boundaryRun.from.kind === "woven-neckline-shoulder" ? boundaryRun.from : boundaryRun.to;
+        const boundaryRun = role.runs.find((run) => run.from.kind === "normalized-edge-transfer"
+          || run.to.kind === "normalized-edge-transfer")!;
+        const landmark = boundaryRun.from.kind === "normalized-edge-transfer" ? boundaryRun.from : boundaryRun.to;
+        if (landmark.kind !== "normalized-edge-transfer") throw new Error("Expected approved normalized collar transfer metadata.");
+        expect(landmark.decisionId).toBe("G04-S321-COLLAR-EXTERIOR-ARCLENGTH");
+        expect(landmark.basis).toBe("WOVEN_NECKLINE");
+        expect(landmark.fraction).toBeCloseTo(roleId === "outerStand" ? baseFraction : 1 - baseFraction, 10);
         const point = resolveFlatProjectionLandmark(block, roleId, face.kind, landmark, boundaryRun.edgeId);
         const receiver = block.roles[roleId]!.edges.find((edge) => edge.name === boundaryRun.edgeId)!;
         if (receiver.kind !== "line") throw new Error("Expected an authored Woven collar line.");
-        expect(point).toEqual({ x: station, y: receiver.start.y });
+        expect(point).toEqual({
+          x: receiver.start.x + (receiver.end.x - receiver.start.x) * landmark.fraction,
+          y: receiver.start.y + (receiver.end.y - receiver.start.y) * landmark.fraction,
+        });
       }
+      expect(face.roles.findIndex((role) => role.roleId === "underCollar"))
+        .toBeLessThan(face.roles.findIndex((role) => role.roleId === "upperCollar"));
     }
     const closed = draft("woven-shirt", { sideVentDepth: 0 }).block;
     const closedMap = createG04TechnicalFlatProjectionMap("woven-shirt", closed, REVISION)!;
@@ -104,11 +199,15 @@ describe("validateTechnicalFlatProjectionMap", () => {
     const { block } = draft("woven-shirt", { sideVentDepth: 0 });
     const boundaryMap = createG04TechnicalFlatProjectionMap("woven-shirt", block, REVISION)!;
     const collarRole = boundaryMap.faces[0].roles.find((role) => role.roleId === "outerStand")!;
-    const collarRun = collarRole.runs.find((run) => run.from.kind === "woven-neckline-shoulder")!;
+    const collarRun = collarRole.runs.find((run) => run.from.kind === "normalized-edge-transfer")!;
     const resolveBoundary = (input: typeof block, roleId = "outerStand", edgeId = "collar", landmark: unknown = collarRun.from) =>
       resolveFlatProjectionLandmark(input, roleId, "FRONT_FLAT", landmark, edgeId);
     expect(resolveFlatProjectionLandmark(block, "outerStand", "FRONT_FLAT",
-      { ...collarRun.from, stitchLabel: "wrong stitch" }, collarRun.edgeId)).toBeUndefined();
+      { ...collarRun.from, decisionId: "wrong decision" }, collarRun.edgeId)).toBeUndefined();
+    expect(resolveFlatProjectionLandmark(block, "outerStand", "FRONT_FLAT",
+      { ...collarRun.from, basis: "POLO_COLLAR_BASE" }, collarRun.edgeId)).toBeUndefined();
+    expect(resolveFlatProjectionLandmark(block, "outerStand", "FRONT_FLAT",
+      { ...collarRun.from, basis: "UNKNOWN" }, collarRun.edgeId)).toBeUndefined();
     expect(resolveBoundary(block, "pocket")).toBeUndefined();
     expect(resolveBoundary(block, "underCollar", "stand")).toBeUndefined();
     expect(resolveFlatProjectionLandmark(block, "outerStand", "FRONT_FLAT",
@@ -122,7 +221,7 @@ describe("validateTechnicalFlatProjectionMap", () => {
       block.roles.outerStand!.edges.map((edge) => edge.name === "collar" && edge.kind === "line"
         ? { kind: "curve" as const, name: edge.name, curve: { start: edge.start, control1: edge.start, control2: edge.end, end: edge.end } }
         : edge) } };
-    expect(resolveBoundary({ ...block, roles: nonLineRoles })).toBeUndefined();
+    expect(resolveBoundary({ ...block, roles: nonLineRoles })).toBeDefined();
 
     const brokenStitch = (update: (stitch: (typeof block.stitches)[number]) => (typeof block.stitches)[number]) => ({
       ...block, stitches: block.stitches.map((stitch) => stitch.label === "Outer stand ↔ woven neckline" ? update(stitch) : stitch),
@@ -145,6 +244,10 @@ describe("validateTechnicalFlatProjectionMap", () => {
     const noYokeNeck = { ...block, roles: { ...block.roles, yoke: { ...block.roles.yoke!, edges:
       block.roles.yoke!.edges.filter((edge) => edge.name !== "neckline") } } };
     expect(resolveBoundary(noYokeNeck)).toBeUndefined();
+    const missingExterior = { ...block, roles: { ...block.roles, underCollar: { ...block.roles.underCollar!, edges:
+      block.roles.underCollar!.edges.filter((edge) => edge.name !== "outer") } } };
+    const missingExteriorMap = createG04TechnicalFlatProjectionMap("woven-shirt", missingExterior, REVISION)!;
+    expect(missingExteriorMap.faces[0]!.roles.find((role) => role.roleId === "underCollar")?.runs).toEqual([]);
     const shortStand = { ...block, roles: { ...block.roles, outerStand: { ...block.roles.outerStand!, edges:
       block.roles.outerStand!.edges.map((edge) => edge.name === "neckline" && edge.kind === "line"
         ? { ...edge, end: { ...edge.end, x: edge.end.x + 0.25 } } : edge) } } };
@@ -168,8 +271,10 @@ describe("validateTechnicalFlatProjectionMap", () => {
         ? { ...edge, curve: { ...edge.curve, end: { ...edge.curve.end, x: edge.curve.end.x + 0.25 } } } : edge) },
     } };
     const invalidMap = createG04TechnicalFlatProjectionMap("woven-shirt", malformedJunction, REVISION)!;
-    expect(validateTechnicalFlatProjectionMap("woven-shirt", malformedJunction, REVISION, invalidMap)
-      .some((issue) => issue.code === "INVALID_STITCH_BOUNDARY")).toBe(true);
+    expect(validateTechnicalFlatProjectionMap("woven-shirt", malformedJunction, REVISION, invalidMap)).toEqual([]);
+    expect(invalidMap.faces.flatMap((face) => face.roles)
+      .filter((role) => ["outerStand", "upperCollar", "underCollar"].includes(role.roleId))
+      .every((role) => role.runs.length === 0 && role.heldEdges.length > 0)).toBe(true);
 
     const front = block.roles.front!;
     const badVentAdjacency = { ...block, roles: { ...block.roles,
