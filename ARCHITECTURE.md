@@ -120,6 +120,22 @@ edge IDs, while distinct roles, stages, and POM/assembly/overlay issues remain
 separate. The live issue records, face holds and accepted SVG output are
 unchanged.
 
+S324 adds revision-bound, view-only Woven sleeve-cap segmentation by
+transferring the ordered sewn-armhole fraction to the ordered sleeve-cap
+arclength. It assigns the front cap prefix/side/hem interval and complementary
+back interval without drawing a partition seam, validates the authored band
+attachment and fold mark, and puts the yoke on the back-facing seam layer. It
+also applies the approved view-only closure convention: the source right
+button placket overlays a reflected left buttonhole placket. No pattern
+coordinates, cut geometry, source stitch graph, or DXF behavior changes. The
+mapping is not accepted at the face level: current production Chromium holds
+all 56 Woven face requests across 28 option configurations. Front faces fail
+exact colorway-contour closure; back faces fail the solved `Woven sleeve-cap
+ease` placement. A geometry-only held candidate lacks solved seam placements
+and cannot establish joins, crossings, or final readability. Keep both faces
+held until the exact conflicts are resolved and complete rendered output
+passes review.
+
 S306 adds a narrow assembly contract for the Trouser's single closed
 waistband source role. The exact ordered zero-ease waist interface yields
 front/back edge intervals and separate rigid placements relative to the sewn

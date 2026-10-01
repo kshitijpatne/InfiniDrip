@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 838,
-  "updatedAt": "2026-10-01T03:25:03.832Z",
+  "revision": 851,
+  "updatedAt": "2026-10-01T04:32:38.027Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -235,7 +235,10 @@
         "E-G04-S322-RECONCILIATION",
         "E-G04-S323-START",
         "E-G04-S323-EXIT",
-        "E-G04-S323-BROWSER"
+        "E-G04-S323-BROWSER",
+        "E-G04-S324-START",
+        "E-G04-S324-EXIT",
+        "E-G04-S324-BROWSER"
       ]
     },
     {
@@ -3167,6 +3170,16 @@
           "at": "2026-10-01T03:25:03.832Z",
           "actor": "Codex",
           "text": "S323 verified exit: all 45 Polo/Woven configurations and 90 front/back requests are held. Collar transfer metadata resolves; Polo colorway contours remain unclosed; Woven front source-role and back sleeve-cap placement gates remain unresolved. Zero browser/page/request errors; no partial SVGs; integrated tally unchanged at 28/146 accepted and 118 held. See S323 packet and matrix."
+        },
+        {
+          "at": "2026-10-01T03:55:23.109Z",
+          "actor": "Codex",
+          "text": "Start Slice 324 at 2026-10-01 03:53:20 UTC from verified S323. Implement only approved Woven sleeve/band and right-button-over-left-buttonhole view mapping; preserve all holds and all-seven V02 acceptance. See S324 packet."
+        },
+        {
+          "at": "2026-10-01T04:32:38.027Z",
+          "actor": "Codex",
+          "text": "S324 verified exit: all 28 Woven configurations and 56 front/back requests remain held. Metadata is implemented, but exact contour closure and solved sleeve-cap placement still block full-face assembly; G04-V02 stays In Progress and V03 stays Backlog."
         }
       ],
       "evidenceRefs": [
@@ -3233,7 +3246,10 @@
         "E-G04-S322-RECONCILIATION",
         "E-G04-S323-START",
         "E-G04-S323-EXIT",
-        "E-G04-S323-BROWSER"
+        "E-G04-S323-BROWSER",
+        "E-G04-S324-START",
+        "E-G04-S324-EXIT",
+        "E-G04-S324-BROWSER"
       ],
       "flagKey": null
     },
@@ -6466,6 +6482,16 @@
           "at": "2026-10-01T03:25:03.657Z",
           "actor": "Codex",
           "text": "S323 verified exit: all 45 Polo/Woven configurations and 90 front/back requests are held. Collar transfer metadata resolves; Polo colorway contours remain unclosed; Woven front source-role and back sleeve-cap placement gates remain unresolved. Zero browser/page/request errors; no partial SVGs; integrated tally unchanged at 28/146 accepted and 118 held. See S323 packet and matrix."
+        },
+        {
+          "at": "2026-10-01T03:55:23.071Z",
+          "actor": "Codex",
+          "text": "Start Slice 324 at 2026-10-01 03:53:20 UTC from clean S323 5ba7f78fbd331269686fb78fe7d3f6c6fe3a5f83. Scope: approved conditional Woven sleeve/band view mapping and closure A, same-revision option replay, rendered checks and complete-face holds. Packet: docs/research/epic17/G04-V02-WOVEN-SLEEVE-CLOSURE-VIEW-MAPPING-S324.md."
+        },
+        {
+          "at": "2026-10-01T04:32:38.006Z",
+          "actor": "Codex",
+          "text": "S324 verified exit: all 28 Woven configurations and 56 front/back requests remain held. Metadata is implemented, but exact contour closure and solved sleeve-cap placement still block full-face assembly; V02 stays In Progress and V03 stays Backlog."
         }
       ],
       "evidenceRefs": [
@@ -6571,7 +6597,10 @@
         "E-G04-S322-RECONCILIATION",
         "E-G04-S323-START",
         "E-G04-S323-EXIT",
-        "E-G04-S323-BROWSER"
+        "E-G04-S323-BROWSER",
+        "E-G04-S324-START",
+        "E-G04-S324-EXIT",
+        "E-G04-S324-BROWSER"
       ],
       "flagKey": null
     },
@@ -8376,6 +8405,33 @@
       "sha256": null,
       "verified": true,
       "note": "Current-production Chromium matrix: 45 configurations, 90 faces, 21 option fields; 0 accepted and 90 held; zero browser/page/request errors and no partial SVG output. Matrix: docs/research/epic17/S323-collar-browser-current/matrix.json."
+    },
+    {
+      "id": "E-G04-S324-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-SLEEVE-CLOSURE-VIEW-MAPPING-S324.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S324 start: verified S323 commit/origin ancestry and board; bounded approved Woven sleeve/band and closure A view mapping, all-configuration assembly/output gates and preserved holds."
+    },
+    {
+      "id": "E-G04-S324-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-SLEEVE-CLOSURE-VIEW-MAPPING-S324.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Verified S324 implementation, focused coverage, protected identities, held-output result, and next V02 gate."
+    },
+    {
+      "id": "E-G04-S324-BROWSER",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S324-woven-browser-current/matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Current-production Chromium replay: all 28 Woven configurations and 56 face requests held, zero browser/page/request errors; reviewed hold screenshots and held candidate."
     }
   ]
 }

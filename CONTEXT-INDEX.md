@@ -188,6 +188,8 @@ only through an explicitly admitted, linked Epic packet.
   `docs/research/epic17/G04-V02-TEE-FITTED-SLEEVE-VIEW-MAPPING-S322.md`.
   S323's approved Polo/Woven collar exterior mapping and checks are in
   `docs/research/epic17/G04-V02-COLLAR-EXTERIOR-VIEW-MAPPING-S323.md`.
+  S324's conditional Woven sleeve/band and approved closure mapping boundaries
+  are in `docs/research/epic17/G04-V02-WOVEN-SLEEVE-CLOSURE-VIEW-MAPPING-S324.md`.
   Use `PROJECT-STATE.md` and the validated board for live status.
 - `docs/research/epic17/G04-V02-PROJECTION-MAPPING-S277.md` — Slice 277's
   current projection-mapping contract boundary, source-reference rules,

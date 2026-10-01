@@ -13,7 +13,7 @@ import {
 } from "./technical-flat";
 import { G04_TECHNICAL_FLAT_MAPPINGS } from "./technical-flat-mapping";
 import { createG04TechnicalFlatProjectionMap, type FlatProjectionPhysicalPairReflection,
-  type FlatProjectionViewPairReflection } from "./technical-flat-projection";
+  type FlatProjectionOppositeSideReflection, type FlatProjectionViewPairReflection } from "./technical-flat-projection";
 import { compileTechnicalFlatSourceGeometry } from "./technical-flat-geometry";
 import { assembleTechnicalFlatRoles, type FlatRoleTransform } from "./technical-flat-assembly";
 import { compileTechnicalFlatOverlays } from "./technical-flat-overlays";
@@ -249,6 +249,34 @@ export function appendApprovedViewPairReflection(
   }
 }
 
+/** @internal Reflect one source-declared closure instance to its approved
+ * opposite garment side without emitting the unreflected duplicate. */
+export function appendOppositeSideReflection(
+  primitives: TechnicalFlatPrimitive[], primitive: TechnicalFlatPrimitive,
+  reflection: FlatProjectionOppositeSideReflection | undefined, block: Block,
+  transforms: Readonly<Record<string, FlatRoleTransform>>, issues: TechnicalFlatLiveIssue[],
+): boolean {
+  if (!reflection) return false;
+  const placement = transforms[reflection.axisRoleId];
+  const piece = block.roles[reflection.axisRoleId];
+  const edge = piece?.edges.find((candidate) => candidate.name === reflection.edgeId);
+  if (!placement || !edge || edge.kind !== "line") {
+    issues.push({ stage: "transform", sourceId: primitive.source.sourceId,
+      message: `The approved left-side closure placement has no exact assembled ${reflection.axisRoleId}.${reflection.edgeId} axis.` });
+    return true;
+  }
+  const start = placedPoint(edgeStart(edge), placement);
+  const end = placedPoint(edgeEnd(edge), placement);
+  const reflected = reflectPrimitiveAcrossLine(primitive, start, end);
+  if (!reflected) {
+    issues.push({ stage: "transform", sourceId: primitive.source.sourceId,
+      message: "The approved left buttonhole placket cannot be represented on its opposite front side from the current attachment geometry." });
+    return true;
+  }
+  primitives.push({ ...reflected, id: reflected.id.replace(/:attached-fold-reflection$/, ":approved-left-closure") });
+  return true;
+}
+
 /** Compose one face from a single exact block, revision and sewn-role solution. */
 export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): TechnicalFlatLiveResult {
   const { recipe, block, revisionId, kind } = input;
@@ -316,6 +344,10 @@ export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): Tec
     }
     const roleId = technicalFlatPrimitiveRole(primitive, combined, faceRoleIds);
     for (const { placed, placement } of placeTechnicalFlatPrimitive(primitive, roleId, assembly.transforms[roleId], issues)) {
+      const projectionRole = projectionMap?.faces.find((candidate) => candidate.kind === kind)?.roles
+        .find((candidate) => candidate.roleId === roleId);
+      const oppositeSide = projectionRole?.oppositeSideReflection;
+      if (appendOppositeSideReflection(transformed, placed, oppositeSide, block, assembly.transforms, issues)) continue;
       transformed.push(placed);
       const foldAxis = projectionMap?.faces.find((candidate) => candidate.kind === kind)?.roles
         .find((candidate) => candidate.roleId === roleId)?.foldAxisReflection;

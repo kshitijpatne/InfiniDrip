@@ -35,6 +35,8 @@ function validMap(recipeId: string, block: ReturnType<(typeof GARMENTS)[number][
           .find((candidate) => candidate.roleId === role.roleId)?.physicalPairReflection;
         const viewPairReflection = authored?.faces.find((candidate) => candidate.kind === face.kind)?.roles
           .find((candidate) => candidate.roleId === role.roleId)?.viewPairReflection;
+        const oppositeSideReflection = authored?.faces.find((candidate) => candidate.kind === face.kind)?.roles
+          .find((candidate) => candidate.roleId === role.roleId)?.oppositeSideReflection;
         const zeroLength = (edge: (typeof piece.edges)[number]) => {
           const start = edge.kind === "line" ? edge.start : edge.curve.start;
           const end = edge.kind === "line" ? edge.end : edge.curve.end;
@@ -54,6 +56,7 @@ function validMap(recipeId: string, block: ReturnType<(typeof GARMENTS)[number][
             : piece.edges.filter(zeroLength).map((edge) => ({ edgeId: edge.name, reason: "Zero-length source edge has no displayable contour." })),
           ...(pairReflection ? { physicalPairReflection: pairReflection } : {}),
           ...(viewPairReflection ? { viewPairReflection } : {}),
+          ...(oppositeSideReflection ? { oppositeSideReflection } : {}),
         };
       }),
     })) as unknown as TechnicalFlatProjectionMap["faces"],
@@ -191,7 +194,7 @@ describe("validateTechnicalFlatProjectionMap", () => {
     const open = createG04TechnicalFlatProjectionMap("woven-shirt", block, REVISION)!;
     const openFront = open.faces.find((face) => face.kind === "FRONT_FLAT")!.roles.find((role) => role.roleId === "front")!;
     const openBack = open.faces.find((face) => face.kind === "BACK_FLAT")!.roles.find((role) => role.roleId === "back")!;
-    expect(openFront.heldEdges.some((held) => held.edgeId === "vent")).toBe(true);
+    expect(openFront.runs.some((run) => run.edgeId === "vent")).toBe(true);
     expect(openBack.runs.some((run) => run.edgeId === "vent")).toBe(true);
   });
 
@@ -661,7 +664,8 @@ describe("validateTechnicalFlatProjectionMap", () => {
     const frontRole = frontFace.roles.find((role) => role.roleId === "front")!;
     expect(frontRole.physicalPairReflection).toEqual({ edgeId: "centerFront", axis: "LOCAL_Y",
       source: "WOVEN_SHIRT_PHYSICAL_ROLES", quantity: 2 });
-    expect(frontRole.heldEdges).toHaveLength(block.roles.front!.edges.length);
+    expect(frontRole.heldEdges).toEqual([]);
+    expect(frontRole.faceExcludedEdges).toContainEqual(expect.objectContaining({ edgeId: "centerFront" }));
     expect(backFace.roles.some((role) => role.physicalPairReflection !== undefined)).toBe(false);
     expect(validateTechnicalFlatProjectionMap("woven-shirt", block, REVISION, map)).toEqual([]);
 
@@ -718,6 +722,119 @@ describe("validateTechnicalFlatProjectionMap", () => {
     wrongRecipe.faces[0]!.roles.find((role) => role.roleId === "front")!.physicalPairReflection = frontRole.physicalPairReflection;
     expect(validateTechnicalFlatProjectionMap("tee", draft("tee").block, REVISION, wrongRecipe)
       .some((issue) => issue.code === "INVALID_PHYSICAL_PAIR_REFLECTION")).toBe(true);
+  });
+
+  it("transfers the Woven sleeve station over its ordered live stitch without drawing a partition", () => {
+    const { block } = draft("woven-shirt");
+    const map = createG04TechnicalFlatProjectionMap("woven-shirt", block, REVISION)!;
+    expect(validateTechnicalFlatProjectionMap("woven-shirt", block, REVISION, map)).toEqual([]);
+    const frontBody = edgeLength(block.roles.front!.edges.find((edge) => edge.name === "armhole")!);
+    const bodyTotal = frontBody + edgeLength(block.roles.yoke!.edges.find((edge) => edge.name === "armholeUpper")!)
+      + edgeLength(block.roles.back!.edges.find((edge) => edge.name === "armholeLower")!);
+    const leftLength = edgeLength(block.roles.sleeve!.edges.find((edge) => edge.name === "capLeft")!);
+    const rightLength = edgeLength(block.roles.sleeve!.edges.find((edge) => edge.name === "capRight")!);
+    const transferred = frontBody / bodyTotal * (leftLength + rightLength);
+    const expectedEdge = transferred < leftLength ? "capLeft" : "capRight";
+    const expectedFraction = transferred < leftLength ? transferred / leftLength : (transferred - leftLength) / rightLength;
+    const front = map.faces.find((face) => face.kind === "FRONT_FLAT")!;
+    const back = map.faces.find((face) => face.kind === "BACK_FLAT")!;
+    const frontSleeve = front.roles.find((role) => role.roleId === "sleeve")!;
+    const backSleeve = back.roles.find((role) => role.roleId === "sleeve")!;
+    const frontBoundary = frontSleeve.runs.flatMap((run) => [run.from, run.to])
+      .find((landmark) => landmark.kind === "normalized-edge-transfer")!;
+    const backBoundary = backSleeve.runs.flatMap((run) => [run.from, run.to])
+      .find((landmark) => landmark.kind === "normalized-edge-transfer")!;
+    expect(frontBoundary).toMatchObject({ kind: "normalized-edge-transfer", edgeId: expectedEdge,
+      fraction: expectedFraction, basis: "WOVEN_SLEEVE_CAP", decisionId: "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH" });
+    expect(backBoundary).toEqual(frontBoundary);
+    const transferEdge = block.roles.sleeve!.edges.find((edge) => edge.name === expectedEdge)!;
+    if (transferEdge.kind !== "curve") throw new Error("Expected a Woven sleeve-cap cubic.");
+    expect(resolveFlatProjectionLandmark(block, "sleeve", "FRONT_FLAT", frontBoundary, expectedEdge))
+      .toEqual(cubicPoint(transferEdge.curve, edgeParameterAtArclengthFraction(transferEdge, expectedFraction)!));
+    expect(resolveFlatProjectionLandmark(block, "upperCollar", "FRONT_FLAT", frontBoundary, "outer")).toBeUndefined();
+    expect(resolveFlatProjectionLandmark(block, "sleeve", "FRONT_FLAT",
+      { ...frontBoundary, fraction: expectedFraction / 2 }, expectedEdge)).toBeUndefined();
+    expect(frontSleeve.viewPairReflection).toMatchObject({ quantity: 2, source: "WOVEN_SHIRT_PHYSICAL_ROLES",
+      decisionId: "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR", edgeId: "centerFront" });
+    expect(backSleeve.viewPairReflection).toMatchObject({ quantity: 2, source: "WOVEN_SHIRT_PHYSICAL_ROLES",
+      decisionId: "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR", edgeId: "centerBack" });
+    expect(frontSleeve.viewBoundaries).toBeUndefined();
+    expect(frontSleeve.faceExcludedEdges?.some((entry) => entry.edgeId === "sideRight")).toBe(true);
+    expect(backSleeve.faceExcludedEdges?.some((entry) => entry.edgeId === "sideLeft")).toBe(true);
+    for (const face of [front, back]) {
+      const band = face.roles.find((role) => role.roleId === "sleeveBand")!;
+      expect(band.runs.map((run) => run.edgeId)).toEqual(["top", "sideRight", "bottom", "sideLeft"]);
+      expect(band.viewPairReflection?.quantity).toBe(2);
+    }
+    const backYoke = back.roles.find((role) => role.roleId === "yoke")!;
+    expect(back.roles.indexOf(backYoke)).toBeLessThan(back.roles.findIndex((role) => role.roleId === "sleeve"));
+  });
+
+  it("maps a Woven sleeve boundary on capRight and holds a missing ordered ease interface", () => {
+    const { block } = draft("woven-shirt");
+    const front = block.roles.front!;
+    const armhole = front.edges.find((edge) => edge.name === "armhole")!;
+    if (armhole.kind !== "curve") throw new Error("Expected the authored woven front armhole cubic.");
+    const stretched = { ...block, roles: { ...block.roles, front: { ...front, edges: front.edges.map((edge) =>
+      edge.name === "armhole" && edge.kind === "curve" ? { ...edge, curve: { ...edge.curve,
+        control1: { x: edge.curve.control1.x + 100, y: edge.curve.control1.y } } } : edge) } } };
+    const capRightMap = createG04TechnicalFlatProjectionMap("woven-shirt", stretched, REVISION)!;
+    expect(validateTechnicalFlatProjectionMap("woven-shirt", stretched, REVISION, capRightMap)).toEqual([]);
+    for (const face of capRightMap.faces) {
+      const sleeve = face.roles.find((role) => role.roleId === "sleeve")!;
+      expect(sleeve.runs.flatMap((run) => [run.from, run.to])
+        .some((landmark) => landmark.kind === "normalized-edge-transfer" && landmark.edgeId === "capRight")).toBe(true);
+      if (face.kind === "FRONT_FLAT") expect(sleeve.runs.map((run) => run.edgeId)).toContain("capRight");
+      else expect(sleeve.runs.some((run) => run.edgeId === "capLeft")).toBe(false);
+    }
+    const missingInterface = { ...block, stitches: block.stitches.filter((stitch) => stitch.label !== "Woven sleeve-cap ease") };
+    const missingMap = createG04TechnicalFlatProjectionMap("woven-shirt", missingInterface, REVISION)!;
+    for (const face of missingMap.faces) {
+      const sleeve = face.roles.find((role) => role.roleId === "sleeve")!;
+      expect(sleeve.runs).toEqual([]);
+      expect(sleeve.heldEdges).toHaveLength(block.roles.sleeve!.edges.length);
+    }
+    const missingFront = { ...block, roles: Object.fromEntries(Object.entries(block.roles).filter(([roleId]) => roleId !== "front")) } as typeof block;
+    const missingFrontMap = createG04TechnicalFlatProjectionMap("woven-shirt", missingFront, REVISION)!;
+    expect(validateTechnicalFlatProjectionMap("woven-shirt", missingFront, REVISION, missingFrontMap)
+      .some((issue) => issue.code === "INVALID_OPPOSITE_SIDE_REFLECTION")).toBe(true);
+    const missingBandStitch = { ...block, stitches: block.stitches.filter((stitch) => stitch.label !== "Folded sleeve band ↔ sleeve hem") };
+    const missingBandMap = createG04TechnicalFlatProjectionMap("woven-shirt", missingBandStitch, REVISION)!;
+    expect(missingBandMap.faces.flatMap((face) => face.roles).filter((role) => role.roleId === "sleeveBand")
+      .every((role) => role.runs.length === 0 && role.heldEdges.length === block.roles.sleeveBand!.edges.length)).toBe(true);
+    const sleeve = block.roles.sleeve!;
+    const cap = sleeve.edges.find((edge) => edge.name === "capLeft")!;
+    if (cap.kind !== "curve") throw new Error("Expected a Woven sleeve cap curve.");
+    const point = cap.curve.start;
+    const degenerate = { kind: "curve" as const, name: "capLeft", curve: { start: point, control1: point, control2: point, end: point } };
+    const zeroCap = { ...block, roles: { ...block.roles, sleeve: { ...sleeve,
+      edges: sleeve.edges.map((edge) => edge.name === "capLeft" ? degenerate : edge) } } };
+    const zeroCapMap = createG04TechnicalFlatProjectionMap("woven-shirt", zeroCap, REVISION)!;
+    expect(zeroCapMap.faces.flatMap((face) => face.roles).filter((role) => role.roleId === "sleeve")
+      .every((role) => role.runs.length === 0 && role.heldEdges.length === sleeve.edges.length)).toBe(true);
+  });
+
+  it("binds Woven closure A to right and left source interfaces and orders the button above the hole", () => {
+    const { block } = draft("woven-shirt");
+    const map = createG04TechnicalFlatProjectionMap("woven-shirt", block, REVISION)!;
+    const front = map.faces.find((face) => face.kind === "FRONT_FLAT")!;
+    const holeIndex = front.roles.findIndex((role) => role.roleId === "buttonholePlacket");
+    const buttonIndex = front.roles.findIndex((role) => role.roleId === "buttonPlacket");
+    const hole = front.roles[holeIndex]!;
+    expect(hole.treatment).toBe("VISIBLE_OVERLAY");
+    expect(hole.oppositeSideReflection).toEqual({ axisRoleId: "front", edgeId: "centerFront",
+      source: "MAINTAINER_VIEW_DECISION", decisionId: "G04-S321-WOVEN-CLOSURE-A", side: "LEFT", quantity: 1 });
+    expect(buttonIndex).toBeGreaterThan(holeIndex);
+    expect(block.stitches.find((stitch) => stitch.label === "Button placket ↔ right front centre front")?.a.edges)
+      .toContainEqual(expect.objectContaining({ piece: "buttonPlacket", edge: "attachmentRaw" }));
+    expect(block.stitches.find((stitch) => stitch.label === "Buttonhole placket ↔ left front centre front")?.a.edges)
+      .toContainEqual(expect.objectContaining({ piece: "buttonholePlacket", edge: "attachmentRaw" }));
+    expect(validateTechnicalFlatProjectionMap("woven-shirt", block, REVISION, map)).toEqual([]);
+    const wrongSide = structuredClone(map) as unknown as { faces: { kind: string; roles: { roleId: string; oppositeSideReflection?: Record<string, unknown> }[] }[] };
+    wrongSide.faces.find((face) => face.kind === "FRONT_FLAT")!.roles.find((role) => role.roleId === "buttonholePlacket")!
+      .oppositeSideReflection!.side = "RIGHT";
+    expect(validateTechnicalFlatProjectionMap("woven-shirt", block, REVISION, wrongSide as unknown as TechnicalFlatProjectionMap)
+      .some((issue) => issue.code === "INVALID_OPPOSITE_SIDE_REFLECTION")).toBe(true);
   });
 
   it("binds a map to one supported recipe and the exact live revision", () => {

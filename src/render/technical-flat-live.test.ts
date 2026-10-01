@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { GARMENTS, STANDARD_M, defaultGarmentOptions } from "../drafting";
-import { appendApprovedViewPairReflection, appendPhysicalPairReflection, compileTechnicalFlatLiveView, placeTechnicalFlatPrimitive, reflectFoldPrimitive, reflectPhysicalPairPrimitive, reflectPrimitiveAcrossLine, technicalFlatAssemblyNotices, technicalFlatPrimitiveRole } from "./technical-flat-live";
+import { appendApprovedViewPairReflection, appendOppositeSideReflection, appendPhysicalPairReflection, compileTechnicalFlatLiveView, placeTechnicalFlatPrimitive, reflectFoldPrimitive, reflectPhysicalPairPrimitive, reflectPrimitiveAcrossLine, technicalFlatAssemblyNotices, technicalFlatPrimitiveRole } from "./technical-flat-live";
 import { assembleTechnicalFlatRoles } from "./technical-flat-assembly";
 import { G04_TECHNICAL_FLAT_MAPPINGS } from "./technical-flat-mapping";
 import type { FlatPathPrimitive, TechnicalFlatPrimitive } from "./technical-flat";
@@ -98,6 +98,65 @@ describe("compileTechnicalFlatLiveView", () => {
         }
       }
     }
+  });
+
+  it("places paired Woven sleeves/bands and the left closure while keeping the right button layer above", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "woven-shirt")!;
+    const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
+    const result = compileTechnicalFlatLiveView({ recipe, block, revisionId: "live-woven-approved-view", kind: "FRONT_FLAT",
+      placements: [], colorHex: "#456789", texture: "smooth", shine: 0 });
+    expect(result.issues).toEqual([]);
+    expect(result.view).not.toBeNull();
+    const primitives = result.view!.primitives;
+    const outlines = (role: string) => primitives.filter((primitive) => primitive.kind === "path"
+      && primitive.source.sourceId === `pattern:woven-shirt:role:${role}` && primitive.feature === "silhouette");
+    expect(outlines("sleeve")).toHaveLength(2);
+    expect(outlines("sleeve").map((primitive) => primitive.id)).toEqual([
+      "flat:woven-shirt:FRONT_FLAT:component:sleeve:outline",
+      "flat:woven-shirt:FRONT_FLAT:component:sleeve:outline:approved-view-pair",
+    ]);
+    expect(outlines("sleeveBand")).toHaveLength(2);
+    expect(outlines("sleeveBand").map((primitive) => primitive.id)).toEqual([
+      "flat:woven-shirt:FRONT_FLAT:component:sleeveBand:outline",
+      "flat:woven-shirt:FRONT_FLAT:component:sleeveBand:outline:approved-view-pair",
+    ]);
+    const foldMarks = primitives.filter((primitive) => primitive.kind === "path"
+      && primitive.source.sourceId === "pattern:woven-shirt:mark:sleeveBand:bandFold");
+    expect(foldMarks).toHaveLength(2);
+    expect(foldMarks.some((primitive) => primitive.id.endsWith(":approved-view-pair"))).toBe(true);
+    const buttonhole = outlines("buttonholePlacket");
+    const button = outlines("buttonPlacket");
+    expect(buttonhole).toHaveLength(1);
+    expect(buttonhole[0]?.id).toBe("flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure");
+    expect(button).toHaveLength(1);
+    expect(button[0]?.id).toBe("flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline");
+    expect(primitives.indexOf(buttonhole[0]!)).toBeLessThan(primitives.indexOf(button[0]!));
+    for (const primitive of [...outlines("sleeve"), ...outlines("sleeveBand"), ...buttonhole, ...button]) {
+      expect(primitive.source.revisionId).toBe("live-woven-approved-view");
+    }
+  });
+
+  it("fails closed when the approved Woven left closure has no assembled center axis or cannot reflect", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "woven-shirt")!;
+    const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
+    const reflection = { axisRoleId: "front" as const, edgeId: "centerFront" as const,
+      source: "MAINTAINER_VIEW_DECISION" as const, decisionId: "G04-S321-WOVEN-CLOSURE-A" as const,
+      side: "LEFT" as const, quantity: 1 as const };
+    const primitive: FlatPathPrimitive = { kind: "path", id: "buttonhole", layer: "CLOSURE", feature: "closure",
+      source: { sourceClass: "PATTERN_DERIVED", sourceId: "pattern:woven-shirt:role:buttonholePlacket", revisionId: "r1" },
+      commands: [{ op: "move", point: { x: 1, y: 0 } }, { op: "line", point: { x: 2, y: 0 } }] };
+    const missingAxisIssues: TechnicalFlatLiveIssue[] = [];
+    expect(appendOppositeSideReflection([], primitive, reflection, block, {}, missingAxisIssues)).toBe(true);
+    expect(missingAxisIssues.some((issue) => issue.message.includes("no exact assembled front.centerFront axis"))).toBe(true);
+
+    const front = block.roles.front!;
+    const collapsed = { ...block, roles: { ...block.roles, front: { ...front, edges: front.edges.map((edge) =>
+      edge.name === "centerFront" && edge.kind === "line" ? { ...edge, end: { ...edge.start } } : edge) } } };
+    const transforms = assembleTechnicalFlatRoles("woven-shirt", collapsed, "FRONT_FLAT").transforms;
+    const collapsedIssues: TechnicalFlatLiveIssue[] = [];
+    expect(appendOppositeSideReflection([], primitive, reflection, collapsed, transforms, collapsedIssues)).toBe(true);
+    expect(collapsedIssues.some((issue) => issue.message.includes("cannot be represented on its opposite front side"))).toBe(true);
+    expect(appendOppositeSideReflection([], primitive, undefined, block, transforms, [])).toBe(false);
   });
 
   it("withholds an approved sleeve pair when its assembled axis or overlay transform is unavailable", () => {
@@ -404,14 +463,11 @@ describe("compileTechnicalFlatLiveView", () => {
           expect(result.issues.some((issue) => issue.stage === "geometry"
             && issue.message.includes("no authored front/back split landmark"))).toBe(false);
         } else {
-          expect(result.view).toBeNull();
-          expect(result.colorway).toBeNull();
-          if (kind === "FRONT_FLAT") {
-            expect(result.issues.some((issue) => issue.stage === "geometry"
-              && issue.message.includes("right/left placket instances and overlap order"))).toBe(true);
+          if (result.view) {
+            expect(result.issues).toEqual([]);
+            expect(result.colorway).not.toBeNull();
           } else {
-            expect(result.issues.some((issue) => issue.stage === "geometry"
-              && issue.message.includes("Woven sleeve-cap placement"))).toBe(false);
+            expect(result.colorway).toBeNull();
             expect(result.issues.some((issue) => issue.stage === "assembly"
               && issue.message.includes("Woven sleeve-cap ease"))).toBe(true);
           }

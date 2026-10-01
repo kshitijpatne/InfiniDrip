@@ -27,6 +27,8 @@ function projectionMap(recipeId: string, block: Block): TechnicalFlatProjectionM
           .find((candidate) => candidate.roleId === role.roleId)?.physicalPairReflection;
         const viewPairReflection = authored?.faces.find((candidate) => candidate.kind === face.kind)?.roles
           .find((candidate) => candidate.roleId === role.roleId)?.viewPairReflection;
+        const oppositeSideReflection = authored?.faces.find((candidate) => candidate.kind === face.kind)?.roles
+          .find((candidate) => candidate.roleId === role.roleId)?.oppositeSideReflection;
         const isZero = (edge: (typeof piece.edges)[number]) => {
           const start = edge.kind === "line" ? edge.start : edge.curve.start;
           const end = edge.kind === "line" ? edge.end : edge.curve.end;
@@ -44,6 +46,7 @@ function projectionMap(recipeId: string, block: Block): TechnicalFlatProjectionM
           })),
           ...(pairReflection ? { physicalPairReflection: pairReflection } : {}),
           ...(viewPairReflection ? { viewPairReflection } : {}),
+          ...(oppositeSideReflection ? { oppositeSideReflection } : {}),
         };
       }),
     })) as unknown as TechnicalFlatProjectionMap["faces"],
@@ -229,18 +232,19 @@ describe("technical-flat source geometry", () => {
     }
   });
 
-  it("keeps source-derived Woven collar segments accounted while withholding incoherent assembled faces", () => {
+  it("compiles approved Woven collar, sleeve, and closure source maps before assembly review", () => {
     const recipe = GARMENTS.find((candidate) => candidate.name === "woven-shirt")!;
     const revision = revisionId;
     const openBlock = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
     const openMap = createG04TechnicalFlatProjectionMap("woven-shirt", openBlock, revision)!;
     const front = compileTechnicalFlatSourceGeometry("woven-shirt", openBlock, revision, "FRONT_FLAT", openMap);
     const back = compileTechnicalFlatSourceGeometry("woven-shirt", openBlock, revision, "BACK_FLAT", openMap);
-    expect(front.issues.some((issue) => issue.code === "UNRESOLVED_PROJECTION_EDGE"
-      && issue.message.includes("right/left placket instances and overlap order"))).toBe(true);
+    expect(front.issues).toEqual([]);
     expect(back.issues.some((issue) => issue.code === "UNRESOLVED_PROJECTION_EDGE"
       && issue.message.includes("Woven sleeve-cap placement"))).toBe(false);
-    expect(front.primitives).toEqual([]);
+    expect(front.primitives.some((primitive) => primitive.source.sourceId === "pattern:woven-shirt:role:front")).toBe(true);
+    expect(front.primitives.some((primitive) => primitive.source.sourceId === "pattern:woven-shirt:role:sleeve")).toBe(true);
+    expect(front.primitives.some((primitive) => primitive.source.sourceId === "pattern:woven-shirt:role:buttonholePlacket")).toBe(true);
     expect(back.primitives.some((primitive) => primitive.source.sourceId === "pattern:woven-shirt:role:back")).toBe(true);
     expect(back.primitives.some((primitive) => primitive.source.sourceId === "pattern:woven-shirt:role:yoke")).toBe(true);
     for (const face of openMap.faces) for (const roleId of ["outerStand", "upperCollar", "underCollar"]) {
@@ -257,7 +261,7 @@ describe("technical-flat source geometry", () => {
           expect(bodyRole.foldAxisReflection).toMatchObject({ edgeId: "centerBack", source: "Piece.onFold" });
         }
       } else {
-        expect(face.roles.find((role) => role.roleId === "front")?.heldEdges.length).toBeGreaterThan(0);
+        expect(face.roles.find((role) => role.roleId === "front")?.heldEdges).toEqual([]);
       }
       const lowerRole = face.roles.find((role) => role.roleId === (face.kind === "FRONT_FLAT" ? "front" : "back"));
       if (lowerRole) {
@@ -272,7 +276,9 @@ describe("technical-flat source geometry", () => {
     const closedFront = closedMap.faces[0].roles.find((role) => role.roleId === "front")!;
     expect(closedFront.runs.some((run) => run.edgeId === "vent")).toBe(false);
     expect(closedFront.faceExcludedEdges).toContainEqual(expect.objectContaining({ edgeId: "vent" }));
-    expect(compileTechnicalFlatSourceGeometry("woven-shirt", closedBlock, revision, "FRONT_FLAT", closedMap).primitives).toEqual([]);
+    const closedFrontOutput = compileTechnicalFlatSourceGeometry("woven-shirt", closedBlock, revision, "FRONT_FLAT", closedMap);
+    expect(closedFrontOutput.issues).toEqual([]);
+    expect(closedFrontOutput.primitives.length).toBeGreaterThan(0);
   });
 
   it("compiles only validated projected source runs and retains per-edge provenance", () => {

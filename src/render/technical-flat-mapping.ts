@@ -59,7 +59,7 @@ export const G04_TECHNICAL_FLAT_MAPPINGS: Readonly<Record<string, TechnicalFlatR
     [shell("back"), shell("sleeve"), overlay("outerStand"), interior("innerStand"), overlay("underCollar"), overlay("upperCollar")],
     "front"),
   "woven-shirt": makeMapping("woven-shirt",
-    [shell("front"), shell("sleeve"), overlay("pocket"), overlay("outerStand"), interior("innerStand"), overlay("underCollar"), overlay("upperCollar"), overlay("buttonPlacket"), interior("buttonholePlacket"), overlay("sleeveBand")],
+    [shell("front"), shell("sleeve"), overlay("pocket"), overlay("outerStand"), interior("innerStand"), overlay("underCollar"), overlay("upperCollar"), overlay("buttonholePlacket"), overlay("buttonPlacket"), overlay("sleeveBand")],
     [shell("back"), shell("yoke"), shell("sleeve"), overlay("outerStand"), interior("innerStand"), overlay("underCollar"), overlay("upperCollar"), overlay("sleeveBand")],
     "front"),
   skirt: makeMapping("skirt", [shell("front"), overlay("waistband")], [shell("back"), overlay("waistband")], "front", "back"),
