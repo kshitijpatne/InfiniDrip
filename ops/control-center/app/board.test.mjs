@@ -150,6 +150,29 @@ test("S359 records the Woven rigid-fit decision boundary without releasing holds
   assert.ok(epic.comments.some((comment) => /Slice 359 retains the current 56 accepted \/ 90 held integrated tally/.test(comment.text)));
 });
 
+test("S360 binds the landed S359 commit without changing Polo or Woven holds", () => {
+  const expectedCommit = "d519a8ac7b440ea310f660e80799bef9c0479ee1";
+  const s359Ids = ["E-G04-S359-START", "E-G04-S359-EXIT", "E-G04-S359-MATRIX", "E-G04-S359-OVERLAY"];
+  for (const id of s359Ids) {
+    const evidence = board.evidence.find((entry) => entry.id === id);
+    assert.ok(evidence, `${id} exists`);
+    assert.equal(evidence.commit, expectedCommit);
+    assert.equal(evidence.verified, true);
+  }
+  const epic = board.workItems.find((item) => item.id === "EPIC-17");
+  const epicRecord = board.epics.find((item) => item.id === "EPIC-17");
+  const g04 = board.workItems.find((item) => item.id === "G04-V02");
+  for (const id of ["E-G04-S360-START", "E-G04-S360-EXIT"]) {
+    assert.ok(board.evidence.some((entry) => entry.id === id && entry.uri === "docs/research/epic17/G04-V02-S359-EVIDENCE-CLOSEOUT-S360.md"));
+    assert.ok(epic.evidenceRefs.includes(id));
+    assert.ok(epicRecord.evidenceRefs.includes(id));
+    assert.ok(g04.evidenceRefs.includes(id));
+  }
+  assert.equal(g04.status, "In Progress");
+  assert.equal(board.workItems.find((item) => item.id === "G04-V03").status, "Backlog");
+  assert.match(board.workItems.find((item) => item.id === "G04-V02").description, /0\.25 cm/);
+});
+
 test("malformed board data is rejected instead of repaired", () => {
   const malformed = structuredClone(board);
   malformed.workItems[0].evidenceRefs = ["MISSING-EVIDENCE"];

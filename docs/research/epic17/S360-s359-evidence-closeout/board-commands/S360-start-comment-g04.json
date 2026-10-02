@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 1491,
+  "itemId": "G04-V02",
+  "actor": "Codex",
+  "text": "Slice 360 starts from S359 commit d519a8ac7b440ea310f660e80799bef9c0479ee1 to close its canonical commit references and correct diagnostic-only EOF whitespace. The Polo 0.25 cm residual gate remains confirmed; no hold is released."
+}

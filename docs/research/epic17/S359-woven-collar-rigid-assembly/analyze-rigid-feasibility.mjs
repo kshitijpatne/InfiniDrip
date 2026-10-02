@@ -54,6 +54,3 @@ await writeFile(join(folder, 'rigid-endpoint-feasibility-overlay.svg'), svg);
 console.log(JSON.stringify({ configurations: output.configurations, frontResidualCm: output.frontResidualCm,
   backResidualCm: output.backResidualCm, frontFacesAbove025: output.frontFacesAbove025,
   backFacesAbove025: output.backFacesAbove025 }, null, 2));
-
-
-

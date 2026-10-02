@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 1488,
-  "updatedAt": "2026-10-02T06:11:34.184Z",
+  "revision": 1499,
+  "updatedAt": "2026-10-02T06:25:16.272Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -373,7 +373,9 @@
         "E-G04-S359-START",
         "E-G04-S359-EXIT",
         "E-G04-S359-MATRIX",
-        "E-G04-S359-OVERLAY"
+        "E-G04-S359-OVERLAY",
+        "E-G04-S360-START",
+        "E-G04-S360-EXIT"
       ]
     },
     {
@@ -3600,6 +3602,16 @@
           "at": "2026-10-02T06:08:11.009Z",
           "actor": "Codex",
           "text": "Updated Epic metadata (description: Admitted 2026-09-29 by explicit maintainer instruction. Scope remains G04 V01 → V02 → V03; all-seven V02 acceptance, protected export identities, legacy DXF behavior and V02-before-V03 gate are unchanged. S359: current integrated output is 56 accepted / 90 held across 73 configurations / 146 faces. All 56 Woven and 34 Polo faces remain held. Woven's straight stand base has a 0.68814–0.73975 cm front and 0.26283–0.28254 cm back rigid endpoint lower bound across all 28 options, above 0.25 cm. A full-collar arclength/normal-offset view projection is documented for maintainer decision but not implemented. Polo authored 1.5 cm ease and 0.25 cm gate remain. Conditional minimum is at least 13 additional slices; no upper bound while view decisions and CAD rights/receiver evidence remain unresolved. Details: docs/planning/EPIC-17-ADMISSION.md and docs/research/epic17/G04-V02-WOVEN-COLLAR-RIGID-ASSEMBLY-S359.md.). Refresh the admitted G04 progress summary after S359 without changing scope, acceptance, dependencies, or status."
+        },
+        {
+          "at": "2026-10-02T06:25:15.174Z",
+          "actor": "Codex",
+          "text": "Slice 360 starts as a documentation and evidence closeout only. Keep G04 all-seven V02, every current hold and the V02-before-V03 gate unchanged."
+        },
+        {
+          "at": "2026-10-02T06:25:16.272Z",
+          "actor": "Codex",
+          "text": "Slice 360 is a documentation/evidence closeout only. No V02 face was accepted and no production or export behavior changed."
         }
       ],
       "evidenceRefs": [
@@ -3794,7 +3806,9 @@
         "E-G04-S359-START",
         "E-G04-S359-EXIT",
         "E-G04-S359-MATRIX",
-        "E-G04-S359-OVERLAY"
+        "E-G04-S359-OVERLAY",
+        "E-G04-S360-START",
+        "E-G04-S360-EXIT"
       ],
       "flagKey": null
     },
@@ -7397,6 +7411,16 @@
           "at": "2026-10-02T06:08:10.823Z",
           "actor": "Codex",
           "text": "Slice 359 exit: source arc/chord incompatibility keeps all Woven collar roles above the 0.25 cm rigid endpoint gate across 28 options. Preserve 56 Woven and 34 Polo holds. A full-collar view projection is proposed but not approved or implemented; V02 remains In Progress and V03 gated. See S359 packet and diagnostics."
+        },
+        {
+          "at": "2026-10-02T06:25:14.999Z",
+          "actor": "Codex",
+          "text": "Slice 360 starts from S359 commit d519a8ac7b440ea310f660e80799bef9c0479ee1 to close its canonical commit references and correct diagnostic-only EOF whitespace. The Polo 0.25 cm residual gate remains confirmed; no hold is released."
+        },
+        {
+          "at": "2026-10-02T06:25:16.094Z",
+          "actor": "Codex",
+          "text": "Slice 360 exit: the four S359 start/exit/matrix/overlay records now reference landed commit d519a8ac7b440ea310f660e80799bef9c0479ee1 through validated importFacts. The diagnostic EOF whitespace is corrected. Polo retains its 0.25 cm residual gate and all 34 holds; all 56 Woven holds and all-seven V02/V02-before-V03 gates remain."
         }
       ],
       "evidenceRefs": [
@@ -7683,7 +7707,9 @@
         "E-G04-S359-START",
         "E-G04-S359-EXIT",
         "E-G04-S359-MATRIX",
-        "E-G04-S359-OVERLAY"
+        "E-G04-S359-OVERLAY",
+        "E-G04-S360-START",
+        "E-G04-S360-EXIT"
       ],
       "flagKey": null
     },
@@ -11779,37 +11805,55 @@
       "id": "E-G04-S359-START",
       "kind": "document",
       "uri": "docs/research/epic17/G04-V02-WOVEN-COLLAR-RIGID-ASSEMBLY-S359.md",
-      "commit": null,
+      "commit": "d519a8ac7b440ea310f660e80799bef9c0479ee1",
       "sha256": null,
       "verified": true,
-      "note": "Slice 359 starts exact-source Woven collar/stand rigid-placement feasibility diagnosis. Preserve all 56 Woven and 34 Polo holds, the seven-recipe V02 criterion, the 0.25 cm gate, protected exports, and V02-before-V03 dependency. No production or cut-geometry change is authorized."
+      "note": "Slice 359 start evidence is included in landed commit d519a8ac7b440ea310f660e80799bef9c0479ee1."
     },
     {
       "id": "E-G04-S359-EXIT",
       "kind": "document",
       "uri": "docs/research/epic17/G04-V02-WOVEN-COLLAR-RIGID-ASSEMBLY-S359.md",
-      "commit": null,
+      "commit": "d519a8ac7b440ea310f660e80799bef9c0479ee1",
       "sha256": null,
       "verified": true,
-      "note": "S359 proves the arc/chord rigid residual lower bound across all 28 Woven options and retains all 56 holds. Full-collar projection is proposed but not approved or implemented; all-seven V02 and the 0.25 cm gate remain unchanged."
+      "note": "Slice 359 exit evidence is included in landed commit d519a8ac7b440ea310f660e80799bef9c0479ee1."
     },
     {
       "id": "E-G04-S359-MATRIX",
       "kind": "document",
       "uri": "docs/research/epic17/S359-woven-collar-rigid-assembly/rigid-endpoint-feasibility-matrix.json",
-      "commit": null,
+      "commit": "d519a8ac7b440ea310f660e80799bef9c0479ee1",
       "sha256": null,
       "verified": true,
-      "note": "Deterministic 28-option front/back rigid arc-versus-chord lower bounds; all 56 face joins remain over 0.25 cm."
+      "note": "Slice 359 option matrix is included in landed commit d519a8ac7b440ea310f660e80799bef9c0479ee1."
     },
     {
       "id": "E-G04-S359-OVERLAY",
       "kind": "document",
       "uri": "docs/research/epic17/S359-woven-collar-rigid-assembly/rigid-endpoint-feasibility-overlay.png",
+      "commit": "d519a8ac7b440ea310f660e80799bef9c0479ee1",
+      "sha256": null,
+      "verified": true,
+      "note": "Slice 359 reviewed diagnostic overlay is included in landed commit d519a8ac7b440ea310f660e80799bef9c0479ee1."
+    },
+    {
+      "id": "E-G04-S360-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-S359-EVIDENCE-CLOSEOUT-S360.md",
       "commit": null,
       "sha256": null,
       "verified": true,
-      "note": "Manually reviewed Chromium-rendered source geometry overlay. Diagnostic only; the view mapping is not implemented or accepted."
+      "note": "Slice 360 starts the validated S359 commit-evidence closeout; no production behavior or acceptance changes."
+    },
+    {
+      "id": "E-G04-S360-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-S359-EVIDENCE-CLOSEOUT-S360.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Slice 360 links all S359 records to landed commit d519a8ac7b440ea310f660e80799bef9c0479ee1, corrects diagnostic EOF whitespace, and leaves all G04 holds and gates unchanged."
     }
   ]
 }

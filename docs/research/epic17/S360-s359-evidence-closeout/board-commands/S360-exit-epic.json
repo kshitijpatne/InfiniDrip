@@ -1,0 +1,9 @@
+{
+  "type": "addEpicEvidence",
+  "expectedRevision": 1496,
+  "epicId": "EPIC-17",
+  "evidenceId": "E-G04-S360-EXIT",
+  "actor": "Codex",
+  "role": "maintainer",
+  "reason": "Record the verified S360 closeout evidence on EPIC-17."
+}

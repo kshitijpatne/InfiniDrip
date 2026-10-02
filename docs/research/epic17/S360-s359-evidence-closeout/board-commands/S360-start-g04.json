@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 1488,
+  "itemId": "G04-V02",
+  "evidence": {
+    "id": "E-G04-S360-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/G04-V02-S359-EVIDENCE-CLOSEOUT-S360.md",
+    "verified": true,
+    "note": "Slice 360 starts the validated S359 commit-evidence closeout; no production behavior or acceptance changes."
+  }
+}

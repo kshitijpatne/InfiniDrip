@@ -35,7 +35,7 @@ Slice 359 completed as a diagnostic-only source/view feasibility study; no produ
 - `npm run control-center:test`: 40/40 passed. The initial run found incomplete evidence links for the EPIC-17 summary/record and stale assertions against the replaced status descriptions; these were corrected only through validated board commands and current board-test assertions, then the focused suite passed. `git diff --check`: pass after removing extra end-of-file blank lines. No production coverage/build/export gate was applicable because production code did not change.
 - Elapsed 05:49:45–06:13 UTC (~23m): production implementation 0m; source and topology diagnosis 7m; numeric script/Chromium overlay generation and manual review 5m; focused verification 3m; durable packet/state/context/admission/roadmap/board closeout 8m; external-agent waits 0m; maintainer decision time 0m (projection approval request remains pending). No safe disjoint delegation existed.
 
-**Next action:** request the one full-collar projection decision captured in the S359 packet; do not implement without approval. Meanwhile, continue independent V02 blocker diagnosis, preserving all holds and the current gates. Commit ID is recorded at the next verified slice boundary through the validated command layer.
+**Next action:** request the one full-collar projection decision captured in the S359 packet; do not implement without approval. Meanwhile, continue independent V02 blocker diagnosis, preserving all holds and the current gates. Landed as `d519a8ac7b440ea310f660e80799bef9c0479ee1`; S360 links this commit to all four S359 board evidence records through the validated `importFacts` command.
 
 ### Exact source/output findings
 

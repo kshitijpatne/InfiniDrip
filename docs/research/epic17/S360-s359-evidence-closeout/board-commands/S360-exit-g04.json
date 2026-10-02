@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 1494,
+  "itemId": "G04-V02",
+  "evidence": {
+    "id": "E-G04-S360-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/G04-V02-S359-EVIDENCE-CLOSEOUT-S360.md",
+    "verified": true,
+    "note": "Slice 360 links all S359 records to landed commit d519a8ac7b440ea310f660e80799bef9c0479ee1, corrects diagnostic EOF whitespace, and leaves all G04 holds and gates unchanged."
+  }
+}

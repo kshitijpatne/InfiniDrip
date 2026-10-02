@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 1497,
+  "itemId": "G04-V02",
+  "actor": "Codex",
+  "text": "Slice 360 exit: the four S359 start/exit/matrix/overlay records now reference landed commit d519a8ac7b440ea310f660e80799bef9c0479ee1 through validated importFacts. The diagnostic EOF whitespace is corrected. Polo retains its 0.25 cm residual gate and all 34 holds; all 56 Woven holds and all-seven V02/V02-before-V03 gates remain."
+}
