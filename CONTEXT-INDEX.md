@@ -162,6 +162,13 @@ only through an explicitly admitted, linked Epic packet.
   no measured label placement passes. The closest default candidate crosses
   the collar and front outline. Preserve the current `TEXT_COLLISION` guard
   and all board holds; no production behavior changed.
+- `docs/research/epic17/G04-V02-WOVEN-BAND-DETACHED-DETAIL-IMPLEMENTATION-S372.md`
+  and `docs/research/epic17/S372-woven-band-detached-detail/` — S372 implements
+  the explicitly approved BACK_FLAT-only composition from S370: two complete
+  source-scale reflected band details, exact fold marks, validated source and
+  receiver metadata, and detached/not-at-assembly wording. The 28-option replay
+  passes the band-only placement checks, but the independent sleeve-pair X and
+  other V02 holds remain; no Woven face is accepted.
 - `docs/research/epic17/G04-V02-WOVEN-BACK-SEAM-OCCLUSION-DIAGNOSIS-S355.md` —
   Slice 355's 28-option measurement of the complete mirrored sleeve-band
   silhouette against the body/yoke fills. Seam-only occlusion cannot remove

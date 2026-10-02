@@ -1,0 +1,382 @@
+{
+  "revisionId": "live-draft:woven-shirt:14:14",
+  "configurations": 28,
+  "faceRequests": 56,
+  "back": {
+    "emitted": 28,
+    "allHaveDetachedOutlineAndBandFoldPairs": true,
+    "allHaveSourceStitchDisclaimer": true
+  },
+  "front": {
+    "emitted": 3,
+    "held": 25,
+    "emittedSvgByteIdenticalToS363": true
+  },
+  "browserErrors": 0,
+  "cases": [
+    {
+      "caseId": "woven-shirt-default",
+      "back": {
+        "status": "emitted",
+        "issues": 0,
+        "detachedOutlinePair": true,
+        "bandFoldPair": true
+      },
+      "front": {
+        "status": "held",
+        "issues": 1
+      }
+    },
+    {
+      "caseId": "woven-shirt-neckEase-min",
+      "back": {
+        "status": "emitted",
+        "issues": 0,
+        "detachedOutlinePair": true,
+        "bandFoldPair": true
+      },
+      "front": {
+        "status": "held",
+        "issues": 1
+      }
+    },
+    {
+      "caseId": "woven-shirt-neckEase-max",
+      "back": {
+        "status": "emitted",
+        "issues": 0,
+        "detachedOutlinePair": true,
+        "bandFoldPair": true
+      },
+      "front": {
+        "status": "held",
+        "issues": 1
+      }
+    },
+    {
+      "caseId": "woven-shirt-standHeight-min",
+      "back": {
+        "status": "emitted",
+        "issues": 0,
+        "detachedOutlinePair": true,
+        "bandFoldPair": true
+      },
+      "front": {
+        "status": "held",
+        "issues": 1
+      }
+    },
+    {
+      "caseId": "woven-shirt-standHeight-max",
+      "back": {
+        "status": "emitted",
+        "issues": 0,
+        "detachedOutlinePair": true,
+        "bandFoldPair": true
+      },
+      "front": {
+        "status": "held",
+        "issues": 1
+      }
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-min",
+      "back": {
+        "status": "emitted",
+        "issues": 0,
+        "detachedOutlinePair": true,
+        "bandFoldPair": true
+      },
+      "front": {
+        "status": "held",
+        "issues": 1
+      }
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-max",
+      "back": {
+        "status": "emitted",
+        "issues": 0,
+        "detachedOutlinePair": true,
+        "bandFoldPair": true
+      },
+      "front": {
+        "status": "held",
+        "issues": 1
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-min",
+      "back": {
+        "status": "emitted",
+        "issues": 0,
+        "detachedOutlinePair": true,
+        "bandFoldPair": true
+      },
+      "front": {
+        "status": "held",
+        "issues": 1
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-max",
+      "back": {
+        "status": "emitted",
+        "issues": 0,
+        "detachedOutlinePair": true,
+        "bandFoldPair": true
+      },
+      "front": {
+        "status": "held",
+        "issues": 1
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-min",
+      "back": {
+        "status": "emitted",
+        "issues": 0,
+        "detachedOutlinePair": true,
+        "bandFoldPair": true
+      },
+      "front": {
+        "status": "held",
+        "issues": 1
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-max",
+      "back": {
+        "status": "emitted",
+        "issues": 0,
+        "detachedOutlinePair": true,
+        "bandFoldPair": true
+      },
+      "front": {
+        "status": "held",
+        "issues": 1
+      }
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-min",
+      "back": {
+        "status": "emitted",
+        "issues": 0,
+        "detachedOutlinePair": true,
+        "bandFoldPair": true
+      },
+      "front": {
+        "status": "emitted",
+        "issues": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-max",
+      "back": {
+        "status": "emitted",
+        "issues": 0,
+        "detachedOutlinePair": true,
+        "bandFoldPair": true
+      },
+      "front": {
+        "status": "held",
+        "issues": 1
+      }
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-min",
+      "back": {
+        "status": "emitted",
+        "issues": 0,
+        "detachedOutlinePair": true,
+        "bandFoldPair": true
+      },
+      "front": {
+        "status": "held",
+        "issues": 1
+      }
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-max",
+      "back": {
+        "status": "emitted",
+        "issues": 0,
+        "detachedOutlinePair": true,
+        "bandFoldPair": true
+      },
+      "front": {
+        "status": "emitted",
+        "issues": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-min",
+      "back": {
+        "status": "emitted",
+        "issues": 0,
+        "detachedOutlinePair": true,
+        "bandFoldPair": true
+      },
+      "front": {
+        "status": "held",
+        "issues": 1
+      }
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-max",
+      "back": {
+        "status": "emitted",
+        "issues": 0,
+        "detachedOutlinePair": true,
+        "bandFoldPair": true
+      },
+      "front": {
+        "status": "held",
+        "issues": 1
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-min",
+      "back": {
+        "status": "emitted",
+        "issues": 0,
+        "detachedOutlinePair": true,
+        "bandFoldPair": true
+      },
+      "front": {
+        "status": "held",
+        "issues": 1
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-max",
+      "back": {
+        "status": "emitted",
+        "issues": 0,
+        "detachedOutlinePair": true,
+        "bandFoldPair": true
+      },
+      "front": {
+        "status": "held",
+        "issues": 1
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-min",
+      "back": {
+        "status": "emitted",
+        "issues": 0,
+        "detachedOutlinePair": true,
+        "bandFoldPair": true
+      },
+      "front": {
+        "status": "held",
+        "issues": 1
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-max",
+      "back": {
+        "status": "emitted",
+        "issues": 0,
+        "detachedOutlinePair": true,
+        "bandFoldPair": true
+      },
+      "front": {
+        "status": "held",
+        "issues": 1
+      }
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-min",
+      "back": {
+        "status": "emitted",
+        "issues": 0,
+        "detachedOutlinePair": true,
+        "bandFoldPair": true
+      },
+      "front": {
+        "status": "held",
+        "issues": 1
+      }
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-max",
+      "back": {
+        "status": "emitted",
+        "issues": 0,
+        "detachedOutlinePair": true,
+        "bandFoldPair": true
+      },
+      "front": {
+        "status": "held",
+        "issues": 1
+      }
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-min",
+      "back": {
+        "status": "emitted",
+        "issues": 0,
+        "detachedOutlinePair": true,
+        "bandFoldPair": true
+      },
+      "front": {
+        "status": "held",
+        "issues": 1
+      }
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-max",
+      "back": {
+        "status": "emitted",
+        "issues": 0,
+        "detachedOutlinePair": true,
+        "bandFoldPair": true
+      },
+      "front": {
+        "status": "held",
+        "issues": 1
+      }
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-min",
+      "back": {
+        "status": "emitted",
+        "issues": 0,
+        "detachedOutlinePair": true,
+        "bandFoldPair": true
+      },
+      "front": {
+        "status": "held",
+        "issues": 1
+      }
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-max",
+      "back": {
+        "status": "emitted",
+        "issues": 0,
+        "detachedOutlinePair": true,
+        "bandFoldPair": true
+      },
+      "front": {
+        "status": "held",
+        "issues": 1
+      }
+    },
+    {
+      "caseId": "woven-shirt-combined-supported",
+      "back": {
+        "status": "emitted",
+        "issues": 0,
+        "detachedOutlinePair": true,
+        "bandFoldPair": true
+      },
+      "front": {
+        "status": "emitted",
+        "issues": 0
+      }
+    }
+  ]
+}

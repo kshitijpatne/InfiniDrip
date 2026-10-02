@@ -170,6 +170,23 @@ export interface FlatProjectionWovenFullCollarRepresentation {
   readonly layer: "SEAM";
 }
 
+/** Approved BACK_FLAT band detail; it is a view annotation and not a new join. */
+export interface FlatProjectionWovenDetachedBandDetailRepresentation {
+  readonly decisionId: "G04-S370-WOVEN-DETACHED-BAND-DETAIL";
+  readonly sourcePieceId: "sleeveBand";
+  readonly outlineEdgeIds: readonly ["top", "sideRight", "bottom", "sideLeft"];
+  readonly foldMarkName: "bandFold";
+  readonly sourceStitchLabel: "Folded sleeve band ↔ sleeve hem";
+  readonly receiverRoleId: "sleeve";
+  readonly receiverEdgeId: "hem";
+  readonly receiverInterval: readonly [0, 0.5];
+  readonly axisRoleId: "back";
+  readonly axisEdgeId: "centerBack";
+  readonly quantity: 2;
+  readonly rotationDegrees: 90;
+  readonly minimumClearanceCm: 1;
+}
+
 export interface FlatProjectionRole {
   readonly roleId: string;
   /** A logical garment-component identity shared by its front/back projections. */
@@ -193,6 +210,7 @@ export interface FlatProjectionRole {
   readonly wovenSleeveCapRepresentation?: FlatProjectionWovenSleeveCapRepresentation;
   readonly poloSleeveCapRepresentation?: FlatProjectionPoloSleeveCapRepresentation;
   readonly wovenFullCollarRepresentation?: FlatProjectionWovenFullCollarRepresentation;
+  readonly wovenDetachedBandDetailRepresentation?: FlatProjectionWovenDetachedBandDetailRepresentation;
   /** View-only closure for a face segment; it is not a drafted cut or seam edge. */
   readonly viewBoundaries?: readonly FlatProjectionViewBoundary[];
 }
@@ -503,6 +521,14 @@ function wovenSleeveBandProjection(
     heldEdges: [],
     viewPairReflection: { axisRoleId, edgeId, axis: "ASSEMBLED_BODY_CENTER",
       source: "WOVEN_SHIRT_PHYSICAL_ROLES", decisionId: "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR", quantity: 2 },
+    ...(kind === "BACK_FLAT" ? { wovenDetachedBandDetailRepresentation: {
+      decisionId: "G04-S370-WOVEN-DETACHED-BAND-DETAIL" as const, sourcePieceId: "sleeveBand" as const,
+      outlineEdgeIds: ["top", "sideRight", "bottom", "sideLeft"] as const, foldMarkName: "bandFold" as const,
+      sourceStitchLabel: "Folded sleeve band ↔ sleeve hem" as const, receiverRoleId: "sleeve" as const,
+      receiverEdgeId: "hem" as const, receiverInterval: [0, 0.5] as const,
+      axisRoleId: "back" as const, axisEdgeId: "centerBack" as const, quantity: 2 as const,
+      rotationDegrees: 90 as const, minimumClearanceCm: 1 as const,
+    } } : {}),
   };
 }
 
@@ -1005,7 +1031,7 @@ export type FlatProjectionIssueCode =
   | "INVALID_PHYSICAL_PAIR_REFLECTION" | "INVALID_VIEW_PAIR_REFLECTION" | "INVALID_OPPOSITE_SIDE_REFLECTION"
   | "INVALID_COLLAR_TRANSFER" | "INVALID_WOVEN_SLEEVE_TRANSFER" | "INVALID_STITCH_BOUNDARY" | "INVALID_PAIRED_EDGE" | "INVALID_VIEW_BOUNDARY"
   | "INVALID_STITCH_ENDPOINT_ORIENTATION" | "INVALID_LOCAL_Y_REFLECTION" | "INVALID_VIEW_SEAM_REPRESENTATION"
-  | "INVALID_WOVEN_COLLAR_REPRESENTATION" | "INVALID_FACE_EXCLUDED_MARK";
+  | "INVALID_WOVEN_COLLAR_REPRESENTATION" | "INVALID_FACE_EXCLUDED_MARK" | "INVALID_DETACHED_BAND_DETAIL";
 
 export interface FlatProjectionIssue {
   readonly code: FlatProjectionIssueCode;
@@ -1470,6 +1496,33 @@ function validateRole(
   }
   if (mappingRole.treatment !== expectedTreatment) {
     issues.push({ code: "TREATMENT_MISMATCH", sourceId, message: `Projection treatment for “${roleId}” must match the admitted role map.` });
+  }
+  const detachedBand = mappingRole.wovenDetachedBandDetailRepresentation;
+  const requiresDetachedBand = recipeId === "woven-shirt" && faceKind === "BACK_FLAT" && roleId === "sleeveBand";
+  if (detachedBand !== undefined || requiresDetachedBand) {
+    const exactStitches = block.stitches.filter((stitch) => stitch.label === "Folded sleeve band ↔ sleeve hem");
+    const stitch = exactStitches[0];
+    const receiver = block.roles.sleeve?.edges.find((edge) => edge.name === "hem");
+    const back = block.roles.back;
+    const axis = back?.edges.find((edge) => edge.name === "centerBack");
+    const mark = piece.marks?.find((candidate) => candidate.name === "bandFold" && candidate.kind === "foldLine");
+    const edgeNames = ["top", "sideRight", "bottom", "sideLeft"];
+    const valid = recipeId === "woven-shirt" && faceKind === "BACK_FLAT" && roleId === "sleeveBand"
+      && isRecord(detachedBand) && detachedBand.decisionId === "G04-S370-WOVEN-DETACHED-BAND-DETAIL"
+      && detachedBand.sourcePieceId === "sleeveBand" && JSON.stringify(detachedBand.outlineEdgeIds) === JSON.stringify(edgeNames)
+      && detachedBand.foldMarkName === "bandFold" && detachedBand.sourceStitchLabel === "Folded sleeve band ↔ sleeve hem"
+      && detachedBand.receiverRoleId === "sleeve" && detachedBand.receiverEdgeId === "hem"
+      && JSON.stringify(detachedBand.receiverInterval) === JSON.stringify([0, 0.5])
+      && detachedBand.axisRoleId === "back" && detachedBand.axisEdgeId === "centerBack"
+      && detachedBand.quantity === 2 && detachedBand.rotationDegrees === 90 && detachedBand.minimumClearanceCm === 1
+      && edgeNames.every((edgeName) => piece.edges.some((edge) => edge.name === edgeName))
+      && !!mark && exactStitches.length === 1 && !!stitch && stitch.ease === undefined
+      && stitch.a.edges.length === 1 && "edge" in stitch.a.edges[0]! && stitch.a.edges[0]!.piece === "sleeveBand"
+      && stitch.a.edges[0]!.edge === "top" && stitch.b.edges.length === 1 && "edge" in stitch.b.edges[0]!
+      && stitch.b.edges[0]!.piece === "sleeve" && stitch.b.edges[0]!.edge === "hem"
+      && !!receiver && axis?.kind === "line" && back?.onFold === true && foldAxisEdge(back)?.name === "centerBack";
+    if (!valid) issues.push({ code: "INVALID_DETACHED_BAND_DETAIL", sourceId,
+      message: "The BACK_FLAT detached band detail requires the approved exact outline, fold mark, full band-to-sleeve stitch, half-hem receiver annotation and source-declared back center axis." });
   }
   const reversedStitchEdges = mappingRole.reversedStitchEdges;
   const requiresSleeveEndpointOrder = (recipeId === "tee" || recipeId === "fitted" || recipeId === "polo")

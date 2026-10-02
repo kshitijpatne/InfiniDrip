@@ -1,0 +1,8 @@
+[
+  {"type":"addEvidence","itemId":"G04-V02","evidence":{"id":"E-G04-S372-CC-TEST","kind":"test","uri":"docs/research/epic17/S372-woven-band-detached-detail/control-center-test.log","verified":true,"note":"Control Center command/board regression passes 42/42 after the S372 validated exit replay at revision 1794."}},
+  {"type":"addEpicEvidence","epicId":"EPIC-17","evidenceId":"E-G04-S372-CC-TEST","actor":"Codex","role":"maintainer"},
+  {"type":"addEvidence","itemId":"EPIC-17","evidenceId":"E-G04-S372-CC-TEST"},
+  {"type":"addEvidence","itemId":"G04-V02","evidence":{"id":"E-G04-S372-BOARD-REPLAY","kind":"document","uri":"docs/research/epic17/S372-woven-band-detached-detail/board-replay-exit.log","verified":true,"note":"Validated S372 exit and recovery command replay ends at board revision 1794; first unsupported evidence-kind failure was preserved."}},
+  {"type":"addEpicEvidence","epicId":"EPIC-17","evidenceId":"E-G04-S372-BOARD-REPLAY","actor":"Codex","role":"maintainer"},
+  {"type":"addEvidence","itemId":"EPIC-17","evidenceId":"E-G04-S372-BOARD-REPLAY"}
+]

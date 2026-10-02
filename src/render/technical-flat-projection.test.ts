@@ -31,7 +31,8 @@ function validMap(recipeId: string, block: ReturnType<(typeof GARMENTS)[number][
       roles: face.roles.map((role) => {
         const authoredRole = authored?.faces.find((candidate) => candidate.kind === face.kind)?.roles
           .find((candidate) => candidate.roleId === role.roleId);
-        if (recipeId === "woven-shirt" && ["outerStand", "upperCollar", "underCollar"].includes(role.roleId) && authoredRole) return authoredRole;
+        if (recipeId === "woven-shirt" && (["outerStand", "upperCollar", "underCollar"].includes(role.roleId)
+          || face.kind === "BACK_FLAT" && role.roleId === "sleeveBand") && authoredRole) return authoredRole;
         const piece = block.roles[role.roleId];
         const hidden = role.treatment === "INTERIOR_HIDDEN";
         const pairReflection = authored?.faces.find((candidate) => candidate.kind === face.kind)?.roles
@@ -88,6 +89,28 @@ function draft(recipeId: string, options = {}) {
 }
 
 describe("validateTechnicalFlatProjectionMap", () => {
+  it("binds the approved Woven detached band detail to the exact BACK_FLAT source topology", () => {
+    const { block } = draft("woven-shirt");
+    const authored = createG04TechnicalFlatProjectionMap("woven-shirt", block, REVISION)!;
+    const backRole = authored.faces.find((face) => face.kind === "BACK_FLAT")!.roles
+      .find((role) => role.roleId === "sleeveBand")!;
+    expect(backRole.wovenDetachedBandDetailRepresentation).toMatchObject({
+      decisionId: "G04-S370-WOVEN-DETACHED-BAND-DETAIL", sourcePieceId: "sleeveBand",
+      outlineEdgeIds: ["top", "sideRight", "bottom", "sideLeft"], foldMarkName: "bandFold",
+      sourceStitchLabel: "Folded sleeve band ↔ sleeve hem", receiverRoleId: "sleeve", receiverEdgeId: "hem",
+      receiverInterval: [0, 0.5], axisRoleId: "back", axisEdgeId: "centerBack", quantity: 2,
+      rotationDegrees: 90, minimumClearanceCm: 1,
+    });
+    expect(validateTechnicalFlatProjectionMap("woven-shirt", block, REVISION, authored)).toEqual([]);
+    const malformed = structuredClone(authored) as unknown as { faces: Array<{ kind: string; roles: Array<{
+      roleId: string; wovenDetachedBandDetailRepresentation?: { receiverInterval: number[] };
+    }> }> };
+    malformed.faces.find((face) => face.kind === "BACK_FLAT")!.roles.find((role) => role.roleId === "sleeveBand")!
+      .wovenDetachedBandDetailRepresentation!.receiverInterval = [0, 1];
+    expect(validateTechnicalFlatProjectionMap("woven-shirt", block, REVISION, malformed))
+      .toContainEqual(expect.objectContaining({ code: "INVALID_DETACHED_BAND_DETAIL", sourceId: "BACK_FLAT:sleeveBand" }));
+  });
+
   it("validates the exact Woven face-excluded marks and collar representation", () => {
     const { block } = draft("woven-shirt");
     const authored = createG04TechnicalFlatProjectionMap("woven-shirt", block, REVISION)!;
@@ -1082,7 +1105,7 @@ describe("validateTechnicalFlatProjectionMap", () => {
       for (const options of endpointOptions) {
         const block = recipe.draft(STANDARD_M, { ...defaultGarmentOptions(recipe.options ?? []), ...options });
         const mapping = validMap(recipe.name, block);
-        expect(validateTechnicalFlatProjectionMap(recipe.name, block, REVISION, mapping), recipe.name).toEqual([]);
+        expect(validateTechnicalFlatProjectionMap(recipe.name, block, REVISION, mapping), `${recipe.name} ${JSON.stringify(options)}`).toEqual([]);
       }
     }
   });

@@ -1,0 +1,27 @@
+
+ RUN  v2.1.9 C:/Users/kshit/.codex/worktrees/epic-17-g04/designApp
+      Coverage enabled with v8
+
+ ✓ src/render/woven-detached-band-detail.test.ts (4 tests) 15ms
+ ✓ src/render/technical-flat-projection.test.ts (40 tests) 1970ms
+   ✓ validateTechnicalFlatProjectionMap > creates source-edge maps for every supported recipe and numeric option endpoint 392ms
+   ✓ validateTechnicalFlatProjectionMap > records only source-validated local-y fold axes across every recipe option endpoint 395ms
+   ✓ validateTechnicalFlatProjectionMap > accepts explicit per-face edge accounting for every supported recipe and option endpoint 314ms
+ ✓ src/render/technical-flat-live.test.ts (39 tests) 2198ms
+   ✓ compileTechnicalFlatLiveView > binds Woven front and back POM anchors to their transformed source geometry 348ms
+   ✓ compileTechnicalFlatLiveView > withholds every Polo option face while the mapped sleeve-cap residual exceeds tolerance 653ms
+
+ Test Files  3 passed (3)
+      Tests  83 passed (83)
+   Start at  10:56:19
+   Duration  5.99s (transform 1.81s, setup 0ms, collect 3.44s, tests 4.18s, environment 2ms, prepare 1.20s)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------|---------|----------|---------|---------|-------------------
+All files          |     100 |      100 |     100 |     100 |                   
+ ...l-flat-live.ts |     100 |      100 |     100 |     100 |                   
+ ...-projection.ts |     100 |      100 |     100 |     100 |                   
+ ...band-detail.ts |     100 |      100 |     100 |     100 |                   
+-------------------|---------|----------|---------|---------|-------------------

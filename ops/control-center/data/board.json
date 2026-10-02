@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 1771,
-  "updatedAt": "2026-10-02T14:04:30.560Z",
+  "revision": 1800,
+  "updatedAt": "2026-10-02T15:00:52.977Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -437,7 +437,16 @@
         "E-G04-S371-MATRIX",
         "E-G04-S371-RENDER",
         "E-G04-S371-TEST",
-        "E-G04-S371-CC-TEST"
+        "E-G04-S371-CC-TEST",
+        "E-G04-S372-START",
+        "E-G04-S372-EXIT",
+        "E-G04-S372-MATRIX",
+        "E-G04-S372-RENDER",
+        "E-G04-S372-TEST",
+        "E-G04-S372-EXPORT",
+        "E-G04-S372-BUILD",
+        "E-G04-S372-CC-TEST",
+        "E-G04-S372-BOARD-REPLAY"
       ]
     },
     {
@@ -4067,7 +4076,16 @@
         "E-G04-S371-MATRIX",
         "E-G04-S371-RENDER",
         "E-G04-S371-TEST",
-        "E-G04-S371-CC-TEST"
+        "E-G04-S371-CC-TEST",
+        "E-G04-S372-START",
+        "E-G04-S372-EXIT",
+        "E-G04-S372-MATRIX",
+        "E-G04-S372-RENDER",
+        "E-G04-S372-TEST",
+        "E-G04-S372-EXPORT",
+        "E-G04-S372-BUILD",
+        "E-G04-S372-CC-TEST",
+        "E-G04-S372-BOARD-REPLAY"
       ],
       "flagKey": null
     },
@@ -7810,6 +7828,16 @@
           "at": "2026-10-02T14:04:30.560Z",
           "actor": "Codex",
           "text": "S371 Control Center validation passes 42/42 after the validated exit replay; board revision remains on G04/EPIC-17 In Progress and all Woven/Polo holds, 56 accepted / 90 held, all-seven acceptance, V02-before-V03 and Polo's 0.25 cm gate are unchanged."
+        },
+        {
+          "at": "2026-10-02T14:16:01.545Z",
+          "actor": "Codex",
+          "text": "Slice 372 starts from clean S371 0609d54face057a82a8ae76d3e5d34e17c6686bf; refreshed origin/main a5af5e13c2e967946b3f6035fcea66ff03a5e0e0 remains an ancestor; board revision 1771. Implement only the maintainer-approved two full source-scale detached sleeveBand outlines and bandFold marks on BACK_FLAT, with explicit detached/not-at-assembly annotation and exact source/receiver identity. Preserve all holds and the 0.25 cm Polo gate. Packet: docs/research/epic17/G04-V02-WOVEN-BAND-DETACHED-DETAIL-IMPLEMENTATION-S372.md."
+        },
+        {
+          "at": "2026-10-02T14:59:04.674Z",
+          "actor": "Codex",
+          "text": "Slice 372 exit: approved Woven BACK_FLAT detached sleeve-band mapping is implemented with typed, exact-source projection metadata and a validated source-scale pair. Final production replay covers 28 options / 56 identities: all 28 backs emit both detached details and source annotation; 3 fronts emit byte-identically to S363 and 25 remain held with TEXT_COLLISION. Zero browser errors. Focused changed-code coverage is 100% in all dimensions, 83/83 focused tests pass, build and 20/20 export identity/DXF tests pass. The independent sleeve-pair X remains in the back view, so all 28 Woven backs, all other Woven faces, and all 34 Polo faces remain held; no V02 or V03 gate advances. See the S372 packet and evidence folder."
         }
       ],
       "evidenceRefs": [
@@ -8160,7 +8188,16 @@
         "E-G04-S371-MATRIX",
         "E-G04-S371-RENDER",
         "E-G04-S371-TEST",
-        "E-G04-S371-CC-TEST"
+        "E-G04-S371-CC-TEST",
+        "E-G04-S372-START",
+        "E-G04-S372-EXIT",
+        "E-G04-S372-MATRIX",
+        "E-G04-S372-RENDER",
+        "E-G04-S372-TEST",
+        "E-G04-S372-EXPORT",
+        "E-G04-S372-BUILD",
+        "E-G04-S372-CC-TEST",
+        "E-G04-S372-BOARD-REPLAY"
       ],
       "flagKey": null
     },
@@ -12863,6 +12900,87 @@
       "sha256": null,
       "verified": true,
       "note": "npm run control-center:test passes 42/42 after S371 exit evidence and comments are recorded through the validated command layer."
+    },
+    {
+      "id": "E-G04-S372-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-BAND-DETACHED-DETAIL-IMPLEMENTATION-S372.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S372 implements only the user-approved S370 BACK_FLAT detached band details; source geometry/stitches and all acceptance holds remain unchanged."
+    },
+    {
+      "id": "E-G04-S372-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-BAND-DETACHED-DETAIL-IMPLEMENTATION-S372.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S372 implements the approved source-bound BACK_FLAT-only detached Woven band details. All Woven/Polo holds remain; the sleeve-pair center-back crossing still prevents Woven face acceptance."
+    },
+    {
+      "id": "E-G04-S372-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S372-woven-band-detached-detail/rendered-output-audit.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "28 Woven option configurations / 56 faces reconcile: 28 back SVGs, 3 front SVGs and 25 front TEXT_COLLISION holds; zero browser errors. Emitted backs carry two detached outline/fold pairs and source relation; emitted fronts are byte-identical to S363."
+    },
+    {
+      "id": "E-G04-S372-RENDER",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S372-woven-band-detached-detail/production-replay/woven-shirt-default-back_flat.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Manual Chromium review shows detached source-scale bands in the side gutters with fold marks; the independent sleeve-pair X remains and the face stays held."
+    },
+    {
+      "id": "E-G04-S372-TEST",
+      "kind": "document",
+      "uri": "docs/research/epic17/S372-woven-band-detached-detail/focused-coverage.log",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Focused 83/83 tests pass; changed live view, projection metadata and detached-detail production modules have 100% statement/branch/function/line coverage."
+    },
+    {
+      "id": "E-G04-S372-EXPORT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S372-woven-band-detached-detail/export-byte-identity-test.log",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Focused DXF pattern-mark, protected export identity and regression checks pass 20/20; baselines remain unchanged."
+    },
+    {
+      "id": "E-G04-S372-BUILD",
+      "kind": "document",
+      "uri": "docs/research/epic17/S372-woven-band-detached-detail/build.log",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "TypeScript and production Vite build pass; no export baseline or DXF behavior changed."
+    },
+    {
+      "id": "E-G04-S372-CC-TEST",
+      "kind": "test",
+      "uri": "docs/research/epic17/S372-woven-band-detached-detail/control-center-test.log",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Control Center command/board regression passes 42/42 after the S372 validated exit replay at revision 1794."
+    },
+    {
+      "id": "E-G04-S372-BOARD-REPLAY",
+      "kind": "document",
+      "uri": "docs/research/epic17/S372-woven-band-detached-detail/board-replay-exit.log",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Validated S372 exit and recovery command replay ends at board revision 1794; first unsupported evidence-kind failure was preserved."
     }
   ]
 }

@@ -130,6 +130,60 @@ describe("projectPoloSleeveFillClosures", () => {
 });
 
 describe("compileTechnicalFlatLiveView", () => {
+  it("fails closed when the approved detached-detail center axis is absent", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "woven-shirt")!;
+    const authored = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
+    const back = authored.roles.back!;
+    const block = { ...authored, roles: { ...authored.roles, back: { ...back,
+      edges: back.edges.filter((edge) => edge.name !== "centerBack") } } };
+    const result = compileTechnicalFlatLiveView({ recipe, block, revisionId: "woven-band-invalid-axis",
+      kind: "BACK_FLAT", placements: [], colorHex: "#456789", texture: "woven", shine: 0 });
+    expect(result.view).toBeNull();
+    expect(result.issues).toContainEqual(expect.objectContaining({ stage: "transform",
+      sourceId: "pattern:woven-shirt:role:sleeveBand", message: expect.stringContaining("vertical back.centerBack axis") }));
+  });
+
+  it("withholds detached band details when source edge geometry is invalid", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "woven-shirt")!;
+    const authored = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
+    const band = authored.roles.sleeveBand!;
+    const block = { ...authored, roles: { ...authored.roles, sleeveBand: { ...band,
+      edges: band.edges.map((edge) => edge.name === "top" && edge.kind === "line"
+        ? { ...edge, start: { ...edge.start, x: Number.NaN } } : edge),
+    } } };
+    const result = compileTechnicalFlatLiveView({ recipe, block, revisionId: "woven-band-invalid-edge",
+      kind: "BACK_FLAT", placements: [], colorHex: "#456789", texture: "woven", shine: 0 });
+    expect(result.view).toBeNull();
+    expect(result.issues).toContainEqual(expect.objectContaining({ stage: "transform",
+      sourceId: "pattern:woven-shirt:role:sleeveBand", message: expect.stringContaining("same-revision outline") }));
+  });
+
+  it("shows exact same-revision Woven band details twice on BACK_FLAT and suppresses the assembled band", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "woven-shirt")!;
+    const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
+    const revisionId = "live-draft:woven-shirt:14:14";
+    const result = compileTechnicalFlatLiveView({ recipe, block, revisionId, kind: "BACK_FLAT",
+      placements: [], colorHex: "#456789", texture: "woven", shine: 0 });
+    expect(result.issues).toEqual([]);
+    const details = result.view!.primitives.filter((primitive) => primitive.id.includes(":detached-detail:"));
+    expect(details).toHaveLength(4);
+    expect(details.map((primitive) => primitive.id)).toEqual(expect.arrayContaining([
+      expect.stringContaining(":detached-detail:left"), expect.stringContaining(":detached-detail:right"),
+    ]));
+    expect(details.every((primitive) => primitive.source.revisionId === revisionId)).toBe(true);
+    expect(details.filter((primitive) => primitive.kind === "path" && primitive.patternMark?.name === "bandFold")).toHaveLength(2);
+    const outlines = details.filter((primitive) => primitive.kind === "path" && primitive.sourceEdgeIds?.length === 4);
+    expect(outlines).toHaveLength(2);
+    expect(outlines.every((primitive) => primitive.kind === "path" && primitive.sourceEdgeIds?.every((sourceId) =>
+      sourceId.startsWith("pattern:woven-shirt:role:sleeveBand:edge:")))).toBe(true);
+    expect(result.view!.primitives.filter((primitive) => primitive.source.sourceId === "pattern:woven-shirt:role:sleeveBand"
+      && !primitive.id.includes(":detached-detail:") && primitive.kind === "path" && primitive.sourceEdgeIds?.length === 4)).toHaveLength(0);
+    expect(result.view!.primitives.find((primitive) => primitive.id.endsWith(":source-stitch"))).toMatchObject({
+      kind: "text", text: expect.stringContaining("source stitch: sleeveBand.top ↔ full sleeve.hem; BACK receiver interval [0,0.5]"),
+      source: { revisionId },
+    });
+  });
+
   it("projects Woven collar POM mark and edge anchors onto the same displayed revision", () => {
     const recipe = GARMENTS.find((candidate) => candidate.name === "woven-shirt")!;
     const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));

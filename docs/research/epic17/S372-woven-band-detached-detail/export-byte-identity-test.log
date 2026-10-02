@@ -1,0 +1,16 @@
+
+> InfiniDrip@0.0.1 test
+> vitest run --run src/export/regression.test.ts src/quality/export-identity.test.ts src/export/pattern-mark.test.ts
+
+
+ RUN  v2.1.9 C:/Users/kshit/.codex/worktrees/epic-17-g04/designApp
+
+ ✓ src/export/pattern-mark.test.ts (3 tests) 10ms
+ ✓ src/export/regression.test.ts (8 tests) 59ms
+ ✓ src/quality/export-identity.test.ts (9 tests) 913ms
+
+ Test Files  3 passed (3)
+      Tests  20 passed (20)
+   Start at  10:55:59
+   Duration  4.25s (transform 1.39s, setup 0ms, collect 4.86s, tests 982ms, environment 2ms, prepare 1.14s)
+

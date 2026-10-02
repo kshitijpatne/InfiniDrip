@@ -21,6 +21,7 @@ import { compileTechnicalFlatOverlays } from "./technical-flat-overlays";
 import { compileTechnicalFlatPomCallouts, type TechnicalFlatPomResolvedAnchor } from "./technical-flat-poms";
 import { transformFlatPoint, transformFlatPrimitive } from "./technical-flat-transform";
 import { compileTrouserWaistbandFragments } from "./technical-flat-fragment-compiler";
+import { composeWovenDetachedBandDetails } from "./woven-detached-band-detail";
 import { createWovenCollarProjector, projectWovenCollarPrimitive, type WovenCollarRoleId } from "./woven-collar-view-projection";
 import type { Pom } from "../drafting/pom";
 
@@ -678,6 +679,43 @@ export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): Tec
         const physicalPair = projectionMap?.faces.find((candidate) => candidate.kind === kind)?.roles
           .find((candidate) => candidate.roleId === roleId)?.physicalPairReflection;
         if (!viewPair) appendPhysicalPairReflection(transformed, primitive, physicalPair, placement);
+      }
+    }
+  }
+  if (recipe.name === "woven-shirt" && kind === "BACK_FLAT") {
+    const projection = projectionMap?.faces.find((candidate) => candidate.kind === kind)?.roles
+      .find((candidate) => candidate.roleId === "sleeveBand");
+    const detailMetadata = projection?.wovenDetachedBandDetailRepresentation;
+    const axisPlacement = assembly.transforms.back;
+    const axisEdge = block.roles.back?.edges.find((edge) => edge.name === "centerBack");
+    const axisStart = axisEdge && axisPlacement ? placedPoint(edgeStart(axisEdge), axisPlacement) : undefined;
+    const axisEnd = axisEdge && axisPlacement ? placedPoint(edgeEnd(axisEdge), axisPlacement) : undefined;
+    const bandSource = geometry.primitives.filter((primitive) => primitive.source.sourceId === "pattern:woven-shirt:role:sleeveBand"
+      || primitive.source.sourceId.startsWith("pattern:woven-shirt:mark:sleeveBand:"));
+    if (projection?.viewPairReflection?.decisionId !== "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR"
+      || projection.viewPairReflection.quantity !== 2 || projection.viewPairReflection.edgeId !== "centerBack"
+      || detailMetadata?.decisionId !== "G04-S370-WOVEN-DETACHED-BAND-DETAIL"
+      || detailMetadata.sourcePieceId !== "sleeveBand" || detailMetadata.foldMarkName !== "bandFold"
+      || detailMetadata.receiverRoleId !== "sleeve" || detailMetadata.receiverEdgeId !== "hem"
+      || detailMetadata.receiverInterval[0] !== 0 || detailMetadata.receiverInterval[1] !== 0.5
+      || detailMetadata.minimumClearanceCm !== 1 || detailMetadata.rotationDegrees !== 90
+      || !axisStart || !axisEnd || Math.abs(axisStart.x - axisEnd.x) > 1e-8
+      || bandSource.some((primitive) => primitive.source.revisionId !== revisionId)) {
+      issues.push({ stage: "transform", sourceId: "pattern:woven-shirt:role:sleeveBand",
+        message: "The approved detached Woven band detail requires the exact same-revision outline, bandFold mark, and vertical back.centerBack axis; this face is withheld." });
+    } else {
+      const bodyPrimitives = transformed.filter((primitive) => ["back", "sleeve", "yoke"].some((roleId) =>
+        primitive.source.sourceId === `pattern:woven-shirt:role:${roleId}`));
+      const details = composeWovenDetachedBandDetails({ bodyPrimitives, bandPrimitives: bandSource, axisX: axisStart.x, revisionId });
+      if (details.issue) {
+        issues.push({ stage: "transform", sourceId: "pattern:woven-shirt:role:sleeveBand",
+          message: details.issue });
+      } else {
+        // The assembled band is hidden on this face; retain its exact source
+        // primitives in two rigid, source-scale side-gutter detail instances.
+        const retained = transformed.filter((primitive) => primitive.source.sourceId !== "pattern:woven-shirt:role:sleeveBand"
+          && !primitive.source.sourceId.startsWith("pattern:woven-shirt:mark:sleeveBand:"));
+        transformed.splice(0, transformed.length, ...retained, ...details.primitives);
       }
     }
   }

@@ -189,6 +189,18 @@ strokes cross the torso. Emission and closed fill contours are not proof of a
 valid assembly; all Woven faces remain held pending a source-supported view
 correction.
 
+Slice 372 applies the maintainer-approved Woven back-flat band detail as a
+view-only composition. It removes the assembled-position `sleeveBand` outline
+and fold mark from BACK_FLAT, then emits two same-revision source outlines and
+`bandFold` marks in side gutters using rigid transforms around the exact
+`back.centerBack` axis. The annotation distinguishes the full source stitch
+(`sleeveBand.top` to full `sleeve.hem`) from the displayed back receiver interval
+`[0, 0.5]` and says the details are not at their assembly location. The source
+piece, cut geometry and stitch graph are unchanged, and the front output is
+byte-identical in the replayed emitted cases. All 28 back SVGs now include the
+details, but the independent mirrored sleeve-cap strokes still cross the back
+torso. Woven V02 holds remain; emission of the details is not a passed flat.
+
 S306 adds a narrow assembly contract for the Trouser's single closed
 waistband source role. The exact ordered zero-ease waist interface yields
 front/back edge intervals and separate rigid placements relative to the sewn
