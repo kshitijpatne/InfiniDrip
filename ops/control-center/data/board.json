@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 1817,
-  "updatedAt": "2026-10-02T15:22:18.817Z",
+  "revision": 1834,
+  "updatedAt": "2026-10-02T15:53:39.312Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -451,7 +451,12 @@
         "E-G04-S373-EXIT",
         "E-G04-S373-TRACE",
         "E-G04-S373-DEFAULT",
-        "E-G04-S373-CLOSEUP"
+        "E-G04-S373-CLOSEUP",
+        "E-G04-S374-START",
+        "E-G04-S374-EXIT",
+        "E-G04-S374-SEARCH",
+        "E-G04-S374-RENDER",
+        "E-G04-S374-WHOLE"
       ]
     },
     {
@@ -4095,7 +4100,12 @@
         "E-G04-S373-EXIT",
         "E-G04-S373-TRACE",
         "E-G04-S373-DEFAULT",
-        "E-G04-S373-CLOSEUP"
+        "E-G04-S373-CLOSEUP",
+        "E-G04-S374-START",
+        "E-G04-S374-EXIT",
+        "E-G04-S374-SEARCH",
+        "E-G04-S374-RENDER",
+        "E-G04-S374-WHOLE"
       ],
       "flagKey": null
     },
@@ -7858,6 +7868,16 @@
           "at": "2026-10-02T15:22:18.817Z",
           "actor": "Codex",
           "text": "Slice 373 diagnostic exit: the S372 production output confirms one exact crossing of the two mirrored sleeve.hem back-view half-runs in all 28 Woven option configurations at the same revision; the independent trace matches S365 in 28/28. Five whole renders and crossing close-ups have zero browser errors. The source contains no sleeve-to-sleeve overlap order. Proposed choices are retain both strokes and keep the backs held, or approve a 0.60 cm view-only reflected-hem interruption with an explicit foreground instance. No production mapping is implemented or hold changed pending that decision. All seven recipe acceptance, V02-before-V03, the Polo 0.25 cm gate, legacy DXF and protected export identities remain unchanged. The UI sequence reconciliation remains recorded at S368; no UI package is a new G04 dependency."
+        },
+        {
+          "at": "2026-10-02T15:33:39.056Z",
+          "actor": "Codex",
+          "text": "Slice 374 starts from S373 at board revision 1817. This independent diagnostic tests whether two-/three-line wrapping of the exact Woven finished-placket-width callout can clear its measured output hold. Preserve the full text, exact source anchor/target/revision and all existing Woven/Polo holds. S373's separate sleeve-overlap decision remains pending and is not changed by this work."
+        },
+        {
+          "at": "2026-10-02T15:51:08.532Z",
+          "actor": "Codex",
+          "text": "Slice 374 exit: Chromium measured two-/three-line wrapped layouts for the exact Woven finished-placket-width POM at live-draft:woven-shirt:14:14. Search covered 28 option rows with the unchanged source anchor/target/value/tolerance. Only woven-shirt-combined-supported produced local candidates; default and 27 others produced none under the bounded 1 cm placement/path scan. The best three-line candidate has a 3.3135 cm leader and 0.2724 cm minimum clearance; rendered close-up confirms no text crossing. It is option-specific, so no stable mapping is proposed or implemented. A center-ending diagnostic route initially crossed its own text; corrected edge-termination was used for the final rerun. The bounded scan does not prove mathematical nonexistence. All 56 Woven and 34 Polo holds remain; 56 accepted / 90 held. All-seven V02, V02-before-V03, Polo 0.25 cm, DXF and protected export gates are unchanged. See S374 packet, search artifacts and rendered close-up."
         }
       ],
       "evidenceRefs": [
@@ -8222,7 +8242,12 @@
         "E-G04-S373-EXIT",
         "E-G04-S373-TRACE",
         "E-G04-S373-DEFAULT",
-        "E-G04-S373-CLOSEUP"
+        "E-G04-S373-CLOSEUP",
+        "E-G04-S374-START",
+        "E-G04-S374-EXIT",
+        "E-G04-S374-SEARCH",
+        "E-G04-S374-RENDER",
+        "E-G04-S374-WHOLE"
       ],
       "flagKey": null
     },
@@ -13051,6 +13076,51 @@
       "sha256": null,
       "verified": true,
       "note": "Annotated Chromium close-up confirms the crossing is between the two projected sleeve.hem half-runs, not the detached band or a source stitch."
+    },
+    {
+      "id": "E-G04-S374-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-POM-WRAPPED-LABEL-FEASIBILITY-S374.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S374 starts a diagnostic-only Chromium study of two-/three-line Woven finished-placket-width labels using the exact existing source callout and all 28 options. No source POM, anchor, geometry, acceptance, or hold changes are authorized."
+    },
+    {
+      "id": "E-G04-S374-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-POM-WRAPPED-LABEL-FEASIBILITY-S374.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S374 closes a diagnostic-only wrapped-label study. One combined option row has a locally readable candidate; default and 27 other configurations do not. No stable all-options mapping is established; all holds and V02/V03 gates remain."
+    },
+    {
+      "id": "E-G04-S374-SEARCH",
+      "kind": "document",
+      "uri": "docs/research/epic17/S374-woven-pom-wrapped-label/search-summary.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Chromium search summary for all 28 Woven option rows and both complete-text layouts at live-draft:woven-shirt:14:14. Candidate counts and measured clearance are recorded; the bounded 1 cm lattice is exploratory, not proof of nonexistence."
+    },
+    {
+      "id": "E-G04-S374-RENDER",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S374-woven-pom-wrapped-label/annotated/woven-shirt-combined-supported-three-line-candidate-detail.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Manually reviewed close-up of the one locally readable three-line wrapped POM candidate. Leader terminates at the text-box edge and does not cross the text; this combined-options row does not generalize across 28 configurations and remains diagnostic only."
+    },
+    {
+      "id": "E-G04-S374-WHOLE",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S374-woven-pom-wrapped-label/annotated/woven-shirt-combined-supported-three-line-candidate-whole.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Manually reviewed whole front-flat candidate render. The wrapped POM remains locally legible at whole-view scale but exists only in one combined option row; it is not an all-option solution and remains diagnostic only."
     }
   ]
 }

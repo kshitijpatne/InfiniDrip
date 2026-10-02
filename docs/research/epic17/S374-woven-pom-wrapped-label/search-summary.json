@@ -1,0 +1,132 @@
+{
+  "revisionId": "live-draft:woven-shirt:14:14",
+  "configurations": 28,
+  "layouts": [
+    "two-line",
+    "three-line"
+  ],
+  "rows": 56,
+  "withCandidate": 2,
+  "withoutCandidate": [
+    "woven-shirt-default:two-line",
+    "woven-shirt-default:three-line",
+    "woven-shirt-neckEase-min:two-line",
+    "woven-shirt-neckEase-min:three-line",
+    "woven-shirt-neckEase-max:two-line",
+    "woven-shirt-neckEase-max:three-line",
+    "woven-shirt-standHeight-min:two-line",
+    "woven-shirt-standHeight-min:three-line",
+    "woven-shirt-standHeight-max:two-line",
+    "woven-shirt-standHeight-max:three-line",
+    "woven-shirt-collarLeafDepth-min:two-line",
+    "woven-shirt-collarLeafDepth-min:three-line",
+    "woven-shirt-collarLeafDepth-max:two-line",
+    "woven-shirt-collarLeafDepth-max:three-line",
+    "woven-shirt-buttonCount-min:two-line",
+    "woven-shirt-buttonCount-min:three-line",
+    "woven-shirt-buttonCount-max:two-line",
+    "woven-shirt-buttonCount-max:three-line",
+    "woven-shirt-buttonSpacing-min:two-line",
+    "woven-shirt-buttonSpacing-min:three-line",
+    "woven-shirt-buttonSpacing-max:two-line",
+    "woven-shirt-buttonSpacing-max:three-line",
+    "woven-shirt-frontOverlap-min:two-line",
+    "woven-shirt-frontOverlap-min:three-line",
+    "woven-shirt-frontOverlap-max:two-line",
+    "woven-shirt-frontOverlap-max:three-line",
+    "woven-shirt-placketWidth-min:two-line",
+    "woven-shirt-placketWidth-min:three-line",
+    "woven-shirt-placketWidth-max:two-line",
+    "woven-shirt-placketWidth-max:three-line",
+    "woven-shirt-yokeDepth-min:two-line",
+    "woven-shirt-yokeDepth-min:three-line",
+    "woven-shirt-yokeDepth-max:two-line",
+    "woven-shirt-yokeDepth-max:three-line",
+    "woven-shirt-pocketWidth-min:two-line",
+    "woven-shirt-pocketWidth-min:three-line",
+    "woven-shirt-pocketWidth-max:two-line",
+    "woven-shirt-pocketWidth-max:three-line",
+    "woven-shirt-pocketHeight-min:two-line",
+    "woven-shirt-pocketHeight-min:three-line",
+    "woven-shirt-pocketHeight-max:two-line",
+    "woven-shirt-pocketHeight-max:three-line",
+    "woven-shirt-sleeveBandDepth-min:two-line",
+    "woven-shirt-sleeveBandDepth-min:three-line",
+    "woven-shirt-sleeveBandDepth-max:two-line",
+    "woven-shirt-sleeveBandDepth-max:three-line",
+    "woven-shirt-sideVentDepth-min:two-line",
+    "woven-shirt-sideVentDepth-min:three-line",
+    "woven-shirt-sideVentDepth-max:two-line",
+    "woven-shirt-sideVentDepth-max:three-line",
+    "woven-shirt-hemTurn-min:two-line",
+    "woven-shirt-hemTurn-min:three-line",
+    "woven-shirt-hemTurn-max:two-line",
+    "woven-shirt-hemTurn-max:three-line"
+  ],
+  "topCandidates": [
+    {
+      "caseId": "woven-shirt-combined-supported",
+      "layoutId": "two-line",
+      "count": 1,
+      "best": {
+        "labelAt": {
+          "x": 8,
+          "y": 7
+        },
+        "box": {
+          "minX": 6.3119023370742795,
+          "maxX": 9.68809766292572,
+          "minY": 6.544791068434715,
+          "maxY": 7.455208931565285
+        },
+        "routeKind": "direct",
+        "route": [
+          {
+            "x": 3,
+            "y": 8.200000000000003
+          },
+          {
+            "x": 6.3119023370742795,
+            "y": 7.405143439102174
+          }
+        ],
+        "lengthCm": 3.405949800381738,
+        "directSpanCm": 5.141984052872978,
+        "minClearanceCm": 0.31729631179200135,
+        "collarClearanceCm": 2.1450414612174704
+      }
+    },
+    {
+      "caseId": "woven-shirt-combined-supported",
+      "layoutId": "three-line",
+      "count": 2,
+      "best": {
+        "labelAt": {
+          "x": 7.5,
+          "y": 7.5
+        },
+        "box": {
+          "minX": 6.274097852706909,
+          "maxX": 8.725902147293091,
+          "minY": 6.844791068434715,
+          "maxY": 8.155208931565285
+        },
+        "routeKind": "direct",
+        "route": [
+          {
+            "x": 3,
+            "y": 8.200000000000003
+          },
+          {
+            "x": 6.274097852706909,
+            "y": 7.690695889578926
+          }
+        ],
+        "lengthCm": 3.3134736193293888,
+        "directSpanCm": 4.5541190146942805,
+        "minClearanceCm": 0.27241401256373887,
+        "collarClearanceCm": 1.9109876225540596
+      }
+    }
+  ]
+}

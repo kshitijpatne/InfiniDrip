@@ -169,6 +169,10 @@ only through an explicitly admitted, linked Epic packet.
   receiver metadata, and detached/not-at-assembly wording. The 28-option replay
   passes the band-only placement checks, but the independent sleeve-pair X and
   other V02 holds remain; no Woven face is accepted.
+- `docs/research/epic17/G04-V02-WOVEN-POM-WRAPPED-LABEL-FEASIBILITY-S374.md` —
+  current diagnostic for two-/three-line wrapping of the exact Woven
+  finished-placket-width callout; it preserves the source anchor/value and all
+  held faces while testing the remaining label-readability space.
 - `docs/research/epic17/G04-V02-WOVEN-REMAINING-SLEEVE-CROSSING-DIAGNOSIS-S373.md`
   and `docs/research/epic17/S373-woven-sleeve-crossing/` — the exact S372
   post-change trace confirms one mirrored `sleeve.hem` half-run crossing in all

@@ -1,0 +1,6 @@
+[
+  {"type":"addEvidence","itemId":"G04-V02","evidence":{"id":"E-G04-S374-START","kind":"document","uri":"docs/research/epic17/G04-V02-WOVEN-POM-WRAPPED-LABEL-FEASIBILITY-S374.md","verified":true,"note":"S374 starts a diagnostic-only Chromium study of two-/three-line Woven finished-placket-width labels using the exact existing source callout and all 28 options. No source POM, anchor, geometry, acceptance, or hold changes are authorized."}},
+  {"type":"addEpicEvidence","epicId":"EPIC-17","evidenceId":"E-G04-S374-START","actor":"Codex","role":"maintainer"},
+  {"type":"addEvidence","itemId":"EPIC-17","evidenceId":"E-G04-S374-START"},
+  {"type":"addComment","itemId":"G04-V02","actor":"Codex","text":"Slice 374 starts from S373 at board revision 1817. This independent diagnostic tests whether two-/three-line wrapping of the exact Woven finished-placket-width callout can clear its measured output hold. Preserve the full text, exact source anchor/target/revision and all existing Woven/Polo holds. S373's separate sleeve-overlap decision remains pending and is not changed by this work."}
+]

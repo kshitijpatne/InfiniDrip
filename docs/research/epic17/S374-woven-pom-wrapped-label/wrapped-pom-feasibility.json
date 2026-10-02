@@ -1,0 +1,3457 @@
+{
+  "source": "Chromium measurement and geometry compiled from Vite-served current technical-flat modules",
+  "revisionId": "live-draft:woven-shirt:14:14",
+  "configurations": 28,
+  "layouts": [
+    "two-line",
+    "three-line"
+  ],
+  "lineAdvanceCm": 0.4,
+  "minClearanceCm": 0.25,
+  "priorRejectedRouteLengthCm": 25.66,
+  "rows": [
+    {
+      "caseId": "woven-shirt-default",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "layoutId": "two-line",
+      "lines": [
+        "Finished placket width:",
+        "3.0 cm (±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 2.5,
+        "y": 8.200000000000003
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 3.2361953258514404,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 2.397794246673584,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 3.2361953258514404,
+        "heightCm": 0.9104178631305695
+      },
+      "viableLabelBoxes": 7616,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-default",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "layoutId": "three-line",
+      "lines": [
+        "Finished placket",
+        "width: 3.0 cm",
+        "(±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 2.5,
+        "y": 8.200000000000003
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 2.3118042945861816,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.8847488164901733,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.3489658832550049,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 2.3118042945861816,
+        "heightCm": 1.3104178631305694
+      },
+      "viableLabelBoxes": 7791,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-neckEase-min",
+      "options": {
+        "neckEase": 0,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "layoutId": "two-line",
+      "lines": [
+        "Finished placket width:",
+        "3.0 cm (±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 2.5,
+        "y": 8
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 3.2361953258514404,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 2.397794246673584,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 3.2361953258514404,
+        "heightCm": 0.9104178631305695
+      },
+      "viableLabelBoxes": 7619,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-neckEase-min",
+      "options": {
+        "neckEase": 0,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "layoutId": "three-line",
+      "lines": [
+        "Finished placket",
+        "width: 3.0 cm",
+        "(±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 2.5,
+        "y": 8
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 2.3118042945861816,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.8847488164901733,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.3489658832550049,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 2.3118042945861816,
+        "heightCm": 1.3104178631305694
+      },
+      "viableLabelBoxes": 7775,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-neckEase-max",
+      "options": {
+        "neckEase": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "layoutId": "two-line",
+      "lines": [
+        "Finished placket width:",
+        "3.0 cm (±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 2.5,
+        "y": 8.599999999999998
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 3.2361953258514404,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 2.397794246673584,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 3.2361953258514404,
+        "heightCm": 0.9104178631305695
+      },
+      "viableLabelBoxes": 7621,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-neckEase-max",
+      "options": {
+        "neckEase": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "layoutId": "three-line",
+      "lines": [
+        "Finished placket",
+        "width: 3.0 cm",
+        "(±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 2.5,
+        "y": 8.599999999999998
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 2.3118042945861816,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.8847488164901733,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.3489658832550049,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 2.3118042945861816,
+        "heightCm": 1.3104178631305694
+      },
+      "viableLabelBoxes": 7787,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-standHeight-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 1.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "layoutId": "two-line",
+      "lines": [
+        "Finished placket width:",
+        "3.0 cm (±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 2.5,
+        "y": 8.200000000000003
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 3.2361953258514404,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 2.397794246673584,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 3.2361953258514404,
+        "heightCm": 0.9104178631305695
+      },
+      "viableLabelBoxes": 7634,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-standHeight-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 1.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "layoutId": "three-line",
+      "lines": [
+        "Finished placket",
+        "width: 3.0 cm",
+        "(±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 2.5,
+        "y": 8.200000000000003
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 2.3118042945861816,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.8847488164901733,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.3489658832550049,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 2.3118042945861816,
+        "heightCm": 1.3104178631305694
+      },
+      "viableLabelBoxes": 7816,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-standHeight-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 3.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "layoutId": "two-line",
+      "lines": [
+        "Finished placket width:",
+        "3.0 cm (±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 2.5,
+        "y": 8.200000000000003
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 3.2361953258514404,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 2.397794246673584,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 3.2361953258514404,
+        "heightCm": 0.9104178631305695
+      },
+      "viableLabelBoxes": 7599,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-standHeight-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 3.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "layoutId": "three-line",
+      "lines": [
+        "Finished placket",
+        "width: 3.0 cm",
+        "(±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 2.5,
+        "y": 8.200000000000003
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 2.3118042945861816,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.8847488164901733,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.3489658832550049,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 2.3118042945861816,
+        "heightCm": 1.3104178631305694
+      },
+      "viableLabelBoxes": 7784,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 4,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "layoutId": "two-line",
+      "lines": [
+        "Finished placket width:",
+        "3.0 cm (±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 2.5,
+        "y": 8.200000000000003
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 3.2361953258514404,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 2.397794246673584,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 3.2361953258514404,
+        "heightCm": 0.9104178631305695
+      },
+      "viableLabelBoxes": 7642,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 4,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "layoutId": "three-line",
+      "lines": [
+        "Finished placket",
+        "width: 3.0 cm",
+        "(±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 2.5,
+        "y": 8.200000000000003
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 2.3118042945861816,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.8847488164901733,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.3489658832550049,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 2.3118042945861816,
+        "heightCm": 1.3104178631305694
+      },
+      "viableLabelBoxes": 7800,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 8,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "layoutId": "two-line",
+      "lines": [
+        "Finished placket width:",
+        "3.0 cm (±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 2.5,
+        "y": 8.200000000000003
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 3.2361953258514404,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 2.397794246673584,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 3.2361953258514404,
+        "heightCm": 0.9104178631305695
+      },
+      "viableLabelBoxes": 7616,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 8,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "layoutId": "three-line",
+      "lines": [
+        "Finished placket",
+        "width: 3.0 cm",
+        "(±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 2.5,
+        "y": 8.200000000000003
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 2.3118042945861816,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.8847488164901733,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.3489658832550049,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 2.3118042945861816,
+        "heightCm": 1.3104178631305694
+      },
+      "viableLabelBoxes": 7789,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 6,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "layoutId": "two-line",
+      "lines": [
+        "Finished placket width:",
+        "3.0 cm (±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 2.5,
+        "y": 8.200000000000003
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 3.2361953258514404,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 2.397794246673584,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 3.2361953258514404,
+        "heightCm": 0.9104178631305695
+      },
+      "viableLabelBoxes": 7616,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 6,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "layoutId": "three-line",
+      "lines": [
+        "Finished placket",
+        "width: 3.0 cm",
+        "(±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 2.5,
+        "y": 8.200000000000003
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 2.3118042945861816,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.8847488164901733,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.3489658832550049,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 2.3118042945861816,
+        "heightCm": 1.3104178631305694
+      },
+      "viableLabelBoxes": 7791,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "layoutId": "two-line",
+      "lines": [
+        "Finished placket width:",
+        "3.0 cm (±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 2.5,
+        "y": 8.200000000000003
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 3.2361953258514404,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 2.397794246673584,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 3.2361953258514404,
+        "heightCm": 0.9104178631305695
+      },
+      "viableLabelBoxes": 7616,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "layoutId": "three-line",
+      "lines": [
+        "Finished placket",
+        "width: 3.0 cm",
+        "(±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 2.5,
+        "y": 8.200000000000003
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 2.3118042945861816,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.8847488164901733,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.3489658832550049,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 2.3118042945861816,
+        "heightCm": 1.3104178631305694
+      },
+      "viableLabelBoxes": 7791,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 6,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "layoutId": "two-line",
+      "lines": [
+        "Finished placket width:",
+        "3.0 cm (±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 2.5,
+        "y": 8.200000000000003
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 3.2361953258514404,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 2.397794246673584,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 3.2361953258514404,
+        "heightCm": 0.9104178631305695
+      },
+      "viableLabelBoxes": 7616,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 6,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "layoutId": "three-line",
+      "lines": [
+        "Finished placket",
+        "width: 3.0 cm",
+        "(±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 2.5,
+        "y": 8.200000000000003
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 2.3118042945861816,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.8847488164901733,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.3489658832550049,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 2.3118042945861816,
+        "heightCm": 1.3104178631305694
+      },
+      "viableLabelBoxes": 7791,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 9,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "layoutId": "two-line",
+      "lines": [
+        "Finished placket width:",
+        "3.0 cm (±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 2.5,
+        "y": 8.200000000000003
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 3.2361953258514404,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 2.397794246673584,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 3.2361953258514404,
+        "heightCm": 0.9104178631305695
+      },
+      "viableLabelBoxes": 7616,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 9,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "layoutId": "three-line",
+      "lines": [
+        "Finished placket",
+        "width: 3.0 cm",
+        "(±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 2.5,
+        "y": 8.200000000000003
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 2.3118042945861816,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.8847488164901733,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.3489658832550049,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 2.3118042945861816,
+        "heightCm": 1.3104178631305694
+      },
+      "viableLabelBoxes": 7791,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "layoutId": "two-line",
+      "lines": [
+        "Finished placket width:",
+        "3.0 cm (±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 2.5,
+        "y": 8.200000000000003
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 3.2361953258514404,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 2.397794246673584,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 3.2361953258514404,
+        "heightCm": 0.9104178631305695
+      },
+      "viableLabelBoxes": 7616,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "layoutId": "three-line",
+      "lines": [
+        "Finished placket",
+        "width: 3.0 cm",
+        "(±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 2.5,
+        "y": 8.200000000000003
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 2.3118042945861816,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.8847488164901733,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.3489658832550049,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 2.3118042945861816,
+        "heightCm": 1.3104178631305694
+      },
+      "viableLabelBoxes": 7887,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 3,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "layoutId": "two-line",
+      "lines": [
+        "Finished placket width:",
+        "3.0 cm (±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 2.5,
+        "y": 8.200000000000003
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 3.2361953258514404,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 2.397794246673584,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 3.2361953258514404,
+        "heightCm": 0.9104178631305695
+      },
+      "viableLabelBoxes": 7589,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 3,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "layoutId": "three-line",
+      "lines": [
+        "Finished placket",
+        "width: 3.0 cm",
+        "(±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 2.5,
+        "y": 8.200000000000003
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 2.3118042945861816,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.8847488164901733,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.3489658832550049,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 2.3118042945861816,
+        "heightCm": 1.3104178631305694
+      },
+      "viableLabelBoxes": 7750,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 2,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "layoutId": "two-line",
+      "lines": [
+        "Finished placket width:",
+        "3.0 cm (±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 2,
+        "y": 8.200000000000003
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 3.2361953258514404,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 2.397794246673584,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 3.2361953258514404,
+        "heightCm": 0.9104178631305695
+      },
+      "viableLabelBoxes": 7680,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 2,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "layoutId": "three-line",
+      "lines": [
+        "Finished placket",
+        "width: 3.0 cm",
+        "(±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 2,
+        "y": 8.200000000000003
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 2.3118042945861816,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.8847488164901733,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.3489658832550049,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 2.3118042945861816,
+        "heightCm": 1.3104178631305694
+      },
+      "viableLabelBoxes": 7825,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 4,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "layoutId": "two-line",
+      "lines": [
+        "Finished placket width:",
+        "3.0 cm (±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 3,
+        "y": 8.200000000000003
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 3.2361953258514404,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 2.397794246673584,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 3.2361953258514404,
+        "heightCm": 0.9104178631305695
+      },
+      "viableLabelBoxes": 7500,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 4,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "layoutId": "three-line",
+      "lines": [
+        "Finished placket",
+        "width: 3.0 cm",
+        "(±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 3,
+        "y": 8.200000000000003
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 2.3118042945861816,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.8847488164901733,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.3489658832550049,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 2.3118042945861816,
+        "heightCm": 1.3104178631305694
+      },
+      "viableLabelBoxes": 7766,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 7,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "layoutId": "two-line",
+      "lines": [
+        "Finished placket width:",
+        "3.0 cm (±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 2.5,
+        "y": 8.200000000000003
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 3.2361953258514404,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 2.397794246673584,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 3.2361953258514404,
+        "heightCm": 0.9104178631305695
+      },
+      "viableLabelBoxes": 7616,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 7,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "layoutId": "three-line",
+      "lines": [
+        "Finished placket",
+        "width: 3.0 cm",
+        "(±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 2.5,
+        "y": 8.200000000000003
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 2.3118042945861816,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.8847488164901733,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.3489658832550049,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 2.3118042945861816,
+        "heightCm": 1.3104178631305694
+      },
+      "viableLabelBoxes": 7791,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 15,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "layoutId": "two-line",
+      "lines": [
+        "Finished placket width:",
+        "3.0 cm (±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 2.5,
+        "y": 8.200000000000003
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 3.2361953258514404,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 2.397794246673584,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 3.2361953258514404,
+        "heightCm": 0.9104178631305695
+      },
+      "viableLabelBoxes": 7616,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 15,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "layoutId": "three-line",
+      "lines": [
+        "Finished placket",
+        "width: 3.0 cm",
+        "(±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 2.5,
+        "y": 8.200000000000003
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 2.3118042945861816,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.8847488164901733,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.3489658832550049,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 2.3118042945861816,
+        "heightCm": 1.3104178631305694
+      },
+      "viableLabelBoxes": 7791,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 9,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "layoutId": "two-line",
+      "lines": [
+        "Finished placket width:",
+        "3.0 cm (±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 2.5,
+        "y": 8.200000000000003
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 3.2361953258514404,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 2.397794246673584,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 3.2361953258514404,
+        "heightCm": 0.9104178631305695
+      },
+      "viableLabelBoxes": 7625,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 9,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "layoutId": "three-line",
+      "lines": [
+        "Finished placket",
+        "width: 3.0 cm",
+        "(±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 2.5,
+        "y": 8.200000000000003
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 2.3118042945861816,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.8847488164901733,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.3489658832550049,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 2.3118042945861816,
+        "heightCm": 1.3104178631305694
+      },
+      "viableLabelBoxes": 7806,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 16,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "layoutId": "two-line",
+      "lines": [
+        "Finished placket width:",
+        "3.0 cm (±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 2.5,
+        "y": 8.200000000000003
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 3.2361953258514404,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 2.397794246673584,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 3.2361953258514404,
+        "heightCm": 0.9104178631305695
+      },
+      "viableLabelBoxes": 7605,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 16,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "layoutId": "three-line",
+      "lines": [
+        "Finished placket",
+        "width: 3.0 cm",
+        "(±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 2.5,
+        "y": 8.200000000000003
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 2.3118042945861816,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.8847488164901733,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.3489658832550049,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 2.3118042945861816,
+        "heightCm": 1.3104178631305694
+      },
+      "viableLabelBoxes": 7763,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 10,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "layoutId": "two-line",
+      "lines": [
+        "Finished placket width:",
+        "3.0 cm (±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 2.5,
+        "y": 8.200000000000003
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 3.2361953258514404,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 2.397794246673584,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 3.2361953258514404,
+        "heightCm": 0.9104178631305695
+      },
+      "viableLabelBoxes": 7620,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 10,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "layoutId": "three-line",
+      "lines": [
+        "Finished placket",
+        "width: 3.0 cm",
+        "(±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 2.5,
+        "y": 8.200000000000003
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 2.3118042945861816,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.8847488164901733,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.3489658832550049,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 2.3118042945861816,
+        "heightCm": 1.3104178631305694
+      },
+      "viableLabelBoxes": 7794,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 18,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "layoutId": "two-line",
+      "lines": [
+        "Finished placket width:",
+        "3.0 cm (±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 2.5,
+        "y": 8.200000000000003
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 3.2361953258514404,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 2.397794246673584,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 3.2361953258514404,
+        "heightCm": 0.9104178631305695
+      },
+      "viableLabelBoxes": 7596,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 18,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "layoutId": "three-line",
+      "lines": [
+        "Finished placket",
+        "width: 3.0 cm",
+        "(±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 2.5,
+        "y": 8.200000000000003
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 2.3118042945861816,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.8847488164901733,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.3489658832550049,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 2.3118042945861816,
+        "heightCm": 1.3104178631305694
+      },
+      "viableLabelBoxes": 7784,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 2,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "layoutId": "two-line",
+      "lines": [
+        "Finished placket width:",
+        "3.0 cm (±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 2.5,
+        "y": 8.200000000000003
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 3.2361953258514404,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 2.397794246673584,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 3.2361953258514404,
+        "heightCm": 0.9104178631305695
+      },
+      "viableLabelBoxes": 7687,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 2,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "layoutId": "three-line",
+      "lines": [
+        "Finished placket",
+        "width: 3.0 cm",
+        "(±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 2.5,
+        "y": 8.200000000000003
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 2.3118042945861816,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.8847488164901733,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.3489658832550049,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 2.3118042945861816,
+        "heightCm": 1.3104178631305694
+      },
+      "viableLabelBoxes": 7961,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 5,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "layoutId": "two-line",
+      "lines": [
+        "Finished placket width:",
+        "3.0 cm (±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 2.5,
+        "y": 8.200000000000003
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 3.2361953258514404,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 2.397794246673584,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 3.2361953258514404,
+        "heightCm": 0.9104178631305695
+      },
+      "viableLabelBoxes": 7378,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 5,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "layoutId": "three-line",
+      "lines": [
+        "Finished placket",
+        "width: 3.0 cm",
+        "(±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 2.5,
+        "y": 8.200000000000003
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 2.3118042945861816,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.8847488164901733,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.3489658832550049,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 2.3118042945861816,
+        "heightCm": 1.3104178631305694
+      },
+      "viableLabelBoxes": 7565,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 0,
+        "hemTurn": 1
+      },
+      "layoutId": "two-line",
+      "lines": [
+        "Finished placket width:",
+        "3.0 cm (±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 2.5,
+        "y": 8.200000000000003
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 3.2361953258514404,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 2.397794246673584,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 3.2361953258514404,
+        "heightCm": 0.9104178631305695
+      },
+      "viableLabelBoxes": 7727,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 0,
+        "hemTurn": 1
+      },
+      "layoutId": "three-line",
+      "lines": [
+        "Finished placket",
+        "width: 3.0 cm",
+        "(±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 2.5,
+        "y": 8.200000000000003
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 2.3118042945861816,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.8847488164901733,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.3489658832550049,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 2.3118042945861816,
+        "heightCm": 1.3104178631305694
+      },
+      "viableLabelBoxes": 7801,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 8,
+        "hemTurn": 1
+      },
+      "layoutId": "two-line",
+      "lines": [
+        "Finished placket width:",
+        "3.0 cm (±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 2.5,
+        "y": 8.200000000000003
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 3.2361953258514404,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 2.397794246673584,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 3.2361953258514404,
+        "heightCm": 0.9104178631305695
+      },
+      "viableLabelBoxes": 7610,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 8,
+        "hemTurn": 1
+      },
+      "layoutId": "three-line",
+      "lines": [
+        "Finished placket",
+        "width: 3.0 cm",
+        "(±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 2.5,
+        "y": 8.200000000000003
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 2.3118042945861816,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.8847488164901733,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.3489658832550049,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 2.3118042945861816,
+        "heightCm": 1.3104178631305694
+      },
+      "viableLabelBoxes": 7789,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 0.7
+      },
+      "layoutId": "two-line",
+      "lines": [
+        "Finished placket width:",
+        "3.0 cm (±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 2.5,
+        "y": 8.200000000000003
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 3.2361953258514404,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 2.397794246673584,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 3.2361953258514404,
+        "heightCm": 0.9104178631305695
+      },
+      "viableLabelBoxes": 7616,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 0.7
+      },
+      "layoutId": "three-line",
+      "lines": [
+        "Finished placket",
+        "width: 3.0 cm",
+        "(±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 2.5,
+        "y": 8.200000000000003
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 2.3118042945861816,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.8847488164901733,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.3489658832550049,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 2.3118042945861816,
+        "heightCm": 1.3104178631305694
+      },
+      "viableLabelBoxes": 7791,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 2
+      },
+      "layoutId": "two-line",
+      "lines": [
+        "Finished placket width:",
+        "3.0 cm (±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 2.5,
+        "y": 8.200000000000003
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 3.2361953258514404,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 2.397794246673584,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 3.2361953258514404,
+        "heightCm": 0.9104178631305695
+      },
+      "viableLabelBoxes": 7616,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 2
+      },
+      "layoutId": "three-line",
+      "lines": [
+        "Finished placket",
+        "width: 3.0 cm",
+        "(±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 2.5,
+        "y": 8.200000000000003
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 2.3118042945861816,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.8847488164901733,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.3489658832550049,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 2.3118042945861816,
+        "heightCm": 1.3104178631305694
+      },
+      "viableLabelBoxes": 7791,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 0,
+      "bestCandidates": [],
+      "rejections": {
+        "collision": 270,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-combined-supported",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 3,
+        "collarLeafDepth": 7,
+        "buttonCount": 6,
+        "buttonSpacing": 6,
+        "frontOverlap": 2,
+        "placketWidth": 4,
+        "yokeDepth": 10,
+        "pocketWidth": 14,
+        "pocketHeight": 15,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "layoutId": "two-line",
+      "lines": [
+        "Finished placket width:",
+        "3.0 cm (±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 3,
+        "y": 8.200000000000003
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 3.2361953258514404,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 2.397794246673584,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 3.2361953258514404,
+        "heightCm": 0.9104178631305695
+      },
+      "viableLabelBoxes": 7479,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 1,
+      "bestCandidates": [
+        {
+          "labelAt": {
+            "x": 8,
+            "y": 7
+          },
+          "box": {
+            "minX": 6.3119023370742795,
+            "maxX": 9.68809766292572,
+            "minY": 6.544791068434715,
+            "maxY": 7.455208931565285
+          },
+          "routeKind": "direct",
+          "route": [
+            {
+              "x": 3,
+              "y": 8.200000000000003
+            },
+            {
+              "x": 6.3119023370742795,
+              "y": 7.405143439102174
+            }
+          ],
+          "lengthCm": 3.405949800381738,
+          "directSpanCm": 5.141984052872978,
+          "minClearanceCm": 0.31729631179200135,
+          "collarClearanceCm": 2.1450414612174704
+        }
+      ],
+      "rejections": {
+        "collision": 269,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-combined-supported",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 3,
+        "collarLeafDepth": 7,
+        "buttonCount": 6,
+        "buttonSpacing": 6,
+        "frontOverlap": 2,
+        "placketWidth": 4,
+        "yokeDepth": 10,
+        "pocketWidth": 14,
+        "pocketHeight": 15,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "layoutId": "three-line",
+      "lines": [
+        "Finished placket",
+        "width: 3.0 cm",
+        "(±0.2 cm)"
+      ],
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pom:woven-shirt:finished-placket-width",
+      "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "anchor": {
+        "x": 3,
+        "y": 8.200000000000003
+      },
+      "lineMetrics": [
+        {
+          "widthCm": 2.3118042945861816,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.8847488164901733,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        },
+        {
+          "widthCm": 1.3489658832550049,
+          "ascentCm": 0.29104259610176086,
+          "descentCm": 0.0793752670288086
+        }
+      ],
+      "labelBox": {
+        "widthCm": 2.3118042945861816,
+        "heightCm": 1.3104178631305694
+      },
+      "viableLabelBoxes": 7739,
+      "nearestLabelBoxesSearched": 30,
+      "candidateCount": 2,
+      "bestCandidates": [
+        {
+          "labelAt": {
+            "x": 7.5,
+            "y": 7.5
+          },
+          "box": {
+            "minX": 6.274097852706909,
+            "maxX": 8.725902147293091,
+            "minY": 6.844791068434715,
+            "maxY": 8.155208931565285
+          },
+          "routeKind": "direct",
+          "route": [
+            {
+              "x": 3,
+              "y": 8.200000000000003
+            },
+            {
+              "x": 6.274097852706909,
+              "y": 7.690695889578926
+            }
+          ],
+          "lengthCm": 3.3134736193293888,
+          "directSpanCm": 4.5541190146942805,
+          "minClearanceCm": 0.27241401256373887,
+          "collarClearanceCm": 1.9109876225540596
+        },
+        {
+          "labelAt": {
+            "x": 8.5,
+            "y": 6.5
+          },
+          "box": {
+            "minX": 7.274097852706909,
+            "maxX": 9.725902147293091,
+            "minY": 5.844791068434715,
+            "maxY": 7.155208931565285
+          },
+          "routeKind": "direct",
+          "route": [
+            {
+              "x": 3,
+              "y": 8.200000000000003
+            },
+            {
+              "x": 7.274097852706909,
+              "y": 6.87891520916332
+            }
+          ],
+          "lengthCm": 4.473608999353186,
+          "directSpanCm": 5.756735185849702,
+          "minClearanceCm": 0.2883304016789293,
+          "collarClearanceCm": 2.0785610754768498
+        }
+      ],
+      "rejections": {
+        "collision": 268,
+        "collarTracking": 0,
+        "length": 0,
+        "routeRatio": 0
+      }
+    }
+  ]
+}
