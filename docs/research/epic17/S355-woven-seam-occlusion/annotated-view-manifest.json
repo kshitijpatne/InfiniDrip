@@ -1,0 +1,56 @@
+{
+  "results": [
+    {
+      "caseId": "woven-shirt-default",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "source": "woven-shirt-default-back_flat.svg",
+      "overlaySvg": "annotated-views/woven-shirt-default-back_flat-band-coverage.svg",
+      "screenshot": "annotated-views/woven-shirt-default-back_flat-band-coverage.png",
+      "inspection": {
+        "revisionIds": 1,
+        "highlightedBandFills": 1,
+        "bodyYokeFills": 2
+      },
+      "errors": []
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "source": "woven-shirt-yokeDepth-min-back_flat.svg",
+      "overlaySvg": "annotated-views/woven-shirt-yokeDepth-min-back_flat-band-coverage.svg",
+      "screenshot": "annotated-views/woven-shirt-yokeDepth-min-back_flat-band-coverage.png",
+      "inspection": {
+        "revisionIds": 1,
+        "highlightedBandFills": 1,
+        "bodyYokeFills": 2
+      },
+      "errors": []
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "source": "woven-shirt-yokeDepth-max-back_flat.svg",
+      "overlaySvg": "annotated-views/woven-shirt-yokeDepth-max-back_flat-band-coverage.svg",
+      "screenshot": "annotated-views/woven-shirt-yokeDepth-max-back_flat-band-coverage.png",
+      "inspection": {
+        "revisionIds": 1,
+        "highlightedBandFills": 1,
+        "bodyYokeFills": 2
+      },
+      "errors": []
+    },
+    {
+      "caseId": "woven-shirt-combined-supported",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "source": "woven-shirt-combined-supported-back_flat.svg",
+      "overlaySvg": "annotated-views/woven-shirt-combined-supported-back_flat-band-coverage.svg",
+      "screenshot": "annotated-views/woven-shirt-combined-supported-back_flat-band-coverage.png",
+      "inspection": {
+        "revisionIds": 1,
+        "highlightedBandFills": 1,
+        "bodyYokeFills": 2
+      },
+      "errors": []
+    }
+  ]
+}

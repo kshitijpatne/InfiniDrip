@@ -1,8 +1,18 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 354 reconciled the approved UI recommendations without changing G04 scope or gates. All 14 UIQ cards are registered Backlog; G04-V02 remains In Progress and V03 remains gated, 2026-10-02._
+_Last updated: S355 rejected a seam-layer occlusion candidate after 28-option Chromium/output analysis; Woven remains held pending a source-preserving view mapping, 2026-10-02._
 
-## EPIC-17 / G04 current handoff — Slice 354 complete; V02 remains open
+## EPIC-17 / G04 current handoff — Slice 355 complete; V02 remains open
+
+S354 landed as `3a8af3f83b4092321cb7073c853293d7dc3c098f`, `Slice 354: reconcile approved UI guidance with G04`. The clean branch remains `codex/epic-17-g04` with refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` as ancestor. Canonical board is revision 1444 after validated S355 start/exit evidence and comments; EPIC-17 and G04-V02 remain In Progress, V01 Done and V03 Backlog. S354 completed at board revision 1438 with 35/35 Control Center tests and a clean diff; its packet, board replay and UIQ disposition are `docs/research/epic17/G04-UI-RECOMMENDATION-RECONCILIATION-S354.md`. All 14 UIQ entries remain Backlog outside G04's critical path.
+
+S355 started 2026-10-02 03:57:28 UTC at S354 and completed as a replay-only Woven BACK_FLAT seam-layer occlusion diagnosis. Across all 28 exact revisions, the combined body/yoke colorway fills contain 100% of the compound mirrored `sleeveBand` silhouette area (0.1 cm area sampling; 0.08 cm boundary sampling). Therefore clipping only seam strokes cannot remove the crossing band contours; clipping the band shape behind the body removes the complete pair. Chromium rendered default, combined-supported, and yokeDepth min/max overlays with zero browser errors; manual review confirms the X persists and no candidate is acceptable. Source role/edge/multiplicity/fold-mark identities and exact band-top/sleeve-hem joins are encoded; intended body-versus-band display order remains unspecified. No production behavior or data changed.
+
+S355 packet and reproducible evidence: `docs/research/epic17/G04-V02-WOVEN-BACK-SEAM-OCCLUSION-DIAGNOSIS-S355.md` and `docs/research/epic17/S355-woven-seam-occlusion/`. Control Center passes 36/36 and diff check passes. Board started at 1438 and validated start evidence/comment at 1439–1441; exit evidence/comment were added at 1442–1444 through the validated command layer. All 56 Woven faces and all 34 Polo faces remain held; integrated tally is still 56 accepted / 90 held. MQF-004–007, MQF-011, MQF-012 and MQF-015 retain their applicable review dispositions; post-G17 deferrals remain unchanged.
+
+**Next action:** reserve S356 from refreshed usage/Git/board state and investigate concrete source-preserving view transforms for Woven sleeve/band instances against their exact hem and band-top joins. Any new semantic mapping is a proposal requiring maintainer approval before production implementation. Preserve every Woven and Polo hold, all-seven V02 acceptance, and the V02-before-V03 gate.
+
+## EPIC-17 / G04 prior handoff — Slice 354 complete; V02 remains open
 
 S354 started 2026-10-02 03:39:28 UTC from clean S353 `6ea5967b1c2e76402323a730a35bc25972993e3a` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. Highest assigned slice was 353; S354 is reserved for this reconciliation. Board started at revision 1402 with EPIC-17/G04-V02 In Progress, V01 Done, V03 Backlog and no UIQ identities.
 

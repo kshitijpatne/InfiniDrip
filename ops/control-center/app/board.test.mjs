@@ -72,6 +72,20 @@ test("S354 reconciliation evidence is linked without changing G04 acceptance sta
   assert.equal(epic.dependencies.includes("UIQ-GATE"), false);
 });
 
+test("S355 Woven diagnosis is linked while every G04 acceptance hold remains", () => {
+  const epic = board.workItems.find((item) => item.id === "EPIC-17");
+  const g04 = board.workItems.find((item) => item.id === "G04-V02");
+  for (const id of ["E-G04-S355-START", "E-G04-S355-EXIT"]) {
+    assert.ok(board.evidence.some((entry) => entry.id === id && entry.uri === "docs/research/epic17/G04-V02-WOVEN-BACK-SEAM-OCCLUSION-DIAGNOSIS-S355.md"));
+    assert.ok(epic.evidenceRefs.includes(id));
+    assert.ok(g04.evidenceRefs.includes(id));
+  }
+  assert.equal(g04.status, "In Progress");
+  assert.equal(board.workItems.find((item) => item.id === "G04-V03").status, "Backlog");
+  assert.equal(epic.dependencies.includes("UIQ-GATE"), false);
+  assert.ok(g04.comments.some((comment) => /Slice 355 rejected Woven back seam-layer occlusion/.test(comment.text)));
+});
+
 test("malformed board data is rejected instead of repaired", () => {
   const malformed = structuredClone(board);
   malformed.workItems[0].evidenceRefs = ["MISSING-EVIDENCE"];

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 1438,
-  "updatedAt": "2026-10-02T03:52:38.770Z",
+  "revision": 1444,
+  "updatedAt": "2026-10-02T04:06:35.991Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -3736,7 +3736,9 @@
         "E-G04-S349-EXIT",
         "E-G04-S350-EXIT",
         "E-G04-S354-START",
-        "E-G04-S354-EXIT"
+        "E-G04-S354-EXIT",
+        "E-G04-S355-START",
+        "E-G04-S355-EXIT"
       ],
       "flagKey": null
     },
@@ -7289,6 +7291,16 @@
           "at": "2026-10-02T03:52:38.770Z",
           "actor": "Codex",
           "text": "S354 verification correction: after adding the packet-link regression, npm run control-center:test passes 35/35 (not 34/34); git diff --check passes. Board remains revision 1438 after this note."
+        },
+        {
+          "at": "2026-10-02T03:58:15.963Z",
+          "actor": "Codex",
+          "text": "Slice 355 is active for a diagnostic-only Woven back seam-layer occlusion study across exact current options. Do not change production mappings, hide silhouettes/cuffs, relax holds, or treat a diagnostic candidate as accepted output; any new semantic convention requires maintainer review."
+        },
+        {
+          "at": "2026-10-02T04:06:35.991Z",
+          "actor": "Codex",
+          "text": "Slice 355 rejected Woven back seam-layer occlusion after 28-option exact-revision Chromium analysis: the compound mirrored band silhouette lies 100% inside body/yoke fills, so seam-only clipping leaves crossings and body-over-band clipping hides both cuffs. No production mapping changed; all 56 Woven faces remain held. S356 will investigate source-preserving transforms and require maintainer approval for any new semantic mapping."
         }
       ],
       "evidenceRefs": [
@@ -7563,7 +7575,9 @@
         "E-G04-S353-LIVE",
         "E-G04-S353-DIAGNOSTIC",
         "E-G04-S354-START",
-        "E-G04-S354-EXIT"
+        "E-G04-S354-EXIT",
+        "E-G04-S355-START",
+        "E-G04-S355-EXIT"
       ],
       "flagKey": null
     },
@@ -11582,6 +11596,24 @@
       "sha256": null,
       "verified": true,
       "note": "S354 reconciliation exit; 29 commands preflighted and replayed through the validated command layer, 14 UIQ backlog cards, no G04 acceptance/gate changes, Control Center 34/34 and diff check pass."
+    },
+    {
+      "id": "E-G04-S355-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-BACK-SEAM-OCCLUSION-DIAGNOSIS-S355.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S355 diagnostic-only Woven back seam-layer occlusion study; preserve all current holds, source geometry, stitch graph and output gates."
+    },
+    {
+      "id": "E-G04-S355-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-BACK-SEAM-OCCLUSION-DIAGNOSIS-S355.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S355 measured compound sleeve-band containment in all 28 exact-revision Woven backs. All 28 are 100% inside body/yoke fill; no safe seam-only occlusion candidate. Keep all 56 Woven faces held."
     }
   ]
 }

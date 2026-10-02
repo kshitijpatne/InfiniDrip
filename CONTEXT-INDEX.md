@@ -137,6 +137,11 @@ only through an explicitly admitted, linked Epic packet.
 - `docs/research/epic17/G04-UI-RECOMMENDATION-RECONCILIATION-S354.md` — Slice
   354's exact reconciliation, additive command replay, preserved gates and
   slice exit evidence.
+- `docs/research/epic17/G04-V02-WOVEN-BACK-SEAM-OCCLUSION-DIAGNOSIS-S355.md` —
+  Slice 355's 28-option measurement of the complete mirrored sleeve-band
+  silhouette against the body/yoke fills. Seam-only occlusion cannot remove
+  the crossing silhouette, while body-over-band clipping hides the entire
+  band pair. All Woven views remain held pending a source-preserving mapping.
 - `docs/research/epic17/G04-V02-TROUSER-WAISTBAND-DEPTH-POM-S311.md` — Slice
   311's source-backed mark-target POM mapping, production-rendered verification,
   held-face limits and current G04 boundary. Use `PROJECT-STATE.md` and the
