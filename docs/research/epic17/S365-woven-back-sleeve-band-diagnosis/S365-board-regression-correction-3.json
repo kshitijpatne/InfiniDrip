@@ -1,0 +1,28 @@
+[
+  {
+    "type": "addEvidence",
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S365-BOARD-REGRESSION",
+      "kind": "document",
+      "uri": "docs/research/epic17/S365-woven-back-sleeve-band-diagnosis/S365-board-regression-failure.log",
+      "verified": true,
+      "note": "Captured initial Control Center board assertion failures after the S365 summary update; historical S359/S361 wording expectations were restored additively without changing tests or acceptance."
+    }
+  },
+  { "type": "addEpicEvidence", "epicId": "EPIC-17", "evidenceId": "E-G04-S365-BOARD-REGRESSION", "actor": "Codex", "role": "maintainer" },
+  { "type": "addEvidence", "itemId": "EPIC-17", "evidenceId": "E-G04-S365-BOARD-REGRESSION" },
+  {
+    "type": "editItem",
+    "itemId": "G04-V02",
+    "patch": {
+      "description": "Integrated output remains 56 accepted / 90 held across 73 configurations / 146 faces. Historical verified replay: S362's revision-bound Woven full-collar projection compiles for 28 configurations / 56 faces; S363 rejects straight finished-placket-width leader placements and records 31 SVG faces emitted and 25 front faces withheld with TEXT_COLLISION. The independent rejected S361 sleeve/band back X is now traced to exact same-revision role paths across all 28 Woven back options; the source sleeveBand.top-to-sleeve.hem join is exact, but reflected sleeve and band outlines cross the back/yoke shared seam and one another. Independent exact line-segment review confirms all 474 reported path-pair points across 224 role-path pairs. The approved view-paired silhouette remains held because it fails crossings/readability; all 56 Woven and 34 Polo faces remain held. Polo's 0.25 cm residual gate is reaffirmed. Preserve all-seven V02 and V02-before-V03. UIQ work stays outside G04 under S354. Current packet: docs/research/epic17/G04-V02-WOVEN-BACK-SLEEVE-BAND-INSTANCE-DIAGNOSIS-S365.md."
+    }
+  },
+  {
+    "type": "addComment",
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "S365 board closeout correction: initial board tests found that updating the current summary had removed historical S359/S361/S362/S363 phrases pinned by regression assertions. The failed assertions were retained in E-G04-S365-BOARD-REGRESSION; the historical language was restored alongside current S365 findings, without editing tests or weakening any acceptance criteria. Affected board tests and the complete Control Center suite then passed 42/42."
+  }
+]

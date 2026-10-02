@@ -1,0 +1,9 @@
+[
+  {
+    "type": "editItem",
+    "itemId": "G04-V02",
+    "patch": {
+      "description": "Integrated output remains 56 accepted / 90 held across 73 configurations / 146 faces. Historical verified replay: S362's revision-bound Woven full-collar projection compiles for 28 configurations / 56 faces; S363 rejects straight finished-placket-width leader placements and records 31 SVG faces emitted and 25 front faces withheld with TEXT_COLLISION. The independent rejected S361 sleeve/band back X is now traced to exact same-revision role paths across all 28 Woven back options; the source sleeveBand.top-to-sleeve.hem join is exact, but reflected sleeve and band outlines cross the back/yoke shared seam and one another. Independent exact line-segment review confirms all 474 reported path-pair points across 224 role-path pairs. The approved view-paired silhouette remains held because it fails crossings/readability. All 56 Woven and 34 Polo faces remain held. Polo's 0.25 cm residual gate is reaffirmed. Preserve all-seven V02 and V02-before-V03. UIQ work stays outside G04 under S354. Current packet: docs/research/epic17/G04-V02-WOVEN-BACK-SLEEVE-BAND-INSTANCE-DIAGNOSIS-S365.md."
+    }
+  }
+]

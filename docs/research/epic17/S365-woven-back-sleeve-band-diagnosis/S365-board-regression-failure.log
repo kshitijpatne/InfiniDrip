@@ -1,0 +1,91 @@
+✔ canonical board validates and summarizes its tracked work (14.0268ms)
+✔ approved UI packages remain planning backlog without adding G04 closure dependencies (0.8428ms)
+✔ S354 reconciliation evidence is linked without changing G04 acceptance status (0.3987ms)
+✔ S355 Woven diagnosis is linked while every G04 acceptance hold remains (0.4018ms)
+✔ S356 rejects the Woven chord-reflection candidate and retains every hold (0.4746ms)
+✔ S357 Polo residual study retains the source ease, threshold, and all holds (0.3548ms)
+✔ S358 retains the Woven collar hold and records the maintainer's Polo residual decision (0.4593ms)
+✖ S359 records the Woven rigid-fit decision boundary without releasing holds (1.3659ms)
+✔ S360 binds the landed S359 commit without changing Polo or Woven holds (0.5421ms)
+✖ S361 records the Woven sleeve/band diagnostic failure and retains all holds (0.6016ms)
+✔ malformed board data is rejected instead of repaired (9.1974ms)
+✔ invalid top-level and duplicate records are reported (9.3401ms)
+✔ invalid calendar dates are rejected instead of normalized (8.9119ms)
+✔ contributors can submit review but cannot complete work (0.3081ms)
+✖ closed Epics 14–16 and admitted G04 status match their evidence (6.4349ms)
+✔ literal search and filters cover title, slice, body, owner, priority, and type (22.5117ms)
+✔ detail rendering exposes editing, evidence, history, and escapes board text (11.4624ms)
+✔ new work item form captures schema-required fields and starts with Backlog workflow guidance (0.682ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 15
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 250.3149
+
+✖ failing tests:
+
+test at ops\control-center\app\board.test.mjs:131:1
+✖ S359 records the Woven rigid-fit decision boundary without releasing holds (1.3659ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /All 56 Woven and 34 Polo faces remain held/. Input:
+
+  "Integrated output remains 56 accepted / 90 held across 73 configurations / 146 faces. Historical verified replay: S362's revision-bound Woven full-collar projection compiles for 28 configurations / 56 faces; S363 rejects straight finished-placket-width leader placements and records 31 SVG faces emitted and 25 front faces withheld with TEXT_COLLISION. Current S365 trace analyzes all 28 same-revision Woven back outputs and all 56 front/back requests: four sleeve-band pair intersections match the S349 baseline, with additional sleeve/sleeve, sleeve/band and back/yoke shared-seam crossings. Independent exact line-segment review confirms all 474 reported path-pair points across 224 role-path pairs. The approved view-paired silhouette remains held because it fails crossings/readability; all 56 Woven and 34 Polo faces remain held, including Polo at the reaffirmed 0.25 cm residual gate. Preserve all-seven V02, V02-before-V03 and existing decisions. UIQ work stays outside G04 under S354. Current packet: docs/research/epic17/G04-V02-WOVEN-BACK-SLEEVE-BAND-INSTANCE-DIAGNOSIS-S365.md."
+
+      at TestContext.<anonymous> (file:///C:/Users/kshit/.codex/worktrees/epic-17-g04/designApp/ops/control-center/app/board.test.mjs:148:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19)
+      at Test.run (node:internal/test_runner/test:1258:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: "Integrated output remains 56 accepted / 90 held across 73 configurations / 146 faces. Historical verified replay: S362's revision-bound Woven full-collar projection compiles for 28 configurations / 56 faces; S363 rejects straight finished-placket-width leader placements and records 31 SVG faces emitted and 25 front faces withheld with TEXT_COLLISION. Current S365 trace analyzes all 28 same-revision Woven back outputs and all 56 front/back requests: four sleeve-band pair intersections match the S349 baseline, with additional sleeve/sleeve, sleeve/band and back/yoke shared-seam crossings. Independent exact line-segment review confirms all 474 reported path-pair points across 224 role-path pairs. The approved view-paired silhouette remains held because it fails crossings/readability; all 56 Woven and 34 Polo faces remain held, including Polo at the reaffirmed 0.25 cm residual gate. Preserve all-seven V02, V02-before-V03 and existing decisions. UIQ work stays outside G04 under S354. Current packet: docs/research/epic17/G04-V02-WOVEN-BACK-SLEEVE-BAND-INSTANCE-DIAGNOSIS-S365.md.",
+    expected: /All 56 Woven and 34 Polo faces remain held/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at ops\control-center\app\board.test.mjs:176:1
+✖ S361 records the Woven sleeve/band diagnostic failure and retains all holds (0.6016ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /independent rejected S361 sleeve\/band back X/. Input:
+
+  "Integrated output remains 56 accepted / 90 held across 73 configurations / 146 faces. Historical verified replay: S362's revision-bound Woven full-collar projection compiles for 28 configurations / 56 faces; S363 rejects straight finished-placket-width leader placements and records 31 SVG faces emitted and 25 front faces withheld with TEXT_COLLISION. Current S365 trace analyzes all 28 same-revision Woven back outputs and all 56 front/back requests: four sleeve-band pair intersections match the S349 baseline, with additional sleeve/sleeve, sleeve/band and back/yoke shared-seam crossings. Independent exact line-segment review confirms all 474 reported path-pair points across 224 role-path pairs. The approved view-paired silhouette remains held because it fails crossings/readability; all 56 Woven and 34 Polo faces remain held, including Polo at the reaffirmed 0.25 cm residual gate. Preserve all-seven V02, V02-before-V03 and existing decisions. UIQ work stays outside G04 under S354. Current packet: docs/research/epic17/G04-V02-WOVEN-BACK-SLEEVE-BAND-INSTANCE-DIAGNOSIS-S365.md."
+
+      at TestContext.<anonymous> (file:///C:/Users/kshit/.codex/worktrees/epic-17-g04/designApp/ops/control-center/app/board.test.mjs:189:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19)
+      at Test.run (node:internal/test_runner/test:1258:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: "Integrated output remains 56 accepted / 90 held across 73 configurations / 146 faces. Historical verified replay: S362's revision-bound Woven full-collar projection compiles for 28 configurations / 56 faces; S363 rejects straight finished-placket-width leader placements and records 31 SVG faces emitted and 25 front faces withheld with TEXT_COLLISION. Current S365 trace analyzes all 28 same-revision Woven back outputs and all 56 front/back requests: four sleeve-band pair intersections match the S349 baseline, with additional sleeve/sleeve, sleeve/band and back/yoke shared-seam crossings. Independent exact line-segment review confirms all 474 reported path-pair points across 224 role-path pairs. The approved view-paired silhouette remains held because it fails crossings/readability; all 56 Woven and 34 Polo faces remain held, including Polo at the reaffirmed 0.25 cm residual gate. Preserve all-seven V02, V02-before-V03 and existing decisions. UIQ work stays outside G04 under S354. Current packet: docs/research/epic17/G04-V02-WOVEN-BACK-SLEEVE-BAND-INSTANCE-DIAGNOSIS-S365.md.",
+    expected: /independent rejected S361 sleeve\/band back X/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at ops\control-center\app\board.test.mjs:231:1
+✖ closed Epics 14–16 and admitted G04 status match their evidence (6.4349ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /All 56 Woven and 34 Polo faces remain held/. Input:
+
+  "Integrated output remains 56 accepted / 90 held across 73 configurations / 146 faces. Historical verified replay: S362's revision-bound Woven full-collar projection compiles for 28 configurations / 56 faces; S363 rejects straight finished-placket-width leader placements and records 31 SVG faces emitted and 25 front faces withheld with TEXT_COLLISION. Current S365 trace analyzes all 28 same-revision Woven back outputs and all 56 front/back requests: four sleeve-band pair intersections match the S349 baseline, with additional sleeve/sleeve, sleeve/band and back/yoke shared-seam crossings. Independent exact line-segment review confirms all 474 reported path-pair points across 224 role-path pairs. The approved view-paired silhouette remains held because it fails crossings/readability; all 56 Woven and 34 Polo faces remain held, including Polo at the reaffirmed 0.25 cm residual gate. Preserve all-seven V02, V02-before-V03 and existing decisions. UIQ work stays outside G04 under S354. Current packet: docs/research/epic17/G04-V02-WOVEN-BACK-SLEEVE-BAND-INSTANCE-DIAGNOSIS-S365.md."
+
+      at TestContext.<anonymous> (file:///C:/Users/kshit/.codex/worktrees/epic-17-g04/designApp/ops/control-center/app/board.test.mjs:466:14)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19)
+      at Test.run (node:internal/test_runner/test:1258:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: "Integrated output remains 56 accepted / 90 held across 73 configurations / 146 faces. Historical verified replay: S362's revision-bound Woven full-collar projection compiles for 28 configurations / 56 faces; S363 rejects straight finished-placket-width leader placements and records 31 SVG faces emitted and 25 front faces withheld with TEXT_COLLISION. Current S365 trace analyzes all 28 same-revision Woven back outputs and all 56 front/back requests: four sleeve-band pair intersections match the S349 baseline, with additional sleeve/sleeve, sleeve/band and back/yoke shared-seam crossings. Independent exact line-segment review confirms all 474 reported path-pair points across 224 role-path pairs. The approved view-paired silhouette remains held because it fails crossings/readability; all 56 Woven and 34 Polo faces remain held, including Polo at the reaffirmed 0.25 cm residual gate. Preserve all-seven V02, V02-before-V03 and existing decisions. UIQ work stays outside G04 under S354. Current packet: docs/research/epic17/G04-V02-WOVEN-BACK-SLEEVE-BAND-INSTANCE-DIAGNOSIS-S365.md.",
+    expected: /All 56 Woven and 34 Polo faces remain held/,
+    operator: 'match',
+    diff: 'simple'
+  }

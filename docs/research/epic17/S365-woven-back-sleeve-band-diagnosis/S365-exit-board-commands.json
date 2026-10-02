@@ -1,0 +1,103 @@
+[
+  {
+    "type": "addEvidence",
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S365-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-BACK-SLEEVE-BAND-INSTANCE-DIAGNOSIS-S365.md",
+      "verified": true,
+      "note": "S365 traces Woven back output across all 28 options: the source sleeve/band join is exact, while the currently approved reflected view has persistent role-path crossings; every Woven/Polo hold remains."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S365-TRACE",
+      "kind": "document",
+      "uri": "docs/research/epic17/S365-woven-back-sleeve-band-diagnosis/production-instance-trace/production-sleeve-band-instance-trace.json",
+      "verified": true,
+      "note": "Same-revision trace of 28 Woven back outputs plus the 56-request front/back matrix, exact source stitches, transforms, role paths and all pairwise intersection points."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S365-EXACT-LINES",
+      "kind": "document",
+      "uri": "docs/research/epic17/S365-woven-back-sleeve-band-diagnosis/production-instance-trace/independent-exact-line-crossings.json",
+      "verified": true,
+      "note": "Independent finite-line intersection audit matches 224/224 role-path pairs and 474/474 reported crossing points; cubic path portions are excluded."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S365-OVERLAY",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S365-woven-back-sleeve-band-diagnosis/production-instance-trace/annotated/default-back-flat-role-crossings.png",
+      "verified": true,
+      "note": "Manual Chromium review of the default same-revision back flat shows the sleeve/band X and the additional body/yoke and mirrored-role intersections."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S365-EXTREMES",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S365-woven-back-sleeve-band-diagnosis/production-instance-trace/annotated/combined-supported-back-flat-role-crossings.png",
+      "verified": true,
+      "note": "Manual Chromium review of the supported combined Woven option confirms the crossing pattern persists at the combined extreme. Separate yokeDepth minimum and maximum overlays are retained alongside it."
+    }
+  },
+  { "type": "addEpicEvidence", "epicId": "EPIC-17", "evidenceId": "E-G04-S365-EXIT", "actor": "Codex", "role": "maintainer" },
+  { "type": "addEpicEvidence", "epicId": "EPIC-17", "evidenceId": "E-G04-S365-TRACE", "actor": "Codex", "role": "maintainer" },
+  { "type": "addEpicEvidence", "epicId": "EPIC-17", "evidenceId": "E-G04-S365-EXACT-LINES", "actor": "Codex", "role": "maintainer" },
+  { "type": "addEpicEvidence", "epicId": "EPIC-17", "evidenceId": "E-G04-S365-OVERLAY", "actor": "Codex", "role": "maintainer" },
+  { "type": "addEpicEvidence", "epicId": "EPIC-17", "evidenceId": "E-G04-S365-EXTREMES", "actor": "Codex", "role": "maintainer" },
+  { "type": "addEvidence", "itemId": "EPIC-17", "evidenceId": "E-G04-S365-EXIT" },
+  { "type": "addEvidence", "itemId": "EPIC-17", "evidenceId": "E-G04-S365-TRACE" },
+  { "type": "addEvidence", "itemId": "EPIC-17", "evidenceId": "E-G04-S365-EXACT-LINES" },
+  { "type": "addEvidence", "itemId": "EPIC-17", "evidenceId": "E-G04-S365-OVERLAY" },
+  { "type": "addEvidence", "itemId": "EPIC-17", "evidenceId": "E-G04-S365-EXTREMES" },
+  {
+    "type": "editEpic",
+    "epicId": "EPIC-17",
+    "actor": "Codex",
+    "role": "maintainer",
+    "reason": "Record S365's exact Woven back crossing diagnosis without changing production mappings or face acceptance.",
+    "patch": {
+      "description": "Admitted EPIC-17/G04 V01 → V02 → V03 per docs/planning/EPIC-17-ADMISSION.md. Integrated output remains 56 accepted / 90 held across 73 configurations / 146 faces. S362's Woven full-collar projection remains under rendered review; S363 retains the Woven finished-placket-width fail-closed leader behavior; S364's collar-perimeter-following route candidate is rejected for readability. S365 traces the exact Woven back sleeve/band crossing in all 28 options: the sleeve-band source join is exact, while reflected role paths cross the back/yoke shared seam and one another. No new mapping or face acceptance is approved by S365. All 56 Woven faces and all 34 Polo faces remain held at the confirmed 0.25 cm Polo gate. Preserve all-seven V02, legacy DXF, protected byte identities and V02-before-V03. Current state: PROJECT-STATE.md; current packet: docs/research/epic17/G04-V02-WOVEN-BACK-SLEEVE-BAND-INSTANCE-DIAGNOSIS-S365.md."
+    }
+  },
+  {
+    "type": "editItem",
+    "itemId": "EPIC-17",
+    "patch": {
+      "description": "Admitted EPIC-17/G04 V01 → V02 → V03 per docs/planning/EPIC-17-ADMISSION.md. Integrated output remains 56 accepted / 90 held across 73 configurations / 146 faces. S362's Woven full-collar projection remains under rendered review; S363 retains the Woven finished-placket-width fail-closed leader behavior; S364's collar-perimeter-following route candidate is rejected for readability. S365 traces the exact Woven back sleeve/band crossing in all 28 options: the sleeve-band source join is exact, while reflected role paths cross the back/yoke shared seam and one another. No new mapping or face acceptance is approved by S365. All 56 Woven faces and all 34 Polo faces remain held at the confirmed 0.25 cm Polo gate. Preserve all-seven V02, legacy DXF, protected byte identities and V02-before-V03. Current state: PROJECT-STATE.md; current packet: docs/research/epic17/G04-V02-WOVEN-BACK-SLEEVE-BAND-INSTANCE-DIAGNOSIS-S365.md."
+    }
+  },
+  {
+    "type": "editItem",
+    "itemId": "G04-V02",
+    "patch": {
+      "description": "Integrated output remains 56 accepted / 90 held across 73 configurations / 146 faces. S365 analyzed the 28 Woven back outputs and all 56 front/back requests at exact revision live-draft:woven-shirt:14:14: four sleeve-band pair intersections match the S349 baseline in all backs, with additional sleeve/sleeve, sleeve/band and back/yoke seam crossings. Independent exact line-segment review confirms all 474 reported path-pair points. The approved view-paired silhouette remains held because it fails crossings/readability; 25 front requests also fail closed for TEXT_COLLISION. All 56 Woven and 34 Polo faces remain held. The maintainer reaffirmed Polo's 0.25 cm residual gate. Preserve all-seven V02, V02-before-V03 and existing decisions. UIQ work stays outside G04 under S354. Current packet: docs/research/epic17/G04-V02-WOVEN-BACK-SLEEVE-BAND-INSTANCE-DIAGNOSIS-S365.md."
+    }
+  },
+  {
+    "type": "addComment",
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "Slice 365 exit: all 28 same-revision Woven back outputs reproduce the four S349 sleeve-band pair crossings. Exact independent line-segment review matches 224/224 path pairs and 474/474 points; four Chromium overlays agree. The source sleeveBand.top-to-sleeve.hem join is exact, but the approved reflected silhouette crosses sleeve, band, back and yoke paths. The 56-request matrix is 28 back emitted, 3 front emitted and 25 front TEXT_COLLISION holds. No Woven face passes; all 56 Woven and 34 Polo holds remain. Polo's 0.25 cm gate is reaffirmed. Next: S366 non-production source-to-view proposal study; no new pose may be implemented before approval."
+  },
+  {
+    "type": "addComment",
+    "itemId": "EPIC-17",
+    "actor": "Codex",
+    "text": "S365 closes with no production/source change and no newly accepted face. The exact Woven back crossing is reproduced across all supported options and confirmed independently from rendered straight segments; current view convention fails its conditional visual checks. Preserve all-seven V02, all holds, Polo's 0.25 cm residual gate, and V02-before-V03. S366 will prepare a concrete non-production mapping proposal and rendered alternatives before any new semantic pose is implemented."
+  }
+]
