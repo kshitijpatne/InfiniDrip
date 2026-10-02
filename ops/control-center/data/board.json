@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 1800,
-  "updatedAt": "2026-10-02T15:00:52.977Z",
+  "revision": 1817,
+  "updatedAt": "2026-10-02T15:22:18.817Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -446,7 +446,12 @@
         "E-G04-S372-EXPORT",
         "E-G04-S372-BUILD",
         "E-G04-S372-CC-TEST",
-        "E-G04-S372-BOARD-REPLAY"
+        "E-G04-S372-BOARD-REPLAY",
+        "E-G04-S373-START",
+        "E-G04-S373-EXIT",
+        "E-G04-S373-TRACE",
+        "E-G04-S373-DEFAULT",
+        "E-G04-S373-CLOSEUP"
       ]
     },
     {
@@ -4085,7 +4090,12 @@
         "E-G04-S372-EXPORT",
         "E-G04-S372-BUILD",
         "E-G04-S372-CC-TEST",
-        "E-G04-S372-BOARD-REPLAY"
+        "E-G04-S372-BOARD-REPLAY",
+        "E-G04-S373-START",
+        "E-G04-S373-EXIT",
+        "E-G04-S373-TRACE",
+        "E-G04-S373-DEFAULT",
+        "E-G04-S373-CLOSEUP"
       ],
       "flagKey": null
     },
@@ -7838,6 +7848,16 @@
           "at": "2026-10-02T14:59:04.674Z",
           "actor": "Codex",
           "text": "Slice 372 exit: approved Woven BACK_FLAT detached sleeve-band mapping is implemented with typed, exact-source projection metadata and a validated source-scale pair. Final production replay covers 28 options / 56 identities: all 28 backs emit both detached details and source annotation; 3 fronts emit byte-identically to S363 and 25 remain held with TEXT_COLLISION. Zero browser errors. Focused changed-code coverage is 100% in all dimensions, 83/83 focused tests pass, build and 20/20 export identity/DXF tests pass. The independent sleeve-pair X remains in the back view, so all 28 Woven backs, all other Woven faces, and all 34 Polo faces remain held; no V02 or V03 gate advances. See the S372 packet and evidence folder."
+        },
+        {
+          "at": "2026-10-02T15:18:55.481Z",
+          "actor": "Codex",
+          "text": "Slice 373 starts from S372 at board revision 1800. It will trace the remaining Woven back sleeve crossing against all 28 current production outputs and generate annotated renders. This slice is diagnostic/proposal-only; it does not change source geometry, stitches, accepted-face totals, output gates, or holds. The separately admitted UI sequence reconciliation is recorded at S368 and introduces no new G04 closure dependency."
+        },
+        {
+          "at": "2026-10-02T15:22:18.817Z",
+          "actor": "Codex",
+          "text": "Slice 373 diagnostic exit: the S372 production output confirms one exact crossing of the two mirrored sleeve.hem back-view half-runs in all 28 Woven option configurations at the same revision; the independent trace matches S365 in 28/28. Five whole renders and crossing close-ups have zero browser errors. The source contains no sleeve-to-sleeve overlap order. Proposed choices are retain both strokes and keep the backs held, or approve a 0.60 cm view-only reflected-hem interruption with an explicit foreground instance. No production mapping is implemented or hold changed pending that decision. All seven recipe acceptance, V02-before-V03, the Polo 0.25 cm gate, legacy DXF and protected export identities remain unchanged. The UI sequence reconciliation remains recorded at S368; no UI package is a new G04 dependency."
         }
       ],
       "evidenceRefs": [
@@ -8197,7 +8217,12 @@
         "E-G04-S372-EXPORT",
         "E-G04-S372-BUILD",
         "E-G04-S372-CC-TEST",
-        "E-G04-S372-BOARD-REPLAY"
+        "E-G04-S372-BOARD-REPLAY",
+        "E-G04-S373-START",
+        "E-G04-S373-EXIT",
+        "E-G04-S373-TRACE",
+        "E-G04-S373-DEFAULT",
+        "E-G04-S373-CLOSEUP"
       ],
       "flagKey": null
     },
@@ -12981,6 +13006,51 @@
       "sha256": null,
       "verified": true,
       "note": "Validated S372 exit and recovery command replay ends at board revision 1794; first unsupported evidence-kind failure was preserved."
+    },
+    {
+      "id": "E-G04-S373-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-REMAINING-SLEEVE-CROSSING-DIAGNOSIS-S373.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S373 starts a diagnostic-only trace of the remaining mirrored Woven sleeve hem crossing after S372. It preserves the all-seven V02 gate, all holds, the Polo 0.25 cm threshold and V02-before-V03."
+    },
+    {
+      "id": "E-G04-S373-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-REMAINING-SLEEVE-CROSSING-DIAGNOSIS-S373.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S373 revalidates the mirrored Woven sleeve.hem crossing across 28 exact-revision outputs, supplies a source-to-view crosswalk and two bounded choices, and makes no production or acceptance change. Decision is pending; every existing hold remains."
+    },
+    {
+      "id": "E-G04-S373-TRACE",
+      "kind": "document",
+      "uri": "docs/research/epic17/S373-woven-sleeve-crossing/current-sleeve-crossing-trace.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Independent exact line-segment trace reconciles two mirrored sleeve instances and one hem-to-hem crossing for all 28 Woven BACK_FLAT outputs at live-draft:woven-shirt:14:14; all 28 match S365."
+    },
+    {
+      "id": "E-G04-S373-DEFAULT",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S373-woven-sleeve-crossing/annotated/default-whole.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Annotated whole-view Chromium render of the actual S372 output marks the exact crossing between the two hem-half instances; face remains held."
+    },
+    {
+      "id": "E-G04-S373-CLOSEUP",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S373-woven-sleeve-crossing/annotated/default-crossing-closeup.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Annotated Chromium close-up confirms the crossing is between the two projected sleeve.hem half-runs, not the detached band or a source stitch."
     }
   ]
 }

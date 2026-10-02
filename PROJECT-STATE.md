@@ -1,8 +1,22 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 current handoff — Slice 372 complete; V02 remains open
+## EPIC-17 / G04 current handoff — Slice 373 complete; V02 remains open
 
-S372 starts from clean S371 `0609d54face057a82a8ae76d3e5d34e17c6686bf` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest prior slice is 371; S372 is reserved. Canonical board revision is 1771; EPIC-17/G04-V02 remains In Progress with all holds unchanged. The active goal remains aligned with admitted G04 through safe merge/deployment. The maintainer approved the exact S370 detached Woven band-detail mapping during S371. Polo's 0.25 cm gate remains fixed.
+S373 started from clean S372 commit `9fbd38fa440e7a9ed2257d9c5907258ff8399d35` on `codex/epic-17-g04`. `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice was 372; S373 was reserved. Board started at revision 1800 and validated exit commands ended at 1817. The goal was checked at the S372 boundary and again during S373: status is `active`, objective matches admitted EPIC-17/G04 through merge, and it remains necessary. Usage at the S373 boundary: primary 34% used, weekly 68% informational.
+
+S373 is diagnostic/proposal-only. The current S372 live Chromium output at `live-draft:woven-shirt:14:14` confirms one proper crossing between the two mirrored `sleeve.hem` half-runs in all 28 Woven BACK_FLAT outputs. The independent exact-segment trace matches the S365 result 28/28. Five annotated full views and close-ups were manually inspected, with zero browser errors. Source has no sleeve-to-sleeve overlap order. The packet records two choices: keep the crossing and all Woven back holds (recommended), or explicitly approve a 0.60 cm display-only interruption on the reflected hem with the base sleeve drawn above it. No mapping was implemented and no acceptance/hold changed.
+
+All 56 Woven and 34 Polo holds remain; integrated tally stays 56 accepted / 90 held. Three of 28 Woven front views emit while remaining held by V02; 25 fronts remain `TEXT_COLLISION` holds. UI recommendation reconciliation is already recorded at S354/S368: source-bound geometry and piece/revision identity, exact POMs, applicable artwork/colorway overlays, truthful holds and output readability remain G04 checks; broad UI packages stay Backlog/outside G04. No new UI dependency was introduced. All-seven V02, V02-before-V03, Polo's 0.25 cm gate, legacy DXF and protected export byte identities are unchanged.
+
+Evidence: `docs/research/epic17/G04-V02-WOVEN-REMAINING-SLEEVE-CROSSING-DIAGNOSIS-S373.md` and `docs/research/epic17/S373-woven-sleeve-crossing/`. The S373 diagnostic self-check reconciles all 28 back outputs; `npm run control-center:test` passes 42/42; `git diff --check` passes. No production source changed, so no production coverage/build/export gate was run for this diagnostic slice.
+
+**Next action:** obtain the maintainer's A/B decision recorded in the S373 packet. Then reserve the next unique slice and either keep the source-faithful crossing held or implement only an approved view-only convention; rerun the full Woven option matrix and rendered checks before any face acceptance or V02 advance. V03 remains gated.
+
+**Elapsed accounting (S373, approximately 14m29s):** production implementation 0m; focused source/path diagnosis 6m; exact 28-configuration verification and Control Center/diff gates 1m; Chromium render generation and manual whole/close-up review 2m; packet/context/board closeout 5m29s; external-agent waits 0m; maintainer-decision wait 0m (decision requested after this durable boundary).
+
+## EPIC-17 / G04 previous handoff — Slice 372 complete; V02 remains open
+
+S372 started from clean S371 `0609d54face057a82a8ae76d3e5d34e17c6686bf` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor. Highest prior slice was 371; board entry revision was 1771. The maintainer had approved the S370 detached Woven band-detail mapping; Polo's 0.25 cm gate stayed fixed.
 
 S371 completed as commit `0609d54face057a82a8ae76d3e5d34e17c6686bf`; board exit revision 1771. It tested alternate measured label boxes for the held Woven front finished-placket-width POM. At exact revision `live-draft:woven-shirt:14:14`, 28 option configurations / 28 paired back views preserve the exact top-edge source anchor and POM value. The 5.7225 cm label was measured in Chromium; 280,637 direct/one-bend route checks found no acceptable candidate. The closest default route crossed the collar and front outline at 25.595 cm. Current renderer output was 3/28 front SVGs and 25 `TEXT_COLLISION` holds, with all 28 back SVGs emitted. No production behavior or board acceptance changed. See `docs/research/epic17/G04-V02-WOVEN-POM-RELOCATED-LEADER-FEASIBILITY-S371.md` and `docs/research/epic17/S371-woven-pom-relocated-leader/`.
 
@@ -10,9 +24,7 @@ S372 implements only the user-approved S370 BACK_FLAT composition. Projection me
 
 Final S372 replay covers all 28 configurations / 56 identities at `live-draft:woven-shirt:14:14`: 28 back SVGs, 3 front SVGs, 25 existing front `TEXT_COLLISION` holds, zero browser errors. Every emitted back has two detached band outlines/marks and the source-stitch disclaimer; emitted fronts are byte-identical to S363. Focused changed-code coverage is 100% across statement/branch/function/line; 83 focused tests pass, build passes, 20 focused export byte-identity/DXF tests pass, and Control Center passes 42/42 after validated board exit and supplemental evidence replay at revision 1800. Manual review confirms the band details no longer cross the body or each other. The independently documented mirrored sleeve hem/cap X remains visible, so all 28 Woven backs remain held; all 56 Woven and 34 Polo holds are unchanged and no face is newly accepted. See `docs/research/epic17/G04-V02-WOVEN-BAND-DETACHED-DETAIL-IMPLEMENTATION-S372.md` and `docs/research/epic17/S372-woven-band-detached-detail/`.
 
-At the S372 durable boundary (board revision 1800), `get_goal` reports the goal as `active`; its objective still matches the admitted EPIC-17/G04 outcome through merge. No stalled status is present, and the goal remains needed until the admitted objective is complete. No goal edit or UI resume is needed.
-
-**Next action:** refresh Git/board/usage state and reserve S373, then continue G04 V02 hold resolution. Do not advance V02 or start V03 while all-seven acceptance remains unmet. Preserve legacy DXF, protected export identities and the 0.25 cm Polo gate.
+At the S372 durable boundary (board revision 1800), `get_goal` reported `active`; its objective still matched admitted EPIC-17/G04 through safe merge. No stalled status was present; the goal remains needed until objective completion, and no UI resume was needed.
 
 ## EPIC-17 / G04 previous handoff — Slice 370 complete; V02 remains open
 
