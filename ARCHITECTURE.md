@@ -450,6 +450,12 @@ gap from other labels, visible vector strokes, artwork placement bounds, and
 other POM leaders. Leaders for callouts sharing the same exact source vertex
 may meet at that represented vertex; same-ray overlap remains blocked by the
 measured label-box check, and leaders from distinct vertices may not cross.
+The S363 Woven finished-placket-width leader also fails closed when its straight
+route crosses an unrelated projected collar outline (`outerStand`,
+`innerStand`, `upperCollar`, or `underCollar`). If the measured search finds no
+clear label and leader position, the complete face is withheld; the source
+anchor and POM are never moved or suppressed. This check does not resolve the
+separate Woven sleeve/band crossing.
 When no measured position is available, the complete face remains withheld
 with a specific collision issue. The renderer's measured
 collision checks and 14-face default browser review are recorded in

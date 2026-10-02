@@ -186,10 +186,10 @@ test("S361 records the Woven sleeve/band diagnostic failure and retains all hold
   assert.equal(g04.status, "In Progress");
   assert.equal(board.workItems.find((item) => item.id === "G04-V01").status, "Done");
   assert.equal(board.workItems.find((item) => item.id === "G04-V03").status, "Backlog");
-  assert.match(g04.description, /rejected S361 sleeve\/band view retains a back X/);
+  assert.match(g04.description, /independent rejected S361 sleeve\/band back X/);
   assert.match(g04.description, /all-seven V02/);
   assert.match(epicCard.description, /56 accepted \/ 90 held across 73 configurations \/ 146 faces/);
-  assert.match(epicCard.description, /S362 implements the approved Woven full-collar view projection/);
+  assert.match(epicCard.description, /S362 implemented the approved Woven full-collar view projection/);
   assert.ok(g04.comments.some((comment) => /four mirrored band intersections in 26 backs and eight/.test(comment.text)));
 });
 
@@ -254,13 +254,20 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
       const g04V02 = board.workItems.find((entry) => entry.id === "G04-V02");
       assert.match(epic.description, /docs\/planning\/EPIC-17-ADMISSION\.md/);
       assert.match(epic.description, /Current output remains 56 accepted \/ 90 held across 73 configurations \/ 146 faces/);
-      assert.match(epic.description, /all 56 Woven faces remain held because the max-stand-height placket-width leader crosses collar contours/);
+      assert.match(epic.description, /S363 blocks the known straight finished-placket-width leader crossing/);
+      assert.match(epic.description, /31 SVGs emitted and 25 front faces held by TEXT_COLLISION/);
       assert.match(epic.description, /All 34 Polo faces remain held at the confirmed 0\.25 cm residual gate/);
       assert.match(card.description, /Current output remains 56 accepted \/ 90 held across 73 configurations \/ 146 faces/);
       assert.match(card.description, /Preserve all-seven V02, legacy DXF, protected byte identities and V02-before-V03/);
       assert.ok(g04V02?.evidenceRefs.includes("E-G04-S362-EXIT"));
       assert.ok(card.evidenceRefs.includes("E-G04-S362-EXIT"));
       assert.ok(epic.evidenceRefs.includes("E-G04-S362-EXIT"));
+      for (const evidenceId of ["E-G04-S363-START", "E-G04-S363-EXIT", "E-G04-S363-MATRIX",
+        "E-G04-S363-MAX-HEIGHT-HOLD", "E-G04-S363-ANCHOR"]) {
+        assert.ok(g04V02?.evidenceRefs.includes(evidenceId));
+        assert.ok(card.evidenceRefs.includes(evidenceId));
+        assert.ok(epic.evidenceRefs.includes(evidenceId));
+      }
       assert.ok(g04V02?.comments.some((comment) => /Slice 362 exit: the approved Woven full-collar view projection emits all 56 option\/face requests/.test(comment.text)));
       assert.ok(g04V02?.evidenceRefs.includes("E-G04-S335-EXIT"));
       assert.ok(g04V02?.evidenceRefs.includes("E-G04-S335-BROWSER"));
@@ -454,6 +461,8 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
       assert.deepEqual(admittedWork.map((entry) => entry.id), ["G04-V01", "G04-V02", "G04-V03"]);
       assert.deepEqual(admittedWork.map((entry) => entry.status), ["Done", "In Progress", "Backlog"]);
       assert.match(admittedWork[1].description, /S362's revision-bound Woven full-collar projection compiles for 28 configurations \/ 56 faces/);
+      assert.match(admittedWork[1].description, /S363 rejects straight finished-placket-width leader placements/);
+      assert.match(admittedWork[1].description, /31 SVG faces emitted and 25 front faces withheld with TEXT_COLLISION/);
       assert.match(admittedWork[1].description, /All 56 Woven and 34 Polo faces remain held/);
       assert.match(admittedWork[1].description, /all-seven V02 and V02-before-V03/);
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S320-EXIT"));

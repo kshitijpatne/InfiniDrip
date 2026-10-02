@@ -442,6 +442,24 @@ function calloutLeadersConflict(a: FlatPoint, b: FlatPoint, c: FlatPoint, d: Fla
   return (a.x !== c.x || a.y !== c.y) && technicalFlatLeaderSegmentsCross(a, b, c, d);
 }
 
+function calloutLeaderCrossesWovenCollar(callout: Extract<TechnicalFlatPrimitive, { kind: "callout" }>,
+  at: FlatPoint, primitives: readonly TechnicalFlatPrimitive[]): boolean {
+  if (callout.source.sourceId !== "pom:woven-shirt:finished-placket-width") return false;
+  const start = callout.anchor.point;
+  const leaderBounds = pointBounds(start);
+  const bounds = union(leaderBounds, pointBounds(at));
+  for (const primitive of primitives) {
+    if (primitive.kind !== "path" || primitive.id === callout.anchor.primitiveId
+      || primitive.colorwayBoundaryOnly === true
+      || !/:component:(?:outerStand|innerStand|upperCollar|underCollar):outline$/u.test(primitive.id)) continue;
+    const geometryBounds = pathBounds(primitive.commands);
+    if (!geometryBounds || !intersects(bounds, geometryBounds)) continue;
+    if (pathSegments(primitive.commands).some(([pathStart, pathEnd]) =>
+      technicalFlatLeaderSegmentsCross(start, at, pathStart, pathEnd))) return true;
+  }
+  return false;
+}
+
 function labelCandidates(item: TextItem, metric: TechnicalFlatTextMetrics): FlatPoint[] {
   const candidates = [item.at];
   const directions = Array.from({ length: 32 }, (_, index) => ({
@@ -470,6 +488,7 @@ function placeMeasuredLabel(item: TextItem, metric: TechnicalFlatTextMetrics,
     if (item.callout && placed.some((previous) => previous.item.callout
       && calloutLeadersConflict(item.callout!.anchor.point, at,
         previous.item.callout.anchor.point, previous.at))) continue;
+    if (item.callout && calloutLeaderCrossesWovenCollar(item.callout, at, primitives)) continue;
     return at;
   }
   return null;

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 1536,
-  "updatedAt": "2026-10-02T09:16:37.326Z",
+  "revision": 1559,
+  "updatedAt": "2026-10-02T09:54:08.022Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -155,7 +155,7 @@
       "title": "EPIC-17: G04 — Professional flats and CAD interchange",
       "status": "In Progress",
       "owner": "Codex",
-      "description": "Admitted EPIC-17/G04 V01 → V02 → V03 per docs/planning/EPIC-17-ADMISSION.md. Current output remains 56 accepted / 90 held across 73 configurations / 146 faces. S362 implements the approved Woven full-collar view projection; all 56 Woven faces remain held because the max-stand-height placket-width leader crosses collar contours and the rejected S361 sleeve/band view still crosses on the back. All 34 Polo faces remain held at the confirmed 0.25 cm residual gate. Preserve all-seven V02, legacy DXF, protected byte identities and V02-before-V03. Current state: PROJECT-STATE.md; current packet: docs/research/epic17/G04-V02-WOVEN-FULL-COLLAR-PROJECTION-S362.md.",
+      "description": "Admitted EPIC-17/G04 V01 → V02 → V03 per docs/planning/EPIC-17-ADMISSION.md. Current output remains 56 accepted / 90 held across 73 configurations / 146 faces. S362 implemented the approved Woven full-collar view projection. S363 blocks the known straight finished-placket-width leader crossing: replay of 28 Woven configurations / 56 faces has zero browser errors, with 31 SVGs emitted and 25 front faces held by TEXT_COLLISION because no straight readable route avoids the four collar outlines. All 56 Woven faces remain held; the independent rejected S361 sleeve/band back X and other face gates remain. All 34 Polo faces remain held at the confirmed 0.25 cm residual gate. Preserve all-seven V02, legacy DXF, protected byte identities and V02-before-V03. Current state: PROJECT-STATE.md; current packet: docs/research/epic17/G04-V02-WOVEN-POM-LEADER-READABILITY-S363.md.",
       "evidenceRefs": [
         "E-G04-S271-EXIT",
         "E-G04-S273-EXIT",
@@ -382,7 +382,12 @@
         "E-G04-S361-OVERLAY",
         "E-G04-S361-TEST",
         "E-G04-S362-START",
-        "E-G04-S362-EXIT"
+        "E-G04-S362-EXIT",
+        "E-G04-S363-START",
+        "E-G04-S363-EXIT",
+        "E-G04-S363-MATRIX",
+        "E-G04-S363-MAX-HEIGHT-HOLD",
+        "E-G04-S363-ANCHOR"
       ]
     },
     {
@@ -2911,7 +2916,7 @@
         "100% coverage",
         "maintainer gates"
       ],
-      "description": "Admitted EPIC-17/G04 V01 → V02 → V03 per docs/planning/EPIC-17-ADMISSION.md. Current output remains 56 accepted / 90 held across 73 configurations / 146 faces. S362 implements the approved Woven full-collar view projection; all 56 Woven faces remain held because the max-stand-height placket-width leader crosses collar contours and the rejected S361 sleeve/band view still crosses on the back. All 34 Polo faces remain held at the confirmed 0.25 cm residual gate. Preserve all-seven V02, legacy DXF, protected byte identities and V02-before-V03. Current state: PROJECT-STATE.md; current packet: docs/research/epic17/G04-V02-WOVEN-FULL-COLLAR-PROJECTION-S362.md.",
+      "description": "Admitted EPIC-17/G04 V01 → V02 → V03 per docs/planning/EPIC-17-ADMISSION.md. Current output remains 56 accepted / 90 held across 73 configurations / 146 faces. S362 implemented the approved Woven full-collar view projection. S363 blocks the known straight finished-placket-width leader crossing: replay of 28 Woven configurations / 56 faces has zero browser errors, with 31 SVGs emitted and 25 front faces held by TEXT_COLLISION because no straight readable route avoids the four collar outlines. All 56 Woven faces remain held; the independent rejected S361 sleeve/band back X and other face gates remain. All 34 Polo faces remain held at the confirmed 0.25 cm residual gate. Preserve all-seven V02, legacy DXF, protected byte identities and V02-before-V03. Current state: PROJECT-STATE.md; current packet: docs/research/epic17/G04-V02-WOVEN-POM-LEADER-READABILITY-S363.md.",
       "expectation": "Front/back technical flats for every supported recipe/variant and proven CAD interchange. Pattern-linked side/oblique views are explicitly owned by G09/D04, so the complete view set is accepted only there.",
       "acceptanceCriteria": [
         "Complete every G04 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
@@ -3644,6 +3649,16 @@
           "at": "2026-10-02T09:16:37.071Z",
           "actor": "Codex",
           "text": "Updated Epic metadata (description: Admitted EPIC-17/G04 V01 → V02 → V03 per docs/planning/EPIC-17-ADMISSION.md. Current output remains 56 accepted / 90 held across 73 configurations / 146 faces. S362 implements the approved Woven full-collar view projection; all 56 Woven faces remain held because the max-stand-height placket-width leader crosses collar contours and the rejected S361 sleeve/band view still crosses on the back. All 34 Polo faces remain held at the confirmed 0.25 cm residual gate. Preserve all-seven V02, legacy DXF, protected byte identities and V02-before-V03. Current state: PROJECT-STATE.md; current packet: docs/research/epic17/G04-V02-WOVEN-FULL-COLLAR-PROJECTION-S362.md.). Record the verified S362 projection result while preserving all current G04 holds and exit gates."
+        },
+        {
+          "at": "2026-10-02T09:48:56.530Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: Admitted EPIC-17/G04 V01 → V02 → V03 per docs/planning/EPIC-17-ADMISSION.md. Current output remains 56 accepted / 90 held across 73 configurations / 146 faces. S362 implemented the approved Woven full-collar view projection. S363 blocks the known straight finished-placket-width leader crossing: replay of 28 Woven configurations / 56 faces has zero browser errors, with 31 SVGs emitted and 25 front faces held by TEXT_COLLISION because no straight readable route avoids the four collar outlines. All 56 Woven faces remain held; the independent rejected S361 sleeve/band back X and other face gates remain. All 34 Polo faces remain held at the confirmed 0.25 cm residual gate. Preserve all-seven V02, legacy DXF, protected byte identities and V02-before-V03. Current state: PROJECT-STATE.md; current packet: docs/research/epic17/G04-V02-WOVEN-POM-LEADER-READABILITY-S363.md.). Record S363's verified Woven callout fail-closed behavior without changing G04 acceptance or holds."
+        },
+        {
+          "at": "2026-10-02T09:48:56.683Z",
+          "actor": "Codex",
+          "text": "S363 closes at a verified fail-closed boundary: 25 Woven front outputs now report the placket-width leader/collar collision rather than rendering it. No face passed V02; all-seven acceptance, 0.25 cm Polo gate, sleeve/band hold, V02-before-V03 and CAD proof gate are unchanged."
         }
       ],
       "evidenceRefs": [
@@ -3847,7 +3862,12 @@
         "E-G04-S361-OVERLAY",
         "E-G04-S361-TEST",
         "E-G04-S362-START",
-        "E-G04-S362-EXIT"
+        "E-G04-S362-EXIT",
+        "E-G04-S363-EXIT",
+        "E-G04-S363-MATRIX",
+        "E-G04-S363-MAX-HEIGHT-HOLD",
+        "E-G04-S363-START",
+        "E-G04-S363-ANCHOR"
       ],
       "flagKey": null
     },
@@ -6545,7 +6565,7 @@
         "100% coverage",
         "export byte identity"
       ],
-      "description": "Integrated output remains 56 accepted / 90 held across 73 configurations / 146 faces. S362's revision-bound Woven full-collar projection compiles for 28 configurations / 56 faces with zero renderer issues and no unintended collar-line crossings, but manual review still finds the max-stand-height finished-placket-width leader crossing collar contours. The rejected S361 sleeve/band view retains a back X. All 56 Woven and 34 Polo faces remain held; preserve Polo's 0.25 cm gate, all-seven V02 and V02-before-V03. UIQ work remains outside G04's critical path under the S354 reconciliation. Current packet: docs/research/epic17/G04-V02-WOVEN-FULL-COLLAR-PROJECTION-S362.md.",
+      "description": "Integrated output remains 56 accepted / 90 held across 73 configurations / 146 faces. S362's revision-bound Woven full-collar projection compiles for 28 configurations / 56 faces with zero renderer issues and no unintended collar-line crossings. S363 rejects straight finished-placket-width leader placements that cross `outerStand`, `innerStand`, `upperCollar`, or `underCollar`: production replay has 31 SVG faces emitted and 25 front faces withheld with TEXT_COLLISION. The default and max-stand-height front crossings are no longer displayed. The independent rejected S361 sleeve/band back X remains unresolved. All 56 Woven and 34 Polo faces remain held; preserve all-seven V02 and V02-before-V03, plus Polo's confirmed 0.25 cm gate. UIQ work remains outside G04's critical path under S354. Current packet: docs/research/epic17/G04-V02-WOVEN-POM-LEADER-READABILITY-S363.md.",
       "expectation": "Live vector output stays aligned with the same pattern and style revision and remains readable across all supported options.",
       "acceptanceCriteria": [
         "Render front/back vector views for all seven recipes and supported option combinations from one pattern/revision.",
@@ -7485,6 +7505,16 @@
           "at": "2026-10-02T09:16:37.326Z",
           "actor": "Codex",
           "text": "Slice 362 exit: the approved Woven full-collar view projection emits all 56 option/face requests without renderer errors or unintended collar-outline crossings. Render review still finds the max-stand-height placket-width leader crossing collar contours; the rejected S361 sleeve/band candidate retains a back X. Keep all 56 Woven and 34 Polo faces held, including Polo's confirmed 0.25 cm gate. No new accepted faces; integrated output stays 56/146 accepted. S354 UI reconciliation remains planning-only; no UIQ work entered G04. Exit packet: docs/research/epic17/G04-V02-WOVEN-FULL-COLLAR-PROJECTION-S362.md."
+        },
+        {
+          "at": "2026-10-02T09:33:48.208Z",
+          "actor": "Codex",
+          "text": "Start S363 at 2026-10-02 09:30:41 UTC from clean S362 24a0c00fa8cb5d11b9e0b4b0c132c5c7efe5684c. Address only measured POM leader crossings over unrelated geometry while preserving exact source anchors/revisions and all cut/stitch geometry. Keep all current holds, all-seven V02 and V02-before-V03; the user retained Polo's 0.25 cm gate. Packet: docs/research/epic17/G04-V02-WOVEN-POM-LEADER-READABILITY-S363.md."
+        },
+        {
+          "at": "2026-10-02T09:48:56.651Z",
+          "actor": "Codex",
+          "text": "Slice 363 exit: source-anchored Woven finished-placket-width leader crossings over the four projected collar outlines now fail closed. Production replay covers all 28 configurations / 56 faces with zero browser errors: 31 compile, 25 front faces are withheld with TEXT_COLLISION; default and max-stand-height front output shows the hold notice instead of a misleading crossing. This is not a callout-readability pass and adds zero accepted faces. Keep all 56 Woven and 34 Polo faces held, preserve the 0.25 cm Polo gate and all-seven V02/V02-before-V03. The back sleeve/band X remains. See the S363 packet and matrix."
         }
       ],
       "evidenceRefs": [
@@ -7780,7 +7810,12 @@
         "E-G04-S361-OVERLAY",
         "E-G04-S361-TEST",
         "E-G04-S362-START",
-        "E-G04-S362-EXIT"
+        "E-G04-S362-EXIT",
+        "E-G04-S363-START",
+        "E-G04-S363-EXIT",
+        "E-G04-S363-MATRIX",
+        "E-G04-S363-MAX-HEIGHT-HOLD",
+        "E-G04-S363-ANCHOR"
       ],
       "flagKey": null
     },
@@ -11988,6 +12023,51 @@
       "sha256": null,
       "verified": true,
       "note": "S362 implements the approved view-only Woven full-collar projection and verifies all 28 configurations / 56 face requests. Renderer and collar intersection checks pass; the max-height POM leader crosses collar contours and the rejected sleeve/band back X remains, so all 56 Woven faces stay held. Polo remains 34/34 held at the confirmed 0.25 cm residual gate."
+    },
+    {
+      "id": "E-G04-S363-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-POM-LEADER-READABILITY-S363.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S363 start packet bounds a measured Woven POM leader readability correction. Preserve the exact same-revision buttonPlacket source anchor, all source geometry, Polo's 0.25 cm gate and every current face hold."
+    },
+    {
+      "id": "E-G04-S363-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-POM-LEADER-READABILITY-S363.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "The source-anchored Woven placket-width leader now fails closed when no straight label route avoids the four projected collar outlines. The full 28-configuration/56-face replay has zero browser errors; 31 compile, 25 front faces are held with TEXT_COLLISION, and no face is accepted. Polo's 0.25 cm gate and all current holds remain."
+    },
+    {
+      "id": "E-G04-S363-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S363-woven-pom-leader-readability/production-replay/matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Production Chromium replay of 28 Woven configurations / 56 faces: 31 SVG faces compile; 25 front faces fail closed for the measured placket-width callout; zero browser errors."
+    },
+    {
+      "id": "E-G04-S363-MAX-HEIGHT-HOLD",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S363-woven-pom-leader-readability/production-replay/woven-shirt-standHeight-max-front_flat.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Rendered max-stand-height front shows a full technical-flat hold with visible TEXT_COLLISION guidance; no partial SVG or crossing leader is displayed."
+    },
+    {
+      "id": "E-G04-S363-ANCHOR",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S363-woven-pom-leader-readability/production-callout-anchor-comparison.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Chromium SVG comparison confirms the combined-supported Woven front keeps finished-placket-width target ID, source edge buttonPlacket.top, exact anchor (3, 8.2) cm, and revision live-draft:woven-shirt:14:14 from S362."
     }
   ]
 }

@@ -2,6 +2,7 @@ import { createRequire } from "node:module";
 import { describe, expect, it } from "vitest";
 import { GARMENTS, STANDARD_M, TROUSER_OPTION_DEFINITIONS, defaultGarmentOptions } from "../drafting";
 import { TECHNICAL_FLAT_SCHEMA_VERSION, type TechnicalFlatPrimitive, type TechnicalFlatView } from "./technical-flat";
+import { technicalFlatLeaderSegmentsCross } from "./technical-flat-poms";
 import { compileTechnicalFlatLiveView } from "./technical-flat-live";
 import {
   createBrowserTechnicalFlatTextMeasurer,
@@ -689,6 +690,34 @@ describe("renderTechnicalFlatSvg", () => {
     expect(result.textBounds["pom-ray-two"]).toBeDefined();
     expect(result.svg).toContain('data-label-for="pom-ray-one"');
     expect(result.svg).toContain('data-label-for="pom-ray-two"');
+  });
+
+  it("reflows a POM leader around unrelated visible paths without moving its source anchor", () => {
+    const wovenSource = { ...source, sourceId: "pattern:woven-shirt:role:buttonPlacket" };
+    const collarSource = { ...source, sourceId: "pattern:woven-shirt:role:outerStand" };
+    const barrier: TechnicalFlatPrimitive = { kind: "path", id: "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+      layer: "GARMENT_SILHOUETTE", feature: "silhouette", source: collarSource, commands: [
+        { op: "move", point: { x: 0.6, y: -2 } }, { op: "line", point: { x: 0.6, y: 2 } },
+      ] };
+    const target: TechnicalFlatPrimitive = { kind: "path", id: "placket-target", layer: "GARMENT_SILHOUETTE",
+      feature: "silhouette", source: wovenSource, sourceEdgeIds: ["pattern:woven-shirt:role:buttonPlacket:edge:top"], commands: [
+        { op: "move", point: { x: -1, y: -1 } }, { op: "line", point: { x: 0, y: -1 } },
+        { op: "line", point: { x: 0, y: 1 } }, { op: "line", point: { x: -1, y: 1 } },
+      ] };
+    const wovenResult = renderTechnicalFlatSvg({ ...makeView([target, barrier, {
+      kind: "callout", id: "placket-width", layer: "CALLOUT", feature: "pom",
+      source: { ...source, sourceId: "pom:woven-shirt:finished-placket-width" },
+      text: "Placket width", anchor: { primitiveId: "placket-target", point: { x: 0, y: 0 },
+        sourceEntityId: "pattern:woven-shirt:role:buttonPlacket:edge:top" }, labelAt: { x: 4, y: 0 },
+    }]), recipeId: "woven-shirt" }, { measureText: measure });
+
+    expect(wovenResult.issues).toEqual([]);
+    expect(wovenResult.svg).toContain('data-callout-source-entity="pattern:woven-shirt:role:buttonPlacket:edge:top"');
+    const leader = wovenResult.svg?.match(/<g [^>]*data-callout-target="placket-target"[^>]*><path d="M0 0 L([^ ]+) ([^"]+)"/);
+    expect(leader).toBeTruthy();
+    const endpoint = { x: Number(leader?.[1]), y: Number(leader?.[2]) };
+    expect(technicalFlatLeaderSegmentsCross({ x: 0, y: 0 }, endpoint,
+      { x: 0.6, y: -2 }, { x: 0.6, y: 2 })).toBe(false);
   });
 
   it("rejects notice wrapping when actual font metrics cannot fit the text", () => {

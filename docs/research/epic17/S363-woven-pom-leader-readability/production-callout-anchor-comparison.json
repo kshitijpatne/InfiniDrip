@@ -1,0 +1,27 @@
+{
+  "comparison": "S362 vs S363 production SVG, Woven combined-supported front",
+  "sourceAnchorUnchanged": true,
+  "sameRevision": true,
+  "before": {
+    "path": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S362-woven-full-collar\\woven-shirt-combined-supported-front.svg",
+    "revisionId": "live-draft:woven-shirt:14:14",
+    "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+    "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+    "anchor": {
+      "x": 3,
+      "y": 8.2
+    },
+    "leaderPath": "M3 8.2 L2.9067 0.1721"
+  },
+  "after": {
+    "path": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S363-woven-pom-leader-readability\\production-replay\\woven-shirt-combined-supported-front_flat.svg",
+    "revisionId": "live-draft:woven-shirt:14:14",
+    "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+    "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+    "anchor": {
+      "x": 3,
+      "y": 8.2
+    },
+    "leaderPath": "M3 8.2 L4.9997 4.5915"
+  }
+}

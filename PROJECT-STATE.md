@@ -1,8 +1,18 @@
 # InfiniDrip — Project State
 
-_Last updated: S362 implemented the approved Woven full-collar view projection and retained all output holds; 2026-10-02._
+_Last updated: S363 prevents the reviewed Woven callout crossing and retains all affected face holds; 2026-10-02._
 
-## EPIC-17 / G04 current handoff — Slice 362 complete; V02 remains open
+## EPIC-17 / G04 current handoff — Slice 363 complete; V02 remains open
+
+S363 started 2026-10-02 09:30:41 UTC from clean S362 commit `24a0c00fa8cb5d11b9e0b4b0c132c5c7efe5684c` on `codex/epic-17-g04`. Refreshed `origin/main` is `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` and remains an ancestor. Highest assigned slice was 362; S363 was reserved. The canonical board was revision 1536 at start; validated start evidence/comments are at 1537–1539. EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog. The goal record is active and its objective matches the admitted G04 objective. The user retained Polo's 0.25 cm residual gate; no Polo threshold or acceptance change is authorized.
+
+S363 added a view-only measured-placement guard for the Woven finished-placket-width callout: candidate straight leaders crossing the projected `outerStand`, `innerStand`, `upperCollar` or `underCollar` outlines are rejected. Exact source anchor, target, revision, POM value/tolerance and cut/stitch geometry remain unchanged. The production Chromium matrix covers 28 Woven configurations / 56 faces with zero browser errors: 31 faces emit and 25 front faces fail closed with `TEXT_COLLISION` because no clear straight leader and readable label position is available. The default and max-`standHeight` crossing outputs are now visibly withheld; this is not a callout-readability pass. Three front configurations and all 28 backs compile, but no Woven face is accepted because the back sleeve/band X and other topology/readability checks remain. Preserve all 56 Woven holds and all 34 Polo holds; the integrated tally remains 56 accepted / 90 held across 73 configurations / 146 faces.
+
+Packet: `docs/research/epic17/G04-V02-WOVEN-POM-LEADER-READABILITY-S363.md`; replay and rendered output: `docs/research/epic17/S363-woven-pom-leader-readability/`. The production anchor comparison confirms `buttonPlacket.top` remains at `(3, 8.2)` cm on the same revision. Board revision 1559 links S363 start/exit, replay, max-height hold and anchor-comparison evidence. Focused SVG tests pass 31/31 at 100% statement/branch/function/line coverage for the changed renderer. Production build passes with the existing chunk-size advisory; protected export regression passes 8/8. Control Center passes 42/42 and `git diff --check` passes. The Polo 0.25 cm gate and all-seven acceptance remain unchanged. S362's S354 UI sequence check remains planning-only; UIQ work stays Backlog/outside G04. S363 adds no accepted faces and cannot clear the separate Woven sleeve/band crossing.
+
+**Next action:** reserve the next unique slice and investigate a view-only bent leader route around the projected collar endpoints while preserving the exact POM anchor, target and same-revision identity. If no readable source-faithful route is proven, retain the fail-closed output. Continue the independent sleeve/band crossing investigation; keep all-seven V02 and V02-before-V03.
+
+## EPIC-17 / G04 previous handoff — Slice 362 complete; V02 remains open
 
 S362 started 2026-10-02 07:04:15 UTC from S361 commit `4f7b584bcddbad222db3ecea23a159a94871bc62` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. The only starting dirt was the S361 post-commit `importFacts` board update and its command record, which are verified and preserved in this slice. Highest assigned slice was 361; S362 is reserved. Board was revision 1524 at start; validated S362 start evidence/comments are at 1525–1527. EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog. The goal remains active and matches the admitted objective.
 

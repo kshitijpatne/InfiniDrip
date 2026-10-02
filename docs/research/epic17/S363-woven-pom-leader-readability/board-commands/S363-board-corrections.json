@@ -1,0 +1,14 @@
+[
+  {
+    "type": "addEvidence",
+    "itemId": "EPIC-17",
+    "evidenceId": "E-G04-S363-START"
+  },
+  {
+    "type": "editItem",
+    "itemId": "G04-V02",
+    "patch": {
+      "description": "Integrated output remains 56 accepted / 90 held across 73 configurations / 146 faces. S362's revision-bound Woven full-collar projection compiles for 28 configurations / 56 faces with zero renderer issues and no unintended collar-line crossings. S363 rejects straight finished-placket-width leader placements that cross `outerStand`, `innerStand`, `upperCollar`, or `underCollar`: production replay has 31 SVG faces emitted and 25 front faces withheld with TEXT_COLLISION. The default and max-stand-height front crossings are no longer displayed. The independent rejected S361 sleeve/band back X remains unresolved. All 56 Woven and 34 Polo faces remain held; all-seven V02, V02-before-V03 and Polo's confirmed 0.25 cm gate remain. UIQ work remains outside G04's critical path under S354. Current packet: docs/research/epic17/G04-V02-WOVEN-POM-LEADER-READABILITY-S363.md."
+    }
+  }
+]
