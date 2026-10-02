@@ -148,6 +148,12 @@ only through an explicitly admitted, linked Epic packet.
   bands. The candidate is rejected: front renders retain torso crossings and
   back band/cuff outlines fail visibility in the current composition. No
   production mapping changed and all Woven/Polo face holds remain.
+- `docs/research/epic17/G04-V02-POLO-EASE-RESIDUAL-SOURCE-REPAIR-STUDY-S357.md` —
+  Slice 357's diagnostic-only source-geometry study of the recurring Polo
+  sleeve-cap assembly residual. Reducing cap ease alone cannot clear the
+  residual; the modeled width/ease change alters POMs and breaks sleeve
+  colorway closure. Keep the 0.25 cm gate and all 34 Polo holds pending a
+  separate maintainer design decision.
 - `docs/research/epic17/G04-V02-TROUSER-WAISTBAND-DEPTH-POM-S311.md` — Slice
   311's source-backed mark-target POM mapping, production-rendered verification,
   held-face limits and current G04 boundary. Use `PROJECT-STATE.md` and the

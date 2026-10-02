@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 1451,
-  "updatedAt": "2026-10-02T04:50:29.926Z",
+  "revision": 1459,
+  "updatedAt": "2026-10-02T05:08:35.604Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -3559,6 +3559,16 @@
           "at": "2026-10-02T04:50:29.926Z",
           "actor": "Codex",
           "text": "S356 rejected the diagnostic Woven sleeve/band chord-reflection convention after exact-revision 56-face candidate generation and six representative rendered reviews. Holds, all-seven V02 acceptance and V02-before-V03 gate remain unchanged; see linked S356 exit report."
+        },
+        {
+          "at": "2026-10-02T04:57:58.942Z",
+          "actor": "Codex",
+          "text": "S357 starts from the S356 committed boundary to examine the remaining Polo residual with exact source and option evidence. All-seven V02 and V02-before-V03 gates remain unchanged."
+        },
+        {
+          "at": "2026-10-02T05:08:35.604Z",
+          "actor": "Codex",
+          "text": "S357 source/ease diagnostic retained in the linked exit report. All 34 Polo and 56 Woven holds remain; all-seven V02 and V02-before-V03 gates are unchanged. The Polo source-change proposal requires explicit maintainer decision before dependent implementation; independent Woven work may continue."
         }
       ],
       "evidenceRefs": [
@@ -3745,7 +3755,9 @@
         "E-G04-S355-START",
         "E-G04-S355-EXIT",
         "E-G04-S356-START",
-        "E-G04-S356-EXIT"
+        "E-G04-S356-EXIT",
+        "E-G04-S357-START",
+        "E-G04-S357-EXIT"
       ],
       "flagKey": null
     },
@@ -7318,6 +7330,16 @@
           "at": "2026-10-02T04:50:29.203Z",
           "actor": "Codex",
           "text": "Slice 356 rejected the Woven sleeve/band chord-reflection candidate: default and combined front renders retain the crossing X, while back band/cuff outlines are not clearly visible in the existing composition. The source join is preserved by the common transform, but orientation alone fails the rendered gates. No production mapping changed; all 56 Woven and 34 Polo faces remain held."
+        },
+        {
+          "at": "2026-10-02T04:57:58.174Z",
+          "actor": "Codex",
+          "text": "Slice 357 is active for a diagnostic-only study of the Polo source-authored sleeve-cap ease and recurring 0.68 cm residual. No production source change, threshold waiver or hold release is authorized; S351/S353 facts and current 17-option matrix will be refreshed."
+        },
+        {
+          "at": "2026-10-02T05:08:34.541Z",
+          "actor": "Codex",
+          "text": "Slice 357 found no viable Polo source repair: removing cap ease alone leaves at least 0.63 cm residual because the 43 cm sleeve-width floor exceeds the 41.691458 cm body armhole; a residual-clearing in-memory variant changes bicep/hem POMs by 1.5 cm and fails sleeve colorway closure. No production source or threshold changed; all 34 Polo faces remain held pending explicit design direction."
         }
       ],
       "evidenceRefs": [
@@ -7596,7 +7618,9 @@
         "E-G04-S355-START",
         "E-G04-S355-EXIT",
         "E-G04-S356-START",
-        "E-G04-S356-EXIT"
+        "E-G04-S356-EXIT",
+        "E-G04-S357-START",
+        "E-G04-S357-EXIT"
       ],
       "flagKey": null
     },
@@ -11651,6 +11675,24 @@
       "sha256": null,
       "verified": true,
       "note": "S356 generated 56 exact-revision diagnostic candidates and rendered six representative overlays. Common sleeve/band reflection preserves source joins but front candidates retain torso crossings and back pair visibility fails; reject mapping and retain all Woven/Polo holds."
+    },
+    {
+      "id": "E-G04-S357-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-POLO-EASE-RESIDUAL-SOURCE-REPAIR-STUDY-S357.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S357 diagnostic-only source/ease study; preserve 1.5 cm authored ease, 0.25 cm residual gate, source stitch graph and all 34 Polo holds pending any separate maintainer decision."
+    },
+    {
+      "id": "E-G04-S357-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/G04-V02-POLO-EASE-RESIDUAL-SOURCE-REPAIR-STUDY-S357.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S357 tested 10 in-memory CAP_EASE/sleeve-width variants across 17 exact Polo configurations / 34 faces. Easing alone cannot clear the 0.25 cm gate; the residual-clearing candidate changes POMs and fails sleeve colorway closure. No production change; retain all holds pending a separate design decision."
     }
   ]
 }

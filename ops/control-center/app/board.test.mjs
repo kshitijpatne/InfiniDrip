@@ -99,6 +99,19 @@ test("S356 rejects the Woven chord-reflection candidate and retains every hold",
   assert.ok(g04.comments.some((comment) => /Slice 356 rejected the Woven sleeve\/band chord-reflection candidate/.test(comment.text)));
 });
 
+test("S357 Polo residual study retains the source ease, threshold, and all holds", () => {
+  const epic = board.workItems.find((item) => item.id === "EPIC-17");
+  const g04 = board.workItems.find((item) => item.id === "G04-V02");
+  for (const id of ["E-G04-S357-START", "E-G04-S357-EXIT"]) {
+    assert.ok(board.evidence.some((entry) => entry.id === id && entry.uri === "docs/research/epic17/G04-V02-POLO-EASE-RESIDUAL-SOURCE-REPAIR-STUDY-S357.md"));
+    assert.ok(epic.evidenceRefs.includes(id));
+    assert.ok(g04.evidenceRefs.includes(id));
+  }
+  assert.equal(g04.status, "In Progress");
+  assert.equal(board.workItems.find((item) => item.id === "G04-V03").status, "Backlog");
+  assert.ok(g04.comments.some((comment) => /Slice 357 found no viable Polo source repair/.test(comment.text)));
+});
+
 test("malformed board data is rejected instead of repaired", () => {
   const malformed = structuredClone(board);
   malformed.workItems[0].evidenceRefs = ["MISSING-EVIDENCE"];

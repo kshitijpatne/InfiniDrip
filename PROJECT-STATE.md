@@ -1,8 +1,14 @@
 # InfiniDrip — Project State
 
-_Last updated: S356 rejected the diagnostic Woven sleeve/band chord-reflection candidate; all holds remain, 2026-10-02._
+_Last updated: S357 documented the Polo ease/residual source trade-off; all holds remain pending a design decision, 2026-10-02._
 
-## EPIC-17 / G04 current handoff — Slice 356 complete; V02 remains open
+## EPIC-17 / G04 current handoff — Slice 357 complete; V02 remains open
+
+S356 completed as `3984144` (`Slice 356: reject Woven chord reflection candidate`). Refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor; working tree was clean before S357. Board revision 1451 links S356 start/exit evidence; G04-V02 remains In Progress, V03 Backlog. S356's 56 exact-revision candidates preserve source joins under the common transform but fail visible gates: front X crossings remain and back sleeve/band outlines are not clearly visible. Woven and Polo holds remain 56 and 34 respectively.
+
+S357 packet `docs/research/epic17/G04-V02-POLO-EASE-RESIDUAL-SOURCE-REPAIR-STUDY-S357.md` admits a diagnostic-only study of Polo's source-authored 1.5 cm sleeve-cap ease and recurring 0.68 cm assembly residual. S351 already documents current per-half lengths and S353 confirms the approved view-only normalized-arclength mapping does not waive the residual gate. Do not alter production source, source stitch graph, 0.25 cm residual threshold or any acceptance status. A construction change requires an explicit maintainer decision.
+
+S357 reproduced the current `sleeve.ts` cap formula in memory across 17 exact Polo options. At STANDARD_M, 43 cm sleeve width exceeds the 41.691458 cm combined armhole; reducing CAP_EASE alone to zero bottoms out at 43 cm and retains a 0.63 cm residual. A candidate that clears the residual requires both CAP_EASE 1.5→0 and sleeve width 43→41.5 cm; it changes the bicep and hem POMs by −1.5 cm and the six representative renderer attempts fail exact sleeve colorway closure. Monochrome fallbacks were reviewed with POMs omitted and are diagnostic only. No candidate qualifies. The packet records the source facts, full 170-row/340-face candidate matrix, rendered artifacts, explicit decision point, and checks. The canonical board is revision 1459; Control Center passes 38/38 and `git diff --check` passes. All 34 Polo and 56 Woven faces remain held. Next action: obtain the Polo design/gate decision; independent G04 work may continue.
 
 S355 landed as `c5152163cf002a96b79edaab79591a62ac221c4c`, `Slice 355: diagnose Woven back seam occlusion`. S356 began 2026-10-02 04:11:43 UTC on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. Start evidence was linked at board revision 1447. G04-V02 remains In Progress; V03 Backlog.
 
