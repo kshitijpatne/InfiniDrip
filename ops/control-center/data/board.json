@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 1960,
-  "updatedAt": "2026-10-02T21:25:28.113Z",
+  "revision": 1971,
+  "updatedAt": "2026-10-02T21:51:13.857Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -493,7 +493,9 @@
         "E-G04-S380-FAILURE-SCHEDULE",
         "E-G04-S380-MIN-WHOLE",
         "E-G04-S381-EXIT",
-        "E-G04-S381-SOURCE-TRACE"
+        "E-G04-S381-SOURCE-TRACE",
+        "E-G04-S382-EXIT",
+        "E-G04-S382-MATRIX"
       ]
     },
     {
@@ -3880,6 +3882,11 @@
           "at": "2026-10-02T21:25:28.113Z",
           "actor": "Codex",
           "text": "S381 closes the Woven crossing evidence review without changing mapping or output: current source and the 28-option trace do not support a truthful display gap. All V02 holds remain. Next is the consolidated 17-option Polo blocker attribution."
+        },
+        {
+          "at": "2026-10-02T21:51:13.857Z",
+          "actor": "Codex",
+          "text": "S382 provides the consolidated Polo blocker matrix and corrects the S379 cubic path sampler. All seven-recipe V02 and 0.25 cm gates remain unchanged; no face is accepted. A diagnostic-only source-centered marker/full-text schedule candidate is proposed for S383; no production implementation is authorized before maintainer approval."
         }
       ],
       "evidenceRefs": [
@@ -4194,7 +4201,9 @@
         "E-G04-S380-FAILURE-SCHEDULE",
         "E-G04-S380-MIN-WHOLE",
         "E-G04-S381-EXIT",
-        "E-G04-S381-SOURCE-TRACE"
+        "E-G04-S381-SOURCE-TRACE",
+        "E-G04-S382-EXIT",
+        "E-G04-S382-MATRIX"
       ],
       "flagKey": null
     },
@@ -8022,6 +8031,16 @@
           "at": "2026-10-02T21:25:28.080Z",
           "actor": "Codex",
           "text": "S381 rechecked S373 against current Woven pattern source and the exact 28-option rendered trace. `sleeve.hem` is continuous and stitch-joined to the band; there is no source-backed break or over/under order. Do not apply the proposed 0.60 cm view gap because it could falsely depict a disconnected hem. All 56 Woven and 34 Polo faces remain held; no V02/V03 gate or acceptance changed."
+        },
+        {
+          "at": "2026-10-02T21:31:59.844Z",
+          "actor": "Codex",
+          "text": "S382 is active for a consolidated 17-option Polo diagnosis. It preserves the approved C marker, fixed 0.25 cm gate, authored ease, all 34 holds, all-seven V02 and V02-before-V03. No callout/source or pattern behavior changes are authorized by this diagnostic."
+        },
+        {
+          "at": "2026-10-02T21:51:13.826Z",
+          "actor": "Codex",
+          "text": "S382 consolidates the 17 current Polo options. Approved C key clears only the two prior C TEXT_COLLISION rows. Ten other POMs still fail the 0.25 cm path-clearance check in every front, plus 51 leader pairs/three glyph intersections; all 34 faces also retain the independent 0.68 cm sleeve-cap residual. S379 cubic path sampling extrapolated to t=5; its one extra front-body-length finding and totals are corrected by the S382 current-output replay. Preserve the authored ease and all holds."
         }
       ],
       "evidenceRefs": [
@@ -8429,7 +8448,11 @@
         "E-G04-S380-MIN-WHOLE",
         "E-G04-S381-START",
         "E-G04-S381-EXIT",
-        "E-G04-S381-SOURCE-TRACE"
+        "E-G04-S381-SOURCE-TRACE",
+        "E-G04-S382-START",
+        "E-G04-S382-EXIT",
+        "E-G04-S382-MATRIX",
+        "E-G04-S382-RENDERED"
       ],
       "flagKey": null
     },
@@ -13645,6 +13668,42 @@
       "sha256": null,
       "verified": true,
       "note": "Retained exact live-draft:woven-shirt:14:14 trace reconciles both continuous mirrored sleeve hem runs and one crossing in every one of 28 back configurations."
+    },
+    {
+      "id": "E-G04-S382-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S382-polo-blocker-consolidation/G04-V02-POLO-BLOCKER-CONSOLIDATION-S382.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S382 reconciles S379's all-option crossing matrix with actual S380 keyed output and the unchanged Polo 0.68 cm residual gate."
+    },
+    {
+      "id": "E-G04-S382-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S382-polo-blocker-consolidation/G04-V02-POLO-BLOCKER-CONSOLIDATION-S382.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Current S380 keyed output has ten remaining POM path blockers in each of 17 options; S379 cubic extrapolation false positive is corrected. All 34 Polo faces remain held."
+    },
+    {
+      "id": "E-G04-S382-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S382-polo-blocker-consolidation/diagnosis-summary.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "17/17 exact S380 options; 170 sub-0.25 cm leader/path blockers (139 crossings, 31 positive clearances), 51 leader pairs, three glyph intersections; approved C rows clear. S379 cubic parameter is corrected."
+    },
+    {
+      "id": "E-G04-S382-RENDERED",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S382-polo-blocker-consolidation/annotated/polo-placketWidth-min-leader-detail.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Current S380 renderer detail inspected with approved C key and all remaining POM leader/geometry collisions highlighted. All Polo faces remain held."
     }
   ]
 }

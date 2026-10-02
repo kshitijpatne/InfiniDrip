@@ -1,0 +1,4 @@
+[
+  {"type":"addEvidence","itemId":"G04-V02","evidence":{"id":"E-G04-S382-START","kind":"document","uri":"docs/research/epic17/S382-polo-blocker-consolidation/G04-V02-POLO-BLOCKER-CONSOLIDATION-S382.md","verified":true,"note":"S382 reconciles S379's all-option crossing matrix with actual S380 keyed output and the unchanged Polo 0.68 cm residual gate."}},
+  {"type":"addComment","itemId":"G04-V02","actor":"Codex","text":"S382 is active for a consolidated 17-option Polo diagnosis. It preserves the approved C marker, fixed 0.25 cm gate, authored ease, all 34 holds, all-seven V02 and V02-before-V03. No callout/source or pattern behavior changes are authorized by this diagnostic."}
+]
