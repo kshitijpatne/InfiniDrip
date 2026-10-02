@@ -1,0 +1,2223 @@
+{
+  "candidate": "diagnostic half-band crop; not the S321-approved uncut band instance",
+  "method": "proper interior line-segment intersection. Coincident/near-node events within 0.001 cm of a segment endpoint are reported separately, not counted as crossings.",
+  "optionCount": 28,
+  "revisionId": "live-draft:woven-shirt:14:14",
+  "totals": {
+    "hemSeamPair": 28,
+    "bandOuterPair": 27,
+    "bandToSleeve": 54,
+    "nearNodeContacts": 56
+  },
+  "rows": [
+    {
+      "caseId": "woven-shirt-default",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "seamCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandTop/sleeveHem#58",
+            "b": "left.bandTop/sleeveHem#58",
+            "pointCm": {
+              "x": 6.938893903907228e-18,
+              "y": 23.66506551788686
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandOuterPairCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#1",
+            "b": "left.bandBottom[0.5,1]#1",
+            "pointCm": {
+              "x": 0,
+              "y": 18.58283925634996
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandToSleeveCrossing": {
+        "count": 2,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#8",
+            "pointCm": {
+              "x": 1.8583311170839212,
+              "y": 21.12399513562436
+            },
+            "nearNode": false,
+            "band": "right.bandBottom[0.5,1]#8",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+          },
+          {
+            "a": "left.bandBottom[0.5,1]#8",
+            "pointCm": {
+              "x": -1.8583311170839212,
+              "y": 21.12399513562436
+            },
+            "nearNode": false,
+            "band": "left.bandBottom[0.5,1]#8",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+          }
+        ]
+      },
+      "nearNodeContactsExcludedAtToleranceCm": 0.001,
+      "nearNodeContacts": [
+        {
+          "a": "right.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": 7.97096839234601,
+            "y": 34.56485677880161
+          },
+          "nearNode": true,
+          "band": "right.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+        },
+        {
+          "a": "left.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": -7.97096839234601,
+            "y": 34.56485677880161
+          },
+          "nearNode": true,
+          "band": "left.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-neckEase-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "seamCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandTop/sleeveHem#58",
+            "b": "left.bandTop/sleeveHem#58",
+            "pointCm": {
+              "x": 6.938893903907228e-18,
+              "y": 23.66506551788686
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandOuterPairCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#1",
+            "b": "left.bandBottom[0.5,1]#1",
+            "pointCm": {
+              "x": 0,
+              "y": 18.58283925634996
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandToSleeveCrossing": {
+        "count": 2,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#8",
+            "pointCm": {
+              "x": 1.8583311170839212,
+              "y": 21.12399513562436
+            },
+            "nearNode": false,
+            "band": "right.bandBottom[0.5,1]#8",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+          },
+          {
+            "a": "left.bandBottom[0.5,1]#8",
+            "pointCm": {
+              "x": -1.8583311170839212,
+              "y": 21.12399513562436
+            },
+            "nearNode": false,
+            "band": "left.bandBottom[0.5,1]#8",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+          }
+        ]
+      },
+      "nearNodeContactsExcludedAtToleranceCm": 0.001,
+      "nearNodeContacts": [
+        {
+          "a": "right.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": 7.97096839234601,
+            "y": 34.56485677880161
+          },
+          "nearNode": true,
+          "band": "right.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+        },
+        {
+          "a": "left.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": -7.97096839234601,
+            "y": 34.56485677880161
+          },
+          "nearNode": true,
+          "band": "left.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-neckEase-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "seamCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandTop/sleeveHem#58",
+            "b": "left.bandTop/sleeveHem#58",
+            "pointCm": {
+              "x": 6.938893903907228e-18,
+              "y": 23.66506551788686
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandOuterPairCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#1",
+            "b": "left.bandBottom[0.5,1]#1",
+            "pointCm": {
+              "x": 0,
+              "y": 18.58283925634996
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandToSleeveCrossing": {
+        "count": 2,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#8",
+            "pointCm": {
+              "x": 1.8583311170839212,
+              "y": 21.12399513562436
+            },
+            "nearNode": false,
+            "band": "right.bandBottom[0.5,1]#8",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+          },
+          {
+            "a": "left.bandBottom[0.5,1]#8",
+            "pointCm": {
+              "x": -1.8583311170839212,
+              "y": 21.12399513562436
+            },
+            "nearNode": false,
+            "band": "left.bandBottom[0.5,1]#8",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+          }
+        ]
+      },
+      "nearNodeContactsExcludedAtToleranceCm": 0.001,
+      "nearNodeContacts": [
+        {
+          "a": "right.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": 7.97096839234601,
+            "y": 34.56485677880161
+          },
+          "nearNode": true,
+          "band": "right.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+        },
+        {
+          "a": "left.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": -7.97096839234601,
+            "y": 34.56485677880161
+          },
+          "nearNode": true,
+          "band": "left.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-standHeight-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "seamCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandTop/sleeveHem#58",
+            "b": "left.bandTop/sleeveHem#58",
+            "pointCm": {
+              "x": 6.938893903907228e-18,
+              "y": 23.66506551788686
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandOuterPairCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#1",
+            "b": "left.bandBottom[0.5,1]#1",
+            "pointCm": {
+              "x": 0,
+              "y": 18.58283925634996
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandToSleeveCrossing": {
+        "count": 2,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#8",
+            "pointCm": {
+              "x": 1.8583311170839212,
+              "y": 21.12399513562436
+            },
+            "nearNode": false,
+            "band": "right.bandBottom[0.5,1]#8",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+          },
+          {
+            "a": "left.bandBottom[0.5,1]#8",
+            "pointCm": {
+              "x": -1.8583311170839212,
+              "y": 21.12399513562436
+            },
+            "nearNode": false,
+            "band": "left.bandBottom[0.5,1]#8",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+          }
+        ]
+      },
+      "nearNodeContactsExcludedAtToleranceCm": 0.001,
+      "nearNodeContacts": [
+        {
+          "a": "right.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": 7.97096839234601,
+            "y": 34.56485677880161
+          },
+          "nearNode": true,
+          "band": "right.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+        },
+        {
+          "a": "left.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": -7.97096839234601,
+            "y": 34.56485677880161
+          },
+          "nearNode": true,
+          "band": "left.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-standHeight-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "seamCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandTop/sleeveHem#58",
+            "b": "left.bandTop/sleeveHem#58",
+            "pointCm": {
+              "x": 6.938893903907228e-18,
+              "y": 23.66506551788686
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandOuterPairCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#1",
+            "b": "left.bandBottom[0.5,1]#1",
+            "pointCm": {
+              "x": 0,
+              "y": 18.58283925634996
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandToSleeveCrossing": {
+        "count": 2,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#8",
+            "pointCm": {
+              "x": 1.8583311170839212,
+              "y": 21.12399513562436
+            },
+            "nearNode": false,
+            "band": "right.bandBottom[0.5,1]#8",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+          },
+          {
+            "a": "left.bandBottom[0.5,1]#8",
+            "pointCm": {
+              "x": -1.8583311170839212,
+              "y": 21.12399513562436
+            },
+            "nearNode": false,
+            "band": "left.bandBottom[0.5,1]#8",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+          }
+        ]
+      },
+      "nearNodeContactsExcludedAtToleranceCm": 0.001,
+      "nearNodeContacts": [
+        {
+          "a": "right.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": 7.97096839234601,
+            "y": 34.56485677880161
+          },
+          "nearNode": true,
+          "band": "right.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+        },
+        {
+          "a": "left.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": -7.97096839234601,
+            "y": 34.56485677880161
+          },
+          "nearNode": true,
+          "band": "left.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "seamCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandTop/sleeveHem#58",
+            "b": "left.bandTop/sleeveHem#58",
+            "pointCm": {
+              "x": 6.938893903907228e-18,
+              "y": 23.66506551788686
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandOuterPairCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#1",
+            "b": "left.bandBottom[0.5,1]#1",
+            "pointCm": {
+              "x": 0,
+              "y": 18.58283925634996
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandToSleeveCrossing": {
+        "count": 2,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#8",
+            "pointCm": {
+              "x": 1.8583311170839212,
+              "y": 21.12399513562436
+            },
+            "nearNode": false,
+            "band": "right.bandBottom[0.5,1]#8",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+          },
+          {
+            "a": "left.bandBottom[0.5,1]#8",
+            "pointCm": {
+              "x": -1.8583311170839212,
+              "y": 21.12399513562436
+            },
+            "nearNode": false,
+            "band": "left.bandBottom[0.5,1]#8",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+          }
+        ]
+      },
+      "nearNodeContactsExcludedAtToleranceCm": 0.001,
+      "nearNodeContacts": [
+        {
+          "a": "right.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": 7.97096839234601,
+            "y": 34.56485677880161
+          },
+          "nearNode": true,
+          "band": "right.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+        },
+        {
+          "a": "left.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": -7.97096839234601,
+            "y": 34.56485677880161
+          },
+          "nearNode": true,
+          "band": "left.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "seamCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandTop/sleeveHem#58",
+            "b": "left.bandTop/sleeveHem#58",
+            "pointCm": {
+              "x": 6.938893903907228e-18,
+              "y": 23.66506551788686
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandOuterPairCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#1",
+            "b": "left.bandBottom[0.5,1]#1",
+            "pointCm": {
+              "x": 0,
+              "y": 18.58283925634996
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandToSleeveCrossing": {
+        "count": 2,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#8",
+            "pointCm": {
+              "x": 1.8583311170839212,
+              "y": 21.12399513562436
+            },
+            "nearNode": false,
+            "band": "right.bandBottom[0.5,1]#8",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+          },
+          {
+            "a": "left.bandBottom[0.5,1]#8",
+            "pointCm": {
+              "x": -1.8583311170839212,
+              "y": 21.12399513562436
+            },
+            "nearNode": false,
+            "band": "left.bandBottom[0.5,1]#8",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+          }
+        ]
+      },
+      "nearNodeContactsExcludedAtToleranceCm": 0.001,
+      "nearNodeContacts": [
+        {
+          "a": "right.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": 7.97096839234601,
+            "y": 34.56485677880161
+          },
+          "nearNode": true,
+          "band": "right.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+        },
+        {
+          "a": "left.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": -7.97096839234601,
+            "y": 34.56485677880161
+          },
+          "nearNode": true,
+          "band": "left.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "seamCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandTop/sleeveHem#58",
+            "b": "left.bandTop/sleeveHem#58",
+            "pointCm": {
+              "x": 6.938893903907228e-18,
+              "y": 23.66506551788686
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandOuterPairCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#1",
+            "b": "left.bandBottom[0.5,1]#1",
+            "pointCm": {
+              "x": 0,
+              "y": 18.58283925634996
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandToSleeveCrossing": {
+        "count": 2,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#8",
+            "pointCm": {
+              "x": 1.8583311170839212,
+              "y": 21.12399513562436
+            },
+            "nearNode": false,
+            "band": "right.bandBottom[0.5,1]#8",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+          },
+          {
+            "a": "left.bandBottom[0.5,1]#8",
+            "pointCm": {
+              "x": -1.8583311170839212,
+              "y": 21.12399513562436
+            },
+            "nearNode": false,
+            "band": "left.bandBottom[0.5,1]#8",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+          }
+        ]
+      },
+      "nearNodeContactsExcludedAtToleranceCm": 0.001,
+      "nearNodeContacts": [
+        {
+          "a": "right.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": 7.97096839234601,
+            "y": 34.56485677880161
+          },
+          "nearNode": true,
+          "band": "right.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+        },
+        {
+          "a": "left.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": -7.97096839234601,
+            "y": 34.56485677880161
+          },
+          "nearNode": true,
+          "band": "left.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "seamCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandTop/sleeveHem#58",
+            "b": "left.bandTop/sleeveHem#58",
+            "pointCm": {
+              "x": 6.938893903907228e-18,
+              "y": 23.66506551788686
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandOuterPairCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#1",
+            "b": "left.bandBottom[0.5,1]#1",
+            "pointCm": {
+              "x": 0,
+              "y": 18.58283925634996
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandToSleeveCrossing": {
+        "count": 2,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#8",
+            "pointCm": {
+              "x": 1.8583311170839212,
+              "y": 21.12399513562436
+            },
+            "nearNode": false,
+            "band": "right.bandBottom[0.5,1]#8",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+          },
+          {
+            "a": "left.bandBottom[0.5,1]#8",
+            "pointCm": {
+              "x": -1.8583311170839212,
+              "y": 21.12399513562436
+            },
+            "nearNode": false,
+            "band": "left.bandBottom[0.5,1]#8",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+          }
+        ]
+      },
+      "nearNodeContactsExcludedAtToleranceCm": 0.001,
+      "nearNodeContacts": [
+        {
+          "a": "right.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": 7.97096839234601,
+            "y": 34.56485677880161
+          },
+          "nearNode": true,
+          "band": "right.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+        },
+        {
+          "a": "left.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": -7.97096839234601,
+            "y": 34.56485677880161
+          },
+          "nearNode": true,
+          "band": "left.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "seamCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandTop/sleeveHem#58",
+            "b": "left.bandTop/sleeveHem#58",
+            "pointCm": {
+              "x": 6.938893903907228e-18,
+              "y": 23.66506551788686
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandOuterPairCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#1",
+            "b": "left.bandBottom[0.5,1]#1",
+            "pointCm": {
+              "x": 0,
+              "y": 18.58283925634996
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandToSleeveCrossing": {
+        "count": 2,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#8",
+            "pointCm": {
+              "x": 1.8583311170839212,
+              "y": 21.12399513562436
+            },
+            "nearNode": false,
+            "band": "right.bandBottom[0.5,1]#8",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+          },
+          {
+            "a": "left.bandBottom[0.5,1]#8",
+            "pointCm": {
+              "x": -1.8583311170839212,
+              "y": 21.12399513562436
+            },
+            "nearNode": false,
+            "band": "left.bandBottom[0.5,1]#8",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+          }
+        ]
+      },
+      "nearNodeContactsExcludedAtToleranceCm": 0.001,
+      "nearNodeContacts": [
+        {
+          "a": "right.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": 7.97096839234601,
+            "y": 34.56485677880161
+          },
+          "nearNode": true,
+          "band": "right.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+        },
+        {
+          "a": "left.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": -7.97096839234601,
+            "y": 34.56485677880161
+          },
+          "nearNode": true,
+          "band": "left.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "seamCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandTop/sleeveHem#58",
+            "b": "left.bandTop/sleeveHem#58",
+            "pointCm": {
+              "x": 6.938893903907228e-18,
+              "y": 23.66506551788686
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandOuterPairCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#1",
+            "b": "left.bandBottom[0.5,1]#1",
+            "pointCm": {
+              "x": 0,
+              "y": 18.58283925634996
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandToSleeveCrossing": {
+        "count": 2,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#8",
+            "pointCm": {
+              "x": 1.8583311170839212,
+              "y": 21.12399513562436
+            },
+            "nearNode": false,
+            "band": "right.bandBottom[0.5,1]#8",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+          },
+          {
+            "a": "left.bandBottom[0.5,1]#8",
+            "pointCm": {
+              "x": -1.8583311170839212,
+              "y": 21.12399513562436
+            },
+            "nearNode": false,
+            "band": "left.bandBottom[0.5,1]#8",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+          }
+        ]
+      },
+      "nearNodeContactsExcludedAtToleranceCm": 0.001,
+      "nearNodeContacts": [
+        {
+          "a": "right.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": 7.97096839234601,
+            "y": 34.56485677880161
+          },
+          "nearNode": true,
+          "band": "right.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+        },
+        {
+          "a": "left.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": -7.97096839234601,
+            "y": 34.56485677880161
+          },
+          "nearNode": true,
+          "band": "left.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "seamCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandTop/sleeveHem#58",
+            "b": "left.bandTop/sleeveHem#58",
+            "pointCm": {
+              "x": 6.938893903907228e-18,
+              "y": 23.66506551788686
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandOuterPairCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#1",
+            "b": "left.bandBottom[0.5,1]#1",
+            "pointCm": {
+              "x": 0,
+              "y": 18.58283925634996
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandToSleeveCrossing": {
+        "count": 2,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#8",
+            "pointCm": {
+              "x": 1.8583311170839212,
+              "y": 21.12399513562436
+            },
+            "nearNode": false,
+            "band": "right.bandBottom[0.5,1]#8",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+          },
+          {
+            "a": "left.bandBottom[0.5,1]#8",
+            "pointCm": {
+              "x": -1.8583311170839212,
+              "y": 21.12399513562436
+            },
+            "nearNode": false,
+            "band": "left.bandBottom[0.5,1]#8",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+          }
+        ]
+      },
+      "nearNodeContactsExcludedAtToleranceCm": 0.001,
+      "nearNodeContacts": [
+        {
+          "a": "right.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": 7.97096839234601,
+            "y": 34.56485677880161
+          },
+          "nearNode": true,
+          "band": "right.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+        },
+        {
+          "a": "left.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": -7.97096839234601,
+            "y": 34.56485677880161
+          },
+          "nearNode": true,
+          "band": "left.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "seamCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandTop/sleeveHem#58",
+            "b": "left.bandTop/sleeveHem#58",
+            "pointCm": {
+              "x": 6.938893903907228e-18,
+              "y": 23.66506551788686
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandOuterPairCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#1",
+            "b": "left.bandBottom[0.5,1]#1",
+            "pointCm": {
+              "x": 0,
+              "y": 18.58283925634996
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandToSleeveCrossing": {
+        "count": 2,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#8",
+            "pointCm": {
+              "x": 1.8583311170839212,
+              "y": 21.12399513562436
+            },
+            "nearNode": false,
+            "band": "right.bandBottom[0.5,1]#8",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+          },
+          {
+            "a": "left.bandBottom[0.5,1]#8",
+            "pointCm": {
+              "x": -1.8583311170839212,
+              "y": 21.12399513562436
+            },
+            "nearNode": false,
+            "band": "left.bandBottom[0.5,1]#8",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+          }
+        ]
+      },
+      "nearNodeContactsExcludedAtToleranceCm": 0.001,
+      "nearNodeContacts": [
+        {
+          "a": "right.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": 7.97096839234601,
+            "y": 34.56485677880161
+          },
+          "nearNode": true,
+          "band": "right.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+        },
+        {
+          "a": "left.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": -7.97096839234601,
+            "y": 34.56485677880161
+          },
+          "nearNode": true,
+          "band": "left.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "seamCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandTop/sleeveHem#58",
+            "b": "left.bandTop/sleeveHem#58",
+            "pointCm": {
+              "x": 6.938893903907228e-18,
+              "y": 23.66506551788686
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandOuterPairCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#1",
+            "b": "left.bandBottom[0.5,1]#1",
+            "pointCm": {
+              "x": 0,
+              "y": 18.58283925634996
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandToSleeveCrossing": {
+        "count": 2,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#8",
+            "pointCm": {
+              "x": 1.8583311170839212,
+              "y": 21.12399513562436
+            },
+            "nearNode": false,
+            "band": "right.bandBottom[0.5,1]#8",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+          },
+          {
+            "a": "left.bandBottom[0.5,1]#8",
+            "pointCm": {
+              "x": -1.8583311170839212,
+              "y": 21.12399513562436
+            },
+            "nearNode": false,
+            "band": "left.bandBottom[0.5,1]#8",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+          }
+        ]
+      },
+      "nearNodeContactsExcludedAtToleranceCm": 0.001,
+      "nearNodeContacts": [
+        {
+          "a": "right.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": 7.97096839234601,
+            "y": 34.56485677880161
+          },
+          "nearNode": true,
+          "band": "right.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+        },
+        {
+          "a": "left.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": -7.97096839234601,
+            "y": 34.56485677880161
+          },
+          "nearNode": true,
+          "band": "left.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "seamCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandTop/sleeveHem#58",
+            "b": "left.bandTop/sleeveHem#58",
+            "pointCm": {
+              "x": 6.938893903907228e-18,
+              "y": 23.66506551788686
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandOuterPairCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#1",
+            "b": "left.bandBottom[0.5,1]#1",
+            "pointCm": {
+              "x": 0,
+              "y": 18.58283925634996
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandToSleeveCrossing": {
+        "count": 2,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#8",
+            "pointCm": {
+              "x": 1.8583311170839212,
+              "y": 21.12399513562436
+            },
+            "nearNode": false,
+            "band": "right.bandBottom[0.5,1]#8",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+          },
+          {
+            "a": "left.bandBottom[0.5,1]#8",
+            "pointCm": {
+              "x": -1.8583311170839212,
+              "y": 21.12399513562436
+            },
+            "nearNode": false,
+            "band": "left.bandBottom[0.5,1]#8",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+          }
+        ]
+      },
+      "nearNodeContactsExcludedAtToleranceCm": 0.001,
+      "nearNodeContacts": [
+        {
+          "a": "right.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": 7.97096839234601,
+            "y": 34.56485677880161
+          },
+          "nearNode": true,
+          "band": "right.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+        },
+        {
+          "a": "left.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": -7.97096839234601,
+            "y": 34.56485677880161
+          },
+          "nearNode": true,
+          "band": "left.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "seamCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandTop/sleeveHem#58",
+            "b": "left.bandTop/sleeveHem#58",
+            "pointCm": {
+              "x": -6.938893903907228e-18,
+              "y": 24.094996216142512
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandOuterPairCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#2",
+            "b": "left.bandBottom[0.5,1]#2",
+            "pointCm": {
+              "x": 6.938893903907228e-18,
+              "y": 19.117942734965848
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandToSleeveCrossing": {
+        "count": 2,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#8",
+            "pointCm": {
+              "x": 1.8798995965051017,
+              "y": 21.606478349970402
+            },
+            "nearNode": false,
+            "band": "right.bandBottom[0.5,1]#8",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+          },
+          {
+            "a": "left.bandBottom[0.5,1]#8",
+            "pointCm": {
+              "x": -1.8798995965051017,
+              "y": 21.606478349970402
+            },
+            "nearNode": false,
+            "band": "left.bandBottom[0.5,1]#8",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+          }
+        ]
+      },
+      "nearNodeContactsExcludedAtToleranceCm": 0.001,
+      "nearNodeContacts": [
+        {
+          "a": "right.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": 8.13756151303369,
+            "y": 34.86706547613746
+          },
+          "nearNode": true,
+          "band": "right.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+        },
+        {
+          "a": "left.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": -8.13756151303369,
+            "y": 34.86706547613746
+          },
+          "nearNode": true,
+          "band": "left.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "seamCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandTop/sleeveHem#58",
+            "b": "left.bandTop/sleeveHem#58",
+            "pointCm": {
+              "x": 0,
+              "y": 22.231858248123075
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandOuterPairCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#0",
+            "b": "left.bandBottom[0.5,1]#0",
+            "pointCm": {
+              "x": 0,
+              "y": 16.774591548896733
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandToSleeveCrossing": {
+        "count": 2,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#7",
+            "pointCm": {
+              "x": 1.795652766110799,
+              "y": 19.503206565236663
+            },
+            "nearNode": false,
+            "band": "right.bandBottom[0.5,1]#7",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+          },
+          {
+            "a": "left.bandBottom[0.5,1]#7",
+            "pointCm": {
+              "x": -1.795652766110799,
+              "y": 19.503206565236663
+            },
+            "nearNode": false,
+            "band": "left.bandBottom[0.5,1]#7",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+          }
+        ]
+      },
+      "nearNodeContactsExcludedAtToleranceCm": 0.001,
+      "nearNodeContacts": [
+        {
+          "a": "right.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": 7.473475602114713,
+            "y": 33.58776805453114
+          },
+          "nearNode": true,
+          "band": "right.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+        },
+        {
+          "a": "left.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": -7.473475602114713,
+            "y": 33.58776805453114
+          },
+          "nearNode": true,
+          "band": "left.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "seamCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandTop/sleeveHem#58",
+            "b": "left.bandTop/sleeveHem#58",
+            "pointCm": {
+              "x": 6.938893903907228e-18,
+              "y": 23.66506551788686
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandOuterPairCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#1",
+            "b": "left.bandBottom[0.5,1]#1",
+            "pointCm": {
+              "x": 0,
+              "y": 18.58283925634996
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandToSleeveCrossing": {
+        "count": 2,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#8",
+            "pointCm": {
+              "x": 1.8583311170839212,
+              "y": 21.12399513562436
+            },
+            "nearNode": false,
+            "band": "right.bandBottom[0.5,1]#8",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+          },
+          {
+            "a": "left.bandBottom[0.5,1]#8",
+            "pointCm": {
+              "x": -1.8583311170839212,
+              "y": 21.12399513562436
+            },
+            "nearNode": false,
+            "band": "left.bandBottom[0.5,1]#8",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+          }
+        ]
+      },
+      "nearNodeContactsExcludedAtToleranceCm": 0.001,
+      "nearNodeContacts": [
+        {
+          "a": "right.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": 7.97096839234601,
+            "y": 34.56485677880161
+          },
+          "nearNode": true,
+          "band": "right.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+        },
+        {
+          "a": "left.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": -7.97096839234601,
+            "y": 34.56485677880161
+          },
+          "nearNode": true,
+          "band": "left.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "seamCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandTop/sleeveHem#58",
+            "b": "left.bandTop/sleeveHem#58",
+            "pointCm": {
+              "x": 6.938893903907228e-18,
+              "y": 23.66506551788686
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandOuterPairCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#1",
+            "b": "left.bandBottom[0.5,1]#1",
+            "pointCm": {
+              "x": 0,
+              "y": 18.58283925634996
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandToSleeveCrossing": {
+        "count": 2,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#8",
+            "pointCm": {
+              "x": 1.8583311170839212,
+              "y": 21.12399513562436
+            },
+            "nearNode": false,
+            "band": "right.bandBottom[0.5,1]#8",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+          },
+          {
+            "a": "left.bandBottom[0.5,1]#8",
+            "pointCm": {
+              "x": -1.8583311170839212,
+              "y": 21.12399513562436
+            },
+            "nearNode": false,
+            "band": "left.bandBottom[0.5,1]#8",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+          }
+        ]
+      },
+      "nearNodeContactsExcludedAtToleranceCm": 0.001,
+      "nearNodeContacts": [
+        {
+          "a": "right.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": 7.97096839234601,
+            "y": 34.56485677880161
+          },
+          "nearNode": true,
+          "band": "right.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+        },
+        {
+          "a": "left.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": -7.97096839234601,
+            "y": 34.56485677880161
+          },
+          "nearNode": true,
+          "band": "left.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "seamCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandTop/sleeveHem#58",
+            "b": "left.bandTop/sleeveHem#58",
+            "pointCm": {
+              "x": 6.938893903907228e-18,
+              "y": 23.66506551788686
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandOuterPairCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#1",
+            "b": "left.bandBottom[0.5,1]#1",
+            "pointCm": {
+              "x": 0,
+              "y": 18.58283925634996
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandToSleeveCrossing": {
+        "count": 2,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#8",
+            "pointCm": {
+              "x": 1.8583311170839212,
+              "y": 21.12399513562436
+            },
+            "nearNode": false,
+            "band": "right.bandBottom[0.5,1]#8",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+          },
+          {
+            "a": "left.bandBottom[0.5,1]#8",
+            "pointCm": {
+              "x": -1.8583311170839212,
+              "y": 21.12399513562436
+            },
+            "nearNode": false,
+            "band": "left.bandBottom[0.5,1]#8",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+          }
+        ]
+      },
+      "nearNodeContactsExcludedAtToleranceCm": 0.001,
+      "nearNodeContacts": [
+        {
+          "a": "right.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": 7.97096839234601,
+            "y": 34.56485677880161
+          },
+          "nearNode": true,
+          "band": "right.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+        },
+        {
+          "a": "left.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": -7.97096839234601,
+            "y": 34.56485677880161
+          },
+          "nearNode": true,
+          "band": "left.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "seamCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandTop/sleeveHem#58",
+            "b": "left.bandTop/sleeveHem#58",
+            "pointCm": {
+              "x": 6.938893903907228e-18,
+              "y": 23.66506551788686
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandOuterPairCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#1",
+            "b": "left.bandBottom[0.5,1]#1",
+            "pointCm": {
+              "x": 0,
+              "y": 18.58283925634996
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandToSleeveCrossing": {
+        "count": 2,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#8",
+            "pointCm": {
+              "x": 1.8583311170839212,
+              "y": 21.12399513562436
+            },
+            "nearNode": false,
+            "band": "right.bandBottom[0.5,1]#8",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+          },
+          {
+            "a": "left.bandBottom[0.5,1]#8",
+            "pointCm": {
+              "x": -1.8583311170839212,
+              "y": 21.12399513562436
+            },
+            "nearNode": false,
+            "band": "left.bandBottom[0.5,1]#8",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+          }
+        ]
+      },
+      "nearNodeContactsExcludedAtToleranceCm": 0.001,
+      "nearNodeContacts": [
+        {
+          "a": "right.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": 7.97096839234601,
+            "y": 34.56485677880161
+          },
+          "nearNode": true,
+          "band": "right.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+        },
+        {
+          "a": "left.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": -7.97096839234601,
+            "y": 34.56485677880161
+          },
+          "nearNode": true,
+          "band": "left.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "seamCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandTop/sleeveHem#58",
+            "b": "left.bandTop/sleeveHem#58",
+            "pointCm": {
+              "x": 6.938893903907228e-18,
+              "y": 23.66506551788686
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandOuterPairCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#4",
+            "b": "left.bandBottom[0.5,1]#4",
+            "pointCm": {
+              "x": 0,
+              "y": 20.276914676862262
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandToSleeveCrossing": {
+        "count": 2,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#9",
+            "pointCm": {
+              "x": 1.2388952180251986,
+              "y": 21.971029271482966
+            },
+            "nearNode": false,
+            "band": "right.bandBottom[0.5,1]#9",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+          },
+          {
+            "a": "left.bandBottom[0.5,1]#9",
+            "pointCm": {
+              "x": -1.2388952180251986,
+              "y": 21.971029271482966
+            },
+            "nearNode": false,
+            "band": "left.bandBottom[0.5,1]#9",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+          }
+        ]
+      },
+      "nearNodeContactsExcludedAtToleranceCm": 0.001,
+      "nearNodeContacts": [
+        {
+          "a": "right.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": 7.97096839234601,
+            "y": 34.56485677880161
+          },
+          "nearNode": true,
+          "band": "right.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+        },
+        {
+          "a": "left.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": -7.97096839234601,
+            "y": 34.56485677880161
+          },
+          "nearNode": true,
+          "band": "left.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "seamCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandTop/sleeveHem#58",
+            "b": "left.bandTop/sleeveHem#58",
+            "pointCm": {
+              "x": 6.938893903907228e-18,
+              "y": 23.66506551788686
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandOuterPairCrossing": {
+        "count": 0,
+        "pairs": []
+      },
+      "bandToSleeveCrossing": {
+        "count": 0,
+        "pairs": []
+      },
+      "nearNodeContactsExcludedAtToleranceCm": 0.001,
+      "nearNodeContacts": [
+        {
+          "a": "right.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": 7.97096839234601,
+            "y": 34.56485677880161
+          },
+          "nearNode": true,
+          "band": "right.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+        },
+        {
+          "a": "left.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": -7.97096839234601,
+            "y": 34.56485677880161
+          },
+          "nearNode": true,
+          "band": "left.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "seamCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandTop/sleeveHem#58",
+            "b": "left.bandTop/sleeveHem#58",
+            "pointCm": {
+              "x": 6.938893903907228e-18,
+              "y": 23.66506551788686
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandOuterPairCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#1",
+            "b": "left.bandBottom[0.5,1]#1",
+            "pointCm": {
+              "x": 0,
+              "y": 18.58283925634996
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandToSleeveCrossing": {
+        "count": 2,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#8",
+            "pointCm": {
+              "x": 1.8583311170839212,
+              "y": 21.12399513562436
+            },
+            "nearNode": false,
+            "band": "right.bandBottom[0.5,1]#8",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+          },
+          {
+            "a": "left.bandBottom[0.5,1]#8",
+            "pointCm": {
+              "x": -1.8583311170839212,
+              "y": 21.12399513562436
+            },
+            "nearNode": false,
+            "band": "left.bandBottom[0.5,1]#8",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+          }
+        ]
+      },
+      "nearNodeContactsExcludedAtToleranceCm": 0.001,
+      "nearNodeContacts": [
+        {
+          "a": "right.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": 7.97096839234601,
+            "y": 34.56485677880161
+          },
+          "nearNode": true,
+          "band": "right.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+        },
+        {
+          "a": "left.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": -7.97096839234601,
+            "y": 34.56485677880161
+          },
+          "nearNode": true,
+          "band": "left.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "seamCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandTop/sleeveHem#58",
+            "b": "left.bandTop/sleeveHem#58",
+            "pointCm": {
+              "x": 6.938893903907228e-18,
+              "y": 23.66506551788686
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandOuterPairCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#1",
+            "b": "left.bandBottom[0.5,1]#1",
+            "pointCm": {
+              "x": 0,
+              "y": 18.58283925634996
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandToSleeveCrossing": {
+        "count": 2,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#8",
+            "pointCm": {
+              "x": 1.8583311170839212,
+              "y": 21.12399513562436
+            },
+            "nearNode": false,
+            "band": "right.bandBottom[0.5,1]#8",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+          },
+          {
+            "a": "left.bandBottom[0.5,1]#8",
+            "pointCm": {
+              "x": -1.8583311170839212,
+              "y": 21.12399513562436
+            },
+            "nearNode": false,
+            "band": "left.bandBottom[0.5,1]#8",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+          }
+        ]
+      },
+      "nearNodeContactsExcludedAtToleranceCm": 0.001,
+      "nearNodeContacts": [
+        {
+          "a": "right.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": 7.97096839234601,
+            "y": 34.56485677880161
+          },
+          "nearNode": true,
+          "band": "right.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+        },
+        {
+          "a": "left.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": -7.97096839234601,
+            "y": 34.56485677880161
+          },
+          "nearNode": true,
+          "band": "left.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "seamCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandTop/sleeveHem#58",
+            "b": "left.bandTop/sleeveHem#58",
+            "pointCm": {
+              "x": 6.938893903907228e-18,
+              "y": 23.66506551788686
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandOuterPairCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#1",
+            "b": "left.bandBottom[0.5,1]#1",
+            "pointCm": {
+              "x": 0,
+              "y": 18.58283925634996
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandToSleeveCrossing": {
+        "count": 2,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#8",
+            "pointCm": {
+              "x": 1.8583311170839212,
+              "y": 21.12399513562436
+            },
+            "nearNode": false,
+            "band": "right.bandBottom[0.5,1]#8",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+          },
+          {
+            "a": "left.bandBottom[0.5,1]#8",
+            "pointCm": {
+              "x": -1.8583311170839212,
+              "y": 21.12399513562436
+            },
+            "nearNode": false,
+            "band": "left.bandBottom[0.5,1]#8",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+          }
+        ]
+      },
+      "nearNodeContactsExcludedAtToleranceCm": 0.001,
+      "nearNodeContacts": [
+        {
+          "a": "right.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": 7.97096839234601,
+            "y": 34.56485677880161
+          },
+          "nearNode": true,
+          "band": "right.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+        },
+        {
+          "a": "left.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": -7.97096839234601,
+            "y": 34.56485677880161
+          },
+          "nearNode": true,
+          "band": "left.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "seamCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandTop/sleeveHem#58",
+            "b": "left.bandTop/sleeveHem#58",
+            "pointCm": {
+              "x": 6.938893903907228e-18,
+              "y": 23.66506551788686
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandOuterPairCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#1",
+            "b": "left.bandBottom[0.5,1]#1",
+            "pointCm": {
+              "x": 0,
+              "y": 18.58283925634996
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandToSleeveCrossing": {
+        "count": 2,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#8",
+            "pointCm": {
+              "x": 1.8583311170839212,
+              "y": 21.12399513562436
+            },
+            "nearNode": false,
+            "band": "right.bandBottom[0.5,1]#8",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+          },
+          {
+            "a": "left.bandBottom[0.5,1]#8",
+            "pointCm": {
+              "x": -1.8583311170839212,
+              "y": 21.12399513562436
+            },
+            "nearNode": false,
+            "band": "left.bandBottom[0.5,1]#8",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+          }
+        ]
+      },
+      "nearNodeContactsExcludedAtToleranceCm": 0.001,
+      "nearNodeContacts": [
+        {
+          "a": "right.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": 7.97096839234601,
+            "y": 34.56485677880161
+          },
+          "nearNode": true,
+          "band": "right.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+        },
+        {
+          "a": "left.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": -7.97096839234601,
+            "y": 34.56485677880161
+          },
+          "nearNode": true,
+          "band": "left.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-combined-supported",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "seamCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandTop/sleeveHem#58",
+            "b": "left.bandTop/sleeveHem#58",
+            "pointCm": {
+              "x": 6.938893903907228e-18,
+              "y": 23.66506551788686
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandOuterPairCrossing": {
+        "count": 1,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#1",
+            "b": "left.bandBottom[0.5,1]#1",
+            "pointCm": {
+              "x": 0,
+              "y": 18.58283925634996
+            },
+            "nearNode": false
+          }
+        ]
+      },
+      "bandToSleeveCrossing": {
+        "count": 2,
+        "pairs": [
+          {
+            "a": "right.bandBottom[0.5,1]#8",
+            "pointCm": {
+              "x": 1.8583311170839212,
+              "y": 21.12399513562436
+            },
+            "nearNode": false,
+            "band": "right.bandBottom[0.5,1]#8",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+          },
+          {
+            "a": "left.bandBottom[0.5,1]#8",
+            "pointCm": {
+              "x": -1.8583311170839212,
+              "y": 21.12399513562436
+            },
+            "nearNode": false,
+            "band": "left.bandBottom[0.5,1]#8",
+            "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+          }
+        ]
+      },
+      "nearNodeContactsExcludedAtToleranceCm": 0.001,
+      "nearNodeContacts": [
+        {
+          "a": "right.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": 7.97096839234601,
+            "y": 34.56485677880161
+          },
+          "nearNode": true,
+          "band": "right.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline"
+        },
+        {
+          "a": "left.bandSideLeft[0,1]#55",
+          "pointCm": {
+            "x": -7.97096839234601,
+            "y": 34.56485677880161
+          },
+          "nearNode": true,
+          "band": "left.bandSideLeft[0,1]#55",
+          "sleeveEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        }
+      ]
+    }
+  ]
+}

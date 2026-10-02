@@ -1,0 +1,222 @@
+[
+  {
+    "type": "addEvidence",
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S367-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-HEM-HALF-BAND-TOPOLOGY-STUDY-S367.md",
+      "verified": true,
+      "note": "S367 records the S366 interval correction, S321 uncut-band requirement, and failed diagnostic crop. No production change or face acceptance."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "epicId": "EPIC-17",
+    "evidenceId": "E-G04-S367-EXIT",
+    "actor": "Codex",
+    "role": "maintainer"
+  },
+  {
+    "type": "addEvidence",
+    "itemId": "EPIC-17",
+    "evidenceId": "E-G04-S367-EXIT"
+  },
+  {
+    "type": "addEvidence",
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S367-SOURCE-HALF",
+      "kind": "document",
+      "uri": "docs/research/epic17/S367-woven-hem-half-band-proposal/source-half-correspondence.json",
+      "verified": true,
+      "note": "Exact same-revision directed endpoint comparison for both band-top halves against the BACK sleeve hem half across 28 Woven options."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "epicId": "EPIC-17",
+    "evidenceId": "E-G04-S367-SOURCE-HALF",
+    "actor": "Codex",
+    "role": "maintainer"
+  },
+  {
+    "type": "addEvidence",
+    "itemId": "EPIC-17",
+    "evidenceId": "E-G04-S367-SOURCE-HALF"
+  },
+  {
+    "type": "addEvidence",
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S367-HALF-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S367-woven-hem-half-band-proposal/half-band-topology-matrix.json",
+      "verified": true,
+      "note": "Diagnostic-only cropped half-band topology matrix, 28 options / 56 requests, same source revision."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "epicId": "EPIC-17",
+    "evidenceId": "E-G04-S367-HALF-MATRIX",
+    "actor": "Codex",
+    "role": "maintainer"
+  },
+  {
+    "type": "addEvidence",
+    "itemId": "EPIC-17",
+    "evidenceId": "E-G04-S367-HALF-MATRIX"
+  },
+  {
+    "type": "addEvidence",
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S367-CROSSINGS",
+      "kind": "document",
+      "uri": "docs/research/epic17/S367-woven-hem-half-band-proposal/half-band-crossing-pairs.json",
+      "verified": true,
+      "note": "Visible seam, band and opposite-sleeve crossing pairs with exact coordinates and 0.001 cm shared-node filter."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "epicId": "EPIC-17",
+    "evidenceId": "E-G04-S367-CROSSINGS",
+    "actor": "Codex",
+    "role": "maintainer"
+  },
+  {
+    "type": "addEvidence",
+    "itemId": "EPIC-17",
+    "evidenceId": "E-G04-S367-CROSSINGS"
+  },
+  {
+    "type": "addEvidence",
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S367-RENDER-DEFAULT",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S367-woven-hem-half-band-proposal/woven-shirt-default-half-band.png",
+      "verified": true,
+      "note": "Manually inspected default Chromium diagnostic crop; shows central sleeve/band X and fold-mark overlap. Held, not production output."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "epicId": "EPIC-17",
+    "evidenceId": "E-G04-S367-RENDER-DEFAULT",
+    "actor": "Codex",
+    "role": "maintainer"
+  },
+  {
+    "type": "addEvidence",
+    "itemId": "EPIC-17",
+    "evidenceId": "E-G04-S367-RENDER-DEFAULT"
+  },
+  {
+    "type": "addEvidence",
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S367-RENDER-EXTREMES",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S367-woven-hem-half-band-proposal/woven-shirt-combined-supported-half-band.png",
+      "verified": true,
+      "note": "Manually inspected combined supported extreme Chromium diagnostic crop; central conflict persists. Held, not production output."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "epicId": "EPIC-17",
+    "evidenceId": "E-G04-S367-RENDER-EXTREMES",
+    "actor": "Codex",
+    "role": "maintainer"
+  },
+  {
+    "type": "addEvidence",
+    "itemId": "EPIC-17",
+    "evidenceId": "E-G04-S367-RENDER-EXTREMES"
+  },
+  {
+    "type": "addEvidence",
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S367-TEST",
+      "kind": "test",
+      "uri": "docs/research/epic17/S367-woven-hem-half-band-proposal/half-band-topology.test.mjs",
+      "verified": true,
+      "note": "Focused diagnostic evidence regression passes 2/2, confirming source revision/request coverage and recorded candidate conflicts."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "epicId": "EPIC-17",
+    "evidenceId": "E-G04-S367-TEST",
+    "actor": "Codex",
+    "role": "maintainer"
+  },
+  {
+    "type": "addEvidence",
+    "itemId": "EPIC-17",
+    "evidenceId": "E-G04-S367-TEST"
+  },
+  {
+    "type": "addEvidence",
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S367-VERIFY-NOTES",
+      "kind": "document",
+      "uri": "docs/research/epic17/S367-woven-hem-half-band-proposal/S367-verification-notes.md",
+      "verified": true,
+      "note": "Retains diagnostic/test setup failures, diagnoses and fixes; no production code changed."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "epicId": "EPIC-17",
+    "evidenceId": "E-G04-S367-VERIFY-NOTES",
+    "actor": "Codex",
+    "role": "maintainer"
+  },
+  {
+    "type": "addEvidence",
+    "itemId": "EPIC-17",
+    "evidenceId": "E-G04-S367-VERIFY-NOTES"
+  },
+  {
+    "type": "editEpic",
+    "epicId": "EPIC-17",
+    "actor": "Codex",
+    "role": "maintainer",
+    "reason": "Record the S367 corrected Woven half-band diagnostic while preserving all G04 acceptance gates.",
+    "patch": {
+      "description": "Admitted EPIC-17/G04 V01 → V02 → V03 per docs/planning/EPIC-17-ADMISSION.md. Current output remains 56 accepted / 90 held across 73 configurations / 146 faces. S362 implemented the approved Woven full-collar view projection, which remains under rendered review; S363 blocks the known straight finished-placket-width leader crossing and retains fail-closed behavior; 31 SVGs emitted and 25 front faces held by TEXT_COLLISION. S364's collar-perimeter-following route candidate is rejected for readability. S365 traces the exact Woven back sleeve/band crossing in all 28 options: the sleeve-band source join is exact, while reflected role paths cross the back/yoke shared seam and one another. No new mapping or face acceptance is approved by S365. All 56 Woven faces remain held. All 34 Polo faces remain held at the confirmed 0.25 cm residual gate. Preserve all-seven V02, legacy DXF, protected byte identities and V02-before-V03. Current state: PROJECT-STATE.md; current packet: docs/research/epic17/G04-V02-WOVEN-BACK-SLEEVE-BAND-INSTANCE-DIAGNOSIS-S365.md. S366 tests a diagnostic-only outward receiver-normal mapping on all 28 exact-revision Woven back options. The candidate band outline self-crosses 20–25 times per configuration, and its mapped bandFold is visibly distorted; S366 rejects the candidate, makes no production change and accepts no face. All 56 Woven and 34 Polo faces remain held at the confirmed 0.25 cm Polo gate. Preserve all-seven V02 and V02-before-V03. Current packet: docs/research/epic17/G04-V02-WOVEN-BACK-SLEEVE-BAND-EXTERIOR-NORMAL-PROPOSAL-S366.md; current state: PROJECT-STATE.md. S367 corrects S366 interval scope and tests only an unapproved half-band crop; S321 requires the uncut band instance. The crop retains mirrored seam, band-pair and opposite-sleeve crossings. All 56 Woven and 34 Polo faces remain held; Polo remains at 0.25 cm."
+    }
+  },
+  {
+    "type": "editItem",
+    "itemId": "EPIC-17",
+    "patch": {
+      "description": "Admitted EPIC-17/G04 V01 → V02 → V03 per docs/planning/EPIC-17-ADMISSION.md. Current output remains 56 accepted / 90 held across 73 configurations / 146 faces. S362 implemented the approved Woven full-collar view projection, which remains under rendered review; S363 blocks the known straight finished-placket-width leader crossing and retains fail-closed behavior; 31 SVGs emitted and 25 front faces held by TEXT_COLLISION. S364's collar-perimeter-following route candidate is rejected for readability. S365 traces the exact Woven back sleeve/band crossing in all 28 options: the sleeve-band source join is exact, while reflected role paths cross the back/yoke shared seam and one another. No new mapping or face acceptance is approved by S365. All 56 Woven faces remain held. All 34 Polo faces remain held at the confirmed 0.25 cm residual gate. Preserve all-seven V02, legacy DXF, protected byte identities and V02-before-V03. Current state: PROJECT-STATE.md; current packet: docs/research/epic17/G04-V02-WOVEN-BACK-SLEEVE-BAND-INSTANCE-DIAGNOSIS-S365.md. S366 tests a diagnostic-only outward receiver-normal mapping on all 28 exact-revision Woven back options. The candidate band outline self-crosses 20–25 times per configuration, and its mapped bandFold is visibly distorted; S366 rejects the candidate, makes no production change and accepts no face. All 56 Woven and 34 Polo faces remain held at the confirmed 0.25 cm Polo gate. Preserve all-seven V02 and V02-before-V03. Current packet: docs/research/epic17/G04-V02-WOVEN-BACK-SLEEVE-BAND-EXTERIOR-NORMAL-PROPOSAL-S366.md; current state: PROJECT-STATE.md. S367 corrects S366 interval scope and tests only an unapproved half-band crop; S321 requires the uncut band instance. The crop retains mirrored seam, band-pair and opposite-sleeve crossings. All 56 Woven and 34 Polo faces remain held; Polo remains at 0.25 cm."
+    }
+  },
+  {
+    "type": "editItem",
+    "itemId": "G04-V02",
+    "patch": {
+      "description": "Integrated output remains 56 accepted / 90 held across 73 configurations / 146 faces. Historical verified replay: S362's revision-bound Woven full-collar projection compiles for 28 configurations / 56 faces; S363 rejects straight finished-placket-width leader placements and records 31 SVG faces emitted and 25 front faces withheld with TEXT_COLLISION. The independent rejected S361 sleeve/band back X is now traced to exact same-revision role paths across all 28 Woven back options; the source sleeveBand.top-to-sleeve.hem join is exact, but reflected sleeve and band outlines cross the back/yoke shared seam and one another. Independent exact line-segment review confirms all 474 reported path-pair points across 224 role-path pairs. The approved view-paired silhouette remains held because it fails crossings/readability. All 56 Woven and 34 Polo faces remain held. Polo's 0.25 cm residual gate is reaffirmed. Preserve all-seven V02 and V02-before-V03. UIQ work stays outside G04 under S354. Current packet: docs/research/epic17/G04-V02-WOVEN-BACK-SLEEVE-BAND-INSTANCE-DIAGNOSIS-S365.md. S366 tests a distinct outward-normal candidate across all 28 same-revision Woven backs; every band outline has 20–25 clustered self-crossings and its mapped bandFold is misleading. Reject the candidate; all 56 Woven and 34 Polo faces remain held, Polo at 0.25 cm. All-seven V02 and V02-before-V03 remain unchanged. Current packet: docs/research/epic17/G04-V02-WOVEN-BACK-SLEEVE-BAND-EXTERIOR-NORMAL-PROPOSAL-S366.md. S367 confirmed the source-aligned half interval but the crop is outside the S321 uncut-band decision and still crosses; no face acceptance. Preserve every hold and the 0.25 cm Polo gate."
+    }
+  },
+  {
+    "type": "addComment",
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "Slice 367 exit: S321 specifies one uncut band view instance. S367 tested a half-band crop only as a diagnostic; its half-top endpoints align to the BACK hem half, but the crop still crosses the mirrored seam in all 28 options, the band pair in 27, and the opposite sleeve in 27. Five Chromium views show the central X/fold overlap. No production changes or face acceptance; keep all 56 Woven/34 Polo holds and Polo’s 0.25 cm residual gate."
+  },
+  {
+    "type": "addComment",
+    "itemId": "EPIC-17",
+    "actor": "Codex",
+    "text": "S367 corrects S366’s full-hem scope description. The half-band crop is unapproved and fails rendered/topology checks; the approved S321 uncut-band view remains held. All-seven V02 and V02-before-V03 stay unchanged."
+  }
+]

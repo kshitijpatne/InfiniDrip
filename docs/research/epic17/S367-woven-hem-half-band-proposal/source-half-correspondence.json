@@ -1,0 +1,3982 @@
+{
+  "revisionId": "live-draft:woven-shirt:14:14",
+  "configurationCount": 28,
+  "records": [
+    {
+      "caseId": "woven-shirt-default",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "sleeveHemLength": 37,
+      "bandTopLength": 37,
+      "source": {
+        "bandTop": [
+          {
+            "piece": "sleeveBand",
+            "edge": "top"
+          }
+        ],
+        "sleeveHem": [
+          {
+            "piece": "sleeve",
+            "edge": "hem"
+          }
+        ]
+      },
+      "transforms": {
+        "sleeve": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "band": {
+          "offset": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "rotationDegrees": -126.17776700012641,
+          "mirrorX": false
+        }
+      },
+      "backSleeveRuns": [
+        {
+          "edgeId": "capLeft",
+          "from": {
+            "kind": "normalized-edge-transfer",
+            "edgeId": "capLeft",
+            "fraction": 0.9999987696228056,
+            "basis": "WOVEN_SLEEVE_CAP",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capLeft",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "capRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "sideRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "hem",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "hem",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-arclength",
+            "edgeId": "hem",
+            "fraction": 0.5
+          }
+        }
+      ],
+      "halves": [
+        {
+          "interval": [
+            0,
+            0.5
+          ],
+          "direct": 3.319392362780937e-14,
+          "reverse": 37,
+          "p0": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "p1": {
+            "x": -2.9494560053930474,
+            "y": 19.631862069985246
+          }
+        },
+        {
+          "interval": [
+            0.5,
+            1
+          ],
+          "direct": 37.00000000000003,
+          "reverse": 37.000000000000036,
+          "p0": {
+            "x": -2.9494560053930474,
+            "y": 19.631862069985246
+          },
+          "p1": {
+            "x": -13.869867089809512,
+            "y": 4.698857625220821
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-neckEase-min",
+      "options": {
+        "neckEase": 0,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "sleeveHemLength": 37,
+      "bandTopLength": 37,
+      "source": {
+        "bandTop": [
+          {
+            "piece": "sleeveBand",
+            "edge": "top"
+          }
+        ],
+        "sleeveHem": [
+          {
+            "piece": "sleeve",
+            "edge": "hem"
+          }
+        ]
+      },
+      "transforms": {
+        "sleeve": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "band": {
+          "offset": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "rotationDegrees": -126.17776700012641,
+          "mirrorX": false
+        }
+      },
+      "backSleeveRuns": [
+        {
+          "edgeId": "capLeft",
+          "from": {
+            "kind": "normalized-edge-transfer",
+            "edgeId": "capLeft",
+            "fraction": 0.9999987696228056,
+            "basis": "WOVEN_SLEEVE_CAP",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capLeft",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "capRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "sideRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "hem",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "hem",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-arclength",
+            "edgeId": "hem",
+            "fraction": 0.5
+          }
+        }
+      ],
+      "halves": [
+        {
+          "interval": [
+            0,
+            0.5
+          ],
+          "direct": 3.319392362780937e-14,
+          "reverse": 37,
+          "p0": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "p1": {
+            "x": -2.9494560053930474,
+            "y": 19.631862069985246
+          }
+        },
+        {
+          "interval": [
+            0.5,
+            1
+          ],
+          "direct": 37.00000000000003,
+          "reverse": 37.000000000000036,
+          "p0": {
+            "x": -2.9494560053930474,
+            "y": 19.631862069985246
+          },
+          "p1": {
+            "x": -13.869867089809512,
+            "y": 4.698857625220821
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-neckEase-max",
+      "options": {
+        "neckEase": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "sleeveHemLength": 37,
+      "bandTopLength": 37,
+      "source": {
+        "bandTop": [
+          {
+            "piece": "sleeveBand",
+            "edge": "top"
+          }
+        ],
+        "sleeveHem": [
+          {
+            "piece": "sleeve",
+            "edge": "hem"
+          }
+        ]
+      },
+      "transforms": {
+        "sleeve": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "band": {
+          "offset": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "rotationDegrees": -126.17776700012641,
+          "mirrorX": false
+        }
+      },
+      "backSleeveRuns": [
+        {
+          "edgeId": "capLeft",
+          "from": {
+            "kind": "normalized-edge-transfer",
+            "edgeId": "capLeft",
+            "fraction": 0.9999987696228056,
+            "basis": "WOVEN_SLEEVE_CAP",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capLeft",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "capRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "sideRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "hem",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "hem",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-arclength",
+            "edgeId": "hem",
+            "fraction": 0.5
+          }
+        }
+      ],
+      "halves": [
+        {
+          "interval": [
+            0,
+            0.5
+          ],
+          "direct": 3.319392362780937e-14,
+          "reverse": 37,
+          "p0": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "p1": {
+            "x": -2.9494560053930474,
+            "y": 19.631862069985246
+          }
+        },
+        {
+          "interval": [
+            0.5,
+            1
+          ],
+          "direct": 37.00000000000003,
+          "reverse": 37.000000000000036,
+          "p0": {
+            "x": -2.9494560053930474,
+            "y": 19.631862069985246
+          },
+          "p1": {
+            "x": -13.869867089809512,
+            "y": 4.698857625220821
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-standHeight-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 1.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "sleeveHemLength": 37,
+      "bandTopLength": 37,
+      "source": {
+        "bandTop": [
+          {
+            "piece": "sleeveBand",
+            "edge": "top"
+          }
+        ],
+        "sleeveHem": [
+          {
+            "piece": "sleeve",
+            "edge": "hem"
+          }
+        ]
+      },
+      "transforms": {
+        "sleeve": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "band": {
+          "offset": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "rotationDegrees": -126.17776700012641,
+          "mirrorX": false
+        }
+      },
+      "backSleeveRuns": [
+        {
+          "edgeId": "capLeft",
+          "from": {
+            "kind": "normalized-edge-transfer",
+            "edgeId": "capLeft",
+            "fraction": 0.9999987696228056,
+            "basis": "WOVEN_SLEEVE_CAP",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capLeft",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "capRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "sideRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "hem",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "hem",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-arclength",
+            "edgeId": "hem",
+            "fraction": 0.5
+          }
+        }
+      ],
+      "halves": [
+        {
+          "interval": [
+            0,
+            0.5
+          ],
+          "direct": 3.319392362780937e-14,
+          "reverse": 37,
+          "p0": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "p1": {
+            "x": -2.9494560053930474,
+            "y": 19.631862069985246
+          }
+        },
+        {
+          "interval": [
+            0.5,
+            1
+          ],
+          "direct": 37.00000000000003,
+          "reverse": 37.000000000000036,
+          "p0": {
+            "x": -2.9494560053930474,
+            "y": 19.631862069985246
+          },
+          "p1": {
+            "x": -13.869867089809512,
+            "y": 4.698857625220821
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-standHeight-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 3.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "sleeveHemLength": 37,
+      "bandTopLength": 37,
+      "source": {
+        "bandTop": [
+          {
+            "piece": "sleeveBand",
+            "edge": "top"
+          }
+        ],
+        "sleeveHem": [
+          {
+            "piece": "sleeve",
+            "edge": "hem"
+          }
+        ]
+      },
+      "transforms": {
+        "sleeve": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "band": {
+          "offset": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "rotationDegrees": -126.17776700012641,
+          "mirrorX": false
+        }
+      },
+      "backSleeveRuns": [
+        {
+          "edgeId": "capLeft",
+          "from": {
+            "kind": "normalized-edge-transfer",
+            "edgeId": "capLeft",
+            "fraction": 0.9999987696228056,
+            "basis": "WOVEN_SLEEVE_CAP",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capLeft",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "capRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "sideRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "hem",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "hem",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-arclength",
+            "edgeId": "hem",
+            "fraction": 0.5
+          }
+        }
+      ],
+      "halves": [
+        {
+          "interval": [
+            0,
+            0.5
+          ],
+          "direct": 3.319392362780937e-14,
+          "reverse": 37,
+          "p0": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "p1": {
+            "x": -2.9494560053930474,
+            "y": 19.631862069985246
+          }
+        },
+        {
+          "interval": [
+            0.5,
+            1
+          ],
+          "direct": 37.00000000000003,
+          "reverse": 37.000000000000036,
+          "p0": {
+            "x": -2.9494560053930474,
+            "y": 19.631862069985246
+          },
+          "p1": {
+            "x": -13.869867089809512,
+            "y": 4.698857625220821
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 4,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "sleeveHemLength": 37,
+      "bandTopLength": 37,
+      "source": {
+        "bandTop": [
+          {
+            "piece": "sleeveBand",
+            "edge": "top"
+          }
+        ],
+        "sleeveHem": [
+          {
+            "piece": "sleeve",
+            "edge": "hem"
+          }
+        ]
+      },
+      "transforms": {
+        "sleeve": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "band": {
+          "offset": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "rotationDegrees": -126.17776700012641,
+          "mirrorX": false
+        }
+      },
+      "backSleeveRuns": [
+        {
+          "edgeId": "capLeft",
+          "from": {
+            "kind": "normalized-edge-transfer",
+            "edgeId": "capLeft",
+            "fraction": 0.9999987696228056,
+            "basis": "WOVEN_SLEEVE_CAP",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capLeft",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "capRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "sideRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "hem",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "hem",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-arclength",
+            "edgeId": "hem",
+            "fraction": 0.5
+          }
+        }
+      ],
+      "halves": [
+        {
+          "interval": [
+            0,
+            0.5
+          ],
+          "direct": 3.319392362780937e-14,
+          "reverse": 37,
+          "p0": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "p1": {
+            "x": -2.9494560053930474,
+            "y": 19.631862069985246
+          }
+        },
+        {
+          "interval": [
+            0.5,
+            1
+          ],
+          "direct": 37.00000000000003,
+          "reverse": 37.000000000000036,
+          "p0": {
+            "x": -2.9494560053930474,
+            "y": 19.631862069985246
+          },
+          "p1": {
+            "x": -13.869867089809512,
+            "y": 4.698857625220821
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 8,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "sleeveHemLength": 37,
+      "bandTopLength": 37,
+      "source": {
+        "bandTop": [
+          {
+            "piece": "sleeveBand",
+            "edge": "top"
+          }
+        ],
+        "sleeveHem": [
+          {
+            "piece": "sleeve",
+            "edge": "hem"
+          }
+        ]
+      },
+      "transforms": {
+        "sleeve": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "band": {
+          "offset": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "rotationDegrees": -126.17776700012641,
+          "mirrorX": false
+        }
+      },
+      "backSleeveRuns": [
+        {
+          "edgeId": "capLeft",
+          "from": {
+            "kind": "normalized-edge-transfer",
+            "edgeId": "capLeft",
+            "fraction": 0.9999987696228056,
+            "basis": "WOVEN_SLEEVE_CAP",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capLeft",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "capRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "sideRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "hem",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "hem",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-arclength",
+            "edgeId": "hem",
+            "fraction": 0.5
+          }
+        }
+      ],
+      "halves": [
+        {
+          "interval": [
+            0,
+            0.5
+          ],
+          "direct": 3.319392362780937e-14,
+          "reverse": 37,
+          "p0": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "p1": {
+            "x": -2.9494560053930474,
+            "y": 19.631862069985246
+          }
+        },
+        {
+          "interval": [
+            0.5,
+            1
+          ],
+          "direct": 37.00000000000003,
+          "reverse": 37.000000000000036,
+          "p0": {
+            "x": -2.9494560053930474,
+            "y": 19.631862069985246
+          },
+          "p1": {
+            "x": -13.869867089809512,
+            "y": 4.698857625220821
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 6,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "sleeveHemLength": 37,
+      "bandTopLength": 37,
+      "source": {
+        "bandTop": [
+          {
+            "piece": "sleeveBand",
+            "edge": "top"
+          }
+        ],
+        "sleeveHem": [
+          {
+            "piece": "sleeve",
+            "edge": "hem"
+          }
+        ]
+      },
+      "transforms": {
+        "sleeve": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "band": {
+          "offset": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "rotationDegrees": -126.17776700012641,
+          "mirrorX": false
+        }
+      },
+      "backSleeveRuns": [
+        {
+          "edgeId": "capLeft",
+          "from": {
+            "kind": "normalized-edge-transfer",
+            "edgeId": "capLeft",
+            "fraction": 0.9999987696228056,
+            "basis": "WOVEN_SLEEVE_CAP",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capLeft",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "capRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "sideRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "hem",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "hem",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-arclength",
+            "edgeId": "hem",
+            "fraction": 0.5
+          }
+        }
+      ],
+      "halves": [
+        {
+          "interval": [
+            0,
+            0.5
+          ],
+          "direct": 3.319392362780937e-14,
+          "reverse": 37,
+          "p0": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "p1": {
+            "x": -2.9494560053930474,
+            "y": 19.631862069985246
+          }
+        },
+        {
+          "interval": [
+            0.5,
+            1
+          ],
+          "direct": 37.00000000000003,
+          "reverse": 37.000000000000036,
+          "p0": {
+            "x": -2.9494560053930474,
+            "y": 19.631862069985246
+          },
+          "p1": {
+            "x": -13.869867089809512,
+            "y": 4.698857625220821
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "sleeveHemLength": 37,
+      "bandTopLength": 37,
+      "source": {
+        "bandTop": [
+          {
+            "piece": "sleeveBand",
+            "edge": "top"
+          }
+        ],
+        "sleeveHem": [
+          {
+            "piece": "sleeve",
+            "edge": "hem"
+          }
+        ]
+      },
+      "transforms": {
+        "sleeve": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "band": {
+          "offset": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "rotationDegrees": -126.17776700012641,
+          "mirrorX": false
+        }
+      },
+      "backSleeveRuns": [
+        {
+          "edgeId": "capLeft",
+          "from": {
+            "kind": "normalized-edge-transfer",
+            "edgeId": "capLeft",
+            "fraction": 0.9999987696228056,
+            "basis": "WOVEN_SLEEVE_CAP",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capLeft",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "capRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "sideRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "hem",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "hem",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-arclength",
+            "edgeId": "hem",
+            "fraction": 0.5
+          }
+        }
+      ],
+      "halves": [
+        {
+          "interval": [
+            0,
+            0.5
+          ],
+          "direct": 3.319392362780937e-14,
+          "reverse": 37,
+          "p0": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "p1": {
+            "x": -2.9494560053930474,
+            "y": 19.631862069985246
+          }
+        },
+        {
+          "interval": [
+            0.5,
+            1
+          ],
+          "direct": 37.00000000000003,
+          "reverse": 37.000000000000036,
+          "p0": {
+            "x": -2.9494560053930474,
+            "y": 19.631862069985246
+          },
+          "p1": {
+            "x": -13.869867089809512,
+            "y": 4.698857625220821
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 6,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "sleeveHemLength": 37,
+      "bandTopLength": 37,
+      "source": {
+        "bandTop": [
+          {
+            "piece": "sleeveBand",
+            "edge": "top"
+          }
+        ],
+        "sleeveHem": [
+          {
+            "piece": "sleeve",
+            "edge": "hem"
+          }
+        ]
+      },
+      "transforms": {
+        "sleeve": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "band": {
+          "offset": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "rotationDegrees": -126.17776700012641,
+          "mirrorX": false
+        }
+      },
+      "backSleeveRuns": [
+        {
+          "edgeId": "capLeft",
+          "from": {
+            "kind": "normalized-edge-transfer",
+            "edgeId": "capLeft",
+            "fraction": 0.9999987696228056,
+            "basis": "WOVEN_SLEEVE_CAP",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capLeft",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "capRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "sideRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "hem",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "hem",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-arclength",
+            "edgeId": "hem",
+            "fraction": 0.5
+          }
+        }
+      ],
+      "halves": [
+        {
+          "interval": [
+            0,
+            0.5
+          ],
+          "direct": 3.319392362780937e-14,
+          "reverse": 37,
+          "p0": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "p1": {
+            "x": -2.9494560053930474,
+            "y": 19.631862069985246
+          }
+        },
+        {
+          "interval": [
+            0.5,
+            1
+          ],
+          "direct": 37.00000000000003,
+          "reverse": 37.000000000000036,
+          "p0": {
+            "x": -2.9494560053930474,
+            "y": 19.631862069985246
+          },
+          "p1": {
+            "x": -13.869867089809512,
+            "y": 4.698857625220821
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 9,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "sleeveHemLength": 37,
+      "bandTopLength": 37,
+      "source": {
+        "bandTop": [
+          {
+            "piece": "sleeveBand",
+            "edge": "top"
+          }
+        ],
+        "sleeveHem": [
+          {
+            "piece": "sleeve",
+            "edge": "hem"
+          }
+        ]
+      },
+      "transforms": {
+        "sleeve": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "band": {
+          "offset": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "rotationDegrees": -126.17776700012641,
+          "mirrorX": false
+        }
+      },
+      "backSleeveRuns": [
+        {
+          "edgeId": "capLeft",
+          "from": {
+            "kind": "normalized-edge-transfer",
+            "edgeId": "capLeft",
+            "fraction": 0.9999987696228056,
+            "basis": "WOVEN_SLEEVE_CAP",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capLeft",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "capRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "sideRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "hem",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "hem",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-arclength",
+            "edgeId": "hem",
+            "fraction": 0.5
+          }
+        }
+      ],
+      "halves": [
+        {
+          "interval": [
+            0,
+            0.5
+          ],
+          "direct": 3.319392362780937e-14,
+          "reverse": 37,
+          "p0": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "p1": {
+            "x": -2.9494560053930474,
+            "y": 19.631862069985246
+          }
+        },
+        {
+          "interval": [
+            0.5,
+            1
+          ],
+          "direct": 37.00000000000003,
+          "reverse": 37.000000000000036,
+          "p0": {
+            "x": -2.9494560053930474,
+            "y": 19.631862069985246
+          },
+          "p1": {
+            "x": -13.869867089809512,
+            "y": 4.698857625220821
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "sleeveHemLength": 37,
+      "bandTopLength": 37,
+      "source": {
+        "bandTop": [
+          {
+            "piece": "sleeveBand",
+            "edge": "top"
+          }
+        ],
+        "sleeveHem": [
+          {
+            "piece": "sleeve",
+            "edge": "hem"
+          }
+        ]
+      },
+      "transforms": {
+        "sleeve": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "band": {
+          "offset": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "rotationDegrees": -126.17776700012641,
+          "mirrorX": false
+        }
+      },
+      "backSleeveRuns": [
+        {
+          "edgeId": "capLeft",
+          "from": {
+            "kind": "normalized-edge-transfer",
+            "edgeId": "capLeft",
+            "fraction": 0.9999987696228056,
+            "basis": "WOVEN_SLEEVE_CAP",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capLeft",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "capRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "sideRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "hem",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "hem",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-arclength",
+            "edgeId": "hem",
+            "fraction": 0.5
+          }
+        }
+      ],
+      "halves": [
+        {
+          "interval": [
+            0,
+            0.5
+          ],
+          "direct": 3.319392362780937e-14,
+          "reverse": 37,
+          "p0": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "p1": {
+            "x": -2.9494560053930474,
+            "y": 19.631862069985246
+          }
+        },
+        {
+          "interval": [
+            0.5,
+            1
+          ],
+          "direct": 37.00000000000003,
+          "reverse": 37.000000000000036,
+          "p0": {
+            "x": -2.9494560053930474,
+            "y": 19.631862069985246
+          },
+          "p1": {
+            "x": -13.869867089809512,
+            "y": 4.698857625220821
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 3,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "sleeveHemLength": 37,
+      "bandTopLength": 37,
+      "source": {
+        "bandTop": [
+          {
+            "piece": "sleeveBand",
+            "edge": "top"
+          }
+        ],
+        "sleeveHem": [
+          {
+            "piece": "sleeve",
+            "edge": "hem"
+          }
+        ]
+      },
+      "transforms": {
+        "sleeve": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "band": {
+          "offset": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "rotationDegrees": -126.17776700012641,
+          "mirrorX": false
+        }
+      },
+      "backSleeveRuns": [
+        {
+          "edgeId": "capLeft",
+          "from": {
+            "kind": "normalized-edge-transfer",
+            "edgeId": "capLeft",
+            "fraction": 0.9999987696228056,
+            "basis": "WOVEN_SLEEVE_CAP",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capLeft",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "capRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "sideRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "hem",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "hem",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-arclength",
+            "edgeId": "hem",
+            "fraction": 0.5
+          }
+        }
+      ],
+      "halves": [
+        {
+          "interval": [
+            0,
+            0.5
+          ],
+          "direct": 3.319392362780937e-14,
+          "reverse": 37,
+          "p0": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "p1": {
+            "x": -2.9494560053930474,
+            "y": 19.631862069985246
+          }
+        },
+        {
+          "interval": [
+            0.5,
+            1
+          ],
+          "direct": 37.00000000000003,
+          "reverse": 37.000000000000036,
+          "p0": {
+            "x": -2.9494560053930474,
+            "y": 19.631862069985246
+          },
+          "p1": {
+            "x": -13.869867089809512,
+            "y": 4.698857625220821
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 2,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "sleeveHemLength": 37,
+      "bandTopLength": 37,
+      "source": {
+        "bandTop": [
+          {
+            "piece": "sleeveBand",
+            "edge": "top"
+          }
+        ],
+        "sleeveHem": [
+          {
+            "piece": "sleeve",
+            "edge": "hem"
+          }
+        ]
+      },
+      "transforms": {
+        "sleeve": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "band": {
+          "offset": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "rotationDegrees": -126.17776700012641,
+          "mirrorX": false
+        }
+      },
+      "backSleeveRuns": [
+        {
+          "edgeId": "capLeft",
+          "from": {
+            "kind": "normalized-edge-transfer",
+            "edgeId": "capLeft",
+            "fraction": 0.9999987696228056,
+            "basis": "WOVEN_SLEEVE_CAP",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capLeft",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "capRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "sideRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "hem",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "hem",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-arclength",
+            "edgeId": "hem",
+            "fraction": 0.5
+          }
+        }
+      ],
+      "halves": [
+        {
+          "interval": [
+            0,
+            0.5
+          ],
+          "direct": 3.319392362780937e-14,
+          "reverse": 37,
+          "p0": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "p1": {
+            "x": -2.9494560053930474,
+            "y": 19.631862069985246
+          }
+        },
+        {
+          "interval": [
+            0.5,
+            1
+          ],
+          "direct": 37.00000000000003,
+          "reverse": 37.000000000000036,
+          "p0": {
+            "x": -2.9494560053930474,
+            "y": 19.631862069985246
+          },
+          "p1": {
+            "x": -13.869867089809512,
+            "y": 4.698857625220821
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 4,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "sleeveHemLength": 37,
+      "bandTopLength": 37,
+      "source": {
+        "bandTop": [
+          {
+            "piece": "sleeveBand",
+            "edge": "top"
+          }
+        ],
+        "sleeveHem": [
+          {
+            "piece": "sleeve",
+            "edge": "hem"
+          }
+        ]
+      },
+      "transforms": {
+        "sleeve": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "band": {
+          "offset": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "rotationDegrees": -126.17776700012641,
+          "mirrorX": false
+        }
+      },
+      "backSleeveRuns": [
+        {
+          "edgeId": "capLeft",
+          "from": {
+            "kind": "normalized-edge-transfer",
+            "edgeId": "capLeft",
+            "fraction": 0.9999987696228056,
+            "basis": "WOVEN_SLEEVE_CAP",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capLeft",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "capRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "sideRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "hem",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "hem",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-arclength",
+            "edgeId": "hem",
+            "fraction": 0.5
+          }
+        }
+      ],
+      "halves": [
+        {
+          "interval": [
+            0,
+            0.5
+          ],
+          "direct": 3.319392362780937e-14,
+          "reverse": 37,
+          "p0": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "p1": {
+            "x": -2.9494560053930474,
+            "y": 19.631862069985246
+          }
+        },
+        {
+          "interval": [
+            0.5,
+            1
+          ],
+          "direct": 37.00000000000003,
+          "reverse": 37.000000000000036,
+          "p0": {
+            "x": -2.9494560053930474,
+            "y": 19.631862069985246
+          },
+          "p1": {
+            "x": -13.869867089809512,
+            "y": 4.698857625220821
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 7,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "sleeveHemLength": 37,
+      "bandTopLength": 37,
+      "source": {
+        "bandTop": [
+          {
+            "piece": "sleeveBand",
+            "edge": "top"
+          }
+        ],
+        "sleeveHem": [
+          {
+            "piece": "sleeve",
+            "edge": "hem"
+          }
+        ]
+      },
+      "transforms": {
+        "sleeve": {
+          "offset": {
+            "x": 7.479148348435974,
+            "y": -14.766030534274282
+          },
+          "rotationDegrees": 52.931724352344354,
+          "mirrorX": false
+        },
+        "band": {
+          "offset": {
+            "x": 8.137509579827906,
+            "y": 34.86710470772893
+          },
+          "rotationDegrees": -127.06827564765564,
+          "mirrorX": false
+        }
+      },
+      "backSleeveRuns": [
+        {
+          "edgeId": "capLeft",
+          "from": {
+            "kind": "normalized-edge-transfer",
+            "edgeId": "capLeft",
+            "fraction": 0.9999989283919051,
+            "basis": "WOVEN_SLEEVE_CAP",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capLeft",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "capRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "sideRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "hem",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "hem",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-arclength",
+            "edgeId": "hem",
+            "fraction": 0.5
+          }
+        }
+      ],
+      "halves": [
+        {
+          "interval": [
+            0,
+            0.5
+          ],
+          "direct": 8.881784197001252e-15,
+          "reverse": 37,
+          "p0": {
+            "x": 8.137509579827906,
+            "y": 34.86710470772893
+          },
+          "p1": {
+            "x": -3.013666554787152,
+            "y": 20.105625418213545
+          }
+        },
+        {
+          "interval": [
+            0.5,
+            1
+          ],
+          "direct": 37,
+          "reverse": 37.00000000000001,
+          "p0": {
+            "x": -3.013666554787152,
+            "y": 20.105625418213545
+          },
+          "p1": {
+            "x": -14.16484268940221,
+            "y": 5.3441461286981635
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 15,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "sleeveHemLength": 37,
+      "bandTopLength": 37,
+      "source": {
+        "bandTop": [
+          {
+            "piece": "sleeveBand",
+            "edge": "top"
+          }
+        ],
+        "sleeveHem": [
+          {
+            "piece": "sleeve",
+            "edge": "hem"
+          }
+        ]
+      },
+      "transforms": {
+        "sleeve": {
+          "offset": {
+            "x": 10.036555576900916,
+            "y": -15.98334455074098
+          },
+          "rotationDegrees": 56.65180005808255,
+          "mirrorX": false
+        },
+        "band": {
+          "offset": {
+            "x": 7.473228333080712,
+            "y": 33.58793077786229
+          },
+          "rotationDegrees": -123.34819994191744,
+          "mirrorX": false
+        }
+      },
+      "backSleeveRuns": [
+        {
+          "edgeId": "capLeft",
+          "from": {
+            "kind": "normalized-edge-transfer",
+            "edgeId": "capLeft",
+            "fraction": 0.9999987981994929,
+            "basis": "WOVEN_SLEEVE_CAP",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capLeft",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "capRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "sideRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "hem",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "hem",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-arclength",
+            "edgeId": "hem",
+            "fraction": 0.5
+          }
+        }
+      ],
+      "halves": [
+        {
+          "interval": [
+            0,
+            0.5
+          ],
+          "direct": 1.5268216168026855e-14,
+          "reverse": 37,
+          "p0": {
+            "x": 7.473228333080712,
+            "y": 33.58793077786229
+          },
+          "p1": {
+            "x": -2.6966979429922535,
+            "y": 18.134044550144658
+          }
+        },
+        {
+          "interval": [
+            0.5,
+            1
+          ],
+          "direct": 37.000000000000014,
+          "reverse": 37.000000000000014,
+          "p0": {
+            "x": -2.6966979429922535,
+            "y": 18.134044550144658
+          },
+          "p1": {
+            "x": -12.86662421906522,
+            "y": 2.6801583224270296
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 9,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "sleeveHemLength": 37,
+      "bandTopLength": 37,
+      "source": {
+        "bandTop": [
+          {
+            "piece": "sleeveBand",
+            "edge": "top"
+          }
+        ],
+        "sleeveHem": [
+          {
+            "piece": "sleeve",
+            "edge": "hem"
+          }
+        ]
+      },
+      "transforms": {
+        "sleeve": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "band": {
+          "offset": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "rotationDegrees": -126.17776700012641,
+          "mirrorX": false
+        }
+      },
+      "backSleeveRuns": [
+        {
+          "edgeId": "capLeft",
+          "from": {
+            "kind": "normalized-edge-transfer",
+            "edgeId": "capLeft",
+            "fraction": 0.9999987696228056,
+            "basis": "WOVEN_SLEEVE_CAP",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capLeft",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "capRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "sideRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "hem",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "hem",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-arclength",
+            "edgeId": "hem",
+            "fraction": 0.5
+          }
+        }
+      ],
+      "halves": [
+        {
+          "interval": [
+            0,
+            0.5
+          ],
+          "direct": 3.319392362780937e-14,
+          "reverse": 37,
+          "p0": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "p1": {
+            "x": -2.9494560053930474,
+            "y": 19.631862069985246
+          }
+        },
+        {
+          "interval": [
+            0.5,
+            1
+          ],
+          "direct": 37.00000000000003,
+          "reverse": 37.000000000000036,
+          "p0": {
+            "x": -2.9494560053930474,
+            "y": 19.631862069985246
+          },
+          "p1": {
+            "x": -13.869867089809512,
+            "y": 4.698857625220821
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 16,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "sleeveHemLength": 37,
+      "bandTopLength": 37,
+      "source": {
+        "bandTop": [
+          {
+            "piece": "sleeveBand",
+            "edge": "top"
+          }
+        ],
+        "sleeveHem": [
+          {
+            "piece": "sleeve",
+            "edge": "hem"
+          }
+        ]
+      },
+      "transforms": {
+        "sleeve": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "band": {
+          "offset": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "rotationDegrees": -126.17776700012641,
+          "mirrorX": false
+        }
+      },
+      "backSleeveRuns": [
+        {
+          "edgeId": "capLeft",
+          "from": {
+            "kind": "normalized-edge-transfer",
+            "edgeId": "capLeft",
+            "fraction": 0.9999987696228056,
+            "basis": "WOVEN_SLEEVE_CAP",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capLeft",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "capRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "sideRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "hem",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "hem",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-arclength",
+            "edgeId": "hem",
+            "fraction": 0.5
+          }
+        }
+      ],
+      "halves": [
+        {
+          "interval": [
+            0,
+            0.5
+          ],
+          "direct": 3.319392362780937e-14,
+          "reverse": 37,
+          "p0": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "p1": {
+            "x": -2.9494560053930474,
+            "y": 19.631862069985246
+          }
+        },
+        {
+          "interval": [
+            0.5,
+            1
+          ],
+          "direct": 37.00000000000003,
+          "reverse": 37.000000000000036,
+          "p0": {
+            "x": -2.9494560053930474,
+            "y": 19.631862069985246
+          },
+          "p1": {
+            "x": -13.869867089809512,
+            "y": 4.698857625220821
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 10,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "sleeveHemLength": 37,
+      "bandTopLength": 37,
+      "source": {
+        "bandTop": [
+          {
+            "piece": "sleeveBand",
+            "edge": "top"
+          }
+        ],
+        "sleeveHem": [
+          {
+            "piece": "sleeve",
+            "edge": "hem"
+          }
+        ]
+      },
+      "transforms": {
+        "sleeve": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "band": {
+          "offset": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "rotationDegrees": -126.17776700012641,
+          "mirrorX": false
+        }
+      },
+      "backSleeveRuns": [
+        {
+          "edgeId": "capLeft",
+          "from": {
+            "kind": "normalized-edge-transfer",
+            "edgeId": "capLeft",
+            "fraction": 0.9999987696228056,
+            "basis": "WOVEN_SLEEVE_CAP",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capLeft",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "capRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "sideRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "hem",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "hem",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-arclength",
+            "edgeId": "hem",
+            "fraction": 0.5
+          }
+        }
+      ],
+      "halves": [
+        {
+          "interval": [
+            0,
+            0.5
+          ],
+          "direct": 3.319392362780937e-14,
+          "reverse": 37,
+          "p0": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "p1": {
+            "x": -2.9494560053930474,
+            "y": 19.631862069985246
+          }
+        },
+        {
+          "interval": [
+            0.5,
+            1
+          ],
+          "direct": 37.00000000000003,
+          "reverse": 37.000000000000036,
+          "p0": {
+            "x": -2.9494560053930474,
+            "y": 19.631862069985246
+          },
+          "p1": {
+            "x": -13.869867089809512,
+            "y": 4.698857625220821
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 18,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "sleeveHemLength": 37,
+      "bandTopLength": 37,
+      "source": {
+        "bandTop": [
+          {
+            "piece": "sleeveBand",
+            "edge": "top"
+          }
+        ],
+        "sleeveHem": [
+          {
+            "piece": "sleeve",
+            "edge": "hem"
+          }
+        ]
+      },
+      "transforms": {
+        "sleeve": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "band": {
+          "offset": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "rotationDegrees": -126.17776700012641,
+          "mirrorX": false
+        }
+      },
+      "backSleeveRuns": [
+        {
+          "edgeId": "capLeft",
+          "from": {
+            "kind": "normalized-edge-transfer",
+            "edgeId": "capLeft",
+            "fraction": 0.9999987696228056,
+            "basis": "WOVEN_SLEEVE_CAP",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capLeft",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "capRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "sideRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "hem",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "hem",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-arclength",
+            "edgeId": "hem",
+            "fraction": 0.5
+          }
+        }
+      ],
+      "halves": [
+        {
+          "interval": [
+            0,
+            0.5
+          ],
+          "direct": 3.319392362780937e-14,
+          "reverse": 37,
+          "p0": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "p1": {
+            "x": -2.9494560053930474,
+            "y": 19.631862069985246
+          }
+        },
+        {
+          "interval": [
+            0.5,
+            1
+          ],
+          "direct": 37.00000000000003,
+          "reverse": 37.000000000000036,
+          "p0": {
+            "x": -2.9494560053930474,
+            "y": 19.631862069985246
+          },
+          "p1": {
+            "x": -13.869867089809512,
+            "y": 4.698857625220821
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 2,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "sleeveHemLength": 37,
+      "bandTopLength": 37,
+      "source": {
+        "bandTop": [
+          {
+            "piece": "sleeveBand",
+            "edge": "top"
+          }
+        ],
+        "sleeveHem": [
+          {
+            "piece": "sleeve",
+            "edge": "hem"
+          }
+        ]
+      },
+      "transforms": {
+        "sleeve": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "band": {
+          "offset": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "rotationDegrees": -126.17776700012641,
+          "mirrorX": false
+        }
+      },
+      "backSleeveRuns": [
+        {
+          "edgeId": "capLeft",
+          "from": {
+            "kind": "normalized-edge-transfer",
+            "edgeId": "capLeft",
+            "fraction": 0.9999987696228056,
+            "basis": "WOVEN_SLEEVE_CAP",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capLeft",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "capRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "sideRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "hem",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "hem",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-arclength",
+            "edgeId": "hem",
+            "fraction": 0.5
+          }
+        }
+      ],
+      "halves": [
+        {
+          "interval": [
+            0,
+            0.5
+          ],
+          "direct": 3.319392362780937e-14,
+          "reverse": 37,
+          "p0": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "p1": {
+            "x": -2.9494560053930474,
+            "y": 19.631862069985246
+          }
+        },
+        {
+          "interval": [
+            0.5,
+            1
+          ],
+          "direct": 37.00000000000003,
+          "reverse": 37.000000000000036,
+          "p0": {
+            "x": -2.9494560053930474,
+            "y": 19.631862069985246
+          },
+          "p1": {
+            "x": -13.869867089809512,
+            "y": 4.698857625220821
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 5,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "sleeveHemLength": 37,
+      "bandTopLength": 37,
+      "source": {
+        "bandTop": [
+          {
+            "piece": "sleeveBand",
+            "edge": "top"
+          }
+        ],
+        "sleeveHem": [
+          {
+            "piece": "sleeve",
+            "edge": "hem"
+          }
+        ]
+      },
+      "transforms": {
+        "sleeve": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "band": {
+          "offset": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "rotationDegrees": -126.17776700012641,
+          "mirrorX": false
+        }
+      },
+      "backSleeveRuns": [
+        {
+          "edgeId": "capLeft",
+          "from": {
+            "kind": "normalized-edge-transfer",
+            "edgeId": "capLeft",
+            "fraction": 0.9999987696228056,
+            "basis": "WOVEN_SLEEVE_CAP",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capLeft",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "capRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "sideRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "hem",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "hem",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-arclength",
+            "edgeId": "hem",
+            "fraction": 0.5
+          }
+        }
+      ],
+      "halves": [
+        {
+          "interval": [
+            0,
+            0.5
+          ],
+          "direct": 3.319392362780937e-14,
+          "reverse": 37,
+          "p0": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "p1": {
+            "x": -2.9494560053930474,
+            "y": 19.631862069985246
+          }
+        },
+        {
+          "interval": [
+            0.5,
+            1
+          ],
+          "direct": 37.00000000000003,
+          "reverse": 37.000000000000036,
+          "p0": {
+            "x": -2.9494560053930474,
+            "y": 19.631862069985246
+          },
+          "p1": {
+            "x": -13.869867089809512,
+            "y": 4.698857625220821
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 0,
+        "hemTurn": 1
+      },
+      "sleeveHemLength": 37,
+      "bandTopLength": 37,
+      "source": {
+        "bandTop": [
+          {
+            "piece": "sleeveBand",
+            "edge": "top"
+          }
+        ],
+        "sleeveHem": [
+          {
+            "piece": "sleeve",
+            "edge": "hem"
+          }
+        ]
+      },
+      "transforms": {
+        "sleeve": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "band": {
+          "offset": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "rotationDegrees": -126.17776700012641,
+          "mirrorX": false
+        }
+      },
+      "backSleeveRuns": [
+        {
+          "edgeId": "capLeft",
+          "from": {
+            "kind": "normalized-edge-transfer",
+            "edgeId": "capLeft",
+            "fraction": 0.9999987696228056,
+            "basis": "WOVEN_SLEEVE_CAP",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capLeft",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "capRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "sideRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "hem",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "hem",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-arclength",
+            "edgeId": "hem",
+            "fraction": 0.5
+          }
+        }
+      ],
+      "halves": [
+        {
+          "interval": [
+            0,
+            0.5
+          ],
+          "direct": 3.319392362780937e-14,
+          "reverse": 37,
+          "p0": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "p1": {
+            "x": -2.9494560053930474,
+            "y": 19.631862069985246
+          }
+        },
+        {
+          "interval": [
+            0.5,
+            1
+          ],
+          "direct": 37.00000000000003,
+          "reverse": 37.000000000000036,
+          "p0": {
+            "x": -2.9494560053930474,
+            "y": 19.631862069985246
+          },
+          "p1": {
+            "x": -13.869867089809512,
+            "y": 4.698857625220821
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 8,
+        "hemTurn": 1
+      },
+      "sleeveHemLength": 37,
+      "bandTopLength": 37,
+      "source": {
+        "bandTop": [
+          {
+            "piece": "sleeveBand",
+            "edge": "top"
+          }
+        ],
+        "sleeveHem": [
+          {
+            "piece": "sleeve",
+            "edge": "hem"
+          }
+        ]
+      },
+      "transforms": {
+        "sleeve": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "band": {
+          "offset": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "rotationDegrees": -126.17776700012641,
+          "mirrorX": false
+        }
+      },
+      "backSleeveRuns": [
+        {
+          "edgeId": "capLeft",
+          "from": {
+            "kind": "normalized-edge-transfer",
+            "edgeId": "capLeft",
+            "fraction": 0.9999987696228056,
+            "basis": "WOVEN_SLEEVE_CAP",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capLeft",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "capRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "sideRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "hem",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "hem",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-arclength",
+            "edgeId": "hem",
+            "fraction": 0.5
+          }
+        }
+      ],
+      "halves": [
+        {
+          "interval": [
+            0,
+            0.5
+          ],
+          "direct": 3.319392362780937e-14,
+          "reverse": 37,
+          "p0": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "p1": {
+            "x": -2.9494560053930474,
+            "y": 19.631862069985246
+          }
+        },
+        {
+          "interval": [
+            0.5,
+            1
+          ],
+          "direct": 37.00000000000003,
+          "reverse": 37.000000000000036,
+          "p0": {
+            "x": -2.9494560053930474,
+            "y": 19.631862069985246
+          },
+          "p1": {
+            "x": -13.869867089809512,
+            "y": 4.698857625220821
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 0.7
+      },
+      "sleeveHemLength": 37,
+      "bandTopLength": 37,
+      "source": {
+        "bandTop": [
+          {
+            "piece": "sleeveBand",
+            "edge": "top"
+          }
+        ],
+        "sleeveHem": [
+          {
+            "piece": "sleeve",
+            "edge": "hem"
+          }
+        ]
+      },
+      "transforms": {
+        "sleeve": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "band": {
+          "offset": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "rotationDegrees": -126.17776700012641,
+          "mirrorX": false
+        }
+      },
+      "backSleeveRuns": [
+        {
+          "edgeId": "capLeft",
+          "from": {
+            "kind": "normalized-edge-transfer",
+            "edgeId": "capLeft",
+            "fraction": 0.9999987696228056,
+            "basis": "WOVEN_SLEEVE_CAP",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capLeft",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "capRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "sideRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "hem",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "hem",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-arclength",
+            "edgeId": "hem",
+            "fraction": 0.5
+          }
+        }
+      ],
+      "halves": [
+        {
+          "interval": [
+            0,
+            0.5
+          ],
+          "direct": 3.319392362780937e-14,
+          "reverse": 37,
+          "p0": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "p1": {
+            "x": -2.9494560053930474,
+            "y": 19.631862069985246
+          }
+        },
+        {
+          "interval": [
+            0.5,
+            1
+          ],
+          "direct": 37.00000000000003,
+          "reverse": 37.000000000000036,
+          "p0": {
+            "x": -2.9494560053930474,
+            "y": 19.631862069985246
+          },
+          "p1": {
+            "x": -13.869867089809512,
+            "y": 4.698857625220821
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 2
+      },
+      "sleeveHemLength": 37,
+      "bandTopLength": 37,
+      "source": {
+        "bandTop": [
+          {
+            "piece": "sleeveBand",
+            "edge": "top"
+          }
+        ],
+        "sleeveHem": [
+          {
+            "piece": "sleeve",
+            "edge": "hem"
+          }
+        ]
+      },
+      "transforms": {
+        "sleeve": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "band": {
+          "offset": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "rotationDegrees": -126.17776700012641,
+          "mirrorX": false
+        }
+      },
+      "backSleeveRuns": [
+        {
+          "edgeId": "capLeft",
+          "from": {
+            "kind": "normalized-edge-transfer",
+            "edgeId": "capLeft",
+            "fraction": 0.9999987696228056,
+            "basis": "WOVEN_SLEEVE_CAP",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capLeft",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "capRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "sideRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "hem",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "hem",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-arclength",
+            "edgeId": "hem",
+            "fraction": 0.5
+          }
+        }
+      ],
+      "halves": [
+        {
+          "interval": [
+            0,
+            0.5
+          ],
+          "direct": 3.319392362780937e-14,
+          "reverse": 37,
+          "p0": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "p1": {
+            "x": -2.9494560053930474,
+            "y": 19.631862069985246
+          }
+        },
+        {
+          "interval": [
+            0.5,
+            1
+          ],
+          "direct": 37.00000000000003,
+          "reverse": 37.000000000000036,
+          "p0": {
+            "x": -2.9494560053930474,
+            "y": 19.631862069985246
+          },
+          "p1": {
+            "x": -13.869867089809512,
+            "y": 4.698857625220821
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-combined-supported",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 3,
+        "collarLeafDepth": 7,
+        "buttonCount": 6,
+        "buttonSpacing": 6,
+        "frontOverlap": 2,
+        "placketWidth": 4,
+        "yokeDepth": 10,
+        "pocketWidth": 14,
+        "pocketHeight": 15,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "sleeveHemLength": 37,
+      "bandTopLength": 37,
+      "source": {
+        "bandTop": [
+          {
+            "piece": "sleeveBand",
+            "edge": "top"
+          }
+        ],
+        "sleeveHem": [
+          {
+            "piece": "sleeve",
+            "edge": "hem"
+          }
+        ]
+      },
+      "transforms": {
+        "sleeve": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "band": {
+          "offset": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "rotationDegrees": -126.17776700012641,
+          "mirrorX": false
+        }
+      },
+      "backSleeveRuns": [
+        {
+          "edgeId": "capLeft",
+          "from": {
+            "kind": "normalized-edge-transfer",
+            "edgeId": "capLeft",
+            "fraction": 0.9999987696228056,
+            "basis": "WOVEN_SLEEVE_CAP",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capLeft",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "capRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "capRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "sideRight",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-endpoint",
+            "edgeId": "sideRight",
+            "endpoint": "end"
+          }
+        },
+        {
+          "edgeId": "hem",
+          "from": {
+            "kind": "edge-endpoint",
+            "edgeId": "hem",
+            "endpoint": "start"
+          },
+          "to": {
+            "kind": "edge-arclength",
+            "edgeId": "hem",
+            "fraction": 0.5
+          }
+        }
+      ],
+      "halves": [
+        {
+          "interval": [
+            0,
+            0.5
+          ],
+          "direct": 3.319392362780937e-14,
+          "reverse": 37,
+          "p0": {
+            "x": 7.970955079023417,
+            "y": 34.56486651474967
+          },
+          "p1": {
+            "x": -2.9494560053930474,
+            "y": 19.631862069985246
+          }
+        },
+        {
+          "interval": [
+            0.5,
+            1
+          ],
+          "direct": 37.00000000000003,
+          "reverse": 37.000000000000036,
+          "p0": {
+            "x": -2.9494560053930474,
+            "y": 19.631862069985246
+          },
+          "p1": {
+            "x": -13.869867089809512,
+            "y": 4.698857625220821
+          }
+        }
+      ]
+    }
+  ]
+}

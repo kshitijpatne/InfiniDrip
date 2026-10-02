@@ -1,8 +1,22 @@
 # InfiniDrip — Project State
 
-_Last updated: S366 rejected the non-production outward-normal Woven sleeve/band proposal; all holds remain; 2026-10-02._
+## EPIC-17 / G04 current handoff — Slice 367 complete; V02 remains open
 
-## EPIC-17 / G04 current handoff — Slice 366 complete; V02 remains open
+S367 starts from landed S366 commit `3b0d3489084fef937306e4295b94a08478743fe1` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice is 366; S367 is reserved. Canonical board revision is 1659 before S367 start commands. The goal is active, still matches the admitted EPIC-17/G04 objective, and remains needed through the required merge/deployment exit. The maintainer reaffirmed the Polo assembly residual limit at 0.25 cm; it remains a hard gate.
+
+**Correction to S366 interval description:** an audit of `diagnose-outward-normal.mjs` found the S366 script called `mapSleeveEdge("hem")`, which samples the full 37 cm hem. It did not isolate the BACK sleeve hem start-to-0.5 run. Therefore S366's 20–25 self-crossing result rejects its full-hem/full-band outward-normal candidate only. The S321 source-mapping research also specifies one uncut band instance, so the band-half crop explored in S367 is not the approved convention. S366 remains a valid record of the candidate executed; its interval characterization was too broad.
+
+S367 tested the source-derived crop hypothesis on all 28 same-revision Woven options / 56 request identities. `sleeveBand.top[0,0.5]` aligns to BACK `sleeve.hem[0,0.5]` within 1.8546e-14 cm maximum, but S321 requires an uncut band view. The cropped diagnostic has one mirrored seam crossing per option, one band outer-pair crossing in 27 options, and two band-to-opposite-sleeve crossings in 27 (zero at max band depth); manually inspected overlays show the central X and fold-mark overlap. It fails and is not an approved or production candidate. No production source map, cut geometry, stitch graph, thresholds or acceptance status changed. Keep all 56 Woven and 34 Polo faces held; integrated acceptance remains 56 accepted / 90 held across 73 configurations / 146 requests. Keep all-seven V02, legacy DXF and protected export byte identities; V03 remains gated until V02 passes for all recipes.
+
+Packet/evidence: `docs/research/epic17/G04-V02-WOVEN-HEM-HALF-BAND-TOPOLOGY-STUDY-S367.md` and `docs/research/epic17/S367-woven-hem-half-band-proposal/`. Start board revision 1659; S367 start evidence and correction comments were validated through revision 1665; validated S367 exit evidence/comments and summary reconciliation end at revision 1694. Preserve all S366 evidence and failure logs. The focused S367 test passes 2/2; five Chromium views have zero browser errors and confirm the failure. No production coverage/build/export gate applies.
+
+**Next action:** reserve S368 only after refreshing Git, usage, history and board. Continue V02 with a candidate that preserves S321’s uncut-band rule; keep all holds unless all-option joins, crossings, overlap, marks, output bounds, POM/colorway, and rendered readability pass. Preserve all-seven V02 and do not begin V03.
+
+**Elapsed:** 2026-10-02 11:31:58–12:07:49 UTC (35m51s): production implementation 0m; source/topology analysis, diagnostic scripts and all-option replay 14m; focused verification and correction 4m; rendered review 4m; packet/context/state/roadmap/board closeout 13m51s; external-agent waits 0m; maintainer-decision wait 0m (Polo’s 0.25 cm gate was reaffirmed during the slice and required no dependent pause).
+
+_Last updated: S367 rejects the diagnostic cropped half-band candidate; all holds remain; 2026-10-02._
+
+## EPIC-17 / G04 previous handoff — Slice 366 complete; V02 remains open
 
 S365 landed as `f559c9c2b63234fd47b242cbe80ed8f04bfb46a4` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. S366 began from a clean checkout at 10:55:09 UTC. Highest assigned slice at entry was 365. The canonical board was revision 1624 at entry; S366 start evidence and comments replayed through the validated command layer to revision 1630. The goal is active and still matches the admitted EPIC-17/G04 objective. The user reaffirmed retaining the Polo 0.25 cm residual gate; it is unchanged.
 
